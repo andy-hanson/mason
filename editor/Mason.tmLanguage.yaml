@@ -1,0 +1,173 @@
+# I use `support.constant` for lazy things
+
+name: Mason
+scopeName: source.mason
+fileTypes:
+- ms
+uuid: 857c9cc3-2862-4a05-87e7-115318008707
+
+patterns:
+
+- comment: Comment
+  name: comment
+  begin: \s*\\
+  end: \n
+  patterns:
+  - name: invalid
+    match: "TODO"
+
+- comment: Region
+  name: keyword
+  match: ^\s*region([^\n]*)\n
+  captures:
+    '1':
+      name: entity.other.attribute-name
+
+- comment: Dict assignment
+  name: storage
+  match: ^\s*\S+\.\s
+  captures:
+    # Group 1 is an entire variable
+    # Group 2 is the variable name
+    '4':
+      # Colon before type
+      name: comment
+    '5':
+      # Type
+      name: support.type
+    '6':
+      # Tilde
+      name: comment
+    '7':
+      # Rename
+      name: entity.other.attribute-name
+    '8':
+      #Dot
+      name: comment
+
+- comment: A language keyword.
+  name: keyword
+  match: (this|use|->|case!?|else|in|out|res|_|loop!|end-loop!|<~|<~~)(\s)
+
+- comment: Bracket
+  name: keyword
+  match: "[\\(\\[\\{\\}\\]\\)]"
+
+- comment: JavaScript literal
+  name: invalid.deprecated
+  match: "`[^`\n]*`"
+
+- comment: Empty string
+  name: string
+  match: \"\"
+
+- comment: Multi-line string
+  name: string
+  begin: \"$
+  end: ^$ # on blank line
+  patterns:
+  - name: constant.character
+    comment: Escaped character
+    match: \\.
+  - name: entity.other.attribute-name
+    comment: Interpolation
+    match: \{[^\}]*\}
+
+- comment: Single-line string
+  name: string
+  begin: \"
+  end: \"|\n
+  patterns:
+  - name: constant.character
+    comment: Escaped character
+    match: \\.
+  - name: entity.other.attribute-name
+    comment: Interpolation
+    match: \{[^\}]*\}
+
+- comment: Number literal
+  name: constant.numeric
+  match: -?\d+(\.\d+)?
+
+- commment: Type test. (Type *not* in fun or assign)
+  name: support.type
+  match: (:)\S+
+  captures:
+    '1':
+      # The `:` is greyed out.
+      name: comment
+
+- comment: Access of a member.
+  name: keyword
+  match: \.
+
+- comment: Impure call
+  name: variable.parameter
+  match: ([^\.\s]+!)
+
+- comment: Function
+  name: variable.parameter
+  begin: (\~?\|)
+  beginCaptures:
+    '1':
+      name: comment
+  # Entire rest of the line is the function header.
+  end: \n
+  patterns:
+    # `_` is special name, even as arg
+    - name: keyword
+      match: _
+    - name: support.type
+      match: (\:)\S+
+      captures:
+        '1':
+          name: comment
+    - name: comment
+      match: \\.*
+
+- comment: Local assignment
+  name: variable.parameter
+  match: (([^\s:]+)(:([^\s]+))?\s)+((=)|(:=)|(::=)|(~=)|(<~~?))
+  captures:
+    # Group 1 is an entire variable (including type+rename)
+    # Group 2 is the variable name
+    '3':
+      # Colon before type
+      name: comment
+    '4':
+      # Type
+      name: support.type
+    '5':
+      # Tilde
+      name: comment
+    '6':
+      # Equals
+      name: comment
+    '8':
+      # Mutate
+      name: entity.name.function
+    '9':
+      # Declare mutable
+      name: entity.name.function
+    '10':
+      # Lazy
+      name: comment
+    '11':
+      # Yield or YieldTo
+      name: comment
+
+- comment: Lazy
+  name: keyword
+  match: \~
+
+- comment: Focus call
+  name: constant.language
+  match: \S+(_)
+  captures:
+    '1':
+      name: keyword
+
+- comment: Reference to a local variable.
+  name: variable
+  match: ([^\s\.\(\)\[\]\{\}]+)
+
