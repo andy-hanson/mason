@@ -30,6 +30,7 @@ send.
 
 send!. send
 
+\ TODO: Convert to iterator
 own-properties.
 	doc. "TODO"
 	test. |

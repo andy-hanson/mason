@@ -4,7 +4,7 @@ doc. "TODO"
 
 use
 	.? -> ?none ?some
-	.Assoc -> ?get has-key? keys
+	.Map -> ?get has-key? keys
 	.arithmetic-methods -> +
 	.basic-methods -> sub
 	.Bool
@@ -44,6 +44,8 @@ impl! sub Dict |dict key
 	get-property dict key
 
 \ TODO: implement iterator Dict -- or will harmony do it for me?
+
+\ TODO: implementor! Dict Map and use sugar to implement methods
 
 Dict
 

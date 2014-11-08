@@ -1,20 +1,40 @@
 doc. "TODO"
 
 use
-	.assert -> ! !=
+	.assert -> ! != !fails
 	.Bool -> not
 	.Num -> Int
 	.Str
 
 binary.
-	doc. "Makes a binary number out of a string of 0s and 1s."
+	doc. "Makes an Int out of a string of 0s and 1s."
 	test. |
 		!= (binary "101") 5
-	|:Int str:Str
+		!fails |
+			binary "0a"
+	|:Int bin-str:Str
+		in
+			\ TODO: Regex.ms
+			! (not (`/[^01]/`.test bin-str)) ~"Not a valid binary number: {bin-str}"
 		out
-			! (not (Num.isNaN res)) "Not a valid binary number: {str}"
+			! (not (Num.isNaN res))
 
-		Num.parseInt str 2
+		Num.parseInt bin-str 2
+
+hexidecimal.
+	doc. "Max an Int out of a string of hex codes (0-f). Capitalization ignored."
+	test. |
+		!= (hexidecimal "7f") 127
+		!fails |
+			hexidecimal "asdfghjkl"
+	|:Int hex-str:Str
+		in
+			\ TODO: Regex.ms
+			! (not (`/[^0-9a-fA-F]/`.test hex-str)) ~"Not a valid hexidecimal number: {hex-str}"
+		out
+			! (not (Num.isNaN res))
+
+		Num.parseInt hex-str 16
 
 bit-or.
 	doc. "JavaScript's `|` operator."

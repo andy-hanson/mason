@@ -1,15 +1,24 @@
 doc. "TODO"
 
 use
+	.? -> get-or
 	.Array -> ->Array
 	.Alias-Type
 	.arithmetic-methods -> +
-	.assert -> !=
+	.assert -> ! !=
 	.basic-methods -> sub
-	.js -> global
+	.js -> global new
+	.Num -> increment
+	.Map -> ?get
+	.Map! -> set!
 	.Method -> impl-direct!
+	.Number
+	.Object
+	.Str
 	.pred-types -> Any
 	.Seq -> <+ seq
+	.Type -> subsumes?
+	.Weak-Identity-Map!
 
 Fun = global.Function
 
@@ -116,6 +125,49 @@ ignore.
 	doc. "Does nothing."
 	|
 		()
+
+\ TODO: Handle multiple arguments
+\ TODO: hash-memoize
+identity-memoize.
+	doc. "TODO"
+	test. |
+		comps ::= 0
+		get-a = identity-memoize |x
+			comps := increment comps
+			x.a
+		a1 =
+			a. 1
+		!= (get-a a1) 1
+		!= (get-a a1) 1
+		!= comps 1
+		a2 =
+			a. 2
+		!= (get-a a2) 2
+		!= comps 2
+	|fun:Fun
+		wm = new Weak-Identity-Map!
+		|arg
+			in
+				! (subsumes? Object arg) "
+					Can only use objects for identity-memoize'd functions.
+
+			get-or (?get wm arg) |
+				ans = fun arg
+				wm.set arg ans
+				ans
+
+\wms = `[]`
+\wm-obj = |case
+\	:Object
+\		_
+\	else
+\		\ TODO: Use get-or
+\		case `wms[_]`
+\			:Any
+\				_
+\			else
+\				`wms[_] = global.Object(_)`
+\				`wms[_]`
 
 thunk.
 	doc. "Makes function which, when called, returns `a`."

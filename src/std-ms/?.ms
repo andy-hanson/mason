@@ -2,12 +2,11 @@ use
 	.assert -> ! != !fails
 	.basic-methods -> sub
 	.Bag -> each! empty? iterator map
-	.Bool -> not
-	.error -> oh-no!
-	.Fun -> curry
+	.Bool -> and not
+	.Error -> oh-no!
+	.Fun -> call curry
 	.Interface -> implementor!
 	.js -> identical?
-	.logic -> and
 	.Method -> impl! impl-direct! impl-override!
 	.Num
 	.Object -> set-property! extend!
@@ -38,8 +37,9 @@ implementor! ? Bag
 	?
 		val. `undefined`
 
-impl! empty? ? |_
-	identical? _ ?none
+impl! empty? ? |op
+	_ = op.val
+	not :Any
 
 impl! ->Str ? |case
 	empty?_
@@ -52,6 +52,10 @@ impl! iterator ? ~|case!
 		()
 	else
 		<~ _.val
+
+Opt->?. |_
+	?
+		val. _
 
 \ TODO: Pattern for type-preserving `map`. `map` is just a function.
 \impl! map ? |_ f:Fun
@@ -73,6 +77,13 @@ un-?.
 				oh-no! "Tried to force `?none`."
 			else
 				_.val
+
+get-or. |_:? or:Fun[Any]
+	case
+		empty?_
+			call or
+		else
+			_.val
 
 region sub
 	impl-direct! sub ?

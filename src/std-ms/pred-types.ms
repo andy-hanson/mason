@@ -18,25 +18,25 @@ use
 	.Type -> !subsumes subsumes?
 
 \ TODO: Rename to Opt
-Nullable. Pred-Type
+Opt. Pred-Type
 	doc. "TODO"
 	predicate. |
 		`true`
 
-impl-direct! sub Nullable |Exists-Type
+impl-direct! sub Opt |Exists-Type
 	ET = Exists-Type
-	Nullable-Sub
+	Opt-Sub
 		Exists-Type. ET
 
-Nullable-Sub = Record-Type
+Opt-Sub = Record-Type
 	doc. "TODO"
 	members.
 		Exists-Type. Type
 
-impl! subsumes? Nullable-Sub |nt _
+impl! subsumes? Opt-Sub |nt _
 	or (not :Any) ~(subsumes? nt.Exists-Type _)
 
-impl! !subsumes Nullable-Sub |nt _
+impl! !subsumes Opt-Sub |nt _
 	if! :Any |
 		!subsumes nt.Exists-Type _
 

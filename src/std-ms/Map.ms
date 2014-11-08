@@ -1,7 +1,5 @@
-doc. "TODO"
-
 use
-	.? -> un-?
+	.? -> ?none
 	.Bool -> not
 	.error -> oh-no!
 	.Interface
@@ -12,36 +10,43 @@ use
 get. Method
 	doc. |:Any _ key:Any
 		"Value corresponding to `key`. Fails if not `has-key? _ key`."
-	default. |assoc key:Any
-		case ?get assoc key
+	default. |map key:Any
+		case ?get map key
 			empty?_
-				oh-no! "{assoc} does not contain {key}."
+				oh-no! "{map} does not contain {key}."
 			else
 				_.val
 
 ?get. Method
 	doc. |:? _ key:Any
 		"?some of the value corresponding to `key`, or ?none if not `has-key? _ key`."
+\	default. |_ key:Any
+\		case
+\			has? _ key
+\				?some (get _ key)
+\			else
+\				?none
+
 
 has-key?. Method
 	doc. |:Bool _ key:Any
-		"Whether the key is in the Assoc."
-	default. |assoc key:Any
-		not (empty? (?get assoc key))
+		"Whether the key is in the Map."
+	default. |map key:Any
+		not (empty? (?get map key))
 
 keys. Method
 	doc. |:Seq _
-		"Seq of every key that the Assoc `has-key?`."
+		"Seq of every key that the Map `has-key?`."
 
 keys-values. Method
 	doc. |:Seq[Any]
 		"Every \{ key, val }."
-	default. |assoc
-		(keys assoc).map |_
+	default. |map
+		(keys map).map |_
 			key. _
-			val. get assoc _
+			val. get map _
 
-Assoc. Interface
+Map = Interface
 	doc. "Mapping from keys to values."
 	methods.
 		. get
@@ -49,3 +54,5 @@ Assoc. Interface
 		. has-key?
 		. keys
 		. keys-values
+
+Map

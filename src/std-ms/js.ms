@@ -60,7 +60,5 @@ new.
 			! (not (=? constructor Error))
 		out
 			!subsumes constructor res
-
-		baby = Object.create constructor.prototype
-		constructor.apply baby (Array.prototype.slice.call `arguments` 1)
-		baby
+		boundConstructor = Fun.prototype.bind.apply constructor `arguments`
+		`new boundConstructor`

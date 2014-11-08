@@ -47,9 +47,8 @@ inspect. Method
 			_.name
 		:Object
 			key-vals = (Object.keys _).map |key
-				val = (get-property _ key).toString `undefined`
 				\ TODO: Recursive ->Str needs checks
-				\val = ->Str (get-property _ key)
+				val = ->Str (get-property _ key)
 				"{key}. {indent val}"
 
 			"
