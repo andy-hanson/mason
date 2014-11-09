@@ -1,5 +1,3 @@
-doc. "TODO"
-
 use
 	.bags.? -> ?none ?some
 	.assert -> !=
@@ -7,7 +5,9 @@ use
 	.Fun -> Act call thunk
 	.js -> global
 
-Bool = global.Boolean
+Bool =
+	doc. "TODO"
+	global.Boolean
 
 true. `true`
 false. `false`

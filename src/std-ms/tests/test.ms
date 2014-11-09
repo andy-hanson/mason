@@ -35,7 +35,7 @@ test-module.
 				:Any
 					maybe-test name (get-property module name)
 				else
-					oh-no! "Property {name} of {module} is undefined."
+					()
 
 maybe-test = |name:Str value:Any
 	annotate-errors ~"In {name}:\n" |

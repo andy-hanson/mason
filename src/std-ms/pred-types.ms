@@ -44,10 +44,10 @@ Any. Pred-Type
 	doc. "Not null or undefined."
 	test. |
 		! (subsumes? Any 0)
-		! (subsumes? Any ())
+		! (not (subsumes? Any ()))
 		! (not (subsumes? Any `undefined`))
 	predicate. |_
-		`_ !== undefined`
+		`_ != null`
 
 Union. singleton
 	doc. "Union[A B] is a type matching either an A or a B."

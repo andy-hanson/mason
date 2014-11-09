@@ -18,11 +18,14 @@ use
 	..types.Type -> subsumes? !subsumes
 
 ? = Record-Type
-	doc. "A Bag with 0 or 1 elements - an optional value."
+	doc. "
+		A Bag with 0 or 1 elements.
+		Either `?none` or `?some`.
+		Its content can never be null.
 
 	members.
 		\ `undefined` for none.
-		val.
+		val. \ TODO: Nullable
 
 implementor! ? Bag
 
@@ -37,9 +40,8 @@ implementor! ? Bag
 	?
 		val. `undefined`
 
-impl! empty? ? |op
-	_ = op.val
-	not :Any
+impl! empty? ? |_
+	identical? _ ?none
 
 impl! ->Str ? |case
 	empty?_
@@ -53,9 +55,11 @@ impl! iterator ? ~|case!
 	else
 		<~ _.val
 
-Opt->?. |_
-	?
-		val. _
+Opt->?. |case
+	:Any
+		?some_
+	else
+		?none
 
 impl! map ? |_ f:Fun
 	case

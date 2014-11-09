@@ -35,7 +35,7 @@ apply.
 	test. |
 		!= (apply + (seq 1 2)) 3
 	|f:Fun arguments:Seq
-		apply-with-this f () arguments
+		Fun.prototype.apply.call f () arguments
 
 call.
 	doc. "Calls the function with the given arguments."
@@ -75,8 +75,8 @@ curry.
 		!= (one-two 3) (Array.of 1 2 3)
 
 	|f:Fun \ ...args TODO:ES6
-		args = ->Array (<+ (Array.prototype.slice.call `arguments` 1) ())
-		Fun.prototype.bind.apply f args
+		\ args = ->Array (<+ (Array.prototype.slice.call `arguments` 1) ())
+		Fun.prototype.bind.apply f `[null].concat(global.Array.prototype.slice.call(arguments, 1))`
 
 curry-with-this.
 	doc. "TODO"
