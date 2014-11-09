@@ -1,14 +1,14 @@
 use
-	.? -> ?none ?some
+	.? -> ?none ?some get-or Opt->?
 	..arithmetic-methods -> +
 	.Array -> ->Array
 	..assert -> ! !=
 	..Bool -> false not true
 	..Comparable -> =?
-	..Fun -> Pred
+	..Fun -> identity Pred
 	..generators -> Generator
 	..math.Num -> divisible? even? increment
-	..pred-types -> Any Nat
+	..pred-types -> Any Nat Opt
 	.Seq -> seq
 	.Stream -> streaming
 	..Symbol
@@ -22,31 +22,15 @@ region Methods
 		symbol. Symbol.iterator
 
 	count. Method
-		doc. |:Nat _
-			"Number of elements in it."
-		default. |_
+		doc. "Number of elements in it."
+		default. |:Nat _
 			fold _ 0 increment
 
 	empty?. Method
-		doc. |:Bool _
-			"Whether `count` will return 0. (May be faster.)"
-		default. |_
+		doc. "Whether `count` will return 0."
+		default. |:Bool _
 			(iterator_.next ()).done
 
-region Derived (override for efficiency/typing)
-	each!.
-		doc. |_ do-for-each:Fun
-			"TODO"
-		test. |
-			"TODO"
-		|_ do-for-each:Fun
-			\ TODO:ES6 `for (let value of _)`
-			iter = iterator_
-			f = do-for-each
-			`for (let em of iter) f(em)`
-			()
-
-	\ TODO: Pattern for type-preserving `map`. `map` is just a function.
 	map. Method
 		doc. "TODO"
 		test. |
@@ -58,18 +42,27 @@ region Derived (override for efficiency/typing)
 				`for (let em of iter) yield mapper(em)`
 				()
 
-	where.
-		doc. "TODO"
+	keep. Method
+		doc. "Bag with only the elements that satisfy `keep-if?`."
 		test. |
-			!= (->Array (where (seq 1 2 3 4) even?)) (seq 2 4)
-		|_:Bag pred:Pred
+			!= (keep (Array.of 1 2) even?) (Array.of 2)
+		default. |_:Bag keep-if?:Pred
 			streaming ~|
 				\ TODO:ES6 `for (let value of _)`
 				iter = iterator_
-				`for (let em of iter) if (pred(em)) yield em`
+				ki = keep-if?
+				`for (let em of iter) if (ki(em)) yield em`
 				()
 
-	flat-map.
+	toss.
+		doc. "Bag without any elements that satisfy `toss-if?`."
+		test. |
+			!= (toss (Array.of 1 2) even?) (Array.of 1)
+		|_:Bag toss-if?:Pred
+			keep _ |em
+				not (toss-if? em)
+
+	flat-map. Method
 		doc. "TODO"
 		test. |
 			x = flat-map (Array 1 2 3 4) |case
@@ -78,8 +71,7 @@ region Derived (override for efficiency/typing)
 				else
 					?some _
 			!= (->Array x) (Array 1 2 2 3 4 4)
-
-		|_:Bag mapper:Fun[Any Bag]
+		default. |_:Bag mapper:Fun[Any Bag]
 			streaming ~|
 				x:Bag = _
 				iter = iterator x
@@ -91,7 +83,7 @@ region Derived (override for efficiency/typing)
 						else
 							<~~ iterator (mapper value)
 
-region Pure iterator functions
+region Functions requiring just the iterator
 	fold.
 		doc. "TODO"
 		test. |
@@ -101,6 +93,18 @@ region Pure iterator functions
 			each! _ |em
 				acc := folder acc em
 			acc
+
+	each!.
+		doc. |_ do-for-each:Fun
+			"TODO"
+		test. |
+			"TODO"
+		|_ do-for-each:Fun
+			\ TODO:ES6 `for (let value of _)`
+			iter = iterator_
+			f = do-for-each
+			`for (let em of iter) f(em)`
+			()
 
 Bag = Interface
 	doc. "A group of elements, not necessarily ordered."
@@ -131,18 +135,20 @@ any?.
 		! (any? (seq 0 1) even?)
 		! (not (any? (seq 1 3) even?))
 
-	|_ pred:Pred
-		not  (empty? (where _ pred))
+	|_:Bag pred:Opt[Pred]
+		\ TODO: Better optional arguments
+		p = get-or (Opt->? pred) identity
+		not  (empty? (keep _ pred))
 
 all?.
 	doc. "TODO"
 	test. |
 		! (all? (seq 0 2) even?)
 		! (not (all? (seq 0 1) even?))
-	|_ pred:Pred
-		not-pred = |_
-			not (pred _)
-		empty? (where _ not-pred)
+	|_:Bag pred:Opt[Pred]
+		\ TODO: Better optional arguments
+		p = get-or (Opt->? pred) identity
+		empty? (toss _ p)
 
 ?first-where. |_ pred:Pred
 	s = ?some

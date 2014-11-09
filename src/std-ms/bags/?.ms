@@ -81,7 +81,7 @@ un-?.
 			else
 				_.val
 
-get-or. |_:? ~or
+get-or. |:Any _:? ~or:Any
 	case
 		empty?_
 			or

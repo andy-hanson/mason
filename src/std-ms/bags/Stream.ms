@@ -3,7 +3,7 @@ use
 	..assert -> !=
 	.Bag -> all? iterator
 	..Comparable -> =?
-	..Fun
+	..Fun -> identity
 	..Generator
 	.Seq -> zip
 	..types.Interface -> implementor!
