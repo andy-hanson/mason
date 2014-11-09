@@ -351,9 +351,9 @@ For reference, here's what it might look like. (For a better understanding see [
 		last-value
 
 It's also possible to yield without assigning.
-For example, `seqing` allows you to specify a lazily-generated sequence.
+For example, `streaming` allows you to specify a lazily-generated sequence.
 
-	nats. seqing ~|
+	nats. streaming ~|
 		i ::= 0
 		loop!
 			<~ i
@@ -380,7 +380,7 @@ A more complex example:
 		* x 3
 
 	doubled-then-tripled. |_:Seq
-		seqing ~|
+		streaming ~|
 			<~~ each~ _ ~|x
 				<~ double x
 			<~~ each~ _ ~|x

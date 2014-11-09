@@ -12,7 +12,7 @@ source-map-support.install ()
 
 \ TODO: --boot-order.ms ?
 Type \ This makes it safe to type things.
-Str \ Important to load this now, as it will help error messages
 Fun \ Get its impl! ready
 Array-as-Map!
 Dict \ Dict.empty used by many Record-Type_s
+Str \ Important to load this now, as it will help error messages

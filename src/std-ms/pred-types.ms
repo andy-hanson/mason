@@ -58,7 +58,7 @@ Union. singleton
 		! (not (subsumes? SI ()))
 
 \ TODO: Variadic
-impl! sub Union |ignore A:Type B:Type
+impl! sub Union |u A:Type B:Type
 	Pred-Type
 		displayName. "Union[{A} {B}]"
 		predicate. |_

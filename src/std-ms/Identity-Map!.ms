@@ -7,7 +7,7 @@ use
 	.Map -> ?get keys values
 	.Map! -> clear! delete! set!
 	.Method -> impl!
-	.Seq -> Stream
+	.Stream
 
 Identity-Map! =
 	doc. "TODO"

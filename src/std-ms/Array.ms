@@ -8,8 +8,9 @@ use
 	.Num -> Nat
 	.Object -> add-property!
 	.pred-types -> Any Nullable
-	.Seq -> seqing
+	.Seq
 	.Str -> ->Str
+	.Stream -> streaming
 
 Array =
 	doc. "Javascript's native mutable Array type."
@@ -39,7 +40,7 @@ impl! iterator Array ~|_
 ->Array.
 	doc. "TODO"
 	test. |
-		x = seqing ~|
+		x = streaming ~|
 			<~ 0
 		!= (->Array x) (Array.of 0)
 	|_:Bag

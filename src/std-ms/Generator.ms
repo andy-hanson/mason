@@ -12,7 +12,7 @@ use
 	.Object -> has-property?
 	.Pred-Type
 	.pred-types -> Any
-	.Seq -> seqing
+	.Stream -> streaming
 	.Type -> subsumes?
 
 Generator. Pred-Type
@@ -24,7 +24,7 @@ Generator. Pred-Type
 each~.
 	doc. "A generator that goes through every element of `bag`, yielding to `do-each` of it."
 	test. |
-		x = seqing ~|
+		x = streaming ~|
 			<~~ each~ (Array 1 2 3) ~|em
 				<~ em
 		!= (->Array x) (Array 1 2 3)
@@ -38,7 +38,7 @@ each~.
 map~.
 	doc. "A generator that iterates through every element of `bag`, yielding the mapped value."
 	test. |
-		x = seqing ~|
+		x = streaming ~|
 			two-four-six <~~ map~ (Array.of 1 2 3) ~|em
 				<~ em
 				* 2 em

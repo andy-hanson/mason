@@ -11,7 +11,8 @@ use
 	.Method -> impl!
 	.Num -> divisible? even? increment
 	.pred-types -> Any Nat
-	.Seq -> seq seq=? seqing
+	.Seq -> seq
+	.Stream -> streaming
 	.Symbol
 
 region Methods
@@ -51,7 +52,7 @@ region Derived (override for efficiency/typing)
 		test. |
 			!= (->Array (map (seq 1 2 3) increment)) (seq 2 3 4)
 		default. |_:Bag mapper:Fun[Any Any]
-			seqing ~|
+			streaming ~|
 				\ TODO:ES6 `for (let value of _)`
 				iter = iterator_
 				`for (let em of iter) yield mapper(em)`
@@ -62,7 +63,7 @@ region Derived (override for efficiency/typing)
 		test. |
 			!= (->Array (where (seq 1 2 3 4) even?)) (seq 2 4)
 		|_:Bag pred:Pred
-			seqing ~|
+			streaming ~|
 				\ TODO:ES6 `for (let value of _)`
 				iter = iterator_
 				`for (let em of iter) if (pred(em)) yield em`
@@ -79,7 +80,7 @@ region Derived (override for efficiency/typing)
 			!= (->Array x) (Array 1 2 2 3 4 4)
 
 		|_:Bag mapper:Fun[Any Bag]
-			seqing ~|
+			streaming ~|
 				x:Bag = _
 				iter = iterator x
 				loop!
@@ -111,7 +112,7 @@ impl! + Bag
 	test. |
 		!= (->Array (+ (seq 0) (seq 1))) (seq 0 1)
 	|bag1 bag2:Bag
-		seqing ~|
+		streaming ~|
 			<~~ iterator bag1
 			<~~ iterator bag2
 

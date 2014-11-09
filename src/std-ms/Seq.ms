@@ -7,6 +7,7 @@ use
 	.arithmetic-methods -> =? >=
 	.assert -> ! !=
 	.Bag -> count iterator
+	.Bool -> or
 	.error -> oh-no!
 	.Fun
 	.Generator
@@ -15,6 +16,7 @@ use
 	.Method -> impl!
 	.pred-types -> Any Nat
 	.Record-Type
+	.Stream -> streaming
 
 seq. |
 	Array.prototype.slice.call `arguments`
@@ -37,7 +39,7 @@ region Methods
 			in
 				>= end start
 
-			seqing ~|
+			streaming ~|
 				iter = iterator_
 				i ::= 0
 				loop!
@@ -97,7 +99,7 @@ region Adding elements
 			!= (->Array (+> (seq 0) 1)) (seq 0 1)
 		default. |_:Seq em:Any
 			\ TODO: then~ iterator_ ~| { ~< em }
-			seqing ~|
+			streaming ~|
 				<~~ iterator_
 				<~ em
 
@@ -110,9 +112,25 @@ region Adding elements
 		test. |
 			!= (->Array (<+ (seq 1) 0)) (seq 0 1)
 		default. |_:Seq em:Any
-			seqing ~|
+			streaming ~|
 				<~ em
 				<~~ iterator_
+
+region ???
+	\ TODO: Variadic
+	zip. |s0:Seq s1:Seq zipper:Fun[Any Any Any]
+		streaming ~|
+			iter0 = iterator s0
+			iter1 = iterator s1
+			loop!
+				next0 = iter0.next ()
+				next1 = iter1.next ()
+				case!
+					or next0.done next1.done
+						end-loop!
+					else
+						<~ zipper next0.value next1.value
+
 
 Seq = Interface
 	doc. "TODO"
@@ -123,29 +141,5 @@ Seq = Interface
 		. right-tail
 		. nth
 	super. Bag
-
-region seqing
-	\ TODO: Stream.ms
-	Stream. Record-Type
-		doc. "TODO"
-		members.
-			make-iterator. Fun
-
-	impl! iterator Stream |_
-		_.make-iterator ()
-	implementor! Stream Seq
-
-	seqing.
-		doc. "TODO"
-		test. |
-			a = seqing ~|
-				<~ 1
-				<~ 2
-			!= (->Array a) (seq 1 2)
-			\ They can be used twice!
-			!= (->Array a) (seq 1 2)
-		|make-gen:Fun[Generator]
-			Stream
-				make-iterator. make-gen
 
 Seq

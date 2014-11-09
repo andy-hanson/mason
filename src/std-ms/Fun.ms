@@ -157,19 +157,6 @@ identity-memoize.
 				wm.set arg ans
 				ans
 
-\wms = `[]`
-\wm-obj = |case
-\	:Object
-\		_
-\	else
-\		\ TODO: Use get-or
-\		case `wms[_]`
-\			:Any
-\				_
-\			else
-\				`wms[_] = global.Object(_)`
-\				`wms[_]`
-
 thunk.
 	doc. "Makes function which, when called, returns `a`."
 	test. |
