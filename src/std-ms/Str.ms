@@ -1,20 +1,20 @@
 doc. "TODO"
 
 use
-	.Array
+	.bags.Array
 	.basic-methods -> type-of
 	.Bool
 	.Fun -> identity
-	.Interface
 	.js -> global identical?
-	.Method -> impl! impl-override!
-	.Num
+	.math.Num
 	.Object -> add-property! get-property has-property? own-property-names
-	.Pred-Type
 	.pred-types -> Null Union
-	.Record-Type
 	.Symbol
-	.Type
+	.types.Interface
+	.types.Method -> impl! impl-override!
+	.types.Pred-Type
+	.types.Record-Type
+	.types.Type
 
 Str = global.String
 
@@ -83,6 +83,8 @@ impl! ->Str Fun |_
 			_.name
 		else
 			_.toString ()
+
+\ TODO: MOVE
 impl! ->Str Pred-Type get-nom
 
 impl! ->Str Str identity

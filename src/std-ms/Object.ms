@@ -1,11 +1,11 @@
 doc. "TODO"
 
 use
-	.? -> ?none ?some
 	.arithmetic-methods -> +
-	.Array
 	.assert -> ! != !fails
-	.Bag -> each!
+	.bags.? -> ?none ?some
+	.bags.Array
+	.bags.Bag -> each!
 	.Bool -> if not true
 	.Dict
 	.js -> global identical?

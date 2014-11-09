@@ -1,17 +1,17 @@
 use
 	.? -> get-or
-	.assert -> ! != !fails
 	.arithmetic-methods -> + *
-	.Bag -> each!
-	.bit-arithmetic -> bit-and hexidecimal
+	.assert -> ! != !fails
+	.bags.Bag -> each!
 	.Bool -> not
 	.Comparable -> =?
 	.Fun -> identity-memoize
-	.Method -> impl!
-	.Num -> Int round-towards-0
+	.math.bit-arithmetic -> bit-and hexidecimal
+	.math.Num -> Int round-towards-0
 	.Object -> ?get-property get-property own-properties
 	.Str
 	.Symbol
+	.types.Method -> impl!
 
 max-hash-code = hexidecimal "7fffffff"
 

@@ -3,10 +3,10 @@
 use
 	..assert -> !=
 	..basic-methods -> type-of
-	..Interface -> implementor!
-	..Method -> impl!
-	..Num
-	..Record-Type
+	..math.Num
+	..types.Interface -> implementor!
+	..types.Method -> impl!
+	..types.Record-Type
 
 Vec2D. Record-Type
 	members.

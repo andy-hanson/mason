@@ -1,14 +1,14 @@
 doc. "TODO"
 
 use
-	.Bag -> empty?
+	.bags.Bag -> empty?
 	.Bool -> false true unless!
 	.Comparable -> =?
 	.Error -> ?catch oh-no!
 	.Fun -> Act
 	.js -> global
 	.pred-types -> Any
-	.Type -> !subsumes
+	.types.Type -> !subsumes
 
 !.
 	doc. "Fails with `message` when `cond` is false."

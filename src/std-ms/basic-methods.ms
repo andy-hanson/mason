@@ -1,8 +1,8 @@
 \ TODO: Put this somewhere else
 
 use
-	.--bootstrap -> syms Object
-	.Method -> impl!
+	.private.bootstrap -> syms Object \ TODO
+	.types.Method -> impl!
 
 freeze. Method
 	doc. "TODO"

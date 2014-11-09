@@ -3,20 +3,19 @@ doc. "TODO"
 \ TODO: TESTS
 
 use
-	.? -> ?none ?some
 	.arithmetic-methods -> +
+	.bags.? -> ?none ?some
 	.basic-methods -> sub
 	.Bool
 	.checks -> !
 	.Fun -> fun-copy
-	.Interface -> implementor!
 	.js -> global
-	.Map -> ?get has-key? keys
-	.Method -> impl!
+	.maps.Map -> ?get has-key? keys
 	.Object -> ?get-property add-property! get-property has-property? own-properties
 	.pred-types -> Any
-	.properties
 	.Str
+	.types.Interface -> implementor!
+	.types.Method -> impl!
 
 Dict =
 	doc. "TODO"

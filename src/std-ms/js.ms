@@ -1,16 +1,16 @@
 doc. "TODO"
 
 use
-	.Array
 	.assert -> ! !=
-	.Bag -> each!
+	.bags.Array
+	.bags.Bag -> each!
 	.Bool -> false not true
 	.Comparable -> =?
 	.Error
 	.Fun -> delegate-to
-	.Num -> not-a-number
+	.math.Num -> not-a-number
 	.Object -> add-property!
-	.Type -> !subsumes
+	.types.Type -> !subsumes
 
 global. `global`
 

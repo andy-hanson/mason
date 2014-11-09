@@ -1,5 +1,7 @@
+\ TODO: Merge with basic-methods?
+
 use
-	.Method
+	.types.Method
 
 +. Method
 	doc. |a b

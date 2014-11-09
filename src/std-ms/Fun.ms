@@ -1,25 +1,24 @@
 doc. "TODO"
 
 use
-	.? -> get-or
-	.Array -> ->Array
-	.Alias-Type
 	.arithmetic-methods -> +
 	.assert -> ! !=
+	.bags.? -> get-or
+	.bags.Array -> ->Array
+	.bags.Seq -> <+ seq
 	.basic-methods -> sub
 	.Error -> oh-no!
 	.js -> global new
-	.Num -> increment
-	.Map -> ?get
-	.Map! -> set!
-	.Method -> impl-direct!
-	.Number
+	.maps.Map -> ?get
+	.maps.Map! -> set!
+	.maps.Weak-Identity-Map!
+	.math.Num -> increment
 	.Object
 	.Str
 	.pred-types -> Any
-	.Seq -> <+ seq
-	.Type -> subsumes?
-	.Weak-Identity-Map!
+	.types.Alias-Type
+	.types.Method -> impl-direct!
+	.types.Type -> subsumes?
 
 Fun = global.Function
 

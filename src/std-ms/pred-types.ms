@@ -7,15 +7,15 @@ use
 	.Bool -> and if! not or true
 	.fun -> Pred
 	.js -> exists? global
-	.Method -> impl! impl-direct!
 	.Num
 	.num-constants -> max-safe-integer
-	.Pred-Type
-	.Record-Type
-	.singleton
 	.Str
 	.Symbol
-	.Type -> !subsumes subsumes?
+	.types.Method -> impl! impl-direct!
+	.types.Pred-Type
+	.types.Record-Type
+	.types.singleton
+	.types.Type -> !subsumes subsumes?
 
 \ TODO: Rename to Opt
 Opt. Pred-Type

@@ -1,8 +1,8 @@
 doc. "TODO"
 
 use
-	.Array -> ->Array
-	.Bag -> map
+	.bags.Array -> ->Array
+	.bags.Bag -> map
 	.js -> global
 	.Str -> ->Str
 

@@ -3,17 +3,17 @@ doc. "TODO"
 use
 	.Alias-Type
 	.arithmetic-methods -> *
-	.Array -> ->Array
 	.assert -> !=
-	.Bag -> iterator
+	.bags.Array -> ->Array
+	.bags.Bag -> iterator
+	.bags.Stream -> streaming
 	.Bool -> and
 	.Fun -> call
 	.js -> exists?
 	.Object -> has-property?
-	.Pred-Type
 	.pred-types -> Any
-	.Stream -> streaming
-	.Type -> subsumes?
+	.types.Pred-Type
+	.types.Type -> subsumes?
 
 Generator. Pred-Type
 	doc. "TODO"

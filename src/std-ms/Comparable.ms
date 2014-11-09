@@ -1,10 +1,10 @@
 use
 	.Bool -> and false nor true
-	.Interface
 	.js -> identical?
-	.Method
 	.Object
-	.Type -> subsumes?
+	.types.Interface
+	.types.Method
+	.types.Type -> subsumes?
 
 compare. Method
 	doc. "A Num < 0 if a < b, > 0 if a > b, and = 0 if a = b."
