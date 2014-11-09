@@ -1,7 +1,7 @@
 doc. "TODO"
 
 use
-	..bags.? -> get-or
+	..bags.? -> get-or un-?
 	..bags.Bag -> each!
 	..Bool -> and
 	..console -> log!
@@ -13,7 +13,7 @@ use
 	..pred-types -> Any
 	q-io.fs
 	..Str
-	..types.Method -> impl! impl-for
+	..types.Method -> impl! ?impl-for
 
 \ TODO: Better name (but not `test`, because that's a common module property)
 test-special. Method
@@ -21,7 +21,7 @@ test-special. Method
 
 impl! test-special Method |_
 	each! _.implementing-types |type
-		maybe-test "{_.displayName} for {type}" (impl-for _ type)
+		maybe-test "{_.displayName} for {type}" (un-? (?impl-for _ type))
 
 \ TODO:ES6 Use module reflection
 test-module.

@@ -5,19 +5,20 @@ use
 	.assert -> ! !=
 	.bags.? -> get-or
 	.bags.Array -> ->Array
-	.bags.Seq -> <+ seq
+	.bags.Bag -> each! map
+	.bags.Seq -> <+ +> seq
 	.basic-methods -> sub
 	.Error -> oh-no!
 	.js -> global new
-	.maps.Map -> ?get
+	.maps.Map -> ?get keys
 	.maps.Map! -> set!
 	.maps.Weak-Identity-Map!
 	.math.Num -> increment
 	.Object
-	.Str
+	.Str -> ->Str
 	.pred-types -> Any
 	.types.Alias-Type
-	.types.Method -> impl-direct!
+	.types.Method -> impl! impl-direct!
 	.types.Type -> subsumes?
 
 Fun = global.Function
@@ -35,7 +36,7 @@ apply.
 	test. |
 		!= (apply + (seq 1 2)) 3
 	|f:Fun arguments:Seq
-		Fun.prototype.apply.call f () arguments
+		Fun.prototype.apply.call f () (->Array arguments)
 
 call.
 	doc. "Calls the function with the given arguments."
@@ -146,7 +147,7 @@ identity-memoize.
 		!= comps 2
 	|fun:Fun
 		wm = new Weak-Identity-Map!
-		|arg
+		|arg:Any
 			in
 				! (subsumes? Object arg) "
 					Can only use objects for identity-memoize'd functions, not {arg}.
@@ -156,6 +157,44 @@ identity-memoize.
 				wm.set arg ans
 				ans
 
+\ TODO: Merge with apply?
+spread.
+	doc. "TODO"
+	test. |
+		f = |a b c d
+			Array.of a b c d
+		x = spread f 1 2
+			3 -> 4
+			5 -> 6
+		\ TODO: Shouldn't need ->Array
+		!= (->Array x)
+			. Array.of 1 2 3 4
+			. Array.of 1 2 5 6
+
+		y = spread f 1 2 3
+			. 4
+			. 5
+		!= (->Array y)
+			. Array.of 1 2 3 4
+			. Array.of 1 2 3 5
+
+	|fun:Fun
+		init-args = Array.prototype.slice.call `arguments` 0 `arguments.length - 1`
+		spreaded = `arguments[arguments.length - 1]`
+		case spreaded
+			:Bag
+				map _ |em
+					all-args = +> init-args em
+					apply fun all-args
+			:Map
+				map keys_ |key
+					all-args = + init-args
+						. key
+						. _[key]
+					apply fun all-args
+			else
+				oh-no! "Can only spread a Bag or Map, not {_}"
+
 thunk.
 	doc. "Makes function which, when called, returns `a`."
 	test. |
@@ -163,7 +202,15 @@ thunk.
 	|a |
 		a
 
-TODO. |
-	oh-no! "TODO"
+TODO. ~(oh-no! "This function has not yet been implemented.")
+
+\ TODO: MOVE
+impl! ->Str Fun |case
+	`_.displayName !== undefined` \has-property? _ "nom"
+		_.displayName
+	`_.name !== ""`
+		_.name
+	else
+		_.toString ()
 
 Fun

@@ -1,7 +1,9 @@
 doc. "TODO"
 
 use
-	.bags.Array
+	.assert -> !=
+	.bags.Array -> ->Array
+	.bags.Bag -> map
 	.basic-methods -> type-of
 	.Bool
 	.Fun -> identity
@@ -14,7 +16,7 @@ use
 	.types.Method -> impl! impl-override!
 	.types.Pred-Type
 	.types.Record-Type
-	.types.Type
+	.types.Type -> !subsumes
 
 Str = global.String
 
@@ -75,19 +77,9 @@ get-nom = |_
 impl! ->Str Method get-nom
 impl! ->Str Interface get-nom
 impl! ->Str Record-Type get-nom
-impl! ->Str Fun |_
-	case
-		`_.displayName !== undefined` \has-property? _ "nom"
-			_.displayName
-		`_.name !== ""`
-			_.name
-		else
-			_.toString ()
-
-\ TODO: MOVE
-impl! ->Str Pred-Type get-nom
 
 impl! ->Str Str identity
+
 
 add-property! `_ms` "str" ->Str
 

@@ -9,6 +9,7 @@ use
 	..basic-methods -> freeze
 	..Bool -> not
 	..Comparable -> =?
+	..Error -> oh-no!
 	..hash-code
 	.Identity-Map!
 	..js -> global new
@@ -73,12 +74,11 @@ impl! set! Hash-Map |hm key:Any val:Any
 				val. v
 			set! hm.hash->bucket (hash-code key) new-bucket
 		else
+			\ TODO
 			bucket = _.val
-			use
-				.Error -> oh-no!
-			oh-no! "BAI"
+			oh-no! "Hash collision for {key} and {`bucket[0].key`}"
 			\ be = ?bucket-entry bucket key
-			\ set-property! be "val" val
+			\ if it's there: set-property! be "val" val
 
 add-property! (get-property global "_ms") "map"  |
 	hm = Hash-Map.new-empty ()

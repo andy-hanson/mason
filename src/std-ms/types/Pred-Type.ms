@@ -5,7 +5,7 @@ use
 	.Interface -> implementor!
 	.Method -> impl!
 	.Record-Type
-	..Str
+	..Str -> ->Str
 	.Type -> subsumes?
 
 Pred-Type = Record-Type
@@ -23,9 +23,14 @@ Pred-Type = Record-Type
 
 	extensible. true
 
+
+\ TODO: Map syntax
 implementor! Pred-Type Type
 
 impl! subsumes? Pred-Type |_ subsumed
 	_.predicate subsumed
+
+impl! ->Str Pred-Type |_
+	_.displayName
 
 Pred-Type

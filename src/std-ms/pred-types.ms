@@ -11,13 +11,13 @@ use
 	.num-constants -> max-safe-integer
 	.Str
 	.Symbol
+	.types.Interface -> implementor!
 	.types.Method -> impl! impl-direct!
 	.types.Pred-Type
 	.types.Record-Type
 	.types.singleton
 	.types.Type -> !subsumes subsumes?
 
-\ TODO: Rename to Opt
 Opt. Pred-Type
 	doc. "TODO"
 	predicate. |
@@ -33,9 +33,10 @@ Opt-Sub = Record-Type
 	members.
 		Exists-Type. Type
 
+\ Can't use map version because these types are used for defining maps.
+implementor! Opt-Sub Type
 impl! subsumes? Opt-Sub |nt _
 	or (not :Any) ~(subsumes? nt.Exists-Type _)
-
 impl! !subsumes Opt-Sub |nt _
 	if! :Any |
 		!subsumes nt.Exists-Type _

@@ -13,7 +13,7 @@ use
 	..Str -> ->Str
 	..Symbol
 	..types.Interface -> implementor!
-	..types.Method -> impl! impl-direct! impl-override!
+	..types.Method -> impl! impl-direct!
 	..types.Record-Type
 	..types.Type -> subsumes? !subsumes
 
@@ -60,6 +60,8 @@ Opt->?. |case
 		?some_
 	else
 		?none
+?->Opt. |_:?
+	_.val
 
 impl! map ? |_ f:Fun
 	case
@@ -107,7 +109,7 @@ region sub
 	implementor! ?-Sub Type
 	impl! subsumes? ?-Sub |?-sub subsumed
 		and (subsumes? ? subsumed) ~(map subsumed (curry subsumes? ?-sub.em-type))
-	impl-override! !subsumes ?-Sub |?-sub subsumed name
+	impl! !subsumes ?-Sub |?-sub subsumed name
 		!subsumes ? subsumed name
 		each! subsumed |_
 			!subsumes ?-sub.Element-Type _ name

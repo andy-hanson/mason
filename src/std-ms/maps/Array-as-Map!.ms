@@ -17,7 +17,8 @@ impl! has-key? Array |arr index:Nat
 	_ = `arr[key]`
 	:Any
 
-impl! keys Array TODO
+impl! keys Array |
+	TODO \ Range
 
 impl! clear! Array |_
 	loop!

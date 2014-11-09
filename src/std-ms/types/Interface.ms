@@ -1,7 +1,12 @@
 
 use
 	..assert -> ! !=
+	..bags.Bag -> each!
+	..Fun
+	.Impl-Type
+	..maps.Map -> keys-values
 	.Method -> impl!
+	..pred-types -> Nullable
 	..private.bootstrap -> Str Array Object Symbol true set! get has-or-in-proto? set-mutable! oh-no! own-properties
 	.Record-Type
 	.Type -> subsumes?
@@ -118,8 +123,17 @@ get-methods-from-above! = |implementor super
 
 implementor!.
 	doc. "TODO"
-	|implementor interface:Interface
+	\ TODO: implementor:Impl-Type
+	|implementor interface:Interface method-impls
 		unchecked-implementor! implementor interface
+		case! method-impls
+			`_ == null`
+				()
+			else
+				mi:Map = method-impls
+				each! (keys-values mi) |_
+					key:Method val:Fun = _
+					impl! key implementor val
 
 
 Interface

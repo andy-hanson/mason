@@ -49,13 +49,13 @@ impl! iterator Array ~|_
 			arr.push em
 		arr
 
+implementor! Array Seq
+
 impl! ->Str Array
 	test. |
 		!= (->Str (Array.of 0 1)) "Array 0 1"
 	|_
 		ems = ->Array (map _ ->Str)
 		"Array {ems.join " "}"
-
-implementor! Array Seq
 
 Array

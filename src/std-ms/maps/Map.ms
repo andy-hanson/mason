@@ -7,13 +7,13 @@ use
 	..basic-methods -> freeze sub
 	..Bool -> not
 	..error -> oh-no!
-	..Fun
+	..Fun -> identity
 	.Hash-Map
 	.Map! -> set!
 	..math.Num -> increment
 	..pred-types -> Any
 	..types.Interface
-	..types.Method -> impl!
+	..types.Method -> impl! impl-direct!
 
 ?get. Method
 	doc. |:? _ key:Any
@@ -40,9 +40,9 @@ keys-values. Method
 	doc. |:Seq[Any]
 		"Every \{ key, val }."
 	default. |_
-		map keys |k
+		map keys_ |k
 			key. k
-			val. map[k]
+			val. _[k]
 
 Map = Interface
 	doc. "Mapping from keys to values."
@@ -78,5 +78,7 @@ make-map.
 
 impl! sub Map |map key:Any
 	get-or (?get map key) ~(oh-no! "{map} does not contain {key}.")
+
+impl-direct! sub Map identity
 
 Map
