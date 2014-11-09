@@ -4,6 +4,11 @@ use
 	.--bootstrap -> syms Object
 	.Method -> impl!
 
+freeze. Method
+	doc. "TODO"
+	default. |_
+		Object.freeze _
+
 sub. Method
 	doc. "
 		This method has no special meaning and shouldn't be used polymorphically.

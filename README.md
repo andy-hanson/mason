@@ -36,6 +36,14 @@ Lists are also written in blocks. Each line beginning with `. ` (remember the sp
 		. 1
 		. 2
 
+### Maps
+
+Maps are pretty much the same.
+
+	my-map.
+		1 -> 2
+		2 -> 4
+
 
 ### Locals
 

@@ -214,11 +214,11 @@ U.implementMany(E, "toJContent", {
 		"; })"
 	]},
 	List: function(rx) { return [
-			"_ms.mkArray(",
-			Sq.interleave(
-				Sq.range(0, this.length).map(function(i) { return "_" + i }),
-				", "),
-			")"
+		"_ms.mkArray(",
+		Sq.interleave(
+			Sq.range(0, this.length).map(function(i) { return "_" + i }),
+			", "),
+		")"
 	]},
 	ListEntry: function(rx) { return [
 		"const _",
@@ -252,8 +252,28 @@ U.implementMany(E, "toJContent", {
 		rx.nl(),
 		"}"
 	]},
+	Map: function(rx) { return [
+		"_ms.map(",
+		Sq.interleave(
+			Sq.range(0, this.length).map(function(i) { return [
+				"_k",
+				i.toString(),
+				", ",
+				"_v",
+				i.toString()
+			]}),
+			", "),
+		")"
+	]},
 	MapEntry: function(rx) { return [
-		TODO()
+		"const _k",
+		this.index.toString(),
+		" = ",
+		j(rx)(this.key),
+		", _v",
+		this.index.toString(),
+		" = ",
+		j(rx)(this.val)
 	]},
 	Member: function(rx) { return [
 		j(rx)(this.object),

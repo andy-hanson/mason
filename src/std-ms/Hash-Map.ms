@@ -6,13 +6,14 @@ use
 	.arithmetic-methods -> +
 	.assert -> ! !=
 	.Bag -> ?first-where count empty? flat-map map
+	.basic-methods -> freeze
 	.Bool -> not
 	.Comparable -> =?
 	.hash-code
 	.Identity-Map!
 	.Interface -> implementor!
-	.js -> new
-	.Object -> set-property!
+	.js -> global new
+	.Object -> get-property add-property!
 	.Map -> ?get keys values
 	.Map! -> set!
 	.Method -> impl!
@@ -24,8 +25,14 @@ use
 
 Hash-Map = Record-Type
 	doc. "TODO"
+	\ TODO: `new-empty` method
+	new-empty. |
+		Hash-Map
+			hash->bucket. new Identity-Map!
 	test. |
-		_ = make-hash-map 1 2 3 4
+		_ =
+			1 -> 2
+			3 -> 4
 		!= _[1] 2
 		!= _[3] 4
 		!= (->Array keys_) (Array.of 1 3)
@@ -72,9 +79,8 @@ impl! set! Hash-Map |hm key:Any val:Any
 			\ be = ?bucket-entry bucket key
 			\ set-property! be "val" val
 
-make-hash-map = |
-	hm = Hash-Map
-		hash->bucket. new Identity-Map!
+add-property! (get-property global "_ms") "map"  |
+	hm = Hash-Map.new-empty ()
 	i ::= 0
 	args = `arguments`
 	n-args = args.length
@@ -90,6 +96,10 @@ make-hash-map = |
 				i := + i 2
 
 	hm
+
+impl! freeze Hash-Map |_
+	freeze _.hash->bucket
+	Object.freeze _
 
 implementor! Hash-Map Map!
 

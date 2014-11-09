@@ -171,6 +171,7 @@ U.implementMany(E, "verify", {
 	List: U.ignore,
 	ListEntry: function(vx) { v(vx)(this.value) },
 	Literal: U.ignore,
+	Map: U.ignore,
 	Member: function(vx) { v(vx)(this.object) },
 	Module: function(vx) { v(vx)(this.body) },
 	ModuleDefaultExport: function(vx) { v(vx)(this.value) },

@@ -44,15 +44,15 @@ inspect. Method
 		:Str
 			"\"{_}\""
 		:Symbol
-			_.name
+			"<Symbol>"
 		:Object
 			key-vals = (Object.keys _).map |key
 				\ TODO: Recursive ->Str needs checks
-				val = ->Str (get-property _ key)
+				val:Str = ->Str (get-property _ key)
 				"{key}. {indent val}"
 
 			"
-				{type-of _}
+				{type-of _}:
 					{key-vals.join "\n\t"}
 
 		else
@@ -61,7 +61,8 @@ inspect. Method
 
 \ This is what is used by quote interpolation
 ->Str. Method
-	doc. "TODO"
+	doc. |:Str _
+		"TODO"
 	impl-symbol. `_ms.symStr`
 	default. inspect
 

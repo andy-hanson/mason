@@ -76,6 +76,7 @@ const parseBlock = (function() {
 
 		let dictKeys = []
 		let listLength = 0
+		let mapLength = 0
 		const eLines = []
 		function addLine(ln) {
 			if (ln instanceof Array) {
@@ -89,6 +90,11 @@ const parseBlock = (function() {
 				ln = U.with(ln, "index", listLength)
 				listLength = listLength + 1
 			}
+			else if (isa(ln, E.MapEntry)) {
+				assert(ln.index === -1)
+				ln = U.with(ln, "index", mapLength)
+				mapLength = mapLength + 1
+			}
 			else if (isa(ln, E.Assign) && ln.k === ". ")
 				dictKeys.push(ln.assignee.name)
 
@@ -100,20 +106,29 @@ const parseBlock = (function() {
 
 		const isDict = !Sq.isEmpty(dictKeys)
 		const isList = listLength > 0
+		const isMap = mapLength > 0
 		check(!(isDict && isList), px.span, "Block has both list and dict lines.")
+		check(!(isDict && isMap), px.span, "Block has both dict and map lines.")
+		check(!(isList && isMap), px.span, "Block has both list and map lines.")
 
 		const isModule = k === "module"
 
-		const _$ = (function() {
+		const doLinesOpReturn = (function() {
 			if (k === "do") {
 				check(!isDict, px.span, "Can't make dict in statement context")
 				check(!isList, px.span, "Can't make list in statement context")
+				check(!isMap, px.span, "Can't make map in statement context")
 				return { doLines: eLines, opReturn: Op.None }
 			}
 			if (isList)
 				return {
 					doLines: eLines,
 					opReturn: Op.Some(E.List(px.s({ length: listLength })))
+				}
+			if (isMap)
+				return {
+					doLines: eLines,
+					opReturn: Op.Some(E.Map(px.s({ length: mapLength })))
 				}
 
 			const lastReturn = !Sq.isEmpty(eLines) && isa(Sq.last(eLines), E.Val)
@@ -145,7 +160,7 @@ const parseBlock = (function() {
 				return { doLines: eLines, opReturn: Op.None }
 			}
 		})()
-		const doLines = _$.doLines, opReturn = _$.opReturn
+		const doLines = doLinesOpReturn.doLines, opReturn = doLinesOpReturn.opReturn
 
 		if (isModule) {
 			const moduleLines =
@@ -426,7 +441,8 @@ const parseLine = (function() {
 	const parseMapEntry = function(px, before, after) {
 		return E.MapEntry(px.s({
 			key: parseExpr(px.withSqTSpan(before), before),
-			val: parseExpr(px.withSqTSpan(after), after)
+			val: parseExpr(px.withSqTSpan(after), after),
+			index: -1
 		}))
 	}
 

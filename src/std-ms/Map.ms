@@ -1,11 +1,17 @@
 use
 	.? -> ?none get-or
-	.Bag -> empty? map
-	.basic-methods -> sub
+	.Array
+	.assert -> !=
+	.Bag -> each! empty? map
+	.basic-methods -> freeze sub
 	.Bool -> not
 	.error -> oh-no!
+	.Fun
+	.Hash-Map
 	.Interface
+	.Map! -> set!
 	.Method -> impl!
+	.Num -> increment
 	.pred-types -> Any
 	.Seq
 
@@ -56,6 +62,19 @@ Map = Interface
 \				oh-no! "{map} does not contain {key}."
 \			else
 \				_.val
+
+make-map.
+	doc. "TODO"
+	test. |
+		map = make-map (Array.of 1 2) increment
+		!= map[1] 2
+		!= map[2] 3
+
+	|keys:Bag mapper:Fun
+		map = Hash-Map.new-empty ()
+		each! keys |key
+			set! map key (mapper key)
+		freeze map
 
 impl! sub Map |map key:Any
 	get-or (?get map key) ~(oh-no! "{map} does not contain {key}.")

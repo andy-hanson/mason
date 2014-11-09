@@ -43,7 +43,8 @@ makeETypes(E.Do, {
 	ModuleDefaultExport: { value: E.Val },
 	EndLoop: { name: String },
 	ListEntry: { value: E.Val, index: Number },
-	Loop: { name: String, body: E.BlockBody }
+	Loop: { name: String, body: E.BlockBody },
+	MapEntry: { key: E.Val, val: E.Val, index: Number }
 })
 
 const KFun = new Set(["|", "~|"])
@@ -67,7 +68,7 @@ makeETypes(E.Val, {
 	List: { length: Number },
 	Literal: { value: String, k: new Set([Number, String, "js"]) },
 	LocalAccess: { name: String },
-	MapEntry: { key: E.Val, val: E.Val },
+	Map: { length: Number },
 	Member: { object: E.Val, name: String },
 	Quote: { parts: [E.Val] },
 	Require: { path: String },
