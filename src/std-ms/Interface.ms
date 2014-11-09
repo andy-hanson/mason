@@ -19,6 +19,20 @@ Interface = Record-Type
 		They require the interface to correctly track super-interfaces and implementors.
 
 	test. |
+		region Inheritance chans - one way
+			A = Interface
+				doc. "A"
+			B = Interface
+				doc. "B"
+			C = Record-Type
+				members.
+					c. Num
+			implementor! B A
+			implementor! C B
+			c = C
+				c. 1
+			a:A = c
+
 		region Inheritance chains
 			X = Interface
 				doc. "X"
@@ -31,7 +45,7 @@ Interface = Record-Type
 			implementor! Y X
 			z = Z
 				x. 1
-			! (subsumes? X z)
+			x:X = z
 
 		region Method makes sure to do impl! on all Concrete-Type_s inheriting from an Interface.
 			asdf. Method
@@ -78,8 +92,20 @@ unchecked-implementor!.
 			:Interface
 				_.super-interfaces.push interface
 			else
-				get-methods-from-above! implementor interface
+				()
+		propagate-methods-down! implementor interface
 
+propagate-methods-down! = |implementor interface
+	case implementor
+		:Interface
+			\ TODO: each!
+			_.implementors.forEach |itor
+				propagate-methods-down! itor interface
+		else
+			get-methods-from-above! _ interface
+
+\ implementor:Concrete-Type super:Interface
+\ super is any interface in a chain of interfaces above implementor.
 get-methods-from-above! = |implementor super
 	(own-properties super.prototype).forEach |name
 		case!

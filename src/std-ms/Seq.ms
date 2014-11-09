@@ -9,6 +9,7 @@ use
 	.Bag -> count iterator
 	.error -> oh-no!
 	.Fun
+	.Generator
 	.Interface -> implementor!
 	.logic -> false not
 	.Method -> impl!
@@ -124,14 +125,15 @@ Seq = Interface
 	super. Bag
 
 region seqing
-	Iterator-Seq = Record-Type
+	\ TODO: Stream.ms
+	Stream. Record-Type
 		doc. "TODO"
 		members.
 			make-iterator. Fun
 
-	impl! iterator Iterator-Seq |_
+	impl! iterator Stream |_
 		_.make-iterator ()
-	implementor! Iterator-Seq Seq
+	implementor! Stream Seq
 
 	seqing.
 		doc. "TODO"
@@ -142,8 +144,8 @@ region seqing
 			!= (->Array a) (seq 1 2)
 			\ They can be used twice!
 			!= (->Array a) (seq 1 2)
-		|make-gen:Fun
-			Iterator-Seq
+		|make-gen:Fun[Generator]
+			Stream
 				make-iterator. make-gen
 
 Seq

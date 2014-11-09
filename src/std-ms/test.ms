@@ -1,22 +1,25 @@
 doc. "TODO"
 
 use
+	.? -> get-or
 	.Bag -> each!
 	.Bool -> and
 	.console -> log!
-	.Error -> annotate-errors
+	.Error -> annotate-errors oh-no!
 	.Fun -> ignore
-	.Object -> get-property has-property? own-property-names
+	.Object -> ?get-property get-property has-property? own-property-names
 	.Map -> get
 	.Method -> impl! impl-for
 	path
+	.pred-types -> Any
 	q-io.fs
 	.Str
 
-test. Method
+\ TODO: Better name (but not `test`, because that's a common module property)
+test-special. Method
 	doc. "TODO"
 
-impl! test Method |_
+impl! test-special Method |_
 	each! _.implementing-types |type
 		maybe-test "{_.displayName} for {type}" (impl-for _ type)
 
@@ -24,19 +27,25 @@ impl! test Method |_
 test-module.
 	doc. "TODO"
 	|module
-		maybe-test module
+		name = get-or (?get-property module "displayName") "Anonymous module"
+		maybe-test name module
 		each! (Object.keys module) |name
-			maybe-test name (get-property module name)
+			prop = get-property module name
+			case! prop
+				:Any
+					maybe-test name (get-property module name)
+				else
+					oh-no! "Property {name} of {module} is undefined."
 
-maybe-test = |name value
+maybe-test = |name:Str value:Any
 	annotate-errors ~"In {name}:\n" |
 		case! value
-			:test
-				test _
+			:test-special
+				test-special _
 			else
 				()
 		case! value
-			and :Object ~(has-property? value "test")
+			and :Object ~(has-property? _ "test")
 				value.test ()
 			else
 				()

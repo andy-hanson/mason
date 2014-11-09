@@ -5,6 +5,7 @@ use
 	.Bool -> and not
 	.Error -> oh-no!
 	.Fun -> call curry
+	.Impl-Type
 	.Interface -> implementor!
 	.js -> identical?
 	.Method -> impl! impl-direct! impl-override!
@@ -57,13 +58,12 @@ Opt->?. |_
 	?
 		val. _
 
-\ TODO: Pattern for type-preserving `map`. `map` is just a function.
-\impl! map ? |_ f:Fun
-\	case
-\		empty?_
-\			_
-\		else
-\			?some (f _.val)
+impl! map ? |_ f:Fun
+	case
+		empty?_
+			_
+		else
+			?some (f _.val)
 
 un-?.
 	doc. "Tries to extract the value out of a `?`. Throws an error if it is empty."
@@ -78,10 +78,10 @@ un-?.
 			else
 				_.val
 
-get-or. |_:? or:Fun[Any]
+get-or. |_:? ~or
 	case
 		empty?_
-			call or
+			or
 		else
 			_.val
 
@@ -92,7 +92,7 @@ region sub
 			! (subsumes? ?[Num] (?some 0))
 			! (subsumes? ?[Num] ?none)
 			! (not (subsumes? ?[Num] (?some "0")))
-		|Em-Type
+		|? Em-Type:Type
 			?-Sub
 				Element-Type. Em-Type
 
@@ -105,7 +105,8 @@ region sub
 	impl! subsumes? ?-Sub |?-sub subsumed
 		and (subsumes? ? subsumed) ~(map subsumed (curry subsumes? ?-sub.em-type))
 	impl-override! !subsumes ?-Sub |?-sub subsumed name
-		!subsumes ? subsumed
-		each! subsumed (curry !subsumes ?-sub)
+		!subsumes ? subsumed name
+		each! subsumed |_
+			!subsumes ?-sub.Element-Type _ name
 
 ?

@@ -7,6 +7,7 @@ use
 	.arithmetic-methods -> +
 	.assert -> ! !=
 	.basic-methods -> sub
+	.Error -> oh-no!
 	.js -> global new
 	.Num -> increment
 	.Map -> ?get
@@ -149,9 +150,9 @@ identity-memoize.
 		|arg
 			in
 				! (subsumes? Object arg) "
-					Can only use objects for identity-memoize'd functions.
+					Can only use objects for identity-memoize'd functions, not {arg}.
 
-			get-or (?get wm arg) |
+			get-or (?get wm arg) ~
 				ans = fun arg
 				wm.set arg ans
 				ans
@@ -175,5 +176,8 @@ thunk.
 		!= ((thunk 1) ()) 1
 	|a |
 		a
+
+TODO. |
+	oh-no! "TODO"
 
 Fun

@@ -111,7 +111,9 @@ module.exports = function group(sqL, opts) {
 					newLevel(span.start, k)
 				break
 			case '->':
-				endAndStart(span, 'sp')
+				//  ~ before block is OK
+				if (Sq.isEmpty(cur().body) || !T.Keyword.is("~")(Sq.last(cur().body)))
+					endAndStart(span, 'sp')
 				newLevel(span.start, k)
 				startLine(span.end)
 				break

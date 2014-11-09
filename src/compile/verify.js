@@ -147,6 +147,10 @@ U.implementMany(E, "verify", {
 	LocalDeclare: function(vx) {
 		this.opType.map(v(vx))
 	},
+	MapEntry: function(vx) {
+		v(vx)(this.key)
+		v(vx)(this.val)
+	},
 	Yield: function(vx) {
 		check(vx.isInGenerator, this.span, "Cannot yield outside of generator context")
 		v(vx)(this.yielded)

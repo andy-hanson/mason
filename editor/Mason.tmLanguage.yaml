@@ -47,7 +47,7 @@ patterns:
 
 - comment: A language keyword.
   name: keyword
-  match: (this|use|->|case!?|else|in|out|res|_|loop!|end-loop!|<~|<~~)(\s)
+  match: (debugger|this|use|->|case!?|else|in|out|res|_|loop!|end-loop!|<~|<~~)(\s)
 
 - comment: Bracket
   name: keyword

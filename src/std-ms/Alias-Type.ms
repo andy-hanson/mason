@@ -20,6 +20,9 @@ Alias-Type. Record-Type
 	members.
 		displayName. Str
 		alias-of. Type
+	defaults.
+		displayName. |_
+			"Alias of {_.alias-of}"
 	extensible. true
 
 implementor! Alias-Type Type

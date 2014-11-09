@@ -1,8 +1,9 @@
 use
-	.Bool
+	.assert -> !
+	.Bool -> not
 	.Interface -> implementor!
 	.Method
-	.Map -> ?get has?
+	.Map -> ?get has-key?
 	.pred-types -> Any
 
 clear!. Method
@@ -16,6 +17,14 @@ delete!. Method
 set!. Method
 	doc. |_ key:Any val:Any
 		"TODO"
+
+add!. Method
+	doc. |_ key:Any val:Any
+		"TODO"
+	default. |_ key:Any val:Any
+		in
+			! (not (has-key? _ key)) ~"
+				Already have key {key}.
 
 Map! = Interface
 	doc. "TODO"

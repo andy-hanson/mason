@@ -1,5 +1,5 @@
 use
-	.? -> ?some
+	.? -> ?none ?some
 	.arithmetic-methods -> +
 	.Array -> ->Array
 	.assert -> ! !=
@@ -45,11 +45,12 @@ region Derived (override for efficiency/typing)
 			`for (let em of iter) f(em)`
 			()
 
-	map.
+	\ TODO: Pattern for type-preserving `map`. `map` is just a function.
+	map. Method
 		doc. "TODO"
 		test. |
 			!= (->Array (map (seq 1 2 3) increment)) (seq 2 3 4)
-		|_:Bag mapper:Fun[Any Any]
+		default. |_:Bag mapper:Fun[Any Any]
 			seqing ~|
 				\ TODO:ES6 `for (let value of _)`
 				iter = iterator_
@@ -141,5 +142,12 @@ all?.
 		not-pred = |_
 			not (pred _)
 		empty? (where _ not-pred)
+
+?first-where. |_ pred:Pred
+	s = ?some
+	\ TODO:ES6 for (let em of _)
+	iter = iterator_
+	`for (let em of  iter) if (pred(em)) return s(em)`
+	?none
 
 Bag

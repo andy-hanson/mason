@@ -5,41 +5,37 @@ doc. "TODO"
 
 use
 	\ This is huge because I don't clean it up after playing around
+	.--boot-order
 	.? -> ?some ?none
+	.Alias-Type
 	.alias-types
+	.Array-as-Map!
 	.arithmetic
 	.arithmetic-methods -> +
 	.Array
 	.assert -> ! !=
 	.Bag -> each! map
 	.bit-arithmetic
-	.Bool -> and false
+	.Bool -> and false not true
+	.Compare -> =?
 	.console -> log!
 	.error -> annotate-errors oh-no! try-catch-finally
 	.Fun -> ignore
+	.Hash-Map
+	.Impl-Type
 	.Interface -> implementor!
 	.Method -> impl!
 	.Num
 	.Object -> get-property has-property? own-property-names
 	.pred-types -> Any Int Union
 	.Record-Type
-	source-map-support
-	stack-displayname
 	.Seq
 	.Str -> ->Str inspect
-	.test -> test-modules
+	.test -> test-module test-modules
 	.tests.type-test
 	.Type -> subsumes?
 
-source-map-support.install ()
-\stack-displayname
-
-\ TODO: --boot-order.ms ?
-Type \ This makes it safe to type things.
-Str \ Important to load this now, as it will help error messages
-Fun \ Get its impl! ready
+--boot-order
 
 |
 	test-modules "./src/std-js"
-
-	log! "Hello from mason!"

@@ -6,7 +6,9 @@ use
 	.Map! -> clear! delete! set!
 	.Method -> impl!
 
-Weak-Identity-Map! = global.WeakMap
+Weak-Identity-Map! =
+	doc. "TODO"
+	global.WeakMap
 
 \ TODO: has-key?, keys
 

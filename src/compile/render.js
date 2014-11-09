@@ -252,6 +252,9 @@ U.implementMany(E, "toJContent", {
 		rx.nl(),
 		"}"
 	]},
+	MapEntry: function(rx) { return [
+		TODO()
+	]},
 	Member: function(rx) { return [
 		j(rx)(this.object),
 		makeMember(this.name)

@@ -67,6 +67,7 @@ makeETypes(E.Val, {
 	List: { length: Number },
 	Literal: { value: String, k: new Set([Number, String, "js"]) },
 	LocalAccess: { name: String },
+	MapEntry: { key: E.Val, val: E.Val },
 	Member: { object: E.Val, name: String },
 	Quote: { parts: [E.Val] },
 	Require: { path: String },

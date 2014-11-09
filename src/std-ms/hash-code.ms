@@ -18,7 +18,7 @@ max-hash-code = hexidecimal "7fffffff"
 keep-small = |_
 	bit-and _ max-hash-code
 
-hash-code. Method
+hash-code =  Method
 	doc. |:Int _
 		"TODO"
 	test. |
@@ -64,6 +64,8 @@ impl! hash-code Num |case
 \next-prototype-hash ::= 0
 \prototype-hash = |_
 \	proto = Object.getPrototypeOf _
-\	get-or (?get-property proto sym-prototype-hash) |
+\	get-or (?get-property proto sym-prototype-hash) ~
 \		add-property! proto sym-prototyp-hash next-prototype-hash
 \		next-prototype-hash := increment next-prototype-hash
+
+hash-code

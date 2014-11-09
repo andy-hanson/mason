@@ -1,5 +1,6 @@
 use
 	.Bool -> true
+	.Error -> oh-no!
 	.Fun -> Pred
 	.Interface -> implementor!
 	.Method -> impl!
@@ -12,6 +13,14 @@ Pred-Type = Record-Type
 	members.
 		displayName. Str
 		predicate. Pred
+	defaults.
+		displayName. |_
+			case _.predicate.displayName
+				:Str
+					_
+				else
+					oh-no! "Need displayName for Pred-Type"
+
 	extensible. true
 
 implementor! Pred-Type Type

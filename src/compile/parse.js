@@ -28,6 +28,9 @@ Object.assign(Px.prototype, {
 	withSpan: function(span) {
 		return U.with(this, "span", span);
 	},
+	withSqTSpan: function(sqt) {
+		return U.with(this, "span", Span.ofSqT(this.span, sqt))
+	},
 	s: function(members) {
 		return Object.assign(members, { span: this.span })
 	}
@@ -420,6 +423,13 @@ const parseLine = (function() {
 		}
 	}
 
+	const parseMapEntry = function(px, before, after) {
+		return E.MapEntry(px.s({
+			key: parseExpr(px.withSqTSpan(before), before),
+			val: parseExpr(px.withSqTSpan(after), after)
+		}))
+	}
+
 	// Returns line or sq of lines
 	return function(px, sqt) {
 		type(px, Px, sqt, [T])
@@ -457,8 +467,10 @@ const parseLine = (function() {
 				default: // fall through
 			}
 
-		return Op.ifElse(Sq.opSplitOnceWhere(sqt, T.Keyword.is(Lang.AssignKeywords)),
-			function(_) { return parseAssign(px, _.before, _.at, _.after) },
+		return Op.ifElse(Sq.opSplitOnceWhere(sqt, T.Keyword.is(Lang.LineSplitKeywords)),
+			function(_) {
+				return (_.at.k == '->') ? parseMapEntry(px, _.before, _.after) : parseAssign(px, _.before, _.at, _.after)
+			},
 			function() { return parseExpr(px, sqt) })
 	}
 })()

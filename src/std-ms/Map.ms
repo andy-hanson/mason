@@ -1,58 +1,63 @@
 use
-	.? -> ?none
+	.? -> ?none get-or
+	.Bag -> empty? map
+	.basic-methods -> sub
 	.Bool -> not
 	.error -> oh-no!
 	.Interface
-	.Method
+	.Method -> impl!
 	.pred-types -> Any
-	.Seq -> empty?
-
-get. Method
-	doc. |:Any _ key:Any
-		"Value corresponding to `key`. Fails if not `has-key? _ key`."
-	default. |map key:Any
-		case ?get map key
-			empty?_
-				oh-no! "{map} does not contain {key}."
-			else
-				_.val
+	.Seq
 
 ?get. Method
 	doc. |:? _ key:Any
 		"?some of the value corresponding to `key`, or ?none if not `has-key? _ key`."
-\	default. |_ key:Any
-\		case
-\			has? _ key
-\				?some (get _ key)
-\			else
-\				?none
-
 
 has-key?. Method
 	doc. |:Bool _ key:Any
 		"Whether the key is in the Map."
-	default. |map key:Any
-		not (empty? (?get map key))
+	default. |_ key:Any
+		not (empty? (?get _ key))
 
 keys. Method
 	doc. |:Seq _
 		"Seq of every key that the Map `has-key?`."
 
+values. Method
+	doc. |:Seq _
+		"Seq of every value in the Map."
+	default. |_
+		map keys_ |key
+			_[key]
+
 keys-values. Method
 	doc. |:Seq[Any]
 		"Every \{ key, val }."
-	default. |map
-		(keys map).map |_
-			key. _
-			val. get map _
+	default. |_
+		map keys |k
+			key. k
+			val. map[k]
 
 Map = Interface
 	doc. "Mapping from keys to values."
 	methods.
-		. get
+		. sub
 		. ?get
 		. has-key?
 		. keys
 		. keys-values
+
+\get. Method
+\	doc. |:Any _ key:Any
+\		"Value corresponding to `key`. Fails if not `has-key? _ key`."
+\	default. |map key:Any
+\		case ?get map key
+\			empty?_
+\				oh-no! "{map} does not contain {key}."
+\			else
+\				_.val
+
+impl! sub Map |map key:Any
+	get-or (?get map key) ~(oh-no! "{map} does not contain {key}.")
 
 Map

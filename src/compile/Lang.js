@@ -9,12 +9,14 @@ const setUnion = function() {
 }
 
 const AssignKeywords = new Set(["=", "~=", ":=", "::=", ". ", "<~", "<~~"])
+
+const LineSplitKeywords = setUnion(AssignKeywords, new Set(["->"]))
+
 // `export` is not a keyword, but `. ` assigns in module context become exports.
 const KAssign = setUnion(AssignKeywords, new Set(["export"]))
 const FnKeywords = new Set(["|", "~|"])
 const CaseKeywords = new Set(["case", "case!"])
-const AllKeywords = setUnion(AssignKeywords, FnKeywords, CaseKeywords, new Set([
-	"->",
+const AllKeywords = setUnion(LineSplitKeywords, FnKeywords, CaseKeywords, new Set([
 	"~",
 	":",
 	"_",
@@ -56,6 +58,7 @@ const isNameCharacter = function(ch) { return /[^()[\]{}\.:|_\ \\\n\t\""`@#$;,']
 module.exports = {
 	AllKeywords: AllKeywords,
 	AssignKeywords: AssignKeywords,
+	LineSplitKeywords: LineSplitKeywords,
 	CaseKeywords: CaseKeywords,
 	FnKeywords: FnKeywords,
 	KAssign: KAssign,

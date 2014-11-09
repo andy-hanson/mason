@@ -106,7 +106,7 @@ region MS Methods
 		exports = module.exports
 		set! module "exports" default
 		(global.Object.getOwnPropertyNames exports).forEach |name
-			set! module.exports name `exports[name]`
+			set! default name `exports[name]`
 
 	set-temporary! ms "str" |x
 		`if (x === undefined) return "undefined"` \ TODO: Remove
