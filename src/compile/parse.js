@@ -275,7 +275,7 @@ const parseExpr = function(px, sqt) {
 	const parts = exprParts(px, sqt)
 	switch (parts.length) {
 		case 0:
-			return E.JSKeyword(px.s({ k: "null" }))
+			return E.Null(px.s({}))
 		case 1:
 			return Sq.head(parts)
 		default:
@@ -467,7 +467,7 @@ const parseLine = (function() {
 					return parseCase(pxRest(), rest(), "case!", false)
 				case "debugger":
 					check(Sq.isEmpty(rest()), px.span, "Did not expect anything after " + first)
-					return E.JSKeyword(px.s({ k: "debugger" }))
+					return E.Debugger(px.s({}))
 				case "end-loop!":
 					return E.EndLoop(px.s({ name: loopName(px, rest()) }))
 				case "loop!":
@@ -564,7 +564,7 @@ const parseSingle = function(px, t) {
 		case isa(t, T.Name):
 			return E.LocalAccess(px.s({ name: t.name }))
 		case T.Keyword.is("this")(t):
-			return E.JSKeyword(px.s({ k: "this" }))
+			return E.This(px.s({}))
 		case T.Keyword.is("_")(t):
 			return E.LocalAccess.focus(px.span)
 		case T.Group.is(t, "sp"):

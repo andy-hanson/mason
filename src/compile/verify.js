@@ -165,8 +165,8 @@ U.implementMany(E, "verify", {
 	AssignDestructure: function(vx) { vm(vx, Sq.cons(this.value, this.assignees)) },
 	Call: function(vx) { vm(vx, Sq.cons(this.called, this.args)) },
 	CasePart: function(vx) { vm(vx, [this.test, this.result]) },
+	Debugger: U.ignore,
 	Dict: function(vx) { vm(vx, this.opDicted) },
-	JSKeyword: U.ignore,
 	Lazy: function(vx) { v(vx)(this.value) },
 	List: U.ignore,
 	ListEntry: function(vx) { v(vx)(this.value) },
@@ -175,9 +175,11 @@ U.implementMany(E, "verify", {
 	Member: function(vx) { v(vx)(this.object) },
 	Module: function(vx) { v(vx)(this.body) },
 	ModuleDefaultExport: function(vx) { v(vx)(this.value) },
+	Null: U.ignore,
 	Quote: function(vx) { vm(vx, this.parts) },
 	Require: U.ignore,
 	Sub: function(vx) { vm(vx, Sq.cons(this.subject, this.subbers)) },
+	This: U.ignore,
 	TypeTest: function(vx) { vm(vx, [this.tested, this.testType]) },
 })
 

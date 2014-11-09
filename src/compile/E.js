@@ -38,13 +38,14 @@ makeETypes(E.Do, {
 	Assign: { assignee: E.LocalDeclare, k: Lang.KAssign, value: E.Val },
 	AssignDestructure: { assignees: [E.LocalDeclare], k: Lang.KAssign, value: E.Val },
 	CaseDo: { opCased: Op(E.Val), parts: [E.CasePart], opElse: Op(E.BlockBody) },
-	// The body of a module will contain ModuleExport and ModuleDefaultExport_s
-	Module: { body: E.BlockBody },
-	ModuleDefaultExport: { value: E.Val },
+	Debugger: { },
 	EndLoop: { name: String },
 	ListEntry: { value: E.Val, index: Number },
 	Loop: { name: String, body: E.BlockBody },
-	MapEntry: { key: E.Val, val: E.Val, index: Number }
+	MapEntry: { key: E.Val, val: E.Val, index: Number },
+	// The body of a module will contain ModuleExport and ModuleDefaultExport_s
+	Module: { body: E.BlockBody },
+	ModuleDefaultExport: { value: E.Val }
 })
 
 const KFun = new Set(["|", "~|"])
@@ -63,16 +64,17 @@ makeETypes(E.Val, {
 		opReturnType: Op(E.Val),
 		k:KFun
 	},
-	JSKeyword: { k: Lang.JSKeywords },
 	Lazy: { value: E.Val },
 	List: { length: Number },
 	Literal: { value: String, k: new Set([Number, String, "js"]) },
 	LocalAccess: { name: String },
 	Map: { length: Number },
 	Member: { object: E.Val, name: String },
+	Null: { },
 	Quote: { parts: [E.Val] },
 	Require: { path: String },
 	Sub: { subject: E.Val, subbers: [E.Val] },
+	This: { },
 	TypeTest: { tested: E.Val, testType: E.Val },
 	Yield: { yielded: E.Val },
 	YieldTo: { yieldedTo: E.Val }

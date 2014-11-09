@@ -49,8 +49,6 @@ const GroupOpenToClose = new Map([
 	['sp', 'sp'],
 	['"', '"']])
 
-const JSKeywords = new Set(["null", "this", "debugger"])
-
 // Anything not explicitly reserved is a valid name character.
 // A `~` may appear in a name, but not at the beginning.
 const isNameCharacter = function(ch) { return /[^()[\]{}\.:|_\ \\\n\t\""`@#$;,']/.test(ch) }
@@ -65,7 +63,6 @@ module.exports = {
 	GroupOpenToClose: GroupOpenToClose,
 	GroupKinds: GroupKinds,
 	GroupPres: GroupPres,
-	JSKeywords: JSKeywords,
 	KLocal: KLocal,
 	ReservedCharacters: ReservedCharacters,
 	ReservedWords: ReservedWords,

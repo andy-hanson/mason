@@ -150,6 +150,7 @@ U.implementMany(E, "toJContent", {
 			"}"
 		]
 	},
+	Debugger: function() { return "debugger" },
 	Dict: function(rx) {
 		const keysVals = this.keys.map(function(key) { return [
 			quote(key),
@@ -204,9 +205,6 @@ U.implementMany(E, "toJContent", {
 			rx.snl(),
 			"}"
 		]
-	},
-	JSKeyword: function() {
-		return this.k
 	},
 	Lazy: function(rx) { return [
 		"_ms.Lazy(function() { return ",
@@ -295,6 +293,7 @@ U.implementMany(E, "toJContent", {
 		j(rx)(this.value),
 		")"
 	]},
+	Null: function() { return "null" },
 	Quote: function(rx) {
 		return (this.parts.length == 0) ?
 			"\"\"" :
@@ -312,6 +311,7 @@ U.implementMany(E, "toJContent", {
 		commad(rx, Sq.cons(this.subject, this.subbers)),
 		")"
 	]},
+	This: function() { return "this" },
 	TypeTest: function(rx) { return [
 		"_ms.subsumes(",
 		j(rx)(this.testType),
