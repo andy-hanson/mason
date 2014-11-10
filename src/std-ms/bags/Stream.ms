@@ -3,11 +3,7 @@ use
 	..assert -> !=
 	.Bag -> all? iterator
 	..Comparable -> =?
-<<<<<<< HEAD
 	..Fun -> identity
-=======
-	..Fun
->>>>>>> 9ddb097... Added missing files
 	..Generator
 	.Seq -> zip
 	..types.Interface -> implementor!

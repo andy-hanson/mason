@@ -31,6 +31,7 @@ Identity-Map! =
 
 	global.Map
 
+\ Can't use map syntax because that uses this...
 impl! ?get Identity-Map! |_ key
 	Opt->? (_.get key)
 impl! keys Identity-Map! |_
@@ -41,8 +42,6 @@ impl! values Identity-Map! |_
 	Stream
 		make-iterator. |
 			_.values ()
-
-\ TODO: implementor! sugar
 impl! clear! Identity-Map! |_
 	_.clear ()
 impl! delete! Identity-Map! |_ key

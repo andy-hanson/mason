@@ -9,10 +9,7 @@ use
 	..basic-methods -> freeze
 	..Bool -> not
 	..Comparable -> =?
-<<<<<<< HEAD
 	..Error -> oh-no!
-=======
->>>>>>> 9ddb097... Added missing files
 	..hash-code
 	.Identity-Map!
 	..js -> global new
@@ -53,12 +50,8 @@ Hash-Map = Record-Type
 	?first-where bucket |_
 		=? key _.key
 
-<<<<<<< HEAD
 impl! ?get Hash-Map |:? _ key:Any
 	\ TODO: Array!.empty
-=======
-impl! ?get Hash-Map |_ key:Any
->>>>>>> 9ddb097... Added missing files
 	bucket = get-or (?bucket _ key) `[]`
 	map (?bucket-entry bucket key) |be
 		be.val
@@ -81,20 +74,11 @@ impl! set! Hash-Map |hm key:Any val:Any
 				val. v
 			set! hm.hash->bucket (hash-code key) new-bucket
 		else
-<<<<<<< HEAD
 			\ TODO
 			bucket = _.val
 			oh-no! "Hash collision for {key} and {`bucket[0].key`}"
 			\ be = ?bucket-entry bucket key
 			\ if it's there: set-property! be "val" val
-=======
-			bucket = _.val
-			use
-				.Error -> oh-no!
-			oh-no! "BAI"
-			\ be = ?bucket-entry bucket key
-			\ set-property! be "val" val
->>>>>>> 9ddb097... Added missing files
 
 add-property! (get-property global "_ms") "map"  |
 	hm = Hash-Map.new-empty ()

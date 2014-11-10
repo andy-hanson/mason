@@ -13,16 +13,11 @@ use
 	..Str -> ->Str
 	..Symbol
 	..types.Interface -> implementor!
-<<<<<<< HEAD
 	..types.Method -> impl! impl-direct!
-=======
-	..types.Method -> impl! impl-direct! impl-override!
->>>>>>> 9ddb097... Added missing files
 	..types.Record-Type
 	..types.Type -> subsumes? !subsumes
 
 ? = Record-Type
-<<<<<<< HEAD
 	doc. "
 		A Bag with 0 or 1 elements.
 		Either `?none` or `?some`.
@@ -31,16 +26,6 @@ use
 	members.
 		val.
 
-=======
-	doc. "A Bag with 0 or 1 elements - an optional value."
-
-	members.
-		\ `undefined` for none.
-		val.
-
-implementor! ? Bag
-
->>>>>>> 9ddb097... Added missing files
 ?some.
 	doc. "`?` with the given element."
 	|some-of:Any
@@ -52,17 +37,11 @@ implementor! ? Bag
 	?
 		val. `undefined`
 
-<<<<<<< HEAD
 implementor! ? Bag
 
 \ Can't use implementor! map because ? is required to create maps
 impl! empty? ? |_
 	identical? _ ?none
-=======
-impl! empty? ? |op
-	_ = op.val
-	not :Any
->>>>>>> 9ddb097... Added missing files
 
 impl! ->Str ? |case
 	empty?_
@@ -76,7 +55,6 @@ impl! iterator ? ~|case!
 	else
 		<~ _.val
 
-<<<<<<< HEAD
 Opt->?.
 	doc. "?some unless the value is null/undefined."
 	test. |
@@ -96,13 +74,6 @@ Opt->?.
 	|_:?
 		_.val
 
-\ TODO: ?-builder
-=======
-Opt->?. |_
-	?
-		val. _
-
->>>>>>> 9ddb097... Added missing files
 impl! map ? |_ f:Fun
 	case
 		empty?_
@@ -123,7 +94,6 @@ un-?.
 			else
 				_.val
 
-<<<<<<< HEAD
 get-or.
 	doc. "If ?some, gets the value. Else defaults to `or`."
 	|:Any _:? ~or:Any
@@ -132,14 +102,6 @@ get-or.
 				or
 			else
 				_.val
-=======
-get-or. |_:? ~or
-	case
-		empty?_
-			or
-		else
-			_.val
->>>>>>> 9ddb097... Added missing files
 
 region sub
 	impl-direct! sub ?
@@ -160,11 +122,8 @@ region sub
 	implementor! ?-Sub Type
 	impl! subsumes? ?-Sub |?-sub subsumed
 		and (subsumes? ? subsumed) ~(map subsumed (curry subsumes? ?-sub.em-type))
-<<<<<<< HEAD
+
 	impl! !subsumes ?-Sub |?-sub subsumed name
-=======
-	impl-override! !subsumes ?-Sub |?-sub subsumed name
->>>>>>> 9ddb097... Added missing files
 		!subsumes ? subsumed name
 		each! subsumed |_
 			!subsumes ?-sub.Element-Type _ name
