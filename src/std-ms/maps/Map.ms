@@ -7,13 +7,21 @@ use
 	..basic-methods -> freeze sub
 	..Bool -> not
 	..error -> oh-no!
+<<<<<<< HEAD
 	..Fun -> identity
+=======
+	..Fun
+>>>>>>> 9ddb097... Added missing files
 	.Hash-Map
 	.Map! -> set!
 	..math.Num -> increment
 	..pred-types -> Any
 	..types.Interface
+<<<<<<< HEAD
 	..types.Method -> impl! impl-direct!
+=======
+	..types.Method -> impl!
+>>>>>>> 9ddb097... Added missing files
 
 ?get. Method
 	doc. |:? _ key:Any
@@ -40,9 +48,15 @@ keys-values. Method
 	doc. |:Seq[Any]
 		"Every \{ key, val }."
 	default. |_
+<<<<<<< HEAD
 		map keys_ |k
 			key. k
 			val. _[k]
+=======
+		map keys |k
+			key. k
+			val. map[k]
+>>>>>>> 9ddb097... Added missing files
 
 Map = Interface
 	doc. "Mapping from keys to values."
@@ -79,6 +93,9 @@ make-map.
 impl! sub Map |map key:Any
 	get-or (?get map key) ~(oh-no! "{map} does not contain {key}.")
 
+<<<<<<< HEAD
 impl-direct! sub Map identity
 
+=======
+>>>>>>> 9ddb097... Added missing files
 Map

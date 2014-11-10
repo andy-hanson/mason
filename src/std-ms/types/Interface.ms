@@ -1,12 +1,16 @@
 
 use
 	..assert -> ! !=
+<<<<<<< HEAD
 	..bags.Bag -> each!
 	..Fun
 	.Impl-Type
 	..maps.Map -> keys-values
 	.Method -> impl!
 	..pred-types -> Nullable
+=======
+	.Method -> impl!
+>>>>>>> 9ddb097... Added missing files
 	..private.bootstrap -> Str Array Object Symbol true set! get has-or-in-proto? set-mutable! oh-no! own-properties
 	.Record-Type
 	.Type -> subsumes?
@@ -123,6 +127,7 @@ get-methods-from-above! = |implementor super
 
 implementor!.
 	doc. "TODO"
+<<<<<<< HEAD
 	\ TODO: implementor:Impl-Type
 	|implementor interface:Interface method-impls
 		unchecked-implementor! implementor interface
@@ -134,6 +139,10 @@ implementor!.
 				each! (keys-values mi) |_
 					key:Method val:Fun = _
 					impl! key implementor val
+=======
+	|implementor interface:Interface
+		unchecked-implementor! implementor interface
+>>>>>>> 9ddb097... Added missing files
 
 
 Interface

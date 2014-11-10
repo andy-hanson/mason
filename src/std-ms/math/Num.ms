@@ -36,8 +36,13 @@ Nat. Pred-Type
 
 impl! compare Num |a b:Num
 	`a - b`
+<<<<<<< HEAD
 impl! =? Num |a _
 	and :Num ~`a === _`
+=======
+impl! =? Num |a b:Num
+	`a === b`
+>>>>>>> 9ddb097... Added missing files
 impl! <? Num |a b:Num
 	`a < b`
 impl! >? Num |a b:Num

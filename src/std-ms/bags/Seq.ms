@@ -2,6 +2,7 @@ doc. "TODO"
 \TODO: More tests
 
 use
+<<<<<<< HEAD
 	.? -> ?none ?some get-or
 	.Array -> ->Array
 	..arithmetic-methods -> -
@@ -14,6 +15,19 @@ use
 	..Generator
 	..math.Num -> decrement increment Nat
 	..pred-types -> Any
+=======
+	.Array -> ->Array
+	..arithmetic-methods -> =? >=
+	..assert -> ! !=
+	.Bag -> count iterator
+	..Bool -> or
+	..error -> oh-no!
+	..Fun
+	..Generator
+	..logic -> false not
+	..Num -> decrement increment
+	..pred-types -> Any Nat
+>>>>>>> 9ddb097... Added missing files
 	.Stream -> streaming
 	..types.Interface -> implementor!
 	..types.Method -> impl!
@@ -23,16 +37,23 @@ seq. |
 	Array.prototype.slice.call `arguments`
 
 region Methods
+<<<<<<< HEAD
 	?nth. Method
 		doc. |:Any _ n:Nat
 			"`n`th element in iteration order. 0th is the first."
 		test. |
 			!= (?nth (seq 0 1) 1) (?some 1)
 			!= (?nth (seq 0 1) 2) ?none
+=======
+	nth. Method
+		doc. |:Any _ n:Nat
+			"`n`th element in iteration order. 0th is the first."
+>>>>>>> 9ddb097... Added missing files
 		default. |_ n:Nat
 			iter = iterator_
 			i ::= 0
 			\ TODO:ES6 for (let em of _)
+<<<<<<< HEAD
 			s = ?some
 			`for (let em of iter) { if (i == n) return s(em); i++; }`
 			?none
@@ -65,12 +86,25 @@ region Methods
 
 	take. Method
 		default. |:Seq _ count-to-take:Nat
+=======
+			`for (let em of iter) { if (i == n) return em; i++; }`
+			oh-no! "Sequence only has {i} elements, so can't return element {n}"
+
+	slice. Method
+		doc. |:Seq _ start:Nat end:Nat
+			"Seq containing the elements from index start (inclusive) to end (exclusive)."
+		default. |_ start:Nat end:Nat
+			in
+				>= end start
+
+>>>>>>> 9ddb097... Added missing files
 			streaming ~|
 				iter = iterator_
 				i ::= 0
 				loop!
 					value done = iter.next ()
 					i := increment i
+<<<<<<< HEAD
 					case!
 						or done ~(=? i count-to-take)
 							end-loop!
@@ -109,10 +143,36 @@ region Methods
 			!= (?first `[]`) ?none
 		default. |_
 			?nth _ 0
+=======
+					! (not done) "Cannot take range {start} to {end} of sequence with count {i}"
+					case! i
+						=? _ start
+							end-loop!
+						else
+							()
+
+				loop!
+					value done = iter.next ()
+					i := increment i
+					! (not done) "Cannot take range {start} to {end} of sequence with count {i}"
+					<~ value
+					case! i
+						=? _ end
+							end-loop!
+						else
+							()
+
+	first. Method
+		doc. |:Any _
+			"TODO"
+		default. |_
+			nth _ 0
+>>>>>>> 9ddb097... Added missing files
 
 	tail. Method
 		doc. |:Seq _
 			"TODO"
+<<<<<<< HEAD
 		test. |
 			\ TODO: (empty Array)
 			!= (tail (seq 0)) `[]`
@@ -125,12 +185,27 @@ region Methods
 			"TODO"
 		default. |_
 			?nth _ (decrement count_)
+=======
+		default. |_
+			slice _ 1 count_
+
+	last. Method
+		doc. |:Any _
+			"TODO"
+		default. |_
+			nth _ (decrement count_)
+>>>>>>> 9ddb097... Added missing files
 
 	right-tail. Method
 		doc. |:Any _
 			"TODO"
 		default. |_
+<<<<<<< HEAD
 			take _ (decrement count_)
+=======
+			slice _ 0 (decrement count_)
+
+>>>>>>> 9ddb097... Added missing files
 
 region Adding elements
 	+>. Method
@@ -178,7 +253,17 @@ region ???
 
 Seq = Interface
 	doc. "TODO"
+<<<<<<< HEAD
 
 implementor! Seq Bag
+=======
+	methods.
+		. first
+		. tail
+		. last
+		. right-tail
+		. nth
+	super. Bag
+>>>>>>> 9ddb097... Added missing files
 
 Seq

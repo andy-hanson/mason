@@ -1,7 +1,11 @@
 doc. "TODO"
 
 use
+<<<<<<< HEAD
 	..bags.? -> get-or un-?
+=======
+	..bags.? -> get-or
+>>>>>>> 9ddb097... Added missing files
 	..bags.Bag -> each!
 	..Bool -> and
 	..console -> log!
@@ -13,7 +17,11 @@ use
 	..pred-types -> Any
 	q-io.fs
 	..Str
+<<<<<<< HEAD
 	..types.Method -> impl! ?impl-for
+=======
+	..types.Method -> impl! impl-for
+>>>>>>> 9ddb097... Added missing files
 
 \ TODO: Better name (but not `test`, because that's a common module property)
 test-special. Method
@@ -21,7 +29,11 @@ test-special. Method
 
 impl! test-special Method |_
 	each! _.implementing-types |type
+<<<<<<< HEAD
 		maybe-test "{_.displayName} for {type}" (un-? (?impl-for _ type))
+=======
+		maybe-test "{_.displayName} for {type}" (impl-for _ type)
+>>>>>>> 9ddb097... Added missing files
 
 \ TODO:ES6 Use module reflection
 test-module.
@@ -35,7 +47,11 @@ test-module.
 				:Any
 					maybe-test name (get-property module name)
 				else
+<<<<<<< HEAD
 					()
+=======
+					oh-no! "Property {name} of {module} is undefined."
+>>>>>>> 9ddb097... Added missing files
 
 maybe-test = |name:Str value:Any
 	annotate-errors ~"In {name}:\n" |

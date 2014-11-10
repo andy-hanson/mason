@@ -28,6 +28,18 @@ Array =
 			Object.freeze (Array.prototype.slice.call `arguments`)
 	global.Array
 
+<<<<<<< HEAD
+=======
+impl! count Array |_
+	_.length
+
+\ TODO:ES6 This should be implemented for me.
+impl! iterator Array ~|_
+	len = count_
+	`for (let i = 0; i < len; i++) yield _[i]`
+	()
+
+>>>>>>> 9ddb097... Added missing files
 ->Array.
 	doc. "TODO"
 	test. |
@@ -40,6 +52,7 @@ Array =
 			arr.push em
 		arr
 
+<<<<<<< HEAD
 implementor! Array Seq
 impl! count Array |_
 	_.length
@@ -49,6 +62,8 @@ impl! iterator Array ~|_
 	`for (let i = 0; i < len; i++) yield _[i]`
 	()
 
+=======
+>>>>>>> 9ddb097... Added missing files
 impl! ->Str Array
 	test. |
 		!= (->Str (Array.of 0 1)) "Array 0 1"
@@ -56,4 +71,9 @@ impl! ->Str Array
 		ems = ->Array (map _ ->Str)
 		"Array {ems.join " "}"
 
+<<<<<<< HEAD
+=======
+implementor! Array Seq
+
+>>>>>>> 9ddb097... Added missing files
 Array
