@@ -2,17 +2,18 @@ doc. "TODO"
 \TODO: More tests
 
 use
+	.? -> ?none ?some get-or
 	.Array -> ->Array
-	..arithmetic-methods -> =? >=
-	..assert -> ! !=
+	..arithmetic-methods -> -
+	..assert -> ! != !fails
 	.Bag -> count iterator
-	..Bool -> or
-	..error -> oh-no!
+	..Bool -> and if not or unless
+	..Comparable -> =? <=? >=?
+	..Error -> oh-no!
 	..Fun
 	..Generator
-	..logic -> false not
-	..Num -> decrement increment
-	..pred-types -> Any Nat
+	..math.Num -> decrement increment Nat
+	..pred-types -> Any
 	.Stream -> streaming
 	..types.Interface -> implementor!
 	..types.Method -> impl!
@@ -22,71 +23,114 @@ seq. |
 	Array.prototype.slice.call `arguments`
 
 region Methods
-	nth. Method
+	?nth. Method
 		doc. |:Any _ n:Nat
 			"`n`th element in iteration order. 0th is the first."
+		test. |
+			!= (?nth (seq 0 1) 1) (?some 1)
+			!= (?nth (seq 0 1) 2) ?none
 		default. |_ n:Nat
 			iter = iterator_
 			i ::= 0
 			\ TODO:ES6 for (let em of _)
-			`for (let em of iter) { if (i == n) return em; i++; }`
-			oh-no! "Sequence only has {i} elements, so can't return element {n}"
+			s = ?some
+			`for (let em of iter) { if (i == n) return s(em); i++; }`
+			?none
+
+	nth. Method
+		doc. "TODO"
+		test. |
+			!= (nth (seq 0 1) 1) 1
+			!fails |
+				nth (seq 0 1) 2
+		default. |_ n
+			get-or (?nth _ n) ~(oh-no! "Sequence only has {count_} elements, so can't return element {n}")
 
 	slice. Method
 		doc. |:Seq _ start:Nat end:Nat
-			"Seq containing the elements from index start (inclusive) to end (exclusive)."
-		default. |_ start:Nat end:Nat
-			in
-				>= end start
+			"
+				Seq containing the elements from index start (inclusive) to end (exclusive).
+				Takes as much as possible
+				Result length should be end - start.
 
+		test. |
+			!= (slice (seq 0 1 2 3) 1 3) (seq 1 2)
+
+		default. |:Seq _ start:Nat end:Nat
+			take (drop _ start) (- end start)
+
+	?slice. |:?[Seq] _ start:Nat end:Nat
+		if (and (>=? end start) ~(<=? end count_))
+			slice _ start end
+
+	take. Method
+		default. |:Seq _ count-to-take:Nat
 			streaming ~|
 				iter = iterator_
 				i ::= 0
 				loop!
 					value done = iter.next ()
 					i := increment i
-					! (not done) "Cannot take range {start} to {end} of sequence with count {i}"
-					case! i
-						=? _ start
+					case!
+						or done ~(=? i count-to-take)
 							end-loop!
 						else
-							()
+							<~ value
 
+	drop. Method
+		default. |:Seq _ count-to-drop:Nat
+			streaming ~|
+				iter = iterator_
+				i ::= 0
+				\ Discard count-to-drop values:
 				loop!
 					value done = iter.next ()
 					i := increment i
-					! (not done) "Cannot take range {start} to {end} of sequence with count {i}"
-					<~ value
-					case! i
-						=? _ end
+					case!
+						or done ~(=? i count-to-drop)
 							end-loop!
 						else
 							()
+				\ And give out the rest
+				loop!
+					value done = iter.next ()
+					case!
+						done
+							end-loop!
+						else
+							<~ value
 
-	first. Method
+	?first. Method
 		doc. |:Any _
 			"TODO"
+		test. |
+			!= (?first (seq 0)) (?some 0)
+			\ TODO: (empty Array)
+			!= (?first `[]`) ?none
 		default. |_
-			nth _ 0
+			?nth _ 0
 
 	tail. Method
 		doc. |:Seq _
 			"TODO"
+		test. |
+			\ TODO: (empty Array)
+			!= (tail (seq 0)) `[]`
+			!= (tail `[]`) `[]`
 		default. |_
-			slice _ 1 count_
+			drop _ 1
 
-	last. Method
+	?last. Method
 		doc. |:Any _
 			"TODO"
 		default. |_
-			nth _ (decrement count_)
+			?nth _ (decrement count_)
 
 	right-tail. Method
 		doc. |:Any _
 			"TODO"
 		default. |_
-			slice _ 0 (decrement count_)
-
+			take _ (decrement count_)
 
 region Adding elements
 	+>. Method
@@ -134,12 +178,7 @@ region ???
 
 Seq = Interface
 	doc. "TODO"
-	methods.
-		. first
-		. tail
-		. last
-		. right-tail
-		. nth
-	super. Bag
+
+implementor! Seq Bag
 
 Seq

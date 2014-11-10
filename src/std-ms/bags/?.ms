@@ -24,10 +24,7 @@ use
 		Its content can never be null.
 
 	members.
-		\ `undefined` for none.
-		val. \ TODO: Nullable
-
-implementor! ? Bag
+		val.
 
 ?some.
 	doc. "`?` with the given element."
@@ -40,6 +37,9 @@ implementor! ? Bag
 	?
 		val. `undefined`
 
+implementor! ? Bag
+
+\ Can't use implementor! map because ? is required to create maps
 impl! empty? ? |_
 	identical? _ ?none
 
@@ -55,14 +55,26 @@ impl! iterator ? ~|case!
 	else
 		<~ _.val
 
-Opt->?. |case
-	:Any
-		?some_
-	else
-		?none
-?->Opt. |_:?
-	_.val
+Opt->?.
+	doc. "?some unless the value is null/undefined."
+	test. |
+		!= (Opt->? 0) (?some 0)
+		!= (Opt->? ()) ?none
+	|case
+		:Any
+			?some_
+		else
+			?none
 
+?->Opt.
+	doc. "?none becomes undefined, ?some x becomes x."
+	test. |
+		!= (?->Opt (?some 0)) 0
+		! (not (subsumes? Any (?->Opt ?none)))
+	|_:?
+		_.val
+
+\ TODO: ?-builder
 impl! map ? |_ f:Fun
 	case
 		empty?_
@@ -83,12 +95,14 @@ un-?.
 			else
 				_.val
 
-get-or. |:Any _:? ~or:Any
-	case
-		empty?_
-			or
-		else
-			_.val
+get-or.
+	doc. "If ?some, gets the value. Else defaults to `or`."
+	|:Any _:? ~or:Any
+		case
+			empty?_
+				or
+			else
+				_.val
 
 region sub
 	impl-direct! sub ?

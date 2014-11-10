@@ -36,8 +36,8 @@ Nat. Pred-Type
 
 impl! compare Num |a b:Num
 	`a - b`
-impl! =? Num |a b:Num
-	`a === b`
+impl! =? Num |a _
+	and :Num ~`a === _`
 impl! <? Num |a b:Num
 	`a < b`
 impl! >? Num |a b:Num

@@ -28,15 +28,6 @@ Array =
 			Object.freeze (Array.prototype.slice.call `arguments`)
 	global.Array
 
-impl! count Array |_
-	_.length
-
-\ TODO:ES6 This should be implemented for me.
-impl! iterator Array ~|_
-	len = count_
-	`for (let i = 0; i < len; i++) yield _[i]`
-	()
-
 ->Array.
 	doc. "TODO"
 	test. |
@@ -50,6 +41,13 @@ impl! iterator Array ~|_
 		arr
 
 implementor! Array Seq
+impl! count Array |_
+	_.length
+\ TODO:ES6 This should be implemented for me
+impl! iterator Array ~|_
+	len = count_
+	`for (let i = 0; i < len; i++) yield _[i]`
+	()
 
 impl! ->Str Array
 	test. |

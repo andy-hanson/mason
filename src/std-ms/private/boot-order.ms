@@ -19,9 +19,9 @@ es6-shim
 
 Type \ This makes it safe to type things.
 Fun \ Get its impl! ready
-Array-as-Map!
 Dict \ Dict.empty used by many Record-Type_s
 Num
 Hash-Map \ Provides _ms.map
+Array-as-Map!
 Dict-as-Map
 Str \ Important to load this now, as it will help error messages
