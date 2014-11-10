@@ -11,20 +11,28 @@ use
 	..types.Record-Type
 
 Stream = Record-Type
-	doc. "TODO"
+	doc. "
+		A Stream is a sequence whose values are the outputs of a generator.
+		Unlike a Generator, a Stream can be used multiple times.
+
 	members.
 		make-iterator. Fun[Generator]
 
-\ TODO: Sugar
+implementor! Stream Seq
 impl! iterator Stream |_
 	_.make-iterator ()
-implementor! Stream Seq
 
 impl! =? Stream |s1 s2
 	all? (zip s1 s2 =?)
 
-streaming.
+->Stream. Method
 	doc. "TODO"
+impl! ->Stream Bag |_
+	streaming |
+		iterator_
+
+streaming.
+	doc. "Creates a Stream whose values are the yields of the generator produced by make-gen."
 	test. |
 		_ = streaming ~|
 			<~ 1

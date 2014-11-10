@@ -46,7 +46,6 @@ hash-code =  Method
 				hash
 
 \ Since default hash-code only works on objects, let's implement hash-code for primitives.
-\ Can't use impl! because building a map requires hash-code.
 impl! hash-code Bool |case
 	_
 		1

@@ -4,7 +4,7 @@ use
 	..bags.Array -> ->Array
 	..bags.Stream
 	..js -> global new
-	.Map -> ?get keys values
+	.Map -> ?get has-key? keys values
 	.Map! -> clear! delete! set!
 	..types.Interface -> implementor!
 	..types.Method -> impl!
@@ -34,6 +34,8 @@ Identity-Map! =
 \ Can't use map syntax because that uses this...
 impl! ?get Identity-Map! |_ key
 	Opt->? (_.get key)
+impl! has-key? Identity-Map! |_ key
+	_.has key
 impl! keys Identity-Map! |_
 	Stream
 		make-iterator. |

@@ -9,7 +9,7 @@ use
 	.Type -> subsumes?
 
 Pred-Type = Record-Type
-	doc. "TODO"
+	doc. "Arbitrary predicates can be made into types using Pred-Type."
 	members.
 		displayName. Str
 		predicate. Pred
@@ -20,11 +20,9 @@ Pred-Type = Record-Type
 					_
 				else
 					oh-no! "Need displayName for Pred-Type"
-
 	extensible. true
 
-
-\ TODO: Map syntax
+\ Can't use map syntax because that requires this.
 implementor! Pred-Type Type
 
 impl! subsumes? Pred-Type |_ subsumed

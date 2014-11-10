@@ -96,7 +96,7 @@ add-property! (get-property global "_ms") "map"  |
 				set! hm `args[i]` `args[i + 1]`
 				i := + i 2
 
-	hm
+	freeze hm
 
 impl! freeze Hash-Map |_
 	freeze _.hash->bucket

@@ -1,4 +1,3 @@
-doc. "TODO"
 \TODO: More tests
 
 use
@@ -160,7 +159,7 @@ region Adding elements
 				<~ em
 				<~~ iterator_
 
-region ???
+region Combination
 	\ TODO: Variadic
 	zip. |s0:Seq s1:Seq zipper:Fun[Any Any Any]
 		streaming ~|
@@ -177,7 +176,9 @@ region ???
 
 
 Seq = Interface
-	doc. "TODO"
+	doc. "
+		A Seq is any Bag whose elements are in a consistent order.
+		Basically, any Bag that's not a Set.
 
 implementor! Seq Bag
 

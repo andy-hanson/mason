@@ -53,16 +53,6 @@ Map = Interface
 		. keys
 		. keys-values
 
-\get. Method
-\	doc. |:Any _ key:Any
-\		"Value corresponding to `key`. Fails if not `has-key? _ key`."
-\	default. |map key:Any
-\		case ?get map key
-\			empty?_
-\				oh-no! "{map} does not contain {key}."
-\			else
-\				_.val
-
 make-map.
 	doc. "TODO"
 	test. |
