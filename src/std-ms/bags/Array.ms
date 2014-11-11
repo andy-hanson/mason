@@ -1,3 +1,5 @@
+\ Also see ..maps.Array-as-Map
+
 use
 	..assert -> !=
 	.Bag -> count each! iterator map

@@ -63,5 +63,8 @@ impl! hash-code Symbol Symbol.keyFor
 impl! hash-code Num |case
 	=? _ round-towards-0_ \ Don't use Int because that also checks that its' small
 		bit-and _ max-hash-code
+	else
+		\ TODO: This could be better
+		hash-code "{_}"
 
 hash-code

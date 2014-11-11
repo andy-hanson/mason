@@ -1,19 +1,28 @@
 use
 	..arithmetic-methods -> + - * /
-	..assert -> ! !=
+	..assert -> ! != !fails
+	..bags.? -> get-or Opt->?
 	..Bool -> and not
 	..Comparable -> =? <? >? <=? >=? compare
 	..js -> global
 	..Object -> get-property
+	..pred-types -> Opt
 	..types.Method -> impl!
 	..types.Pred-Type
 	..types.Type -> subsumes?
 
 Num = global.Number
+Math = global.Math
 
 region Constants
+	infinity. get-property Num "POSITIVE_INFINITY"
+	-infinity. get-property Num "NEGATIVE_INFINITY"
 	not-a-number. Num.NaN
 	max-safe-integer. get-property Num "MAX_SAFE_INTEGER"
+	pi. Math.PI
+	pi/2. `pi / 2`
+	pi3/2. `pi * 3 / 2`
+	pi*2. `pi * 2`
 
 Int. Pred-Type
 	doc. "TODO"
@@ -56,9 +65,6 @@ impl! * Num |a b:Num
 impl! / Num |a b:Num
 	`a / b`
 
-
-Math = global.Math
-
 region Integer arithmetic
 	remainder.
 		doc. "
@@ -80,26 +86,33 @@ region Integer arithmetic
 		|a:Num b:Num
 			=? 0 (remainder a b)
 
-	even?. |a:Num
-		divisible? a 2
-	odd?. |a:Num
-		divisible? a 2
+	even?. |_:Num
+		divisible? _ 2
 
-	increment. |a:Num
-		+ a 1
+	odd?. |_:Num
+		not even?_
 
-	decrement. |a:Num
-		- a 1
+	increment. |_:Num
+		+ _ 1
+
+	decrement. |_:Num
+		- _ 1
+
+	neg. |_:Num
+		* _ -1
 
 region Real arithmetic
-	log-e. |a:Num
-		Math.log a
+	log-e. |_:Num
+		Math.log _
 
-	log. |a:Num b:Num
-		/ (log-e a) (log-e b)
-
-	square. |a:Num
-		* a a
+	log.
+		doc. "TODO"
+		test. |
+			\ TODO: spread !near
+			! (near? (log 10 0.01) -2)
+			!= (log 2 8) 3
+		|base:Num n:Num
+			/ (log-e n) (log-e base)
 
 	abs.
 		doc. "Negates `a` until it is positive."
@@ -116,13 +129,18 @@ region Real arithmetic
 		|a:Num b:Num
 			`Math.pow(a, b)`
 
+	square. |_:Num
+		* _ _
+
 	square-root.
 		test. |
 			!= (square-root 4) 2
-		|a:Num
+			!fails |
+				square-root -1
+		|_:Num
 			in
-				>=? a 0
-			`Math.sqrt(a)`
+				! (>=? _ 0) "Can't take square root of negative number {_}."
+			Math.sqrt _
 
 region Rounding
 	round.
@@ -133,32 +151,78 @@ region Rounding
 		test. |
 			!= (round -0.5) 0
 			!= (round 0.5) 1
-		|a:Num
-			Math.round a
+		|_:Num
+			Math.round _
 
 	round-down.
 		doc. "Greatest integer no greater than `a`."
 		test. |
 			!= (round-down -0.5) -1
 			!= (round-down 0.5) 0
-		|a:Num
-			Math.floor a
+		|_:Num
+			Math.floor _
 
 	round-up.
 		doc. "Least integer no less than `a`."
 		test. |
 			!= (round-up -0.5) 0
 			!= (round-up 0.5) 1
-		|a:Num
-			Math.ceil a
+		|_:Num
+			Math.ceil _
 
 	round-towards-0.
 		doc. "`round-down` if positive, else `round-up`."
 		test. |
 			!= (round-towards-0 -0.5) 0
 			!= (round-towards-0 0.5) 0
-		|a:Num
-			`a | 0`
+		|_:Num
+			`_ | 0`
 
+region Near
+	near?. Method
+		doc. "POOP"
+
+	impl! near? Num
+		test. |
+			! (near? 1000.9 1000 3)
+			! (not (near? 1000.9 1000 4))
+			! (near? 0.001001 0.001 3)
+			! (not (near? 0.001001 0.001 4))
+			! (not (near? 0.001 -0.001 1)) "Numbers with different signs are never near"
+			region Behaves like `near-0?` when an arg is 0
+				! (near? 0.00999 0 2)
+				! (near? 0 0.00999 2)
+		\ TODO: Optional arguments
+		|a b:Num sig-figs:Opt[Nat]
+			sfs = get-or (Opt->? sig-figs) 6
+			case
+				=? a 0
+					near-0? b sfs
+				=? b 0
+					near-0? a sfs
+				else
+					\ TODO `avg` function?
+					avg-mag = / (+ (abs a) (abs b)) 2
+					n-digits-avg-mag = round-down (log 10 avg-mag)
+					scale = pow 10 (neg n-digits-avg-mag)
+					scaled-diff = - (* a scale) (* b scale)
+					epsilon = pow 10 (neg sfs)
+					<? (abs scaled-diff) epsilon
+
+	near-0?. Method
+		doc. "
+			Whether it is close to zero.
+			It must be `0.0...` where there are `sig-figs` 0s after the decimal point.
+
+	impl! near-0? Num
+		test. |
+			! (near-0? 0.00999 2)
+			! (not (near-0? 0.01 2))
+		\ TODO: Optional arguments
+		|_ sig-figs:Opt[Nat]
+			sfs = get-or (Opt->? sig-figs) 6
+			\ This is more accurate than `pow 0.1 sfs`
+			max = pow 10 (neg sfs)
+			<? abs_ max
 
 Num
