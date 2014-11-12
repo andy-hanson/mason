@@ -4,10 +4,11 @@ use
 	.Alias-Type
 	.arithmetic-methods -> *
 	.assert -> !=
+	.bags.? -> ?none ?some
 	.bags.Array -> ->Array
 	.bags.Bag -> iterator
 	.bags.Stream -> streaming
-	.Bool -> and
+	.Bool -> and false not true
 	.Fun -> call
 	.js -> exists?
 	.Object -> has-property?
@@ -50,6 +51,32 @@ map~.
 		iter = iterator bag
 		`for (let em of iter) arr.push(yield* mapper(em))`
 		arr
+
+if~.
+	doc. "Runs through the sub-generator only if `condition`. Returns a `?` of the result."
+	test. |
+		stream = streaming ~|
+			a <~~ if~ true ~|
+				<~ 1
+				2
+			!= a (?some 2)
+			b <~~ if~ false ~|
+				<~ 3
+			!= b ?none
+		!= (->Array stream) (Array.of 1)
+
+	~|:? condition:Bool result:Fun[Generator]
+		case
+			condition
+				_ <~~ result ()
+				?some_
+			else
+				?none
+
+unless~.
+	doc. "Opposite of if~."
+	|condition:Bool result:Fun[Generator]
+		if~ (not condition) result
 
 \ TODO: Others...
 
