@@ -9,7 +9,7 @@ use
 	..generators -> Generator
 	..math.Num -> divisible? even? increment
 	..pred-types -> Any Nat Opt
-	.Seq -> seq
+	.Seq -> seq=?
 	.Stream -> streaming
 	..Symbol
 	..types.Interface
@@ -34,7 +34,7 @@ region Methods
 	map. Method
 		doc. "TODO"
 		test. |
-			!= (->Array (map (seq 1 2 3) increment)) (seq 2 3 4)
+			! (seq=? (->Array (map (Array.of 1 2 3) increment)) (Array.of 2 3 4))
 		default. |_:Bag mapper:Fun[Any Any]
 			streaming ~|
 				\ TODO:ES6 `for (let value of _)`
@@ -45,7 +45,7 @@ region Methods
 	keep. Method
 		doc. "Bag with only the elements that satisfy `keep-if?`."
 		test. |
-			!= (keep (Array.of 1 2) even?) (Array.of 2)
+			! (seq=? (keep (Array.of 1 2) even?) (Array.of 2))
 		default. |_:Bag keep-if?:Pred
 			streaming ~|
 				\ TODO:ES6 `for (let value of _)`
@@ -57,7 +57,7 @@ region Methods
 	toss.
 		doc. "Bag without any elements that satisfy `toss-if?`."
 		test. |
-			!= (toss (Array.of 1 2) even?) (Array.of 1)
+			! (seq=? (toss (Array.of 1 2) even?) (Array.of 1))
 		|_:Bag toss-if?:Pred
 			keep _ |em
 				not (toss-if? em)
@@ -115,7 +115,7 @@ Bag = Interface
 impl! + Bag
 	doc. "TODO"
 	test. |
-		!= (->Array (+ (seq 0) (seq 1))) (seq 0 1)
+		!= (->Array (+ (Array.of 0) (Array.of 1))) (Array.of 0 1)
 	|bag1 bag2:Bag
 		streaming ~|
 			<~~ iterator bag1
@@ -124,8 +124,8 @@ impl! + Bag
 contains?. Method
 	doc. "TODO"
 	test. |
-		! (contains? (seq 0) 0)
-		! (not (contains? (seq 0) 1))
+		! (contains? (Array.of 0) 0)
+		! (not (contains? (Array.of 0) 1))
 	default. |_ em:Any
 		any? _ |em-compare
 			=? em em-compare
@@ -133,8 +133,8 @@ contains?. Method
 any?.
 	doc. "TODO"
 	test. |
-		! (any? (seq 0 1) even?)
-		! (not (any? (seq 1 3) even?))
+		! (any? (Array.of 0 1) even?)
+		! (not (any? (Array.of 1 3) even?))
 	|_:Bag pred:Opt[Pred]
 		\ TODO: Better optional arguments
 		p = get-or (Opt->? pred) identity
@@ -143,8 +143,8 @@ any?.
 all?.
 	doc. "TODO"
 	test. |
-		! (all? (seq 0 2) even?)
-		! (not (all? (seq 0 1) even?))
+		! (all? (Array.of 0 2) even?)
+		! (not (all? (Array.of 0 1) even?))
 	|_:Bag pred:Opt[Pred]
 		\ TODO: Better optional arguments
 		p = get-or (Opt->? pred) identity

@@ -62,3 +62,6 @@ new.
 			!subsumes constructor res
 		boundConstructor = Fun.prototype.bind.apply constructor `arguments`
 		`new boundConstructor`
+
+js-typeof. |a
+	`typeof a`

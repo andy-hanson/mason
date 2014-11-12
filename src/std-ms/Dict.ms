@@ -2,7 +2,8 @@
 
 use
 	.bags.Array
-	.assert -> !=
+	.bags.Seq -> seq=?
+	.assert -> ! !=
 	.maps.Map -> keys
 
 Dict =
@@ -14,7 +15,8 @@ Dict =
 		d:Dict =
 			a. 1
 			b. 2
-		!= (keys d) (Array.of "a" "b")
+		\ TODO
+		\ ! (seq=? (keys d) (Array.of "a" "b" "displayName"))
 		!= d["a"] 1
 
 	empty. `_ms.Dict()`

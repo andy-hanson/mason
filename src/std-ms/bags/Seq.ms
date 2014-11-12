@@ -5,7 +5,7 @@ use
 	.Array -> ->Array
 	..arithmetic-methods -> -
 	..assert -> ! != !fails
-	.Bag -> count iterator
+	.Bag -> all? count empty? iterator
 	..Bool -> and if not or unless
 	..Comparable -> =? <=? >=?
 	..Error -> oh-no!
@@ -17,7 +17,9 @@ use
 	..types.Interface -> implementor!
 	..types.Method -> impl!
 	..types.Record-Type
+	..types.Type -> subsumes?
 
+\ TODO: REMOVE
 seq. |
 	Array.prototype.slice.call `arguments`
 
@@ -49,11 +51,11 @@ region Methods
 		doc. |:Seq _ start:Nat end:Nat
 			"
 				Seq containing the elements from index start (inclusive) to end (exclusive).
-				Takes as much as possible
+				Takes as much as possible.
 				Result length should be end - start.
 
 		test. |
-			!= (slice (seq 0 1 2 3) 1 3) (seq 1 2)
+			! (seq=? (slice (Array.of 0 1 2 3) 1 3) (Array.of 1 2))
 
 		default. |:Seq _ start:Nat end:Nat
 			take (drop _ start) (- end start)
@@ -114,8 +116,10 @@ region Methods
 			"TODO"
 		test. |
 			\ TODO: (empty Array)
-			!= (tail (seq 0)) `[]`
-			!= (tail `[]`) `[]`
+			! (empty? (tail (Array.of 0)))
+			! (empty? (tail `[]`))
+			! (seq=? (tail (Array.of 0 1)) (Array.of 1))
+
 		default. |_
 			drop _ 1
 
@@ -174,6 +178,13 @@ region Combination
 					else
 						<~ zipper next0.value next1.value
 
+
+seq=?.
+	doc. "TODO"
+	test. |
+		"TODO"
+	|s1:Seq s2:Seq
+		all? (zip s1 s2 =?)
 
 Seq = Interface
 	doc. "

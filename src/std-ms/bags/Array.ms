@@ -3,16 +3,19 @@
 use
 	..assert -> !=
 	.Bag -> count each! iterator map
+	..Bool -> and
+	..Comparable -> =?
 	..Fun -> call
 	..js -> global new
 	..Num -> Nat
 	..Object -> add-property!
 	..pred-types -> Any Nullable
-	.Seq
+	.Seq -> seq=?
 	..Str -> ->Str
 	.Stream -> streaming
 	..types.Interface -> implementor!
 	..types.Method ->  impl!
+	..types.Type -> subsumes?
 
 Array =
 	doc. "Javascript's native mutable Array type."
@@ -43,6 +46,7 @@ Array =
 		arr
 
 implementor! Array Seq
+
 impl! count Array |_
 	_.length
 \ TODO:ES6 This should be implemented for me
@@ -57,5 +61,11 @@ impl! ->Str Array
 	|_
 		ems = ->Array (map _ ->Str)
 		"Array {ems.join " "}"
+
+impl! =? Array
+	test. |
+		!= (Array.of 1) (Array.of 1)
+	|a b
+		and (subsumes? Array b) ~(and (=? a.length b.length) ~(seq=? a b))
 
 Array

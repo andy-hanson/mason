@@ -161,9 +161,7 @@ identity-memoize.
 spread.
 	doc. "TODO"
 	test. |
-		f = |a b c d
-			Array.of a b c d
-		x = spread f 1 2
+		x = spread Array.of 1 2
 			3 -> 4
 			5 -> 6
 		\ TODO: Shouldn't need ->Array
@@ -171,7 +169,7 @@ spread.
 			. Array.of 1 2 3 4
 			. Array.of 1 2 5 6
 
-		y = spread f 1 2 3
+		y = spread Array.of 1 2 3
 			. 4
 			. 5
 		!= (->Array y)
@@ -179,7 +177,7 @@ spread.
 			. Array.of 1 2 3 5
 
 	|fun:Fun
-		init-args = Array.prototype.slice.call `arguments` 0 `arguments.length - 1`
+		init-args = Array.prototype.slice.call `arguments` 1 `arguments.length - 1`
 		spreaded = `arguments[arguments.length - 1]`
 		case spreaded
 			:Bag
@@ -188,6 +186,9 @@ spread.
 					apply fun all-args
 			:Map
 				map keys_ |key
+					oth-args =
+						. key
+						. _[key]
 					all-args = + init-args
 						. key
 						. _[key]

@@ -2,13 +2,16 @@ use
 	.Array -> ->Array
 	..assert -> !=
 	.Bag -> all? iterator
+	..Bool -> and
 	..Comparable -> =?
 	..Fun -> identity
 	..Generator
-	.Seq -> zip
+	.Seq -> seq=? zip
+	..Str -> ->Str
 	..types.Interface -> implementor!
 	..types.Method -> impl!
 	..types.Record-Type
+	..types.Type -> subsumes?
 
 Stream = Record-Type
 	doc. "
@@ -23,7 +26,18 @@ impl! iterator Stream |_
 	_.make-iterator ()
 
 impl! =? Stream |s1 s2
-	all? (zip s1 s2 =?)
+	and (subsumes? Stream s2) (seq=? s1 s2)
+
+impl! ->Str Stream
+	test. |
+		x = streaming ~|
+			<~ 0
+			<~ 1
+		!= (->Str x) "Stream 0 1"
+	|_
+		"Stream {->Array_.join " "}"
+
+
 
 ->Stream. Method
 	doc. "TODO"
@@ -43,5 +57,6 @@ streaming.
 	|make-gen:Fun[Generator]
 		Stream
 			make-iterator. make-gen
+
 
 Stream
