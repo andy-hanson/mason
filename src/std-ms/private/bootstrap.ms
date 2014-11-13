@@ -101,7 +101,7 @@ type-of-sub?! Symbol "symbol"
 type-of-sub?! Num "number"
 
 \ TODO: Use subsumes? method
-type-!sub. |type subsumed name
+type-!sub. |type subsumed name \ TODO: name:Str
 	impl = get type syms.sub?
 	case! impl type subsumed
 		_

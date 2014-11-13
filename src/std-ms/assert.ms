@@ -4,7 +4,7 @@ use
 	.bags.Bag -> empty?
 	.Bool -> false true unless!
 	.Comparable -> =?
-	.Error -> ?catch oh-no!
+	.Error -> oh-no! try
 	.Fun -> Act
 	.js -> global
 	.pred-types -> Any
@@ -14,15 +14,11 @@ use
 	doc. "Fails with `message` when `cond` is false."
 	test. |
 		! true
-		!fails |
-			! false
-	|cond:Bool ~message
+		!fail-message "a" |
+			! false ~"a"
+	|cond:Bool ~error
 		unless! cond |
-			oh-no! case message
-				:Any
-					_
-				else
-					"!"
+			oh-no! ~error
 
 !=.
 	doc. "Equivalent to `! (=? a b)`, but with a better message."
@@ -42,21 +38,28 @@ use
 			!fails |
 				()
 	|act:Act
-		case! ?catch act
-			empty?_
-				oh-no! "Failed to fail."
-			else
-				()
+		_ = try act
+		! :Error "Failed to fail."
 
 !fails-with.
 	doc. "Asserts that an error is thrown by `act` and is of type `Error-Type`."
 	test. |
 		!fails-with global.TypeError |
 			1.undefined-method ()
-	|Error-Type act:Act
-		case! ?catch act
-			empty?_
-				oh-no! "Failed to fail."
-			else
-				!subsumes Error-Type _.val
+	|Error-Type:Type act:Act
+		_ = try act
+		! :Error "Failed to fail."
+		!subsumes Error-Type _ "error thrown by fails-with#act"
 
+!fail-message.
+	doc. "TODO"
+	test. |
+		!fail-message "msg" |
+			oh-no! "msg"
+	|expected-message act:Act
+		_ = try act
+		! :Error "Failed to fail."
+		use
+			.Bool -> not
+		! (not (=? _.message "[object Object]")) _.message \ TODO: REMOVE
+		!= _.message expected-message

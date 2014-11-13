@@ -62,7 +62,7 @@ get-property.
 
 	|_:Object name:Str/Sym
 		in
-			! (has-property? _ name) ~"{_} has no property {name}"
+			! (has-property? _ name) ~"Property {name} not found in {_}"
 
 		(get _ name)
 

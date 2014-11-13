@@ -7,11 +7,10 @@ use
 	.Record-Type
 	.Type -> subsumes?
 
-\ TODO:ES6 Should be able to use .Str
 Str = `global.String`
 
 Alias-Type. Record-Type
-	doc. "Subsumes the same instances as another type, but has its own meaning and identity."
+	doc. "Subsumes the same instances as another type (officially), but has its own meaning and identity."
 	test. |
 		A = Alias-Type
 			alias-of. Str
@@ -20,9 +19,6 @@ Alias-Type. Record-Type
 	members.
 		displayName. Str
 		alias-of. Type
-	defaults.
-		displayName. |_
-			"Alias of {_.alias-of}"
 	extensible. true
 
 implementor! Alias-Type Type

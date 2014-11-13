@@ -2,79 +2,106 @@ doc. "TODO"
 
 use
 	.bags.? -> ?none ?some
-	.assert -> ! !=
+	.assert -> ! != !fail-message
 	.Bool -> true
 	.Fun -> Act delegate-to ignore thunk
 	.js -> global
 	.Object -> change-property! set-property!
 	.pred-types -> Any
 	.Str
+	.types.Interface -> implementor!
+	.types.Record-Type
 
 Error = global.Error
 
-\ TODO: Rethink this API.
-\ TODO: Try-Result type.
+\ TODO: public?
+make-Error = |error
+	Err = Error \ un-lazy Error
+	`try { const err = _ms.unlazy(error); if (err instanceof Err) return err; if (typeof err === "string") return new Err(err); throw new Error("Argument to oh-no! must be Error or String") } catch (e) { return new Err("Error making error: " + e.message) }`
+	oh-no! "Error making error about error making error. You really messed that one up."
+
+\ TODO: Move next to TODO (the function)
+unreachable!. ~(oh-no! "This should not be reachable")
 
 oh-no!.
 	doc. "TODO"
-	|~message
-		Err = Error \ un-lazy Error
-		msg = message
-		err ::= ()
-		`try { err =  new Err(msg) } catch (e) { err = new Err("Error producing error message: " + e.message) }`
+	test. |
+		\ !fails-with ... \ TODO
+		!fail-message "a" |
+			oh-no! "a"
+	|~error
+		\ TODO: Optional arguments
+		`if (error === undefined) error = "oh-no!"`
+		err = make-Error ~error
 		`throw err`
 		()
 
-throw!.
+Attempt. Interface
 	doc. "TODO"
-	|error:Error
-		`throw error`
-		()
+Success. Record-Type
+	doc. "TODO"
+	members.
+		val.
+implementor! Success Attempt
+implementor! Error Attempt
+\ TODO: Closed interfaces?
 
-re-throw!. throw!
+try-finally.
+	doc. "Executes `finally-do`, even if there are errors."
+	test. |
+		a ::= 0
+		try |
+			try-finally oh-no! |
+				a := 1
+		!= a 1
+	|tried:Fun[Any] finally-do:Act
+		fd = finally-do
+		`try { return tried() } finally { fd() }`
+		unreachable!
+
+try.
+	doc. "If `tried` throws an error returns it; else returns Success of its result."
+	test. |
+		succ = |x
+			Success
+				val. x
+		!= (try (thunk 1)) (succ 1)
+		on = try |
+			oh-no! "Too bad"
+		!= (try oh-no!) (make-Error "Too bad")
+	|tried:Fun[Any]
+		s = |x
+			Success
+				val. x
+		`try { return s(tried()) } catch (e) { return e }`
+		unreachable!
 
 ?try.
-	doc. "TODO"
+	doc. "If it works, ?some of the result, otherwise ?none."
 	test. |
 		!= (?try oh-no!) ?none
 		!= (?try (thunk 1)) (?some 1)
-	|try:Act
-		try-some = |
-			?some (try ())
-		try-catch try-some |
-			?none
-
-?catch.
-	doc. "TODO"
-	|try:Act
-		try-none = |
-			try ()
-			?none
-		try-catch try-none ?some
-
-try-catch.
-	doc. "TODO"
-	|try:Act catch:Fun[Error Any]
-		try-catch-finally try catch ignore
-
-try-catch-finally.
-	doc. "TODO"
-	test. |
-		!= (try-catch-finally oh-no! (thunk 1) ignore) 1
-	|try:Act catch:Fun[Error Any] finally:Act
-		res ::= ()
-		`try{res=_try()}catch(error){res=_catch(error)}finally{_finally()}`
-		res
+	|tried:Fun[Any]
+		case try tried
+			:Success
+				?some _.val
+			else
+				?none
 
 annotate-errors.
 	doc. "TODO"
-	|~annotation:Str try:Act
-		try-catch try |error
-			change-property! error "stack" "{annotation}{error.stack}"
-			change-property! error "message" "{annotation}{error.message}"
-			re-throw! error
+	test. |
+		"TODO"
+	|~annotation:Str tried:Act
+		case try tried
+			:Success
+				_.val
+			else
+				change-property! _ "stack" "{annotation}{_.stack}"
+				change-property! _ "message" "{annotation}{_.message}"
+				oh-no! _
 
-custom-error-type =
+error-type.
 	doc. "TODO"
 	test. |
 		"TODO"
@@ -95,3 +122,5 @@ custom-error-type =
 		Object.assign it opts
 		set-property! it "prototype" (Object.create Error.prototype)
 		it
+
+Error
