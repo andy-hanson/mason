@@ -11,6 +11,7 @@ use
 	.math.Num
 	.Object -> add-property! get-property has-property? own-property-names
 	.pred-types -> Null Union
+	.private.ms -> symStr
 	.Symbol
 	.types.Interface
 	.types.Method -> impl! impl-override!
@@ -21,7 +22,22 @@ use
 Str = global.String
 
 indent.
-	doc. "TODO"
+	doc. "
+		Adds a `\\t` to all `\\n` in `str`.
+		Does *not* do anything to the first line.
+
+	test. |
+		!= (indent "a") "a"
+		s = "
+			a
+			b
+
+		s-indented = "
+			a
+				b
+
+		!= (indent s) (s-indented)
+
 	|str:Str
 		"{str.replace `/\n/g` "\n\t"}"
 
@@ -50,7 +66,7 @@ inspect. Method
 		:Object
 			key-vals = (Object.keys _).map |key
 				\ TODO: Recursive ->Str needs checks
-				val:Str = ->Str (get-property _ key)
+				val:Str = ->Str `_[key]`
 				"{key}. {indent val}"
 
 			"
@@ -64,8 +80,13 @@ inspect. Method
 \ This is what is used by quote interpolation
 ->Str. Method
 	doc. |:Str _
-		"TODO"
-	impl-symbol. `_ms.symStr`
+		"
+			Converts the value to a string for string interpolation.
+			This is the method called when you do `\{...}`.
+			For a more detailed Str representation of data, use `inspect`.
+			`->Str` defaults to `inspect`.
+
+	impl-symbol. symStr
 	default. inspect
 
 \ TODO: These are all Type_s. impl! on Type once.

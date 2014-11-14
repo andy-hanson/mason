@@ -18,6 +18,7 @@ use
 	.Map! -> set!
 	..math.Num -> even?
 	..pred-types -> Any
+	..private.ms
 	..types.Interface -> implementor!
 	..types.Method -> impl!
 	..types.Record-Type
@@ -80,7 +81,7 @@ impl! set! Hash-Map |hm key:Any val:Any
 			\ be = ?bucket-entry bucket key
 			\ if it's there: set-property! be "val" val
 
-add-property! (get-property global "_ms") "map"  |
+add-property! ms "map"  |
 	hm = Hash-Map.new-empty ()
 	i ::= 0
 	args = `arguments`

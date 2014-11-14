@@ -3,13 +3,16 @@ doc. "TODO"
 use
 	.arithmetic-methods -> +
 	.assert -> ! != !fails
-	.bags.? -> ?none ?some
+	.bags.? -> ?none ?some Opt->?
 	.bags.Array
 	.bags.Bag -> each!
+	.bags.Seq -> seq=?
+	.bags.Stream -> ->Stream
 	.Bool -> and false if not nor true
 	.Comparable -> =?
 	.Dict
 	.js -> global identical? js-typeof
+	.maps.Map -> keys
 	.pred-types -> Any Union
 	.Symbol
 	.types.Type -> subsumes?
@@ -35,61 +38,60 @@ send!. send
 
 \ TODO: Convert to iterator
 own-properties.
-	doc. "TODO"
+	doc. "
+		Every property name directly stored in an object.
+		Includes non-enumerable properties and symbols.
+
 	test. |
-		"TODO"
-	|_:Object
-		+ (Object.getOwnPropertyNames _) (Object.getOwnPropertySymbols _)
+		obj = `{}`
+		add-property! obj "a" 0
+		sym = Symbol "s"
+		Object.defineProperty obj sym
+			value. 0
+			enumerable. false
+		! (seq=? (own-properties obj) (Array.of "a" sym))
+	|:Seq[Str/Sym] _:Object
+		+ (->Stream (Object.getOwnPropertyNames _)) (Object.getOwnPropertySymbols _)
 
-own-property-names.
-	doc. "TODO"
+own-enumerable-properties.
+	doc. "Like own-properties, but excludes non-enumerable properties and symbols."
 	test. |
-		x =
-			a. 1
-			b. 2
-		!= (own-property-names x) (Array "a" "b" "displayName")
-	|object:Object
-		Object.getOwnPropertyNames object
-
-get-property.
-	doc. "TODO"
-	test. |
-		x =
-			a. 1
-		!= (get-property x "a") 1
-		!fails |
-			get-property x "b"
-
-	|_:Object name:Str/Sym
-		in
-			! (has-property? _ name) ~"Property {name} not found in {_}"
-
-		(get _ name)
+		obj = `{}`
+		add-property! obj "a"
+			value. 0
+			enumerable. false
+		sym = Symbol "s"
+		Object.defineProperty obj sym
+			value. 0
+			enumerable. true
+		! (seq=? (own-properties obj) `[]`) \ TODO: empty Array
+	|:Seq[Str] _:Object
+		Object.keys _
 
 ?get-property.
 	doc. "TODO"
 	test. |
 		x =
 			a. 1
+			b.
 		!= (?get-property x "a") (?some 1)
 		!= (?get-property x "b") ?none
+		!= (?get-property x "toString") ?none \ Does not inherit from prototype.
 	|_:Object name:Str/Sym
-		if (has-property? _ name) |
-			get-property _ name
+		case
+			has-property? _ name
+				Opt->? (get _ name)
+			else
+				?none
 
-get-property-or-in-prototype.
+?get-property-or-in-prototype.
 	doc. "TODO"
 	test. |
 		x = Dict.empty
-		!= (get-property-or-in-prototype x "toString") Object.prototype.toString
-		!fails |
-			get-property-or-in-prototype x "All toasters toast toast!"
-
+		!= (?get-property-or-in-prototype x "toString") (?some Object.prototype.toString)
+		!= (?get-property-or-in-prototype x "This property is unlikely to be defined") ?none
 	|object:Object name:Str/Sym
-		in
-			! (has-property-or-in-prototype? object name)
-
-		get object name
+		Opt->? (get object name)
 
 add-property!.
 	doc. "TODO"
@@ -134,8 +136,8 @@ extend!.
 			a. 1
 		!= x.a 1
 	|object:Object extender:Dict
-		each! (own-property-names extender) |name
-			add-property! object name (get-property extender name)
+		each! (keys extender) |name
+			add-property! object name extender[name]
 
 change-property!.
 	doc. "TODO"

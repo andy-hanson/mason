@@ -19,17 +19,19 @@ use
 	.types.Type -> !subsumes subsumes?
 
 Opt. Pred-Type
-	doc. "TODO"
+	doc. "A value which could be null or undefined."
 	predicate. |
 		`true`
 
-impl-direct! sub Opt |Exists-Type
-	ET = Exists-Type
-	Opt-Sub
-		Exists-Type. ET
+impl-direct! sub Opt
+	doc. "Subsumes null, undefined, or an instance of Exists-Type."
+	|Exists-Type
+		ET = Exists-Type
+		Opt-Sub
+			Exists-Type. ET
 
 Opt-Sub = Record-Type
-	doc. "TODO"
+	doc. "Result of calling Opt[something]."
 	members.
 		Exists-Type. Type
 

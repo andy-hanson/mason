@@ -129,5 +129,4 @@ region MS Methods
 					i := `i + 1`
 		s
 
-use
-	.my-tests
+ms

@@ -8,7 +8,7 @@ use
 	.Fun -> identity-memoize
 	.math.bit-arithmetic -> bit-and hexidecimal
 	.math.Num -> Int round-towards-0
-	.Object -> ?get-property get-property own-properties
+	.Object -> ?get-property own-properties
 	.Str -> ->Str
 	.Symbol
 	.types.Method -> impl!
@@ -41,8 +41,9 @@ hash-code =  Method
 			else
 				hash ::= 17
 				each! own-properties_ |prop
-					hash := keep-small (* hash 23)
-					hash := keep-small (+ hash (hash-code (get-property _ prop)))
+					each! (?get-property _ prop) |val
+						hash := keep-small (* hash 23)
+						hash := keep-small (+ hash (hash-code val))
 				hash
 
 \ Since default hash-code only works on objects, let's implement hash-code for primitives.

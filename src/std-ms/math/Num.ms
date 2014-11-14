@@ -15,10 +15,10 @@ Num = global.Number
 Math = global.Math
 
 region Constants
-	infinity. get-property Num "POSITIVE_INFINITY"
-	-infinity. get-property Num "NEGATIVE_INFINITY"
+	infinity. `Num.POSITIVE_INFINITY` \get-property Num "POSITIVE_INFINITY"
+	-infinity. `Num.NEGATIVE_INFINITY` \get-property Num "NEGATIVE_INFINITY"
 	not-a-number. Num.NaN
-	max-safe-integer. get-property Num "MAX_SAFE_INTEGER"
+	max-safe-integer. `Num.MAX_SAFE_INTEGER`\get-property Num "MAX_SAFE_INTEGER"
 	pi. Math.PI
 	pi/2. `pi / 2`
 	pi3/2. `pi * 3 / 2`

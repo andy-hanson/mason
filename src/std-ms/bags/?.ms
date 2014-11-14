@@ -50,6 +50,7 @@ impl! ->Str ? |case
 		"?some {_.val}"
 
 impl! iterator ? ~|case!
+	\ TODO: Use unless~ instead of case!
 	empty?_
 		()
 	else

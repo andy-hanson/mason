@@ -15,10 +15,10 @@ Dict =
 		d:Dict =
 			a. 1
 			b. 2
-		\ TODO
-		\ ! (seq=? (keys d) (Array.of "a" "b" "displayName"))
+		! (seq=? (keys d) (Array.of "a" "b" "displayName"))
 		!= d["a"] 1
 
+	\ TODO: `empty` method
 	empty. `_ms.Dict()`
 	`_ms`.Dict
 

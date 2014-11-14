@@ -16,7 +16,7 @@ use
 	.types.Pred-Type
 	.types.Type -> subsumes?
 
-Generator. Pred-Type
+Generator! = Pred-Type
 	doc. "TODO"
 	predicate. |_
 		and :Object ~(subsumes? Fun _.next)
@@ -29,7 +29,7 @@ each~.
 			<~~ each~ (Array 1 2 3) ~|em
 				<~ em
 		!= (->Array x) (Array 1 2 3)
-	~|bag:Bag do-each:Fun[Any Generator]
+	~|bag:Bag do-each:Fun[Any Generator!]
 		\ TODO:ES6 for (let em of bag)
 		iter = iterator bag
 		de = do-each
@@ -45,7 +45,7 @@ map~.
 				* 2 em
 			!= (->Array two-four-six) (Array.of 2 4 6)
 		!= (->Array x) (Array.of 1 2 3)
-	~|:Bag bag:Bag mapper:Fun[Any Generator]
+	~|:Bag bag:Bag mapper:Fun[Any Generator!]
 		arr = `[]`\ new Array
 		\ TODO:ES6 for (let em of bag)
 		iter = iterator bag
@@ -65,7 +65,7 @@ if~.
 			!= b ?none
 		!= (->Array stream) (Array.of 1)
 
-	~|:? condition:Bool result:Fun[Generator]
+	~|:? condition:Bool result:Fun[Generator!]
 		case
 			condition
 				_ <~~ result ()
@@ -75,9 +75,9 @@ if~.
 
 unless~.
 	doc. "Opposite of if~."
-	|condition:Bool result:Fun[Generator]
+	|condition:Bool result:Fun[Generator!]
 		if~ (not condition) result
 
 \ TODO: Others...
 
-Generator
+Generator!

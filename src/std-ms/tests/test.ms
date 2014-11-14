@@ -7,7 +7,7 @@ use
 	..console -> log!
 	..Error -> annotate-errors oh-no!
 	..Fun -> ignore
-	..Object -> ?get-property get-property has-property? own-property-names
+	..Object -> ?get-property get-property has-property? own-enumerable-properties
 	..Map -> get
 	path
 	..pred-types -> Any
@@ -27,15 +27,11 @@ impl! test-special Method |_
 test-module.
 	doc. "TODO"
 	|module
-		name = get-or (?get-property module "displayName") "Anonymous module"
-		maybe-test name module
-		each! (Object.keys module) |name
-			prop = get-property module name
-			case! prop
-				:Any
-					maybe-test name (get-property module name)
-				else
-					()
+		module-name = get-or (?get-property module "displayName") "Anonymous module"
+		maybe-test module-name module
+		each! (own-enumerable-properties module) |name
+			each! (?get-property module name) |_
+				maybe-test name _
 
 maybe-test = |name:Str value:Any
 	annotate-errors ~"In {name}:\n" |

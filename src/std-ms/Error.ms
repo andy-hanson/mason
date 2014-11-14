@@ -11,6 +11,7 @@ use
 	.Str
 	.types.Interface -> implementor!
 	.types.Record-Type
+	.types.Type -> !subsumes
 
 Error = global.Error
 
@@ -21,10 +22,15 @@ make-Error = |error
 	oh-no! "Error making error about error making error. You really messed that one up."
 
 \ TODO: Move next to TODO (the function)
-unreachable!. ~(oh-no! "This should not be reachable")
+unreachable!. |
+	oh-no! "This should not be reachable."
 
 oh-no!.
-	doc. "TODO"
+	doc. "
+		Throws an Error.
+		If `error` is a Str, it will be put into a new Error.
+		If it is possible for the creation of `error` to fail, make it lazy.
+
 	test. |
 		\ !fails-with ... \ TODO
 		!fail-message "a" |
@@ -37,9 +43,9 @@ oh-no!.
 		()
 
 Attempt. Interface
-	doc. "TODO"
+	doc. "Result of running failable code."
 Success. Record-Type
-	doc. "TODO"
+	doc. "Attempt that did not fail. _.val is the result of the attempted code."
 	members.
 		val.
 implementor! Success Attempt
@@ -57,24 +63,25 @@ try-finally.
 	|tried:Fun[Any] finally-do:Act
 		fd = finally-do
 		`try { return tried() } finally { fd() }`
-		unreachable!
+		unreachable! ()
 
 try.
-	doc. "If `tried` throws an error returns it; else returns Success of its result."
+	doc. "
+		If `tried` throws an error, returns it; else returns Success of its result.
+		If you don't care about the value of the error, use `?try` instead.
+
 	test. |
 		succ = |x
 			Success
 				val. x
 		!= (try (thunk 1)) (succ 1)
-		on = try |
-			oh-no! "Too bad"
 		!= (try oh-no!) (make-Error "Too bad")
 	|tried:Fun[Any]
 		s = |x
 			Success
 				val. x
 		`try { return s(tried()) } catch (e) { return e }`
-		unreachable!
+		unreachable! ()
 
 ?try.
 	doc. "If it works, ?some of the result, otherwise ?none."
@@ -101,13 +108,19 @@ annotate-errors.
 				change-property! _ "message" "{annotation}{_.message}"
 				oh-no! _
 
+\ TODO: Just make it a Record-Type with message/stack properties whose default if `new Error(msg)`.stack
 error-type.
-	doc. "TODO"
+	doc. "Makes a new custom error types."
 	test. |
-		"TODO"
+		() \ Relies on below TODO
+		\ET = error-type
+		\	doc. "ET"
+		\x = ET "message"
+		\!subsumes Error x
+		\!= x.message "message"
 	|opts
 		it =
-			displayName. `undefined`
+			displayName. `undefined` \ TODO: Ability to not have displayName
 			|message
 				msg = message
 				Object.defineProperties this

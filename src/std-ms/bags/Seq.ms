@@ -6,6 +6,7 @@ use
 	..arithmetic-methods -> -
 	..assert -> ! != !fails
 	.Bag -> all? count empty? iterator
+	..basic-methods -> sub
 	..Bool -> and if not or unless
 	..Comparable -> =? <=? >=?
 	..Error -> oh-no!
@@ -15,7 +16,7 @@ use
 	..pred-types -> Any
 	.Stream -> streaming
 	..types.Interface -> implementor!
-	..types.Method -> impl!
+	..types.Method -> impl! impl-direct!
 	..types.Record-Type
 	..types.Type -> subsumes?
 
@@ -180,11 +181,16 @@ region Combination
 
 
 seq=?.
-	doc. "TODO"
+	doc. "
+		Whether two sequences share the same elements, regardless of their types.
+		Equivalent to `=? (->Array seq0) (->Array seq1)`
+
 	test. |
-		"TODO"
-	|s1:Seq s2:Seq
-		all? (zip s1 s2 =?)
+		s = streaming ~|
+			<~ 1
+		! (seq=? (Array.of 1) s)
+	|seq0:Seq seq1:Seq
+		all? (zip seq0 seq1 =?)
 
 Seq = Interface
 	doc. "
@@ -192,5 +198,8 @@ Seq = Interface
 		Basically, any Bag that's not a Set.
 
 implementor! Seq Bag
+
+impl-direct! sub Seq |
+	Seq
 
 Seq

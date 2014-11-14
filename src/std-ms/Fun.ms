@@ -24,11 +24,18 @@ use
 Fun = global.Function
 
 Act. Alias-Type
-	doc. "TODO"
+	doc. "
+		A function returning nothing.
+		Fun[Num] is a function taking nothing and returning a Num;
+		Act[Num] is a function taking a Num and returning nothing.
+
 	alias-of. Fun
 
+\ TODO: Consider whether this is needed.
 Pred. Alias-Type
-	doc. "TODO"
+	doc. "
+		Basically, Fun[Any Bool].
+
 	alias-of. Fun
 
 apply.
@@ -203,7 +210,8 @@ thunk.
 	|a |
 		a
 
-TODO. ~(oh-no! "This function has not yet been implemented.")
+TODO. |
+	oh-no! "This function has not yet been implemented."
 
 \ TODO: MOVE
 impl! ->Str Fun |case
