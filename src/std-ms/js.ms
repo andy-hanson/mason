@@ -21,7 +21,7 @@ identical?.
 
 	test. |
 		! (identical? "a" "a")
-		! (not (identical? (Array.of "a") (Array.of "a")))
+		! (not (identical? [ "a" ] [ "a" ]))
 
 	Object.is
 
@@ -37,7 +37,7 @@ truthy?.
 			. false
 		each! falsy |_
 			! (not truthy?_)
-		! (truthy? Array.empty)
+		! (truthy? [])
 		! (truthy? true)
 
 	|:Bool a

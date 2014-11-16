@@ -67,7 +67,7 @@ region Symbols
 
 region Block Creators
 	set! ms "mkArray" |
-		as-Array = global.Array.apply () `arguments`
+		as-Array = global.Array.prototype.slice.call `arguments`
 		global.Object.freeze as-Array
 
 	Dict = |

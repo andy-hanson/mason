@@ -15,7 +15,7 @@ Dict =
 		d:Dict =
 			a. 1
 			b. 2
-		! (seq=? (keys d) (Array.of "a" "b" "displayName"))
+		! (seq=? (keys d) [ "a" "b" "displayName" ])
 		!= d["a"] 1
 
 	\ TODO: `empty` method

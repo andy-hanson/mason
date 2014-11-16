@@ -1,7 +1,6 @@
 use
 	.? -> ?none ?some get-or Opt->?
 	..arithmetic-methods -> +
-	.Array -> ->Array
 	..assert -> ! !=
 	..Bool -> false not true
 	..Comparable -> =?
@@ -34,7 +33,7 @@ region Methods
 	map. Method
 		doc. "TODO"
 		test. |
-			! (seq=? (->Array (map (Array.of 1 2 3) increment)) (Array.of 2 3 4))
+			! (seq=? (map [ 1 2 3 ] increment) [ 2 3 4 ])
 		default. |_:Bag mapper:Fun[Any Any]
 			streaming ~|
 				\ TODO:ES6 `for (let value of _)`
@@ -45,7 +44,7 @@ region Methods
 	keep. Method
 		doc. "Bag with only the elements that satisfy `keep-if?`."
 		test. |
-			! (seq=? (keep (Array.of 1 2) even?) (Array.of 2))
+			! (seq=? (keep [ 1 2 ] even?) [ 2 ])
 		default. |_:Bag keep-if?:Pred
 			streaming ~|
 				\ TODO:ES6 `for (let value of _)`
@@ -57,7 +56,7 @@ region Methods
 	toss.
 		doc. "Bag without any elements that satisfy `toss-if?`."
 		test. |
-			! (seq=? (toss (Array.of 1 2) even?) (Array.of 1))
+			! (seq=? (toss [ 1 2 ] even?) [ 1 ])
 		|_:Bag toss-if?:Pred
 			keep _ |em
 				not (toss-if? em)
@@ -65,12 +64,12 @@ region Methods
 	flat-map. Method
 		doc. "TODO"
 		test. |
-			x = flat-map (Array 1 2 3 4) |case
+			x = flat-map [ 1 2 3 4 ] |case
 				divisible? _ 2
-					Array _ _
+					[ _ _ ]
 				else
 					?some _
-			!= (->Array x) (Array 1 2 2 3 4 4)
+			! (seq=? x [ 1 2 2 3 4 4 ] )
 		default. |_:Bag mapper:Fun[Any Bag]
 			streaming ~|
 				x:Bag = _
@@ -88,7 +87,7 @@ region Functions requiring just the iterator
 	fold.
 		doc. "TODO"
 		test. |
-			!= (fold (Array 1 2 3) 4 +) 10
+			!= (fold [ 1 2 3 ] 4 +) 10
 		|_:Bag start:Any folder:Fun[Any Any Any]
 			acc ::= start
 			each! _ |em
@@ -115,7 +114,8 @@ Bag = Interface
 impl! + Bag
 	doc. "TODO"
 	test. |
-		!= (->Array (+ (Array.of 0) (Array.of 1))) (Array.of 0 1)
+		() \ TODO
+		\ != (->Array (+ [ 0 ] [ 1 ])) [ 0 1 ]
 	|bag1 bag2:Bag
 		streaming ~|
 			<~~ iterator bag1
@@ -124,8 +124,8 @@ impl! + Bag
 contains?. Method
 	doc. "TODO"
 	test. |
-		! (contains? (Array.of 0) 0)
-		! (not (contains? (Array.of 0) 1))
+		! (contains? [ 0 ] 0)
+		! (not (contains? [ 0 ] 1))
 	default. |_ em:Any
 		any? _ |em-compare
 			=? em em-compare
@@ -133,8 +133,8 @@ contains?. Method
 any?.
 	doc. "TODO"
 	test. |
-		! (any? (Array.of 0 1) even?)
-		! (not (any? (Array.of 1 3) even?))
+		! (any? [ 0 1 ] even?)
+		! (not (any? [ 1 3 ] even?))
 	|_:Bag pred:Opt[Pred]
 		\ TODO: Better optional arguments
 		p = get-or (Opt->? pred) identity
@@ -143,8 +143,8 @@ any?.
 all?.
 	doc. "TODO"
 	test. |
-		! (all? (Array.of 0 2) even?)
-		! (not (all? (Array.of 0 1) even?))
+		! (all? [ 0 2 ] even?)
+		! (not (all? [ 0 1 ] even?))
 	|_:Bag pred:Opt[Pred]
 		\ TODO: Better optional arguments
 		p = get-or (Opt->? pred) identity

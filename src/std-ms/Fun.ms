@@ -6,7 +6,7 @@ use
 	.bags.? -> get-or
 	.bags.Array -> ->Array
 	.bags.Bag -> each! map
-	.bags.Seq -> <+ +> seq
+	.bags.Seq
 	.basic-methods -> sub
 	.Error -> oh-no!
 	.js -> global new
@@ -41,7 +41,7 @@ Pred. Alias-Type
 apply.
 	doc. "Calls the function with the given arguments list."
 	test. |
-		!= (apply + (seq 1 2)) 3
+		!= (apply + [ 1 2 ]) 3
 	|f:Fun arguments:Seq
 		Fun.prototype.apply.call f () (->Array arguments)
 
@@ -57,7 +57,7 @@ apply-with-this.
 	test. |
 		f = |a
 			+ this a
-		!= (apply-with-this f 1 (Array.of 2)) 3
+		!= (apply-with-this f 1 [ 2 ]) 3
 	|f:Fun new-this:Any arguments:Seq
 		\ TODO:ES6 f ...args
 		Fun.prototype.apply.call f new-this (->Array arguments)
@@ -78,12 +78,12 @@ curry.
 		+1 = curry + 1
 		!= (+1 1) 2
 		all-3 = |a b c
-			Array.of a b c
+			[ a b c ]
 		one-two = curry all-3 1 2
-		!= (one-two 3) (Array.of 1 2 3)
+		!= (one-two 3) [ 1 2 3 ]
 
 	|f:Fun \ ...args TODO:ES6
-		\ args = ->Array (<+ (Array.prototype.slice.call `arguments` 1) ())
+		\ args = ->Array (+ (Array.prototype.slice.call `arguments` 1) [ () ])
 		Fun.prototype.bind.apply f `[null].concat(global.Array.prototype.slice.call(arguments, 1))`
 
 curry-with-this.
@@ -168,20 +168,22 @@ identity-memoize.
 spread.
 	doc. "TODO"
 	test. |
-		x = spread Array.of 1 2
+		all-4 = |a b c d
+			[ a b c d ]
+		x = spread all-4 1 2
 			3 -> 4
 			5 -> 6
 		\ TODO: Shouldn't need ->Array
 		!= (->Array x)
-			. Array.of 1 2 3 4
-			. Array.of 1 2 5 6
+			. [ 1 2 3 4 ]
+			. [ 1 2 5 6 ]
 
-		y = spread Array.of 1 2 3
+		y = spread all-4 1 2 3
 			. 4
 			. 5
 		!= (->Array y)
-			. Array.of 1 2 3 4
-			. Array.of 1 2 3 5
+			. [ 1 2 3 4 ]
+			. [ 1 2 3 5 ]
 
 	|fun:Fun
 		init-args = Array.prototype.slice.call `arguments` 1 `arguments.length - 1`
@@ -189,7 +191,7 @@ spread.
 		case spreaded
 			:Bag
 				map _ |em
-					all-args = +> init-args em
+					all-args = + init-args [ em ]
 					apply fun all-args
 			:Map
 				map keys_ |key

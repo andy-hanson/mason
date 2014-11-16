@@ -6,6 +6,7 @@ use
 	..bags.? -> ?none get-or
 	..bags.Array -> ->Array
 	..bags.Bag -> ?first-where count empty? flat-map map
+	..bags.Seq -> seq=?
 	..basic-methods -> freeze
 	..Bool -> not
 	..Comparable -> =?
@@ -23,8 +24,6 @@ use
 	..types.Method -> impl!
 	..types.Record-Type
 
-\ TODO (long term): could be more efficient.
-
 Hash-Map = Record-Type
 	doc. "TODO"
 	\ TODO: `new-empty` method
@@ -37,7 +36,7 @@ Hash-Map = Record-Type
 			3 -> 4
 		!= _[1] 2
 		!= _[3] 4
-		!= (->Array keys_) (Array.of 1 3)
+		! (seq=? keys_ [ 1 3 ])
 		!= (?get _ 8) ?none
 
 	members.
@@ -52,7 +51,7 @@ Hash-Map = Record-Type
 		=? key _.key
 
 impl! ?get Hash-Map |:? _ key:Any
-	\ TODO: Array!.empty
+	\ TODO: empty Array!
 	bucket = get-or (?bucket _ key) `[]`
 	map (?bucket-entry bucket key) |be
 		be.val

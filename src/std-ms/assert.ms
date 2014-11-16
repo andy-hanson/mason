@@ -1,6 +1,7 @@
 doc. "TODO"
 
 use
+	.bags.? -> get-or Opt->?
 	.bags.Bag -> empty?
 	.Bool -> false true unless!
 	.Comparable -> =?
@@ -18,7 +19,9 @@ use
 			! false ~"a"
 	|cond:Bool ~error
 		unless! cond |
-			oh-no! ~error
+			\ TODO: Optional arguments
+			err ~= get-or (Opt->? error) "Assertion failed."
+			oh-no! ~err
 
 !=.
 	doc. "Equivalent to `! (=? a b)`, but with a better message."

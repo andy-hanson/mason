@@ -1,7 +1,8 @@
 use
-	..assert -> !=
+	..assert -> ! !=
 	..bags.? -> Opt->?
 	..bags.Array -> ->Array
+	..bags.Seq -> seq=?
 	..bags.Stream
 	..js -> global new
 	.Map -> ?get has-key? keys values
@@ -26,8 +27,8 @@ Identity-Map! =
 		!= _[key-1] 3
 		!= _[key-2] 4
 
-		!= (->Array keys_) (Array.of 1 key-1 key-2)
-		!= (->Array values_) (Array.of 2 3 4)
+		! (seq=? keys_ [ 1 key-1 key-2 ])
+		! (seq=? values_ [ 2 3 4 ])
 
 	global.Map
 

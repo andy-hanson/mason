@@ -49,7 +49,7 @@ own-properties.
 		Object.defineProperty obj sym
 			value. 0
 			enumerable. false
-		! (seq=? (own-properties obj) (Array.of "a" sym))
+		! (seq=? (own-properties obj) [ "a" sym ])
 	|:Seq[Str/Sym] _:Object
 		+ (->Stream (Object.getOwnPropertyNames _)) (Object.getOwnPropertySymbols _)
 
@@ -64,7 +64,7 @@ own-enumerable-properties.
 		Object.defineProperty obj sym
 			value. 0
 			enumerable. true
-		! (seq=? (own-properties obj) `[]`) \ TODO: empty Array
+		! (seq=? (own-properties obj) [])
 	|:Seq[Str] _:Object
 		Object.keys _
 

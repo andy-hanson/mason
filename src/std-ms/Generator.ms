@@ -3,10 +3,11 @@ doc. "TODO"
 use
 	.Alias-Type
 	.arithmetic-methods -> *
-	.assert -> !=
+	.assert -> ! !=
 	.bags.? -> ?none ?some
 	.bags.Array -> ->Array
 	.bags.Bag -> iterator
+	.bags.Seq -> seq=?
 	.bags.Stream -> streaming
 	.Bool -> and false not true
 	.Fun -> call
@@ -20,7 +21,6 @@ Generator! = Pred-Type
 	doc. "TODO"
 	predicate. |_
 		and :Object ~(subsumes? Fun _.next)
-
 
 each~.
 	doc. "A generator that goes through every element of `bag`, yielding to `do-each` of it."
@@ -40,11 +40,11 @@ map~.
 	doc. "A generator that iterates through every element of `bag`, yielding the mapped value."
 	test. |
 		x = streaming ~|
-			two-four-six <~~ map~ (Array.of 1 2 3) ~|em
+			two-four-six <~~ map~ [ 1 2 3 ] ~|em
 				<~ em
 				* 2 em
-			!= (->Array two-four-six) (Array.of 2 4 6)
-		!= (->Array x) (Array.of 1 2 3)
+			! (seq=? two-four-six [ 2 4 6 ])
+		! (seq=? x [ 1 2 3 ])
 	~|:Bag bag:Bag mapper:Fun[Any Generator!]
 		arr = `[]`\ new Array
 		\ TODO:ES6 for (let em of bag)
@@ -63,7 +63,7 @@ if~.
 			b <~~ if~ false ~|
 				<~ 3
 			!= b ?none
-		!= (->Array stream) (Array.of 1)
+		! (seq=? stream [ 1 ])
 
 	~|:? condition:Bool result:Fun[Generator!]
 		case

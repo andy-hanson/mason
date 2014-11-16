@@ -137,14 +137,14 @@ const parseBlock = (function() {
 					{
 						doLines: Sq.rightTail(eLines),
 						opReturn: Op.Some(
-							E.Dict(px.s({
+							E.DictReturn(px.s({
 								keys: dictKeys,
 								opDicted: Op.Some(Sq.last(eLines)),
 								opDisplayName: Op.None // This is filled in by parseAssign
 							})))
 					} : {
 						doLines: eLines,
-						opReturn: Op.Some(E.Dict(px.s({
+						opReturn: Op.Some(E.DictReturn(px.s({
 							keys: dictKeys,
 							opDicted: Op.None,
 							opDisplayName: Op.None // This is filled in by parseAssign
@@ -386,14 +386,14 @@ const parseLine = (function() {
 				return eValuePre
 
 			case isa(eValuePre, E.Fun):
-				return E.Dict({
+				return E.DictReturn({
 					span: eValuePre.span,
 					keys: [],
 					opDicted: Op.Some(eValuePre),
 					opDisplayName: Op.Some(displayName)
 				})
 
-			case isa(eValuePre, E.Dict) && !eValuePre.keys.has("displayName"):
+			case isa(eValuePre, E.DictReturn) && !eValuePre.keys.has("displayName"):
 				return U.with(eValuePre, "opDisplayName", Op.Some(displayName))
 
 			case isa(eValuePre, E.BlockWrap):

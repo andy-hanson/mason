@@ -56,7 +56,7 @@ Map = Interface
 make-map.
 	doc. "TODO"
 	test. |
-		map = make-map (Array.of 1 2) increment
+		map = make-map [ 1 2 ] increment
 		!= map[1] 2
 		!= map[2] 3
 

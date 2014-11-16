@@ -27,10 +27,6 @@ Array =
 	\				Array count
 	\			else
 	\				call Array
-	of.
-		doc. "TODO"
-		|
-			Object.freeze (Array.prototype.slice.call `arguments`)
 	global.Array
 
 ->Array.
@@ -38,7 +34,7 @@ Array =
 	test. |
 		x = streaming ~|
 			<~ 0
-		!= (->Array x) (Array.of 0)
+		!= (->Array x) [ 0 ]
 	|_:Bag
 		arr ::= new Array
 		each! _ |em
@@ -57,14 +53,14 @@ impl! iterator Array ~|_
 
 impl! ->Str Array
 	test. |
-		!= (->Str (Array.of 0 1)) "Array 0 1"
+		!= (->Str [ 0 1 ]) "[ 0 1 ]"
 	|_
 		ems = ->Array (map _ ->Str)
-		"Array {ems.join " "}"
+		"[ {ems.join " "} ]"
 
 impl! =? Array
 	test. |
-		!= (Array.of 1) (Array.of 1)
+		!= [ 1 ] [ 1 ]
 	|a b
 		and (subsumes? Array b) ~(and (=? a.length b.length) ~(seq=? a b))
 

@@ -51,9 +51,9 @@ streaming.
 		_ = streaming ~|
 			<~ 1
 			<~ 2
-		!= ->Array_ (Array.of 1 2)
+		!= ->Array_ [ 1 2 ]
 		\ They can be used twice!
-		!= ->Array_ (Array.of 1 2)
+		!= ->Array_ [ 1 2 ]
 	|make-gen:Fun[Generator]
 		Stream
 			make-iterator. make-gen
