@@ -5,8 +5,7 @@ use
 	..arithmetic-methods -> +
 	..bags.? -> ?none get-or
 	..bags.Array -> ->Array
-	..bags.Bag -> ?first-where count empty? flat-map map
-	..bags.Seq -> seq=?
+	..bags.Bag -> ?first-where count empty? flat-map map seq=?
 	..basic-methods -> freeze
 	..Bool -> not
 	..Comparable -> =?

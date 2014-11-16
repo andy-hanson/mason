@@ -6,8 +6,7 @@ use
 	.assert -> ! !=
 	.bags.? -> ?none ?some
 	.bags.Array -> ->Array
-	.bags.Bag -> iterator
-	.bags.Seq -> seq=?
+	.bags.Bag -> iterator seq=?
 	.bags.Stream -> streaming
 	.Bool -> and false not true
 	.Fun -> call

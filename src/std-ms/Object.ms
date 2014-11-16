@@ -5,8 +5,7 @@ use
 	.assert -> ! != !fails
 	.bags.? -> ?none ?some Opt->?
 	.bags.Array
-	.bags.Bag -> each!
-	.bags.Seq -> seq=?
+	.bags.Bag -> each! seq=?
 	.bags.Stream -> ->Stream
 	.Bool -> and false if not nor true xor
 	.Comparable -> =?
@@ -50,7 +49,7 @@ own-properties.
 			value. 0
 			enumerable. false
 		! (seq=? (own-properties obj) [ "a" sym ])
-	|:Seq[Str/Sym] _:Object
+	|:Bag[Str/Sym] _:Object
 		+ (->Stream (Object.getOwnPropertyNames _)) (Object.getOwnPropertySymbols _)
 
 own-enumerable-properties.
@@ -65,7 +64,7 @@ own-enumerable-properties.
 			value. 0
 			enumerable. true
 		! (seq=? (own-properties obj) [])
-	|:Seq[Str] _:Object
+	|:Bag[Str] _:Object
 		Object.keys _
 
 ?get-property.

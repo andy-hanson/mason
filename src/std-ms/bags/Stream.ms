@@ -1,12 +1,11 @@
 use
 	.Array -> ->Array
 	..assert -> !=
-	.Bag -> all? iterator
+	.Bag -> all? iterator seq=? zip
 	..Bool -> and
 	..Comparable -> =?
 	..Fun -> identity
 	..Generator
-	.Seq -> seq=? zip
 	..Str -> ->Str
 	..types.Interface -> implementor!
 	..types.Method -> impl!
@@ -15,13 +14,13 @@ use
 
 Stream = Record-Type
 	doc. "
-		A Stream is a sequence whose values are the outputs of a generator.
+		A Stream is a Bag whose elements are the outputs of a Generator.
 		Unlike a Generator, a Stream can be used multiple times.
 
 	members.
 		make-iterator. Fun[Generator]
 
-implementor! Stream Seq
+implementor! Stream Bag
 impl! iterator Stream |_
 	_.make-iterator ()
 

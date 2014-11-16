@@ -2,7 +2,7 @@
 
 use
 	..assert -> !=
-	.Bag -> count each! iterator map
+	.Bag -> count each! iterator map seq=?
 	..Bool -> and
 	..Comparable -> =?
 	..Fun -> call
@@ -10,7 +10,6 @@ use
 	..Num -> Nat
 	..Object -> add-property!
 	..pred-types -> Any Nullable
-	.Seq -> seq=?
 	..Str -> ->Str
 	.Stream -> streaming
 	..types.Interface -> implementor!
@@ -41,7 +40,7 @@ Array =
 			arr.push em
 		arr
 
-implementor! Array Seq
+implementor! Array Bag
 
 impl! count Array |_
 	_.length

@@ -176,7 +176,7 @@ A Type is any value implementing the Type interface, which has methods `subsumes
 
 `a[b]` is equivalent to `sub a b`. This is used by many types which can be parameterized.
 
-	ints:Seq[Int] =
+	ints:Bag[Int] =
 		. 1
 		. 2
 
@@ -394,7 +394,7 @@ A more complex example:
 	triple. |x
 		* x 3
 
-	doubled-then-tripled. |_:Seq
+	doubled-then-tripled. |_:Bag
 		streaming ~|
 			<~~ each~ _ ~|x
 				<~ double x

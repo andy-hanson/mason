@@ -6,7 +6,6 @@ use
 	.bags.? -> get-or
 	.bags.Array -> ->Array
 	.bags.Bag -> each! map
-	.bags.Seq
 	.basic-methods -> sub
 	.Error -> oh-no!
 	.js -> global new
@@ -42,7 +41,7 @@ apply.
 	doc. "Calls the function with the given arguments list."
 	test. |
 		!= (apply + [ 1 2 ]) 3
-	|f:Fun arguments:Seq
+	|f:Fun arguments:Bag
 		Fun.prototype.apply.call f () (->Array arguments)
 
 call.
@@ -58,7 +57,7 @@ apply-with-this.
 		f = |a
 			+ this a
 		!= (apply-with-this f 1 [ 2 ]) 3
-	|f:Fun new-this:Any arguments:Seq
+	|f:Fun new-this:Any arguments:Bag
 		\ TODO:ES6 f ...args
 		Fun.prototype.apply.call f new-this (->Array arguments)
 

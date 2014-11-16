@@ -2,7 +2,7 @@ use
 	..assert -> ! !=
 	..bags.? -> Opt->?
 	..bags.Array -> ->Array
-	..bags.Seq -> seq=?
+	..bags.Bag -> seq=?
 	..bags.Stream
 	..js -> global new
 	.Map -> ?get has-key? keys values

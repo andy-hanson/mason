@@ -3,7 +3,6 @@ use
 	..bags.? -> ?none get-or
 	..bags.Array
 	..bags.Bag -> each! empty? map
-	..bags.Seq
 	..basic-methods -> freeze sub
 	..Bool -> not
 	..error -> oh-no!
@@ -26,18 +25,19 @@ has-key?. Method
 		not (empty? (?get _ key))
 
 keys. Method
-	doc. |:Seq _
-		"Seq of every key that the Map `has-key?`."
+	doc. |:Bag _
+		"Every key that the Map `has-key?`."
 
 values. Method
-	doc. |:Seq _
-		"Seq of every value in the Map."
+	doc. |:Bag _
+		"Every value in the Map."
 	default. |_
 		map keys_ |key
 			_[key]
 
 keys-values. Method
-	doc. |:Seq[Any]
+	\ TODO: Dict types
+	doc. |:Bag[Any]
 		"Every \{ key, val }."
 	default. |_
 		map keys_ |k

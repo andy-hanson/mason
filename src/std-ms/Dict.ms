@@ -2,7 +2,7 @@
 
 use
 	.bags.Array
-	.bags.Seq -> seq=?
+	.bags.Bag -> seq=?
 	.assert -> ! !=
 	.maps.Map -> keys
 

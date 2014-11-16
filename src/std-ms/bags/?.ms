@@ -9,7 +9,6 @@ use
 	..Num
 	..Object -> set-property! extend!
 	..pred-types -> Any
-	.Seq
 	..Str -> ->Str
 	..Symbol
 	..types.Interface -> implementor!

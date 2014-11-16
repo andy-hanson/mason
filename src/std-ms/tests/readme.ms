@@ -3,8 +3,7 @@ doc. "Making sure the code in README.md actually works."
 use
 	..arithmetic-methods -> + - * /
 	..assert -> ! != !fails
-	..bags.Bag -> map
-	..bags.Seq -> seq=? take
+	..bags.Bag -> map seq=? take
 	..bags.Stream -> streaming
 	..Bool -> and not
 	..Comparable -> =? >? >=? <=?
@@ -91,7 +90,7 @@ Str->Num. |:Num str:Str
 	Num.parseFloat str
 != (Str->Num "3") 3
 
-ints:Seq[Int] =
+ints:Bag[Int] =
 	. 1
 	. 2
 
@@ -194,7 +193,7 @@ double. |x
 	* x 2
 triple. |x
 	* x 3
-doubled-then-tripled. |_:Seq
+doubled-then-tripled. |_:Bag
 	streaming ~|
 		<~~ each~ _ ~|x
 			<~ double x
@@ -202,7 +201,7 @@ doubled-then-tripled. |_:Seq
 			<~ triple x
 
 ! (seq=? (doubled-then-tripled [ 1 2 3 ]) [ 2 4 6 3 6 9 ])
-dt2. |_:Seq
+dt2. |_
 	+ (map _ double) (map _ triple)
 ! (seq=? (dt2 [ 1 2 3 ]) [ 2 4 6 3 6 9 ])
 
