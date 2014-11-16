@@ -2,7 +2,8 @@
 
 use
 	..assert -> !=
-	.Bag -> Bag-Type count each! empty iterator map seq=?
+	.Bag -> Bag-Type builder build-next! build-result count each! empty iterator map seq=?
+	..basic-methods -> freeze
 	..Bool -> and
 	..Comparable -> =?
 	..Fun -> call thunk
@@ -65,5 +66,14 @@ impl! =? Array
 
 implementor-direct! Array Bag-Type
 impl-direct! empty Array (thunk [])
+
+
+
+impl! builder Array |
+	`[]`
+impl! build-next! Array |_ em
+	_.push em
+impl! build-result Array freeze
+
 
 Array
