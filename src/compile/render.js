@@ -109,7 +109,7 @@ U.implementMany(E, "renderContent", {
 		}
 	},
 	BlockWrap: function(rx) { return [
-		"(function() {",
+		rx.vr.eIsInGenerator(this) ? "yield* (function*() {" : "(function() {",
 		rx.nl(), "\t",
 		r(rx.indented())(this.body),
 		rx.snl(),
