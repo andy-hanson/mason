@@ -101,7 +101,8 @@ U.implementMany(E, "verify", {
 		const vxBlock = buildVxBlock(vx, this.lines)
 		this.lines.forEach(v(vxBlock))
 		this.opReturn.forEach(v(vxBlock))
-		this.opOut.forEach(v(vxBlock.withRes()))
+		const vxOut = Sq.isEmpty(this.opReturn) ? vxBlock : vxBlock.withRes()
+		this.opOut.forEach(v(vxOut))
 	},
 	BlockWrap: function(vx) {
 		vx.setEIsInGenerator(this)
@@ -122,6 +123,9 @@ U.implementMany(E, "verify", {
 	},
 	Fun: function(vx) {
 		this.opReturnType.forEach(v(vx))
+		if (!Sq.isEmpty(this.opReturnType))
+			check(!Sq.isEmpty(this.body.opReturn), this.span, "Function with return type must return something.")
+
 		const argsLocals = this.args.map(function(arg) {
 			arg.opType.forEach(v(vx))
 			return { name: arg.name, k: arg.isLazy ? "lazy" : "const" }

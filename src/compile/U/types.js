@@ -34,6 +34,7 @@ const recordType = function(name, superType, members) {
 	theType.prototype = prototype // Used for type tests
 	theType.getName = theType.toString = function() { return name }
 	theType.prototype.type = function() { return theType }
+	theType.prototype.toString = function() { return inspect(this) }
 	return theType
 }
 
