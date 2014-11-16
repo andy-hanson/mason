@@ -1,6 +1,8 @@
 use
 	mason -> fun! profit:Real
 
+"d. 1"
+
 ()[]{}
 
 ~1

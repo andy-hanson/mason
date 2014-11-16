@@ -8,6 +8,34 @@ uuid: 857c9cc3-2862-4a05-87e7-115318008707
 
 patterns:
 
+- comment: Empty string
+  name: string
+  match: \"\"
+
+- comment: Multi-line string
+  name: string
+  begin: \"$
+  end: ^$ # on blank line
+  patterns:
+  - name: constant.character
+    comment: Escaped character
+    match: \\.
+  - name: entity.other.attribute-name
+    comment: Interpolation
+    match: \{[^\}]*\}
+
+- comment: Single-line string
+  name: string
+  begin: \"
+  end: \"|\n
+  patterns:
+  - name: constant.character
+    comment: Escaped character
+    match: \\.
+  - name: entity.other.attribute-name
+    comment: Interpolation
+    match: \{[^\}]*\}
+
 - comment: Comment
   name: comment
   begin: \s*\\
@@ -56,34 +84,6 @@ patterns:
 - comment: JavaScript literal
   name: invalid.deprecated
   match: "`[^`\n]*`"
-
-- comment: Empty string
-  name: string
-  match: \"\"
-
-- comment: Multi-line string
-  name: string
-  begin: \"$
-  end: ^$ # on blank line
-  patterns:
-  - name: constant.character
-    comment: Escaped character
-    match: \\.
-  - name: entity.other.attribute-name
-    comment: Interpolation
-    match: \{[^\}]*\}
-
-- comment: Single-line string
-  name: string
-  begin: \"
-  end: \"|\n
-  patterns:
-  - name: constant.character
-    comment: Escaped character
-    match: \\.
-  - name: entity.other.attribute-name
-    comment: Interpolation
-    match: \{[^\}]*\}
 
 - comment: Number literal
   name: constant.numeric
