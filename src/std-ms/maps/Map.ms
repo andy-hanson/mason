@@ -6,7 +6,7 @@ use
 	..bags.Bag -> each! empty? map
 	..basic-methods -> freeze sub
 	..Bool -> not
-	..error -> oh-no!
+	..Error -> oh-no!
 	..Fun -> identity
 	.Hash-Map
 	.Map! -> set!

@@ -1,23 +1,32 @@
 use
 	.assert -> !=
-	.bags.? -> ?none ?some
+	.bags.? -> ?none ?some get-or
 	.Bool -> false not true
 	.Error -> oh-no!
 	.Fun -> Act call thunk
-	.maps.Map
+	.maps.Map -> ?get
 	.pred-types -> Any
+	.types.singleton
 
 switch.
 	doc. "Calls the Fun that `cases` associates with `val`."
 	test. |
-		two = switch 1
-			1 -> |
-				2
-			2 -> |
-				3
-		!= two 2
+		n = |x
+			switch x
+				1 -> |
+					2
+				2 -> |
+					3
+				switch-else -> |
+					4
+		!= (n 1) 2
+
 	|val:Any cases:Map[Any Fun]
-		cases[val] ()
+		dispatch = get-or (?get cases val) ~cases[switch-else]
+		call dispatch
+
+switch-else. singleton
+	doc. "TODO"
 
 if.
 	doc. "Iff `condition`, evaluates `result` and puts it in `?some`."
