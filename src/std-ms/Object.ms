@@ -7,8 +7,9 @@ use
 	.bags.Array
 	.bags.Bag -> each! seq=?
 	.bags.Stream -> ->Stream
-	.Bool -> and false if not nor true xor
+	.Bool -> and false not nor true xor
 	.Comparable -> =?
+	.control -> if
 	.Dict
 	.js -> global identical? js-typeof
 	.maps.Map -> keys

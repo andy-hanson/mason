@@ -3,8 +3,9 @@ use
 	..arithmetic-methods -> + -
 	..assert -> ! != !fails
 	..basic-methods -> sub
-	..Bool -> and false if not or true
+	..Bool -> and false not or true
 	..Comparable -> =? <=? >=?
+	..control -> if
 	..Error -> oh-no!
 	..Fun -> curry identity Pred
 	..generators -> Generator

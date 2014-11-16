@@ -3,8 +3,9 @@ use
 	.arithmetic-methods -> + *
 	.assert -> ! != !fails
 	.bags.Bag -> contains? each!
-	.Bool -> if! nor not
+	.Bool -> nor not
 	.Comparable -> =?
+	.control -> if!
 	.Fun -> identity-memoize
 	.math.bit-arithmetic -> bit-and hexidecimal
 	.math.Num -> Int round-towards-0

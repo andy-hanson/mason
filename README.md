@@ -320,7 +320,7 @@ Use `::=` to declare a mutable variable and `:=` to modify it.
 		case!
 			>? i 0
 				log! i
-				i := decrement i
+				i := - i 1
 			else
 				end-loop!
 				log! "This line is never run."
@@ -355,7 +355,7 @@ For reference, here's what it might look like. (For a better understanding see [
 		last-value ::= ()
 		loop!
 			\ The `<~` statment that the generator is paused on will recieve `last-value`.
-			value done = gen.next (increment last-value)
+			value done = gen.next (+ last-value 1)
 			last-value := value
 			case! done
 				_
@@ -372,7 +372,7 @@ For example, `streaming` allows you to specify a lazily-generated sequence.
 		i ::= 0
 		loop!
 			<~ i
-			i := increment i
+			i := + i 1
 
 You can even let one generator delegate to another.
 `<~~`, pronounced "Yield to", runs the yielded-to generator inside of the same context.
@@ -419,7 +419,7 @@ You can also use `<~~` for assignment just as with `<~`.
 			<~~ increment~ incr2
 	increment~. ~|x
 		<~ "Incrementing {x}"
-		increment x
+		+ x 1
 	!= (increment-thrice 0) 3
 
 

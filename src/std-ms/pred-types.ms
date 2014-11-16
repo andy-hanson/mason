@@ -3,7 +3,8 @@ doc. "TODO"
 use
 	.assert -> !
 	.basic-methods -> sub
-	.Bool -> and if! not or true
+	.Bool -> and not or true
+	.control -> if!
 	.fun -> Pred
 	.js -> exists? global
 	.Num
@@ -34,7 +35,6 @@ Opt-Sub = Record-Type
 	members.
 		Exists-Type. Type
 
-\ Can't use map version because these types are used for defining maps.
 implementor! Opt-Sub Type
 impl! subsumes? Opt-Sub |nt _
 	or (not :Any) ~(subsumes? nt.Exists-Type _)

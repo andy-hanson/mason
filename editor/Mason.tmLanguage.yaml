@@ -127,7 +127,7 @@ patterns:
 
 - comment: Local assignment
   name: variable.parameter
-  match: (([^\s:]+)(:([^\s]+))?\s)+((=)|(:=)|(::=)|(~=)|(<~~?))
+  match: (([^\s:]+)(:([^\s]+))?\s)+((=)|(:=)|(::=)|(~=)|(<~~?))\s
   captures:
     # Group 1 is an entire variable (including type+rename)
     # Group 2 is the variable name

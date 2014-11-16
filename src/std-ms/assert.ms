@@ -3,8 +3,9 @@ doc. "TODO"
 use
 	.bags.? -> get-or Opt->?
 	.bags.Bag -> empty?
-	.Bool -> false true unless!
+	.Bool -> false not true
 	.Comparable -> =?
+	.control -> if!
 	.Error -> oh-no! try
 	.Fun -> Act
 	.js -> global
@@ -18,7 +19,7 @@ use
 		!fail-message "a" |
 			! false ~"a"
 	|cond:Bool ~error
-		unless! cond |
+		if! (not cond) |
 			\ TODO: Optional arguments
 			err ~= get-or (Opt->? error) "Assertion failed."
 			oh-no! ~err

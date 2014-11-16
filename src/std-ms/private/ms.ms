@@ -9,36 +9,9 @@ global.Object.defineProperty global "_ms" `{ value: ms }`
 
 Fun = global.Function
 
-\ TODO: Use JS literal so we don't get <anonymous> stacktrace
-make-stuff = Fun "" "
-	"use strict"
-	function assignMany(target, keysVals) \{
-		const nkv = keysVals.length
-		let i = 0
-		while (i < nkv) \{
-			const key = keysVals[i++], val = keysVals[i++]
-			Object.defineProperty(target, key, (val instanceof Lazy) ?
-				\{ get: val.get, enumerable: true } :
-				\{ value: val, enumerable: true })
-		}
-	}
-	function Lazy(make) \{
-		const baby = Object.create(Lazy.prototype)
-		let cached = undefined
-		Object.defineProperty(baby, "get", \{ value: function() \{
-			if (cached === undefined) \{
-				cached = make()
-				if (cached === undefined)
-					throw new Error("Lazy value can't be undefined. Made by:\\n" + make)
-			}
-			return cached
-		}})
-		return baby
-	}
-	return \{ "assign-many": assignMany, Lazy: Lazy }
 
-assign-many Lazy = make-stuff ()
-
+assign-many = `function(target, kvs) { const nkv = kvs.length; let i = 0; while (i < nkv) { const k = kvs[i++], v = kvs[i++]; Object.defineProperty(target, k, (v instanceof Lazy) ? { get: v.get, enumerable: true } : { value: v, enumerable: true }) } }`
+Lazy = `function(make) { const baby = Object.create(Lazy.prototype); let cached; Object.defineProperty(baby, "get", { value: function() { if (cached == undefined) { cached = make(); if (cached === undefined) throw new Error("Lazy value can't be undefined. Made by:\n" + make) } return cached }}); return baby }`
 am = assign-many
 dictify = `function(target) { am(Object(target), global.Array.prototype.slice.call(arguments, 1)); return target }`
 global.Object.defineProperty ms "dictify" `{ value: dictify, enumerable: true }`
@@ -67,18 +40,18 @@ region Symbols
 
 region Block Creators
 	set! ms "mkArray" |
-		as-Array = global.Array.prototype.slice.call `arguments`
-		global.Object.freeze as-Array
+		global.Object.freeze (global.Array.prototype.slice.call `arguments`)
 
 	Dict = |
 		baby = global.Object.create Dict.prototype
-		assign-many baby `arguments`\(global.Array.prototype.slice.call `arguments`)
+		assign-many baby `arguments`
 		global.Object.freeze baby
 
 	set! ms "Dict" Dict
 	set! ms "dictify" dictify
 
 region MS Methods
+	\ TODO: maybe move to Type bootstrap
 	set! ms "subsumes" |type value
 		`if (type == null) throw new Error("Type does not exist")`
 		test = `type[ms.symSubsumes]`
@@ -91,6 +64,7 @@ region MS Methods
 		`if (test == null) throw new Error(ms.str(type) + " does not implement '!subsumes'")`
 		`test(type, value, name)`
 
+	\ TODO: Maybe define this later.
 	set! ms "sub" |subbed \...args
 		`if (subbed == null) throw new Error("Tried to sub nothing")`
 		sub = `subbed[ms.symSub]`
