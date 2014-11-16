@@ -17,7 +17,7 @@ const
 
 module.exports = function render(e, opts, vr) {
 	type(e, E, opts, Opts, vr, Vr)
-	return j(Rx({ indent: "", opts: opts, vr: vr }))(e)
+	return r(Rx({ indent: "", opts: opts, vr: vr }))(e)
 }
 
 // Context used while rendering.
@@ -33,10 +33,9 @@ Object.assign(Rx.prototype, {
 	cnl: function() { return ",\n" + this.indent }
 })
 
-
-E.prototype.toJ = function(rx, arg) { // Some E_s pass an arg to their child
+E.prototype.render = function(rx, arg) { // Some E_s pass an arg to their child
 	type(rx, Rx)
-	const content = this.toJContent(rx, arg)
+	const content = this.renderContent(rx, arg)
 	const ln = this.span.start.ln
 	const col = this.span.start.col
 	type(ln, Number, col, Number, rx.opts.msPathRelToJs, String)
@@ -50,17 +49,17 @@ E.prototype.toJ = function(rx, arg) { // Some E_s pass an arg to their child
 	return new SourceNode(ln, col, rx.opts.msPathRelToJs, content)
 }
 
-const j = function(rx) {
+const r = function(rx, othArg) {
 	type(rx, Rx)
-	return function(e) { return e.toJ(rx) }
+	return function(e) { return e.render(rx, othArg) }
 }
 
 const commad = function(rx, parts) {
 	type(rx, Rx, parts, [E])
-	return Sq.interleave(parts.map(j(rx)), ", ")
+	return Sq.interleave(parts.map(r(rx)), ", ")
 }
 
-U.implementMany(E, "toJContent", {
+U.implementMany(E, "renderContent", {
 	Assign: function(rx) {
 		return makeAssign(rx, this.span, this.assignee, this.k, this.value)
 	},
@@ -80,7 +79,7 @@ U.implementMany(E, "toJContent", {
 			"var ", // constant, but `const` will complain if we do two of these in the same block.
 			destructuredName,
 			" = ",
-			j(rx)(this.value),
+			r(rx)(this.value),
 			rx.snl(),
 			Sq.interleave(assigns, rx.snl())
 		]
@@ -89,22 +88,22 @@ U.implementMany(E, "toJContent", {
 	BlockBody: function (rx, opResCheck) {
 		if (opResCheck === undefined)
 			opResCheck = []
-		const _in = this.opIn.map(j(rx))
-		const body = this.lines.map(j(rx))
+		const _in = this.opIn.map(r(rx))
+		const body = this.lines.map(r(rx))
 		const needResLocal = !(Sq.isEmpty(opResCheck) && Sq.isEmpty(this.opOut))
 		if (needResLocal) {
 			const makeRes = this.opReturn.map(function(ret) { return [
 				"const res = ",
-				j(rx)(ret)
+				r(rx)(ret)
 			]})
-			const _out = this.opOut.map(j(rx))
+			const _out = this.opOut.map(r(rx))
 			const ret = this.opReturn.map(function() { return "return res" })
 			return Sq.interleave(_in.concat(body, makeRes, opResCheck, _out, ret), rx.snl())
 		}
 		else {
 			const ret = this.opReturn.map(function(ret) { return [
 				"return ",
-				j(rx)(ret)
+				r(rx)(ret)
 			]})
 			return Sq.interleave(_in.concat(body, ret), rx.snl())
 		}
@@ -112,12 +111,12 @@ U.implementMany(E, "toJContent", {
 	BlockWrap: function(rx) { return [
 		"(function() {",
 		rx.nl(), "\t",
-		j(rx.indented())(this.body),
+		r(rx.indented())(this.body),
 		rx.snl(),
 		"})()"
 	]},
 	Call: function(rx) { return [
-		j(rx)(this.called),
+		r(rx)(this.called),
 		"(",
 		commad(rx, this.args),
 		")"
@@ -141,17 +140,17 @@ U.implementMany(E, "toJContent", {
 		const rxResult = rx.indented()
 		return [
 			"case ",
-			j(rx)(this.test),
+			r(rx)(this.test),
 			": {",
 			rxResult.nl(),
-			j(rxResult)(this.result),
+			r(rxResult)(this.result),
 			needBreak ? [ rxResult.snl(), "break" ] : [],
 			rx.snl(),
 			"}"
 		]
 	},
 	Debugger: function() { return "debugger" },
-	Dict: function(rx) {
+	DictReturn: function(rx) {
 		const keysVals = this.keys.map(function(key) { return [
 			quote(key),
 			", ",
@@ -165,7 +164,7 @@ U.implementMany(E, "toJContent", {
 		return Op.ifElse(this.opDicted,
 			function(dicted) { return [
 				"_ms.dictify(",
-				j(rx)(dicted),
+				r(rx)(dicted),
 				", ",
 				args,
 				")"
@@ -201,28 +200,33 @@ U.implementMany(E, "toJContent", {
 			Sq.interleavePlus(
 				Sq.mpf(this.args, function(arg) { return opLocalCheck(rx, arg, arg.isLazy); }),
 				rxFun.snl()),
-			this.body.toJ(rxFun, opResCheck),
+			r(rxFun, opResCheck)(this.body),
 			rx.snl(),
 			"}"
 		]
 	},
 	Lazy: function(rx) { return [
 		"_ms.Lazy(function() { return ",
-		j(rx)(this.value),
+		r(rx)(this.value),
 		"; })"
 	]},
-	List: function(rx) { return [
+	ListReturn: function(rx) { return [
 		"_ms.mkArray(",
 		Sq.interleave(
 			Sq.range(0, this.length).map(function(i) { return "_" + i }),
 			", "),
 		")"
 	]},
+	ListSimple: function(rx) { return [
+		"_ms.mkArray(",
+		commad(rx, this.parts),
+		")"
+	] },
 	ListEntry: function(rx) { return [
 		"const _",
 		this.index.toString(),
 		" = ",
-		j(rx)(this.value)
+		r(rx)(this.value)
 	]},
 	Literal: function() {
 		const v = this.value
@@ -246,7 +250,7 @@ U.implementMany(E, "toJContent", {
 		mangle(this.name),
 		": while (true) {",
 		rx.nl(), "\t",
-		j(rx.indented())(this.body),
+		r(rx.indented())(this.body),
 		rx.nl(),
 		"}"
 	]},
@@ -267,14 +271,14 @@ U.implementMany(E, "toJContent", {
 		"const _k",
 		this.index.toString(),
 		" = ",
-		j(rx)(this.key),
+		r(rx)(this.key),
 		", _v",
 		this.index.toString(),
 		" = ",
-		j(rx)(this.val)
+		r(rx)(this.val)
 	]},
 	Member: function(rx) { return [
-		j(rx)(this.object),
+		r(rx)(this.object),
 		makeMember(this.name)
 	]},
 	Module: function(rx) {
@@ -284,13 +288,13 @@ U.implementMany(E, "toJContent", {
 			"//# sourceMappingURL=", rx.opts.sourceMapPathRelToJs, "\n",
 			"\"use strict\"",
 			rx.snl(),
-			j(rx)(this.body),
+			r(rx)(this.body),
 			rx.snl()
 		]
 	},
 	ModuleDefaultExport: function(rx) { return [
 		"_ms.KLUDGE_defaultExport(module, ",
-		j(rx)(this.value),
+		r(rx)(this.value),
 		")"
 	]},
 	Null: function() { return "null" },
@@ -298,7 +302,7 @@ U.implementMany(E, "toJContent", {
 		return (this.parts.length == 0) ?
 			"\"\"" :
 			(this.parts.length === 1 && this.parts[0] instanceof E.Literal && this.parts[0].k === String) ?
-			j(rx)(Sq.head(this.parts)) :
+			r(rx)(Sq.head(this.parts)) :
 			[ "_ms.mkStr(", commad(rx, this.parts), ")" ]
 	},
 	Require: function() { return [
@@ -314,18 +318,18 @@ U.implementMany(E, "toJContent", {
 	This: function() { return "this" },
 	TypeTest: function(rx) { return [
 		"_ms.subsumes(",
-		j(rx)(this.testType),
+		r(rx)(this.testType),
 		", ",
-		j(rx)(this.tested),
+		r(rx)(this.tested),
 		")"
 	]},
 	Yield: function(rx) { return [
 		"yield ",
-		j(rx)(this.yielded)
+		r(rx)(this.yielded)
 	]},
 	YieldTo: function(rx) { return [
 		"yield* ",
-		j(rx)(this.yieldedTo)
+		r(rx)(this.yieldedTo)
 	]}
 })
 
@@ -338,7 +342,7 @@ const opLocalCheck = function(rx, local, isLazy) {
 	type(local, E.LocalDeclare, isLazy, Boolean)
 	return isLazy ? Op.None : local.opType.map(function(typ) { return [
 		"_ms.checkSubsumes(",
-		j(rx)(typ),
+		r(rx)(typ),
 		", ",
 		accessLocal(local.name, false),
 		", \"",
@@ -349,12 +353,12 @@ const opLocalCheck = function(rx, local, isLazy) {
 
 const makeAssign = function(rx, span, assignee, k, value) {
 	type(rx, Rx, span, Span, assignee, E, k, Lang.KAssign, value, E)
-	const to = j(rx)(assignee)
+	const to = r(rx)(assignee)
 	const doAssign = (function() { switch (k) {
 		case "=": case ". ": case "<~": case "<~~":
-			return [ "const ", to, " = ", j(rx)(value) ]
+			return [ "const ", to, " = ", r(rx)(value) ]
 		case "export":
-			return [ "const ", to, " = exports", makeMember(assignee.name), " = ", j(rx)(value) ]
+			return [ "const ", to, " = exports", makeMember(assignee.name), " = ", r(rx)(value) ]
 			// return [ "export const ", to, " = ", jValue ]; TODO:ES6
 		case "~=": {
 			// For a lazy value, type checking is not done until after it is generated.
@@ -376,7 +380,7 @@ const makeAssign = function(rx, span, assignee, k, value) {
 				"const ",
 				to,
 				" = _ms.Lazy(",
-				j(rx)(fun),
+				r(rx)(fun),
 				")"
 			]
 		}
@@ -385,13 +389,13 @@ const makeAssign = function(rx, span, assignee, k, value) {
 				"let ",
 				to,
 				" = ",
-				j(rx)(value)
+				r(rx)(value)
 			]
 		case ":=":
 			return [
 				to,
 				" = ",
-				j(rx)(value)
+				r(rx)(value)
 			]
 		default: fail()
 	} })()
@@ -411,20 +415,20 @@ const caseBody = function(rx, opCased, parts, opElse, needBreak) {
 	const rxResult = rxSwitch.indented()
 	const jCased = opCased.map(function(cased) { return [
 		"const _ = ",
-		j(rx)(cased),
+		r(rx)(cased),
 		rx.snl()
 	]})
 	const jElse = Op.ifElse(opElse,
 		function(elze) { return [
 			"default: {",
 			rxResult.nl(),
-			j(rxResult)(elze),
+			r(rxResult)(elze),
 			rxSwitch.snl(),
 			// This one never needs a break, because it's at the end anyway.
 			"}"
 		]},
 		function() { return "default: throw new Error(\"Case fail\");" })
-	const jParts = parts.map(function(part) { return part.toJ(rxSwitch, needBreak) })
+	const jParts = parts.map(function(part) { return r(rxSwitch, needBreak)(part) })
 	const jAllParts = Sq.rcons(jParts, jElse)
 	return [
 		jCased,

@@ -123,7 +123,7 @@ const parseBlock = (function() {
 			if (isList)
 				return {
 					doLines: eLines,
-					opReturn: Op.Some(E.List(px.s({ length: listLength })))
+					opReturn: Op.Some(E.ListReturn(px.s({ length: listLength })))
 				}
 			if (isMap)
 				return {
@@ -575,8 +575,12 @@ const parseSingle = function(px, t) {
 			return E.Quote(px.s({
 				parts: t.sqt.map(function(tSub) { return parseSingle(px, tSub) })
 			}))
-		case T.Group.is(t, '('):
+		case T.Group.is(t, "("):
 			return parseExpr(px, t.sqt)
+		case T.Group.is(t, "["):
+			return E.ListSimple(px.s({
+				parts: t.sqt.map(function(tSub) { return parseSingle(px, tSub) })
+			}))
 		default:
 			check.fail(px.span, "Unexpected " + t)
 	}

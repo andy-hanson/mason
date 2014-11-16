@@ -57,7 +57,7 @@ makeETypes(E.Val, {
 	// and that a CaseVal can only contain E.Val results in its parts.
 	// CaseVal compiles differently because it must return a result.
 	CaseVal: { opCased: Op(E.Val), parts: [E.CasePart], opElse: Op(E.BlockBody) },
-	Dict: { keys: [String], opDicted: Op(E.Val), opDisplayName: Op(String) },
+	DictReturn: { keys: [String], opDicted: Op(E.Val), opDisplayName: Op(String) },
 	Fun: {
 		args: [E.LocalDeclare],
 		body: E.BlockBody,
@@ -65,7 +65,8 @@ makeETypes(E.Val, {
 		k:KFun
 	},
 	Lazy: { value: E.Val },
-	List: { length: Number },
+	ListReturn: { length: Number },
+	ListSimple: { parts: [E.Val] },
 	Literal: { value: String, k: new Set([Number, String, "js"]) },
 	LocalAccess: { name: String },
 	Map: { length: Number },
