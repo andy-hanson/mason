@@ -1,4 +1,5 @@
 use
+	..bags.? -> un-?
 	..bags.Bag -> each!
 	..Comparable -> =?
 	.Impl-Type
@@ -65,6 +66,8 @@ impl-unchecked!. |method implementor implementation
 		:Interface
 			_.implementors.forEach |sub
 				impl-unchecked! method sub implementation
+			_.direct-implementors.forEach |sub
+				impl-direct! method sub implementation
 		else
 			()
 
@@ -85,5 +88,8 @@ impl?.
 
 ?impl-for. |method:Method type:Impl-Type
 	?get-property type.prototype method.impl-symbol
+
+impl-for. |method:Method type:Impl-Type
+	un-? (?impl-for method type)
 
 Method

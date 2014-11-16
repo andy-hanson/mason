@@ -1,17 +1,17 @@
 use
 	..assert -> ! != !fails
 	..basic-methods -> sub
-	.Bag -> each! empty? iterator map
+	.Bag -> Bag-Type each! empty empty? iterator map
 	..Bool -> and not
 	..Error -> oh-no!
-	..Fun -> call curry
+	..Fun -> call curry thunk
 	..js -> identical?
 	..Num
 	..Object -> set-property! extend!
 	..pred-types -> Any
 	..Str -> ->Str
 	..Symbol
-	..types.Interface -> implementor!
+	..types.Interface -> implementor! implementor-direct!
 	..types.Method -> impl! impl-direct!
 	..types.Record-Type
 	..types.Type -> subsumes? !subsumes
@@ -127,5 +127,8 @@ region sub
 		!subsumes ? subsumed name
 		each! subsumed |_
 			!subsumes ?-sub.Element-Type _ name
+
+implementor-direct! ? Bag-Type
+impl-direct! empty ? (thunk ?none)
 
 ?

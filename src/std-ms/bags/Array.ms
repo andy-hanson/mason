@@ -2,18 +2,18 @@
 
 use
 	..assert -> !=
-	.Bag -> count each! iterator map seq=?
+	.Bag -> Bag-Type count each! empty iterator map seq=?
 	..Bool -> and
 	..Comparable -> =?
-	..Fun -> call
+	..Fun -> call thunk
 	..js -> global new
 	..Num -> Nat
 	..Object -> add-property!
 	..pred-types -> Any Nullable
 	..Str -> ->Str
 	.Stream -> streaming
-	..types.Interface -> implementor!
-	..types.Method ->  impl!
+	..types.Interface -> implementor! implementor-direct!
+	..types.Method ->  impl! impl-direct!
 	..types.Type -> subsumes?
 
 Array =
@@ -62,5 +62,8 @@ impl! =? Array
 		!= [ 1 ] [ 1 ]
 	|a b
 		and (subsumes? Array b) ~(and (=? a.length b.length) ~(seq=? a b))
+
+implementor-direct! Array Bag-Type
+impl-direct! empty Array (thunk [])
 
 Array

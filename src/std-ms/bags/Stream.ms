@@ -1,14 +1,14 @@
 use
 	.Array -> ->Array
 	..assert -> !=
-	.Bag -> all? iterator seq=? zip
+	.Bag -> all? Bag-Type empty iterator seq=? zip
 	..Bool -> and
 	..Comparable -> =?
-	..Fun -> identity
+	..Fun -> identity thunk
 	..Generator
 	..Str -> ->Str
-	..types.Interface -> implementor!
-	..types.Method -> impl!
+	..types.Interface -> implementor! implementor-direct!
+	..types.Method -> impl! impl-direct!
 	..types.Record-Type
 	..types.Type -> subsumes?
 
@@ -57,5 +57,9 @@ streaming.
 		Stream
 			make-iterator. make-gen
 
+empty-stream = streaming ~|
+	()
+implementor-direct! Stream Bag-Type
+impl-direct! empty Stream (thunk empty-stream)
 
 Stream

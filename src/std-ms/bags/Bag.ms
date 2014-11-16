@@ -7,13 +7,13 @@ use
 	..Comparable -> =? <=? >=?
 	..control -> if
 	..Error -> oh-no!
-	..Fun -> curry identity Pred
+	..Fun -> curry identity Pred thunk
 	..generators -> Generator
 	..math.Num -> divisible? Nat
 	..pred-types -> Any Opt
 	.Stream -> streaming
 	..Symbol
-	..types.Interface
+	..types.Interface -> implementor-direct!
 	..types.Method -> impl! impl-direct!
 
 region Methods
@@ -307,8 +307,16 @@ seq=?.
 	|bag0:Bag bag1:Bag
 		all? (zip bag0 bag1 =?)
 
-\ TODO: impl! sub Bag-Type
-impl-direct! sub Bag |
-	Bag
+empty. Method
+	doc. "TODO"
+
+Bag-Type. Interface
+	doc. "TODO"
+	methods.
+		. empty
+
+impl! sub Bag-Type identity
+implementor-direct! Bag Bag-Type
+impl! empty Bag (thunk [])
 
 Bag
