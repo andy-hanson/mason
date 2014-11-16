@@ -16,7 +16,7 @@ use
 	..Object -> get-property add-property!
 	.Map -> ?get keys values
 	.Map! -> set!
-	..math.Num -> even?
+	..math.Num -> divisible?
 	..pred-types -> Any
 	..private.ms
 	..types.Interface -> implementor!
@@ -84,8 +84,7 @@ add-property! ms "map"  |
 	i ::= 0
 	args = `arguments`
 	n-args = args.length
-
-	! (even? n-args)
+	! (divisible? n-args 2)
 
 	loop!
 		case!

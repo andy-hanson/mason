@@ -30,7 +30,7 @@ Int. Pred-Type
 		! (subsumes? Int 1)
 		! (not (subsumes? Int 1.1))
 		! (subsumes? Int max-safe-integer)
-		! (not (subsumes? Int (increment max-safe-integer)))
+		! (not (subsumes? Int (+ max-safe-integer 1)))
 	predicate. |_
 		and :Num ~(Num.isSafeInteger (_.valueOf ()))
 
@@ -86,18 +86,7 @@ region Integer arithmetic
 		|a:Num b:Num
 			=? 0 (remainder a b)
 
-	even?. |_:Num
-		divisible? _ 2
-
-	odd?. |_:Num
-		not even?_
-
-	increment. |_:Num
-		+ _ 1
-
-	decrement. |_:Num
-		- _ 1
-
+	\ TODO: remove?
 	neg. |_:Num
 		* _ -1
 

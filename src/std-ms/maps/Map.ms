@@ -1,4 +1,5 @@
 use
+	..arithmetic-methods -> +
 	..assert -> !=
 	..bags.? -> ?none get-or
 	..bags.Array
@@ -9,7 +10,6 @@ use
 	..Fun -> identity
 	.Hash-Map
 	.Map! -> set!
-	..math.Num -> increment
 	..pred-types -> Any
 	..types.Interface
 	..types.Method -> impl! impl-direct!
@@ -56,10 +56,10 @@ Map = Interface
 make-map.
 	doc. "TODO"
 	test. |
-		map = make-map [ 1 2 ] increment
+		map = make-map [ 1 2 ] |x
+			+ x 1
 		!= map[1] 2
 		!= map[2] 3
-
 	|keys:Bag mapper:Fun
 		map = Hash-Map.new-empty ()
 		each! keys |key

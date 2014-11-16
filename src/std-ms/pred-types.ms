@@ -1,7 +1,6 @@
 doc. "TODO"
 
 use
-	.arithmetic -> increment
 	.assert -> !
 	.basic-methods -> sub
 	.Bool -> and if! not or true

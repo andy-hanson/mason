@@ -6,9 +6,9 @@ use
 	..Bool -> and false if not or true
 	..Comparable -> =? <=? >=?
 	..Error -> oh-no!
-	..Fun -> identity Pred
+	..Fun -> curry identity Pred
 	..generators -> Generator
-	..math.Num -> divisible? even? increment Nat
+	..math.Num -> divisible? Nat
 	..pred-types -> Any Opt
 	.Stream -> streaming
 	..Symbol
@@ -24,7 +24,8 @@ region Methods
 	count. Method
 		doc. "Number of elements in it."
 		default. |:Nat _
-			fold _ 0 increment
+			fold _ 0 |cur-count
+				+ cur-count 1
 
 	empty?. Method
 		doc. "Whether `count` will return 0."
@@ -34,7 +35,7 @@ region Methods
 	map. Method
 		doc. "TODO"
 		test. |
-			! (seq=? (map [ 1 2 3 ] increment) [ 2 3 4 ])
+			! (seq=? (map [ true false ] not) [ false true ])
 		default. |_:Bag mapper:Fun[Any Any]
 			streaming ~|
 				\ TODO:ES6 `for (let value of _)`
@@ -45,7 +46,7 @@ region Methods
 	keep. Method
 		doc. "Bag with only the elements that satisfy `keep-if?`."
 		test. |
-			! (seq=? (keep [ 1 2 ] even?) [ 2 ])
+			! (seq=? (keep [ 1 2 ] (curry =? 2)) [ 2 ])
 		default. |_:Bag keep-if?:Pred
 			streaming ~|
 				\ TODO:ES6 `for (let value of _)`
@@ -57,7 +58,7 @@ region Methods
 	toss.
 		doc. "Bag without any elements that satisfy `toss-if?`."
 		test. |
-			! (seq=? (toss [ 1 2 ] even?) [ 1 ])
+			! (seq=? (toss [ 1 2 ] (curry =? 2)) [ 1 ])
 		|_:Bag toss-if?:Pred
 			keep _ |em
 				not (toss-if? em)
@@ -162,7 +163,7 @@ region Sequence methods
 				i ::= 0
 				loop!
 					value done = iter.next ()
-					i := increment i
+					i := + i 1
 					case!
 						or done ~(=? i count-to-take)
 							end-loop!
@@ -180,7 +181,7 @@ region Sequence methods
 				\ Discard count-to-drop values:
 				loop!
 					value done = iter.next ()
-					i := increment i
+					i := + i 1
 					case!
 						or done ~(=? i count-to-drop)
 							end-loop!
@@ -268,8 +269,8 @@ contains?. Method
 any?.
 	doc. "TODO"
 	test. |
-		! (any? [ 0 1 ] even?)
-		! (not (any? [ 1 3 ] even?))
+		! (any? [ 0 1 ] (curry =? 1))
+		! (not (any? [ 0 1 ] (curry =? 2)))
 	|_:Bag pred:Opt[Pred]
 		\ TODO: Better optional arguments
 		p = get-or (Opt->? pred) identity
@@ -278,8 +279,8 @@ any?.
 all?.
 	doc. "TODO"
 	test. |
-		! (all? [ 0 2 ] even?)
-		! (not (all? [ 0 1 ] even?))
+		! (all? [ 0 0 ] (curry =? 0))
+		! (not (all? [ 0 1 ] (curry =? 0)))
 	|_:Bag pred:Opt[Pred]
 		\ TODO: Better optional arguments
 		p = get-or (Opt->? pred) identity

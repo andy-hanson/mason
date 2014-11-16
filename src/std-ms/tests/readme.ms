@@ -9,7 +9,7 @@ use
 	..Comparable -> =? >? >=? <=?
 	..Fun -> call
 	..Generator -> each~
-	..math.Num -> decrement divisible? increment Int
+	..math.Num -> divisible? Int
 	..Str
 
 my-dict.
@@ -145,7 +145,7 @@ call |
 		case!
 			>? i 0
 				log! i
-				i := decrement i
+				i := - i 1
 			else
 				end-loop!
 				log! "This line is never run"
@@ -157,7 +157,7 @@ incrementing. |gen-maker:Fun[Generator]
 	gen:Generator = gen-maker ()
 	last-value ::= 0
 	loop!
-		value done = gen.next (increment last-value)
+		value done = gen.next (+ last-value 1)
 		last-value := value
 		case! done
 			_
@@ -176,7 +176,7 @@ nats. streaming ~|
 	i ::= 0
 	loop!
 		<~ i
-		i := increment i
+		i := + i 1
 ! (seq=? (take nats 3) [ 0 1 2 ])
 
 one-two-one-two. ~|
@@ -227,7 +227,7 @@ increment-thrice. |x
 		<~~ increment~ incr2
 increment~. ~|x
 	<~ "Incrementing {x}"
-	increment x
+	+ x 1
 != (increment-thrice 0) 3
 != log [ "Incrementing 0" "Incrementing 1" "Incrementing 2" ]
 

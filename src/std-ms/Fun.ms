@@ -12,7 +12,6 @@ use
 	.maps.Map -> ?get keys
 	.maps.Map! -> set!
 	.maps.Weak-Identity-Map!
-	.math.Num -> increment
 	.Object
 	.Str -> ->Str
 	.pred-types -> Any
@@ -140,7 +139,7 @@ identity-memoize.
 	test. |
 		comps ::= 0
 		get-a = identity-memoize |x
-			comps := increment comps
+			comps := + comps 1
 			x.a
 		a1 =
 			a. 1
