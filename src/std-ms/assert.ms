@@ -29,7 +29,7 @@ use
 		!= 0 0
 		!fails |
 			!= 0 1
-	|a:Any b:Any
+	|a b
 		! (=? a b) ~"{a} ≠ {b}"
 
 !fails.

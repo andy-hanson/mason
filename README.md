@@ -37,6 +37,7 @@ Lists are also written in blocks. Each line beginning with `. ` (remember the sp
 		. 2
 
 You could also do it all in one line.
+
 	my-list. [ 1 2 ]
 
 
@@ -47,6 +48,8 @@ Maps are pretty much the same.
 	my-map.
 		1 -> 2
 		2 -> 4
+	my-map[1] \ 2
+	my-map[2] \ 4
 
 
 ### Locals
@@ -193,7 +196,7 @@ You can assign to it as normal, as in `_ = 1`, or make it the main argument to a
 
 Also, writing a type in any context other than declaring a variable tests that type on the focus.
 
-	is-str? = |_
+	is-str?. |_
 		:Str
 		\ Equivalent to: subsumes? Str _
 
@@ -219,7 +222,7 @@ If you write an expression after `case` but before the indented  block, it becom
 		case a
 			=? _ 7
 				"You got it!"
-			:Real
+			:Num
 				"Off by {- _ 7}"
 			else
 				"Try using a number..."
@@ -315,7 +318,7 @@ Use `::=` to declare a mutable variable and `:=` to modify it.
 	i ::= 10
 	loop!
 		case!
-			positive? i
+			>? i 0
 				log! i
 				i := decrement i
 			else
@@ -349,10 +352,10 @@ For reference, here's what it might look like. (For a better understanding see [
 	\ `gen-maker` is a function returning a generator - in other words, something specified by `~|`.
 	incrementing. |gen-maker:Fun[Generator]
 		gen:Generator = gen-maker ()
-		last-value ::= 0
+		last-value ::= ()
 		loop!
 			\ The `<~` statment that the generator is paused on will recieve `last-value`.
-			value done = gen.next last-value
+			value done = gen.next (increment last-value)
 			last-value := value
 			case! done
 				_
@@ -399,10 +402,7 @@ A more complex example:
 				<~ triple x
 
  	\ 2 4 6 3 6 9
-	doubled-then-tripled
-		. 1
-		. 2
-		. 3
+	doubled-then-tripled [ 1 2 3 ]
 
 
 (Of course, you could just use `+ (map _ double) (map _ triple)`.)
@@ -419,7 +419,7 @@ You can also use `<~~` for assignment just as with `<~`.
 			<~~ increment~ incr2
 	increment~. ~|x
 		<~ "Incrementing {x}"
-		x
+		increment x
 	!= (increment-thrice 0) 3
 
 

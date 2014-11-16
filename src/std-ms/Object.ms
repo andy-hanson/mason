@@ -8,7 +8,7 @@ use
 	.bags.Bag -> each!
 	.bags.Seq -> seq=?
 	.bags.Stream -> ->Stream
-	.Bool -> and false if not nor true
+	.Bool -> and false if not nor true xor
 	.Comparable -> =?
 	.Dict
 	.js -> global identical? js-typeof
@@ -161,26 +161,34 @@ inspect=?.
 		\ For functions, is identity
 		! (inspect=? inspect=? inspect=?)
 	|:Bool a b
-		obj-a = identical? (js-typeof a) "object"
-		obj-b = identical? (js-typeof b) "object"
+		any-a = subsumes? Any a
+		any-b = subsumes? Any b
 		case
-			nor obj-a obj-b
-				identical? a b
-			and obj-a obj-b
-				same-type = identical? (Object.getPrototypeOf a) (Object.getPrototypeOf b)
-				same-members ~=
-					ak = Object.getOwnPropertyNames a
-					bk = Object.getOwnPropertyNames b
-					case
-						\ TODO: For non-extensible Record-Types we can skip this check
-						=? ak bk
-							eq = =? \ Pronounced "equals equals equals"
-							`for (let i = 0; i < ak.length; i++) { const key = ak[i]; if (!eq(a[ak], b[ak])) return false }`
-							true
-						else
-							false
-				and same-type ~same-members
-			else
+			nor any-a any-b
+				true
+			xor any-a any-b
 				false
+			else
+				obj-a = identical? (js-typeof a) "object"
+				obj-b = identical? (js-typeof b) "object"
+				case
+					nor obj-a obj-b
+						identical? a b
+					xor obj-a obj-b
+						false
+					else
+						same-type = identical? (Object.getPrototypeOf a) (Object.getPrototypeOf b)
+						same-members ~=
+							ak = Object.getOwnPropertyNames a
+							bk = Object.getOwnPropertyNames b
+							case
+								\ TODO: For non-extensible Record-Types we can skip this check
+								=? ak bk
+									eq = =? \ Pronounced "equals equals equals"
+									`for (let i = 0; i < ak.length; i++) { const key = ak[i]; if (!eq(a[ak], b[ak])) return false }`
+									true
+								else
+									false
+						and same-type ~same-members
 
 Object
