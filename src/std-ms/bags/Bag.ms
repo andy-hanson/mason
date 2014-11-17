@@ -147,7 +147,7 @@ region Methods only needing iterator
 			!= (nth [ 0 1 ] 1) 1
 			!fails |
 				nth [ 0 1 ] 2
-		default. |_ n
+		default. |_ n:Nat
 			get-or (?nth _ n) ~(oh-no! "Bag only has {count_} elements, so can't return element {n}")
 
 	?first. Method

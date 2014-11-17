@@ -21,5 +21,9 @@ type-of. Method
 	\ TODO: Should be able to just make it here. No need for syms.
 	impl-symbol. syms.type-of
 
+\ TODO: Find better place for this. math-methods?
+length. Method
+	doc. "TODO"
+
 impl! type-of Object |_
 	`_.constructor`
