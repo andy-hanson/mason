@@ -7,7 +7,7 @@ use
 	..Comparable -> =? <=? >=?
 	..control -> if
 	..Error -> fails? oh-no!
-	..Fun -> curry identity Pred thunk
+	..Fun -> identity Pred thunk
 	..generators -> Generator
 	..math.Num -> divisible? Nat
 	..pred-types -> Any Opt
@@ -81,8 +81,8 @@ region Functions using just the iterator
 	any?.
 		doc. "TODO"
 		test. |
-			! any? [ 0 1 ] (curry =? 1)
-			!not any? [ 0 1 ] (curry =? 2)
+			! any? [ 0 1 ] =?[1]
+			!not any? [ 0 1 ] =?[2]
 		|_:Bag pred:Opt[Pred]
 			\ TODO: Better optional arguments
 			p = get-or (Opt->? pred) identity
@@ -91,8 +91,8 @@ region Functions using just the iterator
 	all?.
 		doc. "TODO"
 		test. |
-			! all? [ 0 0 ] (curry =? 0)
-			!not all? [ 0 1 ] (curry =? 0)
+			! all? [ 0 0 ] =?[0]
+			!not all? [ 0 1 ] =?[0]
 		|_:Bag pred:Opt[Pred]
 			\ TODO: Better optional arguments
 			p = get-or (Opt->? pred) identity
@@ -194,7 +194,7 @@ region Methods using builder
 	keep. Method
 		doc. "Bag with only the elements that satisfy `keep-if?`."
 		test. |
-			[ [ 1 2 ] (curry =? 2) ] -> [ 2 ]
+			[ [ 1 2 ] =?[2] ] -> [ 2 ]
 		default. |_:Bag keep-if?:Pred
 			from-stream _ (keep ->Stream_ keep-if?)
 
@@ -213,7 +213,7 @@ region Methods using builder
 	toss.
 		doc. "Bag without any elements that satisfy `toss-if?`."
 		test. |
-			[ [ 1 2 ] (curry =? 2) ] -> [ 1 ]
+			[ [ 1 2 ] =?[2] ] -> [ 1 ]
 		|_:Bag toss-if?:Pred
 			keep _ |em
 				not (toss-if? em)

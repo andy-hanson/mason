@@ -5,7 +5,7 @@ use
 	..Bool -> and not
 	..Comparable -> =?
 	..Error -> fails? oh-no!
-	..Fun -> call curry thunk
+	..Fun -> call thunk
 	..js -> identical?
 	..Num
 	..Object -> set-property! extend!
@@ -125,7 +125,7 @@ region sub
 
 	implementor! ?-Sub Type
 	impl! subsumes? ?-Sub |?-sub subsumed
-		and (subsumes? ? subsumed) ~(map subsumed (curry subsumes? ?-sub.em-type))
+		and (subsumes? ? subsumed) ~(map subsumed subsumes?[?-sub.em-type])
 
 	impl! !subsumes ?-Sub |?-sub subsumed name
 		!subsumes ? subsumed name

@@ -17,7 +17,7 @@ use
 	.Str -> ->Str
 	.pred-types -> Any
 	.types.Alias-Type
-	.types.Method -> impl! impl-direct!
+	.types.Method -> impl! impl-for impl-direct!
 	.types.Type -> subsumes?
 
 Fun = global.Function
@@ -70,22 +70,26 @@ call-with-this.
 	|f:Fun new-this:Any \ TODO:ES6 ...args
 		apply-with-this f new-this (Array.prototype.slice.call `arguments` 2)
 
-
-curry.
+curry =
 	doc. "Creates a function which calls `f` with the given arguments first."
 	test. |
-		+1 = curry + 1
+		+1 = +[1]
 		! =? (+1 1) 2
 		all-3 = |a b c
 			[ a b c ]
-		one-two = curry all-3 1 2
+		one-two = all-3[1 2]
 		! =? (one-two 3) [ 1 2 3 ]
 
 	|f:Fun \ ...args TODO:ES6
 		\ args = ->Array (+ (Array.prototype.slice.call `arguments` 1) [ () ])
-		Fun.prototype.bind.apply f `[null].concat(global.Array.prototype.slice.call(arguments, 1))`
+		\Fun.prototype.bind.apply f `[null].concat(global.Array.prototype.slice.call(arguments, 1))`
+		args = Array.prototype.slice.call `arguments` 1
+		Fun.prototype.bind.apply f (+ [()] args)
 
-curry-with-this.
+impl! sub Fun curry
+impl! sub Method curry
+
+bind.
 	doc. "TODO"
 	test. |
 		"TODO"
@@ -122,7 +126,8 @@ impl-direct! sub Fun
 		Fun
 
 identity.
-	doc. "Outputs its input unmodified."
+	doc.
+	"Outputs its input unmodified."
 	test. |
 		! =? (identity identity) identity
 	|a
