@@ -4,7 +4,7 @@ use
 	..Fun -> TODO
 	.Map -> ?get has-key? keys
 	.Map! -> clear! delete! set!
-	..Num -> Nat
+	..math.Num -> Nat
 	..Opt -> Opt->?
 	..pred-types -> Any
 	..types.Interface -> implementor!

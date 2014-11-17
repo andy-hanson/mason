@@ -99,12 +99,12 @@ region Overrides
 			i ::= 0
 			loop!
 				value done = iter.next ()
-				i := + i 1
 				case!
 					or done ~(=? i count-to-take)
 						end-loop!
 					else
 						<~ value
+						i := + i 1
 
 	impl! drop Stream |_ count-to-drop:Nat
 		streaming ~|

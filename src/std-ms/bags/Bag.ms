@@ -114,9 +114,10 @@ region Functions using just the iterator
 		test. |
 			s = streaming ~|
 				<~ 1
-			! (seq=? [ 1 ] s)
+			! (seq=? s [ 1 ])
+			! (not (seq=? s [ 2 ]))
 		|bag0:Bag bag1:Bag
-			all? (zip bag0 bag1 =?)
+			and (=? (count bag0) (count bag1)) ~(all? (zip bag0 bag1 =?))
 
 region Methods only needing iterator
 	count. Method

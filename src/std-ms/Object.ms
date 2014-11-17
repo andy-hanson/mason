@@ -5,7 +5,7 @@ use
 	.assert -> ! != !fails
 	.bags.? -> ?none ?some Opt->?
 	.bags.Array
-	.bags.Bag -> each! seq=?
+	.bags.Bag -> each! empty? seq=?
 	.bags.Stream -> ->Stream
 	.Bool -> and false not nor true xor
 	.Comparable -> =?
@@ -56,15 +56,15 @@ own-properties.
 own-enumerable-properties.
 	doc. "Like own-properties, but excludes non-enumerable properties and symbols."
 	test. |
-		obj = `{}`
-		add-property! obj "a"
+		obj = `{}` \ TODO: new Object
+		Object.defineProperty obj "a"
 			value. 0
 			enumerable. false
 		sym = Symbol "s"
 		Object.defineProperty obj sym
 			value. 0
 			enumerable. true
-		! (seq=? (own-properties obj) [])
+		! (empty? (own-enumerable-properties obj))
 	|:Bag[Str] _:Object
 		Object.keys _
 
@@ -143,7 +143,7 @@ change-property!.
 	doc. "TODO"
 	test. |
 		"TODO: Mutable add-property so I can test this."
-	|object:Object name:Str/Sym new-val
+	|object:Object name:Str/Sym new-val:Any
 		in
 			has-property? object name
 

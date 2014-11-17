@@ -37,14 +37,17 @@ make-record-constructor = |rt
 					Object.defineProperty baby member-name
 						value. val
 						enumerable. true
-						\ TODO: writable
+						writable. member-name.endsWith "!"
 
 				has? _ "get"
+					case!
+						member-name.endsWith "!"
+							oh-no! "Can not define mutable property lazily."
+
 					\ TODO: Type the result, somehow
 					Object.defineProperty baby member-name
 						get. descriptor.get
 						enumerable. true
-						\ TODO: writable
 
 				else
 					oh-no! ~"Descriptor for {member-name} has neither value nor get; is {descriptor}"
