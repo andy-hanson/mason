@@ -2,11 +2,12 @@ doc. "Making sure the code in README.md actually works."
 
 use
 	..arithmetic-methods -> + - * /
-	..assert -> ! !fails !not
+	..assert -> ! !not
 	..bags.Bag -> map seq=? take
 	..bags.Stream -> streaming
 	..Bool -> and not
 	..Comparable -> =? >? >=? <=?
+	..Error -> fails?
 	..Fun -> call
 	..Generator -> each~
 	..math.Num -> divisible? Int
@@ -81,7 +82,7 @@ half. |a
 
 	/ a 2
 
-!fails |
+! fails? |
 	half 1
 ! =? (half 2) 1
 

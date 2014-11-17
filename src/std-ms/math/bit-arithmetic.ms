@@ -1,8 +1,9 @@
 doc. "TODO"
 
 use
-	..assert -> !not !fails
+	..assert -> ! !not
 	..Bool -> not
+	..Error -> fails?
 	.Num -> Int
 	..Str
 
@@ -10,7 +11,7 @@ binary.
 	doc. "Makes an Int out of a string of 0s and 1s."
 	test. |
 		[ "101" ] -> 5
-		!fails |
+		! fails? |
 			binary "0a"
 	|:Int bin-str:Str
 		in
@@ -25,7 +26,7 @@ hexidecimal.
 	doc. "Max an Int out of a string of hex codes (0-f). Capitalization ignored."
 	test. |
 		[ "7f" ] -> 127
-		!fails |
+		! fails? |
 			hexidecimal "asdfghjkl"
 	|:Int hex-str:Str
 		in

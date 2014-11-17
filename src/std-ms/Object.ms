@@ -2,7 +2,7 @@ doc. "TODO"
 
 use
 	.arithmetic-methods -> +
-	.assert -> ! !not !fails
+	.assert -> ! !not
 	.bags.? -> ?none ?some Opt->?
 	.bags.Array
 	.bags.Bag -> each! empty? seq=?
@@ -11,6 +11,7 @@ use
 	.Comparable -> =?
 	.control -> if
 	.Dict
+	.Error -> fails?
 	.js -> global identical? js-typeof
 	.maps.Map -> keys
 	.pred-types -> Any Union
@@ -101,10 +102,9 @@ add-property!.
 		x = Object.create ()
 		add-property! x "a" 1
 		! =? x.a 1
-		!fails |
+		! fails? |
 			add-property! x "a" 2
-		\ Use `add-property-to-anY!
-		!fails |
+		! fails? |
 			add-property! "string" "a" 1
 	|object:Object name:Str/Sym val
 		Object.defineProperty object name

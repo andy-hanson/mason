@@ -3,7 +3,7 @@ doc. "TODO"
 use
 	.assert -> ! !fail-message
 	.bags.? -> ?none ?some
-	.Bool -> true
+	.Bool -> and true
 	.Comparable -> =?
 	.Fun -> Act delegate-to ignore thunk
 	.js -> global
@@ -12,7 +12,7 @@ use
 	.Str
 	.types.Interface -> implementor!
 	.types.Record-Type
-	.types.Type -> !subsumes
+	.types.Type -> subsumes?
 
 Error = global.Error
 
@@ -33,8 +33,8 @@ oh-no!.
 		If it is possible for the creation of `error` to fail, make it lazy.
 
 	test. |
-		\ !fails-with ... \ TODO
-		!fail-message "a" |
+		\ TODO: ! fails-with? type | oh-no! type
+		! fails-with? "a" |
 			oh-no! "a"
 	|~error
 		\ TODO: Optional arguments
@@ -106,6 +106,18 @@ annotate-errors.
 				change-property! _ "stack" "{annotation}{_.stack}"
 				change-property! _ "message" "{annotation}{_.message}"
 				oh-no! _
+
+fails?. |_:Act
+	subsumes? Error try_
+
+fails-with?. |with act:Act
+	result = try act
+	and (subsumes? Error result) ~
+		case with
+			:Type
+				subsumes? with result
+			:Str
+				=? result.message _
 
 \ TODO: Just make it a Record-Type with message/stack properties whose default if `new Error(msg)`.stack
 error-type.

@@ -1,9 +1,10 @@
 use
 	..arithmetic-methods -> + - * /
-	..assert -> ! !fails !not
+	..assert -> ! !not
 	..bags.? -> get-or Opt->?
 	..Bool -> and false not true
 	..Comparable -> =? <? >? <=? >=? compare
+	..Error -> fails?
 	..js -> global
 	..Object -> get-property
 	..pred-types -> Opt
@@ -123,7 +124,7 @@ region Real arithmetic
 	square-root.
 		test. |
 			[ 4 ] -> 2
-			!fails |
+			! fails? |
 				square-root -1
 		|_:Num
 			in

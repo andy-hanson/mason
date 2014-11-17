@@ -8,7 +8,7 @@ use
 	.Bool -> false not true
 	.Comparable -> =?
 	.control -> if!
-	.Error -> oh-no! try
+	.Error -> fails-with? oh-no!
 	.Fun -> Act apply
 	.js -> global
 	.maps.Map -> keys
@@ -21,9 +21,9 @@ use
 	test. |
 		! =? 1 1
 		! (=? 1 1) "a"
-		!fail-message "! =? 1 2" |
+		! fails-with? "! =? 1 2" |
 			! =? 1 2
-		!fail-message "a" |
+		! fails-with? "a" |
 			! (=? 1 2) "a"
 	|a b
 		case! a
@@ -66,40 +66,3 @@ use
 			actual = apply fun args
 			if! (not (=? actual expected)) |
 				oh-no! "`{fun} {(map args ->Str).join " "}` should be `{expected}`, but got `{actual}`."
-
-region TODO: Get rid of us!
-	!fails.
-		doc. "Asserts that an error is thrown by `act`."
-		test. |
-			!fails |
-				oh-no! ()
-			!fails |
-				!fails |
-					()
-		|act:Act
-			_ = try act
-			! :Error "Failed to fail."
-
-	!fails-with.
-		doc. "Asserts that an error is thrown by `act` and is of type `Error-Type`."
-		test. |
-			!fails-with global.TypeError |
-				1.undefined-method ()
-		|Error-Type:Type act:Act
-			_ = try act
-			! :Error "Failed to fail."
-			!subsumes Error-Type _ "error thrown by fails-with#act"
-
-	!fail-message.
-		doc. "TODO"
-		test. |
-			!fail-message "msg" |
-				oh-no! "msg"
-		|expected-message act:Act
-			_ = try act
-			! :Error "Failed to fail."
-			use
-				.Bool -> not
-			! (not (=? _.message "[object Object]")) _.message \ TODO: REMOVE
-			! =? _.message expected-message
-

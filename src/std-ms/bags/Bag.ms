@@ -1,12 +1,12 @@
 use
 	.? -> ?none ?some get-or Opt->?
 	..arithmetic-methods -> + -
-	..assert -> ! !fails !not
+	..assert -> ! !not
 	..basic-methods -> freeze sub
 	..Bool -> and false not or true
 	..Comparable -> =? <=? >=?
 	..control -> if
-	..Error -> oh-no!
+	..Error -> fails? oh-no!
 	..Fun -> curry identity Pred thunk
 	..generators -> Generator
 	..math.Num -> divisible? Nat
@@ -146,7 +146,7 @@ region Methods only needing iterator
 		doc. "TODO"
 		test. |
 			! =? (nth [ 0 1 ] 1) 1
-			!fails |
+			! fails? |
 				nth [ 0 1 ] 2
 		default. |_ n:Nat
 			get-or (?nth _ n) ~(oh-no! "Bag only has {count_} elements, so can't return element {n}")

@@ -1,10 +1,10 @@
 use
-	..assert -> ! !not !fails
+	..assert -> ! !not
 	..basic-methods -> sub
 	.Bag -> Bag-Type each! empty empty? iterator map
 	..Bool -> and not
 	..Comparable -> =?
-	..Error -> oh-no!
+	..Error -> fails? oh-no!
 	..Fun -> call curry thunk
 	..js -> identical?
 	..Num
@@ -87,7 +87,7 @@ un-?.
 	doc. "Tries to extract the value out of a `?`. Throws an error if it is empty."
 	test. |
 		[ (?some 1) ] -> 1
-		!fails |
+		! fails? |
 			un-? ?none
 	|_:?
 		case

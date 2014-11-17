@@ -1,11 +1,12 @@
 use
 	.? -> get-or
 	.arithmetic-methods -> + *
-	.assert -> ! !fails
+	.assert -> !
 	.bags.Bag -> contains? each!
 	.Bool -> nor not
 	.Comparable -> =?
 	.control -> if!
+	.Error -> fails?
 	.Fun -> identity-memoize
 	.math.bit-arithmetic -> bit-and hexidecimal
 	.math.Num -> Int round-towards-0
@@ -31,7 +32,7 @@ hash-code =  Method
 			y. 1
 		! =? (hash-code a) (hash-code a)
 		! (not (=? (hash-code a) (hash-code b)))
-		!fails |
+		! fails? |
 			hash-code ()
 
 	default. identity-memoize |_
