@@ -1,7 +1,7 @@
 use
 	.Array -> ->Array
 	..arithmetic-methods -> + -
-	..assert -> !=
+	..assert -> !
 	.Bag -> all? Bag-Type drop empty flat-map iterator keep map seq=? slice take zip
 	..Bool -> and or
 	..Comparable -> =?
@@ -35,7 +35,7 @@ impl! ->Str Stream
 		x = streaming ~|
 			<~ 0
 			<~ 1
-		!= (->Str x) "Stream 0 1"
+		[ x ] -> "Stream 0 1"
 	|_
 		"Stream {->Array_.join " "}"
 
@@ -52,9 +52,9 @@ streaming.
 		_ = streaming ~|
 			<~ 1
 			<~ 2
-		!= ->Array_ [ 1 2 ]
+		! seq=? _ [ 1 2 ]
 		\ They can be used twice!
-		!= ->Array_ [ 1 2 ]
+		! seq=? _ [ 1 2 ]
 	|make-gen:Fun[Generator]
 		Stream
 			make-iterator. make-gen

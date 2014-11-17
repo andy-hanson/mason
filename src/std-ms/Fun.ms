@@ -2,11 +2,12 @@ doc. "TODO"
 
 use
 	.arithmetic-methods -> +
-	.assert -> ! !=
+	.assert -> !
 	.bags.? -> get-or
 	.bags.Array -> ->Array
 	.bags.Bag -> each! map
 	.basic-methods -> sub
+	.Comparable -> =?
 	.Error -> oh-no!
 	.js -> global new
 	.maps.Map -> ?get keys
@@ -39,14 +40,14 @@ Pred. Alias-Type
 apply.
 	doc. "Calls the function with the given arguments list."
 	test. |
-		!= (apply + [ 1 2 ]) 3
+		! =? (apply + [ 1 2 ]) 3
 	|f:Fun arguments:Bag
 		Fun.prototype.apply.call f () (->Array arguments)
 
 call.
 	doc. "Calls the function with the given arguments."
 	test. |
-		!= (call + 1 2) 3
+		! =? (call + 1 2) 3
 	|f:Fun
 		apply f (Array.prototype.slice.call `arguments` 1) \ TODO:ES6
 
@@ -55,7 +56,7 @@ apply-with-this.
 	test. |
 		f = |a
 			+ this a
-		!= (apply-with-this f 1 [ 2 ]) 3
+		! =? (apply-with-this f 1 [ 2 ]) 3
 	|f:Fun new-this:Any arguments:Bag
 		\ TODO:ES6 f ...args
 		Fun.prototype.apply.call f new-this (->Array arguments)
@@ -65,7 +66,7 @@ call-with-this.
 	test. |
 		f = |a
 			+ this a
-		!= (call-with-this f 1 2) 3
+		! =? (call-with-this f 1 2) 3
 	|f:Fun new-this:Any \ TODO:ES6 ...args
 		apply-with-this f new-this (Array.prototype.slice.call `arguments` 2)
 
@@ -74,11 +75,11 @@ curry.
 	doc. "Creates a function which calls `f` with the given arguments first."
 	test. |
 		+1 = curry + 1
-		!= (+1 1) 2
+		! =? (+1 1) 2
 		all-3 = |a b c
 			[ a b c ]
 		one-two = curry all-3 1 2
-		!= (one-two 3) [ 1 2 3 ]
+		! =? (one-two 3) [ 1 2 3 ]
 
 	|f:Fun \ ...args TODO:ES6
 		\ args = ->Array (+ (Array.prototype.slice.call `arguments` 1) [ () ])
@@ -103,9 +104,9 @@ fun-copy.
 		f2 =
 			doc. "This is f2"
 			fun-copy f1
-		!= f1.displayName "f1"
-		!= f2.displayName "f2"
-		!= (f1 1) (f2 1)
+		! =? f1.displayName "f1"
+		! =? f2.displayName "f2"
+		! =? (f1 1) (f2 1)
 
 	|_:Fun |
 		Fun.prototype.apply.call _ () `arguments`
@@ -116,14 +117,14 @@ impl-direct! sub Fun
 		E.g. Fun[Int Str] takes an Int and returns a Str.
 
 	test. |
-		!= Fun[Fun Fun] Fun
+		! =? Fun[Fun Fun] Fun
 	|
 		Fun
 
 identity.
 	doc. "Outputs its input unmodified."
 	test. |
-		!= (identity identity) identity
+		! =? (identity identity) identity
 	|a
 		a
 
@@ -143,13 +144,13 @@ identity-memoize.
 			x.a
 		a1 =
 			a. 1
-		!= (get-a a1) 1
-		!= (get-a a1) 1
-		!= comps 1
+		! =? (get-a a1) 1
+		! =? (get-a a1) 1
+		! =? comps 1
 		a2 =
 			a. 2
-		!= (get-a a2) 2
-		!= comps 2
+		! =? (get-a a2) 2
+		! =? comps 2
 	|fun:Fun
 		wm = new Weak-Identity-Map!
 		|arg:Any
@@ -172,14 +173,14 @@ spread.
 			3 -> 4
 			5 -> 6
 		\ TODO: Shouldn't need ->Array
-		!= (->Array x)
+		! =? (->Array x)
 			. [ 1 2 3 4 ]
 			. [ 1 2 5 6 ]
 
 		y = spread all-4 1 2 3
 			. 4
 			. 5
-		!= (->Array y)
+		! =? (->Array y)
 			. [ 1 2 3 4 ]
 			. [ 1 2 3 5 ]
 
@@ -206,7 +207,7 @@ spread.
 thunk.
 	doc. "Makes function which, when called, returns `a`."
 	test. |
-		!= ((thunk 1) ()) 1
+		! =? (call (thunk 1)) 1
 	|a |
 		a
 

@@ -1,8 +1,8 @@
 use
 	..arithmetic-methods -> + - * /
-	..assert -> ! != !fails
+	..assert -> ! !fails !not
 	..bags.? -> get-or Opt->?
-	..Bool -> and not
+	..Bool -> and false not true
 	..Comparable -> =? <? >? <=? >=? compare
 	..js -> global
 	..Object -> get-property
@@ -27,18 +27,18 @@ region Constants
 Int. Pred-Type
 	doc. "TODO"
 	test. |
-		! (subsumes? Int 1)
-		! (not (subsumes? Int 1.1))
-		! (subsumes? Int max-safe-integer)
-		! (not (subsumes? Int (+ max-safe-integer 1)))
+		! subsumes? Int 1
+		!not subsumes? Int 1.1
+		! subsumes? Int max-safe-integer
+		!not subsumes? Int (+ max-safe-integer 1)
 	predicate. |_
 		and :Num ~(Num.isSafeInteger (_.valueOf ()))
 
 Nat. Pred-Type
 	doc. "TODO"
 	test. |
-		! (subsumes? Nat 0)
-		! (not (subsumes? Nat -1))
+		! subsumes? Nat 0
+		!not subsumes? Nat -1
 	predicate. |_
 		and :Int ~(>=? _ 0)
 
@@ -72,17 +72,17 @@ region Integer arithmetic
 			Sign of result is sign of `a`. Sign of `b` is ignored.
 
 		test. |
-			!= 1 (remainder 3 2)
-			!= -1 (remainder -3 2)
+			[ 2 3 ] -> 2
+			[ -3 2 ] -> -1
 		|a:Num b:Num
 			`a % b`
 
 	divisible?.
 		doc. "Whether an integer number of `b` can add up to `a`."
 		test. |
-			! (divisible? 4 2)
-			! (divisible? 4 -2)
-			! (not (divisible? 3 2))
+			! divisible? 4 2
+			! divisible? 4 -2
+			!not divisible? 3 2
 		|a:Num b:Num
 			=? 0 (remainder a b)
 
@@ -97,24 +97,23 @@ region Real arithmetic
 	log.
 		doc. "TODO"
 		test. |
-			\ TODO: spread !near
-			! (near? (log 10 0.01) -2)
-			!= (log 2 8) 3
+			! near? (log 10 0.01) -2
+			[ 2 8 ] -> 3
 		|base:Num n:Num
 			/ (log-e n) (log-e base)
 
 	abs.
 		doc. "Negates `a` until it is positive."
 		test. |
-			!= (abs 1) 1
-			!= (abs -1) 1
+			[ 1 ] -> 1
+			[ -1 ] -> 1
 		|a:Num
 			Math.abs a
 
 	pow.
 		doc. "`a` raised to the power of `b`."
 		test. |
-			!= 8 (pow 2 3)
+			[ 2 3 ] -> 8
 		|a:Num b:Num
 			`Math.pow(a, b)`
 
@@ -123,7 +122,7 @@ region Real arithmetic
 
 	square-root.
 		test. |
-			!= (square-root 4) 2
+			[ 4 ] -> 2
 			!fails |
 				square-root -1
 		|_:Num
@@ -138,32 +137,32 @@ region Rounding
 			Rounds up to break ties.
 
 		test. |
-			!= (round -0.5) 0
-			!= (round 0.5) 1
+			[ -0.5 ] -> 0
+			[ 0.5 ] -> 1
 		|_:Num
 			Math.round _
 
 	round-down.
 		doc. "Greatest integer no greater than `a`."
 		test. |
-			!= (round-down -0.5) -1
-			!= (round-down 0.5) 0
+			[ -0.5 ] -> -1
+			[ 0.5 ] -> 0
 		|_:Num
 			Math.floor _
 
 	round-up.
 		doc. "Least integer no less than `a`."
 		test. |
-			!= (round-up -0.5) 0
-			!= (round-up 0.5) 1
+			[ -0.5 ] -> 0
+			[ 0.5 ] -> 1
 		|_:Num
 			Math.ceil _
 
 	round-towards-0.
 		doc. "`round-down` if positive, else `round-up`."
 		test. |
-			!= (round-towards-0 -0.5) 0
-			!= (round-towards-0 0.5) 0
+			[ -0.5 ] -> 0
+			[ 0.5 ] -> 0
 		|_:Num
 			`_ | 0`
 
@@ -173,14 +172,14 @@ region Near
 
 	impl! near? Num
 		test. |
-			! (near? 1000.9 1000 3)
-			! (not (near? 1000.9 1000 4))
-			! (near? 0.001001 0.001 3)
-			! (not (near? 0.001001 0.001 4))
-			! (not (near? 0.001 -0.001 1)) "Numbers with different signs are never near"
+			[ 1000.9 1000 3 ] -> true
+			[ 1000.9 1000 4 ] -> false
+			[ 0.001001 0.001 3 ] -> true
+			[ 0.001001 0.001 4 ] -> false
+			[ 0.001 -0.001 1 ] -> false \ Numbers with different signs are never near.
 			region Behaves like `near-0?` when an arg is 0
-				! (near? 0.00999 0 2)
-				! (near? 0 0.00999 2)
+				[ 0.00999 0 2 ] -> true
+				[ 0 0.00999 2 ] -> true
 		\ TODO: Optional arguments
 		|a b:Num sig-figs:Opt[Nat]
 			sfs = get-or (Opt->? sig-figs) 6
@@ -205,8 +204,8 @@ region Near
 
 	impl! near-0? Num
 		test. |
-			! (near-0? 0.00999 2)
-			! (not (near-0? 0.01 2))
+			[ 0.00999 2 ] -> true
+			[ 0.01 2 ] -> false
 		\ TODO: Optional arguments
 		|_ sig-figs:Opt[Nat]
 			sfs = get-or (Opt->? sig-figs) 6

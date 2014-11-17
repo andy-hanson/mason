@@ -1,19 +1,21 @@
 doc. "TODO"
 
 use
+	..assert -> !call
 	..bags.? -> get-or un-?
 	..bags.Bag -> each!
 	..Bool -> and
 	..console -> log!
 	..Error -> annotate-errors oh-no!
-	..Fun -> ignore
+	..Fun -> call ignore
 	..Object -> ?get-property get-property has-property? own-enumerable-properties
-	..Map -> get
+	..maps.Map
 	path
 	..pred-types -> Any
 	q-io.fs
 	..Str
 	..types.Method -> impl! ?impl-for
+	..types.Type -> subsumes?
 
 \ TODO: Better name (but not `test`, because that's a common module property)
 test-special. Method
@@ -42,7 +44,12 @@ maybe-test = |name:Str value:Any
 				()
 		case! value
 			and :Object ~(has-property? _ "test")
-				value.test ()
+				test-result = call value.test
+				case! test-result
+					and :Map ~(subsumes? Fun value)
+						!call value _
+					else
+						()
 			else
 				()
 

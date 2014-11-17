@@ -1,7 +1,7 @@
 doc. "TODO"
 
 use
-	.assert -> !=
+	.assert -> ! !call
 	.bags.Array -> ->Array
 	.bags.Bag -> map
 	.basic-methods -> type-of
@@ -27,7 +27,6 @@ indent.
 		Does *not* do anything to the first line.
 
 	test. |
-		!= (indent "a") "a"
 		s = "
 			a
 			b
@@ -36,7 +35,9 @@ indent.
 			a
 				b
 
-		!= (indent s) (s-indented)
+		!call indent
+			[ s ] -> s-indented
+			[ "a" ] -> "a"
 
 	|str:Str
 		"{str.replace `/\n/g` "\n\t"}"

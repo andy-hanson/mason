@@ -2,7 +2,7 @@ doc. "TODO"
 
 use
 	..arithmetic-methods -> /
-	..assert -> ! !=
+	..assert -> !
 	..bags.? -> get-or Opt->?
 	..bags.Bag -> each!
 	..maps.Map -> keys

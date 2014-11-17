@@ -3,12 +3,13 @@ doc. "TODO"
 use
 	.Alias-Type
 	.arithmetic-methods -> *
-	.assert -> ! !=
+	.assert -> !
 	.bags.? -> ?none ?some
 	.bags.Array -> ->Array
 	.bags.Bag -> iterator seq=?
 	.bags.Stream -> streaming
 	.Bool -> and false not true
+	.Comparable -> =?
 	.Fun -> call
 	.js -> exists?
 	.Object -> has-property?
@@ -27,7 +28,7 @@ each~.
 		x = streaming ~|
 			<~~ each~ (Array 1 2 3) ~|em
 				<~ em
-		!= (->Array x) (Array 1 2 3)
+		! seq=? x [ 1 2 3 ]
 	~|bag:Bag do-each:Fun[Any Generator!]
 		\ TODO:ES6 for (let em of bag)
 		iter = iterator bag
@@ -43,7 +44,7 @@ map~.
 				<~ em
 				* 2 em
 			! (seq=? two-four-six [ 2 4 6 ])
-		! (seq=? x [ 1 2 3 ])
+		! seq=? x [ 1 2 3 ]
 	~|:Bag bag:Bag mapper:Fun[Any Generator!]
 		arr = `[]`\ new Array
 		\ TODO:ES6 for (let em of bag)
@@ -58,11 +59,11 @@ if~.
 			a <~~ if~ true ~|
 				<~ 1
 				2
-			!= a (?some 2)
+			! =? a (?some 2)
 			b <~~ if~ false ~|
 				<~ 3
-			!= b ?none
-		! (seq=? stream [ 1 ])
+			! =? b ?none
+		! seq=? stream [ 1 ]
 
 	~|:? condition:Bool result:Fun[Generator!]
 		case

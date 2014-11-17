@@ -1,7 +1,7 @@
 use
 	.? -> get-or
 	.arithmetic-methods -> + *
-	.assert -> ! != !fails
+	.assert -> ! !fails
 	.bags.Bag -> contains? each!
 	.Bool -> nor not
 	.Comparable -> =?
@@ -29,7 +29,7 @@ hash-code =  Method
 		b =
 			x. 1
 			y. 1
-		!= (hash-code a) (hash-code a)
+		! =? (hash-code a) (hash-code a)
 		! (not (=? (hash-code a) (hash-code b)))
 		!fails |
 			hash-code ()

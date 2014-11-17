@@ -1,7 +1,7 @@
 \ TODO: TEST
 
 use
-	..assert -> ! !=
+	..assert -> !
 	..arithmetic-methods -> +
 	..bags.? -> ?none get-or
 	..bags.Array -> ->Array
@@ -33,10 +33,10 @@ Hash-Map = Record-Type
 		_ =
 			1 -> 2
 			3 -> 4
-		!= _[1] 2
-		!= _[3] 4
-		! (seq=? keys_ [ 1 3 ])
-		!= (?get _ 8) ?none
+		! =? _[1] 2
+		! =? _[3] 4
+		! seq=? keys_ [ 1 3 ]
+		! =? (?get _ 8) ?none
 
 	members.
 		hash->bucket. Identity-Map!
@@ -84,7 +84,7 @@ add-property! ms "map"  |
 	i ::= 0
 	args = `arguments`
 	n-args = args.length
-	! (divisible? n-args 2)
+	! divisible? n-args 2
 
 	loop!
 		case!

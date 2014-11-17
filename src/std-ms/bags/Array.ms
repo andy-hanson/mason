@@ -1,7 +1,7 @@
 \ Also see ..maps.Array-as-Map
 
 use
-	..assert -> !=
+	..assert -> ! !call
 	.Bag -> Bag-Type builder build-next! build-result count each! empty iterator map seq=?
 	..basic-methods -> freeze
 	..Bool -> and
@@ -18,25 +18,20 @@ use
 	..types.Type -> subsumes?
 
 Array =
-	doc. "Javascript's native mutable Array type."
-	\new.
-	\	doc. "New empty array. If `count` is provided it will be initialized to that size."
-	\	|count:Nullable[Nat]
-	\		case count
-	\			:Any
-	\				Array count
-	\			else
-	\				call Array
+	doc. "Javascript's native mutable Array type. TODO: `Array` vs `Array!`"
 	global.Array
 
+\ TODO: General bag conversions
 ->Array.
 	doc. "TODO"
 	test. |
-		x = streaming ~|
-			<~ 0
-		!= (->Array x) [ 0 ]
+		!call ->Array
+			x = streaming ~|
+				<~ 0
+			[ x ] -> [ 0 ]
 	|_:Bag
-		arr ::= new Array
+		\ TODO: empty Array!
+		arr ::= `[]`
 		each! _ |em
 			arr.push em
 		arr
@@ -53,21 +48,20 @@ impl! iterator Array ~|_
 
 impl! ->Str Array
 	test. |
-		!= (->Str [ 0 1 ]) "[ 0 1 ]"
+		!call ->Str
+			[ [ 0 1 ] ] -> "[ 0 1 ]"
 	|_
 		ems = ->Array (map _ ->Str)
 		"[ {ems.join " "} ]"
 
 impl! =? Array
 	test. |
-		!= [ 1 ] [ 1 ]
+		! =? [ 1 ] [ 1 ]
 	|a b
 		and (subsumes? Array b) ~(and (=? a.length b.length) ~(seq=? a b))
 
 implementor-direct! Array Bag-Type
 impl-direct! empty Array (thunk [])
-
-
 
 impl! builder Array |
 	`[]`

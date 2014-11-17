@@ -1,7 +1,7 @@
 doc. "TODO"
 
 use
-	.assert -> ! !=
+	.assert -> ! !not
 	.bags.Array
 	.bags.Bag -> each!
 	.Bool -> false not true
@@ -37,8 +37,8 @@ truthy?.
 			. false
 		each! falsy |_
 			! (not truthy?_)
-		! (truthy? [])
-		! (truthy? true)
+		! truthy? []
+		! truthy? true
 
 	|:Bool a
 		`!!a`
@@ -53,11 +53,11 @@ new.
 		My-Fun-Type = |a
 			add-property! this "a" a
 		x:My-Fun-Type = new My-Fun-Type 1
-		!= x.a 1
+		! =? x.a 1
 
 	|constructor:Fun
 		in
-			! (not (=? constructor Error))
+			!not =? constructor Error
 		out
 			!subsumes constructor res
 		boundConstructor = Fun.prototype.bind.apply constructor `arguments`

@@ -1,8 +1,9 @@
 \ TODO: Probably move these tests into types.ms
 
 use
-	..assert -> !=
+	..assert -> !
 	..basic-methods -> type-of
+	..Comparable -> =?
 	..math.Num
 	..types.Interface -> implementor!
 	..types.Method -> impl!
@@ -17,8 +18,8 @@ v. Vec2D
 	x. 1
 	y. 2
 
-!= v.x 1
-!= (type-of v) Vec2D
+! =? v.x 1
+! =? (type-of v) Vec2D
 
 x. Method
 	nom. "x"
@@ -30,8 +31,8 @@ impl! x Vec2D |v
 impl! x Num |n
 	n
 
-!= (x v) 1
-!= (x 2) 2
+! =? (x v) 1
+! =? (x 2) 2
 
 Has-X. Interface
 	nom. "Has-X"

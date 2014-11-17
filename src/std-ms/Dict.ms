@@ -1,9 +1,10 @@
 \ Also see ..maps.Dict-as-Map
 
 use
+	.assert -> !
 	.bags.Array
 	.bags.Bag -> seq=?
-	.assert -> ! !=
+	.Comparable -> =?
 	.maps.Map -> keys
 
 Dict =
@@ -15,8 +16,8 @@ Dict =
 		d:Dict =
 			a. 1
 			b. 2
-		! (seq=? (keys d) [ "a" "b" "displayName" ])
-		!= d["a"] 1
+		! seq=? (keys d) [ "a" "b" "displayName" ]
+		! =? d["a"] 1
 
 	\ TODO: `empty` method
 	empty. `_ms.Dict()`

@@ -1,7 +1,7 @@
 use
 	.? -> ?none ?some get-or Opt->?
 	..arithmetic-methods -> + -
-	..assert -> ! != !fails
+	..assert -> ! !fails !not
 	..basic-methods -> freeze sub
 	..Bool -> and false not or true
 	..Comparable -> =? <=? >=?
@@ -59,7 +59,7 @@ region Functions using just the iterator
 	fold.
 		doc. "TODO"
 		test. |
-			!= (fold [ 1 2 3 ] 4 +) 10
+			[ [ 1 2 3 ] 4 + ] -> 10
 		|_:Bag start:Any folder:Fun[Any Any Any]
 			acc ::= start
 			each! _ |em
@@ -81,8 +81,8 @@ region Functions using just the iterator
 	any?.
 		doc. "TODO"
 		test. |
-			! (any? [ 0 1 ] (curry =? 1))
-			! (not (any? [ 0 1 ] (curry =? 2)))
+			! any? [ 0 1 ] (curry =? 1)
+			!not any? [ 0 1 ] (curry =? 2)
 		|_:Bag pred:Opt[Pred]
 			\ TODO: Better optional arguments
 			p = get-or (Opt->? pred) identity
@@ -91,8 +91,8 @@ region Functions using just the iterator
 	all?.
 		doc. "TODO"
 		test. |
-			! (all? [ 0 0 ] (curry =? 0))
-			! (not (all? [ 0 1 ] (curry =? 0)))
+			! all? [ 0 0 ] (curry =? 0)
+			!not all? [ 0 1 ] (curry =? 0)
 		|_:Bag pred:Opt[Pred]
 			\ TODO: Better optional arguments
 			p = get-or (Opt->? pred) identity
@@ -114,8 +114,8 @@ region Functions using just the iterator
 		test. |
 			s = streaming ~|
 				<~ 1
-			! (seq=? s [ 1 ])
-			! (not (seq=? s [ 2 ]))
+			! seq=? s [ 1 ]
+			!not seq=? s [ 2 ]
 		|bag0:Bag bag1:Bag
 			and (=? (count bag0) (count bag1)) ~(all? (zip bag0 bag1 =?))
 
@@ -131,8 +131,8 @@ region Methods only needing iterator
 		doc. |:Any _ n:Nat
 			"`n`th element in iteration order. 0th is the first."
 		test. |
-			!= (?nth [ 0 1 ] 1) (?some 1)
-			!= (?nth [ 0 1 ] 2) ?none
+			[ [ 0 1 ] 1 ] -> ?some 1
+			[ [ 0 1 ] 2 ] -> ?none
 		default. |_ n:Nat
 			iter = iterator_
 			i ::= 0
@@ -145,7 +145,7 @@ region Methods only needing iterator
 	nth. Method
 		doc. "TODO"
 		test. |
-			!= (nth [ 0 1 ] 1) 1
+			! =? (nth [ 0 1 ] 1) 1
 			!fails |
 				nth [ 0 1 ] 2
 		default. |_ n:Nat
@@ -154,17 +154,17 @@ region Methods only needing iterator
 	?first. Method
 		doc. "TODO"
 		test. |
-			!= (?first [ 0 ]) (?some 0)
-			!= (?first []) ?none
+			[ [ 0 ] ] -> ?some 0
+			[ [] ] -> ?none
 		default. |:Any _
 			?nth _ 0
 
 	tail. Method
 		doc. "TODO"
 		test. |
-			! (empty? (tail [ 0 ]))
-			! (empty? (tail []))
-			! (seq=? (tail [ 0 1 ]) [ 1 ])
+			[ [] ] -> []
+			[ [ 0 ] ] -> []
+			[ [ 0 1 ] ] -> [ 1 ]
 
 		default. |:Bag _
 			drop _ 1
@@ -178,6 +178,8 @@ region Methods only needing iterator
 
 	right-tail. Method
 		doc. "TODO"
+		test. |
+			"TODO"
 		default. |:Bag _
 			take _ (- count_ 1)
 
@@ -192,14 +194,14 @@ region Methods using builder
 	keep. Method
 		doc. "Bag with only the elements that satisfy `keep-if?`."
 		test. |
-			!= (keep [ 1 2 ] (curry =? 2)) [ 2 ]
+			[ [ 1 2 ] (curry =? 2) ] -> [ 2 ]
 		default. |_:Bag keep-if?:Pred
 			from-stream _ (keep ->Stream_ keep-if?)
 
 	map. Method
 		doc. "TODO"
 		test. |
-			! (seq=? (map [ true false ] not) [ false true ])
+			[ [ true false ] not ] -> [ false true ]
 		default. |_:Bag mapper:Fun[Any Any]
 			from-stream _ (map ->Stream_ mapper)
 
@@ -211,7 +213,7 @@ region Methods using builder
 	toss.
 		doc. "Bag without any elements that satisfy `toss-if?`."
 		test. |
-			!= (toss [ 1 2 ] (curry =? 2)) [ 1 ]
+			[ [ 1 2 ] (curry =? 2) ] -> [ 1 ]
 		|_:Bag toss-if?:Pred
 			keep _ |em
 				not (toss-if? em)
@@ -219,12 +221,12 @@ region Methods using builder
 	flat-map. Method
 		doc. "TODO"
 		test. |
-			x = flat-map [ 1 2 3 4 ] |case
+			f = |case
 				divisible? _ 2
 					[ _ _ ]
 				else
-					?some _
-			! (seq=? x [ 1 2 2 3 4 4 ] )
+					?some_
+			[ [ 1 2 3 4 ] f ] -> [ 1 2 2 3 4 4 ]
 		default. |_ mapper:Fun[Any Bag]
 			b = builder_
 			iter = iterator_
@@ -239,7 +241,7 @@ region Methods using builder
 			Result length should be - end start, unless `end` was past the end.
 
 		test. |
-			! (seq=? (slice [ 0 1 2 3 ] 1 3) [ 1 2 ])
+			[ [ 0 1 2 3 ] 1 3 ] -> [ 1 2 ]
 
 		default. |:Bag _ start:Nat end:Nat
 			from-stream _ (slice ->Stream_ start end)
@@ -269,7 +271,7 @@ region Methods using builder
 	impl! + Bag
 		doc. "TODO"
 		test. |
-			!= (+ [ 0 ] [ 1 ]) [ 0 1 ]
+			[ [ 0 ] [ 1 ] ] -> [ 0 1 ]
 		|:Bag _ bag2:Bag
 			from-stream _ (+ ->Stream_ bag2)
 
@@ -293,12 +295,10 @@ region Set methods
 	contains?. Method
 		doc. "TODO"
 		test. |
-			! (contains? [ 0 ] 0)
-			! (not (contains? [ 0 ] 1))
+			! contains? [ 0 ] 0
+			!not contains? [ 0 ] 1
 		default. |_ em:Any
 			any? _ |em-compare
 				=? em em-compare
-
-
 
 Bag

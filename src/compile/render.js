@@ -427,7 +427,7 @@ const caseBody = function(rx, opCased, parts, opElse, needBreak) {
 			// This one never needs a break, because it's at the end anyway.
 			"}"
 		]},
-		function() { return "default: throw new Error(\"Case fail\");" })
+		function() { return "default: throw new global.Error(\"Case fail\");" })
 	const jParts = parts.map(function(part) { return r(rxSwitch, needBreak)(part) })
 	const jAllParts = Sq.rcons(jParts, jElse)
 	return [

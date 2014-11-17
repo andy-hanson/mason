@@ -1,7 +1,7 @@
 doc. "TODO"
 
 use
-	.assert -> !
+	.assert -> ! !not
 	.basic-methods -> sub
 	.Bool -> and not or true
 	.control -> if!
@@ -45,9 +45,9 @@ impl! !subsumes Opt-Sub |nt _
 Any. Pred-Type
 	doc. "Not null or undefined."
 	test. |
-		! (subsumes? Any 0)
-		! (not (subsumes? Any ()))
-		! (not (subsumes? Any `undefined`))
+		! subsumes? Any 0
+		!not subsumes? Any ()
+		!not subsumes? Any `undefined`
 	predicate. |_
 		`_ != null`
 
@@ -55,9 +55,9 @@ Union. singleton
 	doc. "Union[A B] is a type matching either an A or a B."
 	test. |
 		SI = Union[Str Bool]
-		! (subsumes? SI "true")
-		! (subsumes? SI true)
-		! (not (subsumes? SI ()))
+		! subsumes? SI "true"
+		! subsumes? SI true
+		!not subsumes? SI ()
 
 \ TODO: Variadic
 impl! sub Union |u A:Type B:Type

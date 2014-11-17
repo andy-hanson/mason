@@ -1,10 +1,10 @@
 use
 	..arithmetic-methods -> + - * /
-	..assert -> ! !=
+	..assert -> !
 	.? -> ?none ?some get-or Opt->?
 	.Bag -> ?nth count iterator seq=?
 	..basic-methods -> length
-	..Comparable -> <? >=?
+	..Comparable -> =? <? >=?
 	..control -> if
 	..math.Num -> Nat round-down sign
 	..pred-types -> Opt
@@ -21,7 +21,7 @@ Range = Record-Type
 		step. Num
 	post-construct. |_
 		in
-			!= (sign _.step) (sign (- _.end _.start))
+			! =? (sign _.step) (sign (- _.end _.start))
 
 range. |start:Num end:Num step:Opt[Num]
 	Range
@@ -35,20 +35,21 @@ impl! length Range |_
 implementor! Range Bag
 	?nth ->
 		test. |
-			!= (?nth (range 0 10 2) 2) (?some 4)
-			!= (?nth (range 0 10 2) 6) ?none
+			r = range 0 10 2
+			[ r 2 ] -> ?some 4
+			[ r 6 ] -> ?none
 		|_ n:Nat
 			it = + _.start (* _.step n)
 			if (<? it _.end) |
 				it
 	count ->
 		test. |
-			!= (count (range 0 2 0.5)) 4
+			[ (range 0 2 0.5) ] -> 4
 		|_
 			round-down (/ length_ _.step)
 	iterator ->
 		test. |
-			! (seq=? (range 0 10 2) [0 2 4 8])
+			! seq=? (range 0 10 2) [0 2 4 8]
 		|_
 			streaming ~|
 				i ::= _.start

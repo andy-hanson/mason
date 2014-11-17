@@ -1,11 +1,12 @@
 use
 	..arithmetic-methods -> +
-	..assert -> !=
+	..assert -> !
 	..bags.? -> ?none get-or
 	..bags.Array
 	..bags.Bag -> each! empty? map
 	..basic-methods -> freeze sub
 	..Bool -> not
+	..Comparable -> =?
 	..Error -> oh-no!
 	..Fun -> identity
 	.Hash-Map
@@ -58,8 +59,8 @@ make-map.
 	test. |
 		map = make-map [ 1 2 ] |x
 			+ x 1
-		!= map[1] 2
-		!= map[2] 3
+		! =? map[1] 2
+		! =? map[2] 3
 	|keys:Bag mapper:Fun
 		map = Hash-Map.new-empty ()
 		each! keys |key

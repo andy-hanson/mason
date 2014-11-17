@@ -1,7 +1,8 @@
 use
-	..assert -> !=
+	..assert -> !
 	..bags.Array
 	..bags.Bag -> each!
+	..Comparable -> =?
 	..control -> switch
 	.Impl-Type
 	.Interface -> unchecked-implementor!
@@ -21,8 +22,8 @@ Enum = Record-Type
 		prices =
 			Fruit.apple -> 1
 			Fruit.orange -> 2
-		!= prices[Fruit.apple] 1
-		!= prices[Fruit.orange] 2
+		! =? prices[Fruit.apple] 1
+		! =? prices[Fruit.orange] 2
 
 	members.
 		displayName. Str

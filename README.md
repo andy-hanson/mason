@@ -133,8 +133,9 @@ You can make assertions before and after any block.
 		in
 			! (divisible? a 2)
 		out
-			\ `!=` is pronounced "assert equal". Don't confuse it with javascript's `!==`.
-			!= (* res 2) a
+			\ `!` is pronounced "assert".
+			\ It applies a function to arguments and throws an error when the result isn't `true`.
+			! =? (* res 2) a
 
 		/ a 2
 
@@ -154,12 +155,12 @@ You can type local variables, function arguments, and function return values.
 It's as if you wrote:
 
 	one. 1
-	!subsumes Int one "one"
+	! subsumes? Int one
 	str->real. |str
 		in
-			!subsumes Str str "str"
+			! subsumes? Str str
 		out
-			!subsumes Real res "res"
+			! subsumes? Real res
 
 		Number.parseFloat str
 
@@ -168,8 +169,7 @@ It's as if you wrote:
 Do not confuse Types with data structures.
 Every data structure is a Type, but any predicate can be made into a type (such as with the standard library's `Pred-Type`).
 
-A Type is any value implementing the Type interface, which has methods `subsumes?` and `!subsumes`.
-`!subsumes` defaults to asserting `subsumes?`, but can also provide more useful information as to why it failed.
+A Type is any value implementing the Type interface, which has a method `subsumes?`.
 
 
 ### Subscripts
@@ -336,7 +336,7 @@ To make one, just use `~|` instead of `|`.
 		two <~ 1
 		three <~ two
 		three
-	!= x 3
+	! =? x 3
 
 `<~`, pronounced "yield", pauses the generator. Control returns to the context, which recieves the value on the right-hand side of the `<~` and may eventually return a value back to the generator to be assigned to the left-hand side of the `<~`.
 
@@ -420,7 +420,7 @@ You can also use `<~~` for assignment just as with `<~`.
 	increment~. ~|x
 		<~ "Incrementing {x}"
 		+ x 1
-	!= (increment-thrice 0) 3
+	! =? (increment-thrice 0) 3
 
 
 ### Lazy variables

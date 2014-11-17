@@ -2,7 +2,7 @@ doc. "TODO"
 
 use
 	.arithmetic-methods -> +
-	.assert -> ! != !fails
+	.assert -> ! !not !fails
 	.bags.? -> ?none ?some Opt->?
 	.bags.Array
 	.bags.Bag -> each! empty? seq=?
@@ -30,7 +30,7 @@ set = |object name value
 send.
 	doc. "Calls `a`'s js-method `name` with the given arguments."
 	test. |
-		!= "1.00" (send 1 "toFixed" 2)
+		[ 1 "toFixed" 2 ] -> "1.00"
 	|a:Any name:Str/Sym \ TODO:ES6 ...args
 		(get a name).apply a (Array.prototype.slice.call `arguments` 2)
 
@@ -49,7 +49,7 @@ own-properties.
 		Object.defineProperty obj sym
 			value. 0
 			enumerable. false
-		! (seq=? (own-properties obj) [ "a" sym ])
+		! seq=? (own-properties obj) [ "a" sym ]
 	|:Bag[Str/Sym] _:Object
 		+ (->Stream (Object.getOwnPropertyNames _)) (Object.getOwnPropertySymbols _)
 
@@ -64,7 +64,7 @@ own-enumerable-properties.
 		Object.defineProperty obj sym
 			value. 0
 			enumerable. true
-		! (empty? (own-enumerable-properties obj))
+		! empty? (own-enumerable-properties obj)
 	|:Bag[Str] _:Object
 		Object.keys _
 
@@ -74,9 +74,10 @@ own-enumerable-properties.
 		x =
 			a. 1
 			b.
-		!= (?get-property x "a") (?some 1)
-		!= (?get-property x "b") ?none
-		!= (?get-property x "toString") ?none \ Does not inherit from prototype.
+		[ x "a" ] -> ?some 1
+		[ x "b" ] -> ?none
+		\ Does not inherit from prototype.
+		[ x "toString" ] -> ?none
 	|_:Object name:Str/Sym
 		case
 			has-property? _ name
@@ -87,9 +88,10 @@ own-enumerable-properties.
 ?get-property-or-in-prototype.
 	doc. "TODO"
 	test. |
+		\ TODO: empty Dict
 		x = Dict.empty
-		!= (?get-property-or-in-prototype x "toString") (?some Object.prototype.toString)
-		!= (?get-property-or-in-prototype x "This property is unlikely to be defined") ?none
+		[ x "toString" ] -> ?some Object.prototype.toString
+		[ x "asdfghjkl" ] -> ?none
 	|object:Object name:Str/Sym
 		Opt->? (get object name)
 
@@ -98,7 +100,7 @@ add-property!.
 	test. |
 		x = Object.create ()
 		add-property! x "a" 1
-		!= x.a 1
+		! =? x.a 1
 		!fails |
 			add-property! x "a" 2
 		\ Use `add-property-to-anY!
@@ -114,16 +116,16 @@ has-property?.
 	test. |
 		x =
 			a. 1
-		! (has-property? x "a")
-		! (not (has-property? x "b"))
-		! (not (has-property? x "toString")) \ use has-property-or-in-prototype? for that.
+		! has-property? x "a"
+		!not has-property? x "b"
+		!not has-property? x "toString" \ use has-property-or-in-prototype? for that.
 	|object:Object name:Str/Sym
 		Object.prototype.hasOwnProperty.call object name
 
 has-property-or-in-prototype?.
 	doc. "TODO"
 	test. |
-		! (has-property-or-in-prototype? Dict.empty "toString")
+		! has-property-or-in-prototype? Dict.empty "toString"
 	|object:Object name:Str/Sym
 		not (identical? (get object name) `undefined`)
 
@@ -134,7 +136,7 @@ extend!.
 			0
 		extend! x
 			a. 1
-		!= x.a 1
+		! =? x.a 1
 	|object:Object extender:Dict
 		each! (keys extender) |name
 			add-property! object name extender[name]
@@ -156,10 +158,10 @@ inspect=?.
 			a. 1
 		b =
 			a. 1
-		! (inspect=? a b)
-		! (inspect=? 1 1)
+		[ a b ] -> true
+		[ 1 1 ] -> true
 		\ For functions, is identity
-		! (inspect=? inspect=? inspect=?)
+		[ inspect=? inspect=? ] -> true
 	|:Bool a b
 		any-a = subsumes? Any a
 		any-b = subsumes? Any b

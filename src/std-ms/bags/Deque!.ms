@@ -1,7 +1,7 @@
 use
 	.? -> ?none ?some
 	..arithmetic-methods -> + - *
-	..assert -> ! !=
+	..assert -> ! !not
 	.Array \ TODO: Array!
 	.Bag -> Bag-Type count each! empty empty? iterator seq=?
 	.Bag! -> <+! +>! ?<pop! ?pop>!
@@ -22,11 +22,11 @@ Deque! = Record-Type
 	test. |
 		_ = empty Deque!
 		+>! _ [ 1 2 ]
-		! (seq=? _ [ 1 2 ])
-		! (not empty?_)
-		!= ?pop>!_ (?some 2)
-		!= ?pop>!_ (?some 1)
-		!= ?pop>!_ ?none
+		! seq=? _ [ 1 2 ]
+		!not empty?_
+		! =? ?pop>!_ (?some 2)
+		! =? ?pop>!_ (?some 1)
+		! =? ?pop>!_ ?none
 
 	members.
 		data!. Array

@@ -1,7 +1,8 @@
 use
-	.assert -> !=
+	.assert -> ! !call
 	.bags.? -> ?none ?some get-or
 	.Bool -> false not true
+	.Comparable -> =?
 	.Error -> oh-no!
 	.Fun -> Act call thunk
 	.maps.Map -> ?get
@@ -14,12 +15,15 @@ switch.
 		n = |x
 			switch x
 				1 -> |
-					2
+					"one"
 				2 -> |
-					3
+					"two"
 				switch-else -> |
-					4
-		!= (n 1) 2
+					"three"
+		!call n
+			[ 1 ] -> "one"
+			[ 2 ] -> "two"
+			[ 3 ] -> "three"
 
 	|val:Any cases:Map[Any Fun]
 		dispatch = get-or (?get cases val) ~cases[switch-else]
@@ -31,8 +35,8 @@ switch-else. singleton
 if.
 	doc. "Iff `condition`, evaluates `result` and puts it in `?some`."
 	test. |
-		!= (if true (thunk 0)) (?some 0)
-		!= (if false (thunk 0)) ?none
+		[ true (thunk 0) ] -> ?some 0
+		[ false (thunk 0) ] -> ?none
 	|:? condition:Bool result:Fun
 		case
 			condition
@@ -40,21 +44,13 @@ if.
 			else
 				?none
 
-\unless.
-\	doc. "Iff `condition` is false, evaluates `result` and puts it in `?some`."
-\	test. |
-\		!= (unless true (thunk 0)) ?none
-\		!= (unless false (thunk 0)) (?some 0)
-\	|:? condition:Bool result:Fun
-\		if (not condition) result
-
 if!.
 	doc. "Runs `result` iff `condition`."
 	test. |
 		a ::= 0
 		if! true |
 			a := 1
-		!= a 1
+		! =? a 1
 		if! false oh-no!
 	|condition:Bool result:Act
 		case!
@@ -62,10 +58,3 @@ if!.
 				call result
 			else
 				()
-
-\unless!.
-\	doc. "Runs `result` iff `condition` is false."
-\	test. |
-\		unless! true oh-no!
-\	|condition:Bool result:Act
-\		if! (not condition) result

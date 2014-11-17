@@ -1,6 +1,7 @@
 use
-	..assert -> ! !=
+	..assert -> !
 	..bags.Bag -> each!
+	..Comparable -> =?
 	..Fun
 	.Impl-Type
 	..maps.Map -> keys-values
@@ -55,7 +56,7 @@ Interface = Record-Type
 				doc. "asdf_s its arguments."
 			impl! asdf X |
 				1
-			!= (asdf z) 1
+			! =? (asdf z) 1
 			! (subsumes? X z)
 
 	members.

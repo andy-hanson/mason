@@ -1,8 +1,9 @@
 use
-	..assert -> ! != !fails
+	..assert -> ! !not !fails
 	..basic-methods -> sub
 	.Bag -> Bag-Type each! empty empty? iterator map
 	..Bool -> and not
+	..Comparable -> =?
 	..Error -> oh-no!
 	..Fun -> call curry thunk
 	..js -> identical?
@@ -58,8 +59,8 @@ impl! iterator ? ~|case!
 Opt->?.
 	doc. "?some unless the value is null/undefined."
 	test. |
-		!= (Opt->? 0) (?some 0)
-		!= (Opt->? ()) ?none
+		[ 0 ]  -> ?some 0
+		[ () ] -> ?none
 	|case
 		:Any
 			?some_
@@ -69,8 +70,8 @@ Opt->?.
 ?->Opt.
 	doc. "?none becomes undefined, ?some x becomes x."
 	test. |
-		!= (?->Opt (?some 0)) 0
-		! (not (subsumes? Any (?->Opt ?none)))
+		[ (?some 0) ] -> 0
+		!not subsumes? Any (?->Opt ?none)
 	|_:?
 		_.val
 
@@ -81,10 +82,11 @@ impl! map ? |_ f:Fun
 		else
 			?some (f _.val)
 
+\ TODO: Just use first?
 un-?.
 	doc. "Tries to extract the value out of a `?`. Throws an error if it is empty."
 	test. |
-		!= 1 (un-? (?some 1))
+		[ (?some 1) ] -> 1
 		!fails |
 			un-? ?none
 	|_:?
@@ -96,6 +98,8 @@ un-?.
 
 get-or.
 	doc. "If ?some, gets the value. Else defaults to `or`."
+	test. |
+		"TODO"
 	|:Any _:? ~or:Any
 		case
 			empty?_
@@ -107,9 +111,9 @@ region sub
 	impl-direct! sub ?
 		doc. "`?[A]` matches a `?` containing an `A`, or ?none."
 		test. |
-			! (subsumes? ?[Num] (?some 0))
-			! (subsumes? ?[Num] ?none)
-			! (not (subsumes? ?[Num] (?some "0")))
+			! subsumes? ?[Num] (?some 0)
+			! subsumes? ?[Num] ?none
+			!not subsumes? ?[Num] (?some "0")
 		|? Em-Type:Type
 			?-Sub
 				Element-Type. Em-Type

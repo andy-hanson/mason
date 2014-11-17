@@ -1,5 +1,5 @@
 use
-	..assert -> !
+	..assert -> ! !not
 	..Bool -> not
 	.Map -> ?get has-key?
 	..types.Interface -> implementor!
@@ -23,7 +23,7 @@ add!. Method
 		"TODO"
 	default. |_ key:Any val:Any
 		in
-			! (not (has-key? _ key)) ~"
+			!not (has-key? _ key) ~"
 				Already have key {key}.
 
 Map! = Interface

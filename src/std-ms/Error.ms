@@ -1,9 +1,10 @@
 doc. "TODO"
 
 use
+	.assert -> ! !fail-message
 	.bags.? -> ?none ?some
-	.assert -> ! != !fail-message
 	.Bool -> true
+	.Comparable -> =?
 	.Fun -> Act delegate-to ignore thunk
 	.js -> global
 	.Object -> change-property! set-property!
@@ -59,7 +60,7 @@ try-finally.
 		try |
 			try-finally oh-no! |
 				a := 1
-		!= a 1
+		! =? a 1
 	|tried:Fun[Any] finally-do:Act
 		fd = finally-do
 		`try { return tried() } finally { fd() }`
@@ -71,11 +72,9 @@ try.
 		If you don't care about the value of the error, use `?try` instead.
 
 	test. |
-		succ = |x
-			Success
-				val. x
-		!= (try (thunk 1)) (succ 1)
-		!= (try oh-no!) (make-Error "Too bad")
+		[ (thunk 1) ] -> Success
+			val. 1
+		[ oh-no! ] -> make-Error "Too bad"
 	|tried:Fun[Any]
 		s = |x
 			Success
@@ -86,8 +85,8 @@ try.
 ?try.
 	doc. "If it works, ?some of the result, otherwise ?none."
 	test. |
-		!= (?try oh-no!) ?none
-		!= (?try (thunk 1)) (?some 1)
+		[ (thunk 1) ] -> ?some 1
+		[ oh-no! ] -> ?none
 	|tried:Fun[Any]
 		case try tried
 			:Success
@@ -116,8 +115,8 @@ error-type.
 		\ET = error-type
 		\	doc. "ET"
 		\x = ET "message"
-		\!subsumes Error x
-		\!= x.message "message"
+		\! subsumes? Error x
+		\! =? x.message "message"
 	|opts
 		it =
 			displayName. `undefined` \ TODO: Ability to not have displayName
