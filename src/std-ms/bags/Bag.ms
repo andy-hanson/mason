@@ -1,6 +1,7 @@
 use
 	.? -> ?none ?some get-or Opt->?
 	..arithmetic-methods -> + -
+	.Array
 	..assert -> ! !not
 	..basic-methods -> freeze sub
 	..Bool -> and false not or true
@@ -29,31 +30,39 @@ region Bag
 
 region Builder
 	build-next!. Method
-		doc. "TODO"
+		doc. "Adds a new element to the Builder."
+
 	build-result. Method
-		doc. "TODO"
+		doc. "
+			Result of building.
+			build-next! should not be called after this has.
 
 	Builder. Interface
-		doc. "TODO"
+		doc. "
+			Something capable of incrementally generating a Bag.
+			Relied on by various Bag methods, such as map and filter.
 		methods.
 			. build-next!
 			. build-result
 
 	builder. Method
-		doc. "TODO"
+		doc. |:Builder _
+			"A new Builder of the same type as this Bag."
 
 region Bag-Type
 	empty. Method
-		doc. "TODO"
-
+		doc. "
+			Instance of this Bag-Type which is `empty?`.
+			Should always return the same thing iff immutable.
 	Bag-Type. Interface
-		doc. "TODO"
+		doc. "Any sub-type of Bag."
 		methods.
 			. empty
 
 	impl! sub Bag-Type identity
 	implementor-direct! Bag Bag-Type
-	impl! empty Bag (thunk [])
+	impl! empty Bag |
+		empty Array
 
 region Functions using just the iterator
 	fold.
@@ -67,8 +76,7 @@ region Functions using just the iterator
 			acc
 
 	each!.
-		doc. |_ do-for-each:Fun
-			"TODO"
+		doc. "Calls do-for-each on every element in the Bag."
 		test. |
 			"TODO"
 		|_ do-for-each:Fun

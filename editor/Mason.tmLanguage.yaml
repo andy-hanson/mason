@@ -12,16 +12,43 @@ patterns:
   name: string
   match: \"\"
 
-- comment: Multi-line string
+- comment: 1-indented multi-line string (begins/ends with 0 indents)
   name: string
-  begin: \"$
-  end: ^$ # on blank line
+  begin: "^[^\t\"]*\"$"
+  end: ^(?=[^\t])
   patterns:
   - name: constant.character
     comment: Escaped character
     match: \\.
   - name: entity.other.attribute-name
     comment: Interpolation
+    match: \{[^\}]*\}
+- comment: 2-indented multi-line string (begin w/ 1 indent, ends with <=1 indent)
+  name: string
+  begin: "^\t[^\t\"]*\"$"
+  end: ^\t{,1}(?=[^\t])
+  patterns:
+  - name: constant.character
+    match: \\.
+  - name: entity.other.attribute-name
+    match: \{[^\}]*\}
+- comment: 3-indented multi-line string (begins w/ 2 indents, ends with <=2 indents)
+  name: string
+  begin: "^\t\t[^\t\"]*\"$"
+  end: ^\t{,2}(?=[^\t])
+  patterns:
+  - name: constant.character
+    match: \\.
+  - name: entity.other.attribute-name
+    match: \{[^\}]*\}
+- comment: 4-indented multi-line string (begins w/ 3 indents, ends with <=3 indents)
+  name: string
+  begin: "^\t\t\t[^\t\"]*\"$"
+  end: ^\t{,3}(?=[^\t])
+  patterns:
+  - name: constant.character
+    match: \\.
+  - name: entity.other.attribute-name
     match: \{[^\}]*\}
 
 - comment: Single-line string
@@ -53,7 +80,7 @@ patterns:
 
 - comment: Dict assignment
   name: storage
-  match: ^\s*\S+\.\s
+  match: \S+\.\s
   captures:
     # Group 1 is an entire variable
     # Group 2 is the variable name

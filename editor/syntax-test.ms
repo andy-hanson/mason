@@ -3,6 +3,21 @@ use
 
 "d. 1"
 
+1 "
+	stuff \n {1 2 3}
+1
+	1 "
+		stuff \n {1 2 3}
+	1
+		1 "
+			stuff \n {1 2 3}
+		1
+			1 "
+				stuff \n {1 2 3}
+			1
+				1 "
+					more than 4 indents not supported
+
 ()[]{}
 
 ~1
