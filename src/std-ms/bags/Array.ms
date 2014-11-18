@@ -2,7 +2,7 @@
 
 use
 	..assert -> ! !call
-	.Bag -> Bag-Type builder build-next! build-result count each! empty iterator map seq=?
+	.Bag -> Bag-Type builder build-next! build-result count each! empty empty? iterator map seq=?
 	..basic-methods -> freeze
 	..Bool -> and
 	..Comparable -> =?

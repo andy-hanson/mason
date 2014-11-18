@@ -71,12 +71,28 @@ region Integer arithmetic
 		doc. "
 			Remainder of `a` after dividing by `b`.
 			Sign of result is sign of `a`. Sign of `b` is ignored.
-
 		test. |
 			[ 2 3 ] -> 2
-			[ -3 2 ] -> -1
-		|a:Num b:Num
-			`a % b`
+			[ 2 -3 ] -> 2
+			[ -2 3 ] -> -2
+			[ -2 -3 ] -> -2
+		|numerator:Num denominator:Num
+			`numerator % denominator`
+
+	modulo.
+		doc. "
+			TODO
+		test. |
+			[ 2 3 ] -> 2
+			[ 2 -3 ] -> 2
+			[ -2 3 ] -> 1
+			[ -2 -3 ] -> 1
+		|numerator:Num denominator:Num
+			case
+				<? numerator 0
+					+ (abs denominator) (remainder numerator denominator)
+				else
+					remainder numerator denominator
 
 	divisible?.
 		doc. "Whether an integer number of `b` can add up to `a`."

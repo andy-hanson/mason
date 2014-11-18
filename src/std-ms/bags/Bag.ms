@@ -1,7 +1,7 @@
 use
 	.? -> ?none ?some get-or Opt->?
 	..arithmetic-methods -> + -
-	.Array
+	.Array -> ->Array
 	..assert -> ! !not
 	..basic-methods -> freeze sub
 	..Bool -> and false not or true
@@ -308,5 +308,23 @@ region Set methods
 		default. |_ em:Any
 			any? _ |em-compare
 				=? em em-compare
+
+region TODO: put somewhere
+	reverse. Method
+		doc. "TODO"
+		test. |
+			[ [ 1 2 ] ] -> [ 2 1 ]
+		default. |_
+			arr = ->Array_
+			reverse-stream = streaming ~|
+				i ::= count arr
+				loop!
+					case!
+						=? i 0
+							end-loop!
+						else
+							i := - i 1
+							<~ arr[i]
+			from-stream _ reverse-stream
 
 Bag

@@ -1,3 +1,5 @@
+\ TODO: Should just  be able to use a Dict as a singleton, using implementor-direct! and friends
+
 use
 	..Bag -> each!
 	..Dict

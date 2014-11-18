@@ -3,14 +3,14 @@ use
 	..arithmetic-methods -> + - *
 	..assert -> ! !not
 	.Array \ TODO: Array!
-	.Bag -> Bag-Type count each! empty empty? iterator seq=?
-	.Bag! -> <+! +>! ?<pop! ?pop>!
+	.Bag -> Bag-Type count each! empty empty? iterator reverse seq=?
+	.Bag! -> <+! +>! ?<pop! ?pop>! clear! bag!-test
 	..Bool -> not
 	..Comparable -> =?
 	..control -> if
 	..maps.Map! -> set!
-	..math.Num -> Nat remainder
-	..Object -> change-property! set-property!
+	..math.Num -> modulo Nat
+	..Object -> change-property!
 	..pred-types -> Any
 	.Range -> range
 	..types.Interface -> implementor! implementor-direct!
@@ -19,15 +19,9 @@ use
 Deque! = Record-Type
 	doc.
 		"TODO"
+	\ TODO: Should be done automatically
 	test. |
-		_ = empty Deque!
-		+>! _ [ 1 2 ]
-		! seq=? _ [ 1 2 ]
-		!not empty?_
-		! =? ?pop>!_ (?some 2)
-		! =? ?pop>!_ (?some 1)
-		! =? ?pop>!_ ?none
-
+		bag!-test Deque!
 	members.
 		data!. Array
 		start-index!. Nat \ Inclusive (unless =? end-index)
@@ -41,21 +35,24 @@ implementor-direct! Deque! Bag-Type
 			end-index!. 0
 
 region Helpers
+	capacity = |_
+		count _.data!
+
 	expand! = |_
 		old-data = _.data!
-		old-capacity = count old-data
+		old-capacity = capacity_
 		new-capacity = * 2 old-capacity
 		\ TODO: empty Array! new-capacity
 		new-data = Array new-capacity
 		each! (range 0 old-capacity) |index
 			set! new-data index old-data[index]
-		set-property! _ "data!" new-data
+		change-property! _ "data!" new-data
 
 	next-index = |_ index:Nat
-		remainder (+ 1 index) (count _.data!)
+		modulo (+ 1 index) capacity_
 
 	prev-index = |_ index:Nat
-		remainder (- index 1) (count _.data!)
+		modulo (- index 1) capacity_
 
 implementor! Deque! Bag!
 	iterator -> ~|_
@@ -69,6 +66,17 @@ implementor! Deque! Bag!
 				else
 					<~ _.data![i]
 					i := + 1 i
+
+	<+! -> |_ ems:Bag
+		each! (reverse ems) |em
+			new-start = prev-index _ _.start-index!
+			case!
+				=? new-start _.end-index!
+					expand!_
+					<+! _ em
+				else
+					change-property! _ "start-index!" new-start
+					set! _.data! _.start-index! em
 
 	+>! -> |_ ems:Bag
 		each! ems |em
@@ -94,5 +102,11 @@ implementor! Deque! Bag!
 			new-end = prev-index _ _.end-index!
 			change-property! _ "end-index!" new-end
 			_.data![new-end]
+
+	clear! -> |_
+		clear! _.data!
+		\ TODO: change-properties!
+		change-property! _ "start-index!" 0
+		change-property! _ "end-index!" 0
 
 Deque!

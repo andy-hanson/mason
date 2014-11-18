@@ -6,8 +6,7 @@ use
 
 freeze. Method
 	doc. "TODO"
-	default. |_
-		Object.freeze _
+	default. Object.freeze
 
 sub. Method
 	doc. "

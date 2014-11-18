@@ -193,4 +193,8 @@ inspect=?.
 									false
 						and same-type ~same-members
 
+frozen?.
+	doc. "TODO"
+	Object.isFrozen
+
 Object
