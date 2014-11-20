@@ -14,7 +14,7 @@ use
 	.maps.Map! -> set!
 	.maps.Weak-Identity-Map!
 	.Object
-	.Str -> ->Str
+	.Str -> show
 	.pred-types -> Any
 	.types.Alias-Type
 	.types.Method -> impl! impl-for
@@ -221,8 +221,8 @@ TODO. |
 	oh-no! "This function has not yet been implemented."
 
 \ TODO: MOVE
-impl! ->Str Fun |case
-	`_.displayName !== undefined` \has-property? _ "nom"
+impl! show Fun |case
+	`_.displayName !== undefined` \TODO: has-property? _ "nom"
 		_.displayName
 	`_.name !== ""`
 		_.name

@@ -5,8 +5,9 @@ use
 	.Interface -> implementor!
 	.Method -> impl!
 	.Record-Type
-	..Str -> ->Str
+	..Str -> show
 	.Type -> subsumes?
+	.util -> self-type
 
 Pred-Type = Record-Type
 	doc. "Arbitrary predicates can be made into types using Pred-Type."
@@ -28,7 +29,7 @@ implementor! Pred-Type Type
 impl! subsumes? Pred-Type |_ subsumed
 	_.predicate subsumed
 
-impl! ->Str Pred-Type |_
+impl! show Pred-Type |_
 	_.displayName
 
 Pred-Type

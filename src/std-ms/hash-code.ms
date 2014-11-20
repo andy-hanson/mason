@@ -2,7 +2,7 @@ use
 	.? -> get-or
 	.arithmetic-methods -> + *
 	.assert -> !
-	.bags.Bag -> contains? each!
+	.bags.Bag -> contains? each! empty? toss
 	.Bool -> nor not
 	.Comparable -> =?
 	.control -> if!
@@ -11,9 +11,9 @@ use
 	.math.bit-arithmetic -> bit-and hexidecimal
 	.math.Num -> Int round-towards-0
 	.Object -> ?get-property own-properties
-	.Str -> ->Str
+	.Str
 	.Symbol
-	.types.Method -> impl!
+	.types.Method -> impl! impl-for
 
 max-hash-code = hexidecimal "7fffffff"
 
@@ -38,11 +38,22 @@ hash-code =  Method
 	default. identity-memoize |_
 		case
 			:Fun
-				\ Possible that it is callable without having Fun.prototype.
-				hash-code ->Str_
+				\ TODO: Want to do other case below but it seems to cause infinite loop
+				(impl-for hash-code Fun) _
 			else
+				props = case
+					:Fun
+						`throw up`
+						\ TODO
+						\ TODO: Use a mason set
+						forbidden-fun-props = `new global.Set([ "arguments", "callee", "caller" ])`
+						toss own-properties_ |prop
+							forbidden-fun-props.has prop
+					else
+						own-properties_
+
 				hash ::= 17
-				each! own-properties_ |prop
+				each! props |prop
 					each! (?get-property _ prop) |val
 						hash := keep-small (* hash 23)
 						hash := keep-small (+ hash (hash-code val))
@@ -54,8 +65,13 @@ impl! hash-code Bool |case
 		1
 	else
 		0
-impl! hash-code Fun |_
-	hash-code ->Str_
+impl! hash-code Fun |fun
+	\ TODO: There must be something better than this.
+	hash-code case ?get-property fun "displayName"
+		empty?_
+			fun.toString ()
+		else
+			_.val
 impl! hash-code Str |_
 	hash ::= 0
 	mhc = max-hash-code

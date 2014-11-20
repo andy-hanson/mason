@@ -3,6 +3,7 @@
 use
 	.private.bootstrap -> syms Object \ TODO
 	.types.Method -> impl!
+	.types.Type
 
 freeze. Method
 	doc. "TODO"
@@ -23,6 +24,10 @@ type-of. Method
 \ TODO: Find better place for this. math-methods?
 length. Method
 	doc. "TODO"
+
+=>. Method
+	doc. |convert-to:Type convert-me
+		"Converts a value to a given type."
 
 impl! type-of Object |_
 	`_.constructor`

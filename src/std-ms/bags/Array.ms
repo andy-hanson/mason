@@ -11,7 +11,7 @@ use
 	..Num -> Nat
 	..Object -> add-property!
 	..pred-types -> Any Nullable
-	..Str -> ->Str
+	..Str -> show
 	.Stream -> streaming
 	..types.Interface -> implementor!
 	..types.Method ->  impl!
@@ -46,14 +46,6 @@ impl! iterator Array ~|_
 	len = count_
 	`for (let i = 0; i < len; i++) yield _[i]`
 	()
-
-impl! ->Str Array
-	test. |
-		!call ->Str
-			[ [ 0 1 ] ] -> "[ 0 1 ]"
-	|_
-		ems = ->Array (map _ ->Str)
-		"[ {ems.join " "} ]"
 
 impl! =? Array
 	test. |

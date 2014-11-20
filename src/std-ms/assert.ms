@@ -13,7 +13,7 @@ use
 	.js -> global
 	.maps.Map -> keys
 	.pred-types -> Any
-	.Str -> ->Str
+	.Str -> show
 	.types.Type -> !subsumes
 
 !.
@@ -31,7 +31,7 @@ use
 				rest-args = Array.prototype.slice.call `arguments` 1
 				if! (not (apply _ rest-args)) |
 					all-args = + [ _ ] rest-args
-					oh-no! "! {(map all-args ->Str).join " "}"
+					oh-no! "! {(map all-args show).join " "}"
 			:Bool
 				if! not_ |
 					oh-no! b
@@ -49,7 +49,7 @@ use
 				rest-args = Array.prototype.slice.call `arguments` 1
 				if! (apply _ rest-args) |
 					all-args = + [ _ ] rest-args
-					oh-no! "!not {(map all-args ->Str).join " "}"
+					oh-no! "!not {(map all-args show).join " "}"
 			:Bool
 				if! _ |
 					oh-no! b
@@ -65,4 +65,4 @@ use
 			expected = args->result[args]
 			actual = apply fun args
 			if! (not (=? actual expected)) |
-				oh-no! "`{fun} {(map args ->Str).join " "}` should be `{expected}`, but got `{actual}`."
+				oh-no! "`{fun} {(map args show).join " "}` should be `{expected}`, but got `{actual}`."

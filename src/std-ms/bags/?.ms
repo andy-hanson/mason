@@ -10,7 +10,7 @@ use
 	..math.Num
 	..Object -> set-property! extend!
 	..pred-types -> Any
-	..Str -> ->Str
+	..Str -> show
 	..Symbol
 	..types.Interface -> implementor!
 	..types.Method -> impl!
@@ -44,7 +44,8 @@ implementor! ? Bag
 impl! empty? ? |_
 	identical? _ ?none
 
-impl! ->Str ? |case
+\ TODO: Impl for all Bag-Types
+impl! show ? |case
 	empty?_
 		"?none"
 	else

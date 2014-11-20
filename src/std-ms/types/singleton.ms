@@ -4,7 +4,6 @@ use
 	..Bag -> each!
 	..Dict
 	..js -> global
-	..Str -> ->Str
 	.Impl-Type
 	.Interface -> unchecked-implementor!
 	.Method -> impl!

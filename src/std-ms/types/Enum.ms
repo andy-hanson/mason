@@ -9,8 +9,9 @@ use
 	.Method -> impl!
 	..Object -> add-property!
 	.Record-Type
-	..Str -> ->Str
+	..Str -> show
 	.Type -> subsumes?
+	.util -> self-type
 
 Enum = Record-Type
 	doc. "TODO"
@@ -37,7 +38,7 @@ Enum = Record-Type
 			enum-val = Object.create enum.prototype
 			add-property! enum-val "name" val-name
 			add-property! enum val-name enum-val
-		impl! ->Str enum |val
+		impl! show enum |val
 			"{enum.displayName}.{val.name}"
 
 unchecked-implementor! Enum Impl-Type

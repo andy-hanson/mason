@@ -4,12 +4,12 @@ use
 	.bags.Array -> ->Array
 	.bags.Bag -> map
 	.js -> global
-	.Str -> ->Str
+	.Str -> show
 
 log!.
 	doc. "TODO"
 	|
 		args = Array.prototype.slice.call `arguments`
 		\ TODO: mkString
-		str-args = ->Array (map args ->Str)
+		str-args = ->Array (map args show)
 		global.console.log (str-args.join  " ")

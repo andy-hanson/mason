@@ -124,6 +124,12 @@ Double-Dispatcher = Record-Type
 		impl-symbol. Symbol
 	make-callable. |_
 		|ignore target-2
+			case!
+				exists? target-2
+					()
+				else
+					oh-no! "Can't double-dispatch {_.method} for undefined."
+
 			impl = get-or-undefined target-2 _.impl-symbol
 			case!
 				exists? impl

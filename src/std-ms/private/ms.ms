@@ -33,7 +33,6 @@ region More Lazy
 
 
 region Symbols
-	set! ms "symStr" (global.Symbol "str")
 	set! ms "symSub" (global.Symbol "sub")
 	set! ms "symSubsumes" (global.Symbol "subsumes?")
 	set! ms "symCheckSubsumes" (global.Symbol "!subsumes")

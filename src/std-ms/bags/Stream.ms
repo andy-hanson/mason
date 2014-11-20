@@ -9,7 +9,7 @@ use
 	..Generator
 	..math.Num -> Nat
 	..pred-types -> Any
-	..Str -> ->Str
+	..Str
 	..types.Interface -> implementor!
 	..types.Method -> impl!
 	..types.Record-Type
@@ -30,16 +30,6 @@ impl! iterator Stream |_
 
 impl! =? Stream |s1 s2
 	and (subsumes? Stream s2) (seq=? s1 s2)
-
-impl! ->Str Stream
-	test. |
-		x = streaming ~|
-			<~ 0
-			<~ 1
-		[ x ] -> "Stream 0 1"
-	|_
-		"Stream {->Array_.join " "}"
-
 
 ->Stream. Method
 	doc. "TODO"
