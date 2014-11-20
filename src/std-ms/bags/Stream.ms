@@ -10,10 +10,11 @@ use
 	..math.Num -> Nat
 	..pred-types -> Any
 	..Str -> ->Str
-	..types.Interface -> implementor! implementor-direct!
-	..types.Method -> impl! impl-direct!
+	..types.Interface -> implementor!
+	..types.Method -> impl!
 	..types.Record-Type
 	..types.Type -> subsumes?
+	..types.util -> self-type
 
 Stream = Record-Type
 	doc. "
@@ -61,8 +62,8 @@ streaming.
 
 empty-stream = streaming ~|
 	()
-implementor-direct! Stream Bag-Type
-impl-direct! empty Stream (thunk empty-stream)
+implementor! (self-type Stream) Bag-Type
+impl! empty (self-type Stream) (thunk empty-stream)
 
 
 region Overrides

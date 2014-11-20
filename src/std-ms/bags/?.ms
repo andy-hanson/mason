@@ -1,21 +1,22 @@
 use
 	..assert -> ! !not
 	..basic-methods -> sub
-	.Bag -> Bag-Type each! empty empty? iterator map
+	.Bag -> all? Bag-Type each! empty empty? iterator map
 	..Bool -> and not
 	..Comparable -> =?
 	..Error -> fails? oh-no!
 	..Fun -> call thunk
 	..js -> identical?
-	..Num
+	..math.Num
 	..Object -> set-property! extend!
 	..pred-types -> Any
 	..Str -> ->Str
 	..Symbol
-	..types.Interface -> implementor! implementor-direct!
-	..types.Method -> impl! impl-direct!
+	..types.Interface -> implementor!
+	..types.Method -> impl!
 	..types.Record-Type
 	..types.Type -> subsumes? !subsumes
+	..types.util -> self-type
 
 ? = Record-Type
 	doc. "
@@ -108,7 +109,7 @@ get-or.
 				_.val
 
 region sub
-	impl-direct! sub ?
+	impl! sub (self-type ?)
 		doc. "`?[A]` matches a `?` containing an `A`, or ?none."
 		test. |
 			! subsumes? ?[Num] (?some 0)
@@ -125,14 +126,14 @@ region sub
 
 	implementor! ?-Sub Type
 	impl! subsumes? ?-Sub |?-sub subsumed
-		and (subsumes? ? subsumed) ~(map subsumed subsumes?[?-sub.em-type])
+		and (subsumes? ? subsumed) ~(all? subsumed subsumes?[?-sub.Element-Type])
 
 	impl! !subsumes ?-Sub |?-sub subsumed name
 		!subsumes ? subsumed name
 		each! subsumed |_
 			!subsumes ?-sub.Element-Type _ name
 
-implementor-direct! ? Bag-Type
-impl-direct! empty ? (thunk ?none)
+implementor! (self-type ?) Bag-Type
+impl! empty (self-type ?) (thunk ?none)
 
 ?

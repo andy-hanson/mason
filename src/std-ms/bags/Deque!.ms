@@ -13,8 +13,9 @@ use
 	..Object -> change-property!
 	..pred-types -> Any
 	.Range -> range
-	..types.Interface -> implementor! implementor-direct!
+	..types.Interface -> implementor!
 	..types.Record-Type
+	..types.util -> self-type
 
 Deque! = Record-Type
 	doc.
@@ -27,7 +28,7 @@ Deque! = Record-Type
 		start-index!. Nat \ Inclusive (unless =? end-index)
 		end-index!. Nat \ Exclusive
 
-implementor-direct! Deque! Bag-Type
+implementor! (self-type Deque!) Bag-Type
 	empty -> |
 		Deque!
 			data!. Array 8

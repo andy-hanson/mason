@@ -5,7 +5,7 @@ use
 	..Fun
 	.Impl-Type
 	..maps.Map -> keys-values
-	.Method -> impl! impl-direct!
+	.Method -> impl!
 	..pred-types -> Nullable
 	..private.bootstrap -> Str Array Object Symbol true set! get has-or-in-proto? set-mutable! oh-no! own-properties
 	.Record-Type
@@ -65,7 +65,6 @@ Interface = Record-Type
 		prototype. Object
 		methods. Array
 		implementors. Array \ TODO: [~Impl-Type]
-		direct-implementors. Array \ TODO: [~Object]
 		symbol-for-isa. Symbol
 	defaults.
 		super-interfaces. |
@@ -75,8 +74,6 @@ Interface = Record-Type
 		methods. |
 			[]
 		implementors. |
-			`[]`
-		direct-implementors. |
 			`[]`
 		symbol-for-isa. |_
 			Symbol "isa-{_.displayName}"
@@ -113,7 +110,15 @@ propagate-methods-down! = |implementor interface
 \ implementor:Concrete-Type super:Interface
 \ super is any interface in a chain of interfaces above implementor.
 get-methods-from-above! = |implementor super
-	get-methods-from-above-direct! implementor.prototype super
+	(own-properties super.prototype).forEach |name
+		case!
+			has-or-in-proto? implementor.prototype name
+				() \ Respect overrides
+			else
+				\ Since this is inherited, it is mutable and can be overridden.
+				set-mutable! implementor.prototype name (get super.prototype name)
+	super.super-interfaces.forEach |super-super
+		get-methods-from-above! implementor super-super
 
 implementor!.
 	doc. "TODO"
@@ -128,30 +133,5 @@ implementor!.
 				each! (keys-values mi) |_
 					key:Method val:Fun = _
 					impl! key implementor val
-
-get-methods-from-above-direct! = |implementor super
-	(own-properties super.prototype).forEach |name
-		case!
-			has-or-in-proto? implementor name
-				() \ Respect overrides
-			else
-				\ Since this is inherited, it is mutable and can be overridden.
-				set-mutable! implementor name (get super.prototype name)
-	super.super-interfaces.forEach |super-super
-		get-methods-from-above-direct! implementor super-super
-
-implementor-direct!.
-	doc. "TODO"
-	|implementor:Object interface:Interface method-impls
-		get-methods-from-above-direct! implementor interface
-		case! method-impls
-			`_ == null`
-				()
-			else
-				debugger
-				mi:Map = method-impls
-				each! (keys-values mi) |_
-					key:Method val:Fun = _
-					impl-direct! key implementor val
 
 Interface

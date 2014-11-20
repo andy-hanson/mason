@@ -53,21 +53,16 @@ Method = Record-Type
 			Fun.prototype.apply.call method-impl () `arguments`
 	extensible. true
 
-impl-direct-unchecked! = |method special implementation
-	set! special method.impl-symbol implementation
-
 \ TODO: This will add to the prototype of an interface inheriting from another interface.
 \ We only want to write to one interface's prototype.
 \ Also, inherited methods should be set-mutable!
 impl-unchecked!. |method implementor implementation
-	impl-direct-unchecked! method implementor.prototype implementation
+	set! implementor.prototype method.impl-symbol implementation
 	method.implementing-types.push implementor
 	case! implementor
 		:Interface
 			_.implementors.forEach |sub
 				impl-unchecked! method sub implementation
-			_.direct-implementors.forEach |sub
-				impl-direct! method sub implementation
 		else
 			()
 
@@ -75,11 +70,6 @@ impl!.
 	doc. "TODO"
 	|method:Method implementor:Impl-Type implementation:Fun
 		impl-unchecked! method implementor implementation
-
-impl-direct!.
-	doc. "`special` will directly implement the method as a singleton. TODO:REST"
-	|method:Method special:Object implementation:Fun
-		impl-direct-unchecked! method special implementation
 
 impl?.
 	doc. "TODO"

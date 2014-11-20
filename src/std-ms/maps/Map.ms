@@ -13,7 +13,8 @@ use
 	.Map! -> set!
 	..pred-types -> Any
 	..types.Interface
-	..types.Method -> impl! impl-direct!
+	..types.Method -> impl!
+	..types.util -> self-type
 
 ?get. Method
 	doc. |:? _ key:Any
@@ -70,6 +71,6 @@ make-map.
 impl! sub Map |map key:Any
 	get-or (?get map key) ~(oh-no! "{map} does not contain {key}.")
 
-impl-direct! sub Map identity
+impl! sub (self-type Map) identity
 
 Map

@@ -14,8 +14,9 @@ use
 	..pred-types -> Any Opt
 	.Stream -> ->Stream streaming
 	..Symbol
-	..types.Interface -> implementor-direct!
-	..types.Method -> impl! impl-direct!
+	..types.Interface -> implementor!
+	..types.Method -> impl!
+	..types.util -> self-type
 
 region Bag
 	iterator. Method
@@ -60,8 +61,8 @@ region Bag-Type
 			. empty
 
 	impl! sub Bag-Type identity
-	implementor-direct! Bag Bag-Type
-	impl! empty Bag |
+	implementor! (self-type Bag) Bag-Type
+	impl! empty (self-type Bag) |
 		empty Array
 
 region Functions using just the iterator
@@ -94,7 +95,7 @@ region Functions using just the iterator
 		|_:Bag pred:Opt[Pred]
 			\ TODO: Better optional arguments
 			p = get-or (Opt->? pred) identity
-			not  (empty? (keep _ pred))
+			not  (empty? (keep ->Stream_ pred))
 
 	all?.
 		doc. "TODO"
@@ -104,7 +105,7 @@ region Functions using just the iterator
 		|_:Bag pred:Opt[Pred]
 			\ TODO: Better optional arguments
 			p = get-or (Opt->? pred) identity
-			empty? (toss _ p)
+			empty? (toss ->Stream_ p)
 
 	?first-where. |_ pred:Pred
 		s = ?some
@@ -167,7 +168,7 @@ region Methods only needing iterator
 		default. |:Any _
 			?nth _ 0
 
-	tail. Method
+	<pop. Method
 		doc. "TODO"
 		test. |
 			[ [] ] -> []
@@ -184,7 +185,7 @@ region Methods only needing iterator
 		default. |:Any _
 			?nth _ (- count_ 1)
 
-	right-tail. Method
+	pop>. Method
 		doc. "TODO"
 		test. |
 			"TODO"

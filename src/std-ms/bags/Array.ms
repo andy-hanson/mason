@@ -13,9 +13,10 @@ use
 	..pred-types -> Any Nullable
 	..Str -> ->Str
 	.Stream -> streaming
-	..types.Interface -> implementor! implementor-direct!
-	..types.Method ->  impl! impl-direct!
+	..types.Interface -> implementor!
+	..types.Method ->  impl!
 	..types.Type -> subsumes?
+	..types.util -> self-type
 
 Array =
 	doc. "Javascript's native mutable Array type. TODO: `Array` vs `Array!`"
@@ -60,8 +61,8 @@ impl! =? Array
 	|a b
 		and (subsumes? Array b) ~(and (=? a.length b.length) ~(seq=? a b))
 
-implementor-direct! Array Bag-Type
-impl-direct! empty Array (thunk [])
+implementor! (self-type Array) Bag-Type
+impl! empty (self-type Array) (thunk [])
 
 impl! builder Array |
 	`[]`

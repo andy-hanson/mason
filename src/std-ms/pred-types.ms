@@ -12,18 +12,19 @@ use
 	.Str
 	.Symbol
 	.types.Interface -> implementor!
-	.types.Method -> impl! impl-direct!
+	.types.Method -> impl!
 	.types.Pred-Type
 	.types.Record-Type
 	.types.singleton
 	.types.Type -> !subsumes subsumes?
+	.types.util -> self-type
 
 Opt. Pred-Type
 	doc. "A value which could be null or undefined."
 	predicate. |
 		`true`
 
-impl-direct! sub Opt
+impl! sub (self-type Opt)
 	doc. "Subsumes null, undefined, or an instance of Exists-Type."
 	|Exists-Type
 		ET = Exists-Type

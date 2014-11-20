@@ -5,8 +5,9 @@ use
 	..Bool -> and not
 	..control -> if
 	..Object -> frozen?
-	..types.Interface -> implementor! implementor-direct!
+	..types.Interface -> implementor!
 	..types.Pred-Type
+	..types.util -> self-type
 
 Array! = Pred-Type
 	doc. "
@@ -18,7 +19,7 @@ Array! = Pred-Type
 	predicate. |_
 		and :Array ~(not frozen?_)
 
-implementor-direct! Array! Bag-Type
+implementor! (self-type Array!) Bag-Type
 	empty -> |
 		`[]`
 

@@ -15,10 +15,10 @@ and.
 		[ false true ] -> false
 		[ true false ] -> false
 		[ true true ] -> true
-	|a:Bool ~b:Bool
+	|cond-0:Bool ~cond-1:Bool
 		case
-			a
-				b
+			cond-0
+				cond-1
 			else
 				false
 

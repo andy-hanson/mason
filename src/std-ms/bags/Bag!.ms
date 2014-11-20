@@ -4,12 +4,19 @@ use
 	.Bag -> Bag-Type empty empty? seq=?
 	..Comparable -> =?
 	.Deque!
-	..types.Interface -> implementor! implementor-direct!
+	..types.Interface -> implementor!
 	..types.Method
+	..types.util -> self-type
 
 Bag! = Interface
 	doc. "TODO"
 
+\ TODO: Unordered
++!. Method
+	doc. |_ added:Bag
+		"TODO"
+	default. |_ added:Bag
+		+>! _ added
 <+!. Method
 	doc. |_ added:Bag
 		"TODO"
@@ -46,7 +53,7 @@ bag!-test. |type:Bag-Type
 
 implementor! Bag! Bag
 
-implementor-direct! Bag! Bag-Type
+implementor! (self-type Bag!) Bag-Type
 	empty -> |
 		empty Deque!
 

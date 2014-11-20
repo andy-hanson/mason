@@ -17,8 +17,9 @@ use
 	.Str -> ->Str
 	.pred-types -> Any
 	.types.Alias-Type
-	.types.Method -> impl! impl-for impl-direct!
+	.types.Method -> impl! impl-for
 	.types.Type -> subsumes?
+	.types.util -> self-type
 
 Fun = global.Function
 
@@ -115,7 +116,7 @@ fun-copy.
 	|_:Fun |
 		Fun.prototype.apply.call _ () `arguments`
 
-impl-direct! sub Fun
+impl! sub (self-type Fun)
 	doc. "
 		Subbing Fun does nothing and is only for documentation.
 		E.g. Fun[Int Str] takes an Int and returns a Str.
