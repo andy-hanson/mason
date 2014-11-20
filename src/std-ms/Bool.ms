@@ -8,6 +8,8 @@ Bool =
 true. `true`
 false. `false`
 
+\ TODO: Variadic
+
 and.
 	doc. "True iff both `a` and `b` are."
 	test. |
@@ -29,12 +31,12 @@ or.
 		[ false true ] -> true
 		[ true false ] -> true
 		[ true true ] -> true
-	|a:Bool ~b:Bool
+	|cond-0:Bool ~cond-1:Bool
 		case
-			a
+			cond-0
 				true
 			else
-				b
+				cond-1
 
 nand.
 	doc. "True if either of `a` or `b` is false."
@@ -43,8 +45,8 @@ nand.
 		[ false true ] -> true
 		[ true false ] -> true
 		[ true true ] -> false
-	|a:Bool ~b:Bool
-		not (and a ~b)
+	|cond-0:Bool ~cond-1:Bool
+		not (and cond-0 ~cond-1)
 
 nor.
 	doc. "True iff both `a` and `b` are false."
@@ -53,17 +55,17 @@ nor.
 		[ false true ] -> false
 		[ true false ] -> false
 		[ true true ] -> false
-	|a:Bool ~b:Bool
-		not (or a ~b)
+	|cond-0:Bool ~cond-1:Bool
+		not (or cond-0 ~cond-1)
 
 not.
 	doc. "True iff `a` isn't."
 	test. |
 		[ false ] -> true
 		[ true ] -> false
-	|a:Bool
+	|cond:Bool
 		case
-			a
+			cond
 				false
 			else
 				true
@@ -75,11 +77,11 @@ xor.
 		[ false true ] -> true
 		[ true false ] -> true
 		[ true true ] -> false
-	|a:Bool b:Bool
+	|cond-0:Bool cond-1:Bool
 		case
-			a
-				not b
+			cond-0
+				not cond-1
 			else
-				b
+				cond-1
 
 Bool
