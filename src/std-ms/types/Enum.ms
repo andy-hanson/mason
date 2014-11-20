@@ -9,7 +9,8 @@ use
 	.Method -> impl!
 	..Object -> add-property!
 	.Record-Type
-	..Str -> show
+	..show -> inspect
+	..Str
 	.Type -> subsumes?
 	.util -> self-type
 
@@ -38,13 +39,12 @@ Enum = Record-Type
 			enum-val = Object.create enum.prototype
 			add-property! enum-val "name" val-name
 			add-property! enum val-name enum-val
-		impl! show enum |val
+		impl! inspect enum |val
 			"{enum.displayName}.{val.name}"
 
 unchecked-implementor! Enum Impl-Type
 
 impl! subsumes? Enum |_ subsumed
 	Object.prototype.isPrototypeOf.call _.prototype subsumed
-
 
 Enum

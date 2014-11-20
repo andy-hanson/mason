@@ -3,7 +3,7 @@ use
 	..arithmetic-methods -> + -
 	.Array -> ->Array
 	..assert -> ! !not
-	..basic-methods -> freeze sub
+	..basic-methods -> => freeze sub
 	..Bool -> and false not or true
 	..Comparable -> =? <=? >=?
 	..control -> if
@@ -12,6 +12,7 @@ use
 	..generators -> Generator
 	..math.Num -> divisible? Nat
 	..pred-types -> Any Opt
+	..show
 	.Stream -> ->Stream streaming
 	..Symbol
 	..types.Interface -> implementor!
@@ -49,21 +50,6 @@ region Builder
 	builder. Method
 		doc. |:Builder _
 			"A new Builder of the same type as this Bag."
-
-region Bag-Type
-	empty. Method
-		doc. "
-			Instance of this Bag-Type which is `empty?`.
-			Should always return the same thing iff immutable.
-	Bag-Type. Interface
-		doc. "Any sub-type of Bag."
-		methods.
-			. empty
-
-	impl! sub Bag-Type identity
-	implementor! (self-type Bag) Bag-Type
-	impl! empty (self-type Bag) |
-		empty Array
 
 region Functions using just the iterator
 	fold.
@@ -193,7 +179,8 @@ region Methods only needing iterator
 			take _ (- count_ 1)
 
 region Methods using builder
-	from-stream = |_ stream:Stream
+	\ TODO: Not public
+	from-stream. |_ stream:Bag
 		b = builder_
 		iter = iterator stream
 		bn = build-next!

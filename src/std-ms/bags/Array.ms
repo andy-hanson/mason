@@ -2,7 +2,8 @@
 
 use
 	..assert -> ! !call
-	.Bag -> Bag-Type builder build-next! build-result count each! empty empty? iterator map seq=?
+	.Bag -> builder build-next! build-result count each! empty? iterator map seq=?
+	.Bag-Type -> empty
 	..basic-methods -> freeze
 	..Bool -> and
 	..Comparable -> =?
@@ -11,7 +12,7 @@ use
 	..Num -> Nat
 	..Object -> add-property!
 	..pred-types -> Any Nullable
-	..Str -> show
+	..show
 	.Stream -> streaming
 	..types.Interface -> implementor!
 	..types.Method ->  impl!

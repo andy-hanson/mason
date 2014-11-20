@@ -5,7 +5,8 @@ use
 	.Interface -> implementor!
 	.Method -> impl!
 	.Record-Type
-	..Str -> show
+	..show
+	..Str
 	.Type -> subsumes?
 	.util -> self-type
 

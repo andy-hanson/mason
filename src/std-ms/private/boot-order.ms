@@ -10,7 +10,7 @@ use
 	..math.Num
 	source-map-support
 	stack-displayname
-	..Str
+	..show
 	..types.Type
 
 source-map-support.install ()
@@ -24,4 +24,5 @@ Hash-Map \ Provides _ms.map
 Num
 Array-as-Map!
 Dict-as-Map
-Str \ Important to load this now, as it will help error messages
+show \ Important to load this now, as it will help error messages
+()

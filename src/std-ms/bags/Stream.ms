@@ -2,7 +2,8 @@ use
 	.Array -> ->Array
 	..arithmetic-methods -> + -
 	..assert -> !
-	.Bag -> all? Bag-Type drop empty flat-map iterator keep map seq=? slice take zip
+	.Bag -> all? drop flat-map iterator keep map seq=? slice take zip
+	.Bag-Type -> empty
 	..Bool -> and or
 	..Comparable -> =?
 	..Fun -> identity Pred thunk

@@ -4,7 +4,7 @@ use
 	.bags.Array -> ->Array
 	.bags.Bag -> map
 	.js -> global
-	.Str -> show
+	.show
 
 log!.
 	doc. "TODO"

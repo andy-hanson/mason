@@ -3,17 +3,20 @@ use
 	..arithmetic-methods -> + - *
 	..assert -> ! !not
 	.Array \ TODO: Array!
-	.Bag -> Bag-Type count each! empty empty? iterator reverse seq=?
+	.Bag -> builder Builder build-next! build-result count each! empty? iterator reverse seq=?
+	.Bag-Type -> empty
 	.Bag! -> <+! +>! ?<pop! ?pop>! clear! bag!-test
 	..Bool -> not
 	..Comparable -> =?
 	..control -> if
+	..Fun -> identity
 	..maps.Map! -> set!
 	..math.Num -> modulo Nat
 	..Object -> change-property!
 	..pred-types -> Any
 	.Range -> range
 	..types.Interface -> implementor!
+	..types.Method -> impl!
 	..types.Record-Type
 	..types.util -> self-type
 
@@ -34,6 +37,14 @@ implementor! (self-type Deque!) Bag-Type
 			data!. Array 8
 			start-index!. 0
 			end-index!. 0
+
+\ TODO: Define it this way for all Bag!s
+impl! builder Deque! |
+	empty Deque!
+implementor! Deque! Builder
+	build-next! -> |_ em
+		+>! _ [ em ]
+	build-result -> identity
 
 region Helpers
 	capacity = |_

@@ -7,7 +7,8 @@ use
 
 freeze. Method
 	doc. "TODO"
-	default. Object.freeze
+	default. |_
+		Object.freeze _
 
 sub. Method
 	doc. "
@@ -20,6 +21,8 @@ type-of. Method
 	doc. "TODO"
 	\ TODO: Should be able to just make it here. No need for syms.
 	impl-symbol. syms.type-of
+	default. |_
+		_.constructor
 
 \ TODO: Find better place for this. math-methods?
 length. Method
@@ -29,5 +32,3 @@ length. Method
 	doc. |convert-to:Type convert-me
 		"Converts a value to a given type."
 
-impl! type-of Object |_
-	`_.constructor`

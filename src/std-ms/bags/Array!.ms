@@ -1,6 +1,7 @@
 use
 	.Array -> ->Array
-	.Bag -> empty empty? Bag-Type
+	.Bag -> empty?
+	.Bag-Type -> empty
 	.Bag! -> <+! +>! ?<pop! ?pop>! clear! bag!-test
 	..Bool -> and not
 	..control -> if

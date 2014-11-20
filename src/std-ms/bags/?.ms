@@ -1,7 +1,8 @@
 use
 	..assert -> ! !not
 	..basic-methods -> sub
-	.Bag -> all? Bag-Type each! empty empty? iterator map
+	.Bag -> all? each! empty? iterator map
+	.Bag-Type -> empty
 	..Bool -> and not
 	..Comparable -> =?
 	..Error -> fails? oh-no!
@@ -10,7 +11,6 @@ use
 	..math.Num
 	..Object -> set-property! extend!
 	..pred-types -> Any
-	..Str -> show
 	..Symbol
 	..types.Interface -> implementor!
 	..types.Method -> impl!
@@ -43,13 +43,6 @@ implementor! ? Bag
 \ Can't use implementor! map because ? is required to create maps
 impl! empty? ? |_
 	identical? _ ?none
-
-\ TODO: Impl for all Bag-Types
-impl! show ? |case
-	empty?_
-		"?none"
-	else
-		"?some {_.val}"
 
 impl! iterator ? ~|case!
 	\ TODO: Use unless~ instead of case!

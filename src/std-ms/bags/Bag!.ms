@@ -1,7 +1,8 @@
 use
 	.? -> ?none ?some
 	..assert -> !
-	.Bag -> Bag-Type empty empty? seq=?
+	.Bag -> empty? seq=?
+	.Bag-Type -> empty
 	..Comparable -> =?
 	.Deque!
 	..types.Interface -> implementor!

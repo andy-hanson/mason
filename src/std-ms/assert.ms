@@ -13,7 +13,7 @@ use
 	.js -> global
 	.maps.Map -> keys
 	.pred-types -> Any
-	.Str -> show
+	.show
 	.types.Type -> !subsumes
 
 !.

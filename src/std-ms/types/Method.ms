@@ -12,6 +12,8 @@ use
 	..private.bootstrap -> Str Symbol Fun Array oh-no! true any? get-or-undefined exists? set! has? has-or-in-proto? get
 	.Record-Type
 
+apply = Fun.prototype.apply
+
 Method = Record-Type
 	doc. "
 		TODO:REST
@@ -65,7 +67,7 @@ Method = Record-Type
 					impl := method.default
 			method-impl:Fun = impl
 			\ TODO:ES6 method-impl(...arguments)
-			Fun.prototype.apply.call method-impl () `arguments`
+			apply.call method-impl () `arguments`
 	extensible. true
 
 \ TODO: This will add to the prototype of an interface inheriting from another interface.
@@ -94,8 +96,16 @@ impl-single! = |method:Method implementor:Impl-Type implementation:Fun
 	impl-unchecked! method implementor implementation
 
 impl-double! = |method:Method implementor-0:Impl-Type implementor-1:Impl-Type implementation:Fun
-	dispatcher = case ?get-property implementor-0.prototype method.impl-symbol
-		empty?_
+	dispatcher = case get-or-undefined implementor-0.prototype method.impl-symbol
+		exists?_
+			case
+				:Double-Dispatcher
+					_
+				else
+					oh-no! "
+						Can't define double dispatch of {method} for {implementor-0}.
+						A single-dispatch implementation already exists: {_}.
+		else
 			m = method
 			dd = Double-Dispatcher
 				method. m
@@ -103,16 +113,6 @@ impl-double! = |method:Method implementor-0:Impl-Type implementor-1:Impl-Type im
 				impl-symbol. Symbol "{m} for {implementor-0}"
 			add-property! implementor-0.prototype method.impl-symbol dd
 			dd
-		else
-			\ TODO: case _.val
-			dd = _.val
-			case dd
-				:Double-Dispatcher
-					_
-				else
-					oh-no! "
-						Can't define double dispatch of {method} for {implementor-0}.
-						A single-dispatch implementation already exists: {dd}."
 
 	add-property! implementor-1.prototype dispatcher.impl-symbol implementation
 
@@ -136,7 +136,7 @@ Double-Dispatcher = Record-Type
 					double-impl:Fun = impl
 				else
 					oh-no! "Can't double-dispatch {_.method} for {_.first-type} on {target-2}"
-			Fun.prototype.apply.call impl () `arguments`
+			apply.call impl () `arguments`
 
 impl?.
 	doc. "TODO"

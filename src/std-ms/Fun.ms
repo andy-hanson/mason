@@ -14,7 +14,7 @@ use
 	.maps.Map! -> set!
 	.maps.Weak-Identity-Map!
 	.Object
-	.Str -> show
+	.show
 	.pred-types -> Any
 	.types.Alias-Type
 	.types.Method -> impl! impl-for
