@@ -81,25 +81,13 @@ region MS Methods
 		(global.Object.getOwnPropertyNames exports).forEach |name
 			set! default name `exports[name]`
 
-	set-temporary! ms "str" |x
-		`if (x === undefined) return "undefined"` \ TODO: Remove
-		`if (x === null) return "null"` \ TODO: Remove
-		`(x.toString == null) ? "<wierd thing with bad toString>" : x.toString()`
+	set-temporary! ms "show" |x
+		`if (typeof x !== "string") throw new Error("Should only be using Strs here before show is defined in show.ms")`
+		x
 
 	set! ms "mkStr" |
-		s ::= ""
-		i ::= 0
-		args = `arguments`
-		len = args.length
-		loop!
-			case! i
-				`_ === len`
-					end-loop!
-				else
-					arg = `args[i]`
-					str = ms.str arg
-					s := `s + str`
-					i := `i + 1`
-		s
+		args = global.Array.prototype.slice.call `arguments`
+		strs = args.map ms.show
+		strs.join ""
 
 ms

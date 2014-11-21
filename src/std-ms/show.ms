@@ -68,7 +68,7 @@ impl! show Method get-nom
 impl! show Interface get-nom
 impl! show Record-Type get-nom
 impl! show Str identity
-\add-property! `_ms` "str" show
-`_ms.str = show`
+\TODO: add-property! `_ms` "str" show
+`_ms.show = show`
 
 show
