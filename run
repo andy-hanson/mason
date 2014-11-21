@@ -1,0 +1,1 @@
+node --stack-trace-limit=50 --harmony src

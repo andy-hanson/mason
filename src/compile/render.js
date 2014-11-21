@@ -298,6 +298,7 @@ U.implementMany(E, "renderContent", {
 		")"
 	]},
 	Null: function() { return "null" },
+	True: function() { return "true" },
 	Quote: function(rx) {
 		return (this.parts.length == 0) ?
 			"\"\"" :

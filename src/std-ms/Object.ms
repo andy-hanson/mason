@@ -79,9 +79,7 @@ own-enumerable-properties.
 	test. |
 		x =
 			a. 1
-			b.
 		[ x "a" ] -> ?some 1
-		[ x "b" ] -> ?none
 		\ Does not inherit from prototype.
 		[ x "toString" ] -> ?none
 	|_:Object name:Str/Sym

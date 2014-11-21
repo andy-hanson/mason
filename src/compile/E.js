@@ -72,6 +72,7 @@ makeETypes(E.Val, {
 	Map: { length: Number },
 	Member: { object: E.Val, name: String },
 	Null: { },
+	True: { },
 	Quote: { parts: [E.Val] },
 	Require: { path: String },
 	Sub: { subject: E.Val, subbers: [E.Val] },

@@ -75,7 +75,6 @@ test-module.
 				maybe-test name _
 
 maybe-test. |name:Str value:Any
-	\log! "Do I already have {value}?"
 	case!
 		all-tested.has value
 			()

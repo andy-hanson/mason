@@ -411,6 +411,8 @@ const parseLine = (function() {
 	}
 
 	const valueFromAssign = function(valuePre, kAssign) {
+		if (type.isa(valuePre, E.Null))
+			valuePre = E.True({ span: valuePre.span })
 		switch (kAssign) {
 			case "<~":
 				return E.Yield({ span: valuePre.span, yielded: valuePre })

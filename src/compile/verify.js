@@ -181,6 +181,7 @@ U.implementMany(E, "verify", {
 	Module: function(vx) { v(vx)(this.body) },
 	ModuleDefaultExport: function(vx) { v(vx)(this.value) },
 	Null: U.ignore,
+	True: U.ignore,
 	Quote: function(vx) { vm(vx, this.parts) },
 	Require: U.ignore,
 	Sub: function(vx) { vm(vx, Sq.cons(this.subject, this.subbers)) },

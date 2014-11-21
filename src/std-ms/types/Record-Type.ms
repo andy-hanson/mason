@@ -10,23 +10,19 @@ make-record-constructor = |rt
 	|baby-members:Dict
 		baby = Object.create rt.prototype
 		(Object.getOwnPropertyNames baby-members).forEach |member-name
-			\ TODO: This should possibly be lazy.
-			\val = get-or-undefined baby-members member-name
-			descriptor = Object.getOwnPropertyDescriptor baby-members member-name
-
-			case! descriptor
+			case! Object.getOwnPropertyDescriptor baby-members member-name
 				has? _ "value"
-					val = descriptor.value
+					val = _.value
 					case! member-name
 						`_ === "displayName"`
 							ms.checkSubsumes Str _ "displayName"
 						has? rt.members _
 							case! get-or-undefined rt.members member-name
+								`_ == true`
+									()
 								any?_
 									\ Can't use `!subsumes` because it may not exist yet
 									ms.checkSubsumes _ val member-name
-								else
-									()
 						else
 							case! rt.extensible
 								_
@@ -43,14 +39,16 @@ make-record-constructor = |rt
 					case!
 						member-name.endsWith "!"
 							oh-no! "Can not define mutable property lazily."
+						else
+							()
 
 					\ TODO: Type the result, somehow
 					Object.defineProperty baby member-name
-						get. descriptor.get
+						get. _.get
 						enumerable. true
 
 				else
-					oh-no! ~"Descriptor for {member-name} has neither value nor get; is {descriptor}"
+					oh-no! ~"Descriptor for {member-name} has neither value nor get; is {_}."
 
 		(Object.getOwnPropertyNames rt.members).forEach |case!
 			`_ === "displayName"`

@@ -20,10 +20,10 @@ Each `key. value` assignment is done within an indented block a code. (Use tabs 
 
 Note that `dict.key` accesses a property while `key. value` defines one.
 
-If a dict key has no written value, it will be `null`. Empty parentheses work the same way.
+If a dict key has no written value, it will be `true`. Empty parentheses mean `null`.
 
-	this-is-null.
-	() \ Also null
+	this-is-true.
+	() \ `null`
 
 Dicts are like javascript's object literals, except that the result will be of type Dict and immutable.
 

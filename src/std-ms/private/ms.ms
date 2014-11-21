@@ -9,7 +9,6 @@ global.Object.defineProperty global "_ms" `{ value: ms }`
 
 Fun = global.Function
 
-
 assign-many = `function(target, kvs) { const nkv = kvs.length; let i = 0; while (i < nkv) { const k = kvs[i++], v = kvs[i++]; Object.defineProperty(target, k, (v instanceof Lazy) ? { get: v.get, enumerable: true } : { value: v, enumerable: true }) } }`
 Lazy = `function(make) { const baby = Object.create(Lazy.prototype); let cached; Object.defineProperty(baby, "get", { value: function() { if (cached == undefined) { cached = make(); if (cached === undefined) throw new Error("Lazy value can't be undefined. Made by:\n" + make) } return cached }}); return baby }`
 am = assign-many

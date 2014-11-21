@@ -13,7 +13,8 @@ use
 	..show
 	..types.Type
 
-source-map-support.install ()
+source-map-support.install
+	hi.
 es6-shim
 \ stack-displayname \ Doesn't play nice with source-map-support
 

@@ -4,8 +4,10 @@ use
 	.assert -> !
 	.bags.Array
 	.bags.Bag -> seq=?
+	.basic-methods -> type-of
 	.Comparable -> =?
 	.maps.Map -> keys
+	.types.Method -> impl!
 
 Dict =
 	doc. "
@@ -22,6 +24,9 @@ Dict =
 	\ TODO: `empty` method
 	empty. `_ms.Dict()`
 	`_ms`.Dict
+
+impl! type-of Dict |
+	Dict
 
 Dict
 
