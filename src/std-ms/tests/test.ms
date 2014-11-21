@@ -1,29 +1,68 @@
 doc. "TODO"
 
 use
-	..assert -> !call
+	..assert -> ! !call
 	..bags.? -> get-or un-?
 	..bags.Bag -> each!
-	..Bool -> and
+	..Bool -> and false not or true
+	..Comparable -> =?
 	..console -> log!
-	..Error -> annotate-errors oh-no!
+	..Dict
+	..Error -> annotate-errors oh-no! Success try
 	..Fun -> call ignore
-	..Object -> ?get-property get-property has-property? own-enumerable-properties
-	..maps.Map
+	..js -> global
+	..maps.Identity-Map!
+	..maps.Map -> ?get keys
+	..Object -> ?get-property get-property has-property? own-properties own-enumerable-properties
 	path
 	..pred-types -> Any
 	q-io.fs
 	..Str
+	..types.Impl-Type
 	..types.Method -> impl! ?impl-for
 	..types.Type -> subsumes?
+	..types.util -> self-type
+
+\ TODO
+test-dict. |
+	tested-x ::= false
+	tested-y ::= false
+	tested-b ::= false
+	a.
+		test.
+			x. |
+				tested-x := true
+			y. |
+				tested-y := true
+	b. `{}`
+	impl! (self-type b) test-special |
+		tested-b := true
+	c. |
+		! tested-x
+		! tested-y
+		! tested-b
 
 \ TODO: Better name (but not `test`, because that's a common module property)
 test-special. Method
 	doc. "TODO"
+	default. ignore
 
-impl! test-special Method |_
-	each! _.implementing-types |type
-		maybe-test "{_.displayName} for {type}" (un-? (?impl-for _ type))
+impl! test-special Impl-Type |type
+	each! (?get-property type "prototype") |prototype
+		each! (own-properties prototype) |name
+			\ Some prototype properties throw errors. For example, global.Map.size.
+			\ TODO: Inline fun
+			x = try |
+				?get-property prototype name
+			case x
+				:Success
+					each! _.val |val
+						maybe-test "{type}.{name}" val
+				else
+					()
+
+\ TODO: empty Grow-Set!
+all-tested. `new global.Set()`
 
 \ TODO:ES6 Use module reflection
 test-module.
@@ -35,25 +74,49 @@ test-module.
 			each! (?get-property module name) |_
 				maybe-test name _
 
-maybe-test = |name:Str value:Any
-	annotate-errors ~"In {name}:\n" |
-		case! value
-			:test-special
-				test-special _
-			else
-				()
-		case! value
-			and :Object ~(has-property? _ "test")
-				test-result = call value.test
-				case! test-result
-					and :Map ~(subsumes? Fun value)
+maybe-test. |name:Str value:Any
+	\log! "Do I already have {value}?"
+	case!
+		all-tested.has value
+			()
+		else
+			all-tested.add value
+			test-special value
+			case! value
+				or :Dict :Fun
+					each! own-enumerable-properties_ |prop-name
+						next-name = "{name}.{prop-name}"
+						each! (?get-property _ prop-name) |prop-val
+							case! prop-name
+								=? _ "test"
+									test-test-prop value prop-val next-name
+								else
+									maybe-test next-name prop-val
+				else
+					()
+
+test-test-prop = |value value-test name
+	case value-test
+		:Fun
+			annotate-errors "In {name}:\n" |
+				case! call value-test
+					:Map
+						! (subsumes? Fun value)
+							"Test of {name} returned a Map, but the value is not callable."
 						!call value _
 					else
 						()
-			else
-				()
+		else
+			()
+	case! value-test
+		:Dict
+			each! keys_ |sub-name
+				test-test-prop value _[sub-name] "{name}.{sub-name}"
+		else
+			()
 
-test-modules. |dirPath:Str
+
+test-all. |dirPath:Str
 	x = (fs.listTree dirPath).then |files
 		each! files |file
 			case! file

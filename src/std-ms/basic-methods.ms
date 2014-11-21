@@ -1,7 +1,9 @@
 \ TODO: Put this somewhere else
 
 use
-	.private.bootstrap -> syms Object \ TODO
+	.bags.? -> get-or
+	.Object -> ?get-property
+	.private.bootstrap -> syms
 	.types.Method -> impl!
 	.types.Type
 
@@ -22,7 +24,7 @@ type-of. Method
 	\ TODO: Should be able to just make it here. No need for syms.
 	impl-symbol. syms.type-of
 	default. |_
-		_.constructor
+		get-or (?get-property _ "constructor") Object
 
 \ TODO: Find better place for this. math-methods?
 length. Method

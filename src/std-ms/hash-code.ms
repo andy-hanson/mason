@@ -41,17 +41,7 @@ hash-code =  Method
 				\ TODO: Want to do other case below but it seems to cause infinite loop
 				(impl-for hash-code Fun) _
 			else
-				props = case
-					:Fun
-						`throw up`
-						\ TODO
-						\ TODO: Use a mason set
-						forbidden-fun-props = `new global.Set([ "arguments", "callee", "caller" ])`
-						toss own-properties_ |prop
-							forbidden-fun-props.has prop
-					else
-						own-properties_
-
+				props = own-properties_
 				hash ::= 17
 				each! props |prop
 					each! (?get-property _ prop) |val

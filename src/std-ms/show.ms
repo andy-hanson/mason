@@ -1,11 +1,12 @@
 use
 	.bags.Array
+	.bags.Bag -> empty? map
 	.basic-methods -> type-of
 	.Bool
 	.Fun -> identity
 	.js -> identical?
 	.math.Num
-	.Object -> add-property!
+	.Object -> ?get-property add-property! own-enumerable-properties
 	.Str -> indent
 	.Symbol
 	.types.Interface
@@ -33,9 +34,10 @@ inspect. Method
 		:Str
 			"\"{_}\""
 		:Symbol
+			\ TODO:ES6 _.name
 			"<Symbol>"
 		:Object
-			key-vals = (Object.keys _).map |key
+			key-vals = map own-enumerable-properties_ |key
 				\ TODO: Recursive ->Str needs checks
 				val:Str = show `_[key]`
 				"{key}. {indent val}"

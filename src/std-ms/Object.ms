@@ -5,7 +5,7 @@ use
 	.assert -> ! !not
 	.bags.? -> ?none ?some Opt->?
 	.bags.Array
-	.bags.Bag -> each! empty? seq=?
+	.bags.Bag -> each! empty? keep seq=?
 	.bags.Stream -> ->Stream
 	.Bool -> and false not nor true xor
 	.Comparable -> =?
@@ -37,7 +37,8 @@ send.
 
 send!. send
 
-\ TODO: Convert to iterator
+\ TODO: Use a Mason set
+forbidden-fun-props = `new global.Set([ "arguments", "caller" ])`
 own-properties.
 	doc. "
 		Every property name directly stored in an object.
@@ -52,7 +53,11 @@ own-properties.
 			enumerable. false
 		! seq=? (own-properties obj) [ "a" sym ]
 	|:Bag[Str/Sym] _:Object
-		+ (->Stream (Object.getOwnPropertyNames _)) (Object.getOwnPropertySymbols _)
+		\ TODO: filter'
+		\ TODO: Only forbidden if is a Fun
+		own-names = keep (->Stream (Object.getOwnPropertyNames _)) |name
+			not (forbidden-fun-props.has name)
+		+ own-names (Object.getOwnPropertySymbols _)
 
 own-enumerable-properties.
 	doc. "Like own-properties, but excludes non-enumerable properties and symbols."
@@ -66,8 +71,8 @@ own-enumerable-properties.
 			value. 0
 			enumerable. true
 		! empty? (own-enumerable-properties obj)
-	|:Bag[Str] _:Object
-		Object.keys _
+	|:Bag[Str] object:Object
+		Object.keys object
 
 ?get-property.
 	doc. "TODO"

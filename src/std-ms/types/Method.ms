@@ -42,15 +42,12 @@ Method = Record-Type
 		displayName. Str  \ Required!
 		impl-symbol. Symbol
 		default. Fun
-		implementing-types. Array
 	defaults.
 		impl-symbol. |_
 			Symbol _.displayName
 		default. |_
 			|target
 				oh-no! ~"{_} not implemented for {target}"
-		implementing-types. |
-			`[]`
 	make-callable. |method
 		|target
 			impl ::= ()
@@ -75,7 +72,6 @@ Method = Record-Type
 \ Also, inherited methods should be set-mutable!
 impl-unchecked!. |method implementor implementation
 	set! implementor.prototype method.impl-symbol implementation
-	method.implementing-types.push implementor
 	case! implementor
 		:Interface
 			_.implementors.forEach |sub

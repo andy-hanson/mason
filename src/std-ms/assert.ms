@@ -65,4 +65,11 @@ use
 			expected = args->result[args]
 			actual = apply fun args
 			if! (not (=? actual expected)) |
+				use
+					.console -> log!
+				log! "==="
+				log! fun
+				log! args
+				log! actual
+				\ TODO: Use make-Str
 				oh-no! "`{fun} {(map args show).join " "}` should be `{expected}`, but got `{actual}`."
