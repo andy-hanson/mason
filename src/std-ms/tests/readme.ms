@@ -5,7 +5,7 @@ use
 	..assert -> ! !not
 	..bags.Bag -> map seq=? take
 	..bags.Stream -> streaming
-	..Bool -> and not
+	..Bool -> and not true
 	..Comparable -> =? >? >=? <=?
 	..Fun -> call
 	..Generator -> each~
@@ -19,11 +19,9 @@ my-dict.
 ! =? my-dict.one 1
 ! =? my-dict.two 2
 
-this-is-null.
-! =? this-is-null `null`
+this-is-true.
+! =? this-is-true true
 ! =? () `null`
-\! (not (subsumes? Any this-is-null))
-\! (not (subsumes? Any ()))
 
 my-list.
 	. 1

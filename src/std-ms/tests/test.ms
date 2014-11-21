@@ -24,23 +24,25 @@ use
 	..types.util -> self-type
 
 \ TODO
-test-dict. |
+test. |
 	tested-x ::= false
 	tested-y ::= false
 	tested-b ::= false
-	a.
-		test.
-			x. |
-				tested-x := true
-			y. |
-				tested-y := true
-	b. `{}`
-	impl! (self-type b) test-special |
-		tested-b := true
-	c. |
-		! tested-x
-		! tested-y
-		! tested-b
+	dict =
+		a.
+			test.
+				x. |
+					tested-x := true
+				y. |
+					tested-y := true
+		b. `{}`
+		impl! test-special (self-type b) |
+			tested-b := true
+		c. () \ not testable
+	maybe-test "dict" dict true
+	! tested-x
+	! tested-y
+	! tested-b
 
 \ TODO: Better name (but not `test`, because that's a common module property)
 test-special. Method
@@ -57,7 +59,7 @@ impl! test-special Impl-Type |type
 			case x
 				:Success
 					each! _.val |val
-						maybe-test "{type}.{name}" val
+						maybe-test "{type}.{name}" val false
 				else
 					()
 
@@ -68,13 +70,13 @@ all-tested. `new global.Set()`
 test-module.
 	doc. "TODO"
 	|module
-		module-name = get-or (?get-property module "displayName") "Anonymous module"
-		maybe-test module-name module
-		each! (own-enumerable-properties module) |name
-			each! (?get-property module name) |_
-				maybe-test name _
+		module-name = get-or (?get-property module "displayName") "<anonymous module>"
+		maybe-test module-name module true
+		\each! (own-enumerable-properties module) |name
+		\	each! (?get-property module name) |_
+		\		maybe-test name _ true
 
-maybe-test. |name:Str value:Any
+maybe-test. |name:Str value:Any is-module:Bool
 	case!
 		all-tested.has value
 			()
@@ -82,7 +84,8 @@ maybe-test. |name:Str value:Any
 			all-tested.add value
 			test-special value
 			case! value
-				or :Dict :Fun
+				\ TODO: variadic `or`
+				or is-module ~(or :Dict ~:Fun)
 					each! own-enumerable-properties_ |prop-name
 						next-name = "{name}.{prop-name}"
 						each! (?get-property _ prop-name) |prop-val
@@ -90,7 +93,7 @@ maybe-test. |name:Str value:Any
 								=? _ "test"
 									test-test-prop value prop-val next-name
 								else
-									maybe-test next-name prop-val
+									maybe-test next-name prop-val false
 				else
 					()
 

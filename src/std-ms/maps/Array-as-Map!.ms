@@ -1,6 +1,7 @@
 use
 	..bags.Array
-	..bags.Bag -> empty?
+	..bags.Bag -> count empty?
+	..bags.Range -> range
 	..Fun -> TODO
 	.Map -> ?get has-key? keys
 	.Map! -> clear! delete! set!
@@ -16,8 +17,8 @@ implementor! Array Map!
 	has-key? -> |arr index:Nat
 		_ = `arr[key]`
 		:Any
-	keys -> |
-		TODO \ Range
+	keys -> |_
+		range 0 count_
 	clear! -> |_
 		loop!
 			case!

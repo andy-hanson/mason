@@ -38,10 +38,9 @@ inspect. Method
 			"<Symbol>"
 		:Object
 			key-vals = map own-enumerable-properties_ |key
-				\ TODO: Recursive ->Str needs checks
-				val:Str = show `_[key]`
+				\ TODO: Recursive checks: already-inspected set
+				val:Str = inspect `_[key]`
 				"{key}. {indent val}"
-
 			"
 				{type-of_.displayName}:
 					{key-vals.join "\n\t"}

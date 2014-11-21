@@ -65,4 +65,4 @@ use
 			expected = args->result[args]
 			actual = apply fun args
 			if! (not (=? actual expected)) |
-				oh-no! "`{fun} {(map args inspect).join " "}` should be `{expected}`, but got `{actual}`."
+				oh-no! ~"`{fun} {(map args inspect).join " "}` should be `{expected}`, but got `{actual}`."

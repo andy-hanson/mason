@@ -124,14 +124,14 @@ Double-Dispatcher = Record-Type
 				exists? target-2
 					()
 				else
-					oh-no! "Can't double-dispatch {_.method} for undefined."
+					oh-no! ~"Can't double-dispatch {_.method} for undefined."
 
 			impl = get-or-undefined target-2 _.impl-symbol
 			case!
 				exists? impl
 					double-impl:Fun = impl
 				else
-					oh-no! "Can't double-dispatch {_.method} for {_.first-type} on {target-2}"
+					oh-no! ~"Can't double-dispatch {_.method} for {_.first-type} on {target-2}"
 			apply.call impl () `arguments`
 
 impl?.

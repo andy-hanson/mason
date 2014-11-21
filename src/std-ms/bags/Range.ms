@@ -2,7 +2,8 @@ use
 	..arithmetic-methods -> + - * /
 	..assert -> !
 	.? -> ?none ?some get-or Opt->?
-	.Bag -> ?nth count iterator seq=?
+	.Array
+	.Bag -> ?nth builder count iterator seq=?
 	..basic-methods -> length
 	..Comparable -> =? <? >=?
 	..control -> if
@@ -10,7 +11,7 @@ use
 	..pred-types -> Opt
 	.Stream -> streaming
 	..types.Interface -> implementor!
-	..types.Method -> impl!
+	..types.Method -> impl! impl-for
 	..types.Record-Type
 
 Range = Record-Type
@@ -23,16 +24,18 @@ Range = Record-Type
 		in
 			! =? (sign _.step) (sign (- _.end _.start))
 
-range. |start:Num end:Num step:Opt[Num]
+\ TODO: SYNTAX
+range. |-start-:Num -end-:Num -step-:Opt[Num]
 	Range
-		start. start
-		end. end
-		step. get-or (Opt->? step) (sign (- end start))
+		start. -start-
+		end. -end-
+		step. get-or (Opt->? -step-) (sign (- end start))
 
 impl! length Range |_
 	- _.end _.start
 
 implementor! Range Bag
+	builder -> impl-for builder Array
 	?nth ->
 		test. |
 			r = range 0 10 2
@@ -50,13 +53,12 @@ implementor! Range Bag
 	iterator ->
 		test. |
 			! seq=? (range 0 10 2) [0 2 4 8]
-		|_
-			streaming ~|
-				i ::= _.start
-				loop!
-					case!
-						>=? i _.end
-							end-loop!
-						else
-							<~ i
-							i := + i _.step
+		~|_
+			i ::= _.start
+			loop!
+				case!
+					>=? i _.end
+						end-loop!
+					else
+						<~ i
+						i := + i _.step

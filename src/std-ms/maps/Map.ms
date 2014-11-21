@@ -4,7 +4,7 @@ use
 	..bags.? -> ?none get-or
 	..bags.Array
 	..bags.Bag -> each! empty? map
-	..basic-methods -> freeze sub
+	..basic-methods -> => freeze sub
 	..Bool -> not
 	..Comparable -> =?
 	..Fun -> identity
@@ -71,6 +71,7 @@ make-map.
 impl! sub Map |map key:Any
 	get-or (?get map key) ~(oh-no! "{map} does not contain {key}.")
 
+\ TODO: impl! sub Map-Type identity
 impl! sub (self-type Map) identity
 
 Map

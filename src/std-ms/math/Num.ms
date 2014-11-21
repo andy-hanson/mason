@@ -66,6 +66,25 @@ impl! * Num |a b:Num
 impl! / Num |a b:Num
 	`a / b`
 
+region Tests
+	sign.
+		test. |
+			[ -8 ] -> -1
+			[ 0 ] -> 0
+			[ 8 ] -> 1
+			\ TODO
+			\ [ not-a-number ] -> not-a-number
+		|_:Num
+			case
+				>? _ 0
+					1
+				<? _ 0
+					-1
+				=? _ 0
+					0
+				else
+					not-a-number
+
 region Integer arithmetic
 	remainder.
 		doc. "
