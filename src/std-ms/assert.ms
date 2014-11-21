@@ -8,12 +8,12 @@ use
 	.Bool -> false not true
 	.Comparable -> =?
 	.control -> if!
-	.Error -> fails-with? oh-no!
 	.Fun -> Act apply
 	.js -> global
 	.maps.Map -> keys
 	.pred-types -> Any
 	.show -> inspect
+	.Try -> fails-with? oh-no!
 	.types.Type -> !subsumes
 
 !.

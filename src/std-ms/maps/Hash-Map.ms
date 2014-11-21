@@ -9,7 +9,6 @@ use
 	..basic-methods -> freeze
 	..Bool -> not
 	..Comparable -> =?
-	..Error -> oh-no!
 	..hash-code
 	.Identity-Map!
 	..js -> global new
@@ -19,6 +18,7 @@ use
 	..math.Num -> divisible?
 	..pred-types -> Any
 	..private.ms
+	..Try -> oh-no!
 	..types.Interface -> implementor!
 	..types.Method -> impl!
 	..types.Record-Type

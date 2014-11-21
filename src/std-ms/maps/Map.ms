@@ -7,11 +7,11 @@ use
 	..basic-methods -> freeze sub
 	..Bool -> not
 	..Comparable -> =?
-	..Error -> oh-no!
 	..Fun -> identity
 	.Hash-Map
 	.Map! -> set!
 	..pred-types -> Any
+	..Try -> oh-no!
 	..types.Interface
 	..types.Method -> impl!
 	..types.util -> self-type

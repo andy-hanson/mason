@@ -5,13 +5,13 @@ use
 	.Bag-Type -> empty
 	..Bool -> and not
 	..Comparable -> =?
-	..Error -> fails? oh-no!
 	..Fun -> call thunk
 	..js -> identical?
 	..math.Num
 	..Object -> set-property! extend!
 	..pred-types -> Any
 	..Symbol
+	..Try -> fails? oh-no!
 	..types.Interface -> implementor!
 	..types.Method -> impl!
 	..types.Record-Type

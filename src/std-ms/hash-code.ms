@@ -6,13 +6,13 @@ use
 	.Bool -> nor not
 	.Comparable -> =?
 	.control -> if!
-	.Error -> fails?
 	.Fun -> identity-memoize
 	.math.bit-arithmetic -> bit-and hexidecimal
 	.math.Num -> Int round-towards-0
 	.Object -> ?get-property own-properties
 	.Str
 	.Symbol
+	.Try -> fails?
 	.types.Method -> impl! impl-for
 
 max-hash-code = hexidecimal "7fffffff"

@@ -4,10 +4,10 @@ use
 	..bags.? -> get-or Opt->?
 	..Bool -> and false not true
 	..Comparable -> =? <? >? <=? >=? compare
-	..Error -> fails?
 	..js -> global
 	..Object -> get-property
 	..pred-types -> Opt
+	..Try -> fails?
 	..types.Method -> impl!
 	..types.Pred-Type
 	..types.Type -> subsumes?

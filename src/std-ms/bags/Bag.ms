@@ -7,7 +7,6 @@ use
 	..Bool -> and false not or true
 	..Comparable -> =? <=? >=?
 	..control -> if
-	..Error -> fails? oh-no!
 	..Fun -> identity Pred thunk
 	..generators -> Generator
 	..math.Num -> divisible? Nat
@@ -15,6 +14,7 @@ use
 	..show
 	.Stream -> ->Stream streaming
 	..Symbol
+	..Try -> fails? oh-no!
 	..types.Interface -> implementor!
 	..types.Method -> impl!
 	..types.util -> self-type

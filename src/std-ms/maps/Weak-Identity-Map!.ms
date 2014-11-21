@@ -1,9 +1,9 @@
 use
 	..bags.? -> Opt->?
-	..Error -> oh-no!
 	..js -> global
 	.Map -> ?get has-key? keys
 	.Map! -> clear! delete! set!
+	..Try -> oh-no!
 	..types.Interface -> implementor!
 	..types.Method -> impl!
 

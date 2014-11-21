@@ -11,11 +11,11 @@ use
 	.Comparable -> =?
 	.control -> if
 	.Dict
-	.Error -> fails?
 	.js -> global identical? js-typeof
 	.maps.Map -> keys
 	.pred-types -> Any Union
 	.Symbol
+	.Try -> fails?
 	.types.Type -> subsumes?
 
 Str/Sym ~= Union[Str Symbol]

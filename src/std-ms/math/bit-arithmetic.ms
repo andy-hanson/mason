@@ -3,9 +3,9 @@ doc. "TODO"
 use
 	..assert -> ! !not
 	..Bool -> not
-	..Error -> fails?
 	.Num -> Int
 	..Str
+	..Try -> fails?
 
 binary.
 	doc. "Makes an Int out of a string of 0s and 1s."

@@ -1,10 +1,9 @@
-doc. "TODO"
-
 use
-	.assert -> ! !fail-message
+	.assert -> ! !not !fail-message
 	.bags.? -> ?none ?some
 	.Bool -> and true
 	.Comparable -> =?
+	.control -> unreachable!
 	.Fun -> Act delegate-to ignore thunk
 	.js -> global
 	.Object -> change-property! set-property!
@@ -14,7 +13,19 @@ use
 	.types.Record-Type
 	.types.Type -> subsumes?
 
-Error = global.Error
+Try = Interface
+	doc. "Result of running failable code."
+
+Success. Record-Type
+	doc. "Attempt that did not fail. _.val is the result of the attempted code."
+	members.
+		val.
+Error.
+	doc. "TODO"
+	global.Error
+implementor! Success Try
+implementor! Error Try
+\ TODO: Closed interfaces?
 
 \ TODO: public?
 make-Error = |error
@@ -22,16 +33,11 @@ make-Error = |error
 	`try { const err = _ms.unlazy(error); if (err instanceof Err) return err; if (typeof err === "string") return new Err(err); throw new Error("Argument to oh-no! must be Error or String") } catch (e) { return new Err("Error making error: " + e.message) }`
 	oh-no! "Error making error about error making error. You really messed that one up."
 
-\ TODO: Move next to TODO (the function)
-unreachable!. |
-	oh-no! "This should not be reachable."
-
 oh-no!.
 	doc. "
 		Throws an Error.
 		If `error` is a Str, it will be put into a new Error.
 		If it is possible for the creation of `error` to fail, make it lazy.
-
 	test. |
 		\ TODO: ! fails-with? type | oh-no! type
 		! fails-with? "a" |
@@ -43,34 +49,10 @@ oh-no!.
 		`throw err`
 		()
 
-Attempt. Interface
-	doc. "Result of running failable code."
-Success. Record-Type
-	doc. "Attempt that did not fail. _.val is the result of the attempted code."
-	members.
-		val.
-implementor! Success Attempt
-implementor! Error Attempt
-\ TODO: Closed interfaces?
-
-try-finally.
-	doc. "Executes `finally-do`, even if there are errors."
-	test. |
-		a ::= 0
-		try |
-			try-finally oh-no! |
-				a := 1
-		! =? a 1
-	|tried:Fun[Any] finally-do:Act
-		fd = finally-do
-		`try { return tried() } finally { fd() }`
-		unreachable! ()
-
 try.
 	doc. "
 		If `tried` throws an error, returns it; else returns Success of its result.
 		If you don't care about the value of the error, use `?try` instead.
-
 	test. |
 		[ (thunk 1) ] -> Success
 			val. 1
@@ -94,30 +76,28 @@ try.
 			else
 				?none
 
-annotate-errors.
+fails?.
+	doc. "TODO"
+	test. |
+		! fails? |
+			oh-no! ()
+		!not fails? |
+			()
+	|_:Act
+		subsumes? Error try_
+
+fails-with?.
 	doc. "TODO"
 	test. |
 		"TODO"
-	|~annotation:Str tried:Act
-		case try tried
-			:Success
-				_.val
-			else
-				change-property! _ "stack" "{annotation}{_.stack}"
-				change-property! _ "message" "{annotation}{_.message}"
-				oh-no! _
-
-fails?. |_:Act
-	subsumes? Error try_
-
-fails-with?. |with act:Act
-	result = try act
-	and (subsumes? Error result) ~
-		case with
-			:Type
-				subsumes? with result
-			:Str
-				=? result.message _
+	|with act:Act
+		result = try act
+		and (subsumes? Error result) ~
+			case with
+				:Type
+					subsumes? with result
+				:Str
+					=? result.message _
 
 \ TODO: Just make it a Record-Type with message/stack properties whose default if `new Error(msg)`.stack
 error-type.
@@ -147,4 +127,30 @@ error-type.
 		set-property! it "prototype" (Object.create Error.prototype)
 		it
 
-Error
+always-do-after.
+	doc. "Executes `finally-do`, even if there are errors."
+	test. |
+		a ::= 0
+		try |
+			always-do-after oh-no! |
+				a := 1
+		! =? a 1
+	|tried:Fun[Any] finally-do:Act
+		fd = finally-do
+		`try { return tried() } finally { fd() }`
+		unreachable! ()
+
+annotate-errors.
+	doc. "TODO"
+	test. |
+		"TODO"
+	|~annotation:Str tried:Act
+		case try tried
+			:Success
+				_.val
+			else
+				change-property! _ "stack" "{annotation}{_.stack}"
+				change-property! _ "message" "{annotation}{_.message}"
+				oh-no! _
+
+Try

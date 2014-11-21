@@ -3,10 +3,10 @@ use
 	.bags.? -> ?none ?some get-or
 	.Bool -> false not true
 	.Comparable -> =?
-	.Error -> oh-no!
 	.Fun -> Act call thunk
 	.maps.Map -> ?get
 	.pred-types -> Any
+	.Try -> oh-no!
 	.types.singleton
 
 switch.
@@ -58,3 +58,9 @@ if!.
 				call result
 			else
 				()
+
+unreachable!. |
+	oh-no! "This should not be reachable."
+
+TODO. |
+	oh-no! "This function has not yet been implemented."

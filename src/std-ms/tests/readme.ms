@@ -7,11 +7,11 @@ use
 	..bags.Stream -> streaming
 	..Bool -> and not
 	..Comparable -> =? >? >=? <=?
-	..Error -> fails?
 	..Fun -> call
 	..Generator -> each~
 	..math.Num -> divisible? Int
 	..Str
+	..Try -> fails?
 
 my-dict.
 	one. 1

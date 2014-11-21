@@ -6,10 +6,10 @@ use
 	.bags.Bag -> each!
 	.Bool -> false not true
 	.Comparable -> =?
-	.Error
 	.Fun -> delegate-to
 	.math.Num -> not-a-number
 	.Object -> add-property!
+	.Try -> Error
 	.types.Type -> !subsumes
 
 global. `global`

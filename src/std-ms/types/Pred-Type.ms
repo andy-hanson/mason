@@ -1,12 +1,12 @@
 use
 	..Bool -> true
-	..Error -> oh-no!
 	..Fun -> Pred
 	.Interface -> implementor!
 	.Method -> impl!
 	.Record-Type
 	..show
 	..Str
+	..Try -> oh-no!
 	.Type -> subsumes?
 	.util -> self-type
 
@@ -21,7 +21,7 @@ Pred-Type = Record-Type
 				:Str
 					_
 				else
-					oh-no! "Need displayName for Pred-Type"
+					oh-no! "Need displayName for Pred-Type. Got {_}."
 	extensible. true
 
 \ Can't use map syntax because that requires this.

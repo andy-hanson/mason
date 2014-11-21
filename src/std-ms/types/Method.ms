@@ -3,7 +3,6 @@ use
 	..bags.? -> un-?
 	..bags.Bag -> each! empty?
 	..Comparable -> =?
-	..Error -> fails?
 	.Impl-Type
 	.Interface
 	..maps.Map -> keys
@@ -11,6 +10,7 @@ use
 	..Object -> ?get-property add-property!
 	..private.bootstrap -> Str Symbol Fun Array oh-no! true any? get-or-undefined exists? set! has? has-or-in-proto? get
 	.Record-Type
+	..Try -> fails?
 
 apply = Fun.prototype.apply
 

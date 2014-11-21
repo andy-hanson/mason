@@ -8,7 +8,6 @@ use
 	..Comparable -> =?
 	..console -> log!
 	..Dict
-	..Error -> annotate-errors oh-no! Success try
 	..Fun -> call ignore
 	..js -> global
 	..maps.Identity-Map!
@@ -18,6 +17,7 @@ use
 	..pred-types -> Any
 	q-io.fs
 	..Str
+	..Try -> annotate-errors oh-no! Success try
 	..types.Impl-Type
 	..types.Method -> impl! ?impl-for
 	..types.Type -> subsumes?

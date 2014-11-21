@@ -8,7 +8,6 @@ use
 	.bags.Bag -> each! map
 	.basic-methods -> sub
 	.Comparable -> =?
-	.Error -> oh-no!
 	.js -> global new
 	.maps.Map -> ?get keys
 	.maps.Map! -> set!
@@ -16,6 +15,7 @@ use
 	.Object
 	.show
 	.pred-types -> Any
+	.Try -> oh-no!
 	.types.Alias-Type
 	.types.Method -> impl! impl-for
 	.types.Type -> subsumes?
@@ -216,9 +216,6 @@ thunk.
 		! =? (call (thunk 1)) 1
 	|a |
 		a
-
-TODO. |
-	oh-no! "This function has not yet been implemented."
 
 \ TODO: MOVE
 impl! show Fun |case
