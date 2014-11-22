@@ -12,6 +12,8 @@ patterns:
   name: string
   match: \"\"
 
+
+
 - comment: 1-indented multi-line string (begins/ends with 0 indents)
   name: string
   begin: "^[^\t\"]*\"$"
@@ -50,6 +52,17 @@ patterns:
     match: \\.
   - name: entity.other.attribute-name
     match: \{[^\}]*\}
+- comment: 5-indented multi-line string (begins w/ 4 indents, ends with <=4 indents)
+  name: string
+  begin: "^\t\t\t\t[^\t\"]*\"$"
+  end: ^\t{,4}(?=[^\t])
+  patterns:
+  - name: constant.character
+    match: \\.
+  - name: entity.other.attribute-name
+    match: \{[^\}]*\}
+
+
 
 - comment: Single-line string
   name: string

@@ -7,6 +7,7 @@ use
 	.basic-methods -> type-of
 	.Comparable -> =?
 	.maps.Map -> keys
+	.show -> inspect
 	.types.Method -> impl!
 
 Dict =
@@ -27,6 +28,9 @@ Dict =
 
 impl! type-of Dict |
 	Dict
+
+impl! inspect Dict |d
+	inspect.default d
 
 Dict
 

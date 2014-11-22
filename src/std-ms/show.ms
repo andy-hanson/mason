@@ -13,19 +13,28 @@ use
 	.types.Method -> impl!
 	.types.Record-Type
 
+\ TODO: empty Identity-Set!
+inspecting. `new Set`
+
 \ TODO: Do more to prevent infinite recursion
 inspect. Method
 	doc. |:Str _
 		"TODO"
+	test. |
+		\ TODO: How to not include displayName
+		a =
+			x. ~a
+		inspect a
+
+		[ a ] -> "
+			Dict
+				x. <recursive>
+				displayName. "a"
 	default. |case
-		identical? _ `null`
+		identical? _ ()
 			"null"
 		identical? _ `undefined`
 			"undefined"
-		:Array \ TODO: impl! elsewhere
-			\ TODO: use `map` method
-			parts = _.map show
-			parts.join ", "
 		:Bool
 			_.toString ()
 		:Num
@@ -36,15 +45,19 @@ inspect. Method
 		:Symbol
 			\ TODO:ES6 _.name
 			"<Symbol>"
+		inspecting.has _
+			"<recursive>"
 		:Object
+			inspecting.add _
 			key-vals = map own-enumerable-properties_ |key
 				\ TODO: Recursive checks: already-inspected set
 				val:Str = inspect `_[key]`
 				"{key}. {indent val}"
-			"
-				{type-of_}:
+			x = "
+				{type-of_}
 					{key-vals.join "\n\t"}
-
+			inspecting.delete _
+			x
 		else
 			`throw new Error("Impossible value: "+_)`
 			()

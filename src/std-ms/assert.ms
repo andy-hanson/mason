@@ -13,6 +13,7 @@ use
 	.maps.Map -> keys
 	.pred-types -> Any
 	.show -> inspect
+	.Str -> indent
 	.Try -> fails-with? oh-no!
 	.types.Type -> !subsumes
 
@@ -65,4 +66,10 @@ use
 			expected = args->result[args]
 			actual = apply fun args
 			if! (not (=? actual expected)) |
-				oh-no! ~"`{fun} {(map args inspect).join " "}` should be `{expected}`, but got `{actual}`."
+				oh-no! ~"
+					Calling {fun} on:
+						{indent ((map args inspect).join "\n")}`
+					Should be:
+						{indent (inspect expected)}
+					Got:
+						{indent (inspect actual)}
