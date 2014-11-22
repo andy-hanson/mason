@@ -53,20 +53,20 @@ region MS Methods
 	set! ms "subsumes" |type value
 		`if (type == null) throw new Error("Type does not exist")`
 		test = `type[ms.symSubsumes]`
-		`if (test==null) throw new Error(ms.str(type) + " does not implement 'subsumes?'");`
+		`if (test==null) throw new Error(ms.show(type) + " does not implement 'subsumes?'");`
 		`test(type, value)`
 
 	set! ms "checkSubsumes" |type value name
 		`if (type == null) throw new Error("Type is null")`
 		test = `type[ms.symCheckSubsumes]`
-		`if (test == null) throw new Error(ms.str(type) + " does not implement '!subsumes'")`
+		`if (test == null) throw new Error(ms.show(type) + " does not implement '!subsumes'")`
 		`test(type, value, name)`
 
 	\ TODO: Maybe define this later.
 	set! ms "sub" |subbed \...args
 		`if (subbed == null) throw new Error("Tried to sub nothing")`
 		sub = `subbed[ms.symSub]`
-		`if (sub == null) throw new Error(ms.str(subbed) + " does not implement 'sub'")`
+		`if (sub == null) throw new Error(ms.show(subbed) + " does not implement 'sub'")`
 		`sub.apply(null, arguments)`
 
 	set! global.Array.prototype ms.symSub `function(arr, key) { return arr[key]; }`

@@ -116,3 +116,5 @@ type-!sub. |type subsumed name \ TODO: name:Str
 
 \ Don't set permanently because that will be done by `implementor! Fun Type`.
 set-mutable! Fun.prototype syms.!sub type-!sub
+
+()

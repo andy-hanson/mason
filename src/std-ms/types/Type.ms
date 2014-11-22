@@ -2,7 +2,7 @@ use
 	.Impl-Type
 	.Interface -> unchecked-implementor!
 	.Method -> impl! impl-unchecked!
-	..private.bootstrap -> syms Bool Str type-!sub any? has-or-in-proto? false Fun Object
+	..private.bootstrap -> syms Bool Str type-!sub any? has-or-in-proto? false Fun Object get
 
 subsumes?. Method
 	doc. |:Bool type:Type subsumed
@@ -22,11 +22,10 @@ Type = Interface
 		. subsumes?
 		. !subsumes
 
-\ TODO: Determine which actually have to be unchecked
-
 unchecked-implementor! Impl-Type Type
 unchecked-implementor! Method Type
 
+\ TODO: Determine which actually have to be unchecked
 impl-unchecked! !subsumes Type type-!sub
 
 \ TODO: Move

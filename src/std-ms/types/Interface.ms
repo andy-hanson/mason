@@ -5,7 +5,7 @@ use
 	..Fun
 	.Impl-Type
 	..maps.Map -> keys-values
-	.Method -> impl!
+	.Method -> impl! propagate-method-down!
 	..pred-types -> Nullable
 	..private.bootstrap -> Str Array Object Symbol true set! get has-or-in-proto? set-mutable! oh-no! own-properties
 	.Record-Type
@@ -71,6 +71,7 @@ Interface = Record-Type
 			`[]`
 		prototype. |_
 			Object.create Object.prototype
+		\ TODO: Probably shouldn't bother with this
 		methods. |
 			[]
 		implementors. |
@@ -96,29 +97,13 @@ unchecked-implementor!.
 				_.super-interfaces.push interface
 			else
 				()
-		propagate-methods-down! implementor interface
+		inherit-methods! implementor interface
 
-propagate-methods-down! = |implementor interface
-	case implementor
-		:Interface
-			\ TODO: each!
-			_.implementors.forEach |itor
-				propagate-methods-down! itor interface
-		else
-			get-methods-from-above! _ interface
-
-\ implementor:Concrete-Type super:Interface
-\ super is any interface in a chain of interfaces above implementor.
-get-methods-from-above! = |implementor super
-	(own-properties super.prototype).forEach |name
-		case!
-			has-or-in-proto? implementor.prototype name
-				() \ Respect overrides
-			else
-				\ Since this is inherited, it is mutable and can be overridden.
-				set-mutable! implementor.prototype name (get super.prototype name)
-	super.super-interfaces.forEach |super-super
-		get-methods-from-above! implementor super-super
+inherit-methods! = |implementor interface
+	(own-properties interface.prototype).forEach |name
+		propagate-method-down! implementor name (get interface.prototype name)
+	interface.super-interfaces.forEach |_
+		inherit-methods! implementor _
 
 implementor!.
 	doc. "TODO"
@@ -126,7 +111,7 @@ implementor!.
 	|implementor interface:Interface method-impls
 		unchecked-implementor! implementor interface
 		case! method-impls
-			`_ == null`
+			`_ == null` \ TODO: :Any
 				()
 			else
 				mi:Map = method-impls

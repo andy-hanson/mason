@@ -8,7 +8,7 @@ use
 	..maps.Map -> keys
 	..math.Num
 	..Object -> ?get-property add-property!
-	..private.bootstrap -> Str Symbol Fun Array oh-no! true any? get-or-undefined exists? set! has? has-or-in-proto? get
+	..private.bootstrap -> Str Symbol Fun Array oh-no! true any? get-or-undefined exists? set! set-mutable! has? has-or-in-proto? get
 	.Record-Type
 	..Try -> fails?
 
@@ -67,18 +67,6 @@ Method = Record-Type
 			apply.call method-impl () `arguments`
 	extensible. true
 
-\ TODO: This will add to the prototype of an interface inheriting from another interface.
-\ We only want to write to one interface's prototype.
-\ Also, inherited methods should be set-mutable!
-impl-unchecked!. |method implementor implementation
-	set! implementor.prototype method.impl-symbol implementation
-	case! implementor
-		:Interface
-			_.implementors.forEach |sub
-				impl-unchecked! method sub implementation
-		else
-			()
-
 impl!.
 	doc. "TODO"
 	|a b c d
@@ -107,10 +95,35 @@ impl-double! = |method:Method implementor-0:Impl-Type implementor-1:Impl-Type im
 				method. m
 				first-type. implementor-0
 				impl-symbol. Symbol "{m} for {implementor-0}"
-			add-property! implementor-0.prototype method.impl-symbol dd
+			impl-unchecked! method implementor-0 dd
 			dd
 
-	add-property! implementor-1.prototype dispatcher.impl-symbol implementation
+	impl-unchecked! dispatcher implementor-1 implementation
+
+
+\ TODO: This will add to the prototype of an interface inheriting from another interface.
+\ We only want to write to one interface's prototype.
+\ "method" can be a method or a double dispatcher
+impl-unchecked!. |method implementor implementation
+	set! implementor.prototype method.impl-symbol implementation
+	case! implementor
+		:Interface
+			_.implementors.forEach |sub
+				propagate-method-down! sub method.impl-symbol implementation
+		else
+			()
+
+\ TODO: Not public
+propagate-method-down!. |implementor method-symbol implementation \ TODO: :Impl-Type :Symbol :Fun
+	case! implementor
+		has-or-in-proto? _.prototype method-symbol
+			() \ Respect overrides
+		:Interface
+			_.implementors.forEach |sub-implementor
+				propagate-method-down! sub-implementor method-symbol implementation
+		else
+			\ Since this is inherited, it is mutable and can be overridden.
+			set-mutable! _.prototype method-symbol implementation
 
 
 Double-Dispatcher = Record-Type

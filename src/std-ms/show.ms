@@ -42,7 +42,7 @@ inspect. Method
 				val:Str = inspect `_[key]`
 				"{key}. {indent val}"
 			"
-				{type-of_.displayName}:
+				{type-of_}:
 					{key-vals.join "\n\t"}
 
 		else

@@ -12,10 +12,9 @@ use
 	..js -> global
 	..maps.Identity-Map!
 	..maps.Map -> ?get keys
+	..modules -> promise-all-modules
 	..Object -> ?get-property get-property has-property? own-properties own-enumerable-properties
-	path
 	..pred-types -> Any
-	q-io.fs
 	..Str
 	..Try -> annotate-errors oh-no! Success try
 	..types.Impl-Type
@@ -35,7 +34,7 @@ test. |
 					tested-x := true
 				y. |
 					tested-y := true
-		b. `{}`
+		b. `{}` \ TODO: empty Dict
 		impl! test-special (self-type b) |
 			tested-b := true
 		c. () \ not testable
@@ -59,23 +58,14 @@ impl! test-special Impl-Type |type
 			case x
 				:Success
 					each! _.val |val
-						maybe-test "{type}.{name}" val false
+						maybe-test "{type}#{name}" val false
 				else
 					()
 
 \ TODO: empty Grow-Set!
 all-tested. `new global.Set()`
 
-\ TODO:ES6 Use module reflection
-test-module.
-	doc. "TODO"
-	|module
-		module-name = get-or (?get-property module "displayName") "<anonymous module>"
-		maybe-test module-name module true
-		\each! (own-enumerable-properties module) |name
-		\	each! (?get-property module name) |_
-		\		maybe-test name _ true
-
+\ TODO: Better name
 maybe-test. |name:Str value:Any is-module:Bool
 	case!
 		all-tested.has value
@@ -118,15 +108,14 @@ test-test-prop = |value value-test name
 			()
 
 
-test-all. |dirPath:Str
-	x = (fs.listTree dirPath).then |files
-		each! files |file
-			case! file
-				_.endsWith ".js"
-					\ TODO:ES6 Don't use "require"
-					p = "./{path.relative `__dirname` _}"
-					annotate-errors ~"Testing {file}:\n" |
-						test-module (`require` p)
-				else
-					()
-	x.done ()
+test-all. |dir-path:Str
+	p = (promise-all-modules dir-path).then |_
+		each! _ test-module
+	p.done ()
+
+\ TODO:ES6 Use module reflection
+test-module.
+	doc. "TODO"
+	|module
+		module-name = get-or (?get-property module "displayName") "<anonymous module>"
+		maybe-test module-name module true
