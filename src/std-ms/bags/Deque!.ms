@@ -23,9 +23,6 @@ use
 Deque! = Record-Type
 	doc.
 		"TODO"
-	\ TODO: Should be done automatically
-	test. |
-		bag!-test Deque!
 	members.
 		data!. Array
 		start-index!. Nat \ Inclusive (unless =? end-index)

@@ -1,5 +1,7 @@
 use
 	.? -> ?none ?some
+	.Array
+	.Array!
 	..assert -> !
 	.Bag -> empty? seq=?
 	.Bag-Type -> empty
@@ -11,6 +13,25 @@ use
 
 Bag! = Interface
 	doc. "TODO"
+	implementor-test. |type
+		\ KLUDGE because Array and Array! are the same thing
+		_ = case type
+			=? _ Array
+				empty Array!
+			else
+				empty type
+		+>! _ [ 1 2 ]
+		<+! _ [ -2 -1 ]
+		! seq=? _ [ -2 -1 1 2 ]
+		! =? ?pop>!_ (?some 2)
+		! =? ?<pop!_ (?some -2)
+		! =? ?pop>!_ (?some 1)
+		! =? ?<pop!_ (?some -1)
+		! =? ?pop>!_ ?none
+		! empty? _
+		+>! _ [ 1 2 3 ]
+		clear! _
+		! empty? _
 
 <+!. Method
 	doc. |_ added:Bag
@@ -33,23 +54,6 @@ clear!. Method
 	doc. |_
 		"TODO"
 
-\ TODO: Pattern for implementors of an interface being tested
-bag!-test. |type:Bag-Type
-	_ = empty type
-	+>! _ [ 1 2 ]
-	<+! _ [ -2 -1 ]
-	! seq=? _ [ -2 -1 1 2 ]
-	! =? ?pop>!_ (?some 2)
-	! =? ?<pop!_ (?some -2)
-	! =? ?pop>!_ (?some 1)
-	! =? ?<pop!_ (?some -1)
-	! =? ?pop>!_ ?none
-	! empty? _
-	+>! _ [ 1 2 3 ]
-	clear! _
-	! empty? _
-
-	\ TODO: Stress test
 
 implementor! Bag! Bag
 

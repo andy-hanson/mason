@@ -1,6 +1,6 @@
 use
 	..assert -> !
-	..bags.Bag -> each!
+	..bags.Bag -> each! flat-map
 	..Comparable -> =?
 	..Fun
 	.Impl-Type
@@ -118,5 +118,29 @@ implementor!.
 				each! (keys mi) |method
 					implementation = mi[method]
 					impl! method implementor implementation
+
+concrete-implementors.
+	doc. "TODO"
+	test. |
+		X = Interface
+			doc. "X"
+		Y = Interface
+			doc. "Y"
+		Z = Record-Type
+			members.
+				z.
+		W = Record-Type
+			members.
+				w.
+		implementor! Y X
+		implementor! Z X
+		implementor! W Y
+		[ X ] -> [ W Z ]
+	|:Bag interface:Interface
+		flat-map interface.implementors |case
+			:Interface
+				concrete-implementors_
+			else
+				[ _ ]
 
 Interface

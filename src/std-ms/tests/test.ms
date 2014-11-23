@@ -3,12 +3,13 @@ doc. "TODO"
 use
 	..assert -> ! !call
 	..bags.? -> get-or un-?
+	..bags.Array
 	..bags.Bag -> each!
 	..Bool -> and false not or true
 	..Comparable -> =?
 	..console -> log!
 	..Dict
-	..Fun -> call ignore
+	..Fun -> apply ignore
 	..js -> global
 	..maps.Identity-Map!
 	..maps.Map -> ?get keys
@@ -18,6 +19,7 @@ use
 	..Str
 	..Try -> annotate-errors oh-no! Success try
 	..types.Impl-Type
+	..types.Interface -> concrete-implementors
 	..types.Method -> impl! ?impl-for
 	..types.Type -> subsumes?
 	..types.util -> self-type
@@ -48,6 +50,7 @@ test-special. Method
 	doc. "TODO"
 	default. ignore
 
+\ TODO: MOVE THESE
 impl! test-special Impl-Type |type
 	each! (?get-property type "prototype") |prototype
 		each! (own-properties prototype) |name
@@ -61,6 +64,11 @@ impl! test-special Impl-Type |type
 						maybe-test "{type}#{name}" val false
 				else
 					()
+
+impl! test-special Interface |_
+	each! (?get-property _ "implementor-test") |test:Fun
+		each! concrete-implementors_ |implementor
+			test-test-fun implementor test "{_}.implementor-test of {implementor}" implementor
 
 \ TODO: empty Grow-Set!
 all-tested. `new global.Set()`
@@ -87,17 +95,10 @@ maybe-test. |name:Str value:Any is-module:Bool
 				else
 					()
 
-test-test-prop = |value value-test name
-	case value-test
+test-test-prop = |value value-test name \...test-args
+	case! value-test
 		:Fun
-			annotate-errors "In {name}:\n" |
-				case! call value-test
-					:Map
-						! (subsumes? Fun value)
-							"Test of {name} returned a Map, but the value is not callable."
-						!call value _
-					else
-						()
+			test-test-fun value value-test name
 		else
 			()
 	case! value-test
@@ -107,6 +108,17 @@ test-test-prop = |value value-test name
 		else
 			()
 
+test-test-fun = |value value-test:Fun name \TODO:ES6 ...args
+	args = (Array.prototype.slice.call `arguments` 3)
+	annotate-errors "In {name}:\n" |
+		\ TODO:ES6 value-test ...args
+		case! apply value-test args
+			:Map
+				! (subsumes? Fun value)
+					"Test of {name} returned a Map, but the value is not callable."
+				!call value _
+			else
+				()
 
 test-all. |dir-path:Str
 	p = (promise-all-modules dir-path).then |_

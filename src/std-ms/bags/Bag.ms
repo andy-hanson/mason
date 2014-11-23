@@ -3,6 +3,7 @@ use
 	..arithmetic-methods -> + -
 	.Array -> ->Array
 	..assert -> ! !not
+	.Bag-Type -> empty
 	..basic-methods -> => freeze sub
 	..Bool -> and false not or true
 	..Comparable -> =? <=? >=?
@@ -18,6 +19,7 @@ use
 	..types.Interface -> implementor!
 	..types.Method -> impl!
 	..types.util -> self-type
+	..types.Type -> subsumes?
 
 region Bag
 	iterator. Method
@@ -27,6 +29,10 @@ region Bag
 
 	Bag = Interface
 		doc. "TODO"
+		implementor-test. |bag-type
+			! (subsumes? Bag-Type bag-type) "Be sure to make your Bag type a Bag-Type."
+			_ = empty bag-type
+			! empty?_
 		methods.
 			. iterator
 

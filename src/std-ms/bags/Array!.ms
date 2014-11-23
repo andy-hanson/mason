@@ -14,9 +14,6 @@ Array! = Pred-Type
 	doc. "
 		TODO:MORE
 		Unlike Deque!, pushing and popping elements from the left side is expensive.
-	\ TODO: Should be done automatically
-	test. |
-		bag!-test  Array!
 	predicate. |_
 		and :Array ~(not frozen?_)
 

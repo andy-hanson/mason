@@ -4,15 +4,18 @@ use
 	.? -> ?none ?some get-or Opt->?
 	.Array
 	.Bag -> ?nth builder count iterator seq=?
+	.Bag-Type -> empty
 	..basic-methods -> length
 	..Comparable -> =? <? >=?
 	..control -> if
+	..Fun -> thunk
 	..math.Num -> Nat round-down sign
 	..pred-types -> Opt
 	.Stream -> streaming
 	..types.Interface -> implementor!
 	..types.Method -> impl! impl-for
 	..types.Record-Type
+	..types.util -> self-type
 
 Range = Record-Type
 	doc. "TODO"
@@ -62,3 +65,7 @@ implementor! Range Bag
 					else
 						<~ i
 						i := + i _.step
+
+implementor! (self-type Range) Bag-Type
+	empty -> thunk (range 0 0)
+
