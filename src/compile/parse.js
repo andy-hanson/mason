@@ -263,7 +263,7 @@ const parseExpr = function(px, sqt) {
 			return []
 		const head = Sq.head(sqt), rest = Sq.tail(sqt)
 		switch (true) {
-			case T.Keyword.is(Lang.FnKeywords)(head):
+			case T.Keyword.is(Lang.KFun)(head):
 				return [ parseFun(px, rest, head.k) ]
 			// `case!` can not be part of an expression - it is a statement.
 			case T.Keyword.is("case")(head):
@@ -284,7 +284,7 @@ const parseExpr = function(px, sqt) {
 }
 
 const parseFun = function(px, sqt, k) {
-	type(px, Px, sqt, [T], k, E.Fun.K)
+	type(px, Px, sqt, [T], k, Lang.KFun)
 
 	// Look for return type at the beginning
 	var _$ = (function() {

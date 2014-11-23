@@ -14,9 +14,9 @@ const LineSplitKeywords = setUnion(AssignKeywords, new Set(["->"]))
 
 // `export` is not a keyword, but `. ` assigns in module context become exports.
 const KAssign = setUnion(AssignKeywords, new Set(["export"]))
-const FnKeywords = new Set(["|", "~|"])
+const KFun = new Set(["|", "~|"])
 const CaseKeywords = new Set(["case", "case!"])
-const AllKeywords = setUnion(LineSplitKeywords, FnKeywords, CaseKeywords, new Set([
+const AllKeywords = setUnion(LineSplitKeywords, KFun, CaseKeywords, new Set([
 	"~",
 	":",
 	"_",
@@ -58,7 +58,7 @@ module.exports = {
 	AssignKeywords: AssignKeywords,
 	LineSplitKeywords: LineSplitKeywords,
 	CaseKeywords: CaseKeywords,
-	FnKeywords: FnKeywords,
+	KFun: KFun,
 	KAssign: KAssign,
 	GroupOpenToClose: GroupOpenToClose,
 	GroupKinds: GroupKinds,

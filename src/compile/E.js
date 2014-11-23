@@ -48,8 +48,6 @@ makeETypes(E.Do, {
 	ModuleDefaultExport: { value: E.Val }
 })
 
-const KFun = new Set(["|", "~|"])
-
 makeETypes(E.Val, {
 	BlockWrap: { body: E.BlockBody },
 	Call: { called: E.Val, args: [E.Val] },
@@ -62,7 +60,7 @@ makeETypes(E.Val, {
 		args: [E.LocalDeclare],
 		body: E.BlockBody,
 		opReturnType: Op(E.Val),
-		k:KFun
+		k: Lang.KFun
 	},
 	Lazy: { value: E.Val },
 	ListReturn: { length: Number },
@@ -81,6 +79,5 @@ makeETypes(E.Val, {
 	Yield: { yielded: E.Val },
 	YieldTo: { yieldedTo: E.Val }
 })
-E.Fun.K = KFun
 E.LocalAccess.focus = function(span) { return E.LocalAccess({ span: span, name: "_" }) }
 
