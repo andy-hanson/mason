@@ -3,9 +3,9 @@ use
 	..arithmetic-methods -> + - *
 	..assert -> ! !not
 	.Array \ TODO: Array!
-	.Bag -> builder Builder build-next! build-result count each! empty? iterator reverse seq=?
+	.Bag -> builder Builder build-next! build-result count each! empty? iterator
 	.Bag-Type -> empty
-	.Bag! -> <+! +>! ?<pop! ?pop>! clear! bag!-test
+	.Bag! -> clear!
 	..Bool -> not
 	..Comparable -> =?
 	..control -> if
@@ -15,6 +15,8 @@ use
 	..Object -> change-property!
 	..pred-types -> Any
 	.Range -> range
+	.Seq -> reverse
+	.Seq! -> <+! +>! ?<pop! ?pop>!
 	..types.Interface -> implementor!
 	..types.Method -> impl!
 	..types.Record-Type
@@ -63,7 +65,7 @@ region Helpers
 	prev-index = |_ index:Nat
 		modulo (- index 1) capacity_
 
-implementor! Deque! Bag!
+implementor! Deque! Seq!
 	iterator -> ~|_
 		i ::= _.start-index!
 		loop!

@@ -10,6 +10,7 @@ use
 	..math.Num
 	..Object -> set-property! extend!
 	..pred-types -> Any
+	.Seq
 	..Symbol
 	..Try -> fails? oh-no!
 	..types.Interface -> implementor!
@@ -20,7 +21,7 @@ use
 
 ? = Record-Type
 	doc. "
-		A Bag with 0 or 1 elements.
+		A Seq with 0 or 1 elements.
 		Either `?none` or `?some`.
 		Its content can never be null.
 
@@ -38,7 +39,7 @@ use
 	?
 		val. `undefined`
 
-implementor! ? Bag
+implementor! ? Seq
 
 \ Can't use implementor! map because ? is required to create maps
 impl! empty? ? |_

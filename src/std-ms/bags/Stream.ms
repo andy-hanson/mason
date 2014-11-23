@@ -1,8 +1,7 @@
 use
-	.Array -> ->Array
 	..arithmetic-methods -> + -
 	..assert -> !
-	.Bag -> all? drop flat-map iterator keep map seq=? slice take zip
+	.Bag -> all? flat-map iterator keep map
 	.Bag-Type -> empty
 	..basic-methods -> =>
 	..Bool -> and or
@@ -11,6 +10,7 @@ use
 	..Generator
 	..math.Num -> Nat
 	..pred-types -> Any
+	.Seq -> drop seq=? slice take
 	..Str
 	..types.Interface -> implementor!
 	..types.Method -> impl!
@@ -26,7 +26,7 @@ Stream = Record-Type
 	members.
 		make-iterator. Fun[Generator]
 
-implementor! Stream Bag
+implementor! Stream Seq
 impl! iterator Stream |_
 	_.make-iterator ()
 

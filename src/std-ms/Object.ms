@@ -5,7 +5,8 @@ use
 	.assert -> ! !not
 	.bags.? -> ?none ?some Opt->?
 	.bags.Array
-	.bags.Bag -> each! empty? keep seq=?
+	.bags.Bag -> each! empty? keep
+	.bags.Seq -> seq=?
 	.bags.Stream -> ->Stream
 	.basic-methods -> =>
 	.Bool -> and false not nor true xor

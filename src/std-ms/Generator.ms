@@ -5,8 +5,10 @@ use
 	.arithmetic-methods -> *
 	.assert -> !
 	.bags.? -> ?none ?some
-	.bags.Array -> ->Array
-	.bags.Bag -> iterator seq=?
+	.bags.Array!
+	.bags.Bag -> iterator
+	.bags.Bag-Type -> empty
+	.bags.Seq -> seq=?
 	.bags.Stream -> streaming
 	.Bool -> and false not true
 	.Comparable -> =?
@@ -26,7 +28,7 @@ each~.
 	doc. "A generator that goes through every element of `bag`, yielding to `do-each` of it."
 	test. |
 		x = streaming ~|
-			<~~ each~ (Array 1 2 3) ~|em
+			<~~ each~ [ 1 2 3 ] ~|em
 				<~ em
 		! seq=? x [ 1 2 3 ]
 	~|bag:Bag do-each:Fun[Any Generator!]
@@ -36,6 +38,7 @@ each~.
 		`for (let em of iter) yield* de(em)`
 		()
 
+\ TODO: Get rid of
 map~.
 	doc. "A generator that iterates through every element of `bag`, yielding the mapped value."
 	test. |
@@ -46,7 +49,7 @@ map~.
 			! (seq=? two-four-six [ 2 4 6 ])
 		! seq=? x [ 1 2 3 ]
 	~|:Bag bag:Bag mapper:Fun[Any Generator!]
-		arr = `[]`\ new Array
+		arr = empty Array!
 		\ TODO:ES6 for (let em of bag)
 		iter = iterator bag
 		`for (let em of iter) arr.push(yield* mapper(em))`
@@ -72,11 +75,6 @@ if~.
 				?some_
 			else
 				?none
-
-unless~.
-	doc. "Opposite of if~."
-	|condition:Bool result:Fun[Generator!]
-		if~ (not condition) result
 
 \ TODO: Others...
 

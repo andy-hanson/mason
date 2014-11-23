@@ -3,7 +3,7 @@ use
 	..assert -> !
 	.? -> ?none ?some get-or Opt->?
 	.Array
-	.Bag -> ?nth builder count iterator seq=?
+	.Bag -> builder count iterator
 	.Bag-Type -> empty
 	..basic-methods -> length
 	..Comparable -> =? <? >=?
@@ -11,6 +11,7 @@ use
 	..Fun -> thunk
 	..math.Num -> Nat round-down sign
 	..pred-types -> Opt
+	.Seq -> ?nth seq=?
 	.Stream -> streaming
 	..types.Interface -> implementor!
 	..types.Method -> impl! impl-for

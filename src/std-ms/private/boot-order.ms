@@ -1,10 +1,11 @@
 \ TODO: use
 
 use
-	..maps.Array-as-Map!
+	..bags.Bag-Type
 	..Dict
 	es6-shim
 	..Fun
+	..maps.Array-as-Map!
 	..maps.Dict-as-Map
 	..maps.Hash-Map
 	..math.Num
@@ -22,6 +23,7 @@ Type \ This makes it safe to type things.
 Fun \ Get its impl! ready
 Dict \ Dict.empty used by many Record-Type_s
 Hash-Map \ Provides _ms.map
+Bag-Type
 Num
 Array-as-Map!
 Dict-as-Map

@@ -1,11 +1,13 @@
 use
-	.Array -> ->Array
+	.Array
 	.Bag -> empty?
 	.Bag-Type -> empty
-	.Bag! -> <+! +>! ?<pop! ?pop>! clear! bag!-test
+	.Bag! -> clear!
+	..basic-methods -> =>
 	..Bool -> and not
 	..control -> if
 	..Object -> frozen?
+	.Seq! -> <+! +>! ?<pop! ?pop>!
 	..types.Interface -> implementor!
 	..types.Pred-Type
 	..types.util -> self-type
@@ -22,11 +24,11 @@ implementor! (self-type Array!) Bag-Type
 		`[]`
 
 \ We're defining these on Arrays, but they will only work for Array!s because Arrays are frozen
-implementor! Array Bag!
+implementor! Array Seq!
 	<+! -> |_ added:Bag
-		Array.prototype.unshift.apply _ (->Array added)
+		Array.prototype.unshift.apply _ (=> Array added)
 	+>! -> |_ added
-		Array.prototype.push.apply _ (->Array added)
+		Array.prototype.push.apply _ (=> Array added)
 	?<pop! -> |_
 		if (not empty?_) |
 			_.shift ()

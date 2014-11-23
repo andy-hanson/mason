@@ -1,12 +1,11 @@
 use
-	.? -> ?none ?some
 	.Array
 	.Array!
-	..assert -> !
-	.Bag -> empty? seq=?
+	..assert -> ! !not
+	.Bag -> contains? each! empty?
 	.Bag-Type -> empty
 	..Comparable -> =?
-	.Deque!
+	.Seq! -> +>!
 	..types.Interface -> implementor!
 	..types.Method
 	..types.util -> self-type
@@ -14,52 +13,38 @@ use
 Bag! = Interface
 	doc. "TODO"
 	implementor-test. |type
-		\ KLUDGE because Array and Array! are the same thing
+		\ KLUDGE because Array and Array! are the same thing (also in Seq!.ms)
 		_ = case type
 			=? _ Array
 				empty Array!
 			else
 				empty type
-		+>! _ [ 1 2 ]
-		<+! _ [ -2 -1 ]
-		! seq=? _ [ -2 -1 1 2 ]
-		! =? ?pop>!_ (?some 2)
-		! =? ?<pop!_ (?some -2)
-		! =? ?pop>!_ (?some 1)
-		! =? ?<pop!_ (?some -1)
-		! =? ?pop>!_ ?none
-		! empty? _
-		+>! _ [ 1 2 3 ]
+		+! _ [ 1 2 ]
+		+! _ [ 3 4 ]
+		each! [ 1 2 3 4 ] |em
+			! contains? _ em
+		!not contains? _ 5
 		clear! _
-		! empty? _
+		each! [ 1 2 3 4 ] |em
+			!not contains? _ em
+		! empty?_
 
-<+!. Method
-	doc. |_ added:Bag
-		"TODO"
-+>!. Method
-	doc. |_ added:Bag
-		"TODO"
-\ TODO: Unordered
 +!. Method
 	doc. |_ added:Bag
 		"TODO"
-	default. +>!
-?<pop!. Method
-	doc. |:? _
-		"TODO"
-?pop>!. Method
-	doc. |:? _
-		"TODO"
+	default. |_ added
+		+>! _ added
+
 clear!. Method
 	doc. |_
 		"TODO"
 
+\ TODO: delete!
 
 implementor! Bag! Bag
 
 implementor! (self-type Bag!) Bag-Type
 	empty -> |
-		empty Deque!
+		empty Array!
 
 Bag!
-

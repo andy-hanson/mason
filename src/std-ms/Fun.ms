@@ -4,9 +4,10 @@ use
 	.arithmetic-methods -> +
 	.assert -> !
 	.bags.? -> get-or
-	.bags.Array -> ->Array
+	.bags.Array
 	.bags.Bag -> each! map
-	.basic-methods -> sub
+	.bags.Seq -> seq=?
+	.basic-methods -> => sub
 	.Comparable -> =?
 	.js -> global new
 	.maps.Map -> ?get keys
@@ -43,7 +44,7 @@ apply.
 	test. |
 		! =? (apply + [ 1 2 ]) 3
 	|f:Fun arguments:Bag
-		Fun.prototype.apply.call f () (->Array arguments)
+		Fun.prototype.apply.call f () (=> Array arguments)
 
 call.
 	doc. "Calls the function with the given arguments."
@@ -60,7 +61,7 @@ apply-with-this.
 		! =? (apply-with-this f 1 [ 2 ]) 3
 	|f:Fun new-this:Any arguments:Bag
 		\ TODO:ES6 f ...args
-		Fun.prototype.apply.call f new-this (->Array arguments)
+		Fun.prototype.apply.call f new-this (=> Array arguments)
 
 call-with-this.
 	doc. "Like `call`, and also sets `f`'s `this` to be `new-this`."
@@ -82,8 +83,6 @@ curry =
 		! =? (one-two 3) [ 1 2 3 ]
 
 	|f:Fun \ ...args TODO:ES6
-		\ args = ->Array (+ (Array.prototype.slice.call `arguments` 1) [ () ])
-		\Fun.prototype.bind.apply f `[null].concat(global.Array.prototype.slice.call(arguments, 1))`
 		args = Array.prototype.slice.call `arguments` 1
 		Fun.prototype.bind.apply f (+ [()] args)
 
@@ -178,19 +177,18 @@ spread.
 		x = spread all-4 1 2
 			3 -> 4
 			5 -> 6
-		\ TODO: Shouldn't need ->Array
-		! =? (->Array x)
+		! seq=? x
 			. [ 1 2 3 4 ]
 			. [ 1 2 5 6 ]
 
 		y = spread all-4 1 2 3
 			. 4
 			. 5
-		! =? (->Array y)
+		! seq=? y
 			. [ 1 2 3 4 ]
 			. [ 1 2 3 5 ]
 
-	|fun:Fun
+	|:Bag fun:Fun
 		init-args = Array.prototype.slice.call `arguments` 1 `arguments.length - 1`
 		spreaded = `arguments[arguments.length - 1]`
 		case spreaded

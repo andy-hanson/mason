@@ -3,7 +3,8 @@ doc. "Making sure the code in README.md actually works."
 use
 	..arithmetic-methods -> + - * /
 	..assert -> ! !not
-	..bags.Bag -> map seq=? take
+	..bags.Bag -> map
+	..bags.Seq -> seq=? take
 	..bags.Stream -> streaming
 	..Bool -> and not true
 	..Comparable -> =? >? >=? <=?

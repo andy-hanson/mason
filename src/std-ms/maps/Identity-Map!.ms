@@ -2,7 +2,7 @@ use
 	..assert -> !
 	..bags.? -> Opt->?
 	..bags.Array -> ->Array
-	..bags.Bag -> seq=?
+	..bags.Seq -> seq=?
 	..bags.Stream
 	..Comparable -> =?
 	..js -> global new

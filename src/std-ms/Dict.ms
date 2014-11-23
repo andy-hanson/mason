@@ -3,7 +3,7 @@
 use
 	.assert -> !
 	.bags.Array
-	.bags.Bag -> seq=?
+	.bags.Seq -> seq=?
 	.basic-methods -> type-of
 	.Comparable -> =?
 	.maps.Map -> keys

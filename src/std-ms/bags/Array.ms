@@ -2,7 +2,7 @@
 
 use
 	..assert -> ! !call
-	.Bag -> builder build-next! build-result count each! empty? iterator map seq=?
+	.Bag -> builder build-next! build-result count each! empty? iterator map
 	.Bag-Type -> empty
 	..basic-methods -> freeze type-of
 	..Bool -> and
@@ -12,6 +12,7 @@ use
 	..Num -> Nat
 	..Object -> add-property!
 	..pred-types -> Any Nullable
+	.Seq -> seq=?
 	..show
 	.Stream -> streaming
 	..types.Interface -> implementor!
@@ -23,22 +24,7 @@ Array =
 	doc. "Javascript's native mutable Array type. TODO: `Array` vs `Array!`"
 	global.Array
 
-\ TODO: General bag conversions
-->Array.
-	doc. "TODO"
-	test. |
-		!call ->Array
-			x = streaming ~|
-				<~ 0
-			[ x ] -> [ 0 ]
-	|_:Bag
-		\ TODO: empty Array!
-		arr ::= `[]`
-		each! _ |em
-			arr.push em
-		arr
-
-implementor! Array Bag
+implementor! Array Seq
 
 impl! count Array |_
 	_.length
