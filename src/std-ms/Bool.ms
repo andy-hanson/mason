@@ -1,5 +1,7 @@
 use
 	.js -> global
+	.types.Method -> impl!
+	.show -> inspect-impl
 
 Bool =
 	doc. "TODO"

@@ -3,16 +3,16 @@ use
 	.Bag -> map
 	.Deque!
 	..basic-methods -> => type-of
-	..show -> inspect
+	..show -> inspect-impl show-impl
 	..types.Method -> impl!
 
-impl! inspect Bag
+impl! inspect-impl Bag
 	test. |
 		[ (=> Deque! [ 1 2 3 ]) ] -> "(Deque!)[ 1 2 3 ]"
 	|_
 		"({type-of_}){_}"
 
-impl! show Bag
+impl! show-impl Bag
 	test. |
 		[ [ 1 2 3 ] ] -> "[ 1 2 3 ]"
 	|_

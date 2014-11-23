@@ -4,7 +4,6 @@ use
 	.Interface -> implementor!
 	.Method -> impl!
 	.Record-Type
-	..show
 	..Str
 	..Try -> oh-no!
 	.Type -> subsumes?
@@ -29,8 +28,5 @@ implementor! Pred-Type Type
 
 impl! subsumes? Pred-Type |_ subsumed
 	_.predicate subsumed
-
-impl! show Pred-Type |_
-	_.displayName
 
 Pred-Type

@@ -1,5 +1,3 @@
-\ TODO: use
-
 use
 	..bags.Bag-Type
 	..Dict
@@ -13,6 +11,7 @@ use
 	stack-displayname
 	..show
 	..types.Type
+	..types.show-Type
 
 source-map-support.install
 	hi.
@@ -28,4 +27,5 @@ Num
 Array-as-Map!
 Dict-as-Map
 show \ Important to load this now, as it will help error messages
+show-Type
 ()

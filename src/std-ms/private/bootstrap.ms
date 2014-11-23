@@ -108,8 +108,7 @@ type-!sub. |type subsumed name \ TODO: name:Str
 			()
 		else
 			oh-no! case subsumed
-				exists? _
-					\ TODO
+				exists?_
 					~"Variable `{name}` is no {type}, is {subsumed}"
 				else
 					~"Variable `{name}` is undefined."

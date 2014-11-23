@@ -77,7 +77,7 @@ Interface = Record-Type
 		implementors. |
 			`[]`
 		symbol-for-isa. |_
-			Symbol "isa-{_.displayName}"
+			Symbol `"isa-" + _.displayName` \"isa-{_.displayName}" TODO
 	post-construct. |iface
 		set! iface.prototype iface.symbol-for-isa true
 		case! iface.super

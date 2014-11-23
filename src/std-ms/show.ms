@@ -2,24 +2,23 @@ use
 	.bags.Array
 	.bags.Bag -> empty? map
 	.basic-methods -> type-of
-	.Bool
+	.Bool -> false true
 	.Fun -> identity
 	.js -> identical?
 	.math.Num
 	.Object -> ?get-property add-property! own-enumerable-properties
 	.Str -> indent
-	.Symbol
+	.Try -> oh-no!
 	.types.Interface
 	.types.Method -> impl!
+	.types.Pred-Type
 	.types.Record-Type
 
 \ TODO: empty Identity-Set!
 inspecting. `new Set`
 
-\ TODO: Do more to prevent infinite recursion
-inspect. Method
-	doc. |:Str _
-		"TODO"
+inspect.
+	doc. "TODO"
 	test. |
 		\ TODO: How to not include displayName
 		a =
@@ -30,59 +29,77 @@ inspect. Method
 			Dict
 				x. <recursive>
 				displayName. "a"
-	default. |case
-		identical? _ ()
-			"null"
-		identical? _ `undefined`
-			"undefined"
-		:Bool
-			_.toString ()
-		:Num
-			base = 10
-			_.toString base
-		:Str
-			"\"{_}\""
-		:Symbol
-			\ TODO:ES6 _.name
-			"<Symbol>"
+	|case
 		inspecting.has _
 			"<recursive>"
-		:Object
+		else
 			inspecting.add _
-			key-vals = map own-enumerable-properties_ |key
-				\ TODO: Recursive checks: already-inspected set
-				val:Str = inspect `_[key]`
-				"{key}. {indent val}"
-			x = "
-				{type-of_}
-					{key-vals.join "\n\t"}
+			x = inspect-impl_
 			inspecting.delete _
 			x
-		else
-			`throw new Error("Impossible value: "+_)`
-			()
 
-\ This is what is used by quote interpolation
-show = Method
+\ TODO: Do more to prevent infinite recursion
+inspect-impl. Method
+	doc. |:Str _
+		"TODO"
+	default. |case
+		\ TODO: Use impl! for some of these cases
+		identical? _ ()
+			"()"
+		identical? _ `undefined`
+			"undefined"
+		else
+			oh-no! "Somehow, `inspect-impl` not implemented for {_.toString ()}"
+
+show =
 	doc. |:Str _
 		"
 			Converts the value to a string for string interpolation.
 			This is the method called when you do `\{...}`.
 			For a more detailed Str representation of data, use `inspect`.
-			`->Str` defaults to `inspect`.
-	default. inspect
+	|case
+		inspecting.has _
+			`"<recursive>"` \"<recursive>"
+		else
+			inspecting.add _
+			x = show-impl_
+			inspecting.delete _
+			x
 
-\ TODO: These are all Type_s. impl! on Type once.
-\ TODO: Use 'nom' method here
-get-nom = |_
-	_.displayName
+show-impl. Method
+	doc. "TODO"
+	default. inspect-impl
 
-\ TODO: Move!!!
-impl! show Method get-nom
-impl! show Interface get-nom
-impl! show Record-Type get-nom
-impl! show Str identity
-\TODO: add-property! `_ms` "str" show
+impl! inspect-impl Str
+	test. |
+		[ "a" ] -> "\"a\""
+	|_
+		`"\"" + _ + "\""`
+
+impl! inspect-impl Object
+	|_
+		key-vals = map own-enumerable-properties_ |key
+			\ TODO: get-property
+			val:Str = inspect `_[key]`
+			"{key}. {indent val}"
+		x = "
+			{type-of_}
+				{key-vals.join "\n\t"}
+		x
+
+\ TODO: show-Bool.ms?
+impl! inspect-impl Bool
+	test. |
+		[ true ] -> "true"
+		[ false ] -> "false"
+	|case
+		_
+			"true"
+		else
+			"false"
+
+impl! show-impl Str identity
+
 `_ms.show = show`
 
 show

@@ -14,8 +14,8 @@ use
 	.maps.Map! -> set!
 	.maps.Weak-Identity-Map!
 	.Object
-	.show
 	.pred-types -> Any
+	.show -> show-impl
 	.Try -> oh-no!
 	.types.Alias-Type
 	.types.Method -> impl! impl-for
@@ -215,13 +215,17 @@ thunk.
 	|a |
 		a
 
-\ TODO: MOVE
-impl! show Fun |case
-	`_.displayName !== undefined` \TODO: has-property? _ "nom"
-		_.displayName
-	`_.name !== ""`
-		_.name
-	else
-		_.toString ()
+impl! show-impl Fun
+	test. |
+		a = |
+			1
+		[ a ] -> "a"
+	|case
+		`_.displayName !== undefined` \TODO: has-property? _ "nom"
+			_.displayName
+		`_.name !== ""`
+			_.name
+		else
+			_.toString ()
 
 Fun

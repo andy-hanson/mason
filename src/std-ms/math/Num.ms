@@ -7,6 +7,7 @@ use
 	..js -> global
 	..Object -> get-property
 	..pred-types -> Opt
+	..show -> inspect-impl
 	..Try -> fails?
 	..types.Method -> impl!
 	..types.Pred-Type
@@ -248,5 +249,13 @@ region Near
 			\ This is more accurate than `pow 0.1 sfs`
 			max = pow 10 (neg sfs)
 			<? abs_ max
+
+impl! inspect-impl Num
+	test. |
+		[ 12 ] -> "12"
+	|_
+		base = 10
+		_.toString base
+
 
 Num

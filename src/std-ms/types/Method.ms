@@ -92,10 +92,10 @@ impl-double! = |method:Method implementor-0:Impl-Type implementor-1:Impl-Type im
 		writable? implementor-0.prototype method.impl-symbol
 			m = method
 			dd = Double-Dispatcher
-				displayName. "<Double dispatcher for {m}>"
+				displayName. "<double dispatcher>" \ TODO: "<Double dispatcher for {m.displayName}>"
 				method. m
 				first-type. implementor-0
-				impl-symbol. Symbol "{m} for {implementor-0.displayName}"
+				impl-symbol. Symbol "<double dispatcher>" \"{m} for {implementor-0.displayName}"
 			impl-unchecked! method implementor-0 dd
 			dd
 		else

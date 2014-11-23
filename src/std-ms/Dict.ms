@@ -7,8 +7,9 @@ use
 	.basic-methods -> type-of
 	.Comparable -> =?
 	.maps.Map -> keys
-	.show -> inspect
-	.types.Method -> impl!
+	.Object
+	.show -> inspect-impl
+	.types.Method -> impl! impl-for
 
 Dict =
 	doc. "
@@ -29,8 +30,9 @@ Dict =
 impl! type-of Dict |
 	Dict
 
-impl! inspect Dict |d
-	inspect.default d
+\ Don't use Map#inspect.
+impl! inspect-impl Dict |_
+	(impl-for inspect-impl Object) _
 
 Dict
 

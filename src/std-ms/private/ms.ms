@@ -53,6 +53,7 @@ region MS Methods
 	set! ms "subsumes" |type value
 		`if (type == null) throw new Error("Type does not exist")`
 		test = `type[ms.symSubsumes]`
+		`if (test==null) console.log(type)`
 		`if (test==null) throw new Error(ms.show(type) + " does not implement 'subsumes?'");`
 		`test(type, value)`
 
