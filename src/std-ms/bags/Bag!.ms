@@ -12,18 +12,17 @@ use
 Bag! = Interface
 	doc. "TODO"
 
-\ TODO: Unordered
-+!. Method
-	doc. |_ added:Bag
-		"TODO"
-	default. |_ added:Bag
-		+>! _ added
 <+!. Method
 	doc. |_ added:Bag
 		"TODO"
 +>!. Method
 	doc. |_ added:Bag
 		"TODO"
+\ TODO: Unordered
++!. Method
+	doc. |_ added:Bag
+		"TODO"
+	default. +>!
 ?<pop!. Method
 	doc. |:? _
 		"TODO"

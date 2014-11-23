@@ -22,7 +22,11 @@ use
 	test. |
 		! =? 1 1
 		! (=? 1 1) "a"
-		! fails-with? "! =? 1 2" |
+		one-not-two = "
+			Expected =?
+				1
+				2
+		! fails-with? one-not-two |
 			! =? 1 2
 		! fails-with? "a" |
 			! (=? 1 2) "a"
@@ -32,7 +36,10 @@ use
 				rest-args = Array.prototype.slice.call `arguments` 1
 				if! (not (apply _ rest-args)) |
 					all-args = + [ _ ] rest-args
-					oh-no! "! {(map all-args show).join " "}"
+					\ TODO: .join -> make-string
+					oh-no! "
+						Expected {a}
+							{indent ((map rest-args inspect).join "\n")}
 			:Bool
 				if! not_ |
 					oh-no! b

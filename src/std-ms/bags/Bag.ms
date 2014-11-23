@@ -12,7 +12,7 @@ use
 	..math.Num -> divisible? Nat
 	..pred-types -> Any Opt
 	..show
-	.Stream -> ->Stream streaming
+	.Stream -> streaming
 	..Symbol
 	..Try -> fails? oh-no!
 	..types.Interface -> implementor!
@@ -51,6 +51,14 @@ region Builder
 		doc. |:Builder _
 			"A new Builder of the same type as this Bag."
 
+	\ TODO: Not public
+	from-stream. |_ stream:Bag
+		b = builder_
+		iter = iterator stream
+		bn = build-next!
+		`for (let em of iter) bn(b, em)`
+		build-result b
+
 region Functions using just the iterator
 	fold.
 		doc. "TODO"
@@ -81,7 +89,7 @@ region Functions using just the iterator
 		|_:Bag pred:Opt[Pred]
 			\ TODO: Better optional arguments
 			p = get-or (Opt->? pred) identity
-			not  (empty? (keep ->Stream_ pred))
+			not (empty? (keep (=> Stream _) p))
 
 	all?.
 		doc. "TODO"
@@ -91,7 +99,9 @@ region Functions using just the iterator
 		|_:Bag pred:Opt[Pred]
 			\ TODO: Better optional arguments
 			p = get-or (Opt->? pred) identity
-			empty? (toss ->Stream_ p)
+			x = any? _ |em
+				not (p em)
+			not x
 
 	?first-where. |_ pred:Pred
 		s = ?some
@@ -179,40 +189,24 @@ region Methods only needing iterator
 			take _ (- count_ 1)
 
 region Methods using builder
-	\ TODO: Not public
-	from-stream. |_ stream:Bag
-		b = builder_
-		iter = iterator stream
-		bn = build-next!
-		`for (let em of iter) bn(b, em)`
-		build-result b
-
 	keep. Method
 		doc. "Bag with only the elements that satisfy `keep-if?`."
 		test. |
 			[ [ 1 2 ] =?[2] ] -> [ 2 ]
 		default. |_:Bag keep-if?:Pred
-			from-stream _ (keep ->Stream_ keep-if?)
+			from-stream _ (keep (=> Stream _) keep-if?)
 
 	map. Method
 		doc. "TODO"
 		test. |
 			[ [ true false ] not ] -> [ false true ]
 		default. |_:Bag mapper:Fun[Any Any]
-			from-stream _ (map ->Stream_ mapper)
+			from-stream _ (map (=> Stream _) mapper)
 
 	empty?. Method
 		doc. "Whether `count` will return 0."
 		default. |:Bool _
 			(iterator_.next ()).done
-
-	toss.
-		doc. "Bag without any elements that satisfy `toss-if?`."
-		test. |
-			[ [ 1 2 ] =?[2] ] -> [ 1 ]
-		|_:Bag toss-if?:Pred
-			keep _ |em
-				not (toss-if? em)
 
 	flat-map. Method
 		doc. "TODO"
@@ -240,7 +234,7 @@ region Methods using builder
 			[ [ 0 1 2 3 ] 1 3 ] -> [ 1 2 ]
 
 		default. |:Bag _ start:Nat end:Nat
-			from-stream _ (slice ->Stream_ start end)
+			from-stream _ (slice (=> Stream _) start end)
 
 	?slice.
 		doc. "TODO"
@@ -255,21 +249,21 @@ region Methods using builder
 		test. |
 			"TODO"
 		default. |:Bag _ count-to-take:Nat
-			from-stream _ (take ->Stream_ count-to-take)
+			from-stream _ (take (=> Stream _) count-to-take)
 
 	drop. Method
 		doc. "TODO"
 		test. |
 			"TODO"
 		default. |:Bag _ count-to-drop:Nat
-			from-stream _ (drop ->Stream_ count-to-drop)
+			from-stream _ (drop (=> Stream _) count-to-drop)
 
 	impl! + Bag
 		doc. "TODO"
 		test. |
 			[ [ 0 ] [ 1 ] ] -> [ 0 1 ]
 		|:Bag _ bag2:Bag
-			from-stream _ (+ ->Stream_ bag2)
+			from-stream _ (+ (=> Stream _) bag2)
 
 region Combination
 	\ TODO: Variadic

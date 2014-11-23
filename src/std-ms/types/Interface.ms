@@ -4,7 +4,7 @@ use
 	..Comparable -> =?
 	..Fun
 	.Impl-Type
-	..maps.Map -> keys-values
+	..maps.Map -> keys
 	.Method -> impl! propagate-method-down!
 	..pred-types -> Nullable
 	..private.bootstrap -> Str Array Object Symbol true set! get has-or-in-proto? set-mutable! oh-no! own-properties
@@ -115,8 +115,8 @@ implementor!.
 				()
 			else
 				mi:Map = method-impls
-				each! (keys-values mi) |_
-					key:Method val:Fun = _
-					impl! key implementor val
+				each! (keys mi) |method
+					implementation = mi[method]
+					impl! method implementor implementation
 
 Interface

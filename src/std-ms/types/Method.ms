@@ -79,32 +79,47 @@ impl!.
 impl-single! = |method:Method implementor:Impl-Type implementation:Fun
 	impl-unchecked! method implementor implementation
 
-impl-double! = |method:Method implementor-0:Impl-Type implementor-1:Impl-Type implementation:Fun
-	dispatcher = case get-or-undefined implementor-0.prototype method.impl-symbol
+\ TODO: MOVE
+writable? = |object property
+	case `global.Object`.getOwnPropertyDescriptor object property
 		exists?_
-			case
+			_.writable
+		else
+			true
+
+impl-double! = |method:Method implementor-0:Impl-Type implementor-1:Impl-Type implementation:Fun
+	dispatcher = case
+		writable? implementor-0.prototype method.impl-symbol
+			m = method
+			dd = Double-Dispatcher
+				displayName. "<Double dispatcher for {m}>"
+				method. m
+				first-type. implementor-0
+				impl-symbol. Symbol "{m} for {implementor-0.displayName}"
+			impl-unchecked! method implementor-0 dd
+			dd
+		else
+			case get implementor-0.prototype method.impl-symbol
 				:Double-Dispatcher
 					_
 				else
 					oh-no! "
 						Can't define double dispatch of {method} for {implementor-0}.
 						A single-dispatch implementation already exists: {_}.
-		else
-			m = method
-			dd = Double-Dispatcher
-				method. m
-				first-type. implementor-0
-				impl-symbol. Symbol "{m} for {implementor-0}"
-			impl-unchecked! method implementor-0 dd
-			dd
 
 	impl-unchecked! dispatcher implementor-1 implementation
-
 
 \ TODO: This will add to the prototype of an interface inheriting from another interface.
 \ We only want to write to one interface's prototype.
 \ "method" can be a method or a double dispatcher
 impl-unchecked!. |method implementor implementation
+	in
+		case!
+			writable? implementor.prototype method.impl-symbol
+				()
+			else
+				oh-no! "Can not redefine method {method} for {implementor}."
+
 	set! implementor.prototype method.impl-symbol implementation
 	case! implementor
 		:Interface

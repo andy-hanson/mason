@@ -4,7 +4,7 @@ use
 	..assert -> ! !call
 	.Bag -> builder build-next! build-result count each! empty? iterator map seq=?
 	.Bag-Type -> empty
-	..basic-methods -> freeze
+	..basic-methods -> freeze type-of
 	..Bool -> and
 	..Comparable -> =?
 	..Fun -> call thunk
@@ -63,5 +63,7 @@ impl! build-next! Array |_ em
 	_.push em
 impl! build-result Array freeze
 
+impl! type-of Array |
+	Array
 
 Array

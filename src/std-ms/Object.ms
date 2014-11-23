@@ -7,6 +7,7 @@ use
 	.bags.Array
 	.bags.Bag -> each! empty? keep seq=?
 	.bags.Stream -> ->Stream
+	.basic-methods -> =>
 	.Bool -> and false not nor true xor
 	.Comparable -> =?
 	.control -> if
@@ -55,7 +56,7 @@ own-properties.
 	|:Bag[Str/Sym] _:Object
 		\ TODO: filter'
 		\ TODO: Only forbidden if is a Fun
-		own-names = keep (->Stream (Object.getOwnPropertyNames _)) |name
+		own-names = keep (=> Stream (Object.getOwnPropertyNames _)) |name
 			not (forbidden-fun-props.has name)
 		+ own-names (Object.getOwnPropertySymbols _)
 

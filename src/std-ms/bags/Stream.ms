@@ -4,6 +4,7 @@ use
 	..assert -> !
 	.Bag -> all? drop flat-map iterator keep map seq=? slice take zip
 	.Bag-Type -> empty
+	..basic-methods -> =>
 	..Bool -> and or
 	..Comparable -> =?
 	..Fun -> identity Pred thunk
@@ -31,12 +32,6 @@ impl! iterator Stream |_
 
 impl! =? Stream |s1 s2
 	and (subsumes? Stream s2) (seq=? s1 s2)
-
-->Stream. Method
-	doc. "TODO"
-impl! ->Stream Bag |_
-	streaming |
-		iterator_
 
 streaming.
 	doc. "Creates a Stream whose values are the yields of the generator produced by make-gen."
@@ -127,5 +122,9 @@ region Overrides
 		streaming ~|
 			<~~ iterator_
 			<~~ iterator bag2
+
+impl! => (self-type Stream) Bag |ignore _
+	streaming |
+		iterator_
 
 Stream
