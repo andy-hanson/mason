@@ -49,7 +49,7 @@ inspect-impl. Method
 		identical? _ `undefined`
 			"undefined"
 		else
-			oh-no! "Somehow, `inspect-impl` not implemented for {_.toString ()}"
+			oh-no! `"Boot error: inspect-impl not yet implemented for " + _`
 
 show =
 	doc. |:Str _

@@ -10,6 +10,7 @@ use
 	..Generator
 	..math.Num -> Nat
 	..pred-types -> Any
+	..Ref -> get mod! ref
 	.Seq -> drop seq=? slice take
 	..Str
 	..types.Interface -> implementor!
@@ -83,26 +84,26 @@ region Overrides
 	impl! take Stream |_ count-to-take:Nat
 		streaming ~|
 			iter = iterator_
-			i ::= 0
+			i = ref 0
 			loop!
 				value done = iter.next ()
 				case!
-					or done ~(=? i count-to-take)
+					or done ~(=? (get i) count-to-take)
 						end-loop!
 					else
 						<~ value
-						i := + i 1
+						mod! i +[1]
 
 	impl! drop Stream |_ count-to-drop:Nat
 		streaming ~|
 			iter = iterator_
-			i ::= 0
+			i = ref 0
 			\ Discard count-to-drop values:
 			loop!
 				value done = iter.next ()
-				i := + i 1
+				mod! i +[1]
 				case!
-					or done ~(=? i count-to-drop)
+					or done ~(=? (get i) count-to-drop)
 						end-loop!
 					else
 						()

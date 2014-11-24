@@ -15,6 +15,7 @@ use
 	.maps.Weak-Identity-Map!
 	.Object
 	.pred-types -> Any
+	.Ref -> get ref mod!
 	.show -> show-impl
 	.Try -> oh-no!
 	.types.Alias-Type
@@ -143,19 +144,19 @@ ignore.
 identity-memoize.
 	doc. "TODO"
 	test. |
-		comps ::= 0
+		comps = ref 0
 		get-a = identity-memoize |x
-			comps := + comps 1
+			mod! comps +[1]
 			x.a
 		a1 =
 			a. 1
 		! =? (get-a a1) 1
 		! =? (get-a a1) 1
-		! =? comps 1
+		! =? (get comps) 1
 		a2 =
 			a. 2
 		! =? (get-a a2) 2
-		! =? comps 2
+		! =? (get comps) 2
 	|fun:Fun
 		wm = new Weak-Identity-Map!
 		|arg:Any

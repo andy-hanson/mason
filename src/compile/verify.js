@@ -23,7 +23,7 @@ module.exports = function verify(e, opts) {
 // Every property except vr is immutable.
 // Every Vx shares the same Vr.
 const Vx = types.recordType("Vx", Object, {
-	localToK: Map, // Maps local names to klocal.
+	locals: Map, // Maps local names to E.LocalDeclares.
 	loopNames: Set,
 	isInGenerator: Boolean,
 	opts: Opts,
@@ -31,7 +31,7 @@ const Vx = types.recordType("Vx", Object, {
 })
 Object.assign(Vx.prototype, {
 	allLocalNames: function() {
-		return this.localToK.keys()
+		return this.locals.keys()
 	},
 	hasLoop: function(name) {
 		type(name, String)
@@ -45,17 +45,16 @@ Object.assign(Vx.prototype, {
 	},
 	opGetLocal: function(name) {
 		type(name, String)
-		const l = this.localToK
-		return Op.if(l.has(name), function() { return l.get(name) })
+		const locals = this.locals
+		return Op.if(locals.has(name), function() { return locals.get(name) })
 	},
-	plusLocals: function(newLocals) {
-		type(newLocals, [Object])
-		const newLocalToK = new Map(this.localToK)
-		newLocals.forEach(function(_) {
-			type(_.name, String, _.k, Lang.KLocal)
-			newLocalToK.set(_.name, _.k)
+	plusLocals: function(addedLocals) {
+		type(addedLocals, [E.LocalDeclare])
+		const newLocals = new Map(this.locals)
+		addedLocals.forEach(function(l) {
+			newLocals.set(l.name, l)
 		})
-		return U.with(this, "localToK", newLocalToK)
+		return U.with(this, "locals", newLocals)
 	},
 	plusLoop: function(name) {
 		type(name, String)
@@ -63,27 +62,32 @@ Object.assign(Vx.prototype, {
 		newNames.add(name)
 		return U.with(this, "loopNames", newNames)
 	},
-	setAccessToK: function(access, k) {
-		this.vr.accessToK.set(access, k)
+	setAccessToLocal: function(access, local) {
+		this.vr.accessToLocal.set(access, local)
 	},
 	setEIsInGenerator: function(e) {
 		this.vr.setEIsInGenerator(e, this.isInGenerator)
 	},
-	withFocus: function() {
-		return this.plusLocals([{ name: "_", k: "const" }])
+	withFocus: function(span) {
+		return this.plusLocals([E.LocalDeclare.UntypedFocus(span)])
 	},
-	withRes: function() {
-		return this.plusLocals([{ name: "res", k: "const" }])
+	withRes: function(span) {
+		return this.plusLocals([E.LocalDeclare({
+			span: span,
+			name: "res",
+			opType: Op.None,
+			isLazy: false
+		})])
 	}
 })
 Object.assign(Vx, {
 	start: function(opts) {
 		return Vx({
-			localToK: new Map(),
+			locals: new Map(),
 			loopNames: new Set(),
 			isInGenerator: false,
 			opts: opts,
-			vr: Vr({ accessToK: new Map(), eToIsInGenerator: new Map() }) // TODO: VrBuilder
+			vr: Vr({ accessToLocal: new Map(), eToIsInGenerator: new Map() }) // TODO: VrBuilder
 		})
 	}
 })
@@ -101,7 +105,7 @@ U.implementMany(E, "verify", {
 		const vxBlock = buildVxBlock(vx, this.lines)
 		this.lines.forEach(v(vxBlock))
 		this.opReturn.forEach(v(vxBlock))
-		const vxOut = Sq.isEmpty(this.opReturn) ? vxBlock : vxBlock.withRes()
+		const vxOut = Sq.isEmpty(this.opReturn) ? vxBlock : vxBlock.withRes(this.span)
 		this.opOut.forEach(v(vxOut))
 	},
 	BlockWrap: function(vx) {
@@ -110,7 +114,7 @@ U.implementMany(E, "verify", {
 	},
 	CaseDo: function(vx) {
 		this.opCased.forEach(v(vx))
-		const vxCase = vx.withFocus()
+		const vxCase = vx.withFocus(this.span)
 		this.parts.forEach(v(vxCase))
 		this.opElse.forEach(v(vxCase))
 	},
@@ -128,7 +132,7 @@ U.implementMany(E, "verify", {
 
 		const argsLocals = this.args.map(function(arg) {
 			arg.opType.forEach(v(vx))
-			return { name: arg.name, k: arg.isLazy ? "lazy" : "const" }
+			return arg
 		})
 		const vxGen = this.k === "~|" ? vx.inGenerator() : vx.notInGenerator()
 		const vxBody = vxGen.plusLocals(argsLocals)
@@ -137,7 +141,7 @@ U.implementMany(E, "verify", {
 	LocalAccess: function(vx) {
 		const me = this
 		Op.ifElse(vx.opGetLocal(this.name),
-			function(k) { vx.setAccessToK(me, k) },
+			function(l) { vx.setAccessToLocal(me, l) },
 			function() {
 				check.fail(me.span,
 					"Could not find local `"+me.name+"`\n"+
@@ -195,52 +199,9 @@ const buildVxBlock = function(vxBefore, lines) {
 }
 
 const buildVxBlockLine = function(vx, line) {
-	if (type.isa(line, E.Assign)) {
-		checkAssign(vx, line.assignee, line.k)
-		return vx.plusLocals(opKLocalFromKAssign(line.k).map(function(k) { return {
-			name: line.assignee.name,
-			k: k
-		}}))
-	}
-	if (type.isa(line, E.AssignDestructure)) {
-		line.assignees.forEach(function(_) { checkAssign(vx, _, line.k) })
-		return vx.plusLocals(Sq.mpf(opKLocalFromKAssign(line.k), function(k) {
-			return line.assignees.map(function(ass) {
-				return {
-					name: ass.name,
-					k: k
-				}
-			})
-		}))
-	}
-	return vx
-}
-
-const checkAssign = function(vx, assignee, kAssign) {
-	const span = assignee.span
-	const name = assignee.name
-	Op.ifElse(vx.opGetLocal(name),
-		function(kLocal) {
-			if (kAssign === ":=")
-				check(kLocal === "mutable", span, "Tried to assign to immutable value `"+name+"`")
-			else
-				check(kLocal !== "mutable", span, "Mutating `"+name+"` requires `:=`")
-		},
-		function() {
-			check(kAssign !== ":=", span, "Can't mutate non-declared local `"+name+"`")
-		})
-}
-
-const opKLocalFromKAssign = function(kAssign) {
-	switch (kAssign) {
-		case "=": case ". ": case "<~": case "<~~": case "export":
-			return Op.Some("const")
-		case "~=":
-			return Op.Some("lazy")
-		case "::=":
-			return Op.Some("mutable")
-		case ":=":
-			return Op.None // ":=" does not create a new local
-		default: fail()
-	}
+	return type.isa(line, E.Assign) ?
+		vx.plusLocals([line.assignee]) :
+		type.isa(line, E.AssignDestructure) ?
+		vx.plusLocals(line.assignees) :
+		vx
 }

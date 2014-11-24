@@ -11,6 +11,7 @@ use
 	..Fun -> thunk
 	..math.Num -> Nat round-down sign
 	..pred-types -> Opt
+	..Ref -> get mod! ref
 	.Seq -> ?nth seq=?
 	.Stream -> streaming
 	..types.Interface -> implementor!
@@ -58,14 +59,14 @@ implementor! Range Bag
 		test. |
 			! seq=? (range 0 10 2) [0 2 4 8]
 		~|_
-			i ::= _.start
+			i = ref _.start
 			loop!
 				case!
-					>=? i _.end
+					>=? (get i) _.end
 						end-loop!
 					else
-						<~ i
-						i := + i _.step
+						<~ (get i)
+						mod! i +[_.step]
 
 implementor! (self-type Range) Bag-Type
 	empty -> thunk (range 0 0)

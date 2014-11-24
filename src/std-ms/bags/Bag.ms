@@ -10,8 +10,10 @@ use
 	..control -> if
 	..Fun -> identity Pred thunk
 	..generators -> Generator
+	..maps.Map! -> set!
 	..math.Num -> divisible? Nat
 	..pred-types -> Any Opt
+	..Ref -> get mod! ref
 	..show
 	.Stream -> streaming
 	..Symbol
@@ -71,10 +73,11 @@ region Functions using just the iterator
 		test. |
 			[ [ 1 2 3 ] 4 + ] -> 10
 		|_:Bag start:Any folder:Fun[Any Any Any]
-			acc ::= start
+			acc = ref start
 			each! _ |em
-				acc := folder acc em
-			acc
+				mod! acc |x
+					folder x em
+			get acc
 
 	each!.
 		doc. "Calls do-for-each on every element in the Bag."
@@ -120,8 +123,7 @@ region Methods only needing iterator
 	count. Method
 		doc. "Number of elements in it."
 		default. |:Nat _
-			fold _ 0 |cur-count
-				+ cur-count 1
+			fold _ 0 +[1]
 
 region Methods using builder
 	keep. Method

@@ -5,7 +5,9 @@ use
 	.Comparable -> =?
 	.Fun -> Act call thunk
 	.maps.Map -> ?get
+	.maps.Map! -> set!
 	.pred-types -> Any
+	.Ref -> get mod! ref
 	.Try -> oh-no!
 	.types.singleton
 
@@ -47,10 +49,10 @@ if.
 if!.
 	doc. "Runs `result` iff `condition`."
 	test. |
-		a ::= 0
+		set-me = ref 0
 		if! true |
-			a := 1
-		! =? a 1
+			set! set-me 1
+		! =? (get set-me) 1
 		if! false oh-no!
 	|condition:Bool result:Act
 		case!

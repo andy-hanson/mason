@@ -2,7 +2,7 @@ use
 	.? -> get-or
 	.arithmetic-methods -> + *
 	.assert -> ! !not
-	.bags.Bag -> contains? each! empty? toss
+	.bags.Bag -> contains? each! empty? flat-map fold toss
 	.Bool -> nor not
 	.Comparable -> =?
 	.control -> if!
@@ -10,6 +10,7 @@ use
 	.math.bit-arithmetic -> bit-and hexidecimal
 	.math.Num -> Int round-towards-0
 	.Object -> ?get-property own-properties
+	.Ref -> get mod! ref
 	.Str
 	.Symbol
 	.Try -> fails?
@@ -50,11 +51,11 @@ hash-code =  Method
 				\ Set it now so we don't recurse infinitely
 				hashes.set _ 17
 				props = own-properties_
-				hash ::= 17
-				each! props |prop
-					each! (?get-property _ prop) |val
-						hash := keep-small (* hash 23)
-						hash := keep-small (+ hash (hash-code val))
+				vals = flat-map own-properties_ |name
+					?get-property _ name
+				hash = fold vals 17 |acc val
+					x = keep-small (* acc 23)
+					keep-small (+ (hash-code val) x)
 				hashes.set _ hash
 				hash
 
@@ -78,11 +79,11 @@ impl! hash-code Str
 		! =? (hash-code "a") (hash-code "a")
 		!not =? (hash-code "a") (hash-code "b")
 	|_
-		hash ::= 13
 		mhc = max-hash-code
 		\ TODO: each-with-index!
+		`let hash = 13`
 		`for (let i = 0; i < _.length; i++) hash = (31 * hash + _.charCodeAt(i)) & mhc`
-		hash
+		`hash`
 
 impl! hash-code Symbol
 	test. |

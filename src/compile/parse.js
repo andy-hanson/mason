@@ -321,7 +321,7 @@ const parseFun = function(px, sqt, k) {
 			function(_) {
 				const spanRest = Span.ofSqT(px.span, _.after)
 				return {
-					args: parseLocals.parseLocalDeclares(px, _.before),
+					args: parseLocals(px, _.before),
 					body: E.BlockBody({
 						span: spanRest,
 						opIn: Op.None,
@@ -334,7 +334,7 @@ const parseFun = function(px, sqt, k) {
 			function() {
 				const _$ = parseBlock.takeBlockFromEnd(px, rest, "any")
 				return {
-					args: parseLocals.parseLocalDeclares(px, _$.before),
+					args: parseLocals(px, _$.before),
 					body: _$.block
 				}
 			})
@@ -351,7 +351,7 @@ const parseFun = function(px, sqt, k) {
 
 const parseLine = (function() {
 	const parseAssign = function(px, assigned, assigner, value) {
-		const locals = parseLocals.parseTypedLocals(px, assigned)
+		const locals = parseLocals(px, assigned)
 		const k = assigner.k
 		const eValuePre = parseExpr(px, value)
 
@@ -361,14 +361,45 @@ const parseLine = (function() {
 			locals.length === 1 ?
 			tryAddDisplayName(eValuePre, Sq.head(locals).name) :
 			eValuePre
+
+		const isYield = k === "<~" || k === "<~~"
+
+		// TODO: Review
 		const eValue = valueFromAssign(eValueNamed, k)
+
 		if (Sq.isEmpty(locals)) {
-			check(k === "<~" || k === "<~~", px.span, "Assignment to nothing")
+			check(isYield, px.span, "Assignment to nothing")
 			return eValue
 		}
-		return (locals.length === 1) ?
-			E.Assign(px.s({ assignee: locals[0], k: k, value: eValue })) :
-			E.AssignDestructure(px.s({ assignees: locals, k: k, value: eValue }))
+
+		if (isYield)
+			locals.forEach(function(_) {
+				check(_.k !== "lazy", _.span, "Can not yield to lazy variable.")
+			})
+
+		if (locals.length === 1)
+			return E.Assign(px.s({ assignee: locals[0], k: k, value: eValue }))
+		else {
+			const anyLazy = locals.some(function(l) { return l.isLazy })
+			if (anyLazy)
+				locals.forEach(function(l) {
+					check(l.isLazy, l.span, "If any part of destructuring assign is lazy, all must be.")
+				})
+			return E.AssignDestructure(px.s({ assignees: locals, k: k, value: eValue, isLazy: anyLazy }))
+		}
+	}
+
+	const valueFromAssign = function(valuePre, kAssign) {
+		if (type.isa(valuePre, E.Null))
+			valuePre = E.True({ span: valuePre.span })
+		switch (kAssign) {
+			case "<~":
+				return E.Yield({ span: valuePre.span, yielded: valuePre })
+			case "<~~":
+				return E.YieldTo({ span: valuePre.span, yieldedTo: valuePre })
+			default:
+				return valuePre
+		}
 	}
 
 	// We give it a displayName if:
@@ -410,18 +441,7 @@ const parseLine = (function() {
 		}
 	}
 
-	const valueFromAssign = function(valuePre, kAssign) {
-		if (type.isa(valuePre, E.Null))
-			valuePre = E.True({ span: valuePre.span })
-		switch (kAssign) {
-			case "<~":
-				return E.Yield({ span: valuePre.span, yielded: valuePre })
-			case "<~~":
-				return E.YieldTo({ span: valuePre.span, yieldedTo: valuePre })
-			default:
-				return valuePre
-		}
-	}
+
 
 	const parseLoop = function(px, sqt) {
 		const _ = parseBlock.takeBlockFromEnd(px, sqt, "do")
@@ -494,15 +514,7 @@ const parseLine = (function() {
 })()
 
 const parseLocals = (function() {
-	const parseTypedLocals = function(px, sqt) {
-		type(px, Px, sqt, [T])
-		return sqLocals(px, sqt).map(function(_) {
-			check(!_.isLazy, _.span, "Can't have lazy annotation here. Try " + U.code("~="))
-			return E.LocalDeclare(_)
-		})
-	}
-
-	const parseLocalDeclares = function(px, sqt) { return sqLocals(px, sqt).map(E.LocalDeclare) }
+	const parseLocals = function(px, sqt) { return sqLocals(px, sqt).map(E.LocalDeclare) }
 
 	// Sq of { span, name, opType, isLazy }
 	const sqLocals = function(px, sqt) {
@@ -549,7 +561,7 @@ const parseLocals = (function() {
 		}
 	}
 
-	return { parseTypedLocals: parseTypedLocals, parseLocalDeclares: parseLocalDeclares }
+	return parseLocals
 })()
 
 const parseSingle = function(px, t) {
@@ -638,19 +650,21 @@ const parseUse = (function() {
 				opType: Op.None,
 				isLazy: true
 			})),
-			k: "~=",
+			k: "=",
 			value: required
 		}))
 		if (sqt.length === 1)
 			return usedAssign
 		else {
 			check(T.Keyword.is("->")(sqt[1]), sqt[1].span, "Expected " + U.code("->"))
-			const assignees = parseLocals.parseTypedLocals(px, sqt.slice(2))
+			const assignees = parseLocals(px, sqt.slice(2)).map(function(l) {
+				return U.with(l, "isLazy", true)
+			})
 			const destructure = assignees.map(function(assignee) {
 				return E.Assign({
 					span: assignee.span,
 					assignee: assignee,
-					k: "~=",
+					k: "=",
 					value: E.Member({
 						span: assignee.span,
 						object: required,

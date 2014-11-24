@@ -13,9 +13,11 @@ use
 	..js -> global
 	..maps.Identity-Map!
 	..maps.Map -> ?get keys
+	..maps.Map! -> set!
 	..modules -> promise-all-modules
 	..Object -> ?get-property get-property has-property? own-properties own-enumerable-properties
 	..pred-types -> Any
+	..Ref -> get ref
 	..Str
 	..Try -> annotate-errors oh-no! Success try
 	..types.Impl-Type
@@ -24,26 +26,31 @@ use
 	..types.Type -> subsumes?
 	..types.util -> self-type
 
+\ TODO: move
+\ TODO: implement
+detect-infinite-loop. |fun
+	()
+
 \ TODO
 test. |
-	tested-x ::= false
-	tested-y ::= false
-	tested-b ::= false
+	tested-x = ref false
+	tested-y = ref false
+	tested-b = ref false
 	dict =
 		a.
 			test.
 				x. |
-					tested-x := true
+					set! tested-x true
 				y. |
-					tested-y := true
+					set! tested-y true
 		b. `{}` \ TODO: empty Dict
 		impl! test-special (self-type b) |
-			tested-b := true
+			set! tested-b true
 		c. () \ not testable
 	maybe-test "dict" dict true
-	! tested-x
-	! tested-y
-	! tested-b
+	! (get tested-x)
+	! (get tested-y)
+	! (get tested-b)
 
 \ TODO: Better name (but not `test`, because that's a common module property)
 test-special. Method
@@ -112,7 +119,9 @@ test-test-fun = |value value-test:Fun name \TODO:ES6 ...args
 	args = (Array.prototype.slice.call `arguments` 3)
 	annotate-errors "In {name}:\n" |
 		\ TODO:ES6 value-test ...args
-		case! apply value-test args
+		got = detect-infinite-loop |
+			apply value-test args
+		case! got
 			:Map
 				! (subsumes? Fun value)
 					"Test of {name} returned a Map, but the value is not callable."

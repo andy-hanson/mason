@@ -63,7 +63,7 @@ Union. singleton
 \ TODO: Variadic
 impl! sub Union |u A:Type B:Type
 	Pred-Type
-		displayName. "Union[{A} {B}]"
+		displayName. "some union"\ "Union[{A} {B}]"
 		predicate. |_
 			or :A ~:B
 

@@ -10,7 +10,9 @@ use
 	..Comparable -> =? >? >=? <=?
 	..Fun -> call
 	..Generator -> each~
+	..maps.Map! -> set!
 	..math.Num -> divisible? Int
+	..Ref -> get mod! ref
 	..Str
 	..Try -> fails?
 
@@ -129,23 +131,18 @@ x = "
 
 ! =? "\t\n\{\\" `"\t\n{\\"`
 
-taxes ::= 100
-! =? taxes 100
-taxes := 1000
-! =? taxes 1000
-
 \ TODO: empty Array!
 arr = `[]`
 log! = |_
 	arr.push _
 
 call |
-	i ::= 10
+	i = ref 10
 	loop!
-		case!
-			>? i 0
-				log! i
-				i := - i 1
+		case! get i
+			>? _ 0
+				log! _
+				set! i (- _ 1)
 			else
 				end-loop!
 				log! "This line is never run"
@@ -155,16 +152,16 @@ call |
 
 incrementing. |gen-maker:Fun[Generator]
 	gen:Generator = gen-maker ()
-	last-value ::= 0
+	last-value = ref 0
 	loop!
-		value done = gen.next (+ last-value 1)
-		last-value := value
+		value done = gen.next (+ (get last-value) 1)
+		set! last-value value
 		case! done
 			_
 				end-loop!
 			else
 				()
-	last-value
+	get last-value
 
 y = incrementing ~|:Int
 	two <~ 1
@@ -173,10 +170,10 @@ y = incrementing ~|:Int
 ! =? y 3
 
 nats. streaming ~|
-	i ::= 0
+	i = ref 0
 	loop!
-		<~ i
-		i := + i 1
+		<~ get i
+		mod! i +[1]
 ! seq=? (take nats 3) [ 0 1 2 ]
 
 one-two-one-two. ~|
@@ -209,16 +206,16 @@ dt2. |_
 log = `[]`
 logging. |gen-maker:Fun[Generator]
 	gen = gen-maker ()
-	last-value ::= ()
+	last-value = ref ()
 	loop!
 		value done = gen.next ()
 		case! done
 			_
-				last-value := value
+				set! last-value value
 				end-loop!
 			else
 				log.push value
-	last-value
+	get last-value
 
 increment-thrice. |x
 	logging ~|
@@ -235,7 +232,3 @@ in-range?. |n min max
 	and (>=? n min) ~(<=? n max)
 ! in-range? 1 0 2
 !not in-range? 3 0 2
-
-ii ::= 2
-! `ii++ == "2"`
-

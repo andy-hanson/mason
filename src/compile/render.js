@@ -65,6 +65,8 @@ U.implementMany(E, "renderContent", {
 	},
 
 	AssignDestructure: function(rx) {
+		const check = require("./check")
+		check(!this.isLazy, this.span, "TODO")
 		const destructuredName = "_$" // _$ isn't a valid mason name, so this is safe.
 		const k = this.k
 		const assigns = this.assignees.map(function(assignee) {
@@ -357,47 +359,36 @@ const makeAssign = function(rx, span, assignee, k, value) {
 	const to = r(rx)(assignee)
 	const doAssign = (function() { switch (k) {
 		case "=": case ". ": case "<~": case "<~~":
-			return [ "const ", to, " = ", r(rx)(value) ]
+			if (assignee.isLazy) {
+				// For a lazy value, type checking is not done until after it is generated.
+				const fun = E.Fun({
+					span: span,
+					opName: Op.None,
+					args: [],
+					body: E.BlockBody({
+						span: span,
+						lines: [],
+						opReturn: Op.Some(value),
+						opIn: Op.None,
+						opOut: Op.None
+					}),
+					opReturnType: assignee.opType,
+					k: "|"
+				})
+				return [
+					"const ",
+					to,
+					" = _ms.Lazy(",
+					r(rx)(fun),
+					")"
+				]
+			}
+			else
+				return [ "const ", to, " = ", r(rx)(value) ]
 		case "export":
+			assert(!assignee.isLazy) // TODO
 			return [ "const ", to, " = exports", makeMember(assignee.name), " = ", r(rx)(value) ]
 			// return [ "export const ", to, " = ", jValue ]; TODO:ES6
-		case "~=": {
-			// For a lazy value, type checking is not done until after it is generated.
-			const fun = E.Fun({
-				span: span,
-				opName: Op.None,
-				args: [],
-				body: E.BlockBody({
-					span: span,
-					lines: [],
-					opReturn: Op.Some(value),
-					opIn: Op.None,
-					opOut: Op.None
-				}),
-				opReturnType: assignee.opType,
-				k: "|"
-			})
-			return [
-				"const ",
-				to,
-				" = _ms.Lazy(",
-				r(rx)(fun),
-				")"
-			]
-		}
-		case "::=":
-			return [
-				"let ",
-				to,
-				" = ",
-				r(rx)(value)
-			]
-		case ":=":
-			return [
-				to,
-				" = ",
-				r(rx)(value)
-			]
 		default: fail()
 	} })()
 	return [

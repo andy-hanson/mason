@@ -34,7 +34,7 @@ use
 		case! a
 			:Fun
 				rest-args = Array.prototype.slice.call `arguments` 1
-				if! (not (apply _ rest-args)) |
+				if! (not (Fun.prototype.apply.call _ () rest-args)) |
 					all-args = + [ _ ] rest-args
 					\ TODO: .join -> make-string
 					oh-no! "
@@ -55,7 +55,7 @@ use
 		case! a
 			:Fun
 				rest-args = Array.prototype.slice.call `arguments` 1
-				if! (apply _ rest-args) |
+				if! (Fun.prototype.apply.call _ () rest-args) |
 					all-args = + [ _ ] rest-args
 					oh-no! "!not {(map all-args show).join " "}"
 			:Bool

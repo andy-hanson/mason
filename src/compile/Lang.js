@@ -8,7 +8,7 @@ const setUnion = function() {
 	return s
 }
 
-const AssignKeywords = new Set(["=", "~=", ":=", "::=", ". ", "<~", "<~~"])
+const AssignKeywords = new Set(["=", ". ", "<~", "<~~"])
 
 const LineSplitKeywords = setUnion(AssignKeywords, new Set(["->"]))
 
@@ -36,8 +36,6 @@ const ReservedWords = new Set([ "return" ])
 const GroupKinds = new Set(["(", "[", "{", "->", "ln", "sp", '"'])
 const GroupPres = setUnion(GroupKinds, new Set([")", "]", "}", "<-"]))
 
-const KLocal = new Set([ "const", "lazy", "mutable" ])
-
 const ReservedCharacters = new Set("`@#$;',")
 
 const GroupOpenToClose = new Map([
@@ -63,7 +61,6 @@ module.exports = {
 	GroupOpenToClose: GroupOpenToClose,
 	GroupKinds: GroupKinds,
 	GroupPres: GroupPres,
-	KLocal: KLocal,
 	ReservedCharacters: ReservedCharacters,
 	ReservedWords: ReservedWords,
 	isNameCharacter: isNameCharacter,

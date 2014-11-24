@@ -11,6 +11,7 @@ use
 	..Fun
 	..math.Num -> Nat
 	..pred-types -> Any
+	..Ref -> get mod! ref
 	.Stream -> streaming
 	..Try -> fails? oh-no!
 	..types.Interface -> implementor!
@@ -59,7 +60,7 @@ region Search
 			[ [ 0 1 ] 2 ] -> ?none
 		default. |_ n:Nat
 			iter = iterator_
-			i ::= 0
+			`let i = 0`
 			\ TODO:ES6 for (let em of _)
 			s = ?some
 			`for (let em of iter) { if (i == n) return s(em); i++; }`
@@ -150,14 +151,15 @@ region TODO: put somewhere
 		default. |_
 			arr = => Array _
 			reverse-stream = streaming ~|
-				i ::= count arr
+				i = ref (count arr)
 				loop!
 					case!
-						=? i 0
+						=? (get i) 0
 							end-loop!
 						else
-							i := - i 1
-							<~ arr[i]
+							mod! i |_
+								- _ 1
+							<~ arr[(get i)]
 			from-stream _ reverse-stream
 
 	\ TODO: sort, sort-by

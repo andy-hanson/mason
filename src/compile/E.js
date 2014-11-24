@@ -36,7 +36,7 @@ E.LocalDeclare.UntypedFocus = function(span) {
 
 makeETypes(E.Do, {
 	Assign: { assignee: E.LocalDeclare, k: Lang.KAssign, value: E.Val },
-	AssignDestructure: { assignees: [E.LocalDeclare], k: Lang.KAssign, value: E.Val },
+	AssignDestructure: { assignees: [E.LocalDeclare], k: Lang.KAssign, value: E.Val, isLazy: Boolean },
 	CaseDo: { opCased: Op(E.Val), parts: [E.CasePart], opElse: Op(E.BlockBody) },
 	Debugger: { },
 	EndLoop: { name: String },

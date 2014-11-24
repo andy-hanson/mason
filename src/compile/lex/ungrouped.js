@@ -54,21 +54,9 @@ const lexPlain = module.exports = function* lexPlain(stream, isInQuote) {
 						nDots: stream.takeWhile('.').length + 1, // +1 for the dot we just skipped.
 						name: stream.takeWhile(Lang.isNameCharacter)}))
 			case ':':
-				switch (stream.peek()) {
-					case ':':
-						stream.skip()
-						check(stream.eat() === '=', span(), U.code("=") + " must follow " + U.code("::"))
-						return keyword("::=")
-					case '=':
-						stream.skip()
-						return keyword(":=")
-					default:
-						return keyword(":")
-				}
+				return keyword(":")
 			case '~':
-				return stream.tryEat('=') ?
-					keyword("~=") :
-					stream.tryEat("|") ?
+				return stream.tryEat("|") ?
 					[ keyword("~|"), gp("sp") ] : // First arg in its own spaced group
 					keyword("~")
 			case '|':

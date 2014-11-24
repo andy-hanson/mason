@@ -6,8 +6,10 @@ use
 	.control -> unreachable!
 	.Fun -> Act delegate-to ignore thunk
 	.js -> global
+	.maps.Map! -> set!
 	.Object -> change-property! set-property!
 	.pred-types -> Any
+	.Ref -> get ref
 	.Str
 	.types.Interface -> implementor!
 	.types.Record-Type
@@ -130,11 +132,11 @@ error-type.
 always-do-after.
 	doc. "Executes `finally-do`, even if there are errors."
 	test. |
-		a ::= 0
+		set-me = ref 0
 		try |
 			always-do-after oh-no! |
-				a := 1
-		! =? a 1
+				set! set-me 1
+		! =? (get set-me) 1
 	|tried:Fun[Any] finally-do:Act
 		fd = finally-do
 		`try { return tried() } finally { fd() }`

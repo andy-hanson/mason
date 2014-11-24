@@ -19,6 +19,7 @@ use
 	..math.Num -> divisible?
 	..pred-types -> Any
 	..private.ms
+	..Ref -> get mod! ref
 	..Try -> oh-no!
 	..types.Interface -> implementor!
 	..types.Method -> impl!
@@ -26,7 +27,7 @@ use
 
 Hash-Map = Record-Type
 	doc. "TODO"
-	\ TODO: `new-empty` method
+	\ TODO: impl! empty Hash-Map
 	new-empty. |
 		Hash-Map
 			hash->bucket. new Identity-Map!
@@ -80,20 +81,21 @@ impl! set! Hash-Map |hm key:Any val:Any
 			\ be = ?bucket-entry bucket key
 			\ if it's there: set-property! be "val" val
 
+\ TODO: group-by 2
 add-property! ms "map"  |
 	hm = Hash-Map.new-empty ()
-	i ::= 0
 	args = `arguments`
-	n-args = args.length
-	! divisible? n-args 2
+	n = args.length
+	! divisible? n 2
 
+	i = ref 0
 	loop!
-		case!
-			=? i n-args
+		case! get i
+			=? _ n
 				end-loop!
 			else
-				set! hm `args[i]` `args[i + 1]`
-				i := + i 2
+				set! hm `args[_]` `args[_ + 1]`
+				mod! i +[2]
 
 	freeze hm
 

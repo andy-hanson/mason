@@ -50,21 +50,17 @@ Method = Record-Type
 				oh-no! ~"{_} not implemented for {target}"
 	make-callable. |method
 		|target
-			impl ::= ()
-			\ Don't use `case` because that adds to the stacktrace.
-			case! target
+			impl:Fun = case target
 				any?_
-					impl := get-or-undefined target method.impl-symbol
-					case! impl
+					case get-or-undefined target method.impl-symbol
 						exists?_
-							()
+							_
 						else
-							impl := method.default
+							method.default
 				else
-					impl := method.default
-			method-impl:Fun = impl
-			\ TODO:ES6 method-impl(...arguments)
-			apply.call method-impl () `arguments`
+					method.default
+			\ TODO:ES6 impl ...arguments
+			apply.call impl () `arguments`
 	extensible. true
 
 impl!.

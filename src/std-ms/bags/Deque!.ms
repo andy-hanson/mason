@@ -15,6 +15,7 @@ use
 	..Object -> change-property!
 	..pred-types -> Any
 	.Range -> range
+	..Ref -> get mod! ref
 	.Seq -> reverse
 	.Seq! -> <+! +>! ?<pop! ?pop>!
 	..types.Interface -> implementor!
@@ -67,16 +68,17 @@ region Helpers
 
 implementor! Deque! Seq!
 	iterator -> ~|_
-		i ::= _.start-index!
+		i = ref _.start-index!
+		\ TODO: Efficiency, safety
 		loop!
 			case!
-				=? i _.end-index!
+				=? (get i) _.end-index!
 					end-loop!
-				=? i _.data!.length
-					i := 0
+				=? (get i) _.data!.length
+					set! i 0
 				else
-					<~ _.data![i]
-					i := + 1 i
+					<~ _.data![(get i)]
+					mod! i +[1]
 
 	<+! -> |_ ems:Bag
 		each! (reverse ems) |em

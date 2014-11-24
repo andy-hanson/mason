@@ -8,15 +8,13 @@ const
 	types = require("./U/types")
 
 const Vr = module.exports = types.recordType("Vr", Object, {
-	accessToK: Map,
+	accessToLocal: Map,
 	eToIsInGenerator: Map
 })
 Object.assign(Vr.prototype, {
 	isLazy: function(local) {
 		type(local, E.LocalAccess)
-		const k = this.accessToK.get(local)
-		type(k, Lang.KLocal)
-		return k === "lazy"
+		return this.accessToLocal.get(local).isLazy
 	},
 	setEIsInGenerator: function(e, is) {
 		type(e, E, is, Boolean)

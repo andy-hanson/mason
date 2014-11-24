@@ -20,7 +20,7 @@ use
 	.Try -> fails?
 	.types.Type -> subsumes?
 
-Str/Sym ~= Union[Str Symbol]
+~Str/Sym = Union[Str Symbol]
 
 Object = global.Object
 Str = global.String \ Can't have dependency on Str.ms
@@ -185,7 +185,7 @@ inspect=?.
 						false
 					else
 						same-type = identical? (Object.getPrototypeOf a) (Object.getPrototypeOf b)
-						same-members ~=
+						~same-members =
 							ak = Object.getOwnPropertyNames a
 							bk = Object.getOwnPropertyNames b
 							case

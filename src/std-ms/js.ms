@@ -57,9 +57,7 @@ new.
 
 	|constructor:Fun
 		in
-			!not =? constructor Error
-		out
-			!subsumes constructor res
+			!not identical? constructor Error
 		boundConstructor = Fun.prototype.bind.apply constructor `arguments`
 		`new boundConstructor`
 
