@@ -1,7 +1,7 @@
 use
-	..assert -> ! !not
-	..Bool -> not
-	.Map -> ?get has-key?
+	..assert -> !not
+	..Bool
+	.Map -> has-key?
 	..types.Interface -> implementor!
 	..types.Method
 	..types.pred-types -> Any

@@ -1,20 +1,5 @@
 use
-	.assert -> ! !call
-	.bags.Array -> ->Array
-	.bags.Bag -> map
-	.Bool
-	.Fun -> identity
-	.js -> global identical?
-	.math.Num
-	.Object -> add-property! get-property has-property? own-property-names
-	.pred-types -> Null Union
-	.Symbol
-	.types.Interface
-	.types.Method -> impl! impl-override!
-	.types.Pred-Type
-	.types.Record-Type
-	.types.Type -> !subsumes
-	.types.util -> self-type
+	.js -> global
 
 Str =
 	doc. "TODO"
@@ -34,9 +19,8 @@ indent.
 			a
 				b
 
-		!call indent
-			[ s ] -> s-indented
-			[ "a" ] -> "a"
+		[ s ] -> s-indented
+		[ "a" ] -> "a"
 
 	|str:Str
 		"{str.replace `/\n/g` "\n\t"}"

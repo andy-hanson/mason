@@ -7,11 +7,10 @@ use
 	.bags.Array
 	.bags.Bag -> each! empty? keep
 	.bags.Seq -> seq=?
-	.bags.Stream -> ->Stream
+	.bags.Stream
 	.basic-methods -> =>
 	.Bool -> and false not nor true xor
 	.Comparable -> =?
-	.control -> if
 	.Dict
 	.js -> global identical? js-typeof
 	.maps.Map -> keys
@@ -26,8 +25,13 @@ Object = global.Object
 Str = global.String \ Can't have dependency on Str.ms
 
 get = |object name
+	object \ TODO:Ignored vars
+	name \ TODO:Ignored vars
 	`object[name]`
 set = |object name value
+	object \ TODO:Ignored vars
+	name \ TODO:Ignored vars
+	value \ TODO:Ignored vars
 	`object[name] = value`
 
 send.
@@ -191,7 +195,8 @@ inspect=?.
 							case
 								\ TODO: For non-extensible Record-Types we can skip this check
 								=? ak bk
-									eq = =? \ Pronounced "equals equals equals"
+									eq = =?
+									eq \ TODO:Ignored vars
 									`for (let i = 0; i < ak.length; i++) { const key = ak[i]; if (!eq(a[ak], b[ak])) return false }`
 									true
 								else

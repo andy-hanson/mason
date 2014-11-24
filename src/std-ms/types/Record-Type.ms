@@ -104,7 +104,7 @@ record-type-args =
 	defaults.
 		defaults. |
 			Dict.empty
-		prototype. |_
+		prototype. |
 			Object.create Object.prototype
 		post-construct. | |
 			()

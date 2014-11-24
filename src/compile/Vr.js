@@ -9,6 +9,7 @@ const
 
 const Vr = module.exports = types.recordType("Vr", Object, {
 	accessToLocal: Map,
+	localToAccesses: Map,
 	eToIsInGenerator: Map
 })
 Object.assign(Vr.prototype, {

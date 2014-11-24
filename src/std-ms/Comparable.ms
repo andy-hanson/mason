@@ -1,32 +1,32 @@
 use
-	.Bool -> and false nor true
+	.Bool -> or
 	.js -> identical?
 	.Object -> inspect=?
 	.types.Interface
 	.types.Method
-	.types.Type -> subsumes?
 
 compare. Method
 	doc. "A Num < 0 if a < b, > 0 if a > b, and = 0 if a = b."
 
 =?. Method
 	doc. "TODO"
-	default. inspect=?
+	default. |:Bool a b
+		or (identical? a b) ~(inspect=? a b)
 <?. Method
 	doc. "TODO"
-	default. |a b
+	default. |:Bool a b
 		<? (compare a b) 0
 <=?. Method
 	doc. "TODO"
-	default. |a b
+	default. |:Bool a b
 		<=? (compare a b) 0
 >?. Method
 	doc. "TODO"
-	default. |a b
+	default. |:Bool a b
 		>? (compare a b) 0
 >=?. Method
 	doc. "TODO"
-	default. |a b
+	default. |:Bool a b
 		>=? (compare a b) 0
 
 Comparable. Interface

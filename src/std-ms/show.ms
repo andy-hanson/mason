@@ -1,12 +1,12 @@
 use
 	.bags.Array
-	.bags.Bag -> empty? map
+	.bags.Bag -> map
 	.basic-methods -> type-of
 	.Bool -> false true
 	.Fun -> identity
 	.js -> identical?
 	.math.Num
-	.Object -> ?get-property add-property! own-enumerable-properties
+	.Object -> own-enumerable-properties
 	.Str -> indent
 	.Try -> oh-no!
 	.types.Interface
@@ -74,6 +74,7 @@ impl! inspect-impl Str
 	test. |
 		[ "a" ] -> "\"a\""
 	|_
+		_ \ TODO:Ignored vars
 		`"\"" + _ + "\""`
 
 impl! inspect-impl Object

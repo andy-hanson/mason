@@ -16,7 +16,21 @@ module.exports = function verify(e, opts) {
 	type(e, E, opts, Opts)
 	const vx = Vx.start(opts)
 	e.verify(vx)
+	verifyLocalUse(vx.vr, opts)
 	return vx.vr
+}
+
+const verifyLocalUse = function(vr, opts) {
+	const localToAccesses = vr.localToAccesses
+	for (let local of localToAccesses.keys())
+		try { check(!Sq.isEmpty(localToAccesses.get(local)) || local.okToNotUse, local.span,
+			"Unused local variable " + U.code(local.name) + ".")
+		}
+		catch (e) {
+			console.log(opts.msPathRelToJs)
+			console.log(e.message)
+		}
+
 }
 
 // Context used during verification.
@@ -51,8 +65,10 @@ Object.assign(Vx.prototype, {
 	plusLocals: function(addedLocals) {
 		type(addedLocals, [E.LocalDeclare])
 		const newLocals = new Map(this.locals)
+		const localToAccesses = this.vr.localToAccesses
 		addedLocals.forEach(function(l) {
 			newLocals.set(l.name, l)
+			localToAccesses.set(l, [])
 		})
 		return U.with(this, "locals", newLocals)
 	},
@@ -64,19 +80,25 @@ Object.assign(Vx.prototype, {
 	},
 	setAccessToLocal: function(access, local) {
 		this.vr.accessToLocal.set(access, local)
+		const accesses = this.vr.localToAccesses.get(local).push(access)
 	},
 	setEIsInGenerator: function(e) {
 		this.vr.setEIsInGenerator(e, this.isInGenerator)
 	},
 	withFocus: function(span) {
-		return this.plusLocals([E.LocalDeclare.UntypedFocus(span)])
+		// TODO
+		let utf = E.LocalDeclare.UntypedFocus(span)
+		utf = U.with(utf, "okToNotUse", true)
+		return this.plusLocals([utf])
 	},
+	// TODO: Is there a better way?
 	withRes: function(span) {
 		return this.plusLocals([E.LocalDeclare({
 			span: span,
 			name: "res",
 			opType: Op.None,
-			isLazy: false
+			isLazy: false,
+			okToNotUse: true
 		})])
 	}
 })
@@ -87,7 +109,11 @@ Object.assign(Vx, {
 			loopNames: new Set(),
 			isInGenerator: false,
 			opts: opts,
-			vr: Vr({ accessToLocal: new Map(), eToIsInGenerator: new Map() }) // TODO: VrBuilder
+			vr: Vr({
+				accessToLocal: new Map(),
+				localToAccesses: new Map(),
+				eToIsInGenerator: new Map()
+			})
 		})
 	}
 })
@@ -114,7 +140,8 @@ U.implementMany(E, "verify", {
 	},
 	CaseDo: function(vx) {
 		this.opCased.forEach(v(vx))
-		const vxCase = vx.withFocus(this.span)
+		const span = this.span
+		const vxCase = Op.ifElse(this.opCased, function() { return vx.withFocus(span) }, function() { return vx })
 		this.parts.forEach(v(vxCase))
 		this.opElse.forEach(v(vxCase))
 	},

@@ -1,13 +1,13 @@
 use
 	.assert -> ! !call
 	.bags.? -> ?none ?some get-or
-	.Bool -> false not true
+	.Bool -> false true
 	.Comparable -> =?
 	.Fun -> Act call thunk
 	.maps.Map -> ?get
 	.maps.Map! -> set!
 	.pred-types -> Any
-	.Ref -> get mod! ref
+	.Ref -> get ref
 	.Try -> oh-no!
 	.types.singleton
 

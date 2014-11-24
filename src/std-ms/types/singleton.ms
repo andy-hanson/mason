@@ -1,12 +1,10 @@
 \ TODO: Should just  be able to use a Dict as a singleton, using implementor-direct! and friends
 
 use
-	..Bag -> each!
 	..Dict
 	..js -> global
 	.Impl-Type
 	.Interface -> unchecked-implementor!
-	.Method -> impl!
 
 \ Object.ms requires singleton.ms, so must make our own
 Object = global.Object

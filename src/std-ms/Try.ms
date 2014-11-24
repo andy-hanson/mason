@@ -1,10 +1,10 @@
 use
-	.assert -> ! !not !fail-message
+	.assert -> ! !not
 	.bags.? -> ?none ?some
 	.Bool -> and true
 	.Comparable -> =?
 	.control -> unreachable!
-	.Fun -> Act delegate-to ignore thunk
+	.Fun -> Act thunk
 	.js -> global
 	.maps.Map! -> set!
 	.Object -> change-property! set-property!
@@ -32,6 +32,8 @@ implementor! Error Try
 \ TODO: public?
 make-Error = |error
 	Err = Error \ un-lazy Error
+	error \ TODO:Ignored vars
+	Err \ TODO:Ignored vars
 	`try { const err = _ms.unlazy(error); if (err instanceof Err) return err; if (typeof err === "string") return new Err(err); throw new Error("Argument to oh-no! must be Error or String") } catch (e) { return new Err("Error making error: " + e.message) }`
 	oh-no! "Error making error about error making error. You really messed that one up."
 
@@ -48,6 +50,7 @@ oh-no!.
 		\ TODO: Optional arguments
 		`if (error === undefined) error = "oh-no!"`
 		err = make-Error ~error
+		err \ TODO:Ignored vars
 		`throw err`
 		()
 
@@ -63,6 +66,8 @@ try.
 		s = |x
 			Success
 				val. x
+		tried \ TODO:Ignored vars
+		s \ TODO:Ignored vars
 		`try { return s(tried()) } catch (e) { return e }`
 		unreachable! ()
 
@@ -139,8 +144,10 @@ always-do-after.
 		! =? (get set-me) 1
 	|tried:Fun[Any] finally-do:Act
 		fd = finally-do
+		tried \ TODO:Ignored vars
+		fd \ TODO:Ignored vars
 		`try { return tried() } finally { fd() }`
-		unreachable! ()
+		()
 
 annotate-errors.
 	doc. "TODO"

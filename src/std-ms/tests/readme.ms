@@ -6,7 +6,7 @@ use
 	..bags.Bag -> map
 	..bags.Seq -> seq=? take
 	..bags.Stream -> streaming
-	..Bool -> and not true
+	..Bool -> and true
 	..Comparable -> =? >? >=? <=?
 	..Fun -> call
 	..Generator -> each~
@@ -54,7 +54,7 @@ one two = my-dict-2
 
 two-2 =
 	one = 1
-	+ 1 1
+	+ one one
 ! =? two-2 2
 
 identity = |a
@@ -95,6 +95,7 @@ Str->Num. |:Num str:Str
 ints:Bag[Int] =
 	. 1
 	. 2
+ints
 
 twice = |x
 	* 2 x

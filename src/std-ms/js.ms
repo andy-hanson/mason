@@ -6,11 +6,10 @@ use
 	.bags.Bag -> each!
 	.Bool -> false not true
 	.Comparable -> =?
-	.Fun -> delegate-to
+	.Fun
 	.math.Num -> not-a-number
 	.Object -> add-property!
 	.Try -> Error
-	.types.Type -> !subsumes
 
 global. `global`
 
@@ -41,6 +40,7 @@ truthy?.
 		! truthy? true
 
 	|:Bool a
+		a \ TODO:Ignored vars
 		`!!a`
 
 new.
@@ -59,7 +59,9 @@ new.
 		in
 			!not identical? constructor Error
 		boundConstructor = Fun.prototype.bind.apply constructor `arguments`
+		boundConstructor \ TODO:Ignored vars
 		`new boundConstructor`
 
 js-typeof. |a
+	a \ TODO:Ignored vars
 	`typeof a`

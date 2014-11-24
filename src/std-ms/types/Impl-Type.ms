@@ -2,7 +2,7 @@
 use
 	.Interface -> unchecked-implementor!
 	.Method
-	..private.bootstrap -> set! Fun Object
+	..private.bootstrap -> Fun
 	.Record-Type
 
 \ TODO

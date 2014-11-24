@@ -1,7 +1,5 @@
 use
-	.? -> ?none ?some
 	..arithmetic-methods -> + - *
-	..assert -> ! !not
 	.Array \ TODO: Array!
 	.Bag -> builder Builder build-next! build-result count each! empty? iterator
 	.Bag-Type -> empty
@@ -13,7 +11,6 @@ use
 	..maps.Map! -> set!
 	..math.Num -> modulo Nat
 	..Object -> change-property!
-	..pred-types -> Any
 	.Range -> range
 	..Ref -> get mod! ref
 	.Seq -> reverse

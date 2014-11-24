@@ -13,7 +13,6 @@ use
 	..pred-types -> Opt
 	..Ref -> get mod! ref
 	.Seq -> ?nth seq=?
-	.Stream -> streaming
 	..types.Interface -> implementor!
 	..types.Method -> impl! impl-for
 	..types.Record-Type

@@ -351,16 +351,29 @@ const parseFun = function(px, sqt, k) {
 
 const parseLine = (function() {
 	const parseAssign = function(px, assigned, assigner, value) {
-		const locals = parseLocals(px, assigned)
+		let locals = parseLocals(px, assigned)
 		const k = assigner.k
 		const eValuePre = parseExpr(px, value)
 
 		const opDisplayName = Op.if(locals.length == 1, function() { return Sq.head(locals).name })
 		const last = isa(eValuePre, E.Call) ? Sq.last(eValuePre.args) : eValuePre
-		const eValueNamed =
-			locals.length === 1 ?
-			tryAddDisplayName(eValuePre, Sq.head(locals).name) :
-			eValuePre
+
+		let eValueNamed;
+		if (locals.length === 1) {
+			const name = Sq.head(locals).name
+			if (name === "doc") {
+				if (eValuePre instanceof E.Fun)
+					eValueNamed = U.with(eValuePre, "args", eValuePre.args.map(function(arg) {
+						return U.with(arg, "okToNotUse", true)
+					}))
+				else
+					eValueNamed = eValuePre
+			}
+			else
+				eValueNamed = tryAddDisplayName(eValuePre, name)
+		}
+		else
+			eValueNamed = eValuePre
 
 		const isYield = k === "<~" || k === "<~~"
 
@@ -375,6 +388,11 @@ const parseLine = (function() {
 		if (isYield)
 			locals.forEach(function(_) {
 				check(_.k !== "lazy", _.span, "Can not yield to lazy variable.")
+			})
+
+		if (k === ". ")
+			locals = locals.map(function(l) {
+				return U.with(l, "okToNotUse", true)
 			})
 
 		if (locals.length === 1)
@@ -440,8 +458,6 @@ const parseLine = (function() {
 				return eValuePre
 		}
 	}
-
-
 
 	const parseLoop = function(px, sqt) {
 		const _ = parseBlock.takeBlockFromEnd(px, sqt, "do")
@@ -549,7 +565,7 @@ const parseLocals = (function() {
 		else
 			name = parseLocalName(px, t)
 
-		return { name: name, opType: opType, isLazy: isLazy }
+		return { name: name, opType: opType, isLazy: isLazy, okToNotUse: false }
 	}
 
 	const parseLocalName = function(px, t) {
@@ -648,7 +664,8 @@ const parseUse = (function() {
 			assignee: E.LocalDeclare(px.s({
 				name: name,
 				opType: Op.None,
-				isLazy: true
+				isLazy: true,
+				okToNotUse: true
 			})),
 			k: "=",
 			value: required

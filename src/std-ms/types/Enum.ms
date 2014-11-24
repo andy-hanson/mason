@@ -3,16 +3,14 @@ use
 	..bags.Array
 	..bags.Bag -> each!
 	..Comparable -> =?
-	..control -> switch
 	.Impl-Type
 	.Interface -> unchecked-implementor!
 	.Method -> impl!
 	..Object -> add-property!
 	.Record-Type
-	..show -> inspect inspect-impl
+	..show -> inspect-impl
 	..Str
 	.Type -> subsumes?
-	.util -> self-type
 
 Enum = Record-Type
 	doc. "TODO"

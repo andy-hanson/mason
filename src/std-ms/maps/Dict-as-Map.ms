@@ -3,7 +3,7 @@ use
 	..Dict
 	..types.Interface -> implementor!
 	.Map -> ?get keys
-	..Object -> ?get-property add-property! get-property has-property? own-properties
+	..Object -> ?get-property add-property! own-properties
 
 implementor! Dict Map
 	?get -> ?get-property

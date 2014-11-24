@@ -10,11 +10,10 @@ use
 	.bags.Bag-Type -> empty
 	.bags.Seq -> seq=?
 	.bags.Stream -> streaming
-	.Bool -> and false not true
+	.Bool -> and false true
 	.Comparable -> =?
-	.Fun -> call
-	.js -> exists?
-	.Object -> has-property?
+	.Fun
+	.Object
 	.pred-types -> Any
 	.types.Pred-Type
 	.types.Type -> subsumes?
@@ -35,6 +34,8 @@ each~.
 		\ TODO:ES6 for (let em of bag)
 		iter = iterator bag
 		de = do-each
+		de  \ TODO:Ignored vars
+		iter \ TODO:Ignored vars
 		`for (let em of iter) yield* de(em)`
 		()
 
@@ -50,8 +51,10 @@ map~.
 		! seq=? x [ 1 2 3 ]
 	~|:Bag bag:Bag mapper:Fun[Any Generator!]
 		arr = empty Array!
+		mapper \ TODO:Ignored vars
 		\ TODO:ES6 for (let em of bag)
 		iter = iterator bag
+		iter \ TODO:Ignored vars
 		`for (let em of iter) arr.push(yield* mapper(em))`
 		arr
 

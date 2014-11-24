@@ -1,7 +1,7 @@
 use
 	.? -> get-or ?none ?some
-	..arithmetic-methods -> + -
-	.Array -> ->Array
+	..arithmetic-methods -> -
+	.Array
 	..assert -> ! !not
 	.Bag -> all? count iterator from-stream
 	..basic-methods -> =>
@@ -63,6 +63,9 @@ region Search
 			`let i = 0`
 			\ TODO:ES6 for (let em of _)
 			s = ?some
+			s \ TODO:Ignored vars
+			iter \ TODO:Ignored vars
+			n \ TODO:Ignored vars
 			`for (let em of iter) { if (i == n) return s(em); i++; }`
 			?none
 

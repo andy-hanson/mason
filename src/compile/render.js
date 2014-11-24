@@ -184,13 +184,15 @@ U.implementMany(E, "renderContent", {
 		const rxFun = rx.indented()
 		const span = this.span
 		const opResCheck = this.opReturnType.map(function(_) {
+			// TODO: Probably a better way
 			return opLocalCheck(
 				rx,
 				E.LocalDeclare({
 					span: span,
 					name: "res",
 					opType: Op.Some(_),
-					isLazy: false
+					isLazy: false,
+					okToNotUse: false
 				}),
 				false)
 		})

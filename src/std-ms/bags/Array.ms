@@ -1,20 +1,16 @@
 \ Also see ..maps.Array-as-Map
 
 use
-	..assert -> ! !call
-	.Bag -> builder build-next! build-result count each! empty? iterator map
+	..assert -> !
+	.Bag -> builder build-next! build-result count iterator
 	.Bag-Type -> empty
 	..basic-methods -> freeze type-of
 	..Bool -> and
 	..Comparable -> =?
-	..Fun -> call thunk
-	..js -> global new
-	..Num -> Nat
-	..Object -> add-property!
-	..pred-types -> Any Nullable
+	..Fun -> thunk
+	..js -> global
 	.Seq -> seq=?
 	..show
-	.Stream -> streaming
 	..types.Interface -> implementor!
 	..types.Method ->  impl!
 	..types.Type -> subsumes?
@@ -31,6 +27,7 @@ impl! count Array |_
 \ TODO:ES6 This should be implemented for me
 impl! iterator Array ~|_
 	len = count_
+	len \ TODO:Ignored vars
 	`for (let i = 0; i < len; i++) yield _[i]`
 	()
 

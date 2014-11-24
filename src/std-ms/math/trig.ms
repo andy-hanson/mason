@@ -6,7 +6,7 @@ use
 	..bags.? -> get-or Opt->?
 	..bags.Bag -> each!
 	..maps.Map -> keys
-	.Num -> infinity Nat near? pi/2 pi pi3/2
+	.Num -> Nat near? pi/2 pi pi3/2
 	..pred-types -> Opt
 	..js -> global
 

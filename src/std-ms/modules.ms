@@ -2,7 +2,6 @@ use
 	.bags.Array
 	.bags.Bag -> flat-map
 	.control -> if
-	.js -> global
 	path
 	q-io.fs
 

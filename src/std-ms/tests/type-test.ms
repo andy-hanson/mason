@@ -44,4 +44,6 @@ implementor! Num Has-X
 
 a:Has-X = v
 b:Has-X = 1
-
+a
+b
+()

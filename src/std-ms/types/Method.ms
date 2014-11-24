@@ -1,16 +1,15 @@
 use
 	..assert -> !
 	..bags.? -> un-?
-	..bags.Bag -> each! empty?
 	..Comparable -> =?
 	.Impl-Type
 	.Interface
-	..maps.Map -> keys
 	..math.Num
-	..Object -> ?get-property add-property!
-	..private.bootstrap -> Str Symbol Fun Array oh-no! true any? get-or-undefined exists? set! set-mutable! has? has-or-in-proto? get
+	..Object -> ?get-property
+	..private.bootstrap -> Str Symbol Fun oh-no! true any? get-or-undefined exists? set! set-mutable! has-or-in-proto? get
 	.Record-Type
 	..Try -> fails?
+	.Type -> subsumes?
 
 apply = Fun.prototype.apply
 
@@ -144,6 +143,7 @@ Double-Dispatcher = Record-Type
 		impl-symbol. Symbol
 	make-callable. |_
 		|ignore target-2
+			ignore \ TODO:Ignored vars
 			case!
 				exists? target-2
 					()
@@ -153,7 +153,7 @@ Double-Dispatcher = Record-Type
 			impl = get-or-undefined target-2 _.impl-symbol
 			case!
 				exists? impl
-					double-impl:Fun = impl
+					! subsumes? Fun impl
 				else
 					oh-no! ~"Can't double-dispatch {_.method} for {_.first-type} on {target-2}"
 			apply.call impl () `arguments`

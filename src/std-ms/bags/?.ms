@@ -3,12 +3,10 @@ use
 	..basic-methods -> sub
 	.Bag -> all? each! empty? iterator map
 	.Bag-Type -> empty
-	..Bool -> and not
-	..Comparable -> =?
-	..Fun -> call thunk
+	..Bool -> and
+	..Fun -> thunk
 	..js -> identical?
 	..math.Num
-	..Object -> set-property! extend!
 	..pred-types -> Any
 	.Seq
 	..Symbol
@@ -110,7 +108,8 @@ region sub
 			! subsumes? ?[Num] (?some 0)
 			! subsumes? ?[Num] ?none
 			!not subsumes? ?[Num] (?some "0")
-		|? Em-Type:Type
+		|ignore Em-Type:Type
+			ignore \ TODO:Ignored vars
 			?-Sub
 				Element-Type. Em-Type
 

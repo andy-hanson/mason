@@ -4,7 +4,7 @@ use
 	.bags.? -> get-or
 	.Object -> ?get-property
 	.private.bootstrap -> syms
-	.types.Method -> impl!
+	.types.Method
 	.types.Type
 
 freeze. Method

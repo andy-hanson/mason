@@ -6,8 +6,7 @@ use
 	.Impl-Type
 	..maps.Map -> keys
 	.Method -> impl! propagate-method-down!
-	..pred-types -> Nullable
-	..private.bootstrap -> Str Array Object Symbol true set! get has-or-in-proto? set-mutable! oh-no! own-properties
+	..private.bootstrap -> Str Array Object Symbol true set! get own-properties
 	.Record-Type
 	.Type -> subsumes?
 
@@ -35,7 +34,7 @@ Interface = Record-Type
 			implementor! C B
 			c = C
 				c. 1
-			a:A = c
+			! subsumes? A c
 
 		region Inheritance chains
 			X = Interface
@@ -49,7 +48,7 @@ Interface = Record-Type
 			implementor! Y X
 			z = Z
 				x. 1
-			x:X = z
+			! subsumes? X z
 
 		region Method makes sure to do impl! on all Concrete-Type_s inheriting from an Interface.
 			asdf. Method
@@ -69,7 +68,7 @@ Interface = Record-Type
 	defaults.
 		super-interfaces. |
 			`[]`
-		prototype. |_
+		prototype. |
 			Object.create Object.prototype
 		\ TODO: Probably shouldn't bother with this
 		methods. |
@@ -77,6 +76,7 @@ Interface = Record-Type
 		implementors. |
 			`[]`
 		symbol-for-isa. |_
+			_ \ TODO:Ignored vars
 			Symbol `"isa-" + _.displayName` \"isa-{_.displayName}" TODO
 	post-construct. |iface
 		set! iface.prototype iface.symbol-for-isa true

@@ -2,7 +2,6 @@ doc. "TODO"
 
 use
 	..assert -> ! !not
-	..Bool -> not
 	.Num -> Int
 	..Str
 	..Try -> fails?
@@ -42,6 +41,8 @@ bit-or.
 	test. |
 		[ (binary "0101") (binary "0011") ] -> binary "0111"
 	|a:Int b:Int
+		a \ TODO:Ignored vars
+		b \ TODO:Ignored vars
 		`a | b`
 
 bit-and.
@@ -49,6 +50,8 @@ bit-and.
 	test. |
 		[ (binary "0101") (binary "0011") ] -> binary "0001"
 	|a:Int b:Int
+		a \ TODO:Ignored vars
+		b \ TODO:Ignored vars
 		`a & b`
 
 bit-xor.
@@ -56,6 +59,8 @@ bit-xor.
 	test. |
 		[ (binary "0101") (binary "0011") ] -> binary "0110"
 	|a:Int b:Int
+		a \ TODO:Ignored vars
+		b \ TODO:Ignored vars
 		`a ^ b`
 
 bit-not.
@@ -64,6 +69,7 @@ bit-not.
 		[ 0 ] -> -1
 		[ -1 ] -> 0
 	|a:Int
+		a \ TODO:Ignored vars
 		`~a`
 
 bit-shift-left.
@@ -71,6 +77,8 @@ bit-shift-left.
 	test. |
 		[ (binary "01") 1 ] -> binary "10"
 	|a:Int b:Int
+		a \ TODO:Ignored vars
+		b \ TODO:Ignored vars
 		`a << b`
 
 bit-shift-right-signed.
@@ -80,6 +88,8 @@ bit-shift-right-signed.
 		[ -1 1 ] -> -1
 		[ -2 1 ] -> -1
 	|a:Int b:Int
+		a \ TODO:Ignored vars
+		b \ TODO:Ignored vars
 		`a >> b`
 
 bit-shift-right-unsigned.
@@ -89,4 +99,6 @@ bit-shift-right-unsigned.
 		[ -1 1 ] -> (binary ("1".repeat 31))
 		[ -2 1 ] -> (binary ("1".repeat 31))
 	|a:Int b:Int
+		a \ TODO:Ignored vars
+		b \ TODO:Ignored vars
 		`a >>> b`

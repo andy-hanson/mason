@@ -27,11 +27,17 @@ const makeETypes = function(superType, types) {
 makeETypes(E, {
 	// in and out are BlockBody_s.
 	BlockBody: { lines: [E], opReturn: Op(E.Val), opIn: Op(E), opOut: Op(E) },
-	LocalDeclare: { name: String, opType: Op(E.Val), isLazy: Boolean }
+	LocalDeclare: { name: String, opType: Op(E.Val), isLazy: Boolean, okToNotUse: Boolean }
 })
 makeETypes(E, { CasePart: { test: E.Val, result: E.BlockBody } });
 E.LocalDeclare.UntypedFocus = function(span) {
-	return E.LocalDeclare({ span: span, name: "_", opType: Op.None, isLazy: false })
+	return E.LocalDeclare({
+		span: span,
+		name: "_",
+		opType: Op.None,
+		isLazy: false,
+		okToNotUse: false
+	})
 }
 
 makeETypes(E.Do, {

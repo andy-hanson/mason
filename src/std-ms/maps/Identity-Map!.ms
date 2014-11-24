@@ -1,7 +1,6 @@
 use
 	..assert -> !
 	..bags.? -> Opt->?
-	..bags.Array -> ->Array
 	..bags.Seq -> seq=?
 	..bags.Stream
 	..Comparable -> =?

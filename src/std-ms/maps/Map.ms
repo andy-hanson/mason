@@ -1,10 +1,10 @@
 use
 	..arithmetic-methods -> +
 	..assert -> !
-	..bags.? -> ?none get-or
+	..bags.? ->  get-or
 	..bags.Array
 	..bags.Bag -> each! empty? map
-	..basic-methods -> => freeze sub
+	..basic-methods -> freeze sub
 	..Bool -> not
 	..Comparable -> =?
 	..Fun -> identity

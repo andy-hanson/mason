@@ -1,12 +1,12 @@
 use
 	..arithmetic-methods -> + -
 	..assert -> !
-	.Bag -> all? flat-map iterator keep map
+	.Bag -> flat-map iterator keep map
 	.Bag-Type -> empty
 	..basic-methods -> =>
 	..Bool -> and or
 	..Comparable -> =?
-	..Fun -> identity Pred thunk
+	..Fun -> Pred thunk
 	..Generator
 	..math.Num -> Nat
 	..pred-types -> Any
@@ -58,6 +58,8 @@ region Overrides
 		streaming ~|
 			\ TODO:ES6 `for (let value of _)`
 			iter = iterator_
+			iter \ TODO:Ignored vars
+			mapper \ TODO:Ignored vars
 			`for (let em of iter) yield mapper(em)`
 			()
 
@@ -66,6 +68,8 @@ region Overrides
 			\ TODO:ES6 `for (let value of _)`
 			iter = iterator_
 			ki = keep-if?
+			iter \ TODO:Ignored vars
+			ki \ TODO:Ignored vars
 			`for (let em of iter) if (ki(em)) yield em`
 			()
 
@@ -100,7 +104,7 @@ region Overrides
 			i = ref 0
 			\ Discard count-to-drop values:
 			loop!
-				value done = iter.next ()
+				done = (iter.next ()).done
 				mod! i +[1]
 				case!
 					or done ~(=? (get i) count-to-drop)
@@ -125,6 +129,7 @@ region Overrides
 			<~~ iterator bag2
 
 impl! => (self-type Stream) Bag |ignore _
+	ignore \ TODO:Ignored vars
 	streaming |
 		iterator_
 

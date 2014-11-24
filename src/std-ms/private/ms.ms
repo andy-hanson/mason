@@ -7,11 +7,10 @@ ms = `{}`
 global = `global`
 global.Object.defineProperty global "_ms" `{ value: ms }`
 
-Fun = global.Function
-
 assign-many = `function(target, kvs) { const nkv = kvs.length; let i = 0; while (i < nkv) { const k = kvs[i++], v = kvs[i++]; Object.defineProperty(target, k, (v instanceof Lazy) ? { get: v.get, enumerable: true } : { value: v, enumerable: true }) } }`
 Lazy = `function(make) { const baby = Object.create(Lazy.prototype); let cached; Object.defineProperty(baby, "get", { value: function() { if (cached == undefined) { cached = make(); if (cached === undefined) throw new Error("Lazy value can't be undefined. Made by:\n" + make) } return cached }}); return baby }`
 am = assign-many
+am \ TODO:Ignored vars
 dictify = `function(target) { am(Object(target), global.Array.prototype.slice.call(arguments, 1)); return target }`
 global.Object.defineProperty ms "dictify" `{ value: dictify, enumerable: true }`
 
@@ -19,15 +18,18 @@ global.Object.defineProperty ms "dictify" `{ value: dictify, enumerable: true }`
 
 region Helpers
 	set! = |x y z
+		z \ TODO:Ignored vars
 		global.Object.defineProperty x y `{ value: z, enumerable: true }`
 
 	set-temporary! = |x y z
+		z \ TODO:Ignored vars
 		global.Object.defineProperty x y `{ value: z, enumerable: true, writable: true }`
 
 region More Lazy
 	set! ms "Lazy" Lazy
 
 	set! ms "unlazy" |a
+		a \ TODO:Ignored vars
 		`(a instanceof Lazy) ? a.get() : a`
 
 
@@ -51,22 +53,28 @@ region Block Creators
 region MS Methods
 	\ TODO: maybe move to Type bootstrap
 	set! ms "subsumes" |type value
+		type \ TODO:Ignored vars
+		value \ TODO: Ignored vars
 		`if (type == null) throw new Error("Type does not exist")`
-		test = `type[ms.symSubsumes]`
+		`const test = type[ms.symSubsumes]`
 		`if (test==null) console.log(type)`
 		`if (test==null) throw new Error(ms.show(type) + " does not implement 'subsumes?'");`
 		`test(type, value)`
 
 	set! ms "checkSubsumes" |type value name
+		type \ TODO:Ignored vars
+		value \ TODO: Ignored vars
+		name \ TODO: Ignored vars
 		`if (type == null) throw new Error("Type is null")`
-		test = `type[ms.symCheckSubsumes]`
+		`const test = type[ms.symCheckSubsumes]`
 		`if (test == null) throw new Error(ms.show(type) + " does not implement '!subsumes'")`
 		`test(type, value, name)`
 
 	\ TODO: Maybe define this later.
 	set! ms "sub" |subbed \...args
+		subbed \ TODO: Ignored vars
 		`if (subbed == null) throw new Error("Tried to sub nothing")`
-		sub = `subbed[ms.symSub]`
+		`const sub = subbed[ms.symSub]`
 		`if (sub == null) throw new Error(ms.show(subbed) + " does not implement 'sub'")`
 		`sub.apply(null, arguments)`
 
@@ -74,7 +82,7 @@ region MS Methods
 
 	set! ms "KLUDGE_defaultExport" |module default
 		`if (_default == null) return`
-		td = `typeof` default
+		`const td = typeof _default`
 		`if (td !== "object" && td !== "function") throw new Error("Non-object default export not supported")`
 		exports = module.exports
 		set! module "exports" default

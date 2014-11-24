@@ -2,10 +2,9 @@ use
 	..arithmetic-methods -> + - * /
 	..assert -> ! !not
 	..bags.? -> get-or Opt->?
-	..Bool -> and false not true
+	..Bool -> and false true
 	..Comparable -> =? <? >? <=? >=? compare
 	..js -> global
-	..Object -> get-property
 	..pred-types -> Opt
 	..show -> inspect-impl
 	..Try -> fails?
@@ -17,7 +16,7 @@ Num = global.Number
 Math = global.Math
 
 region Constants
-	infinity. `Num.POSITIVE_INFINITY` \get-property Num "POSITIVE_INFINITY"
+	infinity. `Num.POSITIVE_INFINITY` \ TODO: get-property Num "POSITIVE_INFINITY"
 	-infinity. `Num.NEGATIVE_INFINITY` \get-property Num "NEGATIVE_INFINITY"
 	not-a-number. Num.NaN
 	max-safe-integer. `Num.MAX_SAFE_INTEGER`\get-property Num "MAX_SAFE_INTEGER"
@@ -44,27 +43,43 @@ Nat. Pred-Type
 	predicate. |_
 		and :Int ~(>=? _ 0)
 
-
-impl! compare Num |a b:Num
-	`a - b`
-impl! =? Num |a _
-	and :Num ~`a === _`
+impl! compare Num -
+impl! =? Num |a b
+	a \ TODO:Ignored vars
+	b \ TODO:Ignored vars
+	`a === b`
 impl! <? Num |a b:Num
+	a \ TODO:Ignored vars
+	b \ TODO:Ignored vars
 	`a < b`
 impl! >? Num |a b:Num
+	a \ TODO:Ignored vars
+	b \ TODO:Ignored vars
 	`a > b`
 impl! <=? Num |a b:Num
+	a \ TODO:Ignored vars
+	b \ TODO:Ignored vars
 	`a <= b`
 impl! >=? Num |a b:Num
+	a \ TODO:Ignored vars
+	b \ TODO:Ignored vars
 	`a >= b`
 
 impl! + Num |a b:Num
+	a \ TODO:Ignored vars
+	b \ TODO:Ignored vars
 	`a + b`
 impl! - Num |a b:Num
+	a \ TODO:Ignored vars
+	b \ TODO:Ignored vars
 	`a - b`
 impl! * Num |a b:Num
+	a \ TODO:Ignored vars
+	b \ TODO:Ignored vars
 	`a * b`
 impl! / Num |a b:Num
+	a \ TODO:Ignored vars
+	b \ TODO:Ignored vars
 	`a / b`
 
 region Tests
@@ -97,6 +112,8 @@ region Integer arithmetic
 			[ -2 3 ] -> -2
 			[ -2 -3 ] -> -2
 		|numerator:Num denominator:Num
+			numerator \ TODO:Ignored vars
+			denominator \ TODO:Ignored vars
 			`numerator % denominator`
 
 	modulo.
@@ -152,7 +169,7 @@ region Real arithmetic
 		test. |
 			[ 2 3 ] -> 8
 		|a:Num b:Num
-			`Math.pow(a, b)`
+			Math.pow a b
 
 	square. |_:Num
 		* _ _
@@ -201,6 +218,7 @@ region Rounding
 			[ -0.5 ] -> 0
 			[ 0.5 ] -> 0
 		|_:Num
+			_ \ TODO:Ignored vars
 			`_ | 0`
 
 region Near

@@ -1,7 +1,6 @@
 doc. "TODO"
 
 use
-	..assert -> !
 	..bags.Bag -> map
 	.Impl-Type
 	.Interface -> implementor!

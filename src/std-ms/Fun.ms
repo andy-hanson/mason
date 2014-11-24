@@ -5,13 +5,12 @@ use
 	.assert -> !
 	.bags.? -> get-or
 	.bags.Array
-	.bags.Bag -> each! map
+	.bags.Bag -> map
 	.bags.Seq -> seq=?
 	.basic-methods -> => sub
 	.Comparable -> =?
 	.js -> global new
 	.maps.Map -> ?get keys
-	.maps.Map! -> set!
 	.maps.Weak-Identity-Map!
 	.Object
 	.pred-types -> Any
@@ -19,7 +18,7 @@ use
 	.show -> show-impl
 	.Try -> oh-no!
 	.types.Alias-Type
-	.types.Method -> impl! impl-for
+	.types.Method -> impl!
 	.types.Type -> subsumes?
 	.types.util -> self-type
 
@@ -199,9 +198,6 @@ spread.
 					apply fun all-args
 			:Map
 				map keys_ |key
-					oth-args =
-						. key
-						. _[key]
 					all-args = + init-args
 						. key
 						. _[key]

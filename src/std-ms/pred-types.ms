@@ -3,12 +3,9 @@ doc. "TODO"
 use
 	.assert -> ! !not
 	.basic-methods -> sub
-	.Bool -> and not or true
+	.Bool -> not or true
 	.control -> if!
-	.fun -> Pred
-	.js -> exists? global
 	.Num
-	.num-constants -> max-safe-integer
 	.Str
 	.Symbol
 	.types.Interface -> implementor!
@@ -50,6 +47,7 @@ Any. Pred-Type
 		!not subsumes? Any ()
 		!not subsumes? Any `undefined`
 	predicate. |_
+		_ \ TODO:Ignored vars
 		`_ != null`
 
 Union. singleton
@@ -62,6 +60,7 @@ Union. singleton
 
 \ TODO: Variadic
 impl! sub Union |u A:Type B:Type
+	u \ TODO:Ignored vars
 	Pred-Type
 		displayName. "some union"\ "Union[{A} {B}]"
 		predicate. |_

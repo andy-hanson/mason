@@ -4,7 +4,7 @@ doc. "TODO"
 
 use
 	.private.boot-order
-	.tests.test -> test-all test-special
+	.tests.test -> test-all
 boot-order
 
 |

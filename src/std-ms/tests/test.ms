@@ -2,34 +2,32 @@ doc. "TODO"
 
 use
 	..assert -> ! !call
-	..bags.? -> get-or un-?
+	..bags.? -> get-or
 	..bags.Array
 	..bags.Bag -> each!
-	..Bool -> and false not or true
+	..Bool -> false or true
 	..Comparable -> =?
-	..console -> log!
 	..Dict
 	..Fun -> apply ignore
-	..js -> global
 	..maps.Identity-Map!
-	..maps.Map -> ?get keys
+	..maps.Map -> keys
 	..maps.Map! -> set!
 	..modules -> promise-all-modules
-	..Object -> ?get-property get-property has-property? own-properties own-enumerable-properties
+	..Object -> ?get-property own-properties own-enumerable-properties
 	..pred-types -> Any
 	..Ref -> get ref
 	..Str
-	..Try -> annotate-errors oh-no! Success try
+	..Try -> annotate-errors Success try
 	..types.Impl-Type
 	..types.Interface -> concrete-implementors
-	..types.Method -> impl! ?impl-for
+	..types.Method -> impl!
 	..types.Type -> subsumes?
 	..types.util -> self-type
 
 \ TODO: move
 \ TODO: implement
 detect-infinite-loop. |fun
-	()
+	fun ()
 
 \ TODO
 test. |

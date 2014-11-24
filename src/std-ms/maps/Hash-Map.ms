@@ -4,16 +4,15 @@ use
 	..assert -> !
 	..arithmetic-methods -> +
 	..bags.? -> ?none get-or
-	..bags.Array -> ->Array
-	..bags.Bag -> count empty? ?first-where flat-map map
+	..bags.Array
+	..bags.Bag -> empty? ?first-where flat-map map
 	..bags.Seq -> seq=?
 	..basic-methods -> freeze
-	..Bool -> not
 	..Comparable -> =?
 	..hash-code
 	.Identity-Map!
-	..js -> global new
-	..Object -> get-property add-property!
+	..js -> new
+	..Object -> add-property!
 	.Map -> ?get keys values
 	.Map! -> set!
 	..math.Num -> divisible?
@@ -77,7 +76,7 @@ impl! set! Hash-Map |hm key:Any val:Any
 		else
 			\ TODO
 			bucket = _.val
-			oh-no! "Hash collision for {key} and {`bucket[0].key`}"
+			oh-no! "Hash collision for {key} and {bucket[0].key}"
 			\ be = ?bucket-entry bucket key
 			\ if it's there: set-property! be "val" val
 

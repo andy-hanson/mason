@@ -7,7 +7,6 @@ use
 	..Str
 	..Try -> oh-no!
 	.Type -> subsumes?
-	.util -> self-type
 
 Pred-Type = Record-Type
 	doc. "Arbitrary predicates can be made into types using Pred-Type."

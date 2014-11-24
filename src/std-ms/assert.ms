@@ -2,20 +2,16 @@ doc. "TODO"
 
 use
 	.arithmetic-methods -> +
-	.bags.? -> get-or Opt->?
 	.bags.Array
 	.bags.Bag -> each! map
-	.Bool -> false not true
+	.Bool -> not
 	.Comparable -> =?
 	.control -> if!
-	.Fun -> Act apply
-	.js -> global
+	.Fun -> apply
 	.maps.Map -> keys
-	.pred-types -> Any
 	.show -> inspect
 	.Str -> indent
 	.Try -> fails-with? oh-no!
-	.types.Type -> !subsumes
 
 !.
 	doc. "TODO"
@@ -35,7 +31,6 @@ use
 			:Fun
 				rest-args = Array.prototype.slice.call `arguments` 1
 				if! (not (Fun.prototype.apply.call _ () rest-args)) |
-					all-args = + [ _ ] rest-args
 					\ TODO: .join -> make-string
 					oh-no! "
 						Expected {a}

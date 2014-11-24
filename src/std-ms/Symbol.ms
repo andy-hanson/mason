@@ -10,7 +10,7 @@ impl! inspect-impl Symbol
 		\ TODO:ES6
 		\ [ (Symbol "name") ] -> "<Symbol name>"
 		[ (Symbol "name") ] -> "<Symbol>"
-	|_
+	|
 		\ TODO:ES6 _.name
 		"<Symbol>"
 

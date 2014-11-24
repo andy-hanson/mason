@@ -1,16 +1,14 @@
 use
-	.? -> get-or
+	.?
 	.arithmetic-methods -> + *
 	.assert -> ! !not
-	.bags.Bag -> contains? each! empty? flat-map fold toss
-	.Bool -> nor not
+	.bags.Bag -> empty? flat-map fold
+	.Bool -> not
 	.Comparable -> =?
-	.control -> if!
-	.Fun -> identity-memoize
+	.Fun
 	.math.bit-arithmetic -> bit-and hexidecimal
 	.math.Num -> Int round-towards-0
 	.Object -> ?get-property own-properties
-	.Ref -> get mod! ref
 	.Str
 	.Symbol
 	.Try -> fails?
@@ -50,7 +48,6 @@ hash-code =  Method
 			else
 				\ Set it now so we don't recurse infinitely
 				hashes.set _ 17
-				props = own-properties_
 				vals = flat-map own-properties_ |name
 					?get-property _ name
 				hash = fold vals 17 |acc val
@@ -79,7 +76,9 @@ impl! hash-code Str
 		! =? (hash-code "a") (hash-code "a")
 		!not =? (hash-code "a") (hash-code "b")
 	|_
+		_ \ TODO:Ignored vars
 		mhc = max-hash-code
+		mhc \ TODO:Ignored vars
 		\ TODO: each-with-index!
 		`let hash = 13`
 		`for (let i = 0; i < _.length; i++) hash = (31 * hash + _.charCodeAt(i)) & mhc`
