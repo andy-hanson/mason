@@ -3,7 +3,7 @@
 use
 	.bags.? -> get-or
 	.Object -> ?get-property
-	.private.bootstrap -> syms
+	.private.bootstrap -> sym-sub sym-type-of
 	.types.Method
 	.types.Type
 
@@ -17,12 +17,12 @@ sub. Method
 		This method has no special meaning and shouldn't be used polymorphically.
 		Implement it to be able to subscript like `a[b]`.
 
-	impl-symbol. `_ms.symSub`
+	impl-symbol. sym-sub
 
 type-of. Method
 	doc. "TODO"
 	\ TODO: Should be able to just make it here. No need for syms.
-	impl-symbol. syms.type-of
+	impl-symbol. sym-type-of
 	default. |_
 		get-or (?get-property _ "constructor") Object
 

@@ -17,7 +17,7 @@ use
 	.Map! -> set!
 	..math.Num -> divisible?
 	..pred-types -> Any
-	..private.ms
+	..private.bootstrap -> ms
 	..Ref -> get mod! ref
 	..Try -> oh-no!
 	..types.Interface -> implementor!

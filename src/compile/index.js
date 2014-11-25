@@ -1,6 +1,7 @@
 "use strict";
 
 const
+	assert = require("assert"),
 	chalk = require("chalk"),
 	io = require("./U/io"),
 	Opts = require("./Opts"),
@@ -39,20 +40,32 @@ const compile = function(src, opts) {
 const dirToDir = function(inDir, outDir) {
 	type(inDir, String, outDir, String);
 	const isMason = function(p) { return path.extname(p) === Lang.fileExtension; }
-	return io.process(inDir, outDir, isMason, function(inPath, inContent, outPath) {
-		const jsBaseName = path.basename(inPath, Lang.fileExtension) + ".js";
-		try {
-			return compile(inContent, Opts({
-				jsBaseName: jsBaseName,
-				sourceMapPathRelToJs: jsBaseName + ".map",
-				msPathRelToJs: path.relative(outPath, inPath)
-			}))
+	const isJs = function(p) { return path.extname(p) === ".js" }
+	const isMasonOrJs = function(p) { return isMason(p) || isJs(p) }
+
+	return io.process(inDir, outDir, isMasonOrJs, function(inPath, inContent, outPath) {
+		if (isMason(inPath)) {
+			const jsBaseName = path.basename(inPath, Lang.fileExtension) + ".js";
+			try {
+				return compile(inContent, Opts({
+					jsBaseName: jsBaseName,
+					sourceMapPathRelToJs: jsBaseName + ".map",
+					msPathRelToJs: path.relative(outPath, inPath)
+				}))
+			}
+			catch (e) {
+				const prepend = chalk.green(inPath + " ")
+				e.stack = prepend + e.stack
+				e.message = prepend + e.message
+				throw e
+			}
 		}
-		catch (e) {
-			const prepend = chalk.green(inPath + " ")
-			e.stack = prepend + e.stack
-			e.message = prepend + e.message
-			throw e
+		else {
+			assert(isJs(inPath))
+			return [ {
+				name: path.basename(inPath),
+				content: inContent
+			} ]
 		}
 	})
 }

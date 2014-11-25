@@ -2,17 +2,17 @@ use
 	.Impl-Type
 	.Interface -> unchecked-implementor!
 	.Method -> impl! impl-unchecked!
-	..private.bootstrap -> syms Bool Str type-!sub any? has-or-in-proto? false Fun Object
+	..private.bootstrap -> sym-subsumes? sym-!subsumes Bool Str type-!sub any? has-or-in-proto? false Fun Object
 
 subsumes?. Method
 	doc. |:Bool type:Type subsumed
 		"TODO"
-	impl-symbol. syms.sub?
+	impl-symbol. sym-subsumes?
 
 !subsumes. Method
 	doc. |type:Type subsumed name:Str
 		"TODO"
-	impl-symbol. syms.!sub
+	impl-symbol. sym-!subsumes
 
 Type = Interface
 	doc. "TODO"

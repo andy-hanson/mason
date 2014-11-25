@@ -1,9 +1,9 @@
 use
-	..private.bootstrap -> Dict oh-no! set! syms Object has? ms Str get-or-undefined any? true Fun get extend! exists? Bool false proto-impl-sub?!
+	..private.bootstrap -> sym-type-of Dict oh-no! set! Object has? ms Str get-or-undefined any? true Fun get extend! exists? Bool false proto-impl-sub?!
 
 record-type-post-construct = |rt
 	\ Every Record-Type's instances know their type.
-	set! rt.prototype syms.type-of |
+	set! rt.prototype sym-type-of |
 		rt
 
 make-record-constructor = |rt
@@ -15,6 +15,7 @@ make-record-constructor = |rt
 					val = _.value
 					case! member-name
 						`_ === "displayName"`
+							\ TODO: Don't directly call into ms
 							ms.checkSubsumes Str _ "displayName"
 						has? rt.members _
 							case! get-or-undefined rt.members member-name
@@ -22,6 +23,7 @@ make-record-constructor = |rt
 									()
 								any?_
 									\ Can't use `!subsumes` because it may not exist yet
+									\ TODO: Don't directly call into ms
 									ms.checkSubsumes _ val member-name
 						else
 							case! rt.extensible

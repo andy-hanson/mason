@@ -15,7 +15,7 @@ if (require.main === module)
 function runSample() {
 	const doTime = false
 
-	const goodStacktrace = false // Good but slow and kludge-y.
+	const goodStacktrace = true // Good but slow and kludge-y.
 
 	const runIt = function() {
 		if (doTime) console.time("run sample")

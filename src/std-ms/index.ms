@@ -1,6 +1,6 @@
 doc. "TODO"
 
-`require("./private/ms")`
+`require("./private/bootstrap")`
 
 use
 	.private.boot-order

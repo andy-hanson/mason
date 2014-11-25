@@ -1,11 +1,11 @@
 use
+	..bags.? -> Opt->?
 	..bags.Array
 	..bags.Bag -> count empty?
 	..bags.Range -> range
 	.Map -> ?get has-key? keys
 	.Map! -> clear! delete! set!
 	..math.Num -> Nat
-	..Opt -> Opt->?
 	..pred-types -> Any
 	..types.Interface -> implementor!
 	..types.Type -> subsumes?
