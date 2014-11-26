@@ -5,7 +5,9 @@ use
 	..Bool -> and false true
 	..Comparable -> =? <? >? <=? >=? compare
 	..js -> global
+	..Object -> get-property
 	..pred-types -> Opt
+	..private.operators -> op-bar op=== op< op> op<= op>= op+ op- op* op/ op%
 	..show -> inspect-impl
 	..Try -> fails?
 	..types.Method -> impl!
@@ -14,16 +16,6 @@ use
 
 Num = global.Number
 Math = global.Math
-
-region Constants
-	infinity. `Num.POSITIVE_INFINITY` \ TODO: get-property Num "POSITIVE_INFINITY"
-	-infinity. `Num.NEGATIVE_INFINITY` \get-property Num "NEGATIVE_INFINITY"
-	not-a-number. Num.NaN
-	max-safe-integer. `Num.MAX_SAFE_INTEGER`\get-property Num "MAX_SAFE_INTEGER"
-	pi. Math.PI
-	pi/2. `pi / 2`
-	pi3/2. `pi * 3 / 2`
-	pi*2. `pi * 2`
 
 Int. Pred-Type
 	doc. "TODO"
@@ -45,42 +37,23 @@ Nat. Pred-Type
 
 impl! compare Num -
 impl! =? Num |a b
-	a \ TODO:Ignored vars
-	b \ TODO:Ignored vars
-	`a === b`
+	op=== a b
 impl! <? Num |a b:Num
-	a \ TODO:Ignored vars
-	b \ TODO:Ignored vars
-	`a < b`
+	op< a b
 impl! >? Num |a b:Num
-	a \ TODO:Ignored vars
-	b \ TODO:Ignored vars
-	`a > b`
+	op> a b
 impl! <=? Num |a b:Num
-	a \ TODO:Ignored vars
-	b \ TODO:Ignored vars
-	`a <= b`
+	op<= a b
 impl! >=? Num |a b:Num
-	a \ TODO:Ignored vars
-	b \ TODO:Ignored vars
-	`a >= b`
-
+	op>= a b
 impl! + Num |a b:Num
-	a \ TODO:Ignored vars
-	b \ TODO:Ignored vars
-	`a + b`
+	op+ a b
 impl! - Num |a b:Num
-	a \ TODO:Ignored vars
-	b \ TODO:Ignored vars
-	`a - b`
+	op- a b
 impl! * Num |a b:Num
-	a \ TODO:Ignored vars
-	b \ TODO:Ignored vars
-	`a * b`
+	op* a b
 impl! / Num |a b:Num
-	a \ TODO:Ignored vars
-	b \ TODO:Ignored vars
-	`a / b`
+	op/ a b
 
 region Tests
 	sign.
@@ -112,9 +85,7 @@ region Integer arithmetic
 			[ -2 3 ] -> -2
 			[ -2 -3 ] -> -2
 		|numerator:Num denominator:Num
-			numerator \ TODO:Ignored vars
-			denominator \ TODO:Ignored vars
-			`numerator % denominator`
+			op% numerator denominator
 
 	modulo.
 		doc. "
@@ -218,8 +189,7 @@ region Rounding
 			[ -0.5 ] -> 0
 			[ 0.5 ] -> 0
 		|_:Num
-			_ \ TODO:Ignored vars
-			`_ | 0`
+			op-bar _ 0
 
 region Near
 	near?. Method
@@ -275,5 +245,14 @@ impl! inspect-impl Num
 		base = 10
 		_.toString base
 
+region Constants
+	infinity. get-property Num "POSITIVE_INFINITY"
+	-infinity. get-property Num "NEGATIVE_INFINITY"
+	not-a-number. Num.NaN
+	max-safe-integer. get-property Num "MAX_SAFE_INTEGER"
+	pi. Math.PI
+	pi/2. / pi 2
+	pi3/2. * pi 1.5
+	pi*2. * pi 2
 
 Num

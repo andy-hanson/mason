@@ -22,10 +22,9 @@ const assignMany = function(target, keysVals) {
 	}
 }
 
-// TODO: Probably don't need to define these here
-const symSub = exports["sym-sub"] = Symbol("sub")
-const symSubsumes = exports["sym-subsumes?"] = Symbol("subsumes?")
-const symCheckSubsumes = exports["sym-!subsumes"] = Symbol("!subsumes")
+exports["sym-sub"] = Symbol("sub")
+exports["sym-subsumes?"] = Symbol("subsumes?")
+exports["sym-!subsumes"] = Symbol("!subsumes")
 exports["sym-type-of"] = Symbol("type-of")
 
 function Lazy(make) {
@@ -69,7 +68,7 @@ exports["Dict"] = ms.Dict
 set(ms, "subsumes", function(type, value) {
 	if (type == null)
 		throw new Error("Type missing")
-	const test = type[symSubsumes]
+	const test = type[exports["sym-subsumes?"]]
 	if (test == null)
 		throw new Error(ms.show(type) + " does not implement `subsumes?`")
 	return test(type, value)
@@ -78,7 +77,7 @@ set(ms, "subsumes", function(type, value) {
 set(ms, "checkSubsumes", function(type, value, name) {
 	if (type == null)
 		throw new Error("Type missing")
-	const check = type[symCheckSubsumes]
+	const check = type[exports["sym-!subsumes"]]
 	if (check == null)
 		throw new Error(ms.show(type) + " does not implement `!subsumes`")
 	check(type, value, name)
@@ -88,7 +87,7 @@ set(ms, "checkSubsumes", function(type, value, name) {
 set(ms, "sub", function(subbed) {
 	if (subbed == null)
 		throw new Error("subbed missing")
-	const sub = subbed[symSub]
+	const sub = subbed[exports["sym-sub"]]
 	if (sub == null)
 		throw new Error(ms.show(subbed) + " does not implement `sub`")
 	return sub.apply(null, arguments)
@@ -129,7 +128,7 @@ const Str = exports["Str"] = String
 exports["Symbol"] = Symbol
 
 exports["oh-no!"] = function(message) {
-	throw new global.Error(ms.unlazy(msg))
+	throw new global.Error(ms.unlazy(message))
 }
 
 exports["own-properties"] = function(object) {
@@ -179,10 +178,7 @@ exports["true"] = true
 exports["false"] = false
 
 exports["proto-impl-sub?!"] = function(proto, impl) {
-	set(proto, symSubsumes, impl)
-}
-exports["proto-impl-!sub!"] = function(proto, impl) {
-	set(proto, syms["!sub"], impl)
+	set(proto, exports["sym-subsumes?"], impl)
 }
 
 // TODO: Kill me
@@ -226,7 +222,7 @@ exports["type-of-sub?!"](Num, "number")
 // TODO: Use subsumes? method
 exports["type-!sub"] = function(type, subsumed, name) {
 	// TODO: Assert name is a Str, etc.
-	const impl = type[symSubsumes]
+	const impl = type[exports["sym-subsumes?"]]
 	if (!impl(type, subsumed))
 		// TODO: ms.show(type), ms.show(subsumed)
 		throw new Error("Variable " + name + " is no " + type + ", is " + subsumed)
@@ -234,6 +230,6 @@ exports["type-!sub"] = function(type, subsumed, name) {
 
 // Don't set permanently because that will be done by `implementor! Fun Type`
 // TODO: Check that above is true
-exports["set-mutable!"](Fun.prototype, symCheckSubsumes, exports["type-!sub"])
+exports["set-mutable!"](Fun.prototype, exports["sym-!subsumes"], exports["type-!sub"])
 
 exports["extend!"] = Object.assign

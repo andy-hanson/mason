@@ -3,6 +3,7 @@ doc. "TODO"
 use
 	..assert -> ! !not
 	.Num -> Int
+	..private.operators -> op-bar op& op^ op~ op<< op>> op>>>
 	..Str
 	..Try -> fails?
 
@@ -41,45 +42,36 @@ bit-or.
 	test. |
 		[ (binary "0101") (binary "0011") ] -> binary "0111"
 	|a:Int b:Int
-		a \ TODO:Ignored vars
-		b \ TODO:Ignored vars
-		`a | b`
+		op-bar a b
 
 bit-and.
 	doc. "JavaScript's `&` operator."
 	test. |
 		[ (binary "0101") (binary "0011") ] -> binary "0001"
 	|a:Int b:Int
-		a \ TODO:Ignored vars
-		b \ TODO:Ignored vars
-		`a & b`
+		op& a b
 
 bit-xor.
 	doc. "Javascript's `^` operator."
 	test. |
 		[ (binary "0101") (binary "0011") ] -> binary "0110"
 	|a:Int b:Int
-		a \ TODO:Ignored vars
-		b \ TODO:Ignored vars
-		`a ^ b`
+		op^ a b
 
 bit-not.
 	doc. "Javascript's `~` operator."
 	test. |
 		[ 0 ] -> -1
 		[ -1 ] -> 0
-	|a:Int
-		a \ TODO:Ignored vars
-		`~a`
+	|_:Int
+		op~_
 
 bit-shift-left.
 	doc. "Javascript's `<<` operator."
 	test. |
 		[ (binary "01") 1 ] -> binary "10"
 	|a:Int b:Int
-		a \ TODO:Ignored vars
-		b \ TODO:Ignored vars
-		`a << b`
+		op<< a b
 
 bit-shift-right-signed.
 	doc. "Javascript's `>>` operator."
@@ -88,9 +80,7 @@ bit-shift-right-signed.
 		[ -1 1 ] -> -1
 		[ -2 1 ] -> -1
 	|a:Int b:Int
-		a \ TODO:Ignored vars
-		b \ TODO:Ignored vars
-		`a >> b`
+		op>> a b
 
 bit-shift-right-unsigned.
 	doc. "Javascript's `>>>` operator."
@@ -99,6 +89,4 @@ bit-shift-right-unsigned.
 		[ -1 1 ] -> (binary ("1".repeat 31))
 		[ -2 1 ] -> (binary ("1".repeat 31))
 	|a:Int b:Int
-		a \ TODO:Ignored vars
-		b \ TODO:Ignored vars
-		`a >>> b`
+		op>>> a b

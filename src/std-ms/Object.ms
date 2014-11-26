@@ -91,9 +91,20 @@ own-enumerable-properties.
 	|_:Object name:Str/Sym
 		case
 			has-property? _ name
+				\ Could still be null/undefined.
 				Opt->? (get _ name)
 			else
 				?none
+
+get-property.
+	doc. "TODO"
+	test. |
+		"TODO"
+	|_:Object name:Str/Sym
+		in
+			! has-property? _ name
+			! (subsumes? Any (get _ name)) ~"{_}.{name} is missing"
+		get _ name
 
 ?get-property-or-in-prototype.
 	doc. "TODO"

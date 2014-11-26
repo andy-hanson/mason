@@ -5,17 +5,18 @@ use
 	.assert -> !
 	.bags.? -> get-or
 	.bags.Array
-	.bags.Bag -> map
+	.bags.Bag -> empty? map
 	.bags.Seq -> seq=?
 	.basic-methods -> => sub
 	.Comparable -> =?
 	.js -> global new
 	.maps.Map -> ?get keys
 	.maps.Weak-Identity-Map!
-	.Object
+	.Object -> ?get-property get-property
 	.pred-types -> Any
 	.Ref -> get ref mod!
 	.show -> show-impl
+	.Str
 	.Try -> oh-no!
 	.types.Alias-Type
 	.types.Method -> impl!
@@ -217,12 +218,17 @@ impl! show-impl Fun
 		a = |
 			1
 		[ a ] -> "a"
-	|case
-		`_.displayName !== undefined` \TODO: has-property? _ "nom"
-			_.displayName
-		`_.name !== ""`
-			_.name
-		else
-			_.toString ()
+		[ `function b() { }` ] -> "b"
+		[ `function() { }` ] -> "<anonymous Fun>"
+	|:Str _
+		get-or (?get-property _ "displayName") ~
+			\ TODO:SYNTAX Should be able to write `case get-property _ "name"`
+			name = get-property _ "name"
+			empty?
+			case name
+				empty?_
+					"<anonymous Fun>"
+				else
+					_
 
 Fun
