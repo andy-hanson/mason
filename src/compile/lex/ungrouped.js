@@ -210,7 +210,7 @@ const lexQuote = function*(stream, indent) {
 	if (isIndented)
 		read = U.trimRight(read)
 	yield* yieldRead()
-	yield GroupPre({ span: Span.single(stream.pos), k: '"' })
+	yield GroupPre({ span: Span.single(stream.pos), k: 'close"' })
 }
 
 const quoteEscape = new Map([['{', '{'], ['n', '\n'], ['t', '\t'], ['"', '"'], ["\\", "\\"]])

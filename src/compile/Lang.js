@@ -34,7 +34,7 @@ const AllKeywords = setUnion(LineSplitKeywords, KFun, CaseKeywords, new Set([
 const ReservedWords = new Set([ "return" ])
 
 const GroupKinds = new Set(["(", "[", "{", "->", "ln", "sp", '"'])
-const GroupPres = setUnion(GroupKinds, new Set([")", "]", "}", "<-"]))
+const GroupPres = setUnion(GroupKinds, new Set([")", "]", "}", "<-", 'close"']))
 
 const ReservedCharacters = new Set("`@#$;',")
 
@@ -45,7 +45,7 @@ const GroupOpenToClose = new Map([
 	['->', '<-'],
 	['ln', 'ln'],
 	['sp', 'sp'],
-	['"', '"']])
+	['"', 'close"']])
 
 // Anything not explicitly reserved is a valid name character.
 // A `~` may appear in a name, but not at the beginning.

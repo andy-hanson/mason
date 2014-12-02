@@ -117,15 +117,13 @@ module.exports = function group(sqL, opts) {
 				newLevel(span.end, 'sp')
 				break
 			case ')': case ']': case '}':
-				//finishLevels(span.start, 'sp')
 				finishLevels(span.end, k)
 				break
 			case '"':
-				// TODO: Could just have separate gp_s "in and "out
-				if (cur().k === '"')
-					finishLevels(span.start, k)
-				else
-					newLevel(span.start, k)
+				newLevel(span.start, k)
+				break
+			case 'close"':
+				finishLevels(span.start, k)
 				break
 			case '->':
 				//  ~ before block is OK
