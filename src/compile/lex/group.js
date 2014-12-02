@@ -41,8 +41,6 @@ module.exports = function group(sqL, opts) {
 
 	const finishLevels = function(closePos, k) {
 		while (true) {
-			// TODO: Don't blaze through \n either
-			//check(!Sq.isEmpty(stack), closePos, "Closing " + U.code(k) + " matches nothing.")
 			const old = Sq.last(stack)
 			const oldClose = Lang.GroupOpenToClose.get(old.k)
 			if (oldClose === k)
