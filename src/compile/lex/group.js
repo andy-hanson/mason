@@ -10,7 +10,8 @@ const
 	T = require("../T"),
 	Sq = require("../U/Sq"),
 	type = require("../U/type"),
-	types = require("../U/types")
+	types = require("../U/types"),
+	U = require("../U")
 
 const GroupBuilder = types.recordType("GroupBuilder", Object, {
 	startPos: Span.Pos,
@@ -38,8 +39,26 @@ module.exports = function group(sqL, opts) {
 		stack.push(GroupBuilder({ startPos: pos, k: k, body: [] }))
 	}
 
+	const finishLevels = function(closePos, k) {
+		while (true) {
+			// TODO: Don't blaze through \n either
+			//check(!Sq.isEmpty(stack), closePos, "Closing " + U.code(k) + " matches nothing.")
+			const old = Sq.last(stack)
+			const oldClose = Lang.GroupOpenToClose.get(old.k)
+			if (oldClose === k)
+				break
+			else {
+				check(new Set(['(', '[', 'sp']).has(old.k), closePos,
+					"Trying to close " + showGroup(k) + ", but last opened was a " + showGroup(old.k))
+				finishLevel(closePos, oldClose)
+			}
+		}
+		finishLevel(closePos, k)
+	}
+
 	const finishLevel = function(closePos, k) {
 		type(closePos, Span.Pos, k, String)
+
 		const wrapped = wrapLevel(closePos, k)
 		// cur() is now the previous level on the stack
 		// U.log(U.indent(stack.length) + "<< " + showGroup(k))
@@ -60,8 +79,7 @@ module.exports = function group(sqL, opts) {
 		const old = stack.pop()
 		type(old, GroupBuilder)
 		const span = Span({ start: old.startPos, end: closePos })
-		check(Lang.GroupOpenToClose.get(old.k) === k, span,
-			"Trying to close a " + showGroup(k) + ", but last opened was a " + showGroup(old.k))
+		assert(Lang.GroupOpenToClose.get(old.k) === k)
 		return T.Group({ span: span, sqt: old.body, k: old.k })
 	}
 
@@ -70,13 +88,13 @@ module.exports = function group(sqL, opts) {
 		newLevel(pos, 'sp')
 	}
 	const endLine = function(pos) {
-		finishLevel(pos, 'sp')
-		finishLevel(pos, 'ln')
+		finishLevels(pos, 'sp')
+		finishLevels(pos, 'ln')
 	}
 
 	const endAndStart = function(span, k) {
 		type(span, Span, k, String)
-		finishLevel(span.start, k)
+		finishLevels(span.start, k)
 		newLevel(span.end, k)
 	}
 
@@ -101,12 +119,13 @@ module.exports = function group(sqL, opts) {
 				newLevel(span.end, 'sp')
 				break
 			case ')': case ']': case '}':
-				finishLevel(span.start, 'sp')
-				finishLevel(span.end, k)
+				//finishLevels(span.start, 'sp')
+				finishLevels(span.end, k)
 				break
 			case '"':
+				// TODO: Could just have separate gp_s "in and "out
 				if (cur().k === '"')
-					finishLevel(span.start, k)
+					finishLevels(span.start, k)
 				else
 					newLevel(span.start, k)
 				break
@@ -119,7 +138,7 @@ module.exports = function group(sqL, opts) {
 				break
 			case '<-':
 				endLine(span.start)
-				finishLevel(span.end, k)
+				finishLevels(span.end, k)
 				break
 			case 'ln':
 				endLine(span.start)

@@ -132,6 +132,19 @@ A block that is neither a list nor a dict has as its value the last line.
 		+ 1 1
 
 
+### Dict value blocks
+
+A dict block ending in a value will assign the dict's values as members of the value of the last line.
+(So, the result may not be of type Dict.)
+This is useful for defining functions with properties.
+
+	is-three?.
+		doc. "Whether `a` is equal to 3."
+		|a
+			=? a 3
+
+Which brings us to:
+
 ### Make functions, call functions
 
 Functions are written as indented blocks preceded by `|` and a argument names.
@@ -161,20 +174,16 @@ Functions are called by listing their arguments, separated by spaces.
 As you can see, it's more readable to declare local variables, as in `two-ones = two-of 1`.
 Every program can be written without any parentheses.
 
-### Dict value blocks
+You can leave off closing parentheses or brackets and they will be closed for you at the end of another type of group (including at the end of a line).
 
-A dict block ending in a value will assign the dict's values as members of the value of the last line.
-(So, the result may not be of type Dict.)
-This is useful for defining functions with properties.
+	log! (identity (pair (two-of 1) (two-of 2
 
-	is-three?.
-		doc. "Whether `a` is equal to 3."
-		test. |
-			\ `!` is pronounced "assert".
-			\ It applies a function to arguments and throws an error when the result isn't `true`.
-			! is-three? 3
-		|a
-			=? a 3
+	a[b[c \ Same as a[b[c]]
+
+	a[b (c d (e f] g \ Same as a[b (c d (e f))] g
+
+	log! (map [1 2 3] |x
+		* x 2
 
 
 ### In/Out
@@ -183,7 +192,9 @@ You can make assertions before and after any block using the `in` and `out` keyw
 
 	half. |a
 		in
-			! (divisible? a 2)
+			\ `!` is a function, pronounced "assert".
+			\ It applies a function to arguments and throws an error when the result isn't `true`.
+			! divisible? a 2
 		out
 			! =? (* res 2) a
 

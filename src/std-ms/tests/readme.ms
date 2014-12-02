@@ -74,6 +74,10 @@ pair = |a b
 ! =? (identity (pair (two-of 1) (two-of 2)))
 	first. [ 1 1 ]
 	second. [ 2 2 ]
+(identity (pair (two-of 1) (two-of 2 \ Can leave off parens
+
+! =? [ 2 4 6 ] (map [1 2 3] |x
+	* x 2
 
 half. |a
 	in

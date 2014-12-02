@@ -258,21 +258,7 @@ const parseCase = function(px, sqt, k, casedFromFun) {
 
 const parseExpr = function(px, sqt) {
 	type(px, Px, sqt, [T])
-	const exprParts = function(px, sqt) {
-		if (Sq.isEmpty(sqt))
-			return []
-		const head = Sq.head(sqt), rest = Sq.tail(sqt)
-		switch (true) {
-			case T.Keyword.is(Lang.KFun)(head):
-				return [ parseFun(px, rest, head.k) ]
-			// `case!` can not be part of an expression - it is a statement.
-			case T.Keyword.is("case")(head):
-				return [ parseCase(px, rest, "case", false) ]
-			default:
-				return Sq.cons(parseSingle(px, head), exprParts(px.withSpan(Span.ofSqT(px.span, rest)), rest))
-		}
-	}
-	const parts = exprParts(px, sqt)
+	const parts = parseExprParts(px, sqt)
 	switch (parts.length) {
 		case 0:
 			return E.Null(px.s({}))
@@ -280,6 +266,22 @@ const parseExpr = function(px, sqt) {
 			return Sq.head(parts)
 		default:
 			return E.Call(px.s({ called: Sq.head(parts), args: Sq.tail(parts) }))
+	}
+}
+
+const parseExprParts = function(px, sqt) {
+	type(px, Px, sqt, [T])
+	if (Sq.isEmpty(sqt))
+		return []
+	const head = Sq.head(sqt), rest = Sq.tail(sqt)
+	switch (true) {
+		case T.Keyword.is(Lang.KFun)(head):
+			return [ parseFun(px, rest, head.k) ]
+		// `case!` can not be part of an expression - it is a statement.
+		case T.Keyword.is("case")(head):
+			return [ parseCase(px, rest, "case", false) ]
+		default:
+			return Sq.cons(parseSingle(px, head), parseExprParts(px.withSqTSpan(rest), rest))
 	}
 }
 
@@ -609,7 +611,7 @@ const parseSingle = function(px, t) {
 			return parseExpr(px, t.sqt)
 		case T.Group.is(t, "["):
 			return E.ListSimple(px.s({
-				parts: t.sqt.map(function(tSub) { return parseSingle(px, tSub) })
+				parts: parseExprParts(px, t.sqt)
 			}))
 		default:
 			check.fail(px.span, "Unexpected " + t)
@@ -642,9 +644,7 @@ const parseSpaced = function(px, sqt) {
 					return E.Sub({
 						span: span,
 						subject: e,
-						subbers: t.sqt.map(function(tSub) {
-							return parseSingle(px, tSub)
-						})
+						subbers: parseExprParts(px, t.sqt)
 					})
 				check.fail(span, "Expected member or sub, not " + t)
 			} }
