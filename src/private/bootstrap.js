@@ -1,5 +1,7 @@
 "use strict"
 
+require("es6-shim")
+
 // TODO: Make as small as possible.
 
 // This object contains functions called upon by compiled code.
@@ -91,19 +93,6 @@ set(ms, "sub", function(subbed) {
 	if (sub == null)
 		throw new Error(ms.show(subbed) + " does not implement `sub`")
 	return sub.apply(null, arguments)
-})
-
-set(ms, "KLUDGE_defaultExport", function(module, _default) {
-	if (_default == null)
-		return
-	const td = typeof _default
-	if (td !== "object" && td !== "function")
-		throw new Error("TODO:ES6 Non-object default export")
-	const exports = module.exports
-	set(module, "exports", _default)
-	Object.getOwnPropertyNames(exports).forEach(function(name) {
-		set(_default, name, exports[name])
-	})
 })
 
 // Overwritten by show.ms

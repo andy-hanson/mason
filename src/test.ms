@@ -7,5 +7,4 @@ use
 	.tests.test -> test-all
 boot-order
 
-|
-	test-all "./src/std-js"
+test-all "./js"

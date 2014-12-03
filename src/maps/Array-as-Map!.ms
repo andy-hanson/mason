@@ -42,3 +42,5 @@ implementor! Array Map!
 		val \ TODO:Ignored vars
 		`_[key] = val`
 		()
+
+()

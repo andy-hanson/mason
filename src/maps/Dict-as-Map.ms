@@ -19,3 +19,4 @@ implementor! Dict Map
 		Dict union
 	keys -> own-properties
 
+()

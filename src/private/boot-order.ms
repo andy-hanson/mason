@@ -1,21 +1,19 @@
 use
 	..bags.Bag-Type
 	..Dict
-	es6-shim
 	..Fun
 	..maps.Array-as-Map!
 	..maps.Dict-as-Map
 	..maps.Hash-Map
 	..math.Num
-	source-map-support
+	source-map-support -> install
 	stack-displayname
 	..show
 	..types.Type
 	..types.show-Type
 
-source-map-support.install
+install
 	hi.
-es6-shim
 \ stack-displayname \ Doesn't play nice with source-map-support
 
 Type \ This makes it safe to type things.

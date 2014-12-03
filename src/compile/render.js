@@ -59,29 +59,33 @@ const commad = function(rx, parts) {
 	return Sq.interleave(parts.map(r(rx)), ", ")
 }
 
+let destructureId = 0
+
 U.implementMany(E, "renderContent", {
 	Assign: function(rx) {
 		return makeAssign(rx, this.span, this.assignee, this.k, this.value)
 	},
 
 	AssignDestructure: function(rx) {
-		const check = require("./check")
-		check(!this.isLazy, this.span, "TODO")
-		const destructuredName = "_$" // _$ isn't a valid mason name, so this is safe.
+		// TODO: Better names?
+		const destructuredName = "_$" + (destructureId++) // _$ isn't a valid mason name, so this is safe.
 		const k = this.k
+		const access = accessMangledLocal(destructuredName, this.isLazy)
 		const assigns = this.assignees.map(function(assignee) {
 			const value = E.Literal({
 				span: assignee.span,
 				k: "js",
-				value: destructuredName + makeMember(assignee.name)
+				value: access + makeMember(assignee.name)
 			})
 			return makeAssign(rx, assignee.span, assignee, k, value)
 		})
+		const value =
+			this.isLazy ? lazyWrap(r(rx)(this.value)) : r(rx)(this.value)
 		return [
 			"var ", // constant, but `const` will complain if we do two of these in the same block.
 			destructuredName,
 			" = ",
-			r(rx)(this.value),
+			value,
 			rx.snl(),
 			Sq.interleave(assigns, rx.snl())
 		]
@@ -209,11 +213,9 @@ U.implementMany(E, "renderContent", {
 			"}"
 		]
 	},
-	Lazy: function(rx) { return [
-		"_ms.Lazy(function() { return ",
-		r(rx)(this.value),
-		"; })"
-	]},
+	Lazy: function(rx) {
+		return lazyWrap(r(rx)(this.value))
+	},
 	ListReturn: function(rx) { return [
 		"_ms.mkArray(",
 		Sq.interleave(
@@ -296,10 +298,13 @@ U.implementMany(E, "renderContent", {
 			rx.snl()
 		]
 	},
+	// TODO:ES6
 	ModuleDefaultExport: function(rx) { return [
-		"_ms.KLUDGE_defaultExport(module, ",
-		r(rx)(this.value),
-		")"
+		"exports",
+		// TODO: opts.moduleName() method
+		makeMember(rx.opts.jsBaseName.substring(0, rx.opts.jsBaseName.length - 3)),
+		" = ",
+		r(rx)(this.value)
 	]},
 	Null: function() { return "null" },
 	True: function() { return "true" },
@@ -338,9 +343,18 @@ U.implementMany(E, "renderContent", {
 	]}
 })
 
+const lazyWrap = function(value) { return [
+	"_ms.Lazy(function() { return ",
+	value,
+	"; })"
+]}
+
 const accessLocal = function(name, isLazy) {
-	type(name, String, isLazy, Boolean)
-	return isLazy ? [ "_ms.unlazy(" + mangle(name) + ")" ] : mangle(name)
+	return accessMangledLocal(mangle(name), isLazy)
+}
+const accessMangledLocal = function(mangledName, isLazy) {
+	type(mangledName, String, isLazy, Boolean)
+	return isLazy ? ("_ms.unlazy(" + mangledName + ")") : mangledName
 }
 
 const opLocalCheck = function(rx, local, isLazy) {

@@ -2,8 +2,10 @@ use
 	.bags.Array
 	.bags.Bag -> flat-map
 	.control -> if
-	path
-	q-io.fs
+
+\ TODO: Syntax for old CommonJS requires?
+path = `require("path")`
+fs = `require("q-io/fs")`
 
 \ TODO: Portability
 use-file. `require`

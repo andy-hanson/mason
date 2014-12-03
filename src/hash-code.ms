@@ -1,5 +1,4 @@
 use
-	.?
 	.arithmetic-methods -> + *
 	.assert -> ! !not
 	.bags.Bag -> empty? flat-map fold

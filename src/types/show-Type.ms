@@ -14,3 +14,5 @@ impl! show-impl Type
 				inspect type
 			else
 				_.val
+
+()
