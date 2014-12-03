@@ -85,7 +85,6 @@ Interface = Record-Type
 				unchecked-implementor! iface _
 			else
 				()
-	extensible. true
 
 \ Making something an instance of Impl-Type is difficult because implementor! checks that it's already an Impl-Type...
 unchecked-implementor!.

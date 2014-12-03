@@ -1,5 +1,4 @@
 use
-	..Bool -> true
 	..Fun -> Pred
 	.Interface -> implementor!
 	.Method -> impl!
@@ -20,7 +19,6 @@ Pred-Type = Record-Type
 					_
 				else
 					oh-no! "Need displayName for Pred-Type. Got {_}."
-	extensible. true
 
 \ Can't use map syntax because that requires this.
 implementor! Pred-Type Type

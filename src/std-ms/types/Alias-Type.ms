@@ -1,6 +1,5 @@
 use
-	..assert -> !
-	..Bool -> not true
+	..assert -> ! !not
 	..Comparable -> =?
 	.Interface -> implementor!
 	.Method -> impl!
@@ -14,12 +13,11 @@ Alias-Type. Record-Type
 	test. |
 		A = Alias-Type
 			alias-of. Str
-		! (subsumes? A "0")
-		! (not (=? A Str))
+		! subsumes? A "0"
+		!not =? A Str
 	members.
 		displayName. Str
 		alias-of. Type
-	extensible. true
 
 implementor! Alias-Type Type
 

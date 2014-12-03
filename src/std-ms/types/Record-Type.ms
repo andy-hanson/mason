@@ -1,5 +1,5 @@
 use
-	..private.bootstrap -> sym-type-of Dict oh-no! set! Object has? ms Str get-or-undefined any? true Fun get extend! exists? Bool false proto-impl-sub?!
+	..private.bootstrap -> sym-type-of Dict oh-no! set! Object has? ms Str get-or-undefined any? true Fun get extend! exists? proto-impl-sub?!
 
 record-type-post-construct = |rt
 	\ Every Record-Type's instances know their type.
@@ -23,14 +23,9 @@ make-record-constructor = |rt
 									()
 								any?_
 									\ Can't use `!subsumes` because it may not exist yet
-									\ TODO: Don't directly call into ms
 									ms.checkSubsumes _ val member-name
 						else
-							case! rt.extensible
-								_
-									()
-								else
-									oh-no! ~"Tried to give {member-name} to non-extensible type {rt} with members {rt.members}"
+							()
 
 					Object.defineProperty baby member-name
 						value. val
@@ -65,13 +60,6 @@ make-record-constructor = |rt
 			else
 				oh-no! ~"Member `{_}` not specified, and no default is available."
 
-		\ TODO: Decide whether I really want this.
-		\case! rt.extensible
-		\	_
-		\		()
-		\	else
-		\		Object.preventExtensions baby
-
 		call-baby = case rt.make-callable
 			any? _
 				make-callable:Fun = _
@@ -100,7 +88,6 @@ record-type-args =
 		defaults. Dict
 		prototype. Object
 		post-construct. Fun
-		extensible. Bool
 		\ This takes in the members and outputs a Fun.
 		make-callable. Fun
 	defaults.
@@ -110,12 +97,9 @@ record-type-args =
 			Object.create Object.prototype
 		post-construct. | |
 			()
-		extensible. |
-			false
 		make-callable. |
 			()
 	post-construct. record-type-post-construct
-	extensible. true
 	make-callable. make-record-constructor
 
 Record-Type = (make-record-constructor record-type-args) record-type-args

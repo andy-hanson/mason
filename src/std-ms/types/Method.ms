@@ -60,7 +60,6 @@ Method = Record-Type
 					method.default
 			\ TODO:ES6 impl ...arguments
 			apply.call impl () `arguments`
-	extensible. true
 
 impl!.
 	doc. "TODO"

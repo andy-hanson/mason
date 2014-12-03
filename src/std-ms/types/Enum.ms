@@ -28,7 +28,7 @@ Enum = Record-Type
 	members.
 		displayName. Str
 		prototype. Object
-		values. Array \ TODO: [Str]
+		values. Array \ TODO: [Str]z
 	defaults.
 		prototype. |
 			Object.create Object.prototype
