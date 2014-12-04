@@ -2,9 +2,11 @@ use
 	.? -> get-or ?none ?some
 	..arithmetic-methods -> -
 	.Array
+	.Array!
 	..assert -> ! !not
 	.Bag -> all? count iterator from-stream
-	..basic-methods -> =>
+	.Bag-Type -> empty
+	..basic-methods -> => freeze
 	..Bool -> and or
 	..Comparable -> =? <=? >=?
 	..control -> if
@@ -12,6 +14,7 @@ use
 	..math.Num -> Nat
 	..pred-types -> Any
 	..Ref -> get mod! ref
+	.Seq! -> +>!
 	.Stream -> streaming
 	..Try -> fails? oh-no!
 	..types.Interface -> implementor!
@@ -147,6 +150,39 @@ region Combination
 						<~ zipper next0.value next1.value
 
 region TODO: put somewhere
+	groups-of.
+		doc. "TODO"
+		test. |
+			! seq=? [ [ 1 2 ] [ 3 4 ] ] (groups-of 2 [ 1 2 3 4 ])
+			\ Throws away non-full groups
+			! seq=? [ [ 1 2 3 ] ] (groups-of 3 [ 1 2 3 4 ])
+			! seq=? [ [] [] [] ] (take (groups-of 0 [ 1 2 3 4 ]) 3)
+		|:Seq group-size:Nat _
+			case
+				=? group-size 0
+					\ TODO: repeat-forever [ ]
+					streaming ~|
+						loop!
+							<~ [ ]
+				else
+					streaming ~|
+						iter = iterator_
+						loop! outer
+							next-group = empty Array!
+							loop!
+								value done = iter.next ()
+								case!
+									done
+										end-loop! outer
+									else
+										+>! next-group [ value ]
+										case! count next-group
+											=? _ group-size
+												end-loop!
+											else
+												()
+							<~ freeze next-group
+
 	reverse. Method
 		doc. "TODO"
 		test. |
