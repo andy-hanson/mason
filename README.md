@@ -207,7 +207,7 @@ There may one day be a way to turn off in/out conditions, so you shouldn't depen
 
 ### Types
 
-A `Type` is anything which subsumes a certain set of values.
+A `Type` is anything which contains a certain set of values. For example, "primes" is a type.
 You can use `:` to type local variables, function arguments, and function return values.
 
 	one:Int. 1
@@ -217,12 +217,12 @@ You can use `:` to type local variables, function arguments, and function return
 It's as if you wrote:
 
 	one. 1
-	! subsumes? Int one
+	! contains? Int one
 	Str->Num. |str
 		in
-			! subsumes? Str str
+			! contains? Str str
 		out
-			! subsumes? Num res
+			! contains? Num res
 
 		Num.parseFloat str
 
@@ -230,7 +230,7 @@ It's as if you wrote:
 
 Do not confuse Types with data structures.
 Every data structure is a Type, but any predicate can be made into a type (such as with the standard library's `Pred-Type`).
-A Type is *any* value implementing the Type interface, meaning it should implement the `subsumes?` method.
+A Type is *any* value implementing the Type interface, meaning it should implement the `contains?` method.
 
 
 ### Parameterized types
@@ -262,7 +262,7 @@ Also, writing a type in any context other than declaring a variable tests that t
 	is-str?. |_
 		:Str
 		\ Equivalent to:
-		subsumes? Str _
+		contains? Str _
 
 
 ### Case
