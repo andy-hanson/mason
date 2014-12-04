@@ -20,7 +20,7 @@ use
 	.Try -> oh-no!
 	.types.Alias-Type
 	.types.Method -> impl!
-	.types.Type -> subsumes?
+	.types.Type -> contains?
 	.types.util -> self-type
 
 Fun = global.Function
@@ -161,7 +161,7 @@ identity-memoize.
 		wm = new Weak-Identity-Map!
 		|arg:Any
 			in
-				! (subsumes? Object arg) "
+				! (contains? Object arg) "
 					Can only use objects for identity-memoize'd functions, not {arg}.
 
 			get-or (?get wm arg) ~

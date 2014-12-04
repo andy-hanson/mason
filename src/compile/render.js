@@ -323,7 +323,7 @@ U.implementMany(E, "renderContent", {
 	]},
 	This: function() { return "this" },
 	TypeTest: function(rx) { return [
-		"_ms.subsumes(",
+		"_ms.contains(",
 		r(rx)(this.testType),
 		", ",
 		r(rx)(this.tested),
@@ -356,7 +356,7 @@ const accessMangledLocal = function(mangledName, isLazy) {
 const opLocalCheck = function(rx, local, isLazy) {
 	type(local, E.LocalDeclare, isLazy, Boolean)
 	return isLazy ? Op.None : local.opType.map(function(typ) { return [
-		"_ms.checkSubsumes(",
+		"_ms.checkContains(",
 		r(rx)(typ),
 		", ",
 		accessLocal(local.name, false),

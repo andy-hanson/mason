@@ -8,7 +8,7 @@ use
 	.Method -> impl! propagate-method-down!
 	..private.bootstrap -> Str Array Object Symbol true set! get own-properties
 	.Record-Type
-	.Type -> subsumes?
+	.Type -> contains?
 
 Interface = Record-Type
 	doc. "
@@ -34,7 +34,7 @@ Interface = Record-Type
 			implementor! C B
 			c = C
 				c. 1
-			! subsumes? A c
+			! contains? A c
 
 		region Inheritance chains
 			X = Interface
@@ -48,7 +48,7 @@ Interface = Record-Type
 			implementor! Y X
 			z = Z
 				x. 1
-			! subsumes? X z
+			! contains? X z
 
 		region Method makes sure to do impl! on all Concrete-Type_s inheriting from an Interface.
 			asdf. Method
@@ -56,7 +56,7 @@ Interface = Record-Type
 			impl! asdf X |
 				1
 			! =? (asdf z) 1
-			! (subsumes? X z)
+			! (contains? X z)
 
 	members.
 		displayName. Str

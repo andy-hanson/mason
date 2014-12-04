@@ -5,7 +5,7 @@ use
 	.Record-Type
 	..Str
 	..Try -> oh-no!
-	.Type -> subsumes?
+	.Type -> contains?
 
 Pred-Type = Record-Type
 	doc. "Arbitrary predicates can be made into types using Pred-Type."
@@ -23,7 +23,7 @@ Pred-Type = Record-Type
 \ Can't use map syntax because that requires this.
 implementor! Pred-Type Type
 
-impl! subsumes? Pred-Type |_ subsumed
-	_.predicate subsumed
+impl! contains? Pred-Type |_ value
+	_.predicate value
 
 Pred-Type

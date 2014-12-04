@@ -17,7 +17,7 @@ use
 	.pred-types -> Any Union
 	.Symbol
 	.Try -> fails?
-	.types.Type -> subsumes?
+	.types.Type -> contains?
 
 ~Str/Sym = Union[Str Symbol]
 
@@ -103,7 +103,7 @@ get-property.
 	|_:Object name:Str/Sym
 		in
 			! has-property? _ name
-			! (subsumes? Any (get _ name)) ~"{_}.{name} is missing"
+			! (contains? Any (get _ name)) ~"{_}.{name} is missing"
 		get _ name
 
 ?get-property-or-in-prototype.
@@ -183,8 +183,8 @@ inspect=?.
 		\ For functions, is identity
 		[ inspect=? inspect=? ] -> true
 	|:Bool a b
-		any-a = subsumes? Any a
-		any-b = subsumes? Any b
+		any-a = contains? Any a
+		any-b = contains? Any b
 		case
 			nor any-a any-b
 				true

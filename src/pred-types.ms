@@ -12,7 +12,7 @@ use
 	.types.Pred-Type
 	.types.Record-Type
 	.types.singleton
-	.types.Type -> subsumes?
+	.types.Type -> contains?
 	.types.util -> self-type
 
 Opt. Pred-Type
@@ -21,7 +21,7 @@ Opt. Pred-Type
 		`true`
 
 impl! sub (self-type Opt)
-	doc. "Subsumes null, undefined, or an instance of Exists-Type."
+	doc. "Contains null, undefined, or an instance of Exists-Type."
 	|Exists-Type
 		ET = Exists-Type
 		Opt-Sub
@@ -33,15 +33,15 @@ Opt-Sub = Record-Type
 		Exists-Type. Type
 
 implementor! Opt-Sub Type
-impl! subsumes? Opt-Sub |nt _
-	or (not :Any) ~(subsumes? nt.Exists-Type _)
+impl! contains? Opt-Sub |nt _
+	or (not :Any) ~(contains? nt.Exists-Type _)
 
 Any. Pred-Type
 	doc. "Not null or undefined."
 	test. |
-		! subsumes? Any 0
-		!not subsumes? Any ()
-		!not subsumes? Any `undefined`
+		! contains? Any 0
+		!not contains? Any ()
+		!not contains? Any `undefined`
 	predicate. |_
 		_ \ TODO:Ignored vars
 		`_ != null`
@@ -49,16 +49,16 @@ Any. Pred-Type
 Union. singleton
 	doc. "Union[A B] is a type matching either an A or a B."
 	test. |
-		SI = Union[Str Bool]
-		! subsumes? SI "true"
-		! subsumes? SI true
-		!not subsumes? SI ()
+		SB = Union[Str Bool]
+		! contains? SB "true"
+		! contains? SB true
+		!not contains? SB ()
 
 \ TODO: Variadic
 impl! sub Union |u A:Type B:Type
 	u \ TODO:Ignored vars
 	Pred-Type
-		displayName. "some union"\ "Union[{A} {B}]"
+		displayName. "some union"\ "Union[{A} {B}]" \ TODO
 		predicate. |_
 			or :A ~:B
 

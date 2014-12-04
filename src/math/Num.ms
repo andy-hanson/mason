@@ -12,7 +12,7 @@ use
 	..Try -> fails?
 	..types.Method -> impl!
 	..types.Pred-Type
-	..types.Type -> subsumes?
+	..types.Type -> contains?
 
 Num = global.Number
 Math = global.Math
@@ -20,18 +20,18 @@ Math = global.Math
 Int. Pred-Type
 	doc. "TODO"
 	test. |
-		! subsumes? Int 1
-		!not subsumes? Int 1.1
-		! subsumes? Int max-safe-integer
-		!not subsumes? Int (+ max-safe-integer 1)
+		! contains? Int 1
+		!not contains? Int 1.1
+		! contains? Int max-safe-integer
+		!not contains? Int (+ max-safe-integer 1)
 	predicate. |_
 		and :Num ~(Num.isSafeInteger (_.valueOf ()))
 
 Nat. Pred-Type
 	doc. "TODO"
 	test. |
-		! subsumes? Nat 0
-		!not subsumes? Nat -1
+		! contains? Nat 0
+		!not contains? Nat -1
 	predicate. |_
 		and :Int ~(>=? _ 0)
 

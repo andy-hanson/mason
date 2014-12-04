@@ -1,5 +1,5 @@
 use
-	..private.bootstrap -> sym-type-of Dict oh-no! set! Object has? ms Str get-or-undefined any? true Fun get extend! exists? proto-impl-sub?!
+	..private.bootstrap -> sym-type-of Dict oh-no! set! Object has? ms Str get-or-undefined any? true Fun get extend! exists? proto-impl-contains?!
 
 record-type-post-construct = |rt
 	\ Every Record-Type's instances know their type.
@@ -15,14 +15,13 @@ make-record-constructor = |rt
 					val = _.value
 					case! member-name
 						`_ === "displayName"`
-							\ TODO: Don't directly call into ms
-							ms.checkSubsumes Str _ "displayName"
+							ms.checkContains Str _ "displayName"
 						has? rt.members _
 							case! get-or-undefined rt.members member-name
 								`_ == true`
 									()
 								any?_
-									ms.checkSubsumes _ val member-name
+									ms.checkContains _ val member-name
 						else
 							()
 
@@ -104,7 +103,7 @@ record-type-args =
 Record-Type = (make-record-constructor record-type-args) record-type-args
 
 \ TODO: Consider moving
-proto-impl-sub?! Record-Type.prototype |rt _
+proto-impl-contains?! Record-Type.prototype |rt _
 	Object.prototype.isPrototypeOf.call (get rt "prototype") _
 
 Record-Type

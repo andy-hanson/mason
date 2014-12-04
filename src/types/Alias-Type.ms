@@ -4,16 +4,16 @@ use
 	.Interface -> implementor!
 	.Method -> impl!
 	.Record-Type
-	.Type -> subsumes?
+	.Type -> contains?
 
 Str = `global.String`
 
 Alias-Type. Record-Type
-	doc. "Subsumes the same instances as another type (officially), but has its own meaning and identity."
+	doc. "Contains the same instances as another type (officially), but has its own meaning and identity."
 	test. |
 		A = Alias-Type
 			alias-of. Str
-		! subsumes? A "0"
+		! contains? A "0"
 		!not =? A Str
 	members.
 		displayName. Str
@@ -21,7 +21,7 @@ Alias-Type. Record-Type
 
 implementor! Alias-Type Type
 
-impl! subsumes? Alias-Type |_ subsumed
-	subsumes? _.alias-of subsumed
+impl! contains? Alias-Type |_ value
+	contains? _.alias-of value
 
 Alias-Type

@@ -9,7 +9,7 @@ use
 	..private.bootstrap -> Str Symbol Fun oh-no! true any? get-or-undefined exists? set! set-mutable! has-or-in-proto? get
 	.Record-Type
 	..Try -> fails?
-	.Type -> subsumes?
+	.Type -> contains?
 
 apply = Fun.prototype.apply
 
@@ -152,7 +152,7 @@ Double-Dispatcher = Record-Type
 			impl = get-or-undefined target-2 _.impl-symbol
 			case!
 				exists? impl
-					! subsumes? Fun impl
+					! contains? Fun impl
 				else
 					oh-no! ~"Can't double-dispatch {_.method} for {_.first-type} on {target-2}"
 			apply.call impl () `arguments`

@@ -13,7 +13,7 @@ use
 	.Str
 	.types.Interface -> implementor!
 	.types.Record-Type
-	.types.Type -> subsumes?
+	.types.Type -> contains?
 
 Try = Interface
 	doc. "Result of running failable code."
@@ -91,7 +91,7 @@ fails?.
 		!not fails? |
 			()
 	|_:Act
-		subsumes? Error try_
+		contains? Error try_
 
 fails-with?.
 	doc. "TODO"
@@ -99,10 +99,10 @@ fails-with?.
 		"TODO"
 	|with act:Act
 		result = try act
-		and (subsumes? Error result) ~
+		and (contains? Error result) ~
 			case with
 				:Type
-					subsumes? with result
+					contains? _ result
 				:Str
 					=? result.message _
 
@@ -114,7 +114,7 @@ error-type.
 		\ET = error-type
 		\	doc. "ET"
 		\x = ET "message"
-		\! subsumes? Error x
+		\! contains? Error x
 		\! =? x.message "message"
 	|opts
 		it =

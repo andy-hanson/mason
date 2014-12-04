@@ -13,7 +13,7 @@ use
 	..show
 	..types.Interface -> implementor!
 	..types.Method ->  impl!
-	..types.Type -> subsumes?
+	..types.Type -> contains?
 	..types.util -> self-type
 
 Array =
@@ -35,7 +35,7 @@ impl! =? Array
 	test. |
 		! =? [ 1 ] [ 1 ]
 	|a b
-		and (subsumes? Array b) ~(and (=? a.length b.length) ~(seq=? a b))
+		and (contains? Array b) ~(and (=? a.length b.length) ~(seq=? a b))
 
 implementor! (self-type Array) Bag-Type
 impl! empty (self-type Array) (thunk [])

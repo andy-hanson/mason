@@ -2,13 +2,14 @@ use
 	.Array
 	.Array!
 	..assert -> ! !not
-	.Bag -> contains? each! empty?
+	.Bag -> each! empty?
 	.Bag-Type -> empty
 	..Comparable -> =?
 	.Seq! -> +>!
 	..types.Interface -> implementor!
 	..types.Method
 	..types.util -> self-type
+	..types.Type -> contains?
 
 Bag! = Interface
 	doc. "TODO"

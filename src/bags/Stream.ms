@@ -16,7 +16,7 @@ use
 	..types.Interface -> implementor!
 	..types.Method -> impl!
 	..types.Record-Type
-	..types.Type -> subsumes?
+	..types.Type -> contains?
 	..types.util -> self-type
 
 Stream = Record-Type
@@ -32,7 +32,7 @@ impl! iterator Stream |_
 	_.make-iterator ()
 
 impl! =? Stream |s1 s2
-	and (subsumes? Stream s2) (seq=? s1 s2)
+	and (contains? Stream s2) (seq=? s1 s2)
 
 streaming.
 	doc. "Creates a Stream whose values are the yields of the generator produced by make-gen."

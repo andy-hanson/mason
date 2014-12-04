@@ -16,12 +16,12 @@ use
 	.Object
 	.pred-types -> Any
 	.types.Pred-Type
-	.types.Type -> subsumes?
+	.types.Type -> contains?
 
 Generator! = Pred-Type
 	doc. "TODO"
 	predicate. |_
-		and :Object ~(subsumes? Fun _.next)
+		and :Object ~(contains? Fun _.next)
 
 each~.
 	doc. "A generator that goes through every element of `bag`, yielding to `do-each` of it."

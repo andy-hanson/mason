@@ -14,7 +14,7 @@ use
 	..types.Interface -> implementor!
 	..types.Method -> impl!
 	..types.Record-Type
-	..types.Type -> subsumes?
+	..types.Type -> contains?
 	..types.util -> self-type
 
 ? = Record-Type
@@ -65,7 +65,7 @@ Opt->?.
 	doc. "?none becomes undefined, ?some x becomes x."
 	test. |
 		[ (?some 0) ] -> 0
-		!not subsumes? Any (?->Opt ?none)
+		!not contains? Any (?->Opt ?none)
 	|_:?
 		_.val
 
@@ -105,9 +105,9 @@ region sub
 	impl! sub (self-type ?)
 		doc. "`?[A]` matches a `?` containing an `A`, or ?none."
 		test. |
-			! subsumes? ?[Num] (?some 0)
-			! subsumes? ?[Num] ?none
-			!not subsumes? ?[Num] (?some "0")
+			! contains? ?[Num] (?some 0)
+			! contains? ?[Num] ?none
+			!not contains? ?[Num] (?some "0")
 		|ignore Em-Type:Type
 			ignore \ TODO:Ignored vars
 			?-Sub
@@ -119,8 +119,8 @@ region sub
 			Element-Type. Type
 
 	implementor! ?-Sub Type
-	impl! subsumes? ?-Sub |?-sub subsumed
-		and (subsumes? ? subsumed) ~(all? subsumed subsumes?[?-sub.Element-Type])
+	impl! contains? ?-Sub |?-sub value
+		and (contains? ? value) ~(all? value contains?[?-sub.Element-Type])
 
 implementor! (self-type ?) Bag-Type
 impl! empty (self-type ?) (thunk ?none)

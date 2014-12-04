@@ -21,7 +21,7 @@ use
 	..types.Impl-Type
 	..types.Interface -> concrete-implementors
 	..types.Method -> impl!
-	..types.Type -> subsumes?
+	..types.Type -> contains?
 	..types.util -> self-type
 
 \ TODO: move
@@ -121,7 +121,7 @@ test-test-fun = |value value-test:Fun name \TODO:ES6 ...args
 			apply value-test args
 		case! got
 			:Map
-				! (subsumes? Fun value)
+				! (contains? Fun value)
 					"Test of {name} returned a Map, but the value is not callable."
 				!call value _
 			else

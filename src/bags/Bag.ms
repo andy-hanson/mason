@@ -16,7 +16,7 @@ use
 	..Symbol
 	..types.Interface
 	..types.Method -> impl!
-	..types.Type -> subsumes?
+	..types.Type -> contains?
 
 region Bag
 	iterator. Method
@@ -27,7 +27,7 @@ region Bag
 	Bag = Interface
 		doc. "TODO"
 		implementor-test. |bag-type
-			! (subsumes? Bag-Type bag-type) "Be sure to make your Bag type a Bag-Type."
+			! (contains? Bag-Type bag-type) "Be sure to make your Bag type a Bag-Type."
 			_ = empty bag-type
 			! empty?_
 		methods.
@@ -174,12 +174,12 @@ region Methods using builder
 			from-stream _ (+ (=> Stream _) bag2)
 
 region Set methods
-	contains?. Method
+	impl! contains? Bag
 		doc. "TODO"
 		test. |
 			! contains? [ 0 ] 0
 			!not contains? [ 0 ] 1
-		default. |_ em:Any
+		|_ em:Any
 			any? _ |em-compare
 				=? em em-compare
 

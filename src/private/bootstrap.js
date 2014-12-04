@@ -25,7 +25,7 @@ const assignMany = function(target, keysVals) {
 }
 
 exports["sym-sub"] = Symbol("sub")
-exports["sym-subsumes?"] = Symbol("subsumes?")
+exports["sym-contains?"] = Symbol("contains?")
 exports["sym-type-of"] = Symbol("type-of")
 
 function Lazy(make) {
@@ -66,18 +66,18 @@ set(ms, "Dict", function Dict() {
 })
 exports["Dict"] = ms.Dict
 
-set(ms, "subsumes", function(type, value) {
+set(ms, "contains", function(type, value) {
 	if (type == null)
 		throw new Error("Type missing")
-	const test = type[exports["sym-subsumes?"]]
+	const test = type[exports["sym-contains?"]]
 	if (test == null)
-		throw new Error(ms.show(type) + " does not implement `subsumes?`")
+		throw new Error(ms.show(type) + " does not implement `contains?`")
 	return test(type, value)
 })
 
-set(ms, "checkSubsumes", function(type, value, name) {
-	if (!ms.subsumes(type, value))
-		throw new Error(name + " is no " + ms.show(type) + ", is " + subsumed)
+set(ms, "checkContains", function(type, value, name) {
+	if (!ms.contains(type, value))
+		throw new Error(name + " is no " + ms.show(type) + ", is " + value)
 })
 
 // TODO:ES6 ...args
@@ -161,31 +161,31 @@ exports["any?"] = function(a) {
 exports["true"] = true
 exports["false"] = false
 
-exports["proto-impl-sub?!"] = function(proto, impl) {
-	set(proto, exports["sym-subsumes?"], impl)
+exports["proto-impl-contains?!"] = function(proto, impl) {
+	set(proto, exports["sym-contains?"], impl)
 }
 
 // TODO: Kill me
-exports["type-of-sub?!"] = function(fun, typeOf) {
-	exports["proto-impl-sub?!"](fun, function(ignore, _) {
+exports["type-of-contains?!"] = function(fun, typeOf) {
+	exports["proto-impl-contains?!"](fun, function(ignore, _) {
 		return typeof _ === typeOf
 	})
 }
 
 
-exports["proto-impl-sub?!"](Fun.prototype, function(fun, _) {
+exports["proto-impl-contains?!"](Fun.prototype, function(fun, _) {
 	return _ instanceof fun
 })
 // Except for Fun itself
 // Actually, this helps us catch all Callables, not just Fun_s
 // TODO: Separate Fun from Callable
-exports["type-of-sub?!"](Fun, "function")
+exports["type-of-contains?!"](Fun, "function")
 
-exports["type-of-sub?!"](Bool, "boolean")
+exports["type-of-contains?!"](Bool, "boolean")
 
-exports["type-of-sub?!"](Str, "string")
+exports["type-of-contains?!"](Str, "string")
 
-exports["proto-impl-sub?!"](Object, function(ignore, _) {
+exports["proto-impl-contains?!"](Object, function(ignore, _) {
 	if (_ == null)
 		return false
 	switch (typeof _) {
@@ -199,8 +199,8 @@ exports["proto-impl-sub?!"](Object, function(ignore, _) {
 	}
 })
 
-exports["type-of-sub?!"](Symbol, "symbol")
+exports["type-of-contains?!"](Symbol, "symbol")
 
-exports["type-of-sub?!"](Num, "number")
+exports["type-of-contains?!"](Num, "number")
 
 exports["extend!"] = Object.assign

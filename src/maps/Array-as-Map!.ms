@@ -8,7 +8,7 @@ use
 	..math.Num -> Nat
 	..pred-types -> Any
 	..types.Interface -> implementor!
-	..types.Type -> subsumes?
+	..types.Type -> contains?
 
 unsafe-get = |_ key
 	_ \ TODO:Ignored vars
@@ -19,7 +19,7 @@ implementor! Array Map!
 	?get -> |_ key:Nat
 		Opt->? (unsafe-get _ key)
 	has-key? -> |_ key:Nat
-		subsumes? Any unsafe-get _ key
+		contains? Any unsafe-get _ key
 	keys -> |_
 		range 0 count_
 	clear! -> |_

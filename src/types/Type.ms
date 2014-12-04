@@ -1,14 +1,13 @@
 use
-	..assert -> !
 	.Impl-Type
 	.Interface -> unchecked-implementor!
 	.Method -> impl! impl-unchecked!
-	..private.bootstrap -> sym-subsumes? Bool any? has-or-in-proto? false Fun Object
+	..private.bootstrap -> sym-contains? Bool any? has-or-in-proto? false Fun
 
-subsumes?. Method
-	doc. |:Bool type:Type subsumed
+contains?. Method
+	doc. |:Bool type:Type value
 		"TODO"
-	impl-symbol. sym-subsumes?
+	impl-symbol. sym-contains?
 
 Type = Interface
 	doc. "TODO"
@@ -18,8 +17,8 @@ unchecked-implementor! Method Type
 
 \ TODO: Move
 \ TODO: Use `and`
-impl-unchecked! subsumes? Interface |iface subsumed
-	case subsumed
+impl-unchecked! contains? Interface |iface value
+	case value
 		any?_
 			has-or-in-proto? _ iface.symbol-for-isa
 		else
@@ -29,11 +28,7 @@ unchecked-implementor! Fun Impl-Type
 
 \TODO:MOVE
 unchecked-implementor! Method Type
-impl! subsumes? Method |method subsumed
-	case subsumed
-		:Object
-			has-or-in-proto? _ method.impl-symbol
-		else
-			false
+impl! contains? Method |method value
+	has-or-in-proto? value method.impl-symbol
 
 Type

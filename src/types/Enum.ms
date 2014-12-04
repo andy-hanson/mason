@@ -10,7 +10,7 @@ use
 	.Record-Type
 	..show -> inspect-impl
 	..Str
-	.Type -> subsumes?
+	.Type -> contains?
 
 Enum = Record-Type
 	doc. "TODO"
@@ -42,7 +42,7 @@ Enum = Record-Type
 
 unchecked-implementor! Enum Impl-Type
 
-impl! subsumes? Enum |_ subsumed
-	Object.prototype.isPrototypeOf.call _.prototype subsumed
+impl! contains? Enum |_ value
+	Object.prototype.isPrototypeOf.call _.prototype value
 
 Enum
