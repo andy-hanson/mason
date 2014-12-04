@@ -2,7 +2,7 @@ use
 	.Array
 	.Bag -> empty?
 	.Bag-Type -> empty
-	.Bag! -> clear!
+	.Bag! -> empty!
 	..basic-methods -> =>
 	..Bool -> and not
 	..control -> if
@@ -35,7 +35,7 @@ implementor! Array Seq!
 	?pop>! -> |_
 		if (not empty?_) |
 			_.pop ()
-	clear! -> |_
+	empty! -> |_
 		\ http://jsperf.com/empty-javascript-array/15
 		loop!
 			case!

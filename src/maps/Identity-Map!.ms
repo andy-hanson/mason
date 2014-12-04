@@ -6,7 +6,7 @@ use
 	..Comparable -> =?
 	..js -> global new
 	.Map -> ?get has-key? keys values
-	.Map! -> clear! delete! set!
+	.Map! -> empty! delete! set!
 	..types.Interface -> implementor!
 	..types.Method -> impl!
 
@@ -45,7 +45,7 @@ impl! values Identity-Map! |_
 	Stream
 		make-iterator. |
 			_.values ()
-impl! clear! Identity-Map! |_
+impl! empty! Identity-Map! |_
 	_.clear ()
 impl! delete! Identity-Map! |_ key
 	_.delete key

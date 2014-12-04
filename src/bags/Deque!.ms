@@ -3,7 +3,7 @@ use
 	.Array \ TODO: Array!
 	.Bag -> builder Builder build-next! build-result count each! empty? iterator
 	.Bag-Type -> empty
-	.Bag! -> clear!
+	.Bag! -> empty!
 	..Bool -> not
 	..Comparable -> =?
 	..control -> if
@@ -113,8 +113,8 @@ implementor! Deque! Seq!
 			change-property! _ "end-index!" new-end
 			_.data![new-end]
 
-	clear! -> |_
-		clear! _.data!
+	empty! -> |_
+		empty! _.data!
 		\ TODO: change-properties!
 		change-property! _ "start-index!" 0
 		change-property! _ "end-index!" 0

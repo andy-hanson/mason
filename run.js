@@ -5,7 +5,8 @@ require("child_process").exec("node --stack-trace-limit=100 --harmony src/build"
 	if (stderr)
 		console.log(stderr)
 	else {
-		console.log(stdout)
+		if (stdout)
+			console.log(stdout)
 		require("./js/test")
 	}
 })

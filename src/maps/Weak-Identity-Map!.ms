@@ -2,7 +2,7 @@ use
 	..bags.? -> Opt->?
 	..js -> global
 	.Map -> ?get has-key? keys
-	.Map! -> clear! delete! set!
+	.Map! -> delete! empty! set!
 	..Try -> oh-no!
 	..types.Interface -> implementor!
 	..types.Method -> impl!
@@ -17,8 +17,8 @@ impl! has-key? Weak-Identity-Map! |_ key
 	_.has key
 impl! keys Weak-Identity-Map! |
 	oh-no! "Can't get keys of Weak-Identity-Map because the garbage collector can freely change this."
-impl! clear! Weak-Identity-Map! |_
-	_.clear ()
+impl! empty! Weak-Identity-Map! |_
+	_.empty ()
 impl! delete! Weak-Identity-Map! |_ key
 	_.delete key
 impl! set! Weak-Identity-Map! |_ key val

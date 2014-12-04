@@ -10,7 +10,7 @@ set!. Method
 	doc. |_ key:Any val:Any
 		"TODO"
 
-clear!. Method
+empty!. Method
 	doc. |_
 		"Removes all entries."
 
@@ -30,7 +30,7 @@ add!. Method
 Map! = Interface
 	doc. "TODO"
 	methods.
-		. clear!
+		. empty!
 		. delete!
 		. set!
 

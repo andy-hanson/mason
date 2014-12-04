@@ -4,7 +4,7 @@ use
 	..bags.Bag -> count empty?
 	..bags.Range -> range
 	.Map -> ?get has-key? keys
-	.Map! -> clear! delete! set!
+	.Map! -> empty! delete! set!
 	..math.Num -> Nat
 	..pred-types -> Any
 	..types.Interface -> implementor!
@@ -22,7 +22,7 @@ implementor! Array Map!
 		contains? Any unsafe-get _ key
 	keys -> |_
 		range 0 count_
-	clear! -> |_
+	empty! -> |_
 		loop!
 			case!
 				empty?_

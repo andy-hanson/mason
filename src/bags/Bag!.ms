@@ -25,7 +25,7 @@ Bag! = Interface
 		each! [ 1 2 3 4 ] |em
 			! contains? _ em
 		!not contains? _ 5
-		clear! _
+		empty! _
 		each! [ 1 2 3 4 ] |em
 			!not contains? _ em
 		! empty?_
@@ -36,7 +36,7 @@ Bag! = Interface
 	default. |_ added
 		+>! _ added
 
-clear!. Method
+empty!. Method
 	doc. |_
 		"TODO"
 
