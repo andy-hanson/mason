@@ -36,17 +36,17 @@ Object.assign(Rx.prototype, {
 E.prototype.render = function(rx, arg) { // Some E_s pass an arg to their child
 	type(rx, Rx)
 	const content = this.renderContent(rx, arg)
-	const ln = this.span.start.ln
-	const col = this.span.start.col
-	type(ln, Number, col, Number, rx.opts.msPathRelToJs, String)
-	assert(ln >= 1 && col >= 1)
+	const line = this.span.start.line
+	const column = this.span.start.column
+	type(line, Number, column, Number, rx.opts.msPathRelToJs, String)
+	assert(line >= 1 && column >= 1)
 	const typeJ = function(j) {
 		if (typeof j === "string" || j instanceof SourceNode) return
 		type(j, Array)
 		j.forEach(typeJ)
 	}
 	typeJ(content)
-	return new SourceNode(ln, col, rx.opts.msPathRelToJs, content)
+	return new SourceNode(line, column, rx.opts.msPathRelToJs, content)
 }
 
 const r = function(rx, othArg) {
@@ -59,16 +59,13 @@ const commad = function(rx, parts) {
 	return Sq.interleave(parts.map(r(rx)), ", ")
 }
 
-let destructureId = 0
-
 U.implementMany(E, "renderContent", {
 	Assign: function(rx) {
 		return makeAssign(rx, this.span, this.assignee, this.k, this.value)
 	},
 
 	AssignDestructure: function(rx) {
-		// TODO: Better names?
-		const destructuredName = "_$" + (destructureId++) // _$ isn't a valid mason name, so this is safe.
+		const destructuredName = "_$" + this.span.start.line
 		const k = this.k
 		const access = accessMangledLocal(destructuredName, this.isLazy)
 		const assigns = this.assignees.map(function(assignee) {
@@ -82,7 +79,7 @@ U.implementMany(E, "renderContent", {
 		const value =
 			this.isLazy ? lazyWrap(r(rx)(this.value)) : r(rx)(this.value)
 		return [
-			"var ", // constant, but `const` will complain if we do two of these in the same block.
+			"const ",
 			destructuredName,
 			" = ",
 			value,
@@ -301,8 +298,7 @@ U.implementMany(E, "renderContent", {
 	// TODO:ES6
 	ModuleDefaultExport: function(rx) { return [
 		"exports",
-		// TODO: opts.moduleName() method
-		makeMember(rx.opts.jsBaseName.substring(0, rx.opts.jsBaseName.length - 3)),
+		makeMember(rx.opts.moduleName()),
 		" = ",
 		r(rx)(this.value)
 	]},

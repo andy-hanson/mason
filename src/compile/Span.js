@@ -5,18 +5,22 @@ const
 	type = require("./U/type"),
 	types = require("./U/types")
 
-const Pos = types.recordType("Pos", Object, { ln: Number, col: Number })
-Object.assign(Pos, { Start: Pos({ ln:1, col:1 }) })
+const Pos = types.recordType("Pos", Object, { line: Number, column: Number })
+Object.assign(Pos, {
+	Start: Pos({
+		line:1, column:1
+	})
+})
 Object.assign(Pos.prototype, {
 	next: function(ch) {
 		type(ch, String);
 		return (ch === '\n') ?
-			Pos({ ln: this.ln + 1, col: 1}) :
-			Pos({ ln: this.ln, col: this.col + 1})
+			Pos({ line: this.line + 1, column: 1}) :
+			Pos({ line: this.line, column: this.column + 1})
 	},
 
 	toString: function() {
-		return this.ln + ":" + this.col
+		return this.line + ":" + this.column
 	}
 })
 
