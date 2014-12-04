@@ -1,7 +1,7 @@
 use
 	..assert -> ! !not
 	..basic-methods -> sub
-	.Bag -> all? each! empty? iterator map
+	.Bag -> all? empty? iterator map
 	.Bag-Type -> empty
 	..Bool -> and
 	..Fun -> thunk
@@ -14,7 +14,7 @@ use
 	..types.Interface -> implementor!
 	..types.Method -> impl!
 	..types.Record-Type
-	..types.Type -> subsumes? !subsumes
+	..types.Type -> subsumes?
 	..types.util -> self-type
 
 ? = Record-Type
@@ -121,11 +121,6 @@ region sub
 	implementor! ?-Sub Type
 	impl! subsumes? ?-Sub |?-sub subsumed
 		and (subsumes? ? subsumed) ~(all? subsumed subsumes?[?-sub.Element-Type])
-
-	impl! !subsumes ?-Sub |?-sub subsumed name
-		!subsumes ? subsumed name
-		each! subsumed |_
-			!subsumes ?-sub.Element-Type _ name
 
 implementor! (self-type ?) Bag-Type
 impl! empty (self-type ?) (thunk ?none)

@@ -22,7 +22,6 @@ make-record-constructor = |rt
 								`_ == true`
 									()
 								any?_
-									\ Can't use `!subsumes` because it may not exist yet
 									ms.checkSubsumes _ val member-name
 						else
 							()

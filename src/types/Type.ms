@@ -1,32 +1,20 @@
 use
+	..assert -> !
 	.Impl-Type
 	.Interface -> unchecked-implementor!
 	.Method -> impl! impl-unchecked!
-	..private.bootstrap -> sym-subsumes? sym-!subsumes Bool Str type-!sub any? has-or-in-proto? false Fun Object
+	..private.bootstrap -> sym-subsumes? Bool any? has-or-in-proto? false Fun Object
 
 subsumes?. Method
 	doc. |:Bool type:Type subsumed
 		"TODO"
 	impl-symbol. sym-subsumes?
 
-!subsumes. Method
-	doc. |type:Type subsumed name:Str
-		"TODO"
-	impl-symbol. sym-!subsumes
-
 Type = Interface
 	doc. "TODO"
-	test. |
-		!subsumes Type Fun
-	methods.
-		. subsumes?
-		. !subsumes
 
 unchecked-implementor! Impl-Type Type
 unchecked-implementor! Method Type
-
-\ TODO: Determine which actually have to be unchecked
-impl-unchecked! !subsumes Type type-!sub
 
 \ TODO: Move
 \ TODO: Use `and`

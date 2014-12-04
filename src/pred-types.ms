@@ -4,7 +4,6 @@ use
 	.assert -> ! !not
 	.basic-methods -> sub
 	.Bool -> not or true
-	.control -> if!
 	.Num
 	.Str
 	.Symbol
@@ -13,7 +12,7 @@ use
 	.types.Pred-Type
 	.types.Record-Type
 	.types.singleton
-	.types.Type -> !subsumes subsumes?
+	.types.Type -> subsumes?
 	.types.util -> self-type
 
 Opt. Pred-Type
@@ -36,9 +35,6 @@ Opt-Sub = Record-Type
 implementor! Opt-Sub Type
 impl! subsumes? Opt-Sub |nt _
 	or (not :Any) ~(subsumes? nt.Exists-Type _)
-impl! !subsumes Opt-Sub |nt _
-	if! :Any |
-		!subsumes nt.Exists-Type _
 
 Any. Pred-Type
 	doc. "Not null or undefined."

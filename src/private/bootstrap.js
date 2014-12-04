@@ -26,7 +26,6 @@ const assignMany = function(target, keysVals) {
 
 exports["sym-sub"] = Symbol("sub")
 exports["sym-subsumes?"] = Symbol("subsumes?")
-exports["sym-!subsumes"] = Symbol("!subsumes")
 exports["sym-type-of"] = Symbol("type-of")
 
 function Lazy(make) {
@@ -77,12 +76,8 @@ set(ms, "subsumes", function(type, value) {
 })
 
 set(ms, "checkSubsumes", function(type, value, name) {
-	if (type == null)
-		throw new Error("Type missing")
-	const check = type[exports["sym-!subsumes"]]
-	if (check == null)
-		throw new Error(ms.show(type) + " does not implement `!subsumes`")
-	check(type, value, name)
+	if (!ms.subsumes(type, value))
+		throw new Error(name + " is no " + ms.show(type) + ", is " + subsumed)
 })
 
 // TODO:ES6 ...args
@@ -207,18 +202,5 @@ exports["proto-impl-sub?!"](Object, function(ignore, _) {
 exports["type-of-sub?!"](Symbol, "symbol")
 
 exports["type-of-sub?!"](Num, "number")
-
-// TODO: Use subsumes? method
-exports["type-!sub"] = function(type, subsumed, name) {
-	// TODO: Assert name is a Str, etc.
-	const impl = type[exports["sym-subsumes?"]]
-	if (!impl(type, subsumed))
-		// TODO: ms.show(type), ms.show(subsumed)
-		throw new Error("Variable " + name + " is no " + type + ", is " + subsumed)
-}
-
-// Don't set permanently because that will be done by `implementor! Fun Type`
-// TODO: Check that above is true
-exports["set-mutable!"](Fun.prototype, exports["sym-!subsumes"], exports["type-!sub"])
 
 exports["extend!"] = Object.assign
