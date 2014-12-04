@@ -8,14 +8,15 @@ use
 	.math.Num
 	.Object -> own-enumerable-properties
 	.Str -> indent
-	.Try -> oh-no!
 	.types.Interface
 	.types.Method -> impl!
 	.types.Pred-Type
 	.types.Record-Type
 
 \ TODO: empty Identity-Set!
-inspecting. `new Set`
+inspecting = `new Set`
+\ `show` often delegates to `inspect`, and vice versa, so that's an OK recursion.
+showing = `new Set`
 
 inspect.
 	doc. "TODO"
@@ -49,7 +50,13 @@ inspect-impl. Method
 		identical? _ `undefined`
 			"undefined"
 		else
-			oh-no! `"Boot error: inspect-impl not yet implemented for " + _`
+			key-vals = map own-enumerable-properties_ |key
+				\ TODO: get-property
+				val:Str = inspect `_[key]`
+				"{key}. {indent val}"
+			"
+				{type-of_}
+					{key-vals.join "\n\t"}
 
 show =
 	doc. |:Str _
@@ -58,12 +65,12 @@ show =
 			This is the method called when you do `\{...}`.
 			For a more detailed Str representation of data, use `inspect`.
 	|case
-		inspecting.has _
-			`"<recursive>"` \"<recursive>"
+		showing.has _
+			`"<recursive>"` \TODO: "<recursive>"
 		else
-			inspecting.add _
+			showing.add _
 			x = show-impl_
-			inspecting.delete _
+			showing.delete _
 			x
 
 show-impl. Method
@@ -76,17 +83,6 @@ impl! inspect-impl Str
 	|_
 		_ \ TODO:Ignored vars
 		`"\"" + _ + "\""`
-
-impl! inspect-impl Object
-	|_
-		key-vals = map own-enumerable-properties_ |key
-			\ TODO: get-property
-			val:Str = inspect `_[key]`
-			"{key}. {indent val}"
-		x = "
-			{type-of_}
-				{key-vals.join "\n\t"}
-		x
 
 \ TODO: show-Bool.ms?
 impl! inspect-impl Bool

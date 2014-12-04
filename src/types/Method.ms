@@ -125,14 +125,16 @@ impl-unchecked!. |method implementor implementation
 \ TODO: Not public
 propagate-method-down!. |implementor method-symbol implementation \ TODO: :Impl-Type :Symbol :Fun
 	case! implementor
-		has-or-in-proto? _.prototype method-symbol
-			() \ Respect overrides
-		:Interface
-			_.implementors.forEach |sub-implementor
-				propagate-method-down! sub-implementor method-symbol implementation
+		writable? _.prototype method-symbol
+			case!
+				:Interface
+					_.implementors.forEach |sub-implementor
+						propagate-method-down! sub-implementor method-symbol implementation
+				else
+					\ Since this is inherited, it is mutable and can be overridden.
+					set-mutable! _.prototype method-symbol implementation
 		else
-			\ Since this is inherited, it is mutable and can be overridden.
-			set-mutable! _.prototype method-symbol implementation
+			()
 
 
 Double-Dispatcher = Record-Type
@@ -162,6 +164,7 @@ impl?.
 	|method:Method type:Impl-Type
 		has-or-in-proto? type.prototype method.impl-symbol
 
+\ TODO: ?direct-impl-for
 ?impl-for. |method:Method type:Impl-Type
 	?get-property type.prototype method.impl-symbol
 

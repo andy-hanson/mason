@@ -69,7 +69,7 @@ Interface = Record-Type
 		super-interfaces. |
 			`[]`
 		prototype. |
-			Object.create Object.prototype
+			Object.create ()
 		\ TODO: Probably shouldn't bother with this
 		methods. |
 			[]
@@ -118,6 +118,7 @@ implementor!.
 					implementation = mi[method]
 					impl! method implementor implementation
 
+\ TODO: Use Stream
 concrete-implementors.
 	doc. "TODO"
 	test. |

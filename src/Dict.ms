@@ -9,7 +9,7 @@ use
 	.maps.Map -> keys
 	.Object
 	.show -> inspect-impl
-	.types.Method -> impl! impl-for
+	.types.Method -> impl!
 
 Dict =
 	doc. "
@@ -32,7 +32,7 @@ impl! type-of Dict |
 
 \ Don't use Map#inspect.
 impl! inspect-impl Dict |_
-	(impl-for inspect-impl Object) _
+	inspect-impl.default _
 
 Dict
 

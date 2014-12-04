@@ -9,7 +9,8 @@ const ms = exports["ms"] = Object.create(null)
 Object.defineProperty(global, "_ms", { value: ms })
 
 const set = function(object, key, val) {
-	Object.defineProperty(object, key, { value: val })
+	// TODO:ES6 `writable` shouldn't need to be explicit
+	Object.defineProperty(object, key, { value: val, writable: false })
 }
 
 const assignMany = function(target, keysVals) {
