@@ -1,15 +1,34 @@
 use
 	.assert -> ! !call
 	.bags.? -> ?none ?some get-or
+	.bags.Array!
+	.bags.Seq
+	.bags.Seq! -> +>!
+	.bags.Bag-Type -> empty
+	.basic-methods -> freeze
 	.Bool -> false true
 	.Comparable -> =?
-	.Fun -> Act call thunk
+	.Fun -> Act call ignore thunk
 	.maps.Map -> ?get
-	.maps.Map! -> set!
 	.pred-types -> Any
-	.Ref -> get ref
 	.Try -> oh-no!
 	.types.singleton
+
+build.
+	doc. "
+		Passes in a `yield` function to `calls-yield`.
+		Returns a Seq of what `calls-yield` called `yield` with.
+	test. |
+		! =? [ ] (build ignore)
+		! =? [ 0 1 ] (build |yield
+			yield 0
+			yield 1
+	|:Seq calls-yield:Fun
+		yielded = empty Array!
+		yield = |_
+			+>! yielded [ _ ]
+		calls-yield yield
+		freeze yielded
 
 switch.
 	doc. "Calls the Fun that `cases` associates with `val`."
@@ -49,10 +68,8 @@ if.
 if!.
 	doc. "Runs `result` iff `condition`."
 	test. |
-		set-me = ref 0
-		if! true |
-			set! set-me 1
-		! =? (get set-me) 1
+		! =? [ 0 ] (build |yield
+			if! true yield[0]
 		if! false oh-no!
 	|condition:Bool result:Act
 		case!
@@ -61,8 +78,12 @@ if!.
 			else
 				()
 
-unreachable!. |
-	oh-no! "This should not be reachable."
+unreachable!.
+	doc. "TODO"
+	|
+		oh-no! "This should not be reachable."
 
-TODO. |
-	oh-no! "This function has not yet been implemented."
+TODO.
+	doc. "TODO"
+	|
+		oh-no! "This function has not yet been implemented."

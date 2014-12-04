@@ -483,6 +483,7 @@ const JSKeywords = new Set([
 	"float",
 	"for",
 	"function",
+	"function*",
 	"global",
 	"goto",
 	"if",
@@ -519,7 +520,9 @@ const JSKeywords = new Set([
 	"var",
 	"void",
 	"while",
-	"with"
+	"with",
+	"yield",
+	"yield*"
 ])
 
 const quote = function(str) {

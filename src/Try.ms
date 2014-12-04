@@ -3,13 +3,11 @@ use
 	.bags.? -> ?none ?some
 	.Bool -> and true
 	.Comparable -> =?
-	.control -> unreachable!
+	.control -> build unreachable!
 	.Fun -> Act thunk
 	.js -> global
-	.maps.Map! -> set!
 	.Object -> change-property! set-property!
 	.pred-types -> Any
-	.Ref -> get ref
 	.Str
 	.types.Interface -> implementor!
 	.types.Record-Type
@@ -137,11 +135,9 @@ error-type.
 always-do-after.
 	doc. "Executes `finally-do`, even if there are errors."
 	test. |
-		set-me = ref 0
-		try |
-			always-do-after oh-no! |
-				set! set-me 1
-		! =? (get set-me) 1
+		! =? [ 0 ] (build |yield
+			try |
+				always-do-after oh-no! yield[0]
 	|tried:Fun[Any] finally-do:Act
 		fd = finally-do
 		tried \ TODO:Ignored vars

@@ -6,16 +6,15 @@ use
 	..bags.Array
 	..bags.Bag -> each!
 	..Bool -> false or true
+	..control -> build
 	..Comparable -> =?
 	..Dict
 	..Fun -> apply ignore
 	..maps.Identity-Map!
 	..maps.Map -> keys
-	..maps.Map! -> set!
 	..modules -> promise-all-modules
 	..Object -> ?get-property own-properties own-enumerable-properties
 	..pred-types -> Any
-	..Ref -> get ref
 	..Str
 	..Try -> annotate-errors Success try
 	..types.Impl-Type
@@ -31,24 +30,16 @@ detect-infinite-loop. |fun
 
 \ TODO
 test. |
-	tested-x = ref false
-	tested-y = ref false
-	tested-b = ref false
-	dict =
-		a.
-			test.
-				x. |
-					set! tested-x true
-				y. |
-					set! tested-y true
-		b. `{}` \ TODO: empty Dict
-		impl! test-special (self-type b) |
-			set! tested-b true
-		c. () \ not testable
-	maybe-test "dict" dict true
-	! (get tested-x)
-	! (get tested-y)
-	! (get tested-b)
+	! =? [ "x" "y" "b" ] (build |yield
+		dict =
+			a.
+				test.
+					x. yield["x"]
+					y. yield["y"]
+			b. `{}` \ TODO: empty Dict
+			impl! test-special (self-type b) yield["b"]
+			c. () \ not testable
+		maybe-test "dict" dict true
 
 \ TODO: Better name (but not `test`, because that's a common module property)
 test-special. Method
