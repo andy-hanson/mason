@@ -129,6 +129,7 @@ add-property!.
 	|object:Object name:Str/Sym val
 		Object.defineProperty object name
 			enumerable. true
+			writable. false
 			value. val
 
 has-property?.

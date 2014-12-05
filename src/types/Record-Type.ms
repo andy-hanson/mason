@@ -1,5 +1,5 @@
 use
-	..private.bootstrap -> sym-type-of Dict oh-no! set! Object has? ms Str get-or-undefined any? true Fun get extend! exists? proto-impl-contains?!
+	..private.bootstrap -> sym-type-of Dict oh-no! set! Object has? ms Str get-or-undefined any? true false Fun get extend! exists? proto-impl-contains?!
 
 record-type-post-construct = |rt
 	\ Every Record-Type's instances know their type.
@@ -55,6 +55,7 @@ make-record-constructor = |rt
 					enumerable. true
 					make-default:Fun = get rt.defaults _
 					value. make-default baby
+					writable. false
 			else
 				oh-no! ~"Member `{_}` not specified, and no default is available."
 
@@ -62,7 +63,7 @@ make-record-constructor = |rt
 			any? _
 				make-callable:Fun = _
 				callable = make-callable baby
-				Object.setPrototypeOf callable (Object.getPrototypeOf baby)
+				Object.setPrototypeOf callable rt.prototype
 				extend! callable baby
 				callable
 			else

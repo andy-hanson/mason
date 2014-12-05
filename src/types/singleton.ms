@@ -8,10 +8,12 @@ use
 
 \ Object.ms requires singleton.ms, so must make our own
 Object = global.Object
+\ TODO: Use bootstrap
 add-property! = |object name val
 	Object.defineProperty object name
 		value. val
 		enumerable. `true`
+\ TODO: Use bootstrap
 has-property? = |object name
 	Object.prototype.hasOwnProperty.call object name
 

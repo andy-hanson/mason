@@ -21,7 +21,7 @@ const assignMany = function(target, keysVals) {
 		Object.defineProperty(target, key,
 			(val instanceof Lazy) ?
 			{ get: val.get, enumerable: true } :
-			{ value: val, enumerable: true })
+			{ value: val, writable: false, enumerable: true })
 	}
 }
 
