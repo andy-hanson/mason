@@ -3,13 +3,13 @@ use
 	.Bag -> builder Builder build-next! build-result empty? iterator
 	.Bag-Type -> empty
 	..basic-methods -> =>
+	..Comparable! -> <!
 	..Fun -> thunk
 	..js -> reference=?
 	..Object -> change-property!
 	..pred-types -> Any
 	.Seq
 	..Try -> fails? oh-no!
-	..types.Interface -> implementor!
 	..types.Method -> impl!
 	..types.Record-Type
 	..types.Type -> contains?
@@ -30,7 +30,7 @@ empty-? =
 		val. `undefined`
 
 region Is Seq
-	implementor! ? Seq
+	<! ? Seq
 
 	impl! empty? ? |_
 		reference=? _ empty-?
@@ -44,7 +44,7 @@ region Is Seq
 	?-Builder = Record-Type
 		members.
 			value!.
-	implementor! ?-Builder Builder
+	<! ?-Builder Builder
 	impl! build-next! ?-Builder |_ next
 		in
 			!not (contains? Any _.value!) "`?` can not contain more than one element."
@@ -61,7 +61,7 @@ region Is Seq
 			?-Builder
 				value!. ()
 
-	implementor! (self-type ?) Bag-Type
+	<! (self-type ?) Bag-Type
 	impl! empty (self-type ?) (thunk empty-?)
 
 region Funs

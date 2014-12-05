@@ -1,16 +1,17 @@
 use
 	..bags.? -> Opt->?
+	..Comparable! -> <!
 	..js -> global
 	.Map -> ?get has-key? keys
 	.Map! -> delete! empty! set!
 	..Try -> oh-no!
-	..types.Interface -> implementor!
 	..types.Method -> impl!
 
 Weak-Identity-Map! =
 	doc. "TODO"
 	global.WeakMap
 
+<! Weak-Identity-Map! Map!
 impl! ?get Weak-Identity-Map! |_ key
 	Opt->? (_.get key)
 impl! has-key? Weak-Identity-Map! |_ key
@@ -23,7 +24,5 @@ impl! delete! Weak-Identity-Map! |_ key
 	_.delete key
 impl! set! Weak-Identity-Map! |_ key val
 	_.set key val
-
-implementor! Weak-Identity-Map! Map!
 
 Weak-Identity-Map!

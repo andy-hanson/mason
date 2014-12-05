@@ -1,7 +1,7 @@
 use
 	..assert -> ! !not
 	..Comparable -> =?
-	.Interface -> implementor!
+	..Comparable! -> <!
 	.Method -> impl!
 	.Record-Type
 	.Type -> contains?
@@ -19,7 +19,7 @@ Alias-Type. Record-Type
 		displayName. Str
 		alias-of. Type
 
-implementor! Alias-Type Type
+<! Alias-Type Type
 
 impl! contains? Alias-Type |_ value
 	contains? _.alias-of value

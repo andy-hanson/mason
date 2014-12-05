@@ -2,6 +2,7 @@ use
 	..assert -> !
 	..bags.Bag -> each! flat-map
 	..Comparable -> =?
+	..Comparable! -> <!
 	..maps.Map -> keys
 	.Method -> impl! propagate-method-down!
 	..private.bootstrap -> Str Array Object Symbol true set! get own-properties
@@ -28,8 +29,8 @@ Interface = Record-Type
 			C = Record-Type
 				members.
 					c.
-			implementor! B A
-			implementor! C B
+			<! B A
+			<! C B
 			c = C
 				c. 1
 			! contains? A c
@@ -42,8 +43,8 @@ Interface = Record-Type
 			Z = Record-Type
 				members.
 					x.
-			implementor! Z Y
-			implementor! Y X
+			<! Z Y
+			<! Y X
 			z = Z
 				x. 1
 			! contains? X z
@@ -98,6 +99,7 @@ inherit-methods! = |implementor interface
 	interface.super-interfaces.forEach |_
 		inherit-methods! implementor _
 
+\ Typically one would use `<!`.
 implementor!.
 	doc. "TODO"
 	\ TODO: implementor:Impl-Type

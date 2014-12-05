@@ -7,13 +7,13 @@ use
 	.Bag-Type -> empty
 	..basic-methods -> => length
 	..Comparable -> =? <? >=?
+	..Comparable! -> <!
 	..control -> if
 	..Fun -> thunk
 	..math.Num -> Nat round-down sign
 	..pred-types -> Opt
 	..Ref -> get mod! ref
 	.Seq -> ?nth seq=?
-	..types.Interface -> implementor!
 	..types.Method -> impl! impl-for
 	..types.Record-Type
 	..types.util -> self-type
@@ -38,7 +38,7 @@ range. |-start-:Num -end-:Num -step-:Opt[Num]
 impl! length Range |_
 	- _.end _.start
 
-implementor! Range Bag
+<! Range Bag
 	builder -> impl-for builder Array
 	?nth ->
 		test. |
@@ -67,6 +67,6 @@ implementor! Range Bag
 						<~ (get i)
 						mod! i +[_.step]
 
-implementor! (self-type Range) Bag-Type
+<! (self-type Range) Bag-Type
 	empty -> thunk (range 0 0)
 

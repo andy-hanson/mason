@@ -1,11 +1,11 @@
 use
 	..arithmetic-methods -> +
+	..Comparable! -> <!
 	..Dict
-	..types.Interface -> implementor!
 	.Map -> ?get keys
 	..Object -> ?get-property add-property! own-properties
 
-implementor! Dict Map
+<! Dict Map
 	?get -> ?get-property
 	+ -> |_ dict2:Dict
 		\ TODO: Clean up

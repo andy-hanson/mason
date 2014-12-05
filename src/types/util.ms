@@ -2,8 +2,8 @@ doc. "TODO"
 
 use
 	..bags.Bag -> map
+	..Comparable! -> <!
 	.Impl-Type
-	.Interface -> implementor!
 	..Object -> get-property
 	.Record-Type
 
@@ -22,7 +22,7 @@ Self-Type. Record-Type
 	members.
 		prototype. Object
 
-implementor! Self-Type Impl-Type
+<! Self-Type Impl-Type
 
 self-type. |x:Object
 	Self-Type

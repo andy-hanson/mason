@@ -29,5 +29,5 @@ compare. Method
 	default. |:Bool a b
 		>=? (compare a b) 0
 
-Comparable. Interface
+Interface
 	doc. "TODO"

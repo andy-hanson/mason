@@ -4,8 +4,8 @@ use
 	.assert -> ! !not
 	.basic-methods -> sub
 	.Bool -> not or true
+	.Comparable! -> <!
 	.Str
-	.types.Interface -> implementor!
 	.types.Method -> impl!
 	.types.Pred-Type
 	.types.Record-Type
@@ -13,26 +13,28 @@ use
 	.types.Type -> contains?
 	.types.util -> self-type
 
-Opt. Pred-Type
-	doc. "A value which could be null or undefined."
-	predicate. |
-		`true`
+region Opt
+	\ TODO: Does Opt need to exist?
 
-impl! sub (self-type Opt)
-	doc. "Contains null, undefined, or an instance of Exists-Type."
-	|Exists-Type
-		ET = Exists-Type
-		Opt-Sub
-			Exists-Type. ET
+	Opt. Pred-Type
+		doc. "A value which could be null or undefined."
+		predicate. |
+			`true`
 
-Opt-Sub = Record-Type
-	doc. "Result of calling Opt[something]."
-	members.
-		Exists-Type. Type
+	impl! sub (self-type Opt)
+		doc. "Contains null, undefined, or an instance of Exists-Type."
+		|Exists-Type
+			ET = Exists-Type
+			Opt-Sub
+				Exists-Type. ET
 
-implementor! Opt-Sub Type
-impl! contains? Opt-Sub |nt _
-	or (not :Any) ~(contains? nt.Exists-Type _)
+	Opt-Sub = Record-Type
+		doc. "Result of calling Opt[something]."
+		members.
+			Exists-Type. Type
+	<! Opt-Sub Type
+	impl! contains? Opt-Sub |nt _
+		or (not :Any) ~(contains? nt.Exists-Type _)
 
 Any. Pred-Type
 	doc. "Not null or undefined."

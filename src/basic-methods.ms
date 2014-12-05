@@ -33,4 +33,3 @@ length. Method
 =>. Method
 	doc. |convert-to:Type convert-me
 		"Converts a value to a given type."
-

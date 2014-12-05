@@ -5,10 +5,10 @@ use
 	.Bag! -> empty!
 	..basic-methods -> =>
 	..Bool -> and not
+	..Comparable! -> <!
 	..control -> if
 	..Object -> frozen?
 	.Seq! -> <+! +>! ?<pop! ?pop>!
-	..types.Interface -> implementor!
 	..types.Pred-Type
 	..types.util -> self-type
 
@@ -19,12 +19,12 @@ Array! = Pred-Type
 	predicate. |_
 		and :Array ~(not frozen?_)
 
-implementor! (self-type Array!) Bag-Type
+<! (self-type Array!) Bag-Type
 	empty -> |
 		`[]`
 
 \ We're defining these on Arrays, but they will only work for Array!s because Arrays are frozen
-implementor! Array Seq!
+<! Array Seq!
 	<+! -> |_ added:Bag
 		Array.prototype.unshift.apply _ (=> Array added)
 	+>! -> |_ added

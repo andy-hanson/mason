@@ -1,6 +1,6 @@
 use
+	..Comparable! -> <!
 	..Fun -> Pred
-	.Interface -> implementor!
 	.Method -> impl!
 	.Record-Type
 	..Str
@@ -20,9 +20,7 @@ Pred-Type = Record-Type
 				else
 					oh-no! "Need displayName for Pred-Type. Got {_}."
 
-\ Can't use map syntax because that requires this.
-implementor! Pred-Type Type
-
+<! Pred-Type Type
 impl! contains? Pred-Type |_ value
 	_.predicate value
 

@@ -9,6 +9,7 @@ use
 	..basic-methods -> => freeze
 	..Bool -> and or
 	..Comparable -> =? <=? >=?
+	..Comparable! -> <!
 	..control -> if
 	..Fun
 	..math.Num -> Nat
@@ -17,13 +18,13 @@ use
 	.Seq! -> +>!
 	.Stream -> streaming
 	..Try -> fails? oh-no!
-	..types.Interface -> implementor!
+	..types.Interface
 	..types.Method
 
 Seq = Interface
 	doc. "TODO"
 
-implementor! Seq Bag
+<! Seq Bag
 
 region Search
 	seq=?.

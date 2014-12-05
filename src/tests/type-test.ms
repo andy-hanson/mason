@@ -4,8 +4,9 @@ use
 	..assert -> !
 	..basic-methods -> type-of
 	..Comparable -> =?
+	..Comparable! -> <!
 	..math.Num
-	..types.Interface -> implementor!
+	..types.Interface
 	..types.Method -> impl!
 	..types.Record-Type
 
@@ -37,8 +38,8 @@ impl! x Num |n
 Has-X. Interface
 	displayName. "Has-X"
 
-implementor! Vec2D Has-X
-implementor! Num Has-X
+<! Vec2D Has-X
+<! Num Has-X
 
 a:Has-X = v
 b:Has-X = 1

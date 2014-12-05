@@ -6,6 +6,7 @@ use
 	.Bag! -> empty!
 	..Bool -> not
 	..Comparable -> =?
+	..Comparable! -> <!
 	..control -> if
 	..Fun -> identity
 	..maps.Map! -> set!
@@ -15,7 +16,6 @@ use
 	..Ref -> get mod! ref
 	.Seq -> reverse
 	.Seq! -> <+! +>! ?<pop! ?pop>!
-	..types.Interface -> implementor!
 	..types.Method -> impl!
 	..types.Record-Type
 	..types.util -> self-type
@@ -28,7 +28,7 @@ Deque! = Record-Type
 		start-index!. Nat \ Inclusive (unless =? end-index)
 		end-index!. Nat \ Exclusive
 
-implementor! (self-type Deque!) Bag-Type
+<! (self-type Deque!) Bag-Type
 	empty -> |
 		Deque!
 			data!. Array 8
@@ -38,7 +38,7 @@ implementor! (self-type Deque!) Bag-Type
 \ TODO: Define it this way for all Bag!s
 impl! builder Deque! |
 	empty Deque!
-implementor! Deque! Builder
+<! Deque! Builder
 	build-next! -> |_ em
 		+>! _ [ em ]
 	build-result -> identity
@@ -63,7 +63,7 @@ region Helpers
 	prev-index = |_ index:Nat
 		modulo (- index 1) capacity_
 
-implementor! Deque! Seq!
+<! Deque! Seq!
 	iterator -> ~|_
 		i = ref _.start-index!
 		\ TODO: Efficiency, safety

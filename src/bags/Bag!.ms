@@ -5,8 +5,9 @@ use
 	.Bag -> each! empty?
 	.Bag-Type -> empty
 	..Comparable -> =?
+	..Comparable! -> <!
 	.Seq! -> +>!
-	..types.Interface -> implementor!
+	..types.Interface
 	..types.Method
 	..types.util -> self-type
 	..types.Type -> contains?
@@ -42,9 +43,9 @@ empty!. Method
 
 \ TODO: delete!
 
-implementor! Bag! Bag
+<! Bag! Bag
 
-implementor! (self-type Bag!) Bag-Type
+<! (self-type Bag!) Bag-Type
 	empty -> |
 		empty Array!
 

@@ -4,10 +4,10 @@ use
 	..bags.Seq -> seq=?
 	..bags.Stream
 	..Comparable -> =?
+	..Comparable! -> <!
 	..js -> global new
 	.Map -> ?get has-key? keys values
 	.Map! -> empty! delete! set!
-	..types.Interface -> implementor!
 	..types.Method -> impl!
 
 Identity-Map! =
@@ -32,7 +32,7 @@ Identity-Map! =
 
 	global.Map
 
-\ Can't use map syntax because that uses this...
+<! Identity-Map! Map!
 impl! ?get Identity-Map! |_ key
 	Opt->? (_.get key)
 impl! has-key? Identity-Map! |_ key
@@ -51,8 +51,6 @@ impl! delete! Identity-Map! |_ key
 	_.delete key
 impl! set! Identity-Map! |_ key val
 	_.set key val
-
-implementor! Identity-Map! Map!
 
 Identity-Map!
 

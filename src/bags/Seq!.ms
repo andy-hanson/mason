@@ -8,9 +8,10 @@ use
 	.Bag!
 	..basic-methods -> =>
 	..Comparable -> =?
+	..Comparable! -> <!
 	.Deque!
 	.Seq -> seq=?
-	..types.Interface -> implementor!
+	..types.Interface
 	..types.Method
 	..types.util -> self-type
 
@@ -34,8 +35,8 @@ Seq! = Interface
 		! empty? _
 		+>! _ [ 1 2 3 ]
 
-implementor! Seq! Bag!
-implementor! Seq! Seq
+<! Seq! Bag!
+<! Seq! Seq
 
 <+!. Method
 	doc. |_ added:Bag
@@ -51,7 +52,7 @@ implementor! Seq! Seq
 	doc. |:? _
 		"TODO"
 
-implementor! (self-type Seq!) Bag-Type
+<! (self-type Seq!) Bag-Type
 	empty -> |
 		empty Deque!
 

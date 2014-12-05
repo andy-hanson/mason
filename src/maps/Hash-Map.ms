@@ -10,6 +10,7 @@ use
 	..bags.Seq -> seq=?
 	..basic-methods -> freeze
 	..Comparable -> =?
+	..Comparable! -> <!
 	..hash-code
 	.Identity-Map!
 	..js -> new
@@ -21,7 +22,6 @@ use
 	..private.bootstrap -> ms
 	..Ref -> get mod! ref
 	..Try -> oh-no!
-	..types.Interface -> implementor!
 	..types.Method -> impl!
 	..types.Record-Type
 
@@ -103,6 +103,6 @@ impl! freeze Hash-Map |_
 	freeze _.hash->bucket
 	Object.freeze _
 
-implementor! Hash-Map Map!
+<! Hash-Map Map!
 
 Hash-Map

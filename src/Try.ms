@@ -5,13 +5,14 @@ use
 	.basic-methods -> =>
 	.Bool -> and true
 	.Comparable -> =?
+	.Comparable! -> <!
 	.control -> build unreachable!
 	.Fun -> Act thunk
 	.js -> global
 	.Object -> change-property! set-property!
 	.pred-types -> Any
 	.Str
-	.types.Interface -> implementor!
+	.types.Interface
 	.types.Record-Type
 	.types.Type -> contains?
 
@@ -25,8 +26,8 @@ Success. Record-Type
 Error.
 	doc. "TODO"
 	global.Error
-implementor! Success Try
-implementor! Error Try
+<! Success Try
+<! Error Try
 \ TODO: Closed interfaces?
 
 \ TODO: public?

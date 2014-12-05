@@ -2,9 +2,10 @@ use
 	.Array
 	.Bag -> from-stream
 	..basic-methods -> => sub
+	..Comparable! -> <!
 	..Fun -> identity
 	.Range -> range
-	..types.Interface -> implementor!
+	..types.Interface
 	..types.Method -> impl!
 	..types.util -> self-type
 
@@ -16,7 +17,7 @@ Bag-Type = Interface
 	doc. "Any sub-type of Bag."
 
 impl! sub Bag-Type identity
-implementor! (self-type Bag) Bag-Type
+<! (self-type Bag) Bag-Type
 impl! empty (self-type Bag) |
 	empty Array
 

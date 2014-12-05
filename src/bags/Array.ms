@@ -7,10 +7,10 @@ use
 	..basic-methods -> freeze type-of
 	..Bool -> and
 	..Comparable -> =?
+	..Comparable! -> <!
 	..Fun -> thunk
 	..js -> global
 	.Seq -> seq=?
-	..types.Interface -> implementor!
 	..types.Method ->  impl!
 	..types.Type -> contains?
 	..types.util -> self-type
@@ -19,7 +19,7 @@ Array =
 	doc. "Javascript's native mutable Array type. TODO: `Array` vs `Array!`"
 	global.Array
 
-implementor! Array Seq
+<! Array Seq
 
 impl! count Array |_
 	_.length
@@ -36,7 +36,7 @@ impl! =? Array
 	|a b
 		and (contains? Array b) ~(and (=? a.length b.length) ~(seq=? a b))
 
-implementor! (self-type Array) Bag-Type
+<! (self-type Array) Bag-Type
 impl! empty (self-type Array) (thunk [])
 
 impl! builder Array |

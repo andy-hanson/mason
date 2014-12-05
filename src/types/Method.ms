@@ -46,6 +46,8 @@ Method = Record-Type
 			Symbol _.displayName
 		default. |_
 			|target
+				`console.log(_)`
+				`console.log(target)`
 				oh-no! ~"{_} not implemented for {target}"
 	make-callable. |method
 		|target
@@ -136,11 +138,10 @@ propagate-method-down!. |implementor method-symbol implementation \ TODO: :Impl-
 		else
 			()
 
-
 Double-Dispatcher = Record-Type
 	members.
 		method. Method
-		first-type. Impl-Type
+		~first-type. Impl-Type
 		impl-symbol. Symbol
 	make-callable. |_
 		|ignore target-2

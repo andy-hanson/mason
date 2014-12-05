@@ -1,8 +1,9 @@
 use
 	..assert -> !not
 	..Bool
+	..Comparable! -> <!
 	.Map -> has-key?
-	..types.Interface -> implementor!
+	..types.Interface
 	..types.Method
 	..types.pred-types -> Any
 
@@ -30,9 +31,6 @@ add!. Method
 Map! = Interface
 	doc. "TODO"
 
-\ TODO: Its own file, and bindings.
-\ Identity-Map!. global.Map
-
-implementor! Map! Map
+<! Map! Map
 
 Map!

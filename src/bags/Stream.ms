@@ -6,13 +6,13 @@ use
 	..basic-methods -> =>
 	..Bool -> and or
 	..Comparable -> =?
+	..Comparable! -> <!
 	..Fun -> Pred thunk
 	..Generator!
 	..math.Num -> Nat
 	..pred-types -> Any
 	..Ref -> get mod! ref
 	.Seq -> drop seq=? slice take
-	..types.Interface -> implementor!
 	..types.Method -> impl!
 	..types.Record-Type
 	..types.Type -> contains?
@@ -26,7 +26,7 @@ Stream = Record-Type
 	members.
 		make-iterator. Fun[Generator!]
 
-implementor! Stream Seq
+<! Stream Seq
 impl! iterator Stream |_
 	_.make-iterator ()
 
@@ -48,7 +48,7 @@ streaming.
 
 empty-stream = streaming ~|
 	()
-implementor! (self-type Stream) Bag-Type
+<! (self-type Stream) Bag-Type
 impl! empty (self-type Stream) (thunk empty-stream)
 
 
