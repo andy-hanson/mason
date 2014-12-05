@@ -1,6 +1,6 @@
 use
 	.Bool -> or
-	.js -> identical?
+	.js -> reference=?
 	.Object -> inspect=?
 	.types.Interface
 	.types.Method
@@ -11,7 +11,7 @@ compare. Method
 =?. Method
 	doc. "TODO"
 	default. |:Bool a b
-		or (identical? a b) ~(inspect=? a b)
+		or (reference=? a b) ~(inspect=? a b)
 <?. Method
 	doc. "TODO"
 	default. |:Bool a b

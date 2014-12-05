@@ -13,7 +13,7 @@ use
 	.Bool -> and false not nor true xor
 	.Comparable -> =?
 	.Dict
-	.js -> global identical? js-typeof
+	.js -> global js-typeof reference=?
 	.maps.Map -> keys
 	.pred-types -> Any Union
 	.Symbol
@@ -149,7 +149,7 @@ has-property-or-in-prototype?.
 	test. |
 		! has-property-or-in-prototype? Dict.empty "toString"
 	|object:Object name:Str/Sym
-		not (identical? (get object name) `undefined`)
+		not (reference=? (get object name) `undefined`)
 
 extend!.
 	doc. "TODO"
@@ -193,15 +193,15 @@ inspect=?.
 			xor any-a any-b
 				false
 			else
-				obj-a = identical? (js-typeof a) "object"
-				obj-b = identical? (js-typeof b) "object"
+				obj-a = reference=? (js-typeof a) "object"
+				obj-b = reference=? (js-typeof b) "object"
 				case
 					nor obj-a obj-b
-						identical? a b
+						reference=? a b
 					xor obj-a obj-b
 						false
 					else
-						same-type = identical? (Object.getPrototypeOf a) (Object.getPrototypeOf b)
+						same-type = reference=? (Object.getPrototypeOf a) (Object.getPrototypeOf b)
 						~same-members =
 							ak = Object.getOwnPropertyNames a
 							bk = Object.getOwnPropertyNames b

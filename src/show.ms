@@ -4,7 +4,7 @@ use
 	.basic-methods -> type-of
 	.Bool -> false true
 	.Fun -> identity
-	.js -> identical?
+	.js -> reference=?
 	.math.Num
 	.Object -> own-enumerable-properties
 	.Str -> indent
@@ -45,9 +45,9 @@ inspect-impl. Method
 		"TODO"
 	default. |case
 		\ TODO: Use impl! for some of these cases
-		identical? _ ()
+		reference=? _ ()
 			"()"
-		identical? _ `undefined`
+		reference=? _ `undefined`
 			"undefined"
 		else
 			key-vals = map own-enumerable-properties_ |key

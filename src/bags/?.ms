@@ -4,7 +4,7 @@ use
 	.Bag-Type -> empty
 	..basic-methods -> =>
 	..Fun -> thunk
-	..js -> identical?
+	..js -> reference=?
 	..math.Num
 	..Object -> change-property!
 	..pred-types -> Any
@@ -35,7 +35,7 @@ region Is Seq
 	implementor! ? Seq
 
 	impl! empty? ? |_
-		identical? _ empty-?
+		reference=? _ empty-?
 
 	impl! iterator ? ~|case!
 		empty?_

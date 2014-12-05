@@ -13,14 +13,14 @@ use
 
 global. `global`
 
-identical?.
+reference=?.
 	doc. "
 		For objects, whether they are the same place in memory.
 		For primitive types, whether they have the same data.
 
 	test. |
-		! (identical? "a" "a")
-		! (not (identical? [ "a" ] [ "a" ]))
+		! reference=? "a" "a"
+		!not reference=? [ "a" ] [ "a" ]
 
 	Object.is
 
@@ -57,7 +57,7 @@ new.
 
 	|constructor:Fun
 		in
-			!not identical? constructor Error
+			!not reference=? constructor Error
 		boundConstructor = Fun.prototype.bind.apply constructor `arguments`
 		boundConstructor \ TODO:Ignored vars
 		`new boundConstructor`
