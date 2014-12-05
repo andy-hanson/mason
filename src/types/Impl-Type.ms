@@ -1,6 +1,7 @@
 use
+	..Comparable -> <?
 	..Comparable! -> <!
-	.Interface -> unchecked-implementor! implementor!
+	.Interface -> unchecked-implementor! implementor! implementor?
 	.Method -> impl-unchecked!
 	..private.bootstrap -> Fun
 	.Record-Type
@@ -10,6 +11,7 @@ Impl-Type = Interface
 		TODO:REST
 		Every Impl-Type should have a `prototype` property.
 
+impl-unchecked! <? Impl-Type implementor?
 impl-unchecked! <! Impl-Type implementor!
 
 \ Needed since would normally done by default for `prototype`

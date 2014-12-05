@@ -1,8 +1,11 @@
 use
-	..assert -> !
-	..bags.Bag -> each! flat-map
-	..Comparable -> =?
+	..assert -> ! !not
+	..bags.Bag -> any? each! flat-map
+	..Bool -> or
+	..Comparable -> =? <?
 	..Comparable! -> <!
+	.Impl-Type
+	..js -> reference=?
 	..maps.Map -> keys
 	.Method -> impl! propagate-method-down!
 	..private.bootstrap -> Str Array Object Symbol true set! get own-properties
@@ -56,7 +59,6 @@ Interface = Record-Type
 				1
 			! =? (asdf z) 1
 			! (contains? X z)
-
 	members.
 		displayName. Str
 		super-interfaces. Array \ TODO: [~Interface]
@@ -75,11 +77,6 @@ Interface = Record-Type
 			Symbol `"isa-" + _.displayName` \"isa-{_.displayName}" TODO
 	post-construct. |iface
 		set! iface.prototype iface.symbol-for-isa true
-		case! iface.super
-			:Interface
-				unchecked-implementor! iface _
-			else
-				()
 
 \ Making something an instance of Impl-Type is difficult because implementor! checks that it's already an Impl-Type...
 unchecked-implementor!.
@@ -99,6 +96,7 @@ inherit-methods! = |implementor interface
 	interface.super-interfaces.forEach |_
 		inherit-methods! implementor _
 
+\ TODO: Assert no circular chains of implementor!.
 \ Typically one would use `<!`.
 implementor!.
 	doc. "TODO"
@@ -113,6 +111,32 @@ implementor!.
 				each! (keys mi) |method
 					implementation = mi[method]
 					impl! method implementor implementation
+
+\ Typically one would use `<?`.
+implementor?.
+	doc. "TODO"
+	test. |
+		A = Interface
+			doc. "A"
+		B = Interface
+			doc. "B"
+		C = Record-Type
+			members.
+				c.
+		<! B A
+		<! C B
+		! <? B A
+		! <? C B
+		! <? C A
+		!not <? A B
+	|implementor:Impl-Type interface:Interface
+		case implementor
+			:Record-Type
+				contains? interface implementor.prototype
+			:Interface
+				any? _.super-interfaces |super
+					\ TODO: Just use `=? super interface` ?
+					or (reference=? super interface) ~(implementor? super interface)
 
 \ TODO: Use Stream
 concrete-implementors.
