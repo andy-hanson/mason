@@ -4,12 +4,13 @@ use
 	.Alias-Type
 	.arithmetic-methods -> *
 	.assert -> !
-	.bags.? -> ?none ?some
+	.bags.?
 	.bags.Array!
 	.bags.Bag -> iterator
 	.bags.Bag-Type -> empty
 	.bags.Seq -> seq=?
 	.bags.Stream -> streaming
+	.basic-methods -> =>
 	.Bool -> and false true
 	.Comparable -> =?
 	.Fun
@@ -65,19 +66,19 @@ if~.
 			a <~~ if~ true ~|
 				<~ 1
 				2
-			! =? a (?some 2)
+			! =? a (=> ? [ 2 ])
 			b <~~ if~ false ~|
 				<~ 3
-			! =? b ?none
+			! =? b (empty ?)
 		! seq=? stream [ 1 ]
 
 	~|:? condition:Bool result:Fun[Generator!]
 		case
 			condition
 				_ <~~ result ()
-				?some_
+				=> ? [ _ ]
 			else
-				?none
+				empty ?
 
 \ TODO: Others...
 

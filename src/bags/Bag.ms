@@ -1,5 +1,5 @@
 use
-	.? -> ?none ?some get-or Opt->?
+	.? -> get-or Opt->?
 	..arithmetic-methods -> +
 	..assert -> ! !not
 	.Bag-Type -> empty
@@ -113,13 +113,14 @@ region Functions using just the iterator
 			not x
 
 	?first-where. |_ pred:Pred
-		s = ?some
+		s = |x
+			=> ? [ x ]
 		s \ TODO:Ignored vars
 		iter = iterator_\ TODO:ES6 for (let em of _)
 		iter \ TODO:Ignored vars
 		pred \ TODO:Ignored vars
 		`for (let em of  iter) if (pred(em)) return s(em)`
-		?none
+		empty ?
 
 region Methods only needing iterator
 	count. Method
@@ -154,7 +155,7 @@ region Methods using builder
 				divisible? _ 2
 					[ _ _ ]
 				else
-					?some_
+					[ _ ]
 			[ [ 1 2 3 4 ] f ] -> [ 1 2 2 3 4 4 ]
 		default. |_ mapper:Fun[Any Bag]
 			b = builder_

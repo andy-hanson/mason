@@ -3,9 +3,10 @@ doc. "TODO"
 use
 	.arithmetic-methods -> +
 	.assert -> ! !not
-	.bags.? -> ?none ?some Opt->?
+	.bags.? -> Opt->?
 	.bags.Array
 	.bags.Bag -> each! empty? keep
+	.bags.Bag-Type -> empty
 	.bags.Seq -> seq=?
 	.bags.Stream
 	.basic-methods -> =>
@@ -85,16 +86,16 @@ own-enumerable-properties.
 	test. |
 		x =
 			a. 1
-		[ x "a" ] -> ?some 1
+		[ x "a" ] -> => ? [ 1 ]
 		\ Does not inherit from prototype.
-		[ x "toString" ] -> ?none
+		[ x "toString" ] -> empty ?
 	|_:Object name:Str/Sym
 		case
 			has-property? _ name
 				\ Could still be null/undefined.
 				Opt->? (get _ name)
 			else
-				?none
+				empty ?
 
 get-property.
 	doc. "TODO"
@@ -111,8 +112,8 @@ get-property.
 	test. |
 		\ TODO: empty Dict
 		x = Dict.empty
-		[ x "toString" ] -> ?some Object.prototype.toString
-		[ x "asdfghjkl" ] -> ?none
+		[ x "toString" ] -> => ? [ Object.prototype.toString ]
+		[ x "asdfghjkl" ] -> empty ?
 	|object:Object name:Str/Sym
 		Opt->? (get object name)
 

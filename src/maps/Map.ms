@@ -18,7 +18,7 @@ use
 
 ?get. Method
 	doc. |:? _ key:Any
-		"?some of the value corresponding to `key`, or ?none if not `has-key? _ key`."
+		"`?` containing the value corresponding to `key`, if any."
 
 has-key?. Method
 	doc. |:Bool _ key:Any

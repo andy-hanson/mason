@@ -1,11 +1,11 @@
 use
 	.assert -> ! !call
-	.bags.? -> ?none ?some get-or
+	.bags.? -> get-or
 	.bags.Array!
 	.bags.Seq
 	.bags.Seq! -> +>!
 	.bags.Bag-Type -> empty
-	.basic-methods -> freeze
+	.basic-methods -> => freeze
 	.Bool -> false true
 	.Comparable -> =?
 	.Fun -> Act call ignore thunk
@@ -54,16 +54,16 @@ switch-else. singleton
 	doc. "TODO"
 
 if.
-	doc. "Iff `condition`, evaluates `result` and puts it in `?some`."
+	doc. "Iff `condition`, evaluates `result` and puts it in a `?`."
 	test. |
-		[ true (thunk 0) ] -> ?some 0
-		[ false (thunk 0) ] -> ?none
+		[ true (thunk 0) ] -> => ? [ 0 ]
+		[ false (thunk 0) ] -> empty ?
 	|:? condition:Bool result:Fun
 		case
 			condition
-				?some (call result)
+				=> ? [ (call result) ]
 			else
-				?none
+				empty ?
 
 if!.
 	doc. "Runs `result` iff `condition`."

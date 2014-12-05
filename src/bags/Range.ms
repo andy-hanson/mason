@@ -1,11 +1,11 @@
 use
 	..arithmetic-methods -> + - * /
 	..assert -> !
-	.? -> ?none ?some get-or Opt->?
+	.? -> get-or Opt->?
 	.Array
 	.Bag -> builder count iterator
 	.Bag-Type -> empty
-	..basic-methods -> length
+	..basic-methods -> => length
 	..Comparable -> =? <? >=?
 	..control -> if
 	..Fun -> thunk
@@ -43,8 +43,8 @@ implementor! Range Bag
 	?nth ->
 		test. |
 			r = range 0 10 2
-			[ r 2 ] -> ?some 4
-			[ r 6 ] -> ?none
+			[ r 2 ] -> => ? [ 4 ]
+			[ r 6 ] -> empty ?
 		|_ n:Nat
 			it = + _.start (* _.step n)
 			if (<? it _.end) |

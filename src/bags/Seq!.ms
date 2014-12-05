@@ -1,11 +1,12 @@
 use
-	.? -> ?none ?some
+	.?
 	.Array
 	.Array!
 	..assert -> !
 	.Bag -> empty?
 	.Bag-Type -> empty
 	.Bag!
+	..basic-methods -> =>
 	..Comparable -> =?
 	.Deque!
 	.Seq -> seq=?
@@ -25,11 +26,11 @@ Seq! = Interface
 		+>! _ [ 1 2 ]
 		<+! _ [ -2 -1 ]
 		! seq=? _ [ -2 -1 1 2 ]
-		! =? ?pop>!_ (?some 2)
-		! =? ?<pop!_ (?some -2)
-		! =? ?pop>!_ (?some 1)
-		! =? ?<pop!_ (?some -1)
-		! =? ?pop>!_ ?none
+		! =? ?pop>!_ (=> ? [ 2 ])
+		! =? ?<pop!_ (=> ? [ -2 ])
+		! =? ?pop>!_ (=> ? [ 1 ])
+		! =? ?<pop!_ (=> ? [ -1 ])
+		! =? ?pop>!_ (empty ?)
 		! empty? _
 		+>! _ [ 1 2 3 ]
 

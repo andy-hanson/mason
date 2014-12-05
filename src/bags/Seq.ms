@@ -1,5 +1,5 @@
 use
-	.? -> get-or ?none ?some
+	.? -> get-or
 	..arithmetic-methods -> -
 	.Array
 	.Array!
@@ -43,8 +43,8 @@ region Search
 	?first. Method
 		doc. "TODO"
 		test. |
-			[ [ 0 ] ] -> ?some 0
-			[ [] ] -> ?none
+			[ [ 0 ] ] -> => ? [ 0 ]
+			[ [] ] -> empty ?
 		default. |:Any _
 			?nth _ 0
 
@@ -59,18 +59,19 @@ region Search
 		doc. |:Any _ n:Nat
 			"`n`th element in iteration order. 0th is the first."
 		test. |
-			[ [ 0 1 ] 1 ] -> ?some 1
-			[ [ 0 1 ] 2 ] -> ?none
+			[ [ 0 1 ] 1 ] -> => ? [ 1 ]
+			[ [ 0 1 ] 2 ] -> empty ?
 		default. |_ n:Nat
 			iter = iterator_
 			`let i = 0`
 			\ TODO:ES6 for (let em of _)
-			s = ?some
+			s = |x
+				=> ? [ x ]
 			s \ TODO:Ignored vars
 			iter \ TODO:Ignored vars
 			n \ TODO:Ignored vars
 			`for (let em of iter) { if (i == n) return s(em); i++; }`
-			?none
+			empty ?
 
 	\ TODO: sub
 	nth. Method

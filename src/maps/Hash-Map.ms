@@ -3,9 +3,10 @@
 use
 	..assert -> !
 	..arithmetic-methods -> +
-	..bags.? -> ?none get-or
+	..bags.? -> get-or
 	..bags.Array
 	..bags.Bag -> empty? ?first-where flat-map map
+	..bags.Bag-Type -> empty
 	..bags.Seq -> seq=?
 	..basic-methods -> freeze
 	..Comparable -> =?
@@ -37,7 +38,7 @@ Hash-Map = Record-Type
 		! =? _[1] 2
 		! =? _[3] 4
 		! seq=? keys_ [ 1 3 ]
-		! =? (?get _ 8) ?none
+		! =? (?get _ 8) (empty ?)
 
 	members.
 		hash->bucket. Identity-Map!

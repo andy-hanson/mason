@@ -358,7 +358,7 @@ const parseLine = (function() {
 	const parseAssign = function(px, assigned, assigner, value) {
 		let locals = parseLocals(px, assigned)
 		const k = assigner.k
-		const eValuePre = parseExpr(px, value)
+		const eValuePre = Sq.isEmpty(value) ? E.True(px.s({})) : parseExpr(px, value)
 
 		const opDisplayName = Op.if(locals.length == 1, function() { return Sq.head(locals).name })
 		const last = isa(eValuePre, E.Call) ? Sq.last(eValuePre.args) : eValuePre
@@ -382,7 +382,6 @@ const parseLine = (function() {
 
 		const isYield = k === "<~" || k === "<~~"
 
-		// TODO: Review
 		const eValue = valueFromAssign(eValueNamed, k)
 
 		if (Sq.isEmpty(locals)) {
@@ -413,8 +412,6 @@ const parseLine = (function() {
 	}
 
 	const valueFromAssign = function(valuePre, kAssign) {
-		if (type.isa(valuePre, E.Null))
-			valuePre = E.True({ span: valuePre.span })
 		switch (kAssign) {
 			case "<~":
 				return E.Yield({ span: valuePre.span, yielded: valuePre })

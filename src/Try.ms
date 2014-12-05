@@ -1,6 +1,8 @@
 use
 	.assert -> ! !not
-	.bags.? -> ?none ?some
+	.bags.?
+	.bags.Bag-Type -> empty
+	.basic-methods -> =>
 	.Bool -> and true
 	.Comparable -> =?
 	.control -> build unreachable!
@@ -70,16 +72,16 @@ try.
 		unreachable! ()
 
 ?try.
-	doc. "If it works, ?some of the result, otherwise ?none."
+	doc. "`?` containing any successes."
 	test. |
-		[ (thunk 1) ] -> ?some 1
-		[ oh-no! ] -> ?none
+		[ (thunk 1) ] -> => ? [ 1 ]
+		[ oh-no! ] -> empty ?
 	|tried:Fun[Any]
 		case try tried
 			:Success
-				?some _.val
+				=> ? [ _.val ]
 			else
-				?none
+				empty ?
 
 fails?.
 	doc. "TODO"
