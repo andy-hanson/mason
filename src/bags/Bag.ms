@@ -7,7 +7,7 @@ use
 	..Bool -> false not true
 	..Comparable -> =?
 	..Fun -> identity Pred
-	..generators -> Generator
+	..generators -> Generator!
 	..math.Num -> divisible? Nat
 	..pred-types -> Any Opt
 	..Ref -> get mod! ref
@@ -20,8 +20,8 @@ use
 
 region Bag
 	iterator. Method
-		doc. |:Generator _
-			"Creates a new generator which yields the values in the Bag. Should create a new one every time."
+		doc. |:Generator! _
+			"Creates a new Generator! which yields the values in the Bag. Should create a new one every time."
 		symbol. Symbol.iterator
 
 	Bag = Interface

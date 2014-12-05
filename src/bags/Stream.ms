@@ -7,7 +7,7 @@ use
 	..Bool -> and or
 	..Comparable -> =?
 	..Fun -> Pred thunk
-	..Generator
+	..Generator!
 	..math.Num -> Nat
 	..pred-types -> Any
 	..Ref -> get mod! ref
@@ -21,11 +21,11 @@ use
 
 Stream = Record-Type
 	doc. "
-		A Stream is a Bag whose elements are the outputs of a Generator.
-		Unlike a Generator, a Stream can be used multiple times.
+		A Stream is a Bag whose elements are the outputs of a Generator!.
+		Unlike a Generator!, a Stream can be used multiple times.
 
 	members.
-		make-iterator. Fun[Generator]
+		make-iterator. Fun[Generator!]
 
 implementor! Stream Seq
 impl! iterator Stream |_
@@ -35,7 +35,7 @@ impl! =? Stream |s1 s2
 	and (contains? Stream s2) (seq=? s1 s2)
 
 streaming.
-	doc. "Creates a Stream whose values are the yields of the generator produced by make-gen."
+	doc. "Creates a Stream whose values are the yields of the Generator! produced by make-gen."
 	test. |
 		_ = streaming ~|
 			<~ 1
@@ -43,7 +43,7 @@ streaming.
 		! seq=? _ [ 1 2 ]
 		\ They can be used twice!
 		! seq=? _ [ 1 2 ]
-	|make-gen:Fun[Generator]
+	|make-gen:Fun[Generator!]
 		Stream
 			make-iterator. make-gen
 

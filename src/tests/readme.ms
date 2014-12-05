@@ -9,7 +9,7 @@ use
 	..Bool -> and true
 	..Comparable -> =? >? >=? <=?
 	..Fun -> call
-	..Generator -> each~
+	..Generator! -> each~
 	..maps.Map! -> set!
 	..math.Num -> divisible? Int
 	..Ref -> get mod! ref
@@ -155,8 +155,8 @@ call |
 ! =? arr [ 10 9 8 7 6 5 4 3 2 1 ]
 
 
-incrementing. |gen-maker:Fun[Generator]
-	gen:Generator = gen-maker ()
+incrementing. |gen-maker:Fun[Generator!]
+	gen:Generator! = gen-maker ()
 	last-value = ref 0
 	loop!
 		value done = gen.next (+ (get last-value) 1)
@@ -209,7 +209,7 @@ dt2. |_
 
 \ TODO: empty Array!
 log = `[]`
-logging. |gen-maker:Fun[Generator]
+logging. |gen-maker:Fun[Generator!]
 	gen = gen-maker ()
 	last-value = ref ()
 	loop!
