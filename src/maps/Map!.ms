@@ -29,10 +29,6 @@ add!. Method
 
 Map! = Interface
 	doc. "TODO"
-	methods.
-		. empty!
-		. delete!
-		. set!
 
 \ TODO: Its own file, and bindings.
 \ Identity-Map!. global.Map

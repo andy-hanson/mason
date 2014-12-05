@@ -47,12 +47,6 @@ keys-values. Method
 
 Map = Interface
 	doc. "Mapping from keys to values."
-	methods.
-		. sub
-		. ?get
-		. has-key?
-		. keys
-		. keys-values
 
 make-map.
 	doc. "TODO"

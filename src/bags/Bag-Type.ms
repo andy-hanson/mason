@@ -14,8 +14,6 @@ empty. Method
 		Should always return the same thing iff immutable.
 Bag-Type = Interface
 	doc. "Any sub-type of Bag."
-	methods.
-		. empty
 
 impl! sub Bag-Type identity
 implementor! (self-type Bag) Bag-Type

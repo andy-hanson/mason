@@ -29,8 +29,6 @@ region Bag
 			! (contains? Bag-Type bag-type) "Be sure to make your Bag type a Bag-Type."
 			_ = empty bag-type
 			! empty?_
-		methods.
-			. iterator
 
 region Builder
 	build-next!. Method
@@ -45,9 +43,6 @@ region Builder
 		doc. "
 			Something capable of incrementally generating a Bag.
 			Relied on by various Bag methods, such as map and filter.
-		methods.
-			. build-next!
-			. build-result
 
 	builder. Method
 		doc. |:Builder _

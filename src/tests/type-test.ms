@@ -1,4 +1,4 @@
-\ TODO: Probably move these tests into types.ms
+\ TODO: Move to types
 
 use
 	..assert -> !
@@ -35,9 +35,7 @@ impl! x Num |n
 ! =? (x 2) 2
 
 Has-X. Interface
-	nom. "Has-X"
-	methods.
-		. x
+	displayName. "Has-X"
 
 implementor! Vec2D Has-X
 implementor! Num Has-X

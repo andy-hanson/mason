@@ -31,9 +31,3 @@ compare. Method
 
 Comparable. Interface
 	doc. "TODO"
-	methods.
-		. =?
-		. <?
-		. <=?
-		. >?
-		. >=?

@@ -60,7 +60,6 @@ Interface = Record-Type
 		displayName. Str
 		super-interfaces. Array \ TODO: [~Interface]
 		prototype. Object
-		methods. Array
 		implementors. Array \ TODO: [~Impl-Type]
 		symbol-for-isa. Symbol
 	defaults.
@@ -68,9 +67,6 @@ Interface = Record-Type
 			`[]`
 		prototype. |
 			Object.create ()
-		\ TODO: Probably shouldn't bother with this
-		methods. |
-			[]
 		implementors. |
 			`[]`
 		symbol-for-isa. |_
