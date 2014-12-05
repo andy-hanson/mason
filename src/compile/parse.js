@@ -670,13 +670,12 @@ const parseUse = (function() {
 			name: name,
 			opType: Op.None,
 			isLazy: true,
-			okToNotUse: true
+			// OK to do `a -> b` and not use `a`.
+			okToNotUse: !Sq.isEmpty(assignees)
 		}))
-		const allAssignees = Sq.cons(defaultAssignee, assignees)
-
 		return E.AssignDestructure({
 			span: px.sqtSpan(sqt),
-			assignees: allAssignees,
+			assignees: Sq.cons(defaultAssignee, assignees),
 			k: "=",
 			value: required,
 			isLazy: true

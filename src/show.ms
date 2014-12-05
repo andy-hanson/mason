@@ -1,17 +1,12 @@
 use
-	.bags.Array
 	.bags.Bag -> map
 	.basic-methods -> type-of
 	.Bool -> false true
 	.Fun -> identity
 	.js -> reference=?
-	.math.Num
 	.Object -> own-enumerable-properties
 	.Str -> indent
-	.types.Interface
 	.types.Method -> impl!
-	.types.Pred-Type
-	.types.Record-Type
 
 \ TODO: empty Identity-Set!
 inspecting = `new Set`

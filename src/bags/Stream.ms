@@ -12,7 +12,6 @@ use
 	..pred-types -> Any
 	..Ref -> get mod! ref
 	.Seq -> drop seq=? slice take
-	..Str
 	..types.Interface -> implementor!
 	..types.Method -> impl!
 	..types.Record-Type

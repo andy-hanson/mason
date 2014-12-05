@@ -3,9 +3,7 @@ doc. "TODO"
 use
 	.arithmetic-methods -> +
 	.bags.Array
-	.bags.Array!
 	.bags.Bag -> each! map
-	.bags.Seq
 	.Bool -> not
 	.Comparable -> =?
 	.control -> if!

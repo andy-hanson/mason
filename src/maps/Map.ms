@@ -2,7 +2,6 @@ use
 	..arithmetic-methods -> +
 	..assert -> !
 	..bags.? ->  get-or
-	..bags.Array
 	..bags.Bag -> each! empty? map
 	..basic-methods -> freeze sub
 	..Bool -> not

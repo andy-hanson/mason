@@ -10,7 +10,6 @@ use
 	..Comparable -> =?
 	..Dict
 	..Fun -> apply ignore
-	..maps.Identity-Map!
 	..maps.Map -> keys
 	..modules -> promise-all-modules
 	..Object -> ?get-property own-properties own-enumerable-properties

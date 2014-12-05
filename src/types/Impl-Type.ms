@@ -1,7 +1,6 @@
 
 use
 	.Interface -> unchecked-implementor!
-	.Method
 	..private.bootstrap -> Fun
 	.Record-Type
 

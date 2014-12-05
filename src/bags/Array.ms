@@ -10,7 +10,6 @@ use
 	..Fun -> thunk
 	..js -> global
 	.Seq -> seq=?
-	..show
 	..types.Interface -> implementor!
 	..types.Method ->  impl!
 	..types.Type -> contains?

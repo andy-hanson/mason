@@ -7,7 +7,7 @@ use
 	..maps.Hash-Map
 	..math.Num
 	source-map-support -> install
-	stack-displayname
+	\stack-displayname
 	..show
 	..types.Type
 	..types.show-Type

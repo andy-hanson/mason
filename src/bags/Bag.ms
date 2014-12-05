@@ -11,7 +11,6 @@ use
 	..math.Num -> divisible? Nat
 	..pred-types -> Any Opt
 	..Ref -> get mod! ref
-	..show
 	.Stream
 	..Symbol
 	..types.Interface

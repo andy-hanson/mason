@@ -2,7 +2,6 @@ doc. "TODO"
 
 use
 	.assert -> ! !not
-	.bags.Array
 	.bags.Bag -> each!
 	.Bool -> false not true
 	.Comparable -> =?

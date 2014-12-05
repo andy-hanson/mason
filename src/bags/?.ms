@@ -5,11 +5,9 @@ use
 	..basic-methods -> =>
 	..Fun -> thunk
 	..js -> reference=?
-	..math.Num
 	..Object -> change-property!
 	..pred-types -> Any
 	.Seq
-	..Symbol
 	..Try -> fails? oh-no!
 	..types.Interface -> implementor!
 	..types.Method -> impl!

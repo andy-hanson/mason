@@ -2,12 +2,10 @@
 
 use
 	.assert -> !
-	.bags.Array
 	.bags.Seq -> seq=?
 	.basic-methods -> type-of
 	.Comparable -> =?
 	.maps.Map -> keys
-	.Object
 	.show -> inspect-impl
 	.types.Method -> impl!
 

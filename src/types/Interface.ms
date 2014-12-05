@@ -2,8 +2,6 @@ use
 	..assert -> !
 	..bags.Bag -> each! flat-map
 	..Comparable -> =?
-	..Fun
-	.Impl-Type
 	..maps.Map -> keys
 	.Method -> impl! propagate-method-down!
 	..private.bootstrap -> Str Array Object Symbol true set! get own-properties

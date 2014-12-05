@@ -4,9 +4,7 @@ use
 	.assert -> ! !not
 	.basic-methods -> sub
 	.Bool -> not or true
-	.Num
 	.Str
-	.Symbol
 	.types.Interface -> implementor!
 	.types.Method -> impl!
 	.types.Pred-Type
