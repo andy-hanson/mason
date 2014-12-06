@@ -118,9 +118,8 @@ test-test-fun = |value value-test:Fun name \TODO:ES6 ...args
 				()
 
 test-all. |dir-path:Str
-	p = (promise-all-modules dir-path).then |_
+	(promise-all-modules dir-path).then |_
 		each! _ test-module
-	p.done ()
 
 \ TODO:ES6 Use module reflection
 test-module.

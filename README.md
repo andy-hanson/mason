@@ -534,10 +534,10 @@ This code won't compile:
 	log!() \ Use `log! ()` if you really want to log null.
 
 
-### Running
+### Building / Running
 
-`sudo npm install; ./run` will compile and run the code in src/std-ms.
-
+First: `sudo npm install; ./build-all; ./run`
+When making changes, it's faster to use `build-continuously` in one console and `run` in another.
 
 ### Editing
 

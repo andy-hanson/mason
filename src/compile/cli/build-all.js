@@ -3,18 +3,21 @@
 require("es6-shim")
 
 const
-	check = require("./compile/check"),
-	compile = require("./compile")
-
-// Speed boost by turning this off
-global.DEBUG = true
+	check = require("../check"),
+	compile = require(".."),
+	io = require("../U/io")
 
 if (require.main === module) {
 	const doTime = false
 	if (doTime) console.time("compile all")
 
 	let wasError = false
-	compile.dirToDir("./src", "./js")
+	io.processDir({
+		inDir: "./src",
+		outDir: "./js",
+		processor: compile.processFile,
+		verbose: false
+	})
 	.catch(function(e) {
 		wasError = true
 		// When not in DEBUG mode, don't show the full stack trace.

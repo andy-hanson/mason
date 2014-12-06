@@ -3,7 +3,6 @@
 const
 	assert = require("assert"),
 	chalk = require("chalk"),
-	io = require("./U/io"),
 	Opts = require("./Opts"),
 	Lang = require("./Lang"),
 	lex = require("./lex"),
@@ -12,6 +11,9 @@ const
 	render = require("./render"),
 	type = require("./U/type"),
 	verify = require("./verify")
+
+// Speed boost by turning this off
+global.DEBUG = true
 
 const compile = function(src, opts) {
 	type(src, String, opts, Opts)
@@ -36,40 +38,37 @@ const compile = function(src, opts) {
 	]
 }
 
-// Returns a promise
-const dirToDir = function(inDir, outDir) {
-	type(inDir, String, outDir, String);
-	const isMason = function(p) { return path.extname(p) === Lang.fileExtension; }
-	const isJs = function(p) { return path.extname(p) === ".js" }
-	const isMasonOrJs = function(p) { return isMason(p) || isJs(p) }
+const isMason = function(p) { return path.extname(p) === Lang.fileExtension; }
+const isJs = function(p) { return path.extname(p) === ".js" }
+const isMasonOrJs = function(p) { return isMason(p) || isJs(p) }
 
-	return io.process(inDir, outDir, isMasonOrJs, function(inPath, inContent, outPath) {
-		if (isMason(inPath)) {
-			const jsBaseName = path.basename(inPath, Lang.fileExtension) + ".js";
-			try {
-				return compile(inContent, Opts({
-					jsBaseName: jsBaseName,
-					sourceMapPathRelToJs: jsBaseName + ".map",
-					msPathRelToJs: path.relative(outPath, inPath)
-				}))
-			}
-			catch (e) {
-				const prepend = chalk.green(inPath + " ")
-				e.stack = prepend + e.stack
-				e.message = prepend + e.message
-				throw e
-			}
+const processFile = function(inPath, inContent, outPath) {
+	if (isMason(inPath)) {
+		const jsBaseName = path.basename(inPath, Lang.fileExtension) + ".js";
+		const opts = Opts({
+			jsBaseName: jsBaseName,
+			sourceMapPathRelToJs: jsBaseName + ".map", // TODO: Make this method, not property
+			msPathRelToJs: path.relative(outPath, inPath)
+		})
+		try {
+			return compile(inContent, opts)
 		}
-		else {
-			assert(isJs(inPath))
-			return [ {
-				name: path.basename(inPath),
-				content: inContent
-			} ]
+		catch (e) {
+			const prepend = chalk.green(inPath + " ")
+			e.stack = prepend + e.stack
+			e.message = prepend + e.message
+			throw e
 		}
-	})
+	}
+	else if (isJs(inPath))
+		return [ {
+			name: path.basename(inPath),
+			content: inContent
+		} ]
+	else
+		return [ ]
 }
 
 module.exports = {
-	dirToDir: dirToDir
+	processFile: processFile
 }

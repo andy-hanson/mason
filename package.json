@@ -5,12 +5,13 @@
 	"version": "0.0.0",
 	"dependencies": {
 		"chalk": "0.5.1",
-		"es6-shim": "0.20.2",
+		"es6-shim": "0.21.1",
 		"source-map": "0.1.40",
 		"source-map-support": "0.2.8",
 		"stack-displayname": "1.0.0",
-		"q": "1.0.1",
-		"q-io": "1.11.5"
+		"q": "1.1.2",
+		"q-io": "1.11.6",
+		"watch": "0.13.0"
 	},
 	"engines": {
 		"node": "0.12.x"

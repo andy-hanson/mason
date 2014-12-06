@@ -1,13 +1,13 @@
 "use strict"
 
-require("./build") // TODO: Don't
+require("es6-shim")
 const
-	lex = require("./compile/lex"),
-	Opts = require("./compile/Opts"),
-	parse = require("./compile/parse"),
-	render = require("./compile/render"),
-	U = require("./compile/U"),
-	verify = require("./compile/verify")
+	lex = require("../lex"),
+	Opts = require("../Opts"),
+	parse = require("../parse"),
+	render = require("../render"),
+	U = require("../U"),
+	verify = require("../verify")
 
 if (require.main === module) {
 	const doTime = false
