@@ -1,1 +1,4 @@
-node --harmony --stack-trace-limit=100 ./run.js
+if node --harmony --stack-trace-limit=100 ./src/build
+then
+	node --harmony --stack-trace-limit=100 ./js/test
+fi

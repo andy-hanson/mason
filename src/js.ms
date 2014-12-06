@@ -1,8 +1,11 @@
 doc. "TODO"
 
 use
+	.arithmetic-methods -> +
 	.assert -> ! !not
+	.bags.Array
 	.bags.Bag -> each!
+	.basic-methods -> =>
 	.Bool -> false not true
 	.Comparable -> =?
 	.Fun
@@ -61,6 +64,29 @@ new.
 		boundConstructor \ TODO:Ignored vars
 		`new boundConstructor`
 
-js-typeof. |a
-	a \ TODO:Ignored vars
-	`typeof a`
+js-typeof.
+	doc. "JavaScript's `typeof` operator."
+	|a
+		a \ TODO:Ignored vars
+		`typeof a`
+
+apply-with-this.
+	doc. "
+		Like `apply`, and also makes the hidden parameter `this` to be `new-this`.
+		Acts like `new-this.f ...arguments` if `f` were in the prototype chain of `new-this`.
+	test. |
+		f = |a
+			+ this a
+		[ f 1 [ 2 ] ] -> 3
+	|f:Fun new-this arguments:Bag
+		\ TODO:ES6 ...args
+		Fun.prototype.apply.call f new-this (=> Array arguments)
+
+call-with-this.
+	doc. "Like `apply-with-this` but does not take a list."
+	test. |
+		f = |a
+			+ this a
+		! =? (call-with-this f 1 2) 3
+	|f:Fun new-this \ TODO:ES6 ...args
+		apply-with-this f new-this (Array.prototype.slice.call `arguments` 2)

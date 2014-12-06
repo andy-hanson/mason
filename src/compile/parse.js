@@ -654,7 +654,6 @@ const parseSpaced = function(px, sqt) {
 }
 
 // TODO:ES6 Just use module imports, no AssignDestructure needed
-// TODO: Types in use
 const parseUse = (function() {
 	const useLine = function(px, sqt) {
 		const tReq = Sq.head(sqt)

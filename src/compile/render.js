@@ -398,7 +398,7 @@ const makeAssign = function(rx, span, assignee, k, value) {
 			else
 				return [ "const ", to, " = ", r(rx)(value) ]
 		case "export":
-			assert(!assignee.isLazy) // TODO
+			assert(!assignee.isLazy) // TODO:ES6
 			return [ "const ", to, " = exports", makeMember(assignee.name), " = ", r(rx)(value) ]
 			// return [ "export const ", to, " = ", jValue ]; TODO:ES6
 		default: fail()

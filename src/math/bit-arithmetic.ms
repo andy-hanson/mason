@@ -1,4 +1,4 @@
-doc. "TODO"
+doc. "Methods for dealing with Ints qua sequences of bits."
 
 use
 	..assert -> ! !not

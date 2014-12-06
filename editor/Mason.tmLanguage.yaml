@@ -61,6 +61,15 @@ patterns:
     match: \\.
   - name: entity.other.attribute-name
     match: \{[^\}]*\}
+- comment: 6-indented multi-line string (begins w/ 5 indents, ends with <=5 indents)
+  name: string
+  begin: "^\t\t\t\t\t[^\t\"]*\"$"
+  end: ^\t{,5}(?=[^\t])
+  patterns:
+  - name: constant.character
+    match: \\.
+  - name: entity.other.attribute-name
+    match: \{[^\}]*\}
 
 
 

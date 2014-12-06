@@ -1,6 +1,6 @@
 use
 	..arithmetic-methods -> + - * /
-	..assert -> ! !not
+	..assert -> ! !not !call? !not-call?
 	..bags.? -> get-or Opt->?
 	..Bool -> and false true
 	..Comparable -> =? <? >? <=? >=? compare
@@ -18,17 +18,24 @@ Num = global.Number
 Math = global.Math
 
 Int. Pred-Type
-	doc. "TODO"
+	doc. "
+		A multiple of 1.
+		This only contains Nums for which integer methods return sensible results, AKA safe ints.
+		This is anything between min-safe-integer and max-safe-integer.
 	test. |
-		! contains? Int 1
-		!not contains? Int 1.1
-		! contains? Int max-safe-integer
-		!not contains? Int (+ max-safe-integer 1)
+		!call? contains?[Int]
+			. 1
+			. min-safe-integer
+			. max-safe-integer
+		!not-call? contains?[Int]
+			. 1.1
+			. - min-safe-integer 1
+			. max-safe-integer
 	predicate. |_
-		and :Num ~(Num.isSafeInteger (_.valueOf ()))
+		Num.isSafeInteger _
 
 Nat. Pred-Type
-	doc. "TODO"
+	doc. "Any counting number, including `0`."
 	test. |
 		! contains? Nat 0
 		!not contains? Nat -1
@@ -61,7 +68,6 @@ region Tests
 			[ -8 ] -> -1
 			[ 0 ] -> 0
 			[ 8 ] -> 1
-			\ TODO
 			\ [ not-a-number ] -> not-a-number
 		|_:Num
 			case
@@ -89,13 +95,16 @@ region Integer arithmetic
 
 	modulo.
 		doc. "
-			TODO
+			Mathematical modulus.
+			Smallest positive number which can be added to a multiple of `denominator` to get `numerator`."
 		test. |
 			[ 2 3 ] -> 2
 			[ 2 -3 ] -> 2
 			[ -2 3 ] -> 1
 			[ -2 -3 ] -> 1
 		|numerator:Num denominator:Num
+			out
+				divisible? (- numerator res) denominator
 			case
 				<? numerator 0
 					+ (abs denominator) (remainder numerator denominator)
@@ -120,7 +129,7 @@ region Real arithmetic
 		Math.log _
 
 	log.
-		doc. "TODO"
+		doc. "Mathematical logarithm."
 		test. |
 			! near? (log 10 0.01) -2
 			[ 2 8 ] -> 3
@@ -192,10 +201,12 @@ region Rounding
 			op-bar _ 0
 
 region Near
+	\ TODO: Move to math-methods.ms
 	near?. Method
 		doc. "POOP"
 
 	impl! near? Num
+		doc. "TODO"
 		test. |
 			[ 1000.9 1000 3 ] -> true
 			[ 1000.9 1000 4 ] -> false
@@ -222,6 +233,7 @@ region Near
 					epsilon = pow 10 (neg sfs)
 					<? (abs scaled-diff) epsilon
 
+	\ TODO: math-methods.ms
 	near-0?. Method
 		doc. "
 			Whether it is close to zero.
@@ -241,6 +253,7 @@ region Near
 impl! inspect-impl Num
 	test. |
 		[ 12 ] -> "12"
+		[ -1.0 ] -> "-1"
 	|_
 		base = 10
 		_.toString base
@@ -250,6 +263,7 @@ region Constants
 	-infinity. get-property Num "NEGATIVE_INFINITY"
 	not-a-number. Num.NaN
 	max-safe-integer. get-property Num "MAX_SAFE_INTEGER"
+	min-safe-integer. get-property Num "MIN_SAFE_INTEGER"
 	pi. Math.PI
 	pi/2. / pi 2
 	pi3/2. * pi 1.5

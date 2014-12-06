@@ -1,5 +1,3 @@
-doc. "TODO"
-
 use
 	.arithmetic-methods -> +
 	.assert -> !
@@ -23,13 +21,17 @@ use
 	.types.Type -> contains?
 	.types.util -> self-type
 
-Fun = global.Function
+Fun =
+	doc. "
+		TODO
+		<describe Fun vs Callable>
+	global.Function
 
 Act. Alias-Type
 	doc. "
 		A function returning nothing.
-		Fun[Num] is a function taking nothing and returning a Num;
-		Act[Num] is a function taking a Num and returning nothing.
+		Fun[Num] describes a function taking nothing and returning a Num;
+		Act[Num] describes a function taking a Num and returning nothing.
 
 	alias-of. Fun
 
@@ -43,35 +45,16 @@ Pred. Alias-Type
 apply.
 	doc. "Calls the function with the given arguments list."
 	test. |
-		! =? (apply + [ 1 2 ]) 3
+		[ + [ 1 2 ] ] -> 3
 	|f:Fun arguments:Bag
 		Fun.prototype.apply.call f () (=> Array arguments)
 
 call.
 	doc. "Calls the function with the given arguments."
 	test. |
-		! =? (call + 1 2) 3
+		[ + 1 2 ] -> 3
 	|f:Fun
 		apply f (Array.prototype.slice.call `arguments` 1) \ TODO:ES6
-
-apply-with-this.
-	doc. "Like `apply`, and also sets `f`'s `this` to be `new-this`."
-	test. |
-		f = |a
-			+ this a
-		! =? (apply-with-this f 1 [ 2 ]) 3
-	|f:Fun new-this:Any arguments:Bag
-		\ TODO:ES6 f ...args
-		Fun.prototype.apply.call f new-this (=> Array arguments)
-
-call-with-this.
-	doc. "Like `call`, and also sets `f`'s `this` to be `new-this`."
-	test. |
-		f = |a
-			+ this a
-		! =? (call-with-this f 1 2) 3
-	|f:Fun new-this:Any \ TODO:ES6 ...args
-		apply-with-this f new-this (Array.prototype.slice.call `arguments` 2)
 
 curry =
 	doc. "Creates a function which calls `f` with the given arguments first."
@@ -127,10 +110,9 @@ impl! sub (self-type Fun)
 		Fun
 
 identity.
-	doc.
-	"Outputs its input unmodified."
+	doc. "Outputs its input unmodified."
 	test. |
-		! =? (identity identity) identity
+		[ 1 ] -> 1
 	|a
 		a
 
@@ -205,6 +187,8 @@ spread.
 					apply fun all-args
 			else
 				oh-no! "Can only spread a Bag or Map, not {_}"
+
+spread!. spread
 
 thunk.
 	doc. "Makes function which, when called, returns `a`."

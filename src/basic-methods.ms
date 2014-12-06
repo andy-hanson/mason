@@ -8,19 +8,23 @@ use
 	.types.Type
 
 freeze. Method
-	doc. "TODO"
+	doc. "
+		Returns a compacted and immutable version of an object.
+		Does not have to return the same value, but often does.
 	default. |_
 		Object.freeze _
 
 sub. Method
 	doc. "
-		This method has no special meaning and shouldn't be used polymorphically.
-		Implement it to be able to subscript like `a[b]`.
-
+		Implementing this allows the use of the special syntax `a[b]`.
 	impl-symbol. sym-sub
 
+\ TODO: rename to impl-type-of
 type-of. Method
-	doc. "TODO"
+	doc. "
+		Returns the most specific Impl-Type associated with some value.
+		This method won't always work for JavaScript objects,
+		but every Record-Type and Enum should implement this automatically.
 	\ TODO: Should be able to just make it here. No need for syms.
 	impl-symbol. sym-type-of
 	default. |_

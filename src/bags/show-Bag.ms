@@ -1,6 +1,6 @@
 use
 	.Array
-	.Bag -> map
+	.Bag -> empty? map
 	.Deque!
 	..basic-methods -> => type-of
 	..show -> inspect-impl show-impl
@@ -16,9 +16,12 @@ impl! inspect-impl Bag
 impl! show-impl Bag
 	test. |
 		[ [ 1 2 3 ] ] -> "[ 1 2 3 ]"
-	|_
-		show-ems = => Array (map _ show)
-		"[ {show-ems.join " "} ]"
+	|case
+		empty?_
+			"[ ]"
+		else
+			show-ems = => Array (map _ show)
+			"[ {show-ems.join " "} ]"
 
 \ Explicit impl!s for Array so that it doesn't act like a Map
 impl! inspect-impl Array (impl-for inspect-impl Bag)

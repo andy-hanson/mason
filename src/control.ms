@@ -79,17 +79,17 @@ if!.
 				()
 
 unreachable!.
-	doc. "TODO"
+	doc. "Call this to mark code as unreachable."
 	|
 		oh-no! "This should not be reachable."
 
 TODO.
-	doc. "TODO"
+	doc. "Placeholder for something which you really ought to implement one of these days."
 	|
 		oh-no! "This function has not yet been implemented."
 
 returning.
-	doc. "TODO"
+	doc. "Calls `do-after` and returns `returned`."
 	test. |
 		! =? [ 0 ] (build |yield
 			! =? 1 (returning 1 yield[0])

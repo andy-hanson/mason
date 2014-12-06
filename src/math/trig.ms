@@ -1,27 +1,21 @@
-doc. "TODO"
+doc. "
+	Functions for dealing with angles.
+	Angles should be expressed in radians.
 
 use
 	..arithmetic-methods -> /
 	..assert -> !
-	..bags.? -> get-or Opt->?
 	..bags.Bag -> each!
 	..maps.Map -> keys
-	.Num -> Nat near? pi/2 pi pi3/2
-	..pred-types -> Opt
+	.Num -> near? pi/2 pi pi3/2
 	..js -> global
 
 Math = global.Math
 
 \ TODO: doc, test, move
-\ TODO: Optional parameters
-!near = |a b sig-figs:Opt[Nat]
-	sfs = get-or (Opt->? sig-figs) 6
-	! (near? a b sfs) ~"{a} ≠ {b} (to within {sfs} digits)"
-
-\ TODO: doc, test, move
 !apply-near = |fun apps
 	each! (keys apps) |key
-		!near (fun key) apps[key]
+		! near? (fun key) apps[key]
 
 sin.
 	doc. "Y-value of the point on the unit circle this many radians counter-clockwise from +x."

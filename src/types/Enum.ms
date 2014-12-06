@@ -2,6 +2,7 @@ use
 	..assert -> !
 	..bags.Array
 	..bags.Bag -> each!
+	..basic-methods -> type-of
 	..Comparable -> =?
 	.Impl-Type
 	.Interface -> unchecked-implementor!
@@ -13,7 +14,9 @@ use
 	.Type -> contains?
 
 Enum = Record-Type
-	doc. "TODO"
+	doc. "
+		A Concrete-Type with a small number of instances.
+		Great for using with `switch`.
 	test. |
 		Fruit = Enum
 			values.
@@ -24,11 +27,12 @@ Enum = Record-Type
 			Fruit.orange -> 2
 		! =? prices[Fruit.apple] 1
 		! =? prices[Fruit.orange] 2
-
+		! =? (type-of Fruit.apple) Fruit
+		! =? "{Fruit.apple}" "Fruit.apple"
 	members.
 		displayName. Str
 		prototype. Object
-		values. Array \ TODO: [Str]z
+		values. Array[Str]
 	defaults.
 		prototype. |
 			Object.create Object.prototype
@@ -37,6 +41,8 @@ Enum = Record-Type
 			enum-val = Object.create enum.prototype
 			add-property! enum-val "name" val-name
 			add-property! enum val-name enum-val
+		impl! type-of enum |
+			enum
 		impl! inspect-impl enum |val
 			"{enum.displayName}.{val.name}"
 
