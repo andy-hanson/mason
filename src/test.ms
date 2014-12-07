@@ -11,3 +11,5 @@ boot-order
 p = (test-all "./js").then
 	log! "All tests complete."
 p.done ()
+
+()

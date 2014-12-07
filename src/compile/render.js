@@ -38,7 +38,7 @@ E.prototype.render = function(rx, arg) { // Some E_s pass an arg to their child
 	const content = this.renderContent(rx, arg)
 	const line = this.span.start.line
 	const column = this.span.start.column
-	type(line, Number, column, Number, rx.opts.msPathRelToJs, String)
+	type(line, Number, column, Number)
 	assert(line >= 1 && column >= 1)
 	const typeJ = function(j) {
 		if (typeof j === "string" || j instanceof SourceNode) return
@@ -46,7 +46,7 @@ E.prototype.render = function(rx, arg) { // Some E_s pass an arg to their child
 		j.forEach(typeJ)
 	}
 	typeJ(content)
-	return new SourceNode(line, column, rx.opts.msPathRelToJs, content)
+	return new SourceNode(line, column, rx.opts.msPathRelToJs(), content)
 }
 
 const r = function(rx, othArg) {
@@ -284,17 +284,14 @@ U.implementMany(E, "renderContent", {
 		r(rx)(this.object),
 		makeMember(this.name)
 	]},
-	Module: function(rx) {
-		type(rx.opts.msPathRelToJs, String, rx.opts.sourceMapPathRelToJs, String)
-		return [
-			"// Compiled from ", rx.opts.msPathRelToJs, "\n",
-			"//# sourceMappingURL=", rx.opts.sourceMapPathRelToJs, "\n",
-			"\"use strict\"",
-			rx.snl(),
-			r(rx)(this.body),
-			rx.snl()
-		]
-	},
+	Module: function(rx) { return [
+		"// Compiled from ", rx.opts.msPathRelToJs(), "\n",
+		"//# sourceMappingURL=", rx.opts.sourceMapPathRelToJs(), "\n",
+		"\"use strict\"",
+		rx.snl(),
+		r(rx)(this.body),
+		rx.snl()
+	]},
 	// TODO:ES6
 	ModuleDefaultExport: function(rx) { return [
 		"exports",

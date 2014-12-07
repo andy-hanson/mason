@@ -1,7 +1,6 @@
 "use strict";
 
 const
-	assert = require("assert"),
 	chalk = require("chalk"),
 	Opts = require("./Opts"),
 	Lang = require("./Lang"),
@@ -17,22 +16,18 @@ global.DEBUG = true
 
 const compile = function(src, opts) {
 	type(src, String, opts, Opts)
-	const t = lex(src, opts)
-	const e = parse(t, opts)
+	const e = parse(lex(src, opts), opts)
 	const vr = verify(e, opts)
-	const j = render(e, opts, vr)
-	const cm = j.toStringWithSourceMap({ file: opts.jsBaseName })
-	const code = cm.code
-	const map = cm.map
-	type(code, String, map, require("source-map").SourceMapGenerator,
-		opts.jsBaseName, String, opts.sourceMapPathRelToJs, String)
+	const _$ = render(e, opts, vr).toStringWithSourceMap({ file: opts.jsBaseName() })
+	const code = _$.code, map = _$.map
+	type(code, String, map, require("source-map").SourceMapGenerator)
 	return [
 		{
-			name: opts.jsBaseName,
+			name: opts.jsBaseName(),
 			content: code
 		},
 		{
-			name: opts.sourceMapPathRelToJs,
+			name: opts.sourceMapPathRelToJs(),
 			content: map.toString()
 		}
 	]
@@ -42,27 +37,22 @@ const isMason = function(p) { return path.extname(p) === Lang.fileExtension; }
 const isJs = function(p) { return path.extname(p) === ".js" }
 const isMasonOrJs = function(p) { return isMason(p) || isJs(p) }
 
-const processFile = function(inPath, inContent, outPath) {
-	if (isMason(inPath)) {
-		const jsBaseName = path.basename(inPath, Lang.fileExtension) + ".js";
-		const opts = Opts({
-			jsBaseName: jsBaseName,
-			sourceMapPathRelToJs: jsBaseName + ".map", // TODO: Make this method, not property
-			msPathRelToJs: path.relative(outPath, inPath)
-		})
+const processFile = function(inFile, inContent, outDir) {
+	if (isMason(inFile)) {
+		const opts = Opts({ inFile: inFile, outDir: outDir })
 		try {
 			return compile(inContent, opts)
 		}
 		catch (e) {
-			const prepend = chalk.green(inPath + " ")
+			const prepend = chalk.green(inFile + " ")
 			e.stack = prepend + e.stack
 			e.message = prepend + e.message
 			throw e
 		}
 	}
-	else if (isJs(inPath))
+	else if (isJs(inFile))
 		return [ {
-			name: path.basename(inPath),
+			name: path.basename(inFile),
 			content: inContent
 		} ]
 	else
