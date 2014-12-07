@@ -444,7 +444,7 @@ const parseLine = (function() {
 					opDisplayName: Op.Some(displayName)
 				})
 
-			case isa(eValuePre, E.DictReturn) && !eValuePre.keys.has("displayName"):
+			case isa(eValuePre, E.DictReturn) && !Sq.contains(eValuePre.keys, "displayName"):
 				return U.with(eValuePre, "opDisplayName", Op.Some(displayName))
 
 			case isa(eValuePre, E.BlockWrap):

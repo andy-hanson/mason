@@ -35,5 +35,6 @@ impl! => (self-type Str) Bag
 		[ Str [ 1 2 3 ] ] -> "123"
 		[ Str [ 1 2 3 ] ", " ] -> "1, 2, 3"
 	|ignore bag ?joiner:Opt[Str]
+		ignore \ TODO: ignored vars
 		joiner = get-or (Opt->? ?joiner) ""
 		(=> Array bag).join joiner

@@ -2,10 +2,8 @@ doc. "TODO"
 
 use
 	.bags.Array
-	.bags.Bag -> map
 	.basic-methods -> =>
 	.js -> global
-	.show
 	.Str
 
 log!.

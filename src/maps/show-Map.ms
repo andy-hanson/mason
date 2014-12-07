@@ -1,9 +1,9 @@
 use
-	..bags.Array
 	..bags.Bag -> map
 	..basic-methods -> => type-of
 	.Map -> keys
 	..show -> inspect inspect-impl show-impl
+	..Str
 	..types.Method -> impl!
 
 impl! inspect-impl Map

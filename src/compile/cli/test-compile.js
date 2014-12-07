@@ -2,6 +2,7 @@
 
 require("es6-shim")
 const
+	fs = require("fs"),
 	lex = require("../lex"),
 	Opts = require("../Opts"),
 	parse = require("../parse"),
@@ -10,7 +11,7 @@ const
 	verify = require("../verify")
 
 if (require.main === module) {
-	const doTime = false
+	const doTime = true
 
 	const time = function(f) {
 		if (doTime)
@@ -21,12 +22,8 @@ if (require.main === module) {
 		return res
 	}
 
-	const source = require("fs").readFileSync("ms-test.ms", "utf-8")
-	const opts = Opts({
-		jsBaseName: "<jsBaseName>",
-		msPathRelToJs: "<msPathRelToOut>",
-		sourceMapPathRelToJs: "<sourceMapPathRelToOut>"
-	})
+	const source = fs.readFileSync("./ms-test.ms", "utf-8")
+	const opts = Opts({ inFile: "./ms-test.ms", outDir: "fake-out" })
 
 	const t = time(lex, source, opts)
 	// U.log("==>\n" + t)
