@@ -77,6 +77,7 @@ Object.assign(Vx.prototype, {
 		this.vr.accessToLocal.set(access, local)
 		const accesses = this.vr.localToAccesses.get(local).push(access)
 	},
+	// TODO: Better name
 	setEIsInGenerator: function(e) {
 		this.vr.setEIsInGenerator(e, this.isInGenerator)
 	},
@@ -134,11 +135,7 @@ U.implementMany(E, "verify", {
 		v(vx)(this.body)
 	},
 	CaseDo: function(vx) {
-		this.opCased.forEach(v(vx))
-		const span = this.span
-		const vxCase = Op.ifElse(this.opCased, function() { return vx.withFocus(span) }, function() { return vx })
-		this.parts.forEach(v(vxCase))
-		this.opElse.forEach(v(vxCase))
+		this.parts.concat(this.opElse).forEach(v(vx))
 	},
 	CaseVal: function(vx) {
 		vx.setEIsInGenerator(this)
@@ -180,6 +177,9 @@ U.implementMany(E, "verify", {
 	MapEntry: function(vx) {
 		v(vx)(this.key)
 		v(vx)(this.val)
+	},
+	Scope: function(vx) {
+		vm(buildVxBlock(vx, this.lines), this.lines)
 	},
 	Yield: function(vx) {
 		check(vx.isInGenerator, this.span, "Cannot yield outside of generator context")

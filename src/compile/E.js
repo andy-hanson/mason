@@ -43,7 +43,7 @@ E.LocalDeclare.UntypedFocus = function(span) {
 makeETypes(E.Do, {
 	Assign: { assignee: E.LocalDeclare, k: Lang.KAssign, value: E.Val },
 	AssignDestructure: { assignees: [E.LocalDeclare], k: Lang.KAssign, value: E.Val, isLazy: Boolean },
-	CaseDo: { opCased: Op(E.Val), parts: [E.CasePart], opElse: Op(E.BlockBody) },
+	CaseDo: { parts: [E.CasePart], opElse: Op(E.BlockBody) },
 	Debugger: { },
 	EndLoop: { name: String },
 	ListEntry: { value: E.Val, index: Number },
@@ -51,7 +51,8 @@ makeETypes(E.Do, {
 	MapEntry: { key: E.Val, val: E.Val, index: Number },
 	// The body of a module will contain ModuleExport and ModuleDefaultExport_s
 	Module: { body: E.BlockBody },
-	ModuleDefaultExport: { value: E.Val }
+	ModuleDefaultExport: { value: E.Val },
+	Scope: { lines: [E] }
 })
 
 makeETypes(E.Val, {
@@ -60,7 +61,7 @@ makeETypes(E.Val, {
 	// This and CaseDo differ only in that one is a Do and one is a Val,
 	// and that a CaseVal can only contain E.Val results in its parts.
 	// CaseVal compiles differently because it must return a result.
-	CaseVal: { opCased: Op(E.Val), parts: [E.CasePart], opElse: Op(E.BlockBody) },
+	CaseVal: { parts: [E.CasePart], opElse: Op(E.BlockBody) },
 	DictReturn: { keys: [String], opDicted: Op(E.Val), opDisplayName: Op(String) },
 	Fun: {
 		args: [E.LocalDeclare],

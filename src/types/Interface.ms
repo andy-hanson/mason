@@ -107,6 +107,7 @@ implementor!.
 			`_ == null` \ TODO: :Any
 				()
 			else
+				_ \ TODO: use :any above so don't need this line
 				mi:Map = method-impls
 				each! (keys mi) |method
 					implementation = mi[method]

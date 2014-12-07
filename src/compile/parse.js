@@ -218,6 +218,8 @@ const parseBlock = (function() {
 	}
 })()
 
+// For "case", returns a BlockWrap.
+// For "case!", returns a Scope.
 const parseCase = function(px, sqt, k, casedFromFun) {
 	type(px, Px, sqt, [T], k, Lang.CaseKeywords, casedFromFun, Boolean)
 	const kBlock = (k === "case") ? "val" : "do"
@@ -225,14 +227,20 @@ const parseCase = function(px, sqt, k, casedFromFun) {
 	const _ = parseBlock.takeBlockLinesFromEnd(px, sqt)
 	const before = _.before, lines = _.lines
 
-	const opCased = (function() {
+	const opAssignCased = (function() {
 		if (casedFromFun) {
 			check(Sq.isEmpty(before), Span.ofSqT(px.span, before),
 				"Cannot give focus to case in this context - it is the function's implicit first argument.");
 			return Op.None
 		}
 		else return Op.if(!Sq.isEmpty(before), function() {
-			return parseExpr(px.withSpan(Span.ofSqT(px.span, before)), before);
+			const span = Span.ofSqT(px.span, before)
+			return E.Assign({
+				span: span,
+				assignee: E.LocalDeclare.UntypedFocus(span),
+				k: "=",
+				value: parseExpr(px.withSpan(span), before)
+			})
 		})
 	})()
 
@@ -255,8 +263,23 @@ const parseCase = function(px, sqt, k, casedFromFun) {
 		})
 	})
 
-	const ctr = (k === "case!") ? E.CaseDo : E.CaseVal;
-	return ctr({ span: px.span, opCased: opCased, parts: parts, opElse: opElse });
+	const ctr = (k === "case") ? E.CaseVal : E.CaseDo
+	const theCase = ctr({ span: px.span, parts: parts, opElse: opElse })
+
+	return (k === "case") ?
+		E.BlockWrap(px.s({
+			body: E.BlockBody(px.s({
+				lines: opAssignCased.concat([ theCase ]),
+				opReturn: Op.None, // theCase contains the return statement.
+				opIn: Op.None,
+				opOut: Op.None
+			}))
+		})) :
+		Op.ifElse(opAssignCased,
+			function(assignCased) { return E.Scope(px.s({
+				lines: [ assignCased, theCase ]
+			}))},
+			function() { return theCase })
 }
 
 const parseExpr = function(px, sqt) {

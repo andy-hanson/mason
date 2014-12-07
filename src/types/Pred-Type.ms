@@ -14,7 +14,9 @@ Pred-Type = Record-Type
 		predicate. Pred
 	defaults.
 		displayName. |_
-			case _.predicate.displayName
+			\ TODO:SYNTAX
+			cased = _.predicate.displayName
+			case cased
 				:Str
 					_
 				else

@@ -124,21 +124,12 @@ U.implementMany(E, "renderContent", {
 		commad(rx, this.args),
 		")"
 	]},
-	CaseDo: function(rx) { return [
-		// We need to give it its own block because "_" may already be defined.
-		"{",
-		rx.nl(), "\t",
-		caseBody(rx.indented(), this.opCased, this.parts, this.opElse, true),
-		rx.nl(),
-		"}"
-	]},
-	CaseVal: function(rx) { return [
-		rx.vr.eIsInGenerator(this) ? "yield* (function*() {" : "(function() {",
-		rx.nl(), "\t",
-		caseBody(rx.indented(), this.opCased, this.parts, this.opElse, false),
-		rx.nl(),
-		"})()"
-	]},
+	CaseDo: function(rx) {
+		return caseBody(rx, this.parts, this.opElse, true)
+	},
+	CaseVal: function(rx) {
+		return caseBody(rx, this.parts, this.opElse, false)
+	},
 	CasePart: function(rx, needBreak) {
 		const rxResult = rx.indented()
 		return [
@@ -313,6 +304,13 @@ U.implementMany(E, "renderContent", {
 		this.path,
 		"\")"
 	]},
+	Scope: function(rx) { return [
+		"{", rx.nl(),
+		"\t",
+		Sq.interleave(this.lines.map(r(rx.indented())), rx.nl() + "\t"),
+		rx.nl(),
+		"}"
+	]},
 	Sub: function(rx) { return [
 		"_ms.sub(",
 		commad(rx, Sq.cons(this.subject, this.subbers)),
@@ -411,14 +409,9 @@ const makeMember = function(name) {
 	return needsMangle(name) ? "[\"" + name + "\"]" : "." + name
 }
 
-const caseBody = function(rx, opCased, parts, opElse, needBreak) {
+const caseBody = function(rx, parts, opElse, needBreak) {
 	const rxSwitch = rx.indented()
 	const rxResult = rxSwitch.indented()
-	const jCased = opCased.map(function(cased) { return [
-		"const _ = ",
-		r(rx)(cased),
-		rx.snl()
-	]})
 	const jElse = Op.ifElse(opElse,
 		function(elze) { return [
 			"default: {",
@@ -432,7 +425,6 @@ const caseBody = function(rx, opCased, parts, opElse, needBreak) {
 	const jParts = parts.map(function(part) { return r(rxSwitch, needBreak)(part) })
 	const jAllParts = Sq.rcons(jParts, jElse)
 	return [
-		jCased,
 		"switch (true) {",
 		rxSwitch.nl(),
 		Sq.interleave(jAllParts, rxSwitch.nl()),
