@@ -66,7 +66,7 @@ const watchAndProcessDir = function(opts) {
 	const log = logger(opts)
 	type(inDir, String, outDir, String, processor, Function)
 
-	watch.createMonitor("./src", function(monitor) {
+	watch.createMonitor("./src", { interval: 500 }, function(monitor) {
 		const compileAndWrite = function(inFile, stats) {
 			if (stats.isFile())
 				processSingle(inDir, outDir, processor, inFile, log).done()

@@ -8,7 +8,8 @@ use
 	.tests.test -> test-all
 boot-order
 
-p = (test-all "./js").then
+p = (test-all "./js").then |
 	log! "All tests complete."
+
 p.done ()
 

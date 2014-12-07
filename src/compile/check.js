@@ -11,12 +11,22 @@ const check = module.exports = function(cond, spanOrPos, message) {
 		check.fail(spanOrPos, message)
 }
 
+check.warnIf= function(opts, cond, spanOrPos, message) {
+	if (cond)
+		console.log(failMessage(spanOrPos, message, opts))
+}
+
 check.fail = function(spanOrPos, message) {
+	throw check.CompileError(failMessage(spanOrPos, message))
+}
+
+const failMessage = function(spanOrPos, message, opts) {
 	const p = type.isa(spanOrPos, Span) ? spanOrPos.start : spanOrPos
 	type(p, Span.Pos)
 	const msg = (message instanceof Function) ? message() : message
 	type(msg, String)
-	throw check.CompileError(chalk.bold.red(p) + " " + highlightMarkdown(msg))
+	const posMessage =  chalk.bold.red(p) + " " + highlightMarkdown(msg)
+	return opts ? chalk.green(opts.moduleName()) + " " + posMessage : posMessage
 }
 
 const makeErrorType = function() {

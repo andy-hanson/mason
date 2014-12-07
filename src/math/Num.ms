@@ -68,17 +68,14 @@ region Tests
 			[ -8 ] -> -1
 			[ 0 ] -> 0
 			[ 8 ] -> 1
-			\ [ not-a-number ] -> not-a-number
 		|_:Num
 			case
 				>? _ 0
 					1
 				<? _ 0
 					-1
-				=? _ 0
-					0
 				else
-					not-a-number
+					0
 
 region Integer arithmetic
 	remainder.
@@ -261,7 +258,6 @@ impl! inspect-impl Num
 region Constants
 	infinity. get-property Num "POSITIVE_INFINITY"
 	-infinity. get-property Num "NEGATIVE_INFINITY"
-	not-a-number. Num.NaN
 	max-safe-integer. get-property Num "MAX_SAFE_INTEGER"
 	min-safe-integer. get-property Num "MIN_SAFE_INTEGER"
 	pi. Math.PI

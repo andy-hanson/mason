@@ -23,8 +23,7 @@ module.exports = function verify(e, opts) {
 const verifyLocalUse = function(vr, opts) {
 	const localToAccesses = vr.localToAccesses
 	for (let local of localToAccesses.keys())
-		check(
-			!Sq.isEmpty(localToAccesses.get(local)) || local.okToNotUse,
+		check.warnIf(opts, Sq.isEmpty(localToAccesses.get(local)) && !local.okToNotUse,
 			local.span,
 			"Unused local variable " + U.code(local.name) + ".")
 }

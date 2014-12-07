@@ -242,4 +242,7 @@ inspect=?.
 									false
 						and same-type ~same-members
 
+frozen?. |_
+	Object.isFrozen _
+
 Object

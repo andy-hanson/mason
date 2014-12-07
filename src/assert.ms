@@ -4,6 +4,7 @@ use
 	.arithmetic-methods -> +
 	.bags.Array
 	.bags.Bag -> each! empty? map
+	.basic-methods -> =>
 	.Bool -> false not true
 	.Comparable -> =?
 	.control -> if!
@@ -43,10 +44,9 @@ use
 			:Fun
 				rest-args = Array.prototype.slice.call `arguments` 1
 				if! (not (Fun.prototype.apply.call _ () rest-args)) |
-					\ TODO: .join -> make-string
 					oh-no! "
 						Expected {a}
-							{indent ((map rest-args inspect).join "\n")}
+							{indent (=> Str (map rest-args inspect) "\n")}
 			:Bool
 				if! not_ |
 					oh-no! b

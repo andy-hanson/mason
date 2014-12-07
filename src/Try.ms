@@ -35,7 +35,7 @@ make-Error = |error
 	Err = Error \ un-lazy Error
 	error \ TODO:Ignored vars
 	Err \ TODO:Ignored vars
-	`try { const err = _ms.unlazy(error); if (err instanceof Err) return err; if (typeof err === "string") return new Err(err); throw new Error("Argument to oh-no! must be Error or String") } catch (e) { return new Err("Error making error: " + e.message) }`
+	`try { const err = _ms.unlazy(error); if (err instanceof Err) return err; if (typeof err === "string") return new Err(err); if (err == null) return new Err("Oh no!"); throw new Error("Argument to oh-no! must be Error or String") } catch (e) { return new Err("Error making error: " + e.message) }`
 	oh-no! "Error making error about error making error. You really messed that one up."
 
 oh-no!.

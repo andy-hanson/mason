@@ -14,12 +14,11 @@ impl! inspect-impl Map
 			Hash-Map
 				1 -> 2
 	|_
-		\ TODO: make-Str
 		parts = map keys_ |key
 			"{inspect key} -> {inspect _[key]}"
 		"
 			{type-of_}
-				{(=> Array parts).join "\n\t"}
+				{=> Str parts "\n\t"}
 
 impl! show-impl Map
 	test. |
@@ -32,5 +31,4 @@ impl! show-impl Map
 	|_
 		parts = map keys_ |key
 			"{key} -> {_[key]}"
-		\ TODO: make-Str
-		(=> Array parts).join "\n"
+		=> Str parts "\n"

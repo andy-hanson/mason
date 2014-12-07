@@ -9,7 +9,7 @@ use
 	.Bool -> false not true
 	.Comparable -> =?
 	.Fun
-	.math.Num -> not-a-number
+	.math.Num
 	.Object -> add-property!
 	.Try -> Error
 
@@ -33,7 +33,7 @@ truthy?.
 			. ()
 			. `undefined`
 			. 0
-			. not-a-number
+			. Num.NaN
 			. ""
 			. false
 		each! falsy |_

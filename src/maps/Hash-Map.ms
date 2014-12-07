@@ -52,7 +52,7 @@ Hash-Map = Record-Type
 		=? key _.key
 
 impl! ?get Hash-Map |:? _ key:Any
-	\ TODO: empty Array!
+	\ TODO: empty Array
 	bucket = get-or (?bucket _ key) `[]`
 	map (?bucket-entry bucket key) |be
 		be.val
