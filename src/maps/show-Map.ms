@@ -4,7 +4,6 @@ use
 	..basic-methods -> => type-of
 	.Map -> keys
 	..show -> inspect inspect-impl show-impl
-	..Str -> indent
 	..types.Method -> impl!
 
 impl! inspect-impl Map
@@ -15,9 +14,12 @@ impl! inspect-impl Map
 			Hash-Map
 				1 -> 2
 	|_
+		\ TODO: make-Str
+		parts = map keys_ |key
+			"{inspect key} -> {inspect _[key]}"
 		"
 			{type-of_}
-				{indent show-impl_}
+				{(=> Array parts).join "\n\t"}
 
 impl! show-impl Map
 	test. |
@@ -29,6 +31,6 @@ impl! show-impl Map
 			3 -> 4
 	|_
 		parts = map keys_ |key
-			"{inspect key} -> {inspect _[key]}"
-		arr = => Array parts
-		arr.join "\n"
+			"{key} -> {_[key]}"
+		\ TODO: make-Str
+		(=> Array parts).join "\n"

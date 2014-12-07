@@ -23,14 +23,10 @@ module.exports = function verify(e, opts) {
 const verifyLocalUse = function(vr, opts) {
 	const localToAccesses = vr.localToAccesses
 	for (let local of localToAccesses.keys())
-		try { check(!Sq.isEmpty(localToAccesses.get(local)) || local.okToNotUse, local.span,
+		check(
+			!Sq.isEmpty(localToAccesses.get(local)) || local.okToNotUse,
+			local.span,
 			"Unused local variable " + U.code(local.name) + ".")
-		}
-		catch (e) {
-			console.log(opts.msPathRelToJs)
-			console.log(e.message)
-		}
-
 }
 
 // Context used during verification.

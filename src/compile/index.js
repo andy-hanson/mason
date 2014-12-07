@@ -45,9 +45,11 @@ const processFile = function(inFile, inContent, outDir) {
 		}
 		catch (e) {
 			const prepend = chalk.green(inFile + " ")
-			e.stack = prepend + e.stack
-			e.message = prepend + e.message
-			throw e
+			if (global.DEBUG)
+				console.log(prepend + e.stack)
+			else
+				console.log(prepend + e.message)
+			return [ ]
 		}
 	}
 	else if (isJs(inFile))
