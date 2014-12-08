@@ -32,7 +32,11 @@ const verifyLocalUse = function(vr, opts) {
 // Every property except vr is immutable.
 // Every Vx shares the same Vr.
 const Vx = types.recordType("Vx", Object, {
-	locals: Map, // Maps local names to E.LocalDeclares.
+	// Maps local names to E.LocalDeclares.
+	locals: Map,
+	// Locals map for this block.
+	// Replaces `locals` when entering into sub-function.
+	pendingBlockLocals: [E.LocalDeclare],
 	loopNames: Set,
 	isInGenerator: Boolean,
 	opts: Opts,
@@ -63,7 +67,8 @@ Object.assign(Vx.prototype, {
 		const localToAccesses = this.vr.localToAccesses
 		addedLocals.forEach(function(l) {
 			newLocals.set(l.name, l)
-			localToAccesses.set(l, [])
+			if (!localToAccesses.has(l))
+				localToAccesses.set(l, [])
 		})
 		return U.with(this, "locals", newLocals)
 	},
@@ -75,7 +80,7 @@ Object.assign(Vx.prototype, {
 	},
 	setAccessToLocal: function(access, local) {
 		this.vr.accessToLocal.set(access, local)
-		const accesses = this.vr.localToAccesses.get(local).push(access)
+		this.vr.localToAccesses.get(local).push(access)
 	},
 	// TODO: Better name
 	setEIsInGenerator: function(e) {
@@ -96,12 +101,17 @@ Object.assign(Vx.prototype, {
 			isLazy: false,
 			okToNotUse: true
 		})])
+	},
+	// TODO
+	withBlockLocals: function() {
+		return U.with(this.plusLocals(this.pendingBlockLocals), "pendingBlockLocals", [])
 	}
 })
 Object.assign(Vx, {
 	start: function(opts) {
 		return Vx({
 			locals: new Map(),
+			pendingBlockLocals: [],
 			loopNames: new Set(),
 			isInGenerator: false,
 			opts: opts,
@@ -124,10 +134,9 @@ const vm = function(vx, es) {
 U.implementMany(E, "verify", {
 	BlockBody: function(vx) {
 		this.opIn.forEach(v(vx))
-		const vxBlock = buildVxBlock(vx, this.lines)
-		this.lines.forEach(v(vxBlock))
-		this.opReturn.forEach(v(vxBlock))
-		const vxOut = Sq.isEmpty(this.opReturn) ? vxBlock : vxBlock.withRes(this.span)
+		const vxRet = verifyLines(vx, this.lines)
+		this.opReturn.forEach(v(vxRet))
+		const vxOut = Sq.isEmpty(this.opReturn) ? vxRet : vxRet.withRes(this.span)
 		this.opOut.forEach(v(vxOut))
 	},
 	BlockWrap: function(vx) {
@@ -145,6 +154,7 @@ U.implementMany(E, "verify", {
 		check(vx.hasLoop(this.name), this.span, "No loop called `"+this.name+"`")
 	},
 	Fun: function(vx) {
+		vx = vx.withBlockLocals()
 		this.opReturnType.forEach(v(vx))
 		if (!Sq.isEmpty(this.opReturnType))
 			check(!Sq.isEmpty(this.body.opReturn), this.span, "Function with return type must return something.")
@@ -178,9 +188,6 @@ U.implementMany(E, "verify", {
 		v(vx)(this.key)
 		v(vx)(this.val)
 	},
-	Scope: function(vx) {
-		vm(buildVxBlock(vx, this.lines), this.lines)
-	},
 	Yield: function(vx) {
 		check(vx.isInGenerator, this.span, "Cannot yield outside of generator context")
 		v(vx)(this.yielded)
@@ -197,7 +204,9 @@ U.implementMany(E, "verify", {
 	CasePart: function(vx) { vm(vx, [this.test, this.result]) },
 	Debugger: U.ignore,
 	DictReturn: function(vx) { vm(vx, this.opDicted) },
-	Lazy: function(vx) { v(vx)(this.value) },
+	Lazy: function(vx) {
+		v(vx.withBlockLocals())(this.value)
+	},
 	ListReturn: U.ignore,
 	ListEntry: function(vx) { v(vx)(this.value) },
 	ListSimple: function(vx) { this.parts.map(v(vx)) },
@@ -210,20 +219,42 @@ U.implementMany(E, "verify", {
 	True: U.ignore,
 	Quote: function(vx) { vm(vx, this.parts) },
 	Require: U.ignore,
+	Scope: function(vx) { throw new Error("Scopes are handled specially by verifyLines.") },
 	Sub: function(vx) { vm(vx, Sq.cons(this.subject, this.subbers)) },
 	This: U.ignore,
 	TypeTest: function(vx) { vm(vx, [this.tested, this.testType]) },
 })
 
-const buildVxBlock = function(vxBefore, lines) {
-	type(vxBefore, Vx, lines, [E])
-	return lines.reduce(buildVxBlockLine, vxBefore)
+const verifyLines = function(vx, lines) {
+	const lineToLocals = new Map()
+	let prevLocals = []
+	let allNewLocals = []
+	lines.forEach(function processLine(line) {
+		if (type.isa(line, E.Scope))
+			line.lines.forEach(processLine)
+		else {
+			const newLocals = prevLocals.concat(lineNewLocals(line))
+			lineToLocals.set(line, prevLocals)
+			prevLocals = newLocals
+			allNewLocals = newLocals // Final set value is answer
+		}
+	})
+	lines.forEach(function verifyLine(line) {
+		if (type.isa(line, E.Scope))
+			line.lines.forEach(verifyLine)
+		else {
+			const vxLineLocals = vx.plusLocals(lineToLocals.get(line))
+			const vxLine = U.with(vxLineLocals, "pendingBlockLocals", vx.pendingBlockLocals.concat(allNewLocals))
+			v(vxLine)(line)
+		}
+	})
+	return vx.plusLocals(allNewLocals)
 }
 
-const buildVxBlockLine = function(vx, line) {
+const lineNewLocals = function(line) {
 	return type.isa(line, E.Assign) ?
-		vx.plusLocals([line.assignee]) :
+		[ line.assignee ] :
 		type.isa(line, E.AssignDestructure) ?
-		vx.plusLocals(line.assignees) :
-		vx
+		line.assignees :
+		[ ]
 }
