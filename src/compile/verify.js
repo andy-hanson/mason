@@ -230,10 +230,21 @@ const verifyLines = function(vx, lines) {
 	let prevLocals = []
 	let allNewLocals = []
 	lines.forEach(function processLine(line) {
-		if (type.isa(line, E.Scope))
+		if (type.isa(line, E.Scope)) {
+			const localsBefore = prevLocals
 			line.lines.forEach(processLine)
+			prevLocals = localsBefore
+		}
 		else {
-			const newLocals = prevLocals.concat(lineNewLocals(line))
+			verifyIsStatement(line)
+			const lineNews = lineNewLocals(line)
+			prevLocals.forEach(function(prevLocal) {
+				lineNews.forEach(function(newLocal) {
+					check(prevLocal.name !== newLocal.name, newLocal.span,
+						U.code(newLocal.name) + " already declared in same block at " + prevLocal.span.start)
+				})
+			})
+			const newLocals = prevLocals.concat(lineNews)
 			lineToLocals.set(line, prevLocals)
 			prevLocals = newLocals
 			allNewLocals = newLocals // Final set value is answer
@@ -251,7 +262,24 @@ const verifyLines = function(vx, lines) {
 	return vx.plusLocals(allNewLocals)
 }
 
+// TODO: Clean up
+const verifyIsStatement = function(line) {
+	switch (true) {
+		case type.isa(line, E.Do):
+		// Some E.Vals are also conceptually E.Dos, but this was easier than multiple inheritance.
+		case type.isa(line, E.Call):
+		case type.isa(line, E.Literal) && line.k === "js":
+		case type.isa(line, E.Null): // OK, used to mean `pass`
+		case type.isa(line, E.Yield):
+		case type.isa(line, E.YieldTo):
+			return
+		default:
+			check.fail(line.span, "Expression in statement position.")
+	}
+}
+
 const lineNewLocals = function(line) {
+	type(line, E)
 	return type.isa(line, E.Assign) ?
 		[ line.assignee ] :
 		type.isa(line, E.AssignDestructure) ?

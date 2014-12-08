@@ -205,3 +205,6 @@ exports["type-of-contains?!"](Symbol, "symbol")
 exports["type-of-contains?!"](Num, "number")
 
 exports["extend!"] = Object.assign
+
+// TODO: Only use in Interface.ms - get rid of.
+exports["ignore"] = function() { }

@@ -5,6 +5,7 @@ use
 	..basic-methods -> type-of
 	..Comparable -> =?
 	..Comparable! -> <!
+	..Fun -> ignore
 	..math.Num
 	..types.Interface
 	..types.Method -> impl!
@@ -43,6 +44,5 @@ Has-X. Interface
 
 a:Has-X = v
 b:Has-X = 1
-a
-b
+ignore a b
 ()

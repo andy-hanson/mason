@@ -11,7 +11,7 @@ use
 	..Comparable -> =? <=? >=?
 	..Comparable! -> <!
 	..control -> if
-	..Fun
+	..Fun -> ignore
 	..math.Num -> Nat
 	..pred-types -> Any
 	..Ref -> get mod! ref
@@ -68,9 +68,7 @@ region Search
 			\ TODO:ES6 for (let em of _)
 			s = |x
 				=> ? [ x ]
-			s \ TODO:Ignored vars
-			iter \ TODO:Ignored vars
-			n \ TODO:Ignored vars
+			ignore s iter n \ TODO:Ignored vars
 			`for (let em of iter) { if (i == n) return s(em); i++; }`
 			empty ?
 

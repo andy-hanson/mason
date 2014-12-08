@@ -6,6 +6,7 @@ use
 	..bags.Bag -> count empty?
 	..bags.Range -> range
 	..Comparable! -> <!
+	..Fun -> ignore
 	.Map -> ?get has-key? keys
 	.Map! -> empty! delete! set!
 	..math.Num -> Nat
@@ -13,8 +14,7 @@ use
 	..types.Type -> contains?
 
 unsafe-get = |_ key
-	_ \ TODO:Ignored vars
-	key \ TODO:Ignored vars
+	ignore _ key \ TODO:Ignored vars
 	`_[key]`
 
 <! Array Map!
@@ -33,13 +33,10 @@ unsafe-get = |_ key
 					\ TODO pop! _
 					_.pop ()
 	delete! -> |_ key:Nat
-		_ \ TODO:Ignored vars
-		key \ TODO:Ignored vars
+		ignore _ key \ TODO:Ignored vars
 		`delete _[key]`
 	set! -> |_ key:Nat val:Any
-		_ \ TODO:Ignored vars
-		key \ TODO:Ignored vars
-		val \ TODO:Ignored vars
+		ignore _ key val \ TODO:Ignored vars
 		`_[key] = val`
 		()
 

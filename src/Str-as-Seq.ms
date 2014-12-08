@@ -9,7 +9,7 @@ use
 	.basic-methods -> =>
 	.Comparable -> =?
 	.Comparable! -> <!
-	.Fun -> identity
+	.Fun -> identity ignore
 	.pred-types -> Opt
 	.Str
 	.types.Method -> impl! impl-for
@@ -34,7 +34,7 @@ impl! => (self-type Str) Bag
 	test. |
 		[ Str [ 1 2 3 ] ] -> "123"
 		[ Str [ 1 2 3 ] ", " ] -> "1, 2, 3"
-	|ignore bag ?joiner:Opt[Str]
-		ignore \ TODO: ignored vars
+	|Str bag ?joiner:Opt[Str]
+		ignore Str \ TODO: ignored vars
 		joiner = get-or (Opt->? ?joiner) ""
 		(=> Array bag).join joiner

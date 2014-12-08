@@ -8,7 +8,7 @@ use
 	.basic-methods -> =>
 	.Bool -> false not true
 	.Comparable -> =?
-	.Fun
+	.Fun -> ignore
 	.math.Num
 	.Object -> add-property!
 	.Try -> Error
@@ -42,7 +42,7 @@ truthy?.
 		! truthy? true
 
 	|:Bool a
-		a \ TODO:Ignored vars
+		ignore a \ TODO:Ignored vars
 		`!!a`
 
 new.
@@ -61,13 +61,13 @@ new.
 		in
 			!not reference=? constructor Error
 		boundConstructor = Fun.prototype.bind.apply constructor `arguments`
-		boundConstructor \ TODO:Ignored vars
+		ignore boundConstructor \ TODO:Ignored vars
 		`new boundConstructor`
 
 js-typeof.
 	doc. "JavaScript's `typeof` operator."
 	|a
-		a \ TODO:Ignored vars
+		ignore a \ TODO:Ignored vars
 		`typeof a`
 
 apply-with-this.

@@ -6,7 +6,11 @@ use
 	.console -> log!
 	.private.boot-order
 	.tests.test -> test-all
-boot-order
+
+\ TODO: use! boot-order
+load = |x
+	x
+load boot-order
 
 p = (test-all "./js").then |
 	log! "All tests complete."

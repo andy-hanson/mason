@@ -5,6 +5,7 @@ use
 	.basic-methods -> sub
 	.Bool -> not or true
 	.Comparable! -> <!
+	.Fun -> ignore
 	.Str
 	.types.Method -> impl!
 	.types.Pred-Type
@@ -43,7 +44,7 @@ Any. Pred-Type
 		!not contains? Any ()
 		!not contains? Any `undefined`
 	predicate. |_
-		_ \ TODO:Ignored vars
+		ignore _ \ TODO:Ignored vars
 		`_ != null`
 
 Union. singleton
@@ -56,7 +57,7 @@ Union. singleton
 
 \ TODO: Variadic
 impl! sub Union |u A:Type B:Type
-	u \ TODO:Ignored vars
+	ignore u \ TODO:Ignored vars
 	Pred-Type
 		displayName. "some union"\ "Union[{A} {B}]" \ TODO
 		predicate. |_

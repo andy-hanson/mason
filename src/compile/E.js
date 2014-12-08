@@ -44,6 +44,8 @@ makeETypes(E.Do, {
 	Assign: { assignee: E.LocalDeclare, k: Lang.KAssign, value: E.Val },
 	AssignDestructure: { assignees: [E.LocalDeclare], k: Lang.KAssign, value: E.Val, isLazy: Boolean },
 	CaseDo: { parts: [E.CasePart], opElse: Op(E.BlockBody) },
+	// Unlike CaseDo, this has `return` statements.
+	CaseVal: { parts: [E.CasePart], opElse: Op(E.BlockBody) },
 	Debugger: { },
 	EndLoop: { name: String },
 	ListEntry: { value: E.Val, index: Number },
@@ -58,10 +60,6 @@ makeETypes(E.Do, {
 makeETypes(E.Val, {
 	BlockWrap: { body: E.BlockBody },
 	Call: { called: E.Val, args: [E.Val] },
-	// This and CaseDo differ only in that one is a Do and one is a Val,
-	// and that a CaseVal can only contain E.Val results in its parts.
-	// CaseVal compiles differently because it must return a result.
-	CaseVal: { parts: [E.CasePart], opElse: Op(E.BlockBody) },
 	DictReturn: { keys: [String], opDicted: Op(E.Val), opDisplayName: Op(String) },
 	Fun: {
 		args: [E.LocalDeclare],

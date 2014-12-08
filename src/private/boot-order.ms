@@ -16,14 +16,18 @@ install
 	hi.
 \ stack-displayname \ Doesn't play nice with source-map-support
 
-Type \ This makes it safe to type things.
-Fun \ Get its impl! ready
-Dict \ Dict.empty used by many Record-Type_s
-Hash-Map \ Provides _ms.map
-Bag-Type
-Num
-Array-as-Map!
-Dict-as-Map
-show \ Important to load this now, as it will help error messages
-show-Type
+\ Invokes lazy thunk
+load = |x
+	x
+
+load Type \ This makes it safe to type things.
+load Fun \ Get its impl! ready
+load Dict \ Dict.empty used by many Record-Type_s
+load Hash-Map \ Provides _ms.map
+load Bag-Type
+load Num
+load Array-as-Map!
+load Dict-as-Map
+load show \ Important to load this now, as it will help error messages
+load show-Type
 ()

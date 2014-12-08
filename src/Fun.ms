@@ -206,9 +206,8 @@ impl! show-impl Fun
 		[ `function() { }` ] -> "<anonymous Fun>"
 	|:Str _
 		get-or (?get-property _ "displayName") ~
-			\ TODO:SYNTAX Should be able to write `case get-property _ "name"`
+			\ Every function has name property - empty string means anonymous function.
 			name = get-property _ "name"
-			empty?
 			case name
 				empty?_
 					"<anonymous Fun>"

@@ -8,7 +8,7 @@ use
 	..Bool -> and
 	..Comparable -> =?
 	..Comparable! -> <!
-	..Fun -> thunk
+	..Fun -> ignore thunk
 	..js -> global
 	.Seq -> seq=?
 	..types.Method ->  impl!
@@ -25,9 +25,8 @@ impl! count Array |_
 	_.length
 \ TODO:ES6 This should be implemented for me
 impl! iterator Array ~|_
-	len = count_
-	len \ TODO:Ignored vars
-	`for (let i = 0; i < len; i++) yield _[i]`
+	ignore _
+	`for (let i = 0; i < _.length; i++) yield _[i]`
 	()
 
 impl! =? Array

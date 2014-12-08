@@ -6,7 +6,7 @@ use
 	..basic-methods -> =>
 	..Bool -> false not true
 	..Comparable -> =?
-	..Fun -> identity Pred
+	..Fun -> identity ignore Pred
 	..generators -> Generator!
 	..math.Num -> divisible? Nat
 	..pred-types -> Any Opt
@@ -51,11 +51,9 @@ region Builder
 	\ TODO: Not public
 	from-stream. |_ stream:Bag
 		b = builder_
-		b \ TODO:Ignored vars
 		iter = iterator stream
-		iter \ TODO:Ignored vars
 		bn = build-next!
-		bn \ TODO:Ignored vars
+		ignore b iter bn \ TODO:Ignored vars
 		`for (let em of iter) bn(b, em)`
 		build-result b
 
@@ -78,9 +76,8 @@ region Functions using just the iterator
 		|_ do-for-each:Fun
 			\ TODO:ES6 `for (let value of _)`
 			iter = iterator_
-			iter \ TODO:Ignored vars
 			f = do-for-each
-			f \ TODO:Ignored vars
+			ignore iter f \ TODO:Ignored vars
 			`for (let em of iter) f(em)`
 			()
 
@@ -109,10 +106,8 @@ region Functions using just the iterator
 	?first-where. |_ pred:Pred
 		s = |x
 			=> ? [ x ]
-		s \ TODO:Ignored vars
 		iter = iterator_\ TODO:ES6 for (let em of _)
-		iter \ TODO:Ignored vars
-		pred \ TODO:Ignored vars
+		ignore s iter pred \ TODO:Ignored vars
 		`for (let em of  iter) if (pred(em)) return s(em)`
 		empty ?
 
@@ -155,9 +150,7 @@ region Methods using builder
 			b = builder_
 			bn = build-next!
 			iter = iterator_
-			bn \ TODO:Ignored vars
-			iter \ TODO:Ignored vars
-			mapper \ TODO:Ignored vars
+			ignore bn iter mapper \ TODO:Ignored vars
 			`for (let em of iter) for (let innerEm of iterator(mapper(em))) bn(b, innerEm)`
 			build-result b
 

@@ -8,7 +8,7 @@ use
 	..bags.Stream -> streaming
 	..Bool -> and true
 	..Comparable -> =? >? >=? <=?
-	..Fun -> call
+	..Fun -> call ignore
 	..Generator! -> each~
 	..maps.Map! -> set!
 	..math.Num -> divisible? Int
@@ -99,7 +99,7 @@ Str->Num. |:Num str:Str
 ints:Bag[Int] =
 	. 1
 	. 2
-ints
+ignore ints
 
 twice = |x
 	* 2 x

@@ -6,7 +6,7 @@ use
 	.Interface
 	..math.Num
 	..Object -> ?get-property
-	..private.bootstrap -> Str Symbol Fun oh-no! true any? get-or-undefined exists? set! set-mutable! has-or-in-proto? get
+	..private.bootstrap -> ignore Str Symbol Fun oh-no! true any? get-or-undefined exists? set! set-mutable! has-or-in-proto? get
 	.Record-Type
 	..Try -> fails?
 	.Type -> contains?
@@ -144,8 +144,8 @@ Double-Dispatcher = Record-Type
 		~first-type. Impl-Type
 		impl-symbol. Symbol
 	make-callable. |_
-		|ignore target-2
-			ignore \ TODO:Ignored vars
+		|target-1 target-2
+			ignore target-1 \ TODO:Ignored vars
 			case!
 				exists? target-2
 					()

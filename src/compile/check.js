@@ -25,7 +25,7 @@ const failMessage = function(spanOrPos, message, opts) {
 	type(p, Span.Pos)
 	const msg = (message instanceof Function) ? message() : message
 	type(msg, String)
-	const posMessage =  chalk.bold.red(p) + " " + highlightMarkdown(msg)
+	const posMessage =  p + " " + highlightMarkdown(msg)
 	return opts ? chalk.green(opts.moduleName()) + " " + posMessage : posMessage
 }
 

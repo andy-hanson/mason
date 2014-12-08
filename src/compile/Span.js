@@ -1,6 +1,7 @@
 "use strict";
 
 const
+	chalk = require("chalk"),
 	Sq = require("./U/Sq"),
 	type = require("./U/type"),
 	types = require("./U/types")
@@ -20,7 +21,7 @@ Object.assign(Pos.prototype, {
 	},
 
 	toString: function() {
-		return this.line + ":" + this.column
+		return chalk.bold.red(this.line + ":" + this.column)
 	}
 })
 
@@ -48,5 +49,5 @@ Object.assign(Span, {
 Object.assign(Span.prototype, {
 	toString: function() {
 		return this.start + "-" + this.end
-	}
+	},
 })

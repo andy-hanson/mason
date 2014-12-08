@@ -10,7 +10,7 @@ use
 	.basic-methods -> =>
 	.Bool -> and false true
 	.Comparable -> =?
-	.Fun
+	.Fun -> ignore
 	.Object
 	.pred-types -> Any
 	.types.Pred-Type
@@ -55,8 +55,7 @@ each~.
 		\ TODO:ES6 for (let em of bag)
 		iter = iterator bag
 		de = do-each
-		de  \ TODO:Ignored vars
-		iter \ TODO:Ignored vars
+		ignore de iter \ TODO:Ignored vars
 		`for (let em of iter) yield* de(em)`
 		()
 

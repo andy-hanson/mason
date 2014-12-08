@@ -4,7 +4,7 @@ use
 	.bags.Bag -> empty? flat-map fold
 	.Bool -> not
 	.Comparable -> =?
-	.Fun
+	.Fun -> ignore
 	.math.bit-arithmetic -> bit-and hexidecimal
 	.math.Num -> Int round-towards-0
 	.Object -> ?get-property own-properties
@@ -75,9 +75,8 @@ impl! hash-code Str
 		! =? (hash-code "a") (hash-code "a")
 		!not =? (hash-code "a") (hash-code "b")
 	|_
-		_ \ TODO:Ignored vars
 		mhc = max-hash-code
-		mhc \ TODO:Ignored vars
+		ignore _ mhc \ TODO:Ignored vars
 		\ TODO: each-with-index!
 		`let hash = 13`
 		`for (let i = 0; i < _.length; i++) hash = (31 * hash + _.charCodeAt(i)) & mhc`

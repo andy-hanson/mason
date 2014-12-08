@@ -8,7 +8,7 @@ use
 	..js -> reference=?
 	..maps.Map -> keys
 	.Method -> impl! propagate-method-down!
-	..private.bootstrap -> Str Array Object Symbol true set! get own-properties
+	..private.bootstrap -> ignore Str Array Object Symbol true set! get own-properties
 	.Record-Type
 	.Type -> contains?
 
@@ -73,7 +73,7 @@ Interface = Record-Type
 		implementors. |
 			`[]`
 		symbol-for-isa. |_
-			_ \ TODO:Ignored vars
+			ignore _ \ TODO:Ignored vars
 			Symbol `"isa-" + _.displayName` \"isa-{_.displayName}" TODO
 	post-construct. |iface
 		set! iface.prototype iface.symbol-for-isa true
@@ -107,7 +107,7 @@ implementor!.
 			`_ == null` \ TODO: :Any
 				()
 			else
-				_ \ TODO: use :any above so don't need this line
+				ignore _ \ TODO: use :any above so don't need this line
 				mi:Map = method-impls
 				each! (keys mi) |method
 					implementation = mi[method]

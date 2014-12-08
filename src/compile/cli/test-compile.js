@@ -30,7 +30,7 @@ if (require.main === module) {
 	const t = time(lex, source, opts)
 	// U.log("==>\n" + t)
 	const e = time(parse, t, opts)
-	// U.log("==>\n" + e)
+	U.log("==>\n" + e)
 	const vr = verify(e, opts)
 	// U.log("+++\n" + vr)
 	const j = time(render, e, opts, vr)

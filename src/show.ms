@@ -2,7 +2,7 @@ use
 	.bags.Bag -> map
 	.basic-methods -> type-of
 	.Bool -> false true
-	.Fun -> identity
+	.Fun -> identity ignore
 	.js -> reference=?
 	.Object -> own-enumerable-properties
 	.Str -> indent
@@ -76,7 +76,7 @@ impl! inspect-impl Str
 	test. |
 		[ "a" ] -> "\"a\""
 	|_
-		_ \ TODO:Ignored vars
+		ignore _ \ TODO:Ignored vars
 		`"\"" + _ + "\""`
 
 \ TODO: show-Bool.ms?

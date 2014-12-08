@@ -11,6 +11,7 @@ use
 	.Bool -> and false not nor true xor
 	.Comparable -> =?
 	.Dict
+	.Fun -> ignore
 	.js -> global js-typeof reference=?
 	.maps.Map -> keys
 	.pred-types -> Any Union
@@ -37,13 +38,10 @@ send.
 send!. send
 
 get = |object name
-	object \ TODO:Ignored vars
-	name \ TODO:Ignored vars
+	ignore object name \ TODO:Ignored vars
 	`object[name]`
 set = |object name value
-	object \ TODO:Ignored vars
-	name \ TODO:Ignored vars
-	value \ TODO:Ignored vars
+	ignore object name value \ TODO:Ignored vars
 	`object[name] = value`
 
 \ TODO: Use a Mason set
@@ -235,7 +233,7 @@ inspect=?.
 								\ TODO: For non-extensible Record-Types we can skip this check
 								=? ak bk
 									eq = =?
-									eq \ TODO:Ignored vars
+									ignore eq \ TODO:Ignored vars
 									`for (let i = 0; i < ak.length; i++) { const key = ak[i]; if (!eq(a[ak], b[ak])) return false }`
 									true
 								else
