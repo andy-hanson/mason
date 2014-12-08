@@ -3,8 +3,8 @@ use
 	.basic-methods -> type-of
 	.Bool -> false true
 	.Fun -> identity ignore
-	.js -> reference=?
-	.Object -> own-enumerable-properties
+	.js -> reference=? undefined?
+	.Object -> get-property own-enumerable-properties
 	.Str -> indent
 	.types.Method -> impl!
 
@@ -42,12 +42,11 @@ inspect-impl. Method
 		\ TODO: Use impl! for some of these cases
 		reference=? _ ()
 			"()"
-		reference=? _ `undefined`
+		undefined?_
 			"undefined"
 		else
 			key-vals = map own-enumerable-properties_ |key
-				\ TODO: get-property
-				val:Str = inspect `_[key]`
+				val:Str = inspect (get-property _ key
 				"{key}. {indent val}"
 			"
 				{type-of_}
@@ -61,7 +60,7 @@ show =
 			For a more detailed Str representation of data, use `inspect`.
 	|case
 		showing.has _
-			`"<recursive>"` \TODO: "<recursive>"
+			"<recursive>"
 		else
 			showing.add _
 			x = show-impl_

@@ -18,7 +18,6 @@ use
 	.Map -> ?get keys values
 	.Map! -> set!
 	..math.Num -> divisible?
-	..pred-types -> Any
 	..private.bootstrap -> ms
 	..Ref -> get mod! ref
 	..Try -> oh-no!
@@ -43,16 +42,16 @@ Hash-Map = Record-Type
 	members.
 		hash->bucket. Identity-Map!
 
-?bucket = |:?[Array] _ key:Any
+?bucket = |:?[Array] _ key
 	code = hash-code key
 	?get _.hash->bucket code
 
-?bucket-entry = |bucket:Array key:Any
+?bucket-entry = |bucket:Array key
 	?first-where bucket |_
 		=? key _.key
 
-impl! ?get Hash-Map |:? _ key:Any
-	\ TODO: empty Array
+impl! ?get Hash-Map |:? _ key
+	\ TODO: empty Array!
 	bucket = get-or (?bucket _ key) `[]`
 	map (?bucket-entry bucket key) |be
 		be.val
@@ -63,9 +62,10 @@ impl! keys Hash-Map |_
 		map bucket |_
 			_.key
 
-impl! set! Hash-Map |hm key:Any val:Any
+impl! set! Hash-Map |hm key val
 	case! ?bucket hm key
 		empty?_
+			\ TODO: empty Array!
 			new-bucket = `[]`
 			\ TODO: push! new-bucket
 			k = key

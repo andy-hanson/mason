@@ -29,6 +29,7 @@ compare. Method
 
 		Values of different types should generally not be =?.
 		For example, [ 1 2 3 ] is not `=?` (=> Stream [ 1 2 3 ]), but it is `seq=?`.
+		Unlike other comparison methods, `=?` should not make assertions about type.
 
 	default. |:Bool a b
 		or (reference=? a b) ~(inspect=? a b)

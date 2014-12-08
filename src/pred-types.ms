@@ -10,7 +10,6 @@ use
 	.types.Method -> impl!
 	.types.Pred-Type
 	.types.Record-Type
-	.types.singleton
 	.types.Type -> contains?
 	.types.util -> self-type
 
@@ -47,7 +46,7 @@ Any. Pred-Type
 		ignore _ \ TODO:Ignored vars
 		`_ != null`
 
-Union. singleton
+Union.
 	doc. "Union[A B] is a type matching either an A or a B."
 	test. |
 		SB = Union[Str Bool]
@@ -56,7 +55,7 @@ Union. singleton
 		!not contains? SB ()
 
 \ TODO: Variadic
-impl! sub Union |u A:Type B:Type
+impl! sub (self-type Union) |u A:Type B:Type
 	ignore u \ TODO:Ignored vars
 	Pred-Type
 		displayName. "some union"\ "Union[{A} {B}]" \ TODO

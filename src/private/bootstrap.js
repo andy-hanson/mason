@@ -63,7 +63,7 @@ set(ms, "mkArray", function() {
 set(ms, "Dict", function Dict() {
 	const baby = Object.create(Dict.prototype)
 	assignMany(baby, arguments)
-	return Object.freeze(baby)
+	return baby
 })
 exports["Dict"] = ms.Dict
 

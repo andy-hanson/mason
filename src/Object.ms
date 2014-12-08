@@ -12,7 +12,7 @@ use
 	.Comparable -> =?
 	.Dict
 	.Fun -> ignore
-	.js -> global js-typeof reference=?
+	.js -> global js-typeof reference=? js-sub js-set
 	.maps.Map -> keys
 	.pred-types -> Any Union
 	.Symbol
@@ -33,16 +33,9 @@ send.
 	test. |
 		[ 1 "toFixed" 2 ] -> "1.00"
 	|a:Any name:Object-Key \ TODO:ES6 ...args
-		(get a name).apply a (Array.prototype.slice.call `arguments` 2)
+		(js-sub a name).apply a (Array.prototype.slice.call `arguments` 2)
 
 send!. send
-
-get = |object name
-	ignore object name \ TODO:Ignored vars
-	`object[name]`
-set = |object name value
-	ignore object name value \ TODO:Ignored vars
-	`object[name] = value`
 
 \ TODO: Use a Mason set
 forbidden-fun-props = `new global.Set([ "arguments", "caller" ])`
@@ -96,23 +89,25 @@ own-enumerable-properties.
 		case
 			has-property? _ name
 				\ Could still be null/undefined.
-				Opt->? (get _ name)
+				Opt->? (js-sub _ name)
 			else
 				empty ?
 
 get-property.
-	doc. "Like `?get-property`, but it better exist."
+	doc. "TODO"
 	test. |
 		x =
 			a. 1
+			b. ()
 		[ x "a" ] -> 1
+		\ [ x "b" ] -> ()
 		! fails? |
-			get-property x "b"
+			get-property x "c"
 	|_:Object name:Object-Key
 		in
 			! has-property? _ name
-			! (contains? Any (get _ name)) ~"{_}.{name} is missing"
-		get _ name
+			! (contains? Any (js-sub _ name)) ~"{_}.{name} is missing"
+		js-sub _ name
 
 ?get-property-or-in-prototype.
 	doc. "Like `get-property`, but also looks through the prototype chain."
@@ -122,7 +117,7 @@ get-property.
 		[ x "toString" ] -> => ? [ Object.prototype.toString ]
 		[ x "asdfghjkl" ] -> empty ?
 	|object:Object name:Object-Key
-		Opt->? (get object name)
+		Opt->? (js-sub object name)
 
 add-property!.
 	doc. "Adds a new immutable property to a mutable object."
@@ -156,11 +151,11 @@ change-property!.
 		add-mutable-property! x "a" 1
 		change-property! x "a" 2
 		! =? x.a 2
-	|object:Object name:Object-Key new-val:Any
+	|object:Object name:Object-Key new-val
 		in
 			has-property? object name
 
-		set object name new-val
+		js-set object name new-val
 
 has-property?.
 	doc. "
@@ -181,7 +176,7 @@ has-property-or-in-prototype?.
 		\ TODO: empty Object
 		! has-property-or-in-prototype? `{}` "toString"
 	|object:Object name:Object-Key
-		not (reference=? (get object name) `undefined`)
+		not (reference=? (js-sub object name) `undefined`)
 
 extend!.
 	doc. "Adds all the properties in `extender` to `object`."

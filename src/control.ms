@@ -12,7 +12,6 @@ use
 	.maps.Map -> ?get
 	.pred-types -> Any
 	.Try -> oh-no!
-	.types.singleton
 
 build.
 	doc. "
@@ -50,7 +49,7 @@ switch.
 		dispatch = get-or (?get cases val) ~cases[switch-else]
 		call dispatch
 
-switch-else. singleton
+switch-else.
 	doc. "TODO"
 
 if.

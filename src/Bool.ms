@@ -1,12 +1,13 @@
 use
 	.js -> global
+	.js-impl -> i-true i-false
 
 Bool =
 	doc. "TODO"
 	global.Boolean
 
-true. `true`
-false. `false`
+true. i-true
+false. i-false
 
 \ TODO: Variadic
 

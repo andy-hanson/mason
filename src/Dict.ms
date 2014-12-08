@@ -6,10 +6,11 @@ use
 	.basic-methods -> type-of
 	.Comparable -> =?
 	.maps.Map -> keys
+	.private.bootstrap -> Dict extend!
 	.show -> inspect-impl
 	.types.Method -> impl!
 
-Dict =
+extend! Dict
 	doc. "
 		An unordered collection of name-value bindings.
 		Every Dict is a Map whose keys are strings.
@@ -23,7 +24,6 @@ Dict =
 
 	\ TODO: `empty` method
 	empty. `_ms.Dict()`
-	`_ms`.Dict
 
 impl! type-of Dict |
 	Dict

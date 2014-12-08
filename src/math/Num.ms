@@ -4,10 +4,9 @@ use
 	..bags.? -> get-or Opt->?
 	..Bool -> and false true
 	..Comparable -> =? <? >? <=? >=? compare
-	..js -> global
 	..Object -> get-property
 	..pred-types -> Opt
-	..private.operators -> op-bar op=== op< op> op<= op>= op+ op- op* op/ op%
+	..js -> global js-bar js=== js< js> js<= js>= js+ js- js* js/ js%
 	..show -> inspect-impl
 	..Try -> fails?
 	..types.Method -> impl!
@@ -43,24 +42,23 @@ Nat. Pred-Type
 		and :Int ~(>=? _ 0)
 
 impl! compare Num -
-impl! =? Num |a b
-	op=== a b
+impl! =? Num js===
 impl! <? Num |a b:Num
-	op< a b
+	js< a b
 impl! >? Num |a b:Num
-	op> a b
+	js> a b
 impl! <=? Num |a b:Num
-	op<= a b
+	js<= a b
 impl! >=? Num |a b:Num
-	op>= a b
+	js>= a b
 impl! + Num |a b:Num
-	op+ a b
+	js+ a b
 impl! - Num |a b:Num
-	op- a b
+	js- a b
 impl! * Num |a b:Num
-	op* a b
+	js* a b
 impl! / Num |a b:Num
-	op/ a b
+	js/ a b
 
 region Tests
 	sign.
@@ -88,7 +86,7 @@ region Integer arithmetic
 			[ -2 3 ] -> -2
 			[ -2 -3 ] -> -2
 		|numerator:Num denominator:Num
-			op% numerator denominator
+			js% numerator denominator
 
 	modulo.
 		doc. "
@@ -195,7 +193,7 @@ region Rounding
 			[ -0.5 ] -> 0
 			[ 0.5 ] -> 0
 		|_:Num
-			op-bar _ 0
+			js-bar _ 0
 
 region Near
 	\ TODO: Move to math-methods.ms

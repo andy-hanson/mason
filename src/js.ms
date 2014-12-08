@@ -12,8 +12,37 @@ use
 	.math.Num
 	.Object -> add-property!
 	.Try -> Error
+	.js-impl -> i& i^ i<< i>> i>>> i=== i< i> i<= i>= i+ i- i* i/ i% i-bar i~ i! i-sub i-set i-global i-new
 
-global. `global`
+global. i-global
+
+js&. i&
+js^. i^
+js<<. i<<
+js>>. i>>
+js>>>. i>>>
+js===. i===
+js<. i<
+js>. i>
+js<=. i<=
+js>=. i>=
+js+. i+
+js-. i-
+js*. i*
+js/. i/
+js%. i%
+js-bar. i-bar
+js~. i~
+js!. i!
+js-sub. i-sub
+js-set. i-set
+
+\ TODO:ES6 Can't export this yes because lazies can't be undefined.
+undefined = `undefined`
+
+\ TODO: Only need this because of above
+undefined?. |_
+	reference=? _ undefined
 
 reference=?.
 	doc. "
@@ -31,7 +60,7 @@ truthy?.
 	test. |
 		falsy =
 			. ()
-			. `undefined`
+			. undefined
 			. 0
 			. Num.NaN
 			. ""
@@ -43,7 +72,7 @@ truthy?.
 
 	|:Bool a
 		ignore a \ TODO:Ignored vars
-		`!!a`
+		i! (i! a)
 
 new.
 	doc. "
@@ -60,9 +89,7 @@ new.
 	|constructor:Fun
 		in
 			!not reference=? constructor Error
-		boundConstructor = Fun.prototype.bind.apply constructor `arguments`
-		ignore boundConstructor \ TODO:Ignored vars
-		`new boundConstructor`
+		i-new.apply () `arguments`
 
 js-typeof.
 	doc. "JavaScript's `typeof` operator."

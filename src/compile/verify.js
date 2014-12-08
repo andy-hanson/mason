@@ -210,7 +210,9 @@ U.implementMany(E, "verify", {
 	ListReturn: U.ignore,
 	ListEntry: function(vx) { v(vx)(this.value) },
 	ListSimple: function(vx) { this.parts.map(v(vx)) },
-	Literal: U.ignore,
+	Literal: function(vx) {
+		check.warnIf(vx.opts, this.k === 'js', this.span, "Js literal")
+	},
 	Map: U.ignore,
 	Member: function(vx) { v(vx)(this.object) },
 	Module: function(vx) { v(vx)(this.body) },
