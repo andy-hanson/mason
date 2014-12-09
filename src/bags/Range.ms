@@ -1,16 +1,15 @@
 use
-	..arithmetic-methods -> + - * /
 	..assert -> !
 	.? -> get-or Opt->?
 	.Array
 	.Bag -> builder count iterator
-	.Bag-Type -> empty
-	..basic-methods -> => length
+	.Bag-Type
 	..Comparable -> =? <? >=?
 	..Comparable! -> <!
 	..control -> if
 	..Fun -> thunk
 	..math.Num -> Nat round-down sign
+	..methods -> => + - * / empty length
 	..pred-types -> Opt
 	..Ref -> get mod! ref
 	.Seq -> ?nth seq=?

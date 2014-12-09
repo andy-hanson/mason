@@ -1,8 +1,8 @@
 use
 	.Array
-	.Bag -> empty? map
+	.Bag -> map
 	.Deque!
-	..basic-methods -> => type-of
+	..methods -> => empty? type-of
 	..show -> inspect-impl show-impl
 	..types.Method -> impl! impl-for
 

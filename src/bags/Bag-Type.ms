@@ -1,22 +1,20 @@
 use
 	.Array
 	.Bag -> from-stream
-	..basic-methods -> => sub
 	..Comparable! -> <!
 	..Fun -> identity
+	..methods -> => empty sub
 	.Range -> range
 	..types.Interface
 	..types.Method -> impl!
 	..types.util -> self-type
 
-empty. Method
-	doc. "
-		Instance of this Bag-Type which is `empty?`.
-		Should always return the same thing iff immutable.
 Bag-Type = Interface
 	doc. "Any sub-type of Bag."
 
 impl! sub Bag-Type identity
+
+\ TODO: Do this in Bag.ms
 <! (self-type Bag) Bag-Type
 impl! empty (self-type Bag) |
 	empty Array

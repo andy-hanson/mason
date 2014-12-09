@@ -1,7 +1,6 @@
 doc. "Making sure the code in README.md actually works."
 
 use
-	..arithmetic-methods -> + - * /
 	..assert -> ! !not
 	..bags.Bag -> map
 	..bags.Seq -> seq=? take
@@ -12,6 +11,7 @@ use
 	..Generator! -> each~
 	..maps.Map! -> set!
 	..math.Num -> divisible? Int
+	..methods -> + - * /
 	..Ref -> get mod! ref
 	..Str
 	..Try -> fails?

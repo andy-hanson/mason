@@ -1,14 +1,13 @@
 use
 	.? -> get-or Opt->?
-	..arithmetic-methods -> +
 	..assert -> ! !not
-	.Bag-Type -> empty
-	..basic-methods -> =>
+	.Bag-Type
 	..Bool -> false not true
 	..Comparable -> =?
 	..Fun -> identity ignore Pred
 	..generators -> Generator!
 	..math.Num -> divisible? Nat
+	..methods -> => + empty empty?
 	..pred-types -> Any Opt
 	..Ref -> get mod! ref
 	.Stream
@@ -132,9 +131,9 @@ region Methods using builder
 		default. |_:Bag mapper:Fun[Any Any]
 			from-stream _ (map (=> Stream _) mapper)
 
-	empty?. Method
+	impl! empty? Bag
 		doc. "Whether `count` will return 0."
-		default. |:Bool _
+		|:Bool _
 			(iterator_.next ()).done
 
 	flat-map. Method

@@ -22,7 +22,7 @@ load = |x
 
 load Type \ This makes it safe to type things.
 load Fun \ Get its impl! ready
-load Dict \ Dict.empty used by many Record-Type_s
+load Dict \ Record-Types have default `default` of `empty Dict`
 load Hash-Map \ Provides _ms.map
 load Bag-Type
 load Num

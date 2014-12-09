@@ -7,7 +7,8 @@ use
 	..Comparable! -> <!
 	..js -> global new
 	.Map -> ?get has-key? keys values
-	.Map! -> empty! delete! set!
+	.Map! -> delete! set!
+	..methods -> empty!
 	..types.Method -> impl!
 
 Identity-Map! =

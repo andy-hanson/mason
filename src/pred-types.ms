@@ -2,10 +2,10 @@ doc. "TODO"
 
 use
 	.assert -> ! !not
-	.basic-methods -> sub
 	.Bool -> not or true
 	.Comparable! -> <!
 	.Fun -> ignore
+	.methods -> sub
 	.Str
 	.types.Method -> impl!
 	.types.Pred-Type

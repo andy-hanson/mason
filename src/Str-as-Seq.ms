@@ -1,15 +1,17 @@
+\ TODO: Move
+
 use
 	.assert -> !
 	.bags.? -> Opt->? get-or
 	.bags.Array
 	.bags.Array!
 	.bags.Bag -> builder count iterator map
-	.bags.Bag-Type -> empty
+	.bags.Bag-Type
 	.bags.Seq
-	.basic-methods -> =>
 	.Comparable -> =?
 	.Comparable! -> <!
 	.Fun -> identity ignore
+	.methods -> => empty
 	.pred-types -> Opt
 	.Str
 	.types.Method -> impl! impl-for

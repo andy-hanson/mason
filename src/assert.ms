@@ -1,15 +1,14 @@
 doc. "Functions that should be use to debug and test code."
 
 use
-	.arithmetic-methods -> +
 	.bags.Array
-	.bags.Bag -> each! empty? map
-	.basic-methods -> =>
+	.bags.Bag -> each! map
 	.Bool -> false not true
 	.Comparable -> =?
 	.control -> if!
 	.Fun -> apply Pred
 	.maps.Map -> keys
+	.methods -> => + empty?
 	.show -> inspect
 	.Str -> indent
 	.Try -> fails-with? oh-no!

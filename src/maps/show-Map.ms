@@ -1,7 +1,7 @@
 use
 	..bags.Bag -> map
-	..basic-methods -> => type-of
 	.Map -> keys
+	..methods -> => type-of
 	..show -> inspect inspect-impl show-impl
 	..Str
 	..types.Method -> impl!

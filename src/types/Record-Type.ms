@@ -1,4 +1,5 @@
 use
+	..methods -> empty
 	..private.bootstrap -> sym-type-of Dict oh-no! set! Object has? ms Str get-or-undefined any? true false Fun get extend! exists? proto-impl-contains?!
 
 record-type-post-construct = |rt
@@ -91,7 +92,7 @@ record-type-args =
 		make-callable. Fun
 	defaults.
 		defaults. |
-			Dict.empty
+			`_ms.Dict()` \ empty Dict
 		prototype. |
 			Object.create Object.prototype
 		post-construct. | |

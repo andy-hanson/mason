@@ -2,10 +2,11 @@ use
 	.Array
 	.Array!
 	..assert -> ! !not
-	.Bag -> each! empty?
-	.Bag-Type -> empty
+	.Bag -> each!
+	.Bag-Type
 	..Comparable -> =?
 	..Comparable! -> <!
+	..methods -> empty empty? empty!
 	.Seq! -> +>!
 	..types.Interface
 	..types.Method
@@ -36,12 +37,6 @@ Bag! = Interface
 		"TODO"
 	default. |_ added
 		+>! _ added
-
-empty!. Method
-	doc. |_
-		"TODO"
-
-\ TODO: delete!
 
 <! Bag! Bag
 

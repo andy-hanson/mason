@@ -2,11 +2,11 @@
 
 use
 	..assert -> !
-	..basic-methods -> type-of
 	..Comparable -> =?
 	..Comparable! -> <!
 	..Fun -> ignore
 	..math.Num
+	..methods -> type-of
 	..types.Interface
 	..types.Method -> impl!
 	..types.Record-Type

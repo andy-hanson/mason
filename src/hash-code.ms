@@ -1,12 +1,12 @@
 use
-	.arithmetic-methods -> + *
 	.assert -> ! !not
-	.bags.Bag -> empty? flat-map fold
+	.bags.Bag -> flat-map fold
 	.Bool -> not
 	.Comparable -> =?
 	.Fun -> ignore
 	.math.bit-arithmetic -> bit-and hexidecimal
 	.math.Num -> Int round-towards-0
+	.methods -> + * empty?
 	.Object -> ?get-property own-properties
 	.Str
 	.Symbol

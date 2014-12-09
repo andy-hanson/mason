@@ -4,13 +4,13 @@ use
 	.assert -> !
 	.bags.?
 	.bags.Bag -> iterator
-	.bags.Bag-Type -> empty
 	.bags.Seq -> seq=?
 	.bags.Stream -> streaming
-	.basic-methods -> =>
 	.Bool -> and false true
 	.Comparable -> =?
-	.Fun -> ignore
+	.Fun
+	.js-impl -> each-generator
+	.methods -> => empty
 	.Object
 	.pred-types -> Any
 	.types.Pred-Type
@@ -51,13 +51,8 @@ each~.
 			<~~ each~ [ 1 2 3 ] ~|em
 				<~ em
 		! seq=? x [ 1 2 3 ]
-	~|bag:Bag do-each:Fun[Any Generator!]
-		\ TODO:ES6 for (let em of bag)
-		iter = iterator bag
-		de = do-each
-		ignore de iter \ TODO:Ignored vars
-		`for (let em of iter) yield* de(em)`
-		()
+	|bag:Bag do-each:Fun[Any Generator!]
+		each-generator (iterator bag) do-each
 
 \ TODO: Others...
 

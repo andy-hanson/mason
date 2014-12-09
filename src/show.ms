@@ -1,9 +1,9 @@
 use
 	.bags.Bag -> map
-	.basic-methods -> type-of
 	.Bool -> false true
 	.Fun -> identity ignore
 	.js -> reference=? undefined?
+	.methods -> type-of
 	.Object -> get-property own-enumerable-properties
 	.Str -> indent
 	.types.Method -> impl!

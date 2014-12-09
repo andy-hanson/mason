@@ -1,9 +1,9 @@
 use
-	..arithmetic-methods -> + - * /
 	..assert -> ! !not !call? !not-call?
 	..bags.? -> get-or Opt->?
 	..Bool -> and false true
 	..Comparable -> =? <? >? <=? >=? compare
+	..methods -> + - * /
 	..Object -> get-property
 	..pred-types -> Opt
 	..js -> global js-bar js=== js< js> js<= js>= js+ js- js* js/ js%

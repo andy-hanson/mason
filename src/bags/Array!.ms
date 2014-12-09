@@ -1,12 +1,11 @@
 use
 	.Array
-	.Bag -> empty?
-	.Bag-Type -> empty
-	.Bag! -> empty!
-	..basic-methods -> =>
+	.Bag
+	.Bag-Type
 	..Bool -> and not
 	..Comparable! -> <!
 	..control -> if
+	..methods -> => empty empty? empty!
 	..Object -> frozen?
 	.Seq! -> <+! +>! ?<pop! ?pop>!
 	..types.Pred-Type

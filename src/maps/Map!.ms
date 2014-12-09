@@ -11,10 +11,6 @@ set!. Method
 	doc. |_ key:Any val:Any
 		"TODO"
 
-empty!. Method
-	doc. |_
-		"Removes all entries."
-
 delete!. Method
 	doc. |:Bool _ key
 		"If there is a value associated with `key`, removes it and returns `true`."

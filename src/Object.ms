@@ -1,23 +1,24 @@
 use
-	.arithmetic-methods -> +
 	.assert -> ! !not
 	.bags.? -> Opt->?
 	.bags.Array
-	.bags.Bag -> each! empty? keep
-	.bags.Bag-Type -> empty
+	.bags.Bag -> each!  keep
 	.bags.Seq -> seq=?
 	.bags.Stream
-	.basic-methods -> =>
 	.Bool -> and false not nor true xor
 	.Comparable -> =?
 	.Dict
 	.Fun -> ignore
 	.js -> global js-typeof reference=? js-sub js-set
 	.maps.Map -> keys
+	.methods -> => + empty empty?
+	.Object!
 	.pred-types -> Any Union
 	.Symbol
 	.Try -> fails?
+	.types.Method -> impl!
 	.types.Type -> contains?
+	.types.util -> self-type
 
 Object =
 	doc. "
@@ -45,7 +46,7 @@ own-properties.
 		Includes non-enumerable properties and symbols.
 
 	test. |
-		obj = `{}`
+		obj = empty Object!
 		add-property! obj "a" 0
 		sym = Symbol "s"
 		Object.defineProperty obj sym
@@ -63,7 +64,7 @@ own-enumerable-properties.
 		Like own-properties, but excludes non-enumerable properties and symbols.
 		?get-property can still be empty if the property is null/undefined.
 	test. |
-		obj = `{}` \ TODO: empty Object
+		obj = empty Object!
 		Object.defineProperty obj "a"
 			value. 0
 			enumerable. false
@@ -100,6 +101,7 @@ get-property.
 			a. 1
 			b. ()
 		[ x "a" ] -> 1
+		\ TODO
 		\ [ x "b" ] -> ()
 		! fails? |
 			get-property x "c"
@@ -112,8 +114,7 @@ get-property.
 ?get-property-or-in-prototype.
 	doc. "Like `get-property`, but also looks through the prototype chain."
 	test. |
-		\ TODO: empty Dict
-		x = Dict.empty
+		x = empty Dict
 		[ x "toString" ] -> => ? [ Object.prototype.toString ]
 		[ x "asdfghjkl" ] -> empty ?
 	|object:Object name:Object-Key
@@ -122,7 +123,7 @@ get-property.
 add-property!.
 	doc. "Adds a new immutable property to a mutable object."
 	test. |
-		x = `{}` \ TODO: empty Object
+		x = empty Object!
 		add-property! x "a" 1
 		! =? x.a 1
 		! fails? |
@@ -147,7 +148,7 @@ add-mutable-property!.
 change-property!.
 	doc. "Modifies an already-existing property."
 	test. |
-		x = `{}` \ TODO: empty Object
+		x = empty Object!
 		add-mutable-property! x "a" 1
 		change-property! x "a" 2
 		! =? x.a 2
@@ -173,15 +174,14 @@ has-property?.
 has-property-or-in-prototype?.
 	doc. "Like `has-property?` but looks through the prototype."
 	test. |
-		\ TODO: empty Object
-		! has-property-or-in-prototype? `{}` "toString"
+		! has-property-or-in-prototype? (empty Object) "toString"
 	|object:Object name:Object-Key
 		not (reference=? (js-sub object name) `undefined`)
 
 extend!.
 	doc. "Adds all the properties in `extender` to `object`."
 	test. |
-		x = `{}` \ TODO: empty Object
+		x = empty Object!
 		extend! x
 			a. 1
 		! =? x.a 1
@@ -237,5 +237,15 @@ inspect=?.
 
 frozen?. |_
 	Object.isFrozen _
+
+\ TODO: Move elsewhere in this file
+\ TODO: Test these
+impl! empty (self-type Object) |
+	Object.freeze (Object.create Object.prototype)
+impl! empty? Object |_
+	empty? own-properties _
+\impl! empty! Object |_
+\	each! own-properties_ |prop
+\		delete! _ prop
 
 Object

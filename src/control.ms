@@ -4,12 +4,11 @@ use
 	.bags.Array!
 	.bags.Seq
 	.bags.Seq! -> +>!
-	.bags.Bag-Type -> empty
-	.basic-methods -> => freeze
 	.Bool -> false true
 	.Comparable -> =?
 	.Fun -> Act call ignore thunk
 	.maps.Map -> ?get
+	.methods -> => empty freeze
 	.pred-types -> Any
 	.Try -> oh-no!
 

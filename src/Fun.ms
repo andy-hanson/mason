@@ -1,15 +1,14 @@
 use
-	.arithmetic-methods -> +
 	.assert -> !
 	.bags.? -> get-or
 	.bags.Array
-	.bags.Bag -> empty? map
+	.bags.Bag -> map
 	.bags.Seq -> seq=?
-	.basic-methods -> => sub
 	.Comparable -> =?
 	.js -> global new
 	.maps.Map -> ?get keys
 	.maps.Weak-Identity-Map!
+	.methods -> => + empty? sub
 	.Object -> ?get-property get-property
 	.pred-types -> Any
 	.Ref -> get ref mod!

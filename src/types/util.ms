@@ -4,18 +4,19 @@ use
 	..bags.Bag -> map
 	..Comparable! -> <!
 	.Impl-Type
-	..Object -> get-property
+	\..Object -> get-property
+	..private.bootstrap -> Object
 	.Record-Type
 
-getters.
-	doc. "TODO"
-	\ TODO: This should return a dict, not a list.
-	|rt:Record-Type
-		map rt.members |_
-			k v = _
-			key. k
-			val. |_:rt
-				get-property _ v
+\getters.
+\	doc. "TODO"
+\	\ TODO: This should return a dict, not a list.
+\	|rt:Record-Type
+\		map rt.members |_
+\			k v = _
+\			key. k
+\			val. |_:rt
+\				get-property _ v
 
 Self-Type. Record-Type
 	doc. "TODO"

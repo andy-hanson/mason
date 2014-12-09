@@ -3,13 +3,13 @@
 use
 	..assert -> !
 	.Bag -> builder build-next! build-result count iterator
-	.Bag-Type -> empty
-	..basic-methods -> freeze type-of
+	.Bag-Type
 	..Bool -> and
 	..Comparable -> =?
 	..Comparable! -> <!
 	..Fun -> ignore thunk
 	..js -> global
+	..methods -> empty freeze type-of
 	.Seq -> seq=?
 	..types.Method ->  impl!
 	..types.Type -> contains?

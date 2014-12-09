@@ -46,8 +46,6 @@ Method = Record-Type
 			Symbol _.displayName
 		default. |_
 			|target
-				`console.log(_)`
-				`console.log(target)`
 				oh-no! ~"{_} not implemented for {target}"
 	make-callable. |method
 		|target

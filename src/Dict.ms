@@ -3,12 +3,13 @@
 use
 	.assert -> !
 	.bags.Seq -> seq=?
-	.basic-methods -> type-of
 	.Comparable -> =?
 	.maps.Map -> keys
+	.methods -> empty type-of
 	.private.bootstrap -> Dict extend!
 	.show -> inspect-impl
 	.types.Method -> impl!
+	.types.util -> self-type
 
 extend! Dict
 	doc. "
@@ -22,8 +23,10 @@ extend! Dict
 		! seq=? (keys d) [ "a" "b" "displayName" ]
 		! =? d["a"] 1
 
-	\ TODO: `empty` method
-	empty. `_ms.Dict()`
+empty-Dict = Dict.apply [ ]
+
+impl! empty (self-type Dict) |
+	empty-Dict
 
 impl! type-of Dict |
 	Dict

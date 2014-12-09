@@ -3,7 +3,8 @@ use
 	..Comparable! -> <!
 	..js -> global
 	.Map -> ?get has-key? keys
-	.Map! -> delete! empty! set!
+	.Map! -> delete! set!
+	..methods -> empty!
 	..Try -> oh-no!
 	..types.Method -> impl!
 

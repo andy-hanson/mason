@@ -2,11 +2,11 @@ use
 	..assert -> !
 	..bags.Array
 	..bags.Bag -> each!
-	..basic-methods -> type-of
 	..Comparable -> =?
 	.Impl-Type
 	.Interface -> unchecked-implementor!
 	.Method -> impl!
+	..methods -> type-of
 	..Object -> add-property!
 	.Record-Type
 	..show -> inspect-impl

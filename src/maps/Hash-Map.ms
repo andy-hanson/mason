@@ -2,13 +2,10 @@
 
 use
 	..assert -> !
-	..arithmetic-methods -> +
 	..bags.? -> get-or
 	..bags.Array
-	..bags.Bag -> empty? ?first-where flat-map map
-	..bags.Bag-Type -> empty
+	..bags.Bag -> ?first-where flat-map map
 	..bags.Seq -> seq=?
-	..basic-methods -> freeze
 	..Comparable -> =?
 	..Comparable! -> <!
 	..hash-code
@@ -18,6 +15,7 @@ use
 	.Map -> ?get keys values
 	.Map! -> set!
 	..math.Num -> divisible?
+	..methods -> + empty empty? freeze
 	..private.bootstrap -> ms
 	..Ref -> get mod! ref
 	..Try -> oh-no!

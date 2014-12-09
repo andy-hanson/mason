@@ -1,14 +1,13 @@
 use
-	..arithmetic-methods -> +
 	..assert -> !
 	..bags.? ->  get-or
 	..bags.Bag -> each! empty? map
-	..basic-methods -> freeze sub
 	..Bool -> not
 	..Comparable -> =?
 	..Fun -> identity
 	.Hash-Map
 	.Map! -> set!
+	..methods -> + freeze sub
 	..pred-types -> Any
 	..Try -> oh-no!
 	..types.Interface

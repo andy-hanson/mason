@@ -1,18 +1,16 @@
 use
 	.? -> get-or
-	..arithmetic-methods -> -
 	.Array
 	.Array!
 	..assert -> ! !not
 	.Bag -> all? count iterator from-stream
-	.Bag-Type -> empty
-	..basic-methods -> => freeze
 	..Bool -> and or
 	..Comparable -> =? <=? >=?
 	..Comparable! -> <!
 	..control -> if
 	..Fun -> ignore
 	..math.Num -> Nat
+	..methods -> => - empty freeze
 	..pred-types -> Any
 	..Ref -> get mod! ref
 	.Seq! -> +>!

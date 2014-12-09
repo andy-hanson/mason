@@ -3,13 +3,13 @@ use
 	.Array
 	.Array!
 	..assert -> !
-	.Bag -> empty?
-	.Bag-Type -> empty
+	.Bag
+	.Bag-Type
 	.Bag!
-	..basic-methods -> =>
 	..Comparable -> =?
 	..Comparable! -> <!
 	.Deque!
+	..methods -> => empty empty?
 	.Seq -> seq=?
 	..types.Interface
 	..types.Method

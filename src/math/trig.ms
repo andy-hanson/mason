@@ -3,10 +3,10 @@ doc. "
 	Angles should be expressed in radians.
 
 use
-	..arithmetic-methods -> /
 	..assert -> !
 	..bags.Bag -> each!
 	..maps.Map -> keys
+	..methods -> /
 	.Num -> near? pi/2 pi pi3/2
 	..js -> global
 

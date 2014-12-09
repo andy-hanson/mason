@@ -1,4 +1,10 @@
+"use strict"
+
 module.exports = {
+	"each-generator": function(iter, doEach) {
+		for (let em of iter)
+			yield* doEach(em)
+	},
 	"i!": function(a) { return !a },
 	"i~": function(a) { return ~a },
 	"i-bar": function(a, b) { return a | b },

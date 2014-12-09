@@ -1,14 +1,13 @@
 use
 	.assert -> ! !not
 	.bags.?
-	.bags.Bag-Type -> empty
-	.basic-methods -> =>
 	.Bool -> and true
 	.Comparable -> =?
 	.Comparable! -> <!
 	.control -> build unreachable!
 	.Fun -> Act ignore thunk
 	.js -> global
+	.methods -> => empty
 	.Object -> change-property! set-property!
 	.pred-types -> Any
 	.Str

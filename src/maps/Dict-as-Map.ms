@@ -1,8 +1,8 @@
 use
-	..arithmetic-methods -> +
 	..Comparable! -> <!
 	..Dict
 	.Map -> ?get keys
+	..methods -> +
 	..Object -> ?get-property add-property! own-properties
 
 <! Dict Map

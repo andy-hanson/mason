@@ -1,6 +1,6 @@
 use
-	..bags.Bag -> empty?
 	.Method -> impl!
+	..methods -> empty?
 	..Object -> ?get-property
 	..show -> inspect show-impl
 	.Type

@@ -1,9 +1,7 @@
 use
-	..arithmetic-methods -> + - *
 	.Array \ TODO: Array!
-	.Bag -> builder Builder build-next! build-result count each! empty? iterator
-	.Bag-Type -> empty
-	.Bag! -> empty!
+	.Bag -> builder Builder build-next! build-result count each! iterator
+	.Bag-Type ->
 	..Bool -> not
 	..Comparable -> =?
 	..Comparable! -> <!
@@ -11,6 +9,7 @@ use
 	..Fun -> identity
 	..maps.Map! -> set!
 	..math.Num -> modulo Nat
+	..methods -> + - * empty empty? empty!
 	..Object -> change-property!
 	.Range -> range
 	..Ref -> get mod! ref

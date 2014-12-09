@@ -1,15 +1,14 @@
 use
-	..arithmetic-methods -> + -
 	..assert -> !
 	.Bag -> flat-map iterator keep map
-	.Bag-Type -> empty
-	..basic-methods -> =>
+	.Bag-Type
 	..Bool -> and or
 	..Comparable -> =?
 	..Comparable! -> <!
 	..Fun -> ignore Pred thunk
 	..Generator!
 	..math.Num -> Nat
+	..methods -> => + - empty
 	..pred-types -> Any
 	..Ref -> get mod! ref
 	.Seq -> drop seq=? slice take

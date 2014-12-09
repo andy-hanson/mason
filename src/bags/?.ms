@@ -1,11 +1,11 @@
 use
 	..assert -> ! !not
-	.Bag -> builder Builder build-next! build-result empty? iterator
-	.Bag-Type -> empty
-	..basic-methods -> =>
+	.Bag -> builder Builder build-next! build-result iterator
+	.Bag-Type
 	..Comparable! -> <!
 	..Fun -> thunk
 	..js -> reference=?
+	..methods -> => empty empty?
 	..Object -> change-property!
 	..pred-types -> Any
 	.Seq
