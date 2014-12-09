@@ -4,9 +4,10 @@ use
 	.Bool -> and true
 	.Comparable -> =?
 	.Comparable! -> <!
-	.control -> build unreachable!
-	.Fun -> Act ignore thunk
+	.control -> build
+	.Fun -> Act thunk
 	.js -> global
+	.js-impl -> make-Error i-always-do-after i-oh-no! i-try
 	.methods -> => empty
 	.Object
 	.Object! -> change-property! set-property!
@@ -30,12 +31,7 @@ Error.
 <! Error Try
 \ TODO: Closed interfaces?
 
-\ TODO: public?
-make-Error = |error
-	Err = Error \ un-lazy Error
-	ignore error Err \ TODO:Ignored vars
-	`try { const err = _ms.unlazy(error); if (err instanceof Err) return err; if (typeof err === "string") return new Err(err); if (err == null) return new Err("Oh no!"); throw new Error("Argument to oh-no! must be Error or String") } catch (e) { return new Err("Error making error: " + e.message) }`
-	oh-no! "Error making error about error making error. You really messed that one up."
+\ TODO: Make `make-Error` public?
 
 oh-no!.
 	doc. "
@@ -46,13 +42,9 @@ oh-no!.
 		\ TODO: ! fails-with? type | oh-no! type
 		! fails-with? "a" |
 			oh-no! "a"
-	|~error
-		\ TODO: Optional arguments
-		`if (error === undefined) error = "oh-no!"`
-		err = make-Error ~error
-		ignore err \ TODO:Ignored vars
-		`throw err`
-		()
+	\ TODO: ~error
+	|error
+		i-oh-no! error
 
 try.
 	doc. "
@@ -63,12 +55,10 @@ try.
 			val. 1
 		[ oh-no! ] -> make-Error "Too bad"
 	|tried:Fun[Any]
-		s = |x
+		make-success = |x
 			Success
 				val. x
-		ignore tried s \ TODO:Ignored vars
-		`try { return s(tried()) } catch (e) { return e }`
-		unreachable! ()
+		i-try make-success tried
 
 ?try.
 	doc. "`?` containing any successes."
@@ -119,7 +109,7 @@ error-type.
 		\ TODO: Use Object! functions instead of js's builtin Object helpers
 		it =
 			displayName. `undefined` \ TODO: Ability to not have displayName
-			|message
+			|message:Str
 				msg = message
 				Object.defineProperties this
 					message.
@@ -127,7 +117,7 @@ error-type.
 						enumerable. true
 						writable. true
 					stack.
-						value. `new Error(msg)`.stack
+						value. (make-Error msg).stack
 						enumerable. true
 						writable. true
 		Object.assign it opts
@@ -141,10 +131,7 @@ always-do-after.
 			try |
 				always-do-after oh-no! yield[0]
 	|tried:Fun[Any] finally-do:Act
-		fd = finally-do
-		ignore tried fd \ TODO:Ignored vars
-		`try { return tried() } finally { fd() }`
-		()
+		i-always-do-after tried finally-do
 
 annotate-errors.
 	doc. "TODO"

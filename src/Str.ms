@@ -1,5 +1,6 @@
 use
 	.js -> global
+	.Regex -> regex
 
 Str =
 	doc. "TODO"
@@ -23,6 +24,6 @@ indent.
 		[ "a" ] -> "a"
 
 	|str:Str
-		"{str.replace `/\n/g` "\n\t"}"
+		"{str.replace (regex "\n" "g") "\n\t"}"
 
 Str

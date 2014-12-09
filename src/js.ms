@@ -11,8 +11,9 @@ use
 	.methods -> => +
 	.Object
 	.Object! -> add-property!
+	.Symbol
 	.Try -> Error
-	.js-impl -> i& i^ i<< i>> i>>> i=== i< i> i<= i>= i+ i- i* i/ i% i-bar i~ i! i-sub i-set i-global i-new
+	.js-impl -> i& i^ i<< i>> i>>> i=== i< i> i<= i>= i+ i- i* i/ i% i-bar i~ i! i-sub i-set i-global i-new i-typeof
 
 global. i-global
 
@@ -43,6 +44,13 @@ undefined = `undefined`
 \ TODO: Only need this because of above
 undefined?. |_
 	reference=? _ undefined
+
+eval.
+	doc. "TODO"
+	test. |
+		! =? (eval "1 + 2") 3
+	|str
+		(Fun "" "return {str}") ()
 
 reference=?.
 	doc. "
@@ -93,9 +101,17 @@ new.
 
 js-typeof.
 	doc. "JavaScript's `typeof` operator."
-	|a
-		ignore a \ TODO:Ignored vars
-		`typeof a`
+	test. |
+		\ [ `undefined` ] -> "undefined" \ TODO
+		\ [ () ] -> "object" \ TODO
+		[ true ] -> "boolean"
+		[ 0 ] -> "number"
+		[ "a" ] -> "string"
+		[ (Symbol "s") ] -> "symbol"
+		[ js-typeof ] -> "function"
+		[ Bag ] -> "object"
+
+	i-typeof
 
 apply-with-this.
 	doc. "

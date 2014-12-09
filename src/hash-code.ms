@@ -88,7 +88,7 @@ impl! hash-code Symbol
 		! =? (hash-code sym) (hash-code sym)
 	|:Int
 		\ TODO:ES6 (currently this returns undefined)
-		0 \ Symbol.keyFor _
+		42 \ Symbol.keyFor _
 
 impl! hash-code Num |case
 	=? _ round-towards-0_ \ Don't use Int because that also checks that its' small

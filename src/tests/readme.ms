@@ -2,13 +2,14 @@ doc. "Making sure the code in README.md actually works."
 
 use
 	..assert -> ! !not
-	..bags.Bag -> map
+	..bags.Bag -> count map
 	..bags.Seq -> seq=? take
 	..bags.Stream -> streaming
 	..Bool -> and true
 	..Comparable -> =? >? >=? <=?
 	..Fun -> call ignore
 	..Generator! -> each~
+	..js -> eval
 	..maps.Map! -> set!
 	..math.Num -> divisible? Int
 	..methods -> + - * /
@@ -24,13 +25,12 @@ my-dict.
 
 this-is-true.
 ! =? this-is-true true
-! =? () `null`
+! =? () (eval "null")
 
 my-list.
 	. 1
 	. 2
-! =? my-list `[ 1, 2 ]`
-! =? [ 1 2 ] `[ 1, 2 ]`
+! =? my-list [ 1 2 ]
 
 my-map.
 	1 -> 2
@@ -134,7 +134,7 @@ x = "
 	We hold these truths to be self-evident,
 	that one plus one is 2.
 
-! =? "\t\n\{\\" `"\t\n{\\"`
+! =? (count "\t\n\{\\") 4
 
 \ TODO: empty Array!
 arr = `[]`
