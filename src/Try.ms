@@ -8,7 +8,8 @@ use
 	.Fun -> Act ignore thunk
 	.js -> global
 	.methods -> => empty
-	.Object -> change-property! set-property!
+	.Object
+	.Object! -> change-property! set-property!
 	.pred-types -> Any
 	.Str
 	.types.Interface
@@ -115,6 +116,7 @@ error-type.
 		\! contains? Error x
 		\! =? x.message "message"
 	|opts
+		\ TODO: Use Object! functions instead of js's builtin Object helpers
 		it =
 			displayName. `undefined` \ TODO: Ability to not have displayName
 			|message

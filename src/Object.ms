@@ -2,17 +2,16 @@ use
 	.assert -> ! !not
 	.bags.? -> Opt->?
 	.bags.Array
-	.bags.Bag -> each!  keep
+	.bags.Bag -> keep
 	.bags.Seq -> seq=?
 	.bags.Stream
 	.Bool -> and false not nor true xor
 	.Comparable -> =?
 	.Dict
 	.Fun -> ignore
-	.js -> global js-typeof reference=? js-sub js-set
-	.maps.Map -> keys
+	.js -> global js-typeof reference=? js-sub
 	.methods -> => + empty empty?
-	.Object!
+	.Object! -> add-property!
 	.pred-types -> Any Union
 	.Symbol
 	.Try -> fails?
@@ -120,44 +119,6 @@ get-property.
 	|object:Object name:Object-Key
 		Opt->? (js-sub object name)
 
-add-property!.
-	doc. "Adds a new immutable property to a mutable object."
-	test. |
-		x = empty Object!
-		add-property! x "a" 1
-		! =? x.a 1
-		! fails? |
-			add-property! x "a" 2
-		! fails? |
-			add-property! "string" "a" 1
-	|object:Object name:Object-Key val
-		Object.defineProperty object name
-			enumerable.
-			writable. false
-			value. val
-
-add-mutable-property!.
-	doc. "Adds a new mutable property to a mutable object."
-	test. "See `change-property!`"
-	|object:Object name:Object-Key val:Any
-		Object.defineProperty object name
-			enumerable.
-			writable.
-			value. val
-
-change-property!.
-	doc. "Modifies an already-existing property."
-	test. |
-		x = empty Object!
-		add-mutable-property! x "a" 1
-		change-property! x "a" 2
-		! =? x.a 2
-	|object:Object name:Object-Key new-val
-		in
-			has-property? object name
-
-		js-set object name new-val
-
 has-property?.
 	doc. "
 		Whether there is a property by that name.
@@ -177,17 +138,6 @@ has-property-or-in-prototype?.
 		! has-property-or-in-prototype? (empty Object) "toString"
 	|object:Object name:Object-Key
 		not (reference=? (js-sub object name) `undefined`)
-
-extend!.
-	doc. "Adds all the properties in `extender` to `object`."
-	test. |
-		x = empty Object!
-		extend! x
-			a. 1
-		! =? x.a 1
-	|object:Object extender:Dict
-		each! (keys extender) |name
-			add-property! object name extender[name]
 
 inspect=?.
 	doc. "

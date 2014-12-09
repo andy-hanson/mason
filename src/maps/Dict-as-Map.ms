@@ -3,7 +3,8 @@ use
 	..Dict
 	.Map -> ?get keys
 	..methods -> +
-	..Object -> ?get-property add-property! own-properties
+	..Object -> ?get-property own-properties
+	..Object! -> add-property!
 
 <! Dict Map
 	?get -> ?get-property

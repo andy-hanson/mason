@@ -10,7 +10,7 @@ use
 	..maps.Map! -> set!
 	..math.Num -> modulo Nat
 	..methods -> + - * empty empty? empty!
-	..Object -> change-property!
+	..Object! -> change-property!
 	.Range -> range
 	..Ref -> get mod! ref
 	.Seq -> reverse

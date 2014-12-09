@@ -1,5 +1,5 @@
 use
-	..methods -> empty
+	\..methods -> empty
 	..private.bootstrap -> sym-type-of Dict oh-no! set! Object has? ms Str get-or-undefined any? true false Fun get extend! exists? proto-impl-contains?!
 
 record-type-post-construct = |rt

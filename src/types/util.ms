@@ -1,7 +1,7 @@
 doc. "TODO"
 
 use
-	..bags.Bag -> map
+	\..bags.Bag -> map
 	..Comparable! -> <!
 	.Impl-Type
 	\..Object -> get-property

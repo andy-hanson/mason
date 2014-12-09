@@ -9,7 +9,8 @@ use
 	.Fun -> ignore
 	.math.Num
 	.methods -> => +
-	.Object -> add-property!
+	.Object
+	.Object! -> add-property!
 	.Try -> Error
 	.js-impl -> i& i^ i<< i>> i>>> i=== i< i> i<= i>= i+ i- i* i/ i% i-bar i~ i! i-sub i-set i-global i-new
 

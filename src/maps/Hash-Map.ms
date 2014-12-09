@@ -11,7 +11,8 @@ use
 	..hash-code
 	.Identity-Map!
 	..js -> new
-	..Object -> add-property!
+	..Object
+	..Object! -> add-property!
 	.Map -> ?get keys values
 	.Map! -> set!
 	..math.Num -> divisible?

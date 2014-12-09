@@ -1,7 +1,7 @@
 "use strict"
 
 module.exports = {
-	"each-generator": function(iter, doEach) {
+	"each-generator": function*(iter, doEach) {
 		for (let em of iter)
 			yield* doEach(em)
 	},

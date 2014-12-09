@@ -6,7 +6,7 @@ use
 	..Fun -> thunk
 	..js -> reference=?
 	..methods -> => empty empty?
-	..Object -> change-property!
+	..Object! -> change-property!
 	..pred-types -> Any
 	.Seq
 	..Try -> fails? oh-no!

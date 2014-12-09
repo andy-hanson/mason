@@ -1,7 +1,7 @@
 use
 	.Fun
 	.maps.Map! -> set!
-	.Object -> change-property!
+	.Object! -> change-property!
 	.types.Method -> impl!
 	.types.Record-Type
 

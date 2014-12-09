@@ -7,7 +7,8 @@ use
 	.Interface -> unchecked-implementor!
 	.Method -> impl!
 	..methods -> type-of
-	..Object -> add-property!
+	..Object
+	..Object! -> add-property!
 	.Record-Type
 	..show -> inspect-impl
 	..Str
