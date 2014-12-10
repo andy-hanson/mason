@@ -4,6 +4,7 @@ use
 	..assert -> ! !not
 	.Num -> Int
 	..js -> js-bar js& js^ js~ js<< js>> js>>>
+	..Regex -> regex
 	..Str
 	..Try -> fails?
 
@@ -15,8 +16,7 @@ binary.
 			binary "0a"
 	|:Int bin-str:Str
 		in
-			\ TODO: Regex.ms
-			!not (`/[^01]/`.test bin-str) ~"Not a valid binary number: {bin-str}"
+			!not ((regex "[^01]").test bin-str) ~"Not a valid binary number: {bin-str}"
 		out
 			!not Num.isNaN res
 
@@ -31,7 +31,7 @@ hexidecimal.
 	|:Int hex-str:Str
 		in
 			\ TODO: Regex.ms
-			!not (`/[^0-9a-fA-F]/`.test hex-str) ~"Not a valid hexidecimal number: {hex-str}"
+			!not ((regex "[^0-9a-fA-F]").test hex-str) ~"Not a valid hexidecimal number: {hex-str}"
 		out
 			!not Num.isNaN res
 

@@ -4,7 +4,7 @@ use
 	.Bool -> false
 	.Comparable -> =?
 	.Dict
-	.js -> js-set
+	.js -> js-delete js-set
 	.maps.Map -> keys
 	.methods -> empty
 	.Object -> has-property?
@@ -61,6 +61,15 @@ change-property!.
 			has-property? object name
 
 		js-set object name new-val
+
+delete-property!.
+	test.
+		a = empty Object
+		add-mutable-property! a "a" 1
+		delete-property! a "a"
+		!not has-property? a "a"
+	|object:Object name:Object-Key
+		js-delete object name
 
 \ TODO: Don't bother, just `spread add-property!`
 extend!.

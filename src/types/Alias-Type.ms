@@ -3,10 +3,9 @@ use
 	..Comparable -> =?
 	..Comparable! -> <!
 	.Method -> impl!
+	..private.bootstrap -> Str
 	.Record-Type
 	.Type -> contains?
-
-Str = `global.String`
 
 Alias-Type. Record-Type
 	doc. "Contains the same instances as another type (officially), but has its own meaning and identity."

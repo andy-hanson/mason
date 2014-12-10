@@ -2,6 +2,7 @@ doc. "Making sure the code in README.md actually works."
 
 use
 	..assert -> ! !not
+	..bags.Array!
 	..bags.Bag -> count map
 	..bags.Seq -> seq=? take
 	..bags.Stream -> streaming
@@ -12,7 +13,7 @@ use
 	..js -> eval
 	..maps.Map! -> set!
 	..math.Num -> divisible? Int
-	..methods -> + - * /
+	..methods -> + - * / empty
 	..Ref -> get mod! ref
 	..Str
 	..Try -> fails?
@@ -137,8 +138,7 @@ x = "
 
 ! =? (count "\t\n\{\\") 4
 
-\ TODO: empty Array!
-arr = `[]`
+arr = empty Array!
 log! = |_
 	arr.push _
 
@@ -208,8 +208,7 @@ dt2. |_
 	+ (map _ double) (map _ triple)
 ! seq=? (dt2 [ 1 2 3 ]) [ 2 4 6 3 6 9 ]
 
-\ TODO: empty Array!
-log = `[]`
+log = empty Array!
 logging. |gen-maker:Fun[Generator!]
 	gen = gen-maker ()
 	last-value = ref ()

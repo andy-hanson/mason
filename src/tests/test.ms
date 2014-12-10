@@ -3,7 +3,6 @@ doc. "TODO"
 use
 	..assert -> ! !call
 	..bags.? -> get-or
-	..bags.Array
 	..bags.Bag -> each!
 	..Bool -> false or true
 	..control -> build
@@ -11,6 +10,7 @@ use
 	..Dict
 	..Fun -> apply ignore
 	..maps.Map -> keys
+	..methods -> empty
 	..modules -> promise-all-modules
 	..Object -> ?get-property own-properties own-enumerable-properties
 	..pred-types -> Any
@@ -35,7 +35,7 @@ test. |
 				test.
 					x. yield["x"]
 					y. yield["y"]
-			b. `{}` \ TODO: empty Dict
+			b. empty Dict
 			impl! test-special (self-type b) yield["b"]
 			c. () \ not testable
 		maybe-test "dict" dict true
@@ -65,7 +65,7 @@ impl! test-special Interface |_
 		each! concrete-implementors_ |implementor
 			test-test-fun implementor test "{_}.implementor-test of {implementor}" implementor
 
-\ TODO: empty Grow-Set!
+\ TODO: empty Set!
 all-tested. `new global.Set()`
 
 \ TODO: Better name
@@ -103,8 +103,7 @@ test-test-prop = |value value-test name \...test-args
 		else
 			()
 
-test-test-fun = |value value-test:Fun name \TODO:ES6 ...args
-	args = (Array.prototype.slice.call `arguments` 3)
+test-test-fun = |value value-test:Fun name ...args
 	annotate-errors "In {name}:\n" |
 		\ TODO:ES6 value-test ...args
 		got = detect-infinite-loop |

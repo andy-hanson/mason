@@ -2,13 +2,14 @@ use
 	.bags.Array
 	.bags.Bag -> flat-map
 	.control -> if
-
-\ TODO: Syntax for old CommonJS requires?
-path = `require("path")`
-fs = `require("q-io/fs")`
+	.js-impl -> i-require
 
 \ TODO: Portability
-use-file. `require`
+commonJS-require. i-require
+
+\ TODO: Syntax for old CommonJS requires?
+path = commonJS-require "path"
+fs = commonJS-require "q-io/fs"
 
 \ TODO: Better pattern for returning promises
 promise-all-modules.
@@ -17,4 +18,4 @@ promise-all-modules.
 		(fs.listTree dir-path).then |files:Array
 			flat-map files |_
 				if (_.endsWith ".js") |
-					use-file "./{path.relative `__dirname` _}"
+					commonJS-require "./{path.relative `__dirname` _}"

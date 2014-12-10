@@ -2,9 +2,10 @@ use
 	.bags.Bag -> map
 	.Bool -> false true
 	.Comparable -> =?
-	.Fun -> identity ignore
+	.Fun -> identity
 	.methods -> type-of
 	.Object -> get-property own-enumerable-properties
+	.private.bootstrap -> ms set!
 	.Str -> indent
 	.types.Method -> impl!
 
@@ -78,8 +79,7 @@ impl! inspect-impl Str
 	test. |
 		[ "a" ] -> "\"a\""
 	|_
-		ignore _ \ TODO:Ignored vars
-		`"\"" + _ + "\""`
+		"\"{_}\""
 
 \ TODO: show-Bool.ms?
 impl! inspect-impl Bool
@@ -94,6 +94,6 @@ impl! inspect-impl Bool
 
 impl! show-impl Str identity
 
-`_ms.show = show`
+set! ms "show" show
 
 show

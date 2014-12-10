@@ -6,6 +6,7 @@ use
 	.Comparable! -> <!
 	.Fun -> ignore
 	.methods -> sub
+	.private.bootstrap -> any?
 	.Str
 	.types.Method -> impl!
 	.types.Pred-Type
@@ -19,7 +20,7 @@ region Opt
 	Opt. Pred-Type
 		doc. "A value which could be null or undefined."
 		predicate. |
-			`true`
+			true
 
 	impl! sub (self-type Opt)
 		doc. "Contains null, undefined, or an instance of Exists-Type."
@@ -42,9 +43,7 @@ Any. Pred-Type
 		! contains? Any 0
 		!not contains? Any ()
 		!not contains? Any undefined
-	predicate. |_
-		ignore _ \ TODO:Ignored vars
-		`_ != null`
+	predicate. any?
 
 Union.
 	doc. "Union[A B] is a type matching either an A or a B."

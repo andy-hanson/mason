@@ -13,7 +13,7 @@ use
 	.Object! -> add-property!
 	.Symbol
 	.Try -> Error
-	.js-impl -> i& i^ i<< i>> i>>> i=== i< i> i<= i>= i+ i- i* i/ i% i-bar i~ i! i-sub i-set i-global i-new i-typeof
+	.js-impl -> i& i^ i<< i>> i>>> i=== i< i> i<= i>= i+ i- i* i/ i% i-bar i~ i! i-sub i-set i-global i-new i-typeof i-delete
 
 global. i-global
 
@@ -37,6 +37,7 @@ js~. i~
 js!. i!
 js-sub. i-sub
 js-set. i-set
+js-delete. i-delete
 
 eval.
 	doc. "TODO"

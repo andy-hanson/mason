@@ -7,6 +7,7 @@ module.exports = {
 	"i!": function(a) { return !a },
 	"i~": function(a) { return ~a },
 	"i-bar": function(a, b) { return a | b },
+	"i-delete": function(a, b) { delete a[b] },
 	"i-false": false,
 	"i-global": global,
 	"i-new": function(constructor, args) {
@@ -58,7 +59,10 @@ module.exports = {
 		if (err == null)
 			return new Error("Oh no!")
 		return new Error("Argument to `oh-no!` must be Error or String")
-	}
+	},
+
+	// modules.ms (TODO:ES6: remove)
+	"i-require": require
 }
 
 const binOps = [ "&", "^", "<<", ">>", ">>>", "===", "<", ">", "<=", ">=", "+", "-", "*", "/", "%" ]
