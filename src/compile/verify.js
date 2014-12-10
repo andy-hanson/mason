@@ -158,13 +158,9 @@ U.implementMany(E, "verify", {
 		this.opReturnType.forEach(v(vx))
 		if (!Sq.isEmpty(this.opReturnType))
 			check(!Sq.isEmpty(this.body.opReturn), this.span, "Function with return type must return something.")
-
-		const argsLocals = this.args.map(function(arg) {
-			arg.opType.forEach(v(vx))
-			return arg
-		})
+		this.args.forEach(function(arg) { arg.opType.forEach(v(vx)) })
 		const vxGen = this.k === "~|" ? vx.inGenerator() : vx.notInGenerator()
-		const vxBody = vxGen.plusLocals(argsLocals)
+		const vxBody = vxGen.plusLocals(this.args.concat(this.opRestArg))
 		v(vxBody)(this.body)
 	},
 	LocalAccess: function(vx) {

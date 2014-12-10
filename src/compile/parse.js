@@ -311,6 +311,34 @@ const parseExprParts = function(px, sqt) {
 	}
 }
 
+const parseFunLocals = function(px, sqt) {
+	if (Sq.isEmpty(sqt))
+		return {
+			args: [],
+			opRestArg: Op.None
+		}
+	else {
+		const last = Sq.last(sqt)
+		if (type.isa(last, T.DotName)) {
+			check(last.nDots === 3, last.span, "Splat argument must have exactly 3 dots")
+			return {
+				args: parseLocals(px, Sq.rightTail(sqt)),
+				opRestArg: Op.Some(E.LocalDeclare({
+					span: last.span,
+ 					name: last.name,
+ 					opType: Op.None,
+ 					isLazy: false,
+ 					okToNotUse: false
+				}))
+			}
+		}
+		else return {
+			args: parseLocals(px, sqt),
+			opRestArg: Op.None
+		}
+	}
+}
+
 const parseFun = function(px, sqt, k) {
 	type(px, Px, sqt, [T], k, Lang.KFun)
 
@@ -336,6 +364,7 @@ const parseFun = function(px, sqt, k) {
 			const eCase = parseCase(px, Sq.tail(rest), head.k, true)
 			return {
 				args: [ E.LocalDeclare.UntypedFocus(head.span) ],
+				opRestArg: Op.None,
 				body: E.BlockBody(px.s({
 					opIn: Op.None,
 					lines: (head.k === "case") ? [] : [eCase],
@@ -347,31 +376,34 @@ const parseFun = function(px, sqt, k) {
 		// Might be curried.
 		else return Op.ifElse(Sq.opSplitOnceWhere(sqt, function(t) { return T.Keyword.is("|")(t) }),
 			function(_) {
-				const spanRest = Span.ofSqT(px.span, _.after)
+				const pxRest = px.withSqTSpan(_.after)
+				const _$ = parseFunLocals(px, _.before)
 				return {
-					args: parseLocals(px, _.before),
-					body: E.BlockBody({
-						span: spanRest,
+					args: _$.args,
+					opRestArg: _$.opRestArg,
+					body: E.BlockBody(pxRest.s({
 						opIn: Op.None,
 						lines: [],
-						opReturn: Op.Some(parseFun(px.withSpan(spanRest), _.after, _.at.k)),
+						opReturn: Op.Some(parseFun(pxRest, _.after, _.at.k)),
 						opOut: Op.None
-					})
+					}))
 				}
 			},
 			function() {
 				const _$ = parseBlock.takeBlockFromEnd(px, rest, "any")
+				const _$2 = parseFunLocals(px, _$.before)
 				return {
-					args: parseLocals(px, _$.before),
+					args: _$2.args,
+					opRestArg: _$2.opRestArg,
 					body: _$.block
 				}
 			})
 	})()
-	const args = _$.args, body = _$.body
 
 	return E.Fun(px.s({
-		args: args,
-		body: body,
+		args: _$.args,
+		opRestArg: _$.opRestArg,
+		body: _$.body,
 		opReturnType: opReturnType,
 		k: k
 	}))

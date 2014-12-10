@@ -188,13 +188,22 @@ U.implementMany(E, "renderContent", {
 				}),
 				false)
 		})
+		const args = this.args
 		return [
 			(this.k === "|") ? "function(" : "function*(",
-			commad(rx, this.args),
+			commad(rx, args),
 			") {",
 			rxFun.nl(),
+			this.opRestArg.map(function(rest) { return [
+				"const ",
+				r(rx)(rest),
+				" = [].slice.call(arguments, ",
+				args.length.toString(),
+				");",
+				rxFun.nl(),
+			]}),
 			Sq.interleavePlus(
-				Sq.mpf(this.args, function(arg) { return opLocalCheck(rx, arg, arg.isLazy); }),
+				Sq.mpf(args, function(arg) { return opLocalCheck(rx, arg, arg.isLazy); }),
 				rxFun.snl()),
 			r(rxFun, opResCheck)(this.body),
 			rx.snl(),
@@ -372,6 +381,7 @@ const makeAssign = function(rx, span, assignee, k, value) {
 					span: span,
 					opName: Op.None,
 					args: [],
+					opRestArg: Op.None,
 					body: E.BlockBody({
 						span: span,
 						lines: [],

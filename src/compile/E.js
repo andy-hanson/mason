@@ -63,6 +63,7 @@ makeETypes(E.Val, {
 	DictReturn: { keys: [String], opDicted: Op(E.Val), opDisplayName: Op(String) },
 	Fun: {
 		args: [E.LocalDeclare],
+		opRestArg: Op(E.LocalDeclare),
 		body: E.BlockBody,
 		opReturnType: Op(E.Val),
 		k: Lang.KFun
