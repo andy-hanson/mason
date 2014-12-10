@@ -1,5 +1,5 @@
 use
-	.assert -> !
+	.assert -> ! !not
 	.bags.Bag -> each!
 	.Bool -> false
 	.Comparable -> =?
@@ -48,6 +48,7 @@ add-mutable-property!.
 			enumerable.
 			writable.
 			value. val
+			configurable.
 
 change-property!.
 	doc. "Modifies an already-existing property."
@@ -63,12 +64,14 @@ change-property!.
 		js-set object name new-val
 
 delete-property!.
-	test.
-		a = empty Object
+	test. |
+		a = empty Object!
 		add-mutable-property! a "a" 1
 		delete-property! a "a"
 		!not has-property? a "a"
 	|object:Object name:Object-Key
+		in
+			! has-property? object name
 		js-delete object name
 
 \ TODO: Don't bother, just `spread add-property!`
