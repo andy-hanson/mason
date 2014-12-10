@@ -53,7 +53,7 @@ try.
 	test. |
 		[ (thunk 1) ] -> Success
 			val. 1
-		[ oh-no! ] -> make-Error "Too bad"
+		! fails-with? "Oh no!" oh-no!
 	|tried:Fun[Any]
 		make-success = |x
 			Success
@@ -108,7 +108,7 @@ error-type.
 	|opts
 		\ TODO: Use Object! functions instead of js's builtin Object helpers
 		it =
-			displayName. `undefined` \ TODO: Ability to not have displayName
+			displayName. undefined \ TODO: Ability to not have displayName
 			|message:Str
 				msg = message
 				Object.defineProperties this

@@ -38,13 +38,6 @@ js!. i!
 js-sub. i-sub
 js-set. i-set
 
-\ TODO:ES6 Can't export this yes because lazies can't be undefined.
-undefined = `undefined`
-
-\ TODO: Only need this because of above
-undefined?. |_
-	reference=? _ undefined
-
 eval.
 	doc. "TODO"
 	test. |
@@ -94,15 +87,16 @@ new.
 		x:My-Fun-Type = new My-Fun-Type 1
 		! =? x.a 1
 
-	|constructor:Fun
+	|constructor ...args
 		in
 			!not reference=? constructor Error
-		i-new.apply () `arguments`
+		\ TODO:SYNTAX splat call
+		i-new constructor args
 
 js-typeof.
 	doc. "JavaScript's `typeof` operator."
 	test. |
-		\ [ `undefined` ] -> "undefined" \ TODO
+		\ [ undefined ] -> "undefined" \ TODO
 		\ [ () ] -> "object" \ TODO
 		[ true ] -> "boolean"
 		[ 0 ] -> "number"
@@ -131,5 +125,5 @@ call-with-this.
 		f = |a
 			+ this a
 		! =? (call-with-this f 1 2) 3
-	|f:Fun new-this \ TODO:ES6 ...args
-		apply-with-this f new-this (Array.prototype.slice.call `arguments` 2)
+	|f:Fun new-this ...args
+		apply-with-this f new-this args

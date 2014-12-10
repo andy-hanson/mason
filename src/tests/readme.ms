@@ -44,6 +44,7 @@ my-list-2.
 	. two
 ! =? my-list my-list-2
 my-dict-2.
+	displayName. "my-dict" \ TODO:DISPLAYNAME
 	one. 1
 	two. + 1 1
 ! =? my-dict my-dict-2

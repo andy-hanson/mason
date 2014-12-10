@@ -1,7 +1,6 @@
 doc. "Functions that should be use to debug and test code."
 
 use
-	.bags.Array
 	.bags.Bag -> each! map
 	.Bool -> false not true
 	.Comparable -> =?
@@ -38,17 +37,16 @@ use
 			! =? 1 2
 		! fails-with? "a" |
 			! (=? 1 2) "a"
-	|a b
+	|a ...args
 		case! a
 			:Fun
-				rest-args = Array.prototype.slice.call `arguments` 1
-				if! (not (Fun.prototype.apply.call _ () rest-args)) |
+				if! (not (Fun.prototype.apply.call _ () args)) |
 					oh-no! "
 						Expected {a}
-							{indent (=> Str (map rest-args inspect) "\n")}
+							{indent (=> Str (map args inspect) "\n")}
 			:Bool
 				if! not_ |
-					oh-no! b
+					oh-no! args[0]
 			else
 				oh-no! "First argument to `!` must be Fun or Bool. Got {_}."
 
@@ -57,17 +55,16 @@ use
 	test. |
 		!not false
 		!not =? 1 2
-	|a b
+	|a ...args
 		case! a
 			:Fun
-				rest-args = Array.prototype.slice.call `arguments` 1
-				if! (Fun.prototype.apply.call _ () rest-args) |
+				if! (Fun.prototype.apply.call _ () args) |
 					oh-no! "
 						Unexpected {a}
-							{indent ((map rest-args inspect).join "\n")}
+							{indent ((map args inspect).join "\n")}
 			:Bool
 				if! _ |
-					oh-no! b
+					oh-no! args[0]
 			else
 				oh-no! "First argument to `!` must be Fun or Bool. Got {_}."
 

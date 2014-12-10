@@ -41,7 +41,7 @@ Any. Pred-Type
 	test. |
 		! contains? Any 0
 		!not contains? Any ()
-		!not contains? Any `undefined`
+		!not contains? Any undefined
 	predicate. |_
 		ignore _ \ TODO:Ignored vars
 		`_ != null`

@@ -646,6 +646,7 @@ const parseSingle = function(px, t) {
 				called: E.LocalAccess(px.s({ name: t.name })),
 				args: [E.LocalAccess.focus(px.span)]
 			}))
+
 		case isa(t, T.Literal):
 			return E.Literal(t)
 		case isa(t, T.Name):
@@ -654,6 +655,9 @@ const parseSingle = function(px, t) {
 			return E.This(px.s({}))
 		case T.Keyword.is("_")(t):
 			return E.LocalAccess.focus(px.span)
+		case T.Keyword.is("undefined")(t):
+			return E.Undefined(px.s({}))
+
 		case T.Group.is(t, "sp"):
 			return parseSpaced(px, t.sqt)
 		case T.Group.is(t, "->"):
@@ -668,6 +672,7 @@ const parseSingle = function(px, t) {
 			return E.ListSimple(px.s({
 				parts: parseExprParts(px, t.sqt)
 			}))
+
 		default:
 			check.fail(px.span, "Unexpected " + t)
 	}

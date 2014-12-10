@@ -1,8 +1,8 @@
 use
 	.bags.Bag -> map
 	.Bool -> false true
+	.Comparable -> =?
 	.Fun -> identity ignore
-	.js -> reference=? undefined?
 	.methods -> type-of
 	.Object -> get-property own-enumerable-properties
 	.Str -> indent
@@ -25,6 +25,9 @@ inspect.
 			Dict
 				x. <recursive>
 				displayName. "a"
+		\ TODO
+		\ [ () ] -> "()"
+		\ [ undefined ] -> "undefined"
 	|case
 		inspecting.has _
 			"<recursive>"
@@ -40,9 +43,9 @@ inspect-impl. Method
 		"TODO"
 	default. |case
 		\ TODO: Use impl! for some of these cases
-		reference=? _ ()
+		=? _ ()
 			"()"
-		undefined?_
+		=? _ undefined
 			"undefined"
 		else
 			key-vals = map own-enumerable-properties_ |key

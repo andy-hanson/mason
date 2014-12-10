@@ -1,14 +1,12 @@
 use
 	.assert -> ! !not
 	.bags.? -> Opt->?
-	.bags.Array
-	.bags.Bag -> keep
+	.bags.Bag -> all? count keep
 	.bags.Seq -> seq=?
 	.bags.Stream
 	.Bool -> and false not nor true xor
 	.Comparable -> =?
 	.Dict
-	.Fun -> ignore
 	.js -> global js-typeof reference=? js-sub
 	.methods -> => + empty empty?
 	.Object! -> add-property!
@@ -32,8 +30,8 @@ send.
 	doc. "Calls `a`'s js-method `name` with the given arguments."
 	test. |
 		[ 1 "toFixed" 2 ] -> "1.00"
-	|a:Any name:Object-Key \ TODO:ES6 ...args
-		(js-sub a name).apply a (Array.prototype.slice.call `arguments` 2)
+	|a:Any name:Object-Key ...args
+		(js-sub a name).apply a args
 
 send!. send
 
@@ -137,7 +135,7 @@ has-property-or-in-prototype?.
 	test. |
 		! has-property-or-in-prototype? (empty Object) "toString"
 	|object:Object name:Object-Key
-		not (reference=? (js-sub object name) `undefined`)
+		not (reference=? (js-sub object name) undefined)
 
 inspect=?.
 	doc. "
@@ -147,8 +145,13 @@ inspect=?.
 		a =
 			a. 1
 		b =
+			\ TODO:DISPLAYNAME
+			displayName. "a"
 			a. 1
+		c =
+			x. 3
 		[ a b ] -> true
+		[ a c ] -> false
 		[ 1 1 ] -> true
 		\ For functions, is identity
 		[ inspect=? inspect=? ] -> true
@@ -171,19 +174,12 @@ inspect=?.
 						false
 					else
 						same-type = reference=? (Object.getPrototypeOf a) (Object.getPrototypeOf b)
-						~same-members =
+						and same-type ~
 							ak = Object.getOwnPropertyNames a
 							bk = Object.getOwnPropertyNames b
-							case
-								\ TODO: For non-extensible Record-Types we can skip this check
-								=? ak bk
-									eq = =?
-									ignore eq \ TODO:Ignored vars
-									`for (let i = 0; i < ak.length; i++) { const key = ak[i]; if (!eq(a[ak], b[ak])) return false }`
-									true
-								else
-									false
-						and same-type ~same-members
+							and (=? (count ak) (count bk)) ~
+								all? ak |k
+									=? (js-sub a k) (js-sub b k)
 
 frozen?. |_
 	Object.isFrozen _
@@ -192,8 +188,9 @@ frozen?. |_
 \ TODO: Test these
 impl! empty (self-type Object) |
 	Object.freeze (Object.create Object.prototype)
-impl! empty? Object |_
-	empty? own-properties _
+\ TODO: Shouldn't do this because everything is an Object... `empty-Object?` ?
+\impl! empty? Object |_
+\	empty? own-properties _
 \impl! empty! Object |_
 \	each! own-properties_ |prop
 \		delete! _ prop

@@ -215,6 +215,7 @@ U.implementMany(E, "verify", {
 	ModuleDefaultExport: function(vx) { v(vx)(this.value) },
 	Null: U.ignore,
 	True: U.ignore,
+	Undefined: U.ignore,
 	Quote: function(vx) { vm(vx, this.parts) },
 	Require: U.ignore,
 	Scope: function(vx) { throw new Error("Scopes are handled specially by verifyLines.") },

@@ -1,10 +1,12 @@
 use
+	.? -> get-or Opt->?
 	.Array
 	.Bag
 	.Bag-Type
 	..Bool -> and not
 	..Comparable! -> <!
 	..control -> if
+	..Fun -> ignore
 	..methods -> => empty empty? empty!
 	..Object -> frozen?
 	.Seq! -> <+! +>! ?<pop! ?pop>!
@@ -19,8 +21,10 @@ Array! = Pred-Type
 		and :Array ~(not frozen?_)
 
 <! (self-type Array!) Bag-Type
-	empty -> |
-		`[]`
+	empty -> |array! initial-size
+		ignore array! \ TODO:Ignored vars
+		\ TODO:SYNTAX Optional arguments
+		Array (get-or (Opt->? initial-size) 0
 
 \ We're defining these on Arrays, but they will only work for Array!s because Arrays are frozen
 <! Array Seq!

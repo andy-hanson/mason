@@ -1,9 +1,9 @@
 use
 	.assert -> !
-	.bags.? -> get-or
+	.bags.? -> get-or un-?
 	.bags.Array
 	.bags.Bag -> map
-	.bags.Seq -> seq=?
+	.bags.Seq -> ?last pop> seq=?
 	.Comparable -> =?
 	.js -> global new
 	.maps.Map -> ?get keys
@@ -52,8 +52,8 @@ call.
 	doc. "Calls the function with the given arguments."
 	test. |
 		[ + 1 2 ] -> 3
-	|f:Fun
-		apply f (Array.prototype.slice.call `arguments` 1) \ TODO:ES6
+	|f:Fun ...args
+		apply f args \ TODO:ES6
 
 curry =
 	doc. "Creates a function which calls `f` with the given arguments first."
@@ -65,8 +65,7 @@ curry =
 		one-two = all-3[1 2]
 		! =? (one-two 3) [ 1 2 3 ]
 
-	|f:Fun \ ...args TODO:ES6
-		args = Array.prototype.slice.call `arguments` 1
+	|f:Fun  ...args
 		Fun.prototype.bind.apply f (+ [()] args)
 
 impl! sub Fun curry
@@ -76,8 +75,7 @@ bind.
 	doc. "TODO"
 	test. |
 		"TODO"
-	|f:Fun \ ...args TODO:ES6
-		args = Array.prototype.slice.call `arguments`
+	|f:Fun ...args
 		Fun.prototype.bind.apply f args
 
 fun-copy.
@@ -95,8 +93,9 @@ fun-copy.
 		! =? f2.displayName "f2"
 		! =? (f1 1) (f2 1)
 
-	|_:Fun |
-		Fun.prototype.apply.call _ () `arguments`
+	|_:Fun |...args
+		\ TODO:SYNTAX Splat call
+		Fun.prototype.apply.call _ () args
 
 impl! sub (self-type Fun)
 	doc. "
@@ -170,9 +169,11 @@ spread.
 			. [ 1 2 3 4 ]
 			. [ 1 2 3 5 ]
 
-	|:Bag fun:Fun
-		init-args = Array.prototype.slice.call `arguments` 1 `arguments.length - 1`
-		spreaded = `arguments[arguments.length - 1]`
+	\ TODO:SYNTAX Non-last rest arg?
+	|:Bag fun:Fun ...rest
+		init-args = pop> rest
+		\ TODO: last
+		spreaded = un-? (?last rest)
 		case spreaded
 			:Bag
 				map _ |em
@@ -201,8 +202,8 @@ impl! show-impl Fun
 		a = |
 			1
 		[ a ] -> "a"
-		[ `function b() { }` ] -> "b"
-		[ `function() { }` ] -> "<anonymous Fun>"
+		[ Object ] -> "Object"
+		[ (Fun "" "") ] -> "<anonymous Fun>"
 	|:Str _
 		get-or (?get-property _ "displayName") ~
 			\ Every function has name property - empty string means anonymous function.

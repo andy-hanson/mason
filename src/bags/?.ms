@@ -27,7 +27,7 @@ full-? = |x
 		val. x
 empty-? =
 	?
-		val. `undefined`
+		val. undefined
 
 region Is Seq
 	<! ? Seq

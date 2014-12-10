@@ -333,6 +333,7 @@ U.implementMany(E, "renderContent", {
 		r(rx)(this.tested),
 		")"
 	]},
+	Undefined: function() { return "undefined" },
 	Yield: function(rx) { return [
 		"yield ",
 		r(rx)(this.yielded)

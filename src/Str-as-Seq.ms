@@ -13,6 +13,7 @@ use
 	.Fun -> identity ignore
 	.methods -> => empty
 	.pred-types -> Opt
+	.show
 	.Str
 	.types.Method -> impl! impl-for
 	.types.util -> self-type
@@ -39,4 +40,4 @@ impl! => (self-type Str) Bag
 	|Str bag ?joiner:Opt[Str]
 		ignore Str \ TODO: ignored vars
 		joiner = get-or (Opt->? ?joiner) ""
-		(=> Array bag).join joiner
+		(map (=> Array bag) show).join joiner

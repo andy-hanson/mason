@@ -81,6 +81,8 @@ region Search
 			get-or (?nth _ n) ~(oh-no! "Bag only has {count_} elements, so can't return element {n}")
 
 region Update
+	\ TODO: ?<pop ?pop>
+
 	<pop. Method
 		doc. "TODO"
 		test. |

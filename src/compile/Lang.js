@@ -28,7 +28,10 @@ const AllKeywords = setUnion(LineSplitKeywords, KFun, CaseKeywords, new Set([
 	"out",
 	"region",
 	"this",
-	"use"
+	"use",
+
+	// Kludge until ES6 modules work
+	"undefined"
 ]))
 
 const ReservedWords = new Set([ "return" ])

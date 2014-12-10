@@ -9,8 +9,8 @@ module.exports = {
 	"i-bar": function(a, b) { return a | b },
 	"i-false": false,
 	"i-global": global,
-	"i-new": function(constructor) {
-		return new (Function.prototype.bind.apply(constructor, arguments))
+	"i-new": function(constructor, args) {
+		return new (Function.prototype.bind.apply(constructor, [constructor].concat(args)))
 	},
 	"i-oh-no!": function(error) {
 		throw module.exports["make-Error"](error)

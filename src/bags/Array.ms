@@ -39,7 +39,7 @@ impl! =? Array
 impl! empty (self-type Array) (thunk [])
 
 impl! builder Array |
-	`[]`
+	Array 0
 impl! build-next! Array |_ em
 	_.push em
 impl! build-result Array freeze

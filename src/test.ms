@@ -12,8 +12,15 @@ load = |x
 	x
 load boot-order
 
-p = (test-all "./js").then |
-	log! "All tests complete."
 
+use
+	.modules -> promise-all-modules
+
+\ TODO: Mason for "if this is the main module"
+p = (promise-all-modules "./js").then |
+	(test-all "./js").then |
+		log! "All tests complete."
 p.done ()
+
+
 

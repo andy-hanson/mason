@@ -1,9 +1,10 @@
 use
 	.assert -> ! !not
+	.bags.Array
 	.bags.Bag -> flat-map fold
 	.Bool -> not
 	.Comparable -> =?
-	.Fun -> ignore
+	.Fun
 	.math.bit-arithmetic -> bit-and hexidecimal
 	.math.Num -> Int round-towards-0
 	.methods -> + * empty?
@@ -75,12 +76,9 @@ impl! hash-code Str
 		! =? (hash-code "a") (hash-code "a")
 		!not =? (hash-code "a") (hash-code "b")
 	|_
-		mhc = max-hash-code
-		ignore _ mhc \ TODO:Ignored vars
-		\ TODO: each-with-index!
-		`let hash = 13`
-		`for (let i = 0; i < _.length; i++) hash = (31 * hash + _.charCodeAt(i)) & mhc`
-		`hash`
+		reducer = |hash ch
+			keep-small (* 31 (+ hash (ch.charCodeAt 0)))
+		Array.prototype.reduce.call _ reducer 13
 
 impl! hash-code Symbol
 	test. |

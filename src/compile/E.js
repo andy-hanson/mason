@@ -83,7 +83,9 @@ makeETypes(E.Val, {
 	This: { },
 	TypeTest: { tested: E.Val, testType: E.Val },
 	Yield: { yielded: E.Val },
-	YieldTo: { yieldedTo: E.Val }
+	YieldTo: { yieldedTo: E.Val },
+
+	Undefined: { }
 })
 E.LocalAccess.focus = function(span) { return E.LocalAccess({ span: span, name: "_" }) }
 
