@@ -6,10 +6,10 @@ use
 	.Bag-Type
 	..Comparable -> =?
 	..Comparable! -> <!
-	..methods -> empty empty? empty!
+	..methods -> +! empty empty? empty!
 	.Seq! -> +>!
 	..types.Interface
-	..types.Method
+	..types.Method -> impl!
 	..types.util -> self-type
 	..types.Type -> contains?
 
@@ -32,13 +32,10 @@ Bag! = Interface
 			!not contains? _ em
 		! empty?_
 
-+!. Method
-	doc. |_ added:Bag
-		"TODO"
-	default. |_ added
-		+>! _ added
-
 <! Bag! Bag
+
+impl! +! Bag! |_ added
+	+>! _ added
 
 <! (self-type Bag!) Bag-Type
 	empty -> |

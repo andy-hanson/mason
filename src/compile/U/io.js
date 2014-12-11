@@ -73,7 +73,11 @@ const watchAndProcessDir = function(opts) {
 			else if (stats.isDirectory()) {
 				// TODO:PERF
 				log("Compiling all")
-				processDir(inDir, outDir, processor).done()
+				processDir({
+					inDir: inDir,
+					outDir: outDir,
+					processor: processor
+				}).done()
 			}
 		}
 

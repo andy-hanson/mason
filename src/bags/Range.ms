@@ -34,8 +34,12 @@ range. |-start-:Num -end-:Num -step-:Opt[Num]
 		end. -end-
 		step. get-or (Opt->? -step-) (sign (- end start))
 
-impl! length Range |_
-	- _.end _.start
+impl! length Range
+	doc. "TODO"
+	test. |
+		[ (range 5 10 2) ] -> 5
+	|_
+		- _.end _.start
 
 <! Range Bag
 	builder -> impl-for builder Array
@@ -55,7 +59,7 @@ impl! length Range |_
 			round-down (/ length_ _.step)
 	iterator ->
 		test. |
-			! seq=? (range 0 10 2) [0 2 4 8]
+			! seq=? (range 0 10 2) [0 2 4 6 8]
 		~|_
 			i = ref _.start
 			loop!
@@ -69,3 +73,4 @@ impl! length Range |_
 <! (self-type Range) Bag-Type
 	empty -> thunk (range 0 0)
 
+Range

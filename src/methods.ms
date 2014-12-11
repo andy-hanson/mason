@@ -22,6 +22,14 @@ region Arithmetic operators
 		doc. |a b
 			"Inverse of `*`. `* b res` should be `a`."
 
+	+!. Method
+		doc. |a b
+			"TODO"
+
+	-!. Method
+		doc. |a b
+			"TODO"
+
 region Basics
 	sub. Method
 		doc. "

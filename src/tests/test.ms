@@ -18,7 +18,7 @@ use
 	..Try -> annotate-errors Success try
 	..types.Impl-Type
 	..types.Interface -> concrete-implementors
-	..types.Method -> impl!
+	..types.Method -> impl! impl-for
 	..types.Type -> contains?
 	..types.util -> self-type
 
@@ -61,6 +61,7 @@ impl! test-special Impl-Type |type
 					()
 
 impl! test-special Interface |_
+	(impl-for test-special Impl-Type) _
 	each! (?get-property _ "implementor-test") |test:Fun
 		each! concrete-implementors_ |implementor
 			test-test-fun implementor test "{_}.implementor-test of {implementor}" implementor
