@@ -10,14 +10,14 @@ use
 	..control -> if
 	..Fun -> ignore
 	..math.Num -> Nat
-	..methods -> => - empty freeze
+	..methods -> => - empty freeze sub
 	..pred-types -> Any
 	..Ref -> get mod! ref
 	.Seq! -> +>!
 	.Stream -> streaming
 	..Try -> fails? oh-no!
 	..types.Interface
-	..types.Method
+	..types.Method -> impl!
 
 Seq = Interface
 	doc. "TODO"
@@ -70,14 +70,13 @@ region Search
 			`for (let em of iter) { if (i == n) return s(em); i++; }`
 			empty ?
 
-	\ TODO: sub
-	nth. Method
+	impl! sub Seq
 		doc. "TODO"
 		test. |
-			! =? (nth [ 0 1 ] 1) 1
+			! =? [ 0 1 ][1] 1
 			! fails? |
-				nth [ 0 1 ] 2
-		default. |_ n:Nat
+				[ 0 1 ][2]
+		|_ n:Nat
 			get-or (?nth _ n) ~(oh-no! "Bag only has {count_} elements, so can't return element {n}")
 
 region Update
@@ -202,4 +201,5 @@ region TODO: put somewhere
 			from-stream _ reverse-stream
 
 	\ TODO: sort, sort-by
+
 Seq

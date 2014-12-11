@@ -8,13 +8,14 @@ use
 	..js -> global new
 	.Map -> ?get has-key? keys values
 	.Map! -> delete! set!
-	..methods -> empty!
+	..methods -> empty empty!
 	..types.Method -> impl!
+	..types.util -> self-type
 
 Identity-Map! =
 	doc. "TODO"
 	test. |
-		_ = new Identity-Map!
+		_ = empty Identity-Map!
 		set! _ 1 2
 		! =? _[1] 2
 		key-1 =
@@ -52,6 +53,8 @@ impl! delete! Identity-Map! |_ key
 	_.delete key
 impl! set! Identity-Map! |_ key val
 	_.set key val
+
+impl! empty (self-type Identity-Map!) new
 
 Identity-Map!
 

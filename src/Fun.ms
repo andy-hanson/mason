@@ -5,10 +5,10 @@ use
 	.bags.Bag -> map
 	.bags.Seq -> ?last pop> seq=?
 	.Comparable -> =?
-	.js -> global new
+	.js -> global
 	.maps.Map -> ?get keys
 	.maps.Weak-Identity-Map!
-	.methods -> => + empty? sub
+	.methods -> => + empty empty? sub
 	.Object -> ?get-property get-property
 	.pred-types -> Any
 	.Ref -> get ref mod!
@@ -138,7 +138,7 @@ identity-memoize.
 		! =? (get-a a2) 2
 		! =? (get comps) 2
 	|fun:Fun
-		wm = new Weak-Identity-Map!
+		wm = empty Weak-Identity-Map!
 		|arg:Any
 			in
 				! (contains? Object arg) "

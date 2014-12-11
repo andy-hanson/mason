@@ -9,6 +9,7 @@ use
 	..Comparable -> =?
 	..Comparable! -> <!
 	.Deque!
+	..math.Num -> Nat
 	..methods -> => empty empty?
 	.Seq -> seq=?
 	..types.Interface
@@ -50,6 +51,10 @@ Seq! = Interface
 		"TODO"
 ?pop>!. Method
 	doc. |:? _
+		"TODO"
+
+set-nth!. Method
+	doc. |_ n:Nat
 		"TODO"
 
 <! (self-type Seq!) Bag-Type

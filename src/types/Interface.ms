@@ -1,12 +1,12 @@
 use
 	..assert -> ! !not
-	..bags.Bag -> any? each! flat-map
+	..bags.Bag -> any? flat-map
 	..Bool -> or
 	..Comparable -> =? <?
 	..Comparable! -> <!
 	.Impl-Type
 	..js -> reference=?
-	..maps.Map -> keys
+	..maps.Map -> each-pair!
 	.Method -> impl! propagate-method-down!
 	..private.bootstrap -> ignore Str Array Object Symbol true set! get own-properties
 	.Record-Type
@@ -107,10 +107,7 @@ implementor!.
 			`_ == null` \ TODO: :Any
 				()
 			else
-				ignore _ \ TODO: use :any above so don't need this line
-				mi:Map = method-impls
-				each! (keys mi) |method
-					implementation = mi[method]
+				each-pair! _ |method implementation
 					impl! method implementor implementation
 
 \ Typically one would use `<?`.

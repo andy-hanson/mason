@@ -7,9 +7,10 @@ use
 	..Comparable! -> <!
 	..control -> if
 	..Fun -> ignore
+	..math.Num -> Nat
 	..methods -> => empty empty? empty!
 	..Object -> frozen?
-	.Seq! -> <+! +>! ?<pop! ?pop>!
+	.Seq! -> <+! +>! ?<pop! ?pop>! set-nth!
 	..types.Pred-Type
 	..types.util -> self-type
 
@@ -46,5 +47,9 @@ Array! = Pred-Type
 					end-loop!
 				else
 					_.pop ()
+	set-nth! -> |_ n:Nat val
+		ignore _ n val \ TODO:Ignored vars
+		`_[n] = val`
+		()
 
 Array!

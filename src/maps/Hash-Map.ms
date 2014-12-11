@@ -4,17 +4,17 @@ use
 	..assert -> !
 	..bags.? -> get-or
 	..bags.Array
-	..bags.Bag -> ?first-where flat-map map
+	..bags.Bag -> count ?first-where flat-map map
 	..bags.Seq -> seq=?
+	..Bool -> false true
 	..Comparable -> =?
 	..Comparable! -> <!
 	..hash-code
 	.Identity-Map!
-	..js -> new
 	..Object
 	..Object! -> add-property!
 	.Map -> ?get keys values
-	.Map! -> set!
+	.Map! -> delete! set!
 	..math.Num -> divisible?
 	..methods -> + empty empty? freeze
 	..private.bootstrap -> ms
@@ -22,13 +22,10 @@ use
 	..Try -> oh-no!
 	..types.Method -> impl!
 	..types.Record-Type
+	..types.util -> self-type
 
 Hash-Map = Record-Type
 	doc. "TODO"
-	\ TODO: impl! empty Hash-Map
-	new-empty. |
-		Hash-Map
-			hash->bucket. new Identity-Map!
 	test. |
 		_ =
 			1 -> 2
@@ -80,9 +77,18 @@ impl! set! Hash-Map |hm key val
 			\ be = ?bucket-entry bucket key
 			\ if it's there: set-property! be "val" val
 
+impl! delete! Hash-Map |hm key
+	case ?bucket hm key
+		empty?_
+			false
+		else
+			! =? count_ 1 \ TODO
+			delete! hm.hash->bucket (hash-code key
+			true
+
 \ TODO: group-by 2
 add-property! ms "map"  |
-	hm = Hash-Map.new-empty ()
+	hm = empty Hash-Map
 	args = `arguments`
 	n = args.length
 	! divisible? n 2
@@ -103,5 +109,9 @@ impl! freeze Hash-Map |_
 	Object.freeze _
 
 <! Hash-Map Map!
+
+impl! empty (self-type Hash-Map) |
+	Hash-Map
+		hash->bucket. empty Identity-Map!
 
 Hash-Map

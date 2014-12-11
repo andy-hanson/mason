@@ -1,6 +1,7 @@
 \ Also see ..maps.Array-as-Map
 
 use
+	.? -> Opt->?
 	..assert -> !
 	.Bag -> builder build-next! build-result count iterator
 	.Bag-Type
@@ -9,11 +10,16 @@ use
 	..Comparable! -> <!
 	..Fun -> ignore thunk
 	..js -> global
+	..math.Num -> Nat
 	..methods -> empty freeze type-of
-	.Seq -> seq=?
+	.Seq -> ?nth seq=?
 	..types.Method ->  impl!
 	..types.Type -> contains?
 	..types.util -> self-type
+
+unsafe-get = |_ key
+	ignore _ key \ TODO:Ignored vars
+	`_[key]`
 
 Array =
 	doc. "Javascript's native mutable Array type. TODO: `Array` vs `Array!`"
@@ -46,5 +52,8 @@ impl! build-result Array freeze
 
 impl! type-of Array |
 	Array
+
+impl! ?nth Array |_ n:Nat
+	Opt->? (unsafe-get _ n)
 
 Array

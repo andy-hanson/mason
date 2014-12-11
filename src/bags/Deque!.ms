@@ -14,7 +14,7 @@ use
 	.Range -> range
 	..Ref -> get mod! ref
 	.Seq -> reverse
-	.Seq! -> <+! +>! ?<pop! ?pop>!
+	.Seq! -> <+! +>! ?<pop! ?pop>! set-nth!
 	..types.Method -> impl!
 	..types.Record-Type
 	..types.util -> self-type
@@ -53,7 +53,7 @@ region Helpers
 		\ TODO: empty Array! new-capacity
 		new-data = Array new-capacity
 		each! (range 0 old-capacity) |index
-			set! new-data index old-data[index]
+			set-nth! new-data index old-data[index]
 		change-property! _ "data!" new-data
 
 	next-index = |_ index:Nat
@@ -85,7 +85,7 @@ region Helpers
 					<+! _ em
 				else
 					change-property! _ "start-index!" new-start
-					set! _.data! _.start-index! em
+					set-nth! _.data! _.start-index! em
 
 	+>! -> |_ ems:Bag
 		each! ems |em
@@ -95,7 +95,7 @@ region Helpers
 					expand!_
 					+>! _ em
 				else
-					set! _.data! _.end-index! em
+					set-nth! _.data! _.end-index! em
 					change-property! _ "end-index!" new-end
 
 	\ TODO: Shrink on occasion

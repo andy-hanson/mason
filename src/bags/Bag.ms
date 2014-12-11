@@ -68,11 +68,11 @@ region Functions using just the iterator
 					folder x em
 			get acc
 
-	each!.
+	each!. Method
 		doc. "Calls do-for-each on every element in the Bag."
 		test. |
 			"TODO"
-		|_ do-for-each:Fun
+		default. |_ do-for-each:Fun
 			\ TODO:ES6 `for (let value of _)`
 			iter = iterator_
 			f = do-for-each

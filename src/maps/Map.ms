@@ -1,13 +1,13 @@
 use
 	..assert -> !
 	..bags.? ->  get-or
-	..bags.Bag -> each! empty? map
+	..bags.Bag -> each! map
 	..Bool -> not
 	..Comparable -> =?
 	..Fun -> identity
 	.Hash-Map
 	.Map! -> set!
-	..methods -> + freeze sub
+	..methods -> + empty empty? freeze sub
 	..pred-types -> Any
 	..Try -> oh-no!
 	..types.Interface
@@ -22,7 +22,7 @@ has-key?. Method
 	doc. |:Bool _ key:Any
 		"Whether the key is in the Map."
 	default. |_ key:Any
-		not (empty? (?get _ key))
+		not (empty? (?get _ key
 
 keys. Method
 	doc. |:Bag _
@@ -55,7 +55,7 @@ make-map.
 		! =? map[1] 2
 		! =? map[2] 3
 	|keys:Bag mapper:Fun
-		map = Hash-Map.new-empty ()
+		map = empty Hash-Map
 		each! keys |key
 			set! map key (mapper key)
 		freeze map
@@ -65,5 +65,13 @@ impl! sub Map |map key:Any
 
 \ TODO: impl! sub Map-Type identity
 impl! sub (self-type Map) identity
+
+each-pair!.
+	doc. "TODO"
+	test. |
+		"TODO"
+	|_:Map do-each:Fun
+		each! keys_ |key
+			do-each key _[key]
 
 Map

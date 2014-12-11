@@ -6,7 +6,7 @@ use
 	.Comparable -> =?
 	.control -> if!
 	.Fun -> apply Pred
-	.maps.Map -> keys
+	.maps.Map -> each-pair!
 	.methods -> => + empty?
 	.show -> inspect
 	.Str -> indent
@@ -86,15 +86,14 @@ use
 			!call +
 				[ 1 1 ] -> 3
 	|fun:Fun args->result:Map \ TODO: Map[Array Any]
-		each! (keys args->result) |args
-			expected = args->result[args]
+		each-pair! args->result |args expected-res
 			actual = apply fun args
-			if! (not (=? actual expected)) |
+			if! (not (=? actual expected-res)) |
 				oh-no! ~"
 					Calling {fun} on:
 						{indent ((map args inspect).join "\n")}
 					Should be:
-						{indent (inspect expected)}
+						{indent (inspect expected-res)}
 					Got:
 						{indent (inspect actual)}
 
@@ -106,7 +105,7 @@ use
 		! fails-with? "Expected empty? (Array)[ 0 ]" |
 			!call? empty?
 				. [ 0 ]
-	|pred:Pred accept-args:Map
+	|pred:Pred accept-args:Bag
 		each! accept-args |accept-me
 			if! (not (pred accept-me)) |
 				oh-no! ~"
@@ -120,7 +119,7 @@ use
 		! fails-with? "Unexpected empty? (Array)[ ]" |
 			!not-call? empty?
 				. [ ]
-	|pred:Pred reject-args:Map
+	|pred:Pred reject-args:Bag
 		each! reject-args |reject-me
 			if! (pred reject-me) |
 				oh-no! ~"

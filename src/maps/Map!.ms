@@ -1,11 +1,35 @@
 use
-	..assert -> !not
+	..assert -> ! !not
+	..bags.Bag -> each!
 	..Bool
+	..Comparable -> =?
 	..Comparable! -> <!
-	.Map -> has-key?
+	.Map -> each-pair! ?get has-key?
+	..methods -> +! -! empty empty?
+	..pred-types -> Any
 	..types.Interface
-	..types.Method
-	..types.pred-types -> Any
+	..types.Method -> impl!
+
+Map! = Interface
+	doc. "
+		TODO:REST
+		-!: Takes a Bag of keys to remove.
+		+!: Adds another map.
+	implementor-test. |type
+		\ Not using primitives for the test since Weak-Identity-Map! won't allow it.
+		_ = empty  type
+		add! _ Map Map!
+		! =? _[Map] Map!
+		+! _
+			\1 -> 3 TODO
+			Interface -> Interface
+		\! =? _[1] 2 \ TODO:3
+		! =? _[Interface] Interface
+		delete! _ Interface
+		! empty? (?get _ Interface)
+		\ TODO: empty! test
+
+
 
 set!. Method
 	doc. |_ key:Any val:Any
@@ -14,6 +38,14 @@ set!. Method
 delete!. Method
 	doc. |:Bool _ key
 		"If there is a value associated with `key`, removes it and returns `true`."
+
+impl! -! Map!
+	doc. "TODO"
+	test. |
+		"TODO"
+	|_ to-delete:Bag
+		each! to-delete |em
+			delete! _ em
 
 add!. Method
 	doc. |_ key:Any val:Any
@@ -24,8 +56,12 @@ add!. Method
 				Already have key {key}.
 		set! _ key val
 
-Map! = Interface
+impl! +! Map!
 	doc. "TODO"
+	test. |
+		"TODO"
+	|_ to-add:Map
+		each-pair! to-add set![_]
 
 <! Map! Map
 

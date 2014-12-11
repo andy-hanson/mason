@@ -4,18 +4,17 @@ doc. "
 
 use
 	..assert -> !
-	..bags.Bag -> each!
-	..maps.Map -> keys
+	..maps.Map -> each-pair!
 	..methods -> /
 	.Num -> near? pi/2 pi pi3/2
 	..js -> global
 
 Math = global.Math
 
-\ TODO: doc, test, move
+\ TODO: generalize and move to assert.ms
 !apply-near = |fun apps
-	each! (keys apps) |key
-		! near? (fun key) apps[key]
+	each-pair! apps |arg result
+		! near? (fun arg) result
 
 sin.
 	doc. "Y-value of the point on the unit circle this many radians counter-clockwise from +x."

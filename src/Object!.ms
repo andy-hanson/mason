@@ -1,11 +1,10 @@
 use
 	.assert -> ! !not
-	.bags.Bag -> each!
 	.Bool -> false
 	.Comparable -> =?
 	.Dict
 	.js -> js-delete js-set
-	.maps.Map -> keys
+	.maps.Map -> each-pair!
 	.methods -> empty
 	.Object -> has-property?
 	.pred-types -> Any Union
@@ -83,7 +82,6 @@ extend!.
 			a. 1
 		! =? x.a 1
 	|object:Object extender:Dict
-		each! (keys extender) |name
-			add-property! object name extender[name]
+		each-pair! extender add-property![object]
 
 Object!

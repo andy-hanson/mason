@@ -1,12 +1,13 @@
 use
 	..bags.? -> Opt->?
 	..Comparable! -> <!
-	..js -> global
+	..js -> global new
 	.Map -> ?get has-key? keys
 	.Map! -> delete! set!
-	..methods -> empty!
+	..methods -> empty empty!
 	..Try -> oh-no!
 	..types.Method -> impl!
+	..types.util -> self-type
 
 Weak-Identity-Map! =
 	doc. "TODO"
@@ -25,5 +26,7 @@ impl! delete! Weak-Identity-Map! |_ key
 	_.delete key
 impl! set! Weak-Identity-Map! |_ key val
 	_.set key val
+
+impl! empty (self-type Weak-Identity-Map!) new
 
 Weak-Identity-Map!

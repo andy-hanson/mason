@@ -118,12 +118,12 @@ test-test-fun = |value value-test:Fun name ...args
 				()
 
 test-all. |dir-path:Str
-	(promise-all-modules dir-path).then |_
+	(promise-all-modules dir-path).then |_:Bag
 		each! _ test-module
 
 \ TODO:ES6 Use module reflection
 test-module.
 	doc. "TODO"
-	|module
+	|module:Object
 		module-name = get-or (?get-property module "displayName") "<anonymous module>"
 		maybe-test module-name module true
