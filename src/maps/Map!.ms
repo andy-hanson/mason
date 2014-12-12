@@ -21,15 +21,14 @@ Map! = Interface
 		add! _ Map Map!
 		! =? _[Map] Map!
 		+! _
-			\1 -> 3 TODO
+			Map -> Interface
 			Interface -> Interface
-		\! =? _[1] 2 \ TODO:3
+		! =? _[Map] Interface
 		! =? _[Interface] Interface
 		delete! _ Interface
 		! empty? (?get _ Interface)
 		\ TODO: empty! test
-
-
+		\ TODO: keys, values
 
 set!. Method
 	doc. |_ key:Any val:Any

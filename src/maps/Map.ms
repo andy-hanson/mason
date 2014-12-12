@@ -61,7 +61,9 @@ make-map.
 		freeze map
 
 impl! sub Map |map key:Any
-	get-or (?get map key) ~(oh-no! "{map} does not contain {key}.")
+	got = ?get map key
+	\ TODO: {map} does not contain {key}
+	get-or (?get map key) ~(oh-no! "map does not contain {key}.")
 
 \ TODO: impl! sub Map-Type identity
 impl! sub (self-type Map) identity

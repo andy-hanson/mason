@@ -5,6 +5,7 @@ use
 	.Bool -> not
 	.Comparable -> =?
 	.Fun
+	.js -> reference=?
 	.math.bit-arithmetic -> bit-and hexidecimal
 	.math.Num -> Int round-towards-0
 	.methods -> + * empty?
@@ -34,12 +35,14 @@ hash-code =  Method
 			y. 1
 		! =? (hash-code a) (hash-code a)
 		! (not (=? (hash-code a) (hash-code b)))
-		! fails? |
-			hash-code ()
 		\ TODO: Check that it handles recursive values
 
 	default. |:Int _
 		case
+			reference=? _ ()
+				108
+			reference=? _ undefined
+				109
 			hashes.has _
 				hashes.get _
 			:Fun

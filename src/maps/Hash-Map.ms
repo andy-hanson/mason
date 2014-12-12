@@ -1,28 +1,37 @@
 \ TODO: TEST
 
 use
-	..assert -> !
-	..bags.? -> get-or
-	..bags.Array
-	..bags.Bag -> count ?first-where flat-map map
+	..assert -> ! !not
+	..bags.? -> Opt->?
+	..bags.Bag -> flat-map map
 	..bags.Seq -> seq=?
+	..bags.Stream -> streaming
 	..Bool -> false true
 	..Comparable -> =?
 	..Comparable! -> <!
 	..hash-code
 	.Identity-Map!
 	..Object
-	..Object! -> add-property!
-	.Map -> ?get keys values
+	..Object! -> add-property! change-property!
+	.Map -> ?get has-key? keys values
 	.Map! -> delete! set!
 	..math.Num -> divisible?
-	..methods -> + empty empty? freeze
+	..methods -> + empty freeze
+	..pred-types -> Any
 	..private.bootstrap -> ms
 	..Ref -> get mod! ref
-	..Try -> oh-no!
 	..types.Method -> impl!
 	..types.Record-Type
 	..types.util -> self-type
+
+Bucket-Entry = Record-Type
+	doc. "
+		TODO
+		Explain how this is both Bucket and Bucket-Entry
+	members.
+		key.
+		val!.
+		next!.
 
 Hash-Map = Record-Type
 	doc. "TODO"
@@ -38,53 +47,90 @@ Hash-Map = Record-Type
 	members.
 		hash->bucket. Identity-Map!
 
-?bucket = |:?[Array] _ key
-	code = hash-code key
-	?get _.hash->bucket code
+opt-bucket = |_ key
+	_.hash->bucket.get (hash-code key
 
-?bucket-entry = |bucket:Array key
-	?first-where bucket |_
-		=? key _.key
+opt-bucket-entry = |opt-bucket key
+	case opt-bucket
+		:Any
+			case
+				=? _.key key
+					_
+				else
+					opt-bucket-entry _.next! key
+		else
+			()
 
 impl! ?get Hash-Map |:? _ key
-	\ TODO: empty Array!
-	bucket = get-or (?bucket _ key) `[]`
-	map (?bucket-entry bucket key) |be
-		be.val
+	bucket = opt-bucket _ key
+	entry = opt-bucket-entry bucket key
+	map (Opt->? entry) |be
+		be.val!
 
 impl! keys Hash-Map |_
 	buckets = values _.hash->bucket
 	flat-map buckets |bucket
-		map bucket |_
-			_.key
+		streaming ~|
+			cur-bucket = ref bucket
+			loop!
+				case! get cur-bucket
+					:Any
+						<~ _.key
+						set! cur-bucket _.next!
+					else
+						end-loop!
+
+\ TODO: impl! values, similarly
 
 impl! set! Hash-Map |hm key val
-	case! ?bucket hm key
-		empty?_
-			\ TODO: empty Array!
-			new-bucket = `[]`
-			\ TODO: push! new-bucket
-			k = key
-			v = val
-			new-bucket.push
-				key. k
-				val. v
-			set! hm.hash->bucket (hash-code key) new-bucket
-		else
-			\ TODO
-			bucket = _.val
-			oh-no! "Hash collision for {key} and {bucket[0].key}"
-			\ be = ?bucket-entry bucket key
-			\ if it's there: set-property! be "val" val
+	out
+		! =? hm[key] val
 
-impl! delete! Hash-Map |hm key
-	case ?bucket hm key
-		empty?_
-			false
+	bucket = opt-bucket hm key
+	case! opt-bucket-entry bucket
+		:Any
+			change-property! _ "val!" val
 		else
-			! =? count_ 1 \ TODO
-			delete! hm.hash->bucket (hash-code key
+			k = key
+			be = Bucket-Entry
+				\ TODO:SYNTAX
+				key. k
+				val!. val
+				next!. bucket
+			hm.hash->bucket.set (hash-code key) be
+
+impl! delete! Hash-Map |:Bool hm key
+	out
+		!not (has-key? hm key) "Whoops"
+
+	bucket = opt-bucket hm key
+	case bucket
+		=? _.key key
+			case! bucket.next!
+				:Any
+					set! hm.hash->bucket key _
+				else
+					delete! hm.hash->bucket (hash-code key
 			true
+
+		:Any
+			delete-from-next-bucket! = |prev-bucket
+				next = prev-bucket.next!
+				case
+					:Any
+						case
+							=? next.key key
+								change-property! prev-bucket "next!" next.next!
+								true
+							else
+								delete-from-next-bucket! next
+
+			delete-from-next-bucket! bucket
+
+		else
+			\ Not in the map.
+			false
+
 
 \ TODO: group-by 2
 add-property! ms "map"  |
@@ -104,6 +150,7 @@ add-property! ms "map"  |
 
 	freeze hm
 
+\ TODO: Add non-Frozen asserts before setters and whatnot
 impl! freeze Hash-Map |_
 	freeze _.hash->bucket
 	Object.freeze _

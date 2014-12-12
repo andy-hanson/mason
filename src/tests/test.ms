@@ -111,7 +111,7 @@ test-test-fun = |value value-test:Fun name ...args
 			apply value-test args
 		case! got
 			:Map
-				! (contains? Fun value)
+				! (contains? Fun value) ~
 					"Test of {name} returned a Map, but the value is not callable."
 				!call value _
 			else

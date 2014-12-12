@@ -105,7 +105,8 @@ get-property.
 	|_:Object name:Object-Key
 		in
 			! has-property? _ name
-			! (contains? Any (js-sub _ name)) ~"{_}.{name} is missing"
+			\ TODO: decide
+			\ ! (contains? Any (js-sub _ name)) ~"{_}.{name} is missing"
 		js-sub _ name
 
 ?get-property-or-in-prototype.
