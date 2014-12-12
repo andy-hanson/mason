@@ -4,8 +4,9 @@ use
 	.Bag-Type
 	..Bool -> false not true
 	..Comparable -> =?
-	..Fun -> identity ignore Pred
+	..Fun -> identity Pred
 	..generators -> Generator!
+	..maps.Map! -> set!
 	..math.Num -> divisible? Nat
 	..methods -> => + empty empty?
 	..pred-types -> Any Opt
@@ -48,12 +49,18 @@ region Builder
 			"A new Builder of the same type as this Bag."
 
 	\ TODO: Not public
+	\ TODO: REFORM
 	from-stream. |_ stream:Bag
 		b = builder_
 		iter = iterator stream
-		bn = build-next!
-		ignore b iter bn \ TODO:Ignored vars
-		`for (let em of iter) bn(b, em)`
+		loop!
+			value done = iter.next ()
+			case!
+				done
+					end-loop!
+				else
+					build-next! b value
+
 		build-result b
 
 region Functions using just the iterator
@@ -75,10 +82,13 @@ region Functions using just the iterator
 		default. |_ do-for-each:Fun
 			\ TODO:ES6 `for (let value of _)`
 			iter = iterator_
-			f = do-for-each
-			ignore iter f \ TODO:Ignored vars
-			`for (let em of iter) f(em)`
-			()
+			loop!
+				value done = iter.next ()
+				case!
+					done
+						end-loop!
+					else
+						do-for-each value
 
 	any?.
 		doc. "TODO"
@@ -103,12 +113,20 @@ region Functions using just the iterator
 			not x
 
 	?first-where. |_ pred:Pred
-		s = |x
-			=> ? [ x ]
-		iter = iterator_\ TODO:ES6 for (let em of _)
-		ignore s iter pred \ TODO:Ignored vars
-		`for (let em of  iter) if (pred(em)) return s(em)`
-		empty ?
+		iter = iterator_
+		\ TODO:SYNTAX Return from loop
+		found = ref (empty ?
+		loop!
+			value done = iter.next ()
+			case!
+				done
+					end-loop!
+				pred value
+					set! found (=> ? [ value ]
+					end-loop!
+				else
+					()
+		get found
 
 region Methods only needing iterator
 	count. Method
@@ -146,12 +164,7 @@ region Methods using builder
 					[ _ ]
 			[ [ 1 2 3 4 ] f ] -> [ 1 2 2 3 4 4 ]
 		default. |_ mapper:Fun[Any Bag]
-			b = builder_
-			bn = build-next!
-			iter = iterator_
-			ignore bn iter mapper \ TODO:Ignored vars
-			`for (let em of iter) for (let innerEm of iterator(mapper(em))) bn(b, innerEm)`
-			build-result b
+			from-stream _ (flat-map (=> Stream _) mapper)
 
 	impl! + Bag
 		doc. "TODO"

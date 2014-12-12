@@ -1,12 +1,18 @@
 use
-	\..methods -> empty
 	..js-impl -> i===
-	..private.bootstrap -> sym-type-of Dict oh-no! set! Object has? ms Str get-or-undefined any? true false Fun get extend! exists? proto-impl-contains?!
+	..private.bootstrap -> sym-type-of Dict oh-no! set! Object has? ms Str get-or-undefined true false Fun get extend! exists? proto-impl-contains?!
 
 record-type-post-construct = |rt
 	\ Every Record-Type's instances know their type.
 	set! rt.prototype sym-type-of |
 		rt
+
+exists-and-has? = |object key
+	case
+		exists? object
+			has? object key
+		else
+			false
 
 make-record-constructor = |rt
 	|baby-members:Dict
@@ -15,15 +21,19 @@ make-record-constructor = |rt
 			case! Object.getOwnPropertyDescriptor baby-members member-name
 				has? _ "value"
 					val = _.value
+					maybe-check = |the-members member-name
+						case! get-or-undefined the-members member-name
+							_ \ is true, in other words, value part was unspecified
+								()
+							else
+								ms.checkContains _ val member-name
 					case! member-name
 						i=== _ "displayName"
 							ms.checkContains Str _ "displayName"
 						has? rt.members _
-							case! get-or-undefined rt.members member-name
-								_ \ is true, in other words, value part was unspecified
-									()
-								any?_
-									ms.checkContains _ val member-name
+							maybe-check rt.members _
+						exists-and-has? rt.optional-members _
+							maybe-check rt.optional-members _
 						else
 							()
 
@@ -52,7 +62,7 @@ make-record-constructor = |rt
 				()
 			has? baby-members _
 				()
-			has? rt.defaults _
+			exists-and-has? rt.defaults _
 				Object.defineProperty baby _
 					enumerable. true
 					make-default:Fun = get rt.defaults _
@@ -62,7 +72,7 @@ make-record-constructor = |rt
 				oh-no! ~"Member `{_}` not specified, and no default is available."
 
 		call-baby = case rt.make-callable
-			any? _
+			exists? _
 				make-callable:Fun = _
 				callable = make-callable baby
 				Object.setPrototypeOf callable rt.prototype
@@ -73,7 +83,7 @@ make-record-constructor = |rt
 
 		case! rt.post-construct
 			exists?_
-				_ call-baby rt.members
+				_ call-baby
 			else
 				()
 
@@ -86,20 +96,15 @@ record-type-args =
 	members.
 		displayName. Str \ displayName is mandatory for types.
 		members. Dict
-		defaults. Dict
 		prototype. Object
+	optional-members.
+		defaults. Dict
 		post-construct. Fun
 		\ This takes in the members and outputs a Fun.
 		make-callable. Fun
 	defaults.
-		defaults. |
-			`_ms.Dict()` \ TODO: empty Dict
 		prototype. |
 			Object.create Object.prototype
-		post-construct. | |
-			()
-		make-callable. |
-			()
 	post-construct. record-type-post-construct
 	make-callable. make-record-constructor
 

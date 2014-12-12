@@ -85,7 +85,7 @@ makeETypes(E.Val, {
 	Yield: { yielded: E.Val },
 	YieldTo: { yieldedTo: E.Val },
 
-	Undefined: { }
+	SpecialKeyword: { k: Lang.SpecialKeywords }
 })
 E.LocalAccess.focus = function(span) { return E.LocalAccess({ span: span, name: "_" }) }
 

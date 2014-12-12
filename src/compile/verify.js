@@ -214,13 +214,13 @@ U.implementMany(E, "verify", {
 	Module: function(vx) { v(vx)(this.body) },
 	ModuleDefaultExport: function(vx) { v(vx)(this.value) },
 	Null: U.ignore,
-	True: U.ignore,
-	Undefined: U.ignore,
 	Quote: function(vx) { vm(vx, this.parts) },
 	Require: U.ignore,
 	Scope: function(vx) { throw new Error("Scopes are handled specially by verifyLines.") },
+	SpecialKeyword: U.ignore,
 	Sub: function(vx) { vm(vx, Sq.cons(this.subject, this.subbers)) },
 	This: U.ignore,
+	True: U.ignore,
 	TypeTest: function(vx) { vm(vx, [this.tested, this.testType]) },
 })
 

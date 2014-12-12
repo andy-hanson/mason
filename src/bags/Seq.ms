@@ -8,9 +8,10 @@ use
 	..Comparable -> =? <=? >=?
 	..Comparable! -> <!
 	..control -> if
-	..Fun -> ignore
+	..Fun
+	..maps.Map! -> set!
 	..math.Num -> Nat
-	..methods -> => - empty freeze sub
+	..methods -> => + - empty freeze sub
 	..pred-types -> Any
 	..Ref -> get mod! ref
 	.Seq! -> +>!
@@ -62,13 +63,20 @@ region Search
 			[ [ 0 1 ] 2 ] -> empty ?
 		default. |_ n:Nat
 			iter = iterator_
-			`let i = 0`
-			\ TODO:ES6 for (let em of _)
-			s = |x
-				=> ? [ x ]
-			ignore s iter n \ TODO:Ignored vars
-			`for (let em of iter) { if (i == n) return s(em); i++; }`
-			empty ?
+			i = ref 0
+			\ TODO:SYNTAX Loop return value
+			ans = ref (empty ?
+			loop!
+				value done = iter.next ()
+				case!
+					done
+						end-loop!
+					=? (get i) n
+						set! ans (=> ? [ value ]
+						end-loop!
+					else
+						mod! i +[1]
+			get ans
 
 	impl! sub Seq
 		doc. "TODO"

@@ -54,20 +54,27 @@ impl! empty (self-type Stream) (thunk empty-stream)
 region Overrides
 	impl! map Stream |_ mapper:Fun
 		streaming ~|
-			\ TODO:ES6 `for (let value of _)`
 			iter = iterator_
-			ignore iter mapper \ TODO:Ignored vars
-			`for (let em of iter) yield mapper(em)`
-			()
+			loop!
+				value done = iter.next ()
+				case!
+					done
+						end-loop!
+					else
+						<~ mapper value
 
 	impl! keep Stream |_ keep-if?:Pred
 		streaming ~|
-			\ TODO:ES6 `for (let value of _)`
 			iter = iterator_
-			ki = keep-if?
-			ignore iter ki \ TODO:Ignored vars
-			`for (let em of iter) if (ki(em)) yield em`
-			()
+			loop!
+				value done = iter.next ()
+				case!
+					done
+						end-loop!
+					keep-if? value
+						<~ value
+					else
+						()
 
 	impl! flat-map Stream |_ mapper:Fun[Any Bag]
 		streaming ~|

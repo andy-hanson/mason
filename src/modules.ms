@@ -18,4 +18,4 @@ promise-all-modules.
 		(fs.listTree dir-path).then |files:Array
 			flat-map files |_
 				if (_.endsWith ".js") |
-					commonJS-require "./{path.relative `__dirname` _}"
+					commonJS-require "./{path.relative this-module-directory _}"

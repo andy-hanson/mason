@@ -8,7 +8,7 @@ use
 	..js-impl -> make-callable-method
 	..math.Num
 	..Object -> ?get-property
-	..private.bootstrap -> Str Symbol Fun oh-no! true get-or-undefined exists? set! set-mutable! has-or-in-proto? get
+	..private.bootstrap -> Str Symbol Fun oh-no! get-or-undefined exists? set! set-mutable! has-or-in-proto? get writable?
 	.Record-Type
 	..Try -> fails?
 	.Type -> contains?
@@ -62,14 +62,6 @@ impl!.
 
 impl-single! = |method:Method implementor:Impl-Type implementation:Fun
 	impl-unchecked! method implementor implementation
-
-\ TODO: MOVE
-writable? = |object property
-	case `global.Object`.getOwnPropertyDescriptor object property
-		exists?_
-			_.writable
-		else
-			true
 
 impl-double! = |method:Method implementor-0:Impl-Type implementor-1:Impl-Type implementation:Fun
 	dispatcher = case

@@ -655,8 +655,8 @@ const parseSingle = function(px, t) {
 			return E.This(px.s({}))
 		case T.Keyword.is("_")(t):
 			return E.LocalAccess.focus(px.span)
-		case T.Keyword.is("undefined")(t):
-			return E.Undefined(px.s({}))
+		case T.Keyword.is(Lang.SpecialKeywords)(t):
+			return E.SpecialKeyword(px.s({ k: t.k }))
 
 		case T.Group.is(t, "sp"):
 			return parseSpaced(px, t.sqt)

@@ -320,6 +320,13 @@ U.implementMany(E, "renderContent", {
 		rx.nl(),
 		"}"
 	]},
+	SpecialKeyword: function(rx) {
+		switch (this.k) {
+			case "undefined": return "undefined"
+			case "this-module-directory": return "__dirname"
+			default: throw up
+		}
+	},
 	Sub: function(rx) { return [
 		"_ms.sub(",
 		commad(rx, Sq.cons(this.subject, this.subbers)),
@@ -333,7 +340,6 @@ U.implementMany(E, "renderContent", {
 		r(rx)(this.tested),
 		")"
 	]},
-	Undefined: function() { return "undefined" },
 	Yield: function(rx) { return [
 		"yield ",
 		r(rx)(this.yielded)

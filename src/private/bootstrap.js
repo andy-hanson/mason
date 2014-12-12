@@ -210,3 +210,8 @@ exports["extend!"] = Object.assign
 exports["ignore"] = function() { }
 
 exports["new-array"] = function() { return [ ] }
+
+exports["writable?"] = function(object, property) {
+	const desc = Object.getOwnPropertyDescriptor(object, property)
+	return desc == null || desc.writable
+}

@@ -16,7 +16,8 @@ const LineSplitKeywords = setUnion(AssignKeywords, new Set(["->"]))
 const KAssign = setUnion(AssignKeywords, new Set(["export"]))
 const KFun = new Set(["|", "~|"])
 const CaseKeywords = new Set(["case", "case!"])
-const AllKeywords = setUnion(LineSplitKeywords, KFun, CaseKeywords, new Set([
+const SpecialKeywords = new Set(["undefined", "this-module-directory"])
+const AllKeywords = setUnion(LineSplitKeywords, KFun, CaseKeywords, SpecialKeywords, new Set([
 	"~",
 	":",
 	"_",
@@ -54,11 +55,13 @@ const GroupOpenToClose = new Map([
 // A `~` may appear in a name, but not at the beginning.
 const isNameCharacter = function(ch) { return /[^()[\]{}\.:|_\ \\\n\t\""`@#$;,']/.test(ch) }
 
+
 module.exports = {
 	AllKeywords: AllKeywords,
 	AssignKeywords: AssignKeywords,
 	LineSplitKeywords: LineSplitKeywords,
 	CaseKeywords: CaseKeywords,
+	SpecialKeywords: SpecialKeywords,
 	KFun: KFun,
 	KAssign: KAssign,
 	GroupOpenToClose: GroupOpenToClose,
