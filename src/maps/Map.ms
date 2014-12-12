@@ -5,7 +5,7 @@ use
 	..Bool -> not
 	..Comparable -> =?
 	..Fun -> identity
-	.Hash-Map
+	.Hash-Map!
 	.Map! -> set!
 	..methods -> + empty empty? freeze sub
 	..pred-types -> Any
@@ -55,15 +55,13 @@ make-map.
 		! =? map[1] 2
 		! =? map[2] 3
 	|keys:Bag mapper:Fun
-		map = empty Hash-Map
+		map = empty Hash-Map!
 		each! keys |key
 			set! map key (mapper key)
 		freeze map
 
 impl! sub Map |map key:Any
-	got = ?get map key
-	\ TODO: {map} does not contain {key}
-	get-or (?get map key) ~(oh-no! "map does not contain {key}.")
+	get-or (?get map key) ~(oh-no! "{map} does not contain {key}.")
 
 \ TODO: impl! sub Map-Type identity
 impl! sub (self-type Map) identity

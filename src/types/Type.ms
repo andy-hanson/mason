@@ -4,6 +4,7 @@ use
 	.Method -> impl! impl-unchecked!
 	..private.bootstrap -> sym-contains? Bool any? has-or-in-proto? false Fun
 
+\ TODO: MOVE
 contains?. Method
 	doc. |:Bool type:Type value
 		"TODO"

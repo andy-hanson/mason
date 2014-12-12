@@ -11,7 +11,7 @@ impl! inspect-impl Map
 		m =
 			1 -> 2
 		[ m ] -> "
-			Hash-Map
+			Hash-Map!
 				1 -> 2
 	|_
 		parts = map keys_ |key

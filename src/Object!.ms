@@ -38,6 +38,7 @@ add-property!.
 			enumerable.
 			writable. false
 			value. val
+		()
 
 add-mutable-property!.
 	doc. "Adds a new mutable property to a mutable object."
@@ -48,6 +49,7 @@ add-mutable-property!.
 			writable.
 			value. val
 			configurable.
+		()
 
 change-property!.
 	doc. "Modifies an already-existing property."
