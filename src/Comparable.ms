@@ -5,6 +5,12 @@ use
 	.types.Interface
 	.types.Method
 
+Comparable = Interface
+	doc. "
+		A Comparable is an object in a set with a total ordering.
+		`compare` is the only method needing an explicit implementation;
+		other methods may be overriden but should never change functionality.
+
 compare. Method
 	doc. "
 		A Num < 0 if a < b, > 0 if a > b, and = 0 if a = b.
@@ -58,8 +64,4 @@ compare. Method
 	default. |:Bool greater lesser
 		>=? (compare greater lesser) 0
 
-Interface
-	doc. "
-		A Comparable is an object in a set with a total ordering.
-		`compare` is the only method needing an explicit implementation;
-		other methods may be overriden but should never change functionality.
+Comparable

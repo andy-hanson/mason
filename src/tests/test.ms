@@ -4,6 +4,7 @@ use
 	..assert -> ! !call
 	..bags.? -> get-or
 	..bags.Bag -> each!
+	..bags.Identity-Set!
 	..Bool -> false or true
 	..control -> build
 	..Comparable -> =?
@@ -66,8 +67,7 @@ impl! test-special Interface |_
 		each! concrete-implementors_ |implementor
 			test-test-fun implementor test "{_}.implementor-test of {implementor}" implementor
 
-\ TODO: empty Set!
-all-tested. `new global.Set()`
+all-tested. empty Identity-Set!
 
 \ TODO: Better name
 maybe-test. |name:Str value:Any is-module:Bool

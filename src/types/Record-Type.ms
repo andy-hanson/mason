@@ -1,5 +1,6 @@
 use
 	\..methods -> empty
+	..js-impl -> i===
 	..private.bootstrap -> sym-type-of Dict oh-no! set! Object has? ms Str get-or-undefined any? true false Fun get extend! exists? proto-impl-contains?!
 
 record-type-post-construct = |rt
@@ -15,11 +16,11 @@ make-record-constructor = |rt
 				has? _ "value"
 					val = _.value
 					case! member-name
-						`_ === "displayName"`
+						i=== _ "displayName"
 							ms.checkContains Str _ "displayName"
 						has? rt.members _
 							case! get-or-undefined rt.members member-name
-								`_ == true`
+								_ \ is true, in other words, value part was unspecified
 									()
 								any?_
 									ms.checkContains _ val member-name
@@ -47,7 +48,7 @@ make-record-constructor = |rt
 					oh-no! ~"Descriptor for {member-name} has neither value nor get; is {_}."
 
 		(Object.getOwnPropertyNames rt.members).forEach |case!
-			`_ === "displayName"`
+			i=== _ "displayName"
 				()
 			has? baby-members _
 				()
@@ -92,7 +93,7 @@ record-type-args =
 		make-callable. Fun
 	defaults.
 		defaults. |
-			`_ms.Dict()` \ empty Dict
+			`_ms.Dict()` \ TODO: empty Dict
 		prototype. |
 			Object.create Object.prototype
 		post-construct. | |

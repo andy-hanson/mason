@@ -3,16 +3,16 @@ use
 	.Bool -> false true
 	.Comparable -> =?
 	.Fun -> identity
+	.js-impl -> new-Set
 	.methods -> type-of
 	.Object -> get-property own-enumerable-properties
 	.private.bootstrap -> ms set!
 	.Str -> indent
 	.types.Method -> impl!
 
-\ TODO: empty Identity-Set!
-inspecting = `new Set`
+inspecting = new-Set ()
 \ `show` often delegates to `inspect`, and vice versa, so that's an OK recursion.
-showing = `new Set`
+showing = new-Set ()
 
 inspect.
 	doc. "TODO"

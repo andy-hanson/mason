@@ -4,9 +4,11 @@ use
 	..Comparable -> =?
 	.Impl-Type
 	.Interface
+	..js -> js-sub
+	..js-impl -> make-callable-method
 	..math.Num
 	..Object -> ?get-property
-	..private.bootstrap -> ignore Str Symbol Fun oh-no! true any? get-or-undefined exists? set! set-mutable! has-or-in-proto? get
+	..private.bootstrap -> Str Symbol Fun oh-no! true get-or-undefined exists? set! set-mutable! has-or-in-proto? get
 	.Record-Type
 	..Try -> fails?
 	.Type -> contains?
@@ -47,19 +49,7 @@ Method = Record-Type
 		default. |_
 			|target
 				oh-no! ~"{_} not implemented for {target}"
-	make-callable. |method
-		|target
-			impl:Fun = case target
-				any?_
-					case get-or-undefined target method.impl-symbol
-						exists?_
-							_
-						else
-							method.default
-				else
-					method.default
-			\ TODO:ES6 impl ...arguments
-			apply.call impl () `arguments`
+	make-callable. make-callable-method
 
 impl!.
 	doc. "TODO"
@@ -142,8 +132,8 @@ Double-Dispatcher = Record-Type
 		~first-type. Impl-Type
 		impl-symbol. Symbol
 	make-callable. |_
-		|target-1 target-2
-			ignore target-1 \ TODO:Ignored vars
+		|...args
+			target-2 = js-sub args 1
 			case!
 				exists? target-2
 					()
@@ -156,7 +146,7 @@ Double-Dispatcher = Record-Type
 					! contains? Fun impl
 				else
 					oh-no! ~"Can't double-dispatch {_.method} for {_.first-type} on {target-2}"
-			apply.call impl () `arguments`
+			apply.call impl () args
 
 impl?.
 	doc. "TODO"

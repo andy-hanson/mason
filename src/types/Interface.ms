@@ -8,7 +8,7 @@ use
 	..js -> reference=?
 	..maps.Map -> each-pair!
 	.Method -> impl! propagate-method-down!
-	..private.bootstrap -> ignore Str Array Object Symbol true set! get own-properties
+	..private.bootstrap -> Str Array Object Symbol true set! get own-properties new-array exists?
 	.Record-Type
 	.Type -> contains?
 
@@ -66,15 +66,13 @@ Interface = Record-Type
 		implementors. Array \ TODO: [~Impl-Type]
 		symbol-for-isa. Symbol
 	defaults.
-		super-interfaces. |
-			`[]`
+		super-interfaces. new-array
 		prototype. |
 			Object.create ()
-		implementors. |
-			`[]`
+		implementors. new-array
 		symbol-for-isa. |_
-			ignore _ \ TODO:Ignored vars
-			Symbol `"isa-" + _.displayName` \"isa-{_.displayName}" TODO
+			name:Str = _.displayName
+			Symbol "isa-{name}"
 	post-construct. |iface
 		set! iface.prototype iface.symbol-for-isa true
 
@@ -104,11 +102,11 @@ implementor!.
 	|implementor interface:Interface method-impls
 		unchecked-implementor! implementor interface
 		case! method-impls
-			`_ == null` \ TODO: :Any
-				()
-			else
+			exists?_
 				each-pair! _ |method implementation
 					impl! method implementor implementation
+			else
+				()
 
 \ Typically one would use `<?`.
 implementor?.

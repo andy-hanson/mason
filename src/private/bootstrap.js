@@ -208,3 +208,5 @@ exports["extend!"] = Object.assign
 
 // TODO: Only use in Interface.ms - get rid of.
 exports["ignore"] = function() { }
+
+exports["new-array"] = function() { return [ ] }

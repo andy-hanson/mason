@@ -68,6 +68,41 @@ module.exports = {
 	"array-iterator": function*(_) {
 		for (let i = 0; i < _.length; i++)
 			yield _[i]
+	},
+
+	// show.ms
+	"new-Set": function() { return new global.Set() },
+
+	// Hash-Map.ms
+	"i-make-map": function(hm, set, args) {
+		let i = 0
+		while (i < args.length) {
+			const key = args[i]
+			i++
+			const val = args[i]
+			i++
+			set(hm, key, val)
+		}
+	},
+
+	// Method.ms
+	"make-callable-method": function(method) {
+		const _default = method.default
+		const implSymbol = method["impl-symbol"]
+		return function(target) {
+			let impl
+			if (target == null)
+				impl = method.default
+			else {
+				const x = target[implSymbol]
+				if (x == null)
+					impl = method.default
+				else
+					impl = x
+			}
+			// TODO:ES6 impl(...arguments)
+			return Function.prototype.apply.call(impl, null, arguments)
+		}
 	}
 }
 

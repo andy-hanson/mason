@@ -6,9 +6,10 @@ use
 	.Comparable -> =?
 	.Fun
 	.js -> reference=?
+	.maps.Weak-Identity-Map!
 	.math.bit-arithmetic -> bit-and hexidecimal
 	.math.Num -> Int round-towards-0
-	.methods -> + * empty?
+	.methods -> + * empty empty?
 	.Object -> ?get-property own-properties
 	.Str
 	.Symbol
@@ -19,8 +20,7 @@ max-hash-code = hexidecimal "7fffffff"
 keep-small = |_
 	bit-and _ max-hash-code
 
-\ TODO: empty Weak-Identity-Map!
-hashes = `new global.WeakMap()`
+hashes = empty Weak-Identity-Map!
 
 hash-code =  Method
 	doc. |:Int _

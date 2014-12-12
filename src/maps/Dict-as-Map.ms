@@ -2,15 +2,14 @@ use
 	..Comparable! -> <!
 	..Dict
 	.Map -> ?get keys
-	..methods -> +
+	..methods -> + empty
 	..Object -> ?get-property own-properties
 	..Object! -> add-property!
 
 <! Dict Map
 	?get -> ?get-property
 	+ -> |_ dict2:Dict
-		\ TODO: Clean up
-		union = `{}`
+		union = empty Object!
 		names1 = keys_
 		names2 = keys dict2
 		names1.forEach |name

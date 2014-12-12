@@ -1,17 +1,8 @@
 doc. "TODO"
 
-`require("./private/bootstrap")`
-
 use
 	.console -> log!
-	.private.boot-order
 	.tests.test -> test-all
-
-\ TODO: use! boot-order
-load = |x
-	x
-load boot-order
-
 
 use
 	.modules -> promise-all-modules
