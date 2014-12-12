@@ -7,6 +7,7 @@ use
 	..Comparable! -> <!
 	..control -> if
 	..Fun -> ignore
+	..js -> js-set
 	..math.Num -> Nat
 	..methods -> => empty empty? empty!
 	..Object -> frozen?
@@ -48,8 +49,6 @@ Array! = Pred-Type
 				else
 					_.pop ()
 	set-nth! -> |_ n:Nat val
-		ignore _ n val \ TODO:Ignored vars
-		`_[n] = val`
-		()
+		js-set _ n val
 
 Array!

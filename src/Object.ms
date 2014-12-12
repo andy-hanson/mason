@@ -2,6 +2,7 @@ use
 	.assert -> ! !not
 	.bags.? -> Opt->?
 	.bags.Bag -> all? count keep
+	.bags.Identity-Set!
 	.bags.Seq -> seq=?
 	.bags.Stream
 	.Bool -> and false not nor true xor
@@ -36,7 +37,7 @@ send.
 send!. send
 
 \ TODO: Use a Mason set
-forbidden-fun-props = `new global.Set([ "arguments", "caller" ])`
+~forbidden-fun-props = => Identity-Set! [ "arguments" "caller" ]
 own-properties.
 	doc. "
 		Every property name directly stored in an object.

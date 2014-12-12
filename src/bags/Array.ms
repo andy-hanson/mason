@@ -8,18 +8,15 @@ use
 	..Bool -> and
 	..Comparable -> =?
 	..Comparable! -> <!
-	..Fun -> ignore thunk
-	..js -> global
+	..Fun -> thunk
+	..js -> global js-sub
+	..js-impl -> array-iterator
 	..math.Num -> Nat
 	..methods -> empty freeze type-of
 	.Seq -> ?nth seq=?
 	..types.Method ->  impl!
 	..types.Type -> contains?
 	..types.util -> self-type
-
-unsafe-get = |_ key
-	ignore _ key \ TODO:Ignored vars
-	`_[key]`
 
 Array =
 	doc. "Javascript's native mutable Array type. TODO: `Array` vs `Array!`"
@@ -30,10 +27,7 @@ Array =
 impl! count Array |_
 	_.length
 \ TODO:ES6 This should be implemented for me
-impl! iterator Array ~|_
-	ignore _
-	`for (let i = 0; i < _.length; i++) yield _[i]`
-	()
+impl! iterator Array array-iterator
 
 impl! =? Array
 	test. |
@@ -54,6 +48,6 @@ impl! type-of Array |
 	Array
 
 impl! ?nth Array |_ n:Nat
-	Opt->? (unsafe-get _ n)
+	Opt->? (js-sub _ n
 
 Array

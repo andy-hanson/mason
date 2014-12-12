@@ -12,7 +12,6 @@ use
 	.Object -> ?get-property own-properties
 	.Str
 	.Symbol
-	.Try -> fails?
 	.types.Method -> impl! impl-for
 
 max-hash-code = hexidecimal "7fffffff"

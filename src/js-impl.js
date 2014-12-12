@@ -62,7 +62,13 @@ module.exports = {
 	},
 
 	// modules.ms (TODO:ES6: remove)
-	"i-require": require
+	"i-require": require,
+
+	// Array.ms
+	"array-iterator": function*(_) {
+		for (let i = 0; i < _.length; i++)
+			yield _[i]
+	}
 }
 
 const binOps = [ "&", "^", "<<", ">>", ">>>", "===", "<", ">", "<=", ">=", "+", "-", "*", "/", "%" ]
