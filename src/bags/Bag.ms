@@ -6,11 +6,10 @@ use
 	..Comparable -> =?
 	..Fun -> identity Pred
 	..generators -> Generator!
-	..maps.Map! -> set!
 	..math.Num -> divisible? Nat
 	..methods -> => + empty empty?
 	..pred-types -> Any Opt
-	..Ref -> get mod! ref
+	..Ref -> get mod! ref set!
 	.Stream
 	..Symbol
 	..types.Interface

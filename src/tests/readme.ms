@@ -11,10 +11,9 @@ use
 	..Fun -> call ignore
 	..Generator! -> each~
 	..js -> eval
-	..maps.Map! -> set!
 	..math.Num -> divisible? Int
 	..methods -> + - * / empty
-	..Ref -> get mod! ref
+	..Ref -> get mod! ref set!
 	..Str
 	..Try -> fails?
 

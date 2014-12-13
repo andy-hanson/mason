@@ -9,11 +9,10 @@ use
 	..Comparable! -> <!
 	..control -> if
 	..Fun
-	..maps.Map! -> set!
 	..math.Num -> Nat
 	..methods -> => + - empty freeze sub
 	..pred-types -> Any
-	..Ref -> get mod! ref
+	..Ref -> get mod! ref set!
 	.Seq! -> +>!
 	.Stream -> streaming
 	..Try -> fails? oh-no!

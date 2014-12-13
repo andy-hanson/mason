@@ -6,7 +6,7 @@ use
 	..Comparable -> =?
 	..Fun -> identity
 	.Hash-Map!
-	.Map! -> set!
+	.Map! -> assoc!
 	..methods -> + empty empty? freeze sub
 	..pred-types -> Any
 	..Try -> oh-no!
@@ -57,7 +57,7 @@ make-map.
 	|keys:Bag mapper:Fun
 		map = empty Hash-Map!
 		each! keys |key
-			set! map key (mapper key)
+			assoc! map key (mapper key)
 		freeze map
 
 impl! sub Map |map key:Any

@@ -1,8 +1,6 @@
 use
 	.Fun
-	.maps.Map! -> set!
 	.Object! -> change-property!
-	.types.Method -> impl!
 	.types.Record-Type
 
 
@@ -10,8 +8,10 @@ Ref = Record-Type
 	members.
 		value!.
 
-impl! set! Ref |_ new-value
-	change-property! _ "value!" new-value
+set!.
+	doc. "TODO"
+	|ref:Ref new-value
+		change-property! ref "value!" new-value
 
 ref. |initial-value
 	Ref

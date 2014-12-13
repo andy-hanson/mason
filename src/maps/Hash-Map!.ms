@@ -14,10 +14,10 @@ use
 	..Object
 	..Object! -> change-property!
 	.Map -> ?get has-key? keys values
-	.Map! -> delete! set!
+	.Map! -> assoc! un-assoc!
 	..methods -> empty empty! freeze
 	..pred-types -> Any
-	..Ref -> get ref
+	..Ref -> get ref set!
 	..types.Method -> impl!
 	..types.Record-Type
 	..types.util -> self-type
@@ -82,7 +82,7 @@ impl! keys Hash-Map! |_
 
 \ TODO: impl! values, similarly
 
-impl! set! Hash-Map! |hm key val
+impl! assoc! Hash-Map! |hm key val
 	out
 		! =? hm[key] val
 
@@ -99,7 +99,7 @@ impl! set! Hash-Map! |hm key val
 				next!. bucket
 			hm.hash->bucket.set (hash-code key) be
 
-impl! delete! Hash-Map! |:Bool hm key
+impl! un-assoc! Hash-Map! |:Bool hm key
 	out
 		!not has-key? hm key
 
@@ -108,9 +108,9 @@ impl! delete! Hash-Map! |:Bool hm key
 		=? _.key key
 			case! bucket.next!
 				:Any
-					set! hm.hash->bucket key _
+					assoc! hm.hash->bucket key _
 				else
-					delete! hm.hash->bucket (hash-code key
+					un-assoc! hm.hash->bucket (hash-code key
 			true
 
 		:Any

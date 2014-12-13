@@ -3,7 +3,7 @@ use
 	..Comparable! -> <!
 	..js -> global new
 	.Map -> ?get has-key? keys
-	.Map! -> delete! set!
+	.Map! -> assoc! un-assoc!
 	..methods -> empty empty!
 	..Try -> oh-no!
 	..types.Method -> impl!
@@ -22,10 +22,10 @@ impl! keys Weak-Identity-Map! |
 	oh-no! "Can't get keys of Weak-Identity-Map because the garbage collector can freely change this."
 impl! empty! Weak-Identity-Map! |_
 	_.empty ()
-impl! delete! Weak-Identity-Map! |_ key
-	_.delete key
-impl! set! Weak-Identity-Map! |_ key val
+impl! assoc! Weak-Identity-Map! |_ key val
 	_.set key val
+impl! un-assoc! Weak-Identity-Map! |_ key
+	_.delete key
 
 impl! empty (self-type Weak-Identity-Map!) new
 

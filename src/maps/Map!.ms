@@ -25,16 +25,16 @@ Map! = Interface
 			Interface -> Interface
 		! =? _[Map] Interface
 		! =? _[Interface] Interface
-		delete! _ Interface
+		un-assoc! _ Interface
 		! empty? (?get _ Interface)
 		\ TODO: empty! test
 		\ TODO: keys, values
 
-set!. Method
+assoc!. Method
 	doc. |_ key:Any val:Any
 		"TODO"
 
-delete!. Method
+un-assoc!. Method
 	doc. |:Bool _ key
 		"If there is a value associated with `key`, removes it and returns `true`."
 
@@ -44,7 +44,7 @@ impl! -! Map!
 		"TODO"
 	|_ to-delete:Bag
 		each! to-delete |em
-			delete! _ em
+			un-assoc! _ em
 
 add!. Method
 	doc. |_ key:Any val:Any
@@ -53,14 +53,14 @@ add!. Method
 		in
 			!not (has-key? _ key) ~"
 				Already have key {key}.
-		set! _ key val
+		assoc! _ key val
 
 impl! +! Map!
 	doc. "TODO"
 	test. |
 		"TODO"
 	|_ to-add:Map
-		each-pair! to-add set![_]
+		each-pair! to-add assoc![_]
 
 <! Map! Map
 

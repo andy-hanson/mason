@@ -6,7 +6,7 @@ use
 	..Comparable! -> <!
 	..Fun -> identity
 	..maps.Map -> keys
-	..maps.Map! -> delete! set!
+	..maps.Map! -> assoc! un-assoc!
 	..maps.Hash-Map!
 	..methods -> +! -! empty empty!
 	..types.Record-Type
@@ -26,7 +26,7 @@ Hash-Set! = Record-Type
 
 	-! -> |_ deleteds
 		each! deleteds |deleted
-			delete! _.data deleted
+			un-assoc! _.data deleted
 
 	empty! -> |_
 		empty! _.data
@@ -36,7 +36,7 @@ Hash-Set! = Record-Type
 
 <! Hash-Set! Builder
 	build-next! -> |_ next
-		set! _.data next true
+		assoc! _.data next true
 
 	build-result -> identity
 

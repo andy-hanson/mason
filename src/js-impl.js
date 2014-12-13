@@ -74,14 +74,14 @@ module.exports = {
 	"new-Set": function() { return new global.Set() },
 
 	// Hash-Map.ms
-	"i-make-map": function(hm, set, args) {
+	"i-make-map": function(hm, assoc, args) {
 		let i = 0
 		while (i < args.length) {
 			const key = args[i]
 			i++
 			const val = args[i]
 			i++
-			set(hm, key, val)
+			assoc(hm, key, val)
 		}
 	},
 

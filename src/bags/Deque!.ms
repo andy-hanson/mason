@@ -7,12 +7,11 @@ use
 	..Comparable! -> <!
 	..control -> if
 	..Fun -> identity
-	..maps.Map! -> set!
 	..math.Num -> modulo Nat
 	..methods -> + - * empty empty? empty!
 	..Object! -> change-property!
 	.Range -> range
-	..Ref -> get mod! ref
+	..Ref -> get mod! ref set!
 	.Seq -> reverse
 	.Seq! -> <+! +>! ?<pop! ?pop>! set-nth!
 	..types.Method -> impl!

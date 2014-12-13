@@ -2,7 +2,7 @@ use
 	..Fun -> thunk
 	.Hash-Map!
 	..js-impl -> i-make-map
-	.Map! -> set!
+	.Map! -> assoc!
 	..methods -> empty freeze
 	..Object! -> add-property!
 	..private.bootstrap -> ms
@@ -17,7 +17,7 @@ impl! empty (self-type Hash-Map) (thunk (freeze (empty Hash-Map!
 
 add-property! ms "map"  |...args
 	hm = empty Hash-Map!
-	i-make-map hm set! args
+	i-make-map hm assoc! args
 	freeze hm
 
 Hash-Map

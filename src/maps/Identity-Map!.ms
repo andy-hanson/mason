@@ -7,7 +7,7 @@ use
 	..Comparable! -> <!
 	..js -> global new
 	.Map -> ?get has-key? keys values
-	.Map! -> delete! set!
+	.Map! -> assoc! un-assoc!
 	..methods -> empty empty!
 	..types.Method -> impl!
 	..types.util -> self-type
@@ -15,16 +15,17 @@ use
 Identity-Map! =
 	doc. "TODO"
 	test. |
+		\ TODO: Just use generic Map! test
 		_ = empty Identity-Map!
-		set! _ 1 2
+		assoc! _ 1 2
 		! =? _[1] 2
 		key-1 =
 			a. 1
-		set! _ key-1 3
+		assoc! _ key-1 3
 		! =? _[key-1] 3
 		key-2 =
 			a. 1
-		set! _ key-2 4
+		assoc! _ key-2 4
 		\ The two keys have different identity, so they map to different values.
 		! =? _[key-1] 3
 		! =? _[key-2] 4
@@ -49,10 +50,10 @@ impl! values Identity-Map! |_
 			_.values ()
 impl! empty! Identity-Map! |_
 	_.clear ()
-impl! delete! Identity-Map! |_ key
-	_.delete key
-impl! set! Identity-Map! |_ key val
+impl! assoc! Identity-Map! |_ key val
 	_.set key val
+impl! un-assoc! Identity-Map! |_ key
+	_.delete key
 
 impl! empty (self-type Identity-Map!) new
 
