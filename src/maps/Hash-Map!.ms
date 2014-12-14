@@ -1,21 +1,20 @@
 \ TODO: TEST
 
 use
-	..assert -> ! !not
+	..assert -> !
 	..bags.? -> Opt->?
 	..bags.Bag -> flat-map map
 	..bags.Seq -> seq=?
 	..bags.Stream -> streaming
-	..Bool -> false true
 	..Comparable -> =?
 	..Comparable! -> <!
 	..hash-code
 	.Identity-Map!
 	..Object
 	..Object! -> change-property!
-	.Map -> ?get has-key? keys values
+	.Map -> ?get keys values
 	.Map! -> assoc! un-assoc!
-	..methods -> empty empty! freeze
+	..methods -> => empty empty! freeze
 	..pred-types -> Any
 	..Ref -> get ref set!
 	..types.Method -> impl!
@@ -99,10 +98,7 @@ impl! assoc! Hash-Map! |hm key val
 				next!. bucket
 			hm.hash->bucket.set (hash-code key) be
 
-impl! un-assoc! Hash-Map! |:Bool hm key
-	out
-		!not has-key? hm key
-
+impl! un-assoc! Hash-Map! |hm key
 	bucket = opt-bucket hm key
 	case bucket
 		=? _.key key
@@ -111,7 +107,7 @@ impl! un-assoc! Hash-Map! |:Bool hm key
 					assoc! hm.hash->bucket key _
 				else
 					un-assoc! hm.hash->bucket (hash-code key
-			true
+			=> ? [ _.val! ]
 
 		:Any
 			delete-from-next-bucket! = |prev-bucket
@@ -121,16 +117,16 @@ impl! un-assoc! Hash-Map! |:Bool hm key
 						case
 							=? next.key key
 								change-property! prev-bucket "next!" next.next!
-								true
+								=> ? [ next.val! ]
 							else
 								delete-from-next-bucket! next
 					else
-						false
+						empty ?
 
 			delete-from-next-bucket! bucket
 
 		else
-			false
+			empty ?
 
 impl! freeze Hash-Map! |_
 	freeze _.hash->bucket

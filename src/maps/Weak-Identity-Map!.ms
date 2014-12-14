@@ -1,6 +1,7 @@
 use
 	..bags.? -> Opt->?
 	..Comparable! -> <!
+	..control -> returning
 	..js -> global new
 	.Map -> ?get has-key? keys
 	.Map! -> assoc! un-assoc!
@@ -15,7 +16,7 @@ Weak-Identity-Map! =
 
 <! Weak-Identity-Map! Map!
 impl! ?get Weak-Identity-Map! |_ key
-	Opt->? (_.get key)
+	Opt->? (_.get key
 impl! has-key? Weak-Identity-Map! |_ key
 	_.has key
 impl! keys Weak-Identity-Map! |
@@ -25,7 +26,8 @@ impl! empty! Weak-Identity-Map! |_
 impl! assoc! Weak-Identity-Map! |_ key val
 	_.set key val
 impl! un-assoc! Weak-Identity-Map! |_ key
-	_.delete key
+	returning (?get _ key) |
+		_.delete key
 
 impl! empty (self-type Weak-Identity-Map!) new
 

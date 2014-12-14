@@ -29,7 +29,7 @@ Int. Pred-Type
 		!not-call? contains?[Int]
 			. 1.1
 			. - min-safe-integer 1
-			. max-safe-integer
+			. + max-safe-integer 1
 	predicate. |_
 		Num.isSafeInteger _
 

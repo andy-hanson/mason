@@ -5,7 +5,7 @@ use
 	..bags.? -> get-or
 	..bags.Bag -> each!
 	..bags.Identity-Set!
-	..Bool -> false or true
+	..Bool -> and false or true
 	..control -> build
 	..Comparable -> =?
 	..Dict
@@ -13,7 +13,7 @@ use
 	..maps.Map -> keys
 	..methods -> empty
 	..modules -> promise-all-modules
-	..Object -> ?get-property own-properties own-enumerable-properties
+	..Object -> ?get-property get-property has-property? own-properties own-enumerable-properties
 	..pred-types -> Any
 	..Str
 	..Try -> annotate-errors Success try
@@ -88,6 +88,8 @@ maybe-test. |name:Str value:Any is-module:Bool
 									test-test-prop value prop-val next-name
 								else
 									maybe-test next-name prop-val false
+				and :Object ~(has-property? _ "test")
+					test-test-prop _ (get-property _ "test") "{name}.test"
 				else
 					()
 

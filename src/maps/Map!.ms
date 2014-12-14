@@ -1,7 +1,7 @@
 use
 	..assert -> ! !not
+	..bags.?
 	..bags.Bag -> each!
-	..Bool
 	..Comparable -> =?
 	..Comparable! -> <!
 	.Map -> each-pair! ?get has-key?
@@ -35,8 +35,8 @@ assoc!. Method
 		"TODO"
 
 un-assoc!. Method
-	doc. |:Bool _ key
-		"If there is a value associated with `key`, removes it and returns `true`."
+	doc. |:? _ key
+		"If there is a value associated with `key`, removes it and returns the value associated."
 
 impl! -! Map!
 	doc. "TODO"
@@ -54,6 +54,17 @@ add!. Method
 			!not (has-key? _ key) ~"
 				Already have key {key}.
 		assoc! _ key val
+
+get-or-update!. Method
+	doc. "TODO"
+	default. |map key:Any ~default-val
+		case ?get map key
+			empty?_
+				assoc! map key default-val
+				default-val
+			else
+				_.val
+
 
 impl! +! Map!
 	doc. "TODO"

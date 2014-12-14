@@ -5,6 +5,7 @@ use
 	..bags.Stream
 	..Comparable -> =?
 	..Comparable! -> <!
+	..control -> returning
 	..js -> global new
 	.Map -> ?get has-key? keys values
 	.Map! -> assoc! un-assoc!
@@ -53,7 +54,8 @@ impl! empty! Identity-Map! |_
 impl! assoc! Identity-Map! |_ key val
 	_.set key val
 impl! un-assoc! Identity-Map! |_ key
-	_.delete key
+	returning (?get _ key) |
+		_.delete key
 
 impl! empty (self-type Identity-Map!) new
 
