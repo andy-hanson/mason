@@ -1,16 +1,16 @@
 use
 	..assert -> !
-	..bags.Array!
 	..bags.Bag -> any? each!
 	..bags.Seq -> take
 	..bags.Range -> range
 	..bags.Stream -> streaming
 	..Bool -> not
 	..Generator! -> each~
-	..maps.Map! -> assoc! get-or-update! un-assoc!
+	..maps.Map! -> assoc! un-assoc!
 	..maps.Identity-Map!
+	..maps.multi-map! -> add-to-bag!
 	..math.Num -> divisible?
-	..methods -> + * +! empty empty?
+	..methods -> + * empty empty?
 
 square = |x
 	* x x
@@ -18,7 +18,6 @@ square = |x
 is-prime? = |_
 	not (any? (range 2 _) divisible?[_]
 
-\ TODO: This should use a Multi-Map!
 \ http://stackoverflow.com/questions/13463417/the-genuine-sieve-of-eratosthenes-in-python-why-is-heapq-slower-than-dict
 primes.
 	doc. "TODO"
@@ -42,5 +41,4 @@ primes.
 				else
 					each! _.val |factor
 						key = + candidate (* 2 factor
-						list = get-or-update! prime-factors key ~(empty Array!
-						+! list [ factor ]
+						add-to-bag! prime-factors key [ factor ]
