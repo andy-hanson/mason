@@ -27,7 +27,7 @@ region Bag
 		implementor-test. |bag-type
 			! (contains? Bag-Type bag-type) "Be sure to make your Bag type a Bag-Type."
 			_ = empty bag-type
-			! empty?_
+			! empty? _
 
 region Builder
 	build-next!. Method

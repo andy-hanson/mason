@@ -1,7 +1,7 @@
 doc. "Functions that should be use to debug and test code."
 
 use
-	.bags.Bag -> each! map
+	.bags.Bag -> count each! map
 	.Bool -> false not true
 	.Comparable -> =?
 	.control -> if!
@@ -45,6 +45,7 @@ use
 						Expected {a}
 							{indent (=> Str (map args inspect) "\n")}
 			:Bool
+				! =? (count args) 1
 				if! not_ |
 					oh-no! args[0]
 			else

@@ -15,10 +15,10 @@ Set! = Interface
 		! contains? _ 2
 		!not contains? _ 3
 		-! _ [ 1 2 ]
-		! empty?_
+		! empty? _
 		+! _ [ 1 2 3 ]
 		empty! _
-		! empty?_
+		! empty? _
 
 <! Set! Bag!
 

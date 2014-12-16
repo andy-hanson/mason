@@ -4,7 +4,7 @@ use
 	.assert -> ! !not
 	.bags.Array
 	.bags.Bag -> each!
-	.Bool -> false not true
+	.Bool -> false true
 	.Comparable -> =?
 	.Fun -> ignore
 	.math.Num
@@ -68,7 +68,7 @@ truthy?.
 			. ""
 			. false
 		each! falsy |_
-			! (not truthy?_)
+			!not truthy? _
 		! truthy? []
 		! truthy? true
 

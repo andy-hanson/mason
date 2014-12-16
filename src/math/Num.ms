@@ -1,12 +1,15 @@
 use
 	..assert -> ! !not !call? !not-call?
 	..bags.? -> get-or Opt->?
+	..bags.Seq -> seq=? take
+	..bags.Stream -> streaming
 	..Bool -> and false true
 	..Comparable -> =? <? >? <=? >=? compare
 	..methods -> + - * /
 	..Object -> get-property
 	..pred-types -> Opt
 	..js -> global js-bar js=== js< js> js<= js>= js+ js- js* js/ js%
+	..Ref -> get mod! ref
 	..show -> inspect-impl
 	..Try -> fails?
 	..types.Method -> impl!
@@ -262,5 +265,17 @@ region Constants
 	pi/2. / pi 2
 	pi3/2. * pi 1.5
 	pi*2. * pi 2
+
+region Other
+	nats.
+		doc. "TODO"
+		test. |
+			! seq=? (take nats 5) [ 0 1 2 3 4 ]
+		streaming ~|
+			i = ref 0
+			loop!
+				<~ get i
+				mod! i +[1]
+
 
 Num

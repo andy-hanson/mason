@@ -2,7 +2,7 @@ use
 	.assert -> ! !not
 	.bags.Array
 	.bags.Bag -> flat-map fold
-	.Bool -> not
+	.Bool
 	.Comparable -> =?
 	.Fun
 	.js -> reference=?
@@ -33,7 +33,7 @@ hash-code =  Method
 			x. 1
 			y. 1
 		! =? (hash-code a) (hash-code a)
-		! (not (=? (hash-code a) (hash-code b)))
+		!not =? (hash-code a) (hash-code b
 		\ TODO: Check that it handles recursive values
 
 	default. |:Int _

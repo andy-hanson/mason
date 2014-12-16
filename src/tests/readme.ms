@@ -82,7 +82,7 @@ pair = |a b
 
 half. |a
 	in
-		! (divisible? a 2)
+		! divisible? a 2
 	out
 		! =? (* res 2) a
 

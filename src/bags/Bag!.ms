@@ -30,7 +30,7 @@ Bag! = Interface
 		empty! _
 		each! [ 1 2 3 4 ] |em
 			!not contains? _ em
-		! empty?_
+		! empty? _
 
 <! Bag! Bag
 

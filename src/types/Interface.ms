@@ -58,7 +58,7 @@ Interface = Record-Type
 			impl! asdf X |
 				1
 			! =? (asdf z) 1
-			! (contains? X z)
+			! contains? X z
 	members.
 		displayName. Str
 		super-interfaces. Array \ TODO: [~Interface]
