@@ -9,11 +9,8 @@ use
 	..maps.Map! -> assoc! un-assoc!
 	..maps.Identity-Map!
 	..maps.multi-map! -> add-to-bag!
-	..math.Num -> divisible?
+	..math.Num -> divisible? square
 	..methods -> + * empty empty?
-
-square = |x
-	* x x
 
 is-prime? = |_
 	not (any? (range 2 _) divisible?[_]

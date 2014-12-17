@@ -2,7 +2,7 @@ use
 	..assert -> !
 	.Bag -> flat-map iterator keep map
 	.Bag-Type
-	..Bool -> and or
+	..Bool -> and
 	..Comparable -> =?
 	..Comparable! -> <!
 	..Fun -> ignore Pred thunk
@@ -93,35 +93,33 @@ region Overrides
 			iter = iterator_
 			i = ref 0
 			loop!
-				value done = iter.next ()
 				case!
-					or done ~(=? (get i) count-to-take)
+					=? (get i) count-to-take
 						end-loop!
 					else
-						<~ value
-						mod! i +[1]
+						value done = iter.next ()
+						case!
+							done
+								end-loop!
+							else
+								<~ value
+								mod! i +[1]
 
 	impl! drop Stream |_ count-to-drop:Nat
 		streaming ~|
 			iter = iterator_
 			i = ref 0
-			\ Discard count-to-drop values:
 			loop!
-				done = (iter.next ()).done
-				mod! i +[1]
 				case!
-					or done ~(=? (get i) count-to-drop)
+					=? (get i) count-to-drop
 						end-loop!
 					else
-						()
-			\ And give out the rest
-			loop!
-				value done = iter.next ()
-				case!
-					done
-						end-loop!
-					else
-						<~ value
+						case!
+							(iter.next ()).done
+								end-loop!
+							else
+								mod! i +[1]
+			<~~ iter
 
 	impl! slice Stream |_ start:Nat end:Nat
 		take (drop _ start) (- end start)

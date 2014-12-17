@@ -92,5 +92,5 @@ returning.
 		! =? [ 0 ] (build |yield
 			! =? 1 (returning 1 yield[0])
 	|returned:Any do-after:Fun
-		call do-after
+		do-after returned
 		returned
