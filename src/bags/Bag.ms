@@ -111,7 +111,7 @@ region Functions using just the iterator
 				not (p em)
 			not x
 
-	?first-where. |_ pred:Pred
+	?find. |_ pred:Pred
 		iter = iterator_
 		\ TODO:SYNTAX Return from loop
 		found = ref (empty ?
