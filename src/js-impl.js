@@ -84,26 +84,6 @@ module.exports = {
 			assoc(hm, key, val)
 		}
 	},
-
-	// Method.ms
-	"make-callable-method": function(method) {
-		const _default = method.default
-		const implSymbol = method["impl-symbol"]
-		return function(target) {
-			let impl
-			if (target == null)
-				impl = method.default
-			else {
-				const x = target[implSymbol]
-				if (x == null)
-					impl = method.default
-				else
-					impl = x
-			}
-			// TODO:ES6 impl(...arguments)
-			return Function.prototype.apply.call(impl, null, arguments)
-		}
-	}
 }
 
 const binOps = [ "&", "^", "<<", ">>", ">>>", "===", "<", ">", "<=", ">=", "+", "-", "*", "/", "%" ]

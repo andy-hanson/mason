@@ -2,18 +2,47 @@ use
 	..assert -> !
 	..bags.? -> un-?
 	..Comparable -> =?
+	..control -> build
 	.Impl-Type
 	.Interface
 	..js -> js-sub
-	..js-impl -> make-callable-method
 	..math.Num
 	..Object -> ?get-property
-	..private.bootstrap -> Str Symbol Fun oh-no! get-or-undefined exists? set! set-mutable! has-or-in-proto? get writable?
+	..private.bootstrap -> any? Str Symbol Fun oh-no! get-or-undefined exists? set! set-mutable! has-or-in-proto? get writable?
 	.Record-Type
 	..Try -> fails?
 	.Type -> contains?
 
+\ TODO:SYNTAX `fun ...args`
+\ Use `apply.call fun () args` everywhere to keep stacktrace short
 apply = Fun.prototype.apply
+
+make-callable-method = |method |...args
+	in
+		case! method.impl-in
+			exists?_
+				apply.call _ () args
+			else
+				()
+	out
+		case! method.impl-out
+			exists?_
+				apply.call _ () args
+			else
+				()
+
+	target = js-sub args 0
+	impl = case
+		any? target
+			case get-or-undefined target method.impl-symbol
+				exists?_
+					_
+				else
+					method.default
+		else
+			method.default
+
+	apply.call impl () args
 
 Method = Record-Type
 	doc. "
@@ -24,6 +53,7 @@ Method = Record-Type
 				doc. |:Int _
 					"How big it is."
 				...
+		The `impl-in` and `impl-out` properties apply in and out checks to all implementations (including the default).
 	test. |
 		thunk  = |x |
 			x
@@ -39,10 +69,23 @@ Method = Record-Type
 		! fails? |
 			m 1 m
 
+		! =? [ "in" "out" ] (build |yield
+			m = Method
+				default. |
+					1
+				impl-in. |
+					yield "in"
+				impl-out. |
+					yield "out"
+			m ()
+
 	members.
 		displayName. Str  \ Required!
 		impl-symbol. Symbol
 		default. Fun
+	optional-members.
+		impl-in. Fun
+		impl-out. Fun
 	defaults.
 		impl-symbol. |_
 			Symbol _.displayName
