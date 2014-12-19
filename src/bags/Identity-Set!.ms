@@ -4,9 +4,8 @@ use
 	..Comparable! -> <!
 	..Fun -> identity
 	..js -> global new
-	..methods -> +! -! empty empty!
+	..methods -> +! -! contains? empty empty!
 	.Set!
-	..types.Type -> contains?
 	..types.util -> self-type
 
 Identity-Set! = global.Set

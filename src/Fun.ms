@@ -8,7 +8,7 @@ use
 	.js -> global
 	.maps.Map -> ?get keys
 	.maps.Weak-Identity-Map!
-	.methods -> => + empty empty? sub
+	.methods -> => + contains? empty empty? sub
 	.Object -> ?get-property get-property
 	.pred-types -> Any
 	.Ref -> get ref mod!
@@ -17,7 +17,6 @@ use
 	.Try -> oh-no!
 	.types.Alias-Type
 	.types.Method -> impl!
-	.types.Type -> contains?
 	.types.util -> self-type
 
 Fun =

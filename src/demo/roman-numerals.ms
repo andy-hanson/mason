@@ -3,9 +3,8 @@ use
 	..bags.Range -> range
 	..Comparable -> =? >=?
 	..math.Num -> log Nat pow round-down
-	..methods -> - *
+	..methods -> - * contains?
 	..Str
-	..types.Type -> contains?
 
 roman-digits =
 	1 -> "I"

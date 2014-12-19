@@ -3,9 +3,10 @@ use
 	..Comparable -> =?
 	..Comparable! -> <!
 	.Method -> impl!
+	..methods -> contains?
 	..private.bootstrap -> Str
 	.Record-Type
-	.Type -> contains?
+	.Type
 
 Alias-Type. Record-Type
 	doc. "Contains the same instances as another type (officially), but has its own meaning and identity."

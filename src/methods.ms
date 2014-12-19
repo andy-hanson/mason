@@ -1,7 +1,8 @@
 use
 	.bags.? -> get-or
+	.Bool
 	.Object -> ?get-property
-	.private.bootstrap -> sym-sub sym-type-of
+	.private.bootstrap -> sym-contains? sym-sub sym-type-of
 	.types.Method
 	.types.Type
 
@@ -40,6 +41,18 @@ region Basics
 		doc. |convert-to:Type convert-me
 			"Converts a value to a given type."
 
+region Collection
+	empty. Method
+		doc. "
+			Instance of a type which is `empty?`.
+			Should always return the same thing iff immutable.
+
+	empty?. Method
+		doc. "TODO"
+
+	empty!. Method
+		doc. "TODO"
+
 region Unsorted
 	freeze. Method
 		doc. "
@@ -63,17 +76,7 @@ region Unsorted
 	length. Method
 		doc. "TODO"
 
-region Collection
-	empty. Method
-		doc. "
-			Instance of a type which is `empty?`.
-			Should always return the same thing iff immutable.
-
-	empty?. Method
-		doc. "TODO"
-
-	empty!. Method
-		doc. "TODO"
-
-	\ TODO: `delete!`. Or `-!`?
-
+	contains?. Method
+		doc. |:Bool type:Type value
+			"TODO"
+		impl-symbol. sym-contains?

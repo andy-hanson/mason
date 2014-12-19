@@ -12,10 +12,9 @@ use
 	..js -> global js-sub
 	..js-impl -> array-iterator
 	..math.Num -> Nat
-	..methods -> empty freeze type-of
+	..methods -> contains? empty freeze type-of
 	.Seq -> ?nth seq=?
 	..types.Method ->  impl!
-	..types.Type -> contains?
 	..types.util -> self-type
 
 Array =

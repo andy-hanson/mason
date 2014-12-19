@@ -536,16 +536,16 @@ This code won't compile:
 
 ### Naming conventions
 
-Looks like | Means
-:-: | :-:
-`x!` | Mutation.
-`X!` | Mutable type.
-`!` | Assertion.
-`~x` | Syntax for making an expression lazy - *not* a convention.
-`x~` | Generator.
-`?x` | Using the `?` ("maybe") type.
-`x?` | Predicate - returns Bool.
-`$x` | Using the `$` ("promise") type.
+Looks like | Means | Example
+:-: | :-: | :-:
+`x!` | Mutation. | `log! "Hello, world!"`
+`X!` | Mutable type. | `new-map = empty Map!`
+`!` | Assertion. | `! <? 1 2`
+`~x` | Lazy - *not* a convention. | `and a ~b`
+`x~` | Generator. | `<~~ each~ files file-lines~`
+`?x` | Using the `?` ("maybe") type. | `?find [ 1 3 5 ] even?`
+`x?` | Predicate - returns a Bool. | `even? 2`
+`$x` | Using the `$` ("promise") type. | `$read-file "Hello.txt"`
 
 
 ### Building / Running

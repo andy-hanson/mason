@@ -5,14 +5,13 @@ use
 	..Comparable! -> <!
 	..Fun -> thunk
 	..js -> reference=?
-	..methods -> => empty empty?
+	..methods -> => contains? empty empty?
 	..Object! -> change-property!
 	..pred-types -> Any
 	.Seq
 	..Try -> fails? oh-no!
 	..types.Method -> impl!
 	..types.Record-Type
-	..types.Type -> contains?
 	..types.util -> self-type
 
 ? = Record-Type

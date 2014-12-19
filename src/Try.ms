@@ -8,14 +8,14 @@ use
 	.Fun -> Act thunk
 	.js -> global
 	.js-impl -> make-Error i-always-do-after i-oh-no! i-try
-	.methods -> => empty
+	.methods -> => contains? empty
 	.Object
 	.Object! -> change-property! set-property!
 	.pred-types -> Any
 	.Str
 	.types.Interface
 	.types.Record-Type
-	.types.Type -> contains?
+	.types.Type
 
 Try = Interface
 	doc. "Result of running failable code."

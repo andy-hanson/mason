@@ -2,13 +2,8 @@ use
 	.Impl-Type
 	.Interface -> unchecked-implementor!
 	.Method -> impl! impl-unchecked!
-	..private.bootstrap -> sym-contains? Bool any? has-or-in-proto? false Fun
-
-\ TODO: MOVE
-contains?. Method
-	doc. |:Bool type:Type value
-		"TODO"
-	impl-symbol. sym-contains?
+	..methods -> contains?
+	..private.bootstrap -> any? has-or-in-proto? false Fun
 
 Type = Interface
 	doc. "TODO"

@@ -5,14 +5,14 @@ use
 	.Bool -> not or true
 	.Comparable! -> <!
 	.Fun -> ignore
-	.methods -> sub
+	.methods -> contains? sub
 	.private.bootstrap -> any?
 	.Str
 	.types.Method -> impl!
 	.types.Pred-Type
 	.types.Record-Type
-	.types.Type -> contains?
 	.types.util -> self-type
+	.types.Type
 
 region Opt
 	\ TODO: Does Opt need to exist?

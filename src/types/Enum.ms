@@ -6,13 +6,12 @@ use
 	.Impl-Type
 	.Interface -> unchecked-implementor!
 	.Method -> impl!
-	..methods -> type-of
+	..methods -> contains? type-of
 	..Object
 	..Object! -> add-property!
 	.Record-Type
 	..show -> inspect-impl
 	..Str
-	.Type -> contains?
 
 Enum = Record-Type
 	doc. "

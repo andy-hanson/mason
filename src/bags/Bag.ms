@@ -7,14 +7,13 @@ use
 	..Fun -> identity Pred
 	..generators -> Generator!
 	..math.Num -> divisible? Nat
-	..methods -> => + empty empty?
+	..methods -> => + contains? empty empty?
 	..pred-types -> Any Opt
 	..Ref -> get mod! ref set!
 	.Stream
 	..Symbol
 	..types.Interface
 	..types.Method -> impl!
-	..types.Type -> contains?
 
 region Bag
 	iterator. Method

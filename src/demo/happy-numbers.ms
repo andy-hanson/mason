@@ -9,8 +9,7 @@ use
 	..Bool -> and not true
 	..control -> returning
 	..math.Num -> Nat nats square
-	..methods -> + +! empty empty?
-	..types.Type -> contains?
+	..methods -> + +! contains? empty empty?
 
 digits = |_:Nat
 	map (_.toString 10) Num.parseInt

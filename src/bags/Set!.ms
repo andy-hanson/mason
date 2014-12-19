@@ -2,9 +2,8 @@ use
 	..assert -> ! !not
 	.Bag!
 	..Comparable! -> <!
-	..methods -> +! -! empty empty? empty!
+	..methods -> +! -! contains? empty empty? empty!
 	..types.Interface
-	..types.Type -> contains?
 
 Set! = Interface
 	doc. "TODO"

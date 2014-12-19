@@ -8,13 +8,12 @@ use
 	..Fun -> ignore Pred thunk
 	..Generator!
 	..math.Num -> Nat
-	..methods -> => + - empty
+	..methods -> => + - contains? empty
 	..pred-types -> Any
 	..Ref -> get mod! ref
 	.Seq -> drop seq=? slice take
 	..types.Method -> impl!
 	..types.Record-Type
-	..types.Type -> contains?
 	..types.util -> self-type
 
 Stream = Record-Type

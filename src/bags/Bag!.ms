@@ -6,12 +6,11 @@ use
 	.Bag-Type
 	..Comparable -> =?
 	..Comparable! -> <!
-	..methods -> +! empty empty? empty!
+	..methods -> +! contains? empty empty? empty!
 	.Seq! -> +>!
 	..types.Interface
 	..types.Method -> impl!
 	..types.util -> self-type
-	..types.Type -> contains?
 
 Bag! = Interface
 	doc. "TODO"

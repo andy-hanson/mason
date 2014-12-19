@@ -5,7 +5,7 @@ use
 	..bags.Stream -> streaming
 	..Bool -> and false true
 	..Comparable -> =? <? >? <=? >=? compare
-	..methods -> + - * /
+	..methods -> + - * / contains?
 	..Object -> get-property
 	..pred-types -> Opt
 	..js -> global js-bar js=== js< js> js<= js>= js+ js- js* js/ js%
@@ -14,7 +14,6 @@ use
 	..Try -> fails?
 	..types.Method -> impl!
 	..types.Pred-Type
-	..types.Type -> contains?
 
 Num = global.Number
 Math = global.Math

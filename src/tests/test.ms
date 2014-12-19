@@ -11,7 +11,7 @@ use
 	..Dict
 	..Fun -> apply ignore
 	..maps.Map -> keys
-	..methods -> empty
+	..methods -> contains? empty
 	..modules -> promise-all-modules
 	..Object -> ?get-property get-property has-property? own-properties own-enumerable-properties
 	..pred-types -> Any
@@ -20,7 +20,6 @@ use
 	..types.Impl-Type
 	..types.Interface -> concrete-implementors
 	..types.Method -> impl! impl-for
-	..types.Type -> contains?
 	..types.util -> self-type
 
 \ TODO: move

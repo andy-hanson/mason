@@ -7,11 +7,11 @@ use
 	.Interface
 	..js -> js-sub
 	..math.Num
+	..methods -> contains?
 	..Object -> ?get-property
 	..private.bootstrap -> any? Str Symbol Fun oh-no! get-or-undefined exists? set! set-mutable! has-or-in-proto? get writable?
 	.Record-Type
 	..Try -> fails?
-	.Type -> contains?
 
 \ TODO:SYNTAX `fun ...args`
 \ Use `apply.call fun () args` everywhere to keep stacktrace short

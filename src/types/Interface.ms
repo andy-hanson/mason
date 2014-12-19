@@ -8,9 +8,9 @@ use
 	..js -> reference=?
 	..maps.Map -> each-pair!
 	.Method -> impl! propagate-method-down!
+	..methods -> contains?
 	..private.bootstrap -> Str Array Object Symbol true set! get own-properties new-array exists?
 	.Record-Type
-	.Type -> contains?
 
 Interface = Record-Type
 	doc. "

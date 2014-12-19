@@ -10,11 +10,10 @@ use
 	.Comparable -> =?
 	.Fun
 	.js-impl -> each-generator
-	.methods -> => empty
+	.methods -> => contains? empty
 	.Object
 	.pred-types -> Any
 	.types.Pred-Type
-	.types.Type -> contains?
 
 \ TODO: `gen-next!` method and destroy uses of `.next`
 

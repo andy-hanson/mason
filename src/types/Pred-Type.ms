@@ -2,9 +2,10 @@ use
 	..Comparable! -> <!
 	..Fun -> Pred
 	.Method -> impl!
+	..methods -> contains?
 	.Record-Type
 	..Str
-	.Type -> contains?
+	.Type
 
 Pred-Type = Record-Type
 	doc. "Arbitrary predicates can be made into types using Pred-Type."

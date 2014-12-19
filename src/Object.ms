@@ -9,13 +9,12 @@ use
 	.Comparable -> =?
 	.Dict
 	.js -> global js-typeof reference=? js-sub
-	.methods -> => + empty empty?
+	.methods -> => + contains? empty empty?
 	.Object! -> add-property!
 	.pred-types -> Any Union
 	.Symbol
 	.Try -> fails?
 	.types.Method -> impl!
-	.types.Type -> contains?
 	.types.util -> self-type
 
 Object =
