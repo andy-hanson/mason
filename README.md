@@ -10,7 +10,7 @@ Names can contain any character except:
 * Whitespace
 * Groupings: `( ) [ ]`
 * Special: `" \ | : . ~ _`
-* Reserved: ``# $ , ; ' @ ` { }``
+* Reserved: ``` @ # ; ' , { }``
 
 Also, names can't be numbers or keywords.
 
@@ -532,6 +532,20 @@ This code won't compile:
 	g  h \ Two spaces
 			i \ Two indents
 	log!() \ Use `log! ()` if you really want to log null.
+
+
+### Naming conventions
+
+Looks like | Means
+:-: | :-:
+`x!` | Mutation.
+`X!` | Mutable type.
+`!` | Assertion.
+`~x` | Syntax for making an expression lazy - *not* a convention.
+`x~` | Generator.
+`?x` | Using the `?` ("maybe") type.
+`x?` | Predicate - returns Bool.
+`$x` | Using the `$` ("promise") type.
 
 
 ### Building / Running
