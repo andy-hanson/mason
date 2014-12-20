@@ -101,30 +101,30 @@ impl! assoc! Hash-Map! |hm key val
 impl! un-assoc! Hash-Map! |hm key
 	bucket = opt-bucket hm key
 	case bucket
-		=? _.key key
-			case! bucket.next!
-				:Any
-					assoc! hm.hash->bucket key _
-				else
-					un-assoc! hm.hash->bucket (hash-code key
-			=> ? [ _.val! ]
-
 		:Any
-			delete-from-next-bucket! = |prev-bucket
-				next = prev-bucket.next!
-				case next
-					:Any
-						case
-							=? next.key key
-								change-property! prev-bucket "next!" next.next!
-								=> ? [ next.val! ]
+			case
+				=? _.key key
+					case! bucket.next!
+						:Any
+							assoc! hm.hash->bucket key _
+						else
+							un-assoc! hm.hash->bucket (hash-code key
+					=> ? [ _.val! ]
+				else
+					delete-from-next-bucket! = |prev-bucket
+						next = prev-bucket.next!
+						case next
+							:Any
+								case
+									=? next.key key
+										change-property! prev-bucket "next!" next.next!
+										=> ? [ next.val! ]
+									else
+										delete-from-next-bucket! next
 							else
-								delete-from-next-bucket! next
-					else
-						empty ?
+								empty ?
 
-			delete-from-next-bucket! bucket
-
+					delete-from-next-bucket! bucket
 		else
 			empty ?
 

@@ -7,8 +7,9 @@ use
 	..Comparable! -> <!
 	..Fun -> ignore Pred thunk
 	..Generator!
+	.Hash-Set!
 	..math.Num -> Nat
-	..methods -> => + - contains? empty
+	..methods -> => + - -! contains? empty
 	..pred-types -> Any
 	..Ref -> get mod! ref
 	.Seq -> drop seq=? slice take
@@ -123,10 +124,26 @@ region Overrides
 	impl! slice Stream |_ start:Nat end:Nat
 		take (drop _ start) (- end start)
 
-	impl! + Stream |_ bag2:Bag
+	impl! + Stream |_ add:Bag
 		streaming ~|
 			<~~ iterator_
-			<~~ iterator bag2
+			<~~ iterator add
+
+	impl! - Stream |_ remove:Bag
+		remove-us = => Hash-Set! remove
+		streaming ~|
+			iter = iterator_
+			loop!
+				value done = iter.next ()
+				case!
+					done
+						end-loop!
+					else
+						case! value
+							:remove-us
+								-! remove-us [ value ]
+							else
+								<~ value
 
 impl! => (self-type Stream) Bag |Stream _
 	ignore Stream \ TODO:Ignored vars

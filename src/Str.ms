@@ -1,10 +1,26 @@
 use
+	.bags.Bag -> count
+	.Bool -> and
+	.Comparable -> =?
 	.js -> global
 	.Regex -> regex
+	.types.Pred-Type
 
 Str =
 	doc. "TODO"
 	global.String
+
+->upper.
+	doc. "TODO"
+	test. |
+		[ "hi" ] -> "HI"
+	|s:Str
+		s.toUpperCase ()
+
+Char. Pred-Type
+	doc. "TODO"
+	predicate. |_
+		and :Str ~(=? count_ 1
 
 indent.
 	doc. "

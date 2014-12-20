@@ -7,7 +7,7 @@ use
 	..Fun -> identity Pred
 	..generators -> Generator!
 	..math.Num -> divisible? Nat
-	..methods -> => + contains? empty empty?
+	..methods -> => + - contains? empty empty?
 	..pred-types -> Any Opt
 	..Ref -> get mod! ref set!
 	.Stream
@@ -168,8 +168,17 @@ region Methods using builder
 		doc. "TODO"
 		test. |
 			[ [ 0 ] [ 1 ] ] -> [ 0 1 ]
-		|:Bag _ bag2:Bag
-			from-stream _ (+ (=> Stream _) bag2)
+		|:Bag _ add:Bag
+			from-stream _ (+ (=> Stream _) add
+
+	impl! - Bag
+		doc. "
+			Bag with the *first* instances of each in `remove` taken out.
+			Most efficient for Sets.
+		test. |
+			[ [ 1 2 1 ] [ 1 ] ] -> [ 2 1 ]
+		|:Bag _ remove:Bag
+			from-stream _ (- (=> Stream _) remove
 
 region Set methods
 	impl! contains? Bag

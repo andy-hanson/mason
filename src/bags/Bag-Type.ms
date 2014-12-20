@@ -26,5 +26,4 @@ impl! => Bag-Type Bag
 	|type bag
 		from-stream type.prototype bag
 
-
 Bag-Type

@@ -4,13 +4,14 @@ use
 	.Array!
 	..assert -> ! !not
 	.Bag -> all? count iterator from-stream
-	..Bool -> and or
+	.Bag-Type
+	..Bool -> and not or
 	..Comparable -> =? <=? >=?
 	..Comparable! -> <!
 	..control -> if
 	..Fun
 	..math.Num -> Nat
-	..methods -> => + - empty freeze sub
+	..methods -> => + - empty empty? freeze sub
 	..pred-types -> Any
 	..Ref -> get mod! ref set!
 	.Seq! -> +>!
@@ -18,11 +19,16 @@ use
 	..Try -> fails? oh-no!
 	..types.Interface
 	..types.Method -> impl!
+	..types.util -> self-type
 
 Seq = Interface
 	doc. "TODO"
 
 <! Seq Bag
+
+<! (self-type Seq) Bag-Type
+impl! empty (self-type Seq) |
+	empty Array
 
 region Search
 	seq=?.
@@ -87,12 +93,30 @@ region Search
 			get-or (?nth _ n) ~(oh-no! "Bag only has {count_} elements, so can't return element {n}")
 
 region Update
-	\ TODO: ?<pop ?pop>
+	?<pop. Method
+		doc. "TODO"
+		test. |
+			[ [ ] ] -> => ? [ ]
+			[ [ 0 ] ] -> => ? [ [ ] ]
+			[ [ 0 1 ] ] -> => ? [ [ 1 ] ]
+		default. |:Bag _
+			if (not empty?_) |
+				<pop_
+
+	?pop>. Method
+		doc. "TODO"
+		test. |
+			[ [ ] ] -> => ? [ ]
+			[ [ 0 ] ] -> => ? [ [ ] ]
+			[ [ 0 1 ] ] -> => ? [ [ 0 ] ]
+		default. |:Bag _
+			if (not empty?_) |
+				pop>_
 
 	<pop. Method
 		doc. "TODO"
 		test. |
-			[ [] ] -> []
+			[ [ ] ] -> []
 			[ [ 0 ] ] -> []
 			[ [ 0 1 ] ] -> [ 1 ]
 		default. |:Bag _

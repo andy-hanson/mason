@@ -3,8 +3,8 @@ use
 	..Fun -> Pred
 	.Method -> impl!
 	..methods -> contains?
+	..private.bootstrap -> Str
 	.Record-Type
-	..Str
 	.Type
 
 Pred-Type = Record-Type

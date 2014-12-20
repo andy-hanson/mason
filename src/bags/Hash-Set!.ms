@@ -44,3 +44,5 @@ Hash-Set! = Record-Type
 	empty -> |
 		Hash-Set!
 			data. empty Hash-Map!
+
+Hash-Set!
