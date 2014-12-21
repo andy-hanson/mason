@@ -1,12 +1,12 @@
 use
 	..assert -> ! !not
-	.Bag -> builder Builder build-next! build-result iterator
+	.Bag -> from-stream iterator
 	.Bag-Type
 	..Comparable! -> <!
-	..Fun -> thunk
+	..Fun -> ignore thunk
+	..Generator! -> gen-next!
 	..js -> reference=?
 	..methods -> => contains? empty empty?
-	..Object! -> change-property!
 	..pred-types -> Any
 	.Seq
 	..Try -> fails? oh-no!
@@ -40,28 +40,18 @@ region Is Seq
 		else
 			<~ _.val
 
-	?-Builder = Record-Type
-		members.
-			value!.
-	<! ?-Builder Builder
-	impl! build-next! ?-Builder |_ next
-		in
-			!not (contains? Any _.value!) "`?` can not contain more than one element."
-		change-property! _ "value!" next
-	impl! build-result ?-Builder |_
-		Opt->? _.value!
-
-	impl! builder ?
-		test. |
-			x = builder ?.prototype
-			build-next! x 1
-			build-result x
-		|
-			?-Builder
-				value!. ()
+	impl! from-stream ? |_ stream
+		ignore _ \ TODO:Ignored vars
+		iter = iterator stream
+		value done = gen-next! iter
+		case
+			done
+				empty ?
+			else
+				full-? value
 
 	<! (self-type ?) Bag-Type
-	impl! empty (self-type ?) (thunk empty-?)
+	impl! empty (self-type ?) (thunk empty-?
 
 region Funs
 	Opt->?.

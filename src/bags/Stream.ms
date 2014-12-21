@@ -1,18 +1,14 @@
 use
 	..assert -> !
-	.Bag -> flat-map iterator keep map
+	.Bag -> iterator
 	.Bag-Type
 	..Bool -> and
 	..Comparable -> =?
 	..Comparable! -> <!
-	..Fun -> ignore Pred thunk
-	..Generator! -> gen-next!
-	.Hash-Set!
-	..math.Num -> Nat
-	..methods -> => + - -! contains? empty
-	..pred-types -> Any
-	..Ref -> get mod! ref
-	.Seq -> drop seq=? slice take
+	..Fun -> ignore thunk
+	..Generator!
+	..methods -> => contains? empty
+	.Seq -> seq=?
 	..types.Method -> impl!
 	..types.Record-Type
 	..types.util -> self-type
@@ -30,7 +26,7 @@ impl! iterator Stream |_
 	_.make-iterator ()
 
 impl! =? Stream |s1 s2
-	and (contains? Stream s2) (seq=? s1 s2)
+	and (contains? Stream s2) ~(seq=? s1 s2
 
 streaming.
 	doc. "Creates a Stream whose values are the yields of the Generator! produced by make-gen."
@@ -49,101 +45,6 @@ empty-stream = streaming ~|
 	()
 <! (self-type Stream) Bag-Type
 impl! empty (self-type Stream) (thunk empty-stream)
-
-
-region Overrides
-	impl! map Stream |_ mapper:Fun
-		streaming ~|
-			iter = iterator_
-			loop!
-				value done = gen-next! iter
-				case!
-					done
-						end-loop!
-					else
-						<~ mapper value
-
-	impl! keep Stream |_ keep-if?:Pred
-		streaming ~|
-			iter = iterator_
-			loop!
-				value done = gen-next! iter
-				case!
-					done
-						end-loop!
-					keep-if? value
-						<~ value
-					else
-						()
-
-	impl! flat-map Stream |_ mapper:Fun[Any Bag]
-		streaming ~|
-			x:Bag = _
-			iter = iterator x
-			loop!
-				value done = gen-next! iter
-				case! done
-					_
-						end-loop!
-					else
-						<~~ iterator (mapper value)
-
-	impl! take Stream |_ count-to-take:Nat
-		streaming ~|
-			iter = iterator_
-			i = ref 0
-			loop!
-				case!
-					=? (get i) count-to-take
-						end-loop!
-					else
-						value done = gen-next! iter
-						case!
-							done
-								end-loop!
-							else
-								<~ value
-								mod! i +[1]
-
-	impl! drop Stream |_ count-to-drop:Nat
-		streaming ~|
-			iter = iterator_
-			i = ref 0
-			loop!
-				case!
-					=? (get i) count-to-drop
-						end-loop!
-					else
-						case!
-							(gen-next! iter).done
-								end-loop!
-							else
-								mod! i +[1]
-			<~~ iter
-
-	impl! slice Stream |_ start:Nat end:Nat
-		take (drop _ start) (- end start)
-
-	impl! + Stream |_ add:Bag
-		streaming ~|
-			<~~ iterator_
-			<~~ iterator add
-
-	impl! - Stream |_ remove:Bag
-		remove-us = => Hash-Set! remove
-		streaming ~|
-			iter = iterator_
-			loop!
-				value done = gen-next! iter
-				case!
-					done
-						end-loop!
-					else
-						case! value
-							:remove-us
-								-! remove-us [ value ]
-							else
-								<~ value
 
 impl! => (self-type Stream) Bag |Stream _
 	ignore Stream \ TODO:Ignored vars

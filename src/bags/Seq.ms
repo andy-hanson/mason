@@ -44,6 +44,7 @@ region Search
 			! seq=? s [ 1 ]
 			!not seq=? s [ 2 ]
 		|seq-0:Bag seq-1:Bag
+			\ TODO:PERF Don't check counts up front, do it while zipping
 			and (=? (count seq-0) (count seq-1)) ~(all? (zip seq-0 seq-1 =?))
 
 	?first. Method
@@ -148,21 +149,48 @@ region Update
 			[ [ 0 1 2 3 ] 1 3 ] -> [ 1 2 ]
 
 		default. |:Bag _ start:Nat end:Nat
-			from-stream _ (slice (=> Stream _) start end)
+			from-stream _ (take (drop _ start) (- end start)
 
 	take. Method
 		doc. "TODO"
 		test. |
 			"TODO"
 		default. |:Bag _ count-to-take:Nat
-			from-stream _ (take (=> Stream _) count-to-take)
+			from-stream _ (streaming ~|
+				iter = iterator_
+				i = ref 0
+				loop!
+					case!
+						=? (get i) count-to-take
+							end-loop!
+						else
+							value done = gen-next! iter
+							case!
+								done
+									end-loop!
+								else
+									<~ value
+									mod! i +[1]
 
 	drop. Method
 		doc. "TODO"
 		test. |
 			"TODO"
 		default. |:Bag _ count-to-drop:Nat
-			from-stream _ (drop (=> Stream _) count-to-drop)
+			from-stream _ (streaming ~|
+				iter = iterator_
+				i = ref 0
+				loop!
+					case!
+						=? (get i) count-to-drop
+							end-loop!
+						else
+							case!
+								(gen-next! iter).done
+									end-loop!
+								else
+									mod! i +[1]
+				<~~ iter
 
 region Combination
 	\ TODO: Variadic

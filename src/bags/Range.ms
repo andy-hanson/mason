@@ -2,7 +2,7 @@ use
 	..assert -> !
 	.? -> get-or Opt->?
 	.Array
-	.Bag -> builder count iterator
+	.Bag -> count from-stream iterator
 	.Bag-Type
 	..Comparable -> =? <? >=?
 	..Comparable! -> <!
@@ -41,8 +41,9 @@ impl! length Range
 	|_
 		- _.end _.start
 
+impl! from-stream Range (impl-for from-stream Array)
+
 <! Range Bag
-	builder -> impl-for builder Array
 	?nth ->
 		test. |
 			r = range 0 10 2

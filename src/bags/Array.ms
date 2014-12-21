@@ -3,12 +3,12 @@
 use
 	.? -> Opt->?
 	..assert -> !
-	.Bag -> builder build-next! build-result count iterator
+	.Bag -> count each! from-stream iterator
 	.Bag-Type
 	..Bool -> and
 	..Comparable -> =?
 	..Comparable! -> <!
-	..Fun -> thunk
+	..Fun -> ignore thunk
 	..js -> global js-sub
 	..js-impl -> array-iterator
 	..math.Num -> Nat
@@ -32,16 +32,19 @@ impl! =? Array
 	test. |
 		! =? [ 1 ] [ 1 ]
 	|a b
+		\ TODO: Variadic `and`
 		and (contains? Array b) ~(and (=? a.length b.length) ~(seq=? a b))
 
 <! (self-type Array) Bag-Type
 impl! empty (self-type Array) (thunk [])
 
-impl! builder Array |
-	Array 0
-impl! build-next! Array |_ em
-	_.push em
-impl! build-result Array freeze
+impl! from-stream Array |_ stream
+	ignore _ \ TODO:Ignored vars
+	\ TODO: freeze (from-stream array! ...
+	it = Array 0
+	each! stream |em
+		it.push em
+	freeze it
 
 impl! type-of Array |
 	Array

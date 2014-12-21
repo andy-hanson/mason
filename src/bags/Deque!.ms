@@ -1,12 +1,12 @@
 use
 	.Array \ TODO: Array!
-	.Bag -> builder Builder build-next! build-result count each! iterator
+	.Bag -> count each! from-stream iterator
 	.Bag-Type ->
 	..Bool -> not
 	..Comparable -> =?
 	..Comparable! -> <!
-	..control -> if
-	..Fun -> identity
+	..control -> if returning
+	..Fun -> ignore
 	..math.Num -> modulo Nat
 	..methods -> + - * empty empty? empty!
 	..Object! -> change-property!
@@ -34,12 +34,11 @@ Deque! = Record-Type
 			end-index!. 0
 
 \ TODO: Define it this way for all Bag!s
-impl! builder Deque! |
-	empty Deque!
-<! Deque! Builder
-	build-next! -> |_ em
-		+>! _ [ em ]
-	build-result -> identity
+impl! from-stream Deque! |_ stream
+	ignore _ \ TODO:Ignored vars
+	returning (empty Deque!) |_
+		each! stream |em
+			+>! _ [ em ]
 
 region Helpers
 	capacity = |_

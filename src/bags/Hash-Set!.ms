@@ -1,10 +1,11 @@
 use
-	.Bag -> Builder builder build-next! build-result each! iterator
+	.Bag -> each! from-stream iterator
 	.Bag-Type
 	..Bool -> true
 	.Set!
 	..Comparable! -> <!
-	..Fun -> identity
+	..control -> returning
+	..Fun -> ignore
 	..maps.Map -> keys
 	..maps.Map! -> assoc! un-assoc!
 	..maps.Hash-Map!
@@ -22,7 +23,8 @@ Hash-Set! = Record-Type
 		iterator (keys _.data
 
 	+! -> |_ addeds
-		each! addeds build-next![_]
+		each! addeds |added
+			assoc! _.data added true
 
 	-! -> |_ deleteds
 		each! deleteds |deleted
@@ -31,14 +33,12 @@ Hash-Set! = Record-Type
 	empty! -> |_
 		empty! _.data
 
-	builder -> |
-		empty Hash-Set!
-
-<! Hash-Set! Builder
-	build-next! -> |_ next
-		assoc! _.data next true
-
-	build-result -> identity
+	\ TODO: Define it this way for all Bag!s
+	from-stream -> |_ stream
+		ignore _ \ TODO:Ignored vars
+		returning (empty Hash-Set!) |_
+			each! stream |em
+				+! _ [ em ]
 
 <! (self-type Hash-Set!) Bag-Type
 	empty -> |

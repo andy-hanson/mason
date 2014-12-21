@@ -4,64 +4,47 @@ use
 	.Bag-Type
 	..Bool -> false not true
 	..Comparable -> =?
-	..Fun -> identity Pred
+	..Fun -> identity ignore Pred
 	..Generator! -> gen-next!
+	.Hash-Set!
 	..math.Num -> divisible? Nat
-	..methods -> => + - contains? empty empty?
+	..methods -> => + - -! contains? empty empty?
 	..pred-types -> Any Opt
 	..Ref -> get mod! ref set!
-	.Stream
+	.Stream -> streaming
 	..Symbol
 	..types.Interface
 	..types.Method -> impl!
 
-region Bag
-	iterator. Method
-		doc. |:Generator! _
-			"Creates a new Generator! which yields the values in the Bag. Should create a new one every time."
-		symbol. Symbol.iterator
+Bag = Interface
+	doc. "TODO"
+	implementor-test. |bag-type
+		! (contains? Bag-Type bag-type) "Be sure to make your Bag type a Bag-Type."
+		_ = empty bag-type
+		! empty? _
 
-	Bag = Interface
+iterator. Method
+	doc. |:Generator! _
+		"Creates a new Generator! which yields the values in the Bag. Should create a new one every time."
+	symbol. Symbol.iterator
+
+\ TODO: FURTHER REFORM
+from-stream. Method
+	doc. "TODO"
+	default. |_ stream
+		ignore _ \ TODO:Ignored vars
+		stream
+
+region Using iterator
+	impl! contains? Bag
 		doc. "TODO"
-		implementor-test. |bag-type
-			! (contains? Bag-Type bag-type) "Be sure to make your Bag type a Bag-Type."
-			_ = empty bag-type
-			! empty? _
+		test. |
+			! contains? [ 0 ] 0
+			!not contains? [ 0 ] 1
+		|_ em:Any
+			any? _ |em-compare
+				=? em em-compare
 
-region Builder
-	build-next!. Method
-		doc. "Adds a new element to the Builder."
-
-	build-result. Method
-		doc. "
-			Result of building.
-			build-next! should not be called after this has.
-
-	Builder. Interface
-		doc. "
-			Something capable of incrementally generating a Bag.
-			Relied on by various Bag methods, such as map and filter.
-
-	builder. Method
-		doc. |:Builder _
-			"A new Builder of the same type as this Bag."
-
-	\ TODO: Not public
-	\ TODO: REFORM
-	from-stream. |_ stream:Bag
-		b = builder_
-		iter = iterator stream
-		loop!
-			value done = gen-next! iter
-			case!
-				done
-					end-loop!
-				else
-					build-next! b value
-
-		build-result b
-
-region Functions using just the iterator
 	fold.
 		doc. "TODO"
 		test. |
@@ -94,9 +77,10 @@ region Functions using just the iterator
 			! any? [ 0 1 ] =?[1]
 			!not any? [ 0 1 ] =?[2]
 		|_:Bag pred:Opt[Pred]
-			\ TODO: Better optional arguments
+			\ TODO:SYNTAX Optional args
 			p = get-or (Opt->? pred) identity
-			not (empty? (keep (=> Stream _) p))
+			\ TODO: keep=> Stream
+			not (empty? (keep (=> Stream _) p
 
 	all?.
 		doc. "TODO"
@@ -104,11 +88,10 @@ region Functions using just the iterator
 			! all? [ 0 0 ] =?[0]
 			!not all? [ 0 1 ] =?[0]
 		|_:Bag pred:Opt[Pred]
-			\ TODO: Better optional arguments
+			\ TODO:SYNTAX Optional args
 			p = get-or (Opt->? pred) identity
-			x = any? _ |em
+			not (any? _ |em
 				not (p em)
-			not x
 
 	?find. |_ pred:Pred
 		iter = iterator_
@@ -126,26 +109,43 @@ region Functions using just the iterator
 					()
 		get found
 
-region Methods only needing iterator
 	count. Method
 		doc. "Number of elements in it."
 		default. |:Nat _
 			fold _ 0 +[1]
 
-region Methods using builder
+region Using from-stream
 	keep. Method
 		doc. "Bag with only the elements that satisfy `keep-if?`."
 		test. |
 			[ [ 1 2 ] =?[2] ] -> [ 2 ]
 		default. |_:Bag keep-if?:Pred
-			from-stream _ (keep (=> Stream _) keep-if?)
+			from-stream _ (streaming ~|
+				iter = iterator_
+				loop!
+					value done = gen-next! iter
+					case!
+						done
+							end-loop!
+						keep-if? value
+							<~ value
+						else
+							()
 
 	map. Method
 		doc. "TODO"
 		test. |
 			[ [ true false ] not ] -> [ false true ]
 		default. |_:Bag mapper:Fun[Any Any]
-			from-stream _ (map (=> Stream _) mapper)
+			from-stream _ (streaming ~|
+				iter = iterator_
+				loop!
+					value done = gen-next! iter
+					case!
+						done
+							end-loop!
+						else
+							<~ mapper value
 
 	impl! empty? Bag
 		doc. "Whether `count` will return 0."
@@ -162,14 +162,24 @@ region Methods using builder
 					[ _ ]
 			[ [ 1 2 3 4 ] f ] -> [ 1 2 2 3 4 4 ]
 		default. |_ mapper:Fun[Any Bag]
-			from-stream _ (flat-map (=> Stream _) mapper)
+			from-stream _ (streaming ~|
+				iter = iterator_
+				loop!
+					value done = gen-next! iter
+					case! done
+						_
+							end-loop!
+						else
+							<~~ iterator (mapper value)
 
 	impl! + Bag
 		doc. "TODO"
 		test. |
 			[ [ 0 ] [ 1 ] ] -> [ 0 1 ]
 		|:Bag _ add:Bag
-			from-stream _ (+ (=> Stream _) add
+			from-stream _ (streaming ~|
+				<~~ iterator_
+				<~~ iterator add
 
 	impl! - Bag
 		doc. "
@@ -178,16 +188,19 @@ region Methods using builder
 		test. |
 			[ [ 1 2 1 ] [ 1 ] ] -> [ 2 1 ]
 		|:Bag _ remove:Bag
-			from-stream _ (- (=> Stream _) remove
-
-region Set methods
-	impl! contains? Bag
-		doc. "TODO"
-		test. |
-			! contains? [ 0 ] 0
-			!not contains? [ 0 ] 1
-		|_ em:Any
-			any? _ |em-compare
-				=? em em-compare
+			remove-us = => Hash-Set! remove
+			from-stream _ (streaming ~|
+				iter = iterator_
+				loop!
+					value done = gen-next! iter
+					case!
+						done
+							end-loop!
+						else
+							case! value
+								:remove-us
+									-! remove-us [ value ]
+								else
+									<~ value
 
 Bag
