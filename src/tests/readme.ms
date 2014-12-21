@@ -9,7 +9,7 @@ use
 	..Bool -> and true
 	..Comparable -> =? >? >=? <=?
 	..Fun -> call ignore
-	..Generator! -> each~
+	..Generator! -> each~ gen-next!
 	..js -> eval
 	..math.Num -> divisible? Int
 	..methods -> + - * / empty
@@ -159,7 +159,7 @@ incrementing. |gen-maker:Fun[Generator!]
 	gen:Generator! = gen-maker ()
 	last-value = ref 0
 	loop!
-		value done = gen.next (+ (get last-value) 1)
+		value done = gen-next! gen (+ (get last-value) 1
 		set! last-value value
 		case! done
 			_
@@ -212,7 +212,7 @@ logging. |gen-maker:Fun[Generator!]
 	gen = gen-maker ()
 	last-value = ref ()
 	loop!
-		value done = gen.next ()
+		value done = gen-next! gen
 		case! done
 			_
 				set! last-value value

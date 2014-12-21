@@ -8,9 +8,11 @@ use
 	.Comparable -> =?
 	.Fun -> ignore
 	.math.Num
-	.methods -> => +
+	.methods -> => + contains?
 	.Object
 	.Object! -> add-property!
+	.pred-types -> Any Union
+	.Str
 	.Symbol
 	.Try -> Error
 	.js-impl -> i& i^ i<< i>> i>>> i=== i< i> i<= i>= i+ i- i* i/ i% i-bar i~ i! i-sub i-set i-global i-new i-typeof i-delete
@@ -38,6 +40,21 @@ js!. i!
 js-sub. i-sub
 js-set. i-set
 js-delete. i-delete
+
+\ TODO: Exact same appears in Object.ms
+~Object-Key = Union[Str Symbol]
+
+\ TODO: Kill and just use Js-Method_s?
+send.
+	doc. "Calls `target`'s js-method `name` with the given arguments."
+	test. |
+		[ 1 "toFixed" 2 ] -> "1.00"
+	|target:Any name:Object-Key ...args
+		impl = js-sub target name
+		! (contains? Fun impl) ~"Js-Method {name} not implemented by {target}."
+		impl.apply target args
+
+send!. send
 
 eval.
 	doc. "TODO"

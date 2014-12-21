@@ -26,15 +26,6 @@ Object =
 Str = global.String \ Can't have dependency on Str.ms
 ~Object-Key = Union[Str Symbol]
 
-send.
-	doc. "Calls `a`'s js-method `name` with the given arguments."
-	test. |
-		[ 1 "toFixed" 2 ] -> "1.00"
-	|a:Any name:Object-Key ...args
-		(js-sub a name).apply a args
-
-send!. send
-
 \ TODO: Use a Mason set
 ~forbidden-fun-props = => Identity-Set! [ "arguments" "caller" ]
 own-properties.

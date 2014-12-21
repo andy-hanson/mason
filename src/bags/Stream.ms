@@ -6,7 +6,7 @@ use
 	..Comparable -> =?
 	..Comparable! -> <!
 	..Fun -> ignore Pred thunk
-	..Generator!
+	..Generator! -> gen-next!
 	.Hash-Set!
 	..math.Num -> Nat
 	..methods -> => + - -! contains? empty
@@ -56,7 +56,7 @@ region Overrides
 		streaming ~|
 			iter = iterator_
 			loop!
-				value done = iter.next ()
+				value done = gen-next! iter
 				case!
 					done
 						end-loop!
@@ -67,7 +67,7 @@ region Overrides
 		streaming ~|
 			iter = iterator_
 			loop!
-				value done = iter.next ()
+				value done = gen-next! iter
 				case!
 					done
 						end-loop!
@@ -81,7 +81,7 @@ region Overrides
 			x:Bag = _
 			iter = iterator x
 			loop!
-				value done = iter.next ()
+				value done = gen-next! iter
 				case! done
 					_
 						end-loop!
@@ -97,7 +97,7 @@ region Overrides
 					=? (get i) count-to-take
 						end-loop!
 					else
-						value done = iter.next ()
+						value done = gen-next! iter
 						case!
 							done
 								end-loop!
@@ -115,7 +115,7 @@ region Overrides
 						end-loop!
 					else
 						case!
-							(iter.next ()).done
+							(gen-next! iter).done
 								end-loop!
 							else
 								mod! i +[1]
@@ -134,7 +134,7 @@ region Overrides
 		streaming ~|
 			iter = iterator_
 			loop!
-				value done = iter.next ()
+				value done = gen-next! iter
 				case!
 					done
 						end-loop!

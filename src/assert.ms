@@ -22,7 +22,7 @@ use
 				fun must return a Bool.
 				If it returns false, an error will be thrown.
 				The error will contain information about fun and its arguments.
-			! bool message
+			! bool ~message
 				Same as:
 					if! (not bool) |
 						oh-no! message

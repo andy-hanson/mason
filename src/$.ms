@@ -4,7 +4,7 @@ use
 	.console -> log!
 	es6-promise -> Promise
 	.Fun
-	.Generator!
+	.Generator! -> gen-next!
 	.pred-types -> Any
 	.Str -> indent
 	.Try -> oh-no!
@@ -82,7 +82,7 @@ $ing.
 	|:$ code:Fun[Generator!]
 		gen = code ()
 		eval = |last-value
-			value done = gen.next last-value
+			value done = gen-next! gen last-value
 			case
 				done
 					$resolved value

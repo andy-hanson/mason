@@ -5,7 +5,7 @@ use
 	..Bool -> false not true
 	..Comparable -> =?
 	..Fun -> identity Pred
-	..generators -> Generator!
+	..Generator! -> gen-next!
 	..math.Num -> divisible? Nat
 	..methods -> => + - contains? empty empty?
 	..pred-types -> Any Opt
@@ -52,7 +52,7 @@ region Builder
 		b = builder_
 		iter = iterator stream
 		loop!
-			value done = iter.next ()
+			value done = gen-next! iter
 			case!
 				done
 					end-loop!
@@ -81,7 +81,7 @@ region Functions using just the iterator
 			\ TODO:ES6 `for (let value of _)`
 			iter = iterator_
 			loop!
-				value done = iter.next ()
+				value done = gen-next! iter
 				case!
 					done
 						end-loop!
@@ -115,7 +115,7 @@ region Functions using just the iterator
 		\ TODO:SYNTAX Return from loop
 		found = ref (empty ?
 		loop!
-			value done = iter.next ()
+			value done = gen-next! iter
 			case!
 				done
 					end-loop!
@@ -150,7 +150,7 @@ region Methods using builder
 	impl! empty? Bag
 		doc. "Whether `count` will return 0."
 		|:Bool _
-			(iterator_.next ()).done
+			(gen-next! iterator_).done
 
 	flat-map. Method
 		doc. "TODO"

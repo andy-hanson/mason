@@ -10,17 +10,21 @@ use
 	.Comparable -> =?
 	.Fun
 	.js-impl -> each-generator
+	.Js-Method
 	.methods -> => contains? empty
 	.Object
 	.pred-types -> Any
 	.types.Pred-Type
 
-\ TODO: `gen-next!` method and destroy uses of `.next`
-
 Generator! = Pred-Type
 	doc. "TODO"
 	predicate. |_
+		\ TODO: impl?
 		and :Object ~(contains? Fun _.next)
+
+gen-next!. Js-Method
+	doc. "TODO"
+	impl-name. "next"
 
 if~.
 	doc. "Runs through the sub-generator only if `condition`. Returns a `?` of the result."

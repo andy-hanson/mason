@@ -10,6 +10,7 @@ use
 	..Comparable! -> <!
 	..control -> if
 	..Fun
+	..Generator! -> gen-next!
 	..math.Num -> Nat
 	..methods -> => + - empty empty? freeze sub
 	..pred-types -> Any
@@ -72,7 +73,7 @@ region Search
 			\ TODO:SYNTAX Loop return value
 			ans = ref (empty ?
 			loop!
-				value done = iter.next ()
+				value done = gen-next! iter
 				case!
 					done
 						end-loop!
@@ -90,7 +91,7 @@ region Search
 			! fails? |
 				[ 0 1 ][2]
 		|_ n:Nat
-			get-or (?nth _ n) ~(oh-no! "Bag only has {count_} elements, so can't return element {n}")
+			get-or (?nth _ n) ~(oh-no! "No element at index {n} for {_}")
 
 region Update
 	?<pop. Method
@@ -171,8 +172,8 @@ region Combination
 			iter0 = iterator s0
 			iter1 = iterator s1
 			loop!
-				next0 = iter0.next ()
-				next1 = iter1.next ()
+				next0 = gen-next! iter0 ()
+				next1 = gen-next! iter1 ()
 				case!
 					or next0.done next1.done
 						end-loop!
@@ -200,7 +201,7 @@ region TODO: put somewhere
 						loop! outer
 							next-group = empty Array!
 							loop!
-								value done = iter.next ()
+								value done = gen-next! iter
 								case!
 									done
 										end-loop! outer
