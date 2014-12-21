@@ -2,15 +2,17 @@ use
 	.? -> get-or Opt->?
 	..assert -> ! !not
 	.Bag-Type
-	..Bool -> false not true
+	..Bool -> and false not true
 	..Comparable -> =?
 	..Fun -> identity ignore Pred
 	..Generator! -> gen-next!
 	.Hash-Set!
+	..js -> reference=?
 	..math.Num -> divisible? Nat
-	..methods -> => + - -! contains? empty empty?
+	..methods -> => + - -! contains? empty empty? type-of
 	..pred-types -> Any Opt
 	..Ref -> get mod! ref set!
+	.Seq -> seq=?
 	.Stream -> streaming
 	..Symbol
 	..types.Interface
@@ -114,13 +116,25 @@ region Using iterator
 		default. |:Nat _
 			fold _ 0 +[1]
 
+	impl! empty? Bag
+		doc. "Whether `count` will return 0."
+		|:Bool _
+			(gen-next! iterator_).done
+
 region Using from-stream
 	keep. Method
 		doc. "Bag with only the elements that satisfy `keep-if?`."
 		test. |
 			[ [ 1 2 ] =?[2] ] -> [ 2 ]
 		default. |_:Bag keep-if?:Pred
-			from-stream _ (streaming ~|
+			keep=> type-of_ _ keep-if?
+
+	keep=>.
+		doc. "TODO"
+		test. |
+			"TODO"
+		|Res-Type:Bag-Type _:Bag keep-if?:Pred
+			from-stream Res-Type.prototype (streaming ~|
 				iter = iterator_
 				loop!
 					value done = gen-next! iter
@@ -137,7 +151,14 @@ region Using from-stream
 		test. |
 			[ [ true false ] not ] -> [ false true ]
 		default. |_:Bag mapper:Fun[Any Any]
-			from-stream _ (streaming ~|
+			map=> type-of_ _ mapper
+
+	map=>.
+		doc. "TODO"
+		test. |
+			"TODO"
+		|Res-Type:Bag-Type _:Bag mapper:Fun[Any Any]
+			from-stream Res-Type.prototype (streaming ~|
 				iter = iterator_
 				loop!
 					value done = gen-next! iter
@@ -147,11 +168,7 @@ region Using from-stream
 						else
 							<~ mapper value
 
-	impl! empty? Bag
-		doc. "Whether `count` will return 0."
-		|:Bool _
-			(gen-next! iterator_).done
-
+	\ TODO: Better name?
 	flat-map. Method
 		doc. "TODO"
 		test. |
@@ -162,7 +179,14 @@ region Using from-stream
 					[ _ ]
 			[ [ 1 2 3 4 ] f ] -> [ 1 2 2 3 4 4 ]
 		default. |_ mapper:Fun[Any Bag]
-			from-stream _ (streaming ~|
+			flat-map=> type-of_ _ mapper
+
+	flat-map=>.
+		doc. "TODO"
+		test. |
+			"TODO"
+		|Res-Type:Bag-Type _:Bag mapper:Fun[Any Bag]
+			from-stream Res-Type.prototype (streaming ~|
 				iter = iterator_
 				loop!
 					value done = gen-next! iter
@@ -177,7 +201,14 @@ region Using from-stream
 		test. |
 			[ [ 0 ] [ 1 ] ] -> [ 0 1 ]
 		|:Bag _ add:Bag
-			from-stream _ (streaming ~|
+			+=> type-of_ _ add
+
+	+=>.
+		doc. "TODO"
+		test. |
+			"TODO"
+		|Res-Type:Bag-Type _:Bag add:Bag
+			from-stream Res-Type.prototype (streaming ~|
 				<~~ iterator_
 				<~~ iterator add
 
@@ -188,9 +219,16 @@ region Using from-stream
 		test. |
 			[ [ 1 2 1 ] [ 1 ] ] -> [ 2 1 ]
 		|:Bag _ remove:Bag
-			remove-us = => Hash-Set! remove
-			from-stream _ (streaming ~|
+			-=> type-of_ _ remove
+
+	-=>.
+		doc. "TODO"
+		test. |
+			"TODO"
+		|Res-Type:Bag-Type _:Bag remove:Bag
+			from-stream Res-Type.prototype (streaming ~|
 				iter = iterator_
+				remove-us = => Hash-Set! remove
 				loop!
 					value done = gen-next! iter
 					case!
@@ -202,5 +240,12 @@ region Using from-stream
 									-! remove-us [ value ]
 								else
 									<~ value
+
+region Unsorted
+	impl! =? Bag
+		test. |
+			! =? [ 1 ] [ 1 ]
+		|a b
+			and (reference=? (type-of a) (type-of b)) ~(seq=? a b
 
 Bag

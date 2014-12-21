@@ -2,8 +2,9 @@ use
 	.bags.Bag -> count
 	.Bool -> and
 	.Comparable -> =?
-	.js -> global
+	.js -> global reference=?
 	.Regex -> regex
+	.types.Method -> impl!
 	.types.Pred-Type
 
 Str =
@@ -41,5 +42,7 @@ indent.
 
 	|str:Str
 		"{str.replace (regex "\n" "g") "\n\t"}"
+
+impl! =? Str reference=?
 
 Str

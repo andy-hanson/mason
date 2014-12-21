@@ -28,13 +28,6 @@ impl! count Array |_
 \ TODO:ES6 This should be implemented for me
 impl! iterator Array array-iterator
 
-impl! =? Array
-	test. |
-		! =? [ 1 ] [ 1 ]
-	|a b
-		\ TODO: Variadic `and`
-		and (contains? Array b) ~(and (=? a.length b.length) ~(seq=? a b))
-
 <! (self-type Array) Bag-Type
 impl! empty (self-type Array) (thunk [])
 

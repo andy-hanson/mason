@@ -35,9 +35,8 @@ region Search
 	seq=?.
 		doc. "
 			Whether two Seqs share the same elements in the same order.
-			The types of the Seqs does not matter.
+			The types of the Seqs do not matter.
 			Equivalent to `=? (=> Array seq-0) (=> Array seq-1)`
-
 		test. |
 			s = streaming ~|
 				<~ 1

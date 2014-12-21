@@ -25,9 +25,6 @@ Stream = Record-Type
 impl! iterator Stream |_
 	_.make-iterator ()
 
-impl! =? Stream |s1 s2
-	and (contains? Stream s2) ~(seq=? s1 s2
-
 streaming.
 	doc. "Creates a Stream whose values are the yields of the Generator! produced by make-gen."
 	test. |

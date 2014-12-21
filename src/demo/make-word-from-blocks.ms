@@ -1,8 +1,9 @@
 use
 	..assert -> !
 	..bags.?
-	..bags.Bag -> flat-map keep map
+	..bags.Bag -> flat-map keep=> map map=>
 	..bags.Seq -> ?first ?<pop
+	..bags.Stream
 	..Comparable -> =?
 	..maps.Map -> each-pair!
 	..methods -> => + - contains? empty?
@@ -45,8 +46,8 @@ make-word-from-blocks.
 			"squad" -> [ "FS DQ HU NA QD" ]
 			"confuse" -> [ "CP BO NA FS HU FS RE" ]
 		each-pair! sample-answers |word ans
-			real-ans = => ? (ans.map |_
-				\ TODO: split method
+			real-ans = map=> ? ans |_
+				\ TODO: split _ =?[" "]
 				_.split " "
 			! =? (make-word-from-blocks word sample-blocks) real-ans
 
@@ -57,7 +58,7 @@ make-word-from-blocks.
 					=> ? [ [ ] ]
 				else
 					rest-word = _.val
-					this-char-blocks = keep blocks |_
+					this-char-blocks = keep=> Stream blocks |_
 						contains? _ word[0]
 					?first (flat-map this-char-blocks |_
 						map (rec rest-word (- blocks [ _ ])) |ans
