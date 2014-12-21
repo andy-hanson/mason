@@ -1,10 +1,10 @@
 use
 	.? -> get-or Opt->?
 	..assert -> ! !not
-	.Bag-Type
+	.Bag-Type -> from-stream
 	..Bool -> and false not true
 	..Comparable -> =?
-	..Fun -> identity ignore Pred
+	..Fun -> identity Pred
 	..Generator! -> gen-next!
 	.Hash-Set!
 	..js -> reference=?
@@ -29,13 +29,6 @@ iterator. Method
 	doc. |:Generator! _
 		"Creates a new Generator! which yields the values in the Bag. Should create a new one every time."
 	symbol. Symbol.iterator
-
-\ TODO: FURTHER REFORM
-from-stream. Method
-	doc. "TODO"
-	default. |_ stream
-		ignore _ \ TODO:Ignored vars
-		stream
 
 region Using iterator
 	impl! contains? Bag
@@ -134,7 +127,7 @@ region Using from-stream
 		test. |
 			"TODO"
 		|Res-Type:Bag-Type _:Bag keep-if?:Pred
-			from-stream Res-Type.prototype (streaming ~|
+			from-stream Res-Type (streaming ~|
 				iter = iterator_
 				loop!
 					value done = gen-next! iter
@@ -158,7 +151,7 @@ region Using from-stream
 		test. |
 			"TODO"
 		|Res-Type:Bag-Type _:Bag mapper:Fun[Any Any]
-			from-stream Res-Type.prototype (streaming ~|
+			from-stream Res-Type (streaming ~|
 				iter = iterator_
 				loop!
 					value done = gen-next! iter
@@ -186,7 +179,7 @@ region Using from-stream
 		test. |
 			"TODO"
 		|Res-Type:Bag-Type _:Bag mapper:Fun[Any Bag]
-			from-stream Res-Type.prototype (streaming ~|
+			from-stream Res-Type (streaming ~|
 				iter = iterator_
 				loop!
 					value done = gen-next! iter
@@ -208,7 +201,7 @@ region Using from-stream
 		test. |
 			"TODO"
 		|Res-Type:Bag-Type _:Bag add:Bag
-			from-stream Res-Type.prototype (streaming ~|
+			from-stream Res-Type (streaming ~|
 				<~~ iterator_
 				<~~ iterator add
 
@@ -226,7 +219,7 @@ region Using from-stream
 		test. |
 			"TODO"
 		|Res-Type:Bag-Type _:Bag remove:Bag
-			from-stream Res-Type.prototype (streaming ~|
+			from-stream Res-Type (streaming ~|
 				iter = iterator_
 				remove-us = => Hash-Set! remove
 				loop!

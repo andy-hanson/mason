@@ -3,8 +3,8 @@ use
 	.Array
 	.Array!
 	..assert -> ! !not
-	.Bag -> all? count iterator from-stream
-	.Bag-Type
+	.Bag -> all? count iterator
+	.Bag-Type -> from-stream
 	..Bool -> and not or
 	..Comparable -> =? <=? >=?
 	..Comparable! -> <!
@@ -12,7 +12,7 @@ use
 	..Fun
 	..Generator! -> gen-next!
 	..math.Num -> Nat
-	..methods -> => + - empty empty? freeze sub
+	..methods -> => + - empty empty? freeze sub type-of
 	..pred-types -> Any
 	..Ref -> get mod! ref set!
 	.Seq! -> +>!
@@ -148,14 +148,14 @@ region Update
 			[ [ 0 1 2 3 ] 1 3 ] -> [ 1 2 ]
 
 		default. |:Bag _ start:Nat end:Nat
-			from-stream _ (take (drop _ start) (- end start)
+			from-stream type-of_ (take (drop _ start) (- end start)
 
 	take. Method
 		doc. "TODO"
 		test. |
 			"TODO"
 		default. |:Bag _ count-to-take:Nat
-			from-stream _ (streaming ~|
+			from-stream type-of_ (streaming ~|
 				iter = iterator_
 				i = ref 0
 				loop!
@@ -176,7 +176,7 @@ region Update
 		test. |
 			"TODO"
 		default. |:Bag _ count-to-drop:Nat
-			from-stream _ (streaming ~|
+			from-stream type-of_ (streaming ~|
 				iter = iterator_
 				i = ref 0
 				loop!
@@ -257,7 +257,7 @@ region TODO: put somewhere
 							mod! i |_
 								- _ 1
 							<~ arr[(get i)]
-			from-stream _ reverse-stream
+			from-stream type-of_ reverse-stream
 
 	\ TODO: sort, sort-by
 

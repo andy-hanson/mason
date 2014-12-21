@@ -1,7 +1,7 @@
 use
 	..assert -> ! !not
-	.Bag -> from-stream iterator
-	.Bag-Type
+	.Bag -> iterator
+	.Bag-Type -> from-stream
 	..Comparable! -> <!
 	..Fun -> ignore thunk
 	..Generator! -> gen-next!
@@ -40,7 +40,9 @@ region Is Seq
 		else
 			<~ _.val
 
-	impl! from-stream ? |_ stream
+	<! (self-type ?) Bag-Type
+
+	impl! from-stream (self-type ?) |_ stream
 		ignore _ \ TODO:Ignored vars
 		iter = iterator stream
 		value done = gen-next! iter
@@ -50,7 +52,6 @@ region Is Seq
 			else
 				full-? value
 
-	<! (self-type ?) Bag-Type
 	impl! empty (self-type ?) (thunk empty-?
 
 region Funs

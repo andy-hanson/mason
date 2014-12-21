@@ -1,11 +1,10 @@
 use
-	.Bag -> each! from-stream iterator
-	.Bag-Type
+	.Bag -> each! iterator
+	.Bag-Type -> from-stream
 	..Bool -> true
 	.Set!
 	..Comparable! -> <!
 	..control -> returning
-	..Fun -> ignore
 	..maps.Map -> keys
 	..maps.Map! -> assoc! un-assoc!
 	..maps.Hash-Map!
@@ -33,16 +32,15 @@ Hash-Set! = Record-Type
 	empty! -> |_
 		empty! _.data
 
-	\ TODO: Define it this way for all Bag!s
-	from-stream -> |_ stream
-		ignore _ \ TODO:Ignored vars
-		returning (empty Hash-Set!) |_
-			each! stream |em
-				+! _ [ em ]
-
 <! (self-type Hash-Set!) Bag-Type
 	empty -> |
 		Hash-Set!
 			data. empty Hash-Map!
+
+	\ TODO: Define it this way for all Bag!-Types
+	from-stream -> |type stream
+		returning (empty type) |_
+			each! stream |em
+				+! _ [ em ]
 
 Hash-Set!

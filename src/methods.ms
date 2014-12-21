@@ -1,7 +1,7 @@
 use
 	.bags.? -> get-or Opt->?
 	.Bool
-	.Object -> ?get-property
+	.Object
 	.pred-types -> Any
 	.private.bootstrap -> sym-contains? sym-sub sym-type-of
 	.types.Method

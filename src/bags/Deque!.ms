@@ -1,12 +1,11 @@
 use
 	.Array \ TODO: Array!
-	.Bag -> count each! from-stream iterator
-	.Bag-Type ->
+	.Bag -> count each! iterator
+	.Bag-Type -> from-stream
 	..Bool -> not
 	..Comparable -> =?
 	..Comparable! -> <!
 	..control -> if returning
-	..Fun -> ignore
 	..math.Num -> modulo Nat
 	..methods -> + - * empty empty? empty!
 	..Object! -> change-property!
@@ -14,7 +13,6 @@ use
 	..Ref -> get mod! ref set!
 	.Seq -> reverse
 	.Seq! -> <+! +>! ?<pop! ?pop>! set-nth!
-	..types.Method -> impl!
 	..types.Record-Type
 	..types.util -> self-type
 
@@ -33,12 +31,11 @@ Deque! = Record-Type
 			start-index!. 0
 			end-index!. 0
 
-\ TODO: Define it this way for all Bag!s
-impl! from-stream Deque! |_ stream
-	ignore _ \ TODO:Ignored vars
-	returning (empty Deque!) |_
-		each! stream |em
-			+>! _ [ em ]
+	\ TODO: Define it this way for all Bag!-Types
+	from-stream -> |type stream
+		returning (empty type) |_
+			each! stream |em
+				+>! _ [ em ]
 
 region Helpers
 	capacity = |_

@@ -1,9 +1,8 @@
 use
-	.Bag -> count each! from-stream iterator
-	.Bag-Type
+	.Bag -> count each! iterator
+	.Bag-Type -> from-stream
 	..Comparable! -> <!
 	..control -> returning
-	..Fun -> ignore
 	..js -> global new
 	..methods -> +! -! contains? empty empty!
 	.Set!
@@ -27,14 +26,13 @@ Identity-Set! = global.Set
 		_.keys ()
 	contains? -> |_ val
 		_.has val
-	\ TODO: Define it this way for all Bag!s
-	from-stream -> |_ stream
-		ignore _ \ TODO:Ignored vars
-		returning (empty Identity-Set!) |_
-			each! stream |em
-				_.add em
 
 <! (self-type Identity-Set!) Bag-Type
 	empty -> new
+	\ TODO: Define it this way for all Bag!s
+	from-stream -> |type stream
+		returning (empty type) |_
+			each! stream |em
+				_.add em
 
 Identity-Set!

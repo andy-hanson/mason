@@ -1,13 +1,11 @@
 use
 	..assert -> !
 	.Bag -> iterator
-	.Bag-Type
-	..Bool -> and
-	..Comparable -> =?
+	.Bag-Type -> from-stream
 	..Comparable! -> <!
 	..Fun -> ignore thunk
 	..Generator!
-	..methods -> => contains? empty
+	..methods -> => empty
 	.Seq -> seq=?
 	..types.Method -> impl!
 	..types.Record-Type
@@ -38,10 +36,12 @@ streaming.
 		Stream
 			make-iterator. make-gen
 
-empty-stream = streaming ~|
-	()
 <! (self-type Stream) Bag-Type
-impl! empty (self-type Stream) (thunk empty-stream)
+impl! empty (self-type Stream) (thunk (streaming |
+	empty Generator!
+impl! from-stream (self-type Stream) |_ stream
+	ignore _
+	stream
 
 impl! => (self-type Stream) Bag |Stream _
 	ignore Stream \ TODO:Ignored vars

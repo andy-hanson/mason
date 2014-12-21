@@ -14,13 +14,20 @@ use
 	.methods -> => contains? empty
 	.Object
 	.pred-types -> Any
+	.types.Method -> impl!
 	.types.Pred-Type
+	.types.util -> self-type
 
 Generator! = Pred-Type
 	doc. "TODO"
 	predicate. |_
 		\ TODO: impl?
 		and :Object ~(contains? Fun _.next)
+
+impl! empty (self-type Generator!)
+	doc. "TODO"
+	~|
+		()
 
 gen-next!. Js-Method
 	doc. "TODO"

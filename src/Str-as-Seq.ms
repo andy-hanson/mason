@@ -4,8 +4,8 @@ use
 	.assert -> !
 	.bags.? -> Opt->? get-or
 	.bags.Array
-	.bags.Bag -> count from-stream iterator map
-	.bags.Bag-Type
+	.bags.Bag -> count iterator map
+	.bags.Bag-Type -> from-stream
 	.bags.Seq
 	.Comparable -> =?
 	.Comparable! -> <!
@@ -21,7 +21,6 @@ test. |
 	! =? [ "1" "2" "3" ] (map "123" identity)
 
 <! Str Seq
-	from-stream -> impl-for from-stream Array
 	count -> |_
 		_.length
 	\ TODO:ES6 should be built-in
@@ -30,6 +29,8 @@ test. |
 <! (self-type Str) Bag-Type
 	empty -> |
 		""
+	\ TODO
+	from-stream -> impl-for from-stream (self-type Array)
 
 impl! => (self-type Str) Bag
 	test. |

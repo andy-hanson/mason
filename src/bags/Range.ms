@@ -2,8 +2,8 @@ use
 	..assert -> !
 	.? -> get-or Opt->?
 	.Array
-	.Bag -> count from-stream iterator
-	.Bag-Type
+	.Bag -> count iterator
+	.Bag-Type -> from-stream
 	..Comparable -> =? <? >=?
 	..Comparable! -> <!
 	..control -> if
@@ -41,7 +41,7 @@ impl! length Range
 	|_
 		- _.end _.start
 
-impl! from-stream Range (impl-for from-stream Array)
+impl! from-stream (self-type Range) (impl-for from-stream (self-type Array
 
 <! Range Bag
 	?nth ->

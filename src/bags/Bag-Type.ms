@@ -1,6 +1,6 @@
 use
 	.Array
-	.Bag -> from-stream
+	.Bag
 	..Comparable! -> <!
 	..Fun -> identity
 	..methods -> => empty sub
@@ -24,6 +24,9 @@ impl! => Bag-Type Bag
 	test. |
 		[ Array (range 0 5) ] -> [ 0 1 2 3 4 ]
 	|type bag
-		from-stream type.prototype bag
+		from-stream type bag
+
+from-stream. Method
+	doc. "TODO"
 
 Bag-Type
