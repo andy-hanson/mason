@@ -1,11 +1,11 @@
 use
 	.js -> global
-	.show -> inspect-impl
+	.show -> inspect
 	.types.Method -> impl!
 
 Symbol = global.Symbol
 
-impl! inspect-impl Symbol
+impl! inspect Symbol
 	test. |
 		\ TODO:ES6
 		\ [ (Symbol "name") ] -> "<Symbol name>"

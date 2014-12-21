@@ -3,6 +3,7 @@ use
 	.Bool -> false true
 	.Comparable -> =?
 	.Fun -> identity
+	.js -> js-sub
 	.js-impl -> new-Set
 	.methods -> type-of
 	.Object -> get-property own-enumerable-properties
@@ -14,8 +15,9 @@ inspecting = new-Set ()
 \ `show` often delegates to `inspect`, and vice versa, so that's an OK recursion.
 showing = new-Set ()
 
-inspect.
-	doc. "TODO"
+inspect. Method
+	doc. |:Str _
+		"TODO"
 	test. |
 		\ TODO: How to not include displayName
 		a =
@@ -29,21 +31,16 @@ inspect.
 		\ TODO
 		\ [ () ] -> "()"
 		\ [ undefined ] -> "undefined"
-	|case
-		inspecting.has _
-			"<recursive>"
-		else
-			inspecting.add _
-			x = inspect-impl_
-			inspecting.delete _
-			x
-
-\ TODO: Do more to prevent infinite recursion
-inspect-impl. Method
-	doc. |:Str _
-		"TODO"
+	wrap. |impl args
+		case args[0]
+			inspecting.has _
+				"<recursive>"
+			else
+				inspecting.add _
+				x = Fun.prototype.apply.call impl () args
+				inspecting.delete _
+				x
 	default. |case
-		\ TODO: Use impl! for some of these cases
 		=? _ ()
 			"()"
 		=? _ undefined
@@ -56,33 +53,34 @@ inspect-impl. Method
 				{type-of_}
 					{key-vals.join "\n\t"}
 
-show =
+
+show. Method
 	doc. |:Str _
 		"
 			Converts the value to a string for string interpolation.
 			This is the method called when you do `\{...}`.
 			For a more detailed Str representation of data, use `inspect`.
-	|case
-		showing.has _
-			"<recursive>"
-		else
-			showing.add _
-			x = show-impl_
-			showing.delete _
-			x
+	wrap. |impl args
+		case js-sub args 0
+			showing.has _
+				"<recursive>"
+			else
+				showing.add _
+				\ TODO:SYNTAX Splat call
+				x:Str = Fun.prototype.apply.call impl () args
+				showing.delete _
+				x
+	default. inspect
 
-show-impl. Method
-	doc. "TODO"
-	default. inspect-impl
-
-impl! inspect-impl Str
+\ TODO:MOVE
+impl! inspect Str
 	test. |
 		[ "a" ] -> "\"a\""
 	|_
 		"\"{_}\""
 
 \ TODO: show-Bool.ms?
-impl! inspect-impl Bool
+impl! inspect Bool
 	test. |
 		[ true ] -> "true"
 		[ false ] -> "false"
@@ -92,7 +90,8 @@ impl! inspect-impl Bool
 		else
 			"false"
 
-impl! show-impl Str identity
+\ TODO: MOVE
+impl! show Str identity
 
 set! ms "show" show
 

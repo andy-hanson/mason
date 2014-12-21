@@ -17,22 +17,9 @@ use
 \ Use `apply.call fun () args` everywhere to keep stacktrace short
 apply = Fun.prototype.apply
 
-make-callable-method = |method |...args
-	in
-		case! method.impl-in
-			exists?_
-				apply.call _ () args
-			else
-				()
-	out
-		case! method.impl-out
-			exists?_
-				apply.call _ () args
-			else
-				()
-
+get-impl = |method args
 	target = js-sub args 0
-	impl = case
+	case
 		any? target
 			case get-or-undefined target method.impl-symbol
 				exists?_
@@ -42,7 +29,16 @@ make-callable-method = |method |...args
 		else
 			method.default
 
-	apply.call impl () args
+make-callable-method = |method
+	case method.wrap
+		exists?_
+			|...args
+				_ (get-impl method args) args
+				\apply.call _ () (+ [ (get-impl method args) ] args
+		else
+			|...args
+				\ TODO:SYNTAX splat call
+				apply.call (get-impl method args) () args
 
 Method = Record-Type
 	doc. "
@@ -53,7 +49,15 @@ Method = Record-Type
 				doc. |:Int _
 					"How big it is."
 				...
-		The `impl-in` and `impl-out` properties apply in and out checks to all implementations (including the default).
+		The `wrap` property can replace the default calling mechanism.
+		It will be given the implementation, then the method's arguments.
+		You can use this to, for example, apply in/out conditions to every implementation.
+			sizeness.
+				wrap. |impl x
+					out
+						! >=? res 0
+					impl x
+
 	test. |
 		thunk  = |x |
 			x
@@ -69,14 +73,16 @@ Method = Record-Type
 		! fails? |
 			m 1 m
 
-		! =? [ "in" "out" ] (build |yield
+		! =? [ "in" "impl" "out" ] (build |yield
 			m = Method
 				default. |
-					1
-				impl-in. |
-					yield "in"
-				impl-out. |
-					yield "out"
+					yield "impl"
+				wrap. |impl x
+					in
+						yield "in"
+					out
+						yield "out"
+					impl x
 			m ()
 
 	members.
@@ -84,8 +90,7 @@ Method = Record-Type
 		impl-symbol. Symbol
 		default. Fun
 	optional-members.
-		impl-in. Fun
-		impl-out. Fun
+		wrap. Fun
 	defaults.
 		impl-symbol. |_
 			Symbol _.displayName

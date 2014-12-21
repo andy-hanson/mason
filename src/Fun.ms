@@ -12,7 +12,7 @@ use
 	.Object -> ?get-property get-property
 	.pred-types -> Any
 	.Ref -> get ref mod!
-	.show -> show-impl
+	.show
 	.Str
 	.Try -> oh-no!
 	.types.Alias-Type
@@ -196,7 +196,7 @@ thunk.
 	|a |
 		a
 
-impl! show-impl Fun
+impl! show Fun
 	test. |
 		a = |
 			1

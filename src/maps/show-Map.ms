@@ -2,11 +2,11 @@ use
 	..bags.Bag -> map
 	.Map -> keys
 	..methods -> => type-of
-	..show -> inspect inspect-impl show-impl
+	..show -> inspect
 	..Str
 	..types.Method -> impl!
 
-impl! inspect-impl Map
+impl! inspect Map
 	test. |
 		m =
 			1 -> 2
@@ -20,7 +20,7 @@ impl! inspect-impl Map
 			{type-of_}
 				{=> Str parts "\n\t"}
 
-impl! show-impl Map
+impl! show Map
 	test. |
 		m =
 			1 -> 2

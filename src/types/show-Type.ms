@@ -2,10 +2,10 @@ use
 	.Method -> impl!
 	..methods -> empty?
 	..Object -> ?get-property
-	..show -> inspect show-impl
+	..show -> inspect
 	.Type
 
-impl! show-impl Type
+impl! show Type
 	test. |
 		[ Method ] -> "Method"
 	|type
