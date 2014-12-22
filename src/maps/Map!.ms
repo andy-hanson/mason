@@ -1,14 +1,19 @@
 use
 	..assert -> ! !not
 	..bags.?
-	..bags.Bag -> each!
-	..Comparable -> =?
+	..bags.Bag -> each! map
+	..bags.Set -> set=?
+	..Bool -> not
+	..Comparable -> =? compare
 	..Comparable! -> <!
-	.Map -> each-pair! ?get has-key?
-	..methods -> +! -! empty empty?
+	..control -> if!
+	.Map -> each-pair! ?get has-key? keys
+	..methods -> * +! -! empty empty? empty!
 	..pred-types -> Any
 	..types.Interface
 	..types.Method -> impl!
+	..types.Record-Type
+	.Weak-Identity-Map!
 
 Map! = Interface
 	doc. "
@@ -16,19 +21,33 @@ Map! = Interface
 		-!: Takes a Bag of keys to remove.
 		+!: Adds another map.
 	implementor-test. |type
-		\ Not using primitives for the test since Weak-Identity-Map! won't allow it.
-		_ = empty  type
-		add! _ Map Map!
-		! =? _[Map] Map!
-		+! _
-			Map -> Interface
-			Interface -> Interface
-		! =? _[Map] Interface
-		! =? _[Interface] Interface
-		un-assoc! _ Interface
-		! empty? (?get _ Interface)
-		\ TODO: empty! test
-		\ TODO: keys, values
+		\ Might be a Weak-Identity-Map!, so must be a reference type.
+		Mappable-Thing = Record-Type
+			members.
+				data.
+		\ Might be a Sorted-Map, so must be comparable.
+		impl! compare Mappable-Thing |a b
+			compare a.data b.data
+		mt = |n
+			Mappable-Thing
+				data. n
+		ks = map [ 1 3 5 4 2 ] mt
+		noweak = |do
+			if! (not :Weak-Identity-Map!) do
+		_ = empty type
+		noweak |
+			! empty? _
+		each! ks |n
+			add! _ n (* 2 n.data)
+		each! ks |n
+			! =? _[n] (* 2 n.data)
+		?get _ (mt 0)
+		! empty? (?get _ (mt 0))
+		noweak |
+			! =? (mt 1) (mt 1)
+			! set=? keys_ (map [ 1 2 3 4 5 ] mt)
+			empty! _
+			! empty? _
 
 assoc!. Method
 	doc. |_ key:Any val:Any

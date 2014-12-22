@@ -5,10 +5,10 @@ use
 	..assert -> ! !not
 	.Bag -> all? count iterator
 	.Bag-Type -> from-stream
-	..Bool -> and not or
-	..Comparable -> =? <=? >=?
+	..Bool -> and false not or true
+	..Comparable -> =? <? <=? >=?
 	..Comparable! -> <!
-	..control -> if
+	..control -> if returning
 	..Fun
 	..Generator! -> gen-next!
 	..math.Num -> Nat
@@ -191,6 +191,13 @@ region Update
 									mod! i +[1]
 				<~~ iter
 
+	tail. Method
+		doc. "TODO"
+		test. |
+			"TODO"
+		default. |_
+			drop _ 1
+
 region Combination
 	\ TODO: Variadic
 	\ TODO: Builder? (whose?)
@@ -258,6 +265,23 @@ region TODO: put somewhere
 								- _ 1
 							<~ arr[(get i)]
 			from-stream type-of_ reverse-stream
+
+region Sorting
+	sorted?.
+		doc. "Whether the list is already in sorted order."
+		test. |
+			[ [ ] ] -> true
+			[ [ 1 2 3 ] ] -> true
+			[ [ 3 2 1 ] ] -> false
+		|seq:Bag
+			case ?first seq
+				empty?_
+					true
+				else
+					prev = ref _.val
+					all? (tail seq) |em
+						returning (<? (get prev) em) |
+							set! prev em
 
 	\ TODO: sort, sort-by
 

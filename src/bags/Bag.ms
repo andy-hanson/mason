@@ -4,7 +4,7 @@ use
 	.Bag-Type -> from-stream
 	..Bool -> and false not true
 	..Comparable -> =?
-	..Fun -> identity Pred
+	..Fun -> Act identity Pred
 	..Generator! -> gen-next!
 	.Hash-Set!
 	..js -> reference=?
@@ -55,7 +55,7 @@ region Using iterator
 		doc. "Calls do-for-each on every element in the Bag."
 		test. |
 			"TODO"
-		default. |_ do-for-each:Fun
+		default. |_ do-for-each:Act
 			\ TODO:ES6 `for (let value of _)`
 			iter = iterator_
 			loop!

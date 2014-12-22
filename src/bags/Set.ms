@@ -16,6 +16,7 @@ Set = Interface
 impl! =? Set
 	doc. "TODO"
 	test. |
+		\ TODO: => Set
 		a = => Hash-Set! [ 1 2 ]
 		b = => Hash-Set! [ 1 2 ]
 		[ a b ] -> true
@@ -25,5 +26,14 @@ impl! =? Set
 		and (=? (type-of set0) (type-of set1)) ~
 			and (=? (count set0) (count set1)) ~
 				all? set0 contains?[set1]
+
+set=?.
+	doc. "TODO"
+	test. |
+		[ [ 1 2 3 ] [ 3 2 1 ] ] -> true
+		[ [ 1 2 ] [ 1 2 3 ] ] -> false
+	|a:Bag b:Bag
+		\ TODO: => Set a ... => Set b
+		=? (=> Hash-Set! a) (=> Hash-Set! b)
 
 Set

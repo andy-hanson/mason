@@ -14,6 +14,9 @@ use
 	..types.Method -> impl!
 	..types.util -> self-type
 
+Map = Interface
+	doc. "Mapping from keys to values."
+
 ?get. Method
 	doc. |:? _ key:Any
 		"`?` containing the value corresponding to `key`, if any."
@@ -44,9 +47,6 @@ keys-values. Method
 			key. k
 			val. _[k]
 
-Map = Interface
-	doc. "Mapping from keys to values."
-
 make-map.
 	doc. "TODO"
 	test. |
@@ -62,6 +62,10 @@ make-map.
 
 impl! sub Map |map key:Any
 	get-or (?get map key) ~(oh-no! "{map} does not contain {key}.")
+
+
+impl! empty? Map |_
+	empty? keys_
 
 \ TODO: impl! sub Map-Type identity
 impl! sub (self-type Map) identity

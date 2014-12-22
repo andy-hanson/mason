@@ -2,13 +2,16 @@ use
 	.Bag -> each! iterator
 	.Bag-Type -> from-stream
 	..Bool -> true
+	.Set
 	.Set!
+	..Comparable -> =?
 	..Comparable! -> <!
 	..control -> returning
 	..maps.Map -> keys
 	..maps.Map! -> assoc! un-assoc!
 	..maps.Hash-Map!
 	..methods -> +! -! empty empty!
+	..types.Method -> impl! impl-for
 	..types.Record-Type
 	..types.util -> self-type
 
@@ -42,5 +45,8 @@ Hash-Set! = Record-Type
 		returning (empty type) |_
 			each! stream |em
 				+! _ [ em ]
+
+\ TODO: This should not be necessary!
+impl! =? Hash-Set! (impl-for =? Set)
 
 Hash-Set!

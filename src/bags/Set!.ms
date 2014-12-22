@@ -3,6 +3,7 @@ use
 	.Bag!
 	..Comparable! -> <!
 	..methods -> +! -! contains? empty empty? empty!
+	.Set
 	..types.Interface
 
 Set! = Interface
@@ -19,6 +20,8 @@ Set! = Interface
 		empty! _
 		! empty? _
 
+\ TODO: Way to determine which one of these is more important
+<! Set! Set
 <! Set! Bag!
 
 Set!

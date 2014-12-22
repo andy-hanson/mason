@@ -40,7 +40,7 @@ const ReservedWords = new Set([ "return" ])
 const GroupKinds = new Set(["(", "[", "{", "->", "ln", "sp", '"'])
 const GroupPres = setUnion(GroupKinds, new Set([")", "]", "}", "<-", 'close"']))
 
-const ReservedCharacters = new Set("`@#;',")
+const ReservedCharacters = new Set("`@#;,")
 
 const GroupOpenToClose = new Map([
 	['(', ')'],
@@ -53,7 +53,7 @@ const GroupOpenToClose = new Map([
 
 // Anything not explicitly reserved is a valid name character.
 // A `~` may appear in a name, but not at the beginning.
-const isNameCharacter = function(ch) { return /[^()[\]{}\.:|_\ \\\n\t\""`@#;,']/.test(ch) }
+const isNameCharacter = function(ch) { return /[^()[\]{}\.:|_\ \\\n\t\""`@#;,]/.test(ch) }
 
 
 module.exports = {
