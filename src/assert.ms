@@ -103,25 +103,28 @@ use
 	test. |
 		!call? empty?
 			. [ ]
-		! fails-with? "Expected empty? (Array)[ 0 ]" |
+		fw = "
+			Expected empty? (=> Array
+				. 0
+		! fails-with? fw |
 			!call? empty?
 				. [ 0 ]
 	|pred:Pred accept-args:Bag
 		each! accept-args |accept-me
 			if! (not (pred accept-me)) |
 				oh-no! ~"
-					Expected {pred} {inspect accept-me}
+					Expected {pred} ({inspect accept-me}
 
 !not-call?.
 	doc. "TODO"
 	test. |
 		!not-call? empty?
 			. [ 0 ]
-		! fails-with? "Unexpected empty? (Array)[ ]" |
+		! fails-with? "Unexpected empty? (empty Array" |
 			!not-call? empty?
 				. [ ]
 	|pred:Pred reject-args:Bag
 		each! reject-args |reject-me
 			if! (pred reject-me) |
 				oh-no! ~"
-					Unexpected {pred} {inspect reject-me}
+					Unexpected {pred} ({inspect reject-me}
