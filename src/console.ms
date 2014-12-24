@@ -12,3 +12,10 @@ log!.
 
 	|...args
 		global.console.log (=> Str args " ")
+
+warn!.
+	doc. "Like `log!`, but prints to stderr."
+	|...args
+		\ TODO:SYNTAX Splat
+		log!.apply () args
+
