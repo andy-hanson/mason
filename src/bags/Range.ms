@@ -1,19 +1,17 @@
 use
 	..assert -> !
 	.? -> get-or Opt->?
-	.Array
 	.Bag -> count iterator
 	.Bag-Type -> from-stream
 	..Comparable -> =? <? >=?
 	..Comparable! -> <!
 	..control -> if
-	..Fun -> thunk
+	..Fun -> ignore thunk
 	..math.Num -> Nat round-down sign
 	..methods -> => + - * / empty length
 	..pred-types -> Opt
-	..Ref! -> get mod! ref
 	.Seq -> ?nth seq=?
-	..types.Method -> impl! impl-for
+	..types.Method -> impl!
 	..types.Record-Type
 	..types.util -> self-type
 
@@ -41,7 +39,9 @@ impl! length Range
 	|_
 		- _.end _.start
 
-impl! from-stream (self-type Range) (impl-for from-stream (self-type Array
+impl! from-stream (self-type Range) |_ stream
+	ignore _ \ TODO:Ignored vars
+	stream
 
 <! Range Bag
 	?nth ->
@@ -61,15 +61,14 @@ impl! from-stream (self-type Range) (impl-for from-stream (self-type Array
 	iterator ->
 		test. |
 			! seq=? (range 0 10 2) [0 2 4 6 8]
-		~|_
-			i = ref _.start
-			loop!
-				case!
-					>=? (get i) _.end
-						end-loop!
-					else
-						<~ (get i)
-						mod! i +[_.step]
+		~|range
+			handle = ~|case!
+				>=? _ range.end
+					()
+				else
+					<~ _
+					<~~ handle (+ _ range.step)
+			<~~ handle range.start
 
 <! (self-type Range) Bag-Type
 	empty -> thunk (range 0 0)

@@ -5,13 +5,13 @@ use
 	.bags.Bag -> map
 	.bags.Seq -> ?last pop> seq=?
 	.Comparable -> =?
+	.control -> build
 	.js -> global
 	.maps.Map -> ?get keys
 	.maps.Weak-Identity-Map!
 	.methods -> => + contains? empty empty? sub
 	.Object -> ?get-property get-property
 	.pred-types -> Any
-	.Ref! -> get ref mod!
 	.show
 	.Str
 	.Try -> oh-no!
@@ -123,19 +123,18 @@ ignore.
 identity-memoize.
 	doc. "TODO"
 	test. |
-		comps = ref 0
-		get-a = identity-memoize |x
-			mod! comps +[1]
-			x.a
-		a1 =
-			a. 1
-		! =? (get-a a1) 1
-		! =? (get-a a1) 1
-		! =? (get comps) 1
-		a2 =
-			a. 2
-		! =? (get-a a2) 2
-		! =? (get comps) 2
+		comps = build |yield
+			get-a = identity-memoize |x
+				yield x.a
+				x.a
+			a1 =
+				a. 1
+			! =? (get-a a1) 1
+			! =? (get-a a1) 1
+			a2 =
+				a. 2
+			! =? (get-a a2) 2
+		! seq=? comps [ 1 2 ]
 	|fun:Fun
 		wm = empty Weak-Identity-Map!
 		|arg:Any

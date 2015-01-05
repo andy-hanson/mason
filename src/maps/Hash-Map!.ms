@@ -16,7 +16,6 @@ use
 	.Map! -> assoc! un-assoc!
 	..methods -> => empty empty! freeze
 	..pred-types -> Any
-	..Ref! -> get ref set!
 	..types.Method -> impl!
 	..types.Record-Type
 	..types.util -> self-type
@@ -70,14 +69,13 @@ impl! keys Hash-Map! |_
 	buckets = values _.hash->bucket
 	flat-map buckets |bucket
 		streaming ~|
-			cur-bucket = ref bucket
-			loop!
-				case! get cur-bucket
-					:Any
-						<~ _.key
-						set! cur-bucket _.next!
-					else
-						end-loop!
+			handle-bucket = ~|case!
+				:Any
+					<~ _.key
+					handle-bucket _.next!
+				else
+					()
+			<~~ handle-bucket bucket
 
 \ TODO: impl! values, similarly
 

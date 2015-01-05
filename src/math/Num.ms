@@ -9,7 +9,6 @@ use
 	..Object -> get-property
 	..pred-types -> Opt
 	..js -> global js-bar js=== js< js> js<= js>= js+ js- js* js/ js%
-	..Ref! -> get mod! ref
 	..show -> inspect
 	..Try -> fails?
 	..types.Method -> impl!
@@ -270,10 +269,10 @@ region Other
 		doc. "TODO"
 		test. |
 			! seq=? (take nats 5) [ 0 1 2 3 4 ]
-		streaming ~|
-			i = ref 0
-			loop!
-				<~ get i
-				mod! i +[1]
+		f = ~|nat
+			<~ nat
+			<~~ f (+ nat 1)
+		streaming |
+			f 0
 
 Num

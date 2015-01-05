@@ -1,16 +1,15 @@
 use
 	.Array \ TODO: Array!
-	.Bag -> count each! iterator
+	.Bag -> count each! iterator map
 	.Bag-Type -> from-stream
 	..Bool -> not
-	..Comparable -> =?
+	..Comparable -> <? =?
 	..Comparable! -> <!
 	..control -> if returning
 	..math.Num -> modulo Nat
-	..methods -> + - * empty empty? empty!
+	..methods -> + - * empty empty? empty! sub
 	..Object! -> change-property!
 	.Range -> range
-	..Ref! -> get mod! ref set!
 	.Seq -> reverse
 	.Seq! -> <+! +>! ?<pop! ?pop>! set-nth!
 	..types.Record-Type
@@ -58,18 +57,13 @@ region Helpers
 		modulo (- index 1) capacity_
 
 <! Deque! Seq!
-	iterator -> ~|_
-		i = ref _.start-index!
-		\ TODO: Efficiency, safety
-		loop!
-			case!
-				=? (get i) _.end-index!
-					end-loop!
-				=? (get i) _.data!.length
-					set! i 0
-				else
-					<~ _.data![(get i)]
-					mod! i +[1]
+	iterator -> |_
+		indices = case
+			<? _.end-index! _.start-index!
+				+ (range _.start-index! (count _.data!)) (range 0 _.end-index!
+			else
+				range _.start-index! _.end-index!
+		iterator (map indices sub[_.data!]
 
 	<+! -> |_ ems:Bag
 		each! (reverse ems) |em
