@@ -10,7 +10,7 @@ use
 	..methods -> + - * empty empty? empty!
 	..Object! -> change-property!
 	.Range -> range
-	..Ref -> get mod! ref set!
+	..Ref! -> get mod! ref set!
 	.Seq -> reverse
 	.Seq! -> <+! +>! ?<pop! ?pop>! set-nth!
 	..types.Record-Type

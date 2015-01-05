@@ -16,7 +16,7 @@ use
 	.Map! -> assoc! un-assoc!
 	..methods -> => empty empty! freeze
 	..pred-types -> Any
-	..Ref -> get ref set!
+	..Ref! -> get ref set!
 	..types.Method -> impl!
 	..types.Record-Type
 	..types.util -> self-type

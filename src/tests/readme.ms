@@ -13,7 +13,7 @@ use
 	..js -> eval
 	..math.Num -> divisible? Int
 	..methods -> + - * / empty
-	..Ref -> get mod! ref set!
+	..Ref! -> get mod! ref set!
 	..Str
 	..Try -> fails?
 

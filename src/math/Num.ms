@@ -9,7 +9,7 @@ use
 	..Object -> get-property
 	..pred-types -> Opt
 	..js -> global js-bar js=== js< js> js<= js>= js+ js- js* js/ js%
-	..Ref -> get mod! ref
+	..Ref! -> get mod! ref
 	..show -> inspect
 	..Try -> fails?
 	..types.Method -> impl!

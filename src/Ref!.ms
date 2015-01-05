@@ -3,18 +3,18 @@ use
 	.Object! -> change-property!
 	.types.Record-Type
 
-
-Ref = Record-Type
+Ref! = Record-Type
 	members.
 		value!.
 
 set!.
 	doc. "TODO"
-	|ref:Ref new-value
+	|ref:Ref! new-value
 		change-property! ref "value!" new-value
 
+\ TODO: Make Ref! a mutable wrapper type and kill this.
 ref. |initial-value
-	Ref
+	Ref!
 		value!. initial-value
 
 \ TODO: `mod!` method
@@ -24,3 +24,5 @@ mod!. |_ f:Fun
 \ TODO: `get` method
 get. |_
 	_.value!
+
+Ref!

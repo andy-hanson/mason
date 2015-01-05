@@ -11,7 +11,7 @@ use
 	.methods -> => + contains? empty empty? sub
 	.Object -> ?get-property get-property
 	.pred-types -> Any
-	.Ref -> get ref mod!
+	.Ref! -> get ref mod!
 	.show
 	.Str
 	.Try -> oh-no!

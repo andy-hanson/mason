@@ -11,7 +11,7 @@ use
 	..math.Num -> Nat round-down sign
 	..methods -> => + - * / empty length
 	..pred-types -> Opt
-	..Ref -> get mod! ref
+	..Ref! -> get mod! ref
 	.Seq -> ?nth seq=?
 	..types.Method -> impl! impl-for
 	..types.Record-Type

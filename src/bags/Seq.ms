@@ -14,7 +14,7 @@ use
 	..math.Num -> Nat
 	..methods -> => + - empty empty? freeze sub type-of
 	..pred-types -> Any
-	..Ref -> get mod! ref set!
+	..Ref! -> get mod! ref set!
 	.Seq! -> +>!
 	.Stream -> streaming
 	..Try -> fails? oh-no!

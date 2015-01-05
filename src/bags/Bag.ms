@@ -11,7 +11,7 @@ use
 	..math.Num -> divisible? Nat
 	..methods -> => + - -! contains? empty empty? type-of
 	..pred-types -> Any Opt
-	..Ref -> get mod! ref set!
+	..Ref! -> get mod! ref set!
 	.Seq -> seq=?
 	.Stream -> streaming
 	..Symbol

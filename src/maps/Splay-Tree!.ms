@@ -10,7 +10,7 @@ use
 	..methods -> contains? empty empty? empty!
 	..Object! -> change-property!
 	..pred-types -> Any
-	..Ref -> get ref set!
+	..Ref! -> get ref set!
 	.Sorted-Map!
 	..types.Method -> impl!
 	..types.Record-Type
