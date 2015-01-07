@@ -1,4 +1,4 @@
-doc. "TODO"
+doc. "The program starts running here."
 
 use
 	.console -> log!

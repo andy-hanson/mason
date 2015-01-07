@@ -1,13 +1,13 @@
 doc. "Functions that should be use to debug and test code."
 
 use
-	.bags.Bag -> count each! map
+	.bags.Bag -> count map
 	.Bool -> false not true
 	.Comparable -> =?
 	.control -> if!
-	.Fun -> apply Pred
+	.Fun -> apply
 	.maps.Map -> each-pair!
-	.methods -> => + empty?
+	.methods -> => +
 	.show -> inspect
 	.Str -> indent
 	.Try -> fails-with? oh-no!
@@ -97,34 +97,3 @@ use
 						{indent (inspect expected-res)}
 					Got:
 						{indent (inspect actual)}
-
-!call?.
-	doc. "TODO"
-	test. |
-		!call? empty?
-			. [ ]
-		fw = "
-			Expected empty? (=> Array
-				. 0
-		! fails-with? fw |
-			!call? empty?
-				. [ 0 ]
-	|pred:Pred accept-args:Bag
-		each! accept-args |accept-me
-			if! (not (pred accept-me)) |
-				oh-no! ~"
-					Expected {pred} ({inspect accept-me}
-
-!not-call?.
-	doc. "TODO"
-	test. |
-		!not-call? empty?
-			. [ 0 ]
-		! fails-with? "Unexpected empty? (empty Array" |
-			!not-call? empty?
-				. [ ]
-	|pred:Pred reject-args:Bag
-		each! reject-args |reject-me
-			if! (pred reject-me) |
-				oh-no! ~"
-					Unexpected {pred} ({inspect reject-me}

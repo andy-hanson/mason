@@ -1,10 +1,11 @@
 use
-	..assert -> ! !not !call? !not-call?
+	..assert -> ! !not
 	..bags.? -> get-or Opt->?
 	..bags.Seq -> seq=? take
 	..bags.Stream -> streaming
 	..Bool -> and false true
 	..Comparable -> =? <? >? <=? >=? compare
+	..Fun -> spread!
 	..methods -> + - * / contains?
 	..Object -> get-property
 	..pred-types -> Opt
@@ -23,11 +24,11 @@ Int. Pred-Type
 		This only contains Nums for which integer methods return sensible results, AKA safe ints.
 		This is anything between min-safe-integer and max-safe-integer.
 	test. |
-		!call? contains?[Int]
+		spread! ![contains?[Int]]
 			. 1
 			. min-safe-integer
 			. max-safe-integer
-		!not-call? contains?[Int]
+		spread! !not[contains?[Int]]
 			. 1.1
 			. - min-safe-integer 1
 			. + max-safe-integer 1
