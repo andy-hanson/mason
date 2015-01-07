@@ -49,7 +49,7 @@ switch.
 		call dispatch
 
 switch-else.
-	doc. "TODO"
+	doc. "Special object used as default for `switch` statements."
 
 if.
 	doc. "Iff `condition`, evaluates `result` and puts it in a `?`."

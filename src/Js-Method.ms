@@ -8,11 +8,14 @@ use
 	.types.Record-Type
 
 Js-Method = Record-Type
-	doc. "TODO"
+	doc. "
+		A Js-Method allows you to call a JavaScript-style method as a function.
+		Unlike a Mason Method, for a Js-Method,
+		the first argument becomes `this` within the implementation's body.
 	test. |
-		tos = Js-Method
+		toString = Js-Method
 			impl-name. "toString"
-		! =? (tos 1)  "1"
+		! =? (toString 1)  "1"
 	members.
 		displayName. Str
 		impl-name. Str

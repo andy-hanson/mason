@@ -26,11 +26,11 @@ region Arithmetic operators
 
 	+!. Method
 		doc. |a b
-			"TODO"
+			"Generally makes `a` the result of `+ a b`, without mutating `b`."
 
 	-!. Method
 		doc. |a b
-			"TODO"
+			"Generally makes `a` the result of `- a b`, without mutating `b`.."
 
 region Basics
 	sub. Method
@@ -45,14 +45,14 @@ region Basics
 region Collection
 	empty. Method
 		doc. "
-			Instance of a type which is `empty?`.
+			Given a type, makes an instance which is `empty?`.
 			Should always return the same thing iff immutable.
 
 	empty?. Method
-		doc. "TODO"
+		doc. "Whether this collections has no elements."
 
 	empty!. Method
-		doc. "TODO"
+		doc. "Mutates this collection so that it will be `empty?`."
 
 region Unsorted
 	freeze. Method
@@ -82,6 +82,6 @@ region Unsorted
 		doc. "TODO"
 
 	contains?. Method
-		doc. |:Bool type:Type value
-			"TODO"
+		doc. |:Bool collection value
+			"Whether some collection of things as as an element `value`."
 		impl-symbol. sym-contains?

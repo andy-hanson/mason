@@ -30,14 +30,10 @@ Act. Alias-Type
 		A function returning nothing.
 		Fun[Num] describes a function taking nothing and returning a Num;
 		Act[Num] describes a function taking a Num and returning nothing.
-
 	alias-of. Fun
 
-\ TODO: Consider whether this is needed.
 Pred. Alias-Type
-	doc. "
-		Basically, Fun[Any Bool].
-
+	doc. "Fun[Any Bool]."
 	alias-of. Fun
 
 apply.
@@ -67,21 +63,10 @@ curry =
 	|f:Fun  ...args
 		Fun.prototype.bind.apply f (+ [()] args)
 
-impl! sub Fun curry
-impl! sub Method curry
-
-bind.
-	doc. "TODO"
-	test. |
-		"TODO"
-	|f:Fun ...args
-		Fun.prototype.bind.apply f args
-
 fun-copy.
 	doc. "
 		Creates a new function with identical functionality to another one.
 		Does *not* copy any properties on the old function.
-
 	test. |
 		f1 = |x
 			x
@@ -95,16 +80,6 @@ fun-copy.
 	|_:Fun |...args
 		\ TODO:SYNTAX Splat call
 		Fun.prototype.apply.call _ () args
-
-impl! sub (self-type Fun)
-	doc. "
-		Subbing Fun does nothing and is only for documentation.
-		E.g. Fun[Int Str] takes an Int and returns a Str.
-
-	test. |
-		! =? Fun[Fun Fun] Fun
-	|
-		Fun
 
 identity.
 	doc. "Outputs its input unmodified."
@@ -211,5 +186,17 @@ impl! show Fun
 					"<anonymous Fun>"
 				else
 					_
+
+impl! sub (self-type Fun)
+	doc. "
+		Subbing Fun does nothing and is only for documentation.
+		E.g. Fun[Int Str] takes an Int and returns a Str.
+	test. |
+		! =? Fun[Fun Fun] Fun
+	fun-copy identity
+
+impl! sub Fun curry
+\ TODO: Make Method a Callable
+impl! sub Method curry
 
 Fun
