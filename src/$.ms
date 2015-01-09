@@ -1,16 +1,21 @@
 use
 	.assert -> !
+	.bags.Array
+	.bags.Bag -> concat=> map
+	.Bool
 	.Comparable -> =?
 	.console -> log!
-	.control -> unreachable!
+	.control -> if unreachable!
 	es6-promise -> Promise
-	.Fun -> apply ignore
+	.Fun -> apply fun-copy identity ignore
 	.Generator! -> gen-next!
 	.js -> new
-	.methods -> +
+	.methods -> => + sub type-of
 	.pred-types -> Any
 	.Str -> indent
 	.Try -> oh-no!
+	.types.Method -> impl!
+	.types.util -> self-type
 
 $ =
 	doc. "
@@ -30,6 +35,12 @@ $ =
 		$done ($catch ($after rejected unreachable!) ![=?[1
 
 	Promise
+
+impl! sub (self-type $) identity
+
+$!=? = |$a expected
+	$done ($after $a |_
+		! =? expected _
 
 $done.
 	doc. "
@@ -60,7 +71,7 @@ $catch.
 $resolved.
 	doc. "$ that is already resolved."
 	test. |
-		$done ($after ($resolved 3) ![=?[3
+		$done ($!=? ($resolved 3) 3
 	|:$ value
 		Promise.resolve value
 
@@ -81,11 +92,61 @@ $delay.
 	test. |
 		_ = $delay |
 			1
-		$done ($after _ ![=?[1
+		$done ($!=? _ 1)
 	|delayed:Fun[Any]
 		new $ |resolve reject
 			ignore reject \ TODO:Ignored vars
 			resolve (delayed ()
+
+$all.
+	doc. "
+		TODO
+		Regardless of the input type, the output promise will be for an Array.
+	test. |
+		"TODO"
+	|:$[Array] _:Bag
+		$.all (=> Array _
+
+$map.
+	doc. "
+		TODO
+		Unlike `map`, this always returns an Array regardless of the bag's type.
+	test. |
+		$incr = |a
+			$delay |
+				+ a 1
+		$done ($!=? ($map [ 1 2 3 ] $incr) [ 2 3 4 ]
+	|:$[Array] mapped:Bag mapper:Fun[Any $]
+		$all (map mapped mapper
+
+$flat-map.
+	doc. "TODO"
+	test. |
+		$dup = |a
+			$delay |
+				[ a a ]
+		$done ($!=? ($flat-map [ 1 2 3 ] $dup) [ 1 1 2 2 3 3 ]
+
+	|:$[Bag] mapped:Bag mapper:Fun[Any $[Bag]]
+		$after ($map mapped mapper) concat=>[(type-of mapped)]
+
+$each!.
+	doc. "TODO"
+	fun-copy $map
+
+$keep.
+	doc. "TODO"
+	test. |
+		$even = |a
+			$delay |
+				=? a 2
+		$done ($!=? ($keep [ 1 2 3 ] $even) [ 2 ]
+
+	|:$[Array] keep-some:Bag keep-if?:Fun[Any $[Bool]]
+		$flat-map keep-some |_
+			$after keep-if?_ |keep
+				if keep |
+					_
 
 $call.
 	doc. "
@@ -95,13 +156,10 @@ $call.
 	test. |
 		$one = $delay |
 			1
-		$two = $delay |
-			2
-		$three = $call + $one $two
-		$done ($after $three ![=?[3
+		$done ($!=? ($call + $one $one) 2
 
 	|:$ f ...$args
-		$after ($.all $args) |args
+		$after ($all $args) |args
 			apply f args
 
 $ing.
@@ -115,8 +173,7 @@ $ing.
 			promised <~ $resolved "promised"
 			! =? promised "promised"
 			"res"
-		$done ($after p |_
-			! =? _ "res"
+		$done ($!=? p "res"
 
 		p2 = $ing ~|
 			<~ $rejected "whoops"
@@ -132,8 +189,7 @@ $ing.
 				done
 					$resolved value
 				else
-					promise:$ = value
-					promise.then eval
+					$after value eval
 		eval ()
 
 $

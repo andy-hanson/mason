@@ -179,15 +179,23 @@ region Using from-stream
 		test. |
 			"TODO"
 		|Res-Type:Bag-Type _:Bag mapper:Fun[Any Bag]
+			concat=> Res-Type (map=> Stream _ mapper)
+
+	\ TODO: Just use variadic `+`
+	concat=>.
+		doc. "TODO"
+		test. |
+			"TODO"
+		|Res-Type:Bag-Type _:Bag[Bag]
 			from-stream Res-Type (streaming ~|
 				iter = iterator_
 				loop!
 					value done = gen-next! iter
-					case! done
-						_
+					case!
+						done
 							end-loop!
 						else
-							<~~ iterator (mapper value)
+							<~~ iterator value
 
 	impl! + Bag
 		doc. "TODO"
@@ -233,6 +241,7 @@ region Using from-stream
 									-! remove-us [ value ]
 								else
 									<~ value
+
 
 region Unsorted
 	impl! =? Bag

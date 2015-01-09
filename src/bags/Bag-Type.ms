@@ -27,6 +27,8 @@ impl! => Bag-Type Bag
 		from-stream type bag
 
 from-stream. Method
-	doc. "TODO"
+	doc. |_ stream:Bag
+		"
+			TODO
 
 Bag-Type
