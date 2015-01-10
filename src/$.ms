@@ -8,7 +8,7 @@ use
 	.control -> if unreachable!
 	es6-promise -> Promise
 	.Fun -> apply fun-copy identity ignore
-	.Generator! -> gen-next!
+	.Generator!
 	.js -> new
 	.methods -> => + sub type-of
 	.pred-types -> Any
@@ -104,7 +104,7 @@ $all.
 		Regardless of the input type, the output promise will be for an Array.
 	test. |
 		"TODO"
-	|:$[Array] _:Bag
+	|:$[Array] _:Bag[$]
 		$.all (=> Array _
 
 $map.
@@ -184,7 +184,7 @@ $ing.
 	|:$ code:Fun[Generator!]
 		gen = code ()
 		eval = |last-value
-			value done = gen-next! gen last-value
+			value done = gen.next last-value
 			case
 				done
 					$resolved value

@@ -10,7 +10,6 @@ use
 	..Comparable! -> <!
 	..control -> if returning
 	..Fun
-	..Generator! -> gen-next!
 	..math.Num -> Nat
 	..methods -> => + - empty empty? freeze sub type-of
 	..pred-types -> Any
@@ -73,7 +72,7 @@ region Search
 			\ TODO:SYNTAX Loop return value
 			ans = ref (empty ?
 			loop!
-				value done = gen-next! iter
+				value done = iter.next ()
 				case!
 					done
 						end-loop!
@@ -163,7 +162,7 @@ region Update
 						=? (get i) count-to-take
 							end-loop!
 						else
-							value done = gen-next! iter
+							value done = iter.next ()
 							case!
 								done
 									end-loop!
@@ -185,7 +184,7 @@ region Update
 							end-loop!
 						else
 							case!
-								(gen-next! iter).done
+								(iter.next ()).done
 									end-loop!
 								else
 									mod! i +[1]
@@ -206,8 +205,8 @@ region Combination
 			iter0 = iterator s0
 			iter1 = iterator s1
 			loop!
-				next0 = gen-next! iter0 ()
-				next1 = gen-next! iter1 ()
+				next0 = iter0.next ()
+				next1 = iter1.next ()
 				case!
 					or next0.done next1.done
 						end-loop!
@@ -235,7 +234,7 @@ region TODO: put somewhere
 						loop! outer
 							next-group = empty Array!
 							loop!
-								value done = gen-next! iter
+								value done = iter.next ()
 								case!
 									done
 										end-loop! outer

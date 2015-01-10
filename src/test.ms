@@ -10,6 +10,3 @@ p = (promise-all-modules "./js").then |
 	(test-all "./js").then |
 		log! "All tests complete."
 p.done ()
-
-
-

@@ -4,7 +4,6 @@ use
 	.Bag-Type -> from-stream
 	..Comparable! -> <!
 	..Fun -> ignore thunk
-	..Generator! -> gen-next!
 	..js -> reference=?
 	..methods -> => contains? empty empty?
 	..pred-types -> Any
@@ -45,7 +44,7 @@ region Is Seq
 	impl! from-stream (self-type ?) |_ stream
 		ignore _ \ TODO:Ignored vars
 		iter = iterator stream
-		value done = gen-next! iter
+		value done = iter.next ()
 		case
 			done
 				empty ?

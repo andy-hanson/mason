@@ -5,7 +5,7 @@ use
 	..Bool -> and false not true
 	..Comparable -> =?
 	..Fun -> Act identity Pred
-	..Generator! -> gen-next!
+	..Generator!
 	.Hash-Set!
 	..js -> reference=?
 	..math.Num -> divisible? Nat
@@ -59,7 +59,7 @@ region Using iterator
 			\ TODO:ES6 `for (let value of _)`
 			iter = iterator_
 			loop!
-				value done = gen-next! iter
+				value done = iter.next ()
 				case!
 					done
 						end-loop!
@@ -93,7 +93,7 @@ region Using iterator
 		\ TODO:SYNTAX Return from loop
 		found = ref (empty ?
 		loop!
-			value done = gen-next! iter
+			value done = iter.next ()
 			case!
 				done
 					end-loop!
@@ -112,7 +112,7 @@ region Using iterator
 	impl! empty? Bag
 		doc. "Whether `count` will return 0."
 		|:Bool _
-			(gen-next! iterator_).done
+			(iterator_.next ()).done
 
 region Using from-stream
 	keep. Method
@@ -130,7 +130,7 @@ region Using from-stream
 			from-stream Res-Type (streaming ~|
 				iter = iterator_
 				loop!
-					value done = gen-next! iter
+					value done = iter.next ()
 					case!
 						done
 							end-loop!
@@ -154,7 +154,7 @@ region Using from-stream
 			from-stream Res-Type (streaming ~|
 				iter = iterator_
 				loop!
-					value done = gen-next! iter
+					value done = iter.next ()
 					case!
 						done
 							end-loop!
@@ -190,7 +190,7 @@ region Using from-stream
 			from-stream Res-Type (streaming ~|
 				iter = iterator_
 				loop!
-					value done = gen-next! iter
+					value done = iter.next ()
 					case!
 						done
 							end-loop!
@@ -231,7 +231,7 @@ region Using from-stream
 				iter = iterator_
 				remove-us = => Hash-Set! remove
 				loop!
-					value done = gen-next! iter
+					value done = iter.next ()
 					case!
 						done
 							end-loop!
