@@ -12,6 +12,7 @@
 		"stack-displayname": "1.0.0",
 		"q": "1.1.2",
 		"q-io": "1.11.6",
+		"request": "2.51.0",
 		"watch": "0.13.0"
 	},
 	"engines": {

@@ -1,7 +1,8 @@
 use
 	.bags.Bag -> count
 	.Bool -> and
-	.Comparable -> =?
+	.Comparable -> =? compare
+	.Comparable! -> <!
 	.js -> global reference=?
 	.Regex -> regex
 	.types.Method -> impl!
@@ -27,7 +28,6 @@ indent.
 	doc. "
 		Adds a `\\t` to all `\\n` in `str`.
 		Does *not* do anything to the first line.
-
 	test. |
 		s = "
 			a
@@ -39,10 +39,20 @@ indent.
 
 		[ s ] -> s-indented
 		[ "a" ] -> "a"
-
 	|str:Str
 		"{str.replace (regex "\n" "g") "\n\t"}"
 
+lines.
+	doc. "TODO"
+	test. |
+		"TODO"
+	|str:Str
+		str.split "\n"
+
+<! Str Comparable
+
 impl! =? Str reference=?
+impl! compare Str |a b
+	a.localeCompare b
 
 Str

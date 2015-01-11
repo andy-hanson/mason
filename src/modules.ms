@@ -11,6 +11,11 @@ commonJS-require. i-require
 path = commonJS-require "path"
 fs = commonJS-require "q-io/fs"
 
+get-global-module.
+	doc. "KLUDGE: `use` syntax works with ES6 modules"
+	|name
+		commonJS-require name
+
 get-module.
 	doc. "TODO"
 	|module-path

@@ -10,6 +10,7 @@ use
 	..Comparable! -> <!
 	..control -> if returning
 	..Fun -> identity
+	..js -> defined?
 	..math.Num -> Nat
 	..methods -> => + - empty empty? freeze sub type-of
 	..pred-types -> Any Opt
@@ -291,7 +292,7 @@ region Sorting
 						returning (<? (sb (get prev)) (sb em)) |
 							set! prev em
 
-	sort.
+	sort. Method
 		doc. "
 			Puts the elements in sorted order.
 			Order is determined by calling `compare`.
@@ -299,12 +300,24 @@ region Sorting
 		test. |
 			[ [ 3 2 1 ] ] -> [ 1 2 3 ]
 			[ [ "five" "six" "seven" ] count ] -> [ "six" "five" "seven" ]
-		|:Array _:Bag sort-by:Opt[Fun[Any Any]]
+		default. |_:Bag sort-by:Opt[Fun[Any Any]]
+			sort=> type-of_ _ sort-by
+
+	\ KLUDGE: because others are so slow...
+	impl! sort Str |_ sort-by:Opt[Fun[Any Any]]
+		case
+			defined? sort-by
+				sort.default sort _ sort-by
+			else
+				((_.split "").sort ()).join ""
+
+	sort=>.
+		|Res-Type:Bag-Type _:Bag sort-by:Opt[Fun[Any Any]]
 			\ TODO:SYNTAX Optional args
 			sb = get-or (Opt->? sort-by) identity
 			arr = => Array! _
 			arr.sort |a b
 				compare (sb a) (sb b)
-			freeze arr
+			=> Res-Type arr
 
 Seq

@@ -12,6 +12,3 @@ add-to-bag!. |map:Map! key added:Bag bag-type:Opt[Bag-Type]
 	bt = get-or (Opt->? bag-type) Array!
 	bag = get-or-update! map key ~(empty bt
 	+! bag added
-
-
-

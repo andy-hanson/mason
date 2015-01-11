@@ -3,7 +3,7 @@ use
 	..assert -> ! !not
 	.Bag-Type -> from-stream
 	..Bool -> and false not true
-	..Comparable -> =?
+	..Comparable -> =? <?
 	..Fun -> Act identity Pred
 	..Generator!
 	.Hash-Set!
@@ -106,7 +106,7 @@ region Using iterator
 
 	count. Method
 		doc. "Number of elements in it."
-		default. |:Nat _
+		default. |:Nat _:Bag
 			fold _ 0 +[1]
 
 	impl! empty? Bag
@@ -249,5 +249,32 @@ region Unsorted
 			! =? [ 1 ] [ 1 ]
 		|a b
 			and (reference=? (type-of a) (type-of b)) ~(seq=? a b
+
+	max-by.
+		doc. "TODO"
+		test. |
+			[ [ "five" "six" "seven" ] "" count ] -> "seven"
+		|_:Bag default:Any by:Fun[Any Any]
+			max-val = ref default
+			fold _ (by default) |cur-max-by em
+				em-by = by em
+				case
+					<? cur-max-by em-by
+						set! max-val em
+						em-by
+					else
+						cur-max-by
+			get max-val
+
+	\ TODO: Method, specialize on Sorted-Set
+	max.
+		doc. "TODO"
+		test. |
+			"TODO"
+		|_:Bag default:Any
+			max-by _ default identity
+
+	\ TODO: max method, specialize on sets
+
 
 Bag
