@@ -1,18 +1,18 @@
 use
-	.? -> get-or
+	.? -> get-or Opt->?
 	.Array
 	.Array!
 	..assert -> ! !not
 	.Bag -> all? count iterator
 	.Bag-Type -> from-stream
 	..Bool -> and false not or true
-	..Comparable -> =? <? <=? >=?
+	..Comparable -> compare =? <? <=? >=?
 	..Comparable! -> <!
 	..control -> if returning
-	..Fun
+	..Fun -> identity
 	..math.Num -> Nat
 	..methods -> => + - empty empty? freeze sub type-of
-	..pred-types -> Any
+	..pred-types -> Any Opt
 	..Ref! -> get mod! ref set!
 	.Seq! -> +>!
 	.Stream -> streaming
@@ -267,21 +267,39 @@ region TODO: put somewhere
 
 region Sorting
 	sorted?.
-		doc. "Whether the list is already in sorted order."
+		doc. "Whether it is already in sorted order."
 		test. |
 			[ [ ] ] -> true
 			[ [ 1 2 3 ] ] -> true
 			[ [ 3 2 1 ] ] -> false
-		|seq:Bag
+			[ [ "six" "five" "seven" ] count ] -> true
+		|seq:Seq sort-by:Opt[Fun[Any Any]]
+			\ TODO:SYNTAX Optional args
+			sb = get-or (Opt->? sort-by) identity
 			case ?first seq
 				empty?_
 					true
 				else
+					\ TODO: Use `sliding`
 					prev = ref _.val
 					all? (tail seq) |em
-						returning (<? (get prev) em) |
+						returning (<? (sb (get prev)) (sb em)) |
 							set! prev em
 
-	\ TODO: sort, sort-by
+	sort.
+		doc. "
+			Puts the elements in sorted order.
+			Order is determined by calling `compare`.
+			Optional `sort-by` determines an attribute of elements to be compared.
+		test. |
+			[ [ 3 2 1 ] ] -> [ 1 2 3 ]
+			[ [ "five" "six" "seven" ] count ] -> [ "six" "five" "seven" ]
+		|:Array _:Bag sort-by:Opt[Fun[Any Any]]
+			\ TODO:SYNTAX Optional args
+			sb = get-or (Opt->? sort-by) identity
+			arr = => Array! _
+			arr.sort |a b
+				compare (sb a) (sb b)
+			freeze arr
 
 Seq

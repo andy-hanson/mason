@@ -1,6 +1,7 @@
 use
 	.bags.? -> get-or
 	.Bool
+	.Fun
 	.Object -> ?get-property-or-in-prototype
 	.private.bootstrap -> sym-contains? sym-sub sym-type-of
 	.types.Method
@@ -40,6 +41,15 @@ region Basics
 	=>. Method
 		doc. |convert-to:Type convert-me
 			"Converts a value to a given type."
+		wrap. |impl args
+			type = args[0]
+			converted = args[1]
+			case converted
+				:type
+					_
+				else
+					\ TODO:SYNTAX Splat call
+					Fun.prototype.apply.call impl () args
 
 region Collection
 	empty. Method

@@ -1,8 +1,8 @@
 use
 	.? -> get-or Opt->?
 	.Array
-	.Bag
-	.Bag-Type
+	.Bag -> each!
+	.Bag-Type -> from-stream
 	..Bool -> and not
 	..Comparable! -> <!
 	..control -> if
@@ -27,6 +27,13 @@ Array! = Pred-Type
 		ignore array! \ TODO:Ignored vars
 		\ TODO:SYNTAX Optional arguments
 		Array (get-or (Opt->? initial-size) 0
+
+	from-stream -> |array! stream
+		ignore array! \ TODO:Ignored vars
+		it = Array 0
+		each! stream |em
+			it.push em
+		it
 
 \ We're defining these on Arrays, but they will only work for Array!s because Arrays are frozen
 <! Array Seq!

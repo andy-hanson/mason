@@ -2,7 +2,8 @@
 
 use
 	.? -> Opt->?
-	.Bag -> count each! iterator
+	.Array!
+	.Bag -> count iterator
 	.Bag-Type -> from-stream
 	..Comparable! -> <!
 	..Fun -> ignore thunk
@@ -30,11 +31,7 @@ impl! empty (self-type Array) (thunk [])
 
 impl! from-stream (self-type Array) |_ stream
 	ignore _ \ TODO:Ignored vars
-	\ TODO: freeze (from-stream array! ...
-	it = Array 0
-	each! stream |em
-		it.push em
-	freeze it
+	freeze (from-stream Array! stream)
 
 \ TODO:REMOVE
 impl! type-of Array |
