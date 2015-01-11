@@ -2,46 +2,49 @@ use
 	.Array
 	.Bag -> map
 	.Deque!
-	..methods -> => empty? type-of
-	..show -> inspect
+	..methods -> => empty empty? type-of
+	..Object -> flag?
+	..show
 	..Str -> indent
 	..types.Method -> impl! impl-for
 
-impl! inspect Bag
+impl! show Bag
 	test. |
-		[ (=> Deque! [ 1 2 3 ]) ] -> "
+		\ TODO:SYNTAX [ repr. ]
+		r =
+			repr.
+		d = => Deque! [ 1 2 3 ]
+		[ d ] -> "
+			\n\t. 1
+				. 2
+				. 3
+		[ d r ] -> "
 			=> Deque!
 				. 1
 				. 2
 				. 3
+		[ (empty Deque!) ] -> "[ ]"
+		[ (empty Deque!) r ] -> "empty Deque!"
 
-		[ [ 1 2 3 ] ] -> "
-			=> Array
-				. 1
-				. 2
-				. 3
-	|case
-		empty?_
-			"empty {type-of_}"
-		else
-			"
-				=> {type-of_}
-					{indent show_}
-
-impl! show Bag
-	test. |
-		[ [ 1 2 3 ] ] -> "
-			. 1
-			. 2
-			. 3
-	|case
-		empty?_
-			"[ ]"
-		else
-			show-ems = => Array (map _ |em
-				". {em}"
-			show-ems.join "\n"
+	|_ opts
+		content = case
+			empty?_
+				"[ ]"
+			else
+				\ TODO: mk-Str
+				ems = map _ |em
+					indent (show em opts
+				"
+					\n\t. {=> Str ems "\n\t. "}
+		case
+			flag? opts "repr"
+				case
+					empty?_
+						"empty {type-of_}"
+					else
+						"=> {type-of_}{content}"
+			else
+				content
 
 \ Explicit impl!s for Array so that it doesn't act like a Map
-impl! inspect Array (impl-for inspect Bag)
 impl! show Array (impl-for show Bag)

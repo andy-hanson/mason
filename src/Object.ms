@@ -8,7 +8,7 @@ use
 	.Bool -> and false not nor true xor
 	.Comparable -> =?
 	.Dict
-	.js -> global js-typeof reference=? js-sub
+	.js -> defined? global js-typeof reference=? js-sub
 	.methods -> => + empty empty?
 	.Object! -> add-property!
 	.pred-types -> Union
@@ -25,6 +25,19 @@ Object =
 
 Str = global.String \ Can't have dependency on Str.ms
 ~Object-Key = Union[Str Symbol]
+
+flag?. |obj flag:Str
+	\ TODO: use `and`
+	case obj
+		:Object
+			case js-sub obj flag
+				defined?_
+					b:Bool = _
+					b
+				else
+					false
+		else
+			false
 
 \ TODO: Use a Mason set
 ~forbidden-fun-props = => Identity-Set! [ "arguments" "caller" ]
@@ -118,7 +131,7 @@ has-property?.
 		! has-property? x "a"
 		!not has-property? x "b"
 		!not has-property? x "toString" \ use has-property-or-in-prototype? for that.
-	|object:Object name:Object-Key
+	|object name:Object-Key
 		Object.prototype.hasOwnProperty.call object name
 
 has-property-or-in-prototype?.

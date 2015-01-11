@@ -8,7 +8,7 @@ use
 	.Fun -> apply
 	.maps.Map -> each-pair!
 	.methods -> => +
-	.show -> inspect
+	.show -> repr
 	.Str -> indent
 	.Try -> fails-with? oh-no!
 
@@ -43,7 +43,7 @@ use
 				if! (not (Fun.prototype.apply.call _ () args)) |
 					oh-no! "
 						Expected {a}
-							{indent (=> Str (map args inspect) "\n")}
+							{indent (=> Str (map args repr) "\n")}
 			:Bool
 				! =? (count args) 1
 				if! not_ |
@@ -62,7 +62,7 @@ use
 				if! (Fun.prototype.apply.call _ () args) |
 					oh-no! "
 						Unexpected {a}
-							{indent ((map args inspect).join "\n")}
+							{indent ((map args repr).join "\n")}
 			:Bool
 				if! _ |
 					oh-no! args[0]
@@ -92,8 +92,8 @@ use
 			if! (not (=? actual expected-res)) |
 				oh-no! ~"
 					Calling {fun} on:
-						{indent ((map args inspect).join "\n")}
+						{indent ((map args repr).join "\n")}
 					Should be:
-						{indent (inspect expected-res)}
+						{indent (repr expected-res)}
 					Got:
-						{indent (inspect actual)}
+						{indent (repr actual)}

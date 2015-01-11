@@ -10,7 +10,7 @@ use
 	..Object
 	..Object! -> add-property!
 	.Record-Type
-	..show -> inspect
+	..show
 	..Str
 
 Enum = Record-Type
@@ -43,7 +43,7 @@ Enum = Record-Type
 			add-property! enum val-name enum-val
 		impl! type-of enum |
 			enum
-		impl! inspect enum |val
+		impl! show enum |val
 			"{enum.displayName}.{val.name}"
 
 unchecked-implementor! Enum Impl-Type

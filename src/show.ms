@@ -2,64 +2,41 @@ use
 	.bags.Bag -> map
 	.Bool -> false true
 	.Comparable -> =?
-	.Fun -> identity
+	.Fun
 	.js -> js-sub
 	.js-impl -> new-Set
 	.methods -> type-of
-	.Object -> get-property own-enumerable-properties
+	.Object -> flag? get-property own-enumerable-properties
 	.private.bootstrap -> ms set!
 	.Str -> indent
 	.types.Method -> impl!
 
-inspecting = new-Set ()
-\ `show` often delegates to `inspect`, and vice versa, so that's an OK recursion.
 showing = new-Set ()
 
-inspect. Method
-	doc. |:Str _
-		"TODO"
+show = Method
+	doc. |:Str _ opts
+		"
+			Converts the value to a string for string interpolation.
+			This is the method called when you do `\{...}`.
+			For a more detailed Str representation of data, use `inspect`.
 	test. |
 		\ TODO: How to not include displayName
 		a =
 			x. ~a
-		inspect a
-
+		\ TODO:SYNTAX [ repr. ]
+		r =
+			repr.
 		[ a ] -> "
+			Dict
+				x. <recursive>
+				displayName. a
+		[ a r ] -> "
 			Dict
 				x. <recursive>
 				displayName. "a"
 		\ TODO
 		\ [ () ] -> "()"
-		\ [ undefined ] -> "undefined"
-	wrap. |impl args
-		case args[0]
-			inspecting.has _
-				"<recursive>"
-			else
-				inspecting.add _
-				x = Fun.prototype.apply.call impl () args
-				inspecting.delete _
-				x
-	default. |case
-		=? _ ()
-			"()"
-		=? _ undefined
-			"undefined"
-		else
-			key-vals = map own-enumerable-properties_ |key
-				val:Str = inspect (get-property _ key
-				"{key}. {indent val}"
-			"
-				{type-of_}
-					{key-vals.join "\n\t"}
-
-
-show. Method
-	doc. |:Str _
-		"
-			Converts the value to a string for string interpolation.
-			This is the method called when you do `\{...}`.
-			For a more detailed Str representation of data, use `inspect`.
+		\ [ undefined ] -> "undefined
 	wrap. |impl args
 		case js-sub args 0
 			showing.has _
@@ -70,17 +47,45 @@ show. Method
 				x:Str = Fun.prototype.apply.call impl () args
 				showing.delete _
 				x
-	default. inspect
+	default. |_ opts
+		case
+			=? _ ()
+				"()"
+			=? _ undefined
+				"undefined"
+			else
+				key-vals = map own-enumerable-properties_ |key
+					val:Str = show (get-property _ key) opts
+					"{key}. {indent val}"
+				"
+					{type-of_}
+						{key-vals.join "\n\t"}
+
+repr.
+	doc. "
+		Shows it with the `repr` flag set.
+		For debug printing, there is the helper function `console.dbg!`.
+	|_
+		show _
+			repr.
 
 \ TODO:MOVE
-impl! inspect Str
+impl! show Str
 	test. |
-		[ "a" ] -> "\"a\""
-	|_
-		"\"{_}\""
+		\ TODO:SYNTAX [ repr. ]
+		r =
+			repr.
+		[ "a" ] -> "a"
+		[ "a" r ] -> "\"a\""
+	|_ opts
+		case
+			flag? opts "repr"
+				`'"' + _ + '"'` \"\"{_}\""
+			else
+				_
 
 \ TODO: show-Bool.ms?
-impl! inspect Bool
+impl! show Bool
 	test. |
 		[ true ] -> "true"
 		[ false ] -> "false"
@@ -89,9 +94,6 @@ impl! inspect Bool
 			"true"
 		else
 			"false"
-
-\ TODO: MOVE
-impl! show Str identity
 
 set! ms "show" show
 

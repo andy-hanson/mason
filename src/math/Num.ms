@@ -10,7 +10,7 @@ use
 	..Object -> get-property
 	..pred-types -> Opt
 	..js -> global js-bar js=== js< js> js<= js>= js+ js- js* js/ js%
-	..show -> inspect
+	..show
 	..Try -> fails?
 	..types.Method -> impl!
 	..types.Pred-Type
@@ -247,7 +247,7 @@ region Near
 			max = pow 10 (neg sfs)
 			<? abs_ max
 
-impl! inspect Num
+impl! show Num
 	test. |
 		[ 12 ] -> "12"
 		[ -1.0 ] -> "-1"

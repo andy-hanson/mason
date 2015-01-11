@@ -2,33 +2,31 @@ use
 	..bags.Bag -> map
 	.Map -> keys
 	..methods -> => type-of
-	..show -> inspect
+	..Object -> flag?
+	..show
 	..Str
 	..types.Method -> impl!
-
-impl! inspect Map
-	test. |
-		m =
-			1 -> 2
-		[ m ] -> "
-			Hash-Map!
-				1 -> 2
-	|_
-		parts = map keys_ |key
-			"{inspect key} -> {inspect _[key]}"
-		"
-			{type-of_}
-				{=> Str parts "\n\t"}
 
 impl! show Map
 	test. |
 		m =
 			1 -> 2
-			3 -> 4
-		[ m ] -> "
-			1 -> 2
-			3 -> 4
-	|_
+		\ TODO:SYNTAX [ repr. ]
+		r =
+			repr.
+		[ m ] -> "\n\t1 -> 2"
+		[ m r ] -> "
+			Hash-Map!
+				1 -> 2
+	|_ opts
+		\ TODO map pairs_
 		parts = map keys_ |key
-			"{key} -> {_[key]}"
-		=> Str parts "\n"
+			"{show key opts} -> {show _[key] opts}"
+		type = case
+			flag? opts "repr"
+				show type-of_ opts
+			else
+				""
+		"
+			{type}
+				{=> Str parts "\n\t"}

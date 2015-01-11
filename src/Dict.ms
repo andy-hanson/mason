@@ -7,7 +7,7 @@ use
 	.maps.Map -> keys
 	.methods -> empty type-of
 	.private.bootstrap -> Dict extend!
-	.show -> inspect
+	.show
 	.types.Method -> impl!
 	.types.util -> self-type
 
@@ -31,9 +31,8 @@ impl! empty (self-type Dict) |
 impl! type-of Dict |
 	Dict
 
-\ Don't use Map#inspect.
-impl! inspect Dict |_
-	inspect.default _
+\ TODO: Don't use Map#inspect.
+impl! show Dict show.default
 
 Dict
 
