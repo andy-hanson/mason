@@ -22,7 +22,8 @@ empty-marker =
 	members.
 		val.
 
-full-? = |x
+\ TODO: Make it a Wrapper-Type and just use `? x`.
+full-?. |x
 	?
 		val. x
 empty-? =
@@ -87,10 +88,14 @@ region Funs
 			[ (=> ? [ 1 ]) ] -> 1
 			! fails? |
 				un-? (empty ?)
-		|_:?
+		|_:? ~fail-message
 			case
 				empty?_
-					oh-no! "Tried to force empty `?`."
+					oh-no! case
+						defined? fail-message
+							fail-message
+						else
+							"Tried to force empty `?`."
 				else
 					_.val
 

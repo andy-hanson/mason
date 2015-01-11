@@ -1,16 +1,18 @@
 use
+	.? -> un-?
 	.Array \ TODO: Array!
 	.Bag -> count each! iterator map
 	.Bag-Type -> from-stream
-	..Bool -> not
+	..Bool -> and not or
 	..Comparable -> <? =?
 	..Comparable! -> <!
 	..control -> if returning
 	..math.Num -> modulo Nat
 	..methods -> + - * empty empty? empty! sub
 	..Object! -> change-property!
+	..pred-types -> Any
 	.Range -> range
-	.Seq -> reverse
+	.Seq -> ?nth reverse
 	.Seq! -> <+! +>! ?<pop! ?pop>! set-nth!
 	..types.Record-Type
 	..types.util -> self-type
@@ -50,11 +52,25 @@ region Helpers
 			set-nth! new-data index old-data[index]
 		change-property! _ "data!" new-data
 
+	wrap-index = |_ index
+		modulo index capacity_
+
 	next-index = |_ index:Nat
-		modulo (+ 1 index) capacity_
+		wrap-index _ (+ index 1
 
 	prev-index = |_ index:Nat
-		modulo (- index 1) capacity_
+		wrap-index _ (- index 1
+
+	?data-index = |_ index:Nat
+		a = + _.start-index! index
+		case
+			<? a capacity_
+				if (or (<? _.end-index! _.start-index!) ~(<? a _.end-index!)) |
+					a
+			else
+				b = wrap-index _ a
+				if (and (<? _.end-index! _.start-index!) ~(<? b _.end-index!)) |
+					b
 
 <! Deque! Seq!
 	iterator -> |_
@@ -71,7 +87,7 @@ region Helpers
 			case!
 				=? new-start _.end-index!
 					expand!_
-					<+! _ em
+					<+! _ [ em ]
 				else
 					change-property! _ "start-index!" new-start
 					set-nth! _.data! _.start-index! em
@@ -82,7 +98,7 @@ region Helpers
 			case!
 				=? new-end _.start-index!
 					expand!_
-					+>! _ em
+					+>! _ [ em ]
 				else
 					set-nth! _.data! _.end-index! em
 					change-property! _ "end-index!" new-end
@@ -100,6 +116,13 @@ region Helpers
 			new-end = prev-index _ _.end-index!
 			change-property! _ "end-index!" new-end
 			_.data![new-end]
+
+	?nth -> |_ index:Nat
+		map (?data-index _ index) sub[_.data!]
+
+	set-nth! -> |_ index:Nat set-to:Any
+		data-index = un-? (?data-index _ index) ~"Can't set at index {index}; count is {count_}"
+		set-nth! _.data! data-index set-to
 
 	empty! -> |_
 		empty! _.data!

@@ -47,8 +47,8 @@ call.
 	doc. "Calls the function with the given arguments."
 	test. |
 		[ + 1 2 ] -> 3
-	|f:Fun ...args
-		apply f args \ TODO:ES6
+	|called:Fun ...args
+		apply called args \ TODO:ES6
 
 curry =
 	doc. "Creates a function which calls `f` with the given arguments first."

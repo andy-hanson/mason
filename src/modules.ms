@@ -11,6 +11,11 @@ commonJS-require. i-require
 path = commonJS-require "path"
 fs = commonJS-require "q-io/fs"
 
+get-module.
+	doc. "TODO"
+	|module-path
+		commonJS-require "./{path.relative this-module-directory module-path}"
+
 \ TODO: Better pattern for returning promises
 promise-all-modules.
 	doc. "TODO"
@@ -18,4 +23,4 @@ promise-all-modules.
 		(fs.listTree dir-path).then |files:Array
 			flat-map files |_
 				if (_.endsWith ".js") |
-					commonJS-require "./{path.relative this-module-directory _}"
+					get-module_

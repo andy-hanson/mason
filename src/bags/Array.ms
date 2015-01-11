@@ -1,11 +1,12 @@
 \ Also see ..maps.Array-as-Map
 
 use
-	.? -> Opt->?
 	.Array!
 	.Bag -> count iterator
 	.Bag-Type -> from-stream
+	..Comparable -> <?
 	..Comparable! -> <!
+	..control -> if
 	..Fun -> ignore thunk
 	..js -> global js-sub
 	..js-impl -> array-iterator
@@ -38,6 +39,7 @@ impl! type-of Array |
 	Array
 
 impl! ?nth Array |_ n:Nat
-	Opt->? (js-sub _ n
+	if (<? n count_) |
+		js-sub _ n
 
 Array

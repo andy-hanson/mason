@@ -15,6 +15,8 @@ use
 	..pred-types -> Any Opt
 	..Ref! -> get mod! ref set!
 	.Seq! -> +>!
+	..show
+	..Str -> indent
 	.Stream -> streaming
 	..Try -> fails? oh-no!
 	..types.Interface
@@ -90,7 +92,10 @@ region Search
 			! fails? |
 				[ 0 1 ][2]
 		|_ n:Nat
-			get-or (?nth _ n) ~(oh-no! "No element at index {n} for {_}")
+			get-or (?nth _ n) ~
+				oh-no! "
+					No element at index {n} for
+						{indent (show _}
 
 region Update
 	?<pop. Method

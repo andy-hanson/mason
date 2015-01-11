@@ -1,6 +1,6 @@
 use
 	.assert -> ! !call
-	.bags.? -> get-or
+	.bags.? -> get-or full-?
 	.bags.Array!
 	.bags.Seq
 	.bags.Seq! -> +>!
@@ -10,6 +10,7 @@ use
 	.maps.Map -> ?get
 	.methods -> => empty freeze
 	.pred-types -> Any
+	.Ref! -> get ref set!
 	.Try -> oh-no!
 
 build.
@@ -45,7 +46,7 @@ switch.
 			[ 3 ] -> "three"
 
 	|val:Any cases:Map[Any Fun]
-		dispatch = get-or (?get cases val) ~cases[switch-else]
+		dispatch:Fun = get-or (?get cases val) ~cases[switch-else]
 		call dispatch
 
 switch-else.
@@ -59,7 +60,7 @@ if.
 	|:? condition:Bool result:Fun
 		case
 			condition
-				=> ? [ (call result) ]
+				full-? (result ()
 			else
 				empty ?
 
@@ -94,3 +95,26 @@ returning.
 	|returned:Any do-after:Fun
 		do-after returned
 		returned
+
+region Loops
+	loop.
+		doc. "TODO"
+		test. |
+			"TODO"
+		|init-state transform-state:Fun[Any Any]
+			state = ref init-state
+			output = ref ()
+			loop!
+				case! transform-state (get state)
+					_.is-end-loop
+						set! output _.ret
+						end-loop!
+					else
+						set! state _
+			get output
+
+	\ TODO: Make this a Wrapper-Type
+	end-loop. |r
+		is-end-loop.
+		ret. r
+

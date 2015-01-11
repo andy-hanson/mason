@@ -3,13 +3,14 @@ use
 	..bags.Array!
 	..bags.Bag -> each! fold keep map
 	..bags.Identity-Set!
-	..bags.Seq -> ?nth seq=? take
+	..bags.Seq -> seq=? take
 	..bags.Seq! -> set-nth!
 	..bags.Stream
 	..Bool -> and not true
 	..control -> returning
+	..js -> defined? js-sub
 	..math.Num -> Nat nats square
-	..methods -> + +! contains? empty empty?
+	..methods -> + +! contains? empty
 
 digits = |_:Nat
 	map (_.toString 10) Num.parseInt
@@ -26,13 +27,13 @@ happy?.
 	|n:Nat
 		stepped-through = empty Identity-Set!
 		loop = |cur
-			case ?nth cache cur
-				empty?_
+			case js-sub cache cur
+				defined?_
+					_
+				else
 					and (not (contains? stepped-through cur)) ~
 						+! stepped-through [ cur ]
 						loop (step cur
-				else
-					_.val
 		returning (loop n) |ans:Bool
 			each! stepped-through |_
 				set-nth! cache _ ans
