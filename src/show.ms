@@ -3,7 +3,7 @@ use
 	.Bool -> false true
 	.Comparable -> =?
 	.Fun
-	.js -> js-sub
+	.js -> js+ js-sub
 	.js-impl -> new-Set
 	.methods -> type-of
 	.Object -> flag? get-property own-enumerable-properties
@@ -34,9 +34,8 @@ show = Method
 			Dict
 				x. <recursive>
 				displayName. "a"
-		\ TODO
-		\ [ () ] -> "()"
-		\ [ undefined ] -> "undefined
+		[ () ] -> "()"
+		[ undefined ] -> "undefined"
 	wrap. |impl args
 		case js-sub args 0
 			showing.has _
@@ -80,7 +79,7 @@ impl! show Str
 	|_ opts
 		case
 			flag? opts "repr"
-				`'"' + _ + '"'` \"\"{_}\""
+				js+ "\"" (js+ _ "\"")
 			else
 				_
 

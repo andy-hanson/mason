@@ -50,19 +50,6 @@ call.
 	|called:Fun ...args
 		apply called args \ TODO:ES6
 
-curry =
-	doc. "Creates a function which calls `f` with the given arguments first."
-	test. |
-		+1 = +[1]
-		! =? (+1 1) 2
-		all-3 = |a b c
-			[ a b c ]
-		one-two = all-3[1 2]
-		! =? (one-two 3) [ 1 2 3 ]
-
-	|f:Fun  ...args
-		Fun.prototype.bind.apply f (+ [()] args)
-
 fun-copy.
 	doc. "
 		Creates a new function with identical functionality to another one.
@@ -194,6 +181,19 @@ impl! sub (self-type Fun)
 	test. |
 		! =? Fun[Fun Fun] Fun
 	fun-copy identity
+
+curry =
+	doc. "Creates a function which calls `f` with the given arguments first."
+	test. |
+		+1 = +[1]
+		! =? (+1 1) 2
+		all-3 = |a b c
+			[ a b c ]
+		one-two = all-3[1 2]
+		! =? (one-two 3) [ 1 2 3 ]
+
+	|f:Fun  ...args
+		Fun.prototype.bind.apply f (+ [()] args)
 
 impl! sub Fun curry
 \ TODO: Make Method a Callable

@@ -9,7 +9,7 @@ use
 	..Comparable -> compare =? <? <=? >=?
 	..Comparable! -> <!
 	..control -> if returning
-	..Fun -> identity
+	..Fun -> identity Pred
 	..js -> defined?
 	..math.Num -> Nat
 	..methods -> => + - empty empty? freeze sub type-of
@@ -176,6 +176,23 @@ region Update
 									<~ value
 									mod! i +[1]
 
+	take-while.
+		doc. "TODO"
+		test. |
+			[ [ 1 2 -1 3 ] <?[0] ] -> [ 1 2 ]
+		|:Bag _ while:Pred
+			from-stream type-of_ (streaming ~|
+				iter = iterator_
+				loop!
+					value:Any done = iter.next ()
+					case!
+						done
+							end-loop!
+						while value
+							<~ value
+						else
+							end-loop!
+
 	drop. Method
 		doc. "TODO"
 		test. |
@@ -195,6 +212,8 @@ region Update
 								else
 									mod! i +[1]
 				<~~ iter
+
+	\ TODO: drop-while
 
 	tail. Method
 		doc. "TODO"

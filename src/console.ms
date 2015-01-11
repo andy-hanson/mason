@@ -2,6 +2,7 @@ doc. "TODO"
 
 use
 	.bags.Bag -> each!
+	chalk -> blue
 	.js -> global
 	.methods -> =>
 	.show
@@ -23,14 +24,17 @@ warn!.
 		\ TODO:SYNTAX Splat
 		js-console.warn (=> Str args " ")
 
-dbg!.
-	doc. "Show something for debugging."
-	|...args
-		each! args |_
-			warn! (show _
-				repr. \ TODO:SYNTAX [ repr. ]
+region Debugging
+	dbg!.
+		doc. "Show something for debugging."
+		|...args
+			warn! (blue "-->"
+			each! args |_
+				warn! (show _
+					repr. \ TODO:SYNTAX [ repr. ]
+			warn! (blue "<--"
 
-trace!.
-	doc. "Logs the current stacktrace."
-	|...args
-		js-console.trace (=> Str args " ")
+	trace!.
+		doc. "Logs the current stacktrace."
+		|...args
+			js-console.trace (=> Str args " ")

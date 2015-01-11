@@ -1,9 +1,11 @@
 use
 	.? -> get-or Opt->?
+	.Array
 	..assert -> ! !not
 	.Bag-Type -> from-stream
 	..Bool -> and false not true
 	..Comparable -> =? <?
+	..Dict
 	..Fun -> Act identity Pred
 	..Generator!
 	.Hash-Set!
@@ -160,6 +162,26 @@ region Using from-stream
 							end-loop!
 						else
 							<~ mapper value
+
+	fold-map.
+		doc. "
+			Since this is also a fold, it eagerly evaluates streams.
+		test. |
+			f = |acc em
+				here. + 1 em
+				next. + 1 acc
+			[ [ 1 2 3 ] 0 f ] ->
+				mapped. [ 2 3 4 ]
+				folded. 3
+		|_:Bag start:Any mapper-folder:Fun[Any Any Dict]
+			acc = ref start
+			\ TODO: Better way to make it eager
+			mapped. => type-of_ (=> Array (map _ |em
+				here:Any next:Any = mapper-folder (get acc) em
+				set! acc next
+				here
+			folded. get acc
+
 
 	\ TODO: Better name?
 	flat-map. Method
