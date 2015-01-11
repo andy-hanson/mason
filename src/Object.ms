@@ -9,9 +9,9 @@ use
 	.Comparable -> =?
 	.Dict
 	.js -> global js-typeof reference=? js-sub
-	.methods -> => + contains? empty empty?
+	.methods -> => + empty empty?
 	.Object! -> add-property!
-	.pred-types -> Any Union
+	.pred-types -> Union
 	.Symbol
 	.Try -> fails?
 	.types.Method -> impl!
@@ -71,16 +71,24 @@ own-enumerable-properties.
 			a. 1
 			b. ()
 		[ x "a" ] -> => ? [ 1 ]
-		[ x "b" ] -> empty ?
+		[ x "b" ] -> => ? [ () ]
 		\ Does not inherit from prototype.
 		[ x "toString" ] -> empty ?
-	|_:Object name:Object-Key
+	|_ name:Object-Key
 		case
 			has-property? _ name
-				\ Could still be null/undefined.
-				Opt->? (js-sub _ name)
+				=> ? [ (js-sub _ name) ]
 			else
 				empty ?
+
+?get-property-or-in-prototype.
+	doc. "Like `get-property`, but also looks through the prototype chain."
+	test. |
+		x = empty Dict
+		[ x "toString" ] -> => ? [ Object.prototype.toString ]
+		[ x "asdfghjkl" ] -> empty ?
+	|object name:Object-Key
+		Opt->? (js-sub object name)
 
 get-property.
 	doc. "TODO"
@@ -99,15 +107,6 @@ get-property.
 			\ TODO: decide
 			\ ! (contains? Any (js-sub _ name)) ~"{_}.{name} is missing"
 		js-sub _ name
-
-?get-property-or-in-prototype.
-	doc. "Like `get-property`, but also looks through the prototype chain."
-	test. |
-		x = empty Dict
-		[ x "toString" ] -> => ? [ Object.prototype.toString ]
-		[ x "asdfghjkl" ] -> empty ?
-	|object:Object name:Object-Key
-		Opt->? (js-sub object name)
 
 has-property?.
 	doc. "
@@ -148,30 +147,25 @@ inspect=?.
 		\ For functions, is identity
 		[ inspect=? inspect=? ] -> true
 	|:Bool a b
-		any-a = contains? Any a
-		any-b = contains? Any b
+		\ Necessary because `js-typeof null` is "object"
+		null-a = reference=? a ()
+		null-b = reference=? b ()
+		\ TODO: Not :Object because that currently also includes Funs
+		obj-a = and (not null-a) ~(reference=? (js-typeof a) "object")
+		obj-b = and (not null-b) ~(reference=? (js-typeof b) "object")
 		case
-			nor any-a any-b
-				true
-			xor any-a any-b
+			nor obj-a obj-b
+				reference=? a b
+			xor obj-a obj-b
 				false
 			else
-				\ Not :Object because that currently also includes Funs
-				obj-a = reference=? (js-typeof a) "object"
-				obj-b = reference=? (js-typeof b) "object"
-				case
-					nor obj-a obj-b
-						reference=? a b
-					xor obj-a obj-b
-						false
-					else
-						same-type = reference=? (Object.getPrototypeOf a) (Object.getPrototypeOf b)
-						and same-type ~
-							ak = Object.getOwnPropertyNames a
-							bk = Object.getOwnPropertyNames b
-							and (=? (count ak) (count bk)) ~
-								all? ak |k
-									=? (js-sub a k) (js-sub b k)
+				same-type = reference=? (Object.getPrototypeOf a) (Object.getPrototypeOf b)
+				and same-type ~
+					ak = Object.getOwnPropertyNames a
+					bk = Object.getOwnPropertyNames b
+					and (=? (count ak) (count bk)) ~
+						all? ak |k
+							=? (js-sub a k) (js-sub b k)
 
 frozen?. |_
 	Object.isFrozen _

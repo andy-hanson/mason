@@ -10,12 +10,12 @@ use
 	..Comparable! -> <!
 	..hash-code
 	.Identity-Map!
-	..Object
-	..Object! -> change-property!
+	..js -> defined?
 	.Map -> ?get keys values
 	.Map! -> assoc! un-assoc!
 	..methods -> => empty empty! freeze
-	..pred-types -> Any
+	..Object
+	..Object! -> change-property!
 	..types.Method -> impl!
 	..types.Record-Type
 	..types.util -> self-type
@@ -50,14 +50,14 @@ opt-bucket = |_ key
 
 opt-bucket-entry = |opt-bucket key
 	case opt-bucket
-		:Any
+		defined?_
 			case
 				=? _.key key
 					_
 				else
 					opt-bucket-entry _.next! key
 		else
-			()
+			undefined
 
 impl! ?get Hash-Map! |:? _ key
 	bucket = opt-bucket _ key
@@ -70,7 +70,7 @@ impl! keys Hash-Map! |_
 	flat-map buckets |bucket
 		streaming ~|
 			handle-bucket = ~|case!
-				:Any
+				defined?_
 					<~ _.key
 					handle-bucket _.next!
 				else
@@ -85,7 +85,7 @@ impl! assoc! Hash-Map! |hm key val
 
 	bucket = opt-bucket hm key
 	case! opt-bucket-entry bucket
-		:Any
+		defined?_
 			change-property! _ "val!" val
 		else
 			k = key
@@ -99,11 +99,11 @@ impl! assoc! Hash-Map! |hm key val
 impl! un-assoc! Hash-Map! |hm key
 	bucket = opt-bucket hm key
 	case bucket
-		:Any
+		defined?_
 			case
 				=? _.key key
 					case! bucket.next!
-						:Any
+						defined?_
 							assoc! hm.hash->bucket key _
 						else
 							un-assoc! hm.hash->bucket (hash-code key
@@ -112,7 +112,7 @@ impl! un-assoc! Hash-Map! |hm key
 					delete-from-next-bucket! = |prev-bucket
 						next = prev-bucket.next!
 						case next
-							:Any
+							defined?_
 								case
 									=? next.key key
 										change-property! prev-bucket "next!" next.next!

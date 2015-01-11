@@ -1,8 +1,7 @@
 use
-	.bags.? -> get-or Opt->?
+	.bags.? -> get-or
 	.Bool
-	.Object
-	.pred-types -> Any
+	.Object -> ?get-property-or-in-prototype
 	.private.bootstrap -> sym-contains? sym-sub sym-type-of
 	.types.Method
 	.types.Type
@@ -71,12 +70,9 @@ region Unsorted
 			but every Record-Type and Enum should implement this automatically.
 		\ TODO: Should be able to just make it here. No need for syms.
 		impl-symbol. sym-type-of
-		default. |case
+		default. |_
 			\ TODO: ?get-property-or-in-prototype
-			:Any
-				get-or (Opt->? _.constructor) Object
-			else
-				Object
+			get-or (?get-property-or-in-prototype _ "constructor") Object
 
 	length. Method
 		doc. "TODO"

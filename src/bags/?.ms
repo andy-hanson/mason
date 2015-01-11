@@ -4,19 +4,21 @@ use
 	.Bag-Type -> from-stream
 	..Comparable! -> <!
 	..Fun -> ignore thunk
-	..js -> reference=?
-	..methods -> => contains? empty empty?
-	..pred-types -> Any
+	..js -> defined? reference=?
+	..methods -> => empty empty?
 	.Seq
 	..Try -> fails? oh-no!
 	..types.Method -> impl!
 	..types.Record-Type
 	..types.util -> self-type
 
+empty-marker =
+	doc. "`_.val` on an empty `?` will return this."
+
 ? = Record-Type
 	doc. "
 		A Seq with 0 or 1 elements.
-		Its content can never be null.
+		TODO: MORE
 	members.
 		val.
 
@@ -25,7 +27,7 @@ full-? = |x
 		val. x
 empty-? =
 	?
-		val. undefined
+		val. empty-marker
 
 region Is Seq
 	<! ? Seq
@@ -55,23 +57,28 @@ region Is Seq
 
 region Funs
 	Opt->?.
-		doc. "`?` containing the value iff it is neither null nor undefined."
+		doc. "`?` containing the value iff it is defined."
 		test. |
 			[ 0 ]  -> => ? [ 0 ]
-			[ () ] -> empty ?
+			[ () ] -> => ? [ () ]
+			[ undefined ] -> empty ?
 		|case
-			:Any
+			defined?_
 				full-? _
 			else
 				empty ?
 
 	?->Opt.
-		doc. "Extracts the value from a `?`, or returns null."
+		doc. "Extracts the value from a `?`, or returns undefined."
 		test. |
 			[ (=> ? [ 0 ]) ] -> 0
-			!not contains? Any (?->Opt (empty ?))
+			!not defined? (?->Opt (empty ?
 		|_:?
-			_.val
+			case
+				empty?_
+					undefined
+				else
+					_.val
 
 	\ TODO: Just use first?
 	un-?.
@@ -88,10 +95,10 @@ region Funs
 					_.val
 
 	get-or.
-		doc. "If ?some, gets the value. Else defaults to `or`."
+		doc. "If empty, defaults to `or` - else returns its value."
 		test. |
 			"TODO"
-		|:Any _:? ~or:Any
+		|_:? ~or
 			case
 				empty?_
 					or

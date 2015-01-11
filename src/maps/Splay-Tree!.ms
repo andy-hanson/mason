@@ -5,11 +5,11 @@ use
 	..Comparable -> <? >?
 	..Comparable! -> <!
 	..control -> if
+	..js -> defined?
 	.Map -> ?get keys
 	.Map! -> assoc! un-assoc!
 	..methods -> contains? empty empty? empty!
 	..Object! -> change-property!
-	..pred-types -> Any
 	..Ref! -> get ref set!
 	.Sorted-Map!
 	..types.Method -> impl!
@@ -31,15 +31,13 @@ Splay-Tree! = Record-Type
 \ TODO: Map-Type
 impl! empty (self-type Splay-Tree!) |
 	Splay-Tree!
-		root!. ()
+		root!. undefined
 
 has-left? = |node
-	_ = node.left!
-	:Any
+	defined? node.left!
 
 has-right? = |node
-	_ = node.right!
-	:Any
+	defined? node.right!
 
 \ Returns whether the root now matches the key.
 splay! = |:Bool _ key
@@ -47,10 +45,10 @@ splay! = |:Bool _ key
 		!not empty? _
 
 	dummy = Node
-		key. ()
-		val!. ()
-		left!. ()
-		right!. ()
+		key. undefined
+		val!. undefined
+		left!. undefined
+		right!. undefined
 	left = ref dummy
 	right = ref dummy
 	cur = ref _.root!
@@ -147,9 +145,9 @@ splay-step! = |cur:Node key left:Node right:Node
 
 <! Splay-Tree! Sorted-Map!
 	empty? -> |_
-		not (contains? Any _.root!
+		not (defined? _.root!
 	empty! -> |_
-		change-property! _ "root!" ()
+		change-property! _ "root!" undefined
 	?get -> |_ key
 		if (and (not empty?_) ~(splay! _ key)) |
 			_.root!.val!
@@ -157,7 +155,7 @@ splay-step! = |cur:Node key left:Node right:Node
 	keys -> |_
 		streaming ~|
 			get~ = ~|case!
-				:Any
+				defined?_
 					<~~ get~ _.left!
 					<~ _.key
 					<~~ get~ _.right!
@@ -171,8 +169,8 @@ splay-step! = |cur:Node key left:Node right:Node
 				change-property! _ "root!" (Node
 					key. k
 					val!. v
-					left!. ()
-					right!. ()
+					left!. undefined
+					right!. undefined
 			splay! _ k
 				change-property! _.root! "val!" v
 			else
@@ -182,7 +180,7 @@ splay-step! = |cur:Node key left:Node right:Node
 				change-property! _ "root!" case
 					>? k old-root.key
 						old-right = old-root.right!
-						change-property! old-root "right!" ()
+						change-property! old-root "right!" undefined
 						Node
 							key. k
 							val!. v
@@ -190,7 +188,7 @@ splay-step! = |cur:Node key left:Node right:Node
 							right!. old-right
 					else
 						old-left = old-root.left!
-						change-property! old-root "left!" ()
+						change-property! old-root "left!" undefined
 						Node
 							key. k
 							val!. v

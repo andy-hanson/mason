@@ -14,7 +14,6 @@ use
 	..methods -> contains? empty
 	..modules -> promise-all-modules
 	..Object -> ?get-property get-property has-property? own-properties own-enumerable-properties
-	..pred-types -> Any
 	..Str
 	..Try -> annotate-errors Success try
 	..types.Impl-Type
@@ -69,7 +68,7 @@ impl! test-special Interface |_
 all-tested. empty Identity-Set!
 
 \ TODO: Better name
-maybe-test. |name:Str value:Any is-module:Bool
+maybe-test. |name:Str value is-module:Bool
 	case!
 		all-tested.has value
 			()

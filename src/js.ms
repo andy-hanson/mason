@@ -4,7 +4,7 @@ use
 	.assert -> ! !not
 	.bags.Array
 	.bags.Bag -> each!
-	.Bool -> false true
+	.Bool -> false not true
 	.Comparable -> =?
 	.Fun -> ignore
 	.math.Num
@@ -40,6 +40,9 @@ js!. i!
 js-sub. i-sub
 js-set. i-set
 js-delete. i-delete
+
+defined?. |a
+	not (reference=? a undefined
 
 \ TODO: Exact same appears in Object.ms
 ~Object-Key = Union[Str Symbol]

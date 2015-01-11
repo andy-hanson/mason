@@ -5,8 +5,8 @@ use
 	.Bool -> not or true
 	.Comparable! -> <!
 	.Fun -> ignore
+	.js -> defined?
 	.methods -> contains? sub
-	.private.bootstrap -> any?
 	.Str
 	.types.Method -> impl!
 	.types.Pred-Type
@@ -18,13 +18,13 @@ region Opt
 	\ TODO: Does Opt need to exist?
 
 	Opt. Pred-Type
-		doc. "A value which could be null or undefined."
+		doc. "A value which could be anything, even undefined."
 		predicate. |
 			true
 
 	impl! sub (self-type Opt)
 		doc. "Contains null, undefined, or an instance of Exists-Type."
-		|Exists-Type
+		|Exists-Type:Type
 			ET = Exists-Type
 			Opt-Sub
 				Exists-Type. ET
@@ -35,15 +35,15 @@ region Opt
 			Exists-Type. Type
 	<! Opt-Sub Type
 	impl! contains? Opt-Sub |nt _
-		or (not :Any) ~(contains? nt.Exists-Type _)
+		or (not defined?_) ~(contains? nt.Exists-Type _)
 
 Any. Pred-Type
-	doc. "Not null or undefined."
+	doc. "Not undefined."
 	test. |
 		! contains? Any 0
-		!not contains? Any ()
+		! contains? Any ()
 		!not contains? Any undefined
-	predicate. any?
+	predicate. defined?
 
 Union.
 	doc. "Union[A B] is a type matching either an A or a B."

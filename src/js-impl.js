@@ -50,7 +50,8 @@ module.exports = {
 			err = ms.unlazy(error)
 		}
 		catch (e) {
-			return new Error ("Error making error: " + e.message)
+			return e
+			//return new Error ("Error making error: " + e.message)
 		}
 		if (err instanceof Error)
 			return err
