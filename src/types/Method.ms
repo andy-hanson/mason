@@ -9,14 +9,30 @@ use
 	..math.Num
 	..methods -> contains?
 	..Object -> ?get-property
-	..private.bootstrap -> any? Str Symbol Fun oh-no! get-or-undefined exists? set! set-mutable! has-or-in-proto? get writable? make-callable-method
+	..private.bootstrap -> Str Symbol Fun oh-no! get-or-undefined exists? set! set-mutable! has-or-in-proto? get writable?
 	.Record-Type
 	..Try -> fails?
 
-region Call
-	\ TODO:SYNTAX `fun ...args`
-	\ Use `apply.call fun () args` everywhere to keep stacktrace short
-	apply = Fun.prototype.apply
+make-callable-method = |method
+	ret = case
+		exists? method.wrap
+			"return wrap(impl, Array.prototype.slice.call(arguments, 0))"
+		else
+			\ TODO:ES6 Splat call
+			"return impl(a, b, c, d, e, f, g, h)"
+	f = Fun "def" "wrap" "
+		return function(a, b, c, d, e, f, g,  h) \{
+			var impl
+			if (a == null)
+				impl = def
+			else \{
+				impl = a["{method.impl-symbol}"]
+				if (impl === undefined)
+					impl = def
+			}
+			{ret}
+		}
+	f method.default method.wrap
 
 Method = Record-Type
 	doc. "
@@ -164,7 +180,7 @@ Double-Dispatcher = Record-Type
 					! contains? Fun impl
 				else
 					oh-no! ~"Can't double-dispatch {_.method} for {_.first-type} on {target-2}"
-			apply.call impl () args
+			Fun.prototype.apply.call impl () args
 
 impl?.
 	doc. "TODO"
@@ -172,10 +188,18 @@ impl?.
 		has-or-in-proto? type.prototype method.impl-symbol
 
 \ TODO: ?direct-impl-for
-?impl-for. |method:Method type:Impl-Type
-	?get-property type.prototype method.impl-symbol
+?impl-for.
+	doc. "TODO"
+	test. |
+		"TODO"
+	|method:Method type:Impl-Type
+		?get-property type.prototype method.impl-symbol
 
-impl-for. |method:Method type:Impl-Type
-	un-? (?impl-for method type)
+impl-for.
+	doc. "TODO"
+	test. |
+		"TODO"
+	|method:Method type:Impl-Type
+		un-? (?impl-for method type)
 
 Method
