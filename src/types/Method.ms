@@ -9,36 +9,14 @@ use
 	..math.Num
 	..methods -> contains?
 	..Object -> ?get-property
-	..private.bootstrap -> any? Str Symbol Fun oh-no! get-or-undefined exists? set! set-mutable! has-or-in-proto? get writable?
+	..private.bootstrap -> any? Str Symbol Fun oh-no! get-or-undefined exists? set! set-mutable! has-or-in-proto? get writable? make-callable-method
 	.Record-Type
 	..Try -> fails?
 
-\ TODO:SYNTAX `fun ...args`
-\ Use `apply.call fun () args` everywhere to keep stacktrace short
-apply = Fun.prototype.apply
-
-get-impl = |method args
-	target = js-sub args 0
-	case
-		any? target
-			case get-or-undefined target method.impl-symbol
-				exists?_
-					_
-				else
-					method.default
-		else
-			method.default
-
-make-callable-method = |method
-	case method.wrap
-		exists?_
-			|...args
-				_ (get-impl method args) args
-				\apply.call _ () (+ [ (get-impl method args) ] args
-		else
-			|...args
-				\ TODO:SYNTAX splat call
-				apply.call (get-impl method args) () args
+region Call
+	\ TODO:SYNTAX `fun ...args`
+	\ Use `apply.call fun () args` everywhere to keep stacktrace short
+	apply = Fun.prototype.apply
 
 Method = Record-Type
 	doc. "
@@ -87,13 +65,13 @@ Method = Record-Type
 
 	members.
 		displayName. Str  \ Required!
-		impl-symbol. Symbol
+		impl-symbol. Str
 		default. Fun
 	optional-members.
 		wrap. Fun
 	defaults.
 		impl-symbol. |_
-			Symbol _.displayName
+			"impl-{_.displayName}"
 		default. |_
 			|target
 				oh-no! ~"{_} not implemented for {target}"

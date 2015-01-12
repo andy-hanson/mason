@@ -25,9 +25,10 @@ const assignMany = function(target, keysVals) {
 	}
 }
 
-exports["sym-sub"] = Symbol("sub")
-exports["sym-contains?"] = Symbol("contains?")
-exports["sym-type-of"] = Symbol("type-of")
+// TODO!!!
+exports["sym-sub"] = "impl-sub" //Symbol("sub")
+exports["sym-contains?"] = "impl-contains?" //Symbol("contains?")
+exports["sym-type-of"] = "impl-type-of" //Symbol("type-of")
 
 function Lazy(make) {
 	const baby = Object.create(Lazy.prototype)
@@ -94,7 +95,8 @@ set(ms, "sub", function(subbed) {
 // Overwritten by show.ms
 ms.show = function(x) {
 	if (typeof x !== "string")
-		throw new Error("Should only be using Strs here until this is defined for real in show.ms.")
+		return x.toString()
+		// TODO: //throw new Error("Should only be using Strs here until this is defined for real in show.ms.")
 	return x
 }
 
@@ -214,4 +216,65 @@ exports["new-array"] = function() { return [ ] }
 exports["writable?"] = function(object, property) {
 	const desc = Object.getOwnPropertyDescriptor(object, property)
 	return desc == null || desc.writable
+}
+
+
+
+const assert = require("assert")
+
+function getImpl(method, args) {
+	const target = args[0]
+	if (target == null) {
+		return method["default"]
+	} else {
+		const _ = target[method["impl-symbol"]]
+		if (_ == undefined)
+			return method["default"]
+		else
+			return _
+	}
+}
+
+const make_callable_method_old = function(method) {
+	const sym = method["impl-symbol"]
+	const def = method.default
+	if (method.wrap === undefined) {
+		return function(a, b, c, d, e, f, g, h) {
+			//assert(h === undefined)
+			let impl
+			if (a == null)
+				impl = def
+			else {
+				impl = a[sym]
+				if (impl === undefined)
+					impl = def
+			}
+			return impl(a, b, c, d, e, f, g, h)
+		}
+	} else {
+		return function() {
+			const args = Array.prototype.slice.call(arguments, 0)
+			return method.wrap(getImpl(method, args), args)
+		}
+	}
+}
+
+exports["make-callable-method"] = function(method) {
+	const sym = method["impl-symbol"]
+	if (method.wrap !== undefined) {
+		// TODO
+		return make_callable_method_old(method)
+	}
+	else {
+		// TODO: Ensure does not contain quotes
+		assert(typeof sym === "string")
+		const f = Function("def", [
+			"return function(a, b, c, d, e, f, g, h) { \
+			var impl; \
+			if (a == null) impl = def; \
+			else { impl = a[\"" + sym + "\"]; if (impl === undefined) impl = def } \
+			return impl(a, b, c, d, e, f, g, h) }"
+		].join("\n"))(method.default)
+		return f
+	}
 }

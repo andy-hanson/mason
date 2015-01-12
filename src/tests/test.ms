@@ -12,7 +12,7 @@ use
 	..Fun -> apply ignore
 	..maps.Map -> keys
 	..methods -> contains? empty
-	..modules -> promise-all-modules
+	..modules -> $all-modules
 	..Object -> ?get-property get-property has-property? own-properties own-enumerable-properties
 	..Str
 	..Try -> annotate-errors Success try
@@ -118,7 +118,7 @@ test-test-fun = |value value-test:Fun name ...args
 				()
 
 test-all. |dir-path:Str
-	(promise-all-modules dir-path).then |_:Bag
+	($all-modules dir-path).then |_:Bag
 		each! _ test-module
 
 \ TODO:ES6 Use module reflection

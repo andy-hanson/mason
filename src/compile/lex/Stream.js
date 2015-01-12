@@ -60,9 +60,9 @@ Stream.prototype = {
 
 	// Call only if you know this isn't the start of a line.
 	stepBack: function() {
-		assert(this.pos.col > 1)
+		assert(this.pos.column > 1)
 		this.index = this.index - 1
-		this.pos = U.with(this.pos, "col", this.pos.col - 1)
+		this.pos = U.with(this.pos, "column", this.pos.column - 1)
 	},
 
 	takeWhile: function(whl) {
