@@ -1,0 +1,36 @@
+use
+	..assert -> !
+	..bags.Bag -> fold-map
+	..bags.Seq -> reverse tail take-while
+	..bags.Stream -> streaming
+	..Comparable -> =? <=? >=?
+	..math.Num -> Nat
+	..methods -> => + -
+	..Str
+
+fibs =
+	rec = ~|prev:Nat cur:Nat
+		<~ cur
+		<~~ rec cur (+ prev cur)
+	streaming rec[0 1]
+
+zeckendorf.
+	doc. "http://rosettacode.org/wiki/Zeckendorf_number_representation"
+	test. |
+		[ 0 ] -> ""
+		[ 1 ] -> "1"
+		[ 19 ] -> "101001"
+		[ 1111 ] -> "100001010000001"
+	|n:Nat
+		z-fibs = tail fibs \ Don't include the first `1`, so `[ 1 2 3 5 8 ... ]`.
+		candidate-fibs = reverse (take-while z-fibs >=?[n] \ Highest numbers go first
+		mapped folded = fold-map candidate-fibs n |left fib
+			case fib
+				<=? _ left
+					here. 1
+					next. - left _
+				else
+					here. 0
+					next. left
+		! =? 0 folded \ We should have managed to add up to `n` exactly.
+		=> Str mapped
