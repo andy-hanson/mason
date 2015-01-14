@@ -201,7 +201,7 @@ region Using from-stream
 		test. |
 			"TODO"
 		|Res-Type:Bag-Type _:Bag mapper:Fun[Any Bag]
-			concat=> Res-Type (map=> Stream _ mapper)
+			concat=> Res-Type (map=> Stream _ mapper
 
 	\ TODO: Just use variadic `+`
 	concat=>.

@@ -1,8 +1,10 @@
 use
+	.$ -> $after
 	.bags.Array
 	.bags.Bag -> flat-map
 	.control -> if
 	.js-impl -> i-require
+	.js -> new
 
 \ TODO: Portability
 commonJS-require. i-require
@@ -25,7 +27,12 @@ get-module.
 $all-modules.
 	doc. "TODO"
 	|dir-path
-		(fs.listTree dir-path).then |files:Array
+		$after (q->es6-promise (fs.listTree dir-path)) |files:Array
 			flat-map files |_
 				if (_.endsWith ".js") |
 					get-module_
+
+q->es6-promise = |q-promise
+	new $ |resolve reject
+		q-promise.then resolve
+		q-promise.catch reject

@@ -38,8 +38,8 @@ $ =
 
 impl! sub (self-type $) identity
 
-$!=? = |$a expected
-	$done ($after $a |_
+$!=? = |expected $actual
+	$done ($after $actual |_
 		! =? expected _
 
 $done.
@@ -71,7 +71,7 @@ $catch.
 $resolved.
 	doc. "$ that is already resolved."
 	test. |
-		$done ($!=? ($resolved 3) 3
+		$!=? 3 ($resolved 3
 	|:$ value
 		Promise.resolve value
 
@@ -79,9 +79,9 @@ $rejected.
 	doc. "$ that is already rejected."
 	test. |
 		p = $rejected "rejected"
-		$done ($catch p ![=?["rejected"
+		. $!=? "rejected" ($catch p identity
 		\$after should be ignored.
-		$done ($catch ($after p oh-no!) ![=?["rejected"
+		. $!=? "rejected" ($after p oh-no!
 	|rejection-reason:Any
 		Promise.reject rejection-reason
 
@@ -90,9 +90,8 @@ $delay.
 		Schedules a computation to happen later.
 		Does *not* run it in parallel.
 	test. |
-		_ = $delay |
+		$!=? 1 ($delay |
 			1
-		$done ($!=? _ 1)
 	|delayed:Fun[Any]
 		new $ |resolve reject
 			ignore reject \ TODO:Ignored vars
@@ -112,20 +111,18 @@ $map.
 		TODO
 		Unlike `map`, this always returns an Array regardless of the bag's type.
 	test. |
-		$incr = |a
+		$!=? [ 2 3 4 ] ($map [ 1 2 3 ] |_
 			$delay |
-				+ a 1
-		$done ($!=? ($map [ 1 2 3 ] $incr) [ 2 3 4 ]
+				+ _ 1
 	|:$[Array] mapped:Bag mapper:Fun[Any $]
 		$all (map mapped mapper
 
 $flat-map.
 	doc. "TODO"
 	test. |
-		$dup = |a
+		$!=? [ 1 1 2 2 3 3 ] ($flat-map [ 1 2 3 ] |_
 			$delay |
-				[ a a ]
-		$done ($!=? ($flat-map [ 1 2 3 ] $dup) [ 1 1 2 2 3 3 ]
+				[ _ _ ]
 
 	|:$[Bag] mapped:Bag mapper:Fun[Any $[Bag]]
 		$after ($map mapped mapper) concat=>[(type-of mapped)]
@@ -137,10 +134,9 @@ $each!.
 $keep.
 	doc. "TODO"
 	test. |
-		$even = |a
+		$!=? [ 2 ] ($keep [ 1 2 3 ] |_
 			$delay |
-				=? a 2
-		$done ($!=? ($keep [ 1 2 3 ] $even) [ 2 ]
+				=? _ 2
 
 	|:$[Array] keep-some:Bag keep-if?:Fun[Any $[Bool]]
 		$flat-map keep-some |_
@@ -156,7 +152,7 @@ $call.
 	test. |
 		$one = $delay |
 			1
-		$done ($!=? ($call + $one $one) 2
+		$!=? 2 ($call + $one $one
 
 	|:$ f ...$args
 		$after ($all $args) |args
@@ -169,17 +165,15 @@ $ing.
 		The code after the assignment will become an $after of it.
 		Note that $ing returns a $; it does *not* call $done at the end.
 	test. |
-		p = $ing ~|
+		. $!=? "res" ($ing ~|
 			promised <~ $resolved "promised"
 			! =? promised "promised"
 			"res"
-		$done ($!=? p "res"
 
-		p2 = $ing ~|
+		_ = $ing ~|
 			<~ $rejected "whoops"
 			oh-no! "It's been rejected, so the rest is never called."
-		$done ($catch p2 |_
-			! =? _ "whoops"
+		. $!=? "whoops" ($catch _ identity
 
 	|:$ code:Fun[Generator!]
 		gen = code ()

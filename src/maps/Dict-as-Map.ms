@@ -3,7 +3,7 @@ use
 	..Dict
 	.Map -> ?get keys
 	..methods -> + empty
-	..Object -> ?get-property own-properties
+	..Object -> ?get-property own-enumerable-properties
 	..Object! -> add-property!
 
 <! Dict Map
@@ -17,6 +17,6 @@ use
 		names2.forEach |name
 			add-property! union name
 		Dict union
-	keys -> own-properties
+	keys -> own-enumerable-properties
 
 ()
