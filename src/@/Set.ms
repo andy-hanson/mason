@@ -1,5 +1,5 @@
 use
-	.Bag -> all? count
+	..@ -> all? count
 	..Bool -> and false true
 	..Comparable -> =?
 	..Comparable! -> <!
@@ -11,7 +11,7 @@ use
 Set = Interface
 	doc. "TODO"
 
-<! Set Bag
+<! Set @
 
 impl! =? Set
 	doc. "TODO"
@@ -32,7 +32,7 @@ set=?.
 	test. |
 		[ [ 1 2 3 ] [ 3 2 1 ] ] -> true
 		[ [ 1 2 ] [ 1 2 3 ] ] -> false
-	|a:Bag b:Bag
+	|a:@ b:@
 		\ TODO: => Set a ... => Set b
 		=? (=> Hash-Set! a) (=> Hash-Set! b)
 

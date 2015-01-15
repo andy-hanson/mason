@@ -1,7 +1,7 @@
 use
 	.assert -> ! !not
-	.bags.Array
-	.bags.Bag -> flat-map fold
+	.@ -> flat-map fold
+	.@.Array
 	.Bool
 	.Comparable -> =?
 	.Fun

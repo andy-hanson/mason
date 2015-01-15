@@ -1,8 +1,8 @@
 use
 	..assert -> ! !not
-	..bags.? -> get-or Opt->?
-	..bags.Seq -> seq=? take
-	..bags.Stream -> streaming
+	..@.? -> get-or Opt->?
+	..@.Seq -> seq=? take
+	..@.Stream -> streaming
 	..Bool -> and false true
 	..Comparable -> =? <? >? <=? >=? compare
 	..Fun -> spread!

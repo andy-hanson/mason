@@ -1,11 +1,11 @@
 use
 	..assert -> !
-	..bags.Array!
-	..bags.Bag -> each! fold keep map
-	..bags.Identity-Set!
-	..bags.Seq -> seq=? take
-	..bags.Seq! -> set-nth!
-	..bags.Stream
+	..@ -> each! fold keep map
+	..@.Array!
+	..@.Identity-Set!
+	..@.Seq -> seq=? take
+	..@.Seq! -> set-nth!
+	..@.Stream
 	..Bool -> and not true
 	..control -> returning
 	..js -> defined? js-sub

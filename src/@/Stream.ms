@@ -1,7 +1,7 @@
 use
 	..assert -> !
-	.Bag -> iterator
-	.Bag-Type -> from-stream
+	..@ -> iterator
+	.@-Type -> from-stream
 	..Comparable! -> <!
 	..Fun -> ignore thunk
 	..Generator!
@@ -13,7 +13,7 @@ use
 
 Stream = Record-Type
 	doc. "
-		A Stream is a Bag whose elements are the outputs of a Generator!.
+		A Stream is a @ whose elements are the outputs of a Generator!.
 		Unlike a Generator!, a Stream can be used multiple times.
 
 	members.
@@ -36,14 +36,14 @@ streaming.
 		Stream
 			make-iterator. make-gen
 
-<! (self-type Stream) Bag-Type
+<! (self-type Stream) @-Type
 impl! empty (self-type Stream) (thunk (streaming |
 	empty Generator!
 impl! from-stream (self-type Stream) |_ stream
 	ignore _
 	stream
 
-impl! => (self-type Stream) Bag |Stream _
+impl! => (self-type Stream) @ |Stream _
 	ignore Stream \ TODO:Ignored vars
 	streaming |
 		iterator_

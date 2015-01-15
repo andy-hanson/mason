@@ -1,8 +1,8 @@
 use
 	.? -> un-?
 	.Array \ TODO: Array!
-	.Bag -> count each! iterator map
-	.Bag-Type -> from-stream
+	..@ -> count each! iterator map
+	.@-Type -> from-stream
 	..Bool -> and not or
 	..Comparable -> <? =?
 	..Comparable! -> <!
@@ -25,14 +25,14 @@ Deque! = Record-Type
 		start-index!. Nat \ Inclusive (unless =? end-index)
 		end-index!. Nat \ Exclusive
 
-<! (self-type Deque!) Bag-Type
+<! (self-type Deque!) @-Type
 	empty -> |
 		Deque!
 			data!. Array 8
 			start-index!. 0
 			end-index!. 0
 
-	\ TODO: Define it this way for all Bag!-Types
+	\ TODO: Define it this way for all @!-Types
 	from-stream -> |type stream
 		returning (empty type) |_
 			each! stream |em
@@ -81,7 +81,7 @@ region Helpers
 				range _.start-index! _.end-index!
 		iterator (map indices sub[_.data!]
 
-	<+! -> |_ ems:Bag
+	<+! -> |_ ems:@
 		each! (reverse ems) |em
 			new-start = prev-index _ _.start-index!
 			case!
@@ -92,7 +92,7 @@ region Helpers
 					change-property! _ "start-index!" new-start
 					set-nth! _.data! _.start-index! em
 
-	+>! -> |_ ems:Bag
+	+>! -> |_ ems:@
 		each! ems |em
 			new-end = next-index _ _.end-index!
 			case!

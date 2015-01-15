@@ -1,7 +1,7 @@
 use
 	..assert -> !
-	..bags.? ->  get-or
-	..bags.Bag -> each! map
+	..@ -> each! map
+	..@.? ->  get-or
 	..Bool -> not
 	..Comparable -> =?
 	..Fun -> identity
@@ -28,11 +28,11 @@ has-key?. Method
 		not (empty? (?get _ key
 
 keys. Method
-	doc. |:Bag _
+	doc. |:@ _
 		"Every key that the Map `has-key?`."
 
 values. Method
-	doc. |:Bag _
+	doc. |:@ _
 		"Every value in the Map."
 	default. |_
 		map keys_ |key
@@ -40,7 +40,7 @@ values. Method
 
 keys-values. Method
 	\ TODO: Dict types
-	doc. |:Bag[Any]
+	doc. |:@[Any]
 		"Every \{ key, val }."
 	default. |_
 		map keys_ |k
@@ -54,7 +54,7 @@ make-map.
 			+ x 1
 		! =? map[1] 2
 		! =? map[2] 3
-	|keys:Bag mapper:Fun
+	|keys:@ mapper:Fun
 		map = empty Hash-Map!
 		each! keys |key
 			assoc! map key (mapper key)
@@ -62,7 +62,6 @@ make-map.
 
 impl! sub Map |map key:Any
 	get-or (?get map key) ~(oh-no! "{map} does not contain {key}.")
-
 
 impl! empty? Map |_
 	empty? keys_

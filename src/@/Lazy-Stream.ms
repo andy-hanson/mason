@@ -1,8 +1,8 @@
 use
 	.Array!
 	..assert -> !
-	.Bag -> count iterator
-	.Bag-Type -> from-stream
+	..@ -> count iterator
+	.@-Type -> from-stream
 	..Comparable -> =?
 	..Comparable! -> <!
 	..control -> build
@@ -25,7 +25,7 @@ Lazy-Stream = Record-Type
 		caching-iterator. Generator!
 		cache. Array!
 
-<! (self-type Lazy-Stream) Bag-Type
+<! (self-type Lazy-Stream) @-Type
 	empty -> thunk (Lazy-Stream
 		caching-iterator. empty Generator!
 		cache. empty Array!

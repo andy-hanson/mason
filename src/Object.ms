@@ -1,10 +1,10 @@
 use
 	.assert -> ! !not
-	.bags.? -> Opt->?
-	.bags.Bag -> all? count keep
-	.bags.Identity-Set!
-	.bags.Seq -> seq=?
-	.bags.Stream
+	.@ -> all? count keep
+	.@.? -> Opt->?
+	.@.Identity-Set!
+	.@.Seq -> seq=?
+	.@.Stream
 	.Bool -> and false not nor true xor
 	.Comparable -> =?
 	.Dict
@@ -54,7 +54,7 @@ own-properties.
 			value. 0
 			enumerable. false
 		! seq=? (own-properties obj) [ "a" sym ]
-	|:Bag[Object-Key] _:Object
+	|:@[Object-Key] _:Object
 		\ TODO: Only forbidden if is a Fun
 		own-names = keep (=> Stream (Object.getOwnPropertyNames _)) |name
 			not (forbidden-fun-props.has name)
@@ -74,7 +74,7 @@ own-enumerable-properties.
 			value. 0
 			enumerable.
 		! empty? (own-enumerable-properties obj)
-	|:Bag[Str] object:Object
+	|:@[Str] object:Object
 		Object.keys object
 
 ?get-property.

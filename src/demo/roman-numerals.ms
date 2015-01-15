@@ -1,6 +1,6 @@
 use
 	..assert -> !
-	..bags.Range -> range
+	..@.Range -> range
 	..Comparable -> =? >=?
 	..math.Num -> log Nat pow round-down
 	..methods -> - * contains?

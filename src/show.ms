@@ -1,5 +1,5 @@
 use
-	.bags.Bag -> map
+	.@ -> map
 	.Bool -> false true
 	.Comparable -> =?
 	.Fun

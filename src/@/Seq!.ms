@@ -3,9 +3,9 @@ use
 	.Array
 	.Array!
 	..assert -> !
-	.Bag
-	.Bag-Type
-	.Bag!
+	..@
+	.@-Type
+	.@!
 	..Comparable -> =?
 	..Comparable! -> <!
 	.Deque!
@@ -36,14 +36,14 @@ Seq! = Interface
 		! empty? _
 		+>! _ [ 1 2 3 ]
 
-<! Seq! Bag!
+<! Seq! @!
 <! Seq! Seq
 
 <+!. Method
-	doc. |_ added:Bag
+	doc. |_ added:@
 		"TODO"
 +>!. Method
-	doc. |_ added:Bag
+	doc. |_ added:@
 		"TODO"
 
 ?<pop!. Method
@@ -57,7 +57,7 @@ set-nth!. Method
 	doc. |_ n:Nat
 		"TODO"
 
-<! (self-type Seq!) Bag-Type
+<! (self-type Seq!) @-Type
 	empty -> |
 		empty Deque!
 

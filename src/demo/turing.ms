@@ -1,9 +1,9 @@
 use
-	..bags.Array
-	..bags.Bag -> count
-	..bags.Deque!
-	..bags.Seq
-	..bags.Seq! -> <+! +>! set-nth!
+	..@ -> count
+	..@.Array
+	..@.Deque!
+	..@.Seq
+	..@.Seq! -> <+! +>! set-nth!
 	..Bool -> false
 	..Comparable -> =?
 	..control -> end-loop if! loop

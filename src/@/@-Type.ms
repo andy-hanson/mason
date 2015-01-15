@@ -1,6 +1,6 @@
 use
 	.Array
-	.Bag
+	..@
 	..Comparable! -> <!
 	..Fun -> identity
 	..methods -> => empty sub
@@ -9,26 +9,27 @@ use
 	..types.Method -> impl!
 	..types.util -> self-type
 
-Bag-Type = Interface
-	doc. "Any sub-type of Bag."
+@-Type = Interface
+	doc. "Any sub-type of @."
 
-impl! sub Bag-Type identity
+impl! sub @-Type identity
 
-\ TODO: Do this in Bag.ms
-<! (self-type Bag) Bag-Type
-impl! empty (self-type Bag) |
+\ TODO: Do this in index.ms
+<! (self-type @) @-Type
+impl! empty (self-type @) |
 	empty Array
 
-impl! => Bag-Type Bag
+impl! => @-Type @
 	doc. "TODO"
 	test. |
 		[ Array (range 0 5) ] -> [ 0 1 2 3 4 ]
-	|type bag
-		from-stream type bag
+	\ TODO: fun-copy
+	|type _
+		from-stream type _
 
 from-stream. Method
-	doc. |_ stream:Bag
+	doc. |_ stream:@
 		"
 			TODO
 
-Bag-Type
+@-Type

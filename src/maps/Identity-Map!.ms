@@ -1,8 +1,8 @@
 use
 	..assert -> !
-	..bags.? -> Opt->?
-	..bags.Seq -> seq=?
-	..bags.Stream
+	..@.? -> Opt->?
+	..@.Seq -> seq=?
+	..@.Stream
 	..Comparable -> =?
 	..Comparable! -> <!
 	..control -> returning

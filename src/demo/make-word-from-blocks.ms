@@ -1,9 +1,9 @@
 use
 	..assert -> !
-	..bags.?
-	..bags.Bag -> flat-map keep=> map map=>
-	..bags.Seq -> ?first ?<pop
-	..bags.Stream
+	..@ -> flat-map keep=> map map=>
+	..@.?
+	..@.Seq -> ?first ?<pop
+	..@.Stream
 	..Comparable -> =?
 	..maps.Map -> each-pair!
 	..methods -> => + - contains? empty?
@@ -51,7 +51,7 @@ make-word-from-blocks.
 				_.split " "
 			! =? (make-word-from-blocks word sample-blocks) real-ans
 
-	|:?[Seq[Str]] word:Str blocks:Bag[Str]
+	|:?[Seq[Str]] word:Str blocks:@[Str]
 		rec = |word blocks
 			case ?<pop word
 				empty?_

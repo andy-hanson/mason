@@ -1,6 +1,6 @@
 use
 	..assert -> ! !not
-	..bags.Stream -> streaming
+	..@.Stream -> streaming
 	..Bool -> and false not true
 	..Comparable -> <? >?
 	..Comparable! -> <!

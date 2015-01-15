@@ -1,7 +1,7 @@
 use
 	.assert -> !
-	.bags.Array
-	.bags.Bag -> concat=> map
+	.@ -> concat=> map
+	.@.Array
 	.Bool
 	.Comparable -> =?
 	.console -> log!
@@ -103,18 +103,18 @@ $all.
 		Regardless of the input type, the output promise will be for an Array.
 	test. |
 		"TODO"
-	|:$[Array] _:Bag[$]
+	|:$[Array] _:@[$]
 		$.all (=> Array _
 
 $map.
 	doc. "
 		TODO
-		Unlike `map`, this always returns an Array regardless of the bag's type.
+		Unlike `map`, this always returns an Array regardless of the @'s type.
 	test. |
 		$!=? [ 2 3 4 ] ($map [ 1 2 3 ] |_
 			$delay |
 				+ _ 1
-	|:$[Array] mapped:Bag mapper:Fun[Any $]
+	|:$[Array] mapped:@ mapper:Fun[Any $]
 		$all (map mapped mapper
 
 $flat-map.
@@ -124,7 +124,7 @@ $flat-map.
 			$delay |
 				[ _ _ ]
 
-	|:$[Bag] mapped:Bag mapper:Fun[Any $[Bag]]
+	|:$[@] mapped:@ mapper:Fun[Any $[@]]
 		$after ($map mapped mapper) concat=>[(type-of mapped)]
 
 $each!.
@@ -138,7 +138,7 @@ $keep.
 			$delay |
 				=? _ 2
 
-	|:$[Array] keep-some:Bag keep-if?:Fun[Any $[Bool]]
+	|:$[Array] keep-some:@ keep-if?:Fun[Any $[Bool]]
 		$flat-map keep-some |_
 			$after keep-if?_ |keep
 				if keep |

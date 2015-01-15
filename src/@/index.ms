@@ -2,7 +2,7 @@ use
 	.? -> get-or Opt->?
 	.Array
 	..assert -> ! !not
-	.Bag-Type -> from-stream
+	.@-Type -> from-stream
 	..Bool -> and false not true
 	..Comparable -> =? <?
 	..Dict
@@ -20,20 +20,20 @@ use
 	..types.Interface
 	..types.Method -> impl!
 
-Bag = Interface
+@. Interface
 	doc. "TODO"
-	implementor-test. |bag-type
-		! (contains? Bag-Type bag-type) "Be sure to make your Bag type a Bag-Type."
-		_ = empty bag-type
+	implementor-test. |@-type
+		! (contains? @-Type @-type) "Be sure to make your @ type a @-Type."
+		_ = empty @-type
 		! empty? _
 
 iterator. Method
 	doc. |:Generator! _
-		"Creates a new Generator! which yields the values in the Bag. Should create a new one every time."
+		"Creates a new Generator! which yields the values in the @. Should create a new one every time."
 	symbol. Symbol.iterator
 
 region Using iterator
-	impl! contains? Bag
+	impl! contains? @
 		doc. "TODO"
 		test. |
 			! contains? [ 0 ] 0
@@ -46,7 +46,7 @@ region Using iterator
 		doc. "TODO"
 		test. |
 			[ [ 1 2 3 ] 4 + ] -> 10
-		|_:Bag start:Any folder:Fun[Any Any Any]
+		|_:@ start:Any folder:Fun[Any Any Any]
 			acc = ref start
 			each! _ |em
 				mod! acc |x
@@ -54,7 +54,7 @@ region Using iterator
 			get acc
 
 	each!. Method
-		doc. "Calls do-for-each on every element in the Bag."
+		doc. "Calls do-for-each on every element in the @."
 		test. |
 			"TODO"
 		default. |_ do-for-each:Act
@@ -73,7 +73,7 @@ region Using iterator
 		test. |
 			! any? [ 0 1 ] =?[1]
 			!not any? [ 0 1 ] =?[2]
-		|_:Bag pred:Opt[Pred]
+		|_:@ pred:Opt[Pred]
 			\ TODO:SYNTAX Optional args
 			p = get-or (Opt->? pred) identity
 			\ TODO: keep=> Stream
@@ -84,7 +84,7 @@ region Using iterator
 		test. |
 			! all? [ 0 0 ] =?[0]
 			!not all? [ 0 1 ] =?[0]
-		|_:Bag pred:Opt[Pred]
+		|_:@ pred:Opt[Pred]
 			\ TODO:SYNTAX Optional args
 			p = get-or (Opt->? pred) identity
 			not (any? _ |em
@@ -108,27 +108,27 @@ region Using iterator
 
 	count. Method
 		doc. "Number of elements in it."
-		default. |:Nat _:Bag
+		default. |:Nat _:@
 			fold _ 0 +[1]
 
-	impl! empty? Bag
+	impl! empty? @
 		doc. "Whether `count` will return 0."
 		|:Bool _
 			(iterator_.next ()).done
 
 region Using from-stream
 	keep. Method
-		doc. "Bag with only the elements that satisfy `keep-if?`."
+		doc. "@ with only the elements that satisfy `keep-if?`."
 		test. |
 			[ [ 1 2 ] =?[2] ] -> [ 2 ]
-		default. |_:Bag keep-if?:Pred
+		default. |_:@ keep-if?:Pred
 			keep=> type-of_ _ keep-if?
 
 	keep=>.
 		doc. "TODO"
 		test. |
 			"TODO"
-		|Res-Type:Bag-Type _:Bag keep-if?:Pred
+		|Res-Type:@-Type _:@ keep-if?:Pred
 			from-stream Res-Type (streaming ~|
 				iter = iterator_
 				loop!
@@ -145,14 +145,14 @@ region Using from-stream
 		doc. "TODO"
 		test. |
 			[ [ true false ] not ] -> [ false true ]
-		default. |_:Bag mapper:Fun[Any Any]
+		default. |_:@ mapper:Fun[Any Any]
 			map=> type-of_ _ mapper
 
 	map=>.
 		doc. "TODO"
 		test. |
 			"TODO"
-		|Res-Type:Bag-Type _:Bag mapper:Fun[Any Any]
+		|Res-Type:@-Type _:@ mapper:Fun[Any Any]
 			from-stream Res-Type (streaming ~|
 				iter = iterator_
 				loop!
@@ -173,7 +173,7 @@ region Using from-stream
 			[ [ 1 2 3 ] 0 f ] ->
 				mapped. [ 2 3 4 ]
 				folded. 3
-		|_:Bag start:Any mapper-folder:Fun[Any Any Dict]
+		|_:@ start:Any mapper-folder:Fun[Any Any Dict]
 			acc = ref start
 			\ TODO: Better way to make it eager
 			mapped. => type-of_ (=> Array (map _ |em
@@ -193,14 +193,14 @@ region Using from-stream
 				else
 					[ _ ]
 			[ [ 1 2 3 4 ] f ] -> [ 1 2 2 3 4 4 ]
-		default. |_ mapper:Fun[Any Bag]
+		default. |_ mapper:Fun[Any @]
 			flat-map=> type-of_ _ mapper
 
 	flat-map=>.
 		doc. "TODO"
 		test. |
 			"TODO"
-		|Res-Type:Bag-Type _:Bag mapper:Fun[Any Bag]
+		|Res-Type:@-Type _:@ mapper:Fun[Any @]
 			concat=> Res-Type (map=> Stream _ mapper
 
 	\ TODO: Just use variadic `+`
@@ -208,7 +208,7 @@ region Using from-stream
 		doc. "TODO"
 		test. |
 			"TODO"
-		|Res-Type:Bag-Type _:Bag[Bag]
+		|Res-Type:@-Type _:@[@]
 			from-stream Res-Type (streaming ~|
 				iter = iterator_
 				loop!
@@ -217,38 +217,39 @@ region Using from-stream
 						done
 							end-loop!
 						else
-							<~~ iterator value
+							flat-mapped:@ = value
+							<~~ iterator flat-mapped
 
-	impl! + Bag
+	impl! + @
 		doc. "TODO"
 		test. |
 			[ [ 0 ] [ 1 ] ] -> [ 0 1 ]
-		|:Bag _ add:Bag
+		|:@ _ add:@
 			+=> type-of_ _ add
 
 	+=>.
 		doc. "TODO"
 		test. |
 			"TODO"
-		|Res-Type:Bag-Type _:Bag add:Bag
+		|Res-Type:@-Type _:@ add:@
 			from-stream Res-Type (streaming ~|
 				<~~ iterator_
 				<~~ iterator add
 
-	impl! - Bag
+	impl! - @
 		doc. "
-			Bag with the *first* instances of each in `remove` taken out.
+			@ with the *first* instances of each in `remove` taken out.
 			Most efficient for Sets.
 		test. |
 			[ [ 1 2 1 ] [ 1 ] ] -> [ 2 1 ]
-		|:Bag _ remove:Bag
+		|:@ _ remove:@
 			-=> type-of_ _ remove
 
 	-=>.
 		doc. "TODO"
 		test. |
 			"TODO"
-		|Res-Type:Bag-Type _:Bag remove:Bag
+		|Res-Type:@-Type _:@ remove:@
 			from-stream Res-Type (streaming ~|
 				iter = iterator_
 				remove-us = => Hash-Set! remove
@@ -266,7 +267,7 @@ region Using from-stream
 
 
 region Unsorted
-	impl! =? Bag
+	impl! =? @
 		test. |
 			! =? [ 1 ] [ 1 ]
 		|a b
@@ -276,7 +277,7 @@ region Unsorted
 		doc. "TODO"
 		test. |
 			[ [ "five" "six" "seven" ] "" count ] -> "seven"
-		|_:Bag default:Any by:Fun[Any Any]
+		|_:@ default:Any by:Fun[Any Any]
 			max-val = ref default
 			fold _ (by default) |cur-max-by em
 				em-by = by em
@@ -293,10 +294,10 @@ region Unsorted
 		doc. "TODO"
 		test. |
 			"TODO"
-		|_:Bag default:Any
+		|_:@ default:Any
 			max-by _ default identity
 
-	\ TODO: max method, specialize on sets
+	\ TODO: min method, specialize on sets
 
 
-Bag
+@

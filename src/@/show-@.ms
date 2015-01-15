@@ -1,6 +1,6 @@
 use
 	.Array
-	.Bag -> map
+	..@ -> map
 	.Deque!
 	..methods -> => empty empty? type-of
 	..Object -> flag?
@@ -8,7 +8,7 @@ use
 	..Str -> indent
 	..types.Method -> impl! impl-for
 
-impl! show Bag
+impl! show @
 	test. |
 		\ TODO:SYNTAX [ repr. ]
 		r =
@@ -47,4 +47,4 @@ impl! show Bag
 				content
 
 \ Explicit impl!s for Array so that it doesn't act like a Map
-impl! show Array (impl-for show Bag)
+impl! show Array (impl-for show @)

@@ -1,8 +1,8 @@
 use
 	..assert -> !
 	.? -> get-or Opt->?
-	.Bag -> count iterator
-	.Bag-Type -> from-stream
+	..@ -> count iterator
+	.@-Type -> from-stream
 	..Comparable -> =? <? >=?
 	..Comparable! -> <!
 	..control -> if
@@ -43,7 +43,7 @@ impl! from-stream (self-type Range) |_ stream
 	ignore _ \ TODO:Ignored vars
 	stream
 
-<! Range Bag
+<! Range @
 	?nth ->
 		test. |
 			r = range 0 10 2
@@ -70,7 +70,7 @@ impl! from-stream (self-type Range) |_ stream
 					<~~ handle (+ _ range.step)
 			<~~ handle range.start
 
-<! (self-type Range) Bag-Type
+<! (self-type Range) @-Type
 	empty -> thunk (range 0 0)
 
 Range

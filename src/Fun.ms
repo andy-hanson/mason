@@ -1,9 +1,9 @@
 use
 	.assert -> !
-	.bags.? -> get-or un-?
-	.bags.Array
-	.bags.Bag -> map
-	.bags.Seq -> ?last pop> seq=?
+	.@ -> map
+	.@.? -> get-or un-?
+	.@.Array
+	.@.Seq -> ?last pop> seq=?
 	.Comparable -> =?
 	.control -> build
 	.js -> global
@@ -40,15 +40,15 @@ apply.
 	doc. "Calls the function with the given arguments list."
 	test. |
 		[ + [ 1 2 ] ] -> 3
-	|f:Fun arguments:Bag
+	|f:Fun arguments:@
 		Fun.prototype.apply.call f () (=> Array arguments)
 
 call.
 	doc. "Calls the function with the given arguments."
 	test. |
 		[ + 1 2 ] -> 3
-	|called:Fun ...args
-		apply called args \ TODO:ES6
+	|called:Fun ...@argument
+		apply called @argument \ TODO:ES6
 
 fun-copy.
 	doc. "
@@ -130,12 +130,12 @@ spread.
 			. [ 1 2 3 5 ]
 
 	\ TODO:SYNTAX Non-last rest arg?
-	|:Bag fun:Fun ...rest
+	|:@ fun:Fun ...rest
 		init-args = pop> rest
 		\ TODO: last
-		spreaded = un-? (?last rest)
+		spreaded = un-? (?last rest
 		case spreaded
-			:Bag
+			:@
 				map _ |em
 					all-args = + init-args [ em ]
 					apply fun all-args
@@ -146,7 +146,7 @@ spread.
 						. _[key]
 					apply fun all-args
 			else
-				oh-no! "Can only spread a Bag or Map, not {_}"
+				oh-no! "Can only spread a @ or Map, not {_}"
 
 spread!. spread
 

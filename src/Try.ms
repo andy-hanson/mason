@@ -1,6 +1,6 @@
 use
 	.assert -> ! !not
-	.bags.?
+	.@.?
 	.Bool -> and true
 	.Comparable -> =?
 	.Comparable! -> <!

@@ -1,6 +1,6 @@
 use
-	..bags.Array
-	..bags.Bag-Type
+	..@.Array
+	..@.@-Type
 	..Dict
 	..Fun
 	..maps.Dict-as-Map
@@ -23,8 +23,8 @@ load = |x
 load Type \ This makes it safe to type things.
 load Fun \ Get its impl! ready
 load Dict \ Record-Types have default `default` of `empty Dict`
-load Bag-Type \ Bag[x]
-load Array \ Array is a Bag
+load @-Type \ @[x]
+load Array \ Array is a @
 load Hash-Map \ Provides _ms.map
 load Num
 load Dict-as-Map

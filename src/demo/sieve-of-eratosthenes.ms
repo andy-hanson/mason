@@ -1,14 +1,14 @@
 use
 	..assert -> !
-	..bags.Bag -> any? each!
-	..bags.Seq -> take
-	..bags.Range -> range
-	..bags.Stream -> streaming
+	..@ -> any? each!
+	..@.Seq -> take
+	..@.Range -> range
+	..@.Stream -> streaming
 	..Bool -> not
 	..Generator! -> each~
 	..maps.Map! -> assoc! un-assoc!
 	..maps.Identity-Map!
-	..maps.multi-map! -> add-to-bag!
+	..maps.multi-map! -> add-to-@!
 	..math.Num -> divisible? square
 	..methods -> + * empty empty?
 
@@ -38,4 +38,4 @@ primes.
 				else
 					each! _.val |factor
 						key = + candidate (* 2 factor
-						add-to-bag! prime-factors key [ factor ]
+						add-to-@! prime-factors key [ factor ]

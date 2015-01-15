@@ -1,6 +1,6 @@
 use
 	..assert -> ! !not
-	..bags.Bag -> any? flat-map
+	..@ -> any? flat-map
 	..Bool -> or
 	..Comparable -> =? <?
 	..Comparable! -> <!
@@ -152,7 +152,7 @@ concrete-implementors.
 		implementor! Z X
 		implementor! W Y
 		[ X ] -> [ W Z ]
-	|:Bag interface:Interface
+	|:@ interface:Interface
 		flat-map interface.implementors |case
 			:Interface
 				concrete-implementors_

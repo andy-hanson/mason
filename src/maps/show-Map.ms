@@ -1,5 +1,5 @@
 use
-	..bags.Bag -> map
+	..@ -> map
 	.Map -> keys
 	..methods -> => type-of
 	..Object -> flag?

@@ -1,8 +1,8 @@
 use
 	..assert -> !
-	..bags.Bag -> fold-map
-	..bags.Seq -> reverse tail take-while
-	..bags.Stream -> streaming
+	..@ -> fold-map
+	..@.Seq -> reverse tail take-while
+	..@.Stream -> streaming
 	..Comparable -> =? <=? >=?
 	..math.Num -> Nat
 	..methods -> => + -

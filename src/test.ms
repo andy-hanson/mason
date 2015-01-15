@@ -10,6 +10,6 @@ use
 $done ($after ($all-modules "./js") |
 	($test-all "./js").then |
 		log! "All tests complete."
+		()
 
-	\$test-module (get-module "js/demo/zeckendorf")
-
+\	\$test-module (get-module "js/demo/zeckendorf")

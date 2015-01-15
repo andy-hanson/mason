@@ -2,8 +2,8 @@ use
 	.Array
 	.Array!
 	..assert -> ! !not
-	.Bag -> each!
-	.Bag-Type
+	..@ -> each!
+	.@-Type
 	..Comparable -> =?
 	..Comparable! -> <!
 	..methods -> +! contains? empty empty? empty!
@@ -12,7 +12,7 @@ use
 	..types.Method -> impl!
 	..types.util -> self-type
 
-Bag! = Interface
+@! = Interface
 	doc. "TODO"
 	implementor-test. |type
 		\ KLUDGE because Array and Array! are the same thing (also in Seq!.ms)
@@ -31,13 +31,13 @@ Bag! = Interface
 			!not contains? _ em
 		! empty? _
 
-<! Bag! Bag
+<! @! @
 
-impl! +! Bag! |_ added
+impl! +! @! |_ added
 	+>! _ added
 
-<! (self-type Bag!) Bag-Type
+<! (self-type @!) @-Type
 	empty -> |
-		empty Array!
+		empty @!
 
-Bag!
+@!

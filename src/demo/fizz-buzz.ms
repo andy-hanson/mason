@@ -1,7 +1,7 @@
 use
 	..assert -> !
-	..bags.Bag -> map
-	..bags.Seq -> drop seq=? take
+	..@ -> map
+	..@.Seq -> drop seq=? take
 	..math.Num -> divisible? nats
 
 fizz-buzz.

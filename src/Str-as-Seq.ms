@@ -2,11 +2,11 @@
 
 use
 	.assert -> !
-	.bags.? -> Opt->? get-or
-	.bags.Array
-	.bags.Bag -> count iterator map
-	.bags.Bag-Type -> from-stream
-	.bags.Seq
+	.@ -> count iterator map
+	.@.? -> Opt->? get-or
+	.@.Array
+	.@.@-Type -> from-stream
+	.@.Seq
 	.Comparable -> =?
 	.Comparable! -> <!
 	.Fun -> identity ignore
@@ -26,17 +26,17 @@ test. |
 	\ TODO:ES6 should be built-in
 	iterator -> impl-for iterator Array
 
-<! (self-type Str) Bag-Type
+<! (self-type Str) @-Type
 	empty -> |
 		""
 	\ TODO
 	from-stream -> impl-for from-stream (self-type Array)
 
-impl! => (self-type Str) Bag
+impl! => (self-type Str) @
 	test. |
 		[ Str [ 1 2 3 ] ] -> "123"
 		[ Str [ 1 2 3 ] ", " ] -> "1, 2, 3"
-	|Str bag ?joiner:Opt[Str]
+	|Str _ ?joiner:Opt[Str]
 		ignore Str \ TODO: ignored vars
 		joiner = get-or (Opt->? ?joiner) ""
-		(map (=> Array bag) show).join joiner
+		(map (=> Array _) show).join joiner

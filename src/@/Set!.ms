@@ -1,6 +1,6 @@
 use
 	..assert -> ! !not
-	.Bag!
+	.@!
 	..Comparable! -> <!
 	..methods -> +! -! contains? empty empty? empty!
 	.Set
@@ -22,6 +22,6 @@ Set! = Interface
 
 \ TODO: Way to determine which one of these is more important
 <! Set! Set
-<! Set! Bag!
+<! Set! @!
 
 Set!

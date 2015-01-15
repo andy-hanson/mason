@@ -2,8 +2,8 @@
 
 use
 	.Array!
-	.Bag -> count iterator
-	.Bag-Type -> from-stream
+	..@ -> count iterator
+	.@-Type -> from-stream
 	..Comparable -> <?
 	..Comparable! -> <!
 	..control -> if
@@ -27,7 +27,7 @@ impl! count Array |_
 \ TODO:ES6 This should be implemented for me
 impl! iterator Array array-iterator
 
-<! (self-type Array) Bag-Type
+<! (self-type Array) @-Type
 impl! empty (self-type Array) (thunk [])
 
 impl! from-stream (self-type Array) |_ stream

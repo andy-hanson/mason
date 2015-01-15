@@ -1,7 +1,7 @@
 use
 	..assert -> !
-	..bags.Array
-	..bags.Bag -> each!
+	..@ -> each!
+	..@.Array
 	..Comparable -> =?
 	.Impl-Type
 	.Interface -> unchecked-implementor!

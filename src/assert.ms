@@ -1,7 +1,7 @@
 doc. "Functions that should be use to debug and test code."
 
 use
-	.bags.Bag -> count map
+	.@ -> count map
 	.Bool -> false not true
 	.Comparable -> =?
 	.control -> if!

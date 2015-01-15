@@ -1,14 +1,14 @@
 use
 	..$
 	..assert -> !
-	..bags.Bag -> count keep each! max map
-	..bags.Seq -> seq=? sort
+	..@ -> count keep each! max map
+	..@.Seq -> seq=? sort
 	..Comparable -> =?
 	..Fun -> ignore
 	..js -> new
 	..maps.Identity-Map!
 	..maps.Map -> values
-	..maps.multi-map! -> add-to-bag!
+	..maps.multi-map! -> add-to-@!
 	..methods -> empty
 	..modules -> get-global-module
 	..Str -> lines
@@ -44,7 +44,7 @@ maximum-anagram-sets.
 		\ TODO: This is slow!
 		mp = empty Identity-Map!
 		each! words |word
-			add-to-bag! mp (sort word) [ word ]
+			add-to-@! mp (sort word) [ word ]
 
 		max-count = max (map (values mp) count) 0
 		keep (values mp) |_

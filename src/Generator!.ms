@@ -2,10 +2,10 @@ doc. "TODO"
 
 use
 	.assert -> !
-	.bags.?
-	.bags.Bag -> iterator
-	.bags.Seq -> seq=?
-	.bags.Stream -> streaming
+	.@.?
+	.@ -> iterator
+	.@.Seq -> seq=?
+	.@.Stream -> streaming
 	.Bool -> and false true
 	.Comparable -> =?
 	.Fun
@@ -55,14 +55,14 @@ if~.
 				empty ?
 
 each~.
-	doc. "A generator that goes through every element of `bag`, yielding to `do-each` of it."
+	doc. "A generator that goes through every element of `_`, yielding to `do-each` of it."
 	test. |
 		x = streaming ~|
 			<~~ each~ [ 1 2 3 ] ~|em
 				<~ em
 		! seq=? x [ 1 2 3 ]
-	|bag:Bag do-each:Fun[Any Generator!]
-		each-generator (iterator bag) do-each
+	|_:@ do-each:Fun[Any Generator!]
+		each-generator iterator_ do-each
 
 \ TODO: Others...
 

@@ -1,8 +1,8 @@
 use
 	..assert -> ! !not
-	..bags.?
-	..bags.Bag -> each! map
-	..bags.Set -> set=?
+	..@ -> each! map
+	..@.?
+	..@.Set -> set=?
 	..Bool -> not
 	..Comparable -> =? compare
 	..Comparable! -> <!
@@ -18,7 +18,7 @@ use
 Map! = Interface
 	doc. "
 		TODO:REST
-		-!: Takes a Bag of keys to remove.
+		-!: Takes a @ of keys to remove.
 		+!: Adds another map.
 	implementor-test. |type
 		\ Might be a Weak-Identity-Map!, so must be a reference type.
@@ -61,7 +61,7 @@ impl! -! Map!
 	doc. "TODO"
 	test. |
 		"TODO"
-	|_ to-delete:Bag
+	|_ to-delete:@
 		each! to-delete |em
 			un-assoc! _ em
 

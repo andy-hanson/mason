@@ -1,7 +1,7 @@
 use
 	..assert -> !
-	..bags.Bag -> each!
-	..bags.Seq -> sorted?
+	..@ -> each!
+	..@.Seq -> sorted?
 	..Comparable! -> <!
 	.Map -> keys
 	.Map! -> assoc!

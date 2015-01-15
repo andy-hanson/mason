@@ -1,7 +1,7 @@
 use
 	.$ -> $after
-	.bags.Array
-	.bags.Bag -> flat-map
+	.@ -> flat-map
+	.@.Array
 	.control -> if
 	.js-impl -> i-require
 	.js -> new

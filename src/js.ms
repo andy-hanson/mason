@@ -2,8 +2,8 @@ doc. "TODO"
 
 use
 	.assert -> ! !not
-	.bags.Array
-	.bags.Bag -> each!
+	.@ -> each!
+	.@.Array
 	.Bool -> false not true
 	.Comparable -> =?
 	.Fun -> ignore
@@ -124,7 +124,7 @@ js-typeof.
 		[ "a" ] -> "string"
 		[ (Symbol "s") ] -> "symbol"
 		[ js-typeof ] -> "function"
-		[ Bag ] -> "object"
+		[ @ ] -> "object"
 
 	i-typeof
 
@@ -136,7 +136,7 @@ apply-with-this.
 		f = |a
 			+ this a
 		[ f 1 [ 2 ] ] -> 3
-	|f:Fun new-this arguments:Bag
+	|f:Fun new-this arguments:@
 		\ TODO:ES6 ...args
 		Fun.prototype.apply.call f new-this (=> Array arguments)
 

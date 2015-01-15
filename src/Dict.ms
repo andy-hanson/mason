@@ -2,7 +2,7 @@
 
 use
 	.assert -> !
-	.bags.Seq -> seq=?
+	.@.Seq -> seq=?
 	.Comparable -> =?
 	.maps.Map -> keys
 	.methods -> empty type-of

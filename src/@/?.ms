@@ -1,7 +1,7 @@
 use
 	..assert -> ! !not
-	.Bag -> iterator
-	.Bag-Type -> from-stream
+	..@ -> iterator
+	.@-Type -> from-stream
 	..Comparable! -> <!
 	..Fun -> ignore thunk
 	..js -> defined? reference=?
@@ -42,7 +42,7 @@ region Is Seq
 		else
 			<~ _.val
 
-	<! (self-type ?) Bag-Type
+	<! (self-type ?) @-Type
 
 	impl! from-stream (self-type ?) |_ stream
 		ignore _ \ TODO:Ignored vars

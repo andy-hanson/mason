@@ -1,10 +1,8 @@
 doc. "TODO"
 
 use
-	\..bags.Bag -> map
 	..Comparable! -> <!
 	.Impl-Type
-	\..Object -> get-property
 	..private.bootstrap -> Object
 	.Record-Type
 

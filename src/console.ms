@@ -1,7 +1,7 @@
 doc. "TODO"
 
 use
-	.bags.Bag -> each!
+	.@ -> each!
 	chalk -> blue
 	.js -> global
 	.methods -> =>

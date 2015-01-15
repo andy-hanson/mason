@@ -2,10 +2,10 @@
 
 use
 	..assert -> !
-	..bags.? -> Opt->?
-	..bags.Bag -> flat-map map
-	..bags.Seq -> seq=?
-	..bags.Stream -> streaming
+	..@ -> flat-map map
+	..@.? -> Opt->?
+	..@.Seq -> seq=?
+	..@.Stream -> streaming
 	..Comparable -> =?
 	..Comparable! -> <!
 	..hash-code

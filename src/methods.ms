@@ -1,5 +1,5 @@
 use
-	.bags.? -> get-or
+	.@.? -> get-or
 	.Bool
 	.Fun
 	.Object -> ?get-property-or-in-prototype

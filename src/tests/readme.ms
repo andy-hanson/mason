@@ -2,10 +2,10 @@ doc. "Making sure the code in README.md actually works."
 
 use
 	..assert -> ! !not
-	..bags.Array!
-	..bags.Bag -> count map
-	..bags.Seq -> seq=? take
-	..bags.Stream -> streaming
+	..@ -> count map
+	..@.Array!
+	..@.Seq -> seq=? take
+	..@.Stream -> streaming
 	..Bool -> and true
 	..Comparable -> =? >? >=? <=?
 	..Fun -> call ignore
@@ -97,7 +97,7 @@ Str->Num. |:Num str:Str
 	Num.parseFloat str
 ! =? (Str->Num "3") 3
 
-ints:Bag[Int] =
+ints:@[Int] =
 	. 1
 	. 2
 ignore ints
@@ -195,7 +195,7 @@ double. |x
 	* x 2
 triple. |x
 	* x 3
-doubled-then-tripled. |_:Bag
+doubled-then-tripled. |_:@
 	streaming ~|
 		<~~ each~ _ ~|x
 			<~ double x

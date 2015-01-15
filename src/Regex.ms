@@ -1,5 +1,5 @@
 use
-	.bags.? -> get-or Opt->?
+	.@.? -> get-or Opt->?
 	.js -> global
 	.Str
 

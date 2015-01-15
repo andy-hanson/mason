@@ -3,8 +3,8 @@ use
 	.Array
 	.Array!
 	..assert -> ! !not
-	.Bag -> all? count iterator
-	.Bag-Type -> from-stream
+	..@ -> all? count iterator
+	.@-Type -> from-stream
 	..Bool -> and false not or true
 	..Comparable -> compare =? <? <=? >=?
 	..Comparable! -> <!
@@ -27,9 +27,9 @@ use
 Seq = Interface
 	doc. "TODO"
 
-<! Seq Bag
+<! Seq @
 
-<! (self-type Seq) Bag-Type
+<! (self-type Seq) @-Type
 impl! empty (self-type Seq) |
 	empty Array
 
@@ -44,7 +44,7 @@ region Search
 				<~ 1
 			! seq=? s [ 1 ]
 			!not seq=? s [ 2 ]
-		|seq-0:Bag seq-1:Bag
+		|seq-0:@ seq-1:@
 			\ TODO:PERF Don't check counts up front, do it while zipping
 			and (=? (count seq-0) (count seq-1)) ~(all? (zip seq-0 seq-1 =?))
 
@@ -105,7 +105,7 @@ region Update
 			[ [ ] ] -> => ? [ ]
 			[ [ 0 ] ] -> => ? [ [ ] ]
 			[ [ 0 1 ] ] -> => ? [ [ 1 ] ]
-		default. |:Bag _
+		default. |:@ _
 			if (not empty?_) |
 				<pop_
 
@@ -115,7 +115,7 @@ region Update
 			[ [ ] ] -> => ? [ ]
 			[ [ 0 ] ] -> => ? [ [ ] ]
 			[ [ 0 1 ] ] -> => ? [ [ 0 ] ]
-		default. |:Bag _
+		default. |:@ _
 			if (not empty?_) |
 				pop>_
 
@@ -125,41 +125,41 @@ region Update
 			[ [ ] ] -> []
 			[ [ 0 ] ] -> []
 			[ [ 0 1 ] ] -> [ 1 ]
-		default. |:Bag _
+		default. |:@ _
 			drop _ 1
 
 	pop>. Method
 		doc. "TODO"
 		test. |
 			"TODO"
-		default. |:Bag _
-			take _ (- count_ 1)
+		default. |:@ _
+			take _ (- count_ 1
 
 	?slice.
 		doc. "TODO"
 		test. |
 			"TODO"
-		|:?[Bag] _ start:Nat end:Nat
+		|:?[@] _ start:Nat end:Nat
 			if (and (>=? end start) ~(<=? end count_))
 				slice _ start end
 
 	slice. Method
 		doc. "
-			Bag containing the elements from index start (inclusive) to end (exclusive).
+			The elements from index start (inclusive) to end (exclusive).
 			Takes as much as possible.
 			Result length should be - end start, unless `end` was past the end.
 
 		test. |
 			[ [ 0 1 2 3 ] 1 3 ] -> [ 1 2 ]
 
-		default. |:Bag _ start:Nat end:Nat
+		default. |:@ _ start:Nat end:Nat
 			from-stream type-of_ (take (drop _ start) (- end start)
 
 	take. Method
 		doc. "TODO"
 		test. |
 			"TODO"
-		default. |:Bag _ count-to-take:Nat
+		default. |:@ _ count-to-take:Nat
 			from-stream type-of_ (streaming ~|
 				iter = iterator_
 				i = ref 0
@@ -180,7 +180,7 @@ region Update
 		doc. "TODO"
 		test. |
 			[ [ 1 2 -1 3 ] <?[0] ] -> [ 1 2 ]
-		|:Bag _ while:Pred
+		|:@ _ while:Pred
 			from-stream type-of_ (streaming ~|
 				iter = iterator_
 				loop!
@@ -197,7 +197,7 @@ region Update
 		doc. "TODO"
 		test. |
 			"TODO"
-		default. |:Bag _ count-to-drop:Nat
+		default. |:@ _ count-to-drop:Nat
 			from-stream type-of_ (streaming ~|
 				iter = iterator_
 				i = ref 0
@@ -225,7 +225,7 @@ region Update
 region Combination
 	\ TODO: Variadic
 	\ TODO: Builder? (whose?)
-	zip. |s0:Bag s1:Bag zipper:Fun[Any Any Any]
+	zip. |s0:@ s1:@ zipper:Fun[Any Any Any]
 		streaming ~|
 			iter0 = iterator s0
 			iter1 = iterator s1
@@ -319,7 +319,7 @@ region Sorting
 		test. |
 			[ [ 3 2 1 ] ] -> [ 1 2 3 ]
 			[ [ "five" "six" "seven" ] count ] -> [ "six" "five" "seven" ]
-		default. |_:Bag sort-by:Opt[Fun[Any Any]]
+		default. |_:@ sort-by:Opt[Fun[Any Any]]
 			sort=> type-of_ _ sort-by
 
 	\ KLUDGE: because others are so slow...
@@ -331,7 +331,7 @@ region Sorting
 				((_.split "").sort ()).join ""
 
 	sort=>.
-		|Res-Type:Bag-Type _:Bag sort-by:Opt[Fun[Any Any]]
+		|Res-Type:@-Type _:@ sort-by:Opt[Fun[Any Any]]
 			\ TODO:SYNTAX Optional args
 			sb = get-or (Opt->? sort-by) identity
 			arr = => Array! _

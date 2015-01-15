@@ -1,14 +1,14 @@
 use
-	..bags.Array!
-	..bags.? -> get-or Opt->?
-	..bags.Bag
-	..bags.Bag-Type
+	..@
+	..@.Array!
+	..@.? -> get-or Opt->?
+	..@.@-Type
 	.Map! -> get-or-update!
 	..methods -> +! empty
 	..pred-types -> Opt
 
-add-to-bag!. |map:Map! key added:Bag bag-type:Opt[Bag-Type]
+add-to-@!. |map:Map! key added:@ @-type:Opt[@-Type]
 	\ TODO:SYNTAX Optional arguments
-	bt = get-or (Opt->? bag-type) Array!
-	bag = get-or-update! map key ~(empty bt
-	+! bag added
+	type = get-or (Opt->? @-type) Array!
+	_ = get-or-update! map key ~(empty type
+	+! _ added

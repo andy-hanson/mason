@@ -1,6 +1,6 @@
 use
-	.Bag -> each! iterator
-	.Bag-Type -> from-stream
+	..@ -> each! iterator
+	.@-Type -> from-stream
 	..Bool -> true
 	.Set
 	.Set!
@@ -35,12 +35,12 @@ Hash-Set! = Record-Type
 	empty! -> |_
 		empty! _.data
 
-<! (self-type Hash-Set!) Bag-Type
+<! (self-type Hash-Set!) @-Type
 	empty -> |
 		Hash-Set!
 			data. empty Hash-Map!
 
-	\ TODO: Define it this way for all Bag!-Types
+	\ TODO: Define it this way for all @!-Types
 	from-stream -> |type stream
 		returning (empty type) |_
 			each! stream |em

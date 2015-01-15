@@ -1,5 +1,5 @@
 use
-	.bags.Bag -> count
+	.@ -> count
 	.Bool -> and
 	.Comparable -> =? compare
 	.Comparable! -> <!

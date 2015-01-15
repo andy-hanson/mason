@@ -1,9 +1,9 @@
 use
 	.assert -> ! !call
-	.bags.? -> get-or full-?
-	.bags.Array!
-	.bags.Seq
-	.bags.Seq! -> +>!
+	.@.? -> get-or full-?
+	.@.Array!
+	.@.Seq
+	.@.Seq! -> +>!
 	.Bool -> false true
 	.Comparable -> =?
 	.Fun -> Act call ignore thunk

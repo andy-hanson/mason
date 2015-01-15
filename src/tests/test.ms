@@ -3,9 +3,9 @@ doc. "TODO"
 use
 	..$ -> $after $all $resolved
 	..assert -> ! !call
-	..bags.? -> get-or
-	..bags.Bag -> each! flat-map map
-	..bags.Identity-Set!
+	..@ -> each! flat-map map
+	..@.? -> get-or
+	..@.Identity-Set!
 	..Bool -> and false or true
 	..control -> build if
 	..Comparable -> =?
@@ -79,7 +79,7 @@ $test-module.
 all-tested = empty Identity-Set!
 
 \ TODO: Better name
-$maybe-test. |:Bag[$] name:Str value is-module:Bool
+$maybe-test. |:@[$] name:Str value is-module:Bool
 	case
 		all-tested.has value
 			[ ($resolved ()) ]
@@ -104,7 +104,7 @@ $maybe-test. |:Bag[$] name:Str value is-module:Bool
 
 			+ (any->$ a) b
 
-$test-test-prop = |:Bag[$] value value-test name \TODO: ...test-args
+$test-test-prop = |:@[$] value value-test name \TODO: ...test-args
 	\ Could be both Fun and Dict
 	_ = value-test
 	a = if :Fun |
@@ -137,14 +137,14 @@ $test-test-fun = |:$ value value-test:Fun name ...args
 \ TODO: Handle errors in promise...
 any->$ =
 	doc. "TODO"
-	|:Bag[$] test-result
+	|:@[$] test-result
 		case test-result
-			:Bag
+			:@
 				map _ |case
 					:$
 						_
 					else
-						oh-no! "Result of test should be $, Bag[$], or (). Got: {_}"
+						oh-no! "Result of test should be $, @[$], or (). Got: {_}"
 			:$
 				[ _ ]
 			else
