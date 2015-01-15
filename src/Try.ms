@@ -1,6 +1,7 @@
 use
-	.assert -> ! !not
 	.@.?
+	.$ -> $catch
+	.assert -> ! !not
 	.Bool -> and true
 	.Comparable -> =?
 	.Comparable! -> <!
@@ -145,5 +146,15 @@ annotate-errors.
 				change-property! _ "stack" "{annotation}{_.stack}"
 				change-property! _ "message" "{annotation}{_.message}"
 				oh-no! _
+
+$annotate-errors.
+	doc. "TODO"
+	test. |
+		"TODO"
+	|~annotation:Str $tried:$
+		$catch $tried |_
+			change-property! _ "stack" "{annotation}{_.stack}"
+			change-property! _ "message" "{annotation}{_.message}"
+			oh-no! _
 
 Try

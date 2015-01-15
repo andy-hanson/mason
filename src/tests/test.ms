@@ -1,22 +1,22 @@
 doc. "TODO"
 
 use
-	..$ -> $after $all $resolved
+	..$ -> $after $all
 	..assert -> ! !call
 	..@ -> each! flat-map map
 	..@.? -> get-or
 	..@.Identity-Set!
 	..Bool -> and false or true
-	..control -> build if
+	..control -> build
 	..Comparable -> =?
 	..Dict
 	..Fun -> apply ignore
 	..maps.Map
 	..methods -> + contains? empty
-	..modules -> $all-modules
+	..modules -> $@module-in-dir
 	..Object -> ?get-property get-property has-property? own-properties own-enumerable-properties
 	..Str
-	..Try -> annotate-errors oh-no! Success try
+	..Try -> $annotate-errors annotate-errors oh-no! Success try
 	..types.Impl-Type
 	..types.Interface -> concrete-implementors
 	..types.Method -> impl! impl-for
@@ -33,7 +33,7 @@ test. |
 			b. empty Dict
 			impl! test-special (self-type b) yield["b"]
 			c. () \ not testable
-		$maybe-test "dict" dict true
+		@$maybe-test "dict" dict true
 
 \ TODO: Better name (but not `test`, because that's a common module property)
 test-special. Method
@@ -52,37 +52,42 @@ impl! test-special Impl-Type |type
 			case x
 				:Success
 					each! _.val |val
-						$maybe-test "{type}#{name}" val false
+						@$maybe-test "{type}#{name}" val false
 				else
 					()
 
 \ TODO: MOVE THESE
 impl! test-special Interface |_
-	a = any->$ ((impl-for test-special Impl-Type) _
+	a = any->@$ ((impl-for test-special Impl-Type) _
 	b = flat-map (?get-property _ "implementor-test") |test:Fun
-		map concrete-implementors_ |implementor
-			$test-test-fun implementor test "{_}.implementor-test of {implementor}" implementor
+		flat-map concrete-implementors_ |implementor
+			@$test-test-fun implementor test "{_}.implementor-test of {implementor}" implementor
 	+ a b
 
 
-$test-all. |dir-path:Str
-	$after ($all-modules dir-path) |_
-		$all (flat-map _ $test-module)
+$@test-all.
+	doc. "TODO"
+	|dir-path:Str
+		$after ($@module-in-dir dir-path) |_
+			$all (flat-map _ @$test-module)
 
-\ TODO:ES6 Use module reflection
-$test-module.
+$@test-module.
 	doc. "TODO"
 	|module:Object
-		module-name = get-or (?get-property module "displayName") "<anonymous module>"
-		$maybe-test module-name module true
+		$all (@$test-module module
+
+\ TODO:ES6 Use module reflection
+@$test-module = |module:Object
+	module-name = get-or (?get-property module "displayName") "<anonymous module>"
+	@$maybe-test module-name module true
 
 all-tested = empty Identity-Set!
 
 \ TODO: Better name
-$maybe-test. |:@[$] name:Str value is-module:Bool
+@$maybe-test = |:@[$] name:Str value is-module:Bool
 	case
 		all-tested.has value
-			[ ($resolved ()) ]
+			[ ]
 		else
 			all-tested.add value
 			a = test-special value
@@ -94,48 +99,50 @@ $maybe-test. |:@[$] name:Str value is-module:Bool
 						prop-val = get-property _ prop-name
 						case prop-name
 							=? _ "test"
-								$test-test-prop value prop-val next-name
+								@$test-test-prop value prop-val next-name
 							else
-								$maybe-test next-name prop-val false
+								@$maybe-test next-name prop-val false
 				and :Object ~(has-property? _ "test")
-					$test-test-prop _ (get-property _ "test") "{name}.test"
+					@$test-test-prop _ (get-property _ "test") "{name}.test"
 				else
 					[]
 
-			+ (any->$ a) b
+			+ (any->@$ a) b
 
-$test-test-prop = |:@[$] value value-test name \TODO: ...test-args
+@$test-test-prop = |:@[$] value value-test name \TODO: ...test-args
 	\ Could be both Fun and Dict
 	_ = value-test
-	a = if :Fun |
-		$test-test-fun value value-test name
+	a = case
+		:Fun
+			@$test-test-fun value value-test name
+		else
+			[]
 	b = case
 		:Dict
 			\ TODO: flat-map pairs_ ?
 			flat-map own-enumerable-properties_ |sub-name
-				$test-test-prop value _[sub-name] "{name}.{sub-name}"
+				@$test-test-prop value _[sub-name] "{name}.{sub-name}"
 		else
 			[]
 
 	+ a b
 
-$test-test-fun = |:$ value value-test:Fun name ...args
-	a = annotate-errors ~"{name}: " |
+@$test-test-fun = |:@[$] value value-test:Fun name ...args
+	~ano = "{name}: "
+	_ = annotate-errors ~ano |
 		apply value-test args
-	case a
+	case
 		:Map
 			! (contains? Fun value) ~
 				"Test of {name} returned a Map, but the value is not callable."
 			!call value _
-			$resolved ()
+			[ ]
 		:$
-			\ TODO: Handle errors in promise...
-			_
+			[ ($annotate-errors ~ano _) ]
 		else
-			$resolved ()
+			[ ]
 
-\ TODO: Handle errors in promise...
-any->$ =
+any->@$ =
 	doc. "TODO"
 	|:@[$] test-result
 		case test-result

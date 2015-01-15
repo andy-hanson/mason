@@ -1,15 +1,15 @@
 doc. "The program starts running here."
 
 use
-	.$ -> $done $after
+	.$ -> $done $ing
 	.console -> log!
-	.modules -> $all-modules get-module
-	.tests.test -> $test-all $test-module
+	.modules -> $@module-in-dir get-module
+	.tests.test -> $@test-all $@test-module
+	.time -> $time
 
 \ TODO: Mason for "if this is the main module"
-$done ($after ($all-modules "./js") |
-	($test-all "./js").then |
-		log! "All tests complete."
-		()
-
-\	\$test-module (get-module "js/demo/zeckendorf")
+$done ($ing ~|
+	<~ $time "load" ($@module-in-dir "./js"
+	<~ $time "test" ($@test-all "./js"
+	\<~ $time "ana" ($@test-module (get-module "js/demo/anagrams"
+	log! "Bye!"

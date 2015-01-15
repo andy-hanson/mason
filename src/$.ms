@@ -3,6 +3,7 @@ use
 	.@ -> concat=> map
 	.@.Array
 	.Bool
+	chalk -> red
 	.Comparable -> =?
 	.console -> log!
 	.control -> if unreachable!
@@ -12,7 +13,6 @@ use
 	.js -> new
 	.methods -> => + sub type-of
 	.pred-types -> Any
-	.Str -> indent
 	.Try -> oh-no!
 	.types.Method -> impl!
 	.types.util -> self-type
@@ -39,7 +39,7 @@ $ =
 impl! sub (self-type $) identity
 
 $!=? = |expected $actual
-	$done ($after $actual |_
+	$after $actual |_
 		! =? expected _
 
 $done.
@@ -54,9 +54,8 @@ $done.
 	|promise:$
 		promise.catch |err
 			log! "
-				Error occurred in a promise:
-					{indent err.stack}
-				===
+				{err.stack}
+				{red "==="}
 
 $after.
 	doc. "TODO"
@@ -89,6 +88,8 @@ $delay.
 	doc. "
 		Schedules a computation to happen later.
 		Does *not* run it in parallel.
+		It should go without saying,
+		but if you needlessly $delay things all the time your program will take longer.
 	test. |
 		$!=? 1 ($delay |
 			1

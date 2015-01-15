@@ -23,8 +23,7 @@ get-module.
 	|module-path
 		commonJS-require "./{path.relative this-module-directory module-path}"
 
-\ TODO: Better pattern for returning promises
-$all-modules.
+$@module-in-dir.
 	doc. "TODO"
 	|dir-path
 		$after (q->es6-promise (fs.listTree dir-path)) |files:Array
