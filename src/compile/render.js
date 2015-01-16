@@ -91,19 +91,25 @@ U.implementMany(E, "renderContent", {
 	BlockBody: function (rx, opResCheck) {
 		if (opResCheck === undefined)
 			opResCheck = []
-		const _in = this.opIn.map(r(rx))
+
+		const opIn = rx.opts.includeInoutChecks() ? this.opIn : []
+		const opOut = rx.opts.includeInoutChecks() ? this.opOut : []
+
+		const _in = opIn.map(r(rx))
 		const body = this.lines.map(r(rx))
-		const needResLocal = !(Sq.isEmpty(opResCheck) && Sq.isEmpty(this.opOut))
+
+		const needResLocal = !(Sq.isEmpty(opResCheck) && Sq.isEmpty(opOut))
 		if (needResLocal) {
 			const makeRes = this.opReturn.map(function(ret) { return [
 				"const res = ",
 				r(rx)(ret)
 			]})
-			const _out = this.opOut.map(r(rx))
+			const _out = rx.opts.includeInoutChecks() ? opOut.map(r(rx)) : []
 			const ret = this.opReturn.map(function() { return "return res" })
 			return Sq.interleave(_in.concat(body, makeRes, opResCheck, _out, ret), rx.snl())
 		}
 		else {
+			// no res check or out
 			const ret = this.opReturn.map(function(ret) { return [
 				"return ",
 				r(rx)(ret)
@@ -175,7 +181,7 @@ U.implementMany(E, "renderContent", {
 	Fun: function(rx) {
 		const rxFun = rx.indented()
 		const span = this.span
-		const opResCheck = this.opReturnType.map(function(_) {
+		const opResCheck = Sq.flatMap(this.opReturnType, function(_) {
 			// TODO: Probably a better way
 			return opLocalCheck(
 				rx,
@@ -366,6 +372,9 @@ const accessMangledLocal = function(mangledName, isLazy) {
 
 const opLocalCheck = function(rx, local, isLazy) {
 	type(local, E.LocalDeclare, isLazy, Boolean)
+	if (!rx.opts.includeTypeChecks())
+		return []
+	// TODO: Way to typecheck lazies
 	return isLazy ? Op.None : local.opType.map(function(typ) { return [
 		"_ms.checkContains(",
 		r(rx)(typ),

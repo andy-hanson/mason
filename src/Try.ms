@@ -83,6 +83,15 @@ fails?.
 	|_:Act
 		contains? Error try_
 
+!debug-fails?.
+	doc. "TODO"
+	test. |
+		"TODO"
+	|_:Act
+		in
+			! fails? _
+		()
+
 fails-with?.
 	doc. "TODO"
 	test. |

@@ -13,7 +13,7 @@ use
 	.Object! -> add-property!
 	.pred-types -> Union
 	.Symbol
-	.Try -> fails?
+	.Try -> !debug-fails?
 	.types.Method -> impl!
 	.types.util -> self-type
 
@@ -110,9 +110,9 @@ get-property.
 			a. 1
 			b. ()
 		[ x "a" ] -> 1
-		\ TODO
-		\ [ x "b" ] -> ()
-		! fails? |
+		[ x "b" ] -> ()
+
+		!debug-fails? |
 			get-property x "c"
 	|_:Object name:Object-Key
 		in

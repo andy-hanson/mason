@@ -19,7 +19,7 @@ use
 		It may be called as:
 			! fun arg arg arg ...
 				Calls fun on the arguments.
-				fun must return a Bool.
+				fun must return a Bool
 				If it returns false, an error will be thrown.
 				The error will contain information about fun and its arguments.
 			! bool ~message

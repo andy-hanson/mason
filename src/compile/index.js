@@ -37,9 +37,13 @@ const isMason = function(p) { return path.extname(p) === Lang.fileExtension; }
 const isJs = function(p) { return path.extname(p) === ".js" }
 const isMasonOrJs = function(p) { return isMason(p) || isJs(p) }
 
-const processFile = function(inFile, inContent, outDir) {
+const processFile = function(cliOpts) { return function(inFile, inContent, outDir) {
 	if (isMason(inFile)) {
-		const opts = Opts({ inFile: inFile, outDir: outDir })
+		const opts = Opts({
+			inFile: inFile,
+			outDir: outDir,
+			checks: cliOpts.checks
+		})
 		try {
 			return compile(inContent, opts)
 		}
@@ -59,7 +63,7 @@ const processFile = function(inFile, inContent, outDir) {
 		} ]
 	else
 		return [ ]
-}
+} }
 
 module.exports = {
 	processFile: processFile

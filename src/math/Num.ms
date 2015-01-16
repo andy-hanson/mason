@@ -11,7 +11,7 @@ use
 	..pred-types -> Opt
 	..js -> global js-bar js=== js< js> js<= js>= js+ js- js* js/ js%
 	..show
-	..Try -> fails?
+	..Try -> !debug-fails?
 	..types.Method -> impl!
 	..types.Pred-Type
 
@@ -154,7 +154,7 @@ region Real arithmetic
 	square-root.
 		test. |
 			[ 4 ] -> 2
-			! fails? |
+			!debug-fails? |
 				square-root -1
 		|_:Num
 			in

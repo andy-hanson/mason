@@ -10,7 +10,9 @@ const noExt = function(name) {
 
 module.exports = types.recordType("Opts", Object, {
 	inFile: String,
-	outDir: String
+	outDir: String,
+	// TODO: { types: Boolean, inout: Boolean }
+	checks: Boolean
 })
 Object.assign(module.exports.prototype, {
 	moduleName: function() {
@@ -24,5 +26,11 @@ Object.assign(module.exports.prototype, {
 	},
 	sourceMapPathRelToJs: function() {
 		return "./" + this.jsBaseName() + ".map"
+	},
+	includeTypeChecks: function() {
+		return this.checks === true || this.checks.types
+	},
+	includeInoutChecks: function() {
+		return this.checks === true || this.checks.inout
 	}
 })

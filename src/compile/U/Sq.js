@@ -107,6 +107,15 @@ const range = function(min, max) {
 	return out
 }
 
+const flatMap = function(mapped, mapper) {
+	type(mapped, Array, mapper, Function)
+	const out = []
+	mapped.forEach(function(_) {
+		out.push.apply(out, mapper(_))
+	})
+	return out
+}
+
 module.exports = {
 	head: head,
 	last: last,
@@ -122,5 +131,6 @@ module.exports = {
 	isEmpty: isEmpty,
 	cons: cons,
 	rcons: rcons,
-	range: range
+	range: range,
+	flatMap: flatMap
 }

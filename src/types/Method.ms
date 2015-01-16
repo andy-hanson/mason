@@ -2,7 +2,6 @@ use
 	..assert -> !
 	..@.? -> un-?
 	..Comparable -> =?
-	..control -> build
 	.Impl-Type
 	.Interface
 	..js -> js-sub
@@ -11,7 +10,7 @@ use
 	..Object -> ?get-property
 	..private.bootstrap -> Str Symbol Fun oh-no! get-or-undefined exists? set! set-mutable! has-or-in-proto? get writable?
 	.Record-Type
-	..Try -> fails?
+	..Try -> !debug-fails?
 
 make-callable-method = |method
 	ret = case
@@ -64,20 +63,17 @@ Method = Record-Type
 		! =? (m "a") "Str"
 		! =? (m 1 1) "Num Num"
 		! =? (m 1 "a") "Num Str"
-		! fails? |
+		!debug-fails? |
 			m 1 m
 
-		! =? [ "in" "impl" "out" ] (build |yield
-			m = Method
-				default. |
-					yield "impl"
-				wrap. |impl x
-					in
-						yield "in"
-					out
-						yield "out"
-					impl x
-			m ()
+		! =? "wrap-call-arg"
+			wrap-method = Method
+				default. |_
+					"call-{_}"
+				wrap. |impl args
+					\ TODO:Syntax splat call
+					"wrap-{Fun.prototype.apply.call impl () args}"
+			wrap-method "arg"
 
 	members.
 		displayName. Str  \ Required!

@@ -542,11 +542,11 @@ Looks like | Means | Example
 `X!` | Mutable type. | `new-map = empty Map!`
 `!` | Assertion. | `! <? 1 2`
 `~x` | Lazy - *not* a convention. | `and a ~b`
-`x~` | Generator. | `<~~ each~ files file-lines~`
+`x~` | Generator. | `<~~ each~ @files file-lines~`
 `?x` | Using the `?` ("maybe") type. | `?find [ 1 3 5 ] even?`
 `x?` | Predicate - returns a Bool. | `even? 2`
 `$x` | Using the `$` ("promise") type. | `$read-file "Hello.txt"`
-
+`@x` | Using the `@` ("bag") type. | `@primes = [ 2 3 5 ]`
 
 ### Building / Running
 
