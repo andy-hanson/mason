@@ -85,11 +85,16 @@ module.exports = {
 			assoc(hm, key, val)
 		}
 	},
+
+	// Record-Type.ms
+	"build-str": function(builder) {
+		let s = ""
+		builder(function(str) { s += str + "\n" })
+		return s
+	}
 }
 
 const binOps = [ "&", "^", "<<", ">>", ">>>", "===", "<", ">", "<=", ">=", "+", "-", "*", "/", "%" ]
 binOps.forEach(function(op) {
 	module.exports["i" + op] = Function("a", "b", "return a " + op + " b")
 })
-
-

@@ -19,7 +19,7 @@ make-callable-method = |method
 		else
 			\ TODO:ES6 Splat call
 			"return impl(a, b, c, d, e, f, g, h)"
-	f = Fun "def" "wrap" "
+	src = "
 		return function(a, b, c, d, e, f, g,  h) \{
 			var impl
 			if (a == null)
@@ -31,6 +31,7 @@ make-callable-method = |method
 			}
 			{ret}
 		}
+	f = Fun "def" "wrap" src
 	f method.default method.wrap
 
 Method = Record-Type
