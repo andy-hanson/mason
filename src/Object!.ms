@@ -2,7 +2,6 @@ use
 	.assert -> ! !not
 	.Bool -> false
 	.Comparable -> =?
-	.Dict
 	.js -> js-delete js-set
 	.maps.Map -> each-pair!
 	.methods -> empty
@@ -83,7 +82,7 @@ extend!.
 		extend! x
 			a. 1
 		! =? x.a 1
-	|object:Object extender:Dict
+	|object:Object extender:Object
 		each-pair! extender add-property![object]
 
 Object!

@@ -1,20 +1,21 @@
 use
 	.?
-	.Array
-	.Array!
-	..assert -> !
 	..@
 	.@-Type
 	.@!
+	.Array
+	..assert -> !
 	..Comparable -> =?
 	..Comparable! -> <!
-	.Deque!
 	..math.Num -> Nat
 	..methods -> => empty empty?
 	.Seq -> seq=?
 	..types.Interface
 	..types.Method
 	..types.util -> self-type
+use~
+	.Array!
+	.Deque!
 
 Seq! = Interface
 	doc. "TODO"

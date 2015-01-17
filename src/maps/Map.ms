@@ -1,18 +1,19 @@
 use
 	..assert -> !
-	..@ -> each! map
-	..@.? ->  get-or
 	..Bool -> not
 	..Comparable -> =?
 	..Fun -> identity
-	.Hash-Map!
-	.Map! -> assoc!
 	..methods -> + empty empty? freeze sub
 	..pred-types -> Any
 	..Try -> oh-no!
 	..types.Interface
 	..types.Method -> impl!
 	..types.util -> self-type
+use~
+	..@ -> each! map
+	..@.? ->  get-or
+	.Hash-Map!
+	.Map! -> assoc!
 
 Map = Interface
 	doc. "Mapping from keys to values."

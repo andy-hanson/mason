@@ -1,23 +1,23 @@
 use
-	.assert -> !
-	.@ -> map
-	.@.? -> get-or un-?
-	.@.Array
-	.@.Seq -> ?last pop> seq=?
 	.Comparable -> =?
-	.control -> build
 	.js -> global
-	.maps.Map -> ?get keys
-	.maps.Weak-Identity-Map!
 	.methods -> => + contains? empty empty? sub
-	.Object -> ?get-property get-property
-	.pred-types -> Any
-	.show
-	.Str
-	.Try -> oh-no!
 	.types.Alias-Type
 	.types.Method -> impl!
 	.types.util -> self-type
+use~
+	.@ -> map
+	.@.? -> get-or un-?
+	.@.Seq -> ?last pop> seq=?
+	.@.Array
+	.assert -> !
+	.control -> build
+	.maps.Map -> ?get keys
+	.maps.Weak-Identity-Map!
+	.Object -> ?get-property get-property
+	.show
+	.Str
+	.Try -> oh-no!
 
 Fun =
 	doc. "
@@ -99,7 +99,7 @@ identity-memoize.
 		! seq=? comps [ 1 2 ]
 	|fun:Fun
 		wm = empty Weak-Identity-Map!
-		|arg:Any
+		|arg
 			in
 				! (contains? Object arg) "
 					Can only use objects for identity-memoize'd functions, not {arg}.

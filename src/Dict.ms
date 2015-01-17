@@ -1,15 +1,13 @@
 \ Also see ..maps.Dict-as-Map
-
 use
 	.assert -> !
-	.@.Seq -> seq=?
 	.Comparable -> =?
 	.maps.Map -> keys
 	.methods -> empty type-of
 	.private.bootstrap -> Dict extend!
-	.show
 	.types.Method -> impl!
 	.types.util -> self-type
+	.show
 
 extend! Dict
 	doc. "
@@ -20,7 +18,7 @@ extend! Dict
 		d:Dict =
 			a. 1
 			b. 2
-		! seq=? (keys d) [ "a" "b" "displayName" ]
+		! =? (keys d) [ "a" "b" "displayName" ]
 		! =? d["a"] 1
 
 empty-Dict = Dict.apply [ ]

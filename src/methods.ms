@@ -1,11 +1,12 @@
 use
+	.types.Method
+	.types.Type
+use~
 	.@.? -> get-or
 	.Bool
 	.Fun
 	.Object -> ?get-property-or-in-prototype
 	.private.bootstrap -> sym-contains? sym-sub sym-type-of
-	.types.Method
-	.types.Type
 
 region Arithmetic operators
 	+. Method
@@ -81,7 +82,6 @@ region Unsorted
 		\ TODO: Should be able to just make it here. No need for syms.
 		impl-symbol. sym-type-of
 		default. |_
-			\ TODO: ?get-property-or-in-prototype
 			get-or (?get-property-or-in-prototype _ "constructor") Object
 
 	length. Method

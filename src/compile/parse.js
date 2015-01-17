@@ -574,7 +574,8 @@ const parseLine = (function() {
 					return block.sqt.map(function(line) { return parseLine(px.withSpan(line.span), line.sqt) })
 				}
 				case "use":
-					return parseUse(pxRest(), rest())
+				case "use~":
+					return parseUse(pxRest(), rest(), first.k)
 				default: // fall through
 			}
 
@@ -715,7 +716,7 @@ const parseSpaced = function(px, sqt) {
 
 // TODO:ES6 Just use module imports, no AssignDestructure needed
 const parseUse = (function() {
-	const useLine = function(px, sqt) {
+	const useLine = function(px, sqt, k) {
 		const tReq = Sq.head(sqt)
 		const _$ = parseRequire(px.withSpan(tReq.span), tReq)
 		const required = _$.required, name = _$.name
@@ -737,7 +738,7 @@ const parseUse = (function() {
 			assignees: Sq.cons(defaultAssignee, assignees),
 			k: "=",
 			value: required,
-			isLazy: true
+			isLazy: k === "use~"
 		})
 	}
 
@@ -774,9 +775,10 @@ const parseUse = (function() {
 		}
 	}
 
-	return function(px, sqt) {
+	return function(px, sqt, k) {
+		type(px, Px, sqt, [T], k, Lang.UseKeywords)
 		const _ = parseBlock.takeBlockLinesFromEnd(px, sqt)
 		check(Sq.isEmpty(_.before), px.span, "Did not expect anything after " + U.code("use") + " other than a block")
-		return _.lines.map(function(line) { return useLine(px.withSpan(line.span), line.sqt) })
+		return _.lines.map(function(line) { return useLine(px.withSpan(line.span), line.sqt, k) })
 	}
 })()

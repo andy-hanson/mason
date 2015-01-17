@@ -1,28 +1,29 @@
 use
-	.? -> get-or Opt->?
-	.Array
-	.Array!
-	..assert -> ! !not
 	..@ -> all? count iterator
 	.@-Type -> from-stream
+	.? -> get-or Opt->?
+	..assert -> ! !not
 	..Bool -> and false not or true
 	..Comparable -> compare =? <? <=? >=?
 	..Comparable! -> <!
 	..control -> if returning
 	..Fun -> identity Pred
 	..js -> defined?
-	..math.Num -> Nat
 	..methods -> => + - empty empty? freeze sub type-of
 	..pred-types -> Any Opt
 	..Ref! -> get mod! ref set!
-	.Seq! -> +>!
 	..show
 	..Str -> indent
-	.Stream -> streaming
 	..Try -> fails? oh-no!
 	..types.Interface
 	..types.Method -> impl!
 	..types.util -> self-type
+use~
+	.Array
+	.Array!
+	..math.Num -> Nat
+	.Seq! -> +>!
+	.Stream -> streaming
 
 Seq = Interface
 	doc. "TODO"

@@ -1,9 +1,5 @@
 use
 	.assert -> ! !call
-	.@.? -> get-or full-?
-	.@.Array!
-	.@.Seq
-	.@.Seq! -> +>!
 	.Bool -> false true
 	.Comparable -> =?
 	.Fun -> Act call ignore thunk
@@ -12,6 +8,11 @@ use
 	.pred-types -> Any
 	.Ref! -> get ref set!
 	.Try -> oh-no!
+use~
+	.@.? -> get-or full-?
+	.@.Array!
+	.@.Seq
+	.@.Seq! -> +>!
 
 build.
 	doc. "

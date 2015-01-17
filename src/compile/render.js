@@ -294,9 +294,11 @@ U.implementMany(E, "renderContent", {
 		"// Compiled from ", rx.opts.msPathRelToJs(), "\n",
 		"//# sourceMappingURL=", rx.opts.sourceMapPathRelToJs(), "\n",
 		"\"use strict\"",
+		//"\nglobal.console.log(\">>> " + rx.opts.moduleName() + "\")\n",
 		rx.snl(),
 		r(rx)(this.body),
-		rx.snl()
+		rx.snl(),
+		//"\nglobal.console.log(\"<<< " + rx.opts.moduleName() + "\")\n"
 	]},
 	// TODO:ES6
 	ModuleDefaultExport: function(rx) { return [

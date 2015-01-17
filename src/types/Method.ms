@@ -1,15 +1,16 @@
 use
+	.Impl-Type
+	..js -> js-sub
+	..private.bootstrap -> Str Symbol Fun oh-no! get-or-undefined exists? set! set-mutable! has-or-in-proto? get writable?
+	.Record-Type
+use~
 	..assert -> !
 	..@.? -> un-?
 	..Comparable -> =?
-	.Impl-Type
 	.Interface
-	..js -> js-sub
 	..math.Num
 	..methods -> contains?
 	..Object -> ?get-property
-	..private.bootstrap -> Str Symbol Fun oh-no! get-or-undefined exists? set! set-mutable! has-or-in-proto? get writable?
-	.Record-Type
 	..Try -> !debug-fails?
 
 make-callable-method = |method

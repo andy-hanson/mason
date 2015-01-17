@@ -1,16 +1,17 @@
 use
-	..assert -> ! !not
-	..@ -> any? flat-map
 	..Bool -> or
 	..Comparable -> =? <?
 	..Comparable! -> <!
 	.Impl-Type
 	..js -> reference=?
-	..maps.Map -> each-pair!
+	..private.bootstrap -> Str Array Object Symbol true set! get own-properties new-array exists?
 	.Method -> impl! propagate-method-down!
 	..methods -> contains?
-	..private.bootstrap -> Str Array Object Symbol true set! get own-properties new-array exists?
 	.Record-Type
+use~
+	..assert -> ! !not
+	..@ -> any? flat-map
+	..maps.Map -> each-pair!
 
 Interface = Record-Type
 	doc. "

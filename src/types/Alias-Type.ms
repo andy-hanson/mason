@@ -1,5 +1,4 @@
 use
-	..assert -> ! !not
 	..Comparable -> =?
 	..Comparable! -> <!
 	.Method -> impl!
@@ -7,6 +6,8 @@ use
 	..private.bootstrap -> Str
 	.Record-Type
 	.Type
+use~
+	..assert -> ! !not
 
 Alias-Type. Record-Type
 	doc. "Contains the same instances as another type (officially), but has its own meaning and identity."

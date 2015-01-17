@@ -1,24 +1,25 @@
 use
-	.? -> get-or Opt->?
-	.Array
 	..assert -> ! !not
-	.@-Type -> from-stream
 	..Bool -> and false not true
 	..Comparable -> =? <?
-	..Dict
 	..Fun -> Act identity Pred
-	..Generator!
-	.Hash-Set!
 	..js -> reference=?
-	..math.Num -> divisible? Nat
 	..methods -> => + - -! contains? empty empty? type-of
 	..pred-types -> Any Opt
 	..Ref! -> get mod! ref set!
-	.Seq -> seq=?
-	.Stream -> streaming
 	..Symbol
 	..types.Interface
 	..types.Method -> impl!
+use~
+	.? -> get-or Opt->?
+	.Array
+	.@-Type -> from-stream
+	..Dict
+	..Generator!
+	.Hash-Set!
+	..math.Num -> divisible? Nat
+	.Seq -> seq=?
+	.Stream -> streaming
 
 @. Interface
 	doc. "TODO"

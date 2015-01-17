@@ -1,5 +1,4 @@
 use
-	.@ -> map
 	.Bool -> false true
 	.Comparable -> =?
 	.Fun
@@ -7,9 +6,11 @@ use
 	.js-impl -> new-Set
 	.methods -> type-of
 	.Object -> flag? get-property own-enumerable-properties
-	.private.bootstrap -> ms set!
 	.Str -> indent
+	.Symbol
 	.types.Method -> impl!
+use~
+	.@ -> map
 
 showing = new-Set ()
 
@@ -83,6 +84,16 @@ impl! show Str
 			else
 				_
 
+\ TODO: show-Symbol.ms
+impl! show Symbol
+	test. |
+		\ TODO:ES6
+		\ [ (Symbol "name") ] -> "<Symbol name>"
+		[ (Symbol "name") ] -> "<Symbol>"
+	|
+		\ TODO:ES6 _.name
+		"<Symbol>"
+
 \ TODO: show-Bool.ms?
 impl! show Bool
 	test. |
@@ -94,6 +105,6 @@ impl! show Bool
 		else
 			"false"
 
-set! ms "show" show
+\ See private.boot-order for when show is attached to _ms.
 
 show

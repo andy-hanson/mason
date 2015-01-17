@@ -17,7 +17,9 @@ const KAssign = setUnion(AssignKeywords, new Set(["export"]))
 const KFun = new Set(["|", "~|"])
 const CaseKeywords = new Set(["case", "case!"])
 const SpecialKeywords = new Set(["undefined", "this-module-directory"])
-const AllKeywords = setUnion(LineSplitKeywords, KFun, CaseKeywords, SpecialKeywords, new Set([
+const UseKeywords = new Set(["use", "use~"])
+const AllKeywords = setUnion(
+	LineSplitKeywords, KFun, CaseKeywords, SpecialKeywords, UseKeywords, new Set([
 	"~",
 	":",
 	"_",
@@ -29,8 +31,6 @@ const AllKeywords = setUnion(LineSplitKeywords, KFun, CaseKeywords, SpecialKeywo
 	"out",
 	"region",
 	"this",
-	"use",
-
 	// Kludge until ES6 modules work
 	"undefined"
 ]))
@@ -62,6 +62,7 @@ module.exports = {
 	LineSplitKeywords: LineSplitKeywords,
 	CaseKeywords: CaseKeywords,
 	SpecialKeywords: SpecialKeywords,
+	UseKeywords: UseKeywords,
 	KFun: KFun,
 	KAssign: KAssign,
 	GroupOpenToClose: GroupOpenToClose,

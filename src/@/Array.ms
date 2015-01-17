@@ -1,7 +1,6 @@
 \ Also see ..maps.Array-as-Map
 
 use
-	.Array!
 	..@ -> count iterator
 	.@-Type -> from-stream
 	..Comparable -> <?
@@ -10,11 +9,13 @@ use
 	..Fun -> ignore thunk
 	..js -> global js-sub
 	..js-impl -> array-iterator
-	..math.Num -> Nat
 	..methods -> empty freeze type-of
 	.Seq -> ?nth
 	..types.Method ->  impl!
 	..types.util -> self-type
+use~
+	.Array!
+	..math.Num -> Nat
 
 Array =
 	doc. "Javascript's native mutable Array type. TODO: `Array` vs `Array!`"

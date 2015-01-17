@@ -1,16 +1,18 @@
 use
-	.Array
-	.Array!
 	..assert -> ! !not
 	..@ -> each!
 	.@-Type
 	..Comparable -> =?
 	..Comparable! -> <!
 	..methods -> +! contains? empty empty? empty!
-	.Seq! -> +>!
 	..types.Interface
 	..types.Method -> impl!
 	..types.util -> self-type
+use~
+	.Array
+	.Array!
+	.Seq! -> +>!
+
 
 @! = Interface
 	doc. "TODO"
@@ -33,6 +35,7 @@ use
 
 <! @! @
 
+\ TODO: impl! +! @! +>!
 impl! +! @! |_ added
 	+>! _ added
 

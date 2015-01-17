@@ -1,9 +1,10 @@
 use
 	.Bool -> or
 	.js -> reference=?
+	.types.Method
+use~
 	.Object -> inspect=?
 	.types.Interface
-	.types.Method
 
 Comparable = Interface
 	doc. "

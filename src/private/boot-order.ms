@@ -1,33 +1,21 @@
 use
-	..@.Array
-	..@.@-Type
-	..Dict
-	..Fun
-	..maps.Dict-as-Map
-	..maps.Hash-Map
-	..math.Num
 	source-map-support -> install
 	\stack-displayname
-	..show
-	..types.Type
-	..types.show-Type
-
 install
 	hi.
 \ stack-displayname \ Doesn't play nice with source-map-support
 
-\ Invokes lazy thunk
-load = |x
-	x
+use
+	..types.Type
+	..Fun
+	..@.Array \ <! Array @
+	..maps.Hash-Map \ Provides _ms.map
+	..show \ Important to load this now, as it will help error messages
+	.bootstrap -> set! ms
 
-load Type \ This makes it safe to type things.
-load Fun \ Get its impl! ready
-load Dict \ Record-Types have default `default` of `empty Dict`
-load @-Type \ @[x]
-load Array \ Array is a @
-load Hash-Map \ Provides _ms.map
-load Num
-load Dict-as-Map
-load show \ Important to load this now, as it will help error messages
-load show-Type
-()
+set! ms "show" show
+
+ignore = |
+	()
+\ TODO:Ignored vars
+ignore Type Fun Array Hash-Map show

@@ -3,10 +3,11 @@ use
 	..Bool -> and false true
 	..Comparable -> =?
 	..Comparable! -> <!
-	.Hash-Set!
 	..methods -> - => contains? type-of
 	..types.Interface
 	..types.Method -> impl!
+use~
+	.Hash-Set!
 
 Set = Interface
 	doc. "TODO"

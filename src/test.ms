@@ -11,5 +11,5 @@ use
 $done ($ing ~|
 	<~ $time! "load" ($@module-in-dir "./js"
 	<~ $time! "test" ($@test-all "./js"
-	\<~ $time "ana" ($@test-module (get-module "js/demo/anagrams"
+	\<~ $time! "ana" ($@test-module (get-module "js/demo/anagrams"
 	\log! "Bye!"

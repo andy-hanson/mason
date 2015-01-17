@@ -1,21 +1,21 @@
 doc. "TODO"
 
 use
-	.assert -> ! !not
+	.js-impl -> i& i^ i<< i>> i>>> i=== i< i> i<= i>= i+ i- i* i/ i% i-bar i~ i! i-sub i-set i-global i-new i-typeof i-delete
+use~
 	.@ -> each!
 	.@.Array
+	.assert -> ! !not
 	.Bool -> false not true
 	.Comparable -> =?
 	.Fun -> ignore
 	.math.Num
 	.methods -> => + contains?
-	.Object
 	.Object! -> add-property!
 	.pred-types -> Any Union
 	.Str
 	.Symbol
 	.Try -> Error
-	.js-impl -> i& i^ i<< i>> i>>> i=== i< i> i<= i>= i+ i- i* i/ i% i-bar i~ i! i-sub i-set i-global i-new i-typeof i-delete
 
 global. i-global
 
@@ -75,7 +75,7 @@ reference=?.
 		! reference=? "a" "a"
 		!not reference=? [ "a" ] [ "a" ]
 
-	Object.is
+	global.Object.is
 
 truthy?.
 	doc. "Whether javascript's `if` statement would consider the value to be true."

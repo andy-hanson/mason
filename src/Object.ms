@@ -2,20 +2,20 @@ use
 	.assert -> ! !not
 	.@ -> all? count keep
 	.@.? -> Opt->?
-	.@.Identity-Set!
 	.@.Seq -> seq=?
-	.@.Stream
 	.Bool -> and false not nor true xor
 	.Comparable -> =?
-	.Dict
 	.js -> defined? global js-typeof reference=? js-sub
 	.methods -> => + empty empty?
-	.Object! -> add-property!
 	.pred-types -> Union
 	.Symbol
 	.Try -> !debug-fails?
 	.types.Method -> impl!
 	.types.util -> self-type
+use~
+	.@.Identity-Set!
+	.@.Stream
+	.Object! -> add-property!
 
 Object =
 	doc. "
@@ -97,7 +97,7 @@ own-enumerable-properties.
 ?get-property-or-in-prototype.
 	doc. "Like `get-property`, but also looks through the prototype chain."
 	test. |
-		x = empty Dict
+		x = empty Object
 		[ x "toString" ] -> => ? [ Object.prototype.toString ]
 		[ x "asdfghjkl" ] -> empty ?
 	|object name:Object-Key

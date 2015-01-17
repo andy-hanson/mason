@@ -5,7 +5,6 @@ use
 	.@.?
 	.@ -> iterator
 	.@.Seq -> seq=?
-	.@.Stream -> streaming
 	.Bool -> and false true
 	.Comparable -> =?
 	.Fun
@@ -17,6 +16,8 @@ use
 	.types.Method -> impl!
 	.types.Pred-Type
 	.types.util -> self-type
+use~
+	.@.Stream -> streaming
 
 Generator! = Pred-Type
 	doc. "TODO"

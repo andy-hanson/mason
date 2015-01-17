@@ -1,8 +1,5 @@
 use
 	..assert -> ! !not
-	..@.? -> get-or Opt->?
-	..@.Seq -> seq=? take
-	..@.Stream -> streaming
 	..Bool -> and false true
 	..Comparable -> =? <? >? <=? >=? compare
 	..Fun -> spread!
@@ -14,6 +11,10 @@ use
 	..Try -> !debug-fails?
 	..types.Method -> impl!
 	..types.Pred-Type
+use~
+	..@.? -> get-or Opt->?
+	..@.Seq -> seq=? take
+	..@.Stream -> streaming
 
 Num = global.Number
 Math = global.Math
