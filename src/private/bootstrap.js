@@ -36,7 +36,7 @@ const assignMany = function(target, keysVals) {
 		const val = keysVals[i++]
 		Object.defineProperty(target, key,
 			(val instanceof Lazy) ?
-			{ get: val.get, enumerable: true } :
+			{ get: lazyGet.bind(null, val), enumerable: true } :
 			{ value: val, writable: false, enumerable: true })
 	}
 }
@@ -47,24 +47,23 @@ exports["sym-contains?"] = "impl-contains?" //Symbol("contains?")
 exports["sym-type-of"] = "impl-type-of" //Symbol("type-of")
 
 function Lazy(make) {
-	const baby = Object.create(Lazy.prototype)
-	let cached
-	Object.defineProperty(baby, "get", {
-		value: function() {
-			if (cached === undefined) {
-				cached = make()
-				if (cached === undefined)
-					throw new Error("Lazy value can't be undefined. Made by:\n" + make)
-			}
-			return cached
-		}
-	})
-	return baby
+	this.cached = undefined
+	this.make = make
 }
-set(ms, "Lazy", Lazy)
+const lazyGet = function(_) {
+	let c = _.cached
+	if (c === undefined) {
+		c = _.cached = _.make()
+		if (c === undefined)
+			throw new Error("Lazy value can't be undefined. Made by:\n" + _.make)
+	}
+	return c
+}
+
+set(ms, "lazy", function(_) { return new Lazy(_) })
 
 set(ms, "unlazy", function(a) {
-	return (a instanceof Lazy) ? a.get() : a
+	return (a instanceof Lazy) ? lazyGet(a) : a
 })
 
 set(ms, "dictify", function(target) {

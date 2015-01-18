@@ -16,7 +16,6 @@ use~
 	..Try -> !debug-fails?
 
 make-callable-method = |method
-	err = "throw new Error(\"Method {method.displayName} not implemented for \" + a)"
 	case
 		or (exists? method.default) ~(exists? method.wrap)
 			src = build-str |add!

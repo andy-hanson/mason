@@ -363,7 +363,7 @@ U.implementMany(E, "renderContent", {
 })
 
 const lazyWrap = function(value) { return [
-	"_ms.Lazy(function() { return ",
+	"_ms.lazy(function() { return ",
 	value,
 	"; })"
 ]}
@@ -417,7 +417,7 @@ const makeAssign = function(rx, span, assignee, k, value) {
 				return [
 					"const ",
 					to,
-					" = _ms.Lazy(",
+					" = _ms.lazy(",
 					r(rx)(fun),
 					")"
 				]

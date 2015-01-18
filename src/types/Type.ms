@@ -1,5 +1,5 @@
 use
-	..Bool -> false
+	..Bool -> and
 	.Impl-Type
 	.Interface -> unchecked-implementor!
 	.Method -> impl! impl-unchecked!
@@ -16,12 +16,7 @@ unchecked-implementor! Method Type
 
 \ TODO: Move
 impl-unchecked! contains? Interface |iface _
-	case
-		any?_
-			has-or-in-proto? _ iface.symbol-for-isa
-		else
-			false
-	\ TODO:PERF \and any?_ ~(has-or-in-proto? _ iface.symbol-for-isa)
+	and any?_ ~(has-or-in-proto? _ iface.symbol-for-isa)
 
 unchecked-implementor! Fun Impl-Type
 

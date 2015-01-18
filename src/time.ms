@@ -1,4 +1,5 @@
 use
+	.@ -> each!
 	.$ -> $after
 	.console -> log!
 	.Fun -> Act
@@ -52,3 +53,9 @@ time*!.
 	|name:Str times:Nat time-me:Act
 		time! name |
 			i-time* times time-me
+
+race*!.
+	doc. "TODO"
+	|times:Nat time-us:@[Act]
+		each! time-us i-time*[times]
+		each! time-us time*!["." times]
