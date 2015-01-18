@@ -12,6 +12,7 @@ Pred-Type = Record-Type
 	members.
 		displayName. Str
 		predicate. Pred
+	extensible.
 
 <! Pred-Type Type
 impl! contains? Pred-Type |_ value

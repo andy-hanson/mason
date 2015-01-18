@@ -462,7 +462,7 @@ const parseLine = (function() {
 				locals.forEach(function(l) {
 					check(l.isLazy, l.span, "If any part of destructuring assign is lazy, all must be.")
 				})
-			return E.AssignDestructure(px.s({ assignees: locals, k: k, value: eValue, isLazy: isLazy }))
+			return E.AssignDestructure(px.s({ assignees: locals, k: k, value: eValue, isLazy: isLazy, checkProperties: false }))
 		}
 	}
 
@@ -739,7 +739,8 @@ const parseUse = (function() {
 			assignees: Sq.cons(defaultAssignee, assignees),
 			k: "=",
 			value: required,
-			isLazy: isLazy
+			isLazy: isLazy,
+			checkProperties: true
 		})
 	}
 

@@ -42,7 +42,13 @@ E.LocalDeclare.UntypedFocus = function(span) {
 
 makeETypes(E.Do, {
 	Assign: { assignee: E.LocalDeclare, k: Lang.KAssign, value: E.Val },
-	AssignDestructure: { assignees: [E.LocalDeclare], k: Lang.KAssign, value: E.Val, isLazy: Boolean },
+	AssignDestructure: {
+		assignees: [E.LocalDeclare],
+		k: Lang.KAssign,
+		value: E.Val,
+		isLazy: Boolean,
+		checkProperties: Boolean
+	},
 	CaseDo: { parts: [E.CasePart], opElse: Op(E.BlockBody) },
 	// Unlike CaseDo, this has `return` statements.
 	CaseVal: { parts: [E.CasePart], opElse: Op(E.BlockBody) },

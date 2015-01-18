@@ -20,6 +20,7 @@ Js-Method = Record-Type
 	members.
 		displayName. Str
 		impl-name. Str
+	extensible.
 	make-callable. |_
 		|target ...args
 			impl = js-sub target _.impl-name

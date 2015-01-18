@@ -67,11 +67,12 @@ U.implementMany(E, "renderContent", {
 	AssignDestructure: function(rx) {
 		const destructuredName = "_$" + this.span.start.line
 		const k = this.k
+		const checkProperties = this.checkProperties
 		const access = accessMangledLocal(destructuredName, this.isLazy)
 		const assigns = this.assignees.map(function(assignee) {
-			const get = (assignee.okToNotUse && !rx.vr.isAccessed(assignee)) ?
+			const get = (checkProperties && !(assignee.okToNotUse && !rx.vr.isAccessed(assignee))) ?
+				"_ms.get(" + access + ", \"" + assignee.name + "\")" :
 				access + makeMember(assignee.name) // TODO: Ignore...
-				: "_ms.get(" + access + ", \"" + assignee.name + "\")"
 			const value = E.Literal({
 				span: assignee.span,
 				k: "js",

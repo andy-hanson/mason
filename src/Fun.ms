@@ -14,6 +14,7 @@ use~
 	.control -> build
 	.maps.Map -> ?get keys
 	.maps.Weak-Identity-Map!
+	.Object
 	.Try -> oh-no!
 
 Fun =

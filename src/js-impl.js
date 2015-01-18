@@ -91,6 +91,12 @@ module.exports = {
 		let s = ""
 		builder(function(str) { s += str + "\n" })
 		return s
+	},
+
+	// time.ms
+	"i-time*": function(times, timeMe) {
+		let i = times
+		while (i--) timeMe()
 	}
 }
 

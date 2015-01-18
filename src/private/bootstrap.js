@@ -18,6 +18,17 @@ set(ms, "get", function(object, key) {
 	return object[key]
 })
 
+// For use by Record-Type.ms
+set(ms, "checkNoExtras", function(_this, _, rtName) {
+	if (Object.keys(_).length > Object.keys(_this).length) {
+		Object.getOwnPropertyNames(_).forEach(function(name) {
+			if (name !== "displayName")
+				if (!Object.prototype.hasOwnProperty.call(_this, name))
+					throw new Error("Extra member " + name + " for " + rtName)
+		})
+	}
+})
+
 const assignMany = function(target, keysVals) {
 	let i = 0
 	while (i < keysVals.length) {
@@ -99,10 +110,9 @@ set(ms, "sub", function(subbed) {
 
 // Overwritten by show.ms
 ms.show = function(x) {
-	if (typeof x !== "string")
-		return x.toString()
-		// TODO: //throw new Error("Should only be using Strs here until this is defined for real in show.ms.")
-	return x
+	if (typeof x !== "string" && typeof x !== "number")
+		throw new Error("Should only be using Strs or Nums here until this is defined for real in show.ms.")
+	return x.toString()
 }
 
 // TODO:ES6 ...args

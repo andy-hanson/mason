@@ -83,6 +83,7 @@ Method = Record-Type
 		default. Fun
 	optional-members.
 		wrap. Fun
+	extensible.
 	defaults.
 		impl-symbol. |_
 			"impl-{_.displayName}"

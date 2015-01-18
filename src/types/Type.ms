@@ -7,6 +7,8 @@ use
 
 Type = Interface
 	doc. "TODO"
+	test. |
+		"TODO"
 
 unchecked-implementor! Impl-Type Type
 unchecked-implementor! Method Type

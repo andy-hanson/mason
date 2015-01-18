@@ -3,7 +3,8 @@ use
 	.console -> log!
 	.Fun -> Act
 	.js -> global new
-	.math.Num
+	.js-impl -> i-time*
+	.math.Num -> Nat
 	.methods -> -
 	.Str
 
@@ -46,8 +47,8 @@ current-time-ms.
 	|
 		(new global.Date).getTime ()
 
-\start-timer!. |name
-\	global.console.time name
-\
-\end-timer!. |name
-\	global.console.timeEnd name
+time*!.
+	doc. "TODO"
+	|name:Str times:Nat time-me:Act
+		time! name |
+			i-time* times time-me

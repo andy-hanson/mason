@@ -66,6 +66,7 @@ Interface = Record-Type
 		prototype. Object
 		implementors. Array \ TODO: [~Impl-Type]
 		symbol-for-isa. Symbol
+	extensible.
 	defaults.
 		super-interfaces. new-array
 		prototype. |

@@ -19,6 +19,7 @@ Alias-Type. Record-Type
 	members.
 		displayName. Str
 		alias-of. Type
+	extensible.
 
 <! Alias-Type Type
 

@@ -1,109 +1,107 @@
 use
-	..private.bootstrap -> sym-type-of Dict set! Object Str Fun get proto-impl-contains?! get-or-undefined exists?
+	..private.bootstrap -> sym-type-of Dict set! Object Str Fun get proto-impl-contains?! get-or-undefined exists? false true Bool
 	..js-impl -> i=== build-str
 
-record-type-post-construct = |rt
-	\ Every Record-Type's instances know their type.
-	set! rt.prototype sym-type-of |
-		rt
-
 make-record-constructor = |rt
-	src = build-str |add
-		access = |name
-			"[\"{name}\"]"
-		add "
+	if! = |bool act
+		case!
+			bool
+				act ()
+			else
+				()
+
+	\ Type might be lazily defined
+	member-has-type? = |members member
+		desc = Object.getOwnPropertyDescriptor members member
+		case desc.value
+			_ \ Is true, in other words, no type
+				false
+			else
+				true
+
+	real-member? =  |members member
+		case
+			i=== member "displayName"
+				case get-or-undefined members member
+					:Str
+						false \ Accidental displayName property; ignore it.
+					else
+						true
+			else
+				true
+
+	access = |name
+		"[\"{name}\"]"
+
+	src = build-str |add!
+		add! "
 			function ctr(_) \{
 			if (!(this instanceof ctr)) return new ctr(_)
 
-		add-member = |member
-			acc = access member
-			add "this{acc} = _{acc}"
-			case!
-				exists? rt.defaults
+		(Object.getOwnPropertyNames rt.members).forEach |member
+			if! (real-member? rt.members member) |
+				acc = access member
+				add! "this{acc} = _{acc}"
+				if! (exists? rt.defaults) |
 					case! get-or-undefined rt.defaults member
-						exists? _
-							\ TODO: arg to fun
-							add "if (this{acc} === undefined) this{acc} = defaults{acc}(_)"
+						exists?_
+							add! "if (this{acc} === undefined) this{acc} = defaults{acc}(_)"
 						else
 							()
-				else
-					()
 
-			case!
-				i=== member "displayName"
-					()
-				else
-					member-desc = Object.getOwnPropertyDescriptor rt.members member
-					case!
-						exists? member-desc.value
-							case! member-desc.value
-								_ \ Is true, in other words, no type
-									()
-								else
-									\ TODO: Turn off in release mode.
-									add "_ms.checkContains(members{acc}, this{acc}, \"{member}\")"
-						else
-							\ Type is accessed lazily.
-							add "_ms.checkContains(members{acc}, this{acc}, \"{member}\")"
+				add! case
+					member-has-type? rt.members member
+						\ TODO: Debug mode only
+						"_ms.checkContains(members{acc}, this{acc}, \"{member}\")"
+					else
+						\ TODO: Debug mode only
+						"if (!Object.prototype.hasOwnProperty.call(_, \"{member}\")) throw new Error(\"Forgot to assign {member}.\")\n"
+
+		if! (exists? rt.optional-members) |
+			(Object.getOwnPropertyNames rt.optional-members).forEach |member
+				if! (real-member? rt.optional-members member) |
+					acc = access member
+					add! "if (_{acc} !== undefined) \{"
+					add! "this{acc} = _{acc}"
+					if! (member-has-type? rt.optional-members member) |
+						\ TODO: Debug mode only
+						add! "_ms.checkContains(optionalMembers{acc}, this{acc}, \"{member}\")"
+					add! "}"
 
 		case!
-			exists? rt.optional-members
-				(Object.getOwnPropertyNames rt.optional-members).forEach |member
-					case!
-						i=== member "displayName"
-							()
-						else
-							acc = access member
-							add "if (_{acc} !== undefined) \{"
-							add "this{acc} = _{acc}"
-							case! get-or-undefined rt.optional-members member
-								_
-									()
-								else
-									add "_ms.checkContains(optionalMembers{acc}, this{acc}, \"{member}\")"
-							add "}"
+			rt.extensible
+				add! "Object.assign(this, _)"
 			else
-				()
+				\ TODO: Debug mode only
+				check = "_ms.checkNoExtras(this, _, \"{rt.displayName}\")"
+				case!
+					exists? rt.optional-members
+						add! check
+					else
+						n-members = (Object.getOwnPropertyNames rt.members).length
+						\ If the condition passes the check will definitely fail, and will give nice error info.
+						add! "if (Object.keys(_).length > {n-members}) \{ {check}; throw new Error(\"Unreachable\") }"
 
-		(Object.getOwnPropertyNames rt.members).forEach |member
-			case!
-				i=== member "displayName"
-					case! get-or-undefined rt.members member
-						:Str
-							\ Accidental displayName property; ignore it.
-							()
-						else
-							\ Type that demands a displayName property.
-							add-member member
+		if! (exists? rt.make-callable) |
+			add! "var callBaby = makeCallable(this)"
+			add! "Object.setPrototypeOf(callBaby, prototype)"
+			add! "Object.assign(callBaby, this)"
+
+		if! (exists? rt.post-construct) |
+			post = case
+				exists? rt.make-callable
+					"callBaby"
 				else
-					add-member member
+					"this"
+			add! "postConstruct({post})"
 
-		case! rt.make-callable
-			exists?_
-				add "
-					var callBaby = makeCallable(this)
-					Object.setPrototypeOf(callBaby, prototype)
-					Object.assign(callBaby, this)
-			else
-				()
-		case! rt.post-construct
-			exists? _
-				case!
-					exists? rt.make-callable
-						add "
-							postConstruct(callBaby)
-							return callBaby
-					else
-						add "postConstruct(this)"
-			else
-				case!
-					exists? rt.make-callable
-						add "return callBaby"
-					else
-						()
-		add "}"
-		add "ctr.prototype = prototype"
-		add "return ctr"
+		if! (exists? rt.make-callable) |
+			add! "return callBaby"
+
+		add! "
+			}
+			ctr.prototype = prototype
+			return ctr
 
 	f = Fun "prototype" "members" "defaults" "makeCallable" "postConstruct" "optionalMembers" src
 	f rt.prototype rt.members rt.defaults rt.make-callable rt.post-construct rt.optional-members
@@ -122,10 +120,16 @@ record-type-args =
 		make-callable. Fun
 		optional-members. Dict
 		post-construct. Fun
+		doc. Str
+		test. Fun
+		extensible. Bool
 	defaults.
 		prototype. |
 			Object.create Object.prototype
-	post-construct. record-type-post-construct
+	post-construct. |rt
+		\ Every Record-Type's instances know their type.
+		set! rt.prototype sym-type-of |
+			rt
 	make-callable. make-record-constructor
 
 Record-Type = (make-record-constructor record-type-args) record-type-args
