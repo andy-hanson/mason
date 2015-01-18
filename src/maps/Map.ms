@@ -4,14 +4,13 @@ use
 	..Fun -> identity
 	..methods -> + empty empty? freeze sub
 	..pred-types -> Any
-	..Try -> oh-no!
 	..types.Interface
 	..types.Method -> impl!
 	..types.util -> self-type
 use~
 	..!
 	..@ -> each! map
-	..@.? ->  get-or
+	..@.? -> un-?
 	.Hash-Map!
 	.Map! -> assoc!
 
@@ -62,7 +61,7 @@ make-map.
 		freeze map
 
 impl! sub Map |map key:Any
-	get-or (?get map key) ~(oh-no! "{map} does not contain {key}.")
+	un-? (?get map key) ~"{map} does not contain {key}."
 
 impl! empty? Map |_
 	empty? keys_

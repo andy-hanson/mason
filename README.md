@@ -10,7 +10,7 @@ Names can contain any character except:
 * Whitespace
 * Groupings: `( ) [ ]`
 * Special: `" \ | : . ~ _`
-* Reserved: ``` @ # ; ' , { }``
+* Reserved: ``` # ; ' , { }``
 
 Also, names can't be numbers or keywords.
 

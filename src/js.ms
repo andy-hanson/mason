@@ -1,7 +1,7 @@
 doc. "TODO"
 
 use
-	.js-impl -> i& i^ i<< i>> i>>> i=== i< i> i<= i>= i+ i- i* i/ i% i-bar i~ i! i-sub i-set i-global i-new i-typeof i-delete
+	.js-impl -> i& i^ i<< i>> i>>> i=== i== i< i> i<= i>= i+ i- i* i/ i% i-bar i~ i! i-sub i-set i-global i-new i-typeof i-delete
 use~
 	.@ -> each!
 	.@.Array
@@ -25,6 +25,7 @@ js<<. i<<
 js>>. i>>
 js>>>. i>>>
 js===. i===
+js==. i==
 js<. i<
 js>. i>
 js<=. i<=
@@ -41,8 +42,18 @@ js-sub. i-sub
 js-set. i-set
 js-delete. i-delete
 
-defined?. |a
-	not (reference=? a undefined
+region Null/Undefined
+	\ TODO:ES6 `undefined` constant.
+
+	defined?.
+		doc. "TODO"
+		test. |
+			[ undefined ] -> false
+			[ 0 ] -> true
+		|_
+			not (reference=? _ undefined
+	any?. |_
+		not (js== _ ()
 
 \ TODO: Exact same appears in Object.ms
 ~Object-Key = Union[Str Symbol]

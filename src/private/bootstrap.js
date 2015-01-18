@@ -54,6 +54,7 @@ const lazyGet = function(_) {
 	let c = _.cached
 	if (c === undefined) {
 		c = _.cached = _.make()
+		_.make = undefined // Make available to garbage collector
 		if (c === undefined)
 			throw new Error("Lazy value can't be undefined. Made by:\n" + _.make)
 	}

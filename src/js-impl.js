@@ -103,7 +103,7 @@ module.exports = {
 	}
 }
 
-const binOps = [ "&", "^", "<<", ">>", ">>>", "===", "<", ">", "<=", ">=", "+", "-", "*", "/", "%" ]
+const binOps = [ "&", "^", "<<", ">>", ">>>", "===", "==", "<", ">", "<=", ">=", "+", "-", "*", "/", "%" ]
 binOps.forEach(function(op) {
 	module.exports["i" + op] = Function("a", "b", "return a " + op + " b")
 })

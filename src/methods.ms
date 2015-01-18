@@ -72,13 +72,14 @@ region Unsorted
 		default. |_
 			Object.freeze _
 
-	\ TODO: rename to impl-type-of
 	\ TODO: Move to types.util
 	type-of. Method
 		doc. "
 			Returns the most specific Impl-Type associated with some value.
 			This method won't always work for JavaScript objects,
 			but every Record-Type and Enum should implement this automatically.
+		test. |
+			[ () ] -> Object
 		\ TODO: Should be able to just make it here. No need for syms.
 		impl-symbol. sym-type-of
 		default. |_

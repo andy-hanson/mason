@@ -1,7 +1,7 @@
 use
 	.Bool -> and false not nor true xor
 	.Comparable -> =?
-	.js -> defined? global js-typeof reference=? js-sub
+	.js -> any? defined? global js-typeof reference=? js-sub
 	.methods -> => + empty empty?
 	.pred-types -> Union
 	.Symbol
@@ -101,7 +101,11 @@ own-enumerable-properties.
 		[ x "toString" ] -> => ? [ Object.prototype.toString ]
 		[ x "asdfghjkl" ] -> empty ?
 	|object name:Object-Key
-		Opt->? (js-sub object name)
+		case object
+			any?_
+				Opt->? (js-sub object name)
+			else
+				empty ?
 
 get-property.
 	doc. "TODO"

@@ -102,6 +102,7 @@ identity-memoize.
 				! (contains? Object arg) "
 					Can only use objects for identity-memoize'd functions, not {arg}.
 
+			\ TODO: get-or-update!
 			get-or (?get wm arg) ~
 				ans = fun arg
 				wm.set arg ans
