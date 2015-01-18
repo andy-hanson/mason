@@ -1,5 +1,5 @@
 use
-	..assert -> ! !not
+	..! -> !not
 	.@!
 	..Comparable! -> <!
 	..methods -> +! -! contains? empty empty? empty!

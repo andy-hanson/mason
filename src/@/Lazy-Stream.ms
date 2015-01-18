@@ -1,6 +1,6 @@
 use
 	.Array!
-	..assert -> !
+	..!
 	..@ -> count iterator
 	.@-Type -> from-stream
 	..Comparable -> =?

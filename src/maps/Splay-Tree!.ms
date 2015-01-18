@@ -1,5 +1,5 @@
 use
-	..assert -> ! !not
+	..! -> !not
 	..@.Stream -> streaming
 	..Bool -> and false not true
 	..Comparable -> <? >?

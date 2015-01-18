@@ -1,5 +1,5 @@
 use
-	..assert -> !
+	..!
 	..@ -> any? each!
 	..@.Seq -> take
 	..@.Range -> range

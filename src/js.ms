@@ -5,7 +5,7 @@ use
 use~
 	.@ -> each!
 	.@.Array
-	.assert -> ! !not
+	.! -> !not
 	.Bool -> false not true
 	.Comparable -> =?
 	.Fun -> ignore

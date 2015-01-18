@@ -1,7 +1,7 @@
 \ TODO: Move
 
 use
-	.assert -> !
+	.!
 	.@ -> count iterator map
 	.@.? -> Opt->? get-or
 	.@.Array

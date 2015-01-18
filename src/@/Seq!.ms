@@ -4,7 +4,7 @@ use
 	.@-Type
 	.@!
 	.Array
-	..assert -> !
+	..!
 	..Comparable -> =?
 	..Comparable! -> <!
 	..math.Num -> Nat

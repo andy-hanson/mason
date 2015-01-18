@@ -1,8 +1,6 @@
 use
 	..@ -> all? count iterator
 	.@-Type -> from-stream
-	.? -> get-or Opt->?
-	..assert -> ! !not
 	..Bool -> and false not or true
 	..Comparable -> compare =? <? <=? >=?
 	..Comparable! -> <!
@@ -11,19 +9,21 @@ use
 	..js -> defined?
 	..methods -> => + - empty empty? freeze sub type-of
 	..pred-types -> Any Opt
-	..Ref! -> get mod! ref set!
-	..show
 	..Str -> indent
-	..Try -> fails? oh-no!
 	..types.Interface
 	..types.Method -> impl!
 	..types.util -> self-type
 use~
+	..! -> !not
+	.? -> get-or Opt->?
 	.Array
 	.Array!
 	..math.Num -> Nat
+	..Ref! -> get mod! ref set!
 	.Seq! -> +>!
+	..show
 	.Stream -> streaming
+	..Try -> fails? oh-no!
 
 Seq = Interface
 	doc. "TODO"

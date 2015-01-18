@@ -1,5 +1,5 @@
 use
-	..assert -> !
+	..!
 	..@.Range -> range
 	..Comparable -> =? >=?
 	..math.Num -> log Nat pow round-down

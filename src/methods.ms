@@ -1,12 +1,12 @@
 use
 	.types.Method
-	.types.Type
 use~
 	.@.? -> get-or
 	.Bool
 	.Fun
 	.Object -> ?get-property-or-in-prototype
 	.private.bootstrap -> sym-contains? sym-sub sym-type-of
+	.types.Type
 
 region Arithmetic operators
 	+. Method

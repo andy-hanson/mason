@@ -1,16 +1,15 @@
 use
-	..assert -> ! !not
 	..Bool -> and false not true
 	..Comparable -> =? <?
 	..Fun -> Act identity Pred
 	..js -> reference=?
 	..methods -> => + - -! contains? empty empty? type-of
 	..pred-types -> Any Opt
-	..Ref! -> get mod! ref set!
 	..Symbol
 	..types.Interface
 	..types.Method -> impl!
 use~
+	..! -> !not
 	.? -> get-or Opt->?
 	.Array
 	.@-Type -> from-stream
@@ -18,6 +17,7 @@ use~
 	..Generator!
 	.Hash-Set!
 	..math.Num -> divisible? Nat
+	..Ref! -> get mod! ref set!
 	.Seq -> seq=?
 	.Stream -> streaming
 

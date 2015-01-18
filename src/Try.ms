@@ -1,7 +1,6 @@
 use
 	.@.?
 	.$ -> $catch
-	.assert -> ! !not
 	.Bool -> and true
 	.Comparable -> =?
 	.Comparable! -> <!
@@ -11,12 +10,14 @@ use
 	.js-impl -> make-Error i-always-do-after i-oh-no! i-try
 	.methods -> => contains? empty
 	.Object
-	.Object! -> change-property! set-property!
+	.Object! -> change-property!
 	.pred-types -> Any
 	.Str
 	.types.Interface
 	.types.Record-Type
 	.types.Type
+use~
+	.! -> !not
 
 Try = Interface
 	doc. "Result of running failable code."
@@ -131,7 +132,7 @@ error-type.
 						enumerable. true
 						writable. true
 		Object.assign it opts
-		set-property! it "prototype" (Object.create Error.prototype)
+		change-property! it "prototype" (Object.create Error.prototype)
 		it
 
 always-do-after.

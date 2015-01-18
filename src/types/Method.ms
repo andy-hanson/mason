@@ -1,12 +1,12 @@
 use
-	.Impl-Type
 	..js -> js-sub
 	..private.bootstrap -> Str Symbol Fun oh-no! get-or-undefined exists? set! set-mutable! has-or-in-proto? get writable?
 	.Record-Type
 use~
-	..assert -> !
+	..!
 	..@.? -> un-?
 	..Comparable -> =?
+	.Impl-Type
 	.Interface
 	..math.Num
 	..methods -> contains?

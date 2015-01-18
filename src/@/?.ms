@@ -1,5 +1,4 @@
 use
-	..assert -> ! !not
 	..@ -> iterator
 	.@-Type -> from-stream
 	..Comparable! -> <!
@@ -7,10 +6,12 @@ use
 	..js -> defined? reference=?
 	..methods -> => empty empty?
 	.Seq
-	..Try -> fails? oh-no!
 	..types.Method -> impl!
 	..types.Record-Type
 	..types.util -> self-type
+use~
+	..! -> !not
+	..Try -> fails? oh-no!
 
 empty-marker =
 	doc. "`_.val` on an empty `?` will return this."

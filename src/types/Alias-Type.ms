@@ -7,7 +7,7 @@ use
 	.Record-Type
 	.Type
 use~
-	..assert -> ! !not
+	..! -> !not
 
 Alias-Type. Record-Type
 	doc. "Contains the same instances as another type (officially), but has its own meaning and identity."

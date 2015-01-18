@@ -1,6 +1,6 @@
 use
 	..$ -> $after
-	..assert -> !
+	..!
 	..@ -> count keep each! max map
 	..@.Seq -> seq=? sort
 	..Comparable -> =?

@@ -1,5 +1,5 @@
 use
-	..assert -> !
+	..!
 	.? -> get-or Opt->?
 	..@ -> count iterator
 	.@-Type -> from-stream

@@ -1,5 +1,5 @@
 use
-	..assert -> ! !not
+	..! -> !not
 	..Bool -> and false true
 	..Comparable -> =? <? >? <=? >=? compare
 	..Fun -> spread!

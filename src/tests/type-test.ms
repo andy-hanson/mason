@@ -1,7 +1,7 @@
 \ TODO: Move to types
 
 use
-	..assert -> !
+	..!
 	..Comparable -> =?
 	..Comparable! -> <!
 	..Fun -> ignore

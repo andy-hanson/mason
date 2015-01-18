@@ -2,7 +2,7 @@ doc. "TODO"
 
 use
 	..$ -> $after $all
-	..assert -> ! !call
+	..! -> !call
 	..@ -> each! flat-map map
 	..@.? -> get-or
 	..@.Identity-Set!

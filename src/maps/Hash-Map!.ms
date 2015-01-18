@@ -1,7 +1,7 @@
 \ TODO: TEST
 
 use
-	..assert -> !
+	..!
 	..@ -> flat-map map
 	..@.? -> Opt->?
 	..@.Seq -> seq=?

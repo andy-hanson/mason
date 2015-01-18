@@ -1,18 +1,18 @@
 use
-	.assert -> ! !call
 	.Bool -> false true
 	.Comparable -> =?
 	.Fun -> Act call ignore thunk
-	.maps.Map -> ?get
 	.methods -> => empty freeze
 	.pred-types -> Any
-	.Ref! -> get ref set!
-	.Try -> oh-no!
 use~
+	.! -> !call
 	.@.? -> get-or full-?
 	.@.Array!
 	.@.Seq
 	.@.Seq! -> +>!
+	.maps.Map -> ?get
+	.Ref! -> get ref set!
+	.Try -> oh-no!
 
 build.
 	doc. "

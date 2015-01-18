@@ -1,16 +1,17 @@
 use
 	.Bool -> false true
 	.Comparable -> =?
-	.Fun
 	.js -> js+ js-sub
 	.js-impl -> new-Set
-	.methods -> type-of
-	.Object -> flag? get-property own-enumerable-properties
+	.methods -> empty? type-of
+	.Object -> flag? get-property ?get-property own-enumerable-properties
 	.Str -> indent
 	.Symbol
 	.types.Method -> impl!
 use~
 	.@ -> map
+	.@.? -> get-or
+	.Fun
 
 showing = new-Set ()
 
@@ -104,6 +105,23 @@ impl! show Bool
 			"true"
 		else
 			"false"
+
+impl! show Fun
+	test. |
+		a = |
+			1
+		[ a ] -> "a"
+		[ Object ] -> "Object"
+		[ (Fun "" "") ] -> "<anonymous Fun>"
+	|:Str _
+		get-or (?get-property _ "displayName") ~
+			\ Every function has name property - empty string means anonymous function.
+			name = get-property _ "name"
+			case name
+				empty?_
+					"<anonymous Fun>"
+				else
+					_
 
 \ See private.boot-order for when show is attached to _ms.
 

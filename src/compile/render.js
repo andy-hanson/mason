@@ -69,10 +69,13 @@ U.implementMany(E, "renderContent", {
 		const k = this.k
 		const access = accessMangledLocal(destructuredName, this.isLazy)
 		const assigns = this.assignees.map(function(assignee) {
+			const get = (assignee.okToNotUse && !rx.vr.isAccessed(assignee)) ?
+				access + makeMember(assignee.name) // TODO: Ignore...
+				: "_ms.get(" + access + ", \"" + assignee.name + "\")"
 			const value = E.Literal({
 				span: assignee.span,
 				k: "js",
-				value: access + makeMember(assignee.name)
+				value: get
 			})
 			return makeAssign(rx, assignee.span, assignee, k, value)
 		})
@@ -294,11 +297,11 @@ U.implementMany(E, "renderContent", {
 		"// Compiled from ", rx.opts.msPathRelToJs(), "\n",
 		"//# sourceMappingURL=", rx.opts.sourceMapPathRelToJs(), "\n",
 		"\"use strict\"",
-		//"\nglobal.console.log(\">>> " + rx.opts.moduleName() + "\")\n",
+		// "\nglobal.console.log(\">>> " + rx.opts.moduleName() + "\")\n",
 		rx.snl(),
 		r(rx)(this.body),
 		rx.snl(),
-		//"\nglobal.console.log(\"<<< " + rx.opts.moduleName() + "\")\n"
+		// "\nglobal.console.log(\"<<< " + rx.opts.moduleName() + "\")\n"
 	]},
 	// TODO:ES6
 	ModuleDefaultExport: function(rx) { return [

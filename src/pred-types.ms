@@ -1,7 +1,6 @@
 doc. "TODO"
 
 use
-	.assert -> ! !not
 	.Bool -> not or true
 	.Comparable! -> <!
 	.Fun -> ignore
@@ -13,6 +12,8 @@ use
 	.types.Record-Type
 	.types.util -> self-type
 	.types.Type
+use~
+	.! -> !not
 
 region Opt
 	\ TODO: Does Opt need to exist?

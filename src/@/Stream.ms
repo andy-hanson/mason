@@ -1,5 +1,5 @@
 use
-	..assert -> !
+	..!
 	..@ -> iterator
 	.@-Type -> from-stream
 	..Comparable! -> <!

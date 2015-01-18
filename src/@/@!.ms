@@ -1,5 +1,5 @@
 use
-	..assert -> ! !not
+	..! -> !not
 	..@ -> each!
 	.@-Type
 	..Comparable -> =?

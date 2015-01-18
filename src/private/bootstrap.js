@@ -1,9 +1,7 @@
+// TODO: Make as small as possible.
 "use strict"
 
 require("es6-shim")
-const
-	assert = require("assert")
-// TODO: Make as small as possible.
 
 // This object contains functions called upon by compiled code.
 const ms = exports["ms"] = Object.create(null)
@@ -13,6 +11,12 @@ const set = function(object, key, val) {
 	// TODO:ES6 `writable` shouldn't need to be explicit
 	Object.defineProperty(object, key, { value: val, writable: false })
 }
+
+set(ms, "get", function(object, key) {
+	if (!Object.prototype.hasOwnProperty.call(object, key))
+		throw new Error("Module " + object + " does not have " + key)
+	return object[key]
+})
 
 const assignMany = function(target, keysVals) {
 	let i = 0

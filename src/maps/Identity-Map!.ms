@@ -1,5 +1,5 @@
 use
-	..assert -> !
+	..!
 	..@.? -> Opt->?
 	..@.Seq -> seq=?
 	..@.Stream

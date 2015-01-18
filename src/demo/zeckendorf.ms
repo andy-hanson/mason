@@ -1,5 +1,5 @@
 use
-	..assert -> !
+	..!
 	..@ -> fold-map
 	..@.Seq -> reverse tail take-while
 	..@.Stream -> streaming

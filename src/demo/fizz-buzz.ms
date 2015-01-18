@@ -1,5 +1,5 @@
 use
-	..assert -> !
+	..!
 	..@ -> map
 	..@.Seq -> drop seq=? take
 	..math.Num -> divisible? nats

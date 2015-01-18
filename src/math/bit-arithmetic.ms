@@ -1,7 +1,7 @@
 doc. "Methods for dealing with Ints qua sequences of bits."
 
 use
-	..assert -> !not
+	..! -> !not
 	.Num -> Int
 	..js -> js-bar js& js^ js~ js<< js>> js>>>
 	..Regex -> regex

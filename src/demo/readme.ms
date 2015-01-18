@@ -1,7 +1,7 @@
 doc. "Making sure the code in README.md actually works."
 
 use
-	..assert -> ! !not
+	..! -> !not
 	..@ -> count map
 	..@.Array!
 	..@.Seq -> seq=? take

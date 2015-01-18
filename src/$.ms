@@ -1,5 +1,4 @@
 use
-	.assert -> !
 	.@ -> concat=> map
 	.@.Array
 	.Bool
@@ -13,9 +12,11 @@ use
 	.js -> new
 	.methods -> => + sub type-of
 	.pred-types -> Any
-	.Try -> oh-no!
 	.types.Method -> impl!
 	.types.util -> self-type
+use~
+	.!
+	.Try -> oh-no!
 
 $ =
 	doc. "

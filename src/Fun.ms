@@ -1,22 +1,19 @@
 use
 	.Comparable -> =?
 	.js -> global
-	.methods -> => + contains? empty empty? sub
+	.methods -> => + contains? empty sub
 	.types.Alias-Type
 	.types.Method -> impl!
 	.types.util -> self-type
 use~
+	.!
 	.@ -> map
 	.@.? -> get-or un-?
 	.@.Seq -> ?last pop> seq=?
 	.@.Array
-	.assert -> !
 	.control -> build
 	.maps.Map -> ?get keys
 	.maps.Weak-Identity-Map!
-	.Object -> ?get-property get-property
-	.show
-	.Str
 	.Try -> oh-no!
 
 Fun =
@@ -156,23 +153,6 @@ thunk.
 		! =? (call (thunk 1)) 1
 	|a |
 		a
-
-impl! show Fun
-	test. |
-		a = |
-			1
-		[ a ] -> "a"
-		[ Object ] -> "Object"
-		[ (Fun "" "") ] -> "<anonymous Fun>"
-	|:Str _
-		get-or (?get-property _ "displayName") ~
-			\ Every function has name property - empty string means anonymous function.
-			name = get-property _ "name"
-			case name
-				empty?_
-					"<anonymous Fun>"
-				else
-					_
 
 impl! sub (self-type Fun)
 	doc. "

@@ -1,6 +1,6 @@
 \ Also see ..maps.Dict-as-Map
 use
-	.assert -> !
+	.!
 	.Comparable -> =?
 	.maps.Map -> keys
 	.methods -> empty type-of

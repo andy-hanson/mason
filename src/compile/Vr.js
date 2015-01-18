@@ -4,6 +4,7 @@ const
 	assert = require("assert"),
 	E = require("./E"),
 	Lang = require("./Lang"),
+	Sq = require("./U/Sq"),
 	type = require("./U/type"),
 	types = require("./U/types")
 
@@ -26,6 +27,9 @@ Object.assign(Vr.prototype, {
 		assert(botherWithIsInGenerator(e))
 		assert(this.eToIsInGenerator.has(e))
 		return this.eToIsInGenerator.get(e)
+	},
+	isAccessed: function(local) {
+		return !Sq.isEmpty(this.localToAccesses.get(local))
 	}
 })
 

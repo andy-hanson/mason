@@ -1,5 +1,5 @@
 use
-	..assert -> ! !not
+	..! -> !not
 	..@ -> each! map
 	..@.?
 	..@.Set -> set=?
@@ -13,6 +13,7 @@ use
 	..types.Interface
 	..types.Method -> impl!
 	..types.Record-Type
+use~
 	.Weak-Identity-Map!
 
 Map! = Interface

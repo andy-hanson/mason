@@ -720,16 +720,17 @@ const parseUse = (function() {
 		const tReq = Sq.head(sqt)
 		const _$ = parseRequire(px.withSpan(tReq.span), tReq)
 		const required = _$.required, name = _$.name
+		const isLazy = k === "use~"
 
 		if (sqt.length !== 1)
 			check(T.Keyword.is("->")(sqt[1]), sqt[1].span, "Expected " + U.code("->"))
 		const assignees = parseLocals(px, sqt.slice(2)).map(function(l) {
-			return U.with(l, "isLazy", true)
+			return U.with(l, "isLazy", isLazy)
 		})
 		const defaultAssignee = E.LocalDeclare(px.s({
 			name: name,
 			opType: Op.None,
-			isLazy: true,
+			isLazy: isLazy,
 			// OK to do `a -> b` and not use `a`.
 			okToNotUse: !Sq.isEmpty(assignees)
 		}))
@@ -738,7 +739,7 @@ const parseUse = (function() {
 			assignees: Sq.cons(defaultAssignee, assignees),
 			k: "=",
 			value: required,
-			isLazy: k === "use~"
+			isLazy: isLazy
 		})
 	}
 

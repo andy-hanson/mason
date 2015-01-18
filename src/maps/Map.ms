@@ -1,5 +1,4 @@
 use
-	..assert -> !
 	..Bool -> not
 	..Comparable -> =?
 	..Fun -> identity
@@ -10,6 +9,7 @@ use
 	..types.Method -> impl!
 	..types.util -> self-type
 use~
+	..!
 	..@ -> each! map
 	..@.? ->  get-or
 	.Hash-Map!

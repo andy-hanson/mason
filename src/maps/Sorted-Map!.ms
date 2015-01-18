@@ -1,5 +1,5 @@
 use
-	..assert -> !
+	..!
 	..@ -> each!
 	..@.Seq -> sorted?
 	..Comparable! -> <!

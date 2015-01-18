@@ -1,5 +1,5 @@
 use
-	..assert -> !
+	..!
 	..@ -> flat-map keep=> map map=>
 	..@.?
 	..@.Seq -> ?first ?<pop

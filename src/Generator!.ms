@@ -1,7 +1,6 @@
 doc. "TODO"
 
 use
-	.assert -> !
 	.@.?
 	.@ -> iterator
 	.@.Seq -> seq=?
@@ -17,6 +16,7 @@ use
 	.types.Pred-Type
 	.types.util -> self-type
 use~
+	.!
 	.@.Stream -> streaming
 
 Generator! = Pred-Type

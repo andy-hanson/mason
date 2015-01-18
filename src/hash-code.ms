@@ -1,5 +1,5 @@
 use
-	.assert -> ! !not
+	.! -> !not
 	.@ -> flat-map fold
 	.@.Array
 	.Bool

@@ -1,21 +1,21 @@
 use
-	.assert -> ! !not
-	.@ -> all? count keep
-	.@.? -> Opt->?
-	.@.Seq -> seq=?
 	.Bool -> and false not nor true xor
 	.Comparable -> =?
 	.js -> defined? global js-typeof reference=? js-sub
 	.methods -> => + empty empty?
 	.pred-types -> Union
 	.Symbol
-	.Try -> !debug-fails?
 	.types.Method -> impl!
 	.types.util -> self-type
 use~
+	.! -> !not
+	.@ -> all? count keep
+	.@.? -> Opt->?
+	.@.Seq -> seq=?
 	.@.Identity-Set!
 	.@.Stream
 	.Object! -> add-property!
+	.Try -> !debug-fails?
 
 Object =
 	doc. "

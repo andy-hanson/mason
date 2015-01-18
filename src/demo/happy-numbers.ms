@@ -1,5 +1,5 @@
 use
-	..assert -> !
+	..!
 	..@ -> each! fold keep map
 	..@.Array!
 	..@.Identity-Set!

@@ -1,11 +1,12 @@
 use
-	.assert -> !
 	.Comparable -> =?
 	.Fun
 	.js -> js-sub
 	.methods -> contains?
 	.Str
 	.types.Record-Type
+use~
+	.!
 
 Js-Method = Record-Type
 	doc. "

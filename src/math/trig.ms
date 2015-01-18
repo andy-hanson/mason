@@ -3,7 +3,7 @@ doc. "
 	Angles should be expressed in radians.
 
 use
-	..assert -> !
+	..!
 	..maps.Map -> each-pair!
 	..methods -> /
 	.Num -> near? pi/2 pi pi3/2
@@ -11,7 +11,7 @@ use
 
 Math = global.Math
 
-\ TODO: generalize and move to assert.ms
+\ TODO: generalize and move to !.ms
 !apply-near = |fun apps
 	each-pair! apps |arg result
 		! near? (fun arg) result

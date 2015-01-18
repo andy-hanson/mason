@@ -1,17 +1,18 @@
 use
-	.assert -> ! !not
 	.Bool -> false
 	.Comparable -> =?
 	.js -> js-delete js-set
-	.maps.Map -> each-pair!
 	.methods -> empty
 	.Object -> has-property?
 	.pred-types -> Any Union
 	.Str
 	.Symbol
-	.Try -> fails?
 	.types.Method -> impl!
 	.types.util -> self-type
+use~
+	.! -> !not
+	.maps.Map -> each-pair!
+	.Try -> fails?
 
 Object! =
 	doc. "TODO"
