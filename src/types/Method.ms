@@ -1,5 +1,7 @@
 use
+	..Bool -> or
 	..js -> js-sub
+	..js-impl -> build-str
 	..private.bootstrap -> Str Symbol Fun oh-no! get-or-undefined exists? set! set-mutable! has-or-in-proto? get writable?
 	.Record-Type
 use~
@@ -14,26 +16,26 @@ use~
 	..Try -> !debug-fails?
 
 make-callable-method = |method
-	ret = case
-		exists? method.wrap
-			"return wrap(impl, Array.prototype.slice.call(arguments, 0))"
+	err = "throw new Error(\"Method {method.displayName} not implemented for \" + a)"
+	case
+		or (exists? method.default) ~(exists? method.wrap)
+			src = build-str |add!
+				add! "return function(a, b, c, d, e, f, g,  h) \{"
+				impl = case
+					exists? method.default
+						"(a == null) ? def : (a[\"{method.impl-symbol}\"] || def)"
+					else
+						"a[\"{method.impl-symbol}\"]"
+				case!
+					exists? method.wrap
+						add! "return wrap({impl}, Array.prototype.slice.call(arguments, 0))"
+					else
+						add! "return ({impl})(a,b,c,d,e,f,g,h)"
+				add! "}"
+			f = Fun "def" "wrap" src
+			f method.default method.wrap
 		else
-			\ TODO:ES6 Splat call
-			"return impl(a, b, c, d, e, f, g, h)"
-	src = "
-		return function(a, b, c, d, e, f, g,  h) \{
-			var impl
-			if (a == null)
-				impl = def
-			else \{
-				impl = a["{method.impl-symbol}"]
-				if (impl === undefined)
-					impl = def
-			}
-			{ret}
-		}
-	f = Fun "def" "wrap" src
-	f method.default method.wrap
+			Fun "a" "b" "c" "d" "e" "f" "g" "h" "return a[\"{method.impl-symbol}\"](a, b, c, d, e, f,  g, h)"
 
 Method = Record-Type
 	doc. "
@@ -80,16 +82,13 @@ Method = Record-Type
 	members.
 		displayName. Str  \ Required!
 		impl-symbol. Str
-		default. Fun
 	optional-members.
+		default. Fun
 		wrap. Fun
 	extensible.
 	defaults.
 		impl-symbol. |_
 			"impl-{_.displayName}"
-		default. |_
-			|target
-				oh-no! ~"{_} not implemented for {target}"
 	make-callable. make-callable-method
 
 impl!.

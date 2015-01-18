@@ -122,7 +122,6 @@ set(ms, "mkStr", function() {
 
 // TODO: See which of these are really needed.
 exports["Array"] = Array
-const Bool = exports["Bool"] = Boolean
 const Fun = exports["Fun"] = Function
 const Num = exports["Num"] = Number
 exports["Object"] = Object
@@ -176,9 +175,6 @@ exports["any?"] = function(a) {
 	return a != null
 }
 
-exports["true"] = true
-exports["false"] = false
-
 exports["proto-impl-contains?!"] = function(proto, impl) {
 	set(proto, exports["sym-contains?"], impl)
 }
@@ -199,7 +195,7 @@ exports["proto-impl-contains?!"](Fun.prototype, function(fun, _) {
 // TODO: Separate Fun from Callable
 exports["type-of-contains?!"](Fun, "function")
 
-exports["type-of-contains?!"](Bool, "boolean")
+exports["type-of-contains?!"](Boolean, "boolean")
 
 exports["type-of-contains?!"](Str, "string")
 

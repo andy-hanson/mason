@@ -1,8 +1,8 @@
 use
-	..Bool -> or
+	..Bool -> or true
 	..Comparable! -> <!
 	..js -> reference=?
-	..private.bootstrap -> Str Array Object Symbol true set! get own-properties new-array exists?
+	..private.bootstrap -> Str Array Object Symbol set! get own-properties new-array exists?
 	.Method -> impl! propagate-method-down!
 	..methods -> contains?
 	.Record-Type

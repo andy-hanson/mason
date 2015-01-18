@@ -13,3 +13,4 @@ $done ($ing ~|
 	<~ $time! "test" ($@test-all "./js"
 	\<~ $time! "ana" ($@test-module (get-module "js/demo/anagrams"
 	\log! "Bye!"
+

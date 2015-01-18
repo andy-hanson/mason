@@ -1,5 +1,6 @@
 use
-	..private.bootstrap -> sym-type-of Dict set! Object Str Fun get proto-impl-contains?! get-or-undefined exists? false true Bool
+	..Bool -> false true
+	..private.bootstrap -> sym-type-of Dict set! Object Str Fun get proto-impl-contains?! get-or-undefined exists?
 	..js-impl -> i=== build-str
 
 make-record-constructor = |rt

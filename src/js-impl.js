@@ -96,7 +96,10 @@ module.exports = {
 	// time.ms
 	"i-time*": function(times, timeMe) {
 		let i = times
-		while (i--) timeMe()
+		const out = []
+		while (i--)
+			out.push(timeMe())
+		return out
 	}
 }
 
