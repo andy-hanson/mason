@@ -1,8 +1,8 @@
 use
-	..Bool -> or
-	..js -> js-sub
+	..Bool -> or implies
+	..js -> any? defined? global js-sub
 	..js-impl -> build-str
-	..private.bootstrap -> Str Symbol Fun oh-no! get-or-undefined exists? set! set-mutable! has-or-in-proto? get writable?
+	..private.bootstrap -> Str Symbol Fun set! set-mutable!
 	.Record-Type
 use~
 	..!
@@ -12,21 +12,25 @@ use~
 	.Interface
 	..math.Num
 	..methods -> contains?
-	..Object -> ?get-property
-	..Try -> !debug-fails?
+	..Object -> ?get-property has-property-or-in-prototype?
+	..Try -> !debug-fails? oh-no!
+
+writable? = |object property
+	desc = global.Object.getOwnPropertyDescriptor object property
+	implies (any? desc) ~desc.writable
 
 make-callable-method = |method
 	case
-		or (exists? method.default) ~(exists? method.wrap)
+		or (defined? method.default) ~(defined? method.wrap)
 			src = build-str |add!
 				add! "return function(a, b, c, d, e, f, g,  h) \{"
 				impl = case
-					exists? method.default
+					defined? method.default
 						"(a == null) ? def : (a[\"{method.impl-symbol}\"] || def)"
 					else
 						"a[\"{method.impl-symbol}\"]"
 				case!
-					exists? method.wrap
+					defined? method.wrap
 						add! "return wrap({impl}, Array.prototype.slice.call(arguments, 0))"
 					else
 						add! "return ({impl})(a,b,c,d,e,f,g,h)"
@@ -34,7 +38,17 @@ make-callable-method = |method
 			f = Fun "def" "wrap" src
 			f method.default method.wrap
 		else
-			Fun "a" "b" "c" "d" "e" "f" "g" "h" "return a[\"{method.impl-symbol}\"](a, b, c, d, e, f,  g, h)"
+			it = "a[\"{method.impl-symbol}\"]"
+			\Fun "a" "return Function.prototype.apply.call(a[\"{method.impl-symbol}\"], null, arguments)"
+			\ TODO: Use this mechanism above too!
+			Fun "a" "b" "c" "d" "
+				switch (arguments.length) \{
+					case 1: return {it}(a)
+					case 2: return {it}(a, b)
+					case 3: return {it}(a, b, c)
+					case 4: return {it}(a, b, c, d)
+					default: throw new Error("Can not accept " +arguments.length + " arguments")
+				}
 
 Method = Record-Type
 	doc. "
@@ -94,7 +108,7 @@ impl!.
 	doc. "TODO"
 	|a b c d
 		case!
-			exists? d
+			defined? d
 				impl-double! a b c d
 			else
 				impl-single! a b c
@@ -114,7 +128,7 @@ impl-double! = |method:Method implementor-0:Impl-Type implementor-1:Impl-Type im
 			impl-unchecked! method implementor-0 dd
 			dd
 		else
-			case get implementor-0.prototype method.impl-symbol
+			case js-sub implementor-0.prototype method.impl-symbol
 				:Double-Dispatcher
 					_
 				else
@@ -152,6 +166,7 @@ propagate-method-down!. |implementor method-symbol implementation \ TODO: :Impl-
 					_.implementors.forEach |sub-implementor
 						propagate-method-down! sub-implementor method-symbol implementation
 				else
+					\ TODO: What to do in case of multiple inheritance collision?
 					\ Since this is inherited, it is mutable and can be overridden.
 					set-mutable! _.prototype method-symbol implementation
 		else
@@ -159,6 +174,7 @@ propagate-method-down!. |implementor method-symbol implementation \ TODO: :Impl-
 
 Double-Dispatcher = Record-Type
 	members.
+		displayName. Str
 		method. Method
 		~first-type. Impl-Type
 		impl-symbol. Symbol
@@ -166,14 +182,14 @@ Double-Dispatcher = Record-Type
 		|...args
 			target-2 = js-sub args 1
 			case!
-				exists? target-2
+				defined? target-2
 					()
 				else
 					oh-no! ~"Can't double-dispatch {_.method} for undefined."
 
-			impl = get-or-undefined target-2 _.impl-symbol
+			impl = js-sub target-2 _.impl-symbol
 			case!
-				exists? impl
+				defined? impl
 					! contains? Fun impl
 				else
 					oh-no! ~"Can't double-dispatch {_.method} for {_.first-type} on {target-2}"
@@ -182,7 +198,7 @@ Double-Dispatcher = Record-Type
 impl?.
 	doc. "TODO"
 	|method:Method type:Impl-Type
-		has-or-in-proto? type.prototype method.impl-symbol
+		has-property-or-in-prototype? type.prototype method.impl-symbol
 
 \ TODO: ?direct-impl-for
 ?impl-for.

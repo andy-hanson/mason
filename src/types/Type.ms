@@ -2,9 +2,12 @@ use
 	..Bool -> and
 	.Impl-Type
 	.Interface -> unchecked-implementor!
+	..js -> any? defined? js-sub
 	.Method -> impl! impl-unchecked!
 	..methods -> contains?
-	..private.bootstrap -> any? has-or-in-proto? Fun
+	..private.bootstrap -> Fun
+use~
+	..Object -> has-property-or-in-prototype?
 
 Type = Interface
 	doc. "TODO"
@@ -16,13 +19,13 @@ unchecked-implementor! Method Type
 
 \ TODO: Move
 impl-unchecked! contains? Interface |iface _
-	and any?_ ~(has-or-in-proto? _ iface.symbol-for-isa)
+	and any?_ ~(defined? (js-sub _ iface.symbol-for-isa))
 
 unchecked-implementor! Fun Impl-Type
 
 \TODO:MOVE
 unchecked-implementor! Method Type
 impl! contains? Method |method value
-	has-or-in-proto? value method.impl-symbol
+	has-property-or-in-prototype? value method.impl-symbol
 
 Type

@@ -6,6 +6,7 @@ install
 \ stack-displayname \ Doesn't play nice with source-map-support
 
 use
+	..methods
 	..types.Type
 	..Fun
 	..@.Array \ <! Array @

@@ -1,6 +1,7 @@
 use
-	..Bool -> false true
-	..private.bootstrap -> sym-type-of Dict set! Object Str Fun get proto-impl-contains?! get-or-undefined exists?
+	..Bool -> false implies not true
+	..private.bootstrap -> sym-type-of Dict set! Object Str Fun proto-impl-contains?!
+	..js -> defined? js=== js-sub js-typeof
 	..js-impl -> i=== build-str
 
 make-record-constructor = |rt
@@ -21,15 +22,10 @@ make-record-constructor = |rt
 				true
 
 	real-member? =  |members member
-		case
-			i=== member "displayName"
-				case get-or-undefined members member
-					:Str
-						false \ Accidental displayName property; ignore it.
-					else
-						true
-			else
-				true
+		\ Ignore accidental displayName.
+		implies (i=== member "displayName") ~
+			\ This looks funny since `contains?` isn't defined until methods.ms.
+			not (js=== (js-typeof (js-sub members member)) "string"
 
 	access = |name
 		"[\"{name}\"]"
@@ -43,9 +39,9 @@ make-record-constructor = |rt
 			if! (real-member? rt.members member) |
 				acc = access member
 				add! "this{acc} = _{acc}"
-				if! (exists? rt.defaults) |
-					case! get-or-undefined rt.defaults member
-						exists?_
+				if! (defined? rt.defaults) |
+					case! js-sub rt.defaults member
+						defined?_
 							add! "if (this{acc} === undefined) this{acc} = defaults{acc}(_)"
 						else
 							()
@@ -58,7 +54,7 @@ make-record-constructor = |rt
 						\ TODO: Debug mode only
 						"if (!Object.prototype.hasOwnProperty.call(_, \"{member}\")) throw new Error(\"Forgot to assign {member}.\")\n"
 
-		if! (exists? rt.optional-members) |
+		if! (defined? rt.optional-members) |
 			(Object.getOwnPropertyNames rt.optional-members).forEach |member
 				if! (real-member? rt.optional-members member) |
 					acc = access member
@@ -76,27 +72,27 @@ make-record-constructor = |rt
 				\ TODO: Debug mode only
 				check = "_ms.checkNoExtras(this, _, \"{rt.displayName}\")"
 				case!
-					exists? rt.optional-members
+					defined? rt.optional-members
 						add! check
 					else
 						n-members = (Object.getOwnPropertyNames rt.members).length
 						\ If the condition passes the check will definitely fail, and will give nice error info.
 						add! "if (Object.keys(_).length > {n-members}) \{ {check}; throw new Error(\"Unreachable\") }"
 
-		if! (exists? rt.make-callable) |
+		if! (defined? rt.make-callable) |
 			add! "var callBaby = makeCallable(this)"
 			add! "Object.setPrototypeOf(callBaby, prototype)"
 			add! "Object.assign(callBaby, this)"
 
-		if! (exists? rt.post-construct) |
+		if! (defined? rt.post-construct) |
 			post = case
-				exists? rt.make-callable
+				defined? rt.make-callable
 					"callBaby"
 				else
 					"this"
 			add! "postConstruct({post})"
 
-		if! (exists? rt.make-callable) |
+		if! (defined? rt.make-callable) |
 			add! "return callBaby"
 
 		add! "
@@ -135,8 +131,9 @@ record-type-args =
 
 Record-Type = (make-record-constructor record-type-args) record-type-args
 
-\ TODO: Consider moving
+\ This has to be done specially because `impl!` can only be done on Methods,
+\ and Method is a Record-Type, so  `contains?` gets called.
 proto-impl-contains?! Record-Type.prototype |rt _
-	Object.prototype.isPrototypeOf.call (get rt "prototype") _
+	Object.prototype.isPrototypeOf.call rt.prototype _
 
 Record-Type

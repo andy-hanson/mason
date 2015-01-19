@@ -1,11 +1,13 @@
 use
-	.types.Method
+	.js -> js-instanceof
+	.private.bootstrap -> sym-contains? sym-type-of set! ms
+	.types.Method -> impl!
 use~
 	.@.? -> get-or
 	.Bool
 	.Fun
 	.Object -> ?get-property-or-in-prototype
-	.private.bootstrap -> sym-contains? sym-sub sym-type-of
+	.Try -> oh-no!
 	.types.Type
 
 region Arithmetic operators
@@ -35,9 +37,8 @@ region Arithmetic operators
 
 region Basics
 	sub. Method
-		doc. "
-			Implementing this allows the use of the special syntax `a[b]`.
-		impl-symbol. sym-sub
+		doc. "Implementing this allows the use of the special syntax `a[b]`."
+	set! ms "sub" sub
 
 	=>. Method
 		doc. |convert-to:Type convert-me
@@ -92,3 +93,15 @@ region Unsorted
 		doc. |:Bool collection value
 			"Whether some collection of things as as an element `value`."
 		impl-symbol. sym-contains?
+
+	set! ms "contains" contains?
+
+	impl! contains? Fun |fun _
+		js-instanceof _ fun
+
+	set! ms "checkContains" |type value name
+		case!
+			contains? type value
+				()
+			else
+				oh-no! "{name} is no {type}, is {value}"

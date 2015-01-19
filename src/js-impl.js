@@ -8,6 +8,7 @@ module.exports = {
 	"i~": function(a) { return ~a },
 	"i-bar": function(a, b) { return a | b },
 	"i-delete": function(a, b) { delete a[b] },
+	"i-instanceof": function(a, b) { return a instanceof b },
 	"i-false": false,
 	"i-global": global,
 	"i-new": function(constructor, args) {

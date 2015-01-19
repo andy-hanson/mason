@@ -4,12 +4,13 @@ use
 	.Comparable -> =?
 	.maps.Map -> keys
 	.methods -> empty type-of
-	.private.bootstrap -> Dict extend!
+	.Object
+	.private.bootstrap -> Dict
 	.types.Method -> impl!
 	.types.util -> self-type
 	.show
 
-extend! Dict
+Object.assign Dict
 	doc. "
 		An unordered collection of name-value bindings.
 		Every Dict is a Map whose keys are strings.

@@ -1,8 +1,8 @@
 use
 	..Bool -> or true
 	..Comparable! -> <!
-	..js -> reference=?
-	..private.bootstrap -> Str Array Object Symbol set! get own-properties new-array exists?
+	..js -> defined? global js-sub reference=?
+	..private.bootstrap -> Str Array Object Symbol set!
 	.Method -> impl! propagate-method-down!
 	..methods -> contains?
 	.Record-Type
@@ -68,10 +68,12 @@ Interface = Record-Type
 		symbol-for-isa. Symbol
 	extensible.
 	defaults.
-		super-interfaces. new-array
+		super-interfaces. |
+			global.Array 0
 		prototype. |
 			Object.create ()
-		implementors. new-array
+		implementors. |
+			global.Array 0
 		symbol-for-isa. |_
 			name:Str = _.displayName
 			Symbol "isa-{name}"
@@ -90,9 +92,13 @@ unchecked-implementor!.
 				()
 		inherit-methods! implementor interface
 
+own-properties = |_
+	(Object.getOwnPropertyNames _).concat (Object.getOwnPropertySymbols _)
+
 inherit-methods! = |implementor interface
 	(own-properties interface.prototype).forEach |name
-		propagate-method-down! implementor name (get interface.prototype name)
+		\ TODO: use getp
+		propagate-method-down! implementor name (js-sub interface.prototype name)
 	interface.super-interfaces.forEach |_
 		inherit-methods! implementor _
 
@@ -104,7 +110,7 @@ implementor!.
 	|implementor interface:Interface method-impls
 		unchecked-implementor! implementor interface
 		case! method-impls
-			exists?_
+			defined?_
 				each-pair! _ |method implementation
 					impl! method implementor implementation
 			else

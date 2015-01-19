@@ -1,7 +1,7 @@
 doc. "TODO"
 
 use
-	.js-impl -> i& i^ i<< i>> i>>> i=== i== i< i> i<= i>= i+ i- i* i/ i% i-bar i~ i! i-sub i-set i-global i-new i-typeof i-delete
+	.js-impl -> i& i^ i<< i>> i>>> i=== i== i< i> i<= i>= i+ i- i* i/ i% i-bar i~ i! i-sub i-set i-global i-new i-typeof i-delete i-instanceof
 use~
 	.@ -> each!
 	.@.Array
@@ -41,6 +41,7 @@ js!. i!
 js-sub. i-sub
 js-set. i-set
 js-delete. i-delete
+js-instanceof. i-instanceof
 
 region Null/Undefined
 	\ TODO:ES6 `undefined` constant.

@@ -156,13 +156,6 @@ thunk.
 	|a |
 		a
 
-impl! sub (self-type Fun)
-	doc. "
-		Subbing Fun does nothing and is only for documentation.
-		E.g. Fun[Int Str] takes an Int and returns a Str.
-	test. |
-		! =? Fun[Fun Fun] Fun
-	fun-copy identity
 
 curry =
 	doc. "Creates a function which calls `f` with the given arguments first."
@@ -174,11 +167,19 @@ curry =
 		one-two = all-3[1 2]
 		! =? (one-two 3) [ 1 2 3 ]
 
-	|f:Fun  ...args
+	|f:Fun ...args
 		Fun.prototype.bind.apply f (+ [()] args)
 
 impl! sub Fun curry
 \ TODO: Make Method a Callable
 impl! sub Method curry
+
+impl! sub (self-type Fun)
+	doc. "
+		Subbing Fun does nothing and is only for documentation.
+		E.g. Fun[Int Str] takes an Int and returns a Str.
+	test. |
+		! =? Fun[Fun Fun] Fun
+	fun-copy identity
 
 Fun

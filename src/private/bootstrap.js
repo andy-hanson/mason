@@ -1,25 +1,27 @@
-// TODO: Make as small as possible.
 "use strict"
 
 require("es6-shim")
 
 // This object contains functions called upon by compiled code.
-const ms = exports["ms"] = Object.create(null)
-Object.defineProperty(global, "_ms", { value: ms })
+const ms = exports["ms"] = {}
 
 const set = function(object, key, val) {
 	// TODO:ES6 `writable` shouldn't need to be explicit
 	Object.defineProperty(object, key, { value: val, writable: false })
 }
 
+set(global, "_ms", ms)
+
+// TODO: Shouldn't need if we statically check.
 set(ms, "get", function(object, key) {
 	if (!Object.prototype.hasOwnProperty.call(object, key))
-		throw new Error("Module " + object + " does not have " + key)
+		throw new Error("Module " + object.displayName + " does not have " + key)
 	return object[key]
 })
 
 // For use by Record-Type.ms
 set(ms, "checkNoExtras", function(_this, _, rtName) {
+	// If there was some key in `_` that we didn't copy:
 	if (Object.keys(_).length > Object.keys(_this).length) {
 		Object.getOwnPropertyNames(_).forEach(function(name) {
 			if (name !== "displayName")
@@ -42,9 +44,8 @@ const assignMany = function(target, keysVals) {
 }
 
 // TODO!!!
-exports["sym-sub"] = "impl-sub" //Symbol("sub")
-exports["sym-contains?"] = "impl-contains?" //Symbol("contains?")
-exports["sym-type-of"] = "impl-type-of" //Symbol("type-of")
+exports["sym-contains?"] = "impl-contains?"
+exports["sym-type-of"] = "impl-type-of"
 
 function Lazy(make) {
 	this.cached = undefined
@@ -60,12 +61,8 @@ const lazyGet = function(_) {
 	}
 	return c
 }
-
 set(ms, "lazy", function(_) { return new Lazy(_) })
-
-set(ms, "unlazy", function(a) {
-	return (a instanceof Lazy) ? lazyGet(a) : a
-})
+set(ms, "unlazy", function(a) { return (a instanceof Lazy) ? lazyGet(a) : a })
 
 set(ms, "dictify", function(target) {
 	assignMany(Object(target), global.Array.prototype.slice.call(arguments, 1))
@@ -84,29 +81,8 @@ set(ms, "Dict", function Dict() {
 })
 exports["Dict"] = ms.Dict
 
-set(ms, "contains", function(type, value) {
-	if (type == null)
-		throw new Error("Type missing")
-	const test = type[exports["sym-contains?"]]
-	if (test == null)
-		throw new Error(ms.show(type) + " does not implement `contains?`")
-	return test(type, value)
-})
-
-set(ms, "checkContains", function(type, value, name) {
-	if (!ms.contains(type, value))
-		throw new Error(name + " is no " + ms.show(type) + ", is " + value)
-})
-
-// TODO:ES6 ...args
-set(ms, "sub", function(subbed) {
-	if (subbed == null)
-		throw new Error("subbed missing")
-	const sub = subbed[exports["sym-sub"]]
-	if (sub == null)
-		throw new Error(ms.show(subbed) + " does not implement `sub`")
-	return sub.apply(null, arguments)
-})
+// Overwritten by methods.ms.
+ms.checkContains = function() { }
 
 // Overwritten by show.ms
 ms.show = function(x) {
@@ -116,89 +92,30 @@ ms.show = function(x) {
 }
 
 // TODO:ES6 ...args
+// TODO:PERF TEST
 set(ms, "mkStr", function() {
 	return Array.prototype.slice.call(arguments).map(ms.show).join("")
 })
 
-// TODO: See which of these are really needed.
 exports["Array"] = Array
-const Fun = exports["Fun"] = Function
-const Num = exports["Num"] = Number
+exports["Fun"] = Function
 exports["Object"] = Object
-const Str = exports["Str"] = String
+exports["Str"] = String
 exports["Symbol"] = Symbol
-
-exports["oh-no!"] = function(message) {
-	throw new global.Error(ms.unlazy(message))
-}
-
-exports["own-properties"] = function(object) {
-	return Object.getOwnPropertyNames(object).concat(Object.getOwnPropertySymbols(object))
-}
-
-exports["global"] = global
-
-// TODO: get-property
-exports["get"] = function(object, key) {
-	const x = object[key]
-	if (x === undefined)
-		throw new Error("Undefined member " + key)
-	return x
-}
-
-// TODO: Use this instead of js literals where possible
-exports["get-or-undefined"] = function(object, key) {
-	return object[key]
-}
 
 // TODO: set-property!
 exports["set!"] = set
 
+// TODO
 exports["set-mutable!"] = function(object, key, val) {
 	Object.defineProperty(object, key, { value: val, writable: true })
 }
 
-exports["has?"] = function(object, key) {
-	return Object.prototype.hasOwnProperty.call(object, key)
-}
-
-exports["has-or-in-proto?"] = function(object, key) {
-	return object[key] !== undefined
-}
-
-// TODO: Make sure I'm using the right one
-exports["exists?"] = function(a) {
-	return a !== undefined
-}
-
-exports["any?"] = function(a) {
-	return a != null
-}
-
 exports["proto-impl-contains?!"] = function(proto, impl) {
 	set(proto, exports["sym-contains?"], impl)
-}
+};
 
-// TODO: Kill me
-exports["type-of-contains?!"] = function(fun, typeOf) {
-	exports["proto-impl-contains?!"](fun, function(ignore, _) {
-		return typeof _ === typeOf
-	})
-}
-
-
-exports["proto-impl-contains?!"](Fun.prototype, function(fun, _) {
-	return _ instanceof fun
-})
-// Except for Fun itself
-// Actually, this helps us catch all Callables, not just Fun_s
-// TODO: Separate Fun from Callable
-exports["type-of-contains?!"](Fun, "function")
-
-exports["type-of-contains?!"](Boolean, "boolean")
-
-exports["type-of-contains?!"](Str, "string")
-
+// TODO: Consider making everything an Object
 exports["proto-impl-contains?!"](Object, function(ignore, _) {
 	if (_ == null)
 		return false
@@ -211,20 +128,15 @@ exports["proto-impl-contains?!"](Object, function(ignore, _) {
 		default:
 			return true
 	}
+});
+
+// An object is a Function if its typeof is `function`.
+// This helps us catch any callabe Record-Type.
+// TODO: Separate Fun from Callable
+// Since these are primitives, we can't use `instanceof`.
+[ Function, Boolean, String, Symbol, Number ].forEach(function(type) {
+	const typeOf = type.name.toLowerCase()
+	exports["proto-impl-contains?!"](type, function(ignore, _) {
+		return typeof _ === typeOf
+	})
 })
-
-exports["type-of-contains?!"](Symbol, "symbol")
-
-exports["type-of-contains?!"](Num, "number")
-
-exports["extend!"] = Object.assign
-
-// TODO: Only use in Interface.ms - get rid of.
-exports["ignore"] = function() { }
-
-exports["new-array"] = function() { return [ ] }
-
-exports["writable?"] = function(object, property) {
-	const desc = Object.getOwnPropertyDescriptor(object, property)
-	return desc == null || desc.writable
-}

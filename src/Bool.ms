@@ -59,6 +59,20 @@ nor.
 	|cond-0:Bool ~cond-1:Bool
 		not (or cond-0 ~cond-1)
 
+implies.
+	doc. "TODO"
+	test. |
+		[ false false ] -> true
+		[ false true ] -> true
+		[ true false ] -> false
+		[ true true ] -> true
+	|cond-0:Bool ~cond-1:Bool
+		case
+			cond-0
+				cond-1
+			else
+				true
+
 not.
 	doc. "True iff `a` isn't."
 	test. |
