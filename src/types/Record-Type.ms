@@ -3,6 +3,12 @@ use
 	..private.bootstrap -> set! Object Str Fun proto-impl-contains?!
 	..js -> defined? js=== js-sub js-typeof
 	..js-impl -> i=== build-str
+use~
+	..!
+	..Comparable -> =?
+	..math.Num
+	..Try -> !debug-fails?
+	.util -> type-of
 
 make-record-constructor = |rt
 	if! = |bool act
@@ -35,24 +41,26 @@ make-record-constructor = |rt
 			return function ctr(_) \{
 			if (!(this instanceof ctr)) return new ctr(_)
 
-		(Object.getOwnPropertyNames rt.members).forEach |member
-			if! (real-member? rt.members member) |
-				acc = access member
-				add! "this{acc} = _{acc}"
-				if! (defined? rt.defaults) |
-					case! js-sub rt.defaults member
-						defined?_
-							add! "if (this{acc} === undefined) this{acc} = defaults{acc}(_)"
-						else
-							()
+		real-members = (Object.getOwnPropertyNames rt.members).filter |member
+			real-member? rt.members member
 
-				add! case
-					member-has-type? rt.members member
-						\ TODO: Debug mode only
-						"_ms.checkContains(members{acc}, this{acc}, \"{member}\")"
+		real-members.forEach |member
+			acc = access member
+			add! "this{acc} = _{acc}"
+			if! (defined? rt.defaults) |
+				case! js-sub rt.defaults member
+					defined?_
+						add! "if (this{acc} === undefined) this{acc} = defaults{acc}(_)"
 					else
-						\ TODO: Debug mode only
-						"if (!Object.prototype.hasOwnProperty.call(_, \"{member}\")) throw new Error(\"Forgot to assign {member}.\")\n"
+						()
+
+			add! case
+				member-has-type? rt.members member
+					\ TODO: Debug mode only
+					"_ms.checkContains(members{acc}, this{acc}, \"{member}\")"
+				else
+					\ TODO: Debug mode only
+					"if (!Object.prototype.hasOwnProperty.call(_, \"{member}\")) throw new Error(\"Forgot to assign {member}.\")\n"
 
 		if! (defined? rt.optional-members) |
 			(Object.getOwnPropertyNames rt.optional-members).forEach |member
@@ -75,9 +83,9 @@ make-record-constructor = |rt
 					defined? rt.optional-members
 						add! check
 					else
-						n-members = (Object.getOwnPropertyNames rt.members).length
-						\ If the condition passes the check will definitely fail, and will give nice error info.
-						add! "if (Object.keys(_).length > {n-members}) \{ {check}; throw new Error(\"Unreachable\") }"
+						n-members = real-members.length
+						\ If the conditions pass the check will definitely fail, and will give nice error info.
+						add! "if (!Object.prototype.hasOwnProperty.call(_, \"displayName\") && Object.keys(_).length > {n-members}) \{ {check}; throw new Error(\"Unreachable\") }"
 
 		if! (defined? rt.make-callable) |
 			add! "var callBaby = makeCallable(this)"
@@ -124,6 +132,54 @@ record-type-args =
 	post-construct. |rt
 		set! rt.prototype "constructor" rt
 	make-callable. make-record-constructor
+	test. |
+		Vec2D = Record-Type
+			members.
+				x. Num
+				y. Num
+		v = Vec2D
+			x. 1
+			y. 2
+		! =? v.x 1
+		! =? v.y 2
+		! =? (type-of v) Vec2D
+		!debug-fails? |
+			Vec2D
+				x. "one"
+				y. "two"
+		!debug-fails? |
+			Vec2D
+				x. 1
+		!debug-fails? |
+			Vec2D
+				x. 1
+				y. 2
+				z. 3
+
+		Q = Record-Type
+			members.
+				x.
+			optional-members.
+				y. Num
+		q = Q
+			x. 1
+			y. 2
+		! =? q.x 1
+		! =? q.y 2
+		!debug-fails? |
+			Q
+				x. 1
+				z. 3
+
+		Ex = Record-Type
+			members.
+				x.
+			extensible.
+		ex = Ex
+			x. 1
+			y. 2
+		! =? ex.y 2
+
 
 Record-Type = (make-record-constructor record-type-args) record-type-args
 
