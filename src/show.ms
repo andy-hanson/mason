@@ -3,11 +3,12 @@ use
 	.Comparable -> =?
 	.js -> js+ js-sub
 	.js-impl -> new-Set
-	.methods -> empty? type-of
+	.methods -> empty?
 	.Object -> flag? get-property ?get-property own-enumerable-properties
 	.Str -> indent
 	.Symbol
 	.types.Method -> impl!
+	.types.util -> type-of
 use~
 	.@ -> map
 	.@.? -> get-or

@@ -6,12 +6,13 @@ use
 	.Impl-Type
 	.Interface -> unchecked-implementor!
 	.Method -> impl!
-	..methods -> contains? type-of
+	..methods -> contains?
 	..Object
 	..Object! -> add-property!
 	.Record-Type
 	..show
 	..Str
+	.util -> type-of
 
 Enum = Record-Type
 	doc. "
@@ -41,8 +42,7 @@ Enum = Record-Type
 			enum-val = Object.create enum.prototype
 			add-property! enum-val "name" val-name
 			add-property! enum val-name enum-val
-		impl! type-of enum |
-			enum
+		add-property! enum.prototype "constructor" enum
 		impl! show enum |val
 			"{enum.displayName}.{val.name}"
 

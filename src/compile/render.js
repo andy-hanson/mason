@@ -169,7 +169,7 @@ U.implementMany(E, "renderContent", {
 					quote(_)
 				]}))
 				const args = Sq.interleave(keysVals, ", ")
-				const anyLazy = this.keys.some(function(key) { return key.isLazy })
+				const anyLazy = keys.some(function(key) { return key.isLazy })
 				return [
 					anyLazy ? "_ms.lset(" : "_ms.set(",
 					r(rx)(dicted),

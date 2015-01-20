@@ -2,11 +2,12 @@ use
 	.Array
 	..@ -> map
 	.Deque!
-	..methods -> => empty empty? type-of
+	..methods -> => empty empty?
 	..Object -> flag?
 	..show
 	..Str -> indent
 	..types.Method -> impl! impl-for
+	..types.util -> type-of
 
 impl! show @
 	test. |

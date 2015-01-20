@@ -3,6 +3,7 @@ doc. "TODO"
 use
 	..Comparable! -> <!
 	.Impl-Type
+	..js -> any? defined?
 	..private.bootstrap -> Object
 	.Record-Type
 
@@ -26,3 +27,21 @@ Self-Type. Record-Type
 self-type. |x:Object
 	Self-Type
 		prototype. x
+
+type-of.
+	doc. "
+		Returns the most specific Impl-Type associated with some value.
+		This method won't always work for JavaScript objects,
+		but every Record-Type and Enum should implement this automatically.
+	test. |
+		[ () ] -> Object
+	|obj
+		case
+			any? obj
+				case obj.constructor
+					defined?_
+						_
+					else
+						Object
+			else
+				Object

@@ -1,12 +1,11 @@
 use
 	.Bool
 	.js -> js-instanceof
-	.private.bootstrap -> sym-contains? sym-type-of set! ms
+	.private.bootstrap -> sym-contains? set! ms
 	.types.Method -> impl!
 use~
-	.@.? -> get-or
 	.Fun
-	.Object -> ?get-property-or-in-prototype
+	.Object
 	.Try -> oh-no!
 	.types.Type
 
@@ -72,19 +71,6 @@ region Unsorted
 			Does not have to return the same value, but often does.
 		default. |_
 			Object.freeze _
-
-	\ TODO: Move to types.util
-	type-of. Method
-		doc. "
-			Returns the most specific Impl-Type associated with some value.
-			This method won't always work for JavaScript objects,
-			but every Record-Type and Enum should implement this automatically.
-		test. |
-			[ () ] -> Object
-		\ TODO: Should be able to just make it here. No need for syms.
-		impl-symbol. sym-type-of
-		default. |_
-			get-or (?get-property-or-in-prototype _ "constructor") Object
 
 	length. Method
 		doc. "TODO"

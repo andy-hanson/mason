@@ -46,7 +46,6 @@ const assignMany = function(target, keysVals) {
 
 // TODO!!!
 exports["sym-contains?"] = "impl-contains?"
-exports["sym-type-of"] = "impl-type-of"
 
 function Lazy(make) {
 	this.cached = undefined

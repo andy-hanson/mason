@@ -10,10 +10,10 @@ use
 	.Fun -> apply fun-copy identity ignore
 	.Generator!
 	.js -> new
-	.methods -> => + sub type-of
+	.methods -> => + sub
 	.pred-types -> Any
 	.types.Method -> impl!
-	.types.util -> self-type
+	.types.util -> self-type type-of
 use~
 	.!
 	.Try -> oh-no!

@@ -3,9 +3,10 @@ use
 	..Bool -> and false true
 	..Comparable -> =?
 	..Comparable! -> <!
-	..methods -> - => contains? type-of
+	..methods -> - => contains?
 	..types.Interface
 	..types.Method -> impl!
+	..types.util -> type-of
 use~
 	.Hash-Set!
 

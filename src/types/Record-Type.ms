@@ -1,6 +1,6 @@
 use
 	..Bool -> false implies not true
-	..private.bootstrap -> sym-type-of set! Object Str Fun proto-impl-contains?!
+	..private.bootstrap -> set! Object Str Fun proto-impl-contains?!
 	..js -> defined? js=== js-sub js-typeof
 	..js-impl -> i=== build-str
 
@@ -32,7 +32,7 @@ make-record-constructor = |rt
 
 	src = build-str |add!
 		add! "
-			function ctr(_) \{
+			return function ctr(_) \{
 			if (!(this instanceof ctr)) return new ctr(_)
 
 		(Object.getOwnPropertyNames rt.members).forEach |member
@@ -97,8 +97,6 @@ make-record-constructor = |rt
 
 		add! "
 			}
-			ctr.prototype = prototype
-			return ctr
 
 	f = Fun "prototype" "members" "defaults" "makeCallable" "postConstruct" "optionalMembers" src
 	f rt.prototype rt.members rt.defaults rt.make-callable rt.post-construct rt.optional-members
@@ -124,9 +122,7 @@ record-type-args =
 		prototype. |
 			Object.create Object.prototype
 	post-construct. |rt
-		\ Every Record-Type's instances know their type.
-		set! rt.prototype sym-type-of |
-			rt
+		set! rt.prototype "constructor" rt
 	make-callable. make-record-constructor
 
 Record-Type = (make-record-constructor record-type-args) record-type-args

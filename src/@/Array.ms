@@ -9,7 +9,7 @@ use
 	..Fun -> ignore thunk
 	..js -> global js-sub
 	..js-impl -> array-iterator
-	..methods -> empty freeze type-of
+	..methods -> empty freeze
 	.Seq -> ?nth
 	..types.Method ->  impl!
 	..types.util -> self-type
@@ -34,10 +34,6 @@ impl! empty (self-type Array) (thunk [])
 impl! from-stream (self-type Array) |_ stream
 	ignore _ \ TODO:Ignored vars
 	freeze (from-stream Array! stream)
-
-\ TODO:REMOVE
-impl! type-of Array |
-	Array
 
 impl! ?nth Array |_ n:Nat
 	if (<? n count_) |

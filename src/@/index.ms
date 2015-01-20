@@ -3,12 +3,13 @@ use
 	..Comparable -> =? <?
 	..Fun -> Act identity Pred
 	..js -> reference=?
-	..methods -> => + - -! contains? empty empty? type-of
+	..methods -> => + - -! contains? empty empty?
 	..Object
 	..pred-types -> Any Opt
 	..Symbol
 	..types.Interface
 	..types.Method -> impl!
+	..types.util -> type-of
 use~
 	..! -> !not
 	.? -> get-or Opt->?

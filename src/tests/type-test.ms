@@ -6,10 +6,10 @@ use
 	..Comparable! -> <!
 	..Fun -> ignore
 	..math.Num
-	..methods -> type-of
 	..types.Interface
 	..types.Method -> impl!
 	..types.Record-Type
+	..types.util -> type-of
 
 Vec2D. Record-Type
 	members.

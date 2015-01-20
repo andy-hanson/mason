@@ -7,12 +7,12 @@ use
 	..control -> if returning
 	..Fun -> identity Pred
 	..js -> defined?
-	..methods -> => + - empty empty? freeze sub type-of
+	..methods -> => + - empty empty? freeze sub
 	..pred-types -> Any Opt
 	..Str -> indent
 	..types.Interface
 	..types.Method -> impl!
-	..types.util -> self-type
+	..types.util -> self-type type-of
 use~
 	..! -> !not
 	.? -> get-or Opt->?
