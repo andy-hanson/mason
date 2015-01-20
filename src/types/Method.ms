@@ -20,10 +20,19 @@ writable? = |object property
 	implies (any? desc) ~desc.writable
 
 make-callable-method = |method
+	switch = |it
+		"
+			switch (arguments.length) \{
+				case 1: return {it}(a)
+				case 2: return {it}(a, b)
+				case 3: return {it}(a, b, c)
+				default: throw new Error("Code not generated to accept " + arguments.length + " arguments.")
+			}
+
 	case
 		or (defined? method.default) ~(defined? method.wrap)
 			src = build-str |add!
-				add! "return function(a, b, c, d, e, f, g,  h) \{"
+				add! "return function(a, b, c) \{"
 				impl = case
 					defined? method.default
 						"(a == null) ? def : (a[\"{method.impl-symbol}\"] || def)"
@@ -33,7 +42,7 @@ make-callable-method = |method
 					defined? method.wrap
 						add! "return wrap({impl}, Array.prototype.slice.call(arguments, 0))"
 					else
-						add! "return ({impl})(a,b,c,d,e,f,g,h)"
+						add! (switch "({impl})"
 				add! "}"
 			f = Fun "def" "wrap" src
 			f method.default method.wrap
@@ -41,15 +50,7 @@ make-callable-method = |method
 			it = "a[\"{method.impl-symbol}\"]"
 			\Fun "a" "return Function.prototype.apply.call(a[\"{method.impl-symbol}\"], null, arguments)"
 			\ TODO: Use this mechanism above too!
-			Fun "a" "b" "c" "d" "
-				switch (arguments.length) \{
-					case 1: return {it}(a)
-					case 2: return {it}(a, b)
-					case 3: return {it}(a, b, c)
-					case 4: return {it}(a, b, c, d)
-					default: throw new Error("Can not accept " +arguments.length + " arguments")
-				}
-
+			Fun "a" "b" "c" (switch it
 Method = Record-Type
 	doc. "
 		TODO:REST

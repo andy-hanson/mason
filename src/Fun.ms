@@ -21,6 +21,11 @@ Fun =
 	doc. "
 		TODO
 		<describe Fun vs Callable>
+		sub does nothing, but here is the syntax.
+		* Fun[Num Str] takes a Num and returns a Str.
+		* Fun[2] takes 2 arguments.
+		* Fun[2 Str] takes 2 arguments and returns a Str.
+		* Fun without a sub is assumed to be a one-argument function, so never write Fun[1].
 	global.Function
 
 Act. Alias-Type

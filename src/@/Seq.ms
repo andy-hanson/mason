@@ -226,7 +226,7 @@ region Update
 region Combination
 	\ TODO: Variadic
 	\ TODO: Builder? (whose?)
-	zip. |s0:@ s1:@ zipper:Fun[Any Any Any]
+	zip. |s0:@ s1:@ zipper:Fun[2]
 		streaming ~|
 			iter0 = iterator s0
 			iter1 = iterator s1
@@ -299,7 +299,7 @@ region Sorting
 			[ [ 1 2 3 ] ] -> true
 			[ [ 3 2 1 ] ] -> false
 			[ [ "six" "five" "seven" ] count ] -> true
-		|seq:Seq sort-by:Opt[Fun[Any Any]]
+		|seq:Seq sort-by:Opt[Fun]
 			\ TODO:SYNTAX Optional args
 			sb = get-or (Opt->? sort-by) identity
 			case ?first seq
@@ -320,11 +320,11 @@ region Sorting
 		test. |
 			[ [ 3 2 1 ] ] -> [ 1 2 3 ]
 			[ [ "five" "six" "seven" ] count ] -> [ "six" "five" "seven" ]
-		default. |_:@ sort-by:Opt[Fun[Any Any]]
+		default. |_:@ sort-by:Opt[Fun]
 			sort=> type-of_ _ sort-by
 
 	\ KLUDGE: because others are so slow...
-	impl! sort Str |_ sort-by:Opt[Fun[Any Any]]
+	impl! sort Str |_ sort-by:Opt[Fun]
 		case
 			defined? sort-by
 				sort.default sort _ sort-by
@@ -332,7 +332,7 @@ region Sorting
 				((_.split "").sort ()).join ""
 
 	sort=>.
-		|Res-Type:@-Type _:@ sort-by:Opt[Fun[Any Any]]
+		|Res-Type:@-Type _:@ sort-by:Opt[Fun]
 			\ TODO:SYNTAX Optional args
 			sb = get-or (Opt->? sort-by) identity
 			arr = => Array! _

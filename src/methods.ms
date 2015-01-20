@@ -1,10 +1,10 @@
 use
+	.Bool
 	.js -> js-instanceof
 	.private.bootstrap -> sym-contains? sym-type-of set! ms
 	.types.Method -> impl!
 use~
 	.@.? -> get-or
-	.Bool
 	.Fun
 	.Object -> ?get-property-or-in-prototype
 	.Try -> oh-no!

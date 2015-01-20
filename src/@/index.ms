@@ -47,7 +47,7 @@ region Using iterator
 		doc. "TODO"
 		test. |
 			[ [ 1 2 3 ] 4 + ] -> 10
-		|_:@ start:Any folder:Fun[Any Any Any]
+		|_:@ start:Any folder:Fun[2]
 			acc = ref start
 			each! _ |em
 				mod! acc |x
@@ -146,14 +146,14 @@ region Using from-stream
 		doc. "TODO"
 		test. |
 			[ [ true false ] not ] -> [ false true ]
-		default. |_:@ mapper:Fun[Any Any]
+		default. |_:@ mapper:Fun
 			map=> type-of_ _ mapper
 
 	map=>.
 		doc. "TODO"
 		test. |
 			"TODO"
-		|Res-Type:@-Type _:@ mapper:Fun[Any Any]
+		|Res-Type:@-Type _:@ mapper:Fun
 			from-stream Res-Type (streaming ~|
 				iter = iterator_
 				loop!
@@ -174,7 +174,7 @@ region Using from-stream
 			[ [ 1 2 3 ] 0 f ] ->
 				mapped. [ 2 3 4 ]
 				folded. 3
-		|_:@ start:Any mapper-folder:Fun[Any Any Dict]
+		|_:@ start:Any mapper-folder:Fun[2 Dict]
 			acc = ref start
 			\ TODO: Better way to make it eager
 			mapped. => type-of_ (=> Array (map _ |em
@@ -278,7 +278,7 @@ region Unsorted
 		doc. "TODO"
 		test. |
 			[ [ "five" "six" "seven" ] "" count ] -> "seven"
-		|_:@ default:Any by:Fun[Any Any]
+		|_:@ default:Any by:Fun
 			max-val = ref default
 			fold _ (by default) |cur-max-by em
 				em-by = by em

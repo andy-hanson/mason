@@ -19,4 +19,4 @@ set! ms "show" show
 ignore = |
 	()
 \ TODO:Ignored vars
-ignore Type Fun Array Hash-Map show
+ignore methods Type Fun Array Hash-Map show

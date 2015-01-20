@@ -102,7 +102,7 @@ region Loops
 		doc. "TODO"
 		test. |
 			"TODO"
-		|init-state transform-state:Fun[Any Any]
+		|init-state transform-state:Fun
 			state = ref init-state
 			output = ref ()
 			loop!
