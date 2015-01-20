@@ -224,17 +224,13 @@ U.implementMany(E, "renderContent", {
 		return lazyWrap(r(rx)(this.value))
 	},
 	ListReturn: function(rx) { return [
-		"_ms.mkArray(",
+		"[",
 		Sq.interleave(
 			Sq.range(0, this.length).map(function(i) { return "_" + i }),
 			", "),
-		")"
+		"]"
 	]},
-	ListSimple: function(rx) { return [
-		"_ms.mkArray(",
-		commad(rx, this.parts),
-		")"
-	] },
+	ListSimple: function(rx) { return [ "[", commad(rx, this.parts), "]" ] },
 	ListEntry: function(rx) { return [
 		"const _",
 		this.index.toString(),
@@ -314,11 +310,17 @@ U.implementMany(E, "renderContent", {
 	Null: function() { return "null" },
 	True: function() { return "true" },
 	Quote: function(rx) {
-		return (this.parts.length == 0) ?
-			"\"\"" :
-			(this.parts.length === 1 && this.parts[0] instanceof E.Literal && this.parts[0].k === String) ?
-			r(rx)(Sq.head(this.parts)) :
-			[ "_ms.mkStr(", commad(rx, this.parts), ")" ]
+		const isStrLit = function(_) {
+			return _ instanceof E.Literal && _.k === String
+		}
+		const parts = []
+		if (!isStrLit(this.parts[0]))
+			parts.push("\"\"")
+		// TODO:ES6 splat call
+		;[].push.apply(parts, this.parts.map(function(part) {
+			return isStrLit(part) ? r(rx)(part) : [ "_ms.show(", r(rx)(part), ")" ]
+		}))
+		return Sq.interleave(parts, " + ")
 	},
 	Require: function() { return [
 		"require(\"",

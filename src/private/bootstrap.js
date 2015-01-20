@@ -69,11 +69,6 @@ set(ms, "dictify", function(target) {
 	return target
 })
 
-// TODO:ES6 ...args
-set(ms, "mkArray", function() {
-	return Object.freeze(Array.prototype.slice.call(arguments))
-})
-
 set(ms, "Dict", function Dict() {
 	const baby = Object.create(Dict.prototype)
 	assignMany(baby, arguments)
@@ -90,12 +85,6 @@ ms.show = function(x) {
 		throw new Error("Should only be using Strs or Nums here until this is defined for real in show.ms.")
 	return x.toString()
 }
-
-// TODO:ES6 ...args
-// TODO:PERF TEST
-set(ms, "mkStr", function() {
-	return Array.prototype.slice.call(arguments).map(ms.show).join("")
-})
 
 exports["Array"] = Array
 exports["Fun"] = Function
