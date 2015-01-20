@@ -1,6 +1,7 @@
 use
 	.Comparable -> =?
 	.js -> global
+	.js-impl -> i-curry
 	.methods -> => + contains? empty sub
 	.types.Alias-Type
 	.types.Method -> impl!
@@ -161,7 +162,6 @@ thunk.
 	|a |
 		a
 
-
 curry =
 	doc. "Creates a function which calls `f` with the given arguments first."
 	test. |
@@ -171,9 +171,7 @@ curry =
 			[ a b c ]
 		one-two = all-3[1 2]
 		! =? (one-two 3) [ 1 2 3 ]
-
-	|f:Fun ...args
-		Fun.prototype.bind.apply f (+ [()] args)
+	i-curry
 
 impl! sub Fun curry
 \ TODO: Make Method a Callable

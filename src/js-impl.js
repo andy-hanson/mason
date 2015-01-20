@@ -101,6 +101,12 @@ module.exports = {
 		while (i--)
 			out.push(timeMe())
 		return out
+	},
+
+	// Fun.ms
+	"i-curry": function(f) {
+		// TODO:ES6 Splat call
+		return Function.prototype.bind.apply(f, arguments)
 	}
 }
 

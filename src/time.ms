@@ -51,6 +51,7 @@ current-time-ms.
 time*!.
 	doc. "TODO"
 	|name:Str times:Nat time-me:Act
+		i-time* times time-me
 		time! name |
 			i-time* times time-me
 
