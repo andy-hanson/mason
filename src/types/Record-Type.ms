@@ -1,6 +1,6 @@
 use
 	..Bool -> false implies not true
-	..private.bootstrap -> sym-type-of Dict set! Object Str Fun proto-impl-contains?!
+	..private.bootstrap -> sym-type-of set! Object Str Fun proto-impl-contains?!
 	..js -> defined? js=== js-sub js-typeof
 	..js-impl -> i=== build-str
 
@@ -109,13 +109,13 @@ record-type-args =
 	prototype. Object.create Object.prototype
 	members.
 		displayName. Str \ displayName is mandatory for types.
-		members. Dict
+		members. Object
 		prototype. Object
 	optional-members.
-		defaults. Dict
+		defaults. Object
 		\ This takes in the members and outputs a Fun.
 		make-callable. Fun
-		optional-members. Dict
+		optional-members. Object
 		post-construct. Fun
 		doc. Str
 		test. Fun

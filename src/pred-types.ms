@@ -1,10 +1,10 @@
 doc. "TODO"
 
 use
-	.Bool -> not or true
+	.Bool -> and not or true
 	.Comparable! -> <!
 	.Fun -> ignore
-	.js -> defined?
+	.js -> defined? reference=?
 	.methods -> contains? sub
 	.Str
 	.types.Method -> impl!
@@ -14,6 +14,7 @@ use
 	.types.Type
 use~
 	.! -> !not
+	.Object
 
 region Opt
 	\ TODO: Does Opt need to exist?
@@ -45,6 +46,13 @@ Any. Pred-Type
 		! contains? Any ()
 		!not contains? Any undefined
 	predicate. defined?
+
+ObjLit. Pred-Type
+	doc. "TODO"
+	test. |
+		"TODO"
+	predicate. |_
+		and :Object ~(reference=? (Object.getPrototypeOf _) Object.prototype)
 
 Union.
 	doc. "Union[A B] is a type matching either an A or a B."

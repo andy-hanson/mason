@@ -1,5 +1,6 @@
 "use strict"
 
+const assert = require("assert")
 require("es6-shim")
 
 // This object contains functions called upon by compiled code.
@@ -64,17 +65,36 @@ const lazyGet = function(_) {
 set(ms, "lazy", function(_) { return new Lazy(_) })
 set(ms, "unlazy", function(a) { return (a instanceof Lazy) ? lazyGet(a) : a })
 
-set(ms, "dictify", function(target) {
-	assignMany(Object(target), global.Array.prototype.slice.call(arguments, 1))
-	return target
+set(ms, "set", function(_, k0, v0, k1, v1, k2, v2, k3) {
+	_[k0] = v0
+	if (k1 === undefined)
+		return _
+	_[k1] = v1
+	if (k2 === undefined)
+		return _
+	_[k2] = v2
+	assert(k3 === undefined)
+	return _
 })
 
-set(ms, "Dict", function Dict() {
-	const baby = Object.create(Dict.prototype)
-	assignMany(baby, arguments)
-	return baby
+const setOrLazy = function(_, k, v) {
+	if (v0 instanceof Lazy)
+		Object.setProperty(_, k0, { get: function() { return unlazy(v0) } })
+	else
+		_[k] = v
+}
+
+set(ms, "lset", function(_, k0, v0, k1, v1, k2, v2, k3) {
+	setOrLazy(_, k0, v0)
+	if (k1 === undefined)
+		return _
+	setOrLazy(_, k1, v1)
+	if (k2 === undefined)
+		return _
+	setOrLazy(_, k2, v2)
+	assert(k3 === undefined)
+	return _
 })
-exports["Dict"] = ms.Dict
 
 // Overwritten by methods.ms.
 ms.checkContains = function() { }
@@ -113,6 +133,7 @@ exports["proto-impl-contains?!"](Object, function(ignore, _) {
 		case "undefined":
 		case "number":
 		case "string":
+		case "symbol":
 			return false
 		default:
 			return true

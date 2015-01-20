@@ -99,7 +99,7 @@ const parseBlock = (function() {
 				mapLength = mapLength + 1
 			}
 			else if (isa(ln, E.Assign) && ln.k === ". ")
-				dictKeys.push(ln.assignee.name)
+				dictKeys.push(ln.assignee)
 
 			eLines.push(ln)
 		}
@@ -499,7 +499,8 @@ const parseLine = (function() {
 					opDisplayName: Op.Some(displayName)
 				})
 
-			case isa(eValuePre, E.DictReturn) && !Sq.contains(eValuePre.keys, "displayName"):
+			case isa(eValuePre, E.DictReturn) &&
+				!eValuePre.keys.some(function(key) { return key.name === "displayName" }):
 				return U.with(eValuePre, "opDisplayName", Op.Some(displayName))
 
 			case isa(eValuePre, E.BlockWrap):

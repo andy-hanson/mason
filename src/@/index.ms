@@ -4,6 +4,7 @@ use
 	..Fun -> Act identity Pred
 	..js -> reference=?
 	..methods -> => + - -! contains? empty empty? type-of
+	..Object
 	..pred-types -> Any Opt
 	..Symbol
 	..types.Interface
@@ -13,7 +14,6 @@ use~
 	.? -> get-or Opt->?
 	.Array
 	.@-Type -> from-stream
-	..Dict
 	..Generator!
 	.Hash-Set!
 	..math.Num -> divisible? Nat
@@ -174,7 +174,7 @@ region Using from-stream
 			[ [ 1 2 3 ] 0 f ] ->
 				mapped. [ 2 3 4 ]
 				folded. 3
-		|_:@ start:Any mapper-folder:Fun[2 Dict]
+		|_:@ start:Any mapper-folder:Fun[2 Object]
 			acc = ref start
 			\ TODO: Better way to make it eager
 			mapped. => type-of_ (=> Array (map _ |em

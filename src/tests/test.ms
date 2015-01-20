@@ -9,12 +9,13 @@ use
 	..Bool -> and false or true
 	..control -> build
 	..Comparable -> =?
-	..Dict
 	..Fun -> apply ignore
 	..maps.Map
 	..methods -> + contains? empty
 	..modules -> $@module-in-dir
 	..Object -> ?get-property get-property has-property? own-properties own-enumerable-properties
+	..Object!
+	..pred-types -> ObjLit
 	..Str
 	..Try -> $annotate-errors annotate-errors oh-no! Success try
 	..types.Impl-Type
@@ -30,7 +31,7 @@ test. |
 				test.
 					x. yield["x"]
 					y. yield["y"]
-			b. empty Dict
+			b. empty Object!
 			impl! test-special (self-type b) yield["b"]
 			c. () \ not testable
 		@$maybe-test "dict" dict true
@@ -93,7 +94,7 @@ all-tested = empty Identity-Set!
 			a = test-special value
 			b = case value
 				\ TODO: variadic `or`
-				or is-module ~(or :Dict ~:Fun)
+				or is-module ~(or :ObjLit ~:Fun)
 					flat-map own-enumerable-properties_ |prop-name
 						next-name = "{name}.{prop-name}"
 						prop-val = get-property _ prop-name
@@ -118,10 +119,10 @@ all-tested = empty Identity-Set!
 		else
 			[]
 	b = case
-		:Dict
+		:ObjLit
 			\ TODO: flat-map pairs_ ?
 			flat-map own-enumerable-properties_ |sub-name
-				@$test-test-prop value _[sub-name] "{name}.{sub-name}"
+				@$test-test-prop value (get-property _ sub-name) "{name}.{sub-name}"
 		else
 			[]
 
