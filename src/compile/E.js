@@ -66,7 +66,11 @@ makeETypes(E.Do, {
 makeETypes(E.Val, {
 	BlockWrap: { body: E.BlockBody },
 	Call: { called: E.Val, args: [E.Val] },
-	DictReturn: { keys: [String], opDicted: Op(E.Val), opDisplayName: Op(String) },
+	DictReturn: {
+		keys: [E.LocalDeclare],
+		opDicted: Op(E.Val),
+		opDisplayName: Op(String)
+	},
 	Fun: {
 		args: [E.LocalDeclare],
 		opRestArg: Op(E.LocalDeclare),

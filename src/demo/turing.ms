@@ -7,8 +7,8 @@ use
 	..Bool -> false
 	..Comparable -> =?
 	..control -> end-loop if! loop
-	..maps.Map
 	..methods -> => + - empty?
+	..Object -> get-property
 	..pred-types -> Any
 
 region Rule results
@@ -77,7 +77,7 @@ run-turing.
 		[ sorting-test [ 2 2 2 1 2 2 1 2 1 2 1 2 1 2 ] ] -> [ 0 1 1 1 1 1 2 2 2 2 2 2 2 2 2 0 ]
 
 	|:Seq spec init-tape:Seq
-		rules:Map blank:Any init-state:Any = spec
+		rules:Object blank:Any init-state:Any = spec
 		tape = => Deque! case
 			empty? init-tape
 				[ blank ]
@@ -91,7 +91,7 @@ run-turing.
 			|prev
 				pi = prev.idx
 				symbol = tape[pi]
-				case rules[prev.state][symbol]
+				case (get-property rules prev.state)[symbol]
 					=? fin _
 						end-loop ()
 					else

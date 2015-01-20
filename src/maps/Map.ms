@@ -39,7 +39,6 @@ values. Method
 			_[key]
 
 keys-values. Method
-	\ TODO: Dict types
 	doc. |:@[Any]
 		"Every \{ key, val }."
 	default. |_

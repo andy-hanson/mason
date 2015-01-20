@@ -54,7 +54,7 @@ Interface = Record-Type
 			! contains? X z
 
 		region Method makes sure to do impl! on all Concrete-Type_s inheriting from an Interface.
-			asdf. Method
+			asdf = Method
 				doc. "asdf_s its arguments."
 			impl! asdf X |
 				1

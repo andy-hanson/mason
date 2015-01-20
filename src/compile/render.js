@@ -155,29 +155,39 @@ U.implementMany(E, "renderContent", {
 	},
 	Debugger: function() { return "debugger" },
 	DictReturn: function(rx) {
-		const keysVals = this.keys.map(function(key) { return [
-			quote(key),
-			", ",
-			mangle(key)
-		]}).concat(this.opDisplayName.map(function(_) { return [
-			quote("displayName"),
-			", ",
-			quote(_)
-		]}))
-		const args = Sq.interleave(keysVals, ", ")
+		const keys = this.keys
+		const opDisplayName = this.opDisplayName
 		return Op.ifElse(this.opDicted,
-			function(dicted) { return [
-				"_ms.dictify(",
-				r(rx)(dicted),
-				", ",
-				args,
-				")"
+			function(dicted) {
+				const keysVals = keys.map(function(key) { return [
+					quote(key.name),
+					", ",
+					mangle(key.name)
+				]}).concat(opDisplayName.map(function(_) { return [
+					quote("displayName"),
+					", ",
+					quote(_)
+				]}))
+				const args = Sq.interleave(keysVals, ", ")
+				const anyLazy = this.keys.some(function(key) { return key.isLazy })
+				return [
+					anyLazy ? "_ms.lset(" : "_ms.set(",
+					r(rx)(dicted),
+					", ",
+					args,
+					")"
 			]},
-			function() { return [
-				"_ms.Dict(",
-				args,
-				")"
-			]})
+			function() {
+				const obj = keys.map(function(key) {
+					const q = quote(key.name), m = mangle(key.name)
+					return key.isLazy
+						? [ "get ", q, "() { return _ms.unlazy(", m, ") }" ]
+						: [ q, ": ", m ]
+				}).concat(opDisplayName.map(function(_) { return [
+					"displayName: ", quote(_)
+				]}))
+				return [ "{ ", Sq.interleave(obj, ", "), " }" ]
+			})
 	},
 	EndLoop: function() {
 		return "break " + mangle(this.name)

@@ -11,7 +11,6 @@ use
 	.types.util -> self-type
 use~
 	.! -> !not
-	.maps.Map -> each-pair!
 	.Try -> fails?
 
 Object! =
@@ -84,6 +83,6 @@ extend!.
 			a. 1
 		! =? x.a 1
 	|object:Object extender:Object
-		each-pair! extender add-property![object]
+		Object.assign object extender
 
 Object!

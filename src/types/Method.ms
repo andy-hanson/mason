@@ -177,7 +177,7 @@ Double-Dispatcher = Record-Type
 	members.
 		displayName. Str
 		method. Method
-		~first-type. Impl-Type
+		first-type. \ TODO: Impl-Type
 		impl-symbol. Symbol
 	make-callable. |_
 		|...args
