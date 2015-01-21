@@ -1,7 +1,7 @@
 use
 	.Method -> impl!
 	..methods -> empty?
-	..Object -> ?get-property
+	..Object -> ?p
 	..show
 	.Type
 
@@ -9,17 +9,10 @@ impl! show Type
 	test. |
 		[ Method ] -> "Method"
 	|type
-		case ?get-property type "displayName"
+		case ?p type "displayName"
 			empty?_
 				type.toString ()
 			else
 				_.val
-
-		\ TODO
-		\case ?get-property type "displayName"
-		\	empty?_
-		\		inspect type
-		\	else
-		\		_.val
 
 ()

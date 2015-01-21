@@ -3,7 +3,7 @@ use
 	.Comparable -> =?
 	.js -> js-delete js-set
 	.methods -> empty
-	.Object -> has-property?
+	.Object -> p?
 	.pred-types -> Any Union
 	.Str
 	.Symbol
@@ -22,16 +22,16 @@ Object! =
 impl! empty (self-type Object!) |
 	Object.create Object.prototype
 
-add-property!.
+p+!.
 	doc. "Adds a new immutable property to a mutable object."
 	test. |
 		x = empty Object!
-		add-property! x "a" 1
+		p+! x "a" 1
 		! =? x.a 1
 		! fails? |
-			add-property! x "a" 2
+			p+! x "a" 2
 		! fails? |
-			add-property! "string" "a" 1
+			p+! "string" "a" 1
 	|object:Object name:Object-Key val
 		Object.defineProperty object name
 			enumerable.
@@ -39,9 +39,9 @@ add-property!.
 			value. val
 		()
 
-add-mutable-property!.
+p+mut!.
 	doc. "Adds a new mutable property to a mutable object."
-	test. "See `change-property!`"
+	test. "See `p!`"
 	|object:Object name:Object-Key val:Any
 		Object.defineProperty object name
 			enumerable.
@@ -50,31 +50,31 @@ add-mutable-property!.
 			configurable.
 		()
 
-change-property!.
+p!.
 	doc. "Modifies an already-existing property."
 	test. |
 		x = empty Object!
-		add-mutable-property! x "a" 1
-		change-property! x "a" 2
+		p+mut! x "a" 1
+		p! x "a" 2
 		! =? x.a 2
 	|object:Object name:Object-Key new-val
 		in
-			has-property? object name
+			p? object name
 
 		js-set object name new-val
 
-delete-property!.
+p-!.
 	test. |
 		a = empty Object!
-		add-mutable-property! a "a" 1
-		delete-property! a "a"
-		!not has-property? a "a"
+		p+mut! a "a" 1
+		p-! a "a"
+		!not p? a "a"
 	|object:Object name:Object-Key
 		in
-			! has-property? object name
+			! p? object name
 		js-delete object name
 
-\ TODO: Don't bother, just `spread add-property!`
+\ TODO: Don't bother, just `spread p+!`
 extend!.
 	doc. "Adds all the properties in `extender` to `object`."
 	test. |

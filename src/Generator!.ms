@@ -22,7 +22,7 @@ use~
 Generator! = Pred-Type
 	doc. "TODO"
 	predicate. |_
-		\ TODO: impl?
+		\ TODO: `impl? _ gen-next!`
 		and :Object ~(contains? Fun _.next)
 
 impl! empty (self-type Generator!)

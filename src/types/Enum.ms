@@ -8,7 +8,7 @@ use
 	.Method -> impl!
 	..methods -> contains?
 	..Object
-	..Object! -> add-property!
+	..Object! -> p+!
 	.Record-Type
 	..show
 	..Str
@@ -40,9 +40,9 @@ Enum = Record-Type
 	post-construct. |enum
 		each! enum.values |val-name
 			enum-val = Object.create enum.prototype
-			add-property! enum-val "name" val-name
-			add-property! enum val-name enum-val
-		add-property! enum.prototype "constructor" enum
+			p+! enum-val "name" val-name
+			p+! enum val-name enum-val
+		p+! enum.prototype "constructor" enum
 		impl! show enum |val
 			"{enum.displayName}.{val.name}"
 

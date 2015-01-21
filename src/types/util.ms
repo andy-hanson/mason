@@ -15,7 +15,7 @@ use
 \			k v = _
 \			key. k
 \			val. |_:rt
-\				get-property _ v
+\				p _ v
 
 Self-Type. Record-Type
 	doc. "TODO"

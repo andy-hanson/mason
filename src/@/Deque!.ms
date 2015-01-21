@@ -9,7 +9,7 @@ use
 	..control -> if returning
 	..math.Num -> modulo Nat
 	..methods -> + - * empty empty? empty! sub
-	..Object! -> change-property!
+	..Object! -> p!
 	..pred-types -> Any
 	.Range -> range
 	.Seq -> ?nth reverse
@@ -50,7 +50,7 @@ region Helpers
 		new-data = Array new-capacity
 		each! (range 0 old-capacity) |index
 			set-nth! new-data index old-data[index]
-		change-property! _ "data!" new-data
+		p! _ "data!" new-data
 
 	wrap-index = |_ index
 		modulo index capacity_
@@ -89,7 +89,7 @@ region Helpers
 					expand!_
 					<+! _ [ em ]
 				else
-					change-property! _ "start-index!" new-start
+					p! _ "start-index!" new-start
 					set-nth! _.data! _.start-index! em
 
 	+>! -> |_ ems:@
@@ -101,20 +101,20 @@ region Helpers
 					+>! _ [ em ]
 				else
 					set-nth! _.data! _.end-index! em
-					change-property! _ "end-index!" new-end
+					p! _ "end-index!" new-end
 
 	\ TODO: Shrink on occasion
 
 	?<pop! -> |_
 		if (not empty?_) |
 			x = _.data![_.start-index!]
-			change-property! _ "start-index!" (next-index _ _.start-index!)
+			p! _ "start-index!" (next-index _ _.start-index!)
 			x
 
 	?pop>! -> |_
 		if (not empty?_) |
 			new-end = prev-index _ _.end-index!
-			change-property! _ "end-index!" new-end
+			p! _ "end-index!" new-end
 			_.data![new-end]
 
 	?nth -> |_ index:Nat
@@ -127,7 +127,7 @@ region Helpers
 	empty! -> |_
 		empty! _.data!
 		\ TODO: change-properties!
-		change-property! _ "start-index!" 0
-		change-property! _ "end-index!" 0
+		p! _ "start-index!" 0
+		p! _ "end-index!" 0
 
 Deque!

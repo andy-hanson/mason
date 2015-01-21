@@ -15,7 +15,7 @@ use
 	.Map! -> assoc! un-assoc!
 	..methods -> => empty empty! freeze
 	..Object
-	..Object! -> change-property!
+	..Object! -> p!
 	..types.Method -> impl!
 	..types.Record-Type
 	..types.util -> self-type
@@ -86,7 +86,7 @@ impl! assoc! Hash-Map! |hm key val
 	bucket = opt-bucket hm key
 	case! opt-bucket-entry bucket
 		defined?_
-			change-property! _ "val!" val
+			p! _ "val!" val
 		else
 			k = key
 			be = Bucket-Entry
@@ -115,7 +115,7 @@ impl! un-assoc! Hash-Map! |hm key
 							defined?_
 								case
 									=? next.key key
-										change-property! prev-bucket "next!" next.next!
+										p! prev-bucket "next!" next.next!
 										=> ? [ next.val! ]
 									else
 										delete-from-next-bucket! next

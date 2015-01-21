@@ -10,7 +10,7 @@ use
 	.js-impl -> make-Error i-always-do-after i-oh-no! i-try
 	.methods -> => contains? empty
 	.Object
-	.Object! -> change-property!
+	.Object! -> p!
 	.pred-types -> Any
 	.Str
 	.types.Interface
@@ -132,7 +132,7 @@ error-type.
 						enumerable. true
 						writable. true
 		Object.assign it opts
-		change-property! it "prototype" (Object.create Error.prototype)
+		p! it "prototype" (Object.create Error.prototype)
 		it
 
 always-do-after.
@@ -153,8 +153,8 @@ annotate-errors.
 			:Success
 				_.val
 			else
-				change-property! _ "stack" "{annotation}{_.stack}"
-				change-property! _ "message" "{annotation}{_.message}"
+				p! _ "stack" "{annotation}{_.stack}"
+				p! _ "message" "{annotation}{_.message}"
 				oh-no! _
 
 $annotate-errors.
@@ -163,8 +163,8 @@ $annotate-errors.
 		"TODO"
 	|~annotation:Str $tried:$
 		$catch $tried |_
-			change-property! _ "stack" "{annotation}{_.stack}"
-			change-property! _ "message" "{annotation}{_.message}"
+			p! _ "stack" "{annotation}{_.stack}"
+			p! _ "message" "{annotation}{_.message}"
 			oh-no! _
 
 Try

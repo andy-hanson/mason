@@ -11,7 +11,7 @@ use~
 	.Fun -> ignore
 	.math.Num
 	.methods -> => + contains?
-	.Object! -> add-property!
+	.Object! -> p+!
 	.pred-types -> Any Union
 	.Str
 	.Symbol
@@ -116,7 +116,7 @@ new.
 
 	test. |
 		My-Fun-Type = |a
-			add-property! this "a" a
+			p+! this "a" a
 		x:My-Fun-Type = new My-Fun-Type 1
 		! =? x.a 1
 

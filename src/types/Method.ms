@@ -12,7 +12,7 @@ use~
 	.Interface
 	..math.Num
 	..methods -> contains?
-	..Object -> ?get-property has-property-or-in-prototype?
+	..Object -> ?p
 	..Try -> !debug-fails? oh-no!
 
 writable? = |object property
@@ -196,18 +196,18 @@ Double-Dispatcher = Record-Type
 					oh-no! ~"Can't double-dispatch {_.method} for {_.first-type} on {target-2}"
 			Fun.prototype.apply.call impl () args
 
-impl?.
-	doc. "TODO"
-	|method:Method type:Impl-Type
-		has-property-or-in-prototype? type.prototype method.impl-symbol
+\impl?.
+\	doc. "TODO"
+\	|method:Method type:Impl-Type
+\		has-property-or-in-prototype? type.prototype method.impl-symbol
 
-\ TODO: ?direct-impl-for
+\ TODO: This is really ?direct-impl-for.
 ?impl-for.
 	doc. "TODO"
 	test. |
 		"TODO"
 	|method:Method type:Impl-Type
-		?get-property type.prototype method.impl-symbol
+		?p type.prototype method.impl-symbol
 
 impl-for.
 	doc. "TODO"

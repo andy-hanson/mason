@@ -1,6 +1,6 @@
 use
 	.! -> !not
-	.@ -> flat-map fold
+	.@ -> fold map
 	.@.Array
 	.Bool
 	.Comparable -> =?
@@ -10,7 +10,7 @@ use
 	.math.bit-arithmetic -> bit-and hexidecimal
 	.math.Num -> Int round-towards-0
 	.methods -> + * empty empty?
-	.Object -> ?get-property own-properties
+	.Object -> p ?p @p-all
 	.Str
 	.Symbol
 	.types.Method -> impl! impl-for
@@ -50,8 +50,9 @@ hash-code =  Method
 			else
 				\ Set it now so we don't recurse infinitely
 				hashes.set _ 17
-				vals = flat-map own-properties_ |name
-					?get-property _ name
+				\ TODO: Should this be a function in Object.ms?
+				vals = map @p-all_ |name
+					p _ name
 				hash = fold vals 17 |acc val
 					x = keep-small (* acc 23)
 					keep-small (+ (hash-code val) x)
@@ -67,7 +68,7 @@ impl! hash-code Bool |case
 
 impl! hash-code Fun |fun
 	\ TODO: There must be something better than this.
-	hash-code case ?get-property fun "displayName"
+	hash-code case ?p fun "displayName"
 		empty?_
 			fun.toString ()
 		else

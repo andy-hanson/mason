@@ -4,7 +4,7 @@ use
 	.js -> js+ js-sub
 	.js-impl -> new-Set
 	.methods -> empty?
-	.Object -> flag? get-property ?get-property own-enumerable-properties
+	.Object -> flag? p ?p @p
 	.Str -> indent
 	.Symbol
 	.types.Method -> impl!
@@ -57,8 +57,8 @@ show = Method
 			=? _ undefined
 				"undefined"
 			else
-				key-vals = map own-enumerable-properties_ |key
-					val:Str = show (get-property _ key) opts
+				key-vals = map @p_ |key
+					val:Str = show (p _ key) opts
 					"{key}. {indent val}"
 				"
 					{type-of_}
@@ -116,9 +116,9 @@ impl! show Fun
 		[ Object ] -> "Object"
 		[ (Fun "" "") ] -> "<anonymous Fun>"
 	|:Str _
-		get-or (?get-property _ "displayName") ~
+		get-or (?p _ "displayName") ~
 			\ Every function has name property - empty string means anonymous function.
-			name = get-property _ "name"
+			name = p _ "name"
 			case name
 				empty?_
 					"<anonymous Fun>"

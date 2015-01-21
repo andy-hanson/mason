@@ -7,7 +7,7 @@ use
 	..methods -> contains?
 	..private.bootstrap -> Fun
 use~
-	..Object -> has-property-or-in-prototype?
+	..Object -> p-with-proto?
 
 Type = Interface
 	doc. "TODO"
@@ -26,6 +26,6 @@ unchecked-implementor! Fun Impl-Type
 \TODO:MOVE
 unchecked-implementor! Method Type
 impl! contains? Method |method value
-	has-property-or-in-prototype? value method.impl-symbol
+	p-with-proto? value method.impl-symbol
 
 Type

@@ -8,13 +8,13 @@ use
 	.types.Method -> impl!
 	.types.util -> self-type
 use~
-	.! -> !not
+	.!
 	.@ -> all? count keep
 	.@.? -> Opt->?
-	.@.Seq -> seq=?
 	.@.Identity-Set!
+	.@.Seq -> seq=?
 	.@.Stream
-	.Object! -> add-property!
+	.Object! -> p+!
 	.Try -> !debug-fails?
 
 Object =
@@ -39,31 +39,30 @@ flag?. |obj flag:Str
 		else
 			false
 
-\ TODO: Use a Mason set
 ~forbidden-fun-props = => Identity-Set! [ "arguments" "caller" ]
-own-properties.
+@p-all.
 	doc. "
 		Every property name directly stored in an object.
 		Includes non-enumerable properties and symbols.
 
 	test. |
 		obj = empty Object!
-		add-property! obj "a" 0
+		p+! obj "a" 0
 		sym = Symbol "s"
 		Object.defineProperty obj sym
 			value. 0
 			enumerable. false
-		! seq=? (own-properties obj) [ "a" sym ]
+		! seq=? (@p-all obj) [ "a" sym ]
 	|:@[Object-Key] _:Object
 		\ TODO: Only forbidden if is a Fun
+		\ TODO: Lazy +
 		own-names = keep (=> Stream (Object.getOwnPropertyNames _)) |name
 			not (forbidden-fun-props.has name)
 		+ own-names (Object.getOwnPropertySymbols _)
 
-own-enumerable-properties.
+@p.
 	doc. "
-		Like own-properties, but excludes non-enumerable properties and symbols.
-		?get-property can still be empty if the property is null/undefined.
+		Like @p-all, but excludes non-enumerable properties and symbols.
 	test. |
 		obj = empty Object!
 		Object.defineProperty obj "a"
@@ -73,11 +72,11 @@ own-enumerable-properties.
 		Object.defineProperty obj sym
 			value. 0
 			enumerable.
-		! empty? (own-enumerable-properties obj)
+		! empty? (@p obj)
 	|:@[Str] object:Object
 		Object.keys object
 
-?get-property.
+?p.
 	doc. "`?` containing the value of the property, if it exists."
 	test. |
 		x =
@@ -89,13 +88,13 @@ own-enumerable-properties.
 		[ x "toString" ] -> empty ?
 	|_ name:Object-Key
 		case
-			has-property? _ name
+			p? _ name
 				=> ? [ (js-sub _ name) ]
 			else
 				empty ?
 
-?get-property-or-in-prototype.
-	doc. "Like `get-property`, but also looks through the prototype chain."
+?p-with-proto.
+	doc. "Like `?p`, but also looks through the prototype chain."
 	test. |
 		x = empty Object
 		[ x "toString" ] -> => ? [ Object.prototype.toString ]
@@ -107,7 +106,7 @@ own-enumerable-properties.
 			else
 				empty ?
 
-get-property.
+p.
 	doc. "TODO"
 	test. |
 		x =
@@ -117,34 +116,35 @@ get-property.
 		[ x "b" ] -> ()
 
 		!debug-fails? |
-			get-property x "c"
+			p "c"
 	|_:Object name:Object-Key
 		in
-			! has-property? _ name
+			! p? _ name
 			\ TODO: decide
 			\ ! (contains? Any (js-sub _ name)) ~"{_}.{name} is missing"
 		js-sub _ name
 
-has-property?.
+p?.
 	doc. "
 		Whether there is a property by that name.
 		It may be null/undefined.
 	test. |
 		x =
 			a. 1
-		! has-property? x "a"
-		!not has-property? x "b"
-		!not has-property? x "toString" \ use has-property-or-in-prototype? for that.
+		[ x "a" ] -> true
+		[ x "b" ] -> false
+		[ x "toString" ] -> false \ use has-property-or-in-prototype? for that.
 	|object name:Object-Key
 		Object.prototype.hasOwnProperty.call object name
 
-has-property-or-in-prototype?.
-	doc. "Like `has-property?` but looks through the prototype."
+p-with-proto?.
+	doc. "Like `p?` but looks through the prototype."
 	test. |
-		! has-property-or-in-prototype? (empty Object) "toString"
+		[ (empty Object) "toString" ] -> true
 	|object:Object name:Object-Key
 		not (reference=? (js-sub object name) undefined)
 
+\ TODO: Move?
 inspect=?.
 	doc. "
 		For Objects, whether they are of the same type and have `=?` members.
@@ -193,9 +193,8 @@ impl! empty (self-type Object) |
 	Object.freeze (Object.create Object.prototype)
 \ TODO: Shouldn't do this because everything is an Object... `empty-Object?` ?
 \impl! empty? Object |_
-\	empty? own-properties _
+\	empty? @p-all _
 \impl! empty! Object |_
-\	each! own-properties_ |prop
-\		delete! _ prop
+\	each! @p-all _ delete![_]
 
 Object

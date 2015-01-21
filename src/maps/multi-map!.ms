@@ -9,6 +9,6 @@ use
 
 add-to-@!. |map:Map! key added:@ @-type:Opt[@-Type]
 	\ TODO:SYNTAX Optional arguments
-	type = get-or (Opt->? @-type) Array!
-	_ = get-or-update! map key ~(empty type
+	_ = get-or-update! map key ~
+		empty (get-or (Opt->? @-type) Array!
 	+! _ added

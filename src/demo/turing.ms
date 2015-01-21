@@ -8,7 +8,7 @@ use
 	..Comparable -> =?
 	..control -> end-loop if! loop
 	..methods -> => + - empty?
-	..Object -> get-property
+	..Object -> p
 	..pred-types -> Any
 
 region Rule results
@@ -91,7 +91,7 @@ run-turing.
 			|prev
 				pi = prev.idx
 				symbol = tape[pi]
-				case (get-property rules prev.state)[symbol]
+				case (p rules prev.state)[symbol]
 					=? fin _
 						end-loop ()
 					else

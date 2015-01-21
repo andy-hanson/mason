@@ -1,6 +1,6 @@
 use
 	.Fun
-	.Object! -> change-property!
+	.Object! -> p!
 	.types.Record-Type
 
 Ref! = Record-Type
@@ -10,7 +10,7 @@ Ref! = Record-Type
 set!.
 	doc. "TODO"
 	|ref:Ref! new-value
-		change-property! ref "value!" new-value
+		p! ref "value!" new-value
 
 \ TODO: Make Ref! a mutable wrapper type and kill this.
 ref. |initial-value

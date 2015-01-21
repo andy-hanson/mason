@@ -13,7 +13,7 @@ use
 	..maps.Map
 	..methods -> + contains? empty
 	..modules -> $@module-in-dir
-	..Object -> ?get-property get-property has-property? own-properties own-enumerable-properties
+	..Object -> ?p p p? @p @p-all
 	..Object!
 	..pred-types -> ObjLit
 	..Str
@@ -44,12 +44,12 @@ test-special. Method
 
 \ TODO: MOVE THESE
 impl! test-special Impl-Type |type
-	$all (flat-map (?get-property type "prototype") |prototype
-		map (own-properties prototype) |name
+	$all (flat-map (?p type "prototype") |prototype
+		map (@p-all prototype) |name
 			\ Some prototype properties throw errors. For example, global.Map.size.
 			\ TODO:SYNTAX Inline fun
 			x = try |
-				?get-property prototype name
+				?p prototype name
 			case x
 				:Success
 					each! _.val |val
@@ -60,7 +60,7 @@ impl! test-special Impl-Type |type
 \ TODO: MOVE THESE
 impl! test-special Interface |_
 	a = any->@$ ((impl-for test-special Impl-Type) _
-	b = flat-map (?get-property _ "implementor-test") |test:Fun
+	b = flat-map (?p _ "implementor-test") |test:Fun
 		flat-map concrete-implementors_ |implementor
 			@$test-test-fun implementor test "{_}.implementor-test of {implementor}" implementor
 	+ a b
@@ -79,7 +79,7 @@ $@test-module.
 
 \ TODO:ES6 Use module reflection
 @$test-module = |module:Object
-	module-name = get-or (?get-property module "displayName") "<anonymous module>"
+	module-name = get-or (?p module "displayName") "<anonymous module>"
 	@$maybe-test module-name module true
 
 all-tested = empty Identity-Set!
@@ -95,16 +95,16 @@ all-tested = empty Identity-Set!
 			b = case value
 				\ TODO: variadic `or`
 				or is-module ~(or :ObjLit ~:Fun)
-					flat-map own-enumerable-properties_ |prop-name
+					flat-map @p_ |prop-name
 						next-name = "{name}.{prop-name}"
-						prop-val = get-property _ prop-name
+						prop-val = p _ prop-name
 						case prop-name
 							=? _ "test"
 								@$test-test-prop value prop-val next-name
 							else
 								@$maybe-test next-name prop-val false
-				and :Object ~(has-property? _ "test")
-					@$test-test-prop _ (get-property _ "test") "{name}.test"
+				and :Object ~(p? _ "test")
+					@$test-test-prop _ _.test "{name}.test"
 				else
 					[]
 
@@ -121,8 +121,8 @@ all-tested = empty Identity-Set!
 	b = case
 		:ObjLit
 			\ TODO: flat-map pairs_ ?
-			flat-map own-enumerable-properties_ |sub-name
-				@$test-test-prop value (get-property _ sub-name) "{name}.{sub-name}"
+			flat-map @p_ |sub-name
+				@$test-test-prop value (p _ sub-name) "{name}.{sub-name}"
 		else
 			[]
 

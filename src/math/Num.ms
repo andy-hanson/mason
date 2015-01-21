@@ -4,7 +4,7 @@ use
 	..Comparable -> =? <? >? <=? >=? compare
 	..Fun -> spread!
 	..methods -> + - * / contains?
-	..Object -> get-property
+	..Object -> p
 	..pred-types -> Opt
 	..js -> global js-bar js=== js< js> js<= js>= js+ js- js* js/ js%
 	..show
@@ -257,10 +257,10 @@ impl! show Num
 		_.toString base
 
 region Constants
-	infinity. get-property Num "POSITIVE_INFINITY"
-	-infinity. get-property Num "NEGATIVE_INFINITY"
-	max-safe-integer. get-property Num "MAX_SAFE_INTEGER"
-	min-safe-integer. get-property Num "MIN_SAFE_INTEGER"
+	infinity. p Num "POSITIVE_INFINITY"
+	-infinity. p Num "NEGATIVE_INFINITY"
+	max-safe-integer. p Num "MAX_SAFE_INTEGER"
+	min-safe-integer. p Num "MIN_SAFE_INTEGER"
 	pi. Math.PI
 	pi/2. / pi 2
 	pi3/2. * pi 1.5

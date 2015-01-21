@@ -4,7 +4,7 @@ use
 	..js-impl -> i-make-map
 	.Map! -> assoc!
 	..methods -> empty freeze
-	..Object! -> add-property!
+	..Object! -> p+!
 	..private.bootstrap -> ms
 	..types.Alias-Type
 	..types.Method -> impl!
@@ -15,7 +15,7 @@ Hash-Map = Alias-Type
 
 impl! empty (self-type Hash-Map) (thunk (freeze (empty Hash-Map!
 
-add-property! ms "map"  |...args
+p+! ms "map"  |...args
 	hm = empty Hash-Map!
 	i-make-map hm assoc! args
 	freeze hm
