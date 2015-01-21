@@ -9,8 +9,8 @@ use
 	.js -> global
 	.js-impl -> make-Error i-always-do-after i-oh-no! i-try
 	.methods -> => contains? empty
-	.Object
-	.Object! -> p!
+	.Obj
+	.Obj! -> p!
 	.pred-types -> Any
 	.Str
 	.types.Interface
@@ -117,12 +117,12 @@ error-type.
 		\! contains? Error x
 		\! =? x.message "message"
 	|opts
-		\ TODO: Use Object! functions instead of js's builtin Object helpers
+		\ TODO: Use Obj! functions instead of js's builtin Obj helpers
 		it =
 			displayName. undefined \ TODO: Ability to not have displayName
 			|message:Str
 				msg = message
-				Object.defineProperties this
+				Obj.defineProperties this
 					message.
 						value. msg
 						enumerable. true
@@ -131,8 +131,8 @@ error-type.
 						value. (make-Error msg).stack
 						enumerable. true
 						writable. true
-		Object.assign it opts
-		p! it "prototype" (Object.create Error.prototype)
+		Obj.assign it opts
+		p! it "prototype" (Obj.create Error.prototype)
 		it
 
 always-do-after.

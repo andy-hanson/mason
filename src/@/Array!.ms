@@ -10,7 +10,7 @@ use
 	..js -> js-set
 	..math.Num -> Nat
 	..methods -> => empty empty? empty!
-	..Object -> frozen?
+	..Obj -> frozen?
 	.Seq! -> <+! +>! ?<pop! ?pop>! set-nth!
 	..types.Pred-Type
 	..types.util -> self-type

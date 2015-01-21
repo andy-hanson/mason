@@ -4,7 +4,7 @@ use
 	..js-impl -> i-make-map
 	.Map! -> assoc!
 	..methods -> empty freeze
-	..Object! -> p+!
+	..Obj! -> p+!
 	..private.bootstrap -> ms
 	..types.Alias-Type
 	..types.Method -> impl!

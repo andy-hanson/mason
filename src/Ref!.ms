@@ -1,6 +1,6 @@
 use
 	.Fun
-	.Object! -> p!
+	.Obj! -> p!
 	.types.Record-Type
 
 Ref! = Record-Type

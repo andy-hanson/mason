@@ -4,7 +4,7 @@ use
 	..Fun -> Act identity Pred
 	..js -> reference=?
 	..methods -> => + - -! contains? empty empty?
-	..Object
+	..Obj
 	..pred-types -> Any Opt
 	..Symbol
 	..types.Interface
@@ -175,7 +175,7 @@ region Using from-stream
 			[ [ 1 2 3 ] 0 f ] ->
 				mapped. [ 2 3 4 ]
 				folded. 3
-		|_:@ start:Any mapper-folder:Fun[2 Object]
+		|_:@ start:Any mapper-folder:Fun[2 Obj]
 			acc = ref start
 			\ TODO: Better way to make it eager
 			mapped. => type-of_ (=> Array (map _ |em

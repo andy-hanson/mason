@@ -14,22 +14,22 @@ use~
 	.@.Identity-Set!
 	.@.Seq -> seq=?
 	.@.Stream
-	.Object! -> p+!
+	.Obj! -> p+!
 	.Try -> !debug-fails?
 
-Object =
+Obj =
 	doc. "
 		Contains anything that can store keys.
-		Everything shares Object.prototype.
+		Everything shares Obj.prototype.
 	global.Object
 
 Str = global.String \ Can't have dependency on Str.ms
-~Object-Key = Union[Str Symbol]
+~Obj-Key = Union[Str Symbol]
 
 flag?. |obj flag:Str
 	\ TODO: use `and`
 	case obj
-		:Object
+		:Obj
 			case js-sub obj flag
 				defined?_
 					b:Bool = _
@@ -46,35 +46,35 @@ flag?. |obj flag:Str
 		Includes non-enumerable properties and symbols.
 
 	test. |
-		obj = empty Object!
+		obj = empty Obj!
 		p+! obj "a" 0
 		sym = Symbol "s"
-		Object.defineProperty obj sym
+		Obj.defineProperty obj sym
 			value. 0
 			enumerable. false
 		! seq=? (@p-all obj) [ "a" sym ]
-	|:@[Object-Key] _:Object
+	|:@[Obj-Key] _:Obj
 		\ TODO: Only forbidden if is a Fun
 		\ TODO: Lazy +
-		own-names = keep (=> Stream (Object.getOwnPropertyNames _)) |name
+		own-names = keep (=> Stream (Obj.getOwnPropertyNames _)) |name
 			not (forbidden-fun-props.has name)
-		+ own-names (Object.getOwnPropertySymbols _)
+		+ own-names (Obj.getOwnPropertySymbols _)
 
 @p.
 	doc. "
 		Like @p-all, but excludes non-enumerable properties and symbols.
 	test. |
-		obj = empty Object!
-		Object.defineProperty obj "a"
+		obj = empty Obj!
+		Obj.defineProperty obj "a"
 			value. 0
 			enumerable. false
 		sym = Symbol "s"
-		Object.defineProperty obj sym
+		Obj.defineProperty obj sym
 			value. 0
 			enumerable.
 		! empty? (@p obj)
-	|:@[Str] object:Object
-		Object.keys object
+	|:@[Str] _:Obj
+		Obj.keys _
 
 ?p.
 	doc. "`?` containing the value of the property, if it exists."
@@ -86,7 +86,7 @@ flag?. |obj flag:Str
 		[ x "b" ] -> => ? [ () ]
 		\ Does not inherit from prototype.
 		[ x "toString" ] -> empty ?
-	|_ name:Object-Key
+	|_ name:Obj-Key
 		case
 			p? _ name
 				=> ? [ (js-sub _ name) ]
@@ -96,13 +96,13 @@ flag?. |obj flag:Str
 ?p-with-proto.
 	doc. "Like `?p`, but also looks through the prototype chain."
 	test. |
-		x = empty Object
-		[ x "toString" ] -> => ? [ Object.prototype.toString ]
+		x = empty Obj
+		[ x "toString" ] -> => ? [ Obj.prototype.toString ]
 		[ x "asdfghjkl" ] -> empty ?
-	|object name:Object-Key
-		case object
+	|obj name:Obj-Key
+		case obj
 			any?_
-				Opt->? (js-sub object name)
+				Opt->? (js-sub obj name)
 			else
 				empty ?
 
@@ -117,7 +117,7 @@ p.
 
 		!debug-fails? |
 			p "c"
-	|_:Object name:Object-Key
+	|_:Obj name:Obj-Key
 		in
 			! p? _ name
 			\ TODO: decide
@@ -134,20 +134,20 @@ p?.
 		[ x "a" ] -> true
 		[ x "b" ] -> false
 		[ x "toString" ] -> false \ use has-property-or-in-prototype? for that.
-	|object name:Object-Key
-		Object.prototype.hasOwnProperty.call object name
+	|obj name:Obj-Key
+		Obj.prototype.hasOwnProperty.call obj name
 
 p-with-proto?.
 	doc. "Like `p?` but looks through the prototype."
 	test. |
-		[ (empty Object) "toString" ] -> true
-	|object:Object name:Object-Key
-		not (reference=? (js-sub object name) undefined)
+		[ (empty Obj) "toString" ] -> true
+	|obj:Obj name:Obj-Key
+		not (reference=? (js-sub obj name) undefined)
 
 \ TODO: Move?
 inspect=?.
 	doc. "
-		For Objects, whether they are of the same type and have `=?` members.
+		For Objs, whether they are of the same type and have `=?` members.
 		For primitives, whether they are `=?`.
 	test. |
 		a =
@@ -167,7 +167,7 @@ inspect=?.
 		\ Necessary because `js-typeof null` is "object"
 		null-a = reference=? a ()
 		null-b = reference=? b ()
-		\ TODO: Not :Object because that currently also includes Funs
+		\ TODO: Not :Obj because that currently also includes Funs
 		obj-a = and (not null-a) ~(reference=? (js-typeof a) "object")
 		obj-b = and (not null-b) ~(reference=? (js-typeof b) "object")
 		case
@@ -176,25 +176,25 @@ inspect=?.
 			xor obj-a obj-b
 				false
 			else
-				same-type = reference=? (Object.getPrototypeOf a) (Object.getPrototypeOf b)
+				same-type = reference=? (Obj.getPrototypeOf a) (Obj.getPrototypeOf b)
 				and same-type ~
-					ak = Object.getOwnPropertyNames a
-					bk = Object.getOwnPropertyNames b
+					ak = Obj.getOwnPropertyNames a
+					bk = Obj.getOwnPropertyNames b
 					and (=? (count ak) (count bk)) ~
 						all? ak |k
 							=? (js-sub a k) (js-sub b k)
 
 frozen?. |_
-	Object.isFrozen _
+	Obj.isFrozen _
 
 \ TODO: Move elsewhere in this file
 \ TODO: Test these
-impl! empty (self-type Object) |
-	Object.freeze (Object.create Object.prototype)
-\ TODO: Shouldn't do this because everything is an Object... `empty-Object?` ?
-\impl! empty? Object |_
+impl! empty (self-type Obj) |
+	Obj.freeze (Obj.create Obj.prototype)
+\ TODO: Shouldn't do this because everything is an Obj... `empty-Obj?` ?
+\impl! empty? Obj |_
 \	empty? @p-all _
-\impl! empty! Object |_
+\impl! empty! Obj |_
 \	each! @p-all _ delete![_]
 
-Object
+Obj

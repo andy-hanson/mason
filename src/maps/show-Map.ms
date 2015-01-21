@@ -2,7 +2,7 @@ use
 	..@ -> map
 	.Map -> keys
 	..methods -> =>
-	..Object -> flag?
+	..Obj -> flag?
 	..show
 	..Str
 	..types.Method -> impl!

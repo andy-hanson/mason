@@ -2,7 +2,7 @@ use
 	..Bool -> or true
 	..Comparable! -> <!
 	..js -> defined? global js-sub reference=?
-	..private.bootstrap -> Str Array Object Symbol set!
+	..private.bootstrap -> Str Array Obj Symbol set!
 	.Method -> impl! propagate-method-down!
 	..methods -> contains?
 	.Record-Type
@@ -63,7 +63,7 @@ Interface = Record-Type
 	members.
 		displayName. Str
 		super-interfaces. Array \ TODO: [~Interface]
-		prototype. Object
+		prototype. Obj
 		implementors. Array \ TODO: [~Impl-Type]
 		symbol-for-isa. Symbol
 	extensible.
@@ -71,7 +71,7 @@ Interface = Record-Type
 		super-interfaces. |
 			global.Array 0
 		prototype. |
-			Object.create ()
+			Obj.create ()
 		implementors. |
 			global.Array 0
 		symbol-for-isa. |_
@@ -93,7 +93,7 @@ unchecked-implementor!.
 		inherit-methods! implementor interface
 
 own-properties = |_
-	(Object.getOwnPropertyNames _).concat (Object.getOwnPropertySymbols _)
+	(Obj.getOwnPropertyNames _).concat (Obj.getOwnPropertySymbols _)
 
 inherit-methods! = |implementor interface
 	(own-properties interface.prototype).forEach |name

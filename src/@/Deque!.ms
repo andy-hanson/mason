@@ -9,7 +9,7 @@ use
 	..control -> if returning
 	..math.Num -> modulo Nat
 	..methods -> + - * empty empty? empty! sub
-	..Object! -> p!
+	..Obj! -> p!
 	..pred-types -> Any
 	.Range -> range
 	.Seq -> ?nth reverse

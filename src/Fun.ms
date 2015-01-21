@@ -15,7 +15,7 @@ use~
 	.control -> build
 	.maps.Map -> ?get keys
 	.maps.Weak-Identity-Map!
-	.Object
+	.Obj
 	.Try -> oh-no!
 
 Fun =
@@ -105,8 +105,8 @@ identity-memoize.
 		wm = empty Weak-Identity-Map!
 		|arg
 			in
-				! (contains? Object arg) "
-					Can only use objects for identity-memoize'd functions, not {arg}.
+				! (contains? Obj arg) "
+					Can only use Objs for identity-memoize'd functions, not {arg}.
 
 			\ TODO: get-or-update!
 			get-or (?get wm arg) ~

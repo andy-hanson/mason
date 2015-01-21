@@ -4,7 +4,7 @@ use
 	..Comparable! -> <!
 	.Impl-Type
 	..js -> any? defined?
-	..private.bootstrap -> Object
+	..private.bootstrap -> Obj
 	.Record-Type
 
 \getters.
@@ -20,21 +20,18 @@ use
 Self-Type. Record-Type
 	doc. "TODO"
 	members.
-		prototype. Object
+		prototype. Obj
 
 <! Self-Type Impl-Type
 
-self-type. |x:Object
+self-type. |x:Obj
 	Self-Type
 		prototype. x
 
 type-of.
-	doc. "
-		Returns the most specific Impl-Type associated with some value.
-		This method won't always work for JavaScript objects,
-		but every Record-Type and Enum should implement this automatically.
+	doc. "TODO"
 	test. |
-		[ () ] -> Object
+		[ () ] -> Obj
 	|obj
 		case
 			any? obj
@@ -42,6 +39,6 @@ type-of.
 					defined?_
 						_
 					else
-						Object
+						Obj
 			else
-				Object
+				Obj

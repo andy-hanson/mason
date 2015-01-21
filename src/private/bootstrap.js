@@ -105,16 +105,16 @@ ms.show = function(x) {
 	return x.toString()
 }
 
-exports["Array"] = Array
-exports["Fun"] = Function
-exports["Object"] = Object
-exports["Str"] = String
-exports["Symbol"] = Symbol
+exports.Array = Array
+exports.Fun = Function
+exports.Obj = Object
+exports.Str = String
+exports.Symbol = Symbol
 
-// TODO: set-property!
+// TODO: p+!
 exports["set!"] = set
 
-// TODO
+// TODO: p+mut!
 exports["set-mutable!"] = function(object, key, val) {
 	Object.defineProperty(object, key, { value: val, writable: true })
 }

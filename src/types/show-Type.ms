@@ -1,7 +1,7 @@
 use
 	.Method -> impl!
 	..methods -> empty?
-	..Object -> ?p
+	..Obj -> ?p
 	..show
 	.Type
 

@@ -7,7 +7,7 @@ use
 	..methods -> contains?
 	..private.bootstrap -> Fun
 use~
-	..Object -> p-with-proto?
+	..Obj -> p-with-proto?
 
 Type = Interface
 	doc. "TODO"

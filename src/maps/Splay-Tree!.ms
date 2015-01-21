@@ -9,7 +9,7 @@ use
 	.Map -> ?get keys
 	.Map! -> assoc! un-assoc!
 	..methods -> contains? empty empty? empty!
-	..Object! -> p!
+	..Obj! -> p!
 	..Ref! -> get ref set!
 	.Sorted-Map!
 	..types.Method -> impl!

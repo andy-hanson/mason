@@ -3,7 +3,7 @@ use
 	..@ -> map
 	.Deque!
 	..methods -> => empty empty?
-	..Object -> flag?
+	..Obj -> flag?
 	..show
 	..Str -> indent
 	..types.Method -> impl! impl-for

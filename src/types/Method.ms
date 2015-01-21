@@ -12,11 +12,11 @@ use~
 	.Interface
 	..math.Num
 	..methods -> contains?
-	..Object -> ?p
+	..Obj -> ?p
 	..Try -> !debug-fails? oh-no!
 
-writable? = |object property
-	desc = global.Object.getOwnPropertyDescriptor object property
+writable? = |obj property
+	desc = global.Object.getOwnPropertyDescriptor obj property
 	implies (any? desc) ~desc.writable
 
 make-callable-method = |method

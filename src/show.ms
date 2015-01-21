@@ -4,7 +4,7 @@ use
 	.js -> js+ js-sub
 	.js-impl -> new-Set
 	.methods -> empty?
-	.Object -> flag? p ?p @p
+	.Obj -> flag? p ?p @p
 	.Str -> indent
 	.Symbol
 	.types.Method -> impl!
@@ -113,7 +113,7 @@ impl! show Fun
 		a = |
 			1
 		[ a ] -> "a"
-		[ Object ] -> "Object"
+		[ Obj ] -> "Object"
 		[ (Fun "" "") ] -> "<anonymous Fun>"
 	|:Str _
 		get-or (?p _ "displayName") ~

@@ -8,7 +8,7 @@ use
 	..Comparable -> =?
 	..control -> end-loop if! loop
 	..methods -> => + - empty?
-	..Object -> p
+	..Obj -> p
 	..pred-types -> Any
 
 region Rule results
@@ -77,7 +77,7 @@ run-turing.
 		[ sorting-test [ 2 2 2 1 2 2 1 2 1 2 1 2 1 2 ] ] -> [ 0 1 1 1 1 1 2 2 2 2 2 2 2 2 2 0 ]
 
 	|:Seq spec init-tape:Seq
-		rules:Object blank:Any init-state:Any = spec
+		rules:Obj blank:Any init-state:Any = spec
 		tape = => Deque! case
 			empty? init-tape
 				[ blank ]

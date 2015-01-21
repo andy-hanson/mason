@@ -14,8 +14,8 @@ use
 	.Map -> ?get keys values
 	.Map! -> assoc! un-assoc!
 	..methods -> => empty empty! freeze
-	..Object
-	..Object! -> p!
+	..Obj
+	..Obj! -> p!
 	..types.Method -> impl!
 	..types.Record-Type
 	..types.util -> self-type
@@ -128,7 +128,7 @@ impl! un-assoc! Hash-Map! |hm key
 
 impl! freeze Hash-Map! |_
 	freeze _.hash->bucket
-	Object.freeze _
+	Obj.freeze _
 
 impl! empty! Hash-Map! |_
 	empty! _.hash->bucket

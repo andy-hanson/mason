@@ -13,8 +13,8 @@ use
 	..maps.Map
 	..methods -> + contains? empty
 	..modules -> $@module-in-dir
-	..Object -> ?p p p? @p @p-all
-	..Object!
+	..Obj -> ?p p p? @p @p-all
+	..Obj!
 	..pred-types -> ObjLit
 	..Str
 	..Try -> $annotate-errors annotate-errors oh-no! Success try
@@ -31,7 +31,7 @@ test. |
 				test.
 					x. yield["x"]
 					y. yield["y"]
-			b. empty Object!
+			b. empty Obj!
 			impl! test-special (self-type b) yield["b"]
 			c. () \ not testable
 		@$maybe-test "dict" dict true
@@ -74,11 +74,11 @@ $@test-all.
 
 $@test-module.
 	doc. "TODO"
-	|module:Object
+	|module:Obj
 		$all (@$test-module module
 
 \ TODO:ES6 Use module reflection
-@$test-module = |module:Object
+@$test-module = |module:Obj
 	module-name = get-or (?p module "displayName") "<anonymous module>"
 	@$maybe-test module-name module true
 
@@ -103,7 +103,7 @@ all-tested = empty Identity-Set!
 								@$test-test-prop value prop-val next-name
 							else
 								@$maybe-test next-name prop-val false
-				and :Object ~(p? _ "test")
+				and :Obj ~(p? _ "test")
 					@$test-test-prop _ _.test "{name}.test"
 				else
 					[]

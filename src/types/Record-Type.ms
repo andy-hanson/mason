@@ -1,6 +1,6 @@
 use
 	..Bool -> false implies not true
-	..private.bootstrap -> set! Object Str Fun proto-impl-contains?!
+	..private.bootstrap -> set! Obj Str Fun proto-impl-contains?!
 	..js -> defined? js=== js-sub js-typeof
 	..js-impl -> i=== build-str
 use~
@@ -20,7 +20,7 @@ make-record-constructor = |rt
 
 	\ Type might be lazily defined
 	member-has-type? = |members member
-		desc = Object.getOwnPropertyDescriptor members member
+		desc = Obj.getOwnPropertyDescriptor members member
 		case desc.value
 			_ \ Is true, in other words, no type
 				false
@@ -41,7 +41,7 @@ make-record-constructor = |rt
 			return function ctr(_) \{
 			if (!(this instanceof ctr)) return new ctr(_)
 
-		real-members = (Object.getOwnPropertyNames rt.members).filter |member
+		real-members = (Obj.getOwnPropertyNames rt.members).filter |member
 			real-member? rt.members member
 
 		real-members.forEach |member
@@ -63,7 +63,7 @@ make-record-constructor = |rt
 					"if (!Object.prototype.hasOwnProperty.call(_, \"{member}\")) throw new Error(\"Forgot to assign {member}.\")\n"
 
 		if! (defined? rt.optional-members) |
-			(Object.getOwnPropertyNames rt.optional-members).forEach |member
+			(Obj.getOwnPropertyNames rt.optional-members).forEach |member
 				if! (real-member? rt.optional-members member) |
 					acc = access member
 					add! "if (_{acc} !== undefined) \{"
@@ -112,23 +112,23 @@ make-record-constructor = |rt
 record-type-args =
 	doc. "TODO"
 	\ This must be explicit because of the way we construct Record-Type
-	prototype. Object.create Object.prototype
+	prototype. Obj.create Obj.prototype
 	members.
 		displayName. Str \ displayName is mandatory for types.
-		members. Object
-		prototype. Object
+		members. Obj
+		prototype. Obj
 	optional-members.
-		defaults. Object
+		defaults. Obj
 		\ This takes in the members and outputs a Fun.
 		make-callable. Fun
-		optional-members. Object
+		optional-members. Obj
 		post-construct. Fun
 		doc. Str
 		test. Fun
 		extensible. Bool
 	defaults.
 		prototype. |
-			Object.create Object.prototype
+			Obj.create Obj.prototype
 	post-construct. |rt
 		set! rt.prototype "constructor" rt
 	make-callable. make-record-constructor
@@ -186,6 +186,6 @@ Record-Type = (make-record-constructor record-type-args) record-type-args
 \ This has to be done specially because `impl!` can only be done on Methods,
 \ and Method is a Record-Type, so  `contains?` gets called.
 proto-impl-contains?! Record-Type.prototype |rt _
-	Object.prototype.isPrototypeOf.call rt.prototype _
+	Obj.prototype.isPrototypeOf.call rt.prototype _
 
 Record-Type

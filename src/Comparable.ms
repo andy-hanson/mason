@@ -3,7 +3,7 @@ use
 	.js -> reference=?
 	.types.Method
 use~
-	.Object -> inspect=?
+	.Obj -> inspect=?
 	.types.Interface
 
 Comparable = Interface

@@ -5,7 +5,7 @@ use
 	.types.Method -> impl!
 use~
 	.Fun
-	.Object
+	.Obj
 	.Try -> oh-no!
 	.types.Type
 
@@ -67,10 +67,10 @@ region Collection
 region Unsorted
 	freeze. Method
 		doc. "
-			Returns a compacted and immutable version of an object.
+			Returns a compacted and immutable version of it.
 			Does not have to return the same value, but often does.
 		default. |_
-			Object.freeze _
+			Obj.freeze _
 
 	length. Method
 		doc. "TODO"

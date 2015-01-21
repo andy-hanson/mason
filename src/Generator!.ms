@@ -10,7 +10,7 @@ use
 	.js-impl -> each-generator
 	.Js-Method
 	.methods -> => contains? empty
-	.Object
+	.Obj
 	.pred-types -> Any
 	.types.Method -> impl!
 	.types.Pred-Type
@@ -23,7 +23,7 @@ Generator! = Pred-Type
 	doc. "TODO"
 	predicate. |_
 		\ TODO: `impl? _ gen-next!`
-		and :Object ~(contains? Fun _.next)
+		and :Obj ~(contains? Fun _.next)
 
 impl! empty (self-type Generator!)
 	doc. "TODO"

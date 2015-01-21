@@ -4,7 +4,7 @@ use
 	..Comparable -> =? <? >? <=? >=? compare
 	..Fun -> spread!
 	..methods -> + - * / contains?
-	..Object -> p
+	..Obj -> p
 	..pred-types -> Opt
 	..js -> global js-bar js=== js< js> js<= js>= js+ js- js* js/ js%
 	..show

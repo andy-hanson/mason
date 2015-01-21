@@ -10,7 +10,7 @@ use
 	.math.bit-arithmetic -> bit-and hexidecimal
 	.math.Num -> Int round-towards-0
 	.methods -> + * empty empty?
-	.Object -> p ?p @p-all
+	.Obj -> p ?p @p-all
 	.Str
 	.Symbol
 	.types.Method -> impl! impl-for
@@ -50,7 +50,7 @@ hash-code =  Method
 			else
 				\ Set it now so we don't recurse infinitely
 				hashes.set _ 17
-				\ TODO: Should this be a function in Object.ms?
+				\ TODO: Should this be a function in Obj.ms?
 				vals = map @p-all_ |name
 					p _ name
 				hash = fold vals 17 |acc val
@@ -59,7 +59,7 @@ hash-code =  Method
 				hashes.set _ hash
 				hash
 
-\ Since default hash-code only works on objects, let's implement hash-code for primitives.
+\ Since default hash-code only works on Objs, let's implement hash-code for primitives.
 impl! hash-code Bool |case
 	_
 		1

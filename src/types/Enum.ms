@@ -7,8 +7,8 @@ use
 	.Interface -> unchecked-implementor!
 	.Method -> impl!
 	..methods -> contains?
-	..Object
-	..Object! -> p+!
+	..Obj
+	..Obj! -> p+!
 	.Record-Type
 	..show
 	..Str
@@ -32,14 +32,14 @@ Enum = Record-Type
 		! =? "{Fruit.apple}" "Fruit.apple"
 	members.
 		displayName. Str
-		prototype. Object
+		prototype. Obj
 		values. Array[Str]
 	defaults.
 		prototype. |
-			Object.create Object.prototype
+			Obj.create Obj.prototype
 	post-construct. |enum
 		each! enum.values |val-name
-			enum-val = Object.create enum.prototype
+			enum-val = Obj.create enum.prototype
 			p+! enum-val "name" val-name
 			p+! enum val-name enum-val
 		p+! enum.prototype "constructor" enum
@@ -49,6 +49,6 @@ Enum = Record-Type
 unchecked-implementor! Enum Impl-Type
 
 impl! contains? Enum |_ value
-	Object.prototype.isPrototypeOf.call _.prototype value
+	Obj.prototype.isPrototypeOf.call _.prototype value
 
 Enum

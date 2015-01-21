@@ -14,7 +14,7 @@ use
 	.types.Type
 use~
 	.! -> !not
-	.Object
+	.Obj
 
 region Opt
 	\ TODO: Does Opt need to exist?
@@ -52,7 +52,7 @@ ObjLit. Pred-Type
 	test. |
 		"TODO"
 	predicate. |_
-		and :Object ~(reference=? (Object.getPrototypeOf _) Object.prototype)
+		and :Obj ~(reference=? (Obj.getPrototypeOf _) Obj.prototype)
 
 Union.
 	doc. "Union[A B] is a type matching either an A or a B."

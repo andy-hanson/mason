@@ -11,7 +11,7 @@ use~
 	.Fun -> ignore
 	.math.Num
 	.methods -> => + contains?
-	.Object! -> p+!
+	.Obj! -> p+!
 	.pred-types -> Any Union
 	.Str
 	.Symbol
@@ -56,15 +56,15 @@ region Null/Undefined
 	any?. |_
 		not (js== _ ()
 
-\ TODO: Exact same appears in Object.ms
-~Object-Key = Union[Str Symbol]
+\ TODO: Exact same appears in Obj.ms
+~Obj-Key = Union[Str Symbol]
 
 \ TODO: Kill and just use Js-Method_s?
 send.
 	doc. "Calls `target`'s js-method `name` with the given arguments."
 	test. |
 		[ 1 "toFixed" 2 ] -> "1.00"
-	|target:Any name:Object-Key ...args
+	|target:Any name:Obj-Key ...args
 		impl = js-sub target name
 		! (contains? Fun impl) ~"Js-Method {name} not implemented by {target}."
 		impl.apply target args
@@ -80,8 +80,9 @@ eval.
 
 reference=?.
 	doc. "
-		For objects, whether they are the same place in memory.
+		For Objs, whether they are the same place in memory.
 		For primitive types, whether they have the same data.
+		TODO: Explain (and test) difference between this and js===
 
 	test. |
 		! reference=? "a" "a"
@@ -111,7 +112,7 @@ truthy?.
 new.
 	doc. "
 		Emulates JavaScript's `new` keyword.
-		Creates a new object whose prototype is `constructor.prototype` and calls the constructor on it.
+		Creates a new Obj whose prototype is `constructor.prototype` and calls the constructor on it.
 		Wierd things may happen if you try to create a new Error this way.
 
 	test. |
@@ -129,8 +130,8 @@ new.
 js-typeof.
 	doc. "JavaScript's `typeof` operator."
 	test. |
-		\ [ undefined ] -> "undefined" \ TODO
-		\ [ () ] -> "object" \ TODO
+		[ undefined ] -> "undefined"
+		[ () ] -> "object"
 		[ true ] -> "boolean"
 		[ 0 ] -> "number"
 		[ "a" ] -> "string"
