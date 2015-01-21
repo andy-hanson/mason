@@ -2,19 +2,21 @@ use
 	.Bool -> and false not nor true xor
 	.Comparable -> =?
 	.js -> any? defined? global js-typeof reference=? js-sub
-	.methods -> => + empty empty?
+	.methods -> => + empty empty? freeze
 	.pred-types -> Union
 	.Symbol
 	.types.Method -> impl!
 	.types.util -> self-type
 use~
 	.!
-	.@ -> all? count keep
+	.@ -> all? count each! keep
 	.@.? -> Opt->?
 	.@.Identity-Set!
 	.@.Seq -> seq=?
 	.@.Stream
-	.Obj! -> p+!
+	.Fun -> call
+	.maps.Map -> each-pair! make-map
+	.Obj! -> p+! p+mut! p-!
 	.Try -> !debug-fails?
 
 Obj =
@@ -145,6 +147,7 @@ p-with-proto?.
 		not (reference=? (js-sub obj name) undefined)
 
 \ TODO: Move?
+\ TODO: Handle recursive references.
 inspect=?.
 	doc. "
 		For Objs, whether they are of the same type and have `=?` members.
@@ -184,6 +187,7 @@ inspect=?.
 						all? ak |k
 							=? (js-sub a k) (js-sub b k)
 
+\ TODO: Move?
 frozen?. |_
 	Obj.isFrozen _
 
@@ -191,10 +195,55 @@ frozen?. |_
 \ TODO: Test these
 impl! empty (self-type Obj) |
 	Obj.freeze (Obj.create Obj.prototype)
-\ TODO: Shouldn't do this because everything is an Obj... `empty-Obj?` ?
-\impl! empty? Obj |_
-\	empty? @p-all _
-\impl! empty! Obj |_
-\	each! @p-all _ delete![_]
+
+empty-Obj?.
+	doc. "TODO"
+	test. |
+		[ (empty Obj) ] -> true
+		[ Obj ] -> false
+	|_:Obj
+		empty? (@p-all _
+
+empty-Obj!.
+	doc. "TODO"
+	test. |
+		_ = empty Obj!
+		p+mut! _ "a" 1
+		empty-Obj! _
+		! empty-Obj? _
+	|_:Obj
+		each! @p-all_ p-![_]
+
+Obj->Map.
+	doc. "TODO"
+	test. |
+		\ TODO:SYNTAX [ a. 1, b. 2 ]
+		obj = call |
+			a. 1
+			b. 2
+		[ obj ] ->
+			"a" -> 1
+			"b" -> 2
+	|_:Obj
+		make-map @p-all_ p[_]
+
+Map->Obj.
+	doc. "TODO"
+	test. |
+		\ TODO:SYNTAX [ "a" -> 1, "b" -> 2 ]
+		map =
+			"a" -> 1
+			"b" -> 2
+		[ map ] ->
+			a. 1
+			b. 2
+		!debug-fails? |
+			Map->Obj
+				1 -> 2
+	|_:Map
+		obj = empty Obj!
+		each-pair! _ |key val
+			p+! obj key val
+		freeze obj
 
 Obj
