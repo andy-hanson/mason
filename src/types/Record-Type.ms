@@ -2,7 +2,7 @@ use
 	..Bool -> false implies not true
 	..private.bootstrap -> set! Obj Str Fun proto-impl-contains?!
 	..js -> defined? js=== js-sub js-typeof
-	..js-impl -> i=== build-str
+	..js-impl -> +1 i=== build-str
 use~
 	..!
 	..Comparable -> =?
@@ -10,14 +10,19 @@ use~
 	..Try -> !debug-fails?
 	.util -> type-of
 
-make-record-constructor = |rt
-	if! = |bool act
-		case!
-			bool
-				act ()
-			else
-				()
+if! = |bool act
+	case!
+		bool
+			act ()
+		else
+			()
+flag? = |case
+	defined?_
+		_
+	else
+		false
 
+make-record-constructor = |rt
 	\ Type might be lazily defined
 	member-has-type? = |members member
 		desc = Obj.getOwnPropertyDescriptor members member
@@ -44,9 +49,17 @@ make-record-constructor = |rt
 		real-members = (Obj.getOwnPropertyNames rt.members).filter |member
 			real-member? rt.members member
 
+		extensible = flag? rt.extensible
+
+		if! extensible |
+			add! "Object.assign(this, _)"
+
 		real-members.forEach |member
 			acc = access member
-			add! "this{acc} = _{acc}"
+
+			if! (not extensible) |
+				add! "this{acc} = _{acc}"
+
 			if! (defined? rt.defaults) |
 				case! js-sub rt.defaults member
 					defined?_
@@ -60,37 +73,47 @@ make-record-constructor = |rt
 					"_ms.checkContains(members{acc}, this{acc}, \"{member}\")"
 				else
 					\ TODO: Debug mode only
-					"if (!Object.prototype.hasOwnProperty.call(_, \"{member}\")) throw new Error(\"Forgot to assign {member}.\")\n"
+					"
+						if (!Object.prototype.hasOwnProperty.call(_, \"{member}\"))
+							throw new Error(\"Forgot to assign {member}.\")\n"
 
 		if! (defined? rt.optional-members) |
 			(Obj.getOwnPropertyNames rt.optional-members).forEach |member
 				if! (real-member? rt.optional-members member) |
 					acc = access member
 					add! "if (_{acc} !== undefined) \{"
-					add! "this{acc} = _{acc}"
+					if! (not extensible) |
+						add! "this{acc} = _{acc}"
 					if! (member-has-type? rt.optional-members member) |
 						\ TODO: Debug mode only
 						add! "_ms.checkContains(optionalMembers{acc}, this{acc}, \"{member}\")"
 					add! "}"
 
-		case!
-			rt.extensible
-				add! "Object.assign(this, _)"
-			else
-				\ TODO: Debug mode only
-				check = "_ms.checkNoExtras(this, _, \"{rt.displayName}\")"
-				case!
-					defined? rt.optional-members
-						add! check
-					else
-						n-members = real-members.length
-						\ If the conditions pass the check will definitely fail, and will give nice error info.
-						add! "if (!Object.prototype.hasOwnProperty.call(_, \"displayName\") && Object.keys(_).length > {n-members}) \{ {check}; throw new Error(\"Unreachable\") }"
+		if! (not extensible) |
+			\ TODO: Debug mode only
+			check = "_ms.checkNoExtras(this, _, \"{rt.displayName}\")"
+			case!
+				defined? rt.optional-members
+					add! check
+				else
+					n-members = real-members.length
+					n-members-compare = case
+						defined? real-members.displayName
+							"{n-members}"
+						else
+							"(Object.prototype.hasOwnProperty.call(_, \"displayName\") ? {+1 n-members} : {n-members})"
+					\ If the conditions pass the check will definitely fail, and will give nice error info.
+					add! "
+						if (Object.keys(_).length > {n-members-compare})  \{
+							{check}
+							throw new Error(\"Unreachable\")
+						}
 
 		if! (defined? rt.make-callable) |
-			add! "var callBaby = makeCallable(this)"
-			add! "Object.setPrototypeOf(callBaby, prototype)"
-			add! "Object.assign(callBaby, this)"
+			add! "
+				var callBaby = makeCallable(this)
+				Object.setPrototypeOf(callBaby, prototype)
+				Object.assign(callBaby, this)
 
 		if! (defined? rt.post-construct) |
 			post = case
@@ -103,8 +126,7 @@ make-record-constructor = |rt
 		if! (defined? rt.make-callable) |
 			add! "return callBaby"
 
-		add! "
-			}
+		add! "}"
 
 	f = Fun "prototype" "members" "defaults" "makeCallable" "postConstruct" "optionalMembers" src
 	f rt.prototype rt.members rt.defaults rt.make-callable rt.post-construct rt.optional-members

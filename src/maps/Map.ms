@@ -51,7 +51,6 @@ region New methods
 				val. _[k]
 
 region Old methods
-
 	impl! =? Map |m1 m2
 		and (=? (type-of m1) (type-of m2)) ~(map=? m1 m2
 

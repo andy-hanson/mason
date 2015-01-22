@@ -93,6 +93,7 @@ module.exports = {
 		builder(function(str) { s += str + "\n" })
 		return s
 	},
+	"+1": function(_) { return _ + 1 },
 
 	// time.ms
 	"i-time*": function(times, timeMe) {
