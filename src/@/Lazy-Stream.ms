@@ -12,7 +12,7 @@ use
 	..methods -> + - +! => empty empty?
 	.Range -> range
 	.Seq -> ?nth seq=? take
-	.Stream -> streaming
+	.Stream
 	..types.Record-Type
 	..types.util -> self-type
 
@@ -39,7 +39,7 @@ Lazy-Stream = Record-Type
 	iterator ->
 		test. |
 			! =? [ 1 2 ] (build |yield
-				_ = => Lazy-Stream (streaming ~|
+				_ = => Lazy-Stream (Stream ~|
 					yield 1
 					<~ 1
 					yield 2
@@ -55,14 +55,14 @@ Lazy-Stream = Record-Type
 		case ?nth stream.cache n
 			empty?_
 				left = - n (count stream.cache
-				?nth (streaming stream.caching-iterator) left
+				?nth (Stream stream.caching-iterator) left
 			else
 				_
 
 lazy-streaming.
 	doc. "TODO"
 	test. |
-		fibonaccis = lazy-streaming ~|
+		fibonaccis = Stream ~|
 			<~ 1
 			<~ 1
 			\ TODO: Infinity
@@ -84,7 +84,7 @@ lazy-streaming.
 	|stream:Fun[Generator!]
 		cash = empty Array!
 		Lazy-Stream
-			caching-iterator. each~ (streaming stream) ~|_
+			caching-iterator. each~ (Stream stream) ~|_
 				+! cash [ _ ]
 				<~ _
 			cache. cash

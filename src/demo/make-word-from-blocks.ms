@@ -6,14 +6,14 @@ use
 	..@.Stream
 	..Comparable -> =?
 	..maps.Map -> each-pair!
-	..methods -> => + - contains? empty?
+	..methods -> + - contains? empty?
 	..Str -> ->upper
 
 make-word-from-blocks.
 	doc. "http://rosettacode.org/wiki/ABC_Problem"
 	test. |
 		\ Backtracking is necessary - can't use the first block first!
-		[ "AB" [ "AB" "AC" ] ] -> => ? [ [ "AC" "AB" ] ]
+		[ "AB" [ "AB" "AC" ] ] -> ? [ "AC" "AB" ]
 
 		sample-blocks =
 			. "BO"
@@ -55,7 +55,7 @@ make-word-from-blocks.
 		rec = |word blocks
 			case ?<pop word
 				empty?_
-					=> ? [ [ ] ]
+					? [ ]
 				else
 					rest-word = _.val
 					this-char-blocks = keep=> Stream blocks |_

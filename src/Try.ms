@@ -8,24 +8,23 @@ use
 	.Fun -> Act thunk
 	.js -> global
 	.js-impl -> make-Error i-always-do-after i-oh-no! i-try
-	.methods -> => contains? empty
+	.methods -> contains? empty
 	.Obj
 	.Obj! -> p!
 	.pred-types -> Any
 	.Str
 	.types.Interface
-	.types.Record-Type
 	.types.Type
+	.types.Wrap-Type
 use~
 	.! -> !not
 
 Try = Interface
 	doc. "Result of running failable code."
 
-Success. Record-Type
+Success. Wrap-Type
 	doc. "Attempt that did not fail. _.val is the result of the attempted code."
-	members.
-		val.
+
 Error.
 	doc. "TODO"
 	global.Error
@@ -53,24 +52,20 @@ try.
 		If `tried` throws an error, returns it; else returns Success of its result.
 		If you don't care about the value of the error, use `?try` instead.
 	test. |
-		[ (thunk 1) ] -> Success
-			val. 1
+		[ (thunk 1) ] -> Success 1
 		! fails-with? "Oh no!" oh-no!
 	|tried:Fun[Any]
-		make-success = |x
-			Success
-				val. x
-		i-try make-success tried
+		i-try Success tried
 
 ?try.
 	doc. "`?` containing any successes."
 	test. |
-		[ (thunk 1) ] -> => ? [ 1 ]
+		[ (thunk 1) ] -> ? 1
 		[ oh-no! ] -> empty ?
 	|tried:Fun[Any]
 		case try tried
 			:Success
-				=> ? [ _.val ]
+				? _.val
 			else
 				empty ?
 

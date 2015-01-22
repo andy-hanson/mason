@@ -4,11 +4,11 @@ use
 	..Comparable! -> <!
 	..Fun -> ignore thunk
 	..js -> defined? reference=?
-	..methods -> => empty empty?
+	..methods -> empty empty?
 	.Seq
 	..types.Method -> impl!
-	..types.Record-Type
 	..types.util -> self-type
+	..types.Wrap-Type
 use~
 	..! -> !not
 	..Try -> fails? oh-no!
@@ -16,20 +16,13 @@ use~
 empty-marker =
 	doc. "`_.val` on an empty `?` will return this."
 
-? = Record-Type
+? = Wrap-Type
 	doc. "
 		A Seq with 0 or 1 elements.
 		TODO: MORE
-	members.
-		val.
 
-\ TODO: Make it a Wrapper-Type and just use `? x`.
-full-?. |x
-	?
-		val. x
 empty-? =
-	?
-		val. empty-marker
+	? empty-marker
 
 region Is Seq
 	<! ? Seq
@@ -51,9 +44,9 @@ region Is Seq
 		value done = iter.next ()
 		case
 			done
-				empty ?
+				empty-?
 			else
-				full-? value
+				? value
 
 	impl! empty (self-type ?) (thunk empty-?
 
@@ -61,19 +54,19 @@ region Funs
 	Opt->?.
 		doc. "`?` containing the value iff it is defined."
 		test. |
-			[ 0 ]  -> => ? [ 0 ]
-			[ () ] -> => ? [ () ]
+			[ 0 ]  -> ? 0
+			[ () ] -> ? ()
 			[ undefined ] -> empty ?
 		|case
 			defined?_
-				full-? _
+				? _
 			else
 				empty ?
 
 	?->Opt.
 		doc. "Extracts the value from a `?`, or returns undefined."
 		test. |
-			[ (=> ? [ 0 ]) ] -> 0
+			[ (? 0) ] -> 0
 			!not defined? (?->Opt (empty ?
 		|_:?
 			case
@@ -86,7 +79,7 @@ region Funs
 	un-?.
 		doc. "Tries to extract the value out of a `?`. Throws an error if it is empty."
 		test. |
-			[ (=> ? [ 1 ]) ] -> 1
+			[ (? 1) ] -> 1
 			! fails? |
 				un-? (empty ?)
 		|_:? ~fail-message

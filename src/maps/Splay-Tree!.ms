@@ -1,6 +1,6 @@
 use
 	..! -> !not
-	..@.Stream -> streaming
+	..@.Stream
 	..Bool -> and false not true
 	..Comparable -> <? >?
 	..Comparable! -> <!
@@ -153,7 +153,7 @@ splay-step! = |cur:Node key left:Node right:Node
 			_.root!.val!
 
 	keys -> |_
-		streaming ~|
+		Stream ~|
 			get~ = ~|case!
 				defined?_
 					<~~ get~ _.left!

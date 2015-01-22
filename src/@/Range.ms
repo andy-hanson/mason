@@ -8,7 +8,7 @@ use
 	..control -> if
 	..Fun -> ignore thunk
 	..math.Num -> Nat round-down sign
-	..methods -> => + - * / empty length
+	..methods -> + - * / empty length
 	..pred-types -> Opt
 	.Seq -> ?nth seq=?
 	..types.Method -> impl!
@@ -47,7 +47,7 @@ impl! from-stream (self-type Range) |_ stream
 	?nth ->
 		test. |
 			r = range 0 10 2
-			[ r 2 ] -> => ? [ 4 ]
+			[ r 2 ] -> ? 4
 			[ r 6 ] -> empty ?
 		|_ n:Nat
 			it = + _.start (* _.step n)

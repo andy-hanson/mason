@@ -5,7 +5,7 @@ use
 	..@ -> flat-map map
 	..@.? -> Opt->?
 	..@.Seq -> seq=?
-	..@.Stream -> streaming
+	..@.Stream
 	..Comparable -> =?
 	..Comparable! -> <!
 	..hash-code
@@ -13,7 +13,7 @@ use
 	..js -> defined?
 	.Map -> ?get keys values
 	.Map! -> assoc! un-assoc!
-	..methods -> => empty empty! freeze
+	..methods -> empty empty! freeze
 	..Obj
 	..Obj! -> p!
 	..types.Method -> impl!
@@ -68,7 +68,7 @@ impl! ?get Hash-Map! |:? _ key
 impl! keys Hash-Map! |_
 	buckets = values _.hash->bucket
 	flat-map buckets |bucket
-		streaming ~|
+		Stream ~|
 			handle-bucket = ~|case!
 				defined?_
 					<~ _.key
@@ -107,7 +107,7 @@ impl! un-assoc! Hash-Map! |hm key
 							assoc! hm.hash->bucket key _
 						else
 							un-assoc! hm.hash->bucket (hash-code key
-					=> ? [ _.val! ]
+					? _.val!
 				else
 					delete-from-next-bucket! = |prev-bucket
 						next = prev-bucket.next!
@@ -116,7 +116,7 @@ impl! un-assoc! Hash-Map! |hm key
 								case
 									=? next.key key
 										p! prev-bucket "next!" next.next!
-										=> ? [ next.val! ]
+										? next.val!
 									else
 										delete-from-next-bucket! next
 							else

@@ -2,7 +2,7 @@ use
 	..!
 	..@ -> fold-map
 	..@.Seq -> reverse tail take-while
-	..@.Stream -> streaming
+	..@.Stream
 	..Comparable -> =? <=? >=?
 	..math.Num -> Nat
 	..methods -> => + -
@@ -12,7 +12,7 @@ fibs =
 	rec = ~|prev:Nat cur:Nat
 		<~ cur
 		<~~ rec cur (+ prev cur)
-	streaming rec[0 1]
+	Stream rec[0 1]
 
 zeckendorf.
 	doc. "http://rosettacode.org/wiki/Zeckendorf_number_representation"

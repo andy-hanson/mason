@@ -20,7 +20,7 @@ use~
 	..math.Num -> divisible? Nat
 	..Ref! -> get mod! ref set!
 	.Seq -> seq=?
-	.Stream -> streaming
+	.Stream
 
 @. Interface
 	doc. "TODO"
@@ -102,7 +102,7 @@ region Using iterator
 				done
 					end-loop!
 				pred value
-					set! found (=> ? [ value ]
+					set! found (? value
 					end-loop!
 				else
 					()
@@ -131,7 +131,7 @@ region Using from-stream
 		test. |
 			"TODO"
 		|Res-Type:@-Type _:@ keep-if?:Pred
-			from-stream Res-Type (streaming ~|
+			from-stream Res-Type (Stream ~|
 				iter = iterator_
 				loop!
 					value done = iter.next ()
@@ -155,7 +155,7 @@ region Using from-stream
 		test. |
 			"TODO"
 		|Res-Type:@-Type _:@ mapper:Fun
-			from-stream Res-Type (streaming ~|
+			from-stream Res-Type (Stream ~|
 				iter = iterator_
 				loop!
 					value done = iter.next ()
@@ -211,7 +211,7 @@ region Using from-stream
 		test. |
 			"TODO"
 		|Res-Type:@-Type _:@[@]
-			from-stream Res-Type (streaming ~|
+			from-stream Res-Type (Stream ~|
 				iter = iterator_
 				loop!
 					value done = iter.next ()
@@ -234,7 +234,7 @@ region Using from-stream
 		test. |
 			"TODO"
 		|Res-Type:@-Type _:@ add:@
-			from-stream Res-Type (streaming ~|
+			from-stream Res-Type (Stream ~|
 				<~~ iterator_
 				<~~ iterator add
 
@@ -252,7 +252,7 @@ region Using from-stream
 		test. |
 			"TODO"
 		|Res-Type:@-Type _:@ remove:@
-			from-stream Res-Type (streaming ~|
+			from-stream Res-Type (Stream ~|
 				iter = iterator_
 				remove-us = => Hash-Set! remove
 				loop!

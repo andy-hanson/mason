@@ -1,7 +1,7 @@
 use
 	..Bool -> false implies not true
 	..private.bootstrap -> set! Obj Str Fun proto-impl-contains?!
-	..js -> defined? js=== js-sub js-typeof
+	..js -> defined? js=== js-instanceof js-sub js-typeof
 	..js-impl -> +1 i=== build-str
 use~
 	..!
@@ -75,7 +75,7 @@ make-record-constructor = |rt
 					\ TODO: Debug mode only
 					"
 						if (!Object.prototype.hasOwnProperty.call(_, \"{member}\"))
-							throw new Error(\"Forgot to assign {member}.\")\n"
+							throw new Error(\"Forgot to assign {member}.\")
 
 		if! (defined? rt.optional-members) |
 			(Obj.getOwnPropertyNames rt.optional-members).forEach |member
@@ -128,8 +128,8 @@ make-record-constructor = |rt
 
 		add! "}"
 
-	f = Fun "prototype" "members" "defaults" "makeCallable" "postConstruct" "optionalMembers" src
-	f rt.prototype rt.members rt.defaults rt.make-callable rt.post-construct rt.optional-members
+	make-ctr = Fun "prototype" "members" "defaults" "makeCallable" "postConstruct" "optionalMembers" src
+	make-ctr rt.prototype rt.members rt.defaults rt.make-callable rt.post-construct rt.optional-members
 
 record-type-args =
 	doc. "TODO"
@@ -208,6 +208,6 @@ Record-Type = (make-record-constructor record-type-args) record-type-args
 \ This has to be done specially because `impl!` can only be done on Methods,
 \ and Method is a Record-Type, so  `contains?` gets called.
 proto-impl-contains?! Record-Type.prototype |rt _
-	Obj.prototype.isPrototypeOf.call rt.prototype _
+	js-instanceof _ rt
 
 Record-Type

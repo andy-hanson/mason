@@ -42,13 +42,13 @@ impl! ?get Identity-Map! |_ key
 impl! has-key? Identity-Map! |_ key
 	_.has key
 impl! keys Identity-Map! |_
-	Stream
-		make-iterator. |
-			_.keys ()
+	\ TODO: bind _ "keys"
+	Stream |
+		_.keys ()
 impl! values Identity-Map! |_
-	Stream
-		make-iterator. |
-			_.values ()
+	\ TODO: bind _ "keys"
+	Stream |
+		_.values ()
 impl! empty! Identity-Map! |_
 	_.clear ()
 impl! assoc! Identity-Map! |_ key val

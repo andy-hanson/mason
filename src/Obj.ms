@@ -84,14 +84,14 @@ flag?. |obj flag:Str
 		x =
 			a. 1
 			b. ()
-		[ x "a" ] -> => ? [ 1 ]
-		[ x "b" ] -> => ? [ () ]
+		[ x "a" ] -> ? 1
+		[ x "b" ] -> ? ()
 		\ Does not inherit from prototype.
 		[ x "toString" ] -> empty ?
 	|_ name:Obj-Key
 		case
 			p? _ name
-				=> ? [ (js-sub _ name) ]
+				? (js-sub _ name
 			else
 				empty ?
 
@@ -99,7 +99,7 @@ flag?. |obj flag:Str
 	doc. "Like `?p`, but also looks through the prototype chain."
 	test. |
 		x = empty Obj
-		[ x "toString" ] -> => ? [ Obj.prototype.toString ]
+		[ x "toString" ] -> ? Obj.prototype.toString
 		[ x "asdfghjkl" ] -> empty ?
 	|obj name:Obj-Key
 		case obj

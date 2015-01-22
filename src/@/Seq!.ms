@@ -8,7 +8,7 @@ use
 	..Comparable -> =?
 	..Comparable! -> <!
 	..math.Num -> Nat
-	..methods -> => empty empty?
+	..methods -> empty empty?
 	.Seq -> seq=?
 	..types.Interface
 	..types.Method
@@ -26,16 +26,16 @@ Seq! = Interface
 				empty Array!
 			else
 				empty type
-		+>! _ [ 1 2 ]
-		<+! _ [ -2 -1 ]
-		! seq=? _ [ -2 -1 1 2 ]
-		! =? ?pop>!_ (=> ? [ 2 ])
-		! =? ?<pop!_ (=> ? [ -2 ])
-		! =? ?pop>!_ (=> ? [ 1 ])
-		! =? ?<pop!_ (=> ? [ -1 ])
-		! =? ?pop>!_ (empty ?)
+		+>! _ [ 1 2
+		<+! _ [ -2 -1
+		! seq=? _ [ -2 -1 1 2
+		! =? ?pop>!_ (? 2
+		! =? ?<pop!_ (? -2
+		! =? ?pop>!_ (? 1
+		! =? ?<pop!_ (? -1
+		! =? ?pop>!_ (empty ?
 		! empty? _
-		+>! _ [ 1 2 3 ]
+		+>! _ [ 1 2 3
 
 <! Seq! @!
 <! Seq! Seq

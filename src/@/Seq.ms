@@ -22,7 +22,7 @@ use~
 	..Ref! -> get mod! ref set!
 	.Seq! -> +>!
 	..show
-	.Stream -> streaming
+	.Stream
 	..Try -> fails? oh-no!
 
 Seq = Interface
@@ -41,7 +41,7 @@ region Search
 			The types of the Seqs do not matter.
 			Equivalent to `=? (=> Array seq-0) (=> Array seq-1)`
 		test. |
-			s = streaming ~|
+			s = Stream ~|
 				<~ 1
 			! seq=? s [ 1 ]
 			!not seq=? s [ 2 ]
@@ -52,7 +52,7 @@ region Search
 	?first. Method
 		doc. "TODO"
 		test. |
-			[ [ 0 ] ] -> => ? [ 0 ]
+			[ [ 0 ] ] -> ? 0
 			[ [] ] -> empty ?
 		default. |:Any _
 			?nth _ 0
@@ -68,7 +68,7 @@ region Search
 		doc. |:Any _ n:Nat
 			"`n`th element in iteration order. 0th is the first."
 		test. |
-			[ [ 0 1 ] 1 ] -> => ? [ 1 ]
+			[ [ 0 1 ] 1 ] -> ? 1
 			[ [ 0 1 ] 2 ] -> empty ?
 		default. |_ n:Nat
 			iter = iterator_
@@ -81,7 +81,7 @@ region Search
 					done
 						end-loop!
 					=? (get i) n
-						set! ans (=> ? [ value ]
+						set! ans (? value
 						end-loop!
 					else
 						mod! i +[1]
@@ -103,9 +103,9 @@ region Update
 	?<pop. Method
 		doc. "TODO"
 		test. |
-			[ [ ] ] -> => ? [ ]
-			[ [ 0 ] ] -> => ? [ [ ] ]
-			[ [ 0 1 ] ] -> => ? [ [ 1 ] ]
+			[ [ ] ] -> empty ?
+			[ [ 0 ] ] -> ? [ ]
+			[ [ 0 1 ] ] -> ? [ 1 ]
 		default. |:@ _
 			if (not empty?_) |
 				<pop_
@@ -113,9 +113,9 @@ region Update
 	?pop>. Method
 		doc. "TODO"
 		test. |
-			[ [ ] ] -> => ? [ ]
-			[ [ 0 ] ] -> => ? [ [ ] ]
-			[ [ 0 1 ] ] -> => ? [ [ 0 ] ]
+			[ [ ] ] -> empty ?
+			[ [ 0 ] ] -> ? [ ]
+			[ [ 0 1 ] ] -> ? [ 0 ]
 		default. |:@ _
 			if (not empty?_) |
 				pop>_
@@ -161,7 +161,7 @@ region Update
 		test. |
 			"TODO"
 		default. |:@ _ count-to-take:Nat
-			from-stream type-of_ (streaming ~|
+			from-stream type-of_ (Stream ~|
 				iter = iterator_
 				i = ref 0
 				loop!
@@ -182,7 +182,7 @@ region Update
 		test. |
 			[ [ 1 2 -1 3 ] <?[0] ] -> [ 1 2 ]
 		|:@ _ while:Pred
-			from-stream type-of_ (streaming ~|
+			from-stream type-of_ (Stream ~|
 				iter = iterator_
 				loop!
 					value:Any done = iter.next ()
@@ -199,7 +199,7 @@ region Update
 		test. |
 			"TODO"
 		default. |:@ _ count-to-drop:Nat
-			from-stream type-of_ (streaming ~|
+			from-stream type-of_ (Stream ~|
 				iter = iterator_
 				i = ref 0
 				loop!
@@ -227,7 +227,7 @@ region Combination
 	\ TODO: Variadic
 	\ TODO: Builder? (whose?)
 	zip. |s0:@ s1:@ zipper:Fun[2]
-		streaming ~|
+		Stream ~|
 			iter0 = iterator s0
 			iter1 = iterator s1
 			loop!
@@ -251,11 +251,11 @@ region TODO: put somewhere
 			case
 				=? group-size 0
 					\ TODO: repeat-forever [ ]
-					streaming ~|
+					Stream ~|
 						loop!
 							<~ [ ]
 				else
-					streaming ~|
+					Stream ~|
 						iter = iterator_
 						loop! outer
 							next-group = empty Array!
@@ -279,7 +279,7 @@ region TODO: put somewhere
 			[ [ 1 2 ] ] -> [ 2 1 ]
 		default. |_
 			arr = => Array _
-			reverse-stream = streaming ~|
+			reverse-stream = Stream ~|
 				i = ref (count arr)
 				loop!
 					case!

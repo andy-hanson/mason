@@ -9,7 +9,7 @@ use
 	.Fun
 	.js-impl -> each-generator
 	.Js-Method
-	.methods -> => contains? empty
+	.methods -> contains? empty
 	.Obj
 	.pred-types -> Any
 	.types.Method -> impl!
@@ -17,7 +17,7 @@ use
 	.types.util -> self-type
 use~
 	.!
-	.@.Stream -> streaming
+	.@.Stream
 
 Generator! = Pred-Type
 	doc. "TODO"
@@ -37,11 +37,11 @@ gen-next!. Js-Method
 if~.
 	doc. "Runs through the sub-generator only if `condition`. Returns a `?` of the result."
 	test. |
-		stream = streaming ~|
+		stream = Stream ~|
 			a <~~ if~ true ~|
 				<~ 1
 				2
-			! =? a (=> ? [ 2 ])
+			! =? a (? 2
 			b <~~ if~ false ~|
 				<~ 3
 			! =? b (empty ?)
@@ -51,14 +51,14 @@ if~.
 		case
 			condition
 				_ <~~ result ()
-				=> ? [ _ ]
+				? _
 			else
 				empty ?
 
 each~.
 	doc. "A generator that goes through every element of `_`, yielding to `do-each` of it."
 	test. |
-		x = streaming ~|
+		x = Stream ~|
 			<~~ each~ [ 1 2 3 ] ~|em
 				<~ em
 		! seq=? x [ 1 2 3 ]

@@ -14,7 +14,7 @@ use
 use~
 	..@.? -> get-or Opt->?
 	..@.Seq -> seq=? take
-	..@.Stream -> streaming
+	..@.Stream
 
 Num = global.Number
 Math = global.Math
@@ -274,7 +274,7 @@ region Other
 		f = ~|nat
 			<~ nat
 			<~~ f (+ nat 1)
-		streaming |
+		Stream |
 			f 0
 
 Num

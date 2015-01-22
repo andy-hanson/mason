@@ -37,9 +37,9 @@ module.exports = {
 			finallyDo()
 		}
 	},
-	"i-try": function(makeSuccess, tried) {
+	"i-try": function(Success, tried) {
 		try {
-			return makeSuccess(tried())
+			return Success(tried())
 		}
 		catch (e) {
 			return e

@@ -5,7 +5,7 @@ use
 	..@ -> count map
 	..@.Array!
 	..@.Seq -> seq=? take
-	..@.Stream -> streaming
+	..@.Stream
 	..Bool -> and true
 	..Comparable -> =? >? >=? <=?
 	..Fun -> call ignore
@@ -174,7 +174,7 @@ y = incrementing ~|:Int
 	three
 ! =? y 3
 
-nats. streaming ~|
+nats. Stream ~|
 	i = ref 0
 	loop!
 		<~ get i
@@ -189,14 +189,14 @@ one-two. ~|
 	<~ 1
 	<~ 2
 
-! seq=? (streaming one-two-one-two) [ 1 2 1 2 ]
+! seq=? (Stream one-two-one-two) [ 1 2 1 2 ]
 
 double. |x
 	* x 2
 triple. |x
 	* x 3
 doubled-then-tripled. |_:@
-	streaming ~|
+	Stream ~|
 		<~~ each~ _ ~|x
 			<~ double x
 		<~~ each~ _ ~|x

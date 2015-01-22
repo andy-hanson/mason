@@ -2,11 +2,11 @@ use
 	.Bool -> false true
 	.Comparable -> =?
 	.Fun -> Act call ignore thunk
-	.methods -> => empty freeze
+	.methods -> empty freeze
 	.pred-types -> Any
 use~
 	.! -> !call
-	.@.? -> get-or full-?
+	.@.? -> get-or
 	.@.Array!
 	.@.Seq
 	.@.Seq! -> +>!
@@ -45,7 +45,6 @@ switch.
 			[ 1 ] -> "one"
 			[ 2 ] -> "two"
 			[ 3 ] -> "three"
-
 	|val:Any cases:Map[Any Fun]
 		dispatch:Fun = get-or (?get cases val) ~cases[switch-else]
 		call dispatch
@@ -56,12 +55,13 @@ switch-else.
 if.
 	doc. "Iff `condition`, evaluates `result` and puts it in a `?`."
 	test. |
-		[ true (thunk 0) ] -> => ? [ 0 ]
+		[ true (thunk 0) ] -> ? 0
 		[ false (thunk 0) ] -> empty ?
 	|:? condition:Bool result:Fun
 		case
 			condition
-				full-? (result ()
+				\ TODO:SYNTAX result()
+				? (result ()
 			else
 				empty ?
 
@@ -74,7 +74,8 @@ if!.
 	|condition:Bool result:Act
 		case!
 			condition
-				call result
+				\ TODO:SYNTAX result()
+				result ()
 			else
 				()
 

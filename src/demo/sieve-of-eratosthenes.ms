@@ -3,7 +3,7 @@ use
 	..@ -> any? each!
 	..@.Seq -> take
 	..@.Range -> range
-	..@.Stream -> streaming
+	..@.Stream
 	..Bool -> not
 	..Generator! -> each~
 	..maps.Map! -> assoc! un-assoc!
@@ -22,7 +22,7 @@ primes.
 		each! (take primes 100000) |_
 			! is-prime? _
 
-	streaming ~|
+	Stream ~|
 		<~ 2
 		<~ 3
 		\ Maps a composite number to its prime factors.
