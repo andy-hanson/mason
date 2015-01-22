@@ -40,7 +40,13 @@ make-callable-method = |method
 						"a[\"{method.impl-symbol}\"]"
 				case!
 					defined? method.wrap
-						add! "return wrap({impl}, Array.prototype.slice.call(arguments, 0))"
+						add! "
+							switch (arguments.length) \{
+								case 1: return wrap({impl}, a)
+								case 2: return wrap({impl}, a, b)
+								case 3: return wrap({impl}, a, b, c)
+								default: throw new Error("Code not generated to accept " + arguments.length + " arguments.")
+							}
 					else
 						add! (switch "({impl})"
 				add! "}"
@@ -48,8 +54,6 @@ make-callable-method = |method
 			f method.default method.wrap
 		else
 			it = "a[\"{method.impl-symbol}\"]"
-			\Fun "a" "return Function.prototype.apply.call(a[\"{method.impl-symbol}\"], null, arguments)"
-			\ TODO: Use this mechanism above too!
 			Fun "a" "b" "c" (switch it
 Method = Record-Type
 	doc. "
@@ -88,9 +92,8 @@ Method = Record-Type
 			wrap-method = Method
 				default. |_
 					"call-{_}"
-				wrap. |impl args
-					\ TODO:Syntax splat call
-					"wrap-{Fun.prototype.apply.call impl () args}"
+				wrap. |impl arg
+					"wrap-{impl arg}"
 			wrap-method "arg"
 
 	members.

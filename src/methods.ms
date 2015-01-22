@@ -42,15 +42,12 @@ region Basics
 	=>. Method
 		doc. |convert-to:Type convert-me
 			"Converts a value to a given type."
-		wrap. |impl args
-			type = args[0]
-			converted = args[1]
+		wrap. |impl type converted opts
 			case converted
 				:type
 					_
 				else
-					\ TODO:SYNTAX Splat call
-					Fun.prototype.apply.call impl () args
+					impl type converted opts
 
 region Collection
 	empty. Method

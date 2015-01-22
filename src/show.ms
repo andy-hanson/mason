@@ -1,7 +1,7 @@
 use
 	.Bool -> false true
 	.Comparable -> =?
-	.js -> js+ js-sub
+	.js -> js+
 	.js-impl -> new-Set
 	.methods -> empty?
 	.Obj -> flag? p ?p @p
@@ -40,14 +40,13 @@ show = Method
 		\		displayName. "a"
 		[ () ] -> "()"
 		[ undefined ] -> "undefined"
-	wrap. |impl args
-		case js-sub args 0
+	wrap. |impl _ opts
+		case
 			showing.has _
 				"<recursive>"
 			else
 				showing.add _
-				\ TODO:SYNTAX Splat call
-				x:Str = Fun.prototype.apply.call impl () args
+				x:Str = impl _ opts
 				showing.delete _
 				x
 	default. |_ opts
