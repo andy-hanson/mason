@@ -53,6 +53,7 @@ $done.
 		\ TODO: How to test console output?
 		()
 	|promise:$
+		\ TODO: Use $catch
 		promise.catch |err
 			log! "
 				{err.stack}

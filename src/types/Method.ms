@@ -1,5 +1,5 @@
 use
-	..Bool -> or implies
+	..Bool -> implies
 	..js -> any? defined? global js-sub
 	..js-impl -> build-str
 	..private.bootstrap -> Str Symbol Fun set! set-mutable!
@@ -20,41 +20,42 @@ writable? = |obj property
 	implies (any? desc) ~desc.writable
 
 make-callable-method = |method
-	switch = |it
-		"
-			switch (arguments.length) \{
-				case 1: return {it}(a)
-				case 2: return {it}(a, b)
-				case 3: return {it}(a, b, c)
-				default: throw new Error("Code not generated to accept " + arguments.length + " arguments.")
-			}
+	src = build-str |add!
+		add! "return function(a, b, c) \{"
+		impl = case
+			defined? method.default
+				"(a == null) ? def : (a[\"{method.impl-symbol}\"] || def)"
+			else
+				"a[\"{method.impl-symbol}\"]"
+		add! "var impl = {impl}"
+		\ TODO: Debug mode only
+		add! "
+			if (impl === undefined)
+				throw new Error(\"Method {method.displayName} not defined for \" + _ms.show(a, \{ repr: true }))
+		case!
+			defined? method.wrap
+				add! "
+					switch (arguments.length) \{
+						case 1: return wrap(impl, a)
+						case 2: return wrap(impl, a, b)
+						case 3: return wrap(impl, a, b, c)
+						default: throw new Error("Code not generated to accept " + arguments.length + " arguments.")
+					}
+			else
+				\ TODO: Debug mode only
+				add! "
+					switch (arguments.length) \{
+						case 1: return impl(a)
+						case 2: return impl(a, b)
+						case 3: return impl(a, b, c)
+						default: throw new Error("Code not generated to accept " + arguments.length + " arguments.")
+					}
+		add! "}"
 
-	case
-		or (defined? method.default) ~(defined? method.wrap)
-			src = build-str |add!
-				add! "return function(a, b, c) \{"
-				impl = case
-					defined? method.default
-						"(a == null) ? def : (a[\"{method.impl-symbol}\"] || def)"
-					else
-						"a[\"{method.impl-symbol}\"]"
-				case!
-					defined? method.wrap
-						add! "
-							switch (arguments.length) \{
-								case 1: return wrap({impl}, a)
-								case 2: return wrap({impl}, a, b)
-								case 3: return wrap({impl}, a, b, c)
-								default: throw new Error("Code not generated to accept " + arguments.length + " arguments.")
-							}
-					else
-						add! (switch "({impl})"
-				add! "}"
-			f = Fun "def" "wrap" src
-			f method.default method.wrap
-		else
-			it = "a[\"{method.impl-symbol}\"]"
-			Fun "a" "b" "c" (switch it
+	f = Fun "def" "wrap" src
+	f method.default method.wrap
+
+
 Method = Record-Type
 	doc. "
 		TODO:REST

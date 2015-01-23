@@ -15,8 +15,9 @@ set(global, "_ms", ms)
 
 // TODO: Shouldn't need if we statically check.
 set(ms, "get", function(object, key) {
-	if (!Object.prototype.hasOwnProperty.call(object, key))
+	if (!Object.prototype.hasOwnProperty.call(object, key)) {
 		throw new Error("Module " + object.displayName + " does not have " + key)
+	}
 	return object[key]
 })
 
@@ -39,7 +40,7 @@ const assignMany = function(target, keysVals) {
 		const val = keysVals[i++]
 		Object.defineProperty(target, key,
 			(val instanceof Lazy) ?
-			{ get: lazyGet.bind(null, val), enumerable: true } :
+			{ get: _ms.unlazy.bind(null, val), enumerable: true } :
 			{ value: val, writable: false, enumerable: true })
 	}
 }
@@ -51,18 +52,20 @@ function Lazy(make) {
 	this.cached = undefined
 	this.make = make
 }
-const lazyGet = function(_) {
-	let c = _.cached
-	if (c === undefined) {
-		c = _.cached = _.make()
-		_.make = undefined // Make available to garbage collector
-		if (c === undefined)
-			throw new Error("Lazy value can't be undefined. Made by:\n" + _.make)
-	}
-	return c
-}
 set(ms, "lazy", function(_) { return new Lazy(_) })
-set(ms, "unlazy", function(a) { return (a instanceof Lazy) ? lazyGet(a) : a })
+set(ms, "unlazy", function(_) {
+	if (_ instanceof Lazy) {
+		let c = _.cached
+		if (c === undefined) {
+			c = _.cached = _.make()
+			_.make = undefined // Make available to garbage collector
+			if (c === undefined)
+				throw new Error("Lazy value can't be undefined. Made by:\n" + _.make)
+		}
+		return c
+	}
+	else return _
+})
 
 set(ms, "set", function(_, k0, v0, k1, v1, k2, v2, k3) {
 	_[k0] = v0

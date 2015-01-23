@@ -15,8 +15,8 @@ log!.
 		Prints its arguments to the console, separated by spaces.
 		Always adds a new line at the end.
 
-	|...args
-		js-console.log (=> Str args " ")
+	|a
+		js-console.log a
 
 warn!.
 	doc. "Like `log!`, but prints to stderr."

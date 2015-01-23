@@ -1,4 +1,7 @@
 use
+	..@.? -> get-or Opt->?
+	..@.Seq -> seq=? take
+	..@.Stream
 	..! -> !not
 	..Bool -> and false true
 	..Comparable -> =? <? >? <=? >=? compare
@@ -11,10 +14,6 @@ use
 	..Try -> !debug-fails?
 	..types.Method -> impl!
 	..types.Pred-Type
-use~
-	..@.? -> get-or Opt->?
-	..@.Seq -> seq=? take
-	..@.Stream
 
 Num = global.Number
 Math = global.Math
@@ -90,6 +89,14 @@ region Integer arithmetic
 			[ -2 -3 ] -> -2
 		|numerator:Num denominator:Num
 			js% numerator denominator
+
+	int/.
+		doc. "TODO"
+		test. |
+			[ 3 2 ] -> 1
+			[ -3 2 ] -> -2
+		|a:Num b:Num
+			round-down (/ a b)
 
 	modulo.
 		doc. "

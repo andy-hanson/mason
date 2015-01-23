@@ -1,7 +1,7 @@
 use
 	.Comparable -> =?
 	.js -> global
-	.js-impl -> i-curry
+	.js-impl -> i-call i-curry
 	.methods -> => + contains? empty sub
 	.types.Alias-Type
 	.types.Method -> impl!
@@ -51,8 +51,7 @@ call.
 	doc. "Calls the function with the given arguments."
 	test. |
 		[ + 1 2 ] -> 3
-	|called:Fun ...@argument
-		apply called @argument \ TODO:ES6
+	i-call
 
 fun-copy.
 	doc. "

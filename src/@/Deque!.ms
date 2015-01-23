@@ -1,6 +1,6 @@
 use
 	.? -> un-?
-	.Array \ TODO: Array!
+	.Array!
 	..@ -> count each! iterator map
 	.@-Type -> from-stream
 	..Bool -> and not or
@@ -21,14 +21,14 @@ Deque! = Record-Type
 	doc.
 		"TODO"
 	members.
-		data!. Array
+		data!. Array!
 		start-index!. Nat \ Inclusive (unless =? end-index)
 		end-index!. Nat \ Exclusive
 
 <! (self-type Deque!) @-Type
 	empty -> |
 		Deque!
-			data!. Array 8
+			data!. empty Array! 8
 			start-index!. 0
 			end-index!. 0
 
@@ -46,8 +46,7 @@ region Helpers
 		old-data = _.data!
 		old-capacity = capacity_
 		new-capacity = * 2 old-capacity
-		\ TODO: empty Array! new-capacity
-		new-data = Array new-capacity
+		new-data = empty Array! new-capacity
 		each! (range 0 old-capacity) |index
 			set-nth! new-data index old-data[index]
 		p! _ "data!" new-data
