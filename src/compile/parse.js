@@ -708,6 +708,12 @@ const parseSpaced = function(px, sqt) {
 						subject: e,
 						subbers: parseExprParts(px, t.sqt)
 					})
+				if (T.Group.is(t, "("))
+					return E.Call({
+						span: span,
+						called: e,
+						args: []
+					})
 				check.fail(span, "Expected member or sub, not " + t)
 			} }
 			return rest.reduce(memberOrSubscript(px), parseSingle(px, head))

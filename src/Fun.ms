@@ -157,7 +157,7 @@ spread!. spread
 thunk.
 	doc. "Makes function which, when called, returns `a`."
 	test. |
-		! =? (call (thunk 1)) 1
+		! =? (thunk 1)() 1
 	|a |
 		a
 

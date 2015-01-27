@@ -97,10 +97,9 @@ region Implementation
 				l<
 					case!
 						and r< ~(<? right left)
-							\ TODO:SYNTAX rec-right!()
-							rec-right! ()
+							rec-right!()
 						else
-							rec-left! ()
+							rec-left!()
 				r<
 					rec-right! ()
 				else

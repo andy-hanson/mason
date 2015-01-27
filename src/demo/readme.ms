@@ -8,7 +8,7 @@ use
 	..@.Stream
 	..Bool -> and true
 	..Comparable -> =? >? >=? <=?
-	..Fun -> call ignore
+	..Fun -> ignore
 	..Generator! -> each~ gen-next!
 	..js -> eval
 	..math.Num -> divisible? Int
@@ -137,11 +137,11 @@ x = "
 
 ! =? (count "\t\n\{\\") 4
 
-arr = empty Array!
-log! = |_
-	arr.push _
+region Loop
+	arr = empty Array!
+	log! = |_
+		arr.push _
 
-call |
 	i = ref 10
 	loop!
 		case! get i
@@ -151,8 +151,7 @@ call |
 			else
 				end-loop!
 				log! "This line is never run"
-
-! =? arr [ 10 9 8 7 6 5 4 3 2 1 ]
+	! =? arr [ 10 9 8 7 6 5 4 3 2 1 ]
 
 
 incrementing. |gen-maker:Fun[Generator!]

@@ -60,8 +60,7 @@ if.
 	|:? condition:Bool result:Fun
 		case
 			condition
-				\ TODO:SYNTAX result()
-				? (result ()
+				? result()
 			else
 				empty ?
 
@@ -74,8 +73,7 @@ if!.
 	|condition:Bool result:Act
 		case!
 			condition
-				\ TODO:SYNTAX result()
-				result ()
+				result()
 			else
 				()
 
