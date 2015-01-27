@@ -13,7 +13,7 @@ use
 	..js -> eval
 	..math.Num -> divisible? Int
 	..methods -> + - * / empty
-	..Ref! -> get mod! ref set!
+	..Ref! -> get mod! set!
 	..Str
 	..Try -> !debug-fails?
 
@@ -142,7 +142,7 @@ region Loop
 	log! = |_
 		arr.push _
 
-	i = ref 10
+	i = Ref! 10
 	loop!
 		case! get i
 			>? _ 0
@@ -156,7 +156,7 @@ region Loop
 
 incrementing. |gen-maker:Fun[Generator!]
 	gen:Generator! = gen-maker ()
-	last-value = ref 0
+	last-value = Ref! 0
 	loop!
 		value done = gen-next! gen (+ (get last-value) 1
 		set! last-value value
@@ -174,7 +174,7 @@ y = incrementing ~|:Int
 ! =? y 3
 
 nats. Stream ~|
-	i = ref 0
+	i = Ref! 0
 	loop!
 		<~ get i
 		mod! i +[1]
@@ -209,7 +209,7 @@ dt2. |_
 log = empty Array!
 logging. |gen-maker:Fun[Generator!]
 	gen = gen-maker ()
-	last-value = ref ()
+	last-value = Ref! ()
 	loop!
 		value done = gen-next! gen
 		case! done

@@ -19,7 +19,7 @@ use~
 	.Array
 	.Array!
 	..math.Num -> Nat
-	..Ref! -> get mod! ref set!
+	..Ref! -> get mod! set!
 	.Seq! -> +>!
 	..show
 	.Stream
@@ -72,9 +72,9 @@ region Search
 			[ [ 0 1 ] 2 ] -> empty ?
 		default. |_ n:Nat
 			iter = iterator_
-			i = ref 0
+			i = Ref! 0
 			\ TODO:SYNTAX Loop return value
-			ans = ref (empty ?
+			ans = Ref! (empty ?
 			loop!
 				value done = iter.next ()
 				case!
@@ -163,7 +163,7 @@ region Update
 		default. |:@ _ count-to-take:Nat
 			from-stream type-of_ (Stream ~|
 				iter = iterator_
-				i = ref 0
+				i = Ref! 0
 				loop!
 					case!
 						=? (get i) count-to-take
@@ -201,7 +201,7 @@ region Update
 		default. |:@ _ count-to-drop:Nat
 			from-stream type-of_ (Stream ~|
 				iter = iterator_
-				i = ref 0
+				i = Ref! 0
 				loop!
 					case!
 						=? (get i) count-to-drop
@@ -280,7 +280,7 @@ region TODO: put somewhere
 		default. |_
 			arr = => Array _
 			reverse-stream = Stream ~|
-				i = ref (count arr)
+				i = Ref! (count arr)
 				loop!
 					case!
 						=? (get i) 0
@@ -307,7 +307,7 @@ region Sorting
 					true
 				else
 					\ TODO: Use `sliding`
-					prev = ref _.val
+					prev = Ref! _.val
 					all? (tail seq) |em
 						returning (<? (sb (get prev)) (sb em)) |
 							set! prev em

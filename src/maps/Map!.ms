@@ -75,7 +75,7 @@ add!. Method
 				Already have key {key}.
 		assoc! _ key val
 
-get-or-update!. Method
+get-or-add!. Method
 	doc. "TODO"
 	default. |map key:Any ~default-val
 		case ?get map key

@@ -11,7 +11,7 @@ use~
 	.@.Seq
 	.@.Seq! -> +>!
 	.maps.Map -> ?get
-	.Ref! -> get ref set!
+	.Ref! -> get set!
 	.Try -> oh-no!
 
 build.
@@ -102,8 +102,8 @@ region Loops
 		test. |
 			"TODO"
 		|init-state transform-state:Fun
-			state = ref init-state
-			output = ref ()
+			state = Ref! init-state
+			output = Ref! ()
 			loop!
 				case! transform-state (get state)
 					_.is-end-loop

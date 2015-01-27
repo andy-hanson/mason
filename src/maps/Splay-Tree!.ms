@@ -10,7 +10,7 @@ use
 	.Map! -> assoc! un-assoc!
 	..methods -> contains? empty empty? empty!
 	..Obj! -> p!
-	..Ref! -> get ref set!
+	..Ref! -> get set!
 	.Sorted-Map!
 	..types.Method -> impl!
 	..types.Record-Type
@@ -49,11 +49,11 @@ splay! = |:Bool _ key
 		val!. undefined
 		left!. undefined
 		right!. undefined
-	left = ref dummy
-	right = ref dummy
-	cur = ref _.root!
+	left = Ref! dummy
+	right = Ref! dummy
+	cur = Ref! _.root!
 	\ TODO:SYNTAX Loop return falue
-	ref-found = ref false
+	ref-found = Ref! false
 	loop!
 		cur':Node left':Node right':Node found = splay-step! (get cur) key (get left) (get right)
 		set! cur cur'

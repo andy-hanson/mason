@@ -2,18 +2,19 @@ use
 	.Comparable -> =?
 	.js -> global
 	.js-impl -> i-call i-curry
-	.methods -> => + contains? empty sub
+	.methods -> => + empty sub
 	.types.Alias-Type
 	.types.Method -> impl!
 	.types.util -> self-type
 use~
 	.!
 	.@ -> map
-	.@.? -> get-or un-?
+	.@.? -> un-?
 	.@.Seq -> ?last pop> seq=?
 	.@.Array
 	.control -> build
-	.maps.Map -> ?get keys
+	.maps.Map -> keys
+	.maps.Map! -> get-or-add!
 	.maps.Weak-Identity-Map!
 	.Obj
 	.Try -> oh-no!
@@ -55,28 +56,31 @@ call.
 
 fun-copy.
 	doc. "
-		Creates a new function with identical functionality to another one.
+		Creates a new function with identical functionality.
+		*Does* copy any values captured by its scope.
 		Does *not* copy any properties on the old function.
 	test. |
-		f1 = |x
-			x
+		f1 =
+			doc. "f1"
+			|_
+				_
 		f2 =
-			doc. "This is f2"
+			doc. "f2"
 			fun-copy f1
-		! =? f1.displayName "f1"
-		! =? f2.displayName "f2"
+		! =? f1.doc "f1"
+		! =? f2.doc "f2"
 		! =? (f1 1) (f2 1)
 
-	|_:Fun |...args
-		\ TODO:SYNTAX Splat call
-		Fun.prototype.apply.call _ () args
+	|_:Fun
+		\ Fill in `this` as null.
+		Fun.prototype.call.bind _ ()
 
 identity.
 	doc. "Outputs its input unmodified."
 	test. |
 		[ 1 ] -> 1
-	|a
-		a
+	|_
+		_
 
 ignore.
 	doc. "Does nothing."
@@ -102,16 +106,8 @@ identity-memoize.
 		! seq=? comps [ 1 2 ]
 	|fun:Fun
 		wm = empty Weak-Identity-Map!
-		|arg
-			in
-				! (contains? Obj arg) "
-					Can only use Objs for identity-memoize'd functions, not {arg}.
-
-			\ TODO: get-or-update!
-			get-or (?get wm arg) ~
-				ans = fun arg
-				wm.set arg ans
-				ans
+		|arg:Obj
+			get-or-add! wm arg ~(fun arg)
 
 \ TODO: Merge with apply?
 spread.

@@ -18,7 +18,7 @@ use~
 	..Generator!
 	.Hash-Set!
 	..math.Num -> divisible? Nat
-	..Ref! -> get mod! ref set!
+	..Ref! -> get mod! set!
 	.Seq -> seq=?
 	.Stream
 
@@ -49,7 +49,7 @@ region Using iterator
 		test. |
 			[ [ 1 2 3 ] 4 + ] -> 10
 		|_:@ start:Any folder:Fun[2]
-			acc = ref start
+			acc = Ref! start
 			each! _ |em
 				mod! acc |x
 					folder x em
@@ -95,7 +95,7 @@ region Using iterator
 	?find. |_ pred:Pred
 		iter = iterator_
 		\ TODO:SYNTAX Return from loop
-		found = ref (empty ?
+		found = Ref! (empty ?
 		loop!
 			value done = iter.next ()
 			case!
@@ -176,7 +176,7 @@ region Using from-stream
 				mapped. [ 2 3 4 ]
 				folded. 3
 		|_:@ start:Any mapper-folder:Fun[2 Obj]
-			acc = ref start
+			acc = Ref! start
 			\ TODO: Better way to make it eager
 			mapped. => type-of_ (=> Array (map _ |em
 				here:Any next:Any = mapper-folder (get acc) em
@@ -280,7 +280,7 @@ region Unsorted
 		test. |
 			[ [ "five" "six" "seven" ] "" count ] -> "seven"
 		|_:@ default:Any by:Fun
-			max-val = ref default
+			max-val = Ref! default
 			fold _ (by default) |cur-max-by em
 				em-by = by em
 				case
