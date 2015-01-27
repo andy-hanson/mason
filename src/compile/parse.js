@@ -46,7 +46,26 @@ const parseBlock = (function() {
 		return E.BlockWrap({ span: px.span, body: parseBody(px, sqt, k) })
 	}
 
-	const parseModule = function(px, sqt) { return parseBody(px, sqt, "module") }
+	const parseModule = function(px, sqt) {
+		const mod = parseBody(px, sqt, "module")
+		const b = mod.body
+		// TODO: This also means no module is allowed to be called `displayName`.
+		b.lines.forEach(function(line) {
+			if (type.isa(line, E.Assign) && line.k === "export")
+				check(line.assignee.name !== "displayName", "Module can not choose its own displayName.")
+		})
+		b.lines.push(E.Assign(px.s({
+			assignee: E.LocalDeclare(px.s({
+				name: "displayName",
+				opType: [],
+				isLazy: false,
+				okToNotUse: true
+			})),
+			k: "export",
+			value: E.Literal(px.s({ value: px.opts.moduleName(), k: String }))
+		})))
+		return mod
+	}
 
 	const justBlock = function(px, sqt, k) {
 		type(px, Px, sqt, [T], k, KParseBlock)

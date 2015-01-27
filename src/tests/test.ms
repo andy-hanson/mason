@@ -136,7 +136,8 @@ all-tested = empty Identity-Set!
 		:Map
 			! (contains? Fun value) ~
 				"Test of {name} returned a Map, but the value is not callable."
-			!call value _
+			annotate-errors ~ano |
+				!call value _
 			[ ]
 		:$
 			[ ($annotate-errors ~ano _) ]

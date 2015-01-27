@@ -9,7 +9,7 @@ use
 	..methods -> + - * / contains?
 	..Obj -> p
 	..pred-types -> Opt
-	..js -> global js-bar js=== js< js> js<= js>= js+ js- js* js/ js%
+	..js -> global js-bar js< js> js<= js>= js+ js- js* js/ js% reference=?
 	..show
 	..Try -> !debug-fails?
 	..types.Method -> impl!
@@ -44,7 +44,10 @@ Nat. Pred-Type
 		and :Int ~(>=? _ 0)
 
 impl! compare Num -
-impl! =? Num js===
+impl! =? Num
+	test. |
+		[ not-a-number not-a-number ] -> true
+	reference=?
 impl! <? Num |a b:Num
 	js< a b
 impl! >? Num |a b:Num
@@ -172,11 +175,10 @@ region Real arithmetic
 region Rounding
 	round.
 		doc. "
-			Closest integer to `a`.
+			Closest integer.
 			Rounds up to break ties.
-
 		test. |
-			[ -0.5 ] -> 0
+			[ -0.5 ] -> -0
 			[ 0.5 ] -> 1
 		|_:Num
 			Math.round _
@@ -192,7 +194,7 @@ region Rounding
 	round-up.
 		doc. "Least integer no less than `a`."
 		test. |
-			[ -0.5 ] -> 0
+			[ -0.5 ] -> -0
 			[ 0.5 ] -> 1
 		|_:Num
 			Math.ceil _
@@ -268,6 +270,7 @@ region Constants
 	-infinity. p Num "NEGATIVE_INFINITY"
 	max-safe-integer. p Num "MAX_SAFE_INTEGER"
 	min-safe-integer. p Num "MIN_SAFE_INTEGER"
+	not-a-number. Num.NaN
 	pi. Math.PI
 	pi/2. / pi 2
 	pi3/2. * pi 1.5
