@@ -62,7 +62,7 @@ Interface = Record-Type
 			! contains? X z
 	members.
 		displayName. Str
-		super-interfaces. Array \ TODO: [~Interface]
+		~super-interfaces. Array \ TODO: [~Interface]
 		prototype. Obj
 		implementors. Array \ TODO: [~Impl-Type]
 		symbol-for-isa. Symbol
@@ -96,11 +96,13 @@ own-properties = |_
 	(Obj.getOwnPropertyNames _).concat (Obj.getOwnPropertySymbols _)
 
 inherit-methods! = |implementor interface
-	(own-properties interface.prototype).forEach |name
-		\ TODO: use getp
-		propagate-method-down! implementor name (js-sub interface.prototype name)
-	interface.super-interfaces.forEach |_
-		inherit-methods! implementor _
+	rec! = |interface
+		(own-properties interface.prototype).forEach |name
+			\ TODO: use getp
+			propagate-method-down! implementor name (js-sub interface.prototype name)
+		interface.super-interfaces.forEach rec!
+	rec! interface
+
 
 \ TODO: Assert no circular chains of implementor!.
 \ Typically one would use `<!`.

@@ -194,7 +194,10 @@ U.implementMany(E, "verify", {
 	},
 
 	// These ones just recurse to their children.
-	Assign: function(vx) { vm(vx, [this.assignee, this.value]) },
+	Assign: function(vx) {
+		const vxAssign = this.assignee.isLazy ? vx.withBlockLocals() : vx
+		return vm(vxAssign, [this.assignee, this.value])
+	},
 	AssignDestructure: function(vx) { vm(vx, Sq.cons(this.value, this.assignees)) },
 	Call: function(vx) { vm(vx, Sq.cons(this.called, this.args)) },
 	CasePart: function(vx) { vm(vx, [this.test, this.result]) },

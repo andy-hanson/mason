@@ -24,20 +24,19 @@ show = Method
 			For a more detailed Str representation of data, use `inspect`.
 	test. |
 		\ TODO: How to not include displayName
-		\ TODO:SYNTAX Verifier should include `a` in available locals
-		\a =
-		\	~x. a
+		a =
+			~x. a
 		\ TODO:SYNTAX [ repr. ]
-		\r =
-		\	repr.
-		\[ a ] -> "
-		\	Object
-		\		x. <recursive>
-		\		displayName. a
-		\[ a r ] -> "
-		\	Object
-		\		x. <recursive>
-		\		displayName. "a"
+		r =
+			repr.
+		[ a ] -> "
+			Obj
+				x. <recursive>
+				displayName. a
+		[ a r ] -> "
+			Obj
+				x. <recursive>
+				displayName. "a"
 		[ () ] -> "()"
 		[ undefined ] -> "undefined"
 	wrap. |impl _ opts
