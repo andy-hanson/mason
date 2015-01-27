@@ -183,19 +183,26 @@ const lexQuote = function*(stream, indent) {
 				// TODO: Make file cleansing its own step?
 				check(stream.prev() != ' ', stream.pos, "Line ends in a space")
 				check(isIndented, restorePoint.pos, "Unclosed quote.")
-				const newIndent = stream.takeWhile('\t').length
-				if (newIndent === 0 && stream.peek() === '\n')
-					// Allow blank, un-indented lines.
-					read += '\n'
-				else if (newIndent < quoteIndent) {
+				let newIndent = stream.takeWhile('\t').length
+
+				let s = ""
+
+				// Allow blank lines.
+				if (newIndent === 0) {
+					while (stream.tryEat('\n'))
+						s += '\n'
+					newIndent = stream.takeWhile('\t').length
+				}
+
+				if (newIndent < quoteIndent) {
 					// Indented quote section is over.
-					// Under reading the tabs and newline.
+					// Undo reading the tabs and newline.
 					stream.restore(restorePoint)
 					assert(stream.peek() === '\n')
 					break eatChars
 				}
 				else
-					read += '\n' + '\t'.repeat(newIndent - quoteIndent)
+					read += s + '\n' + '\t'.repeat(newIndent - quoteIndent)
 				break
 			}
 			case '"':
@@ -207,8 +214,6 @@ const lexQuote = function*(stream, indent) {
 		}
 	}
 
-	if (isIndented)
-		read = U.trimRight(read)
 	yield* yieldRead()
 	yield GroupPre({ span: Span.single(stream.pos), k: 'close"' })
 }
