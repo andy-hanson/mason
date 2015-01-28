@@ -1,8 +1,6 @@
 use
 	.Comparable -> =?
 	.Fun
-	.js -> js-sub
-	.methods -> contains?
 	.Str
 	.types.Record-Type
 use~
@@ -16,17 +14,23 @@ Js-Method = Record-Type
 	test. |
 		toString = Js-Method
 			impl-name. "toString"
-		! =? (toString 1)  "1"
+		! =? (toString 1) "1"
 	members.
 		displayName. Str
 		impl-name. Str
 	extensible.
 	make-callable. |_
-		|target ...args
-			impl = js-sub target _.impl-name
-			! (contains? Fun impl) ~"{_} not implemented by {target}."
-			\ TODO:SYNTAX Splat call
-			Fun.prototype.apply.call impl target args
+		impl = "a[\"{_.impl-name}\"]"
+		\ TODO:ES6 "return target.name(...args)"
+		Fun "a" "b" "c" "d" "
+			switch (arguments.length) \{
+				case 0: throw new Error("Js-Methods always need at least one argument.")
+				case 1: return {impl}()
+				case 2: return {impl}(b)
+				case 3: return {impl}(b, c)
+				case 4: return {impl}(b, c, d)
+				case 5: throw new Error("Does not support this many arguments.")
+			}
 
 \ TODO: Make impl!-able.
 
