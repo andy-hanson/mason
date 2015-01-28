@@ -2,6 +2,7 @@
 
 const
 	assert = require("assert"),
+	check = require("./check"),
 	E = require ("./E"),
 	Lang = require("./Lang"),
 	Op = require("./U/Op"),
@@ -128,12 +129,30 @@ U.implementMany(E, "renderContent", {
 		rx.snl(),
 		"})()"
 	]},
-	Call: function(rx) { return [
-		r(rx)(this.called),
-		"(",
-		commad(rx, this.args),
-		")"
-	]},
+	Call: function(rx) {
+		const anySplat = this.args.some(function(arg) { return type.isa(arg, E.Splat) })
+		if (anySplat) {
+			// TODO:ES6 Just use `...arg`
+			const args = this.args.map(function(arg) {
+				return type.isa(arg, E.Splat) ?
+					r(rx)(arg.splatted) :
+					"[" + r(rx)(arg) + "]"
+			})
+			return [
+				"Function.prototype.apply.call(",
+				r(rx)(this.called),
+				", null, [].concat(",
+				Sq.interleave(args, ", "),
+				"))"
+			]
+		}
+		else return [
+			r(rx)(this.called),
+			"(",
+			commad(rx, this.args),
+			")"
+		]
+	},
 	CaseDo: function(rx) {
 		return caseBody(rx, this.parts, this.opElse, true)
 	},
@@ -350,6 +369,9 @@ U.implementMany(E, "renderContent", {
 			case "this-module-directory": return "__dirname"
 			default: throw up
 		}
+	},
+	Splat: function(rx) {
+		check.fail(this.span, "Splat must appear as argument to a call.")
 	},
 	Sub: function(rx) { return [
 		"_ms.sub(",

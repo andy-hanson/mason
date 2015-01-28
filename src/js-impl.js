@@ -11,8 +11,15 @@ module.exports = {
 	"i-instanceof": function(a, b) { return a instanceof b },
 	"i-false": false,
 	"i-global": global,
-	"i-new": function(constructor, args) {
-		return new (Function.prototype.bind.apply(constructor, [constructor].concat(args)))
+	"i-new": function(ctr, a, b, c) {
+		// TODO:ES6 return new ctr(...args)
+		switch (arguments.length) {
+			case 1: return new ctr()
+			case 2: return new ctr(a)
+			case 3: return new ctr(a, b)
+			case 4: return new ctr(a, b, c)
+			default: throw new Error("This many arguments not supported.")
+		}
 	},
 	"i-oh-no!": function(error) {
 		throw module.exports["make-Error"](error)

@@ -694,6 +694,10 @@ const parseSingle = function(px, t) {
 				parts: parseExprParts(px, t.sqt)
 			}))
 
+		case isa(t, T.DotName):
+			if (t.nDots === 3)
+				return E.Splat(px.s({ splatted: E.LocalAccess(px.s({ name: t.name })) }))
+
 		default:
 			check.fail(px.span, "Unexpected " + t)
 	}

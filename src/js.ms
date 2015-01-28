@@ -114,18 +114,14 @@ new.
 		Emulates JavaScript's `new` keyword.
 		Creates a new Obj whose prototype is `constructor.prototype` and calls the constructor on it.
 		Wierd things may happen if you try to create a new Error this way.
-
 	test. |
 		My-Fun-Type = |a
 			p+! this "a" a
 		x:My-Fun-Type = new My-Fun-Type 1
 		! =? x.a 1
-
-	|constructor ...args
-		in
-			!not reference=? constructor Error
-		\ TODO:SYNTAX splat call
-		i-new constructor args
+		y:Error = new Error "Oh no!"
+		! =? y.message "Oh no!"
+	i-new
 
 js-typeof.
 	doc. "JavaScript's `typeof` operator."

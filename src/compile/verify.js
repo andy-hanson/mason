@@ -221,10 +221,11 @@ U.implementMany(E, "verify", {
 	Require: U.ignore,
 	Scope: function(vx) { throw new Error("Scopes are handled specially by verifyLines.") },
 	SpecialKeyword: U.ignore,
+	Splat: function(vx) { v(vx)(this.splatted) },
 	Sub: function(vx) { vm(vx, Sq.cons(this.subject, this.subbers)) },
 	This: U.ignore,
 	True: U.ignore,
-	TypeTest: function(vx) { vm(vx, [this.tested, this.testType]) },
+	TypeTest: function(vx) { vm(vx, [this.tested, this.testType]) }
 })
 
 const verifyLines = function(vx, lines) {
