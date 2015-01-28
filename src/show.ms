@@ -111,7 +111,7 @@ impl! show Fun
 		a = |
 			1
 		[ a ] -> "a"
-		[ Obj ] -> "Object"
+		[ Obj ] -> "Obj"
 		[ (Fun "" "") ] -> "<anonymous Fun>"
 	|:Str _
 		get-or (?p _ "displayName") ~

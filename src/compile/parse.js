@@ -211,7 +211,7 @@ const parseBlock = (function() {
 					const _ = takeBlockFromEnd(px.withSpan(firstLine.span), Sq.tail(sqt), "do")
 					check(Sq.isEmpty(_.before), Sq.head(sqt).span, "Did not expect anything after " + head.k)
 					return {
-						took: Op.Some(_.block),
+						took: Op.Some(E.Debug({ span: _.block.span, block: _.block })),
 						rest: Sq.tail(lines)
 					}
 				}
@@ -296,7 +296,7 @@ const parseCase = function(px, sqt, k, casedFromFun) {
 		})) :
 		Op.ifElse(opAssignCased,
 			function(assignCased) { return E.Scope(px.s({
-				lines: [ assignCased, theCase ]
+				lines: [ assignCased, theCase ],
 			}))},
 			function() { return theCase })
 }
@@ -580,6 +580,11 @@ const parseLine = (function() {
 					})
 				case "case!":
 					return parseCase(pxRest(), rest(), "case!", false)
+				case "debug": {
+					const _ = parseBlock.takeBlockFromEnd(px.withSqTSpan(rest()), rest(), "do")
+					check(Sq.isEmpty(_.before), first.span, "Did not expect anything after `debug`")
+					return E.Debug({ span: _.block.span, block: _.block })
+				}
 				case "debugger":
 					check(Sq.isEmpty(rest()), px.span, "Did not expect anything after " + first)
 					return E.Debugger(px.s({}))

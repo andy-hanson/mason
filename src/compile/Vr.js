@@ -10,7 +10,7 @@ const
 
 const Vr = module.exports = types.recordType("Vr", Object, {
 	accessToLocal: Map,
-	localToAccesses: Map,
+	localToInfo: Map, // LocalDeclare -> LocalInfo
 	eToIsInGenerator: Map
 })
 Object.assign(Vr.prototype, {
@@ -29,8 +29,15 @@ Object.assign(Vr.prototype, {
 		return this.eToIsInGenerator.get(e)
 	},
 	isAccessed: function(local) {
-		return !Sq.isEmpty(this.localToAccesses.get(local))
+		const info = this.localToInfo.get(local)
+		return !Sq.isEmpty(info.debugAccesses.concat(info.nonDebugAccesses))
 	}
+})
+
+Vr.LocalInfo = types.recordType("LocalInfo", Object, {
+	isInDebug: Boolean,
+	debugAccesses: [E.LocalAccess],
+	nonDebugAccesses: [E.LocalAccess]
 })
 
 const botherWithIsInGenerator = function(e) {

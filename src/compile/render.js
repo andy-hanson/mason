@@ -97,19 +97,17 @@ U.implementMany(E, "renderContent", {
 		if (opResCheck === undefined)
 			opResCheck = []
 
-		const opIn = rx.opts.includeInoutChecks() ? this.opIn : []
-		const opOut = rx.opts.includeInoutChecks() ? this.opOut : []
-
-		const _in = opIn.map(r(rx))
+		const _in = this.opIn.map(r(rx))
 		const body = this.lines.map(r(rx))
 
-		const needResLocal = !(Sq.isEmpty(opResCheck) && Sq.isEmpty(opOut))
+		const needResLocal =
+			!(Sq.isEmpty(opResCheck) && (!rx.opts.includeInoutChecks() || Sq.isEmpty(this.opOut)))
 		if (needResLocal) {
 			const makeRes = this.opReturn.map(function(ret) { return [
 				"const res = ",
 				r(rx)(ret)
 			]})
-			const _out = rx.opts.includeInoutChecks() ? opOut.map(r(rx)) : []
+			const _out = this.opOut.map(r(rx))
 			const ret = this.opReturn.map(function() { return "return res" })
 			return Sq.interleave(_in.concat(body, makeRes, opResCheck, _out, ret), rx.snl())
 		}
@@ -171,6 +169,9 @@ U.implementMany(E, "renderContent", {
 			rx.snl(),
 			"}"
 		]
+	},
+	Debug: function(rx) {
+		return rx.opts.includeInoutChecks() ? r(rx)(this.block) : []
 	},
 	Debugger: function() { return "debugger" },
 	DictReturn: function(rx) {

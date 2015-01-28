@@ -21,11 +21,18 @@ module.exports = function verify(e, opts) {
 }
 
 const verifyLocalUse = function(vr, opts) {
-	const localToAccesses = vr.localToAccesses
-	for (let local of localToAccesses.keys())
-		check.warnIf(opts, Sq.isEmpty(localToAccesses.get(local)) && !local.okToNotUse,
-			local.span,
-			"Unused local variable " + U.code(local.name) + ".")
+	for (let local of vr.localToInfo.keys()) {
+		const info = vr.localToInfo.get(local)
+		const noNonDebug = Sq.isEmpty(info.nonDebugAccesses)
+		if (noNonDebug && Sq.isEmpty(info.debugAccesses))
+			check.warnIf(opts, !local.okToNotUse, local.span, "Unused local variable " + U.code(local.name) + ".")
+		else if (info.isInDebug)
+			check(noNonDebug, local.span, function() {
+				return "Debug-only local used at " + Sq.head(info.nonDebugAccesses).span
+			})
+		else
+			check.warnIf(opts, !local.okToNotUse && noNonDebug, local.span, "Local " + U.code(local.name) + " used only in debug.")
+	}
 }
 
 // Context used during verification.
@@ -38,6 +45,7 @@ const Vx = types.recordType("Vx", Object, {
 	// Replaces `locals` when entering into sub-function.
 	pendingBlockLocals: [E.LocalDeclare],
 	loopNames: Set,
+	isInDebug: Boolean,
 	isInGenerator: Boolean,
 	opts: Opts,
 	vr: Vr
@@ -64,11 +72,12 @@ Object.assign(Vx.prototype, {
 	plusLocals: function(addedLocals) {
 		type(addedLocals, [E.LocalDeclare])
 		const newLocals = new Map(this.locals)
-		const localToAccesses = this.vr.localToAccesses
+		const localToInfo = this.vr.localToInfo
+		const isInDebug = this.isInDebug
 		addedLocals.forEach(function(l) {
 			newLocals.set(l.name, l)
-			if (!localToAccesses.has(l))
-				localToAccesses.set(l, [])
+			if (!localToInfo.has(l))
+				localToInfo.set(l, Vr.LocalInfo({ isInDebug: isInDebug, debugAccesses: [], nonDebugAccesses: [] }))
 		})
 		return U.with(this, "locals", newLocals)
 	},
@@ -80,12 +89,15 @@ Object.assign(Vx.prototype, {
 	},
 	setAccessToLocal: function(access, local) {
 		this.vr.accessToLocal.set(access, local)
-		this.vr.localToAccesses.get(local).push(access)
+		const info = this.vr.localToInfo.get(local)
+		const accesses = this.isInDebug ? info.debugAccesses : info.nonDebugAccesses
+		accesses.push(access)
 	},
 	// TODO: Better name
 	setEIsInGenerator: function(e) {
 		this.vr.setEIsInGenerator(e, this.isInGenerator)
 	},
+	withDebug: function() { return U.with(this, "isInDebug", true) },
 	withFocus: function(span) {
 		// TODO
 		let utf = E.LocalDeclare.UntypedFocus(span)
@@ -113,11 +125,12 @@ Object.assign(Vx, {
 			locals: new Map(),
 			pendingBlockLocals: [],
 			loopNames: new Set(),
+			isInDebug: false,
 			isInGenerator: false,
 			opts: opts,
 			vr: Vr({
 				accessToLocal: new Map(),
-				localToAccesses: new Map(),
+				localToInfo: new Map(),
 				eToIsInGenerator: new Map()
 			})
 		})
@@ -149,6 +162,10 @@ U.implementMany(E, "verify", {
 	CaseVal: function(vx) {
 		vx.setEIsInGenerator(this)
 		E.CaseDo.prototype.verify.call(this, vx)
+	},
+	Debug: function(vx) {
+		check(!vx.isInDebug, this.span, "Redundant `debug`.")
+		v(vx.withDebug())(this.block)
 	},
 	EndLoop: function(vx) {
 		check(vx.hasLoop(this.name), this.span, "No loop called `"+this.name+"`")

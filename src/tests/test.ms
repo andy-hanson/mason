@@ -3,8 +3,9 @@ doc. "TODO"
 use
 	..$ -> $after $all
 	..! -> !call
-	..@ -> each! flat-map map
+	..@ -> each! flat-map flat-map=> map
 	..@.? -> get-or
+	..@.Array
 	..@.Identity-Set!
 	..Bool -> and false or true
 	..control -> build
@@ -44,7 +45,8 @@ test-special. Method
 
 \ TODO: MOVE THESE
 impl! test-special Impl-Type |type
-	$all (flat-map (?p type "prototype") |prototype
+	\ TODO: Shouldn't need explicit => Array
+	$all (flat-map=> Array (?p type "prototype") |prototype
 		map (@p-all prototype) |name
 			\ Some prototype properties throw errors. For example, global.Map.size.
 			\ TODO:SYNTAX Inline fun
@@ -60,7 +62,8 @@ impl! test-special Impl-Type |type
 \ TODO: MOVE THESE
 impl! test-special Interface |_
 	a = any->@$ ((impl-for test-special Impl-Type) _
-	b = flat-map (?p _ "implementor-test") |test:Fun
+	\ TODO: Shouldn't need explicit => Array
+	b = flat-map=> Array (?p _ "implementor-test") |test:Fun
 		flat-map concrete-implementors_ |implementor
 			@$test-test-fun implementor test "{_}.implementor-test of {implementor}" implementor
 	+ a b

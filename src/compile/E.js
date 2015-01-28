@@ -24,9 +24,11 @@ const makeETypes = function(superType, types) {
 	})
 }
 
+// block should always be a BlockBody.
+makeETypes(E, { Debug: { block: E }})
 makeETypes(E, {
 	// in and out are BlockBody_s.
-	BlockBody: { lines: [E], opReturn: Op(E.Val), opIn: Op(E), opOut: Op(E) },
+	BlockBody: { lines: [E], opReturn: Op(E.Val), opIn: Op(E.Debug), opOut: Op(E.Debug) },
 	LocalDeclare: { name: String, opType: Op(E.Val), isLazy: Boolean, okToNotUse: Boolean }
 })
 makeETypes(E, { CasePart: { test: E.Val, result: E.BlockBody } });

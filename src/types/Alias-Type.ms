@@ -8,7 +8,7 @@ use
 	.Type
 use~
 	..! -> !not
-	..@ -> ?
+	..@.?
 
 Alias-Type. Record-Type
 	doc. "Contains the same instances as another type (officially), but has its own meaning and identity."
@@ -34,7 +34,6 @@ impl! sub Alias-Type
 		?2 = Alias-Type
 			alias-of. ?
 		[ ?2 Str ] -> ?[Str]
-		! `false` "so true..."
 	|_ ...args
 		sub _.alias-of ...args
 

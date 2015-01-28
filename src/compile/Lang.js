@@ -23,6 +23,7 @@ const AllKeywords = setUnion(
 	"~",
 	":",
 	"_",
+	"debug",
 	"debugger",
 	"else",
 	"end-loop!",
