@@ -25,7 +25,7 @@ const makeETypes = function(superType, types) {
 }
 
 // block should always be a BlockBody.
-makeETypes(E, { Debug: { block: E }})
+makeETypes(E.Do, { Debug: { lines: [E] }})
 makeETypes(E, {
 	// in and out are BlockBody_s.
 	BlockBody: { lines: [E], opReturn: Op(E.Val), opIn: Op(E.Debug), opOut: Op(E.Debug) },
@@ -70,6 +70,7 @@ makeETypes(E.Val, {
 	Call: { called: E.Val, args: [E.Val] },
 	DictReturn: {
 		keys: [E.LocalDeclare],
+		debugKeys: [E.LocalDeclare],
 		opDicted: Op(E.Val),
 		opDisplayName: Op(String)
 	},

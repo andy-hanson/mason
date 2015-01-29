@@ -1,6 +1,7 @@
 "use strict"
 
 const
+	assert = require("assert"),
 	check = require("./check"),
 	E = require("./E"),
 	Lang = require("./Lang"),
@@ -24,6 +25,9 @@ const verifyLocalUse = function(vr, opts) {
 	for (let local of vr.localToInfo.keys()) {
 		const info = vr.localToInfo.get(local)
 		const noNonDebug = Sq.isEmpty(info.nonDebugAccesses)
+		if (info.isInDebug)
+			check(noNonDebug, local.span,
+				function() { return "Debug-only local used outside of debug at " + info.nonDebugAccesses[0].span })
 		if (noNonDebug && Sq.isEmpty(info.debugAccesses))
 			check.warnIf(opts, !local.okToNotUse, local.span, "Unused local variable " + U.code(local.name) + ".")
 		else if (info.isInDebug)
@@ -72,13 +76,7 @@ Object.assign(Vx.prototype, {
 	plusLocals: function(addedLocals) {
 		type(addedLocals, [E.LocalDeclare])
 		const newLocals = new Map(this.locals)
-		const localToInfo = this.vr.localToInfo
-		const isInDebug = this.isInDebug
-		addedLocals.forEach(function(l) {
-			newLocals.set(l.name, l)
-			if (!localToInfo.has(l))
-				localToInfo.set(l, Vr.LocalInfo({ isInDebug: isInDebug, debugAccesses: [], nonDebugAccesses: [] }))
-		})
+		addedLocals.forEach(function(l) { newLocals.set(l.name, l) })
 		return U.with(this, "locals", newLocals)
 	},
 	plusLoop: function(name) {
@@ -99,24 +97,35 @@ Object.assign(Vx.prototype, {
 	},
 	withDebug: function() { return U.with(this, "isInDebug", true) },
 	withFocus: function(span) {
-		// TODO
-		let utf = E.LocalDeclare.UntypedFocus(span)
-		utf = U.with(utf, "okToNotUse", true)
+		// TODO: Bad idea to be creating new E at this point...
+		const utf = U.with(E.LocalDeclare.UntypedFocus(span), "okToNotUse", true)
+		this.registerLocal(utf)
 		return this.plusLocals([utf])
 	},
-	// TODO: Is there a better way?
 	withRes: function(span) {
-		return this.plusLocals([E.LocalDeclare({
+		// TODO: Bad idea to be creating new E at this point...
+		const res = E.LocalDeclare({
 			span: span,
 			name: "res",
 			opType: Op.None,
 			isLazy: false,
 			okToNotUse: true
-		})])
+		})
+		this.registerLocal(res)
+		return this.plusLocals([res])
 	},
 	// TODO
 	withBlockLocals: function() {
 		return U.with(this.plusLocals(this.pendingBlockLocals), "pendingBlockLocals", [])
+	},
+
+	registerLocal: function(local) {
+		assert(!this.vr.localToInfo.has(local))
+		this.vr.localToInfo.set(local, Vr.LocalInfo({
+			isInDebug: this.isInDebug,
+			debugAccesses: [],
+			nonDebugAccesses: []
+		}))
 	}
 })
 Object.assign(Vx, {
@@ -164,8 +173,8 @@ U.implementMany(E, "verify", {
 		E.CaseDo.prototype.verify.call(this, vx)
 	},
 	Debug: function(vx) {
-		check(!vx.isInDebug, this.span, "Redundant `debug`.")
-		v(vx.withDebug())(this.block)
+		// Only reach here for in/out condition
+		verifyLines(vx, [ this ])
 	},
 	EndLoop: function(vx) {
 		check(vx.hasLoop(this.name), this.span, "No loop called `"+this.name+"`")
@@ -177,7 +186,9 @@ U.implementMany(E, "verify", {
 			check(!Sq.isEmpty(this.body.opReturn), this.span, "Function with return type must return something.")
 		this.args.forEach(function(arg) { arg.opType.forEach(v(vx)) })
 		const vxGen = this.k === "~|" ? vx.inGenerator() : vx.notInGenerator()
-		const vxBody = vxGen.plusLocals(this.args.concat(this.opRestArg))
+		const allArgs = this.args.concat(this.opRestArg)
+		allArgs.forEach(function(_) { vx.registerLocal(_) })
+		const vxBody = vxGen.plusLocals(allArgs)
 		v(vxBody)(this.body)
 	},
 	LocalAccess: function(vx) {
@@ -249,36 +260,60 @@ const verifyLines = function(vx, lines) {
 	const lineToLocals = new Map()
 	let prevLocals = []
 	let allNewLocals = []
-	lines.forEach(function processLine(line) {
-		if (type.isa(line, E.Scope)) {
-			const localsBefore = prevLocals
-			line.lines.forEach(processLine)
-			prevLocals = localsBefore
-		}
-		else {
-			verifyIsStatement(line)
-			const lineNews = lineNewLocals(line)
-			prevLocals.forEach(function(prevLocal) {
-				lineNews.forEach(function(newLocal) {
-					check(prevLocal.name !== newLocal.name, newLocal.span,
-						U.code(newLocal.name) + " already declared in same block at " + prevLocal.span.start)
+
+	const processLine = function(inDebug) {
+		type(inDebug, Boolean)
+		return function(line) {
+			if (type.isa(line, E.Scope)) {
+				const localsBefore = prevLocals
+				line.lines.forEach(processLine(inDebug))
+				prevLocals = localsBefore
+			}
+			else if (type.isa(line, E.Debug)) {
+				// TODO: Do anything in this situation?
+				// check(!inDebug, line.span, "Redundant `debug`.")
+				line.lines.forEach(processLine(true))
+			}
+			else {
+				verifyIsStatement(line)
+				const lineNews = lineNewLocals(line)
+				prevLocals.forEach(function(prevLocal) {
+					lineNews.forEach(function(newLocal) {
+						check(prevLocal.name !== newLocal.name, newLocal.span,
+							U.code(newLocal.name) + " already declared in same block at " + prevLocal.span.start)
+					})
 				})
-			})
-			const newLocals = prevLocals.concat(lineNews)
-			lineToLocals.set(line, prevLocals)
-			prevLocals = newLocals
-			allNewLocals = newLocals // Final set value is answer
+				lineNews.forEach(function(_) {
+					U.with(vx, "isInDebug", inDebug).registerLocal(_)
+				})
+				const newLocals = prevLocals.concat(lineNews)
+				lineToLocals.set(line, prevLocals)
+				prevLocals = newLocals
+				allNewLocals = newLocals // Final set value is answer
+			}
 		}
-	})
-	lines.forEach(function verifyLine(line) {
-		if (type.isa(line, E.Scope))
-			line.lines.forEach(verifyLine)
-		else {
-			const vxLineLocals = vx.plusLocals(lineToLocals.get(line))
-			const vxLine = U.with(vxLineLocals, "pendingBlockLocals", vx.pendingBlockLocals.concat(allNewLocals))
-			v(vxLine)(line)
+	}
+
+	lines.forEach(processLine(vx.isInDebug))
+
+	const verifyLine = function(inDebug) {
+		type(inDebug, Boolean)
+		return function(line) {
+			if (type.isa(line, E.Scope))
+				line.lines.forEach(verifyLine(inDebug))
+			else if (type.isa(line, E.Debug))
+				line.lines.forEach(verifyLine(true))
+			else {
+				const vxDebug = U.with(vx, "isInDebug", inDebug)
+				const vxLineLocals = vxDebug.plusLocals(lineToLocals.get(line))
+				const vxLine = U.with(vxLineLocals, "pendingBlockLocals", vx.pendingBlockLocals.concat(allNewLocals))
+				v(vxLine)(line)
+			}
 		}
-	})
+	}
+
+	lines.forEach(verifyLine(vx.isInDebug))
+
 	return vx.plusLocals(allNewLocals)
 }
 

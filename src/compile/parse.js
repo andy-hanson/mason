@@ -97,36 +97,45 @@ const parseBlock = (function() {
 		const opIn = _.opIn, opOut = _.opOut, restLines = _.rest
 
 		let dictKeys = []
+		let debugKeys = []
 		let listLength = 0
 		let mapLength = 0
 		const eLines = []
-		function addLine(ln) {
+		function addLine(ln, inDebug) {
 			if (ln instanceof Array) {
-				ln.forEach(addLine)
+				ln.forEach(function(_) { addLine(_, inDebug) })
 				return
 			}
-
-			if (isa(ln, E.ListEntry)) {
+			if (ln instanceof E.Debug)
+				ln.lines.forEach(function(_) { addLine(_, true) })
+			else if (isa(ln, E.ListEntry)) {
+				assert(!inDebug, "Not supported: debug list entries")
 				// When ListEntries are first created they have no index.
 				assert(ln.index === -1)
 				ln = U.with(ln, "index", listLength)
 				listLength = listLength + 1
 			}
 			else if (isa(ln, E.MapEntry)) {
+				assert(!inDebug, "Not supported: debug map entries")
 				assert(ln.index === -1)
 				ln = U.with(ln, "index", mapLength)
 				mapLength = mapLength + 1
 			}
-			else if (isa(ln, E.Assign) && ln.k === ". ")
-				dictKeys.push(ln.assignee)
+			else if (isa(ln, E.Assign) && ln.k === ". ") {
+				(inDebug ? debugKeys : dictKeys).push(ln.assignee)
+			}
 
-			eLines.push(ln)
+			if (!inDebug)
+				eLines.push(ln)
+			// Else we are adding the E.Debug as a single line.
 		}
 		restLines.forEach(function(line) {
 			addLine(parseLine(px.withSpan(line.span), line.sqt, listLength))
 		})
 
-		const isDict = !Sq.isEmpty(dictKeys)
+		//if (Sq.isEmpty(dictKeys))
+		//	check(Sq.isEmpty(debugKeys), px.span, "Block can't have only debug keys")
+		const isDict = !(Sq.isEmpty(dictKeys) && Sq.isEmpty(debugKeys))
 		const isList = listLength > 0
 		const isMap = mapLength > 0
 		check(!(isDict && isList), px.span, "Block has both list and dict lines.")
@@ -161,6 +170,7 @@ const parseBlock = (function() {
 						opReturn: Op.Some(
 							E.DictReturn(px.s({
 								keys: dictKeys,
+								debugKeys: debugKeys,
 								opDicted: Op.Some(Sq.last(eLines)),
 								opDisplayName: Op.None // This is filled in by parseAssign
 							})))
@@ -168,6 +178,7 @@ const parseBlock = (function() {
 						doLines: eLines,
 						opReturn: Op.Some(E.DictReturn(px.s({
 							keys: dictKeys,
+							debugKeys: debugKeys,
 							opDicted: Op.None,
 							opDisplayName: Op.None // This is filled in by parseAssign
 						})))
@@ -185,6 +196,7 @@ const parseBlock = (function() {
 		const doLines = doLinesOpReturn.doLines, opReturn = doLinesOpReturn.opReturn
 
 		if (isModule) {
+			// TODO: Handle debug-only exports
 			const moduleLines =
 				// Turn dict assigns into exports.
 				doLines.map(function(line) {
@@ -207,14 +219,11 @@ const parseBlock = (function() {
 			if (!Sq.isEmpty(lines)) {
 				const firstLine = Sq.head(lines)
 				const sqt = firstLine.sqt, head = Sq.head(sqt)
-				if (T.Keyword.is(inOrOut)(head)) {
-					const _ = takeBlockFromEnd(px.withSpan(firstLine.span), Sq.tail(sqt), "do")
-					check(Sq.isEmpty(_.before), Sq.head(sqt).span, "Did not expect anything after " + head.k)
+				if (T.Keyword.is(inOrOut)(head))
 					return {
-						took: Op.Some(E.Debug({ span: _.block.span, block: _.block })),
+						took: Op.Some(E.Debug({ span: firstLine.span, lines: parseLines(px, sqt) })),
 						rest: Sq.tail(lines)
 					}
-				}
 			}
 			return { took: Op.None, rest: lines }
 		}
@@ -456,7 +465,7 @@ const parseLine = (function() {
 
 		const isYield = k === "<~" || k === "<~~"
 
-		const eValue = valueFromAssign(eValueNamed, k)
+		const eValue = valueFromAssign(eValueNamed, k, assigned)
 
 		if (Sq.isEmpty(locals)) {
 			check(isYield, px.span, "Assignment to nothing")
@@ -473,8 +482,12 @@ const parseLine = (function() {
 				return U.with(l, "okToNotUse", true)
 			})
 
-		if (locals.length === 1)
-			return E.Assign(px.s({ assignee: locals[0], k: k, value: eValue }))
+		if (locals.length === 1) {
+			const assign = E.Assign(px.s({ assignee: locals[0], k: k, value: eValue }))
+			if (assign.assignee.name.endsWith("test") && k === ". ")
+				return E.Debug(px.s({ lines: [ assign ] }))
+			else return assign
+		}
 		else {
 			const isLazy = locals.some(function(l) { return l.isLazy })
 			if (isLazy)
@@ -485,7 +498,7 @@ const parseLine = (function() {
 		}
 	}
 
-	const valueFromAssign = function(valuePre, kAssign) {
+	const valueFromAssign = function(valuePre, kAssign, assigned) {
 		switch (kAssign) {
 			case "<~":
 				return E.Yield({ span: valuePre.span, yielded: valuePre })
@@ -513,7 +526,7 @@ const parseLine = (function() {
 			case isa(eValuePre, E.Fun):
 				return E.DictReturn({
 					span: eValuePre.span,
-					keys: [],
+					keys: [], debugKeys: [],
 					opDicted: Op.Some(eValuePre),
 					opDisplayName: Op.Some(displayName)
 				})
@@ -580,11 +593,11 @@ const parseLine = (function() {
 					})
 				case "case!":
 					return parseCase(pxRest(), rest(), "case!", false)
-				case "debug": {
-					const _ = parseBlock.takeBlockFromEnd(px.withSqTSpan(rest()), rest(), "do")
-					check(Sq.isEmpty(_.before), first.span, "Did not expect anything after `debug`")
-					return E.Debug({ span: _.block.span, block: _.block })
-				}
+				case "debug":
+					return E.Debug({
+						span: first.span,
+						lines: parseLines(px, sqt)
+					})
 				case "debugger":
 					check(Sq.isEmpty(rest()), px.span, "Did not expect anything after " + first)
 					return E.Debugger(px.s({}))
@@ -592,12 +605,8 @@ const parseLine = (function() {
 					return E.EndLoop(px.s({ name: loopName(px, rest()) }))
 				case "loop!":
 					return parseLoop(pxRest(), rest())
-				case "region": {
-					check(sqt.length > 1, first.span, "Expected indented block after " + first)
-					const block = sqt[1]
-					assert(sqt.length === 2 && T.Group.is(block, '->')) // Lexer ignores whole line up to block
-					return block.sqt.map(function(line) { return parseLine(px.withSpan(line.span), line.sqt) })
-				}
+				case "region":
+					return parseLines(px, sqt)
 				case "use":
 				case "use~":
 					return parseUse(pxRest(), rest(), first.k)
@@ -611,6 +620,23 @@ const parseLine = (function() {
 			function() { return parseExpr(px, sqt) })
 	}
 })()
+
+const parseLines = function(px, sqt) {
+	const first = Sq.head(sqt)
+	check(sqt.length > 1, first.span, "Expected indented block after " + first)
+	const block = sqt[1]
+	assert(sqt.length === 2 && T.Group.is(block, '->'))
+	const out = []
+	block.sqt.forEach(function(line) {
+		const _ = parseLine(px.withSpan(line.span), line.sqt)
+		if (_ instanceof Array)
+			[].push.apply(out, _)
+		else
+			out.push(_)
+	})
+	return out
+}
+
 
 const parseLocals = (function() {
 	const parseLocals = function(px, sqt) { return sqLocals(px, sqt).map(E.LocalDeclare) }

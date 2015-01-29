@@ -171,14 +171,20 @@ U.implementMany(E, "renderContent", {
 		]
 	},
 	Debug: function(rx) {
-		return rx.opts.includeInoutChecks() ? r(rx)(this.block) : []
+		return rx.opts.includeInoutChecks() ? Sq.interleave(this.lines.map(r(rx)), rx.snl()) : []
 	},
 	Debugger: function() { return "debugger" },
 	DictReturn: function(rx) {
-		const keys = this.keys
+		const nonDebugKeys = this.keys
+		const keys = rx.opts.includeTypeChecks() ? this.keys.concat(this.debugKeys) : this.keys
 		const opDisplayName = this.opDisplayName
 		return Op.ifElse(this.opDicted,
 			function(dicted) {
+				if (Sq.isEmpty(keys)) {
+					assert(Sq.isEmpty(nonDebugKeys)) // That's how this happens
+					return r(rx)(dicted)
+				}
+
 				const keysVals = keys.map(function(key) { return [
 					quote(key.name),
 					", ",
@@ -198,6 +204,7 @@ U.implementMany(E, "renderContent", {
 					")"
 			]},
 			function() {
+				assert(!Sq.isEmpty(keys))
 				const obj = keys.map(function(key) {
 					const q = quote(key.name), m = mangle(key.name)
 					return key.isLazy
