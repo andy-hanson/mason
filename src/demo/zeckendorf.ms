@@ -1,11 +1,11 @@
 use
 	..!
-	..@ -> fold-map
-	..@.Seq -> reverse tail take-while
+	..@ fold-map
+	..@.Seq reverse tail take-while
 	..@.Stream
-	..Comparable -> =? <=? >=?
-	..math.Num -> Nat
-	..methods -> => + -
+	..Comparable =? <=? >=?
+	..math.Num Nat
+	..methods => + -
 	..Str
 
 fibs =

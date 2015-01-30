@@ -1,17 +1,21 @@
 doc. "TODO"
 
 use
-	.Bool -> false not true
-	.Comparable -> =?
-	.control -> if!
-	.Fun -> apply
-	.maps.Map -> each-pair!
-	.methods -> => +
-	.show -> repr
-	.Str -> indent
-	.Try -> fails-with? oh-no!
+	.Bool _ not
+	.Comparable =?
+	.control if!
+	.Fun _ apply
+	.maps.Map _ each-pair!
+	.methods =>
+	.show repr
+	.Str _ indent
+	.Try oh-no!
 use
-	.@ -> count map
+	.@ count map
+debug use
+	.Bool false true
+	.methods +
+	.Try fails-with?
 
 \ TODO: !-Error type?
 ! =

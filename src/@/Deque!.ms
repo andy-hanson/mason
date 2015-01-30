@@ -1,21 +1,21 @@
 use
-	.? -> un-?
+	.? un-?
 	.Array!
-	..@ -> count each! iterator map
-	.@-Type -> from-stream
-	..Bool -> and not or
-	..Comparable -> <? =?
-	..Comparable! -> <!
-	..control -> if returning
-	..math.Num -> modulo Nat
-	..methods -> + - * empty empty? empty! sub
-	..Obj! -> p!
-	..pred-types -> Any
-	.Range -> range
-	.Seq -> ?nth reverse
-	.Seq! -> <+! +>! ?<pop! ?pop>! set-nth!
+	..@ _ count each! iterator map
+	.@-Type _ from-stream
+	..Bool and not or
+	..Comparable <? =?
+	..Comparable! <!
+	..control if returning
+	..math.Num modulo Nat
+	..methods + - * empty empty? empty! sub
+	..Obj! p!
+	..pred-types Any
+	.Range range
+	.Seq ?nth reverse
+	.Seq! _ <+! +>! ?<pop! ?pop>! set-nth!
 	..types.Record-Type
-	..types.util -> self-type
+	..types.util self-type
 
 Deque! = Record-Type
 	doc.

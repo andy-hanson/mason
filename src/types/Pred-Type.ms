@@ -1,9 +1,9 @@
 use
-	..Comparable! -> <!
-	..Fun -> Pred
-	.Method -> impl!
-	..methods -> contains?
-	..private.bootstrap -> Str
+	..Comparable! <!
+	..Fun Pred
+	.Method impl!
+	..methods contains?
+	..private.bootstrap Str
 	.Record-Type
 	.Type
 

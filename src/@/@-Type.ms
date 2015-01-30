@@ -1,14 +1,15 @@
 use
 	..@
-	..Comparable! -> <!
-	..Fun -> identity
-	..methods -> => empty sub
+	..Comparable! <!
+	..Fun identity
+	..methods => empty sub
 	..types.Interface
-	..types.Method -> impl!
-	..types.util -> self-type
+	..types.Method _ impl!
+	..types.util self-type
 use~
 	.Array
-	.Range -> range
+debug use~
+	.Range range
 
 @-Type = Interface
 	doc. "Any sub-type of @."

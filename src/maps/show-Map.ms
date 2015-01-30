@@ -1,12 +1,12 @@
 use
-	..@ -> map
-	.Map -> keys
-	..methods -> =>
-	..Obj -> flag?
+	..@ map
+	.Map _ keys
+	..methods =>
+	..Obj flag?
 	..show
 	..Str
-	..types.Method -> impl!
-	..types.util -> type-of
+	..types.Method impl!
+	..types.util type-of
 
 impl! show Map
 	test. |

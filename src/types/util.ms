@@ -1,10 +1,10 @@
 doc. "TODO"
 
 use
-	..Comparable! -> <!
+	..Comparable! <!
 	.Impl-Type
-	..js -> any? defined?
-	..private.bootstrap -> Obj
+	..js any? defined?
+	..private.bootstrap Obj
 	.Record-Type
 
 \getters.

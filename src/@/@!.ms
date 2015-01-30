@@ -1,17 +1,21 @@
 use
-	..! -> !not
-	..@ -> each!
+	..@
 	.@-Type
-	..Comparable -> =?
-	..Comparable! -> <!
-	..methods -> +! contains? empty empty? empty!
+	..Comparable! <!
+	..methods +! empty
 	..types.Interface
-	..types.Method -> impl!
-	..types.util -> self-type
+	..types.Method impl!
+	..types.util self-type
 use~
+	.Seq! +>!
+debug use~
+	..! _ !not
+	..@ each!
 	.Array
 	.Array!
-	.Seq! -> +>!
+	..Comparable =?
+	..methods contains? empty? empty!
+
 
 
 @! = Interface

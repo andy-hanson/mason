@@ -1,19 +1,19 @@
 use
-	..@ -> each! iterator
-	.@-Type -> from-stream
-	..Bool -> true
+	..@ each! iterator
+	.@-Type _ from-stream
+	..Bool true
 	.Set
 	.Set!
-	..Comparable -> =?
-	..Comparable! -> <!
-	..control -> returning
-	..maps.Map -> keys
-	..maps.Map! -> assoc! un-assoc!
+	..Comparable =?
+	..Comparable! <!
+	..control returning
+	..maps.Map keys
+	..maps.Map! assoc! un-assoc!
 	..maps.Hash-Map!
-	..methods -> +! -! empty empty!
-	..types.Method -> impl! impl-for
+	..methods +! -! empty empty!
+	..types.Method impl! impl-for
 	..types.Record-Type
-	..types.util -> self-type
+	..types.util self-type
 
 Hash-Set! = Record-Type
 	doc. "TODO"

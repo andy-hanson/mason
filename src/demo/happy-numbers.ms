@@ -1,16 +1,18 @@
 use
-	..!
-	..@ -> each! fold keep map
+	..@ each! fold keep map
 	..@.Array!
 	..@.Identity-Set!
-	..@.Seq -> seq=? take
-	..@.Seq! -> set-nth!
+	..@.Seq! set-nth!
 	..@.Stream
-	..Bool -> and not true
-	..control -> returning
-	..js -> defined? js-sub
-	..math.Num -> Nat nats square
-	..methods -> + +! contains? empty
+	..Bool _ and not true
+	..control returning
+	..js defined? js-sub
+	..math.Num _ Nat nats square
+	..methods + +! contains? empty
+debug use
+	..!
+	..@.Seq seq=? take
+
 
 digits = |_:Nat
 	map (_.toString 10) Num.parseInt

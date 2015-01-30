@@ -1,19 +1,20 @@
 use
-	.! -> !not
-	.@ -> fold map
+	.@ fold map
 	.@.Array
 	.Bool
-	.Comparable -> =?
+	.Comparable =?
 	.Fun
-	.js -> reference=?
+	.js reference=?
 	.maps.Weak-Identity-Map!
-	.math.bit-arithmetic -> bit-and hexidecimal
-	.math.Num -> Int round-towards-0
-	.methods -> + * empty empty?
-	.Obj -> p ?p @p-all
+	.math.bit-arithmetic bit-and hexidecimal
+	.math.Num _ Int round-towards-0
+	.methods + * empty empty?
+	.Obj p ?p @p-all
 	.Str
 	.Symbol
-	.types.Method -> impl! impl-for
+	.types.Method _ impl! impl-for
+debug use
+	.! _ !not
 
 max-hash-code = hexidecimal "7fffffff"
 

@@ -1,32 +1,35 @@
 use
-	..$ -> $after
-	..!
-	..@ -> count keep each! max map
-	..@.Seq -> seq=? sort
-	..Comparable -> =?
-	..Fun -> ignore
-	..js -> new
+	..@ count keep each! max map
+	..@.Seq sort
+	..Comparable =?
 	..maps.Identity-Map!
-	..maps.Map -> values
-	..maps.multi-map! -> add-to-@!
-	..methods -> empty
-	..modules -> get-global-module
-	..Str -> lines
-	..Try -> oh-no!
+	..maps.Map values
+	..maps.multi-map! add-to-@!
+	..methods empty
+debug use
+	..$ _ $after
+	..!
+	..@.Seq seq=?
+	..Fun ignore
+	..js new
+	..Str lines
+	..Try oh-no!
+	..modules get-global-module
 
-request = get-global-module "request"
+debug
+	\ TODO: ..io.http module
 
-\ TODO: ..io.http module
-$request = |url
-	new $ |resolve
-		request url |err res body
-			ignore res \ TODO:Ignored vars
-			case! err
-				=? _ ()
-					()
-				else
-					oh-no! err
-			resolve body
+	request = get-global-module "request"
+	$request = |url
+		new $ |resolve
+			request url |err res body
+				ignore res \ TODO:Ignored vars
+				case! err
+					=? _ ()
+						()
+					else
+						oh-no! err
+				resolve body
 
 maximum-anagram-sets.
 	doc. "http://rosettacode.org/wiki/Anagrams#JavaScript"

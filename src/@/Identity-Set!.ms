@@ -1,12 +1,12 @@
 use
-	..@ -> count each! iterator
-	.@-Type -> from-stream
-	..Comparable! -> <!
-	..control -> returning
-	..js -> global new
-	..methods -> +! -! contains? empty empty!
+	..@ count each! iterator
+	.@-Type _ from-stream
+	..Comparable! <!
+	..control returning
+	..js global new
+	..methods +! -! contains? empty empty!
 	.Set!
-	..types.util -> self-type
+	..types.util self-type
 
 Identity-Set! = global.Set
 

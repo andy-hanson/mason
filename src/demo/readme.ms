@@ -1,21 +1,23 @@
 doc. "Making sure the code in README.md actually works."
 
 use
-	..! -> !not
-	..@ -> count map
+	..! _ !not
+	..@ _ count map
 	..@.Array!
-	..@.Seq -> seq=? take
+	..@.Seq seq=? take
 	..@.Stream
-	..Bool -> and true
-	..Comparable -> =? >? >=? <=?
-	..Fun -> ignore
-	..Generator! -> each~ gen-next!
-	..js -> eval
-	..math.Num -> divisible? Int
-	..methods -> + - * / empty
-	..Ref! -> get mod! set!
+	..Bool and true
+	..Comparable =? >? >=? <=?
+	..Fun _ ignore
+	..Generator! _ each~ gen-next!
+	..js eval
+	..math.Num _ Int
+	..methods + - * / empty
+	..Ref! _ get mod! set!
 	..Str
-	..Try -> !debug-fails?
+	..Try !debug-fails?
+debug use
+	..math.Num divisible?
 
 my-dict.
 	one. 1

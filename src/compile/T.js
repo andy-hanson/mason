@@ -33,10 +33,6 @@ T.Group.is = function(t, k) {
 	return type.isa(t, T.Group) && t.k === k
 }
 
-const groupMatch = function(k) {
-
-}
-
 // toString is used by some parsing errors. Use U.inspect for a more detailed view.
 U.implementMany(T, "show", {
 	CallOnFocus: function() { return "_" },

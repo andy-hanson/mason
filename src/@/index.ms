@@ -1,26 +1,29 @@
 use
-	..Bool -> and false not true
-	..Comparable -> =? <?
-	..Fun -> Act identity Pred
-	..js -> reference=?
-	..methods -> => + - -! contains? empty empty?
+	..Bool _ and not
+	..Comparable =? <?
+	..Fun _ Act identity Pred
+	..js reference=?
+	..methods => + - -! contains? empty empty?
 	..Obj
-	..pred-types -> Any Opt
+	..pred-types Any Opt
 	..Symbol
 	..types.Interface
-	..types.Method -> impl!
-	..types.util -> type-of
+	..types.Method _ impl!
+	..types.util type-of
 use~
-	..! -> !not
-	.? -> get-or Opt->?
+	.? _ get-or Opt->?
 	.Array
-	.@-Type -> from-stream
+	.@-Type _ from-stream
 	..Generator!
 	.Hash-Set!
-	..math.Num -> divisible? Nat
-	..Ref! -> get mod! set!
-	.Seq -> seq=?
+	..math.Num Nat
+	..Ref! _ get mod! set!
+	.Seq seq=?
 	.Stream
+debug use~
+	..Bool false true
+	..! _ !not
+	..math.Num divisible?
 
 @. Interface
 	doc. "TODO"

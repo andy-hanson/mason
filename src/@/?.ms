@@ -1,17 +1,19 @@
 use
-	..@ -> iterator
-	.@-Type -> from-stream
-	..Comparable! -> <!
-	..Fun -> ignore thunk
-	..js -> defined? reference=?
-	..methods -> empty empty?
+	..@ iterator
+	.@-Type _ from-stream
+	..Comparable! <!
+	..Fun ignore thunk
+	..js defined? reference=?
+	..methods empty empty?
 	.Seq
-	..types.Method -> impl!
-	..types.util -> self-type
+	..types.Method impl!
+	..types.util self-type
 	..types.Wrap-Type
 use~
-	..! -> !not
-	..Try -> fails? oh-no!
+	..Try oh-no!
+debug use~
+	..! _ !not
+	..Try fails?
 
 empty-marker =
 	doc. "`_.val` on an empty `?` will return this."

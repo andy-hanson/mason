@@ -1,13 +1,13 @@
 use
-	..Bool -> and
+	..Bool and
 	.Impl-Type
-	.Interface -> unchecked-implementor!
-	..js -> any? defined? js-sub
-	.Method -> impl! impl-unchecked!
-	..methods -> contains?
-	..private.bootstrap -> Fun
+	.Interface _ unchecked-implementor!
+	..js any? defined? js-sub
+	.Method _ impl! impl-unchecked!
+	..methods contains?
+	..private.bootstrap Fun
 use~
-	..Obj -> p-with-proto?
+	..Obj p-with-proto?
 
 Type = Interface
 	doc. "TODO"

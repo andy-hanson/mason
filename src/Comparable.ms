@@ -1,9 +1,9 @@
 use
-	.Bool -> or
-	.js -> reference=?
+	.Bool _ or
+	.js reference=?
 	.types.Method
 use~
-	.Obj -> inspect=?
+	.Obj inspect=?
 	.types.Interface
 
 Comparable = Interface

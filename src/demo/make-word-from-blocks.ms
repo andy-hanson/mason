@@ -1,13 +1,15 @@
 use
-	..!
-	..@ -> flat-map keep=> map map=>
+	..@ _ flat-map keep=> map
 	..@.?
-	..@.Seq -> ?first ?<pop
+	..@.Seq _ ?first ?<pop
 	..@.Stream
-	..Comparable -> =?
-	..maps.Map -> each-pair!
-	..methods -> + - contains? empty?
-	..Str -> ->upper
+	..methods + - contains? empty?
+	..Str _ ->upper
+debug use
+	..!
+	..@ map=>
+	..Comparable =?
+	..maps.Map each-pair!
 
 make-word-from-blocks.
 	doc. "http://rosettacode.org/wiki/ABC_Problem"

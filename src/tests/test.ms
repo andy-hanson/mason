@@ -1,28 +1,29 @@
 doc. "TODO"
 
 use
-	..$ -> $after $all
-	..! -> !call
-	..@ -> each! flat-map flat-map=> map
-	..@.? -> get-or
+	..$ _ $after $all
+	..! _ !call
+	..@ _ each! flat-map flat-map=> map
+	..@.? get-or
 	..@.Array
 	..@.Identity-Set!
-	..Bool -> and false or true
-	..control -> build
-	..Comparable -> =?
-	..Fun -> apply ignore
+	..Bool _ and false or true
+	..Comparable =?
+	..Fun _ apply ignore
 	..maps.Map
-	..methods -> + contains? empty
-	..modules -> $@module-in-dir
-	..Obj -> ?p p p? @p @p-all
-	..Obj!
-	..pred-types -> ObjLit
+	..methods + contains? empty
+	..modules $@module-in-dir
+	..Obj _ ?p p p? @p @p-all
+	..pred-types ObjLit
 	..Str
-	..Try -> $annotate-errors annotate-errors oh-no! Success try
+	..Try $annotate-errors annotate-errors oh-no! Success try
 	..types.Impl-Type
-	..types.Interface -> concrete-implementors
-	..types.Method -> impl! impl-for
-	..types.util -> self-type
+	..types.Interface _ concrete-implementors
+	..types.Method _ impl! impl-for
+debug use
+	..control build
+	..Obj!
+	..types.util self-type
 
 \ TODO
 test. |

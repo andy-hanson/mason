@@ -1,23 +1,26 @@
 use
-	.Bool -> and false not nor true xor
-	.Comparable -> =?
-	.js -> any? defined? global js-typeof reference=? js-sub
-	.methods -> => + empty empty? freeze
-	.pred-types -> Union
+	.Bool _ and false not nor xor
+	.Comparable =?
+	.js any? defined? global js-typeof reference=? js-sub
+	.methods => + empty empty? freeze
+	.pred-types Union
 	.Symbol
-	.types.Method -> impl!
-	.types.util -> self-type
+	.types.Method impl!
+	.types.util self-type
 use~
-	.!
-	.@ -> all? count each! keep
-	.@.? -> Opt->?
+	.@ _ all? count each! keep
+	.@.? _ Opt->?
 	.@.Identity-Set!
-	.@.Seq -> seq=?
 	.@.Stream
-	.Fun -> call
-	.maps.Map -> each-pair! make-map
-	.Obj! -> p+! p+mut! p-!
-	.Try -> !debug-fails?
+	.maps.Map _ each-pair! make-map
+	.Obj! _ p+! p-!
+debug use~
+	.!
+	.@.Seq seq=?
+	.Bool true
+	.Fun call
+	.Obj! p+mut!
+	.Try !debug-fails?
 
 Obj =
 	doc. "

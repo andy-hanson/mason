@@ -1,10 +1,10 @@
 doc. "TODO"
 
 use
-	.@ -> each!
-	chalk -> blue
-	.js -> global
-	.methods -> =>
+	.@ each!
+	chalk blue
+	.js global
+	.methods =>
 	.show
 	.Str
 

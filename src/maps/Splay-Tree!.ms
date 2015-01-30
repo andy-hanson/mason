@@ -1,20 +1,20 @@
 use
-	..! -> !not
+	..! _ !not
 	..@.Stream
-	..Bool -> and false not true
-	..Comparable -> <? >?
-	..Comparable! -> <!
-	..control -> if
-	..js -> defined?
-	.Map -> ?get keys
-	.Map! -> assoc! un-assoc!
-	..methods -> contains? empty empty? empty!
-	..Obj! -> p!
-	..Ref! -> get set!
+	..Bool _ and false not true
+	..Comparable <? >?
+	..Comparable! <!
+	..control if
+	..js defined?
+	.Map ?get keys
+	.Map! assoc! un-assoc!
+	..methods contains? empty empty? empty!
+	..Obj! p!
+	..Ref! _ get set!
 	.Sorted-Map!
-	..types.Method -> impl!
+	..types.Method impl!
 	..types.Record-Type
-	..types.util -> self-type
+	..types.util self-type
 
 Node = Record-Type
 	members.

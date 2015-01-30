@@ -1,20 +1,24 @@
 use
 	.Array!
-	..!
-	..@ -> count iterator
-	.@-Type -> from-stream
-	..Comparable -> =?
-	..Comparable! -> <!
-	..control -> build
-	..Fun -> ignore thunk
-	..Generator! -> each~
-	..math.Num -> Nat
-	..methods -> + - +! => empty empty?
-	.Range -> range
-	.Seq -> ?nth seq=? take
+	..@ count iterator
+	.@-Type _ from-stream
+	..Comparable! <!
+	..Fun _ ignore thunk
+	..Generator! _ each~
+	..math.Num Nat
+	..methods - +! empty empty?
+	.Seq _ ?nth
 	.Stream
 	..types.Record-Type
-	..types.util -> self-type
+	..types.util self-type
+debug use~
+	..!
+	..Comparable =?
+	..control build
+	..methods => +
+	.Range range
+	.Seq seq=? take
+
 
 Lazy-Stream = Record-Type
 	doc. "

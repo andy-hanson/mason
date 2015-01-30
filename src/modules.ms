@@ -1,10 +1,10 @@
 use
-	.$ -> $after
-	.@ -> flat-map
+	.$ _ $after
+	.@ flat-map
 	.@.Array
-	.control -> if
-	.js-impl -> i-require
-	.js -> new
+	.control if
+	.js-impl i-require
+	.js new
 
 \ TODO: Portability
 commonJS-require. i-require

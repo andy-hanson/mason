@@ -1,21 +1,23 @@
 \ TODO: Move
 
 use
-	.!
-	.@ -> count iterator map
-	.@.? -> Opt->? get-or
+	.@ _ count iterator map
+	.@.? Opt->? get-or
 	.@.Array
-	.@.@-Type -> from-stream
+	.@.@-Type _ from-stream
 	.@.Seq
-	.Comparable -> =?
-	.Comparable! -> <!
-	.Fun -> identity ignore
-	.methods -> => empty
-	.pred-types -> Opt
+	.Comparable! <!
+	.Fun ignore
+	.methods => empty
+	.pred-types Opt
 	.show
 	.Str
-	.types.Method -> impl! impl-for
-	.types.util -> self-type
+	.types.Method impl! impl-for
+	.types.util self-type
+debug use
+	.!
+	.Comparable =?
+	.Fun identity
 
 test. |
 	! =? [ "1" "2" "3" ] (map "123" identity)

@@ -2,22 +2,23 @@ doc. "TODO"
 
 use
 	.@.?
-	.@ -> iterator
-	.@.Seq -> seq=?
-	.Bool -> and false true
-	.Comparable -> =?
+	.@ _ iterator
+	.Bool _ and
 	.Fun
-	.js-impl -> each-generator
+	.js-impl each-generator
 	.Js-Method
-	.methods -> contains? empty
+	.methods contains? empty
 	.Obj
-	.pred-types -> Any
-	.types.Method -> impl!
+	.pred-types Any
+	.types.Method impl!
 	.types.Pred-Type
-	.types.util -> self-type
-use~
+	.types.util self-type
+debug use~
 	.!
+	.@.Seq seq=?
 	.@.Stream
+	.Bool false true
+	.Comparable =?
 
 Generator! = Pred-Type
 	doc. "TODO"

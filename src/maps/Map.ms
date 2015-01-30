@@ -1,18 +1,21 @@
 use
-	..@ -> all? count each! map
-	..@.? -> un-?
-	..Bool -> and false not true
-	..Comparable -> =?
-	..Fun -> identity
-	..methods -> + empty empty? freeze sub
-	..pred-types -> Any
+	..@ _ all? count each! map
+	..@.? _ un-?
+	..Bool _ and not
+	..Comparable =?
+	..Fun _ identity
+	..methods empty empty? freeze sub
+	..pred-types Any
 	..types.Interface
-	..types.Method -> impl!
-	..types.util -> self-type type-of
+	..types.Method _ impl!
+	..types.util self-type type-of
 use~
-	..!
 	.Hash-Map!
-	.Map! -> assoc!
+	.Map! assoc!
+debug use~
+	..!
+	..Bool false true
+	..methods +
 
 Map = Interface
 	doc. "Mapping from keys to values."

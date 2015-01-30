@@ -1,17 +1,20 @@
 use
-	..Bool -> or true
-	..Comparable! -> <!
-	..js -> defined? global js-sub reference=?
-	..private.bootstrap -> Str Array Obj Symbol set!
-	.Method -> impl! propagate-method-down!
-	..methods -> contains?
+	..Bool or true
+	..js defined? global js-sub reference=?
+	..private.bootstrap Str Array Obj Symbol set!
+	.Method impl! propagate-method-down!
+	..methods contains?
 	.Record-Type
 use~
-	..! -> !not
-	..@ -> any? flat-map
-	..Comparable -> =? <?
+	..@ _ any? flat-map
 	.Impl-Type
-	..maps.Map -> each-pair!
+	..maps.Map each-pair!
+debug use~
+	..! _ !not
+	..Comparable =? <?
+	..Comparable! <!
+	.Method
+
 
 Interface = Record-Type
 	doc. "

@@ -1,22 +1,24 @@
 use
-	.@ -> concat=> map
+	.@ _ concat=> map
 	.@.Array
 	.Bool
-	chalk -> red
-	.Comparable -> =?
-	.console -> log!
-	.control -> if unreachable!
-	es6-promise -> Promise
-	.Fun -> apply fun-copy identity ignore
+	chalk red
+	.console log!
+	.control if
+	es6-promise Promise
+	.Fun _ apply fun-copy identity ignore
 	.Generator!
-	.js -> new
-	.methods -> => + sub
-	.pred-types -> Any
-	.types.Method -> impl!
-	.types.util -> self-type type-of
-use~
+	.js new
+	.methods => sub
+	.pred-types Any
+	.types.Method impl!
+	.types.util self-type type-of
+debug use~
 	.!
-	.Try -> oh-no!
+	.Comparable =?
+	.control unreachable!
+	.methods +
+	.Try oh-no!
 
 $ =
 	doc. "
@@ -39,9 +41,10 @@ $ =
 
 impl! sub (self-type $) identity
 
-$!=? = |expected $actual
-	$after $actual |_
-		! =? expected _
+debug
+	$!=? = |expected $actual
+		$after $actual |_
+			! =? expected _
 
 $done.
 	doc. "

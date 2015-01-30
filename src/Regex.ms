@@ -1,6 +1,6 @@
 use
-	.@.? -> get-or Opt->?
-	.js -> global
+	.@.? get-or Opt->?
+	.js global
 	.Str
 
 \ TODO: Probably use xregexp

@@ -1,9 +1,11 @@
 use
-	.Method -> impl!
-	..methods -> empty?
-	..Obj -> ?p
+	.Method impl!
+	..methods empty?
+	..Obj ?p
 	..show
 	.Type
+debug use
+	.Method
 
 impl! show Type
 	test. |

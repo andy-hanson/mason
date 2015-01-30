@@ -1,11 +1,11 @@
 use
 	..@
 	..@.Array!
-	..@.? -> get-or Opt->?
+	..@.? get-or Opt->?
 	..@.@-Type
-	.Map! -> get-or-add!
-	..methods -> +! empty
-	..pred-types -> Opt
+	.Map! _ get-or-add!
+	..methods +! empty
+	..pred-types Opt
 
 add-to-@!. |map:Map! key added:@ @-type:Opt[@-Type]
 	\ TODO:SYNTAX Optional arguments

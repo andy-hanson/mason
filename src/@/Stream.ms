@@ -1,15 +1,17 @@
 use
-	..!
-	..@ -> iterator
-	.@-Type -> from-stream
-	..Comparable! -> <!
-	..Fun -> ignore thunk
+	..@ _ iterator
+	.@-Type _ from-stream
+	..Comparable! <!
+	..Fun _ ignore thunk
 	..Generator!
-	..methods -> => empty
-	.Seq -> seq=?
-	..types.Method -> impl!
-	..types.util -> self-type
+	..methods => empty
+	.Seq _
+	..types.Method impl!
+	..types.util self-type
 	..types.Wrap-Type
+debug use~
+	..!
+	.Seq seq=?
 
 Stream = Wrap-Type
 	doc. "

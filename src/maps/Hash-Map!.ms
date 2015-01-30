@@ -1,24 +1,25 @@
 \ TODO: TEST
 
 use
-	..!
-	..@ -> flat-map map
-	..@.? -> Opt->?
-	..@.Seq -> seq=?
+	..@ flat-map map
+	..@.? _ Opt->?
 	..@.Stream
-	..Comparable -> =?
-	..Comparable! -> <!
+	..Comparable =?
+	..Comparable! <!
 	..hash-code
 	.Identity-Map!
-	..js -> defined?
-	.Map -> ?get keys values
-	.Map! -> assoc! un-assoc!
-	..methods -> empty empty! freeze
+	..js defined?
+	.Map ?get keys values
+	.Map! _ assoc! un-assoc!
+	..methods empty empty! freeze
 	..Obj
-	..Obj! -> p!
-	..types.Method -> impl!
+	..Obj! p!
+	..types.Method impl!
 	..types.Record-Type
-	..types.util -> self-type
+	..types.util self-type
+debug use
+	..!
+	..@.Seq seq=?
 
 Bucket-Entry = Record-Type
 	doc. "

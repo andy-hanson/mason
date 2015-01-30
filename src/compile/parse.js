@@ -451,6 +451,8 @@ const parseLine = (function() {
 			const name = Sq.head(locals).name
 			if (name === "doc") {
 				if (eValuePre instanceof E.Fun)
+					// KLUDGE: `doc` for module can be a Fun signature.
+					// TODO: Something better...
 					eValueNamed = U.with(eValuePre, "args", eValuePre.args.map(function(arg) {
 						return U.with(arg, "okToNotUse", true)
 					}))
@@ -594,6 +596,14 @@ const parseLine = (function() {
 				case "case!":
 					return parseCase(pxRest(), rest(), "case!", false)
 				case "debug":
+					if (T.Keyword.is("use")(sqt[1])) {
+						const u = parseUse(pxRest(), Sq.tail(rest()), "use")
+						return E.Debug({ span: pxRest().span, lines: u })
+					}
+					if (T.Keyword.is("use~")(sqt[1])) {
+						const u = parseUse(pxRest(), Sq.tail(rest()), "use~")
+						return E.Debug({ span: pxRest().span, lines: u })
+					}
 					return E.Debug({
 						span: first.span,
 						lines: parseLines(px, sqt)
@@ -783,21 +793,21 @@ const parseUse = (function() {
 		const required = _$.required, name = _$.name
 		const isLazy = k === "use~"
 
-		if (sqt.length !== 1)
-			check(T.Keyword.is("->")(sqt[1]), sqt[1].span, "Expected " + U.code("->"))
-		const assignees = parseLocals(px, sqt.slice(2)).map(function(l) {
-			return U.with(l, "isLazy", isLazy)
-		})
 		const defaultAssignee = E.LocalDeclare(px.s({
 			name: name,
 			opType: Op.None,
 			isLazy: isLazy,
-			// OK to do `a -> b` and not use `a`.
-			okToNotUse: !Sq.isEmpty(assignees)
+			okToNotUse: false
 		}))
+		const assignees = (sqt.length === 1) ?
+			[ defaultAssignee ] :
+			parseLocals(px, Sq.tail(sqt)).map(function(l) {
+				const l2 = (l.name === "_") ? U.with(l, "name", name) : l
+				return U.with(l2, "isLazy", isLazy)
+			})
 		return E.AssignDestructure({
 			span: px.sqtSpan(sqt),
-			assignees: Sq.cons(defaultAssignee, assignees),
+			assignees: assignees,
 			k: "=",
 			value: required,
 			isLazy: isLazy,

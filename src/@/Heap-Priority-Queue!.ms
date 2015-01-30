@@ -1,18 +1,18 @@
 use
-	..@ -> count each! iterator map
-	.@-Type -> from-stream
-	.? -> un-?
+	..@ count each! iterator map
+	.@-Type _ from-stream
+	.? un-?
 	.Array!
-	..Bool -> and not
-	..Comparable -> <? >?
-	..Comparable! -> <!
-	..control -> if! returning
-	..math.Num -> int/
-	..methods -> + +! - * empty empty? empty!
-	.Priority-Queue! -> ?pop!
-	.Seq -> ?first
-	.Seq! -> ?pop>! set-nth!
-	..types.util -> self-type
+	..Bool and not
+	..Comparable <? >?
+	..Comparable! <!
+	..control if! returning
+	..math.Num int/
+	..methods + +! - * empty empty? empty!
+	.Priority-Queue! _ ?pop!
+	.Seq ?first
+	.Seq! ?pop>! set-nth!
+	..types.util self-type
 	..types.Wrap-Type
 
 Heap-Priority-Queue!. Wrap-Type

@@ -1,18 +1,19 @@
 use
-	..!
-	..@ -> each!
+	..@ each!
 	..@.Array
-	..Comparable -> =?
 	.Impl-Type
-	.Interface -> unchecked-implementor!
-	.Method -> impl!
-	..methods -> contains?
+	.Interface unchecked-implementor!
+	.Method impl!
+	..methods contains?
 	..Obj
-	..Obj! -> p+!
+	..Obj! p+!
 	.Record-Type
 	..show
 	..Str
-	.util -> type-of
+debug use
+	..!
+	..Comparable =?
+	.util type-of
 
 Enum = Record-Type
 	doc. "

@@ -1,10 +1,10 @@
 use
-	.Comparable -> =?
 	.Fun
 	.Str
 	.types.Record-Type
-use~
+debug use~
 	.!
+	.Comparable =?
 
 Js-Method = Record-Type
 	doc. "

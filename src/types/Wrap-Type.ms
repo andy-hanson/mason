@@ -1,23 +1,23 @@
 use
-	..Comparable -> =?
-	..control -> if!
+	..control if!
 	..Fun
-	.Interface -> unchecked-implementor!
+	.Interface unchecked-implementor!
 	.Impl-Type
-	..js -> defined? js-instanceof
-	..js-impl -> build-str
-	.Method -> impl!
-	..methods -> contains?
+	..js defined? js-instanceof
+	..js-impl build-str
+	.Method impl!
+	..methods contains?
 	..Obj
 	\ TODO: Try non-bootstrap versions...
-	..private.bootstrap -> set!
+	..private.bootstrap set!
 	.Record-Type
 	..Str
 	.Type
-use~
+debug use~
 	..!
+	..Comparable =?
 	..math.Num
-	..Try -> !debug-fails?
+	..Try !debug-fails?
 
 Wrap-Type = Record-Type
 	doc. "TODO"

@@ -3,18 +3,22 @@ doc. "
 	Angles should be expressed in radians.
 
 use
+	.Num _
+	..js global
+debug use
 	..!
-	..maps.Map -> each-pair!
-	..methods -> /
-	.Num -> near? pi/2 pi pi3/2
-	..js -> global
+	..maps.Map each-pair!
+	..methods /
+	\ TODO: Move pi to trig
+	.Num near? pi/2 pi pi3/2
 
 Math = global.Math
 
-\ TODO: generalize and move to !.ms
-!apply-near = |fun apps
-	each-pair! apps |arg result
-		! near? (fun arg) result
+debug
+	\ TODO: generalize and move to !.ms
+	!apply-near = |fun apps
+		each-pair! apps |arg result
+			! near? (fun arg) result
 
 sin.
 	doc. "Y-value of the point on the unit circle this many radians counter-clockwise from +x."

@@ -1,17 +1,18 @@
 use
-	.Bool -> false
-	.Comparable -> =?
-	.js -> js-delete js-set
-	.methods -> empty
-	.Obj -> p?
-	.pred-types -> Any Union
+	.Bool false
+	.js js-delete js-set
+	.methods empty
+	.Obj
+	.pred-types Any Union
 	.Str
 	.Symbol
-	.types.Method -> impl!
-	.types.util -> self-type
-use~
-	.! -> !not
-	.Try -> fails?
+	.types.Method impl!
+	.types.util self-type
+debug use~
+	.! _ !not
+	.Comparable =?
+	.Obj p?
+	.Try fails?
 
 \ TODO: Alias-Type
 Obj! =

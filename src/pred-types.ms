@@ -1,20 +1,22 @@
 doc. "TODO"
 
 use
-	.Bool -> and not or true
-	.Comparable! -> <!
-	.Fun -> ignore
-	.js -> defined? reference=?
-	.methods -> contains? sub
-	.Str
-	.types.Method -> impl!
+	.Bool and not or true
+	.Comparable! <!
+	.Fun ignore
+	.js defined? reference=?
+	.methods contains? sub
+	.types.Method impl!
 	.types.Pred-Type
 	.types.Record-Type
-	.types.util -> self-type
+	.types.util self-type
 	.types.Type
 use~
-	.! -> !not
 	.Obj
+debug use~
+	.! _ !not
+	.Bool
+	.Str
 
 region Opt
 	\ TODO: Does Opt need to exist?

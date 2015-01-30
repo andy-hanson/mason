@@ -1,12 +1,13 @@
 doc. "Methods for dealing with Ints qua sequences of bits."
 
 use
-	..! -> !not
-	.Num -> Int
-	..js -> js-bar js& js^ js~ js<< js>> js>>>
-	..Regex -> regex
+	.Num _ Int
+	..js js-bar js& js^ js~ js<< js>> js>>>
 	..Str
-	..Try -> !debug-fails?
+debug use
+	..! !not
+	..Regex regex
+	..Try !debug-fails?
 
 binary.
 	doc. "Makes an Int out of a string of 0s and 1s."

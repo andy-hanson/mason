@@ -1,18 +1,22 @@
 use
-	.Bool -> false true
-	.Comparable -> =?
-	.Fun -> Act call ignore thunk
-	.methods -> empty freeze
-	.pred-types -> Any
+	.Bool
+	.Fun _ Act call
+	.methods empty freeze
+	.pred-types Any
 use~
-	.! -> !call
-	.@.? -> get-or
+	.@.? _ get-or
 	.@.Array!
 	.@.Seq
-	.@.Seq! -> +>!
-	.maps.Map -> ?get
-	.Ref! -> get set!
-	.Try -> oh-no!
+	.@.Seq! +>!
+	.maps.Map _ ?get
+	.Ref! _ get set!
+	.Try oh-no!
+debug use~
+	.Bool false true
+	.Comparable =?
+	.Fun ignore thunk
+	.! _ !call
+
 
 build.
 	doc. "

@@ -1,15 +1,15 @@
 use
-	..@ -> count
+	..@ count
 	..@.Array
 	..@.Deque!
 	..@.Seq
-	..@.Seq! -> <+! +>! set-nth!
-	..Bool -> false
-	..Comparable -> =?
-	..control -> end-loop if! loop
-	..methods -> => + - empty?
-	..Obj -> p
-	..pred-types -> Any
+	..@.Seq! <+! +>! set-nth!
+	..Bool false
+	..Comparable =?
+	..control end-loop if! loop
+	..methods => + - empty?
+	..Obj _ p
+	..pred-types Any
 
 region Rule results
 	R. |written new-state

@@ -28,7 +28,7 @@ if (require.main === module) {
 	const opts = Opts({
 		inFile: "./ms-test.ms",
 		outDir: "fake-out",
-		checks: false
+		checks: true
 	})
 
 	const t = time(lex, source, opts)

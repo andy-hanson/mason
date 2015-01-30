@@ -1,14 +1,17 @@
 use
-	..@ -> all? count
-	..Bool -> and false true
-	..Comparable -> =?
-	..Comparable! -> <!
-	..methods -> - => contains?
+	..@ _ all? count
+	..Bool and
+	..Comparable =?
+	..Comparable! <!
+	..methods => contains?
 	..types.Interface
-	..types.Method -> impl!
-	..types.util -> type-of
+	..types.Method impl!
+	..types.util type-of
 use~
 	.Hash-Set!
+debug use~
+	..Bool false true
+	..methods -
 
 Set = Interface
 	doc. "TODO"

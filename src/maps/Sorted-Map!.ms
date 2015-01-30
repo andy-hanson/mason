@@ -1,12 +1,14 @@
 use
-	..!
-	..@ -> each!
-	..@.Seq -> sorted?
-	..Comparable! -> <!
-	.Map -> keys
-	.Map! -> assoc!
-	..methods -> empty
+	..Comparable! <!
+	.Map!
 	..types.Interface
+debug use
+	..!
+	..@ each!
+	..@.Seq sorted?
+	.Map keys
+	.Map! assoc!
+	..methods empty
 
 Sorted-Map! = Interface
 	doc. "TODO"

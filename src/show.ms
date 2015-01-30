@@ -1,18 +1,21 @@
 use
-	.Bool -> false true
-	.Comparable -> =?
-	.js -> js+
-	.js-impl -> new-Set
-	.methods -> empty?
-	.Obj -> flag? p ?p @p
-	.Str -> indent
+	.Bool
+	.Comparable =?
+	.js js+
+	.js-impl new-Set
+	.methods empty?
+	.Obj flag? p ?p @p
+	.Str _ indent
 	.Symbol
-	.types.Method -> impl!
-	.types.util -> type-of
+	.types.Method _ impl!
+	.types.util type-of
 use~
-	.@ -> map
-	.@.? -> get-or
+	.@ map
+	.@.? get-or
 	.Fun
+debug use
+	.Bool false true
+	.Obj
 
 showing = new-Set ()
 
@@ -108,9 +111,10 @@ impl! show Bool
 
 impl! show Fun
 	test. |
-		a = |
-			1
-		[ a ] -> "a"
+		\ TODO: Fix displayName!
+		\a = |
+		\	1
+		\ [ a ] -> "a"
 		[ Obj ] -> "Obj"
 		[ (Fun "" "") ] -> "<anonymous Fun>"
 	|:Str _

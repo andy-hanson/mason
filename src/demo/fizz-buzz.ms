@@ -1,8 +1,10 @@
 use
+	..@ map
+	..@.Seq drop
+	..math.Num divisible? nats
+debug use
 	..!
-	..@ -> map
-	..@.Seq -> drop seq=? take
-	..math.Num -> divisible? nats
+	..@.Seq seq=? take
 
 fizz-buzz.
 	doc. "TODO"

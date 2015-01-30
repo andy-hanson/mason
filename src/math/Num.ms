@@ -1,19 +1,23 @@
 use
-	..@.? -> get-or Opt->?
-	..@.Seq -> seq=? take
+	..@.? get-or Opt->?
 	..@.Stream
-	..! -> !not
-	..Bool -> and false true
-	..Comparable -> =? <? >? <=? >=? compare
-	..Fun -> spread!
-	..methods -> + - * / contains?
-	..Obj -> p
-	..pred-types -> Opt
-	..js -> global js-bar js< js> js<= js>= js+ js- js* js/ js% reference=?
+	..Bool and
+	..Comparable =? <? >? <=? >=? compare
+	..methods + - * /
+	..Obj p
+	..pred-types Opt
+	..js global js-bar js< js> js<= js>= js+ js- js* js/ js% reference=?
 	..show
-	..Try -> !debug-fails?
-	..types.Method -> impl!
+	..types.Method _ impl!
 	..types.Pred-Type
+debug use
+	..@.Seq seq=? take
+	..! _ !not
+	..Bool false true
+	..Fun spread!
+	..methods contains?
+	..Try !debug-fails?
+
 
 Num = global.Number
 Math = global.Math

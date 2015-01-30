@@ -1,5 +1,5 @@
 use
-	.js -> global
+	.js global
 
 Symbol = global.Symbol
 Symbol

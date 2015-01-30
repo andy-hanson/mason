@@ -1,14 +1,14 @@
 use
-	..@.? -> Opt->?
-	..Comparable! -> <!
-	..control -> returning
-	..js -> global new
-	.Map -> ?get has-key? keys
-	.Map! -> assoc! un-assoc!
-	..methods -> empty empty!
-	..Try -> oh-no!
-	..types.Method -> impl!
-	..types.util -> self-type
+	..@.? Opt->?
+	..Comparable! <!
+	..control returning
+	..js global new
+	.Map ?get has-key? keys
+	.Map! _ assoc! un-assoc!
+	..methods empty empty!
+	..Try oh-no!
+	..types.Method impl!
+	..types.util self-type
 
 Weak-Identity-Map! =
 	doc. "TODO"

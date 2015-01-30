@@ -1,13 +1,13 @@
 use
-	.Bool -> and
-	.Comparable -> =? compare
-	.Comparable! -> <!
-	.js -> global reference=?
-	.types.Method -> impl!
+	.Bool and
+	.Comparable _ =? compare
+	.Comparable! <!
+	.js global reference=?
+	.types.Method impl!
 	.types.Pred-Type
 use~
-	.@ -> count
-	.Regex -> regex
+	.@ count
+	.Regex regex
 
 Str =
 	doc. "TODO"

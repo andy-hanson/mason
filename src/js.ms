@@ -1,21 +1,26 @@
 doc. "TODO"
 
 use
-	.js-impl -> i& i^ i<< i>> i>>> i=== i== i< i> i<= i>= i+ i- i* i/ i% i-bar i~ i! i-sub i-set i-global i-new i-typeof i-delete i-instanceof
+	.js-impl i& i^ i<< i>> i>>> i=== i== i< i> i<= i>= i+ i- i* i/ i% i-bar i~ i! i-sub i-set i-global i-new i-typeof i-delete i-instanceof
 use~
-	.@ -> each!
+	.!
+	.@
 	.@.Array
-	.! -> !not
-	.Bool -> false not true
-	.Comparable -> =?
-	.Fun -> ignore
-	.math.Num
-	.methods -> => + contains?
-	.Obj! -> p+!
-	.pred-types -> Any Union
+	.Bool _ not
+	.Fun _ ignore
+	.methods => contains?
+	.pred-types Any Union
 	.Str
 	.Symbol
-	.Try -> Error
+debug use~
+	.! !not
+	.@ each!
+	.Bool false true
+	.Comparable =?
+	.math.Num
+	.methods +
+	.Obj! p+!
+	.Try Error
 
 global. i-global
 

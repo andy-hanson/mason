@@ -1,19 +1,23 @@
 use
-	..!
-	.? -> get-or Opt->?
-	..@ -> count iterator
-	.@-Type -> from-stream
-	..Comparable -> =? <? >=?
-	..Comparable! -> <!
-	..control -> if
-	..Fun -> ignore thunk
-	..math.Num -> Nat round-down sign
-	..methods -> + - * / empty length
-	..pred-types -> Opt
-	.Seq -> ?nth seq=?
-	..types.Method -> impl!
+	.? get-or Opt->?
+	..@ _ count iterator
+	.@-Type _ from-stream
+	..Comparable <? >=?
+	..Comparable! <!
+	..control if
+	..Fun ignore thunk
+	..math.Num _ Nat round-down sign
+	..methods + - * / empty length
+	..pred-types Opt
+	.Seq ?nth
+	..types.Method impl!
 	..types.Record-Type
-	..types.util -> self-type
+	..types.util self-type
+debug use~
+	..!
+	.? _
+	..Comparable =?
+	.Seq seq=?
 
 Range = Record-Type
 	doc. "TODO"
@@ -24,6 +28,7 @@ Range = Record-Type
 	post-construct. |_
 		in
 			! =? (sign _.step) (sign (- _.end _.start))
+		ignore _
 
 \ TODO: SYNTAX
 range. |-start-:Num -end-:Num -step-:Opt[Num]

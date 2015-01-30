@@ -1,14 +1,14 @@
 use
-	..Fun -> thunk
+	..Fun thunk
 	.Hash-Map!
-	..js-impl -> i-make-map
-	.Map! -> assoc!
-	..methods -> empty freeze
-	..Obj! -> p+!
-	..private.bootstrap -> ms
+	..js-impl i-make-map
+	.Map! assoc!
+	..methods empty freeze
+	..Obj! p+!
+	..private.bootstrap ms
 	..types.Alias-Type
-	..types.Method -> impl!
-	..types.util -> self-type
+	..types.Method impl!
+	..types.util self-type
 
 Hash-Map = Alias-Type
 	alias-of. Hash-Map!

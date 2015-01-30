@@ -1,10 +1,13 @@
 use
-	..!
-	..@.Range -> range
-	..Comparable -> =? >=?
-	..math.Num -> log Nat pow round-down
-	..methods -> - * contains?
+	..Comparable =? >=?
+	..math.Num log Nat pow round-down
+	..methods - *
 	..Str
+debug use
+	..!
+	..@.Range range
+	..methods contains?
+
 
 roman-digits =
 	1 -> "I"

@@ -1,19 +1,21 @@
 use
-	..Bool -> implies
-	..js -> any? defined? global js-sub
-	..js-impl -> build-str
-	..private.bootstrap -> Str Symbol Fun set! set-mutable!
+	..Bool implies
+	..js any? defined? global js-sub
+	..js-impl build-str
+	..private.bootstrap Str Symbol Fun set! set-mutable!
 	.Record-Type
 use~
 	..!
-	..@.? -> un-?
-	..Comparable -> =?
+	..@.? un-?
 	.Impl-Type
 	.Interface
+	..methods contains?
+	..Obj ?p
+	..Try oh-no!
+debug use~
+	..Comparable =?
 	..math.Num
-	..methods -> contains?
-	..Obj -> ?p
-	..Try -> !debug-fails? oh-no!
+	..Try !debug-fails?
 
 writable? = |obj property
 	desc = global.Object.getOwnPropertyDescriptor obj property

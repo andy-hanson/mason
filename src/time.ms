@@ -1,12 +1,12 @@
 use
-	.@ -> each!
-	.$ -> $after
-	.console -> log!
-	.Fun -> Act
-	.js -> global new
-	.js-impl -> i-time*
-	.math.Num -> Nat
-	.methods -> -
+	.@ _ each!
+	.$ _ $after
+	.console log!
+	.Fun _ Act
+	.js global new
+	.js-impl i-time*
+	.math.Num _ Nat
+	.methods -
 	.Str
 
 $time!.

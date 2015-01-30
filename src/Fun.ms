@@ -1,23 +1,25 @@
 use
-	.Comparable -> =?
-	.js -> global
-	.js-impl -> i-call i-curry
-	.methods -> => + empty sub
+	.js global
+	.js-impl i-call i-curry
+	.methods => + empty sub
 	.types.Alias-Type
-	.types.Method -> impl!
-	.types.util -> self-type
+	.types.Method _ impl!
+	.types.util self-type
 use~
-	.!
-	.@ -> map
-	.@.? -> un-?
-	.@.Seq -> ?last pop> seq=?
+	.@ _ map
+	.@.? un-?
+	.@.Seq ?last pop>
 	.@.Array
-	.control -> build
-	.maps.Map -> keys
-	.maps.Map! -> get-or-add!
+	.maps.Map _ keys
+	.maps.Map! get-or-add!
 	.maps.Weak-Identity-Map!
 	.Obj
-	.Try -> oh-no!
+	.Try oh-no!
+debug use~
+	.!
+	.@.Seq seq=?
+	.Comparable =?
+	.control build
 
 Fun =
 	doc. "

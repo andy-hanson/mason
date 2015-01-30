@@ -1,17 +1,18 @@
 use
-	..!
-	..@.? -> Opt->?
-	..@.Seq -> seq=?
+	..@.? Opt->?
 	..@.Stream
-	..Comparable -> =?
-	..Comparable! -> <!
-	..control -> returning
-	..js -> global new
-	.Map -> ?get has-key? keys values
-	.Map! -> assoc! un-assoc!
-	..methods -> empty empty!
-	..types.Method -> impl!
-	..types.util -> self-type
+	..Comparable! <!
+	..control returning
+	..js global new
+	.Map ?get has-key? keys values
+	.Map! _ assoc! un-assoc!
+	..methods empty empty!
+	..types.Method impl!
+	..types.util self-type
+debug use
+	..!
+	..@.Seq seq=?
+	..Comparable =?
 
 Identity-Map! =
 	doc. "TODO"

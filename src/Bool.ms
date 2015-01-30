@@ -1,6 +1,6 @@
 use
-	.js -> global
-	.js-impl -> i-true i-false
+	.js global
+	.js-impl i-true i-false
 
 Bool =
 	doc. "TODO"

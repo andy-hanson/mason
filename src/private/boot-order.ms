@@ -1,5 +1,5 @@
 use
-	source-map-support -> install
+	source-map-support install
 	\stack-displayname
 install
 	hi.
@@ -12,7 +12,7 @@ use
 	..@.Array \ <! Array @
 	..maps.Hash-Map \ Provides _ms.map
 	..show \ Important to load this now, as it will help error messages
-	.bootstrap -> set! ms
+	.bootstrap set! ms
 
 set! ms "show" show
 

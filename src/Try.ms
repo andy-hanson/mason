@@ -1,23 +1,24 @@
 use
 	.@.?
-	.$ -> $catch
-	.Bool -> and true
-	.Comparable -> =?
-	.Comparable! -> <!
-	.control -> build
-	.Fun -> Act thunk
-	.js -> global
-	.js-impl -> make-Error i-always-do-after i-oh-no! i-try
-	.methods -> contains? empty
+	.$ _ $catch
+	.Bool and true
+	.Comparable =?
+	.Comparable! <!
+	.Fun _ Act ignore
+	.js global
+	.js-impl make-Error i-always-do-after i-oh-no! i-try
+	.methods contains? empty
 	.Obj
-	.Obj! -> p!
-	.pred-types -> Any
+	.Obj! p!
+	.pred-types Any
 	.Str
 	.types.Interface
 	.types.Type
 	.types.Wrap-Type
-use~
-	.! -> !not
+debug use~
+	.! _ !not
+	.control build
+	.Fun thunk
 
 Try = Interface
 	doc. "Result of running failable code."
@@ -86,7 +87,7 @@ fails?.
 	|_:Act
 		in
 			! fails? _
-		()
+		ignore _
 
 fails-with?.
 	doc. "TODO"

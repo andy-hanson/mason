@@ -1,13 +1,15 @@
 use
 	.Array
-	..@ -> map
-	.Deque!
-	..methods -> => empty empty?
-	..Obj -> flag?
+	..@ _ map
+	..methods => empty?
+	..Obj flag?
 	..show
-	..Str -> indent
-	..types.Method -> impl! impl-for
-	..types.util -> type-of
+	..Str _ indent
+	..types.Method impl! impl-for
+	..types.util type-of
+debug use~
+	.Deque!
+	..methods empty
 
 impl! show @
 	test. |

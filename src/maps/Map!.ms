@@ -1,20 +1,24 @@
 use
-	..! -> !not
-	..@ -> each! map
+	..@ _ each!
 	..@.?
-	..@.Set -> set=?
-	..Bool -> not
-	..Comparable -> =? compare
-	..Comparable! -> <!
-	..control -> if!
-	.Map -> each-pair! ?get has-key? keys
-	..methods -> * +! -! empty empty? empty!
-	..pred-types -> Any
+	..Comparable! <!
+	.Map _ each-pair! ?get
+	..methods +! -! empty?
+	..pred-types Any
 	..types.Interface
-	..types.Method -> impl!
+	..types.Method _ impl!
+debug use~
+	..! _ !not
+	..@ map
+	..@.Set set=?
+	..Bool not
+	..Comparable =? compare
+	..control if!
+	.Map has-key? keys
+	..methods * empty empty!
 	..types.Record-Type
-use~
 	.Weak-Identity-Map!
+
 
 Map! = Interface
 	doc. "

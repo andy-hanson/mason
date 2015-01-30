@@ -1,29 +1,32 @@
 use
-	..@ -> all? count iterator
-	.@-Type -> from-stream
-	..Bool -> and false not or true
-	..Comparable -> compare =? <? <=? >=?
-	..Comparable! -> <!
-	..control -> if returning
-	..Fun -> identity Pred
-	..js -> defined?
-	..methods -> => + - empty empty? freeze sub
-	..pred-types -> Any Opt
-	..Str -> indent
+	..@ _ all? count iterator
+	.@-Type _ from-stream
+	..Bool and not or true
+	..Comparable compare =? <? <=? >=?
+	..Comparable! <!
+	..control if returning
+	..Fun _ identity Pred
+	..js defined?
+	..methods => + - empty empty? freeze sub
+	..pred-types Any Opt
+	..Str _ indent
 	..types.Interface
-	..types.Method -> impl!
-	..types.util -> self-type type-of
+	..types.Method _ impl!
+	..types.util self-type type-of
 use~
-	..! -> !not
-	.? -> get-or Opt->?
+	.? _ get-or Opt->?
 	.Array
 	.Array!
-	..math.Num -> Nat
-	..Ref! -> get mod! set!
-	.Seq! -> +>!
+	..math.Num Nat
+	..Ref! _ get mod! set!
+	.Seq! +>!
 	..show
 	.Stream
-	..Try -> fails? oh-no!
+	..Try oh-no!
+debug use~
+	..Bool false
+	..! _ !not
+	..Try fails?
 
 Seq = Interface
 	doc. "TODO"

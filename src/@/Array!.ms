@@ -1,19 +1,19 @@
 use
-	.? -> get-or Opt->?
+	.? get-or Opt->?
 	.Array
-	..@ -> each!
-	.@-Type -> from-stream
-	..Bool -> and not
-	..Comparable! -> <!
-	..control -> if
-	..Fun -> ignore
-	..js -> js-set
-	..math.Num -> Nat
-	..methods -> => empty empty? empty!
-	..Obj -> frozen?
-	.Seq! -> <+! +>! ?<pop! ?pop>! set-nth!
+	..@ _ each!
+	.@-Type _ from-stream
+	..Bool and not
+	..Comparable! <!
+	..control if
+	..Fun ignore
+	..js js-set
+	..math.Num Nat
+	..methods => empty empty? empty!
+	..Obj frozen?
+	.Seq! _ <+! +>! ?<pop! ?pop>! set-nth!
 	..types.Pred-Type
-	..types.util -> self-type
+	..types.util self-type
 
 Array! = Pred-Type
 	doc. "

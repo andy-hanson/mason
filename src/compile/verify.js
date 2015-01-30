@@ -27,7 +27,7 @@ const verifyLocalUse = function(vr, opts) {
 		const noNonDebug = Sq.isEmpty(info.nonDebugAccesses)
 		if (info.isInDebug)
 			check(noNonDebug, local.span,
-				function() { return "Debug-only local used outside of debug at " + info.nonDebugAccesses[0].span })
+				function() { return "Debug-only local " + U.code(local.name) + " used outside of debug at " + info.nonDebugAccesses[0].span })
 		if (noNonDebug && Sq.isEmpty(info.debugAccesses))
 			check.warnIf(opts, !local.okToNotUse, local.span, "Unused local variable " + U.code(local.name) + ".")
 		else if (info.isInDebug)

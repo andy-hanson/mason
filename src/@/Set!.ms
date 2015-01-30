@@ -1,10 +1,11 @@
 use
-	..! -> !not
 	.@!
-	..Comparable! -> <!
-	..methods -> +! -! contains? empty empty? empty!
+	..Comparable! <!
 	.Set
 	..types.Interface
+debug use~
+	..! _ !not
+	..methods +! -! contains? empty empty? empty!
 
 Set! = Interface
 	doc. "TODO"

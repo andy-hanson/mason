@@ -1,24 +1,27 @@
 use
-	..!
-	..@ -> any? each!
-	..@.Seq -> take
-	..@.Range -> range
+	..@ each!
+	..@.Range range
 	..@.Stream
-	..Bool -> not
-	..Generator! -> each~
-	..maps.Map! -> assoc! un-assoc!
+	..Generator! each~
+	..maps.Map! assoc! un-assoc!
 	..maps.Identity-Map!
-	..maps.multi-map! -> add-to-@!
-	..math.Num -> divisible? square
-	..methods -> + * empty empty?
+	..maps.multi-map! add-to-@!
+	..math.Num square
+	..methods + * empty empty?
+debug use
+	..!
+	..@ any?
+	..@.Seq take
+	..Bool not
+	..math.Num divisible?
 
-is-prime? = |_
-	not (any? (range 2 _) divisible?[_]
 
 \ http://stackoverflow.com/questions/13463417/the-genuine-sieve-of-eratosthenes-in-python-why-is-heapq-slower-than-dict
 primes.
 	doc. "TODO"
 	test. |
+		is-prime? = |_
+			not (any? (range 2 _) divisible?[_]
 		each! (take primes 100000) |_
 			! is-prime? _
 

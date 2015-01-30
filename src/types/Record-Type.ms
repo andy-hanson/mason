@@ -1,14 +1,15 @@
 use
-	..Bool -> false implies not true
-	..private.bootstrap -> set! Obj Str Fun proto-impl-contains?!
-	..js -> defined? js=== js-instanceof js-sub js-typeof
-	..js-impl -> +1 i=== build-str
-use~
+	..Bool _ false implies not true
+	..private.bootstrap set! Obj Str Fun proto-impl-contains?!
+	..js defined? js=== js-instanceof js-sub js-typeof
+	..js-impl +1 i=== build-str
+debug use~
 	..!
-	..Comparable -> =?
+	..Comparable =?
 	..math.Num
-	..Try -> !debug-fails?
-	.util -> type-of
+	..Try !debug-fails?
+	.util type-of
+
 
 if! = |bool act
 	case!

@@ -1,11 +1,11 @@
 use
 	.Fun
-	.Obj! -> p!
+	.Obj! p!
 	.types.Wrap-Type
-use~
+debug use~
 	.!
-	.Comparable -> =?
-	.methods -> +
+	.Comparable =?
+	.methods +
 
 Ref! = Wrap-Type
 	doc. "

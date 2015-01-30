@@ -3,19 +3,22 @@ use
 	..@
 	.@-Type
 	.@!
-	.Array
-	..!
-	..Comparable -> =?
-	..Comparable! -> <!
-	..math.Num -> Nat
-	..methods -> empty empty?
-	.Seq -> seq=?
+	..Comparable! <!
+	..math.Num Nat
+	..methods empty
+	.Seq _
 	..types.Interface
 	..types.Method
-	..types.util -> self-type
+	..types.util self-type
 use~
-	.Array!
 	.Deque!
+debug use~
+	..!
+	.Array
+	.Array!
+	..Comparable =?
+	..methods empty?
+	.Seq seq=?
 
 Seq! = Interface
 	doc. "TODO"
