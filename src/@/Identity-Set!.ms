@@ -18,7 +18,7 @@ Identity-Set! = global.Set
 			_.add added
 	empty! -> |_
 		_.clear ()
-	-! -> |_  deleteds
+	-! -> |_ deleteds
 		each! deleteds |deleted
 			_.delete deleted
 	iterator -> |_

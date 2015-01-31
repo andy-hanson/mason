@@ -77,7 +77,7 @@ Method = Record-Type
 					impl x
 
 	test. |
-		thunk  = |x |
+		thunk = |x |
 			x
 		m = Method
 			default. thunk "default"
@@ -100,7 +100,7 @@ Method = Record-Type
 			wrap-method "arg"
 
 	members.
-		displayName. Str  \ Required!
+		displayName. Str \ Required!
 		impl-symbol. Str
 	optional-members.
 		default. Fun

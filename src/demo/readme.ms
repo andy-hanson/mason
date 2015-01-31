@@ -70,7 +70,7 @@ two-of = |a
 pair = |a b
 	first. a
 	second. b
-!  =? (pair 1 2)
+! =? (pair 1 2)
 	first. 1
 	second. 2
 

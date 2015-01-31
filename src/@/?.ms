@@ -54,7 +54,7 @@ region Funs
 	Opt->?.
 		doc. "`?` containing the value iff it is defined."
 		test. |
-			[ 0 ]  -> ? 0
+			[ 0 ] -> ? 0
 			[ () ] -> ? ()
 			[ undefined ] -> empty ?
 		|case

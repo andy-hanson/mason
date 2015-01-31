@@ -31,7 +31,7 @@ make-record-constructor = |rt
 			desc = Obj.getOwnPropertyDescriptor members member
 			not (js=== desc.value true)
 
-	real-member? =  |members member
+	real-member? = |members member
 		\ Ignore accidental displayName.
 		implies (i=== member "displayName") ~
 			\ This looks funny since `contains?` isn't defined until methods.ms.

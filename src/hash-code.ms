@@ -23,7 +23,7 @@ keep-small = |_
 
 hashes = empty Weak-Identity-Map!
 
-hash-code =  Method
+hash-code = Method
 	doc. |:Int _
 		"TODO"
 	test. |

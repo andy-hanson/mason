@@ -12,7 +12,7 @@ const
 	type = require("../U/type"),
 	U = require("../U")
 
-const lexPlain = module.exports = function* lexPlain(stream, isInQuote) {
+const lexPlain = module.exports = function* lexPlain(opts, stream, isInQuote) {
 	type(stream, Stream, isInQuote, Boolean)
 
 	let indent = 0
@@ -44,7 +44,7 @@ const lexPlain = module.exports = function* lexPlain(stream, isInQuote) {
 			case '}':
 				return isInQuote ? "STOP" : gp(_)
 			case ' ':
-				check(_ !== ' ' || stream.peek != ' ', span(), "Multiple spaces in a row")
+				check.warnIf(opts, stream.peek() === ' ', span(), "Multiple spaces in a row")
 				return gp("sp")
 			case '.':
 				if (stream.peek() === ' ' || stream.peek() === '\n')
@@ -86,7 +86,7 @@ const lexPlain = module.exports = function* lexPlain(stream, isInQuote) {
 				return T.Literal(s({ value: js, k: "js" }))
 			}
 			case '"':
-				return lexQuote(stream, indent)
+				return lexQuote(opts, stream, indent)
 			case '\t':
 				check.fail(span(), "Tab may only be used to indent")
 			case "-":
@@ -130,7 +130,7 @@ const lexPlain = module.exports = function* lexPlain(stream, isInQuote) {
 	}
 }
 
-const lexQuote = function*(stream, indent) {
+const lexQuote = function*(opts, stream, indent) {
 	type(stream, Stream, indent, Number)
 
 	const startPos = stream.pos
@@ -175,7 +175,7 @@ const lexQuote = function*(stream, indent) {
 				const start = stream.pos
 				// We can't just create a T.Group now because there may be other GroupPre_s inside.
 				yield GroupPre({ span: Span.single(stream.pos), k: "(" })
-				yield* lexPlain(stream, true)
+				yield* lexPlain(opts, stream, true)
 				yield GroupPre({ span: Span.single(stream.pos), k: ")" })
 				break
 			}
