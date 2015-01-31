@@ -1,9 +1,9 @@
 doc. "Methods for dealing with Ints qua sequences of bits."
 
 use
-	.Num _ Int
 	..js js-bar js& js^ js~ js<< js>> js>>>
 	..Str
+	.Num _ Int
 debug use
 	..! !not
 	..Regex regex

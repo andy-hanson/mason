@@ -1,8 +1,8 @@
 doc. "TODO"
 
 use
-	.@ each!
 	chalk blue
+	.@ each!
 	.js global
 	.methods =>
 	.show

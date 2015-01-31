@@ -1,28 +1,26 @@
 use
-	..@ iterator
-	.@-Type _ from-stream
 	..Comparable! <!
 	..Fun ignore thunk
 	..js defined? reference=?
 	..methods empty empty?
-	.Seq
 	..types.Method impl!
 	..types.util self-type
 	..types.Wrap-Type
+	..@ iterator
+	.@-Type _ from-stream
+	.Seq
 use~
 	..Try oh-no!
 debug use~
 	..! _ !not
 	..Try fails?
-
-empty-marker =
-	doc. "`_.val` on an empty `?` will return this."
-
 ? = Wrap-Type
 	doc. "
 		A Seq with 0 or 1 elements.
 		TODO: MORE
 
+empty-marker =
+	doc. "`_.val` on an empty `?` will return this."
 empty-? =
 	? empty-marker
 

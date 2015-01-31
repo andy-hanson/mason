@@ -1,8 +1,4 @@
 use
-	.? un-?
-	.Array!
-	..@ _ count each! iterator map
-	.@-Type _ from-stream
 	..Bool and not or
 	..Comparable <? =?
 	..Comparable! <!
@@ -11,11 +7,15 @@ use
 	..methods + - * empty empty? empty! sub
 	..Obj! p!
 	..pred-types Any
-	.Range range
-	.Seq ?nth reverse
 	.Seq! _ <+! +>! ?<pop! ?pop>! set-nth!
 	..types.Record-Type
 	..types.util self-type
+	..@ _ count each! iterator map
+	.@-Type _ from-stream
+	.? un-?
+	.Array!
+	.Range range
+	.Seq ?nth reverse
 
 Deque! = Record-Type
 	doc.

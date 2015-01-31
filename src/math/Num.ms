@@ -18,7 +18,6 @@ debug use
 	..methods contains?
 	..Try !debug-fails?
 
-
 Num = global.Number
 Math = global.Math
 

@@ -2,9 +2,9 @@ doc. "TODO"
 
 use
 	..Comparable! <!
-	.Impl-Type
 	..js any? defined?
 	..private.bootstrap Obj
+	.Impl-Type
 	.Record-Type
 
 \getters.

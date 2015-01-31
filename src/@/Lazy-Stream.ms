@@ -1,16 +1,16 @@
 use
-	.Array!
-	..@ count iterator
-	.@-Type _ from-stream
 	..Comparable! <!
 	..Fun _ ignore thunk
 	..Generator! _ each~
 	..math.Num Nat
 	..methods - +! empty empty?
-	.Seq _ ?nth
-	.Stream
 	..types.Record-Type
 	..types.util self-type
+	..@ count iterator
+	.@-Type _ from-stream
+	.Array!
+	.Seq _ ?nth
+	.Stream
 debug use~
 	..!
 	..Comparable =?

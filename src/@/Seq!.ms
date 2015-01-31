@@ -1,23 +1,23 @@
 use
-	.?
-	..@
-	.@-Type
-	.@!
 	..Comparable! <!
 	..math.Num Nat
 	..methods empty
-	.Seq _
 	..types.Interface
 	..types.Method
 	..types.util self-type
+	..@
+	.@!
+	.@-Type
+	.?
+	.Seq _
 use~
 	.Deque!
 debug use~
 	..!
-	.Array
-	.Array!
 	..Comparable =?
 	..methods empty?
+	.Array
+	.Array!
 	.Seq seq=?
 
 Seq! = Interface

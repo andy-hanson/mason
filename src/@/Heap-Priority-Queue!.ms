@@ -1,8 +1,4 @@
 use
-	..@ count each! iterator map
-	.@-Type _ from-stream
-	.? un-?
-	.Array!
 	..Bool and not
 	..Comparable <? >?
 	..Comparable! <!
@@ -10,10 +6,14 @@ use
 	..math.Num int/
 	..methods + +! - * empty empty? empty!
 	.Priority-Queue! _ ?pop!
-	.Seq ?first
-	.Seq! ?pop>! set-nth!
 	..types.util self-type
 	..types.Wrap-Type
+	..@ count each! iterator map
+	.@-Type _ from-stream
+	.? un-?
+	.Array!
+	.Seq ?first
+	.Seq! ?pop>! set-nth!
 
 Heap-Priority-Queue!. Wrap-Type
 	doc. "TODO"

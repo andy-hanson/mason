@@ -1,13 +1,13 @@
 use
-	.@!
 	..Comparable! <!
 	..types.Interface
 	..types.Method
+	.@!
 debug use~
 	..!
-	.?
 	..Comparable =?
 	..methods +! empty empty?
+	.?
 
 Priority-Queue! = Interface
 	doc. "TODO"

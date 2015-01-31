@@ -7,8 +7,8 @@ use
 	.Record-Type
 use~
 	..@ _ any? flat-map
-	.Impl-Type
 	..maps.Map each-pair!
+	.Impl-Type
 debug use~
 	..! _ !not
 	..Comparable =? <?

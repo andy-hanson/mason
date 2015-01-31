@@ -1,11 +1,11 @@
 use
 	..Bool and
-	.Impl-Type
-	.Interface _ unchecked-implementor!
 	..js any? defined? js-sub
-	.Method _ impl! impl-unchecked!
 	..methods contains?
 	..private.bootstrap Fun
+	.Impl-Type
+	.Interface _ unchecked-implementor!
+	.Method _ impl! impl-unchecked!
 use~
 	..Obj p-with-proto?
 

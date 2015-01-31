@@ -1,21 +1,22 @@
 use
-	..control if!
 	..Fun
-	.Interface unchecked-implementor!
-	.Impl-Type
-	..js defined? js-instanceof
+	..js js-instanceof
 	..js-impl build-str
-	.Method impl!
 	..methods contains?
 	..Obj
 	\ TODO: Try non-bootstrap versions...
 	..private.bootstrap set!
-	.Record-Type
 	..Str
+	.Interface unchecked-implementor!
+	.Impl-Type
+	.Method impl!
+	.Record-Type
 	.Type
 debug use~
 	..!
+	..control if!
 	..Comparable =?
+	..js defined?
 	..math.Num
 	..Try !debug-fails?
 
@@ -38,8 +39,9 @@ Wrap-Type = Record-Type
 				return function ctr(_) \{
 					if (!(this instanceof ctr)) return new ctr(_)
 					this.val = _
-			if! (defined? _.wrapped-type) |
-				add! "_ms.checkContains(wrappedType, _, \"val\")"
+			debug
+				if! (defined? _.wrapped-type) |
+					add! "_ms.checkContains(wrappedType, _, \"val\")"
 			add! "}"
 		f = Fun "wrappedType" src
 		f _.wrapped-type

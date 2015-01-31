@@ -11,13 +11,13 @@ use
 	..types.Method _ impl!
 	..types.util type-of
 use~
-	.? _ get-or Opt->?
-	.Array
-	.@-Type _ from-stream
 	..Generator!
-	.Hash-Set!
 	..math.Num Nat
 	..Ref! _ get mod! set!
+	.@-Type _ from-stream
+	.? _ get-or Opt->?
+	.Array
+	.Hash-Set!
 	.Seq seq=?
 	.Stream
 debug use~

@@ -3,8 +3,8 @@ doc. "
 	Angles should be expressed in radians.
 
 use
-	.Num _
 	..js global
+	.Num _
 debug use
 	..!
 	..maps.Map each-pair!

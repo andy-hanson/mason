@@ -1,11 +1,11 @@
 use
-	..@
 	..Comparable! <!
 	..Fun identity
 	..methods => empty sub
 	..types.Interface
 	..types.Method _ impl!
 	..types.util self-type
+	..@
 use~
 	.Array
 debug use~

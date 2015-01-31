@@ -1,15 +1,15 @@
 use
 	..@ each!
 	..@.Array
-	.Impl-Type
-	.Interface unchecked-implementor!
-	.Method impl!
 	..methods contains?
 	..Obj
 	..Obj! p+!
-	.Record-Type
 	..show
 	..Str
+	.Impl-Type
+	.Interface unchecked-implementor!
+	.Method impl!
+	.Record-Type
 debug use
 	..!
 	..Comparable =?

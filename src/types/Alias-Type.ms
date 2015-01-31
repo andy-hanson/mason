@@ -1,8 +1,8 @@
 use
 	..Comparable! <!
-	.Method impl!
 	..methods contains? sub
 	..private.bootstrap Str
+	.Method impl!
 	.Record-Type
 	.Type
 debug use~

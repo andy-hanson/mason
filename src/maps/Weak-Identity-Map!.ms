@@ -3,12 +3,12 @@ use
 	..Comparable! <!
 	..control returning
 	..js global new
-	.Map ?get has-key? keys
-	.Map! _ assoc! un-assoc!
 	..methods empty empty!
 	..Try oh-no!
 	..types.Method impl!
 	..types.util self-type
+	.Map ?get has-key? keys
+	.Map! _ assoc! un-assoc!
 
 Weak-Identity-Map! =
 	doc. "TODO"

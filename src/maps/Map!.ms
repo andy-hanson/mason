@@ -2,11 +2,11 @@ use
 	..@ _ each!
 	..@.?
 	..Comparable! <!
-	.Map _ each-pair! ?get
 	..methods +! -! empty?
 	..pred-types Any
 	..types.Interface
 	..types.Method _ impl!
+	.Map _ each-pair! ?get
 debug use~
 	..! _ !not
 	..@ map
@@ -14,9 +14,9 @@ debug use~
 	..Bool not
 	..Comparable =? compare
 	..control if!
-	.Map has-key? keys
 	..methods * empty empty!
 	..types.Record-Type
+	.Map has-key? keys
 	.Weak-Identity-Map!
 
 

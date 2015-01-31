@@ -1,8 +1,5 @@
 use
 	.? get-or Opt->?
-	.Array
-	..@ _ each!
-	.@-Type _ from-stream
 	..Bool and not
 	..Comparable! <!
 	..control if
@@ -11,9 +8,12 @@ use
 	..math.Num Nat
 	..methods => empty empty? empty!
 	..Obj frozen?
-	.Seq! _ <+! +>! ?<pop! ?pop>! set-nth!
 	..types.Pred-Type
 	..types.util self-type
+	..@ _ each!
+	.@-Type _ from-stream
+	.Array
+	.Seq! _ <+! +>! ?<pop! ?pop>! set-nth!
 
 Array! = Pred-Type
 	doc. "

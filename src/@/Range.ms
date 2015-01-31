@@ -1,7 +1,5 @@
 use
-	.? get-or Opt->?
 	..@ _ count iterator
-	.@-Type _ from-stream
 	..Comparable <? >=?
 	..Comparable! <!
 	..control if
@@ -9,10 +7,12 @@ use
 	..math.Num _ Nat round-down sign
 	..methods + - * / empty length
 	..pred-types Opt
-	.Seq ?nth
 	..types.Method impl!
 	..types.Record-Type
 	..types.util self-type
+	.@-Type _ from-stream
+	.? get-or Opt->?
+	.Seq ?nth
 debug use~
 	..!
 	.? _

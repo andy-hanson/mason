@@ -1,9 +1,6 @@
 use
 	..@ each! iterator
-	.@-Type _ from-stream
 	..Bool true
-	.Set
-	.Set!
 	..Comparable =?
 	..Comparable! <!
 	..control returning
@@ -14,6 +11,9 @@ use
 	..types.Method impl! impl-for
 	..types.Record-Type
 	..types.util self-type
+	.@-Type _ from-stream
+	.Set
+	.Set!
 
 Hash-Set! = Record-Type
 	doc. "TODO"

@@ -1,14 +1,14 @@
 use
 	..@ _ iterator
-	.@-Type _ from-stream
 	..Comparable! <!
 	..Fun _ ignore thunk
 	..Generator!
 	..methods => empty
-	.Seq _
 	..types.Method impl!
 	..types.util self-type
 	..types.Wrap-Type
+	.@-Type _ from-stream
+	.Seq _
 debug use~
 	..!
 	.Seq seq=?

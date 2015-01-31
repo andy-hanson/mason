@@ -1,8 +1,8 @@
 use
-	.Method impl!
 	..methods empty?
 	..Obj ?p
 	..show
+	.Method impl!
 	.Type
 debug use
 	.Method

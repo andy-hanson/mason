@@ -1,8 +1,8 @@
 use
-	.@!
 	..Comparable! <!
-	.Set
 	..types.Interface
+	.@!
+	.Set
 debug use~
 	..! _ !not
 	..methods +! -! contains? empty empty? empty!

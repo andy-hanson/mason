@@ -1,22 +1,20 @@
 use
-	..@
-	.@-Type
 	..Comparable! <!
 	..methods +! empty
 	..types.Interface
 	..types.Method impl!
 	..types.util self-type
+	..@
+	.@-Type
 use~
 	.Seq! +>!
 debug use~
 	..! _ !not
 	..@ each!
-	.Array
-	.Array!
 	..Comparable =?
 	..methods contains? empty? empty!
-
-
+	.Array
+	.Array!
 
 @! = Interface
 	doc. "TODO"

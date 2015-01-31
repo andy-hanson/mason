@@ -7,11 +7,11 @@ use
 use~
 	..!
 	..@.? un-?
-	.Impl-Type
-	.Interface
 	..methods contains?
 	..Obj ?p
 	..Try oh-no!
+	.Impl-Type
+	.Interface
 debug use~
 	..Comparable =?
 	..math.Num

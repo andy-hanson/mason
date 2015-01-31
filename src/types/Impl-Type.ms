@@ -1,9 +1,9 @@
 use
 	..Comparable <?
 	..Comparable! <!
+	..private.bootstrap Fun
 	.Interface _ unchecked-implementor! implementor! implementor?
 	.Method impl-unchecked!
-	..private.bootstrap Fun
 	.Record-Type
 
 Impl-Type = Interface

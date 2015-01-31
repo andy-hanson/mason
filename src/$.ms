@@ -1,11 +1,11 @@
 use
+	chalk red
+	es6-promise Promise
 	.@ _ concat=> map
 	.@.Array
 	.Bool
-	chalk red
 	.console log!
 	.control if
-	es6-promise Promise
 	.Fun _ apply fun-copy identity ignore
 	.Generator!
 	.js new

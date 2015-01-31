@@ -1,5 +1,4 @@
 use
-	.Array
 	..@ _ map
 	..methods => empty?
 	..Obj flag?
@@ -7,9 +6,10 @@ use
 	..Str _ indent
 	..types.Method impl! impl-for
 	..types.util type-of
+	.Array
 debug use~
-	.Deque!
 	..methods empty
+	.Deque!
 
 impl! show @
 	test. |

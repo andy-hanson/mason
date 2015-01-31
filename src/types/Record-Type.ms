@@ -1,15 +1,16 @@
 use
-	..Bool _ false implies not true
+	..Bool _ false implies not
 	..private.bootstrap set! Obj Str Fun proto-impl-contains?!
 	..js defined? js=== js-instanceof js-sub js-typeof
-	..js-impl +1 i=== build-str
+	..js-impl i=== build-str
 debug use~
 	..!
+	..Bool true
 	..Comparable =?
+	..js-impl +1
 	..math.Num
 	..Try !debug-fails?
 	.util type-of
-
 
 if! = |bool act
 	case!
@@ -24,14 +25,15 @@ flag? = |case
 		false
 
 make-record-constructor = |rt
-	\ Type might be lazily defined
-	member-has-type? = |members member
-		desc = Obj.getOwnPropertyDescriptor members member
-		case desc.value
-			_ \ Is true, in other words, no type
-				false
-			else
-				true
+	debug
+		\ Type might be lazily defined
+		member-has-type? = |members member
+			desc = Obj.getOwnPropertyDescriptor members member
+			case desc.value
+				_ \ Is true, in other words, no type
+					false
+				else
+					true
 
 	real-member? =  |members member
 		\ Ignore accidental displayName.
@@ -68,15 +70,15 @@ make-record-constructor = |rt
 					else
 						()
 
-			add! case
-				member-has-type? rt.members member
-					\ TODO: Debug mode only
-					"_ms.checkContains(members{acc}, this{acc}, \"{member}\")"
-				else
-					\ TODO: Debug mode only
-					"
-						if (!Object.prototype.hasOwnProperty.call(_, \"{member}\"))
-							throw new Error(\"Forgot to assign {member}.\")
+			\ TODO:SYNTAX `debug add! case`
+			debug
+				add! case
+					member-has-type? rt.members member
+						"_ms.checkContains(members{acc}, this{acc}, \"{member}\")"
+					else
+						"
+							if (!Object.prototype.hasOwnProperty.call(_, \"{member}\"))
+								throw new Error(\"Forgot to assign {member}.\")
 
 		if! (defined? rt.optional-members) |
 			(Obj.getOwnPropertyNames rt.optional-members).forEach |member
@@ -85,30 +87,32 @@ make-record-constructor = |rt
 					add! "if (_{acc} !== undefined) \{"
 					if! (not extensible) |
 						add! "this{acc} = _{acc}"
-					if! (member-has-type? rt.optional-members member) |
-						\ TODO: Debug mode only
-						add! "_ms.checkContains(optionalMembers{acc}, this{acc}, \"{member}\")"
+					debug
+						if! (member-has-type? rt.optional-members member) |
+							\ TODO: Debug mode only
+							add! "_ms.checkContains(optionalMembers{acc}, this{acc}, \"{member}\")"
 					add! "}"
 
 		if! (not extensible) |
-			\ TODO: Debug mode only
-			check = "_ms.checkNoExtras(this, _, \"{rt.displayName}\")"
-			case!
-				defined? rt.optional-members
-					add! check
-				else
-					n-members = real-members.length
-					n-members-compare = case
-						defined? real-members.displayName
-							"{n-members}"
-						else
-							"(Object.prototype.hasOwnProperty.call(_, \"displayName\") ? {+1 n-members} : {n-members})"
-					\ If the conditions pass the check will definitely fail, and will give nice error info.
-					add! "
-						if (Object.keys(_).length > {n-members-compare})  \{
-							{check}
-							throw new Error(\"Unreachable\")
-						}
+			debug
+				\ TODO: Debug mode only
+				check = "_ms.checkNoExtras(this, _, \"{rt.displayName}\")"
+				case!
+					defined? rt.optional-members
+						add! check
+					else
+						n-members = real-members.length
+						n-members-compare = case
+							defined? real-members.displayName
+								"{n-members}"
+							else
+								"(Object.prototype.hasOwnProperty.call(_, \"displayName\") ? {+1 n-members} : {n-members})"
+						\ If the conditions pass the check will definitely fail, and will give nice error info.
+						add! "
+							if (Object.keys(_).length > {n-members-compare})  \{
+								{check}
+								throw new Error(\"Unreachable\")
+							}
 
 		if! (defined? rt.make-callable) |
 			add! "

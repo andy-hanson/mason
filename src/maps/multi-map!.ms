@@ -3,9 +3,9 @@ use
 	..@.Array!
 	..@.? get-or Opt->?
 	..@.@-Type
-	.Map! _ get-or-add!
 	..methods +! empty
 	..pred-types Opt
+	.Map! _ get-or-add!
 
 add-to-@!. |map:Map! key added:@ @-type:Opt[@-Type]
 	\ TODO:SYNTAX Optional arguments

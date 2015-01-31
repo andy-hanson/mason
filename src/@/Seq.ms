@@ -1,6 +1,4 @@
 use
-	..@ _ all? count iterator
-	.@-Type _ from-stream
 	..Bool and not or true
 	..Comparable compare =? <? <=? >=?
 	..Comparable! <!
@@ -13,16 +11,18 @@ use
 	..types.Interface
 	..types.Method _ impl!
 	..types.util self-type type-of
+	..@ _ all? count iterator
+	.@-Type _ from-stream
 use~
+	..Ref! _ get mod! set!
+	..show
+	..Try oh-no!
 	.? _ get-or Opt->?
 	.Array
 	.Array!
 	..math.Num Nat
-	..Ref! _ get mod! set!
 	.Seq! +>!
-	..show
 	.Stream
-	..Try oh-no!
 debug use~
 	..Bool false
 	..! _ !not

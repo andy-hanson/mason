@@ -6,15 +6,15 @@ use
 	..Comparable! <!
 	..control if
 	..js defined?
-	.Map ?get keys
-	.Map! assoc! un-assoc!
 	..methods contains? empty empty? empty!
 	..Obj! p!
 	..Ref! _ get set!
-	.Sorted-Map!
 	..types.Method impl!
 	..types.Record-Type
 	..types.util self-type
+	.Map ?get keys
+	.Map! assoc! un-assoc!
+	.Sorted-Map!
 
 Node = Record-Type
 	members.
