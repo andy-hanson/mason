@@ -3,7 +3,7 @@ use
 	.Comparable =?
 	.js js+
 	.js-impl new-Set
-	.methods empty?
+	.methods => empty?
 	.Obj flag? p ?p @p
 	.Str _ indent
 	.Symbol
@@ -12,6 +12,7 @@ use
 use~
 	.@ map
 	.@.? get-or
+	.@.Array
 	.Fun
 debug use
 	.Bool false true
@@ -58,7 +59,7 @@ show = Method
 			=? _ undefined
 				"undefined"
 			else
-				key-vals = map @p_ |key
+				key-vals = => Array (map @p_ |key
 					val:Str = show (p _ key) opts
 					"{key}. {indent val}"
 				"

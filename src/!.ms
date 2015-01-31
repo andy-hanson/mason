@@ -12,6 +12,7 @@ use
 	.Try oh-no!
 use
 	.@ count map
+	.@.Array
 debug use
 	.Bool false true
 	.methods +
@@ -97,7 +98,7 @@ debug use
 			if! (not (=? actual expected-res)) |
 				oh-no! ~"
 					Calling {fun} on:
-						{indent ((map args repr).join "\n")}
+						{indent ((=> Array (map args repr)).join "\n")}
 					Should be:
 						{indent (repr expected-res)}
 					Got:

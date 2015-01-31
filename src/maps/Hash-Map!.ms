@@ -1,7 +1,7 @@
 \ TODO: TEST
 
 use
-	..@ flat-map map
+	..@ flat-map map'
 	..@.? _ Opt->?
 	..@.Stream
 	..Comparable =?
@@ -63,7 +63,7 @@ opt-bucket-entry = |opt-bucket key
 impl! ?get Hash-Map! |:? _ key
 	bucket = opt-bucket _ key
 	entry = opt-bucket-entry bucket key
-	map (Opt->? entry) |be
+	map' (Opt->? entry) |be
 		be.val!
 
 impl! keys Hash-Map! |_

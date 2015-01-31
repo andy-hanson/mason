@@ -1,21 +1,21 @@
 use
-	..@ _ flat-map keep=> map
+	..@ _ flat-map keep map
 	..@.?
 	..@.Seq _ ?first ?<pop
-	..@.Stream
 	..methods + - contains? empty?
 	..Str _ ->upper
 debug use
 	..!
-	..@ map=>
+	..@.Stream
 	..Comparable =?
 	..maps.Map each-pair!
+	..methods =>
 
 make-word-from-blocks.
 	doc. "http://rosettacode.org/wiki/ABC_Problem"
 	test. |
 		\ Backtracking is necessary - can't use the first block first!
-		[ "AB" [ "AB" "AC" ] ] -> ? [ "AC" "AB" ]
+		[ "AB" [ "AB" "AC" ] ] -> ? (=> Stream [ "AC" "AB" ]
 
 		sample-blocks =
 			. "BO"
@@ -48,10 +48,10 @@ make-word-from-blocks.
 			"squad" -> [ "FS DQ HU NA QD" ]
 			"confuse" -> [ "CP BO NA FS HU FS RE" ]
 		each-pair! sample-answers |word ans
-			real-ans = map=> ? ans |_
+			real-ans = => ? (map ans |_
 				\ TODO: split _ =?[" "]
-				_.split " "
-			! =? (make-word-from-blocks word sample-blocks) real-ans
+				=> Stream (_.split " "
+			! =? real-ans (make-word-from-blocks word sample-blocks)
 
 	|:?[Seq[Str]] word:Str blocks:@[Str]
 		rec = |word blocks
@@ -60,7 +60,7 @@ make-word-from-blocks.
 					? [ ]
 				else
 					rest-word = _.val
-					this-char-blocks = keep=> Stream blocks |_
+					this-char-blocks = keep blocks |_
 						contains? _ word[0]
 					?first (flat-map this-char-blocks |_
 						map (rec rest-word (- blocks [ _ ])) |ans

@@ -10,11 +10,12 @@ use
 debug use~
 	..! _ !not
 	..@ map
+	..@.Array
 	..@.Set set=?
 	..Bool not
 	..Comparable =? compare
 	..control if!
-	..methods * empty empty!
+	..methods => * empty empty!
 	..types.Record-Type
 	.Map has-key? keys
 	.Weak-Identity-Map!
@@ -36,7 +37,8 @@ Map! = Interface
 		mt = |n
 			Mappable-Thing
 				data. n
-		ks = map [ 1 3 5 4 2 ] mt
+		\ => Array because these must maintain by their identity for Weak-Identity-Map!
+		ks = => Array (map [ 1 3 5 4 2 ] mt
 		noweak = |do
 			if! (not :Weak-Identity-Map!) do
 		_ = empty type

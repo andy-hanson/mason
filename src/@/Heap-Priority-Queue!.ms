@@ -8,7 +8,7 @@ use
 	.Priority-Queue! _ ?pop!
 	..types.util self-type
 	..types.Wrap-Type
-	..@ count each! iterator map
+	..@ count each! iterator map'
 	.@-Type _ from-stream
 	.? un-?
 	.Array!
@@ -34,7 +34,7 @@ Heap-Priority-Queue!. Wrap-Type
 		each! added add![_.val]
 	?pop! -> |_
 		heap = _.val
-		map (?first heap) |first
+		map' (?first heap) |first
 			returning first |
 				last-leaf = un-? (?pop>! heap
 				if! (not empty?_) |

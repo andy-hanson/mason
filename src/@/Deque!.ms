@@ -10,7 +10,7 @@ use
 	.Seq! _ <+! +>! ?<pop! ?pop>! set-nth!
 	..types.Record-Type
 	..types.util self-type
-	..@ _ count each! iterator map
+	..@ _ count each! iterator map map'
 	.@-Type _ from-stream
 	.? un-?
 	.Array!
@@ -117,7 +117,7 @@ region Helpers
 			_.data![new-end]
 
 	?nth -> |_ index:Nat
-		map (?data-index _ index) sub[_.data!]
+		map' (?data-index _ index) sub[_.data!]
 
 	set-nth! -> |_ index:Nat set-to:Any
 		data-index = un-? (?data-index _ index) ~"Can't set at index {index}; count is {count_}"

@@ -444,7 +444,6 @@ const parseLine = (function() {
 		const eValuePre = Sq.isEmpty(value) ? E.True(px.s({})) : parseExpr(px, value)
 
 		const opDisplayName = Op.if(locals.length == 1, function() { return Sq.head(locals).name })
-		const last = isa(eValuePre, E.Call) ? Sq.last(eValuePre.args) : eValuePre
 
 		let eValueNamed;
 		if (locals.length === 1) {
@@ -520,7 +519,7 @@ const parseLine = (function() {
 	{
 		type(eValuePre, E, displayName, String)
 		switch (true) {
-			case isa(eValuePre, E.Call):
+			case isa(eValuePre, E.Call) && eValuePre.args.length > 0:
 				// TODO: Immutable
 				eValuePre.args[eValuePre.args.length - 1] = tryAddDisplayName(Sq.last(eValuePre.args), displayName)
 				return eValuePre

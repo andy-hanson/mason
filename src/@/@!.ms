@@ -7,6 +7,7 @@ use
 	..@
 	.@-Type
 use~
+	.Array!
 	.Seq! +>!
 debug use~
 	..! _ !not
@@ -14,7 +15,6 @@ debug use~
 	..Comparable =?
 	..methods contains? empty? empty!
 	.Array
-	.Array!
 
 @! = Interface
 	doc. "TODO"
@@ -43,6 +43,6 @@ impl! +! @! |_ added
 
 <! (self-type @!) @-Type
 	empty -> |
-		empty @!
+		empty Array!
 
 @!

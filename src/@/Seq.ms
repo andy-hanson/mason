@@ -130,14 +130,14 @@ region Update
 			[ [ 0 ] ] -> []
 			[ [ 0 1 ] ] -> [ 1 ]
 		default. |:@ _
-			drop _ 1
+			=> type-of_ (drop _ 1
 
 	pop>. Method
 		doc. "TODO"
 		test. |
 			"TODO"
 		default. |:@ _
-			take _ (- count_ 1
+			=> type-of_ (take _ (- count_ 1
 
 	?slice.
 		doc. "TODO"
@@ -154,22 +154,22 @@ region Update
 			Result length should be - end start, unless `end` was past the end.
 
 		test. |
-			[ [ 0 1 2 3 ] 1 3 ] -> [ 1 2 ]
+			[ [ 0 1 2 3 ] 1 3 ] -> => Stream [ 1 2 ]
 
 		default. |:@ _ start:Nat end:Nat
-			from-stream type-of_ (take (drop _ start) (- end start)
+			take (drop _ start) (- end start
 
 	take. Method
 		doc. "TODO"
 		test. |
 			"TODO"
-		default. |:@ _ count-to-take:Nat
-			from-stream type-of_ (Stream ~|
+		default. |:@ _ count:Nat
+			Stream ~|
 				iter = iterator_
 				i = Ref! 0
 				loop!
 					case!
-						=? (get i) count-to-take
+						=? (get i) count
 							end-loop!
 						else
 							value done = iter.next ()
@@ -183,9 +183,9 @@ region Update
 	take-while.
 		doc. "TODO"
 		test. |
-			[ [ 1 2 -1 3 ] <?[0] ] -> [ 1 2 ]
+			[ [ 1 2 -1 3 ] <?[0] ] -> => Stream [ 1 2 ]
 		|:@ _ while:Pred
-			from-stream type-of_ (Stream ~|
+			Stream ~|
 				iter = iterator_
 				loop!
 					value:Any done = iter.next ()
@@ -202,7 +202,7 @@ region Update
 		test. |
 			"TODO"
 		default. |:@ _ count-to-drop:Nat
-			from-stream type-of_ (Stream ~|
+			Stream ~|
 				iter = iterator_
 				i = Ref! 0
 				loop!
@@ -281,18 +281,7 @@ region TODO: put somewhere
 		test. |
 			[ [ 1 2 ] ] -> [ 2 1 ]
 		default. |_
-			arr = => Array _
-			reverse-stream = Stream ~|
-				i = Ref! (count arr)
-				loop!
-					case!
-						=? (get i) 0
-							end-loop!
-						else
-							mod! i |_
-								- _ 1
-							<~ arr[(get i)]
-			from-stream type-of_ reverse-stream
+			(from-stream Array! _).reverse()
 
 region Sorting
 	sorted?.

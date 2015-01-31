@@ -14,13 +14,13 @@ use~
 	..Generator!
 	..math.Num Nat
 	..Ref! _ get mod! set!
-	.@-Type _ from-stream
 	.? _ get-or Opt->?
 	.Array
 	.Hash-Set!
 	.Seq seq=?
 	.Stream
 debug use~
+	.@-Type
 	..Bool false true
 	..! _ !not
 	..math.Num divisible?
@@ -81,8 +81,7 @@ region Using iterator
 		|_:@ pred:Opt[Pred]
 			\ TODO:SYNTAX Optional args
 			p = get-or (Opt->? pred) identity
-			\ TODO: keep=> Stream
-			not (empty? (keep (=> Stream _) p
+			not (empty? (keep _ p
 
 	all?.
 		doc. "TODO"
@@ -95,29 +94,37 @@ region Using iterator
 			not (any? _ |em
 				not (p em)
 
-	?find. |_ pred:Pred
-		iter = iterator_
-		\ TODO:SYNTAX Return from loop
-		found = Ref! (empty ?
-		loop!
-			value done = iter.next ()
-			case!
-				done
-					end-loop!
-				pred value
-					set! found (? value
-					end-loop!
-				else
-					()
-		get found
+	?find.
+		doc. "TODO"
+		test. |
+			"TODO"
+		|_ pred:Pred
+			iter = iterator_
+			\ TODO:SYNTAX Return from loop
+			found = Ref! (empty ?
+			loop!
+				value done = iter.next ()
+				case!
+					done
+						end-loop!
+					pred value
+						set! found (? value
+						end-loop!
+					else
+						()
+			get found
 
 	count. Method
 		doc. "Number of elements in it."
+		test. |
+			"TODO"
 		default. |:Nat _:@
 			fold _ 0 +[1]
 
 	impl! empty? @
 		doc. "Whether `count` will return 0."
+		test. |
+			"TODO"
 		|:Bool _
 			(iterator_.next ()).done
 
@@ -125,16 +132,9 @@ region Using from-stream
 	keep. Method
 		doc. "@ with only the elements that satisfy `keep-if?`."
 		test. |
-			[ [ 1 2 ] =?[2] ] -> [ 2 ]
+			[ [ 1 2 ] =?[2] ] -> => Stream [ 2 ]
 		default. |_:@ keep-if?:Pred
-			keep=> type-of_ _ keep-if?
-
-	keep=>.
-		doc. "TODO"
-		test. |
-			"TODO"
-		|Res-Type:@-Type _:@ keep-if?:Pred
-			from-stream Res-Type (Stream ~|
+			Stream ~|
 				iter = iterator_
 				loop!
 					value done = iter.next ()
@@ -149,16 +149,9 @@ region Using from-stream
 	map. Method
 		doc. "TODO"
 		test. |
-			[ [ true false ] not ] -> [ false true ]
+			[ [ true false ] not ] -> => Stream [ false true ]
 		default. |_:@ mapper:Fun
-			map=> type-of_ _ mapper
-
-	map=>.
-		doc. "TODO"
-		test. |
-			"TODO"
-		|Res-Type:@-Type _:@ mapper:Fun
-			from-stream Res-Type (Stream ~|
+			Stream ~|
 				iter = iterator_
 				loop!
 					value done = iter.next ()
@@ -167,6 +160,13 @@ region Using from-stream
 							end-loop!
 						else
 							<~ mapper value
+
+	map'.
+		doc. "TODO"
+		test. |
+			"TODO"
+		|_:@ mapper:Fun
+			=> type-of_ (map _ mapper
 
 	fold-map.
 		doc. "
@@ -180,13 +180,11 @@ region Using from-stream
 				folded. 3
 		|_:@ start:Any mapper-folder:Fun[2 Obj]
 			acc = Ref! start
-			\ TODO: Better way to make it eager
-			mapped. => type-of_ (=> Array (map _ |em
+			mapped. => Array (map _ |em
 				here:Any next:Any = mapper-folder (get acc) em
 				set! acc next
 				here
 			folded. get acc
-
 
 	\ TODO: Better name?
 	flat-map. Method
@@ -197,24 +195,17 @@ region Using from-stream
 					[ _ _ ]
 				else
 					[ _ ]
-			[ [ 1 2 3 4 ] f ] -> [ 1 2 2 3 4 4 ]
+			[ [ 1 2 3 4 ] f ] -> => Stream [ 1 2 2 3 4 4 ]
 		default. |_ mapper:Fun[Any @]
-			flat-map=> type-of_ _ mapper
-
-	flat-map=>.
-		doc. "TODO"
-		test. |
-			"TODO"
-		|Res-Type:@-Type _:@ mapper:Fun[Any @]
-			concat=> Res-Type (map=> Stream _ mapper
+			flatten (map _ mapper
 
 	\ TODO: Just use variadic `+`
-	concat=>.
+	flatten.
 		doc. "TODO"
 		test. |
 			"TODO"
-		|Res-Type:@-Type _:@[@]
-			from-stream Res-Type (Stream ~|
+		|_:@[@]
+			Stream ~|
 				iter = iterator_
 				loop!
 					value done = iter.next ()
@@ -230,16 +221,9 @@ region Using from-stream
 		test. |
 			[ [ 0 ] [ 1 ] ] -> [ 0 1 ]
 		|:@ _ add:@
-			+=> type-of_ _ add
-
-	+=>.
-		doc. "TODO"
-		test. |
-			"TODO"
-		|Res-Type:@-Type _:@ add:@
-			from-stream Res-Type (Stream ~|
+			Stream ~|
 				<~~ iterator_
-				<~~ iterator add
+				<~~ iterator add \+=> type-of_ _ add
 
 	impl! - @
 		doc. "
@@ -248,14 +232,7 @@ region Using from-stream
 		test. |
 			[ [ 1 2 1 ] [ 1 ] ] -> [ 2 1 ]
 		|:@ _ remove:@
-			-=> type-of_ _ remove
-
-	-=>.
-		doc. "TODO"
-		test. |
-			"TODO"
-		|Res-Type:@-Type _:@ remove:@
-			from-stream Res-Type (Stream ~|
+			Stream ~|
 				iter = iterator_
 				remove-us = => Hash-Set! remove
 				loop!
@@ -269,7 +246,6 @@ region Using from-stream
 									-! remove-us [ value ]
 								else
 									<~ value
-
 
 region Unsorted
 	impl! =? @
@@ -302,7 +278,7 @@ region Unsorted
 		|_:@ default:Any
 			max-by _ default identity
 
-	\ TODO: min method, specialize on sets
+	\ TODO: min method, specialize on Sorted-Set
 
 
 @

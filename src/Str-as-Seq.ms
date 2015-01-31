@@ -41,4 +41,4 @@ impl! => (self-type Str) @
 	|Str _ ?joiner:Opt[Str]
 		ignore Str \ TODO: ignored vars
 		joiner = get-or (Opt->? ?joiner) ""
-		(map (=> Array _) show).join joiner
+		(=> Array (map _ show)).join joiner

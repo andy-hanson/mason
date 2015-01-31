@@ -10,11 +10,12 @@ use~
 	..maps.Map each-pair!
 	.Impl-Type
 debug use~
+	..@.Stream
 	..! _ !not
 	..Comparable =? <?
 	..Comparable! <!
+	..methods =>
 	.Method
-
 
 Interface = Record-Type
 	doc. "
@@ -164,7 +165,7 @@ concrete-implementors.
 		implementor! Y X
 		implementor! Z X
 		implementor! W Y
-		[ X ] -> [ W Z ]
+		[ X ] -> => Stream [ W Z ]
 	|:@ interface:Interface
 		flat-map interface.implementors |case
 			:Interface

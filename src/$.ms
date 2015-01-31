@@ -1,7 +1,7 @@
 use
 	chalk red
 	es6-promise Promise
-	.@ _ concat=> map
+	.@ _ flatten map
 	.@.Array
 	.Bool
 	.console log!
@@ -12,8 +12,9 @@ use
 	.methods => sub
 	.pred-types Any
 	.types.Method impl!
-	.types.util self-type type-of
+	.types.util self-type
 debug use~
+	.@.Stream
 	.!
 	.Comparable =?
 	.control unreachable!
@@ -126,12 +127,12 @@ $map.
 $flat-map.
 	doc. "TODO"
 	test. |
-		$!=? [ 1 1 2 2 3 3 ] ($flat-map [ 1 2 3 ] |_
+		$!=? (=> Stream [ 1 1 2 2 3 3 ]) ($flat-map [ 1 2 3 ] |_
 			$delay |
 				[ _ _ ]
 
 	|:$[@] mapped:@ mapper:Fun[Any $[@]]
-		$after ($map mapped mapper) concat=>[(type-of mapped)]
+		$after ($map mapped mapper) flatten
 
 $each!.
 	doc. "TODO"
@@ -140,7 +141,7 @@ $each!.
 $keep.
 	doc. "TODO"
 	test. |
-		$!=? [ 2 ] ($keep [ 1 2 3 ] |_
+		$!=? (=> Stream [ 2 ]) ($keep [ 1 2 3 ] |_
 			$delay |
 				=? _ 2
 

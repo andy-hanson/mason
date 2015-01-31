@@ -1,8 +1,8 @@
 use
 	.$ _ $after
-	.@ flat-map
+	.@ keep map
 	.@.Array
-	.control if
+	.methods =>
 	.js-impl i-require
 	.js new
 
@@ -27,9 +27,9 @@ $@module-in-dir.
 	doc. "TODO"
 	|dir-path
 		$after (q->es6-promise (fs.listTree dir-path)) |files:Array
-			flat-map files |_
-				if (_.endsWith ".js") |
-					get-module_
+			js = keep files |_
+				_.endsWith ".js"
+			=> Array (map js get-module
 
 q->es6-promise = |q-promise
 	new $ |resolve reject

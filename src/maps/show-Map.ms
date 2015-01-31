@@ -1,12 +1,13 @@
 use
 	..@ map
-	.Map _ keys
 	..methods =>
 	..Obj flag?
 	..show
 	..Str
 	..types.Method impl!
 	..types.util type-of
+	.Map _ keys
+	.Weak-Identity-Map!
 
 impl! show Map
 	test. |
@@ -31,3 +32,7 @@ impl! show Map
 		"
 			{type}
 				{=> Str parts "\n\t"}
+
+impl! show Weak-Identity-Map!
+	|
+		"<a Weak-Identity-Map!>"
