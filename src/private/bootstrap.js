@@ -21,6 +21,12 @@ set(ms, "get", function(object, key) {
 	return object[key]
 })
 
+set(ms, "bool", function(b) {
+	if (typeof b !== "boolean")
+		throw new Error("Expected Bool, got " + b)
+	return b
+})
+
 // For use by Record-Type.ms
 set(ms, "checkNoExtras", function(_this, _, rtName) {
 	// If there was some key in `_` that we didn't copy:

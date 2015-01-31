@@ -29,11 +29,7 @@ make-record-constructor = |rt
 		\ Type might be lazily defined
 		member-has-type? = |members member
 			desc = Obj.getOwnPropertyDescriptor members member
-			case desc.value
-				_ \ Is true, in other words, no type
-					false
-				else
-					true
+			not (js=== desc.value true)
 
 	real-member? =  |members member
 		\ Ignore accidental displayName.

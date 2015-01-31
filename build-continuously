@@ -1,1 +1,1 @@
-node --harmony ./src/compile/cli flow --checks=false
+node --harmony ./src/compile/cli flow # --checks=false

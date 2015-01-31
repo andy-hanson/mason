@@ -32,5 +32,8 @@ Object.assign(module.exports.prototype, {
 	},
 	includeInoutChecks: function() {
 		return this.checks === true || this.checks.inout
+	},
+	includeCaseChecks: function() {
+		return this.checks === true
 	}
 })

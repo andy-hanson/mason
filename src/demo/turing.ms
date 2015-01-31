@@ -6,7 +6,7 @@ use
 	..@.Seq! <+! +>! set-nth!
 	..Bool false
 	..Comparable =?
-	..control end-loop if! loop
+	..control End-Loop if! loop
 	..methods => + - empty?
 	..Obj _ p
 	..pred-types Any
@@ -93,7 +93,7 @@ run-turing.
 				symbol = tape[pi]
 				case (p rules prev.state)[symbol]
 					=? fin _
-						end-loop ()
+						End-Loop (=> Array tape
 					else
 						write go-right = _
 						set-nth! tape pi write
@@ -108,4 +108,3 @@ run-turing.
 								0
 							else
 								- pi 1
-		=> Array tape

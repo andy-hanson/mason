@@ -3,6 +3,7 @@ use
 	.Fun _ Act call
 	.methods empty freeze
 	.pred-types Any
+	.types.Wrap-Type
 use~
 	.@.? _ get-or
 	.@.Array!
@@ -110,15 +111,13 @@ region Loops
 			output = Ref! ()
 			loop!
 				case! transform-state (get state)
-					_.is-end-loop
-						set! output _.ret
+					:End-Loop
+						set! output _.val
 						end-loop!
 					else
 						set! state _
 			get output
 
-	\ TODO: Make this a Wrapper-Type
-	end-loop. |r
-		is-end-loop.
-		ret. r
+	End-Loop. Wrap-Type
+		doc. "Wrap a value in this to indicate that you want this to be the return value of the loop."
 

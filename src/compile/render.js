@@ -159,9 +159,11 @@ U.implementMany(E, "renderContent", {
 	},
 	CasePart: function(rx, needBreak) {
 		const rxResult = rx.indented()
+		const t = r(rx)(this.test)
+		const test = rx.opts.includeCaseChecks() ? [ "_ms.bool(", t, ")" ] : t
 		return [
 			"case ",
-			r(rx)(this.test),
+			test,
 			": {",
 			rxResult.nl(),
 			r(rxResult)(this.result),
