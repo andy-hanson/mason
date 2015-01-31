@@ -46,7 +46,7 @@ time.
 current-time-ms.
 	doc. "TODO"
 	|
-		(new global.Date).getTime ()
+		(new global.Date).getTime() \ TODO:ES6 global.performance.now()
 
 time*!.
 	doc. "TODO"

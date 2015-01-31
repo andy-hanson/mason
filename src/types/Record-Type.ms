@@ -9,7 +9,7 @@ debug use~
 	..Comparable =?
 	..js-impl +1
 	..math.Num
-	..Try !debug-fails?
+	..Try fails?
 	.util type-of
 
 if! = |bool act
@@ -25,11 +25,10 @@ flag? = |case
 		false
 
 make-record-constructor = |rt
-	debug
-		\ Type might be lazily defined
-		member-has-type? = |members member
-			desc = Obj.getOwnPropertyDescriptor members member
-			not (js=== desc.value true)
+	debug member-has-type? = |members member
+		\ Type might be lazily defined, but don't trigger it yet.
+		desc = Obj.getOwnPropertyDescriptor members member
+		not (js=== desc.value true)
 
 	real-member? = |members member
 		\ Ignore accidental displayName.
@@ -66,15 +65,13 @@ make-record-constructor = |rt
 					else
 						()
 
-			\ TODO:SYNTAX `debug add! case`
-			debug
-				add! case
-					member-has-type? rt.members member
-						"_ms.checkContains(members{acc}, this{acc}, \"{member}\")"
-					else
-						"
-							if (!Object.prototype.hasOwnProperty.call(_, \"{member}\"))
-								throw new Error(\"Forgot to assign {member}.\")
+			debug add! case
+				member-has-type? rt.members member
+					"_ms.checkContains(members{acc}, this{acc}, \"{member}\")"
+				else
+					"
+						if (!Object.prototype.hasOwnProperty.call(_, \"{member}\"))
+							throw new Error(\"Forgot to assign {member}.\")
 
 		if! (defined? rt.optional-members) |
 			(Obj.getOwnPropertyNames rt.optional-members).forEach |member
@@ -83,32 +80,30 @@ make-record-constructor = |rt
 					add! "if (_{acc} !== undefined) \{"
 					if! (not extensible) |
 						add! "this{acc} = _{acc}"
-					debug
-						if! (member-has-type? rt.optional-members member) |
-							\ TODO: Debug mode only
-							add! "_ms.checkContains(optionalMembers{acc}, this{acc}, \"{member}\")"
+					debug if! (member-has-type? rt.optional-members member) |
+						\ TODO: Debug mode only
+						add! "_ms.checkContains(optionalMembers{acc}, this{acc}, \"{member}\")"
 					add! "}"
 
-		if! (not extensible) |
-			debug
-				\ TODO: Debug mode only
-				check = "_ms.checkNoExtras(this, _, \"{rt.displayName}\")"
-				case!
-					defined? rt.optional-members
-						add! check
-					else
-						n-members = real-members.length
-						n-members-compare = case
-							defined? real-members.displayName
-								"{n-members}"
-							else
-								"(Object.prototype.hasOwnProperty.call(_, \"displayName\") ? {+1 n-members} : {n-members})"
-						\ If the conditions pass the check will definitely fail, and will give nice error info.
-						add! "
-							if (Object.keys(_).length > {n-members-compare})  \{
-								{check}
-								throw new Error(\"Unreachable\")
-							}
+		debug if! (not extensible) |
+			\ TODO: Debug mode only
+			check = "_ms.checkNoExtras(this, _, \"{rt.displayName}\")"
+			case!
+				defined? rt.optional-members
+					add! check
+				else
+					n-members = real-members.length
+					n-members-compare = case
+						defined? real-members.displayName
+							"{n-members}"
+						else
+							"(Object.prototype.hasOwnProperty.call(_, \"displayName\") ? {+1 n-members} : {n-members})"
+					\ If the conditions pass the check will definitely fail, and will give nice error info.
+					add! "
+						if (Object.keys(_).length > {n-members-compare})  \{
+							{check}
+							throw new Error(\"Unreachable\")
+						}
 
 		if! (defined? rt.make-callable) |
 			add! "
@@ -166,14 +161,14 @@ record-type-args =
 		! =? v.x 1
 		! =? v.y 2
 		! =? (type-of v) Vec2D
-		!debug-fails? |
+		! fails? |
 			Vec2D
 				x. "one"
 				y. "two"
-		!debug-fails? |
+		! fails? |
 			Vec2D
 				x. 1
-		!debug-fails? |
+		! fails? |
 			Vec2D
 				x. 1
 				y. 2
@@ -189,7 +184,7 @@ record-type-args =
 			y. 2
 		! =? q.x 1
 		! =? q.y 2
-		!debug-fails? |
+		! fails? |
 			Q
 				x. 1
 				z. 3

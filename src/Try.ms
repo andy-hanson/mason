@@ -4,7 +4,7 @@ use
 	.Bool and true
 	.Comparable =?
 	.Comparable! <!
-	.Fun _ Act ignore
+	.Fun _ Act
 	.js global
 	.js-impl make-Error i-always-do-after i-oh-no! i-try
 	.methods contains? empty
@@ -79,15 +79,6 @@ fails?.
 			()
 	|_:Act
 		contains? Error try_
-
-!debug-fails?.
-	doc. "TODO"
-	test. |
-		"TODO"
-	|_:Act
-		in
-			! fails? _
-		ignore _
 
 fails-with?.
 	doc. "TODO"

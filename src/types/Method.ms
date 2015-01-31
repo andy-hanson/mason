@@ -15,7 +15,7 @@ use~
 debug use~
 	..Comparable =?
 	..math.Num
-	..Try !debug-fails?
+	..Try fails?
 
 writable? = |obj property
 	desc = global.Object.getOwnPropertyDescriptor obj property
@@ -88,7 +88,7 @@ Method = Record-Type
 		! =? (m "a") "Str"
 		! =? (m 1 1) "Num Num"
 		! =? (m 1 "a") "Num Str"
-		!debug-fails? |
+		debug ! fails? |
 			m 1 m
 
 		! =? "wrap-call-arg"

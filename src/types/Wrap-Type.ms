@@ -18,7 +18,7 @@ debug use~
 	..Comparable =?
 	..js defined?
 	..math.Num
-	..Try !debug-fails?
+	..Try fails?
 
 Wrap-Type = Record-Type
 	doc. "TODO"
@@ -39,9 +39,8 @@ Wrap-Type = Record-Type
 				return function ctr(_) \{
 					if (!(this instanceof ctr)) return new ctr(_)
 					this.val = _
-			debug
-				if! (defined? _.wrapped-type) |
-					add! "_ms.checkContains(wrappedType, _, \"val\")"
+			debug if! (defined? _.wrapped-type) |
+				add! "_ms.checkContains(wrappedType, _, \"val\")"
 			add! "}"
 		f = Fun "wrappedType" src
 		f _.wrapped-type
@@ -51,7 +50,7 @@ Wrap-Type = Record-Type
 			wrapped-type. Num
 		w = W 3
 		! =? w.val 3
-		!debug-fails? |
+		debug ! fails? |
 			W "three"
 
 \ TODO: This is same as for Record-Type. Are all Impl-Type_s like this?

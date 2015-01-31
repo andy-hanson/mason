@@ -28,10 +28,10 @@ T.Keyword.is = function(k) { return function(t) {
 	return type.isa(t, T.Keyword) && t.k === k
 } }
 
-T.Group.is = function(t, k) {
+T.Group.is = function(k) { return function(t) {
 	type(t, T, k, Lang.GroupKinds)
 	return type.isa(t, T.Group) && t.k === k
-}
+} }
 
 // toString is used by some parsing errors. Use U.inspect for a more detailed view.
 U.implementMany(T, "show", {

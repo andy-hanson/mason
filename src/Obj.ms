@@ -20,7 +20,7 @@ debug use~
 	.Bool true
 	.Fun call
 	.Obj! p+mut!
-	.Try !debug-fails?
+	.Try fails?
 
 Obj =
 	doc. "
@@ -120,7 +120,7 @@ p.
 		[ x "a" ] -> 1
 		[ x "b" ] -> ()
 
-		!debug-fails? |
+		debug ! fails? |
 			p "c"
 	|_:Obj name:Obj-Key
 		in
@@ -240,7 +240,7 @@ Map->Obj.
 		[ map ] ->
 			a. 1
 			b. 2
-		!debug-fails? |
+		debug ! fails? |
 			Map->Obj
 				1 -> 2
 	|_:Map

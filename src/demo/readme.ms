@@ -15,9 +15,9 @@ use
 	..methods + - * / empty
 	..Ref! _ get mod! set!
 	..Str
-	..Try !debug-fails?
 debug use
 	..math.Num divisible?
+	..Try fails?
 
 my-dict.
 	one. 1
@@ -90,7 +90,7 @@ half. |a
 
 	/ a 2
 
-!debug-fails? |
+debug ! fails? |
 	half 1
 ! =? (half 2) 1
 

@@ -87,7 +87,7 @@ const parseBlock = (function() {
 		type(px, Px, sqt, [T])
 		check(!Sq.isEmpty(sqt), px.span, "Expected an indented block")
 		const last = Sq.last(sqt)
-		check(T.Group.is(last, "->"), last.span, "Expected an indented block at the end")
+		check(T.Group.is('->')(last), last.span, "Expected an indented block at the end")
 		return { before: Sq.rightTail(sqt), lines: last.sqt }
 	}
 
@@ -374,7 +374,7 @@ const parseFun = function(px, sqt, k) {
 	var _$ = (function() {
 		if (!Sq.isEmpty(sqt)) {
 			const head = Sq.head(sqt)
-			if (T.Group.is(head, "sp") && T.Keyword.is(":")(Sq.head(head.sqt)))
+			if (T.Group.is('sp')(head) && T.Keyword.is(":")(Sq.head(head.sqt)))
 				return {
 					opType: Op.Some(parseSpaced(px.withSpan(head.span), Sq.tail(head.sqt))),
 					rest: Sq.tail(sqt)
@@ -596,18 +596,9 @@ const parseLine = (function() {
 				case "case!":
 					return parseCase(pxRest(), rest(), "case!", false)
 				case "debug":
-					if (T.Keyword.is("use")(sqt[1])) {
-						const u = parseUse(pxRest(), Sq.tail(rest()), "use")
-						return E.Debug({ span: pxRest().span, lines: u })
-					}
-					if (T.Keyword.is("use~")(sqt[1])) {
-						const u = parseUse(pxRest(), Sq.tail(rest()), "use~")
-						return E.Debug({ span: pxRest().span, lines: u })
-					}
-					return E.Debug({
-						span: first.span,
-						lines: parseLines(px, sqt)
-					})
+					return (T.Group.is('->')(sqt[1])) ?
+						E.Debug(px.s({ lines: parseLines(px, sqt) })) : // `debug`, then indented block
+						E.Debug(px.s({ lines: parseLineOrLines(px, Sq.tail(sqt)) })) // e.g. `debug use`
 				case "debugger":
 					check(Sq.isEmpty(rest()), px.span, "Did not expect anything after " + first)
 					return E.Debugger(px.s({}))
@@ -617,8 +608,7 @@ const parseLine = (function() {
 					return parseLoop(pxRest(), rest())
 				case "region":
 					return parseLines(px, sqt)
-				case "use":
-				case "use~":
+				case "use": case "use~":
 					return parseUse(pxRest(), rest(), first.k)
 				default: // fall through
 			}
@@ -631,18 +621,19 @@ const parseLine = (function() {
 	}
 })()
 
+const parseLineOrLines = function(px, sqt) {
+	const _ = parseLine(px, sqt)
+	return (_ instanceof Array) ? _ : [ _ ]
+}
+
 const parseLines = function(px, sqt) {
 	const first = Sq.head(sqt)
 	check(sqt.length > 1, first.span, "Expected indented block after " + first)
 	const block = sqt[1]
-	assert(sqt.length === 2 && T.Group.is(block, '->'))
+	assert(sqt.length === 2 && T.Group.is('->')(block))
 	const out = []
 	block.sqt.forEach(function(line) {
-		const _ = parseLine(px.withSpan(line.span), line.sqt)
-		if (_ instanceof Array)
-			[].push.apply(out, _)
-		else
-			out.push(_)
+		[].push.apply(out, parseLineOrLines(px.withSpan(line.span), line.sqt))
 	})
 	return out
 }
@@ -663,7 +654,7 @@ const parseLocals = (function() {
 		let opType = Op.None
 		let isLazy = false
 
-		if (T.Group.is(t, "sp")) {
+		if (T.Group.is('sp')(t)) {
 			const sqt = t.sqt
 			const head = Sq.head(sqt)
 			let rest = sqt
@@ -720,17 +711,17 @@ const parseSingle = function(px, t) {
 		case T.Keyword.is(Lang.SpecialKeywords)(t):
 			return E.SpecialKeyword(px.s({ k: t.k }))
 
-		case T.Group.is(t, "sp"):
+		case T.Group.is('sp')(t):
 			return parseSpaced(px, t.sqt)
-		case T.Group.is(t, "->"):
+		case T.Group.is('->')(t):
 			return parseBlock.wrap(px, t.sqt, "val")
-		case T.Group.is(t, '"'):
+		case T.Group.is('"')(t):
 			return E.Quote(px.s({
 				parts: t.sqt.map(function(tSub) { return parseSingle(px, tSub) })
 			}))
-		case T.Group.is(t, "("):
+		case T.Group.is('(')(t):
 			return parseExpr(px, t.sqt)
-		case T.Group.is(t, "["):
+		case T.Group.is('[')(t):
 			return E.ListSimple(px.s({
 				parts: parseExprParts(px, t.sqt)
 			}))
@@ -766,13 +757,13 @@ const parseSpaced = function(px, sqt) {
 						default:
 							check.fail(span, "Too many dots!")
 					}
-				if (T.Group.is(t, "["))
+				if (T.Group.is('[')(t))
 					return E.Sub({
 						span: span,
 						subject: e,
 						subbers: parseExprParts(px, t.sqt)
 					})
-				if (T.Group.is(t, "("))
+				if (T.Group.is('(')(t))
 					return E.Call({
 						span: span,
 						called: e,
@@ -824,7 +815,7 @@ const parseUse = (function() {
 		else if (isa(t, T.DotName))
 			return parseLocalRequire(px, [t])
 		else {
-			check(T.Group.is(t, "sp"), px.span, "Not a valid module name")
+			check(T.Group.is('sp')(t), px.span, "Not a valid module name")
 			return parseLocalRequire(px, t.sqt)
 		}
 	}

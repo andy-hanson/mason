@@ -5,15 +5,15 @@ use
 	..Str
 	.Num _ Int
 debug use
-	..! !not
+	..! _ !not
 	..Regex regex
-	..Try !debug-fails?
+	..Try fails?
 
 binary.
 	doc. "Makes an Int out of a string of 0s and 1s."
 	test. |
 		[ "101" ] -> 5
-		!debug-fails? |
+		debug ! fails? |
 			binary "0a"
 	|:Int bin-str:Str
 		in
@@ -27,7 +27,7 @@ hexidecimal.
 	doc. "Max an Int out of a string of hex codes (0-f). Capitalization ignored."
 	test. |
 		[ "7f" ] -> 127
-		!debug-fails? |
+		debug ! fails? |
 			hexidecimal "asdfghjkl"
 	|:Int hex-str:Str
 		in

@@ -16,7 +16,7 @@ debug use
 	..Bool false true
 	..Fun spread!
 	..methods contains?
-	..Try !debug-fails?
+	..Try fails?
 
 Num = global.Number
 Math = global.Math
@@ -168,7 +168,7 @@ region Real arithmetic
 	square-root.
 		test. |
 			[ 4 ] -> 2
-			!debug-fails? |
+			debug ! fails? |
 				square-root -1
 		|_:Num
 			in
