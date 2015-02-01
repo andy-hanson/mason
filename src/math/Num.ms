@@ -29,12 +29,12 @@ Int. Pred-Type
 	test. |
 		spread! ![contains?[Int]]
 			. 1
-			. min-safe-integer
-			. max-safe-integer
+			. min-safe-int
+			. max-safe-int
 		spread! !not[contains?[Int]]
 			. 1.1
-			. - min-safe-integer 1
-			. + max-safe-integer 1
+			. - min-safe-int 1
+			. + max-safe-int 1
 	predicate. |_
 		Num.isSafeInteger _
 
@@ -271,8 +271,8 @@ impl! show Num
 region Constants
 	infinity. p Num "POSITIVE_INFINITY"
 	-infinity. p Num "NEGATIVE_INFINITY"
-	max-safe-integer. p Num "MAX_SAFE_INTEGER"
-	min-safe-integer. p Num "MIN_SAFE_INTEGER"
+	max-safe-int. p Num "MAX_SAFE_INTEGER"
+	min-safe-int. p Num "MIN_SAFE_INTEGER"
 	not-a-number. Num.NaN
 	pi. Math.PI
 	pi/2. / pi 2

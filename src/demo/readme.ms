@@ -4,7 +4,7 @@ debug use
 	..! _ !not
 	..@ _ count map
 	..@.Array!
-	..@.Seq seq=? take
+	..@.Seq seq=?
 	..@.Stream
 	..Bool and true
 	..Comparable =? >? >=? <=?
@@ -13,7 +13,7 @@ debug use
 	..js eval
 	..math.Num _ divisible? Int
 	..methods + - * / empty
-	..Ref! _ get mod! set!
+	..Ref! _ get set!
 	..Str
 	..Try fails?
 
@@ -173,13 +173,6 @@ test. |
 		three <~ two
 		three
 	! =? y 3
-
-	nats. Stream ~|
-		i = Ref! 0
-		loop!
-			<~ get i
-			mod! i +[1]
-	! seq=? (take nats 3) [ 0 1 2 ]
 
 	one-two-one-two. ~|
 		<~~ one-two ()
