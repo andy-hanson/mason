@@ -9,10 +9,9 @@ use
 	.Js-Method
 	.methods contains? empty
 	.Obj
-	.pred-types Any
-	.types.Method impl!
-	.types.Pred-Type
-	.types.util self-type
+	.Type.Impl-Type self-type
+	.Type.Method impl!
+	.Type.Pred-Type _ Any
 debug use~
 	.!
 	.@.Seq seq=?

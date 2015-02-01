@@ -3,7 +3,7 @@ use
 	..control returning
 	..js global new
 	..methods +! -! contains? empty empty!
-	..types.util self-type
+	..Type.Impl-Type self-type
 	..@ count each! iterator
 	.@-Type _ from-stream
 	.Set!

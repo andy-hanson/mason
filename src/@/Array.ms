@@ -1,4 +1,4 @@
-\ Also see ..maps.Array-as-Map
+\ Also see ..Map.Array-as-Map
 
 use
 	..Comparable <?
@@ -8,8 +8,8 @@ use
 	..js global js-sub
 	..js-impl array-iterator
 	..methods empty freeze
-	..types.Method impl!
-	..types.util self-type
+	..Type.Impl-Type self-type
+	..Type.Method impl!
 	..@ count iterator
 	.@-Type _ from-stream
 	.Seq _ ?nth

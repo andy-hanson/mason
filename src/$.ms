@@ -4,15 +4,14 @@ use
 	.@ _ flatten map
 	.@.Array
 	.Bool
-	.console log!
 	.control if
 	.Fun _ apply fun-copy identity ignore
 	.Generator!
-	.js new
+	.js global new
 	.methods => sub
-	.pred-types Any
-	.types.Method impl!
-	.types.util self-type
+	.Type.Impl-Type self-type
+	.Type.Method impl!
+	.Type.Pred-Type Any
 debug use~
 	.@.Stream
 	.!
@@ -59,7 +58,8 @@ $done.
 	|promise:$
 		\ TODO: Use $catch
 		promise.catch |err
-			log! "
+			\ Don't use log! because there if errors happen in there, the error disappears!
+			global.console.log "
 				{err.stack}
 				{red "==="}
 

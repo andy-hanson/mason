@@ -7,7 +7,7 @@ use
 	.Record-Type
 use~
 	..@ _ any? flat-map
-	..maps.Map each-pair!
+	..Map each-pair!
 	.Impl-Type
 debug use~
 	..@.Stream
@@ -17,22 +17,22 @@ debug use~
 	..methods =>
 	.Method
 
-Interface = Record-Type
+Kind = Record-Type
 	doc. "
-		An Interface is like a tag you can apply to a Concrete-Type to signify that it belongs in some category.
+		A Kind is like a tag you can apply to a Concrete-Type to signify that it belongs in some category.
 		That category is typically a group of types all of which implement the same set of methods.
-		Type checking for interface membership is O(1).
+		Type checking for Kind membership is O(1).
 		-
-		The `prototype` on an Interface is not meant to be used as a prototype.
-		It stores the impl!_s that have been done on the interface.
-		impl! and implementor! make sure that Concrete-Types receive the methods of their interfaces.
-		They require the interface to correctly track super-interfaces and implementors.
+		The `prototype` on a Kind is not meant to be used as a prototype.
+		It stores the impl!_s that have been done on the Kind0.
+		impl! and implementor! make sure that Concrete-Types receive the methods of their kinds.
+		They require the Kind to correctly track super-kinds and implementors.
 
 	test. |
 		region Inheritance chans - one way
-			A = Interface
+			A = Kind
 				doc. "A"
-			B = Interface
+			B = Kind
 				doc. "B"
 			C = Record-Type
 				members.
@@ -44,9 +44,9 @@ Interface = Record-Type
 			! contains? A c
 
 		region Inheritance chains
-			X = Interface
+			X = Kind
 				doc. "X"
-			Y = Interface
+			Y = Kind
 				doc. "Y"
 			Z = Record-Type
 				members.
@@ -57,7 +57,7 @@ Interface = Record-Type
 				x. 1
 			! contains? X z
 
-		region Method makes sure to do impl! on all Concrete-Type_s inheriting from an Interface.
+		region Method makes sure to do impl! on all Concrete-Type_s inheriting from an Kind.
 			asdf = Method
 				doc. "asdf_s its arguments."
 			impl! asdf X |
@@ -66,13 +66,13 @@ Interface = Record-Type
 			! contains? X z
 	members.
 		displayName. Str
-		~super-interfaces. Array \ TODO: [~Interface]
+		~super-kinds. Array \ TODO: [~Kind]
 		prototype. Obj
 		implementors. Array \ TODO: [~Impl-Type]
 		symbol-for-isa. Symbol
 	extensible.
 	defaults.
-		super-interfaces. |
+		super-kinds. |
 			global.Array 0
 		prototype. |
 			Obj.create ()
@@ -81,40 +81,39 @@ Interface = Record-Type
 		symbol-for-isa. |_
 			name:Str = _.displayName
 			Symbol "isa-{name}"
-	post-construct. |iface
-		set! iface.prototype iface.symbol-for-isa true
+	post-construct. |_
+		set! _.prototype _.symbol-for-isa true
 
 \ Making something an instance of Impl-Type is difficult because implementor! checks that it's already an Impl-Type...
 unchecked-implementor!.
 	doc. "TODO"
-	|implementor interface
-		interface.implementors.push implementor
+	|implementor kind
+		kind.implementors.push implementor
 		case! implementor
-			:Interface
-				_.super-interfaces.push interface
+			:Kind
+				_.super-kinds.push kind
 			else
 				()
-		inherit-methods! implementor interface
+		inherit-methods! implementor kind
 
 own-properties = |_
 	(Obj.getOwnPropertyNames _).concat (Obj.getOwnPropertySymbols _)
 
-inherit-methods! = |implementor interface
-	rec! = |interface
-		(own-properties interface.prototype).forEach |name
+inherit-methods! = |implementor kind
+	rec! = |kind
+		(own-properties kind.prototype).forEach |name
 			\ TODO: use getp
-			propagate-method-down! implementor name (js-sub interface.prototype name)
-		interface.super-interfaces.forEach rec!
-	rec! interface
-
+			propagate-method-down! implementor name (js-sub kind.prototype name)
+		kind.super-kinds.forEach rec!
+	rec! kind
 
 \ TODO: Assert no circular chains of implementor!.
 \ Typically one would use `<!`.
 implementor!.
 	doc. "TODO"
 	\ TODO: implementor:Impl-Type
-	|implementor interface:Interface method-impls
-		unchecked-implementor! implementor interface
+	|implementor kind:Kind method-impls
+		unchecked-implementor! implementor kind
 		case! method-impls
 			defined?_
 				each-pair! _ |method implementation
@@ -126,9 +125,9 @@ implementor!.
 implementor?.
 	doc. "TODO"
 	test. |
-		A = Interface
+		A = Kind
 			doc. "A"
-		B = Interface
+		B = Kind
 			doc. "B"
 		C = Record-Type
 			members.
@@ -139,22 +138,22 @@ implementor?.
 		! <? C B
 		! <? C A
 		!not <? A B
-	|implementor:Impl-Type interface:Interface
+	|implementor:Impl-Type kind:Kind
 		case implementor
 			:Record-Type
-				contains? interface implementor.prototype
-			:Interface
-				any? _.super-interfaces |super
-					\ TODO: Just use `=? super interface` ?
-					or (reference=? super interface) ~(implementor? super interface)
+				contains? kind implementor.prototype
+			:Kind
+				any? _.super-kinds |super
+					\ TODO: Just use `=? super kind` ?
+					or (reference=? super kind) ~(implementor? super kind)
 
 \ TODO: Use Stream
 concrete-implementors.
 	doc. "TODO"
 	test. |
-		X = Interface
+		X = Kind
 			doc. "X"
-		Y = Interface
+		Y = Kind
 			doc. "Y"
 		Z = Record-Type
 			members.
@@ -166,11 +165,11 @@ concrete-implementors.
 		implementor! Z X
 		implementor! W Y
 		[ X ] -> => Stream [ W Z ]
-	|:@ interface:Interface
-		flat-map interface.implementors |case
-			:Interface
+	|:@ kind:Kind
+		flat-map kind.implementors |case
+			:Kind
 				concrete-implementors_
 			else
 				[ _ ]
 
-Interface
+Kind

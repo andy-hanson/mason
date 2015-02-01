@@ -3,9 +3,9 @@ use
 	..Fun ignore thunk
 	..js defined? reference=?
 	..methods empty empty?
-	..types.Method impl!
-	..types.util self-type
-	..types.Wrap-Type
+	..Type.Impl-Type self-type
+	..Type.Method impl!
+	..Type.Wrap-Type
 	..@ iterator
 	.@-Type _ from-stream
 	.Seq

@@ -2,12 +2,12 @@ use
 	.Bool
 	.js js-instanceof
 	.private.bootstrap sym-contains? set! ms
-	.types.Method _ impl!
+	.Type.Method _ impl!
 use~
 	.Fun
 	.Obj
 	.Try oh-no!
-	.types.Type
+	.Type.Type
 
 region Arithmetic operators
 	+. Method

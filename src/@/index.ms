@@ -5,11 +5,11 @@ use
 	..js reference=?
 	..methods => + - -! contains? empty empty?
 	..Obj
-	..pred-types Any Opt
 	..Symbol
-	..types.Interface
-	..types.Method _ impl!
-	..types.util type-of
+	..Type type-of
+	..Type.Kind
+	..Type.Method _ impl!
+	..Type.Pred-Type Any Opt
 use~
 	..Generator!
 	..math.Num Nat
@@ -25,7 +25,7 @@ debug use~
 	..! _ !not
 	..math.Num divisible?
 
-@. Interface
+@. Kind
 	doc. "TODO"
 	implementor-test. |@-type
 		! (contains? @-Type @-type) "Be sure to make your @ type a @-Type."

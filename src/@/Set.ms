@@ -4,16 +4,16 @@ use
 	..Comparable =?
 	..Comparable! <!
 	..methods => contains?
-	..types.Interface
-	..types.Method impl!
-	..types.util type-of
+	..Type type-of
+	..Type.Kind
+	..Type.Method impl!
 use~
 	.Hash-Set!
 debug use~
 	..Bool false true
 	..methods -
 
-Set = Interface
+Set = Kind
 	doc. "TODO"
 
 <! Set @

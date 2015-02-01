@@ -1,7 +1,7 @@
 use
 	..@ _ each!
 	..$ _ $after
-	..console log!
+	..io.console log!
 	..Fun _ Act
 	..js-impl i-time*
 	..math.Num _ Nat

@@ -1,7 +1,7 @@
 use
 	.Fun
 	.Obj! p!
-	.types.Wrap-Type
+	.Type.Wrap-Type
 debug use~
 	.!
 	.Comparable =?

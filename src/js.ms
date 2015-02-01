@@ -9,9 +9,9 @@ use~
 	.Bool _ not
 	.Fun _ ignore
 	.methods => contains?
-	.pred-types Any Union
 	.Str
 	.Symbol
+	.Type.Pred-Type Any Union
 debug use~
 	.! !not
 	.@ each!

@@ -1,7 +1,7 @@
 use
 	.Fun
 	.Str
-	.types.Record-Type
+	.Type.Record-Type
 debug use~
 	.!
 	.Comparable =?

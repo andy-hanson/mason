@@ -1,13 +1,13 @@
 use
 	..Comparable! <!
-	..types.Interface
+	..Type.Kind
 	.@!
 	.Set
 debug use~
 	..! _ !not
 	..methods +! -! contains? empty empty? empty!
 
-Set! = Interface
+Set! = Kind
 	doc. "TODO"
 	implementor-test. |type
 		_ = empty type

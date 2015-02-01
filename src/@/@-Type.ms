@@ -2,16 +2,16 @@ use
 	..Comparable! <!
 	..Fun identity
 	..methods => empty sub
-	..types.Interface
-	..types.Method _ impl!
-	..types.util self-type
+	..Type.Impl-Type self-type
+	..Type.Kind
+	..Type.Method _ impl!
 	..@
 use~
 	.Array
 debug use~
 	.Range range
 
-@-Type = Interface
+@-Type = Kind
 	doc. "Any sub-type of @."
 
 impl! sub @-Type identity

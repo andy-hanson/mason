@@ -8,8 +8,8 @@ use
 	..math.Num Nat
 	..methods => empty empty? empty!
 	..Obj frozen?
-	..types.Pred-Type
-	..types.util self-type
+	..Type.Impl-Type self-type
+	..Type.Pred-Type
 	..@ _ each!
 	.@-Type _ from-stream
 	.Array

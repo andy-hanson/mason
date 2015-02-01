@@ -6,11 +6,12 @@ use
 	..Fun _ identity Pred
 	..js defined?
 	..methods => + - empty empty? freeze sub
-	..pred-types Any Opt
 	..Str _ indent
-	..types.Interface
-	..types.Method _ impl!
-	..types.util self-type type-of
+	..Type type-of
+	..Type.Impl-Type self-type
+	..Type.Kind
+	..Type.Method _ impl!
+	..Type.Pred-Type Any Opt
 	..@ _ all? count iterator
 	.@-Type _ from-stream
 use~
@@ -28,7 +29,7 @@ debug use~
 	..! _ !not
 	..Try fails?
 
-Seq = Interface
+Seq = Kind
 	doc. "TODO"
 
 <! Seq @

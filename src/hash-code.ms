@@ -5,14 +5,14 @@ use
 	.Comparable =?
 	.Fun
 	.js reference=?
-	.maps.Weak-Identity-Map!
+	.Map.Weak-Identity-Map!
 	.math.bit-arithmetic bit-and hexidecimal
 	.math.Num _ Int round-towards-0
 	.methods + * empty empty?
 	.Obj p ?p @p-all
 	.Str
 	.Symbol
-	.types.Method _ impl! impl-for
+	.Type.Method _ impl! impl-for
 debug use
 	.! _ !not
 

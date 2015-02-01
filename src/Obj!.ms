@@ -3,11 +3,11 @@ use
 	.js js-delete js-set
 	.methods empty
 	.Obj
-	.pred-types Any Union
 	.Str
 	.Symbol
-	.types.Method impl!
-	.types.util self-type
+	.Type.Impl-Type self-type
+	.Type.Method impl!
+	.Type.Pred-Type Any Union
 debug use~
 	.! _ !not
 	.Comparable =?

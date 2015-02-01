@@ -8,7 +8,7 @@ debug use
 	..!
 	..@.Stream
 	..Comparable =?
-	..maps.Map each-pair!
+	..Map each-pair!
 	..methods =>
 
 make-word-from-blocks.

@@ -9,20 +9,19 @@ use
 	..Bool _ and false or true
 	..Comparable =?
 	..Fun _ apply ignore
-	..maps.Map
+	..Map
 	..methods + contains? empty
 	..modules $@module-in-dir
-	..Obj _ ?p p p? @p @p-all
-	..pred-types ObjLit
+	..Obj _ ObjLit ?p p p? @p @p-all
 	..Str
 	..Try $annotate-errors annotate-errors oh-no! Success try
-	..types.Impl-Type
-	..types.Interface _ concrete-implementors
-	..types.Method _ impl! impl-for
+	..Type.Impl-Type
+	..Type.Kind _ concrete-implementors
+	..Type.Method _ impl! impl-for
 debug use
 	..control build
 	..Obj!
-	..types.util self-type
+	..Type.Impl-Type self-type
 
 \ TODO
 test. |
@@ -59,7 +58,7 @@ impl! test-special Impl-Type |type
 					()
 
 \ TODO: MOVE THESE
-impl! test-special Interface |_
+impl! test-special Kind |_
 	a = any->@$ ((impl-for test-special Impl-Type) _
 	b = flat-map (?p _ "implementor-test") |test:Fun
 		flat-map concrete-implementors_ |implementor

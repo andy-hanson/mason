@@ -3,7 +3,7 @@ use
 	..Obj ?p
 	..show
 	.Method impl!
-	.Type
+	..Type
 debug use
 	.Method
 

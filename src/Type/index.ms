@@ -4,12 +4,12 @@ use
 	..methods contains?
 	..private.bootstrap Fun
 	.Impl-Type
-	.Interface _ unchecked-implementor!
+	.Kind _ unchecked-implementor!
 	.Method _ impl! impl-unchecked!
 use~
-	..Obj p-with-proto?
+	..Obj _ p-with-proto?
 
-Type = Interface
+Type. Kind
 	doc. "TODO"
 	test. |
 		"TODO"
@@ -18,8 +18,8 @@ unchecked-implementor! Impl-Type Type
 unchecked-implementor! Method Type
 
 \ TODO: Move
-impl-unchecked! contains? Interface |iface _
-	and any?_ ~(defined? (js-sub _ iface.symbol-for-isa))
+impl-unchecked! contains? Kind |kind _
+	and any?_ ~(defined? (js-sub _ kind.symbol-for-isa))
 
 unchecked-implementor! Fun Impl-Type
 
@@ -27,5 +27,20 @@ unchecked-implementor! Fun Impl-Type
 unchecked-implementor! Method Type
 impl! contains? Method |method value
 	p-with-proto? value method.impl-symbol
+
+type-of.
+	doc. "TODO"
+	test. |
+		[ () ] -> Obj
+	|obj
+		case
+			any? obj
+				case obj.constructor
+					defined?_
+						_
+					else
+						Obj
+			else
+				Obj
 
 Type

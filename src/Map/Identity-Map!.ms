@@ -5,9 +5,9 @@ use
 	..control returning
 	..js global new
 	..methods empty empty!
-	..types.Method impl!
-	..types.util self-type
-	.Map ?get has-key? keys values
+	..Type.Impl-Type self-type
+	..Type.Method impl!
+	..Map ?get has-key? keys values
 	.Map! _ assoc! un-assoc!
 debug use
 	..!

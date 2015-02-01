@@ -4,9 +4,9 @@ use
 	..Obj flag?
 	..show
 	..Str
-	..types.Method impl!
-	..types.util type-of
-	.Map _ keys
+	..Type type-of
+	..Type.Method impl!
+	..Map _ keys
 	.Weak-Identity-Map!
 
 impl! show Map

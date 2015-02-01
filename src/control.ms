@@ -2,14 +2,14 @@ use
 	.Bool
 	.Fun _ Act call
 	.methods empty freeze
-	.pred-types Any
-	.types.Wrap-Type
+	.Type.Pred-Type Any
+	.Type.Wrap-Type
 use~
 	.@.? _ get-or
 	.@.Array!
 	.@.Seq
 	.@.Seq! +>!
-	.maps.Map _ ?get
+	.Map _ ?get
 	.Ref! _ get set!
 	.Try oh-no!
 debug use~

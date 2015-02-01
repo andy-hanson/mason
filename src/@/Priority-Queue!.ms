@@ -1,7 +1,7 @@
 use
 	..Comparable! <!
-	..types.Interface
-	..types.Method
+	..Type.Kind
+	..Type.Method
 	.@!
 debug use~
 	..!
@@ -9,7 +9,7 @@ debug use~
 	..methods +! empty empty?
 	.?
 
-Priority-Queue! = Interface
+Priority-Queue! = Kind
 	doc. "TODO"
 	implementor-test. |type
 		_ = empty type

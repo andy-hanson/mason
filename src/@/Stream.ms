@@ -4,9 +4,9 @@ use
 	..Fun _ ignore thunk
 	..Generator!
 	..methods => empty
-	..types.Method impl!
-	..types.util self-type
-	..types.Wrap-Type
+	..Type.Impl-Type self-type
+	..Type.Method impl!
+	..Type.Wrap-Type
 	.@-Type _ from-stream
 	.Seq _
 debug use~

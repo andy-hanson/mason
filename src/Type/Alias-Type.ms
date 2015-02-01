@@ -4,7 +4,7 @@ use
 	..private.bootstrap Str
 	.Method impl!
 	.Record-Type
-	.Type
+	..Type
 debug use~
 	..! _ !not
 	..@.?

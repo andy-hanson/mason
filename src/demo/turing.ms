@@ -9,7 +9,7 @@ use
 	..control End-Loop if! loop
 	..methods => + - empty?
 	..Obj _ p
-	..pred-types Any
+	..Type.Pred-Type Any
 
 region Rule results
 	R. |written new-state

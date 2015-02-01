@@ -1,7 +1,7 @@
 doc. "The program starts running here."
 use
 	.$ $done $ing
-	.console log!
+	.io.console log!
 	.modules $@module-in-dir get-module
 	.tests.test $@test-all $@test-module
 	.tests.perf-test time $time! time*! race*!

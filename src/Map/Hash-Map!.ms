@@ -12,10 +12,10 @@ use
 	..methods empty empty! freeze
 	..Obj
 	..Obj! p!
-	..types.Method impl!
-	..types.Record-Type
-	..types.util self-type
-	.Map ?get keys values
+	..Type.Impl-Type self-type
+	..Type.Method impl!
+	..Type.Record-Type
+	..Map ?get keys values
 	.Map! _ assoc! un-assoc!
 debug use
 	..!

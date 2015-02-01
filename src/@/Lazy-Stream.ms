@@ -4,8 +4,8 @@ use
 	..Generator! _ each~
 	..math.Num Nat
 	..methods - +! empty empty?
-	..types.Record-Type
-	..types.util self-type
+	..Type.Impl-Type self-type
+	..Type.Record-Type
 	..@ count iterator
 	.@-Type _ from-stream
 	.Array!

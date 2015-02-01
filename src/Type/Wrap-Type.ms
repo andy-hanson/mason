@@ -7,11 +7,11 @@ use
 	\ TODO: Try non-bootstrap versions...
 	..private.bootstrap set!
 	..Str
-	.Interface unchecked-implementor!
+	.Kind unchecked-implementor!
 	.Impl-Type
 	.Method impl!
 	.Record-Type
-	.Type
+	..Type
 debug use~
 	..!
 	..control if!

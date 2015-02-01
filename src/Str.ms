@@ -3,8 +3,8 @@ use
 	.Comparable _ =? compare
 	.Comparable! <!
 	.js global reference=?
-	.types.Method impl!
-	.types.Pred-Type
+	.Type.Method impl!
+	.Type.Pred-Type
 use~
 	.@ count
 	.Regex regex

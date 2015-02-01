@@ -5,10 +5,11 @@ use
 	..Comparable =?
 	..Fun _ identity
 	..methods empty empty? freeze sub
-	..pred-types Any
-	..types.Interface
-	..types.Method _ impl!
-	..types.util self-type type-of
+	..Type type-of
+	..Type.Impl-Type self-type
+	..Type.Kind
+	..Type.Method _ impl!
+	..Type.Pred-Type Any
 use~
 	.Hash-Map!
 	.Map! assoc!
@@ -17,7 +18,7 @@ debug use~
 	..Bool false true
 	..methods +
 
-Map = Interface
+Map. Kind
 	doc. "Mapping from keys to values."
 
 \ TODO: impl! sub Map-Type identity

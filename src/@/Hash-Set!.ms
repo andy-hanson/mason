@@ -4,13 +4,13 @@ use
 	..Comparable =?
 	..Comparable! <!
 	..control returning
-	..maps.Map keys
-	..maps.Map! assoc! un-assoc!
-	..maps.Hash-Map!
+	..Map keys
+	..Map.Hash-Map!
+	..Map.Map! assoc! un-assoc!
 	..methods +! -! empty empty!
-	..types.Method impl! impl-for
-	..types.Record-Type
-	..types.util self-type
+	..Type.Impl-Type self-type
+	..Type.Method impl! impl-for
+	..Type.Record-Type
 	.@-Type _ from-stream
 	.Set
 	.Set!

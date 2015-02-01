@@ -2,11 +2,11 @@ doc. "TODO"
 
 use
 	chalk blue
-	.@ each!
-	.js global
-	.methods =>
-	.show
-	.Str
+	..@ each!
+	..js global
+	..methods =>
+	..show
+	..Str
 
 js-console = global.console
 

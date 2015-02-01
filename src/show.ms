@@ -7,8 +7,8 @@ use
 	.Obj flag? p ?p @p
 	.Str _ indent
 	.Symbol
-	.types.Method _ impl!
-	.types.util type-of
+	.Type type-of
+	.Type.Method _ impl!
 use~
 	.@ map
 	.@.? get-or
@@ -18,7 +18,7 @@ debug use
 	.Bool false true
 	.Obj
 
-showing = new-Set ()
+showing = new-Set()
 
 show = Method
 	doc. |:Str _ opts

@@ -4,8 +4,8 @@ use
 	..Obj flag?
 	..show
 	..Str _ indent
-	..types.Method impl! impl-for
-	..types.util type-of
+	..Type type-of
+	..Type.Method impl! impl-for
 	.Array
 debug use~
 	..methods empty

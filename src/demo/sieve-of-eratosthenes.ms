@@ -3,9 +3,9 @@ use
 	..@.Range range
 	..@.Stream
 	..Generator! each~
-	..maps.Map! assoc! un-assoc!
-	..maps.Identity-Map!
-	..maps.multi-map! add-to-@!
+	..Map.Map! assoc! un-assoc!
+	..Map.Identity-Map!
+	..Map.multi-map! add-to-@!
 	..math.Num square
 	..methods + * empty empty?
 debug use

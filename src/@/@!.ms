@@ -1,9 +1,9 @@
 use
 	..Comparable! <!
 	..methods +! empty
-	..types.Interface
-	..types.Method impl!
-	..types.util self-type
+	..Type.Impl-Type self-type
+	..Type.Kind
+	..Type.Method impl!
 	..@
 	.@-Type
 use~
@@ -16,7 +16,7 @@ debug use~
 	..methods contains? empty? empty!
 	.Array
 
-@! = Interface
+@! = Kind
 	doc. "TODO"
 	implementor-test. |type
 		\ KLUDGE because Array and Array! are the same thing (also in Seq!.ms)

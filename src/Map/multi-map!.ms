@@ -4,7 +4,7 @@ use
 	..@.? get-or Opt->?
 	..@.@-Type
 	..methods +! empty
-	..pred-types Opt
+	..Type.Pred-Type Opt
 	.Map! _ get-or-add!
 
 add-to-@!. |map:Map! key added:@ @-type:Opt[@-Type]

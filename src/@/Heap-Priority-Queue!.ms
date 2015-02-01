@@ -6,8 +6,8 @@ use
 	..math.Num int/
 	..methods + +! - * empty empty? empty!
 	.Priority-Queue! _ ?pop!
-	..types.util self-type
-	..types.Wrap-Type
+	..Type.Impl-Type self-type
+	..Type.Wrap-Type
 	..@ count each! iterator map'
 	.@-Type _ from-stream
 	.? un-?

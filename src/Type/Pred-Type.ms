@@ -1,26 +1,33 @@
-doc. "TODO"
-
 use
-	.Bool and not or true
-	.Comparable! <!
-	.Fun ignore
-	.js defined? reference=?
-	.methods contains? sub
-	.types.Method impl!
-	.types.Pred-Type
-	.types.Record-Type
-	.types.util self-type
-	.types.Type
-use~
-	.Obj
+	..Bool not or true
+	..Comparable! <!
+	..Fun ignore Pred
+	.Impl-Type self-type
+	..js defined?
+	..methods contains? sub
+	..private.bootstrap Str
+	.Method impl!
+	.Record-Type
+	..Type
 debug use~
-	.! _ !not
-	.Bool
-	.Str
+	..! _ !not
+	..Bool
+
+Pred-Type = Record-Type
+	doc. "Arbitrary predicates can be made into types using Pred-Type."
+	members.
+		displayName. Str
+		predicate. Pred
+	extensible.
+
+<! Pred-Type Type
+impl! contains? Pred-Type |_ value
+	_.predicate value
+
+
 
 region Opt
-	\ TODO: Does Opt need to exist?
-
+	\ TODO: Optional args: Does Opt need to exist any more?
 	Opt. Pred-Type
 		doc. "A value which could be anything, even undefined."
 		predicate. |
@@ -49,13 +56,6 @@ Any. Pred-Type
 		!not contains? Any undefined
 	predicate. defined?
 
-ObjLit. Pred-Type
-	doc. "TODO"
-	test. |
-		"TODO"
-	predicate. |_
-		and :Obj ~(reference=? (Obj.getPrototypeOf _) Obj.prototype)
-
 Union.
 	doc. "Union[A B] is a type matching either an A or a B."
 	test. |
@@ -72,4 +72,4 @@ impl! sub (self-type Union) |u A:Type B:Type
 		predicate. |_
 			or :A ~:B
 
-()
+Pred-Type

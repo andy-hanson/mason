@@ -9,10 +9,10 @@ use
 	..methods contains? empty empty? empty!
 	..Obj! p!
 	..Ref! _ get set!
-	..types.Method impl!
-	..types.Record-Type
-	..types.util self-type
-	.Map ?get keys
+	..Type.Impl-Type self-type
+	..Type.Method impl!
+	..Type.Record-Type
+	..Map ?get keys
 	.Map! assoc! un-assoc!
 	.Sorted-Map!
 

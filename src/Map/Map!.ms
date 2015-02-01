@@ -3,10 +3,10 @@ use
 	..@.?
 	..Comparable! <!
 	..methods +! -! empty?
-	..pred-types Any
-	..types.Interface
-	..types.Method _ impl!
-	.Map _ each-pair! ?get
+	..Type.Kind
+	..Type.Method _ impl!
+	..Type.Pred-Type Any
+	..Map _ each-pair! ?get
 debug use~
 	..! _ !not
 	..@ map
@@ -16,12 +16,12 @@ debug use~
 	..Comparable =? compare
 	..control if!
 	..methods => * empty empty!
-	..types.Record-Type
-	.Map has-key? keys
+	..Type.Record-Type
+	..Map has-key? keys
 	.Weak-Identity-Map!
 
 
-Map! = Interface
+Map! = Kind
 	doc. "
 		TODO:REST
 		-!: Takes a @ of keys to remove.

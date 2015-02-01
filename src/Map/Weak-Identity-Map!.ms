@@ -5,9 +5,9 @@ use
 	..js global new
 	..methods empty empty!
 	..Try oh-no!
-	..types.Method impl!
-	..types.util self-type
-	.Map ?get has-key? keys
+	..Type.Impl-Type self-type
+	..Type.Method impl!
+	..Map ?get has-key? keys
 	.Map! _ assoc! un-assoc!
 
 Weak-Identity-Map! =

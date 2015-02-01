@@ -7,13 +7,13 @@ use
 	..show
 	..Str
 	.Impl-Type
-	.Interface unchecked-implementor!
+	.Kind unchecked-implementor!
 	.Method impl!
 	.Record-Type
 debug use
 	..!
 	..Comparable =?
-	.util type-of
+	..Type type-of
 
 Enum = Record-Type
 	doc. "

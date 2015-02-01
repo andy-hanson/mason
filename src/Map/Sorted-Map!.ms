@@ -1,16 +1,16 @@
 use
 	..Comparable! <!
 	.Map!
-	..types.Interface
+	..Type.Kind
 debug use
 	..!
 	..@ each!
 	..@.Seq sorted?
-	.Map keys
+	..Map keys
 	.Map! assoc!
 	..methods empty
 
-Sorted-Map! = Interface
+Sorted-Map! = Kind
 	doc. "TODO"
 	implementor-test. |type
 		_ = empty type

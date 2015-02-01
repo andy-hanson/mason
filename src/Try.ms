@@ -10,17 +10,17 @@ use
 	.methods contains? empty
 	.Obj
 	.Obj! p!
-	.pred-types Any
 	.Str
-	.types.Interface
-	.types.Type
-	.types.Wrap-Type
+	.Type
+	.Type.Kind
+	.Type.Pred-Type Any
+	.Type.Wrap-Type
 debug use~
 	.! _ !not
 	.control build
 	.Fun thunk
 
-Try = Interface
+Try = Kind
 	doc. "Result of running failable code."
 
 Success. Wrap-Type
@@ -31,7 +31,7 @@ Error.
 	global.Error
 <! Success Try
 <! Error Try
-\ TODO: Closed interfaces?
+\ TODO: Closed Kinds?
 
 \ TODO: Make `make-Error` public?
 

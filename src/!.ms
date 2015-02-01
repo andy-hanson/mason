@@ -5,7 +5,7 @@ use
 	.Comparable =?
 	.control if!
 	.Fun _ apply
-	.maps.Map _ each-pair!
+	.Map _ each-pair!
 	.methods =>
 	.show repr
 	.Str _ indent

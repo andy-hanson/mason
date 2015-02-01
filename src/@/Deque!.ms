@@ -6,10 +6,10 @@ use
 	..math.Num modulo Nat
 	..methods + - * empty empty? empty! sub
 	..Obj! p!
-	..pred-types Any
 	.Seq! _ <+! +>! ?<pop! ?pop>! set-nth!
-	..types.Record-Type
-	..types.util self-type
+	..Type.Impl-Type self-type
+	..Type.Pred-Type Any
+	..Type.Record-Type
 	..@ _ count each! iterator map map'
 	.@-Type _ from-stream
 	.? un-?

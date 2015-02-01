@@ -3,16 +3,16 @@ use
 	.Comparable =?
 	.js any? defined? global js-typeof reference=? js-sub
 	.methods => + empty empty? freeze
-	.pred-types Union
 	.Symbol
-	.types.Method impl!
-	.types.util self-type
+	.Type.Impl-Type self-type
+	.Type.Method impl!
+	.Type.Pred-Type _ Union
 use~
 	.@ _ all? count each! keep
 	.@.? _ Opt->?
 	.@.Identity-Set!
 	.@.Stream
-	.maps.Map _ each-pair! make-map
+	.Map _ each-pair! make-map
 	.Obj! _ p+! p-!
 debug use~
 	.!
@@ -30,6 +30,13 @@ Obj =
 
 Str = global.String \ Can't have dependency on Str.ms
 ~Obj-Key = Union[Str Symbol]
+
+ObjLit. Pred-Type
+	doc. "TODO"
+	test. |
+		"TODO"
+	predicate. |_
+		and :Obj ~(reference=? (Obj.getPrototypeOf _) Obj.prototype)
 
 flag?. |obj flag:Str
 	\ TODO: use `and`

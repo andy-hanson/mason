@@ -2,9 +2,9 @@ use
 	..Comparable! <!
 	..math.Num Nat
 	..methods empty
-	..types.Interface
-	..types.Method
-	..types.util self-type
+	..Type.Impl-Type self-type
+	..Type.Kind
+	..Type.Method
 	..@
 	.@!
 	.@-Type
@@ -20,7 +20,7 @@ debug use~
 	.Array!
 	.Seq seq=?
 
-Seq! = Interface
+Seq! = Kind
 	doc. "TODO"
 	implementor-test. |type
 		\ KLUDGE because Array and Array! are the same thing

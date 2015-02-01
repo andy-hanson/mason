@@ -9,11 +9,11 @@ use
 	.Comparable! <!
 	.Fun ignore
 	.methods => empty
-	.pred-types Opt
 	.show
 	.Str
-	.types.Method impl! impl-for
-	.types.util self-type
+	.Type.Impl-Type self-type
+	.Type.Method impl! impl-for
+	.Type.Pred-Type Opt
 debug use
 	.!
 	.Comparable =?

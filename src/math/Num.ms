@@ -5,11 +5,10 @@ use
 	..Comparable =? <? >? <=? >=? compare
 	..methods + - * /
 	..Obj p
-	..pred-types Opt
 	..js global js-bar js< js> js<= js>= js+ js- js* js/ js% reference=?
 	..show
-	..types.Method _ impl!
-	..types.Pred-Type
+	..Type.Method _ impl!
+	..Type.Pred-Type _ Opt
 debug use
 	..@.Seq seq=? take
 	..! _ !not

@@ -2,17 +2,17 @@ use
 	.js global
 	.js-impl i-call i-curry
 	.methods => + empty sub
-	.types.Alias-Type
-	.types.Method _ impl!
-	.types.util self-type
+	.Type.Alias-Type
+	.Type.Impl-Type self-type
+	.Type.Method _ impl!
 use~
 	.@ _ map
 	.@.? un-?
 	.@.Seq ?last pop>
 	.@.Array
-	.maps.Map _ keys
-	.maps.Map! get-or-add!
-	.maps.Weak-Identity-Map!
+	.Map _ keys
+	.Map.Map! get-or-add!
+	.Map.Weak-Identity-Map!
 	.Obj
 	.Try oh-no!
 debug use~

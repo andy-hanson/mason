@@ -1,12 +1,12 @@
 use
 	.Bool _ or
 	.js reference=?
-	.types.Method
+	.Type.Method
 use~
 	.Obj inspect=?
-	.types.Interface
+	.Type.Kind
 
-Comparable = Interface
+Comparable = Kind
 	doc. "
 		A Comparable is an object in a set with a total ordering.
 		`compare` is the only method needing an explicit implementation;

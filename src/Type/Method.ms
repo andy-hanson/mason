@@ -11,7 +11,7 @@ use~
 	..Obj ?p
 	..Try oh-no!
 	.Impl-Type
-	.Interface
+	.Kind
 debug use~
 	..Comparable =?
 	..math.Num
@@ -145,8 +145,8 @@ impl-double! = |method:Method implementor-0:Impl-Type implementor-1:Impl-Type im
 
 	impl-unchecked! dispatcher implementor-1 implementation
 
-\ TODO: This will add to the prototype of an interface inheriting from another interface.
-\ We only want to write to one interface's prototype.
+\ TODO: This will add to the prototype of a Kind inheriting from another Kind.
+\ We only want to write to one Kind's prototype.
 \ "method" can be a method or a double dispatcher
 impl-unchecked!. |method implementor implementation
 	in
@@ -158,7 +158,7 @@ impl-unchecked!. |method implementor implementation
 
 	set! implementor.prototype method.impl-symbol implementation
 	case! implementor
-		:Interface
+		:Kind
 			_.implementors.forEach |sub
 				propagate-method-down! sub method.impl-symbol implementation
 		else
@@ -169,7 +169,7 @@ propagate-method-down!. |implementor method-symbol implementation \ TODO: :Impl-
 	case! implementor
 		writable? _.prototype method-symbol
 			case!
-				:Interface
+				:Kind
 					_.implementors.forEach |sub-implementor
 						propagate-method-down! sub-implementor method-symbol implementation
 				else

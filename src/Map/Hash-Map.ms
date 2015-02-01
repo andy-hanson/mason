@@ -4,9 +4,9 @@ use
 	..methods empty freeze
 	..Obj! p+!
 	..private.bootstrap ms
-	..types.Alias-Type
-	..types.Method impl!
-	..types.util self-type
+	..Type.Alias-Type
+	..Type.Impl-Type self-type
+	..Type.Method impl!
 	.Hash-Map!
 	.Map! assoc!
 

@@ -10,7 +10,7 @@ debug use~
 	..js-impl +1
 	..math.Num
 	..Try fails?
-	.util type-of
+	..Type type-of
 
 if! = |bool act
 	case!

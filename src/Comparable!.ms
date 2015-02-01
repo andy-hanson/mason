@@ -1,5 +1,5 @@
 use
-	.types.Method
+	.Type.Method
 
 <!. Method
 	doc. "TODO"
