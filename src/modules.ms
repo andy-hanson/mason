@@ -2,12 +2,12 @@ use
 	.$ _ $after
 	.@ keep map
 	.@.Array
-	.methods =>
-	.js-impl i-require
 	.js new
+	.methods =>
+	.private.js-impl i-require
 
 \ TODO: Portability
-commonJS-require. i-require
+commonJS-require. `require`
 
 \ TODO: Syntax for old CommonJS requires?
 path = commonJS-require "path"

@@ -1,9 +1,7 @@
 use
 	..@ _ all? count
 	..Bool and
-	..Comparable =?
-	..Comparable! <!
-	..methods => contains?
+	..methods => =? <! contains?
 	..Type type-of
 	..Type.Kind
 	..Type.Method impl!

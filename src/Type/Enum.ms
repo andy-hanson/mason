@@ -12,7 +12,7 @@ use
 	.Record-Type
 debug use
 	..!
-	..Comparable =?
+	..methods =?
 	..Type type-of
 
 Enum = Record-Type

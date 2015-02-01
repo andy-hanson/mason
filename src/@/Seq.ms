@@ -1,11 +1,9 @@
 use
 	..Bool and not or true
-	..Comparable compare =? <? <=? >=?
-	..Comparable! <!
 	..control if returning
 	..Fun _ identity Pred
 	..js defined?
-	..methods => + - empty empty? freeze sub
+	..methods - + => =? <! <=? <? >=? compare empty empty? freeze sub
 	..Str _ indent
 	..Type type-of
 	..Type.Impl-Type self-type
@@ -15,7 +13,7 @@ use
 	..@ _ all? count iterator
 	.@-Type _ from-stream
 use~
-	..Ref! _ get mod! set!
+	..control Ref! get mod! set!
 	..show
 	..Try oh-no!
 	.? _ get-or Opt->?

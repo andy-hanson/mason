@@ -1,9 +1,8 @@
 use
 	..@.? Opt->?
-	..Comparable! <!
 	..control returning
 	..js global new
-	..methods empty empty!
+	..methods <! empty empty!
 	..Try oh-no!
 	..Type.Impl-Type self-type
 	..Type.Method impl!

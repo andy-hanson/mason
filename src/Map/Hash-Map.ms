@@ -1,6 +1,6 @@
 use
 	..Fun thunk
-	..js-impl i-make-map
+	..private.js-impl i-make-map
 	..methods empty freeze
 	..Obj! p+!
 	..private.bootstrap ms

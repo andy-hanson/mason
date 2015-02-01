@@ -1,7 +1,7 @@
 use
 	..Bool implies
 	..js any? defined? global js-sub
-	..js-impl build-str
+	..private.js-impl build-str
 	..private.bootstrap Str Symbol Fun set! set-mutable!
 	.Record-Type
 use~
@@ -13,8 +13,8 @@ use~
 	.Impl-Type
 	.Kind
 debug use~
-	..Comparable =?
 	..math.Num
+	..methods =?
 	..Try fails?
 
 writable? = |obj property

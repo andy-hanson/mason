@@ -10,7 +10,7 @@ use
 	.Type.Pred-Type Any Union
 debug use~
 	.! _ !not
-	.Comparable =?
+	.methods =?
 	.Obj p?
 	.Try fails?
 

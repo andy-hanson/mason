@@ -1,11 +1,9 @@
 use
 	..@ _ count iterator
-	..Comparable <? >=?
-	..Comparable! <!
 	..control if
 	..Fun ignore thunk
 	..math.Num _ Nat round-down sign
-	..methods + - * / empty length
+	..methods + - * / <! <? >=? empty length
 	..Type.Impl-Type self-type
 	..Type.Method impl!
 	..Type.Pred-Type Opt
@@ -16,7 +14,7 @@ use
 debug use~
 	..!
 	.? _
-	..Comparable =?
+	..methods =?
 	.Seq seq=?
 
 Range = Record-Type

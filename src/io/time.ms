@@ -1,5 +1,5 @@
 use
-	.js global new
+	..js global new
 
 current-time-ms.
 	doc. "TODO"

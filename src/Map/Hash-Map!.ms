@@ -4,12 +4,10 @@ use
 	..@ flat-map map'
 	..@.? _ Opt->?
 	..@.Stream
-	..Comparable =?
-	..Comparable! <!
 	..hash-code
 	.Identity-Map!
 	..js defined?
-	..methods empty empty! freeze
+	..methods =? <! empty empty! freeze
 	..Obj
 	..Obj! p!
 	..Type.Impl-Type self-type

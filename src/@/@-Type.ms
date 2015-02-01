@@ -1,7 +1,6 @@
 use
-	..Comparable! <!
 	..Fun identity
-	..methods => empty sub
+	..methods => <! empty sub
 	..Type.Impl-Type self-type
 	..Type.Kind
 	..Type.Method _ impl!

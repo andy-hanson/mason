@@ -1,7 +1,7 @@
 doc. "TODO"
 
 use
-	.js-impl i& i^ i<< i>> i>>> i=== i== i< i> i<= i>= i+ i- i* i/ i% i-bar i~ i! i-sub i-set i-global i-new i-typeof i-delete i-instanceof
+	.private.js-impl i& i^ i<< i>> i>>> i=== i== i< i> i<= i>= i+ i- i* i/ i% i-bar i~ i! i-sub i-set i-global i-new i-typeof i-delete i-instanceof
 use~
 	.!
 	.@
@@ -16,9 +16,8 @@ debug use~
 	.! !not
 	.@ each!
 	.Bool false true
-	.Comparable =?
 	.math.Num
-	.methods +
+	.methods + =?
 	.Obj! p+!
 	.Try Error
 

@@ -12,9 +12,7 @@ use~
 debug use~
 	..@.Stream
 	..! _ !not
-	..Comparable =? <?
-	..Comparable! <!
-	..methods =>
+	..methods => =? <! <?
 	.Method
 
 Kind = Record-Type

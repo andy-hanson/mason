@@ -15,9 +15,8 @@ use
 debug use~
 	.@.Stream
 	.!
-	.Comparable =?
 	.control unreachable!
-	.methods +
+	.methods + =?
 	.Try oh-no!
 
 $ =

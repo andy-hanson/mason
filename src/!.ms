@@ -2,11 +2,10 @@ doc. "TODO"
 
 use
 	.Bool _ not
-	.Comparable =?
 	.control if!
 	.Fun _ apply
 	.Map _ each-pair!
-	.methods =>
+	.methods => =?
 	.show repr
 	.Str _ indent
 	.Try oh-no!

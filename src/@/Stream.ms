@@ -1,9 +1,8 @@
 use
 	..@ _ iterator
-	..Comparable! <!
 	..Fun _ ignore thunk
 	..Generator!
-	..methods => empty
+	..methods => <! empty
 	..Type.Impl-Type self-type
 	..Type.Method impl!
 	..Type.Wrap-Type

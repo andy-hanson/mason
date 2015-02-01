@@ -1,9 +1,8 @@
 use
-	..Comparable! <!
 	..Fun _ ignore thunk
 	..Generator! _ each~
 	..math.Num Nat
-	..methods - +! empty empty?
+	..methods - +! <! empty empty?
 	..Type.Impl-Type self-type
 	..Type.Record-Type
 	..@ count iterator
@@ -13,9 +12,8 @@ use
 	.Stream
 debug use~
 	..!
-	..Comparable =?
 	..control build
-	..methods => +
+	..methods => =? +
 	.Range range
 	.Seq seq=? take
 

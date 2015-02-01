@@ -7,13 +7,12 @@ debug use
 	..@.Seq seq=?
 	..@.Stream
 	..Bool and true
-	..Comparable =? >? >=? <=?
+	..control Ref! get set!
 	..Fun _ ignore
 	..Generator! _ each~ gen-next!
 	..js eval
 	..math.Num _ divisible? Int
-	..methods + - * / empty
-	..Ref! _ get set!
+	..methods + - * / =? >? >=? <=? empty
 	..Str
 	..Try fails?
 

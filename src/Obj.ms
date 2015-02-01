@@ -1,8 +1,7 @@
 use
 	.Bool _ and false not nor xor
-	.Comparable =?
 	.js any? defined? global js-typeof reference=? js-sub
-	.methods => + empty empty? freeze
+	.methods =? => + empty empty? freeze
 	.Symbol
 	.Type.Impl-Type self-type
 	.Type.Method impl!

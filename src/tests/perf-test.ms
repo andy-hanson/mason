@@ -2,12 +2,12 @@ use
 	..@ _ each!
 	..$ _ $after
 	..io.console log!
+	..io.time current-time-ms
 	..Fun _ Act
-	..js-impl i-time*
+	..private.js-impl i-time*
 	..math.Num _ Nat
 	..methods -
 	..Str
-	..time current-time-ms
 
 $time!.
 	doc. "TODO"

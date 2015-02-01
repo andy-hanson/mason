@@ -7,10 +7,9 @@ use
 	..@.? get-or
 	..@.Identity-Set!
 	..Bool _ and false or true
-	..Comparable =?
 	..Fun _ apply ignore
 	..Map
-	..methods + contains? empty
+	..methods + =? contains? empty
 	..modules $@module-in-dir
 	..Obj _ ObjLit ?p p p? @p @p-all
 	..Str

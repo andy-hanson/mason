@@ -5,9 +5,9 @@ use
 	.@ _ iterator
 	.Bool _ and
 	.Fun
-	.js-impl each-generator
 	.Js-Method
 	.methods contains? empty
+	.private.js-impl each-generator
 	.Obj
 	.Type.Impl-Type self-type
 	.Type.Method impl!
@@ -17,7 +17,7 @@ debug use~
 	.@.Seq seq=?
 	.@.Stream
 	.Bool false true
-	.Comparable =?
+	.methods =?
 
 Generator! = Pred-Type
 	doc. "TODO"

@@ -2,9 +2,8 @@ use
 	..@ _ all? count each! map
 	..@.? _ un-?
 	..Bool _ and not
-	..Comparable =?
 	..Fun _ identity
-	..methods empty empty? freeze sub
+	..methods =? empty empty? freeze sub
 	..Type type-of
 	..Type.Impl-Type self-type
 	..Type.Kind

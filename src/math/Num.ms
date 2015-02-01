@@ -2,8 +2,7 @@ use
 	..@.? get-or Opt->?
 	..@.Stream
 	..Bool and
-	..Comparable =? <? >? <=? >=? compare
-	..methods + - * /
+	..methods + - * / =? <? >? <=? >=? compare
 	..Obj p
 	..js global js-bar js< js> js<= js>= js+ js- js* js/ js% reference=?
 	..show

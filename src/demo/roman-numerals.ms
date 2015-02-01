@@ -1,7 +1,6 @@
 use
-	..Comparable =? >=?
 	..math.Num log Nat pow round-down
-	..methods - *
+	..methods - * =? >=?
 	..Str
 debug use
 	..!

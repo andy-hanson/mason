@@ -1,7 +1,7 @@
 use
 	..Fun
 	..js js-instanceof
-	..js-impl build-str
+	..private.js-impl build-str
 	..methods contains?
 	..Obj
 	\ TODO: Try non-bootstrap versions...
@@ -15,9 +15,9 @@ use
 debug use~
 	..!
 	..control if!
-	..Comparable =?
 	..js defined?
 	..math.Num
+	..methods =?
 	..Try fails?
 
 Wrap-Type = Record-Type

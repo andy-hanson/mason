@@ -20,3 +20,6 @@ ignore = |
 	()
 \ TODO:Ignored vars
 ignore methods Type Fun Array Hash-Map show
+
+\ TODO: remove once test.ms is fixed
+ignore-me. 3

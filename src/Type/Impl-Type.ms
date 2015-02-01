@@ -1,6 +1,5 @@
 use
-	..Comparable <?
-	..Comparable! <!
+	..methods <! <?
 	..private.bootstrap Fun Obj
 	.Kind _ unchecked-implementor! implementor! implementor?
 	.Method impl-unchecked!

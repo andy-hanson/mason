@@ -2,12 +2,10 @@ use
 	.@.?
 	.$ _ $catch
 	.Bool and true
-	.Comparable =?
-	.Comparable! <!
 	.Fun _ Act
 	.js global
-	.js-impl make-Error i-always-do-after i-oh-no! i-try
-	.methods contains? empty
+	.private.js-impl make-Error i-always-do-after i-oh-no! i-try
+	.methods <! =? contains? empty
 	.Obj
 	.Obj! p!
 	.Str

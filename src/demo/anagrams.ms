@@ -1,11 +1,10 @@
 use
 	..@ count keep each! max map
 	..@.Seq sort
-	..Comparable =?
 	..Map values
 	..Map.Identity-Map!
 	..Map.multi-map! add-to-@!
-	..methods empty
+	..methods =? empty
 debug use
 	..$ _ $after
 	..!

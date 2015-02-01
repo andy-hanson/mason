@@ -1,8 +1,7 @@
 use
 	..@ _ each!
 	..@.?
-	..Comparable! <!
-	..methods +! -! empty?
+	..methods +! -! <! empty?
 	..Type.Kind
 	..Type.Method _ impl!
 	..Type.Pred-Type Any
@@ -13,9 +12,8 @@ debug use~
 	..@.Array
 	..@.Set set=?
 	..Bool not
-	..Comparable =? compare
 	..control if!
-	..methods => * empty empty!
+	..methods => =? * compare empty empty!
 	..Type.Record-Type
 	..Map has-key? keys
 	.Weak-Identity-Map!

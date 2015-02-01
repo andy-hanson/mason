@@ -1,7 +1,6 @@
 use
-	..Comparable! <!
 	..math.Num Nat
-	..methods empty
+	..methods <! empty
 	..Type.Impl-Type self-type
 	..Type.Kind
 	..Type.Method
@@ -14,8 +13,7 @@ use~
 	.Deque!
 debug use~
 	..!
-	..Comparable =?
-	..methods empty?
+	..methods =? empty?
 	.Array
 	.Array!
 	.Seq seq=?

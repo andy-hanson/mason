@@ -1,12 +1,11 @@
 use
 	.? get-or Opt->?
 	..Bool and not
-	..Comparable! <!
 	..control if
 	..Fun ignore
 	..js js-set
 	..math.Num Nat
-	..methods => empty empty? empty!
+	..methods => <! empty empty? empty!
 	..Obj frozen?
 	..Type.Impl-Type self-type
 	..Type.Pred-Type

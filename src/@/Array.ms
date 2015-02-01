@@ -1,13 +1,11 @@
 \ Also see ..Map.Array-as-Map
 
 use
-	..Comparable <?
-	..Comparable! <!
 	..control if
 	..Fun ignore thunk
 	..js global js-sub
-	..js-impl array-iterator
-	..methods empty freeze
+	..private.js-impl array-iterator
+	..methods <! <? empty freeze
 	..Type.Impl-Type self-type
 	..Type.Method impl!
 	..@ count iterator

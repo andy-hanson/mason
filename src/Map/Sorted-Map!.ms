@@ -1,6 +1,6 @@
 use
-	..Comparable! <!
 	.Map!
+	..methods <!
 	..Type.Kind
 debug use
 	..!

@@ -6,9 +6,8 @@ use
 	.@.Array
 	.@.@-Type _ from-stream
 	.@.Seq
-	.Comparable! <!
 	.Fun ignore
-	.methods => empty
+	.methods => <! empty
 	.show
 	.Str
 	.Type.Impl-Type self-type
@@ -16,8 +15,8 @@ use
 	.Type.Pred-Type Opt
 debug use
 	.!
-	.Comparable =?
 	.Fun identity
+	.methods =?
 
 test. |
 	! =? [ "1" "2" "3" ] (map "123" identity)

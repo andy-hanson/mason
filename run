@@ -1,1 +1,1 @@
-node --harmony --stack-trace-limit=100 ./js/
+node --harmony --stack-trace-limit=100 ./js/test

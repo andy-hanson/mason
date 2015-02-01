@@ -1,9 +1,8 @@
 use
 	.Bool
-	.Comparable =?
 	.js js+
-	.js-impl new-Set
-	.methods => empty?
+	.private.js-impl new-Set
+	.methods => =? empty?
 	.Obj flag? p ?p @p
 	.Str _ indent
 	.Symbol

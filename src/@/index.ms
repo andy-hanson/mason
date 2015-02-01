@@ -1,9 +1,8 @@
 use
 	..Bool _ and not
-	..Comparable =? <?
 	..Fun _ Act identity Pred
 	..js reference=?
-	..methods => + - -! contains? empty empty?
+	..methods => =? <? + - -! contains? empty empty?
 	..Obj
 	..Symbol
 	..Type type-of
@@ -11,9 +10,9 @@ use
 	..Type.Method _ impl!
 	..Type.Pred-Type Any Opt
 use~
+	..control Ref! get mod! set!
 	..Generator!
 	..math.Num Nat
-	..Ref! _ get mod! set!
 	.? _ get-or Opt->?
 	.Array
 	.Hash-Set!

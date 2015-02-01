@@ -1,5 +1,5 @@
 use
-	..Comparable! <!
+	..methods <!
 	..Type.Kind
 	.@!
 	.Set

@@ -4,7 +4,7 @@ use
 	.Type.Record-Type
 debug use~
 	.!
-	.Comparable =?
+	.methods =?
 
 Js-Method = Record-Type
 	doc. "

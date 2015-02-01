@@ -1,7 +1,7 @@
 use
 	.js global
-	.js-impl i-call i-curry
 	.methods => + empty sub
+	.private.js-impl i-call i-curry
 	.Type.Alias-Type
 	.Type.Impl-Type self-type
 	.Type.Method _ impl!
@@ -18,8 +18,8 @@ use~
 debug use~
 	.!
 	.@.Seq seq=?
-	.Comparable =?
 	.control build
+	.methods =?
 
 Fun =
 	doc. "

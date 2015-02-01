@@ -3,9 +3,8 @@ use
 	..@ fold-map
 	..@.Seq reverse tail take-while
 	..@.Stream
-	..Comparable =? <=? >=?
 	..math.Num Nat
-	..methods => + -
+	..methods => + - =? <=? >=?
 	..Str
 
 fibs =

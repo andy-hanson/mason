@@ -7,9 +7,8 @@ use
 debug use
 	..!
 	..@.Stream
-	..Comparable =?
 	..Map each-pair!
-	..methods =>
+	..methods => =?
 
 make-word-from-blocks.
 	doc. "http://rosettacode.org/wiki/ABC_Problem"

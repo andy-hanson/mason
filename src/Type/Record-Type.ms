@@ -2,13 +2,13 @@ use
 	..Bool _ false implies not
 	..private.bootstrap set! Obj Str Fun proto-impl-contains?!
 	..js defined? js=== js-instanceof js-sub js-typeof
-	..js-impl i=== build-str
+	..private.js-impl i=== build-str
 debug use~
 	..!
 	..Bool true
-	..Comparable =?
-	..js-impl +1
+	..private.js-impl +1
 	..math.Num
+	..methods =?
 	..Try fails?
 	..Type type-of
 

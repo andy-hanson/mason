@@ -1,10 +1,8 @@
 use
 	..Bool and not
-	..Comparable <? >?
-	..Comparable! <!
 	..control if! returning
 	..math.Num int/
-	..methods + +! - * empty empty? empty!
+	..methods + +! - * <! <? >? empty empty? empty!
 	.Priority-Queue! _ ?pop!
 	..Type.Impl-Type self-type
 	..Type.Wrap-Type

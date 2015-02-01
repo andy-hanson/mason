@@ -1,8 +1,7 @@
 use
-	..Comparable! <!
 	..control returning
 	..js global new
-	..methods +! -! contains? empty empty!
+	..methods +! -! <! contains? empty empty!
 	..Type.Impl-Type self-type
 	..@ count each! iterator
 	.@-Type _ from-stream

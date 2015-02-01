@@ -1,6 +1,6 @@
 "use strict"
 
-const ms = require("./private/bootstrap").ms
+const ms = require("./bootstrap").ms
 
 module.exports = {
 	// js.ms

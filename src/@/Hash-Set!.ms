@@ -1,13 +1,11 @@
 use
 	..@ each! iterator
 	..Bool true
-	..Comparable =?
-	..Comparable! <!
 	..control returning
 	..Map keys
 	..Map.Hash-Map!
 	..Map.Map! assoc! un-assoc!
-	..methods +! -! empty empty!
+	..methods +! -! =? <! empty empty!
 	..Type.Impl-Type self-type
 	..Type.Method impl! impl-for
 	..Type.Record-Type

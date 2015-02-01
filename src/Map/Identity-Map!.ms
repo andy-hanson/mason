@@ -1,10 +1,9 @@
 use
 	..@.? Opt->?
 	..@.Stream
-	..Comparable! <!
 	..control returning
 	..js global new
-	..methods empty empty!
+	..methods <! empty empty!
 	..Type.Impl-Type self-type
 	..Type.Method impl!
 	..Map ?get has-key? keys values
@@ -12,7 +11,7 @@ use
 debug use
 	..!
 	..@.Seq seq=?
-	..Comparable =?
+	..methods =?
 
 Identity-Map! =
 	doc. "TODO"

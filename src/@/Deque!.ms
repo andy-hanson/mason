@@ -1,10 +1,8 @@
 use
 	..Bool and not or
-	..Comparable <? =?
-	..Comparable! <!
 	..control if returning
 	..math.Num modulo Nat
-	..methods + - * empty empty? empty! sub
+	..methods + - =? * <! <? empty empty? empty! sub
 	..Obj! p!
 	.Seq! _ <+! +>! ?<pop! ?pop>! set-nth!
 	..Type.Impl-Type self-type

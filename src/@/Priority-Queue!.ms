@@ -1,12 +1,11 @@
 use
-	..Comparable! <!
+	..methods <!
 	..Type.Kind
 	..Type.Method
 	.@!
 debug use~
 	..!
-	..Comparable =?
-	..methods +! empty empty?
+	..methods =? +! empty empty?
 	.?
 
 Priority-Queue! = Kind

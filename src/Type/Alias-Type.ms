@@ -1,6 +1,5 @@
 use
-	..Comparable! <!
-	..methods contains? sub
+	..methods <! contains? sub
 	..private.bootstrap Str
 	.Method impl!
 	.Record-Type
@@ -8,7 +7,7 @@ use
 debug use~
 	..! _ !not
 	..@.?
-	..Comparable =?
+	..methods =?
 
 Alias-Type. Record-Type
 	doc. "Contains the same instances as another type (officially), but has its own meaning and identity."

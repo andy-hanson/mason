@@ -2,13 +2,10 @@ use
 	..! _ !not
 	..@.Stream
 	..Bool _ and false not true
-	..Comparable <? >?
-	..Comparable! <!
-	..control if
+	..control if Ref! get set!
 	..js defined?
-	..methods contains? empty empty? empty!
+	..methods <! <? >? contains? empty empty? empty!
 	..Obj! p!
-	..Ref! _ get set!
 	..Type.Impl-Type self-type
 	..Type.Method impl!
 	..Type.Record-Type

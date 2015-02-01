@@ -1,8 +1,7 @@
 use
-	..Comparable! <!
 	..Fun ignore thunk
 	..js defined? reference=?
-	..methods empty empty?
+	..methods <! empty empty?
 	..Type.Impl-Type self-type
 	..Type.Method impl!
 	..Type.Wrap-Type

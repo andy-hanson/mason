@@ -1,6 +1,5 @@
 use
-	..Comparable! <!
-	..methods +! empty
+	..methods +! <! empty
 	..Type.Impl-Type self-type
 	..Type.Kind
 	..Type.Method impl!
@@ -12,8 +11,7 @@ use~
 debug use~
 	..! _ !not
 	..@ each!
-	..Comparable =?
-	..methods contains? empty? empty!
+	..methods =? contains? empty? empty!
 	.Array
 
 @! = Kind

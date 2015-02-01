@@ -1,8 +1,7 @@
 use
 	.Bool and
-	.Comparable _ =? compare
-	.Comparable! <!
 	.js global reference=?
+	.methods =? compare
 	.Type.Method impl!
 	.Type.Pred-Type
 use~
@@ -49,8 +48,6 @@ lines.
 		"TODO"
 	|str:Str
 		str.split "\n"
-
-<! Str Comparable
 
 impl! =? Str reference=?
 impl! compare Str |a b

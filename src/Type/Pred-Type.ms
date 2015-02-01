@@ -1,10 +1,9 @@
 use
 	..Bool not or true
-	..Comparable! <!
 	..Fun ignore Pred
 	.Impl-Type self-type
 	..js defined?
-	..methods contains? sub
+	..methods <! contains? sub
 	..private.bootstrap Str
 	.Method impl!
 	.Record-Type
