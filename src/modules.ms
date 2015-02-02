@@ -4,7 +4,7 @@ use
 	.@.Array
 	.js new
 	.methods =>
-	.private.js-impl i-require
+	.private.js-impl \ i-require
 
 \ TODO: Portability
 commonJS-require. `require`
@@ -18,19 +18,21 @@ get-global-module.
 	|name
 		commonJS-require name
 
+\ TODO: This can't be used by anyone not in the same directory as modules.ms.
 get-module.
 	doc. "TODO"
 	|module-path
 		commonJS-require "./{path.relative this-module-directory module-path}"
 
 $@module-in-dir.
-	doc. "TODO"
+	doc. "Every module in a directory and its subdirectories."
 	|dir-path
-		$after (q->es6-promise (fs.listTree dir-path)) |files:Array
-			js = keep files |_
+		$after (q->es6-promise (fs.listTree dir-path)) |@file
+			@js = keep @file |_
 				_.endsWith ".js"
-			=> Array (map js get-module
+			=> Array (map @js get-module
 
+\ TODO: Don't want dependency on `q`
 q->es6-promise = |q-promise
 	new $ |resolve reject
 		q-promise.then resolve

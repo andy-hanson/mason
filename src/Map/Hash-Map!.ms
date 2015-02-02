@@ -21,15 +21,16 @@ debug use
 
 Bucket-Entry = Record-Type
 	doc. "
-		TODO
-		Explain how this is both Bucket and Bucket-Entry
+		Value mapped to by hash->bucket.
+		If multiple keys have the same hash, next! will be set to another Bucket-Entry.
+		(The "bucket" is this linked list of Bucket-Entries.)
 	members.
 		key.
 		val!.
 		next!.
 
 Hash-Map! = Record-Type
-	doc. "TODO"
+	doc. "Default Map! type. Depends on efficient `hash-code` of its keys."
 	test. |
 		_ =
 			1 -> 2

@@ -1,11 +1,14 @@
 use
 	..@ _ each!
 	..@.?
-	..methods +! -! <! empty?
+	..methods +! -! <! empty empty?
+	..Type.Impl-Type self-type
 	..Type.Kind
 	..Type.Method _ impl!
 	..Type.Pred-Type Any
 	..Map _ each-pair! ?get
+use~
+	.Hash-Map!
 debug use~
 	..! _ !not
 	..@ map
@@ -13,11 +16,10 @@ debug use~
 	..@.Set set=?
 	..Bool not
 	..control if!
-	..methods => =? * compare empty empty!
+	..methods => =? * compare empty!
 	..Type.Record-Type
 	..Map has-key? keys
 	.Weak-Identity-Map!
-
 
 Map! = Kind
 	doc. "
@@ -54,9 +56,13 @@ Map! = Kind
 			empty! _
 			! empty? _
 
+\ TODO: <! (self-type Map!) Map-Type
+impl! empty (self-type Map!) |
+	empty Hash-Map!
+
 assoc!. Method
 	doc. |_ key:Any val:Any
-		"TODO"
+		"Set _[key] to val."
 
 un-assoc!. Method
 	doc. |:? _ key
@@ -72,7 +78,7 @@ impl! -! Map!
 
 add!. Method
 	doc. |_ key:Any val:Any
-		"TODO"
+		"assoc! key val, but fail if _[key] is set already."
 	default. |_ key:Any val:Any
 		in
 			!not (has-key? _ key) ~"
@@ -80,7 +86,7 @@ add!. Method
 		assoc! _ key val
 
 get-or-add!. Method
-	doc. "TODO"
+	doc. "map[key], and if it's not already there, fill it in with default-val."
 	default. |map key:Any ~default-val
 		case ?get map key
 			empty?_
@@ -88,7 +94,6 @@ get-or-add!. Method
 				default-val
 			else
 				_.val
-
 
 impl! +! Map!
 	doc. "TODO"

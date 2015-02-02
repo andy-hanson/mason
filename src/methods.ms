@@ -63,7 +63,8 @@ region Collection
 
 region Comparison
 	<!. Method
-		doc. "TODO"
+		doc. |a b
+			"Cause `<? a b`."
 
 	compare. Method
 		doc. "
@@ -126,13 +127,13 @@ region Unsorted
 		default. |_
 			Obj.freeze _
 
-	length. Method
-		doc. "TODO"
-
 	contains?. Method
 		doc. |:Bool collection value
 			"Whether some collection of things as as an element `value`."
 		impl-symbol. sym-contains?
+
+	length. Method
+		doc. "TODO: Does this need to exist?"
 
 	set! ms "contains" contains?
 

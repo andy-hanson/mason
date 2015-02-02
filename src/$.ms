@@ -98,7 +98,7 @@ $delay.
 	test. |
 		$!=? 1 ($delay |
 			1
-	|delayed:Fun[Any]
+	|delayed:Fun[0]
 		new $ |resolve reject
 			ignore reject \ TODO:Ignored vars
 			resolve (delayed ()

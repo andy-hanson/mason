@@ -104,9 +104,17 @@ returning.
 
 region Loops
 	loop.
-		doc. "TODO"
+		doc. "
+			Maintains a value representing state, and continually applies `transform-state` to it until that returns an End-Loop.
+			Returns the value inside that End-Loop.
 		test. |
-			"TODO"
+			f = |case
+				=? _ 10
+					End-Loop "end"
+				else
+					+ _ 1
+			[ 0 f ] -> "end"
+
 		|init-state transform-state:Fun
 			state = Ref! init-state
 			output = Ref! ()

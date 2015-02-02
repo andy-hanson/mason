@@ -10,7 +10,10 @@ use
 	.Map! _ assoc! un-assoc!
 
 Weak-Identity-Map! =
-	doc. "TODO"
+	doc. "
+		Map! which can only hold have Objs as keys and stops holding them when they are garbage collected.
+		Good for caches.
+		It does not have the full functionality of a Map! because there is no way to iterate over the keys.
 	global.WeakMap
 
 <! Weak-Identity-Map! Map!

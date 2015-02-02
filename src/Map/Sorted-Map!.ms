@@ -11,7 +11,9 @@ debug use
 	..methods empty
 
 Sorted-Map! = Kind
-	doc. "TODO"
+	doc. "
+		Map! whose `keys` are in sorted order.
+		This kind of Map! depends on an efficient `compare` between its keys.
 	implementor-test. |type
 		_ = empty type
 		each! [ 1 3 5 4 2 ] |key

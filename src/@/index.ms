@@ -1,7 +1,7 @@
 use
 	..Bool _ and not
 	..Fun _ Act identity Pred
-	..js reference=?
+	..js defined? reference=?
 	..methods => =? <? + - -! contains? empty empty?
 	..Obj
 	..Symbol
@@ -10,13 +10,13 @@ use
 	..Type.Method _ impl!
 	..Type.Pred-Type Any Opt
 use~
-	..control Ref! get mod! set!
+	..control Ref! get set!
 	..Generator!
 	..math.Num Nat
 	.? _ get-or Opt->?
 	.Array
 	.Hash-Set!
-	.Seq seq=?
+	.Seq first seq=? tail
 	.Stream
 debug use~
 	.@-Type
@@ -49,13 +49,20 @@ region Using iterator
 	fold.
 		doc. "TODO"
 		test. |
+			[ [ 1 2 3 ] + ] -> 6
 			[ [ 1 2 3 ] 4 + ] -> 10
-		|_:@ start:Any folder:Fun[2]
-			acc = Ref! start
-			each! _ |em
-				mod! acc |x
-					folder x em
-			get acc
+		\ TODO:SYNTAX Optional args
+		|_:@ b c
+			case
+				defined? c
+					start:Any = b
+					folder:Fun[2] = c
+					acc = Ref! start
+					each! _ |em
+						set! acc (folder (get acc) em
+					get acc
+				else
+					fold tail_ first_ b
 
 	each!. Method
 		doc. "Calls do-for-each on every element in the @."
@@ -212,8 +219,8 @@ region Using from-stream
 						done
 							end-loop!
 						else
-							flat-mapped:@ = value
-							<~~ iterator flat-mapped
+							flat:@ = value
+							<~~ iterator flat
 
 	impl! + @
 		doc. "TODO"

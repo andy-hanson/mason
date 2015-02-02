@@ -49,9 +49,8 @@ js-instanceof. i-instanceof
 
 region Null/Undefined
 	\ TODO:ES6 `undefined` constant.
-
 	defined?.
-		doc. "TODO"
+		doc. "True for any value except `undefined`."
 		test. |
 			[ undefined ] -> false
 			[ 0 ] -> true

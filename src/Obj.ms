@@ -7,18 +7,18 @@ use
 	.Type.Method impl!
 	.Type.Pred-Type _ Union
 use~
-	.@ _ all? count each! keep
+	.@ _ all? count keep
 	.@.? _ Opt->?
 	.@.Identity-Set!
 	.@.Stream
 	.Map _ each-pair! make-map
-	.Obj! _ p+! p-!
+	.Obj! _ p+!
 debug use~
-	.!
+	.! _ !not
 	.@.Seq seq=?
 	.Bool true
 	.Fun call
-	.Obj! p+mut!
+	.methods contains?
 	.Try fails?
 
 Obj =
@@ -31,9 +31,13 @@ Str = global.String \ Can't have dependency on Str.ms
 ~Obj-Key = Union[Str Symbol]
 
 ObjLit. Pred-Type
-	doc. "TODO"
+	doc. "Matches only Objs which have no type (other than Obj itself)."
 	test. |
-		"TODO"
+		\ TODO:SYNTAX [ b. 1 ]
+		a =
+			b. 1
+		! contains? ObjLit a
+		!not contains? ObjLit ObjLit
 	predicate. |_
 		and :Obj ~(reference=? (Obj.getPrototypeOf _) Obj.prototype)
 
@@ -118,33 +122,29 @@ flag?. |obj flag:Str
 				empty ?
 
 p.
-	doc. "TODO"
+	doc. "Gets the value of a property. Does not include properties in the prototype."
 	test. |
 		x =
 			a. 1
 			b. ()
 		[ x "a" ] -> 1
 		[ x "b" ] -> ()
-
 		debug ! fails? |
 			p "c"
 	|_:Obj name:Obj-Key
 		in
 			! p? _ name
-			\ TODO: decide
-			\ ! (contains? Any (js-sub _ name)) ~"{_}.{name} is missing"
 		js-sub _ name
 
 p?.
-	doc. "
-		Whether there is a property by that name.
-		It may be null/undefined.
+	doc. "Whether there is a property by that name."
 	test. |
+		\ TODO:SYNTAX [ a. 1 ]
 		x =
 			a. 1
 		[ x "a" ] -> true
 		[ x "b" ] -> false
-		[ x "toString" ] -> false \ use has-property-or-in-prototype? for that.
+		[ x "toString" ] -> false \ use p-with-proto? for that.
 	|obj name:Obj-Key
 		Obj.prototype.hasOwnProperty.call obj name
 
@@ -206,25 +206,15 @@ impl! empty (self-type Obj) |
 	Obj.freeze (Obj.create Obj.prototype)
 
 empty-Obj?.
-	doc. "TODO"
+	doc. "Whether there are no properties, not even hidden ones."
 	test. |
 		[ (empty Obj) ] -> true
 		[ Obj ] -> false
 	|_:Obj
-		empty? (@p-all _
-
-empty-Obj!.
-	doc. "TODO"
-	test. |
-		_ = empty Obj!
-		p+mut! _ "a" 1
-		empty-Obj! _
-		! empty-Obj? _
-	|_:Obj
-		each! @p-all_ p-![_]
+		empty? @p-all_
 
 Obj->Map.
-	doc. "TODO"
+	doc. "A Map whose keys are property names and whose values are the properties' values."
 	test. |
 		\ TODO:SYNTAX [ a. 1, b. 2 ]
 		obj = call |
@@ -234,10 +224,10 @@ Obj->Map.
 			"a" -> 1
 			"b" -> 2
 	|_:Obj
-		make-map @p-all_ p[_]
+		make-map @p_ p[_]
 
 Map->Obj.
-	doc. "TODO"
+	doc. "Given a Map whose keys are Strs, creates an Obj whose Obj->Map is that."
 	test. |
 		\ TODO:SYNTAX [ "a" -> 1, "b" -> 2 ]
 		map =
@@ -246,6 +236,7 @@ Map->Obj.
 		[ map ] ->
 			a. 1
 			b. 2
+		! =? map (Obj->Map (Map->Obj map
 		debug ! fails? |
 			Map->Obj
 				1 -> 2

@@ -15,6 +15,7 @@ use~
 debug use~
 	..!
 	..Bool false true
+	..control build
 	..methods +
 
 Map. Kind
@@ -59,7 +60,11 @@ region Old methods
 
 	impl! count Map
 		test. |
-			"TODO"
+			\ TODO:SYNTAX [ 1 -> 2, 3 -> 4 ]
+			map =
+				1 -> 2
+				3 -> 4
+			[ map ] -> 2
 		|_
 			count keys_
 
@@ -71,28 +76,34 @@ region Old methods
 
 region Functions
 	each-pair!.
-		doc. "TODO"
+		doc. "Calls `do-each` on each key and value."
 		test. |
-			"TODO"
+			! =? [ [ 1 2 ] [ 3 4 ] ] (build |yield
+				\ TODO:SYNTAX [ 1 -> 2, 3 -> 4 ]
+				map =
+					1 -> 2
+					3 -> 4
+				each-pair! map |key val
+					yield [ key val ]
 		|_:Map do-each:Fun
 			each! keys_ |key
 				do-each key _[key]
 
 	make-map.
-		doc. "TODO"
+		doc. "Creates a Map whose values are the result of applying `get-value` to each key."
 		test. |
 			map = make-map [ 1 2 ] |x
 				+ x 1
 			! =? map[1] 2
 			! =? map[2] 3
-		|keys:@ mapper:Fun
+		|@key:@ get-value:Fun
 			map = empty Hash-Map!
-			each! keys |key
-				assoc! map key (mapper key)
+			each! @key |_
+				assoc! map _ get-value_
 			freeze map
 
 	map=?.
-		doc. "TODO"
+		doc. "Whether the two maps have the same keys and the same associated values, regardless of the maps' types."
 		test. |
 			m1 =
 				1 -> 2

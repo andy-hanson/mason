@@ -92,7 +92,9 @@ ignore.
 \ TODO: Handle multiple arguments
 \ TODO: hash-memoize
 identity-memoize.
-	doc. "TODO"
+	doc. "
+		When an Obj is passed into `fun`, stores the result in a `Weak-Identity-Map!`
+		and uses that if the exact same (`reference=?`) Obj is used again.
 	test. |
 		comps = build |yield
 			get-a = identity-memoize |x
@@ -112,8 +114,9 @@ identity-memoize.
 			get-or-add! wm arg ~(fun arg)
 
 \ TODO: Merge with apply?
+\ TODO: Kill?
 spread.
-	doc. "TODO"
+	doc. "Applies `fun`, starting with the given args, to each entry in an arguments list or map."
 	test. |
 		all-4 = |a b c d
 			[ a b c d ]

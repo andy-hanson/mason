@@ -1,5 +1,3 @@
-doc. "TODO"
-
 use
 	.@.?
 	.@ _ iterator
@@ -26,7 +24,7 @@ Generator! = Pred-Type
 		and :Obj ~(contains? Fun _.next)
 
 impl! empty (self-type Generator!)
-	doc. "TODO"
+	doc. "Does nothing."
 	~|
 		()
 

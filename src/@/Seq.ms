@@ -16,7 +16,7 @@ use~
 	..control Ref! get mod! set!
 	..show
 	..Try oh-no!
-	.? _ get-or Opt->?
+	.? _ get-or Opt->? un-?
 	.Array
 	.Array!
 	..math.Num Nat
@@ -28,7 +28,7 @@ debug use~
 	..Try fails?
 
 Seq = Kind
-	doc. "TODO"
+	doc. "@ whose values are in a meaningful order."
 
 <! Seq @
 
@@ -51,24 +51,46 @@ region Search
 			\ TODO:PERF Don't check counts up front, do it while zipping
 			and (=? (count seq-0) (count seq-1)) ~(all? (zip seq-0 seq-1 =?))
 
-	?first. Method
-		doc. "TODO"
+	first.
+		doc. "First value in iteration order."
 		test. |
-			[ [ 0 ] ] -> ? 0
-			[ [] ] -> empty ?
+			[ [ 1 2 ] ] -> 1
+			! fails? |
+				first [ ]
+		|_
+			un-? ?first_ "Can not take `first` of empty."
+
+	?first. Method
+		doc. "First value in iteration order, if non-empty."
+		test. |
+			[ [ 1 2 ] ] -> ? 1
+			[ [ ] ] -> empty ?
 		default. |:Any _
 			?nth _ 0
 
-	?last. Method
-		doc. "TODO"
+	last.
+		doc. "Last value in iteration order."
 		test. |
-			"TODO"
+			[ [ 1 2 ] ] -> 2
+			! fails? |
+				last [ ]
+		|_
+			un-? ?last_ "Can not take `last` of empty."
+
+	?last. Method
+		doc. "Last value in iteration order, if non-empty."
+		test. |
+			[ [ 1 2 ] ] -> ? 2
+			[ [ ] ] -> empty ?
 		default. |:Any _
-			?nth _ (- count_ 1)
+			if (not empty?_) |
+				_[(- count_ 1)]
 
 	?nth. Method
 		doc. |:Any _ n:Nat
-			"`n`th element in iteration order. 0th is the first."
+			"
+				`n`th element in iteration order, if there are at least that many values.
+				0th is the first."
 		test. |
 			[ [ 0 1 ] 1 ] -> ? 1
 			[ [ 0 1 ] 2 ] -> empty ?
@@ -90,7 +112,7 @@ region Search
 			get ans
 
 	impl! sub Seq
-		doc. "TODO"
+		doc. "Nth value in iteration order."
 		test. |
 			! =? [ 0 1 ][1] 1
 			! fails? |

@@ -1,6 +1,6 @@
 use
 	..methods empty?
-	..Obj ?p
+	..Obj flag? ?p
 	..show
 	.Method impl!
 	..Type
@@ -10,11 +10,15 @@ debug use
 impl! show Type
 	test. |
 		[ Method ] -> "Method"
-	|type
-		case ?p type "displayName"
-			empty?_
-				type.toString ()
+	|type opts
+		case
+			flag? opts "repr"
+				show.default type opts
 			else
-				_.val
+				case ?p type "displayName"
+					empty?_
+						"<anonymous Type>"
+					else
+						_.val
 
 ()

@@ -43,10 +43,10 @@ Seq! = Kind
 
 <+!. Method
 	doc. |_ added:@
-		"TODO"
+		"Makes `_` into `+ added _`."
 +>!. Method
 	doc. |_ added:@
-		"TODO"
+		"Makes `_` into `+ _ added`."
 
 ?<pop!. Method
 	doc. |:? _
@@ -56,8 +56,8 @@ Seq! = Kind
 		"TODO"
 
 set-nth!. Method
-	doc. |_ n:Nat
-		"TODO"
+	doc. |_ n:Nat val
+		"Makes `_[n]` be `val`."
 
 <! (self-type Seq!) @-Type
 	empty -> |

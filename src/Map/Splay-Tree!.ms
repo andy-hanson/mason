@@ -21,7 +21,9 @@ Node = Record-Type
 		right!.
 
 Splay-Tree! = Record-Type
-	doc. "TODO"
+	doc. "
+		Default Sorted-Map! implementation.
+		Binary tree that is good at accessing the same values many times.
 	members.
 		root!.
 
