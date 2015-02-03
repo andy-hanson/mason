@@ -11,7 +11,7 @@ use
 	.Str
 	.Type
 	.Type.Kind
-	.Type.Pred-Type Any
+	.Type.Pred-Type Any Union
 	.Type.Wrap-Type
 debug use~
 	.! _ !not
@@ -19,14 +19,26 @@ debug use~
 	.Fun thunk
 
 Try = Kind
-	doc. "Result of running failable code."
+	doc. "Result of running failable code. `Success` or `Error`."
 
 Success. Wrap-Type
 	doc. "Attempt that did not fail. _.val is the result of the attempted code."
 
 Error.
-	doc. "TODO"
+	doc. "
+		Represents the failure of an operation.
+		These are expensive to create as they contain a stacktrace.
+		Error subtypes must be created with `error-type`.
 	global.Error
+
+Eval-Error. global.EvalError
+Internal-Error. global.InternalError
+Range-Error. global.RangeError
+Reference-Error. global.ReferenceError
+Syntax-Error. global.SyntaxError
+Type-Error. global.TypeError
+URI-Error. global.URIError
+
 <! Success Try
 <! Error Try
 \ TODO: Closed Kinds?
@@ -57,7 +69,10 @@ try.
 		i-try Success tried
 
 ?try.
-	doc. "`?` containing any successes."
+	doc. "
+		`?` containing any successes.
+		This can be thought of as translating an Error-throwing Fun to an ?-returning one.
+		The opposite of this is `@.?.un-?`.
 	test. |
 		[ (thunk 1) ] -> ? 1
 		[ oh-no! ] -> empty ?
@@ -69,20 +84,23 @@ try.
 				empty ?
 
 fails?.
-	doc. "TODO"
+	doc. "Whether the Fun throws some error."
 	test. |
 		! fails? |
-			oh-no! ()
+			oh-no!()
 		!not fails? |
 			()
 	|_:Act
 		contains? Error try_
 
 fails-with?.
-	doc. "TODO"
+	doc. "Whether the Fun throws an error of the given type or with the given message."
 	test. |
-		"TODO"
-	|with act:Act
+		! fails-with? "message" |
+			oh-no! "message"
+		! fails-with? Type-Error |
+			().missing-property
+	|with:Union[Str Type] act:Act
 		result = try act
 		and (contains? Error result) ~
 			case with
@@ -91,7 +109,7 @@ fails-with?.
 				:Str
 					=? result.message _
 
-\ TODO: Just make it a Record-Type with message/stack properties whose default if `new Error(msg)`.stack
+\ TODO: Just make it a Record-Type with message/stack properties whose default is `new Error(msg)`.stack
 error-type.
 	doc. "Makes a new custom error types."
 	test. |
@@ -130,9 +148,11 @@ always-do-after.
 		i-always-do-after tried finally-do
 
 annotate-errors.
-	doc. "TODO"
+	doc. "If there are thrown errors, prepends `annotation` to their stack and message."
 	test. |
-		"TODO"
+		! fails-with? "ab" |
+			annotate-errors "a" |
+				oh-no! "b"
 	|~annotation:Str tried:Act
 		case try tried
 			:Success
@@ -143,7 +163,7 @@ annotate-errors.
 				oh-no! _
 
 $annotate-errors.
-	doc. "TODO"
+	doc. "Like `annotate-errors` but works on errors thrown in a `$`."
 	test. |
 		"TODO"
 	|~annotation:Str $tried:$

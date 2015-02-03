@@ -158,7 +158,7 @@ If it has no arguments, put `()` immediately after the name.
 It's generally better to declare local variables for subexpressions.
 That way, you never need parentheses.
 
-You can leave off closing parentheses or brackets and they will be closed for you at the end of a surrounding syntactical group (such as a line, or line and followed by an indented block).
+You can leave off closing parentheses or brackets and they will be closed for you at the end of a surrounding syntactical group (such as a line, or line followed by an indented block).
 
 	log! (identity (two-of 1
 
@@ -572,6 +572,7 @@ Looks like | Means | Example
 
 There are other uses of symbols in names:
 
+Looks like | Means | Example
 :-: | :-: | :-:
 `a!` | Mutation or write-like I/O. | `log! "Hello, world!"`
 `A!` | Mutable type. | `empty Map!`

@@ -16,6 +16,7 @@ debug use~
 	.@.Stream
 	.!
 	.control unreachable!
+	.math.Num divisible?
 	.methods + =?
 	.Try oh-no!
 
@@ -63,19 +64,28 @@ $done.
 				{red "==="}
 
 $after.
-	doc. "TODO"
-	|:$ promise:$ then:Fun
-		promise.then then
+	doc. "
+		Applies `then` to the result whenever it is ready.
+		If `then` returns a $, returns a $ for that $'s value; else returns a $ for the result of `then`.
+	test. |
+		$!=? 2 ($after ($resolved 1) +[1]
+	|:$ _:$ then:Fun
+		_.then then
 
 $catch.
-	doc. "TODO"
+	doc. "
+		If `$` succeeds, acts like `identity`.
+		Else returns a `$` for the result of running `catcher` on the Error.
+		Like for `$after`, `catcher` can also return another `$`.
+	test. |
+		$!=? 2 ($catch ($rejected 1) +[1]
 	|:$ promise:$ catcher:Fun
 		promise.catch catcher
 
 $resolved.
 	doc. "$ that is already resolved."
 	test. |
-		$!=? 3 ($resolved 3
+		$!=? 1 ($resolved 1
 	|:$ value
 		Promise.resolve value
 
@@ -105,17 +115,18 @@ $delay.
 
 $all.
 	doc. "
-		TODO
-		Regardless of the input type, the output promise will be for an Array.
+		$ that resolves when the last $ in the input does, with every value in the original iteration order.
+		If any one of them fails, fails with the first such failure.
 	test. |
-		"TODO"
+		$!=? [ 1 2 ] ($all [ ($resolved 1) ($resolved 2
+		$!=? 1 ($catch ($all [ ($rejected 1) ($rejected 2) ]) identity
 	|:$[Array] _:@[$]
 		$.all (=> Array _
 
 $map.
 	doc. "
-		TODO
-		Unlike `map`, this always returns an Array regardless of the @'s type.
+		Asynchronously runs mapper for every element of mapped and returns a $ joining them.
+		Unlike map, this always returns an Array.
 	test. |
 		$!=? [ 2 3 4 ] ($map [ 1 2 3 ] |_
 			$delay |
@@ -124,26 +135,26 @@ $map.
 		$all (map mapped mapper
 
 $flat-map.
-	doc. "TODO"
+	doc. "Like $map but flattens the result."
 	test. |
 		$!=? (=> Stream [ 1 1 2 2 3 3 ]) ($flat-map [ 1 2 3 ] |_
 			$delay |
 				[ _ _ ]
-
 	|:$[@] mapped:@ mapper:Fun[Any $[@]]
 		$after ($map mapped mapper) flatten
 
 $each!.
-	doc. "TODO"
+	doc. "Asynchronously runs a Fun on each element in a @."
 	fun-copy $map
 
 $keep.
-	doc. "TODO"
+	doc. "
+		Asynchronously runs keep-if? on each element and creates an Array of those that match.
+		Maintains the original order.
 	test. |
-		$!=? (=> Stream [ 2 ]) ($keep [ 1 2 3 ] |_
+		$!=? (=> Stream [ 2 4 ]) ($keep [ 1 2 3 4 ] |_
 			$delay |
-				=? _ 2
-
+				divisible? _ 2
 	|:$[Array] keep-some:@ keep-if?:Fun[Any $[Bool]]
 		$flat-map keep-some |_
 			$after keep-if?_ |keep
@@ -156,13 +167,12 @@ $call.
 		So for any place you would write `f x` where `x` is an actualized value,
 		you may write `$call f $x` where `$x` is a promise.
 	test. |
+		\ TODO:SYNTAX [ | 1 ]
 		$one = $delay |
 			1
 		$!=? 2 ($call + $one $one
-
 	|:$ f ...$args
-		$after ($all $args) |args
-			apply f args
+		$after ($all $args) apply[f]
 
 $ing.
 	doc. "
@@ -175,12 +185,10 @@ $ing.
 			promised <~ $resolved "promised"
 			! =? promised "promised"
 			"res"
-
 		_ = $ing ~|
 			<~ $rejected "whoops"
 			oh-no! "It's been rejected, so the rest is never called."
 		. $!=? "whoops" ($catch _ identity
-
 	|:$ code:Fun[Generator!]
 		gen = code ()
 		eval = |last-value
