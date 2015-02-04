@@ -54,6 +54,6 @@ maximum-anagram-sets.
 		each! words |word
 			add-to-@! mp (sort word) [ word ]
 
-		max-count = max (map (values mp) count) 0
+		max-count = max (map (values mp) count
 		keep (values mp) |_
 			=? count_ max-count

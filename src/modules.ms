@@ -4,7 +4,6 @@ use
 	.@.Array
 	.js new
 	.methods =>
-	.private.js-impl \ i-require
 
 \ TODO: Portability
 commonJS-require. `require`

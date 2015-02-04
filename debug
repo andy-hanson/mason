@@ -1,0 +1,1 @@
+node debug --harmony --stack-trace-limit=100 ./js/test

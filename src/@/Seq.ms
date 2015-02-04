@@ -49,7 +49,7 @@ region Search
 			!not seq=? s [ 2 ]
 		|seq-0:@ seq-1:@
 			\ TODO:PERF Don't check counts up front, do it while zipping
-			and (=? (count seq-0) (count seq-1)) ~(all? (zip seq-0 seq-1 =?))
+			and (=? (count seq-0) (count seq-1)) ~(all? (zip seq-0 seq-1 =?
 
 	first.
 		doc. "First value in iteration order."
@@ -100,7 +100,7 @@ region Search
 			\ TODO:SYNTAX Loop return value
 			ans = Ref! (empty ?
 			loop!
-				value done = iter.next ()
+				value done = iter.next()
 				case!
 					done
 						end-loop!
@@ -193,7 +193,7 @@ region Update
 						=? (get i) count
 							end-loop!
 						else
-							value done = iter.next ()
+							value done = iter.next()
 							case!
 								done
 									end-loop!
@@ -209,7 +209,7 @@ region Update
 			Stream ~|
 				iter = iterator_
 				loop!
-					value:Any done = iter.next ()
+					value:Any done = iter.next()
 					case!
 						done
 							end-loop!
@@ -232,7 +232,7 @@ region Update
 							end-loop!
 						else
 							case!
-								(iter.next ()).done
+								(iter.next()).done
 									end-loop!
 								else
 									mod! i +[1]
@@ -255,8 +255,8 @@ region Combination
 			iter0 = iterator s0
 			iter1 = iterator s1
 			loop!
-				next0 = iter0.next ()
-				next1 = iter1.next ()
+				next0 = iter0.next()
+				next1 = iter1.next()
 				case!
 					or next0.done next1.done
 						end-loop!
@@ -284,7 +284,7 @@ region TODO: put somewhere
 						loop! outer
 							next-group = empty Array!
 							loop!
-								value done = iter.next ()
+								value done = iter.next()
 								case!
 									done
 										end-loop! outer

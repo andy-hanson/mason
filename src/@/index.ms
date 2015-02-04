@@ -10,10 +10,10 @@ use
 	..Type.Method _ impl!
 	..Type.Pred-Type Any Opt
 use~
-	..control Ref! get set!
+	..control if if! Ref! get set!
 	..Generator!
 	..math.Num Nat
-	.? _ get-or Opt->?
+	.? _ get-or Opt->? un-?
 	.Array
 	.Hash-Set!
 	.Seq first seq=? tail
@@ -23,9 +23,13 @@ debug use~
 	..Bool false true
 	..! _ !not
 	..math.Num divisible?
+	..Try fails?
 
 @. Kind
-	doc. "TODO"
+	doc. "
+		"Bag". Contains a variable number of elements. Most things implementing `iterator` should be @s.
+		If the iteration order of an @ is meaningful and `+ a b` is the concatenation, it is a Seq.
+		If an @ only stores a given element once, it is a Set.
 	implementor-test. |@-type
 		! (contains? @-Type @-type) "Be sure to make your @ type a @-Type."
 		_ = empty @-type
@@ -38,7 +42,7 @@ iterator. Method
 
 region Using iterator
 	impl! contains? @
-		doc. "TODO"
+		doc. "Whether one of the elements =? em."
 		test. |
 			! contains? [ 0 ] 0
 			!not contains? [ 0 ] 1
@@ -47,32 +51,45 @@ region Using iterator
 				=? em em-compare
 
 	fold.
-		doc. "TODO"
+		doc. "
+			Keeps a state variable `acc` and keeps applying `folder acc em` for the elements, in order.
+			Returns the final value.
+			If empty?_, fails unless a `start` value for `acc` is provided. Otherwise `acc` starts as the first element.
 		test. |
 			[ [ 1 2 3 ] + ] -> 6
 			[ [ 1 2 3 ] 4 + ] -> 10
 		\ TODO:SYNTAX Optional args
 		|_:@ b c
-			case
+			start rest folder = case
 				defined? c
-					start:Any = b
-					folder:Fun[2] = c
-					acc = Ref! start
-					each! _ |em
-						set! acc (folder (get acc) em
-					get acc
+					start. b
+					folder. c
+					rest. _
 				else
-					fold tail_ first_ b
+					start. first_
+					folder. b
+					rest. tail_
+
+			acc = Ref! start
+			iter = iterator rest
+			loop!
+				value done = iter.next()
+				case!
+					done
+						end-loop!
+					else
+						set! acc (folder (get acc) value
+			get acc
 
 	each!. Method
-		doc. "Calls do-for-each on every element in the @."
+		doc. "Calls do-for-each on every element in the @, in order."
 		test. |
 			"TODO"
 		default. |_ do-for-each:Act
 			\ TODO:ES6 `for (let value of _)`
 			iter = iterator_
 			loop!
-				value done = iter.next ()
+				value done = iter.next()
 				case!
 					done
 						end-loop!
@@ -80,40 +97,43 @@ region Using iterator
 						do-for-each value
 
 	any?.
-		doc. "TODO"
+		doc. "Whether pred? is true for at least one element."
 		test. |
-			! any? [ 0 1 ] =?[1]
-			!not any? [ 0 1 ] =?[2]
-		|_:@ pred:Opt[Pred]
+			[ [ 0 1 ] =?[1] ] -> true
+			[ [ 0 1 ] =?[2] ] -> false
+		|_:@ pred?:Opt[Pred]
 			\ TODO:SYNTAX Optional args
-			p = get-or (Opt->? pred) identity
+			p = get-or (Opt->? pred?) identity
 			not (empty? (keep _ p
 
 	all?.
-		doc. "TODO"
+		doc. "Whether pred? is true for every element."
 		test. |
-			! all? [ 0 0 ] =?[0]
-			!not all? [ 0 1 ] =?[0]
-		|_:@ pred:Opt[Pred]
+			[ [ 0 0 ] =?[0] ] -> true
+			[ [ 0 1 ] =?[0] ] -> false
+		|_:@ pred?:Opt[Pred]
 			\ TODO:SYNTAX Optional args
-			p = get-or (Opt->? pred) identity
+			p = get-or (Opt->? pred?) identity
 			not (any? _ |em
 				not (p em)
 
 	?find.
-		doc. "TODO"
+		doc. "
+			First element for which pred? is true.
+			(To find all, use `keep`.)
 		test. |
-			"TODO"
-		|_ pred:Pred
+			[ [ 0 1 ] =?[1] ] -> ? 1
+			[ [ 0 ] =?[1] ] -> empty ?
+		|_ pred?:Pred
 			iter = iterator_
 			\ TODO:SYNTAX Return from loop
 			found = Ref! (empty ?
 			loop!
-				value done = iter.next ()
+				value done = iter.next()
 				case!
 					done
 						end-loop!
-					pred value
+					pred? value
 						set! found (? value
 						end-loop!
 					else
@@ -121,29 +141,32 @@ region Using iterator
 			get found
 
 	count. Method
-		doc. "Number of elements in it."
+		doc. "Number of elements."
 		test. |
-			"TODO"
+			[ [ ] ] -> 0
+			[ [ 1 2 3 ] ] -> 3
 		default. |:Nat _:@
 			fold _ 0 +[1]
 
 	impl! empty? @
-		doc. "Whether `count` will return 0."
+		doc. "Whether `count` is 0. Often much faster."
 		test. |
-			"TODO"
+			[ [ ] ] -> true
+			[ [ 1 ] ] -> false
 		|:Bool _
-			(iterator_.next ()).done
+			iterator_.next().done
 
-region Using from-stream
-	keep. Method
-		doc. "@ with only the elements that satisfy `keep-if?`."
+region Lazy functions, and their eager versions.
+	\ Eager versions are Methods if certain types can do them faster.
+	keep.
+		doc. "Only the elements that satisfy `keep-if?`."
 		test. |
 			[ [ 1 2 ] =?[2] ] -> => Stream [ 2 ]
-		default. |_:@ keep-if?:Pred
+		|_:@ keep-if?:Pred
 			Stream ~|
 				iter = iterator_
 				loop!
-					value done = iter.next ()
+					value done = iter.next()
 					case!
 						done
 							end-loop!
@@ -152,15 +175,22 @@ region Using from-stream
 						else
 							()
 
-	map. Method
-		doc. "TODO"
+	keep'. Method
+		doc. "Type-preserving `keep`."
+		test. |
+			[ [ 1 2 ] =?[2] ] -> [ 2 ]
+		default. |_:@ keep-if?:Pred
+			=> type-of_ (keep _ keep-if?
+
+	map.
+		doc. "Stream with `mapper` applied indiviually to the original elements."
 		test. |
 			[ [ true false ] not ] -> => Stream [ false true ]
-		default. |_:@ mapper:Fun
+		|_:@ mapper:Fun
 			Stream ~|
 				iter = iterator_
 				loop!
-					value done = iter.next ()
+					value done = iter.next()
 					case!
 						done
 							end-loop!
@@ -168,15 +198,19 @@ region Using from-stream
 							<~ mapper value
 
 	map'.
-		doc. "TODO"
+		doc. "Type-preserving `map`."
 		test. |
 			"TODO"
 		|_:@ mapper:Fun
 			=> type-of_ (map _ mapper
 
+	\ TODO: Preserve type as long as it is not Stream or Lazy-Stream?
 	fold-map.
 		doc. "
-			Since this is also a fold, it eagerly evaluates streams.
+			Performs a map while also carrying some state from one element to the next.
+			`mapper-folder` takes in the state and the element,
+			and produces `here` (the mapped value) and `next` (the next state value).
+			Unlike map, this must be eagerly evaluated, like fold.
 		test. |
 			f = |acc em
 				here. + 1 em
@@ -193,8 +227,8 @@ region Using from-stream
 			folded. get acc
 
 	\ TODO: Better name?
-	flat-map. Method
-		doc. "TODO"
+	flat-map.
+		doc. "Like `map`, but each mapping produces multiple values."
 		test. |
 			f = |case
 				divisible? _ 2
@@ -202,34 +236,73 @@ region Using from-stream
 				else
 					[ _ ]
 			[ [ 1 2 3 4 ] f ] -> => Stream [ 1 2 2 3 4 4 ]
-		default. |_ mapper:Fun[Any @]
-			flatten (map _ mapper
-
-	\ TODO: Just use variadic `+`
-	flatten.
-		doc. "TODO"
-		test. |
-			"TODO"
-		|_:@[@]
+		|_:@ mapper:Fun[Any @]
+			\ Same as `flatten (map _ mapper)`, but with smaller stacktrace.
 			Stream ~|
 				iter = iterator_
 				loop!
-					value done = iter.next ()
+					value done = iter.next()
 					case!
 						done
 							end-loop!
 						else
-							flat:@ = value
-							<~~ iterator flat
+							<~~ iterator (mapper value
+
+	flat-map'. Method
+		doc. "Type-preserving flat-map."
+		test. |
+			\ TODO:SYNTAX [ a | a a ]
+			f = |a
+				[ a a ]
+			[ [ 1 2 ] f ] -> [ 1 1 2 2 ]
+		default. |_ mapper:Fun[Any @]
+			=> type-of_ (flat-map _ mapper
+
+	flatten.
+		doc. "
+			For an @ containing many @, produces an @ containing all of their entries combined.
+			This does *not* consider more than 1 nested level, and there *every* element of _ must be an @.
+			More efficient than `fold + _`.
+		test. |
+			[ [ [ 1 2 ] [ 3 ] [ ] ] ] -> => Stream [ 1 2 3 ]
+			\ Ignores further nested @s.
+			[ [ [ 1 ] [ [ 2 ] ] ] ] -> => Stream [ 1 [ 2 ] ]
+			\ Must be at least one nested level
+			! fails? |
+				=> Array (flatten [ [ 1 ] 2 [ 3 ] ]
+		|_:@[@]
+			Stream ~|
+				iter = iterator_
+				loop!
+					value done = iter.next()
+					case!
+						done
+							end-loop!
+						else
+							<~~ iterator value
+
+	flatten'. Method
+		doc. "Type-preserving flatten."
+		test. |
+			[ [ [ 1 2 ] [ 3 ] [ ] ] ] -> [ 1 2 3 ]
+		default. |_
+			=> type-of_ flatten_
 
 	impl! + @
 		doc. "TODO"
 		test. |
 			[ [ 0 ] [ 1 ] ] -> [ 0 1 ]
-		|:@ _ add:@
+		|:@ @a @b
 			Stream ~|
-				<~~ iterator_
-				<~~ iterator add \+=> type-of_ _ add
+				<~~ iterator @a
+				<~~ iterator @b \+=> type-of_ _ add
+
+	+'. Method
+		doc. "Type-preserving +."
+		test. |
+			[ [ 0 ] [ 1 ] ] -> [ 0 1 ]
+		default. |@a @b
+			=> (type-of @a) (+ @a @b
 
 	impl! - @
 		doc. "
@@ -242,7 +315,7 @@ region Using from-stream
 				iter = iterator_
 				remove-us = => Hash-Set! remove
 				loop!
-					value done = iter.next ()
+					value done = iter.next()
 					case!
 						done
 							end-loop!
@@ -253,36 +326,66 @@ region Using from-stream
 								else
 									<~ value
 
-region Unsorted
 	impl! =? @
 		test. |
 			! =? [ 1 ] [ 1 ]
-		|a b
-			and (reference=? (type-of a) (type-of b)) ~(seq=? a b
+		|@a @b
+			and (reference=? (type-of @a) (type-of @b)) ~(seq=? @a @b
 
-	max-by.
-		doc. "TODO"
-		test. |
-			[ [ "five" "six" "seven" ] "" count ] -> "seven"
-		|_:@ default:Any by:Fun
-			max-val = Ref! default
-			fold _ (by default) |cur-max-by em
-				em-by = by em
-				case
-					<? cur-max-by em-by
-						set! max-val em
-						em-by
-					else
-						cur-max-by
-			get max-val
-
+region Min/max (TODO: its own file?)
 	\ TODO: Method, specialize on Sorted-Set
 	max.
-		doc. "TODO"
+		doc. "An element that is >=? all others. Fails when empty."
 		test. |
-			"TODO"
-		|_:@ default:Any
-			max-by _ default identity
+			[ [ 1 3 2 ] ] -> 3
+			[ [ 2 1 2 ] ] -> 2 \ Doesn't have to be unique
+			! fails? |
+				max [ ]
+		|_:@
+			un-? ?max_ "Tried to take max of empty."
+
+	?max.
+		doc. "Like max, but returns empty ? for empty."
+		test. |
+			[ [ 1 ] ] -> ? 1
+			[ [ ] ] -> empty ?
+		|_:@
+			?max-by _ identity
+
+	max-by.
+		doc. "
+			An element whose `by em` is >=? all other elements' `by em`s.
+			Like `max (map _ by)` except the mapping is not applied to the result.
+		test. |
+			[ [ "five" "six" "seven" ] count ] -> "seven"
+			! fails? |
+				max-by [ ] identity
+		|_:@ by:Fun
+			un-? (?max-by _ by) "Tried to take max of empty."
+
+	?max-by.
+		doc. "Like max-by, but returns empty ? for empty."
+		test. |
+			[ [ 1 ] identity ] -> ? 1
+			[ [ ] identity ] -> empty ?
+		|_:@ by:Fun
+			if (not empty?_) |
+				iter = iterator_
+				value = iter.next().value
+				cur-max = Ref! value
+				cur-max-by = Ref! (by value
+				loop!
+					value done = iter.next()
+					case!
+						done
+							end-loop!
+						else
+							value-by = by value
+							if! (<? (get cur-max-by) value-by) |
+								set! cur-max value
+								set! cur-max-by value-by
+				get cur-max
+
 
 	\ TODO: min method, specialize on Sorted-Set
 
