@@ -15,6 +15,7 @@ Hash-Map = Alias-Type
 
 impl! empty (self-type Hash-Map) (thunk (freeze (empty Hash-Map!
 
+\ TODO: MOVE?
 p+! ms "map" |...args
 	hm = empty Hash-Map!
 	i-make-map hm assoc! args

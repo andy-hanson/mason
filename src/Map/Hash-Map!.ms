@@ -15,19 +15,11 @@ use
 	..Type.Record-Type
 	..Map ?get keys values
 	.Map! _ assoc! un-assoc!
+use~
+	..Generator! if~
 debug use
 	..!
 	..@.Seq seq=?
-
-Bucket-Entry = Record-Type
-	doc. "
-		Value mapped to by hash->bucket.
-		If multiple keys have the same hash, next! will be set to another Bucket-Entry.
-		(The "bucket" is this linked list of Bucket-Entries.)
-	members.
-		key.
-		val!.
-		next!.
 
 Hash-Map! = Record-Type
 	doc. "Default Map! type. Depends on efficient `hash-code` of its keys."
@@ -67,34 +59,28 @@ impl! ?get Hash-Map! |:? _ key
 
 impl! keys Hash-Map! |_
 	buckets = values _.hash->bucket
-	flat-map buckets |bucket
-		Stream ~|
-			handle-bucket = ~|case!
-				defined?_
-					<~ _.key
-					handle-bucket _.next!
-				else
-					()
-			<~~ handle-bucket bucket
+	bucket-keys~ = |_
+		if~ defined?_ ~|
+			<~ _.key
+			<~~ bucket-keys~ _.next!
+	flat-map buckets |_
+		Stream |
+			bucket-keys~_
 
 \ TODO: impl! values, similarly
 
 impl! assoc! Hash-Map! |hm key val
-	out
-		! =? hm[key] val
-
 	bucket = opt-bucket hm key
 	case! opt-bucket-entry bucket
 		defined?_
 			p! _ "val!" val
 		else
-			k = key
-			be = Bucket-Entry
-				\ TODO:SYNTAX
-				key. k
+			\ Add it at the front.
+			k = key \ TODO:SYNTAX
+			hm.hash->bucket.set (hash-code key)
+				key. k \ TODO:SYNTAX
 				val!. val
 				next!. bucket
-			hm.hash->bucket.set (hash-code key) be
 
 impl! un-assoc! Hash-Map! |hm key
 	bucket = opt-bucket hm key

@@ -342,7 +342,7 @@ region Min/max (TODO: its own file?)
 			! fails? |
 				max [ ]
 		|_:@
-			un-? ?max_ "Tried to take max of empty."
+			un-? ?max_ "Can not take max of empty."
 
 	?max.
 		doc. "Like max, but returns empty ? for empty."
@@ -361,7 +361,7 @@ region Min/max (TODO: its own file?)
 			! fails? |
 				max-by [ ] identity
 		|_:@ by:Fun
-			un-? (?max-by _ by) "Tried to take max of empty."
+			un-? (?max-by _ by) "Can not take max of empty."
 
 	?max-by.
 		doc. "Like max-by, but returns empty ? for empty."

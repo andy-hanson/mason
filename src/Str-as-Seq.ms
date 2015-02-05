@@ -6,7 +6,7 @@ use
 	.@.Array
 	.@.@-Type _ from-stream
 	.@.Seq
-	.Fun ignore
+	.Fun ignore thunk
 	.methods => <! empty
 	.show
 	.Str
@@ -25,11 +25,11 @@ test. |
 	count -> |_
 		_.length
 	\ TODO:ES6 should be built-in
+	\ TODO: How does this handle Unicode?
 	iterator -> impl-for iterator Array
 
 <! (self-type Str) @-Type
-	empty -> |
-		""
+	empty -> thunk ""
 	\ TODO
 	from-stream -> impl-for from-stream (self-type Array)
 

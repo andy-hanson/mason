@@ -1,9 +1,9 @@
 use
-	..Bool and not or true
+	..Bool false not true
 	..control if returning
 	..Fun _ identity Pred
 	..js defined?
-	..methods - + => =? <! <=? <? >=? compare empty empty? freeze sub
+	..methods - + => =? <! <? compare empty empty? freeze sub
 	..Str _ indent
 	..Type type-of
 	..Type.Impl-Type self-type
@@ -23,7 +23,6 @@ use~
 	.Seq! +>!
 	.Stream
 debug use~
-	..Bool false
 	..! _ !not
 	..Try fails?
 
@@ -39,17 +38,35 @@ impl! empty (self-type Seq) |
 region Search
 	seq=?.
 		doc. "
-			Whether two Seqs share the same elements in the same order.
-			The types of the Seqs do not matter.
-			Equivalent to `=? (=> Array seq-0) (=> Array seq-1)`
+			Whether two @s share the same elements in the same order.
+			The types of the @s do not matter.
+			Equivalent to `=? (=> Array @a) (=> Array @b)`, but may not have to fully unlazy both.
 		test. |
 			s = Stream ~|
 				<~ 1
 			! seq=? s [ 1 ]
 			!not seq=? s [ 2 ]
-		|seq-0:@ seq-1:@
-			\ TODO:PERF Don't check counts up front, do it while zipping
-			and (=? (count seq-0) (count seq-1)) ~(all? (zip seq-0 seq-1 =?
+		|@a:@ @b:@
+			iter-a = iterator @a
+			iter-b = iterator @b
+			\ TODO:SYNTAX Loop return value
+			ret = Ref!()
+			loop!
+				next-a = iter-a.next()
+				next-b = iter-b.next()
+				case!
+					next-a.done
+						set! ret next-b.done
+						end-loop!
+					next-b.done
+						set! ret false
+						end-loop!
+					not (=? next-a.value next-b.value)
+						set! ret false
+						end-loop!
+					else
+						()
+			get ret
 
 	first.
 		doc. "First value in iteration order."
@@ -58,7 +75,7 @@ region Search
 			! fails? |
 				first [ ]
 		|_
-			un-? ?first_ "Can not take `first` of empty."
+			un-? ?first_ "Can not take first of empty."
 
 	?first. Method
 		doc. "First value in iteration order, if non-empty."
@@ -160,37 +177,38 @@ region Update
 		default. |:@ _
 			=> type-of_ (take _ (- count_ 1
 
-	?slice.
-		doc. "TODO"
-		test. |
-			"TODO"
-		|:?[@] _ start:Nat end:Nat
-			if (and (>=? end start) ~(<=? end count_))
-				slice _ start end
-
 	slice. Method
 		doc. "
 			The elements from index start (inclusive) to end (exclusive).
 			Takes as much as possible.
 			Result length should be - end start, unless `end` was past the end.
-
 		test. |
 			[ [ 0 1 2 3 ] 1 3 ] -> => Stream [ 1 2 ]
-
 		default. |:@ _ start:Nat end:Nat
 			take (drop _ start) (- end start
 
-	take. Method
-		doc. "TODO"
+	slice'. Method
+		doc. "Type-preserving slice."
 		test. |
-			"TODO"
-		default. |:@ _ count:Nat
+			[ [ 0 1 2 3 ] 1 3 ] -> [ 1 2 ]
+		default. |_ start:Nat end:Nat
+			=> type-of_ (slice _ start end
+
+	take. Method
+		doc. "Stream including only the first count-to-take elements."
+		test. |
+			[ [ 0 1 2 ] 2 ] -> => Stream [ 0 1 ]
+			\ OK if not enough to satisfy count-to-take
+			[ [ 0 ] 2 ] -> => Stream [ 0 ]
+			_ = [ 0 1 2 3 4 ]
+			! seq=? _ (+ (take _ 2) (drop _ 2
+		default. |:@ _ count-to-take:Nat
 			Stream ~|
 				iter = iterator_
 				i = Ref! 0
 				loop!
 					case!
-						=? (get i) count
+						=? (get i) count-to-take
 							end-loop!
 						else
 							value done = iter.next()
@@ -202,26 +220,26 @@ region Update
 									mod! i +[1]
 
 	take-while.
-		doc. "TODO"
+		doc. "Stream stopping (and not including) the first element not satisfying while?."
 		test. |
 			[ [ 1 2 -1 3 ] <?[0] ] -> => Stream [ 1 2 ]
-		|:@ _ while:Pred
+		|:@ _ while?:Pred
 			Stream ~|
 				iter = iterator_
 				loop!
-					value:Any done = iter.next()
+					value done = iter.next()
 					case!
 						done
 							end-loop!
-						while value
+						while? value
 							<~ value
 						else
 							end-loop!
 
 	drop. Method
-		doc. "TODO"
+		doc. "Stream without the first count-to-drop elements."
 		test. |
-			"TODO"
+			[ [ 0 1 2 3 ] 2 ] -> => Stream [ 2 3 ]
 		default. |:@ _ count-to-drop:Nat
 			Stream ~|
 				iter = iterator_
@@ -232,7 +250,7 @@ region Update
 							end-loop!
 						else
 							case!
-								(iter.next()).done
+								iter.next().done
 									end-loop!
 								else
 									mod! i +[1]
@@ -241,27 +259,44 @@ region Update
 	\ TODO: drop-while
 
 	tail. Method
-		doc. "TODO"
+		doc. "
+			Special case of dropping exactly one element from the front.
+			TODO: Eager for Linked-Lists.
 		test. |
-			"TODO"
+			[ [ 1 2 ] ] -> => Stream [ 2 ]
 		default. |_
 			drop _ 1
 
 region Combination
-	\ TODO: Variadic
-	\ TODO: Builder? (whose?)
-	zip. |s0:@ s1:@ zipper:Fun[2]
-		Stream ~|
-			iter0 = iterator s0
-			iter1 = iterator s1
-			loop!
-				next0 = iter0.next()
-				next1 = iter1.next()
-				case!
-					or next0.done next1.done
-						end-loop!
-					else
-						<~ zipper next0.value next1.value
+	zip.
+		doc. "TODO"
+		test. |
+			[ [ 1 2 ] [ 10 20 ] + ] -> => Stream [ 11 22 ]
+		|@a:@ @b:@ zipper:Fun[2]
+			Stream ~|
+				iter-a = iterator @a
+				iter-b = iterator @b
+				loop!
+					next-a = iter-a.next()
+					case!
+						next-a.done
+							end-loop!
+						else
+							next-b = iter-b.next()
+							case!
+								next-b.done
+									end-loop!
+								else
+									<~ zipper next-a.value next-b.value
+
+
+	zip'.
+		doc. "Type-preserving zip."
+		test. |
+			[ [ 1 2 ] [ 10 20 ] + ] -> [ 11 22 ]
+		|@a:@ @b:@ zipper:Fun[2]
+			=> (type-of @a) (zip @a @b zipper
+
 
 region TODO: put somewhere
 	groups-of.

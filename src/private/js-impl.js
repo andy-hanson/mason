@@ -107,7 +107,7 @@ module.exports = {
 		let i = times
 		const out = []
 		while (i--)
-			out.push(timeMe())
+			out.push(timeMe(i))
 		return out
 	},
 

@@ -6,21 +6,22 @@ use
 	.Type.Pred-Type
 use~
 	.@ count
+	.@.Array
 	.Regex regex
 
 Str =
-	doc. "TODO"
+	doc. "JavaScript's native String type."
 	global.String
 
 ->upper.
-	doc. "TODO"
+	doc. "Converts a-z to A-Z."
 	test. |
 		[ "hi" ] -> "HI"
 	|s:Str
-		s.toUpperCase ()
+		s.toUpperCase()
 
 Char. Pred-Type
-	doc. "TODO"
+	doc. "Any String with only one character."
 	predicate. |_
 		and :Str ~(=? count_ 1
 
@@ -43,10 +44,14 @@ indent.
 		"{str.replace (regex "\n" "g") "\n\t"}"
 
 lines.
-	doc. "TODO"
+	doc. "\n-separated lines."
 	test. |
-		"TODO"
-	|str:Str
+		s = "
+			a
+				b
+			c
+		[ s ] -> [ "a" "\tb" "c" ]
+	|:Array[Str] str:Str
 		str.split "\n"
 
 impl! =? Str reference=?

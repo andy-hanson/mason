@@ -1,10 +1,9 @@
 use
-	..! _ !not
 	..@.Stream
-	..Bool _ and false not true
-	..control if Ref! get set!
+	..Bool _ and false not
+	..control if loop End-Loop
 	..js defined?
-	..methods <! <? >? contains? empty empty? empty!
+	..methods <! <? >? empty empty? empty!
 	..Obj! p!
 	..Type.Impl-Type self-type
 	..Type.Method impl!
@@ -12,13 +11,11 @@ use
 	..Map ?get keys
 	.Map! assoc! un-assoc!
 	.Sorted-Map!
+debug use
+	..! _ !not
+	..methods =?
 
-Node = Record-Type
-	members.
-		key.
-		val!.
-		left!.
-		right!.
+\ TODO:SYNTAX Use short object expressions wherever possible
 
 Splay-Tree! = Record-Type
 	doc. "
@@ -32,123 +29,13 @@ impl! empty (self-type Splay-Tree!) |
 	Splay-Tree!
 		root!. undefined
 
-has-left? = |node
-	defined? node.left!
-
-has-right? = |node
-	defined? node.right!
-
-\ Returns whether the root now matches the key.
-splay! = |:Bool _ key
-	in
-		!not empty? _
-
-	dummy = Node
-		key. undefined
-		val!. undefined
-		left!. undefined
-		right!. undefined
-	left = Ref! dummy
-	right = Ref! dummy
-	cur = Ref! _.root!
-	\ TODO:SYNTAX Loop return falue
-	ref-found = Ref! false
-	loop!
-		cur':Node left':Node right':Node found = splay-step! (get cur) key (get left) (get right)
-		set! cur cur'
-		set! left left'
-		set! right right'
-		case! found
-			:Bool
-				set! ref-found _
-				end-loop!
-			else
-				()
-
-	final-left = get left
-	final-right = get right
-	final-cur = get cur
-	p! final-left "right!" final-cur.left!
-	p! final-right "left!" final-cur.right!
-	p! final-cur "left!" dummy.right!
-	p! final-cur "right!" dummy.left!
-	p! _ "root!" final-cur
-	get ref-found
-
-splay-step! = |cur:Node key left:Node right:Node
-	case
-		<? key cur.key
-			case
-				has-left? cur
-					link-right = |new-cur
-						p! right "left!" new-cur
-						cur'. new-cur.left!
-						left'. left
-						right'. new-cur
-					case
-						<? key cur.left!.key
-							\ Rotate right
-							tmp = cur.left!
-							p! cur "left!" tmp.right!
-							p! tmp "right!" cur
-							case
-								has-left? tmp
-									link-right tmp
-								else
-									found. false
-									cur'. tmp
-									left'. left
-									right'. right
-						else
-							link-right cur
-				else
-					found. false
-					cur'. cur
-					left'. left
-					right'. right
-
-		>? key cur.key
-			case
-				has-right? cur
-					link-left = |new-cur
-						p! left "right!" new-cur
-						cur'. new-cur.right!
-						left'. new-cur
-						right'. right
-					case
-						>? key cur.right!.key
-							\ Rotate left
-							tmp = cur.right!
-							p! cur "right!" tmp.left!
-							p! tmp "left!" cur
-							case
-								has-right? tmp
-									link-left tmp
-								else
-									found. false
-									cur'. tmp
-									left'. left
-									right'. right
-						else
-							link-left cur
-				else
-					found. false
-					cur'. cur
-					left'. left
-					right'. right
-		else
-			found. true
-			cur'. cur
-			left'. left
-			right'. right
-
 <! Splay-Tree! Sorted-Map!
 	empty? -> |_
 		not (defined? _.root!
 	empty! -> |_
 		p! _ "root!" undefined
 	?get -> |_ key
-		if (and (not empty?_) ~(splay! _ key)) |
+		if (and (not empty?_) ~(splay!? _ key)) |
 			_.root!.val!
 
 	keys -> |_
@@ -165,38 +52,34 @@ splay-step! = |cur:Node key left:Node right:Node
 	assoc! -> |_ k v
 		case!
 			empty?_
-				p! _ "root!" (Node
+				p! _ "root!"
 					key. k
 					val!. v
 					left!. undefined
 					right!. undefined
-			splay! _ k
+			splay!? _ k
 				p! _.root! "val!" v
 			else
 				old-root = _.root!
-				!not empty? _
-				! contains? Node old-root
+				debug !not empty? _
 				p! _ "root!" case
 					>? k old-root.key
 						old-right = old-root.right!
 						p! old-root "right!" undefined
-						Node
-							key. k
-							val!. v
-							left!. old-root
-							right!. old-right
+						key. k
+						val!. v
+						left!. old-root
+						right!. old-right
 					else
 						old-left = old-root.left!
 						p! old-root "left!" undefined
-						Node
-							key. k
-							val!. v
-							left!. old-left
-							right!. old-root
+						key. k
+						val!. v
+						left!. old-left
+						right!. old-root
 
 	un-assoc! -> |_ key
-
-		if (and (not empty?_) ~(splay! _ key)) |
+		if (and (not empty?_) ~(splay!? _ key)) |
 			removed = _.root
 			\ Link out the root.
 			p! _ "root!" case
@@ -204,7 +87,7 @@ splay-step! = |cur:Node key left:Node right:Node
 					right = removed.right \ OK if null
 					new-root = removed.left
 					\ Splay to make sure the new root has an empty right child.
-					splay! _ key
+					splay!? _ key
 					p! new-root "right!" right
 					new-root
 				else
@@ -212,6 +95,98 @@ splay-step! = |cur:Node key left:Node right:Node
 					removed.right
 
 			removed.val
+
+region Implementation
+	has-left? = |node
+		defined? node.left!
+	has-right? = |node
+		defined? node.right!
+
+	\ Searches for the key, bringing nodes up to the root along the way.
+	\ Returns whether the root now matches the key.
+	splay!? = |:Bool _ key
+		in
+			!not empty? _
+
+		\ TODO:SYNTAX [ left!. undefined, right!. undefined ]
+		dummy =
+			left!. undefined
+			right!. undefined
+		\ TODO:SYNTAX [ left. dummy, right. dummy, cur. _.root! ]
+		start =
+			left. dummy
+			right. dummy
+			cur. _.root!
+		left right cur found = loop start (splay-step! key
+		p! left "right!" cur.left!
+		p! right "left!" cur.right!
+		p! cur "left!" dummy.right!
+		p! cur "right!" dummy.left!
+		p! _ "root!" cur
+		found
+
+	splay-step! = |key |_
+		not-found = |end
+			End-Loop
+				found. false
+				cur. end
+				left. _.left
+				right. _.right
+		case
+			<? key _.cur.key
+				case
+					has-left? _.cur
+						link-right = |new-cur
+							p! _.right "left!" new-cur
+							cur. new-cur.left!
+							left. _.left
+							right. new-cur
+						case
+							<? key _.cur.left!.key
+								\ Rotate right
+								tmp = _.cur.left!
+								p! _.cur "left!" tmp.right!
+								p! tmp "right!" _.cur
+								case
+									has-left? tmp
+										link-right tmp
+									else
+										not-found tmp
+							else
+								link-right _.cur
+					else
+						not-found _.cur
+
+			>? key _.cur.key
+				case
+					has-right? _.cur
+						link-left = |new-cur
+							p! _.left "right!" new-cur
+							cur. new-cur.right!
+							left. new-cur
+							right. _.right
+						case
+							>? key _.cur.right!.key
+								\ Rotate left
+								tmp = _.cur.right!
+								p! _.cur "right!" tmp.left!
+								p! tmp "left!" _.cur
+								case
+									has-right? tmp
+										link-left tmp
+									else
+										not-found tmp
+							else
+								link-left _.cur
+					else
+						not-found _.cur
+			else
+				debug ! =? key _.cur.key
+				End-Loop
+					found.
+					cur. _.cur
+					left. _.left
+					right. _.right
 
 
 Splay-Tree!

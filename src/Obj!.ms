@@ -61,7 +61,7 @@ p!.
 		! =? x.a 2
 	|_:Obj name:Obj-Key new-val
 		in
-			p? _ name
+			! p? _ name
 
 		js-set _ name new-val
 
