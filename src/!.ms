@@ -1,4 +1,4 @@
-doc. "TODO"
+doc. "For making assertions."
 
 use
 	.Bool _ not

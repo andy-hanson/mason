@@ -1,3 +1,5 @@
+doc. "For mutating Objs."
+
 use
 	.Bool false
 	.js js-delete js-set
@@ -5,6 +7,7 @@ use
 	.Obj
 	.Str
 	.Symbol
+	.Type.Alias-Type
 	.Type.Impl-Type self-type
 	.Type.Method impl!
 	.Type.Pred-Type Any Union
@@ -14,11 +17,11 @@ debug use~
 	.Obj p?
 	.Try fails?
 
-\ TODO: Alias-Type
-Obj! =
-	doc. "TODO"
+Obj! = Alias-Type
+	doc. "Obj which is at least partially mutable."
+	alias-of. Obj
 
-\ TODO: Duplicate definition in Obj.ms
+\ TODO: Duplicate definition in Obj.ms. TODO: Lazy exports?
 ~Obj-Key = Union[Str Symbol]
 
 impl! empty (self-type Obj!) |
@@ -34,7 +37,7 @@ p+!.
 			p+! x "a" 2
 		! fails? |
 			p+! "string" "a" 1
-	|_:Obj name:Obj-Key val
+	|_:Obj! name:Obj-Key val
 		Obj.defineProperty _ name
 			enumerable.
 			writable. false
@@ -44,7 +47,7 @@ p+!.
 p+mut!.
 	doc. "Adds a new mutable property."
 	test. "See `p!`"
-	|_:Obj name:Obj-Key val:Any
+	|_:Obj! name:Obj-Key val:Any
 		Obj.defineProperty _ name
 			enumerable.
 			writable.
@@ -59,7 +62,7 @@ p!.
 		p+mut! x "a" 1
 		p! x "a" 2
 		! =? x.a 2
-	|_:Obj name:Obj-Key new-val
+	|_:Obj! name:Obj-Key new-val
 		in
 			! p? _ name
 
@@ -71,7 +74,7 @@ p-!.
 		p+mut! a "a" 1
 		p-! a "a"
 		!not p? a "a"
-	|_:Obj name:Obj-Key
+	|_:Obj! name:Obj-Key
 		in
 			! p? _ name
 
@@ -85,7 +88,7 @@ extend!.
 		extend! x
 			a. 1
 		! =? x.a 1
-	|_:Obj extender:Obj
+	|_:Obj! extender:Obj
 		Obj.assign _ extender
 
 Obj!

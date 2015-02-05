@@ -1,4 +1,4 @@
-doc. "TODO"
+doc. "Functions that write to the console (also known as shell, command prompt, stdout/stderr)."
 
 use
 	chalk blue
@@ -13,14 +13,14 @@ js-console = global.console
 log!.
 	doc. "
 		Prints its arguments to the console, separated by spaces.
-		Always adds a new line at the end.
+		Always adds a newline at the end.
 	|...args
-		js-console.log (=> Str args " ")
+		js-console.log (=> Str args " "
 
 warn!.
 	doc. "Like `log!`, but prints to stderr."
 	|...args
-		js-console.warn (=> Str args " ")
+		js-console.warn (=> Str args " "
 
 region Debugging
 	dbg!.
@@ -35,4 +35,4 @@ region Debugging
 	trace!.
 		doc. "Logs the current stacktrace."
 		|...args
-			js-console.trace (=> Str args " ")
+			js-console.trace (=> Str args " "

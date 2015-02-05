@@ -80,7 +80,7 @@ impl! empty (self-type Splay-Tree!) |
 
 	un-assoc! -> |_ key
 		if (and (not empty?_) ~(splay!? _ key)) |
-			removed = _.root
+			removed = _.root!
 			\ Link out the root.
 			p! _ "root!" case
 				has-left? removed

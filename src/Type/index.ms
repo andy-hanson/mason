@@ -10,7 +10,9 @@ use~
 	..Obj _ p-with-proto?
 
 Type. Kind
-	doc. "TODO"
+	doc. "
+		Anything implementing contains?.
+		Types are generally used to succinctly make assertions about values.
 	test. |
 		"TODO"
 

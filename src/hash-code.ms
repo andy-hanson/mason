@@ -24,7 +24,9 @@ hashes = empty Weak-Identity-Map!
 
 hash-code = Method
 	doc. |:Int _
-		"TODO"
+		"
+			Integer used to identify a value in a Hash-Map! (or Hash-Set!).
+			This should have a high probability of being different than the hash-codes of the other values in the map.
 	test. |
 		a =
 			x. 1

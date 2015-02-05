@@ -44,16 +44,20 @@ Map! = Kind
 		_ = empty type
 		noweak |
 			! empty? _
-		each! ks |n
-			add! _ n (* 2 n.data)
+		do-adds = |
+			each! ks |n
+				add! _ n (* 2 n.data)
+		do-adds()
 		each! ks |n
 			! =? _[n] (* 2 n.data)
 		?get _ (mt 0)
 		! empty? (?get _ (mt 0))
 		noweak |
-			! =? (mt 1) (mt 1)
 			! set=? keys_ (map [ 1 2 3 4 5 ] mt)
 			empty! _
+			! empty? _
+			do-adds()
+			-! _ ks
 			! empty? _
 
 \ TODO: <! (self-type Map!) Map-Type
@@ -69,12 +73,9 @@ un-assoc!. Method
 		"If there is a value associated with `key`, removes it and returns the value associated."
 
 impl! -! Map!
-	doc. "TODO"
-	test. |
-		"TODO"
-	|_ to-delete:@
-		each! to-delete |em
-			un-assoc! _ em
+	doc. "Removes keys (and by proxy, their associated values)."
+	|_ @to-delete:@
+		each! @to-delete un-assoc![_]
 
 add!. Method
 	doc. |_ key:Any val:Any
@@ -96,7 +97,7 @@ get-or-add!. Method
 				_.val
 
 impl! +! Map!
-	doc. "TODO"
+	doc. "Adds the other map's keys to mine, overriding my values."
 	test. |
 		"TODO"
 	|_ to-add:Map

@@ -6,7 +6,7 @@ use
 	..Obj p
 	..js global js-bar js< js> js<= js>= js+ js- js* js/ js% reference=?
 	..show
-	..Type.Method _ impl!
+	..Type.Method impl!
 	..Type.Pred-Type _ Opt
 debug use
 	..@.Seq seq=? take
@@ -44,27 +44,28 @@ Nat. Pred-Type
 	predicate. |_
 		and :Int ~(>=? _ 0)
 
-impl! compare Num -
-impl! =? Num
-	test. |
-		[ not-a-number not-a-number ] -> true
-	reference=?
-impl! <? Num |a b:Num
-	js< a b
-impl! >? Num |a b:Num
-	js> a b
-impl! <=? Num |a b:Num
-	js<= a b
-impl! >=? Num |a b:Num
-	js>= a b
-impl! + Num |a b:Num
-	js+ a b
-impl! - Num |a b:Num
-	js- a b
-impl! * Num |a b:Num
-	js* a b
-impl! / Num |a b:Num
-	js/ a b
+region impl!
+	impl! compare Num -
+	impl! =? Num
+		test. |
+			[ not-a-number not-a-number ] -> true
+		reference=?
+	impl! <? Num |a b:Num
+		js< a b
+	impl! >? Num |a b:Num
+		js> a b
+	impl! <=? Num |a b:Num
+		js<= a b
+	impl! >=? Num |a b:Num
+		js>= a b
+	impl! + Num |a b:Num
+		js+ a b
+	impl! - Num |a b:Num
+		js- a b
+	impl! * Num |a b:Num
+		js* a b
+	impl! / Num |a b:Num
+		js/ a b
 
 region Tests
 	sign.
@@ -95,12 +96,14 @@ region Integer arithmetic
 			js% numerator denominator
 
 	int/.
-		doc. "TODO"
+		doc. "
+			Integer division: throws out any remainder.
+			This is the default in other programming languages, but in Mason `/ 1 2` is 0.5, not 0.
 		test. |
 			[ 3 2 ] -> 1
 			[ -3 2 ] -> -2
 		|a:Num b:Num
-			round-down (/ a b)
+			round-down (/ a b
 
 	modulo.
 		doc. "
@@ -209,12 +212,8 @@ region Rounding
 			js-bar _ 0
 
 region Near
-	\ TODO: Move to math-methods.ms
-	near?. Method
-		doc. "POOP"
-
-	impl! near? Num
-		doc. "TODO"
+	near?.
+		doc. "Whether they are within sig-figs precision."
 		test. |
 			[ 1000.9 1000 3 ] -> true
 			[ 1000.9 1000 4 ] -> false
@@ -224,7 +223,7 @@ region Near
 			region Behaves like `near-0?` when an arg is 0
 				[ 0.00999 0 2 ] -> true
 				[ 0 0.00999 2 ] -> true
-		\ TODO: Optional arguments
+		\ TODO:SYNTAX Optional arguments
 		|a b:Num sig-figs:Opt[Nat]
 			sfs = get-or (Opt->? sig-figs) 6
 			case
@@ -233,7 +232,6 @@ region Near
 				=? b 0
 					near-0? a sfs
 				else
-					\ TODO `avg` function?
 					avg-mag = / (+ (abs a) (abs b)) 2
 					n-digits-avg-mag = round-down (log 10 avg-mag)
 					scale = pow 10 (neg n-digits-avg-mag)
@@ -241,13 +239,10 @@ region Near
 					epsilon = pow 10 (neg sfs)
 					<? (abs scaled-diff) epsilon
 
-	\ TODO: math-methods.ms
-	near-0?. Method
+	near-0?.
 		doc. "
 			Whether it is close to zero.
 			It must be `0.0...` where there are `sig-figs` 0s after the decimal point.
-
-	impl! near-0? Num
 		test. |
 			[ 0.00999 2 ] -> true
 			[ 0.01 2 ] -> false
@@ -278,8 +273,9 @@ region Constants
 	pi*2. * pi 2
 
 region Other
+	\ TODO: Infinite Range should obviate this
 	nats.
-		doc. "TODO"
+		doc. "Stream of numbers starting at 0."
 		test. |
 			! seq=? (take nats 5) [ 0 1 2 3 4 ]
 		f = ~|nat
