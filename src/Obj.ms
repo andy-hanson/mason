@@ -17,7 +17,6 @@ debug use~
 	.! _ !not
 	.@.Seq seq=?
 	.Bool true
-	.Fun call
 	.methods contains?
 	.Try fails?
 
@@ -33,10 +32,7 @@ Str = global.String \ Can't have dependency on Str.ms
 ObjLit. Pred-Type
 	doc. "Matches only Objs which have no type (other than Obj itself)."
 	test. |
-		\ TODO:SYNTAX [ b. 1 ]
-		a =
-			b. 1
-		! contains? ObjLit a
+		! contains? ObjLit (a. 1
 		!not contains? ObjLit ObjLit
 	predicate. |_
 		and :Obj ~(reference=? (Obj.getPrototypeOf _) Obj.prototype)
@@ -139,9 +135,7 @@ p.
 p?.
 	doc. "Whether there is a property by that name."
 	test. |
-		\ TODO:SYNTAX [ a. 1 ]
-		x =
-			a. 1
+		x = a. 1
 		[ x "a" ] -> true
 		[ x "b" ] -> false
 		[ x "toString" ] -> false \ use p-with-proto? for that.
@@ -216,11 +210,7 @@ empty-Obj?.
 Obj->Map.
 	doc. "A Map whose keys are property names and whose values are the properties' values."
 	test. |
-		\ TODO:SYNTAX [ a. 1, b. 2 ]
-		obj = call |
-			a. 1
-			b. 2
-		[ obj ] ->
+		[ (a. 1 b. 2) ] ->
 			"a" -> 1
 			"b" -> 2
 	|_:Obj
@@ -233,9 +223,7 @@ Map->Obj.
 		map =
 			"a" -> 1
 			"b" -> 2
-		[ map ] ->
-			a. 1
-			b. 2
+		[ map ] -> a. 1 b. 2
 		! =? map (Obj->Map (Map->Obj map
 		debug ! fails? |
 			Map->Obj

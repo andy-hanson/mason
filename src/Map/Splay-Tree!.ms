@@ -1,6 +1,6 @@
 use
 	..@.Stream
-	..Bool _ and false not
+	..Bool _ and false not true
 	..control if loop End-Loop
 	..js defined?
 	..methods <! <? >? empty empty? empty!
@@ -14,8 +14,6 @@ use
 debug use
 	..! _ !not
 	..methods =?
-
-\ TODO:SYNTAX Use short object expressions wherever possible
 
 Splay-Tree! = Record-Type
 	doc. "
@@ -52,11 +50,7 @@ impl! empty (self-type Splay-Tree!) |
 	assoc! -> |_ k v
 		case!
 			empty?_
-				p! _ "root!"
-					key. k
-					val!. v
-					left!. undefined
-					right!. undefined
+				p! _ "root!" (key. k val!. v left!. undefined right!. undefined
 			splay!? _ k
 				p! _.root! "val!" v
 			else
@@ -66,17 +60,11 @@ impl! empty (self-type Splay-Tree!) |
 					>? k old-root.key
 						old-right = old-root.right!
 						p! old-root "right!" undefined
-						key. k
-						val!. v
-						left!. old-root
-						right!. old-right
+						(key. k val!. v left!. old-root right!. old-right
 					else
 						old-left = old-root.left!
 						p! old-root "left!" undefined
-						key. k
-						val!. v
-						left!. old-left
-						right!. old-root
+						(key. k val!. v left!. old-left right!. old-root
 
 	un-assoc! -> |_ key
 		if (and (not empty?_) ~(splay!? _ key)) |
@@ -108,15 +96,8 @@ region Implementation
 		in
 			!not empty? _
 
-		\ TODO:SYNTAX [ left!. undefined, right!. undefined ]
-		dummy =
-			left!. undefined
-			right!. undefined
-		\ TODO:SYNTAX [ left. dummy, right. dummy, cur. _.root! ]
-		start =
-			left. dummy
-			right. dummy
-			cur. _.root!
+		dummy = left!. undefined right!. undefined
+		start = left. dummy right. dummy cur. _.root!
 		left right cur found = loop start (splay-step! key
 		p! left "right!" cur.left!
 		p! right "left!" cur.right!
@@ -127,20 +108,14 @@ region Implementation
 
 	splay-step! = |key |_
 		not-found = |end
-			End-Loop
-				found. false
-				cur. end
-				left. _.left
-				right. _.right
+			End-Loop (found. false cur. end left. _.left right. _.right
 		case
 			<? key _.cur.key
 				case
 					has-left? _.cur
 						link-right = |new-cur
 							p! _.right "left!" new-cur
-							cur. new-cur.left!
-							left. _.left
-							right. new-cur
+							(cur. new-cur.left! left. _.left right. new-cur
 						case
 							<? key _.cur.left!.key
 								\ Rotate right
@@ -162,9 +137,7 @@ region Implementation
 					has-right? _.cur
 						link-left = |new-cur
 							p! _.left "right!" new-cur
-							cur. new-cur.right!
-							left. new-cur
-							right. _.right
+							(cur. new-cur.right! left. new-cur right. _.right
 						case
 							>? key _.cur.right!.key
 								\ Rotate left
@@ -182,11 +155,7 @@ region Implementation
 						not-found _.cur
 			else
 				debug ! =? key _.cur.key
-				End-Loop
-					found.
-					cur. _.cur
-					left. _.left
-					right. _.right
-
+				\ TODO:SYNTAX found. cur. ...
+				End-Loop (found. true cur. _.cur left. _.left right. _.right
 
 Splay-Tree!

@@ -8,26 +8,25 @@ use
 	..Type.Method impl! impl-for
 	.Array
 debug use~
+	..Bool true
 	..methods empty
 	.Deque!
 
 impl! show @
 	test. |
-		\ TODO:SYNTAX [ repr. ]
-		r =
-			repr.
 		d = => Deque! [ 1 2 3 ]
 		[ d ] -> "
 			\n\t. 1
 				. 2
 				. 3
-		[ d r ] -> "
+		\ TODO:SYNTAX [ d repr. ]
+		[ d (repr. true) ] -> "
 			=> Deque!
 				. 1
 				. 2
 				. 3
 		[ (empty Deque!) ] -> "[ ]"
-		[ (empty Deque!) r ] -> "empty Deque!"
+		[ (empty Deque!) (repr. true) ] -> "empty Deque!"
 
 	|_ opts
 		content = case

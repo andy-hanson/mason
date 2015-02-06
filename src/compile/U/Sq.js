@@ -41,6 +41,23 @@ const opSplitOnceWhere = function(sq, splitOn) {
 	return Op.None
 }
 
+const opSplitManyWhere = function(sq, splitOn) {
+	type(sq, Array, splitOn, Function)
+	let last = 0
+	const out = []
+	for (let i = 0; i < sq.length; i++)
+		if (splitOn(sq[i])) {
+			out.push({ before: sq.slice(last, i), at: sq[i] })
+			last = i + 1
+		}
+	if (isEmpty(out))
+		return Op.None
+	else {
+		out.push({ before: sq.slice(last, sq.length) })
+		return Op.Some(out)
+	}
+}
+
 const interleave = function(sq, interleaved) {
 	type(sq, Array, interleaved, Object)
 	const out = interleavePlus(sq, interleaved)
@@ -122,6 +139,7 @@ module.exports = {
 	tail: tail,
 	rightTail: rightTail,
 	opSplitOnceWhere: opSplitOnceWhere,
+	opSplitManyWhere: opSplitManyWhere,
 	interleave: interleave,
 	interleavePlus: interleavePlus,
 	mpf: mpf,

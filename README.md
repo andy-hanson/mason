@@ -37,9 +37,16 @@ If a property has no written value, it will be `true`.
 
 	this-is-true.
 
-You can also put it all on one line using `[]`.
+You can also put it all on one line.
 
-	[ one. 1, two. 2 ]
+	my-obj. one. 1 two. 2
+	\ Equivalent to:
+	my-obj.
+		one. 1
+		two. 2
+
+(Note that `one. 1 two. 2` on a line only defines one local, `one`, and tries to call `1` as a function on `two. 2`.)
+
 
 ### Arrays
 

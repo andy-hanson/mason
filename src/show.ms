@@ -1,5 +1,5 @@
 use
-	.Bool
+	.Bool _ true
 	.js js+
 	.private.js-impl new-Set
 	.methods => - =? empty?
@@ -14,7 +14,7 @@ use~
 	.@.Array
 	.Fun
 debug use
-	.Bool false true
+	.Bool false
 	.Obj
 
 showing = new-Set()
@@ -29,14 +29,12 @@ show = Method
 		\ TODO: How to not include displayName
 		a =
 			~x. a
-		\ TODO:SYNTAX [ repr. ]
-		r =
-			repr.
 		[ a ] -> "
 			Obj
 				x. <recursive>
 				displayName. a
-		[ a r ] -> "
+		\ TODO:SYNTAX [ a repr. ]
+		[ a (repr. true) ] -> "
 			Obj
 				x. <recursive>
 				displayName. "a"
@@ -72,17 +70,15 @@ repr.
 		Shows it with the `repr` flag set.
 		For debug printing, there is the helper function `console.dbg!`.
 	|_
-		show _
-			repr.
+		\ TODO:SYNTAX (repr.)
+		show _ (repr. true)
 
 \ TODO:MOVE
 impl! show Str
 	test. |
-		\ TODO:SYNTAX [ repr. ]
-		r =
-			repr.
 		[ "a" ] -> "a"
-		[ "a" r ] -> "\"a\""
+		\ TODO:SYNTAX [ "a" repr. ]
+		[ "a" (repr. true) ] -> "\"a\""
 	|_ opts
 		case
 			flag? opts "repr"

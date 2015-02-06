@@ -14,18 +14,13 @@ const
 const
 	parseSpaced = require("./parseSpaced")
 
-module.exports = function parseLocals(px, sqt) {
-	return sqLocals(px, sqt).map(E.LocalDeclare)
-}
-
-// Sq of { span, name, opType, isLazy }
-const sqLocals = function(px, sqt) {
+const parseLocals = module.exports = function(px, sqt) {
 	return sqt.map(function(t) {
-		return Object.assign(parseLocal(px.withSpan(t.span), t), { span: t.span })
+		return parseLocal(px.withSpan(t.span), t)
 	})
 }
 
-const parseLocal = function(px, t) {
+const parseLocal = parseLocals.parseLocal = function(px, t) {
 	let name
 	let opType = Op.None
 	let isLazy = false
@@ -51,7 +46,7 @@ const parseLocal = function(px, t) {
 	else
 		name = parseLocalName(px, t)
 
-	return { name: name, opType: opType, isLazy: isLazy, okToNotUse: false }
+	return E.LocalDeclare(px.s({ name: name, opType: opType, isLazy: isLazy, okToNotUse: false }))
 }
 
 const parseLocalName = function(px, t) {

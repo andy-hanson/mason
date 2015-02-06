@@ -1,6 +1,7 @@
 "use strict"
 
 const
+	check = require("../check"),
 	E = require("../E"),
 	Lang = require("../Lang"),
 	T = require("../T"),

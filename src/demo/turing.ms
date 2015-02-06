@@ -4,7 +4,7 @@ use
 	..@.Deque!
 	..@.Seq
 	..@.Seq! <+! +>! set-nth!
-	..Bool false
+	..Bool false true
 	..control End-Loop if! loop
 	..methods => =? + - empty?
 	..Obj _ p
@@ -12,19 +12,15 @@ use
 
 region Rule results
 	R. |written new-state
-		write. written
-		go-right.
-		state. new-state
+		\ TODO:SYNTAX go-right. state. ...
+		(write. written go-right. true state. new-state
 	L. |written new-state
-		write. written
-		go-right. false
-		state. new-state
+		(write. written go-right. false state. new-state
 	fin.
 		doc. "Stops the machine."
 
 run-turing.
-	doc. "
-		http://rosettacode.org/wiki/Universal_Turing_machine
+	doc. "http://rosettacode.org/wiki/Universal_Turing_machine"
 	test. |
 		incrementer =
 			init-state. "a"
@@ -82,28 +78,23 @@ run-turing.
 				[ blank ]
 			else
 				init-tape
-		\ TODO:SYNTAX [ idx. 0, state. spec.init-state ]
-		start =
-			idx. 0
-			state. init-state
-		loop start
-			|prev
-				pi = prev.idx
-				symbol = tape[pi]
-				case (p rules prev.state)[symbol]
-					=? fin _
-						End-Loop (=> Array tape
-					else
-						write go-right = _
-						set-nth! tape pi write
-						state. _.state
-						idx. case
-							go-right
-								if! (=? pi (- (count tape) 1)) |
-									+>! tape [ blank ]
-								+ pi 1
-							=? pi 0
-								<+! tape [ blank ]
-								0
-							else
-								- pi 1
+		loop (idx. 0 state. init-state) |prev
+			pi = prev.idx
+			symbol = tape[pi]
+			case (p rules prev.state)[symbol]
+				=? fin _
+					End-Loop (=> Array tape
+				else
+					write go-right = _
+					set-nth! tape pi write
+					state. _.state
+					idx. case
+						go-right
+							if! (=? pi (- (count tape) 1)) |
+								+>! tape [ blank ]
+							+ pi 1
+						=? pi 0
+							<+! tape [ blank ]
+							0
+						else
+							- pi 1

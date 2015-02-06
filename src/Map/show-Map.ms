@@ -8,16 +8,16 @@ use
 	..Type.Method impl!
 	..Map _ keys
 	.Weak-Identity-Map!
+debug use
+	..Bool true
 
 impl! show Map
 	test. |
 		m =
 			1 -> 2
-		\ TODO:SYNTAX [ repr. ]
-		r =
-			repr.
 		[ m ] -> "\n\t1 -> 2"
-		[ m r ] -> "
+		\ TODO:SYNTAX [ m repr. ]
+		[ m (repr. true) ] -> "
 			Hash-Map!
 				1 -> 2
 	|_ opts
