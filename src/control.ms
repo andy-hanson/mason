@@ -19,7 +19,6 @@ debug use~
 	.Fun ignore thunk
 	.methods +
 
-
 build.
 	doc. "
 		Passes in a `yield` function to `calls-yield`.
@@ -36,52 +35,52 @@ build.
 		calls-yield yield
 		freeze yielded
 
-switch.
-	doc. "Calls the Fun that `cases` associates with `val`."
-	test. |
-		n = |x
-			switch x
-				1 -> |
-					"one"
-				2 -> |
-					"two"
-				switch-else -> |
-					"three"
-		!call n
-			[ 1 ] -> "one"
-			[ 2 ] -> "two"
-			[ 3 ] -> "three"
-	|val:Any cases:Map[Any Fun]
-		dispatch:Fun = get-or (?get cases val) ~cases[switch-else]
-		call dispatch
+region Conditional execution
+	switch.
+		doc. "Calls the Fun that `cases` associates with `val`."
+		test. |
+			n = |x
+				switch x
+					1 -> |
+						"one"
+					2 -> |
+						"two"
+					switch-else -> |
+						"three"
+			!call n
+				[ 1 ] -> "one"
+				[ 2 ] -> "two"
+				[ 3 ] -> "three"
+		|val:Any cases:Map[Any Fun]
+			dispatch:Fun = get-or (?get cases val) ~cases[switch-else]
+			call dispatch
+	switch-else.
+		doc. "Special object used as default for `switch` statements."
 
-switch-else.
-	doc. "Special object used as default for `switch` statements."
+	if.
+		doc. "Iff `condition`, evaluates `result` and puts it in a `?`."
+		test. |
+			[ true (thunk 0) ] -> ? 0
+			[ false (thunk 0) ] -> empty ?
+		|:? condition:Bool result:Fun
+			case
+				condition
+					? result()
+				else
+					empty ?
 
-if.
-	doc. "Iff `condition`, evaluates `result` and puts it in a `?`."
-	test. |
-		[ true (thunk 0) ] -> ? 0
-		[ false (thunk 0) ] -> empty ?
-	|:? condition:Bool result:Fun
-		case
-			condition
-				? result()
-			else
-				empty ?
-
-if!.
-	doc. "Runs `result` iff `condition`."
-	test. |
-		! =? [ 0 ] (build |yield
-			if! true yield[0]
-		if! false oh-no!
-	|condition:Bool result:Act
-		case!
-			condition
-				result()
-			else
-				()
+	if!.
+		doc. "Runs `result` iff `condition`."
+		test. |
+			! =? [ 0 ] (build |yield
+				if! true yield[0]
+			if! false oh-no!
+		|condition:Bool result:Act
+			case!
+				condition
+					result()
+				else
+					()
 
 unreachable!.
 	doc. "Call this to mark code as unreachable."
@@ -130,37 +129,37 @@ region Loops
 	End-Loop. Wrap-Type
 		doc. "Wrap a value in this to indicate that you want this to be the return value of the loop."
 
+region Ref!
+	Ref!. Wrap-Type
+		doc. "
+			Mutable holder of some value.
+			Create a Ref! by passing in the initial value.
+			Change this at any time with `set!`.
+			Use `get` at any time to get the current value.
 
-Ref!. Wrap-Type
-	doc. "
-		Mutable holder of some value.
-		Create a Ref! by passing in the initial value.
-		Change this at any time with `set!`.
-		Use `get` at any time to get the current value.
+	set!.
+		doc. "Change the current value."
+		test. |
+			_ = Ref! ()
+			set! _ 0
+			! =? get_ 0
+		|_:Ref! new-value
+			p! _ "val" new-value
 
-set!.
-	doc. "Change the current value."
-	test. |
-		_ = Ref! ()
-		set! _ 0
-		! =? get_ 0
-	|_:Ref! new-value
-		p! _ "val" new-value
+	\ TODO: Just override `map!`
+	mod!.
+		doc. "Shorthand for `set! ref (f (get ref))"
+		test. |
+			_ = Ref! 0
+			mod! _ +[1]
+			! =? get_ 1
+		|_:Ref! f:Fun
+			set! _ (f get_)
 
-\ TODO: Just override `map!`
-mod!.
-	doc. "Shorthand for `set! ref (f (get ref))"
-	test. |
-		_ = Ref! 0
-		mod! _ +[1]
-		! =? get_ 1
-	|_:Ref! f:Fun
-		set! _ (f get_)
-
-get.
-	doc. "Current value."
-	test. |
-		[ (Ref! 0) ] -> 0
-	|_:Ref!
-		_.val
+	get.
+		doc. "Current value."
+		test. |
+			[ (Ref! 0) ] -> 0
+		|_:Ref!
+			_.val
 

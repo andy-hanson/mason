@@ -1,13 +1,12 @@
 use
 	..@ each!
 	..@.Array
-	..methods contains?
+	..methods <! contains?
 	..Obj
 	..Obj! p+!
 	..show
 	..Str
 	.Impl-Type
-	.Kind unchecked-implementor!
 	.Method impl!
 	.Record-Type
 debug use
@@ -47,7 +46,7 @@ Enum = Record-Type
 		impl! show enum |val
 			"{enum.displayName}.{val.name}"
 
-unchecked-implementor! Enum Impl-Type
+<! Enum Impl-Type
 
 impl! contains? Enum |_ value
 	Obj.prototype.isPrototypeOf.call _.prototype value

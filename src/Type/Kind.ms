@@ -1,21 +1,18 @@
 use
-	..Bool or true
-	..js defined? global js-sub reference=?
-	..private.bootstrap Str Array Obj Symbol set!
-	.Method impl! propagate-method-down!
-	..methods contains?
+	..Bool and true
+	..js any? defined? global js-sub
+	..private.bootstrap Array impl-contains?! Obj p+! Str Symbol
+	.Method propagate-method-down!
 	.Record-Type
 use~
-	..@ _ any? flat-map
-	..Map each-pair!
-	.Impl-Type
+	..@ _ flat-map
 debug use~
+	..!
 	..@.Stream
-	..! _ !not
-	..methods => =? <! <?
-	.Method
+	..methods => =? <! contains?
+	.Method _ impl!
 
-Kind = Record-Type
+Kind. Record-Type
 	doc. "
 		A Kind is like a tag you can apply to a Concrete-Type to signify that it belongs in some category.
 		That category is typically a group of types all of which implement the same set of methods.
@@ -23,9 +20,8 @@ Kind = Record-Type
 		-
 		The `prototype` on a Kind is not meant to be used as a prototype.
 		It stores the impl!_s that have been done on the Kind0.
-		impl! and implementor! make sure that Concrete-Types receive the methods of their kinds.
+		impl! and <! make sure that Concrete-Types receive the methods of their Kinds.
 		They require the Kind to correctly track super-kinds and implementors.
-
 	test. |
 		region Inheritance chans - one way
 			A = Kind
@@ -80,11 +76,13 @@ Kind = Record-Type
 			name:Str = _.displayName
 			Symbol "isa-{name}"
 	post-construct. |_
-		set! _.prototype _.symbol-for-isa true
+		p+! _.prototype _.symbol-for-isa true
 
 \ Making something an instance of Impl-Type is difficult because implementor! checks that it's already an Impl-Type...
 unchecked-implementor!.
-	doc. "TODO"
+	doc. "
+		implementor! without any checks.
+		Necessary if trying to implement Impl-Type itself.
 	|implementor kind
 		kind.implementors.push implementor
 		case! implementor
@@ -105,46 +103,6 @@ inherit-methods! = |implementor kind
 		kind.super-kinds.forEach rec!
 	rec! kind
 
-\ TODO: Assert no circular chains of implementor!.
-\ Typically one would use `<!`.
-implementor!.
-	doc. "TODO"
-	\ TODO: implementor:Impl-Type
-	|implementor kind:Kind method-impls
-		unchecked-implementor! implementor kind
-		case! method-impls
-			defined?_
-				each-pair! _ |method implementation
-					impl! method implementor implementation
-			else
-				()
-
-\ Typically one would use `<?`.
-implementor?.
-	doc. "TODO"
-	test. |
-		A = Kind
-			doc. "A"
-		B = Kind
-			doc. "B"
-		C = Record-Type
-			members.
-				c.
-		<! B A
-		<! C B
-		! <? B A
-		! <? C B
-		! <? C A
-		!not <? A B
-	|implementor:Impl-Type kind:Kind
-		case implementor
-			:Record-Type
-				contains? kind implementor.prototype
-			:Kind
-				any? _.super-kinds |super
-					\ TODO: Just use `=? super kind` ?
-					or (reference=? super kind) ~(implementor? super kind)
-
 \ TODO: Use Stream
 concrete-implementors.
 	doc. "TODO"
@@ -159,9 +117,9 @@ concrete-implementors.
 		W = Record-Type
 			members.
 				w.
-		implementor! Y X
-		implementor! Z X
-		implementor! W Y
+		<! Y X
+		<! Z X
+		<! W Y
 		[ X ] -> => Stream [ W Z ]
 	|:@ kind:Kind
 		flat-map kind.implementors |case
@@ -169,5 +127,8 @@ concrete-implementors.
 				concrete-implementors_
 			else
 				[ _ ]
+
+impl-contains?! Kind |kind _
+	and any?_ ~(defined? (js-sub _ kind.symbol-for-isa))
 
 Kind

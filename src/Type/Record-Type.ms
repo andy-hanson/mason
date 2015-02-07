@@ -1,6 +1,6 @@
 use
 	..Bool _ false implies not
-	..private.bootstrap set! Obj Str Fun proto-impl-contains?!
+	..private.bootstrap Fun impl-contains?! Obj p+! Str
 	..js defined? js=== js-instanceof js-sub js-typeof
 	..private.js-impl i=== build-str
 debug use~
@@ -148,7 +148,7 @@ record-type-args =
 		prototype. |
 			Obj.create Obj.prototype
 	post-construct. |rt
-		set! rt.prototype "constructor" rt
+		p+! rt.prototype "constructor" rt
 	make-callable. make-record-constructor
 	test. |
 		Vec2D = Record-Type
@@ -201,9 +201,7 @@ record-type-args =
 
 Record-Type = (make-record-constructor record-type-args) record-type-args
 
-\ This has to be done specially because `impl!` can only be done on Methods,
-\ and Method is a Record-Type, so  `contains?` gets called.
-proto-impl-contains?! Record-Type.prototype |rt _
+impl-contains?! Record-Type |rt _
 	js-instanceof _ rt
 
 Record-Type

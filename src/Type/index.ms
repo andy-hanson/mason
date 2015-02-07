@@ -1,13 +1,13 @@
 use
-	..Bool and
-	..js any? defined? js-sub
-	..methods contains?
-	..private.bootstrap Fun
+	..js any? defined? js-instanceof
+	..methods <! contains?
+	..private.bootstrap Fun ms p+!
 	.Impl-Type
-	.Kind _ unchecked-implementor!
-	.Method _ impl! impl-unchecked!
+	.Kind
+	.Method _ impl!
 use~
-	..Obj _ p-with-proto?
+	..Obj
+	..Try oh-no!
 
 Type. Kind
 	doc. "
@@ -16,19 +16,13 @@ Type. Kind
 	test. |
 		"TODO"
 
-unchecked-implementor! Impl-Type Type
-unchecked-implementor! Method Type
+<! Impl-Type Type
+<! Method Type
 
-\ TODO: Move
-impl-unchecked! contains? Kind |kind _
-	and any?_ ~(defined? (js-sub _ kind.symbol-for-isa))
-
-unchecked-implementor! Fun Impl-Type
-
-\TODO:MOVE
-unchecked-implementor! Method Type
-impl! contains? Method |method value
-	p-with-proto? value method.impl-symbol
+\ TODO: Move?
+<! Fun Impl-Type
+impl! contains? Fun |fun _
+	js-instanceof _ fun
 
 type-of.
 	doc. "TODO"
@@ -44,5 +38,12 @@ type-of.
 						Obj
 			else
 				Obj
+
+p+! ms "checkContains" |type value name
+	case!
+		contains? type value
+			()
+		else
+			oh-no! "{name} is no {type}, is {value}"
 
 Type

@@ -10,7 +10,6 @@ debug use
 	..control Ref! get set!
 	..Fun _ ignore
 	..Generator! _ each~ gen-next!
-	..js eval
 	..math.Num _ divisible? Int
 	..methods + - * / =? >? >=? <=? empty
 	..Str
@@ -25,7 +24,6 @@ test. |
 
 	this-is-true.
 	! =? this-is-true true
-	! =? () (eval "null")
 
 	my-list.
 		. 1

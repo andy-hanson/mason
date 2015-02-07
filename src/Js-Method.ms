@@ -1,10 +1,16 @@
 use
 	.Fun
+	.js js-sub
 	.Str
+	.Symbol
+	.Type.Pred-Type Any Union
 	.Type.Record-Type
 debug use~
 	.!
-	.methods =?
+	.methods =? contains?
+
+\ TODO: Exact same appears in Obj.ms
+Obj-Key = Union[Str Symbol]
 
 Js-Method = Record-Type
 	doc. "
@@ -31,6 +37,17 @@ Js-Method = Record-Type
 				case 4: return {impl}(b, c, d)
 				case 5: throw new Error("Does not support this many arguments.")
 			}
+
+send.
+	doc. "Calls `target`'s js-method `name` with the given arguments."
+	test. |
+		[ 1 "toFixed" 2 ] -> "1.00"
+	|target:Any name:Obj-Key ...args
+		impl = js-sub target name
+		debug ! (contains? Fun impl) ~"Js-Method {name} not implemented by {target}."
+		impl.apply target args
+
+send!. send
 
 \ TODO: Make impl!-able.
 

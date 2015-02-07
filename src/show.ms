@@ -1,6 +1,7 @@
 use
 	.Bool _ true
 	.js js+
+	.private.bootstrap p+! ms
 	.private.js-impl new-Set
 	.methods => - =? empty?
 	.Obj flag? p ?p @p
@@ -125,6 +126,6 @@ impl! show Fun
 				else
 					_
 
-\ See private.boot-order for when show is attached to _ms.
+p+! ms "show" show
 
 show

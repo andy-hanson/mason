@@ -29,7 +29,7 @@ impl! empty (self-type Generator!)
 		()
 
 gen-next!. Js-Method
-	doc. "TODO"
+	doc. "Continues until the next `<~`."
 	impl-name. "next"
 
 if~.
@@ -44,7 +44,6 @@ if~.
 				<~ 3
 			! =? b (empty ?)
 		! seq=? stream [ 1 ]
-
 	~|:? condition:Bool result:Fun[Generator!]
 		case
 			condition
@@ -54,7 +53,7 @@ if~.
 				empty ?
 
 each~.
-	doc. "A generator that goes through every element of `_`, yielding to `do-each` of it."
+	doc. "A Generator! that goes through every element of `_`, yielding to `do-each` of it."
 	test. |
 		x = Stream ~|
 			<~~ each~ [ 1 2 3 ] ~|em

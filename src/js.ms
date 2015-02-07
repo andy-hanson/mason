@@ -1,24 +1,21 @@
-doc. "TODO"
+doc. "Functions implementing behavior native to JavaScript."
 
 use
 	.private.js-impl i& i^ i<< i>> i>>> i=== i== i< i> i<= i>= i+ i- i* i/ i% i-bar i~ i! i-sub i-set i-global i-new i-typeof i-delete i-instanceof
 use~
-	.!
 	.@
 	.@.Array
 	.Bool _ not
 	.Fun _ ignore
-	.methods => contains?
-	.Str
-	.Symbol
-	.Type.Pred-Type Any Union
+	.methods =>
 debug use~
-	.! !not
+	.! _ !not
 	.@ each!
 	.Bool false true
 	.math.Num
 	.methods + =?
 	.Obj! p+!
+	.Symbol
 	.Try Error
 
 global. i-global
@@ -58,28 +55,6 @@ region Null/Undefined
 			not (reference=? _ undefined
 	any?. |_
 		not (js== _ ()
-
-\ TODO: Exact same appears in Obj.ms
-~Obj-Key = Union[Str Symbol]
-
-\ TODO: Kill and just use Js-Method_s?
-send.
-	doc. "Calls `target`'s js-method `name` with the given arguments."
-	test. |
-		[ 1 "toFixed" 2 ] -> "1.00"
-	|target:Any name:Obj-Key ...args
-		impl = js-sub target name
-		! (contains? Fun impl) ~"Js-Method {name} not implemented by {target}."
-		impl.apply target args
-
-send!. send
-
-eval.
-	doc. "TODO"
-	test. |
-		! =? (eval "1 + 2") 3
-	|str
-		(Fun "" "return {str}") ()
 
 reference=?.
 	doc. "

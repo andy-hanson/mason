@@ -2,12 +2,10 @@ use
 	..Fun
 	..js js-instanceof
 	..private.js-impl build-str
-	..methods contains?
+	..methods <! contains?
 	..Obj
-	\ TODO: Try non-bootstrap versions...
-	..private.bootstrap set!
+	..Obj! p+!
 	..Str
-	.Kind unchecked-implementor!
 	.Impl-Type
 	.Method impl!
 	.Record-Type
@@ -32,7 +30,7 @@ Wrap-Type = Record-Type
 		prototype. |
 			Obj.create Obj.prototype
 	post-construct. |_
-		set! _.prototype "constructor" _
+		p+! _.prototype "constructor" _
 	make-callable. |_
 		src = build-str |add!
 			add! "
@@ -57,6 +55,6 @@ Wrap-Type = Record-Type
 impl! contains? Wrap-Type |wt _
 	js-instanceof _ wt
 
-unchecked-implementor! Wrap-Type Impl-Type
+<! Wrap-Type Impl-Type
 
 Wrap-Type

@@ -1,12 +1,10 @@
 use
 	.Bool _ or
-	.js js-instanceof reference=?
-	.private.bootstrap sym-contains? set! ms
-	.Type.Method _ impl!
+	.js reference=?
+	.private.bootstrap contains?-impl-symbol ms p+!
+	.Type.Method
 use~
-	.Fun
 	.Obj _ inspect=?
-	.Try oh-no!
 	.Type.Type
 
 region Arithmetic operators
@@ -37,7 +35,7 @@ region Arithmetic operators
 region Basics
 	sub. Method
 		doc. "Implementing this allows the use of the special syntax `a[b]`."
-	set! ms "sub" sub
+	p+! ms "sub" sub
 
 	=>. Method
 		doc. |convert-to:Type convert-me
@@ -127,22 +125,11 @@ region Unsorted
 		default. |_
 			Obj.freeze _
 
-	contains?. Method
-		doc. |:Bool collection value
-			"Whether some collection of things as as an element `value`."
-		impl-symbol. sym-contains?
-
 	length. Method
 		doc. "TODO: Does this need to exist?"
 
-	set! ms "contains" contains?
-
-	impl! contains? Fun |fun _
-		js-instanceof _ fun
-
-	set! ms "checkContains" |type value name
-		case!
-			contains? type value
-				()
-			else
-				oh-no! "{name} is no {type}, is {value}"
+	contains?. Method
+		doc. |:Bool collection value
+			"Whether some collection of things as as an element `value`."
+		impl-symbol. contains?-impl-symbol
+	p+! ms "contains" contains?

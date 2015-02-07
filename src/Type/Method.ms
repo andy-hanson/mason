@@ -2,13 +2,13 @@ use
 	..Bool implies
 	..js any? defined? global js-sub
 	..private.js-impl build-str
-	..private.bootstrap Str Symbol Fun set! set-mutable!
+	..private.bootstrap Fun impl-contains?! p+! p+mut! Str Symbol
 	.Record-Type
 use~
 	..!
 	..@.? un-?
 	..methods contains?
-	..Obj ?p
+	..Obj ?p p-with-proto?
 	..Try oh-no!
 	.Impl-Type
 	.Kind
@@ -33,7 +33,7 @@ make-callable-method = |method
 		\ TODO: Debug mode only
 		add! "
 			if (impl === undefined)
-				throw new Error(\"Method {method.displayName} not defined for \" + _ms.show(a, \{ repr: true }))
+				throw new Error(\"Method {method.displayName} not defined for \" + a)
 		case!
 			defined? method.wrap
 				add! "
@@ -58,7 +58,7 @@ make-callable-method = |method
 	f method.default method.wrap
 
 
-Method = Record-Type
+Method. Record-Type
 	doc. "
 		TODO:REST
 		The `doc` of the method should be its signature, followed by a string of the meaning.
@@ -148,7 +148,7 @@ impl-double! = |method:Method implementor-0:Impl-Type implementor-1:Impl-Type im
 \ TODO: This will add to the prototype of a Kind inheriting from another Kind.
 \ We only want to write to one Kind's prototype.
 \ "method" can be a method or a double dispatcher
-impl-unchecked!. |method implementor implementation
+impl-unchecked! = |method implementor implementation
 	in
 		case!
 			writable? implementor.prototype method.impl-symbol
@@ -156,7 +156,7 @@ impl-unchecked!. |method implementor implementation
 			else
 				oh-no! "Can not redefine method {method} for {implementor}."
 
-	set! implementor.prototype method.impl-symbol implementation
+	p+! implementor.prototype method.impl-symbol implementation
 	case! implementor
 		:Kind
 			_.implementors.forEach |sub
@@ -175,7 +175,7 @@ propagate-method-down!. |implementor method-symbol implementation \ TODO: :Impl-
 				else
 					\ TODO: What to do in case of multiple inheritance collision?
 					\ Since this is inherited, it is mutable and can be overridden.
-					set-mutable! _.prototype method-symbol implementation
+					p+mut! _.prototype method-symbol implementation
 		else
 			()
 
@@ -221,5 +221,8 @@ impl-for.
 		"TODO"
 	|method:Method type:Impl-Type
 		un-? (?impl-for method type)
+
+impl-contains?! Method |method value
+	p-with-proto? value method.impl-symbol
 
 Method
