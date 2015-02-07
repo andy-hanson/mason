@@ -12,7 +12,7 @@ use
 	..Obj! p!
 	..Type.Impl-Type self-type
 	..Type.Method impl!
-	..Type.Record-Type
+	..Type.Obj-Type
 	..Map ?get keys values
 	.Map! _ assoc! un-assoc!
 use~
@@ -21,7 +21,7 @@ debug use
 	..!
 	..@.Seq seq=?
 
-Hash-Map! = Record-Type
+Hash-Map! = Obj-Type
 	doc. "Default Map! type. Depends on efficient `hash-code` of its keys."
 	test. |
 		_ =

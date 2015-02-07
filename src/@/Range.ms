@@ -7,7 +7,7 @@ use
 	..Type.Impl-Type self-type
 	..Type.Method impl!
 	..Type.Pred-Type Opt
-	..Type.Record-Type
+	..Type.Obj-Type
 	.@-Type _ from-stream
 	.? get-or Opt->?
 	.Seq ?nth
@@ -17,7 +17,7 @@ debug use~
 	..methods =?
 	.Seq seq=?
 
-Range = Record-Type
+Range = Obj-Type
 	doc. "TODO"
 	members.
 		start. Num

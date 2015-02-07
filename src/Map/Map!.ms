@@ -17,8 +17,8 @@ debug use~
 	..Bool not
 	..control if!
 	..methods => =? * compare empty!
-	..Type.Record-Type
 	..Map has-key? keys
+	..Type.Obj-Type
 	.Weak-Identity-Map!
 
 Map! = Kind
@@ -28,7 +28,8 @@ Map! = Kind
 		+!: Adds another map.
 	implementor-test. |type
 		\ Might be a Weak-Identity-Map!, so must be a reference type.
-		Mappable-Thing = Record-Type
+		\ TODO: Wrap-Type
+		Mappable-Thing = Obj-Type
 			members.
 				data.
 		\ Might be a Sorted-Map, so must be comparable.

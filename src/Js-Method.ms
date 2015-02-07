@@ -3,8 +3,8 @@ use
 	.js js-sub
 	.Str
 	.Symbol
+	.Type.Obj-Type
 	.Type.Pred-Type Any Union
-	.Type.Record-Type
 debug use~
 	.!
 	.methods =? contains?
@@ -12,7 +12,7 @@ debug use~
 \ TODO: Exact same appears in Obj.ms
 Obj-Key = Union[Str Symbol]
 
-Js-Method = Record-Type
+Js-Method = Obj-Type
 	doc. "
 		A Js-Method allows you to call a JavaScript-style method as a function.
 		Unlike a Mason Method, for a Js-Method,

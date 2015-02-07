@@ -1,13 +1,15 @@
 doc. "TODO"
 
 use
-	..$ _ $after $all
+	..$ _ $after $all $ing
 	..! _ !call
-	..@ _ each! flat-map map
+	..@ _ each! flatten flat-map map
 	..@.? get-or
 	..@.Identity-Set!
 	..Bool _ and false or true
+	..control if
 	..Fun _ apply ignore
+	..Generator!
 	..Map
 	..methods + =? contains? empty
 	..modules $@module-in-dir
@@ -58,7 +60,7 @@ impl! test-special Impl-Type |type
 
 \ TODO: MOVE THESE
 impl! test-special Kind |_
-	a = any->@$ ((impl-for test-special Impl-Type) _
+	a = @$from-any ((impl-for test-special Impl-Type) _
 	b = flat-map (?p _ "implementor-test") |test:Fun
 		flat-map concrete-implementors_ |implementor
 			@$test-test-fun implementor test "{_}.implementor-test of {implementor}" implementor
@@ -84,7 +86,7 @@ $@test-module.
 all-tested = empty Identity-Set!
 
 \ TODO: Better name
-@$maybe-test = |:@[$] name:Str value is-module:Bool
+@$maybe-test = |name:Str value is-module:Bool
 	case
 		all-tested.has value
 			[ ]
@@ -100,6 +102,8 @@ all-tested = empty Identity-Set!
 						case prop-name
 							=? _ "test"
 								@$test-test-prop value prop-val next-name
+							=? _ "$test"
+								@$test-$test-prop prop-val next-name
 							else
 								@$maybe-test next-name prop-val false
 				and :Obj ~(p? _ "test")
@@ -107,27 +111,24 @@ all-tested = empty Identity-Set!
 				else
 					[]
 
-			+ (any->@$ a) b
+			+ (@$from-any a) b
 
-@$test-test-prop = |:@[$] value value-test name \TODO: ...test-args
+@$test-test-prop = |value value-test name \TODO: ...test-args
 	\ Could be both Fun and Dict
 	_ = value-test
-	a = case
-		:Fun
-			@$test-test-fun value value-test name
-		else
-			[]
-	b = case
-		:ObjLit
-			\ TODO: flat-map pairs_ ?
-			flat-map @p_ |sub-name
-				@$test-test-prop value (p _ sub-name) "{name}.{sub-name}"
-		else
-			[]
+	@$a = flatten (if :Fun |
+		@$test-test-fun value value-test name
+	@$b = flatten (if :ObjLit |
+		\ TODO: flat-map pairs_ ?
+		flat-map @p_ |sub-name
+			@$test-test-prop value (p _ sub-name) "{name}.{sub-name}"
 
-	+ a b
+	+ @$a @$b
 
-@$test-test-fun = |:@[$] value value-test:Fun name ...args
+@$test-$test-prop = |value-$test:Fun[Generator!] name
+	. $annotate-errors ~"{name}: " ($ing value-$test
+
+@$test-test-fun = |value value-test:Fun name ...args
 	~ano = "{name}: "
 	_ = annotate-errors ~ano |
 		apply value-test args
@@ -143,9 +144,9 @@ all-tested = empty Identity-Set!
 		else
 			[ ]
 
-any->@$ =
+@$from-any =
 	doc. "TODO"
-	|:@[$] test-result
+	|test-result
 		case test-result
 			:@
 				map _ |case

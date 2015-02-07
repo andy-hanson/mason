@@ -8,7 +8,7 @@ use
 	..Str
 	.Impl-Type
 	.Method impl!
-	.Record-Type
+	.Obj-Type
 	..Type
 debug use~
 	..!
@@ -18,7 +18,7 @@ debug use~
 	..methods =?
 	..Try fails?
 
-Wrap-Type = Record-Type
+Wrap-Type = Obj-Type
 	doc. "TODO"
 	members.
 		displayName. Str
@@ -51,7 +51,7 @@ Wrap-Type = Record-Type
 		debug ! fails? |
 			W "three"
 
-\ TODO: This is same as for Record-Type. Are all Impl-Type_s like this?
+\ TODO: This is same as for Obj-Type. Are all Impl-Type_s like this?
 impl! contains? Wrap-Type |wt _
 	js-instanceof _ wt
 

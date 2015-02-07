@@ -8,12 +8,12 @@ use
 	..methods +! -! =? <! empty empty!
 	..Type.Impl-Type self-type
 	..Type.Method impl! impl-for
-	..Type.Record-Type
+	..Type.Obj-Type
 	.@-Type _ from-stream
 	.Set
 	.Set!
 
-Hash-Set! = Record-Type
+Hash-Set! = Obj-Type
 	doc. "TODO"
 	members.
 		data. Hash-Map!

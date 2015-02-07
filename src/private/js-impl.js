@@ -94,7 +94,7 @@ module.exports = {
 		}
 	},
 
-	// Record-Type.ms
+	// Obj-Type.ms
 	"build-str": function(builder) {
 		let s = ""
 		builder(function(str) { s += str + "\n" })

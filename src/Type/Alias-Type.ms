@@ -2,14 +2,14 @@ use
 	..methods <! contains? sub
 	..private.bootstrap Str
 	.Method impl!
-	.Record-Type
+	.Obj-Type
 	..Type
 debug use~
 	..! _ !not
 	..@.?
 	..methods =?
 
-Alias-Type. Record-Type
+Alias-Type. Obj-Type
 	doc. "Contains the same instances as another type (officially), but has its own meaning and identity."
 	test. |
 		A = Alias-Type

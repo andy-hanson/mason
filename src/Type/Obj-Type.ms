@@ -24,7 +24,7 @@ flag? = |case
 	else
 		false
 
-make-record-constructor = |rt
+make-ctr = |ot
 	debug member-has-type? = |members member
 		\ Type might be lazily defined, but don't trigger it yet.
 		desc = Obj.getOwnPropertyDescriptor members member
@@ -44,10 +44,10 @@ make-record-constructor = |rt
 			return function ctr(_) \{
 			if (!(this instanceof ctr)) return new ctr(_)
 
-		real-members = (Obj.getOwnPropertyNames rt.members).filter |member
-			real-member? rt.members member
+		real-members = (Obj.getOwnPropertyNames ot.members).filter |member
+			real-member? ot.members member
 
-		extensible = flag? rt.extensible
+		extensible = flag? ot.extensible
 
 		if! extensible |
 			add! "Object.assign(this, _)"
@@ -58,38 +58,38 @@ make-record-constructor = |rt
 			if! (not extensible) |
 				add! "this{acc} = _{acc}"
 
-			if! (defined? rt.defaults) |
-				case! js-sub rt.defaults member
+			if! (defined? ot.defaults) |
+				case! js-sub ot.defaults member
 					defined?_
 						add! "if (this{acc} === undefined) this{acc} = defaults{acc}(_)"
 					else
 						()
 
 			debug add! case
-				member-has-type? rt.members member
+				member-has-type? ot.members member
 					"_ms.checkContains(members{acc}, this{acc}, \"{member}\")"
 				else
 					"
 						if (!Object.prototype.hasOwnProperty.call(_, \"{member}\"))
 							throw new Error(\"Forgot to assign {member}.\")
 
-		if! (defined? rt.optional-members) |
-			(Obj.getOwnPropertyNames rt.optional-members).forEach |member
-				if! (real-member? rt.optional-members member) |
+		if! (defined? ot.optional-members) |
+			(Obj.getOwnPropertyNames ot.optional-members).forEach |member
+				if! (real-member? ot.optional-members member) |
 					acc = access member
 					add! "if (_{acc} !== undefined) \{"
 					if! (not extensible) |
 						add! "this{acc} = _{acc}"
-					debug if! (member-has-type? rt.optional-members member) |
+					debug if! (member-has-type? ot.optional-members member) |
 						\ TODO: Debug mode only
 						add! "_ms.checkContains(optionalMembers{acc}, this{acc}, \"{member}\")"
 					add! "}"
 
 		debug if! (not extensible) |
 			\ TODO: Debug mode only
-			check = "_ms.checkNoExtras(this, _, \"{rt.displayName}\")"
+			check = "_ms.checkNoExtras(this, _, \"{ot.displayName}\")"
 			case!
-				defined? rt.optional-members
+				defined? ot.optional-members
 					add! check
 				else
 					n-members = real-members.length
@@ -105,31 +105,31 @@ make-record-constructor = |rt
 							throw new Error(\"Unreachable\")
 						}
 
-		if! (defined? rt.make-callable) |
+		if! (defined? ot.make-callable) |
 			add! "
 				var callBaby = makeCallable(this)
 				Object.setPrototypeOf(callBaby, prototype)
 				Object.assign(callBaby, this)
 
-		if! (defined? rt.post-construct) |
+		if! (defined? ot.post-construct) |
 			post = case
-				defined? rt.make-callable
+				defined? ot.make-callable
 					"callBaby"
 				else
 					"this"
 			add! "postConstruct({post})"
 
-		if! (defined? rt.make-callable) |
+		if! (defined? ot.make-callable) |
 			add! "return callBaby"
 
 		add! "}"
 
 	make-ctr = Fun "prototype" "members" "defaults" "makeCallable" "postConstruct" "optionalMembers" src
-	make-ctr rt.prototype rt.members rt.defaults rt.make-callable rt.post-construct rt.optional-members
+	make-ctr ot.prototype ot.members ot.defaults ot.make-callable ot.post-construct ot.optional-members
 
-record-type-args =
+obj-type-args =
 	doc. "TODO"
-	\ This must be explicit because of the way we construct Record-Type
+	\ This must be explicit because of the way we construct Obj-Type
 	prototype. Obj.create Obj.prototype
 	members.
 		displayName. Str \ displayName is mandatory for types.
@@ -147,11 +147,11 @@ record-type-args =
 	defaults.
 		prototype. |
 			Obj.create Obj.prototype
-	post-construct. |rt
-		p+! rt.prototype "constructor" rt
-	make-callable. make-record-constructor
+	post-construct. |_
+		p+! _.prototype "constructor" _
+	make-callable. make-ctr
 	test. |
-		Vec2D = Record-Type
+		Vec2D = Obj-Type
 			members.
 				x. Num
 				y. Num
@@ -174,7 +174,7 @@ record-type-args =
 				y. 2
 				z. 3
 
-		Q = Record-Type
+		Q = Obj-Type
 			members.
 				x.
 			optional-members.
@@ -189,7 +189,7 @@ record-type-args =
 				x. 1
 				z. 3
 
-		Ex = Record-Type
+		Ex = Obj-Type
 			members.
 				x.
 			extensible.
@@ -199,9 +199,9 @@ record-type-args =
 		! =? ex.y 2
 
 
-Record-Type = (make-record-constructor record-type-args) record-type-args
+Obj-Type = (make-ctr obj-type-args) obj-type-args
 
-impl-contains?! Record-Type |rt _
-	js-instanceof _ rt
+impl-contains?! Obj-Type |ot _
+	js-instanceof _ ot
 
-Record-Type
+Obj-Type

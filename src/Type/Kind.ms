@@ -3,7 +3,7 @@ use
 	..js any? defined? global js-sub
 	..private.bootstrap Array impl-contains?! Obj p+! Str Symbol
 	.Method propagate-method-down!
-	.Record-Type
+	.Obj-Type
 use~
 	..@ _ flat-map
 debug use~
@@ -12,7 +12,7 @@ debug use~
 	..methods => =? <! contains?
 	.Method _ impl!
 
-Kind. Record-Type
+Kind. Obj-Type
 	doc. "
 		A Kind is like a tag you can apply to a Concrete-Type to signify that it belongs in some category.
 		That category is typically a group of types all of which implement the same set of methods.
@@ -28,7 +28,7 @@ Kind. Record-Type
 				doc. "A"
 			B = Kind
 				doc. "B"
-			C = Record-Type
+			C = Obj-Type
 				members.
 					c.
 			<! B A
@@ -42,7 +42,7 @@ Kind. Record-Type
 				doc. "X"
 			Y = Kind
 				doc. "Y"
-			Z = Record-Type
+			Z = Obj-Type
 				members.
 					x.
 			<! Z Y
@@ -111,10 +111,10 @@ concrete-implementors.
 			doc. "X"
 		Y = Kind
 			doc. "Y"
-		Z = Record-Type
+		Z = Obj-Type
 			members.
 				z.
-		W = Record-Type
+		W = Obj-Type
 			members.
 				w.
 		<! Y X

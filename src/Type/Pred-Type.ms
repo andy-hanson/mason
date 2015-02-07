@@ -6,13 +6,13 @@ use
 	..methods <! contains? sub
 	..private.bootstrap Str
 	.Method impl!
-	.Record-Type
+	.Obj-Type
 	..Type
 debug use~
 	..! _ !not
 	..Bool
 
-Pred-Type = Record-Type
+Pred-Type = Obj-Type
 	doc. "Arbitrary predicates can be made into types using Pred-Type."
 	members.
 		displayName. Str
@@ -37,7 +37,7 @@ region Opt
 			Opt-Sub
 				Exists-Type. ET
 
-	Opt-Sub = Record-Type
+	Opt-Sub = Obj-Type
 		doc. "Result of calling Opt[something]."
 		members.
 			Exists-Type. Type

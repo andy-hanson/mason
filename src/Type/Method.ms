@@ -3,7 +3,7 @@ use
 	..js any? defined? global js-sub
 	..private.js-impl build-str
 	..private.bootstrap Fun impl-contains?! p+! p+mut! Str Symbol
-	.Record-Type
+	.Obj-Type
 use~
 	..!
 	..@.? un-?
@@ -58,7 +58,7 @@ make-callable-method = |method
 	f method.default method.wrap
 
 
-Method. Record-Type
+Method. Obj-Type
 	doc. "
 		TODO:REST
 		The `doc` of the method should be its signature, followed by a string of the meaning.
@@ -179,7 +179,7 @@ propagate-method-down!. |implementor method-symbol implementation \ TODO: :Impl-
 		else
 			()
 
-Double-Dispatcher = Record-Type
+Double-Dispatcher = Obj-Type
 	members.
 		displayName. Str
 		method. Method

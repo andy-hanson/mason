@@ -27,7 +27,7 @@ const pAdd = function(object, key, val) {
 		return b
 	})
 
-	// For use by Record-Type.ms
+	// For use by Obj-Type.ms
 	pAdd(ms, "checkNoExtras", function(_this, _, rtName) {
 		// If there was some key in `_` that we didn't copy:
 		if (Object.keys(_).length > Object.keys(_this).length) {
@@ -144,7 +144,7 @@ const pAdd = function(object, key, val) {
 	};
 
 	// An object is a Function if its typeof is `function`.
-	// This helps us catch any callabe Record-Type.
+	// This helps us catch any callabe Obj-Type.
 	// TODO: Separate Fun from Callable
 	// Since these are primitives, we can't use `instanceof`.
 	[ Function, Boolean, String, Symbol, Number ].forEach(function(type) {

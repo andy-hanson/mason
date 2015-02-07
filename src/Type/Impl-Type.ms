@@ -5,7 +5,7 @@ use
 	..private.bootstrap Fun Obj
 	.Kind _ unchecked-implementor!
 	.Method impl!
-	.Record-Type
+	.Obj-Type
 use~
 	..@ any?
 	..Map each-pair!
@@ -24,7 +24,7 @@ impl! <? Impl-Type
 			doc. "A"
 		B = Kind
 			doc. "B"
-		C = Record-Type
+		C = Obj-Type
 			members.
 				c.
 		<! B A
@@ -56,12 +56,13 @@ impl! <! Impl-Type
 			else
 				()
 
-unchecked-implementor! Record-Type Impl-Type \ Record-Type isa Record-Type, so can't use <!
+unchecked-implementor! Obj-Type Impl-Type \ Obj-Type isa Obj-Type, so can't use <!
 unchecked-implementor! Fun Impl-Type \ Fun isa Fun, so can't use <!
 <! Kind Impl-Type
 
 region Self-Type
-	Self-Type. Record-Type
+	\ TODO: Wrap-Type
+	Self-Type. Obj-Type
 		doc. "TODO"
 		members.
 			prototype. Obj

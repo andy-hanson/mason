@@ -4,7 +4,7 @@ use
 	..math.Num Nat
 	..methods - +! <! empty empty?
 	..Type.Impl-Type self-type
-	..Type.Record-Type
+	..Type.Obj-Type
 	..@ count iterator
 	.@-Type _ from-stream
 	.Array!
@@ -18,7 +18,7 @@ debug use~
 	.Seq seq=? take
 
 
-Lazy-Stream = Record-Type
+Lazy-Stream = Obj-Type
 	doc. "
 		Like Stream, but caches its elements as it produces them.
 		If you want to stream the results of an expensive computation and use it multiple times, use this.

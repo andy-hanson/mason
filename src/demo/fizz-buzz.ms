@@ -7,7 +7,7 @@ debug use
 	..@.Seq seq=? take
 
 fizz-buzz.
-	doc. "TODO"
+	doc. "Infinite sequence of the Fizz Buzz game."
 	test. |
 		! seq=? (take fizz-buzz 16)
 			. 1
@@ -26,6 +26,7 @@ fizz-buzz.
 			. 14
 			. "Fizz Buzz"
 			. 16
+	\ TODO: Infinite Range
 	map (drop nats 1) |case
 		divisible? _ 15
 			"Fizz Buzz"

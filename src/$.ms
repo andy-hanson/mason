@@ -12,13 +12,15 @@ use
 	.Type.Impl-Type self-type
 	.Type.Method impl!
 	.Type.Pred-Type Any
+use~
+	.Try Error
 debug use~
 	.@.Stream
 	.!
 	.control unreachable!
 	.math.Num divisible?
 	.methods + =?
-	.Try oh-no!
+	.Try $catch oh-no! $try
 
 $ =
 	doc. "
@@ -41,11 +43,6 @@ $ =
 
 impl! sub (self-type $) identity
 
-debug
-	$!=? = |expected $actual
-		$after $actual |_
-			! =? expected _
-
 $done.
 	doc. "
 		Don't forget $done!
@@ -67,37 +64,36 @@ $after.
 	doc. "
 		Applies `then` to the result whenever it is ready.
 		If `then` returns a $, returns a $ for that $'s value; else returns a $ for the result of `then`.
-	test. |
-		$!=? 2 ($after ($resolved 1) +[1]
+	$test. ~|
+		\ TODO:SYNTAX (<~ ..)
+		a <~ $after ($resolved 1) +[1]
+		! =? 2 a
 	|:$ _:$ then:Fun
 		_.then then
 
-$catch.
-	doc. "
-		If `$` succeeds, acts like `identity`.
-		Else returns a `$` for the result of running `catcher` on the Error.
-		Like for `$after`, `catcher` can also return another `$`.
-	test. |
-		$!=? 2 ($catch ($rejected 1) +[1]
-	|:$ promise:$ catcher:Fun
-		promise.catch catcher
-
 $resolved.
 	doc. "$ that is already resolved."
-	test. |
-		$!=? 1 ($resolved 1
+	$test. ~|
+		\ TODO:SYNTAX (<~ ..)
+		a <~ ($resolved 1
+		! =? 1 a
 	|:$ value
 		Promise.resolve value
 
 $rejected.
 	doc. "$ that is already rejected."
 	test. |
-		p = $rejected "rejected"
-		. $!=? "rejected" ($catch p identity
-		\$after should be ignored.
-		. $!=? "rejected" ($after p oh-no!
-	|rejection-reason:Any
-		Promise.reject rejection-reason
+		$ing ~|
+			r = $rejected "a"
+			\ TODO:SYNTAX (<~ ..)
+			a <~ $try r
+			! =? "a" a.message
+			\ $after will be ignored
+			b <~ $try ($after r |
+				oh-no! "b"
+			! =? "a" b.message
+	|_
+		Promise.reject (=> Error _
 
 $delay.
 	doc. "
@@ -105,9 +101,11 @@ $delay.
 		Does *not* run it in parallel.
 		It should go without saying,
 		but if you needlessly $delay things all the time your program will take longer.
-	test. |
-		$!=? 1 ($delay |
+	$test. ~|
+		\ TODO:SYNTAX (<~ ..)
+		a <~ $delay |
 			1
+		! =? 1 a
 	|delayed:Fun[0]
 		new $ |resolve reject
 			ignore reject \ TODO:Ignored vars
@@ -117,9 +115,12 @@ $all.
 	doc. "
 		$ that resolves when the last $ in the input does, with every value in the original iteration order.
 		If any one of them fails, fails with the first such failure.
-	test. |
-		$!=? [ 1 2 ] ($all [ ($resolved 1) ($resolved 2
-		$!=? 1 ($catch ($all [ ($rejected 1) ($rejected 2) ]) identity
+	$test. ~|
+		\ TODO:SYNTAX (<~ ..)
+		a <~ ($all [ ($resolved 1) ($resolved 2
+		! =? [ 1 2 ] a
+		b <~ $try ($all [ ($rejected "a") ($rejected "b") ]
+		! =? "a" b.message
 	|:$[Array] _:@[$]
 		$.all (=> Array _
 
@@ -127,19 +128,23 @@ $map.
 	doc. "
 		Asynchronously runs mapper for every element of mapped and returns a $ joining them.
 		Unlike map, this always returns an Array.
-	test. |
-		$!=? [ 2 3 4 ] ($map [ 1 2 3 ] |_
+	$test. ~|
+		\ TODO:SYNTAX (<~ ..)
+		a <~ $map [ 1 2 3 ] |_
 			$delay |
 				+ _ 1
+		! =? [ 2 3 4 ] a
 	|:$[Array] mapped:@ mapper:Fun[Any $]
 		$all (map mapped mapper
 
 $flat-map.
 	doc. "Like $map but flattens the result."
-	test. |
-		$!=? (=> Stream [ 1 1 2 2 3 3 ]) ($flat-map [ 1 2 3 ] |_
+	$test. ~|
+		\ TODO:SYNTAX (<~ ..)
+		a <~ ($flat-map [ 1 2 3 ] |_
 			$delay |
 				[ _ _ ]
+		! =? (=> Stream [ 1 1 2 2 3 3 ]) a
 	|:$[@] mapped:@ mapper:Fun[Any $[@]]
 		$after ($map mapped mapper) flatten
 
@@ -151,10 +156,12 @@ $keep.
 	doc. "
 		Asynchronously runs keep-if? on each element and creates an Array of those that match.
 		Maintains the original order.
-	test. |
-		$!=? (=> Stream [ 2 4 ]) ($keep [ 1 2 3 4 ] |_
+	$test. ~|
+		\ TODO:SYNTAX (<~ ..)
+		a <~ ($keep [ 1 2 3 4 ] |_
 			$delay |
 				divisible? _ 2
+		! =? (=> Stream [ 2 4 ]) a
 	|:$[Array] keep-some:@ keep-if?:Fun[Any $[Bool]]
 		$flat-map keep-some |_
 			$after keep-if?_ |keep
@@ -166,11 +173,12 @@ $call.
 		Allows you to cal a function on $s as if they were the arguments.
 		So for any place you would write `f x` where `x` is an actualized value,
 		you may write `$call f $x` where `$x` is a promise.
-	test. |
-		\ TODO:SYNTAX [ | 1 ]
+	$test. ~|
 		$one = $delay |
 			1
-		$!=? 2 ($call + $one $one
+		\ TODO:SYNTAX (<~ ..)
+		a <~ $call + $one $one
+		! =? 2 a
 	|:$ f ...$args
 		$after ($all $args) apply[f]
 
@@ -180,15 +188,18 @@ $ing.
 			a <~ $get-a
 		The code after the assignment will become an $after of it.
 		Note that $ing returns a $; it does *not* call $done at the end.
-	test. |
-		. $!=? "res" ($ing ~|
+	$test. ~|
+		\ TODO:SYNTAX (<~ ..)
+		a <~ $ing ~|
 			promised <~ $resolved "promised"
-			! =? promised "promised"
+			! =? "promised" promised
 			"res"
-		_ = $ing ~|
+		! =? "res" a
+		\ TODO:SYNTAX (<~ ..)
+		b <~ $try ($ing ~|
 			<~ $rejected "whoops"
 			oh-no! "It's been rejected, so the rest is never called."
-		. $!=? "whoops" ($catch _ identity
+		! =? "whoops" b.message
 	|:$ code:Fun[Generator!]
 		gen = code ()
 		eval = |last-value

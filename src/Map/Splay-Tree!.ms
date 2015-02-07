@@ -7,7 +7,7 @@ use
 	..Obj! p!
 	..Type.Impl-Type self-type
 	..Type.Method impl!
-	..Type.Record-Type
+	..Type.Obj-Type
 	..Map ?get keys
 	.Map! assoc! un-assoc!
 	.Sorted-Map!
@@ -15,7 +15,7 @@ debug use
 	..! _ !not
 	..methods =?
 
-Splay-Tree! = Record-Type
+Splay-Tree! = Obj-Type
 	doc. "
 		Default Sorted-Map! implementation.
 		Binary tree that is good at accessing the same values many times.

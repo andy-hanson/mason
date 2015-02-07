@@ -7,7 +7,7 @@ use
 	.Seq! _ <+! +>! ?<pop! ?pop>! set-nth!
 	..Type.Impl-Type self-type
 	..Type.Pred-Type Any
-	..Type.Record-Type
+	..Type.Obj-Type
 	..@ _ count each! iterator map map'
 	.@-Type _ from-stream
 	.? un-?
@@ -15,7 +15,7 @@ use
 	.Range range
 	.Seq ?nth reverse
 
-Deque! = Record-Type
+Deque! = Obj-Type
 	doc.
 		"TODO"
 	members.

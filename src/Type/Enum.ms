@@ -8,13 +8,13 @@ use
 	..Str
 	.Impl-Type
 	.Method impl!
-	.Record-Type
+	.Obj-Type
 debug use
 	..!
 	..methods =?
 	..Type type-of
 
-Enum = Record-Type
+Enum = Obj-Type
 	doc. "
 		A Concrete-Type with a small number of instances.
 		Great for using with `switch`.
