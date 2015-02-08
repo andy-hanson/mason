@@ -71,7 +71,7 @@ impl! keys Hash-Map! |_
 
 impl! assoc! Hash-Map! |hm key val
 	bucket = opt-bucket hm key
-	case! opt-bucket-entry bucket
+	case! opt-bucket-entry bucket key
 		defined?_
 			p! _ "val!" val
 		else

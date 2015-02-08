@@ -55,6 +55,12 @@ Map! = Kind
 			-! _ ks
 			! empty? _
 
+		\ assoc! should overwrite previous values
+		zero = Mt 0
+		assoc! _ zero 0
+		assoc! _ zero 1
+		! =? _[zero] 1
+
 \ TODO: <! (self-type Map!) Map-Type
 impl! empty (self-type Map!) |
 	empty Hash-Map!

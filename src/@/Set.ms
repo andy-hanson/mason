@@ -34,7 +34,7 @@ set=?.
 	doc. "Whether two @s have the same values, regardless of order or count."
 	test. |
 		[ [ 1 2 3 ] [ 3 2 1 ] ] -> true
-		\[ [ 1 ] [ 1 1 1 ] ] -> true \ TODO
+		[ [ 1 ] [ 1 1 1 ] ] -> true
 		[ [ 1 2 ] [ 1 2 3 ] ] -> false
 	|a:@ b:@
 		\ TODO: => Set a ... => Set b
