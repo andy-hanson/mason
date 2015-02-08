@@ -15,7 +15,7 @@ use~
 debug use~
 	..@.?
 	..math.Num
-	..methods + =? empty
+	..methods =? empty
 	..Try fails?
 
 writable? = |obj property
@@ -217,7 +217,7 @@ impl-for.
 	doc. "impl-for that fails when there is no implementation."
 	test. |
 		[ contains? Method ] -> method-contains?
-		! =? 3 ((impl-for + Num) 1 2
+		! (impl-for contains? Kind) Impl-Type Kind
 	|method:Method type:Impl-Type
 		un-? (?impl-for method type) ~"{method} not implemented for {type}."
 

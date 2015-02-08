@@ -7,7 +7,8 @@ use
 	.Map.Weak-Identity-Map!
 	.math.bit-arithmetic bit-and hexidecimal
 	.math.Num _ Int round-towards-0
-	.methods + * =? empty empty?
+	.math.methods + *
+	.methods =? empty empty?
 	.Obj p ?p @p-all
 	.Str
 	.Symbol

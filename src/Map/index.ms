@@ -16,7 +16,7 @@ debug use~
 	..!
 	..Bool false true
 	..control build
-	..methods +
+	..math.methods +
 
 Map. Kind
 	doc. "Mapping from keys to values."

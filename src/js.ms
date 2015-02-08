@@ -12,8 +12,9 @@ debug use~
 	.! _ !not
 	.@ each!
 	.Bool false true
+	.math.methods +
 	.math.Num
-	.methods + =?
+	.methods =?
 	.Obj! p+!
 	.Symbol
 	.Try Error

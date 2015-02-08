@@ -7,7 +7,8 @@ use
 	..Map.Identity-Map!
 	..Map.multi-map! add-to-@!
 	..math.Num square
-	..methods + * empty empty?
+	..math.methods + *
+	..methods empty empty?
 debug use
 	..!
 	..@ any?

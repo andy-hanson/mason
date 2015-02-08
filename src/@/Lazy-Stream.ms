@@ -2,10 +2,12 @@ use
 	..Fun _ ignore thunk
 	..Generator! _ each~
 	..math.Num Nat
-	..methods - +! <! empty empty?
+	..math.methods -
+	..methods <! empty empty?
 	..Type.Impl-Type self-type
 	..Type.Obj-Type
 	..@ count iterator
+	.@! ++!
 	.@-Type _ from-stream
 	.Array!
 	.Seq _ ?nth
@@ -13,7 +15,8 @@ use
 debug use~
 	..!
 	..control build
-	..methods => =? +
+	..math.methods +
+	..methods => =?
 	.Range range
 	.Seq seq=? take
 
@@ -75,7 +78,7 @@ lazy-streaming.
 		cash = empty Array!
 		Lazy-Stream
 			caching-iterator. each~ (Stream stream) ~|_
-				+! cash [ _ ]
+				++! cash [ _ ]
 				<~ _
 			cache. cash
 

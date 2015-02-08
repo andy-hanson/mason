@@ -9,15 +9,15 @@ use~
 	.@.? _ get-or
 	.@.Array!
 	.@.Seq
-	.@.Seq! +>!
+	.@.Seq! ++>!
 	.Map _ ?get
 	.Try oh-no!
 debug use~
 	.! _ !call
 	.Bool false true
+	.math.methods +
 	.methods =?
 	.Fun ignore thunk
-	.methods +
 
 build.
 	doc. "
@@ -31,7 +31,7 @@ build.
 	|:Seq calls-yield:Fun
 		yielded = empty Array!
 		yield = |_
-			+>! yielded [ _ ]
+			++>! yielded [ _ ]
 		calls-yield yield
 		freeze yielded
 

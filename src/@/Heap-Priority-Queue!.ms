@@ -2,11 +2,13 @@ use
 	..Bool and not
 	..control if! returning
 	..math.Num int/
-	..methods + +! - * <! <? >? empty empty? empty!
+	..math.methods + - *
+	..methods <! <? >? empty empty? empty!
 	.Priority-Queue! _ ?pop!
 	..Type.Impl-Type self-type
 	..Type.Wrap-Type
 	..@ count each! iterator map'
+	.@! ++!
 	.@-Type _ from-stream
 	.? un-?
 	.Array!
@@ -25,10 +27,10 @@ Heap-Priority-Queue!. Wrap-Type
 	from-stream -> |type stream
 		returning (empty type) |_
 			each! stream |em
-				+! _ [ em ]
+				++! _ [ em ]
 
 <! Heap-Priority-Queue! Priority-Queue!
-	+! -> |_ added
+	++! -> |_ added
 		each! added add![_.val]
 	?pop! -> |_
 		heap = _.val

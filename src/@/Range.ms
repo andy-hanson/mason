@@ -3,7 +3,8 @@ use
 	..control if
 	..Fun ignore thunk
 	..math.Num _ Nat round-down sign
-	..methods + - * / <! <? >=? empty length
+	..math.methods + - * /
+	..methods <! <? >=? empty length
 	..Type.Impl-Type self-type
 	..Type.Method impl!
 	..Type.Pred-Type Opt

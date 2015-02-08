@@ -19,7 +19,8 @@ debug use~
 	.!
 	.control unreachable!
 	.math.Num divisible?
-	.methods + =?
+	.math.methods +
+	.methods =?
 	.Try $catch oh-no! $try
 
 $ =

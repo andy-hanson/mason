@@ -5,7 +5,8 @@ use
 	.@!
 debug use~
 	..!
-	..methods =? +! empty empty?
+	..methods =? empty empty?
+	.@! ++!
 	.?
 
 Priority-Queue! = Kind
@@ -15,7 +16,7 @@ Priority-Queue! = Kind
 		but repeatedly calling ?pop! will give the values from least to greatest.
 	implementor-test. |type
 		_ = empty type
-		+! _ [ 3 1 2 ]
+		++! _ [ 3 1 2 ]
 		! =? (? 1) ?pop!_
 		! =? (? 2) ?pop!_
 		! =? (? 3) ?pop!_

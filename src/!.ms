@@ -14,7 +14,7 @@ use
 	.@.Array
 debug use
 	.Bool false true
-	.methods +
+	.math.methods +
 	.Try fails-with?
 
 \ TODO: !-Error type?

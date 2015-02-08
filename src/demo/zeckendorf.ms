@@ -4,7 +4,8 @@ use
 	..@.Seq reverse tail take-while
 	..@.Stream
 	..math.Num Nat
-	..methods => + - =? <=? >=?
+	..math.methods + -
+	..methods => =? <=? >=?
 	..Str
 
 fibs =

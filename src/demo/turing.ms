@@ -3,10 +3,11 @@ use
 	..@.Array
 	..@.Deque!
 	..@.Seq
-	..@.Seq! <+! +>! set-nth!
+	..@.Seq! <++! ++>! set-nth!
 	..Bool false true
 	..control End-Loop if! loop
-	..methods => =? + - empty?
+	..math.methods + -
+	..methods => =? empty?
 	..Obj _ p
 	..Type.Pred-Type Any
 
@@ -91,10 +92,10 @@ run-turing.
 					idx. case
 						go-right
 							if! (=? pi (- (count tape) 1)) |
-								+>! tape [ blank ]
+								++>! tape [ blank ]
 							+ pi 1
 						=? pi 0
-							<+! tape [ blank ]
+							<++! tape [ blank ]
 							0
 						else
 							- pi 1

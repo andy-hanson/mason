@@ -30,8 +30,8 @@ Seq! = Kind
 				empty Array!
 			else
 				empty type
-		+>! _ [ 1 2
-		<+! _ [ -2 -1
+		++>! _ [ 1 2
+		<++! _ [ -2 -1
 		! seq=? _ [ -2 -1 1 2
 		! =? ?pop>!_ (? 2
 		! =? ?<pop!_ (? -2
@@ -39,15 +39,16 @@ Seq! = Kind
 		! =? ?<pop!_ (? -1
 		! =? ?pop>!_ (empty ?
 		! empty? _
-		+>! _ [ 1 2 3
+		++>! _ [ 1 2 3
 
 <! Seq! @!
 <! Seq! Seq
 
-<+!. Method
+<++!. Method
 	doc. |_ added:@
 		"Makes `_` into `+ added _`."
-+>!. Method
+
+++>!. Method
 	doc. |_ added:@
 		"Makes `_` into `+ _ added`."
 

@@ -1,6 +1,7 @@
 use
 	..math.Num log Nat pow round-down
-	..methods - * =? >=?
+	..math.methods - *
+	..methods =? >=?
 	..Str
 debug use
 	..!

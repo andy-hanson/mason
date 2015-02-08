@@ -2,12 +2,13 @@ use
 	..@.? get-or Opt->?
 	..@.Stream
 	..Bool and
-	..methods + - * / =? <? >? <=? >=? compare
+	..methods =? <? >? <=? >=? compare
 	..Obj p
 	..js global js-bar js< js> js<= js>= js+ js- js* js/ js% reference=?
 	..show
 	..Type.Method impl!
 	..Type.Pred-Type _ Opt
+	.methods + - * /
 debug use
 	..@.Seq seq=? take
 	..! _ !not

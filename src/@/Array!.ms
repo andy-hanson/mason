@@ -12,7 +12,7 @@ use
 	..@ _ each!
 	.@-Type _ from-stream
 	.Array
-	.Seq! _ <+! +>! ?<pop! ?pop>! set-nth!
+	.Seq! _ <++! ++>! ?<pop! ?pop>! set-nth!
 
 Array! = Pred-Type
 	doc. "
@@ -36,10 +36,12 @@ Array! = Pred-Type
 
 \ We're defining these on Arrays, but they will only work for Array!s because Arrays are frozen
 <! Array Seq!
-	<+! -> |_ added:@
-		Array.prototype.unshift.apply _ (=> Array added)
-	+>! -> |_ added
-		Array.prototype.push.apply _ (=> Array added)
+	<++! -> |_ added:@
+		\ TODO:SYNTAX _.unshift ...added
+		Array.prototype.unshift.apply _ (=> Array added
+	++>! -> |_ added
+		\ TODO:SYNTAX _.push ...added
+		Array.prototype.push.apply _ (=> Array added
 	?<pop! -> |_
 		if (not empty?_) |
 			_.shift ()

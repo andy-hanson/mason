@@ -1,9 +1,10 @@
 use
 	..@
+	..@.@! ++!
 	..@.Array!
 	..@.? get-or Opt->?
 	..@.@-Type
-	..methods +! empty
+	..methods empty
 	..Type.Pred-Type Opt
 	.Map! _ get-or-add!
 debug use
@@ -24,4 +25,4 @@ add-to-@!.
 		\ TODO:SYNTAX Optional arguments
 		_ = get-or-add! map key ~
 			empty (get-or (Opt->? @-type) Array!
-		+! _ added
+		++! _ added

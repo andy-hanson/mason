@@ -1,13 +1,13 @@
 use
 	.Bool _ and false not nor xor
 	.js any? defined? global js-typeof reference=? js-sub
-	.methods =? => + empty empty? freeze
+	.methods =? => empty empty? freeze
 	.Symbol
 	.Type.Impl-Type self-type
 	.Type.Method impl!
 	.Type.Pred-Type _ Union
 use~
-	.@ _ all? count keep
+	.@ _ ++ all? count keep
 	.@.? _ Opt->?
 	.@.Identity-Set!
 	.@.Stream
@@ -69,7 +69,7 @@ flag?. |obj flag:Str
 		\ TODO: Lazy +
 		own-names = keep (=> Stream (Obj.getOwnPropertyNames _)) |name
 			not (forbidden-fun-props.has name)
-		+ own-names (Obj.getOwnPropertySymbols _)
+		++ own-names (Obj.getOwnPropertySymbols _)
 
 @p.
 	doc. "

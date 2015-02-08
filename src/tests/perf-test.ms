@@ -6,7 +6,7 @@ use
 	..Fun _ Act
 	..private.js-impl i-time*
 	..math.Num _ Nat
-	..methods -
+	..math.methods -
 	..Str
 
 time!.

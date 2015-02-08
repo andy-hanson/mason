@@ -1,12 +1,12 @@
 use
 	.js global
-	.methods => + empty sub
+	.methods => empty sub
 	.private.js-impl i-call i-curry
 	.Type.Alias-Type
 	.Type.Impl-Type self-type
 	.Type.Method _ impl!
 use~
-	.@ _ map
+	.@ _ ++ map
 	.@.Seq rtail last
 	.@.Array
 	.Map _ keys
@@ -18,6 +18,7 @@ debug use~
 	.!
 	.@.Seq seq=?
 	.control build
+	.math.methods +
 	.methods =?
 
 Fun =
@@ -140,13 +141,11 @@ spread.
 		case spreaded
 			:@
 				map _ |em
-					all-args = + init-args [ em ]
+					all-args = ++ init-args [ em ]
 					apply fun all-args
 			:Map
 				map keys_ |key
-					all-args = + init-args
-						. key
-						. _[key]
+					all-args = ++ init-args [ key _[key] ]
 					apply fun all-args
 			else
 				oh-no! "Can only spread a @ or Map, not {_}"

@@ -7,31 +7,6 @@ use~
 	.Obj _ inspect=?
 	.Type.Type
 
-region Arithmetic operators
-	+. Method
-		doc. |a b
-			"Combines two values of the same type into a greater value of that type."
-
-	-. Method
-		doc. |a b
-			"Inverse of `+`. Takes `b` away from `a`. `+ b res` should be `a`."
-
-	*. Method
-		doc. |a b
-			"`b` copies of `a`."
-
-	/. Method
-		doc. |a b
-			"Inverse of `*`. `* b res` should be `a`."
-
-	+!. Method
-		doc. |a b
-			"Generally makes `a` the result of `+ a b`, without mutating `b`."
-
-	-!. Method
-		doc. |a b
-			"Generally makes `a` the result of `- a b`, without mutating `b`.."
-
 region Basics
 	sub. Method
 		doc. "Implementing this allows the use of the special syntax `a[b]`."
@@ -122,6 +97,7 @@ region Unsorted
 		doc. "
 			Returns a compacted and immutable version of it.
 			Does not have to return the same value, but often does.
+		\ TODO: Lazy default?
 		default. |_
 			Obj.freeze _
 

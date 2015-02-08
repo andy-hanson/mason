@@ -1,9 +1,10 @@
 use
 	..control returning
 	..js global new
-	..methods +! -! <! contains? empty empty!
+	..methods <! contains? empty empty!
 	..Type.Impl-Type self-type
 	..@ count each! iterator
+	.@! ++! --!
 	.@-Type _ from-stream
 	.Set!
 
@@ -12,12 +13,12 @@ Identity-Set! = global.Set
 <! Identity-Set! Set!
 	count -> |_
 		_.size
-	+! -> |_ addeds
+	++! -> |_ addeds
 		each! addeds |added
 			_.add added
 	empty! -> |_
 		_.clear ()
-	-! -> |_ deleteds
+	--! -> |_ deleteds
 		each! deleteds |deleted
 			_.delete deleted
 	iterator -> |_

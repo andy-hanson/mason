@@ -1,7 +1,7 @@
 use
 	..@ _ each!
 	..@.?
-	..methods +! -! <! empty empty?
+	..methods <! empty empty?
 	..Type.Impl-Type self-type
 	..Type.Kind
 	..Type.Method _ impl!
@@ -16,16 +16,14 @@ debug use~
 	..@.Set set=?
 	..Bool not
 	..control if!
-	..methods => =? * compare empty!
+	..math.methods *
+	..methods => =? compare empty!
 	..Map has-key? keys
 	..Type.Wrap-Type
 	.Weak-Identity-Map!
 
 Map! = Kind
-	doc. "
-		TODO:REST
-		-!: Takes a @ of keys to remove.
-		+!: Adds another map.
+	doc. "TODO"
 	implementor-test. |type
 		Mt = Wrap-Type
 			doc. "Mappable Thing; might be a Weak-Identity-Map!, so must be a reference type."
@@ -52,7 +50,7 @@ Map! = Kind
 			empty! _
 			! empty? _
 			do-adds()
-			-! _ ks
+			un-assoc*! _ ks
 			! empty? _
 
 		\ assoc! should overwrite previous values
@@ -69,11 +67,17 @@ assoc!. Method
 	doc. |_ key:Any val:Any
 		"Set _[key] to val."
 
+assoc*!.
+	doc. "Adds the other map's keys to mine, overriding my values."
+	test. "See Map!.implementor-test."
+	|_:Map! to-add:Map
+		each-pair! to-add assoc![_]
+
 un-assoc!. Method
 	doc. |:? _ key
 		"If there is a value associated with `key`, removes it and returns the value associated."
 
-impl! -! Map!
+un-assoc*!.
 	doc. "Removes keys (and by proxy, their associated values)."
 	|_ @to-delete:@
 		each! @to-delete un-assoc![_]
@@ -96,12 +100,6 @@ get-or-add!. Method
 				default-val
 			else
 				_.val
-
-impl! +! Map!
-	doc. "Adds the other map's keys to mine, overriding my values."
-	test. "See Map!.implementor-test."
-	|_ to-add:Map
-		each-pair! to-add assoc![_]
 
 <! Map! Map
 

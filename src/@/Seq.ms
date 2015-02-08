@@ -2,7 +2,8 @@ use
 	..Bool false not true
 	..control if loop End-Loop returning
 	..Fun _ identity Pred
-	..methods - + => =? <! <? compare empty empty? freeze sub
+	..math.methods - +
+	..methods => =? <! <? compare empty empty? freeze sub
 	..Str indent
 	..Type type-of
 	..Type.Impl-Type self-type
@@ -19,11 +20,12 @@ use~
 	.Array
 	.Array!
 	..math.Num Nat
-	.Seq! +>!
+	.Seq! ++>!
 	.Stream
 debug use~
 	..! _ !not
 	..Try fails?
+	..@ ++
 
 Seq = Kind
 	doc. "@ whose values are in a meaningful order."
@@ -125,7 +127,7 @@ region Update
 			\ OK if not enough to satisfy count-to-take
 			[ [ 0 ] 2 ] -> => Stream [ 0 ]
 			_ = [ 0 1 2 3 4 ]
-			! seq=? _ (+ (take _ 2) (drop _ 2
+			! seq=? _ (++ (take _ 2) (drop _ 2
 		default. |:@ _ count-to-take:Nat
 			Stream ~|
 				iter = iterator_
@@ -303,7 +305,7 @@ region TODO: put somewhere
 									done
 										end-loop! outer
 									else
-										+>! next-group [ value ]
+										++>! next-group [ value ]
 										case! count next-group
 											=? _ group-size
 												end-loop!

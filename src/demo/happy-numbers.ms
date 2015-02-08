@@ -1,5 +1,6 @@
 use
 	..@ each! fold keep map
+	..@.@! ++!
 	..@.Array!
 	..@.Identity-Set!
 	..@.Seq! set-nth!
@@ -8,7 +9,8 @@ use
 	..control returning
 	..js defined? js-sub
 	..math.Num _ Nat nats square
-	..methods + +! contains? empty
+	..math.methods +
+	..methods contains? empty
 debug use
 	..!
 	..@.Seq seq=? take
@@ -34,7 +36,7 @@ happy?.
 					_
 				else
 					and (not (contains? stepped-through cur)) ~
-						+! stepped-through [ cur ]
+						++! stepped-through [ cur ]
 						loop (step cur
 		returning (loop n) |ans:Bool
 			each! stepped-through |_

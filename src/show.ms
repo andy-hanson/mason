@@ -3,14 +3,14 @@ use
 	.js js+
 	.private.bootstrap p+! ms
 	.private.js-impl new-Set
-	.methods => - =? empty?
+	.methods => =? empty?
 	.Obj flag? p ?p @p
 	.Str _ indent
 	.Symbol
 	.Type type-of
 	.Type.Method _ impl!
 use~
-	.@ map
+	.@ -- map
 	.@.? get-or
 	.@.Array
 	.Fun
@@ -58,7 +58,7 @@ show = Method
 				"undefined"
 			else
 				\ Don't show "prototype" because that is treated as an instance of itself and causes errors.
-				props = - @p_ [ "prototype" ]
+				props = -- @p_ [ "prototype" ]
 				key-vals = => Array (map props |key
 					val:Str = show (p _ key) opts
 					"{key}. {indent val}"

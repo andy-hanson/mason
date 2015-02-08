@@ -3,7 +3,7 @@ doc. "For running code in `test` properties."
 use
 	..$ _ $after $all $ing
 	..! _ !call
-	..@ _ each! flatten flat-map map
+	..@ _ ++ each! flatten flat-map map
 	..@.? get-or
 	..@.Identity-Set!
 	..Bool _ and false or true
@@ -11,7 +11,7 @@ use
 	..Fun _ apply ignore
 	..Generator!
 	..Map
-	..methods + =? contains? empty
+	..methods =? contains? empty
 	..modules $@module-in-dir
 	..Obj _ ObjLit ?p p p? @p @p-all
 	..Str
@@ -64,7 +64,7 @@ impl! test-special Kind |_
 	b = flat-map (?p _ "implementor-test") |test:Fun
 		flat-map concrete-implementors_ |implementor
 			@$test-test-fun implementor test "{_}.implementor-test of {implementor}" implementor
-	+ a b
+	++ a b
 
 
 $test-all.
@@ -111,7 +111,7 @@ all-tested = empty Identity-Set!
 				else
 					[]
 
-			+ (@$-from-any a) b
+			++ (@$-from-any a) b
 
 @$test-test-prop = |value value-test name \TODO: ...test-args
 	\ Could be both Fun and Dict
@@ -123,7 +123,7 @@ all-tested = empty Identity-Set!
 		flat-map @p_ |sub-name
 			@$test-test-prop value (p _ sub-name) "{name}.{sub-name}"
 
-	+ @$a @$b
+	++ @$a @$b
 
 @$test-$test-prop = |value-$test:Fun[Generator!] name
 	. $annotate-errors ~"{name}: " ($ing value-$test

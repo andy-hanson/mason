@@ -2,7 +2,8 @@ use
 	..Bool _ and not
 	..Fun _ Act identity Pred
 	..js defined? reference=?
-	..methods => =? <? + - -! contains? empty empty?
+	..math.methods +
+	..methods => =? <? contains? empty empty?
 	..Obj
 	..Symbol
 	..Type type-of
@@ -13,10 +14,11 @@ use~
 	..control if if! Ref! get set!
 	..Generator!
 	..math.Num Nat
+	.@! --!
 	.? _ get-or Opt->? un-?
 	.Array
-	.Hash-Set!
 	.Seq first seq=? tail
+	.Set!
 	.Stream
 debug use~
 	.@-Type
@@ -290,32 +292,32 @@ region Lazy functions, and their eager versions.
 		default. |_
 			=> type-of_ flatten_
 
-	impl! + @
+	++.
 		doc. "Concatenation. Sets should override this."
 		test. |
-			[ [ 0 ] [ 1 ] ] -> [ 0 1 ]
-		|:@ @a @b
+			[ [ 0 ] [ 1 ] ] -> => Stream [ 0 1 ]
+		|:Stream @a @b
 			Stream ~|
 				<~~ iterator @a
 				<~~ iterator @b
 
-	+'. Method
+	++'. Method
 		doc. "Type-preserving +."
 		test. |
 			[ [ 0 ] [ 1 ] ] -> [ 0 1 ]
 		default. |@a @b
-			=> (type-of @a) (+ @a @b
+			=> (type-of @a) (++ @a @b
 
-	impl! - @
+	--.
 		doc. "
-			@ with the *first* instances of each in `remove` taken out.
-			Most efficient for Sets.
+			@ without any of the elements in `remove`.
+			Removes the *first* occurrence of each element.
 		test. |
-			[ [ 1 2 1 ] [ 1 ] ] -> [ 2 1 ]
+			[ [ 1 2 1 ] [ 1 ] ] -> => Stream [ 2 1 ]
 		|:@ _ remove:@
 			Stream ~|
 				iter = iterator_
-				remove-us = => Hash-Set! remove
+				remove-us = => Set! remove
 				loop!
 					value done = iter.next()
 					case!
@@ -324,9 +326,16 @@ region Lazy functions, and their eager versions.
 						else
 							case! value
 								:remove-us
-									-! remove-us [ value ]
+									--! remove-us [ value ]
 								else
 									<~ value
+
+	--'. Method
+		doc. "Type-preserving --."
+		test. |
+			"TODO"
+		default. |_ remove:@
+			=> type-of_ (-- _ remove
 
 	impl! =? @
 		test. |

@@ -1,8 +1,8 @@
 use
-	..@ _ flat-map keep map
+	..@ _ ++ --' flat-map keep map
 	..@.?
 	..@.Seq _ ?first tail
-	..methods + - contains? empty?
+	..methods contains? empty?
 	..Str _ ->upper
 debug use
 	..!
@@ -62,6 +62,6 @@ make-word-from-blocks.
 					this-char-blocks = keep blocks |_
 						contains? _ word[0]
 					?first (flat-map this-char-blocks |_
-						map (rec rest-word (- blocks [ _ ])) |ans
-							+ [ _ ] ans
+						map (rec rest-word (--' blocks [ _ ])) |ans
+							++ [ _ ] ans
 		rec (->upper word) (map blocks ->upper

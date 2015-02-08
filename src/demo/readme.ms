@@ -11,7 +11,8 @@ debug use
 	..Fun _ ignore
 	..Generator! _ each~ gen-next!
 	..math.Num _ divisible? Int
-	..methods + - * / =? >? >=? <=? empty
+	..math.methods + - * /
+	..methods =? >? >=? <=? empty
 	..Str
 	..Try fails?
 

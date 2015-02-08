@@ -1,13 +1,13 @@
 use
-	..methods +! <! empty
+	..methods <! empty
 	..Type.Impl-Type self-type
 	..Type.Kind
-	..Type.Method impl!
+	..Type.Method
 	..@
 	.@-Type
 use~
 	.Array!
-	.Seq! +>!
+	.Seq! ++>!
 debug use~
 	..! _ !not
 	..@ each!
@@ -23,8 +23,8 @@ debug use~
 				empty Array!
 			else
 				empty type
-		+! _ [ 1 2 ]
-		+! _ [ 3 4 ]
+		++! _ [ 1 2 ]
+		++! _ [ 3 4 ]
 		each! [ 1 2 3 4 ] |em
 			! contains? _ em
 		!not contains? _ 5
@@ -35,9 +35,18 @@ debug use~
 
 <! @! @
 
-\ TODO: impl! +! @! +>!
-impl! +! @! |_ added
-	+>! _ added
+++!. Method
+	doc. "TODO"
+	test. |
+		"TODO"
+	\ TODO: Lazy default?
+	default. |_ added
+		++>! _ added
+
+--!. Method
+	doc. "TODO"
+	test. |
+		"TODO"
 
 <! (self-type @!) @-Type
 	empty -> |

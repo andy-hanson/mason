@@ -2,13 +2,14 @@ use
 	..Bool and not or
 	..control if returning
 	..math.Num modulo Nat
-	..methods + - =? * <! <? empty empty? empty! sub
+	..math.methods + - *
+	..methods =? <! <? empty empty? empty! sub
 	..Obj! p!
-	.Seq! _ <+! +>! ?<pop! ?pop>! set-nth!
+	.Seq! _ <++! ++>! ?<pop! ?pop>! set-nth!
 	..Type.Impl-Type self-type
 	..Type.Pred-Type Any
 	..Type.Obj-Type
-	..@ _ count each! iterator map map'
+	..@ _ ++ count each! iterator map map'
 	.@-Type _ from-stream
 	.? un-?
 	.Array!
@@ -33,7 +34,7 @@ Deque! = Obj-Type
 	from-stream -> |type stream
 		returning (empty type) |_
 			each! stream |em
-				+>! _ [ em ]
+				++>! _ [ em ]
 
 region Helpers
 	capacity = |_
@@ -72,29 +73,29 @@ region Helpers
 	iterator -> |_
 		indices = case
 			<? _.end-index! _.start-index!
-				+ (range _.start-index! (count _.data!)) (range 0 _.end-index!
+				++ (range _.start-index! (count _.data!)) (range 0 _.end-index!
 			else
 				range _.start-index! _.end-index!
 		iterator (map indices sub[_.data!]
 
-	<+! -> |_ ems:@
+	<++! -> |_ ems:@
 		each! (reverse ems) |em
 			new-start = prev-index _ _.start-index!
 			case!
 				=? new-start _.end-index!
 					expand!_
-					<+! _ [ em ]
+					<++! _ [ em ]
 				else
 					p! _ "start-index!" new-start
 					set-nth! _.data! _.start-index! em
 
-	+>! -> |_ ems:@
+	++>! -> |_ ems:@
 		each! ems |em
 			new-end = next-index _ _.end-index!
 			case!
 				=? new-end _.start-index!
 					expand!_
-					+>! _ [ em ]
+					++>! _ [ em ]
 				else
 					set-nth! _.data! _.end-index! em
 					p! _ "end-index!" new-end

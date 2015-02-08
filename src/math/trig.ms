@@ -8,7 +8,7 @@ use
 debug use
 	..!
 	..Map each-pair!
-	..methods /
+	.methods /
 	\ TODO: Move pi to trig
 	.Num near? pi/2 pi pi3/2
 
