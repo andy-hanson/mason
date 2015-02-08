@@ -21,6 +21,7 @@ use~
 debug use~
 	.@-Type
 	..Bool false true
+	..control build
 	..! _ !not
 	..math.Num divisible?
 	..Try fails?
@@ -84,7 +85,8 @@ region Using iterator
 	each!. Method
 		doc. "Calls do-for-each on every element in the @, in order."
 		test. |
-			"TODO"
+			! =? [ 1 2 3 ] (build |yield
+				each! [ 1 2 3 ] yield
 		default. |_ do-for-each:Act
 			\ TODO:ES6 `for (let value of _)`
 			iter = iterator_
@@ -200,7 +202,7 @@ region Lazy functions, and their eager versions.
 	map'.
 		doc. "Type-preserving `map`."
 		test. |
-			"TODO"
+			[ [ true false ] not ] -> [ false true ]
 		|_:@ mapper:Fun
 			=> type-of_ (map _ mapper
 
@@ -289,13 +291,13 @@ region Lazy functions, and their eager versions.
 			=> type-of_ flatten_
 
 	impl! + @
-		doc. "TODO"
+		doc. "Concatenation. Sets should override this."
 		test. |
 			[ [ 0 ] [ 1 ] ] -> [ 0 1 ]
 		|:@ @a @b
 			Stream ~|
 				<~~ iterator @a
-				<~~ iterator @b \+=> type-of_ _ add
+				<~~ iterator @b
 
 	+'. Method
 		doc. "Type-preserving +."

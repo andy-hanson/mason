@@ -128,7 +128,13 @@ make-ctr = |ot
 	make-ctr ot.prototype ot.members ot.defaults ot.make-callable ot.post-construct ot.optional-members
 
 obj-type-args =
-	doc. "TODO"
+	doc. "
+		Impl-Type for Objs with specific properties.
+		Obj-Types are nominal types;
+		a value must be constructed by calling the Obj-Type in order to be contained by it.
+		-
+		Note that there are Objs whose types are not Obj-Types;
+		these include those of Wrap-Types and those made by constructor Funs, JavaScript-style.
 	\ This must be explicit because of the way we construct Obj-Type
 	prototype. Obj.create Obj.prototype
 	members.

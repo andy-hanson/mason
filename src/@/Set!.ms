@@ -8,7 +8,7 @@ debug use~
 	..methods +! -! contains? empty empty? empty!
 
 Set! = Kind
-	doc. "TODO"
+	doc. "Mutable Set."
 	implementor-test. |type
 		_ = empty type
 		+! _ [ 1 2 ]

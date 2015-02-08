@@ -12,28 +12,29 @@ debug use~
 	..methods -
 
 Set = Kind
-	doc. "TODO"
+	doc. "@ without repeat values."
 
 <! Set @
 
 impl! =? Set
-	doc. "TODO"
+	doc. "Two Sets are =? if they have the same type and contain the same values."
 	test. |
 		\ TODO: => Set
 		a = => Hash-Set! [ 1 2 ]
 		b = => Hash-Set! [ 1 2 ]
 		[ a b ] -> true
 		[ a [ - b [ 1 ] ] ] -> false
-	|set0 set1
+	|a b
 		\ TODO: Variadic `and`
-		and (=? (type-of set0) (type-of set1)) ~
-			and (=? (count set0) (count set1)) ~
-				all? set0 contains?[set1]
+		and (=? (type-of a) (type-of b)) ~
+			and (=? (count a) (count b)) ~
+				all? a contains?[b]
 
 set=?.
-	doc. "TODO"
+	doc. "Whether two @s have the same values, regardless of order or count."
 	test. |
 		[ [ 1 2 3 ] [ 3 2 1 ] ] -> true
+		\[ [ 1 ] [ 1 1 1 ] ] -> true \ TODO
 		[ [ 1 2 ] [ 1 2 3 ] ] -> false
 	|a:@ b:@
 		\ TODO: => Set a ... => Set b

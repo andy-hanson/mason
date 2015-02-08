@@ -15,7 +15,7 @@ debug use~
 	.Array
 
 @! = Kind
-	doc. "TODO"
+	doc. "Mutable @."
 	implementor-test. |type
 		\ KLUDGE because Array and Array! are the same thing (also in Seq!.ms)
 		_ = case type

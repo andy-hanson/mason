@@ -1,10 +1,9 @@
 use
 	..Bool false not true
-	..control if returning
+	..control if loop End-Loop returning
 	..Fun _ identity Pred
-	..js defined?
 	..methods - + => =? <! <? compare empty empty? freeze sub
-	..Str _ indent
+	..Str indent
 	..Type type-of
 	..Type.Impl-Type self-type
 	..Type.Kind
@@ -50,58 +49,19 @@ region Search
 			iter-a = iterator @a
 			iter-b = iterator @b
 			\ TODO:SYNTAX Loop return value
-			ret = Ref!()
-			loop!
+			loop () |
 				next-a = iter-a.next()
 				next-b = iter-b.next()
-				case!
+				case
 					next-a.done
-						set! ret next-b.done
-						end-loop!
+						\ =? If the same length and all so far are =?.
+						End-Loop next-b.done
 					next-b.done
-						set! ret false
-						end-loop!
+						End-Loop false
 					not (=? next-a.value next-b.value)
-						set! ret false
-						end-loop!
+						End-Loop false
 					else
 						()
-			get ret
-
-	first.
-		doc. "First value in iteration order."
-		test. |
-			[ [ 1 2 ] ] -> 1
-			! fails? |
-				first [ ]
-		|_
-			un-? ?first_ "Can not take first of empty."
-
-	?first. Method
-		doc. "First value in iteration order, if non-empty."
-		test. |
-			[ [ 1 2 ] ] -> ? 1
-			[ [ ] ] -> empty ?
-		default. |:Any _
-			?nth _ 0
-
-	last.
-		doc. "Last value in iteration order."
-		test. |
-			[ [ 1 2 ] ] -> 2
-			! fails? |
-				last [ ]
-		|_
-			un-? ?last_ "Can not take `last` of empty."
-
-	?last. Method
-		doc. "Last value in iteration order, if non-empty."
-		test. |
-			[ [ 1 2 ] ] -> ? 2
-			[ [ ] ] -> empty ?
-		default. |:Any _
-			if (not empty?_) |
-				_[(- count_ 1)]
 
 	?nth. Method
 		doc. |:Any _ n:Nat
@@ -141,42 +101,6 @@ region Search
 						{indent (show _}
 
 region Update
-	?<pop. Method
-		doc. "TODO"
-		test. |
-			[ [ ] ] -> empty ?
-			[ [ 0 ] ] -> ? [ ]
-			[ [ 0 1 ] ] -> ? [ 1 ]
-		default. |:@ _
-			if (not empty?_) |
-				<pop_
-
-	?pop>. Method
-		doc. "TODO"
-		test. |
-			[ [ ] ] -> empty ?
-			[ [ 0 ] ] -> ? [ ]
-			[ [ 0 1 ] ] -> ? [ 0 ]
-		default. |:@ _
-			if (not empty?_) |
-				pop>_
-
-	<pop. Method
-		doc. "TODO"
-		test. |
-			[ [ ] ] -> []
-			[ [ 0 ] ] -> []
-			[ [ 0 1 ] ] -> [ 1 ]
-		default. |:@ _
-			=> type-of_ (drop _ 1
-
-	pop>. Method
-		doc. "TODO"
-		test. |
-			"TODO"
-		default. |:@ _
-			=> type-of_ (take _ (- count_ 1
-
 	slice. Method
 		doc. "
 			The elements from index start (inclusive) to end (exclusive).
@@ -236,6 +160,7 @@ region Update
 						else
 							end-loop!
 
+
 	drop. Method
 		doc. "Stream without the first count-to-drop elements."
 		test. |
@@ -258,20 +183,76 @@ region Update
 
 	\ TODO: drop-while
 
+region Very first and last
+	first.
+		doc. "First value in iteration order."
+		test. |
+			[ [ 1 2 ] ] -> 1
+			! fails? |
+				first [ ]
+		|_
+			un-? ?first_ "Can not take first of empty."
+
+	?first. Method
+		doc. "First value in iteration order, if non-empty."
+		test. |
+			[ [ 1 2 ] ] -> ? 1
+			[ [ ] ] -> empty ?
+		default. |:Any _
+			?nth _ 0
+
+	last.
+		doc. "Last value in iteration order."
+		test. |
+			[ [ 1 2 ] ] -> 2
+			! fails? |
+				last [ ]
+		|_
+			un-? ?last_ "Can not take `last` of empty."
+
+	?last. Method
+		doc. "Last value in iteration order, if non-empty."
+		test. |
+			[ [ 1 2 ] ] -> ? 2
+			[ [ ] ] -> empty ?
+		default. |:Any _
+			if (not empty?_) |
+				_[(- count_ 1)]
+
 	tail. Method
 		doc. "
-			Special case of dropping exactly one element from the front.
+			All elements but the first.
 			TODO: Eager for Linked-Lists.
 		test. |
 			[ [ 1 2 ] ] -> => Stream [ 2 ]
-		default. |_
-			drop _ 1
+			[ [ ] ] -> [ ]
+		default. |case
+			empty?_
+				_
+			else
+				drop _ 1
+
+	rtail. Method
+		doc. "
+			All elements but the last.
+			TODO: Eager for finger trees.
+		test. |
+			[ [ 1 2 ] ] -> => Stream [ 1 ]
+			[ [ ] ] -> [ ]
+		default. |case
+			empty?_
+				_
+			else
+				take _ (- count_ 1
 
 region Combination
 	zip.
-		doc. "TODO"
+		doc. "
+			Seq of zipper applied to corresponding members of @a and @b.
+			Ends as soon as either of them does, discarding extra elements.
+			(Corresponding means: with the same index.)
 		test. |
-			[ [ 1 2 ] [ 10 20 ] + ] -> => Stream [ 11 22 ]
+			[ [ 1 2 ] [ 10 20 30 ] + ] -> => Stream [ 11 22 ]
 		|@a:@ @b:@ zipper:Fun[2]
 			Stream ~|
 				iter-a = iterator @a
@@ -289,7 +270,6 @@ region Combination
 								else
 									<~ zipper next-a.value next-b.value
 
-
 	zip'.
 		doc. "Type-preserving zip."
 		test. |
@@ -297,16 +277,15 @@ region Combination
 		|@a:@ @b:@ zipper:Fun[2]
 			=> (type-of @a) (zip @a @b zipper
 
-
 region TODO: put somewhere
 	groups-of.
-		doc. "TODO"
+		doc. "Seq of consecutive groups of `group-size` elements."
 		test. |
 			! seq=? [ [ 1 2 ] [ 3 4 ] ] (groups-of 2 [ 1 2 3 4 ])
 			\ Throws away non-full groups
 			! seq=? [ [ 1 2 3 ] ] (groups-of 3 [ 1 2 3 4 ])
 			! seq=? [ [] [] [] ] (take (groups-of 0 [ 1 2 3 4 ]) 3)
-		|:Seq group-size:Nat _
+		|:Seq[Array] group-size:Nat _
 			case
 				=? group-size 0
 					\ TODO: repeat-forever [ ]
@@ -333,10 +312,10 @@ region TODO: put somewhere
 							<~ freeze next-group
 
 	reverse. Method
-		doc. "TODO"
+		doc. "Seq with the opposite order."
 		test. |
 			[ [ 1 2 ] ] -> [ 2 1 ]
-		default. |_
+		default. |:Array _
 			(from-stream Array! _).reverse()
 
 region Sorting
@@ -368,24 +347,13 @@ region Sorting
 		test. |
 			[ [ 3 2 1 ] ] -> [ 1 2 3 ]
 			[ [ "five" "six" "seven" ] count ] -> [ "six" "five" "seven" ]
-		default. |_:@ sort-by:Opt[Fun]
-			sort=> type-of_ _ sort-by
-
-	\ KLUDGE: because others are so slow...
-	impl! sort Str |_ sort-by:Opt[Fun]
-		case
-			defined? sort-by
-				sort.default sort _ sort-by
-			else
-				((_.split "").sort ()).join ""
-
-	sort=>.
-		|Res-Type:@-Type _:@ sort-by:Opt[Fun]
+		default. |:Array _:@ sort-by:Opt[Fun]
 			\ TODO:SYNTAX Optional args
 			sb = get-or (Opt->? sort-by) identity
-			arr = => Array! _
-			arr.sort |a b
+			\ Ensure that we create a *new* Array!, because we're about to mutate it.
+			sorted = from-stream Array! _
+			sorted.sort |a b
 				compare (sb a) (sb b)
-			=> Res-Type arr
+			sorted
 
 Seq

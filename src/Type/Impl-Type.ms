@@ -10,15 +10,14 @@ use~
 	..@ any?
 	..Map each-pair!
 debug use~
-	.! _ !not
+	..! _ !not
+	..methods =? empty
+	..Obj!
 
 Impl-Type. Kind
 	doc. "
 		TODO:REST
 		Every Impl-Type should have a `prototype` property.
-
-impl! <? Impl-Type
-	doc. "TODO"
 	test. |
 		A = Kind
 			doc. "A"
@@ -33,6 +32,12 @@ impl! <? Impl-Type
 		! <? C B
 		! <? C A
 		!not <? A B
+
+impl! <? Impl-Type
+	doc. "
+		Whether one Impl-Type is a subtype of a Kind."
+		implementor may itself be a Kind.
+	test. "See Impl-Type.test."
 	|implementor:Impl-Type kind:Kind
 		case implementor
 			:Kind
@@ -43,10 +48,11 @@ impl! <? Impl-Type
 				contains? kind implementor.prototype
 
 impl! <! Impl-Type
-	doc. "TODO"
-	test. |
-		"TODO"
-		\ TODO: Assert no circular chains of <!.
+	doc. "
+		Makes one Impl-Type a subtype of a Kind.
+		Kinds can subtype each other.
+	test. "See Impl-Type.test."
+	\ TODO: Assert no circular chains of <!.
 	|implementor kind:Kind method-impls
 		unchecked-implementor! implementor kind
 		case! method-impls
@@ -61,19 +67,22 @@ unchecked-implementor! Fun Impl-Type \ Fun isa Fun, so can't use <!
 <! Kind Impl-Type
 
 region Self-Type
-	\ TODO: Wrap-Type
+	\ TODO: Wrap-Type (and make 'prototype' a Method, not a property)
 	Self-Type. Obj-Type
-		doc. "TODO"
+		doc. "
+			Impl-Type with exactly one member.
+			Calling impl! on it will directly modify an Obj to contain method implementations.
 		members.
 			prototype. Obj
+		test. |
+			x = empty Obj!
+			impl! contains? (self-type x) |
+				1
+			! =? (contains? x) 1
 
 	<! Self-Type Impl-Type
 
-	self-type.
-		doc. "TODO"
-		test. |
-			"TODO"
-		|_:Obj
-			Self-Type (prototype. _
+	self-type. |_:Obj
+		Self-Type (prototype. _
 
 Impl-Type

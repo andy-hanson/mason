@@ -14,7 +14,9 @@ use
 	.Set!
 
 Hash-Set! = Obj-Type
-	doc. "TODO"
+	doc. "
+		Set that considers members equal using =?.
+		Relies on an efficient hash-code implementation.
 	members.
 		data. Hash-Map!
 

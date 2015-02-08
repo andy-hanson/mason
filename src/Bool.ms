@@ -3,11 +3,23 @@ use
 	.private.js-impl i-true i-false
 
 Bool =
-	doc. "TODO"
+	doc. "Either true or false."
 	global.Boolean
 
 true. i-true
 false. i-false
+
+not.
+	doc. "True iff `a` isn't."
+	test. |
+		[ false ] -> true
+		[ true ] -> false
+	|_:Bool
+		case
+			_
+				false
+			else
+				true
 
 \ TODO: Variadic
 
@@ -25,6 +37,20 @@ and.
 			else
 				false
 
+nand.
+	doc. "True if either of `a` or `b` is false."
+	test. |
+		[ false false ] -> true
+		[ false true ] -> true
+		[ true false ] -> true
+		[ true true ] -> false
+	|a:Bool ~b:Bool
+		case
+			a
+				not b
+			else
+				true
+
 or.
 	doc. "True iff either `a` or `b` is."
 	test. |
@@ -39,16 +65,6 @@ or.
 			else
 				cond-1
 
-nand.
-	doc. "True if either of `a` or `b` is false."
-	test. |
-		[ false false ] -> true
-		[ false true ] -> true
-		[ true false ] -> true
-		[ true true ] -> false
-	|cond-0:Bool ~cond-1:Bool
-		not (and cond-0 ~cond-1)
-
 nor.
 	doc. "True iff both `a` and `b` are false."
 	test. |
@@ -56,32 +72,26 @@ nor.
 		[ false true ] -> false
 		[ true false ] -> false
 		[ true true ] -> false
-	|cond-0:Bool ~cond-1:Bool
-		not (or cond-0 ~cond-1)
+	|a:Bool ~b:Bool
+		case
+			a
+				false
+			else
+				not b
 
 implies.
-	doc. "TODO"
+	doc. "
+		Whether `then` is true whenever `if` is.
+		Always true when `if` is false.
 	test. |
 		[ false false ] -> true
 		[ false true ] -> true
 		[ true false ] -> false
 		[ true true ] -> true
-	|cond-0:Bool ~cond-1:Bool
+	|if:Bool ~then:Bool
 		case
-			cond-0
-				cond-1
-			else
-				true
-
-not.
-	doc. "True iff `a` isn't."
-	test. |
-		[ false ] -> true
-		[ true ] -> false
-	|cond:Bool
-		case
-			cond
-				false
+			if
+				then
 			else
 				true
 
@@ -92,11 +102,11 @@ xor.
 		[ false true ] -> true
 		[ true false ] -> true
 		[ true true ] -> false
-	|cond-0:Bool cond-1:Bool
+	|a:Bool b:Bool
 		case
-			cond-0
-				not cond-1
+			a
+				not b
 			else
-				cond-1
+				b
 
 Bool

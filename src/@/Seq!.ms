@@ -19,7 +19,10 @@ debug use~
 	.Seq seq=?
 
 Seq! = Kind
-	doc. "TODO"
+	doc. "
+		Mutable Seq.
+		Array!s can efficiently change existing elements and add new ones on the right.
+		Deque!s are like Arrays, but can add new values on the left.
 	implementor-test. |type
 		\ KLUDGE because Array and Array! are the same thing
 		_ = case type
@@ -50,10 +53,10 @@ Seq! = Kind
 
 ?<pop!. Method
 	doc. |:? _
-		"TODO"
+		"Takes one element off the left side, if not empty?."
 ?pop>!. Method
 	doc. |:? _
-		"TODO"
+		"Takes one element off the right side, if not empty?."
 
 set-nth!. Method
 	doc. |_ n:Nat val

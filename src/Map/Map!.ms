@@ -18,7 +18,7 @@ debug use~
 	..control if!
 	..methods => =? * compare empty!
 	..Map has-key? keys
-	..Type.Obj-Type
+	..Type.Wrap-Type
 	.Weak-Identity-Map!
 
 Map! = Kind
@@ -27,19 +27,13 @@ Map! = Kind
 		-!: Takes a @ of keys to remove.
 		+!: Adds another map.
 	implementor-test. |type
-		\ Might be a Weak-Identity-Map!, so must be a reference type.
-		\ TODO: Wrap-Type
-		Mappable-Thing = Obj-Type
-			members.
-				data.
+		Mt = Wrap-Type
+			doc. "Mappable Thing; might be a Weak-Identity-Map!, so must be a reference type."
 		\ Might be a Sorted-Map, so must be comparable.
-		impl! compare Mappable-Thing |a b
-			compare a.data b.data
-		mt = |n
-			Mappable-Thing
-				data. n
+		impl! compare Mt |a b
+			compare a.val b.val
 		\ => Array because these must maintain by their identity for Weak-Identity-Map!
-		ks = => Array (map [ 1 3 5 4 2 ] mt
+		ks = => Array (map [ 1 3 5 4 2 ] Mt
 		noweak = |do
 			if! (not :Weak-Identity-Map!) do
 		_ = empty type
@@ -47,14 +41,14 @@ Map! = Kind
 			! empty? _
 		do-adds = |
 			each! ks |n
-				add! _ n (* 2 n.data)
+				add! _ n (* 2 n.val)
 		do-adds()
 		each! ks |n
-			! =? _[n] (* 2 n.data)
-		?get _ (mt 0)
-		! empty? (?get _ (mt 0))
+			! =? _[n] (* 2 n.val)
+		?get _ (Mt 0
+		! empty? (?get _ (Mt 0
 		noweak |
-			! set=? keys_ (map [ 1 2 3 4 5 ] mt)
+			! set=? keys_ (map [ 1 2 3 4 5 ] Mt
 			empty! _
 			! empty? _
 			do-adds()
@@ -99,8 +93,7 @@ get-or-add!. Method
 
 impl! +! Map!
 	doc. "Adds the other map's keys to mine, overriding my values."
-	test. |
-		"TODO"
+	test. "See Map!.implementor-test."
 	|_ to-add:Map
 		each-pair! to-add assoc![_]
 

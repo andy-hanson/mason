@@ -19,7 +19,9 @@ debug use~
 	..Try fails?
 
 Wrap-Type = Obj-Type
-	doc. "TODO"
+	doc. "
+		Obj with only one member (always called `val`).
+		These are useful for wrapping a value with a new type.
 	members.
 		displayName. Str
 		prototype. Obj

@@ -13,8 +13,6 @@ Type. Kind
 	doc. "
 		Anything implementing contains?.
 		Types are generally used to succinctly make assertions about values.
-	test. |
-		"TODO"
 
 <! Impl-Type Type
 <! Method Type
@@ -25,10 +23,12 @@ impl! contains? Fun |fun _
 	js-instanceof _ fun
 
 type-of.
-	doc. "TODO"
+	doc. "
+		Most specific Impl-Type for a value.
 	test. |
+		[ Type ] -> Kind
 		[ () ] -> Obj
-	|obj
+	|:Impl-Type obj
 		case
 			any? obj
 				case obj.constructor

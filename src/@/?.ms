@@ -88,7 +88,8 @@ region Funs
 	get-or.
 		doc. "If empty, defaults to `or` - else returns its value."
 		test. |
-			"TODO"
+			[ (empty ?) 1 ] -> 1
+			[ (? 1) 2 ] -> 1
 		|_:? ~or
 			case
 				empty?_

@@ -18,7 +18,9 @@ debug use~
 	.methods =?
 
 Generator! = Pred-Type
-	doc. "TODO"
+	doc. "
+		A block of code which yields values and receives responses from a context.
+		Also known as a coroutine.
 	predicate. |_
 		\ TODO: `impl? _ gen-next!`
 		and :Obj ~(contains? Fun _.next)

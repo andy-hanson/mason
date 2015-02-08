@@ -17,7 +17,6 @@ debug use~
 	.Range range
 	.Seq seq=? take
 
-
 Lazy-Stream = Obj-Type
 	doc. "
 		Like Stream, but caches its elements as it produces them.
@@ -62,27 +61,16 @@ Lazy-Stream = Obj-Type
 				_
 
 lazy-streaming.
-	doc. "TODO"
+	doc. "Creates a Lazy-Stream from a generator."
 	test. |
 		fibonaccis = Stream ~|
 			<~ 1
 			<~ 1
-			\ TODO: Infinity
+			\ TODO: Infinite range
 			<~~ each~ (range 2 1000000) ~|i
 				\ This is *not* an exponential blowup because these are cached.
 				<~ + fibonaccis[(- i 1] fibonaccis[(- i 2]
-		! seq=? (take fibonaccis 10)
-			. 1
-			. 1
-			. 2
-			. 3
-			. 5
-			. 8
-			. 13
-			. 21
-			. 34
-			. 55
-
+		! seq=? (take fibonaccis 10) [ 1 1 2 3 5 8 13 21 34 55 ]
 	|stream:Fun[Generator!]
 		cash = empty Array!
 		Lazy-Stream

@@ -14,7 +14,9 @@ debug use
 	..methods =?
 
 Identity-Map! =
-	doc. "TODO"
+	doc. "
+		JavaScript's native Map type.
+		Only considers exactly identical keys =?; this makes it the fastest Map.
 	test. |
 		\ TODO: Just use generic Map! test
 		_ = empty Identity-Map!

@@ -20,17 +20,12 @@ impl! sub @-Type identity
 impl! empty (self-type @) |
 	empty Array
 
-impl! => @-Type @
-	doc. "TODO"
-	test. |
-		[ Array (range 0 5) ] -> [ 0 1 2 3 4 ]
-	\ TODO: fun-copy
-	|type _
-		from-stream type _
-
 from-stream. Method
 	doc. |_ stream:@
-		"
-			TODO
+		"Creates a new value of this type by reading out from an @'s iterator."
+	test. |
+		[ Array (range 0 5) ] -> [ 0 1 2 3 4 ]
+
+impl! => @-Type @ from-stream
 
 @-Type

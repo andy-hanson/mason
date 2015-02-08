@@ -7,8 +7,7 @@ use
 	.Type.Method _ impl!
 use~
 	.@ _ map
-	.@.? un-?
-	.@.Seq ?last pop>
+	.@.Seq rtail last
 	.@.Array
 	.Map _ keys
 	.Map.Map! get-or-add!
@@ -135,10 +134,9 @@ spread.
 			. [ 1 2 3 5 ]
 
 	\ TODO:SYNTAX Non-last rest arg?
-	|:@ fun:Fun ...rest
-		init-args = pop> rest
-		\ TODO: last
-		spreaded = un-? (?last rest
+	|:@ fun:Fun ...args
+		init-args = rtail args
+		spreaded = last args
 		case spreaded
 			:@
 				map _ |em

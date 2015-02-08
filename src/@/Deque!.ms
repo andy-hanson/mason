@@ -16,8 +16,7 @@ use
 	.Seq ?nth reverse
 
 Deque! = Obj-Type
-	doc.
-		"TODO"
+	doc. "Seq! that can efficiently add values on either side."
 	members.
 		data!. Array!
 		start-index!. Nat \ Inclusive (unless =? end-index)

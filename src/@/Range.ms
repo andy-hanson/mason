@@ -18,7 +18,7 @@ debug use~
 	.Seq seq=?
 
 Range = Obj-Type
-	doc. "TODO"
+	doc. "Seq of Nums taking fixed steps."
 	members.
 		start. Num
 		end. Num
@@ -36,9 +36,10 @@ range. |-start-:Num -end-:Num -step-:Opt[Num]
 		step. get-or (Opt->? -step-) (sign (- end start))
 
 impl! length Range
-	doc. "TODO"
+	doc. "Difference between and and start values."
 	test. |
 		[ (range 5 10 2) ] -> 5
+		[ (range 5 10 3) ] -> 5
 	|_
 		- _.end _.start
 
@@ -61,6 +62,7 @@ impl! from-stream (self-type Range) |_ stream
 			[ (range 0 2 0.5) ] -> 4
 		|_
 			round-down (/ length_ _.step)
+
 	iterator ->
 		test. |
 			! seq=? (range 0 10 2) [0 2 4 6 8]

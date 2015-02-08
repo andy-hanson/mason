@@ -17,9 +17,10 @@ get-global-module.
 	|name
 		commonJS-require name
 
-\ TODO: This can't be used by anyone not in the same directory as modules.ms.
 get-module.
-	doc. "TODO"
+	doc. "
+		Gets a module at a given path.
+		TODO: This can't be used by anyone not in the same directory as modules.ms.
 	|module-path
 		commonJS-require "./{path.relative this-module-directory module-path}"
 

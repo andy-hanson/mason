@@ -6,6 +6,7 @@ use
 	.Obj-Type
 use~
 	..@ _ flat-map
+	.Impl-Type
 debug use~
 	..!
 	..@.Stream
@@ -103,9 +104,10 @@ inherit-methods! = |implementor kind
 		kind.super-kinds.forEach rec!
 	rec! kind
 
-\ TODO: Use Stream
 concrete-implementors.
-	doc. "TODO"
+	doc. "
+		List of Impl-Types inheriting from this.
+		Does not include inheriting Kinds, but does include their implementors.
 	test. |
 		X = Kind
 			doc. "X"
@@ -121,7 +123,7 @@ concrete-implementors.
 		<! Z X
 		<! W Y
 		[ X ] -> => Stream [ W Z ]
-	|:@ kind:Kind
+	|:@[Impl-Type] kind:Kind
 		flat-map kind.implementors |case
 			:Kind
 				concrete-implementors_

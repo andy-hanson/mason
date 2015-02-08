@@ -14,7 +14,7 @@ use
 	.Seq! ?pop>! set-nth!
 
 Heap-Priority-Queue!. Wrap-Type
-	doc. "TODO"
+	doc. "Default implementation for Priority-Queue!."
 	wrapped-type. Array!
 
 <! (self-type Heap-Priority-Queue!) @-Type

@@ -1,4 +1,4 @@
-doc. "TODO"
+doc. "For running code in `test` properties."
 
 use
 	..$ _ $after $all $ing
@@ -60,21 +60,21 @@ impl! test-special Impl-Type |type
 
 \ TODO: MOVE THESE
 impl! test-special Kind |_
-	a = @$from-any ((impl-for test-special Impl-Type) _
+	a = @$-from-any ((impl-for test-special Impl-Type) _
 	b = flat-map (?p _ "implementor-test") |test:Fun
 		flat-map concrete-implementors_ |implementor
 			@$test-test-fun implementor test "{_}.implementor-test of {implementor}" implementor
 	+ a b
 
 
-$@test-all.
-	doc. "TODO"
+$test-all.
+	doc. "Tests all modules in dir-path."
 	|dir-path:Str
 		$after ($@module-in-dir dir-path) |_
 			$all (flat-map _ @$test-module)
 
-$@test-module.
-	doc. "TODO"
+$test-module.
+	doc. "Treats an Obj as a module and tests it."
 	|module:Obj
 		$all (@$test-module module
 
@@ -111,7 +111,7 @@ all-tested = empty Identity-Set!
 				else
 					[]
 
-			+ (@$from-any a) b
+			+ (@$-from-any a) b
 
 @$test-test-prop = |value value-test name \TODO: ...test-args
 	\ Could be both Fun and Dict
@@ -144,8 +144,7 @@ all-tested = empty Identity-Set!
 		else
 			[ ]
 
-@$from-any =
-	doc. "TODO"
+@$-from-any =
 	|test-result
 		case test-result
 			:@

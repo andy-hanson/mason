@@ -1,7 +1,7 @@
 use
 	..@ _ flat-map keep map
 	..@.?
-	..@.Seq _ ?first ?<pop
+	..@.Seq _ ?first tail
 	..methods + - contains? empty?
 	..Str _ ->upper
 debug use
@@ -54,11 +54,11 @@ make-word-from-blocks.
 
 	|:?[Seq[Str]] word:Str blocks:@[Str]
 		rec = |word blocks
-			case ?<pop word
+			case word
 				empty?_
 					? [ ]
 				else
-					rest-word = _.val
+					rest-word = tail_
 					this-char-blocks = keep blocks |_
 						contains? _ word[0]
 					?first (flat-map this-char-blocks |_

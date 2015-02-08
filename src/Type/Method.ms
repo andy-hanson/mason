@@ -13,8 +13,9 @@ use~
 	.Impl-Type
 	.Kind
 debug use~
+	..@.?
 	..math.Num
-	..methods =?
+	..methods + =? empty
 	..Try fails?
 
 writable? = |obj property
@@ -30,8 +31,7 @@ make-callable-method = |method
 			else
 				"a[\"{method.impl-symbol}\"]"
 		add! "var impl = {impl}"
-		\ TODO: Debug mode only
-		add! "
+		debug add! "
 			if (impl === undefined)
 				throw new Error(\"Method {method.displayName} not defined for \" + a)
 		case!
@@ -44,7 +44,6 @@ make-callable-method = |method
 						default: throw new Error("Code not generated to accept " + arguments.length + " arguments.")
 					}
 			else
-				\ TODO: Debug mode only
 				add! "
 					switch (arguments.length) \{
 						case 1: return impl(a)
@@ -112,7 +111,8 @@ Method. Obj-Type
 	make-callable. make-callable-method
 
 impl!.
-	doc. "TODO"
+	doc. "Implements a Method for a type or types."
+	test. "See Method.test."
 	|a b c d
 		case!
 			defined? d
@@ -202,27 +202,27 @@ Double-Dispatcher = Obj-Type
 					oh-no! ~"Can't double-dispatch {_.method} for {_.first-type} on {target-2}"
 			Fun.prototype.apply.call impl () args
 
-\impl?.
-\	doc. "TODO"
-\	|method:Method type:Impl-Type
-\		has-property-or-in-prototype? type.prototype method.impl-symbol
-
-\ TODO: This is really ?direct-impl-for.
 ?impl-for.
-	doc. "TODO"
+	doc. "
+		Implementation of a method for a particular Impl-Type.
+		Does not reference method.default or impls on super-types.
+		Empty if the type would use method.default.
 	test. |
-		"TODO"
+		[ contains? Method ] -> ? method-contains?
+		[ =? Method ] -> empty ?
 	|method:Method type:Impl-Type
 		?p type.prototype method.impl-symbol
 
 impl-for.
-	doc. "TODO"
+	doc. "impl-for that fails when there is no implementation."
 	test. |
-		"TODO"
+		[ contains? Method ] -> method-contains?
+		! =? 3 ((impl-for + Num) 1 2
 	|method:Method type:Impl-Type
-		un-? (?impl-for method type)
+		un-? (?impl-for method type) ~"{method} not implemented for {type}."
 
-impl-contains?! Method |method value
+method-contains? = |method value
 	p-with-proto? value method.impl-symbol
+impl-contains?! Method method-contains?
 
 Method
