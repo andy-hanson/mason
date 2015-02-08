@@ -380,12 +380,14 @@ U.implementMany(E, "renderContent", {
 		")"
 	]},
 	Yield: function(rx) { return [
-		"yield ",
-		r(rx)(this.yielded)
+		"(yield ",
+		r(rx)(this.yielded),
+		")"
 	]},
 	YieldTo: function(rx) { return [
-		"yield* ",
-		r(rx)(this.yieldedTo)
+		"(yield* ",
+		r(rx)(this.yieldedTo),
+		")"
 	]}
 })
 

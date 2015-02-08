@@ -91,6 +91,14 @@ const parseExprParts = parseExpr.parseExprParts = function(px, sqt) {
 		// `case!` can not be part of an expression - it is a statement.
 		case T.Keyword.is("case")(head):
 			return [ parseCase(px, rest, "case", false) ]
+		case T.Keyword.is(Lang.GeneratorKeywords)(head): {
+			const y = parseExpr(px, rest)
+			switch (head.k) {
+				case "<~": return [ E.Yield(px.s({ yielded: y })) ]
+				case "<~~": return [ E.YieldTo(px.s({ yieldedTo: y })) ]
+				default: fail()
+			}
+		}
 		default:
 			return Sq.cons(parseSingle(px, head), parseExprParts(px.withSqTSpan(rest), rest))
 	}

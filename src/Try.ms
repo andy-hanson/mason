@@ -19,7 +19,7 @@ debug use~
 	.! _ !not
 	.control build
 	.Fun thunk
-	.$ $delay $rejected $resolved
+	.$ $rejected $resolved
 
 Try = Kind
 	doc. "Result of running failable code. Success or Error."
@@ -167,19 +167,16 @@ annotate-errors.
 				p! _ "message" "{annotation}{_.message}"
 				oh-no! _
 
-region Error handling
+region $
 	$try.
 		doc. "Success if the $ is resolved, Error if rejected."
 		$test. ~|
-			\ TODO:SYNTAX (<~ ..)
-			a <~ $try ($resolved 1
-			! =? a (Success 1
-			b <~ ($try ($rejected "a"
-			! =? "a" b.message
-			c <~ ($try ($.reject "a"
-			! =? "a" c.message
+			! =? (Success 1) (<~ $try ($resolved 1
+			! =? "a" (<~ ($try ($rejected "a"))).message
+			\ $rejected but with non-error:
+			! =? "a" (<~ ($try ($.reject "a"))).message
 		|:$[Try] _:$
-			\ =>[Error] because technically possible for a Promise to reject with a non-Error.
+			\ =>[Error] because it's possible for a Promise to reject with a non-Error.
 			$catch ($after _ Success) =>[Error]
 
 	$catch.
@@ -188,20 +185,15 @@ region Error handling
 			Else returns a `$` for the result of running `catcher` on the Error.
 			Like for `$after`, `catcher` can also return another `$`.
 		$test. ~|
-			\ TODO:SYNTAX (<~ ..)
-			a <~ ($catch ($rejected "a") |_
+			! =? "a" (<~ ($catch ($rejected "a") |_
 				_.message
-			! =? "a" a
 		|:$ promise:$ catcher:Fun
 			promise.catch catcher
 
 	$annotate-errors.
 		doc. "Like `annotate-errors` but works on errors thrown in a `$`."
 		$test. ~|
-			\ TODO:SYNTAX (<~ ..)
-			a <~ $try ($annotate-errors "a" ($delay |
-				oh-no! "b"
-			! =? "ab" a.message
+			! =? "ab" (<~ $try ($annotate-errors "a" ($rejected "b"))).message
 		|~annotation:Str $tried:$
 			$catch $tried |_
 				p! _ "stack" "{annotation}{_.stack}"

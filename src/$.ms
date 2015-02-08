@@ -5,7 +5,7 @@ use
 	.@.Array
 	.Bool
 	.control if
-	.Fun _ apply fun-copy identity ignore
+	.Fun _ apply identity ignore
 	.Generator!
 	.js global new
 	.methods => sub
@@ -43,6 +43,8 @@ $ =
 
 impl! sub (self-type $) identity
 
+\ See also $ section in Try.ms.
+
 $done.
 	doc. "
 		Don't forget $done!
@@ -65,18 +67,14 @@ $after.
 		Applies `then` to the result whenever it is ready.
 		If `then` returns a $, returns a $ for that $'s value; else returns a $ for the result of `then`.
 	$test. ~|
-		\ TODO:SYNTAX (<~ ..)
-		a <~ $after ($resolved 1) +[1]
-		! =? 2 a
+		! =? 2 (<~ $after ($resolved 1) +[1]
 	|:$ _:$ then:Fun
 		_.then then
 
 $resolved.
 	doc. "$ that is already resolved."
 	$test. ~|
-		\ TODO:SYNTAX (<~ ..)
-		a <~ ($resolved 1
-		! =? 1 a
+		! =? 1 (<~ $resolved 1
 	|:$ value
 		Promise.resolve value
 
@@ -85,9 +83,7 @@ $rejected.
 	test. |
 		$ing ~|
 			r = $rejected "a"
-			\ TODO:SYNTAX (<~ ..)
-			a <~ $try r
-			! =? "a" a.message
+			! =? "a" (<~ $try r).message
 			\ $after will be ignored
 			b <~ $try ($after r |
 				oh-no! "b"
@@ -102,10 +98,8 @@ $delay.
 		It should go without saying,
 		but if you needlessly $delay things all the time your program will take longer.
 	$test. ~|
-		\ TODO:SYNTAX (<~ ..)
-		a <~ $delay |
+		! =? 1 (<~ $delay |
 			1
-		! =? 1 a
 	|delayed:Fun[0]
 		new $ |resolve reject
 			ignore reject \ TODO:Ignored vars
@@ -116,11 +110,9 @@ $all.
 		$ that resolves when the last $ in the input does, with every value in the original iteration order.
 		If any one of them fails, fails with the first such failure.
 	$test. ~|
-		\ TODO:SYNTAX (<~ ..)
-		a <~ ($all [ ($resolved 1) ($resolved 2
-		! =? [ 1 2 ] a
-		b <~ $try ($all [ ($rejected "a") ($rejected "b") ]
-		! =? "a" b.message
+		! =? [ 1 2 ] (<~ ($all [ ($resolved 1) ($resolved 2
+		all-rejected = $all [ ($rejected "a") ($rejected "b") ]
+		! =? "a" (<~ $try all-rejected).message
 	|:$[Array] _:@[$]
 		$.all (=> Array _
 
@@ -129,39 +121,29 @@ $map.
 		Asynchronously runs mapper for every element of mapped and returns a $ joining them.
 		Unlike map, this always returns an Array.
 	$test. ~|
-		\ TODO:SYNTAX (<~ ..)
-		a <~ $map [ 1 2 3 ] |_
+		! =? [ 2 3 4 ] (<~ $map [ 1 2 3 ] |_
 			$delay |
 				+ _ 1
-		! =? [ 2 3 4 ] a
 	|:$[Array] mapped:@ mapper:Fun[Any $]
 		$all (map mapped mapper
 
 $flat-map.
 	doc. "Like $map but flattens the result."
 	$test. ~|
-		\ TODO:SYNTAX (<~ ..)
-		a <~ ($flat-map [ 1 2 3 ] |_
+		! =? (=> Stream [ 1 1 2 2 3 3 ]) (<~ ($flat-map [ 1 2 3 ] |_
 			$delay |
 				[ _ _ ]
-		! =? (=> Stream [ 1 1 2 2 3 3 ]) a
 	|:$[@] mapped:@ mapper:Fun[Any $[@]]
 		$after ($map mapped mapper) flatten
-
-$each!.
-	doc. "Asynchronously runs a Fun on each element in a @."
-	fun-copy $map
 
 $keep.
 	doc. "
 		Asynchronously runs keep-if? on each element and creates an Array of those that match.
 		Maintains the original order.
 	$test. ~|
-		\ TODO:SYNTAX (<~ ..)
-		a <~ ($keep [ 1 2 3 4 ] |_
+		! =? (=> Stream [ 2 4 ]) (<~ ($keep [ 1 2 3 4 ] |_
 			$delay |
 				divisible? _ 2
-		! =? (=> Stream [ 2 4 ]) a
 	|:$[Array] keep-some:@ keep-if?:Fun[Any $[Bool]]
 		$flat-map keep-some |_
 			$after keep-if?_ |keep
@@ -174,11 +156,7 @@ $call.
 		So for any place you would write `f x` where `x` is an actualized value,
 		you may write `$call f $x` where `$x` is a promise.
 	$test. ~|
-		$one = $delay |
-			1
-		\ TODO:SYNTAX (<~ ..)
-		a <~ $call + $one $one
-		! =? 2 a
+		! =? 3 (<~ $call + ($resolved 1) ($resolved 2)
 	|:$ f ...$args
 		$after ($all $args) apply[f]
 
@@ -189,26 +167,23 @@ $ing.
 		The code after the assignment will become an $after of it.
 		Note that $ing returns a $; it does *not* call $done at the end.
 	$test. ~|
-		\ TODO:SYNTAX (<~ ..)
-		a <~ $ing ~|
+		! =? "res" (<~ $ing ~|
 			promised <~ $resolved "promised"
 			! =? "promised" promised
 			"res"
-		! =? "res" a
-		\ TODO:SYNTAX (<~ ..)
-		b <~ $try ($ing ~|
+		$whoops <~ $try ($ing ~|
 			<~ $rejected "whoops"
 			oh-no! "It's been rejected, so the rest is never called."
-		! =? "whoops" b.message
+		! =? "whoops" $whoops.message
 	|:$ code:Fun[Generator!]
-		gen = code ()
+		gen = code()
 		eval = |last-value
 			value done = gen.next last-value
 			case
 				done
-					$resolved value
+					value
 				else
 					$after value eval
-		eval ()
+		eval()
 
 $

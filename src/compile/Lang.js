@@ -8,7 +8,9 @@ const setUnion = function() {
 	return s
 }
 
-const AssignKeywords = new Set(["=", ". ", "<~", "<~~"])
+const g = ["<~", "<~~"]
+const GeneratorKeywords = new Set(g)
+const AssignKeywords = new Set(["=", ". "].concat(g))
 
 const LineSplitKeywords = setUnion(AssignKeywords, new Set(["->"]))
 
@@ -59,6 +61,7 @@ const isNameCharacter = function(ch) { return /[^()[\]{}\.:|_\ \\\n\t\""`#;,]/.t
 
 module.exports = {
 	AllKeywords: AllKeywords,
+	GeneratorKeywords: GeneratorKeywords,
 	AssignKeywords: AssignKeywords,
 	LineSplitKeywords: LineSplitKeywords,
 	CaseKeywords: CaseKeywords,
