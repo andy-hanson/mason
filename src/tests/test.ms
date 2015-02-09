@@ -13,12 +13,13 @@ use
 	..Map
 	..methods =? contains? empty
 	..modules $@module-in-dir
-	..Obj _ ObjLit ?p p p? @p @p-all
+	..Obj _ ?p p p? @p @p-all
 	..Str
 	..Try $annotate-errors annotate-errors oh-no! Success try
 	..Type.Impl-Type
 	..Type.Kind _ concrete-implementors
 	..Type.Method _ impl! impl-for
+	..Type.Pred-Type ObjLit
 debug use
 	..control build
 	..Obj!

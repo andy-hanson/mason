@@ -1,23 +1,25 @@
 use
 	.Bool _ and false not nor xor
-	.js any? defined? global js-typeof reference=? js-sub
-	.methods =? => empty empty? freeze
+	.js defined? global js== js-typeof reference=? js-sub
+	.methods =? => <! contains? empty empty? freeze
+	.private.bootstrap Str
 	.Symbol
 	.Type.Impl-Type self-type
 	.Type.Method impl!
-	.Type.Pred-Type _ Union
+	.Type.Kind
 use~
 	.@ _ ++ all? count keep
 	.@.? _ Opt->?
 	.@.Identity-Set!
-	.@.Stream
+	.Fun
 	.Map _ each-pair! make-map
 	.Obj! _ p+!
 debug use~
-	.! _ !not
+	.!
 	.@.Seq seq=?
+	.@.Stream
 	.Bool true
-	.methods contains?
+	.math.Num
 	.Try fails?
 
 Obj =
@@ -26,16 +28,14 @@ Obj =
 		Everything shares Obj.prototype.
 	global.Object
 
-Str = global.String \ Can't have dependency on Str.ms
-~Obj-Key = Union[Str Symbol]
+Obj-Key. Kind
+	doc. "TODO"
+<! Str Obj-Key
+<! Symbol Obj-Key
+\ TODO: Closed Kinds?
 
-ObjLit. Pred-Type
-	doc. "Matches only Objs which have no type (other than Obj itself)."
-	test. |
-		! contains? ObjLit (a. 1
-		!not contains? ObjLit ObjLit
-	predicate. |_
-		and :Obj ~(reference=? (Obj.getPrototypeOf _) Obj.prototype)
+can-get-p?. |_
+	not (js== _ ()
 
 flag?. |obj flag:Str
 	\ TODO: use `and`
@@ -64,12 +64,18 @@ flag?. |obj flag:Str
 			value. 0
 			enumerable. false
 		! seq=? (@p-all obj) [ "a" sym ]
-	|:@[Obj-Key] _:Obj
-		\ TODO: Only forbidden if is a Fun
-		\ TODO: Lazy +
-		own-names = keep (=> Stream (Obj.getOwnPropertyNames _)) |name
-			not (forbidden-fun-props.has name)
-		++ own-names (Obj.getOwnPropertySymbols _)
+		\ But not "arguments" or "caller"
+		[ @p-all ] -> => Stream [ "length" "name" "prototype" "doc" "test" "displayName" ]
+	|:@[Obj-Key] _
+		props = Obj.getOwnPropertyNames _
+		\ TODO: case!, keep!
+		own-names = case
+			:Fun
+				keep props |name
+					not (contains? forbidden-fun-props name)
+			else
+				props
+		++ own-names (Obj.getOwnPropertySymbols _
 
 @p.
 	doc. "
@@ -84,6 +90,7 @@ flag?. |obj flag:Str
 			value. 0
 			enumerable.
 		! empty? (@p obj)
+		[ @p ] -> [ "doc" "test" "displayName" ]
 	|:@[Str] _:Obj
 		Obj.keys _
 
@@ -107,13 +114,12 @@ flag?. |obj flag:Str
 ?p-with-proto.
 	doc. "Like `?p`, but also looks through the prototype chain."
 	test. |
-		x = empty Obj
-		[ x "toString" ] -> ? Obj.prototype.toString
-		[ x "asdfghjkl" ] -> empty ?
+		[ 1 "toString" ] -> ? Num.prototype.toString
+		[ 1 "asdfghjkl" ] -> empty ?
 	|obj name:Obj-Key
 		case obj
-			any?_
-				Opt->? (js-sub obj name)
+			can-get-p?_
+				Opt->? (js-sub obj name
 			else
 				empty ?
 
@@ -146,8 +152,8 @@ p-with-proto?.
 	doc. "Like `p?` but looks through the prototype."
 	test. |
 		[ (empty Obj) "toString" ] -> true
-	|obj:Obj name:Obj-Key
-		not (reference=? (js-sub obj name) undefined)
+	|_ name:Obj-Key
+		and can-get-p?_ (defined? (js-sub _ name
 
 \ TODO: Move?
 \ TODO: Handle recursive references.

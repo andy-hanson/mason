@@ -1,6 +1,6 @@
 use
 	..Bool implies
-	..js any? defined? global js-sub
+	..js defined? global js-sub
 	..private.js-impl build-str
 	..private.bootstrap Fun impl-contains?! p+! p+mut! Str Symbol
 	.Obj-Type
@@ -20,7 +20,7 @@ debug use~
 
 writable? = |obj property
 	desc = global.Object.getOwnPropertyDescriptor obj property
-	implies (any? desc) ~desc.writable
+	implies (defined? desc) ~desc.writable
 
 make-callable-method = |method
 	src = build-str |add!

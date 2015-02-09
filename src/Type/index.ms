@@ -1,12 +1,13 @@
 use
-	..js any? defined? js-instanceof
+	..js js-instanceof
 	..methods <! contains?
 	..private.bootstrap Fun ms p+!
 	.Impl-Type
 	.Kind
 	.Method _ impl!
 use~
-	..Obj
+	..@.? get-or
+	..Obj _ ?p-with-proto
 	..Try oh-no!
 
 Type. Kind
@@ -29,21 +30,14 @@ type-of.
 		[ Type ] -> Kind
 		[ () ] -> Obj
 	|:Impl-Type obj
-		case
-			any? obj
-				case obj.constructor
-					defined?_
-						_
-					else
-						Obj
-			else
-				Obj
+		get-or (?p-with-proto obj "constructor") Obj
 
 p+! ms "checkContains" |type value name
 	case!
 		contains? type value
 			()
 		else
+			\`throw new Error(name + " is no " + type + ", is ")`
 			oh-no! "{name} is no {type}, is {value}"
 
 Type

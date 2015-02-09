@@ -15,8 +15,9 @@ use
 debug use~
 	..!
 	.? _
+	..math.Num infinity
 	..methods =?
-	.Seq seq=?
+	.Seq seq=? take
 
 Range = Obj-Type
 	doc. "Seq of Nums taking fixed steps."
@@ -26,15 +27,18 @@ Range = Obj-Type
 		step. Num
 	post-construct. |_
 		in
-			! =? (sign _.step) (sign (- _.end _.start))
+			! =? (sign _.step) (sign (- _.end _.start
 		ignore _
+	test. |
+		! seq=? [ 0 1 2 ] (take (range 0 infinity) 3
+
 
 \ TODO: SYNTAX
 range. |-start-:Num -end-:Num -step-:Opt[Num]
 	Range
 		start. -start-
 		end. -end-
-		step. get-or (Opt->? -step-) (sign (- end start))
+		step. get-or (Opt->? -step-) (sign (- end start
 
 impl! length Range
 	doc. "Difference between and and start values."

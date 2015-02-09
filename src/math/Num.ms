@@ -1,6 +1,5 @@
 use
 	..@.? get-or Opt->?
-	..@.Stream
 	..Bool and
 	..methods =? <? >? <=? >=? compare
 	..Obj p
@@ -10,7 +9,6 @@ use
 	..Type.Pred-Type _ Opt
 	.methods + - * /
 debug use
-	..@.Seq seq=? take
 	..! _ !not
 	..Bool false true
 	..Fun spread!
@@ -272,17 +270,5 @@ region Constants
 	pi/2. / pi 2
 	pi3/2. * pi 1.5
 	pi*2. * pi 2
-
-region Other
-	\ TODO: Infinite Range should obviate this
-	nats.
-		doc. "Stream of numbers starting at 0."
-		test. |
-			! seq=? (take nats 5) [ 0 1 2 3 4 ]
-		f = ~|nat
-			<~ nat
-			<~~ f (+ nat 1)
-		Stream |
-			f 0
 
 Num

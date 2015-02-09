@@ -16,6 +16,7 @@ debug use~
 	..!
 	..control build
 	..math.methods +
+	..math.Num infinity
 	..methods => =?
 	.Range range
 	.Seq seq=? take
@@ -69,8 +70,7 @@ lazy-streaming.
 		fibonaccis = Stream ~|
 			<~ 1
 			<~ 1
-			\ TODO: Infinite range
-			<~~ each~ (range 2 1000000) ~|i
+			<~~ each~ (range 2 infinity) ~|i
 				\ This is *not* an exponential blowup because these are cached.
 				<~ + fibonaccis[(- i 1] fibonaccis[(- i 2]
 		! seq=? (take fibonaccis 10) [ 1 1 2 3 5 8 13 21 34 55 ]

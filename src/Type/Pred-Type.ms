@@ -1,9 +1,10 @@
 use
-	..Bool not or true
+	..Bool and not or true
 	..Fun ignore Pred
 	.Impl-Type self-type
-	..js defined?
+	..js defined? reference=?
 	..methods <! contains? sub
+	..Obj
 	..private.bootstrap Str
 	.Method impl!
 	.Obj-Type
@@ -52,6 +53,14 @@ Any. Pred-Type
 		! contains? Any ()
 		!not contains? Any undefined
 	predicate. defined?
+
+ObjLit. Pred-Type
+	doc. "Matches only Objs which have no type (other than Obj itself)."
+	test. |
+		! contains? ObjLit (a. 1
+		!not contains? ObjLit ObjLit
+	predicate. |_
+		and :Obj ~(reference=? (Obj.getPrototypeOf _) Obj.prototype
 
 Union.
 	doc. "Union[A B] is a type matching either an A or a B."

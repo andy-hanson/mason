@@ -45,17 +45,14 @@ js-set. i-set
 js-delete. i-delete
 js-instanceof. i-instanceof
 
-region Null/Undefined
-	\ TODO:ES6 `undefined` constant.
-	defined?.
-		doc. "True for any value except `undefined`."
-		test. |
-			[ undefined ] -> false
-			[ 0 ] -> true
-		|_
-			not (reference=? _ undefined
-	any?. |_
-		not (js== _ ()
+\ TODO:ES6 `undefined` constant.
+defined?.
+	doc. "True for any value except `undefined`."
+	test. |
+		[ undefined ] -> false
+		[ 0 ] -> true
+	|_
+		not (reference=? _ undefined
 
 reference=?.
 	doc. "

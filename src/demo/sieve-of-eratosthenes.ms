@@ -6,7 +6,7 @@ use
 	..Map.Map! assoc! un-assoc!
 	..Map.Identity-Map!
 	..Map.multi-map! add-to-@!
-	..math.Num square
+	..math.Num infinity square
 	..math.methods + *
 	..methods empty empty?
 debug use
@@ -16,16 +16,13 @@ debug use
 	..Bool not
 	..math.Num divisible?
 
-
 \ http://stackoverflow.com/questions/13463417/the-genuine-sieve-of-eratosthenes-in-python-why-is-heapq-slower-than-dict
 primes.
 	doc. "Infinite Seq of Num > 2, each divisible only by itself and one."
 	test. |
 		is-prime? = |_
 			not (any? (range 2 _) divisible?[_]
-		each! (take primes 100000) |_
-			! is-prime? _
-
+		each! (take primes 20) ![is-prime?]
 	Stream ~|
 		<~ 2
 		<~ 3
@@ -33,7 +30,7 @@ primes.
 		\ TODO: => Identity-Map! [ 9 -> [ 3 ] ]
 		prime-factors = empty Identity-Map!
 		assoc! prime-factors 9 [ 3 ]
-		<~~ each~ (range 5 150 2) ~|candidate
+		<~~ each~ (range 5 infinity 2) ~|candidate
 			\ un-assoc! is to save memory - we won't need to look up this value any more.
 			case! un-assoc! prime-factors candidate
 				empty?_

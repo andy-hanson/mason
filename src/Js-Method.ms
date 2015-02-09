@@ -1,16 +1,13 @@
 use
 	.Fun
 	.js js-sub
+	.Obj Obj-Key
 	.Str
-	.Symbol
 	.Type.Obj-Type
-	.Type.Pred-Type Any Union
+	.Type.Pred-Type Any
 debug use~
 	.!
 	.methods =? contains?
-
-\ TODO: Exact same appears in Obj.ms
-Obj-Key = Union[Str Symbol]
 
 Js-Method = Obj-Type
 	doc. "

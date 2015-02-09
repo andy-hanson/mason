@@ -50,7 +50,6 @@ region Search
 		|@a:@ @b:@
 			iter-a = iterator @a
 			iter-b = iterator @b
-			\ TODO:SYNTAX Loop return value
 			loop () |
 				next-a = iter-a.next()
 				next-b = iter-b.next()
@@ -120,7 +119,7 @@ region Update
 		default. |_ start:Nat end:Nat
 			=> type-of_ (slice _ start end
 
-	take. Method
+	take.
 		doc. "Stream including only the first count-to-take elements."
 		test. |
 			[ [ 0 1 2 ] 2 ] -> => Stream [ 0 1 ]
@@ -128,7 +127,7 @@ region Update
 			[ [ 0 ] 2 ] -> => Stream [ 0 ]
 			_ = [ 0 1 2 3 4 ]
 			! seq=? _ (++ (take _ 2) (drop _ 2
-		default. |:@ _ count-to-take:Nat
+		|_ count-to-take:Nat
 			Stream ~|
 				iter = iterator_
 				i = Ref! 0
@@ -149,7 +148,7 @@ region Update
 		doc. "Stream stopping (and not including) the first element not satisfying while?."
 		test. |
 			[ [ 1 2 -1 3 ] <?[0] ] -> => Stream [ 1 2 ]
-		|:@ _ while?:Pred
+		|_ while?:Pred
 			Stream ~|
 				iter = iterator_
 				loop!

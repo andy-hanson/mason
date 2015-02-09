@@ -1,13 +1,13 @@
 use
 	..@ map
-	..@.Seq drop
-	..math.Num divisible? nats
+	..@.Range range
+	..math.Num divisible? infinity
 debug use
 	..!
 	..@.Seq seq=? take
 
 fizz-buzz.
-	doc. "Infinite sequence of the Fizz Buzz game."
+	doc. "Infinite Seq of the Fizz Buzz game."
 	test. |
 		! seq=? (take fizz-buzz 16)
 			. 1
@@ -26,8 +26,7 @@ fizz-buzz.
 			. 14
 			. "Fizz Buzz"
 			. 16
-	\ TODO: Infinite Range
-	map (drop nats 1) |case
+	map (range 1 infinity) |case
 		divisible? _ 15
 			"Fizz Buzz"
 		divisible? _ 3

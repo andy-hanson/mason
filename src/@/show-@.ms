@@ -1,12 +1,13 @@
 use
-	..@ _ map
-	..methods => empty?
+	..methods => >? empty?
 	..Obj flag?
 	..show
 	..Str _ indent
 	..Type type-of
 	..Type.Method impl! impl-for
+	..@ _ count map
 	.Array
+	.Seq take
 debug use~
 	..Bool true
 	..methods empty
@@ -33,11 +34,16 @@ impl! show @
 			empty?_
 				"[ ]"
 			else
-				\ TODO: mk-Str
 				ems = map _ |em
 					indent (show em opts
-				"
-					\n\t. {=> Str ems "\n\t. "}
+				show-ems end = case
+					>? count_ 100
+						show-ems. take ems 100
+						end. "\n\t..."
+					else
+						show-ems. ems
+						end. ""
+				"\n\t. {=> Str show-ems "\n\t. "}{end}"
 		case
 			flag? opts "repr"
 				case

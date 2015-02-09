@@ -3,12 +3,13 @@ use
 	..@.@! ++!
 	..@.Array!
 	..@.Identity-Set!
+	..@.Range range
 	..@.Seq! set-nth!
 	..@.Stream
 	..Bool _ and not true
 	..control returning
 	..js defined? js-sub
-	..math.Num _ Nat nats square
+	..math.Num _ infinity Nat square
 	..math.methods +
 	..methods contains? empty
 debug use
@@ -55,4 +56,4 @@ happy-numbers:Stream[Nat].
 			. 23
 			. 28
 			. 31
-	keep nats happy?
+	keep (range 1 infinity) happy?

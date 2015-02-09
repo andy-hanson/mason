@@ -1,12 +1,13 @@
 use
 	..Bool and true
-	..js any? defined? global js-sub
+	..js defined? global js-sub
 	..private.bootstrap Array impl-contains?! Obj p+! Str Symbol
 	.Method propagate-method-down!
 	.Obj-Type
 use~
 	..@ _ flat-map
 	.Impl-Type
+	..Obj can-get-p?
 debug use~
 	..!
 	..@.Stream
@@ -131,6 +132,8 @@ concrete-implementors.
 				[ _ ]
 
 impl-contains?! Kind |kind _
-	and any?_ ~(defined? (js-sub _ kind.symbol-for-isa))
+	and can-get-p?_ ~(defined? (js-sub _ kind.symbol-for-isa
+	\`_ != null && _[kind["symbol-for-isa"]] !== undefined`
+	\p-with-proto? _ kind.symbol-for-isa
 
 Kind

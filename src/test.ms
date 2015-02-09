@@ -15,5 +15,4 @@ ignore ms ignore-me
 $done ($ing ~|
 	<~ $time! "load" ($@module-in-dir "./js"
 	<~ $time! "test" ($test-all "./js"
-	\<~ $time! "ana" ($test-module (get-module "js/demo/anagrams"
-	\log! "Bye!"
+	\$test-module (get-module "{this-module-directory}/demo/sieve-of-eratosthenes"

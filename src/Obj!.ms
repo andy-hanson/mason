@@ -4,13 +4,10 @@ use
 	.Bool false
 	.js js-delete js-set
 	.methods empty
-	.Obj
-	.Str
-	.Symbol
+	.Obj _ Obj-Key
 	.Type.Alias-Type
 	.Type.Impl-Type self-type
 	.Type.Method impl!
-	.Type.Pred-Type Any Union
 debug use~
 	.! _ !not
 	.methods =?
@@ -20,9 +17,6 @@ debug use~
 Obj! = Alias-Type
 	doc. "Obj which is at least partially mutable."
 	alias-of. Obj
-
-\ TODO: Duplicate definition in Obj.ms. TODO: Lazy exports?
-~Obj-Key = Union[Str Symbol]
 
 impl! empty (self-type Obj!) |
 	Obj.create Obj.prototype
@@ -47,7 +41,7 @@ p+!.
 p+mut!.
 	doc. "Adds a new mutable property."
 	test. "See `p!`"
-	|_:Obj! name:Obj-Key val:Any
+	|_:Obj! name:Obj-Key val
 		Obj.defineProperty _ name
 			enumerable.
 			writable.
