@@ -1,11 +1,12 @@
 use
 	..@ each!
 	..@.Array
-	..methods <! contains?
+	..methods <!
 	..Obj
 	..Obj! p+!
 	..show
 	..Str
+	..Type contains?
 	.Impl-Type
 	.Method impl!
 	.Obj-Type

@@ -2,14 +2,14 @@ use
 	..Fun
 	..js js-instanceof
 	..private.js-impl build-str
-	..methods <! contains?
+	..methods <!
 	..Obj
 	..Obj! p+!
 	..Str
 	.Impl-Type
 	.Method impl!
 	.Obj-Type
-	..Type
+	..Type _ contains?
 debug use~
 	..!
 	..control if!

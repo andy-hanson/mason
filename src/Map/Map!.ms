@@ -17,8 +17,9 @@ debug use~
 	..Bool not
 	..control if!
 	..math.methods *
-	..methods => =? compare empty!
+	..methods =? compare empty!
 	..Map has-key? keys
+	..Type =>
 	..Type.Wrap-Type
 	.Weak-Identity-Map!
 

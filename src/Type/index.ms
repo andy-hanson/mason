@@ -1,10 +1,10 @@
 use
 	..js js-instanceof
-	..methods <! contains?
-	..private.bootstrap Fun ms p+!
+	..methods <!
+	..private.bootstrap Fun impl-contains?! ms p+!
 	.Impl-Type
 	.Kind
-	.Method _ impl!
+	.Method
 use~
 	..@.? get-or
 	..Obj _ ?p-with-proto
@@ -15,13 +15,25 @@ Type. Kind
 		Anything implementing contains?.
 		Types are generally used to succinctly make assertions about values.
 
-<! Impl-Type Type
-<! Method Type
+contains?. ms.contains
 
-\ TODO: Move?
-<! Fun Impl-Type
-impl! contains? Fun |fun _
-	js-instanceof _ fun
+p+! ms "checkContains" |type value name
+	case!
+		contains? type value
+			()
+		else
+			\`throw new Error(name + " is no " + type + ", is ")`
+			oh-no! "{name} is no {type}, is {value}"
+
+=>. Method
+	doc. |convert-to:Type convert-me
+		"Converts a value to a given type."
+	wrap. |impl type converted opts
+		case converted
+			:type
+				_
+			else
+				impl type converted opts
 
 type-of.
 	doc. "
@@ -32,12 +44,13 @@ type-of.
 	|:Impl-Type obj
 		get-or (?p-with-proto obj "constructor") Obj
 
-p+! ms "checkContains" |type value name
-	case!
-		contains? type value
-			()
-		else
-			\`throw new Error(name + " is no " + type + ", is ")`
-			oh-no! "{name} is no {type}, is {value}"
+region We make some things Types here due to bootstrapping order issues.
+	<! Impl-Type Type
+	<! Method Type
+
+	\ TODO: Move?
+	<! Fun Impl-Type
+	impl-contains?! Fun |fun _
+		js-instanceof _ fun
 
 Type

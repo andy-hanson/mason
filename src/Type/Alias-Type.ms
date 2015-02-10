@@ -1,9 +1,9 @@
 use
-	..methods <! contains? sub
+	..methods <! sub
 	..private.bootstrap Str
 	.Method impl!
 	.Obj-Type
-	..Type
+	..Type _ contains?
 debug use~
 	..! _ !not
 	..@.?

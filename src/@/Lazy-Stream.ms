@@ -17,7 +17,8 @@ debug use~
 	..control build
 	..math.methods +
 	..math.Num infinity
-	..methods => =?
+	..methods =?
+	..Type =>
 	.Range range
 	.Seq seq=? take
 

@@ -10,7 +10,8 @@ use~
 	.Hash-Set!
 debug use~
 	..! _ !not
-	..methods contains? empty? empty!
+	..methods empty? empty!
+	..Type contains?
 	.@! ++! --!
 
 Set! = Kind

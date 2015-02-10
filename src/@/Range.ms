@@ -4,7 +4,7 @@ use
 	..Fun ignore thunk
 	..math.Num _ Nat round-down sign
 	..math.methods + - * /
-	..methods <! <? >=? empty length
+	..methods <! <? >=? empty
 	..Type.Impl-Type self-type
 	..Type.Method impl!
 	..Type.Pred-Type Opt
@@ -40,12 +40,12 @@ range. |-start-:Num -end-:Num -step-:Opt[Num]
 		end. -end-
 		step. get-or (Opt->? -step-) (sign (- end start
 
-impl! length Range
+length.
 	doc. "Difference between and and start values."
 	test. |
 		[ (range 5 10 2) ] -> 5
 		[ (range 5 10 3) ] -> 5
-	|_
+	|_:Range
 		- _.end _.start
 
 impl! from-stream (self-type Range) |_ stream

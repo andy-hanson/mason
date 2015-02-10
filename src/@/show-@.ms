@@ -1,9 +1,9 @@
 use
-	..methods => >? empty?
+	..methods >? empty?
 	..Obj flag?
 	..show
 	..Str _ indent
-	..Type type-of
+	..Type => type-of
 	..Type.Method impl! impl-for
 	..@ _ count map
 	.Array

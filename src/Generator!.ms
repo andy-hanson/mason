@@ -4,9 +4,10 @@ use
 	.Bool _ and
 	.Fun
 	.Js-Method
-	.methods contains? empty
+	.methods empty
 	.private.js-impl each-generator
 	.Obj
+	.Type contains?
 	.Type.Impl-Type self-type
 	.Type.Method impl!
 	.Type.Pred-Type _ Any

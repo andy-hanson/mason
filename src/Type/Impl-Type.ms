@@ -1,7 +1,7 @@
 use
 	..Bool or
 	..js defined? reference=?
-	..methods <! <? contains?
+	..methods <! <?
 	..private.bootstrap Fun Obj
 	.Kind _ unchecked-implementor!
 	.Method impl!
@@ -9,6 +9,7 @@ use
 use~
 	..@ any?
 	..Map each-pair!
+	..Type contains?
 debug use~
 	..! _ !not
 	..methods =? empty

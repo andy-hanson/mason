@@ -1,13 +1,12 @@
 use
-	..Bool implies
+	..Bool _ implies
 	..js defined? global js-sub
 	..private.js-impl build-str
-	..private.bootstrap Fun impl-contains?! p+! p+mut! Str Symbol
+	..private.bootstrap Fun impl-contains?! p+! p+mut! Str Symbol ms contains?-impl-symbol
 	.Obj-Type
 use~
 	..!
 	..@.? un-?
-	..methods contains?
 	..Obj ?p p-with-proto?
 	..Try oh-no!
 	.Impl-Type
@@ -54,8 +53,9 @@ make-callable-method = |method
 		add! "}"
 
 	f = Fun "def" "wrap" src
-	f method.default method.wrap
-
+	call = f method.default method.wrap
+	debug p+! call "source" src
+	call
 
 Method. Obj-Type
 	doc. "
@@ -106,6 +106,9 @@ Method. Obj-Type
 		wrap. Fun
 	extensible.
 	defaults.
+		\ TODO:DISPLAYNAME
+		displayName. |
+			oh-no! "displayName required!"
 		impl-symbol. |_
 			"impl-{_.displayName}"
 	make-callable. make-callable-method
@@ -121,7 +124,7 @@ impl!.
 				impl-single! a b c
 
 impl-single! = |method:Method implementor:Impl-Type implementation:Fun
-	impl-unchecked! method implementor implementation
+	do-impl! method implementor implementation
 
 impl-double! = |method:Method implementor-0:Impl-Type implementor-1:Impl-Type implementation:Fun
 	dispatcher = case
@@ -132,7 +135,7 @@ impl-double! = |method:Method implementor-0:Impl-Type implementor-1:Impl-Type im
 				method. m
 				first-type. implementor-0
 				impl-symbol. Symbol "<double dispatcher>" \"{m} for {implementor-0.displayName}"
-			impl-unchecked! method implementor-0 dd
+			do-impl! method implementor-0 dd
 			dd
 		else
 			case js-sub implementor-0.prototype method.impl-symbol
@@ -143,12 +146,11 @@ impl-double! = |method:Method implementor-0:Impl-Type implementor-1:Impl-Type im
 						Can't define double dispatch of {method} for {implementor-0}.
 						A single-dispatch implementation already exists: {_}.
 
-	impl-unchecked! dispatcher implementor-1 implementation
+	do-impl! dispatcher implementor-1 implementation
 
-\ TODO: This will add to the prototype of a Kind inheriting from another Kind.
-\ We only want to write to one Kind's prototype.
-\ "method" can be a method or a double dispatcher
-impl-unchecked! = |method implementor implementation
+\ TODO: Multiple-inheritance proxy scheme for Obj-Type, Wrap-Type, Enum
+\ "method" can be a Method or a Double-Dispatcher.
+do-impl! = |method implementor implementation
 	in
 		case!
 			writable? implementor.prototype method.impl-symbol
@@ -224,5 +226,12 @@ impl-for.
 method-contains? = |method value
 	p-with-proto? value method.impl-symbol
 impl-contains?! Method method-contains?
+
+contains? = Method
+	doc. |:Bool collection value
+		"Whether some collection of things as as an element `value`."
+	impl-symbol. contains?-impl-symbol
+
+p+! ms "contains" contains?
 
 Method

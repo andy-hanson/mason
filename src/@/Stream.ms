@@ -2,7 +2,8 @@ use
 	..@ _ iterator
 	..Fun _ ignore thunk
 	..Generator!
-	..methods => <! empty
+	..methods <! empty
+	..Type =>
 	..Type.Impl-Type self-type
 	..Type.Method impl!
 	..Type.Wrap-Type

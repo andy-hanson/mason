@@ -7,7 +7,7 @@ use~
 	.@.Array
 	.Bool _ not
 	.Fun _ ignore
-	.methods =>
+	.Type =>
 debug use~
 	.! _ !not
 	.@ each!

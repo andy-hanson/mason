@@ -5,8 +5,9 @@ use
 	..@.Stream
 	..math.Num Nat
 	..math.methods + -
-	..methods => =? <=? >=?
+	..methods =? <=? >=?
 	..Str
+	..Type =>
 
 fibs =
 	rec = ~|prev:Nat cur:Nat

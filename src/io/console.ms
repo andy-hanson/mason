@@ -4,9 +4,9 @@ use
 	chalk blue
 	..@ each!
 	..js global
-	..methods =>
 	..show
 	..Str
+	..Type =>
 
 js-console = global.console
 

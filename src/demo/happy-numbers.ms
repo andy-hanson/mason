@@ -11,7 +11,8 @@ use
 	..js defined? js-sub
 	..math.Num _ infinity Nat square
 	..math.methods +
-	..methods contains? empty
+	..methods empty
+	..Type contains?
 debug use
 	..!
 	..@.Seq seq=? take

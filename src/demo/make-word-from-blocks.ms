@@ -2,13 +2,15 @@ use
 	..@ _ ++ --' flat-map keep map
 	..@.?
 	..@.Seq _ ?first tail
-	..methods contains? empty?
+	..methods empty?
 	..Str _ ->upper
+	..Type contains?
 debug use
 	..!
 	..@.Stream
 	..Map each-pair!
-	..methods => =?
+	..methods =?
+	..Type =>
 
 make-word-from-blocks.
 	doc. "http://rosettacode.org/wiki/ABC_Problem"

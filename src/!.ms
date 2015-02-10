@@ -5,10 +5,11 @@ use
 	.control if!
 	.Fun _ apply
 	.Map _ each-pair!
-	.methods => =?
+	.methods =?
 	.show repr
 	.Str _ indent
 	.Try oh-no!
+	.Type =>
 use
 	.@ count map
 	.@.Array

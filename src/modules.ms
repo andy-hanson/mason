@@ -3,7 +3,7 @@ use
 	.@ keep map
 	.@.Array
 	.js new
-	.methods =>
+	.Type =>
 
 \ TODO: Portability
 commonJS-require. `require`

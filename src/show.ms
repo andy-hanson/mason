@@ -3,11 +3,11 @@ use
 	.js js+
 	.private.bootstrap p+! ms
 	.private.js-impl new-Set
-	.methods => =? empty?
+	.methods =? empty?
 	.Obj flag? p ?p @p
 	.Str _ indent
 	.Symbol
-	.Type type-of
+	.Type => type-of
 	.Type.Method _ impl!
 use~
 	.@ -- map

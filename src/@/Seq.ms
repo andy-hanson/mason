@@ -3,9 +3,9 @@ use
 	..control if loop End-Loop returning
 	..Fun _ identity Pred
 	..math.methods - +
-	..methods => =? <! <? compare empty empty? freeze sub
+	..methods =? <! <? compare empty empty? freeze sub
 	..Str indent
-	..Type type-of
+	..Type => type-of
 	..Type.Impl-Type self-type
 	..Type.Kind
 	..Type.Method _ impl!

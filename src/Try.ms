@@ -5,11 +5,11 @@ use
 	.Fun _ Act ignore
 	.js global
 	.private.js-impl make-Error i-always-do-after i-oh-no! i-try
-	.methods => =? <! contains? empty
+	.methods =? <! empty
 	.Obj
 	.Obj! p!
 	.Str
-	.Type
+	.Type _ contains? =>
 	.Type.Impl-Type self-type
 	.Type.Method impl!
 	.Type.Kind

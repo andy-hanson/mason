@@ -11,11 +11,12 @@ use
 	..Fun _ apply ignore
 	..Generator!
 	..Map
-	..methods =? contains? empty
+	..methods =? empty
 	..modules $@module-in-dir
 	..Obj _ ?p p p? @p @p-all
 	..Str
 	..Try $annotate-errors annotate-errors oh-no! Success try
+	..Type contains?
 	..Type.Impl-Type
 	..Type.Kind _ concrete-implementors
 	..Type.Method _ impl! impl-for

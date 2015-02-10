@@ -7,7 +7,8 @@ use
 	.Type.Pred-Type Any
 debug use~
 	.!
-	.methods =? contains?
+	.methods =?
+	.Type contains?
 
 Js-Method = Obj-Type
 	doc. "

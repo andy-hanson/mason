@@ -1,7 +1,8 @@
 use
 	..control returning
 	..js global new
-	..methods <! contains? empty empty!
+	..methods <! empty empty!
+	..Type contains?
 	..Type.Impl-Type self-type
 	..@ count each! iterator
 	.@! ++! --!

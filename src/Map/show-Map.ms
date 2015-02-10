@@ -1,10 +1,9 @@
 use
 	..@ map
-	..methods =>
 	..Obj flag?
 	..show
 	..Str
-	..Type type-of
+	..Type => type-of
 	..Type.Method impl!
 	..Map _ keys
 	.Weak-Identity-Map!

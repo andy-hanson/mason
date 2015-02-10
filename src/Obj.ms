@@ -1,9 +1,10 @@
 use
 	.Bool _ and false not nor xor
 	.js defined? global js== js-typeof reference=? js-sub
-	.methods =? => <! contains? empty empty? freeze
+	.methods =? <! empty empty? freeze
 	.private.bootstrap Str
 	.Symbol
+	.Type => contains?
 	.Type.Impl-Type self-type
 	.Type.Method impl!
 	.Type.Kind

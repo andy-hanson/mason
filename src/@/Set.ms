@@ -1,8 +1,8 @@
 use
 	..Bool and
 	..Fun ignore
-	..methods => =? <! contains? empty
-	..Type type-of
+	..methods =? <! empty
+	..Type => contains? type-of
 	..Type.Impl-Type self-type
 	..Type.Kind
 	..Type.Method _ impl!

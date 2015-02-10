@@ -3,10 +3,10 @@ use
 	..Fun _ Act identity Pred
 	..js defined? reference=?
 	..math.methods +
-	..methods => =? <? contains? empty empty?
+	..methods =? <? empty empty?
 	..Obj
 	..Symbol
-	..Type type-of
+	..Type => contains? type-of
 	..Type.Kind
 	..Type.Method _ impl!
 	..Type.Pred-Type Any Opt

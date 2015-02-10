@@ -7,8 +7,9 @@ use
 	..Bool false true
 	..control End-Loop if! loop
 	..math.methods + -
-	..methods => =? empty?
+	..methods =? empty?
 	..Obj _ p
+	..Type =>
 	..Type.Pred-Type Any
 
 region Rule results

@@ -1,7 +1,8 @@
 use
 	.js global
-	.methods => empty sub
+	.methods empty sub
 	.private.js-impl i-call i-curry
+	.Type =>
 	.Type.Alias-Type
 	.Type.Impl-Type self-type
 	.Type.Method _ impl!

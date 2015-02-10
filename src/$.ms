@@ -8,7 +8,8 @@ use
 	.Fun _ apply identity ignore
 	.Generator!
 	.js global new
-	.methods => sub
+	.methods sub
+	.Type =>
 	.Type.Impl-Type self-type
 	.Type.Method impl!
 	.Type.Pred-Type Any

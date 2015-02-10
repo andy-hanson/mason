@@ -11,7 +11,8 @@ use~
 debug use~
 	..! _ !not
 	..@ each!
-	..methods =? contains? empty? empty!
+	..methods =? empty? empty!
+	..Type contains?
 	.Array
 
 @! = Kind

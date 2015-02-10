@@ -3,12 +3,12 @@ use
 	..Fun ignore Pred
 	.Impl-Type self-type
 	..js defined? reference=?
-	..methods <! contains? sub
+	..methods <! sub
 	..Obj
 	..private.bootstrap Str
 	.Method impl!
 	.Obj-Type
-	..Type
+	..Type _ contains?
 debug use~
 	..! _ !not
 	..Bool

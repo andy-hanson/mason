@@ -1,26 +1,15 @@
 use
 	.Bool _ or
 	.js reference=?
-	.private.bootstrap contains?-impl-symbol ms p+!
+	.private.bootstrap ms p+!
 	.Type.Method
 use~
 	.Obj _ inspect=?
-	.Type.Type
 
 region Basics
 	sub. Method
 		doc. "Implementing this allows the use of the special syntax `a[b]`."
 	p+! ms "sub" sub
-
-	=>. Method
-		doc. |convert-to:Type convert-me
-			"Converts a value to a given type."
-		wrap. |impl type converted opts
-			case converted
-				:type
-					_
-				else
-					impl type converted opts
 
 region Collection
 	empty. Method
@@ -100,12 +89,3 @@ region Unsorted
 		\ TODO: Lazy default?
 		default. |_
 			Obj.freeze _
-
-	length. Method
-		doc. "TODO: Does this need to exist?"
-
-	contains?. Method
-		doc. |:Bool collection value
-			"Whether some collection of things as as an element `value`."
-		impl-symbol. contains?-impl-symbol
-	p+! ms "contains" contains?

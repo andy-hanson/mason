@@ -7,9 +7,10 @@ use
 	.@.@-Type _ from-stream
 	.@.Seq
 	.Fun ignore thunk
-	.methods => <! empty
+	.methods <! empty
 	.show
 	.Str
+	.Type =>
 	.Type.Impl-Type self-type
 	.Type.Method impl! impl-for
 	.Type.Pred-Type Opt

@@ -12,8 +12,8 @@ debug use
 	..! _ !not
 	..Bool false true
 	..Fun spread!
-	..methods contains?
 	..Try fails?
+	..Type contains?
 
 Num = global.Number
 Math = global.Math

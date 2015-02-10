@@ -11,7 +11,8 @@ use~
 debug use~
 	..!
 	..@.Stream
-	..methods => =? <! contains?
+	..methods =? <!
+	..Type => contains?
 	.Method _ impl!
 
 Kind. Obj-Type
@@ -62,7 +63,7 @@ Kind. Obj-Type
 			! contains? X z
 	members.
 		displayName. Str
-		~super-kinds. Array \ TODO: [~Kind]
+		super-kinds. Array \ TODO: [~Kind]
 		prototype. Obj
 		implementors. Array \ TODO: [~Impl-Type]
 		symbol-for-isa. Symbol
@@ -132,8 +133,7 @@ concrete-implementors.
 				[ _ ]
 
 impl-contains?! Kind |kind _
-	and can-get-p?_ ~(defined? (js-sub _ kind.symbol-for-isa
 	\`_ != null && _[kind["symbol-for-isa"]] !== undefined`
-	\p-with-proto? _ kind.symbol-for-isa
+	and can-get-p?_ ~(defined? (js-sub _ kind.symbol-for-isa
 
 Kind

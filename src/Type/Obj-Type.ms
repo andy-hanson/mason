@@ -125,7 +125,9 @@ make-ctr = |ot
 		add! "}"
 
 	make-ctr = Fun "prototype" "members" "defaults" "makeCallable" "postConstruct" "optionalMembers" src
-	make-ctr ot.prototype ot.members ot.defaults ot.make-callable ot.post-construct ot.optional-members
+	ctr = make-ctr ot.prototype ot.members ot.defaults ot.make-callable ot.post-construct ot.optional-members
+	debug p+! ctr "source" src
+	ctr
 
 obj-type-args =
 	doc. "

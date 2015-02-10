@@ -6,7 +6,7 @@ use
 debug use
 	..!
 	..@.Range range
-	..methods contains?
+	..Type contains?
 
 
 roman-digits =
