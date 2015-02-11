@@ -1,12 +1,11 @@
 use
-	..control returning
 	..js global new
 	..methods <! empty empty!
 	..Type contains?
 	..Type.Impl-Type self-type
 	..@ count each! iterator
 	.@! ++! --!
-	.@-Type _ from-stream
+	.@-Type
 	.Set!
 
 Identity-Set! = global.Set
@@ -30,10 +29,5 @@ Identity-Set! = global.Set
 
 <! (self-type Identity-Set!) @-Type
 	empty -> new
-	\ TODO: Define it this way for all @!s
-	from-stream -> |type stream
-		returning (empty type) |_
-			each! stream |em
-				_.add em
 
 Identity-Set!

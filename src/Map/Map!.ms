@@ -7,6 +7,7 @@ use
 	..Type.Method _ impl!
 	..Type.Pred-Type Any
 	..Map _ each-pair! ?get
+	.Map-Type
 use~
 	.Hash-Map!
 debug use~
@@ -60,7 +61,7 @@ Map! = Kind
 		assoc! _ zero 1
 		! =? _[zero] 1
 
-\ TODO: <! (self-type Map!) Map-Type
+<! (self-type Map!) Map-Type
 impl! empty (self-type Map!) |
 	empty Hash-Map!
 

@@ -1,14 +1,17 @@
 use
-	.Map!
-	..methods <!
+	..methods <! empty
+	..Type.Impl-Type self-type
 	..Type.Kind
+	.Map!
+	.Map-Type
+use~
+	.Splay-Tree!
 debug use
 	..!
 	..@ each!
 	..@.Seq sorted?
 	..Map keys
 	.Map! assoc!
-	..methods empty
 
 Sorted-Map! = Kind
 	doc. "
@@ -19,6 +22,10 @@ Sorted-Map! = Kind
 		each! [ 1 3 5 4 2 ] |key
 			assoc! _ key key
 		! sorted? keys_
+
+<! (self-type Sorted-Map!) Map-Type
+	empty -> |
+		empty Splay-Tree!
 
 <! Sorted-Map! Map!
 

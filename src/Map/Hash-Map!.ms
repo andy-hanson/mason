@@ -15,6 +15,7 @@ use
 	..Type.Obj-Type
 	..Map ?get keys values
 	.Map! _ assoc! un-assoc!
+	.Map-Type
 use~
 	..Generator! if~
 debug use
@@ -36,6 +37,11 @@ Hash-Map! = Obj-Type
 		hash->bucket. Identity-Map!
 
 <! Hash-Map! Map!
+
+<! (self-type Hash-Map!) Map-Type
+impl! empty (self-type Hash-Map!) |
+	Hash-Map!
+		hash->bucket. empty Identity-Map!
 
 opt-bucket = |_ key
 	_.hash->bucket.get (hash-code key
@@ -118,9 +124,5 @@ impl! freeze Hash-Map! |_
 
 impl! empty! Hash-Map! |_
 	empty! _.hash->bucket
-
-impl! empty (self-type Hash-Map!) |
-	Hash-Map!
-		hash->bucket. empty Identity-Map!
 
 Hash-Map!

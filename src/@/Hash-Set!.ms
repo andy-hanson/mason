@@ -1,7 +1,7 @@
 use
 	..@ each! iterator
 	..Bool true
-	..control returning
+	..control
 	..Map keys
 	..Map.Hash-Map!
 	..Map.Map! assoc! un-assoc!
@@ -10,7 +10,7 @@ use
 	..Type.Method impl! impl-for
 	..Type.Obj-Type
 	.@! ++! --!
-	.@-Type _ from-stream
+	.@-Type
 	.Set
 	.Set!
 
@@ -20,6 +20,11 @@ Hash-Set! = Obj-Type
 		Relies on an efficient hash-code implementation.
 	props.
 		data. Hash-Map!
+
+<! (self-type Hash-Set!) @-Type
+	empty -> |
+		Hash-Set!
+			data. empty Hash-Map!
 
 <! Hash-Set! Set!
 	iterator -> |_
@@ -35,17 +40,6 @@ Hash-Set! = Obj-Type
 
 	empty! -> |_
 		empty! _.data
-
-<! (self-type Hash-Set!) @-Type
-	empty -> |
-		Hash-Set!
-			data. empty Hash-Map!
-
-	\ TODO: Define it this way for all @!-Types
-	from-stream -> |type stream
-		returning (empty type) |_
-			each! stream |em
-				++! _ [ em ]
 
 \ TODO: This should not be necessary!
 impl! =? Hash-Set! (impl-for =? Set)

@@ -8,6 +8,7 @@ use
 	..Type.Method impl!
 	..Map ?get has-key? keys values
 	.Map! _ assoc! un-assoc!
+	.Map-Type
 debug use
 	..!
 	..@.Seq seq=?
@@ -38,6 +39,9 @@ Identity-Map! =
 
 	global.Map
 
+<! (self-type Identity-Map!) Map-Type
+impl! empty (self-type Identity-Map!) new
+
 <! Identity-Map! Map!
 impl! ?get Identity-Map! |_ key
 	Opt->? (_.get key)
@@ -59,7 +63,6 @@ impl! un-assoc! Identity-Map! |_ key
 	returning (?get _ key) |
 		_.delete key
 
-impl! empty (self-type Identity-Map!) new
 
 Identity-Map!
 

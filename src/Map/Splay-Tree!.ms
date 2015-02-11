@@ -6,10 +6,10 @@ use
 	..methods <! <? >? empty empty? empty!
 	..Obj! p!
 	..Type.Impl-Type self-type
-	..Type.Method impl!
 	..Type.Obj-Type
 	..Map ?get keys
 	.Map! assoc! un-assoc!
+	.Map-Type
 	.Sorted-Map!
 debug use
 	..! _ !not
@@ -22,10 +22,10 @@ Splay-Tree! = Obj-Type
 	props.
 		root!.
 
-\ TODO: Map-Type
-impl! empty (self-type Splay-Tree!) |
-	Splay-Tree!
-		root!. undefined
+<! (self-type Splay-Tree!) Map-Type
+	empty -> |
+		Splay-Tree!
+			root!. undefined
 
 <! Splay-Tree! Sorted-Map!
 	empty? -> |_

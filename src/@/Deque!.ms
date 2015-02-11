@@ -1,6 +1,6 @@
 use
 	..Bool and not or
-	..control if returning
+	..control if
 	..math.Num modulo Nat
 	..math.methods + - *
 	..methods =? <! <? empty empty? empty! sub
@@ -10,7 +10,7 @@ use
 	..Type.Pred-Type Any
 	..Type.Obj-Type
 	..@ _ ++ count each! iterator map map'
-	.@-Type _ from-stream
+	.@-Type
 	.? un-?
 	.Array!
 	.Range range
@@ -29,12 +29,6 @@ Deque! = Obj-Type
 			data!. empty Array! 8
 			start-index!. 0
 			end-index!. 0
-
-	\ TODO: Define it this way for all @!-Types
-	from-stream -> |type stream
-		returning (empty type) |_
-			each! stream |em
-				++>! _ [ em ]
 
 region Helpers
 	capacity = |_

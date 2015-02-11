@@ -75,6 +75,15 @@ region Old methods
 		un-? (?get map key) ~"{map} does not contain {key}."
 
 region Functions
+	@pairs.
+		doc. "TODO"
+		test. |
+			"TODO"
+		|_:Map
+			map keys_ |k
+				key. k
+				val. _[key]
+
 	each-pair!.
 		doc. "Calls `do-each` on each key and value."
 		test. |
@@ -86,8 +95,9 @@ region Functions
 				each-pair! map |key val
 					yield [ key val ]
 		|_:Map do-each:Fun
-			each! keys_ |key
-				do-each key _[key]
+			each! @pairs_ |_
+				key val = _
+				do-each key val
 
 	make-map.
 		doc. "Creates a Map whose values are the result of applying `get-value` to each key."

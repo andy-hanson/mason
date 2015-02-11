@@ -26,8 +26,6 @@ Set = Kind
 		ignore set \ TODO:SYNTAX Ignored vars
 		from-stream Hash-Set! _
 
-
-
 impl! =? Set
 	doc. "Two Sets are =? if they have the same type and contain the same values."
 	test. |

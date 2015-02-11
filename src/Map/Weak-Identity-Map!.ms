@@ -7,6 +7,7 @@ use
 	..Type.Impl-Type self-type
 	..Type.Method impl!
 	..Map ?get has-key? keys
+	.Map-Type
 	.Map! _ assoc! un-assoc!
 
 Weak-Identity-Map! =
@@ -15,6 +16,9 @@ Weak-Identity-Map! =
 		Good for caches.
 		It does not have the full functionality of a Map! because there is no way to iterate over the keys.
 	global.WeakMap
+
+<! (self-type Weak-Identity-Map!) Map-Type
+impl! empty (self-type Weak-Identity-Map!) new
 
 <! Weak-Identity-Map! Map!
 impl! ?get Weak-Identity-Map! |_ key
@@ -33,6 +37,5 @@ impl! un-assoc! Weak-Identity-Map! |_ key
 	returning (?get _ key) |
 		_.delete key
 
-impl! empty (self-type Weak-Identity-Map!) new
 
 Weak-Identity-Map!
