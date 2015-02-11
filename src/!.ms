@@ -1,19 +1,20 @@
 doc. "For making assertions."
 
 use
+	.private.bootstrap Fun
+use~ \ TODO: Move as many up as possible
+	.@ map
+	.@.Array
 	.Bool _ not
 	.control if!
-	.Fun _ apply
+	.Fun apply
 	.Map _ each-pair!
 	.methods =?
 	.show repr
 	.Str _ indent
 	.Try oh-no!
 	.Type =>
-use
-	.@ count map
-	.@.Array
-debug use
+debug use~
 	.Bool false true
 	.math.methods +
 	.Try fails-with?
@@ -46,34 +47,49 @@ debug use
 	|a ...args
 		case! a
 			:Fun
-				if! (not (Fun.prototype.apply.call _ () args)) |
-					oh-no! "
-						Expected {a}
-							{indent (=> Str (map args repr) "\n")}
+				case!
+					\ TODO:SYNTAX _ ...args
+					Fun.prototype.apply.call _ () args
+						()
+					else
+						oh-no! "
+							Expected {a}
+								{indent (=> Str (map args repr) "\n")}
 			:Bool
-				! =? (count args) 1
-				if! not_ |
-					oh-no! args[0]
+				! =? 1 args.length
+				case!
+					_
+						()
+					else
+						oh-no! args[0]
 			else
 				oh-no! "First argument to `!` must be Fun or Bool. Got {_}."
 
 !not.
 	doc. "Like `!`, but inverts the condition."
 	test. |
-		!not false
+		!not false "a"
 		!not =? 1 2
 	|a ...args
 		case! a
 			:Fun
-				if! (Fun.prototype.apply.call _ () args) |
-					oh-no! "
-						Unexpected {a}
-							{indent ((map args repr).join "\n")}
+				case!
+					\ TODO:SYNTAX _ ...args
+					Fun.prototype.apply.call _ () args
+						oh-no! "
+							Unexpected {a}
+								{indent ((map args repr).join "\n")}
+					else
+						()
 			:Bool
-				if! _ |
-					oh-no! args[0]
+				! =? 1 args.length
+				case!
+					_
+						oh-no! args[0]
+					else
+						()
 			else
-				oh-no! "First argument to `!` must be Fun or Bool. Got {_}."
+				oh-no! "First argument to `!not` must be Fun or Bool. Got {_}."
 
 !call.
 	doc. "

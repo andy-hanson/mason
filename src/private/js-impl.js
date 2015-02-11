@@ -29,6 +29,14 @@ module.exports = {
 	"i-true": true,
 	"i-typeof": function(a) { return typeof a },
 
+	// Kind.ms
+	"Kind-contains?": function(kind, _) {
+		return _ != null && _[kind["symbol-for-isa"]] !== undefined
+	},
+	"empty?": function(array) {
+		return array.length === 0
+	},
+
 	// Generator.ms
 	"each-generator": function*(iter, doEach) {
 		for (let em of iter)

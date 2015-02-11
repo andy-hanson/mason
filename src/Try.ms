@@ -5,7 +5,7 @@ use
 	.Fun _ Act ignore
 	.js global
 	.private.js-impl make-Error i-always-do-after i-oh-no! i-try
-	.methods =? <! empty
+	.methods =? empty
 	.Obj
 	.Obj! p!
 	.Str
@@ -21,9 +21,6 @@ debug use~
 	.Fun thunk
 	.$ $rejected $resolved
 
-Try = Kind
-	doc. "Result of running failable code. Success or Error."
-
 Success. Wrap-Type
 	doc. "Attempt that did not fail. _.val is the result of the attempted code."
 
@@ -34,6 +31,10 @@ Error.
 		Error subtypes must be created with `error-type`.
 	global.Error
 
+Try = Kind
+	doc. "Result of running failable code. Success or Error."
+	implementors. [ Success Error ]
+
 Eval-Error. global.EvalError
 Internal-Error. global.InternalError
 Range-Error. global.RangeError
@@ -41,10 +42,6 @@ Reference-Error. global.ReferenceError
 Syntax-Error. global.SyntaxError
 Type-Error. global.TypeError
 URI-Error. global.URIError
-
-<! Success Try
-<! Error Try
-\ TODO: Closed Kinds?
 
 impl! => (self-type Error) |e _
 	ignore e \ TODO:SYNTAX Optional args

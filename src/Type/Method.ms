@@ -202,6 +202,7 @@ Double-Dispatcher = Obj-Type
 					! contains? Fun impl
 				else
 					oh-no! ~"Can't double-dispatch {_.method} for {_.first-type} on {target-2}"
+			\ TODO:SYNTAX impl ...args
 			Fun.prototype.apply.call impl () args
 
 ?impl-for.

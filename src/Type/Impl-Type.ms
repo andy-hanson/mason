@@ -7,13 +7,13 @@ use
 	.Method impl!
 	.Obj-Type
 use~
-	..@ any?
 	..Map each-pair!
-	..Type contains?
 debug use~
 	..! _ !not
 	..methods =? empty
 	..Obj!
+	..Type contains?
+	.Kind can-subtype?
 
 Impl-Type. Kind
 	doc. "
@@ -42,11 +42,12 @@ impl! <? Impl-Type
 	|implementor:Impl-Type kind:Kind
 		case implementor
 			:Kind
-				any? _.super-kinds |super
+				_.super-kinds.some |super
 					\ TODO: Just use `=? super kind` ?
 					or (reference=? super kind) ~(<? super kind)
 			else
-				contains? kind implementor.prototype
+				_ = implementor.prototype
+				:kind
 
 impl! <! Impl-Type
 	doc. "
@@ -55,6 +56,10 @@ impl! <! Impl-Type
 	test. "See Impl-Type.test."
 	\ TODO: Assert no circular chains of <!.
 	|implementor kind:Kind method-impls
+		in
+			! (can-subtype? kind) ~"{kind} is not open to new subtypes."
+			!not <? implementor kind
+
 		unchecked-implementor! implementor kind
 		case! method-impls
 			defined?_

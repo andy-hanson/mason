@@ -133,6 +133,7 @@ all-tested = empty Identity-Set!
 @$test-test-fun = |value value-test:Fun name ...args
 	~ano = "{name}: "
 	_ = annotate-errors ~ano |
+		\ TODO:SYNTAX value-test ...args
 		apply value-test args
 	case
 		:Map

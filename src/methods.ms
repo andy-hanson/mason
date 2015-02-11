@@ -1,10 +1,10 @@
 use
 	.Bool _ or
 	.js reference=?
-	.private.bootstrap ms p+!
+	.private.bootstrap ms Obj p+!
 	.Type.Method
 use~
-	.Obj _ inspect=?
+	.Obj inspect=?
 
 region Basics
 	sub. Method
@@ -82,6 +82,7 @@ region Comparison
 			>=? (compare greater lesser) 0
 
 region Unsorted
+	\ TODO: Move these?
 	freeze. Method
 		doc. "
 			Returns a compacted and immutable version of it.
@@ -89,3 +90,7 @@ region Unsorted
 		\ TODO: Lazy default?
 		default. |_
 			Obj.freeze _
+	\ TODO: Lazy export?
+	frozen?. |_
+		Obj.isFrozen _
+

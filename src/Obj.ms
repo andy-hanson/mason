@@ -1,7 +1,7 @@
 use
 	.Bool _ and false not nor xor
 	.js defined? global js== js-typeof reference=? js-sub
-	.methods =? <! empty empty? freeze
+	.methods =? empty empty? freeze
 	.private.bootstrap Str
 	.Symbol
 	.Type => contains?
@@ -31,9 +31,7 @@ Obj =
 
 Obj-Key. Kind
 	doc. "TODO"
-<! Str Obj-Key
-<! Symbol Obj-Key
-\ TODO: Closed Kinds?
+	implementors. [ Str Symbol ]
 
 can-get-p?. |_
 	not (js== _ ()
@@ -196,10 +194,6 @@ inspect=?.
 					and (=? (count ak) (count bk)) ~
 						all? ak |k
 							=? (js-sub a k) (js-sub b k)
-
-\ TODO: Move?
-frozen?. |_
-	Obj.isFrozen _
 
 \ TODO: Move elsewhere in this file
 \ TODO: Test these

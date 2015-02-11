@@ -5,8 +5,7 @@ use
 	..Fun ignore
 	..js js-set
 	..math.Num Nat
-	..methods <! empty empty? empty!
-	..Obj frozen?
+	..methods <! empty empty? empty! frozen?
 	..Type =>
 	..Type.Impl-Type self-type
 	..Type.Pred-Type

@@ -22,7 +22,7 @@ p+! ms "checkContains" |type value name
 		contains? type value
 			()
 		else
-			\`throw new Error(name + " is no " + type + ", is ")`
+			\ `throw new Error(name + " is no " + type + ", is ")`
 			oh-no! "{name} is no {type}, is {value}"
 
 =>. Method
@@ -49,7 +49,6 @@ region We make some things Types here due to bootstrapping order issues.
 	<! Method Type
 
 	\ TODO: Move?
-	<! Fun Impl-Type
 	impl-contains?! Fun |fun _
 		js-instanceof _ fun
 

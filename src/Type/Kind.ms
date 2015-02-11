@@ -1,17 +1,19 @@
 use
-	..Bool and true
-	..js defined? global js-sub
+	..Bool not true
+	..js global js-sub
 	..private.bootstrap Array impl-contains?! Obj p+! Str Symbol
+	..private.js-impl empty? Kind-contains?
 	.Method propagate-method-down!
 	.Obj-Type
 use~
 	..@ _ flat-map
 	.Impl-Type
-	..Obj can-get-p?
+	..methods freeze frozen?
 debug use~
 	..!
 	..@.Stream
 	..methods =? <!
+	..Try fails-with?
 	..Type => contains?
 	.Method _ impl!
 
@@ -61,10 +63,19 @@ Kind. Obj-Type
 				1
 			! =? (asdf z) 1
 			! contains? X z
+
+		region Closed Kind
+			Closed = Kind
+				implementors. [ C Z ]
+			! fails-with? "Closed is not open to new subtypes." |
+				<! X Closed
+
 	members.
 		displayName. Str
 		super-kinds. Array \ TODO: [~Kind]
 		prototype. Obj
+		\ TODO: Allow doc on member
+		\ doc. "If immutable, this Kind does not accept new subtypes."
 		implementors. Array \ TODO: [~Impl-Type]
 		symbol-for-isa. Symbol
 	extensible.
@@ -80,20 +91,33 @@ Kind. Obj-Type
 			Symbol "isa-{name}"
 	post-construct. |_
 		p+! _.prototype _.symbol-for-isa true
+		case!
+			empty? _.implementors
+				()
+			else
+				_.implementors.forEach |implementor
+					on-implementor! implementor _
+				freeze _.implementors
+
+can-subtype?. |_:Kind
+	not (frozen? _.implementors
 
 \ Making something an instance of Impl-Type is difficult because implementor! checks that it's already an Impl-Type...
 unchecked-implementor!.
 	doc. "
-		implementor! without any checks.
+		<! without any checks.
 		Necessary if trying to implement Impl-Type itself.
 	|implementor kind
 		kind.implementors.push implementor
-		case! implementor
-			:Kind
-				_.super-kinds.push kind
-			else
-				()
-		inherit-methods! implementor kind
+		on-implementor! implementor kind
+
+on-implementor! = |implementor kind
+	case! implementor
+		:Kind
+			_.super-kinds.push kind
+		else
+			()
+	inherit-methods! implementor kind
 
 own-properties = |_
 	(Obj.getOwnPropertyNames _).concat (Obj.getOwnPropertySymbols _)
@@ -132,8 +156,6 @@ concrete-implementors.
 			else
 				[ _ ]
 
-impl-contains?! Kind |kind _
-	\`_ != null && _[kind["symbol-for-isa"]] !== undefined`
-	and can-get-p?_ ~(defined? (js-sub _ kind.symbol-for-isa
+impl-contains?! Kind Kind-contains?
 
 Kind
