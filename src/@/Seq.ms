@@ -249,7 +249,7 @@ region Very first and last
 region Combination
 	zip.
 		doc. "
-			Seq of zipper applied to corresponding members of @a and @b.
+			Seq of zipper applied to corresponding elements of @a and @b.
 			Ends as soon as either of them does, discarding extra elements.
 			(Corresponding means: with the same index.)
 		test. |

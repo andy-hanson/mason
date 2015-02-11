@@ -16,9 +16,9 @@ use
 
 Hash-Set! = Obj-Type
 	doc. "
-		Set that considers members equal using =?.
+		Set that considers elements equal using =?.
 		Relies on an efficient hash-code implementation.
-	members.
+	props.
 		data. Hash-Map!
 
 <! Hash-Set! Set!

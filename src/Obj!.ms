@@ -34,7 +34,7 @@ p+!.
 	|_:Obj! name:Obj-Key val
 		Obj.defineProperty _ name
 			enumerable.
-			writable. false
+			writable. false \ TODO:ES6 Shouldn't need to be explicit
 			value. val
 		()
 

@@ -21,7 +21,7 @@ debug use~
 
 Range = Obj-Type
 	doc. "Seq of Nums taking fixed steps."
-	members.
+	props.
 		start. Num
 		end. Num
 		step. Num

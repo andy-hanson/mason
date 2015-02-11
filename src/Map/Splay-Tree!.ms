@@ -19,7 +19,7 @@ Splay-Tree! = Obj-Type
 	doc. "
 		Default Sorted-Map! implementation.
 		Binary tree that is good at accessing the same values many times.
-	members.
+	props.
 		root!.
 
 \ TODO: Map-Type

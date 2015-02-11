@@ -15,7 +15,7 @@ debug use~
 
 Pred-Type = Obj-Type
 	doc. "Arbitrary predicates can be made into types using Pred-Type."
-	members.
+	props.
 		displayName. Str
 		predicate. Pred
 	extensible.
@@ -40,7 +40,7 @@ region Opt
 
 	Opt-Sub = Obj-Type
 		doc. "Result of calling Opt[something]."
-		members.
+		props.
 			Exists-Type. Type
 	<! Opt-Sub Type
 	impl! contains? Opt-Sub |nt _

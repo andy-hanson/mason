@@ -4,8 +4,11 @@ const assert = require("assert")
 require("es6-shim")
 
 const pAdd = function(object, key, val) {
-	// TODO:ES6 `writable` shouldn't need to be explicit
-	Object.defineProperty(object, key, { value: val, writable: false })
+	Object.defineProperty(object, key, {
+		value: val,
+		enumerable: true,
+		writable: false // TODO:ES6 `writable` shouldn't need to be explicit
+	})
 }
 
 // region Builtin Funs for use by the compiler
@@ -34,7 +37,7 @@ const pAdd = function(object, key, val) {
 			Object.getOwnPropertyNames(_).forEach(function(name) {
 				if (name !== "displayName")
 					if (!Object.prototype.hasOwnProperty.call(_this, name))
-						throw new Error("Extra member " + name + " for " + rtName)
+						throw new Error("Extra prop " + name + " for " + rtName)
 			})
 		}
 	})
@@ -115,15 +118,15 @@ const pAdd = function(object, key, val) {
 	exports.Str = String
 	exports.Symbol = Symbol
 	exports["p+!"] = pAdd
-	exports["p+mut!"] = function(object, key, val) {
-		Object.defineProperty(object, key, { value: val, writable: true })
-	}
 
 // region Contains
 	// Some Types want to implement contains? before it is officially defined.
 	const containsImplSymbol = exports["contains?-impl-symbol"] = "impl-contains?"
 	exports["impl-contains?!"] = function(type, impl) {
-		pAdd(type.prototype, exports["contains?-impl-symbol"], impl)
+		Object.defineProperty(type.prototype, exports["contains?-impl-symbol"], {
+			value: impl,
+			enumerable: false
+		})
 	};
 	// Overwritten by Type.ms
 	ms.checkContains = function() { }

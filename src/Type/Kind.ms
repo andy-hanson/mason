@@ -34,7 +34,7 @@ Kind. Obj-Type
 			B = Kind
 				doc. "B"
 			C = Obj-Type
-				members.
+				props.
 					c.
 			<! B A
 			<! C B
@@ -48,7 +48,7 @@ Kind. Obj-Type
 			Y = Kind
 				doc. "Y"
 			Z = Obj-Type
-				members.
+				props.
 					x.
 			<! Z Y
 			<! Y X
@@ -70,11 +70,11 @@ Kind. Obj-Type
 			! fails-with? "Closed is not open to new subtypes." |
 				<! X Closed
 
-	members.
+	props.
 		displayName. Str
 		super-kinds. Array \ TODO: [~Kind]
 		prototype. Obj
-		\ TODO: Allow doc on member
+		\ TODO: Allow doc on prop
 		\ doc. "If immutable, this Kind does not accept new subtypes."
 		implementors. Array \ TODO: [~Impl-Type]
 		symbol-for-isa. Symbol
@@ -140,10 +140,10 @@ concrete-implementors.
 		Y = Kind
 			doc. "Y"
 		Z = Obj-Type
-			members.
+			props.
 				z.
 		W = Obj-Type
-			members.
+			props.
 				w.
 		<! Y X
 		<! Z X

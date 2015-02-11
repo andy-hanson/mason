@@ -25,7 +25,7 @@ Impl-Type. Kind
 		B = Kind
 			doc. "B"
 		C = Obj-Type
-			members.
+			props.
 				c.
 		<! B A
 		<! C B
@@ -78,7 +78,7 @@ region Self-Type
 		doc. "
 			Impl-Type with exactly one member.
 			Calling impl! on it will directly modify an Obj to contain method implementations.
-		members.
+		props.
 			prototype. Obj
 		test. |
 			x = empty Obj!

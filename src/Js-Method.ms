@@ -19,7 +19,7 @@ Js-Method = Obj-Type
 		toString = Js-Method
 			impl-name. "toString"
 		! =? (toString 1) "1"
-	members.
+	props.
 		displayName. Str
 		impl-name. Str
 	extensible.

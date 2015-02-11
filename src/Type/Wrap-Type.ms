@@ -20,12 +20,12 @@ debug use~
 
 Wrap-Type = Obj-Type
 	doc. "
-		Obj with only one member (always called `val`).
+		Obj with only one prop (always called `val`).
 		These are useful for wrapping a value with a new type.
-	members.
+	props.
 		displayName. Str
 		prototype. Obj
-	optional-members.
+	opt-props.
 		wrapped-type. Type
 	extensible.
 	defaults.

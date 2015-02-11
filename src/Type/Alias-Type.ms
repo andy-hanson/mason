@@ -16,7 +16,7 @@ Alias-Type. Obj-Type
 			alias-of. Str
 		! contains? A "0"
 		!not =? A Str
-	members.
+	props.
 		displayName. Str
 		alias-of. Type
 	extensible.

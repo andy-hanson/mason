@@ -25,16 +25,16 @@ flag? = |case
 		false
 
 make-ctr = |ot
-	debug member-has-type? = |members member
+	debug prop-has-type? = |props prop
 		\ Type might be lazily defined, but don't trigger it yet.
-		desc = Obj.getOwnPropertyDescriptor members member
+		desc = Obj.getOwnPropertyDescriptor props prop
 		not (js=== desc.value true)
 
-	real-member? = |members member
+	real-prop? = |props prop
 		\ Ignore accidental displayName.
-		implies (i=== member "displayName") ~
+		implies (i=== prop "displayName") ~
 			\ This looks funny since `contains?` isn't defined until methods.ms.
-			not (js=== (js-typeof (js-sub members member)) "string"
+			not (js=== (js-typeof (js-sub props prop)) "string"
 
 	access = |name
 		"[\"{name}\"]"
@@ -44,63 +44,62 @@ make-ctr = |ot
 			return function ctr(_) \{
 			if (!(this instanceof ctr)) return new ctr(_)
 
-		real-members = (Obj.getOwnPropertyNames ot.members).filter |member
-			real-member? ot.members member
+		real-props = (Obj.getOwnPropertyNames ot.props).filter |prop
+			real-prop? ot.props prop
 
 		extensible = flag? ot.extensible
 
 		if! extensible |
 			add! "Object.assign(this, _)"
 
-		real-members.forEach |member
-			acc = access member
+		real-props.forEach |prop
+			acc = access prop
 
 			if! (not extensible) |
 				add! "this{acc} = _{acc}"
 
 			if! (defined? ot.defaults) |
-				case! js-sub ot.defaults member
+				case! js-sub ot.defaults prop
 					defined?_
 						add! "if (this{acc} === undefined) this{acc} = defaults{acc}(_)"
 					else
 						()
 
 			debug add! case
-				member-has-type? ot.members member
-					"_ms.checkContains(members{acc}, this{acc}, \"{member}\")"
+				prop-has-type? ot.props prop
+					"_ms.checkContains(props{acc}, this{acc}, \"{prop}\")"
 				else
 					"
-						if (!Object.prototype.hasOwnProperty.call(_, \"{member}\"))
-							throw new Error(\"Forgot to assign {member}.\")
+						if (!Object.prototype.hasOwnProperty.call(_, \"{prop}\"))
+							throw new Error(\"Forgot to assign {prop}.\")
 
-		if! (defined? ot.optional-members) |
-			(Obj.getOwnPropertyNames ot.optional-members).forEach |member
-				if! (real-member? ot.optional-members member) |
-					acc = access member
+		if! (defined? ot.opt-props) |
+			(Obj.getOwnPropertyNames ot.opt-props).forEach |prop
+				if! (real-prop? ot.opt-props prop) |
+					acc = access prop
 					add! "if (_{acc} !== undefined) \{"
 					if! (not extensible) |
 						add! "this{acc} = _{acc}"
-					debug if! (member-has-type? ot.optional-members member) |
+					debug if! (prop-has-type? ot.opt-props prop) |
 						\ TODO: Debug mode only
-						add! "_ms.checkContains(optionalMembers{acc}, this{acc}, \"{member}\")"
+						add! "_ms.checkContains(optProps{acc}, this{acc}, \"{prop}\")"
 					add! "}"
 
 		debug if! (not extensible) |
-			\ TODO: Debug mode only
 			check = "_ms.checkNoExtras(this, _, \"{ot.displayName}\")"
 			case!
-				defined? ot.optional-members
+				defined? ot.opt-props
 					add! check
 				else
-					n-members = real-members.length
-					n-members-compare = case
-						defined? real-members.displayName
-							"{n-members}"
+					n-props = real-props.length
+					n-props-compare = case
+						defined? real-props.displayName
+							"{n-props}"
 						else
-							"(Object.prototype.hasOwnProperty.call(_, \"displayName\") ? {+1 n-members} : {n-members})"
+							"(Object.prototype.hasOwnProperty.call(_, \"displayName\") ? {+1 n-props} : {n-props})"
 					\ If the conditions pass the check will definitely fail, and will give nice error info.
 					add! "
-						if (Object.keys(_).length > {n-members-compare})  \{
+						if (Object.keys(_).length > {n-props-compare})  \{
 							{check}
 							throw new Error(\"Unreachable\")
 						}
@@ -124,8 +123,8 @@ make-ctr = |ot
 
 		add! "}"
 
-	make-ctr = Fun "prototype" "members" "defaults" "makeCallable" "postConstruct" "optionalMembers" src
-	ctr = make-ctr ot.prototype ot.members ot.defaults ot.make-callable ot.post-construct ot.optional-members
+	make-ctr = Fun "prototype" "props" "defaults" "makeCallable" "postConstruct" "optProps" src
+	ctr = make-ctr ot.prototype ot.props ot.defaults ot.make-callable ot.post-construct ot.opt-props
 	debug p+! ctr "source" src
 	ctr
 
@@ -139,15 +138,15 @@ obj-type-args =
 		these include those of Wrap-Types and those made by constructor Funs, JavaScript-style.
 	\ This must be explicit because of the way we construct Obj-Type
 	prototype. Obj.create Obj.prototype
-	members.
+	props.
 		displayName. Str \ displayName is mandatory for types.
-		members. Obj
+		props. Obj
 		prototype. Obj
-	optional-members.
+	opt-props.
 		defaults. Obj
-		\ This takes in the members and outputs a Fun.
+		\ This takes in the props and outputs a Fun.
 		make-callable. Fun
-		optional-members. Obj
+		opt-props. Obj
 		post-construct. Fun
 		doc. Str
 		test. Fun
@@ -160,7 +159,7 @@ obj-type-args =
 	make-callable. make-ctr
 	test. |
 		Vec2D = Obj-Type
-			members.
+			props.
 				x. Num
 				y. Num
 		v = Vec2D
@@ -183,9 +182,9 @@ obj-type-args =
 				z. 3
 
 		Q = Obj-Type
-			members.
+			props.
 				x.
-			optional-members.
+			opt-props.
 				y. Num
 		q = Q
 			x. 1
@@ -198,7 +197,7 @@ obj-type-args =
 				z. 3
 
 		Ex = Obj-Type
-			members.
+			props.
 				x.
 			extensible.
 		ex = Ex

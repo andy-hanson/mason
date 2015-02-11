@@ -32,7 +32,7 @@ Hash-Map! = Obj-Type
 		! seq=? keys_ [ 1 3 ]
 		! =? (?get _ 8) (empty ?)
 
-	members.
+	props.
 		hash->bucket. Identity-Map!
 
 <! Hash-Map! Map!

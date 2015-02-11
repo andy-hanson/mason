@@ -1,8 +1,8 @@
 use
-	..Bool _ implies
+	..Bool _ false implies
 	..js defined? global js-sub
 	..private.js-impl build-str
-	..private.bootstrap Fun impl-contains?! p+! p+mut! Str Symbol ms contains?-impl-symbol
+	..private.bootstrap Fun impl-contains?! Obj p+! Str Symbol ms contains?-impl-symbol
 	.Obj-Type
 use~
 	..!
@@ -98,10 +98,10 @@ Method. Obj-Type
 					"wrap-{impl arg}"
 			wrap-method "arg"
 
-	members.
+	props.
 		displayName. Str \ Required!
 		impl-symbol. Str
-	optional-members.
+	opt-props.
 		default. Fun
 		wrap. Fun
 	extensible.
@@ -158,7 +158,9 @@ do-impl! = |method implementor implementation
 			else
 				oh-no! "Can not redefine method {method} for {implementor}."
 
-	p+! implementor.prototype method.impl-symbol implementation
+	Obj.defineProperty implementor.prototype method.impl-symbol
+		value. implementation
+		enumerable. false \ TODO:ES6 Should not need this
 	case! implementor
 		:Kind
 			_.implementors.forEach |sub
@@ -177,12 +179,14 @@ propagate-method-down!. |implementor method-symbol implementation \ TODO: :Impl-
 				else
 					\ TODO: What to do in case of multiple inheritance collision?
 					\ Since this is inherited, it is mutable and can be overridden.
-					p+mut! _.prototype method-symbol implementation
+					Obj.defineProperty _.prototype method-symbol
+						value. implementation
+						writable.
 		else
 			()
 
 Double-Dispatcher = Obj-Type
-	members.
+	props.
 		displayName. Str
 		method. Method
 		first-type. \ TODO: Impl-Type

@@ -31,7 +31,7 @@ Enum = Obj-Type
 		! =? prices[Fruit.orange] 2
 		! =? (type-of Fruit.apple) Fruit
 		! =? "{Fruit.apple}" "Fruit.apple"
-	members.
+	props.
 		displayName. Str
 		prototype. Obj
 		values. Array[Str]

@@ -158,7 +158,7 @@ p-with-proto?.
 \ TODO: Handle recursive references.
 inspect=?.
 	doc. "
-		For Objs, whether they are of the same type and have `=?` members.
+		For Objs, whether they are of the same type and have `=?` properties.
 		For primitives, whether they are `=?`.
 	test. |
 		a =

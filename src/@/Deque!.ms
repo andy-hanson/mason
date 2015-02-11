@@ -18,7 +18,7 @@ use
 
 Deque! = Obj-Type
 	doc. "Seq! that can efficiently add values on either side."
-	members.
+	props.
 		data!. Array!
 		start-index!. Nat \ Inclusive (unless =? end-index)
 		end-index!. Nat \ Exclusive
