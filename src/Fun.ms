@@ -7,13 +7,13 @@ use
 	.Type.Impl-Type self-type
 	.Type.Method _ impl!
 use~
-	.@ _ ++ map
+	.@ _ ++ each! map
 	.@.Seq rtail last
 	.@.Array
-	.Map _ keys
+	.Map _ @pairs
 	.Map.Map! get-or-add!
 	.Map.Weak-Identity-Map!
-	.Obj
+	.Obj _ Obj->Map
 	.Try oh-no!
 debug use~
 	.!
@@ -121,37 +121,63 @@ spread.
 	test. |
 		all-4 = |a b c d
 			[ a b c d ]
-		x = spread all-4 1 2
+		x = spread all-4 1 2 3
+			. 4
+			. 5
+		! seq=? x
+			. [ 1 2 3 4 ]
+			. [ 1 2 3 5 ]
+
+		y = spread all-4 1 2
 			3 -> 4
 			5 -> 6
-		! seq=? x
+		! seq=? y
 			. [ 1 2 3 4 ]
 			. [ 1 2 5 6 ]
 
-		y = spread all-4 1 2 3
-			. 4
-			. 5
-		! seq=? y
-			. [ 1 2 3 4 ]
-			. [ 1 2 3 5 ]
+		z = spread all-4 1 2
+			three. 4
+			five. 6
+		! seq=? z
+			. [ 1 2 "three" 4 ]
+			. [ 1 2 "five" 6 ]
+			. [ 1 2 "displayName" "z" ] \ TODO:DISPLAYNAME
 
 	\ TODO:SYNTAX Non-last rest arg?
 	|:@ fun:Fun ...args
 		init-args = rtail args
-		spreaded = last args
-		case spreaded
+		last-arg = last args
+		@spreaded = case last-arg
 			:@
 				map _ |em
-					all-args = ++ init-args [ em ]
-					apply fun all-args
+					[ em ]
 			:Map
-				map keys_ |key
-					all-args = ++ init-args [ key _[key] ]
-					apply fun all-args
+				map @pairs_ |pair
+					key val = pair
+					[ key val ]
+			:Obj
+				map (@pairs Obj->Map_) |pair
+					key val = pair
+					[ key val ]
 			else
 				oh-no! "Can only spread a @ or Map, not {_}"
+		map @spreaded |spreaded
+			\ TODO: Shouldn't need => Array
+			all-args = => Array (++ init-args spreaded
+			fun ...all-args
 
-spread!. spread
+spread!.
+	doc. "TODO"
+	test. |
+		! =? [ 1 2 3 ] (build |yield!
+			f = |a b c
+				yield! a
+				yield! b
+				yield! c
+			spread! f 1
+				2 -> 3
+	|fun ...args
+		each! (spread fun ...args) ignore
 
 thunk.
 	doc. "Makes function which, when called, returns `a`."

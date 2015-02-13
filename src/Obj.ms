@@ -12,7 +12,8 @@ use~
 	.@ _ ++ all? count keep
 	.@.? _ Opt->?
 	.@.Identity-Set!
-	.Fun
+	.control returning
+	.Fun _ thunk
 	.Map _ each-pair! make-map
 	.Obj! _ p+!
 debug use~
@@ -30,24 +31,32 @@ Obj =
 	global.Object
 
 Obj-Key. Kind
-	doc. "TODO"
+	doc. "Can be used as a name for a property of an object."
 	implementors. [ Str Symbol ]
 
-can-get-p?. |_
-	not (js== _ ()
+can-get-p?.
+	doc. "Whether it's safe to try to directly access properties."
+	test. |
+		[ () ] -> false
+		[ undefined ] -> false
+		[ 1 ] -> true
+	|_
+		not (js== _ ()
 
-flag?. |obj flag:Str
-	\ TODO: use `and`
-	case obj
-		:Obj
-			case js-sub obj flag
-				defined?_
-					b:Bool = _
-					b
-				else
-					false
-		else
-			false
+flag?.
+	doc. "If it has a property for the flag, uses that. Otherwise false."
+	test. |
+		\ TODO:SYNTAX (a.)
+		[ (a. true) "a" ] -> true
+		[ (a. false) "a" ] -> false
+		[ (empty Obj) "a" ] -> false
+	|obj flag:Obj-Key
+		case ?p obj flag
+			empty?_
+				false
+			else
+				b:Bool = _.val
+				b
 
 ~forbidden-fun-props = => Identity-Set! [ "arguments" "caller" ]
 @p-all.
@@ -90,8 +99,12 @@ flag?. |obj flag:Str
 			enumerable.
 		! empty? (@p obj)
 		[ @p ] -> [ "doc" "test" "displayName" ]
-	|:@[Str] _:Obj
-		Obj.keys _
+	|:@[Str] _
+		case
+			can-get-p?_
+				Obj.keys _
+			else
+				[ ]
 
 ?p.
 	doc. "`?` containing the value of the property, if it exists."
@@ -115,10 +128,10 @@ flag?. |obj flag:Str
 	test. |
 		[ 1 "toString" ] -> ? Num.prototype.toString
 		[ 1 "asdfghjkl" ] -> empty ?
-	|obj name:Obj-Key
-		case obj
+	|_ name:Obj-Key
+		case
 			can-get-p?_
-				Opt->? (js-sub obj name
+				Opt->? (js-sub _ name
 			else
 				empty ?
 
@@ -132,9 +145,10 @@ p.
 		[ x "b" ] -> ()
 		debug ! fails? |
 			p "c"
-	|_:Obj name:Obj-Key
+	|_ name:Obj-Key
 		in
 			! p? _ name
+
 		js-sub _ name
 
 p?.
@@ -144,15 +158,15 @@ p?.
 		[ x "a" ] -> true
 		[ x "b" ] -> false
 		[ x "toString" ] -> false \ use p-with-proto? for that.
-	|obj name:Obj-Key
-		Obj.prototype.hasOwnProperty.call obj name
+	|_ name:Obj-Key
+		and can-get-p?_ ~(Obj.prototype.hasOwnProperty.call _ name
 
 p-with-proto?.
 	doc. "Like `p?` but looks through the prototype."
 	test. |
 		[ (empty Obj) "toString" ] -> true
 	|_ name:Obj-Key
-		and can-get-p?_ (defined? (js-sub _ name
+		and can-get-p?_ ~(defined? (js-sub _ name
 
 \ TODO: Move?
 \ TODO: Handle recursive references.
@@ -197,8 +211,7 @@ inspect=?.
 
 \ TODO: Move elsewhere in this file
 \ TODO: Test these
-impl! empty (self-type Obj) |
-	Obj.freeze (Obj.create Obj.prototype)
+impl! empty (self-type Obj) (thunk (Obj.freeze (Obj.create Obj.prototype
 
 empty-Obj?.
 	doc. "Whether there are no properties, not even hidden ones."
@@ -214,7 +227,7 @@ Obj->Map.
 		[ (a. 1 b. 2) ] ->
 			"a" -> 1
 			"b" -> 2
-	|_:Obj
+	|_
 		make-map @p_ p[_]
 
 Map->Obj.
@@ -230,9 +243,9 @@ Map->Obj.
 			Map->Obj
 				1 -> 2
 	|_:Map
-		obj = empty Obj!
-		each-pair! _ |key val
-			p+! obj key val
-		freeze obj
+		returning (empty Obj!) |obj
+			each-pair! _ |key val
+				p+! obj key val
+			freeze obj
 
 Obj

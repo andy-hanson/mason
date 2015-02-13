@@ -3,7 +3,7 @@ doc. "For making assertions."
 use
 	.private.bootstrap Fun
 use~ \ TODO: Move as many up as possible
-	.@ map
+	.@ _ map
 	.@.Array
 	.Bool _ not
 	.control if!
@@ -48,8 +48,7 @@ debug use~
 		case! a
 			:Fun
 				case!
-					\ TODO:SYNTAX _ ...args
-					Fun.prototype.apply.call _ () args
+					_ ...args
 						()
 					else
 						oh-no! "
@@ -74,8 +73,7 @@ debug use~
 		case! a
 			:Fun
 				case!
-					\ TODO:SYNTAX _ ...args
-					Fun.prototype.apply.call _ () args
+					_ ...args
 						oh-no! "
 							Unexpected {a}
 								{indent ((map args repr).join "\n")}
@@ -109,7 +107,7 @@ debug use~
 			!call +
 				[ 1 1 ] -> 3
 	|fun:Fun args->result:Map \ TODO: Map[Array Any]
-		each-pair! args->result |args expected-res
+		each-pair! args->result |args:@ expected-res
 			actual = apply fun args
 			if! (not (=? actual expected-res)) |
 				oh-no! ~"

@@ -8,7 +8,8 @@ use
 	..Map.multi-map! add-to-@!
 	..math.Num infinity square
 	..math.methods + *
-	..methods empty empty?
+	..methods empty?
+	..Type =>
 debug use
 	..!
 	..@ any?
@@ -27,9 +28,8 @@ primes.
 		<~ 2
 		<~ 3
 		\ Maps a composite number to its prime factors.
-		\ TODO: => Identity-Map! [ 9 -> [ 3 ] ]
-		prime-factors = empty Identity-Map!
-		assoc! prime-factors 9 [ 3 ]
+		prime-factors = => Identity-Map!
+			9 -> [ 3 ]
 		<~~ each~ (range 5 infinity 2) ~|candidate
 			\ un-assoc! is to save memory - we won't need to look up this value any more.
 			case! un-assoc! prime-factors candidate

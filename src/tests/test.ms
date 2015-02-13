@@ -8,7 +8,7 @@ use
 	..@.Identity-Set!
 	..Bool _ and false or true
 	..control if
-	..Fun _ apply ignore
+	..Fun _ ignore
 	..Generator!
 	..Map
 	..methods =? empty
@@ -133,8 +133,7 @@ all-tested = empty Identity-Set!
 @$test-test-fun = |value value-test:Fun name ...args
 	~ano = "{name}: "
 	_ = annotate-errors ~ano |
-		\ TODO:SYNTAX value-test ...args
-		apply value-test args
+		value-test ...args
 	case
 		:Map
 			! (contains? Fun value) ~

@@ -1,17 +1,18 @@
 use
 	.@.?
 	.$ _ $after
-	.Bool and true
-	.Fun _ Act ignore
-	.js global
+	.Bool and
+	.Fun _ Act ignore spread!
+	.js global new
 	.private.js-impl make-Error i-always-do-after i-oh-no! i-try
 	.methods =? empty
 	.Obj
-	.Obj! p!
+	.Obj! p! p+!
 	.Str
 	.Type _ contains? =>
 	.Type.Impl-Type self-type
 	.Type.Method impl!
+	.Type.Obj-Type
 	.Type.Kind
 	.Type.Pred-Type Any Union
 	.Type.Wrap-Type
@@ -53,10 +54,11 @@ oh-no!.
 		If `error` is a Str, it will be put into a new Error.
 		If it is possible for the creation of `error` to fail, make it lazy.
 	test. |
-		\ TODO: ! fails-with? type | oh-no! type
 		! fails-with? "a" |
 			oh-no! "a"
-	\ TODO: ~error
+		! fails-with? Type-Error |
+			oh-no! Type-Error()
+	\ TODO: mark both as ~error and have the compiler figure out that it doesn't need to wrap.
 	|error
 		i-oh-no! error
 
@@ -111,34 +113,30 @@ fails-with?.
 				:Str
 					=? result.message _
 
-\ TODO: Just make it a Obj-Type with message/stack properties whose default is `new Error(msg)`.stack
 error-type.
-	doc. "Makes a new custom error types."
+	doc. "
+		Makes an Obj-Type with a `message` property, and a `stack` property automatically filled in on construction.
 	test. |
-		() \ Relies on below TODO
-		\ET = error-type
-		\	doc. "ET"
-		\x = ET "message"
-		\! contains? Error x
-		\! =? x.message "message"
+		ET = error-type
+			doc. "ET"
+		! =? ET.doc "ET"
+		x = ET (message. "mess"
+		! contains? Error x
+		! =? "mess" x.message
+		! fails-with? "mess" |
+			oh-no! x
 	|opts
-		\ TODO: Use Obj! functions instead of js's builtin Obj helpers
-		it =
-			displayName. undefined \ TODO: Ability to not have displayName
-			|message:Str
-				msg = message
-				Obj.defineProperties this
-					message.
-						value. msg
-						enumerable. true
-						writable. true
-					stack.
-						value. (=> Error msg).stack
-						enumerable. true
-						writable. true
-		Obj.assign it opts
-		p! it "prototype" (Obj.create Error.prototype)
-		it
+		_ = Obj-Type
+			props.
+				message. Str
+				stack.
+			defaults.
+				stack. |_
+					message:Str = _.message
+					(new Error message).stack
+			prototype. Obj.create Error.prototype
+		spread! p+! _ opts
+		_
 
 always-do-after.
 	doc. "Executes `finally-do`, even if there are errors."

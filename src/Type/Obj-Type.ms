@@ -1,5 +1,5 @@
 use
-	..Bool _ false implies not
+	..Bool _ and false implies not
 	..private.bootstrap Fun impl-contains?! Obj p+! Str
 	..js defined? js=== js-instanceof js-sub js-typeof
 	..private.js-impl i=== build-str
@@ -18,6 +18,7 @@ if! = |bool act
 			act ()
 		else
 			()
+
 flag? = |case
 	defined?_
 		_
@@ -58,18 +59,18 @@ make-ctr = |ot
 			if! (not extensible) |
 				add! "this{acc} = _{acc}"
 
-			if! (defined? ot.defaults) |
-				case! js-sub ot.defaults prop
-					defined?_
-						add! "if (this{acc} === undefined) this{acc} = defaults{acc}(_)"
-					else
-						()
+			default? = and (defined? ot.defaults) ~(defined? (js-sub ot.defaults prop
 
-			debug add! case
+			if! (default?) |
+				add! "if (this{acc} === undefined) this{acc} = defaults{acc}(_)"
+
+			debug case!
 				prop-has-type? ot.props prop
-					"_ms.checkContains(props{acc}, this{acc}, \"{prop}\")"
+					add! "_ms.checkContains(props{acc}, this{acc}, \"{prop}\")"
+				default?
+					()
 				else
-					"
+					add! "
 						if (!Object.prototype.hasOwnProperty.call(_, \"{prop}\"))
 							throw new Error(\"Forgot to assign {prop}.\")
 

@@ -146,7 +146,6 @@ region Ref!
 		|_:Ref! new-value
 			p! _ "val" new-value
 
-	\ TODO: Just override `map!`
 	mod!.
 		doc. "Shorthand for `set! ref (f (get ref))"
 		test. |
