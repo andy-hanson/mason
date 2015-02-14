@@ -52,7 +52,7 @@ const parseLine = function(px, sqt) {
 				return parseLoop(pxRest(), rest())
 			case "region":
 				return parseLines(px, sqt)
-			case "use": case "use~":
+			case "use": case "use!": case "use~":
 				return parseUse(pxRest(), rest(), first.k)
 			default: // fall through
 		}

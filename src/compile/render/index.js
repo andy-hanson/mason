@@ -242,6 +242,9 @@ U.implementMany(E, "renderContent", {
 			"}"
 		]
 	},
+	Ignore: function(rx) {
+		return r(rx)(this.ignored)
+	},
 	Lazy: function(rx) {
 		return lazyWrap(r(rx)(this.value))
 	},

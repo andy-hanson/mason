@@ -1,15 +1,13 @@
 doc. "The program starts running here."
+use!
+	.private.bootstrap
+	.private.boot-order
 use
-	.private.bootstrap ms \ TODO:use!
-	.private.boot-order ignore-me \ TODO:use!
-	.Fun ignore
 	.$ $done $ing
 	.io.console log!
 	.modules $@module-in-dir get-module
 	.tests.test $test-all $test-module
 	.tests.perf-test time $time! time*! race*!
-
-ignore ms ignore-me
 
 \ TODO: Mason for "if this is the main module"
 $done ($ing ~|

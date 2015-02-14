@@ -28,28 +28,34 @@ const useLine = function(px, sqt, k) {
 	const tReq = Sq.head(sqt)
 	const _$ = parseRequire(px.withSpan(tReq.span), tReq)
 	const required = _$.required, name = _$.name
-	const isLazy = k === "use~"
 
-	const defaultAssignee = E.LocalDeclare(px.s({
-		name: name,
-		opType: Op.None,
-		isLazy: isLazy,
-		okToNotUse: false
-	}))
-	const assignees = (sqt.length === 1) ?
-		[ defaultAssignee ] :
-		parseLocals_()(px, Sq.tail(sqt)).map(function(l) {
-			const l2 = (l.name === "_") ? U.with(l, "name", name) : l
-			return U.with(l2, "isLazy", isLazy)
+	if (k === "use!") {
+		check(sqt.length == 1, px.span, "Unexpected " + sqt[1])
+		return E.Ignore(px.s( { ignored: required }))
+	} else {
+		const isLazy = k === "use~"
+
+		const defaultAssignee = E.LocalDeclare(px.s({
+			name: name,
+			opType: Op.None,
+			isLazy: isLazy,
+			okToNotUse: false
+		}))
+		const assignees = (sqt.length === 1) ?
+			[ defaultAssignee ] :
+			parseLocals_()(px, Sq.tail(sqt)).map(function(l) {
+				const l2 = (l.name === "_") ? U.with(l, "name", name) : l
+				return U.with(l2, "isLazy", isLazy)
+			})
+		return E.AssignDestructure({
+			span: px.sqtSpan(sqt),
+			assignees: assignees,
+			k: "=",
+			value: required,
+			isLazy: isLazy,
+			checkProperties: true
 		})
-	return E.AssignDestructure({
-		span: px.sqtSpan(sqt),
-		assignees: assignees,
-		k: "=",
-		value: required,
-		isLazy: isLazy,
-		checkProperties: true
-	})
+	}
 }
 
 const parseRequire = function(px, t) {

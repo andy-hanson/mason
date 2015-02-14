@@ -119,6 +119,7 @@ U.implementMany(E, "verify", {
 	CasePart: function(vx) { vm(vx, [this.test, this.result]) },
 	Debugger: U.ignore,
 	DictReturn: function(vx) { vm(vx, this.opDicted) },
+	Ignore: function(vx) { v(vx)(this.ignored) },
 	Lazy: function(vx) {
 		v(vx.withBlockLocals())(this.value)
 	},

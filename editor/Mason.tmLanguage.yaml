@@ -12,8 +12,6 @@ patterns:
   name: string
   match: \"\"
 
-
-
 - comment: 1-indented multi-line string (begins/ends with 0 indents)
   name: string
   begin: "^[^\t\"]*\"$"
@@ -71,8 +69,6 @@ patterns:
   - name: entity.other.attribute-name
     match: \{[^\}]*\}
 
-
-
 - comment: Single-line string
   name: string
   begin: \"
@@ -124,7 +120,7 @@ patterns:
 
 - comment: A language keyword.
   name: keyword
-  match: (debug|debugger|this|use~?|->|case!?|else|in|out|res|_|loop!|end-loop!|<~|<~~)(\s)
+  match: (debug|debugger|this|use~?|use!|->|case!?|else|in|out|res|_|loop!|end-loop!|<~|<~~)(\s)
 
 - comment: Bracket
   name: keyword

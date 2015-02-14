@@ -56,6 +56,8 @@ makeETypes(E.Do, {
 	CaseVal: { parts: [E.CasePart], opElse: Op(E.BlockBody) },
 	Debugger: { },
 	EndLoop: { name: String },
+	// Transforms an E.Val to an E.Do, meaning we ignore its value.
+	Ignore: { ignored: E.Val },
 	ListEntry: { value: E.Val, index: Number },
 	Loop: { name: String, body: E.BlockBody },
 	MapEntry: { key: E.Val, val: E.Val, index: Number },
