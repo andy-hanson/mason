@@ -5,7 +5,8 @@ use
 	..math.methods +
 	..methods =? <? empty empty?
 	..Obj
-	..Symbol
+	..Obj! p+!
+	..private.bootstrap ms
 	..Type => contains? type-of
 	..Type.Kind
 	..Type.Method _ impl!
@@ -41,7 +42,9 @@ debug use~
 iterator. Method
 	doc. |:Generator! _
 		"Creates a new Generator! which yields the values in the @. Should create a new one every time."
-	symbol. Symbol.iterator
+
+\ TODO:ES6 Should not need this
+p+! ms "iterator" iterator
 
 region Using iterator
 	impl! contains? @

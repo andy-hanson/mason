@@ -116,7 +116,7 @@ U.implementMany(E, "renderContent", {
 			// TODO:ES6 Just use `...arg`
 			const args = this.args.map(function(arg) {
 				return type.isa(arg, E.Splat) ?
-					r(rx)(arg.splatted) :
+					[ "_ms.arr(", r(rx)(arg.splatted), ")" ] :
 					"[" + r(rx)(arg) + "]"
 			})
 			return [

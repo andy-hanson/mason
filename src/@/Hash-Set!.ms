@@ -1,7 +1,6 @@
 use
 	..@ each! iterator
 	..Bool true
-	..control
 	..Map keys
 	..Map.Hash-Map!
 	..Map.Map! assoc! un-assoc!

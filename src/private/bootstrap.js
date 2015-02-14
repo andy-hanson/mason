@@ -30,6 +30,22 @@ const pAdd = function(object, key, val) {
 		return b
 	})
 
+	// TODO:ES6 fun(...arg) should do this for me.
+	pAdd(ms, "arr", function(a) {
+		if (a instanceof Array)
+			return a
+		const out = []
+		const iter = ms.iterator(a) // ms.iterator created by @/index.ms
+		while (true) {
+			const _ = iter.next()
+			if (_.done)
+				break
+			else
+				out.push(_.value)
+		}
+		return out
+	})
+
 	// For use by Obj-Type.ms
 	pAdd(ms, "checkNoExtras", function(_this, _, rtName) {
 		// If there was some key in `_` that we didn't copy:
