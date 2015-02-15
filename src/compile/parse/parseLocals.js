@@ -1,6 +1,7 @@
 "use strict"
 
 const
+	assert = require("assert"),
 	check = require("../check"),
 	E = require("../E"),
 	Op = require("../U/Op"),
@@ -14,16 +15,19 @@ const
 const
 	parseSpaced = require("./parseSpaced")
 
-const parseLocals = module.exports = function(px, sqt) {
-	return sqt.map(function(t) {
-		return parseLocal(px.withSpan(t.span), t)
+const parseLocals = module.exports = function(px) {
+	return px.sqt.map(function(t) {
+		return parseLocal(px.wt(t))
 	})
 }
 
-const parseLocal = parseLocals.parseLocal = function(px, t) {
+const parseLocal = parseLocals.parseLocal = function(px) {
 	let name
 	let opType = Op.None
 	let isLazy = false
+
+	assert(px.sqt.length === 1)
+	const t = px.sqt[0]
 
 	if (T.Group.is('sp')(t)) {
 		const sqt = t.sqt
@@ -33,23 +37,23 @@ const parseLocal = parseLocals.parseLocal = function(px, t) {
 			isLazy = true
 			rest = Sq.tail(sqt)
 		}
-		name = parseLocalName(px, Sq.head(rest))
+		name = parseLocalName(Sq.head(rest))
 		const rest2 = Sq.tail(rest)
 		if (!Sq.isEmpty(rest2)) {
 			const colon = Sq.head(rest2)
-			check(T.Keyword.is(":")(colon), colon.span, "Expected " + U.code(":"))
-			check(rest2.length > 1, px.span, "Expected something after " + colon)
+			check(T.Keyword.is(":")(colon), colon.span, function() { return "Expected " + U.code(":") })
+			px.check(rest2.length > 1, function() { return "Expected something after " + colon })
 			const sqtType = Sq.tail(rest2)
-			opType = Op.Some(parseSpaced(px.withSpan(Span.ofSqT(px.span, sqtType)), sqtType))
+			opType = Op.Some(parseSpaced(px.w(sqtType)))
 		}
 	}
 	else
-		name = parseLocalName(px, t)
+		name = parseLocalName(t)
 
 	return E.LocalDeclare(px.s({ name: name, opType: opType, isLazy: isLazy, okToNotUse: false }))
 }
 
-const parseLocalName = function(px, t) {
+const parseLocalName = function(t) {
 	if (T.Keyword.is("_")(t))
 		return "_"
 	else {

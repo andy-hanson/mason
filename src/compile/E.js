@@ -105,4 +105,3 @@ makeETypes(E.Val, {
 	Splat: { splatted: E.Val }
 })
 E.LocalAccess.focus = function(span) { return E.LocalAccess({ span: span, name: "_" }) }
-

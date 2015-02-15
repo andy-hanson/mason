@@ -1,6 +1,7 @@
 "use strict"
 
 const
+	assert = require("assert"),
 	check = require("../check"),
 	E = require("../E"),
 	Lang = require("../Lang"),
@@ -16,21 +17,23 @@ const
 	parseBlock_ = function() { return require("./parseBlock") },
 	parseLocals_ = function() { return require("./parseLocals") }
 
-module.exports = function parseUse(px, sqt, k) {
-	type(px, Px, sqt, [T], k, Lang.UseKeywords)
-	const _ = parseBlock_().takeBlockLinesFromEnd(px, sqt)
-	check(Sq.isEmpty(_.before), px.span, "Did not expect anything after " + U.code("use") + " other than a block")
-	return _.lines.map(function(line) { return useLine(px.withSpan(line.span), line.sqt, k) })
+module.exports = function parseUse(px, k) {
+	type(px, Px, k, Lang.UseKeywords)
+	const _ = parseBlock_().takeBlockLinesFromEnd(px)
+	px.check(Sq.isEmpty(_.before), function() {
+		return "Did not expect anything after " + U.code("use") + " other than a block"
+	})
+	return _.lines.map(function(line) { return useLine(px.w(line.sqt), k) })
 }
 
 // TODO:ES6 Just use module imports, no AssignDestructure needed
-const useLine = function(px, sqt, k) {
-	const tReq = Sq.head(sqt)
-	const _$ = parseRequire(px.withSpan(tReq.span), tReq)
+const useLine = function(px, k) {
+	const tReq = Sq.head(px.sqt)
+	const _$ = parseRequire(px.wt(tReq))
 	const required = _$.required, name = _$.name
 
 	if (k === "use!") {
-		check(sqt.length == 1, px.span, "Unexpected " + sqt[1])
+		px.check(px.sqt.length == 1, function() { "Unexpected " + px.sqt[1] })
 		return E.Ignore(px.s( { ignored: required }))
 	} else {
 		const isLazy = k === "use~"
@@ -41,39 +44,40 @@ const useLine = function(px, sqt, k) {
 			isLazy: isLazy,
 			okToNotUse: false
 		}))
-		const assignees = (sqt.length === 1) ?
+		const assignees = (px.sqt.length === 1) ?
 			[ defaultAssignee ] :
-			parseLocals_()(px, Sq.tail(sqt)).map(function(l) {
+			parseLocals_()(px.w(Sq.tail(px.sqt))).map(function(l) {
 				const l2 = (l.name === "_") ? U.with(l, "name", name) : l
 				return U.with(l2, "isLazy", isLazy)
 			})
-		return E.AssignDestructure({
-			span: px.sqtSpan(sqt),
+		return E.AssignDestructure(px.s({
 			assignees: assignees,
 			k: "=",
 			value: required,
 			isLazy: isLazy,
 			checkProperties: true
-		})
+		}))
 	}
 }
 
-const parseRequire = function(px, t) {
+const parseRequire = function(px) {
+	assert(px.sqt.length === 1)
+	const t = px.sqt[0]
 	if (isa(t, T.Name))
 		return {
 			required: E.Require({ span: t.span, path: t.name }),
 			name: t.name
 		}
 	else if (isa(t, T.DotName))
-		return parseLocalRequire(px, [t])
+		return parseLocalRequire(px)
 	else {
-		check(T.Group.is('sp')(t), px.span, "Not a valid module name")
-		return parseLocalRequire(px, t.sqt)
+		px.check(T.Group.is('sp')(t), "Not a valid module name")
+		return parseLocalRequire(px.w(t.sqt))
 	}
 }
 
-const parseLocalRequire = function(px, sqt) {
-	const head = Sq.head(sqt)
+const parseLocalRequire = function(px) {
+	const head = Sq.head(px.sqt)
 
 	let parts = []
 	if (isa(head, T.DotName))
@@ -81,12 +85,12 @@ const parseLocalRequire = function(px, sqt) {
 	else
 		check(isa(head, T.Name), head.span, "Not a valid part of module path")
 	parts.push(head.name)
-	Sq.tail(sqt).forEach(function(t) {
+	Sq.tail(px.sqt).forEach(function(t) {
 		check(isa(t, T.DotName) && t.nDots === 1, t.span, "Not a valid part of module path")
 		parts.push(t.name)
 	})
 	return {
 		required: E.Require({ span: px.span, path: parts.join("/") }),
-		name: Sq.last(sqt).name
+		name: Sq.last(px.sqt).name
 	}
 }

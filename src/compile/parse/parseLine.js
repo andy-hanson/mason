@@ -21,53 +21,53 @@ const
 	parseUse = require("./parseUse")
 
 // Returns line or sq of lines
-const parseLine = function(px, sqt) {
-	type(px, Px, sqt, [T])
+const parseLine = function(px) {
+	type(px, Px)
 
-	const first = Sq.head(sqt)
-	const rest = function() { return Sq.tail(sqt) }
-	const pxRest = function() { return px.withSpan(Span.ofSqT(px.span, rest())) }
+	const first = Sq.head(px.sqt)
+	const pxRest = px.w(Sq.tail(px.sqt))
+	//const rest = function() { return Sq.tail(sqt) }
+	//const pxRest = function() { return px.withSpan(Span.ofSqT(px.span, rest())) }
 
 	// We only deal with mutable expressions here, otherwise we fall back to parseExpr.
 	if (isa(first, T.Keyword))
 		switch (first.k) {
 			case ". ":
-				return E.ListEntry({
-					span: px.span,
-					value: parseExpr(pxRest(), rest()),
+				return E.ListEntry(px.s({
+					value: parseExpr(pxRest),
 					index: -1 // This is set by parseBlock
-				})
+				}))
 			case "case!":
-				return parseCase(pxRest(), rest(), "case!", false)
+				return parseCase(pxRest, "case!", false)
 			case "debug":
-				return (T.Group.is('->')(sqt[1])) ?
-					E.Debug(px.s({ lines: parseLines(px, sqt) })) : // `debug`, then indented block
-					E.Debug(px.s({ lines: parseLineOrLines(px, Sq.tail(sqt)) })) // e.g. `debug use`
+				return (T.Group.is('->')(px.sqt[1])) ?
+					E.Debug(px.s({ lines: parseLines(px) })) : // `debug`, then indented block
+					E.Debug(px.s({ lines: parseLineOrLines(pxRest) })) // e.g. `debug use`
 			case "debugger":
-				check(Sq.isEmpty(rest()), px.span, "Did not expect anything after " + first)
+				px.checkEmpty(pxRest().sqt, function() { return "Did not expect anything after " + first })
 				return E.Debugger(px.s({}))
 			case "end-loop!":
-				return E.EndLoop(px.s({ name: loopName(px, rest()) }))
+				return E.EndLoop(px.s({ name: loopName(pxRest) }))
 			case "loop!":
-				return parseLoop(pxRest(), rest())
+				return parseLoop(pxRest)
 			case "region":
-				return parseLines(px, sqt)
+				return parseLines(px)
 			case "use": case "use!": case "use~":
-				return parseUse(pxRest(), rest(), first.k)
+				return parseUse(pxRest, first.k)
 			default: // fall through
 		}
 
-	return Op.ifElse(Sq.opSplitOnceWhere(sqt, T.Keyword.is(Lang.LineSplitKeywords)),
+	return Op.ifElse(Sq.opSplitOnceWhere(px.sqt, T.Keyword.is(Lang.LineSplitKeywords)),
 		function(_) {
 			return (_.at.k == '->') ? parseMapEntry(px, _.before, _.after) : parseAssign(px, _.before, _.at, _.after)
 		},
-		function() { return parseExpr(px, sqt) })
+		function() { return parseExpr(px) })
 }
 
 const parseAssign = function(px, assigned, assigner, value) {
-	let locals = parseLocals(px, assigned)
+	let locals = parseLocals(px.w(assigned))
 	const k = assigner.k
-	const eValuePre = Sq.isEmpty(value) ? E.True(px.s({})) : parseExpr(px, value)
+	const eValuePre = Sq.isEmpty(value) ? E.True(px.s({})) : parseExpr(px.w(value))
 
 	const opDisplayName = Op.if(locals.length == 1, function() { return Sq.head(locals).name })
 
@@ -95,7 +95,7 @@ const parseAssign = function(px, assigned, assigner, value) {
 	const eValue = valueFromAssign(eValueNamed, k, assigned)
 
 	if (Sq.isEmpty(locals)) {
-		check(isYield, px.span, "Assignment to nothing")
+		px.check(isYield, "Assignment to nothing")
 		return eValue
 	}
 
@@ -118,8 +118,8 @@ const parseAssign = function(px, assigned, assigner, value) {
 	else {
 		const isLazy = locals.some(function(l) { return l.isLazy })
 		if (isLazy)
-			locals.forEach(function(l) {
-				check(l.isLazy, l.span, "If any part of destructuring assign is lazy, all must be.")
+			locals.forEach(function(_) {
+				check(_.isLazy, _.span, "If any part of destructuring assign is lazy, all must be.")
 			})
 		return E.AssignDestructure(px.s({ assignees: locals, k: k, value: eValue, isLazy: isLazy, checkProperties: false }))
 	}
@@ -176,44 +176,44 @@ const tryAddDisplayName = function(eValuePre, displayName)
 	}
 }
 
-const parseLoop = function(px, sqt) {
-	const _ = parseBlock_().takeBlockFromEnd(px, sqt, "do")
-	return E.Loop({ span: px.span, name: loopName(px, _.before), body: _.block })
+const parseLoop = function(px) {
+	const _ = parseBlock_().takeBlockFromEnd(px, "do")
+	return E.Loop(px.s({ name: loopName(px.w(_.before)), body: _.block }))
 }
 
-const loopName = function(px, sqt) {
-	switch (sqt.length) {
+const loopName = function(px) {
+	switch (px.sqt.length) {
 		case 0:
 			return Lang.defaultLoopName
 		case 1:
-			check(isa(sqt[0], T.Name), px.span, "Expected a loop name, not " + sqt[0])
-			return sqt[0].name
+			px.check(isa(px.sqt[0], T.Name), function() { return "Expected a loop name, not " + px.sqt[0] })
+			return px.sqt[0].name
 		default:
-			check.fail(px.span, "Expected a loop name")
+			px.fail("Expected a loop name")
 	}
 }
 
 const parseMapEntry = function(px, before, after) {
 	return E.MapEntry(px.s({
-		key: parseExpr(px.withSqTSpan(before), before),
-		val: parseExpr(px.withSqTSpan(after), after),
-		index: -1
+		key: parseExpr(px.w(before)),
+		val: parseExpr(px.w(after)),
+		index: -1 // TODO: Filled in by ???
 	}))
 }
 
-const parseLineOrLines = function(px, sqt) {
-	const _ = parseLine(px, sqt)
+const parseLineOrLines = function(px) {
+	const _ = parseLine(px)
 	return (_ instanceof Array) ? _ : [ _ ]
 }
 
-const parseLines = function(px, sqt) {
-	const first = Sq.head(sqt)
-	check(sqt.length > 1, first.span, "Expected indented block after " + first)
-	const block = sqt[1]
-	assert(sqt.length === 2 && T.Group.is('->')(block))
+const parseLines = function(px) {
+	const first = Sq.head(px.sqt)
+	check(px.sqt.length > 1, first.span, "Expected indented block after " + first)
+	const block = px.sqt[1]
+	assert(px.sqt.length === 2 && T.Group.is('->')(block))
 	const out = []
 	block.sqt.forEach(function(line) {
-		[].push.apply(out, parseLineOrLines(px.withSpan(line.span), line.sqt))
+		[].push.apply(out, parseLineOrLines(px.w(line.sqt)))
 	})
 	return out
 }

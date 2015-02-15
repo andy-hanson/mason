@@ -11,6 +11,6 @@ const
 module.exports = function parse(t, opts) {
 	type(t, T.Group, opts, Opts)
 	assert(t.k === "->") // Lexer always puts the whole file in a block.
-	const px = Px({ span: t.span, opts: opts })
-	return parseBlock.parseModule(px, t.sqt)
+	const px = Px({ span: t.span, sqt: t.sqt })
+	return parseBlock.parseModule(px, opts.moduleName())
 }

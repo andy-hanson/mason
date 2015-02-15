@@ -1,6 +1,7 @@
 "use strict"
 
 const
+	assert = require("assert"),
 	check = require("../check"),
 	E = require("../E"),
 	Lang = require("../Lang"),
@@ -15,9 +16,10 @@ const
 	parseExpr_ = function() { return require("./parseExpr") },
 	parseSpaced = require("./parseSpaced")
 
-module.exports = function parseSingle(px, t) {
-	type(px, Px, t, T)
-	px = px.withSpan(t.span)
+module.exports = function parseSingle(px) {
+	type(px, Px)
+	const t = px.sqt[0]
+	assert(px.sqt.length === 1)
 	switch (true) {
 		case isa(t, T.CallOnFocus):
 			return E.Call(px.s({
@@ -37,18 +39,18 @@ module.exports = function parseSingle(px, t) {
 			return E.SpecialKeyword(px.s({ k: t.k }))
 
 		case T.Group.is('sp')(t):
-			return parseSpaced(px, t.sqt)
+			return parseSpaced(px.w(t.sqt))
 		case T.Group.is('->')(t):
-			return parseBlock_().wrap(px, t.sqt, "val")
+			return parseBlock_().wrap(px.w(t.sqt), "val")
 		case T.Group.is('"')(t):
 			return E.Quote(px.s({
-				parts: t.sqt.map(function(tSub) { return parseSingle(px, tSub) })
+				parts: t.sqt.map(function(tSub) { return parseSingle(px.wt(tSub)) })
 			}))
 		case T.Group.is('(')(t):
-			return parseExpr_()(px, t.sqt)
+			return parseExpr_()(px.w(t.sqt))
 		case T.Group.is('[')(t):
 			return E.ListSimple(px.s({
-				parts: parseExpr_().parseExprParts(px, t.sqt)
+				parts: parseExpr_().parseExprParts(px.w(t.sqt))
 			}))
 
 		case isa(t, T.DotName):
@@ -56,6 +58,6 @@ module.exports = function parseSingle(px, t) {
 				return E.Splat(px.s({ splatted: E.LocalAccess(px.s({ name: t.name })) }))
 
 		default:
-			check.fail(px.span, "Unexpected " + t)
+			px.fail("Unexpected " + t)
 	}
 }

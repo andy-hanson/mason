@@ -16,8 +16,8 @@ const
 	parseLocals = require("./parseLocals"),
 	parseSingle = require("./parseSingle")
 
-const parseExpr = module.exports = function(px, sqt) {
-	return Op.ifElse(Sq.opSplitManyWhere(sqt, T.Keyword.is(". ")),
+const parseExpr = module.exports = function(px) {
+	return Op.ifElse(Sq.opSplitManyWhere(px.sqt, T.Keyword.is(". ")),
 		function(splits) {
 			// Short object form, such as (a. 1, b. 2)
 			const first = splits[0].before
@@ -26,15 +26,15 @@ const parseExpr = module.exports = function(px, sqt) {
 			const keys = []
 			const lines = []
 			for (let i = 0; i < splits.length - 1; i++) {
-				const local = U.with(parseLocals.parseLocal(px, Sq.last(splits[i].before)), "okToNotUse", true)
+				const local = U.with(parseLocals.parseLocal(px.wt(Sq.last(splits[i].before))), "okToNotUse", true)
 				keys.push(local)
 				const sqtValue = (i == splits.length - 2) ? splits[i + 1].before : Sq.rightTail(splits[i + 1].before)
-				const value = parseExprPlain(px, sqtValue)
+				const value = parseExprPlain(px.w(sqtValue))
 				lines.push(E.Assign({
 					span: value.span, // TODO: Include name span
 					assignee: local,
 					k: ". ",
-					value: parseExprPlain(px, sqtValue)
+					value: parseExprPlain(px.w(sqtValue))
 				}))
 			}
 			assert(Sq.last(splits).at === undefined)
@@ -54,7 +54,7 @@ const parseExpr = module.exports = function(px, sqt) {
 			if (Sq.isEmpty(sqtCaller))
 				return val
 			else {
-				const parts = parseExprParts(px, sqtCaller)
+				const parts = parseExprParts(px.w(sqtCaller))
 				assert(!Sq.isEmpty(parts))
 				return E.Call(px.s({
 					called: Sq.head(parts),
@@ -63,13 +63,13 @@ const parseExpr = module.exports = function(px, sqt) {
 			}
 
 		},
-		function() { return parseExprPlain(px, sqt) }
+		function() { return parseExprPlain(px) }
 	)
 }
 
-const parseExprPlain = function(px, sqt) {
-	type(px, Px, sqt, [T])
-	const parts = parseExprParts(px, sqt)
+const parseExprPlain = function(px) {
+	type(px, Px)
+	const parts = parseExprParts(px)
 	switch (parts.length) {
 		case 0:
 			return E.Null(px.s({}))
@@ -80,19 +80,19 @@ const parseExprPlain = function(px, sqt) {
 	}
 }
 
-const parseExprParts = parseExpr.parseExprParts = function(px, sqt) {
-	type(px, Px, sqt, [T])
-	if (Sq.isEmpty(sqt))
+const parseExprParts = parseExpr.parseExprParts = function(px) {
+	type(px, Px)
+	if (Sq.isEmpty(px.sqt))
 		return []
-	const head = Sq.head(sqt), rest = Sq.tail(sqt)
+	const head = Sq.head(px.sqt), rest = Sq.tail(px.sqt)
 	switch (true) {
 		case T.Keyword.is(Lang.KFun)(head):
-			return [ parseFun_()(px, rest, head.k) ]
+			return [ parseFun_()(px.w(rest), head.k) ]
 		// `case!` can not be part of an expression - it is a statement.
 		case T.Keyword.is("case")(head):
-			return [ parseCase(px, rest, "case", false) ]
+			return [ parseCase(px.w(rest), "case", false) ]
 		case T.Keyword.is(Lang.GeneratorKeywords)(head): {
-			const y = parseExpr(px, rest)
+			const y = parseExpr(px.w(rest))
 			switch (head.k) {
 				case "<~": return [ E.Yield(px.s({ yielded: y })) ]
 				case "<~~": return [ E.YieldTo(px.s({ yieldedTo: y })) ]
@@ -100,6 +100,6 @@ const parseExprParts = parseExpr.parseExprParts = function(px, sqt) {
 			}
 		}
 		default:
-			return Sq.cons(parseSingle(px, head), parseExprParts(px.withSqTSpan(rest), rest))
+			return Sq.cons(parseSingle(px.wt(head)), parseExprParts(px.w(rest)))
 	}
 }

@@ -16,17 +16,18 @@ const
 
 const KParseBlock = new Set(["any", "do", "val", "module"])
 
-const wrap = function(px, sqt, k) {
-	return E.BlockWrap({ span: px.span, body: parseBody(px, sqt, k) })
+const wrap = function(px, k) {
+	return E.BlockWrap(px.s({ body: parseBody(px, k) }))
 }
 
-const parseModule = function(px, sqt) {
-	const mod = parseBody(px, sqt, "module")
+const parseModule = function(px, moduleName) {
+	type(px, Px, moduleName, String)
+	const mod = parseBody(px, "module")
 	const b = mod.body
 	// TODO: This also means no module is allowed to be called `displayName`.
 	b.lines.forEach(function(line) {
 		if (type.isa(line, E.Assign) && line.k === "export")
-			check(line.assignee.name !== "displayName", "Module can not choose its own displayName.")
+			px.check(line.assignee.name !== "displayName", "Module can not choose its own displayName.")
 	})
 	b.lines.push(E.Assign(px.s({
 		assignee: E.LocalDeclare(px.s({
@@ -36,38 +37,38 @@ const parseModule = function(px, sqt) {
 			okToNotUse: true
 		})),
 		k: "export",
-		value: E.Literal(px.s({ value: px.opts.moduleName(), k: String }))
+		value: E.Literal(px.s({ value: moduleName, k: String }))
 	})))
 	return mod
 }
 
-const justBlock = function(px, sqt, k) {
-	type(px, Px, sqt, [T], k, KParseBlock)
-	const _ = takeBlockFromEnd(px, sqt, k)
-	check(Sq.isEmpty(_.before), px.span, "Expected just a block")
+const justBlock = function(px, k) {
+	type(px, Px, k, KParseBlock)
+	const _ = takeBlockFromEnd(px, k)
+	px.check(Sq.isEmpty(_.before), "Expected just a block")
 	return _.block
 }
 
-const takeBlockFromEnd = function(px, sqt, k) {
-	type(px, Px, sqt, [T], k, KParseBlock)
-	const _ = takeBlockLinesFromEnd(px, sqt)
+const takeBlockFromEnd = function(px, k) {
+	type(px, Px, k, KParseBlock)
+	const _ = takeBlockLinesFromEnd(px)
 	return {
 		before: _.before,
-		block: parseBody(px, _.lines, k)
+		block: parseBody(px.w(_.lines), k)
 	}
 }
 
-const takeBlockLinesFromEnd = function(px, sqt) {
-	type(px, Px, sqt, [T])
-	check(!Sq.isEmpty(sqt), px.span, "Expected an indented block")
-	const last = Sq.last(sqt)
+const takeBlockLinesFromEnd = function(px) {
+	type(px, Px)
+	px.check(!Sq.isEmpty(px.sqt), "Expected an indented block")
+	const last = Sq.last(px.sqt)
 	check(T.Group.is('->')(last), last.span, "Expected an indented block at the end")
-	return { before: Sq.rightTail(sqt), lines: last.sqt }
+	return { before: Sq.rightTail(px.sqt), lines: last.sqt }
 }
 
-const parseBody = function(px, lines, k) {
-	type(px, Px, lines, [T], k, KParseBlock)
-	const _ = tryTakeInOut(px, lines)
+const parseBody = function(px, k) {
+	type(px, Px, k, KParseBlock)
+	const _ = tryTakeInOut(px)
 	const opIn = _.opIn, opOut = _.opOut, restLines = _.rest
 
 	let dictKeys = []
@@ -104,7 +105,7 @@ const parseBody = function(px, lines, k) {
 		// Else we are adding the E.Debug as a single line.
 	}
 	restLines.forEach(function(line) {
-		addLine(parseLine_()(px.withSpan(line.span), line.sqt, listLength))
+		addLine(parseLine_()(px.w(line.sqt), listLength))
 	})
 
 	//if (Sq.isEmpty(dictKeys))
@@ -112,17 +113,17 @@ const parseBody = function(px, lines, k) {
 	const isDict = !(Sq.isEmpty(dictKeys) && Sq.isEmpty(debugKeys))
 	const isList = listLength > 0
 	const isMap = mapLength > 0
-	check(!(isDict && isList), px.span, "Block has both list and dict lines.")
-	check(!(isDict && isMap), px.span, "Block has both dict and map lines.")
-	check(!(isList && isMap), px.span, "Block has both list and map lines.")
+	px.check(!(isDict && isList), "Block has both list and dict lines.")
+	px.check(!(isDict && isMap), "Block has both dict and map lines.")
+	px.check(!(isList && isMap), "Block has both list and map lines.")
 
 	const isModule = k === "module"
 
 	const doLinesOpReturn = (function() {
 		if (k === "do") {
-			check(!isDict, px.span, "Can't make dict in statement context")
-			check(!isList, px.span, "Can't make list in statement context")
-			check(!isMap, px.span, "Can't make map in statement context")
+			px.check(!isDict, "Can't make dict in statement context")
+			px.check(!isList, "Can't make list in statement context")
+			px.check(!isMap, "Can't make map in statement context")
 			return { doLines: eLines, opReturn: Op.None }
 		}
 		if (isList)
@@ -163,7 +164,7 @@ const parseBody = function(px, lines, k) {
 				opReturn: Op.Some(Sq.last(eLines))
 			}
 		else {
-			check(k !== "val", px.span, "Expected a value block")
+			px.check(k !== "val", "Expected a value block")
 			return { doLines: eLines, opReturn: Op.None }
 		}
 	})()
@@ -188,21 +189,21 @@ const parseBody = function(px, lines, k) {
 		return E.BlockBody(px.s({ lines: doLines, opReturn: opReturn, opIn: opIn, opOut: opOut }))
 }
 
-const tryTakeInOut = function(px, lines) {
+const tryTakeInOut = function(px) {
 	const tryTakeInOrOut = function(lines, inOrOut) {
 		if (!Sq.isEmpty(lines)) {
 			const firstLine = Sq.head(lines)
-			const sqt = firstLine.sqt, head = Sq.head(sqt)
+			const sqtFirst = firstLine.sqt, head = Sq.head(sqtFirst)
 			if (T.Keyword.is(inOrOut)(head))
 				return {
-					took: Op.Some(E.Debug({ span: firstLine.span, lines: parseLine_().parseLines(px, sqt) })),
+					took: Op.Some(E.Debug({ span: firstLine.span, lines: parseLine_().parseLines(px.w(sqtFirst)) })),
 					rest: Sq.tail(lines)
 				}
 		}
 		return { took: Op.None, rest: lines }
 	}
 
-	const _in = tryTakeInOrOut(lines, "in")
+	const _in = tryTakeInOrOut(px.sqt, "in")
 	const _out = tryTakeInOrOut(_in.rest, "out")
 	return {
 		opIn: _in.took,

@@ -16,34 +16,32 @@ const
 
 // For "case", returns a BlockWrap.
 // For "case!", returns a Scope.
-module.exports = function parseCase(px, sqt, k, casedFromFun) {
-	type(px, Px, sqt, [T], k, Lang.CaseKeywords, casedFromFun, Boolean)
+module.exports = function parseCase(px, k, casedFromFun) {
+	type(px, Px, k, Lang.CaseKeywords, casedFromFun, Boolean)
 	const kBlock = (k === "case") ? "val" : "do"
 
-	const _ = parseBlock.takeBlockLinesFromEnd(px, sqt)
+	const _ = parseBlock.takeBlockLinesFromEnd(px)
 	const before = _.before, lines = _.lines
 
 	const opAssignCased = (function() {
 		if (casedFromFun) {
-			check(Sq.isEmpty(before), Span.ofSqT(px.span, before),
-				"Cannot give focus to case in this context - it is the function's implicit first argument.");
+			px.checkEmpty(before, "Cannot give focus to case - it is the function's implicit first argument.");
 			return Op.None
 		}
 		else return Op.if(!Sq.isEmpty(before), function() {
-			const span = Span.ofSqT(px.span, before)
-			return E.Assign({
-				span: span,
-				assignee: E.LocalDeclare.UntypedFocus(span),
+			const pxBefore = px.w(before)
+			return E.Assign(px.s({
+				assignee: E.LocalDeclare.UntypedFocus(pxBefore.span),
 				k: "=",
-				value: parseExpr_()(px.withSpan(span), before)
-			})
+				value: parseExpr_()(pxBefore)
+			}))
 		})
 	})()
 
 	const last = Sq.last(lines)
 	const _$ = T.Keyword.is("else")(Sq.head(last.sqt)) ? {
 			partLines: Sq.rightTail(lines),
-			opElse: Op.Some(parseBlock.justBlock(px.withSpan(last.span), Sq.tail(last.sqt), kBlock))
+			opElse: Op.Some(parseBlock.justBlock(px.w(Sq.tail(last.sqt)), kBlock))
 		} : {
 			partLines: lines,
 			opElse: Op.None
@@ -51,16 +49,16 @@ module.exports = function parseCase(px, sqt, k, casedFromFun) {
 	const partLines = _$.partLines, opElse = _$.opElse
 
 	const parts = partLines.map(function(line) {
-		const _ = parseBlock.takeBlockFromEnd(px.withSpan(line.span), line.sqt, kBlock)
+		const _ = parseBlock.takeBlockFromEnd(px.w(line.sqt), kBlock)
 		return E.CasePart({
 			span: line.span,
-			test: parseExpr_()(px, _.before),
+			test: parseExpr_()(px.w(_.before)),
 			result: _.block
 		})
 	})
 
 	const ctr = (k === "case") ? E.CaseVal : E.CaseDo
-	const theCase = ctr({ span: px.span, parts: parts, opElse: opElse })
+	const theCase = ctr(px.s({ parts: parts, opElse: opElse }))
 
 	return (k === "case") ?
 		E.BlockWrap(px.s({
