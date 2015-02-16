@@ -70,15 +70,15 @@ impl! from-stream (self-type Range) |_ stream
 
 	iterator ->
 		test. |
-			! seq=? (range 0 10 2) [0 2 4 6 8]
-		~|range
-			handle = ~|case!
+			! seq=? (range 0 10 2) [ 0 2 4 6 8 ]
+		|range
+			f = ~|case
 				>=? _ range.end
 					()
 				else
 					<~ _
-					<~~ handle (+ _ range.step)
-			<~~ handle range.start
+					<~~ f (+ _ range.step
+			f range.start
 
 <! (self-type Range) @-Type
 	empty -> thunk (range 0 0)

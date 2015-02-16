@@ -10,7 +10,7 @@ use
 	..Type.Kind
 	..Type.Method _ impl!
 	..Type.Pred-Type Any Opt
-	..@ _ all? count iterator
+	..@ _ ++ all? count iterator
 	.@-Type _ from-stream
 use~
 	..control Ref! get mod! set!
@@ -25,7 +25,6 @@ use~
 debug use~
 	..! _ !not
 	..Try fails?
-	..@ ++
 
 Seq = Kind
 	doc. "@ whose values are in a meaningful order."
@@ -35,6 +34,78 @@ Seq = Kind
 <! (self-type Seq) @-Type
 impl! empty (self-type Seq) |
 	empty Array
+
+region ???
+	<++'. Method
+		doc. "
+			TODO:REST
+			(There is no `++>'` because `++` by default adds to the right for Seqs.)
+		test. |
+			"TODO"
+		|_:@ left-added:@
+			=> type-of_ (++ left-added _
+
+region Very first and last
+	first.
+		doc. "First value in iteration order."
+		test. |
+			[ [ 1 2 ] ] -> 1
+			! fails? |
+				first [ ]
+		|_
+			un-? ?first_ "Can not take first of empty."
+
+	?first. Method
+		doc. "First value in iteration order, if non-empty."
+		test. |
+			[ [ 1 2 ] ] -> ? 1
+			[ [ ] ] -> empty ?
+		default. |:Any _
+			?nth _ 0
+
+	last.
+		doc. "Last value in iteration order."
+		test. |
+			[ [ 1 2 ] ] -> 2
+			! fails? |
+				last [ ]
+		|_
+			un-? ?last_ "Can not take `last` of empty."
+
+	?last. Method
+		doc. "Last value in iteration order, if non-empty."
+		test. |
+			[ [ 1 2 ] ] -> ? 2
+			[ [ ] ] -> empty ?
+		default. |:Any _
+			if (not empty?_) |
+				_[(- count_ 1)]
+
+	tail. Method
+		doc. "
+			All elements but the first.
+			TODO: Eager for Linked-Lists.
+		test. |
+			[ [ 1 2 ] ] -> => Stream [ 2 ]
+			[ [ ] ] -> [ ]
+		default. |case
+			empty?_
+				_
+			else
+				drop _ 1
+
+	rtail. Method
+		doc. "
+			All elements but the last.
+			TODO: Eager for finger trees.
+		test. |
+			[ [ 1 2 ] ] -> => Stream [ 1 ]
+			[ [ ] ] -> [ ]
+		default. |case
+			empty?_
+				_
+			else
+				take _ (- count_ 1
 
 region Search
 	seq=?.
@@ -183,68 +254,6 @@ region Update
 				<~~ iter
 
 	\ TODO: drop-while
-
-region Very first and last
-	first.
-		doc. "First value in iteration order."
-		test. |
-			[ [ 1 2 ] ] -> 1
-			! fails? |
-				first [ ]
-		|_
-			un-? ?first_ "Can not take first of empty."
-
-	?first. Method
-		doc. "First value in iteration order, if non-empty."
-		test. |
-			[ [ 1 2 ] ] -> ? 1
-			[ [ ] ] -> empty ?
-		default. |:Any _
-			?nth _ 0
-
-	last.
-		doc. "Last value in iteration order."
-		test. |
-			[ [ 1 2 ] ] -> 2
-			! fails? |
-				last [ ]
-		|_
-			un-? ?last_ "Can not take `last` of empty."
-
-	?last. Method
-		doc. "Last value in iteration order, if non-empty."
-		test. |
-			[ [ 1 2 ] ] -> ? 2
-			[ [ ] ] -> empty ?
-		default. |:Any _
-			if (not empty?_) |
-				_[(- count_ 1)]
-
-	tail. Method
-		doc. "
-			All elements but the first.
-			TODO: Eager for Linked-Lists.
-		test. |
-			[ [ 1 2 ] ] -> => Stream [ 2 ]
-			[ [ ] ] -> [ ]
-		default. |case
-			empty?_
-				_
-			else
-				drop _ 1
-
-	rtail. Method
-		doc. "
-			All elements but the last.
-			TODO: Eager for finger trees.
-		test. |
-			[ [ 1 2 ] ] -> => Stream [ 1 ]
-			[ [ ] ] -> [ ]
-		default. |case
-			empty?_
-				_
-			else
-				take _ (- count_ 1
 
 region Combination
 	zip.
