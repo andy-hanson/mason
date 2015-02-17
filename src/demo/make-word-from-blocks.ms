@@ -10,6 +10,7 @@ debug use
 	..@.Stream
 	..Map each-pair!
 	..methods =?
+	..Str split-str
 	..Type =>
 
 make-word-from-blocks.
@@ -39,7 +40,7 @@ make-word-from-blocks.
 			. "LY"
 			. "PC"
 			. "ZM"
-		\ TODO:SYNTAX for string lists?
+
 		sample-answers =
 			"a" -> [ "NA" ]
 			"bark" -> [ "BO NA RE XK" ]
@@ -50,8 +51,7 @@ make-word-from-blocks.
 			"confuse" -> [ "CP BO NA FS HU FS RE" ]
 		each-pair! sample-answers |word ans
 			real-ans = => ? (map ans |_
-				\ TODO: split _ =?[" "]
-				=> Stream (_.split " "
+				=> Stream (split-str _ " "
 			! =? real-ans (make-word-from-blocks word sample-blocks)
 
 	|:?[Seq[Str]] word:Str blocks:@[Str]

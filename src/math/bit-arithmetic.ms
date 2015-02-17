@@ -31,7 +31,6 @@ hexidecimal.
 			hexidecimal "asdfghjkl"
 	|:Int hex-str:Str
 		in
-			\ TODO: Regex.ms
 			!not ((regex "[^0-9a-fA-F]").test hex-str) ~"Not a valid hexidecimal number: {hex-str}"
 		out
 			!not Num.isNaN res

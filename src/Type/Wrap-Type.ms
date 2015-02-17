@@ -53,10 +53,8 @@ Wrap-Type = Obj-Type
 		debug ! fails? |
 			W "three"
 
-\ TODO: This is same as for Obj-Type. Are all Impl-Type_s like this?
+<! Wrap-Type Impl-Type
 impl! contains? Wrap-Type |wt _
 	js-instanceof _ wt
-
-<! Wrap-Type Impl-Type
 
 Wrap-Type

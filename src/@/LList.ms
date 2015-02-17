@@ -1,6 +1,4 @@
 use
-	..Fun call
-	..Generator!
 	..js reference=?
 	..methods <! empty empty?
 	..Obj! p!

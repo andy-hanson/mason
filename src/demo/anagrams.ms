@@ -13,7 +13,7 @@ debug use
 	..control if!
 	..Fun ignore
 	..js new
-	..Str lines
+	..Str split-str
 	..Try oh-no!
 	..modules get-global-module
 
@@ -38,7 +38,7 @@ maximum-anagram-sets.
 		\ Takes too long
 		if! false |
 			$after ($request "http://www.puzzlers.org/pub/wordlists/unixdict.txt") |body
-				words = lines body
+				words = split-str body "\n"
 				! seq=? (maximum-anagram-sets words)
 					. [ "abel" "able" "bale" "bela" "elba"
 					. [ "alger" "glare" "lager" "large" "regal"

@@ -14,33 +14,19 @@ use
 	.Type.Method impl!
 	.Type.Pred-Type Any
 use~
-	.Try Error
+	.Try $catch Error
 debug use~
 	.@.Stream
 	.!
-	.control unreachable!
 	.math.Num divisible?
 	.math.methods +
 	.methods =?
-	.Try $catch oh-no! $try
+	.Try oh-no! $try
 
 $ =
 	doc. "
 		https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
 		Called `$` because you "cash in" on it after some time.
-	test. |
-		\ TODO: Shouldn't need `new`
-		resolved = new $ |resolve reject
-			ignore reject \ TODO:Ignored vars
-			resolve 1
-		$done ($after resolved |resolved-with
-			! =? resolved-with 1
-
-		rejected = new $ |resolve reject
-			ignore resolve \ TODO:Ignored vars
-			reject 1
-		$done ($catch ($after rejected unreachable!) ![=?[1
-
 	Promise
 
 impl! sub (self-type $) identity
@@ -56,9 +42,8 @@ $done.
 	test. |
 		\ TODO: How to test console output?
 		()
-	|promise:$
-		\ TODO: Use $catch
-		promise.catch |err
+	|_:$
+		$catch _ |err
 			\ Don't use log! because there if errors happen in there, the error disappears!
 			global.console.log "
 				{err.stack}

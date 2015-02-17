@@ -40,7 +40,7 @@ region Comparison
 					else
 						0
 			But instead, other comparison operators are defined in terms of this.
-			`compare a b` should always be `neg (compare b a)`.
+			`compare a b` should always be `* -1 (compare b a)`.
 
 	=?. Method
 		doc. "

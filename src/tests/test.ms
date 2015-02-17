@@ -42,7 +42,8 @@ test. |
 \ TODO: Better name (but not `test`, because that's a common module property)
 test-special. Method
 	doc. "
-		May return a $. TODO:ETC.
+		Something special to do with this value when the test runner reacher it.
+		May return a $.
 	default. ignore
 
 \ TODO: MOVE THESE
@@ -121,7 +122,6 @@ all-tested = empty Identity-Set!
 	@$a = flatten (if :Fun |
 		@$test-test-fun value value-test name
 	@$b = flatten (if :ObjLit |
-		\ TODO: flat-map pairs_ ?
 		flat-map @p_ |sub-name
 			@$test-test-prop value (p _ sub-name) "{name}.{sub-name}"
 

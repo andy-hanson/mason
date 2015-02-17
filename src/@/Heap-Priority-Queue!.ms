@@ -23,12 +23,6 @@ Heap-Priority-Queue!. Wrap-Type
 	empty -> |
 		Heap-Priority-Queue! (empty Array!
 
-	\ TODO: Define it this way for all @!-Types
-	from-stream -> |type stream
-		returning (empty type) |_
-			each! stream |em
-				++! _ [ em ]
-
 <! Heap-Priority-Queue! Priority-Queue!
 	++! -> |_ added
 		each! added add![_.val]
@@ -52,7 +46,6 @@ region Implementation
 		+ 1 (* 2 idx
 	idx-right = |idx
 		+ 2 (* 2 idx
-	\ TODO: faster?
 	idx-parent = |idx
 		- (int/ (+ 1 idx) 2) 1
 

@@ -73,7 +73,8 @@ region Conditional execution
 		doc. "Runs `result` iff `condition`."
 		test. |
 			! =? [ 0 ] (build |yield
-				if! true yield[0]
+				if! true |
+					yield 0
 			if! false oh-no!
 		|condition:Bool result:Act
 			case!
@@ -96,7 +97,8 @@ returning.
 	doc. "Calls `do-after` and returns `returned`."
 	test. |
 		! =? [ 0 ] (build |yield
-			! =? 1 (returning 1 yield[0])
+			! =? 1 (returning 1 |
+				yield 0
 	|returned:Any do-after:Fun
 		do-after returned
 		returned
@@ -147,13 +149,13 @@ region Ref!
 			p! _ "val" new-value
 
 	mod!.
-		doc. "Shorthand for `set! ref (f (get ref))"
+		doc. "Gets the value, changes it, and sets it."
 		test. |
 			_ = Ref! 0
 			mod! _ +[1]
 			! =? get_ 1
 		|_:Ref! f:Fun
-			set! _ (f get_)
+			set! _ (f get_
 
 	get.
 		doc. "Current value."

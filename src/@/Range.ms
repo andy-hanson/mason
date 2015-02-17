@@ -1,6 +1,6 @@
 use
 	..@ _ count iterator
-	..control if
+	..control if Ref! get set!
 	..Fun ignore thunk
 	..math.Num _ Nat round-down sign
 	..math.methods + - * /
@@ -71,14 +71,23 @@ impl! from-stream (self-type Range) |_ stream
 	iterator ->
 		test. |
 			! seq=? (range 0 10 2) [ 0 2 4 6 8 ]
-		|range
-			f = ~|case
-				>=? _ range.end
-					()
-				else
-					<~ _
-					<~~ f (+ _ range.step
-			f range.start
+		~|range
+			cur = Ref! range.start
+			loop!
+				case! (get cur)
+					>=? _ range.end
+						end-loop!
+					else
+						<~ _
+						set! cur (+ _ range.step
+			\ TODO:ES6 The following should be just as fast!
+			\f = ~|case
+			\	>=? _ range.end
+			\		()
+			\	else
+			\		<~ _
+			\		<~~ f (+ _ range.step
+			\f range.start
 
 <! (self-type Range) @-Type
 	empty -> thunk (range 0 0)

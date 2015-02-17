@@ -7,8 +7,8 @@ use~ \ TODO: Move as many up as possible
 	.@.Array
 	.Bool _ not
 	.control if!
-	.Fun apply
 	.Map _ each-pair!
+	.math.Num _ near?
 	.methods =?
 	.show repr
 	.Str _ indent
@@ -108,12 +108,28 @@ debug use~
 				[ 1 1 ] -> 3
 	|fun:Fun args->result:Map \ TODO: Map[Array Any]
 		each-pair! args->result |args:@ expected-res
-			actual = apply fun args
+			actual = fun ...args
 			if! (not (=? actual expected-res)) |
 				oh-no! ~"
 					Calling {fun} on:
 						{indent ((=> Array (map args repr)).join "\n")}
 					Should be:
+						{indent (repr expected-res)}
+					Got:
+						{indent (repr actual)}
+
+!call-near.
+	doc. "TODO"
+	test. |
+		"TODO"
+	|fun:Fun args->result:Map \ TODO: Map[Array Any]
+		each-pair! args->result |args:@ expected-res:Num
+			actual:Num = fun ...args
+			if! (not (near? actual expected-res)) |
+				oh-no! ~"
+					Calling {fun} on:
+						{indent ((=> Array (map args repr)).join "\n")}
+					Should be near:
 						{indent (repr expected-res)}
 					Got:
 						{indent (repr actual)}

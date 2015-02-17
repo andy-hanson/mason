@@ -37,17 +37,22 @@ debug use~
 <! @! @
 
 ++!. Method
-	doc. "TODO"
+	doc. "
+		Adds new elements.
+		For Seqs these are added on the right; use `<++!` to add on the left.
 	test. |
-		"TODO"
+		"TODO:impl-test"
 	\ TODO: Lazy default?
 	default. |_ added
 		++>! _ added
 
 --!. Method
-	doc. "TODO"
+	doc. |_ removed:@
+		"
+			Removes all elements in `removed` once.
+			For Seqs these are removed starting from the left.
 	test. |
-		"TODO"
+		"TODO:impl-test"
 
 <! (self-type @!) @-Type
 	empty -> |

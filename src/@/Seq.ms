@@ -287,6 +287,44 @@ region Combination
 		|@a:@ @b:@ zipper:Fun[2]
 			=> (type-of @a) (zip @a @b zipper
 
+region Sorting
+	sorted?.
+		doc. "Whether it is already in sorted order."
+		test. |
+			[ [ ] ] -> true
+			[ [ 1 2 3 ] ] -> true
+			[ [ 3 2 1 ] ] -> false
+			[ [ "six" "five" "seven" ] count ] -> true
+		|seq:Seq sort-by:Opt[Fun]
+			\ TODO:SYNTAX Optional args
+			sb = get-or (Opt->? sort-by) identity
+			case ?first seq
+				empty?_
+					true
+				else
+					\ TODO: Use `sliding`
+					prev = Ref! _.val
+					all? (tail seq) |em
+						returning (<? (sb (get prev)) (sb em)) |
+							set! prev em
+
+	sort. Method
+		doc. "
+			Puts the elements in sorted order.
+			Order is determined by calling `compare`.
+			Optional `sort-by` determines an attribute of elements to be compared.
+		test. |
+			[ [ 3 2 1 ] ] -> [ 1 2 3 ]
+			[ [ "five" "six" "seven" ] count ] -> [ "six" "five" "seven" ]
+		default. |:Array _:@ sort-by:Opt[Fun]
+			\ TODO:SYNTAX Optional args
+			sb = get-or (Opt->? sort-by) identity
+			\ Ensure that we create a *new* Array!, because we're about to mutate it.
+			sorted = from-stream Array! _
+			sorted.sort |a b
+				compare (sb a) (sb b)
+			sorted
+
 region TODO: put somewhere
 	groups-of.
 		doc. "Seq of consecutive groups of `group-size` elements."
@@ -328,42 +366,28 @@ region TODO: put somewhere
 		default. |:Array _
 			(from-stream Array! _).reverse()
 
-region Sorting
-	sorted?.
-		doc. "Whether it is already in sorted order."
+	split.
+		doc. "Subseqs separated by elements where split? is true."
 		test. |
-			[ [ ] ] -> true
-			[ [ 1 2 3 ] ] -> true
-			[ [ 3 2 1 ] ] -> false
-			[ [ "six" "five" "seven" ] count ] -> true
-		|seq:Seq sort-by:Opt[Fun]
-			\ TODO:SYNTAX Optional args
-			sb = get-or (Opt->? sort-by) identity
-			case ?first seq
-				empty?_
-					true
-				else
-					\ TODO: Use `sliding`
-					prev = Ref! _.val
-					all? (tail seq) |em
-						returning (<? (sb (get prev)) (sb em)) |
-							set! prev em
-
-	sort. Method
-		doc. "
-			Puts the elements in sorted order.
-			Order is determined by calling `compare`.
-			Optional `sort-by` determines an attribute of elements to be compared.
-		test. |
-			[ [ 3 2 1 ] ] -> [ 1 2 3 ]
-			[ [ "five" "six" "seven" ] count ] -> [ "six" "five" "seven" ]
-		default. |:Array _:@ sort-by:Opt[Fun]
-			\ TODO:SYNTAX Optional args
-			sb = get-or (Opt->? sort-by) identity
-			\ Ensure that we create a *new* Array!, because we're about to mutate it.
-			sorted = from-stream Array! _
-			sorted.sort |a b
-				compare (sb a) (sb b)
-			sorted
+			[ [ 1 0 1 ] =?[0] ] -> => Stream [ [ 1 ] [ 1 ] ]
+			[ [ 0 ] =?[0] ] -> => Stream [ [] [] ]
+		|_ split?:Pred
+			Stream ~|
+				iter = iterator_
+				prev-idx = Ref! 0
+				cur-idx = Ref! 0
+				loop!
+					value done = iter.next()
+					~next-idx = + 1 (get cur-idx
+					case!
+						done
+							<~ slice' _ (get prev-idx) (get cur-idx)
+							end-loop!
+						split? value
+							<~ slice' _ (get prev-idx) (get cur-idx)
+							set! prev-idx next-idx
+							set! cur-idx next-idx
+						else
+							set! cur-idx next-idx
 
 Seq

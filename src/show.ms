@@ -110,10 +110,9 @@ impl! show Bool
 
 impl! show Fun
 	test. |
-		\ TODO: Fix displayName!
-		\a = |
-		\	1
-		\ [ a ] -> "a"
+		a = |
+			1
+		[ a ] -> "a"
 		[ Obj ] -> "Obj"
 		[ (Fun "" "") ] -> "<anonymous Fun>"
 	|:Str _

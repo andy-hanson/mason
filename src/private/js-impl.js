@@ -120,10 +120,6 @@ module.exports = {
 	},
 
 	// Fun.ms
-	"i-call": function(fn) {
-		// TODO:ES6 Splat call
-		return Function.prototype.call.apply(fn, arguments)
-	},
 	"i-curry": function(f) {
 		// TODO:ES6 Splat call
 		return Function.prototype.bind.apply(f, arguments)

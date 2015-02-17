@@ -1,16 +1,15 @@
 use
 	.js global
 	.methods empty sub
-	.private.js-impl i-call i-curry
-	.Type =>
+	.private.js-impl i-curry
 	.Type.Alias-Type
 	.Type.Impl-Type self-type
 	.Type.Method _ impl!
 use~
 	.@ _ ++ each! map
 	.@.Seq rtail last
-	.@.Array
 	.Map _ @pairs
+	.Map.Hash-Map!
 	.Map.Map! get-or-add!
 	.Map.Weak-Identity-Map!
 	.Obj _ Obj->Map
@@ -48,14 +47,15 @@ apply.
 	doc. "Calls the function with the given arguments list."
 	test. |
 		[ + [ 1 2 ] ] -> 3
-	|f:Fun arguments:@
-		Fun.prototype.apply.call f () (=> Array arguments)
+	|_:Fun args:@
+		_ ...args
 
 call.
 	doc. "Calls the function with the given arguments."
 	test. |
 		[ + 1 2 ] -> 3
-	i-call
+	|_:Fun ...args
+		_ ...args
 
 fun-copy.
 	doc. "
@@ -90,32 +90,55 @@ ignore.
 	|
 		()
 
-\ TODO: Handle multiple arguments
-\ TODO: hash-memoize
-identity-memoize.
-	doc. "
-		When an Obj is passed into `fun`, stores the result in a `Weak-Identity-Map!`
-		and uses that if the exact same (`reference=?`) Obj is used again.
-	test. |
-		comps = build |yield
-			get-a = identity-memoize |x
-				yield x.a
-				x.a
-			a1 =
-				a. 1
-			! =? (get-a a1) 1
-			! =? (get-a a1) 1
-			a2 =
-				a. 2
-			! =? (get-a a2) 2
-		! seq=? comps [ 1 2 ]
-	|fun:Fun
-		wm = empty Weak-Identity-Map!
-		|arg:Obj
-			get-or-add! wm arg ~(fun arg)
+region Memoize
+	\ TODO: perf.ms?
+	identity-memoize.
+		doc. "
+			When an Obj is passed into `fun`, stores the result in a `Weak-Identity-Map!`
+			and uses that if the exact same (`reference=?`) Obj is used again.
+		test. |
+			! seq=? [ 1 2 1 ] (build |yield
+				get-a = identity-memoize |x
+					yield x.a
+					x.a
+				a1 = a. 1
+				! =? (get-a a1) 1
+				! =? (get-a a1) 1
+				a2 = a. 2
+				! =? (get-a a2) 2
+				a1b = a. 1
+				! =? (get-a a1b) 1
+		|_:Fun
+			wm = empty Weak-Identity-Map!
+			|arg:Obj
+				get-or-add! wm arg ~(_ arg
 
-\ TODO: Merge with apply?
-\ TODO: Kill?
+	hash-memoize.
+		doc. "
+			Stores the argument every time you call it,
+			and re-uses the result if called again with the same argument.
+			This will make those arguments unavailable for garbage collection...
+
+		test. |
+			! seq=? [ 1 2 ] (build |yield
+				get-a = hash-memoize |x
+					yield x.a
+					x.a
+				a1 = call | \ TODO:DISPLAYNAME
+					a. 1
+				! =? (get-a a1) 1
+				! =? (get-a a1) 1
+				a2 = a. 2
+				! =? (get-a a2) 2
+				a1b = call | \ TODO:DISPLAYNAME
+					a. 1
+				! =? a1 a1b
+				! =? (get-a a1b) 1
+		|_:Fun
+			hm = empty Hash-Map!
+			|arg:Obj
+				get-or-add! hm arg ~(_ arg
+
 spread.
 	doc. "Applies `fun`, starting with the given args, to each entry in an arguments list or map."
 	test. |
@@ -162,8 +185,7 @@ spread.
 			else
 				oh-no! "Can only spread a @ or Map, not {_}"
 		map @spreaded |spreaded
-			\ TODO: Shouldn't need => Array
-			all-args = => Array (++ init-args spreaded
+			all-args = ++ init-args spreaded
 			fun ...all-args
 
 spread!.

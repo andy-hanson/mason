@@ -131,10 +131,6 @@ region Integer arithmetic
 		|a:Num b:Num
 			=? 0 (remainder a b)
 
-	\ TODO: remove?
-	neg. |_:Num
-		* _ -1
-
 region Real arithmetic
 	log-e. |_:Num
 		Math.log _
@@ -233,9 +229,9 @@ region Near
 				else
 					avg-mag = / (+ (abs a) (abs b)) 2
 					n-digits-avg-mag = round-down (log 10 avg-mag)
-					scale = pow 10 (neg n-digits-avg-mag)
+					scale = pow 10 (* -1 n-digits-avg-mag)
 					scaled-diff = - (* a scale) (* b scale)
-					epsilon = pow 10 (neg sfs)
+					epsilon = pow 10 (* -1 sfs)
 					<? (abs scaled-diff) epsilon
 
 	near-0?.
@@ -245,11 +241,11 @@ region Near
 		test. |
 			[ 0.00999 2 ] -> true
 			[ 0.01 2 ] -> false
-		\ TODO: Optional arguments
+		\ TODO:SYNTAX Optional arguments
 		|_ sig-figs:Opt[Nat]
 			sfs = get-or (Opt->? sig-figs) 6
 			\ This is more accurate than `pow 0.1 sfs`
-			max = pow 10 (neg sfs)
+			max = pow 10 (* -1 sfs)
 			<? abs_ max
 
 impl! show Num
@@ -266,9 +262,5 @@ region Constants
 	max-safe-int. p Num "MAX_SAFE_INTEGER"
 	min-safe-int. p Num "MIN_SAFE_INTEGER"
 	not-a-number. Num.NaN
-	pi. Math.PI
-	pi/2. / pi 2
-	pi3/2. * pi 1.5
-	pi*2. * pi 2
 
 Num

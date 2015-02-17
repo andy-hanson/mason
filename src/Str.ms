@@ -2,16 +2,21 @@ use
 	.Bool and
 	.js global reference=?
 	.methods =? compare
+	.Regex _ regex
+	.Type.Kind
 	.Type.Method impl!
 	.Type.Pred-Type
 use~
 	.@ count
 	.@.Array
-	.Regex regex
 
 Str =
 	doc. "JavaScript's native String type."
 	global.String
+
+Str-Test. Kind
+	doc. "Something we can compare a Str to."
+	implementors. [ Str Regex ]
 
 ->upper.
 	doc. "Converts a-z to A-Z."
@@ -43,16 +48,13 @@ indent.
 	|str:Str
 		"{str.replace (regex "\n" "g") "\n\t"}"
 
-lines.
-	doc. "\n-separated lines."
+split-str.
+	doc. "Like `@.split` but using a Str-Test instead of a predicate."
 	test. |
-		s = "
-			a
-				b
-			c
-		[ s ] -> [ "a" "\tb" "c" ]
-	|:Array[Str] str:Str
-		str.split "\n"
+		[ "I am a Str" " " ] -> [ "I" "am" "a" "Str" ]
+		[ "abc" (regex ".") ] -> [ "" "" "" "" ]
+	|:Array[Str] _:Str splitter:Str-Test
+		_.split splitter
 
 impl! =? Str reference=?
 impl! compare Str |a b
