@@ -1,7 +1,7 @@
 use
 	.js global
 use~
-	.@.? get-or Opt->?
+	.control opr
 	.Str
 
 \ TODO: Probably use xregexp
@@ -9,9 +9,5 @@ use~
 Regex. global.RegExp
 
 regex. |pattern:Str ?flags
-	\ TODO:SYNTAX Optional args
-	flags = get-or (Opt->? ?flags) ""
+	flags = opr ?flags ""
 	Regex pattern flags
-
-
-

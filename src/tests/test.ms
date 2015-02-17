@@ -4,7 +4,7 @@ use
 	..$ _ $after $all $ing
 	..! _ !call
 	..@ _ ++ each! flatten flat-map map
-	..@.? get-or
+	..@.? ?-or
 	..@.Identity-Set!
 	..Bool _ and false or true
 	..control if
@@ -83,7 +83,7 @@ $test-module.
 
 \ TODO:ES6 Use module reflection
 @$test-module = |module:Obj
-	module-name = get-or (?p module "displayName") "<anonymous module>"
+	module-name = ?-or (?p module "displayName") "<anonymous module>"
 	@$maybe-test module-name module true
 
 all-tested = empty Identity-Set!

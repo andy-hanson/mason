@@ -45,7 +45,7 @@ Type-Error. global.TypeError
 URI-Error. global.URIError
 
 impl! => (self-type Error) |e _
-	ignore e \ TODO:SYNTAX Optional args
+	ignore e \ TODO:Ignored args
 	make-Error _
 
 oh-no!.

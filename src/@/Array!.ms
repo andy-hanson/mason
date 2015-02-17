@@ -1,7 +1,6 @@
 use
-	.? get-or Opt->?
 	..Bool and not
-	..control if
+	..control if opr
 	..Fun ignore
 	..js js-set
 	..math.Num Nat
@@ -22,10 +21,10 @@ Array! = Pred-Type
 		and :Array ~(not frozen?_)
 
 <! (self-type Array!) @-Type
-	empty -> |array! initial-size
+	empty -> |array! ?initial-size
+		initial-size = opr ?initial-size 0
 		ignore array! \ TODO:Ignored vars
-		\ TODO:SYNTAX Optional arguments
-		Array (get-or (Opt->? initial-size) 0
+		Array initial-size
 
 	from-stream -> |array! stream
 		ignore array! \ TODO:Ignored vars

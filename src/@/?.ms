@@ -82,10 +82,13 @@ region Funs
 			! fails? |
 				un-? (empty ?)
 		|_:? ~fail-message
-			get-or _ ~
-				oh-no! (get-or (Opt->? fail-message) "Tried to force empty `?`."
+			case
+				empty?_
+					oh-no! (?-or (Opt->? fail-message) "Tried to force empty `?`."
+				else
+					_.val
 
-	get-or.
+	?-or.
 		doc. "If empty, defaults to `or` - else returns its value."
 		test. |
 			[ (empty ?) 1 ] -> 1

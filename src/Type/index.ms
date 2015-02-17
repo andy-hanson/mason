@@ -6,7 +6,7 @@ use
 	.Kind
 	.Method
 use~
-	..@.? get-or
+	..@.? ?-or
 	..Obj _ ?p-with-proto
 	..Try oh-no!
 
@@ -42,7 +42,7 @@ type-of.
 		[ Type ] -> Kind
 		[ () ] -> Obj
 	|:Impl-Type obj
-		get-or (?p-with-proto obj "constructor") Obj
+		?-or (?p-with-proto obj "constructor") Obj
 
 region We make some things Types here due to bootstrapping order issues.
 	<! Impl-Type Type

@@ -12,11 +12,11 @@ use
 	..Type.Method _ impl!
 	..Type.Pred-Type Any Opt
 use~
-	..control if if! Ref! get set!
+	..control if if! opr Ref! get set!
 	..Generator!
 	..math.Num Nat
 	.@! --!
-	.? _ get-or Opt->? un-?
+	.? _ un-?
 	.Array
 	.Seq first seq=? tail
 	.Set!
@@ -64,7 +64,6 @@ region Using iterator
 		test. |
 			[ [ 1 2 3 ] + ] -> 6
 			[ [ 1 2 3 ] 4 + ] -> 10
-		\ TODO:SYNTAX Optional args
 		|_:@ b c
 			start rest folder = case
 				defined? c
@@ -108,21 +107,19 @@ region Using iterator
 		test. |
 			[ [ 0 1 ] =?[1] ] -> true
 			[ [ 0 1 ] =?[2] ] -> false
-		|_:@ pred?:Opt[Pred]
-			\ TODO:SYNTAX Optional args
-			p = get-or (Opt->? pred?) identity
-			not (empty? (keep _ p
+		|_:@ ?pred?:Opt[Pred]
+			pred? = opr ?pred? identity
+			not (empty? (?find _ pred?
 
 	all?.
 		doc. "Whether pred? is true for every element."
 		test. |
 			[ [ 0 0 ] =?[0] ] -> true
 			[ [ 0 1 ] =?[0] ] -> false
-		|_:@ pred?:Opt[Pred]
-			\ TODO:SYNTAX Optional args
-			p = get-or (Opt->? pred?) identity
-			not (any? _ |em
-				not (p em)
+		|_:@ ?pred?:Opt[Pred]
+			pred? = opr ?pred? identity
+			empty? (?find _ |em
+				not (pred? em
 
 	?find.
 		doc. "

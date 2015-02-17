@@ -25,7 +25,6 @@ impl! contains? Pred-Type |_ value
 	_.predicate value
 
 region Opt
-	\ TODO: Optional args: Does Opt need to exist any more?
 	Opt. Pred-Type
 		doc. "A value which could be anything, even undefined."
 		predicate. |

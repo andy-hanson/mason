@@ -1,12 +1,13 @@
 use
 	.Bool
 	.Fun _ Act call
+	.js defined?
 	.methods empty freeze
 	.Obj! p!
-	.Type.Pred-Type Any
+	.Type.Pred-Type Any Opt
 	.Type.Wrap-Type
 use~
-	.@.? _ get-or
+	.@.? _ ?-or
 	.@.Array!
 	.@.Seq
 	.@.Seq! ++>!
@@ -18,6 +19,18 @@ debug use~
 	.math.methods +
 	.methods =?
 	.Fun ignore thunk
+
+opr.
+	doc. "Fills in an Opt with a default value."
+	test. |
+		[ undefined 1 ] -> 1
+		[ 1 2 ] -> 1
+	|_:Opt ~default
+		case
+			defined?_
+				_
+			else
+				default
 
 build.
 	doc. "
@@ -52,7 +65,7 @@ region Conditional execution
 				[ 2 ] -> "two"
 				[ 3 ] -> "three"
 		|val:Any cases:Map[Any Fun]
-			dispatch:Fun = get-or (?get cases val) ~cases[switch-else]
+			dispatch:Fun = ?-or (?get cases val) ~cases[switch-else]
 			call dispatch
 	switch-else.
 		doc. "Special object used as default for `switch` statements."

@@ -11,7 +11,7 @@ use
 	.Type.Method _ impl!
 use~
 	.@ -- map
-	.@.? get-or
+	.@.? ?-or
 	.@.Array
 	.Fun
 debug use
@@ -116,7 +116,7 @@ impl! show Fun
 		[ Obj ] -> "Obj"
 		[ (Fun "" "") ] -> "<anonymous Fun>"
 	|:Str _
-		get-or (?p _ "displayName") ~
+		?-or (?p _ "displayName") ~
 			\ Every function has name property - empty string means anonymous function.
 			name = p _ "name"
 			case name

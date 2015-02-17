@@ -2,10 +2,10 @@
 
 use
 	.@ _ count iterator map
-	.@.? Opt->? get-or
 	.@.Array
 	.@.@-Type _ from-stream
 	.@.Seq
+	.control opr
 	.Fun ignore thunk
 	.methods <! empty
 	.show
@@ -40,5 +40,5 @@ impl! => (self-type Str) @
 		[ Str [ 1 2 3 ] ", " ] -> "1, 2, 3"
 	|Str _ ?joiner:Opt[Str]
 		ignore Str \ TODO: ignored vars
-		joiner = get-or (Opt->? ?joiner) ""
+		joiner = opr ?joiner ""
 		(=> Array (map _ show)).join joiner

@@ -2,8 +2,8 @@ use
 	..@
 	..@.@! ++!
 	..@.Array!
-	..@.? get-or Opt->?
 	..@.@-Type
+	..control opr
 	..methods empty
 	..Type.Pred-Type Opt
 	.Map! _ get-or-add!
@@ -21,8 +21,7 @@ add-to-@!.
 		! =? _[1] [ 1 ]
 		add-to-@! _ 1 [1 ]
 		! =? _[1] [ 1 1 ]
-	|map:Map! key added:@ @-type:Opt[@-Type]
-		\ TODO:SYNTAX Optional arguments
+	|map:Map! key added:@ ?@-type:Opt[@-Type]
 		_ = get-or-add! map key ~
-			empty (get-or (Opt->? @-type) Array!
+			empty (opr ?@-type Array!
 		++! _ added

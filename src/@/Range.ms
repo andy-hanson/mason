@@ -1,6 +1,6 @@
 use
 	..@ _ count iterator
-	..control if Ref! get set!
+	..control if opr Ref! get set!
 	..Fun ignore thunk
 	..math.Num _ Nat round-down sign
 	..math.methods + - * /
@@ -10,7 +10,6 @@ use
 	..Type.Pred-Type Opt
 	..Type.Obj-Type
 	.@-Type _ from-stream
-	.? get-or Opt->?
 	.Seq ?nth
 debug use~
 	..!
@@ -33,12 +32,13 @@ Range = Obj-Type
 		! seq=? [ 0 1 2 ] (take (range 0 infinity) 3
 
 
-\ TODO: SYNTAX
-range. |-start-:Num -end-:Num -step-:Opt[Num]
+\ TODO:SYNTAX
+range. |-start-:Num -end-:Num ?step:Opt[Num]
+	-step- = opr ?step (sign (- -end- -start-
 	Range
 		start. -start-
 		end. -end-
-		step. get-or (Opt->? -step-) (sign (- end start
+		step. -step-
 
 length.
 	doc. "Difference between and and start values."

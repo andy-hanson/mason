@@ -1,6 +1,6 @@
 use
 	..Bool false not true
-	..control if loop End-Loop returning
+	..control End-Loop if loop opr returning
 	..Fun _ identity Pred
 	..math.methods - +
 	..methods =? <! <? compare empty empty? freeze sub
@@ -15,8 +15,7 @@ use
 use~
 	..control Ref! get mod! set!
 	..show
-	..Try oh-no!
-	.? _ get-or Opt->? un-?
+	.? _ un-?
 	.Array
 	.Array!
 	..math.Num Nat
@@ -167,10 +166,9 @@ region Search
 			! fails? |
 				[ 0 1 ][2]
 		|_ n:Nat
-			get-or (?nth _ n) ~
-				oh-no! "
-					No element at index {n} for
-						{indent (show _}
+			un-? (?nth _ n) ~"
+				No element at index {n} for
+					{indent (show _}
 
 region Update
 	slice. Method
@@ -295,17 +293,16 @@ region Sorting
 			[ [ 1 2 3 ] ] -> true
 			[ [ 3 2 1 ] ] -> false
 			[ [ "six" "five" "seven" ] count ] -> true
-		|seq:Seq sort-by:Opt[Fun]
-			\ TODO:SYNTAX Optional args
-			sb = get-or (Opt->? sort-by) identity
+		|seq:Seq ?sort-by:Opt[Fun]
+			sort-by = opr ?sort-by identity
 			case ?first seq
 				empty?_
 					true
 				else
-					\ TODO: Use `sliding`
+					\ TODO: Use `sliding`, and avoid calling `sort-by` more than necessary.
 					prev = Ref! _.val
 					all? (tail seq) |em
-						returning (<? (sb (get prev)) (sb em)) |
+						returning (<? (sort-by (get prev)) (sort-by em)) |
 							set! prev em
 
 	sort. Method
@@ -316,13 +313,12 @@ region Sorting
 		test. |
 			[ [ 3 2 1 ] ] -> [ 1 2 3 ]
 			[ [ "five" "six" "seven" ] count ] -> [ "six" "five" "seven" ]
-		default. |:Array _:@ sort-by:Opt[Fun]
-			\ TODO:SYNTAX Optional args
-			sb = get-or (Opt->? sort-by) identity
+		default. |:Array _:@ ?sort-by:Opt[Fun]
+			sort-by = opr ?sort-by identity
 			\ Ensure that we create a *new* Array!, because we're about to mutate it.
 			sorted = from-stream Array! _
 			sorted.sort |a b
-				compare (sb a) (sb b)
+				compare (sort-by a) (sort-by b
 			sorted
 
 region TODO: put somewhere

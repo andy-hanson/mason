@@ -1,6 +1,6 @@
 use
-	..@.? get-or Opt->?
 	..Bool and
+	..control opr
 	..methods =? <? >? <=? >=? compare
 	..Obj p
 	..js global js-bar js< js> js<= js>= js+ js- js* js/ js% reference=?
@@ -218,20 +218,19 @@ region Near
 			region Behaves like `near-0?` when an arg is 0
 				[ 0.00999 0 2 ] -> true
 				[ 0 0.00999 2 ] -> true
-		\ TODO:SYNTAX Optional arguments
-		|a b:Num sig-figs:Opt[Nat]
-			sfs = get-or (Opt->? sig-figs) 6
+		|a b:Num ?sig-figs:Opt[Nat]
+			sig-figs = opr ?sig-figs 6
 			case
 				=? a 0
-					near-0? b sfs
+					near-0? b sig-figs
 				=? b 0
-					near-0? a sfs
+					near-0? a sig-figs
 				else
 					avg-mag = / (+ (abs a) (abs b)) 2
 					n-digits-avg-mag = round-down (log 10 avg-mag)
 					scale = pow 10 (* -1 n-digits-avg-mag)
 					scaled-diff = - (* a scale) (* b scale)
-					epsilon = pow 10 (* -1 sfs)
+					epsilon = pow 10 (* -1 sig-figs)
 					<? (abs scaled-diff) epsilon
 
 	near-0?.
@@ -241,11 +240,10 @@ region Near
 		test. |
 			[ 0.00999 2 ] -> true
 			[ 0.01 2 ] -> false
-		\ TODO:SYNTAX Optional arguments
-		|_ sig-figs:Opt[Nat]
-			sfs = get-or (Opt->? sig-figs) 6
-			\ This is more accurate than `pow 0.1 sfs`
-			max = pow 10 (* -1 sfs)
+		|_ ?sig-figs:Opt[Nat]
+			sig-figs = opr ?sig-figs 6
+			\ This is more accurate than `pow 0.1 sig-figs`
+			max = pow 10 (* -1 sig-figs)
 			<? abs_ max
 
 impl! show Num
