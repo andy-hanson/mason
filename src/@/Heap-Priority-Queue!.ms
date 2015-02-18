@@ -3,13 +3,13 @@ use
 	..control if! returning
 	..math.Num int/
 	..math.methods + - *
-	..methods <! <? >? empty empty? empty!
+	..methods <! <? >?
 	.Priority-Queue! _ ?pop!
 	..Type.Impl-Type self-type
 	..Type.Wrap-Type
-	..@ count each! iterator map'
-	.@! ++!
-	.@-Type _ from-stream
+	..@ count each! empty? iterator map'
+	.@! ++! empty!
+	.@-Type _ empty
 	.? un-?
 	.Array!
 	.Seq ?first

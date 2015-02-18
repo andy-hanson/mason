@@ -5,8 +5,10 @@ use
 	.@!
 debug use~
 	..!
-	..methods =? empty empty?
+	..methods =?
 	.@! ++!
+	..@ empty?
+	.@-Type empty
 	.?
 
 Priority-Queue! = Kind

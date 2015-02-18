@@ -1,14 +1,13 @@
 use
-	..@ each!
+	..@ each! empty?
+	..@.Map.Map! assoc! un-assoc!
+	..@.Map.Identity-Map!
+	..@.Map.multi-map! add-to-@!
 	..@.Range range
 	..@.Stream
 	..Generator! each~
-	..Map.Map! assoc! un-assoc!
-	..Map.Identity-Map!
-	..Map.multi-map! add-to-@!
 	..math.Num infinity square
 	..math.methods + *
-	..methods empty?
 	..Type =>
 debug use
 	..!

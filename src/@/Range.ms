@@ -4,12 +4,12 @@ use
 	..Fun ignore thunk
 	..math.Num _ Nat round-down sign
 	..math.methods + - * /
-	..methods <! <? >=? empty
+	..methods <! <? >=?
 	..Type.Impl-Type self-type
 	..Type.Method impl!
 	..Type.Pred-Type Opt
 	..Type.Obj-Type
-	.@-Type _ from-stream
+	.@-Type _ empty from-stream
 	.Seq ?nth
 debug use~
 	..!

@@ -3,6 +3,7 @@ doc. "Making sure the code in README.md actually works."
 debug use
 	..! _ !not
 	..@ _ count map
+	..@.@-Type empty
 	..@.Array!
 	..@.Seq seq=?
 	..@.Stream
@@ -12,7 +13,7 @@ debug use
 	..Generator! _ each~ gen-next!
 	..math.Num _ divisible? Int
 	..math.methods + - * /
-	..methods =? >? >=? <=? empty
+	..methods =? >? >=? <=?
 	..Str
 	..Try fails?
 

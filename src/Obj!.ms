@@ -3,11 +3,8 @@ doc. "For mutating Objs."
 use
 	.Bool false
 	.js js-delete js-set
-	.methods empty
 	.Obj _ Obj-Key
 	.Type.Alias-Type
-	.Type.Impl-Type self-type
-	.Type.Method impl!
 debug use~
 	.! _ !not
 	.methods =?
@@ -18,17 +15,21 @@ Obj! = Alias-Type
 	doc. "Obj which is at least partially mutable."
 	alias-of. Obj
 
-impl! empty (self-type Obj!) |
-	Obj.create Obj.prototype
+empty-Obj!.
+	doc. "TODO"
+	test. |
+		"TODO"
+	|
+		Obj.create Obj.prototype
 
 p+!.
 	doc. "Adds a new immutable property."
 	test. |
-		x = empty Obj!
-		p+! x "a" 1
-		! =? x.a 1
+		_ = empty-Obj!()
+		p+! _ "a" 1
+		! =? _.a 1
 		! fails? |
-			p+! x "a" 2
+			p+! _ "a" 2
 		! fails? |
 			p+! "string" "a" 1
 	|_:Obj! name:Obj-Key val
@@ -52,10 +53,10 @@ p+mut!.
 p!.
 	doc. "Modifies an already-existing property."
 	test. |
-		x = empty Obj!
-		p+mut! x "a" 1
-		p! x "a" 2
-		! =? x.a 2
+		_ = empty-Obj!()
+		p+mut! _ "a" 1
+		p! _ "a" 2
+		! =? _.a 2
 	|_:Obj! name:Obj-Key new-val
 		in
 			! p? _ name
@@ -64,10 +65,10 @@ p!.
 
 p-!.
 	test. |
-		a = empty Obj!
-		p+mut! a "a" 1
-		p-! a "a"
-		!not p? a "a"
+		_ = empty-Obj!()
+		p+mut! _ "a" 1
+		p-! _ "a"
+		!not p? _ "a"
 	|_:Obj! name:Obj-Key
 		in
 			! p? _ name
@@ -78,10 +79,10 @@ p-!.
 extend!.
 	doc. "Adds all the properties in `extender` to `_`."
 	test. |
-		x = empty Obj!
-		extend! x
+		_ = empty-Obj!()
+		extend! _
 			a. 1
-		! =? x.a 1
+		! =? _.a 1
 	|_:Obj! extender:Obj
 		Obj.assign _ extender
 

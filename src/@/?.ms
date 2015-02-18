@@ -1,12 +1,12 @@
 use
 	..Fun ignore thunk
 	..js defined? reference=?
-	..methods <! empty empty?
+	..methods <!
 	..Type.Impl-Type self-type
 	..Type.Method impl!
 	..Type.Wrap-Type
-	..@ iterator
-	.@-Type _ from-stream
+	..@ empty? iterator
+	.@-Type _ empty from-stream
 	.Seq
 use~
 	..Try oh-no!

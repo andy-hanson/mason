@@ -1,11 +1,11 @@
 use
 	..js reference=?
-	..methods <! empty empty?
+	..methods <!
 	..Obj! p!
 	..Type.Impl-Type self-type
 	..Type.Obj-Type
-	..@ _ ++' iterator
-	.@-Type _ from-stream
+	..@ _ ++' empty? iterator
+	.@-Type _ empty from-stream
 	.Seq _ <++' tail
 
 LList. Obj-Type

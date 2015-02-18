@@ -4,12 +4,13 @@ use
 	..Fun ignore
 	..js js-set
 	..math.Num Nat
-	..methods <! empty empty? empty! frozen?
+	..methods <! frozen?
 	..Type =>
 	..Type.Impl-Type self-type
 	..Type.Pred-Type
-	..@ _ each!
-	.@-Type _ from-stream
+	..@ _ each! empty?
+	.@! empty!
+	.@-Type _ empty from-stream
 	.Array
 	.Seq! _ <++! ++>! ?<pop! ?pop>! set-nth!
 

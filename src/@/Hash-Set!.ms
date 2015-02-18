@@ -1,15 +1,15 @@
 use
 	..@ each! iterator
 	..Bool true
-	..Map keys
-	..Map.Hash-Map!
-	..Map.Map! assoc! un-assoc!
-	..methods =? <! empty empty!
+	..methods =? <!
 	..Type.Impl-Type self-type
 	..Type.Method impl! impl-for
 	..Type.Obj-Type
-	.@! ++! --!
-	.@-Type
+	.@! ++! --! empty!
+	.@-Type _ empty
+	.Map keys
+	.Map.Hash-Map!
+	.Map.Map! assoc! un-assoc!
 	.Set
 	.Set!
 

@@ -1,19 +1,20 @@
 use
 	..math.Num Nat
-	..methods <! empty
+	..methods <!
 	..Type.Impl-Type self-type
 	..Type.Kind
 	..Type.Method
 	..@
 	.@!
-	.@-Type
+	.@-Type _ empty
 	.?
 	.Seq _
 use~
 	.Deque!
 debug use~
 	..!
-	..methods =? empty?
+	..methods =?
+	..@ empty?
 	.Array
 	.Array!
 	.Seq seq=?

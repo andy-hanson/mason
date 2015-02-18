@@ -1,15 +1,14 @@
 use
-	..@
-	..@.@! ++!
-	..@.Array!
-	..@.@-Type
-	..control opr
-	..methods empty
-	..Type.Pred-Type Opt
+	...control opr
+	...Type.Pred-Type Opt
+	...@
+	..@! ++!
+	..Array!
+	..@-Type _ empty
 	.Map! _ get-or-add!
 debug use
-	..!
-	..methods =?
+	...!
+	...methods =?
 
 add-to-@!.
 	doc. "

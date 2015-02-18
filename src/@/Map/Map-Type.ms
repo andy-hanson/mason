@@ -1,11 +1,12 @@
 use
-	..control returning
-	..Fun identity
-	..methods <! empty sub
-	..Type =>
-	..Type.Impl-Type self-type
-	..Type.Method _ impl!
-	..Type.Kind
+	...control returning
+	...Fun identity
+	...methods <! sub
+	...Type =>
+	...Type.Impl-Type self-type
+	...Type.Method _ impl!
+	...Type.Kind
+	..@-Type empty
 	..Map
 use~
 	.Hash-Map!

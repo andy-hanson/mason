@@ -1,7 +1,7 @@
 use
 	..control returning
 	..Fun identity
-	..methods <! empty sub
+	..methods <! sub
 	..Type =>
 	..Type.Impl-Type self-type
 	..Type.Kind
@@ -18,10 +18,10 @@ debug use~
 
 impl! sub @-Type identity
 
-\ TODO: Do this in index.ms
-<! (self-type @) @-Type
-impl! empty (self-type @) |
-	empty Array
+empty. Method
+	doc. "
+		Given a type, makes an instance which is `empty?`.
+		Should always return the same thing iff immutable.
 
 from-stream. Method
 	doc. |_ stream:@
@@ -31,6 +31,12 @@ from-stream. Method
 	default. |type stream
 		returning (empty type) |_
 			++! _ stream
+
+
+\ TODO: Do this in index.ms
+<! (self-type @) @-Type
+impl! empty (self-type @) |
+	empty Array
 
 impl! => @-Type @ from-stream
 

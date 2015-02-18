@@ -1,14 +1,15 @@
 use
-	.@ fold map
+	.@ empty? fold map
+	.@.@-Type empty
 	.@.Array
+	.@.Map.Weak-Identity-Map!
 	.Bool
 	.Fun
 	.js reference=?
-	.Map.Weak-Identity-Map!
 	.math.bit-arithmetic bit-and hexidecimal
 	.math.Num _ Int round-towards-0
 	.math.methods + *
-	.methods =? empty empty?
+	.methods =?
 	.Obj p ?p @p-all
 	.Str
 	.Symbol

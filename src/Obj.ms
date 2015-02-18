@@ -1,21 +1,20 @@
 use
 	.Bool _ and false not nor xor
 	.js defined? global js== js-typeof reference=? js-sub
-	.methods =? empty empty? freeze
+	.methods =? freeze
 	.private.bootstrap Str
 	.Symbol
 	.Type => contains?
-	.Type.Impl-Type self-type
-	.Type.Method impl!
 	.Type.Kind
 use~
-	.@ _ ++ all? count keep
+	.@ _ ++ all? count empty? keep
+	.@.@-Type empty
 	.@.? _ Opt->?
 	.@.Identity-Set!
+	.@.Map _ each-pair! make-map
 	.control returning
-	.Fun _ thunk
-	.Map _ each-pair! make-map
-	.Obj! _ p+!
+	.Fun
+	.Obj! empty-Obj! p+!
 debug use~
 	.!
 	.@.Seq seq=?
@@ -49,7 +48,7 @@ flag?.
 		\ TODO:SYNTAX (a.)
 		[ (a. true) "a" ] -> true
 		[ (a. false) "a" ] -> false
-		[ (empty Obj) "a" ] -> false
+		[ empty-Obj "a" ] -> false
 	|obj flag:Obj-Key
 		case ?p obj flag
 			empty?_
@@ -65,7 +64,7 @@ flag?.
 		Includes non-enumerable properties and symbols.
 
 	test. |
-		obj = empty Obj!
+		obj = empty-Obj!()
 		p+! obj "a" 0
 		sym = Symbol "s"
 		Obj.defineProperty obj sym
@@ -89,7 +88,7 @@ flag?.
 	doc. "
 		Like @p-all, but excludes non-enumerable properties and symbols.
 	test. |
-		obj = empty Obj!
+		obj = empty-Obj!()
 		Obj.defineProperty obj "a"
 			value. 0
 			enumerable. false
@@ -164,7 +163,7 @@ p?.
 p-with-proto?.
 	doc. "Like `p?` but looks through the prototype."
 	test. |
-		[ (empty Obj) "toString" ] -> true
+		[ empty-Obj "toString" ] -> true
 	|_ name:Obj-Key
 		and can-get-p?_ ~(defined? (js-sub _ name
 
@@ -209,14 +208,12 @@ inspect=?.
 						all? ak |k
 							=? (js-sub a k) (js-sub b k)
 
-\ TODO: Move elsewhere in this file
-\ TODO: Test these
-impl! empty (self-type Obj) (thunk (Obj.freeze (Obj.create Obj.prototype
+empty-Obj. Obj.freeze (Obj.create Obj.prototype
 
 empty-Obj?.
 	doc. "Whether there are no properties, not even hidden ones."
 	test. |
-		[ (empty Obj) ] -> true
+		[ empty-Obj ] -> true
 		[ Obj ] -> false
 	|_:Obj
 		empty? @p-all_
@@ -243,7 +240,7 @@ Map->Obj.
 			Map->Obj
 				1 -> 2
 	|_:Map
-		returning (empty Obj!) |obj
+		returning empty-Obj!() |obj
 			each-pair! _ |key val
 				p+! obj key val
 			freeze obj

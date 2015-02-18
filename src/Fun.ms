@@ -1,17 +1,18 @@
 use
 	.js global
-	.methods empty sub
+	.methods sub
 	.private.js-impl i-curry
 	.Type.Alias-Type
 	.Type.Impl-Type self-type
 	.Type.Method _ impl!
 use~
 	.@ _ ++ each! map
+	.@.@-Type empty
 	.@.Seq rtail last
-	.Map _ @pairs
-	.Map.Hash-Map!
-	.Map.Map! get-or-add!
-	.Map.Weak-Identity-Map!
+	.@.Map _ @pairs
+	.@.Map.Hash-Map!
+	.@.Map.Map! get-or-add!
+	.@.Map.Weak-Identity-Map!
 	.Obj _ Obj->Map
 	.Try oh-no!
 debug use~

@@ -1,26 +1,28 @@
 \ TODO: TEST
 
 use
-	..@ flat-map map'
-	..@.? _ Opt->?
-	..@.Stream
-	..hash-code
-	.Identity-Map!
-	..js defined?
-	..methods =? <! empty empty! freeze
-	..Obj
-	..Obj! p!
-	..Type.Impl-Type self-type
-	..Type.Method impl!
-	..Type.Obj-Type
+	...hash-code
+	...js defined?
+	...methods =? <! freeze
+	...Obj
+	...Obj! p!
+	...Type.Impl-Type self-type
+	...Type.Method impl!
+	...Type.Obj-Type
+	...@ flat-map map'
+	..@! empty!
+	..@-Type empty
+	..Stream
+	..? _ Opt->?
 	..Map ?get keys values
+	.Identity-Map!
 	.Map! _ assoc! un-assoc!
 	.Map-Type
 use~
-	..Generator! if~
+	...Generator! if~
 debug use
-	..!
-	..@.Seq seq=?
+	...!
+	..Seq seq=?
 
 Hash-Map! = Obj-Type
 	doc. "Default Map! type. Depends on efficient `hash-code` of its keys."

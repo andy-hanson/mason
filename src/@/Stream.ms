@@ -2,12 +2,12 @@ use
 	..@ _ iterator
 	..Fun _ ignore thunk
 	..Generator!
-	..methods <! empty
+	..methods <!
 	..Type =>
 	..Type.Impl-Type self-type
 	..Type.Method impl!
 	..Type.Wrap-Type
-	.@-Type _ from-stream
+	.@-Type _ empty from-stream
 	.Seq _
 debug use~
 	..!

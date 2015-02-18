@@ -1,10 +1,10 @@
 use
-	.@.?
 	.@ _ iterator
+	.@.@-Type empty
+	.@.?
 	.Bool _ and
 	.Fun
 	.Js-Method
-	.methods empty
 	.private.js-impl each-generator
 	.Obj
 	.Type contains?

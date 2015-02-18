@@ -2,16 +2,17 @@ use
 	.Bool
 	.Fun _ Act call
 	.js defined?
-	.methods empty freeze
+	.methods freeze
 	.Obj! p!
 	.Type.Pred-Type Any Opt
 	.Type.Wrap-Type
 use~
+	.@.@-Type empty
 	.@.? _ ?-or
 	.@.Array!
 	.@.Seq
 	.@.Seq! ++>!
-	.Map _ ?get
+	.@.Map _ ?get
 	.Try oh-no!
 debug use~
 	.! _ !call

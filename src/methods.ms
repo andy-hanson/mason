@@ -11,18 +11,6 @@ region Basics
 		doc. "Implementing this allows the use of the special syntax `a[b]`."
 	p+! ms "sub" sub
 
-region Collection
-	empty. Method
-		doc. "
-			Given a type, makes an instance which is `empty?`.
-			Should always return the same thing iff immutable.
-
-	empty?. Method
-		doc. "Whether this collections has no elements."
-
-	empty!. Method
-		doc. "Mutates this collection so that it will be `empty?`."
-
 region Comparison
 	<!. Method
 		doc. |a b

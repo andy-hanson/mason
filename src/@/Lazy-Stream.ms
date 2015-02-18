@@ -3,12 +3,12 @@ use
 	..Generator! _ each~
 	..math.Num Nat
 	..math.methods -
-	..methods <! empty empty?
+	..methods <!
 	..Type.Impl-Type self-type
 	..Type.Obj-Type
-	..@ count iterator
+	..@ count empty? iterator
 	.@! ++!
-	.@-Type _ from-stream
+	.@-Type _ empty from-stream
 	.Array!
 	.Seq _ ?nth
 	.Stream

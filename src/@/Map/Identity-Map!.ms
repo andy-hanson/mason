@@ -1,18 +1,20 @@
 use
-	..@.? Opt->?
-	..@.Stream
-	..control returning
-	..js global new
-	..methods <! empty empty!
-	..Type.Impl-Type self-type
-	..Type.Method impl!
+	...control returning
+	...js global new
+	...methods <!
+	...Type.Impl-Type self-type
+	...Type.Method impl!
+	..@! empty!
+	..@-Type empty
+	..? Opt->?
+	..Stream
 	..Map ?get has-key? keys values
 	.Map! _ assoc! un-assoc!
 	.Map-Type
 debug use
-	..!
-	..@.Seq seq=?
-	..methods =?
+	...!
+	...methods =?
+	..Seq seq=?
 
 Identity-Map! =
 	doc. "

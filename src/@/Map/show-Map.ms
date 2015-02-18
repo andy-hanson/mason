@@ -1,14 +1,14 @@
 use
-	..@ map
-	..Obj flag?
-	..show
-	..Str
-	..Type => type-of
-	..Type.Method impl!
+	...Obj flag?
+	...show
+	...Str
+	...Type => type-of
+	...Type.Method impl!
+	...@ map
 	..Map _ keys
 	.Weak-Identity-Map!
 debug use
-	..Bool true
+	...Bool true
 
 impl! show Map
 	test. |

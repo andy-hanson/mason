@@ -5,9 +5,9 @@ use
 use~ \ TODO: Move as many up as possible
 	.@ _ map
 	.@.Array
+	.@.Map _ each-pair!
 	.Bool _ not
 	.control if!
-	.Map _ each-pair!
 	.math.Num _ near?
 	.methods =?
 	.show repr

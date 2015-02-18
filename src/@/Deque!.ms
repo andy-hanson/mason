@@ -3,14 +3,15 @@ use
 	..control if
 	..math.Num modulo Nat
 	..math.methods + - *
-	..methods =? <! <? empty empty? empty! sub
+	..methods =? <! <? sub
 	..Obj! p!
 	.Seq! _ <++! ++>! ?<pop! ?pop>! set-nth!
 	..Type.Impl-Type self-type
 	..Type.Pred-Type Any
 	..Type.Obj-Type
-	..@ _ ++ count each! iterator map map'
-	.@-Type
+	..@ _ ++ count each! empty? iterator map map'
+	.@! empty!
+	.@-Type _ empty
 	.? un-?
 	.Array!
 	.Range range

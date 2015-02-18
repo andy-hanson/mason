@@ -1,18 +1,19 @@
 use
 	..Fun ignore
-	..methods <! empty
+	..methods <!
 	..Type.Impl-Type self-type
 	..Type.Kind
 	.@!
+	.@-Type empty
 	.@-Type _ from-stream
 	.Set
 use~
 	.Hash-Set!
 debug use~
 	..! _ !not
-	..methods empty? empty!
 	..Type contains?
-	.@! ++! --!
+	..@ empty?
+	.@! ++! --! empty!
 
 Set! = Kind
 	doc. "Mutable Set."

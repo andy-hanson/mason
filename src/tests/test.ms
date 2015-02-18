@@ -4,14 +4,15 @@ use
 	..$ _ $after $all $ing
 	..! _ !call
 	..@ _ ++ each! flatten flat-map map
+	..@.@-Type empty
 	..@.? ?-or
 	..@.Identity-Set!
+	..@.Map
 	..Bool _ and false or true
 	..control if
 	..Fun _ ignore
 	..Generator!
-	..Map
-	..methods =? empty
+	..methods =?
 	..modules $@module-in-dir
 	..Obj _ ?p p p? @p @p-all
 	..Str

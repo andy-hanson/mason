@@ -1,19 +1,22 @@
 use
-	..@.Stream
-	..Bool _ and false not true
-	..control if loop End-Loop
-	..js defined?
-	..methods <! <? >? empty empty? empty!
-	..Obj! p!
-	..Type.Impl-Type self-type
-	..Type.Obj-Type
+	...Bool _ and false not true
+	...control if loop End-Loop
+	...js defined?
+	...methods <! <? >?
+	...Obj! p!
+	...Type.Impl-Type self-type
+	...Type.Obj-Type
+	...@ empty?
+	..@! empty!
+	..@-Type empty
+	..Stream
 	..Map ?get keys
 	.Map! assoc! un-assoc!
 	.Map-Type
 	.Sorted-Map!
 debug use
-	..! _ !not
-	..methods =?
+	...! _ !not
+	...methods =?
 
 Splay-Tree! = Obj-Type
 	doc. "

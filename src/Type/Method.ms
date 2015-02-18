@@ -12,9 +12,10 @@ use~
 	.Impl-Type
 	.Kind
 debug use~
+	..@.@-Type empty
 	..@.?
 	..math.Num
-	..methods =? empty
+	..methods =?
 	..Try fails?
 
 writable? = |obj property

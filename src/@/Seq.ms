@@ -3,15 +3,15 @@ use
 	..control End-Loop if loop opr returning
 	..Fun _ identity Pred
 	..math.methods - +
-	..methods =? <! <? compare empty empty? freeze sub
+	..methods =? <! <? compare freeze sub
 	..Str indent
 	..Type => type-of
 	..Type.Impl-Type self-type
 	..Type.Kind
 	..Type.Method _ impl!
 	..Type.Pred-Type Any Opt
-	..@ _ ++ all? count iterator
-	.@-Type _ from-stream
+	..@ _ ++ all? count empty? iterator
+	.@-Type _ empty from-stream
 use~
 	..control Ref! get mod! set!
 	..show

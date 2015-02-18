@@ -1,6 +1,7 @@
 use
 	..@ each! fold keep map
 	..@.@! ++!
+	..@.@-Type empty
 	..@.Array!
 	..@.Identity-Set!
 	..@.Range range
@@ -11,7 +12,6 @@ use
 	..js defined? js-sub
 	..math.Num _ infinity Nat square
 	..math.methods +
-	..methods empty
 	..Type contains?
 debug use
 	..!

@@ -3,11 +3,11 @@
 use
 	.@ _ count iterator map
 	.@.Array
-	.@.@-Type _ from-stream
+	.@.@-Type _ empty from-stream
 	.@.Seq
 	.control opr
 	.Fun ignore thunk
-	.methods <! empty
+	.methods <!
 	.show
 	.Str
 	.Type =>

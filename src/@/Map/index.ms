@@ -1,22 +1,23 @@
 use
-	..@ _ all? count each! map
-	..@.? _ un-?
-	..Bool _ and not
-	..Fun _ identity
-	..methods =? empty empty? freeze sub
-	..Type type-of
-	..Type.Impl-Type self-type
-	..Type.Kind
-	..Type.Method _ impl!
-	..Type.Pred-Type Any
+	...Bool _ and not
+	...Fun _ identity
+	...methods =? freeze sub
+	...Type type-of
+	...Type.Impl-Type self-type
+	...Type.Kind
+	...Type.Method _ impl!
+	...Type.Pred-Type Any
+	...@ _ all? count each! empty? map
+	..@-Type empty
+	..? _ un-?
 use~
 	.Hash-Map!
 	.Map! assoc!
 debug use~
-	..!
-	..Bool false true
-	..control build
-	..math.methods +
+	...!
+	...Bool false true
+	...control build
+	...math.methods +
 
 Map. Kind
 	doc. "Mapping from keys to values."

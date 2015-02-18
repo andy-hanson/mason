@@ -1,11 +1,11 @@
 use
-	..methods >? empty?
+	..methods >?
 	..Obj flag?
 	..show
 	..Str _ indent
 	..Type => type-of
 	..Type.Method impl! impl-for
-	..@ _ count map
+	..@ _ count empty? map
 	.Array
 	.Seq take
 debug use~

@@ -1,14 +1,13 @@
 use
-	..@ _ ++ --' flat-map keep map
+	..@ _ ++ --' empty? flat-map keep map
 	..@.?
 	..@.Seq _ ?first tail
-	..methods empty?
 	..Str _ ->upper
 	..Type contains?
 debug use
 	..!
+	..@.Map each-pair!
 	..@.Stream
-	..Map each-pair!
 	..methods =?
 	..Str split-str
 	..Type =>

@@ -1,15 +1,16 @@
 use
-	..methods <! empty
-	..Type.Impl-Type self-type
-	..Type.Kind
+	...methods <!
+	...Type.Impl-Type self-type
+	...Type.Kind
+	..@-Type empty
 	.Map!
 	.Map-Type
 use~
 	.Splay-Tree!
 debug use
-	..!
-	..@ each!
-	..@.Seq sorted?
+	...!
+	...@ each!
+	..Seq sorted?
 	..Map keys
 	.Map! assoc!
 

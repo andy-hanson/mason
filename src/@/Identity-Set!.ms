@@ -1,11 +1,11 @@
 use
 	..js global new
-	..methods <! empty empty!
+	..methods <!
 	..Type contains?
 	..Type.Impl-Type self-type
 	..@ count each! iterator
-	.@! ++! --!
-	.@-Type
+	.@! ++! --! empty!
+	.@-Type _ empty
 	.Set!
 
 Identity-Set! = global.Set

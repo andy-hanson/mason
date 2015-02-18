@@ -1,27 +1,29 @@
 use
-	..@ _ each!
-	..@.?
-	..methods <! empty empty?
-	..Type.Impl-Type self-type
-	..Type.Kind
-	..Type.Method _ impl!
-	..Type.Pred-Type Any
+	...methods <!
+	...Type.Impl-Type self-type
+	...Type.Kind
+	...Type.Method _ impl!
+	...Type.Pred-Type Any
+	...@ _ each! empty?
+	..@-Type empty
+	..?
 	..Map _ each-pair! ?get
 	.Map-Type
 use~
 	.Hash-Map!
 debug use~
-	..! _ !not
-	..@ map
-	..@.Array
-	..@.Set set=?
-	..Bool not
-	..control if!
-	..math.methods *
-	..methods =? compare empty!
+	...! _ !not
+	...Bool not
+	...control if!
+	...math.methods *
+	...methods =? compare
+	...Type =>
+	...Type.Wrap-Type
+	...@ map
+	..@! empty!
+	..Array
+	..Set set=?
 	..Map has-key? keys
-	..Type =>
-	..Type.Wrap-Type
 	.Weak-Identity-Map!
 
 Map! = Kind

@@ -1,5 +1,5 @@
 use
-	..methods empty?
+	..@ empty?
 	..Obj flag? ?p
 	..show
 	.Method impl!

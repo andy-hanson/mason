@@ -3,7 +3,7 @@ use
 	..Fun _ Act identity Pred
 	..js defined? reference=?
 	..math.methods +
-	..methods =? <? empty empty?
+	..methods =? <?
 	..Obj
 	..Obj! p+!
 	..private.bootstrap ms
@@ -16,6 +16,7 @@ use~
 	..Generator!
 	..math.Num Nat
 	.@! --!
+	.@-Type empty
 	.? _ un-?
 	.Array
 	.Seq first seq=? tail
@@ -42,6 +43,14 @@ debug use~
 iterator. Method
 	doc. |:Generator! _
 		"Creates a new Generator! which yields the values in the @. Should create a new one every time."
+
+empty?. Method
+	doc. "Whether `count` is 0. Often much faster."
+	test. |
+		[ [ ] ] -> true
+		[ [ 1 ] ] -> false
+	default. |:Bool _
+		iterator_.next().done
 
 \ TODO:ES6 Should not need this
 p+! ms "iterator" iterator
@@ -151,14 +160,6 @@ region Using iterator
 			[ [ 1 2 3 ] ] -> 3
 		default. |:Nat _:@
 			fold _ 0 +[1]
-
-	impl! empty? @
-		doc. "Whether `count` is 0. Often much faster."
-		test. |
-			[ [ ] ] -> true
-			[ [ 1 ] ] -> false
-		|:Bool _
-			iterator_.next().done
 
 region Lazy functions, and their eager versions.
 	\ Eager versions are Methods if certain types can do them faster.

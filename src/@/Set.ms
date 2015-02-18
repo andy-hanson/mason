@@ -1,13 +1,13 @@
 use
 	..Bool and
 	..Fun ignore
-	..methods =? <! empty
+	..methods =? <!
 	..Type => contains? type-of
 	..Type.Impl-Type self-type
 	..Type.Kind
 	..Type.Method _ impl!
 	..@ _ all? count keep
-	.@-Type _ from-stream
+	.@-Type _ empty from-stream
 use~
 	.Hash-Set!
 debug use~

@@ -1,5 +1,5 @@
 use
-	..@ count
+	..@ count empty?
 	..@.Array
 	..@.Deque!
 	..@.Seq
@@ -7,7 +7,7 @@ use
 	..Bool false true
 	..control End-Loop if! loop
 	..math.methods + -
-	..methods =? empty?
+	..methods =?
 	..Obj _ p
 	..Type =>
 	..Type.Pred-Type Any

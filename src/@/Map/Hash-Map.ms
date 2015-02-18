@@ -1,12 +1,13 @@
 use
-	..Fun thunk
-	..private.js-impl i-make-map
-	..methods <! empty freeze
-	..Obj! p+!
-	..private.bootstrap ms
-	..Type.Alias-Type
-	..Type.Impl-Type self-type
-	..Type.Method impl!
+	...Fun thunk
+	...private.js-impl i-make-map
+	...methods <! freeze
+	...Obj! p+!
+	...private.bootstrap ms
+	...Type.Alias-Type
+	...Type.Impl-Type self-type
+	...Type.Method impl!
+	..@-Type empty
 	.Hash-Map!
 	.Map! assoc!
 	.Map-Type

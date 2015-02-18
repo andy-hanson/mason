@@ -7,11 +7,11 @@ use
 	.Method impl!
 	.Obj-Type
 use~
-	..Map each-pair!
+	..@.Map each-pair!
 debug use~
 	..! _ !not
-	..methods =? empty
-	..Obj!
+	..methods =?
+	..Obj! empty-Obj!
 	..Type contains?
 	.Kind can-subtype?
 
@@ -81,7 +81,7 @@ region Self-Type
 		props.
 			prototype. Obj
 		test. |
-			x = empty Obj!
+			x = empty-Obj!()
 			impl! contains? (self-type x) |
 				1
 			! =? (contains? x) 1

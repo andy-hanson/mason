@@ -1,11 +1,12 @@
 use
+	.@.@-Type empty
 	.@.?
 	.$ _ $after
 	.Bool and
 	.Fun _ Act ignore spread!
 	.js global new
 	.private.js-impl make-Error i-always-do-after i-oh-no! i-try
-	.methods =? empty
+	.methods =?
 	.Obj
 	.Obj! p! p+!
 	.Str

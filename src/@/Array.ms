@@ -1,15 +1,15 @@
-\ Also see ..Map.Array-as-Map
+\ Also see .Map.Array-as-Map
 
 use
 	..control if
 	..Fun ignore thunk
 	..js global js-sub
 	..private.js-impl array-iterator
-	..methods <! <? empty freeze
+	..methods <! <? freeze
 	..Type.Impl-Type self-type
 	..Type.Method impl!
 	..@ count iterator
-	.@-Type _ from-stream
+	.@-Type _ empty from-stream
 	.Seq _ ?nth
 use~
 	..math.Num Nat

@@ -1,17 +1,17 @@
 use
-	..methods <! empty
+	..methods <!
 	..Type.Impl-Type self-type
 	..Type.Kind
-	..Type.Method
+	..Type.Method _ impl!
 	..@
-	.@-Type
+	.@-Type _ empty
 use~
 	.Array!
 	.Seq! ++>!
 debug use~
 	..! _ !not
-	..@ each!
-	..methods =? empty? empty!
+	..@ each! empty?
+	..methods =?
 	..Type contains?
 	.Array
 
@@ -36,6 +36,9 @@ debug use~
 
 <! @! @
 
+empty!. Method
+	doc. "Mutates this collection so that it will be `empty?`."
+
 ++!. Method
 	doc. "
 		Adds new elements.
@@ -55,7 +58,7 @@ debug use~
 		"TODO:impl-test"
 
 <! (self-type @!) @-Type
-	empty -> |
-		empty Array!
+impl! empty (self-type @!) |
+	empty Array!
 
 @!
