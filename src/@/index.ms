@@ -23,12 +23,13 @@ use~
 	.Set!
 	.Stream
 debug use~
-	.@-Type
 	..Bool false true
 	..control build
 	..! _ !not
 	..math.Num divisible?
 	..Try fails?
+	.@-Type
+	.Map.Weak-Identity-Map!
 
 @. Kind
 	doc. "
@@ -36,9 +37,10 @@ debug use~
 		If the iteration order of an @ is meaningful and `+ a b` is the concatenation, it is a Seq.
 		If an @ only stores a given element once, it is a Set.
 	implementor-test. |@-type
-		! (contains? @-Type @-type) "Be sure to make your @ type a @-Type."
-		_ = empty @-type
-		! empty? _
+		if! (not (=? @-type Weak-Identity-Map!)) |
+			! (contains? @-Type @-type) "Be sure to make your @ type a @-Type."
+			_ = empty @-type
+			! empty? _
 
 iterator. Method
 	doc. |:Generator! _

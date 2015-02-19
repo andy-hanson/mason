@@ -120,6 +120,7 @@ on-implementor! = |implementor kind
 			()
 	inherit-methods! implementor kind
 
+\ TODO: Rename to be like Obj.ms
 own-properties = |_
 	(Obj.getOwnPropertyNames _).concat (Obj.getOwnPropertySymbols _)
 

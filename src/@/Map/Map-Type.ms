@@ -6,7 +6,7 @@ use
 	...Type.Impl-Type self-type
 	...Type.Method _ impl!
 	...Type.Kind _ kind!
-	..@-Type empty
+	..@-Type _ empty
 	..Map
 use~
 	.Hash-Map!
@@ -15,12 +15,14 @@ use~
 Map-Type = Kind
 	doc. "Any sub-type of Map."
 
-impl! sub Map-Type identity
+kind! Map-Type @-Type
 
 \ TODO: Do this in index.ms
 kind! (self-type Map) Map-Type
 impl! empty (self-type Map) |
 	empty Hash-Map!
+
+impl! sub Map-Type identity
 
 from-map. Method
 	doc. |_ map:Map
@@ -31,6 +33,7 @@ from-map. Method
 		returning (empty type) |_
 			assoc*! _ map
 
-impl! => Map-Type Map from-map
+\ TODO: This isn't overriding @-Type's =>...
+impl! => Map-Type from-map
 
 Map-Type

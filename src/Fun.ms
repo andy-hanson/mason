@@ -172,13 +172,13 @@ spread.
 		init-args = rtail args
 		last-arg = last args
 		@spreaded = case last-arg
-			:@
-				map _ |em
-					[ em ]
 			:Map
 				map @pairs_ |pair
 					key val = pair
 					[ key val ]
+			:@
+				map _ |em
+					[ em ]
 			:Obj
 				map (@pairs Obj->Map_) |pair
 					key val = pair

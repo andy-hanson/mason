@@ -38,6 +38,6 @@ kind! (self-type @) @-Type
 impl! empty (self-type @) |
 	empty Array
 
-impl! => @-Type @ from-stream
+impl! => @-Type from-stream
 
 @-Type

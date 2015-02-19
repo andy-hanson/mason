@@ -1,13 +1,13 @@
 use
 	...Bool _ and not
-	...Fun _ identity
+	...Fun
+	...Generator! each~
 	...methods =? freeze sub
 	...Type type-of
-	...Type.Impl-Type self-type
-	...Type.Kind
+	...Type.Kind _ kind!
 	...Type.Method _ impl!
 	...Type.Pred-Type Any
-	...@ _ all? count each! empty? map
+	...@ _ all? count each! empty? iterator map
 	..@-Type empty
 	..? _ un-?
 use~
@@ -22,8 +22,10 @@ debug use~
 Map. Kind
 	doc. "Mapping from keys to values."
 
-\ TODO: impl! sub Map-Type identity
-impl! sub (self-type Map) identity
+kind! Map @
+impl! iterator Map |_
+	each~ keys_ ~|k
+		<~ key. k val. _[k]
 
 region New methods
 	?get. Method

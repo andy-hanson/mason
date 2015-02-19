@@ -1,5 +1,5 @@
 use
-	..Bool _ false implies
+	..Bool _ false implies not
 	..js defined? global js-sub
 	..private.js-impl build-str
 	..private.bootstrap Fun impl-contains?! Obj p+! Str Symbol ms contains?-impl-symbol
@@ -21,6 +21,9 @@ debug use~
 writable? = |obj property
 	desc = global.Object.getOwnPropertyDescriptor obj property
 	implies (defined? desc) ~desc.writable
+
+p? = |obj property
+	defined? (js-sub obj property
 
 make-callable-method = |method
 	src = build-str |add!
@@ -172,7 +175,8 @@ do-impl! = |method implementor implementation
 \ TODO: Not public
 propagate-method-down!. |implementor method-symbol implementation \ TODO: :Impl-Type :Symbol :Fun
 	case! implementor
-		writable? _.prototype method-symbol
+		\ Only bring it down if there isn't already one there.
+		not (p? _.prototype method-symbol)
 			case!
 				:Kind
 					_.implementors.forEach |sub-implementor
