@@ -16,8 +16,8 @@ use
 	.Type.Pred-Type Opt
 debug use
 	.!
+	.compare =?
 	.Fun identity
-	.methods =?
 
 test. |
 	! =? [ "1" "2" "3" ] (map "123" identity)

@@ -14,10 +14,10 @@ use
 	.Stream
 debug use~
 	..!
+	..compare =?
 	..control build
 	..math.methods +
 	..math.Num infinity
-	..methods =?
 	..Type =>
 	.Range range
 	.Seq seq=? take

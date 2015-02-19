@@ -8,7 +8,7 @@ debug use
 	..!
 	..@.Map each-pair!
 	..@.Stream
-	..methods =?
+	..compare =?
 	..Str split-str
 	..Type =>
 

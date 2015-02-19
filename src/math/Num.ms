@@ -1,9 +1,9 @@
 use
 	..Bool and
+	..compare =? <? <=? compare
 	..control opr
-	..methods =? <? >? <=? >=? compare
 	..Obj p
-	..js global js-bar js< js> js<= js>= js+ js- js* js/ js% reference=?
+	..js global js-bar js< js<= js+ js- js* js/ js% reference=?
 	..show
 	..Type.Method impl!
 	..Type.Pred-Type _ Opt
@@ -41,7 +41,7 @@ Nat. Pred-Type
 		! contains? Nat 0
 		!not contains? Nat -1
 	predicate. |_
-		and :Int ~(>=? _ 0)
+		and :Int ~(<=? 0 _
 
 region impl!
 	impl! compare Num -
@@ -51,12 +51,8 @@ region impl!
 		reference=?
 	impl! <? Num |a b:Num
 		js< a b
-	impl! >? Num |a b:Num
-		js> a b
 	impl! <=? Num |a b:Num
 		js<= a b
-	impl! >=? Num |a b:Num
-		js>= a b
 	impl! + Num |a b:Num
 		js+ a b
 	impl! - Num |a b:Num
@@ -74,7 +70,7 @@ region Tests
 			[ 8 ] -> 1
 		|_:Num
 			case
-				>? _ 0
+				<? 0 _
 					1
 				<? _ 0
 					-1
@@ -168,7 +164,7 @@ region Real arithmetic
 				square-root -1
 		|_:Num
 			in
-				! (>=? _ 0) "Can't take square root of negative number {_}."
+				! (<=? 0 _) "Can't take square root of negative number {_}."
 			Math.sqrt _
 
 region Rounding

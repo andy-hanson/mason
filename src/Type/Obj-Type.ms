@@ -6,9 +6,9 @@ use
 debug use~
 	..!
 	..Bool true
+	..compare =?
 	..private.js-impl +1
 	..math.Num
-	..methods =?
 	..Try fails?
 	..Type type-of
 

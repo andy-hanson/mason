@@ -1,11 +1,12 @@
 \ Also see .Map.Array-as-Map
 
 use
+	..compare <?
 	..control if
 	..Fun ignore thunk
 	..js global js-sub
 	..private.js-impl array-iterator
-	..methods <? freeze
+	..methods freeze
 	..Type.Impl-Type self-type
 	..Type.Kind kind!
 	..Type.Method impl!

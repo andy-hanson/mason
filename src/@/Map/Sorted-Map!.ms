@@ -9,7 +9,7 @@ use~
 debug use
 	...!
 	...@ each!
-	..Seq sorted?
+	...compare sorted?
 	..Map keys
 	.Map! assoc!
 

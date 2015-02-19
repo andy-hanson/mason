@@ -1,7 +1,7 @@
 use
+	..compare =? <=?
 	..math.Num log Nat pow round-down
 	..math.methods - *
-	..methods =? >=?
 	..Str
 debug use
 	..!
@@ -48,7 +48,7 @@ roman.
 				else
 					roman_
 		gt? = |dec-multiple
-			>=? n (* dec-multiple dec
+			<=? (* dec-multiple dec) n
 		case
 			gt? 9
 				"{dig 1}{dig 10}{rec 9}"

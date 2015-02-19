@@ -12,7 +12,7 @@ use
 	.Obj-Type
 debug use
 	..!
-	..methods =?
+	..compare =?
 	..Type type-of
 
 Enum = Obj-Type

@@ -1,4 +1,5 @@
 use
+	..control opr
 	..Fun ignore thunk
 	..js defined? reference=?
 	..Type.Impl-Type self-type
@@ -84,7 +85,7 @@ region Funs
 		|_:? ~fail-message
 			case
 				empty?_
-					oh-no! (?-or (Opt->? fail-message) "Tried to force empty `?`."
+					oh-no! (opr fail-message "Tried to force empty `?`."
 				else
 					_.val
 

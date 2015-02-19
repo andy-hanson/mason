@@ -1,7 +1,8 @@
 use
 	.Bool _ and false not nor xor
+	.compare =?
 	.js defined? global js== js-typeof reference=? js-sub
-	.methods =? freeze
+	.methods freeze
 	.private.bootstrap Str
 	.Symbol
 	.Type => contains?

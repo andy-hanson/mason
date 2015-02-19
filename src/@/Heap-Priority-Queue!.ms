@@ -1,9 +1,9 @@
 use
 	..Bool and not
+	..compare <?
 	..control if! returning
 	..math.Num int/
 	..math.methods + - *
-	..methods <? >?
 	.Priority-Queue! _ ?pop!
 	..Type.Impl-Type self-type
 	..Type.Kind kind!
@@ -60,7 +60,7 @@ region Implementation
 			~ip = idx-parent idx
 			~parent = heap[ip]
 			case!
-				and (>? idx 0) ~(<? val parent)
+				and (<? 0 idx) ~(<? val parent)
 					set-nth! heap idx parent
 					rec! ip
 				else

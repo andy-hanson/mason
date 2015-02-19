@@ -13,9 +13,9 @@ use~
 debug use~
 	...! _ !not
 	...Bool not
+	...compare _ =?
 	...control if!
 	...math.methods *
-	...methods =? compare
 	...Type =>
 	...Type.Wrap-Type
 	...@ map

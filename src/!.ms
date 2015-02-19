@@ -7,9 +7,9 @@ use~ \ TODO: Move as many up as possible
 	.@.Array
 	.@.Map _ each-pair!
 	.Bool _ not
+	.compare =?
 	.control if!
 	.math.Num _ near?
-	.methods =?
 	.show repr
 	.Str _ indent
 	.Try oh-no!

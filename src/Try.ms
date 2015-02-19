@@ -3,10 +3,10 @@ use
 	.@.?
 	.$ _ $after
 	.Bool and
+	.compare =?
 	.Fun _ Act ignore spread!
 	.js global new
 	.private.js-impl make-Error i-always-do-after i-oh-no! i-try
-	.methods =?
 	.Obj
 	.Obj! p! p+!
 	.Str

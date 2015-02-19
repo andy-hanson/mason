@@ -10,7 +10,7 @@ use~
 debug use~
 	..! _ !not
 	..@ each! empty?
-	..methods =?
+	..compare =?
 	..Type contains?
 	.Array
 

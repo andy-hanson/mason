@@ -1,8 +1,8 @@
 use
 	...Bool _ and false not true
+	...compare <?
 	...control if loop End-Loop
 	...js defined?
-	...methods <? >?
 	...Obj! p!
 	...Type.Impl-Type self-type
 	...Type.Kind kind!
@@ -17,7 +17,7 @@ use
 	.Sorted-Map!
 debug use
 	...! _ !not
-	...methods =?
+	...compare =?
 
 Splay-Tree! = Obj-Type
 	doc. "
@@ -61,7 +61,7 @@ kind! Splay-Tree! Sorted-Map!
 				old-root = _.root!
 				debug !not empty? _
 				p! _ "root!" case
-					>? k old-root.key
+					<? old-root.key k
 						old-right = old-root.right!
 						p! old-root "right!" undefined
 						(key. k val!. v left!. old-root right!. old-right
@@ -136,14 +136,14 @@ region Implementation
 					else
 						not-found _.cur
 
-			>? key _.cur.key
+			<? _.cur.key key
 				case
 					has-right? _.cur
 						link-left = |new-cur
 							p! _.left "right!" new-cur
 							(cur. new-cur.right! left. new-cur right. _.right
 						case
-							>? key _.cur.right!.key
+							<? _.cur.right!.key key
 								\ Rotate left
 								tmp = _.cur.right!
 								p! _.cur "right!" tmp.left!

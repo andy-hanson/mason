@@ -1,9 +1,10 @@
 \ TODO: TEST
 
 use
+	...compare =?
 	...hash-code
 	...js defined?
-	...methods =? freeze
+	...methods freeze
 	...Obj
 	...Obj! p!
 	...Type.Impl-Type self-type

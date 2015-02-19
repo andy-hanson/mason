@@ -18,9 +18,9 @@ use~
 debug use~
 	.!
 	.@.Seq seq=?
+	.compare =?
 	.control build
 	.math.methods +
-	.methods =?
 
 Fun =
 	doc. "

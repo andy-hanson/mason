@@ -1,7 +1,7 @@
 use
 	.Bool and
+	.compare _ =?
 	.js global reference=?
-	.methods =? compare
 	.Regex _ regex
 	.Type.Kind
 	.Type.Method impl!

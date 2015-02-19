@@ -1,10 +1,10 @@
 use
 	..@ _ count iterator
+	..compare <? <=?
 	..control if opr Ref! get set!
 	..Fun ignore thunk
 	..math.Num _ Nat round-down sign
 	..math.methods + - * /
-	..methods <? >=?
 	..Type.Impl-Type self-type
 	..Type.Kind kind!
 	..Type.Method impl!
@@ -15,8 +15,8 @@ use
 debug use~
 	..!
 	.? _
+	..compare =?
 	..math.Num infinity
-	..methods =?
 	.Seq seq=? take
 
 Range = Obj-Type
@@ -79,7 +79,7 @@ kind! Range @
 			cur = Ref! range.start
 			loop!
 				case! (get cur)
-					>=? _ range.end
+					<=? range.end _
 						end-loop!
 					else
 						<~ _

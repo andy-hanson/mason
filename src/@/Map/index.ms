@@ -1,8 +1,9 @@
 use
 	...Bool _ and not
+	...compare =?
 	...Fun
 	...Generator! each~
-	...methods =? freeze sub
+	...methods freeze sub
 	...Type type-of
 	...Type.Kind _ kind!
 	...Type.Method _ impl!

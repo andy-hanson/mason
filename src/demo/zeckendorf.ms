@@ -3,9 +3,9 @@ use
 	..@ fold-map
 	..@.Seq reverse tail take-while
 	..@.Stream
+	..compare =? <=?
 	..math.Num Nat
 	..math.methods + -
-	..methods =? <=? >=?
 	..Str
 	..Type =>
 
@@ -24,7 +24,8 @@ zeckendorf.
 		[ 1111 ] -> "100001010000001"
 	|n:Nat
 		z-fibs = tail fibs \ Don't include the first `1`, so `[ 1 2 3 5 8 ... ]`.
-		candidate-fibs = reverse (take-while z-fibs >=?[n] \ Highest numbers go first
+		candidate-fibs = reverse (take-while z-fibs |_
+			<=? _ n \ Highest numbers go first
 		mapped folded = fold-map candidate-fibs n |left fib
 			case fib
 				<=? _ left

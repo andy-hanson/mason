@@ -18,9 +18,9 @@ use~
 debug use~
 	.@.Stream
 	.!
+	.compare =?
 	.math.Num divisible?
 	.math.methods +
-	.methods =?
 	.Try oh-no! $try
 
 $ =

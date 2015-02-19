@@ -5,9 +5,9 @@ use
 	..@.Seq
 	..@.Seq! <++! ++>! set-nth!
 	..Bool false true
+	..compare =?
 	..control End-Loop if! loop
 	..math.methods + -
-	..methods =?
 	..Obj _ p
 	..Type =>
 	..Type.Pred-Type Any

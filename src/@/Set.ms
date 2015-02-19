@@ -1,7 +1,7 @@
 use
 	..Bool and
+	..compare =?
 	..Fun ignore
-	..methods =?
 	..Type => contains? type-of
 	..Type.Impl-Type self-type
 	..Type.Kind _ kind!

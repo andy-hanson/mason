@@ -16,7 +16,7 @@ debug use~
 	.@.Seq seq=?
 	.@.Stream
 	.Bool false true
-	.methods =?
+	.compare =?
 
 Generator! = Pred-Type
 	doc. "

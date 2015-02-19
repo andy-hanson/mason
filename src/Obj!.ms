@@ -7,7 +7,7 @@ use
 	.Type.Alias-Type
 debug use~
 	.! _ !not
-	.methods =?
+	.compare =?
 	.Obj p?
 	.Try fails?
 

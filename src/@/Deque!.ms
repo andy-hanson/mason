@@ -1,9 +1,10 @@
 use
 	..Bool and not or
+	..compare =? <?
 	..control if
 	..math.Num modulo Nat
 	..math.methods + - *
-	..methods =? <? sub
+	..methods sub
 	..Obj! p!
 	.Seq! _ <++! ++>! ?<pop! ?pop>! set-nth!
 	..Type.Impl-Type self-type

@@ -4,7 +4,7 @@ use
 	.@!
 debug use~
 	..!
-	..methods =?
+	..compare =?
 	.@! ++!
 	..@ empty?
 	.@-Type empty

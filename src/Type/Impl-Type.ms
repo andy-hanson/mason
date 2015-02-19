@@ -4,7 +4,7 @@ use
 	.Obj-Type
 debug use~
 	..! _ !not
-	..methods =?
+	..compare =?
 	..Obj! empty-Obj!
 	..Type contains?
 	.Kind kind?

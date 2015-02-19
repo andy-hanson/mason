@@ -1,5 +1,5 @@
 use
-	..methods >?
+	..compare <?
 	..Obj flag?
 	..show
 	..Str _ indent
@@ -37,7 +37,7 @@ impl! show @
 				ems = map _ |em
 					indent (show em opts
 				show-ems end = case
-					>? count_ 100
+					<? 100 count_
 						show-ems. take ems 100
 						end. "\n\t..."
 					else

@@ -8,12 +8,12 @@ debug use
 	..@.Seq seq=?
 	..@.Stream
 	..Bool and true
+	..compare =? <? <=?
 	..control Ref! get set!
 	..Fun _ ignore
 	..Generator! _ each~ gen-next!
 	..math.Num _ divisible? Int
 	..math.methods + - * /
-	..methods =? >? >=? <=?
 	..Str
 	..Try fails?
 
@@ -145,7 +145,7 @@ test. |
 		i = Ref! 10
 		loop!
 			case! get i
-				>? _ 0
+				<? 0 _
 					log! _
 					set! i (- _ 1)
 				else
@@ -225,6 +225,6 @@ test. |
 	! =? log [ "Incrementing 0" "Incrementing 1" "Incrementing 2" ]
 
 	in-range?. |n min max
-		and (>=? n min) ~(<=? n max)
+		and (<=? min n) ~(<=? n max)
 	! in-range? 1 0 2
 	!not in-range? 3 0 2

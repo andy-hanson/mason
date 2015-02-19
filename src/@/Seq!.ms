@@ -12,7 +12,7 @@ use~
 	.Deque!
 debug use~
 	..!
-	..methods =?
+	..compare =?
 	..@ empty?
 	.Array
 	.Array!

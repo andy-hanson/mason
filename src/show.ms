@@ -1,9 +1,9 @@
 use
 	.Bool _ true
+	.compare =?
 	.js js+
 	.private.bootstrap p+! ms
 	.private.js-impl new-Set
-	.methods =?
 	.Obj flag? p ?p @p
 	.Str _ indent
 	.Symbol

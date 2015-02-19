@@ -1,9 +1,9 @@
 use
 	..Bool _ and not
+	..compare =?
 	..Fun _ Act identity Pred
 	..js defined? reference=?
 	..math.methods +
-	..methods =? <?
 	..Obj
 	..Obj! p+!
 	..private.bootstrap ms
@@ -12,19 +12,19 @@ use
 	..Type.Method _ impl!
 	..Type.Pred-Type Any Opt
 use~
-	..control if if! opr Ref! get set!
+	..control opr Ref! get set!
 	..Generator!
 	..math.Num Nat
 	.@! --!
 	.@-Type empty
-	.? _ un-?
+	.?
 	.Array
 	.Seq first seq=? tail
 	.Set!
 	.Stream
 debug use~
 	..Bool false true
-	..control build
+	..control build if!
 	..! _ !not
 	..math.Num divisible?
 	..Try fails?
@@ -345,63 +345,5 @@ region Lazy functions, and their eager versions.
 			! =? [ 1 ] [ 1 ]
 		|@a @b
 			and (reference=? (type-of @a) (type-of @b)) ~(seq=? @a @b
-
-region Min/max (TODO: its own file?)
-	\ TODO: Method, specialize on Sorted-Set
-	max.
-		doc. "An element that is >=? all others. Fails when empty."
-		test. |
-			[ [ 1 3 2 ] ] -> 3
-			[ [ 2 1 2 ] ] -> 2 \ Doesn't have to be unique
-			! fails? |
-				max [ ]
-		|_:@
-			un-? ?max_ "Can not take max of empty."
-
-	?max.
-		doc. "Like max, but returns empty ? for empty."
-		test. |
-			[ [ 1 ] ] -> ? 1
-			[ [ ] ] -> empty ?
-		|_:@
-			?max-by _ identity
-
-	max-by.
-		doc. "
-			An element whose `by em` is >=? all other elements' `by em`s.
-			Like `max (map _ by)` except the mapping is not applied to the result.
-		test. |
-			[ [ "five" "six" "seven" ] count ] -> "seven"
-			! fails? |
-				max-by [ ] identity
-		|_:@ by:Fun
-			un-? (?max-by _ by) "Can not take max of empty."
-
-	?max-by.
-		doc. "Like max-by, but returns empty ? for empty."
-		test. |
-			[ [ 1 ] identity ] -> ? 1
-			[ [ ] identity ] -> empty ?
-		|_:@ by:Fun
-			if (not empty?_) |
-				iter = iterator_
-				value = iter.next().value
-				cur-max = Ref! value
-				cur-max-by = Ref! (by value
-				loop!
-					value done = iter.next()
-					case!
-						done
-							end-loop!
-						else
-							value-by = by value
-							if! (<? (get cur-max-by) value-by) |
-								set! cur-max value
-								set! cur-max-by value-by
-				get cur-max
-
-
-	\ TODO: min method, specialize on Sorted-Set
-
 
 @

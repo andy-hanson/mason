@@ -7,7 +7,7 @@ use
 	.Type.Pred-Type Any
 debug use~
 	.!
-	.methods =?
+	.compare =?
 	.Type contains?
 
 Js-Method = Obj-Type

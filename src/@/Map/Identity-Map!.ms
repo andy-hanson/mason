@@ -13,7 +13,7 @@ use
 	.Map-Type
 debug use
 	...!
-	...methods =?
+	...compare =?
 	..Seq seq=?
 
 Identity-Map! =

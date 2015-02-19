@@ -13,7 +13,7 @@ use~
 debug use~
 	..! _ !not
 	..@.Stream
-	..methods =?
+	..compare =?
 	..Try fails-with?
 	..Type => contains?
 	.Method

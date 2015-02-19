@@ -4,12 +4,12 @@ use
 	.@.Array
 	.@.Map.Weak-Identity-Map!
 	.Bool
+	.compare =?
 	.Fun
 	.js reference=?
 	.math.bit-arithmetic bit-and hexidecimal
 	.math.Num _ Int round-towards-0
 	.math.methods + *
-	.methods =?
 	.Obj p ?p @p-all
 	.Str
 	.Symbol

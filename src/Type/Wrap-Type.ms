@@ -12,10 +12,10 @@ use
 	..Type _ contains?
 debug use~
 	..!
+	..compare =?
 	..control if!
 	..js defined?
 	..math.Num
-	..methods =?
 	..Try fails?
 
 Wrap-Type = Obj-Type

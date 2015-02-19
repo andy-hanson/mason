@@ -17,8 +17,8 @@ use~
 debug use~
 	.! _ !call
 	.Bool false true
+	.compare =?
 	.math.methods +
-	.methods =?
 	.Fun ignore thunk
 
 opr.

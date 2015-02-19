@@ -9,10 +9,10 @@ use
 	..@.Identity-Set!
 	..@.Map
 	..Bool _ and false or true
+	..compare =?
 	..control if
 	..Fun _ ignore
 	..Generator!
-	..methods =?
 	..modules $@module-in-dir
 	..Obj _ ?p p p? @p @p-all
 	..Str

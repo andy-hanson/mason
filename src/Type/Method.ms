@@ -14,8 +14,8 @@ use~
 debug use~
 	..@.@-Type empty
 	..@.?
+	..compare =?
 	..math.Num
-	..methods =?
 	..Try fails?
 
 writable? = |obj property

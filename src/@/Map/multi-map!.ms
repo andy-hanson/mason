@@ -8,7 +8,7 @@ use
 	.Map! _ get-or-add!
 debug use
 	...!
-	...methods =?
+	...compare =?
 
 add-to-@!.
 	doc. "

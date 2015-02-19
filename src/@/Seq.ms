@@ -1,16 +1,16 @@
 use
-	..Bool false not true
-	..control End-Loop if loop opr returning
-	..Fun _ identity Pred
+	..Bool false not
+	..compare =?
+	..control End-Loop if loop
+	..Fun _ Pred
 	..math.methods - +
-	..methods =? <? compare freeze sub
+	..methods freeze sub
 	..Str indent
 	..Type => type-of
 	..Type.Impl-Type self-type
 	..Type.Kind _ kind!
 	..Type.Method _ impl!
-	..Type.Pred-Type Any Opt
-	..@ _ ++ all? count empty? iterator
+	..@ _ ++ count empty? iterator
 	.@-Type _ empty from-stream
 use~
 	..control Ref! get mod! set!
@@ -23,6 +23,7 @@ use~
 	.Stream
 debug use~
 	..! _ !not
+	..compare <?
 	..Try fails?
 
 Seq = Kind
@@ -59,7 +60,7 @@ region Very first and last
 		test. |
 			[ [ 1 2 ] ] -> ? 1
 			[ [ ] ] -> empty ?
-		default. |:Any _
+		default. |_
 			?nth _ 0
 
 	last.
@@ -76,7 +77,7 @@ region Very first and last
 		test. |
 			[ [ 1 2 ] ] -> ? 2
 			[ [ ] ] -> empty ?
-		default. |:Any _
+		default. |_
 			if (not empty?_) |
 				_[(- count_ 1)]
 
@@ -135,7 +136,7 @@ region Search
 						()
 
 	?nth. Method
-		doc. |:Any _ n:Nat
+		doc. |_ n:Nat
 			"
 				`n`th element in iteration order, if there are at least that many values.
 				0th is the first."
@@ -284,42 +285,6 @@ region Combination
 			[ [ 1 2 ] [ 10 20 ] + ] -> [ 11 22 ]
 		|@a:@ @b:@ zipper:Fun[2]
 			=> (type-of @a) (zip @a @b zipper
-
-region Sorting
-	sorted?.
-		doc. "Whether it is already in sorted order."
-		test. |
-			[ [ ] ] -> true
-			[ [ 1 2 3 ] ] -> true
-			[ [ 3 2 1 ] ] -> false
-			[ [ "six" "five" "seven" ] count ] -> true
-		|seq:Seq ?sort-by:Opt[Fun]
-			sort-by = opr ?sort-by identity
-			case ?first seq
-				empty?_
-					true
-				else
-					\ TODO: Use `sliding`, and avoid calling `sort-by` more than necessary.
-					prev = Ref! _.val
-					all? (tail seq) |em
-						returning (<? (sort-by (get prev)) (sort-by em)) |
-							set! prev em
-
-	sort. Method
-		doc. "
-			Puts the elements in sorted order.
-			Order is determined by calling `compare`.
-			Optional `sort-by` determines an attribute of elements to be compared.
-		test. |
-			[ [ 3 2 1 ] ] -> [ 1 2 3 ]
-			[ [ "five" "six" "seven" ] count ] -> [ "six" "five" "seven" ]
-		default. |:Array _:@ ?sort-by:Opt[Fun]
-			sort-by = opr ?sort-by identity
-			\ Ensure that we create a *new* Array!, because we're about to mutate it.
-			sorted = from-stream Array! _
-			sorted.sort |a b
-				compare (sort-by a) (sort-by b
-			sorted
 
 region TODO: put somewhere
 	groups-of.
