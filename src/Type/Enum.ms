@@ -1,13 +1,13 @@
 use
 	..@ each!
 	..@.Array
-	..methods <!
 	..Obj
 	..Obj! p+!
 	..show
 	..Str
 	..Type contains?
 	.Impl-Type
+	.Kind kind!
 	.Method impl!
 	.Obj-Type
 debug use
@@ -47,7 +47,7 @@ Enum = Obj-Type
 		impl! show enum |val
 			"{enum.displayName}.{val.name}"
 
-<! Enum Impl-Type
+kind! Enum Impl-Type
 
 impl! contains? Enum |_ value
 	Obj.prototype.isPrototypeOf.call _.prototype value

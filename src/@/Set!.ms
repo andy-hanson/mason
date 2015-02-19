@@ -1,8 +1,7 @@
 use
 	..Fun ignore
-	..methods <!
 	..Type.Impl-Type self-type
-	..Type.Kind
+	..Type.Kind _ kind!
 	.@!
 	.@-Type empty
 	.@-Type _ from-stream
@@ -29,7 +28,7 @@ Set! = Kind
 		empty! _
 		! empty? _
 
-<! (self-type Set!) @-Type
+kind! (self-type Set!) @-Type
 	empty -> |
 		empty Hash-Set!
 	from-stream -> |set _
@@ -38,7 +37,7 @@ Set! = Kind
 
 
 \ TODO: Way to determine which one of these is more important
-<! Set! Set
-<! Set! @!
+kind! Set! Set
+kind! Set! @!
 
 Set!

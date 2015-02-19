@@ -3,10 +3,11 @@ use
 	..control if
 	..math.Num modulo Nat
 	..math.methods + - *
-	..methods =? <! <? sub
+	..methods =? <? sub
 	..Obj! p!
 	.Seq! _ <++! ++>! ?<pop! ?pop>! set-nth!
 	..Type.Impl-Type self-type
+	..Type.Kind kind!
 	..Type.Pred-Type Any
 	..Type.Obj-Type
 	..@ _ ++ count each! empty? iterator map map'
@@ -24,7 +25,7 @@ Deque! = Obj-Type
 		start-index!. Nat \ Inclusive (unless =? end-index)
 		end-index!. Nat \ Exclusive
 
-<! (self-type Deque!) @-Type
+kind! (self-type Deque!) @-Type
 	empty -> |
 		Deque!
 			data!. empty Array! 8
@@ -64,7 +65,7 @@ region Helpers
 				if (and (<? _.end-index! _.start-index!) ~(<? b _.end-index!)) |
 					b
 
-<! Deque! Seq!
+kind! Deque! Seq!
 	iterator -> |_
 		indices = case
 			<? _.end-index! _.start-index!

@@ -4,8 +4,9 @@ use
 	..Fun ignore thunk
 	..math.Num _ Nat round-down sign
 	..math.methods + - * /
-	..methods <! <? >=?
+	..methods <? >=?
 	..Type.Impl-Type self-type
+	..Type.Kind kind!
 	..Type.Method impl!
 	..Type.Pred-Type Opt
 	..Type.Obj-Type
@@ -31,7 +32,6 @@ Range = Obj-Type
 	test. |
 		! seq=? [ 0 1 2 ] (take (range 0 infinity) 3
 
-
 \ TODO:SYNTAX
 range. |-start-:Num -end-:Num ?step:Opt[Num]
 	-step- = opr ?step (sign (- -end- -start-
@@ -39,6 +39,10 @@ range. |-start-:Num -end-:Num ?step:Opt[Num]
 		start. -start-
 		end. -end-
 		step. -step-
+
+kind! (self-type Range) @-Type
+	empty -> thunk (range 0 0)
+
 
 length.
 	doc. "Difference between and and start values."
@@ -52,7 +56,7 @@ impl! from-stream (self-type Range) |_ stream
 	ignore _ \ TODO:Ignored vars
 	stream
 
-<! Range @
+kind! Range @
 	?nth ->
 		test. |
 			r = range 0 10 2
@@ -88,8 +92,5 @@ impl! from-stream (self-type Range) |_ stream
 			\		<~ _
 			\		<~~ f (+ _ range.step
 			\f range.start
-
-<! (self-type Range) @-Type
-	empty -> thunk (range 0 0)
 
 Range

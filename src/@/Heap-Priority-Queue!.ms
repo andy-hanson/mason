@@ -3,9 +3,10 @@ use
 	..control if! returning
 	..math.Num int/
 	..math.methods + - *
-	..methods <! <? >?
+	..methods <? >?
 	.Priority-Queue! _ ?pop!
 	..Type.Impl-Type self-type
+	..Type.Kind kind!
 	..Type.Wrap-Type
 	..@ count each! empty? iterator map'
 	.@! ++! empty!
@@ -19,11 +20,11 @@ Heap-Priority-Queue!. Wrap-Type
 	doc. "Default implementation for Priority-Queue!."
 	wrapped-type. Array!
 
-<! (self-type Heap-Priority-Queue!) @-Type
+kind! (self-type Heap-Priority-Queue!) @-Type
 	empty -> |
 		Heap-Priority-Queue! (empty Array!
 
-<! Heap-Priority-Queue! Priority-Queue!
+kind! Heap-Priority-Queue! Priority-Queue!
 	++! -> |_ added
 		each! added add![_.val]
 	?pop! -> |_

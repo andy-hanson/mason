@@ -1,10 +1,10 @@
 use
 	..control returning
 	..Fun identity
-	..methods <! sub
+	..methods sub
 	..Type =>
 	..Type.Impl-Type self-type
-	..Type.Kind
+	..Type.Kind _ kind!
 	..Type.Method _ impl!
 	..@
 use~
@@ -34,7 +34,7 @@ from-stream. Method
 
 
 \ TODO: Do this in index.ms
-<! (self-type @) @-Type
+kind! (self-type @) @-Type
 impl! empty (self-type @) |
 	empty Array
 

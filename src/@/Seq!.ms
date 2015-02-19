@@ -1,8 +1,7 @@
 use
 	..math.Num Nat
-	..methods <!
 	..Type.Impl-Type self-type
-	..Type.Kind
+	..Type.Kind _ kind!
 	..Type.Method
 	..@
 	.@!
@@ -42,8 +41,12 @@ Seq! = Kind
 		! empty? _
 		++>! _ [ 1 2 3
 
-<! Seq! @!
-<! Seq! Seq
+kind! (self-type Seq!) @-Type
+	empty -> |
+		empty Deque!
+
+kind! Seq! @!
+kind! Seq! Seq
 
 <++!. Method
 	doc. |_ added:@
@@ -63,9 +66,5 @@ Seq! = Kind
 set-nth!. Method
 	doc. |_ n:Nat val
 		"Makes `_[n]` be `val`."
-
-<! (self-type Seq!) @-Type
-	empty -> |
-		empty Deque!
 
 Seq!

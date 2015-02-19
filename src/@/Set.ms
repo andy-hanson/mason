@@ -1,10 +1,10 @@
 use
 	..Bool and
 	..Fun ignore
-	..methods =? <!
+	..methods =?
 	..Type => contains? type-of
 	..Type.Impl-Type self-type
-	..Type.Kind
+	..Type.Kind _ kind!
 	..Type.Method _ impl!
 	..@ _ all? count keep
 	.@-Type _ empty from-stream
@@ -18,8 +18,8 @@ debug use~
 Set = Kind
 	doc. "@ without repeat values."
 
-<! Set @
-<! (self-type Set) @-Type
+kind! Set @
+kind! (self-type Set) @-Type
 	empty -> |
 		empty Hash-Set!
 	from-stream -> |set _

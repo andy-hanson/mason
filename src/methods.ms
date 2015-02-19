@@ -12,10 +12,6 @@ region Basics
 	p+! ms "sub" sub
 
 region Comparison
-	<!. Method
-		doc. |a b
-			"Cause `<? a b`."
-
 	compare. Method
 		doc. "
 			A Num < 0 if a < b, > 0 if a > b, and = 0 if a = b.

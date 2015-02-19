@@ -1,8 +1,8 @@
 use
 	..js reference=?
-	..methods <!
 	..Obj! p!
 	..Type.Impl-Type self-type
+	..Type.Kind kind!
 	..Type.Obj-Type
 	..@ _ ++' empty? iterator
 	.@-Type _ empty from-stream
@@ -18,14 +18,14 @@ LList. Obj-Type
 empty-LList = LList head. undefined tail. undefined
 p! empty-LList "tail" empty-LList
 
-<! (self-type LList) @-Type
+kind! (self-type LList) @-Type
 	empty -> |
 		empty-LList
 
 	from-stream -> |_
 		<++' empty-LList _
 
-<! LList Seq
+kind! LList Seq
 	empty? -> |_
 		reference=? _ empty-LList
 

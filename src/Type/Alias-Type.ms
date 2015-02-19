@@ -1,6 +1,7 @@
 use
-	..methods <! sub
+	..methods sub
 	..private.bootstrap Str
+	.Kind kind!
 	.Method impl!
 	.Obj-Type
 	..Type _ contains?
@@ -21,7 +22,7 @@ Alias-Type. Obj-Type
 		alias-of. Type
 	extensible.
 
-<! Alias-Type Type
+kind! Alias-Type Type
 
 \ TODO: impl-delegate!
 impl! contains? Alias-Type |_ value

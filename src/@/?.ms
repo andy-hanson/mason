@@ -1,8 +1,8 @@
 use
 	..Fun ignore thunk
 	..js defined? reference=?
-	..methods <!
 	..Type.Impl-Type self-type
+	..Type.Kind kind!
 	..Type.Method impl!
 	..Type.Wrap-Type
 	..@ empty? iterator
@@ -24,18 +24,7 @@ empty-? =
 	? empty-marker
 
 region Is Seq
-	<! ? Seq
-
-	impl! empty? ? |_
-		reference=? _ empty-?
-
-	impl! iterator ? ~|case!
-		empty?_
-			()
-		else
-			<~ _.val
-
-	<! (self-type ?) @-Type
+	kind! (self-type ?) @-Type
 
 	impl! from-stream (self-type ?) |_ stream
 		ignore _ \ TODO:Ignored vars
@@ -48,6 +37,17 @@ region Is Seq
 				? value
 
 	impl! empty (self-type ?) (thunk empty-?
+
+	kind! ? Seq
+
+	impl! empty? ? |_
+		reference=? _ empty-?
+
+	impl! iterator ? ~|case!
+		empty?_
+			()
+		else
+			<~ _.val
 
 region Funs
 	Opt->?.

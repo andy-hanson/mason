@@ -1,21 +1,22 @@
 use
-	..Bool not true
-	..js global js-sub
+	..Bool or not true
+	..js defined? global js-sub reference=?
 	..private.bootstrap Array impl-contains?! Obj p+! Str Symbol
 	..private.js-impl empty? Kind-contains?
-	.Method propagate-method-down!
+	.Method impl! propagate-method-down!
 	.Obj-Type
 use~
 	..@ _ flat-map
+	..@.Map each-pair!
 	.Impl-Type
 	..methods freeze frozen?
 debug use~
-	..!
+	..! _ !not
 	..@.Stream
-	..methods =? <!
+	..methods =?
 	..Try fails-with?
 	..Type => contains?
-	.Method _ impl!
+	.Method
 
 Kind. Obj-Type
 	doc. "
@@ -25,7 +26,7 @@ Kind. Obj-Type
 		-
 		The `prototype` on a Kind is not meant to be used as a prototype.
 		It stores the impl!_s that have been done on the Kind0.
-		impl! and <! make sure that Concrete-Types receive the methods of their Kinds.
+		impl! and kind! make sure that Concrete-Types receive the methods of their Kinds.
 		They require the Kind to correctly track super-kinds and implementors.
 	test. |
 		region Inheritance chans - one way
@@ -36,8 +37,8 @@ Kind. Obj-Type
 			C = Obj-Type
 				props.
 					c.
-			<! B A
-			<! C B
+			kind! B A
+			kind! C B
 			c = C
 				c. 1
 			! contains? A c
@@ -50,8 +51,8 @@ Kind. Obj-Type
 			Z = Obj-Type
 				props.
 					x.
-			<! Z Y
-			<! Y X
+			kind! Z Y
+			kind! Y X
 			z = Z
 				x. 1
 			! contains? X z
@@ -68,7 +69,7 @@ Kind. Obj-Type
 			Closed = Kind
 				implementors. [ C Z ]
 			! fails-with? "Closed is not open to new subtypes." |
-				<! X Closed
+				kind! X Closed
 
 	props.
 		displayName. Str
@@ -102,10 +103,10 @@ Kind. Obj-Type
 can-subtype?. |_:Kind
 	not (frozen? _.implementors
 
-\ Making something an instance of Impl-Type is difficult because implementor! checks that it's already an Impl-Type...
-unchecked-implementor!.
+\ Making something an instance of Impl-Type is difficult because kind! checks that it's already an Impl-Type...
+unchecked-kind!.
 	doc. "
-		<! without any checks.
+		kind! without any checks.
 		Necessary if trying to implement Impl-Type itself.
 	|implementor kind
 		kind.implementors.push implementor
@@ -145,9 +146,9 @@ concrete-implementors.
 		W = Obj-Type
 			props.
 				w.
-		<! Y X
-		<! Z X
-		<! W Y
+		kind! Y X
+		kind! Z X
+		kind! W Y
 		[ X ] -> => Stream [ W Z ]
 	|:@[Impl-Type] kind:Kind
 		flat-map kind.implementors |case
@@ -155,6 +156,41 @@ concrete-implementors.
 				concrete-implementors_
 			else
 				[ _ ]
+
+kind!.
+	doc. "
+		Makes one Impl-Type a subtype of a Kind.
+		Kinds can subtype each other.
+	test. "See Impl-Type.test."
+	\ TODO: Assert no circular chains of kind!.
+	|implementor:Impl-Type kind:Kind method-impls
+		in
+			! (can-subtype? kind) ~"{kind} is not open to new subtypes."
+			!not kind? implementor kind
+
+		unchecked-kind! implementor kind
+		case! method-impls
+			defined?_
+				each-pair! _ |method implementation
+					impl! method implementor implementation
+			else
+				()
+
+kind?.
+	doc. "
+		Whether one Impl-Type is a subtype of a Kind."
+		implementor may itself be a Kind.
+	test. "See Impl-Type.test."
+	|implementor:Impl-Type kind:Kind
+		case implementor
+			:Kind
+				_.super-kinds.some |super
+					\ TODO: Just use `=? super kind` ?
+					or (reference=? super kind) ~(kind? super kind)
+			else
+				_ = implementor.prototype
+				:kind
+
 
 impl-contains?! Kind Kind-contains?
 

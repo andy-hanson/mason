@@ -4,9 +4,10 @@ use
 	..Fun ignore
 	..js js-set
 	..math.Num Nat
-	..methods <! frozen?
+	..methods frozen?
 	..Type =>
 	..Type.Impl-Type self-type
+	..Type.Kind kind!
 	..Type.Pred-Type
 	..@ _ each! empty?
 	.@! empty!
@@ -21,7 +22,7 @@ Array! = Pred-Type
 	predicate. |_
 		and :Array ~(not frozen?_)
 
-<! (self-type Array!) @-Type
+kind! (self-type Array!) @-Type
 	empty -> |array! ?initial-size
 		initial-size = opr ?initial-size 0
 		ignore array! \ TODO:Ignored vars
@@ -35,7 +36,7 @@ Array! = Pred-Type
 		it
 
 \ We're defining these on Arrays, but they will only work for Array!s because Arrays are frozen
-<! Array Seq!
+kind! Array Seq!
 	<++! -> |_ added:@
 		\ TODO:SYNTAX _.unshift ...added
 		Array.prototype.unshift.apply _ (=> Array added

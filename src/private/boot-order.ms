@@ -6,6 +6,6 @@ install()
 use!
 	..Type \ This turns on type checks!
 	..Fun
-	..@.Array \ <! Array @
+	..@.Array \ kind! Array @
 	..@.Map.Hash-Map \ Provides _ms.map
 	..show \ Important to load this now, as it will help error messages

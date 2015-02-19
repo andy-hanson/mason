@@ -5,8 +5,9 @@ use
 	..Fun ignore thunk
 	..js global js-sub
 	..private.js-impl array-iterator
-	..methods <! <? freeze
+	..methods <? freeze
 	..Type.Impl-Type self-type
+	..Type.Kind kind!
 	..Type.Method impl!
 	..@ count iterator
 	.@-Type _ empty from-stream
@@ -19,14 +20,14 @@ Array =
 	doc. "Javascript's native mutable Array type. TODO: `Array` vs `Array!`"
 	global.Array
 
-<! Array Seq
+kind! Array Seq
 
 impl! count Array |_
 	_.length
 \ TODO:ES6 This should be implemented for me
 impl! iterator Array array-iterator
 
-<! (self-type Array) @-Type
+kind! (self-type Array) @-Type
 impl! empty (self-type Array) (thunk [])
 
 impl! from-stream (self-type Array) |_ stream

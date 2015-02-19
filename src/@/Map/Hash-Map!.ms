@@ -3,10 +3,11 @@
 use
 	...hash-code
 	...js defined?
-	...methods =? <! freeze
+	...methods =? freeze
 	...Obj
 	...Obj! p!
 	...Type.Impl-Type self-type
+	...Type.Kind kind!
 	...Type.Method impl!
 	...Type.Obj-Type
 	...@ flat-map map'
@@ -38,9 +39,9 @@ Hash-Map! = Obj-Type
 	props.
 		hash->bucket. Identity-Map!
 
-<! Hash-Map! Map!
+kind! Hash-Map! Map!
 
-<! (self-type Hash-Map!) Map-Type
+kind! (self-type Hash-Map!) Map-Type
 impl! empty (self-type Hash-Map!) |
 	Hash-Map!
 		hash->bucket. empty Identity-Map!

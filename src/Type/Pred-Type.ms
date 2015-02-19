@@ -3,9 +3,10 @@ use
 	..Fun ignore Pred
 	.Impl-Type self-type
 	..js defined? reference=?
-	..methods <! sub
+	..methods sub
 	..Obj
 	..private.bootstrap Str
+	.Kind kind!
 	.Method impl!
 	.Obj-Type
 	..Type _ contains?
@@ -20,7 +21,7 @@ Pred-Type = Obj-Type
 		predicate. Pred
 	extensible.
 
-<! Pred-Type Type
+kind! Pred-Type Type
 impl! contains? Pred-Type |_ value
 	_.predicate value
 
@@ -41,7 +42,7 @@ region Opt
 		doc. "Result of calling Opt[something]."
 		props.
 			Exists-Type. Type
-	<! Opt-Sub Type
+	kind! Opt-Sub Type
 	impl! contains? Opt-Sub |nt _
 		or (not defined?_) ~(contains? nt.Exists-Type _)
 

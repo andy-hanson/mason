@@ -1,7 +1,6 @@
 use
-	...methods <!
 	...Type.Impl-Type self-type
-	...Type.Kind
+	...Type.Kind _ kind!
 	...Type.Method _ impl!
 	...Type.Pred-Type Any
 	...@ _ each! empty?
@@ -63,7 +62,7 @@ Map! = Kind
 		assoc! _ zero 1
 		! =? _[zero] 1
 
-<! (self-type Map!) Map-Type
+kind! (self-type Map!) Map-Type
 impl! empty (self-type Map!) |
 	empty Hash-Map!
 
@@ -105,6 +104,6 @@ get-or-add!. Method
 			else
 				_.val
 
-<! Map! Map
+kind! Map! Map
 
 Map!

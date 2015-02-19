@@ -1,8 +1,9 @@
 use
 	..@ each! iterator
 	..Bool true
-	..methods =? <!
+	..methods =?
 	..Type.Impl-Type self-type
+	..Type.Kind kind!
 	..Type.Method impl! impl-for
 	..Type.Obj-Type
 	.@! ++! --! empty!
@@ -20,12 +21,12 @@ Hash-Set! = Obj-Type
 	props.
 		data. Hash-Map!
 
-<! (self-type Hash-Set!) @-Type
+kind! (self-type Hash-Set!) @-Type
 	empty -> |
 		Hash-Set!
 			data. empty Hash-Map!
 
-<! Hash-Set! Set!
+kind! Hash-Set! Set!
 	iterator -> |_
 		iterator (keys _.data
 

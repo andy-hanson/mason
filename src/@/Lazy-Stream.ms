@@ -3,8 +3,8 @@ use
 	..Generator! _ each~
 	..math.Num Nat
 	..math.methods -
-	..methods <!
 	..Type.Impl-Type self-type
+	..Type.Kind kind!
 	..Type.Obj-Type
 	..@ count empty? iterator
 	.@! ++!
@@ -31,7 +31,7 @@ Lazy-Stream = Obj-Type
 		caching-iterator. Generator!
 		cache. Array!
 
-<! (self-type Lazy-Stream) @-Type
+kind! (self-type Lazy-Stream) @-Type
 	empty -> thunk (Lazy-Stream
 		caching-iterator. empty Generator!
 		cache. empty Array!
@@ -41,7 +41,7 @@ Lazy-Stream = Obj-Type
 		lazy-streaming |
 			iterator stream
 
-<! Lazy-Stream Seq
+kind! Lazy-Stream Seq
 	iterator ->
 		test. |
 			! =? [ 1 2 ] (build |yield

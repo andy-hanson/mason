@@ -1,9 +1,8 @@
 use
 	..js js-instanceof
-	..methods <!
 	..private.bootstrap Fun impl-contains?! ms p+!
 	.Impl-Type
-	.Kind
+	.Kind _ kind!
 	.Method
 use~
 	..@.? ?-or
@@ -45,8 +44,8 @@ type-of.
 		?-or (?p-with-proto obj "constructor") Obj
 
 region We make some things Types here due to bootstrapping order issues.
-	<! Impl-Type Type
-	<! Method Type
+	kind! Impl-Type Type
+	kind! Method Type
 
 	\ TODO: Move?
 	impl-contains?! Fun |fun _

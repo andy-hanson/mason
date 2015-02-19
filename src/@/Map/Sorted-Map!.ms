@@ -1,7 +1,6 @@
 use
-	...methods <!
 	...Type.Impl-Type self-type
-	...Type.Kind
+	...Type.Kind _ kind!
 	..@-Type empty
 	.Map!
 	.Map-Type
@@ -24,10 +23,10 @@ Sorted-Map! = Kind
 			assoc! _ key key
 		! sorted? keys_
 
-<! (self-type Sorted-Map!) Map-Type
+kind! (self-type Sorted-Map!) Map-Type
 	empty -> |
 		empty Splay-Tree!
 
-<! Sorted-Map! Map!
+kind! Sorted-Map! Map!
 
 Sorted-Map!

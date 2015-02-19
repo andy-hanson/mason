@@ -2,9 +2,9 @@ use
 	..@ _ iterator
 	..Fun _ ignore thunk
 	..Generator!
-	..methods <!
 	..Type =>
 	..Type.Impl-Type self-type
+	..Type.Kind kind!
 	..Type.Method impl!
 	..Type.Wrap-Type
 	.@-Type _ empty from-stream
@@ -26,11 +26,11 @@ Stream = Wrap-Type
 		\ They can be used twice!
 		! seq=? _ [ 1 2 ]
 
-<! Stream Seq
+kind! Stream Seq
 impl! iterator Stream |_
 	_.val ()
 
-<! (self-type Stream) @-Type
+kind! (self-type Stream) @-Type
 impl! empty (self-type Stream) (thunk (Stream |
 	empty Generator!
 impl! from-stream (self-type Stream) |_ stream

@@ -2,9 +2,10 @@ use
 	...Bool _ and false not true
 	...control if loop End-Loop
 	...js defined?
-	...methods <! <? >?
+	...methods <? >?
 	...Obj! p!
 	...Type.Impl-Type self-type
+	...Type.Kind kind!
 	...Type.Obj-Type
 	...@ empty?
 	..@! empty!
@@ -25,12 +26,12 @@ Splay-Tree! = Obj-Type
 	props.
 		root!.
 
-<! (self-type Splay-Tree!) Map-Type
+kind! (self-type Splay-Tree!) Map-Type
 	empty -> |
 		Splay-Tree!
 			root!. undefined
 
-<! Splay-Tree! Sorted-Map!
+kind! Splay-Tree! Sorted-Map!
 	empty? -> |_
 		not (defined? _.root!
 	empty! -> |_

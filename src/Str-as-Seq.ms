@@ -7,11 +7,11 @@ use
 	.@.Seq
 	.control opr
 	.Fun ignore thunk
-	.methods <!
 	.show
 	.Str
 	.Type =>
 	.Type.Impl-Type self-type
+	.Type.Kind kind!
 	.Type.Method impl! impl-for
 	.Type.Pred-Type Opt
 debug use
@@ -22,14 +22,14 @@ debug use
 test. |
 	! =? [ "1" "2" "3" ] (map "123" identity)
 
-<! Str Seq
+kind! Str Seq
 	count -> |_
 		_.length
 	\ TODO:ES6 should be built-in
 	\ TODO: How does this handle Unicode?
 	iterator -> impl-for iterator Array
 
-<! (self-type Str) @-Type
+kind! (self-type Str) @-Type
 	empty -> thunk ""
 	\ TODO
 	from-stream -> impl-for from-stream (self-type Array)

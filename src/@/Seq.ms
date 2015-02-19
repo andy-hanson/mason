@@ -3,11 +3,11 @@ use
 	..control End-Loop if loop opr returning
 	..Fun _ identity Pred
 	..math.methods - +
-	..methods =? <! <? compare freeze sub
+	..methods =? <? compare freeze sub
 	..Str indent
 	..Type => type-of
 	..Type.Impl-Type self-type
-	..Type.Kind
+	..Type.Kind _ kind!
 	..Type.Method _ impl!
 	..Type.Pred-Type Any Opt
 	..@ _ ++ all? count empty? iterator
@@ -28,9 +28,9 @@ debug use~
 Seq = Kind
 	doc. "@ whose values are in a meaningful order."
 
-<! Seq @
+kind! Seq @
 
-<! (self-type Seq) @-Type
+kind! (self-type Seq) @-Type
 impl! empty (self-type Seq) |
 	empty Array
 

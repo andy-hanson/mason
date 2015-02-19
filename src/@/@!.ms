@@ -1,7 +1,6 @@
 use
-	..methods <!
 	..Type.Impl-Type self-type
-	..Type.Kind
+	..Type.Kind _ kind!
 	..Type.Method _ impl!
 	..@
 	.@-Type _ empty
@@ -34,7 +33,11 @@ debug use~
 			!not contains? _ em
 		! empty? _
 
-<! @! @
+kind! (self-type @!) @-Type
+impl! empty (self-type @!) |
+	empty Array!
+
+kind! @! @
 
 empty!. Method
 	doc. "Mutates this collection so that it will be `empty?`."
@@ -56,9 +59,5 @@ empty!. Method
 			For Seqs these are removed starting from the left.
 	test. |
 		"TODO:impl-test"
-
-<! (self-type @!) @-Type
-impl! empty (self-type @!) |
-	empty Array!
 
 @!

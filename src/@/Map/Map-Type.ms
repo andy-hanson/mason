@@ -1,11 +1,11 @@
 use
 	...control returning
 	...Fun identity
-	...methods <! sub
+	...methods sub
 	...Type =>
 	...Type.Impl-Type self-type
 	...Type.Method _ impl!
-	...Type.Kind
+	...Type.Kind _ kind!
 	..@-Type empty
 	..Map
 use~
@@ -18,7 +18,7 @@ Map-Type = Kind
 impl! sub Map-Type identity
 
 \ TODO: Do this in index.ms
-<! (self-type Map) Map-Type
+kind! (self-type Map) Map-Type
 impl! empty (self-type Map) |
 	empty Hash-Map!
 

@@ -1,6 +1,5 @@
 use
-	..methods <!
-	..Type.Kind
+	..Type.Kind _ kind!
 	..Type.Method
 	.@!
 debug use~
@@ -24,7 +23,7 @@ Priority-Queue! = Kind
 		! =? (? 3) ?pop!_
 		! empty? _
 
-<! Priority-Queue! @!
+kind! Priority-Queue! @!
 
 \ TODO: Move?
 ?pop!. Method

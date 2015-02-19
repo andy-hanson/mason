@@ -1,8 +1,8 @@
 use
 	..js global new
-	..methods <!
 	..Type contains?
 	..Type.Impl-Type self-type
+	..Type.Kind kind!
 	..@ count each! iterator
 	.@! ++! --! empty!
 	.@-Type _ empty
@@ -10,7 +10,10 @@ use
 
 Identity-Set! = global.Set
 
-<! Identity-Set! Set!
+kind! (self-type Identity-Set!) @-Type
+	empty -> new
+
+kind! Identity-Set! Set!
 	count -> |_
 		_.size
 	++! -> |_ addeds
@@ -26,8 +29,5 @@ Identity-Set! = global.Set
 		_.keys ()
 	contains? -> |_ val
 		_.has val
-
-<! (self-type Identity-Set!) @-Type
-	empty -> new
 
 Identity-Set!

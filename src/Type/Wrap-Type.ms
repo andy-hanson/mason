@@ -2,11 +2,11 @@ use
 	..Fun
 	..js js-instanceof
 	..private.js-impl build-str
-	..methods <!
 	..Obj
 	..Obj! p+!
 	..Str
 	.Impl-Type
+	.Kind kind!
 	.Method impl!
 	.Obj-Type
 	..Type _ contains?
@@ -53,7 +53,7 @@ Wrap-Type = Obj-Type
 		debug ! fails? |
 			W "three"
 
-<! Wrap-Type Impl-Type
+kind! Wrap-Type Impl-Type
 impl! contains? Wrap-Type |wt _
 	js-instanceof _ wt
 

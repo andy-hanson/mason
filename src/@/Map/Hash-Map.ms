@@ -1,11 +1,12 @@
 use
 	...Fun thunk
 	...private.js-impl i-make-map
-	...methods <! freeze
+	...methods freeze
 	...Obj! p+!
 	...private.bootstrap ms
 	...Type.Alias-Type
 	...Type.Impl-Type self-type
+	...Type.Kind kind!
 	...Type.Method impl!
 	..@-Type empty
 	.Hash-Map!
@@ -15,7 +16,7 @@ use
 Hash-Map = Alias-Type
 	alias-of. Hash-Map!
 
-<! (self-type Hash-Map) Map-Type
+kind! (self-type Hash-Map) Map-Type
 impl! empty (self-type Hash-Map) (thunk (freeze (empty Hash-Map!
 
 \ TODO: MOVE?

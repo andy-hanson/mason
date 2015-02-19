@@ -1,9 +1,9 @@
 use
 	...control returning
 	...js global new
-	...methods <!
 	...Try oh-no!
 	...Type.Impl-Type self-type
+	...Type.Kind kind!
 	...Type.Method impl!
 	..@! empty!
 	..@-Type empty
@@ -19,10 +19,10 @@ Weak-Identity-Map! =
 		It does not have the full functionality of a Map! because there is no way to iterate over the keys.
 	global.WeakMap
 
-<! (self-type Weak-Identity-Map!) Map-Type
+kind! (self-type Weak-Identity-Map!) Map-Type
 impl! empty (self-type Weak-Identity-Map!) new
 
-<! Weak-Identity-Map! Map!
+kind! Weak-Identity-Map! Map!
 impl! ?get Weak-Identity-Map! |_ key
 	Opt->? (_.get key
 impl! has-key? Weak-Identity-Map! |_ key

@@ -1,8 +1,8 @@
 use
 	...control returning
 	...js global new
-	...methods <!
 	...Type.Impl-Type self-type
+	...Type.Kind kind!
 	...Type.Method impl!
 	..@! empty!
 	..@-Type empty
@@ -41,10 +41,10 @@ Identity-Map! =
 
 	global.Map
 
-<! (self-type Identity-Map!) Map-Type
+kind! (self-type Identity-Map!) Map-Type
 impl! empty (self-type Identity-Map!) new
 
-<! Identity-Map! Map!
+kind! Identity-Map! Map!
 impl! ?get Identity-Map! |_ key
 	Opt->? (_.get key)
 impl! has-key? Identity-Map! |_ key
