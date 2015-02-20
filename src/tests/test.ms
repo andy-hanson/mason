@@ -6,7 +6,7 @@ use
 	..@ _ ++ each! flatten flat-map map
 	..@.@-Type empty
 	..@.? ?-or
-	..@.Identity-Set!
+	..@.Id-Set!
 	..@.Map
 	..Bool _ and false or true
 	..compare =?
@@ -87,7 +87,7 @@ $test-module.
 	module-name = ?-or (?p module "displayName") "<anonymous module>"
 	@$maybe-test module-name module true
 
-all-tested = empty Identity-Set!
+all-tested = empty Id-Set!
 
 \ TODO: Better name
 @$maybe-test = |name:Str value is-module:Bool

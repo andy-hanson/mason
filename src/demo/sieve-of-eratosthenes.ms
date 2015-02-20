@@ -1,7 +1,7 @@
 use
 	..@ each! empty?
 	..@.Map.Map! assoc! un-assoc!
-	..@.Map.Identity-Map!
+	..@.Map.Id-Map!
 	..@.Map.multi-map! add-to-@!
 	..@.Range range
 	..@.Stream
@@ -27,7 +27,7 @@ primes.
 		<~ 2
 		<~ 3
 		\ Maps a composite number to its prime factors.
-		prime-factors = => Identity-Map!
+		prime-factors = => Id-Map!
 			9 -> [ 3 ]
 		<~~ each~ (range 5 infinity 2) ~|candidate
 			\ un-assoc! is to save memory - we won't need to look up this value any more.

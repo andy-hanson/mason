@@ -1,6 +1,6 @@
 use
 	.Bool _ not or true
-	.js reference=?
+	.js id=?
 	.Type.Method
 use~
 	.@ _ all? empty? iterator
@@ -48,7 +48,7 @@ compare. Method
 		Unlike other comparison methods, `=?` should not make assertions about type.
 
 	default. |:Bool a b
-		or (reference=? a b) ~(inspect=? a b)
+		or (id=? a b) ~(inspect=? a b
 
 <?. Method
 	doc. "

@@ -2,11 +2,11 @@ use
 	.@ empty? fold map
 	.@.@-Type empty
 	.@.Array
-	.@.Map.Weak-Identity-Map!
+	.@.Map.Weak-Id-Map!
 	.Bool
 	.compare =?
 	.Fun
-	.js reference=?
+	.js id=?
 	.math.bit-arithmetic bit-and hexidecimal
 	.math.Num _ Int round-towards-0
 	.math.methods + *
@@ -22,7 +22,7 @@ max-hash-code = hexidecimal "7fffffff"
 keep-small = |_
 	bit-and _ max-hash-code
 
-hashes = empty Weak-Identity-Map!
+hashes = empty Weak-Id-Map!
 
 hash-code = Method
 	doc. |:Int _
@@ -42,9 +42,9 @@ hash-code = Method
 
 	default. |:Int _
 		case
-			reference=? _ ()
+			id=? _ ()
 				108
-			reference=? _ undefined
+			id=? _ undefined
 				109
 			hashes.has _
 				hashes.get _

@@ -1,5 +1,5 @@
 use
-	..js reference=?
+	..js id=?
 	..Obj! p!
 	..Type.Impl-Type self-type
 	..Type.Kind kind!
@@ -27,7 +27,7 @@ kind! (self-type LList) @-Type
 
 kind! LList Seq
 	empty? -> |_
-		reference=? _ empty-LList
+		id=? _ empty-LList
 
 	iterator -> ~|case!
 		empty?_

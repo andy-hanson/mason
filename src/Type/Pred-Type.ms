@@ -2,7 +2,7 @@ use
 	..Bool and not or true
 	..Fun ignore Pred
 	.Impl-Type self-type
-	..js defined? reference=?
+	..js defined? id=?
 	..methods sub
 	..Obj
 	..private.bootstrap Str
@@ -60,7 +60,7 @@ ObjLit. Pred-Type
 		! contains? ObjLit (a. 1
 		!not contains? ObjLit ObjLit
 	predicate. |_
-		and :Obj ~(reference=? (Obj.getPrototypeOf _) Obj.prototype
+		and :Obj ~(id=? (Obj.getPrototypeOf _) Obj.prototype
 
 Union.
 	doc. "Union[A B] is a type matching either an A or a B."

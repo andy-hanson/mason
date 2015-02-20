@@ -23,20 +23,20 @@ debug use~
 	..Array
 	..Set set=?
 	..Map has-key? keys
-	.Weak-Identity-Map!
+	.Weak-Id-Map!
 
 Map! = Kind
 	doc. "TODO"
 	implementor-test. |type
 		Mt = Wrap-Type
-			doc. "Mappable Thing; might be a Weak-Identity-Map!, so must be a reference type."
+			doc. "Mappable Thing; might be a Weak-Id-Map!, so must be a reference type."
 		\ Might be a Sorted-Map, so must be comparable.
 		impl! compare Mt |a b
 			compare a.val b.val
-		\ => Array because these must maintain by their identity for Weak-Identity-Map!
+		\ => Array because these must maintain by their identity for Weak-Id-Map!
 		ks = => Array (map [ 1 3 5 4 2 ] Mt
 		noweak = |do
-			if! (not :Weak-Identity-Map!) do
+			if! (not :Weak-Id-Map!) do
 		_ = empty type
 		noweak |
 			! empty? _

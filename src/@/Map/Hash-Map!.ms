@@ -17,7 +17,7 @@ use
 	..Stream
 	..? _ Opt->?
 	..Map ?get keys values
-	.Identity-Map!
+	.Id-Map!
 	.Map! _ assoc! un-assoc!
 	.Map-Type
 use~
@@ -38,14 +38,14 @@ Hash-Map! = Obj-Type
 		! =? (?get _ 8) (empty ?)
 
 	props.
-		hash->bucket. Identity-Map!
+		hash->bucket. Id-Map!
 
 kind! Hash-Map! Map!
 
 kind! (self-type Hash-Map!) Map-Type
 impl! empty (self-type Hash-Map!) |
 	Hash-Map!
-		hash->bucket. empty Identity-Map!
+		hash->bucket. empty Id-Map!
 
 opt-bucket = |_ key
 	_.hash->bucket.get (hash-code key

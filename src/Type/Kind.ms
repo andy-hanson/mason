@@ -1,6 +1,6 @@
 use
 	..Bool or not true
-	..js defined? global js-sub reference=?
+	..js defined? global id=? js-sub
 	..private.bootstrap Array impl-contains?! Obj p+! Str Symbol
 	..private.js-impl empty? Kind-contains?
 	.Method impl! propagate-method-down!
@@ -186,7 +186,7 @@ kind?.
 			:Kind
 				_.super-kinds.some |super
 					\ TODO: Just use `=? super kind` ?
-					or (reference=? super kind) ~(kind? super kind)
+					or (id=? super kind) ~(kind? super kind)
 			else
 				_ = implementor.prototype
 				:kind

@@ -3,7 +3,7 @@ use
 	..compare =? <? <=? compare
 	..control opr
 	..Obj p
-	..js global js-bar js< js<= js+ js- js* js/ js% reference=?
+	..js global id=? js-bar js< js<= js+ js- js* js/ js%
 	..show
 	..Type.Method impl!
 	..Type.Pred-Type _ Opt
@@ -48,7 +48,7 @@ region impl!
 	impl! =? Num
 		test. |
 			[ not-a-number not-a-number ] -> true
-		reference=?
+		id=?
 	impl! <? Num |a b:Num
 		js< a b
 	impl! <=? Num |a b:Num

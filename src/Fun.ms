@@ -12,7 +12,7 @@ use~
 	.@.Map
 	.@.Map.Hash-Map!
 	.@.Map.Map! get-or-add!
-	.@.Map.Weak-Identity-Map!
+	.@.Map.Weak-Id-Map!
 	.Obj _ Obj->Map
 	.Try oh-no!
 debug use~
@@ -93,13 +93,13 @@ ignore.
 
 region Memoize
 	\ TODO: perf.ms?
-	identity-memoize.
+	id-memoize.
 		doc. "
-			When an Obj is passed into `fun`, stores the result in a `Weak-Identity-Map!`
-			and uses that if the exact same (`reference=?`) Obj is used again.
+			When an Obj is passed into `fun`, stores the result in a `Weak-Id-Map!`
+			and uses that if the exact same (`id=?`) Obj is used again.
 		test. |
 			! seq=? [ 1 2 1 ] (build |yield
-				get-a = identity-memoize |x
+				get-a = id-memoize |x
 					yield x.a
 					x.a
 				a1 = a. 1
@@ -110,7 +110,7 @@ region Memoize
 				a1b = a. 1
 				! =? (get-a a1b) 1
 		|_:Fun
-			wm = empty Weak-Identity-Map!
+			wm = empty Weak-Id-Map!
 			|arg:Obj
 				get-or-add! wm arg ~(_ arg
 

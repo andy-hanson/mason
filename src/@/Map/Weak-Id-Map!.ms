@@ -12,32 +12,32 @@ use
 	.Map-Type
 	.Map! _ assoc! un-assoc!
 
-Weak-Identity-Map! =
+Weak-Id-Map! =
 	doc. "
 		Map! which can only hold have Objs as keys and stops holding them when they are garbage collected.
 		Good for caches.
 		It does not have the full functionality of a Map! because there is no way to iterate over the keys.
 	global.WeakMap
 
-kind! (self-type Weak-Identity-Map!) Map-Type
-impl! empty (self-type Weak-Identity-Map!) new
+kind! (self-type Weak-Id-Map!) Map-Type
+impl! empty (self-type Weak-Id-Map!) new
 
-kind! Weak-Identity-Map! Map!
-impl! ?get Weak-Identity-Map! |_ key
+kind! Weak-Id-Map! Map!
+impl! ?get Weak-Id-Map! |_ key
 	Opt->? (_.get key
-impl! has-key? Weak-Identity-Map! |_ key
+impl! has-key? Weak-Id-Map! |_ key
 	_.has key
-impl! keys Weak-Identity-Map! |
-	oh-no! "Can't get keys of Weak-Identity-Map! because the garbage collector can freely change this."
-impl! empty! Weak-Identity-Map! |
+impl! keys Weak-Id-Map! |
+	oh-no! "Can't get keys of Weak-Id-Map! because the garbage collector can freely change this."
+impl! empty! Weak-Id-Map! |
 	oh-no! "
-		Can't empty Weak-Identity-Map! for some reason.
+		Can't empty Weak-Id-Map! for some reason.
 		https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap/clear"
-impl! assoc! Weak-Identity-Map! |_ key val
+impl! assoc! Weak-Id-Map! |_ key val
 	_.set key val
-impl! un-assoc! Weak-Identity-Map! |_ key
+impl! un-assoc! Weak-Id-Map! |_ key
 	returning (?get _ key) |
 		_.delete key
 
 
-Weak-Identity-Map!
+Weak-Id-Map!

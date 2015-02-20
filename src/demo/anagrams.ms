@@ -2,7 +2,7 @@ use
 	..@ count each! keep map
 	..@.@-Type empty
 	..@.Map values
-	..@.Map.Identity-Map!
+	..@.Map.Id-Map!
 	..@.Map.multi-map! add-to-@!
 	..compare =? max sort
 debug use
@@ -50,7 +50,7 @@ maximum-anagram-sets.
 		\ e.g., "amnos" -> "mason"
 		\ TODO: make-multi-map
 		\ TODO: This is slow!
-		mp = empty Identity-Map!
+		mp = empty Id-Map!
 		each! words |word
 			add-to-@! mp (sort word) [ word ]
 

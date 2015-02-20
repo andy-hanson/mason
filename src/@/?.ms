@@ -1,7 +1,7 @@
 use
 	..control opr
 	..Fun ignore thunk
-	..js defined? reference=?
+	..js defined? id=?
 	..Type.Impl-Type self-type
 	..Type.Kind kind!
 	..Type.Method impl!
@@ -42,7 +42,7 @@ region Is Seq
 	kind! ? Seq
 
 	impl! empty? ? |_
-		reference=? _ empty-?
+		id=? _ empty-?
 
 	impl! iterator ? ~|case!
 		empty?_

@@ -8,12 +8,12 @@ use
 	.@-Type _ empty
 	.Set!
 
-Identity-Set! = global.Set
+Id-Set! = global.Set
 
-kind! (self-type Identity-Set!) @-Type
+kind! (self-type Id-Set!) @-Type
 	empty -> new
 
-kind! Identity-Set! Set!
+kind! Id-Set! Set!
 	count -> |_
 		_.size
 	++! -> |_ addeds
@@ -30,4 +30,4 @@ kind! Identity-Set! Set!
 	contains? -> |_ val
 		_.has val
 
-Identity-Set!
+Id-Set!

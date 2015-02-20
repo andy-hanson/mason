@@ -16,13 +16,13 @@ debug use
 	...compare =?
 	..Seq seq=?
 
-Identity-Map! =
+Id-Map! =
 	doc. "
 		JavaScript's native Map type.
 		Only considers exactly identical keys =?; this makes it the fastest Map.
 	test. |
 		\ TODO: Just use generic Map! test
-		_ = empty Identity-Map!
+		_ = empty Id-Map!
 		assoc! _ 1 2
 		! =? _[1] 2
 		key-1 =
@@ -41,30 +41,30 @@ Identity-Map! =
 
 	global.Map
 
-kind! (self-type Identity-Map!) Map-Type
-impl! empty (self-type Identity-Map!) new
+kind! (self-type Id-Map!) Map-Type
+impl! empty (self-type Id-Map!) new
 
-kind! Identity-Map! Map!
-impl! ?get Identity-Map! |_ key
+kind! Id-Map! Map!
+impl! ?get Id-Map! |_ key
 	Opt->? (_.get key)
-impl! has-key? Identity-Map! |_ key
+impl! has-key? Id-Map! |_ key
 	_.has key
-impl! keys Identity-Map! |_
+impl! keys Id-Map! |_
 	\ TODO: bind _ "keys"
 	Stream |
 		_.keys ()
-impl! values Identity-Map! |_
+impl! values Id-Map! |_
 	\ TODO: bind _ "keys"
 	Stream |
 		_.values ()
-impl! empty! Identity-Map! |_
+impl! empty! Id-Map! |_
 	_.clear ()
-impl! assoc! Identity-Map! |_ key val
+impl! assoc! Id-Map! |_ key val
 	_.set key val
-impl! un-assoc! Identity-Map! |_ key
+impl! un-assoc! Id-Map! |_ key
 	returning (?get _ key) |
 		_.delete key
 
 
-Identity-Map!
+Id-Map!
 

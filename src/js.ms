@@ -52,18 +52,16 @@ defined?.
 		[ undefined ] -> false
 		[ 0 ] -> true
 	|_
-		not (reference=? _ undefined
+		not (id=? _ undefined
 
-reference=?.
+id=?.
 	doc. "
 		For Objs, whether they are the same place in memory.
 		For primitive types, whether they have the same data.
 		TODO: Explain (and test) difference between this and js===
-
 	test. |
-		! reference=? "a" "a"
-		!not reference=? [ "a" ] [ "a" ]
-
+		[ "a" "a" ] -> true
+		[ [ "a" ] [ "a" ] ] -> false
 	global.Object.is
 
 truthy?.

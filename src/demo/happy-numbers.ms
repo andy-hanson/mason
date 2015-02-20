@@ -3,7 +3,7 @@ use
 	..@.@! ++!
 	..@.@-Type empty
 	..@.Array!
-	..@.Identity-Set!
+	..@.Id-Set!
 	..@.Range range
 	..@.Seq! set-nth!
 	..@.Stream
@@ -31,7 +31,7 @@ set-nth! cache 1 true
 happy?.
 	doc. "http://rosettacode.org/wiki/Happy_numbers"
 	|n:Nat
-		stepped-through = empty Identity-Set!
+		stepped-through = empty Id-Set!
 		loop = |cur
 			case js-sub cache cur
 				defined?_

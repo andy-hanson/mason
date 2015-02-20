@@ -6,7 +6,7 @@ use
 	...Type.Method impl!
 	...@ map
 	..Map
-	.Weak-Identity-Map!
+	.Weak-Id-Map!
 debug use
 	...Bool true
 
@@ -32,6 +32,5 @@ impl! show Map
 			{type}
 				{=> Str parts "\n\t"}
 
-impl! show Weak-Identity-Map!
-	|
-		"<a Weak-Identity-Map!>"
+impl! show Weak-Id-Map! |
+	"<a Weak-Id-Map!>"

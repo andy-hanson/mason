@@ -1,7 +1,7 @@
 use
 	.Bool and
 	.compare _ =?
-	.js global reference=?
+	.js global id=?
 	.Regex _ regex
 	.Type.Kind
 	.Type.Method impl!
@@ -56,7 +56,7 @@ split-str.
 	|:Array[Str] _:Str splitter:Str-Test
 		_.split splitter
 
-impl! =? Str reference=?
+impl! =? Str id=?
 impl! compare Str |a b
 	a.localeCompare b
 

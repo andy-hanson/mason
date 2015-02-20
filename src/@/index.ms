@@ -2,7 +2,7 @@ use
 	..Bool _ and not
 	..compare =?
 	..Fun _ Act identity Pred
-	..js defined? reference=?
+	..js defined? id=?
 	..math.methods +
 	..Obj
 	..Obj! p+!
@@ -29,7 +29,7 @@ debug use~
 	..math.Num divisible?
 	..Try fails?
 	.@-Type
-	.Map.Weak-Identity-Map!
+	.Map.Weak-Id-Map!
 
 @. Kind
 	doc. "
@@ -37,7 +37,7 @@ debug use~
 		If the iteration order of an @ is meaningful and `+ a b` is the concatenation, it is a Seq.
 		If an @ only stores a given element once, it is a Set.
 	implementor-test. |@-type
-		if! (not (=? @-type Weak-Identity-Map!)) |
+		if! (not (=? @-type Weak-Id-Map!)) |
 			! (contains? @-Type @-type) "Be sure to make your @ type a @-Type."
 			_ = empty @-type
 			! empty? _
@@ -344,6 +344,6 @@ region Lazy functions, and their eager versions.
 		test. |
 			! =? [ 1 ] [ 1 ]
 		|@a @b
-			and (reference=? (type-of @a) (type-of @b)) ~(seq=? @a @b
+			and (id=? (type-of @a) (type-of @b)) ~(seq=? @a @b
 
 @

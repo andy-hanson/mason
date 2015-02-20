@@ -1,7 +1,7 @@
 use
 	.Bool _ and false not nor xor
 	.compare =?
-	.js defined? global js== js-typeof reference=? js-sub
+	.js defined? global js== js-typeof id=? js-sub
 	.methods freeze
 	.private.bootstrap Str
 	.Symbol
@@ -11,7 +11,7 @@ use~
 	.@ _ ++ all? count each! empty? keep
 	.@.@-Type empty
 	.@.? _ Opt->?
-	.@.Identity-Set!
+	.@.Id-Set!
 	.@.Map _ make-map
 	.control returning
 	.Fun
@@ -58,7 +58,7 @@ flag?.
 				b:Bool = _.val
 				b
 
-~forbidden-fun-props = => Identity-Set! [ "arguments" "caller" ]
+~forbidden-fun-props = => Id-Set! [ "arguments" "caller" ]
 @p-all.
 	doc. "
 		Every property name directly stored in an object.
@@ -190,18 +190,18 @@ inspect=?.
 		[ inspect=? inspect=? ] -> true
 	|:Bool a b
 		\ Necessary because `js-typeof null` is "object"
-		null-a = reference=? a ()
-		null-b = reference=? b ()
+		null-a = id=? a ()
+		null-b = id=? b ()
 		\ TODO: Not :Obj because that currently also includes Funs
-		obj-a = and (not null-a) ~(reference=? (js-typeof a) "object")
-		obj-b = and (not null-b) ~(reference=? (js-typeof b) "object")
+		obj-a = and (not null-a) ~(id=? (js-typeof a) "object"
+		obj-b = and (not null-b) ~(id=? (js-typeof b) "object"
 		case
 			nor obj-a obj-b
-				reference=? a b
+				id=? a b
 			xor obj-a obj-b
 				false
 			else
-				same-type = reference=? (Obj.getPrototypeOf a) (Obj.getPrototypeOf b)
+				same-type = id=? (Obj.getPrototypeOf a) (Obj.getPrototypeOf b
 				and same-type ~
 					ak = Obj.getOwnPropertyNames a
 					bk = Obj.getOwnPropertyNames b
