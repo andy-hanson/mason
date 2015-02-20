@@ -1,9 +1,8 @@
 use
 	.$ _ $after
-	.@ keep map
-	.@.Array
+	.@ keep map'
+	.compare sort
 	.js new
-	.Type =>
 
 \ TODO: Portability
 commonJS-require. `require`
@@ -30,7 +29,8 @@ $@module-in-dir.
 		$after (q->es6-promise (fs.listTree dir-path)) |@file
 			@js = keep @file |_
 				_.endsWith ".js"
-			=> Array (map @js get-module
+			\ Sort so that modules load in deterministic order.
+			map' (sort @js) get-module
 
 \ TODO: Don't want dependency on `q`
 q->es6-promise = |q-promise
