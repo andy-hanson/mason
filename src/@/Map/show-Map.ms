@@ -5,7 +5,7 @@ use
 	...Type => type-of
 	...Type.Method impl!
 	...@ map
-	..Map _ keys
+	..Map
 	.Weak-Identity-Map!
 debug use
 	...Bool true
@@ -20,9 +20,9 @@ impl! show Map
 			Hash-Map!
 				1 -> 2
 	|_ opts
-		\ TODO map pairs_
-		parts = map keys_ |key
-			"{show key opts} -> {show _[key] opts}"
+		parts = map _ |pair
+			key val = pair
+			"{show key opts} -> {show val opts}"
 		type = case
 			flag? opts "repr"
 				show type-of_ opts

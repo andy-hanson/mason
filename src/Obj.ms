@@ -8,11 +8,11 @@ use
 	.Type => contains?
 	.Type.Kind
 use~
-	.@ _ ++ all? count empty? keep
+	.@ _ ++ all? count each! empty? keep
 	.@.@-Type empty
 	.@.? _ Opt->?
 	.@.Identity-Set!
-	.@.Map _ each-pair! make-map
+	.@.Map _ make-map
 	.control returning
 	.Fun
 	.Obj! empty-Obj! p+!
@@ -242,8 +242,8 @@ Map->Obj.
 				1 -> 2
 	|_:Map
 		returning empty-Obj!() |obj
-			each-pair! _ |key val
-				p+! obj key val
+			each! _ |pair
+				p+! obj pair.key pair.val
 			freeze obj
 
 Obj

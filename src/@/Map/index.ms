@@ -17,7 +17,6 @@ use~
 debug use~
 	...!
 	...Bool false true
-	...control build
 	...math.methods +
 
 Map. Kind
@@ -79,30 +78,6 @@ region Old methods
 		un-? (?get map key) ~"{map} does not contain {key}."
 
 region Functions
-	@pairs.
-		doc. "TODO"
-		test. |
-			"TODO"
-		|_:Map
-			map keys_ |k
-				key. k
-				val. _[key]
-
-	each-pair!.
-		doc. "Calls `do-each` on each key and value."
-		test. |
-			! =? [ [ 1 2 ] [ 3 4 ] ] (build |yield
-				\ TODO:SYNTAX [ 1 -> 2, 3 -> 4 ]
-				map =
-					1 -> 2
-					3 -> 4
-				each-pair! map |key val
-					yield [ key val ]
-		|_:Map do-each:Fun
-			each! @pairs_ |_
-				key val = _
-				do-each key val
-
 	make-map.
 		doc. "Creates a Map whose values are the result of applying `get-value` to each key."
 		test. |

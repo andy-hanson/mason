@@ -6,8 +6,7 @@ use
 	.Method impl! propagate-method-down!
 	.Obj-Type
 use~
-	..@ _ flat-map
-	..@.Map each-pair!
+	..@ _ each! flat-map
 	.Impl-Type
 	..methods freeze frozen?
 debug use~
@@ -172,8 +171,8 @@ kind!.
 		unchecked-kind! implementor kind
 		case! method-impls
 			defined?_
-				each-pair! _ |method implementation
-					impl! method implementor implementation
+				each! _ |pair
+					impl! pair.key implementor pair.val
 			else
 				()
 

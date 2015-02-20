@@ -3,9 +3,9 @@ doc. "For making assertions."
 use
 	.private.bootstrap Fun
 use~ \ TODO: Move as many up as possible
-	.@ _ map
+	.@ _ each! map
 	.@.Array
-	.@.Map _ each-pair!
+	.@.Map
 	.Bool _ not
 	.compare =?
 	.control if!
@@ -107,7 +107,9 @@ debug use~
 			!call +
 				[ 1 1 ] -> 3
 	|fun:Fun args->result:Map \ TODO: Map[Array Any]
-		each-pair! args->result |args:@ expected-res
+		each! args->result |pair
+			args:@ = pair.key
+			expected-res = pair.val
 			actual = fun ...args
 			if! (not (=? actual expected-res)) |
 				oh-no! ~"
@@ -123,7 +125,9 @@ debug use~
 	test. |
 		"TODO"
 	|fun:Fun args->result:Map \ TODO: Map[Array Any]
-		each-pair! args->result |args:@ expected-res:Num
+		each! args->result |pair
+			args:@ = pair.key
+			expected-res:Num = pair.val
 			actual:Num = fun ...args
 			if! (not (near? actual expected-res)) |
 				oh-no! ~"

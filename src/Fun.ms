@@ -9,7 +9,7 @@ use~
 	.@ _ ++ each! map
 	.@.@-Type empty
 	.@.Seq rtail last
-	.@.Map _ @pairs
+	.@.Map
 	.@.Map.Hash-Map!
 	.@.Map.Map! get-or-add!
 	.@.Map.Weak-Identity-Map!
@@ -173,14 +173,14 @@ spread.
 		last-arg = last args
 		@spreaded = case last-arg
 			:Map
-				map @pairs_ |pair
+				map _ |pair
 					key val = pair
 					[ key val ]
 			:@
 				map _ |em
 					[ em ]
 			:Obj
-				map (@pairs Obj->Map_) |pair
+				map Obj->Map_ |pair
 					key val = pair
 					[ key val ]
 			else

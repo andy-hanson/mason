@@ -6,7 +6,7 @@ use
 	...@ _ each! empty?
 	..@-Type empty
 	..?
-	..Map _ each-pair! ?get
+	..Map _ ?get
 	.Map-Type
 use~
 	.Hash-Map!
@@ -74,7 +74,8 @@ assoc*!.
 	doc. "Adds the other map's keys to mine, overriding my values."
 	test. "See Map!.implementor-test."
 	|_:Map! to-add:Map
-		each-pair! to-add assoc![_]
+		each! to-add |pair
+			assoc! _ pair.key pair.val
 
 un-assoc!. Method
 	doc. |:? _ key

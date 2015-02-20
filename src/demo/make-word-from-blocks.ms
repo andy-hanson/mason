@@ -6,7 +6,7 @@ use
 	..Type contains?
 debug use
 	..!
-	..@.Map each-pair!
+	..@ each!
 	..@.Stream
 	..compare =?
 	..Str split-str
@@ -48,7 +48,9 @@ make-word-from-blocks.
 			"common" -> [ ]
 			"squad" -> [ "FS DQ HU NA QD" ]
 			"confuse" -> [ "CP BO NA FS HU FS RE" ]
-		each-pair! sample-answers |word ans
+		each! sample-answers |pair
+			word = pair.key
+			ans = pair.val
 			real-ans = => ? (map ans |_
 				=> Stream (split-str _ " "
 			! =? real-ans (make-word-from-blocks word sample-blocks)
