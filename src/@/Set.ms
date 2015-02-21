@@ -1,6 +1,6 @@
 use
 	..Bool and
-	..compare =?
+	..compare =? same?
 	..Fun ignore
 	..Type => contains? type-of
 	..Type.Impl-Type self-type
@@ -34,10 +34,7 @@ impl! =? Set
 		[ a b ] -> true
 		[ a [ -- b [ 1 ] ] ] -> false
 	|a b
-		\ TODO: Variadic `and`
-		and (=? (type-of a) (type-of b)) ~
-			and (=? (count a) (count b)) ~
-				all? a contains?[b]
+		and (same? a b type-of) ~(same? a b count) ~(all? a contains?[b]
 
 set=?.
 	doc. "Whether two @s have the same values, regardless of order or count."

@@ -98,8 +98,7 @@ all-tested = empty Id-Set!
 			all-tested.add value
 			a = test-special value
 			b = case value
-				\ TODO: variadic `or`
-				or is-module ~(or :ObjLit ~:Fun)
+				or is-module ~:ObjLit ~:Fun
 					flat-map @p_ |prop-name
 						next-name = "{name}.{prop-name}"
 						prop-val = p _ prop-name

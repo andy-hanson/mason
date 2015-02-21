@@ -1,6 +1,7 @@
 "use strict"
 
 const ms = require("./bootstrap").ms
+const b = ms.bool, u = ms.unlazy
 
 module.exports = {
 	// js.ms
@@ -9,7 +10,6 @@ module.exports = {
 	"i-bar": function(a, b) { return a | b },
 	"i-delete": function(a, b) { delete a[b] },
 	"i-instanceof": function(a, b) { return a instanceof b },
-	"i-false": false,
 	"i-global": global,
 	"i-new": function(ctr, a, b, c) {
 		// TODO:ES6 return new ctr(...args)
@@ -26,8 +26,41 @@ module.exports = {
 	},
 	"i-sub": function(a, b) { return a[b] },
 	"i-set": function(a, b, c) { a[b] = c },
-	"i-true": true,
 	"i-typeof": function(a) { return typeof a },
+
+	// Bool.ms
+	"i-true": true,
+	"i-false": false,
+	"i-and": function() {
+		switch (arguments.length) {
+			case 0: return true
+			case 1: return b(arguments[0])
+			case 2: return b(arguments[0]) && b(u(arguments[1]))
+			case 3: return b(arguments[0]) && b(u(arguments[1])) && b(u(arguments[2]))
+			default:
+				if (!b(arguments[0]))
+					return false
+				for (let i = 1; i < arguments.length; i++)
+					if (!b(u(arguments[i])))
+						return false
+				return true
+		}
+	},
+	"i-or": function() {
+		switch (arguments.length) {
+			case 0: return false
+			case 1: return b(arguments[0])
+			case 2: return b(arguments[0]) || b(u(arguments[1]))
+			case 3: return b(arguments[0]) || b(u(arguments[1])) || b(u(arguments[2]))
+			default:
+				if (b(arguments[0]))
+					return true
+				for (let i = 1; i < arguments.length; i++)
+					if (b(u(arguments[i])))
+						return true
+				return true
+		}
+	},
 
 	// Kind.ms
 	"Kind-contains?": function(kind, _) {

@@ -27,7 +27,7 @@ p? = |obj property
 
 make-callable-method = |method
 	src = build-str |add!
-		add! "return function(a, b, c) \{"
+		add! "return function(a, b, c, d) \{"
 		impl = case
 			defined? method.default
 				"(a == null) ? def : (a[\"{method.impl-symbol}\"] || def)"
@@ -44,6 +44,7 @@ make-callable-method = |method
 						case 1: return wrap(impl, a)
 						case 2: return wrap(impl, a, b)
 						case 3: return wrap(impl, a, b, c)
+						case 4: return wrap(impl, a, b, c, d)
 						default: throw new Error("Code not generated to accept " + arguments.length + " arguments.")
 					}
 			else
@@ -52,6 +53,7 @@ make-callable-method = |method
 						case 1: return impl(a)
 						case 2: return impl(a, b)
 						case 3: return impl(a, b, c)
+						case 4: return impl(a, b, c, d)
 						default: throw new Error("Code not generated to accept " + arguments.length + " arguments.")
 					}
 		add! "}"

@@ -9,10 +9,14 @@ use
 	.Kind kind!
 	.Method impl!
 	.Obj-Type
-	..Type _ contains?
+	..Type _ => contains?
+use~
+	..@ any?
 debug use~
 	..! _ !not
 	..Bool
+	..compare =?
+	..math.Num
 
 Pred-Type = Obj-Type
 	doc. "Arbitrary predicates can be made into types using Pred-Type."
@@ -63,19 +67,22 @@ ObjLit. Pred-Type
 		and :Obj ~(id=? (Obj.getPrototypeOf _) Obj.prototype
 
 Union.
-	doc. "Union[A B] is a type matching either an A or a B."
+	doc. "Type that matches one of several types. Analogous to `or`."
 	test. |
-		SB = Union[Str Bool]
-		! contains? SB "true"
-		! contains? SB true
-		!not contains? SB ()
+		\ Note that as these are all Impl-Types it would be better to use a Kind.
+		SBN = Union[Str Bool Num]
+		! =? SBN.displayName "Union[Str Bool Num]"
+		! contains? SBN "true"
+		! contains? SBN true
+		! contains? SBN 3
+		!not contains? SBN ()
 
 \ TODO: Variadic
-impl! sub (self-type Union) |u A:Type B:Type
+impl! sub (self-type Union) |u ...types
 	ignore u \ TODO:Ignored vars
 	Pred-Type
-		displayName. "some union"\ "Union[{A} {B}]" \ TODO
+		displayName. "Union[{=> Str types " "}]"
 		predicate. |_
-			or :A ~:B
-
+			any? types |type
+				contains? type _
 Pred-Type

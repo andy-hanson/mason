@@ -10,7 +10,7 @@ use
 	.Seq take
 debug use~
 	..Bool true
-	..methods empty
+	.@-Type empty
 	.Deque!
 
 impl! show @

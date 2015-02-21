@@ -1,16 +1,20 @@
 use
 	.js global
-	.private.js-impl i-true i-false
+	.private.js-impl i-true i-false i-and i-or
+debug use~
+	.Try oh-no!
 
 Bool =
-	doc. "Either true or false."
+	doc. "
+		JavaScript's native Boolean type.
+		Either true or false.
 	global.Boolean
 
 true. i-true
 false. i-false
 
 not.
-	doc. "True iff `a` isn't."
+	doc. "Negation of a Bool."
 	test. |
 		[ false ] -> true
 		[ true ] -> false
@@ -21,63 +25,61 @@ not.
 			else
 				true
 
-\ TODO: Variadic
-
 and.
-	doc. "True iff both `a` and `b` are."
+	doc. "
+		True iff all conditions are true.
+		Equivalent to `all? args`.
+		All arguments after the first may be lazy."
 	test. |
 		[ false false ] -> false
 		[ false true ] -> false
 		[ true false ] -> false
 		[ true true ] -> true
-	|cond-0:Bool ~cond-1:Bool
-		case
-			cond-0
-				cond-1
-			else
-				false
+		[ true true false ] -> false
+		\ No need to run any condition after false.
+		[ true false ~(oh-no!()) ] -> false
+	i-and
 
 nand.
-	doc. "True if either of `a` or `b` is false."
+	doc. "Negation of and."
 	test. |
 		[ false false ] -> true
 		[ false true ] -> true
 		[ true false ] -> true
 		[ true true ] -> false
-	|a:Bool ~b:Bool
-		case
-			a
-				not b
-			else
-				true
+		[ true true false ] -> true
+		\ No need to run any condition after false.
+		[ true false ~(oh-no!()) ] -> true
+	|...args
+		not (and ...args
 
 or.
-	doc. "True iff either `a` or `b` is."
+	doc. "
+		True iff any condition is true.
+		Equivalent to `any? args`.
+		All arguments after the first may be lazy.
 	test. |
 		[ false false ] -> false
 		[ false true ] -> true
 		[ true false ] -> true
 		[ true true ] -> true
-	|cond-0:Bool ~cond-1:Bool
-		case
-			cond-0
-				true
-			else
-				cond-1
+		[ false false true ] -> true
+		\ No need to run any condition after true.
+		[ false true ~(oh-no!()) ] -> true
+	i-or
 
 nor.
-	doc. "True iff both `a` and `b` are false."
+	doc. "Negation of or."
 	test. |
 		[ false false ] -> true
 		[ false true ] -> false
 		[ true false ] -> false
 		[ true true ] -> false
-	|a:Bool ~b:Bool
-		case
-			a
-				false
-			else
-				not b
+		[ false false true ] -> false
+		\ No need to run any condition after true.
+		[ false true ~(oh-no!()) ] -> false
+	|...args
+		not (or ...args)
 
 implies.
 	doc. "

@@ -15,7 +15,12 @@ debug use
 	..Try fails?
 	..Type contains?
 
-Num = global.Number
+Num =
+	doc. "
+		JavaScript's native Number type.
+		Any floating-point value.
+	global.Number
+
 Math = global.Math
 
 Int. Pred-Type

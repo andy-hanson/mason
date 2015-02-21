@@ -62,6 +62,15 @@ compare. Method
 	default. |:Bool lesser greater
 		<=? (compare lesser greater) 0
 
+region Misc
+	same?.
+		doc. "Whether two values have the same `f`."
+		test. |
+			[ [ 1 ] [ 2 ] count ] -> true
+			[ [ ] [ 1 ] count ] -> false
+		|a b f:Fun
+			=? (f a) (f b)
+
 
 region Min/max
 	\ TODO: Method, specialize on Sorted-Set
