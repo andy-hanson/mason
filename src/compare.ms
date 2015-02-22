@@ -8,10 +8,10 @@ use~
 	.@.Array
 	.@.Array!
 	.@.? un-?
-	.@.Seq _ ?first tail
+	.@.Seq _ first tail
 	.control if if! opr returning Ref! get set!
 	.Fun _ identity
-	.Obj inspect=?
+	.Obj obj=?
 	.Type.Pred-Type Opt
 debug use~
 	.!
@@ -39,8 +39,8 @@ compare. Method
 	doc. "
 		Whether two objects are considered equivalent.
 		Generally, if two values are `=?`, then most functions called on them should return the same results.
-		`=?` defaults to `inspect=?`.
-		Values can be `=?` but not `inspect=?` if they are conceptually the same, but have different representations.
+		`=?` defaults to `obj=?`.
+		Values can be `=?` but not `obj=?` if they are conceptually the same, but have different representations.
 		For example, two Sets with the same values might internally have different ordering.
 
 		Values of different types should generally not be =?.
@@ -48,7 +48,7 @@ compare. Method
 		Unlike other comparison methods, `=?` should not make assertions about type.
 
 	default. |:Bool a b
-		or (id=? a b) ~(inspect=? a b
+		or (id=? a b) ~(obj=? a b
 
 <?. Method
 	doc. "
@@ -66,9 +66,9 @@ region Misc
 	same?.
 		doc. "Whether two values have the same `f`."
 		test. |
-			[ [ 1 ] [ 2 ] count ] -> true
-			[ [ ] [ 1 ] count ] -> false
-		|a b f:Fun
+			[ count [ 1 ] [ 2 ] ] -> true
+			[ count [ ] [ 1 ] ] -> false
+		|f:Fun a b
 			=? (f a) (f b)
 
 
@@ -136,15 +136,15 @@ region Sorting
 			[ [ "six" "five" "seven" ] count ] -> true
 		|seq:Seq ?sort-by:Opt[Fun]
 			sort-by = opr ?sort-by identity
-			case ?first seq
+			case seq
 				empty?_
 					true
 				else
-					\ TODO: Use `sliding`, and avoid calling `sort-by` more than necessary.
-					prev = Ref! _.val
-					all? (tail seq) |em
-						returning (<? (sort-by (get prev)) (sort-by em)) |
-							set! prev em
+					sb-prev = Ref! (sort-by first_
+					all? tail_ |em
+						sb-cur = sort-by em
+						returning (<? (get sb-prev) sb-cur) |
+							set! sb-prev sb-cur
 
 	sort. Method
 		doc. "

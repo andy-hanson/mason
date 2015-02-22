@@ -63,7 +63,6 @@ region Old methods
 
 	impl! count Map
 		test. |
-			\ TODO:SYNTAX [ 1 -> 2, 3 -> 4 ]
 			map =
 				1 -> 2
 				3 -> 4

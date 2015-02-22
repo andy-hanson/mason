@@ -1,6 +1,7 @@
 use
 	..Bool or not true
-	..js defined? global id=? js-sub
+	..compare =?
+	..js defined? global js-sub
 	..private.bootstrap Array impl-contains?! Obj p+! Str Symbol
 	..private.js-impl empty? Kind-contains?
 	.Method impl! propagate-method-down!
@@ -12,8 +13,8 @@ use~
 debug use~
 	..! _ !not
 	..@.Stream
-	..compare =?
-	..Try fails-with?
+	..Bool false
+	..Try _ fails-with?
 	..Type => contains?
 	.Method
 
@@ -99,8 +100,15 @@ Kind. Obj-Type
 					on-implementor! implementor _
 				freeze _.implementors
 
-can-subtype?. |_:Kind
-	not (frozen? _.implementors
+impl-contains?! Kind Kind-contains?
+
+can-subtype?.
+	doc. "Whether a Kind accepts new subtypes."
+	test. |
+		[ Impl-Type ] -> true
+		[ Try ] -> false
+	|_:Kind
+		not (frozen? _.implementors
 
 \ Making something an instance of Impl-Type is difficult because kind! checks that it's already an Impl-Type...
 unchecked-kind!.
@@ -110,26 +118,6 @@ unchecked-kind!.
 	|implementor kind
 		kind.implementors.push implementor
 		on-implementor! implementor kind
-
-on-implementor! = |implementor kind
-	case! implementor
-		:Kind
-			_.super-kinds.push kind
-		else
-			()
-	inherit-methods! implementor kind
-
-\ TODO: Rename to be like Obj.ms
-own-properties = |_
-	(Obj.getOwnPropertyNames _).concat (Obj.getOwnPropertySymbols _)
-
-inherit-methods! = |implementor kind
-	rec! = |kind
-		(own-properties kind.prototype).forEach |name
-			\ TODO: use getp
-			propagate-method-down! implementor name (js-sub kind.prototype name)
-		kind.super-kinds.forEach rec!
-	rec! kind
 
 concrete-implementors.
 	doc. "
@@ -185,13 +173,29 @@ kind?.
 		case implementor
 			:Kind
 				_.super-kinds.some |super
-					\ TODO: Just use `=? super kind` ?
-					or (id=? super kind) ~(kind? super kind)
+					or (=? super kind) ~(kind? super kind
 			else
 				_ = implementor.prototype
 				:kind
 
+region Helpers
+	@p-all = |_
+		(Obj.getOwnPropertyNames _).concat (Obj.getOwnPropertySymbols _)
 
-impl-contains?! Kind Kind-contains?
+	on-implementor! = |implementor kind
+		case! implementor
+			:Kind
+				_.super-kinds.push kind
+			else
+				()
+		inherit-methods! implementor kind
+
+	inherit-methods! = |implementor kind
+		rec! = |kind
+			(@p-all kind.prototype).forEach |name
+				propagate-method-down! implementor name (js-sub kind.prototype name)
+			kind.super-kinds.forEach rec!
+		rec! kind
+
 
 Kind

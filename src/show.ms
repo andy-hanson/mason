@@ -1,7 +1,9 @@
 use
 	.Bool _ true
 	.compare =?
+	.Fun _ spread!
 	.js js+
+	.math.Num
 	.private.bootstrap p+! ms
 	.private.js-impl new-Set
 	.Obj flag? p ?p @p
@@ -13,7 +15,6 @@ use~
 	.@ -- empty? map
 	.@.? ?-or
 	.@.Array
-	.Fun
 debug use
 	.Bool false
 	.Obj
@@ -74,56 +75,62 @@ repr.
 		\ TODO:SYNTAX (repr.)
 		show _ (repr. true)
 
-\ TODO:MOVE
-impl! show Str
-	test. |
-		[ "a" ] -> "a"
-		\ TODO:SYNTAX [ "a" repr. ]
-		[ "a" (repr. true) ] -> "\"a\""
-	|_ opts
-		case
-			flag? opts "repr"
-				js+ "\"" (js+ _ "\"")
-			else
-				_
-
-\ TODO: show-Symbol.ms
-impl! show Symbol
-	test. |
-		\ TODO:ES6
-		\ [ (Symbol "name") ] -> "<Symbol name>"
-		[ (Symbol "name") ] -> "<Symbol>"
-	|
-		\ TODO:ES6 _.name
-		"<Symbol>"
-
-\ TODO: show-Bool.ms?
-impl! show Bool
-	test. |
-		[ true ] -> "true"
-		[ false ] -> "false"
-	|case
-		_
-			"true"
-		else
-			"false"
-
-impl! show Fun
-	test. |
-		a = |
-			1
-		[ a ] -> "a"
-		[ Obj ] -> "Obj"
-		[ (Fun "" "") ] -> "<anonymous Fun>"
-	|:Str _
-		?-or (?p _ "displayName") ~
-			\ Every function has name property - empty string means anonymous function.
-			name = p _ "name"
-			case name
-				empty?_
-					"<anonymous Fun>"
+spread! impl! show
+	Str ->
+		test. |
+			[ "a" ] -> "a"
+			\ TODO:SYNTAX [ "a" repr. ]
+			[ "a" (repr. true) ] -> "\"a\""
+		|_ opts
+			case
+				flag? opts "repr"
+					js+ "\"" (js+ _ "\"")
 				else
 					_
+
+	Num ->
+		test. |
+			[ 12 ] -> "12"
+			[ -1.0 ] -> "-1"
+		|_
+			base = 10
+			_.toString base
+
+	Symbol ->
+		test. |
+			\ TODO:ES6
+			\ [ (Symbol "name") ] -> "<Symbol name>"
+			[ (Symbol "name") ] -> "<Symbol>"
+		|
+			\ TODO:ES6 _.name
+			"<Symbol>"
+
+	Bool ->
+		test. |
+			[ true ] -> "true"
+			[ false ] -> "false"
+		|case
+			_
+				"true"
+			else
+				"false"
+
+	Fun ->
+		test. |
+			a = |
+				1
+			[ a ] -> "a"
+			[ Obj ] -> "Obj"
+			[ (Fun "" "") ] -> "<anonymous Fun>"
+		|:Str _
+			?-or (?p _ "displayName") ~
+				\ Every function has name property - empty string means anonymous function.
+				name = p _ "name"
+				case name
+					empty?_
+						"<anonymous Fun>"
+					else
+						_
 
 p+! ms "show" show
 

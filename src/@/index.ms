@@ -45,6 +45,7 @@ debug use~
 iterator. Method
 	doc. |:Generator! _
 		"Creates a new Generator! which yields the values in the @. Should create a new one every time."
+p+! ms "iterator" iterator
 
 empty?. Method
 	doc. "Whether `count` is 0. Often much faster."
@@ -53,9 +54,6 @@ empty?. Method
 		[ [ 1 ] ] -> false
 	default. |:Bool _
 		iterator_.next().done
-
-\ TODO:ES6 Should not need this
-p+! ms "iterator" iterator
 
 region Using iterator
 	impl! contains? @
@@ -103,7 +101,6 @@ region Using iterator
 			! =? [ 1 2 3 ] (build |yield
 				each! [ 1 2 3 ] yield
 		default. |_ do-for-each:Act
-			\ TODO:ES6 `for (let value of _)`
 			iter = iterator_
 			loop!
 				value done = iter.next()
@@ -258,7 +255,6 @@ region Lazy functions, and their eager versions.
 	flat-map'. Method
 		doc. "Type-preserving flat-map."
 		test. |
-			\ TODO:SYNTAX [ a | a a ]
 			f = |a
 				[ a a ]
 			[ [ 1 2 ] f ] -> [ 1 1 2 2 ]
@@ -336,7 +332,7 @@ region Lazy functions, and their eager versions.
 	--'. Method
 		doc. "Type-preserving --."
 		test. |
-			"TODO"
+			[ [ 1 2 1 ] [ 1 ] ] -> [ 2 1 ]
 		default. |_ remove:@
 			=> type-of_ (-- _ remove
 

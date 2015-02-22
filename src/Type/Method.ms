@@ -1,5 +1,5 @@
 use
-	..Bool _ false implies not
+	..Bool _ and false implies not
 	..js defined? global js-sub
 	..private.js-impl build-str
 	..private.bootstrap Fun impl-contains?! Obj p+! Str Symbol ms contains?-impl-symbol
@@ -7,7 +7,8 @@ use
 use~
 	..!
 	..@.? un-?
-	..Obj ?p p-with-proto?
+	..control if
+	..Obj p-with-proto?
 	..Try oh-no!
 	.Impl-Type
 	.Kind
@@ -224,7 +225,10 @@ Double-Dispatcher = Obj-Type
 		[ contains? Method ] -> ? method-contains?
 		[ =? Method ] -> empty ?
 	|method:Method type:Impl-Type
-		?p type.prototype method.impl-symbol
+		\ TODO: Obj.ms Fun
+		desc = Obj.getOwnPropertyDescriptor type.prototype method.impl-symbol
+		if (and (defined? desc) ~(not desc.writable)) |
+			desc.value
 
 impl-for.
 	doc. "impl-for that fails when there is no implementation."

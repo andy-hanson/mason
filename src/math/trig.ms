@@ -5,9 +5,10 @@ doc. "
 use
 	..js global
 	.methods * /
-	.Num _
+	.Num
 debug use
-	..! !call-near
+	..! !call-with
+	.Num near?
 
 Math = global.Math
 
@@ -19,7 +20,7 @@ pi*2. * pi 2
 sin.
 	doc. "Y-value of the point on the unit circle this many radians counter-clockwise from +x."
 	test. |
-		!call-near sin
+		!call-with near? sin
 			[ 0 ] -> 0
 			[ pi/2 ] -> 1
 			[ pi ] -> 0
@@ -30,7 +31,7 @@ sin.
 cos.
 	doc. "X-value of the point on the unit circle this many radians counter-clockwise from +x."
 	test. |
-		!call-near cos
+		!call-with near? cos
 			[ 0 ] -> 1
 			[ pi/2 ] -> 0
 			[ pi ] -> -1
@@ -41,7 +42,7 @@ cos.
 tan.
 	doc. "`/ sin cos`"
 	test. |
-		!call-near tan
+		!call-with near? tan
 			[ 0 ] -> 0
 			[ pi ] -> 0
 	|_:Num
@@ -50,7 +51,7 @@ tan.
 acos.
 	doc. "`cos res` should be `n`."
 	test. |
-		!call-near acos
+		!call-with near? acos
 			[ 0 ] -> pi/2
 			[ 0.5 ] -> / pi 3
 			[ 1 ] -> 0
@@ -60,7 +61,7 @@ acos.
 asin.
 	doc. "`sin res` should be `n`."
 	test. |
-		!call-near asin
+		!call-with near? asin
 			[ 0 ] -> 0
 			[ 0.5 ] -> / pi 6
 			[ 1 ] -> pi/2
@@ -70,7 +71,7 @@ asin.
 atan.
 	doc. "`tan res` should be `n`."
 	test. |
-		!call-near atan
+		!call-with near? atan
 			[ 0 ] -> 0
 	|n:Num
 		Math.atan n

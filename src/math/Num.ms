@@ -4,7 +4,6 @@ use
 	..control opr
 	..Obj p
 	..js global id=? js-bar js< js<= js+ js- js* js/ js%
-	..show
 	..Type.Method impl!
 	..Type.Pred-Type _ Opt
 	.methods + - * /
@@ -246,14 +245,6 @@ region Near
 			\ This is more accurate than `pow 0.1 sig-figs`
 			max = pow 10 (* -1 sig-figs)
 			<? abs_ max
-
-impl! show Num
-	test. |
-		[ 12 ] -> "12"
-		[ -1.0 ] -> "-1"
-	|_
-		base = 10
-		_.toString base
 
 region Constants
 	infinity. p Num "POSITIVE_INFINITY"

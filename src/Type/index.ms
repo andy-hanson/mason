@@ -1,9 +1,10 @@
 use
-	..js js-instanceof
+	..compare =?
+	..js id=? js-instanceof
 	..private.bootstrap Fun impl-contains?! ms p+!
 	.Impl-Type
 	.Kind _ kind!
-	.Method
+	.Method _ impl!
 use~
 	..@.? ?-or
 	..Obj _ ?p-with-proto
@@ -13,6 +14,8 @@ Type. Kind
 	doc. "
 		Anything implementing contains?.
 		Types are generally used to succinctly make assertions about values.
+
+impl! =? Type id=?
 
 contains?. ms.contains
 

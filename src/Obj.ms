@@ -168,9 +168,8 @@ p-with-proto?.
 	|_ name:Obj-Key
 		and can-get-p?_ ~(defined? (js-sub _ name
 
-\ TODO: Move?
 \ TODO: Handle recursive references.
-inspect=?.
+obj=?.
 	doc. "
 		For Objs, whether they are of the same type and have `=?` properties.
 		For primitives, whether they are `=?`.
@@ -187,7 +186,7 @@ inspect=?.
 		[ a c ] -> false
 		[ 1 1 ] -> true
 		\ For functions, is identity
-		[ inspect=? inspect=? ] -> true
+		[ obj=? obj=? ] -> true
 	|:Bool a b
 		\ Necessary because `js-typeof null` is "object"
 		null-a = id=? a ()
@@ -245,5 +244,12 @@ Map->Obj.
 			each! _ |pair
 				p+! obj pair.key pair.val
 			freeze obj
+
+prototype.
+	doc. "Gets prototype of an object."
+	test. |
+		[ empty-Obj ] -> Obj.prototype
+		[ Obj-Key ] -> Kind.prototype
+	Obj.getPrototypeOf
 
 Obj

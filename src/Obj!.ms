@@ -5,10 +5,13 @@ use
 	.js js-delete js-set
 	.Obj _ Obj-Key
 	.Type.Alias-Type
+	.Type.Pred-Type Opt
+use~
+	.control opr
 debug use~
 	.! _ !not
 	.compare =?
-	.Obj p?
+	.Obj empty-Obj? p? prototype
 	.Try fails?
 
 Obj! = Alias-Type
@@ -16,11 +19,15 @@ Obj! = Alias-Type
 	alias-of. Obj
 
 empty-Obj!.
-	doc. "TODO"
+	doc. "Creates a new Obj! with no properties and the given prototype."
 	test. |
-		"TODO"
-	|
-		Obj.create Obj.prototype
+		_ = empty-Obj!()
+		! empty-Obj? _
+		child = empty-Obj! _
+		! =? _ (prototype child
+	|?prototype:Opt[Obj]
+		prototype = opr ?prototype Obj.prototype
+		Obj.create prototype
 
 p+!.
 	doc. "Adds a new immutable property."

@@ -50,21 +50,17 @@ impl! ?get Id-Map! |_ key
 impl! has-key? Id-Map! |_ key
 	_.has key
 impl! keys Id-Map! |_
-	\ TODO: bind _ "keys"
 	Stream |
-		_.keys ()
+		_.keys()
 impl! values Id-Map! |_
-	\ TODO: bind _ "keys"
 	Stream |
-		_.values ()
+		_.values()
 impl! empty! Id-Map! |_
-	_.clear ()
+	_.clear()
 impl! assoc! Id-Map! |_ key val
 	_.set key val
 impl! un-assoc! Id-Map! |_ key
 	returning (?get _ key) |
 		_.delete key
 
-
 Id-Map!
-

@@ -34,7 +34,7 @@ impl! =? Set
 		[ a b ] -> true
 		[ a [ -- b [ 1 ] ] ] -> false
 	|a b
-		and (same? a b type-of) ~(same? a b count) ~(all? a contains?[b]
+		and (same? type-of a b) ~(same? count a b) ~(all? a contains?[b]
 
 set=?.
 	doc. "Whether two @s have the same values, regardless of order or count."

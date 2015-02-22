@@ -1,25 +1,27 @@
 doc. "For making assertions."
 
 use
+	.Bool _ not
+	.compare =?
 	.private.bootstrap Fun
-use~ \ TODO: Move as many up as possible
+use~
 	.@ _ each! map
 	.@.Array
 	.@.Map
-	.Bool _ not
-	.compare =?
 	.control if!
-	.math.Num _ near?
+	.Fun Pred
 	.show repr
 	.Str _ indent
 	.Try oh-no!
 	.Type =>
+	.Type.Pred-Type Any
 debug use~
 	.Bool false true
+	.compare same?
 	.math.methods +
+	.show
 	.Try fails-with?
 
-\ TODO: !-Error type?
 ! =
 	doc. "
 		Pronounced 'assert'.
@@ -96,44 +98,34 @@ debug use~
 		!call +
 			[ 1 1 ] -> 2
 		nope = "
-			Calling + on:
+			+ of:
 				1
 				1
-			Should be:
+			Should =?:
 				3
 			Got:
 				2
 		! fails-with? nope |
 			!call +
 				[ 1 1 ] -> 3
-	|fun:Fun args->result:Map \ TODO: Map[Array Any]
+	|fun:Fun args->result:Map[Array Any]
+		!call-with =? fun args->result
+
+!call-with.
+	doc. "Like !call but allows any equality predicate."
+	test. |
+		!call-with same?[show] +
+			[ 1 2 ] -> "3"
+	|equal?:Pred fun:Fun args->result:Map[Array Any]
 		each! args->result |pair
 			args:@ = pair.key
 			expected-res = pair.val
 			actual = fun ...args
-			if! (not (=? actual expected-res)) |
+			if! (not (equal? actual expected-res)) |
 				oh-no! ~"
-					Calling {fun} on:
-						{indent ((=> Array (map args repr)).join "\n")}
-					Should be:
-						{indent (repr expected-res)}
-					Got:
-						{indent (repr actual)}
-
-!call-near.
-	doc. "TODO"
-	test. |
-		"TODO"
-	|fun:Fun args->result:Map \ TODO: Map[Array Any]
-		each! args->result |pair
-			args:@ = pair.key
-			expected-res:Num = pair.val
-			actual:Num = fun ...args
-			if! (not (near? actual expected-res)) |
-				oh-no! ~"
-					Calling {fun} on:
-						{indent ((=> Array (map args repr)).join "\n")}
-					Should be near:
+					{fun} of:
+						{indent (=> Str (map args repr) "\n")}
+					Should {equal?}:
 						{indent (repr expected-res)}
 					Got:
 						{indent (repr actual)}

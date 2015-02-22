@@ -5,7 +5,7 @@ use
 	.@.Array
 	.Bool
 	.control if
-	.Fun _ apply identity ignore
+	.Fun _ apply identity
 	.Generator!
 	.js global new
 	.methods sub
@@ -39,9 +39,6 @@ $done.
 		Logs any errors that happen inside a promise.
 		It would be great if we could make these errors happen top-level...
 		This is probably a kludge. See <http://blog.soareschen.com/the-problem-with-es6-promises>.
-	test. |
-		\ TODO: How to test console output?
-		()
 	|_:$
 		$catch _ |err
 			\ Don't use log! because there if errors happen in there, the error disappears!
@@ -88,9 +85,8 @@ $delay.
 		! =? 1 (<~ $delay |
 			1
 	|delayed:Fun[0]
-		new $ |resolve reject
-			ignore reject \ TODO:Ignored vars
-			resolve (delayed ()
+		new $ |resolve
+			resolve delayed()
 
 $all.
 	doc. "
