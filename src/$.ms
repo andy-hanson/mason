@@ -5,13 +5,12 @@ use
 	.@.Array
 	.Bool
 	.control if
-	.Fun _ apply identity
+	.Fun _ apply
 	.Generator!
 	.js global new
 	.methods sub
 	.Type =>
-	.Type.Impl-Type self-type
-	.Type.Method impl!
+	.Type.Method self-impl!
 	.Type.Pred-Type Any
 use~
 	.Try $catch Error
@@ -29,7 +28,8 @@ $ =
 		Called `$` because you "cash in" on it after some time.
 	Promise
 
-impl! sub (self-type $) identity
+self-impl! sub $ |
+	$
 
 \ See also $ section in Try.ms.
 

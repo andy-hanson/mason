@@ -4,8 +4,7 @@ use
 	...control if loop End-Loop
 	...js defined?
 	...Obj! p!
-	...Type.Impl-Type self-type
-	...Type.Kind kind!
+	...Type.Kind kind! self-kind!
 	...Type.Obj-Type
 	...@ empty?
 	..@! empty!
@@ -26,7 +25,7 @@ Splay-Tree! = Obj-Type
 	props.
 		root!.
 
-kind! (self-type Splay-Tree!) Map-Type
+self-kind! Splay-Tree! Map-Type
 	empty -> |
 		Splay-Tree!
 			root!. undefined

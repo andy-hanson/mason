@@ -6,12 +6,12 @@ use
 	.@.@-Type _ empty from-stream
 	.@.Seq
 	.control opr
-	.Fun ignore thunk
+	.Fun noop thunk
 	.show
 	.Str
 	.Type =>
 	.Type.Impl-Type self-type
-	.Type.Kind kind!
+	.Type.Kind kind! self-kind!
 	.Type.Method impl! impl-for
 	.Type.Pred-Type Opt
 debug use
@@ -22,23 +22,24 @@ debug use
 test. |
 	! =? [ "1" "2" "3" ] (map "123" identity)
 
-kind! Str Seq
-	count -> |_
-		_.length
-	\ TODO:ES6 should be built-in
-	\ TODO: How does this handle Unicode?
-	iterator -> impl-for iterator Array
-
-kind! (self-type Str) @-Type
+self-kind! Str @-Type
 	empty -> thunk ""
 	\ TODO
-	from-stream -> impl-for from-stream (self-type Array)
+	from-stream -> |_
+		from-stream Array _
 
 impl! => (self-type Str) @
 	test. |
 		[ Str [ 1 2 3 ] ] -> "123"
 		[ Str [ 1 2 3 ] ", " ] -> "1, 2, 3"
 	|Str _ ?joiner:Opt[Str]
-		ignore Str \ TODO: ignored vars
+		noop Str
 		joiner = opr ?joiner ""
 		(=> Array (map _ show)).join joiner
+
+kind! Str Seq
+	count -> |_
+		_.length
+	\ TODO:ES6 should be built-in
+	\ TODO: How does this handle Unicode?
+	iterator -> impl-for iterator Array

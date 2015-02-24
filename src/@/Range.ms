@@ -2,12 +2,11 @@ use
 	..@ _ count iterator
 	..compare <? <=?
 	..control if opr Ref! get set!
-	..Fun ignore thunk
+	..Fun noop thunk
 	..math.Num _ Nat round-down sign
 	..math.methods + - * /
-	..Type.Impl-Type self-type
-	..Type.Kind kind!
-	..Type.Method impl!
+	..Try oh-no!
+	..Type.Kind kind! self-kind!
 	..Type.Pred-Type Opt
 	..Type.Obj-Type
 	.@-Type _ empty from-stream
@@ -28,7 +27,7 @@ Range = Obj-Type
 	post-construct. |_
 		in
 			! =? (sign _.step) (sign (- _.end _.start
-		ignore _
+		noop _
 	test. |
 		! seq=? [ 0 1 2 ] (take (range 0 infinity) 3
 
@@ -40,8 +39,10 @@ range. |-start-:Num -end-:Num ?step:Opt[Num]
 		end. -end-
 		step. -step-
 
-kind! (self-type Range) @-Type
+self-kind! Range @-Type
 	empty -> thunk (range 0 0)
+	from-stream -> |
+		oh-no! "Range can not be made from arbitrary @."
 
 
 length.
@@ -51,10 +52,6 @@ length.
 		[ (range 5 10 3) ] -> 5
 	|_:Range
 		- _.end _.start
-
-impl! from-stream (self-type Range) |_ stream
-	ignore _ \ TODO:Ignored vars
-	stream
 
 kind! Range @
 	?nth ->

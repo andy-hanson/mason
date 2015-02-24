@@ -1,8 +1,7 @@
 use
 	..js global new
 	..Type contains?
-	..Type.Impl-Type self-type
-	..Type.Kind kind!
+	..Type.Kind kind! self-kind!
 	..@ count each! iterator
 	.@! ++! --! empty!
 	.@-Type _ empty
@@ -10,8 +9,9 @@ use
 
 Id-Set! = global.Set
 
-kind! (self-type Id-Set!) @-Type
-	empty -> new
+self-kind! Id-Set! @-Type
+	empty -> |
+		new Id-Set!
 
 kind! Id-Set! Set!
 	count -> |_

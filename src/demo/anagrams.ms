@@ -11,7 +11,7 @@ debug use
 	..@.Seq seq=?
 	..Bool false
 	..control if!
-	..Fun ignore
+	..Fun noop
 	..js new
 	..Str split-str
 	..Try oh-no!
@@ -24,7 +24,7 @@ debug
 	$request = |url
 		new $ |resolve
 			request url |err res body
-				ignore res \ TODO:Ignored vars
+				noop res
 				case! err
 					=? _ ()
 						()

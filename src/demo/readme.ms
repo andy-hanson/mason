@@ -10,7 +10,7 @@ debug use
 	..Bool and true
 	..compare =? <? <=?
 	..control Ref! get set!
-	..Fun _ ignore
+	..Fun _ noop
 	..Generator! _ each~ gen-next!
 	..math.Num _ divisible? Int
 	..math.methods + - * /
@@ -100,7 +100,7 @@ test. |
 	ints:@[Int] =
 		. 1
 		. 2
-	ignore ints
+	noop ints
 
 	twice = |x
 		* 2 x

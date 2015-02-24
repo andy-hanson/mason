@@ -3,9 +3,8 @@ use
 	...Fun identity
 	...methods sub
 	...Type =>
-	...Type.Impl-Type self-type
-	...Type.Method _ impl!
-	...Type.Kind _ kind!
+	...Type.Method _ impl! self-impl!
+	...Type.Kind _ kind! self-kind!
 	..@-Type _ empty
 	..Map
 use~
@@ -18,8 +17,8 @@ Map-Type = Kind
 kind! Map-Type @-Type
 
 \ TODO: Do this in index.ms
-kind! (self-type Map) Map-Type
-impl! empty (self-type Map) |
+self-kind! Map Map-Type
+self-impl! empty Map |
 	empty Hash-Map!
 
 impl! sub Map-Type identity

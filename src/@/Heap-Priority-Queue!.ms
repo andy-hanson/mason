@@ -5,8 +5,7 @@ use
 	..math.Num int/
 	..math.methods + - *
 	.Priority-Queue! _ ?pop!
-	..Type.Impl-Type self-type
-	..Type.Kind kind!
+	..Type.Kind kind! self-kind!
 	..Type.Wrap-Type
 	..@ count each! empty? iterator map'
 	.@! ++! empty!
@@ -20,7 +19,7 @@ Heap-Priority-Queue!. Wrap-Type
 	doc. "Default implementation for Priority-Queue!."
 	wrapped-type. Array!
 
-kind! (self-type Heap-Priority-Queue!) @-Type
+self-kind! Heap-Priority-Queue! @-Type
 	empty -> |
 		Heap-Priority-Queue! (empty Array!
 

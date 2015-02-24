@@ -2,9 +2,8 @@ use
 	...control returning
 	...js global new
 	...Try oh-no!
-	...Type.Impl-Type self-type
-	...Type.Kind kind!
-	...Type.Method impl!
+	...Type.Kind kind! self-kind!
+	...Type.Method impl! self-impl!
 	..@! empty!
 	..@-Type empty
 	..? Opt->?
@@ -19,8 +18,9 @@ Weak-Id-Map! =
 		It does not have the full functionality of a Map! because there is no way to iterate over the keys.
 	global.WeakMap
 
-kind! (self-type Weak-Id-Map!) Map-Type
-impl! empty (self-type Weak-Id-Map!) new
+self-kind! Weak-Id-Map! Map-Type
+self-impl! empty Weak-Id-Map! |
+	new Weak-Id-Map!
 
 kind! Weak-Id-Map! Map!
 impl! ?get Weak-Id-Map! |_ key

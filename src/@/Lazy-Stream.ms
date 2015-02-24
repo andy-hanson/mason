@@ -1,10 +1,9 @@
 use
-	..Fun _ ignore thunk
-	..Generator! _ each~
+	..Fun _ thunk
+	..Generator! _ each~ empty-Generator
 	..math.Num Nat
 	..math.methods -
-	..Type.Impl-Type self-type
-	..Type.Kind kind!
+	..Type.Kind kind! self-kind!
 	..Type.Obj-Type
 	..@ count empty? iterator
 	.@! ++!
@@ -31,15 +30,14 @@ Lazy-Stream = Obj-Type
 		caching-iterator. Generator!
 		cache. Array!
 
-kind! (self-type Lazy-Stream) @-Type
+self-kind! Lazy-Stream @-Type
 	empty -> thunk (Lazy-Stream
-		caching-iterator. empty Generator!
+		caching-iterator. empty-Generator
 		cache. empty Array!
 
-	from-stream -> |_ stream
-		ignore _ \ TODO:Ignored vars
+	from-stream -> |_
 		lazy-streaming |
-			iterator stream
+			iterator_
 
 kind! Lazy-Stream Seq
 	iterator ->

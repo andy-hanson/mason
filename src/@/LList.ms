@@ -1,8 +1,7 @@
 use
 	..js id=?
 	..Obj! p!
-	..Type.Impl-Type self-type
-	..Type.Kind kind!
+	..Type.Kind kind! self-kind!
 	..Type.Obj-Type
 	..@ _ ++' empty? iterator
 	.@-Type _ empty from-stream
@@ -18,10 +17,9 @@ LList. Obj-Type
 empty-LList = LList head. undefined tail. undefined
 p! empty-LList "tail" empty-LList
 
-kind! (self-type LList) @-Type
+self-kind! LList @-Type
 	empty -> |
 		empty-LList
-
 	from-stream -> |_
 		<++' empty-LList _
 

@@ -2,8 +2,7 @@ use
 	..@ each! iterator
 	..Bool true
 	..compare =?
-	..Type.Impl-Type self-type
-	..Type.Kind kind!
+	..Type.Kind kind! self-kind!
 	..Type.Method impl! impl-for
 	..Type.Obj-Type
 	.@! ++! --! empty!
@@ -21,7 +20,7 @@ Hash-Set! = Obj-Type
 	props.
 		data. Hash-Map!
 
-kind! (self-type Hash-Set!) @-Type
+self-kind! Hash-Set! @-Type
 	empty -> |
 		Hash-Set!
 			data. empty Hash-Map!

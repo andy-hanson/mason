@@ -8,9 +8,10 @@ use~
 	..!
 	..@.? un-?
 	..control if
+	..Fun noop
 	..Obj p-with-proto?
 	..Try oh-no!
-	.Impl-Type
+	.Impl-Type _ self-type
 	.Kind
 debug use~
 	..@.@-Type empty
@@ -130,91 +131,14 @@ impl!.
 			else
 				impl-single! a b c
 
-impl-single! = |method:Method implementor:Impl-Type implementation:Fun
-	do-impl! method implementor implementation
-
-impl-double! = |method:Method implementor-0:Impl-Type implementor-1:Impl-Type implementation:Fun
-	dispatcher = case
-		writable? implementor-0.prototype method.impl-symbol
-			m = method
-			dd = Double-Dispatcher
-				displayName. "<double dispatcher>" \ TODO: "<Double dispatcher for {m.displayName}>"
-				method. m
-				first-type. implementor-0
-				impl-symbol. Symbol "<double dispatcher>" \"{m} for {implementor-0.displayName}"
-			do-impl! method implementor-0 dd
-			dd
-		else
-			case js-sub implementor-0.prototype method.impl-symbol
-				:Double-Dispatcher
-					_
-				else
-					oh-no! "
-						Can't define double dispatch of {method} for {implementor-0}.
-						A single-dispatch implementation already exists: {_}.
-
-	do-impl! dispatcher implementor-1 implementation
-
-\ TODO: Multiple-inheritance proxy scheme for Obj-Type, Wrap-Type, Enum
-\ "method" can be a Method or a Double-Dispatcher.
-do-impl! = |method implementor implementation
-	in
-		case!
-			writable? implementor.prototype method.impl-symbol
-				()
-			else
-				oh-no! "Can not redefine method {method} for {implementor}."
-
-	Obj.defineProperty implementor.prototype method.impl-symbol
-		value. implementation
-		enumerable. false \ TODO:ES6 Should not need this
-	case! implementor
-		:Kind
-			_.implementors.forEach |sub
-				propagate-method-down! sub method.impl-symbol implementation
-		else
-			()
-
-\ TODO: Not public
-propagate-method-down!. |implementor method-symbol implementation \ TODO: :Impl-Type :Symbol :Fun
-	case! implementor
-		\ Only bring it down if there isn't already one there.
-		not (p? _.prototype method-symbol)
-			case!
-				:Kind
-					_.implementors.forEach |sub-implementor
-						propagate-method-down! sub-implementor method-symbol implementation
-				else
-					\ TODO: What to do in case of multiple inheritance collision?
-					\ Since this is inherited, it is mutable and can be overridden.
-					Obj.defineProperty _.prototype method-symbol
-						value. implementation
-						writable.
-		else
-			()
-
-Double-Dispatcher = Obj-Type
-	props.
-		displayName. Str
-		method. Method
-		first-type. \ TODO: Impl-Type
-		impl-symbol. Symbol
-	make-callable. |_
-		|...args
-			target-2 = js-sub args 1
-			case!
-				defined? target-2
-					()
-				else
-					oh-no! ~"Can't double-dispatch {_.method} for undefined."
-
-			impl = js-sub target-2 _.impl-symbol
-			case!
-				defined? impl
-					! contains? Fun impl
-				else
-					oh-no! ~"Can't double-dispatch {_.method} for {_.first-type} on {target-2}"
-			impl ...args
+self-impl!.
+	doc. "TODO"
+	test. |
+		"TODO"
+	|method:Method implementor:Obj implementation:Fun
+		impl! method (self-type implementor) |implementor ...args
+			noop implementor
+			implementation ...args
 
 ?impl-for.
 	doc. "
@@ -237,6 +161,94 @@ impl-for.
 		! (impl-for contains? Kind) Impl-Type Kind
 	|method:Method type:Impl-Type
 		un-? (?impl-for method type) ~"{method} not implemented for {type}."
+
+
+region Private
+	\ TODO: Not public
+	propagate-method-down!. |implementor method-symbol implementation \ TODO: :Impl-Type :Symbol :Fun
+		case! implementor
+			\ Only bring it down if there isn't already one there.
+			not (p? _.prototype method-symbol)
+				case!
+					:Kind
+						_.implementors.forEach |sub-implementor
+							propagate-method-down! sub-implementor method-symbol implementation
+					else
+						\ TODO: What to do in case of multiple inheritance collision?
+						\ Since this is inherited, it is mutable and can be overridden.
+						Obj.defineProperty _.prototype method-symbol
+							value. implementation
+							writable.
+			else
+				()
+
+	impl-single! = |method:Method implementor:Impl-Type implementation:Fun
+		do-impl! method implementor implementation
+
+	impl-double! = |method:Method implementor-0:Impl-Type implementor-1:Impl-Type implementation:Fun
+		dispatcher = case
+			writable? implementor-0.prototype method.impl-symbol
+				m = method
+				dd = Double-Dispatcher
+					displayName. "<double dispatcher>" \ TODO: "<Double dispatcher for {m.displayName}>"
+					method. m
+					first-type. implementor-0
+					impl-symbol. Symbol "<double dispatcher>" \"{m} for {implementor-0.displayName}"
+				do-impl! method implementor-0 dd
+				dd
+			else
+				case js-sub implementor-0.prototype method.impl-symbol
+					:Double-Dispatcher
+						_
+					else
+						oh-no! "
+							Can't define double dispatch of {method} for {implementor-0}.
+							A single-dispatch implementation already exists: {_}.
+
+		do-impl! dispatcher implementor-1 implementation
+
+	\ TODO: Multiple-inheritance proxy scheme for Obj-Type, Wrap-Type, Enum
+	\ "method" can be a Method or a Double-Dispatcher.
+	do-impl! = |method implementor implementation
+		in
+			case!
+				writable? implementor.prototype method.impl-symbol
+					()
+				else
+					oh-no! "Can not redefine method {method} for {implementor}."
+
+		Obj.defineProperty implementor.prototype method.impl-symbol
+			value. implementation
+			enumerable. false \ TODO:ES6 Should not need this
+		case! implementor
+			:Kind
+				_.implementors.forEach |sub
+					propagate-method-down! sub method.impl-symbol implementation
+			else
+				()
+
+	Double-Dispatcher = Obj-Type
+		props.
+			displayName. Str
+			method. Method
+			first-type. \ TODO: Impl-Type
+			impl-symbol. Symbol
+		make-callable. |_
+			|...args
+				target-2 = js-sub args 1
+				case!
+					defined? target-2
+						()
+					else
+						oh-no! ~"Can't double-dispatch {_.method} for undefined."
+
+				impl = js-sub target-2 _.impl-symbol
+				case!
+					defined? impl
+						! contains? Fun impl
+					else
+						oh-no! ~"Can't double-dispatch {_.method} for {_.first-type} on {target-2}"
+				impl ...args
 
 method-contains? = |method value
 	p-with-proto? value method.impl-symbol

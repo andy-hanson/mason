@@ -3,8 +3,7 @@ use
 	.methods sub
 	.private.js-impl i-curry
 	.Type.Alias-Type
-	.Type.Impl-Type self-type
-	.Type.Method _ impl!
+	.Type.Method _ impl! self-impl!
 use~
 	.@ _ ++ each! map
 	.@.@-Type empty
@@ -86,7 +85,7 @@ identity.
 	|_
 		_
 
-ignore.
+noop.
 	doc. "Does nothing."
 	|
 		()
@@ -200,7 +199,7 @@ spread!.
 			spread! f 1
 				2 -> 3
 	|fun ...args
-		each! (spread fun ...args) ignore
+		each! (spread fun ...args) noop
 
 thunk.
 	doc. "Makes function which, when called, returns `a`."
@@ -224,12 +223,13 @@ impl! sub Fun curry
 \ TODO: Make Method a Callable
 impl! sub Method curry
 
-impl! sub (self-type Fun)
+self-impl! sub Fun
 	doc. "
 		Subbing Fun does nothing and is only for documentation.
 		E.g. Fun[Int Str] takes an Int and returns a Str.
 	test. |
 		! =? Fun[Fun Fun] Fun
-	fun-copy identity
+	|
+		Fun
 
 Fun

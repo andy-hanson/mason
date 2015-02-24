@@ -3,13 +3,11 @@ use
 	.@.@-Type empty
 	.@.?
 	.Bool _ and
-	.Fun
+	.Fun _ call
 	.Js-Method
 	.private.js-impl each-generator
 	.Obj
 	.Type contains?
-	.Type.Impl-Type self-type
-	.Type.Method impl!
 	.Type.Pred-Type _ Any
 debug use~
 	.!
@@ -25,9 +23,9 @@ Generator! = Pred-Type
 	predicate. |_
 		and :Obj ~(contains? Fun _.next)
 
-impl! empty (self-type Generator!)
+empty-Generator.
 	doc. "Does nothing."
-	~|
+	call ~|
 		()
 
 gen-next!. Js-Method

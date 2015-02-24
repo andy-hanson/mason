@@ -5,9 +5,8 @@ use
 	...Obj! p+!
 	...private.bootstrap ms
 	...Type.Alias-Type
-	...Type.Impl-Type self-type
-	...Type.Kind kind!
-	...Type.Method impl!
+	...Type.Kind self-kind!
+	...Type.Method self-impl!
 	..@-Type empty
 	.Hash-Map!
 	.Map! assoc!
@@ -16,8 +15,8 @@ use
 Hash-Map = Alias-Type
 	alias-of. Hash-Map!
 
-kind! (self-type Hash-Map) Map-Type
-impl! empty (self-type Hash-Map) (thunk (freeze (empty Hash-Map!
+self-kind! Hash-Map Map-Type
+self-impl! empty Hash-Map (thunk (freeze (empty Hash-Map!
 
 \ TODO: MOVE?
 p+! ms "map" |...args

@@ -7,9 +7,8 @@ use
 	..methods freeze sub
 	..Str indent
 	..Type => type-of
-	..Type.Impl-Type self-type
-	..Type.Kind _ kind!
-	..Type.Method _ impl!
+	..Type.Kind _ kind! self-kind!
+	..Type.Method _ impl! self-impl!
 	..@ _ ++ count empty? iterator
 	.@-Type _ empty from-stream
 use~
@@ -31,8 +30,8 @@ Seq = Kind
 
 kind! Seq @
 
-kind! (self-type Seq) @-Type
-impl! empty (self-type Seq) |
+self-kind! Seq @-Type
+self-impl! empty Seq |
 	empty Array
 
 region ???

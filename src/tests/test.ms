@@ -11,7 +11,7 @@ use
 	..Bool _ and false or true
 	..compare =?
 	..control if
-	..Fun _ ignore
+	..Fun _ noop
 	..Generator!
 	..modules $@module-in-dir
 	..Obj _ ?p p p? @p @p-all
@@ -25,7 +25,7 @@ use
 debug use
 	..control build
 	..Obj!
-	..Type.Impl-Type self-type
+	..Type.Method self-impl!
 
 \ TODO
 test. |
@@ -33,10 +33,13 @@ test. |
 		dict =
 			a.
 				test.
-					x. yield["x"]
-					y. yield["y"]
+					x. |
+						yield "x"
+					y. |
+						yield "y"
 			b. empty Obj!
-			impl! test-special (self-type b) yield["b"]
+			self-impl! test-special b |
+				yield "b"
 			c. () \ not testable
 		@$maybe-test "dict" dict true
 
@@ -45,7 +48,7 @@ test-special. Method
 	doc. "
 		Something special to do with this value when the test runner reacher it.
 		May return a $.
-	default. ignore
+	default. noop
 
 \ TODO: MOVE THESE
 impl! test-special Impl-Type |type

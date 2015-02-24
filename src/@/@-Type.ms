@@ -3,9 +3,8 @@ use
 	..Fun identity
 	..methods sub
 	..Type =>
-	..Type.Impl-Type self-type
-	..Type.Kind _ kind!
-	..Type.Method _ impl!
+	..Type.Kind _ self-kind!
+	..Type.Method _ impl! self-impl!
 	..@
 use~
 	.@! ++!
@@ -32,10 +31,9 @@ from-stream. Method
 		returning (empty type) |_
 			++! _ stream
 
-
 \ TODO: Do this in index.ms
-kind! (self-type @) @-Type
-impl! empty (self-type @) |
+self-kind! @ @-Type
+self-impl! empty @ |
 	empty Array
 
 impl! => @-Type from-stream

@@ -1,10 +1,8 @@
 use
 	..Bool and
 	..compare =? same?
-	..Fun ignore
 	..Type => contains? type-of
-	..Type.Impl-Type self-type
-	..Type.Kind _ kind!
+	..Type.Kind _ kind! self-kind!
 	..Type.Method _ impl!
 	..@ _ all? count keep
 	.@-Type _ empty from-stream
@@ -18,13 +16,12 @@ debug use~
 Set = Kind
 	doc. "@ without repeat values."
 
-kind! Set @
-kind! (self-type Set) @-Type
+self-kind! Set @-Type
 	empty -> |
 		empty Hash-Set!
-	from-stream -> |set _
-		ignore set \ TODO:SYNTAX Ignored vars
+	from-stream -> |_
 		from-stream Hash-Set! _
+kind! Set @
 
 impl! =? Set
 	doc. "Two Sets are =? if they have the same type and contain the same values."

@@ -1,9 +1,8 @@
 use
 	...control returning
 	...js global new
-	...Type.Impl-Type self-type
-	...Type.Kind kind!
-	...Type.Method impl!
+	...Type.Kind kind! self-kind!
+	...Type.Method impl! self-impl!
 	..@! empty!
 	..@-Type empty
 	..? Opt->?
@@ -41,8 +40,9 @@ Id-Map! =
 
 	global.Map
 
-kind! (self-type Id-Map!) Map-Type
-impl! empty (self-type Id-Map!) new
+self-kind! Id-Map! Map-Type
+self-impl! empty Id-Map! |
+	new Id-Map!
 
 kind! Id-Map! Map!
 impl! ?get Id-Map! |_ key

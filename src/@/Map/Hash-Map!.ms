@@ -7,9 +7,8 @@ use
 	...methods freeze
 	...Obj
 	...Obj! p!
-	...Type.Impl-Type self-type
-	...Type.Kind kind!
-	...Type.Method impl!
+	...Type.Kind kind! self-kind!
+	...Type.Method impl! self-impl!
 	...Type.Obj-Type
 	...@ flat-map map'
 	..@! empty!
@@ -42,8 +41,8 @@ Hash-Map! = Obj-Type
 
 kind! Hash-Map! Map!
 
-kind! (self-type Hash-Map!) Map-Type
-impl! empty (self-type Hash-Map!) |
+self-kind! Hash-Map! Map-Type
+self-impl! empty Hash-Map! |
 	Hash-Map!
 		hash->bucket. empty Id-Map!
 

@@ -7,8 +7,7 @@ use
 	..methods sub
 	..Obj! p!
 	.Seq! _ <++! ++>! ?<pop! ?pop>! set-nth!
-	..Type.Impl-Type self-type
-	..Type.Kind kind!
+	..Type.Kind kind! self-kind!
 	..Type.Pred-Type Any
 	..Type.Obj-Type
 	..@ _ ++ count each! empty? iterator map map'
@@ -26,7 +25,7 @@ Deque! = Obj-Type
 		start-index!. Nat \ Inclusive (unless =? end-index)
 		end-index!. Nat \ Exclusive
 
-kind! (self-type Deque!) @-Type
+self-kind! Deque! @-Type
 	empty -> |
 		Deque!
 			data!. empty Array! 8

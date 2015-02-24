@@ -1,13 +1,12 @@
 use
 	..Bool and not or true
-	..Fun ignore Pred
-	.Impl-Type self-type
+	..Fun Pred
 	..js defined? id=?
 	..methods sub
 	..Obj
 	..private.bootstrap Str
 	.Kind kind!
-	.Method impl!
+	.Method impl! self-impl!
 	.Obj-Type
 	..Type _ => contains?
 use~
@@ -35,7 +34,7 @@ region Opt
 		predicate. |
 			true
 
-	impl! sub (self-type Opt)
+	self-impl! sub Opt
 		doc. "Contains null, undefined, or an instance of Exists-Type."
 		|Exists-Type:Type
 			ET = Exists-Type
@@ -77,9 +76,7 @@ Union.
 		! contains? SBN 3
 		!not contains? SBN ()
 
-\ TODO: Variadic
-impl! sub (self-type Union) |u ...types
-	ignore u \ TODO:Ignored vars
+self-impl! sub Union |...types
 	Pred-Type
 		displayName. "Union[{=> Str types " "}]"
 		predicate. |_

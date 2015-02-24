@@ -4,11 +4,12 @@ use
 	..js defined? global js-sub
 	..private.bootstrap Array impl-contains?! Obj p+! Str Symbol
 	..private.js-impl empty? Kind-contains?
-	.Method impl! propagate-method-down!
+	.Method impl! propagate-method-down! self-impl!
 	.Obj-Type
 use~
 	..@ _ each! flat-map
-	.Impl-Type
+	..control if!
+	.Impl-Type _ self-type
 	..methods freeze frozen?
 debug use~
 	..! _ !not
@@ -164,6 +165,16 @@ kind!.
 			else
 				()
 
+self-kind!.
+	doc. "TODO"
+	test. |
+		"TODO"
+	|implementor:Obj kind:Kind method-impls
+		kind! (self-type implementor) kind
+		if! (defined? method-impls) |
+			each! method-impls |pair
+				self-impl! pair.key implementor pair.val
+
 kind?.
 	doc. "
 		Whether one Impl-Type is a subtype of a Kind."
@@ -178,7 +189,7 @@ kind?.
 				_ = implementor.prototype
 				:kind
 
-region Helpers
+region Private
 	@p-all = |_
 		(Obj.getOwnPropertyNames _).concat (Obj.getOwnPropertySymbols _)
 

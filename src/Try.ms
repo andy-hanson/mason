@@ -4,15 +4,14 @@ use
 	.$ _ $after
 	.Bool and
 	.compare =?
-	.Fun _ Act ignore spread!
+	.Fun _ Act spread!
 	.js global new
 	.private.js-impl make-Error i-always-do-after i-oh-no! i-try
 	.Obj
 	.Obj! p! p+!
 	.Str
 	.Type _ contains? =>
-	.Type.Impl-Type self-type
-	.Type.Method impl!
+	.Type.Method self-impl!
 	.Type.Obj-Type
 	.Type.Kind
 	.Type.Pred-Type Any Union
@@ -45,9 +44,7 @@ Syntax-Error. global.SyntaxError
 Type-Error. global.TypeError
 URI-Error. global.URIError
 
-impl! => (self-type Error) |e _
-	ignore e \ TODO:Ignored args
-	make-Error _
+self-impl! => Error make-Error
 
 oh-no!.
 	doc. "

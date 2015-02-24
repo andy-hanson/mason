@@ -1,13 +1,11 @@
 use
 	..Bool and not
 	..control if opr
-	..Fun ignore
 	..js js-set
 	..math.Num Nat
 	..methods frozen?
 	..Type =>
-	..Type.Impl-Type self-type
-	..Type.Kind kind!
+	..Type.Kind kind! self-kind!
 	..Type.Pred-Type
 	..@ _ each! empty?
 	.@! empty!
@@ -22,18 +20,15 @@ Array! = Pred-Type
 	predicate. |_
 		and :Array ~(not frozen?_)
 
-kind! (self-type Array!) @-Type
-	empty -> |array! ?initial-size
+self-kind! Array! @-Type
+	empty -> |?initial-size
 		initial-size = opr ?initial-size 0
-		ignore array! \ TODO:Ignored vars
 		Array initial-size
-
-	from-stream -> |array! stream
-		ignore array! \ TODO:Ignored vars
-		it = Array 0
-		each! stream |em
-			it.push em
-		it
+	from-stream -> |_
+		arr = Array 0
+		each! _ |em
+			arr.push em
+		arr
 
 \ We're defining these on Arrays, but they will only work for Array!s because Arrays are frozen
 kind! Array Seq!

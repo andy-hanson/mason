@@ -1,7 +1,5 @@
 use
-	..Fun ignore
-	..Type.Impl-Type self-type
-	..Type.Kind _ kind!
+	..Type.Kind _ kind! self-kind!
 	.@!
 	.@-Type empty
 	.@-Type _ from-stream
@@ -28,11 +26,10 @@ Set! = Kind
 		empty! _
 		! empty? _
 
-kind! (self-type Set!) @-Type
+self-kind! Set! @-Type
 	empty -> |
 		empty Hash-Set!
-	from-stream -> |set _
-		ignore set \ TODO:SYNTAX Ignored vars
+	from-stream -> |_
 		from-stream Hash-Set! _
 
 

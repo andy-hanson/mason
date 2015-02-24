@@ -1,7 +1,6 @@
 use
-	...Type.Impl-Type self-type
-	...Type.Kind _ kind!
-	...Type.Method _ impl!
+	...Type.Kind _ kind! self-kind!
+	...Type.Method _ self-impl!
 	...Type.Pred-Type Any
 	...@ _ each! empty?
 	..@-Type empty
@@ -17,6 +16,7 @@ debug use~
 	...control if!
 	...math.methods *
 	...Type =>
+	...Type.Method impl!
 	...Type.Wrap-Type
 	...@ map
 	..@! empty!
@@ -62,8 +62,8 @@ Map! = Kind
 		assoc! _ zero 1
 		! =? _[zero] 1
 
-kind! (self-type Map!) Map-Type
-impl! empty (self-type Map!) |
+self-kind! Map! Map-Type
+self-impl! empty Map! |
 	empty Hash-Map!
 
 assoc!. Method

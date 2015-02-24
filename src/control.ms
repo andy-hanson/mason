@@ -19,7 +19,7 @@ debug use~
 	.Bool false true
 	.compare =?
 	.math.methods +
-	.Fun ignore thunk
+	.Fun noop thunk
 
 opr.
 	doc. "Fills in an Opt with a default value."
@@ -38,7 +38,7 @@ build.
 		Passes in a `yield` function to `calls-yield`.
 		Returns a Seq of what `calls-yield` called `yield` with.
 	test. |
-		! =? [ ] (build ignore)
+		! =? [ ] (build noop)
 		! =? [ 0 1 ] (build |yield
 			yield 0
 			yield 1

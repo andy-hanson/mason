@@ -6,7 +6,7 @@ use~
 	.@
 	.@.Array
 	.Bool _ not
-	.Fun _ ignore
+	.Fun
 	.Type =>
 debug use~
 	.! _ !not
@@ -80,7 +80,6 @@ truthy?.
 		! truthy? true
 
 	|:Bool a
-		ignore a \ TODO:Ignored vars
 		i! (i! a)
 
 new.

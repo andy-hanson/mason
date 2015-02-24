@@ -1,7 +1,6 @@
 use
 	..math.Num Nat
-	..Type.Impl-Type self-type
-	..Type.Kind _ kind!
+	..Type.Kind _ kind! self-kind!
 	..Type.Method
 	..@
 	.@!
@@ -41,7 +40,7 @@ Seq! = Kind
 		! empty? _
 		++>! _ [ 1 2 3
 
-kind! (self-type Seq!) @-Type
+self-kind! Seq! @-Type
 	empty -> |
 		empty Deque!
 

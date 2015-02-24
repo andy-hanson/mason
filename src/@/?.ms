@@ -1,10 +1,8 @@
 use
 	..control opr
-	..Fun ignore thunk
 	..js defined? id=?
-	..Type.Impl-Type self-type
-	..Type.Kind kind!
-	..Type.Method impl!
+	..Type.Kind kind! self-kind!
+	..Type.Method impl! self-impl!
 	..Type.Wrap-Type
 	..@ empty? iterator
 	.@-Type _ empty from-stream
@@ -25,10 +23,9 @@ empty-? =
 	? empty-marker
 
 region Is Seq
-	kind! (self-type ?) @-Type
+	self-kind! ? @-Type
 
-	impl! from-stream (self-type ?) |_ stream
-		ignore _ \ TODO:Ignored vars
+	self-impl! from-stream ? |stream
 		iter = iterator stream
 		value done = iter.next ()
 		case
@@ -37,7 +34,8 @@ region Is Seq
 			else
 				? value
 
-	impl! empty (self-type ?) (thunk empty-?
+	self-impl! empty ? |
+		empty-?
 
 	kind! ? Seq
 

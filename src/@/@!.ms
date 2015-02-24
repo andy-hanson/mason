@@ -1,7 +1,6 @@
 use
-	..Type.Impl-Type self-type
-	..Type.Kind _ kind!
-	..Type.Method _ impl!
+	..Type.Kind _ kind! self-kind!
+	..Type.Method _ self-impl!
 	..@
 	.@-Type _ empty
 use~
@@ -33,8 +32,8 @@ debug use~
 			!not contains? _ em
 		! empty? _
 
-kind! (self-type @!) @-Type
-impl! empty (self-type @!) |
+self-kind! @! @-Type
+self-impl! empty @! |
 	empty Array!
 
 kind! @! @
