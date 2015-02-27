@@ -71,23 +71,14 @@ const pAdd = function(object, key, val) {
 	}
 
 	function Lazy(make) {
-		this.cached = undefined
-		this.make = make
+		this.make = function() {
+			const _ = make()
+			this.make = function() { return _ }
+			return _
+		}
 	}
 	pAdd(ms, "lazy", function(_) { return new Lazy(_) })
-	pAdd(ms, "unlazy", function(_) {
-		if (_ instanceof Lazy) {
-			let c = _.cached
-			if (c === undefined) {
-				c = _.cached = _.make()
-				_.make = undefined // Make available to garbage collector
-				if (c === undefined)
-					throw new Error("Lazy value can't be undefined. Made by:\n" + _.make)
-			}
-			return c
-		}
-		else return _
-	})
+	pAdd(ms, "unlazy", function(_) { return (_ instanceof Lazy) ? _.make() : _ })
 
 	pAdd(ms, "set", function(_, k0, v0, k1, v1, k2, v2, k3) {
 		_[k0] = v0

@@ -74,12 +74,12 @@ region Conditional execution
 	if.
 		doc. "Iff `condition`, evaluates `result` and puts it in a `?`."
 		test. |
-			[ true (thunk 0) ] -> ? 0
-			[ false (thunk 0) ] -> empty ?
-		|:? condition:Bool result:Fun
+			[ true 1 ] -> ? 1
+			[ false 1 ] -> empty ?
+		|:? condition:Bool ~result
 			case
 				condition
-					? result()
+					? result
 				else
 					empty ?
 

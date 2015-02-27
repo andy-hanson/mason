@@ -122,12 +122,9 @@ all-tested = empty Id-Set!
 @$test-test-prop = |value value-test name \TODO: ...test-args
 	\ Could be both Fun and Dict
 	_ = value-test
-	@$a = flatten (if :Fun |
-		@$test-test-fun value value-test name
-	@$b = flatten (if :ObjLit |
-		flat-map @p_ |sub-name
-			@$test-test-prop value (p _ sub-name) "{name}.{sub-name}"
-
+	@$a = flatten (if :Fun ~(@$test-test-fun value value-test name
+	@$b = flatten (if :ObjLit ~(flat-map @p_ |sub-name
+		@$test-test-prop value (p _ sub-name) "{name}.{sub-name}"
 	++ @$a @$b
 
 @$test-$test-prop = |value-$test:Fun[Generator!] name

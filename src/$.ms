@@ -130,8 +130,7 @@ $keep.
 	|:$[Array] keep-some:@ keep-if?:Fun[Any $[Bool]]
 		$flat-map keep-some |_
 			$after keep-if?_ |keep
-				if keep |
-					_
+				if keep _
 
 $call.
 	doc. "

@@ -18,6 +18,7 @@ Object.assign(module.exports.prototype, {
 	moduleName: function() {
 		return noExt(path.basename(this.inFile))
 	},
+	modulePath: function() { return this.inFile },
 	jsBaseName: function() {
 		return this.moduleName() + ".js"
 	},

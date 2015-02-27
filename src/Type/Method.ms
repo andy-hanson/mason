@@ -151,8 +151,7 @@ self-impl!.
 	|method:Method type:Impl-Type
 		\ TODO: Obj.ms Fun
 		desc = Obj.getOwnPropertyDescriptor type.prototype method.impl-symbol
-		if (and (defined? desc) ~(not desc.writable)) |
-			desc.value
+		if (and (defined? desc) ~(not desc.writable)) ~desc.value
 
 impl-for.
 	doc. "impl-for that fails when there is no implementation."

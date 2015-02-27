@@ -24,7 +24,7 @@ p+! ms "checkContains" |type value name
 		contains? type value
 			()
 		else
-			`throw new Error(name + " is no " + type + ", is ")`
+			\ `throw new Error(name + " is no " + type + ", is ")`
 			oh-no! "{name} is no {type}, is {value}"
 
 =>. Method

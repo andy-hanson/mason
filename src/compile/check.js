@@ -26,7 +26,7 @@ const failMessage = function(spanOrPos, message, opts) {
 	const msg = (message instanceof Function) ? message() : message
 	type(msg, String)
 	const posMessage =  p + " " + highlightMarkdown(msg)
-	return opts ? chalk.green(opts.moduleName()) + " " + posMessage : posMessage
+	return opts ? chalk.green(opts.modulePath()) + " " + posMessage : posMessage
 }
 
 const makeErrorType = function() {

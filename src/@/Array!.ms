@@ -39,11 +39,9 @@ kind! Array Seq!
 		\ TODO:SYNTAX _.push ...added
 		Array.prototype.push.apply _ (=> Array added
 	?<pop! -> |_
-		if (not empty?_) |
-			_.shift ()
+		if (not empty?_) ~_.shift()
 	?pop>! -> |_
-		if (not empty?_) |
-			_.pop ()
+		if (not empty?_) ~_.pop()
 	empty! -> |_
 		\ http://jsperf.com/empty-javascript-array/15
 		loop!
@@ -51,7 +49,7 @@ kind! Array Seq!
 				empty?_
 					end-loop!
 				else
-					_.pop ()
+					_.pop()
 	set-nth! -> |_ n:Nat val
 		js-set _ n val
 

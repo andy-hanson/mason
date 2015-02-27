@@ -61,8 +61,7 @@ kind! Range @
 			[ r 6 ] -> empty ?
 		|_ n:Nat
 			it = + _.start (* _.step n)
-			if (<? it _.end) |
-				it
+			if (<? it _.end) it
 	count ->
 		test. |
 			[ (range 0 2 0.5) ] -> 4

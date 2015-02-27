@@ -77,8 +77,7 @@ region Very first and last
 			[ [ 1 2 ] ] -> ? 2
 			[ [ ] ] -> empty ?
 		default. |_
-			if (not empty?_) |
-				_[(- count_ 1)]
+			if (not empty?_) ~_[(- count_ 1)]
 
 	tail. Method
 		doc. "

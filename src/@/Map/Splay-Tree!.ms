@@ -36,8 +36,7 @@ kind! Splay-Tree! Sorted-Map!
 	empty! -> |_
 		p! _ "root!" undefined
 	?get -> |_ key
-		if (and (not empty?_) ~(splay!? _ key)) |
-			_.root!.val!
+		if (and (not empty?_) ~(splay!? _ key)) ~_.root!.val!
 
 	keys -> |_
 		Stream ~|
@@ -70,7 +69,7 @@ kind! Splay-Tree! Sorted-Map!
 						(key. k val!. v left!. old-left right!. old-root
 
 	un-assoc! -> |_ key
-		if (and (not empty?_) ~(splay!? _ key)) |
+		if (and (not empty?_) ~(splay!? _ key)) ~
 			removed = _.root!
 			\ Link out the root.
 			p! _ "root!" case

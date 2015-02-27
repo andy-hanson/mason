@@ -33,7 +33,6 @@ self-impl! from-stream Array |stream
 	freeze (from-stream Array! stream
 
 impl! ?nth Array |_ n:Nat
-	if (<? n count_) |
-		js-sub _ n
+	if (<? n count_) ~(js-sub _ n
 
 Array

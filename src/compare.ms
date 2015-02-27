@@ -109,7 +109,7 @@ region Min/max
 			[ [ 1 ] identity ] -> ? 1
 			[ [ ] identity ] -> empty ?
 		|_:@ by:Fun
-			if (not empty?_) |
+			if (not empty?_) ~
 				iter = iterator_
 				value = iter.next().value
 				cur-max = Ref! value
