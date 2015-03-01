@@ -48,7 +48,6 @@ maximum-anagram-sets.
 					. [ "evil" "levi" "live" "veil" "vile"
 	|words
 		\ e.g., "amnos" -> "mason"
-		\ TODO: make-multi-map
 		\ TODO: This is slow!
 		mp = empty Id-Map!
 		each! words |word

@@ -1,6 +1,6 @@
 use
 	.Bool
-	.Fun _ Act call
+	.Fun _ Act
 	.js defined?
 	.methods freeze
 	.Obj! p!
@@ -19,7 +19,6 @@ debug use~
 	.Bool false true
 	.compare =?
 	.math.methods +
-	.Fun noop thunk
 
 opr.
 	doc. "Fills in an Opt with a default value."
@@ -38,7 +37,6 @@ build.
 		Passes in a `yield` function to `calls-yield`.
 		Returns a Seq of what `calls-yield` called `yield` with.
 	test. |
-		! =? [ ] (build noop)
 		! =? [ 0 1 ] (build |yield
 			yield 0
 			yield 1
@@ -67,7 +65,7 @@ region Conditional execution
 				[ 3 ] -> "three"
 		|val:Any cases:Map[Any Fun]
 			dispatch:Fun = ?-or (?get cases val) ~cases[switch-else]
-			call dispatch
+			dispatch()
 	switch-else.
 		doc. "Special object used as default for `switch` statements."
 

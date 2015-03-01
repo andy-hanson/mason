@@ -37,7 +37,6 @@ kind! Splay-Tree! Sorted-Map!
 		p! _ "root!" undefined
 	?get -> |_ key
 		if (and (not empty?_) ~(splay!? _ key)) ~_.root!.val!
-
 	keys -> |_
 		Stream ~|
 			get~ = ~|case!
@@ -48,7 +47,6 @@ kind! Splay-Tree! Sorted-Map!
 				else
 					()
 			<~~ get~ _.root!
-
 	assoc! -> |_ k v
 		case!
 			empty?_
@@ -67,7 +65,6 @@ kind! Splay-Tree! Sorted-Map!
 						old-left = old-root.left!
 						p! old-root "left!" undefined
 						(key. k val!. v left!. old-left right!. old-root
-
 	un-assoc! -> |_ key
 		if (and (not empty?_) ~(splay!? _ key)) ~
 			removed = _.root!
@@ -87,11 +84,6 @@ kind! Splay-Tree! Sorted-Map!
 			removed.val
 
 region Implementation
-	has-left? = |node
-		defined? node.left!
-	has-right? = |node
-		defined? node.right!
-
 	\ Searches for the key, bringing nodes up to the root along the way.
 	\ Returns whether the root now matches the key.
 	splay!? = |:Bool _ key
@@ -157,7 +149,12 @@ region Implementation
 						not-found _.cur
 			else
 				debug ! =? key _.cur.key
-				\ TODO:SYNTAX found. cur. ...
 				End-Loop (found. true cur. _.cur left. _.left right. _.right
+
+	has-left? = |node
+		defined? node.left!
+	has-right? = |node
+		defined? node.right!
+
 
 Splay-Tree!

@@ -2,14 +2,14 @@ use
 	...control returning
 	...Fun identity
 	...methods sub
-	...Type =>
-	...Type.Method _ impl! self-impl!
+	...Type.Method impl! self-impl!
 	...Type.Kind _ kind! self-kind!
-	..@-Type _ empty
+	...@ _ each!
+	..@-Type _ empty from-stream
 	..Map
 use~
 	.Hash-Map!
-	.Map! assoc*!
+	.Map! assoc!
 
 Map-Type = Kind
 	doc. "Any sub-type of Map."
@@ -23,16 +23,19 @@ self-impl! empty Map |
 
 impl! sub Map-Type identity
 
-from-map. Method
-	doc. |_ map:Map
-		"Creates a new Map that is map? to `map`."
+impl! from-stream Map-Type
 	test. |
-		"TODO"
-	default. |type map:Map
+		\ TODO: Better test
+		m =
+			1 -> 2
+			3 -> 4
+		[ Hash-Map! m ] ->
+			1 -> 2
+			3 -> 4
+	|type stream:@
 		returning (empty type) |_
-			assoc*! _ map
-
-\ TODO: This isn't overriding @-Type's =>...
-impl! => Map-Type from-map
+			each! stream |pair
+				key val = pair
+				assoc! _ key val
 
 Map-Type

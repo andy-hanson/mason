@@ -20,13 +20,6 @@ debug use~
 	..math.Num
 	..Try fails?
 
-writable? = |obj property
-	desc = global.Object.getOwnPropertyDescriptor obj property
-	implies (defined? desc) ~desc.writable
-
-p? = |obj property
-	defined? (js-sub obj property
-
 make-callable-method = |method
 	src = build-str |add!
 		add! "return function(a, b, c, d) \{"
@@ -89,8 +82,8 @@ Method. Obj-Type
 		m = Method
 			default. thunk "default"
 		impl! m Str (thunk "Str")
-		impl! m Num Num (thunk "Num Num")
-		impl! m Num Str (thunk "Num Str")
+		impl-double! m Num Num (thunk "Num Num")
+		impl-double! m Num Str (thunk "Num Str")
 		! =? (m ()) "default"
 		! =? (m "a") "Str"
 		! =? (m 1 1) "Num Num"
@@ -124,12 +117,30 @@ Method. Obj-Type
 impl!.
 	doc. "Implements a Method for a type or types."
 	test. "See Method.test."
-	|a b c d
-		case!
-			defined? d
-				impl-double! a b c d
-			else
-				impl-single! a b c
+	|method:Method implementor:Impl-Type implementation:Fun
+		do-impl! method implementor implementation
+
+impl-double!. |method:Method implementor-0:Impl-Type implementor-1:Impl-Type implementation:Fun
+	dispatcher = case
+		writable? implementor-0.prototype method.impl-symbol
+			m = method
+			dd = Double-Dispatcher
+				displayName. "<double dispatcher>" \ TODO: "<Double dispatcher for {m.displayName}>"
+				method. m
+				first-type. implementor-0
+				impl-symbol. Symbol "<double dispatcher>" \"{m} for {implementor-0.displayName}"
+			do-impl! method implementor-0 dd
+			dd
+		else
+			case js-sub implementor-0.prototype method.impl-symbol
+				:Double-Dispatcher
+					_
+				else
+					oh-no! "
+						Can't define double dispatch of {method} for {implementor-0}.
+						A single-dispatch implementation already exists: {_}.
+
+	do-impl! dispatcher implementor-1 implementation
 
 self-impl!.
 	doc. "TODO"
@@ -163,6 +174,13 @@ impl-for.
 
 
 region Private
+	writable? = |obj property
+		desc = global.Object.getOwnPropertyDescriptor obj property
+		implies (defined? desc) ~desc.writable
+
+	p? = |obj property
+		defined? (js-sub obj property
+
 	\ TODO: Not public
 	propagate-method-down!. |implementor method-symbol implementation \ TODO: :Impl-Type :Symbol :Fun
 		case! implementor
@@ -180,31 +198,6 @@ region Private
 							writable.
 			else
 				()
-
-	impl-single! = |method:Method implementor:Impl-Type implementation:Fun
-		do-impl! method implementor implementation
-
-	impl-double! = |method:Method implementor-0:Impl-Type implementor-1:Impl-Type implementation:Fun
-		dispatcher = case
-			writable? implementor-0.prototype method.impl-symbol
-				m = method
-				dd = Double-Dispatcher
-					displayName. "<double dispatcher>" \ TODO: "<Double dispatcher for {m.displayName}>"
-					method. m
-					first-type. implementor-0
-					impl-symbol. Symbol "<double dispatcher>" \"{m} for {implementor-0.displayName}"
-				do-impl! method implementor-0 dd
-				dd
-			else
-				case js-sub implementor-0.prototype method.impl-symbol
-					:Double-Dispatcher
-						_
-					else
-						oh-no! "
-							Can't define double dispatch of {method} for {implementor-0}.
-							A single-dispatch implementation already exists: {_}.
-
-		do-impl! dispatcher implementor-1 implementation
 
 	\ TODO: Multiple-inheritance proxy scheme for Obj-Type, Wrap-Type, Enum
 	\ "method" can be a Method or a Double-Dispatcher.

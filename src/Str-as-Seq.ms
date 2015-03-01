@@ -12,7 +12,7 @@ use
 	.Type =>
 	.Type.Impl-Type self-type
 	.Type.Kind kind! self-kind!
-	.Type.Method impl! impl-for
+	.Type.Method impl-double! impl-for
 	.Type.Pred-Type Opt
 debug use
 	.!
@@ -28,7 +28,7 @@ self-kind! Str @-Type
 	from-stream -> |_
 		from-stream Array _
 
-impl! => (self-type Str) @
+impl-double! => (self-type Str) @
 	test. |
 		[ Str [ 1 2 3 ] ] -> "123"
 		[ Str [ 1 2 3 ] ", " ] -> "1, 2, 3"
