@@ -3,7 +3,7 @@ use
 	...compare =?
 	...Fun
 	...Generator! each~
-	...methods freeze sub
+	...methods sub
 	...Type type-of
 	...Type.Kind _ kind!
 	...Type.Method _ impl!
@@ -88,7 +88,7 @@ region Functions
 			map = empty Hash-Map!
 			each! @key |_
 				assoc! map _ get-value_
-			freeze map
+			map
 
 	map=?.
 		doc. "Whether the two maps have the same keys and the same associated values, regardless of the maps' types."
