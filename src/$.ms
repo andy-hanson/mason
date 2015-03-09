@@ -13,11 +13,13 @@ use
 	.Type.Method self-impl!
 	.Type.Pred-Type Any
 use~
+	.math.Num
 	.Try $catch Error
 debug use~
 	.@.Stream
 	.!
 	.compare =?
+	.io.time $after-time
 	.math.Num divisible?
 	.math.methods +
 	.Try oh-no! $try
@@ -45,6 +47,22 @@ $done.
 			global.console.log "
 				{err.stack}
 				{red "==="}
+
+$fail-after-time.
+	doc. "Fails if it takes too long."
+	$test. ~|
+		$x = $after-time 100 |
+			1
+		a <~ $try ($fail-after-time $x 1
+		! =? a.message "Took longer than 1 milliseconds."
+		! =? 1 (<~ $max-time $x 200
+	|:$ _:$ time-ms:Num
+		\ TODO:ES6 Shouldn't need `new`
+		new $ |resolve reject
+			$after _ resolve
+			timeout = |
+				reject (=> Error "Took longer than {time-ms} milliseconds."
+			global.setTimeout timeout time-ms
 
 $after.
 	doc. "
