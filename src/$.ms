@@ -55,7 +55,7 @@ $fail-after-time.
 			1
 		a <~ $try ($fail-after-time $x 1
 		! =? a.message "Took longer than 1 milliseconds."
-		! =? 1 (<~ $max-time $x 200
+		! =? 1 (<~ $fail-after-time $x 200
 	|:$ _:$ time-ms:Num
 		\ TODO:ES6 Shouldn't need `new`
 		new $ |resolve reject

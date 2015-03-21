@@ -4,7 +4,6 @@ use
 	.@.Array
 	.@.Map.Weak-Id-Map!
 	.Bool
-	.compare =?
 	.Fun
 	.js id=?
 	.math.bit-arithmetic bit-and hexidecimal
@@ -16,6 +15,7 @@ use
 	.Type.Method _ impl! impl-for
 debug use
 	.! _ !not
+	.compare =?
 
 max-hash-code = hexidecimal "7fffffff"
 
@@ -95,8 +95,8 @@ impl! hash-code Symbol
 		\ TODO:ES6 (currently this returns undefined)
 		42 \ Symbol.keyFor _
 
-impl! hash-code Num |case
+impl! hash-code Num |_
 	\ TODO: This treats small floats as equivalent.
-	bit-and _ max-hash-code
+	bit-and round-towards-0_ max-hash-code
 
 hash-code

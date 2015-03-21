@@ -18,10 +18,10 @@ const pAdd = function(object, key, val) {
 
 	// TODO: Shouldn't need if we statically check.
 	pAdd(ms, "get", function(object, key) {
-		if (!Object.prototype.hasOwnProperty.call(object, key)) {
+		var _ = object[key]
+		if (_ === undefined)
 			throw new Error("Module " + object.displayName + " does not have " + key)
-		}
-		return object[key]
+		return _
 	})
 
 	pAdd(ms, "bool", function(b) {

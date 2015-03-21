@@ -57,8 +57,9 @@ debug use~
 							Expected {a}
 								{indent (=> Str (map args repr) "\n")}
 			:Bool
-				! =? 1 args.length
 				case!
+					not (=? 1 args.length)
+						oh-no! "Use `! fun args...` or `! bool explanation`, never just `! bool`."
 					_
 						()
 					else
