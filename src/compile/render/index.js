@@ -40,7 +40,7 @@ E.prototype.render = function(rx, arg) { // Some E_s pass an arg to their child
 		j.forEach(typeJ)
 	}
 	typeJ(content)
-	return new SourceNode(line, column, rx.opts.msPathRelToJs(), content)
+	return new SourceNode(line, column, rx.opts.modulePath(), content)
 }
 
 U.implementMany(E, "renderContent", {
@@ -316,8 +316,6 @@ U.implementMany(E, "renderContent", {
 		makeMember(this.name)
 	]},
 	Module: function(rx) { return [
-		"// Compiled from ", rx.opts.msPathRelToJs(), "\n",
-		"//# sourceMappingURL=", rx.opts.sourceMapPathRelToJs(), "\n",
 		"\"use strict\"",
 		// "\nglobal.console.log(\">>> " + rx.opts.moduleName() + "\")\n",
 		rx.snl(),

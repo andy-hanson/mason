@@ -10,31 +10,18 @@ const noExt = function(name) {
 
 module.exports = types.recordType("Opts", Object, {
 	inFile: String,
-	outDir: String,
-	// TODO: { types: Boolean, inout: Boolean }
 	checks: Boolean
 })
 Object.assign(module.exports.prototype, {
 	moduleName: function() {
 		return noExt(path.basename(this.inFile))
 	},
-	modulePath: function() { return this.inFile },
 	jsBaseName: function() {
 		return this.moduleName() + ".js"
 	},
-	msPathRelToJs: function() {
-		return path.relative(this.outDir, this.inFile)
-	},
-	sourceMapPathRelToJs: function() {
-		return "./" + this.jsBaseName() + ".map"
-	},
-	includeTypeChecks: function() {
-		return this.checks === true || this.checks.types
-	},
-	includeInoutChecks: function() {
-		return this.checks === true || this.checks.inout
-	},
-	includeCaseChecks: function() {
-		return this.checks === true
-	}
+	modulePath: function() { return this.inFile },
+
+	includeTypeChecks: function() { return this.checks },
+	includeInoutChecks: function() { return this.checks },
+	includeCaseChecks: function() { return this.checks }
 })

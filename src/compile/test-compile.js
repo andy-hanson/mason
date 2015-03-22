@@ -3,12 +3,12 @@
 require("es6-shim")
 const
 	fs = require("fs"),
-	lex = require("../lex"),
-	Opts = require("../Opts"),
-	parse = require("../parse"),
-	render = require("../render"),
-	U = require("../U"),
-	verify = require("../verify")
+	lex = require("./lex"),
+	Opts = require("./Opts"),
+	parse = require("./parse"),
+	render = require("./render"),
+	U = require("./U"),
+	verify = require("./verify")
 
 global.DEBUG = true
 
@@ -27,7 +27,6 @@ if (require.main === module) {
 	const source = fs.readFileSync("./ms-test.ms", "utf-8")
 	const opts = Opts({
 		inFile: "./ms-test.ms",
-		outDir: "fake-out",
 		checks: true
 	})
 

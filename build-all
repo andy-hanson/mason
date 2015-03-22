@@ -1,1 +1,0 @@
-node --harmony ./src/compile/cli all # --checks=false

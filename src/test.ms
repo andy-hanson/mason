@@ -13,8 +13,4 @@ use
 $done ($ing ~|
 	<~ $time! "load" ($@module-in-dir "./js"
 	<~ $time! "test" ($test-all "./js"
-	\use
-	\	.math.methods +
-	\	.show
-	\log! (show +)
 	\$test-module (get-module "{this-module-directory}/demo/sieve-of-eratosthenes"
