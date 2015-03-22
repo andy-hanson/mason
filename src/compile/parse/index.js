@@ -1,5 +1,3 @@
-"use strict"
-
 const
 	assert = require("assert"),
 	Opts = require("../Opts"),
@@ -10,7 +8,8 @@ const
 
 module.exports = function parse(t, opts) {
 	type(t, T.Group, opts, Opts)
-	assert(t.k === "->") // Lexer always puts the whole file in a block.
+	// Lexer always puts the whole file in a block.
+	assert(t.k === "->")
 	const px = Px({ span: t.span, sqt: t.sqt })
 	return parseBlock.parseModule(px, opts.moduleName())
 }

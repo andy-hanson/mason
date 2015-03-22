@@ -1,5 +1,3 @@
-"use strict"
-
 const
 	check = require("../check"),
 	E = require("../E"),
@@ -20,7 +18,7 @@ module.exports = function parseFun(px, k) {
 	type(px, Px, k, Lang.KFun)
 
 	// Look for return type at the beginning
-	var _$ = (function() {
+	let _ = (function() {
 		if (!Sq.isEmpty(px.sqt)) {
 			const head = Sq.head(px.sqt)
 			if (T.Group.is('sp')(head) && T.Keyword.is(":")(Sq.head(head.sqt)))
@@ -31,12 +29,14 @@ module.exports = function parseFun(px, k) {
 		}
 		return { opType: Op.None, rest: px.sqt }
 	})()
-	const opReturnType = _$.opType, rest = _$.rest
+	const opReturnType = _.opType, rest = _.rest
 
-	px.check(!Sq.isEmpty(rest), function() { return "Expected an indented block after " + U.code(k) })
+	px.check(!Sq.isEmpty(rest), function() {
+		return "Expected an indented block after " + U.code(k)
+	})
 	const head = Sq.head(rest)
 
-	var _$ = (function() {
+	_ = (function() {
 		if (T.Keyword.is(Lang.CaseKeywords)(head)) {
 			const eCase = parseCase(px.w(Sq.tail(rest)), head.k, true)
 			return {
@@ -44,14 +44,15 @@ module.exports = function parseFun(px, k) {
 				opRestArg: Op.None,
 				body: E.BlockBody(px.s({
 					opIn: Op.None,
-					lines: (head.k === "case") ? [] : [eCase],
+					lines: head.k === "case" ? [] : [eCase],
 					opReturn: Op.if(head.k === "case", function() { return eCase }),
 					opOut: Op.None
 				}))
 			}
 		}
 		// Might be curried.
-		else return Op.ifElse(Sq.opSplitOnceWhere(px.sqt, function(t) { return T.Keyword.is("|")(t) }),
+		else return Op.ifElse(Sq.opSplitOnceWhere(px.sqt,
+			function(t) { return T.Keyword.is("|")(t) }),
 			function(_) {
 				const _$ = parseFunLocals(px.w(_.before))
 				const pxAfter = px.w(_.after)
@@ -78,9 +79,9 @@ module.exports = function parseFun(px, k) {
 	})()
 
 	return E.Fun(px.s({
-		args: _$.args,
-		opRestArg: _$.opRestArg,
-		body: _$.body,
+		args: _.args,
+		opRestArg: _.opRestArg,
+		body: _.body,
 		opReturnType: opReturnType,
 		k: k
 	}))
@@ -100,10 +101,10 @@ const parseFunLocals = function(px) {
 				args: parseLocals(px.w(Sq.rightTail(px.sqt))),
 				opRestArg: Op.Some(E.LocalDeclare({
 					span: last.span,
- 					name: last.name,
- 					opType: Op.None,
- 					isLazy: false,
- 					okToNotUse: false
+					name: last.name,
+					opType: Op.None,
+					isLazy: false,
+					okToNotUse: false
 				}))
 			}
 		}

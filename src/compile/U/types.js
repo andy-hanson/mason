@@ -1,8 +1,5 @@
-"use strict"
-
-const
-	type = require("./type"),
-	U = require("./index")
+import type from "./type"
+import U from "./index"
 
 const abstractType = function(name, superType) {
 	type(name, String, superType, Object)
@@ -31,7 +28,8 @@ const recordType = function(name, superType, members) {
 		})
 		return Object.freeze(baby)
 	}
-	theType.prototype = prototype // Used for type tests
+	// Used for type tests
+	theType.prototype = prototype
 	theType.getName = theType.toString = function() { return name }
 	theType.prototype.type = function() { return theType }
 	theType.prototype.toString = function() { return inspect(this) }
@@ -42,8 +40,8 @@ const inspect = function(x) {
 	let s = x.type().getName() + " {"
 	Object.keys(x).forEach(function(key) {
 		const val = x[key]
-		const str = (val instanceof Array) ? val.join(",\n") : toStr(val)
-		s += "\n\t" + key + ": " + U.indented(str)
+		const str = val instanceof Array ? val.join(",\n") : toStr(val)
+		s = s + "\n\t" + key + ": " + U.indented(str)
 	})
 	return s + "\n}"
 }

@@ -1,5 +1,3 @@
-"use strict";
-
 const
 	chalk = require("chalk"),
 	Sq = require("./U/Sq"),
@@ -8,14 +6,12 @@ const
 
 const Pos = types.recordType("Pos", Object, { line: Number, column: Number })
 Object.assign(Pos, {
-	Start: Pos({
-		line:1, column:1
-	})
+	Start: Pos({ line: 1, column: 1 })
 })
 Object.assign(Pos.prototype, {
 	next: function(ch) {
-		type(ch, String);
-		return (ch === '\n') ?
+		type(ch, String)
+		return ch === '\n' ?
 			Pos({ line: this.line + 1, column: 1}) :
 			Pos({ line: this.line, column: this.column + 1})
 	},
@@ -49,5 +45,5 @@ Object.assign(Span, {
 Object.assign(Span.prototype, {
 	toString: function() {
 		return this.start + "-" + this.end
-	},
+	}
 })

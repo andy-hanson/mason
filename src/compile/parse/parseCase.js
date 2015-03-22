@@ -1,11 +1,7 @@
-"use strict"
-
 const
-	check = require("../check"),
 	E = require("../E"),
 	Lang = require("../Lang"),
 	Op = require("../U/Op"),
-	Span = require("../Span"),
 	Sq = require("../U/Sq"),
 	T = require("../T"),
 	type = require("../U/type"),
@@ -18,14 +14,15 @@ const
 // For "case!", returns a Scope.
 module.exports = function parseCase(px, k, casedFromFun) {
 	type(px, Px, k, Lang.CaseKeywords, casedFromFun, Boolean)
-	const kBlock = (k === "case") ? "val" : "do"
+	const kBlock = k === "case" ? "val" : "do"
 
 	const _ = parseBlock.takeBlockLinesFromEnd(px)
 	const before = _.before, lines = _.lines
 
 	const opAssignCased = (function() {
 		if (casedFromFun) {
-			px.checkEmpty(before, "Cannot give focus to case - it is the function's implicit first argument.");
+			px.checkEmpty(before,
+				"Cannot give focus to case - it is the function's implicit first argument.");
 			return Op.None
 		}
 		else return Op.if(!Sq.isEmpty(before), function() {
@@ -57,21 +54,22 @@ module.exports = function parseCase(px, k, casedFromFun) {
 		})
 	})
 
-	const ctr = (k === "case") ? E.CaseVal : E.CaseDo
+	const ctr = k === "case" ? E.CaseVal : E.CaseDo
 	const theCase = ctr(px.s({ parts: parts, opElse: opElse }))
 
-	return (k === "case") ?
+	return k === "case" ?
 		E.BlockWrap(px.s({
 			body: E.BlockBody(px.s({
 				lines: opAssignCased.concat([ theCase ]),
-				opReturn: Op.None, // theCase contains the return statement.
+				// theCase contains the return statement.
+				opReturn: Op.None,
 				opIn: Op.None,
 				opOut: Op.None
 			}))
 		})) :
 		Op.ifElse(opAssignCased,
 			function(assignCased) { return E.Scope(px.s({
-				lines: [ assignCased, theCase ],
+				lines: [ assignCased, theCase ]
 			}))},
 			function() { return theCase })
 }

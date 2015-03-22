@@ -1,5 +1,3 @@
-"use strict";
-
 require("es6-shim")
 require("source-map-support").install()
 const
@@ -20,8 +18,8 @@ function compile(src, opts) {
 
 	const e = parse(lex(src, opts), opts)
 	const vr = verify(e, opts)
-	const _$ = render(e, opts, vr).toStringWithSourceMap({ file: opts.jsBaseName() })
-	const code = _$.code, map = _$.map
+	const _ = render(e, opts, vr).toStringWithSourceMap({ file: opts.jsBaseName() })
+	const code = _.code, map = _.map
 	type(code, String, map, require("source-map").SourceMapGenerator)
 	// TODO: There must be a better way of doing this...
 	const sourceMap = JSON.parse(map.toString())

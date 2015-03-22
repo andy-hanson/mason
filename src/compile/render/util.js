@@ -1,5 +1,3 @@
-"use strict"
-
 const
 	assert = require("assert"),
 	E = require("../E"),
@@ -23,7 +21,7 @@ const accessLocal = function(name, isLazy) {
 
 const accessMangledLocal = function(mangledName, isLazy) {
 	type(mangledName, String, isLazy, Boolean)
-	return isLazy ? ("_ms.unlazy(" + mangledName + ")") : mangledName
+	return isLazy ? "_ms.unlazy(" + mangledName + ")" : mangledName
 }
 
 const commad = function(rx, parts) {
@@ -70,10 +68,11 @@ const makeAssign = function(rx, span, assignee, k, value) {
 			else
 				return [ "const ", to, " = ", r(rx)(value) ]
 		case "export":
-			assert(!assignee.isLazy) // TODO:ES6
+			// TODO:ES6
+			assert(!assignee.isLazy)
 			return [ "const ", to, " = exports", makeMember(assignee.name), " = ", r(rx)(value) ]
 			// return [ "export const ", to, " = ", jValue ]; TODO:ES6
-		default: fail()
+		default: throw new Error(k)
 	} })()
 	return [
 		doAssign,
@@ -98,7 +97,7 @@ const opLocalCheck = function(rx, local, isLazy) {
 		accessLocal(local.name, false),
 		", \"",
 		local.name,
-		"\")",
+		"\")"
 	]})
 }
 
@@ -110,5 +109,5 @@ module.exports = {
 	lazyWrap: lazyWrap,
 	makeAssign: makeAssign,
 	makeMember: makeMember,
-	opLocalCheck: opLocalCheck,
+	opLocalCheck: opLocalCheck
 }

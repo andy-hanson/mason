@@ -1,5 +1,3 @@
-"use strict"
-
 const
 	assert = require("assert"),
 	check = require("../check"),
@@ -27,7 +25,8 @@ const parseModule = function(px, moduleName) {
 	// TODO: This also means no module is allowed to be called `displayName`.
 	b.lines.forEach(function(line) {
 		if (type.isa(line, E.Assign) && line.k === "export")
-			px.check(line.assignee.name !== "displayName", "Module can not choose its own displayName.")
+			px.check(line.assignee.name !== "displayName",
+				"Module can not choose its own displayName.")
 	})
 	b.lines.push(E.Assign(px.s({
 		assignee: E.LocalDeclare(px.s({
@@ -96,9 +95,8 @@ const parseBody = function(px, k) {
 			ln = U.with(ln, "index", mapLength)
 			mapLength = mapLength + 1
 		}
-		else if (isa(ln, E.Assign) && ln.k === ". ") {
+		else if (isa(ln, E.Assign) && ln.k === ". ")
 			(inDebug ? debugKeys : dictKeys).push(ln.assignee)
-		}
 
 		if (!inDebug)
 			eLines.push(ln)
@@ -108,7 +106,8 @@ const parseBody = function(px, k) {
 		addLine(parseLine_()(px.w(line.sqt), listLength))
 	})
 
-	//if (Sq.isEmpty(dictKeys))
+	// TODO
+	// if (Sq.isEmpty(dictKeys))
 	//	check(Sq.isEmpty(debugKeys), px.span, "Block can't have only debug keys")
 	const isDict = !(Sq.isEmpty(dictKeys) && Sq.isEmpty(debugKeys))
 	const isList = listLength > 0
@@ -147,7 +146,8 @@ const parseBody = function(px, k) {
 							keys: dictKeys,
 							debugKeys: debugKeys,
 							opDicted: Op.Some(Sq.last(eLines)),
-							opDisplayName: Op.None // This is filled in by parseAssign
+							// This is filled in by parseAssign.
+							opDisplayName: Op.None
 						})))
 				} : {
 					doLines: eLines,
@@ -155,7 +155,8 @@ const parseBody = function(px, k) {
 						keys: dictKeys,
 						debugKeys: debugKeys,
 						opDicted: Op.None,
-						opDisplayName: Op.None // This is filled in by parseAssign
+						// This is filled in by parseAssign.
+						opDisplayName: Op.None
 					})))
 				}
 		else if (lastReturn)
@@ -175,14 +176,19 @@ const parseBody = function(px, k) {
 		const moduleLines =
 			// Turn dict assigns into exports.
 			doLines.map(function(line) {
-				return (isa(line, E.Assign) && line.k === ". ") ?
+				return isa(line, E.Assign) && line.k === ". " ?
 					U.with(line, "k", "export") :
 					line
 			}).concat(opReturn.map(function(ret) {
 				return E.ModuleDefaultExport({ span: ret.span, value: ret })
 			}))
 
-		const body = E.BlockBody(px.s({ lines: moduleLines, opReturn: Op.None, opIn: opIn, opOut: opOut }));
+		const body = E.BlockBody(px.s({
+			lines: moduleLines,
+			opReturn: Op.None,
+			opIn: opIn,
+			opOut: opOut
+		}))
 		return E.Module(px.s({ body: body }))
 	}
 	else
@@ -196,7 +202,10 @@ const tryTakeInOut = function(px) {
 			const sqtFirst = firstLine.sqt, head = Sq.head(sqtFirst)
 			if (T.Keyword.is(inOrOut)(head))
 				return {
-					took: Op.Some(E.Debug({ span: firstLine.span, lines: parseLine_().parseLines(px.w(sqtFirst)) })),
+					took: Op.Some(E.Debug({
+						span: firstLine.span,
+						lines: parseLine_().parseLines(px.w(sqtFirst))
+					})),
 					rest: Sq.tail(lines)
 				}
 		}

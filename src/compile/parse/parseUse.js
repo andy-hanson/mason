@@ -1,5 +1,3 @@
-"use strict"
-
 const
 	assert = require("assert"),
 	check = require("../check"),
@@ -7,7 +5,6 @@ const
 	Lang = require("../Lang"),
 	Op = require("../U/Op"),
 	T = require("../T"),
-	Span = require("../Span"),
 	Sq = require("../U/Sq"),
 	type = require("../U/type"),
 		isa = type.isa,
@@ -33,8 +30,8 @@ const useLine = function(px, k) {
 	const required = _$.required, name = _$.name
 
 	if (k === "use!") {
-		px.check(px.sqt.length == 1, function() { "Unexpected " + px.sqt[1] })
-		return E.Ignore(px.s( { ignored: required }))
+		px.check(px.sqt.length === 1, function() { return "Unexpected " + px.sqt[1] })
+		return E.Ignore(px.s({ ignored: required }))
 	} else {
 		const isLazy = k === "use~"
 
@@ -44,10 +41,10 @@ const useLine = function(px, k) {
 			isLazy: isLazy,
 			okToNotUse: false
 		}))
-		const assignees = (px.sqt.length === 1) ?
+		const assignees = px.sqt.length === 1 ?
 			[ defaultAssignee ] :
 			parseLocals_()(px.w(Sq.tail(px.sqt))).map(function(l) {
-				const l2 = (l.name === "_") ? U.with(l, "name", name) : l
+				const l2 = l.name === "_" ? U.with(l, "name", name) : l
 				return U.with(l2, "isLazy", isLazy)
 			})
 		return E.AssignDestructure(px.s({
@@ -81,7 +78,7 @@ const parseLocalRequire = function(px) {
 
 	let parts = []
 	if (isa(head, T.DotName))
-		parts = (head.nDots === 1) ? ["."] : Sq.repeat("..", head.nDots - 1)
+		parts = head.nDots === 1 ? ["."] : Sq.repeat("..", head.nDots - 1)
 	else
 		check(isa(head, T.Name), head.span, "Not a valid part of module path")
 	parts.push(head.name)

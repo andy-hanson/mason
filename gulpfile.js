@@ -4,6 +4,7 @@ var
 	babel = require('gulp-babel'),
 	del = require('del'),
 	gulp = require('gulp'),
+	header = require('gulp-header'),
 	sourcemaps = require('gulp-sourcemaps'),
 	watch = require('gulp-watch')
 
@@ -28,6 +29,7 @@ function pipeMs(stream) {
 function pipeJs(stream) {
 	return stream
 	.pipe(sourcemaps.init())
+	.pipe(header("'use strict'\n"))
 	.pipe(babel({
 		whitelist: [
 			'es6.arrowFunctions',
@@ -61,4 +63,13 @@ gulp.task('watch', [ 'ms' ], function() {
 	pipeJs(gulp.src(src_js).pipe(watch(src_js)))
 })
 
-gulp.task('default', [ 'watch' ])
+gulp.task('lint', function() {
+	// For some reason, requiring this makes es6-shim unhappy.
+	var eslint = require('gulp-eslint')
+	return gulp.src(src_js)
+	.pipe(eslint())
+	.pipe(eslint.format())
+	.pipe(eslint.failOnError())
+})
+
+gulp.task('default', [ 'lint', 'watch' ])

@@ -1,5 +1,3 @@
-"use strict"
-
 const
 	assert = require("assert"),
 	E = require("../E"),
@@ -25,13 +23,18 @@ const parseExpr = module.exports = function(px) {
 
 			const keys = []
 			const lines = []
-			for (let i = 0; i < splits.length - 1; i++) {
-				const local = U.with(parseLocals.parseLocal(px.wt(Sq.last(splits[i].before))), "okToNotUse", true)
+			for (let i = 0; i < splits.length - 1; i = i + 1) {
+				const local = U.with(
+					parseLocals.parseLocal(px.wt(Sq.last(splits[i].before))),
+					"okToNotUse", true)
 				keys.push(local)
-				const sqtValue = (i == splits.length - 2) ? splits[i + 1].before : Sq.rightTail(splits[i + 1].before)
+				const sqtValue = i === splits.length - 2 ?
+					splits[i + 1].before :
+					Sq.rightTail(splits[i + 1].before)
 				const value = parseExprPlain(px.w(sqtValue))
 				lines.push(E.Assign({
-					span: value.span, // TODO: Include name span
+					// TODO: Include name span
+					span: value.span,
 					assignee: local,
 					k: ". ",
 					value: parseExprPlain(px.w(sqtValue))
@@ -61,7 +64,6 @@ const parseExpr = module.exports = function(px) {
 					args: Sq.tail(parts).concat([ val ])
 				}))
 			}
-
 		},
 		function() { return parseExprPlain(px) }
 	)
@@ -96,7 +98,7 @@ const parseExprParts = parseExpr.parseExprParts = function(px) {
 			switch (head.k) {
 				case "<~": return [ E.Yield(px.s({ yielded: y })) ]
 				case "<~~": return [ E.YieldTo(px.s({ yieldedTo: y })) ]
-				default: fail()
+				default: throw new Error(head.k)
 			}
 		}
 		default:

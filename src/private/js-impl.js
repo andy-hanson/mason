@@ -1,7 +1,7 @@
 "use strict"
 
 const ms = require("./bootstrap").ms
-const b = ms.bool, u = ms.unlazy
+const bl = ms.bool, u = ms.unlazy
 
 module.exports = {
 	// js.ms
@@ -35,14 +35,14 @@ module.exports = {
 	"i-and": function() {
 		switch (arguments.length) {
 			case 0: return true
-			case 1: return b(arguments[0])
-			case 2: return b(arguments[0]) && b(u(arguments[1]))
-			case 3: return b(arguments[0]) && b(u(arguments[1])) && b(u(arguments[2]))
+			case 1: return bl(arguments[0])
+			case 2: return bl(arguments[0]) && bl(u(arguments[1]))
+			case 3: return bl(arguments[0]) && bl(u(arguments[1])) && bl(u(arguments[2]))
 			default:
-				if (!b(arguments[0]))
+				if (!bl(arguments[0]))
 					return false
-				for (let i = 1; i < arguments.length; i++)
-					if (!b(u(arguments[i])))
+				for (let i = 1; i < arguments.length; i = i + 1)
+					if (!bl(u(arguments[i])))
 						return false
 				return true
 		}
@@ -50,14 +50,14 @@ module.exports = {
 	"i-or": function() {
 		switch (arguments.length) {
 			case 0: return false
-			case 1: return b(arguments[0])
-			case 2: return b(arguments[0]) || b(u(arguments[1]))
-			case 3: return b(arguments[0]) || b(u(arguments[1])) || b(u(arguments[2]))
+			case 1: return bl(arguments[0])
+			case 2: return bl(arguments[0]) || bl(u(arguments[1]))
+			case 3: return bl(arguments[0]) || bl(u(arguments[1])) || bl(u(arguments[2]))
 			default:
-				if (b(arguments[0]))
+				if (bl(arguments[0]))
 					return true
-				for (let i = 1; i < arguments.length; i++)
-					if (b(u(arguments[i])))
+				for (let i = 1; i < arguments.length; i = i + 1)
+					if (bl(u(arguments[i])))
 						return true
 				return true
 		}
@@ -101,7 +101,7 @@ module.exports = {
 		}
 		catch (e) {
 			return e
-			//return new Error ("Error making error: " + e.message)
+			// TODO: return new Error ("Error making error: " + e.message)
 		}
 		if (err instanceof Error)
 			return err
@@ -117,7 +117,7 @@ module.exports = {
 
 	// Array.ms
 	"array-iterator": function*(_) {
-		for (let i = 0; i < _.length; i++)
+		for (let i = 0; i < _.length; i = i + 1)
 			yield _[i]
 	},
 
@@ -129,9 +129,9 @@ module.exports = {
 		let i = 0
 		while (i < args.length) {
 			const key = args[i]
-			i++
+			i = i + 1
 			const val = args[i]
-			i++
+			i = i + 1
 			assoc(hm, key, val)
 		}
 	},
@@ -139,7 +139,7 @@ module.exports = {
 	// Obj-Type.ms
 	"build-str": function(builder) {
 		let s = ""
-		builder(function(str) { s += str + "\n" })
+		builder(function(str) { s = s + str + "\n" })
 		return s
 	},
 	"+1": function(_) { return _ + 1 },
@@ -148,8 +148,10 @@ module.exports = {
 	"i-time*": function(times, timeMe) {
 		let i = times
 		const out = []
-		while (i--)
+		while (i > 0) {
+			i = i - 1
 			out.push(timeMe(i))
+		}
 		return out
 	},
 
@@ -160,7 +162,13 @@ module.exports = {
 	}
 }
 
-const binOps = [ "&", "^", "<<", ">>", ">>>", "===", "==", "<", ">", "<=", ">=", "+", "-", "*", "/", "%" ]
+const binOps = [
+	"&", "^",
+	"<<", ">>", ">>>",
+	"===", "==",
+	"<", ">", "<=", ">=",
+	"+", "-", "*", "/", "%"
+]
 binOps.forEach(function(op) {
 	module.exports["i" + op] = Function("a", "b", "return a " + op + " b")
 })

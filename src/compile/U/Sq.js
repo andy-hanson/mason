@@ -1,5 +1,3 @@
-"use strict"
-
 import assert from "assert"
 import Op from "./Op"
 import type from "./type"
@@ -30,7 +28,7 @@ const rightTail = function(sq) {
 
 const opSplitOnceWhere = function(sq, splitOn) {
 	type(sq, Array, splitOn, Function)
-	for (let i = 0; i < sq.length; i++)
+	for (let i = 0; i < sq.length; i = i + 1)
 		if (splitOn(sq[i]))
 			return Op.Some({
 				before: sq.slice(0, i),
@@ -42,17 +40,17 @@ const opSplitOnceWhere = function(sq, splitOn) {
 
 const opSplitManyWhere = function(sq, splitOn) {
 	type(sq, Array, splitOn, Function)
-	let last = 0
+	let iLast = 0
 	const out = []
-	for (let i = 0; i < sq.length; i++)
+	for (let i = 0; i < sq.length; i = i + 1)
 		if (splitOn(sq[i])) {
-			out.push({ before: sq.slice(last, i), at: sq[i] })
-			last = i + 1
+			out.push({ before: sq.slice(iLast, i), at: sq[i] })
+			iLast = i + 1
 		}
 	if (isEmpty(out))
 		return Op.None
 	else {
-		out.push({ before: sq.slice(last, sq.length) })
+		out.push({ before: sq.slice(iLast, sq.length) })
 		return Op.Some(out)
 	}
 }
@@ -94,7 +92,7 @@ const repeat = function(em, n) {
 	type(em, Object, n, Number)
 	assert(n >= 0)
 	const out = []
-	for (let i = n; i > 0; i--)
+	for (let i = n; i > 0; i = i - 1)
 		out.push(em)
 	return out
 }
@@ -118,7 +116,7 @@ const range = function(min, max) {
 	type(min, Number, max, Number)
 	assert(min < max)
 	const out = []
-	for (let i = min; i < max; i++)
+	for (let i = min; i < max; i = i + 1)
 		out.push(i)
 	return out
 }

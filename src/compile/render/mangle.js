@@ -1,8 +1,4 @@
-"use strict"
-
-const
-	assert = require("assert"),
-	type = require("../U/type")
+const type = require("../U/type")
 
 const mangle = function(name) {
 	return JSKeywords.has(name) ?
@@ -96,7 +92,6 @@ const quote = function(str) {
 		}[ch] || ch;
 	}).join('')
 	const res = "\"" + escaped + "\""
-	assert(eval(res) === str)
 	return res
 }
 

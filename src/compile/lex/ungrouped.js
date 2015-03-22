@@ -1,5 +1,3 @@
-"use strict"
-
 const
 	assert = require("assert"),
 	check = require("../check"),
@@ -16,7 +14,7 @@ const lexPlain = module.exports = function* lexPlain(opts, stream, isInQuote) {
 	type(stream, Stream, isInQuote, Boolean)
 
 	let indent = 0
-	const singleToken = function(stream) {
+	const singleToken = function() {
 		const startPos = stream.pos
 		const span = function() { return Span({ start: startPos, end: stream.pos }) }
 		const s = function(members) { return Object.assign(members, { span: span() }) }
@@ -30,7 +28,8 @@ const lexPlain = module.exports = function* lexPlain(opts, stream, isInQuote) {
 				stream.stepBack()
 			}
 			const jsLit = msLit.replace(/_/g, "")
-			check(!Number.isNaN(Number(jsLit)), stream.pos, "Invalid number literal "+U.code(msLit))
+			check(!Number.isNaN(Number(jsLit)), stream.pos,
+				"Invalid number literal " + U.code(msLit))
 			return T.Literal(s({ value: jsLit, k: Number }))
 		}
 
@@ -48,31 +47,36 @@ const lexPlain = module.exports = function* lexPlain(opts, stream, isInQuote) {
 				return gp("sp")
 			case '.':
 				if (stream.peek() === ' ' || stream.peek() === '\n')
-					return [ gp("sp"), keyword(". "), gp("sp") ] // Dict assign in its own spaced group
+					// Dict assign in its own spaced group
+					return [ gp("sp"), keyword(". "), gp("sp") ]
 				else
 					return T.DotName(s({
-						nDots: stream.takeWhile('.').length + 1, // +1 for the dot we just skipped.
+						// +1 for the dot we just skipped.
+						nDots: stream.takeWhile('.').length + 1,
 						name: stream.takeWhile(Lang.isNameCharacter)}))
 			case ':':
 				return keyword(":")
 			case '~':
 				return stream.tryEat("|") ?
-					[ keyword("~|"), gp("sp") ] : // First arg in its own spaced group
+					// First arg in its own spaced group
+					[ keyword("~|"), gp("sp") ] :
 					keyword("~")
 			case '|':
-				return [ keyword("|"), gp("sp") ] // First arg in its own spaced group
+				// First arg in its own spaced group
+				return [ keyword("|"), gp("sp") ]
 			case '_':
 				return keyword("_")
 			case '\\':
 				stream.takeUpTo('\n')
-				return singleToken(stream)
+				return singleToken()
 			case '\n': {
 				check(!isInQuote, span(), "Quote interpolation cannot contain newline")
-				check(stream.prev() != ' ', span(), "Line ends in a space")
-				stream.takeWhile('\n') // Skip any blank lines
+				check(stream.prev() !== ' ', span(), "Line ends in a space")
+				// Skip any blank lines.
+				stream.takeWhile('\n')
 				const oldIndent = indent
 				indent = stream.takeWhile('\t').length
-				check(stream.peek() != ' ', Span.single(stream.pos), "Line begins in a space")
+				check(stream.peek() !== ' ', Span.single(stream.pos), "Line begins in a space")
 				if (indent <= oldIndent)
 					return Sq.rcons(Sq.repeat(gp('<-'), oldIndent - indent), gp('ln'))
 				else {
@@ -82,7 +86,7 @@ const lexPlain = module.exports = function* lexPlain(opts, stream, isInQuote) {
 			}
 			case '`': {
 				const js = stream.takeUpTo(/[`\n]/)
-				check(stream.eat() == "`", span(), "Unclosed " + U.code("`"))
+				check(stream.eat() === "`", span(), "Unclosed " + U.code("`"))
 				return T.Literal(s({ value: js, k: "js" }))
 			}
 			case '"':
@@ -100,7 +104,8 @@ const lexPlain = module.exports = function* lexPlain(opts, stream, isInQuote) {
 				const name = _ + stream.takeWhile(Lang.isNameCharacter)
 				switch (name) {
 					case "region":
-						stream.takeUpTo('\n') // Rest of line is a comment
+						// Rest of line is a comment.
+						stream.takeUpTo('\n')
 						return keyword("region")
 					default:
 						if (stream.tryEat('_'))
@@ -108,7 +113,7 @@ const lexPlain = module.exports = function* lexPlain(opts, stream, isInQuote) {
 						else if (Lang.AllKeywords.has(name))
 							return keyword(name)
 						else if (Lang.ReservedWords.has(name))
-							check.fail(span(), "Reserved word "+U.code(name))
+							check.fail(span(), "Reserved word " + U.code(name))
 						else
 							return T.Name(s({ name: name }))
 				}
@@ -117,11 +122,11 @@ const lexPlain = module.exports = function* lexPlain(opts, stream, isInQuote) {
 	}
 
 	while (stream.hasNext()) {
-		const st = singleToken(stream)
+		const st = singleToken()
 		if (st === 'STOP')
 			break
 		else if (st instanceof Array)
-			for (let i = 0; i < st.length; i++)
+			for (let i = 0; i < st.length; i = i + 1)
 				yield st[i]
 		else if (st.next)
 			yield* st
@@ -133,7 +138,6 @@ const lexPlain = module.exports = function* lexPlain(opts, stream, isInQuote) {
 const lexQuote = function*(opts, stream, indent) {
 	type(stream, Stream, indent, Number)
 
-	const startPos = stream.pos
 	const isIndented = stream.peek() === '\n'
 	const quoteIndent = indent + 1
 
@@ -146,7 +150,7 @@ const lexQuote = function*(opts, stream, indent) {
 			yield T.Literal({
 				span: Span({ start: startOfRead, end: stream.pos }),
 				// Don't include leading newline of indented block
-				value: (first && isIndented) ? read.slice(1) : read,
+				value: first && isIndented ? read.slice(1) : read,
 				k: String
 			})
 			first = false
@@ -167,12 +171,11 @@ const lexQuote = function*(opts, stream, indent) {
 				check(quoteEscape.has(escaped), stream.pos, function() {
 					return "No need to escape " + U.code(escaped)
 				})
-				read += quoteEscape.get(escaped)
+				read = read + quoteEscape.get(escaped)
 				break
 			}
 			case '{': {
 				yield* yieldRead()
-				const start = stream.pos
 				// We can't just create a T.Group now because there may be other GroupPre_s inside.
 				yield GroupPre({ span: Span.single(stream.pos), k: "(" })
 				yield* lexPlain(opts, stream, true)
@@ -181,7 +184,7 @@ const lexQuote = function*(opts, stream, indent) {
 			}
 			case '\n': {
 				// TODO: Make file cleansing its own step?
-				check(stream.prev() != ' ', stream.pos, "Line ends in a space")
+				check(stream.prev() !== ' ', stream.pos, "Line ends in a space")
 				check(isIndented, restorePoint.pos, "Unclosed quote.")
 				let newIndent = stream.takeWhile('\t').length
 
@@ -190,7 +193,7 @@ const lexQuote = function*(opts, stream, indent) {
 				// Allow blank lines.
 				if (newIndent === 0) {
 					while (stream.tryEat('\n'))
-						s += '\n'
+						s = s + '\n'
 					newIndent = stream.takeWhile('\t').length
 				}
 
@@ -202,7 +205,7 @@ const lexQuote = function*(opts, stream, indent) {
 					break eatChars
 				}
 				else
-					read += s + '\n' + '\t'.repeat(newIndent - quoteIndent)
+					read = read + s + '\n' + '\t'.repeat(newIndent - quoteIndent)
 				break
 			}
 			case '"':
@@ -210,7 +213,7 @@ const lexQuote = function*(opts, stream, indent) {
 					break eatChars
 				// Else fallthrough
 			default:
-				read += ch
+				read = read + ch
 		}
 	}
 

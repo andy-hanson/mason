@@ -1,12 +1,8 @@
-"use strict"
-
 const
 	check = require("../check"),
-	Opts = require("../Opts"),
 	Span = require("../Span"),
 	Sq = require("../U/Sq"),
-	T = require("../T"),
-	U = require("../U")
+	T = require("../T")
 
 const Px = module.exports = Span.spanType("Px", Object, { sqt: [T] })
 Object.assign(Px.prototype, {

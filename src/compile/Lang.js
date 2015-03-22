@@ -1,8 +1,6 @@
-"use strict"
-
 const setUnion = function() {
 	const s = new Set()
-	for (let i = 0; i < arguments.length; i++)
+	for (let i = 0; i < arguments.length; i = i + 1)
 		for (let x of arguments[i].values())
 			s.add(x)
 	return s

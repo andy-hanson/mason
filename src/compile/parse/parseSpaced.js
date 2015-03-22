@@ -1,5 +1,3 @@
-"use strict"
-
 const
 	check = require("../check"),
 	E = require("../E"),

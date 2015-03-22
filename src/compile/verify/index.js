@@ -1,9 +1,6 @@
-"use strict"
-
 const
 	check = require("../check"),
 	E = require("../E"),
-	Lang = require("../Lang"),
 	Op = require("../U/Op"),
 	Opts = require("../Opts"),
 	Sq = require("../U/Sq"),
@@ -28,16 +25,22 @@ const verifyLocalUse = function(vr, opts) {
 		const info = vr.localToInfo.get(local)
 		const noNonDebug = Sq.isEmpty(info.nonDebugAccesses)
 		if (info.isInDebug)
-			check(noNonDebug, local.span,
-				function() { return "Debug-only local " + U.code(local.name) + " used outside of debug at " + info.nonDebugAccesses[0].span })
+			check(noNonDebug, local.span, function() {
+				return "Debug-only local " + U.code(local.name) +
+					" used outside of debug at " + info.nonDebugAccesses[0].span
+			})
 		if (noNonDebug && Sq.isEmpty(info.debugAccesses))
-			check.warnIf(opts, !local.okToNotUse, local.span, "Unused local variable " + U.code(local.name) + ".")
+			check.warnIf(opts, !local.okToNotUse, local.span, function() {
+				return "Unused local variable " + U.code(local.name) + "."
+			})
 		else if (info.isInDebug)
 			check(noNonDebug, local.span, function() {
 				return "Debug-only local used at " + Sq.head(info.nonDebugAccesses).span
 			})
 		else
-			check.warnIf(opts, !local.okToNotUse && noNonDebug, local.span, "Local " + U.code(local.name) + " used only in debug.")
+			check.warnIf(opts, !local.okToNotUse && noNonDebug, local.span, function() {
+				return "Local " + U.code(local.name) + " used only in debug."
+			})
 	}
 }
 
@@ -65,13 +68,14 @@ U.implementMany(E, "verify", {
 		verifyLines(vx, [ this ])
 	},
 	EndLoop: function(vx) {
-		check(vx.hasLoop(this.name), this.span, "No loop called `"+this.name+"`")
+		check(vx.hasLoop(this.name), this.span, "No loop called `" + this.name + "`")
 	},
 	Fun: function(vx) {
 		vx = vx.withBlockLocals()
 		this.opReturnType.forEach(v(vx))
 		if (!Sq.isEmpty(this.opReturnType))
-			check(!Sq.isEmpty(this.body.opReturn), this.span, "Function with return type must return something.")
+			check(!Sq.isEmpty(this.body.opReturn), this.span,
+				"Function with return type must return something.")
 		this.args.forEach(function(arg) { arg.opType.forEach(v(vx)) })
 		const vxGen = this.k === "~|" ? vx.inGenerator() : vx.notInGenerator()
 		const allArgs = this.args.concat(this.opRestArg)
@@ -85,8 +89,8 @@ U.implementMany(E, "verify", {
 			function(l) { vx.setAccessToLocal(me, l) },
 			function() {
 				check.fail(me.span,
-					"Could not find local `"+me.name+"`\n"+
-					"Available locals are: [`"+Sq.toArray(vx.allLocalNames()).join("`, `")+"`]")
+					"Could not find local `" + me.name + "`\n" +
+					"Available locals are: [`" + Sq.toArray(vx.allLocalNames()).join("`, `") + "`]")
 			})
 	},
 	Loop: function(vx) {
@@ -136,7 +140,7 @@ U.implementMany(E, "verify", {
 	Null: U.ignore,
 	Quote: function(vx) { vm(vx, this.parts) },
 	Require: U.ignore,
-	Scope: function(vx) { throw new Error("Scopes are handled specially by verifyLines.") },
+	Scope: function() { throw new Error("Scopes are handled specially by verifyLines.") },
 	SpecialKeyword: U.ignore,
 	Splat: function(vx) { v(vx)(this.splatted) },
 	Sub: function(vx) { vm(vx, Sq.cons(this.subject, this.subbers)) },

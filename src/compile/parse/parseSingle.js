@@ -1,15 +1,10 @@
-"use strict"
-
 const
 	assert = require("assert"),
-	check = require("../check"),
 	E = require("../E"),
 	Lang = require("../Lang"),
 	T = require("../T"),
-	Sq = require("../U/Sq"),
 	type = require("../U/type"),
 		isa = type.isa,
-	U = require("../U"),
 	Px = require("./Px")
 const
 	parseBlock_ = function() { return require("./parseBlock") },

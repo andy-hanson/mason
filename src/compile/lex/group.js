@@ -1,17 +1,14 @@
-"use strict"
-
 const
 	assert = require("assert"),
 	check = require("../check"),
 	GroupPre = require("./GroupPre"),
-	Lang =  require("../Lang"),
+	Lang = require("../Lang"),
 	Opts = require("../Opts"),
 	Span = require("../Span"),
 	T = require("../T"),
 	Sq = require("../U/Sq"),
 	type = require("../U/type"),
-	types = require("../U/types"),
-	U = require("../U")
+	types = require("../U/types")
 
 const GroupBuilder = types.recordType("GroupBuilder", Object, {
 	startPos: Span.Pos,
@@ -29,7 +26,8 @@ module.exports = function group(sqL, opts) {
 	// No 'generator' type...
 	type(sqL, Object, opts, Opts)
 
-	const stack = [] // Stack of GroupBuilders
+	// Stack of GroupBuilders
+	const stack = []
 
 	const cur = function() { return stack[stack.length - 1] }
 
@@ -47,7 +45,8 @@ module.exports = function group(sqL, opts) {
 				break
 			else {
 				check(new Set(['(', '[', 'sp']).has(old.k), closePos,
-					"Trying to close " + showGroup(k) + ", but last opened was a " + showGroup(old.k))
+					"Trying to close " + showGroup(k) +
+					", but last opened was a " + showGroup(old.k))
 				finishLevel(closePos, oldClose)
 			}
 		}
@@ -143,7 +142,7 @@ module.exports = function group(sqL, opts) {
 			case 'sp':
 				endAndStart(span, k)
 				break
-			default: fail()
+			default: throw new Error(k)
 		}
 	}
 

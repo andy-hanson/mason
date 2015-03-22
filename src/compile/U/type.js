@@ -1,13 +1,13 @@
-"use strict"
-
 const
 	assert = require("assert")
 
-Function.prototype.getName = function() { return this.name }
+Object.assign(Function.prototype, {
+	getName: function() { return this.name }
+})
 
 const type = module.exports = function() {
 	if (!global.DEBUG) return
-	for (let i = 0; i < arguments.length; i += 2)
+	for (let i = 0; i < arguments.length; i = i + 2)
 		typePair(arguments[i], arguments[i + 1])
 }
 
@@ -22,9 +22,9 @@ const typePair = function(instance, itsType) {
 		if (instance === null) throw new Error("Value null")
 		if (instance === undefined) throw new Error("Value undefined")
 		const strType =
-			(itsType instanceof Array) ?
+			itsType instanceof Array ?
 			"[" + itsType[0].getName() + "]" :
-			(itsType instanceof Set) ?
+			itsType instanceof Set ?
 			"{" + require("./Sq").toArray(itsType.values()) + "}" :
 			itsType.getName()
 		throw new Error(instance + " is not a " + strType)
@@ -38,7 +38,7 @@ type.isa = function(instance, itsType) {
 		case itsType instanceof Array: {
 			assert(itsType.length === 1)
 			const emType = itsType[0]
-			return (instance instanceof Array) &&
+			return instance instanceof Array &&
 				instance.every(function(em) { return type.isa(em, emType) })
 		}
 		case require("./Op").prototype.isPrototypeOf(itsType):

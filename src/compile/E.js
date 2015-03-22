@@ -1,13 +1,8 @@
-"use strict"
-
 const
 	Lang = require("./Lang"),
 	Op = require("./U/Op"),
 	Span = require("./Span"),
-		st = Span.spanType,
-	T = require("./T"),
-	abstractType = require("./U/types").abstractType,
-	U = require("./U")
+	abstractType = require("./U/types").abstractType
 
 const E = module.exports = abstractType("E", Object)
 Object.assign(E, {

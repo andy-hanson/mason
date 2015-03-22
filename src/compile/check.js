@@ -1,17 +1,14 @@
-"use strict"
-
 const
 	chalk = require("chalk"),
 	Span = require("./Span"),
-	type = require("./U/type"),
-	U = require("./U")
+	type = require("./U/type")
 
 const check = module.exports = function(cond, spanOrPos, message) {
 	if (!cond)
 		check.fail(spanOrPos, message)
 }
 
-check.warnIf= function(opts, cond, spanOrPos, message) {
+check.warnIf = function(opts, cond, spanOrPos, message) {
 	if (cond)
 		console.log(failMessage(spanOrPos, message, opts))
 }
@@ -23,9 +20,9 @@ check.fail = function(spanOrPos, message) {
 const failMessage = function(spanOrPos, message, opts) {
 	const p = type.isa(spanOrPos, Span) ? spanOrPos.start : spanOrPos
 	type(p, Span.Pos)
-	const msg = (message instanceof Function) ? message() : message
+	const msg = message instanceof Function ? message() : message
 	type(msg, String)
-	const posMessage =  p + " " + highlightMarkdown(msg)
+	const posMessage = p + " " + highlightMarkdown(msg)
 	return opts ? chalk.green(opts.modulePath()) + " " + posMessage : posMessage
 }
 

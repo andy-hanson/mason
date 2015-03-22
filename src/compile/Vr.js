@@ -1,16 +1,14 @@
-"use strict"
-
 const
 	assert = require("assert"),
 	E = require("./E"),
-	Lang = require("./Lang"),
 	Sq = require("./U/Sq"),
 	type = require("./U/type"),
 	types = require("./U/types")
 
 const Vr = module.exports = types.recordType("Vr", Object, {
 	accessToLocal: Map,
-	localToInfo: Map, // LocalDeclare -> LocalInfo
+	// LocalDeclare -> LocalInfo
+	localToInfo: Map,
 	eToIsInGenerator: Map
 })
 Object.assign(Vr.prototype, {

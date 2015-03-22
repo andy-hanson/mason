@@ -1,15 +1,11 @@
-"use strict"
-
 const
 	assert = require("assert"),
 	check = require("../check"),
-	E = require ("../E"),
-	Lang = require("../Lang"),
+	E = require("../E"),
 	Op = require("../U/Op"),
 	Opts = require("../Opts"),
 	SourceNode = require("source-map").SourceNode,
 	Sq = require("../U/Sq"),
-	T = require("../T"),
 	type = require("../U/type"),
 	U = require("../U"),
 	Vr = require("../Vr")
@@ -27,7 +23,8 @@ module.exports = function render(e, opts, vr) {
 	return r(Rx({ indent: "", opts: opts, vr: vr }))(e)
 }
 
-E.prototype.render = function(rx, arg) { // Some E_s pass an arg to their child
+E.prototype.render = function(rx, arg) {
+	// Some E_s pass an arg to their child
 	type(rx, Rx)
 	const content = this.renderContent(rx, arg)
 	const line = this.span.start.line
@@ -54,9 +51,10 @@ U.implementMany(E, "renderContent", {
 		const checkProperties = this.checkProperties
 		const access = accessMangledLocal(destructuredName, this.isLazy)
 		const assigns = this.assignees.map(function(assignee) {
-			const get = (checkProperties && !(assignee.okToNotUse && !rx.vr.isAccessed(assignee))) ?
+			const get = checkProperties && !(assignee.okToNotUse && !rx.vr.isAccessed(assignee)) ?
 				"_ms.get(" + access + ", \"" + assignee.name + "\")" :
-				access + makeMember(assignee.name) // TODO: Ignore...
+				// TODO: Ignore...
+				access + makeMember(assignee.name)
 			const value = E.Literal({
 				span: assignee.span,
 				k: "js",
@@ -76,7 +74,7 @@ U.implementMany(E, "renderContent", {
 		]
 	},
 
-	BlockBody: function (rx, opResCheck) {
+	BlockBody: function(rx, opResCheck) {
 		if (opResCheck === undefined)
 			opResCheck = []
 
@@ -166,7 +164,7 @@ U.implementMany(E, "renderContent", {
 		return Op.ifElse(this.opDicted,
 			function(dicted) {
 				if (Sq.isEmpty(keys)) {
-					assert(Sq.isEmpty(nonDebugKeys)) // That's how this happens
+					assert(Sq.isEmpty(nonDebugKeys))
 					return r(rx)(dicted)
 				}
 
@@ -222,7 +220,7 @@ U.implementMany(E, "renderContent", {
 		})
 		const args = this.args
 		return [
-			(this.k === "|") ? "function(" : "function*(",
+			this.k === "|" ? "function(" : "function*(",
 			commad(rx, args),
 			") {",
 			rxFun.nl(),
@@ -232,7 +230,7 @@ U.implementMany(E, "renderContent", {
 				" = [].slice.call(arguments, ",
 				args.length.toString(),
 				");",
-				rxFun.nl(),
+				rxFun.nl()
 			]}),
 			Sq.interleavePlus(
 				Sq.mpf(args, function(arg) { return opLocalCheck(rx, arg, arg.isLazy); }),
@@ -248,7 +246,7 @@ U.implementMany(E, "renderContent", {
 	Lazy: function(rx) {
 		return lazyWrap(r(rx)(this.value))
 	},
-	ListReturn: function(rx) { return [
+	ListReturn: function() { return [
 		"[",
 		Sq.interleave(
 			Sq.range(0, this.length).map(function(i) { return "_" + i }),
@@ -271,13 +269,13 @@ U.implementMany(E, "renderContent", {
 				return [ mangle.quote(v) ]
 			case "js":
 				return v
-			default: fail()
+			default: throw new Error(this.k)
 		}
 	},
 	LocalAccess: function(rx) {
 		return accessLocal(this.name, rx.vr.isLazy(this))
 	},
-	LocalDeclare: function(rx) {
+	LocalDeclare: function() {
 		return mangle(this.name)
 	},
 	Loop: function(rx) { return [
@@ -288,7 +286,7 @@ U.implementMany(E, "renderContent", {
 		rx.nl(),
 		"}"
 	]},
-	Map: function(rx) { return [
+	Map: function() { return [
 		"_ms.map(",
 		Sq.interleave(
 			Sq.range(0, this.length).map(function(i) { return [
@@ -320,7 +318,7 @@ U.implementMany(E, "renderContent", {
 		// "\nglobal.console.log(\">>> " + rx.opts.moduleName() + "\")\n",
 		rx.snl(),
 		r(rx)(this.body),
-		rx.snl(),
+		rx.snl()
 		// "\nglobal.console.log(\"<<< " + rx.opts.moduleName() + "\")\n"
 	]},
 	// TODO:ES6
@@ -340,7 +338,7 @@ U.implementMany(E, "renderContent", {
 		if (!isStrLit(this.parts[0]))
 			parts.push("\"\"")
 		// TODO:ES6 splat call
-		;[].push.apply(parts, this.parts.map(function(part) {
+		Array.prototype.push.apply(parts, this.parts.map(function(part) {
 			return isStrLit(part) ? r(rx)(part) : [ "_ms.show(", r(rx)(part), ")" ]
 		}))
 		return Sq.interleave(parts, " + ")
@@ -357,14 +355,14 @@ U.implementMany(E, "renderContent", {
 		rx.nl(),
 		"}"
 	]},
-	SpecialKeyword: function(rx) {
+	SpecialKeyword: function() {
 		switch (this.k) {
 			case "undefined": return "undefined"
 			case "this-module-directory": return "__dirname"
-			default: throw up
+			default: throw new Error(this.k)
 		}
 	},
-	Splat: function(rx) {
+	Splat: function() {
 		check.fail(this.span, "Splat must appear as argument to a call.")
 	},
 	Sub: function(rx) { return [

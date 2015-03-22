@@ -1,5 +1,3 @@
-"use strict"
-
 const
 	check = require("../check"),
 	E = require("../E"),
@@ -21,18 +19,19 @@ module.exports = function verifyLines(vx, lines) {
 				line.lines.forEach(processLine(inDebug))
 				prevLocals = localsBefore
 			}
-			else if (type.isa(line, E.Debug)) {
+			else if (type.isa(line, E.Debug))
 				// TODO: Do anything in this situation?
 				// check(!inDebug, line.span, "Redundant `debug`.")
 				line.lines.forEach(processLine(true))
-			}
 			else {
 				verifyIsStatement(line)
 				const lineNews = lineNewLocals(line)
 				prevLocals.forEach(function(prevLocal) {
 					lineNews.forEach(function(newLocal) {
 						check(prevLocal.name !== newLocal.name, newLocal.span,
-							U.code(newLocal.name) + " already declared in same block at " + prevLocal.span.start)
+							U.code(newLocal.name) +
+							" already declared in same block at " +
+							prevLocal.span.start)
 					})
 				})
 				lineNews.forEach(function(_) {
@@ -41,7 +40,8 @@ module.exports = function verifyLines(vx, lines) {
 				const newLocals = prevLocals.concat(lineNews)
 				lineToLocals.set(line, prevLocals)
 				prevLocals = newLocals
-				allNewLocals = newLocals // Final set value is answer
+				// Final set value is answer
+				allNewLocals = newLocals
 			}
 		}
 	}
@@ -58,7 +58,8 @@ module.exports = function verifyLines(vx, lines) {
 			else {
 				const vxDebug = U.with(vx, "isInDebug", inDebug)
 				const vxLineLocals = vxDebug.plusLocals(lineToLocals.get(line))
-				const vxLine = U.with(vxLineLocals, "pendingBlockLocals", vx.pendingBlockLocals.concat(allNewLocals))
+				const vxLine = U.with(vxLineLocals, "pendingBlockLocals",
+					vx.pendingBlockLocals.concat(allNewLocals))
 				v(vxLine)(line)
 			}
 		}
@@ -76,7 +77,8 @@ const verifyIsStatement = function(line) {
 		// Some E.Vals are also conceptually E.Dos, but this was easier than multiple inheritance.
 		case type.isa(line, E.Call):
 		case type.isa(line, E.Literal) && line.k === "js":
-		case type.isa(line, E.Null): // OK, used to mean `pass`
+		// OK, used to mean `pass`
+		case type.isa(line, E.Null):
 		case type.isa(line, E.Yield):
 		case type.isa(line, E.YieldTo):
 			return

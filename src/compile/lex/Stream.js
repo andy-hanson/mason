@@ -1,5 +1,3 @@
-"use strict"
-
 const
 	assert = require("assert"),
 	Span = require("../Span"),
@@ -23,12 +21,13 @@ Stream.prototype = {
 		type(offset, Number)
 		const index = this.index + offset
 		assert(index >= 0)
-		return (index >= this.str.length) ? 'EOF' : this.str.charAt(index)
+		return index >= this.str.length ? 'EOF' : this.str.charAt(index)
 	},
 
 	tryEat: function(ch) {
-		const canEat = this.peek() == ch
-		if (canEat) this.skip()
+		const canEat = this.peek() === ch
+		if (canEat)
+			this.skip()
 		return canEat
 	},
 
@@ -46,7 +45,7 @@ Stream.prototype = {
 		if (n === undefined) n = 1
 		type(n, Number)
 		const endIndex = this.index + n
-		for (; this.index !== endIndex; this.index++)
+		for (; this.index !== endIndex; this.index = this.index + 1)
 			this.pos = this.pos.next(this.peek())
 	},
 

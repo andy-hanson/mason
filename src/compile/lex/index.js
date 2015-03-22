@@ -1,5 +1,3 @@
-"use strict"
-
 const
 	group = require("./group"),
 	ungrouped = require("./ungrouped"),
@@ -9,6 +7,7 @@ const
 
 module.exports = function lex(str, opts) {
 	type(str, String, opts, Opts)
-	str = str + "\n" // Lexing algorithm requires trailing newline
+	// Lexing algorithm requires trailing newline
+	str = str + "\n"
 	return group(ungrouped(opts, new Stream(str), false), opts)
 }

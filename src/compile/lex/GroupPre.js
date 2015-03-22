@@ -1,5 +1,3 @@
-"use strict"
-
 const
 	Lang = require("../Lang"),
 	Span = require("../Span")

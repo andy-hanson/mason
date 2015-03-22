@@ -1,17 +1,13 @@
-"use strict"
-
 const
 	assert = require("assert"),
 	check = require("../check"),
 	E = require("../E"),
 	Op = require("../U/Op"),
-	Span = require("../Span"),
 	Sq = require("../U/Sq"),
 	T = require("../T"),
 	type = require("../U/type"),
 		isa = type.isa,
-	U = require("../U"),
-	Px = require("./Px")
+	U = require("../U")
 const
 	parseSpaced = require("./parseSpaced")
 
@@ -41,7 +37,9 @@ const parseLocal = parseLocals.parseLocal = function(px) {
 		const rest2 = Sq.tail(rest)
 		if (!Sq.isEmpty(rest2)) {
 			const colon = Sq.head(rest2)
-			check(T.Keyword.is(":")(colon), colon.span, function() { return "Expected " + U.code(":") })
+			check(T.Keyword.is(":")(colon), colon.span, function() {
+				return "Expected " + U.code(":")
+			})
 			px.check(rest2.length > 1, function() { return "Expected something after " + colon })
 			const sqtType = Sq.tail(rest2)
 			opType = Op.Some(parseSpaced(px.w(sqtType)))

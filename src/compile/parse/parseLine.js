@@ -1,5 +1,3 @@
-"use strict"
-
 const
 	assert = require("assert"),
 	check = require("../check"),
@@ -7,7 +5,6 @@ const
 	T = require("../T"),
 	Lang = require("../Lang"),
 	Op = require("../U/Op"),
-	Span = require("../Span"),
 	Sq = require("../U/Sq"),
 	type = require("../U/type"),
 		isa = type.isa,
@@ -26,8 +23,6 @@ const parseLine = function(px) {
 
 	const first = Sq.head(px.sqt)
 	const pxRest = px.w(Sq.tail(px.sqt))
-	//const rest = function() { return Sq.tail(sqt) }
-	//const pxRest = function() { return px.withSpan(Span.ofSqT(px.span, rest())) }
 
 	// We only deal with mutable expressions here, otherwise we fall back to parseExpr.
 	if (isa(first, T.Keyword))
@@ -35,16 +30,21 @@ const parseLine = function(px) {
 			case ". ":
 				return E.ListEntry(px.s({
 					value: parseExpr(pxRest),
-					index: -1 // This is set by parseBlock
+					// This is set by parseBlock.
+					index: -1
 				}))
 			case "case!":
 				return parseCase(pxRest, "case!", false)
 			case "debug":
-				return (T.Group.is('->')(px.sqt[1])) ?
-					E.Debug(px.s({ lines: parseLines(px) })) : // `debug`, then indented block
-					E.Debug(px.s({ lines: parseLineOrLines(pxRest) })) // e.g. `debug use`
+				return T.Group.is('->')(px.sqt[1]) ?
+					// `debug`, then indented block
+					E.Debug(px.s({ lines: parseLines(px) })) :
+					// e.g. `debug use`
+					E.Debug(px.s({ lines: parseLineOrLines(pxRest) }))
 			case "debugger":
-				px.checkEmpty(pxRest().sqt, function() { return "Did not expect anything after " + first })
+				px.checkEmpty(pxRest().sqt, function() {
+					return "Did not expect anything after " + first
+				})
 				return E.Debugger(px.s({}))
 			case "end-loop!":
 				return E.EndLoop(px.s({ name: loopName(pxRest) }))
@@ -54,12 +54,15 @@ const parseLine = function(px) {
 				return parseLines(px)
 			case "use": case "use!": case "use~":
 				return parseUse(pxRest, first.k)
-			default: // fall through
+			default:
+				// fall through
 		}
 
 	return Op.ifElse(Sq.opSplitOnceWhere(px.sqt, T.Keyword.is(Lang.LineSplitKeywords)),
 		function(_) {
-			return (_.at.k == '->') ? parseMapEntry(px, _.before, _.after) : parseAssign(px, _.before, _.at, _.after)
+			return _.at.k === '->' ?
+				parseMapEntry(px, _.before, _.after) :
+				parseAssign(px, _.before, _.at, _.after)
 		},
 		function() { return parseExpr(px) })
 }
@@ -69,12 +72,10 @@ const parseAssign = function(px, assigned, assigner, value) {
 	const k = assigner.k
 	const eValuePre = Sq.isEmpty(value) ? E.True(px.s({})) : parseExpr(px.w(value))
 
-	const opDisplayName = Op.if(locals.length == 1, function() { return Sq.head(locals).name })
-
 	let eValueNamed;
 	if (locals.length === 1) {
 		const name = Sq.head(locals).name
-		if (name === "doc") {
+		if (name === "doc")
 			if (eValuePre instanceof E.Fun)
 				// KLUDGE: `doc` for module can be a Fun signature.
 				// TODO: Something better...
@@ -83,7 +84,6 @@ const parseAssign = function(px, assigned, assigner, value) {
 				}))
 			else
 				eValueNamed = eValuePre
-		}
 		else
 			eValueNamed = tryAddDisplayName(eValuePre, name)
 	}
@@ -92,7 +92,7 @@ const parseAssign = function(px, assigned, assigner, value) {
 
 	const isYield = k === "<~" || k === "<~~"
 
-	const eValue = valueFromAssign(eValueNamed, k, assigned)
+	const eValue = valueFromAssign(eValueNamed, k)
 
 	if (Sq.isEmpty(locals)) {
 		px.check(isYield, "Assignment to nothing")
@@ -119,13 +119,20 @@ const parseAssign = function(px, assigned, assigner, value) {
 		const isLazy = locals.some(function(l) { return l.isLazy })
 		if (isLazy)
 			locals.forEach(function(_) {
-				check(_.isLazy, _.span, "If any part of destructuring assign is lazy, all must be.")
+				check(_.isLazy, _.span,
+					"If any part of destructuring assign is lazy, all must be.")
 			})
-		return E.AssignDestructure(px.s({ assignees: locals, k: k, value: eValue, isLazy: isLazy, checkProperties: false }))
+		return E.AssignDestructure(px.s({
+			assignees: locals,
+			k: k,
+			value: eValue,
+			isLazy: isLazy,
+			checkProperties: false
+		}))
 	}
 }
 
-const valueFromAssign = function(valuePre, kAssign, assigned) {
+const valueFromAssign = function(valuePre, kAssign) {
 	switch (kAssign) {
 		case "<~":
 			return E.Yield({ span: valuePre.span, yielded: valuePre })
@@ -147,7 +154,8 @@ const tryAddDisplayName = function(eValuePre, displayName)
 	switch (true) {
 		case isa(eValuePre, E.Call) && eValuePre.args.length > 0:
 			// TODO: Immutable
-			eValuePre.args[eValuePre.args.length - 1] = tryAddDisplayName(Sq.last(eValuePre.args), displayName)
+			eValuePre.args[eValuePre.args.length - 1] =
+				tryAddDisplayName(Sq.last(eValuePre.args), displayName)
 			return eValuePre
 
 		case isa(eValuePre, E.Fun):
@@ -186,7 +194,9 @@ const loopName = function(px) {
 		case 0:
 			return Lang.defaultLoopName
 		case 1:
-			px.check(isa(px.sqt[0], T.Name), function() { return "Expected a loop name, not " + px.sqt[0] })
+			px.check(isa(px.sqt[0], T.Name), function() {
+				return "Expected a loop name, not " + px.sqt[0]
+			})
 			return px.sqt[0].name
 		default:
 			px.fail("Expected a loop name")
@@ -197,13 +207,14 @@ const parseMapEntry = function(px, before, after) {
 	return E.MapEntry(px.s({
 		key: parseExpr(px.w(before)),
 		val: parseExpr(px.w(after)),
-		index: -1 // TODO: Filled in by ???
+		// TODO: Filled in by ???
+		index: -1
 	}))
 }
 
 const parseLineOrLines = function(px) {
 	const _ = parseLine(px)
-	return (_ instanceof Array) ? _ : [ _ ]
+	return _ instanceof Array ? _ : [ _ ]
 }
 
 const parseLines = function(px) {

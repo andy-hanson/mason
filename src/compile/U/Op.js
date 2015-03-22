@@ -1,19 +1,14 @@
-"use strict"
-
 /*
 Cheap-ass option type.
 It's just an array with 0 or 1 elements.
 */
 
-const
-	assert = require("assert"),
-	type = require("./type"),
-	U = require("./index")
+const type = require("./type")
 
 // This constructs an Op *type*. Use Op.Some and Op.None to construct instances.
-const Op = module.exports = function(type) {
+const Op = module.exports = function(opType) {
 	const op = Object.create(Op.prototype)
-	op.type = type
+	op.type = opType
 	return Object.freeze(op)
 }
 
@@ -33,6 +28,6 @@ Object.assign(Op, {
 	},
 	ifElse: function(op, ifSome, ifNone) {
 		type(op, Op(Object), ifSome, Function, ifNone, Function)
-		return (op.length === 0) ? ifNone() : ifSome(op[0])
+		return op.length === 0 ? ifNone() : ifSome(op[0])
 	}
 })

@@ -1,17 +1,6 @@
-"use strict"
-
 const
 	assert = require("assert"),
 	type = require("./type")
-
-const extended = function(object, newMembers) {
-	const ext = Object.create(Object.getPrototypeOf(object))
-	Object.getOwnPropertyNames(object).forEach(function(name) {
-		assert(!Object.prototype.hasOwnProperty.call(object, name))
-		ext[name] = object[name]
-	})
-	return ext
-}
 
 // Because console.log just gives me [object Object], whose bright idea was that?
 const log = function(x) {
@@ -63,7 +52,6 @@ const code = function(str) {
 }
 
 module.exports = {
-	extended: extended,
 	log: log,
 	indent: indent,
 	indented: indented,

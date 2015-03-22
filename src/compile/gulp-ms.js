@@ -1,12 +1,9 @@
-"use strict"
-
-var
+const
 	gutil = require('gulp-util'),
 		PluginError = gutil.PluginError,
-	path = require('path'),
 	through = require('through2'),
 	applySourceMap = require('vinyl-sourcemaps-apply')
-var
+const
 	compile = require("./index")
 
 const Name = 'gulp-ms'
@@ -22,13 +19,13 @@ function gulpMs() {
 			const src = file.contents.toString('utf8')
 			const outFile = gutil.replaceExtension(file.path, '.js')
 
-			var opts = {
+			const opts = {
 				inFile: file.path,
 				checks: true
 			}
 
 			try {
-				var data = compile(src, opts)
+				const data = compile(src, opts)
 				applySourceMap(file, data.sourceMap)
 				file.contents = new Buffer(data.js)
 				file.path = outFile
