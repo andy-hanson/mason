@@ -1,5 +1,4 @@
-const
-	Lang = require("../Lang"),
-	Span = require("../Span")
+import { GroupPres } from "../Lang"
+import { spanType } from "../Span"
 
-module.exports = Span.spanType("GroupPre", Object, { k: Lang.GroupPres })
+export default spanType("GroupPre", Object, { k: GroupPres })

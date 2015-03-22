@@ -1,9 +1,9 @@
+import Opts from "../Opts"
+import type from "../U/type"
+import Stream from "./Stream"
 const
 	group = require("./group"),
-	ungrouped = require("./ungrouped"),
-	Opts = require("../Opts"),
-	Stream = require("./Stream"),
-	type = require("../U/type")
+	ungrouped = require("./ungrouped")
 
 module.exports = function lex(str, opts) {
 	type(str, String, opts, Opts)

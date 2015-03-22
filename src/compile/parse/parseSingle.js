@@ -1,10 +1,9 @@
+import { SpecialKeywords } from "../Lang"
+import type, { isa } from "../U/type"
 const
 	assert = require("assert"),
 	E = require("../E"),
-	Lang = require("../Lang"),
 	T = require("../T"),
-	type = require("../U/type"),
-		isa = type.isa,
 	Px = require("./Px")
 const
 	parseBlock_ = function() { return require("./parseBlock") },
@@ -30,7 +29,7 @@ module.exports = function parseSingle(px) {
 			return E.This(px.s({}))
 		case T.Keyword.is("_")(t):
 			return E.LocalAccess.focus(px.span)
-		case T.Keyword.is(Lang.SpecialKeywords)(t):
+		case T.Keyword.is(SpecialKeywords)(t):
 			return E.SpecialKeyword(px.s({ k: t.k }))
 
 		case T.Group.is('sp')(t):

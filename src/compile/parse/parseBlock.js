@@ -1,13 +1,12 @@
-const
-	assert = require("assert"),
-	check = require("../check"),
+import assert from "assert"
+import check from "../check"
+import { set } from "../U"
+import { None, some } from "../U/Op"
+import { head, isEmpty, last, rightTail, tail } from "../U/Sq"
+import type, { isa } from "../U/type"
+var
 	E = require("../E"),
 	T = require("../T"),
-	Op = require("../U/Op"),
-	Sq = require("../U/Sq"),
-	type = require("../U/type"),
-		isa = type.isa,
-	U = require("../U"),
 	Px = require("./Px")
 const
 	parseLine_ = function() { return require("./parseLine") }
@@ -24,7 +23,7 @@ const parseModule = function(px, moduleName) {
 	const b = mod.body
 	// TODO: This also means no module is allowed to be called `displayName`.
 	b.lines.forEach(function(line) {
-		if (type.isa(line, E.Assign) && line.k === "export")
+		if (isa(line, E.Assign) && line.k === "export")
 			px.check(line.assignee.name !== "displayName",
 				"Module can not choose its own displayName.")
 	})
@@ -44,7 +43,7 @@ const parseModule = function(px, moduleName) {
 const justBlock = function(px, k) {
 	type(px, Px, k, KParseBlock)
 	const _ = takeBlockFromEnd(px, k)
-	px.check(Sq.isEmpty(_.before), "Expected just a block")
+	px.check(isEmpty(_.before), "Expected just a block")
 	return _.block
 }
 
@@ -59,10 +58,10 @@ const takeBlockFromEnd = function(px, k) {
 
 const takeBlockLinesFromEnd = function(px) {
 	type(px, Px)
-	px.check(!Sq.isEmpty(px.sqt), "Expected an indented block")
-	const last = Sq.last(px.sqt)
-	check(T.Group.is('->')(last), last.span, "Expected an indented block at the end")
-	return { before: Sq.rightTail(px.sqt), lines: last.sqt }
+	px.check(!isEmpty(px.sqt), "Expected an indented block")
+	const l = last(px.sqt)
+	check(T.Group.is('->')(l), l.span, "Expected an indented block at the end")
+	return { before: rightTail(px.sqt), lines: l.sqt }
 }
 
 const parseBody = function(px, k) {
@@ -86,13 +85,13 @@ const parseBody = function(px, k) {
 			assert(!inDebug, "Not supported: debug list entries")
 			// When ListEntries are first created they have no index.
 			assert(ln.index === -1)
-			ln = U.with(ln, "index", listLength)
+			ln = set(ln, "index", listLength)
 			listLength = listLength + 1
 		}
 		else if (isa(ln, E.MapEntry)) {
 			assert(!inDebug, "Not supported: debug map entries")
 			assert(ln.index === -1)
-			ln = U.with(ln, "index", mapLength)
+			ln = set(ln, "index", mapLength)
 			mapLength = mapLength + 1
 		}
 		else if (isa(ln, E.Assign) && ln.k === ". ")
@@ -107,9 +106,9 @@ const parseBody = function(px, k) {
 	})
 
 	// TODO
-	// if (Sq.isEmpty(dictKeys))
-	//	check(Sq.isEmpty(debugKeys), px.span, "Block can't have only debug keys")
-	const isDict = !(Sq.isEmpty(dictKeys) && Sq.isEmpty(debugKeys))
+	// if (isEmpty(dictKeys))
+	//	check(isEmpty(debugKeys), px.span, "Block can't have only debug keys")
+	const isDict = !(isEmpty(dictKeys) && isEmpty(debugKeys))
 	const isList = listLength > 0
 	const isMap = mapLength > 0
 	px.check(!(isDict && isList), "Block has both list and dict lines.")
@@ -123,50 +122,50 @@ const parseBody = function(px, k) {
 			px.check(!isDict, "Can't make dict in statement context")
 			px.check(!isList, "Can't make list in statement context")
 			px.check(!isMap, "Can't make map in statement context")
-			return { doLines: eLines, opReturn: Op.None }
+			return { doLines: eLines, opReturn: None }
 		}
 		if (isList)
 			return {
 				doLines: eLines,
-				opReturn: Op.Some(E.ListReturn(px.s({ length: listLength })))
+				opReturn: some(E.ListReturn(px.s({ length: listLength })))
 			}
 		if (isMap)
 			return {
 				doLines: eLines,
-				opReturn: Op.Some(E.Map(px.s({ length: mapLength })))
+				opReturn: some(E.Map(px.s({ length: mapLength })))
 			}
 
-		const lastReturn = !Sq.isEmpty(eLines) && isa(Sq.last(eLines), E.Val)
+		const lastReturn = !isEmpty(eLines) && isa(last(eLines), E.Val)
 		if (isDict && !isModule)
 			return lastReturn ?
 				{
-					doLines: Sq.rightTail(eLines),
-					opReturn: Op.Some(
+					doLines: rightTail(eLines),
+					opReturn: some(
 						E.DictReturn(px.s({
 							keys: dictKeys,
 							debugKeys: debugKeys,
-							opDicted: Op.Some(Sq.last(eLines)),
+							opDicted: some(last(eLines)),
 							// This is filled in by parseAssign.
-							opDisplayName: Op.None
+							opDisplayName: None
 						})))
 				} : {
 					doLines: eLines,
-					opReturn: Op.Some(E.DictReturn(px.s({
+					opReturn: some(E.DictReturn(px.s({
 						keys: dictKeys,
 						debugKeys: debugKeys,
-						opDicted: Op.None,
+						opDicted: None,
 						// This is filled in by parseAssign.
-						opDisplayName: Op.None
+						opDisplayName: None
 					})))
 				}
 		else if (lastReturn)
 			return {
-				doLines: Sq.rightTail(eLines),
-				opReturn: Op.Some(Sq.last(eLines))
+				doLines: rightTail(eLines),
+				opReturn: some(last(eLines))
 			}
 		else {
 			px.check(k !== "val", "Expected a value block")
-			return { doLines: eLines, opReturn: Op.None }
+			return { doLines: eLines, opReturn: None }
 		}
 	})()
 	const doLines = doLinesOpReturn.doLines, opReturn = doLinesOpReturn.opReturn
@@ -177,7 +176,7 @@ const parseBody = function(px, k) {
 			// Turn dict assigns into exports.
 			doLines.map(function(line) {
 				return isa(line, E.Assign) && line.k === ". " ?
-					U.with(line, "k", "export") :
+					set(line, "k", "export") :
 					line
 			}).concat(opReturn.map(function(ret) {
 				return E.ModuleDefaultExport({ span: ret.span, value: ret })
@@ -185,7 +184,7 @@ const parseBody = function(px, k) {
 
 		const body = E.BlockBody(px.s({
 			lines: moduleLines,
-			opReturn: Op.None,
+			opReturn: None,
 			opIn: opIn,
 			opOut: opOut
 		}))
@@ -197,19 +196,19 @@ const parseBody = function(px, k) {
 
 const tryTakeInOut = function(px) {
 	const tryTakeInOrOut = function(lines, inOrOut) {
-		if (!Sq.isEmpty(lines)) {
-			const firstLine = Sq.head(lines)
-			const sqtFirst = firstLine.sqt, head = Sq.head(sqtFirst)
-			if (T.Keyword.is(inOrOut)(head))
+		if (!isEmpty(lines)) {
+			const firstLine = head(lines)
+			const sqtFirst = firstLine.sqt
+			if (T.Keyword.is(inOrOut)(head(sqtFirst)))
 				return {
-					took: Op.Some(E.Debug({
+					took: some(E.Debug({
 						span: firstLine.span,
 						lines: parseLine_().parseLines(px.w(sqtFirst))
 					})),
-					rest: Sq.tail(lines)
+					rest: tail(lines)
 				}
 		}
-		return { took: Op.None, rest: lines }
+		return { took: None, rest: lines }
 	}
 
 	const _in = tryTakeInOrOut(px.sqt, "in")

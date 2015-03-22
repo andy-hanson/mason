@@ -2,15 +2,12 @@ const
 	path = require("path"),
 	types = require("./U/types")
 
-const noExt = function(name) {
-	return name.substring(0, name.length - path.extname(name).length)
-}
-
-module.exports = types.recordType("Opts", Object, {
+const Opts = types.recordType("Opts", Object, {
 	inFile: String,
 	checks: Boolean
 })
-Object.assign(module.exports.prototype, {
+export default Opts
+Object.assign(Opts.prototype, {
 	moduleName: function() {
 		return noExt(path.basename(this.inFile))
 	},
@@ -23,3 +20,7 @@ Object.assign(module.exports.prototype, {
 	includeInoutChecks: function() { return this.checks },
 	includeCaseChecks: function() { return this.checks }
 })
+
+function noExt(name) {
+	return name.substring(0, name.length - path.extname(name).length)
+}

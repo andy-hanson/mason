@@ -1,11 +1,10 @@
+import check, { fail } from "../check"
+import { code } from "../U"
+import { head, tail } from "../U/Sq"
+import type, { isa } from "../U/type"
 const
-	check = require("../check"),
 	E = require("../E"),
 	T = require("../T"),
-	Sq = require("../U/Sq"),
-	type = require("../U/type"),
-		isa = type.isa,
-	U = require("../U"),
 	Px = require("./Px")
 const
 	parseSingle_ = function() { return require("./parseSingle") },
@@ -13,16 +12,16 @@ const
 
 module.exports = function parseSpaced(px) {
 	type(px, Px)
-	const head = Sq.head(px.sqt), rest = Sq.tail(px.sqt)
+	const h = head(px.sqt), rest = tail(px.sqt)
 	switch (true) {
-		case T.Keyword.is(":")(head): {
-			check(!T.Keyword.is(":")(Sq.head(rest)), head.span, "Two " + U.code(":") + " in a row")
+		case T.Keyword.is(":")(h): {
+			check(!T.Keyword.is(":")(head(rest)), h.span, "Two " + code(":") + " in a row")
 			const eType = parseSpaced(px.w(rest))
-			const focus = E.LocalAccess.focus(head.span)
-			return E.TypeTest({ span: head.span, tested: focus, testType: eType })
+			const focus = E.LocalAccess.focus(h.span)
+			return E.TypeTest({ span: h.span, tested: focus, testType: eType })
 		}
-		case T.Keyword.is("~")(head):
-			return E.Lazy({ span: head.span, value: parseSpaced(px.w(rest)) })
+		case T.Keyword.is("~")(h):
+			return E.Lazy({ span: h.span, value: parseSpaced(px.w(rest)) })
 		default: {
 			const memberOrSubscript = function(px) { return function(e, t) {
 				const span = t.span
@@ -31,7 +30,7 @@ module.exports = function parseSpaced(px) {
 						case 1:
 							return E.Member({ span: span, object: e, name: t.name })
 						default:
-							check.fail(span, "Too many dots!")
+							fail(span, "Too many dots!")
 					}
 				if (T.Group.is('[')(t))
 					return E.Sub({
@@ -45,9 +44,9 @@ module.exports = function parseSpaced(px) {
 						called: e,
 						args: []
 					})
-				check.fail(span, "Expected member or sub, not " + t)
+				fail(span, "Expected member or sub, not " + t)
 			} }
-			return rest.reduce(memberOrSubscript(px), parseSingle_()(px.wt(head)))
+			return rest.reduce(memberOrSubscript(px), parseSingle_()(px.wt(h)))
 		}
 	}
 }

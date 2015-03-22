@@ -1,23 +1,20 @@
-const
-	gutil = require('gulp-util'),
-		PluginError = gutil.PluginError,
-	through = require('through2'),
-	applySourceMap = require('vinyl-sourcemaps-apply')
-const
-	compile = require("./index")
+import { PluginError, replaceExtension } from 'gulp-util'
+import { obj } from 'through2'
+import applySourceMap from 'vinyl-sourcemaps-apply'
+import compile from "./index"
 
 const Name = 'gulp-ms'
 
 module.exports = gulpMs
 function gulpMs() {
-	return through.obj(function(file, enc, cb) {
+	return obj(function(file, enc, cb) {
 		if (file.isNull())
 			cb(null, file)
 		else if (file.isStream())
 			cb(new PluginError(Name, 'Streaming not supported'))
 		else {
 			const src = file.contents.toString('utf8')
-			const outFile = gutil.replaceExtension(file.path, '.js')
+			const outFile = replaceExtension(file.path, '.js')
 
 			const opts = {
 				inFile: file.path,

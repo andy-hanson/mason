@@ -1,4 +1,4 @@
-const type = require("../U/type")
+import type from "../U/type"
 
 const mangle = function(name) {
 	return JSKeywords.has(name) ?

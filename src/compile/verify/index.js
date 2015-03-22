@@ -1,20 +1,18 @@
+import check, { fail, warnIf } from "../check"
+import Opts from "../Opts"
+import type from "../U/type"
+import { code, ignore, implementMany } from "../U"
+import { ifElse } from "../U/Op"
+import { cons, head, isEmpty, toArray } from "../U/Sq"
 const
-	check = require("../check"),
-	E = require("../E"),
-	Op = require("../U/Op"),
-	Opts = require("../Opts"),
-	Sq = require("../U/Sq"),
-	type = require("../U/type"),
-	U = require("../U")
-const
-	verifyLines = require("./verifyLines"),
-	Vx = require("./Vx"),
-	util = require("./util"),
-		v = util.v, vm = util.vm
+	E = require("../E")
+import verifyLines from "./verifyLines"
+import { vxStart } from "./Vx"
+import { v, vm } from "./util"
 
 module.exports = function verify(e, opts) {
 	type(e, E, opts, Opts)
-	const vx = Vx.start(opts)
+	const vx = vxStart(opts)
 	e.verify(vx)
 	verifyLocalUse(vx.vr, opts)
 	return vx.vr
@@ -23,33 +21,33 @@ module.exports = function verify(e, opts) {
 const verifyLocalUse = function(vr, opts) {
 	for (let local of vr.localToInfo.keys()) {
 		const info = vr.localToInfo.get(local)
-		const noNonDebug = Sq.isEmpty(info.nonDebugAccesses)
+		const noNonDebug = isEmpty(info.nonDebugAccesses)
 		if (info.isInDebug)
 			check(noNonDebug, local.span, function() {
-				return "Debug-only local " + U.code(local.name) +
+				return "Debug-only local " + code(local.name) +
 					" used outside of debug at " + info.nonDebugAccesses[0].span
 			})
-		if (noNonDebug && Sq.isEmpty(info.debugAccesses))
-			check.warnIf(opts, !local.okToNotUse, local.span, function() {
-				return "Unused local variable " + U.code(local.name) + "."
+		if (noNonDebug && isEmpty(info.debugAccesses))
+			warnIf(opts, !local.okToNotUse, local.span, function() {
+				return "Unused local variable " + code(local.name) + "."
 			})
 		else if (info.isInDebug)
 			check(noNonDebug, local.span, function() {
-				return "Debug-only local used at " + Sq.head(info.nonDebugAccesses).span
+				return "Debug-only local used at " + head(info.nonDebugAccesses).span
 			})
 		else
-			check.warnIf(opts, !local.okToNotUse && noNonDebug, local.span, function() {
-				return "Local " + U.code(local.name) + " used only in debug."
+			warnIf(opts, !local.okToNotUse && noNonDebug, local.span, function() {
+				return "Local " + code(local.name) + " used only in debug."
 			})
 	}
 }
 
-U.implementMany(E, "verify", {
+implementMany(E, "verify", {
 	BlockBody: function(vx) {
 		this.opIn.forEach(v(vx))
 		const vxRet = verifyLines(vx, this.lines)
 		this.opReturn.forEach(v(vxRet))
-		const vxOut = Sq.isEmpty(this.opReturn) ? vxRet : vxRet.withRes(this.span)
+		const vxOut = isEmpty(this.opReturn) ? vxRet : vxRet.withRes(this.span)
 		this.opOut.forEach(v(vxOut))
 	},
 	BlockWrap: function(vx) {
@@ -73,8 +71,8 @@ U.implementMany(E, "verify", {
 	Fun: function(vx) {
 		vx = vx.withBlockLocals()
 		this.opReturnType.forEach(v(vx))
-		if (!Sq.isEmpty(this.opReturnType))
-			check(!Sq.isEmpty(this.body.opReturn), this.span,
+		if (!isEmpty(this.opReturnType))
+			check(!isEmpty(this.body.opReturn), this.span,
 				"Function with return type must return something.")
 		this.args.forEach(function(arg) { arg.opType.forEach(v(vx)) })
 		const vxGen = this.k === "~|" ? vx.inGenerator() : vx.notInGenerator()
@@ -85,12 +83,12 @@ U.implementMany(E, "verify", {
 	},
 	LocalAccess: function(vx) {
 		const me = this
-		Op.ifElse(vx.opGetLocal(this.name),
+		ifElse(vx.opGetLocal(this.name),
 			function(l) { vx.setAccessToLocal(me, l) },
 			function() {
-				check.fail(me.span,
+				fail(me.span,
 					"Could not find local `" + me.name + "`\n" +
-					"Available locals are: [`" + Sq.toArray(vx.allLocalNames()).join("`, `") + "`]")
+					"Available locals are: [`" + toArray(vx.allLocalNames()).join("`, `") + "`]")
 			})
 	},
 	Loop: function(vx) {
@@ -118,33 +116,33 @@ U.implementMany(E, "verify", {
 		const vxAssign = this.assignee.isLazy ? vx.withBlockLocals() : vx
 		return vm(vxAssign, [this.assignee, this.value])
 	},
-	AssignDestructure: function(vx) { vm(vx, Sq.cons(this.value, this.assignees)) },
-	Call: function(vx) { vm(vx, Sq.cons(this.called, this.args)) },
+	AssignDestructure: function(vx) { vm(vx, cons(this.value, this.assignees)) },
+	Call: function(vx) { vm(vx, cons(this.called, this.args)) },
 	CasePart: function(vx) { vm(vx, [this.test, this.result]) },
-	Debugger: U.ignore,
+	Debugger: ignore,
 	DictReturn: function(vx) { vm(vx, this.opDicted) },
 	Ignore: function(vx) { v(vx)(this.ignored) },
 	Lazy: function(vx) {
 		v(vx.withBlockLocals())(this.value)
 	},
-	ListReturn: U.ignore,
+	ListReturn: ignore,
 	ListEntry: function(vx) { v(vx)(this.value) },
 	ListSimple: function(vx) { this.parts.map(v(vx)) },
 	Literal: function(vx) {
-		check.warnIf(vx.opts, this.k === 'js', this.span, "Js literal")
+		warnIf(vx.opts, this.k === 'js', this.span, "Js literal")
 	},
-	Map: U.ignore,
+	Map: ignore,
 	Member: function(vx) { v(vx)(this.object) },
 	Module: function(vx) { v(vx)(this.body) },
 	ModuleDefaultExport: function(vx) { v(vx)(this.value) },
-	Null: U.ignore,
+	Null: ignore,
 	Quote: function(vx) { vm(vx, this.parts) },
-	Require: U.ignore,
+	Require: ignore,
 	Scope: function() { throw new Error("Scopes are handled specially by verifyLines.") },
-	SpecialKeyword: U.ignore,
+	SpecialKeyword: ignore,
 	Splat: function(vx) { v(vx)(this.splatted) },
-	Sub: function(vx) { vm(vx, Sq.cons(this.subject, this.subbers)) },
-	This: U.ignore,
-	True: U.ignore,
+	Sub: function(vx) { vm(vx, cons(this.subject, this.subbers)) },
+	This: ignore,
+	True: ignore,
 	TypeTest: function(vx) { vm(vx, [this.tested, this.testType]) }
 })

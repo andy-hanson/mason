@@ -1,25 +1,25 @@
+import Span, { Pos } from "./Span"
+import type, { isa } from "./U/type"
 const
-	chalk = require("chalk"),
-	Span = require("./Span"),
-	type = require("./U/type")
+	chalk = require("chalk")
 
-const check = module.exports = function(cond, spanOrPos, message) {
+export default function check(cond, spanOrPos, message) {
 	if (!cond)
 		check.fail(spanOrPos, message)
 }
 
-check.warnIf = function(opts, cond, spanOrPos, message) {
+export function warnIf(opts, cond, spanOrPos, message) {
 	if (cond)
 		console.log(failMessage(spanOrPos, message, opts))
 }
 
-check.fail = function(spanOrPos, message) {
+export function fail(spanOrPos, message) {
 	throw check.CompileError(failMessage(spanOrPos, message))
 }
 
 const failMessage = function(spanOrPos, message, opts) {
-	const p = type.isa(spanOrPos, Span) ? spanOrPos.start : spanOrPos
-	type(p, Span.Pos)
+	const p = isa(spanOrPos, Span) ? spanOrPos.start : spanOrPos
+	type(p, Pos)
 	const msg = message instanceof Function ? message() : message
 	type(msg, String)
 	const posMessage = p + " " + highlightMarkdown(msg)

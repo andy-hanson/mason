@@ -1,14 +1,14 @@
-const
-	assert = require("assert"),
-	check = require("../check"),
-	GroupPre = require("./GroupPre"),
-	Lang = require("../Lang"),
-	Span = require("../Span"),
-	Stream = require("./Stream"),
-	Sq = require("../U/Sq"),
-	T = require("../T"),
-	type = require("../U/type"),
-	U = require("../U")
+import assert from "assert"
+import check, { fail, warnIf } from "../check"
+import { AllKeywords, isNameCharacter, ReservedCharacters, ReservedWords } from "../Lang"
+import Span, { single } from "../Span"
+import { rcons, repeat } from "../U/Sq"
+import type from "../U/type"
+import { code } from "../U"
+import GroupPre from "./GroupPre"
+import Stream from "./Stream"
+var
+	T = require("../T")
 
 const lexPlain = module.exports = function* lexPlain(opts, stream, isInQuote) {
 	type(stream, Stream, isInQuote, Boolean)
@@ -29,7 +29,7 @@ const lexPlain = module.exports = function* lexPlain(opts, stream, isInQuote) {
 			}
 			const jsLit = msLit.replace(/_/g, "")
 			check(!Number.isNaN(Number(jsLit)), stream.pos,
-				"Invalid number literal " + U.code(msLit))
+				"Invalid number literal " + code(msLit))
 			return T.Literal(s({ value: jsLit, k: Number }))
 		}
 
@@ -43,7 +43,7 @@ const lexPlain = module.exports = function* lexPlain(opts, stream, isInQuote) {
 			case '}':
 				return isInQuote ? "STOP" : gp(_)
 			case ' ':
-				check.warnIf(opts, stream.peek() === ' ', span(), "Multiple spaces in a row")
+				warnIf(opts, stream.peek() === ' ', span(), "Multiple spaces in a row")
 				return gp("sp")
 			case '.':
 				if (stream.peek() === ' ' || stream.peek() === '\n')
@@ -53,7 +53,7 @@ const lexPlain = module.exports = function* lexPlain(opts, stream, isInQuote) {
 					return T.DotName(s({
 						// +1 for the dot we just skipped.
 						nDots: stream.takeWhile('.').length + 1,
-						name: stream.takeWhile(Lang.isNameCharacter)}))
+						name: stream.takeWhile(isNameCharacter)}))
 			case ':':
 				return keyword(":")
 			case '~':
@@ -76,9 +76,9 @@ const lexPlain = module.exports = function* lexPlain(opts, stream, isInQuote) {
 				stream.takeWhile('\n')
 				const oldIndent = indent
 				indent = stream.takeWhile('\t').length
-				check(stream.peek() !== ' ', Span.single(stream.pos), "Line begins in a space")
+				check(stream.peek() !== ' ', single(stream.pos), "Line begins in a space")
 				if (indent <= oldIndent)
-					return Sq.rcons(Sq.repeat(gp('<-'), oldIndent - indent), gp('ln'))
+					return rcons(repeat(gp('<-'), oldIndent - indent), gp('ln'))
 				else {
 					check(indent === oldIndent + 1, span(), "Line is indented more than once")
 					return gp('->')
@@ -86,22 +86,22 @@ const lexPlain = module.exports = function* lexPlain(opts, stream, isInQuote) {
 			}
 			case '`': {
 				const js = stream.takeUpTo(/[`\n]/)
-				check(stream.eat() === "`", span(), "Unclosed " + U.code("`"))
+				check(stream.eat() === "`", span(), "Unclosed " + code("`"))
 				return T.Literal(s({ value: js, k: "js" }))
 			}
 			case '"':
 				return lexQuote(opts, stream, indent)
 			case '\t':
-				check.fail(span(), "Tab may only be used to indent")
+				fail(span(), "Tab may only be used to indent")
 			case "-":
 				if (/[0-9]/.test(stream.peek()))
 					return eatNumber()
 				// Else fallthrough
 			default: {
-				check(!Lang.ReservedCharacters.has(_), span(), "Reserved character '" + _ + "'")
+				check(!ReservedCharacters.has(_), span(), "Reserved character '" + _ + "'")
 				// All other characters should be handled in a case above.
-				assert(Lang.isNameCharacter(_))
-				const name = _ + stream.takeWhile(Lang.isNameCharacter)
+				assert(isNameCharacter(_))
+				const name = _ + stream.takeWhile(isNameCharacter)
 				switch (name) {
 					case "region":
 						// Rest of line is a comment.
@@ -110,10 +110,10 @@ const lexPlain = module.exports = function* lexPlain(opts, stream, isInQuote) {
 					default:
 						if (stream.tryEat('_'))
 							return T.CallOnFocus(s({ name: name }))
-						else if (Lang.AllKeywords.has(name))
+						else if (AllKeywords.has(name))
 							return keyword(name)
-						else if (Lang.ReservedWords.has(name))
-							check.fail(span(), "Reserved word " + U.code(name))
+						else if (ReservedWords.has(name))
+							fail(span(), "Reserved word " + code(name))
 						else
 							return T.Name(s({ name: name }))
 				}
@@ -159,7 +159,7 @@ const lexQuote = function*(opts, stream, indent) {
 		startOfRead = stream.pos
 	}
 
-	yield GroupPre({ span: Span.single(stream.pos), k: '"' })
+	yield GroupPre({ span: single(stream.pos), k: '"' })
 
 	eatChars: while (true) {
 		const restorePoint = stream.restorePoint()
@@ -169,7 +169,7 @@ const lexQuote = function*(opts, stream, indent) {
 			case '\\': {
 				const escaped = stream.eat()
 				check(quoteEscape.has(escaped), stream.pos, function() {
-					return "No need to escape " + U.code(escaped)
+					return "No need to escape " + code(escaped)
 				})
 				read = read + quoteEscape.get(escaped)
 				break
@@ -177,9 +177,9 @@ const lexQuote = function*(opts, stream, indent) {
 			case '{': {
 				yield* yieldRead()
 				// We can't just create a T.Group now because there may be other GroupPre_s inside.
-				yield GroupPre({ span: Span.single(stream.pos), k: "(" })
+				yield GroupPre({ span: single(stream.pos), k: "(" })
 				yield* lexPlain(opts, stream, true)
-				yield GroupPre({ span: Span.single(stream.pos), k: ")" })
+				yield GroupPre({ span: single(stream.pos), k: ")" })
 				break
 			}
 			case '\n': {
@@ -218,7 +218,7 @@ const lexQuote = function*(opts, stream, indent) {
 	}
 
 	yield* yieldRead()
-	yield GroupPre({ span: Span.single(stream.pos), k: 'close"' })
+	yield GroupPre({ span: single(stream.pos), k: 'close"' })
 }
 
 const quoteEscape = new Map([['{', '{'], ['n', '\n'], ['t', '\t'], ['"', '"'], ["\\", "\\"]])

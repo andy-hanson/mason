@@ -1,12 +1,13 @@
+import check from "../check"
+import { CaseKeywords, KFun } from "../Lang"
+import type, { isa } from "../U/type"
+import { code } from "../U"
+import { ifElse, None, opIf, some } from "../U/Op"
+import { head, isEmpty, last, opSplitOnceWhere, rightTail, tail } from "../U/Sq"
 const
-	check = require("../check"),
 	E = require("../E"),
 	Lang = require("../Lang"),
-	Op = require("../U/Op"),
 	T = require("../T"),
-	Sq = require("../U/Sq"),
-	type = require("../U/type"),
-	U = require("../U"),
 	Px = require("./Px")
 const
 	parseBlock_ = function() { return require("./parseBlock") },
@@ -15,43 +16,43 @@ const
 	parseSpaced = require("./parseSpaced")
 
 module.exports = function parseFun(px, k) {
-	type(px, Px, k, Lang.KFun)
+	type(px, Px, k, KFun)
 
 	// Look for return type at the beginning
 	let _ = (function() {
-		if (!Sq.isEmpty(px.sqt)) {
-			const head = Sq.head(px.sqt)
-			if (T.Group.is('sp')(head) && T.Keyword.is(":")(Sq.head(head.sqt)))
+		if (!isEmpty(px.sqt)) {
+			const h = head(px.sqt)
+			if (T.Group.is('sp')(h) && T.Keyword.is(":")(head(h.sqt)))
 				return {
-					opType: Op.Some(parseSpaced(px.w(Sq.tail(head.sqt)))),
-					rest: Sq.tail(px.sqt)
+					opType: some(parseSpaced(px.w(tail(h.sqt)))),
+					rest: tail(px.sqt)
 				}
 		}
-		return { opType: Op.None, rest: px.sqt }
+		return { opType: None, rest: px.sqt }
 	})()
 	const opReturnType = _.opType, rest = _.rest
 
-	px.check(!Sq.isEmpty(rest), function() {
-		return "Expected an indented block after " + U.code(k)
+	px.check(!isEmpty(rest), function() {
+		return "Expected an indented block after " + code(k)
 	})
-	const head = Sq.head(rest)
+	const h = head(rest)
 
 	_ = (function() {
-		if (T.Keyword.is(Lang.CaseKeywords)(head)) {
-			const eCase = parseCase(px.w(Sq.tail(rest)), head.k, true)
+		if (T.Keyword.is(CaseKeywords)(h)) {
+			const eCase = parseCase(px.w(tail(rest)), h.k, true)
 			return {
-				args: [ E.LocalDeclare.UntypedFocus(head.span) ],
-				opRestArg: Op.None,
+				args: [ E.LocalDeclare.UntypedFocus(h.span) ],
+				opRestArg: None,
 				body: E.BlockBody(px.s({
-					opIn: Op.None,
-					lines: head.k === "case" ? [] : [eCase],
-					opReturn: Op.if(head.k === "case", function() { return eCase }),
-					opOut: Op.None
+					opIn: None,
+					lines: h.k === "case" ? [] : [eCase],
+					opReturn: opIf(h.k === "case", function() { return eCase }),
+					opOut: None
 				}))
 			}
 		}
 		// Might be curried.
-		else return Op.ifElse(Sq.opSplitOnceWhere(px.sqt,
+		else return ifElse(opSplitOnceWhere(px.sqt,
 			function(t) { return T.Keyword.is("|")(t) }),
 			function(_) {
 				const _$ = parseFunLocals(px.w(_.before))
@@ -60,10 +61,10 @@ module.exports = function parseFun(px, k) {
 					args: _$.args,
 					opRestArg: _$.opRestArg,
 					body: E.BlockBody(pxAfter.s({
-						opIn: Op.None,
+						opIn: None,
 						lines: [],
-						opReturn: Op.Some(parseFun(pxAfter, _.at.k)),
-						opOut: Op.None
+						opReturn: some(parseFun(pxAfter, _.at.k)),
+						opOut: None
 					}))
 				}
 			},
@@ -88,21 +89,21 @@ module.exports = function parseFun(px, k) {
 }
 
 const parseFunLocals = function(px) {
-	if (Sq.isEmpty(px.sqt))
+	if (isEmpty(px.sqt))
 		return {
 			args: [],
-			opRestArg: Op.None
+			opRestArg: None
 		}
 	else {
-		const last = Sq.last(px.sqt)
-		if (type.isa(last, T.DotName)) {
-			check(last.nDots === 3, last.span, "Splat argument must have exactly 3 dots")
+		const l = last(px.sqt)
+		if (isa(l, T.DotName)) {
+			check(l.nDots === 3, l.span, "Splat argument must have exactly 3 dots")
 			return {
-				args: parseLocals(px.w(Sq.rightTail(px.sqt))),
-				opRestArg: Op.Some(E.LocalDeclare({
-					span: last.span,
-					name: last.name,
-					opType: Op.None,
+				args: parseLocals(px.w(rightTail(px.sqt))),
+				opRestArg: some(E.LocalDeclare({
+					span: l.span,
+					name: l.name,
+					opType: None,
 					isLazy: false,
 					okToNotUse: false
 				}))
@@ -110,7 +111,7 @@ const parseFunLocals = function(px) {
 		}
 		else return {
 			args: parseLocals(px),
-			opRestArg: Op.None
+			opRestArg: None
 		}
 	}
 }

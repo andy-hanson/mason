@@ -1,10 +1,11 @@
+import { CaseKeywords } from "../Lang"
+import { ifElse, None, opIf, some } from "../U/Op"
+import type from "../U/type"
+import { head, isEmpty, last, rightTail, tail } from "../U/Sq"
 const
 	E = require("../E"),
-	Lang = require("../Lang"),
 	Op = require("../U/Op"),
-	Sq = require("../U/Sq"),
 	T = require("../T"),
-	type = require("../U/type"),
 	Px = require("./Px");
 const
 	parseBlock = require("./parseBlock"),
@@ -13,7 +14,7 @@ const
 // For "case", returns a BlockWrap.
 // For "case!", returns a Scope.
 module.exports = function parseCase(px, k, casedFromFun) {
-	type(px, Px, k, Lang.CaseKeywords, casedFromFun, Boolean)
+	type(px, Px, k, CaseKeywords, casedFromFun, Boolean)
 	const kBlock = k === "case" ? "val" : "do"
 
 	const _ = parseBlock.takeBlockLinesFromEnd(px)
@@ -23,9 +24,9 @@ module.exports = function parseCase(px, k, casedFromFun) {
 		if (casedFromFun) {
 			px.checkEmpty(before,
 				"Cannot give focus to case - it is the function's implicit first argument.");
-			return Op.None
+			return None
 		}
-		else return Op.if(!Sq.isEmpty(before), function() {
+		else return opIf(!isEmpty(before), function() {
 			const pxBefore = px.w(before)
 			return E.Assign(px.s({
 				assignee: E.LocalDeclare.UntypedFocus(pxBefore.span),
@@ -35,13 +36,13 @@ module.exports = function parseCase(px, k, casedFromFun) {
 		})
 	})()
 
-	const last = Sq.last(lines)
-	const _$ = T.Keyword.is("else")(Sq.head(last.sqt)) ? {
-			partLines: Sq.rightTail(lines),
-			opElse: Op.Some(parseBlock.justBlock(px.w(Sq.tail(last.sqt)), kBlock))
+	const l = last(lines)
+	const _$ = T.Keyword.is("else")(head(l.sqt)) ? {
+			partLines: rightTail(lines),
+			opElse: some(parseBlock.justBlock(px.w(tail(l.sqt)), kBlock))
 		} : {
 			partLines: lines,
-			opElse: Op.None
+			opElse: None
 		}
 	const partLines = _$.partLines, opElse = _$.opElse
 
@@ -62,12 +63,12 @@ module.exports = function parseCase(px, k, casedFromFun) {
 			body: E.BlockBody(px.s({
 				lines: opAssignCased.concat([ theCase ]),
 				// theCase contains the return statement.
-				opReturn: Op.None,
-				opIn: Op.None,
-				opOut: Op.None
+				opReturn: None,
+				opIn: None,
+				opOut: None
 			}))
 		})) :
-		Op.ifElse(opAssignCased,
+		ifElse(opAssignCased,
 			function(assignCased) { return E.Scope(px.s({
 				lines: [ assignCased, theCase ]
 			}))},

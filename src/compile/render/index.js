@@ -1,14 +1,14 @@
+import assert from "assert"
+import check, { fail } from "../check"
+import Opts from "../Opts"
+import { implementMany } from "../U"
+import { ifElse, some } from "../U/Op"
+import { cons, flatMap, interleave, interleavePlus, isEmpty, mpf, range, rcons } from "../U/Sq"
+import type, { isa } from "../U/type"
+import Vr from "../Vr"
 const
-	assert = require("assert"),
-	check = require("../check"),
 	E = require("../E"),
-	Op = require("../U/Op"),
-	Opts = require("../Opts"),
-	SourceNode = require("source-map").SourceNode,
-	Sq = require("../U/Sq"),
-	type = require("../U/type"),
-	U = require("../U"),
-	Vr = require("../Vr")
+	SourceNode = require("source-map").SourceNode
 const
 	mangle = require("./mangle"),
 	Rx = require("./Rx"),
@@ -40,7 +40,7 @@ E.prototype.render = function(rx, arg) {
 	return new SourceNode(line, column, rx.opts.modulePath(), content)
 }
 
-U.implementMany(E, "renderContent", {
+implementMany(E, "renderContent", {
 	Assign: function(rx) {
 		return makeAssign(rx, this.span, this.assignee, this.k, this.value)
 	},
@@ -70,7 +70,7 @@ U.implementMany(E, "renderContent", {
 			" = ",
 			value,
 			rx.snl(),
-			Sq.interleave(assigns, rx.snl())
+			interleave(assigns, rx.snl())
 		]
 	},
 
@@ -82,7 +82,7 @@ U.implementMany(E, "renderContent", {
 		const body = this.lines.map(r(rx))
 
 		const needResLocal =
-			!(Sq.isEmpty(opResCheck) && (!rx.opts.includeInoutChecks() || Sq.isEmpty(this.opOut)))
+			!(isEmpty(opResCheck) && (!rx.opts.includeInoutChecks() || isEmpty(this.opOut)))
 		if (needResLocal) {
 			const makeRes = this.opReturn.map(function(ret) { return [
 				"const res = ",
@@ -90,7 +90,7 @@ U.implementMany(E, "renderContent", {
 			]})
 			const _out = this.opOut.map(r(rx))
 			const ret = this.opReturn.map(function() { return "return res" })
-			return Sq.interleave(_in.concat(body, makeRes, opResCheck, _out, ret), rx.snl())
+			return interleave(_in.concat(body, makeRes, opResCheck, _out, ret), rx.snl())
 		}
 		else {
 			// no res check or out
@@ -98,7 +98,7 @@ U.implementMany(E, "renderContent", {
 				"return ",
 				r(rx)(ret)
 			]})
-			return Sq.interleave(_in.concat(body, ret), rx.snl())
+			return interleave(_in.concat(body, ret), rx.snl())
 		}
 	},
 	BlockWrap: function(rx) { return [
@@ -109,11 +109,11 @@ U.implementMany(E, "renderContent", {
 		"})()"
 	]},
 	Call: function(rx) {
-		const anySplat = this.args.some(function(arg) { return type.isa(arg, E.Splat) })
+		const anySplat = this.args.some(function(arg) { return isa(arg, E.Splat) })
 		if (anySplat) {
 			// TODO:ES6 Just use `...arg`
 			const args = this.args.map(function(arg) {
-				return type.isa(arg, E.Splat) ?
+				return isa(arg, E.Splat) ?
 					[ "_ms.arr(", r(rx)(arg.splatted), ")" ] :
 					"[" + r(rx)(arg) + "]"
 			})
@@ -121,7 +121,7 @@ U.implementMany(E, "renderContent", {
 				"Function.prototype.apply.call(",
 				r(rx)(this.called),
 				", null, [].concat(",
-				Sq.interleave(args, ", "),
+				interleave(args, ", "),
 				"))"
 			]
 		}
@@ -154,17 +154,17 @@ U.implementMany(E, "renderContent", {
 		]
 	},
 	Debug: function(rx) {
-		return rx.opts.includeInoutChecks() ? Sq.interleave(this.lines.map(r(rx)), rx.snl()) : []
+		return rx.opts.includeInoutChecks() ? interleave(this.lines.map(r(rx)), rx.snl()) : []
 	},
 	Debugger: function() { return "debugger" },
 	DictReturn: function(rx) {
 		const nonDebugKeys = this.keys
 		const keys = rx.opts.includeTypeChecks() ? this.keys.concat(this.debugKeys) : this.keys
 		const opDisplayName = this.opDisplayName
-		return Op.ifElse(this.opDicted,
+		return ifElse(this.opDicted,
 			function(dicted) {
-				if (Sq.isEmpty(keys)) {
-					assert(Sq.isEmpty(nonDebugKeys))
+				if (isEmpty(keys)) {
+					assert(isEmpty(nonDebugKeys))
 					return r(rx)(dicted)
 				}
 
@@ -177,7 +177,7 @@ U.implementMany(E, "renderContent", {
 					", ",
 					mangle.quote(_)
 				]}))
-				const args = Sq.interleave(keysVals, ", ")
+				const args = interleave(keysVals, ", ")
 				const anyLazy = keys.some(function(key) { return key.isLazy })
 				return [
 					anyLazy ? "_ms.lset(" : "_ms.set(",
@@ -187,7 +187,7 @@ U.implementMany(E, "renderContent", {
 					")"
 			]},
 			function() {
-				assert(!Sq.isEmpty(keys))
+				assert(!isEmpty(keys))
 				const obj = keys.map(function(key) {
 					const q = mangle.quote(key.name), m = mangle(key.name)
 					return key.isLazy
@@ -196,7 +196,7 @@ U.implementMany(E, "renderContent", {
 				}).concat(opDisplayName.map(function(_) { return [
 					"displayName: ", mangle.quote(_)
 				]}))
-				return [ "{ ", Sq.interleave(obj, ", "), " }" ]
+				return [ "{ ", interleave(obj, ", "), " }" ]
 			})
 	},
 	EndLoop: function() {
@@ -205,14 +205,14 @@ U.implementMany(E, "renderContent", {
 	Fun: function(rx) {
 		const rxFun = rx.indented()
 		const span = this.span
-		const opResCheck = Sq.flatMap(this.opReturnType, function(_) {
+		const opResCheck = flatMap(this.opReturnType, function(_) {
 			// TODO: Probably a better way
 			return opLocalCheck(
 				rx,
 				E.LocalDeclare({
 					span: span,
 					name: "res",
-					opType: Op.Some(_),
+					opType: some(_),
 					isLazy: false,
 					okToNotUse: false
 				}),
@@ -232,8 +232,8 @@ U.implementMany(E, "renderContent", {
 				");",
 				rxFun.nl()
 			]}),
-			Sq.interleavePlus(
-				Sq.mpf(args, function(arg) { return opLocalCheck(rx, arg, arg.isLazy); }),
+			interleavePlus(
+				mpf(args, function(arg) { return opLocalCheck(rx, arg, arg.isLazy); }),
 				rxFun.snl()),
 			r(rxFun, opResCheck)(this.body),
 			rx.snl(),
@@ -248,8 +248,8 @@ U.implementMany(E, "renderContent", {
 	},
 	ListReturn: function() { return [
 		"[",
-		Sq.interleave(
-			Sq.range(0, this.length).map(function(i) { return "_" + i }),
+		interleave(
+			range(0, this.length).map(function(i) { return "_" + i }),
 			", "),
 		"]"
 	]},
@@ -288,8 +288,8 @@ U.implementMany(E, "renderContent", {
 	]},
 	Map: function() { return [
 		"_ms.map(",
-		Sq.interleave(
-			Sq.range(0, this.length).map(function(i) { return [
+		interleave(
+			range(0, this.length).map(function(i) { return [
 				"_k",
 				i.toString(),
 				", ",
@@ -341,7 +341,7 @@ U.implementMany(E, "renderContent", {
 		Array.prototype.push.apply(parts, this.parts.map(function(part) {
 			return isStrLit(part) ? r(rx)(part) : [ "_ms.show(", r(rx)(part), ")" ]
 		}))
-		return Sq.interleave(parts, " + ")
+		return interleave(parts, " + ")
 	},
 	Require: function() { return [
 		"require(\"",
@@ -351,7 +351,7 @@ U.implementMany(E, "renderContent", {
 	Scope: function(rx) { return [
 		"{", rx.nl(),
 		"\t",
-		Sq.interleave(this.lines.map(r(rx.indented())), rx.nl() + "\t"),
+		interleave(this.lines.map(r(rx.indented())), rx.nl() + "\t"),
 		rx.nl(),
 		"}"
 	]},
@@ -363,11 +363,11 @@ U.implementMany(E, "renderContent", {
 		}
 	},
 	Splat: function() {
-		check.fail(this.span, "Splat must appear as argument to a call.")
+		fail(this.span, "Splat must appear as argument to a call.")
 	},
 	Sub: function(rx) { return [
 		"_ms.sub(",
-		commad(rx, Sq.cons(this.subject, this.subbers)),
+		commad(rx, cons(this.subject, this.subbers)),
 		")"
 	]},
 	This: function() { return "this" },
@@ -393,7 +393,7 @@ U.implementMany(E, "renderContent", {
 const caseBody = function(rx, parts, opElse, needBreak) {
 	const rxSwitch = rx.indented()
 	const rxResult = rxSwitch.indented()
-	const jElse = Op.ifElse(opElse,
+	const jElse = ifElse(opElse,
 		function(elze) { return [
 			"default: {",
 			rxResult.nl(),
@@ -404,11 +404,11 @@ const caseBody = function(rx, parts, opElse, needBreak) {
 		]},
 		function() { return "default: throw new global.Error(\"Case fail\");" })
 	const jParts = parts.map(function(part) { return r(rxSwitch, needBreak)(part) })
-	const jAllParts = Sq.rcons(jParts, jElse)
+	const jAllParts = rcons(jParts, jElse)
 	return [
 		"switch (true) {",
 		rxSwitch.nl(),
-		Sq.interleave(jAllParts, rxSwitch.nl()),
+		interleave(jAllParts, rxSwitch.nl()),
 		rx.nl(),
 		"}"
 	]

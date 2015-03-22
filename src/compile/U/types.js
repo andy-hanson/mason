@@ -1,7 +1,7 @@
-import type from "./type"
-import U from "./index"
+import type, { isa } from "./type"
+import { indented } from "./index"
 
-const abstractType = function(name, superType) {
+export function abstractType(name, superType) {
 	type(name, String, superType, Object)
 	return {
 		prototype: Object.create(superType.prototype),
@@ -10,7 +10,7 @@ const abstractType = function(name, superType) {
 	}
 }
 
-const recordType = function(name, superType, members) {
+export function recordType(name, superType, members) {
 	type(name, String, superType, Object, members, Object)
 	const prototype = Object.create(superType.prototype)
 
@@ -22,7 +22,7 @@ const recordType = function(name, superType, members) {
 		Object.keys(members).forEach(function(key)
 		{
 			const val = babyMembers[key]
-			if (global.DEBUG && !type.isa(val, members[key]))
+			if (global.DEBUG && !isa(val, members[key]))
 				throw new Error("Bad " + key + ": is " + val + ", should be a " + members[key])
 			baby[key] = val
 		})
@@ -36,23 +36,18 @@ const recordType = function(name, superType, members) {
 	return theType
 }
 
-const inspect = function(x) {
-	let s = x.type().getName() + " {"
-	Object.keys(x).forEach(function(key) {
-		const val = x[key]
+function inspect(_) {
+	let s = _.type().getName() + " {"
+	Object.keys(_).forEach(function(key) {
+		const val = _[key]
 		const str = val instanceof Array ? val.join(",\n") : toStr(val)
-		s = s + "\n\t" + key + ": " + U.indented(str)
+		s = s + "\n\t" + key + ": " + indented(str)
 	})
 	return s + "\n}"
 }
 
-const toStr = function(x) {
-	if (x === null) return "null"
-	if (x === undefined) return "undefined"
-	return x.toString()
-}
-
-module.exports = {
-	abstractType: abstractType,
-	recordType: recordType
+const toStr = function(_) {
+	if (_ === null) return "null"
+	if (_ === undefined) return "undefined"
+	return _.toString()
 }

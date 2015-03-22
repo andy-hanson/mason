@@ -1,14 +1,15 @@
+import assert from "assert"
+import check from "../check"
+import { defaultLoopName, LineSplitKeywords } from "../Lang"
+import { set } from "../U"
+import { ifElse, some } from "../U/Op"
+import { head, isEmpty, last, opSplitOnceWhere, tail } from "../U/Sq"
+import type, { isa } from "../U/type"
 const
-	assert = require("assert"),
-	check = require("../check"),
 	E = require("../E"),
 	T = require("../T"),
 	Lang = require("../Lang"),
 	Op = require("../U/Op"),
-	Sq = require("../U/Sq"),
-	type = require("../U/type"),
-		isa = type.isa,
-	U = require("../U"),
 	Px = require("./Px")
 const
 	parseBlock_ = function() { return require("./parseBlock") },
@@ -21,8 +22,8 @@ const
 const parseLine = function(px) {
 	type(px, Px)
 
-	const first = Sq.head(px.sqt)
-	const pxRest = px.w(Sq.tail(px.sqt))
+	const first = head(px.sqt)
+	const pxRest = px.w(tail(px.sqt))
 
 	// We only deal with mutable expressions here, otherwise we fall back to parseExpr.
 	if (isa(first, T.Keyword))
@@ -58,7 +59,7 @@ const parseLine = function(px) {
 				// fall through
 		}
 
-	return Op.ifElse(Sq.opSplitOnceWhere(px.sqt, T.Keyword.is(Lang.LineSplitKeywords)),
+	return ifElse(opSplitOnceWhere(px.sqt, T.Keyword.is(LineSplitKeywords)),
 		function(_) {
 			return _.at.k === '->' ?
 				parseMapEntry(px, _.before, _.after) :
@@ -70,17 +71,17 @@ const parseLine = function(px) {
 const parseAssign = function(px, assigned, assigner, value) {
 	let locals = parseLocals(px.w(assigned))
 	const k = assigner.k
-	const eValuePre = Sq.isEmpty(value) ? E.True(px.s({})) : parseExpr(px.w(value))
+	const eValuePre = isEmpty(value) ? E.True(px.s({})) : parseExpr(px.w(value))
 
 	let eValueNamed;
 	if (locals.length === 1) {
-		const name = Sq.head(locals).name
+		const name = head(locals).name
 		if (name === "doc")
 			if (eValuePre instanceof E.Fun)
 				// KLUDGE: `doc` for module can be a Fun signature.
 				// TODO: Something better...
-				eValueNamed = U.with(eValuePre, "args", eValuePre.args.map(function(arg) {
-					return U.with(arg, "okToNotUse", true)
+				eValueNamed = set(eValuePre, "args", eValuePre.args.map(function(arg) {
+					return set(arg, "okToNotUse", true)
 				}))
 			else
 				eValueNamed = eValuePre
@@ -94,7 +95,7 @@ const parseAssign = function(px, assigned, assigner, value) {
 
 	const eValue = valueFromAssign(eValueNamed, k)
 
-	if (Sq.isEmpty(locals)) {
+	if (isEmpty(locals)) {
 		px.check(isYield, "Assignment to nothing")
 		return eValue
 	}
@@ -106,7 +107,7 @@ const parseAssign = function(px, assigned, assigner, value) {
 
 	if (k === ". ")
 		locals = locals.map(function(l) {
-			return U.with(l, "okToNotUse", true)
+			return set(l, "okToNotUse", true)
 		})
 
 	if (locals.length === 1) {
@@ -155,27 +156,27 @@ const tryAddDisplayName = function(eValuePre, displayName)
 		case isa(eValuePre, E.Call) && eValuePre.args.length > 0:
 			// TODO: Immutable
 			eValuePre.args[eValuePre.args.length - 1] =
-				tryAddDisplayName(Sq.last(eValuePre.args), displayName)
+				tryAddDisplayName(last(eValuePre.args), displayName)
 			return eValuePre
 
 		case isa(eValuePre, E.Fun):
 			return E.DictReturn({
 				span: eValuePre.span,
 				keys: [], debugKeys: [],
-				opDicted: Op.Some(eValuePre),
-				opDisplayName: Op.Some(displayName)
+				opDicted: some(eValuePre),
+				opDisplayName: some(displayName)
 			})
 
 		case isa(eValuePre, E.DictReturn) &&
 			!eValuePre.keys.some(function(key) { return key.name === "displayName" }):
-			return U.with(eValuePre, "opDisplayName", Op.Some(displayName))
+			return set(eValuePre, "opDisplayName", some(displayName))
 
 		case isa(eValuePre, E.BlockWrap):
-			return Op.ifElse(eValuePre.body.opReturn,
+			return ifElse(eValuePre.body.opReturn,
 				function(ret) {
 					const namedRet = tryAddDisplayName(ret, displayName)
-					return U.with(eValuePre, "body",
-						U.with(eValuePre.body, "opReturn", Op.Some(namedRet)))
+					return set(eValuePre, "body",
+						set(eValuePre.body, "opReturn", some(namedRet)))
 				},
 				function() { return eValuePre })
 
@@ -192,7 +193,7 @@ const parseLoop = function(px) {
 const loopName = function(px) {
 	switch (px.sqt.length) {
 		case 0:
-			return Lang.defaultLoopName
+			return defaultLoopName
 		case 1:
 			px.check(isa(px.sqt[0], T.Name), function() {
 				return "Expected a loop name, not " + px.sqt[0]
@@ -218,7 +219,7 @@ const parseLineOrLines = function(px) {
 }
 
 const parseLines = function(px) {
-	const first = Sq.head(px.sqt)
+	const first = head(px.sqt)
 	check(px.sqt.length > 1, first.span, "Expected indented block after " + first)
 	const block = px.sqt[1]
 	assert(px.sqt.length === 2 && T.Group.is('->')(block))

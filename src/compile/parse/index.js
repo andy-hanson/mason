@@ -1,8 +1,8 @@
+import Opts from "../Opts"
+import type from "../U/type"
 const
 	assert = require("assert"),
-	Opts = require("../Opts"),
 	T = require("../T"),
-	type = require("../U/type"),
 	Px = require("./Px"),
 	parseBlock = require("./parseBlock")
 

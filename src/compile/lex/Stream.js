@@ -1,15 +1,14 @@
-const
-	assert = require("assert"),
-	Span = require("../Span"),
-	type = require("../U/type"),
-	U = require("../U")
+import assert from "assert"
+import Span, { Pos, StartPos } from "../Span"
+import type from "../U/type"
+import { set } from "../U"
 
-const Stream = module.exports = function(str) {
+export default function Stream(str) {
 	type(str, String)
 	assert(this instanceof Stream)
 	Object.defineProperty(this, "str", { value: str })
 	// _pos and _index are mutable. _pos should always be the position at _index.
-	this.pos = Span.Pos.Start
+	this.pos = StartPos
 	this.index = 0
 }
 Stream.prototype = {
@@ -52,7 +51,7 @@ Stream.prototype = {
 	restorePoint: function() { return { index: this.index, pos: this.pos } },
 
 	restore: function(restorePoint) {
-		type(restorePoint.index, Number, restorePoint.pos, Span.Pos)
+		type(restorePoint.index, Number, restorePoint.pos, Pos)
 		this.index = restorePoint.index
 		this.pos = restorePoint.pos
 	},
@@ -61,7 +60,7 @@ Stream.prototype = {
 	stepBack: function() {
 		assert(this.pos.column > 1)
 		this.index = this.index - 1
-		this.pos = U.with(this.pos, "column", this.pos.column - 1)
+		this.pos = set(this.pos, "column", this.pos.column - 1)
 	},
 
 	takeWhile: function(whl) {

@@ -1,16 +1,24 @@
+import assert from "assert"
+import { isEmpty } from "./U/Sq"
+import type, { isa } from "./U/type"
+import { recordType } from "./U/types"
 const
-	assert = require("assert"),
-	E = require("./E"),
-	Sq = require("./U/Sq"),
-	type = require("./U/type"),
-	types = require("./U/types")
+	E = require("./E")
 
-const Vr = module.exports = types.recordType("Vr", Object, {
+const Vr = recordType("Vr", Object, {
 	accessToLocal: Map,
 	// LocalDeclare -> LocalInfo
 	localToInfo: Map,
 	eToIsInGenerator: Map
 })
+export default Vr
+
+export const VrLocalInfo = recordType("LocalInfo", Object, {
+	isInDebug: Boolean,
+	debugAccesses: [E.LocalAccess],
+	nonDebugAccesses: [E.LocalAccess]
+})
+
 Object.assign(Vr.prototype, {
 	isLazy: function(local) {
 		type(local, E.LocalAccess)
@@ -28,16 +36,11 @@ Object.assign(Vr.prototype, {
 	},
 	isAccessed: function(local) {
 		const info = this.localToInfo.get(local)
-		return !Sq.isEmpty(info.debugAccesses.concat(info.nonDebugAccesses))
+		return !isEmpty(info.debugAccesses.concat(info.nonDebugAccesses))
 	}
 })
 
-Vr.LocalInfo = types.recordType("LocalInfo", Object, {
-	isInDebug: Boolean,
-	debugAccesses: [E.LocalAccess],
-	nonDebugAccesses: [E.LocalAccess]
-})
 
 const botherWithIsInGenerator = function(e) {
-	return type.isa(e, E.CaseVal) || type.isa(e, E.BlockWrap)
+	return isa(e, E.CaseVal) || isa(e, E.BlockWrap)
 }

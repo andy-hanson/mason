@@ -1,11 +1,11 @@
 require("es6-shim")
+import { log } from "./U"
+import Opts from "./Opts"
 const
 	fs = require("fs"),
 	lex = require("./lex"),
-	Opts = require("./Opts"),
 	parse = require("./parse"),
 	render = require("./render"),
-	U = require("./U"),
 	verify = require("./verify")
 
 global.DEBUG = true
@@ -29,11 +29,11 @@ if (require.main === module) {
 	})
 
 	const t = time(lex, source, opts)
-	// U.log("==>\n" + t)
+	// log("==>\n" + t)
 	const e = time(parse, t, opts)
-	// U.log("==>\n" + e)
+	// log("==>\n" + e)
 	const vr = verify(e, opts)
-	// U.log("+++\n" + vr)
+	// log("+++\n" + vr)
 	const j = time(render, e, opts, vr)
-	U.log("==>\n" + j)
+	log("==>\n" + j)
 }

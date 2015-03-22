@@ -1,17 +1,17 @@
+import assert from "assert"
+import check, { fail } from "../check"
+import { GroupOpenToClose } from "../Lang"
+import Opts from "../Opts"
+import Span, { Pos, StartPos } from "../Span"
+import { isEmpty, last } from "../U/Sq"
+import type, { isa } from "../U/type"
+import { recordType } from "../U/types"
+import GroupPre from "./GroupPre"
 const
-	assert = require("assert"),
-	check = require("../check"),
-	GroupPre = require("./GroupPre"),
-	Lang = require("../Lang"),
-	Opts = require("../Opts"),
-	Span = require("../Span"),
-	T = require("../T"),
-	Sq = require("../U/Sq"),
-	type = require("../U/type"),
-	types = require("../U/types")
+	T = require("../T")
 
-const GroupBuilder = types.recordType("GroupBuilder", Object, {
-	startPos: Span.Pos,
+const GroupBuilder = recordType("GroupBuilder", Object, {
+	startPos: Pos,
 	k: String,
 	body: [T]
 })
@@ -32,15 +32,15 @@ module.exports = function group(sqL, opts) {
 	const cur = function() { return stack[stack.length - 1] }
 
 	const newLevel = function(pos, k) {
-		type(pos, Span.Pos, k, String)
+		type(pos, Pos, k, String)
 		// U.log(U.indent(stack.length) + ">> " + showGroup(k))
 		stack.push(GroupBuilder({ startPos: pos, k: k, body: [] }))
 	}
 
 	const finishLevels = function(closePos, k) {
 		while (true) {
-			const old = Sq.last(stack)
-			const oldClose = Lang.GroupOpenToClose.get(old.k)
+			const old = last(stack)
+			const oldClose = GroupOpenToClose.get(old.k)
 			if (oldClose === k)
 				break
 			else {
@@ -54,16 +54,16 @@ module.exports = function group(sqL, opts) {
 	}
 
 	const finishLevel = function(closePos, k) {
-		type(closePos, Span.Pos, k, String)
+		type(closePos, Pos, k, String)
 
 		const wrapped = wrapLevel(closePos, k)
 		// cur() is now the previous level on the stack
 		// U.log(U.indent(stack.length) + "<< " + showGroup(k))
 		// Don't add line/spaced
-		if ((k === 'sp' || k === 'ln') && Sq.isEmpty(wrapped.sqt))
+		if ((k === 'sp' || k === 'ln') && isEmpty(wrapped.sqt))
 			return
-		if (k === '<-' && Sq.isEmpty(wrapped.sqt))
-			check.fail(closePos, "Empty block")
+		if (k === '<-' && isEmpty(wrapped.sqt))
+			fail(closePos, "Empty block")
 		// Spaced should always have at least two elements
 		if (k === 'sp' && wrapped.sqt.length === 1)
 			cur().add(wrapped.sqt[0])
@@ -72,11 +72,11 @@ module.exports = function group(sqL, opts) {
 	}
 
 	const wrapLevel = function(closePos, k) {
-		type(closePos, Span.Pos, k, String)
+		type(closePos, Pos, k, String)
 		const old = stack.pop()
 		type(old, GroupBuilder)
 		const span = Span({ start: old.startPos, end: closePos })
-		assert(Lang.GroupOpenToClose.get(old.k) === k)
+		assert(GroupOpenToClose.get(old.k) === k)
 		return T.Group({ span: span, sqt: old.body, k: old.k })
 	}
 
@@ -95,12 +95,12 @@ module.exports = function group(sqL, opts) {
 		newLevel(span.end, k)
 	}
 
-	newLevel(Span.Pos.Start, '->')
-	startLine(Span.Pos.Start)
+	newLevel(StartPos, '->')
+	startLine(StartPos)
 
-	let endSpan = Span({ start: Span.Pos.Start, end: Span.Pos.Start })
+	let endSpan = Span({ start: StartPos, end: StartPos })
 	for (let l of sqL) {
-		if (type.isa(l, T)) {
+		if (isa(l, T)) {
 			cur().add(l)
 			continue
 		}
@@ -126,7 +126,7 @@ module.exports = function group(sqL, opts) {
 				break
 			case '->':
 				//  ~ before block is OK
-				if (Sq.isEmpty(cur().body) || !T.Keyword.is("~")(Sq.last(cur().body)))
+				if (isEmpty(cur().body) || !T.Keyword.is("~")(last(cur().body)))
 					endAndStart(span, 'sp')
 				newLevel(span.start, k)
 				startLine(span.end)
@@ -148,7 +148,7 @@ module.exports = function group(sqL, opts) {
 
 	endLine(endSpan.end)
 	const wholeModuleBlock = wrapLevel(endSpan.end, '<-')
-	assert(Sq.isEmpty(stack))
+	assert(isEmpty(stack))
 	return wholeModuleBlock
 }
 

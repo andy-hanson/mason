@@ -1,13 +1,13 @@
+import assert from "assert"
+import check from "../check"
+import { code } from "../U"
+import { None, some } from "../U/Op"
+import { head, isEmpty, tail } from "../U/Sq"
+import type, { isa } from "../U/type"
 const
-	assert = require("assert"),
-	check = require("../check"),
 	E = require("../E"),
 	Op = require("../U/Op"),
-	Sq = require("../U/Sq"),
-	T = require("../T"),
-	type = require("../U/type"),
-		isa = type.isa,
-	U = require("../U")
+	T = require("../T")
 const
 	parseSpaced = require("./parseSpaced")
 
@@ -19,7 +19,7 @@ const parseLocals = module.exports = function(px) {
 
 const parseLocal = parseLocals.parseLocal = function(px) {
 	let name
-	let opType = Op.None
+	let opType = None
 	let isLazy = false
 
 	assert(px.sqt.length === 1)
@@ -27,22 +27,21 @@ const parseLocal = parseLocals.parseLocal = function(px) {
 
 	if (T.Group.is('sp')(t)) {
 		const sqt = t.sqt
-		const head = Sq.head(sqt)
 		let rest = sqt
-		if (T.Keyword.is("~")(head)) {
+		if (T.Keyword.is("~")(head(sqt))) {
 			isLazy = true
-			rest = Sq.tail(sqt)
+			rest = tail(sqt)
 		}
-		name = parseLocalName(Sq.head(rest))
-		const rest2 = Sq.tail(rest)
-		if (!Sq.isEmpty(rest2)) {
-			const colon = Sq.head(rest2)
+		name = parseLocalName(head(rest))
+		const rest2 = tail(rest)
+		if (!isEmpty(rest2)) {
+			const colon = head(rest2)
 			check(T.Keyword.is(":")(colon), colon.span, function() {
-				return "Expected " + U.code(":")
+				return "Expected " + code(":")
 			})
 			px.check(rest2.length > 1, function() { return "Expected something after " + colon })
-			const sqtType = Sq.tail(rest2)
-			opType = Op.Some(parseSpaced(px.w(sqtType)))
+			const sqtType = tail(rest2)
+			opType = some(parseSpaced(px.w(sqtType)))
 		}
 	}
 	else

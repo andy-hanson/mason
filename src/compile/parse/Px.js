@@ -1,19 +1,19 @@
+import check, { fail } from "../check"
+import { ofSqT, spanType } from "../Span"
+import { isEmpty } from "../U/Sq"
 const
-	check = require("../check"),
-	Span = require("../Span"),
-	Sq = require("../U/Sq"),
 	T = require("../T")
 
-const Px = module.exports = Span.spanType("Px", Object, { sqt: [T] })
+const Px = module.exports = spanType("Px", Object, { sqt: [T] })
 Object.assign(Px.prototype, {
 	check: function(cond, message) {
 		check(cond, this.span, message)
 	},
 	checkEmpty: function(sqt, message) {
-		check(Sq.isEmpty(sqt), Span.ofSqT(this.span, sqt), message)
+		check(isEmpty(sqt), ofSqT(this.span, sqt), message)
 	},
 	fail: function(message) {
-		check.fail(this.span, message)
+		fail(this.span, message)
 	},
 
 	s: function(members) {
@@ -21,7 +21,7 @@ Object.assign(Px.prototype, {
 	},
 	w: function(sqt) {
 		return Px({
-			span: Span.ofSqT(this.span, sqt),
+			span: ofSqT(this.span, sqt),
 			sqt: sqt,
 			opts: this.opts
 		})

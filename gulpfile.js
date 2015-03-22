@@ -29,7 +29,6 @@ function pipeMs(stream) {
 function pipeJs(stream) {
 	return stream
 	.pipe(sourcemaps.init())
-	.pipe(header("'use strict'\n"))
 	.pipe(babel({
 		whitelist: [
 			'es6.arrowFunctions',
@@ -38,9 +37,9 @@ function pipeJs(stream) {
 			'es6.modules'
 		]
 	}))
+	.pipe(header("'use strict'; "))
 	.pipe(sourcemaps.write('.', {
 		debug: true,
-		//includeContent: false,
 		sourceRoot: '/src'
 	}))
 	.pipe(gulp.dest(dest))

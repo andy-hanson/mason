@@ -1,44 +1,45 @@
 import assert from "assert"
-import Op from "./Op"
+import { None, some } from "./Op"
 import type from "./type"
 
-const head = function(sq) {
+export function head(sq) {
 	type(sq, Array)
 	assert(!isEmpty(sq))
 	return sq[0]
 }
 
-const last = function(sq) {
+export function last(sq) {
 	type(sq, Array)
 	assert(!isEmpty(sq))
 	return sq[sq.length - 1]
 }
 
-const tail = function(sq) {
+export function tail(sq) {
 	type(sq, Array)
 	assert(!isEmpty(sq))
 	return sq.slice(1)
 }
 
-const rightTail = function(sq) {
+export function rightTail(sq) {
 	type(sq, Array)
 	assert(!isEmpty(sq))
 	return sq.slice(0, sq.length - 1)
 }
 
-const opSplitOnceWhere = function(sq, splitOn) {
+export function opSplitOnceWhere(sq, splitOn) {
 	type(sq, Array, splitOn, Function)
-	for (let i = 0; i < sq.length; i = i + 1)
+	for (let i = 0; i < sq.length; i = i + 1) {
 		if (splitOn(sq[i]))
-			return Op.Some({
+			return some({
 				before: sq.slice(0, i),
 				at: sq[i],
 				after: sq.slice(i + 1)
 			})
-	return Op.None
+	}
+	return None
 }
 
-const opSplitManyWhere = function(sq, splitOn) {
+export function opSplitManyWhere(sq, splitOn) {
 	type(sq, Array, splitOn, Function)
 	let iLast = 0
 	const out = []
@@ -48,21 +49,21 @@ const opSplitManyWhere = function(sq, splitOn) {
 			iLast = i + 1
 		}
 	if (isEmpty(out))
-		return Op.None
+		return None
 	else {
 		out.push({ before: sq.slice(iLast, sq.length) })
-		return Op.Some(out)
+		return some(out)
 	}
 }
 
-const interleave = function(sq, interleaved) {
+export function interleave(sq, interleaved) {
 	type(sq, Array, interleaved, Object)
 	const out = interleavePlus(sq, interleaved)
 	out.pop()
 	return out
 }
 
-const interleavePlus = function(sq, interleaved) {
+export function interleavePlus(sq, interleaved) {
 	type(sq, Array, interleaved, Object)
 	const out = []
 	sq.forEach(function(x) {
@@ -72,23 +73,24 @@ const interleavePlus = function(sq, interleaved) {
 	return out
 }
 
-const mpf = function(sq, f) {
+// TODO: Difference from flatMap?
+export function mpf(sq, f) {
 	type(sq, Array, f, Function)
 	return Array.prototype.concat.apply([], sq.map(f))
 }
 
-const contains = function(sq, em) {
+export function contains(sq, em) {
 	type(sq, Array, em, Object)
 	return sq.indexOf(em) !== -1
 }
 
-const toArray = function(iter) {
+export function toArray(iter) {
 	const out = []
 	for (let em of iter) out.push(em)
 	return out
 }
 
-const repeat = function(em, n) {
+export function repeat(em, n) {
 	type(em, Object, n, Number)
 	assert(n >= 0)
 	const out = []
@@ -97,22 +99,22 @@ const repeat = function(em, n) {
 	return out
 }
 
-const isEmpty = function(sq) {
+export function isEmpty(sq) {
 	type(sq, Array)
 	return sq.length === 0
 }
 
-const cons = function(em, sq) {
+export function cons(em, sq) {
 	type(em, Object, sq, Array)
 	return [em].concat(sq)
 }
 
-const rcons = function(sq, em) {
+export function rcons(sq, em) {
 	type(sq, Array, em, Object)
 	return sq.concat([em])
 }
 
-const range = function(min, max) {
+export function range(min, max) {
 	type(min, Number, max, Number)
 	assert(min < max)
 	const out = []
@@ -121,31 +123,11 @@ const range = function(min, max) {
 	return out
 }
 
-const flatMap = function(mapped, mapper) {
+export function flatMap(mapped, mapper) {
 	type(mapped, Array, mapper, Function)
 	const out = []
 	mapped.forEach(function(_) {
 		out.push.apply(out, mapper(_))
 	})
 	return out
-}
-
-module.exports = {
-	head: head,
-	last: last,
-	tail: tail,
-	rightTail: rightTail,
-	opSplitOnceWhere: opSplitOnceWhere,
-	opSplitManyWhere: opSplitManyWhere,
-	interleave: interleave,
-	interleavePlus: interleavePlus,
-	mpf: mpf,
-	contains: contains,
-	toArray: toArray,
-	repeat: repeat,
-	isEmpty: isEmpty,
-	cons: cons,
-	rcons: rcons,
-	range: range,
-	flatMap: flatMap
 }

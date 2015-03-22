@@ -1,13 +1,12 @@
-const
-	chalk = require("chalk"),
-	Sq = require("./U/Sq"),
-	type = require("./U/type"),
-	types = require("./U/types")
+import type from "./U/type"
+import { head, isEmpty, last } from "./U/Sq"
+import { recordType } from "./U/types"
 
-const Pos = types.recordType("Pos", Object, { line: Number, column: Number })
-Object.assign(Pos, {
-	Start: Pos({ line: 1, column: 1 })
-})
+const
+	chalk = require("chalk")
+
+export const Pos = recordType("Pos", Object, { line: Number, column: Number })
+export const StartPos = Pos({ line: 1, column: 1 })
 Object.assign(Pos.prototype, {
 	next: function(ch) {
 		type(ch, String)
@@ -21,29 +20,31 @@ Object.assign(Pos.prototype, {
 	}
 })
 
-const Span = module.exports = types.recordType("Span", Object, { start: Pos, end: Pos })
-Object.assign(Span, {
-	spanType: function(name, superType, members) {
-		type(name, String, superType, Object, members, Object)
-		return types.recordType(name, superType, Object.assign(members, { span: Span }))
-	},
-	ofSqT: function(spanDefault, sqt) {
-		type(sqt, [require("./T")])
-		return Sq.isEmpty(sqt) ?
-			spanDefault :
-			Span({
-				start: Sq.head(sqt).span.start,
-				end: Sq.last(sqt).span.end
-			})
-	},
-	single: function(pos) {
-		type(pos, Pos)
-		return Span({ start: pos, end: pos.next('x') })
-	},
-	Pos: Pos
-})
+const Span = recordType("Span", Object, { start: Pos, end: Pos })
+export default Span
 Object.assign(Span.prototype, {
 	toString: function() {
 		return this.start + "-" + this.end
 	}
 })
+
+export function spanType(name, superType, members) {
+	type(name, String, superType, Object, members, Object)
+	return recordType(name, superType, Object.assign(members, { span: Span }))
+}
+
+// TODO: RENAME
+export function ofSqT(spanDefault, sqt) {
+	type(sqt, [require("./T")])
+	return isEmpty(sqt) ?
+		spanDefault :
+		Span({
+			start: head(sqt).span.start,
+			end: last(sqt).span.end
+		})
+}
+
+export function single(pos) {
+	type(pos, Pos)
+	return Span({ start: pos, end: pos.next('x') })
+}

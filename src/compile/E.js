@@ -1,8 +1,7 @@
-const
-	Lang = require("./Lang"),
-	Op = require("./U/Op"),
-	Span = require("./Span"),
-	abstractType = require("./U/types").abstractType
+import { KAssign, KFun, SpecialKeywords } from "./Lang"
+import Span, { spanType } from "./Span"
+import Op, { None } from "./U/Op"
+import { abstractType } from "./U/types"
 
 const E = module.exports = abstractType("E", Object)
 Object.assign(E, {
@@ -15,7 +14,7 @@ Object.assign(E, {
 
 const makeETypes = function(superType, types) {
 	Object.keys(types).forEach(function(name) {
-		E[name] = Span.spanType(name, superType, types[name])
+		E[name] = spanType(name, superType, types[name])
 	})
 }
 
@@ -31,17 +30,17 @@ E.LocalDeclare.UntypedFocus = function(span) {
 	return E.LocalDeclare({
 		span: span,
 		name: "_",
-		opType: Op.None,
+		opType: None,
 		isLazy: false,
 		okToNotUse: false
 	})
 }
 
 makeETypes(E.Do, {
-	Assign: { assignee: E.LocalDeclare, k: Lang.KAssign, value: E.Val },
+	Assign: { assignee: E.LocalDeclare, k: KAssign, value: E.Val },
 	AssignDestructure: {
 		assignees: [E.LocalDeclare],
-		k: Lang.KAssign,
+		k: KAssign,
 		value: E.Val,
 		isLazy: Boolean,
 		checkProperties: Boolean
@@ -76,7 +75,7 @@ makeETypes(E.Val, {
 		opRestArg: Op(E.LocalDeclare),
 		body: E.BlockBody,
 		opReturnType: Op(E.Val),
-		k: Lang.KFun
+		k: KFun
 	},
 	Lazy: { value: E.Val },
 	ListReturn: { length: Number },
@@ -95,7 +94,7 @@ makeETypes(E.Val, {
 	Yield: { yielded: E.Val },
 	YieldTo: { yieldedTo: E.Val },
 
-	SpecialKeyword: { k: Lang.SpecialKeywords },
+	SpecialKeyword: { k: SpecialKeywords },
 
 	Splat: { splatted: E.Val }
 })

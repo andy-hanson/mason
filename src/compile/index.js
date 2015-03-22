@@ -1,18 +1,17 @@
 require("es6-shim")
 require("source-map-support").install()
+import Opts from "./Opts"
+import type from "./U/type"
 const
-	Opts = require("./Opts"),
 	lex = require("./lex"),
 	parse = require("./parse"),
 	render = require("./render"),
-	type = require("./U/type"),
 	verify = require("./verify")
 
 // Speed boost by turning this off
 global.DEBUG = true
 
-module.exports = compile
-function compile(src, opts) {
+export default function compile(src, opts) {
 	type(src, String, opts, Object)
 	opts = Opts(opts)
 
