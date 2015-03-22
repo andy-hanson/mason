@@ -1,11 +1,11 @@
 "use strict"
 
 var
+	babel = require('gulp-babel'),
 	del = require('del'),
 	gulp = require('gulp'),
 	sourcemaps = require('gulp-sourcemaps'),
 	watch = require('gulp-watch')
-var ms = require('./src/compile/gulp-ms')
 
 var src_ms = 'src/**/*.ms'
 var src_js = 'src/**/*.js'
@@ -13,6 +13,7 @@ var src_js = 'src/**/*.js'
 var dest = 'js'
 
 function pipeMs(stream) {
+	var ms = require('./js/compile/gulp-ms')
 	return stream
 	.pipe(sourcemaps.init())
 	.pipe(ms())
@@ -24,22 +25,40 @@ function pipeMs(stream) {
 	.pipe(gulp.dest(dest))
 }
 
+function pipeJs(stream) {
+	return stream
+	.pipe(sourcemaps.init())
+	.pipe(babel({
+		whitelist: [
+			'es6.arrowFunctions',
+			'es6.classes',
+			'es6.destructuring',
+			'es6.modules'
+		]
+	}))
+	.pipe(sourcemaps.write('.', {
+		debug: true,
+		//includeContent: false,
+		sourceRoot: '/src'
+	}))
+	.pipe(gulp.dest(dest))
+}
+
 gulp.task('clean', function(cb) {
 	del(dest, cb)
 })
 
 gulp.task('js', function() {
-	gulp.src(src_js)
-	.pipe(gulp.dest(dest))
+	return pipeJs(gulp.src(src_js))
 })
 
-gulp.task('ms', function() {
-	pipeMs(gulp.src(src_ms))
+gulp.task('ms', [ 'js' ], function() {
+	return pipeMs(gulp.src(src_ms))
 })
 
-gulp.task('watch', function() {
+gulp.task('watch', [ 'ms' ], function() {
 	pipeMs(gulp.src(src_ms).pipe(watch(src_ms)))
-	gulp.src(src_js).pipe(gulp.dest(dest))
+	pipeJs(gulp.src(src_js).pipe(watch(src_js)))
 })
 
 gulp.task('default', [ 'watch' ])

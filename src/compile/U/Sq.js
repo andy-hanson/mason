@@ -1,9 +1,8 @@
 "use strict"
 
-const
-	assert = require("assert"),
-	Op = require("./Op"),
-	type = require("./type")
+import assert from "assert"
+import Op from "./Op"
+import type from "./type"
 
 const head = function(sq) {
 	type(sq, Array)

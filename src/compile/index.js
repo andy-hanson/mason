@@ -1,6 +1,7 @@
 "use strict";
 
 require("es6-shim")
+require("source-map-support").install()
 const
 	Opts = require("./Opts"),
 	lex = require("./lex"),
