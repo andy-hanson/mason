@@ -1,69 +1,59 @@
+import { SourceNode } from "source-map"
 import assert from "assert"
 import check, { fail } from "../check"
+import E, * as EExports from "../E"
 import Opts from "../Opts"
 import { implementMany } from "../U"
 import { ifElse, some } from "../U/Op"
 import { cons, flatMap, interleave, interleavePlus, isEmpty, mpf, range, rcons } from "../U/Sq"
 import type, { isa } from "../U/type"
 import Vr from "../Vr"
-const
-	E = require("../E"),
-	SourceNode = require("source-map").SourceNode
-const
-	mangle = require("./mangle"),
-	Rx = require("./Rx"),
-	util = require("./util"),
-		accessLocal = util.accessLocal, accessMangledLocal = util.accessMangledLocal,
-		commad = util.commad, lazyWrap = util.lazyWrap,
-		makeMember = util.makeMember, makeAssign = util.makeAssign,
-		opLocalCheck = util.opLocalCheck, r = util.r
+import mangle, { quote } from "./mangle"
+import Rx from "./Rx"
+import { accessLocal, accessMangledLocal, commad, lazyWrap,
+	makeMember, makeAssign, opLocalCheck, r } from "./util"
 
-module.exports = function render(e, opts, vr) {
+export default function render(e, opts, vr) {
 	type(e, E, opts, Opts, vr, Vr)
 	return r(Rx({ indent: "", opts: opts, vr: vr }))(e)
 }
 
-E.prototype.render = function(rx, arg) {
+export function renderExpr(_, rx, arg) {
 	// Some E_s pass an arg to their child
 	type(rx, Rx)
-	const content = this.renderContent(rx, arg)
-	const line = this.span.start.line
-	const column = this.span.start.column
+	const content = _.renderContent(rx, arg)
+	const line = _.span.start.line
+	const column = _.span.start.column
 	type(line, Number, column, Number)
 	assert(line >= 1 && column >= 1)
-	const typeJ = function(j) {
-		if (typeof j === "string" || j instanceof SourceNode) return
-		type(j, Array)
-		j.forEach(typeJ)
+	const typeJ = j => {
+		if (!(typeof j === "string" || j instanceof SourceNode)) {
+			type(j, Array)
+			j.forEach(typeJ)
+		}
 	}
 	typeJ(content)
 	return new SourceNode(line, column, rx.opts.modulePath(), content)
 }
 
-implementMany(E, "renderContent", {
-	Assign: function(rx) {
-		return makeAssign(rx, this.span, this.assignee, this.k, this.value)
-	},
-
-	AssignDestructure: function(rx) {
-		const destructuredName = "_$" + this.span.start.line
-		const k = this.k
-		const checkProperties = this.checkProperties
-		const access = accessMangledLocal(destructuredName, this.isLazy)
-		const assigns = this.assignees.map(function(assignee) {
-			const get = checkProperties && !(assignee.okToNotUse && !rx.vr.isAccessed(assignee)) ?
+implementMany(EExports, "renderContent", {
+	Assign: (_, rx) => makeAssign(rx, _.span, _.assignee, _.k, _.value),
+	AssignDestructure: (_, rx) => {
+		const destructuredName = "_$" + _.span.start.line
+		const access = accessMangledLocal(destructuredName, _.isLazy)
+		const assigns = _.assignees.map(assignee => {
+			const get = _.checkProperties && !(assignee.okToNotUse && !rx.vr.isAccessed(assignee)) ?
 				"_ms.get(" + access + ", \"" + assignee.name + "\")" :
 				// TODO: Ignore...
 				access + makeMember(assignee.name)
-			const value = E.Literal({
+			const value = EExports.ELiteral({
 				span: assignee.span,
 				k: "js",
 				value: get
 			})
-			return makeAssign(rx, assignee.span, assignee, k, value)
+			return makeAssign(rx, assignee.span, assignee, _.k, value)
 		})
-		const value =
-			this.isLazy ? lazyWrap(r(rx)(this.value)) : r(rx)(this.value)
+		const value = _.isLazy ? lazyWrap(r(rx)(_.value)) : r(rx)(_.value)
 		return [
 			"const ",
 			destructuredName,
@@ -73,95 +63,88 @@ implementMany(E, "renderContent", {
 			interleave(assigns, rx.snl())
 		]
 	},
-
-	BlockBody: function(rx, opResCheck) {
+	BlockBody: (_, rx, opResCheck) => {
 		if (opResCheck === undefined)
 			opResCheck = []
 
-		const _in = this.opIn.map(r(rx))
-		const body = this.lines.map(r(rx))
+		const _in = _.opIn.map(r(rx))
+		const body = _.lines.map(r(rx))
 
 		const needResLocal =
-			!(isEmpty(opResCheck) && (!rx.opts.includeInoutChecks() || isEmpty(this.opOut)))
+			!(isEmpty(opResCheck) && (!rx.opts.includeInoutChecks() || isEmpty(_.opOut)))
 		if (needResLocal) {
-			const makeRes = this.opReturn.map(function(ret) { return [
+			const makeRes = _.opReturn.map(function(ret) { return [
 				"const res = ",
 				r(rx)(ret)
 			]})
-			const _out = this.opOut.map(r(rx))
-			const ret = this.opReturn.map(function() { return "return res" })
+			const _out = _.opOut.map(r(rx))
+			const ret = _.opReturn.map(function() { return "return res" })
 			return interleave(_in.concat(body, makeRes, opResCheck, _out, ret), rx.snl())
 		}
 		else {
 			// no res check or out
-			const ret = this.opReturn.map(function(ret) { return [
+			const ret = _.opReturn.map(function(ret) { return [
 				"return ",
 				r(rx)(ret)
 			]})
 			return interleave(_in.concat(body, ret), rx.snl())
 		}
 	},
-	BlockWrap: function(rx) { return [
-		rx.vr.eIsInGenerator(this) ? "yield* (function*() {" : "(function() {",
+	BlockWrap: (_, rx) => [
+		rx.vr.eIsInGenerator(_) ? "yield* (function*() {" : "(function() {",
 		rx.nl(), "\t",
-		r(rx.indented())(this.body),
+		r(rx.indented())(_.body),
 		rx.snl(),
 		"})()"
-	]},
-	Call: function(rx) {
-		const anySplat = this.args.some(function(arg) { return isa(arg, E.Splat) })
+	],
+	Call: (_, rx) => {
+		const anySplat = _.args.some(function(arg) { return isa(arg, EExports.Splat) })
 		if (anySplat) {
 			// TODO:ES6 Just use `...arg`
-			const args = this.args.map(function(arg) {
-				return isa(arg, E.Splat) ?
+			const args = _.args.map(function(arg) {
+				return isa(arg, EExports.Splat) ?
 					[ "_ms.arr(", r(rx)(arg.splatted), ")" ] :
 					"[" + r(rx)(arg) + "]"
 			})
 			return [
 				"Function.prototype.apply.call(",
-				r(rx)(this.called),
+				r(rx)(_.called),
 				", null, [].concat(",
 				interleave(args, ", "),
 				"))"
 			]
 		}
 		else return [
-			r(rx)(this.called),
+			r(rx)(_.called),
 			"(",
-			commad(rx, this.args),
+			commad(rx, _.args),
 			")"
 		]
 	},
-	CaseDo: function(rx) {
-		return caseBody(rx, this.parts, this.opElse, true)
-	},
-	CaseVal: function(rx) {
-		return caseBody(rx, this.parts, this.opElse, false)
-	},
-	CasePart: function(rx, needBreak) {
+	CaseDo: (_, rx) => caseBody(rx, _.parts, _.opElse, true),
+	CaseVal: (_, rx) => caseBody(rx, _.parts, _.opElse, false),
+	CasePart: (_, rx, needBreak) => {
 		const rxResult = rx.indented()
-		const t = r(rx)(this.test)
+		const t = r(rx)(_.test)
 		const test = rx.opts.includeCaseChecks() ? [ "_ms.bool(", t, ")" ] : t
 		return [
 			"case ",
 			test,
 			": {",
 			rxResult.nl(),
-			r(rxResult)(this.result),
+			r(rxResult)(_.result),
 			needBreak ? [ rxResult.snl(), "break" ] : [],
 			rx.snl(),
 			"}"
 		]
 	},
-	Debug: function(rx) {
-		return rx.opts.includeInoutChecks() ? interleave(this.lines.map(r(rx)), rx.snl()) : []
-	},
-	Debugger: function() { return "debugger" },
-	DictReturn: function(rx) {
-		const nonDebugKeys = this.keys
-		const keys = rx.opts.includeTypeChecks() ? this.keys.concat(this.debugKeys) : this.keys
-		const opDisplayName = this.opDisplayName
-		return ifElse(this.opDicted,
+	Debug: (_, rx) => rx.opts.includeInoutChecks() ? interleave(_.lines.map(r(rx)), rx.snl()) : [],
+	Debugger: () => "debugger",
+	DictReturn: (_, rx) => {
+		const nonDebugKeys = _.keys
+		const keys = rx.opts.includeTypeChecks() ? _.keys.concat(_.debugKeys) : _.keys
+		const opDisplayName = _.opDisplayName
+		return ifElse(_.opDicted,
 			function(dicted) {
 				if (isEmpty(keys)) {
 					assert(isEmpty(nonDebugKeys))
@@ -169,13 +152,13 @@ implementMany(E, "renderContent", {
 				}
 
 				const keysVals = keys.map(function(key) { return [
-					mangle.quote(key.name),
+					quote(key.name),
 					", ",
 					mangle(key.name)
 				]}).concat(opDisplayName.map(function(_) { return [
-					mangle.quote("displayName"),
+					quote("displayName"),
 					", ",
-					mangle.quote(_)
+					quote(_)
 				]}))
 				const args = interleave(keysVals, ", ")
 				const anyLazy = keys.some(function(key) { return key.isLazy })
@@ -189,27 +172,25 @@ implementMany(E, "renderContent", {
 			function() {
 				assert(!isEmpty(keys))
 				const obj = keys.map(function(key) {
-					const q = mangle.quote(key.name), m = mangle(key.name)
+					const q = quote(key.name), m = mangle(key.name)
 					return key.isLazy
 						? [ "get ", q, "() { return _ms.unlazy(", m, ") }" ]
 						: [ q, ": ", m ]
 				}).concat(opDisplayName.map(function(_) { return [
-					"displayName: ", mangle.quote(_)
+					"displayName: ", quote(_)
 				]}))
 				return [ "{ ", interleave(obj, ", "), " }" ]
 			})
 	},
-	EndLoop: function() {
-		return "break " + mangle(this.name)
-	},
-	Fun: function(rx) {
+	EndLoop: _ => "break " + mangle(_.name),
+	Fun: (_, rx) => {
 		const rxFun = rx.indented()
-		const span = this.span
-		const opResCheck = flatMap(this.opReturnType, function(_) {
+		const span = _.span
+		const opResCheck = flatMap(_.opReturnType, function(_) {
 			// TODO: Probably a better way
 			return opLocalCheck(
 				rx,
-				E.LocalDeclare({
+				EExports.LocalDeclare({
 					span: span,
 					name: "res",
 					opType: some(_),
@@ -218,13 +199,13 @@ implementMany(E, "renderContent", {
 				}),
 				false)
 		})
-		const args = this.args
+		const args = _.args
 		return [
-			this.k === "|" ? "function(" : "function*(",
+			_.k === "|" ? "function(" : "function*(",
 			commad(rx, args),
 			") {",
 			rxFun.nl(),
-			this.opRestArg.map(function(rest) { return [
+			_.opRestArg.map(function(rest) { return [
 				"const ",
 				r(rx)(rest),
 				" = [].slice.call(arguments, ",
@@ -235,61 +216,53 @@ implementMany(E, "renderContent", {
 			interleavePlus(
 				mpf(args, function(arg) { return opLocalCheck(rx, arg, arg.isLazy); }),
 				rxFun.snl()),
-			r(rxFun, opResCheck)(this.body),
+			r(rxFun, opResCheck)(_.body),
 			rx.snl(),
 			"}"
 		]
 	},
-	Ignore: function(rx) {
-		return r(rx)(this.ignored)
-	},
-	Lazy: function(rx) {
-		return lazyWrap(r(rx)(this.value))
-	},
-	ListReturn: function() { return [
+	Ignore: (_, rx) => r(rx)(_.ignored),
+	Lazy: (_, rx) => lazyWrap(r(rx)(_.value)),
+	ListReturn: _ => [
 		"[",
 		interleave(
-			range(0, this.length).map(function(i) { return "_" + i }),
+			range(0, _.length).map(i => "_" + i),
 			", "),
 		"]"
-	]},
-	ListSimple: function(rx) { return [ "[", commad(rx, this.parts), "]" ] },
-	ListEntry: function(rx) { return [
+	],
+	ListSimple: (_, rx) => [ "[", commad(rx, _.parts), "]" ],
+	ListEntry: (_, rx) => [
 		"const _",
-		this.index.toString(),
+		_.index.toString(),
 		" = ",
-		r(rx)(this.value)
-	]},
-	Literal: function() {
-		const v = this.value
-		switch (this.k) {
+		r(rx)(_.value)
+	],
+	ELiteral: _ => {
+		const v = _.value
+		switch (_.k) {
 			case Number:
 				return /[\.e]/.test(v) ? v : [ "(", v, ")" ]
 			case String:
-				return [ mangle.quote(v) ]
+				return [ quote(v) ]
 			case "js":
 				return v
-			default: throw new Error(this.k)
+			default: throw new Error(_.k)
 		}
 	},
-	LocalAccess: function(rx) {
-		return accessLocal(this.name, rx.vr.isLazy(this))
-	},
-	LocalDeclare: function() {
-		return mangle(this.name)
-	},
-	Loop: function(rx) { return [
-		mangle(this.name),
+	LocalAccess: (_, rx) => accessLocal(_.name, rx.vr.isLazy(_)),
+	LocalDeclare: _ => mangle(_.name),
+	Loop: (_, rx) => [
+		mangle(_.name),
 		": while (true) {",
 		rx.nl(), "\t",
-		r(rx.indented())(this.body),
+		r(rx.indented())(_.body),
 		rx.nl(),
 		"}"
-	]},
-	Map: function() { return [
+	],
+	Map: _ => [
 		"_ms.map(",
 		interleave(
-			range(0, this.length).map(function(i) { return [
+			range(0, _.length).map(function(i) { return [
 				"_k",
 				i.toString(),
 				", ",
@@ -298,96 +271,94 @@ implementMany(E, "renderContent", {
 			]}),
 			", "),
 		")"
-	]},
-	MapEntry: function(rx) { return [
+	],
+	MapEntry: (_, rx) => [
 		"const _k",
-		this.index.toString(),
+		_.index.toString(),
 		" = ",
-		r(rx)(this.key),
+		r(rx)(_.key),
 		", _v",
-		this.index.toString(),
+		_.index.toString(),
 		" = ",
-		r(rx)(this.val)
-	]},
-	Member: function(rx) { return [
-		r(rx)(this.object),
-		makeMember(this.name)
-	]},
-	Module: function(rx) { return [
+		r(rx)(_.val)
+	],
+	Member: (_, rx) => [
+		r(rx)(_.object),
+		makeMember(_.name)
+	],
+	Module: (_, rx) => [
 		"\"use strict\"",
 		// "\nglobal.console.log(\">>> " + rx.opts.moduleName() + "\")\n",
 		rx.snl(),
-		r(rx)(this.body),
+		r(rx)(_.body),
 		rx.snl()
 		// "\nglobal.console.log(\"<<< " + rx.opts.moduleName() + "\")\n"
-	]},
+	],
 	// TODO:ES6
-	ModuleDefaultExport: function(rx) { return [
+	ModuleDefaultExport: (_, rx) => [
 		"exports",
 		makeMember(rx.opts.moduleName()),
 		" = ",
-		r(rx)(this.value)
-	]},
-	Null: function() { return "null" },
-	True: function() { return "true" },
-	Quote: function(rx) {
+		r(rx)(_.value)
+	],
+	Null: () => "null",
+	True: () => "true",
+	Quote: (_, rx) => {
 		const isStrLit = function(_) {
-			return _ instanceof E.Literal && _.k === String
+			return _ instanceof EExports.ELiteral && _.k === String
 		}
 		const parts = []
-		if (!isStrLit(this.parts[0]))
+		if (!isStrLit(_.parts[0]))
 			parts.push("\"\"")
 		// TODO:ES6 splat call
-		Array.prototype.push.apply(parts, this.parts.map(function(part) {
+		Array.prototype.push.apply(parts, _.parts.map(function(part) {
 			return isStrLit(part) ? r(rx)(part) : [ "_ms.show(", r(rx)(part), ")" ]
 		}))
 		return interleave(parts, " + ")
 	},
-	Require: function() { return [
+	Require: _ => [
 		"require(\"",
-		this.path,
+		_.path,
 		"\")"
-	]},
-	Scope: function(rx) { return [
+	],
+	Scope: (_, rx) => [
 		"{", rx.nl(),
 		"\t",
-		interleave(this.lines.map(r(rx.indented())), rx.nl() + "\t"),
+		interleave(_.lines.map(r(rx.indented())), rx.nl() + "\t"),
 		rx.nl(),
 		"}"
-	]},
-	SpecialKeyword: function() {
-		switch (this.k) {
+	],
+	SpecialKeyword: _ => {
+		switch (_.k) {
 			case "undefined": return "undefined"
 			case "this-module-directory": return "__dirname"
-			default: throw new Error(this.k)
+			default: throw new Error(_.k)
 		}
 	},
-	Splat: function() {
-		fail(this.span, "Splat must appear as argument to a call.")
-	},
-	Sub: function(rx) { return [
+	Splat: _ => fail(_.span, "Splat must appear as argument to a call."),
+	Sub: (_, rx) => [
 		"_ms.sub(",
-		commad(rx, cons(this.subject, this.subbers)),
+		commad(rx, cons(_.subject, _.subbers)),
 		")"
-	]},
-	This: function() { return "this" },
-	TypeTest: function(rx) { return [
+	],
+	This: () => "this",
+	TypeTest: (_, rx) => [
 		"_ms.contains(",
-		r(rx)(this.testType),
+		r(rx)(_.testType),
 		", ",
-		r(rx)(this.tested),
+		r(rx)(_.tested),
 		")"
-	]},
-	Yield: function(rx) { return [
+	],
+	Yield: (_, rx) => [
 		"(yield ",
-		r(rx)(this.yielded),
+		r(rx)(_.yielded),
 		")"
-	]},
-	YieldTo: function(rx) { return [
+	],
+	YieldTo: (_, rx) => [
 		"(yield* ",
-		r(rx)(this.yieldedTo),
+		r(rx)(_.yieldedTo),
 		")"
-	]}
+	]
 })
 
 const caseBody = function(rx, parts, opElse, needBreak) {

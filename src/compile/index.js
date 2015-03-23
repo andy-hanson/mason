@@ -1,12 +1,12 @@
-require("es6-shim")
-require("source-map-support").install()
+import "es6-shim"
+import { install } from "source-map-support"
+install()
+import lex from "./lex"
+import parse from "./parse"
 import Opts from "./Opts"
 import type from "./U/type"
-const
-	lex = require("./lex"),
-	parse = require("./parse"),
-	render = require("./render"),
-	verify = require("./verify")
+import render from "./render"
+import verify from "./verify"
 
 // Speed boost by turning this off
 global.DEBUG = true

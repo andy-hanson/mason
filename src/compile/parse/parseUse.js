@@ -1,19 +1,18 @@
 import assert from "assert"
 import check from "../check"
+import { AssignDestructure, Ignore, LocalDeclare, Require } from "../E"
 import { UseKeywords } from "../Lang"
+import { DotName, Group, Name } from "../T"
 import { code, set } from "../U"
 import { None } from "../U/Op"
 import { head, isEmpty, last, repeat, tail } from "../U/Sq"
 import type, { isa } from "../U/type"
-const
-	E = require("../E"),
-	T = require("../T"),
-	Px = require("./Px")
+import Px from "./Px"
 const
 	parseBlock_ = function() { return require("./parseBlock") },
-	parseLocals_ = function() { return require("./parseLocals") }
+	parseLocals_ = function() { return require("./parseLocals").default }
 
-module.exports = function parseUse(px, k) {
+export default function parseUse(px, k) {
 	type(px, Px, k, UseKeywords)
 	const _ = parseBlock_().takeBlockLinesFromEnd(px)
 	px.check(isEmpty(_.before), function() {
@@ -30,11 +29,11 @@ const useLine = function(px, k) {
 
 	if (k === "use!") {
 		px.check(px.sqt.length === 1, function() { return "Unexpected " + px.sqt[1] })
-		return E.Ignore(px.s({ ignored: required }))
+		return Ignore(px.s({ ignored: required }))
 	} else {
 		const isLazy = k === "use~"
 
-		const defaultAssignee = E.LocalDeclare(px.s({
+		const defaultAssignee = LocalDeclare(px.s({
 			name: name,
 			opType: None,
 			isLazy: isLazy,
@@ -46,7 +45,7 @@ const useLine = function(px, k) {
 				const l2 = l.name === "_" ? set(l, "name", name) : l
 				return set(l2, "isLazy", isLazy)
 			})
-		return E.AssignDestructure(px.s({
+		return AssignDestructure(px.s({
 			assignees: assignees,
 			k: "=",
 			value: required,
@@ -59,15 +58,15 @@ const useLine = function(px, k) {
 const parseRequire = function(px) {
 	assert(px.sqt.length === 1)
 	const t = px.sqt[0]
-	if (isa(t, T.Name))
+	if (isa(t, Name))
 		return {
-			required: E.Require({ span: t.span, path: t.name }),
+			required: Require({ span: t.span, path: t.name }),
 			name: t.name
 		}
-	else if (isa(t, T.DotName))
+	else if (isa(t, DotName))
 		return parseLocalRequire(px)
 	else {
-		px.check(T.Group.is('sp')(t), "Not a valid module name")
+		px.check(Group.is('sp')(t), "Not a valid module name")
 		return parseLocalRequire(px.w(t.sqt))
 	}
 }
@@ -76,17 +75,17 @@ const parseLocalRequire = function(px) {
 	const first = head(px.sqt)
 
 	let parts = []
-	if (isa(first, T.DotName))
+	if (isa(first, DotName))
 		parts = first.nDots === 1 ? ["."] : repeat("..", first.nDots - 1)
 	else
-		check(isa(first, T.Name), first.span, "Not a valid part of module path")
+		check(isa(first, Name), first.span, "Not a valid part of module path")
 	parts.push(first.name)
 	tail(px.sqt).forEach(function(t) {
-		check(isa(t, T.DotName) && t.nDots === 1, t.span, "Not a valid part of module path")
+		check(isa(t, DotName) && t.nDots === 1, t.span, "Not a valid part of module path")
 		parts.push(t.name)
 	})
 	return {
-		required: E.Require({ span: px.span, path: parts.join("/") }),
+		required: Require({ span: px.span, path: parts.join("/") }),
 		name: last(px.sqt).name
 	}
 }

@@ -34,7 +34,9 @@ function pipeJs(stream) {
 			'es6.arrowFunctions',
 			'es6.classes',
 			'es6.destructuring',
-			'es6.modules'
+			'es6.modules',
+			'es6.parameters.rest',
+			'es6.spread'
 		]
 	}))
 	.pipe(header("'use strict'; "))

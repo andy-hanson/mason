@@ -1,15 +1,14 @@
-const
-	path = require("path"),
-	types = require("./U/types")
+import { basename, extname } from "path"
+import { recordType } from "./U/types"
 
-const Opts = types.recordType("Opts", Object, {
+const Opts = recordType("Opts", Object, {
 	inFile: String,
 	checks: Boolean
 })
 export default Opts
 Object.assign(Opts.prototype, {
 	moduleName: function() {
-		return noExt(path.basename(this.inFile))
+		return noExt(basename(this.inFile))
 	},
 	jsBaseName: function() {
 		return this.moduleName() + ".js"
@@ -22,5 +21,5 @@ Object.assign(Opts.prototype, {
 })
 
 function noExt(name) {
-	return name.substring(0, name.length - path.extname(name).length)
+	return name.substring(0, name.length - extname(name).length)
 }

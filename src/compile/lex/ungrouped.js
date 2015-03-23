@@ -2,13 +2,12 @@ import assert from "assert"
 import check, { fail, warnIf } from "../check"
 import { AllKeywords, isNameCharacter, ReservedCharacters, ReservedWords } from "../Lang"
 import Span, { single } from "../Span"
+import { CallOnFocus, DotName, Keyword, Literal, Name } from "../T"
 import { rcons, repeat } from "../U/Sq"
 import type from "../U/type"
 import { code } from "../U"
 import GroupPre from "./GroupPre"
 import Stream from "./Stream"
-var
-	T = require("../T")
 
 const lexPlain = module.exports = function* lexPlain(opts, stream, isInQuote) {
 	type(stream, Stream, isInQuote, Boolean)
@@ -18,7 +17,7 @@ const lexPlain = module.exports = function* lexPlain(opts, stream, isInQuote) {
 		const startPos = stream.pos
 		const span = function() { return Span({ start: startPos, end: stream.pos }) }
 		const s = function(members) { return Object.assign(members, { span: span() }) }
-		const keyword = function(k) { return T.Keyword(s({ k: k })) }
+		const keyword = function(k) { return Keyword(s({ k: k })) }
 		const gp = function(k) { return GroupPre(s({ k: k })) }
 
 		const eatNumber = function() {
@@ -30,7 +29,7 @@ const lexPlain = module.exports = function* lexPlain(opts, stream, isInQuote) {
 			const jsLit = msLit.replace(/_/g, "")
 			check(!Number.isNaN(Number(jsLit)), stream.pos,
 				"Invalid number literal " + code(msLit))
-			return T.Literal(s({ value: jsLit, k: Number }))
+			return Literal(s({ value: jsLit, k: Number }))
 		}
 
 		const _ = stream.eat()
@@ -50,7 +49,7 @@ const lexPlain = module.exports = function* lexPlain(opts, stream, isInQuote) {
 					// Dict assign in its own spaced group
 					return [ gp("sp"), keyword(". "), gp("sp") ]
 				else
-					return T.DotName(s({
+					return DotName(s({
 						// +1 for the dot we just skipped.
 						nDots: stream.takeWhile('.').length + 1,
 						name: stream.takeWhile(isNameCharacter)}))
@@ -87,7 +86,7 @@ const lexPlain = module.exports = function* lexPlain(opts, stream, isInQuote) {
 			case '`': {
 				const js = stream.takeUpTo(/[`\n]/)
 				check(stream.eat() === "`", span(), "Unclosed " + code("`"))
-				return T.Literal(s({ value: js, k: "js" }))
+				return Literal(s({ value: js, k: "js" }))
 			}
 			case '"':
 				return lexQuote(opts, stream, indent)
@@ -109,13 +108,13 @@ const lexPlain = module.exports = function* lexPlain(opts, stream, isInQuote) {
 						return keyword("region")
 					default:
 						if (stream.tryEat('_'))
-							return T.CallOnFocus(s({ name: name }))
+							return CallOnFocus(s({ name: name }))
 						else if (AllKeywords.has(name))
 							return keyword(name)
 						else if (ReservedWords.has(name))
 							fail(span(), "Reserved word " + code(name))
 						else
-							return T.Name(s({ name: name }))
+							return Name(s({ name: name }))
 				}
 			}
 		}
@@ -147,7 +146,7 @@ const lexQuote = function*(opts, stream, indent) {
 
 	const yieldRead = function*() {
 		if (read !== "") {
-			yield T.Literal({
+			yield Literal({
 				span: Span({ start: startOfRead, end: stream.pos }),
 				// Don't include leading newline of indented block
 				value: first && isIndented ? read.slice(1) : read,
@@ -176,7 +175,7 @@ const lexQuote = function*(opts, stream, indent) {
 			}
 			case '{': {
 				yield* yieldRead()
-				// We can't just create a T.Group now because there may be other GroupPre_s inside.
+				// We can't just create a Group now because there may be other GroupPre_s inside.
 				yield GroupPre({ span: single(stream.pos), k: "(" })
 				yield* lexPlain(opts, stream, true)
 				yield GroupPre({ span: single(stream.pos), k: ")" })

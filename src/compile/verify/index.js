@@ -1,11 +1,10 @@
 import check, { fail, warnIf } from "../check"
+import E, * as EExports from "../E"
 import Opts from "../Opts"
 import type from "../U/type"
 import { code, ignore, implementMany } from "../U"
 import { ifElse } from "../U/Op"
 import { cons, head, isEmpty, toArray } from "../U/Sq"
-const
-	E = require("../E")
 import verifyLines from "./verifyLines"
 import { vxStart } from "./Vx"
 import { v, vm } from "./util"
@@ -42,48 +41,46 @@ const verifyLocalUse = function(vr, opts) {
 	}
 }
 
-implementMany(E, "verify", {
-	BlockBody: function(vx) {
-		this.opIn.forEach(v(vx))
-		const vxRet = verifyLines(vx, this.lines)
-		this.opReturn.forEach(v(vxRet))
-		const vxOut = isEmpty(this.opReturn) ? vxRet : vxRet.withRes(this.span)
-		this.opOut.forEach(v(vxOut))
+function vCaseDo(_, vx) {
+	_.parts.concat(_.opElse).forEach(v(vx))
+}
+
+implementMany(EExports, "verify", {
+	BlockBody: (_, vx) => {
+		_.opIn.forEach(v(vx))
+		const vxRet = verifyLines(vx, _.lines)
+		_.opReturn.forEach(v(vxRet))
+		const vxOut = isEmpty(_.opReturn) ? vxRet : vxRet.withRes(_.span)
+		_.opOut.forEach(v(vxOut))
 	},
-	BlockWrap: function(vx) {
-		vx.setEIsInGenerator(this)
-		v(vx)(this.body)
+	BlockWrap: (_, vx) => {
+		vx.setEIsInGenerator(_)
+		v(vx)(_.body)
 	},
-	CaseDo: function(vx) {
-		this.parts.concat(this.opElse).forEach(v(vx))
+	CaseDo: vCaseDo,
+	CaseVal: (_, vx) => {
+		vx.setEIsInGenerator(_)
+		vCaseDo(_, vx)
 	},
-	CaseVal: function(vx) {
-		vx.setEIsInGenerator(this)
-		E.CaseDo.prototype.verify.call(this, vx)
-	},
-	Debug: function(vx) {
-		// Only reach here for in/out condition
-		verifyLines(vx, [ this ])
-	},
-	EndLoop: function(vx) {
-		check(vx.hasLoop(this.name), this.span, "No loop called `" + this.name + "`")
-	},
-	Fun: function(vx) {
+	// Only reach here for in/out condition
+	Debug: (_, vx) => { verifyLines(vx, [ _ ]) },
+	EndLoop: (_, vx) => check(vx.hasLoop(_.name), _.span, "No loop called `" + _.name + "`"),
+	Fun: (_, vx) => {
 		vx = vx.withBlockLocals()
-		this.opReturnType.forEach(v(vx))
-		if (!isEmpty(this.opReturnType))
-			check(!isEmpty(this.body.opReturn), this.span,
+		_.opReturnType.forEach(v(vx))
+		if (!isEmpty(_.opReturnType))
+			check(!isEmpty(_.body.opReturn), _.span,
 				"Function with return type must return something.")
-		this.args.forEach(function(arg) { arg.opType.forEach(v(vx)) })
-		const vxGen = this.k === "~|" ? vx.inGenerator() : vx.notInGenerator()
-		const allArgs = this.args.concat(this.opRestArg)
+		_.args.forEach((arg) => arg.opType.forEach(v(vx)))
+		const vxGen = _.k === "~|" ? vx.inGenerator() : vx.notInGenerator()
+		const allArgs = _.args.concat(_.opRestArg)
 		allArgs.forEach(function(_) { vx.registerLocal(_) })
 		const vxBody = vxGen.plusLocals(allArgs)
-		v(vxBody)(this.body)
+		v(vxBody)(_.body)
 	},
-	LocalAccess: function(vx) {
-		const me = this
-		ifElse(vx.opGetLocal(this.name),
+	LocalAccess: (_, vx) => {
+		const me = _
+		ifElse(vx.opGetLocal(_.name),
 			function(l) { vx.setAccessToLocal(me, l) },
 			function() {
 				fail(me.span,
@@ -91,58 +88,50 @@ implementMany(E, "verify", {
 					"Available locals are: [`" + toArray(vx.allLocalNames()).join("`, `") + "`]")
 			})
 	},
-	Loop: function(vx) {
-		v(vx.plusLoop(this.name))(this.body)
-	},
+	Loop: (_, vx) => v(vx.plusLoop(_.name))(_.body),
 	// Adding LocalDeclares to the available locals is done by Fun and buildVxBlockLine.
-	LocalDeclare: function(vx) {
-		this.opType.map(v(vx))
+	LocalDeclare: (_, vx) => { _.opType.map(v(vx)) },
+	MapEntry: (_, vx) => {
+		v(vx)(_.key)
+		v(vx)(_.val)
 	},
-	MapEntry: function(vx) {
-		v(vx)(this.key)
-		v(vx)(this.val)
+	Yield: (_, vx) => {
+		check(vx.isInGenerator, _.span, "Cannot yield outside of generator context")
+		v(vx)(_.yielded)
 	},
-	Yield: function(vx) {
-		check(vx.isInGenerator, this.span, "Cannot yield outside of generator context")
-		v(vx)(this.yielded)
-	},
-	YieldTo: function(vx) {
-		check(vx.isInGenerator, this.span, "Cannot yield outside of generator context")
-		v(vx)(this.yieldedTo)
+	YieldTo: (_, vx) => {
+		check(vx.isInGenerator, _.span, "Cannot yield outside of generator context")
+		v(vx)(_.yieldedTo)
 	},
 
 	// These ones just recurse to their children.
-	Assign: function(vx) {
-		const vxAssign = this.assignee.isLazy ? vx.withBlockLocals() : vx
-		return vm(vxAssign, [this.assignee, this.value])
+	Assign: (_, vx) => {
+		const vxAssign = _.assignee.isLazy ? vx.withBlockLocals() : vx
+		return vm(vxAssign, [_.assignee, _.value])
 	},
-	AssignDestructure: function(vx) { vm(vx, cons(this.value, this.assignees)) },
-	Call: function(vx) { vm(vx, cons(this.called, this.args)) },
-	CasePart: function(vx) { vm(vx, [this.test, this.result]) },
+	AssignDestructure: (_, vx) => { vm(vx, cons(_.value, _.assignees)) },
+	Call: (_, vx) => { vm(vx, cons(_.called, _.args)) },
+	CasePart: (_, vx) => { vm(vx, [_.test, _.result]) },
 	Debugger: ignore,
-	DictReturn: function(vx) { vm(vx, this.opDicted) },
-	Ignore: function(vx) { v(vx)(this.ignored) },
-	Lazy: function(vx) {
-		v(vx.withBlockLocals())(this.value)
-	},
+	DictReturn: (_, vx) => { vm(vx, _.opDicted) },
+	Ignore: (_, vx) => { v(vx)(_.ignored) },
+	Lazy: (_, vx) => { v(vx.withBlockLocals())(_.value) },
 	ListReturn: ignore,
-	ListEntry: function(vx) { v(vx)(this.value) },
-	ListSimple: function(vx) { this.parts.map(v(vx)) },
-	Literal: function(vx) {
-		warnIf(vx.opts, this.k === 'js', this.span, "Js literal")
-	},
+	ListEntry: (_, vx) => { v(vx)(_.value) },
+	ListSimple: (_, vx) => { _.parts.map(v(vx)) },
+	ELiteral: (_, vx) => { warnIf(vx.opts, _.k === 'js', _.span, "Js literal") },
 	Map: ignore,
-	Member: function(vx) { v(vx)(this.object) },
-	Module: function(vx) { v(vx)(this.body) },
-	ModuleDefaultExport: function(vx) { v(vx)(this.value) },
+	Member: (_, vx) => { v(vx)(_.object) },
+	Module: (_, vx) => { v(vx)(_.body) },
+	ModuleDefaultExport: (_, vx) => { v(vx)(_.value) },
 	Null: ignore,
-	Quote: function(vx) { vm(vx, this.parts) },
+	Quote: (_, vx) => { vm(vx, _.parts) },
 	Require: ignore,
-	Scope: function() { throw new Error("Scopes are handled specially by verifyLines.") },
+	Scope: () => { throw new Error("Scopes are handled specially by verifyLines.") },
 	SpecialKeyword: ignore,
-	Splat: function(vx) { v(vx)(this.splatted) },
-	Sub: function(vx) { vm(vx, cons(this.subject, this.subbers)) },
+	Splat: (_, vx) => { v(vx)(_.splatted) },
+	Sub: (_, vx) => { vm(vx, cons(_.subject, _.subbers)) },
 	This: ignore,
 	True: ignore,
-	TypeTest: function(vx) { vm(vx, [this.tested, this.testType]) }
+	TypeTest: (_, vx) => vm(vx, [ _.tested, _.testType ])
 })

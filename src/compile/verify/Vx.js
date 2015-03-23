@@ -1,22 +1,21 @@
 import assert from "assert"
+import { LocalDeclare } from "../E"
 import Opts from "../Opts"
 import { set } from "../U"
 import { None, opIf } from "../U/Op"
 import type from "../U/type"
 import { recordType } from "../U/types"
 import Vr, { VrLocalInfo } from "../Vr"
-const
-	E = require("../E")
 
 // Context used during verification.
 // Every property except vr is immutable.
 // Every Vx shares the same Vr.
 const Vx = recordType("Vx", Object, {
-	// Maps local names to E.LocalDeclares.
+	// Maps local names to LocalDeclares.
 	locals: Map,
 	// Locals map for this block.
 	// Replaces `locals` when entering into sub-function.
-	pendingBlockLocals: [E.LocalDeclare],
+	pendingBlockLocals: [LocalDeclare],
 	loopNames: Set,
 	isInDebug: Boolean,
 	isInGenerator: Boolean,
@@ -61,7 +60,7 @@ Object.assign(Vx.prototype, {
 		return opIf(locals.has(name), function() { return locals.get(name) })
 	},
 	plusLocals: function(addedLocals) {
-		type(addedLocals, [E.LocalDeclare])
+		type(addedLocals, [LocalDeclare])
 		const newLocals = new Map(this.locals)
 		addedLocals.forEach(function(l) { newLocals.set(l.name, l) })
 		return set(this, "locals", newLocals)
@@ -85,13 +84,13 @@ Object.assign(Vx.prototype, {
 	withDebug: function() { return set(this, "isInDebug", true) },
 	withFocus: function(span) {
 		// TODO: Bad idea to be creating new E at this point...
-		const utf = set(E.LocalDeclare.UntypedFocus(span), "okToNotUse", true)
+		const utf = set(LocalDeclare.UntypedFocus(span), "okToNotUse", true)
 		this.registerLocal(utf)
 		return this.plusLocals([utf])
 	},
 	withRes: function(span) {
 		// TODO: Bad idea to be creating new E at this point...
-		const res = E.LocalDeclare({
+		const res = LocalDeclare({
 			span: span,
 			name: "res",
 			opType: None,

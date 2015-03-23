@@ -1,23 +1,20 @@
 import assert from "assert"
 import check from "../check"
+import { LocalDeclare } from "../E"
+import { Group, Keyword, Name } from "../T"
 import { code } from "../U"
 import { None, some } from "../U/Op"
 import { head, isEmpty, tail } from "../U/Sq"
 import type, { isa } from "../U/type"
-const
-	E = require("../E"),
-	Op = require("../U/Op"),
-	T = require("../T")
-const
-	parseSpaced = require("./parseSpaced")
+import parseSpaced from "./parseSpaced"
 
-const parseLocals = module.exports = function(px) {
+export default function parseLocals(px) {
 	return px.sqt.map(function(t) {
 		return parseLocal(px.wt(t))
 	})
 }
 
-const parseLocal = parseLocals.parseLocal = function(px) {
+export function parseLocal(px) {
 	let name
 	let opType = None
 	let isLazy = false
@@ -25,10 +22,10 @@ const parseLocal = parseLocals.parseLocal = function(px) {
 	assert(px.sqt.length === 1)
 	const t = px.sqt[0]
 
-	if (T.Group.is('sp')(t)) {
+	if (Group.is('sp')(t)) {
 		const sqt = t.sqt
 		let rest = sqt
-		if (T.Keyword.is("~")(head(sqt))) {
+		if (Keyword.is("~")(head(sqt))) {
 			isLazy = true
 			rest = tail(sqt)
 		}
@@ -36,7 +33,7 @@ const parseLocal = parseLocals.parseLocal = function(px) {
 		const rest2 = tail(rest)
 		if (!isEmpty(rest2)) {
 			const colon = head(rest2)
-			check(T.Keyword.is(":")(colon), colon.span, function() {
+			check(Keyword.is(":")(colon), colon.span, function() {
 				return "Expected " + code(":")
 			})
 			px.check(rest2.length > 1, function() { return "Expected something after " + colon })
@@ -47,14 +44,14 @@ const parseLocal = parseLocals.parseLocal = function(px) {
 	else
 		name = parseLocalName(t)
 
-	return E.LocalDeclare(px.s({ name: name, opType: opType, isLazy: isLazy, okToNotUse: false }))
+	return LocalDeclare(px.s({ name: name, opType: opType, isLazy: isLazy, okToNotUse: false }))
 }
 
 const parseLocalName = function(t) {
-	if (T.Keyword.is("_")(t))
+	if (Keyword.is("_")(t))
 		return "_"
 	else {
-		check(isa(t, T.Name), t.span, function() { return "Expected a local name, not " + t })
+		check(isa(t, Name), t.span, function() { return "Expected a local name, not " + t })
 		return t.name
 	}
 }

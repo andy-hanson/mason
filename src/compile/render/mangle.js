@@ -1,6 +1,6 @@
 import type from "../U/type"
 
-const mangle = function(name) {
+export default function mangle(name) {
 	return JSKeywords.has(name) ?
 		"_" + name :
 		name.replace(/[^a-zA-Z0-9_]/g, function(ch) { return "_" + ch.charCodeAt(0) })

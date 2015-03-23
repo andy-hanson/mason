@@ -1,7 +1,6 @@
+import chalk from "chalk"
 import Span, { Pos } from "./Span"
 import type, { isa } from "./U/type"
-const
-	chalk = require("chalk")
 
 export default function check(cond, spanOrPos, message) {
 	if (!cond)

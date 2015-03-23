@@ -1,10 +1,10 @@
 import check, { fail } from "../check"
 import { ofSqT, spanType } from "../Span"
 import { isEmpty } from "../U/Sq"
-const
-	T = require("../T")
+import T from "../T"
 
-const Px = module.exports = spanType("Px", Object, { sqt: [T] })
+const Px = spanType("Px", Object, { sqt: [T] })
+export default Px
 Object.assign(Px.prototype, {
 	check: function(cond, message) {
 		check(cond, this.span, message)

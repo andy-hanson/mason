@@ -1,12 +1,11 @@
-require("es6-shim")
+import "es6-shim"
+import fs from "fs"
+import lex from "./lex"
+import parse from "./parse"
+import render from "./render"
+import verify from "./verify"
 import { log } from "./U"
 import Opts from "./Opts"
-const
-	fs = require("fs"),
-	lex = require("./lex"),
-	parse = require("./parse"),
-	render = require("./render"),
-	verify = require("./verify")
 
 global.DEBUG = true
 

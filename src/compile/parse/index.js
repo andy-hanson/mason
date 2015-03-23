@@ -1,15 +1,14 @@
+import assert from "assert"
 import Opts from "../Opts"
+import { Group } from "../T"
 import type from "../U/type"
-const
-	assert = require("assert"),
-	T = require("../T"),
-	Px = require("./Px"),
-	parseBlock = require("./parseBlock")
+import { parseModule } from "./parseBlock"
+import Px from "./Px"
 
-module.exports = function parse(t, opts) {
-	type(t, T.Group, opts, Opts)
+export default function parse(t, opts) {
+	type(t, Group, opts, Opts)
 	// Lexer always puts the whole file in a block.
 	assert(t.k === "->")
 	const px = Px({ span: t.span, sqt: t.sqt })
-	return parseBlock.parseModule(px, opts.moduleName())
+	return parseModule(px, opts.moduleName())
 }

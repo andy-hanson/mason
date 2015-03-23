@@ -1,9 +1,8 @@
 import check from "../check"
+import E, { Assign, AssignDestructure, Call, Debug, Do, ELiteral, Null, Scope, Yield, YieldTo } from "../E"
 import type, { isa } from "../U/type"
 import { code, set } from "../U"
 import { v } from "./util"
-const
-	E = require("../E")
 
 module.exports = function verifyLines(vx, lines) {
 	const lineToLocals = new Map()
@@ -13,12 +12,12 @@ module.exports = function verifyLines(vx, lines) {
 	const processLine = function(inDebug) {
 		type(inDebug, Boolean)
 		return function(line) {
-			if (isa(line, E.Scope)) {
+			if (isa(line, Scope)) {
 				const localsBefore = prevLocals
 				line.lines.forEach(processLine(inDebug))
 				prevLocals = localsBefore
 			}
-			else if (isa(line, E.Debug))
+			else if (isa(line, Debug))
 				// TODO: Do anything in this situation?
 				// check(!inDebug, line.span, "Redundant `debug`.")
 				line.lines.forEach(processLine(true))
@@ -50,9 +49,9 @@ module.exports = function verifyLines(vx, lines) {
 	const verifyLine = function(inDebug) {
 		type(inDebug, Boolean)
 		return function(line) {
-			if (isa(line, E.Scope))
+			if (isa(line, Scope))
 				line.lines.forEach(verifyLine(inDebug))
-			else if (isa(line, E.Debug))
+			else if (isa(line, Debug))
 				line.lines.forEach(verifyLine(true))
 			else {
 				const vxDebug = set(vx, "isInDebug", inDebug)
@@ -72,14 +71,14 @@ module.exports = function verifyLines(vx, lines) {
 // TODO: Clean up
 const verifyIsStatement = function(line) {
 	switch (true) {
-		case isa(line, E.Do):
-		// Some E.Vals are also conceptually E.Dos, but this was easier than multiple inheritance.
-		case isa(line, E.Call):
-		case isa(line, E.Literal) && line.k === "js":
+		case isa(line, Do):
+		// Some Vals are also conceptually Dos, but this was easier than multiple inheritance.
+		case isa(line, Call):
+		case isa(line, ELiteral) && line.k === "js":
 		// OK, used to mean `pass`
-		case isa(line, E.Null):
-		case isa(line, E.Yield):
-		case isa(line, E.YieldTo):
+		case isa(line, Null):
+		case isa(line, Yield):
+		case isa(line, YieldTo):
 			return
 		default:
 			fail(line.span, "Expression in statement position.")
@@ -88,9 +87,9 @@ const verifyIsStatement = function(line) {
 
 const lineNewLocals = function(line) {
 	type(line, E)
-	return isa(line, E.Assign) ?
+	return isa(line, Assign) ?
 		[ line.assignee ] :
-		isa(line, E.AssignDestructure) ?
+		isa(line, AssignDestructure) ?
 		line.assignees :
 		[ ]
 }

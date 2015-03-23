@@ -1,22 +1,20 @@
+import assert from "assert"
+import { Assign, BlockBody, BlockWrap, Call, DictReturn, Null, Yield, YieldTo } from "../E"
+import { Keyword } from "../T"
 import type from "../U/type"
 import { set } from "../U"
 import { GeneratorKeywords, KFun } from "../Lang"
 import { ifElse } from "../U/Op"
 import { cons, head, isEmpty, last, opSplitManyWhere, rightTail, tail } from "../U/Sq"
-const
-	assert = require("assert"),
-	E = require("../E"),
-	Lang = require("../Lang"),
-	T = require("../T"),
-	Px = require("./Px")
-const
-	parseCase = require("./parseCase"),
-	parseFun_ = function() { return require("./parseFun") },
-	parseLocals = require("./parseLocals"),
-	parseSingle = require("./parseSingle")
+import parseCase from "./parseCase"
+import { parseLocal } from "./parseLocals"
+import parseSingle from "./parseSingle"
+import Px from "./Px"
+// TODO
+const parseFun_ = function() { return require("./parseFun") }
 
-const parseExpr = module.exports = function(px) {
-	return ifElse(opSplitManyWhere(px.sqt, T.Keyword.is(". ")),
+export default function parseExpr(px) {
+	return ifElse(opSplitManyWhere(px.sqt, Keyword.is(". ")),
 		function(splits) {
 			// Short object form, such as (a. 1, b. 2)
 			const first = splits[0].before
@@ -26,14 +24,14 @@ const parseExpr = module.exports = function(px) {
 			const lines = []
 			for (let i = 0; i < splits.length - 1; i = i + 1) {
 				const local = set(
-					parseLocals.parseLocal(px.wt(last(splits[i].before))),
+					parseLocal(px.wt(last(splits[i].before))),
 					"okToNotUse", true)
 				keys.push(local)
 				const sqtValue = i === splits.length - 2 ?
 					splits[i + 1].before :
 					rightTail(splits[i + 1].before)
 				const value = parseExprPlain(px.w(sqtValue))
-				lines.push(E.Assign({
+				lines.push(Assign({
 					// TODO: Include name span
 					span: value.span,
 					assignee: local,
@@ -42,10 +40,10 @@ const parseExpr = module.exports = function(px) {
 				}))
 			}
 			assert(last(splits).at === undefined)
-			const val = E.BlockWrap(px.s({
-				body: E.BlockBody(px.s({
+			const val = BlockWrap(px.s({
+				body: BlockBody(px.s({
 					lines: lines,
-					opReturn: [ E.DictReturn(px.s({
+					opReturn: [ DictReturn(px.s({
 						keys: keys,
 						debugKeys: [],
 						opDicted: [],
@@ -60,7 +58,7 @@ const parseExpr = module.exports = function(px) {
 			else {
 				const parts = parseExprParts(px.w(sqtCaller))
 				assert(!isEmpty(parts))
-				return E.Call(px.s({
+				return Call(px.s({
 					called: head(parts),
 					args: tail(parts).concat([ val ])
 				}))
@@ -75,30 +73,30 @@ const parseExprPlain = function(px) {
 	const parts = parseExprParts(px)
 	switch (parts.length) {
 		case 0:
-			return E.Null(px.s({}))
+			return Null(px.s({}))
 		case 1:
 			return head(parts)
 		default:
-			return E.Call(px.s({ called: head(parts), args: tail(parts) }))
+			return Call(px.s({ called: head(parts), args: tail(parts) }))
 	}
 }
 
-const parseExprParts = parseExpr.parseExprParts = function(px) {
+export function parseExprParts(px) {
 	type(px, Px)
 	if (isEmpty(px.sqt))
 		return []
 	const first = head(px.sqt), rest = tail(px.sqt)
 	switch (true) {
-		case T.Keyword.is(KFun)(first):
+		case Keyword.is(KFun)(first):
 			return [ parseFun_()(px.w(rest), first.k) ]
 		// `case!` can not be part of an expression - it is a statement.
-		case T.Keyword.is("case")(first):
+		case Keyword.is("case")(first):
 			return [ parseCase(px.w(rest), "case", false) ]
-		case T.Keyword.is(GeneratorKeywords)(first): {
+		case Keyword.is(GeneratorKeywords)(first): {
 			const y = parseExpr(px.w(rest))
 			switch (first.k) {
-				case "<~": return [ E.Yield(px.s({ yielded: y })) ]
-				case "<~~": return [ E.YieldTo(px.s({ yieldedTo: y })) ]
+				case "<~": return [ Yield(px.s({ yielded: y })) ]
+				case "<~~": return [ YieldTo(px.s({ yieldedTo: y })) ]
 				default: throw new Error(first.k)
 			}
 		}

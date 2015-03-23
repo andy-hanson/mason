@@ -3,12 +3,11 @@ import check, { fail } from "../check"
 import { GroupOpenToClose } from "../Lang"
 import Opts from "../Opts"
 import Span, { Pos, StartPos } from "../Span"
+import T, { Group, Keyword } from "../T"
 import { isEmpty, last } from "../U/Sq"
 import type, { isa } from "../U/type"
 import { recordType } from "../U/types"
 import GroupPre from "./GroupPre"
-const
-	T = require("../T")
 
 const GroupBuilder = recordType("GroupBuilder", Object, {
 	startPos: Pos,
@@ -77,7 +76,7 @@ module.exports = function group(sqL, opts) {
 		type(old, GroupBuilder)
 		const span = Span({ start: old.startPos, end: closePos })
 		assert(GroupOpenToClose.get(old.k) === k)
-		return T.Group({ span: span, sqt: old.body, k: old.k })
+		return Group({ span: span, sqt: old.body, k: old.k })
 	}
 
 	const startLine = function(pos) {
@@ -126,7 +125,7 @@ module.exports = function group(sqL, opts) {
 				break
 			case '->':
 				//  ~ before block is OK
-				if (isEmpty(cur().body) || !T.Keyword.is("~")(last(cur().body)))
+				if (isEmpty(cur().body) || !Keyword.is("~")(last(cur().body)))
 					endAndStart(span, 'sp')
 				newLevel(span.start, k)
 				startLine(span.end)

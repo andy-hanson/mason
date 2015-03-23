@@ -43,7 +43,18 @@ export function trimRight(str) {
 
 export function implementMany(holder, methodName, dict) {
 	Object.keys(dict).forEach(function(name) {
-		holder[name].prototype[methodName] = dict[name]
+		holder[name].prototype[methodName] = function(...args) {
+			return dict[name](this, ...args)
+		}
+	})
+}
+
+export function implementMany2(holder, methodName, pairs) {
+	pairs.forEach(function(pair) {
+		const [ type, impl ] = pair
+		type.prototype[methodName] = function(...args) {
+			return impl(this, ...args)
+		}
 	})
 }
 

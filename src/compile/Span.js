@@ -1,9 +1,7 @@
+import chalk from "chalk"
 import type from "./U/type"
 import { head, isEmpty, last } from "./U/Sq"
 import { recordType } from "./U/types"
-
-const
-	chalk = require("chalk")
 
 export const Pos = recordType("Pos", Object, { line: Number, column: Number })
 export const StartPos = Pos({ line: 1, column: 1 })
@@ -35,7 +33,8 @@ export function spanType(name, superType, members) {
 
 // TODO: RENAME
 export function ofSqT(spanDefault, sqt) {
-	type(sqt, [require("./T")])
+	// TODO
+	type(sqt, [require("./T").default])
 	return isEmpty(sqt) ?
 		spanDefault :
 		Span({
