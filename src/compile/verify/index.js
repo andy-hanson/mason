@@ -9,7 +9,7 @@ import verifyLines from "./verifyLines"
 import { vxStart } from "./Vx"
 import { v, vm } from "./util"
 
-module.exports = function verify(e, opts) {
+export default function verify(e, opts) {
 	type(e, E, opts, Opts)
 	const vx = vxStart(opts)
 	e.verify(vx)
@@ -17,27 +17,23 @@ module.exports = function verify(e, opts) {
 	return vx.vr
 }
 
-const verifyLocalUse = function(vr, opts) {
+function verifyLocalUse(vr, opts) {
 	for (let local of vr.localToInfo.keys()) {
 		const info = vr.localToInfo.get(local)
 		const noNonDebug = isEmpty(info.nonDebugAccesses)
 		if (info.isInDebug)
-			check(noNonDebug, local.span, function() {
-				return "Debug-only local " + code(local.name) +
-					" used outside of debug at " + info.nonDebugAccesses[0].span
-			})
+			check(noNonDebug, local.span, () =>
+				"Debug-only local " + code(local.name) +
+				" used outside of debug at " + info.nonDebugAccesses[0].span)
 		if (noNonDebug && isEmpty(info.debugAccesses))
-			warnIf(opts, !local.okToNotUse, local.span, function() {
-				return "Unused local variable " + code(local.name) + "."
-			})
+			warnIf(opts, !local.okToNotUse, local.span, () =>
+				"Unused local variable " + code(local.name) + ".")
 		else if (info.isInDebug)
-			check(noNonDebug, local.span, function() {
-				return "Debug-only local used at " + head(info.nonDebugAccesses).span
-			})
+			check(noNonDebug, local.span, () =>
+				"Debug-only local used at " + head(info.nonDebugAccesses).span)
 		else
-			warnIf(opts, !local.okToNotUse && noNonDebug, local.span, function() {
-				return "Local " + code(local.name) + " used only in debug."
-			})
+			warnIf(opts, !local.okToNotUse && noNonDebug, local.span, () =>
+				"Local " + code(local.name) + " used only in debug.")
 	}
 }
 
@@ -74,19 +70,17 @@ implementMany(EExports, "verify", {
 		_.args.forEach((arg) => arg.opType.forEach(v(vx)))
 		const vxGen = _.k === "~|" ? vx.inGenerator() : vx.notInGenerator()
 		const allArgs = _.args.concat(_.opRestArg)
-		allArgs.forEach(function(_) { vx.registerLocal(_) })
+		allArgs.forEach(_ => vx.registerLocal(_))
 		const vxBody = vxGen.plusLocals(allArgs)
 		v(vxBody)(_.body)
 	},
 	LocalAccess: (_, vx) => {
 		const me = _
 		ifElse(vx.opGetLocal(_.name),
-			function(l) { vx.setAccessToLocal(me, l) },
-			function() {
-				fail(me.span,
-					"Could not find local `" + me.name + "`\n" +
-					"Available locals are: [`" + toArray(vx.allLocalNames()).join("`, `") + "`]")
-			})
+			l => vx.setAccessToLocal(me, l),
+			() => fail(me.span,
+				"Could not find local `" + me.name + "`\n" +
+				"Available locals are: [`" + toArray(vx.allLocalNames()).join("`, `") + "`]"))
 	},
 	Loop: (_, vx) => v(vx.plusLoop(_.name))(_.body),
 	// Adding LocalDeclares to the available locals is done by Fun and buildVxBlockLine.

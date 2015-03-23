@@ -81,16 +81,14 @@ module.exports = {
 	"i-always-do-after": function(tried, finallyDo) {
 		try {
 			return tried()
-		}
-		finally {
+		} finally {
 			finallyDo()
 		}
 	},
 	"i-try": function(Success, tried) {
 		try {
 			return Success(tried())
-		}
-		catch (e) {
+		} catch (e) {
 			return e
 		}
 	},
@@ -98,8 +96,7 @@ module.exports = {
 		let err
 		try {
 			err = ms.unlazy(error)
-		}
-		catch (e) {
+		} catch (e) {
 			return e
 			// TODO: return new Error ("Error making error: " + e.message)
 		}

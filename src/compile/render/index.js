@@ -5,7 +5,7 @@ import E, * as EExports from "../E"
 import Opts from "../Opts"
 import { implementMany } from "../U"
 import { ifElse, some } from "../U/Op"
-import { cons, flatMap, interleave, interleavePlus, isEmpty, mpf, range, rcons } from "../U/Sq"
+import { cons, flatMap, interleave, interleavePlus, isEmpty, range, rcons } from "../U/Sq"
 import type, { isa } from "../U/type"
 import Vr from "../Vr"
 import mangle, { quote } from "./mangle"
@@ -73,20 +73,14 @@ implementMany(EExports, "renderContent", {
 		const needResLocal =
 			!(isEmpty(opResCheck) && (!rx.opts.includeInoutChecks() || isEmpty(_.opOut)))
 		if (needResLocal) {
-			const makeRes = _.opReturn.map(function(ret) { return [
-				"const res = ",
-				r(rx)(ret)
-			]})
+			const makeRes = _.opReturn.map(ret => [ "const res = ", r(rx)(ret) ])
 			const _out = _.opOut.map(r(rx))
-			const ret = _.opReturn.map(function() { return "return res" })
+			const ret = _.opReturn.map(() => "return res")
 			return interleave(_in.concat(body, makeRes, opResCheck, _out, ret), rx.snl())
 		}
 		else {
 			// no res check or out
-			const ret = _.opReturn.map(function(ret) { return [
-				"return ",
-				r(rx)(ret)
-			]})
+			const ret = _.opReturn.map(ret => [ "return ", r(rx)(ret) ])
 			return interleave(_in.concat(body, ret), rx.snl())
 		}
 	},
@@ -98,14 +92,13 @@ implementMany(EExports, "renderContent", {
 		"})()"
 	],
 	Call: (_, rx) => {
-		const anySplat = _.args.some(function(arg) { return isa(arg, EExports.Splat) })
+		const anySplat = _.args.some(arg => isa(arg, EExports.Splat))
 		if (anySplat) {
 			// TODO:ES6 Just use `...arg`
-			const args = _.args.map(function(arg) {
-				return isa(arg, EExports.Splat) ?
+			const args = _.args.map(arg =>
+				isa(arg, EExports.Splat) ?
 					[ "_ms.arr(", r(rx)(arg.splatted), ")" ] :
-					"[" + r(rx)(arg) + "]"
-			})
+					[ "[", r(rx)(arg), "]" ])
 			return [
 				"Function.prototype.apply.call(",
 				r(rx)(_.called),
@@ -145,23 +138,23 @@ implementMany(EExports, "renderContent", {
 		const keys = rx.opts.includeTypeChecks() ? _.keys.concat(_.debugKeys) : _.keys
 		const opDisplayName = _.opDisplayName
 		return ifElse(_.opDicted,
-			function(dicted) {
+			dicted => {
 				if (isEmpty(keys)) {
 					assert(isEmpty(nonDebugKeys))
 					return r(rx)(dicted)
 				}
 
-				const keysVals = keys.map(function(key) { return [
+				const keysVals = keys.map(key => [
 					quote(key.name),
 					", ",
 					mangle(key.name)
-				]}).concat(opDisplayName.map(function(_) { return [
+				]).concat(opDisplayName.map(_ => [
 					quote("displayName"),
 					", ",
 					quote(_)
-				]}))
+				]))
 				const args = interleave(keysVals, ", ")
-				const anyLazy = keys.some(function(key) { return key.isLazy })
+				const anyLazy = keys.some(key => key.isLazy)
 				return [
 					anyLazy ? "_ms.lset(" : "_ms.set(",
 					r(rx)(dicted),
@@ -169,16 +162,16 @@ implementMany(EExports, "renderContent", {
 					args,
 					")"
 			]},
-			function() {
+			() => {
 				assert(!isEmpty(keys))
-				const obj = keys.map(function(key) {
+				const obj = keys.map(key => {
 					const q = quote(key.name), m = mangle(key.name)
 					return key.isLazy
 						? [ "get ", q, "() { return _ms.unlazy(", m, ") }" ]
 						: [ q, ": ", m ]
-				}).concat(opDisplayName.map(function(_) { return [
+				}).concat(opDisplayName.map(_ => [
 					"displayName: ", quote(_)
-				]}))
+				]))
 				return [ "{ ", interleave(obj, ", "), " }" ]
 			})
 	},
@@ -186,7 +179,7 @@ implementMany(EExports, "renderContent", {
 	Fun: (_, rx) => {
 		const rxFun = rx.indented()
 		const span = _.span
-		const opResCheck = flatMap(_.opReturnType, function(_) {
+		const opResCheck = flatMap(_.opReturnType, _ => {
 			// TODO: Probably a better way
 			return opLocalCheck(
 				rx,
@@ -205,16 +198,16 @@ implementMany(EExports, "renderContent", {
 			commad(rx, args),
 			") {",
 			rxFun.nl(),
-			_.opRestArg.map(function(rest) { return [
+			_.opRestArg.map(rest => [
 				"const ",
 				r(rx)(rest),
 				" = [].slice.call(arguments, ",
 				args.length.toString(),
 				");",
 				rxFun.nl()
-			]}),
+			]),
 			interleavePlus(
-				mpf(args, function(arg) { return opLocalCheck(rx, arg, arg.isLazy); }),
+				flatMap(args, arg => opLocalCheck(rx, arg, arg.isLazy)),
 				rxFun.snl()),
 			r(rxFun, opResCheck)(_.body),
 			rx.snl(),
@@ -262,13 +255,13 @@ implementMany(EExports, "renderContent", {
 	MapReturn: _ => [
 		"_ms.map(",
 		interleave(
-			range(0, _.length).map(function(i) { return [
+			range(0, _.length).map(i => [
 				"_k",
 				i.toString(),
 				", ",
 				"_v",
 				i.toString()
-			]}),
+			]),
 			", "),
 		")"
 	],
@@ -304,16 +297,15 @@ implementMany(EExports, "renderContent", {
 	Null: () => "null",
 	True: () => "true",
 	Quote: (_, rx) => {
-		const isStrLit = function(_) {
+		const isStrLit = _ => {
 			return _ instanceof EExports.ELiteral && _.k === String
 		}
 		const parts = []
 		if (!isStrLit(_.parts[0]))
 			parts.push("\"\"")
 		// TODO:ES6 splat call
-		Array.prototype.push.apply(parts, _.parts.map(function(part) {
-			return isStrLit(part) ? r(rx)(part) : [ "_ms.show(", r(rx)(part), ")" ]
-		}))
+		Array.prototype.push.apply(parts, _.parts.map(part =>
+			isStrLit(part) ? r(rx)(part) : [ "_ms.show(", r(rx)(part), ")" ]))
 		return interleave(parts, " + ")
 	},
 	Require: _ => [
@@ -361,20 +353,20 @@ implementMany(EExports, "renderContent", {
 	]
 })
 
-const caseBody = function(rx, parts, opElse, needBreak) {
+function caseBody(rx, parts, opElse, needBreak) {
 	const rxSwitch = rx.indented()
 	const rxResult = rxSwitch.indented()
 	const jElse = ifElse(opElse,
-		function(elze) { return [
+		elze => [
 			"default: {",
 			rxResult.nl(),
 			r(rxResult)(elze),
 			rxSwitch.snl(),
 			// This one never needs a break, because it's at the end anyway.
 			"}"
-		]},
-		function() { return "default: throw new global.Error(\"Case fail\");" })
-	const jParts = parts.map(function(part) { return r(rxSwitch, needBreak)(part) })
+		],
+		() => "default: throw new global.Error(\"Case fail\");")
+	const jParts = parts.map(part => r(rxSwitch, needBreak)(part))
 	const jAllParts = rcons(jParts, jElse)
 	return [
 		"switch (true) {",

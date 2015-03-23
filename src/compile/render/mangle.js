@@ -3,11 +3,23 @@ import type from "../U/type"
 export default function mangle(name) {
 	return JSKeywords.has(name) ?
 		"_" + name :
-		name.replace(/[^a-zA-Z0-9_]/g, function(ch) { return "_" + ch.charCodeAt(0) })
+		name.replace(/[^a-zA-Z0-9_]/g, ch => "_" + ch.charCodeAt(0))
 }
 
-const needsMangle = function(name) {
+export function needsMangle(name) {
 	return JSKeywords.has(name) || name.search(/[^a-zA-Z0-9_]/) !== -1
+}
+
+export function quote(str) {
+	type(str, String);
+	const escaped = str.split('').map(ch => quoteEscape[ch] || ch).join('')
+	return "\"" + escaped + "\""
+}
+const quoteEscape = {
+	'\n': '\\n',
+	'\t': '\\t',
+	'"': "\\\"",
+	'\\': "\\\\"
 }
 
 const JSKeywords = new Set([
@@ -80,24 +92,3 @@ const JSKeywords = new Set([
 	"yield",
 	"yield*"
 ])
-
-const quote = function(str) {
-	type(str, String);
-	const escaped = str.split('').map(function(ch) {
-		return {
-			'\n': '\\n',
-			'\t': '\\t',
-			'"': "\\\"",
-			'\\': "\\\\"
-		}[ch] || ch;
-	}).join('')
-	const res = "\"" + escaped + "\""
-	return res
-}
-
-module.exports = mangle
-Object.assign(mangle, {
-	mangle: mangle,
-	needsMangle: needsMangle,
-	quote: quote
-})

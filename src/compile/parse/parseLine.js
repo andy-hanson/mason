@@ -14,7 +14,7 @@ import parseLocals from "./parseLocals"
 import parseUse from "./parseUse"
 import Px from "./Px"
 // TODO
-const parseBlock_ = function() { return require("./parseBlock") }
+const parseBlock_ = () => require("./parseBlock")
 
 // Returns line or sq of lines
 export default function parseLine(px) {
@@ -41,9 +41,7 @@ export default function parseLine(px) {
 					// e.g. `debug use`
 					Debug(px.s({ lines: parseLineOrLines(pxRest) }))
 			case "debugger":
-				px.checkEmpty(pxRest().sqt, function() {
-					return "Did not expect anything after " + first
-				})
+				px.checkEmpty(pxRest().sqt, () => "Did not expect anything after " + first)
 				return Debugger(px.s({}))
 			case "end-loop!":
 				return EndLoop(px.s({ name: loopName(pxRest) }))
@@ -58,15 +56,32 @@ export default function parseLine(px) {
 		}
 
 	return ifElse(opSplitOnceWhere(px.sqt, Keyword.is(LineSplitKeywords)),
-		function(_) {
+		_ => {
 			return _.at.k === '->' ?
 				parseMapEntry(px, _.before, _.after) :
 				parseAssign(px, _.before, _.at, _.after)
 		},
-		function() { return parseExpr(px) })
+		() => parseExpr(px))
 }
 
-const parseAssign = function(px, assigned, assigner, value) {
+export function parseLineOrLines(px) {
+	const _ = parseLine(px)
+	return _ instanceof Array ? _ : [ _ ]
+}
+
+export function parseLines(px) {
+	const first = head(px.sqt)
+	check(px.sqt.length > 1, first.span, "Expected indented block after " + first)
+	const block = px.sqt[1]
+	assert(px.sqt.length === 2 && Group.is('->')(block))
+	const out = []
+	// TODO:ES6 out.push(...p)
+	block.sqt.forEach(line => Array.prototype.push.apply(out, parseLineOrLines(px.w(line.sqt))))
+	return out
+}
+
+
+function parseAssign(px, assigned, assigner, value) {
 	let locals = parseLocals(px.w(assigned))
 	const k = assigner.k
 	const eValuePre = isEmpty(value) ? True(px.s({})) : parseExpr(px.w(value))
@@ -78,9 +93,8 @@ const parseAssign = function(px, assigned, assigner, value) {
 			if (eValuePre instanceof Fun)
 				// KLUDGE: `doc` for module can be a Fun signature.
 				// TODO: Something better...
-				eValueNamed = set(eValuePre, "args", eValuePre.args.map(function(arg) {
-					return set(arg, "okToNotUse", true)
-				}))
+				eValueNamed = set(eValuePre, "args",
+					eValuePre.args.map(arg => set(arg, "okToNotUse", true)))
 			else
 				eValueNamed = eValuePre
 		else
@@ -99,14 +113,10 @@ const parseAssign = function(px, assigned, assigner, value) {
 	}
 
 	if (isYield)
-		locals.forEach(function(_) {
-			check(_.k !== "lazy", _.span, "Can not yield to lazy variable.")
-		})
+		locals.forEach(_ => check(_.k !== "lazy", _.span, "Can not yield to lazy variable."))
 
 	if (k === ". ")
-		locals = locals.map(function(l) {
-			return set(l, "okToNotUse", true)
-		})
+		locals = locals.map(l => set(l, "okToNotUse", true))
 
 	if (locals.length === 1) {
 		const assign = Assign(px.s({ assignee: locals[0], k: k, value: eValue }))
@@ -115,12 +125,10 @@ const parseAssign = function(px, assigned, assigner, value) {
 		else return assign
 	}
 	else {
-		const isLazy = locals.some(function(l) { return l.isLazy })
+		const isLazy = locals.some(l => l.isLazy)
 		if (isLazy)
-			locals.forEach(function(_) {
-				check(_.isLazy, _.span,
-					"If any part of destructuring assign is lazy, all must be.")
-			})
+			locals.forEach(_ => check(_.isLazy, _.span,
+				"If any part of destructuring assign is lazy, all must be."))
 		return AssignDestructure(px.s({
 			assignees: locals,
 			k: k,
@@ -131,7 +139,7 @@ const parseAssign = function(px, assigned, assigner, value) {
 	}
 }
 
-const valueFromAssign = function(valuePre, kAssign) {
+function valueFromAssign(valuePre, kAssign) {
 	switch (kAssign) {
 		case "<~":
 			return Yield({ span: valuePre.span, yielded: valuePre })
@@ -147,8 +155,7 @@ const valueFromAssign = function(valuePre, kAssign) {
 // . It's a function
 // . It's one of those at the end of a block
 // . It's one of those as the end member of a call.
-const tryAddDisplayName = function(eValuePre, displayName)
-{
+function tryAddDisplayName(eValuePre, displayName) {
 	type(eValuePre, E, displayName, String)
 	switch (true) {
 		case isa(eValuePre, Call) && eValuePre.args.length > 0:
@@ -165,65 +172,45 @@ const tryAddDisplayName = function(eValuePre, displayName)
 				opDisplayName: some(displayName)
 			})
 
-		case isa(eValuePre, DictReturn) &&
-			!eValuePre.keys.some(function(key) { return key.name === "displayName" }):
+		case isa(eValuePre, DictReturn) && !eValuePre.keys.some(key => key.name === "displayName"):
 			return set(eValuePre, "opDisplayName", some(displayName))
 
 		case isa(eValuePre, BlockWrap):
 			return ifElse(eValuePre.body.opReturn,
-				function(ret) {
+				ret => {
 					const namedRet = tryAddDisplayName(ret, displayName)
 					return set(eValuePre, "body",
 						set(eValuePre.body, "opReturn", some(namedRet)))
 				},
-				function() { return eValuePre })
+				() => eValuePre)
 
 		default:
 			return eValuePre
 	}
 }
 
-const parseLoop = function(px) {
+function parseLoop(px) {
 	const _ = parseBlock_().takeBlockFromEnd(px, "do")
 	return Loop(px.s({ name: loopName(px.w(_.before)), body: _.block }))
 }
 
-const loopName = function(px) {
+function loopName(px) {
 	switch (px.sqt.length) {
 		case 0:
 			return defaultLoopName
 		case 1:
-			px.check(isa(px.sqt[0], Name), function() {
-				return "Expected a loop name, not " + px.sqt[0]
-			})
+			px.check(isa(px.sqt[0], Name), () => "Expected a loop name, not " + px.sqt[0])
 			return px.sqt[0].name
 		default:
 			px.fail("Expected a loop name")
 	}
 }
 
-const parseMapEntry = function(px, before, after) {
+function parseMapEntry(px, before, after) {
 	return MapEntry(px.s({
 		key: parseExpr(px.w(before)),
 		val: parseExpr(px.w(after)),
 		// TODO: Filled in by ???
 		index: -1
 	}))
-}
-
-export function parseLineOrLines(px) {
-	const _ = parseLine(px)
-	return _ instanceof Array ? _ : [ _ ]
-}
-
-export function parseLines(px) {
-	const first = head(px.sqt)
-	check(px.sqt.length > 1, first.span, "Expected indented block after " + first)
-	const block = px.sqt[1]
-	assert(px.sqt.length === 2 && Group.is('->')(block))
-	const out = []
-	block.sqt.forEach(function(line) {
-		[].push.apply(out, parseLineOrLines(px.w(line.sqt)))
-	})
-	return out
 }

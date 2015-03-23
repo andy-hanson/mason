@@ -55,7 +55,7 @@ export const GroupOpenToClose = new Map([
 
 // Anything not explicitly reserved is a valid name character.
 // A `~` may appear in a name, but not at the beginning.
-export const isNameCharacter = function(ch) { return /[^()[\]{}\.:|_\ \\\n\t\""`#;,]/.test(ch) }
+export const isNameCharacter = (ch) => /[^()[\]{}\.:|_\ \\\n\t\""`#;,]/.test(ch)
 
 export const defaultLoopName = "anon-loop"
 

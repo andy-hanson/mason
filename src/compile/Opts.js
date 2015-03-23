@@ -7,17 +7,16 @@ const Opts = recordType("Opts", Object, {
 })
 export default Opts
 Object.assign(Opts.prototype, {
-	moduleName: function() {
+	moduleName() {
 		return noExt(basename(this.inFile))
 	},
-	jsBaseName: function() {
+	jsBaseName() {
 		return this.moduleName() + ".js"
 	},
-	modulePath: function() { return this.inFile },
-
-	includeTypeChecks: function() { return this.checks },
-	includeInoutChecks: function() { return this.checks },
-	includeCaseChecks: function() { return this.checks }
+	modulePath() { return this.inFile },
+	includeTypeChecks() { return this.checks },
+	includeInoutChecks() { return this.checks },
+	includeCaseChecks() { return this.checks }
 })
 
 function noExt(name) {

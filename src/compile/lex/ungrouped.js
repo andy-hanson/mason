@@ -9,18 +9,32 @@ import { code } from "../U"
 import GroupPre from "./GroupPre"
 import Stream from "./Stream"
 
-const lexPlain = module.exports = function* lexPlain(opts, stream, isInQuote) {
+export default function* lexPlain(opts, stream, isInQuote) {
 	type(stream, Stream, isInQuote, Boolean)
 
 	let indent = 0
-	const singleToken = function() {
-		const startPos = stream.pos
-		const span = function() { return Span({ start: startPos, end: stream.pos }) }
-		const s = function(members) { return Object.assign(members, { span: span() }) }
-		const keyword = function(k) { return Keyword(s({ k: k })) }
-		const gp = function(k) { return GroupPre(s({ k: k })) }
 
-		const eatNumber = function() {
+	while (stream.hasNext()) {
+		const st = singleToken()
+		if (st === 'STOP')
+			break
+		else if (st instanceof Array)
+			for (let i = 0; i < st.length; i = i + 1)
+				yield st[i]
+		else if (st.next)
+			yield* st
+		else
+			yield st
+	}
+
+	function singleToken() {
+		const startPos = stream.pos
+		const span = () => Span({ start: startPos, end: stream.pos })
+		const s = members => Object.assign(members, { span: span() })
+		const keyword = k => Keyword(s({ k: k }))
+		const gp = k => GroupPre(s({ k: k }))
+
+		function eatNumber() {
 			let msLit = _ + stream.takeWhile(/[0-9\.e_]/)
 			if (msLit.endsWith(".")) {
 				msLit = msLit.slice(0, msLit.length - 1)
@@ -119,19 +133,6 @@ const lexPlain = module.exports = function* lexPlain(opts, stream, isInQuote) {
 			}
 		}
 	}
-
-	while (stream.hasNext()) {
-		const st = singleToken()
-		if (st === 'STOP')
-			break
-		else if (st instanceof Array)
-			for (let i = 0; i < st.length; i = i + 1)
-				yield st[i]
-		else if (st.next)
-			yield* st
-		else
-			yield st
-	}
 }
 
 const lexQuote = function*(opts, stream, indent) {
@@ -167,9 +168,8 @@ const lexQuote = function*(opts, stream, indent) {
 		switch (ch) {
 			case '\\': {
 				const escaped = stream.eat()
-				check(quoteEscape.has(escaped), stream.pos, function() {
-					return "No need to escape " + code(escaped)
-				})
+				check(quoteEscape.has(escaped), stream.pos, () =>
+					"No need to escape " + code(escaped))
 				read = read + quoteEscape.get(escaped)
 				break
 			}

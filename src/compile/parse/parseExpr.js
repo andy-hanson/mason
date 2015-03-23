@@ -11,11 +11,11 @@ import { parseLocal } from "./parseLocals"
 import parseSingle from "./parseSingle"
 import Px from "./Px"
 // TODO
-const parseFun_ = function() { return require("./parseFun") }
+const parseFun_ = () => require("./parseFun")
 
 export default function parseExpr(px) {
 	return ifElse(opSplitManyWhere(px.sqt, Keyword.is(". ")),
-		function(splits) {
+		splits => {
 			// Short object form, such as (a. 1, b. 2)
 			const first = splits[0].before
 			const sqtCaller = rightTail(first)
@@ -64,11 +64,11 @@ export default function parseExpr(px) {
 				}))
 			}
 		},
-		function() { return parseExprPlain(px) }
+		() =>parseExprPlain(px)
 	)
 }
 
-const parseExprPlain = function(px) {
+function parseExprPlain(px) {
 	type(px, Px)
 	const parts = parseExprParts(px)
 	switch (parts.length) {

@@ -4,7 +4,7 @@ import { toArray } from "./Sq"
 
 // TODO: don't do this...
 Object.assign(Function.prototype, {
-	getName: function() { return this.name }
+	getName() { return this.name }
 })
 
 export default function type() {
@@ -14,12 +14,12 @@ export default function type() {
 		typePair(arguments[i], arguments[i + 1])
 }
 
-const typePair = function(instance, itsType) {
+function typePair(instance, itsType) {
 	if (itsType instanceof Array) {
 		assert(itsType.length === 1)
 		const emType = itsType[0]
 		type(instance, Array)
-		instance.forEach(function(em) { type(em, emType); })
+		instance.forEach(em => type(em, emType))
 	}
 	if (!isa(instance, itsType)) {
 		if (instance === null) throw new Error("Value null")
@@ -42,9 +42,7 @@ export function isa(instance, itsType) {
 			assert(itsType.length === 1)
 			const emType = itsType[0]
 			return instance instanceof Array &&
-				instance.every(function(em) {
-					return isa(em, emType)
-				})
+				instance.every(em => isa(em, emType))
 		}
 		case Op.prototype.isPrototypeOf(itsType):
 			return instance instanceof Array &&

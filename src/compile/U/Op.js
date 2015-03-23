@@ -11,9 +11,14 @@ export default function Op(opType) {
 	op.type = opType
 	return Object.freeze(op)
 }
-Op.prototype.getName = Op.prototype.toString = function() {
-	return "Op(" + this.type.getName() + ")"
-}
+Object.assign(Op.prototype, {
+	getName() {
+		return "Op(" + this.type.getName() + ")"
+	},
+	toString() {
+		return this.getName()
+	}
+})
 
 export const None = []
 export function some(_) {

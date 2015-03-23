@@ -9,34 +9,22 @@ import type, { isa } from "../U/type"
 import { recordType } from "../U/types"
 import GroupPre from "./GroupPre"
 
-const GroupBuilder = recordType("GroupBuilder", Object, {
-	startPos: Pos,
-	k: String,
-	body: [T]
-})
-Object.assign(GroupBuilder.prototype, {
-	add: function(t) {
-		type(t, T)
-		this.body.push(t)
-	}
-})
-
-module.exports = function group(sqL, opts) {
+export default function group(sqL, opts) {
 	// No 'generator' type...
 	type(sqL, Object, opts, Opts)
 
 	// Stack of GroupBuilders
 	const stack = []
 
-	const cur = function() { return stack[stack.length - 1] }
+	const cur = () => last(stack)
 
-	const newLevel = function(pos, k) {
+	function newLevel(pos, k) {
 		type(pos, Pos, k, String)
 		// U.log(U.indent(stack.length) + ">> " + showGroup(k))
 		stack.push(GroupBuilder({ startPos: pos, k: k, body: [] }))
 	}
 
-	const finishLevels = function(closePos, k) {
+	function finishLevels(closePos, k) {
 		while (true) {
 			const old = last(stack)
 			const oldClose = GroupOpenToClose.get(old.k)
@@ -52,7 +40,7 @@ module.exports = function group(sqL, opts) {
 		finishLevel(closePos, k)
 	}
 
-	const finishLevel = function(closePos, k) {
+	function finishLevel(closePos, k) {
 		type(closePos, Pos, k, String)
 
 		const wrapped = wrapLevel(closePos, k)
@@ -70,7 +58,7 @@ module.exports = function group(sqL, opts) {
 			cur().add(wrapped)
 	}
 
-	const wrapLevel = function(closePos, k) {
+	function wrapLevel(closePos, k) {
 		type(closePos, Pos, k, String)
 		const old = stack.pop()
 		type(old, GroupBuilder)
@@ -79,16 +67,16 @@ module.exports = function group(sqL, opts) {
 		return Group({ span: span, sqt: old.body, k: old.k })
 	}
 
-	const startLine = function(pos) {
+	function startLine(pos) {
 		newLevel(pos, 'ln')
 		newLevel(pos, 'sp')
 	}
-	const endLine = function(pos) {
+	function endLine(pos) {
 		finishLevels(pos, 'sp')
 		finishLevels(pos, 'ln')
 	}
 
-	const endAndStart = function(span, k) {
+	function endAndStart(span, k) {
 		type(span, Span, k, String)
 		finishLevels(span.start, k)
 		newLevel(span.end, k)
@@ -151,5 +139,18 @@ module.exports = function group(sqL, opts) {
 	return wholeModuleBlock
 }
 
+const GroupBuilder = recordType("GroupBuilder", Object, {
+	startPos: Pos,
+	k: String,
+	body: [T]
+})
+Object.assign(GroupBuilder.prototype, {
+	add(t) {
+		type(t, T)
+		this.body.push(t)
+	}
+})
+
+
 // TODO: better names
-const showGroup = function(k) { return k }
+const showGroup = k => k

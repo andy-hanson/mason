@@ -9,26 +9,25 @@ import { head, isEmpty, last, repeat, tail } from "../U/Sq"
 import type, { isa } from "../U/type"
 import Px from "./Px"
 const
-	parseBlock_ = function() { return require("./parseBlock") },
-	parseLocals_ = function() { return require("./parseLocals").default }
+	parseBlock_ = () => require("./parseBlock"),
+	parseLocals_ = () => require("./parseLocals").default
 
 export default function parseUse(px, k) {
 	type(px, Px, k, UseKeywords)
 	const _ = parseBlock_().takeBlockLinesFromEnd(px)
-	px.check(isEmpty(_.before), function() {
-		return "Did not expect anything after " + code("use") + " other than a block"
-	})
-	return _.lines.map(function(line) { return useLine(px.w(line.sqt), k) })
+	px.check(isEmpty(_.before), () =>
+		"Did not expect anything after " + code("use") + " other than a block")
+	return _.lines.map(line => useLine(px.w(line.sqt), k))
 }
 
 // TODO:ES6 Just use module imports, no AssignDestructure needed
-const useLine = function(px, k) {
+function useLine(px, k) {
 	const tReq = head(px.sqt)
 	const _$ = parseRequire(px.wt(tReq))
 	const required = _$.required, name = _$.name
 
 	if (k === "use!") {
-		px.check(px.sqt.length === 1, function() { return "Unexpected " + px.sqt[1] })
+		px.check(px.sqt.length === 1, () => "Unexpected " + px.sqt[1])
 		return Ignore(px.s({ ignored: required }))
 	} else {
 		const isLazy = k === "use~"
@@ -41,10 +40,8 @@ const useLine = function(px, k) {
 		}))
 		const assignees = px.sqt.length === 1 ?
 			[ defaultAssignee ] :
-			parseLocals_()(px.w(tail(px.sqt))).map(function(l) {
-				const l2 = l.name === "_" ? set(l, "name", name) : l
-				return set(l2, "isLazy", isLazy)
-			})
+			parseLocals_()(px.w(tail(px.sqt))).map(l =>
+				set(l.name === "_" ? set(l, "name", name) : l, "isLazy", isLazy))
 		return AssignDestructure(px.s({
 			assignees: assignees,
 			k: "=",
@@ -55,7 +52,7 @@ const useLine = function(px, k) {
 	}
 }
 
-const parseRequire = function(px) {
+function parseRequire(px) {
 	assert(px.sqt.length === 1)
 	const t = px.sqt[0]
 	if (isa(t, Name))
@@ -71,7 +68,7 @@ const parseRequire = function(px) {
 	}
 }
 
-const parseLocalRequire = function(px) {
+function parseLocalRequire(px) {
 	const first = head(px.sqt)
 
 	let parts = []
@@ -80,7 +77,7 @@ const parseLocalRequire = function(px) {
 	else
 		check(isa(first, Name), first.span, "Not a valid part of module path")
 	parts.push(first.name)
-	tail(px.sqt).forEach(function(t) {
+	tail(px.sqt).forEach(t => {
 		check(isa(t, DotName) && t.nDots === 1, t.span, "Not a valid part of module path")
 		parts.push(t.name)
 	})

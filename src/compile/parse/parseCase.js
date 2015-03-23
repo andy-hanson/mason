@@ -7,7 +7,7 @@ import { head, isEmpty, last, rightTail, tail } from "../U/Sq"
 import { justBlock, takeBlockFromEnd, takeBlockLinesFromEnd } from "./parseBlock"
 import Px from "./Px"
 // TODO
-const parseExpr_ = function() { return require("./parseExpr").default }
+const parseExpr_ = () => require("./parseExpr").default
 
 // For "case", returns a BlockWrap.
 // For "case!", returns a Scope.
@@ -18,13 +18,13 @@ export default function parseCase(px, k, casedFromFun) {
 	const _ = takeBlockLinesFromEnd(px)
 	const before = _.before, lines = _.lines
 
-	const opAssignCased = (function() {
+	const opAssignCased = (() => {
 		if (casedFromFun) {
 			px.checkEmpty(before,
 				"Cannot give focus to case - it is the function's implicit first argument.");
 			return None
 		}
-		else return opIf(!isEmpty(before), function() {
+		else return opIf(!isEmpty(before), () => {
 			const pxBefore = px.w(before)
 			return Assign(px.s({
 				assignee: LocalDeclare.UntypedFocus(pxBefore.span),
@@ -44,7 +44,7 @@ export default function parseCase(px, k, casedFromFun) {
 		}
 	const partLines = _$.partLines, opElse = _$.opElse
 
-	const parts = partLines.map(function(line) {
+	const parts = partLines.map(line => {
 		const _ = takeBlockFromEnd(px.w(line.sqt), kBlock)
 		return CasePart({
 			span: line.span,
@@ -67,8 +67,8 @@ export default function parseCase(px, k, casedFromFun) {
 			}))
 		})) :
 		ifElse(opAssignCased,
-			function(assignCased) { return Scope(px.s({
+			assignCased => Scope(px.s({
 				lines: [ assignCased, theCase ]
-			}))},
-			function() { return theCase })
+			})),
+			() => theCase)
 }

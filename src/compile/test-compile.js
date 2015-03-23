@@ -12,7 +12,7 @@ global.DEBUG = true
 if (require.main === module) {
 	const doTime = false
 
-	const time = function(f) {
+	function time(f) {
 		if (doTime)
 			console.time(f.name)
 		const res = f.apply(null, Array.prototype.slice.call(arguments, 1))

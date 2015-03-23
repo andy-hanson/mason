@@ -4,7 +4,7 @@ import group from "./group"
 import Stream from "./Stream"
 import ungrouped from "./ungrouped"
 
-module.exports = function lex(str, opts) {
+export default function lex(str, opts) {
 	type(str, String, opts, Opts)
 	// Lexing algorithm requires trailing newline
 	str = str + "\n"

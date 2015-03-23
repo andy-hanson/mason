@@ -5,9 +5,8 @@ import compile from "./index"
 
 const Name = 'gulp-ms'
 
-module.exports = gulpMs
-function gulpMs() {
-	return obj(function(file, enc, cb) {
+export default function gulpMs() {
+	return obj((file, enc, cb) => {
 		if (file.isNull())
 			cb(null, file)
 		else if (file.isStream())
@@ -15,12 +14,10 @@ function gulpMs() {
 		else {
 			const src = file.contents.toString('utf8')
 			const outFile = replaceExtension(file.path, '.js')
-
 			const opts = {
 				inFile: file.path,
 				checks: true
 			}
-
 			try {
 				const data = compile(src, opts)
 				applySourceMap(file, data.sourceMap)

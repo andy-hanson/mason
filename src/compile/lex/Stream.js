@@ -12,9 +12,10 @@ export default function Stream(str) {
 	this.index = 0
 }
 Stream.prototype = {
-	hasNext: function() { return this.peek() !== 'EOF' },
-
-	peek: function(offset) {
+	hasNext() {
+		return this.peek() !== 'EOF'
+	},
+	peek(offset) {
 		if (offset === undefined)
 			offset = 0
 		type(offset, Number)
@@ -22,69 +23,64 @@ Stream.prototype = {
 		assert(index >= 0)
 		return index >= this.str.length ? 'EOF' : this.str.charAt(index)
 	},
-
-	tryEat: function(ch) {
+	tryEat(ch) {
 		const canEat = this.peek() === ch
 		if (canEat)
 			this.skip()
 		return canEat
 	},
-
-	hasPrev: function() { return this.index > 0 },
-
-	prev: function() { return this.str.charAt(this.index - 1) },
-
-	eat: function() {
+	hasPrev() {
+		return this.index > 0
+	},
+	prev() {
+		return this.str.charAt(this.index - 1)
+	},
+	eat() {
 		const ch = this.peek()
 		this.skip()
 		return ch
 	},
-
-	skip: function(n) {
+	skip(n) {
 		if (n === undefined) n = 1
 		type(n, Number)
 		const endIndex = this.index + n
 		for (; this.index !== endIndex; this.index = this.index + 1)
 			this.pos = this.pos.next(this.peek())
 	},
-
-	restorePoint: function() { return { index: this.index, pos: this.pos } },
-
-	restore: function(restorePoint) {
+	restorePoint() {
+		return { index: this.index, pos: this.pos }
+	},
+	restore(restorePoint) {
 		type(restorePoint.index, Number, restorePoint.pos, Pos)
 		this.index = restorePoint.index
 		this.pos = restorePoint.pos
 	},
-
 	// Call only if you know this isn't the start of a line.
-	stepBack: function() {
+	stepBack() {
 		assert(this.pos.column > 1)
 		this.index = this.index - 1
 		this.pos = set(this.pos, "column", this.pos.column - 1)
 	},
-
-	takeWhile: function(whl) {
+	takeWhile(whl) {
 		const startIndex = this.index
 		const pred = charClassPred(whl)
 		while (this.hasNext() && pred(this.peek()))
 			this.skip()
 		return this.str.slice(startIndex, this.index)
 	},
-
-	takeUpTo: function(upTo) {
+	takeUpTo(upTo) {
 		const pred = charClassPred(upTo)
-		return this.takeWhile(function(ch) { return !pred(ch) })
+		return this.takeWhile(ch =>!pred(ch))
 	}
 }
 
-const charClassPred = function(whl)
-{
+function charClassPred(whl) {
 	if (typeof whl === "string") {
 		assert(whl.length === 1)
-		return function(ch) { return ch === whl }
+		return ch => ch === whl
 	}
 	if (whl instanceof RegExp)
-		return function(ch) { return whl.test(ch) }
+		return ch => whl.test(ch)
 	type(whl, Function)
 	return whl
 }

@@ -8,11 +8,7 @@ import { head, isEmpty, tail } from "../U/Sq"
 import type, { isa } from "../U/type"
 import parseSpaced from "./parseSpaced"
 
-export default function parseLocals(px) {
-	return px.sqt.map(function(t) {
-		return parseLocal(px.wt(t))
-	})
-}
+export default px => px.sqt.map(t => parseLocal(px.wt(t)))
 
 export function parseLocal(px) {
 	let name
@@ -33,10 +29,8 @@ export function parseLocal(px) {
 		const rest2 = tail(rest)
 		if (!isEmpty(rest2)) {
 			const colon = head(rest2)
-			check(Keyword.is(":")(colon), colon.span, function() {
-				return "Expected " + code(":")
-			})
-			px.check(rest2.length > 1, function() { return "Expected something after " + colon })
+			check(Keyword.is(":")(colon), colon.span, () => "Expected " + code(":"))
+			px.check(rest2.length > 1, () => "Expected something after " + colon)
 			const sqtType = tail(rest2)
 			opType = some(parseSpaced(px.w(sqtType)))
 		}
@@ -47,11 +41,11 @@ export function parseLocal(px) {
 	return LocalDeclare(px.s({ name: name, opType: opType, isLazy: isLazy, okToNotUse: false }))
 }
 
-const parseLocalName = function(t) {
+function parseLocalName(t) {
 	if (Keyword.is("_")(t))
 		return "_"
 	else {
-		check(isa(t, Name), t.span, function() { return "Expected a local name, not " + t })
+		check(isa(t, Name), t.span, () => "Expected a local name, not " + t)
 		return t.name
 	}
 }

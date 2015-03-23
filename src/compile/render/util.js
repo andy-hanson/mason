@@ -14,9 +14,7 @@ export function r(rx, othArg) {
 	return e => renderExpr(e, rx, othArg)
 }
 
-export function accessLocal(name, isLazy) {
-	return accessMangledLocal(mangle(name), isLazy)
-}
+export const accessLocal = (name, isLazy) => accessMangledLocal(mangle(name), isLazy)
 
 export function accessMangledLocal(mangledName, isLazy) {
 	type(mangledName, String, isLazy, Boolean)
@@ -28,16 +26,16 @@ export function commad(rx, parts) {
 	return interleave(parts.map(r(rx)), ", ")
 }
 
-export function lazyWrap(value) { return [
+export const lazyWrap = value => [
 	"_ms.lazy(function() { return ",
 	value,
 	"; })"
-]}
+]
 
 export function makeAssign(rx, span, assignee, k, value) {
 	type(rx, Rx, span, Span, assignee, E, k, KAssign, value, E)
 	const to = r(rx)(assignee)
-	const doAssign = (function() { switch (k) {
+	const doAssign = (() => { switch (k) {
 		case "=": case ". ": case "<~": case "<~~":
 			if (assignee.isLazy) {
 				// For a lazy value, type checking is not done until after it is generated.
@@ -72,10 +70,10 @@ export function makeAssign(rx, span, assignee, k, value) {
 			return [ "const ", to, " = exports", makeMember(assignee.name), " = ", r(rx)(value) ]
 			// return [ "export const ", to, " = ", jValue ]; TODO:ES6
 		default: throw new Error(k)
-	} })()
+	}})()
 	return [
 		doAssign,
-		opLocalCheck(rx, assignee, k === "~=").map(function(lc) { return [ rx.snl(), lc ] })
+		opLocalCheck(rx, assignee, k === "~=").map(lc => [ rx.snl(), lc ])
 	]
 }
 
@@ -89,7 +87,7 @@ export function opLocalCheck(rx, local, isLazy) {
 	if (!rx.opts.includeTypeChecks())
 		return []
 	// TODO: Way to typecheck lazies
-	return isLazy ? None : local.opType.map(function(typ) { return [
+	return isLazy ? None : local.opType.map(typ => [
 		"_ms.checkContains(",
 		r(rx)(typ),
 		", ",
@@ -97,5 +95,5 @@ export function opLocalCheck(rx, local, isLazy) {
 		", \"",
 		local.name,
 		"\")"
-	]})
+	])
 }

@@ -6,8 +6,8 @@ import { head, tail } from "../U/Sq"
 import type, { isa } from "../U/type"
 import Px from "./Px"
 const
-	parseSingle_ = function() { return require("./parseSingle") },
-	parseExpr_ = function() { return require("./parseExpr") }
+	parseSingle_ = () => require("./parseSingle"),
+	parseExpr_ = () => require("./parseExpr")
 
 export default function parseSpaced(px) {
 	type(px, Px)
@@ -22,7 +22,7 @@ export default function parseSpaced(px) {
 		case Keyword.is("~")(h):
 			return Lazy({ span: h.span, value: parseSpaced(px.w(rest)) })
 		default: {
-			const memberOrSubscript = function(px) { return function(e, t) {
+			const memberOrSubscript = px => (e, t) => {
 				const span = t.span
 				if (isa(t, DotName))
 					switch (t.nDots) {
@@ -44,7 +44,7 @@ export default function parseSpaced(px) {
 						args: []
 					})
 				fail(span, "Expected member or sub, not " + t)
-			} }
+			}
 			return rest.reduce(memberOrSubscript(px), parseSingle_()(px.wt(h)))
 		}
 	}

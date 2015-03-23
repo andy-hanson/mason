@@ -9,7 +9,7 @@ import { head, isEmpty, last, rightTail, tail } from "../U/Sq"
 import type, { isa } from "../U/type"
 import Px from "./Px"
 // TODO
-const parseLine_ = function() { return require("./parseLine") }
+const parseLine_ = () => require("./parseLine")
 
 const KParseBlock = new Set(["any", "do", "val", "module"])
 
@@ -23,7 +23,7 @@ export function parseModule(px, moduleName) {
 	const mod = parseBody(px, "module")
 	const b = mod.body
 	// TODO: This also means no module is allowed to be called `displayName`.
-	b.lines.forEach(function(line) {
+	b.lines.forEach(line => {
 		if (isa(line, Assign) && line.k === "export")
 			px.check(line.assignee.name !== "displayName",
 				"Module can not choose its own displayName.")
@@ -65,7 +65,7 @@ export function takeBlockLinesFromEnd(px) {
 	return { before: rightTail(px.sqt), lines: l.sqt }
 }
 
-const parseBody = function(px, k) {
+function parseBody(px, k) {
 	type(px, Px, k, KParseBlock)
 	const _ = tryTakeInOut(px)
 	const opIn = _.opIn, opOut = _.opOut, restLines = _.rest
@@ -77,11 +77,11 @@ const parseBody = function(px, k) {
 	const eLines = []
 	function addLine(ln, inDebug) {
 		if (ln instanceof Array) {
-			ln.forEach(function(_) { addLine(_, inDebug) })
+			ln.forEach(_ => addLine(_, inDebug))
 			return
 		}
 		if (ln instanceof Debug)
-			ln.lines.forEach(function(_) { addLine(_, true) })
+			ln.lines.forEach(_ => addLine(_, true))
 		else if (isa(ln, ListEntry)) {
 			assert(!inDebug, "Not supported: debug list entries")
 			// When ListEntries are first created they have no index.
@@ -102,9 +102,7 @@ const parseBody = function(px, k) {
 			eLines.push(ln)
 		// Else we are adding the Debug as a single line.
 	}
-	restLines.forEach(function(line) {
-		addLine(parseLine_().default(px.w(line.sqt), listLength))
-	})
+	restLines.forEach(line => addLine(parseLine_().default(px.w(line.sqt), listLength)))
 
 	// TODO
 	// if (isEmpty(dictKeys))
@@ -118,7 +116,7 @@ const parseBody = function(px, k) {
 
 	const isModule = k === "module"
 
-	const doLinesOpReturn = (function() {
+	const doLinesOpReturn = (() => {
 		if (k === "do") {
 			px.check(!isDict, "Can't make dict in statement context")
 			px.check(!isList, "Can't make list in statement context")
@@ -175,13 +173,9 @@ const parseBody = function(px, k) {
 		// TODO: Handle debug-only exports
 		const moduleLines =
 			// Turn dict assigns into exports.
-			doLines.map(function(line) {
-				return isa(line, Assign) && line.k === ". " ?
-					set(line, "k", "export") :
-					line
-			}).concat(opReturn.map(function(ret) {
-				return ModuleDefaultExport({ span: ret.span, value: ret })
-			}))
+			doLines.map(line =>
+				isa(line, Assign) && line.k === ". " ? 	set(line, "k", "export") : line
+			).concat(opReturn.map(ret => ModuleDefaultExport({ span: ret.span, value: ret })))
 
 		const body = BlockBody(px.s({
 			lines: moduleLines,
@@ -195,8 +189,8 @@ const parseBody = function(px, k) {
 		return BlockBody(px.s({ lines: doLines, opReturn: opReturn, opIn: opIn, opOut: opOut }))
 }
 
-const tryTakeInOut = function(px) {
-	const tryTakeInOrOut = function(lines, inOrOut) {
+function tryTakeInOut(px) {
+	function tryTakeInOrOut(lines, inOrOut) {
 		if (!isEmpty(lines)) {
 			const firstLine = head(lines)
 			const sqtFirst = firstLine.sqt

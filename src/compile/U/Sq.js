@@ -65,17 +65,11 @@ export function interleave(sq, interleaved) {
 export function interleavePlus(sq, interleaved) {
 	type(sq, Array, interleaved, Object)
 	const out = []
-	sq.forEach(function(x) {
-		out.push(x)
+	sq.forEach(_ => {
+		out.push(_)
 		out.push(interleaved)
 	})
 	return out
-}
-
-// TODO: Difference from flatMap?
-export function mpf(sq, f) {
-	type(sq, Array, f, Function)
-	return Array.prototype.concat.apply([], sq.map(f))
 }
 
 export function contains(sq, em) {
@@ -124,9 +118,5 @@ export function range(min, max) {
 
 export function flatMap(mapped, mapper) {
 	type(mapped, Array, mapper, Function)
-	const out = []
-	mapped.forEach(function(_) {
-		out.push.apply(out, mapper(_))
-	})
-	return out
+	return Array.prototype.concat.apply([], mapped.map(mapper))
 }

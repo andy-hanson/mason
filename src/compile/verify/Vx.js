@@ -41,54 +41,54 @@ export function vxStart(opts) {
 }
 
 Object.assign(Vx.prototype, {
-	allLocalNames: function() {
+	allLocalNames() {
 		return this.locals.keys()
 	},
-	hasLoop: function(name) {
+	hasLoop(name) {
 		type(name, String)
 		return this.loopNames.has(name)
 	},
-	inGenerator: function() {
+	inGenerator() {
 		return set(this, "isInGenerator", true)
 	},
-	notInGenerator: function() {
+	notInGenerator() {
 		return set(this, "isInGenerator", false)
 	},
-	opGetLocal: function(name) {
+	opGetLocal(name) {
 		type(name, String)
 		const locals = this.locals
-		return opIf(locals.has(name), function() { return locals.get(name) })
+		return opIf(locals.has(name), () => locals.get(name))
 	},
-	plusLocals: function(addedLocals) {
+	plusLocals(addedLocals) {
 		type(addedLocals, [LocalDeclare])
 		const newLocals = new Map(this.locals)
-		addedLocals.forEach(function(l) { newLocals.set(l.name, l) })
+		addedLocals.forEach(l => newLocals.set(l.name, l))
 		return set(this, "locals", newLocals)
 	},
-	plusLoop: function(name) {
+	plusLoop(name) {
 		type(name, String)
 		const newNames = new Set(this.loopNames)
 		newNames.add(name)
 		return set(this, "loopNames", newNames)
 	},
-	setAccessToLocal: function(access, local) {
+	setAccessToLocal(access, local) {
 		this.vr.accessToLocal.set(access, local)
 		const info = this.vr.localToInfo.get(local)
 		const accesses = this.isInDebug ? info.debugAccesses : info.nonDebugAccesses
 		accesses.push(access)
 	},
 	// TODO: Better name
-	setEIsInGenerator: function(e) {
+	setEIsInGenerator(e) {
 		this.vr.setEIsInGenerator(e, this.isInGenerator)
 	},
-	withDebug: function() { return set(this, "isInDebug", true) },
-	withFocus: function(span) {
+	withDebug() { return set(this, "isInDebug", true) },
+	withFocus(span) {
 		// TODO: Bad idea to be creating new E at this point...
 		const utf = set(LocalDeclare.UntypedFocus(span), "okToNotUse", true)
 		this.registerLocal(utf)
 		return this.plusLocals([utf])
 	},
-	withRes: function(span) {
+	withRes(span) {
 		// TODO: Bad idea to be creating new E at this point...
 		const res = LocalDeclare({
 			span: span,
@@ -101,11 +101,10 @@ Object.assign(Vx.prototype, {
 		return this.plusLocals([res])
 	},
 	// TODO
-	withBlockLocals: function() {
+	withBlockLocals() {
 		return set(this.plusLocals(this.pendingBlockLocals), "pendingBlockLocals", [])
 	},
-
-	registerLocal: function(local) {
+	registerLocal(local) {
 		assert(!this.vr.localToInfo.has(local))
 		this.vr.localToInfo.set(local, VrLocalInfo({
 			isInDebug: this.isInDebug,

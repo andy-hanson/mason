@@ -22,7 +22,7 @@ export function set(obj, replacedName, replacedVal) {
 	assert(Object.prototype.hasOwnProperty.call(obj, replacedName))
 	const nu = Object.create(Object.getPrototypeOf(obj))
 	let didReplace = false
-	Object.getOwnPropertyNames(obj).forEach(function(name) {
+	Object.getOwnPropertyNames(obj).forEach(name => {
 		if (name === replacedName) {
 			assert(!didReplace)
 			nu[name] = replacedVal
@@ -42,7 +42,7 @@ export function trimRight(str) {
 }
 
 export function implementMany(holder, methodName, dict) {
-	Object.keys(dict).forEach(function(name) {
+	Object.keys(dict).forEach(name => {
 		// TODO:ES6 spread
 		holder[name].prototype[methodName] = function() {
 			return dict[name].apply(null, [this].concat(Array.prototype.slice.call(arguments, 0)))
@@ -51,8 +51,7 @@ export function implementMany(holder, methodName, dict) {
 }
 
 export function implementMany2(holder, methodName, pairs) {
-	pairs.forEach(function(pair) {
-		const [ type, impl ] = pair
+	pairs.forEach(([ type, impl ]) => {
 		// TODO:ES6 spread
 		type.prototype[methodName] = function() {
 			return impl.apply(null, [this].concat(Array.prototype.slice.call(arguments, 0)))

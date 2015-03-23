@@ -7,8 +7,8 @@ import parseSpaced from "./parseSpaced"
 import Px from "./Px"
 // TODO
 const
-	parseBlock_ = function() { return require("./parseBlock") },
-	parseExpr_ = function() { return require("./parseExpr") }
+	parseBlock_ = () => require("./parseBlock"),
+	parseExpr_ = () => require("./parseExpr")
 
 export default function parseSingle(px) {
 	type(px, Px)
@@ -38,7 +38,7 @@ export default function parseSingle(px) {
 			return parseBlock_().wrap(px.w(t.sqt), "val")
 		case Group.is('"')(t):
 			return Quote(px.s({
-				parts: t.sqt.map(function(tSub) { return parseSingle(px.wt(tSub)) })
+				parts: t.sqt.map(tSub => parseSingle(px.wt(tSub)))
 			}))
 		case Group.is('(')(t):
 			return parseExpr_().default(px.w(t.sqt))

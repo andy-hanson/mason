@@ -5,14 +5,14 @@ import type, { isa } from "../U/type"
 import { code, set } from "../U"
 import { v } from "./util"
 
-module.exports = function verifyLines(vx, lines) {
+export default function verifyLines(vx, lines) {
 	const lineToLocals = new Map()
 	let prevLocals = []
 	let allNewLocals = []
 
-	const processLine = function(inDebug) {
+	function processLine(inDebug) {
 		type(inDebug, Boolean)
-		return function(line) {
+		return line => {
 			if (isa(line, Scope)) {
 				const localsBefore = prevLocals
 				line.lines.forEach(processLine(inDebug))
@@ -25,17 +25,13 @@ module.exports = function verifyLines(vx, lines) {
 			else {
 				verifyIsStatement(line)
 				const lineNews = lineNewLocals(line)
-				prevLocals.forEach(function(prevLocal) {
-					lineNews.forEach(function(newLocal) {
+				prevLocals.forEach(prevLocal =>
+					lineNews.forEach(newLocal =>
 						check(prevLocal.name !== newLocal.name, newLocal.span,
 							code(newLocal.name) +
 							" already declared in same block at " +
-							prevLocal.span.start)
-					})
-				})
-				lineNews.forEach(function(_) {
-					set(vx, "isInDebug", inDebug).registerLocal(_)
-				})
+							prevLocal.span.start)))
+				lineNews.forEach(_ => set(vx, "isInDebug", inDebug).registerLocal(_))
 				const newLocals = prevLocals.concat(lineNews)
 				lineToLocals.set(line, prevLocals)
 				prevLocals = newLocals
@@ -47,9 +43,9 @@ module.exports = function verifyLines(vx, lines) {
 
 	lines.forEach(processLine(vx.isInDebug))
 
-	const verifyLine = function(inDebug) {
+	function verifyLine(inDebug) {
 		type(inDebug, Boolean)
-		return function(line) {
+		return line => {
 			if (isa(line, Scope))
 				line.lines.forEach(verifyLine(inDebug))
 			else if (isa(line, Debug))
@@ -70,7 +66,7 @@ module.exports = function verifyLines(vx, lines) {
 }
 
 // TODO: Clean up
-const verifyIsStatement = function(line) {
+function verifyIsStatement(line) {
 	switch (true) {
 		case isa(line, Do):
 		// Some Vals are also conceptually Dos, but this was easier than multiple inheritance.
@@ -86,7 +82,7 @@ const verifyIsStatement = function(line) {
 	}
 }
 
-const lineNewLocals = function(line) {
+function lineNewLocals(line) {
 	type(line, E)
 	return isa(line, Assign) ?
 		[ line.assignee ] :

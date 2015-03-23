@@ -6,14 +6,13 @@ import { recordType } from "./U/types"
 export const Pos = recordType("Pos", Object, { line: Number, column: Number })
 export const StartPos = Pos({ line: 1, column: 1 })
 Object.assign(Pos.prototype, {
-	next: function(ch) {
+	next(ch) {
 		type(ch, String)
 		return ch === '\n' ?
 			Pos({ line: this.line + 1, column: 1}) :
 			Pos({ line: this.line, column: this.column + 1})
 	},
-
-	toString: function() {
+	toString() {
 		return chalk.bold.red(this.line + ":" + this.column)
 	}
 })
@@ -21,7 +20,7 @@ Object.assign(Pos.prototype, {
 const Span = recordType("Span", Object, { start: Pos, end: Pos })
 export default Span
 Object.assign(Span.prototype, {
-	toString: function() {
+	toString() {
 		return this.start + "-" + this.end
 	}
 })

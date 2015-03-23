@@ -30,15 +30,13 @@ export const LocalDeclare = spanType("LocalDeclare", E, {
 	isLazy: Boolean,
 	okToNotUse: Boolean
 })
-LocalDeclare.UntypedFocus = function(span) {
-	return LocalDeclare({
-		span: span,
-		name: "_",
-		opType: None,
-		isLazy: false,
-		okToNotUse: false
-	})
-}
+LocalDeclare.UntypedFocus = span => LocalDeclare({
+	span: span,
+	name: "_",
+	opType: None,
+	isLazy: false,
+	okToNotUse: false
+})
 
 export const CasePart = spanType("CasePart", E, {
 	test: Val,
@@ -102,7 +100,7 @@ export const ListSimple = ev("ListSimple", { parts: [Val] })
 export const ELiteral = ev("Literal", { value: String, k: new Set([Number, String, "js"]) })
 
 export const LocalAccess = ev("LocalAcecss", { name: String })
-LocalAccess.focus = function(span) { return LocalAccess({ span: span, name: "_" }) }
+LocalAccess.focus = span => LocalAccess({ span: span, name: "_" })
 
 export const MapReturn = ev("Map", { length: Number })
 

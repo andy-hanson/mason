@@ -14,22 +14,26 @@ function t(name, props) {
 export const CallOnFocus = t("CallOnFocus", { name: String })
 export const DotName = t("DotName", { nDots: Number, name: String })
 export const Group = t("Group", { sqt: [T], k: String })
-Group.is = function(k) {
-	return function(t) {
-		type(t, T, k, GroupKinds)
-		return isa(t, Group) && t.k === k
-	}
+Group.is = k => t => {
+	type(t, T, k, GroupKinds)
+	return isa(t, Group) && t.k === k
 }
 export const Keyword = t("Keyword", { k: AllKeywords })
-Keyword.is = function(k) {
-	return function(t) {
-		type(t, T)
-		if (k instanceof Set)
+Keyword.is = k => {
+	if (k instanceof Set)
+		return t => {
+			type(t, T)
 			return isa(t, Keyword) && k.has(t.k)
+		}
+	else {
 		type(k, AllKeywords)
-		return isa(t, Keyword) && t.k === k
+		return t => {
+			type(t, T)
+			return isa(t, Keyword) && t.k === k
+		}
 	}
 }
+
 export const Literal = t("Literal", { value: String, k: new Set([Number, String, "js"]) })
 export const Name = t("Name", { name: String })
 
@@ -42,5 +46,8 @@ implementMany2(T, "show", [
 	[Literal, _ => _.value],
 	[Name, _ => _.name]
 ])
-
-T.prototype.toString = function() { return code(this.show()) }
+Object.assign(T.prototype, {
+	toString() {
+		return code(this.show())
+	}
+})

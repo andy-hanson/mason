@@ -11,13 +11,13 @@ import parseLocals from "./parseLocals"
 import parseSpaced from "./parseSpaced"
 import Px from "./Px"
 // TODO
-const parseBlock_ = function() { return require("./parseBlock") }
+const parseBlock_ = () => require("./parseBlock")
 
 export default function parseFun(px, k) {
 	type(px, Px, k, KFun)
 
 	// Look for return type at the beginning
-	let _ = (function() {
+	let _ = (() => {
 		if (!isEmpty(px.sqt)) {
 			const h = head(px.sqt)
 			if (Group.is('sp')(h) && Keyword.is(":")(head(h.sqt)))
@@ -30,12 +30,10 @@ export default function parseFun(px, k) {
 	})()
 	const opReturnType = _.opType, rest = _.rest
 
-	px.check(!isEmpty(rest), function() {
-		return "Expected an indented block after " + code(k)
-	})
+	px.check(!isEmpty(rest), () => "Expected an indented block after " + code(k))
 	const h = head(rest)
 
-	_ = (function() {
+	_ = (() => {
 		if (Keyword.is(CaseKeywords)(h)) {
 			const eCase = parseCase(px.w(tail(rest)), h.k, true)
 			return {
@@ -44,15 +42,14 @@ export default function parseFun(px, k) {
 				body: BlockBody(px.s({
 					opIn: None,
 					lines: h.k === "case" ? [] : [eCase],
-					opReturn: opIf(h.k === "case", function() { return eCase }),
+					opReturn: opIf(h.k === "case", () => eCase),
 					opOut: None
 				}))
 			}
 		}
 		// Might be curried.
-		else return ifElse(opSplitOnceWhere(px.sqt,
-			function(t) { return Keyword.is("|")(t) }),
-			function(_) {
+		else return ifElse(opSplitOnceWhere(px.sqt, t => Keyword.is("|")(t)),
+			_ => {
 				const _$ = parseFunLocals(px.w(_.before))
 				const pxAfter = px.w(_.after)
 				return {
@@ -66,7 +63,7 @@ export default function parseFun(px, k) {
 					}))
 				}
 			},
-			function() {
+			() => {
 				const _$ = parseBlock_().takeBlockFromEnd(px.w(rest), "any")
 				const _$2 = parseFunLocals(px.w(_$.before))
 				return {
@@ -86,7 +83,7 @@ export default function parseFun(px, k) {
 	}))
 }
 
-const parseFunLocals = function(px) {
+function parseFunLocals(px) {
 	if (isEmpty(px.sqt))
 		return {
 			args: [],
