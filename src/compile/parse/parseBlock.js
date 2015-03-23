@@ -1,7 +1,7 @@
 import assert from "assert"
 import check from "../check"
 import { Assign, BlockBody, BlockWrap, Debug, DictReturn, ListEntry, ListReturn,
-	ELiteral, LocalDeclare, Map, MapEntry, Module, ModuleDefaultExport, Val } from "../E"
+	ELiteral, LocalDeclare, MapReturn, MapEntry, Module, ModuleDefaultExport, Val } from "../E"
 import { Group, Keyword } from "../T"
 import { set } from "../U"
 import { None, some } from "../U/Op"
@@ -133,7 +133,7 @@ const parseBody = function(px, k) {
 		if (isMap)
 			return {
 				doLines: eLines,
-				opReturn: some(Map(px.s({ length: mapLength })))
+				opReturn: some(MapReturn(px.s({ length: mapLength })))
 			}
 
 		const lastReturn = !isEmpty(eLines) && isa(last(eLines), Val)

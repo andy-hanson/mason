@@ -28,14 +28,13 @@ export function rightTail(sq) {
 
 export function opSplitOnceWhere(sq, splitOn) {
 	type(sq, Array, splitOn, Function)
-	for (let i = 0; i < sq.length; i = i + 1) {
+	for (let i = 0; i < sq.length; i = i + 1)
 		if (splitOn(sq[i]))
 			return some({
 				before: sq.slice(0, i),
 				at: sq[i],
 				after: sq.slice(i + 1)
 			})
-	}
 	return None
 }
 

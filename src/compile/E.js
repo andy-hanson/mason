@@ -104,8 +104,7 @@ export const ELiteral = ev("Literal", { value: String, k: new Set([Number, Strin
 export const LocalAccess = ev("LocalAcecss", { name: String })
 LocalAccess.focus = function(span) { return LocalAccess({ span: span, name: "_" }) }
 
-// TODO: MapReturn might be a better name.
-export const Map = ev("Map", { length: Number })
+export const MapReturn = ev("Map", { length: Number })
 
 export const Member = ev("Member", { object: Val, name: String })
 

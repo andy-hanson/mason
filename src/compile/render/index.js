@@ -259,7 +259,7 @@ implementMany(EExports, "renderContent", {
 		rx.nl(),
 		"}"
 	],
-	Map: _ => [
+	MapReturn: _ => [
 		"_ms.map(",
 		interleave(
 			range(0, _.length).map(function(i) { return [

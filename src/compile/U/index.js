@@ -43,8 +43,9 @@ export function trimRight(str) {
 
 export function implementMany(holder, methodName, dict) {
 	Object.keys(dict).forEach(function(name) {
-		holder[name].prototype[methodName] = function(...args) {
-			return dict[name](this, ...args)
+		// TODO:ES6 spread
+		holder[name].prototype[methodName] = function() {
+			return dict[name].apply(null, [this].concat(Array.prototype.slice.call(arguments, 0)))
 		}
 	})
 }
@@ -52,8 +53,9 @@ export function implementMany(holder, methodName, dict) {
 export function implementMany2(holder, methodName, pairs) {
 	pairs.forEach(function(pair) {
 		const [ type, impl ] = pair
-		type.prototype[methodName] = function(...args) {
-			return impl(this, ...args)
+		// TODO:ES6 spread
+		type.prototype[methodName] = function() {
+			return impl.apply(null, [this].concat(Array.prototype.slice.call(arguments, 0)))
 		}
 	})
 }

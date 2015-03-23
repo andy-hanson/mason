@@ -2,7 +2,7 @@ import { AllKeywords, GroupKinds, GroupOpenToClose } from "./Lang"
 import { spanType } from "./Span"
 import type, { isa } from "./U/type"
 import { abstractType } from "./U/types"
-import { implementMany2 } from "./U"
+import { code, implementMany2 } from "./U"
 
 const T = abstractType("T", Object)
 export default T
@@ -43,4 +43,4 @@ implementMany2(T, "show", [
 	[Name, _ => _.name]
 ])
 
-T.prototype.toString = function() { return U.code(this.show()) }
+T.prototype.toString = function() { return code(this.show()) }

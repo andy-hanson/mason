@@ -120,7 +120,7 @@ implementMany(EExports, "verify", {
 	ListEntry: (_, vx) => { v(vx)(_.value) },
 	ListSimple: (_, vx) => { _.parts.map(v(vx)) },
 	ELiteral: (_, vx) => { warnIf(vx.opts, _.k === 'js', _.span, "Js literal") },
-	Map: ignore,
+	MapReturn: ignore,
 	Member: (_, vx) => { v(vx)(_.object) },
 	Module: (_, vx) => { v(vx)(_.body) },
 	ModuleDefaultExport: (_, vx) => { v(vx)(_.value) },
