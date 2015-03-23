@@ -1,10 +1,10 @@
 import assert from "assert"
 import check from "../check"
-import { LocalDeclare } from "../E"
-import { Group, Keyword, Name } from "../T"
+import { LocalDeclare } from "../Expression"
+import { Group, Keyword, Name } from "../Token"
 import { code } from "../U"
 import { None, some } from "../U/Op"
-import { head, isEmpty, tail } from "../U/Sq"
+import { head, isEmpty, tail } from "../U/Bag"
 import type, { isa } from "../U/type"
 import parseSpaced from "./parseSpaced"
 

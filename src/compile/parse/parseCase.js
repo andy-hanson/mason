@@ -1,9 +1,10 @@
-import { Assign, BlockBody, BlockWrap, CaseDo, CasePart, CaseVal, LocalDeclare, Scope } from "../E"
+import { Assign, BlockBody, BlockWrap, CaseDo,
+	CasePart, CaseVal, LocalDeclare, Scope } from "../Expression"
 import { CaseKeywords } from "../Lang"
-import { Keyword } from "../T"
+import { Keyword } from "../Token"
 import { ifElse, None, opIf, some } from "../U/Op"
 import type from "../U/type"
-import { head, isEmpty, last, rightTail, tail } from "../U/Sq"
+import { head, isEmpty, last, rtail, tail } from "../U/Bag"
 import { justBlock, takeBlockFromEnd, takeBlockLinesFromEnd } from "./parseBlock"
 import Px from "./Px"
 // TODO
@@ -36,7 +37,7 @@ export default function parseCase(px, k, casedFromFun) {
 
 	const l = last(lines)
 	const _$ = Keyword.is("else")(head(l.sqt)) ? {
-			partLines: rightTail(lines),
+			partLines: rtail(lines),
 			opElse: some(justBlock(px.w(tail(l.sqt)), kBlock))
 		} : {
 			partLines: lines,

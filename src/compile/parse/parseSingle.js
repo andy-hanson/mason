@@ -1,6 +1,7 @@
 import assert from "assert"
-import { Call, ListSimple, ELiteral, LocalAccess, Quote, SpecialKeyword, Splat, This } from "../E"
-import { CallOnFocus, DotName, Group, Keyword, Literal, Name } from "../T"
+import { Call, ListSimple, ELiteral, LocalAccess,
+	Quote, SpecialKeyword, Splat, This } from "../Expression"
+import { CallOnFocus, DotName, Group, Keyword, Literal, Name } from "../Token"
 import { SpecialKeywords } from "../Lang"
 import type, { isa } from "../U/type"
 import parseSpaced from "./parseSpaced"

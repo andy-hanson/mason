@@ -1,10 +1,10 @@
 import Opts from "../Opts"
 import { set } from "../U"
-import { recordType } from "../U/types"
+import { ObjType } from "../U/types"
 import Vr from "../Vr"
 
 // Context used while rendering.
-const Rx = recordType("Rx", Object, {
+const Rx = ObjType("Rx", Object, {
 	// Made entirely out of \t
 	indent: String,
 	opts: Opts,

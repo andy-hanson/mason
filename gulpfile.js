@@ -4,7 +4,6 @@ var
 	babel = require('gulp-babel'),
 	del = require('del'),
 	gulp = require('gulp'),
-	header = require('gulp-header'),
 	sourcemaps = require('gulp-sourcemaps'),
 	watch = require('gulp-watch')
 
@@ -38,10 +37,10 @@ function pipeJs(stream) {
 			'es6.parameters.rest',
 			'es6.spread',
 			'es6.properties.shorthand',
-			'es6.templateLiterals'
+			'es6.templateLiterals',
+			'strict'
 		]
 	}))
-	.pipe(header("'use strict'; "))
 	.pipe(sourcemaps.write('.', {
 		debug: true,
 		sourceRoot: '/src'
@@ -75,4 +74,5 @@ gulp.task('lint', function() {
 	.pipe(eslint.failOnError())
 })
 
-gulp.task('default', [ 'lint', 'watch' ])
+// TODO: 'lint'
+gulp.task('default', [ 'watch' ])

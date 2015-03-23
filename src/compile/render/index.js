@@ -1,11 +1,11 @@
 import { SourceNode } from "source-map"
 import assert from "assert"
 import check, { fail } from "../check"
-import E, * as EExports from "../E"
+import Expression, * as EExports from "../Expression"
 import Opts from "../Opts"
 import { implementMany } from "../U"
 import { ifElse, some } from "../U/Op"
-import { cons, flatMap, interleave, interleavePlus, isEmpty, range, rcons } from "../U/Sq"
+import { cons, flatMap, interleave, interleavePlus, isEmpty, range, rcons } from "../U/Bag"
 import type, { isa } from "../U/type"
 import Vr from "../Vr"
 import mangle, { quote } from "./mangle"
@@ -14,12 +14,12 @@ import { accessLocal, accessMangledLocal, commad, lazyWrap,
 	makeMember, makeAssign, opLocalCheck, r } from "./util"
 
 export default function render(e, opts, vr) {
-	type(e, E, opts, Opts, vr, Vr)
+	type(e, Expression, opts, Opts, vr, Vr)
 	return r(Rx({ indent: "", opts: opts, vr: vr }))(e)
 }
 
 export function renderExpr(_, rx, arg) {
-	// Some E_s pass an arg to their child
+	// Some Expressions pass an arg to their child
 	type(rx, Rx)
 	const content = _.renderContent(rx, arg)
 	const line = _.span.start.line

@@ -3,10 +3,10 @@ import check, { fail } from "../check"
 import { GroupOpenToClose } from "../Lang"
 import Opts from "../Opts"
 import Span, { Pos, StartPos } from "../Span"
-import T, { Group, Keyword } from "../T"
-import { isEmpty, last } from "../U/Sq"
+import Token, { Group, Keyword } from "../Token"
+import { isEmpty, last } from "../U/Bag"
 import type, { isa } from "../U/type"
-import { recordType } from "../U/types"
+import { ObjType } from "../U/types"
 import GroupPre from "./GroupPre"
 
 export default function group(sqL, opts) {
@@ -87,7 +87,7 @@ export default function group(sqL, opts) {
 
 	let endSpan = Span({ start: StartPos, end: StartPos })
 	for (let l of sqL) {
-		if (isa(l, T)) {
+		if (isa(l, Token)) {
 			cur().add(l)
 			continue
 		}
@@ -139,18 +139,17 @@ export default function group(sqL, opts) {
 	return wholeModuleBlock
 }
 
-const GroupBuilder = recordType("GroupBuilder", Object, {
+const GroupBuilder = ObjType("GroupBuilder", Object, {
 	startPos: Pos,
 	k: String,
-	body: [T]
+	body: [Token]
 })
 Object.assign(GroupBuilder.prototype, {
 	add(t) {
-		type(t, T)
+		type(t, Token)
 		this.body.push(t)
 	}
 })
-
 
 // TODO: better names
 const showGroup = k => k

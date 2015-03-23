@@ -1,11 +1,11 @@
 import assert from "assert"
-import { Assign, BlockBody, BlockWrap, Call, DictReturn, Null, Yield, YieldTo } from "../E"
-import { Keyword } from "../T"
+import { Assign, BlockBody, BlockWrap, Call, DictReturn, Null, Yield, YieldTo } from "../Expression"
+import { Keyword } from "../Token"
 import type from "../U/type"
 import { set } from "../U"
 import { GeneratorKeywords, KFun } from "../Lang"
 import { ifElse } from "../U/Op"
-import { cons, head, isEmpty, last, opSplitManyWhere, rightTail, tail } from "../U/Sq"
+import { cons, head, isEmpty, last, opSplitManyWhere, rtail, tail } from "../U/Bag"
 import parseCase from "./parseCase"
 import { parseLocal } from "./parseLocals"
 import parseSingle from "./parseSingle"
@@ -18,7 +18,7 @@ export default function parseExpr(px) {
 		splits => {
 			// Short object form, such as (a. 1, b. 2)
 			const first = splits[0].before
-			const sqtCaller = rightTail(first)
+			const sqtCaller = rtail(first)
 
 			const keys = []
 			const lines = []
@@ -29,7 +29,7 @@ export default function parseExpr(px) {
 				keys.push(local)
 				const sqtValue = i === splits.length - 2 ?
 					splits[i + 1].before :
-					rightTail(splits[i + 1].before)
+					rtail(splits[i + 1].before)
 				const value = parseExprPlain(px.w(sqtValue))
 				lines.push(Assign({
 					// TODO: Include name span

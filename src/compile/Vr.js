@@ -1,10 +1,10 @@
 import assert from "assert"
-import E, { BlockWrap, CaseVal, LocalAccess } from "./E"
-import { isEmpty } from "./U/Sq"
+import Expression, { BlockWrap, CaseVal, LocalAccess } from "./Expression"
+import { isEmpty } from "./U/Bag"
 import type, { isa } from "./U/type"
-import { recordType } from "./U/types"
+import { ObjType } from "./U/types"
 
-const Vr = recordType("Vr", Object, {
+const Vr = ObjType("Vr", Object, {
 	accessToLocal: Map,
 	// LocalDeclare -> LocalInfo
 	localToInfo: Map,
@@ -12,7 +12,7 @@ const Vr = recordType("Vr", Object, {
 })
 export default Vr
 
-export const VrLocalInfo = recordType("LocalInfo", Object, {
+export const VrLocalInfo = ObjType("LocalInfo", Object, {
 	isInDebug: Boolean,
 	debugAccesses: [LocalAccess],
 	nonDebugAccesses: [LocalAccess]
@@ -24,7 +24,7 @@ Object.assign(Vr.prototype, {
 		return this.accessToLocal.get(local).isLazy
 	},
 	setEIsInGenerator(e, is) {
-		type(e, E, is, Boolean)
+		type(e, Expression, is, Boolean)
 		assert(botherWithIsInGenerator(e))
 		this.eToIsInGenerator.set(e, is)
 	},

@@ -9,14 +9,17 @@ export default function check(cond, spanOrPos, message) {
 
 export function warnIf(opts, cond, spanOrPos, message) {
 	if (cond)
-		console.log(failMessage(spanOrPos, message, opts))
+		// Two spaces to match up with "error "
+		console.log(chalk.magenta("warn  ") + failMessage(spanOrPos, message, opts))
 }
 
 export function fail(spanOrPos, message) {
-	throw check.CompileError(failMessage(spanOrPos, message))
+	throw CompileError(failMessage(spanOrPos, message))
 }
 
 function failMessage(spanOrPos, message, opts) {
+	if (spanOrPos instanceof Function)
+		spanOrPos = spanOrPos()
 	const p = isa(spanOrPos, Span) ? spanOrPos.start : spanOrPos
 	type(p, Pos)
 	const msg = message instanceof Function ? message() : message
@@ -35,7 +38,7 @@ function makeErrorType() {
 	return it
 }
 
-check.CompileError = makeErrorType()
+export const CompileError = makeErrorType()
 
 function highlightMarkdown(str) {
 	return str.replace(/`[^`]*`/g, function(x) {

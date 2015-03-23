@@ -10,7 +10,7 @@ export function abstractType(name, superType) {
 	}
 }
 
-export function recordType(name, superType, members) {
+export function ObjType(name, superType, members) {
 	type(name, String, superType, Object, members, Object)
 	const prototype = Object.create(superType.prototype)
 

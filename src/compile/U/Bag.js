@@ -20,7 +20,7 @@ export function tail(sq) {
 	return sq.slice(1)
 }
 
-export function rightTail(sq) {
+export function rtail(sq) {
 	type(sq, Array)
 	assert(!isEmpty(sq))
 	return sq.slice(0, sq.length - 1)

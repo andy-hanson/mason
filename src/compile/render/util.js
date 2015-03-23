@@ -1,9 +1,9 @@
 import assert from "assert"
-import E, { BlockBody, Fun, LocalDeclare } from "../E"
+import Expression, { BlockBody, Fun, LocalDeclare } from "../Expression"
 import { KAssign } from "../Lang"
 import Span from "../Span"
 import { None, some } from "../U/Op"
-import { interleave } from "../U/Sq"
+import { interleave } from "../U/Bag"
 import type from "../U/type"
 import { renderExpr } from "./index"
 import mangle, { needsMangle } from "./mangle"
@@ -22,7 +22,7 @@ export function accessMangledLocal(mangledName, isLazy) {
 }
 
 export function commad(rx, parts) {
-	type(rx, Rx, parts, [E])
+	type(rx, Rx, parts, [Expression])
 	return interleave(parts.map(r(rx)), ", ")
 }
 
@@ -33,7 +33,7 @@ export const lazyWrap = value => [
 ]
 
 export function makeAssign(rx, span, assignee, k, value) {
-	type(rx, Rx, span, Span, assignee, E, k, KAssign, value, E)
+	type(rx, Rx, span, Span, assignee, Expression, k, KAssign, value, Expression)
 	const to = r(rx)(assignee)
 	const doAssign = (() => { switch (k) {
 		case "=": case ". ": case "<~": case "<~~":

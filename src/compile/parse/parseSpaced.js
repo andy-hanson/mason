@@ -1,8 +1,8 @@
 import check, { fail } from "../check"
-import { Call, Lazy, LocalAccess, Member, Sub, TypeTest } from "../E"
-import { DotName, Group, Keyword } from "../T"
+import { Call, Lazy, LocalAccess, Member, Sub, TypeTest } from "../Expression"
+import { DotName, Group, Keyword } from "../Token"
 import { code } from "../U"
-import { head, tail } from "../U/Sq"
+import { head, tail } from "../U/Bag"
 import type, { isa } from "../U/type"
 import Px from "./Px"
 const

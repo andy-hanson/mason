@@ -1,16 +1,16 @@
 import assert from "assert"
-import { LocalDeclare } from "../E"
+import { LocalDeclare } from "../Expression"
 import Opts from "../Opts"
 import { set } from "../U"
 import { None, opIf } from "../U/Op"
 import type from "../U/type"
-import { recordType } from "../U/types"
+import { ObjType } from "../U/types"
 import Vr, { VrLocalInfo } from "../Vr"
 
 // Context used during verification.
 // Every property except vr is immutable.
 // Every Vx shares the same Vr.
-const Vx = recordType("Vx", Object, {
+const Vx = ObjType("Vx", Object, {
 	// Maps local names to LocalDeclares.
 	locals: Map,
 	// Locals map for this block.

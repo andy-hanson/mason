@@ -1,6 +1,6 @@
 import assert from "assert"
 import Op from "./Op"
-import { toArray } from "./Sq"
+import { toArray } from "./Bag"
 
 // TODO: don't do this...
 Object.assign(Function.prototype, {

@@ -1,6 +1,6 @@
 import check, { fail } from "../check"
 import E, { Assign, AssignDestructure, Call, Debug,
-	Do, ELiteral, Null, Scope, Yield, YieldTo } from "../E"
+	Do, ELiteral, Null, Scope, Yield, YieldTo } from "../Expression"
 import type, { isa } from "../U/type"
 import { code, set } from "../U"
 import { v } from "./util"

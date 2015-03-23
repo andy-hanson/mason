@@ -1,7 +1,7 @@
 import { basename, extname } from "path"
-import { recordType } from "./U/types"
+import { ObjType } from "./U/types"
 
-const Opts = recordType("Opts", Object, {
+const Opts = ObjType("Opts", Object, {
 	inFile: String,
 	checks: Boolean
 })

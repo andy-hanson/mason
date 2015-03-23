@@ -18,6 +18,14 @@ export function indented(str) {
 	return str.replace(/\n/g, '\n\t')
 }
 
+function clone(obj) {
+	const nu = Object.create(Object.getPrototypeOf(obj))
+	Object.getOwnPropertyNames(obj).forEach(name => {
+		nu[name] = obj[name]
+	})
+	return nu
+}
+
 export function set(obj, replacedName, replacedVal) {
 	assert(Object.prototype.hasOwnProperty.call(obj, replacedName))
 	const nu = Object.create(Object.getPrototypeOf(obj))
@@ -35,6 +43,14 @@ export function set(obj, replacedName, replacedVal) {
 	return nu
 }
 
+export function pAdd(obj, newName, newVal) {
+	if (Object.prototype.hasOwnProperty.call(obj, newName))
+		throw new Error("Already has property " + newName + ", have " + Object.keys(obj))
+	const _ = clone(obj)
+	_[newName] = newVal
+	return _
+}
+
 export function ignore() { }
 
 export function trimRight(str) {
@@ -50,7 +66,7 @@ export function implementMany(holder, methodName, dict) {
 	})
 }
 
-export function implementMany2(holder, methodName, pairs) {
+export function implementMany2(methodName, pairs) {
 	pairs.forEach(([ type, impl ]) => {
 		// TODO:ES6 spread
 		type.prototype[methodName] = function() {

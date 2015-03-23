@@ -1,6 +1,6 @@
 import assert from "assert"
 import Opts from "../Opts"
-import { Group } from "../T"
+import { Group } from "../Token"
 import type from "../U/type"
 import { parseModule } from "./parseBlock"
 import Px from "./Px"

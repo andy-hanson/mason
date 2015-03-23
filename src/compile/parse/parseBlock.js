@@ -1,11 +1,11 @@
 import assert from "assert"
 import check from "../check"
-import { Assign, BlockBody, BlockWrap, Debug, DictReturn, ListEntry, ListReturn,
-	ELiteral, LocalDeclare, MapReturn, MapEntry, Module, ModuleDefaultExport, Val } from "../E"
-import { Group, Keyword } from "../T"
+import { Assign, BlockBody, BlockWrap, Debug, DictReturn, ListEntry, ListReturn, ELiteral,
+		LocalDeclare, MapReturn, MapEntry, Module, ModuleDefaultExport, Val } from "../Expression"
+import { Group, Keyword } from "../Token"
 import { set } from "../U"
 import { None, some } from "../U/Op"
-import { head, isEmpty, last, rightTail, tail } from "../U/Sq"
+import { head, isEmpty, last, rtail, tail } from "../U/Bag"
 import type, { isa } from "../U/type"
 import Px from "./Px"
 // TODO
@@ -62,7 +62,7 @@ export function takeBlockLinesFromEnd(px) {
 	px.check(!isEmpty(px.sqt), "Expected an indented block")
 	const l = last(px.sqt)
 	check(Group.is('->')(l), l.span, "Expected an indented block at the end")
-	return { before: rightTail(px.sqt), lines: l.sqt }
+	return { before: rtail(px.sqt), lines: l.sqt }
 }
 
 function parseBody(px, k) {
@@ -138,7 +138,7 @@ function parseBody(px, k) {
 		if (isDict && !isModule)
 			return lastReturn ?
 				{
-					doLines: rightTail(eLines),
+					doLines: rtail(eLines),
 					opReturn: some(
 						DictReturn(px.s({
 							keys: dictKeys,
@@ -159,7 +159,7 @@ function parseBody(px, k) {
 				}
 		else if (lastReturn)
 			return {
-				doLines: rightTail(eLines),
+				doLines: rtail(eLines),
 				opReturn: some(last(eLines))
 			}
 		else {

@@ -593,7 +593,7 @@ An optional promise is `?$a`; a promise for an option is `$?a`.
 
 Use one console to build continuously:
 
-	npm install; ./gulp.sh
+	npm install; ./gulp
 
 And in the other console, `./run` will run all tests.
 

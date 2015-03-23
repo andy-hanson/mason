@@ -3,13 +3,13 @@ import Span, { spanType } from "./Span"
 import Op, { None } from "./U/Op"
 import { abstractType } from "./U/types"
 
-const E = abstractType("E", Object)
-export default E
+const Expression = abstractType("Expression", Object)
+export default Expression
 // These can only appear as lines in a BlockBody.
 // Not to be confused with Generator expressions resulting from `do` keyword.
-export const Do = abstractType("Do", E)
+export const Do = abstractType("Do", Expression)
 // These can appear in any expression.
-export const Val = abstractType("Val", E)
+export const Val = abstractType("Val", Expression)
 
 function ed(name, props) {
 	return spanType(name, Do, props)
@@ -18,13 +18,13 @@ function ev(name, props) {
 	return spanType(name, Val, props)
 }
 
-export const Debug = ed("Debug", { lines: [E] })
-export const BlockBody = spanType("BlockBody", E, {
-	lines: [E],
+export const Debug = ed("Debug", { lines: [Expression] })
+export const BlockBody = spanType("BlockBody", Expression, {
+	lines: [Expression],
 	opReturn: Op(Val),
 	opIn: Op(Debug), opOut: Op(Debug)
 })
-export const LocalDeclare = spanType("LocalDeclare", E, {
+export const LocalDeclare = spanType("LocalDeclare", Expression, {
 	name: String,
 	opType: Op(Val),
 	isLazy: Boolean,
@@ -38,7 +38,7 @@ LocalDeclare.UntypedFocus = span => LocalDeclare({
 	okToNotUse: false
 })
 
-export const CasePart = spanType("CasePart", E, {
+export const CasePart = spanType("CasePart", Expression, {
 	test: Val,
 	result: BlockBody
 })
@@ -70,7 +70,7 @@ export const Module = ed("Module", { body: BlockBody })
 
 export const ModuleDefaultExport = ed("ModuleDefaultExport", { value: Val })
 
-export const Scope = ed("Scope", { lines: [E] })
+export const Scope = ed("Scope", { lines: [Expression] })
 
 export const BlockWrap = ev("BlockWrap", { body: BlockBody })
 
