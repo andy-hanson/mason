@@ -1,15 +1,15 @@
-import { KAssign, KFun, SpecialKeywords } from "./Lang"
-import Span, { spanType } from "./Span"
-import Op, { None } from "./U/Op"
-import { abstractType } from "./U/types"
+import { KAssign, KFun, SpecialKeywords } from './Lang'
+import Span, { spanType } from './Span'
+import Op, { None } from './U/Op'
+import { abstractType } from './U/types'
 
-const Expression = abstractType("Expression", Object)
+const Expression = abstractType('Expression', Object)
 export default Expression
 // These can only appear as lines in a BlockBody.
 // Not to be confused with Generator expressions resulting from `do` keyword.
-export const Do = abstractType("Do", Expression)
+export const Do = abstractType('Do', Expression)
 // These can appear in any expression.
-export const Val = abstractType("Val", Expression)
+export const Val = abstractType('Val', Expression)
 
 function ed(name, props) {
 	return spanType(name, Do, props)
@@ -18,13 +18,13 @@ function ev(name, props) {
 	return spanType(name, Val, props)
 }
 
-export const Debug = ed("Debug", { lines: [Expression] })
-export const BlockBody = spanType("BlockBody", Expression, {
+export const Debug = ed('Debug', { lines: [Expression] })
+export const BlockBody = spanType('BlockBody', Expression, {
 	lines: [Expression],
 	opReturn: Op(Val),
 	opIn: Op(Debug), opOut: Op(Debug)
 })
-export const LocalDeclare = spanType("LocalDeclare", Expression, {
+export const LocalDeclare = spanType('LocalDeclare', Expression, {
 	name: String,
 	opType: Op(Val),
 	isLazy: Boolean,
@@ -32,58 +32,58 @@ export const LocalDeclare = spanType("LocalDeclare", Expression, {
 })
 LocalDeclare.UntypedFocus = span => LocalDeclare({
 	span: span,
-	name: "_",
+	name: '_',
 	opType: None,
 	isLazy: false,
 	okToNotUse: false
 })
 
-export const CasePart = spanType("CasePart", Expression, {
+export const CasePart = spanType('CasePart', Expression, {
 	test: Val,
 	result: BlockBody
 })
 
-export const Assign = ed("Assign", { assignee: LocalDeclare, k: KAssign, value: Val })
-export const AssignDestructure = ed("AssignDestructure", {
+export const Assign = ed('Assign', { assignee: LocalDeclare, k: KAssign, value: Val })
+export const AssignDestructure = ed('AssignDestructure', {
 	assignees: [LocalDeclare],
 	k: KAssign,
 	value: Val,
 	isLazy: Boolean,
 	checkProperties: Boolean
 })
-export const CaseDo = ed("CaseDo", { parts: [CasePart], opElse: Op(BlockBody) })
+export const CaseDo = ed('CaseDo', { parts: [CasePart], opElse: Op(BlockBody) })
 // Unlike CaseDo, this has `return` statements.
-export const CaseVal = ed("CaseVal", { parts: [CasePart], opElse: Op(BlockBody) })
-export const Debugger = ed("Debugger", { })
-export const EndLoop = ed("EndLoop", { name: String })
+export const CaseVal = ed('CaseVal', { parts: [CasePart], opElse: Op(BlockBody) })
+export const Debugger = ed('Debugger', { })
+export const EndLoop = ed('EndLoop', { name: String })
 // Transforms a Val to a Do, meaning we ignore its value.
-export const Ignore = ed("Ignore", { ignored: Val })
+export const Ignore = ed('Ignore', { ignored: Val })
 
-export const ListEntry = ed("ListEntry", { value: Val, index: Number })
+export const ListEntry = ed('ListEntry', { value: Val, index: Number })
 
-export const Loop = ed("Loop", { name: String, body: BlockBody })
+export const Loop = ed('Loop', { name: String, body: BlockBody })
 
-export const MapEntry = ed("MapEntry", { key: Val, val: Val, index: Number })
+export const MapEntry = ed('MapEntry', { key: Val, val: Val, index: Number })
 
 // The body of a module will contain ModuleExport and ModuleDefaultExport_s
-export const Module = ed("Module", { body: BlockBody })
+export const Module = ed('Module', { body: BlockBody })
 
-export const ModuleDefaultExport = ed("ModuleDefaultExport", { value: Val })
+export const ModuleDefaultExport = ed('ModuleDefaultExport', { value: Val })
 
-export const Scope = ed("Scope", { lines: [Expression] })
+export const Scope = ed('Scope', { lines: [Expression] })
 
-export const BlockWrap = ev("BlockWrap", { body: BlockBody })
+export const BlockWrap = ev('BlockWrap', { body: BlockBody })
 
-export const Call = ev("Call", { called: Val, args: [Val] })
+export const Call = ev('Call', { called: Val, args: [Val] })
 
-export const DictReturn = ev("DictReturn", {
+export const DictReturn = ev('DictReturn', {
 	keys: [LocalDeclare],
 	debugKeys: [LocalDeclare],
 	opDicted: Op(Val),
 	opDisplayName: Op(String)
 })
 
-export const Fun = ev("Fun", {
+export const Fun = ev('Fun', {
 	args: [LocalDeclare],
 	opRestArg: Op(LocalDeclare),
 	body: BlockBody,
@@ -91,39 +91,39 @@ export const Fun = ev("Fun", {
 	k: KFun
 })
 
-export const Lazy = ev("Lazy", { value: Val })
+export const Lazy = ev('Lazy', { value: Val })
 
-export const ListReturn = ev("ListReturn", { length: Number })
+export const ListReturn = ev('ListReturn', { length: Number })
 
-export const ListSimple = ev("ListSimple", { parts: [Val] })
+export const ListSimple = ev('ListSimple', { parts: [Val] })
 
-export const ELiteral = ev("Literal", { value: String, k: new Set([Number, String, "js"]) })
+export const ELiteral = ev('Literal', { value: String, k: new Set([Number, String, 'js']) })
 
-export const LocalAccess = ev("LocalAcecss", { name: String })
-LocalAccess.focus = span => LocalAccess({ span: span, name: "_" })
+export const LocalAccess = ev('LocalAcecss', { name: String })
+LocalAccess.focus = span => LocalAccess({ span: span, name: '_' })
 
-export const MapReturn = ev("Map", { length: Number })
+export const MapReturn = ev('Map', { length: Number })
 
-export const Member = ev("Member", { object: Val, name: String })
+export const Member = ev('Member', { object: Val, name: String })
 
-export const Null = ev("Null", { })
+export const Null = ev('Null', { })
 
-export const True = ev("Null", { })
+export const True = ev('Null', { })
 
-export const Quote = ev("Quote", { parts: [Val] })
+export const Quote = ev('Quote', { parts: [Val] })
 
-export const Require = ev("Require", { path: String })
+export const Require = ev('Require', { path: String })
 
-export const Sub = ev("Sub", { subject: Val, subbers: [Val] })
+export const Sub = ev('Sub', { subject: Val, subbers: [Val] })
 
-export const This = ev("This", { })
+export const This = ev('This', { })
 
-export const TypeTest = ev("TypeTest", { tested: Val, testType: Val })
+export const TypeTest = ev('TypeTest', { tested: Val, testType: Val })
 
-export const Yield = ev("Yield", { yielded: Val })
+export const Yield = ev('Yield', { yielded: Val })
 
-export const YieldTo = ev("YieldTo", { yieldedTo: Val })
+export const YieldTo = ev('YieldTo', { yieldedTo: Val })
 
-export const SpecialKeyword = ev("SpecialKeyword", { k: SpecialKeywords })
+export const SpecialKeyword = ev('SpecialKeyword', { k: SpecialKeywords })
 
-export const Splat = ev("Splat", { splatted: Val })
+export const Splat = ev('Splat', { splatted: Val })

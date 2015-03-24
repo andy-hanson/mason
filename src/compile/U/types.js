@@ -1,5 +1,5 @@
-import type, { isa } from "./type"
-import { indented } from "./index"
+import type, { isa } from './type'
+import { indented } from './index'
 
 export function abstractType(name, superType) {
 	type(name, String, superType, Object)
@@ -22,7 +22,7 @@ export function ObjType(name, superType, members) {
 		Object.keys(members).forEach(key => {
 			const val = babyMembers[key]
 			if (global.DEBUG && !isa(val, members[key]))
-				throw new Error("Bad " + key + ": is " + val + ", should be a " + members[key])
+				throw new Error(`Bad ${key}: is ${val}, should be a ${members[key]}`)
 			baby[key] = val
 		})
 		return Object.freeze(baby)
@@ -36,15 +36,15 @@ export function ObjType(name, superType, members) {
 }
 
 function inspect(_) {
-	let s = _.type().getName() + " {"
+	let s = _.type().getName() + ' {'
 	Object.keys(_).forEach(key => {
 		const val = _[key]
-		const str = val instanceof Array ? val.join(",\n") : toStr(val)
-		s = s + "\n\t" + key + ": " + indented(str)
+		const str = val instanceof Array ? val.join(',\n') : toStr(val)
+		s = s + `\n\t${key}: ${indented(str)}`
 	})
-	return s + "\n}"
+	return s + '\n}'
 }
 
 const toStr = _ =>
-	_ === null ? "null" : _ === undefined ? "undefined" : _.toString()
+	_ === null ? 'null' : _ === undefined ? 'undefined' : _.toString()
 

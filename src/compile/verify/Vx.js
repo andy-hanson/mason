@@ -1,16 +1,16 @@
-import assert from "assert"
-import { LocalDeclare } from "../Expression"
-import Opts from "../Opts"
-import { set } from "../U"
-import { None, opIf } from "../U/Op"
-import type from "../U/type"
-import { ObjType } from "../U/types"
-import Vr, { VrLocalInfo } from "../Vr"
+import assert from 'assert'
+import { LocalDeclare } from '../Expression'
+import Opts from '../Opts'
+import { set } from '../U'
+import { None, opIf } from '../U/Op'
+import type from '../U/type'
+import { ObjType } from '../U/types'
+import Vr, { VrLocalInfo } from '../Vr'
 
 // Context used during verification.
 // Every property except vr is immutable.
 // Every Vx shares the same Vr.
-const Vx = ObjType("Vx", Object, {
+const Vx = ObjType('Vx', Object, {
 	// Maps local names to LocalDeclares.
 	locals: Map,
 	// Locals map for this block.
@@ -49,10 +49,10 @@ Object.assign(Vx.prototype, {
 		return this.loopNames.has(name)
 	},
 	inGenerator() {
-		return set(this, "isInGenerator", true)
+		return set(this, 'isInGenerator', true)
 	},
 	notInGenerator() {
-		return set(this, "isInGenerator", false)
+		return set(this, 'isInGenerator', false)
 	},
 	opGetLocal(name) {
 		type(name, String)
@@ -63,13 +63,13 @@ Object.assign(Vx.prototype, {
 		type(addedLocals, [LocalDeclare])
 		const newLocals = new Map(this.locals)
 		addedLocals.forEach(l => newLocals.set(l.name, l))
-		return set(this, "locals", newLocals)
+		return set(this, 'locals', newLocals)
 	},
 	plusLoop(name) {
 		type(name, String)
 		const newNames = new Set(this.loopNames)
 		newNames.add(name)
-		return set(this, "loopNames", newNames)
+		return set(this, 'loopNames', newNames)
 	},
 	setAccessToLocal(access, local) {
 		this.vr.accessToLocal.set(access, local)
@@ -81,10 +81,10 @@ Object.assign(Vx.prototype, {
 	setEIsInGenerator(e) {
 		this.vr.setEIsInGenerator(e, this.isInGenerator)
 	},
-	withDebug() { return set(this, "isInDebug", true) },
+	withDebug() { return set(this, 'isInDebug', true) },
 	withFocus(span) {
 		// TODO: Bad idea to be creating new E at this point...
-		const utf = set(LocalDeclare.UntypedFocus(span), "okToNotUse", true)
+		const utf = set(LocalDeclare.UntypedFocus(span), 'okToNotUse', true)
 		this.registerLocal(utf)
 		return this.plusLocals([utf])
 	},
@@ -92,7 +92,7 @@ Object.assign(Vx.prototype, {
 		// TODO: Bad idea to be creating new E at this point...
 		const res = LocalDeclare({
 			span: span,
-			name: "res",
+			name: 'res',
 			opType: None,
 			isLazy: false,
 			okToNotUse: true
@@ -102,7 +102,7 @@ Object.assign(Vx.prototype, {
 	},
 	// TODO
 	withBlockLocals() {
-		return set(this.plusLocals(this.pendingBlockLocals), "pendingBlockLocals", [])
+		return set(this.plusLocals(this.pendingBlockLocals), 'pendingBlockLocals', [])
 	},
 	registerLocal(local) {
 		assert(!this.vr.localToInfo.has(local))

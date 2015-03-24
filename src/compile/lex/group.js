@@ -1,27 +1,29 @@
-import assert from "assert"
-import check, { fail } from "../check"
-import { GroupOpenToClose } from "../Lang"
-import Opts from "../Opts"
-import Span, { Pos, StartPos } from "../Span"
-import Token, { Group, Keyword } from "../Token"
-import { isEmpty, last } from "../U/Bag"
-import type, { isa } from "../U/type"
-import { ObjType } from "../U/types"
-import GroupPre from "./GroupPre"
+import assert from 'assert'
+import check, { fail } from '../check'
+import { GroupOpenToClose } from '../Lang'
+import Opts from '../Opts'
+import Span, { Pos, StartPos } from '../Span'
+import Token, { Group, Keyword } from '../Token'
+import { isEmpty, last } from '../U/Bag'
+import type, { isa } from '../U/type'
+import { ObjType } from '../U/types'
+import GroupPre from './GroupPre'
 
-export default function group(sqL, opts) {
+export default function group(preGroupedTokens, opts) {
 	// No 'generator' type...
-	type(sqL, Object, opts, Opts)
+	type(preGroupedTokens, Object, opts, Opts)
 
 	// Stack of GroupBuilders
 	const stack = []
 
-	const cur = () => last(stack)
+	// Should always be last(stack)
+	let cur = null
 
 	function newLevel(pos, k) {
 		type(pos, Pos, k, String)
-		// U.log(U.indent(stack.length) + ">> " + showGroup(k))
-		stack.push(GroupBuilder({ startPos: pos, k: k, body: [] }))
+		// U.log(`${U.indent(stack.length)}>> ${k}`)
+		cur = GroupBuilder({ startPos: pos, k: k, body: [] })
+		stack.push(cur)
 	}
 
 	function finishLevels(closePos, k) {
@@ -32,8 +34,8 @@ export default function group(sqL, opts) {
 				break
 			else {
 				check(new Set(['(', '[', 'sp']).has(old.k), closePos,
-					"Trying to close " + showGroup(k) +
-					", but last opened was a " + showGroup(old.k))
+					'Trying to close ' + showGroup(k) +
+					', but last opened was a ' + showGroup(old.k))
 				finishLevel(closePos, oldClose)
 			}
 		}
@@ -44,23 +46,24 @@ export default function group(sqL, opts) {
 		type(closePos, Pos, k, String)
 
 		const wrapped = wrapLevel(closePos, k)
-		// cur() is now the previous level on the stack
-		// U.log(U.indent(stack.length) + "<< " + showGroup(k))
+		// cur is now the previous level on the stack
+		// U.log(`${U.indent(stack.length)}<< ${k})
 		// Don't add line/spaced
 		if ((k === 'sp' || k === 'ln') && isEmpty(wrapped.sqt))
 			return
 		if (k === '<-' && isEmpty(wrapped.sqt))
-			fail(closePos, "Empty block")
+			fail(closePos, 'Empty block')
 		// Spaced should always have at least two elements
 		if (k === 'sp' && wrapped.sqt.length === 1)
-			cur().add(wrapped.sqt[0])
+			cur.add(wrapped.sqt[0])
 		else
-			cur().add(wrapped)
+			cur.add(wrapped)
 	}
 
 	function wrapLevel(closePos, k) {
 		type(closePos, Pos, k, String)
 		const old = stack.pop()
+		cur = isEmpty(stack) ? null : last(stack)
 		type(old, GroupBuilder)
 		const span = Span({ start: old.startPos, end: closePos })
 		assert(GroupOpenToClose.get(old.k) === k)
@@ -86,50 +89,50 @@ export default function group(sqL, opts) {
 	startLine(StartPos)
 
 	let endSpan = Span({ start: StartPos, end: StartPos })
-	for (let l of sqL) {
-		if (isa(l, Token)) {
-			cur().add(l)
-			continue
-		}
-		type(l, GroupPre)
-		type(l.span, Span)
-		// U.log(showGroup(l.k))
-		const span = l.span
-		endSpan = span
-		const k = l.k
-		switch (k) {
-			case '(': case '[': case '{':
-				newLevel(span.start, k)
-				newLevel(span.end, 'sp')
-				break
-			case ')': case ']': case '}':
-				finishLevels(span.end, k)
-				break
-			case '"':
-				newLevel(span.start, k)
-				break
-			case 'close"':
-				finishLevels(span.start, k)
-				break
-			case '->':
-				//  ~ before block is OK
-				if (isEmpty(cur().body) || !Keyword.is("~")(last(cur().body)))
-					endAndStart(span, 'sp')
-				newLevel(span.start, k)
-				startLine(span.end)
-				break
-			case '<-':
-				endLine(span.start)
-				finishLevels(span.end, k)
-				break
-			case 'ln':
-				endLine(span.start)
-				startLine(span.end)
-				break
-			case 'sp':
-				endAndStart(span, k)
-				break
-			default: throw new Error(k)
+	for (let _ of preGroupedTokens) {
+		if (isa(_, Token))
+			cur.add(_)
+		else {
+			type(_, GroupPre)
+			type(_.span, Span)
+			// U.log(_.k)
+			const span = _.span
+			endSpan = span
+			const k = _.k
+			switch (k) {
+				case '(': case '[': case '{':
+					newLevel(span.start, k)
+					newLevel(span.end, 'sp')
+					break
+				case ')': case ']': case '}':
+					finishLevels(span.end, k)
+					break
+				case '"':
+					newLevel(span.start, k)
+					break
+				case 'close"':
+					finishLevels(span.start, k)
+					break
+				case '->':
+					//  ~ before block is OK
+					if (isEmpty(cur.body) || !Keyword.is('~')(last(cur.body)))
+						endAndStart(span, 'sp')
+					newLevel(span.start, k)
+					startLine(span.end)
+					break
+				case '<-':
+					endLine(span.start)
+					finishLevels(span.end, k)
+					break
+				case 'ln':
+					endLine(span.start)
+					startLine(span.end)
+					break
+				case 'sp':
+					endAndStart(span, k)
+					break
+				default: throw new Error(k)
+			}
 		}
 	}
 
@@ -139,7 +142,7 @@ export default function group(sqL, opts) {
 	return wholeModuleBlock
 }
 
-const GroupBuilder = ObjType("GroupBuilder", Object, {
+const GroupBuilder = ObjType('GroupBuilder', Object, {
 	startPos: Pos,
 	k: String,
 	body: [Token]

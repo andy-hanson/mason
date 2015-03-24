@@ -1,6 +1,6 @@
-import assert from "assert"
-import Op from "./Op"
-import { toArray } from "./Bag"
+import assert from 'assert'
+import Op from './Op'
+import { toArray } from './Bag'
 
 // TODO: don't do this...
 Object.assign(Function.prototype, {
@@ -22,15 +22,15 @@ function typePair(instance, itsType) {
 		instance.forEach(em => type(em, emType))
 	}
 	if (!isa(instance, itsType)) {
-		if (instance === null) throw new Error("Value null")
-		if (instance === undefined) throw new Error("Value undefined")
+		if (instance === null) throw new Error('Value null')
+		if (instance === undefined) throw new Error('Value undefined')
 		const strType =
 			itsType instanceof Array ?
-			"[" + itsType[0].getName() + "]" :
+			`[${itsType[0].getName()}]` :
 			itsType instanceof Set ?
-			"{" + toArray(itsType.values()) + "}" :
+			`{${toArray(itsType.values())}` :
 			itsType.getName()
-		throw new Error(instance + " is not a " + strType)
+		throw new Error(`${instance} is not a ${strType}`)
 	}
 }
 
@@ -51,6 +51,6 @@ export function isa(instance, itsType) {
 		case itsType instanceof Set:
 			return itsType.has(instance)
 		default:
-			throw new Error("Not a type: " + itsType)
+			throw new Error(`Not a type: ${itsType}`)
 	}
 }

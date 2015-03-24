@@ -1,9 +1,9 @@
-import chalk from "chalk"
+import chalk from 'chalk'
 import { PluginError, replaceExtension } from 'gulp-util'
 import { obj } from 'through2'
 import applySourceMap from 'vinyl-sourcemaps-apply'
-import compile from "./index"
-import { CompileError } from "./check"
+import compile from './index'
+import { CompileError } from './check'
 
 const Name = 'gulp-ms'
 
@@ -28,12 +28,12 @@ export default function gulpMs(opts) {
 				file.path = outFile
 				cb(null, file)
 			} catch (err) {
-				const anno = chalk.magenta("error ") + chalk.green(file.path) + " "
+				const anno = `${chalk.magenta('error')} ${chalk.green(file.path)} `
 				err.message = anno + err.message
 				err.stack = anno + err.stack
 				if (err instanceof CompileError) {
 					console.log(err.message)
-					cb(new PluginError(Name, "Error Mason source."))
+					cb(new PluginError(Name, 'Error in Mason source.'))
 				}
 				else
 					cb(new PluginError(Name, err))

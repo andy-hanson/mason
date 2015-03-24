@@ -1,8 +1,8 @@
-import chalk from "chalk"
-import type from "./U/type"
-import { ObjType } from "./U/types"
+import chalk from 'chalk'
+import type from './U/type'
+import { ObjType } from './U/types'
 
-export const Pos = ObjType("Pos", Object, { line: Number, column: Number })
+export const Pos = ObjType('Pos', Object, { line: Number, column: Number })
 export const StartPos = Pos({ line: 1, column: 1 })
 Object.assign(Pos.prototype, {
 	next(ch) {
@@ -12,15 +12,15 @@ Object.assign(Pos.prototype, {
 			Pos({ line: this.line, column: this.column + 1})
 	},
 	toString() {
-		return chalk.bold.red(this.line + ":" + this.column)
+		return chalk.bold.red(`${this.line}:${this.column}`)
 	}
 })
 
-const Span = ObjType("Span", Object, { start: Pos, end: Pos })
+const Span = ObjType('Span', Object, { start: Pos, end: Pos })
 export default Span
 Object.assign(Span.prototype, {
 	toString() {
-		return this.start + "-" + this.end
+		return this.start + '-' + this.end
 	}
 })
 

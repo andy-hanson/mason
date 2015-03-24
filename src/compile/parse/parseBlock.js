@@ -1,17 +1,17 @@
-import assert from "assert"
-import check from "../check"
+import assert from 'assert'
+import check from '../check'
 import { Assign, BlockBody, BlockWrap, Debug, DictReturn, ListEntry, ListReturn, ELiteral,
-		LocalDeclare, MapReturn, MapEntry, Module, ModuleDefaultExport, Val } from "../Expression"
-import { Group, Keyword } from "../Token"
-import { set } from "../U"
-import { None, some } from "../U/Op"
-import { head, isEmpty, last, rtail, tail } from "../U/Bag"
-import type, { isa } from "../U/type"
-import Px from "./Px"
+		LocalDeclare, MapReturn, MapEntry, Module, ModuleDefaultExport, Val } from '../Expression'
+import { Group, Keyword } from '../Token'
+import { set } from '../U'
+import { None, some } from '../U/Op'
+import { head, isEmpty, last, rtail, tail } from '../U/Bag'
+import type, { isa } from '../U/type'
+import Px from './Px'
 // TODO
-const parseLine_ = () => require("./parseLine")
+const parseLine_ = () => require('./parseLine')
 
-const KParseBlock = new Set(["any", "do", "val", "module"])
+const KParseBlock = new Set(['any', 'do', 'val', 'module'])
 
 // TODO:RENAME
 export function wrap(px, k) {
@@ -20,22 +20,22 @@ export function wrap(px, k) {
 
 export function parseModule(px, moduleName) {
 	type(px, Px, moduleName, String)
-	const mod = parseBody(px, "module")
+	const mod = parseBody(px, 'module')
 	const b = mod.body
 	// TODO: This also means no module is allowed to be called `displayName`.
 	b.lines.forEach(line => {
-		if (isa(line, Assign) && line.k === "export")
-			px.check(line.assignee.name !== "displayName",
-				"Module can not choose its own displayName.")
+		if (isa(line, Assign) && line.k === 'export')
+			px.check(line.assignee.name !== 'displayName',
+				'Module can not choose its own displayName.')
 	})
 	b.lines.push(Assign(px.s({
 		assignee: LocalDeclare(px.s({
-			name: "displayName",
+			name: 'displayName',
 			opType: [],
 			isLazy: false,
 			okToNotUse: true
 		})),
-		k: "export",
+		k: 'export',
 		value: ELiteral(px.s({ value: moduleName, k: String }))
 	})))
 	return mod
@@ -44,7 +44,7 @@ export function parseModule(px, moduleName) {
 export function justBlock(px, k) {
 	type(px, Px, k, KParseBlock)
 	const _ = takeBlockFromEnd(px, k)
-	px.check(isEmpty(_.before), "Expected just a block")
+	px.check(isEmpty(_.before), 'Expected just a block')
 	return _.block
 }
 
@@ -59,9 +59,9 @@ export function takeBlockFromEnd(px, k) {
 
 export function takeBlockLinesFromEnd(px) {
 	type(px, Px)
-	px.check(!isEmpty(px.sqt), "Expected an indented block")
+	px.check(!isEmpty(px.sqt), 'Expected an indented block')
 	const l = last(px.sqt)
-	check(Group.is('->')(l), l.span, "Expected an indented block at the end")
+	check(Group.is('->')(l), l.span, 'Expected an indented block at the end')
 	return { before: rtail(px.sqt), lines: l.sqt }
 }
 
@@ -83,19 +83,19 @@ function parseBody(px, k) {
 		if (ln instanceof Debug)
 			ln.lines.forEach(_ => addLine(_, true))
 		else if (isa(ln, ListEntry)) {
-			assert(!inDebug, "Not supported: debug list entries")
+			assert(!inDebug, 'Not supported: debug list entries')
 			// When ListEntries are first created they have no index.
 			assert(ln.index === -1)
-			ln = set(ln, "index", listLength)
+			ln = set(ln, 'index', listLength)
 			listLength = listLength + 1
 		}
 		else if (isa(ln, MapEntry)) {
-			assert(!inDebug, "Not supported: debug map entries")
+			assert(!inDebug, 'Not supported: debug map entries')
 			assert(ln.index === -1)
-			ln = set(ln, "index", mapLength)
+			ln = set(ln, 'index', mapLength)
 			mapLength = mapLength + 1
 		}
-		else if (isa(ln, Assign) && ln.k === ". ")
+		else if (isa(ln, Assign) && ln.k === '. ')
 			(inDebug ? debugKeys : dictKeys).push(ln.assignee)
 
 		if (!inDebug)
@@ -106,21 +106,21 @@ function parseBody(px, k) {
 
 	// TODO
 	// if (isEmpty(dictKeys))
-	//	check(isEmpty(debugKeys), px.span, "Block can't have only debug keys")
+	//	check(isEmpty(debugKeys), px.span, 'Block can't have only debug keys')
 	const isDict = !(isEmpty(dictKeys) && isEmpty(debugKeys))
 	const isList = listLength > 0
 	const isMap = mapLength > 0
-	px.check(!(isDict && isList), "Block has both list and dict lines.")
-	px.check(!(isDict && isMap), "Block has both dict and map lines.")
-	px.check(!(isList && isMap), "Block has both list and map lines.")
+	px.check(!(isDict && isList), 'Block has both list and dict lines.')
+	px.check(!(isDict && isMap), 'Block has both dict and map lines.')
+	px.check(!(isList && isMap), 'Block has both list and map lines.')
 
-	const isModule = k === "module"
+	const isModule = k === 'module'
 
 	const doLinesOpReturn = (() => {
-		if (k === "do") {
-			px.check(!isDict, "Can't make dict in statement context")
-			px.check(!isList, "Can't make list in statement context")
-			px.check(!isMap, "Can't make map in statement context")
+		if (k === 'do') {
+			px.check(!isDict, 'Can\'t make dict in statement context')
+			px.check(!isList, 'Can\'t make list in statement context')
+			px.check(!isMap, 'Can\'t make map in statement context')
 			return { doLines: eLines, opReturn: None }
 		}
 		if (isList)
@@ -163,7 +163,7 @@ function parseBody(px, k) {
 				opReturn: some(last(eLines))
 			}
 		else {
-			px.check(k !== "val", "Expected a value block")
+			px.check(k !== 'val', 'Expected a value block')
 			return { doLines: eLines, opReturn: None }
 		}
 	})()
@@ -174,7 +174,7 @@ function parseBody(px, k) {
 		const moduleLines =
 			// Turn dict assigns into exports.
 			doLines.map(line =>
-				isa(line, Assign) && line.k === ". " ? 	set(line, "k", "export") : line
+				isa(line, Assign) && line.k === '. ' ? 	set(line, 'k', 'export') : line
 			).concat(opReturn.map(ret => ModuleDefaultExport({ span: ret.span, value: ret })))
 
 		const body = BlockBody(px.s({
@@ -206,8 +206,8 @@ function tryTakeInOut(px) {
 		return { took: None, rest: lines }
 	}
 
-	const _in = tryTakeInOrOut(px.sqt, "in")
-	const _out = tryTakeInOrOut(_in.rest, "out")
+	const _in = tryTakeInOrOut(px.sqt, 'in')
+	const _out = tryTakeInOrOut(_in.rest, 'out')
 	return {
 		opIn: _in.took,
 		opOut: _out.took,

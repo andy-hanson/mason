@@ -3,7 +3,7 @@ Cheap-ass option type.
 It's just an array with 0 or 1 elements.
 */
 
-import type from "./type"
+import type from './type'
 
 // This constructs an Op *type*. Use Op.Some and Op.None to construct instances.
 export default function Op(opType) {
@@ -13,7 +13,7 @@ export default function Op(opType) {
 }
 Object.assign(Op.prototype, {
 	getName() {
-		return "Op(" + this.type.getName() + ")"
+		return `Op(${this.type.getName()})`
 	},
 	toString() {
 		return this.getName()

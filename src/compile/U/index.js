@@ -1,10 +1,11 @@
-import assert from "assert"
-import type from "./type"
+import assert from 'assert'
+import chalk from 'chalk'
+import type from './type'
 
 // Because console.log just gives me [object Object], whose bright idea was that?
 export function log(x) {
-	if (x === null) console.log("null")
-	else if (x === undefined) console.log("undefined")
+	if (x === null) console.log('null')
+	else if (x === undefined) console.log('undefined')
 	else console.log(x.toString())
 }
 
@@ -45,7 +46,7 @@ export function set(obj, replacedName, replacedVal) {
 
 export function pAdd(obj, newName, newVal) {
 	if (Object.prototype.hasOwnProperty.call(obj, newName))
-		throw new Error("Already has property " + newName + ", have " + Object.keys(obj))
+		throw new Error(`Already has property ${newName}, have ${Object.keys(obj)}`)
 	const _ = clone(obj)
 	_[newName] = newVal
 	return _
@@ -54,7 +55,7 @@ export function pAdd(obj, newName, newVal) {
 export function ignore() { }
 
 export function trimRight(str) {
-	return str.replace(/\s+$/, "")
+	return str.replace(/\s+$/, '')
 }
 
 export function implementMany(holder, methodName, dict) {
@@ -77,5 +78,5 @@ export function implementMany2(methodName, pairs) {
 
 export function code(str) {
 	type(str, String)
-	return "`" + str + "`"
+	return chalk.bold.green(str)
 }

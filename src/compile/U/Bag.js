@@ -1,6 +1,6 @@
-import assert from "assert"
-import { None, some } from "./Op"
-import type from "./type"
+import assert from 'assert'
+import { None, some } from './Op'
+import type from './type'
 
 export function head(sq) {
 	type(sq, Array)

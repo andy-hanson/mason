@@ -1,38 +1,38 @@
-"use strict"
+'use strict'
 
-const ms = require("./bootstrap").ms
+const ms = require('./bootstrap').ms
 const bl = ms.bool, u = ms.unlazy
 
 module.exports = {
 	// js.ms
-	"i!": function(a) { return !a },
-	"i~": function(a) { return ~a },
-	"i-bar": function(a, b) { return a | b },
-	"i-delete": function(a, b) { delete a[b] },
-	"i-instanceof": function(a, b) { return a instanceof b },
-	"i-global": global,
-	"i-new": function(ctr, a, b, c) {
+	'i!': function(a) { return !a },
+	'i~': function(a) { return ~a },
+	'i-bar': function(a, b) { return a | b },
+	'i-delete': function(a, b) { delete a[b] },
+	'i-instanceof': function(a, b) { return a instanceof b },
+	'i-global': global,
+	'i-new': function(ctr, a, b, c) {
 		// TODO:ES6 return new ctr(...args)
 		switch (arguments.length) {
-			case 0: throw new Error("`new` needs a constructor.")
+			case 0: throw new Error('`new` needs a constructor.')
 			case 1: return new ctr()
 			case 2: return new ctr(a)
 			case 3: return new ctr(a, b)
 			case 4: return new ctr(a, b, c)
-			default: throw new Error("This many arguments not supported.")
+			default: throw new Error('This many arguments not supported.')
 		}
 	},
-	"i-oh-no!": function(error) {
-		throw module.exports["make-Error"](error)
+	'i-oh-no!': function(error) {
+		throw module.exports['make-Error'](error)
 	},
-	"i-sub": function(a, b) { return a[b] },
-	"i-set": function(a, b, c) { a[b] = c },
-	"i-typeof": function(a) { return typeof a },
+	'i-sub': function(a, b) { return a[b] },
+	'i-set': function(a, b, c) { a[b] = c },
+	'i-typeof': function(a) { return typeof a },
 
 	// Bool.ms
-	"i-true": true,
-	"i-false": false,
-	"i-and": function() {
+	'i-true': true,
+	'i-false': false,
+	'i-and': function() {
 		switch (arguments.length) {
 			case 0: return true
 			case 1: return bl(arguments[0])
@@ -47,7 +47,7 @@ module.exports = {
 				return true
 		}
 	},
-	"i-or": function() {
+	'i-or': function() {
 		switch (arguments.length) {
 			case 0: return false
 			case 1: return bl(arguments[0])
@@ -64,65 +64,65 @@ module.exports = {
 	},
 
 	// Kind.ms
-	"Kind-contains?": function(kind, _) {
-		return _ != null && _[kind["symbol-for-isa"]] !== undefined
+	'Kind-contains?': function(kind, _) {
+		return _ != null && _[kind['symbol-for-isa']] !== undefined
 	},
-	"empty?": function(array) {
+	'empty?': function(array) {
 		return array.length === 0
 	},
 
 	// Generator.ms
-	"each-generator": function*(iter, doEach) {
+	'each-generator': function*(iter, doEach) {
 		for (let em of iter)
 			yield* doEach(em)
 	},
 
 	// Try.ms
-	"i-always-do-after": function(tried, finallyDo) {
+	'i-always-do-after': function(tried, finallyDo) {
 		try {
 			return tried()
 		} finally {
 			finallyDo()
 		}
 	},
-	"i-try": function(Success, tried) {
+	'i-try': function(Success, tried) {
 		try {
 			return Success(tried())
 		} catch (e) {
 			return e
 		}
 	},
-	"make-Error": function(error) {
+	'make-Error': function(error) {
 		let err
 		try {
 			err = ms.unlazy(error)
 		} catch (e) {
 			return e
-			// TODO: return new Error ("Error making error: " + e.message)
+			// TODO: return new Error ('Error making error: ' + e.message)
 		}
 		if (err instanceof Error)
 			return err
-		if (typeof err === "string")
+		if (typeof err === 'string')
 			return new Error(err)
 		if (err == null)
-			return new Error("Oh no!")
-		return new Error("Argument to `oh-no!` must be Error or String")
+			return new Error('Oh no!')
+		return new Error('Argument to `oh-no!` must be Error or String')
 	},
 
 	// modules.ms (TODO:ES6: remove)
-	"i-require": require,
+	'i-require': require,
 
 	// Array.ms
-	"array-iterator": function*(_) {
+	'array-iterator': function*(_) {
 		for (let i = 0; i < _.length; i = i + 1)
 			yield _[i]
 	},
 
 	// show.ms
-	"new-Set": function() { return new global.Set() },
+	'new-Set': function() { return new global.Set() },
 
 	// Hash-Map.ms
-	"i-make-map": function(hm, assoc, args) {
+	'i-make-map': function(hm, assoc, args) {
 		let i = 0
 		while (i < args.length) {
 			const key = args[i]
@@ -134,15 +134,15 @@ module.exports = {
 	},
 
 	// Obj-Type.ms
-	"build-str": function(builder) {
-		let s = ""
-		builder(function(str) { s = s + str + "\n" })
+	'build-str': function(builder) {
+		let s = ''
+		builder(function(str) { s = s + str + '\n' })
 		return s
 	},
-	"+1": function(_) { return _ + 1 },
+	'+1': function(_) { return _ + 1 },
 
 	// time.ms
-	"i-time*": function(times, timeMe) {
+	'i-time*': function(times, timeMe) {
 		let i = times
 		const out = []
 		while (i > 0) {
@@ -153,19 +153,19 @@ module.exports = {
 	},
 
 	// Fun.ms
-	"i-curry": function(f) {
+	'i-curry': function(f) {
 		// TODO:ES6 Splat call
 		return Function.prototype.bind.apply(f, arguments)
 	}
 }
 
 const binOps = [
-	"&", "^",
-	"<<", ">>", ">>>",
-	"===", "==",
-	"<", ">", "<=", ">=",
-	"+", "-", "*", "/", "%"
+	'&', '^',
+	'<<', '>>', '>>>',
+	'===', '==',
+	'<', '>', '<=', '>=',
+	'+', '-', '*', '/', '%'
 ]
 binOps.forEach(function(op) {
-	module.exports["i" + op] = Function("a", "b", "return a " + op + " b")
+	module.exports['i' + op] = Function('a', 'b', 'return a ' + op + ' b')
 })

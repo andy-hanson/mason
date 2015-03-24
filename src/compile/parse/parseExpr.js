@@ -1,20 +1,20 @@
-import assert from "assert"
-import { Assign, BlockBody, BlockWrap, Call, DictReturn, Null, Yield, YieldTo } from "../Expression"
-import { Keyword } from "../Token"
-import type from "../U/type"
-import { set } from "../U"
-import { GeneratorKeywords, KFun } from "../Lang"
-import { ifElse } from "../U/Op"
-import { cons, head, isEmpty, last, opSplitManyWhere, rtail, tail } from "../U/Bag"
-import parseCase from "./parseCase"
-import { parseLocal } from "./parseLocals"
-import parseSingle from "./parseSingle"
-import Px from "./Px"
+import assert from 'assert'
+import { Assign, BlockBody, BlockWrap, Call, DictReturn, Null, Yield, YieldTo } from '../Expression'
+import { Keyword } from '../Token'
+import type from '../U/type'
+import { set } from '../U'
+import { GeneratorKeywords, KFun } from '../Lang'
+import { ifElse } from '../U/Op'
+import { cons, head, isEmpty, last, opSplitManyWhere, rtail, tail } from '../U/Bag'
+import parseCase from './parseCase'
+import { parseLocal } from './parseLocals'
+import parseSingle from './parseSingle'
+import Px from './Px'
 // TODO
-const parseFun_ = () => require("./parseFun")
+const parseFun_ = () => require('./parseFun')
 
 export default function parseExpr(px) {
-	return ifElse(opSplitManyWhere(px.sqt, Keyword.is(". ")),
+	return ifElse(opSplitManyWhere(px.sqt, Keyword.is('. ')),
 		splits => {
 			// Short object form, such as (a. 1, b. 2)
 			const first = splits[0].before
@@ -25,7 +25,7 @@ export default function parseExpr(px) {
 			for (let i = 0; i < splits.length - 1; i = i + 1) {
 				const local = set(
 					parseLocal(px.wt(last(splits[i].before))),
-					"okToNotUse", true)
+					'okToNotUse', true)
 				keys.push(local)
 				const sqtValue = i === splits.length - 2 ?
 					splits[i + 1].before :
@@ -35,7 +35,7 @@ export default function parseExpr(px) {
 					// TODO: Include name span
 					span: value.span,
 					assignee: local,
-					k: ". ",
+					k: '. ',
 					value: parseExprPlain(px.w(sqtValue))
 				}))
 			}
@@ -90,13 +90,13 @@ export function parseExprParts(px) {
 		case Keyword.is(KFun)(first):
 			return [ parseFun_()(px.w(rest), first.k) ]
 		// `case!` can not be part of an expression - it is a statement.
-		case Keyword.is("case")(first):
-			return [ parseCase(px.w(rest), "case", false) ]
+		case Keyword.is('case')(first):
+			return [ parseCase(px.w(rest), 'case', false) ]
 		case Keyword.is(GeneratorKeywords)(first): {
 			const y = parseExpr(px.w(rest))
 			switch (first.k) {
-				case "<~": return [ Yield(px.s({ yielded: y })) ]
-				case "<~~": return [ YieldTo(px.s({ yieldedTo: y })) ]
+				case '<~': return [ Yield(px.s({ yielded: y })) ]
+				case '<~~': return [ YieldTo(px.s({ yieldedTo: y })) ]
 				default: throw new Error(first.k)
 			}
 		}

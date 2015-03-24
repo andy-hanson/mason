@@ -1,20 +1,20 @@
-import assert from "assert"
-import check from "../check"
+import assert from 'assert'
+import check from '../check'
 import E, { Assign, AssignDestructure, BlockWrap, Call, Debug, Debugger, DictReturn,
-	Fun, EndLoop, ListEntry, Loop, MapEntry, True, Yield, YieldTo } from "../Expression"
-import { defaultLoopName, LineSplitKeywords } from "../Lang"
-import { Group, Keyword, Name } from "../Token"
-import { set } from "../U"
-import { ifElse, some } from "../U/Op"
-import { head, isEmpty, last, opSplitOnceWhere, tail } from "../U/Bag"
-import type, { isa } from "../U/type"
-import parseCase from "./parseCase"
-import parseExpr from "./parseExpr"
-import parseLocals from "./parseLocals"
-import parseUse from "./parseUse"
-import Px from "./Px"
+	Fun, EndLoop, ListEntry, Loop, MapEntry, True, Yield, YieldTo } from '../Expression'
+import { defaultLoopName, LineSplitKeywords } from '../Lang'
+import { Group, Keyword, Name } from '../Token'
+import { set } from '../U'
+import { ifElse, some } from '../U/Op'
+import { head, isEmpty, last, opSplitOnceWhere, tail } from '../U/Bag'
+import type, { isa } from '../U/type'
+import parseCase from './parseCase'
+import parseExpr from './parseExpr'
+import parseLocals from './parseLocals'
+import parseUse from './parseUse'
+import Px from './Px'
 // TODO
-const parseBlock_ = () => require("./parseBlock")
+const parseBlock_ = () => require('./parseBlock')
 
 // Returns line or sq of lines
 export default function parseLine(px) {
@@ -26,30 +26,30 @@ export default function parseLine(px) {
 	// We only deal with mutable expressions here, otherwise we fall back to parseExpr.
 	if (isa(first, Keyword))
 		switch (first.k) {
-			case ". ":
+			case '. ':
 				return ListEntry(px.s({
 					value: parseExpr(pxRest),
 					// This is set by parseBlock.
 					index: -1
 				}))
-			case "case!":
-				return parseCase(pxRest, "case!", false)
-			case "debug":
+			case 'case!':
+				return parseCase(pxRest, 'case!', false)
+			case 'debug':
 				return Group.is('->')(px.sqt[1]) ?
 					// `debug`, then indented block
 					Debug(px.s({ lines: parseLines(px) })) :
 					// e.g. `debug use`
 					Debug(px.s({ lines: parseLineOrLines(pxRest) }))
-			case "debugger":
-				px.checkEmpty(pxRest().sqt, () => "Did not expect anything after " + first)
+			case 'debugger':
+				px.checkEmpty(pxRest().sqt, () => `Did not expect anything after ${first}`)
 				return Debugger(px.s({}))
-			case "end-loop!":
+			case 'end-loop!':
 				return EndLoop(px.s({ name: loopName(pxRest) }))
-			case "loop!":
+			case 'loop!':
 				return parseLoop(pxRest)
-			case "region":
+			case 'region':
 				return parseLines(px)
-			case "use": case "use!": case "use~":
+			case 'use': case 'use!': case 'use~':
 				return parseUse(pxRest, first.k)
 			default:
 				// fall through
@@ -71,7 +71,7 @@ export function parseLineOrLines(px) {
 
 export function parseLines(px) {
 	const first = head(px.sqt)
-	check(px.sqt.length > 1, first.span, "Expected indented block after " + first)
+	check(px.sqt.length > 1, first.span, `Expected indented block after ${first}`)
 	const block = px.sqt[1]
 	assert(px.sqt.length === 2 && Group.is('->')(block))
 	const out = []
@@ -86,15 +86,15 @@ function parseAssign(px, assigned, assigner, value) {
 	const k = assigner.k
 	const eValuePre = isEmpty(value) ? True(px.s({})) : parseExpr(px.w(value))
 
-	let eValueNamed;
+	let eValueNamed
 	if (locals.length === 1) {
 		const name = head(locals).name
-		if (name === "doc")
+		if (name === 'doc')
 			if (eValuePre instanceof Fun)
 				// KLUDGE: `doc` for module can be a Fun signature.
 				// TODO: Something better...
-				eValueNamed = set(eValuePre, "args",
-					eValuePre.args.map(arg => set(arg, "okToNotUse", true)))
+				eValueNamed = set(eValuePre, 'args',
+					eValuePre.args.map(arg => set(arg, 'okToNotUse', true)))
 			else
 				eValueNamed = eValuePre
 		else
@@ -103,24 +103,24 @@ function parseAssign(px, assigned, assigner, value) {
 	else
 		eValueNamed = eValuePre
 
-	const isYield = k === "<~" || k === "<~~"
+	const isYield = k === '<~' || k === '<~~'
 
 	const eValue = valueFromAssign(eValueNamed, k)
 
 	if (isEmpty(locals)) {
-		px.check(isYield, "Assignment to nothing")
+		px.check(isYield, 'Assignment to nothing')
 		return eValue
 	}
 
 	if (isYield)
-		locals.forEach(_ => check(_.k !== "lazy", _.span, "Can not yield to lazy variable."))
+		locals.forEach(_ => check(_.k !== 'lazy', _.span, 'Can not yield to lazy variable.'))
 
-	if (k === ". ")
-		locals = locals.map(l => set(l, "okToNotUse", true))
+	if (k === '. ')
+		locals = locals.map(l => set(l, 'okToNotUse', true))
 
 	if (locals.length === 1) {
 		const assign = Assign(px.s({ assignee: locals[0], k: k, value: eValue }))
-		if (assign.assignee.name.endsWith("test") && k === ". ")
+		if (assign.assignee.name.endsWith('test') && k === '. ')
 			return Debug(px.s({ lines: [ assign ] }))
 		else return assign
 	}
@@ -128,7 +128,7 @@ function parseAssign(px, assigned, assigner, value) {
 		const isLazy = locals.some(l => l.isLazy)
 		if (isLazy)
 			locals.forEach(_ => check(_.isLazy, _.span,
-				"If any part of destructuring assign is lazy, all must be."))
+				'If any part of destructuring assign is lazy, all must be.'))
 		return AssignDestructure(px.s({
 			assignees: locals,
 			k: k,
@@ -141,9 +141,9 @@ function parseAssign(px, assigned, assigner, value) {
 
 function valueFromAssign(valuePre, kAssign) {
 	switch (kAssign) {
-		case "<~":
+		case '<~':
 			return Yield({ span: valuePre.span, yielded: valuePre })
-		case "<~~":
+		case '<~~':
 			return YieldTo({ span: valuePre.span, yieldedTo: valuePre })
 		default:
 			return valuePre
@@ -172,15 +172,15 @@ function tryAddDisplayName(eValuePre, displayName) {
 				opDisplayName: some(displayName)
 			})
 
-		case isa(eValuePre, DictReturn) && !eValuePre.keys.some(key => key.name === "displayName"):
-			return set(eValuePre, "opDisplayName", some(displayName))
+		case isa(eValuePre, DictReturn) && !eValuePre.keys.some(key => key.name === 'displayName'):
+			return set(eValuePre, 'opDisplayName', some(displayName))
 
 		case isa(eValuePre, BlockWrap):
 			return ifElse(eValuePre.body.opReturn,
 				ret => {
 					const namedRet = tryAddDisplayName(ret, displayName)
-					return set(eValuePre, "body",
-						set(eValuePre.body, "opReturn", some(namedRet)))
+					return set(eValuePre, 'body',
+						set(eValuePre.body, 'opReturn', some(namedRet)))
 				},
 				() => eValuePre)
 
@@ -190,7 +190,7 @@ function tryAddDisplayName(eValuePre, displayName) {
 }
 
 function parseLoop(px) {
-	const _ = parseBlock_().takeBlockFromEnd(px, "do")
+	const _ = parseBlock_().takeBlockFromEnd(px, 'do')
 	return Loop(px.s({ name: loopName(px.w(_.before)), body: _.block }))
 }
 
@@ -199,10 +199,10 @@ function loopName(px) {
 		case 0:
 			return defaultLoopName
 		case 1:
-			px.check(isa(px.sqt[0], Name), () => "Expected a loop name, not " + px.sqt[0])
+			px.check(isa(px.sqt[0], Name), () => `Expected a loop name, not ${px.sqt[0]}`)
 			return px.sqt[0].name
 		default:
-			px.fail("Expected a loop name")
+			px.fail('Expected a loop name')
 	}
 }
 

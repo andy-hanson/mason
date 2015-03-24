@@ -1,4 +1,4 @@
-import { GroupPres } from "../Lang"
-import { spanType } from "../Span"
+import { GroupPres } from '../Lang'
+import { spanType } from '../Span'
 
-export default spanType("GroupPre", Object, { k: GroupPres })
+export default spanType('GroupPre', Object, { k: GroupPres })

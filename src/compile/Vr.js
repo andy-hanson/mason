@@ -1,10 +1,10 @@
-import assert from "assert"
-import Expression, { BlockWrap, CaseVal, LocalAccess } from "./Expression"
-import { isEmpty } from "./U/Bag"
-import type, { isa } from "./U/type"
-import { ObjType } from "./U/types"
+import assert from 'assert'
+import Expression, { BlockWrap, CaseVal, LocalAccess } from './Expression'
+import { isEmpty } from './U/Bag'
+import type, { isa } from './U/type'
+import { ObjType } from './U/types'
 
-const Vr = ObjType("Vr", Object, {
+const Vr = ObjType('Vr', Object, {
 	accessToLocal: Map,
 	// LocalDeclare -> LocalInfo
 	localToInfo: Map,
@@ -12,7 +12,7 @@ const Vr = ObjType("Vr", Object, {
 })
 export default Vr
 
-export const VrLocalInfo = ObjType("LocalInfo", Object, {
+export const VrLocalInfo = ObjType('LocalInfo', Object, {
 	isInDebug: Boolean,
 	debugAccesses: [LocalAccess],
 	nonDebugAccesses: [LocalAccess]

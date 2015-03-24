@@ -1,7 +1,7 @@
-import { basename, extname } from "path"
-import { ObjType } from "./U/types"
+import { basename, extname } from 'path'
+import { ObjType } from './U/types'
 
-const Opts = ObjType("Opts", Object, {
+const Opts = ObjType('Opts', Object, {
 	inFile: String,
 	checks: Boolean
 })
@@ -11,7 +11,7 @@ Object.assign(Opts.prototype, {
 		return noExt(basename(this.inFile))
 	},
 	jsBaseName() {
-		return this.moduleName() + ".js"
+		return `${this.moduleName()}.js`
 	},
 	modulePath() { return this.inFile },
 	includeTypeChecks() { return this.checks },

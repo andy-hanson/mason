@@ -1,6 +1,7 @@
-import chalk from "chalk"
-import Span, { Pos } from "./Span"
-import type, { isa } from "./U/type"
+import chalk from 'chalk'
+import Opts from './Opts'
+import Span, { Pos } from './Span'
+import type, { isa } from './U/type'
 
 export default function check(cond, spanOrPos, message) {
 	if (!cond)
@@ -8,9 +9,10 @@ export default function check(cond, spanOrPos, message) {
 }
 
 export function warnIf(opts, cond, spanOrPos, message) {
+	type(opts, Opts, cond, Boolean)
 	if (cond)
-		// Two spaces to match up with "error "
-		console.log(chalk.magenta("warn  ") + failMessage(spanOrPos, message, opts))
+		// Two spaces to match up with 'error '
+		console.log(`${chalk.magenta('warn')}  ${failMessage(spanOrPos, message, opts)}`)
 }
 
 export function fail(spanOrPos, message) {
@@ -24,13 +26,13 @@ function failMessage(spanOrPos, message, opts) {
 	type(p, Pos)
 	const msg = message instanceof Function ? message() : message
 	type(msg, String)
-	const posMessage = p + " " + highlightMarkdown(msg)
-	return opts ? chalk.green(opts.modulePath()) + " " + posMessage : posMessage
+	const posMessage = `${p} ${msg}`
+	return opts ? chalk.green(opts.modulePath()) + ' ' + posMessage : posMessage
 }
 
 function makeErrorType() {
 	const it = function(message) {
-		if (!(this instanceof it)) return new it(message);
+		if (!(this instanceof it)) return new it(message)
 		this.message = message
 		this.stack = new Error(message).stack
 	}
@@ -40,8 +42,3 @@ function makeErrorType() {
 
 export const CompileError = makeErrorType()
 
-function highlightMarkdown(str) {
-	return str.replace(/`[^`]*`/g, function(x) {
-		return chalk.bold.green(x.slice(1, x.length - 1))
-	})
-}

@@ -6,43 +6,43 @@ function setUnion() {
 	return s
 }
 
-const g = [ "<~", "<~~" ]
+const g = [ '<~', '<~~' ]
 export const GeneratorKeywords = new Set(g)
-export const AssignKeywords = new Set(["=", ". "].concat(g))
+export const AssignKeywords = new Set(['=', '. '].concat(g))
 
-export const LineSplitKeywords = setUnion(AssignKeywords, new Set(["->"]))
+export const LineSplitKeywords = setUnion(AssignKeywords, new Set(['->']))
 
 // `export` is not a keyword, but `. ` assigns in module context become exports.
-export const KAssign = setUnion(AssignKeywords, new Set(["export"]))
-export const KFun = new Set(["|", "~|"])
-export const CaseKeywords = new Set(["case", "case!"])
-export const SpecialKeywords = new Set(["undefined", "this-module-directory"])
-export const UseKeywords = new Set(["use", "use!", "use~"])
+export const KAssign = setUnion(AssignKeywords, new Set(['export']))
+export const KFun = new Set(['|', '~|'])
+export const CaseKeywords = new Set(['case', 'case!'])
+export const SpecialKeywords = new Set(['undefined', 'this-module-directory'])
+export const UseKeywords = new Set(['use', 'use!', 'use~'])
 
 export const AllKeywords = setUnion(
 	LineSplitKeywords, KFun, CaseKeywords, SpecialKeywords, UseKeywords, new Set([
-	"~",
-	":",
-	"_",
-	"debug",
-	"debugger",
-	"else",
-	"end-loop!",
-	"in",
-	"loop!",
-	"out",
-	"region",
-	"this",
+	'~',
+	':',
+	'_',
+	'debug',
+	'debugger',
+	'else',
+	'end-loop!',
+	'in',
+	'loop!',
+	'out',
+	'region',
+	'this',
 	// Kludge until ES6 modules work
-	"undefined"
+	'undefined'
 ]))
 
-export const ReservedWords = new Set([ "return" ])
+export const ReservedWords = new Set([ 'return' ])
 
-export const GroupKinds = new Set(["(", "[", "{", "->", "ln", "sp", '"'])
-export const GroupPres = setUnion(GroupKinds, new Set([")", "]", "}", "<-", 'close"']))
+export const GroupKinds = new Set(['(', '[', '{', '->', 'ln', 'sp', '"'])
+export const GroupPres = setUnion(GroupKinds, new Set([')', ']', '}', '<-', 'close"']))
 
-export const ReservedCharacters = new Set("`#;,")
+export const ReservedCharacters = new Set('`#;,')
 
 export const GroupOpenToClose = new Map([
 	['(', ')'],
@@ -57,6 +57,6 @@ export const GroupOpenToClose = new Map([
 // A `~` may appear in a name, but not at the beginning.
 export const isNameCharacter = (ch) => /[^()[\]{}\.:|_\ \\\n\t\""`#;,]/.test(ch)
 
-export const defaultLoopName = "anon-loop"
+export const defaultLoopName = 'anon-loop'
 
-export const fileExtension = ".ms"
+export const fileExtension = '.ms'

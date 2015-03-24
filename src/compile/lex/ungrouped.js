@@ -1,13 +1,32 @@
-import assert from "assert"
-import check, { fail, warnIf } from "../check"
-import { AllKeywords, isNameCharacter, ReservedCharacters, ReservedWords } from "../Lang"
-import Span, { single } from "../Span"
-import { CallOnFocus, DotName, Keyword, Literal, Name } from "../Token"
-import { rcons, repeat } from "../U/Bag"
-import type from "../U/type"
-import { code } from "../U"
-import GroupPre from "./GroupPre"
-import Stream from "./Stream"
+import assert from 'assert'
+import check, { fail, warnIf } from '../check'
+import { AllKeywords, isNameCharacter, ReservedCharacters, ReservedWords } from '../Lang'
+import Span, { single } from '../Span'
+import { CallOnFocus, DotName, Keyword, Literal, Name } from '../Token'
+import { rcons, repeat } from '../U/Bag'
+import type from '../U/type'
+import { code } from '../U'
+import GroupPre from './GroupPre'
+import Stream from './Stream'
+
+const cc = ch => ch.charCodeAt(0)
+const
+	N0 = cc('0'), N1 = cc('1'), N2 = cc('2'), N3 = cc('3'), N4 = cc('4'),
+	N5 = cc('5'), N6 = cc('6'), N7 = cc('7'), N8 = cc('8'), N9 = cc('9'),
+	OpParen = cc('('), OpBracket = cc('['), OpBrace = cc('{'),
+	ClParen = cc(')'), ClBracket = cc(']'), ClBrace = cc('}'),
+	Space = cc(' '),
+	Dot = cc('.'),
+	Colon = cc(':'),
+	Tilde = cc('~'),
+	Bar = cc('|'),
+	Underscore = cc('_'),
+	Backslash = cc('\\'),
+	Newline = cc('\n'),
+	Backtick = cc('`'),
+	Quote = cc('"'),
+	Tab = cc('\t'),
+	Hyphen = cc('-')
 
 export default function* lexPlain(opts, stream, isInQuote) {
 	type(stream, Stream, isInQuote, Boolean)
@@ -15,138 +34,158 @@ export default function* lexPlain(opts, stream, isInQuote) {
 	let indent = 0
 
 	while (stream.hasNext()) {
-		const st = singleToken()
-		if (st === 'STOP')
-			break
-		else if (st instanceof Array)
-			for (let i = 0; i < st.length; i = i + 1)
-				yield st[i]
-		else if (st.next)
-			yield* st
-		else
-			yield st
-	}
-
-	function singleToken() {
 		const startPos = stream.pos
 		const span = () => Span({ start: startPos, end: stream.pos })
-		const s = members => Object.assign(members, { span: span() })
-		const keyword = k => Keyword(s({ k: k }))
-		const gp = k => GroupPre(s({ k: k }))
+		const s = members => {
+			members.span = span()
+			return members
+		}
+		const keyword = k => Keyword({ span: span(), k: k })
+		const gp = k => GroupPre({ span: span(), k: k })
 
 		function eatNumber() {
 			let msLit = _ + stream.takeWhile(/[0-9\.e_]/)
-			if (msLit.endsWith(".")) {
+			if (msLit.endsWith('.')) {
 				msLit = msLit.slice(0, msLit.length - 1)
 				stream.stepBack()
 			}
-			const jsLit = msLit.replace(/_/g, "")
-			check(!Number.isNaN(Number(jsLit)), stream.pos,
-				"Invalid number literal " + code(msLit))
+			const jsLit = msLit.replace(/_/g, '')
+			check(!Number.isNaN(Number(jsLit)), stream.pos, () =>
+				`Invalid number literal ${code(msLit)}`)
 			return Literal(s({ value: jsLit, k: Number }))
 		}
 
 		const _ = stream.eat()
-		switch (_) {
-			case '0': case '1': case '2': case '3': case '4':
-			case '5': case '6': case '7': case '8': case '9':
-				return eatNumber()
-			case '(': case '[': case '{': case ')': case ']':
-				return gp(_)
-			case '}':
-				return isInQuote ? "STOP" : gp(_)
-			case ' ':
-				warnIf(opts, stream.peek() === ' ', span(), "Multiple spaces in a row")
-				return gp("sp")
-			case '.':
-				if (stream.peek() === ' ' || stream.peek() === '\n')
+		switch (cc(_)) {
+			case N0: case N1: case N2: case N3: case N4:
+			case N5: case N6: case N7: case N8: case N9:
+				yield eatNumber(_, stream)
+				break
+			case OpParen: case OpBracket: case OpBrace: case ClParen: case ClBracket:
+				yield gp(_)
+				break
+			case ClBrace:
+				if (isInQuote)
+					return
+				yield gp(_)
+				break
+			case Space:
+				warnIf(opts, stream.peek() === ' ', span, 'Multiple spaces in a row')
+				yield gp('sp')
+				break
+			case Dot:
+				if (stream.peek() === ' ' || stream.peek() === '\n') {
 					// Dict assign in its own spaced group
-					return [ gp("sp"), keyword(". "), gp("sp") ]
-				else
-					return DotName(s({
+					yield gp('sp')
+					yield keyword('. ')
+					yield gp('sp')
+					break
+				} else {
+					yield DotName(s({
 						// +1 for the dot we just skipped.
 						nDots: stream.takeWhile('.').length + 1,
-						name: stream.takeWhile(isNameCharacter)}))
-			case ':':
-				return keyword(":")
-			case '~':
-				return stream.tryEat("|") ?
-					// First arg in its own spaced group
-					[ keyword("~|"), gp("sp") ] :
-					keyword("~")
-			case '|':
+						name: stream.takeWhile(isNameCharacter)
+					}))
+					break
+				}
+			case Colon:
+				yield keyword(':')
+				break
+			case Tilde:
+				if (stream.tryEat('|')) {
+					yield keyword('~|')
+					yield gp('sp')
+					break
+				} else {
+					yield keyword('~')
+					break
+				}
+				break
+			case Bar:
 				// First arg in its own spaced group
-				return [ keyword("|"), gp("sp") ]
-			case '_':
-				return keyword("_")
-			case '\\':
+				yield keyword('|')
+				yield gp('sp')
+				break
+			case Underscore:
+				yield keyword('_')
+				break
+			case Backslash:
 				stream.takeUpTo('\n')
-				return singleToken()
-			case '\n': {
-				check(!isInQuote, span(), "Quote interpolation cannot contain newline")
-				check(stream.prev() !== ' ', span(), "Line ends in a space")
+				break
+			case Newline: {
+				check(!isInQuote, span, 'Quote interpolation cannot contain newline')
+				check(stream.prev() !== ' ', span, 'Line ends in a space')
 				// Skip any blank lines.
 				stream.takeWhile('\n')
 				const oldIndent = indent
 				indent = stream.takeWhile('\t').length
-				check(stream.peek() !== ' ', single(stream.pos), "Line begins in a space")
-				if (indent <= oldIndent)
-					return rcons(repeat(gp('<-'), oldIndent - indent), gp('ln'))
-				else {
-					check(indent === oldIndent + 1, span(), "Line is indented more than once")
-					return gp('->')
+				check(stream.peek() !== ' ', stream.pos, 'Line begins in a space')
+				if (indent <= oldIndent) {
+					for (let i = indent; i < oldIndent; i = i + 1)
+						yield gp('<-')
+					yield gp('ln')
+				} else {
+					check(indent === oldIndent + 1, span, 'Line is indented more than once')
+					yield gp('->')
 				}
+				break
 			}
-			case '`': {
+			case Backtick: {
 				const js = stream.takeUpTo(/[`\n]/)
-				check(stream.eat() === "`", span(), "Unclosed " + code("`"))
-				return Literal(s({ value: js, k: "js" }))
+				check(stream.eat() === '`', span, () => `Unclosed ${code('`')}`)
+				yield Literal(s({ value: js, k: 'js' }))
+				break
 			}
-			case '"':
-				return lexQuote(opts, stream, indent)
-			case '\t':
-				fail(span(), "Tab may only be used to indent")
-			case "-":
-				if (/[0-9]/.test(stream.peek()))
-					return eatNumber()
+			case Quote:
+				yield* lexQuote(opts, stream, indent)
+				break
+			case Tab:
+				fail(span(), 'Tab may only be used to indent')
+			case Hyphen:
+				if (/[0-9]/.test(stream.peek())) {
+					yield eatNumber()
+					break
+				}
 				// Else fallthrough
 			default: {
-				check(!ReservedCharacters.has(_), span(), "Reserved character '" + _ + "'")
+				check(!ReservedCharacters.has(_), span, () => `Reserved character ${code(_)}`)
 				// All other characters should be handled in a case above.
 				assert(isNameCharacter(_))
 				const name = _ + stream.takeWhile(isNameCharacter)
 				switch (name) {
-					case "region":
+					case 'region':
 						// Rest of line is a comment.
 						stream.takeUpTo('\n')
-						return keyword("region")
+						yield keyword('region')
+						break
 					default:
 						if (stream.tryEat('_'))
-							return CallOnFocus(s({ name: name }))
+							yield CallOnFocus(s({ name: name }))
 						else if (AllKeywords.has(name))
-							return keyword(name)
+							yield keyword(name)
 						else if (ReservedWords.has(name))
-							fail(span(), "Reserved word " + code(name))
+							fail(span, `Reserved word ${code(name)}`)
 						else
-							return Name(s({ name: name }))
+							yield Name(s({ name: name }))
 				}
 			}
 		}
 	}
 }
 
-const lexQuote = function*(opts, stream, indent) {
+
+function* lexQuote(opts, stream, indent) {
 	type(stream, Stream, indent, Number)
 
 	const isIndented = stream.peek() === '\n'
 	const quoteIndent = indent + 1
 
 	let first = true
-	let read = ""
+	let read = ''
 	let startOfRead = stream.pos
 
-	const yieldRead = function*() {
-		if (read !== "") {
+	function* yieldRead() {
+		if (read !== '') {
 			yield Literal({
 				span: Span({ start: startOfRead, end: stream.pos }),
 				// Don't include leading newline of indented block
@@ -155,39 +194,37 @@ const lexQuote = function*(opts, stream, indent) {
 			})
 			first = false
 		}
-		read = ""
+		read = ''
 		startOfRead = stream.pos
 	}
 
 	yield GroupPre({ span: single(stream.pos), k: '"' })
 
 	eatChars: while (true) {
-		const restorePoint = stream.restorePoint()
+		const chPos = stream.pos
 		const ch = stream.eat()
-
-		switch (ch) {
-			case '\\': {
+		switch (cc(ch)) {
+			case Backslash: {
 				const escaped = stream.eat()
 				check(quoteEscape.has(escaped), stream.pos, () =>
-					"No need to escape " + code(escaped))
+					`No need to escape ${code(escaped)}`)
 				read = read + quoteEscape.get(escaped)
 				break
 			}
-			case '{': {
+			case OpBrace: {
 				yield* yieldRead()
 				// We can't just create a Group now because there may be other GroupPre_s inside.
-				yield GroupPre({ span: single(stream.pos), k: "(" })
+				yield GroupPre({ span: single(chPos), k: '(' })
 				yield* lexPlain(opts, stream, true)
-				yield GroupPre({ span: single(stream.pos), k: ")" })
+				yield GroupPre({ span: single(stream.pos), k: ')' })
 				break
 			}
-			case '\n': {
-				// TODO: Make file cleansing its own step?
-				check(stream.prev() !== ' ', stream.pos, "Line ends in a space")
-				check(isIndented, restorePoint.pos, "Unclosed quote.")
+			case Newline: {
+				check(stream.prev() !== ' ', chPos, 'Line ends in a space')
+				check(isIndented, chPos, 'Unclosed quote.')
 				let newIndent = stream.takeWhile('\t').length
 
-				let s = ""
+				let s = ''
 
 				// Allow blank lines.
 				if (newIndent === 0) {
@@ -199,7 +236,7 @@ const lexQuote = function*(opts, stream, indent) {
 				if (newIndent < quoteIndent) {
 					// Indented quote section is over.
 					// Undo reading the tabs and newline.
-					stream.restore(restorePoint)
+					stream.stepBackMany(chPos, newIndent + 1)
 					assert(stream.peek() === '\n')
 					break eatChars
 				}
@@ -207,7 +244,7 @@ const lexQuote = function*(opts, stream, indent) {
 					read = read + s + '\n' + '\t'.repeat(newIndent - quoteIndent)
 				break
 			}
-			case '"':
+			case Quote:
 				if (!isIndented)
 					break eatChars
 				// Else fallthrough
@@ -220,5 +257,5 @@ const lexQuote = function*(opts, stream, indent) {
 	yield GroupPre({ span: single(stream.pos), k: 'close"' })
 }
 
-const quoteEscape = new Map([['{', '{'], ['n', '\n'], ['t', '\t'], ['"', '"'], ["\\", "\\"]])
+const quoteEscape = new Map([['{', '{'], ['n', '\n'], ['t', '\t'], ['"', '"'], ['\\', '\\']])
 

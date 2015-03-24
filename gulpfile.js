@@ -2,7 +2,6 @@
 
 var
 	babel = require('gulp-babel'),
-	del = require('del'),
 	gulp = require('gulp'),
 	sourcemaps = require('gulp-sourcemaps'),
 	watch = require('gulp-watch')
@@ -48,10 +47,6 @@ function pipeJs(stream) {
 	.pipe(gulp.dest(dest))
 }
 
-gulp.task('clean', function(cb) {
-	del(dest, cb)
-})
-
 gulp.task('js', function() {
 	return pipeJs(gulp.src(src_js))
 })
@@ -67,6 +62,7 @@ gulp.task('watch', [ 'ms' ], function() {
 
 gulp.task('lint', function() {
 	// For some reason, requiring this makes es6-shim unhappy.
+	// So, can't lint and do other things in the same task.
 	var eslint = require('gulp-eslint')
 	return gulp.src(src_js)
 	.pipe(eslint())
@@ -74,5 +70,4 @@ gulp.task('lint', function() {
 	.pipe(eslint.failOnError())
 })
 
-// TODO: 'lint'
 gulp.task('default', [ 'watch' ])

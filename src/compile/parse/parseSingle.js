@@ -1,15 +1,15 @@
-import assert from "assert"
+import assert from 'assert'
 import { Call, ListSimple, ELiteral, LocalAccess,
-	Quote, SpecialKeyword, Splat, This } from "../Expression"
-import { CallOnFocus, DotName, Group, Keyword, Literal, Name } from "../Token"
-import { SpecialKeywords } from "../Lang"
-import type, { isa } from "../U/type"
-import parseSpaced from "./parseSpaced"
-import Px from "./Px"
+	Quote, SpecialKeyword, Splat, This } from '../Expression'
+import { CallOnFocus, DotName, Group, Keyword, Literal, Name } from '../Token'
+import { SpecialKeywords } from '../Lang'
+import type, { isa } from '../U/type'
+import parseSpaced from './parseSpaced'
+import Px from './Px'
 // TODO
 const
-	parseBlock_ = () => require("./parseBlock"),
-	parseExpr_ = () => require("./parseExpr")
+	parseBlock_ = () => require('./parseBlock'),
+	parseExpr_ = () => require('./parseExpr')
 
 export default function parseSingle(px) {
 	type(px, Px)
@@ -26,9 +26,9 @@ export default function parseSingle(px) {
 			return ELiteral(t)
 		case isa(t, Name):
 			return LocalAccess(px.s({ name: t.name }))
-		case Keyword.is("this")(t):
+		case Keyword.is('this')(t):
 			return This(px.s({}))
-		case Keyword.is("_")(t):
+		case Keyword.is('_')(t):
 			return LocalAccess.focus(px.span)
 		case Keyword.is(SpecialKeywords)(t):
 			return SpecialKeyword(px.s({ k: t.k }))
@@ -36,7 +36,7 @@ export default function parseSingle(px) {
 		case Group.is('sp')(t):
 			return parseSpaced(px.w(t.sqt))
 		case Group.is('->')(t):
-			return parseBlock_().wrap(px.w(t.sqt), "val")
+			return parseBlock_().wrap(px.w(t.sqt), 'val')
 		case Group.is('"')(t):
 			return Quote(px.s({
 				parts: t.sqt.map(tSub => parseSingle(px.wt(tSub)))
@@ -53,6 +53,6 @@ export default function parseSingle(px) {
 				return Splat(px.s({ splatted: LocalAccess(px.s({ name: t.name })) }))
 
 		default:
-			px.fail("Unexpected " + t)
+			px.fail(`Unexpected ${t}`)
 	}
 }

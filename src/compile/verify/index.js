@@ -1,13 +1,13 @@
-import check, { fail, warnIf } from "../check"
-import E, * as EExports from "../Expression"
-import Opts from "../Opts"
-import type from "../U/type"
-import { code, ignore, implementMany } from "../U"
-import { ifElse } from "../U/Op"
-import { cons, head, isEmpty, toArray } from "../U/Bag"
-import verifyLines from "./verifyLines"
-import { vxStart } from "./Vx"
-import { v, vm } from "./util"
+import check, { fail, warnIf } from '../check'
+import E, * as EExports from '../Expression'
+import Opts from '../Opts'
+import type from '../U/type'
+import { code, ignore, implementMany } from '../U'
+import { ifElse } from '../U/Op'
+import { cons, head, isEmpty, toArray } from '../U/Bag'
+import verifyLines from './verifyLines'
+import { vxStart } from './Vx'
+import { v, vm } from './util'
 
 export default function verify(e, opts) {
 	type(e, E, opts, Opts)
@@ -21,19 +21,15 @@ function verifyLocalUse(vr, opts) {
 	for (let local of vr.localToInfo.keys()) {
 		const info = vr.localToInfo.get(local)
 		const noNonDebug = isEmpty(info.nonDebugAccesses)
-		if (info.isInDebug)
-			check(noNonDebug, local.span, () =>
-				"Debug-only local " + code(local.name) +
-				" used outside of debug at " + info.nonDebugAccesses[0].span)
 		if (noNonDebug && isEmpty(info.debugAccesses))
 			warnIf(opts, !local.okToNotUse, local.span, () =>
-				"Unused local variable " + code(local.name) + ".")
+				`Unused local variable ${code(local.name)}.`)
 		else if (info.isInDebug)
-			check(noNonDebug, local.span, () =>
-				"Debug-only local used at " + head(info.nonDebugAccesses).span)
+			check(noNonDebug, () => head(info.nonDebugAccesses).span, () =>
+				`Debug-only local ${code(local.name)} used outside of debug.`)
 		else
 			warnIf(opts, !local.okToNotUse && noNonDebug, local.span, () =>
-				"Local " + code(local.name) + " used only in debug.")
+				`Local ${code(local.name)} used only in debug.`)
 	}
 }
 
@@ -41,7 +37,7 @@ function vCaseDo(_, vx) {
 	_.parts.concat(_.opElse).forEach(v(vx))
 }
 
-implementMany(EExports, "verify", {
+implementMany(EExports, 'verify', {
 	BlockBody: (_, vx) => {
 		_.opIn.forEach(v(vx))
 		const vxRet = verifyLines(vx, _.lines)
@@ -60,27 +56,26 @@ implementMany(EExports, "verify", {
 	},
 	// Only reach here for in/out condition
 	Debug: (_, vx) => { verifyLines(vx, [ _ ]) },
-	EndLoop: (_, vx) => check(vx.hasLoop(_.name), _.span, "No loop called `" + _.name + "`"),
+	EndLoop: (_, vx) => check(vx.hasLoop(_.name), _.span, `No loop called ${code(_.name)}`),
 	Fun: (_, vx) => {
 		vx = vx.withBlockLocals()
 		_.opReturnType.forEach(v(vx))
 		if (!isEmpty(_.opReturnType))
 			check(!isEmpty(_.body.opReturn), _.span,
-				"Function with return type must return something.")
+				'Function with return type must return something.')
 		_.args.forEach((arg) => arg.opType.forEach(v(vx)))
-		const vxGen = _.k === "~|" ? vx.inGenerator() : vx.notInGenerator()
+		const vxGen = _.k === '~|' ? vx.inGenerator() : vx.notInGenerator()
 		const allArgs = _.args.concat(_.opRestArg)
 		allArgs.forEach(_ => vx.registerLocal(_))
 		const vxBody = vxGen.plusLocals(allArgs)
 		v(vxBody)(_.body)
 	},
 	LocalAccess: (_, vx) => {
-		const me = _
 		ifElse(vx.opGetLocal(_.name),
-			l => vx.setAccessToLocal(me, l),
-			() => fail(me.span,
-				"Could not find local `" + me.name + "`\n" +
-				"Available locals are: [`" + toArray(vx.allLocalNames()).join("`, `") + "`]"))
+			l => vx.setAccessToLocal(_, l),
+			() => fail(_.span,
+				`Could not find local ${code(_.name)}.` +
+				`Available locals are: [${toArray(vx.allLocalNames()).map(code).join(', ')}])`))
 	},
 	Loop: (_, vx) => v(vx.plusLoop(_.name))(_.body),
 	// Adding LocalDeclares to the available locals is done by Fun and buildVxBlockLine.
@@ -90,11 +85,11 @@ implementMany(EExports, "verify", {
 		v(vx)(_.val)
 	},
 	Yield: (_, vx) => {
-		check(vx.isInGenerator, _.span, "Cannot yield outside of generator context")
+		check(vx.isInGenerator, _.span, 'Cannot yield outside of generator context')
 		v(vx)(_.yielded)
 	},
 	YieldTo: (_, vx) => {
-		check(vx.isInGenerator, _.span, "Cannot yield outside of generator context")
+		check(vx.isInGenerator, _.span, 'Cannot yield outside of generator context')
 		v(vx)(_.yieldedTo)
 	},
 
@@ -113,7 +108,7 @@ implementMany(EExports, "verify", {
 	ListReturn: ignore,
 	ListEntry: (_, vx) => { v(vx)(_.value) },
 	ListSimple: (_, vx) => { _.parts.map(v(vx)) },
-	ELiteral: (_, vx) => { warnIf(vx.opts, _.k === 'js', _.span, "Js literal") },
+	ELiteral: (_, vx) => { warnIf(vx.opts, _.k === 'js', _.span, 'Js literal') },
 	MapReturn: ignore,
 	Member: (_, vx) => { v(vx)(_.object) },
 	Module: (_, vx) => { v(vx)(_.body) },
@@ -121,7 +116,7 @@ implementMany(EExports, "verify", {
 	Null: ignore,
 	Quote: (_, vx) => { vm(vx, _.parts) },
 	Require: ignore,
-	Scope: () => { throw new Error("Scopes are handled specially by verifyLines.") },
+	Scope: () => { throw new Error('Scopes are handled specially by verifyLines.') },
 	SpecialKeyword: ignore,
 	Splat: (_, vx) => { v(vx)(_.splatted) },
 	Sub: (_, vx) => { vm(vx, cons(_.subject, _.subbers)) },
