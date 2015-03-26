@@ -3,7 +3,7 @@ import { Call, Lazy, LocalAccess, Member, Sub, TypeTest } from '../Expression'
 import { DotName, Group, Keyword } from '../Token'
 import { code } from '../U'
 import { head, tail } from '../U/Bag'
-import type, { isa } from '../U/type'
+import type from '../U/type'
 import Px from './Px'
 const
 	parseSingle_ = () => require('./parseSingle'),
@@ -24,26 +24,26 @@ export default function parseSpaced(px) {
 		default: {
 			const memberOrSubscript = px => (e, t) => {
 				const span = t.span
-				if (isa(t, DotName))
+				if (t instanceof DotName)
 					switch (t.nDots) {
 						case 1:
 							return Member({ span: span, object: e, name: t.name })
 						default:
 							fail(span, 'Too many dots!')
 					}
-				if (Group.is('[')(t))
+				else if (Group.is('[')(t))
 					return Sub({
 						span: span,
 						subject: e,
 						subbers: parseExpr_().parseExprParts(px.w(t.sqt))
 					})
-				if (Group.is('(')(t))
+				else if (Group.is('(')(t))
 					return Call({
 						span: span,
 						called: e,
 						args: []
 					})
-				fail(span, `Expected member or sub, not ${code(t)}`)
+				else fail(span, `Expected member or sub, not ${code(t)}`)
 			}
 			return rest.reduce(memberOrSubscript(px), parseSingle_()(px.wt(h)))
 		}

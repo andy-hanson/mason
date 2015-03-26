@@ -2,7 +2,7 @@ import check from '../check'
 import { BlockBody, Fun, LocalDeclare } from '../Expression'
 import { CaseKeywords, KFun } from '../Lang'
 import { DotName, Group, Keyword } from '../Token'
-import type, { isa } from '../U/type'
+import type from '../U/type'
 import { code } from '../U'
 import { ifElse, None, opIf, some } from '../U/Op'
 import { head, isEmpty, last, opSplitOnceWhere, rtail, tail } from '../U/Bag'
@@ -91,7 +91,7 @@ function parseFunLocals(px) {
 		}
 	else {
 		const l = last(px.sqt)
-		if (isa(l, DotName)) {
+		if (l instanceof DotName) {
 			check(l.nDots === 3, l.span, 'Splat argument must have exactly 3 dots')
 			return {
 				args: parseLocals(px.w(rtail(px.sqt))),

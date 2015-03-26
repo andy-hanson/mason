@@ -1,6 +1,6 @@
 import { AllKeywords, GroupKinds, GroupOpenToClose } from './Lang'
 import { spanType } from './Span'
-import type, { isa } from './U/type'
+import type from './U/type'
 import { abstractType } from './U/types'
 import { code, implementMany2 } from './U'
 
@@ -16,20 +16,20 @@ export const DotName = t('DotName', { nDots: Number, name: String })
 export const Group = t('Group', { sqt: [Token], k: String })
 Group.is = k => t => {
 	type(t, Token, k, GroupKinds)
-	return isa(t, Group) && t.k === k
+	return t instanceof Group && t.k === k
 }
 export const Keyword = t('Keyword', { k: AllKeywords })
 Keyword.is = k => {
 	if (k instanceof Set)
 		return t => {
 			type(t, Token)
-			return isa(t, Keyword) && k.has(t.k)
+			return t instanceof Keyword && k.has(t.k)
 		}
 	else {
 		type(k, AllKeywords)
 		return t => {
 			type(t, Token)
-			return isa(t, Keyword) && t.k === k
+			return t instanceof Keyword && t.k === k
 		}
 	}
 }

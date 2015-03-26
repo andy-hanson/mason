@@ -7,7 +7,7 @@ import { Group, Keyword, Name } from '../Token'
 import { set } from '../U'
 import { ifElse, some } from '../U/Op'
 import { head, isEmpty, last, opSplitOnceWhere, tail } from '../U/Bag'
-import type, { isa } from '../U/type'
+import type from '../U/type'
 import parseCase from './parseCase'
 import parseExpr from './parseExpr'
 import parseLocals from './parseLocals'
@@ -24,7 +24,7 @@ export default function parseLine(px) {
 	const pxRest = px.w(tail(px.sqt))
 
 	// We only deal with mutable expressions here, otherwise we fall back to parseExpr.
-	if (isa(first, Keyword))
+	if (first instanceof Keyword)
 		switch (first.k) {
 			case '. ':
 				return ListEntry(px.s({
@@ -158,13 +158,13 @@ function valueFromAssign(valuePre, kAssign) {
 function tryAddDisplayName(eValuePre, displayName) {
 	type(eValuePre, E, displayName, String)
 	switch (true) {
-		case isa(eValuePre, Call) && eValuePre.args.length > 0:
+		case eValuePre instanceof Call && eValuePre.args.length > 0:
 			// TODO: Immutable
 			eValuePre.args[eValuePre.args.length - 1] =
 				tryAddDisplayName(last(eValuePre.args), displayName)
 			return eValuePre
 
-		case isa(eValuePre, Fun):
+		case eValuePre instanceof Fun:
 			return DictReturn({
 				span: eValuePre.span,
 				keys: [], debugKeys: [],
@@ -172,10 +172,11 @@ function tryAddDisplayName(eValuePre, displayName) {
 				opDisplayName: some(displayName)
 			})
 
-		case isa(eValuePre, DictReturn) && !eValuePre.keys.some(key => key.name === 'displayName'):
+		case eValuePre instanceof DictReturn &&
+			!eValuePre.keys.some(key => key.name === 'displayName'):
 			return set(eValuePre, 'opDisplayName', some(displayName))
 
-		case isa(eValuePre, BlockWrap):
+		case eValuePre instanceof BlockWrap:
 			return ifElse(eValuePre.body.opReturn,
 				ret => {
 					const namedRet = tryAddDisplayName(ret, displayName)
@@ -199,7 +200,7 @@ function loopName(px) {
 		case 0:
 			return defaultLoopName
 		case 1:
-			px.check(isa(px.sqt[0], Name), () => `Expected a loop name, not ${px.sqt[0]}`)
+			px.check(px.sqt[0] instanceof Name, () => `Expected a loop name, not ${px.sqt[0]}`)
 			return px.sqt[0].name
 		default:
 			px.fail('Expected a loop name')

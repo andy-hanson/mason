@@ -3,7 +3,7 @@ import { Call, ListSimple, ELiteral, LocalAccess,
 	Quote, SpecialKeyword, Splat, This } from '../Expression'
 import { CallOnFocus, DotName, Group, Keyword, Literal, Name } from '../Token'
 import { SpecialKeywords } from '../Lang'
-import type, { isa } from '../U/type'
+import type from '../U/type'
 import parseSpaced from './parseSpaced'
 import Px from './Px'
 // TODO
@@ -16,15 +16,14 @@ export default function parseSingle(px) {
 	const t = px.sqt[0]
 	assert(px.sqt.length === 1)
 	switch (true) {
-		case isa(t, CallOnFocus):
+		case t instanceof CallOnFocus:
 			return Call(px.s({
 				called: LocalAccess(px.s({ name: t.name })),
 				args: [ LocalAccess.focus(px.span) ]
 			}))
-
-		case isa(t, Literal):
+		case t instanceof Literal:
 			return ELiteral(t)
-		case isa(t, Name):
+		case t instanceof Name:
 			return LocalAccess(px.s({ name: t.name }))
 		case Keyword.is('this')(t):
 			return This(px.s({}))
@@ -32,7 +31,6 @@ export default function parseSingle(px) {
 			return LocalAccess.focus(px.span)
 		case Keyword.is(SpecialKeywords)(t):
 			return SpecialKeyword(px.s({ k: t.k }))
-
 		case Group.is('sp')(t):
 			return parseSpaced(px.w(t.sqt))
 		case Group.is('->')(t):
@@ -47,11 +45,9 @@ export default function parseSingle(px) {
 			return ListSimple(px.s({
 				parts: parseExpr_().parseExprParts(px.w(t.sqt))
 			}))
-
-		case isa(t, DotName):
+		case t instanceof DotName:
 			if (t.nDots === 3)
 				return Splat(px.s({ splatted: LocalAccess(px.s({ name: t.name })) }))
-
 		default:
 			px.fail(`Unexpected ${t}`)
 	}

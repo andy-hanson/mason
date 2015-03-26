@@ -19,7 +19,9 @@ export	const
 	// Bool.ms
 	iTrue = true,
 	iFalse = false,
-	iAnd = (...args) => {
+	// TODO:ES6 ...args
+	iAnd = function() {
+		const args = arguments
 		switch (args.length) {
 			case 0: return true
 			case 1: return bool(args[0])
@@ -34,7 +36,9 @@ export	const
 				return true
 		}
 	},
-	iOr = (...args) =>{
+	// TODO:ES6 (...args) => {
+	iOr = function() {
+		const args = arguments
 		switch (args.length) {
 			case 0: return false
 			case 1: return bool(args[0])
@@ -138,4 +142,7 @@ export	const
 	},
 
 	// Fun.ms
-	iCurry = (f, ...args) => Function.prototype.bind.call(f, null, ...args)
+	// TODO:ES6 (f, ...args) => Function.prototype.bind.call(f, null, ...args)
+	iCurry = function(f) {
+		return Function.prototype.bind.apply(f, arguments)
+	}

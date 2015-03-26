@@ -30,6 +30,7 @@ if (require.main === module) {
 		checks: true
 	})
 
+	console.time('all')
 	const t = time(lex, source, opts)
 	// log(`==>\n${t}`)
 	const e = time(parse, t, opts)
@@ -39,5 +40,6 @@ if (require.main === module) {
 	const ast = time(transpile, e, opts, vr)
 	const { code, map } = time(render, ast, opts)
 	time(function renderSourceMap(_) { return _.toString() }, map)
+	console.timeEnd('all')
 	log(`==>\n${code}`)
 }

@@ -6,7 +6,7 @@ import { DotName, Group, Name } from '../Token'
 import { code, set } from '../U'
 import { None } from '../U/Op'
 import { head, isEmpty, last, repeat, tail } from '../U/Bag'
-import type, { isa } from '../U/type'
+import type from '../U/type'
 import Px from './Px'
 const
 	parseBlock_ = () => require('./parseBlock'),
@@ -55,12 +55,12 @@ function useLine(px, k) {
 function parseRequire(px) {
 	assert(px.sqt.length === 1)
 	const t = px.sqt[0]
-	if (isa(t, Name))
+	if (t instanceof Name)
 		return {
 			required: Require({ span: t.span, path: t.name }),
 			name: t.name
 		}
-	else if (isa(t, DotName))
+	else if (t instanceof DotName)
 		return parseLocalRequire(px)
 	else {
 		px.check(Group.is('sp')(t), 'Not a valid module name.')
@@ -72,13 +72,13 @@ function parseLocalRequire(px) {
 	const first = head(px.sqt)
 
 	let parts = []
-	if (isa(first, DotName))
+	if (first instanceof DotName)
 		parts = first.nDots === 1 ? ['.'] : repeat('..', first.nDots - 1)
 	else
-		check(isa(first, Name), first.span, 'Not a valid part of module path.')
+		check(first instanceof Name, first.span, 'Not a valid part of module path.')
 	parts.push(first.name)
 	tail(px.sqt).forEach(t => {
-		check(isa(t, DotName) && t.nDots === 1, t.span, 'Not a valid part of module path.')
+		check(t instanceof DotName && t.nDots === 1, t.span, 'Not a valid part of module path.')
 		parts.push(t.name)
 	})
 	return {

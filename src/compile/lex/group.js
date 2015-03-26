@@ -5,7 +5,7 @@ import Opts from '../Opts'
 import Span, { Pos, StartPos } from '../Span'
 import Token, { Group, Keyword } from '../Token'
 import { isEmpty, last } from '../U/Bag'
-import type, { isa } from '../U/type'
+import type from '../U/type'
 import { ObjType } from '../U/types'
 import GroupPre from './GroupPre'
 
@@ -90,7 +90,7 @@ export default function group(preGroupedTokens, opts) {
 
 	let endSpan = Span({ start: StartPos, end: StartPos })
 	for (let _ of preGroupedTokens) {
-		if (isa(_, Token))
+		if (_ instanceof Token)
 			cur.add(_)
 		else {
 			type(_, GroupPre)

@@ -1,7 +1,7 @@
 import check, { fail } from '../check'
 import E, { Assign, AssignDestructure, Call, Debug,
 	Do, ELiteral, Null, Scope, Yield, YieldTo } from '../Expression'
-import type, { isa } from '../U/type'
+import type from '../U/type'
 import { code, set } from '../U'
 import { v } from './util'
 
@@ -13,12 +13,12 @@ export default function verifyLines(vx, lines) {
 	function processLine(inDebug) {
 		type(inDebug, Boolean)
 		return line => {
-			if (isa(line, Scope)) {
+			if (line instanceof Scope) {
 				const localsBefore = prevLocals
 				line.lines.forEach(processLine(inDebug))
 				prevLocals = localsBefore
 			}
-			else if (isa(line, Debug))
+			else if (line instanceof Debug)
 				// TODO: Do anything in this situation?
 				// check(!inDebug, line.span, 'Redundant `debug`.')
 				line.lines.forEach(processLine(true))
@@ -46,9 +46,9 @@ export default function verifyLines(vx, lines) {
 	function verifyLine(inDebug) {
 		type(inDebug, Boolean)
 		return line => {
-			if (isa(line, Scope))
+			if (line instanceof Scope)
 				line.lines.forEach(verifyLine(inDebug))
-			else if (isa(line, Debug))
+			else if (line instanceof Debug)
 				line.lines.forEach(verifyLine(true))
 			else {
 				const vxDebug = set(vx, 'isInDebug', inDebug)
@@ -68,14 +68,14 @@ export default function verifyLines(vx, lines) {
 // TODO: Clean up
 function verifyIsStatement(line) {
 	switch (true) {
-		case isa(line, Do):
+		case line instanceof Do:
 		// Some Vals are also conceptually Dos, but this was easier than multiple inheritance.
-		case isa(line, Call):
-		case isa(line, ELiteral) && line.k === 'js':
+		case line instanceof Call:
+		case line instanceof ELiteral && line.k === 'js':
 		// OK, used to mean `pass`
-		case isa(line, Null):
-		case isa(line, Yield):
-		case isa(line, YieldTo):
+		case line instanceof Null:
+		case line instanceof Yield:
+		case line instanceof YieldTo:
 			return
 		default:
 			fail(line.span, 'Expression in statement position.')
@@ -84,9 +84,9 @@ function verifyIsStatement(line) {
 
 function lineNewLocals(line) {
 	type(line, E)
-	return isa(line, Assign) ?
+	return line instanceof Assign ?
 		[ line.assignee ] :
-		isa(line, AssignDestructure) ?
+		line instanceof AssignDestructure ?
 		line.assignees :
 		[ ]
 }

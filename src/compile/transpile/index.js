@@ -14,7 +14,7 @@ import Span from '../Span'
 import { implementMany, isPositive, log } from '../U'
 import { ifElse, None, some } from '../U/Op'
 import { cons, flatMap, interleave, interleavePlus, isEmpty, range, rcons, tail } from '../U/Bag'
-import type, { isa } from '../U/type'
+import type from '../U/type'
 import Vr from '../Vr'
 import { astYield, astYieldTo, declare, idMangle, member,
 	propertyIdentifier, toStatement, toStatements, thunk } from './ast-util'
@@ -87,10 +87,10 @@ implementMany(EExports, 'transpile', {
 			callExpression(functionExpression(null, [], body), [])
 	},
 	Call: (_, tx) => {
-		const anySplat = _.args.some(arg => isa(arg, EExports.Splat))
+		const anySplat = _.args.some(arg => arg instanceof EExports.Splat)
 		if (anySplat) {
 			const args = _.args.map(arg =>
-				isa(arg, EExports.Splat) ?
+				arg instanceof EExports.Splat ?
 					msArr([ t(tx)(arg.splatted) ]) :
 					t(tx)(arg))
 			return callExpression(IdFunctionApplyCall, [
@@ -217,7 +217,7 @@ implementMany(EExports, 'transpile', {
 	True: () => literal(true),
 	Quote: (_, tx) => {
 		// TODO:ES6 use template strings
-		const isStrLit = _ => isa(_, EExports.ELiteral) && _.k === String
+		const isStrLit = _ => _ instanceof EExports.ELiteral && _.k === String
 		const part0 = _.parts[0]
 		const [ first, restParts ] =
 			isStrLit(part0) ? [ t(tx)(part0), tail(_.parts) ] : [ LitEmptyString, _.parts ]

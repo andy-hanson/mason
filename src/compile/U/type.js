@@ -2,11 +2,6 @@ import assert from 'assert'
 import Op from './Op'
 import { toArray } from './Bag'
 
-// TODO: don't do this...
-Object.assign(Function.prototype, {
-	getName() { return this.name }
-})
-
 export default function type() {
 	if (!global.DEBUG)
 		return
@@ -26,7 +21,7 @@ function typePair(instance, itsType) {
 		if (instance === undefined) throw new Error('Value undefined')
 		const strType =
 			itsType instanceof Array ?
-			`[${itsType[0].getName()}]` :
+			`[${itsType[0].name}]` :
 			itsType instanceof Set ?
 			`{${toArray(itsType.values())}` :
 			itsType.getName()
@@ -34,7 +29,7 @@ function typePair(instance, itsType) {
 	}
 }
 
-export function isa(instance, itsType) {
+function isa(instance, itsType) {
 	switch (true) {
 		case itsType.prototype !== undefined:
 			return instance != null && itsType.prototype.isPrototypeOf(Object(instance))

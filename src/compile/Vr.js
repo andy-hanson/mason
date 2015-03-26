@@ -1,7 +1,7 @@
 import assert from 'assert'
 import Expression, { BlockWrap, CaseVal, LocalAccess } from './Expression'
 import { isEmpty } from './U/Bag'
-import type, { isa } from './U/type'
+import type from './U/type'
 import { ObjType } from './U/types'
 
 const Vr = ObjType('Vr', Object, {
@@ -40,4 +40,4 @@ Object.assign(Vr.prototype, {
 })
 
 const botherWithIsInGenerator = e =>
-	isa(e, CaseVal) || isa(e, BlockWrap)
+	e instanceof CaseVal || e instanceof BlockWrap

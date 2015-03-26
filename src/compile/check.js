@@ -1,7 +1,7 @@
 import chalk from 'chalk'
 import Opts from './Opts'
 import Span, { Pos } from './Span'
-import type, { isa } from './U/type'
+import type from './U/type'
 
 export default function check(cond, spanOrPos, message) {
 	if (!cond)
@@ -22,7 +22,7 @@ export function fail(spanOrPos, message) {
 function failMessage(spanOrPos, message, opts) {
 	if (spanOrPos instanceof Function)
 		spanOrPos = spanOrPos()
-	const p = isa(spanOrPos, Span) ? spanOrPos.start : spanOrPos
+	const p = spanOrPos instanceof Span ? spanOrPos.start : spanOrPos
 	type(p, Pos)
 	const msg = message instanceof Function ? message() : message
 	type(msg, String)

@@ -6,7 +6,7 @@ import { Group, Keyword } from '../Token'
 import { set } from '../U'
 import { None, some } from '../U/Op'
 import { head, isEmpty, last, rtail, tail } from '../U/Bag'
-import type, { isa } from '../U/type'
+import type from '../U/type'
 import Px from './Px'
 // TODO
 const parseLine_ = () => require('./parseLine')
@@ -24,7 +24,7 @@ export function parseModule(px, moduleName) {
 	const b = mod.body
 	// TODO: This also means no module is allowed to be called `displayName`.
 	b.lines.forEach(line => {
-		if (isa(line, Assign) && line.k === 'export')
+		if (line instanceof Assign && line.k === 'export')
 			px.check(line.assignee.name !== 'displayName',
 				'Module can not choose its own displayName.')
 	})
@@ -82,20 +82,20 @@ function parseBody(px, k) {
 		}
 		if (ln instanceof Debug)
 			ln.lines.forEach(_ => addLine(_, true))
-		else if (isa(ln, ListEntry)) {
+		else if (ln instanceof ListEntry) {
 			assert(!inDebug, 'Not supported: debug list entries')
 			// When ListEntries are first created they have no index.
 			assert(ln.index === -1)
 			ln = set(ln, 'index', listLength)
 			listLength = listLength + 1
 		}
-		else if (isa(ln, MapEntry)) {
+		else if (ln instanceof MapEntry) {
 			assert(!inDebug, 'Not supported: debug map entries')
 			assert(ln.index === -1)
 			ln = set(ln, 'index', mapLength)
 			mapLength = mapLength + 1
 		}
-		else if (isa(ln, Assign) && ln.k === '. ')
+		else if (ln instanceof Assign && ln.k === '. ')
 			(inDebug ? debugKeys : dictKeys).push(ln.assignee)
 
 		if (!inDebug)
@@ -134,7 +134,7 @@ function parseBody(px, k) {
 				opReturn: some(MapReturn(px.s({ length: mapLength })))
 			}
 
-		const lastReturn = !isEmpty(eLines) && isa(last(eLines), Val)
+		const lastReturn = !isEmpty(eLines) && last(eLines) instanceof Val
 		if (isDict && !isModule)
 			return lastReturn ?
 				{
@@ -174,7 +174,7 @@ function parseBody(px, k) {
 		const moduleLines =
 			// Turn dict assigns into exports.
 			doLines.map(line =>
-				isa(line, Assign) && line.k === '. ' ? 	set(line, 'k', 'export') : line
+				line instanceof Assign && line.k === '. ' ? set(line, 'k', 'export') : line
 			).concat(opReturn.map(ret => ModuleDefaultExport({ span: ret.span, value: ret })))
 
 		const body = BlockBody(px.s({

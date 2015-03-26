@@ -5,7 +5,7 @@ import { Group, Keyword, Name } from '../Token'
 import { code } from '../U'
 import { None, some } from '../U/Op'
 import { head, isEmpty, tail } from '../U/Bag'
-import type, { isa } from '../U/type'
+import type from '../U/type'
 import parseSpaced from './parseSpaced'
 
 export default px => px.sqt.map(t => parseLocal(px.wt(t)))
@@ -45,7 +45,7 @@ function parseLocalName(t) {
 	if (Keyword.is('_')(t))
 		return '_'
 	else {
-		check(isa(t, Name), t.span, () => `Expected a local name, not ${t}`)
+		check(t instanceof Name, t.span, () => `Expected a local name, not ${t}`)
 		return t.name
 	}
 }
