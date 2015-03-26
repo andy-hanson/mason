@@ -75,7 +75,7 @@ export default function* lexPlain(opts, stream, isInQuote) {
 				break
 			case Dot:
 				if (stream.peek() === ' ' || stream.peek() === '\n') {
-					// Dict assign in its own spaced group
+					// ObjLit assign in its own spaced group
 					yield gp('sp')
 					yield keyword('. ')
 					yield gp('sp')

@@ -18,11 +18,11 @@ debug use
 	..Try fails?
 
 test. |
-	my-dict.
+	my-obj.
 		one. 1
 		two. 2
-	! =? my-dict.one 1
-	! =? my-dict.two 2
+	! =? my-obj.one 1
+	! =? my-obj.two 2
 
 	this-is-true.
 	! =? this-is-true true
@@ -43,13 +43,13 @@ test. |
 		two = + 1 1
 		. two
 	! =? my-list my-list-2
-	my-dict-2.
-		displayName. "my-dict" \ TODO:DISPLAYNAME
+	my-obj-2.
+		displayName. "my-obj" \ TODO:DISPLAYNAME
 		one. 1
 		two. + 1 1
-	! =? my-dict my-dict-2
+	! =? my-obj my-obj-2
 
-	one two = my-dict-2
+	one two = my-obj-2
 	! =? one 1
 	! =? two 2
 

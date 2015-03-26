@@ -1,6 +1,6 @@
 import assert from 'assert'
 import check from '../check'
-import E, { Assign, AssignDestructure, BlockWrap, Call, Debug, Debugger, DictReturn,
+import E, { Assign, AssignDestructure, BlockWrap, Call, Debug, Debugger, ObjReturn,
 	Fun, EndLoop, ListEntry, Loop, MapEntry, True, Yield, YieldTo } from '../Expression'
 import { defaultLoopName, LineSplitKeywords } from '../Lang'
 import { Group, Keyword, Name } from '../Token'
@@ -165,14 +165,15 @@ function tryAddDisplayName(eValuePre, displayName) {
 			return eValuePre
 
 		case eValuePre instanceof Fun:
-			return DictReturn({
+			return ObjReturn({
 				span: eValuePre.span,
-				keys: [], debugKeys: [],
-				opDicted: some(eValuePre),
+				keys: [],
+				debugKeys: [],
+				opObjed: some(eValuePre),
 				opDisplayName: some(displayName)
 			})
 
-		case eValuePre instanceof DictReturn &&
+		case eValuePre instanceof ObjReturn &&
 			!eValuePre.keys.some(key => key.name === 'displayName'):
 			return set(eValuePre, 'opDisplayName', some(displayName))
 

@@ -1,6 +1,6 @@
 import assert from 'assert'
 import check from '../check'
-import { Assign, BlockBody, BlockWrap, Debug, DictReturn, ListEntry, ListReturn, ELiteral,
+import { Assign, BlockBody, BlockWrap, Debug, ObjReturn, ListEntry, ListReturn, ELiteral,
 		LocalDeclare, MapReturn, MapEntry, Module, ModuleDefaultExport, Val } from '../Expression'
 import { Group, Keyword } from '../Token'
 import { set } from '../U'
@@ -70,7 +70,7 @@ function parseBody(px, k) {
 	const _ = tryTakeInOut(px)
 	const opIn = _.opIn, opOut = _.opOut, restLines = _.rest
 
-	let dictKeys = []
+	let objKeys = []
 	let debugKeys = []
 	let listLength = 0
 	let mapLength = 0
@@ -96,7 +96,7 @@ function parseBody(px, k) {
 			mapLength = mapLength + 1
 		}
 		else if (ln instanceof Assign && ln.k === '. ')
-			(inDebug ? debugKeys : dictKeys).push(ln.assignee)
+			(inDebug ? debugKeys : objKeys).push(ln.assignee)
 
 		if (!inDebug)
 			eLines.push(ln)
@@ -105,25 +105,25 @@ function parseBody(px, k) {
 	restLines.forEach(line => addLine(parseLine_().default(px.w(line.sqt), listLength)))
 
 	// TODO
-	// if (isEmpty(dictKeys))
+	// if (isEmpty(objKeys))
 	//	check(isEmpty(debugKeys), px.span, 'Block can't have only debug keys')
-	const isDict = !(isEmpty(dictKeys) && isEmpty(debugKeys))
-	const isList = listLength > 0
+	const isObj = !(isEmpty(objKeys) && isEmpty(debugKeys))
+	const isBag = listLength > 0
 	const isMap = mapLength > 0
-	px.check(!(isDict && isList), 'Block has both list and dict lines.')
-	px.check(!(isDict && isMap), 'Block has both dict and map lines.')
-	px.check(!(isList && isMap), 'Block has both list and map lines.')
+	px.check(!(isObj && isBag), 'Block has both Bag and Obj lines.')
+	px.check(!(isObj && isMap), 'Block has both Obj and Map lines.')
+	px.check(!(isBag && isMap), 'Block has both Bag and Map lines.')
 
 	const isModule = k === 'module'
 
 	const doLinesOpReturn = (() => {
 		if (k === 'do') {
-			px.check(!isDict, 'Can\'t make dict in statement context')
-			px.check(!isList, 'Can\'t make list in statement context')
-			px.check(!isMap, 'Can\'t make map in statement context')
+			px.check(!isObj, 'Can\'t make Obj in statement context')
+			px.check(!isBag, 'Can\'t make Bag in statement context')
+			px.check(!isMap, 'Can\'t make Map in statement context')
 			return { doLines: eLines, opReturn: None }
 		}
-		if (isList)
+		if (isBag)
 			return {
 				doLines: eLines,
 				opReturn: some(ListReturn(px.s({ length: listLength })))
@@ -135,24 +135,24 @@ function parseBody(px, k) {
 			}
 
 		const lastReturn = !isEmpty(eLines) && last(eLines) instanceof Val
-		if (isDict && !isModule)
+		if (isObj && !isModule)
 			return lastReturn ?
 				{
 					doLines: rtail(eLines),
 					opReturn: some(
-						DictReturn(px.s({
-							keys: dictKeys,
+						ObjReturn(px.s({
+							keys: objKeys,
 							debugKeys: debugKeys,
-							opDicted: some(last(eLines)),
+							opObjed: some(last(eLines)),
 							// This is filled in by parseAssign.
 							opDisplayName: None
 						})))
 				} : {
 					doLines: eLines,
-					opReturn: some(DictReturn(px.s({
-						keys: dictKeys,
+					opReturn: some(ObjReturn(px.s({
+						keys: objKeys,
 						debugKeys: debugKeys,
-						opDicted: None,
+						opObjed: None,
 						// This is filled in by parseAssign.
 						opDisplayName: None
 					})))
@@ -172,7 +172,7 @@ function parseBody(px, k) {
 	if (isModule) {
 		// TODO: Handle debug-only exports
 		const moduleLines =
-			// Turn dict assigns into exports.
+			// Turn Obj assigns into exports.
 			doLines.map(line =>
 				line instanceof Assign && line.k === '. ' ? set(line, 'k', 'export') : line
 			).concat(opReturn.map(ret => ModuleDefaultExport({ span: ret.span, value: ret })))

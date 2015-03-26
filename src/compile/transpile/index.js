@@ -30,7 +30,7 @@ export default function transpile(e, opts, vr) {
 }
 const t = (tx, arg) => expr => {
 	type(tx, Tx, expr, Expression)
-	const ast = expr.transpile(tx, arg)
+	const ast = transpileSubtree(expr, tx, arg)
 	function appendLoc(_) { _.loc = expr.span }
 	if (ast instanceof Array)
 		// This is only allowed inside of BlockBody-s, which use `toStatements`.
@@ -40,10 +40,10 @@ const t = (tx, arg) => expr => {
 	return ast
 }
 
-implementMany(EExports, 'transpile', {
+const transpileSubtree = implementMany(EExports, 'transpileSubtree', {
 	Assign: (_, tx) => makeAssign(tx, _.span, _.assignee, _.k, t(tx)(_.value)),
-	// TODO:ES6
-	AssignDestructure: (_, tx) => {
+	// TODO:ES6 Just use native destructuring assign
+	AssignDestructure(_, tx) {
 		const destructuredName = `_$${_.span.start.line}`
 		const access = accessMangledLocal(destructuredName, _.isLazy)
 		const assigns = flatMap(_.assignees, assignee => {
@@ -57,7 +57,7 @@ implementMany(EExports, 'transpile', {
 			declare(destructuredName, _.isLazy ? lazyWrap(t(tx)(_.value)) : t(tx)(_.value))
 		return [destructureDeclare].concat(assigns)
 	},
-	BlockBody: (_, tx, opResCheck) => {
+	BlockBody(_, tx, opResCheck) {
 		if (opResCheck === undefined)
 			opResCheck = []
 
@@ -80,13 +80,13 @@ implementMany(EExports, 'transpile', {
 			return blockStatement(_in.concat(body, ret))
 		}
 	},
-	BlockWrap: (_, tx) => {
+	BlockWrap(_, tx) {
 		const body = t(tx)(_.body)
 		return tx.vr.eIsInGenerator(_) ?
 			astYieldTo(callExpression(functionExpression(null, [], body, true), [])) :
 			callExpression(functionExpression(null, [], body), [])
 	},
-	Call: (_, tx) => {
+	Call(_, tx) {
 		const anySplat = _.args.some(arg => arg instanceof EExports.Splat)
 		if (anySplat) {
 			const args = _.args.map(arg =>
@@ -102,7 +102,7 @@ implementMany(EExports, 'transpile', {
 	},
 	CaseDo: (_, tx) => caseBody(tx, _.parts, _.opElse, true),
 	CaseVal: (_, tx) => caseBody(tx, _.parts, _.opElse, false),
-	CasePart: (_, tx, needBreak) => {
+	CasePart(_, tx, needBreak) {
 		const test = t(tx)(_.test)
 		const checkedTest = tx.opts.includeCaseChecks() ? msBool([ test ]) : test
 		const lines = needBreak ? [ t(tx)(_.result), Break ] : [ t(tx)(_.result) ]
@@ -113,13 +113,13 @@ implementMany(EExports, 'transpile', {
 		flatMap(_.lines, line => toStatements(t(tx)(line))) :
 		emptyStatement(),
 	Debugger: () => debuggerStatement(),
-	DictReturn: (_, tx) => {
+	ObjReturn(_, tx) {
 		const nonDebugKeys = _.keys
 		// TODO: includeTypeChecks() is not the right method for this
 		const keys = tx.opts.includeTypeChecks() ? _.keys.concat(_.debugKeys) : _.keys
-		return ifElse(_.opDicted,
-			dicted => {
-				const d = t(tx)(dicted)
+		return ifElse(_.opObjed,
+			objed => {
+				const d = t(tx)(objed)
 				if (isEmpty(keys)) {
 					assert(isEmpty(nonDebugKeys))
 					return d
@@ -148,7 +148,7 @@ implementMany(EExports, 'transpile', {
 			})
 	},
 	EndLoop: _ => breakStatement(identifier(mangle(_.name))),
-	Fun: (_, tx) => {
+	Fun(_, tx) {
 		const opResCheck = flatMap(_.opReturnType, _ =>
 			opLocalCheck(tx,
 			EExports.LocalDeclare({
@@ -173,7 +173,7 @@ implementMany(EExports, 'transpile', {
 	ListReturn: _ => arrayExpression(range(0, _.length).map(i => identifier(`_${i}`))),
 	ListSimple: (_, tx) => arrayExpression(_.parts.map(t(tx))),
 	ListEntry: (_, tx) => declare(`_${_.index}`, t(tx)(_.value)),
-	ELiteral: _ => {
+	ELiteral(_) {
 		switch (_.k) {
 			case Number: {
 				// TODO: Number literals should store Numbers...
@@ -207,15 +207,15 @@ implementMany(EExports, 'transpile', {
 		t(tx)(_.body)
 		// '\nglobal.console.log("<<< ' + tx.opts.moduleName() + '")\n'
 	]),
-	// TODO:ES6
-	ModuleDefaultExport: (_, tx) => {
+	// TODO:ES6 Use `export default`
+	ModuleDefaultExport(_, tx) {
 		const m = member(IdExports, tx.opts.moduleName())
 		return assignmentExpression('=', m, t(tx)(_.value))
 	},
 	// Make new objects because we will assign `loc` to them.
 	Null: () => literal(null),
 	True: () => literal(true),
-	Quote: (_, tx) => {
+	Quote(_, tx) {
 		// TODO:ES6 use template strings
 		const isStrLit = _ => _ instanceof EExports.ELiteral && _.k === String
 		const part0 = _.parts[0]
@@ -229,7 +229,7 @@ implementMany(EExports, 'transpile', {
 	},
 	Require: _ => callExpression(IdRequire, [ literal(_.path) ]),
 	Scope: (_, tx) => blockStatement(_.lines.map(t(tx))),
-	SpecialKeyword: _ => {
+	SpecialKeyword(_) {
 		switch (_.k) {
 			case 'undefined': return IdUndefined
 			case 'this-module-directory': return IdDirName
@@ -243,7 +243,6 @@ implementMany(EExports, 'transpile', {
 	Yield: (_, tx) => astYield(t(tx)(_.yielded)),
 	YieldTo: (_, tx) => astYieldTo(t(tx)(_.yieldedTo))
 })
-
 
 const caseFail = switchCase(
 	null,

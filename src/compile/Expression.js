@@ -76,10 +76,10 @@ export const BlockWrap = ev('BlockWrap', { body: BlockBody })
 
 export const Call = ev('Call', { called: Val, args: [Val] })
 
-export const DictReturn = ev('DictReturn', {
+export const ObjReturn = ev('ObjReturn', {
 	keys: [LocalDeclare],
 	debugKeys: [LocalDeclare],
-	opDicted: Op(Val),
+	opObjed: Op(Val),
 	opDisplayName: Op(String)
 })
 

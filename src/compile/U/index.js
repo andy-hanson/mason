@@ -56,19 +56,15 @@ export function pAdd(obj, newName, newVal) {
 	return _
 }
 
-export function ignore() { }
-
 export function trimRight(str) {
 	return str.replace(/\s+$/, '')
 }
 
-export function implementMany(holder, methodName, dict) {
-	Object.keys(dict).forEach(name => {
-		// TODO:ES6 spread
-		holder[name].prototype[methodName] = function() {
-			return dict[name].apply(null, [this].concat(Array.prototype.slice.call(arguments, 0)))
-		}
+export function implementMany(holder, methodName, nameToImpl) {
+	Object.keys(nameToImpl).forEach(name => {
+		holder[name].prototype[methodName] = nameToImpl[name]
 	})
+	return function(target) { return target[methodName].apply(null, arguments) }
 }
 
 export function implementMany2(methodName, pairs) {

@@ -1,5 +1,5 @@
 import assert from 'assert'
-import { Assign, BlockBody, BlockWrap, Call, DictReturn, Null, Yield, YieldTo } from '../Expression'
+import { Assign, BlockBody, BlockWrap, Call, ObjReturn, Null, Yield, YieldTo } from '../Expression'
 import { Keyword } from '../Token'
 import type from '../U/type'
 import { set } from '../U'
@@ -43,10 +43,10 @@ export default function parseExpr(px) {
 			const val = BlockWrap(px.s({
 				body: BlockBody(px.s({
 					lines: lines,
-					opReturn: [ DictReturn(px.s({
+					opReturn: [ ObjReturn(px.s({
 						keys: keys,
 						debugKeys: [],
-						opDicted: [],
+						opObjed: [],
 						opDisplayName: []
 					})) ],
 					opIn: [],

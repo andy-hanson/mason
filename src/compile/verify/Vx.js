@@ -100,7 +100,6 @@ Object.assign(Vx.prototype, {
 		this.registerLocal(res)
 		return this.plusLocals([res])
 	},
-	// TODO
 	withBlockLocals() {
 		return set(this.plusLocals(this.pendingBlockLocals), 'pendingBlockLocals', [])
 	},

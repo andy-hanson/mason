@@ -30,7 +30,7 @@ debug use
 \ TODO
 test. |
 	! =? [ "x" "y" "b" ] (build |yield
-		dict =
+		obj =
 			a.
 				test.
 					x. |
@@ -41,7 +41,7 @@ test. |
 			self-impl! test-special b |
 				yield "b"
 			c. () \ not testable
-		@$maybe-test "dict" dict true
+		@$maybe-test "obj" obj true
 
 \ TODO: Better name (but not `test`, because that's a common module property)
 test-special. Method
@@ -120,7 +120,8 @@ all-tested = empty Id-Set!
 			++ (@$-from-any a) b
 
 @$test-test-prop = |value value-test name \TODO: ...test-args
-	\ Could be both Fun and Dict
+	\ Could be both Fun and ObjLit
+	\ TODO: No it can't
 	_ = value-test
 	@$a = flatten (if :Fun ~(@$test-test-fun value value-test name
 	@$b = flatten (if :ObjLit ~(flat-map @p_ |sub-name
