@@ -17,17 +17,17 @@ export default function parseUse(px, k) {
 	const _ = parseBlock_().takeBlockLinesFromEnd(px)
 	px.check(isEmpty(_.before), () =>
 		`Did not expect anything after ${code('use')} other than a block`)
-	return _.lines.map(line => useLine(px.w(line.sqt), k))
+	return _.lines.map(line => useLine(px.w(line.tokens), k))
 }
 
 // TODO:ES6 Just use module imports, no AssignDestructure needed
 function useLine(px, k) {
-	const tReq = head(px.sqt)
+	const tReq = head(px.tokens)
 	const _$ = parseRequire(px.wt(tReq))
 	const required = _$.required, name = _$.name
 
 	if (k === 'use!') {
-		px.check(px.sqt.length === 1, () => `Unexpected ${px.sqt[1]}`)
+		px.check(px.tokens.length === 1, () => `Unexpected ${px.tokens[1]}`)
 		return Ignore(px.s({ ignored: required }))
 	} else {
 		const isLazy = k === 'use~'
@@ -38,9 +38,9 @@ function useLine(px, k) {
 			isLazy: isLazy,
 			okToNotUse: false
 		}))
-		const assignees = px.sqt.length === 1 ?
+		const assignees = px.tokens.length === 1 ?
 			[ defaultAssignee ] :
-			parseLocals_()(px.w(tail(px.sqt))).map(l =>
+			parseLocals_()(px.w(tail(px.tokens))).map(l =>
 				set(l.name === '_' ? set(l, 'name', name) : l, 'isLazy', isLazy))
 		return AssignDestructure(px.s({
 			assignees: assignees,
@@ -53,8 +53,8 @@ function useLine(px, k) {
 }
 
 function parseRequire(px) {
-	assert(px.sqt.length === 1)
-	const t = px.sqt[0]
+	assert(px.tokens.length === 1)
+	const t = px.tokens[0]
 	if (t instanceof Name)
 		return {
 			required: Require({ span: t.span, path: t.name }),
@@ -64,12 +64,12 @@ function parseRequire(px) {
 		return parseLocalRequire(px)
 	else {
 		px.check(Group.is('sp')(t), 'Not a valid module name.')
-		return parseLocalRequire(px.w(t.sqt))
+		return parseLocalRequire(px.w(t.tokens))
 	}
 }
 
 function parseLocalRequire(px) {
-	const first = head(px.sqt)
+	const first = head(px.tokens)
 
 	let parts = []
 	if (first instanceof DotName)
@@ -77,12 +77,12 @@ function parseLocalRequire(px) {
 	else
 		check(first instanceof Name, first.span, 'Not a valid part of module path.')
 	parts.push(first.name)
-	tail(px.sqt).forEach(t => {
+	tail(px.tokens).forEach(t => {
 		check(t instanceof DotName && t.nDots === 1, t.span, 'Not a valid part of module path.')
 		parts.push(t.name)
 	})
 	return {
 		required: Require({ span: px.span, path: parts.join('/') }),
-		name: last(px.sqt).name
+		name: last(px.tokens).name
 	}
 }

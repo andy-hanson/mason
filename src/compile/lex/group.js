@@ -49,13 +49,13 @@ export default function group(preGroupedTokens, opts) {
 		// cur is now the previous level on the stack
 		// U.log(`${U.indent(stack.length)}<< ${k})
 		// Don't add line/spaced
-		if ((k === 'sp' || k === 'ln') && isEmpty(wrapped.sqt))
+		if ((k === 'sp' || k === 'ln') && isEmpty(wrapped.tokens))
 			return
-		if (k === '<-' && isEmpty(wrapped.sqt))
+		if (k === '<-' && isEmpty(wrapped.tokens))
 			fail(closePos, 'Empty block')
 		// Spaced should always have at least two elements
-		if (k === 'sp' && wrapped.sqt.length === 1)
-			cur.add(wrapped.sqt[0])
+		if (k === 'sp' && wrapped.tokens.length === 1)
+			cur.add(wrapped.tokens[0])
 		else
 			cur.add(wrapped)
 	}
@@ -67,7 +67,7 @@ export default function group(preGroupedTokens, opts) {
 		type(old, GroupBuilder)
 		const span = Span({ start: old.startPos, end: closePos })
 		assert(GroupOpenToClose.get(old.k) === k)
-		return Group({ span: span, sqt: old.body, k: old.k })
+		return Group({ span: span, tokens: old.body, k: old.k })
 	}
 
 	function startLine(pos) {

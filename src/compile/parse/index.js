@@ -9,6 +9,6 @@ export default function parse(t, opts) {
 	type(t, Group, opts, Opts)
 	// Lexer always puts the whole file in a block.
 	assert(t.k === '->')
-	const px = new Px(t.sqt, t.span)
+	const px = new Px(t.tokens, t.span)
 	return parseModule(px, opts.moduleName())
 }

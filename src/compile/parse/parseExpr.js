@@ -14,11 +14,11 @@ import Px from './Px'
 const parseFun_ = () => require('./parseFun')
 
 export default function parseExpr(px) {
-	return ifElse(opSplitManyWhere(px.sqt, Keyword.is('. ')),
+	return ifElse(opSplitManyWhere(px.tokens, Keyword.is('. ')),
 		splits => {
 			// Short object form, such as (a. 1, b. 2)
 			const first = splits[0].before
-			const sqtCaller = rtail(first)
+			const tokensCaller = rtail(first)
 
 			const keys = []
 			const lines = []
@@ -27,16 +27,16 @@ export default function parseExpr(px) {
 					parseLocal(px.wt(last(splits[i].before))),
 					'okToNotUse', true)
 				keys.push(local)
-				const sqtValue = i === splits.length - 2 ?
+				const tokensValue = i === splits.length - 2 ?
 					splits[i + 1].before :
 					rtail(splits[i + 1].before)
-				const value = parseExprPlain(px.w(sqtValue))
+				const value = parseExprPlain(px.w(tokensValue))
 				lines.push(Assign({
 					// TODO: Include name span
 					span: value.span,
 					assignee: local,
 					k: '. ',
-					value: parseExprPlain(px.w(sqtValue))
+					value: parseExprPlain(px.w(tokensValue))
 				}))
 			}
 			assert(last(splits).at === undefined)
@@ -53,10 +53,10 @@ export default function parseExpr(px) {
 					opOut: []
 				}))
 			}))
-			if (isEmpty(sqtCaller))
+			if (isEmpty(tokensCaller))
 				return val
 			else {
-				const parts = parseExprParts(px.w(sqtCaller))
+				const parts = parseExprParts(px.w(tokensCaller))
 				assert(!isEmpty(parts))
 				return Call(px.s({
 					called: head(parts),
@@ -83,9 +83,9 @@ function parseExprPlain(px) {
 
 export function parseExprParts(px) {
 	type(px, Px)
-	if (isEmpty(px.sqt))
+	if (isEmpty(px.tokens))
 		return []
-	const first = head(px.sqt), rest = tail(px.sqt)
+	const first = head(px.tokens), rest = tail(px.tokens)
 	switch (true) {
 		case Keyword.is(KFun)(first):
 			return [ parseFun_()(px.w(rest), first.k) ]

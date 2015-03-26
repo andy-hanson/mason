@@ -18,15 +18,15 @@ export default function parseFun(px, k) {
 
 	// Look for return type at the beginning
 	let _ = (() => {
-		if (!isEmpty(px.sqt)) {
-			const h = head(px.sqt)
-			if (Group.is('sp')(h) && Keyword.is(':')(head(h.sqt)))
+		if (!isEmpty(px.tokens)) {
+			const h = head(px.tokens)
+			if (Group.is('sp')(h) && Keyword.is(':')(head(h.tokens)))
 				return {
-					opType: some(parseSpaced(px.w(tail(h.sqt)))),
-					rest: tail(px.sqt)
+					opType: some(parseSpaced(px.w(tail(h.tokens)))),
+					rest: tail(px.tokens)
 				}
 		}
-		return { opType: None, rest: px.sqt }
+		return { opType: None, rest: px.tokens }
 	})()
 	const opReturnType = _.opType, rest = _.rest
 
@@ -48,7 +48,7 @@ export default function parseFun(px, k) {
 			}
 		}
 		// Might be curried.
-		else return ifElse(opSplitOnceWhere(px.sqt, t => Keyword.is('|')(t)),
+		else return ifElse(opSplitOnceWhere(px.tokens, t => Keyword.is('|')(t)),
 			_ => {
 				const _$ = parseFunLocals(px.w(_.before))
 				const pxAfter = px.w(_.after)
@@ -84,17 +84,17 @@ export default function parseFun(px, k) {
 }
 
 function parseFunLocals(px) {
-	if (isEmpty(px.sqt))
+	if (isEmpty(px.tokens))
 		return {
 			args: [],
 			opRestArg: None
 		}
 	else {
-		const l = last(px.sqt)
+		const l = last(px.tokens)
 		if (l instanceof DotName) {
 			check(l.nDots === 3, l.span, 'Splat argument must have exactly 3 dots')
 			return {
-				args: parseLocals(px.w(rtail(px.sqt))),
+				args: parseLocals(px.w(rtail(px.tokens))),
 				opRestArg: some(LocalDeclare({
 					span: l.span,
 					name: l.name,

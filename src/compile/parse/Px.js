@@ -4,8 +4,8 @@ import { head, isEmpty, last } from '../U/Bag'
 import T from '../Token'
 
 export default class Px {
-	constructor(sqt, span) {
-		this.sqt = sqt
+	constructor(tokens, span) {
+		this.tokens = tokens
 		this.span = span
 	}
 
@@ -13,8 +13,8 @@ export default class Px {
 		check(cond, this.span, message)
 	}
 
-	checkEmpty(sqt, message) {
-		check(isEmpty(sqt), () => spanFromTokens(sqt), message)
+	checkEmpty(tokens, message) {
+		check(isEmpty(tokens), () => spanFromTokens(tokens), message)
 	}
 
 	fail(message) {
@@ -26,8 +26,8 @@ export default class Px {
 		return props
 	}
 
-	w(sqt) {
-		return new Px(sqt, isEmpty(sqt) ? this.span : spanFromTokens(sqt))
+	w(tokens) {
+		return new Px(tokens, isEmpty(tokens) ? this.span : spanFromTokens(tokens))
 	}
 
 	wt(t) {

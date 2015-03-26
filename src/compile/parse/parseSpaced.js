@@ -11,7 +11,7 @@ const
 
 export default function parseSpaced(px) {
 	type(px, Px)
-	const h = head(px.sqt), rest = tail(px.sqt)
+	const h = head(px.tokens), rest = tail(px.tokens)
 	switch (true) {
 		case Keyword.is(':')(h): {
 			check(!Keyword.is(':')(head(rest)), h.span, () => `Two ${code(':')} in a row`)
@@ -35,7 +35,7 @@ export default function parseSpaced(px) {
 					return Sub({
 						span: span,
 						subject: e,
-						subbers: parseExpr_().parseExprParts(px.w(t.sqt))
+						subbers: parseExpr_().parseExprParts(px.w(t.tokens))
 					})
 				else if (Group.is('(')(t))
 					return Call({

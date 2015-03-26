@@ -6,7 +6,7 @@ import { defaultLoopName, LineSplitKeywords } from '../Lang'
 import { Group, Keyword, Name } from '../Token'
 import { set } from '../U'
 import { ifElse, some } from '../U/Op'
-import { head, isEmpty, last, opSplitOnceWhere, tail } from '../U/Bag'
+import { flatMap, head, isEmpty, last, opSplitOnceWhere, tail } from '../U/Bag'
 import type from '../U/type'
 import parseCase from './parseCase'
 import parseExpr from './parseExpr'
@@ -20,8 +20,8 @@ const parseBlock_ = () => require('./parseBlock')
 export default function parseLine(px) {
 	type(px, Px)
 
-	const first = head(px.sqt)
-	const pxRest = px.w(tail(px.sqt))
+	const first = head(px.tokens)
+	const pxRest = px.w(tail(px.tokens))
 
 	// We only deal with mutable expressions here, otherwise we fall back to parseExpr.
 	if (first instanceof Keyword)
@@ -35,13 +35,13 @@ export default function parseLine(px) {
 			case 'case!':
 				return parseCase(pxRest, 'case!', false)
 			case 'debug':
-				return Group.is('->')(px.sqt[1]) ?
+				return Group.is('->')(px.tokens[1]) ?
 					// `debug`, then indented block
 					Debug(px.s({ lines: parseLines(px) })) :
 					// e.g. `debug use`
 					Debug(px.s({ lines: parseLineOrLines(pxRest) }))
 			case 'debugger':
-				px.checkEmpty(pxRest().sqt, () => `Did not expect anything after ${first}`)
+				px.checkEmpty(pxRest().tokens, () => `Did not expect anything after ${first}`)
 				return Debugger(px.s({}))
 			case 'end-loop!':
 				return EndLoop(px.s({ name: loopName(pxRest) }))
@@ -55,7 +55,7 @@ export default function parseLine(px) {
 				// fall through
 		}
 
-	return ifElse(opSplitOnceWhere(px.sqt, Keyword.is(LineSplitKeywords)),
+	return ifElse(opSplitOnceWhere(px.tokens, Keyword.is(LineSplitKeywords)),
 		_ => {
 			return _.at.k === '->' ?
 				parseMapEntry(px, _.before, _.after) :
@@ -70,14 +70,11 @@ export function parseLineOrLines(px) {
 }
 
 export function parseLines(px) {
-	const first = head(px.sqt)
-	check(px.sqt.length > 1, first.span, `Expected indented block after ${first}`)
-	const block = px.sqt[1]
-	assert(px.sqt.length === 2 && Group.is('->')(block))
-	const out = []
-	// TODO:ES6 out.push(...p)
-	block.sqt.forEach(line => Array.prototype.push.apply(out, parseLineOrLines(px.w(line.sqt))))
-	return out
+	const first = head(px.tokens)
+	check(px.tokens.length > 1, first.span, `Expected indented block after ${first}`)
+	const block = px.tokens[1]
+	assert(px.tokens.length === 2 && Group.is('->')(block))
+	return flatMap(block.tokens, line => parseLineOrLines(px.w(line.tokens)))
 }
 
 
@@ -197,12 +194,14 @@ function parseLoop(px) {
 }
 
 function loopName(px) {
-	switch (px.sqt.length) {
+	switch (px.tokens.length) {
 		case 0:
 			return defaultLoopName
-		case 1:
-			px.check(px.sqt[0] instanceof Name, () => `Expected a loop name, not ${px.sqt[0]}`)
-			return px.sqt[0].name
+		case 1: {
+			const h = head(px.tokens)
+			px.check(h instanceof Name, () => `Expected a loop name, not ${h}`)
+			return h.name
+		}
 		default:
 			px.fail('Expected a loop name')
 	}

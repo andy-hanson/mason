@@ -36,9 +36,9 @@ export default function parseCase(px, k, casedFromFun) {
 	})()
 
 	const l = last(lines)
-	const _$ = Keyword.is('else')(head(l.sqt)) ? {
+	const _$ = Keyword.is('else')(head(l.tokens)) ? {
 			partLines: rtail(lines),
-			opElse: some(justBlock(px.w(tail(l.sqt)), kBlock))
+			opElse: some(justBlock(px.w(tail(l.tokens)), kBlock))
 		} : {
 			partLines: lines,
 			opElse: None
@@ -46,7 +46,7 @@ export default function parseCase(px, k, casedFromFun) {
 	const partLines = _$.partLines, opElse = _$.opElse
 
 	const parts = partLines.map(line => {
-		const _ = takeBlockFromEnd(px.w(line.sqt), kBlock)
+		const _ = takeBlockFromEnd(px.w(line.tokens), kBlock)
 		return CasePart({
 			span: line.span,
 			test: parseExpr_()(px.w(_.before)),

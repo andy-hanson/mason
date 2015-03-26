@@ -13,8 +13,8 @@ const
 
 export default function parseSingle(px) {
 	type(px, Px)
-	const t = px.sqt[0]
-	assert(px.sqt.length === 1)
+	const t = px.tokens[0]
+	assert(px.tokens.length === 1)
 	switch (true) {
 		case t instanceof CallOnFocus:
 			return Call(px.s({
@@ -32,18 +32,18 @@ export default function parseSingle(px) {
 		case Keyword.is(SpecialKeywords)(t):
 			return SpecialKeyword(px.s({ k: t.k }))
 		case Group.is('sp')(t):
-			return parseSpaced(px.w(t.sqt))
+			return parseSpaced(px.w(t.tokens))
 		case Group.is('->')(t):
-			return parseBlock_().wrap(px.w(t.sqt), 'val')
+			return parseBlock_().wrap(px.w(t.tokens), 'val')
 		case Group.is('"')(t):
 			return Quote(px.s({
-				parts: t.sqt.map(tSub => parseSingle(px.wt(tSub)))
+				parts: t.tokens.map(tSub => parseSingle(px.wt(tSub)))
 			}))
 		case Group.is('(')(t):
-			return parseExpr_().default(px.w(t.sqt))
+			return parseExpr_().default(px.w(t.tokens))
 		case Group.is('[')(t):
 			return ListSimple(px.s({
-				parts: parseExpr_().parseExprParts(px.w(t.sqt))
+				parts: parseExpr_().parseExprParts(px.w(t.tokens))
 			}))
 		case t instanceof DotName:
 			if (t.nDots === 3)

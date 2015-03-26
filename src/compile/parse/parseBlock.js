@@ -59,10 +59,10 @@ export function takeBlockFromEnd(px, k) {
 
 export function takeBlockLinesFromEnd(px) {
 	type(px, Px)
-	px.check(!isEmpty(px.sqt), 'Expected an indented block')
-	const l = last(px.sqt)
+	px.check(!isEmpty(px.tokens), 'Expected an indented block')
+	const l = last(px.tokens)
 	check(Group.is('->')(l), l.span, 'Expected an indented block at the end')
-	return { before: rtail(px.sqt), lines: l.sqt }
+	return { before: rtail(px.tokens), lines: l.tokens }
 }
 
 function parseBody(px, k) {
@@ -102,7 +102,7 @@ function parseBody(px, k) {
 			eLines.push(ln)
 		// Else we are adding the Debug as a single line.
 	}
-	restLines.forEach(line => addLine(parseLine_().default(px.w(line.sqt), listLength)))
+	restLines.forEach(line => addLine(parseLine_().default(px.w(line.tokens), listLength)))
 
 	// TODO
 	// if (isEmpty(objKeys))
@@ -193,12 +193,12 @@ function tryTakeInOut(px) {
 	function tryTakeInOrOut(lines, inOrOut) {
 		if (!isEmpty(lines)) {
 			const firstLine = head(lines)
-			const sqtFirst = firstLine.sqt
-			if (Keyword.is(inOrOut)(head(sqtFirst)))
+			const tokensFirst = firstLine.tokens
+			if (Keyword.is(inOrOut)(head(tokensFirst)))
 				return {
 					took: some(Debug({
 						span: firstLine.span,
-						lines: parseLine_().parseLines(px.w(sqtFirst))
+						lines: parseLine_().parseLines(px.w(tokensFirst))
 					})),
 					rest: tail(lines)
 				}
@@ -206,7 +206,7 @@ function tryTakeInOut(px) {
 		return { took: None, rest: lines }
 	}
 
-	const _in = tryTakeInOrOut(px.sqt, 'in')
+	const _in = tryTakeInOrOut(px.tokens, 'in')
 	const _out = tryTakeInOrOut(_in.rest, 'out')
 	return {
 		opIn: _in.took,
