@@ -1,8 +1,11 @@
 import 'es6-shim'
+import { install } from 'source-map-support'
+install()
 import fs from 'fs'
 import lex from './lex'
 import parse from './parse'
 import render from './render'
+import transpile from './transpile'
 import verify from './verify'
 import { log } from './U'
 import Opts from './Opts'
@@ -33,6 +36,8 @@ if (require.main === module) {
 	// log(`==>\n${e}`)
 	const vr = time(verify, e, opts)
 	// log(`+++\n${vr})
-	const j = time(render, e, opts, vr)
-	log(`==>\n${j}`)
+	const ast = time(transpile, e, opts, vr)
+	const { code, map } = time(render, ast, opts)
+	time(function renderSourceMap(_) { return _.toString() }, map)
+	log(`==>\n${code}`)
 }

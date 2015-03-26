@@ -55,6 +55,10 @@ gulp.task('ms', [ 'js' ], function() {
 	return pipeMs(gulp.src(src_ms))
 })
 
+gulp.task('watch-js', function() {
+	pipeJs(gulp.src(src_js).pipe(watch(src_js)))
+})
+
 gulp.task('watch', [ 'ms' ], function() {
 	pipeMs(gulp.src(src_ms).pipe(watch(src_ms)))
 	pipeJs(gulp.src(src_js).pipe(watch(src_js)))

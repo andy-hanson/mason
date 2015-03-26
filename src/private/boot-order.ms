@@ -1,6 +1,6 @@
 use
 	source-map-support install
-	\ stack-displayname \ Doesn't play nice with source-map-support
+\	\ stack-displayname \ Doesn't play nice with source-map-support
 install()
 
 use!

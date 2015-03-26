@@ -3,11 +3,11 @@ import type from '../U/type'
 export default function mangle(name) {
 	return JSKeywords.has(name) ?
 		'_' + name :
-		name.replace(/[^a-zA-Z0-9_]/g, ch => '_' + ch.charCodeAt(0))
+		name.replace(/[^a-zA-Z0-9$_]/g, ch => '_' + ch.charCodeAt(0))
 }
 
 export function needsMangle(name) {
-	return JSKeywords.has(name) || name.search(/[^a-zA-Z0-9_]/) !== -1
+	return JSKeywords.has(name) || name.search(/[^a-zA-Z0-9$_]/) !== -1
 }
 
 export function quote(str) {

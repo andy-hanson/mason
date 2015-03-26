@@ -1,7 +1,5 @@
-'use strict'
-
-const assert = require('assert')
-require('es6-shim')
+import 'es6-shim'
+import assert from 'assert'
 
 const pAdd = function(object, key, val) {
 	Object.defineProperty(object, key, {

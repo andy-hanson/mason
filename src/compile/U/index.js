@@ -19,6 +19,10 @@ export function indented(str) {
 	return str.replace(/\n/g, '\n\t')
 }
 
+export const isPositive = n =>
+	// -0 is negative
+	n >= 0 && 1 / n !== -Infinity
+
 function clone(obj) {
 	const nu = Object.create(Object.getPrototypeOf(obj))
 	Object.getOwnPropertyNames(obj).forEach(name => {

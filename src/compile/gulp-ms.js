@@ -9,7 +9,7 @@ const Name = 'gulp-ms'
 
 export default function gulpMs(opts) {
 	opts = opts || { }
-	// TODO: NEATER
+	// TODO: Move to Opts.js
 	if (opts.checks === undefined)
 		opts.checks = true
 
@@ -22,9 +22,9 @@ export default function gulpMs(opts) {
 			const src = file.contents.toString('utf8')
 			const outFile = replaceExtension(file.path, '.js')
 			try {
-				const data = compile(src, file.path, opts)
-				applySourceMap(file, data.sourceMap)
-				file.contents = new Buffer(data.js)
+				const { code, sourceMap } = compile(src, file.path, opts)
+				applySourceMap(file, sourceMap)
+				file.contents = new Buffer(code)
 				file.path = outFile
 				cb(null, file)
 			} catch (err) {
