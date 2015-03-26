@@ -1,5 +1,5 @@
 import check, { fail } from '../check'
-import { Call, Lazy, LocalAccess, Member, Sub, TypeTest } from '../Expression'
+import { Call, Lazy, LocalAccess, Member } from '../Expression'
 import { DotName, Group, Keyword } from '../Token'
 import { code } from '../U'
 import { head, tail } from '../U/Bag'
@@ -17,7 +17,7 @@ export default function parseSpaced(px) {
 			check(!Keyword.is(':')(head(rest)), h.span, () => `Two ${code(':')} in a row`)
 			const eType = parseSpaced(px.w(rest))
 			const focus = LocalAccess.focus(h.span)
-			return TypeTest({ span: h.span, tested: focus, testType: eType })
+			return Call.contains(h.span, eType, focus)
 		}
 		case Keyword.is('~')(h):
 			return Lazy({ span: h.span, value: parseSpaced(px.w(rest)) })
@@ -32,11 +32,7 @@ export default function parseSpaced(px) {
 							fail(span, 'Too many dots!')
 					}
 				else if (Group.is('[')(t))
-					return Sub({
-						span: span,
-						subject: e,
-						subbers: parseExpr_().parseExprParts(px.w(t.tokens))
-					})
+					return Call.sub(span, e, parseExpr_().parseExprParts(px.w(t.tokens)))
 				else if (Group.is('(')(t))
 					return Call({
 						span: span,

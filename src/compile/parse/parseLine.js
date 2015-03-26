@@ -1,7 +1,7 @@
 import assert from 'assert'
 import check from '../check'
 import E, { Assign, AssignDestructure, BlockWrap, Call, Debug, Debugger, ObjReturn,
-	Fun, EndLoop, ListEntry, Loop, MapEntry, True, Yield, YieldTo } from '../Expression'
+	Fun, EndLoop, ListEntry, Loop, MapEntry, Special, Yield, YieldTo } from '../Expression'
 import { defaultLoopName, LineSplitKeywords } from '../Lang'
 import { Group, Keyword, Name } from '../Token'
 import { set } from '../U'
@@ -81,7 +81,7 @@ export function parseLines(px) {
 function parseAssign(px, assigned, assigner, value) {
 	let locals = parseLocals(px.w(assigned))
 	const k = assigner.k
-	const eValuePre = isEmpty(value) ? True(px.s({})) : parseExpr(px.w(value))
+	const eValuePre = isEmpty(value) ? Special.true(px.span) : parseExpr(px.w(value))
 
 	let eValueNamed
 	if (locals.length === 1) {

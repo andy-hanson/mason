@@ -109,16 +109,11 @@ implementMany(EExports, 'verify', {
 	Member(_, vx) { v(vx)(_.object) },
 	Module(_, vx) { v(vx)(_.body) },
 	ModuleDefaultExport(_, vx) { v(vx)(_.value) },
-	Null() { },
 	Quote(_, vx) { vm(vx, _.parts) },
 	Require() { },
 	Scope() { throw new Error('Scopes are handled specially by verifyLines.') },
-	SpecialKeyword() { },
-	Splat(_, vx) { v(vx)(_.splatted) },
-	Sub(_, vx) { vm(vx, cons(_.subject, _.subbers)) },
-	This() { },
-	True() { },
-	TypeTest(_, vx) { vm(vx, [ _.tested, _.testType ]) }
+	Special() { },
+	Splat(_, vx) { v(vx)(_.splatted) }
 })
 
 function vCaseDo(_, vx) {

@@ -1,6 +1,6 @@
 import check, { fail } from '../check'
 import E, { Assign, AssignDestructure, Call, Debug,
-	Do, ELiteral, Null, Scope, Yield, YieldTo } from '../Expression'
+	Do, ELiteral, Scope, Special, Yield, YieldTo } from '../Expression'
 import type from '../U/type'
 import { code, set } from '../U'
 import { v } from './util'
@@ -73,7 +73,7 @@ function verifyIsStatement(line) {
 		case line instanceof Call:
 		case line instanceof ELiteral && line.k === 'js':
 		// OK, used to mean `pass`
-		case line instanceof Null:
+		case line instanceof Special && line.k === 'null':
 		case line instanceof Yield:
 		case line instanceof YieldTo:
 			return

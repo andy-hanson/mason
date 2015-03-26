@@ -1,5 +1,6 @@
 import assert from 'assert'
-import { Assign, BlockBody, BlockWrap, Call, ObjReturn, Null, Yield, YieldTo } from '../Expression'
+import { Assign, BlockBody, BlockWrap, Call,
+	ObjReturn, Special, Yield, YieldTo } from '../Expression'
 import { Keyword } from '../Token'
 import type from '../U/type'
 import { set } from '../U'
@@ -73,7 +74,7 @@ function parseExprPlain(px) {
 	const parts = parseExprParts(px)
 	switch (parts.length) {
 		case 0:
-			return Null(px.s({}))
+			return Special.null(px.span)
 		case 1:
 			return head(parts)
 		default:

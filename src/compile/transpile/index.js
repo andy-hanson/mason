@@ -212,9 +212,6 @@ const transpileSubtree = implementMany(EExports, 'transpileSubtree', {
 		const m = member(IdExports, tx.opts.moduleName())
 		return assignmentExpression('=', m, t(tx)(_.value))
 	},
-	// Make new objects because we will assign `loc` to them.
-	Null: () => literal(null),
-	True: () => literal(true),
 	Quote(_, tx) {
 		// TODO:ES6 use template strings
 		const isStrLit = _ => _ instanceof EExports.ELiteral && _.k === String
@@ -229,17 +226,20 @@ const transpileSubtree = implementMany(EExports, 'transpileSubtree', {
 	},
 	Require: _ => callExpression(IdRequire, [ literal(_.path) ]),
 	Scope: (_, tx) => blockStatement(_.lines.map(t(tx))),
-	SpecialKeyword(_) {
+	Special(_) {
+		// Make new objects because we will assign `loc` to them.
 		switch (_.k) {
-			case 'undefined': return IdUndefined
-			case 'this-module-directory': return IdDirName
+			case 'contains': return member(IdMs, 'contains')
+			case 'null': return literal(null)
+			case 'sub': return member(IdMs, 'sub')
+			case 'this': return 	thisExpression()
+			case 'this-module-directory': return identifier('__dirname')
+			case 'true': return literal(true)
+			case 'undefined': return identifier('undefined')
 			default: throw new Error(_.k)
 		}
 	},
 	Splat: _ => fail(_.span, 'Splat must appear as argument to a call.'),
-	Sub: (_, tx) => msSub(cons(_.subject, _.subbers).map(t(tx))),
-	This: () => thisExpression(),
-	TypeTest: (_, tx) => msContains([ t(tx)(_.testType), t(tx)(_.tested) ]),
 	Yield: (_, tx) => astYield(t(tx)(_.yielded)),
 	YieldTo: (_, tx) => astYieldTo(t(tx)(_.yieldedTo))
 })
@@ -274,9 +274,7 @@ const
 	LitStrDisplayName = literal('displayName'),
 	IdFunctionApplyCall = member(member(identifier('Function'), 'apply'), 'call'),
 	IdArraySliceCall = member(member(LitEmptyArray, 'slice'), 'call'),
-	IdArguments = identifier('arguments'),
-	IdUndefined = identifier('undefined'),
-	IdDirName = identifier('__dirname')
+	IdArguments = identifier('arguments')
 
 const IdMs = identifier('_ms')
 const ms = name => {
@@ -291,8 +289,6 @@ const
 	msSet = ms('set'),
 	msMap = ms('map'),
 	msShow = ms('show'),
-	msSub = ms('sub'),
-	msContains = ms('contains'),
 	msCheckContains = ms('checkContains'),
 	msUnlazy = ms('unlazy'),
 	msLazy = ms('lazy')

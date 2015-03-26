@@ -80,3 +80,11 @@ export function code(str) {
 	type(str, String)
 	return chalk.bold.green(str)
 }
+
+export function setUnion() {
+	const s = new Set()
+	for (let i = 0; i < arguments.length; i = i + 1)
+		for (let x of arguments[i].values())
+			s.add(x)
+	return s
+}

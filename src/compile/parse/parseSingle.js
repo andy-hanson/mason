@@ -1,6 +1,6 @@
 import assert from 'assert'
 import { Call, ListSimple, ELiteral, LocalAccess,
-	Quote, SpecialKeyword, Splat, This } from '../Expression'
+	Quote, Special, Splat, This } from '../Expression'
 import { CallOnFocus, DotName, Group, Keyword, Literal, Name } from '../Token'
 import { SpecialKeywords } from '../Lang'
 import type from '../U/type'
@@ -25,12 +25,10 @@ export default function parseSingle(px) {
 			return ELiteral(t)
 		case t instanceof Name:
 			return LocalAccess(px.s({ name: t.name }))
-		case Keyword.is('this')(t):
-			return This(px.s({}))
 		case Keyword.is('_')(t):
 			return LocalAccess.focus(px.span)
 		case Keyword.is(SpecialKeywords)(t):
-			return SpecialKeyword(px.s({ k: t.k }))
+			return Special(px.s({ k: t.k }))
 		case Group.is('sp')(t):
 			return parseSpaced(px.w(t.tokens))
 		case Group.is('->')(t):

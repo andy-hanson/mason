@@ -1,10 +1,4 @@
-function setUnion() {
-	const s = new Set()
-	for (let i = 0; i < arguments.length; i = i + 1)
-		for (let x of arguments[i].values())
-			s.add(x)
-	return s
-}
+import { setUnion } from './U'
 
 const g = [ '<~', '<~~' ]
 export const GeneratorKeywords = new Set(g)
@@ -16,7 +10,7 @@ export const LineSplitKeywords = setUnion(AssignKeywords, new Set(['->']))
 export const KAssign = setUnion(AssignKeywords, new Set(['export']))
 export const KFun = new Set(['|', '~|'])
 export const CaseKeywords = new Set(['case', 'case!'])
-export const SpecialKeywords = new Set(['undefined', 'this-module-directory'])
+export const SpecialKeywords = new Set([ 'undefined', 'this', 'this-module-directory' ])
 export const UseKeywords = new Set(['use', 'use!', 'use~'])
 
 export const AllKeywords = setUnion(
@@ -32,7 +26,6 @@ export const AllKeywords = setUnion(
 	'loop!',
 	'out',
 	'region',
-	'this',
 	// Kludge until ES6 modules work
 	'undefined'
 ]))
