@@ -1,6 +1,7 @@
 import assert from 'assert'
+import check from '../check'
 import { Assign, BlockBody, BlockWrap, Call,
-	ObjReturn, Special, Yield, YieldTo } from '../Expression'
+	ObjReturn, ObjSimple, Special, Yield, YieldTo } from '../Expression'
 import { Keyword } from '../Token'
 import type from '../U/type'
 import { set } from '../U'
@@ -21,51 +22,28 @@ export default function parseExpr(px) {
 			const first = splits[0].before
 			const tokensCaller = rtail(first)
 
-			const keys = []
-			const lines = []
+			const keysVals = {}
 			for (let i = 0; i < splits.length - 1; i = i + 1) {
-				const local = set(
-					parseLocal(px.wt(last(splits[i].before))),
-					'okToNotUse', true)
-				keys.push(local)
+				const local = parseLocal(px.wt(last(splits[i].before)))
 				const tokensValue = i === splits.length - 2 ?
 					splits[i + 1].before :
 					rtail(splits[i + 1].before)
 				const value = parseExprPlain(px.w(tokensValue))
-				lines.push(Assign({
-					// TODO: Include name span
-					span: value.span,
-					assignee: local,
-					k: '. ',
-					value: parseExprPlain(px.w(tokensValue))
-				}))
+				check(!Object.prototype.hasOwnProperty.call(keysVals, local.name), local.span, () =>
+					`Duplicate property ${local}.`)
+				Object.defineProperty(keysVals, local.name, { value })
 			}
 			assert(last(splits).at === undefined)
-			const val = BlockWrap(px.s({
-				body: BlockBody(px.s({
-					lines: lines,
-					opReturn: [ ObjReturn(px.s({
-						keys: keys,
-						debugKeys: [],
-						opObjed: [],
-						opDisplayName: []
-					})) ],
-					opIn: [],
-					opOut: []
-				}))
-			}))
+			const val = ObjSimple(px.s({ keysVals }))
 			if (isEmpty(tokensCaller))
 				return val
 			else {
 				const parts = parseExprParts(px.w(tokensCaller))
 				assert(!isEmpty(parts))
-				return Call(px.s({
-					called: head(parts),
-					args: tail(parts).concat([ val ])
-				}))
+				return Call(px.s({ called: head(parts), args: tail(parts).concat([ val ]) }))
 			}
 		},
-		() =>parseExprPlain(px)
+		() => parseExprPlain(px)
 	)
 }
 

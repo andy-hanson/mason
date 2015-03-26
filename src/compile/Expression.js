@@ -69,6 +69,10 @@ export const ObjReturn = ev('ObjReturn', {
 	opObjed: Op(Val),
 	opDisplayName: Op(String)
 })
+export const ObjSimple = ev('ObjSimple', {
+	// values are Vals
+	keysVals: Object
+})
 
 // Case
 export const CasePart = spanType('CasePart', Expression, {

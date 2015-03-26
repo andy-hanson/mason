@@ -147,6 +147,9 @@ const transpileSubtree = implementMany(EExports, 'transpileSubtree', {
 				return objectExpression(props.concat(opPropDisplayName))
 			})
 	},
+	ObjSimple: (_, tx) =>
+		objectExpression(Object.getOwnPropertyNames(_.keysVals).map(keyName =>
+			property('init', propertyIdentifier(keyName), t(tx)(_.keysVals[keyName])))),
 	EndLoop: _ => breakStatement(identifier(mangle(_.name))),
 	Fun(_, tx) {
 		const opResCheck = flatMap(_.opReturnType, _ =>

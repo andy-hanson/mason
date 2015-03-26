@@ -99,6 +99,9 @@ implementMany(EExports, 'verify', {
 	CasePart(_, vx) { vm(vx, [_.test, _.result]) },
 	Debugger() { },
 	ObjReturn(_, vx) { vm(vx, _.opObjed) },
+	ObjSimple(_, vx) {
+		Object.getOwnPropertyNames(_.keysVals).forEach(key => v(vx)(_.keysVals[key]))
+	},
 	Ignore(_, vx) { v(vx)(_.ignored) },
 	Lazy(_, vx) { v(vx.withBlockLocals())(_.value) },
 	ListReturn() { },
