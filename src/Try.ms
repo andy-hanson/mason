@@ -6,7 +6,7 @@ use
 	.compare =?
 	.Fun _ Act spread!
 	.js global new
-	.private.js-impl make-Error i-always-do-after i-oh-no! i-try
+	.private.js-impl makeError alwaysDoAfter ohNo iTry
 	.Obj
 	.Obj! p! p+!
 	.Str
@@ -44,7 +44,7 @@ Syntax-Error. global.SyntaxError
 Type-Error. global.TypeError
 URI-Error. global.URIError
 
-self-impl! => Error make-Error
+self-impl! => Error makeError
 
 oh-no!.
 	doc. "
@@ -56,9 +56,7 @@ oh-no!.
 			oh-no! "a"
 		! fails-with? Type-Error |
 			oh-no! Type-Error()
-	\ TODO: mark both as ~error and have the compiler figure out that it doesn't need to wrap.
-	|error
-		i-oh-no! error
+	ohNo
 
 try.
 	doc. "
@@ -68,7 +66,7 @@ try.
 		[ (thunk 1) ] -> Success 1
 		! fails-with? "Oh no!" oh-no!
 	|tried:Fun[Any]
-		i-try Success tried
+		iTry Success tried
 
 ?try.
 	doc. "
@@ -143,7 +141,7 @@ always-do-after.
 			try |
 				always-do-after oh-no! yield[0]
 	|tried:Fun[Any] finally-do:Act
-		i-always-do-after tried finally-do
+		alwaysDoAfter tried finally-do
 
 annotate-errors.
 	doc. "If there are thrown errors, prepends `annotation` to their stack and message."

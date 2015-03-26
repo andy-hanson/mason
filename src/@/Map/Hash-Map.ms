@@ -1,6 +1,6 @@
 use
 	...Fun thunk
-	...private.js-impl i-make-map
+	...private.js-impl makeMap
 	...methods freeze
 	...Obj! p+!
 	...private.bootstrap ms
@@ -21,7 +21,7 @@ self-impl! empty Hash-Map (thunk (freeze (empty Hash-Map!
 \ TODO: MOVE?
 p+! ms "map" |...args
 	hm = empty Hash-Map!
-	i-make-map hm assoc! args
+	makeMap hm assoc! args
 	freeze hm
 
 Hash-Map

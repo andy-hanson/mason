@@ -1,12 +1,12 @@
 doc. "Functions implementing behavior native to JavaScript."
 
 use
-	.private.js-impl i& i^ i<< i>> i>>> i=== i== i< i> i<= i>= i+ i- i* i/ i% i-bar i~ i! i-sub i-set i-global i-new i-typeof i-delete i-instanceof
+	.private.bootstrap Fun
+	.private.js-impl iGlobal iNew
 use~
 	.@
 	.@.Array
 	.Bool _ not
-	.Fun
 	.Type =>
 debug use~
 	.! _ !not
@@ -19,31 +19,36 @@ debug use~
 	.Symbol
 	.Try Error
 
-global. i-global
+global. iGlobal
 
-js&. i&
-js^. i^
-js<<. i<<
-js>>. i>>
-js>>>. i>>>
-js===. i===
-js==. i==
-js<. i<
-js>. i>
-js<=. i<=
-js>=. i>=
-js+. i+
-js-. i-
-js*. i*
-js/. i/
-js%. i%
-js-bar. i-bar
-js~. i~
-js!. i!
-js-sub. i-sub
-js-set. i-set
-js-delete. i-delete
-js-instanceof. i-instanceof
+op = |op-name
+	Fun "a" "b" "return a {op-name} b"
+unary-op = |op-name
+	Fun "_" "return {op-name} _"
+
+js&. op "&"
+js^. op "^"
+js<<. op "<<"
+js>>. op ">>"
+js>>>. op ">>>"
+js===. op "==="
+js==. op "=="
+js<. op "<"
+js>. op ">"
+js<=. op "<="
+js>=. op ">="
+js+. op "+"
+js-. op "-"
+js*. op "*"
+js/. op "/"
+js%. op "%"
+js-bar. op "|"
+js~. unary-op "~"
+js!. unary-op "!"
+js-sub. Fun "obj" "prop" "return obj[prop]"
+js-set. Fun "obj" "prop" "val" "obj[prop] = val"
+js-delete. Fun "obj" "prop" "delete obj[prop]"
+js-instanceof. op "instanceof"
 
 \ TODO:ES6 `undefined` constant.
 defined?.
@@ -80,7 +85,7 @@ truthy?.
 		! truthy? true
 
 	|:Bool a
-		i! (i! a)
+		js! (js! a
 
 new.
 	doc. "
@@ -94,7 +99,7 @@ new.
 		! =? x.a 1
 		y:Error = new Error "Oh no!"
 		! =? y.message "Oh no!"
-	i-new
+	iNew
 
 js-typeof.
 	doc. "JavaScript's `typeof` operator."
@@ -107,8 +112,7 @@ js-typeof.
 		[ (Symbol "s") ] -> "symbol"
 		[ js-typeof ] -> "function"
 		[ @ ] -> "object"
-
-	i-typeof
+	unary-op "typeof"
 
 apply-with-this.
 	doc. "

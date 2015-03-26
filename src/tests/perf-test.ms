@@ -4,7 +4,7 @@ use
 	..io.console log!
 	..io.time current-time-ms
 	..Fun _ Act
-	..private.js-impl i-time*
+	..private.js-impl timeStar
 	..math.Num _ Nat
 	..math.methods -
 	..Str
@@ -19,14 +19,13 @@ time!.
 time*!.
 	doc. "Logs the time to run time-me `times` times."
 	|name:Str times:Nat time-me:Act
-		i-time* times time-me
+		timeStar times time-me
 		time! name |
-			i-time* times time-me
+			timeStar times time-me
 
 race*!.
 	doc. "Logs the time of to run each of time-us `times` times."
 	|times:Nat time-us:@[Act]
-		each! time-us i-time*[times]
 		each! time-us time*!["." times]
 
 time.

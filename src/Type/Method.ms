@@ -1,7 +1,7 @@
 use
 	..Bool _ and false implies not
 	..js defined? global js-sub
-	..private.js-impl build-str
+	..private.js-impl buildStr
 	..private.bootstrap Fun impl-contains?! Obj p+! Str Symbol ms contains?-impl-symbol
 	.Obj-Type
 use~
@@ -21,7 +21,7 @@ debug use~
 	..Try fails?
 
 make-callable-method = |method
-	src = build-str |add!
+	src = buildStr |add!
 		add! "return function(a, b, c, d) \{"
 		impl = case
 			defined? method.default

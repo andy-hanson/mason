@@ -1,17 +1,10 @@
-'use strict'
+import { ms } from './bootstrap'
+const { bool, unlazy } = ms
 
-const ms = require('./bootstrap').ms
-const bl = ms.bool, u = ms.unlazy
-
-module.exports = {
+export	const
 	// js.ms
-	'i!': function(a) { return !a },
-	'i~': function(a) { return ~a },
-	'i-bar': function(a, b) { return a | b },
-	'i-delete': function(a, b) { delete a[b] },
-	'i-instanceof': function(a, b) { return a instanceof b },
-	'i-global': global,
-	'i-new': function(ctr, a, b, c) {
+	iGlobal = global,
+	iNew = function(ctr, a, b, c) {
 		// TODO:ES6 return new ctr(...args)
 		switch (arguments.length) {
 			case 0: throw new Error('`new` needs a constructor.')
@@ -22,107 +15,98 @@ module.exports = {
 			default: throw new Error('This many arguments not supported.')
 		}
 	},
-	'i-oh-no!': function(error) {
-		throw module.exports['make-Error'](error)
-	},
-	'i-sub': function(a, b) { return a[b] },
-	'i-set': function(a, b, c) { a[b] = c },
-	'i-typeof': function(a) { return typeof a },
 
 	// Bool.ms
-	'i-true': true,
-	'i-false': false,
-	'i-and': function() {
-		switch (arguments.length) {
+	iTrue = true,
+	iFalse = false,
+	iAnd = (...args) => {
+		switch (args.length) {
 			case 0: return true
-			case 1: return bl(arguments[0])
-			case 2: return bl(arguments[0]) && bl(u(arguments[1]))
-			case 3: return bl(arguments[0]) && bl(u(arguments[1])) && bl(u(arguments[2]))
+			case 1: return bool(args[0])
+			case 2: return bool(args[0]) && bool(unlazy(args[1]))
+			case 3: return bool(args[0]) && bool(unlazy(args[1])) && bool(unlazy(args[2]))
 			default:
-				if (!bl(arguments[0]))
+				if (!bool(args[0]))
 					return false
-				for (let i = 1; i < arguments.length; i = i + 1)
-					if (!bl(u(arguments[i])))
+				for (let i = 1; i < args.length; i = i + 1)
+					if (!bool(unlazy(args[i])))
 						return false
 				return true
 		}
 	},
-	'i-or': function() {
-		switch (arguments.length) {
+	iOr = (...args) =>{
+		switch (args.length) {
 			case 0: return false
-			case 1: return bl(arguments[0])
-			case 2: return bl(arguments[0]) || bl(u(arguments[1]))
-			case 3: return bl(arguments[0]) || bl(u(arguments[1])) || bl(u(arguments[2]))
+			case 1: return bool(args[0])
+			case 2: return bool(args[0]) || bool(unlazy(args[1]))
+			case 3: return bool(args[0]) || bool(unlazy(args[1])) || bool(unlazy(args[2]))
 			default:
-				if (bl(arguments[0]))
+				if (bool(args[0]))
 					return true
-				for (let i = 1; i < arguments.length; i = i + 1)
-					if (bl(u(arguments[i])))
+				for (let i = 1; i < args.length; i = i + 1)
+					if (bool(unlazy(args[i])))
 						return true
 				return true
 		}
 	},
 
 	// Kind.ms
-	'Kind-contains?': function(kind, _) {
-		return _ != null && _[kind['symbol-for-isa']] !== undefined
-	},
-	'empty?': function(array) {
-		return array.length === 0
-	},
+	KindContains = (kind, _) =>
+		_ != null && _[kind['symbol-for-isa']] !== undefined,
+	isEmpty = array => array.length === 0,
 
 	// Generator.ms
-	'each-generator': function*(iter, doEach) {
+	eachGenerator = function*(iter, doEach) {
 		for (let em of iter)
 			yield* doEach(em)
 	},
 
 	// Try.ms
-	'i-always-do-after': function(tried, finallyDo) {
+	ohNo = error => { throw makeError(error) },
+	alwaysDoAfter = (tried, finallyDo) => {
 		try {
 			return tried()
 		} finally {
 			finallyDo()
 		}
 	},
-	'i-try': function(Success, tried) {
+	iTry = (Success, tried) => {
 		try {
 			return Success(tried())
 		} catch (e) {
 			return e
 		}
 	},
-	'make-Error': function(error) {
+	makeError = error => {
 		let err
 		try {
 			err = ms.unlazy(error)
 		} catch (e) {
-			return e
+			return makeError(e)
 			// TODO: return new Error ('Error making error: ' + e.message)
 		}
 		if (err instanceof Error)
 			return err
-		if (typeof err === 'string')
+		else if (typeof err === 'string')
 			return new Error(err)
-		if (err == null)
+		else if (err === undefined)
 			return new Error('Oh no!')
-		return new Error('Argument to `oh-no!` must be Error or String')
+		else
+			throw new Error('Argument to `oh-no!` must be Error or String')
 	},
 
-	// modules.ms (TODO:ES6: remove)
-	'i-require': require,
-
 	// Array.ms
-	'array-iterator': function*(_) {
+	// TODO:ES6 Shouldn't need this.
+	arrayIterator = function*(_) {
 		for (let i = 0; i < _.length; i = i + 1)
 			yield _[i]
 	},
 
 	// show.ms
-	'new-Set': function() { return new global.Set() },
+	newSet = () => new global.Set(),
 
 	// Hash-Map.ms
-	'i-make-map': function(hm, assoc, args) {
+	makeMap = (hm, assoc, args) => {
 		let i = 0
 		while (i < args.length) {
 			const key = args[i]
@@ -133,16 +117,17 @@ module.exports = {
 		}
 	},
 
-	// Obj-Type.ms
-	'build-str': function(builder) {
+	// Obj-Type.ms and Method.ms and Wrap-Type.ms
+	buildStr = builder => {
 		let s = ''
-		builder(function(str) { s = s + str + '\n' })
+		builder(str => { s = s + str + '\n' })
 		return s
 	},
-	'+1': function(_) { return _ + 1 },
+	// Obj-Type.ms
+	addOne = _ => _ + 1,
 
-	// time.ms
-	'i-time*': function(times, timeMe) {
+	// perf-test.ms
+	timeStar = (times, timeMe) => {
 		let i = times
 		const out = []
 		while (i > 0) {
@@ -153,19 +138,4 @@ module.exports = {
 	},
 
 	// Fun.ms
-	'i-curry': function(f) {
-		// TODO:ES6 Splat call
-		return Function.prototype.bind.apply(f, arguments)
-	}
-}
-
-const binOps = [
-	'&', '^',
-	'<<', '>>', '>>>',
-	'===', '==',
-	'<', '>', '<=', '>=',
-	'+', '-', '*', '/', '%'
-]
-binOps.forEach(function(op) {
-	module.exports['i' + op] = Function('a', 'b', 'return a ' + op + ' b')
-})
+	iCurry = (f, ...args) => Function.prototype.bind.call(f, null, ...args)

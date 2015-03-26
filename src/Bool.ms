@@ -1,6 +1,6 @@
 use
 	.js global
-	.private.js-impl i-true i-false i-and i-or
+	.private.js-impl iTrue iFalse iAnd iOr
 debug use~
 	.Try oh-no!
 
@@ -10,8 +10,8 @@ Bool =
 		Either true or false.
 	global.Boolean
 
-true. i-true
-false. i-false
+true. iTrue
+false. iFalse
 
 not.
 	doc. "Negation of a Bool."
@@ -38,7 +38,7 @@ and.
 		[ true true false ] -> false
 		\ No need to run any condition after false.
 		[ true false ~(oh-no!()) ] -> false
-	i-and
+	iAnd
 
 nand.
 	doc. "Negation of and."
@@ -66,7 +66,7 @@ or.
 		[ false false true ] -> true
 		\ No need to run any condition after true.
 		[ false true ~(oh-no!()) ] -> true
-	i-or
+	iOr
 
 nor.
 	doc. "Negation of or."

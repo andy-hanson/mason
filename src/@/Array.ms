@@ -5,7 +5,7 @@ use
 	..control if
 	..Fun thunk
 	..js global js-sub
-	..private.js-impl array-iterator
+	..private.js-impl arrayIterator
 	..methods freeze
 	..Type.Kind kind! self-kind!
 	..Type.Method impl! self-impl!
@@ -25,7 +25,7 @@ kind! Array Seq
 impl! count Array |_
 	_.length
 \ TODO:ES6 This should be implemented for me
-impl! iterator Array array-iterator
+impl! iterator Array arrayIterator
 
 self-kind! Array @-Type
 self-impl! empty Array (thunk []

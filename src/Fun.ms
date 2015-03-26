@@ -1,7 +1,7 @@
 use
 	.js global
 	.methods sub
-	.private.js-impl i-curry
+	.private.js-impl iCurry
 	.Type.Alias-Type
 	.Type.Method _ impl! self-impl!
 use~
@@ -217,7 +217,7 @@ curry =
 			[ a b c ]
 		one-two = all-3[1 2]
 		! =? (one-two 3) [ 1 2 3 ]
-	i-curry
+	iCurry
 
 impl! sub Fun curry
 \ TODO: Make Method a Callable

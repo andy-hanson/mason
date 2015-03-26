@@ -5,7 +5,7 @@ use
 	.Bool _ and
 	.Fun _ call
 	.Js-Method
-	.private.js-impl each-generator
+	.private.js-impl eachGenerator
 	.Obj
 	.Type contains?
 	.Type.Pred-Type _ Any
@@ -60,7 +60,7 @@ each~.
 				<~ em
 		! seq=? x [ 1 2 3 ]
 	|_:@ do-each:Fun[Any Generator!]
-		each-generator iterator_ do-each
+		eachGenerator iterator_ do-each
 
 \ TODO: Others...
 

@@ -3,7 +3,7 @@ use
 	..compare =?
 	..js defined? global js-sub
 	..private.bootstrap Array impl-contains?! Obj p+! Str Symbol
-	..private.js-impl empty? Kind-contains?
+	..private.js-impl isEmpty KindContains
 	.Method impl! propagate-method-down! self-impl!
 	.Obj-Type
 use~
@@ -94,14 +94,14 @@ Kind. Obj-Type
 	post-construct. |_
 		p+! _.prototype _.symbol-for-isa true
 		case!
-			empty? _.implementors
+			isEmpty _.implementors
 				()
 			else
 				_.implementors.forEach |implementor
 					on-implementor! implementor _
 				freeze _.implementors
 
-impl-contains?! Kind Kind-contains?
+impl-contains?! Kind KindContains
 
 can-subtype?.
 	doc. "Whether a Kind accepts new subtypes."

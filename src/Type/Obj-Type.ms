@@ -2,12 +2,12 @@ use
 	..Bool _ and false implies not
 	..private.bootstrap Fun impl-contains?! Obj p+! Str
 	..js defined? js=== js-instanceof js-sub js-typeof
-	..private.js-impl i=== build-str
+	..private.js-impl buildStr
 debug use~
 	..!
 	..Bool true
 	..compare =?
-	..private.js-impl +1
+	..private.js-impl addOne
 	..math.Num
 	..Try fails?
 	..Type type-of
@@ -33,14 +33,14 @@ make-ctr = |ot
 
 	real-prop? = |props prop
 		\ Ignore accidental displayName.
-		implies (i=== prop "displayName") ~
+		implies (js=== prop "displayName") ~
 			\ This looks funny since `contains?` isn't defined until methods.ms.
 			not (js=== (js-typeof (js-sub props prop)) "string"
 
 	access = |name
 		"[\"{name}\"]"
 
-	src = build-str |add!
+	src = buildStr |add!
 		add! "
 			return function ctr(_) \{
 			if (!(this instanceof ctr)) return new ctr(_)
@@ -97,7 +97,7 @@ make-ctr = |ot
 						defined? real-props.displayName
 							"{n-props}"
 						else
-							"(Object.prototype.hasOwnProperty.call(_, \"displayName\") ? {+1 n-props} : {n-props})"
+							"(Object.prototype.hasOwnProperty.call(_, \"displayName\") ? {addOne n-props} : {n-props})"
 					\ If the conditions pass the check will definitely fail, and will give nice error info.
 					add! "
 						if (Object.keys(_).length > {n-props-compare})  \{

@@ -5,7 +5,7 @@ use
 	.js js+
 	.math.Num
 	.private.bootstrap p+! ms
-	.private.js-impl new-Set
+	.private.js-impl newSet
 	.Obj flag? p ?p @p
 	.Str _ indent
 	.Symbol
@@ -19,7 +19,7 @@ debug use
 	.Bool false
 	.Obj
 
-showing = new-Set()
+showing = newSet()
 
 show = Method
 	doc. |:Str _ opts

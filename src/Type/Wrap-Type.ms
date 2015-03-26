@@ -1,7 +1,7 @@
 use
 	..Fun
 	..js js-instanceof
-	..private.js-impl build-str
+	..private.js-impl buildStr
 	..Obj
 	..Obj! p+!
 	..Str
@@ -34,7 +34,7 @@ Wrap-Type = Obj-Type
 	post-construct. |_
 		p+! _.prototype "constructor" _
 	make-callable. |_
-		src = build-str |add!
+		src = buildStr |add!
 			add! "
 				return function ctr(_) \{
 					if (!(this instanceof ctr)) return new ctr(_)
