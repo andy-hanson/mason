@@ -7,7 +7,7 @@ use
 	...@ map
 	..Map
 	.Weak-Id-Map!
-debug use
+use-debug
 	...Bool true
 
 impl! show Map

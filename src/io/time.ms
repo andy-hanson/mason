@@ -3,7 +3,7 @@ use
 	..Fun
 	..js global new
 	..math.Num
-debug use~
+use-debug
 	..!
 	..compare =? <?
 	..tests.perf-test $time

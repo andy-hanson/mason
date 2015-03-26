@@ -14,7 +14,7 @@ use
 use~
 	.Hash-Map!
 	.Map! assoc!
-debug use~
+use-debug
 	...!
 	...Bool false true
 	...math.methods +

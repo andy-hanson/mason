@@ -2,7 +2,7 @@ use
 	..Type.Kind _ kind!
 	..Type.Method
 	.@!
-debug use~
+use-debug
 	..!
 	..compare =?
 	.@! ++!

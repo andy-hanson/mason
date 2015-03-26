@@ -11,7 +11,7 @@ use
 	.Array!
 	.Seq _ ?nth
 	.Stream
-debug use~
+use-debug
 	..!
 	..compare =?
 	..control build

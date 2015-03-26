@@ -1,5 +1,3 @@
-doc. "Functions that write to the console (also known as shell, command prompt, stdout/stderr)."
-
 use
 	chalk blue
 	..@ each!
@@ -7,6 +5,8 @@ use
 	..show
 	..Str
 	..Type =>
+
+doc. "Funs that write to the console (also known as shell, command prompt, stdout/stderr)."
 
 js-console = global.console
 

@@ -15,7 +15,7 @@ use~
 	.@ -- empty? map
 	.@.? ?-or
 	.@.Array
-debug use
+use-debug
 	.Bool false
 	.Obj
 

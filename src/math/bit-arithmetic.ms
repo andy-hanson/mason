@@ -1,13 +1,13 @@
-doc. "Methods for dealing with Ints qua sequences of bits."
-
 use
 	..js js-bar js& js^ js~ js<< js>> js>>>
 	..Str
 	.Num _ Int
-debug use
+use-debug
 	..! _ !not
 	..Regex regex
 	..Try fails?
+
+doc. "For dealing with Ints qua sequences of bits."
 
 binary.
 	doc. "Makes an Int out of a string of 0s and 1s."

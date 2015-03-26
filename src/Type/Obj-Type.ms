@@ -3,7 +3,7 @@ use
 	..private.bootstrap Fun impl-contains?! Obj p+! Str
 	..js defined? js=== js-instanceof js-sub js-typeof
 	..private.js-impl buildStr
-debug use~
+use-debug
 	..!
 	..Bool true
 	..compare =?

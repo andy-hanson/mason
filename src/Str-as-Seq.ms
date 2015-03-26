@@ -1,5 +1,3 @@
-\ TODO: Move
-
 use
 	.@ _ count iterator map
 	.@.Array
@@ -14,10 +12,12 @@ use
 	.Type.Kind kind! self-kind!
 	.Type.Method impl-double! impl-for
 	.Type.Pred-Type Opt
-debug use
+use-debug
 	.!
 	.compare =?
 	.Fun identity
+
+\ TODO: Move
 
 test. |
 	! =? [ "1" "2" "3" ] (map "123" identity)

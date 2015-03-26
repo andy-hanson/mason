@@ -27,18 +27,14 @@ export default function parseSpaced(px) {
 				if (t instanceof DotName)
 					switch (t.nDots) {
 						case 1:
-							return Member({ span: span, object: e, name: t.name })
+							return Member({ span, object: e, name: t.name })
 						default:
 							fail(span, 'Too many dots!')
 					}
 				else if (Group.is('[')(t))
 					return Call.sub(span, e, parseExpr_().parseExprParts(px.w(t.tokens)))
 				else if (Group.is('(')(t))
-					return Call({
-						span: span,
-						called: e,
-						args: []
-					})
+					return Call({ span, called: e, args: [] })
 				else fail(span, `Expected member or sub, not ${code(t)}`)
 			}
 			return rest.reduce(memberOrSubscript(px), parseSingle_()(px.wt(h)))

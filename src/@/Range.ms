@@ -11,7 +11,7 @@ use
 	..Type.Obj-Type
 	.@-Type _ empty from-stream
 	.Seq ?nth
-debug use~
+use-debug
 	..!
 	.? _
 	..compare =?

@@ -67,7 +67,7 @@ export default function group(preGroupedTokens, opts) {
 		type(old, GroupBuilder)
 		const span = Span({ start: old.startPos, end: closePos })
 		assert(GroupOpenToClose.get(old.k) === k)
-		return Group({ span: span, tokens: old.body, k: old.k })
+		return Group({ span, tokens: old.body, k: old.k })
 	}
 
 	function startLine(pos) {

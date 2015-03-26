@@ -1,4 +1,3 @@
-doc. "The program starts running here."
 use!
 	.private.bootstrap
 	.private.boot-order
@@ -8,6 +7,8 @@ use
 	.modules $@module-in-dir get-module
 	.tests.test $test-all $test-module
 	.tests.perf-test time $time! time*! race*!
+
+doc. "The program starts running here."
 
 \ TODO: Mason for "if this is the main module"
 $done ($ing ~|

@@ -14,7 +14,7 @@ use~
 	.@.Seq! ++>!
 	.@.Map _ ?get
 	.Try oh-no!
-debug use~
+use-debug
 	.! _ !call
 	.Bool false true
 	.compare =?

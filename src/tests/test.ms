@@ -1,5 +1,3 @@
-doc. "For running code in `test` properties."
-
 use
 	..$ _ $after $all $ing
 	..! _ !call
@@ -22,10 +20,12 @@ use
 	..Type.Kind _ concrete-implementors
 	..Type.Method _ impl! impl-for
 	..Type.Pred-Type ObjLit
-debug use
+use-debug
 	..control build
 	..Obj!
 	..Type.Method self-impl!
+
+doc. "For running code in `test` properties."
 
 \ TODO
 test. |

@@ -13,7 +13,7 @@ use~
 	..Try oh-no!
 	.Impl-Type _ self-type
 	.Kind
-debug use~
+use-debug
 	..@.@-Type empty
 	..@.?
 	..compare =?

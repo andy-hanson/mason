@@ -13,7 +13,7 @@ use~
 	.Fun _ identity
 	.Obj obj=?
 	.Type.Pred-Type Opt
-debug use~
+use-debug
 	.!
 	.@ count
 	.@.?

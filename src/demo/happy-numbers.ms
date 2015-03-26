@@ -13,7 +13,7 @@ use
 	..math.Num _ infinity Nat square
 	..math.methods +
 	..Type contains?
-debug use
+use-debug
 	..!
 	..@.Seq seq=? take
 

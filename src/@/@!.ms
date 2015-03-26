@@ -6,7 +6,7 @@ use
 use~
 	.Array!
 	.Seq! ++>!
-debug use~
+use-debug
 	..! _ !not
 	..@ each! empty?
 	..compare =?

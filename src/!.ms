@@ -1,5 +1,3 @@
-doc. "For making assertions."
-
 use
 	.Bool _ not
 	.compare =?
@@ -15,12 +13,14 @@ use~
 	.Try oh-no!
 	.Type =>
 	.Type.Pred-Type Any
-debug use~
+use-debug
 	.Bool false true
 	.compare same?
 	.math.methods +
 	.show
 	.Try fails-with?
+
+doc. "For making assertions."
 
 ! =
 	doc. "

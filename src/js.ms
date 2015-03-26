@@ -1,5 +1,3 @@
-doc. "Functions implementing behavior native to JavaScript."
-
 use
 	.private.bootstrap Fun
 	.private.js-impl iGlobal iNew
@@ -8,7 +6,7 @@ use~
 	.@.Array
 	.Bool _ not
 	.Type =>
-debug use~
+use-debug
 	.! _ !not
 	.@ each!
 	.Bool false true
@@ -18,6 +16,8 @@ debug use~
 	.Obj! p+!
 	.Symbol
 	.Try Error
+
+doc. "Functions implementing behavior native to JavaScript."
 
 global. iGlobal
 

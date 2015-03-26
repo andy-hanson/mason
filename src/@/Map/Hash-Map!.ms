@@ -21,7 +21,7 @@ use
 	.Map-Type
 use~
 	...Generator! if~
-debug use
+use-debug
 	...!
 	..Seq seq=?
 

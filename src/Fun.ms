@@ -14,7 +14,7 @@ use~
 	.@.Map.Weak-Id-Map!
 	.Obj _ Obj->Map
 	.Try oh-no!
-debug use~
+use-debug
 	.!
 	.@.Seq seq=?
 	.compare =?

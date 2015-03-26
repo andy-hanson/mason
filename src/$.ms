@@ -15,7 +15,7 @@ use
 use~
 	.math.Num
 	.Try $catch Error
-debug use~
+use-debug
 	.@.Stream
 	.!
 	.compare =?

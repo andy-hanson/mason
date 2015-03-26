@@ -5,7 +5,7 @@ use
 	.Str
 	.Type.Obj-Type
 	.Type.Pred-Type Any
-debug use~
+use-debug
 	.!
 	.compare =?
 	.Type contains?

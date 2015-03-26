@@ -11,7 +11,6 @@ import type from '../U/type'
 import parseCase from './parseCase'
 import parseExpr from './parseExpr'
 import parseLocals from './parseLocals'
-import parseUse from './parseUse'
 import Px from './Px'
 // TODO
 const parseBlock_ = () => require('./parseBlock')
@@ -38,7 +37,7 @@ export default function parseLine(px) {
 				return Group.is('->')(px.tokens[1]) ?
 					// `debug`, then indented block
 					Debug(px.s({ lines: parseLines(px) })) :
-					// e.g. `debug use`
+					// e.g. `use-debug`
 					Debug(px.s({ lines: parseLineOrLines(pxRest) }))
 			case 'debugger':
 				px.checkEmpty(pxRest().tokens, () => `Did not expect anything after ${first}`)
@@ -49,8 +48,6 @@ export default function parseLine(px) {
 				return parseLoop(pxRest)
 			case 'region':
 				return parseLines(px)
-			case 'use': case 'use!': case 'use~':
-				return parseUse(pxRest, first.k)
 			default:
 				// fall through
 		}

@@ -13,7 +13,7 @@ function t(name, props) {
 
 export const CallOnFocus = t('CallOnFocus', { name: String })
 export const DotName = t('DotName', { nDots: Number, name: String })
-export const Group = t('Group', { tokens: [Token], k: String })
+export const Group = t('Group', { tokens: [Token], k: GroupKinds })
 Group.is = k => t => {
 	type(t, Token, k, GroupKinds)
 	return t instanceof Group && t.k === k

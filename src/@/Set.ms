@@ -8,7 +8,7 @@ use
 	.@-Type _ empty from-stream
 use~
 	.Hash-Set!
-debug use~
+use-debug
 	..Bool false true
 	..@ --
 	.Stream

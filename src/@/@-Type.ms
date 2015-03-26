@@ -9,7 +9,7 @@ use
 use~
 	.@! ++!
 	.Array
-debug use~
+use-debug
 	.Range range
 
 @-Type = Kind

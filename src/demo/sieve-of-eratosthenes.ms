@@ -9,7 +9,7 @@ use
 	..math.Num infinity square
 	..math.methods + *
 	..Type =>
-debug use
+use-debug
 	..!
 	..@ any?
 	..@.Seq take

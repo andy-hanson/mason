@@ -7,7 +7,7 @@ use
 	..Type.Wrap-Type
 	.@-Type _ empty from-stream
 	.Seq _
-debug use~
+use-debug
 	..!
 	.Seq seq=?
 

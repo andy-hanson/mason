@@ -1,7 +1,7 @@
 use
 	.js global
 	.private.js-impl iTrue iFalse iAnd iOr
-debug use~
+use-debug
 	.Try oh-no!
 
 Bool =

@@ -16,7 +16,7 @@ use~
 	.control returning
 	.Fun
 	.Obj! empty-Obj! p+!
-debug use~
+use-debug
 	.!
 	.@.Seq seq=?
 	.@.Stream

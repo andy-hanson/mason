@@ -13,7 +13,7 @@ use
 	.Str
 	.Symbol
 	.Type.Method _ impl! impl-for
-debug use
+use-debug
 	.! _ !not
 	.compare =?
 

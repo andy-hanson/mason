@@ -10,7 +10,7 @@ use
 	.Method impl!
 	.Obj-Type
 	..Type _ contains?
-debug use~
+use-debug
 	..!
 	..compare =?
 	..control if!

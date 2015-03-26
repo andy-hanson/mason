@@ -24,7 +24,11 @@ export const BlockBody = spanType('BlockBody', Expression, {
 
 // Module
 // The body of a module will contain ModuleExport and ModuleDefaultExport_s
-export const Module = ed('Module', { body: BlockBody })
+export const Module = ed('Module', {
+	// TODO: [Use]
+	uses: [Do],
+	body: BlockBody
+})
 
 export const ModuleDefaultExport = ed('ModuleDefaultExport', { value: Val })
 // TODO: Could be call
@@ -39,7 +43,7 @@ export const LocalDeclare = spanType('LocalDeclare', Expression, {
 	okToNotUse: Boolean
 })
 LocalDeclare.UntypedFocus = span => LocalDeclare({
-	span: span,
+	span,
 	name: '_',
 	opType: None,
 	isLazy: false,
@@ -55,7 +59,7 @@ export const AssignDestructure = ed('AssignDestructure', {
 	checkProperties: Boolean
 })
 export const LocalAccess = ev('LocalAccess', { name: String })
-LocalAccess.focus = span => LocalAccess({ span: span, name: '_' })
+LocalAccess.focus = span => LocalAccess({ span, name: '_' })
 
 // Data
 export const ListEntry = ed('ListEntry', { value: Val, index: Number })
@@ -85,8 +89,6 @@ export const CaseVal = ed('CaseVal', { parts: [CasePart], opElse: Op(BlockBody) 
 
 
 // Statements
-// Transforms a Val to a Do, meaning we ignore its value.
-export const Ignore = ed('Ignore', { ignored: Val })
 export const Debugger = ed('Debugger', { })
 export const Scope = ed('Scope', { lines: [Expression] })
 export const BlockWrap = ev('BlockWrap', { body: BlockBody })
@@ -130,4 +132,3 @@ Object.assign(Special, {
 	sub: span => Special({ span, k: 'sub' }),
 	true: span => Special({ span, k: 'true' })
 })
-

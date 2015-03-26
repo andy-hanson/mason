@@ -7,7 +7,7 @@ use
 	..Array!
 	..@-Type _ empty
 	.Map! _ get-or-add!
-debug use
+use-debug
 	...!
 	...@ keep
 	...compare =?

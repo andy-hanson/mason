@@ -1,5 +1,3 @@
-doc. "For mutating Objs."
-
 use
 	.Bool false
 	.js js-delete js-set
@@ -8,11 +6,13 @@ use
 	.Type.Pred-Type Opt
 use~
 	.control opr
-debug use~
+use-debug
 	.! _ !not
 	.compare =?
 	.Obj empty-Obj? p? prototype
 	.Try fails?
+
+doc. "For mutating Objs."
 
 Obj! = Alias-Type
 	doc. "Obj which is at least partially mutable."

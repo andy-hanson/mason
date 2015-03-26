@@ -1,14 +1,13 @@
-doc. "
-	Funs for dealing with angles.
-	By default angles are in radians.
-
 use
 	..js global
 	.methods * /
 	.Num
-debug use
+use-debug
 	..! !call-with
 	.Num near?
+
+doc. "For dealing with angles. By default angles are in radians."
+
 
 Math = global.Math
 

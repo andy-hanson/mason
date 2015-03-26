@@ -4,7 +4,7 @@ use
 	..show
 	.Method impl!
 	..Type
-debug use
+use-debug
 	.Method
 
 impl! show Type

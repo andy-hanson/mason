@@ -80,6 +80,10 @@ implementMany(EExports, 'verify', {
 		v(vx)(_.key)
 		v(vx)(_.val)
 	},
+	Module(_, vx) {
+		const vxBody = verifyLines(vx, _.uses)
+		v(vxBody)(_.body)
+	},
 	Yield(_, vx) {
 		check(vx.isInGenerator, _.span, 'Cannot yield outside of generator context')
 		v(vx)(_.yielded)
@@ -102,7 +106,6 @@ implementMany(EExports, 'verify', {
 	ObjSimple(_, vx) {
 		Object.getOwnPropertyNames(_.keysVals).forEach(key => v(vx)(_.keysVals[key]))
 	},
-	Ignore(_, vx) { v(vx)(_.ignored) },
 	Lazy(_, vx) { v(vx.withBlockLocals())(_.value) },
 	ListReturn() { },
 	ListEntry(_, vx) { v(vx)(_.value) },
@@ -110,7 +113,6 @@ implementMany(EExports, 'verify', {
 	ELiteral(_, vx) { warnIf(vx.opts, _.k === 'js', _.span, 'Js literal') },
 	MapReturn() { },
 	Member(_, vx) { v(vx)(_.object) },
-	Module(_, vx) { v(vx)(_.body) },
 	ModuleDefaultExport(_, vx) { v(vx)(_.value) },
 	Quote(_, vx) { vm(vx, _.parts) },
 	Require() { },

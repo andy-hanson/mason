@@ -10,7 +10,7 @@ use
 	.Kind kind!
 	.Method impl!
 	.Obj-Type
-debug use
+use-debug
 	..!
 	..compare =?
 	..Type type-of

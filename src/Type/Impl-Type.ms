@@ -2,7 +2,7 @@ use
 	..private.bootstrap Fun Obj
 	.Kind _ kind! unchecked-kind!
 	.Obj-Type
-debug use~
+use-debug
 	..! _ !not
 	..compare =?
 	..Obj! empty-Obj!

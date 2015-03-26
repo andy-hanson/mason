@@ -20,7 +20,7 @@ use~
 	..math.Num Nat
 	.Seq! ++>!
 	.Stream
-debug use~
+use-debug
 	..! _ !not
 	..compare <?
 	..Try fails?

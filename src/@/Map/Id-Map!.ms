@@ -10,7 +10,7 @@ use
 	..Map ?get has-key? keys values
 	.Map! _ assoc! un-assoc!
 	.Map-Type
-debug use
+use-debug
 	...!
 	...compare =?
 	..Seq seq=?

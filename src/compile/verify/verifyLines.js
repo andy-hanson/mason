@@ -1,6 +1,6 @@
 import check, { fail } from '../check'
 import E, { Assign, AssignDestructure, Call, Debug,
-	Do, ELiteral, Scope, Special, Yield, YieldTo } from '../Expression'
+	Do, ELiteral, Require, Scope, Special, Yield, YieldTo } from '../Expression'
 import type from '../U/type'
 import { code, set } from '../U'
 import { v } from './util'
@@ -72,6 +72,7 @@ function verifyIsStatement(line) {
 		// Some Vals are also conceptually Dos, but this was easier than multiple inheritance.
 		case line instanceof Call:
 		case line instanceof ELiteral && line.k === 'js':
+		case line instanceof Require:
 		// OK, used to mean `pass`
 		case line instanceof Special && line.k === 'null':
 		case line instanceof Yield:

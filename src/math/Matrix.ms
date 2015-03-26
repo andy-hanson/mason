@@ -9,7 +9,7 @@ use
 	..Type.Obj-Type
 	.methods * +
 	.Num Int Nat
-debug use
+use-debug
 	..!
 	..@.?
 	..@.@-Type empty

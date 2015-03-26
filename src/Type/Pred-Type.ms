@@ -11,7 +11,7 @@ use
 	..Type _ => contains?
 use~
 	..@ any?
-debug use~
+use-debug
 	..! _ !not
 	..Bool
 	..compare =?

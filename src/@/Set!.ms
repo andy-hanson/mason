@@ -6,7 +6,7 @@ use
 	.Set
 use~
 	.Hash-Set!
-debug use~
+use-debug
 	..! _ !not
 	..Type contains?
 	..@ empty?

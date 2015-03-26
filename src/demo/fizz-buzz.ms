@@ -6,7 +6,7 @@ use
 	..Obj Obj->Map
 	..Str
 	..Type =>
-debug use
+use-debug
 	..!
 	..@.Seq seq=? take
 

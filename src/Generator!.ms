@@ -9,7 +9,7 @@ use
 	.Obj
 	.Type contains?
 	.Type.Pred-Type _ Any
-debug use~
+use-debug
 	.!
 	.@.Seq seq=?
 	.@.Stream

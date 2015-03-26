@@ -5,7 +5,7 @@ use
 	..@.Map.Id-Map!
 	..@.Map.multi-map! add-to-@!
 	..compare =? max sort
-debug use
+use-debug
 	..$ _ $after
 	..!
 	..@.Seq seq=?

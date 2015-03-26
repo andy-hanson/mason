@@ -1,6 +1,4 @@
-doc. "Making sure the code in README.md actually works."
-
-debug use
+use-debug
 	..! _ !not
 	..@ _ count map
 	..@.@-Type empty
@@ -16,6 +14,8 @@ debug use
 	..math.methods + - * /
 	..Str
 	..Try fails?
+
+doc. "Making sure the code in README.md actually works."
 
 test. |
 	my-obj.

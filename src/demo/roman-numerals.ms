@@ -3,7 +3,7 @@ use
 	..math.Num log Nat pow round-down
 	..math.methods - *
 	..Str
-debug use
+use-debug
 	..!
 	..@.Range range
 	..Type contains?

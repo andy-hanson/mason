@@ -9,7 +9,7 @@ use
 	.Map-Type
 use~
 	.Hash-Map!
-debug use~
+use-debug
 	...! _ !not
 	...Bool not
 	...compare _ =?

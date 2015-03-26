@@ -7,7 +7,7 @@ use
 	..Type.Method impl!
 	..Type.Pred-Type _ Opt
 	.methods + - * /
-debug use
+use-debug
 	..! _ !not
 	..Bool false true
 	..Fun spread!

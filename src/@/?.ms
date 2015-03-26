@@ -9,7 +9,7 @@ use
 	.Seq
 use~
 	..Try oh-no!
-debug use~
+use-debug
 	..! _ !not
 	..Try fails?
 ? = Wrap-Type

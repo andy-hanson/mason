@@ -1,8 +1,8 @@
 import assert from 'assert'
 import check from '../check'
-import { AssignDestructure, Ignore, LocalDeclare, Require } from '../Expression'
+import { AssignDestructure, LocalDeclare, Require } from '../Expression'
 import { UseKeywords } from '../Lang'
-import { DotName, Group, Name } from '../Token'
+import Token, { DotName, Group, Keyword, Name } from '../Token'
 import { code, set } from '../U'
 import { None } from '../U/Op'
 import { head, isEmpty, last, repeat, tail } from '../U/Bag'
@@ -12,11 +12,25 @@ const
 	parseBlock_ = () => require('./parseBlock'),
 	parseLocals_ = () => require('./parseLocals').default
 
-export default function parseUse(px, k) {
+export default function tryParseUse(px, k) {
+	type(px, Px, k, UseKeywords)
+	if (!isEmpty(px.tokens)) {
+		const l0 = head(px.tokens)
+		assert(Group.is('ln')(l0))
+		if (Keyword.is(k)(head(l0.tokens)))
+			return {
+				uses: parseUse(px.w(tail(l0.tokens)), k),
+				rest: tail(px.tokens)
+			}
+	}
+	return { uses: [], rest: px.tokens }
+}
+
+function parseUse(px, k) {
 	type(px, Px, k, UseKeywords)
 	const _ = parseBlock_().takeBlockLinesFromEnd(px)
 	px.check(isEmpty(_.before), () =>
-		`Did not expect anything after ${code('use')} other than a block`)
+		`Did not expect anything after ${code(k)} other than a block`)
 	return _.lines.map(line => useLine(px.w(line.tokens), k))
 }
 
@@ -28,9 +42,9 @@ function useLine(px, k) {
 
 	if (k === 'use!') {
 		px.check(px.tokens.length === 1, () => `Unexpected ${px.tokens[1]}`)
-		return Ignore(px.s({ ignored: required }))
+		return required
 	} else {
-		const isLazy = k === 'use~'
+		const isLazy = k === 'use~' || k === 'use-debug'
 
 		const defaultAssignee = LocalDeclare(px.s({
 			name: name,

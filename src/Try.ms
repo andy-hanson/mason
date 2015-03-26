@@ -16,7 +16,7 @@ use
 	.Type.Kind
 	.Type.Pred-Type Any Union
 	.Type.Wrap-Type
-debug use~
+use-debug
 	.! _ !not
 	.control build
 	.Fun thunk

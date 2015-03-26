@@ -14,7 +14,7 @@ use
 	.Map! assoc! un-assoc!
 	.Map-Type
 	.Sorted-Map!
-debug use
+use-debug
 	...! _ !not
 	...compare =?
 

@@ -91,7 +91,7 @@ Object.assign(Vx.prototype, {
 	withRes(span) {
 		// TODO: Bad idea to be creating new E at this point...
 		const res = LocalDeclare({
-			span: span,
+			span,
 			name: 'res',
 			opType: None,
 			isLazy: false,

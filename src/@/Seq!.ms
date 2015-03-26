@@ -9,7 +9,7 @@ use
 	.Seq _
 use~
 	.Deque!
-debug use~
+use-debug
 	..!
 	..compare =?
 	..@ empty?

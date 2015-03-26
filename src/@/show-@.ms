@@ -8,7 +8,7 @@ use
 	..@ _ count empty? map
 	.Array
 	.Seq take
-debug use~
+use-debug
 	..Bool true
 	.@-Type empty
 	.Deque!

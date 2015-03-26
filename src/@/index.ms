@@ -22,7 +22,7 @@ use~
 	.Seq first seq=? tail
 	.Set!
 	.Stream
-debug use~
+use-debug
 	..Bool false true
 	..control build if!
 	..! _ !not

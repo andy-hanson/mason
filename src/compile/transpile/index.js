@@ -171,7 +171,6 @@ const transpileSubtree = implementMany(EExports, 'transpileSubtree', {
 		const block = blockStatement(parts)
 		return functionExpression(null, _.args.map(t(tx)), block, !(_.k === '|'))
 	},
-	Ignore: (_, tx) => t(tx)(_.ignored),
 	Lazy: (_, tx) => lazyWrap(t(tx)(_.value)),
 	ListReturn: _ => arrayExpression(range(0, _.length).map(i => identifier(`_${i}`))),
 	ListSimple: (_, tx) => arrayExpression(_.parts.map(t(tx))),
@@ -204,12 +203,14 @@ const transpileSubtree = implementMany(EExports, 'transpileSubtree', {
 		variableDeclarator(identifier(`_v${_.index}`), t(tx)(_.val))
 	]),
 	Member: (_, tx) => member(t(tx)(_.object), _.name),
-	Module: (_, tx) => program([
+	Module: (_, tx) => {
+		const UseStrict = toStatement(literal('use strict'))
 		// '\nglobal.console.log(">>> ' + tx.opts.moduleName() + '")\n',
-		toStatement(literal('use strict')),
-		t(tx)(_.body)
+		const u = flatMap(_.uses, u => toStatements(t(tx)(u)))
+		const b = t(tx)(_.body)
 		// '\nglobal.console.log("<<< ' + tx.opts.moduleName() + '")\n'
-	]),
+		return program([UseStrict].concat(u, [b]))
+	},
 	// TODO:ES6 Use `export default`
 	ModuleDefaultExport(_, tx) {
 		const m = member(IdExports, tx.opts.moduleName())

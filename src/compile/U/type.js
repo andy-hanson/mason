@@ -24,7 +24,7 @@ function typePair(instance, itsType) {
 			`[${itsType[0].name}]` :
 			itsType instanceof Set ?
 			`{${toArray(itsType.values())}` :
-			itsType.getName()
+			(itsType.displayName || itsType.name)
 		throw new Error(`${instance} is not a ${strType}`)
 	}
 }

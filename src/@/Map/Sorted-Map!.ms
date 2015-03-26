@@ -5,7 +5,7 @@ use
 	.Map-Type
 use~
 	.Splay-Tree!
-debug use
+use-debug
 	...!
 	...@ each!
 	...compare sorted?

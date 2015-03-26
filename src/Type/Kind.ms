@@ -11,7 +11,7 @@ use~
 	..control if!
 	.Impl-Type _ self-type
 	..methods freeze frozen?
-debug use~
+use-debug
 	..! _ !not
 	..@.Stream
 	..Bool false

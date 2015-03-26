@@ -11,7 +11,7 @@ export const KAssign = setUnion(AssignKeywords, new Set(['export']))
 export const KFun = new Set(['|', '~|'])
 export const CaseKeywords = new Set(['case', 'case!'])
 export const SpecialKeywords = new Set([ 'undefined', 'this', 'this-module-directory' ])
-export const UseKeywords = new Set(['use', 'use!', 'use~'])
+export const UseKeywords = new Set([ 'use!', 'use', 'use~', 'use-debug' ])
 
 export const AllKeywords = setUnion(
 	LineSplitKeywords, KFun, CaseKeywords, SpecialKeywords, UseKeywords, new Set([

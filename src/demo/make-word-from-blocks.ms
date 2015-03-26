@@ -4,7 +4,7 @@ use
 	..@.Seq _ ?first tail
 	..Str _ ->upper
 	..Type contains?
-debug use
+use-debug
 	..!
 	..@ each!
 	..@.Stream
