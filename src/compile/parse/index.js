@@ -33,6 +33,10 @@ function parseModule(px, moduleName) {
 		value: ELiteral(px.s({ value: moduleName, k: String }))
 	})))
 
-	const uses = doUses.concat(plainUses, lazyUses, [ Debug(px.s({ lines: debugUses })) ])
-	return Module(px.s({ uses, body }))
+	return Module(px.s({
+		doUses,
+		uses: plainUses.concat(lazyUses),
+		debugUses,
+		body
+	}))
 }

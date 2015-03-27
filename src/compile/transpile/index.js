@@ -43,20 +43,8 @@ const t = (tx, arg) => expr => {
 const transpileSubtree = implementMany(EExports, 'transpileSubtree', {
 	Assign: (_, tx) => makeAssign(tx, _.span, _.assignee, _.k, t(tx)(_.value)),
 	// TODO:ES6 Just use native destructuring assign
-	AssignDestructure(_, tx) {
-		const destructuredName = `_$${_.span.start.line}`
-		const access = accessMangledLocal(destructuredName, _.isLazy)
-		const assigns = flatMap(_.assignees, assignee => {
-			// TODO: Don't compile it if it's never accessed
-			const get = _.checkProperties && tx.vr.isAccessed(assignee) ?
-				msGet([ access, literal(assignee.name) ]) :
-				member(access, assignee.name)
-			return makeAssign(tx, assignee.span, assignee, _.k, get)
-		})
-		const destructureDeclare =
-			declare(destructuredName, _.isLazy ? lazyWrap(t(tx)(_.value)) : t(tx)(_.value))
-		return [destructureDeclare].concat(assigns)
-	},
+	AssignDestructure: (_, tx) =>
+		makeAssignDestructure(tx, _.span, _.assignees, _.isLazy, t(tx)(_.value), _.k, false),
 	BlockBody(_, tx, opResCheck) {
 		if (opResCheck === undefined)
 			opResCheck = []
@@ -204,9 +192,8 @@ const transpileSubtree = implementMany(EExports, 'transpileSubtree', {
 	]),
 	Member: (_, tx) => member(t(tx)(_.object), _.name),
 	Module: (_, tx) => {
-		const UseStrict = toStatement(literal('use strict'))
 		// '\nglobal.console.log(">>> ' + tx.opts.moduleName() + '")\n',
-		const u = flatMap(_.uses, u => toStatements(t(tx)(u)))
+		const u = flatMap(_.doUses.concat(_.uses, _.debugUses), u => toStatements(t(tx)(u)))
 		const b = t(tx)(_.body)
 		// '\nglobal.console.log("<<< ' + tx.opts.moduleName() + '")\n'
 		return program([UseStrict].concat(u, [b]))
@@ -228,7 +215,6 @@ const transpileSubtree = implementMany(EExports, 'transpileSubtree', {
 					isStrLit(_) ? t(tx)(_) : msShow([ t(tx)(_) ])),
 			first)
 	},
-	Require: _ => callExpression(IdRequire, [ literal(_.path) ]),
 	Scope: (_, tx) => blockStatement(_.lines.map(t(tx))),
 	Special(_) {
 		// Make new objects because we will assign `loc` to them.
@@ -244,9 +230,15 @@ const transpileSubtree = implementMany(EExports, 'transpileSubtree', {
 		}
 	},
 	Splat: _ => fail(_.span, 'Splat must appear as argument to a call.'),
+	UseDo: _ => callRequire(_.path),
+	Use: (_, tx) =>
+		makeAssignDestructure(tx, _.span, _.used, _.used[0].isLazy, callRequire(_.path), '=', true),
 	Yield: (_, tx) => astYield(t(tx)(_.yielded)),
 	YieldTo: (_, tx) => astYieldTo(t(tx)(_.yieldedTo))
 })
+
+const callRequire = path =>
+	callExpression(IdRequire, [ literal(path) ])
 
 const caseFail = switchCase(
 	null,
@@ -278,7 +270,8 @@ const
 	LitStrDisplayName = literal('displayName'),
 	IdFunctionApplyCall = member(member(identifier('Function'), 'apply'), 'call'),
 	IdArraySliceCall = member(member(LitEmptyArray, 'slice'), 'call'),
-	IdArguments = identifier('arguments')
+	IdArguments = identifier('arguments'),
+	UseStrict = toStatement(literal('use strict'))
 
 const IdMs = identifier('_ms')
 const ms = name => {
@@ -299,7 +292,24 @@ const
 
 // TODO: MOVE
 
-export function makeAssign(tx, span, assignee, k, value) {
+const makeAssignDestructure = (tx, span, assignees, isLazy, value, k, includeChecks) => {
+	type(tx, Tx, span, Span, assignees, [EExports.LocalDeclare],
+		isLazy, Boolean, value, Object, k, KAssign, includeChecks, Boolean)
+	const destructuredName = `_$${span.start.line}`
+	const access = accessMangledLocal(destructuredName, isLazy)
+	const assigns = flatMap(assignees, assignee => {
+		// TODO: Don't compile it if it's never accessed
+		const get = includeChecks ?
+			msGet([ access, literal(assignee.name) ]) :
+			member(access, assignee.name)
+		return makeAssign(tx, assignee.span, assignee, k, get)
+	})
+	const destructureDeclare =
+		declare(destructuredName, isLazy ? lazyWrap(value) : value)
+	return [destructureDeclare].concat(assigns)
+}
+
+function makeAssign(tx, span, assignee, k, value) {
 	// TODO: value is a Node
 	type(tx, Tx, span, Span, assignee, Expression, k, KAssign, value, Object)
 	const doAssign = (() => { switch (k) {

@@ -1,6 +1,6 @@
 import assert from 'assert'
 import check from '../check'
-import { AssignDestructure, LocalDeclare, Require } from '../Expression'
+import { LocalDeclare, Use, UseDo } from '../Expression'
 import { UseKeywords } from '../Lang'
 import Token, { DotName, Group, Keyword, Name } from '../Token'
 import { code, set } from '../U'
@@ -37,32 +37,18 @@ function parseUse(px, k) {
 // TODO:ES6 Just use module imports, no AssignDestructure needed
 function useLine(px, k) {
 	const tReq = head(px.tokens)
-	const _$ = parseRequire(px.wt(tReq))
-	const required = _$.required, name = _$.name
+	const { path, name } = parseRequire(px.wt(tReq))
 
 	if (k === 'use!') {
 		px.check(px.tokens.length === 1, () => `Unexpected ${px.tokens[1]}`)
-		return required
+		return UseDo(px.s({ path }))
 	} else {
 		const isLazy = k === 'use~' || k === 'use-debug'
-
-		const defaultAssignee = LocalDeclare(px.s({
-			name: name,
-			opType: None,
-			isLazy: isLazy,
-			okToNotUse: false
-		}))
-		const assignees = px.tokens.length === 1 ?
-			[ defaultAssignee ] :
+		const used = px.tokens.length === 1 ?
+			[ LocalDeclare(px.s({ name, opType: None, isLazy, okToNotUse: false })) ] :
 			parseLocals_()(px.w(tail(px.tokens))).map(l =>
 				set(l.name === '_' ? set(l, 'name', name) : l, 'isLazy', isLazy))
-		return AssignDestructure(px.s({
-			assignees: assignees,
-			k: '=',
-			value: required,
-			isLazy: isLazy,
-			checkProperties: true
-		}))
+		return Use(px.s({ used, k, path }))
 	}
 }
 
@@ -70,10 +56,7 @@ function parseRequire(px) {
 	assert(px.tokens.length === 1)
 	const t = px.tokens[0]
 	if (t instanceof Name)
-		return {
-			required: Require({ span: t.span, path: t.name }),
-			name: t.name
-		}
+		return { path: t.name, name: t.name }
 	else if (t instanceof DotName)
 		return parseLocalRequire(px)
 	else {
@@ -84,7 +67,6 @@ function parseRequire(px) {
 
 function parseLocalRequire(px) {
 	const first = head(px.tokens)
-
 	let parts = []
 	if (first instanceof DotName)
 		parts = first.nDots === 1 ? ['.'] : repeat('..', first.nDots - 1)
@@ -96,7 +78,7 @@ function parseLocalRequire(px) {
 		parts.push(t.name)
 	})
 	return {
-		required: Require({ span: px.span, path: parts.join('/') }),
+		path: parts.join('/'),
 		name: last(px.tokens).name
 	}
 }

@@ -81,7 +81,7 @@ implementMany(EExports, 'verify', {
 		v(vx)(_.val)
 	},
 	Module(_, vx) {
-		const vxBody = verifyLines(vx, _.uses)
+		const vxBody = verifyUses(vx, _.uses, _.debugUses)
 		v(vxBody)(_.body)
 	},
 	Yield(_, vx) {
@@ -115,7 +115,6 @@ implementMany(EExports, 'verify', {
 	Member(_, vx) { v(vx)(_.object) },
 	ModuleDefaultExport(_, vx) { v(vx)(_.value) },
 	Quote(_, vx) { vm(vx, _.parts) },
-	Require() { },
 	Scope() { throw new Error('Scopes are handled specially by verifyLines.') },
 	Special() { },
 	Splat(_, vx) { v(vx)(_.splatted) }
@@ -124,3 +123,25 @@ implementMany(EExports, 'verify', {
 function vCaseDo(_, vx) {
 	_.parts.concat(_.opElse).forEach(v(vx))
 }
+
+function verifyUses(vx, uses, debugUses) {
+	const locs = []
+	uses.forEach(use => {
+		if (!(use instanceof EExports.UseDo)) {
+			type(use, EExports.Use)
+			use.used.forEach(_ => {
+				vx.registerLocal(_)
+				locs.push(_)
+			})
+		}
+	})
+	const vxd = vx.withDebug()
+	debugUses.forEach(use => {
+		use.used.forEach(_ => {
+			vxd.registerLocal(_)
+			locs.push(_)
+		})
+	})
+	return vx.plusLocals(locs)
+}
+

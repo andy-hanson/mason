@@ -57,7 +57,8 @@ Object.assign(Vx.prototype, {
 	opGetLocal(name) {
 		type(name, String)
 		const locals = this.locals
-		return opIf(locals.has(name), () => locals.get(name))
+		const got = locals.get(name)
+		return opIf(got !== undefined, () => got)
 	},
 	plusLocals(addedLocals) {
 		type(addedLocals, [LocalDeclare])
@@ -104,6 +105,7 @@ Object.assign(Vx.prototype, {
 		return set(this.plusLocals(this.pendingBlockLocals), 'pendingBlockLocals', [])
 	},
 	registerLocal(local) {
+		type(local, LocalDeclare)
 		assert(!this.vr.localToInfo.has(local))
 		this.vr.localToInfo.set(local, VrLocalInfo({
 			isInDebug: this.isInDebug,

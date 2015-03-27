@@ -1,4 +1,4 @@
-import { KAssign, KFun, SpecialKeywords } from './Lang'
+import { KAssign, KFun, SpecialKeywords, UseKeywords } from './Lang'
 import Span, { spanType } from './Span'
 import { setUnion } from './U'
 import Op, { None } from './U/Op'
@@ -12,6 +12,7 @@ export const Do = abstractType('Do', Expression)
 // These can appear in any expression.
 export const Val = abstractType('Val', Expression)
 
+const ee = (name, props) => spanType(name, Expression, props)
 const ed = (name, props) => spanType(name, Do, props)
 const ev = (name, props) => spanType(name, Val, props)
 
@@ -22,21 +23,10 @@ export const BlockBody = spanType('BlockBody', Expression, {
 	opIn: Op(Debug), opOut: Op(Debug)
 })
 
-// Module
-// The body of a module will contain ModuleExport and ModuleDefaultExport_s
-export const Module = ed('Module', {
-	// TODO: [Use]
-	uses: [Do],
-	body: BlockBody
-})
-
 export const ModuleDefaultExport = ed('ModuleDefaultExport', { value: Val })
-// TODO: Could be call
-export const Require = ev('Require', { path: String })
-
 
 // Locals
-export const LocalDeclare = spanType('LocalDeclare', Expression, {
+export const LocalDeclare = ee('LocalDeclare', {
 	name: String,
 	opType: Op(Val),
 	isLazy: Boolean,
@@ -54,12 +44,24 @@ export const AssignDestructure = ed('AssignDestructure', {
 	assignees: [LocalDeclare],
 	k: KAssign,
 	value: Val,
-	isLazy: Boolean,
-	// TODO:ES6 remove this -- it is just for module imports
-	checkProperties: Boolean
+	isLazy: Boolean
 })
 export const LocalAccess = ev('LocalAccess', { name: String })
 LocalAccess.focus = span => LocalAccess({ span, name: '_' })
+
+// Module
+export const UseDo = ee('UseDo', { path: String })
+export const Use = ee('Use', {
+	used: [LocalDeclare],
+	path: String
+})
+// The body of a module will contain ModuleExport and ModuleDefaultExport_s
+export const Module = ed('Module', {
+	doUses: [UseDo],
+	uses: [Use],
+	debugUses: [Use],
+	body: BlockBody
+})
 
 // Data
 export const ListEntry = ed('ListEntry', { value: Val, index: Number })
@@ -79,10 +81,7 @@ export const ObjSimple = ev('ObjSimple', {
 })
 
 // Case
-export const CasePart = spanType('CasePart', Expression, {
-	test: Val,
-	result: BlockBody
-})
+export const CasePart = ee('CasePart', { test: Val, result: BlockBody })
 export const CaseDo = ed('CaseDo', { parts: [CasePart], opElse: Op(BlockBody) })
 // Unlike CaseDo, this has `return` statements.
 export const CaseVal = ed('CaseVal', { parts: [CasePart], opElse: Op(BlockBody) })
