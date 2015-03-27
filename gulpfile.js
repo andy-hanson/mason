@@ -12,7 +12,8 @@ var src_js = 'src/**/*.js'
 var dest = 'js'
 
 function pipeMs(stream) {
-	var ms = require('./js/compile/gulp-ms')
+	// This can only be required after we've created it, so 'ms' task depends on 'js'.
+	var ms = require('./js/meta/compile/gulp-ms')
 	return stream
 	.pipe(sourcemaps.init())
 	.pipe(ms())

@@ -6,7 +6,7 @@ use
 use-debug
 	..!
 	..compare =? <?
-	..tests.perf-test $time
+	..meta.tests.perf-test $time
 
 
 current-time-ms.

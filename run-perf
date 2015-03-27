@@ -1,6 +1,6 @@
 rm -r perf-data
 mkdir perf-data
-perf record -e cycles:u -g  -o perf-data/perf.data node --harmony --perf-basic-prof ./js/test
+perf record -e cycles:u -g  -o perf-data/perf.data node --harmony --perf-basic-prof ./js/meta/test
 rm v8.log
 cd perf-data
 perf script | flamegraph -t perf --fontsize 4 > perf-graph.svg
