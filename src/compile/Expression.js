@@ -40,6 +40,13 @@ LocalDeclare.UntypedFocus = span => LocalDeclare({
 	okToNotUse: false
 })
 export const Assign = ed('Assign', { assignee: LocalDeclare, k: KAssign, value: Val })
+Assign.focus = (span, value) => Assign({
+	span,
+	assignee: LocalDeclare.UntypedFocus(span),
+	k: '=',
+	value
+})
+
 export const AssignDestructure = ed('AssignDestructure', {
 	assignees: [LocalDeclare],
 	k: KAssign,
@@ -82,14 +89,21 @@ export const ObjSimple = ev('ObjSimple', {
 
 // Case
 export const CasePart = ee('CasePart', { test: Val, result: BlockBody })
-export const CaseDo = ed('CaseDo', { parts: [CasePart], opElse: Op(BlockBody) })
+export const CaseDo = ed('CaseDo', {
+	opCased: Op(Assign),
+	parts: [CasePart],
+	opElse: Op(BlockBody)
+})
 // Unlike CaseDo, this has `return` statements.
-export const CaseVal = ed('CaseVal', { parts: [CasePart], opElse: Op(BlockBody) })
+export const CaseVal = ev('CaseVal', {
+	opCased: Op(Assign),
+	parts: [CasePart],
+	opElse: Op(BlockBody)
+})
 
 
 // Statements
 export const Debugger = ed('Debugger', { })
-export const Scope = ed('Scope', { lines: [Expression] })
 export const BlockWrap = ev('BlockWrap', { body: BlockBody })
 
 export const Loop = ed('Loop', { name: String, body: BlockBody })

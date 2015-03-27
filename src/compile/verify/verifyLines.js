@@ -1,6 +1,6 @@
 import check, { fail } from '../check'
 import E, { Assign, AssignDestructure, Call, Debug,
-	Do, ELiteral, Require, Scope, Special, Yield, YieldTo } from '../Expression'
+	Do, ELiteral, Require, Special, Yield, YieldTo } from '../Expression'
 import type from '../U/type'
 import { code, set } from '../U'
 import { v } from './util'
@@ -13,12 +13,7 @@ export default function verifyLines(vx, lines) {
 	function processLine(inDebug) {
 		type(inDebug, Boolean)
 		return line => {
-			if (line instanceof Scope) {
-				const localsBefore = prevLocals
-				line.lines.forEach(processLine(inDebug))
-				prevLocals = localsBefore
-			}
-			else if (line instanceof Debug)
+			if (line instanceof Debug)
 				// TODO: Do anything in this situation?
 				// check(!inDebug, line.span, 'Redundant `debug`.')
 				line.lines.forEach(processLine(true))
@@ -46,9 +41,7 @@ export default function verifyLines(vx, lines) {
 	function verifyLine(inDebug) {
 		type(inDebug, Boolean)
 		return line => {
-			if (line instanceof Scope)
-				line.lines.forEach(verifyLine(inDebug))
-			else if (line instanceof Debug)
+			if (line instanceof Debug)
 				line.lines.forEach(verifyLine(true))
 			else {
 				const vxDebug = set(vx, 'isInDebug', inDebug)

@@ -1,5 +1,5 @@
 import { Assign, BlockBody, BlockWrap, CaseDo,
-	CasePart, CaseVal, LocalDeclare, Scope } from '../Expression'
+	CasePart, CaseVal, LocalDeclare } from '../Expression'
 import { CaseKeywords } from '../Lang'
 import { Keyword } from '../Token'
 import { ifElse, None, opIf, some } from '../U/Op'
@@ -10,8 +10,6 @@ import Px from './Px'
 // TODO
 const parseExpr_ = () => require('./parseExpr').default
 
-// For 'case', returns a BlockWrap.
-// For 'case!', returns a Scope.
 export default function parseCase(px, k, casedFromFun) {
 	type(px, Px, k, CaseKeywords, casedFromFun, Boolean)
 	const kBlock = k === 'case' ? 'val' : 'do'
@@ -19,7 +17,7 @@ export default function parseCase(px, k, casedFromFun) {
 	const _ = takeBlockLinesFromEnd(px)
 	const before = _.before, lines = _.lines
 
-	const opAssignCased = (() => {
+	const opCased = (() => {
 		if (casedFromFun) {
 			px.checkEmpty(before,
 				'Can\'t give focus to case - it is the function\'s implicit first argument.')
@@ -27,11 +25,7 @@ export default function parseCase(px, k, casedFromFun) {
 		}
 		else return opIf(!isEmpty(before), () => {
 			const pxBefore = px.w(before)
-			return Assign(px.s({
-				assignee: LocalDeclare.UntypedFocus(pxBefore.span),
-				k: '=',
-				value: parseExpr_()(pxBefore)
-			}))
+			return Assign.focus(pxBefore.span, parseExpr_()(pxBefore))
 		})
 	})()
 
@@ -55,21 +49,5 @@ export default function parseCase(px, k, casedFromFun) {
 	})
 
 	const ctr = k === 'case' ? CaseVal : CaseDo
-	const theCase = ctr(px.s({ parts: parts, opElse: opElse }))
-
-	return k === 'case' ?
-		BlockWrap(px.s({
-			body: BlockBody(px.s({
-				lines: opAssignCased.concat([ theCase ]),
-				// theCase contains the return statement.
-				opReturn: None,
-				opIn: None,
-				opOut: None
-			}))
-		})) :
-		ifElse(opAssignCased,
-			assignCased => Scope(px.s({
-				lines: [ assignCased, theCase ]
-			})),
-			() => theCase)
+	return ctr(px.s({ opCased, parts, opElse }))
 }

@@ -68,12 +68,7 @@ const transpileSubtree = implementMany(EExports, 'transpileSubtree', {
 			return blockStatement(_in.concat(body, ret))
 		}
 	},
-	BlockWrap(_, tx) {
-		const body = t(tx)(_.body)
-		return tx.vr.eIsInGenerator(_) ?
-			astYieldTo(callExpression(functionExpression(null, [], body, true), [])) :
-			callExpression(functionExpression(null, [], body), [])
-	},
+	BlockWrap: (_, tx) => blockWrap(_, tx, t(tx)(_.body)),
 	Call(_, tx) {
 		const anySplat = _.args.some(arg => arg instanceof EExports.Splat)
 		if (anySplat) {
@@ -88,8 +83,15 @@ const transpileSubtree = implementMany(EExports, 'transpileSubtree', {
 		}
 		else return callExpression(t(tx)(_.called), _.args.map(t(tx)))
 	},
-	CaseDo: (_, tx) => caseBody(tx, _.parts, _.opElse, true),
-	CaseVal: (_, tx) => caseBody(tx, _.parts, _.opElse, false),
+	CaseDo: (_, tx) =>
+		ifElse(_.opCased,
+			cased => blockStatement([ t(tx)(cased), caseBody(tx, _.parts, _.opElse, true) ]),
+			() => caseBody(tx, _.parts, _.opElse, true)),
+	CaseVal: (_, tx) => {
+		const body = caseBody(tx, _.parts, _.opElse, false)
+		const block = ifElse(_.opCased, cased => [ t(tx)(cased), body ], () => [ body ])
+		return blockWrap(_, tx, blockStatement(block))
+	},
 	CasePart(_, tx, needBreak) {
 		const test = t(tx)(_.test)
 		const checkedTest = tx.opts.includeCaseChecks() ? msBool([ test ]) : test
@@ -215,7 +217,6 @@ const transpileSubtree = implementMany(EExports, 'transpileSubtree', {
 					isStrLit(_) ? t(tx)(_) : msShow([ t(tx)(_) ])),
 			first)
 	},
-	Scope: (_, tx) => blockStatement(_.lines.map(t(tx))),
 	Special(_) {
 		// Make new objects because we will assign `loc` to them.
 		switch (_.k) {
@@ -236,6 +237,11 @@ const transpileSubtree = implementMany(EExports, 'transpileSubtree', {
 	Yield: (_, tx) => astYield(t(tx)(_.yielded)),
 	YieldTo: (_, tx) => astYieldTo(t(tx)(_.yieldedTo))
 })
+
+const blockWrap = (_, tx, block) =>
+	tx.vr.eIsInGenerator(_) ?
+		astYieldTo(callExpression(functionExpression(null, [], block, true), [])) :
+		callExpression(functionExpression(null, [], block), [])
 
 const callRequire = path =>
 	callExpression(IdRequire, [ literal(path) ])

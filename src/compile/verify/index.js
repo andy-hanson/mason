@@ -45,10 +45,10 @@ implementMany(EExports, 'verify', {
 		vx.setEIsInGenerator(_)
 		v(vx)(_.body)
 	},
-	CaseDo: vCaseDo,
+	CaseDo: verifyCase,
 	CaseVal(_, vx) {
 		vx.setEIsInGenerator(_)
-		vCaseDo(_, vx)
+		verifyCase(_, vx)
 	},
 	// Only reach here for in/out condition
 	Debug(_, vx) { verifyLines(vx, [ _ ]) },
@@ -115,13 +115,18 @@ implementMany(EExports, 'verify', {
 	Member(_, vx) { v(vx)(_.object) },
 	ModuleDefaultExport(_, vx) { v(vx)(_.value) },
 	Quote(_, vx) { vm(vx, _.parts) },
-	Scope() { throw new Error('Scopes are handled specially by verifyLines.') },
 	Special() { },
 	Splat(_, vx) { v(vx)(_.splatted) }
 })
 
-function vCaseDo(_, vx) {
-	_.parts.concat(_.opElse).forEach(v(vx))
+function verifyCase(_, vx) {
+	let vxBody = vx
+	_.opCased.forEach(cased => {
+		vx.registerLocal(cased.assignee)
+		v(vx)(cased)
+		vxBody = vx.plusLocals([ cased.assignee ])
+	})
+	_.parts.concat(_.opElse).forEach(v(vxBody))
 }
 
 function verifyUses(vx, uses, debugUses) {
