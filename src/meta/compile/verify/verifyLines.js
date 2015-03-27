@@ -10,52 +10,43 @@ export default function verifyLines(vx, lines) {
 	let prevLocals = []
 	let allNewLocals = []
 
-	function processLine(inDebug) {
-		type(inDebug, Boolean)
-		return line => {
-			if (line instanceof Debug)
-				// TODO: Do anything in this situation?
-				// check(!inDebug, line.span, 'Redundant `debug`.')
-				line.lines.forEach(processLine(true))
-			else {
-				verifyIsStatement(line)
-				const lineNews = lineNewLocals(line)
-				prevLocals.forEach(prevLocal =>
-					lineNews.forEach(newLocal =>
-						check(prevLocal.name !== newLocal.name, newLocal.span,
-							code(newLocal.name) +
-							' already declared in same block at ' +
-							prevLocal.span.start)))
-				lineNews.forEach(_ => set(vx, 'isInDebug', inDebug).registerLocal(_))
-				const newLocals = prevLocals.concat(lineNews)
-				lineToLocals.set(line, prevLocals)
-				prevLocals = newLocals
-				// Final set value is answer
-				allNewLocals = newLocals
-			}
+	function processLine(line) {
+		if (line instanceof Debug)
+			// TODO: Do anything in this situation?
+			// check(!inDebug, line.span, 'Redundant `debug`.')
+			vx.withInDebug(true, () => line.lines.forEach(processLine))
+		else {
+			verifyIsStatement(line)
+			const lineNews = lineNewLocals(line)
+			prevLocals.forEach(prevLocal =>
+				lineNews.forEach(newLocal =>
+					check(prevLocal.name !== newLocal.name, newLocal.span,
+						code(newLocal.name) +
+						' already declared in same block at ' +
+						prevLocal.span.start)))
+			lineNews.forEach(_ => vx.registerLocal(_))
+			const newLocals = prevLocals.concat(lineNews)
+			lineToLocals.set(line, prevLocals)
+			prevLocals = newLocals
+			// Final set value is answer
+			allNewLocals = newLocals
 		}
 	}
 
-	lines.forEach(processLine(vx.isInDebug))
+	lines.forEach(processLine)
 
-	function verifyLine(inDebug) {
-		type(inDebug, Boolean)
-		return line => {
-			if (line instanceof Debug)
-				line.lines.forEach(verifyLine(true))
-			else {
-				const vxDebug = set(vx, 'isInDebug', inDebug)
-				const vxLineLocals = vxDebug.plusLocals(lineToLocals.get(line))
-				const vxLine = set(vxLineLocals, 'pendingBlockLocals',
-					vx.pendingBlockLocals.concat(allNewLocals))
-				v(vxLine)(line)
-			}
-		}
+	function verifyLine(line) {
+		if (line instanceof Debug)
+			vx.withInDebug(true, () => line.lines.forEach(verifyLine))
+		else
+			vx.plusLocals(lineToLocals.get(line), () =>
+				vx.plusPendingBlockLocals(allNewLocals, () =>
+					v(vx)(line)))
 	}
 
-	lines.forEach(verifyLine(vx.isInDebug))
+	lines.forEach(verifyLine)
 
-	return vx.plusLocals(allNewLocals)
+	return allNewLocals
 }
 
 // TODO: Clean up

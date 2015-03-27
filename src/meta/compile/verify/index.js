@@ -6,12 +6,12 @@ import { code, ignore, implementMany } from '../U'
 import { ifElse } from '../U/Op'
 import { cons, head, isEmpty, toArray } from '../U/Bag'
 import verifyLines from './verifyLines'
-import { vxStart } from './Vx'
+import Vx from './Vx'
 import { v, vm } from './util'
 
 export default function verify(e, opts) {
 	type(e, E, opts, Opts)
-	const vx = vxStart(opts)
+	const vx = new Vx(opts)
 	e.verify(e, vx)
 	verifyLocalUse(vx.vr, opts)
 	return vx.vr
@@ -34,12 +34,24 @@ function verifyLocalUse(vr, opts) {
 }
 
 implementMany(EExports, 'verify', {
+	Assign(_, vx) {
+		const doV = () => vm(vx, [ _.assignee, _.value ])
+		if (_.assignee.isLazy)
+			vx.withBlockLocals(doV)
+		else
+			doV()
+	},
 	BlockBody(_, vx) {
 		_.opIn.forEach(v(vx))
-		const vxRet = verifyLines(vx, _.lines)
-		_.opReturn.forEach(v(vxRet))
-		const vxOut = isEmpty(_.opReturn) ? vxRet : vxRet.withRes(_.span)
-		_.opOut.forEach(v(vxOut))
+		const newLocals = verifyLines(vx, _.lines)
+		vx.plusLocals(newLocals, () => {
+			_.opReturn.forEach(v(vx))
+			const doV = () => _.opOut.forEach(v(vx))
+			if (!isEmpty(_.opReturn))
+				vx.withRes(_.span, doV)
+			else
+				doV()
+		})
 	},
 	BlockWrap(_, vx) {
 		vx.setEIsInGenerator(_)
@@ -58,17 +70,18 @@ implementMany(EExports, 'verify', {
 			() => fail(_.span, 'Not in a loop.'))
 	},
 	Fun(_, vx) {
-		vx = vx.withBlockLocals()
-		_.opReturnType.forEach(v(vx))
-		if (!isEmpty(_.opReturnType))
-			check(!isEmpty(_.body.opReturn), _.span,
-				'Function with return type must return something.')
-		_.args.forEach((arg) => arg.opType.forEach(v(vx)))
-		const vxGen = _.k === '~|' ? vx.inGenerator() : vx.notInGenerator()
-		const allArgs = _.args.concat(_.opRestArg)
-		allArgs.forEach(_ => vx.registerLocal(_))
-		const vxBody = vxGen.plusLocals(allArgs)
-		v(vxBody)(_.body)
+		vx.withBlockLocals(() => {
+			_.opReturnType.forEach(v(vx))
+			if (!isEmpty(_.opReturnType))
+				check(!isEmpty(_.body.opReturn), _.span,
+					'Function with return type must return something.')
+			_.args.forEach((arg) => arg.opType.forEach(v(vx)))
+			vx.withInGenerator(_.k === '~|', () => {
+				const allArgs = _.args.concat(_.opRestArg)
+				allArgs.forEach(_ => vx.registerLocal(_))
+				vx.plusLocals(allArgs, () => v(vx)(_.body))
+			})
+		})
 	},
 	LocalAccess(_, vx) {
 		ifElse(vx.opGetLocal(_.name),
@@ -77,7 +90,7 @@ implementMany(EExports, 'verify', {
 				`Could not find local ${code(_.name)}.` +
 				`Available locals are: [${toArray(vx.allLocalNames()).map(code).join(', ')}])`))
 	},
-	Loop(_, vx) { v(vx.inLoop(_))(_.body) },
+	Loop(_, vx) { vx.withInLoop(_, () => v(vx)(_.body)) },
 	// Adding LocalDeclares to the available locals is done by Fun and buildVxBlockLine.
 	LocalDeclare(_, vx) { _.opType.map(v(vx)) },
 	MapEntry(_, vx) {
@@ -85,8 +98,8 @@ implementMany(EExports, 'verify', {
 		v(vx)(_.val)
 	},
 	Module(_, vx) {
-		const vxBody = verifyUses(vx, _.uses, _.debugUses)
-		v(vxBody)(_.body)
+		const useLocals = verifyUses(vx, _.uses, _.debugUses)
+		vx.plusLocals(useLocals, () => v(vx)(_.body))
 	},
 	Yield(_, vx) {
 		check(vx.isInGenerator, _.span, 'Cannot yield outside of generator context')
@@ -98,10 +111,6 @@ implementMany(EExports, 'verify', {
 	},
 
 	// These ones just recurse to their children.
-	Assign(_, vx) {
-		const vxAssign = _.assignee.isLazy ? vx.withBlockLocals() : vx
-		return vm(vxAssign, [_.assignee, _.value])
-	},
 	AssignDestructure(_, vx) { vm(vx, cons(_.value, _.assignees)) },
 	Call(_, vx) { vm(vx, cons(_.called, _.args)) },
 	CasePart(_, vx) { vm(vx, [_.test, _.result]) },
@@ -110,7 +119,7 @@ implementMany(EExports, 'verify', {
 	ObjSimple(_, vx) {
 		Object.getOwnPropertyNames(_.keysVals).forEach(key => v(vx)(_.keysVals[key]))
 	},
-	Lazy(_, vx) { v(vx.withBlockLocals())(_.value) },
+	Lazy(_, vx) { vx.withBlockLocals(() => v(vx)(_.value)) },
 	ListReturn() { },
 	ListEntry(_, vx) { v(vx)(_.value) },
 	ListSimple(_, vx) { _.parts.map(v(vx)) },
@@ -124,33 +133,33 @@ implementMany(EExports, 'verify', {
 })
 
 function verifyCase(_, vx) {
-	let vxBody = vx
+	const newLocals = []
 	_.opCased.forEach(cased => {
 		vx.registerLocal(cased.assignee)
 		v(vx)(cased)
-		vxBody = vx.plusLocals([ cased.assignee ])
+		newLocals.push(cased.assignee)
 	})
-	_.parts.concat(_.opElse).forEach(v(vxBody))
+	vx.plusLocals(newLocals, () =>
+		_.parts.concat(_.opElse).forEach(v(vx)))
 }
 
 function verifyUses(vx, uses, debugUses) {
-	const locs = []
+	const useLocals = []
 	uses.forEach(use => {
 		if (!(use instanceof EExports.UseDo)) {
 			type(use, EExports.Use)
 			use.used.forEach(_ => {
 				vx.registerLocal(_)
-				locs.push(_)
+				useLocals.push(_)
 			})
 		}
 	})
-	const vxd = vx.withDebug()
-	debugUses.forEach(use => {
-		use.used.forEach(_ => {
-			vxd.registerLocal(_)
-			locs.push(_)
-		})
-	})
-	return vx.plusLocals(locs)
+	vx.withInDebug(true, () =>
+		debugUses.forEach(use =>
+			use.used.forEach(_ => {
+				vx.registerLocal(_)
+				useLocals.push(_)
+			})))
+	return useLocals
 }
 

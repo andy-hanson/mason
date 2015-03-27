@@ -45,6 +45,7 @@
 			"modules": true,
 			"objectLiteralShorthandMethods": true,
 			"objectLiteralShortandProperties": true,
+			"spread": true,
 			"templateStrings": true
 		},
 		"rules": {
