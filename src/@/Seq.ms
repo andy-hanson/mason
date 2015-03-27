@@ -289,9 +289,9 @@ region TODO: put somewhere
 		doc. "Seq of consecutive groups of `group-size` elements."
 		test. |
 			! seq=? [ [ 1 2 ] [ 3 4 ] ] (groups-of 2 [ 1 2 3 4 ])
-			# Throws away non-full groups
+			# Tosses off partial group at end (e.g. no [ 4 ])
 			! seq=? [ [ 1 2 3 ] ] (groups-of 3 [ 1 2 3 4 ])
-			! seq=? [ [] [] [] ] (take (groups-of 0 [ 1 2 3 4 ]) 3)
+			! seq=? [ [] [] [] ] (take (groups-of 0 [ 1 ]) 3)
 		|:Seq[Array] group-size:Nat _
 			case
 				=? group-size 0
@@ -302,13 +302,13 @@ region TODO: put somewhere
 				else
 					Stream ~|
 						iter = iterator_
-						loop! outer
+						loop!
 							next-group = empty Array!
 							loop!
 								value done = iter.next()
 								case!
 									done
-										end-loop! outer
+										end-loop!
 									else
 										++>! next-group [ value ]
 										case! count next-group
@@ -316,7 +316,11 @@ region TODO: put somewhere
 												end-loop!
 											else
 												()
-							<~ freeze next-group
+							case! count next-group
+								=? _ group-size
+									<~ freeze next-group
+								else
+									end-loop!
 
 	reverse. Method
 		doc. "Seq with the opposite order."

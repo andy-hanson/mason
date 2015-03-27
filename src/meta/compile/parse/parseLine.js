@@ -1,5 +1,5 @@
 import assert from 'assert'
-import check from '../check'
+import check, { warnIf } from '../check'
 import E, { Assign, AssignDestructure, BlockWrap, Call, Debug, Debugger, ObjReturn,
 	Fun, EndLoop, ListEntry, Loop, MapEntry, Special, Yield, YieldTo } from '../Expression'
 import { defaultLoopName, LineSplitKeywords } from '../Lang'
@@ -43,9 +43,13 @@ export default function parseLine(px) {
 				px.checkEmpty(pxRest().tokens, () => `Did not expect anything after ${first}`)
 				return Debugger(px.s({}))
 			case 'end-loop!':
-				return EndLoop(px.s({ name: loopName(pxRest) }))
-			case 'loop!':
-				return parseLoop(pxRest)
+				check(isEmpty(pxRest.tokens), () => `Did not expect anything after ${first}`)
+				return EndLoop({ span: px.span })
+			case 'loop!': {
+				const _ = parseBlock_().takeBlockFromEnd(pxRest, 'do')
+				check(isEmpty(_.before), px.span, `Did not expect anything after ${first}`)
+				return Loop(px.s({ body: _.block }))
+			}
 			case 'region':
 				return parseLines(px)
 			default:
@@ -182,25 +186,6 @@ function tryAddDisplayName(eValuePre, displayName) {
 
 		default:
 			return eValuePre
-	}
-}
-
-function parseLoop(px) {
-	const _ = parseBlock_().takeBlockFromEnd(px, 'do')
-	return Loop(px.s({ name: loopName(px.w(_.before)), body: _.block }))
-}
-
-function loopName(px) {
-	switch (px.tokens.length) {
-		case 0:
-			return defaultLoopName
-		case 1: {
-			const h = head(px.tokens)
-			px.check(h instanceof Name, () => `Expected a loop name, not ${h}`)
-			return h.name
-		}
-		default:
-			px.fail('Expected a loop name')
 	}
 }
 

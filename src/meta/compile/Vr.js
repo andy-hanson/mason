@@ -8,7 +8,8 @@ const Vr = ObjType('Vr', Object, {
 	accessToLocal: Map,
 	// LocalDeclare -> LocalInfo
 	localToInfo: Map,
-	eToIsInGenerator: Map
+	eToIsInGenerator: Map,
+	endLoopToLoop: Map
 })
 export default Vr
 

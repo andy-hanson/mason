@@ -1,8 +1,8 @@
 import assert from 'assert'
-import { LocalDeclare } from '../Expression'
+import { LocalDeclare, Loop } from '../Expression'
 import Opts from '../Opts'
 import { set } from '../U'
-import { None, opIf } from '../U/Op'
+import Op, { None, opIf, some } from '../U/Op'
 import type from '../U/type'
 import { ObjType } from '../U/types'
 import Vr, { VrLocalInfo } from '../Vr'
@@ -16,9 +16,9 @@ const Vx = ObjType('Vx', Object, {
 	// Locals map for this block.
 	// Replaces `locals` when entering into sub-function.
 	pendingBlockLocals: [LocalDeclare],
-	loopNames: Set,
 	isInDebug: Boolean,
 	isInGenerator: Boolean,
+	opLoop: Op(Loop),
 	opts: Opts,
 	vr: Vr
 })
@@ -28,14 +28,15 @@ export function vxStart(opts) {
 	return Vx({
 		locals: new Map(),
 		pendingBlockLocals: [],
-		loopNames: new Set(),
 		isInDebug: false,
 		isInGenerator: false,
+		opLoop: None,
 		opts: opts,
 		vr: Vr({
 			accessToLocal: new Map(),
 			localToInfo: new Map(),
-			eToIsInGenerator: new Map()
+			eToIsInGenerator: new Map(),
+			endLoopToLoop: new Map()
 		})
 	})
 }
@@ -43,10 +44,6 @@ export function vxStart(opts) {
 Object.assign(Vx.prototype, {
 	allLocalNames() {
 		return this.locals.keys()
-	},
-	hasLoop(name) {
-		type(name, String)
-		return this.loopNames.has(name)
 	},
 	inGenerator() {
 		return set(this, 'isInGenerator', true)
@@ -66,11 +63,11 @@ Object.assign(Vx.prototype, {
 		addedLocals.forEach(l => newLocals.set(l.name, l))
 		return set(this, 'locals', newLocals)
 	},
-	plusLoop(name) {
-		type(name, String)
-		const newNames = new Set(this.loopNames)
-		newNames.add(name)
-		return set(this, 'loopNames', newNames)
+	inLoop(loop) {
+		return set(this, 'opLoop', some(loop))
+	},
+	setEndLoop(endLoop, loop) {
+		this.vr.endLoopToLoop.set(endLoop, loop)
 	},
 	setAccessToLocal(access, local) {
 		this.vr.accessToLocal.set(access, local)

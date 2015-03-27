@@ -106,8 +106,8 @@ export const CaseVal = ev('CaseVal', {
 export const Debugger = ed('Debugger', { })
 export const BlockWrap = ev('BlockWrap', { body: BlockBody })
 
-export const Loop = ed('Loop', { name: String, body: BlockBody })
-export const EndLoop = ed('EndLoop', { name: String })
+export const Loop = ed('Loop', { body: BlockBody })
+export const EndLoop = ed('EndLoop', { })
 
 // Generators
 export const Yield = ev('Yield', { yielded: Val })

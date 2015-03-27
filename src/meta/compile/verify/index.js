@@ -52,7 +52,11 @@ implementMany(EExports, 'verify', {
 	},
 	// Only reach here for in/out condition
 	Debug(_, vx) { verifyLines(vx, [ _ ]) },
-	EndLoop(_, vx) { check(vx.hasLoop(_.name), _.span, `No loop called ${code(_.name)}`) },
+	EndLoop(_, vx) {
+		ifElse(vx.opLoop,
+			loop => vx.setEndLoop(_, loop),
+			() => fail(_.span, 'Not in a loop.'))
+	},
 	Fun(_, vx) {
 		vx = vx.withBlockLocals()
 		_.opReturnType.forEach(v(vx))
@@ -73,7 +77,7 @@ implementMany(EExports, 'verify', {
 				`Could not find local ${code(_.name)}.` +
 				`Available locals are: [${toArray(vx.allLocalNames()).map(code).join(', ')}])`))
 	},
-	Loop(_, vx) { v(vx.plusLoop(_.name))(_.body) },
+	Loop(_, vx) { v(vx.inLoop(_))(_.body) },
 	// Adding LocalDeclares to the available locals is done by Fun and buildVxBlockLine.
 	LocalDeclare(_, vx) { _.opType.map(v(vx)) },
 	MapEntry(_, vx) {

@@ -140,7 +140,7 @@ const transpileSubtree = implementMany(EExports, 'transpileSubtree', {
 	ObjSimple: (_, tx) =>
 		objectExpression(Object.getOwnPropertyNames(_.keysVals).map(keyName =>
 			property('init', propertyIdentifier(keyName), t(tx)(_.keysVals[keyName])))),
-	EndLoop: _ => breakStatement(identifier(mangle(_.name))),
+	EndLoop: (_, tx) => breakStatement(loopId(tx.vr.endLoopToLoop.get(_))),
 	Fun(_, tx) {
 		const opResCheck = flatMap(_.opReturnType, _ =>
 			opLocalCheck(tx,
@@ -185,7 +185,7 @@ const transpileSubtree = implementMany(EExports, 'transpileSubtree', {
 	LocalDeclare: _ => accessLocal(_.name, false),
 	// TODO: Don't always label!
 	Loop: (_, tx) =>
-		labeledStatement(idMangle(_.name), whileStatement(LitTrue, t(tx)(_.body))),
+		labeledStatement(loopId(_), whileStatement(LitTrue, t(tx)(_.body))),
 	MapReturn: _ => msMap(flatMap(range(0, _.length), i =>
 		[ identifier('_k' + i.toString()), identifier('_v' + i.toString()) ])),
 	MapEntry: (_, tx) => variableDeclaration('const', [
@@ -363,5 +363,9 @@ function accessMangledLocal(mangledName, isLazy) {
 	return isLazy ? msUnlazy([ id ]) : id
 }
 
+const loopId = loop => {
+	type(loop.span.start.line, Number)
+	return identifier(`loop${loop.span.start.line}`)
+}
 
-export const lazyWrap = value => msLazy([ thunk(value) ])
+const lazyWrap = value => msLazy([ thunk(value) ])
