@@ -60,7 +60,7 @@ gulp.task('watch-js', function() {
 	pipeJs(gulp.src(src_js).pipe(watch(src_js)))
 })
 
-gulp.task('watch', [ 'ms' ], function() {
+gulp.task('watch', function() {
 	pipeMs(gulp.src(src_ms).pipe(watch(src_ms)))
 	pipeJs(gulp.src(src_js).pipe(watch(src_js)))
 })

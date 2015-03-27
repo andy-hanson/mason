@@ -3,14 +3,15 @@ use
 	.@.Array
 	.@.@-Type _ empty from-stream
 	.@.Seq
+	.compare sort
 	.control opr
-	.Fun noop thunk
+	.Fun _ noop thunk
 	.show
 	.Str
 	.Type =>
 	.Type.Impl-Type self-type
 	.Type.Kind kind! self-kind!
-	.Type.Method impl-double! impl-for
+	.Type.Method impl! impl-double! impl-for
 	.Type.Pred-Type Opt
 use-debug
 	.!
@@ -36,6 +37,12 @@ impl-double! => (self-type Str) @
 		noop Str
 		joiner = opr ?joiner ""
 		(=> Array (map _ show)).join joiner
+
+impl! sort Str
+	test. |
+		"TODO"
+	|:Str _ ?sort-by:Opt[Fun]
+		=> Str (sort.default _ ?sort-by)
 
 kind! Str Seq
 	count -> |_

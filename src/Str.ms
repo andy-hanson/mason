@@ -51,9 +51,9 @@ indent.
 split-str.
 	doc. "Like `@.split` but using a Str-Test instead of a predicate."
 	test. |
-		[ "I am a Str" " " ] -> [ "I" "am" "a" "Str" ]
-		[ "abc" (regex ".") ] -> [ "" "" "" "" ]
-	|:Array[Str] _:Str splitter:Str-Test
+		[ " " "I am a Str" ] -> [ "I" "am" "a" "Str" ]
+		[ (regex ".") "abc" ] -> [ "" "" "" "" ]
+	|:Array[Str] splitter:Str-Test _:Str
 		_.split splitter
 
 impl! =? Str id=?
