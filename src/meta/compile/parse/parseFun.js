@@ -3,43 +3,41 @@ import { BlockBody, Fun, LocalDeclare } from '../Expression'
 import { CaseKeywords, KFun } from '../Lang'
 import { DotName, Group, Keyword } from '../Token'
 import type from '../U/type'
-import { code } from '../U'
+import { code, lazy } from '../U'
 import { ifElse, None, opIf, some } from '../U/Op'
-import { head, isEmpty, last, opSplitOnceWhere, rtail, tail } from '../U/Bag'
 import parseCase from './parseCase'
 import parseLocals from './parseLocals'
 import parseSpaced from './parseSpaced'
 import Px from './Px'
 // TODO
-const parseBlock_ = () => require('./parseBlock')
+const parseBlock_ = lazy(() => require('./parseBlock'))
 
 export default function parseFun(px, k) {
 	type(px, Px, k, KFun)
 
 	// Look for return type at the beginning
-	let _ = (() => {
-		if (!isEmpty(px.tokens)) {
-			const h = head(px.tokens)
-			if (Group.is('sp')(h) && Keyword.is(':')(head(h.tokens)))
+	const { opReturnType, rest } = (() => {
+		if (!px.tokens.isEmpty()) {
+			const h = px.tokens.head()
+			if (Group.is('sp')(h) && Keyword.is(':')(h.tokens.head()))
 				return {
-					opType: some(parseSpaced(px.w(tail(h.tokens)))),
-					rest: tail(px.tokens)
+					opReturnType: some(px.w(h.tokens.tail(), parseSpaced)),
+					rest: px.tokens.tail()
 				}
 		}
-		return { opType: None, rest: px.tokens }
+		return { opReturnType: None, rest: px.tokens }
 	})()
-	const opReturnType = _.opType, rest = _.rest
 
-	px.check(!isEmpty(rest), () => `Expected an indented block after ${code(k)}`)
-	const h = head(rest)
+	px.check(!rest.isEmpty(), () => `Expected an indented block after ${code(k)}`)
+	const h = rest.head()
 
-	_ = (() => {
+	const { args, opRestArg, block } = (() => {
 		if (Keyword.is(CaseKeywords)(h)) {
-			const eCase = parseCase(px.w(tail(rest)), h.k, true)
+			const eCase = px.w(rest.tail(), parseCase, h.k, true)
 			return {
 				args: [ LocalDeclare.UntypedFocus(h.span) ],
 				opRestArg: None,
-				body: BlockBody(px.s({
+				block: BlockBody(px.s({
 					opIn: None,
 					lines: h.k === 'case' ? [] : [eCase],
 					opReturn: opIf(h.k === 'case', () => eCase),
@@ -48,53 +46,36 @@ export default function parseFun(px, k) {
 			}
 		}
 		// Might be curried.
-		else return ifElse(opSplitOnceWhere(px.tokens, t => Keyword.is('|')(t)),
+		else return ifElse(px.tokens.opSplitOnceWhere(t => Keyword.is('|')(t)),
 			_ => {
-				const _$ = parseFunLocals(px.w(_.before))
-				const pxAfter = px.w(_.after)
-				return {
-					args: _$.args,
-					opRestArg: _$.opRestArg,
-					body: BlockBody(pxAfter.s({
-						opIn: None,
-						lines: [],
-						opReturn: some(parseFun(pxAfter, _.at.k)),
-						opOut: None
-					}))
-				}
+				const { args, opRestArg } = px.w(_.before, parseFunLocals)
+				const block = px.w(_.after, () => BlockBody(px.s({
+					opIn: None,
+					lines: [],
+					opReturn: some(parseFun(px, _.at.k)),
+					opOut: None
+				})))
+				return { args, opRestArg, block }
 			},
 			() => {
-				const _$ = parseBlock_().takeBlockFromEnd(px.w(rest), 'any')
-				const _$2 = parseFunLocals(px.w(_$.before))
-				return {
-					args: _$2.args,
-					opRestArg: _$2.opRestArg,
-					body: _$.block
-				}
+				const { before, block } = px.w(rest, parseBlock_().takeBlockFromEnd, 'any')
+				const { args, opRestArg } = px.w(before, parseFunLocals)
+				return { args, opRestArg, block }
 			})
 	})()
 
-	return Fun(px.s({
-		args: _.args,
-		opRestArg: _.opRestArg,
-		body: _.body,
-		opReturnType: opReturnType,
-		k: k
-	}))
+	return Fun(px.s({ args, opRestArg, block, opReturnType, k }))
 }
 
 function parseFunLocals(px) {
-	if (isEmpty(px.tokens))
-		return {
-			args: [],
-			opRestArg: None
-		}
+	if (px.tokens.isEmpty())
+		return { args: [], opRestArg: None }
 	else {
-		const l = last(px.tokens)
+		const l = px.tokens.last()
 		if (l instanceof DotName) {
 			check(l.nDots === 3, l.span, 'Splat argument must have exactly 3 dots')
 			return {
-				args: parseLocals(px.w(rtail(px.tokens))),
+				args: px.w(px.tokens.rtail(), parseLocals),
 				opRestArg: some(LocalDeclare({
 					span: l.span,
 					name: l.name,
@@ -104,9 +85,6 @@ function parseFunLocals(px) {
 				}))
 			}
 		}
-		else return {
-			args: parseLocals(px),
-			opRestArg: None
-		}
+		else return { args: parseLocals(px), opRestArg: None }
 	}
 }

@@ -5,6 +5,7 @@ import Opts from '../Opts'
 import Span, { Pos, StartPos } from '../Span'
 import Token, { Group, Keyword } from '../Token'
 import { isEmpty, last } from '../U/Bag'
+import Slice from '../U/Slice'
 import type from '../U/type'
 import { ObjType } from '../U/types'
 import GroupPre from './GroupPre'
@@ -49,13 +50,13 @@ export default function group(preGroupedTokens, opts) {
 		// cur is now the previous level on the stack
 		// U.log(`${U.indent(stack.length)}<< ${k})
 		// Don't add line/spaced
-		if ((k === 'sp' || k === 'ln') && isEmpty(wrapped.tokens))
+		if ((k === 'sp' || k === 'ln') && wrapped.tokens.isEmpty())
 			return
-		if (k === '<-' && isEmpty(wrapped.tokens))
+		if (k === '<-' && wrapped.tokens.isEmpty())
 			fail(closePos, 'Empty block')
 		// Spaced should always have at least two elements
-		if (k === 'sp' && wrapped.tokens.length === 1)
-			cur.add(wrapped.tokens[0])
+		if (k === 'sp' && wrapped.tokens.size() === 1)
+			cur.add(wrapped.tokens.head())
 		else
 			cur.add(wrapped)
 	}
@@ -67,7 +68,8 @@ export default function group(preGroupedTokens, opts) {
 		type(old, GroupBuilder)
 		const span = Span({ start: old.startPos, end: closePos })
 		assert(GroupOpenToClose.get(old.k) === k)
-		return Group({ span, tokens: old.body, k: old.k })
+		const tokens = new Slice(old.body)
+		return Group({ span, tokens, k: old.k })
 	}
 
 	function startLine(pos) {

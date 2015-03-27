@@ -73,13 +73,13 @@ implementMany(EExports, 'verify', {
 		vx.withBlockLocals(() => {
 			_.opReturnType.forEach(v(vx))
 			if (!isEmpty(_.opReturnType))
-				check(!isEmpty(_.body.opReturn), _.span,
+				check(!isEmpty(_.block.opReturn), _.span,
 					'Function with return type must return something.')
 			_.args.forEach((arg) => arg.opType.forEach(v(vx)))
 			vx.withInGenerator(_.k === '~|', () => {
 				const allArgs = _.args.concat(_.opRestArg)
 				allArgs.forEach(_ => vx.registerLocal(_))
-				vx.plusLocals(allArgs, () => v(vx)(_.body))
+				vx.plusLocals(allArgs, () => v(vx)(_.block))
 			})
 		})
 	},

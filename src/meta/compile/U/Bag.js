@@ -26,35 +26,6 @@ export function rtail(sq) {
 	return sq.slice(0, sq.length - 1)
 }
 
-export function opSplitOnceWhere(sq, splitOn) {
-	type(sq, Array, splitOn, Function)
-	for (let i = 0; i < sq.length; i = i + 1)
-		if (splitOn(sq[i]))
-			return some({
-				before: sq.slice(0, i),
-				at: sq[i],
-				after: sq.slice(i + 1)
-			})
-	return None
-}
-
-export function opSplitManyWhere(sq, splitOn) {
-	type(sq, Array, splitOn, Function)
-	let iLast = 0
-	const out = []
-	for (let i = 0; i < sq.length; i = i + 1)
-		if (splitOn(sq[i])) {
-			out.push({ before: sq.slice(iLast, i), at: sq[i] })
-			iLast = i + 1
-		}
-	if (isEmpty(out))
-		return None
-	else {
-		out.push({ before: sq.slice(iLast, sq.length) })
-		return some(out)
-	}
-}
-
 export function interleave(sq, interleaved) {
 	type(sq, Array, interleaved, Object)
 	const out = interleavePlus(sq, interleaved)

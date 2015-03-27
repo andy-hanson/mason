@@ -84,7 +84,7 @@
 			"spaced-line-comment": 1,
 			"space-in-parens": [ 1, "never" ],
 			"valid-jsdoc": 1,
-			"yoda": [ 1, "never" ]
+			"yoda": 0
 		}
 	},
 	"license": "WTFPL"

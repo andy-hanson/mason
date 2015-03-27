@@ -2,13 +2,13 @@ import { Assign, BlockBody, BlockWrap, CaseDo,
 	CasePart, CaseVal, LocalDeclare } from '../Expression'
 import { CaseKeywords } from '../Lang'
 import { Keyword } from '../Token'
+import { lazy } from '../U'
 import { ifElse, None, opIf, some } from '../U/Op'
 import type from '../U/type'
-import { head, isEmpty, last, rtail, tail } from '../U/Bag'
 import { justBlock, takeBlockFromEnd, takeBlockLinesFromEnd } from './parseBlock'
 import Px from './Px'
-// TODO
-const parseExpr_ = () => require('./parseExpr').default
+// TODO:ES6
+const parseExpr_ = lazy(() => require('./parseExpr').default)
 
 export default function parseCase(px, k, casedFromFun) {
 	type(px, Px, k, CaseKeywords, casedFromFun, Boolean)
@@ -23,27 +23,24 @@ export default function parseCase(px, k, casedFromFun) {
 				'Can\'t give focus to case - it is the function\'s implicit first argument.')
 			return None
 		}
-		else return opIf(!isEmpty(before), () => {
-			const pxBefore = px.w(before)
-			return Assign.focus(pxBefore.span, parseExpr_()(pxBefore))
-		})
+		else return opIf(!before.isEmpty(), () =>
+			px.w(before, () => Assign.focus(px.span, parseExpr_()(px))))
 	})()
 
-	const l = last(lines)
-	const _$ = Keyword.is('else')(head(l.tokens)) ? {
-			partLines: rtail(lines),
-			opElse: some(justBlock(px.w(tail(l.tokens)), kBlock))
+	const l = lines.last()
+	const { partLines, opElse } = Keyword.is('else')(l.tokens.head()) ? {
+			partLines: lines.rtail(),
+			opElse: some(px.w(l.tokens.tail(), justBlock, kBlock))
 		} : {
 			partLines: lines,
 			opElse: None
 		}
-	const partLines = _$.partLines, opElse = _$.opElse
 
 	const parts = partLines.map(line => {
-		const _ = takeBlockFromEnd(px.w(line.tokens), kBlock)
+		const _ = px.w(line.tokens, takeBlockFromEnd, kBlock)
 		return CasePart({
 			span: line.span,
-			test: parseExpr_()(px.w(_.before)),
+			test: px.w(_.before, parseExpr_()),
 			result: _.block
 		})
 	})

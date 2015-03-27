@@ -2,6 +2,7 @@ import assert from 'assert'
 import { Assign, Do, Debug, ELiteral, LocalDeclare, Module } from '../Expression'
 import Opts from '../Opts'
 import { Group } from '../Token'
+import Slice from '../U/Slice'
 import type from '../U/type'
 import { parseBody } from './parseBlock'
 import tryParseUse from './parseUse'
@@ -16,10 +17,10 @@ export default function parse(rootToken, opts) {
 
 function parseModule(px, moduleName) {
 	const { uses: doUses, rest } = tryParseUse(px, 'use!')
-	const { uses: plainUses, rest: rest1 } = tryParseUse(px.w(rest), 'use')
-	const { uses: lazyUses, rest: rest2 } = tryParseUse(px.w(rest1), 'use~')
-	const { uses: debugUses, rest: rest3 } = tryParseUse(px.w(rest2), 'use-debug')
-	const body = parseBody(px.w(rest3), 'module')
+	const { uses: plainUses, rest: rest1 } = px.w(rest, tryParseUse, 'use')
+	const { uses: lazyUses, rest: rest2 } = px.w(rest1, tryParseUse, 'use~')
+	const { uses: debugUses, rest: rest3 } = px.w(rest2, tryParseUse, 'use-debug')
+	const body = px.w(rest3, parseBody, 'module')
 
 	body.lines.forEach(line => {
 		if (line instanceof Assign && line.k === 'export')

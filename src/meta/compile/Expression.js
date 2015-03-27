@@ -127,7 +127,7 @@ export const Splat = ev('Splat', { splatted: Val })
 export const Fun = ev('Fun', {
 	args: [LocalDeclare],
 	opRestArg: Op(LocalDeclare),
-	body: BlockBody,
+	block: BlockBody,
 	opReturnType: Op(Val),
 	k: KFun
 })

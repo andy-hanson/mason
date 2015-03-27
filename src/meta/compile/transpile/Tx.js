@@ -4,5 +4,5 @@ import { ObjType } from '../U/types'
 import Vr from '../Vr'
 
 // Context used while rendering.
-const Rx = ObjType('Rx', Object, { opts: Opts, vr: Vr })
-export default Rx
+const Tx = ObjType('Rx', Object, { opts: Opts, vr: Vr })
+export default Tx

@@ -3,13 +3,13 @@ import check from '../check'
 import { Assign, BlockBody, BlockWrap, Debug, ObjReturn, ListEntry, ListReturn, ELiteral,
 		LocalDeclare, MapReturn, MapEntry, Module, ModuleDefaultExport, Val } from '../Expression'
 import { Group, Keyword } from '../Token'
-import { set } from '../U'
+import { lazy, set } from '../U'
+import { isEmpty, last, rtail } from '../U/Bag'
 import { None, some } from '../U/Op'
-import { head, isEmpty, last, rtail, tail } from '../U/Bag'
 import type from '../U/type'
 import Px from './Px'
-// TODO
-const parseLine_ = () => require('./parseLine')
+// TODO:ES6
+const parseLine_ = lazy(() => require('./parseLine'))
 
 const KParseBlock = new Set(['any', 'do', 'val', 'module'])
 
@@ -21,7 +21,7 @@ export function wrap(px, k) {
 export function justBlock(px, k) {
 	type(px, Px, k, KParseBlock)
 	const _ = takeBlockFromEnd(px, k)
-	px.check(isEmpty(_.before), 'Expected just a block')
+	px.check(_.before.isEmpty(), 'Expected just a block')
 	return _.block
 }
 
@@ -30,16 +30,16 @@ export function takeBlockFromEnd(px, k) {
 	const _ = takeBlockLinesFromEnd(px)
 	return {
 		before: _.before,
-		block: parseBody(px.w(_.lines), k)
+		block: px.w(_.lines, parseBody, k)
 	}
 }
 
 export function takeBlockLinesFromEnd(px) {
 	type(px, Px)
-	px.check(!isEmpty(px.tokens), 'Expected an indented block')
-	const l = last(px.tokens)
+	px.check(!px.tokens.isEmpty(), 'Expected an indented block')
+	const l = px.tokens.last()
 	check(Group.is('->')(l), l.span, 'Expected an indented block at the end')
-	return { before: rtail(px.tokens), lines: l.tokens }
+	return { before: px.tokens.rtail(), lines: l.tokens }
 }
 
 export function parseBody(px, k) {
@@ -114,8 +114,8 @@ export function parseBody(px, k) {
 		return BlockBody(px.s({
 			lines: moduleLines,
 			opReturn: None,
-			opIn: opIn,
-			opOut: opOut
+			opIn,
+			opOut
 		}))
 	}
 	else
@@ -124,17 +124,17 @@ export function parseBody(px, k) {
 
 function tryTakeInOut(px) {
 	function tryTakeInOrOut(lines, inOrOut) {
-		if (!isEmpty(lines)) {
-			const firstLine = head(lines)
+		if (!lines.isEmpty()) {
+			const firstLine = lines.head()
 			assert(Group.is('ln')(firstLine))
 			const tokensFirst = firstLine.tokens
-			if (Keyword.is(inOrOut)(head(tokensFirst)))
+			if (Keyword.is(inOrOut)(tokensFirst.head()))
 				return {
 					took: some(Debug({
 						span: firstLine.span,
-						lines: parseLine_().parseLines(px.w(tokensFirst))
+						lines: px.w(tokensFirst, parseLine_().parseLines)
 					})),
-					rest: tail(lines)
+					rest: lines.tail()
 				}
 		}
 		return { took: None, rest: lines }
@@ -177,7 +177,7 @@ function parseLines(px, restLines) {
 			// Else we are adding the Debug as a single line.
 		}
 	}
-	restLines.forEach(line => addLine(eLines, parseLine_().default(px.w(line.tokens), listLength)))
+	restLines.each(line => addLine(eLines, px.w(line.tokens, parseLine_().default, listLength)))
 
 	const isObj = !(isEmpty(objKeys) && isEmpty(debugKeys))
 	// TODO

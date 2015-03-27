@@ -4,41 +4,41 @@ import { Assign, BlockBody, BlockWrap, Call,
 	ObjReturn, ObjSimple, Special, Yield, YieldTo } from '../Expression'
 import { Keyword } from '../Token'
 import type from '../U/type'
-import { set } from '../U'
+import { lazy, set } from '../U'
 import { GeneratorKeywords, KFun } from '../Lang'
 import { ifElse } from '../U/Op'
-import { cons, head, isEmpty, last, opSplitManyWhere, rtail, tail } from '../U/Bag'
+import { cons, head, isEmpty, last, rtail, tail } from '../U/Bag'
 import parseCase from './parseCase'
 import { parseLocal } from './parseLocals'
 import parseSingle from './parseSingle'
 import Px from './Px'
-// TODO
-const parseFun_ = () => require('./parseFun')
+// TODO:ES6
+const parseFun_ = lazy(() => require('./parseFun'))
 
 export default function parseExpr(px) {
-	return ifElse(opSplitManyWhere(px.tokens, Keyword.is('. ')),
+	return ifElse(px.tokens.opSplitManyWhere(Keyword.is('. ')),
 		splits => {
 			// Short object form, such as (a. 1, b. 2)
 			const first = splits[0].before
-			const tokensCaller = rtail(first)
+			const tokensCaller = first.rtail()
 
 			const keysVals = {}
 			for (let i = 0; i < splits.length - 1; i = i + 1) {
-				const local = parseLocal(px.wt(last(splits[i].before)))
+				const local = px.wt(splits[i].before.last(), parseLocal)
 				const tokensValue = i === splits.length - 2 ?
 					splits[i + 1].before :
-					rtail(splits[i + 1].before)
-				const value = parseExprPlain(px.w(tokensValue))
+					splits[i + 1].before.rtail()
+				const value = px.w(tokensValue, parseExprPlain)
 				check(!Object.prototype.hasOwnProperty.call(keysVals, local.name), local.span, () =>
 					`Duplicate property ${local}.`)
 				Object.defineProperty(keysVals, local.name, { value })
 			}
 			assert(last(splits).at === undefined)
 			const val = ObjSimple(px.s({ keysVals }))
-			if (isEmpty(tokensCaller))
+			if (tokensCaller.isEmpty())
 				return val
 			else {
-				const parts = parseExprParts(px.w(tokensCaller))
+				const parts = px.w(tokensCaller, parseExprParts)
 				assert(!isEmpty(parts))
 				return Call(px.s({ called: head(parts), args: tail(parts).concat([ val ]) }))
 			}
@@ -62,24 +62,32 @@ function parseExprPlain(px) {
 
 export function parseExprParts(px) {
 	type(px, Px)
-	if (isEmpty(px.tokens))
-		return []
-	const first = head(px.tokens), rest = tail(px.tokens)
-	switch (true) {
-		case Keyword.is(KFun)(first):
-			return [ parseFun_()(px.w(rest), first.k) ]
-		// `case!` can not be part of an expression - it is a statement.
-		case Keyword.is('case')(first):
-			return [ parseCase(px.w(rest), 'case', false) ]
-		case Keyword.is(GeneratorKeywords)(first): {
-			const y = parseExpr(px.w(rest))
+
+	const out = []
+	const end = px.tokens.end
+	for (let i = px.tokens.start; i < end; i = i + 1) {
+		const first = px.tokens.data[i]
+		const rest = () => px.tokens._new(i + 1, end)
+		if (Keyword.is(KFun)(first)) {
+			out.push(px.w(rest(), parseFun_(), first.k))
+			break
+		} else if (Keyword.is('case')(first)) {
+			out.push(px.w(rest(), parseCase, 'case', false))
+			break
+		} else if (Keyword.is(GeneratorKeywords)(first)) {
+			const y = px.w(rest(), parseExpr)
 			switch (first.k) {
-				case '<~': return [ Yield(px.s({ yielded: y })) ]
-				case '<~~': return [ YieldTo(px.s({ yieldedTo: y })) ]
+				case '<~':
+					out.push(Yield(px.s({ yielded: y })))
+					break
+				case '<~~':
+					out.push(YieldTo(px.s({ yieldedTo: y })))
+					break
 				default: throw new Error(first.k)
 			}
-		}
-		default:
-			return cons(parseSingle(px.wt(first)), parseExprParts(px.w(rest)))
+			break
+		} else
+			out.push(px.wt(first, parseSingle))
 	}
+	return out
 }

@@ -4,35 +4,34 @@ import { LocalDeclare } from '../Expression'
 import { Group, Keyword, Name } from '../Token'
 import { code } from '../U'
 import { None, some } from '../U/Op'
-import { head, isEmpty, tail } from '../U/Bag'
 import type from '../U/type'
 import parseSpaced from './parseSpaced'
 
-export default px => px.tokens.map(t => parseLocal(px.wt(t)))
+export default px => px.tokens.map(t => px.wt(t, parseLocal))
 
 export function parseLocal(px) {
 	let name
 	let opType = None
 	let isLazy = false
 
-	assert(px.tokens.length === 1)
-	const t = px.tokens[0]
+	assert(px.tokens.size() === 1)
+	const t = px.tokens.head()
 
 	if (Group.is('sp')(t)) {
 		const tokens = t.tokens
 		let rest = tokens
-		if (Keyword.is('~')(head(tokens))) {
+		if (Keyword.is('~')(tokens.head())) {
 			isLazy = true
-			rest = tail(tokens)
+			rest = tokens.tail()
 		}
-		name = parseLocalName(head(rest))
-		const rest2 = tail(rest)
-		if (!isEmpty(rest2)) {
-			const colon = head(rest2)
+		name = parseLocalName(rest.head())
+		const rest2 = rest.tail()
+		if (!rest2.isEmpty()) {
+			const colon = rest2.head()
 			check(Keyword.is(':')(colon), colon.span, () => `Expected ${code(':')}`)
-			px.check(rest2.length > 1, () => `Expected something after ${colon}`)
-			const tokensType = tail(rest2)
-			opType = some(parseSpaced(px.w(tokensType)))
+			px.check(rest2.size() > 1, () => `Expected something after ${colon}`)
+			const tokensType = rest2.tail()
+			opType = some(px.w(tokensType, parseSpaced))
 		}
 	}
 	else

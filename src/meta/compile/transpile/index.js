@@ -156,7 +156,7 @@ const transpileSubtree = implementMany(EExports, 'transpileSubtree', {
 		const opDeclareRest = _.opRestArg.map(rest =>
 			declare(rest.name, callExpression(IdArraySliceCall, [IdArguments, nArgs])))
 		const checks = flatMap(_.args, arg => opLocalCheck(tx, arg, arg.isLazy))
-		const body = t(tx, opResCheck)(_.body)
+		const body = t(tx, opResCheck)(_.block)
 		const parts = opDeclareRest.concat(checks).concat([body])
 		const block = blockStatement(parts)
 		return functionExpression(null, _.args.map(t(tx)), block, !(_.k === '|'))

@@ -9,6 +9,17 @@ export function log(x) {
 	else console.log(x.toString())
 }
 
+export function lazy(get) {
+	let cached
+	return () => {
+		if (cached === undefined) {
+			cached = get()
+			assert(cached !== undefined)
+		}
+		return cached
+	}
+}
+
 export function indent(n) {
 	type(n, Number)
 	return '\t'.repeat(n)

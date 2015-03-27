@@ -4,50 +4,50 @@ import E, { Assign, AssignDestructure, BlockWrap, Call, Debug, Debugger, ObjRetu
 	Fun, EndLoop, ListEntry, Loop, MapEntry, Special, Yield, YieldTo } from '../Expression'
 import { defaultLoopName, LineSplitKeywords } from '../Lang'
 import { Group, Keyword, Name } from '../Token'
-import { set } from '../U'
+import { lazy, set } from '../U'
 import { ifElse, some } from '../U/Op'
-import { flatMap, head, isEmpty, last, opSplitOnceWhere, tail } from '../U/Bag'
+import { head, isEmpty, last, opSplitOnceWhere } from '../U/Bag'
 import type from '../U/type'
 import parseCase from './parseCase'
 import parseExpr from './parseExpr'
 import parseLocals from './parseLocals'
 import Px from './Px'
-// TODO
-const parseBlock_ = () => require('./parseBlock')
+// TODO:ES6
+const parseBlock_ = lazy(() => require('./parseBlock'))
 
 // Returns line or sq of lines
 export default function parseLine(px) {
 	type(px, Px)
 
-	const first = head(px.tokens)
-	const pxRest = px.w(tail(px.tokens))
+	const h = px.tokens.head()
+	const rest = px.tokens.tail()
 
 	// We only deal with mutable expressions here, otherwise we fall back to parseExpr.
-	if (first instanceof Keyword)
-		switch (first.k) {
+	if (h instanceof Keyword)
+		switch (h.k) {
 			case '. ':
 				return ListEntry(px.s({
-					value: parseExpr(pxRest),
+					value: px.w(rest, parseExpr),
 					// This is set by parseBlock.
 					index: -1
 				}))
 			case 'case!':
-				return parseCase(pxRest, 'case!', false)
+				return px.w(rest, parseCase, 'case!', false)
 			case 'debug':
-				return Group.is('->')(px.tokens[1]) ?
+				return Group.is('->')(px.tokens.second()) ?
 					// `debug`, then indented block
 					Debug(px.s({ lines: parseLines(px) })) :
 					// e.g. `use-debug`
-					Debug(px.s({ lines: parseLineOrLines(pxRest) }))
+					Debug(px.s({ lines: px.w(rest, parseLineOrLines) }))
 			case 'debugger':
-				px.checkEmpty(pxRest().tokens, () => `Did not expect anything after ${first}`)
+				px.checkEmpty(rest, () => `Did not expect anything after ${h}`)
 				return Debugger(px.s({}))
 			case 'end-loop!':
-				check(isEmpty(pxRest.tokens), () => `Did not expect anything after ${first}`)
-				return EndLoop({ span: px.span })
+				check(rest.isEmpty(), () => `Did not expect anything after ${h}`)
+				return EndLoop(px.s({}))
 			case 'loop!': {
-				const _ = parseBlock_().takeBlockFromEnd(pxRest, 'do')
-				check(isEmpty(_.before), px.span, `Did not expect anything after ${first}`)
+				const _ = px.w(rest, parseBlock_().takeBlockFromEnd, 'do')
+				check(_.before.isEmpty(), px.span, `Did not expect anything after ${h}`)
 				return Loop(px.s({ body: _.block }))
 			}
 			case 'region':
@@ -56,7 +56,7 @@ export default function parseLine(px) {
 				// fall through
 		}
 
-	return ifElse(opSplitOnceWhere(px.tokens, Keyword.is(LineSplitKeywords)),
+	return ifElse(px.tokens.opSplitOnceWhere(Keyword.is(LineSplitKeywords)),
 		_ => {
 			return _.at.k === '->' ?
 				parseMapEntry(px, _.before, _.after) :
@@ -71,18 +71,18 @@ export function parseLineOrLines(px) {
 }
 
 export function parseLines(px) {
-	const first = head(px.tokens)
-	check(px.tokens.length > 1, first.span, `Expected indented block after ${first}`)
-	const block = px.tokens[1]
-	assert(px.tokens.length === 2 && Group.is('->')(block))
-	return flatMap(block.tokens, line => parseLineOrLines(px.w(line.tokens)))
+	const h = px.tokens.head()
+	check(px.tokens.size() > 1, h.span, `Expected indented block after ${h}`)
+	const block = px.tokens.second()
+	assert(px.tokens.size() === 2 && Group.is('->')(block))
+	return block.tokens.flatMap(line => px.w(line.tokens, parseLineOrLines))
 }
 
 
 function parseAssign(px, assigned, assigner, value) {
-	let locals = parseLocals(px.w(assigned))
+	let locals = px.w(assigned, parseLocals)
 	const k = assigner.k
-	const eValuePre = isEmpty(value) ? Special.true(px.span) : parseExpr(px.w(value))
+	const eValuePre = value.isEmpty() ? Special.true(px.span) : px.w(value, parseExpr)
 
 	let eValueNamed
 	if (locals.length === 1) {
@@ -191,8 +191,8 @@ function tryAddDisplayName(eValuePre, displayName) {
 
 function parseMapEntry(px, before, after) {
 	return MapEntry(px.s({
-		key: parseExpr(px.w(before)),
-		val: parseExpr(px.w(after)),
+		key: px.w(before, parseExpr),
+		val: px.w(after, parseExpr),
 		// TODO: Filled in by ???
 		index: -1
 	}))
