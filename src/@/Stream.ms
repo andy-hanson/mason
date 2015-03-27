@@ -21,7 +21,7 @@ Stream = Wrap-Type
 			<~ 1
 			<~ 2
 		! seq=? _ [ 1 2 ]
-		\ They can be used twice!
+		# Streams can be used twice!
 		! seq=? _ [ 1 2 ]
 
 self-kind! Stream @-Type

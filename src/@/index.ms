@@ -138,7 +138,7 @@ region Using iterator
 			[ [ 0 ] =?[1] ] -> empty ?
 		|_ pred?:Pred
 			iter = iterator_
-			\ TODO:SYNTAX Return from loop
+			# TODO:SYNTAX Return from loop
 			found = Ref! (empty ?
 			loop!
 				value done = iter.next()
@@ -161,7 +161,7 @@ region Using iterator
 			fold _ 0 +[1]
 
 region Lazy functions, and their eager versions.
-	\ Eager versions are Methods if certain types can do them faster.
+	# Eager versions are Methods if certain types can do them faster.
 	keep.
 		doc. "Only the elements that satisfy `keep-if?`."
 		test. |
@@ -208,7 +208,7 @@ region Lazy functions, and their eager versions.
 		|_:@ mapper:Fun
 			=> type-of_ (map _ mapper
 
-	\ TODO: Preserve type as long as it is not Stream or Lazy-Stream?
+	# TODO: Preserve type as long as it is not Stream or Lazy-Stream?
 	fold-map.
 		doc. "
 			Performs a map while also carrying some state from one element to the next.
@@ -230,7 +230,7 @@ region Lazy functions, and their eager versions.
 				here
 			folded. get acc
 
-	\ TODO: Better name?
+	# TODO: Better name?
 	flat-map.
 		doc. "Like `map`, but each mapping produces multiple values."
 		test. |
@@ -241,7 +241,7 @@ region Lazy functions, and their eager versions.
 					[ _ ]
 			[ [ 1 2 3 4 ] f ] -> => Stream [ 1 2 2 3 4 4 ]
 		|_:@ mapper:Fun[Any @]
-			\ Same as `flatten (map _ mapper)`, but with smaller stacktrace.
+			# Same as `flatten (map _ mapper)`, but with smaller stacktrace.
 			Stream ~|
 				iter = iterator_
 				loop!
@@ -268,9 +268,9 @@ region Lazy functions, and their eager versions.
 			More efficient than `fold + _`.
 		test. |
 			[ [ [ 1 2 ] [ 3 ] [ ] ] ] -> => Stream [ 1 2 3 ]
-			\ Ignores further nested @s.
+			# Ignores further nested @s.
 			[ [ [ 1 ] [ [ 2 ] ] ] ] -> => Stream [ 1 [ 2 ] ]
-			\ Must be at least one nested level
+			# Must be at least one nested level
 			! fails? |
 				=> Array (flatten [ [ 1 ] 2 [ 3 ] ]
 		|_:@[@]

@@ -74,11 +74,11 @@ Kind. Obj-Type
 
 	props.
 		displayName. Str
-		super-kinds. Array \ TODO: [~Kind]
+		super-kinds. Array # TODO: [~Kind]
 		prototype. Obj
-		\ TODO: Allow doc on prop
-		\ doc. "If immutable, this Kind does not accept new subtypes."
-		implementors. Array \ TODO: [~Impl-Type]
+		# TODO: Allow doc on prop
+		# doc. "If immutable, this Kind does not accept new subtypes."
+		implementors. Array # TODO: [~Impl-Type]
 		symbol-for-isa. Symbol
 	extensible.
 	defaults.
@@ -111,7 +111,7 @@ can-subtype?.
 	|_:Kind
 		not (frozen? _.implementors
 
-\ Making something an instance of Impl-Type is difficult because kind! checks that it's already an Impl-Type...
+# Making something an instance of Impl-Type is difficult because kind! checks that it's already an Impl-Type...
 unchecked-kind!.
 	doc. "
 		kind! without any checks.
@@ -151,7 +151,7 @@ kind!.
 		Makes one Impl-Type a subtype of a Kind.
 		Kinds can subtype each other.
 	test. "See Impl-Type.test."
-	\ TODO: Assert no circular chains of kind!.
+	# TODO: Assert no circular chains of kind!.
 	|implementor:Impl-Type kind:Kind method-impls
 		in
 			! (can-subtype? kind) ~"{kind} is not open to new subtypes."

@@ -1,4 +1,4 @@
-\ TODO: TEST
+# TODO: TEST
 
 use
 	...compare =?
@@ -76,7 +76,7 @@ impl! keys Hash-Map! |_
 		Stream |
 			bucket-keys~_
 
-\ TODO: impl! values, similarly
+# TODO: impl! values, similarly
 
 impl! assoc! Hash-Map! |hm key val
 	bucket = opt-bucket hm key
@@ -84,10 +84,10 @@ impl! assoc! Hash-Map! |hm key val
 		defined?_
 			p! _ "val!" val
 		else
-			\ Add it at the front.
-			k = key \ TODO:SYNTAX
+			# Add it at the front.
+			k = key # TODO:SYNTAX
 			hm.hash->bucket.set (hash-code key)
-				key. k \ TODO:SYNTAX
+				key. k # TODO:SYNTAX
 				val!. val
 				next!. bucket
 

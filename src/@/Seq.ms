@@ -124,7 +124,7 @@ region Search
 				next-b = iter-b.next()
 				case
 					next-a.done
-						\ =? If the same length and all so far are =?.
+						# =? If the same length and all so far are =?.
 						End-Loop next-b.done
 					next-b.done
 						End-Loop false
@@ -144,7 +144,7 @@ region Search
 		default. |_ n:Nat
 			iter = iterator_
 			i = Ref! 0
-			\ TODO:SYNTAX Loop return value
+			# TODO:SYNTAX Loop return value
 			ans = Ref! (empty ?
 			loop!
 				value done = iter.next()
@@ -191,7 +191,7 @@ region Update
 		doc. "Stream including only the first count-to-take elements."
 		test. |
 			[ [ 0 1 2 ] 2 ] -> => Stream [ 0 1 ]
-			\ OK if not enough to satisfy count-to-take
+			# OK if not enough to satisfy count-to-take
 			[ [ 0 ] 2 ] -> => Stream [ 0 ]
 			_ = [ 0 1 2 3 4 ]
 			! seq=? _ (++ (take _ 2) (drop _ 2
@@ -250,7 +250,7 @@ region Update
 									mod! i +[1]
 				<~~ iter
 
-	\ TODO: drop-while
+	# TODO: drop-while
 
 region Combination
 	zip.
@@ -289,13 +289,13 @@ region TODO: put somewhere
 		doc. "Seq of consecutive groups of `group-size` elements."
 		test. |
 			! seq=? [ [ 1 2 ] [ 3 4 ] ] (groups-of 2 [ 1 2 3 4 ])
-			\ Throws away non-full groups
+			# Throws away non-full groups
 			! seq=? [ [ 1 2 3 ] ] (groups-of 3 [ 1 2 3 4 ])
 			! seq=? [ [] [] [] ] (take (groups-of 0 [ 1 2 3 4 ]) 3)
 		|:Seq[Array] group-size:Nat _
 			case
 				=? group-size 0
-					\ TODO: repeat-forever [ ]
+					# TODO: repeat-forever [ ]
 					Stream ~|
 						loop!
 							<~ [ ]

@@ -18,7 +18,7 @@ use-debug
 	..modules get-global-module
 
 debug
-	\ TODO: ..io.http module
+	# TODO: ..io.http module
 
 	request = get-global-module "request"
 	$request = |url
@@ -35,7 +35,7 @@ debug
 maximum-anagram-sets.
 	doc. "http://rosettacode.org/wiki/Anagrams#JavaScript"
 	test. |
-		\ Takes too long
+		# Takes too long
 		if! false |
 			$after ($request "http://www.puzzlers.org/pub/wordlists/unixdict.txt") |body
 				words = split-str body "\n"
@@ -47,8 +47,8 @@ maximum-anagram-sets.
 					. [ "elan" "lane" "lean" "lena" "neal"
 					. [ "evil" "levi" "live" "veil" "vile"
 	|words
-		\ e.g., "amnos" -> "mason"
-		\ TODO: This is slow!
+		# e.g., "amnos" -> "mason"
+		# TODO: This is slow!
 		mp = empty Id-Map!
 		each! words |word
 			add-to-@! mp (sort word) [ word ]

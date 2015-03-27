@@ -1,4 +1,4 @@
-\ Also see .Map.Array-as-Map
+# Also see .Map.Array-as-Map
 
 use
 	..compare <?
@@ -24,7 +24,7 @@ kind! Array Seq
 
 impl! count Array |_
 	_.length
-\ TODO:ES6 This should be implemented for me
+# TODO:ES6 This should be implemented for me
 impl! iterator Array arrayIterator
 
 self-kind! Array @-Type

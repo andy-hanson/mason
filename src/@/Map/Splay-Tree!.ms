@@ -68,24 +68,24 @@ kind! Splay-Tree! Sorted-Map!
 	un-assoc! -> |_ key
 		if (and (not empty?_) ~(splay!? _ key)) ~
 			removed = _.root!
-			\ Link out the root.
+			# Link out the root.
 			p! _ "root!" case
 				has-left? removed
-					right = removed.right \ OK if null
+					right = removed.right # OK if null
 					new-root = removed.left
-					\ Splay to make sure the new root has an empty right child.
+					# Splay to make sure the new root has an empty right child.
 					splay!? _ key
 					p! new-root "right!" right
 					new-root
 				else
-					\ New tree is just right child - no left child to worry about.
+					# New tree is just right child - no left child to worry about.
 					removed.right
 
 			removed.val
 
 region Implementation
-	\ Searches for the key, bringing nodes up to the root along the way.
-	\ Returns whether the root now matches the key.
+	# Searches for the key, bringing nodes up to the root along the way.
+	# Returns whether the root now matches the key.
 	splay!? = |:Bool _ key
 		in
 			!not empty? _
@@ -112,7 +112,7 @@ region Implementation
 							(cur. new-cur.left! left. _.left right. new-cur
 						case
 							<? key _.cur.left!.key
-								\ Rotate right
+								# Rotate right
 								tmp = _.cur.left!
 								p! _.cur "left!" tmp.right!
 								p! tmp "right!" _.cur
@@ -134,7 +134,7 @@ region Implementation
 							(cur. new-cur.right! left. new-cur right. _.right
 						case
 							<? _.cur.right!.key key
-								\ Rotate left
+								# Rotate left
 								tmp = _.cur.right!
 								p! _.cur "right!" tmp.left!
 								p! tmp "left!" _.cur

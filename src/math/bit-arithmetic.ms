@@ -1,5 +1,5 @@
 use
-	..js js-bar js& js^ js~ js<< js>> js>>>
+	..js js-bar js-and js-caret js~ js<< js>> js>>>
 	..Str
 	.Num _ Int
 use-debug
@@ -49,14 +49,14 @@ bit-and.
 	test. |
 		[ (binary "0101") (binary "0011") ] -> binary "0001"
 	|a:Int b:Int
-		js& a b
+		js-and a b
 
 bit-xor.
 	doc. "Javascript's `^` operator."
 	test. |
 		[ (binary "0101") (binary "0011") ] -> binary "0110"
 	|a:Int b:Int
-		js^ a b
+		js-caret a b
 
 bit-not.
 	doc. "Javascript's `~` operator."

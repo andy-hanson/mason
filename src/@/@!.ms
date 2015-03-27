@@ -16,7 +16,7 @@ use-debug
 @! = Kind
 	doc. "Mutable @."
 	implementor-test. |type
-		\ KLUDGE because Array and Array! are the same thing (also in Seq!.ms)
+		# TODO:KLUDGE because Array and Array! are the same thing (also in Seq!.ms)
 		_ = case type
 			=? _ Array
 				empty Array!
@@ -47,7 +47,7 @@ empty!. Method
 		For Seqs these are added on the right; use `<++!` to add on the left.
 	test. |
 		"TODO:impl-test"
-	\ TODO: Lazy default?
+	# TODO: Lazy default?
 	default. |_ added
 		++>! _ added
 

@@ -38,7 +38,7 @@ hash-code = Method
 			y. 1
 		! =? (hash-code a) (hash-code a)
 		!not =? (hash-code a) (hash-code b
-		\ TODO: Check that it handles recursive values
+		# TODO: Check that it handles recursive values
 
 	default. |:Int _
 		case
@@ -49,12 +49,12 @@ hash-code = Method
 			hashes.has _
 				hashes.get _
 			:Fun
-				\ TODO: Want to do other case below but it seems to cause infinite loop
+				# TODO: Want to do other case below but it seems to cause infinite loop
 				(impl-for hash-code Fun) _
 			else
-				\ Set it now so we don't recurse infinitely
+				# Set it now so we don't recurse infinitely
 				hashes.set _ 17
-				\ TODO: Should this be a function in Obj.ms?
+				# TODO: Should this be a function in Obj.ms?
 				vals = map @p-all_ |name
 					p _ name
 				hash = fold vals 17 |acc val
@@ -63,7 +63,7 @@ hash-code = Method
 				hashes.set _ hash
 				hash
 
-\ Since default hash-code only works on Objs, let's implement hash-code for primitives.
+# Since default hash-code only works on Objs, let's implement hash-code for primitives.
 impl! hash-code Bool |case
 	_
 		1
@@ -71,7 +71,7 @@ impl! hash-code Bool |case
 		0
 
 impl! hash-code Fun |fun
-	\ TODO: There must be something better than this.
+	# TODO: There must be something better than this.
 	hash-code case ?p fun "displayName"
 		empty?_
 			fun.toString ()
@@ -92,11 +92,11 @@ impl! hash-code Symbol
 		sym = Symbol "test"
 		! =? (hash-code sym) (hash-code sym)
 	|:Int
-		\ TODO:ES6 (currently this returns undefined)
-		42 \ Symbol.keyFor _
+		# TODO:ES6 (currently this returns undefined)
+		42 # Symbol.keyFor _
 
 impl! hash-code Num |_
-	\ TODO: This treats small floats as equivalent.
+	# TODO: This treats small floats as equivalent.
 	bit-and round-towards-0_ max-hash-code
 
 hash-code

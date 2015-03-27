@@ -100,14 +100,14 @@ Method. Obj-Type
 			wrap-method "arg"
 
 	props.
-		displayName. Str \ Required!
+		displayName. Str # Required!
 		impl-symbol. Str
 	opt-props.
 		default. Fun
 		wrap. Fun
 	extensible.
 	defaults.
-		\ TODO:DISPLAYNAME
+		# TODO:DISPLAYNAME
 		displayName. |
 			oh-no! "displayName required!"
 		impl-symbol. |_
@@ -125,10 +125,10 @@ impl-double!. |method:Method implementor-0:Impl-Type implementor-1:Impl-Type imp
 		writable? implementor-0.prototype method.impl-symbol
 			m = method
 			dd = Double-Dispatcher
-				displayName. "<double dispatcher>" \ TODO: "<Double dispatcher for {m.displayName}>"
+				displayName. "<double dispatcher>" # TODO: "<Double dispatcher for {m.displayName}>"
 				method. m
 				first-type. implementor-0
-				impl-symbol. Symbol "<double dispatcher>" \"{m} for {implementor-0.displayName}"
+				impl-symbol. Symbol "<double dispatcher>" # TODO: "{m} for {implementor-0.displayName}"
 			do-impl! method implementor-0 dd
 			dd
 		else
@@ -160,7 +160,7 @@ self-impl!.
 		[ contains? Method ] -> ? method-contains?
 		[ =? Method ] -> empty ?
 	|method:Method type:Impl-Type
-		\ TODO: Obj.ms Fun
+		# TODO: Obj.ms Fun
 		desc = Obj.getOwnPropertyDescriptor type.prototype method.impl-symbol
 		if (and (defined? desc) ~(not desc.writable)) ~desc.value
 
@@ -181,26 +181,26 @@ region Private
 	p? = |obj property
 		defined? (js-sub obj property
 
-	\ TODO: Not public
-	propagate-method-down!. |implementor method-symbol implementation \ TODO: :Impl-Type :Symbol :Fun
+	# TODO: Not public
+	propagate-method-down!. |implementor method-symbol implementation # TODO: :Impl-Type :Symbol :Fun
 		case! implementor
-			\ Only bring it down if there isn't already one there.
+			# Only bring it down if there isn't already one there.
 			not (p? _.prototype method-symbol)
 				case!
 					:Kind
 						_.implementors.forEach |sub-implementor
 							propagate-method-down! sub-implementor method-symbol implementation
 					else
-						\ TODO: What to do in case of multiple inheritance collision?
-						\ Since this is inherited, it is mutable and can be overridden.
+						# TODO: What to do in case of multiple inheritance collision?
+						# Since this is inherited, it is mutable and can be overridden.
 						Obj.defineProperty _.prototype method-symbol
 							value. implementation
 							writable.
 			else
 				()
 
-	\ TODO: Multiple-inheritance proxy scheme for Obj-Type, Wrap-Type, Enum
-	\ "method" can be a Method or a Double-Dispatcher.
+	# TODO: Multiple-inheritance proxy scheme for Obj-Type, Wrap-Type, Enum
+	# "method" can be a Method or a Double-Dispatcher.
 	do-impl! = |method implementor implementation
 		in
 			case!
@@ -211,7 +211,7 @@ region Private
 
 		Obj.defineProperty implementor.prototype method.impl-symbol
 			value. implementation
-			enumerable. false \ TODO:ES6 Should not need this
+			enumerable. false # TODO:ES6 Should not need this
 		case! implementor
 			:Kind
 				_.implementors.forEach |sub
@@ -223,7 +223,7 @@ region Private
 		props.
 			displayName. Str
 			method. Method
-			first-type. \ TODO: Impl-Type
+			first-type. # TODO: Impl-Type
 			impl-symbol. Symbol
 		make-callable. |_
 			|...args

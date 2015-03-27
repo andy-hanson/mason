@@ -27,14 +27,14 @@ flag? = |case
 
 make-ctr = |ot
 	debug prop-has-type? = |props prop
-		\ Type might be lazily defined, but don't trigger it yet.
+		# Type might be lazily defined, but don't trigger it yet.
 		desc = Obj.getOwnPropertyDescriptor props prop
 		not (js=== desc.value true)
 
 	real-prop? = |props prop
-		\ Ignore accidental displayName.
+		# Ignore accidental displayName.
 		implies (js=== prop "displayName") ~
-			\ This looks funny since `contains?` isn't defined until methods.ms.
+			# This looks funny since `contains?` isn't defined until methods.ms.
 			not (js=== (js-typeof (js-sub props prop)) "string"
 
 	access = |name
@@ -82,7 +82,7 @@ make-ctr = |ot
 					if! (not extensible) |
 						add! "this{acc} = _{acc}"
 					debug if! (prop-has-type? ot.opt-props prop) |
-						\ TODO: Debug mode only
+						# TODO: Debug mode only
 						add! "_ms.checkContains(optProps{acc}, this{acc}, \"{prop}\")"
 					add! "}"
 
@@ -98,7 +98,7 @@ make-ctr = |ot
 							"{n-props}"
 						else
 							"(Object.prototype.hasOwnProperty.call(_, \"displayName\") ? {addOne n-props} : {n-props})"
-					\ If the conditions pass the check will definitely fail, and will give nice error info.
+					# If the conditions pass the check will definitely fail, and will give nice error info.
 					add! "
 						if (Object.keys(_).length > {n-props-compare})  \{
 							{check}
@@ -137,15 +137,15 @@ obj-type-args =
 		-
 		Note that there are Objs whose types are not Obj-Types;
 		these include those of Wrap-Types and those made by constructor Funs, JavaScript-style.
-	\ This must be explicit because of the way we construct Obj-Type
+	# This must be explicit because of the way we construct Obj-Type
 	prototype. Obj.create Obj.prototype
 	props.
-		displayName. Str \ displayName is mandatory for types.
+		displayName. Str # displayName is mandatory for types.
 		props. Obj
 		prototype. Obj
 	opt-props.
 		defaults. Obj
-		\ This takes in the props and outputs a Fun.
+		# This takes in the props and outputs a Fun.
 		make-callable. Fun
 		opt-props. Obj
 		post-construct. Fun

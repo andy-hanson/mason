@@ -35,7 +35,7 @@ export default function parseSpaced(px) {
 					return Call.sub(span, e, parseExpr_().parseExprParts(px.w(t.tokens)))
 				else if (Group.is('(')(t))
 					return Call({ span, called: e, args: [] })
-				else fail(span, `Expected member or sub, not ${code(t)}`)
+				else fail(span, `Expected member or sub, not ${t}`)
 			}
 			return rest.reduce(memberOrSubscript(px), parseSingle_()(px.wt(h)))
 		}

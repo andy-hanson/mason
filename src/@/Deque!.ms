@@ -22,8 +22,8 @@ Deque! = Obj-Type
 	doc. "Seq! that can efficiently add values on either side."
 	props.
 		data!. Array!
-		start-index!. Nat \ Inclusive (unless =? end-index)
-		end-index!. Nat \ Exclusive
+		start-index!. Nat # Inclusive (unless =? end-index)
+		end-index!. Nat # Exclusive
 
 self-kind! Deque! @-Type
 	empty -> |
@@ -94,7 +94,7 @@ kind! Deque! Seq!
 					set-nth! _.data! _.end-index! em
 					p! _ "end-index!" new-end
 
-	\ TODO: Shrink on occasion
+	# TODO: Shrink on occasion
 
 	?<pop! -> |_
 		if (not empty?_) ~
@@ -117,7 +117,7 @@ kind! Deque! Seq!
 
 	empty! -> |_
 		empty! _.data!
-		\ TODO: change-properties!
+		# TODO: change-properties!
 		p! _ "start-index!" 0
 		p! _ "end-index!" 0
 

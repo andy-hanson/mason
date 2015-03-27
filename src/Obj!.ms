@@ -42,7 +42,7 @@ p+!.
 	|_:Obj! name:Obj-Key val
 		Obj.defineProperty _ name
 			enumerable.
-			writable. false \ TODO:ES6 Shouldn't need to be explicit
+			writable. false # TODO:ES6 Shouldn't need to be explicit
 			value. val
 		()
 
@@ -82,7 +82,7 @@ p-!.
 
 		js-delete _ name
 
-\ TODO: Don't bother, just `spread p+!`
+# TODO: Don't bother, just `spread p+!`
 extend!.
 	doc. "Adds all the properties in `extender` to `_`."
 	test. |

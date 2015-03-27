@@ -25,7 +25,7 @@ kind! Id-Set! Set!
 		each! deleteds |deleted
 			_.delete deleted
 	iterator -> |_
-		\ TODO:ES6 Should be done by default
+		# TODO:ES6 Should be done by default
 		_.keys ()
 	contains? -> |_ val
 		_.has val

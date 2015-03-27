@@ -30,20 +30,20 @@ self-kind! Array! @-Type
 			arr.push em
 		arr
 
-\ We're defining these on Arrays, but they will only work for Array!s because Arrays are frozen
+# We're defining these on Arrays, but they will only work for Array!s because Arrays are frozen
 kind! Array Seq!
 	<++! -> |_ added:@
-		\ TODO:SYNTAX _.unshift ...added
+		# TODO:SYNTAX _.unshift ...added
 		Array.prototype.unshift.apply _ (=> Array added
 	++>! -> |_ added
-		\ TODO:SYNTAX _.push ...added
+		# TODO:SYNTAX _.push ...added
 		Array.prototype.push.apply _ (=> Array added
 	?<pop! -> |_
 		if (not empty?_) ~_.shift()
 	?pop>! -> |_
 		if (not empty?_) ~_.pop()
 	empty! -> |_
-		\ http://jsperf.com/empty-javascript-array/15
+		# http://jsperf.com/empty-javascript-array/15
 		loop!
 			case!
 				empty?_

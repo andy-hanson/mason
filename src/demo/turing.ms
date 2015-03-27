@@ -14,7 +14,7 @@ use
 
 region Rule results
 	R. |written new-state
-		\ TODO:SYNTAX go-right. state. ...
+		# TODO:SYNTAX go-right. state. ...
 		(write. written go-right. true state. new-state
 	L. |written new-state
 		(write. written go-right. false state. new-state

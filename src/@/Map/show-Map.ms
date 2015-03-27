@@ -15,7 +15,7 @@ impl! show Map
 		m =
 			1 -> 2
 		[ m ] -> "\n\t1 -> 2"
-		\ TODO:SYNTAX [ m repr. ]
+		# TODO:SYNTAX [ m repr. ]
 		[ m (repr. true) ] -> "
 			Hash-Map!
 				1 -> 2

@@ -18,7 +18,7 @@ Hash-Map = Alias-Type
 self-kind! Hash-Map Map-Type
 self-impl! empty Hash-Map (thunk (freeze (empty Hash-Map!
 
-\ TODO: MOVE?
+# TODO: MOVE?
 p+! ms "map" |...args
 	hm = empty Hash-Map!
 	makeMap hm assoc! args

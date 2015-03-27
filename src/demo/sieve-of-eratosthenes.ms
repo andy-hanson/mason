@@ -16,7 +16,7 @@ use-debug
 	..Bool not
 	..math.Num divisible?
 
-\ http://stackoverflow.com/questions/13463417/the-genuine-sieve-of-eratosthenes-in-python-why-is-heapq-slower-than-dict
+# http://stackoverflow.com/questions/13463417/the-genuine-sieve-of-eratosthenes-in-python-why-is-heapq-slower-than-dict
 primes.
 	doc. "Infinite Seq of Num > 2, each divisible only by itself and one."
 	test. |
@@ -26,11 +26,11 @@ primes.
 	Stream ~|
 		<~ 2
 		<~ 3
-		\ Maps a composite number to its prime factors.
+		# Maps a composite number to its prime factors.
 		prime-factors = => Id-Map!
 			9 -> [ 3 ]
 		<~~ each~ (range 5 infinity 2) ~|candidate
-			\ un-assoc! is to save memory - we won't need to look up this value any more.
+			# un-assoc! is to save memory - we won't need to look up this value any more.
 			case! un-assoc! prime-factors candidate
 				empty?_
 					<~ candidate

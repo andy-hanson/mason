@@ -24,11 +24,11 @@ Alias-Type. Obj-Type
 
 kind! Alias-Type Type
 
-\ TODO: impl-delegate!
+# TODO: impl-delegate!
 impl! contains? Alias-Type |_ value
 	contains? _.alias-of value
 
-\ TODO: impl-delegate!
+# TODO: impl-delegate!
 impl! sub Alias-Type
 	test. |
 		?2 = Alias-Type

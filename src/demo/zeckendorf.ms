@@ -23,9 +23,9 @@ zeckendorf.
 		[ 19 ] -> "101001"
 		[ 1111 ] -> "100001010000001"
 	|n:Nat
-		z-fibs = tail fibs \ Don't include the first `1`, so `[ 1 2 3 5 8 ... ]`.
+		z-fibs = tail fibs # Don't include the first `1`, so `[ 1 2 3 5 8 ... ]`.
 		candidate-fibs = reverse (take-while z-fibs |_
-			<=? _ n \ Highest numbers go first
+			<=? _ n # Highest numbers go first
 		mapped folded = fold-map candidate-fibs n |left fib
 			case fib
 				<=? _ left
@@ -34,5 +34,5 @@ zeckendorf.
 				else
 					here. 0
 					next. left
-		! =? 0 folded \ We should have managed to add up to `n` exactly.
+		! =? 0 folded # We should have managed to add up to `n` exactly.
 		=> Str mapped

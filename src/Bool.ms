@@ -36,7 +36,7 @@ and.
 		[ true false ] -> false
 		[ true true ] -> true
 		[ true true false ] -> false
-		\ No need to run any condition after false.
+		# No need to run any condition after false.
 		[ true false ~(oh-no!()) ] -> false
 	iAnd
 
@@ -48,7 +48,7 @@ nand.
 		[ true false ] -> true
 		[ true true ] -> false
 		[ true true false ] -> true
-		\ No need to run any condition after false.
+		# No need to run any condition after false.
 		[ true false ~(oh-no!()) ] -> true
 	|...args
 		not (and ...args
@@ -64,7 +64,7 @@ or.
 		[ true false ] -> true
 		[ true true ] -> true
 		[ false false true ] -> true
-		\ No need to run any condition after true.
+		# No need to run any condition after true.
 		[ false true ~(oh-no!()) ] -> true
 	iOr
 
@@ -76,7 +76,7 @@ nor.
 		[ true false ] -> false
 		[ true true ] -> false
 		[ false false true ] -> false
-		\ No need to run any condition after true.
+		# No need to run any condition after true.
 		[ false true ~(oh-no!()) ] -> false
 	|...args
 		not (or ...args)

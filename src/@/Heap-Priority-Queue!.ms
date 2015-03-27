@@ -41,7 +41,7 @@ kind! Heap-Priority-Queue! Priority-Queue!
 		iterator _.val
 
 region Implementation
-	\ We use a min-heap.
+	# We use a min-heap.
 	idx-left = |idx
 		+ 1 (* 2 idx
 	idx-right = |idx
@@ -53,7 +53,7 @@ region Implementation
 		heap.push em
 		fix-up! heap em
 
-	\ Smallest items should go at the top, so keep moving `val` up while it's smaller than its parent.
+	# Smallest items should go at the top, so keep moving `val` up while it's smaller than its parent.
 	fix-up! = |heap val
 		rec! = |idx
 			~ip = idx-parent idx
@@ -66,8 +66,8 @@ region Implementation
 					set-nth! heap idx val
 		rec! (- (count heap) 1
 
-	\ Keep moving `val` down while it's larger than either child.
-	\ Prefer moving to the left child because this is a left-leaning heap.
+	# Keep moving `val` down while it's larger than either child.
+	# Prefer moving to the left child because this is a left-leaning heap.
 	fix-down! = |heap val
 		size = count heap
 		rec! = |idx

@@ -50,7 +50,7 @@ kind! LList Seq
 						tail. f()
 		f()
 
-	\ For the concatenation of two LLists, we can just use the second as a tail.
+	# For the concatenation of two LLists, we can just use the second as a tail.
 	++' -> |a b
 		case b
 			:LList

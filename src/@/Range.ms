@@ -31,7 +31,7 @@ Range = Obj-Type
 	test. |
 		! seq=? [ 0 1 2 ] (take (range 0 infinity) 3
 
-\ TODO:SYNTAX
+# TODO:SYNTAX
 range. |-start-:Num -end-:Num ?step:Opt[Num]
 	-step- = opr ?step (sign (- -end- -start-
 	Range
@@ -80,13 +80,13 @@ kind! Range @
 					else
 						<~ _
 						set! cur (+ _ range.step
-			\ TODO:ES6 The following should be just as fast!
-			\f = ~|case
-			\	>=? _ range.end
-			\		()
-			\	else
-			\		<~ _
-			\		<~~ f (+ _ range.step
-			\f range.start
+			# TODO:ES6 The following should be just as fast!
+			#f = ~|case
+			#	>=? _ range.end
+			#		()
+			#	else
+			#		<~ _
+			#		<~~ f (+ _ range.step
+			#f range.start
 
 Range

@@ -27,7 +27,7 @@ use-debug
 
 doc. "For running code in `test` properties."
 
-\ TODO
+# TODO
 test. |
 	! =? [ "x" "y" "b" ] (build |yield
 		obj =
@@ -40,22 +40,22 @@ test. |
 			b. empty Obj!
 			self-impl! test-special b |
 				yield "b"
-			c. () \ not testable
+			c. () # not testable
 		@$maybe-test "obj" obj true
 
-\ TODO: Better name (but not `test`, because that's a common module property)
+# TODO: Better name (but not `test`, because that's a common module property)
 test-special. Method
 	doc. "
 		Something special to do with this value when the test runner reacher it.
 		May return a $.
 	default. noop
 
-\ TODO: MOVE THESE
+# TODO: MOVE THESE
 impl! test-special Impl-Type |type
 	$all (flat-map (?p type "prototype") |prototype
 		map (@p-all prototype) |name
-			\ Some prototype properties throw errors. For example, global.Map.size.
-			\ TODO:SYNTAX Inline fun
+			# Some prototype properties throw errors. For example, global.Map.size.
+			# TODO:SYNTAX Inline fun
 			x = try |
 				?p prototype name
 			case x
@@ -65,7 +65,7 @@ impl! test-special Impl-Type |type
 				else
 					()
 
-\ TODO: MOVE THESE
+# TODO: MOVE THESE
 impl! test-special Kind |_
 	a = @$-from-any ((impl-for test-special Impl-Type) _
 	b = flat-map (?p _ "implementor-test") |test:Fun
@@ -85,14 +85,14 @@ $test-module.
 	|module:Obj
 		$all (@$test-module module
 
-\ TODO:ES6 Use module reflection
+# TODO:ES6 Use module reflection
 @$test-module = |module:Obj
 	module-name = ?-or (?p module "displayName") "<anonymous module>"
 	@$maybe-test module-name module true
 
 all-tested = empty Id-Set!
 
-\ TODO: Better name
+# TODO: Better name
 @$maybe-test = |name:Str value is-module:Bool
 	case
 		all-tested.has value
@@ -119,9 +119,9 @@ all-tested = empty Id-Set!
 
 			++ (@$-from-any a) b
 
-@$test-test-prop = |value value-test name \TODO: ...test-args
-	\ Could be both Fun and ObjLit
-	\ TODO: No it can't
+@$test-test-prop = |value value-test name # TODO: ...test-args
+	# Could be both Fun and ObjLit
+	# TODO: No it can't
 	_ = value-test
 	@$a = flatten (if :Fun ~(@$test-test-fun value value-test name
 	@$b = flatten (if :ObjLit ~(flat-map @p_ |sub-name

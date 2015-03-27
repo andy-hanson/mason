@@ -30,12 +30,12 @@ export const AllKeywords = setUnion(
 	'undefined'
 ]))
 
-export const ReservedWords = new Set([ 'return' ])
+export const ReservedWords = new Set([ 'for', 'return' ])
 
 export const GroupKinds = new Set(['(', '[', '{', '->', 'ln', 'sp', '"'])
 export const GroupPres = setUnion(GroupKinds, new Set([')', ']', '}', '<-', 'close"']))
 
-export const ReservedCharacters = new Set('`#;,')
+export const ReservedCharacters = new Set('`;,%^&\\')
 
 export const GroupOpenToClose = new Map([
 	['(', ')'],
@@ -48,7 +48,7 @@ export const GroupOpenToClose = new Map([
 
 // Anything not explicitly reserved is a valid name character.
 // A `~` may appear in a name, but not at the beginning.
-export const isNameCharacter = (ch) => /[^()[\]{}\.:|_\ \\\n\t\""`#;,]/.test(ch)
+export const isNameCharacter = (ch) => /[^()[\]{}\.:|_\s\"`#;,]/.test(ch)
 
 export const defaultLoopName = 'anon-loop'
 

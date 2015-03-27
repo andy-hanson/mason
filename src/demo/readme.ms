@@ -44,7 +44,7 @@ test. |
 		. two
 	! =? my-list my-list-2
 	my-obj-2.
-		displayName. "my-obj" \ TODO:DISPLAYNAME
+		displayName. "my-obj" # TODO:DISPLAYNAME
 		one. 1
 		two. + 1 1
 	! =? my-obj my-obj-2
@@ -75,7 +75,7 @@ test. |
 	! =? (identity (pair (two-of 1) (two-of 2)))
 		first. [ 1 1 ]
 		second. [ 2 2 ]
-	(identity (pair (two-of 1) (two-of 2 \ Can leave off parens
+	(identity (pair (two-of 1) (two-of 2 # Can leave off parens
 
 	! seq=? [ 2 4 6 ] (map [1 2 3] |x
 		* x 2

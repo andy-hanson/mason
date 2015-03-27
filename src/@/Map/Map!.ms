@@ -30,10 +30,10 @@ Map! = Kind
 	implementor-test. |type
 		Mt = Wrap-Type
 			doc. "Mappable Thing; might be a Weak-Id-Map!, so must be a reference type."
-		\ Might be a Sorted-Map, so must be comparable.
+		# Might be a Sorted-Map, so must be comparable.
 		impl! compare Mt |a b
 			compare a.val b.val
-		\ => Array because these must maintain by their identity for Weak-Id-Map!
+		# => Array because these must maintain by their identity for Weak-Id-Map!
 		ks = => Array (map [ 1 3 5 4 2 ] Mt
 		noweak = |do
 			if! (not :Weak-Id-Map!) do
@@ -56,7 +56,7 @@ Map! = Kind
 			un-assoc*! _ ks
 			! empty? _
 
-		\ assoc! should overwrite previous values
+		# assoc! should overwrite previous values
 		zero = Mt 0
 		assoc! _ zero 0
 		assoc! _ zero 1

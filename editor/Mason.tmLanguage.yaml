@@ -83,7 +83,7 @@ patterns:
 
 - comment: Comment
   name: comment
-  begin: \s*\\
+  begin: '#'
   end: \n
   patterns:
   - name: invalid
@@ -168,7 +168,7 @@ patterns:
         '1':
           name: comment
     - name: comment
-      match: \\.*
+      match: '#.*'
 
 - comment: Local assignment
   name: variable.parameter

@@ -20,7 +20,7 @@ Id-Map! =
 		JavaScript's native Map type.
 		Only considers exactly identical keys =?; this makes it the fastest Map.
 	test. |
-		\ TODO: Just use generic Map! test
+		# TODO: Just use generic Map! test
 		_ = empty Id-Map!
 		assoc! _ 1 2
 		! =? _[1] 2
@@ -31,7 +31,7 @@ Id-Map! =
 		key-2 =
 			a. 1
 		assoc! _ key-2 4
-		\ The two keys have different identity, so they map to different values.
+		# The two keys have different identity, so they map to different values.
 		! =? _[key-1] 3
 		! =? _[key-2] 4
 

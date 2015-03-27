@@ -73,12 +73,12 @@ region Misc
 
 
 region Min/max
-	\ TODO: Method, specialize on Sorted-Set
+	# TODO: Method, specialize on Sorted-Set
 	max.
 		doc. "An element that is >=? all others. Fails when empty."
 		test. |
 			[ [ 1 3 2 ] ] -> 3
-			[ [ 2 1 2 ] ] -> 2 \ Doesn't have to be unique
+			[ [ 2 1 2 ] ] -> 2 # Doesn't have to be unique
 			! fails? |
 				max [ ]
 		|_:@
@@ -156,7 +156,7 @@ region Sorting
 			[ [ "five" "six" "seven" ] count ] -> [ "six" "five" "seven" ]
 		default. |:Array _:@ ?sort-by:Opt[Fun]
 			sort-by = opr ?sort-by identity
-			\ Ensure that we create a *new* Array!, because we're about to mutate it.
+			# Ensure that we create a *new* Array!, because we're about to mutate it.
 			sorted = from-stream Array! _
 			sorted.sort |a b
 				compare (sort-by a) (sort-by b

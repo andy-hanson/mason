@@ -46,7 +46,7 @@ can-get-p?.
 flag?.
 	doc. "If it has a property for the flag, uses that. Otherwise false."
 	test. |
-		\ TODO:SYNTAX (a.)
+		# TODO:SYNTAX (a.)
 		[ (a. true) "a" ] -> true
 		[ (a. false) "a" ] -> false
 		[ empty-Obj "a" ] -> false
@@ -72,11 +72,11 @@ flag?.
 			value. 0
 			enumerable. false
 		! seq=? (@p-all obj) [ "a" sym ]
-		\ But not "arguments" or "caller"
+		# But not "arguments" or "caller"
 		[ @p-all ] -> => Stream [ "length" "name" "prototype" "doc" "test" "displayName" ]
 	|:@[Obj-Key] _
 		props = Obj.getOwnPropertyNames _
-		\ TODO: case!, keep!
+		# TODO: case!, keep!
 		own-names = case
 			:Fun
 				keep props |name
@@ -114,7 +114,7 @@ flag?.
 			b. ()
 		[ x "a" ] -> ? 1
 		[ x "b" ] -> ? ()
-		\ Does not inherit from prototype.
+		# Does not inherit from prototype.
 		[ x "toString" ] -> empty ?
 	|_ name:Obj-Key
 		case
@@ -157,7 +157,7 @@ p?.
 		x = a. 1
 		[ x "a" ] -> true
 		[ x "b" ] -> false
-		[ x "toString" ] -> false \ use p-with-proto? for that.
+		[ x "toString" ] -> false # use p-with-proto? for that.
 	|_ name:Obj-Key
 		and can-get-p?_ ~(Obj.prototype.hasOwnProperty.call _ name
 
@@ -168,7 +168,7 @@ p-with-proto?.
 	|_ name:Obj-Key
 		and can-get-p?_ ~(defined? (js-sub _ name
 
-\ TODO: Handle recursive references.
+# TODO: Handle recursive references.
 obj=?.
 	doc. "
 		For Objs, whether they are of the same type and have `=?` properties.
@@ -177,7 +177,7 @@ obj=?.
 		a =
 			a. 1
 		b =
-			\ TODO:DISPLAYNAME
+			# TODO:DISPLAYNAME
 			displayName. "a"
 			a. 1
 		c =
@@ -185,13 +185,13 @@ obj=?.
 		[ a b ] -> true
 		[ a c ] -> false
 		[ 1 1 ] -> true
-		\ For functions, is identity
+		# For functions, is identity
 		[ obj=? obj=? ] -> true
 	|:Bool a b
-		\ Necessary because `js-typeof null` is "object"
+		# Necessary because `js-typeof null` is "object"
 		null-a = id=? a ()
 		null-b = id=? b ()
-		\ TODO: Not :Obj because that currently also includes Funs
+		# TODO: Not :Obj because that currently also includes Funs
 		obj-a = and (not null-a) ~(id=? (js-typeof a) "object"
 		obj-b = and (not null-b) ~(id=? (js-typeof b) "object"
 		case
@@ -230,7 +230,7 @@ Obj->Map.
 Map->Obj.
 	doc. "Given a Map whose keys are Strs, creates an Obj whose Obj->Map is that."
 	test. |
-		\ TODO:SYNTAX [ "a" -> 1, "b" -> 2 ]
+		# TODO:SYNTAX [ "a" -> 1, "b" -> 2 ]
 		map =
 			"a" -> 1
 			"b" -> 2

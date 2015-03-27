@@ -26,8 +26,8 @@ op = |op-name
 unary-op = |op-name
 	Fun "_" "return {op-name} _"
 
-js&. op "&"
-js^. op "^"
+js-and. op "&"
+js-caret. op "^"
 js<<. op "<<"
 js>>. op ">>"
 js>>>. op ">>>"
@@ -41,7 +41,7 @@ js+. op "+"
 js-. op "-"
 js*. op "*"
 js/. op "/"
-js%. op "%"
+js-mod. op "%"
 js-bar. op "|"
 js~. unary-op "~"
 js!. unary-op "!"
@@ -50,7 +50,7 @@ js-set. Fun "obj" "prop" "val" "obj[prop] = val"
 js-delete. Fun "obj" "prop" "delete obj[prop]"
 js-instanceof. op "instanceof"
 
-\ TODO:ES6 `undefined` constant.
+# TODO:ES6 `undefined` constant.
 defined?.
 	doc. "True for any value except `undefined`."
 	test. |
@@ -123,7 +123,7 @@ apply-with-this.
 			+ this a
 		[ f 1 [ 2 ] ] -> 3
 	|f:Fun new-this arguments:@
-		\ TODO:ES6 ...args
+		# TODO:ES6 ...args
 		Fun.prototype.apply.call f new-this (=> Array arguments)
 
 call-with-this.

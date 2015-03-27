@@ -40,7 +40,7 @@ kind! Hash-Set! Set!
 	empty! -> |_
 		empty! _.data
 
-\ TODO: This should not be necessary!
+# TODO: This should not be necessary!
 impl! =? Hash-Set! (impl-for =? Set)
 
 Hash-Set!

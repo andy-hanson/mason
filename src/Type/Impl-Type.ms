@@ -29,12 +29,12 @@ Impl-Type. Kind
 		! kind? C A
 		!not kind? A B
 
-unchecked-kind! Obj-Type Impl-Type \ Obj-Type isa Obj-Type, so can't use kind!
-unchecked-kind! Fun Impl-Type \ Fun isa Fun, so can't use kind!
+unchecked-kind! Obj-Type Impl-Type # Obj-Type isa Obj-Type, so can't use kind!
+unchecked-kind! Fun Impl-Type # Fun isa Fun, so can't use kind!
 kind! Kind Impl-Type
 
 region Self-Type
-	\ TODO: Wrap-Type (and make 'prototype' a Method, not a property)
+	# TODO: Wrap-Type (and make 'prototype' a Method, not a property)
 	Self-Type. Obj-Type
 		doc. "
 			Impl-Type with exactly one member.

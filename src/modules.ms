@@ -4,10 +4,10 @@ use
 	.compare sort
 	.js new
 
-\ TODO: Portability
+# TODO: Portability
 commonJS-require. `require`
 
-\ TODO: Syntax for old CommonJS requires?
+# TODO: Syntax for old CommonJS requires?
 path = commonJS-require "path"
 fs = commonJS-require "q-io/fs"
 
@@ -29,10 +29,10 @@ $@module-in-dir.
 		$after (q->es6-promise (fs.listTree dir-path)) |@file
 			@js = keep @file |_
 				_.endsWith ".js"
-			\ Sort so that modules load in deterministic order.
+			# Sort so that modules load in deterministic order.
 			map' (sort @js) get-module
 
-\ TODO: Don't want dependency on `q`
+# TODO: Don't want dependency on `q`
 q->es6-promise = |q-promise
 	new $ |resolve reject
 		q-promise.then resolve

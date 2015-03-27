@@ -164,10 +164,10 @@ region $
 		$test. ~|
 			! =? (Success 1) (<~ $try ($resolved 1
 			! =? "a" (<~ ($try ($rejected "a"))).message
-			\ $rejected but with non-error:
+			# $rejected but with non-error:
 			! =? "a" (<~ ($try ($.reject "a"))).message
 		|:$[Try] _:$
-			\ =>[Error] because it's possible for a Promise to reject with a non-Error.
+			# =>[Error] because it's possible for a Promise to reject with a non-Error.
 			$catch ($after _ Success) =>[Error]
 
 	$catch.

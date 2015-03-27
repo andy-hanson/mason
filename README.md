@@ -4,6 +4,23 @@ Mason is a language compiling to JavaScript that makes creating declarative data
 It is currently in progress.
 
 
+### Running
+
+Use one console to build continuously:
+
+	npm install; ./gulp
+
+And in the other console, `./run` will run all tests.
+
+
+### Editing
+
+Go to `editor` and run `./gen-tmLanguage`.
+Then put the resulting `Mason.tmLanguage` wherever is appropriate.
+
+Sublime Text 3 users: `./gen-tmLanguage; cp ./Mason.tmLanguage ~/.config/sublime-text-3/Packages/User/Mason.tmLanguage`
+
+
 ### Names
 
 A name is sequence of characters not containing any of:
@@ -587,28 +604,3 @@ Looks like | Means | Example
 `~a` | Lazy - *not* a convention. | `and a ~b`
 
 An optional promise is `?$a`; a promise for an option is `$?a`.
-
-
-### Running
-
-Use one console to build continuously:
-
-	npm install; ./gulp
-
-And in the other console, `./run` will run all tests.
-
-
-### Editing
-
-Go to `editor` and run `./gen-tmLanguage`.
-Then put the resulting `Mason.tmLanguage` wherever is appropriate.
-
-Sublime Text 3 users: `./gen-tmLanguage; cp ./Mason.tmLanguage ~/.config/sublime-text-3/Packages/User/Mason.tmLanguage`
-
-
-### License
-
-DO WHATEVER THE FUCK YOU WANT, PUBLIC LICENSE
-TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
-
-0. You just DO WHATEVER THE FUCK YOU WANT.

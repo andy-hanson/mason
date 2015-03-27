@@ -28,14 +28,14 @@ show = Method
 			This is the method called when you do `\{...}`.
 			For a more detailed Str representation of data, use `inspect`.
 	test. |
-		\ TODO: How to not include displayName
+		# TODO: How to not include displayName
 		a =
 			~x. a
 		[ a ] -> "
 			Obj
 				x. <recursive>
 				displayName. a
-		\ TODO:SYNTAX [ a repr. ]
+		# TODO:SYNTAX [ a repr. ]
 		[ a (repr. true) ] -> "
 			Obj
 				x. <recursive>
@@ -58,7 +58,7 @@ show = Method
 			=? _ undefined
 				"undefined"
 			else
-				\ Don't show "prototype" because that is treated as an instance of itself and causes errors.
+				# Don't show "prototype" because that is treated as an instance of itself and causes errors.
 				props = -- @p_ [ "prototype" ]
 				key-vals = => Array (map props |key
 					val:Str = show (p _ key) opts
@@ -72,14 +72,14 @@ repr.
 		Shows it with the `repr` flag set.
 		For debug printing, there is the helper function `console.dbg!`.
 	|_
-		\ TODO:SYNTAX (repr.)
+		# TODO:SYNTAX (repr.)
 		show _ (repr. true)
 
 spread! impl! show
 	Str ->
 		test. |
 			[ "a" ] -> "a"
-			\ TODO:SYNTAX [ "a" repr. ]
+			# TODO:SYNTAX [ "a" repr. ]
 			[ "a" (repr. true) ] -> "\"a\""
 		|_ opts
 			case
@@ -98,11 +98,11 @@ spread! impl! show
 
 	Symbol ->
 		test. |
-			\ TODO:ES6
-			\ [ (Symbol "name") ] -> "<Symbol name>"
+			# TODO:ES6
+			# [ (Symbol "name") ] -> "<Symbol name>"
 			[ (Symbol "name") ] -> "<Symbol>"
 		|
-			\ TODO:ES6 _.name
+			# TODO:ES6 _.name
 			"<Symbol>"
 
 	Bool ->
@@ -124,7 +124,7 @@ spread! impl! show
 			[ (Fun "" "") ] -> "<anonymous Fun>"
 		|:Str _
 			?-or (?p _ "displayName") ~
-				\ Every function has name property - empty string means anonymous function.
+				# Every function has name property - empty string means anonymous function.
 				name = p _ "name"
 				case name
 					empty?_

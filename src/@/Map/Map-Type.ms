@@ -16,7 +16,7 @@ Map-Type = Kind
 
 kind! Map-Type @-Type
 
-\ TODO: Do this in index.ms
+# TODO: Do this in index.ms
 self-kind! Map Map-Type
 self-impl! empty Map |
 	empty Hash-Map!
@@ -25,7 +25,7 @@ impl! sub Map-Type identity
 
 impl! from-stream Map-Type
 	test. |
-		\ TODO: Better test
+		# TODO: Better test
 		m =
 			1 -> 2
 			3 -> 4

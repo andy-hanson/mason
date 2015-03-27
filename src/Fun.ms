@@ -75,7 +75,7 @@ fun-copy.
 		! =? (f1 1) (f2 1)
 
 	|_:Fun
-		\ Fill in `this` as null.
+		# Fill in `this` as null.
 		Fun.prototype.call.bind _ ()
 
 identity.
@@ -91,7 +91,7 @@ noop.
 		()
 
 region Memoize
-	\ TODO: perf.ms?
+	# TODO: perf.ms?
 	id-memoize.
 		doc. "
 			When an Obj is passed into `fun`, stores the result in a `Weak-Id-Map!`
@@ -124,13 +124,13 @@ region Memoize
 				get-a = hash-memoize |x
 					yield x.a
 					x.a
-				a1 = call | \ TODO:DISPLAYNAME
+				a1 = call | # TODO:DISPLAYNAME
 					a. 1
 				! =? (get-a a1) 1
 				! =? (get-a a1) 1
 				a2 = a. 2
 				! =? (get-a a2) 2
-				a1b = call | \ TODO:DISPLAYNAME
+				a1b = call | # TODO:DISPLAYNAME
 					a. 1
 				! =? a1 a1b
 				! =? (get-a a1b) 1
@@ -164,9 +164,9 @@ spread.
 		! seq=? z
 			. [ 1 2 "three" 4 ]
 			. [ 1 2 "five" 6 ]
-			. [ 1 2 "displayName" "z" ] \ TODO:DISPLAYNAME
+			. [ 1 2 "displayName" "z" ] # TODO:DISPLAYNAME
 
-	\ TODO:SYNTAX Non-last rest arg?
+	# TODO:ES6 Non-last rest arg?
 	|:@ fun:Fun ...args
 		init-args = rtail args
 		last-arg = last args
@@ -220,7 +220,7 @@ curry =
 	iCurry
 
 impl! sub Fun curry
-\ TODO: Make Method a Callable
+# TODO: Make Method a Callable
 impl! sub Method curry
 
 self-impl! sub Fun

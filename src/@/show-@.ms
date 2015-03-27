@@ -20,7 +20,7 @@ impl! show @
 			\n\t. 1
 				. 2
 				. 3
-		\ TODO:SYNTAX [ d repr. ]
+		# TODO:SYNTAX [ d repr. ]
 		[ d (repr. true) ] -> "
 			=> Deque!
 				. 1
@@ -54,5 +54,5 @@ impl! show @
 			else
 				content
 
-\ Explicit impl!s for Array so that it doesn't act like a Map
+# TODO:KLUDGE Explicit impl!s for Array so that it doesn't act like a Map
 impl! show Array (impl-for show @)

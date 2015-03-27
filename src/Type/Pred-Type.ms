@@ -68,7 +68,7 @@ ObjLit. Pred-Type
 Union.
 	doc. "Type that matches one of several types. Analogous to `or`."
 	test. |
-		\ Note that as these are all Impl-Types it would be better to use a Kind.
+		# As these are all Impl-Types, it would be better to use a Kind.
 		SBN = Union[Str Bool Num]
 		! =? SBN.displayName "Union[Str Bool Num]"
 		! contains? SBN "true"

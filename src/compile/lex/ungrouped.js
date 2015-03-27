@@ -22,6 +22,7 @@ const
 	Bar = cc('|'),
 	Underscore = cc('_'),
 	Backslash = cc('\\'),
+	Hash = cc('#'),
 	Newline = cc('\n'),
 	Backtick = cc('`'),
 	Quote = cc('"'),
@@ -109,7 +110,7 @@ export default function* lexPlain(opts, stream, isInQuote) {
 			case Underscore:
 				yield keyword('_')
 				break
-			case Backslash:
+			case Hash:
 				stream.takeUpTo('\n')
 				break
 			case Newline: {

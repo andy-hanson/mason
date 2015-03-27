@@ -4,7 +4,7 @@ use~
 	.control opr
 	.Str
 
-\ TODO: Probably use xregexp
+# TODO: Probably use xregexp
 
 Regex. global.RegExp
 

@@ -31,7 +31,7 @@ from-stream. Method
 		returning (empty type) |_
 			++! _ stream
 
-\ TODO: Do this in index.ms
+# TODO: Do this in index.ms
 self-kind! @ @-Type
 self-impl! empty @ |
 	empty Array

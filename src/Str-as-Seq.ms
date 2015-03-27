@@ -17,14 +17,14 @@ use-debug
 	.compare =?
 	.Fun identity
 
-\ TODO: Move
+# TODO: Move
 
 test. |
 	! =? [ "1" "2" "3" ] (map "123" identity)
 
 self-kind! Str @-Type
 	empty -> thunk ""
-	\ TODO
+	# TODO
 	from-stream -> |_
 		from-stream Array _
 
@@ -40,6 +40,6 @@ impl-double! => (self-type Str) @
 kind! Str Seq
 	count -> |_
 		_.length
-	\ TODO:ES6 should be built-in
-	\ TODO: How does this handle Unicode?
+	# TODO:ES6 should be built-in
+	# TODO: How does this handle Unicode?
 	iterator -> impl-for iterator Array

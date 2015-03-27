@@ -15,7 +15,7 @@ use-debug
 make-word-from-blocks.
 	doc. "http://rosettacode.org/wiki/ABC_Problem"
 	test. |
-		\ Backtracking is necessary - can't use the first block first!
+		# Backtracking is necessary - can't use the first block first!
 		[ "AB" [ "AB" "AC" ] ] -> ? (=> Stream [ "AC" "AB" ]
 
 		sample-blocks =

@@ -33,7 +33,7 @@ $ =
 self-impl! sub $ |
 	$
 
-\ See also $ section in Try.ms.
+# See also $ section in Try.ms.
 
 $done.
 	doc. "
@@ -43,7 +43,7 @@ $done.
 		This is probably a kludge. See <http://blog.soareschen.com/the-problem-with-es6-promises>.
 	|_:$
 		$catch _ |err
-			\ Don't use log! because there if errors happen in there, the error disappears!
+			# Don't use log! because there if errors happen in there, the error disappears!
 			global.console.log "
 				{err.stack}
 				{red "==="}
@@ -57,7 +57,7 @@ $fail-after-time.
 		! =? a.message "Took longer than 1 milliseconds."
 		! =? 1 (<~ $fail-after-time $x 200
 	|:$ _:$ time-ms:Num
-		\ TODO:ES6 Shouldn't need `new`
+		# TODO:ES6 Shouldn't need `new`
 		new $ |resolve reject
 			$after _ resolve
 			timeout = |
@@ -86,7 +86,7 @@ $rejected.
 		$ing ~|
 			r = $rejected "a"
 			! =? "a" (<~ $try r).message
-			\ $after will be ignored
+			# $after will be ignored
 			b <~ $try ($after r |
 				oh-no! "b"
 			! =? "a" b.message

@@ -25,7 +25,7 @@ Js-Method = Obj-Type
 	extensible.
 	make-callable. |_
 		impl = "a[\"{_.impl-name}\"]"
-		\ TODO:ES6 "return target.name(...args)"
+		# TODO:ES6 "return target.name(...args)"
 		Fun "a" "b" "c" "d" "
 			switch (arguments.length) \{
 				case 0: throw new Error("Js-Methods always need at least one argument.")
@@ -47,6 +47,6 @@ send.
 
 send!. send
 
-\ TODO: Make impl!-able.
+# TODO: Make impl!-able.
 
 Js-Method

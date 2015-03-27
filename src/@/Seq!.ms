@@ -23,7 +23,7 @@ Seq! = Kind
 		Array!s can efficiently change existing elements and add new ones on the right.
 		Deque!s are like Arrays, but can add new values on the left.
 	implementor-test. |type
-		\ KLUDGE because Array and Array! are the same thing
+		# KLUDGE because Array and Array! are the same thing
 		_ = case type
 			=? _ Array
 				empty Array!

@@ -38,8 +38,8 @@ group.
 		[ @sample show ] ->
 			"1" -> [ 1 "1" ]
 			"2" -> [ 2 "2" ]
-		\ Each map value is a subset of it.
-		\ You shouldn't use `group-by` if all you need is `keep`.
+		# Each map value is a subset of it.
+		# You shouldn't use `group-by` if all you need is `keep`.
 		! seq=? (group @sample show)["1"] (keep @sample |_
 			=? show_ "1"
 	|@value:@ group-by:Fun

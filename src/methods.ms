@@ -8,15 +8,15 @@ region Basics
 	p+! ms "sub" sub
 
 region Unsorted
-	\ TODO: Move these?
+	# TODO: Move these?
 	freeze. Method
 		doc. "
 			Returns a compacted and immutable version of it.
 			Does not have to return the same value, but often does.
-		\ TODO: Lazy default?
+		# TODO: Lazy default?
 		default. |_
 			Obj.freeze _
-	\ TODO: Lazy export?
+	# TODO: Lazy export?
 	frozen?. |_
 		Obj.isFrozen _
 

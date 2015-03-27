@@ -3,7 +3,7 @@ use
 	..compare =? <? <=? compare
 	..control opr
 	..Obj p
-	..js global id=? js-bar js< js<= js+ js- js* js/ js%
+	..js global id=? js-bar js< js<= js+ js- js* js/ js-mod
 	..Type.Method impl!
 	..Type.Pred-Type _ Opt
 	.methods + - * /
@@ -92,7 +92,7 @@ region Integer arithmetic
 			[ -2 3 ] -> -2
 			[ -2 -3 ] -> -2
 		|numerator:Num denominator:Num
-			js% numerator denominator
+			js-mod numerator denominator
 
 	int/.
 		doc. "
@@ -214,7 +214,7 @@ region Near
 			[ 1000.9 1000 4 ] -> false
 			[ 0.001001 0.001 3 ] -> true
 			[ 0.001001 0.001 4 ] -> false
-			[ 0.001 -0.001 1 ] -> false \ Numbers with different signs are never near.
+			[ 0.001 -0.001 1 ] -> false # Numbers with different signs are never near.
 			region Behaves like `near-0?` when an arg is 0
 				[ 0.00999 0 2 ] -> true
 				[ 0 0.00999 2 ] -> true
@@ -242,7 +242,7 @@ region Near
 			[ 0.01 2 ] -> false
 		|_ ?sig-figs:Opt[Nat]
 			sig-figs = opr ?sig-figs 6
-			\ This is more accurate than `pow 0.1 sig-figs`
+			# This is more accurate than `pow 0.1 sig-figs`
 			max = pow 10 (* -1 sig-figs)
 			<? abs_ max
 
