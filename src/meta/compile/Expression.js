@@ -101,11 +101,8 @@ export const CaseVal = ev('CaseVal', {
 	opElse: Op(BlockBody)
 })
 
-
 // Statements
-export const Debugger = ed('Debugger', { })
 export const BlockWrap = ev('BlockWrap', { body: BlockBody })
-
 export const Loop = ed('Loop', { body: BlockBody })
 export const EndLoop = ed('EndLoop', { })
 
@@ -137,10 +134,11 @@ export const ELiteral = ev('Literal', { value: String, k: new Set([Number, Strin
 export const Member = ev('Member', { object: Val, name: String })
 export const Quote = ev('Quote', { parts: [Val] })
 
-const KSpecial = setUnion(SpecialKeywords, [ 'contains', 'true', 'null', 'sub' ])
+const KSpecial = setUnion(SpecialKeywords, [ 'contains', 'debugger', 'null', 'sub', 'true' ])
 export const Special = ev('Special', { k: KSpecial })
 Object.assign(Special, {
 	contains: span => Special({ span, k: 'contains' }),
+	debugger: span => Special({ span, k: 'debugger' }),
 	null: span => Special({ span, k: 'null' }),
 	sub: span => Special({ span, k: 'sub' }),
 	true: span => Special({ span, k: 'true' })

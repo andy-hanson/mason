@@ -1,6 +1,6 @@
 import assert from 'assert'
 import check, { warnIf } from '../check'
-import E, { Assign, AssignDestructure, BlockWrap, Call, Debug, Debugger, ObjReturn,
+import E, { Assign, AssignDestructure, BlockWrap, Call, Debug, ObjReturn,
 	Fun, EndLoop, ListEntry, Loop, MapEntry, Special, Yield, YieldTo } from '../Expression'
 import { defaultLoopName, LineSplitKeywords } from '../Lang'
 import { Group, Keyword, Name } from '../Token'
@@ -41,7 +41,7 @@ export default function parseLine(px) {
 					Debug(px.s({ lines: px.w(rest, parseLineOrLines) }))
 			case 'debugger':
 				px.checkEmpty(rest, () => `Did not expect anything after ${h}`)
-				return Debugger(px.s({}))
+				return Special.debugger(px.span)
 			case 'end-loop!':
 				check(rest.isEmpty(), () => `Did not expect anything after ${h}`)
 				return EndLoop(px.s({}))

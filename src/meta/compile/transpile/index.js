@@ -102,7 +102,6 @@ const transpileSubtree = implementMany(EExports, 'transpileSubtree', {
 	Debug: (_, tx) => tx.opts.includeInoutChecks() ?
 		flatMap(_.lines, line => toStatements(t(tx)(line))) :
 		emptyStatement(),
-	Debugger: () => debuggerStatement(),
 	ObjReturn(_, tx) {
 		const nonDebugKeys = _.keys
 		// TODO: includeTypeChecks() is not the right method for this
@@ -221,6 +220,7 @@ const transpileSubtree = implementMany(EExports, 'transpileSubtree', {
 		// Make new objects because we will assign `loc` to them.
 		switch (_.k) {
 			case 'contains': return member(IdMs, 'contains')
+			case 'debugger': return debuggerStatement()
 			case 'null': return literal(null)
 			case 'sub': return member(IdMs, 'sub')
 			case 'this': return 	thisExpression()

@@ -114,7 +114,6 @@ implementMany(EExports, 'verify', {
 	AssignDestructure(_, vx) { vm(vx, cons(_.value, _.assignees)) },
 	Call(_, vx) { vm(vx, cons(_.called, _.args)) },
 	CasePart(_, vx) { vm(vx, [_.test, _.result]) },
-	Debugger() { },
 	ObjReturn(_, vx) { vm(vx, _.opObjed) },
 	ObjSimple(_, vx) {
 		Object.getOwnPropertyNames(_.keysVals).forEach(key => v(vx)(_.keysVals[key]))
