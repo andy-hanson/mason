@@ -1,10 +1,10 @@
 import assert from 'assert'
 import check from '../check'
-import { Assign, BlockBody, BlockWrap, Debug, ObjReturn, ListEntry, ListReturn, ELiteral,
+import { Assign, Block, BlockWrap, Debug, ObjReturn, ListEntry, ListReturn, ELiteral,
 		LocalDeclare, MapReturn, MapEntry, Module, ModuleDefaultExport, Val } from '../Expression'
 import { Group, Keyword } from '../Token'
 import { lazy, set } from '../U'
-import { isEmpty, last, rtail } from '../U/Bag'
+import { cat, isEmpty, last, rtail } from '../U/Bag'
 import { None, some } from '../U/Op'
 import type from '../U/type'
 import Px from './Px'
@@ -15,7 +15,7 @@ const KParseBlock = new Set(['any', 'do', 'val', 'module'])
 
 // TODO:RENAME
 export function wrap(px, k) {
-	return BlockWrap(px.s({ body: parseBody(px, k) }))
+	return BlockWrap(px.s({ block: parseBody(px, k) }))
 }
 
 export function justBlock(px, k) {
@@ -105,21 +105,16 @@ export function parseBody(px, k) {
 
 	if (isModule) {
 		// TODO: Handle debug-only exports
-		const moduleLines =
+		const lines =
 			// Turn Obj assigns into exports.
-			doLines.map(line =>
-				line instanceof Assign && line.k === '. ' ? set(line, 'k', 'export') : line
-			).concat(opReturn.map(ret => ModuleDefaultExport({ span: ret.span, value: ret })))
-
-		return BlockBody(px.s({
-			lines: moduleLines,
-			opReturn: None,
-			opIn,
-			opOut
-		}))
+			cat(
+				doLines.map(line =>
+					line instanceof Assign && line.k === '. ' ? set(line, 'k', 'export') : line),
+				opReturn.map(ret => ModuleDefaultExport({ span: ret.span, value: ret })))
+		return Block(px.s({ lines, opReturn: None, opIn, opOut }))
 	}
 	else
-		return BlockBody(px.s({ lines: doLines, opReturn, opIn, opOut }))
+		return Block(px.s({ lines: doLines, opReturn, opIn, opOut }))
 }
 
 function tryTakeInOut(px) {

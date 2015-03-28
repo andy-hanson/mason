@@ -2,6 +2,7 @@ import check, { fail } from '../check'
 import { Call, Lazy, LocalAccess, Member } from '../Expression'
 import { DotName, Group, Keyword } from '../Token'
 import { code, lazy } from '../U'
+import { unshift } from '../U/Bag'
 import type from '../U/type'
 import Px from './Px'
 const
@@ -31,7 +32,7 @@ export default function parseSpaced(px) {
 							fail(span, 'Too many dots!')
 					}
 				else if (Group.is('[')(t))
-					return Call.sub(span, e, px.w(t.tokens, parseExpr_().parseExprParts))
+					return Call.sub(span, unshift(e, px.w(t.tokens, parseExpr_().parseExprParts)))
 				else if (Group.is('(')(t))
 					return Call({ span, called: e, args: [] })
 				else fail(span, `Expected member or sub, not ${t}`)

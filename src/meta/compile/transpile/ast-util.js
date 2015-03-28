@@ -4,10 +4,9 @@ const { blockStatement, expressionStatement, functionExpression, identifier, lit
 	memberExpression, returnStatement, variableDeclaration, variableDeclarator } = builders
 const { Statement } = namedTypes
 import { generate } from 'escodegen'
-import Expression, { Do, BlockBody, Fun, LocalDeclare } from '../Expression'
+import Expression, { Do, Fun, LocalDeclare } from '../Expression'
 import Span from '../Span'
 import { ifElse, None, some } from '../U/Op'
-import { interleave } from '../U/Bag'
 import type from '../U/type'
 import { renderExpr } from './index'
 import mangle, { needsMangle } from './mangle'
@@ -38,4 +37,4 @@ export function declare(name, val) {
 
 export const toStatement = _ => Statement.check(_) ? _ : expressionStatement(_)
 
-export const toStatements = _ => _ instanceof Array ? _.map(toStatement) : toStatement(_)
+export const toStatements = _ => _ instanceof Array ? _.map(toStatement) : [ toStatement(_) ]

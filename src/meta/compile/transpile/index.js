@@ -13,7 +13,7 @@ import Opts from '../Opts'
 import Span from '../Span'
 import { implementMany, isPositive, log } from '../U'
 import { ifElse, None, some } from '../U/Op'
-import { cons, flatMap, interleave, interleavePlus, isEmpty, range, rcons, tail } from '../U/Bag'
+import { cat, cons, flatMap, isEmpty, push, range, tail, unshift } from '../U/Bag'
 import type from '../U/type'
 import Vr from '../Vr'
 import { astYield, astYieldTo, declare, idMangle, member,
@@ -33,7 +33,7 @@ const t = (tx, arg) => expr => {
 	const ast = transpileSubtree(expr, tx, arg)
 	function appendLoc(_) { _.loc = expr.span }
 	if (ast instanceof Array)
-		// This is only allowed inside of BlockBody-s, which use `toStatements`.
+		// This is only allowed inside of Blocks, which use `toStatements`.
 		ast.forEach(appendLoc)
 	else
 		appendLoc(ast)
@@ -45,7 +45,7 @@ const transpileSubtree = implementMany(EExports, 'transpileSubtree', {
 	// TODO:ES6 Just use native destructuring assign
 	AssignDestructure: (_, tx) =>
 		makeAssignDestructure(tx, _.span, _.assignees, _.isLazy, t(tx)(_.value), _.k, false),
-	BlockBody(_, tx, opResCheck) {
+	Block(_, tx, opResCheck) {
 		if (opResCheck === undefined)
 			opResCheck = []
 
@@ -68,7 +68,7 @@ const transpileSubtree = implementMany(EExports, 'transpileSubtree', {
 			return blockStatement(_in.concat(body, ret))
 		}
 	},
-	BlockWrap: (_, tx) => blockWrap(_, tx, t(tx)(_.body)),
+	BlockWrap: (_, tx) => blockWrap(_, tx, t(tx)(_.block)),
 	Call(_, tx) {
 		const anySplat = _.args.some(arg => arg instanceof EExports.Splat)
 		if (anySplat) {
@@ -108,16 +108,16 @@ const transpileSubtree = implementMany(EExports, 'transpileSubtree', {
 		const keys = tx.opts.includeTypeChecks() ? _.keys.concat(_.debugKeys) : _.keys
 		return ifElse(_.opObjed,
 			objed => {
-				const d = t(tx)(objed)
+				const astObjed = t(tx)(objed)
 				if (isEmpty(keys)) {
 					assert(isEmpty(nonDebugKeys))
-					return d
+					return astObjed
 				} else {
-					const keysVals = flatMap(keys, key => [
-						literal(key.name), accessLocal(key.name, false)
-					]).concat(flatMap(_.opDisplayName, dn => [LitStrDisplayName, literal(dn)]))
+					const keysVals = cat(
+						flatMap(keys, key => [ literal(key.name), accessLocal(key.name, false) ]),
+						flatMap(_.opDisplayName, dn => [LitStrDisplayName, literal(dn)]))
 					const anyLazy = keys.some(key => key.isLazy)
-					const args = [d].concat(keysVals)
+					const args = unshift(astObjed, keysVals)
 					return (anyLazy ? msLset : msSet)(args)
 				}
 			},
@@ -133,7 +133,7 @@ const transpileSubtree = implementMany(EExports, 'transpileSubtree', {
 				})
 				const opPropDisplayName = _.opDisplayName.map(dn =>
 					property('init', IdDisplayName, literal(dn)))
-				return objectExpression(props.concat(opPropDisplayName))
+				return objectExpression(cat(props, opPropDisplayName))
 			})
 	},
 	ObjSimple: (_, tx) =>
@@ -156,7 +156,7 @@ const transpileSubtree = implementMany(EExports, 'transpileSubtree', {
 			declare(rest.name, callExpression(IdArraySliceCall, [IdArguments, nArgs])))
 		const checks = flatMap(_.args, arg => opLocalCheck(tx, arg, arg.isLazy))
 		const body = t(tx, opResCheck)(_.block)
-		const parts = opDeclareRest.concat(checks).concat([body])
+		const parts = push(cat(opDeclareRest, checks), body)
 		const block = blockStatement(parts)
 		return functionExpression(null, _.args.map(t(tx)), block, !(_.k === '|'))
 	},
@@ -184,7 +184,7 @@ const transpileSubtree = implementMany(EExports, 'transpileSubtree', {
 	LocalDeclare: _ => accessLocal(_.name, false),
 	// TODO: Don't always label!
 	Loop: (_, tx) =>
-		labeledStatement(loopId(_), whileStatement(LitTrue, t(tx)(_.body))),
+		labeledStatement(loopId(_), whileStatement(LitTrue, t(tx)(_.block))),
 	MapReturn: _ => msMap(flatMap(range(0, _.length), i =>
 		[ identifier('_k' + i.toString()), identifier('_v' + i.toString()) ])),
 	MapEntry: (_, tx) => variableDeclaration('const', [
@@ -195,9 +195,9 @@ const transpileSubtree = implementMany(EExports, 'transpileSubtree', {
 	Module: (_, tx) => {
 		// '\nglobal.console.log(">>> ' + tx.opts.moduleName() + '")\n',
 		const u = flatMap(_.doUses.concat(_.uses, _.debugUses), u => toStatements(t(tx)(u)))
-		const b = t(tx)(_.body)
+		const b = t(tx)(_.block)
 		// '\nglobal.console.log("<<< ' + tx.opts.moduleName() + '")\n'
-		return program([UseStrict].concat(u, [b]))
+		return program(unshift(UseStrict, push(u, b)))
 	},
 	// TODO:ES6 Use `export default`
 	ModuleDefaultExport(_, tx) {
@@ -255,7 +255,7 @@ function caseBody(tx, parts, opElse, needBreak) {
 	const elze = ifElse(opElse,
 		_ => switchCase(null, [ t(tx)(_) ]),
 		() => caseFail)
-	const cases = rcons(parts.map(part => t(tx, needBreak)(part)), elze)
+	const cases = push(parts.map(part => t(tx, needBreak)(part)), elze)
 	// May contain nested variable declarations
 	const isLexical = true
 	return switchStatement(LitTrue, cases, isLexical)
@@ -308,11 +308,11 @@ const makeAssignDestructure = (tx, span, assignees, isLazy, value, k, includeChe
 		const get = includeChecks ?
 			msGet([ access, literal(assignee.name) ]) :
 			member(access, assignee.name)
-		return makeAssign(tx, assignee.span, assignee, k, get)
+		return toStatements(makeAssign(tx, assignee.span, assignee, k, get))
 	})
 	const destructureDeclare =
 		declare(destructuredName, isLazy ? lazyWrap(value) : value)
-	return [destructureDeclare].concat(assigns)
+	return unshift(destructureDeclare, assigns)
 }
 
 function makeAssign(tx, span, assignee, k, value) {

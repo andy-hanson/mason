@@ -1,12 +1,13 @@
 import { KAssign, KFun, SpecialKeywords, UseKeywords } from './Lang'
 import Span, { spanType } from './Span'
 import { setUnion } from './U'
+import { cons } from './U/Bag'
 import Op, { None } from './U/Op'
 import { abstractType } from './U/types'
 
 const Expression = abstractType('Expression', Object)
 export default Expression
-// These can only appear as lines in a BlockBody.
+// These can only appear as lines in a Block.
 // Not to be confused with Generator expressions resulting from `do` keyword.
 export const Do = abstractType('Do', Expression)
 // These can appear in any expression.
@@ -17,7 +18,7 @@ const ed = (name, props) => spanType(name, Do, props)
 const ev = (name, props) => spanType(name, Val, props)
 
 export const Debug = ed('Debug', { lines: [Expression] })
-export const BlockBody = spanType('BlockBody', Expression, {
+export const Block = spanType('Block', Expression, {
 	lines: [Expression],
 	opReturn: Op(Val),
 	opIn: Op(Debug), opOut: Op(Debug)
@@ -67,7 +68,7 @@ export const Module = ed('Module', {
 	doUses: [UseDo],
 	uses: [Use],
 	debugUses: [Use],
-	body: BlockBody
+	block: Block
 })
 
 // Data
@@ -88,22 +89,22 @@ export const ObjSimple = ev('ObjSimple', {
 })
 
 // Case
-export const CasePart = ee('CasePart', { test: Val, result: BlockBody })
+export const CasePart = ee('CasePart', { test: Val, result: Block })
 export const CaseDo = ed('CaseDo', {
 	opCased: Op(Assign),
 	parts: [CasePart],
-	opElse: Op(BlockBody)
+	opElse: Op(Block)
 })
 // Unlike CaseDo, this has `return` statements.
 export const CaseVal = ev('CaseVal', {
 	opCased: Op(Assign),
 	parts: [CasePart],
-	opElse: Op(BlockBody)
+	opElse: Op(Block)
 })
 
 // Statements
-export const BlockWrap = ev('BlockWrap', { body: BlockBody })
-export const Loop = ed('Loop', { body: BlockBody })
+export const BlockWrap = ev('BlockWrap', { block: Block })
+export const Loop = ed('Loop', { block: Block })
 export const EndLoop = ed('EndLoop', { })
 
 // Generators
@@ -115,8 +116,8 @@ export const Call = ev('Call', { called: Val, args: [Val] })
 Object.assign(Call, {
 	contains: (span, testType, tested) =>
 		Call({ span, called: Special.contains(span), args: [ testType, tested ] }),
-	sub: (span, object, subbers) =>
-		Call({ span, called: Special.sub(span), args: [object].concat(subbers) })
+	sub: (span, args) =>
+		Call({ span, called: Special.sub(span), args })
 })
 // For use in a Call
 export const Splat = ev('Splat', { splatted: Val })
@@ -124,7 +125,7 @@ export const Splat = ev('Splat', { splatted: Val })
 export const Fun = ev('Fun', {
 	args: [LocalDeclare],
 	opRestArg: Op(LocalDeclare),
-	block: BlockBody,
+	block: Block,
 	opReturnType: Op(Val),
 	k: KFun
 })

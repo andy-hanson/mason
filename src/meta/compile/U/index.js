@@ -82,7 +82,7 @@ export function implementMany2(methodName, pairs) {
 	pairs.forEach(([ type, impl ]) => {
 		// TODO:ES6 spread
 		type.prototype[methodName] = function() {
-			return impl.apply(null, [this].concat(Array.prototype.slice.call(arguments, 0)))
+			return impl.apply(null, this, ...arguments)
 		}
 	})
 }

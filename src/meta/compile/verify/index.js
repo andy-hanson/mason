@@ -41,7 +41,7 @@ implementMany(EExports, 'verify', {
 		else
 			doV()
 	},
-	BlockBody(_, vx) {
+	Block(_, vx) {
 		_.opIn.forEach(v(vx))
 		const newLocals = verifyLines(vx, _.lines)
 		vx.plusLocals(newLocals, () => {
@@ -55,7 +55,7 @@ implementMany(EExports, 'verify', {
 	},
 	BlockWrap(_, vx) {
 		vx.setEIsInGenerator(_)
-		v(vx)(_.body)
+		v(vx)(_.block)
 	},
 	CaseDo: verifyCase,
 	CaseVal(_, vx) {
@@ -90,7 +90,7 @@ implementMany(EExports, 'verify', {
 				`Could not find local ${code(_.name)}.` +
 				`Available locals are: [${toArray(vx.allLocalNames()).map(code).join(', ')}])`))
 	},
-	Loop(_, vx) { vx.withInLoop(_, () => v(vx)(_.body)) },
+	Loop(_, vx) { vx.withInLoop(_, () => v(vx)(_.block)) },
 	// Adding LocalDeclares to the available locals is done by Fun and buildVxBlockLine.
 	LocalDeclare(_, vx) { _.opType.map(v(vx)) },
 	MapEntry(_, vx) {
@@ -99,7 +99,7 @@ implementMany(EExports, 'verify', {
 	},
 	Module(_, vx) {
 		const useLocals = verifyUses(vx, _.uses, _.debugUses)
-		vx.plusLocals(useLocals, () => v(vx)(_.body))
+		vx.plusLocals(useLocals, () => v(vx)(_.block))
 	},
 	Yield(_, vx) {
 		check(vx.isInGenerator, _.span, 'Cannot yield outside of generator context')
@@ -111,8 +111,14 @@ implementMany(EExports, 'verify', {
 	},
 
 	// These ones just recurse to their children.
-	AssignDestructure(_, vx) { vm(vx, cons(_.value, _.assignees)) },
-	Call(_, vx) { vm(vx, cons(_.called, _.args)) },
+	AssignDestructure(_, vx) {
+		v(vx)(_.value)
+		vm(vx, _.assignees)
+	},
+	Call(_, vx) {
+		v(vx)(_.called)
+		vm(vx, _.args)
+	},
 	CasePart(_, vx) { vm(vx, [_.test, _.result]) },
 	ObjReturn(_, vx) { vm(vx, _.opObjed) },
 	ObjSimple(_, vx) {
@@ -138,8 +144,10 @@ function verifyCase(_, vx) {
 		v(vx)(cased)
 		newLocals.push(cased.assignee)
 	})
-	vx.plusLocals(newLocals, () =>
-		_.parts.concat(_.opElse).forEach(v(vx)))
+	vx.plusLocals(newLocals, () => {
+		vm(vx, _.parts)
+		vm(vx, _.opElse)
+	})
 }
 
 function verifyUses(vx, uses, debugUses) {

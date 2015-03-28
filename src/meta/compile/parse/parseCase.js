@@ -1,4 +1,4 @@
-import { Assign, BlockBody, BlockWrap, CaseDo,
+import { Assign, BlockWrap, CaseDo,
 	CasePart, CaseVal, LocalDeclare } from '../Expression'
 import { CaseKeywords } from '../Lang'
 import { Keyword } from '../Token'

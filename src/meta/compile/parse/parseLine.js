@@ -46,9 +46,9 @@ export default function parseLine(px) {
 				check(rest.isEmpty(), () => `Did not expect anything after ${h}`)
 				return EndLoop(px.s({}))
 			case 'loop!': {
-				const _ = px.w(rest, parseBlock_().takeBlockFromEnd, 'do')
-				check(_.before.isEmpty(), px.span, `Did not expect anything after ${h}`)
-				return Loop(px.s({ body: _.block }))
+				const { before, block } = px.w(rest, parseBlock_().takeBlockFromEnd, 'do')
+				check(before.isEmpty(), px.span, `Did not expect anything after ${h}`)
+				return Loop(px.s({ block }))
 			}
 			case 'region':
 				return parseLines(px)
@@ -57,10 +57,10 @@ export default function parseLine(px) {
 		}
 
 	return ifElse(px.tokens.opSplitOnceWhere(Keyword.is(LineSplitKeywords)),
-		_ => {
-			return _.at.k === '->' ?
-				parseMapEntry(px, _.before, _.after) :
-				parseAssign(px, _.before, _.at, _.after)
+		({ before, at, after }) => {
+			return at.k === '->' ?
+				parseMapEntry(px, before, after) :
+				parseAssign(px, before, at, after)
 		},
 		() => parseExpr(px))
 }
@@ -176,11 +176,11 @@ function tryAddDisplayName(eValuePre, displayName) {
 			return set(eValuePre, 'opDisplayName', some(displayName))
 
 		case eValuePre instanceof BlockWrap:
-			return ifElse(eValuePre.body.opReturn,
+			return ifElse(eValuePre.block.opReturn,
 				ret => {
 					const namedRet = tryAddDisplayName(ret, displayName)
-					return set(eValuePre, 'body',
-						set(eValuePre.body, 'opReturn', some(namedRet)))
+					return set(eValuePre, 'block',
+						set(eValuePre.block, 'opReturn', some(namedRet)))
 				},
 				() => eValuePre)
 

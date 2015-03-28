@@ -20,24 +20,20 @@ function parseModule(px, moduleName) {
 	const { uses: plainUses, rest: rest1 } = px.w(rest, tryParseUse, 'use')
 	const { uses: lazyUses, rest: rest2 } = px.w(rest1, tryParseUse, 'use~')
 	const { uses: debugUses, rest: rest3 } = px.w(rest2, tryParseUse, 'use-debug')
-	const body = px.w(rest3, parseBody, 'module')
+	const block = px.w(rest3, parseBody, 'module')
 
-	body.lines.forEach(line => {
+	block.lines.forEach(line => {
 		if (line instanceof Assign && line.k === 'export')
 			px.check(line.assignee.name !== 'displayName',
 				'Module can not choose its own displayName.')
 	})
-	body.lines.push(Assign(px.s({
+	block.lines.push(Assign(px.s({
 		assignee: LocalDeclare(px.s(
 			{ name: 'displayName', opType: [], isLazy: false, okToNotUse: true })),
 		k: 'export',
 		value: ELiteral(px.s({ value: moduleName, k: String }))
 	})))
 
-	return Module(px.s({
-		doUses,
-		uses: plainUses.concat(lazyUses),
-		debugUses,
-		body
-	}))
+	const uses = plainUses.concat(lazyUses)
+	return Module(px.s({ doUses, uses, debugUses, block }))
 }

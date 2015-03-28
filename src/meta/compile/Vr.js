@@ -36,7 +36,7 @@ Object.assign(Vr.prototype, {
 	},
 	isAccessed(local) {
 		const info = this.localToInfo.get(local)
-		return !isEmpty(info.debugAccesses.concat(info.nonDebugAccesses))
+		return !(isEmpty(info.debugAccesses) && isEmpty(info.nonDebugAccesses))
 	}
 })
 

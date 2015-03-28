@@ -1,5 +1,5 @@
 import check from '../check'
-import { BlockBody, Fun, LocalDeclare } from '../Expression'
+import { Block, Fun, LocalDeclare } from '../Expression'
 import { CaseKeywords, KFun } from '../Lang'
 import { DotName, Group, Keyword } from '../Token'
 import type from '../U/type'
@@ -37,7 +37,7 @@ export default function parseFun(px, k) {
 			return {
 				args: [ LocalDeclare.UntypedFocus(h.span) ],
 				opRestArg: None,
-				block: BlockBody(px.s({
+				block: Block(px.s({
 					opIn: None,
 					lines: h.k === 'case' ? [] : [eCase],
 					opReturn: opIf(h.k === 'case', () => eCase),
@@ -49,7 +49,7 @@ export default function parseFun(px, k) {
 		else return ifElse(px.tokens.opSplitOnceWhere(t => Keyword.is('|')(t)),
 			_ => {
 				const { args, opRestArg } = px.w(_.before, parseFunLocals)
-				const block = px.w(_.after, () => BlockBody(px.s({
+				const block = px.w(_.after, () => Block(px.s({
 					opIn: None,
 					lines: [],
 					opReturn: some(parseFun(px, _.at.k)),

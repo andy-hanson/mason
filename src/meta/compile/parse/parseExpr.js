@@ -1,13 +1,12 @@
 import assert from 'assert'
 import check from '../check'
-import { Assign, BlockBody, BlockWrap, Call,
-	ObjReturn, ObjSimple, Special, Yield, YieldTo } from '../Expression'
+import { Assign, Call, ObjReturn, ObjSimple, Special, Yield, YieldTo } from '../Expression'
 import { Keyword } from '../Token'
 import type from '../U/type'
 import { lazy, set } from '../U'
 import { GeneratorKeywords, KFun } from '../Lang'
 import { ifElse } from '../U/Op'
-import { cons, head, isEmpty, last, rtail, tail } from '../U/Bag'
+import { cons, head, isEmpty, last, push, rtail, tail } from '../U/Bag'
 import parseCase from './parseCase'
 import { parseLocal } from './parseLocals'
 import parseSingle from './parseSingle'
@@ -40,7 +39,7 @@ export default function parseExpr(px) {
 			else {
 				const parts = px.w(tokensCaller, parseExprParts)
 				assert(!isEmpty(parts))
-				return Call(px.s({ called: head(parts), args: tail(parts).concat([ val ]) }))
+				return Call(px.s({ called: head(parts), args: push(tail(parts), val) }))
 			}
 		},
 		() => parseExprPlain(px)
