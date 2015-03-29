@@ -27,8 +27,8 @@ A name is sequence of characters not containing any of:
 
 * Whitespace
 * Groupings: `( ) [ ]`
-* Special: `" \ | : . ~ _ ,`
-* Reserved: ``` # ; { }``
+* Special: `" # | : . ~ _ ,`
+* Reserved: ``` ; , % ^ & \ { }``
 
 Also, names can't start with a digit, and some names are reserved as keywords.
 `^o^` and `a1-steak-sauce` are valid names; `use` (a keyword) and `1a` (starts with a digit) are not.
@@ -57,7 +57,7 @@ If a property has no written value, it will be `true`.
 You can also put it all on one line.
 
 	my-obj. one. 1 two. 2
-	\ Equivalent to:
+	# Equivalent to:
 	my-obj.
 		one. 1
 		two. 2
@@ -102,7 +102,7 @@ Use `=` to create a new local variable.
 
 	one = 1
 	log! one
-	\ Equivalent to:
+	# Equivalent to:
 	log! 1
 
 Putting those together:
@@ -111,7 +111,7 @@ Putting those together:
 		. 1
 		two = 2
 		. two
-	two \ Won't compile. Locals are accessible only in the block they are declared in and in its sub-blocks.
+	two # Won't compile. Locals are accessible only in the block they are declared in and in its sub-blocks.
 
 Obj assignments are also local variables.
 
@@ -121,7 +121,7 @@ Obj assignments are also local variables.
 You can grab multiple values out of a Obj like so:
 
 	one two = my-obj
-	\ Equivalent to:
+	# Equivalent to:
 	one = my-obj.one
 	two = my-obj.two
 
@@ -149,7 +149,7 @@ This is useful for defining Funs with properties.
 		|might-be-three
 			=? might-be-three 3
 
-	is-three?.doc \ "Whether it's 3."
+	is-three?.doc # "Whether it's 3."
 
 Which brings us to:
 
@@ -158,7 +158,7 @@ Which brings us to:
 Funs are written as indented blocks preceded by `|` and argument names (which create locals).
 
 	identity. |a
-		\ The body of a function is a block. In this case it returns the last line.
+		# The body of a function is a block. In this case it returns the last line.
 		a
 
 The  body of a Fun can be any block.
@@ -201,7 +201,7 @@ It's used to, among other things, get a value in a map.
 
 	my-map.
 		1 -> 2
-	my-map[1] \ 2
+	my-map[1] # 2
 
 You can also leave closing `]` off within a line, or closing `)` within a `[]`.
 
@@ -216,8 +216,8 @@ You can make assertions before and after any block using the `in` and `out` keyw
 
 	half. |a
 		in
-			\ `!` is a Fun, pronounced "assert".
-			\ It applies a Fun to arguments and throws an error when the result isn't `true`.
+			# `!` is a Fun, pronounced "assert".
+			# It applies a Fun to arguments and throws an error when the result isn't `true`.
 			! divisible? a 2
 		out
 			! =? (* res 2) a
@@ -266,14 +266,14 @@ You can assign to it as normal, as in `_ = 1`, or make it the main argument to a
 
 	two-and-a-half-of. |_:Num
 		+ twice_ half_
-		\ Equivalent to:
+		# Equivalent to:
 		+ (twice _) (half _)
 
 Also, writing a type in any context other than declaring a variable tests that type on the focus.
 
 	is-str?. |_
 		:Str
-		\ Equivalent to:
+		# Equivalent to:
 		contains? Str _
 
 
@@ -302,7 +302,7 @@ If you write an expression after `case` but before the indented  block, it becom
 				"Off by {- _ 7}"
 			else
 				"Try using a number..."
-		\ Equivalent to:
+		# Equivalent to:
 		_ = a
 		case
 			...
@@ -310,7 +310,7 @@ If you write an expression after `case` but before the indented  block, it becom
 If your Fun has only one argument and its body is a case statement, you can even write it like this.
 
 	rate-guess. |case
-		\ Single argument becomes the focus.
+		# Single argument becomes the focus.
 		=? _ 7
 			"You got it!"
 		...
@@ -353,9 +353,9 @@ All code in `in` and `out` blocks is debug mode only.
 Same for code in an Obj property whose name ends in "test".
 You can also make arbitrary code debug-only like so:
 
-	\ do-stuff!() only happens in debug mode
+	# do-stuff!() only happens in debug mode
 	debug do-stuff!()
-	\ The whole block only happens in debug mode
+	# The whole block only happens in debug mode
 	debug
 		do-a!()
 		do-b!()
@@ -364,8 +364,8 @@ Mason will complain about locals declared outside of debug code but used only wi
 Just use `debug use` to get around this.
 
 	use
-		\ Type checks do not count as debug-only locals,
-		\ although the checks will still only happen in debug mode.
+		# Type checks do not count as debug-only locals,
+		# although the checks will still only happen in debug mode.
 		.Num
 	debug use
 		.Num -> max-safe-int
@@ -414,23 +414,23 @@ A lazy variable will only be evaluated at most once -- the result is cached.
 	~a =
 		log! "Getting a..."
 		1
-	a \ Getting a...
-	a \ Does not log
+	a # Getting a...
+	a # Does not log
 
 You can also pass a lazy variable into a Fun call by preceding an expression with `~`.
 
 	in-range. |n min max
 		and (>=? n min) ~(<? n max
 
-	\ The Fun *must* be marked as able to accept lazy values.
-	\ It can also be called with plain values.
+	# The Fun *must* be marked as able to accept lazy values.
+	# It can also be called with plain values.
 	and. |a ~b
 		case
 			a
-				\ Trigger computation of `b`.
+				# Trigger computation of `b`.
 				b
 			else
-				 \ Don't bother to compute `b`.
+				 # Don't bother to compute `b`.
 				false
 
 There is no way to pass lazy values into a Fun that doesn't expect them.
@@ -457,19 +457,19 @@ If the module is a Obj-value block, the value part will become the module's defa
 You can make use of the exports of other modules like so:
 
 	use
-		\ Creates a new local `fs` equal to the module's default export.
-		fs \ Module is in `node_modules` or globally installed.
+		# Creates a new local `fs` equal to the module's default export.
+		fs # Module is in `node_modules` or globally installed.
 
-		 \ "./brother.ms" or "./brother/index.ms"
+		# "./brother.ms" or "./brother/index.ms"
 		.brother
-		\ "../parent.ms" or "../parent/index.ms"
+		# "../parent.ms" or "../parent/index.ms"
 		..parent
-		\ "../../aunt/cousin.ms" or "../../aunt/cousin/index.ms"
+		# "../../aunt/cousin.ms" or "../../aunt/cousin/index.ms"
 		...aunt.cousin
 
-		\ Creates locals `b` and `c` from the `a` module.
+		# Creates locals `b` and `c` from the `a` module.
 		a b c
-		\ Does that, and also creates a local `a` equal to the default export.
+		# Does that, and also creates a local `a` equal to the default export.
 		a _ b c
 
 Mason is currently implemented in CommonJS and merely pretends to use EcmaScript 6 modules.
@@ -488,7 +488,7 @@ More specifically, a `Generator!` is a mutable object which the context calls th
 To make one, just use `~|` instead of `|`.
 
 	x = incrementing ~|:Int
-		\ Yield `1` to the context; it should send me back the value of `two`.
+		# Yield `1` to the context; it should send me back the value of `two`.
 		two <~ 1
 		three <~ two
 		three
@@ -564,11 +564,11 @@ Spaces, tabs, and newlines are all part of Mason's syntax, so you have to use th
 
 This code won't compile:
 
-	a=b c=d \ Missing spaces, missing newline
-	e .f \ Unnecessary space
-	g  h \ Two spaces
-	    j \ Must use tab to indent, not spaces
-			i \ Must use only one tab
+	a=b c=d # Missing spaces, missing newline
+	e .f # Unnecessary space
+	g  h # Two spaces
+	    j # Must use tab to indent, not spaces
+			i # Must use only one tab
 
 
 ### Naming conventions
