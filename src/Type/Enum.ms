@@ -1,6 +1,5 @@
 use
 	..@ each!
-	..@.Array
 	..Obj
 	..Obj! p+!
 	..show

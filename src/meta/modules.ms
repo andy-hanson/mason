@@ -1,5 +1,4 @@
 use
-	q-io.fs listTree
 	path relative
 	..$ _ $after
 	..@ keep map'

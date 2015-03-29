@@ -1,6 +1,6 @@
 import assert from 'assert'
 import check, { warnIf } from '../check'
-import E, { Assign, AssignDestructure, BlockWrap, Call, Debug, ObjReturn,
+import E, { Assign, AssignDestructure, BlockWrap, Call, Debug, GlobalAccess, ObjReturn,
 	Fun, EndLoop, ListEntry, Loop, MapEntry, Special, Yield, YieldTo } from '../Expression'
 import { defaultLoopName, LineSplitKeywords } from '../Lang'
 import { Group, Keyword, Name } from '../Token'
@@ -10,7 +10,7 @@ import { head, isEmpty, last, opSplitOnceWhere } from '../U/Bag'
 import type from '../U/type'
 import parseCase from './parseCase'
 import parseExpr from './parseExpr'
-import parseLocals from './parseLocals'
+import parseLocalDeclares from './parseLocalDeclares'
 import Px from './Px'
 // TODO:ES6
 const parseBlock_ = lazy(() => require('./parseBlock'))
@@ -80,9 +80,9 @@ export function parseLines(px) {
 
 
 function parseAssign(px, assigned, assigner, value) {
-	let locals = px.w(assigned, parseLocals)
+	let locals = px.w(assigned, parseLocalDeclares)
 	const k = assigner.k
-	const eValuePre = value.isEmpty() ? Special.true(px.span) : px.w(value, parseExpr)
+	const eValuePre = value.isEmpty() ? GlobalAccess.true(px.span) : px.w(value, parseExpr)
 
 	let eValueNamed
 	if (locals.length === 1) {

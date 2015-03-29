@@ -6,10 +6,8 @@ use
 	..Type => type-of
 	..Type.Method impl! impl-for
 	..@ _ count empty? map
-	.Array
 	.Seq take
 use-debug
-	..Bool true
 	.@-Type empty
 	.Deque!
 

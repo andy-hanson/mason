@@ -1,5 +1,4 @@
 use
-	..js global
 	.methods * /
 	.Num
 use-debug
@@ -7,9 +6,6 @@ use-debug
 	.Num near?
 
 doc. "For dealing with angles. By default angles are in radians."
-
-
-Math = global.Math
 
 pi. Math.PI
 pi/2. / pi 2

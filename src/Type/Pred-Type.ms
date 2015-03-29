@@ -1,5 +1,5 @@
 use
-	..Bool and not or true
+	..Bool and not or
 	..Fun Pred
 	..js defined? id=?
 	..methods sub

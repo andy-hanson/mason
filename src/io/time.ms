@@ -1,7 +1,7 @@
 use
 	..$
 	..Fun
-	..js global new
+	..js new
 	..math.Num
 use-debug
 	..!

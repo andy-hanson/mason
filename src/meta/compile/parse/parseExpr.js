@@ -1,6 +1,6 @@
 import assert from 'assert'
 import check from '../check'
-import { Assign, Call, ObjReturn, ObjSimple, Special, Yield, YieldTo } from '../Expression'
+import { Assign, Call, GlobalAccess, ObjReturn, ObjSimple, Yield, YieldTo } from '../Expression'
 import { Keyword } from '../Token'
 import type from '../U/type'
 import { lazy, set } from '../U'
@@ -8,7 +8,7 @@ import { GeneratorKeywords, KFun } from '../Lang'
 import { ifElse } from '../U/Op'
 import { cons, head, isEmpty, last, push, rtail, tail } from '../U/Bag'
 import parseCase from './parseCase'
-import { parseLocal } from './parseLocals'
+import { parseLocalDeclare } from './parseLocalDeclares'
 import parseSingle from './parseSingle'
 import Px from './Px'
 // TODO:ES6
@@ -23,7 +23,9 @@ export default function parseExpr(px) {
 
 			const keysVals = {}
 			for (let i = 0; i < splits.length - 1; i = i + 1) {
-				const local = px.wt(splits[i].before.last(), parseLocal)
+				const local = px.wt(splits[i].before.last(), parseLocalDeclare)
+				// Can't have got a type because there's only one token.
+				assert(isEmpty(local.opType))
 				const tokensValue = i === splits.length - 2 ?
 					splits[i + 1].before :
 					splits[i + 1].before.rtail()
@@ -51,7 +53,7 @@ function parseExprPlain(px) {
 	const parts = parseExprParts(px)
 	switch (parts.length) {
 		case 0:
-			return Special.null(px.span)
+			return GlobalAccess.null(px.span)
 		case 1:
 			return head(parts)
 		default:

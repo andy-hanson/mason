@@ -1,5 +1,5 @@
 use
-	..Bool false not
+	..Bool not
 	..compare =?
 	..control End-Loop if loop
 	..Fun _ Pred
@@ -15,7 +15,6 @@ use~
 	..control Ref! get mod! set!
 	..show
 	.? _ un-?
-	.Array
 	.Array!
 	..math.Num Nat
 	.Seq! ++>!

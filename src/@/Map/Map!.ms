@@ -20,7 +20,6 @@ use-debug
 	...Type.Wrap-Type
 	...@ map
 	..@! empty!
-	..Array
 	..Set set=?
 	..Map has-key? keys
 	.Weak-Id-Map!

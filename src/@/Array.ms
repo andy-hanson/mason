@@ -4,7 +4,7 @@ use
 	..compare <?
 	..control if
 	..Fun thunk
-	..js global js-sub
+	..js js-sub
 	..private.js-impl arrayIterator
 	..methods freeze
 	..Type.Kind kind! self-kind!
@@ -16,9 +16,7 @@ use~
 	..math.Num Nat
 	.Array!
 
-Array =
-	doc. "Javascript's native mutable Array type. TODO: `Array` vs `Array!`"
-	global.Array
+doc. "Javascript's native mutable Array type. TODO: `Array` vs `Array!`"
 
 kind! Array Seq
 

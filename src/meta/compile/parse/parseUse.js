@@ -11,7 +11,7 @@ import Px from './Px'
 // TODO:ES6
 const
 	parseBlock_ = lazy(() => require('./parseBlock')),
-	parseLocals_ = lazy(() => require('./parseLocals').default)
+	parseLocalDeclares_ = lazy(() => require('./parseLocalDeclares').default)
 
 export default function tryParseUse(px, k) {
 	type(px, Px, k, UseKeywords)
@@ -47,7 +47,7 @@ function useLine(px, k) {
 		const isLazy = k === 'use~' || k === 'use-debug'
 		const used = px.tokens.size() === 1 ?
 			[ LocalDeclare(px.s({ name, opType: None, isLazy, okToNotUse: false })) ] :
-			px.w(px.tokens.tail(), parseLocals_()).map(l =>
+			px.w(px.tokens.tail(), parseLocalDeclares_()).map(l =>
 				set(l.name === '_' ? set(l, 'name', name) : l, 'isLazy', isLazy))
 		return Use(px.s({ used, k, path }))
 	}

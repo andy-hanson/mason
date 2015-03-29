@@ -13,7 +13,6 @@ use-debug
 	.!
 	.@.Seq seq=?
 	.@.Stream
-	.Bool false true
 	.compare =?
 
 Generator! = Pred-Type

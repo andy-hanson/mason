@@ -11,7 +11,6 @@ use-debug
 	..@ each! empty?
 	..compare =?
 	..Type contains?
-	.Array
 
 @! = Kind
 	doc. "Mutable @."

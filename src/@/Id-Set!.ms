@@ -1,5 +1,5 @@
 use
-	..js global new
+	..js new
 	..Type contains?
 	..Type.Kind kind! self-kind!
 	..@ count each! iterator

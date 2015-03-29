@@ -1,8 +1,8 @@
 use
-	..Bool or not true
+	..Bool or not
 	..compare =?
-	..js defined? global js-sub
-	..private.bootstrap Array impl-contains?! Obj p+! Str Symbol
+	..js defined? js-sub
+	..private.bootstrap impl-contains?! Obj p+! Str
 	..private.js-impl isEmpty KindContains
 	.Method impl! propagate-method-down! self-impl!
 	.Obj-Type
@@ -14,7 +14,6 @@ use~
 use-debug
 	..! _ !not
 	..@.Stream
-	..Bool false
 	..Try _ fails-with?
 	..Type => contains?
 	.Method

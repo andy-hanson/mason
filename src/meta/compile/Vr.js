@@ -6,7 +6,7 @@ import { ObjType } from './U/types'
 
 const Vr = ObjType('Vr', Object, {
 	accessToLocal: Map,
-	// LocalDeclare -> LocalInfo
+	// LocalDeclare -> VrLocalInfo
 	localToInfo: Map,
 	eToIsInGenerator: Map,
 	endLoopToLoop: Map

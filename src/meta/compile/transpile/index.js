@@ -4,7 +4,6 @@ const { arrayExpression, assignmentExpression, binaryExpression, blockStatement,
 	identifier, labeledStatement, literal, newExpression, objectExpression, program, property,
 	returnStatement, switchCase, switchStatement, thisExpression, throwStatement, unaryExpression,
 	variableDeclaration, variableDeclarator, whileStatement } = builders
-import { SourceNode } from 'source-map'
 import assert from 'assert'
 import check, { fail } from '../check'
 import Expression, * as EExports from '../Expression'
@@ -180,6 +179,7 @@ const transpileSubtree = implementMany(EExports, 'transpileSubtree', {
 			default: throw new Error(_.k)
 		}
 	},
+	GlobalAccess: _ => identifier(_.name),
 	LocalAccess: (_, tx) => accessLocal(_.name, tx.vr.isLazy(_)),
 	LocalDeclare: _ => accessLocal(_.name, false),
 	// TODO: Don't always label!
@@ -221,12 +221,9 @@ const transpileSubtree = implementMany(EExports, 'transpileSubtree', {
 		switch (_.k) {
 			case 'contains': return member(IdMs, 'contains')
 			case 'debugger': return debuggerStatement()
-			case 'null': return literal(null)
 			case 'sub': return member(IdMs, 'sub')
 			case 'this': return 	thisExpression()
 			case 'this-module-directory': return identifier('__dirname')
-			case 'true': return literal(true)
-			case 'undefined': return identifier('undefined')
 			default: throw new Error(_.k)
 		}
 	},

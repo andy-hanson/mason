@@ -1,6 +1,5 @@
 use
 	..@ each! iterator
-	..Bool true
 	..compare =?
 	..Type.Kind kind! self-kind!
 	..Type.Method impl! impl-for

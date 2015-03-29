@@ -1,11 +1,10 @@
 use
-	.Bool _ not or true
+	.Bool _ not or
 	.js id=?
 	.Type.Method
 use~
 	.@ _ all? empty? iterator
 	.@.@-Type from-stream
-	.@.Array
 	.@.Array!
 	.@.? un-?
 	.@.Seq _ first tail
@@ -18,7 +17,6 @@ use-debug
 	.@ count
 	.@.?
 	.@.@-Type empty
-	.Bool false
 	.Try fails?
 
 compare. Method

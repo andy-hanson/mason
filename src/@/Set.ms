@@ -9,7 +9,6 @@ use
 use~
 	.Hash-Set!
 use-debug
-	..Bool false true
 	..@ --
 	.Stream
 

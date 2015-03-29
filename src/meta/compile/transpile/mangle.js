@@ -1,13 +1,15 @@
+import { JsGlobals } from '../Lang'
+import { setUnion } from '../U'
 import type from '../U/type'
 
 export default function mangle(name) {
-	return JSKeywords.has(name) ?
+	return forbiddenNames.has(name) ?
 		'_' + name :
 		name.replace(/[^a-zA-Z0-9$_]/g, ch => '_' + ch.charCodeAt(0))
 }
 
 export function needsMangle(name) {
-	return JSKeywords.has(name) || name.search(/[^a-zA-Z0-9$_]/) !== -1
+	return forbiddenNames.has(name) || name.search(/[^a-zA-Z0-9$_]/) !== -1
 }
 
 export function quote(str) {
@@ -22,7 +24,7 @@ const quoteEscape = {
 	'\\': '\\\\'
 }
 
-const JSKeywords = new Set([
+const forbiddenNames = setUnion(JsGlobals, new Set([
 	'abstract',
 	'arguments',
 	'boolean',
@@ -84,11 +86,10 @@ const JSKeywords = new Set([
 	'true',
 	'try',
 	'typeof',
-	'undefined',
 	'var',
 	'void',
 	'while',
 	'with',
 	'yield',
 	'yield*'
-])
+]))

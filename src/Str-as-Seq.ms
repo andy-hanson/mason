@@ -1,6 +1,5 @@
 use
 	.@ _ count iterator map
-	.@.Array
 	.@.@-Type _ empty from-stream
 	.@.Seq
 	.compare sort

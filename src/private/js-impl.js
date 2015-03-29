@@ -3,7 +3,6 @@ const { bool, unlazy } = ms
 
 export	const
 	// js.ms
-	iGlobal = global,
 	iNew = function(ctr, a, b, c) {
 		// TODO:ES6 return new ctr(...args)
 		switch (arguments.length) {
@@ -17,8 +16,6 @@ export	const
 	},
 
 	// Bool.ms
-	iTrue = true,
-	iFalse = false,
 	// TODO:ES6 ...args
 	iAnd = function() {
 		const args = arguments

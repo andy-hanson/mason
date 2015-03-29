@@ -1,6 +1,5 @@
 use
 	..@.? un-?
-	..@.Array
 	..@.Range range
 	..@.Seq! set-nth!
 	..Bool and
@@ -13,7 +12,6 @@ use-debug
 	..!
 	..@.?
 	..@.@-Type empty
-	..Bool false true
 
 Matrix = Obj-Type
 	props.

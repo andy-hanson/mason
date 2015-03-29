@@ -5,7 +5,7 @@ use
 	.Bool and
 	.compare =?
 	.Fun _ Act spread!
-	.js global new
+	.js new
 	.private.js-impl makeError alwaysDoAfter ohNo iTry
 	.Obj
 	.Obj! p! p+!
@@ -25,24 +25,9 @@ use-debug
 Success. Wrap-Type
 	doc. "Attempt that did not fail. _.val is the result of the attempted code."
 
-Error.
-	doc. "
-		Represents the failure of an operation.
-		These are expensive to create as they contain a stacktrace.
-		Error subtypes must be created with `error-type`.
-	global.Error
-
 Try = Kind
 	doc. "Result of running failable code. Success or Error."
 	implementors. [ Success Error ]
-
-Eval-Error. global.EvalError
-Internal-Error. global.InternalError
-Range-Error. global.RangeError
-Reference-Error. global.ReferenceError
-Syntax-Error. global.SyntaxError
-Type-Error. global.TypeError
-URI-Error. global.URIError
 
 self-impl! => Error makeError
 
@@ -54,8 +39,8 @@ oh-no!.
 	test. |
 		! fails-with? "a" |
 			oh-no! "a"
-		! fails-with? Type-Error |
-			oh-no! Type-Error()
+		! fails-with? TypeError |
+			oh-no! TypeError()
 	ohNo
 
 try.
@@ -98,7 +83,7 @@ fails-with?.
 	test. |
 		! fails-with? "message" |
 			oh-no! "message"
-		! fails-with? Type-Error |
+		! fails-with? TypeError |
 			().missing-property
 	|with:Union[Str Type] act:Act
 		result = try act

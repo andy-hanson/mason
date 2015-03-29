@@ -1,5 +1,4 @@
 use
-	.js global
 	.methods sub
 	.private.js-impl iCurry
 	.Type.Alias-Type

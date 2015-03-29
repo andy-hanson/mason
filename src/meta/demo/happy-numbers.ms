@@ -7,7 +7,7 @@ use
 	...@.Range range
 	...@.Seq! set-nth!
 	...@.Stream
-	...Bool _ and not true
+	...Bool _ and not
 	...control returning
 	...js defined? js-sub
 	...math.Num _ infinity Nat square

@@ -1,14 +1,13 @@
 use
 	.Bool and
 	.compare _ =?
-	.js global id=?
+	.js id=?
 	.Regex _ regex
 	.Type.Kind
 	.Type.Method impl!
 	.Type.Pred-Type
 use~
 	.@ count
-	.@.Array
 
 Str =
 	doc. "JavaScript's native String type."

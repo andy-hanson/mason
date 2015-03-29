@@ -8,7 +8,6 @@ use
 	..@
 use~
 	.@! ++!
-	.Array
 use-debug
 	.Range range
 

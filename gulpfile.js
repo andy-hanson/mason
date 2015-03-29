@@ -1,19 +1,17 @@
 "use strict"
 
-var
+const
 	babel = require('gulp-babel'),
 	gulp = require('gulp'),
 	sourcemaps = require('gulp-sourcemaps'),
 	watch = require('gulp-watch')
 
-var src_ms = 'src/**/*.ms'
-var src_js = 'src/**/*.js'
-
-var dest = 'js'
+const src_ms = 'src/**/*.ms',  src_js = 'src/**/*.js'
+const dest = 'js'
 
 function pipeMs(stream) {
 	// This can only be required after we've created it, so 'ms' task depends on 'js'.
-	var ms = require('./js/meta/compile/gulp-ms')
+	const ms = require('./js/meta/compile/gulp-ms')
 	return stream
 	.pipe(sourcemaps.init())
 	.pipe(ms())
@@ -68,7 +66,7 @@ gulp.task('watch', function() {
 gulp.task('lint', function() {
 	// For some reason, requiring this makes es6-shim unhappy.
 	// So, can't lint and do other things in the same task.
-	var eslint = require('gulp-eslint')
+	const eslint = require('gulp-eslint')
 	return gulp.src(src_js)
 	.pipe(eslint())
 	.pipe(eslint.format())

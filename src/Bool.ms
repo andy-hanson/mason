@@ -1,6 +1,5 @@
 use
-	.js global
-	.private.js-impl iTrue iFalse iAnd iOr
+	.private.js-impl iAnd iOr
 use-debug
 	.Try oh-no!
 
@@ -8,10 +7,7 @@ Bool =
 	doc. "
 		JavaScript's native Boolean type.
 		Either true or false.
-	global.Boolean
-
-true. iTrue
-false. iFalse
+	Boolean
 
 not.
 	doc. "Negation of a Bool."

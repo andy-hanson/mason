@@ -6,7 +6,7 @@ use
 	...@.? ?-or
 	...@.Id-Set!
 	...@.Map
-	...Bool _ and false or true
+	...Bool _ and or
 	...compare =?
 	...control if
 	...Fun _ noop
@@ -21,9 +21,9 @@ use
 	...Type.Pred-Type ObjLit
 	..modules $@module-in-dir
 use-debug
-	..control build
-	..Obj!
-	..Type.Method self-impl!
+	...control build
+	...Obj!
+	...Type.Method self-impl!
 
 doc. "For running code in `test` properties."
 

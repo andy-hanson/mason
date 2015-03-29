@@ -1,8 +1,10 @@
 import assert from 'assert'
-import { LocalDeclare, Loop } from '../Expression'
+import { fail } from '../check'
+import { GlobalDeclare, LocalDeclare } from '../Expression'
+import { JsGlobals } from '../Lang'
 import Opts from '../Opts'
-import { set } from '../U'
-import { isEmpty } from '../U/Bag'
+import { code, set } from '../U'
+import { isEmpty, toArray } from '../U/Bag'
 import Op, { None, opIf, some } from '../U/Op'
 import type from '../U/type'
 import { ObjType } from '../U/types'
@@ -30,11 +32,6 @@ export default class Vx {
 	// Getters
 	allLocalNames() {
 		return this.locals.keys()
-	}
-	opGetLocal(name) {
-		type(name, String)
-		const got = this.locals.get(name)
-		return opIf(got !== undefined, () => got)
 	}
 
 	// Modifiers
@@ -84,7 +81,7 @@ export default class Vx {
 		// TODO: Bad idea to be creating new E at this point...
 		const utf = set(LocalDeclare.UntypedFocus(span), 'okToNotUse', true)
 		this.registerLocal(utf)
-		this.plusLocals([utf], fun)
+		this.plusLocals([ utf ], fun)
 	}
 	withRes(span, fun) {
 		// TODO: Bad idea to be creating new E at this point...
@@ -96,7 +93,7 @@ export default class Vx {
 			okToNotUse: true
 		})
 		this.registerLocal(res)
-		return this.plusLocals([res], fun)
+		return this.plusLocals([ res ], fun)
 	}
 	withBlockLocals(fun) {
 		const bl = this.pendingBlockLocals
@@ -108,12 +105,6 @@ export default class Vx {
 	// Vr setters
 	setEndLoop(endLoop, loop) {
 		this.vr.endLoopToLoop.set(endLoop, loop)
-	}
-	setAccessToLocal(access, local) {
-		this.vr.accessToLocal.set(access, local)
-		const info = this.vr.localToInfo.get(local)
-		const accesses = this.isInDebug ? info.debugAccesses : info.nonDebugAccesses
-		accesses.push(access)
 	}
 	// TODO: Better name
 	setEIsInGenerator(e) {
@@ -127,5 +118,20 @@ export default class Vx {
 			debugAccesses: [],
 			nonDebugAccesses: []
 		}))
+	}
+
+	localAccess(access) {
+		const name = access.name
+		const local = this.locals.get(name)
+		if (local !== undefined) {
+			this.vr.accessToLocal.set(access, local)
+			const info = this.vr.localToInfo.get(local)
+			const accesses = this.isInDebug ? info.debugAccesses : info.nonDebugAccesses
+			accesses.push(access)
+		} else
+			fail(access.span,
+				`Could not find local or global ${code(name)}.
+				Available locals are: ${code(toArray(this.allLocalNames()).join(' '))}.
+				Available globals are: ${code(toArray(JsGlobals.values()).join(' '))}.`)
 	}
 }

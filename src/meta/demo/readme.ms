@@ -5,7 +5,7 @@ use-debug
 	...@.Array!
 	...@.Seq seq=?
 	...@.Stream
-	...Bool and true
+	...Bool and
 	...compare =? <? <=?
 	...control Ref! get set!
 	...Fun _ noop

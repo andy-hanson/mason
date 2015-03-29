@@ -16,7 +16,6 @@ use~
 	.Map! assoc!
 use-debug
 	...!
-	...Bool false true
 	...math.methods +
 
 Map. Kind

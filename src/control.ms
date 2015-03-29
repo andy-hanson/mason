@@ -16,7 +16,6 @@ use~
 	.Try oh-no!
 use-debug
 	.! _ !call
-	.Bool false true
 	.compare =?
 	.math.methods +
 

@@ -1,6 +1,6 @@
 use
 	...control returning
-	...js global new
+	...js new
 	...Try oh-no!
 	...Type.Kind kind! self-kind!
 	...Type.Method impl! self-impl!

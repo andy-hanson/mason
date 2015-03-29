@@ -1,5 +1,3 @@
-use
-	.js global
 use~
 	.control opr
 	.Str

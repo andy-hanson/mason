@@ -1,8 +1,8 @@
 use
-	..Bool _ and false implies not
-	..js defined? global js-sub
+	..Bool _ and implies not
+	..js defined? js-sub
 	..private.js-impl buildStr
-	..private.bootstrap Fun impl-contains?! Obj p+! Str Symbol ms contains?-impl-symbol
+	..private.bootstrap Fun impl-contains?! Obj p+! Str ms contains?-impl-symbol
 	.Obj-Type
 use~
 	..!

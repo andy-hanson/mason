@@ -6,7 +6,7 @@ import type from '../U/type'
 import { code, lazy } from '../U'
 import { ifElse, None, opIf, some } from '../U/Op'
 import parseCase from './parseCase'
-import parseLocals from './parseLocals'
+import parseLocalDeclares from './parseLocalDeclares'
 import parseSpaced from './parseSpaced'
 import Px from './Px'
 // TODO
@@ -75,7 +75,7 @@ function parseFunLocals(px) {
 		if (l instanceof DotName) {
 			check(l.nDots === 3, l.span, 'Splat argument must have exactly 3 dots')
 			return {
-				args: px.w(px.tokens.rtail(), parseLocals),
+				args: px.w(px.tokens.rtail(), parseLocalDeclares),
 				opRestArg: some(LocalDeclare({
 					span: l.span,
 					name: l.name,
@@ -85,6 +85,6 @@ function parseFunLocals(px) {
 				}))
 			}
 		}
-		else return { args: parseLocals(px), opRestArg: None }
+		else return { args: parseLocalDeclares(px), opRestArg: None }
 	}
 }

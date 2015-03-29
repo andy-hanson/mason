@@ -10,7 +10,6 @@ use
 	..@ _ each! empty?
 	.@! empty!
 	.@-Type _ empty from-stream
-	.Array
 	.Seq! _ <++! ++>! ?<pop! ?pop>! set-nth!
 
 Array! = Pred-Type

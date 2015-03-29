@@ -1,8 +1,8 @@
 import assert from 'assert'
-import { Call, ListSimple, ELiteral, LocalAccess,
+import { Call, ListSimple, ELiteral, GlobalAccess, LocalAccess,
 	Quote, Special, Splat, This } from '../Expression'
 import { CallOnFocus, DotName, Group, Keyword, Literal, Name } from '../Token'
-import { SpecialKeywords } from '../Lang'
+import { JsGlobals, SpecialKeywords } from '../Lang'
 import { lazy } from '../U'
 import type from '../U/type'
 import parseSpaced from './parseSpaced'
@@ -19,13 +19,13 @@ export default function parseSingle(px) {
 	switch (true) {
 		case t instanceof CallOnFocus:
 			return Call(px.s({
-				called: LocalAccess(px.s({ name: t.name })),
+				called: access(px, t.name),
 				args: [ LocalAccess.focus(px.span) ]
 			}))
 		case t instanceof Literal:
 			return ELiteral(t)
 		case t instanceof Name:
-			return LocalAccess(px.s({ name: t.name }))
+			return access(px, t.name)
 		case Keyword.is('_')(t):
 			return LocalAccess.focus(px.span)
 		case Keyword.is(SpecialKeywords)(t):
@@ -51,3 +51,6 @@ export default function parseSingle(px) {
 			px.fail(`Unexpected ${t}`)
 	}
 }
+
+const access = (px, name) =>
+	JsGlobals.has(name) ? GlobalAccess(px.s({ name })) : LocalAccess(px.s({ name }))

@@ -1,7 +1,6 @@
 use
 	.@ empty? fold map
 	.@.@-Type empty
-	.@.Array
 	.@.Map.Weak-Id-Map!
 	.Bool
 	.Fun
@@ -11,7 +10,6 @@ use
 	.math.methods + *
 	.Obj p ?p @p-all
 	.Str
-	.Symbol
 	.Type.Method _ impl! impl-for
 use-debug
 	.! _ !not

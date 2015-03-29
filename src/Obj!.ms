@@ -1,5 +1,4 @@
 use
-	.Bool false
 	.js js-delete js-set
 	.Obj _ Obj-Key
 	.Type.Alias-Type

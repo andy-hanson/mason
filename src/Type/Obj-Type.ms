@@ -1,11 +1,10 @@
 use
-	..Bool _ and false implies not
+	..Bool _ and implies not
 	..private.bootstrap Fun impl-contains?! Obj p+! Str
 	..js defined? js=== js-instanceof js-sub js-typeof
 	..private.js-impl buildStr
 use-debug
 	..!
-	..Bool true
 	..compare =?
 	..private.js-impl addOne
 	..math.Num

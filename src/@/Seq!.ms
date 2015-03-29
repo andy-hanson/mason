@@ -13,7 +13,6 @@ use-debug
 	..!
 	..compare =?
 	..@ empty?
-	.Array
 	.Array!
 	.Seq seq=?
 

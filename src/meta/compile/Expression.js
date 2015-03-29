@@ -1,4 +1,4 @@
-import { KAssign, KFun, SpecialKeywords, UseKeywords } from './Lang'
+import { JsGlobals, KAssign, KFun, SpecialKeywords, UseKeywords } from './Lang'
 import Span, { spanType } from './Span'
 import { setUnion } from './U'
 import { cons } from './U/Bag'
@@ -40,6 +40,7 @@ LocalDeclare.UntypedFocus = span => LocalDeclare({
 	isLazy: false,
 	okToNotUse: false
 })
+
 export const Assign = ed('Assign', { assignee: LocalDeclare, k: KAssign, value: Val })
 Assign.focus = (span, value) => Assign({
 	span,
@@ -56,6 +57,12 @@ export const AssignDestructure = ed('AssignDestructure', {
 })
 export const LocalAccess = ev('LocalAccess', { name: String })
 LocalAccess.focus = span => LocalAccess({ span, name: '_' })
+
+export const GlobalAccess = ev('GlobalAccess', { name: JsGlobals })
+Object.assign(GlobalAccess, {
+	null: span => GlobalAccess({ span, name: 'null' }),
+	true: span => GlobalAccess({ span, name: 'true' })
+})
 
 // Module
 export const UseDo = ee('UseDo', { path: String })
@@ -135,12 +142,11 @@ export const ELiteral = ev('Literal', { value: String, k: new Set([Number, Strin
 export const Member = ev('Member', { object: Val, name: String })
 export const Quote = ev('Quote', { parts: [Val] })
 
-const KSpecial = setUnion(SpecialKeywords, [ 'contains', 'debugger', 'null', 'sub', 'true' ])
+// TODO: Get rid of null
+const KSpecial = setUnion(SpecialKeywords, [ 'contains', 'debugger', 'sub', 'null' ])
 export const Special = ev('Special', { k: KSpecial })
 Object.assign(Special, {
 	contains: span => Special({ span, k: 'contains' }),
 	debugger: span => Special({ span, k: 'debugger' }),
-	null: span => Special({ span, k: 'null' }),
-	sub: span => Special({ span, k: 'sub' }),
-	true: span => Special({ span, k: 'true' })
+	sub: span => Special({ span, k: 'sub' })
 })

@@ -6,5 +6,4 @@ use!
 	..show # Important to load this now, as it will help error messages
 use
 	source-map-support install
-#	stack-displayname # Doesn't play nice with source-map-support
 install() # TODO: Do first

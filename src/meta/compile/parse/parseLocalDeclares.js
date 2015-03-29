@@ -1,15 +1,16 @@
 import assert from 'assert'
 import check from '../check'
 import { LocalDeclare } from '../Expression'
+import { JsGlobals } from '../Lang'
 import { Group, Keyword, Name } from '../Token'
 import { code } from '../U'
 import { None, some } from '../U/Op'
 import type from '../U/type'
 import parseSpaced from './parseSpaced'
 
-export default px => px.tokens.map(t => px.wt(t, parseLocal))
+export default px => px.tokens.map(t => px.wt(t, parseLocalDeclare))
 
-export function parseLocal(px) {
+export function parseLocalDeclare(px) {
 	let name
 	let opType = None
 	let isLazy = false
@@ -37,7 +38,7 @@ export function parseLocal(px) {
 	else
 		name = parseLocalName(t)
 
-	return LocalDeclare(px.s({ name: name, opType: opType, isLazy: isLazy, okToNotUse: false }))
+	return LocalDeclare(px.s({ name, opType, isLazy, okToNotUse: false }))
 }
 
 function parseLocalName(t) {
@@ -45,6 +46,8 @@ function parseLocalName(t) {
 		return '_'
 	else {
 		check(t instanceof Name, t.span, () => `Expected a local name, not ${t}`)
+		// TODO: Allow this?
+		check(!JsGlobals.has(t.name), t.span, () => `Can not shadow global ${code(t.name)}`)
 		return t.name
 	}
 }

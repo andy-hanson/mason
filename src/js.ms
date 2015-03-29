@@ -1,25 +1,19 @@
 use
 	.private.bootstrap Fun
-	.private.js-impl iGlobal iNew
+	.private.js-impl iNew
 use~
 	.@
-	.@.Array
 	.Bool _ not
 	.Type =>
 use-debug
 	.! _ !not
 	.@ each!
-	.Bool false true
 	.compare =?
 	.math.methods +
 	.math.Num
 	.Obj! p+!
-	.Symbol
-	.Try Error
 
 doc. "Functions implementing behavior native to JavaScript."
-
-global. iGlobal
 
 op = |op-name
 	Fun "a" "b" "return a {op-name} b"

@@ -3,13 +3,12 @@ use
 	..compare =? <? <=? compare
 	..control opr
 	..Obj p
-	..js global id=? js-bar js< js<= js+ js- js* js/ js-mod
+	..js id=? js-bar js< js<= js+ js- js* js/ js-mod
 	..Type.Method impl!
 	..Type.Pred-Type _ Opt
 	.methods + - * /
 use-debug
 	..! _ !not
-	..Bool false true
 	..Fun spread!
 	..Try fails?
 	..Type contains?
@@ -19,8 +18,6 @@ Num =
 		JavaScript's native Number type.
 		Any floating-point value.
 	global.Number
-
-Math = global.Math
 
 Int. Pred-Type
 	doc. "

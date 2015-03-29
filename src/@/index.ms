@@ -18,12 +18,10 @@ use~
 	.@! --!
 	.@-Type empty
 	.?
-	.Array
 	.Seq first seq=? tail
 	.Set!
 	.Stream
 use-debug
-	..Bool false true
 	..control build if!
 	..! _ !not
 	..math.Num divisible?

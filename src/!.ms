@@ -4,7 +4,6 @@ use
 	.private.bootstrap Fun
 use~
 	.@ _ each! map
-	.@.Array
 	.@.Map
 	.control if!
 	.Fun Pred
@@ -14,7 +13,6 @@ use~
 	.Type =>
 	.Type.Pred-Type Any
 use-debug
-	.Bool false true
 	.compare same?
 	.math.methods +
 	.show

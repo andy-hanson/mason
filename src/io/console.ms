@@ -1,7 +1,6 @@
 use
 	chalk blue
 	..@ each!
-	..js global
 	..show
 	..Str
 	..Type =>

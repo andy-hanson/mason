@@ -1,10 +1,9 @@
 use
-	.Bool _ and false not nor xor
+	.Bool _ and not nor xor
 	.compare =?
-	.js defined? global js== js-typeof id=? js-sub
+	.js defined? js== js-typeof id=? js-sub
 	.methods freeze
 	.private.bootstrap Str
-	.Symbol
 	.Type => contains?
 	.Type.Kind
 use~
@@ -20,7 +19,6 @@ use-debug
 	.!
 	.@.Seq seq=?
 	.@.Stream
-	.Bool true
 	.math.Num
 	.Try fails?
 

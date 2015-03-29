@@ -2,19 +2,18 @@ use
 	chalk red
 	es6-promise Promise
 	.@ _ flatten map
-	.@.Array
 	.Bool
 	.control if
 	.Fun _ apply
 	.Generator!
-	.js global new
+	.js new
 	.methods sub
 	.Type =>
 	.Type.Method self-impl!
 	.Type.Pred-Type Any
 use~
 	.math.Num
-	.Try $catch Error
+	.Try $catch
 use-debug
 	.@.Stream
 	.!
@@ -177,13 +176,13 @@ $ing.
 		! =? "whoops" $whoops.message
 	|:$ code:Fun[Generator!]
 		gen = code()
-		eval = |last-value
+		do-next = |last-value
 			value done = gen.next last-value
 			case
 				done
 					value
 				else
-					$after value eval
-		eval()
+					$after value do-next
+		do-next()
 
 $

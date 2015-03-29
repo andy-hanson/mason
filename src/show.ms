@@ -1,5 +1,5 @@
 use
-	.Bool _ true
+	.Bool
 	.compare =?
 	.Fun _ spread!
 	.js js+
@@ -8,15 +8,12 @@ use
 	.private.js-impl newSet
 	.Obj flag? p ?p @p
 	.Str _ indent
-	.Symbol
 	.Type => type-of
 	.Type.Method _ impl!
 use~
 	.@ -- empty? map
 	.@.? ?-or
-	.@.Array
 use-debug
-	.Bool false
 	.Obj
 
 showing = newSet()

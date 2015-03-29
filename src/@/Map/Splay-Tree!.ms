@@ -1,5 +1,5 @@
 use
-	...Bool _ and false not true
+	...Bool _ and not
 	...compare <?
 	...control if loop End-Loop
 	...js defined?

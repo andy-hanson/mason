@@ -10,7 +10,7 @@ export const LineSplitKeywords = setUnion(AssignKeywords, new Set(['->']))
 export const KAssign = setUnion(AssignKeywords, new Set(['export']))
 export const KFun = new Set(['|', '~|'])
 export const CaseKeywords = new Set(['case', 'case!'])
-export const SpecialKeywords = new Set([ 'undefined', 'this', 'this-module-directory' ])
+export const SpecialKeywords = new Set([ 'this', 'this-module-directory' ])
 export const UseKeywords = new Set([ 'use!', 'use', 'use~', 'use-debug' ])
 
 export const AllKeywords = setUnion(
@@ -25,9 +25,7 @@ export const AllKeywords = setUnion(
 	'in',
 	'loop!',
 	'out',
-	'region',
-	// Kludge until ES6 modules work
-	'undefined'
+	'region'
 ]))
 
 export const ReservedWords = new Set([ 'for', 'return' ])
@@ -45,6 +43,43 @@ export const GroupOpenToClose = new Map([
 	['ln', 'ln'],
 	['sp', 'sp'],
 	['"', 'close"']])
+
+// TODO: Allow Opts to specify additional globals.
+export const JsGlobals = new Set([
+	'Array',
+	'Boolean',
+	'Date',
+	'Error',
+	'EvalError',
+	'Function',
+	'JSON',
+	'Math',
+	'Number',
+	'Object',
+	'RangeError',
+	'ReferenceError',
+	'RegExp',
+	'String',
+	'Symbol',
+	'SyntaxError',
+	'TypeError',
+	'URIError',
+	'decodeURI',
+	'decodeURIComponent',
+	'encodeURI',
+	'encodeURIComponent',
+	'eval',
+	'undefined',
+	'Buffer',
+	'clearInterval',
+	'clearTimeout',
+	'console',
+	'global',
+	'setInterval',
+	'setTimeout',
+	// Not really globals, but it works out that way.
+	'false', 'true', 'null'
+])
 
 // Anything not explicitly reserved is a valid name character.
 // A `~` may appear in a name, but not at the beginning.

@@ -83,13 +83,8 @@ implementMany(EExports, 'verify', {
 			})
 		})
 	},
-	LocalAccess(_, vx) {
-		ifElse(vx.opGetLocal(_.name),
-			l => vx.setAccessToLocal(_, l),
-			() => fail(_.span,
-				`Could not find local ${code(_.name)}.` +
-				`Available locals are: [${toArray(vx.allLocalNames()).map(code).join(', ')}])`))
-	},
+	GlobalAccess() { },
+	LocalAccess(_, vx) { vx.localAccess(_) },
 	Loop(_, vx) { vx.withInLoop(_, () => v(vx)(_.block)) },
 	// Adding LocalDeclares to the available locals is done by Fun and buildVxBlockLine.
 	LocalDeclare(_, vx) { _.opType.map(v(vx)) },
