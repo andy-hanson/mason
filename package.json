@@ -48,6 +48,7 @@
 			"spread": true,
 			"templateStrings": true
 		},
+		"globals": { "_ms": true },
 		"rules": {
 			"comma-style": [ 1, "last" ],
 			"curly": [ 1, "multi" ],

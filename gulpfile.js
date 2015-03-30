@@ -26,7 +26,7 @@ gulp.task('run-requirejs', function() {
 	_ms.getModule(test)
 })
 
-const src_ms = 'src/**/*.ms',  src_js = 'src/**/*.js'
+const srcMs = 'src/**/*.ms', srcJs = 'src/**/*.js'
 const dest = 'js'
 
 function pipeMs(stream) {
@@ -69,27 +69,27 @@ function pipeJs(stream) {
 }
 
 gulp.task('js', function() {
-	return pipeJs(gulp.src(src_js))
+	return pipeJs(gulp.src(srcJs))
 })
 
 gulp.task('ms', [ 'js' ], function() {
-	return pipeMs(gulp.src(src_ms))
+	return pipeMs(gulp.src(srcMs))
 })
 
 gulp.task('watch-js', function() {
-	pipeJs(gulp.src(src_js).pipe(watch(src_js)))
+	return pipeJs(gulp.src(srcJs).pipe(watch(srcJs)))
 })
 
 gulp.task('watch', function() {
-	pipeMs(gulp.src(src_ms).pipe(watch(src_ms)))
-	pipeJs(gulp.src(src_js).pipe(watch(src_js)))
+	pipeMs(gulp.src(srcMs).pipe(watch(srcMs)))
+	pipeJs(gulp.src(srcJs).pipe(watch(srcJs)))
 })
 
 gulp.task('lint', function() {
 	// For some reason, requiring this makes es6-shim unhappy.
 	// So, can't lint and do other things in the same task.
 	const eslint = require('gulp-eslint')
-	return gulp.src(src_js)
+	return gulp.src([ '.', srcJs ])
 	.pipe(eslint())
 	.pipe(eslint.format())
 	.pipe(eslint.failOnError())

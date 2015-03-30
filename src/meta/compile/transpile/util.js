@@ -5,7 +5,7 @@ const { arrayExpression, assignmentExpression, breakStatement, callExpression, e
 import Expression, { LocalDeclare } from '../Expression'
 import { KAssign } from '../Lang'
 import Span from '../Span'
-import { flatMap, unshift } from '../U/Bag'
+import { flatMap, isEmpty, unshift } from '../U/Bag'
 import { ifElse, None } from '../U/Op'
 import type from '../U/type'
 import { declare, idMangle, member, toStatements, thunk } from './ast-util'
@@ -48,6 +48,7 @@ const ms = name => {
 export const
 	msGet = ms('get'),
 	msGetModule = ms('getModule'),
+	msLazyGetModule = ms('lazyGetModule'),
 	msArr = ms('arr'),
 	msBool = ms('bool'),
 	msLset = ms('lset'),
@@ -56,36 +57,43 @@ export const
 	msShow = ms('show'),
 	msCheckContains = ms('checkContains'),
 	msUnlazy = ms('unlazy'),
-	msLazy = ms('lazy')
+	msLazy = ms('lazy'),
+	msLazyGet = ms('lazyProp')
 
-export const makeAssignDestructure = (tx, span, assignees, isLazy, value, k, includeChecks) => {
+export const makeAssignDestructure = (tx, span, assignees, isLazy, value, k, isModule) => {
 	type(tx, Tx, span, Span, assignees, [LocalDeclare],
-		isLazy, Boolean, value, Object, k, KAssign, includeChecks, Boolean)
+		isLazy, Boolean, value, Object, k, KAssign, isModule, Boolean)
 	const destructuredName = `_$${span.start.line}`
-	const access = accessLocal(destructuredName, isLazy)
 	const assigns = flatMap(assignees, assignee => {
 		// TODO: Don't compile it if it's never accessed
-		const get = includeChecks ?
-			msGet([ access, literal(assignee.name) ]) :
-			member(access, assignee.name)
-		return toStatements(makeAssign(tx, assignee.span, assignee, k, get))
+		const get = getMember(idMangle(destructuredName), assignee.name, isLazy, isModule)
+		return toStatements(makeAssign(tx, assignee.span, assignee, k, get, isLazy))
 	})
-	const destructureDeclare =
-		declare(destructuredName, isLazy ? lazyWrap(value) : value)
-	return unshift(destructureDeclare, assigns)
+	// Getting lazy module is done by ms.lazyGetModule.
+	const val = (isLazy && !isModule) ? lazyWrap(value) : value
+	return unshift(declare(destructuredName, val), assigns)
 }
 
-export const makeAssign = (tx, span, assignee, k, value) => {
-	// TODO: value is a Node
+const getMember = (astObject, gotName, isLazy, isModule) => {
+	type(astObject, Object, gotName, String, isLazy, Boolean, isModule, Boolean)
+	if (isLazy)
+		return msLazyGet([ astObject, literal(gotName) ])
+	else if (isModule)
+		return msGet([ astObject, literal(gotName) ])
+	else
+		return member(astObject, gotName)
+}
+
+export const makeAssign = (tx, span, assignee, k, value, valueIsAlreadyLazy) => {
 	type(tx, Tx, span, Span, assignee, Expression, k, KAssign, value, Object)
 	const doAssign = (() => { switch (k) {
-		case '=': case '. ': case '<~': case '<~~':
-			if (assignee.isLazy)
-				// For a lazy value, type checking is not done until after it is generated.
-				// TODO: Include opReturnType: assignee.opType
-				return declare(assignee.name, lazyWrap(value))
-			else
-				return declare(assignee.name, value)
+		case '=': case '. ': case '<~': case '<~~': {
+			// TODO: assert(isEmpty(assignee.opType))
+			// TODO: Allow type check on lazy value?
+			const val = assignee.isLazy && !valueIsAlreadyLazy ? lazyWrap(value) : value
+			assert(assignee.isLazy || !valueIsAlreadyLazy)
+			return declare(assignee.name, val)
+		}
 		case 'export': {
 			// TODO:ES6
 			assert(!assignee.isLazy)

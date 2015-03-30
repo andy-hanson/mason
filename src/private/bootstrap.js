@@ -15,10 +15,21 @@ const pAdd = function(object, key, val) {
 const ms = exports.ms = {}
 pAdd(global, '_ms', ms)
 
+pAdd(ms, 'lazyGetModule', function(module) {
+	if (module === undefined)
+		throw new Error('Module undefined.')
+	return module._get instanceof Lazy ? module._get : _ms.lazy(function() { return module })
+})
+
 pAdd(ms, 'getModule', function(module) {
 	if (module === undefined)
 		throw new Error('Module undefined.')
 	return module._get instanceof Lazy ? ms.unlazy(module._get) : module
+})
+
+pAdd(ms, 'lazyProp', function(lazyObject, key) {
+	assert(lazyObject instanceof Lazy)
+	return _ms.lazy(function() { return lazyObject.get()[key] })
 })
 
 // TODO: Shouldn't need if we statically check.
@@ -64,14 +75,14 @@ pAdd(ms, 'checkNoExtras', function(_this, _, rtName) {
 })
 
 function Lazy(make) {
-	this.make = function() {
+	this.get = function() {
 		const _ = make()
-		this.make = function() { return _ }
+		this.get = function() { return _ }
 		return _
 	}
 }
 pAdd(ms, 'lazy', function(_) { return new Lazy(_) })
-pAdd(ms, 'unlazy', function(_) { return _ instanceof Lazy ? _.make() : _ })
+pAdd(ms, 'unlazy', function(_) { return _ instanceof Lazy ? _.get() : _ })
 
 pAdd(ms, 'set', function(_, k0, v0, k1, v1, k2, v2, k3) {
 	_[k0] = v0

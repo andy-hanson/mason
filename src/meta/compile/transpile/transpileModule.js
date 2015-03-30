@@ -8,7 +8,7 @@ import { flatMap, last, push } from '../U/Bag'
 import { opIf } from '../U/Op'
 import { astThrowError, declare, idMangle, member, toStatements } from './ast-util'
 import { t, IdDefine, IdExports, IdModule, IdRequire,
-	msGetModule, makeAssignDestructure, msLazy} from './util'
+	msGetModule, msLazyGetModule, makeAssignDestructure, msLazy } from './util'
 
 /*
 'use strict';
@@ -33,13 +33,16 @@ export default (_, tx) => {
 	const useIdentifiers = allUses.map(useIdentifier)
 	const amdArgs = AmdFirstArgs.concat(useIdentifiers)
 	const astUses = flatMap(allUses, (use, i) => {
-		const value = msGetModule([ useIdentifiers[i] ])
+		const useId = useIdentifiers[i]
 		if (use instanceof UseDo)
-			return [ expressionStatement(value) ]
+			return [ expressionStatement(msGetModule([ useId ])) ]
 		else {
 			// TODO: Could be neater about this
 			const isLazy = use.used[0].isLazy
-			return makeAssignDestructure(tx, use.span, use.used, isLazy, value, '=', true)
+			const value = isLazy ? msLazyGetModule([ useId ]) : msGetModule([ useId ])
+			const ad = makeAssignDestructure(tx, use.span, use.used, isLazy, value, '=', true)
+			ad.loc = use.span
+			return ad
 		}
 	})
 	const moduleBody = push(astUses, t(tx)(_.block))
