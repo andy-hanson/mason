@@ -26,6 +26,10 @@ gulp.task('run-requirejs', function() {
 	_ms.getModule(test)
 })
 
+gulp.task('test-compile', function() {
+	require('./js/meta/compile/test-compile')()
+})
+
 const srcMs = 'src/**/*.ms', srcJs = 'src/**/*.js'
 const dest = 'js'
 

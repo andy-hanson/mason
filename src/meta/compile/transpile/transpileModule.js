@@ -4,11 +4,11 @@ const { arrayExpression, assignmentExpression, binaryExpression, blockStatement,
 	returnStatement, unaryExpression, variableDeclaration, variableDeclarator } = builders
 import { UseDo } from '../Expression'
 import { fixupPath } from '../manglePath'
-import { flatMap, last, push } from '../U/Bag'
+import { flatMap, isEmpty, last, push } from '../U/Bag'
 import { opIf } from '../U/Op'
 import { astThrowError, declare, idMangle, member, toStatements } from './ast-util'
 import { t, IdDefine, IdExports, IdModule, IdRequire,
-	msGetModule, msLazyGetModule, makeAssignDestructure, msLazy } from './util'
+	msGetModule, msLazyGetModule, makeDestructureDeclarators, msLazy } from './util'
 
 /*
 'use strict';
@@ -32,21 +32,24 @@ export default (_, tx) => {
 		allUses.map(use => literal(fixupPath(use.path, tx)))))
 	const useIdentifiers = allUses.map(useIdentifier)
 	const amdArgs = AmdFirstArgs.concat(useIdentifiers)
-	const astUses = flatMap(allUses, (use, i) => {
-		const useId = useIdentifiers[i]
-		if (use instanceof UseDo)
-			return [ expressionStatement(msGetModule([ useId ])) ]
-		else {
-			// TODO: Could be neater about this
-			const isLazy = use.used[0].isLazy
-			const value = isLazy ? msLazyGetModule([ useId ]) : msGetModule([ useId ])
-			const ad = makeAssignDestructure(tx, use.span, use.used, isLazy, value, '=', true)
-			ad.loc = use.span
-			return ad
-		}
+	const useDos = _.doUses.map((use, i) => {
+		const d = expressionStatement(msGetModule([ useIdentifiers[i] ]))
+		d.loc = use.span
+		return d
 	})
-	const moduleBody = push(astUses, t(tx)(_.block))
-
+	const useDeclarators = flatMap(_.uses.concat(_.debugUses), (use, i) => {
+		i = i + _.doUses.length
+		const useId = useIdentifiers[i]
+		// TODO: Could be neater about this
+		const isLazy = use.used[0].isLazy
+		const value = isLazy ? msLazyGetModule([ useId ]) : msGetModule([ useId ])
+		const dd = makeDestructureDeclarators(tx, use.span, use.used, isLazy, value, '=', true)
+		dd.forEach(_ => _.loc = use.span)
+		return dd
+	})
+	const opUseDeclare = opIf(!isEmpty(useDeclarators),
+		() => variableDeclaration('const', useDeclarators))
+	const moduleBody = useDos.concat(opUseDeclare, [ t(tx)(_.block) ])
 	const doDefine = expressionStatement(
 		callExpression(IdDefine, [
 			amdNames,
@@ -55,7 +58,7 @@ export default (_, tx) => {
 }
 
 const
-	useIdentifier = (use, i) => idMangle(`${last(use.path.split('/'))}${i}`),
+	useIdentifier = (use, i) => idMangle(`${last(use.path.split('/'))}_${i}`),
 
 	// const exports = { }
 	DeclareExports = variableDeclaration('const', [

@@ -1,6 +1,4 @@
 import 'es6-shim'
-import { install } from 'source-map-support'
-install()
 import fs from 'fs'
 import lex from './lex'
 import parse from './parse'
@@ -10,9 +8,8 @@ import verify from './verify'
 import { log } from './U'
 import Opts from './Opts'
 
-global.DEBUG = true
-
-if (require.main === module) {
+module.exports = () => {
+	global.DEBUG = true
 	global.LOG_TIME = true
 
 	function time(f) {

@@ -26,6 +26,7 @@ p+! ms "checkContains" |type value name
 		else
 			# `throw new Error(name + " is no " + type + ", is ")`
 			oh-no! "{name} is no {type}, is {value}"
+	value
 
 =>. Method
 	doc. |convert-to:Type convert-me

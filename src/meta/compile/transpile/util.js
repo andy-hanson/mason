@@ -1,7 +1,7 @@
 import assert from 'assert'
 import { builders } from 'ast-types'
 const { arrayExpression, assignmentExpression, breakStatement, callExpression, expressionStatement,
-	identifier, literal, returnStatement } = builders
+	identifier, literal, returnStatement, variableDeclarator } = builders
 import Expression, { LocalDeclare } from '../Expression'
 import { KAssign } from '../Lang'
 import Span from '../Span'
@@ -60,18 +60,19 @@ export const
 	msLazy = ms('lazy'),
 	msLazyGet = ms('lazyProp')
 
-export const makeAssignDestructure = (tx, span, assignees, isLazy, value, k, isModule) => {
+export const makeDestructureDeclarators = (tx, span, assignees, isLazy, value, k, isModule) => {
 	type(tx, Tx, span, Span, assignees, [LocalDeclare],
 		isLazy, Boolean, value, Object, k, KAssign, isModule, Boolean)
 	const destructuredName = `_$${span.start.line}`
-	const assigns = flatMap(assignees, assignee => {
+	const idDestructured = identifier(destructuredName)
+	const declarators = assignees.map(assignee => {
 		// TODO: Don't compile it if it's never accessed
-		const get = getMember(idMangle(destructuredName), assignee.name, isLazy, isModule)
-		return toStatements(makeAssign(tx, assignee.span, assignee, k, get, isLazy))
+		const get = getMember(idDestructured, assignee.name, isLazy, isModule)
+		return makeDeclarator(tx, assignee.span, assignee, k, get, isLazy)
 	})
 	// Getting lazy module is done by ms.lazyGetModule.
 	const val = (isLazy && !isModule) ? lazyWrap(value) : value
-	return unshift(declare(destructuredName, val), assigns)
+	return unshift(variableDeclarator(idDestructured, val), declarators)
 }
 
 const getMember = (astObject, gotName, isLazy, isModule) => {
@@ -84,26 +85,27 @@ const getMember = (astObject, gotName, isLazy, isModule) => {
 		return member(astObject, gotName)
 }
 
-export const makeAssign = (tx, span, assignee, k, value, valueIsAlreadyLazy) => {
+export const makeDeclarator = (tx, span, assignee, k, value, valueIsAlreadyLazy) => {
 	type(tx, Tx, span, Span, assignee, Expression, k, KAssign, value, Object)
-	const doAssign = (() => { switch (k) {
+	// TODO: assert(isEmpty(assignee.opType))
+	// or TODO: Allow type check on lazy value?
+	value = assignee.isLazy ? value :
+		maybeWrapInCheckContains(value, tx, assignee.opType, assignee.name)
+	switch (k) {
 		case '=': case '. ': case '<~': case '<~~': {
-			// TODO: assert(isEmpty(assignee.opType))
-			// TODO: Allow type check on lazy value?
 			const val = assignee.isLazy && !valueIsAlreadyLazy ? lazyWrap(value) : value
 			assert(assignee.isLazy || !valueIsAlreadyLazy)
-			return declare(assignee.name, val)
+			return variableDeclarator(idMangle(assignee.name), val)
 		}
 		case 'export': {
 			// TODO:ES6
 			assert(!assignee.isLazy)
-			return declare(assignee.name, assignmentExpression('=',
-				member(IdExports, assignee.name),
-				value))
+			return variableDeclarator(
+				idMangle(assignee.name),
+				assignmentExpression('=', member(IdExports, assignee.name), value))
 		}
 		default: throw new Error(k)
-	}})()
-	return maybeCheck(doAssign, tx, assignee, k === '~=')
+	}
 }
 
 export const accessLocal = (name, isLazy) => {
@@ -112,20 +114,23 @@ export const accessLocal = (name, isLazy) => {
 	return isLazy ? msUnlazy([ idMangle(name) ]) : idMangle(name)
 }
 
-const maybeCheck = (ast, tx, local, isLazy) =>
-	ifElse(opLocalCheck(tx, local, isLazy), o => [ ast, o ], () => ast)
+export const maybeWrapInCheckContains = (ast, tx, opType, name) =>
+	tx.opts.includeTypeChecks() ?
+		ifElse(opType,
+			typ => msCheckContains([ t(tx)(typ), ast, literal(name) ]),
+			() => ast) :
+		ast
 
 export const opLocalCheck = (tx, local, isLazy) => {
 	type(tx, Tx, local, LocalDeclare, isLazy, Boolean)
-	if (!tx.opts.includeTypeChecks())
-		return None
 	// TODO: Way to typecheck lazies
-	return isLazy ? None : local.opType.map(typ =>
+	if (!tx.opts.includeTypeChecks() || isLazy)
+		return None
+	return local.opType.map(typ =>
 		expressionStatement(msCheckContains([
 			t(tx)(typ),
 			accessLocal(local.name, false),
-			literal(local.name)
-		])))
+			literal(local.name)])))
 }
 
 export const lazyWrap = value => msLazy([ thunk(value) ])

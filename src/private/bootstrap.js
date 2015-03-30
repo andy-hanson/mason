@@ -142,8 +142,8 @@ exports['impl-contains?!'] = function(type, impl) {
 		enumerable: false
 	})
 };
-// Overwritten by Type.ms
-ms.checkContains = function() { }
+// Overwritten by Type/index.ms to actually do type checking.
+ms.checkContains = function(type, val) { return val }
 
 Object[containsImplSymbol] = function(ignore, _) {
 	if (_ == null)

@@ -24,7 +24,8 @@ import { t,
 	IdRequire,
 	LitEmptyArray, LitEmptyString, LitNull, LitStrDisplayName, LitTrue,
 	Break, ReturnRes,
-	accessLocal, callRequire, lazyWrap, makeAssign, makeAssignDestructure, opLocalCheck, quote,
+	accessLocal, lazyWrap, makeDeclarator, makeDestructureDeclarators,
+	maybeWrapInCheckContains, opLocalCheck, quote,
 	msGet, msArr, msBool, msLset, msSet, msMap,
 	msShow, msCheckContains, msUnlazy, msLazy } from './util'
 import Tx from './Tx'
@@ -38,30 +39,32 @@ export default function transpile(e, opts, vr) {
 }
 
 implementMany(EExports, 'transpileSubtree', {
-	Assign: (_, tx) => makeAssign(tx, _.span, _.assignee, _.k, t(tx)(_.value)),
+	Assign: (_, tx) => variableDeclaration('const', [
+		makeDeclarator(tx, _.span, _.assignee, _.k, t(tx)(_.value)) ]),
 	// TODO:ES6 Just use native destructuring assign
-	AssignDestructure: (_, tx) =>
-		makeAssignDestructure(tx, _.span, _.assignees, _.isLazy, t(tx)(_.value), _.k, false),
-	Block(_, tx, opResCheck) {
-		if (opResCheck === undefined)
-			opResCheck = []
+	AssignDestructure: (_, tx) => variableDeclaration('const',
+		makeDestructureDeclarators(tx, _.span, _.assignees, _.isLazy, t(tx)(_.value), _.k, false)),
+	Block(_, tx, opReturnType) {
+		if (opReturnType === undefined)
+			opReturnType = None
 
 		// TODO: _in, body, _out have duplicate code
 		const _in = flatMap(_.opIn, i => toStatements(t(tx)(i)))
 		const body = flatMap(_.lines, line => toStatements(t(tx)(line)))
 
+		const opReturned = _.opReturn.map(ret =>
+			maybeWrapInCheckContains(t(tx)(ret), tx, opReturnType, 'res'))
+
 		const needResLocal =
-			!isEmpty(_.opReturn) &&
-				!(isEmpty(opResCheck) && (!tx.opts.includeInoutChecks() || isEmpty(_.opOut)))
+			tx.opts.includeInoutChecks() && !isEmpty(opReturned) && !isEmpty(_.opOut)
 		if (needResLocal) {
-			const makeRes = _.opReturn.map(ret => declare('res', t(tx)(ret)))
+			const makeRes = opReturned.map(ret => declare('res', ret))
 			const _out = flatMap(_.opOut, o => toStatements(t(tx)(o)))
-			const ret = _.opReturn.map(() => ReturnRes)
-			return blockStatement(_in.concat(body, makeRes, opResCheck, _out, ret))
+			const ret = opReturned.map(() => ReturnRes)
+			return blockStatement(_in.concat(body, makeRes, _out, ret))
 		}
 		else {
-			// no res check or out
-			const ret = _.opReturn.map(ret => returnStatement(t(tx)(ret)))
+			const ret = opReturned.map(returnStatement)
 			return blockStatement(_in.concat(body, ret))
 		}
 	},
@@ -138,21 +141,11 @@ implementMany(EExports, 'transpileSubtree', {
 			property('init', propertyIdentifier(keyName), t(tx)(_.keysVals[keyName])))),
 	EndLoop: (_, tx) => breakStatement(loopId(tx.vr.endLoopToLoop.get(_))),
 	Fun(_, tx) {
-		const opResCheck = flatMap(_.opReturnType, _ =>
-			opLocalCheck(tx,
-			EExports.LocalDeclare({
-				span: _.span,
-				name: 'res',
-				opType: some(_),
-				isLazy: false,
-				okToNotUse: false
-			}),
-			false))
 		const nArgs = literal(_.args.length)
 		const opDeclareRest = _.opRestArg.map(rest =>
 			declare(rest.name, callExpression(IdArraySliceCall, [IdArguments, nArgs])))
 		const checks = flatMap(_.args, arg => opLocalCheck(tx, arg, arg.isLazy))
-		const body = t(tx, opResCheck)(_.block)
+		const body = t(tx, _.opReturnType)(_.block)
 		const parts = push(cat(opDeclareRest, checks), body)
 		const block = blockStatement(parts)
 		return functionExpression(null, _.args.map(t(tx)), block, !(_.k === '|'))
