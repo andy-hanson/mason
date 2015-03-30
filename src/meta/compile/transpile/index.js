@@ -16,15 +16,16 @@ import { ifElse, None, some } from '../U/Op'
 import { cat, cons, flatMap, isEmpty, push, range, tail, unshift } from '../U/Bag'
 import type from '../U/type'
 import Vr from '../Vr'
-import { astThrowError, astYield, astYieldTo, declare, idMangle, member,
+import { astThrowError, astYield, astYieldTo, declare, declareSpecial, member,
 	propertyIdentifier, toStatement, toStatements, thunk } from './ast-util'
+import { idCached } from './id'
 import transpileModule from './transpileModule'
 import { t,
 	IdDisplayName, IdExports, IdEval, IdArguments, IdArraySliceCall, IdFunctionApplyCall,
 	IdMs, IdRequire,
 	LitEmptyArray, LitEmptyString, LitNull, LitStrDisplayName, LitTrue,
 	Break, ReturnRes,
-	accessLocal, lazyWrap, makeDeclarator, makeDestructureDeclarators,
+	accessLocal, accessLocalDeclare, lazyWrap, makeDeclarator, makeDestructureDeclarators,
 	maybeWrapInCheckContains, opLocalCheck, quote,
 	msGet, msArr, msBool, msLset, msSet, msMap,
 	msShow, msCheckContains, msUnlazy, msLazy } from './util'
@@ -37,6 +38,10 @@ export default function transpile(e, opts, vr) {
 	ast.loc = { source: opts.modulePath(), start: ast.loc.start, end: ast.loc.end }
 	return ast
 }
+
+// TODO: We should create this once during parsing, not during verification/transpiling.
+// See comment in Vx.
+const ResDeclare = EExports.LocalDeclare.res(null)
 
 implementMany(EExports, 'transpileSubtree', {
 	Assign: (_, tx) => variableDeclaration('const', [
@@ -58,7 +63,7 @@ implementMany(EExports, 'transpileSubtree', {
 		const needResLocal =
 			tx.opts.includeInoutChecks() && !isEmpty(opReturned) && !isEmpty(_.opOut)
 		if (needResLocal) {
-			const makeRes = opReturned.map(ret => declare('res', ret))
+			const makeRes = opReturned.map(ret => declare(ResDeclare, ret))
 			const _out = flatMap(_.opOut, o => toStatements(t(tx)(o)))
 			const ret = opReturned.map(() => ReturnRes)
 			return blockStatement(_in.concat(body, makeRes, _out, ret))
@@ -114,7 +119,7 @@ implementMany(EExports, 'transpileSubtree', {
 					return astObjed
 				} else {
 					const keysVals = cat(
-						flatMap(keys, key => [ literal(key.name), accessLocal(key.name, false) ]),
+						flatMap(keys, key => [ literal(key.name), accessLocalDeclare(key) ]),
 						flatMap(_.opDisplayName, dn => [LitStrDisplayName, literal(dn)]))
 					const anyLazy = keys.some(key => key.isLazy)
 					const args = unshift(astObjed, keysVals)
@@ -124,11 +129,11 @@ implementMany(EExports, 'transpileSubtree', {
 			() => {
 				assert(!isEmpty(keys))
 				const props = keys.map(key => {
-					const val = accessLocal(key.name, false)
+					const val = accessLocalDeclare(key)
 					const id = propertyIdentifier(key.name)
 					return key.isLazy ?
-						// TODO: dont' call 'unlazy', that checks whether it's lazy.
-						property('get', id, thunk(accessLocal(key.name, true))) :
+						// TODO: Just directly access the thunk already stored in it.
+						property('get', id, thunk(val)) :
 						property('init', id, val)
 				})
 				const opPropDisplayName = _.opDisplayName.map(dn =>
@@ -143,7 +148,7 @@ implementMany(EExports, 'transpileSubtree', {
 	Fun(_, tx) {
 		const nArgs = literal(_.args.length)
 		const opDeclareRest = _.opRestArg.map(rest =>
-			declare(rest.name, callExpression(IdArraySliceCall, [IdArguments, nArgs])))
+			declare(rest, callExpression(IdArraySliceCall, [IdArguments, nArgs])))
 		const checks = flatMap(_.args, arg => opLocalCheck(tx, arg, arg.isLazy))
 		const body = t(tx, _.opReturnType)(_.block)
 		const parts = push(cat(opDeclareRest, checks), body)
@@ -153,7 +158,7 @@ implementMany(EExports, 'transpileSubtree', {
 	Lazy: (_, tx) => lazyWrap(t(tx)(_.value)),
 	ListReturn: _ => arrayExpression(range(0, _.length).map(i => identifier(`_${i}`))),
 	ListSimple: (_, tx) => arrayExpression(_.parts.map(t(tx))),
-	ListEntry: (_, tx) => declare(`_${_.index}`, t(tx)(_.value)),
+	ListEntry: (_, tx) => declareSpecial(`_${_.index}`, t(tx)(_.value)),
 	ELiteral(_) {
 		switch (_.k) {
 			case Number: {
@@ -176,8 +181,8 @@ implementMany(EExports, 'transpileSubtree', {
 		}
 	},
 	GlobalAccess: _ => identifier(_.name),
-	LocalAccess: (_, tx) => accessLocal(_.name, tx.vr.isLazy(_)),
-	LocalDeclare: _ => accessLocal(_.name, false),
+	LocalAccess: (_, tx) => accessLocal(tx, _),
+	LocalDeclare: _ => idCached(_),
 	// TODO: Don't always label!
 	Loop: (_, tx) =>
 		labeledStatement(loopId(_), whileStatement(LitTrue, t(tx)(_.block))),

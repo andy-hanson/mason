@@ -20,10 +20,6 @@ export const VrLocalInfo = ObjType('LocalInfo', Object, {
 })
 
 Object.assign(Vr.prototype, {
-	isLazy(local) {
-		type(local, LocalAccess)
-		return this.accessToLocal.get(local).isLazy
-	},
 	setEIsInGenerator(e, is) {
 		type(e, Expression, is, Boolean)
 		assert(botherWithIsInGenerator(e))

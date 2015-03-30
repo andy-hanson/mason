@@ -79,19 +79,13 @@ export default class Vx {
 	}
 	withFocus(span, fun) {
 		// TODO: Bad idea to be creating new E at this point...
-		const utf = set(LocalDeclare.UntypedFocus(span), 'okToNotUse', true)
-		this.registerLocal(utf)
-		this.plusLocals([ utf ], fun)
+		const focus = set(LocalDeclare.focus(span), 'okToNotUse', true)
+		this.registerLocal(focus)
+		this.plusLocals([ focus ], fun)
 	}
 	withRes(span, fun) {
 		// TODO: Bad idea to be creating new E at this point...
-		const res = LocalDeclare({
-			span,
-			name: 'res',
-			opType: None,
-			isLazy: false,
-			okToNotUse: true
-		})
+		const res = LocalDeclare.res(span)
 		this.registerLocal(res)
 		return this.plusLocals([ res ], fun)
 	}

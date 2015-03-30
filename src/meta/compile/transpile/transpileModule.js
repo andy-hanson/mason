@@ -6,7 +6,8 @@ import { UseDo } from '../Expression'
 import { fixupPath } from '../manglePath'
 import { flatMap, isEmpty, last, push } from '../U/Bag'
 import { opIf } from '../U/Op'
-import { astThrowError, declare, idMangle, member, toStatements } from './ast-util'
+import { astThrowError, declare, member, toStatements } from './ast-util'
+import { idSpecialCached } from './id'
 import { t, IdDefine, IdExports, IdModule, IdRequire,
 	msGetModule, msLazyGetModule, makeDestructureDeclarators, msLazy } from './util'
 
@@ -58,7 +59,7 @@ export default (_, tx) => {
 }
 
 const
-	useIdentifier = (use, i) => idMangle(`${last(use.path.split('/'))}_${i}`),
+	useIdentifier = (use, i) => idSpecialCached(`${last(use.path.split('/'))}_${i}`),
 
 	// const exports = { }
 	DeclareExports = variableDeclaration('const', [

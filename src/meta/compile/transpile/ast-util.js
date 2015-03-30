@@ -9,31 +9,41 @@ import Expression, { Do, Fun, LocalDeclare } from '../Expression'
 import Span from '../Span'
 import { ifElse, None, some } from '../U/Op'
 import type from '../U/type'
+import { idCached, idSpecialCached } from './id'
 import { renderExpr } from './index'
-import mangleIdentifier, { needsMangle } from './mangleIdentifier'
+import { needsMangle } from './mangleIdentifier'
 import Tx from './Tx'
 
 export const astYield = argument => ({ type: 'YieldExpression', argument })
 export const astYieldTo = argument => ({ type: 'YieldExpression', delegate: true, argument })
 
-export const member = (object, property) => {
-	type(property, String)
-	return needsMangle(property) ?
-		memberExpression(object, literal(property), true) :
-		memberExpression(object, identifier(property), false)
+export const member = (object, propertyName) => {
+	type(propertyName, String)
+	const id = propertyIdentifier(propertyName)
+	return memberExpression(object, id, id.type === 'Literal')
 }
-export const propertyIdentifier = name =>
-	needsMangle(name) ? literal(name) : identifier(name)
+const propertyIds = new Map()
+export const propertyIdentifier = propertyName => {
+	let _ = propertyIds.get(propertyName)
+	if (_ === undefined) {
+		_ = needsMangle(propertyName) ? literal(propertyName) : identifier(propertyName)
+		propertyIds.set(propertyName, _)
+	}
+	return _
+}
+
 
 // TODO:ES6 arrow functions
 export const thunk = value =>
 	functionExpression(null, [], blockStatement([returnStatement(value)]))
 
-export const idMangle = name => identifier(mangleIdentifier(name))
-
-export function declare(name, val) {
+export function declare(localDeclare, val) {
+	type(localDeclare, LocalDeclare, val, Object)
+	return variableDeclaration('const', [ variableDeclarator(idCached(localDeclare), val) ])
+}
+export function declareSpecial(name, val) {
 	type(name, String, val, Object)
-	return variableDeclaration('const', [ variableDeclarator(idMangle(name), val) ])
+	return variableDeclaration('const', [ variableDeclarator(idSpecialCached(name), val) ])
 }
 
 export const toStatement = _ => Statement.check(_) ? _ : expressionStatement(_)

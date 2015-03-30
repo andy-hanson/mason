@@ -33,18 +33,27 @@ export const LocalDeclare = ee('LocalDeclare', {
 	isLazy: Boolean,
 	okToNotUse: Boolean
 })
-LocalDeclare.UntypedFocus = span => LocalDeclare({
-	span,
-	name: '_',
-	opType: None,
-	isLazy: false,
-	okToNotUse: false
+Object.assign(LocalDeclare, {
+	focus: span => LocalDeclare({
+		span,
+		name: '_',
+		opType: None,
+		isLazy: false,
+		okToNotUse: false
+	}),
+	res: span => LocalDeclare({
+		span,
+		name: 'res',
+		opType: None,
+		isLazy: false,
+		okToNotUse: true
+	})
 })
 
 export const Assign = ed('Assign', { assignee: LocalDeclare, k: KAssign, value: Val })
 Assign.focus = (span, value) => Assign({
 	span,
-	assignee: LocalDeclare.UntypedFocus(span),
+	assignee: LocalDeclare.focus(span),
 	k: '=',
 	value
 })

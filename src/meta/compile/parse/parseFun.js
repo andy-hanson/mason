@@ -35,7 +35,7 @@ export default function parseFun(px, k) {
 		if (Keyword.is(CaseKeywords)(h)) {
 			const eCase = px.w(rest.tail(), parseCase, h.k, true)
 			return {
-				args: [ LocalDeclare.UntypedFocus(h.span) ],
+				args: [ LocalDeclare.focus(h.span) ],
 				opRestArg: None,
 				block: Block(px.s({
 					opIn: None,

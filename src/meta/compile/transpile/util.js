@@ -2,13 +2,14 @@ import assert from 'assert'
 import { builders } from 'ast-types'
 const { arrayExpression, assignmentExpression, breakStatement, callExpression, expressionStatement,
 	identifier, literal, returnStatement, variableDeclarator } = builders
-import Expression, { LocalDeclare } from '../Expression'
+import Expression, { LocalAccess, LocalDeclare } from '../Expression'
 import { KAssign } from '../Lang'
 import Span from '../Span'
 import { flatMap, isEmpty, unshift } from '../U/Bag'
 import { ifElse, None } from '../U/Op'
 import type from '../U/type'
-import { declare, idMangle, member, toStatements, thunk } from './ast-util'
+import { declare, member, toStatements, thunk } from './ast-util'
+import { idCached, idNew } from './id'
 import Tx from './Tx'
 
 export const t = (tx, arg) => expr => {
@@ -95,23 +96,27 @@ export const makeDeclarator = (tx, span, assignee, k, value, valueIsAlreadyLazy)
 		case '=': case '. ': case '<~': case '<~~': {
 			const val = assignee.isLazy && !valueIsAlreadyLazy ? lazyWrap(value) : value
 			assert(assignee.isLazy || !valueIsAlreadyLazy)
-			return variableDeclarator(idMangle(assignee.name), val)
+			return variableDeclarator(idCached(assignee), val)
 		}
 		case 'export': {
 			// TODO:ES6
 			assert(!assignee.isLazy)
 			return variableDeclarator(
-				idMangle(assignee.name),
+				idCached(assignee),
 				assignmentExpression('=', member(IdExports, assignee.name), value))
 		}
 		default: throw new Error(k)
 	}
 }
 
-export const accessLocal = (name, isLazy) => {
-	type(name, String, isLazy, Boolean)
+export const accessLocal = (tx, localAccess) => {
+	type(tx, Tx, localAccess, LocalAccess)
+	return accessLocalDeclare(tx.vr.accessToLocal.get(localAccess))
+}
+export const accessLocalDeclare = localDeclare => {
+	type(localDeclare, LocalDeclare)
 	// TODO: Dont' call unlazy, that has to check for laziness and we know it's lazy
-	return isLazy ? msUnlazy([ idMangle(name) ]) : idMangle(name)
+	return localDeclare.isLazy ? msUnlazy([ idCached(localDeclare) ]) : idNew(localDeclare)
 }
 
 export const maybeWrapInCheckContains = (ast, tx, opType, name) =>
@@ -129,7 +134,7 @@ export const opLocalCheck = (tx, local, isLazy) => {
 	return local.opType.map(typ =>
 		expressionStatement(msCheckContains([
 			t(tx)(typ),
-			accessLocal(local.name, false),
+			accessLocalDeclare(local),
 			literal(local.name)])))
 }
 
