@@ -1,5 +1,4 @@
-import { ms } from './bootstrap'
-const { bool, unlazy } = ms
+const { bool, unlazy } = _ms
 
 export	const
 	// js.ms
@@ -81,7 +80,7 @@ export	const
 	makeError = error => {
 		let err
 		try {
-			err = ms.unlazy(error)
+			err = _ms.unlazy(error)
 		} catch (e) {
 			return makeError(e)
 			// TODO: return new Error ('Error making error: ' + e.message)

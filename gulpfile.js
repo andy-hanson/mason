@@ -15,7 +15,8 @@ gulp.task('run', function() {
 	_ms.getModule(test)
 })
 
-// TODO: Run-all-tests does not work yet. Need to figure out how to do reflection on requirejs modules.
+// TODO: Run-all-tests does not work yet.
+// Need to figure out how to do reflection on requirejs modules.
 gulp.task('run-requirejs', function() {
 	const requirejs = require('requirejs')
 	requirejs.config({
@@ -64,7 +65,8 @@ function pipeJs(stream) {
 			'strict'
 		]
 	}))
-	.pipe(header("if (typeof define !== 'function') { var define = require('amdefine')(module) }"))
+	.pipe(header(
+		'if (typeof define !== \'function\') var define = require(\'amdefine\')(module);\n'))
 	.pipe(sourcemaps.write('.', {
 		debug: true,
 		sourceRoot: '/src'
@@ -93,7 +95,7 @@ gulp.task('lint', function() {
 	// For some reason, requiring this makes es6-shim unhappy.
 	// So, can't lint and do other things in the same task.
 	const eslint = require('gulp-eslint')
-	return gulp.src([ '.', srcJs ])
+	return gulp.src([ './*.js', srcJs ])
 	.pipe(eslint())
 	.pipe(eslint.format())
 	.pipe(eslint.failOnError())

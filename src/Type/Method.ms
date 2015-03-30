@@ -2,10 +2,9 @@ use
 	..Bool _ and implies not
 	..js defined? js-sub
 	..private.js-impl buildStr
-	..private.bootstrap Fun impl-contains?! Obj p+! Str ms contains?-impl-symbol
+	..private.bootstrap Fun impl-contains?! Obj Str msDef contains?-impl-symbol
 	.Obj-Type
 use~
-	..!
 	..@.? un-?
 	..control if
 	..Fun noop
@@ -14,11 +13,14 @@ use~
 	.Impl-Type _ self-type
 	.Kind
 use-debug
+	..!
 	..@.@-Type empty
 	..@.?
 	..compare =?
 	..math.Num
+	..private.bootstrap p+!
 	..Try fails?
+	.index contains?
 
 make-callable-method = |method
 	src = buildStr |add!
@@ -228,14 +230,14 @@ region Private
 		make-callable. |_
 			|...args
 				target-2 = js-sub args 1
-				case!
+				debug case!
 					defined? target-2
 						()
 					else
 						oh-no! ~"Can't double-dispatch {_.method} for undefined."
 
 				impl = js-sub target-2 _.impl-symbol
-				case!
+				debug case!
 					defined? impl
 						! contains? Fun impl
 					else
@@ -246,11 +248,12 @@ method-contains? = |method value
 	p-with-proto? value method.impl-symbol
 impl-contains?! Method method-contains?
 
-contains? = Method
+# TODO: Not public, try moving to Type.ms
+--contains?. Method
 	doc. |:Bool collection value
 		"Whether some collection of things as as an element `value`."
 	impl-symbol. contains?-impl-symbol
 
-p+! ms "contains" contains?
+msDef "contains" --contains?
 
 Method

@@ -1,11 +1,11 @@
 use
-	.private.bootstrap ms Obj p+!
+	.private.bootstrap Obj msDef
 	.Type.Method
 
 region Basics
 	sub. Method
 		doc. "Implementing this allows the use of the special syntax `a[b]`."
-	p+! ms "sub" sub
+	msDef "sub" sub
 
 region Unsorted
 	# TODO: Move these?

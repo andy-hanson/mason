@@ -1,11 +1,11 @@
 use
-	.compile.manglePath
 	path relative
 	..$ _ $after
 	..@ keep map'
 	..compare sort
 	..js new
-	..private.bootstrap ms
+	..private.bootstrap msCall
+	.compile.manglePath
 
 # TODO: These don't work with RequireJS!
 
@@ -21,7 +21,7 @@ get-module.
 		TODO: This can't be used by anyone not in the same directory as modules.ms.
 	|module-path
 		relative-path = relative this-module-directory module-path
-		ms.getModule (commonJS-require "./{manglePath relative-path}")
+		msCall "getModule" (commonJS-require "./{manglePath relative-path}"
 
 $@module-in-dir.
 	doc. "Every module in a directory and its subdirectories."

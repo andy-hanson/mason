@@ -2,8 +2,7 @@ use
 	...Fun thunk
 	...private.js-impl makeMap
 	...methods freeze
-	...Obj! p+!
-	...private.bootstrap ms
+	...private.bootstrap msDef
 	...Type.Alias-Type
 	...Type.Kind self-kind!
 	...Type.Method self-impl!
@@ -19,7 +18,7 @@ self-kind! Hash-Map Map-Type
 self-impl! empty Hash-Map (thunk (freeze (empty Hash-Map!
 
 # TODO: MOVE?
-p+! ms "map" |...args
+msDef "map" |...args
 	hm = empty Hash-Map!
 	makeMap hm assoc! args
 	freeze hm

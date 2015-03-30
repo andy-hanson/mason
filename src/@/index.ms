@@ -5,8 +5,7 @@ use
 	..js defined? id=?
 	..math.methods +
 	..Obj
-	..Obj! p+!
-	..private.bootstrap ms
+	..private.bootstrap msDef
 	..Type => contains? type-of
 	..Type.Kind
 	..Type.Method _ impl!
@@ -43,7 +42,7 @@ use-debug
 iterator. Method
 	doc. |:Generator! _
 		"Creates a new Generator! which yields the values in the @. Should create a new one every time."
-p+! ms "iterator" iterator
+msDef "iterator" iterator
 
 empty?. Method
 	doc. "Whether `count` is 0. Often much faster."

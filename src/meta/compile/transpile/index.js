@@ -20,8 +20,8 @@ import { astThrowError, astYield, astYieldTo, declare, idMangle, member,
 	propertyIdentifier, toStatement, toStatements, thunk } from './ast-util'
 import transpileModule from './transpileModule'
 import { t,
-	IdDisplayName, IdExports, IdEval, IdArguments, IdArraySliceCall, IdFunctionApplyCall, IdMs,
-	IdRequire,
+	IdDisplayName, IdExports, IdEval, IdArguments, IdArraySliceCall, IdFunctionApplyCall,
+	IdMs, IdRequire,
 	LitEmptyArray, LitEmptyString, LitNull, LitStrDisplayName, LitTrue,
 	Break, ReturnRes,
 	accessLocal, lazyWrap, makeDeclarator, makeDestructureDeclarators,

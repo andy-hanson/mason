@@ -1,53 +1,59 @@
 import 'es6-shim'
 import assert from 'assert'
 
-const pAdd = function(object, key, val) {
+const pAdd = (object, key, value) =>
 	Object.defineProperty(object, key, {
-		value: val,
+		value,
 		enumerable: true,
 		// TODO:ES6 `writable` shouldn't need to be explicit
 		writable: false
 	})
-}
 
 // region Builtin Funs for use by the compiler
 // This object contains functions called upon by compiled code.
 const ms = exports.ms = {}
 pAdd(global, '_ms', ms)
 
-pAdd(ms, 'lazyGetModule', function(module) {
+const msDef = exports.msDef = (name, fun) =>
+	pAdd(ms, name, fun)
+const msDefTemp = (name, fun) =>
+	ms[name] = fun
+exports.msCall = (name, ...args) =>
+	ms[name](...args)
+
+msDef('lazyGetModule', module => {
 	if (module === undefined)
 		throw new Error('Module undefined.')
-	return module._get instanceof Lazy ? module._get : _ms.lazy(function() { return module })
+	return module._get instanceof Lazy ? module._get : ms.lazy(() => module)
 })
 
-pAdd(ms, 'getModule', function(module) {
+msDef('getModule', module => {
 	if (module === undefined)
 		throw new Error('Module undefined.')
 	return module._get instanceof Lazy ? ms.unlazy(module._get) : module
 })
 
-pAdd(ms, 'lazyProp', function(lazyObject, key) {
+msDef('lazyProp', (lazyObject, key) => {
 	assert(lazyObject instanceof Lazy)
-	return _ms.lazy(function() { return lazyObject.get()[key] })
+	return ms.lazy(() => lazyObject.get()[key])
 })
 
 // TODO: Shouldn't need if we statically check.
-pAdd(ms, 'get', function(object, key) {
+msDef('get', (object, key) => {
 	const _ = object[key]
 	if (_ === undefined)
 		throw new Error('Module ' + object.displayName + ' does not have ' + key)
 	return _
 })
 
-pAdd(ms, 'bool', function(b) {
+msDef('bool', b => {
 	if (typeof b !== 'boolean')
-		throw new Error('Expected Bool, got ' + b)
+		throw new Error(`Expected Bool, got ${b}`)
 	return b
 })
 
 // TODO:ES6 fun(...arg) should do this for me.
-pAdd(ms, 'arr', function(a) {
+msDef('arr', a => {
 	if (a instanceof Array)
 		return a
 	const out = []
@@ -64,7 +70,7 @@ pAdd(ms, 'arr', function(a) {
 })
 
 // For use by Obj-Type.ms
-pAdd(ms, 'checkNoExtras', function(_this, _, rtName) {
+msDef('checkNoExtras', (_this, _, rtName) => {
 	// If there was some key in `_` that we didn't copy:
 	if (Object.keys(_).length > Object.keys(_this).length)
 		Object.getOwnPropertyNames(_).forEach(function(name) {
@@ -81,10 +87,10 @@ function Lazy(make) {
 		return _
 	}
 }
-pAdd(ms, 'lazy', function(_) { return new Lazy(_) })
-pAdd(ms, 'unlazy', function(_) { return _ instanceof Lazy ? _.get() : _ })
+msDef('lazy', _ => new Lazy(_))
+msDef('unlazy', _ => _ instanceof Lazy ? _.get() : _)
 
-pAdd(ms, 'set', function(_, k0, v0, k1, v1, k2, v2, k3) {
+msDef('set', (_, k0, v0, k1, v1, k2, v2, k3) => {
 	_[k0] = v0
 	if (k1 === undefined)
 		return _
@@ -103,7 +109,7 @@ const setOrLazy = function(_, k, v) {
 		pAdd(_, k, v)
 }
 
-pAdd(ms, 'lset', function(_, k0, v0, k1, v1, k2, v2, k3) {
+msDef('lset', (_, k0, v0, k1, v1, k2, v2, k3) => {
 	setOrLazy(_, k0, v0)
 	if (k1 === undefined)
 		return _
@@ -116,20 +122,17 @@ pAdd(ms, 'lset', function(_, k0, v0, k1, v1, k2, v2, k3) {
 })
 
 // Overwritten by show.ms
-ms.show = function(x) {
-	if (typeof x !== 'string' && typeof x !== 'number')
+msDefTemp('show', _ => {
+	if (typeof _ !== 'string' && typeof _ !== 'number')
 		throw new Error(
 			'Should only be using Strs or Nums here until this is defined for real in show.ms.')
-	return x.toString()
-}
-
+	return _.toString()
+})
 
 // region Funs used by bootstrapping code
-exports.Array = Array
 exports.Fun = Function
 exports.Obj = Object
 exports.Str = String
-exports.Symbol = Symbol
 exports['p+!'] = pAdd
 
 
@@ -143,7 +146,7 @@ exports['impl-contains?!'] = function(type, impl) {
 	})
 };
 // Overwritten by Type/index.ms to actually do type checking.
-ms.checkContains = function(type, val) { return val }
+msDefTemp('checkContains', (type, val) => val)
 
 Object[containsImplSymbol] = function(ignore, _) {
 	if (_ == null)

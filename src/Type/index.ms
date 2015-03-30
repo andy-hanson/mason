@@ -1,10 +1,10 @@
 use
 	..compare =?
 	..js id=? js-instanceof
-	..private.bootstrap Fun impl-contains?! ms p+!
+	..private.bootstrap Fun impl-contains?! msDef
 	.Impl-Type
 	.Kind _ kind!
-	.Method _ impl!
+	.Method _ --contains? impl!
 use~
 	..@.? ?-or
 	..Obj _ ?p-with-proto
@@ -17,9 +17,9 @@ Type. Kind
 
 impl! =? Type id=?
 
-contains?. ms.contains
+contains?. --contains?
 
-p+! ms "checkContains" |type value name
+msDef "checkContains" |type value name
 	case!
 		contains? type value
 			()

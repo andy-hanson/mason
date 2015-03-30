@@ -4,7 +4,7 @@ use
 	.Fun _ spread!
 	.js js+
 	.math.Num
-	.private.bootstrap p+! ms
+	.private.bootstrap msDef
 	.private.js-impl newSet
 	.Obj flag? p ?p @p
 	.Str _ indent
@@ -129,6 +129,6 @@ spread! impl! show
 					else
 						_
 
-p+! ms "show" show
+msDef "show" show
 
 show
