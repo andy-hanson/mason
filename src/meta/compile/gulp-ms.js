@@ -4,6 +4,7 @@ import { obj } from 'through2'
 import applySourceMap from 'vinyl-sourcemaps-apply'
 import compile from './index'
 import { CompileError } from './check'
+import manglePath from './manglePath'
 
 const Name = 'gulp-ms'
 
@@ -20,7 +21,7 @@ export default function gulpMs(opts) {
 			cb(new PluginError(Name, 'Streaming not supported'))
 		else {
 			const src = file.contents.toString('utf8')
-			const outFile = replaceExtension(file.path, '.js')
+			const outFile = manglePath(replaceExtension(file.path, '.js'))
 			try {
 				const { code, sourceMap } = compile(src, file.path, opts)
 				applySourceMap(file, sourceMap)

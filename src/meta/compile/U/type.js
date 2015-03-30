@@ -1,6 +1,5 @@
 import assert from 'assert'
 import Op from './Op'
-import { toArray } from './Bag'
 
 export default function type() {
 	if (!global.DEBUG)
@@ -19,6 +18,7 @@ function typePair(instance, itsType) {
 	if (!isa(instance, itsType)) {
 		if (instance === null) throw new Error('Value null')
 		if (instance === undefined) throw new Error('Value undefined')
+		const toArray = require('./Bag').toArray
 		const strType =
 			itsType instanceof Array ?
 			`[${itsType[0].name}]` :

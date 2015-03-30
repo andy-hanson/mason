@@ -48,7 +48,7 @@ export const
 	flatMap = (mapped, mapper) => {
 		type(mapped, Array, mapper, Function)
 		const out = []
-		mapped.forEach(_ => out.push(...mapper(_)))
+		mapped.forEach((_, i) => out.push(...mapper(_, i)))
 		return out
 	},
 

@@ -10,7 +10,7 @@ Use one console to build continuously:
 
 	npm install; ./gulp
 
-And in the other console, `./run` will run all tests.
+And in the other console, `./gulp run` will run all tests.
 
 
 ### Editing

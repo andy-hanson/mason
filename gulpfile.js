@@ -1,10 +1,30 @@
-"use strict"
+'use strict'
 
+require('source-map-support').install()
 const
 	babel = require('gulp-babel'),
+	header = require('gulp-header'),
 	gulp = require('gulp'),
 	sourcemaps = require('gulp-sourcemaps'),
 	watch = require('gulp-watch')
+
+gulp.task('default', [ 'watch' ])
+
+gulp.task('run', function() {
+	const test = require('./js/meta/test')
+	_ms.getModule(test)
+})
+
+// TODO: Run-all-tests does not work yet. Need to figure out how to do reflection on requirejs modules.
+gulp.task('run-requirejs', function() {
+	const requirejs = require('requirejs')
+	requirejs.config({
+		baseUrl: 'js',
+		nodeRequire: require
+	})
+	const test = requirejs('meta/test')
+	_ms.getModule(test)
+})
 
 const src_ms = 'src/**/*.ms',  src_js = 'src/**/*.js'
 const dest = 'js'
@@ -27,6 +47,7 @@ function pipeJs(stream) {
 	return stream
 	.pipe(sourcemaps.init())
 	.pipe(babel({
+		modules: 'amd',
 		whitelist: [
 			'es6.arrowFunctions',
 			'es6.classes',
@@ -39,6 +60,7 @@ function pipeJs(stream) {
 			'strict'
 		]
 	}))
+	.pipe(header("if (typeof define !== 'function') { var define = require('amdefine')(module) }"))
 	.pipe(sourcemaps.write('.', {
 		debug: true,
 		sourceRoot: '/src'
@@ -72,5 +94,3 @@ gulp.task('lint', function() {
 	.pipe(eslint.format())
 	.pipe(eslint.failOnError())
 })
-
-gulp.task('default', [ 'watch' ])

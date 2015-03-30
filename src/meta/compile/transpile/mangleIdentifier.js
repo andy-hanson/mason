@@ -12,18 +12,6 @@ export function needsMangle(name) {
 	return forbiddenNames.has(name) || name.search(/[^a-zA-Z0-9$_]/) !== -1
 }
 
-export function quote(str) {
-	type(str, String)
-	const escaped = str.split('').map(ch => quoteEscape[ch] || ch).join('')
-	return '"' + escaped + '"'
-}
-const quoteEscape = {
-	'\n': '\\n',
-	'\t': '\\t',
-	'"': '\\"',
-	'\\': '\\\\'
-}
-
 const forbiddenNames = setUnion(JsGlobals, new Set([
 	'abstract',
 	'arguments',

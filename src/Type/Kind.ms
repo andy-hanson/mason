@@ -151,7 +151,8 @@ kind!.
 		Kinds can subtype each other.
 	test. "See Impl-Type.test."
 	# TODO: Assert no circular chains of kind!.
-	|implementor:Impl-Type kind:Kind method-impls
+	# TODO implementor:Impl-Type
+	|implementor kind:Kind method-impls
 		in
 			! (can-subtype? kind) ~"{kind} is not open to new subtypes."
 			!not kind? implementor kind
@@ -179,7 +180,8 @@ kind?.
 		Whether one Impl-Type is a subtype of a Kind."
 		implementor may itself be a Kind.
 	test. "See Impl-Type.test."
-	|implementor:Impl-Type kind:Kind
+	# TODO implementor:Impl-Type
+	|implementor kind:Kind
 		case implementor
 			:Kind
 				_.super-kinds.some |super

@@ -1,10 +1,11 @@
 import { builders } from 'ast-types'
 const { arrayExpression, assignmentExpression, binaryExpression, blockStatement, breakStatement,
-	callExpression, debuggerStatement, emptyStatement, expressionStatement, functionExpression,
-	identifier, labeledStatement, literal, newExpression, objectExpression, program, property,
-	returnStatement, switchCase, switchStatement, thisExpression, throwStatement, unaryExpression,
-	variableDeclaration, variableDeclarator, whileStatement } = builders
+	callExpression, debuggerStatement, emptyStatement, functionExpression, identifier,
+	labeledStatement, literal,
+	objectExpression, property, returnStatement, switchCase, switchStatement, thisExpression,
+	unaryExpression, variableDeclaration, variableDeclarator, whileStatement } = builders
 import assert from 'assert'
+import { parse as esParse } from 'esprima'
 import check, { fail } from '../check'
 import Expression, * as EExports from '../Expression'
 import { KAssign } from '../Lang'
@@ -15,9 +16,17 @@ import { ifElse, None, some } from '../U/Op'
 import { cat, cons, flatMap, isEmpty, push, range, tail, unshift } from '../U/Bag'
 import type from '../U/type'
 import Vr from '../Vr'
-import { astYield, astYieldTo, declare, idMangle, member,
+import { astThrowError, astYield, astYieldTo, declare, idMangle, member,
 	propertyIdentifier, toStatement, toStatements, thunk } from './ast-util'
-import mangle, { quote } from './mangle'
+import transpileModule from './transpileModule'
+import { t,
+	IdDisplayName, IdExports, IdEval, IdArguments, IdArraySliceCall, IdFunctionApplyCall, IdMs,
+	IdRequire,
+	LitEmptyArray, LitEmptyString, LitNull, LitStrDisplayName, LitTrue,
+	Break, ReturnRes,
+	accessLocal, callRequire, lazyWrap, makeAssign, makeAssignDestructure, opLocalCheck, quote,
+	msGet, msArr, msBool, msLset, msSet, msMap,
+	msShow, msCheckContains, msUnlazy, msLazy } from './util'
 import Tx from './Tx'
 
 export default function transpile(e, opts, vr) {
@@ -27,19 +36,8 @@ export default function transpile(e, opts, vr) {
 	ast.loc = { source: opts.modulePath(), start: ast.loc.start, end: ast.loc.end }
 	return ast
 }
-const t = (tx, arg) => expr => {
-	type(tx, Tx, expr, Expression)
-	const ast = transpileSubtree(expr, tx, arg)
-	function appendLoc(_) { _.loc = expr.span }
-	if (ast instanceof Array)
-		// This is only allowed inside of Blocks, which use `toStatements`.
-		ast.forEach(appendLoc)
-	else
-		appendLoc(ast)
-	return ast
-}
 
-const transpileSubtree = implementMany(EExports, 'transpileSubtree', {
+implementMany(EExports, 'transpileSubtree', {
 	Assign: (_, tx) => makeAssign(tx, _.span, _.assignee, _.k, t(tx)(_.value)),
 	// TODO:ES6 Just use native destructuring assign
 	AssignDestructure: (_, tx) =>
@@ -174,8 +172,13 @@ const transpileSubtree = implementMany(EExports, 'transpileSubtree', {
 			}
 			case String:
 				return literal(_.value)
-			case 'js':
-				return callExpression(IdEval, [ literal(_.value) ])
+			case 'js': {
+				const program = esParse(_.value)
+				assert(program.body.length === 1)
+				const statement = program.body[0]
+				assert(statement.type === 'ExpressionStatement')
+				return statement.expression
+			}
 			default: throw new Error(_.k)
 		}
 	},
@@ -192,13 +195,7 @@ const transpileSubtree = implementMany(EExports, 'transpileSubtree', {
 		variableDeclarator(identifier(`_v${_.index}`), t(tx)(_.val))
 	]),
 	Member: (_, tx) => member(t(tx)(_.object), _.name),
-	Module: (_, tx) => {
-		// '\nglobal.console.log(">>> ' + tx.opts.moduleName() + '")\n',
-		const u = flatMap(_.doUses.concat(_.uses, _.debugUses), u => toStatements(t(tx)(u)))
-		const b = t(tx)(_.block)
-		// '\nglobal.console.log("<<< ' + tx.opts.moduleName() + '")\n'
-		return program(unshift(UseStrict, push(u, b)))
-	},
+	Module: transpileModule,
 	// TODO:ES6 Use `export default`
 	ModuleDefaultExport(_, tx) {
 		const m = member(IdExports, tx.opts.moduleName())
@@ -228,9 +225,6 @@ const transpileSubtree = implementMany(EExports, 'transpileSubtree', {
 		}
 	},
 	Splat: _ => fail(_.span, 'Splat must appear as argument to a call.'),
-	UseDo: _ => callRequire(_.path),
-	Use: (_, tx) =>
-		makeAssignDestructure(tx, _.span, _.used, _.used[0].isLazy, callRequire(_.path), '=', true),
 	Yield: (_, tx) => astYield(t(tx)(_.yielded)),
 	YieldTo: (_, tx) => astYieldTo(t(tx)(_.yieldedTo))
 })
@@ -240,14 +234,7 @@ const blockWrap = (_, tx, block) =>
 		astYieldTo(callExpression(functionExpression(null, [], block, true), [])) :
 		callExpression(functionExpression(null, [], block), [])
 
-const callRequire = path =>
-	callExpression(IdRequire, [ literal(path) ])
-
-const caseFail = switchCase(
-	null,
-	[ throwStatement(
-		newExpression(
-			member(identifier('global'), 'Error'), [ literal('No branch of `case` matches.') ])) ])
+const caseFail = switchCase(	null, [ astThrowError('No branch of `case` matches.') ])
 function caseBody(tx, parts, opElse, needBreak) {
 	const elze = ifElse(opElse,
 		_ => switchCase(null, [ t(tx)(_) ]),
@@ -258,111 +245,9 @@ function caseBody(tx, parts, opElse, needBreak) {
 	return switchStatement(LitTrue, cases, isLexical)
 }
 
-// TODO:SORT
-const
-	Break = breakStatement(),
-	LitEmptyArray = arrayExpression([]),
-	LitEmptyString = literal(''),
-	LitNull = literal(null),
-	LitTrue = literal(true),
-	ReturnRes = returnStatement(identifier('res')),
-	IdRequire = identifier('require'),
-	IdExports = identifier('exports'),
-	IdEval = identifier('eval'),
-	IdDisplayName = identifier('displayName'),
-	LitStrDisplayName = literal('displayName'),
-	IdFunctionApplyCall = member(member(identifier('Function'), 'apply'), 'call'),
-	IdArraySliceCall = member(member(LitEmptyArray, 'slice'), 'call'),
-	IdArguments = identifier('arguments'),
-	UseStrict = toStatement(literal('use strict'))
-
-const IdMs = identifier('_ms')
-const ms = name => {
-	const m = member(IdMs, name)
-	return args => callExpression(m, args)
-}
-const
-	msGet = ms('get'),
-	msArr = ms('arr'),
-	msBool = ms('bool'),
-	msLset = ms('lset'),
-	msSet = ms('set'),
-	msMap = ms('map'),
-	msShow = ms('show'),
-	msCheckContains = ms('checkContains'),
-	msUnlazy = ms('unlazy'),
-	msLazy = ms('lazy')
-
 // TODO: MOVE
-
-const makeAssignDestructure = (tx, span, assignees, isLazy, value, k, includeChecks) => {
-	type(tx, Tx, span, Span, assignees, [EExports.LocalDeclare],
-		isLazy, Boolean, value, Object, k, KAssign, includeChecks, Boolean)
-	const destructuredName = `_$${span.start.line}`
-	const access = accessMangledLocal(destructuredName, isLazy)
-	const assigns = flatMap(assignees, assignee => {
-		// TODO: Don't compile it if it's never accessed
-		const get = includeChecks ?
-			msGet([ access, literal(assignee.name) ]) :
-			member(access, assignee.name)
-		return toStatements(makeAssign(tx, assignee.span, assignee, k, get))
-	})
-	const destructureDeclare =
-		declare(destructuredName, isLazy ? lazyWrap(value) : value)
-	return unshift(destructureDeclare, assigns)
-}
-
-function makeAssign(tx, span, assignee, k, value) {
-	// TODO: value is a Node
-	type(tx, Tx, span, Span, assignee, Expression, k, KAssign, value, Object)
-	const doAssign = (() => { switch (k) {
-		case '=': case '. ': case '<~': case '<~~':
-			if (assignee.isLazy)
-				// For a lazy value, type checking is not done until after it is generated.
-				// TODO: Include opReturnType: assignee.opType
-				return declare(assignee.name, lazyWrap(value))
-			else
-				return declare(assignee.name, value)
-		case 'export': {
-			// TODO:ES6
-			assert(!assignee.isLazy)
-			return declare(assignee.name, assignmentExpression('=',
-				member(IdExports, assignee.name),
-				value))
-		}
-		default: throw new Error(k)
-	}})()
-	return maybeCheck(doAssign, tx, assignee, k === '~=')
-}
-
-const maybeCheck = (ast, tx, local, isLazy) =>
-	ifElse(opLocalCheck(tx, local, isLazy), o => [ ast, o ], () => ast)
-
-function opLocalCheck(tx, local, isLazy) {
-	type(tx, Tx, local, EExports.LocalDeclare, isLazy, Boolean)
-	if (!tx.opts.includeTypeChecks())
-		return None
-	// TODO: Way to typecheck lazies
-	return isLazy ? None : local.opType.map(typ =>
-		expressionStatement(msCheckContains([
-			t(tx)(typ),
-			accessLocal(local.name, false),
-			literal(local.name)
-		])))
-}
-
-const accessLocal = (name, isLazy) => accessMangledLocal(mangle(name), isLazy)
-
-function accessMangledLocal(mangledName, isLazy) {
-	type(mangledName, String, isLazy, Boolean)
-	const id = identifier(mangledName)
-	// TODO: Dont' call unlazy, that has to check for laziness and we know it's lazy
-	return isLazy ? msUnlazy([ id ]) : id
-}
 
 const loopId = loop => {
 	type(loop.span.start.line, Number)
 	return identifier(`loop${loop.span.start.line}`)
 }
-
-const lazyWrap = value => msLazy([ thunk(value) ])

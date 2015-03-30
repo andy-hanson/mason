@@ -1,5 +1,4 @@
 use!
-	..private.bootstrap
 	..private.boot-order
 use
 	..$ $done $ing

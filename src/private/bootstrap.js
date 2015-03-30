@@ -15,6 +15,12 @@ const pAdd = function(object, key, val) {
 const ms = exports.ms = {}
 pAdd(global, '_ms', ms)
 
+pAdd(ms, 'getModule', function(module) {
+	if (module === undefined)
+		throw new Error('Module undefined.')
+	return module._get instanceof Lazy ? ms.unlazy(module._get) : module
+})
+
 // TODO: Shouldn't need if we statically check.
 pAdd(ms, 'get', function(object, key) {
 	const _ = object[key]

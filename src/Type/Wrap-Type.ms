@@ -13,10 +13,18 @@ use
 use-debug
 	..!
 	..compare =?
-	..control if!
+	#..control if!
 	..js defined?
 	..math.Num
 	..Try fails?
+
+# TODO: use `control` version
+debug if! = |cond fun
+	case!
+		cond
+			fun()
+		else
+			()
 
 Wrap-Type = Obj-Type
 	doc. "

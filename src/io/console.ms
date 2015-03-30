@@ -1,3 +1,5 @@
+use!
+	..Str-as-Seq # => Str
 use
 	chalk blue
 	..@ each!
