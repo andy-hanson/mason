@@ -18,10 +18,10 @@ export function parseLocalDeclare(px) {
 	assert(px.tokens.size() === 1)
 	const t = px.tokens.head()
 
-	if (Group.is('sp')(t)) {
+	if (Group.isSpaced(t)) {
 		const tokens = t.tokens
 		let rest = tokens
-		if (Keyword.is('~')(tokens.head())) {
+		if (Keyword.isTilde(tokens.head())) {
 			isLazy = true
 			rest = tokens.tail()
 		}
@@ -29,7 +29,7 @@ export function parseLocalDeclare(px) {
 		const rest2 = rest.tail()
 		if (!rest2.isEmpty()) {
 			const colon = rest2.head()
-			check(Keyword.is(':')(colon), colon.span, () => `Expected ${code(':')}`)
+			check(Keyword.isColon(colon), colon.span, () => `Expected ${code(':')}`)
 			px.check(rest2.size() > 1, () => `Expected something after ${colon}`)
 			const tokensType = rest2.tail()
 			opType = some(px.w(tokensType, parseSpaced))
@@ -42,7 +42,7 @@ export function parseLocalDeclare(px) {
 }
 
 function parseLocalName(t) {
-	if (Keyword.is('_')(t))
+	if (Keyword.isFocus(t))
 		return '_'
 	else {
 		check(t instanceof Name, t.span, () => `Expected a local name, not ${t}`)

@@ -38,7 +38,7 @@ export function takeBlockLinesFromEnd(px) {
 	type(px, Px)
 	px.check(!px.tokens.isEmpty(), 'Expected an indented block')
 	const l = px.tokens.last()
-	check(Group.is('->')(l), l.span, 'Expected an indented block at the end')
+	check(Group.isBlock(l), l.span, 'Expected an indented block at the end')
 	return { before: px.tokens.rtail(), lines: l.tokens }
 }
 
@@ -124,7 +124,7 @@ function tryTakeInOut(px) {
 	function tryTakeInOrOut(lines, inOrOut) {
 		if (!lines.isEmpty()) {
 			const firstLine = lines.head()
-			assert(Group.is('ln')(firstLine))
+			assert(Group.isLine(firstLine))
 			const tokensFirst = firstLine.tokens
 			if (Keyword.is(inOrOut)(tokensFirst.head()))
 				return {

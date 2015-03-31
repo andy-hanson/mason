@@ -117,7 +117,7 @@ export default function group(preGroupedTokens, opts) {
 					break
 				case '->':
 					//  ~ before block is OK
-					if (isEmpty(cur.body) || !Keyword.is('~')(last(cur.body)))
+					if (isEmpty(cur.body) || !Keyword.isTilde(last(cur.body)))
 						endAndStart(span, 'sp')
 					newLevel(span.start, k)
 					startLine(span.end)

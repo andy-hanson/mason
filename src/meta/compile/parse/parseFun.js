@@ -19,7 +19,7 @@ export default function parseFun(px, k) {
 	const { opReturnType, rest } = (() => {
 		if (!px.tokens.isEmpty()) {
 			const h = px.tokens.head()
-			if (Group.is('sp')(h) && Keyword.is(':')(h.tokens.head()))
+			if (Group.isSpaced(h) && Keyword.isColon(h.tokens.head()))
 				return {
 					opReturnType: some(px.w(h.tokens.tail(), parseSpaced)),
 					rest: px.tokens.tail()
@@ -32,7 +32,7 @@ export default function parseFun(px, k) {
 	const h = rest.head()
 
 	const { args, opRestArg, block } = (() => {
-		if (Keyword.is(CaseKeywords)(h)) {
+		if (Keyword.isCaseOrCaseDo(h)) {
 			const eCase = px.w(rest.tail(), parseCase, h.k, true)
 			return {
 				args: [ LocalDeclare.focus(h.span) ],
@@ -46,7 +46,7 @@ export default function parseFun(px, k) {
 			}
 		}
 		// Might be curried.
-		else return ifElse(px.tokens.opSplitOnceWhere(t => Keyword.is('|')(t)),
+		else return ifElse(px.tokens.opSplitOnceWhere(t => Keyword.isBar(t)),
 			_ => {
 				const { args, opRestArg } = px.w(_.before, parseFunLocals)
 				const block = px.w(_.after, () => Block(px.s({

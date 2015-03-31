@@ -26,27 +26,30 @@ export default function parseSingle(px) {
 			return ELiteral(t)
 		case t instanceof Name:
 			return access(px, t.name)
-		case Keyword.is('_')(t):
-			return LocalAccess.focus(px.span)
-		case Keyword.is(SpecialKeywords)(t):
-			return Special(px.s({ k: t.k }))
-		case Group.is('sp')(t):
-			return px.w(t.tokens, parseSpaced)
-		case Group.is('->')(t):
-			return px.w(t.tokens, parseBlock_().wrap, 'val')
-		case Group.is('"')(t):
-			return Quote(px.s({
-				parts: t.tokens.map(tSub => px.wt(tSub, parseSingle))
-			}))
-		case Group.is('(')(t):
-			return px.w(t.tokens, parseExpr_().default)
-		case Group.is('[')(t):
-			return ListSimple(px.s({
-				parts: px.w(t.tokens, parseExpr_().parseExprParts)
-			}))
+		case t instanceof Keyword:
+			if (t.k === '_')
+				return LocalAccess.focus(px.span)
+			if (SpecialKeywords.has(t.k))
+				return Special(px.s({ k: t.k }))
+			// Else fallthrough to fail
+		case t instanceof Group:
+			switch (t.k) {
+				case 'sp': return px.w(t.tokens, parseSpaced)
+				case '->': return px.w(t.tokens, parseBlock_().wrap, 'val')
+				case '"': return Quote(px.s({
+						parts: t.tokens.map(tSub => px.wt(tSub, parseSingle))
+					}))
+				case '(': return px.w(t.tokens, parseExpr_().default)
+				case '[': return ListSimple(px.s({
+					parts: px.w(t.tokens, parseExpr_().parseExprParts)
+				}))
+				default:
+					// fallthrough
+			}
 		case t instanceof DotName:
 			if (t.nDots === 3)
 				return Splat(px.s({ splatted: LocalAccess(px.s({ name: t.name })) }))
+			// Else fallthrough to fail
 		default:
 			px.fail(`Unexpected ${t}`)
 	}

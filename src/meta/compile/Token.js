@@ -1,4 +1,4 @@
-import { AllKeywords, GroupKinds, GroupOpenToClose } from './Lang'
+import { AllKeywords, CaseKeywords, GroupKinds, GroupOpenToClose, LineSplitKeywords } from './Lang'
 import { spanType } from './Span'
 import type from './U/type'
 import { abstractType } from './U/types'
@@ -14,16 +14,21 @@ export class Group extends Token {
 	// k:GroupKinds
 	constructor(span, tokens, k) { this.span = span; this.tokens = tokens; this.k = k }
 }
-Group.is = k => {
+const gIs = k => {
 	type(k, GroupKinds)
 	return t => t instanceof Group && t.k === k
 }
+Object.assign(Group, {
+	isBlock: gIs('->'),
+	isLine: gIs('ln'),
+	isSpaced: gIs('sp')
+})
 
 export class Keyword extends Token {
 	// k: AllKeywords
 	constructor(span, k) { this.span = span; this.k = k }
 }
-Keyword.is = k => {
+const kwIs = k => {
 	if (k instanceof Set)
 		return t => t instanceof Keyword && k.has(t.k)
 	else {
@@ -31,6 +36,17 @@ Keyword.is = k => {
 		return t => t instanceof Keyword && t.k === k
 	}
 }
+Object.assign(Keyword, {
+	is: kwIs,
+	isBar: kwIs('|'),
+	isCaseOrCaseDo: kwIs(CaseKeywords),
+	isColon: kwIs(':'),
+	isFocus: kwIs('_'),
+	isElse: kwIs('else'),
+	isLineSplit: kwIs(LineSplitKeywords),
+	isTilde: kwIs('~'),
+	isObjAssign: kwIs('. ')
+})
 
 export class Literal extends Token {
 	// k: Number | String | 'js'

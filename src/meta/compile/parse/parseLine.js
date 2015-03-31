@@ -34,7 +34,7 @@ export default function parseLine(px) {
 			case 'case!':
 				return px.w(rest, parseCase, 'case!', false)
 			case 'debug':
-				return Group.is('->')(px.tokens.second()) ?
+				return Group.isBlock(px.tokens.second()) ?
 					// `debug`, then indented block
 					Debug(px.s({ lines: parseLines(px) })) :
 					// e.g. `use-debug`
@@ -56,7 +56,7 @@ export default function parseLine(px) {
 				// fall through
 		}
 
-	return ifElse(px.tokens.opSplitOnceWhere(Keyword.is(LineSplitKeywords)),
+	return ifElse(px.tokens.opSplitOnceWhere(Keyword.isLineSplit),
 		({ before, at, after }) => {
 			return at.k === '->' ?
 				parseMapEntry(px, before, after) :
@@ -74,7 +74,7 @@ export function parseLines(px) {
 	const h = px.tokens.head()
 	check(px.tokens.size() > 1, h.span, () => `Expected indented block after ${h}`)
 	const block = px.tokens.second()
-	assert(px.tokens.size() === 2 && Group.is('->')(block))
+	assert(px.tokens.size() === 2 && Group.isBlock(block))
 	return block.tokens.flatMap(line => px.w(line.tokens, parseLineOrLines))
 }
 

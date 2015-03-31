@@ -21,7 +21,7 @@ export default class Vx {
 		this.isInDebug = false
 		this.isInGenerator = false
 		this.opLoop = []
-		this.vr = new Vr({
+		this.vr = Vr({
 			accessToLocal: new Map(),
 			localToInfo: new Map(),
 			eToIsInGenerator: new Map(),
@@ -76,12 +76,6 @@ export default class Vx {
 		this.isInDebug = isInDebug
 		fun()
 		this.isInDebug = d
-	}
-	withFocus(span, fun) {
-		// TODO: Bad idea to be creating new E at this point...
-		const focus = set(LocalDeclare.focus(span), 'okToNotUse', true)
-		this.registerLocal(focus)
-		this.plusLocals([ focus ], fun)
 	}
 	withRes(span, fun) {
 		// TODO: Bad idea to be creating new E at this point...

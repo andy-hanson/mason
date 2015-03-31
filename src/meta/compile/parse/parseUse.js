@@ -17,7 +17,7 @@ export default function tryParseUse(px, k) {
 	type(px, Px, k, UseKeywords)
 	if (!px.tokens.isEmpty()) {
 		const l0 = px.tokens.head()
-		assert(Group.is('ln')(l0))
+		assert(Group.isLine(l0))
 		if (Keyword.is(k)(l0.tokens.head()))
 			return {
 				uses: px.w(l0.tokens.tail(), parseUse, k),
@@ -65,7 +65,7 @@ function parseRequire(px) {
 	else if (t instanceof DotName)
 		return parseLocalRequire(px)
 	else {
-		px.check(Group.is('sp')(t), 'Not a valid module name.')
+		px.check(Group.isSpaced(t), 'Not a valid module name.')
 		return px.w(t.tokens, parseLocalRequire)
 	}
 }

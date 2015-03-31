@@ -28,7 +28,7 @@ export default function parseCase(px, k, casedFromFun) {
 	})()
 
 	const l = lines.last()
-	const { partLines, opElse } = Keyword.is('else')(l.tokens.head()) ? {
+	const { partLines, opElse } = Keyword.isElse(l.tokens.head()) ? {
 			partLines: lines.rtail(),
 			opElse: some(px.w(l.tokens.tail(), justBlock, kBlock))
 		} : {
