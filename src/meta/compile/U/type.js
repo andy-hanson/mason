@@ -13,7 +13,10 @@ function typePair(instance, itsType) {
 		assert(itsType.length === 1)
 		const emType = itsType[0]
 		type(instance, Array)
-		instance.forEach(em => type(em, emType))
+		instance.forEach(em => {
+			// console.log(type) // TODO: turning on this line causes a crash in node v0.11.15.
+			type(em, emType)
+		})
 	}
 	if (!isa(instance, itsType)) {
 		if (instance === null) throw new Error('Value null')
