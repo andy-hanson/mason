@@ -87,14 +87,13 @@ function parseAssign(px, assigned, assigner, value) {
 	let eValueNamed
 	if (locals.length === 1) {
 		const name = head(locals).name
-		if (name === 'doc')
+		if (name === 'doc') {
 			if (eValuePre instanceof Fun)
 				// KLUDGE: `doc` for module can be a Fun signature.
 				// TODO: Something better...
-				eValueNamed = set(eValuePre, 'args',
-					eValuePre.args.map(arg => set(arg, 'okToNotUse', true)))
-			else
-				eValueNamed = eValuePre
+				eValuePre.args.forEach(arg => { arg.okToNotUse = true })
+			eValueNamed = eValuePre
+		}
 		else
 			eValueNamed = tryAddDisplayName(eValuePre, name)
 	}
@@ -114,7 +113,7 @@ function parseAssign(px, assigned, assigner, value) {
 		locals.forEach(_ => check(_.k !== 'lazy', _.span, 'Can not yield to lazy variable.'))
 
 	if (k === '. ')
-		locals = locals.map(l => set(l, 'okToNotUse', true))
+		locals.forEach(l => { l.okToNotUse = true })
 
 	if (locals.length === 1) {
 		const assign = Assign(px.s({ assignee: locals[0], k: k, value: eValue }))
@@ -173,16 +172,15 @@ function tryAddDisplayName(eValuePre, displayName) {
 
 		case eValuePre instanceof ObjReturn &&
 			!eValuePre.keys.some(key => key.name === 'displayName'):
-			return set(eValuePre, 'opDisplayName', some(displayName))
+			eValuePre.opDisplayName = some(displayName)
+			return eValuePre
 
 		case eValuePre instanceof BlockWrap:
-			return ifElse(eValuePre.block.opReturn,
-				ret => {
-					const namedRet = tryAddDisplayName(ret, displayName)
-					return set(eValuePre, 'block',
-						set(eValuePre.block, 'opReturn', some(namedRet)))
-				},
-				() => eValuePre)
+			eValuePre.block.opReturn.forEach(ret => {
+				const namedRet = tryAddDisplayName(ret, displayName)
+				eValuePre.block.opReturn = some(namedRet)
+			})
+			return eValuePre
 
 		default:
 			return eValuePre

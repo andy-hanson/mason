@@ -47,7 +47,4 @@ export default class Px {
 	}
 }
 
-const spanFromTokens = ts => Span({
-	start: ts.head().span.start,
-	end: ts.last().span.end
-})
+const spanFromTokens = ts => new Span(ts.head().span.start, ts.last().span.end)

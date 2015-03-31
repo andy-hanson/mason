@@ -1,4 +1,3 @@
-import 'es6-shim'
 import assert from 'assert'
 
 const pAdd = (object, key, value) =>

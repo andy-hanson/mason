@@ -22,7 +22,7 @@ export default function group(preGroupedTokens, opts) {
 
 	function newLevel(pos, k) {
 		type(pos, Pos, k, String)
-		// U.log(`${U.indent(stack.length)}>> ${k}`)
+		// console.log(`${'\t'.repeat(stack.length)}>> ${k}`)
 		cur = GroupBuilder({ startPos: pos, k: k, body: [] })
 		stack.push(cur)
 	}
@@ -48,7 +48,7 @@ export default function group(preGroupedTokens, opts) {
 
 		const wrapped = wrapLevel(closePos, k)
 		// cur is now the previous level on the stack
-		// U.log(`${U.indent(stack.length)}<< ${k})
+		// console.log(`${'\t'.repeat(stack.length)}<< ${k})
 		// Don't add line/spaced
 		if ((k === 'sp' || k === 'ln') && wrapped.tokens.isEmpty())
 			return
@@ -66,7 +66,7 @@ export default function group(preGroupedTokens, opts) {
 		const old = stack.pop()
 		cur = isEmpty(stack) ? null : last(stack)
 		type(old, GroupBuilder)
-		const span = Span({ start: old.startPos, end: closePos })
+		const span = new Span(old.startPos, closePos)
 		assert(GroupOpenToClose.get(old.k) === k)
 		const tokens = new Slice(old.body)
 		return Group({ span, tokens, k: old.k })
@@ -90,7 +90,7 @@ export default function group(preGroupedTokens, opts) {
 	newLevel(StartPos, '->')
 	startLine(StartPos)
 
-	let endSpan = Span({ start: StartPos, end: StartPos })
+	let endSpan = new Span(StartPos, StartPos)
 	for (let _ of preGroupedTokens) {
 		if (_ instanceof Token)
 			cur.add(_)

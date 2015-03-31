@@ -108,8 +108,11 @@ export function parseBody(px, k) {
 		const lines =
 			// Turn Obj assigns into exports.
 			cat(
-				doLines.map(line =>
-					line instanceof Assign && line.k === '. ' ? set(line, 'k', 'export') : line),
+				doLines.map(line => {
+					if (line instanceof Assign && line.k === '. ')
+						line.k = 'export'
+					return line
+				}),
 				opReturn.map(ret => ModuleDefaultExport({ span: ret.span, value: ret })))
 		return Block(px.s({ lines, opReturn: None, opIn, opOut }))
 	}
@@ -155,13 +158,13 @@ function parseLines(px, restLines) {
 				assert(!inDebug, 'Not supported: debug list entries')
 				// When ListEntries are first created they have no index.
 				assert(ln.index === -1)
-				ln = set(ln, 'index', listLength)
+				ln.index = listLength
 				listLength = listLength + 1
 			}
 			else if (ln instanceof MapEntry) {
 				assert(!inDebug, 'Not supported: debug map entries')
 				assert(ln.index === -1)
-				ln = set(ln, 'index', mapLength)
+				ln.index = mapLength
 				mapLength = mapLength + 1
 			}
 			else if (ln instanceof Assign && ln.k === '. ')

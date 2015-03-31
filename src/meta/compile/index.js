@@ -1,4 +1,3 @@
-import 'es6-shim'
 import { install } from 'source-map-support'
 install()
 import lex from './lex'

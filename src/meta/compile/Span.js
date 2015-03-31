@@ -2,34 +2,43 @@ import chalk from 'chalk'
 import type from './U/type'
 import { ObjType } from './U/types'
 
-export const Pos = ObjType('Pos', Object, { line: Number, column: Number })
-export const StartPos = Pos({ line: 1, column: 1 })
-Object.assign(Pos.prototype, {
+export default class Span {
+	constructor(start, end) {
+		this.start = start
+		this.end = end
+	}
+
+	toString() { return this.start + '-' + this.end }
+}
+export const
+	single = pos => {
+		type(pos, Pos)
+		return new Span(pos, new Pos(pos.line, pos.column + 1))
+	},
+	spanType = (name, superType, members) => {
+		type(name, String, superType, Object, members, Object)
+		return ObjType(name, superType, Object.assign(members, { span: Span }))
+	}
+
+export class Pos {
+	constructor(line, column) {
+		this.line = line
+		this.column = column
+	}
+
 	next(ch) {
 		type(ch, String)
 		return ch === '\n' ?
-			Pos({ line: this.line + 1, column: 1}) :
-			Pos({ line: this.line, column: this.column + 1})
-	},
+			new Pos(this.line + 1, 1) :
+			new Pos(this.line, this.column + 1)
+	}
+
+	onPrevColmn() {
+		return new Pos(this.line, this.column - 1)
+	}
+
 	toString() {
 		return chalk.bold.red(`${this.line}:${this.column}`)
 	}
-})
-
-const Span = ObjType('Span', Object, { start: Pos, end: Pos })
-export default Span
-Object.assign(Span.prototype, {
-	toString() {
-		return this.start + '-' + this.end
-	}
-})
-
-export function spanType(name, superType, members) {
-	type(name, String, superType, Object, members, Object)
-	return ObjType(name, superType, Object.assign(members, { span: Span }))
 }
-
-export function single(pos) {
-	type(pos, Pos)
-	return Span({ start: pos, end: pos.next('x') })
-}
+export const StartPos = new Pos(1, 1)

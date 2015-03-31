@@ -34,6 +34,8 @@ export function ObjType(name, superType, members) {
 }
 
 function inspect(_) {
+	const indented = str => str.replace(/\n/g, '\n\t')
+
 	let s = (_.constructor.displayName || _.constructor.name) + ' {'
 	Object.keys(_).forEach(key => {
 		const val = _[key]

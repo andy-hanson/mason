@@ -47,8 +47,12 @@ function useLine(px, k) {
 		const isLazy = k === 'use~' || k === 'use-debug'
 		const used = px.tokens.size() === 1 ?
 			[ LocalDeclare(px.s({ name, opType: None, isLazy, okToNotUse: false })) ] :
-			px.w(px.tokens.tail(), parseLocalDeclares_()).map(l =>
-				set(l.name === '_' ? set(l, 'name', name) : l, 'isLazy', isLazy))
+			px.w(px.tokens.tail(), parseLocalDeclares_()).map(l => {
+				if (l.name === '_')
+					l.name = name
+				l.isLazy = isLazy
+				return l
+			})
 		return Use(px.s({ used, k, path }))
 	}
 }

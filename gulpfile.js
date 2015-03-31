@@ -1,6 +1,7 @@
 'use strict'
 
-// require('source-map-support').install()
+require('source-map-support').install()
+require('es6-shim')
 const
 	babel = require('gulp-babel'),
 	header = require('gulp-header'),

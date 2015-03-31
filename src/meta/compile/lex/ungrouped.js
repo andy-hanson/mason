@@ -36,7 +36,7 @@ export default function* lexPlain(opts, stream, isInQuote) {
 
 	while (stream.hasNext()) {
 		const startPos = stream.pos
-		const span = () => Span({ start: startPos, end: stream.pos })
+		const span = () => new Span(startPos, stream.pos)
 		const s = members => {
 			members.span = span()
 			return members
@@ -188,7 +188,7 @@ function* lexQuote(opts, stream, indent) {
 	function* yieldRead() {
 		if (read !== '') {
 			yield Literal({
-				span: Span({ start: startOfRead, end: stream.pos }),
+				span: new Span(startOfRead, stream.pos),
 				// Don't include leading newline of indented block
 				value: first && isIndented ? read.slice(1) : read,
 				k: String

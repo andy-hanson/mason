@@ -66,7 +66,7 @@ export default class Stream {
 	stepBack() {
 		assert(this.pos.column > 1)
 		this.index = this.index - 1
-		this.pos = set(this.pos, 'column', this.pos.column - 1)
+		this.pos = this.pos.withPrevColumn()
 	}
 
 	takeWhile(whl) {
