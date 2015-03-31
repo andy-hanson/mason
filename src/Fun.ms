@@ -204,8 +204,9 @@ thunk.
 	doc. "Makes function which, when called, returns `a`."
 	test. |
 		! =? (thunk 1)() 1
-	|a |
-		a
+	|_
+		|
+			_
 
 curry =
 	doc. "Creates a function which calls `f` with the given arguments first."

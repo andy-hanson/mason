@@ -17,6 +17,7 @@ use-debug
 	..@.@-Type empty
 	..@.?
 	..compare =?
+	..Fun thunk
 	..math.Num
 	..private.bootstrap p+!
 	..Try fails?
@@ -79,8 +80,6 @@ Method. Obj-Type
 					impl x
 
 	test. |
-		thunk = |x |
-			x
 		m = Method
 			default. thunk "default"
 		impl! m Str (thunk "Str")

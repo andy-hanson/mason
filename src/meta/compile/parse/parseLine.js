@@ -13,7 +13,7 @@ import parseExpr from './parseExpr'
 import parseLocalDeclares from './parseLocalDeclares'
 import Px from './Px'
 // TODO:ES6
-const parseBlock_ = lazy(() => require('./parseBlock'))
+const takeDoBlockFromEnd_ = lazy(() => require('./parseBlock').takeDoBlockFromEnd)
 
 // Returns line or sq of lines
 export default function parseLine(px) {
@@ -46,7 +46,7 @@ export default function parseLine(px) {
 				check(rest.isEmpty(), () => `Did not expect anything after ${h}`)
 				return EndLoop(px.s({}))
 			case 'loop!': {
-				const { before, block } = px.w(rest, parseBlock_().takeBlockFromEnd, 'do')
+				const { before, block } = px.w(rest, takeDoBlockFromEnd_())
 				check(before.isEmpty(), px.span, () => `Did not expect anything after ${h}`)
 				return Loop(px.s({ block }))
 			}

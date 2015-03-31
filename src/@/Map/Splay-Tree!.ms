@@ -92,7 +92,7 @@ region Implementation
 
 		dummy = left!. undefined right!. undefined
 		start = left. dummy right. dummy cur. _.root!
-		left right cur found = loop start (splay-step! key
+		left right cur found = loop start splay-step![key]
 		p! left "right!" cur.left!
 		p! right "left!" cur.right!
 		p! cur "left!" dummy.right!
@@ -100,7 +100,7 @@ region Implementation
 		p! _ "root!" cur
 		found
 
-	splay-step! = |key |_
+	splay-step! = |key _
 		not-found = |end
 			End-Loop (found. false cur. end left. _.left right. _.right
 		case

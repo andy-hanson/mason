@@ -9,7 +9,7 @@ import parseSpaced from './parseSpaced'
 import Px from './Px'
 // TODO:ES6
 const
-	parseBlock_ = lazy(() => require('./parseBlock')),
+	blockWrap_ = lazy(() => require('./parseBlock').blockWrap),
 	parseExpr_ = lazy(() => require('./parseExpr'))
 
 export default function parseSingle(px) {
@@ -35,7 +35,7 @@ export default function parseSingle(px) {
 		case t instanceof Group:
 			switch (t.k) {
 				case 'sp': return px.w(t.tokens, parseSpaced)
-				case '->': return px.w(t.tokens, parseBlock_().wrap, 'val')
+				case '->': return px.w(t.tokens, blockWrap_(), 'val')
 				case '"': return Quote(px.s({
 						parts: t.tokens.map(tSub => px.wt(tSub, parseSingle))
 					}))

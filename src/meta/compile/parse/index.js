@@ -4,7 +4,7 @@ import Opts from '../Opts'
 import { Group } from '../Token'
 import Slice from '../U/Slice'
 import type from '../U/type'
-import { parseBody } from './parseBlock'
+import { parseModuleBody } from './parseBlock'
 import tryParseUse from './parseUse'
 import Px from './Px'
 
@@ -20,7 +20,7 @@ function parseModule(px, moduleName) {
 	const { uses: plainUses, rest: rest1 } = px.w(rest, tryParseUse, 'use')
 	const { uses: lazyUses, rest: rest2 } = px.w(rest1, tryParseUse, 'use~')
 	const { uses: debugUses, rest: rest3 } = px.w(rest2, tryParseUse, 'use-debug')
-	const block = px.w(rest3, parseBody, 'module')
+	const block = px.w(rest3, parseModuleBody)
 
 	block.lines.forEach(line => {
 		if (line instanceof Assign && line.k === 'export')

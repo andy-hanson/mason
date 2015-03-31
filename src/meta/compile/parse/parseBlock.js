@@ -11,27 +11,30 @@ import Px from './Px'
 // TODO:ES6
 const parseLine_ = lazy(() => require('./parseLine'))
 
-const KParseBlock = new Set(['any', 'do', 'val', 'module'])
-
-// TODO:RENAME
-export function wrap(px, k) {
-	return BlockWrap(px.s({ block: parseBody(px, k) }))
+export function blockWrap(px) {
+	return BlockWrap(px.s({ block: parseBody(px, 'val') }))
 }
 
-export function justBlock(px, k) {
-	type(px, Px, k, KParseBlock)
-	const _ = takeBlockFromEnd(px, k)
-	px.check(_.before.isEmpty(), 'Expected just a block')
-	return _.block
+export function justDoBlock(px) {
+	const { before, block } = takeDoBlockFromEnd(px)
+	px.check(before.isEmpty(), 'Expected just a block.')
+	return block
+}
+
+export function justBlock(px) {
+	const { before, block } = takeBlockFromEnd(px)
+	px.check(before.isEmpty(), 'Expected just a block.')
+	return block
+}
+
+export function takeDoBlockFromEnd(px) {
+	const { before, lines } = takeBlockLinesFromEnd(px)
+	return { before, block: px.w(lines, parseBody, 'do') }
 }
 
 export function takeBlockFromEnd(px, k) {
-	type(px, Px, k, KParseBlock)
-	const _ = takeBlockLinesFromEnd(px)
-	return {
-		before: _.before,
-		block: px.w(_.lines, parseBody, k)
-	}
+	const{ before, lines } = takeBlockLinesFromEnd(px)
+	return { before, block: px.w(lines, parseBody, k) }
 }
 
 export function takeBlockLinesFromEnd(px) {
@@ -42,8 +45,13 @@ export function takeBlockLinesFromEnd(px) {
 	return { before: px.tokens.rtail(), lines: l.tokens }
 }
 
-export function parseBody(px, k) {
-	type(px, Px, k, KParseBlock)
+// TODO: Just have module return a value and use a normal block.
+export function parseModuleBody(px) {
+	return parseBody(px, 'module')
+}
+
+// k = 'do', 'val', or 'module'
+function parseBody(px, k) {
 	const _ = tryTakeInOut(px)
 	const opIn = _.opIn, opOut = _.opOut, restLines = _.rest
 	// keys only matter if kReturn === 'obj'

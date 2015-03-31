@@ -10,7 +10,7 @@ import type from '../U/type'
 import Px from './Px'
 // TODO:ES6
 const
-	parseBlock_ = lazy(() => require('./parseBlock')),
+	takeBlockLinesFromEnd_ = lazy(() => require('./parseBlock').takeBlockLinesFromEnd),
 	parseLocalDeclares_ = lazy(() => require('./parseLocalDeclares').default)
 
 export default function tryParseUse(px, k) {
@@ -29,10 +29,10 @@ export default function tryParseUse(px, k) {
 
 function parseUse(px, k) {
 	type(px, Px, k, UseKeywords)
-	const _ = parseBlock_().takeBlockLinesFromEnd(px)
-	px.check(_.before.isEmpty(), () =>
+	const { before, lines } = takeBlockLinesFromEnd_()(px)
+	px.check(before.isEmpty(), () =>
 		`Did not expect anything after ${code(k)} other than a block`)
-	return _.lines.map(line => px.w(line.tokens, useLine, k))
+	return lines.map(line => px.w(line.tokens, useLine, k))
 }
 
 // TODO:ES6 Just use module imports, no AssignDestructure needed

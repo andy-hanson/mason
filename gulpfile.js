@@ -67,7 +67,7 @@ function pipeJs(stream) {
 		]
 	}))
 	.pipe(header(
-		'if (typeof define !== \'function\') var define = require(\'amdefine\')(module);\n'))
+		'if (typeof define !== \'function\') var define = require(\'amdefine\')(module);'))
 	.pipe(sourcemaps.write('.', {
 		debug: true,
 		sourceRoot: '/src'

@@ -1,5 +1,3 @@
-import { install } from 'source-map-support'
-install()
 import lex from './lex'
 import parse from './parse'
 import Opts from './Opts'

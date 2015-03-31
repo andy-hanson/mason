@@ -5,17 +5,16 @@ import { Keyword } from '../Token'
 import { lazy } from '../U'
 import { ifElse, None, opIf, some } from '../U/Op'
 import type from '../U/type'
-import { justBlock, takeBlockFromEnd, takeBlockLinesFromEnd } from './parseBlock'
+import { justBlock, justDoBlock, takeBlockFromEnd, takeDoBlockFromEnd,
+	takeBlockLinesFromEnd } from './parseBlock'
 import Px from './Px'
 // TODO:ES6
 const parseExpr_ = lazy(() => require('./parseExpr').default)
 
 export default function parseCase(px, k, casedFromFun) {
 	type(px, Px, k, CaseKeywords, casedFromFun, Boolean)
-	const kBlock = k === 'case' ? 'val' : 'do'
 
-	const _ = takeBlockLinesFromEnd(px)
-	const before = _.before, lines = _.lines
+	const { before, lines } = takeBlockLinesFromEnd(px)
 
 	const opCased = (() => {
 		if (casedFromFun) {
@@ -30,18 +29,19 @@ export default function parseCase(px, k, casedFromFun) {
 	const l = lines.last()
 	const { partLines, opElse } = Keyword.isElse(l.tokens.head()) ? {
 			partLines: lines.rtail(),
-			opElse: some(px.w(l.tokens.tail(), justBlock, kBlock))
+			opElse: some(px.w(l.tokens.tail(), k === 'case' ? justBlock : justDoBlock))
 		} : {
 			partLines: lines,
 			opElse: None
 		}
 
 	const parts = partLines.map(line => {
-		const _ = px.w(line.tokens, takeBlockFromEnd, kBlock)
+		const { before, block } = px.w(line.tokens,
+			k === 'case' ? takeBlockFromEnd : takeDoBlockFromEnd)
 		return CasePart({
 			span: line.span,
-			test: px.w(_.before, parseExpr_()),
-			result: _.block
+			test: px.w(before, parseExpr_()),
+			result: block
 		})
 	})
 
