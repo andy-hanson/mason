@@ -1,4 +1,6 @@
 import { GroupPres } from '../Lang'
-import { spanType } from '../Span'
 
-export default spanType('GroupPre', Object, { k: GroupPres })
+export default class GroupPre {
+	// k:GroupPres
+	constructor(span, k) { this.span = span; this.k = k }
+}

@@ -4,50 +4,58 @@ import type from './U/type'
 import { abstractType } from './U/types'
 import { code, implementMany2 } from './U'
 
-const Token = abstractType('Token', Object)
-export default Token
+export default class Token { }
 
-function t(name, props) {
-	return spanType(name, Token, props)
+export class Name extends Token {
+	constructor(span, name) { this.span = span; this.name = name }
 }
 
-export const CallOnFocus = t('CallOnFocus', { name: String })
-export const DotName = t('DotName', { nDots: Number, name: String })
-export const Group = t('Group', { tokens: [Token], k: GroupKinds })
-Group.is = k => t => {
-	type(t, Token, k, GroupKinds)
-	return t instanceof Group && t.k === k
+export class Group extends Token {
+	// k:GroupKinds
+	constructor(span, tokens, k) { this.span = span; this.tokens = tokens; this.k = k }
 }
-export const Keyword = t('Keyword', { k: AllKeywords })
+Group.is = k => {
+	type(k, GroupKinds)
+	return t => t instanceof Group && t.k === k
+}
+
+export class Keyword extends Token {
+	// k: AllKeywords
+	constructor(span, k) { this.span = span; this.k = k }
+}
 Keyword.is = k => {
 	if (k instanceof Set)
-		return t => {
-			type(t, Token)
-			return t instanceof Keyword && k.has(t.k)
-		}
+		return t => t instanceof Keyword && k.has(t.k)
 	else {
 		type(k, AllKeywords)
-		return t => {
-			type(t, Token)
-			return t instanceof Keyword && t.k === k
-		}
+		return t => t instanceof Keyword && t.k === k
 	}
 }
 
-export const Literal = t('Literal', { value: String, k: new Set([Number, String, 'js']) })
-export const Name = t('Name', { name: String })
+export class Literal extends Token {
+	// k: Number | String | 'js'
+	constructor(span, value, k) { this.span = span; this.value = value; this.k = k }
+}
+
+export class CallOnFocus extends Token {
+	constructor(span, name) { this.span = span; this.name = name }
+}
+
+export class DotName extends Token {
+	constructor(span, nDots, name) {
+		this.span = span; this.nDots = nDots; this.name = name
+	}
+}
 
 // toString is used by some parsing errors. Use U.inspect for a more detailed view.
-implementMany2('show', [
+const show = implementMany2('show', [
 	[CallOnFocus, () => '_'],
 	[DotName, _ => '.'.repeat(_.nDots) + _.name],
 	[Group, _ => `${_.k}...${GroupOpenToClose.get(_.k)}`],
-	[Keyword, _ => _.k],
+	[Keyword, _ => { return _.k } ],
 	[Literal, _ => _.value],
 	[Name, _ => _.name]
 ])
 Object.assign(Token.prototype, {
-	toString() {
-		return code(this.show())
-	}
+	toString() { return code(show(this)) }
 })

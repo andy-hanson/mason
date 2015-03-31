@@ -10,7 +10,7 @@ import Px from './Px'
 
 export default function parse(rootToken, opts) {
 	type(opts, Opts)
-	assert(Group.is(rootToken, '->'))
+	assert(Group.is('->')(rootToken))
 	const px = new Px(rootToken.tokens, rootToken.span)
 	return parseModule(px, opts.moduleName())
 }

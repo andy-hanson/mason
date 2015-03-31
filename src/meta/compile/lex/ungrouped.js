@@ -37,12 +37,8 @@ export default function* lexPlain(opts, stream, isInQuote) {
 	while (stream.hasNext()) {
 		const startPos = stream.pos
 		const span = () => new Span(startPos, stream.pos)
-		const s = members => {
-			members.span = span()
-			return members
-		}
-		const keyword = k => Keyword({ span: span(), k: k })
-		const gp = k => GroupPre({ span: span(), k: k })
+		const keyword = k => new Keyword(span(), k)
+		const gp = k => new GroupPre(span(), k)
 
 		function eatNumber() {
 			let msLit = _ + stream.takeWhile(/[0-9\.e_]/)
@@ -53,7 +49,7 @@ export default function* lexPlain(opts, stream, isInQuote) {
 			const jsLit = msLit.replace(/_/g, '')
 			check(!Number.isNaN(Number(jsLit)), stream.pos, () =>
 				`Invalid number literal ${code(msLit)}`)
-			return Literal(s({ value: jsLit, k: Number }))
+			return new Literal(span(), jsLit, Number)
 		}
 
 		const _ = stream.eat()
@@ -82,11 +78,11 @@ export default function* lexPlain(opts, stream, isInQuote) {
 					yield gp('sp')
 					break
 				} else {
-					yield DotName(s({
+					yield new DotName(
+						span(),
 						// +1 for the dot we just skipped.
-						nDots: stream.takeWhile('.').length + 1,
-						name: stream.takeWhile(isNameCharacter)
-					}))
+						stream.takeWhile('.').length + 1,
+						stream.takeWhile(isNameCharacter))
 					break
 				}
 			case Colon:
@@ -134,7 +130,7 @@ export default function* lexPlain(opts, stream, isInQuote) {
 			case Backtick: {
 				const js = stream.takeUpTo(/[`\n]/)
 				check(stream.eat() === '`', span, () => `Unclosed ${code('`')}`)
-				yield Literal(s({ value: js, k: 'js' }))
+				yield new Literal(span(), js, 'js')
 				break
 			}
 			case Quote:
@@ -161,13 +157,13 @@ export default function* lexPlain(opts, stream, isInQuote) {
 						break
 					default:
 						if (stream.tryEat('_'))
-							yield CallOnFocus(s({ name: name }))
+							yield new CallOnFocus(span(), name)
 						else if (AllKeywords.has(name))
 							yield keyword(name)
 						else if (ReservedWords.has(name))
 							fail(span, `Reserved word ${code(name)}`)
 						else
-							yield Name(s({ name: name }))
+							yield new Name(span(), name)
 				}
 			}
 		}
@@ -187,19 +183,18 @@ function* lexQuote(opts, stream, indent) {
 
 	function* yieldRead() {
 		if (read !== '') {
-			yield Literal({
-				span: new Span(startOfRead, stream.pos),
+			yield new Literal(
+				new Span(startOfRead, stream.pos),
 				// Don't include leading newline of indented block
-				value: first && isIndented ? read.slice(1) : read,
-				k: String
-			})
+				first && isIndented ? read.slice(1) : read,
+				String)
 			first = false
 		}
 		read = ''
 		startOfRead = stream.pos
 	}
 
-	yield GroupPre({ span: single(stream.pos), k: '"' })
+	yield new GroupPre(single(stream.pos), '"')
 
 	eatChars: while (true) {
 		const chPos = stream.pos
@@ -215,9 +210,9 @@ function* lexQuote(opts, stream, indent) {
 			case OpBrace: {
 				yield* yieldRead()
 				// We can't just create a Group now because there may be other GroupPre_s inside.
-				yield GroupPre({ span: single(chPos), k: '(' })
+				yield new GroupPre(single(chPos), '(')
 				yield* lexPlain(opts, stream, true)
-				yield GroupPre({ span: single(stream.pos), k: ')' })
+				yield new GroupPre(single(stream.pos), ')')
 				break
 			}
 			case Newline: {
@@ -255,7 +250,7 @@ function* lexQuote(opts, stream, indent) {
 	}
 
 	yield* yieldRead()
-	yield GroupPre({ span: single(stream.pos), k: 'close"' })
+	yield new GroupPre(single(stream.pos), 'close"')
 }
 
 const quoteEscape = new Map([['{', '{'], ['n', '\n'], ['t', '\t'], ['"', '"'], ['\\', '\\']])

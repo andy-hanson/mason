@@ -29,13 +29,11 @@ export const
 		return function(target) { return target[methodName].apply(null, arguments) }
 	},
 
-	implementMany2 = (methodName, pairs) =>
-		pairs.forEach(([ type, impl ]) => {
-			// TODO:ES6 spread
-			type.prototype[methodName] = function() {
-				return impl.apply(null, this, ...arguments)
-			}
-		}),
+	implementMany2 = (methodName, pairs) => {
+		pairs.forEach(([ type, impl ]) => { type.prototype[methodName] = impl })
+		// TODO:ES6 spread
+		return function() { return arguments[0][methodName](...arguments) }
+	},
 
 	code = chalk.bold.green,
 

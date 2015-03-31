@@ -47,7 +47,7 @@ export default function parseLine(px) {
 				return EndLoop(px.s({}))
 			case 'loop!': {
 				const { before, block } = px.w(rest, parseBlock_().takeBlockFromEnd, 'do')
-				check(before.isEmpty(), px.span, `Did not expect anything after ${h}`)
+				check(before.isEmpty(), px.span, () => `Did not expect anything after ${h}`)
 				return Loop(px.s({ block }))
 			}
 			case 'region':
@@ -72,7 +72,7 @@ export function parseLineOrLines(px) {
 
 export function parseLines(px) {
 	const h = px.tokens.head()
-	check(px.tokens.size() > 1, h.span, `Expected indented block after ${h}`)
+	check(px.tokens.size() > 1, h.span, () => `Expected indented block after ${h}`)
 	const block = px.tokens.second()
 	assert(px.tokens.size() === 2 && Group.is('->')(block))
 	return block.tokens.flatMap(line => px.w(line.tokens, parseLineOrLines))
