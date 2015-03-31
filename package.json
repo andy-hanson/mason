@@ -6,7 +6,6 @@
 		"amdefine": "0.1.0",
 		"ast-types": "0.7.2",
 		"chalk": "1.0.0",
-		"es6-promise": "2.0.1",
 		"es6-shim": "0.27.1",
 		"escodegen": "1.6.1",
 		"esprima": "2.1.0",

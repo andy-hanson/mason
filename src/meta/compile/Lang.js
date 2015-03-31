@@ -56,6 +56,7 @@ export const JsGlobals = new Set([
 	'Math',
 	'Number',
 	'Object',
+	'Promise',
 	'RangeError',
 	'ReferenceError',
 	'RegExp',

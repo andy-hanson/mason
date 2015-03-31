@@ -1,6 +1,5 @@
 use
 	chalk red
-	es6-promise Promise
 	.@ _ flatten map
 	.Bool
 	.control if
