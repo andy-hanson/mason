@@ -1,3 +1,4 @@
+import assert from 'assert'
 import check, { fail, warnIf } from '../check'
 import E, * as EExports from '../Expression'
 import Opts from '../Opts'
@@ -41,17 +42,10 @@ implementMany(EExports, 'verify', {
 		else
 			doV()
 	},
-	Block(_, vx) {
-		_.opIn.forEach(v(vx))
+	BlockDo(_, vx) { verifyLines(vx, _.lines) },
+	BlockVal(_, vx) {
 		const newLocals = verifyLines(vx, _.lines)
-		vx.plusLocals(newLocals, () => {
-			_.opReturn.forEach(v(vx))
-			const doV = () => _.opOut.forEach(v(vx))
-			if (!isEmpty(_.opReturn))
-				vx.withRes(_.span, doV)
-			else
-				doV()
-		})
+		vx.plusLocals(newLocals, () => v(vx)(_.returned))
 	},
 	BlockWrap(_, vx) {
 		vx.setEIsInGenerator(_)
@@ -72,14 +66,17 @@ implementMany(EExports, 'verify', {
 	Fun(_, vx) {
 		vx.withBlockLocals(() => {
 			_.opReturnType.forEach(v(vx))
-			if (!isEmpty(_.opReturnType))
-				check(!isEmpty(_.block.opReturn), _.span,
-					'Function with return type must return something.')
+			check(isEmpty(_.opReturnType) || _.block instanceof EExports.BlockVal, _.span,
+				'Function with return type must return something.')
 			_.args.forEach((arg) => arg.opType.forEach(v(vx)))
 			vx.withInGenerator(_.k === '~|', () => {
 				const allArgs = _.args.concat(_.opRestArg)
 				allArgs.forEach(_ => vx.registerLocal(_))
-				vx.plusLocals(allArgs, () => v(vx)(_.block))
+				vx.plusLocals(allArgs, () => {
+					_.opIn.forEach(v(vx))
+					v(vx)(_.block)
+					_.opOut.forEach(o => vx.withRes(_.span, () => v(vx)(o)))
+				})
 			})
 		})
 	},
@@ -114,7 +111,8 @@ implementMany(EExports, 'verify', {
 		v(vx)(_.called)
 		vm(vx, _.args)
 	},
-	CasePart(_, vx) { vm(vx, [_.test, _.result]) },
+	CaseDoPart: verifyCasePart,
+	CaseValPart: verifyCasePart,
 	ObjReturn(_, vx) { vm(vx, _.opObjed) },
 	ObjSimple(_, vx) {
 		Object.getOwnPropertyNames(_.keysVals).forEach(key => v(vx)(_.keysVals[key]))
@@ -143,6 +141,11 @@ function verifyCase(_, vx) {
 		vm(vx, _.parts)
 		vm(vx, _.opElse)
 	})
+}
+
+function verifyCasePart(_, vx) {
+	v(vx)(_.test)
+	v(vx)(_.result)
 }
 
 function verifyUses(vx, uses, debugUses) {

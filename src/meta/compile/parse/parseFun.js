@@ -1,5 +1,6 @@
+import assert from 'assert'
 import check from '../check'
-import { Block, Fun, LocalDeclare } from '../Expression'
+import { BlockDo, BlockVal, Debug, Fun, LocalDeclare } from '../Expression'
 import { CaseKeywords, KFun } from '../Lang'
 import { DotName, Group, Keyword } from '../Token'
 import type from '../U/type'
@@ -10,14 +11,16 @@ import parseLocalDeclares from './parseLocalDeclares'
 import parseSpaced from './parseSpaced'
 import Px from './Px'
 // TODO:ES6
-const takeBlockFromEnd_ = lazy(() => require('./parseBlock').takeBlockFromEnd)
+const parseLinesFromBlock_ = lazy(() => require('./parseBlock').parseLinesFromBlock)
+const parseBlockFromLines_ = lazy(() => require('./parseBlock').parseBlockFromLines)
+const takeBlockLinesFromEnd_ = lazy(() => require('./parseBlock').takeBlockLinesFromEnd)
 
 export default function parseFun(px, k) {
 	type(px, Px, k, KFun)
 	const { opReturnType, rest } = tryTakeReturnType(px)
 	px.check(!rest.isEmpty(), () => `Expected an indented block after ${code(k)}`)
-	const { args, opRestArg, block } = px.w(rest, argsAndBlock)
-	return Fun(px.s({ args, opRestArg, block, opReturnType, k }))
+	const { args, opRestArg, block, opIn, opOut } = px.w(rest, argsAndBlock)
+	return Fun(px.s({ k, args, opRestArg, opReturnType, block, opIn, opOut }))
 }
 
 const tryTakeReturnType = px => {
@@ -37,19 +40,22 @@ const argsAndBlock = px => {
 	// Might be `|case`
 	if (Keyword.isCaseOrCaseDo(h)) {
 		const eCase = px.w(px.tokens.tail(), parseCase, h.k, true)
-		const [ lines, opReturn ] = h.k === 'case' ?
-			[ None, some(eCase) ] :
-			[ some(eCase), None ]
-		return {
-			args: [ LocalDeclare.focus(h.span) ],
-			opRestArg: None,
-			block: Block(px.s({ lines, opReturn, opIn: None, opOut: None }))
-		}
+		const args = [ LocalDeclare.focus(h.span) ]
+		return (h.k === 'case') ?
+			{
+				args, opRestArg: None, opIn: None, opOut: None,
+				block: BlockVal(px.s({ lines: [], returned: eCase }))
+			} :
+			{
+				args, opRestArg: None, opIn: None, opOut: None,
+				block: BlockDo(px.s({ lines: [eCase] }))
+			}
 	} else {
-		const { before, block } = takeBlockFromEnd_()(px, 'any')
+		const { before, lines } = takeBlockLinesFromEnd_()(px)
 		const { args, opRestArg } = px.w(before, parseFunLocals)
-		type(block, Block)
-		return { args, opRestArg, block }
+		const { opIn, opOut, rest } = px.w(lines, tryTakeInOut)
+		const block = px.w(rest, parseBlockFromLines_())
+		return { args, opRestArg, block, opIn, opOut }
 	}
 }
 
@@ -73,4 +79,27 @@ const parseFunLocals = px => {
 		}
 		else return { args: parseLocalDeclares(px), opRestArg: None }
 	}
+}
+
+function tryTakeInOut(px) {
+	function tryTakeInOrOut(lines, inOrOut) {
+		if (!lines.isEmpty()) {
+			const firstLine = lines.head()
+			assert(Group.isLine(firstLine))
+			const tokensFirst = firstLine.tokens
+			if (Keyword.is(inOrOut)(tokensFirst.head()))
+				return {
+					took: some(Debug({
+						span: firstLine.span,
+						lines: px.w(tokensFirst, parseLinesFromBlock_())
+					})),
+					rest: lines.tail()
+				}
+		}
+		return { took: None, rest: lines }
+	}
+
+	const { took: opIn, rest: restIn } = tryTakeInOrOut(px.tokens, 'in')
+	const { took: opOut, rest } = tryTakeInOrOut(restIn, 'out')
+	return { opIn, opOut, rest }
 }

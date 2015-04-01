@@ -12,8 +12,8 @@ import { declare, member, toStatements, thunk } from './ast-util'
 import { idCached, idNew } from './id'
 import Tx from './Tx'
 
-export const t = (tx, arg) => expr => {
-	const ast = expr.transpileSubtree(expr, tx, arg)
+export const t = (tx, arg, arg2, arg3) => expr => {
+	const ast = expr.transpileSubtree(expr, tx, arg, arg2, arg3)
 	const appendLoc = _ => { _.loc = expr.span }
 	if (ast instanceof Array)
 		// This is only allowed inside of Blocks, which use `toStatements`.

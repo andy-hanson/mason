@@ -18,10 +18,11 @@ const ed = (name, props) => spanType(name, Do, props)
 const ev = (name, props) => spanType(name, Val, props)
 
 export const Debug = ed('Debug', { lines: [Expression] })
-export const Block = spanType('Block', Expression, {
+
+export const BlockDo = spanType('BlockDo', Do, { lines: [Expression] })
+export const BlockVal = spanType('BlockVal', Val, {
 	lines: [Expression],
-	opReturn: Op(Val),
-	opIn: Op(Debug), opOut: Op(Debug)
+	returned: Val
 })
 
 export const ModuleDefaultExport = ed('ModuleDefaultExport', { value: Val })
@@ -84,7 +85,8 @@ export const Module = ed('Module', {
 	doUses: [UseDo],
 	uses: [Use],
 	debugUses: [Use],
-	block: Block
+	// TODO: BlockVal and don't have `exports` object
+	block: BlockDo
 })
 
 // Data
@@ -105,22 +107,23 @@ export const ObjSimple = ev('ObjSimple', {
 })
 
 // Case
-export const CasePart = ee('CasePart', { test: Val, result: Block })
+export const CaseDoPart = ee('CaseDoPart', { test: Val, result: BlockDo })
+export const CaseValPart = ee('CaseVal', { test: Val, result: BlockVal })
 export const CaseDo = ed('CaseDo', {
 	opCased: Op(Assign),
-	parts: [CasePart],
-	opElse: Op(Block)
+	parts: [CaseDoPart],
+	opElse: Op(BlockDo)
 })
 // Unlike CaseDo, this has `return` statements.
 export const CaseVal = ev('CaseVal', {
 	opCased: Op(Assign),
-	parts: [CasePart],
-	opElse: Op(Block)
+	parts: [CaseValPart],
+	opElse: Op(BlockVal)
 })
 
 // Statements
-export const BlockWrap = ev('BlockWrap', { block: Block })
-export const Loop = ed('Loop', { block: Block })
+export const BlockWrap = ev('BlockWrap', { block: BlockVal })
+export const Loop = ed('Loop', { block: BlockDo })
 export const EndLoop = ed('EndLoop', { })
 
 // Generators
@@ -139,11 +142,15 @@ Object.assign(Call, {
 export const Splat = ev('Splat', { splatted: Val })
 
 export const Fun = ev('Fun', {
+	k: KFun,
 	args: [LocalDeclare],
 	opRestArg: Op(LocalDeclare),
-	block: Block,
 	opReturnType: Op(Val),
-	k: KFun
+	// BlockDo or BlockVal
+	block: Expression,
+	opIn: Op(Debug),
+	// TODO: Op({ declareRes, Debug })
+	opOut: Op(Debug)
 })
 
 export const Lazy = ev('Lazy', { value: Val })

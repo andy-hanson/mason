@@ -8,12 +8,11 @@ import { lazy, set } from '../U'
 import { ifElse, some } from '../U/Op'
 import { head, isEmpty, last, opSplitOnceWhere } from '../U/Bag'
 import type from '../U/type'
+import { justBlockDo, parseLinesFromBlock } from './parseBlock'
 import parseCase from './parseCase'
 import parseExpr from './parseExpr'
 import parseLocalDeclares from './parseLocalDeclares'
 import Px from './Px'
-// TODO:ES6
-const takeDoBlockFromEnd_ = lazy(() => require('./parseBlock').takeDoBlockFromEnd)
 
 // Returns line or sq of lines
 export default function parseLine(px) {
@@ -36,8 +35,8 @@ export default function parseLine(px) {
 			case 'debug':
 				return Group.isBlock(px.tokens.second()) ?
 					// `debug`, then indented block
-					Debug(px.s({ lines: parseLines(px) })) :
-					// e.g. `use-debug`
+					Debug(px.s({ lines: parseLinesFromBlock(px) })) :
+					// `debug`, then single line
 					Debug(px.s({ lines: px.w(rest, parseLineOrLines) }))
 			case 'debugger':
 				px.checkEmpty(rest, () => `Did not expect anything after ${h}`)
@@ -45,13 +44,10 @@ export default function parseLine(px) {
 			case 'end-loop!':
 				check(rest.isEmpty(), () => `Did not expect anything after ${h}`)
 				return EndLoop(px.s({}))
-			case 'loop!': {
-				const { before, block } = px.w(rest, takeDoBlockFromEnd_())
-				check(before.isEmpty(), px.span, () => `Did not expect anything after ${h}`)
-				return Loop(px.s({ block }))
-			}
+			case 'loop!':
+				return Loop(px.s({ block: px.w(rest, justBlockDo) }))
 			case 'region':
-				return parseLines(px)
+				return parseLinesFromBlock(px)
 			default:
 				// fall through
 		}
@@ -69,15 +65,6 @@ export function parseLineOrLines(px) {
 	const _ = parseLine(px)
 	return _ instanceof Array ? _ : [ _ ]
 }
-
-export function parseLines(px) {
-	const h = px.tokens.head()
-	check(px.tokens.size() > 1, h.span, () => `Expected indented block after ${h}`)
-	const block = px.tokens.second()
-	assert(px.tokens.size() === 2 && Group.isBlock(block))
-	return block.tokens.flatMap(line => px.w(line.tokens, parseLineOrLines))
-}
-
 
 function parseAssign(px, assigned, assigner, value) {
 	let locals = px.w(assigned, parseLocalDeclares)
@@ -175,12 +162,11 @@ function tryAddDisplayName(eValuePre, displayName) {
 			eValuePre.opDisplayName = some(displayName)
 			return eValuePre
 
-		case eValuePre instanceof BlockWrap:
-			eValuePre.block.opReturn.forEach(ret => {
-				const namedRet = tryAddDisplayName(ret, displayName)
-				eValuePre.block.opReturn = some(namedRet)
-			})
+		case eValuePre instanceof BlockWrap: {
+			const block = eValuePre.block
+			block.returned = tryAddDisplayName(block.returned, displayName)
 			return eValuePre
+		}
 
 		default:
 			return eValuePre
