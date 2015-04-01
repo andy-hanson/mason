@@ -38,7 +38,7 @@ export function parseLocalDeclare(px) {
 	else
 		name = parseLocalName(t)
 
-	return LocalDeclare(px.s({ name, opType, isLazy, okToNotUse: false }))
+	return LocalDeclare(px.span, name, opType, isLazy, false)
 }
 
 function parseLocalName(t) {

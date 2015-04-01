@@ -27,13 +27,11 @@ function parseModule(px, moduleName) {
 			px.check(line.assignee.name !== 'displayName',
 				'Module can not choose its own displayName.')
 	})
-	block.lines.push(Assign(px.s({
-		assignee: LocalDeclare(px.s(
-			{ name: 'displayName', opType: [], isLazy: false, okToNotUse: true })),
-		k: 'export',
-		value: ELiteral(px.s({ value: moduleName, k: String }))
-	})))
+	block.lines.push(Assign(px.span,
+		LocalDeclare(px.span, 'displayName', [], false, true),
+		'export',
+		ELiteral(px.span, moduleName, String)))
 
 	const uses = plainUses.concat(lazyUses)
-	return Module(px.s({ doUses, uses, debugUses, block }))
+	return Module(px.span, doUses, uses, debugUses, block)
 }

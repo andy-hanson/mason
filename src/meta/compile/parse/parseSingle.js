@@ -18,37 +18,30 @@ export default function parseSingle(px) {
 	assert(px.tokens.size() === 1)
 	switch (true) {
 		case t instanceof CallOnFocus:
-			return Call(px.s({
-				called: access(px, t.name),
-				args: [ LocalAccess.focus(px.span) ]
-			}))
+			return Call(px.span, access(px, t.name), [ LocalAccess.focus(px.span) ])
 		case t instanceof Literal:
-			return ELiteral(t)
+			return ELiteral(t.span, t.value, t.k)
 		case t instanceof Name:
 			return access(px, t.name)
 		case t instanceof Keyword:
 			if (t.k === '_')
 				return LocalAccess.focus(px.span)
 			if (SpecialKeywords.has(t.k))
-				return Special(px.s({ k: t.k }))
+				return Special(px.span, t.k)
 			// Else fallthrough to fail
 		case t instanceof Group:
 			switch (t.k) {
 				case 'sp': return px.w(t.tokens, parseSpaced)
 				case '->': return px.w(t.tokens, blockWrap_(), 'val')
-				case '"': return Quote(px.s({
-						parts: t.tokens.map(tSub => px.wt(tSub, parseSingle))
-					}))
+				case '"': return Quote(px.span, t.tokens.map(tSub => px.wt(tSub, parseSingle)))
 				case '(': return px.w(t.tokens, parseExpr_().default)
-				case '[': return ListSimple(px.s({
-					parts: px.w(t.tokens, parseExpr_().parseExprParts)
-				}))
+				case '[': return ListSimple(px.span, px.w(t.tokens, parseExpr_().parseExprParts))
 				default:
 					// fallthrough
 			}
 		case t instanceof DotName:
 			if (t.nDots === 3)
-				return Splat(px.s({ splatted: LocalAccess(px.s({ name: t.name })) }))
+				return Splat(px.span, LocalAccess(px.span, t.name))
 			// Else fallthrough to fail
 		default:
 			px.fail(`Unexpected ${t}`)
@@ -56,4 +49,4 @@ export default function parseSingle(px) {
 }
 
 const access = (px, name) =>
-	JsGlobals.has(name) ? GlobalAccess(px.s({ name })) : LocalAccess(px.s({ name }))
+	JsGlobals.has(name) ? GlobalAccess(px.span, name) : LocalAccess(px.span, name)

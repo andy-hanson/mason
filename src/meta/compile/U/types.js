@@ -1,13 +1,22 @@
+import assert from 'assert'
 import type from './type'
 import { indented } from './index'
 
-export function abstractType(name, superType) {
-	type(name, String, superType, Object)
-	return Object.assign(function() { throw new Error('Don\'t call me!') }, {
-		prototype: Object.create(superType.prototype),
-		getName() { return name },
-		toString() { return name }
+export const tuple = (superType, ...namesTypes) => {
+	let names = []
+	assert(namesTypes.length % 2 === 0)
+	for (let i = 0; i < namesTypes.length; i = i + 2)
+		names.push(namesTypes[i])
+	let args = names.join(', ')
+
+	let body = `return function ctr(${args}) { if (!(this instanceof ctr)) return new ctr(${args});`
+	names.forEach(name => {
+		body = body + `this.${name} = ${name};`
 	})
+	body = body + '}'
+	const ctr = Function(body)()
+	ctr.prototype = Object.create(superType.prototype)
+	return ctr
 }
 
 export function ObjType(name, superType, members) {

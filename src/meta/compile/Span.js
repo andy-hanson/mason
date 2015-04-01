@@ -1,6 +1,6 @@
 import chalk from 'chalk'
 import type from './U/type'
-import { ObjType } from './U/types'
+import { tuple } from './U/types'
 
 export default class Span {
 	constructor(start, end) {
@@ -15,10 +15,8 @@ export const
 		type(pos, Pos)
 		return new Span(pos, new Pos(pos.line, pos.column + 1))
 	},
-	spanType = (name, superType, members) => {
-		type(name, String, superType, Object, members, Object)
-		return ObjType(name, superType, Object.assign(members, { span: Span }))
-	}
+	spanTuple = (superType, ...namesTypes) =>
+		tuple(superType, 'span', Span, ...namesTypes)
 
 export class Pos {
 	constructor(line, column) {

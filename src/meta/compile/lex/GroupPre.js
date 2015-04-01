@@ -1,6 +1,4 @@
 import { GroupPres } from '../Lang'
+import { spanTuple } from '../Span'
 
-export default class GroupPre {
-	// k:GroupPres
-	constructor(span, k) { this.span = span; this.k = k }
-}
+export default spanTuple(Object, 'k', GroupPres)

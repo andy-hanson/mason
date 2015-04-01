@@ -69,7 +69,7 @@ export default function group(preGroupedTokens, opts) {
 		const span = new Span(old.startPos, closePos)
 		assert(GroupOpenToClose.get(old.k) === k)
 		const tokens = new Slice(old.body)
-		return new Group(span, tokens, old.k)
+		return Group(span, tokens, old.k)
 	}
 
 	function startLine(pos) {

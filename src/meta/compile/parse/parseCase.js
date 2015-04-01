@@ -40,8 +40,8 @@ export default function parseCase(px, k, casedFromFun) {
 		const { before, block } =
 			px.w(line.tokens, isVal ? takeBlockValFromEnd : takeBlockDoFromEnd)
 		const test = px.w(before, parseExpr_())
-		return (isVal ? CaseValPart : CaseDoPart)({ span: line.span, test, result: block })
+		return (isVal ? CaseValPart : CaseDoPart)(line.span, test, block)
 	})
 
-	return (isVal ? CaseVal : CaseDo)(px.s({ opCased, parts, opElse }))
+	return (isVal ? CaseVal : CaseDo)(px.span, opCased, parts, opElse)
 }

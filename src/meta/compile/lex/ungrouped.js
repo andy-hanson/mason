@@ -37,8 +37,8 @@ export default function* lexPlain(opts, stream, isInQuote) {
 	while (stream.hasNext()) {
 		const startPos = stream.pos
 		const span = () => new Span(startPos, stream.pos)
-		const keyword = k => new Keyword(span(), k)
-		const gp = k => new GroupPre(span(), k)
+		const keyword = k => Keyword(span(), k)
+		const gp = k => GroupPre(span(), k)
 
 		function eatNumber() {
 			let msLit = _ + stream.takeWhile(/[0-9\.e_]/)
@@ -49,7 +49,7 @@ export default function* lexPlain(opts, stream, isInQuote) {
 			const jsLit = msLit.replace(/_/g, '')
 			check(!Number.isNaN(Number(jsLit)), stream.pos, () =>
 				`Invalid number literal ${code(msLit)}`)
-			return new Literal(span(), jsLit, Number)
+			return Literal(span(), jsLit, Number)
 		}
 
 		const _ = stream.eat()
@@ -78,7 +78,7 @@ export default function* lexPlain(opts, stream, isInQuote) {
 					yield gp('sp')
 					break
 				} else {
-					yield new DotName(
+					yield DotName(
 						span(),
 						// +1 for the dot we just skipped.
 						stream.takeWhile('.').length + 1,
@@ -130,7 +130,7 @@ export default function* lexPlain(opts, stream, isInQuote) {
 			case Backtick: {
 				const js = stream.takeUpTo(/[`\n]/)
 				check(stream.eat() === '`', span, () => `Unclosed ${code('`')}`)
-				yield new Literal(span(), js, 'js')
+				yield Literal(span(), js, 'js')
 				break
 			}
 			case Quote:
@@ -157,13 +157,13 @@ export default function* lexPlain(opts, stream, isInQuote) {
 						break
 					default:
 						if (stream.tryEat('_'))
-							yield new CallOnFocus(span(), name)
+							yield CallOnFocus(span(), name)
 						else if (AllKeywords.has(name))
 							yield keyword(name)
 						else if (ReservedWords.has(name))
 							fail(span, `Reserved word ${code(name)}`)
 						else
-							yield new Name(span(), name)
+							yield Name(span(), name)
 				}
 			}
 		}
@@ -183,7 +183,7 @@ function* lexQuote(opts, stream, indent) {
 
 	function* yieldRead() {
 		if (read !== '') {
-			yield new Literal(
+			yield Literal(
 				new Span(startOfRead, stream.pos),
 				// Don't include leading newline of indented block
 				first && isIndented ? read.slice(1) : read,
@@ -194,7 +194,7 @@ function* lexQuote(opts, stream, indent) {
 		startOfRead = stream.pos
 	}
 
-	yield new GroupPre(single(stream.pos), '"')
+	yield GroupPre(single(stream.pos), '"')
 
 	eatChars: while (true) {
 		const chPos = stream.pos
@@ -210,9 +210,9 @@ function* lexQuote(opts, stream, indent) {
 			case OpBrace: {
 				yield* yieldRead()
 				// We can't just create a Group now because there may be other GroupPre_s inside.
-				yield new GroupPre(single(chPos), '(')
+				yield GroupPre(single(chPos), '(')
 				yield* lexPlain(opts, stream, true)
-				yield new GroupPre(single(stream.pos), ')')
+				yield GroupPre(single(stream.pos), ')')
 				break
 			}
 			case Newline: {
@@ -250,7 +250,7 @@ function* lexQuote(opts, stream, indent) {
 	}
 
 	yield* yieldRead()
-	yield new GroupPre(single(stream.pos), 'close"')
+	yield GroupPre(single(stream.pos), 'close"')
 }
 
 const quoteEscape = new Map([['{', '{'], ['n', '\n'], ['t', '\t'], ['"', '"'], ['\\', '\\']])

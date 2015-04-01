@@ -35,13 +35,13 @@ export default function parseExpr(px) {
 				Object.defineProperty(keysVals, local.name, { value })
 			}
 			assert(last(splits).at === undefined)
-			const val = ObjSimple(px.s({ keysVals }))
+			const val = ObjSimple(px.span, keysVals)
 			if (tokensCaller.isEmpty())
 				return val
 			else {
 				const parts = px.w(tokensCaller, parseExprParts)
 				assert(!isEmpty(parts))
-				return Call(px.s({ called: head(parts), args: push(tail(parts), val) }))
+				return Call(px.span, head(parts), push(tail(parts), val))
 			}
 		},
 		() => parseExprPlain(px)
@@ -57,7 +57,7 @@ function parseExprPlain(px) {
 		case 1:
 			return head(parts)
 		default:
-			return Call(px.s({ called: head(parts), args: tail(parts) }))
+			return Call(px.span, head(parts), tail(parts))
 	}
 }
 
@@ -74,9 +74,9 @@ export function parseExprParts(px) {
 				case 'case':
 					return push(out, px.w(rest(), parseCase, 'case', false))
 				case '<~':
-					return push(out, Yield(px.s({ yielded: px.w(rest(), parseExpr) })))
+					return push(out, Yield(px.span, px.w(rest(), parseExpr)))
 				case '<~~':
-					return push(out, YieldTo(px.s({ yieldedTo: px.w(rest(), parseExpr) })))
+					return push(out, YieldTo(px.span, px.w(rest(), parseExpr)))
 				default:
 					// fallthrough
 			}

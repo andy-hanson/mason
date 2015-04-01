@@ -20,7 +20,7 @@ export default function parseFun(px, k) {
 	const { opReturnType, rest } = tryTakeReturnType(px)
 	px.check(!rest.isEmpty(), () => `Expected an indented block after ${code(k)}`)
 	const { args, opRestArg, block, opIn, opOut } = px.w(rest, argsAndBlock)
-	return Fun(px.s({ k, args, opRestArg, opReturnType, block, opIn, opOut }))
+	return Fun(px.span, k, args, opRestArg, opReturnType, block, opIn, opOut)
 }
 
 const tryTakeReturnType = px => {
@@ -44,11 +44,11 @@ const argsAndBlock = px => {
 		return (h.k === 'case') ?
 			{
 				args, opRestArg: None, opIn: None, opOut: None,
-				block: BlockVal(px.s({ lines: [], returned: eCase }))
+				block: BlockVal(px.span, [ ], eCase)
 			} :
 			{
 				args, opRestArg: None, opIn: None, opOut: None,
-				block: BlockDo(px.s({ lines: [eCase] }))
+				block: BlockDo(px.span, [ eCase ])
 			}
 	} else {
 		const { before, lines } = takeBlockLinesFromEnd_()(px)
@@ -68,13 +68,7 @@ const parseFunLocals = px => {
 			check(l.nDots === 3, l.span, 'Splat argument must have exactly 3 dots')
 			return {
 				args: px.w(px.tokens.rtail(), parseLocalDeclares),
-				opRestArg: some(LocalDeclare({
-					span: l.span,
-					name: l.name,
-					opType: None,
-					isLazy: false,
-					okToNotUse: false
-				}))
+				opRestArg: some(LocalDeclare(l.span, l.name, None, false, false))
 			}
 		}
 		else return { args: parseLocalDeclares(px), opRestArg: None }
@@ -89,10 +83,9 @@ function tryTakeInOut(px) {
 			const tokensFirst = firstLine.tokens
 			if (Keyword.is(inOrOut)(tokensFirst.head()))
 				return {
-					took: some(Debug({
-						span: firstLine.span,
-						lines: px.w(tokensFirst, parseLinesFromBlock_())
-					})),
+					took: some(Debug(
+						firstLine.span,
+						px.w(tokensFirst, parseLinesFromBlock_()))),
 					rest: lines.tail()
 				}
 		}

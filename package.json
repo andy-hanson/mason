@@ -23,7 +23,7 @@
 		"gulp-watch": "4.2.2",
 		"js-yaml": "3.2.7",
 		"plist": "1.1.0",
-		"requirejs": "2.1.16",
+		"requirejs": "2.1.17",
 		"source-map-support": "0.2.10"
 	},
 	"engines": {

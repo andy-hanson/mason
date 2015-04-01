@@ -24,26 +24,19 @@ export default class Px {
 		fail(this.span, message)
 	}
 
-	s(props) {
-		props.span = this.span
-		return props
-	}
-
 	w(tokens, fun, arg, arg2, arg3) {
 		const t = this.tokens
 		this.tokens = tokens
 		const s = this.span
 		this.span = tokens.isEmpty() ? this.span : spanFromTokens(tokens)
-		const f = fun(this, arg, arg2, arg3)
+		const res = fun(this, arg, arg2, arg3)
 		this.tokens = t
 		this.span = s
-		return f
-		// return new Px(tokens, tokens.isEmpty() ? this.span : spanFromTokens(tokens))
+		return res
 	}
 
 	wt(t, fun, arg) {
 		return this.w(new Slice([t]), fun, arg)
-		// return new Px(new Slice([t]), t.span)
 	}
 }
 

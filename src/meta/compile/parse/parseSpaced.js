@@ -20,20 +20,20 @@ export default function parseSpaced(px) {
 				const focus = LocalAccess.focus(h.span)
 				return Call.contains(h.span, eType, focus)
 			} else if (h.k === '~')
-				return Lazy({ span: h.span, value: px.w(rest, parseSpaced) })
+				return Lazy(h.span, px.w(rest, parseSpaced))
 		default: {
 			const memberOrSubscript = px => (e, t) => {
 				const span = t.span
 				if (t instanceof DotName) {
 					check(t.nDots === 1, span, 'Too many dots!')
-					return Member({ span, object: e, name: t.name })
+					return Member(span, e, t.name)
 				} else if (t instanceof Group) {
 					if (t.k === '[')
 						return Call.sub(span,
 							unshift(e, px.w(t.tokens, parseExpr_().parseExprParts)))
 					if (t.k === '(') {
 						check(t.tokens.isEmpty(), t.span, `Use ${code('a b')}, not ${code('a(b)')}`)
-						return Call({ span, called: e, args: [] })
+						return Call(span, e, [])
 					}
 				} else fail(span, `Expected member or sub, not ${t}`)
 			}

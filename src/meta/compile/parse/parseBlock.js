@@ -21,8 +21,7 @@ export const
 		return { before: px.tokens.rtail(), lines: l.tokens }
 	},
 
-	blockWrap = px =>
-		BlockWrap(px.s({ block: parseBody(px, 'val') })),
+	blockWrap = px => BlockWrap(px.span, parseBody(px, 'val')),
 
 	justBlockDo = px => {
 		const { before, block } = takeBlockDoFromEnd(px)
@@ -64,7 +63,7 @@ const
 	parseBodyDo = px => {
 		const { eLines, kReturn } = parseBlockLines(px)
 		px.check(kReturn === 'plain', `Can not make ${kReturn} in statement context.`)
-		return BlockDo(px.s({ lines: eLines }))
+		return BlockDo(px.span, eLines)
 	},
 
 	parseBody = (px, k) => {
@@ -77,12 +76,12 @@ const
 			if (kReturn === 'bag')
 				return {
 					doLines: eLines,
-					opReturn: some(ListReturn(px.s({ length: listLength })))
+					opReturn: some(ListReturn(px.span, listLength))
 				}
 			if (kReturn === 'map')
 				return {
 					doLines: eLines,
-					opReturn: some(MapReturn(px.s({ length: mapLength })))
+					opReturn: some(MapReturn(px.span, mapLength))
 				}
 
 			const lastReturn = !isEmpty(eLines) && last(eLines) instanceof Val
@@ -90,23 +89,22 @@ const
 				return lastReturn ?
 					{
 						doLines: rtail(eLines),
-						opReturn: some(
-							ObjReturn(px.s({
-								keys: objKeys,
-								debugKeys: debugKeys,
-								opObjed: some(last(eLines)),
-								// This is filled in by parseAssign.
-								opDisplayName: None
-							})))
+						opReturn: some(ObjReturn(
+							px.span,
+							objKeys,
+							debugKeys,
+							some(last(eLines)),
+							// displayName is filled in by parseAssign.
+							None))
 					} : {
 						doLines: eLines,
-						opReturn: some(ObjReturn(px.s({
-							keys: objKeys,
-							debugKeys: debugKeys,
-							opObjed: None,
-							// This is filled in by parseAssign.
-							opDisplayName: None
-						})))
+						opReturn: some(ObjReturn(
+							px.span,
+							objKeys,
+							debugKeys,
+							None,
+							// displayName is filled in by parseAssign.
+							None))
 					}
 			else
 				return lastReturn ?
@@ -117,12 +115,12 @@ const
 		switch (k) {
 			case 'val':
 				return ifElse(opReturn,
-					returned => BlockVal(px.s({ lines: doLines, returned })),
+					returned => BlockVal(px.span, doLines, returned),
 					() => px.fail('Expected a value block.'))
 			case 'any':
 				return ifElse(opReturn,
-					returned => BlockVal(px.s({ lines: doLines, returned })),
-					() => BlockDo(px.s({ lines: doLines })))
+					returned => BlockVal(px.span, doLines, returned),
+					() => BlockDo(px.span, doLines))
 			case 'module': {
 				// TODO: Handle debug-only exports
 				const lines =
@@ -133,8 +131,8 @@ const
 								line.k = 'export'
 							return line
 						}),
-						opReturn.map(ret => ModuleDefaultExport({ span: ret.span, value: ret })))
-				return BlockDo(px.s({ lines }))
+						opReturn.map(ret => ModuleDefaultExport(ret.span, ret)))
+				return BlockDo(px.span, lines)
 			}
 			default: throw new Error(k)
 		}

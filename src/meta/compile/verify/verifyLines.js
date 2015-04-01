@@ -62,6 +62,7 @@ function verifyIsStatement(line) {
 		case line instanceof YieldTo:
 			return
 		default:
+			console.log(line)
 			fail(line.span, 'Expression in statement position.')
 	}
 }

@@ -42,18 +42,18 @@ function useLine(px, k) {
 
 	if (k === 'use!') {
 		px.check(px.tokens.size() === 1, () => `Unexpected ${px.tokens[1]}`)
-		return UseDo(px.s({ path }))
+		return UseDo(px.span, path)
 	} else {
 		const isLazy = k === 'use~' || k === 'use-debug'
 		const used = px.tokens.size() === 1 ?
-			[ LocalDeclare(px.s({ name, opType: None, isLazy, okToNotUse: false })) ] :
+			[ LocalDeclare(px.span, name, None, isLazy, false) ] :
 			px.w(px.tokens.tail(), parseLocalDeclares_()).map(l => {
 				if (l.name === '_')
 					l.name = name
 				l.isLazy = isLazy
 				return l
 			})
-		return Use(px.s({ used, k, path }))
+		return Use(px.span, used, path)
 	}
 }
 
