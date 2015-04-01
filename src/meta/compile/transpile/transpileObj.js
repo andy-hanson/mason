@@ -3,7 +3,8 @@ import { builders } from 'ast-types'
 const { literal, objectExpression, property } = builders
 import { cat, flatMap, isEmpty, unshift } from '../U/Bag'
 import { ifElse } from '../U/Op'
-import { propertyIdentifier, thunk } from './ast-util'
+import { thunk } from './ast-util'
+import { propertyIdOrLiteral} from './id'
 import { t, accessLocalDeclare, msLset, msSet, IdDisplayName, LitStrDisplayName } from './util'
 
 export const
@@ -30,7 +31,7 @@ export const
 				assert(!isEmpty(keys))
 				const props = keys.map(key => {
 					const val = accessLocalDeclare(key)
-					const id = propertyIdentifier(key.name)
+					const id = propertyIdOrLiteral(key.name)
 					return key.isLazy ?
 						// TODO: Just directly access the thunk already stored in it.
 						property('get', id, thunk(val)) :
@@ -44,4 +45,4 @@ export const
 
 	transpileObjSimple = (_, tx) =>
 		objectExpression(Object.getOwnPropertyNames(_.keysVals).map(keyName =>
-			property('init', propertyIdentifier(keyName), t(tx)(_.keysVals[keyName]))))
+			property('init', propertyIdOrLiteral(keyName), t(tx)(_.keysVals[keyName]))))

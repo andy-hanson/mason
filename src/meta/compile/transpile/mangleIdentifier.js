@@ -2,15 +2,17 @@ import { JsGlobals } from '../Lang'
 import { setUnion } from '../U'
 import type from '../U/type'
 
-export default function mangle(name) {
-	return forbiddenNames.has(name) ?
+export default name =>
+	forbiddenNames.has(name) ?
 		'_' + name :
 		name.replace(/[^a-zA-Z0-9$_]/g, ch => '_' + ch.charCodeAt(0))
-}
 
-export function needsMangle(name) {
-	return forbiddenNames.has(name) || name.search(/[^a-zA-Z0-9$_]/) !== -1
-}
+export const
+	needsMangle = name =>
+		forbiddenNames.has(name) || !propertyOk(name),
+
+	propertyNameOk = name =>
+		name.search(/[^a-zA-Z0-9$_]/) === -1
 
 const forbiddenNames = setUnion(JsGlobals, new Set([
 	'abstract',
