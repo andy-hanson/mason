@@ -65,9 +65,8 @@ implementMany(EExports, 'verify', {
 	},
 	Fun(_, vx) {
 		vx.withBlockLocals(() => {
-			_.opReturnType.forEach(v(vx))
-			check(isEmpty(_.opReturnType) || _.block instanceof EExports.BlockVal, _.span,
-				'Function with return type must return something.')
+			check(isEmpty(_.opResDeclare) || _.block instanceof EExports.BlockVal, _.span,
+				'Function with return condition must return something.')
 			_.args.forEach((arg) => arg.opType.forEach(v(vx)))
 			vx.withInGenerator(_.k === '~|', () => {
 				const allArgs = _.args.concat(_.opRestArg)
@@ -75,7 +74,11 @@ implementMany(EExports, 'verify', {
 				vx.plusLocals(allArgs, () => {
 					_.opIn.forEach(v(vx))
 					v(vx)(_.block)
-					_.opOut.forEach(o => vx.withRes(_.span, () => v(vx)(o)))
+					_.opResDeclare.forEach(rd => {
+						v(vx)(rd)
+						vx.registerLocal(rd)
+					})
+					_.opOut.forEach(o => vx.plusLocals(_.opResDeclare, () => v(vx)(o)))
 				})
 			})
 		})

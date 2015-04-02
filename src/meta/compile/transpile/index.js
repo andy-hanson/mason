@@ -84,13 +84,13 @@ implementMany(EExports, 'transpileSubtree', {
 		const nArgs = literal(_.args.length)
 		const opDeclareRest = _.opRestArg.map(rest =>
 			declare(rest, callExpression(IdArraySliceCall, [IdArguments, nArgs])))
-		const checks = flatMap(_.args, arg => opLocalCheck(tx, arg, arg.isLazy))
+		const argChecks = flatMap(_.args, arg => opLocalCheck(tx, arg, arg.isLazy))
 		const _in = flatMap(_.opIn, i => toStatements(t(tx)(i)))
+		const lead = opDeclareRest.concat(argChecks, _in)
+
 		const _out = flatMap(_.opOut, o => toStatements(t(tx)(o)))
-		const body = t(tx, _.opReturnType, _in, _out)(_.block)
-		const parts = push(cat(opDeclareRest, checks), body)
-		const block = blockStatement(parts)
-		return functionExpression(null, _.args.map(t(tx)), block, !(_.k === '|'))
+		const body = t(tx, lead, _.opResDeclare, _out)(_.block)
+		return functionExpression(null, _.args.map(t(tx)), body, !(_.k === '|'))
 	},
 	Lazy: (_, tx) => lazyWrap(t(tx)(_.value)),
 	ListReturn: _ => arrayExpression(range(0, _.length).map(i => identifier(`_${i}`))),

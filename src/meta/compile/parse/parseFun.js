@@ -5,6 +5,7 @@ import { CaseKeywords, KFun } from '../Lang'
 import { DotName, Group, Keyword } from '../Token'
 import type from '../U/type'
 import { code, lazy } from '../U'
+import { flatMap } from '../U/Bag'
 import Op, { ifElse, None, opIf, some } from '../U/Op'
 import parseCase from './parseCase'
 import parseLocalDeclares from './parseLocalDeclares'
@@ -20,7 +21,11 @@ export default function parseFun(px, k) {
 	const { opReturnType, rest } = tryTakeReturnType(px)
 	px.check(!rest.isEmpty(), () => `Expected an indented block after ${code(k)}`)
 	const { args, opRestArg, block, opIn, opOut } = px.w(rest, argsAndBlock)
-	return Fun(px.span, k, args, opRestArg, opReturnType, block, opIn, opOut)
+	// Need res declare if there is a return type or out condition.
+	const opResDeclare = ifElse(opReturnType,
+		rt => some(LocalDeclare.res(rt.span, opReturnType)),
+		() => opOut.map(o => LocalDeclare.res(o.span, opReturnType)))
+	return Fun(px.span, k, args, opRestArg, block, opIn, opResDeclare, opOut)
 }
 
 const tryTakeReturnType = px => {

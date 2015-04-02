@@ -31,7 +31,7 @@ export const
 		ee('name', String, 'opType', Op(Val), 'isLazy', Boolean, 'okToNotUse', Boolean),
 		{
 			focus: span => new LocalDeclare(span, '_', None, false, false),
-			res: span => new LocalDeclare(span, 'res', None, false, true)
+			res: (span, opType) => new LocalDeclare(span, 'res', opType, false, true)
 		}),
 	Assign = Object.assign(
 		ed('assignee', LocalDeclare, 'k', KAssign, 'value', Val),
@@ -108,11 +108,11 @@ export const
 		'k', KFun,
 		'args', [LocalDeclare],
 		'opRestArg', Op(LocalDeclare),
-		'opReturnType', Op(Val),
 		// BlockDo or BlockVal
 		'block', Expression,
 		'opIn', Op(Debug),
-		// TODO: Op({ declareRes, Debug })
+		// If non-empty, block should be a BlockVal, and either it has a type or opOut is non-empty.
+		'opResDeclare', Op(LocalDeclare),
 		'opOut', Op(Debug)),
 
 	Lazy = ev('value', Val),

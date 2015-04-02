@@ -2,33 +2,25 @@ import assert from 'assert'
 import { builders } from 'ast-types'
 const { blockStatement, returnStatement } = builders
 import { flatMap, isEmpty } from '../U/Bag'
-import { opIf, None } from '../U/Op'
+import { ifElse, opIf, None } from '../U/Op'
 import { BlockVal, LocalDeclare } from '../Expression'
 import { declare, toStatements } from './ast-util'
 import { t, maybeWrapInCheckContains, ReturnRes } from './util'
 
-// TODO: We should create this once during parsing, not during verification/transpiling.
-// See comment in Vx.
-const ResDeclare = LocalDeclare.res(null)
-
-export default (_, tx, opReturnType, opIn, opOut) => {
-	if (opReturnType === undefined)
-		opReturnType = opIn = opOut = None
-
+export default (_, tx, lead, opResDeclare, opOut) => {
+	if (lead === undefined) {
+		lead = []
+		opResDeclare = opOut = None
+	}
 	const body = flatMap(_.lines, line => toStatements(t(tx)(line)))
-
-	const opReturned = opIf(_ instanceof BlockVal, () =>
-		maybeWrapInCheckContains(t(tx)(_.returned), tx, opReturnType, 'res'))
-
-	const needResLocal =
-		tx.opts.includeInoutChecks() && !isEmpty(opReturned) && !isEmpty(opOut)
-	if (needResLocal) {
-		const makeRes = opReturned.map(ret => declare(ResDeclare, ret))
-		const ret = opReturned.map(() => ReturnRes)
-		return blockStatement(opIn.concat(body, makeRes, opOut, ret))
-	}
-	else {
-		const ret = opReturned.map(returnStatement)
-		return blockStatement(opIn.concat(body, opOut, ret))
-	}
+	const fin = ifElse(opResDeclare,
+		rd => {
+			assert(_ instanceof BlockVal)
+			const returned = maybeWrapInCheckContains(t(tx)(_.returned), tx, rd.opType, 'res')
+			return ifElse(opOut,
+				o => [ declare(rd, returned) ].concat(o, [ ReturnRes ]),
+				() => [ returnStatement(returned) ])
+		},
+		() => opOut.concat(opIf(_ instanceof BlockVal, () => returnStatement(t(tx)(_.returned)))))
+	return blockStatement(lead.concat(body, fin))
 }

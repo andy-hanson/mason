@@ -9,7 +9,7 @@ export default name =>
 
 export const
 	needsMangle = name =>
-		forbiddenNames.has(name) || !propertyOk(name),
+		forbiddenNames.has(name) || !propertyNameOk(name),
 
 	propertyNameOk = name =>
 		name.search(/[^a-zA-Z0-9$_]/) === -1
