@@ -1,11 +1,10 @@
 import assert from 'assert'
-import check, { fail, warnIf } from '../check'
+import { code } from '../CompileError'
 import { AllKeywords, isNameCharacter, ReservedCharacters, ReservedWords } from '../Lang'
 import Span, { single } from '../Span'
 import { CallOnFocus, DotName, Keyword, Literal, Name } from '../Token'
 import { rcons } from '../U/Bag'
 import type from '../U/type'
-import { code } from '../U'
 import GroupPre from './GroupPre'
 import Stream from './Stream'
 
@@ -29,7 +28,7 @@ const
 	Tab = cc('\t'),
 	Hyphen = cc('-')
 
-export default function* lexPlain(opts, stream, isInQuote) {
+export default function* ungrouped(lx, stream, isInQuote) {
 	type(stream, Stream, isInQuote, Boolean)
 
 	let indent = 0
@@ -47,7 +46,7 @@ export default function* lexPlain(opts, stream, isInQuote) {
 				stream.stepBack()
 			}
 			const jsLit = msLit.replace(/_/g, '')
-			check(!Number.isNaN(Number(jsLit)), stream.pos, () =>
+			lx.check(!Number.isNaN(Number(jsLit)), stream.pos, () =>
 				`Invalid number literal ${code(msLit)}`)
 			return Literal(span(), jsLit, Number)
 		}
@@ -67,7 +66,7 @@ export default function* lexPlain(opts, stream, isInQuote) {
 				yield gp(_)
 				break
 			case Space:
-				warnIf(opts, stream.peek() === ' ', span, 'Multiple spaces in a row')
+				lx.warnIf(stream.peek() === ' ', span, 'Multiple spaces in a row')
 				yield gp('sp')
 				break
 			case Dot:
@@ -110,34 +109,34 @@ export default function* lexPlain(opts, stream, isInQuote) {
 				stream.takeUpTo('\n')
 				break
 			case Newline: {
-				check(!isInQuote, span, 'Quote interpolation cannot contain newline')
-				check(stream.prev() !== ' ', span, 'Line ends in a space')
+				lx.check(!isInQuote, span, 'Quote interpolation cannot contain newline')
+				lx.check(stream.prev() !== ' ', span, 'Line ends in a space')
 				// Skip any blank lines.
 				stream.takeWhile('\n')
 				const oldIndent = indent
 				indent = stream.takeWhile('\t').length
-				check(stream.peek() !== ' ', stream.pos, 'Line begins in a space')
+				lx.check(stream.peek() !== ' ', stream.pos, 'Line begins in a space')
 				if (indent <= oldIndent) {
 					for (let i = indent; i < oldIndent; i = i + 1)
 						yield gp('<-')
 					yield gp('ln')
 				} else {
-					check(indent === oldIndent + 1, span, 'Line is indented more than once')
+					lx.check(indent === oldIndent + 1, span, 'Line is indented more than once')
 					yield gp('->')
 				}
 				break
 			}
 			case Backtick: {
 				const js = stream.takeUpTo(/[`\n]/)
-				check(stream.eat() === '`', span, () => `Unclosed ${code('`')}`)
+				lx.check(stream.eat() === '`', span, () => `Unclosed ${code('`')}`)
 				yield Literal(span(), js, 'js')
 				break
 			}
 			case Quote:
-				yield* lexQuote(opts, stream, indent)
+				yield* lexQuote(lx, stream, indent)
 				break
 			case Tab:
-				fail(span(), 'Tab may only be used to indent')
+				lx.fail(span(), 'Tab may only be used to indent')
 			case Hyphen:
 				if (/[0-9]/.test(stream.peek())) {
 					yield eatNumber()
@@ -145,7 +144,7 @@ export default function* lexPlain(opts, stream, isInQuote) {
 				}
 				// Else fallthrough
 			default: {
-				check(!ReservedCharacters.has(_), span, () => `Reserved character ${code(_)}`)
+				lx.check(!ReservedCharacters.has(_), span, () => `Reserved character ${code(_)}`)
 				// All other characters should be handled in a case above.
 				assert(isNameCharacter(_))
 				const name = _ + stream.takeWhile(isNameCharacter)
@@ -161,7 +160,7 @@ export default function* lexPlain(opts, stream, isInQuote) {
 						else if (AllKeywords.has(name))
 							yield keyword(name)
 						else if (ReservedWords.has(name))
-							fail(span, `Reserved word ${code(name)}`)
+							lx.fail(span, `Reserved word ${code(name)}`)
 						else
 							yield Name(span(), name)
 				}
@@ -171,7 +170,7 @@ export default function* lexPlain(opts, stream, isInQuote) {
 }
 
 
-function* lexQuote(opts, stream, indent) {
+function* lexQuote(lx, stream, indent) {
 	type(stream, Stream, indent, Number)
 
 	const isIndented = stream.peek() === '\n'
@@ -202,7 +201,7 @@ function* lexQuote(opts, stream, indent) {
 		switch (cc(ch)) {
 			case Backslash: {
 				const escaped = stream.eat()
-				check(quoteEscape.has(escaped), stream.pos, () =>
+				lx.check(quoteEscape.has(escaped), stream.pos, () =>
 					`No need to escape ${code(escaped)}`)
 				read = read + quoteEscape.get(escaped)
 				break
@@ -211,13 +210,13 @@ function* lexQuote(opts, stream, indent) {
 				yield* yieldRead()
 				// We can't just create a Group now because there may be other GroupPre_s inside.
 				yield GroupPre(single(chPos), '(')
-				yield* lexPlain(opts, stream, true)
+				yield* ungrouped(lx, stream, true)
 				yield GroupPre(single(stream.pos), ')')
 				break
 			}
 			case Newline: {
-				check(stream.prev() !== ' ', chPos, 'Line ends in a space')
-				check(isIndented, chPos, 'Unclosed quote.')
+				lx.check(stream.prev() !== ' ', chPos, 'Line ends in a space')
+				lx.check(isIndented, chPos, 'Unclosed quote.')
 				let newIndent = stream.takeWhile('\t').length
 
 				let s = ''

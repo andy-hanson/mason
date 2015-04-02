@@ -35,8 +35,6 @@ export const
 		return function() { return arguments[0][methodName](...arguments) }
 	},
 
-	code = chalk.bold.green,
-
 	setUnion = function() {
 		const s = new Set()
 		for (let i = 0; i < arguments.length; i = i + 1)

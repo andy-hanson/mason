@@ -36,7 +36,7 @@ export class Pos {
 	}
 
 	toString() {
-		return chalk.bold.red(`${this.line}:${this.column}`)
+		return `${this.line}:${this.column}`
 	}
 }
 export const StartPos = new Pos(1, 1)

@@ -1,5 +1,6 @@
 import assert from 'assert'
 import fs from 'fs'
+import Cx from './Cx'
 import Expression from './Expression'
 import lex from './lex'
 import parse from './parse'
@@ -27,16 +28,17 @@ module.exports = () => {
 		inFile: './ms-test.ms',
 		checks: true
 	})
+	const cx = new Cx(opts)
 
 	console.time('all')
-	const t = time(lex, source, opts)
+	const t = time(lex, cx, source)
 	// log(`==>\n${t}`)
-	const e = time(parse, t, opts)
+	const e = time(parse, cx, t)
 	// log(`==>\n${e}`)
-	const vr = time(verify, e, opts)
+	const vr = time(verify, cx, e)
 	// log(`+++\n${vr})
-	const ast = time(transpile, e, opts, vr)
-	const { code, map } = time(render, ast, opts)
+	const ast = time(transpile, cx, e, vr)
+	const { code, map } = time(render, cx, ast)
 	time(function renderSourceMap(_) { return _.toString() }, map)
 	console.timeEnd('all')
 	log(`Expression tree size: ${treeSize(e, _ => _ instanceof Expression)}`)

@@ -1,9 +1,9 @@
 import assert from 'assert'
-import check from '../check'
+import { code } from '../CompileError'
 import { LocalDeclare, Use, UseDo } from '../Expression'
 import { UseKeywords } from '../Lang'
 import Token, { DotName, Group, Keyword, Name } from '../Token'
-import { code, lazy, set } from '../U'
+import { lazy, set } from '../U'
 import { None } from '../U/Op'
 import { repeat, tail } from '../U/Bag'
 import type from '../U/type'
@@ -76,10 +76,10 @@ function parseLocalRequire(px) {
 	if (first instanceof DotName)
 		parts = first.nDots === 1 ? ['.'] : repeat('..', first.nDots - 1)
 	else
-		check(first instanceof Name, first.span, 'Not a valid part of module path.')
+		px.check(first instanceof Name, first.span, 'Not a valid part of module path.')
 	parts.push(first.name)
 	px.tokens.tail().each(t => {
-		check(t instanceof DotName && t.nDots === 1, t.span, 'Not a valid part of module path.')
+		px.check(t instanceof DotName && t.nDots === 1, t.span, 'Not a valid part of module path.')
 		parts.push(t.name)
 	})
 	return {

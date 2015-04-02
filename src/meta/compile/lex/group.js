@@ -1,7 +1,5 @@
 import assert from 'assert'
-import check, { fail } from '../check'
 import { GroupOpenToClose } from '../Lang'
-import Opts from '../Opts'
 import Span, { Pos, StartPos } from '../Span'
 import Token, { Group, Keyword } from '../Token'
 import { isEmpty, last } from '../U/Bag'
@@ -10,10 +8,7 @@ import type from '../U/type'
 import { ObjType } from '../U/types'
 import GroupPre from './GroupPre'
 
-export default function group(preGroupedTokens, opts) {
-	// No 'generator' type...
-	type(preGroupedTokens, Object, opts, Opts)
-
+export default function group(lx, preGroupedTokens) {
 	// Stack of GroupBuilders
 	const stack = []
 
@@ -34,7 +29,7 @@ export default function group(preGroupedTokens, opts) {
 			if (oldClose === k)
 				break
 			else {
-				check(new Set(['(', '[', 'sp']).has(old.k), closePos,
+				lx.check(AutoCloseableGroups.has(old.k), closePos,
 					'Trying to close ' + showGroup(k) +
 					', but last opened was a ' + showGroup(old.k))
 				finishLevel(closePos, oldClose)
@@ -53,7 +48,7 @@ export default function group(preGroupedTokens, opts) {
 		if ((k === 'sp' || k === 'ln') && wrapped.tokens.isEmpty())
 			return
 		if (k === '<-' && wrapped.tokens.isEmpty())
-			fail(closePos, 'Empty block')
+			lx.fail(closePos, 'Empty block')
 		// Spaced should always have at least two elements
 		if (k === 'sp' && wrapped.tokens.size() === 1)
 			cur.add(wrapped.tokens.head())
@@ -143,6 +138,8 @@ export default function group(preGroupedTokens, opts) {
 	assert(isEmpty(stack))
 	return wholeModuleBlock
 }
+
+const AutoCloseableGroups = new Set(['(', '[', 'sp'])
 
 const GroupBuilder = ObjType('GroupBuilder', Object, {
 	startPos: Pos,

@@ -6,7 +6,6 @@ const { arrayExpression, assignmentExpression, binaryExpression, blockStatement,
 	unaryExpression, variableDeclaration, variableDeclarator, whileStatement } = builders
 import assert from 'assert'
 import { parse as esParse } from 'esprima'
-import check, { fail } from '../check'
 import Expression, * as EExports from '../Expression'
 import { KAssign } from '../Lang'
 import Opts from '../Opts'
@@ -28,14 +27,13 @@ import { t,
 	Break,
 	accessLocal, lazyWrap, makeDeclarator, makeDestructureDeclarators,
 	maybeWrapInCheckContains, opLocalCheck, quote,
-	msGet, msArr, msBool, msMap, msShow, msCheckContains, msUnlazy, msLazy } from './util'
+	msGet, msArr, msBool, msMap, msShow, msCheckContains } from './util'
 import Tx from './Tx'
 
-export default function transpile(e, opts, vr) {
-	type(e, Expression, opts, Opts, vr, Vr)
-	const tx = Tx({ indent: '', opts: opts, vr: vr })
+export default function transpile(cx, e, vr) {
+	const tx = new Tx(cx, vr)
 	const ast = t(tx)(e)
-	ast.loc = { source: opts.modulePath(), start: ast.loc.start, end: ast.loc.end }
+	ast.loc.source = tx.opts().modulePath()
 	return ast
 }
 
@@ -73,8 +71,8 @@ implementMany(EExports, 'transpileSubtree', {
 	},
 	CaseDoPart: (_, tx) => casePart(tx, _.test, _.result, true),
 	CaseValPart: (_, tx) => casePart(tx, _.test, _.result, false),
-	// TODO: tx.opts.includeInoutChecks is misnamed
-	Debug: (_, tx) => tx.opts.includeInoutChecks() ?
+	// TODO: includeInoutChecks is misnamed
+	Debug: (_, tx) => tx.opts().includeInoutChecks() ?
 		flatMap(_.lines, line => toStatements(t(tx)(line))) :
 		[ ],
 	ObjReturn: transpileObjReturn,
@@ -101,7 +99,8 @@ implementMany(EExports, 'transpileSubtree', {
 			case Number: {
 				// TODO: Number literals should store Numbers...
 				const n = Number.parseFloat(_.value)
-				// TODO: File bug about negative numbers
+				// Negative numbers are not part of ES spec.
+				// http://www.ecma-international.org/ecma-262/5.1/#sec-7.8.3
 				const lit = literal(Math.abs(n))
 				return isPositive(n) ? lit : unaryExpression('-', lit)
 			}
@@ -133,7 +132,7 @@ implementMany(EExports, 'transpileSubtree', {
 	Module: transpileModule,
 	// TODO:ES6 Use `export default`
 	ModuleDefaultExport(_, tx) {
-		const m = member(IdExports, tx.opts.moduleName())
+		const m = member(IdExports, tx.opts().moduleName())
 		return assignmentExpression('=', m, t(tx)(_.value))
 	},
 	Quote(_, tx) {
@@ -159,7 +158,7 @@ implementMany(EExports, 'transpileSubtree', {
 			default: throw new Error(_.k)
 		}
 	},
-	Splat: _ => fail(_.span, 'Splat must appear as argument to a call.'),
+	Splat: (_, tx) => tx.fail(_.span, 'Splat must appear as argument to a call.'),
 	Yield: (_, tx) => astYield(t(tx)(_.yielded)),
 	YieldTo: (_, tx) => astYieldTo(t(tx)(_.yieldedTo))
 })
@@ -181,7 +180,7 @@ function caseBody(tx, parts, opElse) {
 }
 
 function casePart(tx, test, result, needBreak) {
-	const checkedTest = tx.opts.includeCaseChecks() ? msBool([ t(tx)(test) ]) : t(tx)(test)
+	const checkedTest = tx.opts().includeCaseChecks() ? msBool([ t(tx)(test) ]) : t(tx)(test)
 	const lines = needBreak ? [ t(tx)(result), Break ] : [ t(tx)(result) ]
 	return switchCase(checkedTest, lines)
 }

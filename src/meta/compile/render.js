@@ -1,6 +1,7 @@
 import { generate } from 'escodegen'
 
-export default function render(ast, opts) {
+export default function render(cx, ast) {
+	const { opts } = cx
 	return generate(ast, {
 		format: {
 			indent: { style: '\t' },

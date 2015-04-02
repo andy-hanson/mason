@@ -1,5 +1,4 @@
 import assert from 'assert'
-import check from '../check'
 import { Assign, BlockDo, BlockVal, BlockWrap, Debug, ObjReturn, ListEntry, ListReturn, ELiteral,
 	LocalDeclare, MapReturn, MapEntry, Module, ModuleDefaultExport, Val } from '../Expression'
 import { Group, Keyword } from '../Token'
@@ -17,7 +16,7 @@ export const
 		type(px, Px)
 		px.check(!px.tokens.isEmpty(), 'Expected an indented block')
 		const l = px.tokens.last()
-		check(Group.isBlock(l), l.span, 'Expected an indented block at the end')
+		px.check(Group.isBlock(l), l.span, 'Expected an indented block at the end')
 		return { before: px.tokens.rtail(), lines: l.tokens }
 	},
 
@@ -53,7 +52,7 @@ export const
 	// Gets lines in a region or Debug.
 	parseLinesFromBlock = px => {
 		const h = px.tokens.head()
-		check(px.tokens.size() > 1, h.span, () => `Expected indented block after ${h}`)
+		px.check(px.tokens.size() > 1, h.span, () => `Expected indented block after ${h}`)
 		const block = px.tokens.second()
 		assert(px.tokens.size() === 2 && Group.isBlock(block))
 		return block.tokens.flatMap(line => px.w(line.tokens, parseLineOrLines_()))
@@ -175,7 +174,7 @@ const
 		const isObj = !(isEmpty(objKeys) && isEmpty(debugKeys))
 		// TODO
 		// if (isEmpty(objKeys))
-		//	check(isEmpty(debugKeys), px.span, 'Block can't have only debug keys')
+		//	px.check(isEmpty(debugKeys), px.span, 'Block can't have only debug keys')
 		const isBag = listLength > 0
 		const isMap = mapLength > 0
 		px.check(!(isObj && isBag), 'Block has both Bag and Obj lines.')

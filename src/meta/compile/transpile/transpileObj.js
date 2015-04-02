@@ -11,7 +11,7 @@ export const
 	transpileObjReturn = (_, tx) => {
 		const nonDebugKeys = _.keys
 		// TODO: includeTypeChecks() is not the right method for this
-		const keys = tx.opts.includeTypeChecks() ? _.keys.concat(_.debugKeys) : _.keys
+		const keys = tx.opts().includeTypeChecks() ? _.keys.concat(_.debugKeys) : _.keys
 		return ifElse(_.opObjed,
 			objed => {
 				const astObjed = t(tx)(objed)
@@ -33,7 +33,6 @@ export const
 					const val = accessLocalDeclare(key)
 					const id = propertyIdOrLiteral(key.name)
 					return key.isLazy ?
-						// TODO: Just directly access the thunk already stored in it.
 						property('get', id, thunk(val)) :
 						property('init', id, val)
 				})

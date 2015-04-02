@@ -1,8 +1,9 @@
+import { code } from './CompileError'
 import { AllKeywords, CaseKeywords, GroupKinds, GroupOpenToClose, LineSplitKeywords } from './Lang'
 import { spanTuple } from './Span'
 import type from './U/type'
 import { abstractType } from './U/types'
-import { code, implementMany2 } from './U'
+import { implementMany2 } from './U'
 
 export default class Token { }
 

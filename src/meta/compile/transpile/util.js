@@ -115,12 +115,13 @@ export const accessLocal = (tx, localAccess) => {
 }
 export const accessLocalDeclare = localDeclare => {
 	type(localDeclare, LocalDeclare)
-	// TODO: Dont' call unlazy, that has to check for laziness and we know it's lazy
-	return localDeclare.isLazy ? msUnlazy([ idCached(localDeclare) ]) : idNew(localDeclare)
+	return localDeclare.isLazy ?
+		msUnlazy([ idCached(localDeclare) ]) :
+		idNew(localDeclare)
 }
 
 export const maybeWrapInCheckContains = (ast, tx, opType, name) =>
-	tx.opts.includeTypeChecks() ?
+	tx.opts().includeTypeChecks() ?
 		ifElse(opType,
 			typ => msCheckContains([ t(tx)(typ), ast, literal(name) ]),
 			() => ast) :
@@ -129,7 +130,7 @@ export const maybeWrapInCheckContains = (ast, tx, opType, name) =>
 export const opLocalCheck = (tx, local, isLazy) => {
 	type(tx, Tx, local, LocalDeclare, isLazy, Boolean)
 	// TODO: Way to typecheck lazies
-	if (!tx.opts.includeTypeChecks() || isLazy)
+	if (!tx.opts().includeTypeChecks() || isLazy)
 		return None
 	return local.opType.map(typ =>
 		expressionStatement(msCheckContains([

@@ -1,9 +1,10 @@
-import chalk from 'chalk'
 import { PluginError, replaceExtension } from 'gulp-util'
 import { obj } from 'through2'
 import applySourceMap from 'vinyl-sourcemaps-apply'
+import CompileError from './CompileError'
+import formatCompileErrorForConsole, { formatWarningForConsole }
+	from './formatCompileErrorForConsole'
 import compile from './index'
-import { CompileError } from './check'
 import manglePath from './manglePath'
 
 const Name = 'gulp-ms'
@@ -22,22 +23,17 @@ export default function gulpMs(opts) {
 		else {
 			const src = file.contents.toString('utf8')
 			const outFile = manglePath(replaceExtension(file.path, '.js'))
-			try {
-				const { code, sourceMap } = compile(src, file.path, opts)
+			const { warnings, result } = compile(src, file.path, opts)
+			warnings.forEach(w => console.log(formatWarningForConsole(w, file.path)))
+			if (result instanceof CompileError) {
+				console.log(formatCompileErrorForConsole(result, file.path))
+				cb(new PluginError(Name, result.message))
+			} else {
+				const { code, sourceMap } = result
 				applySourceMap(file, sourceMap)
 				file.contents = new Buffer(code)
 				file.path = outFile
 				cb(null, file)
-			} catch (err) {
-				const anno = `${chalk.magenta('error')} ${chalk.green(file.path)} `
-				err.message = anno + err.message
-				err.stack = anno + err.stack
-				if (err instanceof CompileError) {
-					console.log(err.message)
-					cb(new PluginError(Name, 'Error in Mason source.'))
-				}
-				else
-					cb(new PluginError(Name, err))
 			}
 		}
 	})

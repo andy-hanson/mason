@@ -8,11 +8,10 @@ import { parseModuleBody } from './parseBlock'
 import tryParseUse from './parseUse'
 import Px from './Px'
 
-export default function parse(rootToken, opts) {
-	type(opts, Opts)
+export default function parse(cx, rootToken) {
 	assert(Group.isBlock(rootToken))
-	const px = new Px(rootToken.tokens, rootToken.span)
-	return parseModule(px, opts.moduleName())
+	const px = new Px(cx, rootToken.tokens, rootToken.span)
+	return parseModule(px, cx.opts.moduleName())
 }
 
 function parseModule(px, moduleName) {

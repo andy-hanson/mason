@@ -1,5 +1,4 @@
 import assert from 'assert'
-import check from '../check'
 import { Assign, Call, GlobalAccess, ObjReturn, ObjSimple, Yield, YieldTo } from '../Expression'
 import { Keyword } from '../Token'
 import type from '../U/type'
@@ -30,8 +29,8 @@ export default function parseExpr(px) {
 					splits[i + 1].before :
 					splits[i + 1].before.rtail()
 				const value = px.w(tokensValue, parseExprPlain)
-				check(!Object.prototype.hasOwnProperty.call(keysVals, local.name), local.span, () =>
-					`Duplicate property ${local}.`)
+				px.check(!Object.prototype.hasOwnProperty.call(keysVals, local.name),
+					local.span, () => `Duplicate property ${local}.`)
 				Object.defineProperty(keysVals, local.name, { value })
 			}
 			assert(last(splits).at === undefined)

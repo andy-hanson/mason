@@ -1,10 +1,10 @@
 import assert from 'assert'
-import check from '../check'
+import { code } from '../CompileError'
 import { BlockDo, BlockVal, Debug, Fun, LocalDeclare } from '../Expression'
 import { CaseKeywords, KFun } from '../Lang'
 import { DotName, Group, Keyword } from '../Token'
 import type from '../U/type'
-import { code, lazy } from '../U'
+import { lazy } from '../U'
 import { flatMap } from '../U/Bag'
 import Op, { ifElse, None, opIf, some } from '../U/Op'
 import parseCase from './parseCase'
@@ -70,7 +70,7 @@ const parseFunLocals = px => {
 	else {
 		const l = px.tokens.last()
 		if (l instanceof DotName) {
-			check(l.nDots === 3, l.span, 'Splat argument must have exactly 3 dots')
+			px.check(l.nDots === 3, l.span, 'Splat argument must have exactly 3 dots')
 			return {
 				args: px.w(px.tokens.rtail(), parseLocalDeclares),
 				opRestArg: some(LocalDeclare(l.span, l.name, None, false, false))

@@ -1,4 +1,4 @@
-import Opts from '../Opts'
+import { SubContext } from '../Cx'
 import type from '../U/type'
 import group from './group'
 import Stream from './Stream'
@@ -11,18 +11,18 @@ function eager(gen) {
 	return arr[Symbol.iterator]()
 }
 
-export default function lex(str, opts) {
-	type(str, String, opts, Opts)
+export default function lex(cx, str) {
 	// Lexing algorithm requires trailing newline
 	str = str + '\n'
-	let ug = ungrouped(opts, new Stream(str), false)
+	const lx = new SubContext(cx)
+	let ug = ungrouped(lx, new Stream(str), false)
 	if (global.LOG_TIME) {
 		console.time('ungrouped')
 		ug = eager(ug)
 		console.timeEnd('ungrouped')
 	}
 	if (global.LOG_TIME) console.time('group')
-	const g = group(ug, opts)
+	const g = group(lx, ug)
 	if (global.LOG_TIME) console.timeEnd('group')
 	return g
 }

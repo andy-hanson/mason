@@ -20,105 +20,103 @@ const msDefTemp = (name, fun) =>
 exports.msCall = (name, ...args) =>
 	ms[name](...args)
 
-msDef('lazyGetModule', module => {
-	if (module === undefined)
-		throw new Error('Module undefined.')
-	return module._get instanceof Lazy ? module._get : ms.lazy(() => module)
-})
 
-msDef('getModule', module => {
-	if (module === undefined)
-		throw new Error('Module undefined.')
-	return module._get instanceof Lazy ? ms.unlazy(module._get) : module
-})
+const msDefs = {
+	lazyGetModule(module) {
+		if (module === undefined)
+			throw new Error('Module undefined.')
+		return module._get instanceof Lazy ? module._get : ms.lazy(() => module)
+	},
 
-msDef('lazyProp', (lazyObject, key) => {
-	assert(lazyObject instanceof Lazy)
-	return ms.lazy(() => lazyObject.get()[key])
-})
+	getModule(module) {
+		if (module === undefined)
+			throw new Error('Module undefined.')
+		return module._get instanceof Lazy ? module._get.get() : module
+	},
 
-// TODO: Shouldn't need if we statically check.
-msDef('get', (object, key) => {
-	const _ = object[key]
-	if (_ === undefined)
-		throw new Error('Module ' + object.displayName + ' does not have ' + key)
-	return _
-})
+	lazyProp(lazyObject, key) {
+		assert(lazyObject instanceof Lazy)
+		return ms.lazy(() => lazyObject.get()[key])
+	},
 
-msDef('bool', b => {
-	if (typeof b !== 'boolean')
-		throw new Error(`Expected Bool, got ${b}`)
-	return b
-})
+	get(object, key) {
+		const _ = object[key]
+		if (_ === undefined)
+			throw new Error('Module ' + object.displayName + ' does not have ' + key)
+		return _
+	},
 
-// TODO:ES6 fun(...arg) should do this for me.
-msDef('arr', a => {
-	if (a instanceof Array)
-		return a
-	const out = []
-	// ms.iterator created by @/index.ms
-	const iter = ms.iterator(a)
-	while (true) {
-		const _ = iter.next()
-		if (_.done)
-			break
-		else
-			out.push(_.value)
-	}
-	return out
-})
+	bool(b) {
+		if (typeof b !== 'boolean')
+			throw new Error(`Expected Bool, got ${b}`)
+		return b
+	},
 
-// For use by Obj-Type.ms
-msDef('checkNoExtras', (_this, _, rtName) => {
-	// If there was some key in `_` that we didn't copy:
-	if (Object.keys(_).length > Object.keys(_this).length)
-		Object.getOwnPropertyNames(_).forEach(function(name) {
-			if (name !== 'displayName')
-				if (!Object.prototype.hasOwnProperty.call(_this, name))
-					throw new Error('Extra prop ' + name + ' for ' + rtName)
-		})
-})
+	// Used for splat calls.
+	// TODO:ES6 Shouldn't need fun(...arg) should work for any iterable.
+	arr(a) {
+		if (a instanceof Array)
+			return a
+		const out = []
+		for (let em of ms.iterator(a))
+			out.push(em)
+		return out
+	},
 
-function Lazy(make) {
-	this.get = function() {
-		const _ = make()
-		this.get = function() { return _ }
+	// For use by Obj-Type.ms generated code.
+	checkNoExtras(_this, _, rtName) {
+		// If there was some key in `_` that we didn't copy:
+		if (Object.keys(_).length > Object.keys(_this).length)
+			Object.getOwnPropertyNames(_).forEach(function(name) {
+				if (name !== 'displayName')
+					if (!Object.prototype.hasOwnProperty.call(_this, name))
+						throw new Error('Extra prop ' + name + ' for ' + rtName)
+			})
+	},
+
+	lazy: _ => new Lazy(_),
+	unlazy: _ => _ instanceof Lazy ? _.get() : _,
+
+	set(_, k0, v0, k1, v1, k2, v2, k3) {
+		_[k0] = v0
+		if (k1 === undefined)
+			return _
+		_[k1] = v1
+		if (k2 === undefined)
+			return _
+		_[k2] = v2
+		assert(k3 === undefined)
+		return _
+	},
+
+	lset(_, k0, v0, k1, v1, k2, v2, k3) {
+		setOrLazy(_, k0, v0)
+		if (k1 === undefined)
+			return _
+		setOrLazy(_, k1, v1)
+		if (k2 === undefined)
+			return _
+		setOrLazy(_, k2, v2)
+		assert(k3 === undefined)
 		return _
 	}
 }
-msDef('lazy', _ => new Lazy(_))
-msDef('unlazy', _ => _ instanceof Lazy ? _.get() : _)
+Object.keys(msDefs).forEach(key => msDef(key, msDefs[key]))
 
-msDef('set', (_, k0, v0, k1, v1, k2, v2, k3) => {
-	_[k0] = v0
-	if (k1 === undefined)
-		return _
-	_[k1] = v1
-	if (k2 === undefined)
-		return _
-	_[k2] = v2
-	assert(k3 === undefined)
-	return _
-})
-
-const setOrLazy = function(_, k, v) {
+const setOrLazy = (_, k, v) => {
 	if (v instanceof Lazy)
 		Object.setProperty(_, k, { get: function() { return ms.unlazy(v) } })
 	else
 		pAdd(_, k, v)
 }
 
-msDef('lset', (_, k0, v0, k1, v1, k2, v2, k3) => {
-	setOrLazy(_, k0, v0)
-	if (k1 === undefined)
+function Lazy(get) {
+	this.get = () => {
+		const _ = get()
+		this.get = () => _
 		return _
-	setOrLazy(_, k1, v1)
-	if (k2 === undefined)
-		return _
-	setOrLazy(_, k2, v2)
-	assert(k3 === undefined)
-	return _
-})
+	}
+}
 
 // Overwritten by show.ms
 msDefTemp('show', _ => {
@@ -134,7 +132,6 @@ exports.Obj = Object
 exports.Str = String
 exports['p+!'] = pAdd
 
-
 // region Contains
 // Some Types want to implement contains? before it is officially defined.
 const containsImplSymbol = exports['contains?-impl-symbol'] = 'impl-contains?'
@@ -143,7 +140,8 @@ exports['impl-contains?!'] = function(type, impl) {
 		value: impl,
 		enumerable: false
 	})
-};
+}
+
 // Overwritten by Type/index.ms to actually do type checking.
 msDefTemp('checkContains', (type, val) => val)
 

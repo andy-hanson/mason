@@ -1,27 +1,31 @@
-import check, { fail } from '../check'
+import { SubContext } from '../Cx'
 import Span, { spanType } from '../Span'
 import { head, isEmpty, last } from '../U/Bag'
 import type from '../U/type'
 import Slice from '../U/Slice'
 import T from '../Token'
 
-export default class Px {
-	constructor(tokens, span) {
+export default class Px extends SubContext {
+	constructor(cx, tokens, span) {
+		super(cx)
 		type(tokens, Slice)
 		this.tokens = tokens
 		this.span = span
 	}
 
-	check(cond, message) {
-		check(cond, this.span, message)
+	check(cond, span, message) {
+		if (span instanceof Span)
+			super.check(cond, this.span, message)
+		else
+			super.check(cond, this.span, message)
 	}
 
 	checkEmpty(tokens, message) {
-		check(tokens.isEmpty(), () => spanFromTokens(tokens), message)
+		super.check(tokens.isEmpty(), () => spanFromTokens(tokens), message)
 	}
 
 	fail(message) {
-		fail(this.span, message)
+		super.fail(this.span, message)
 	}
 
 	w(tokens, fun, arg, arg2, arg3) {

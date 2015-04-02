@@ -1,5 +1,4 @@
 import assert from 'assert'
-import check, { warnIf } from '../check'
 import E, { Assign, AssignDestructure, BlockWrap, Call, Debug, GlobalAccess, ObjReturn,
 	Fun, EndLoop, ListEntry, Loop, MapEntry, Special, Yield, YieldTo } from '../Expression'
 import { defaultLoopName, LineSplitKeywords } from '../Lang'
@@ -39,7 +38,7 @@ export default function parseLine(px) {
 				px.checkEmpty(rest, () => `Did not expect anything after ${h}`)
 				return Special.debugger(px.span)
 			case 'end-loop!':
-				check(rest.isEmpty(), () => `Did not expect anything after ${h}`)
+				px.checkEmpty(rest, () => `Did not expect anything after ${h}`)
 				return EndLoop(px.span)
 			case 'loop!':
 				return Loop(px.span, px.w(rest, justBlockDo))
@@ -94,7 +93,7 @@ function parseAssign(px, assigned, assigner, value) {
 	}
 
 	if (isYield)
-		locals.forEach(_ => check(_.k !== 'lazy', _.span, 'Can not yield to lazy variable.'))
+		locals.forEach(_ => px.check(_.k !== 'lazy', _.span, 'Can not yield to lazy variable.'))
 
 	if (k === '. ')
 		locals.forEach(l => { l.okToNotUse = true })
@@ -107,7 +106,7 @@ function parseAssign(px, assigned, assigner, value) {
 	else {
 		const isLazy = locals.some(l => l.isLazy)
 		if (isLazy)
-			locals.forEach(_ => check(_.isLazy, _.span,
+			locals.forEach(_ => px.check(_.isLazy, _.span,
 				'If any part of destructuring assign is lazy, all must be.'))
 		return AssignDestructure(px.span, locals, k, eValue, isLazy)
 	}

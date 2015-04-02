@@ -1,8 +1,8 @@
-import Opts from '../Opts'
-import { set } from '../U'
-import { ObjType } from '../U/types'
-import Vr from '../Vr'
+import { SubContext } from '../Cx'
 
-// Context used while rendering.
-const Tx = ObjType('Tx', Object, { opts: Opts, vr: Vr })
-export default Tx
+export default class Tx extends SubContext {
+	constructor(cx, vr) {
+		super(cx)
+		this.vr = vr
+	}
+}

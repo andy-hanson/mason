@@ -1,8 +1,8 @@
-import check, { fail } from '../check'
+import { code } from '../CompileError'
 import E, { Assign, AssignDestructure, Call, Debug, Do, ELiteral,
 	GlobalAccess, Require, Special, Yield, YieldTo } from '../Expression'
 import type from '../U/type'
-import { code, set } from '../U'
+import { set } from '../U'
 import { v } from './util'
 
 export default function verifyLines(vx, lines) {
@@ -13,17 +13,16 @@ export default function verifyLines(vx, lines) {
 	function processLine(line) {
 		if (line instanceof Debug)
 			// TODO: Do anything in this situation?
-			// check(!inDebug, line.span, 'Redundant `debug`.')
+			// vx.check(!inDebug, line.span, 'Redundant `debug`.')
 			vx.withInDebug(true, () => line.lines.forEach(processLine))
 		else {
-			verifyIsStatement(line)
+			verifyIsStatement(vx, line)
 			const lineNews = lineNewLocals(line)
 			prevLocals.forEach(prevLocal =>
 				lineNews.forEach(newLocal =>
-					check(prevLocal.name !== newLocal.name, newLocal.span,
-						code(newLocal.name) +
-						' already declared in same block at ' +
-						prevLocal.span.start)))
+					vx.check(
+						prevLocal.name !== newLocal.name, newLocal.span,
+						`${code(newLocal.name)} already declared at ${prevLocal.span.start}`)))
 			lineNews.forEach(_ => vx.registerLocal(_))
 			const newLocals = prevLocals.concat(lineNews)
 			lineToLocals.set(line, prevLocals)
@@ -50,7 +49,7 @@ export default function verifyLines(vx, lines) {
 }
 
 // TODO: Clean up
-function verifyIsStatement(line) {
+function verifyIsStatement(vx, line) {
 	switch (true) {
 		case line instanceof Do:
 		// Some Vals are also conceptually Dos, but this was easier than multiple inheritance.
@@ -62,8 +61,7 @@ function verifyIsStatement(line) {
 		case line instanceof YieldTo:
 			return
 		default:
-			console.log(line)
-			fail(line.span, 'Expression in statement position.')
+			vx.fail(line.span, 'Expression in statement position.')
 	}
 }
 

@@ -8,7 +8,7 @@ export default function mangle(path) {
 
 export function fixupPath(path, tx) {
 	// KLUDGE: requirejs uses 'main' instead of 'index', so explicitly ask for 'index'
-	if (path.startsWith('.') && existsSync(resolve(dirname(tx.opts.modulePath()), path)))
+	if (path.startsWith('.') && existsSync(resolve(dirname(tx.opts().modulePath()), path)))
 		path = path + '/index'
 	return manglePath(path)
 }

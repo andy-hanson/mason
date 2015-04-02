@@ -1,9 +1,10 @@
 import assert from 'assert'
-import { fail } from '../check'
+import { code } from '../CompileError'
+import { SubContext } from '../Cx'
 import { GlobalDeclare, LocalDeclare } from '../Expression'
 import { JsGlobals } from '../Lang'
 import Opts from '../Opts'
-import { code, set } from '../U'
+import { set } from '../U'
 import { isEmpty, toArray } from '../U/Bag'
 import Op, { None, opIf, some } from '../U/Op'
 import type from '../U/type'
@@ -11,9 +12,9 @@ import { ObjType } from '../U/types'
 import Vr, { VrLocalInfo } from '../Vr'
 
 // Context used during verification.
-export default class Vx {
-	constructor(opts) {
-		this.opts = opts
+export default class Vx extends SubContext {
+	constructor(cx) {
+		super(cx)
 		this.locals = new Map()
 		// Locals for this block.
 		// Replaces `locals` when entering into sub-function.
@@ -117,7 +118,7 @@ export default class Vx {
 			const accesses = this.isInDebug ? info.debugAccesses : info.nonDebugAccesses
 			accesses.push(access)
 		} else
-			fail(access.span,
+			this.fail(access.span,
 				`Could not find local or global ${code(name)}.
 				Available locals are: ${code(toArray(this.allLocalNames()).join(' '))}.
 				Available globals are: ${code(toArray(JsGlobals.values()).join(' '))}.`)

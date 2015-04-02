@@ -1,35 +1,35 @@
 import assert from 'assert'
-import check, { fail, warnIf } from '../check'
+import { code } from '../CompileError'
 import E, * as EExports from '../Expression'
 import Opts from '../Opts'
 import type from '../U/type'
-import { code, ignore, implementMany } from '../U'
+import { implementMany } from '../U'
 import { ifElse } from '../U/Op'
 import { cons, head, isEmpty, toArray } from '../U/Bag'
 import verifyLines from './verifyLines'
 import Vx from './Vx'
 import { v, vm } from './util'
 
-export default function verify(e, opts) {
-	type(e, E, opts, Opts)
-	const vx = new Vx(opts)
+export default function verify(cx, e) {
+	const vx = new Vx(cx)
 	e.verify(e, vx)
-	verifyLocalUse(vx.vr, opts)
+	verifyLocalUse(vx)
 	return vx.vr
 }
 
-function verifyLocalUse(vr, opts) {
+function verifyLocalUse(vx) {
+	const vr = vx.vr
 	for (let local of vr.localToInfo.keys()) {
 		const info = vr.localToInfo.get(local)
 		const noNonDebug = isEmpty(info.nonDebugAccesses)
 		if (noNonDebug && isEmpty(info.debugAccesses))
-			warnIf(opts, !local.okToNotUse, local.span, () =>
+			vx.warnIf(!local.okToNotUse, local.span, () =>
 				`Unused local variable ${code(local.name)}.`)
 		else if (info.isInDebug)
-			check(noNonDebug, () => head(info.nonDebugAccesses).span, () =>
+			vx.check(noNonDebug, () => head(info.nonDebugAccesses).span, () =>
 				`Debug-only local ${code(local.name)} used outside of debug.`)
 		else
-			warnIf(opts, !local.okToNotUse && noNonDebug, local.span, () =>
+			vx.warnIf(!local.okToNotUse && noNonDebug, local.span, () =>
 				`Local ${code(local.name)} used only in debug.`)
 	}
 }
@@ -61,11 +61,11 @@ implementMany(EExports, 'verify', {
 	EndLoop(_, vx) {
 		ifElse(vx.opLoop,
 			loop => vx.setEndLoop(_, loop),
-			() => fail(_.span, 'Not in a loop.'))
+			() => vx.fail(_.span, 'Not in a loop.'))
 	},
 	Fun(_, vx) {
 		vx.withBlockLocals(() => {
-			check(isEmpty(_.opResDeclare) || _.block instanceof EExports.BlockVal, _.span,
+			vx.check(isEmpty(_.opResDeclare) || _.block instanceof EExports.BlockVal, _.span,
 				'Function with return condition must return something.')
 			_.args.forEach((arg) => arg.opType.forEach(v(vx)))
 			vx.withInGenerator(_.k === '~|', () => {
@@ -97,11 +97,11 @@ implementMany(EExports, 'verify', {
 		vx.plusLocals(useLocals, () => v(vx)(_.block))
 	},
 	Yield(_, vx) {
-		check(vx.isInGenerator, _.span, 'Cannot yield outside of generator context')
+		vx.check(vx.isInGenerator, _.span, 'Cannot yield outside of generator context')
 		v(vx)(_.yielded)
 	},
 	YieldTo(_, vx) {
-		check(vx.isInGenerator, _.span, 'Cannot yield outside of generator context')
+		vx.check(vx.isInGenerator, _.span, 'Cannot yield outside of generator context')
 		v(vx)(_.yieldedTo)
 	},
 
@@ -124,7 +124,7 @@ implementMany(EExports, 'verify', {
 	ListReturn() { },
 	ListEntry(_, vx) { v(vx)(_.value) },
 	ListSimple(_, vx) { _.parts.map(v(vx)) },
-	ELiteral(_, vx) { warnIf(vx.opts, _.k === 'js', _.span, 'Js literal') },
+	ELiteral(_, vx) { vx.warnIf(_.k === 'js', _.span, 'Js literal') },
 	MapReturn() { },
 	Member(_, vx) { v(vx)(_.object) },
 	ModuleDefaultExport(_, vx) { v(vx)(_.value) },

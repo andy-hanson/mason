@@ -1,9 +1,8 @@
 import assert from 'assert'
-import check from '../check'
+import { code } from '../CompileError'
 import { LocalDeclare } from '../Expression'
 import { JsGlobals } from '../Lang'
 import { Group, Keyword, Name } from '../Token'
-import { code } from '../U'
 import { None, some } from '../U/Op'
 import type from '../U/type'
 import parseSpaced from './parseSpaced'
@@ -25,29 +24,29 @@ export function parseLocalDeclare(px) {
 			isLazy = true
 			rest = tokens.tail()
 		}
-		name = parseLocalName(rest.head())
+		name = parseLocalName(px, rest.head())
 		const rest2 = rest.tail()
 		if (!rest2.isEmpty()) {
 			const colon = rest2.head()
-			check(Keyword.isColon(colon), colon.span, () => `Expected ${code(':')}`)
+			px.check(Keyword.isColon(colon), colon.span, () => `Expected ${code(':')}`)
 			px.check(rest2.size() > 1, () => `Expected something after ${colon}`)
 			const tokensType = rest2.tail()
 			opType = some(px.w(tokensType, parseSpaced))
 		}
 	}
 	else
-		name = parseLocalName(t)
+		name = parseLocalName(px, t)
 
 	return LocalDeclare(px.span, name, opType, isLazy, false)
 }
 
-function parseLocalName(t) {
+const parseLocalName = (px, t) => {
 	if (Keyword.isFocus(t))
 		return '_'
 	else {
-		check(t instanceof Name, t.span, () => `Expected a local name, not ${t}`)
+		px.check(t instanceof Name, t.span, () => `Expected a local name, not ${t}`)
 		// TODO: Allow this?
-		check(!JsGlobals.has(t.name), t.span, () => `Can not shadow global ${code(t.name)}`)
+		px.check(!JsGlobals.has(t.name), t.span, () => `Can not shadow global ${code(t.name)}`)
 		return t.name
 	}
 }
