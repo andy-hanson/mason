@@ -1,6 +1,5 @@
 import assert from 'assert'
-import { builders } from 'ast-types'
-const { literal, objectExpression, property } = builders
+import { Literal, ObjectExpression, Property } from '../esast'
 import { cat, flatMap, isEmpty, unshift } from '../U/Bag'
 import { ifElse } from '../U/Op'
 import { thunk } from './ast-util'
@@ -20,8 +19,8 @@ export const
 					return astObjed
 				} else {
 					const keysVals = cat(
-						flatMap(keys, key => [ literal(key.name), accessLocalDeclare(key) ]),
-						flatMap(_.opDisplayName, dn => [LitStrDisplayName, literal(dn)]))
+						flatMap(keys, key => [ Literal(key.name), accessLocalDeclare(key) ]),
+						flatMap(_.opDisplayName, dn => [LitStrDisplayName, Literal(dn)]))
 					const anyLazy = keys.some(key => key.isLazy)
 					const args = unshift(astObjed, keysVals)
 					return (anyLazy ? msLset : msSet)(args)
@@ -33,15 +32,15 @@ export const
 					const val = accessLocalDeclare(key)
 					const id = propertyIdOrLiteral(key.name)
 					return key.isLazy ?
-						property('get', id, thunk(val)) :
-						property('init', id, val)
+						Property('get', id, thunk(val)) :
+						Property('init', id, val)
 				})
 				const opPropDisplayName = _.opDisplayName.map(dn =>
-					property('init', IdDisplayName, literal(dn)))
-				return objectExpression(cat(props, opPropDisplayName))
+					Property('init', IdDisplayName, Literal(dn)))
+				return ObjectExpression(cat(props, opPropDisplayName))
 			})
 	},
 
 	transpileObjSimple = (_, tx) =>
-		objectExpression(Object.getOwnPropertyNames(_.keysVals).map(keyName =>
-			property('init', propertyIdOrLiteral(keyName), t(tx)(_.keysVals[keyName]))))
+		ObjectExpression(Object.getOwnPropertyNames(_.keysVals).map(keyName =>
+			Property('init', propertyIdOrLiteral(keyName), t(tx)(_.keysVals[keyName]))))

@@ -1,24 +1,23 @@
-import { builders } from 'ast-types'
-const { identifier, literal } = builders
+import { Identifier, Literal } from '../esast'
 import mangleIdentifier, { needsMangle, propertyNameOk } from './mangleIdentifier'
 
 const declareToId = new WeakMap()
 export const idCached = localDeclare => {
 	let _ = declareToId.get(localDeclare)
 	if (_ === undefined) {
-		_ = identifier(mangleIdentifier(localDeclare.name))
+		_ = Identifier(mangleIdentifier(localDeclare.name))
 		declareToId.set(localDeclare, _)
 	}
 	return _
 }
 
-export const idNew = localDeclare => identifier(idCached(localDeclare).name)
+export const idNew = localDeclare => Identifier(idCached(localDeclare).name)
 
 const specialNameToId = new Map()
 export const idSpecialCached = name => {
 	let _ = specialNameToId.get(name)
 	if (_ === undefined) {
-		_ = identifier(mangleIdentifier(name))
+		_ = Identifier(mangleIdentifier(name))
 		specialNameToId.set(name, _)
 	}
 	return _
@@ -28,7 +27,7 @@ const propertyToIdOrLiteral = new Map()
 export const propertyIdOrLiteral = propertyName => {
 	let _ = propertyToIdOrLiteral.get(propertyName)
 	if (_ === undefined) {
-		_ = propertyNameOk(propertyName) ? identifier(propertyName) : literal(propertyName)
+		_ = propertyNameOk(propertyName) ? Identifier(propertyName) : Literal(propertyName)
 		propertyToIdOrLiteral.set(propertyName, _)
 	}
 	return _

@@ -38,6 +38,7 @@ module.exports = () => {
 	const vr = time(verify, cx, e)
 	// log(`+++\n${vr})
 	const ast = time(transpile, cx, e, vr)
+	// log(`==>\n${ast}`)
 	const { code, map } = time(render, cx, ast)
 	time(function renderSourceMap(_) { return _.toString() }, map)
 	console.timeEnd('all')

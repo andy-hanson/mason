@@ -1,6 +1,5 @@
 import assert from 'assert'
-import { builders } from 'ast-types'
-const { blockStatement, returnStatement } = builders
+import { BlockStatement, ReturnStatement } from '../esast'
 import { flatMap, isEmpty } from '../U/Bag'
 import { ifElse, opIf, None } from '../U/Op'
 import { BlockVal, LocalDeclare } from '../Expression'
@@ -19,8 +18,8 @@ export default (_, tx, lead, opResDeclare, opOut) => {
 			const returned = maybeWrapInCheckContains(t(tx)(_.returned), tx, rd.opType, 'res')
 			return ifElse(opOut,
 				o => [ declare(rd, returned) ].concat(o, [ ReturnRes ]),
-				() => [ returnStatement(returned) ])
+				() => [ ReturnStatement(returned) ])
 		},
-		() => opOut.concat(opIf(_ instanceof BlockVal, () => returnStatement(t(tx)(_.returned)))))
-	return blockStatement(lead.concat(body, fin))
+		() => opOut.concat(opIf(_ instanceof BlockVal, () => ReturnStatement(t(tx)(_.returned)))))
+	return BlockStatement(lead.concat(body, fin))
 }

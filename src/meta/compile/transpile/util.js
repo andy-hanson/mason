@@ -1,7 +1,6 @@
 import assert from 'assert'
-import { builders } from 'ast-types'
-const { arrayExpression, assignmentExpression, breakStatement, callExpression, expressionStatement,
-	identifier, literal, returnStatement, variableDeclarator } = builders
+import { ArrayExpression, AssignmentExpression, BreakStatement, CallExpression, ExpressionStatement,
+	Identifier, Literal, ReturnStatement, VariableDeclarator } from '../esast'
 import Expression, { LocalAccess, LocalDeclare } from '../Expression'
 import { KAssign } from '../Lang'
 import Span from '../Span'
@@ -24,27 +23,25 @@ export const t = (tx, arg, arg2, arg3) => expr => {
 }
 
 export const
-	LitEmptyArray = arrayExpression([]),
-	LitEmptyString = literal(''),
-	LitNull = literal(null),
-	LitStrDisplayName = literal('displayName'),
-	LitTrue = literal(true),
-	Break = breakStatement(),
-	ReturnRes = returnStatement(identifier('res')),
-	IdDefine = identifier('define'),
-	IdDisplayName = identifier('displayName'),
-	IdExports = identifier('exports'),
-	IdEval = identifier('eval'),
-	IdArguments = identifier('arguments'),
+	LitEmptyArray = ArrayExpression([]),
+	LitEmptyString = Literal(''),
+	LitNull = Literal(null),
+	LitStrDisplayName = Literal('displayName'),
+	LitTrue = Literal(true),
+	Break = BreakStatement(),
+	ReturnRes = ReturnStatement(Identifier('res')),
+	IdDefine = Identifier('define'),
+	IdDisplayName = Identifier('displayName'),
+	IdExports = Identifier('exports'),
+	IdArguments = Identifier('arguments'),
 	IdArraySliceCall = member(member(LitEmptyArray, 'slice'), 'call'),
-	IdFunctionApplyCall = member(member(identifier('Function'), 'apply'), 'call'),
-	IdModule = identifier('module'),
-	IdMs = identifier('_ms'),
-	IdRequire = identifier('require')
+	IdFunctionApplyCall = member(member(Identifier('Function'), 'apply'), 'call'),
+	IdModule = Identifier('module'),
+	IdMs = Identifier('_ms')
 
 const ms = name => {
 	const m = member(IdMs, name)
-	return args => callExpression(m, args)
+	return args => CallExpression(m, args)
 }
 export const
 	msGet = ms('get'),
@@ -65,7 +62,7 @@ export const makeDestructureDeclarators = (tx, span, assignees, isLazy, value, k
 	type(tx, Tx, span, Span, assignees, [LocalDeclare],
 		isLazy, Boolean, value, Object, k, KAssign, isModule, Boolean)
 	const destructuredName = `_$${span.start.line}`
-	const idDestructured = identifier(destructuredName)
+	const idDestructured = Identifier(destructuredName)
 	const declarators = assignees.map(assignee => {
 		// TODO: Don't compile it if it's never accessed
 		const get = getMember(idDestructured, assignee.name, isLazy, isModule)
@@ -73,15 +70,15 @@ export const makeDestructureDeclarators = (tx, span, assignees, isLazy, value, k
 	})
 	// Getting lazy module is done by ms.lazyGetModule.
 	const val = (isLazy && !isModule) ? lazyWrap(value) : value
-	return unshift(variableDeclarator(idDestructured, val), declarators)
+	return unshift(VariableDeclarator(idDestructured, val), declarators)
 }
 
 const getMember = (astObject, gotName, isLazy, isModule) => {
 	type(astObject, Object, gotName, String, isLazy, Boolean, isModule, Boolean)
 	if (isLazy)
-		return msLazyGet([ astObject, literal(gotName) ])
+		return msLazyGet([ astObject, Literal(gotName) ])
 	else if (isModule)
-		return msGet([ astObject, literal(gotName) ])
+		return msGet([ astObject, Literal(gotName) ])
 	else
 		return member(astObject, gotName)
 }
@@ -96,14 +93,14 @@ export const makeDeclarator = (tx, span, assignee, k, value, valueIsAlreadyLazy)
 		case '=': case '. ': case '<~': case '<~~': {
 			const val = assignee.isLazy && !valueIsAlreadyLazy ? lazyWrap(value) : value
 			assert(assignee.isLazy || !valueIsAlreadyLazy)
-			return variableDeclarator(idCached(assignee), val)
+			return VariableDeclarator(idCached(assignee), val)
 		}
 		case 'export': {
 			// TODO:ES6
 			assert(!assignee.isLazy)
-			return variableDeclarator(
+			return VariableDeclarator(
 				idCached(assignee),
-				assignmentExpression('=', member(IdExports, assignee.name), value))
+				AssignmentExpression('=', member(IdExports, assignee.name), value))
 		}
 		default: throw new Error(k)
 	}
@@ -123,7 +120,7 @@ export const accessLocalDeclare = localDeclare => {
 export const maybeWrapInCheckContains = (ast, tx, opType, name) =>
 	tx.opts().includeTypeChecks() ?
 		ifElse(opType,
-			typ => msCheckContains([ t(tx)(typ), ast, literal(name) ]),
+			typ => msCheckContains([ t(tx)(typ), ast, Literal(name) ]),
 			() => ast) :
 		ast
 
@@ -133,19 +130,10 @@ export const opLocalCheck = (tx, local, isLazy) => {
 	if (!tx.opts().includeTypeChecks() || isLazy)
 		return None
 	return local.opType.map(typ =>
-		expressionStatement(msCheckContains([
+		ExpressionStatement(msCheckContains([
 			t(tx)(typ),
 			accessLocalDeclare(local),
-			literal(local.name)])))
+			Literal(local.name)])))
 }
 
 export const lazyWrap = value => msLazy([ thunk(value) ])
-
-export const quote = str =>
-	`"${str.split('').map(ch => quoteEscape[ch] || ch).join('')}"`
-const quoteEscape = {
-	'\n': '\\n',
-	'\t': '\\t',
-	'"': '\\"',
-	'\\': '\\\\'
-}
