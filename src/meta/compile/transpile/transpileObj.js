@@ -1,9 +1,7 @@
 import assert from 'assert'
-import { Literal, ObjectExpression, Property } from '../esast'
+import { Literal, ObjectExpression, property, thunk, propertyIdOrLiteral } from '../esast'
 import { cat, flatMap, isEmpty, unshift } from '../U/Bag'
 import { ifElse } from '../U/Op'
-import { thunk } from './ast-util'
-import { propertyIdOrLiteral} from './id'
 import { t, accessLocalDeclare, msLset, msSet, IdDisplayName, LitStrDisplayName } from './util'
 
 export const
@@ -32,15 +30,15 @@ export const
 					const val = accessLocalDeclare(key)
 					const id = propertyIdOrLiteral(key.name)
 					return key.isLazy ?
-						Property('get', id, thunk(val)) :
-						Property('init', id, val)
+						property('get', id, thunk(val)) :
+						property('init', id, val)
 				})
 				const opPropDisplayName = _.opDisplayName.map(dn =>
-					Property('init', IdDisplayName, Literal(dn)))
+					property('init', IdDisplayName, Literal(dn)))
 				return ObjectExpression(cat(props, opPropDisplayName))
 			})
 	},
 
 	transpileObjSimple = (_, tx) =>
 		ObjectExpression(Object.getOwnPropertyNames(_.keysVals).map(keyName =>
-			Property('init', propertyIdOrLiteral(keyName), t(tx)(_.keysVals[keyName]))))
+			property('init', propertyIdOrLiteral(keyName), t(tx)(_.keysVals[keyName]))))

@@ -1,7 +1,10 @@
-import { ArrayExpression, AssignmentExpression, BinaryExpression, BlockStatement, BreakStatement,
-	CallExpression, DebuggerStatement, FunctionExpression, Identifier, LabeledStatement, Literal,
-	SwitchCase, SwitchStatement, ThisExpression, UnaryExpression,
-	VariableDeclaration, VariableDeclarator, WhileStatement } from '../esast'
+import { ArrayExpression, AssignmentExpression, BlockStatement, BreakStatement, CallExpression,
+	DebuggerStatement, Identifier, LabeledStatement, Literal, SwitchCase, SwitchStatement,
+	ThisExpression, VariableDeclarator,
+	binaryExpressionPlus, declare, declareSpecial, callExpressionThunk, functionExpressionPlain,
+	functionExpressionThunk, member, idCached, idSpecialCached, switchStatementOnTrue, throwError,
+	toStatement, toStatements, unaryExpressionNegate, variableDeclarationConst,
+	whileStatementInfinite, yieldExpressionDelegate, yieldExpressionNoDelegate } from '../esast'
 import assert from 'assert'
 import { parse as esParse } from 'esprima'
 import Expression, * as EExports from '../Expression'
@@ -13,15 +16,12 @@ import { ifElse, opIf, None, some } from '../U/Op'
 import { cat, cons, flatMap, isEmpty, push, range, tail, unshift } from '../U/Bag'
 import type from '../U/type'
 import Vr from '../Vr'
-import { astThrowError, astYield, astYieldTo, declare,
-	declareSpecial, member, toStatement, toStatements } from './ast-util'
-import { idCached, idSpecialCached } from './id'
 import transpileBlock from './transpileBlock'
 import { transpileObjReturn, transpileObjSimple } from './transpileObj'
 import transpileModule from './transpileModule'
 import { t,
 	IdExports, IdArguments, IdArraySliceCall, IdFunctionApplyCall, IdMs,
-	LitEmptyArray, LitEmptyString, LitNull, LitTrue, Break,
+	LitEmptyArray, LitEmptyString, LitNull, Break,
 	accessLocal, lazyWrap, makeDeclarator, makeDestructureDeclarators,
 	opLocalCheck, msArr, msBool, msMap, msShow } from './util'
 import Tx from './Tx'
@@ -34,10 +34,10 @@ export default function transpile(cx, e, vr) {
 }
 
 implementMany(EExports, 'transpileSubtree', {
-	Assign: (_, tx) => VariableDeclaration('const', [
+	Assign: (_, tx) => variableDeclarationConst([
 		makeDeclarator(tx, _.span, _.assignee, _.k, t(tx)(_.value)) ]),
 	// TODO:ES6 Just use native destructuring assign
-	AssignDestructure: (_, tx) => VariableDeclaration('const',
+	AssignDestructure: (_, tx) => variableDeclarationConst(
 		makeDestructureDeclarators(tx, _.span, _.assignees, _.isLazy, t(tx)(_.value), _.k, false)),
 	BlockDo: transpileBlock,
 	BlockVal: transpileBlock,
@@ -85,7 +85,8 @@ implementMany(EExports, 'transpileSubtree', {
 
 		const _out = flatMap(_.opOut, o => toStatements(t(tx)(o)))
 		const body = t(tx, lead, _.opResDeclare, _out)(_.block)
-		return FunctionExpression(null, _.args.map(t(tx)), body, !(_.k === '|'))
+		const args = _.args.map(t(tx))
+		return functionExpressionPlain(args, body, _.k === '~|')
 	},
 	Lazy: (_, tx) => lazyWrap(t(tx)(_.value)),
 	ListReturn: _ => ArrayExpression(range(0, _.length).map(i => idSpecialCached(`_${i}`))),
@@ -99,7 +100,7 @@ implementMany(EExports, 'transpileSubtree', {
 				// Negative numbers are not part of ES spec.
 				// http://www.ecma-international.org/ecma-262/5.1/#sec-7.8.3
 				const lit = Literal(Math.abs(n))
-				return isPositive(n) ? lit : UnaryExpression('-', lit)
+				return isPositive(n) ? lit : unaryExpressionNegate(lit)
 			}
 			case String:
 				return Literal(_.value)
@@ -118,10 +119,10 @@ implementMany(EExports, 'transpileSubtree', {
 	LocalDeclare: _ => idCached(_),
 	// TODO: Don't always label!
 	Loop: (_, tx) =>
-		LabeledStatement(loopId(_), WhileStatement(LitTrue, t(tx)(_.block))),
+		LabeledStatement(loopId(_), whileStatementInfinite(t(tx)(_.block))),
 	MapReturn: _ => msMap(flatMap(range(0, _.length), i =>
 		[ idSpecialCached('_k' + i.toString()), idSpecialCached('_v' + i.toString()) ])),
-	MapEntry: (_, tx) => VariableDeclaration('const', [
+	MapEntry: (_, tx) => variableDeclarationConst([
 		VariableDeclarator(idSpecialCached(`_k${_.index}`), t(tx)(_.key)),
 		VariableDeclarator(idSpecialCached(`_v${_.index}`), t(tx)(_.val))
 	]),
@@ -140,8 +141,7 @@ implementMany(EExports, 'transpileSubtree', {
 			isStrLit(part0) ? [ t(tx)(part0), tail(_.parts) ] : [ LitEmptyString, _.parts ]
 		return restParts.reduce(
 			(ex, _) =>
-				BinaryExpression('+', ex,
-					isStrLit(_) ? t(tx)(_) : msShow([ t(tx)(_) ])),
+				binaryExpressionPlus(ex, isStrLit(_) ? t(tx)(_) : msShow([ t(tx)(_) ])),
 			first)
 	},
 	Special(_) {
@@ -156,24 +156,23 @@ implementMany(EExports, 'transpileSubtree', {
 		}
 	},
 	Splat: (_, tx) => tx.fail(_.span, 'Splat must appear as argument to a call.'),
-	Yield: (_, tx) => astYield(t(tx)(_.yielded)),
-	YieldTo: (_, tx) => astYieldTo(t(tx)(_.yieldedTo))
+	Yield: (_, tx) => yieldExpressionNoDelegate(t(tx)(_.yielded)),
+	YieldTo: (_, tx) => yieldExpressionDelegate(t(tx)(_.yieldedTo))
 })
 
-const blockWrap = (_, tx, block) =>
-	tx.vr.eIsInGenerator(_) ?
-		astYieldTo(CallExpression(FunctionExpression(null, [], block, true), [])) :
-		CallExpression(FunctionExpression(null, [], block), [])
+const blockWrap = (_, tx, block) => {
+	const g = tx.vr.eIsInGenerator(_)
+	const invoke = callExpressionThunk(functionExpressionThunk(block, g))
+	return g ? yieldExpressionDelegate(invoke) : invoke
+}
 
-const caseFail = SwitchCase(null, [ astThrowError('No branch of `case` matches.') ])
+const caseFail = SwitchCase(null, [ throwError('No branch of `case` matches.') ])
 function caseBody(tx, parts, opElse) {
 	const elze = ifElse(opElse,
 		_ => SwitchCase(null, [ t(tx)(_) ]),
 		() => caseFail)
 	const cases = push(parts.map(part => t(tx)(part)), elze)
-	// May contain nested variable declarations
-	const isLexical = true
-	return SwitchStatement(LitTrue, cases, isLexical)
+	return switchStatementOnTrue(cases)
 }
 
 function casePart(tx, test, result, needBreak) {

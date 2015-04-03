@@ -1,9 +1,9 @@
 import assert from 'assert'
-import { BlockStatement, ReturnStatement } from '../esast'
+import { BlockStatement, ReturnStatement,
+	declare, toStatements } from '../esast'
 import { flatMap, isEmpty } from '../U/Bag'
 import { ifElse, opIf, None } from '../U/Op'
 import { BlockVal, LocalDeclare } from '../Expression'
-import { declare, toStatements } from './ast-util'
 import { t, maybeWrapInCheckContains, ReturnRes } from './util'
 
 export default (_, tx, lead, opResDeclare, opOut) => {

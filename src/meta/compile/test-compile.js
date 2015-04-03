@@ -1,5 +1,6 @@
 import assert from 'assert'
 import fs from 'fs'
+import { ESNode } from './esast'
 import Cx from './Cx'
 import Expression from './Expression'
 import lex from './lex'
@@ -42,25 +43,31 @@ module.exports = () => {
 	const { code, map } = time(render, cx, ast)
 	time(function renderSourceMap(_) { return _.toString() }, map)
 	console.timeEnd('all')
-	log(`Expression tree size: ${treeSize(e, _ => _ instanceof Expression)}`)
-	log(`ES AST size: ${treeSize(ast, _ => _.type !== undefined)}`)
+	const
+		eSize = treeSize(e, _ => _ instanceof Expression),
+		astSize = treeSize(ast, _ => _ instanceof ESNode)
+	log(`Expression tree size: ${eSize.size}`)
+	log(`ES AST size: ${astSize.size}, nLeaves: ${astSize.nLeaves}`)
 	log(`==>\n${code}`)
 }
 
 const treeSize = (tree, cond) => {
 	const visited = new Set()
+	let nLeaves = 0
 	const visit = node => {
-		if (node != null && !visited.has(node) && cond(node)) {
-			visited.add(node)
-			Object.getOwnPropertyNames(node).forEach(name => {
-				const child = node[name]
-				if (child instanceof Array)
-					child.forEach(visit)
-				else
-					visit(child)
-			})
-		}
+		if (node != null && !visited.has(node))
+			if (cond(node)) {
+				visited.add(node)
+				Object.getOwnPropertyNames(node).forEach(name => {
+					const child = node[name]
+					if (child instanceof Array)
+						child.forEach(visit)
+					else
+						visit(child)
+				})
+			} else
+				nLeaves = nLeaves + 1
 	}
 	visit(tree)
-	return visited.size
+	return { size: visited.size, nLeaves }
 }

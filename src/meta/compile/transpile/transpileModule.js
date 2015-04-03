@@ -1,13 +1,12 @@
 import { ArrayExpression, AssignmentExpression, BinaryExpression, BlockStatement, CallExpression,
 	Identifier, ExpressionStatement, FunctionExpression, IfStatement, Literal, ObjectExpression,
-	Program, ReturnStatement, UnaryExpression, VariableDeclaration, VariableDeclarator }
+	Program, ReturnStatement, UnaryExpression, VariableDeclaration, VariableDeclarator,
+	member, idSpecialCached }
 	from '../esast'
 import { UseDo } from '../Expression'
 import { fixupPath } from '../manglePath'
 import { flatMap, isEmpty, last, push } from '../U/Bag'
 import { opIf } from '../U/Op'
-import { declare, member, toStatements } from './ast-util'
-import { idSpecialCached } from './id'
 import { t, IdDefine, IdExports, IdModule,
 	msGetModule, msLazyGetModule, makeDestructureDeclarators, msLazy } from './util'
 

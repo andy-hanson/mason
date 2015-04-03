@@ -1,24 +1,23 @@
 import assert from 'assert'
 import { ArrayExpression, AssignmentExpression, BreakStatement, CallExpression, ExpressionStatement,
-	Identifier, Literal, ReturnStatement, VariableDeclarator } from '../esast'
+	Identifier, Literal, ReturnStatement, VariableDeclarator,
+	member, thunk, idCached, idNew } from '../esast'
 import Expression, { LocalAccess, LocalDeclare } from '../Expression'
 import { KAssign } from '../Lang'
 import Span from '../Span'
 import { flatMap, isEmpty, unshift } from '../U/Bag'
 import { ifElse, None } from '../U/Op'
 import type from '../U/type'
-import { declare, member, toStatements, thunk } from './ast-util'
-import { idCached, idNew } from './id'
 import Tx from './Tx'
 
 export const t = (tx, arg, arg2, arg3) => expr => {
 	const ast = expr.transpileSubtree(expr, tx, arg, arg2, arg3)
-	const appendLoc = _ => { _.loc = expr.span }
+	const setLoc = _ => { _.loc = expr.span }
 	if (ast instanceof Array)
 		// This is only allowed inside of Blocks, which use `toStatements`.
-		ast.forEach(appendLoc)
+		ast.forEach(setLoc)
 	else
-		appendLoc(ast)
+		setLoc(ast)
 	return ast
 }
 
@@ -27,7 +26,6 @@ export const
 	LitEmptyString = Literal(''),
 	LitNull = Literal(null),
 	LitStrDisplayName = Literal('displayName'),
-	LitTrue = Literal(true),
 	Break = BreakStatement(),
 	ReturnRes = ReturnStatement(Identifier('res')),
 	IdDefine = Identifier('define'),
