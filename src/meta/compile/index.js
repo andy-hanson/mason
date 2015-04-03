@@ -1,13 +1,13 @@
 import CompileError from './CompileError'
-import Cx from './Cx'
-import lex from './lex'
-import parse from './parse'
-import Opts from './Opts'
-import render from './render'
-import transpile from './transpile'
-import { pAdd } from './U'
-import type from './U/type'
-import verify from './verify'
+import Cx from './private/Cx'
+import lex from './private/lex'
+import parse from './private/parse'
+import Opts from './private/Opts'
+import render from './private/render'
+import transpile from './private/transpile'
+import { pAdd } from './private/U'
+import type from './private/U/type'
+import verify from './private/verify'
 
 // Speed boost by turning this off
 global.DEBUG = true

@@ -1,4 +1,4 @@
-import { LocalDeclare } from './Expression'
+import { LocalDeclare } from '../Expression'
 import Span from './Span'
 import { assert, pAdd } from './U'
 import { ifElse, None, some } from './U/Op'

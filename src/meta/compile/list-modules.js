@@ -1,13 +1,13 @@
 import { generate } from 'escodegen'
 import fs from 'q-io/fs'
 import { basename, relative } from 'path'
-import Cx from './Cx'
 import { BlockDo, Call, ELiteral, ListSimple, Module,
 	ModuleDefaultExport, UseDo } from './Expression'
-import Opts from './Opts'
-import Span, { single, StartPos } from './Span'
-import transpile from './transpile'
-import { emptyVr } from './Vr'
+import Cx from './private/Cx'
+import Opts from './private/Opts'
+import Span, { single, StartPos } from './private/Span'
+import transpile from './private/transpile'
+import { emptyVr } from './private/Vr'
 
 const name = 'modules-list'
 

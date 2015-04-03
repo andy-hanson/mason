@@ -1,9 +1,9 @@
+import { UseDo } from '../../Expression'
 import { ArrayExpression, BinaryExpression, BlockStatement, CallExpression,
 	Identifier, ExpressionStatement, FunctionExpression, IfStatement, Literal, ObjectExpression,
 	Program, ReturnStatement, UnaryExpression, VariableDeclaration, VariableDeclarator,
 	assignmentExpressionPlain, member, idSpecialCached }
 	from '../esast'
-import { UseDo } from '../Expression'
 import { fixupPath } from '../manglePath'
 import { flatMap, isEmpty, last, push } from '../U/Bag'
 import { opIf } from '../U/Op'

@@ -1,5 +1,5 @@
-import { code } from '../CompileError'
-import { LocalDeclare } from '../Expression'
+import { code } from '../../CompileError'
+import { LocalDeclare } from '../../Expression'
 import { JsGlobals } from '../Lang'
 import { Group, Keyword, Name } from '../Token'
 import { assert } from '../U'

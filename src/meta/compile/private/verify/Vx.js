@@ -1,6 +1,6 @@
-import { code } from '../CompileError'
+import { code } from '../../CompileError'
+import { GlobalDeclare, LocalDeclare } from '../../Expression'
 import { SubContext } from '../Cx'
-import { GlobalDeclare, LocalDeclare } from '../Expression'
 import { JsGlobals } from '../Lang'
 import Opts from '../Opts'
 import { assert } from '../U'

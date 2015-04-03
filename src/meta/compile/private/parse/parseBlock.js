@@ -1,5 +1,5 @@
 import { Assign, BlockDo, BlockVal, BlockWrap, Debug, ObjReturn, ListEntry, ListReturn, ELiteral,
-	LocalDeclare, MapReturn, MapEntry, Module, ModuleDefaultExport, Val } from '../Expression'
+	LocalDeclare, MapReturn, MapEntry, Module, ModuleDefaultExport, Val } from '../../Expression'
 import { Group, Keyword } from '../Token'
 import { assert, lazy } from '../U'
 import { cat, isEmpty, last, rtail } from '../U/Bag'

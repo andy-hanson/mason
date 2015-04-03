@@ -5,7 +5,7 @@ import { ArrayExpression, AssignmentExpression, BlockStatement, BreakStatement, 
 	functionExpressionThunk, member, idCached, idSpecialCached, switchStatementOnTrue, throwError,
 	toStatement, toStatements, unaryExpressionNegate, variableDeclarationConst,
 	whileStatementInfinite, yieldExpressionDelegate, yieldExpressionNoDelegate } from '../esast'
-import Expression, * as EExports from '../Expression'
+import Expression, * as EExports from '../../Expression'
 import { KAssign } from '../Lang'
 import Opts from '../Opts'
 import Span from '../Span'

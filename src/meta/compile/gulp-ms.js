@@ -1,11 +1,11 @@
 import { PluginError, replaceExtension } from 'gulp-util'
 import { obj } from 'through2'
 import applySourceMap from 'vinyl-sourcemaps-apply'
+import compile from './index'
 import CompileError from './CompileError'
 import formatCompileErrorForConsole, { formatWarningForConsole }
 	from './formatCompileErrorForConsole'
-import compile from './index'
-import manglePath from './manglePath'
+import manglePath from './private/manglePath'
 
 const Name = 'gulp-ms'
 

@@ -1,4 +1,4 @@
-import Expression, { BlockWrap, CaseVal, LocalAccess } from './Expression'
+import Expression, { BlockWrap, CaseVal, LocalAccess } from '../Expression'
 import { assert } from './U'
 import { isEmpty } from './U/Bag'
 import type from './U/type'

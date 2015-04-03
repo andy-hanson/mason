@@ -1,14 +1,14 @@
 import fs from 'fs'
-import { ESNode } from './esast'
-import Cx from './Cx'
 import Expression from './Expression'
-import lex from './lex'
-import parse from './parse'
-import render from './render'
-import transpile from './transpile'
-import verify from './verify'
-import { log } from './U'
-import Opts from './Opts'
+import { ESNode } from './private/esast'
+import Cx from './private/Cx'
+import lex from './private/lex'
+import parse from './private/parse'
+import render from './private/render'
+import transpile from './private/transpile'
+import verify from './private/verify'
+import { log } from './private/U'
+import Opts from './private/Opts'
 
 module.exports = () => {
 	global.DEBUG = true

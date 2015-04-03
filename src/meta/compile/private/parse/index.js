@@ -1,4 +1,4 @@
-import { Assign, Do, Debug, ELiteral, LocalDeclare, Module } from '../Expression'
+import { Assign, Do, Debug, ELiteral, LocalDeclare, Module } from '../../Expression'
 import Opts from '../Opts'
 import { Group } from '../Token'
 import { assert } from '../U'

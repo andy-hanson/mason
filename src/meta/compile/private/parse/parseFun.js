@@ -1,5 +1,5 @@
-import { code } from '../CompileError'
-import { BlockDo, BlockVal, Debug, Fun, LocalDeclare } from '../Expression'
+import { code } from '../../CompileError'
+import { BlockDo, BlockVal, Debug, Fun, LocalDeclare } from '../../Expression'
 import { CaseKeywords, KFun } from '../Lang'
 import { DotName, Group, Keyword } from '../Token'
 import type from '../U/type'

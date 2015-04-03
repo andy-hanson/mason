@@ -1,4 +1,4 @@
-import CompileError, { Warning } from './CompileError'
+import CompileError, { Warning } from '../CompileError'
 import Span, { Pos } from './Span'
 import type from './U/type'
 

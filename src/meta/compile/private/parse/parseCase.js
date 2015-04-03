@@ -1,5 +1,5 @@
 import { Assign, BlockWrap, CaseDo, CaseVal,
-	CaseDoPart, CaseValPart, LocalDeclare } from '../Expression'
+	CaseDoPart, CaseValPart, LocalDeclare } from '../../Expression'
 import { CaseKeywords } from '../Lang'
 import { Keyword } from '../Token'
 import { lazy } from '../U'

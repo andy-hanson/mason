@@ -1,4 +1,4 @@
-import { code } from './CompileError'
+import { code } from '../CompileError'
 import { AllKeywords, CaseKeywords, GroupKinds, GroupOpenToClose, LineSplitKeywords } from './Lang'
 import { spanTuple } from './Span'
 import type from './U/type'

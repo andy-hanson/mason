@@ -1,5 +1,5 @@
-import { code } from '../CompileError'
-import { Call, Lazy, LocalAccess, Member } from '../Expression'
+import { code } from '../../CompileError'
+import { Call, Lazy, LocalAccess, Member } from '../../Expression'
 import { DotName, Group, Keyword } from '../Token'
 import { assert, lazy } from '../U'
 import { unshift } from '../U/Bag'

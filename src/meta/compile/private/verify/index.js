@@ -1,5 +1,5 @@
-import { code } from '../CompileError'
-import E, * as EExports from '../Expression'
+import { code } from '../../CompileError'
+import E, * as EExports from '../../Expression'
 import Opts from '../Opts'
 import type from '../U/type'
 import { assert, implementMany } from '../U'

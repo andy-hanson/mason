@@ -1,4 +1,4 @@
-import { code } from '../CompileError'
+import { code } from '../../CompileError'
 import { AllKeywords, isNameCharacter, ReservedCharacters, ReservedWords } from '../Lang'
 import Span, { single } from '../Span'
 import { CallOnFocus, DotName, Keyword, Literal, Name } from '../Token'

@@ -1,4 +1,3 @@
-import chalk from 'chalk'
 import type from './U/type'
 import { tuple } from './U/types'
 

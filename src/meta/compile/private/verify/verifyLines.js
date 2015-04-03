@@ -1,6 +1,6 @@
-import { code } from '../CompileError'
+import { code } from '../../CompileError'
 import E, { Assign, AssignDestructure, Call, Debug, Do, ELiteral,
-	GlobalAccess, Require, Special, Yield, YieldTo } from '../Expression'
+	GlobalAccess, Require, Special, Yield, YieldTo } from '../../Expression'
 import type from '../U/type'
 import { set } from '../U'
 import { v } from './util'

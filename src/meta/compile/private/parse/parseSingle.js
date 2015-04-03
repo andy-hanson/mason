@@ -1,5 +1,5 @@
 import { Call, ListSimple, ELiteral, GlobalAccess, LocalAccess,
-	Quote, Special, Splat, This } from '../Expression'
+	Quote, Special, Splat, This } from '../../Expression'
 import { CallOnFocus, DotName, Group, Keyword, Literal, Name } from '../Token'
 import { JsGlobals, SpecialKeywords } from '../Lang'
 import { assert, lazy } from '../U'

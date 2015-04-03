@@ -1,5 +1,5 @@
 import E, { Assign, AssignDestructure, BlockWrap, Call, Debug, GlobalAccess, ObjReturn,
-	Fun, EndLoop, ListEntry, Loop, MapEntry, Special, Yield, YieldTo } from '../Expression'
+	Fun, EndLoop, ListEntry, Loop, MapEntry, Special, Yield, YieldTo } from '../../Expression'
 import { defaultLoopName, LineSplitKeywords } from '../Lang'
 import { Group, Keyword, Name } from '../Token'
 import { assert } from '../U'
