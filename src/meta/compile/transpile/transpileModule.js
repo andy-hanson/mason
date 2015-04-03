@@ -1,7 +1,7 @@
-import { ArrayExpression, AssignmentExpression, BinaryExpression, BlockStatement, CallExpression,
+import { ArrayExpression, BinaryExpression, BlockStatement, CallExpression,
 	Identifier, ExpressionStatement, FunctionExpression, IfStatement, Literal, ObjectExpression,
 	Program, ReturnStatement, UnaryExpression, VariableDeclaration, VariableDeclarator,
-	member, idSpecialCached }
+	assignmentExpressionPlain, member, idSpecialCached }
 	from '../esast'
 import { UseDo } from '../Expression'
 import { fixupPath } from '../manglePath'
@@ -66,7 +66,7 @@ const
 
 	lazyBody = body =>
 		ExpressionStatement(
-			AssignmentExpression('=', member(IdExports, '_get'), msLazy([
+			assignmentExpressionPlain(member(IdExports, '_get'), msLazy([
 				FunctionExpression(null, [ ], BlockStatement(
 					[DeclareExports].concat(body, ReturnStatement(IdExports))))]))),
 

@@ -1,39 +1,31 @@
 use
-	path relative
-	..$ _ $after
-	..@ keep map'
-	..compare sort
-	..js new
+	..$ $resolved
 	..private.bootstrap msCall
-	.compile.manglePath
+use~
+	# TODO: Actually lazily get this module.
+	..modules-list
 
-# TODO: These don't work with RequireJS!
+# TODO
+req. `require`
 
-# TODO:ES6 Use module reflection
-commonJS-require. `require`
-
-# TODO: Syntax for old CommonJS requires?
-fs = commonJS-require "q-io/fs"
-
-get-module.
-	doc. "
-		Gets a module at a given path.
-		TODO: This can't be used by anyone not in the same directory as modules.ms.
+$get-module.
+	doc. "TODO"
 	|module-path
-		relative-path = relative this-module-directory module-path
-		msCall "getModule" (commonJS-require "./{manglePath relative-path}"
+		$resolved (msCall "getModule" (req module-path
+		# TODO
+		# TODO:ES6 Shouldn't need `new`
+		#new $ |resolve reject
+		#	const get = |module-content
+		#		resolve (msCall "getModule" module-content
+		#	require [ module-path ] get reject
 
+# TODO: Misnamed, takes no parameter.
+# TODO: Lazily load text of modules. $resolved is a hack.
 $@module-in-dir.
 	doc. "Every module in a directory and its subdirectories."
-	|dir-path
-		$after (q->es6-promise (fs.listTree dir-path)) |@file
-			@js = keep @file |_
-				_.endsWith ".js"
-			# Sort so that modules load in deterministic order.
-			map' (sort @js) get-module
-
-# TODO: Don't want dependency on `q`
-q->es6-promise = |q-promise
-	new $ |resolve reject
-		q-promise.then resolve
-		q-promise.catch reject
+	|
+		$resolved modules-list
+	# TODO
+	# TODO:ES6 Shouldn't need `new`
+	#new $ |resolve reject
+	#	require [ '../modules-list' ] resolve reject

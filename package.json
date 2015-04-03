@@ -4,7 +4,6 @@
 	"private": true,
 	"dependencies": {
 		"escodegen": "1.6.1",
-		"esprima": "2.1.0",
 
 		"q-io": "1.12.0",
 

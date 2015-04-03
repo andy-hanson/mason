@@ -8,7 +8,7 @@ import { isEmpty, toArray } from '../U/Bag'
 import Op, { None, opIf, some } from '../U/Op'
 import type from '../U/type'
 import { ObjType } from '../U/types'
-import Vr, { VrLocalInfo } from '../Vr'
+import Vr, { emptyVr, VrLocalInfo } from '../Vr'
 
 // Context used during verification.
 export default class Vx extends SubContext {
@@ -21,12 +21,7 @@ export default class Vx extends SubContext {
 		this.isInDebug = false
 		this.isInGenerator = false
 		this.opLoop = []
-		this.vr = Vr({
-			accessToLocal: new Map(),
-			localToInfo: new Map(),
-			eToIsInGenerator: new Map(),
-			endLoopToLoop: new Map()
-		})
+		this.vr = emptyVr()
 	}
 
 	// Getters

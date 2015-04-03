@@ -4,6 +4,7 @@ require('source-map-support').install()
 require('es6-shim')
 const
 	babel = require('gulp-babel'),
+	fs = require('q-io/fs'),
 	header = require('gulp-header'),
 	gulp = require('gulp'),
 	sourcemaps = require('gulp-sourcemaps'),
@@ -11,9 +12,24 @@ const
 
 gulp.task('default', [ 'watch' ])
 
+gulp.task('watch', [ 'watch-js', 'watch-ms', 'watch-list-modules' ])
+
 gulp.task('run', function() {
-	const test = require('./js/meta/test')
-	_ms.getModule(test)
+	const test = require('./js/meta/run-all-tests')
+	_ms.getModule(test)['run-all-tests']()
+})
+
+function writeListModules() {
+	// Required lazily because 'js' task must run first.
+	const listModules = require('./js/meta/compile/list-modules')
+	return listModules('./js').then(function(js) {
+		return fs.write('./js/modules-list.js', js)
+	}).done()
+}
+gulp.task('list-modules', [ 'js', 'ms' ], writeListModules)
+gulp.task('watch-list-modules', [ 'js', 'ms', 'list-modules' ], function() {
+	const src = [ srcMs, srcJs ]
+	return watch(src, { verbose: true }, writeListModules)
 })
 
 // TODO: Run-all-tests does not work yet.
@@ -75,22 +91,11 @@ function pipeJs(stream) {
 	.pipe(gulp.dest(dest))
 }
 
-gulp.task('js', function() {
-	return pipeJs(gulp.src(srcJs))
-})
+gulp.task('js', function() { return pipeJs(gulp.src(srcJs)) })
+gulp.task('watch-js', function() { return pipeJs(gulp.src(srcJs).pipe(watch(srcJs))) })
 
-gulp.task('ms', [ 'js' ], function() {
-	return pipeMs(gulp.src(srcMs))
-})
-
-gulp.task('watch-js', function() {
-	return pipeJs(gulp.src(srcJs).pipe(watch(srcJs)))
-})
-
-gulp.task('watch', function() {
-	pipeMs(gulp.src(srcMs).pipe(watch(srcMs)))
-	pipeJs(gulp.src(srcJs).pipe(watch(srcJs)))
-})
+gulp.task('ms', [ 'js' ], function() { return pipeMs(gulp.src(srcMs)) })
+gulp.task('watch-ms', [ 'js' ], function() { return pipeMs(gulp.src(srcMs).pipe(watch(srcMs))) })
 
 gulp.task('lint', function() {
 	// For some reason, requiring this makes es6-shim unhappy.

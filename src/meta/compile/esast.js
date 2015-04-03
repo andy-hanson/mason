@@ -112,6 +112,8 @@ const
 const LitTrue = Literal(true)
 
 export const
+	assignmentExpressionPlain = s(AssignmentExpression,
+		[ 'left', Pattern, 'right', Expression ], { operator: '=' }),
 	callExpressionThunk = s(CallExpression,
 		[ 'callee', Expression ], { arguments: [] }),
 	functionExpressionPlain = (params, body, generator) =>

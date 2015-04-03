@@ -13,6 +13,13 @@ const Vr = ObjType('Vr', Object, {
 })
 export default Vr
 
+export const emptyVr = () => Vr({
+	accessToLocal: new Map(),
+	localToInfo: new Map(),
+	eToIsInGenerator: new Map(),
+	endLoopToLoop: new Map()
+})
+
 export const VrLocalInfo = ObjType('LocalInfo', Object, {
 	isInDebug: Boolean,
 	debugAccesses: [LocalAccess],

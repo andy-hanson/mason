@@ -1,4 +1,3 @@
-import { parse as esParse } from 'esprima'
 import { ArrayExpression, AssignmentExpression, BlockStatement, BreakStatement, CallExpression,
 	DebuggerStatement, Identifier, LabeledStatement, Literal, SwitchCase, SwitchStatement,
 	ThisExpression, VariableDeclarator,
@@ -103,13 +102,13 @@ implementMany(EExports, 'transpileSubtree', {
 			}
 			case String:
 				return Literal(_.value)
-			case 'js': {
-				const program = esParse(_.value)
-				assert(program.body.length === 1)
-				const statement = program.body[0]
-				assert(statement.type === 'ExpressionStatement')
-				return statement.expression
-			}
+			case 'js':
+				switch (_.value) {
+					// TODO:USE* Get rid of this!
+					case 'msGetModule': return member(IdMs, 'getModule')
+					case 'require': return idSpecialCached('require')
+					default: throw new Error('This js literal not supported.')
+				}
 			default: throw new Error(_.k)
 		}
 	},
