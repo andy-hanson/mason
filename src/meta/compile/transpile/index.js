@@ -1,3 +1,4 @@
+import { parse as esParse } from 'esprima'
 import { ArrayExpression, AssignmentExpression, BlockStatement, BreakStatement, CallExpression,
 	DebuggerStatement, Identifier, LabeledStatement, Literal, SwitchCase, SwitchStatement,
 	ThisExpression, VariableDeclarator,
@@ -5,13 +6,11 @@ import { ArrayExpression, AssignmentExpression, BlockStatement, BreakStatement, 
 	functionExpressionThunk, member, idCached, idSpecialCached, switchStatementOnTrue, throwError,
 	toStatement, toStatements, unaryExpressionNegate, variableDeclarationConst,
 	whileStatementInfinite, yieldExpressionDelegate, yieldExpressionNoDelegate } from '../esast'
-import assert from 'assert'
-import { parse as esParse } from 'esprima'
 import Expression, * as EExports from '../Expression'
 import { KAssign } from '../Lang'
 import Opts from '../Opts'
 import Span from '../Span'
-import { implementMany, isPositive, log } from '../U'
+import { assert, implementMany, isPositive, log } from '../U'
 import { ifElse, opIf, None, some } from '../U/Op'
 import { cat, cons, flatMap, isEmpty, push, range, tail, unshift } from '../U/Bag'
 import type from '../U/type'

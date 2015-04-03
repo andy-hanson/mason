@@ -1,8 +1,9 @@
-import assert from 'assert'
-import chalk from 'chalk'
-import type from './type'
-
 export const
+	assert = cond => {
+		if (!cond)
+			throw new Error('Assertion failed.')
+	},
+
 	log = _ => console.log(
 		_ === null ? 'null' :
 		_ === undefined ? 'undefined' :

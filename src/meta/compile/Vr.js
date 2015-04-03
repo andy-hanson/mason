@@ -1,5 +1,5 @@
-import assert from 'assert'
 import Expression, { BlockWrap, CaseVal, LocalAccess } from './Expression'
+import { assert } from './U'
 import { isEmpty } from './U/Bag'
 import type from './U/type'
 import { ObjType } from './U/types'

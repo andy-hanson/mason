@@ -1,7 +1,7 @@
 import { code } from '../CompileError'
 import { Call, Lazy, LocalAccess, Member } from '../Expression'
 import { DotName, Group, Keyword } from '../Token'
-import { lazy } from '../U'
+import { assert, lazy } from '../U'
 import { unshift } from '../U/Bag'
 import type from '../U/type'
 import Px from './Px'

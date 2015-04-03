@@ -1,5 +1,5 @@
-import assert from 'assert'
 import Span from './Span'
+import { assert } from './U'
 import type from './U/type'
 import { tuple } from './U/types'
 

@@ -1,5 +1,3 @@
-import assert from 'assert'
-
 const pAdd = (object, key, value) =>
 	Object.defineProperty(object, key, {
 		value,
@@ -35,14 +33,15 @@ const msDefs = {
 	},
 
 	lazyProp(lazyObject, key) {
-		assert(lazyObject instanceof Lazy)
+		if (!(lazyObject instanceof Lazy))
+			throw new Error(`Expected a Lazy, got: ${lazyObject}`)
 		return ms.lazy(() => lazyObject.get()[key])
 	},
 
 	get(object, key) {
 		const _ = object[key]
 		if (_ === undefined)
-			throw new Error('Module ' + object.displayName + ' does not have ' + key)
+			throw new Error(`Module ${object.displayName} does not have ${key}`)
 		return _
 	},
 
@@ -85,7 +84,10 @@ const msDefs = {
 		if (k2 === undefined)
 			return _
 		_[k2] = v2
-		assert(k3 === undefined)
+		if (k3 === undefined)
+			return _
+		for (let i = 7; i < arguments.length; i = i + 2)
+			_[arguments[i]] = arguments[i + 1]
 		return _
 	},
 
@@ -97,7 +99,10 @@ const msDefs = {
 		if (k2 === undefined)
 			return _
 		setOrLazy(_, k2, v2)
-		assert(k3 === undefined)
+		if (k3 === undefined)
+			return _
+		for (let i = 7; i < arguments.length; i = i + 2)
+			setOrLazy(_, arguments[i], arguments[i + 1])
 		return _
 	}
 }

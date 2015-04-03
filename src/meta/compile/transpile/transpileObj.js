@@ -1,5 +1,5 @@
-import assert from 'assert'
 import { Literal, ObjectExpression, property, thunk, propertyIdOrLiteral } from '../esast'
+import { assert } from '../U'
 import { cat, flatMap, isEmpty, unshift } from '../U/Bag'
 import { ifElse } from '../U/Op'
 import { t, accessLocalDeclare, msLset, msSet, IdDisplayName, LitStrDisplayName } from './util'

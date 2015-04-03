@@ -1,9 +1,8 @@
-import assert from 'assert'
 import E, { Assign, AssignDestructure, BlockWrap, Call, Debug, GlobalAccess, ObjReturn,
 	Fun, EndLoop, ListEntry, Loop, MapEntry, Special, Yield, YieldTo } from '../Expression'
 import { defaultLoopName, LineSplitKeywords } from '../Lang'
 import { Group, Keyword, Name } from '../Token'
-import { lazy, set } from '../U'
+import { assert } from '../U'
 import { ifElse, some } from '../U/Op'
 import { head, isEmpty, last, opSplitOnceWhere } from '../U/Bag'
 import type from '../U/type'

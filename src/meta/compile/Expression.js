@@ -1,7 +1,6 @@
-import assert from 'assert'
 import { JsGlobals, KAssign, KFun, SpecialKeywords, UseKeywords } from './Lang'
 import Span, { spanTuple } from './Span'
-import { setUnion } from './U'
+import { assert, setUnion } from './U'
 import type from './U/type'
 import { cons } from './U/Bag'
 import Op, { None } from './U/Op'

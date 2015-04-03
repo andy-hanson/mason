@@ -1,4 +1,4 @@
-import assert from 'assert'
+import { assert } from './index'
 import Op from './Op'
 
 export default function type() {

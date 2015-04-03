@@ -1,10 +1,10 @@
-import assert from 'assert'
 import { ArrayExpression, AssignmentExpression, BreakStatement, CallExpression, ExpressionStatement,
 	Identifier, Literal, ReturnStatement, VariableDeclarator,
 	member, thunk, idCached, idNew } from '../esast'
 import Expression, { LocalAccess, LocalDeclare } from '../Expression'
 import { KAssign } from '../Lang'
 import Span from '../Span'
+import { assert } from '../U'
 import { flatMap, isEmpty, unshift } from '../U/Bag'
 import { ifElse, None } from '../U/Op'
 import type from '../U/type'

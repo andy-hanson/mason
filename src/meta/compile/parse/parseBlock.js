@@ -1,8 +1,7 @@
-import assert from 'assert'
 import { Assign, BlockDo, BlockVal, BlockWrap, Debug, ObjReturn, ListEntry, ListReturn, ELiteral,
 	LocalDeclare, MapReturn, MapEntry, Module, ModuleDefaultExport, Val } from '../Expression'
 import { Group, Keyword } from '../Token'
-import { lazy, set } from '../U'
+import { assert, lazy } from '../U'
 import { cat, isEmpty, last, rtail } from '../U/Bag'
 import { ifElse, None, some } from '../U/Op'
 import type from '../U/type'

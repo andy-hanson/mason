@@ -1,7 +1,6 @@
-import assert from 'assert'
 import { LocalDeclare } from './Expression'
 import Span from './Span'
-import { pAdd } from './U'
+import { assert, pAdd } from './U'
 import { ifElse, None, some } from './U/Op'
 import type from './U/type'
 import { tuple } from './U/types'

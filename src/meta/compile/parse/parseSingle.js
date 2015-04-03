@@ -1,9 +1,8 @@
-import assert from 'assert'
 import { Call, ListSimple, ELiteral, GlobalAccess, LocalAccess,
 	Quote, Special, Splat, This } from '../Expression'
 import { CallOnFocus, DotName, Group, Keyword, Literal, Name } from '../Token'
 import { JsGlobals, SpecialKeywords } from '../Lang'
-import { lazy } from '../U'
+import { assert, lazy } from '../U'
 import type from '../U/type'
 import parseSpaced from './parseSpaced'
 import Px from './Px'

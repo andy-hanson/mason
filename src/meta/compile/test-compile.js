@@ -1,4 +1,3 @@
-import assert from 'assert'
 import fs from 'fs'
 import { ESNode } from './esast'
 import Cx from './Cx'

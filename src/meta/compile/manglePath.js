@@ -1,6 +1,6 @@
-import assert from 'assert'
 import { existsSync } from 'fs'
 import { dirname, resolve } from 'path'
+import { assert } from './U'
 
 export default function mangle(path) {
 	return path.replace(/!/g, '_bang_').replace(/@/g, '_at_')
