@@ -7,17 +7,23 @@ const
 	fs = require('q-io/fs'),
 	header = require('gulp-header'),
 	gulp = require('gulp'),
+	plumber = require('gulp-plumber'),
 	sourcemaps = require('gulp-sourcemaps'),
 	watch = require('gulp-watch')
 
 gulp.task('default', [ 'watch' ])
 
+gulp.task('all', [ 'js', 'ms', 'list-modules' ])
 gulp.task('watch', [ 'watch-js', 'watch-ms', 'watch-list-modules' ])
 
 gulp.task('run', function() {
 	const test = require('./js/meta/run-all-tests')
 	_ms.getModule(test)['run-all-tests']()
 })
+
+function src(glob) { return gulp.src(glob).pipe(plumber()) }
+function watchVerbose(glob, then) { return watch(glob, { verbose: true }, then) }
+function srcWatch(glob) { return src(glob).pipe(watchVerbose(glob)) }
 
 function writeListModules() {
 	// Required lazily because 'js' task must run first.
@@ -29,7 +35,7 @@ function writeListModules() {
 gulp.task('list-modules', [ 'js', 'ms' ], writeListModules)
 gulp.task('watch-list-modules', [ 'js', 'ms', 'list-modules' ], function() {
 	const src = [ srcMs, srcJs ]
-	return watch(src, { verbose: true }, writeListModules)
+	return watchVerbose(src, writeListModules)
 })
 
 // TODO: Run-all-tests does not work yet.
@@ -40,7 +46,7 @@ gulp.task('run-requirejs', function() {
 		baseUrl: 'js',
 		nodeRequire: require
 	})
-	const test = requirejs('meta/test')
+	const test = requirejs('meta/run-all-tests')
 	_ms.getModule(test)
 })
 
@@ -91,18 +97,17 @@ function pipeJs(stream) {
 	.pipe(gulp.dest(dest))
 }
 
-gulp.task('js', function() { return pipeJs(gulp.src(srcJs)) })
-gulp.task('watch-js', function() { return pipeJs(gulp.src(srcJs).pipe(watch(srcJs))) })
+gulp.task('js', function() { return pipeJs(src(srcJs)) })
+gulp.task('watch-js', function() { return pipeJs(srcWatch(srcJs)) })
 
-gulp.task('ms', [ 'js' ], function() { return pipeMs(gulp.src(srcMs)) })
-gulp.task('watch-ms', [ 'js' ], function() { return pipeMs(gulp.src(srcMs).pipe(watch(srcMs))) })
+gulp.task('ms', [ 'js' ], function() { return pipeMs(src(srcMs)) })
+gulp.task('watch-ms', [ 'js' ], function() { return pipeMs(srcWatch(srcMs)) })
 
 gulp.task('lint', function() {
 	// For some reason, requiring this makes es6-shim unhappy.
 	// So, can't lint and do other things in the same task.
 	const eslint = require('gulp-eslint')
-	return gulp.src([ './*.js', srcJs ])
+	return src([ './*.js', srcJs ])
 	.pipe(eslint())
 	.pipe(eslint.format())
-	.pipe(eslint.failOnError())
 })

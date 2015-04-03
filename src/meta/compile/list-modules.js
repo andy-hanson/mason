@@ -16,9 +16,15 @@ const name = 'modules-list'
 // TODO:USE* Don't use UseDo, use Use*.
 export default dirPath =>
 	fs.listTree(dirPath).then(files => {
-		// TODO: This is kind of kludge-y...
-		const jsFiles = files.filter(f => f.endsWith('.js') && basename(f) !== `${name}.js`)
-		const relativeFiles = jsFiles.map(f => `./${relative(dirPath, f)}`)
+		const ext = '.js'
+		const jsFiles = files.filter(f => f.endsWith(ext)
+			// TODO: This is kind of kludge-y...
+			&& basename(f) !== `${name}.js`)
+		const relativeFiles = jsFiles.map(f => {
+			// TODO: RequireJs expects no extension. f.slice(0, f.length - ext.length)
+			const noExt = f
+			return `./${relative(dirPath, noExt)}`
+		})
 		// Sort so that module loading is deterministic.
 		const sortedFiles = relativeFiles.sort()
 		const span = single(StartPos)

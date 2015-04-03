@@ -3,7 +3,11 @@ import { dirname, resolve } from 'path'
 import { assert } from './U'
 
 export default function mangle(path) {
-	return path.replace(/!/g, '_bang_').replace(/@/g, '_at_')
+	return path
+	.replace(/!/g, '_bang_')
+	.replace(/@/g, '_at_')
+	.replace(/\?/g, '_q_')
+	.replace(/\$/g, '_cash_')
 }
 
 export function fixupPath(path, tx) {
