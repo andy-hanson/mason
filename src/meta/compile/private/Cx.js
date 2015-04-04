@@ -1,5 +1,5 @@
 import CompileError, { Warning } from '../CompileError'
-import Span, { Pos } from './Span'
+import Span, { Pos, single } from './Span'
 import type from './U/type'
 
 export default class Cx {
@@ -37,7 +37,7 @@ const unlazy = _ => _ instanceof Function ? _() : _
 const warning = (span, message) => {
 	span = unlazy(span); message = unlazy(message)
 	if (span instanceof Pos)
-		span = Span.single(span)
+		span = single(span)
 	type(span, Span, message, String)
 	return Warning(span, message)
 }

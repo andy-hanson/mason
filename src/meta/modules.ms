@@ -1,13 +1,18 @@
 use
-	..$ _ $after
+	..$ _ $after $map
 	..Fun
 	..js new
 	..private.bootstrap msCall
+	..RegExp regexp
 	..Str
 
 $require = |require path
+	# TODO:ES6 Shouldn't need `new`
 	new $ |resolve reject
 		require [ path ] resolve reject
+
+dirname = |path
+	path.replace (regexp "/[^/]*$") ""
 
 $get-module.
 	doc. "
@@ -17,7 +22,6 @@ $get-module.
 		The module is represented as an object whose keys are its exports and whose `default` key is its default export.
 		Note that `use~` lazily evaluates the content of a module, but eagerly loads the module code.
 	|require:Fun module-path:Str
-		# TODO:ES6 Shouldn't need `new`
 		$after ($require require module-path) msCall["getModule"]
 
 $@all-modules.
@@ -26,4 +30,9 @@ $@all-modules.
 		module-list-path should point to the modules-list file.
 		require and module-list-path are like in $get-module.
 	|require:Fun module-list-path:Str
-		$after ($get-module require module-list-path) msCall["getDefaultExport"]
+		modules-list-dir = dirname module-list-path
+		$after ($get-module require module-list-path) |mp
+			module-paths = msCall "getDefaultExport" mp
+			$map module-paths |module-path
+				# module-path is relative to module-list-path
+				$get-module require "{modules-list-dir}/{module-path}"
