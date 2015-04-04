@@ -10,7 +10,7 @@ import verify from './private/verify/verify'
 import { log } from './private/U/util'
 import Opts from './private/Opts'
 
-module.exports = () => {
+export default () => {
 	global.DEBUG = true
 	global.LOG_TIME = true
 

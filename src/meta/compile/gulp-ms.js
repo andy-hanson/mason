@@ -16,6 +16,8 @@ export default function gulpMs(opts) {
 		opts.checks = true
 
 	return obj((file, enc, cb) => {
+		if (opts.verbose)
+			console.log(`Compiling ${file.path}`)
 		if (file.isNull())
 			cb(null, file)
 		else if (file.isStream())

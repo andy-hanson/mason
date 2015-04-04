@@ -7,7 +7,8 @@ const
 	fs = require('q-io/fs'),
 	header = require('gulp-header'),
 	gulp = require('gulp'),
-	plumber = require('gulp-plumber'),
+	// plumber = require('gulp-plumber'), TODO
+	requirejs = require('requirejs'),
 	sourcemaps = require('gulp-sourcemaps'),
 	watch = require('gulp-watch')
 
@@ -22,7 +23,8 @@ gulp.task('run', function() {
 })
 
 function src(glob) { return gulp.src(glob) }
-function watchVerbose(glob, then) { return watch(glob, { verbose: true }, then).pipe(plumber()) }
+// TODO: `.pipe(plumber())` causes watch-ms to not recognize changes.
+function watchVerbose(glob, then) { return watch(glob, { verbose: true }, then) }
 function srcWatch(glob) { return src(glob).pipe(watchVerbose(glob)) }
 
 function writeListModules() {
@@ -38,13 +40,9 @@ gulp.task('watch-list-modules', [ 'js', 'ms', 'list-modules' ], function() {
 	return watchVerbose(src, writeListModules)
 })
 
-// TODO: Run-all-tests does not work yet.
-// Need to figure out how to do reflection on requirejs modules.
 gulp.task('run-requirejs', function() {
-	const requirejs = require('requirejs')
 	requirejs.config({
-		baseUrl: 'js',
-		nodeRequire: require
+		baseUrl: 'js'
 	})
 	const test = requirejs('meta/run-all-tests')
 	_ms.getModule(test).default()
@@ -62,7 +60,7 @@ function pipeMs(stream) {
 	const ms = require('./js/meta/compile/gulp-ms')
 	return stream
 	.pipe(sourcemaps.init())
-	.pipe(ms())
+	.pipe(ms({ verbose: true }))
 	.pipe(sourcemaps.write('.', {
 		debug: true,
 		includeContent: false,

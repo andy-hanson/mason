@@ -19,7 +19,7 @@ use
 	...Type.Method _ impl! impl-for
 	...Type.Pred-Type ObjLit
 	...Type.Type contains?
-	..modules $@module-in-dir
+	..modules $@all-modules
 use-debug
 	...control build
 	...Obj!
@@ -76,8 +76,8 @@ impl! test-special Kind |_
 
 $test-all.
 	doc. "Tests all modules in dir-path."
-	|dir-path:Str
-		$after ($@module-in-dir dir-path) |_
+	|require:Fun dir-path:Str
+		$after ($@all-modules require dir-path) |_
 			$all (flat-map _ @$test-module)
 
 $test-module.

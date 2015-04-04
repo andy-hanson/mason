@@ -21,8 +21,7 @@ export default dirPath =>
 			// TODO: This is kind of kludge-y...
 			&& basename(f) !== `${name}.js`)
 		const relativeFiles = jsFiles.map(f => {
-			// TODO: RequireJs expects no extension. f.slice(0, f.length - ext.length)
-			const noExt = f
+			const noExt = f.slice(0, f.length - ext.length)
 			return `./${relative(dirPath, noExt)}`
 		})
 		// Sort so that module loading is deterministic.

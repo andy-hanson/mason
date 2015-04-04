@@ -124,7 +124,9 @@ const setOrLazy = (_, k, v) => {
 
 function Lazy(get) {
 	this.get = () => {
-		this.get = () => { throw new Error('Acquiring lazy value depends on itself. Thunk: ' + get) }
+		this.get = () => {
+			throw new Error(`Lazy value depends on itself. Thunk: ${get}`)
+		}
 		const _ = get()
 		this.get = () => _
 		return _
