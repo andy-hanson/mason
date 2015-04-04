@@ -14,18 +14,23 @@ export default class Px extends SubContext {
 	}
 
 	check(cond, span, message) {
-		if (span instanceof Span)
+		if (message === undefined) {
+			message = span
 			super.check(cond, this.span, message)
-		else
-			super.check(cond, this.span, message)
+		} else
+			super.check(cond, span, message)
 	}
 
 	checkEmpty(tokens, message) {
 		super.check(tokens.isEmpty(), () => spanFromTokens(tokens), message)
 	}
 
-	fail(message) {
-		super.fail(this.span, message)
+	fail(span, message) {
+		if (message === undefined) {
+			message = span
+			super.fail(this.span, message)
+		} else
+			super.fail(span, message)
 	}
 
 	w(tokens, fun, arg, arg2, arg3) {

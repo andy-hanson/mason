@@ -2,13 +2,14 @@ import { UseDo } from '../../Expression'
 import { ArrayExpression, BinaryExpression, BlockStatement, CallExpression,
 	Identifier, ExpressionStatement, FunctionExpression, IfStatement, Literal, ObjectExpression,
 	Program, ReturnStatement, UnaryExpression, VariableDeclaration, VariableDeclarator,
-	assignmentExpressionPlain, member, idSpecialCached }
+	assignmentExpressionPlain, member, idCached, idSpecialCached }
 	from '../esast'
 import manglePath from '../manglePath'
 import { flatMap, isEmpty, last, push } from '../U/Bag'
 import { opIf } from '../U/Op'
-import { t, IdDefine, IdExports, IdModule,
-	msGetModule, msLazyGetModule, makeDestructureDeclarators, msLazy } from './util'
+import { t, IdDefine, IdExports, IdModule, lazyWrap,
+	msGetModule, msLazyGetModule, msGetDefaultExport,
+	makeDestructureDeclarators, msLazy } from './util'
 
 /*
 'use strict';
@@ -37,24 +38,36 @@ export default (_, tx) => {
 		d.loc = use.span
 		return d
 	})
-	const useDeclarators = flatMap(_.uses.concat(_.debugUses), (use, i) => {
-		i = i + _.doUses.length
-		const useId = useIdentifiers[i]
-		// TODO: Could be neater about this
-		const isLazy = use.used[0].isLazy
-		const value = isLazy ? msLazyGetModule([ useId ]) : msGetModule([ useId ])
-		const dd = makeDestructureDeclarators(tx, use.span, use.used, isLazy, value, '=', true)
-		dd.forEach(_ => _.loc = use.span)
-		return dd
-	})
-	const opUseDeclare = opIf(!isEmpty(useDeclarators),
-		() => VariableDeclaration('const', useDeclarators))
+	const allUseDeclarators = flatMap(_.uses.concat(_.debugUses), (use, i) =>
+		useDeclarators(tx, use, useIdentifiers[i + _.doUses.length]))
+	const opUseDeclare = opIf(!isEmpty(allUseDeclarators),
+		() => VariableDeclaration('const', allUseDeclarators))
 	const moduleBody = useDos.concat(opUseDeclare, [ t(tx)(_.block) ])
 	const doDefine = ExpressionStatement(
 		CallExpression(IdDefine, [
 			amdNames,
 			FunctionExpression(null, amdArgs, BlockStatement([ lazyBody(moduleBody) ])) ]))
 	return Program([ UseStrict, AmdefineHeader, doDefine ])
+}
+
+const useDeclarators = (tx, _, moduleIdentifier) => {
+	// TODO: Could be neater about this
+	const isLazy = (isEmpty(_.used) ? _.opUseDefault[0] : _.used[0]).isLazy
+	const value = (isLazy ? msLazyGetModule : msGetModule)([ moduleIdentifier ])
+
+	const usedDefault = _.opUseDefault.map(def => {
+		const defexp = msGetDefaultExport([ moduleIdentifier ])
+		const val = isLazy ? lazyWrap(defexp) : defexp
+		const vd = VariableDeclarator(idCached(def), val)
+		vd.loc = def.span
+		return vd
+	})
+
+	const usedDestruct = isEmpty(_.used) ? [] :
+		makeDestructureDeclarators(tx, _.span, _.used, isLazy, value, '=', true)
+	usedDestruct.forEach(_ => _.loc = _.span)
+
+	return usedDefault.concat(usedDestruct)
 }
 
 const

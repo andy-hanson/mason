@@ -18,7 +18,7 @@ use-debug
 	...!
 	...math.methods +
 
-Map. Kind
+Map = Kind
 	doc. "Mapping from keys to values."
 
 kind! Map @

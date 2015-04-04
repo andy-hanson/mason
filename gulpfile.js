@@ -18,11 +18,11 @@ gulp.task('watch', [ 'watch-js', 'watch-ms', 'watch-list-modules' ])
 
 gulp.task('run', function() {
 	const test = require('./js/meta/run-all-tests')
-	_ms.getModule(test)['run-all-tests']()
+	_ms.getModule(test).default()
 })
 
-function src(glob) { return gulp.src(glob).pipe(plumber()) }
-function watchVerbose(glob, then) { return watch(glob, { verbose: true }, then) }
+function src(glob) { return gulp.src(glob) }
+function watchVerbose(glob, then) { return watch(glob, { verbose: true }, then).pipe(plumber()) }
 function srcWatch(glob) { return src(glob).pipe(watchVerbose(glob)) }
 
 function writeListModules() {
@@ -47,7 +47,7 @@ gulp.task('run-requirejs', function() {
 		nodeRequire: require
 	})
 	const test = requirejs('meta/run-all-tests')
-	_ms.getModule(test)
+	_ms.getModule(test).default()
 })
 
 gulp.task('test-compile', function() {

@@ -19,7 +19,7 @@ use-debug
 	.@.@-Type empty
 	.Try fails?
 
-compare. Method
+compare = Method
 	doc. "
 		A Num < 0 if a < b, > 0 if a > b, and = 0 if a = b.
 		It could be implemented as:
@@ -160,4 +160,4 @@ region Sorting
 				compare (sort-by a) (sort-by b
 			sorted
 
-
+compare

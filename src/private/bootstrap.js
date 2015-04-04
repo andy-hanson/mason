@@ -32,6 +32,13 @@ const msDefs = {
 		return module._get instanceof Lazy ? module._get.get() : module
 	},
 
+	getDefaultExport: module => {
+		if (module === undefined)
+			throw new Error('Module undefined.')
+		const mod = ms.getModule(module)
+		return mod.default === undefined ? mod : mod.default
+	},
+
 	lazyProp(lazyObject, key) {
 		if (!(lazyObject instanceof Lazy))
 			throw new Error(`Expected a Lazy, got: ${lazyObject}`)
@@ -117,6 +124,7 @@ const setOrLazy = (_, k, v) => {
 
 function Lazy(get) {
 	this.get = () => {
+		this.get = () => { throw new Error('Acquiring lazy value depends on itself. Thunk: ' + get) }
 		const _ = get()
 		this.get = () => _
 		return _

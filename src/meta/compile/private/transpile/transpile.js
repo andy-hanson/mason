@@ -128,7 +128,7 @@ implementMany(EExports, 'transpileSubtree', {
 	Module: transpileModule,
 	// TODO:ES6 Use `export default`
 	ModuleDefaultExport(_, tx) {
-		const m = member(IdExports, tx.opts().moduleName())
+		const m = member(IdExports, 'default')
 		return AssignmentExpression('=', m, t(tx)(_.value))
 	},
 	Quote(_, tx) {

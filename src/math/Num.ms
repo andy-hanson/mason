@@ -1,6 +1,6 @@
 use
 	..Bool and
-	..compare =? <? <=? compare
+	..compare _ =? <? <=?
 	..control opr
 	..Obj p
 	..js id=? js-bar js< js<= js+ js- js* js/ js-mod

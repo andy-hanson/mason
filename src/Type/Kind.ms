@@ -18,7 +18,7 @@ use-debug
 	.Method
 	.Type => contains?
 
-Kind. Obj-Type
+Kind = Obj-Type
 	doc. "
 		A Kind is like a tag you can apply to a Concrete-Type to signify that it belongs in some category.
 		That category is typically a group of types all of which implement the same set of methods.
@@ -208,6 +208,5 @@ region Private
 				propagate-method-down! implementor name (js-sub kind.prototype name)
 			kind.super-kinds.forEach rec!
 		rec! kind
-
 
 Kind

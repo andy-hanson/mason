@@ -7,7 +7,7 @@ use
 	.@-Type _ empty from-stream
 	.Seq _ <++' tail
 
-LList. Obj-Type
+LList = Obj-Type
 	doc. "
 		Singly-linked list.
 	props.
@@ -57,3 +57,5 @@ kind! LList Seq
 				<++' b a
 			else
 				++'.default a b
+
+LList

@@ -15,7 +15,7 @@ use
 	.Seq ?first
 	.Seq! ?pop>! set-nth!
 
-Heap-Priority-Queue!. Wrap-Type
+Heap-Priority-Queue! = Wrap-Type
 	doc. "Default implementation for Priority-Queue!."
 	wrapped-type. Array!
 
@@ -98,3 +98,5 @@ region Implementation
 				else
 					fill! val
 		rec! 0
+
+Heap-Priority-Queue!

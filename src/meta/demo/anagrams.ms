@@ -8,13 +8,13 @@ use
 use-debug
 	...!
 	...@.Seq seq=?
-	...Regex regex
+	...RegExp regexp
 	...Str split-str
 
 maximum-anagram-sets.
 	doc. "http://rosettacode.org/wiki/Anagrams#JavaScript"
 	test. |
-		words = split-str (regex "\\s") "
+		words = split-str (regexp "\\s") "
 			abel able bale bela elba
 			alger glare lager large regal
 			angel angle galen glean lange

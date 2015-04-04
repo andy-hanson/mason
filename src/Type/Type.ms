@@ -10,7 +10,7 @@ use~
 	..Obj _ ?p-with-proto
 	..Try oh-no!
 
-Type. Kind
+Type = Kind
 	doc. "
 		Anything implementing contains?.
 		Types are generally used to succinctly make assertions about values.

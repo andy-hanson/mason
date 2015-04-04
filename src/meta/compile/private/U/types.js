@@ -14,7 +14,10 @@ export const tuple = (superType, ...namesTypes) => {
 	})
 	body = body + '}'
 	const ctr = Function(body)()
-	ctr.prototype = Object.create(superType.prototype)
+	ctr.prototype = Object.assign(Object.create(superType.prototype), {
+		constructor: ctr,
+		toString() { return inspect(this) }
+	})
 	return ctr
 }
 

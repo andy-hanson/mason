@@ -51,7 +51,7 @@ export const
 		}),
 	// Module
 	UseDo = ee('path', String),
-	Use = ee('used', [LocalDeclare], 'path', String),
+	Use = ee('path', String, 'used', [LocalDeclare], 'opUseDefault', Op(LocalDeclare)),
 	// `block` will contain ModuleExport and ModuleDefaultExport_s
 	// TODO: BlockVal and don't have `exports` object
 	Module = ee('doUses', [UseDo], 'uses', [Use], 'debugUses', [Use], 'block', BlockDo),

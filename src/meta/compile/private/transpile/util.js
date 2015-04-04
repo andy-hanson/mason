@@ -42,6 +42,7 @@ const ms = name => {
 	return args => CallExpression(m, args)
 }
 export const
+	msGetDefaultExport = ms('getDefaultExport'),
 	msGet = ms('get'),
 	msGetModule = ms('getModule'),
 	msLazyGetModule = ms('lazyGetModule'),

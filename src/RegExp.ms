@@ -4,8 +4,8 @@ use~
 
 # TODO: Probably use xregexp
 
-Regex. global.RegExp
-
-regex. |pattern:Str ?flags
+# TODO: regexp literals?
+regexp. |pattern:Str ?flags
 	flags = opr ?flags ""
-	Regex pattern flags
+	RegExp pattern flags
+

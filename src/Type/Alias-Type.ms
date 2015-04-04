@@ -10,7 +10,7 @@ use-debug
 	..@.?
 	..compare =?
 
-Alias-Type. Obj-Type
+Alias-Type = Obj-Type
 	doc. "Contains the same instances as another type (officially), but has its own meaning and identity."
 	test. |
 		A = Alias-Type

@@ -2,7 +2,7 @@ use
 	.Bool and
 	.compare _ =?
 	.js id=?
-	.Regex _ regex
+	.RegExp regexp
 	.Type.Kind
 	.Type.Method impl!
 	.Type.Pred-Type
@@ -15,7 +15,7 @@ Str =
 
 Str-Test. Kind
 	doc. "Something we can compare a Str to."
-	implementors. [ Str Regex ]
+	implementors. [ Str RegExp ]
 
 ->upper.
 	doc. "Converts a-z to A-Z."
@@ -45,13 +45,13 @@ indent.
 		[ s ] -> s-indented
 		[ "a" ] -> "a"
 	|str:Str
-		"{str.replace (regex "\n" "g") "\n\t"}"
+		"{str.replace (regexp "\n" "g") "\n\t"}"
 
 split-str.
 	doc. "Like `@.split` but using a Str-Test instead of a predicate."
 	test. |
 		[ " " "I am a Str" ] -> [ "I" "am" "a" "Str" ]
-		[ (regex ".") "abc" ] -> [ "" "" "" "" ]
+		[ (regexp ".") "abc" ] -> [ "" "" "" "" ]
 	|:Array[Str] splitter:Str-Test _:Str
 		_.split splitter
 

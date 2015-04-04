@@ -3,7 +3,7 @@ import { LocalDeclare, Use, UseDo } from '../../Expression'
 import { UseKeywords } from '../Lang'
 import Token, { DotName, Group, Keyword, Name } from '../Token'
 import { repeat, tail } from '../U/Bag'
-import { None } from '../U/Op'
+import { None, opIf, some } from '../U/Op'
 import type from '../U/type'
 import { assert, lazy } from '../U/util'
 import Px from './Px'
@@ -44,15 +44,25 @@ function useLine(px, k) {
 		return UseDo(px.span, path)
 	} else {
 		const isLazy = k === 'use~' || k === 'use-debug'
-		const used = px.tokens.size() === 1 ?
-			[ LocalDeclare(px.span, name, None, isLazy, false) ] :
-			px.w(px.tokens.tail(), parseLocalDeclares_()).map(l => {
-				if (l.name === '_')
-					l.name = name
-				l.isLazy = isLazy
-				return l
-			})
-		return Use(px.span, used, path)
+		const { used, opUseDefault } = px.w(px.tokens.tail(), parseThingsUsed, name, isLazy)
+		return Use(px.span, path, used, opUseDefault)
+	}
+}
+
+function parseThingsUsed(px, name, isLazy) {
+	const useDefault = () => LocalDeclare(px.span, name, None, isLazy, false)
+	if (px.tokens.isEmpty())
+		return { used: [], opUseDefault: some(useDefault()) }
+	else {
+		const hasDefaultUse = Keyword.isFocus(px.tokens.head())
+		const opUseDefault = opIf(hasDefaultUse, useDefault)
+		const rest = hasDefaultUse ? px.tokens.tail() : px.tokens
+		const used = px.w(rest, parseLocalDeclares_()).map(l => {
+			px.check(l.name !== '_', () => `${code('_')} not allowed as import name.`)
+			l.isLazy = isLazy
+			return l
+		})
+		return { used, opUseDefault }
 	}
 }
 

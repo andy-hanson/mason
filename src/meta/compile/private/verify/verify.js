@@ -155,7 +155,7 @@ function verifyUses(vx, uses, debugUses) {
 	uses.forEach(use => {
 		if (!(use instanceof EExports.UseDo)) {
 			type(use, EExports.Use)
-			use.used.forEach(_ => {
+			use.used.concat(use.opUseDefault).forEach(_ => {
 				vx.registerLocal(_)
 				useLocals.push(_)
 			})
@@ -163,7 +163,7 @@ function verifyUses(vx, uses, debugUses) {
 	})
 	vx.withInDebug(true, () =>
 		debugUses.forEach(use =>
-			use.used.forEach(_ => {
+			use.used.concat(use.opUseDefault).forEach(_ => {
 				vx.registerLocal(_)
 				useLocals.push(_)
 			})))
