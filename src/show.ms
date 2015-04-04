@@ -8,10 +8,10 @@ use
 	.private.js-impl newSet
 	.Obj flag? p ?p @p
 	.Str _ indent
-	.Type => type-of
 	.Type.Method _ impl!
+	.Type.Type => type-of
 use~
-	.@ -- empty? map
+	.@.@ -- empty? map
 	.@.? ?-or
 use-debug
 	.Obj

@@ -2,10 +2,10 @@ use
 	...Obj flag?
 	...show
 	...Str
-	...Type => type-of
 	...Type.Method impl!
-	...@ map
-	..Map
+	...Type.Type => type-of
+	..@ map
+	.Map
 	.Weak-Id-Map!
 
 impl! show Map

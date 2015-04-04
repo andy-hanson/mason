@@ -1,5 +1,5 @@
 use
-	...@ each! empty?
+	...@.@ each! empty?
 	...@.Map.Map! assoc! un-assoc!
 	...@.Map.Id-Map!
 	...@.Map.multi-map! add-to-@!
@@ -8,10 +8,10 @@ use
 	...Generator! each~
 	...math.Num infinity square
 	...math.methods + *
-	...Type =>
+	...Type.Type =>
 use-debug
 	...!
-	...@ any?
+	...@.@ any?
 	...@.Seq take
 	...Bool not
 	...math.Num divisible?

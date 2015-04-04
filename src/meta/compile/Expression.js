@@ -1,10 +1,10 @@
 import { JsGlobals, KAssign, KFun, SpecialKeywords, UseKeywords } from './private/Lang'
 import Span, { spanTuple } from './private/Span'
-import { assert, setUnion } from './private/U'
-import type from './private/U/type'
 import { cons } from './private/U/Bag'
 import Op, { None } from './private/U/Op'
+import type from './private/U/type'
 import { abstractType } from './private/U/types'
+import { assert, setUnion } from './private/U/util'
 
 export default class Expression { }
 // These can only appear as lines in a Block.

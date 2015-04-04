@@ -1,5 +1,5 @@
 use
-	...@ _ each!
+	...@.@ _ each!
 	...$ _ $after
 	...io.console log!
 	...io.time current-time-ms

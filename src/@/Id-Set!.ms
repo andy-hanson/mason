@@ -1,8 +1,8 @@
 use
 	..js new
-	..Type contains?
 	..Type.Kind kind! self-kind!
-	..@ count each! iterator
+	..Type.Type contains?
+	.@ count each! iterator
 	.@! ++! --! empty!
 	.@-Type _ empty
 	.Set!

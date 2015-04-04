@@ -10,12 +10,12 @@ use
 	...Type.Kind kind! self-kind!
 	...Type.Method impl! self-impl!
 	...Type.Obj-Type
-	...@ flat-map map'
+	..@ flat-map map'
 	..@! empty!
 	..@-Type empty
 	..Stream
 	..? _ Opt->?
-	..Map ?get keys values
+	.Map ?get keys values
 	.Id-Map!
 	.Map! _ assoc! un-assoc!
 	.Map-Type

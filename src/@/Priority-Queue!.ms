@@ -5,8 +5,8 @@ use
 use-debug
 	..!
 	..compare =?
+	.@ empty?
 	.@! ++!
-	..@ empty?
 	.@-Type empty
 	.?
 

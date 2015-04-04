@@ -5,7 +5,7 @@ use
 	..math.methods -
 	..Type.Kind kind! self-kind!
 	..Type.Obj-Type
-	..@ count empty? iterator
+	.@ count empty? iterator
 	.@! ++!
 	.@-Type _ empty from-stream
 	.Array!
@@ -17,7 +17,7 @@ use-debug
 	..control build
 	..math.methods +
 	..math.Num infinity
-	..Type =>
+	..Type.Type =>
 	.Range range
 	.Seq seq=? take
 

@@ -3,7 +3,7 @@ use
 	..Obj! p!
 	..Type.Kind kind! self-kind!
 	..Type.Obj-Type
-	..@ _ ++' empty? iterator
+	.@ _ ++' empty? iterator
 	.@-Type _ empty from-stream
 	.Seq _ <++' tail
 

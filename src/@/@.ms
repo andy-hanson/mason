@@ -6,7 +6,7 @@ use
 	..math.methods +
 	..Obj
 	..private.bootstrap msDef
-	..Type => contains? type-of
+	..Type.Type => contains? type-of
 	..Type.Kind
 	..Type.Method _ impl!
 	..Type.Pred-Type Any Opt

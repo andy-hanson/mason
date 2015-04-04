@@ -4,11 +4,11 @@ use
 	...Fun
 	...Generator! each~
 	...methods sub
-	...Type type-of
+	...Type.Type type-of
 	...Type.Kind _ kind!
 	...Type.Method _ impl!
 	...Type.Pred-Type Any
-	...@ _ all? count each! empty? iterator map
+	..@ _ all? count each! empty? iterator map
 	..@-Type empty
 	..? _ un-?
 use~

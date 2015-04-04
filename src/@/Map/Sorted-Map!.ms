@@ -7,9 +7,9 @@ use~
 	.Splay-Tree!
 use-debug
 	...!
-	...@ each!
 	...compare sorted?
-	..Map keys
+	..@ each!
+	.Map keys
 	.Map! assoc!
 
 Sorted-Map! = Kind

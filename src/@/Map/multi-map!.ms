@@ -2,16 +2,16 @@ use
 	...control opr
 	...Fun
 	...Type.Pred-Type Opt
-	...@ _ each!
+	..@ _ each!
 	..@! ++!
 	..Array!
 	..@-Type _ empty
 	.Map! _ get-or-add!
 use-debug
 	...!
-	...@ keep
 	...compare =?
 	...show
+	..@ keep
 	..Seq seq=?
 
 add-to-@!.

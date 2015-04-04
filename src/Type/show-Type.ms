@@ -1,9 +1,9 @@
 use
-	..@ empty?
+	..@.@ empty?
 	..Obj flag? ?p
 	..show
 	.Method impl!
-	..Type
+	.Type
 use-debug
 	.Method
 

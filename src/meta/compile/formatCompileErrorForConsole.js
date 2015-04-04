@@ -1,8 +1,8 @@
 import { blue, green, magenta, bold } from 'chalk'
 import CompileError, { Warning, formatCode } from './CompileError'
 import Opts from './private/Opts'
-import { assert } from './private/U'
 import type from './private/U/type'
+import { assert } from './private/U/util'
 
 export default (error, modulePath) => format(error.warning, modulePath, 'error')
 

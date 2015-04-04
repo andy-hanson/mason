@@ -7,7 +7,7 @@ use
 	..@-Type empty
 	..? Opt->?
 	..Stream
-	..Map ?get has-key? keys values
+	.Map ?get has-key? keys values
 	.Map! _ assoc! un-assoc!
 	.Map-Type
 use-debug

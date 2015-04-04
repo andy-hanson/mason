@@ -1,9 +1,9 @@
 import { LocalDeclare } from '../Expression'
 import Span from './Span'
-import { assert, pAdd } from './U'
 import { ifElse, None, some } from './U/Op'
 import type from './U/type'
 import { tuple } from './U/types'
+import { assert, pAdd } from './U/util'
 import mangleIdentifier, { needsMangle, propertyNameOk } from './transpile/mangleIdentifier'
 
 export class ESNode { }

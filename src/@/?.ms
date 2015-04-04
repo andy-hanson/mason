@@ -4,7 +4,7 @@ use
 	..Type.Kind kind! self-kind!
 	..Type.Method impl! self-impl!
 	..Type.Wrap-Type
-	..@ empty? iterator
+	.@ empty? iterator
 	.@-Type _ empty from-stream
 	.Seq
 use~

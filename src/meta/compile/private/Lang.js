@@ -1,4 +1,4 @@
-import { setUnion } from './U'
+import { setUnion } from './U/util'
 
 const g = [ '<~', '<~~' ]
 export const GeneratorKeywords = new Set(g)

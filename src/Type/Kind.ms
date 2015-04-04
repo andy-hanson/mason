@@ -7,7 +7,7 @@ use
 	.Method impl! propagate-method-down! self-impl!
 	.Obj-Type
 use~
-	..@ _ each! flat-map
+	..@.@ _ each! flat-map
 	..control if!
 	.Impl-Type _ self-type
 	..methods freeze frozen?
@@ -15,8 +15,8 @@ use-debug
 	..! _ !not
 	..@.Stream
 	..Try _ fails-with?
-	..Type => contains?
 	.Method
+	.Type => contains?
 
 Kind. Obj-Type
 	doc. "

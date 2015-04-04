@@ -2,10 +2,10 @@ use!
 	..Str-as-Seq # => Str
 use
 	chalk blue
-	..@ each!
+	..@.@ each!
 	..show
 	..Str
-	..Type =>
+	..Type.Type =>
 
 doc. "Funs that write to the console (also known as shell, command prompt, stdout/stderr)."
 

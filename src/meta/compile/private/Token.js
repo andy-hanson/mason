@@ -3,7 +3,7 @@ import { AllKeywords, CaseKeywords, GroupKinds, GroupOpenToClose, LineSplitKeywo
 import { spanTuple } from './Span'
 import type from './U/type'
 import { abstractType } from './U/types'
-import { implementMany2 } from './U'
+import { implementMany2 } from './U/util'
 
 export default class Token { }
 

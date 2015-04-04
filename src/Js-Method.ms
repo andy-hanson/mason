@@ -8,7 +8,7 @@ use
 use-debug
 	.!
 	.compare =?
-	.Type contains?
+	.Type.Type contains?
 
 Js-Method = Obj-Type
 	doc. "

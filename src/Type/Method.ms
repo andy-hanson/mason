@@ -21,7 +21,7 @@ use-debug
 	..math.Num
 	..private.bootstrap p+!
 	..Try fails?
-	.index contains?
+	.Type contains?
 
 make-callable-method = |method
 	src = buildStr |add!

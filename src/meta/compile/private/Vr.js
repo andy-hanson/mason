@@ -1,7 +1,7 @@
 import Expression, { BlockWrap, CaseVal, LocalAccess } from '../Expression'
-import { assert } from './U'
 import { isEmpty } from './U/Bag'
 import type from './U/type'
+import { assert } from './U/util'
 import { ObjType } from './U/types'
 
 const Vr = ObjType('Vr', Object, {

@@ -2,7 +2,7 @@ use
 	..math.Num Nat
 	..Type.Kind _ kind! self-kind!
 	..Type.Method
-	..@
+	.@
 	.@!
 	.@-Type _ empty
 	.?
@@ -12,7 +12,7 @@ use~
 use-debug
 	..!
 	..compare =?
-	..@ empty?
+	.@ empty?
 	.Array!
 	.Seq seq=?
 

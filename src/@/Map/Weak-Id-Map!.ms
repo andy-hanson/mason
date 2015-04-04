@@ -7,7 +7,7 @@ use
 	..@! empty!
 	..@-Type empty
 	..? Opt->?
-	..Map ?get has-key? keys
+	.Map ?get has-key? keys
 	.Map-Type
 	.Map! _ assoc! un-assoc!
 

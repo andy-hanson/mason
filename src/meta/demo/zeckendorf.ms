@@ -1,13 +1,13 @@
 use
 	...!
-	...@ fold-map
+	...@.@ fold-map
 	...@.Seq reverse tail take-while
 	...@.Stream
 	...compare =? <=?
 	...math.Num Nat
 	...math.methods + -
 	...Str
-	...Type =>
+	...Type.Type =>
 
 fibs =
 	rec = ~|prev:Nat cur:Nat

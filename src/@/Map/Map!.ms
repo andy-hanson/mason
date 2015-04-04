@@ -2,10 +2,10 @@ use
 	...Type.Kind _ kind! self-kind!
 	...Type.Method _ self-impl!
 	...Type.Pred-Type Any
-	...@ _ each! empty?
+	..@ _ each! empty?
 	..@-Type empty
 	..?
-	..Map _ ?get
+	.Map _ ?get
 	.Map-Type
 use~
 	.Hash-Map!
@@ -15,13 +15,13 @@ use-debug
 	...compare _ =?
 	...control if!
 	...math.methods *
-	...Type =>
 	...Type.Method impl!
 	...Type.Wrap-Type
-	...@ map
+	...Type.Type =>
+	..@ map
 	..@! empty!
 	..Set set=?
-	..Map has-key? keys
+	.Map has-key? keys
 	.Weak-Id-Map!
 
 Map! = Kind

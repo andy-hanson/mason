@@ -7,7 +7,7 @@ use
 	.Priority-Queue! _ ?pop!
 	..Type.Kind kind! self-kind!
 	..Type.Wrap-Type
-	..@ count each! empty? iterator map'
+	.@ count each! empty? iterator map'
 	.@! ++! empty!
 	.@-Type _ empty
 	.? un-?

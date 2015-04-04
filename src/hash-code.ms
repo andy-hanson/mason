@@ -1,5 +1,5 @@
 use
-	.@ empty? fold map
+	.@.@ empty? fold map
 	.@.@-Type empty
 	.@.Map.Weak-Id-Map!
 	.Bool

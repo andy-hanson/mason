@@ -2,9 +2,9 @@ import { code } from '../../CompileError'
 import { LocalDeclare } from '../../Expression'
 import { JsGlobals } from '../Lang'
 import { Group, Keyword, Name } from '../Token'
-import { assert } from '../U'
 import { None, some } from '../U/Op'
 import type from '../U/type'
+import { assert } from '../U/util'
 import parseSpaced from './parseSpaced'
 
 export default px => px.tokens.map(t => px.wt(t, parseLocalDeclare))

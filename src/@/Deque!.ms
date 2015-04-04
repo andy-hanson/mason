@@ -10,7 +10,7 @@ use
 	..Type.Kind kind! self-kind!
 	..Type.Pred-Type Any
 	..Type.Obj-Type
-	..@ _ ++ count each! empty? iterator map map'
+	.@ _ ++ count each! empty? iterator map map'
 	.@! empty!
 	.@-Type _ empty
 	.? un-?

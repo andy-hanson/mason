@@ -1,6 +1,6 @@
 import Span, { Pos, StartPos } from '../Span'
-import { assert, set } from '../U'
 import type from '../U/type'
+import { assert, set } from '../U/util'
 
 export default class Stream {
 	constructor(str) {

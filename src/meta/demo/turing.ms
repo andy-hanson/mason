@@ -1,5 +1,5 @@
 use
-	...@ count empty?
+	...@.@ count empty?
 	...@.Deque!
 	...@.Seq
 	...@.Seq! <++! ++>! set-nth!
@@ -7,7 +7,7 @@ use
 	...control End-Loop if! loop
 	...math.methods + -
 	...Obj _ p
-	...Type =>
+	...Type.Type =>
 	...Type.Pred-Type Any
 
 region Rule results

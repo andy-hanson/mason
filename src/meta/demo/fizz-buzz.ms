@@ -1,11 +1,11 @@
 use
-	...@ empty? flat-map map
+	...@.@ empty? flat-map map
 	...@.Range range
 	...control if
 	...math.Num divisible? infinity Nat
 	...Obj Obj->Map
 	...Str
-	...Type =>
+	...Type.Type =>
 use-debug
 	...!
 	...@.Seq seq=? take

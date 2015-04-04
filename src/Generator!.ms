@@ -1,5 +1,5 @@
 use
-	.@ _ iterator
+	.@.@ _ iterator
 	.@.@-Type empty
 	.@.?
 	.Bool _ and
@@ -7,7 +7,7 @@ use
 	.Js-Method
 	.private.js-impl eachGenerator
 	.Obj
-	.Type contains?
+	.Type.Type contains?
 	.Type.Pred-Type _ Any
 use-debug
 	.!

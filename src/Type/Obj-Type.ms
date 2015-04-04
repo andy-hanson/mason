@@ -9,7 +9,7 @@ use-debug
 	..private.js-impl addOne
 	..math.Num
 	..Try fails?
-	..Type type-of
+	.Type type-of
 
 if! = |bool act
 	case!

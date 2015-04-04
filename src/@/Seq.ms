@@ -6,10 +6,10 @@ use
 	..math.methods - +
 	..methods freeze sub
 	..Str indent
-	..Type => type-of
 	..Type.Kind _ kind! self-kind!
 	..Type.Method _ impl! self-impl!
-	..@ _ ++ count empty? iterator
+	..Type.Type => type-of
+	.@ _ ++ count empty? iterator
 	.@-Type _ empty from-stream
 use~
 	..control Ref! get mod! set!

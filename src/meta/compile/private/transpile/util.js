@@ -4,10 +4,10 @@ import { ArrayExpression, AssignmentExpression, BreakStatement, CallExpression, 
 	member, thunk, idCached, idNew } from '../esast'
 import { KAssign } from '../Lang'
 import Span from '../Span'
-import { assert } from '../U'
 import { flatMap, isEmpty, unshift } from '../U/Bag'
 import { ifElse, None } from '../U/Op'
 import type from '../U/type'
+import { assert } from '../U/util'
 import Tx from './Tx'
 
 export const t = (tx, arg, arg2, arg3) => expr => {

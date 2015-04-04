@@ -1,7 +1,7 @@
 import { PluginError, replaceExtension } from 'gulp-util'
 import { obj } from 'through2'
 import applySourceMap from 'vinyl-sourcemaps-apply'
-import compile from './index'
+import compile from './compile'
 import CompileError from './CompileError'
 import formatCompileErrorForConsole, { formatWarningForConsole }
 	from './formatCompileErrorForConsole'

@@ -1,4 +1,4 @@
-import { assert } from './index'
+import { assert } from './util'
 
 /*
 Cheap-ass option type.

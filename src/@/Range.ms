@@ -1,5 +1,4 @@
 use
-	..@ _ count iterator
 	..compare <? <=?
 	..control if opr Ref! get set!
 	..Fun noop thunk
@@ -9,6 +8,7 @@ use
 	..Type.Kind kind! self-kind!
 	..Type.Pred-Type Opt
 	..Type.Obj-Type
+	.@ _ count iterator
 	.@-Type _ empty from-stream
 	.Seq ?nth
 use-debug

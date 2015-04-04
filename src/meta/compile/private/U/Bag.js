@@ -1,4 +1,4 @@
-import { assert } from './index'
+import { assert } from './util'
 import { None, some } from './Op'
 import type from './type'
 

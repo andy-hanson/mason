@@ -2,10 +2,10 @@ import { code } from '../../CompileError'
 import { LocalDeclare, Use, UseDo } from '../../Expression'
 import { UseKeywords } from '../Lang'
 import Token, { DotName, Group, Keyword, Name } from '../Token'
-import { assert, lazy } from '../U'
-import { None } from '../U/Op'
 import { repeat, tail } from '../U/Bag'
+import { None } from '../U/Op'
 import type from '../U/type'
+import { assert, lazy } from '../U/util'
 import Px from './Px'
 // TODO:ES6
 const

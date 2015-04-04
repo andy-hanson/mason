@@ -1,7 +1,7 @@
 import { Assign, Call, GlobalAccess, ObjReturn, ObjSimple, Yield, YieldTo } from '../../Expression'
 import { Keyword } from '../Token'
 import type from '../U/type'
-import { assert, lazy } from '../U'
+import { assert, lazy } from '../U/util'
 import { GeneratorKeywords, KFun } from '../Lang'
 import { ifElse } from '../U/Op'
 import { cons, head, isEmpty, last, push, rtail, tail } from '../U/Bag'

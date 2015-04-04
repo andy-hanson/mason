@@ -1,6 +1,6 @@
 use-debug
 	...! _ !not
-	...@ _ count map
+	...@.@ _ count map
 	...@.@-Type empty
 	...@.Array!
 	...@.Seq seq=?

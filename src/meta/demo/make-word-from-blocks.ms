@@ -1,16 +1,16 @@
 use
-	...@ _ ++ --' empty? flat-map keep map
+	...@.@ _ ++ --' empty? flat-map keep map
 	...@.?
 	...@.Seq _ ?first tail
 	...Str _ ->upper
-	...Type contains?
+	...Type.Type contains?
 use-debug
 	...!
-	...@ each!
+	...@.@ each!
 	...@.Stream
 	...compare =?
 	...Str split-str
-	...Type =>
+	...Type.Type =>
 
 make-word-from-blocks.
 	doc. "http://rosettacode.org/wiki/ABC_Problem"

@@ -3,7 +3,7 @@ use
 	.js id=?
 	.Type.Method
 use~
-	.@ _ all? empty? iterator
+	.@.@ _ all? empty? iterator
 	.@.@-Type from-stream
 	.@.Array!
 	.@.? un-?
@@ -14,7 +14,7 @@ use~
 	.Type.Pred-Type Opt
 use-debug
 	.!
-	.@ count
+	.@.@ count
 	.@.?
 	.@.@-Type empty
 	.Try fails?

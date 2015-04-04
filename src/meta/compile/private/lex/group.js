@@ -1,10 +1,10 @@
 import { GroupOpenToClose } from '../Lang'
 import Span, { Pos, StartPos } from '../Span'
 import Token, { Group, Keyword } from '../Token'
-import { assert } from '../U'
 import { isEmpty, last } from '../U/Bag'
 import Slice from '../U/Slice'
 import type from '../U/type'
+import { assert } from '../U/util'
 import { ObjType } from '../U/types'
 import GroupPre from './GroupPre'
 

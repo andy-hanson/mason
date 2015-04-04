@@ -4,7 +4,7 @@ use
 	.Kind kind!
 	.Method impl!
 	.Obj-Type
-	..Type _ contains?
+	.Type _ contains?
 use-debug
 	..! _ !not
 	..@.?

@@ -4,8 +4,8 @@ use
 	..@.Seq! set-nth!
 	..Bool and
 	..control if
-	..Type contains?
 	..Type.Obj-Type
+	..Type.Type contains?
 	.methods * +
 	.Num Int Nat
 use-debug

@@ -4,10 +4,10 @@ use
 	..js js-set
 	..math.Num Nat
 	..methods frozen?
-	..Type =>
 	..Type.Kind kind! self-kind!
 	..Type.Pred-Type
-	..@ _ each! empty?
+	..Type.Type =>
+	.@ _ each! empty?
 	.@! empty!
 	.@-Type _ empty from-stream
 	.Seq! _ <++! ++>! ?<pop! ?pop>! set-nth!

@@ -6,9 +6,9 @@ use-debug
 	..! _ !not
 	..compare =?
 	..Obj! empty-Obj!
-	..Type contains?
 	.Kind kind?
 	.Method impl!
+	.Type contains?
 
 Impl-Type. Kind
 	doc. "

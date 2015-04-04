@@ -2,10 +2,10 @@ use
 	..control returning
 	..Fun identity
 	..methods sub
-	..Type =>
 	..Type.Kind _ self-kind!
 	..Type.Method _ impl! self-impl!
-	..@
+	..Type.Type =>
+	.@
 use~
 	.@! ++!
 use-debug
@@ -30,7 +30,7 @@ from-stream. Method
 		returning (empty type) |_
 			++! _ stream
 
-# TODO: Do this in index.ms
+# TODO: Do this in @.ms
 self-kind! @ @-Type
 self-impl! empty @ |
 	empty Array

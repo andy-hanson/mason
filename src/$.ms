@@ -1,15 +1,15 @@
 use
 	chalk red
-	.@ _ flatten map
+	.@.@ _ flatten map
 	.Bool
 	.control if
 	.Fun _ apply
 	.Generator!
 	.js new
 	.methods sub
-	.Type =>
 	.Type.Method self-impl!
 	.Type.Pred-Type Any
+	.Type.Type =>
 use~
 	.math.Num
 	.Try $catch

@@ -1,10 +1,10 @@
 use
-	..@ iterator
 	..Fun _ thunk
 	..Generator! _ empty-Generator
 	..Type.Kind kind! self-kind!
 	..Type.Method impl! self-impl!
 	..Type.Wrap-Type
+	.@ iterator
 	.@-Type _ empty from-stream
 	.Seq _
 use-debug

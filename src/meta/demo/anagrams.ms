@@ -1,7 +1,7 @@
 use
-	...@ count each! keep map
+	...@.@ count each! keep map
 	...@.@-Type empty
-	...@.Map values
+	...@.Map.Map values
 	...@.Map.Id-Map!
 	...@.Map.multi-map! add-to-@!
 	...compare =? max sort

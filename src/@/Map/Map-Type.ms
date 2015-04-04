@@ -4,9 +4,9 @@ use
 	...methods sub
 	...Type.Method impl! self-impl!
 	...Type.Kind _ kind! self-kind!
-	...@ _ each!
+	..@ _ each!
 	..@-Type _ empty from-stream
-	..Map
+	.Map
 use~
 	.Hash-Map!
 	.Map! assoc!

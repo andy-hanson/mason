@@ -4,10 +4,10 @@ use
 	.Type.Alias-Type
 	.Type.Method _ impl! self-impl!
 use~
-	.@ _ ++ each! map
+	.@.@ _ ++ each! map
 	.@.@-Type empty
 	.@.Seq rtail last
-	.@.Map
+	.@.Map.Map
 	.@.Map.Hash-Map!
 	.@.Map.Map! get-or-add!
 	.@.Map.Weak-Id-Map!

@@ -1,6 +1,6 @@
 import { JsGlobals } from '../Lang'
-import { setUnion } from '../U'
 import type from '../U/type'
+import { setUnion } from '../U/util'
 
 export default name =>
 	forbiddenNames.has(name) ?

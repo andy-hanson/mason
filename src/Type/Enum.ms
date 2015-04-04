@@ -1,18 +1,18 @@
 use
-	..@ each!
+	..@.@ each!
 	..Obj
 	..Obj! p+!
 	..show
 	..Str
-	..Type contains?
 	.Impl-Type
 	.Kind kind!
 	.Method impl!
 	.Obj-Type
+	.Type contains?
 use-debug
 	..!
 	..compare =?
-	..Type type-of
+	.Type type-of
 
 Enum = Obj-Type
 	doc. "

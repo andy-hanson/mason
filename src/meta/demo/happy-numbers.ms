@@ -1,5 +1,5 @@
 use
-	...@ each! fold keep map
+	...@.@ each! fold keep map
 	...@.@! ++!
 	...@.@-Type empty
 	...@.Array!
@@ -12,7 +12,7 @@ use
 	...js defined? js-sub
 	...math.Num _ infinity Nat square
 	...math.methods +
-	...Type contains?
+	...Type.Type contains?
 use-debug
 	...!
 	...@.Seq seq=? take

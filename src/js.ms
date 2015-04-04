@@ -2,12 +2,12 @@ use
 	.private.bootstrap Fun
 	.private.js-impl iNew
 use~
-	.@
+	.@.@
 	.Bool _ not
-	.Type =>
+	.Type.Type =>
 use-debug
 	.! _ !not
-	.@ each!
+	.@.@ each!
 	.compare =?
 	.math.methods +
 	.math.Num

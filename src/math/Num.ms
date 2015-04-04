@@ -11,7 +11,7 @@ use-debug
 	..! _ !not
 	..Fun spread!
 	..Try fails?
-	..Type contains?
+	..Type.Type contains?
 
 Num =
 	doc. "

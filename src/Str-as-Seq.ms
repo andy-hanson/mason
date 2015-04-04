@@ -1,5 +1,5 @@
 use
-	.@ _ count iterator map
+	.@.@ _ count iterator map
 	.@.@-Type _ empty from-stream
 	.@.Seq
 	.compare sort
@@ -7,11 +7,11 @@ use
 	.Fun _ noop thunk
 	.show
 	.Str
-	.Type =>
 	.Type.Impl-Type self-type
 	.Type.Kind kind! self-kind!
 	.Type.Method impl! impl-double! impl-for
 	.Type.Pred-Type Opt
+	.Type.Type =>
 use-debug
 	.!
 	.compare =?

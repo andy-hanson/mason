@@ -1,11 +1,11 @@
 use
 	...$ _ $after $all $ing
 	...! _ !call
-	...@ _ ++ each! flatten flat-map map
+	...@.@ _ ++ each! flatten flat-map map
 	...@.@-Type empty
 	...@.? ?-or
 	...@.Id-Set!
-	...@.Map
+	...@.Map.Map
 	...Bool _ and or
 	...compare =?
 	...control if
@@ -14,11 +14,11 @@ use
 	...Obj _ ?p p p? @p @p-all
 	...Str
 	...Try $annotate-errors annotate-errors oh-no! Success try
-	...Type contains?
 	...Type.Impl-Type
 	...Type.Kind _ concrete-implementors
 	...Type.Method _ impl! impl-for
 	...Type.Pred-Type ObjLit
+	...Type.Type contains?
 	..modules $@module-in-dir
 use-debug
 	...control build

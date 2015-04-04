@@ -6,11 +6,11 @@ use
 	...Obj! p!
 	...Type.Kind kind! self-kind!
 	...Type.Obj-Type
-	...@ empty?
+	..@ empty?
 	..@! empty!
 	..@-Type empty
 	..Stream
-	..Map ?get keys
+	.Map ?get keys
 	.Map! assoc! un-assoc!
 	.Map-Type
 	.Sorted-Map!

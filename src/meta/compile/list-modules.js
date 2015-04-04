@@ -6,7 +6,7 @@ import { BlockDo, Call, ELiteral, ListSimple, Module,
 import Cx from './private/Cx'
 import Opts from './private/Opts'
 import Span, { single, StartPos } from './private/Span'
-import transpile from './private/transpile'
+import transpile from './private/transpile/transpile'
 import { emptyVr } from './private/Vr'
 
 const name = 'modules-list'

@@ -8,9 +8,9 @@ use
 	.Kind kind!
 	.Method impl! self-impl!
 	.Obj-Type
-	..Type _ => contains?
+	.Type _ => contains?
 use~
-	..@ any?
+	..@.@ any?
 use-debug
 	..! _ !not
 	..Bool

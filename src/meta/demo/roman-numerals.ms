@@ -6,7 +6,7 @@ use
 use-debug
 	...!
 	...@.Range range
-	...Type contains?
+	...Type.Type contains?
 
 
 roman-digits =

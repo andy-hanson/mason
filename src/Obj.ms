@@ -4,14 +4,14 @@ use
 	.js defined? js== js-typeof id=? js-sub
 	.methods freeze
 	.private.bootstrap Str
-	.Type => contains?
+	.Type.Type => contains?
 	.Type.Kind
 use~
-	.@ _ ++ all? count each! empty? keep
+	.@.@ _ ++ all? count each! empty? keep
 	.@.@-Type empty
 	.@.? _ Opt->?
 	.@.Id-Set!
-	.@.Map _ make-map
+	.@.Map.Map _ make-map
 	.control returning
 	.Fun
 	.Obj! empty-Obj! p+!

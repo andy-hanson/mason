@@ -1,12 +1,12 @@
 use
-	..@ each! iterator
 	..compare =?
 	..Type.Kind kind! self-kind!
 	..Type.Method impl! impl-for
 	..Type.Obj-Type
+	.@ each! iterator
 	.@! ++! --! empty!
 	.@-Type _ empty
-	.Map keys
+	.Map.Map keys
 	.Map.Hash-Map!
 	.Map.Map! assoc! un-assoc!
 	.Set

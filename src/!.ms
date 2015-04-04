@@ -3,15 +3,15 @@ use
 	.compare =?
 	.private.bootstrap Fun
 use~
-	.@ _ each! map
-	.@.Map
+	.@.@ _ each! map
+	.@.Map.Map
 	.control if!
 	.Fun Pred
 	.show repr
 	.Str _ indent
 	.Try oh-no!
-	.Type =>
 	.Type.Pred-Type Any
+	.Type.Type =>
 use-debug
 	.compare same?
 	.math.methods +

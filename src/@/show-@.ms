@@ -3,9 +3,9 @@ use
 	..Obj flag?
 	..show
 	..Str _ indent
-	..Type => type-of
+	..Type.Type => type-of
 	..Type.Method impl! impl-for
-	..@ _ count empty? map
+	.@ _ count empty? map
 	.Seq take
 use-debug
 	.@-Type empty

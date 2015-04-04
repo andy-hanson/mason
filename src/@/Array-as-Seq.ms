@@ -9,7 +9,7 @@ use
 	..methods freeze
 	..Type.Kind kind! self-kind!
 	..Type.Method impl! self-impl!
-	..@ count iterator
+	.@ count iterator
 	.@-Type _ empty from-stream
 	.Seq _ ?nth
 use~

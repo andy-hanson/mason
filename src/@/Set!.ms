@@ -8,8 +8,8 @@ use~
 	.Hash-Set!
 use-debug
 	..! _ !not
-	..Type contains?
-	..@ empty?
+	..Type.Type contains?
+	.@ empty?
 	.@! ++! --! empty!
 
 Set! = Kind

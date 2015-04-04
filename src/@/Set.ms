@@ -1,15 +1,15 @@
 use
 	..Bool and
 	..compare =? same?
-	..Type => contains? type-of
+	..Type.Type => contains? type-of
 	..Type.Kind _ kind! self-kind!
 	..Type.Method _ impl!
-	..@ _ all? count keep
+	.@ _ all? count keep
 	.@-Type _ empty from-stream
 use~
 	.Hash-Set!
 use-debug
-	..@ --
+	.@ --
 	.Stream
 
 Set = Kind

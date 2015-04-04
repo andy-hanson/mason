@@ -4,7 +4,7 @@ import { ArrayExpression, BinaryExpression, BlockStatement, CallExpression,
 	Program, ReturnStatement, UnaryExpression, VariableDeclaration, VariableDeclarator,
 	assignmentExpressionPlain, member, idSpecialCached }
 	from '../esast'
-import { fixupPath } from '../manglePath'
+import manglePath from '../manglePath'
 import { flatMap, isEmpty, last, push } from '../U/Bag'
 import { opIf } from '../U/Op'
 import { t, IdDefine, IdExports, IdModule,
@@ -29,7 +29,7 @@ define(['exports', 'a', 'b', 'c'], function(exports) {
 export default (_, tx) => {
 	const allUses = _.doUses.concat(_.uses, _.debugUses)
 	const amdNames = ArrayExpression(AmdFirstUses.concat(
-		allUses.map(use => Literal(fixupPath(use.path, tx)))))
+		allUses.map(use => Literal(manglePath(use.path, tx)))))
 	const useIdentifiers = allUses.map(useIdentifier)
 	const amdArgs = AmdFirstArgs.concat(useIdentifiers)
 	const useDos = _.doUses.map((use, i) => {

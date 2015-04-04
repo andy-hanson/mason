@@ -1,16 +1,16 @@
 use
 	..Type.Kind _ kind! self-kind!
 	..Type.Method _ self-impl!
-	..@
+	.@
 	.@-Type _ empty
 use~
 	.Array!
 	.Seq! ++>!
 use-debug
 	..! _ !not
-	..@ each! empty?
 	..compare =?
-	..Type contains?
+	..Type.Type contains?
+	.@ each! empty?
 
 @! = Kind
 	doc. "Mutable @."

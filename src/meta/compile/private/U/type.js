@@ -1,5 +1,5 @@
-import { assert } from './index'
 import Op from './Op'
+import { assert } from './util'
 
 export default function type() {
 	if (!global.DEBUG)

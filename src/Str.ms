@@ -7,7 +7,7 @@ use
 	.Type.Method impl!
 	.Type.Pred-Type
 use~
-	.@ count
+	.@.@ count
 
 Str =
 	doc. "JavaScript's native String type."

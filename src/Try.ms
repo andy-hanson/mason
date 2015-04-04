@@ -10,11 +10,11 @@ use
 	.Obj
 	.Obj! p! p+!
 	.Str
-	.Type _ contains? =>
 	.Type.Method self-impl!
 	.Type.Obj-Type
 	.Type.Kind
 	.Type.Pred-Type Any Union
+	.Type.Type _ contains? =>
 	.Type.Wrap-Type
 use-debug
 	.! _ !not

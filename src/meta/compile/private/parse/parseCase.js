@@ -2,9 +2,9 @@ import { Assign, BlockWrap, CaseDo, CaseVal,
 	CaseDoPart, CaseValPart, LocalDeclare } from '../../Expression'
 import { CaseKeywords } from '../Lang'
 import { Keyword } from '../Token'
-import { lazy } from '../U'
 import { ifElse, None, opIf, some } from '../U/Op'
 import type from '../U/type'
+import { lazy } from '../U/util'
 import { justBlockDo, justBlockVal, takeBlockDoFromEnd, takeBlockValFromEnd,
 	takeBlockLinesFromEnd } from './parseBlock'
 import Px from './Px'

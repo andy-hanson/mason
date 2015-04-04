@@ -12,7 +12,7 @@ use~
 	.@.Array!
 	.@.Seq
 	.@.Seq! ++>!
-	.@.Map _ ?get
+	.@.Map.Map _ ?get
 	.Try oh-no!
 use-debug
 	.! _ !call
