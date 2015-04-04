@@ -15,21 +15,26 @@ export default function gulpMs(opts) {
 	if (opts.checks === undefined)
 		opts.checks = true
 
-	return obj((file, enc, cb) => {
+	return obj(function(file, enc, cb) {
 		if (opts.verbose)
 			console.log(`Compiling ${file.path}`)
 		if (file.isNull())
 			cb(null, file)
-		else if (file.isStream())
-			cb(new PluginError(Name, 'Streaming not supported'))
+		else if (file.isStream()) {
+			this.emit('error', new PluginError(Name, 'Streaming not supported'))
+			return cb()
+		}
 		else {
 			const src = file.contents.toString('utf8')
 			const outFile = manglePath(replaceExtension(file.path, '.js'))
 			const { warnings, result } = compile(src, file.path, opts)
 			warnings.forEach(w => console.log(formatWarningForConsole(w, file.path)))
 			if (result instanceof CompileError) {
-				console.log(formatCompileErrorForConsole(result, file.path))
-				cb(new PluginError(Name, result.message))
+				const message = formatCompileErrorForConsole(result, file.path)
+				// Not cb(new PluginError(...)).
+				// See https://github.com/gulpjs/gulp/issues/71#issuecomment-53942279
+				this.emit('error', new PluginError(Name, message))
+				return cb()
 			} else {
 				const { code, sourceMap } = result
 				applySourceMap(file, sourceMap)

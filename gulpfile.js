@@ -7,7 +7,7 @@ const
 	fs = require('q-io/fs'),
 	header = require('gulp-header'),
 	gulp = require('gulp'),
-	// plumber = require('gulp-plumber'), TODO
+	plumber = require('gulp-plumber'),
 	requirejs = require('requirejs'),
 	sourcemaps = require('gulp-sourcemaps'),
 	watch = require('gulp-watch')
@@ -23,9 +23,8 @@ gulp.task('run', function() {
 })
 
 function src(glob) { return gulp.src(glob) }
-// TODO: `.pipe(plumber())` causes watch-ms to not recognize changes.
 function watchVerbose(glob, then) { return watch(glob, { verbose: true }, then) }
-function srcWatch(glob) { return src(glob).pipe(watchVerbose(glob)) }
+function srcWatch(glob) { return src(glob).pipe(watchVerbose(glob)).pipe(plumber()) }
 
 function writeListModules() {
 	// Required lazily because 'js' task must run first.
@@ -35,7 +34,7 @@ function writeListModules() {
 	}).done()
 }
 gulp.task('list-modules', [ 'js', 'ms' ], writeListModules)
-gulp.task('watch-list-modules', [ 'js', 'ms', 'list-modules' ], function() {
+gulp.task('watch-list-modules', function() {
 	const src = [ srcMs, srcJs ]
 	return watchVerbose(src, writeListModules)
 })
