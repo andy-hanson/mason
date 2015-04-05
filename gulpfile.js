@@ -35,7 +35,7 @@ function writeListModules() {
 }
 gulp.task('list-modules', [ 'js', 'ms' ], writeListModules)
 gulp.task('watch-list-modules', function() {
-	const src = [ srcMs, srcJs ]
+	const src = [ srcMs ].concat(srcJs)
 	return watchVerbose(src, writeListModules)
 })
 

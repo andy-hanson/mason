@@ -19,12 +19,12 @@ export default class Rx extends SubContext {
 		this.cur = oldCur
 		if (ast.loc)
 			return new SourceNode(
-				ast.loc.line,
-				ast.loc.column,
+				ast.loc.start.line,
+				ast.loc.start.column,
 				this.opts().modulePath(),
 				content)
 		else
-			return new SourceNode(null, null, null, content)
+			return content
 	}
 
 	e(ast) {
