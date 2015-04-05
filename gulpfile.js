@@ -14,12 +14,16 @@ const
 
 gulp.task('default', [ 'watch' ])
 
-gulp.task('all', [ 'js', 'ms', 'list-modules' ])
-gulp.task('watch', [ 'watch-js', 'watch-ms', 'watch-list-modules' ])
+gulp.task('all', [ 'bower', 'js', 'ms', 'list-modules' ])
+gulp.task('watch', [ 'bower', 'js-lib', 'watch-js', 'watch-ms', 'watch-list-modules' ])
 
 gulp.task('run', function() {
 	const test = require('./js/meta/run-all-tests')
 	_ms.getModule(test).default()
+})
+
+gulp.task('bower', function() {
+	return gulp.src('./bower.json').pipe(gulp.dest('js'))
 })
 
 function src(glob) { return gulp.src(glob) }
@@ -28,13 +32,13 @@ function srcWatch(glob) { return src(glob).pipe(watchVerbose(glob)).pipe(plumber
 
 function writeListModules() {
 	// Required lazily because 'js' task must run first.
-	const listModules = require('./js/meta/compile/list-modules')
-	return listModules('./js').then(function(js) {
+	const listModules = require('./js/meta/compile/node-only/list-modules')
+	return listModules('./js', { exclude: /meta\/compile\/node-only\/.*/ }).then(function(js) {
 		return fs.write('./js/modules-list.js', js)
 	}).done()
 }
 gulp.task('list-modules', [ 'js', 'ms' ], writeListModules)
-gulp.task('watch-list-modules', function() {
+gulp.task('watch-list-modules', [ 'list-modules' ], function() {
 	const src = [ srcMs ].concat(srcJs)
 	return watchVerbose(src, writeListModules)
 })
@@ -48,7 +52,7 @@ gulp.task('run-requirejs', function() {
 })
 
 gulp.task('test-compile', function() {
-	require('./js/meta/compile/test-compile')()
+	require('./js/meta/compile/node-only/test-compile')()
 })
 
 const
@@ -59,7 +63,7 @@ const
 
 function pipeMs(stream) {
 	// This can only be required after we've created it, so 'ms' task depends on 'js'.
-	const ms = require('./js/meta/compile/gulp-ms')
+	const ms = require('./js/meta/compile/node-only/gulp-mason')
 	return stream
 	.pipe(sourcemaps.init())
 	.pipe(ms({ verbose: true }))

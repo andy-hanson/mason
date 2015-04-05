@@ -1,7 +1,6 @@
 use!
 	..Str-as-Seq # => Str
 use
-	chalk blue
 	..@.@ each!
 	..show
 	..Str
@@ -27,11 +26,11 @@ region Debugging
 	dbg!.
 		doc. "Show something for debugging."
 		|...args
-			warn! (blue "-->"
+			warn! "-->"
 			each! args |_
 				warn! (show _
 					repr. # TODO:SYNTAX [ repr. ]
-			warn! (blue "<--"
+			warn! "<--"
 
 	trace!.
 		doc. "Logs the current stacktrace."

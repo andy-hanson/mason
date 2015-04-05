@@ -1,4 +1,4 @@
-import { basename, extname } from 'path'
+import { last } from './U/Bag'
 import { ObjType } from './U/types'
 
 const Opts = ObjType('Opts', Object, {
@@ -19,6 +19,9 @@ Object.assign(Opts.prototype, {
 	includeCaseChecks() { return this.checks }
 })
 
-function noExt(name) {
-	return name.substring(0, name.length - extname(name).length)
-}
+const basename = path =>
+	last(path.split('/'))
+const extname = path =>
+	last(path.split('.'))
+const noExt = path =>
+	path.substring(0, path.length - extname(path).length)

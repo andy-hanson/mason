@@ -9,7 +9,7 @@ var
 	stylus = require('gulp-stylus'),
 	watch = require('gulp-watch')
 
-gulp.task('default', [ 'view', 'style', 'lint', 'lib', 'script', 'serve' ])
+gulp.task('default', [ 'view', 'style', 'lint', 'mason', 'lib', 'script', 'serve' ])
 
 function watchStream(name) {
 	var glob = 'assets/' + name + '/**/*'
@@ -33,6 +33,11 @@ gulp.task('lib', function() {
 	return gulp.src('bower_components/**/*', { base: 'bower_components' })
 	.pipe(watch('bower_components', { verbose: true }))
 	.pipe(gulp.dest('public/lib'))
+})
+gulp.task('mason', function() {
+	return gulp.src('../js/**/*')
+	.pipe(watch('../js/**/*', { verbose: true }))
+	.pipe(gulp.dest('bower_components/mason'))
 })
 
 gulp.task('script', function() {

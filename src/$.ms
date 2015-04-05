@@ -1,5 +1,4 @@
 use
-	chalk red
 	.@.@ _ flatten map
 	.Bool
 	.control if
@@ -44,7 +43,7 @@ $done.
 			# Don't use log! because there if errors happen in there, the error disappears!
 			global.console.log "
 				{err.stack}
-				{red "==="}
+				{"==="}
 
 $fail-after-time.
 	doc. "Fails if it takes too long."

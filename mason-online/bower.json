@@ -1,6 +1,7 @@
 {
 	"name": "mason-online",
 	"dependencies": {
+		"mason": "../js",
 		"codemirror": "5.1.0",
 		"es6-shim": "0.27.1",
 		"font-awesome": "4.3.0",
