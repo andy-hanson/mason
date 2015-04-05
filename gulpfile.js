@@ -51,8 +51,11 @@ gulp.task('test-compile', function() {
 	require('./js/meta/compile/test-compile')()
 })
 
-const srcMs = 'src/**/*.ms', srcJs = 'src/**/*.js'
-const dest = 'js'
+const
+	srcMs = 'src/**/*.ms',
+	libJs = 'src/meta/compile/private/render/source-map/**/*.js',
+	srcJs = [ 'src/**/*.js', '!' + libJs ],
+	dest = 'js'
 
 function pipeMs(stream) {
 	// This can only be required after we've created it, so 'ms' task depends on 'js'.
@@ -94,7 +97,12 @@ function pipeJs(stream) {
 	.pipe(gulp.dest(dest))
 }
 
-gulp.task('js', function() { return pipeJs(src(srcJs)) })
+gulp.task('js', [ 'js-lib' ], function() {
+	return pipeJs(src(srcJs))
+})
+gulp.task('js-lib', function() {
+	return gulp.src(libJs).pipe(gulp.dest('js/meta/compile/private/render/source-map'))
+})
 gulp.task('watch-js', function() { return pipeJs(srcWatch(srcJs)) })
 
 gulp.task('ms', [ 'js' ], function() { return pipeMs(src(srcMs)) })
@@ -104,7 +112,7 @@ gulp.task('lint', function() {
 	// For some reason, requiring this makes es6-shim unhappy.
 	// So, can't lint and do other things in the same task.
 	const eslint = require('gulp-eslint')
-	return src([ './*.js', srcJs ])
+	return src([ './*.js' ].concat(srcJs))
 	.pipe(eslint())
 	.pipe(eslint.format())
 })

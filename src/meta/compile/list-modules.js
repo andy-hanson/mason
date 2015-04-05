@@ -5,7 +5,7 @@ import Cx from './private/Cx'
 import Opts from './private/Opts'
 import { single, StartPos } from './private/Span'
 import transpile from './private/transpile/transpile'
-import render from './private/render'
+import render from './private/render/render'
 import { emptyVr } from './private/Vr'
 
 // Searches a directory and creates a module whose default export is

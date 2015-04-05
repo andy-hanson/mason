@@ -4,7 +4,7 @@ import { ESNode } from './private/esast'
 import Cx from './private/Cx'
 import lex from './private/lex/lex'
 import parse from './private/parse/parse'
-import render from './private/render'
+import render from './private/render/render'
 import transpile from './private/transpile/transpile'
 import verify from './private/verify/verify'
 import { log } from './private/U/util'
@@ -45,8 +45,9 @@ export default () => {
 	const
 		eSize = treeSize(e, _ => _ instanceof Expression),
 		astSize = treeSize(ast, _ => _ instanceof ESNode)
-	log(`Expression tree size: ${eSize.size}`)
-	log(`ES AST size: ${astSize.size}, nLeaves: ${astSize.nLeaves}`)
+	log(`Expression tree size: ${eSize.size}.`)
+	log(`ES AST size: ${astSize.size}, nLeaves: ${astSize.nLeaves}.`)
+	log(`Output size: ${code.length} characters.`)
 	log(`==>\n${code}`)
 }
 

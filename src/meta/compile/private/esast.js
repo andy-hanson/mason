@@ -81,7 +81,7 @@ export const
 
 	BreakStatement = es('BreakStatement', 'label', nullable(Identifier)),
 
-	SwitchCase = e('SwitchCase', 'test', Expression, 'consequent', Statement),
+	SwitchCase = e('SwitchCase', 'test', Expression, 'consequent', [Statement]),
 	SwitchStatement = es('SwitchStatement',
 		'discriminant', Expression, 'cases', [SwitchCase], 'lexical', Boolean)
 
