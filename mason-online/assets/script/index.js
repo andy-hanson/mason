@@ -8,6 +8,6 @@ window.requirejs.config({
 	}
 })
 
-require([ 'mason/private/boot-order' ], () =>
-	require([ 'mason/meta/run-all-tests' ], rat => _ms.getModule(rat).default()))
-require([ './main' ], () => { }, err => { throw err })
+// require([ 'mason/private/boot-order' ], () =>
+//	require([ 'mason/meta/run-all-tests' ], rat => _ms.getModule(rat).default()))
+require([ './mason-editor/mason-editor' ])

@@ -97,5 +97,5 @@ const keywords = new Set([
 	'in', 'out', 'res',
 	'_',
 	'loop!', 'end-loop!',
-	'<~', '<~'
+	'=', '<~', '<~'
 ])

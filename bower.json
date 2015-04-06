@@ -1,0 +1,9 @@
+{
+	"name": "mason",
+	"//": "This file will be copied to ./js.",
+	"main": "**/*",
+	"ignore": [ "meta/compile/node-only" ],
+	"moduleType": "amd",
+	"license": "WTFPL",
+	"private": true
+}

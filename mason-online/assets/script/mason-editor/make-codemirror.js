@@ -8,10 +8,9 @@ export default (domElement, opts) => {
 		indentUnit: 4,
 		indentWithTabs: true,
 		lineNumbers: true,
-		// TODO: This doesn't seem to do anything...
-		matchBrackets: true,
+		lineWrapping: true,
 		mode: 'mason',
-		theme: 'monokai',
+		theme: 'eclipse',
 		// Entire CodeMirror is rendered. We expect small scripts.
 		viewportMargin: Infinity
 	}
