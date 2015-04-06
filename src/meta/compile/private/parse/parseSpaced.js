@@ -5,11 +5,11 @@ import { unshift } from '../U/Bag'
 import type from '../U/type'
 import { assert, lazy } from '../U/util'
 import Px from './Px'
-const
-	parseSingle_ = lazy(() => require('./parseSingle')),
-	parseExpr_ = lazy(() => require('./parseExpr'))
+import parseSingle from './parseSingle'
+// TODO:ES6
+import * as PE from './parseExpr'
 
-export default function parseSpaced(px) {
+export function parseSpaced(px) {
 	type(px, Px)
 	const h = px.tokens.head(), rest = px.tokens.tail()
 	switch (true) {
@@ -30,7 +30,7 @@ export default function parseSpaced(px) {
 				} else if (t instanceof Group) {
 					if (t.k === '[')
 						return Call.sub(span,
-							unshift(e, px.w(t.tokens, parseExpr_().parseExprParts)))
+							unshift(e, px.w(t.tokens, PE.parseExprParts)))
 					if (t.k === '(') {
 						px.check(t.tokens.isEmpty(), span,
 							() => `Use ${code('(a b)')}, not ${code('a(b)')}`)
@@ -38,7 +38,7 @@ export default function parseSpaced(px) {
 					}
 				} else px.fail(span, `Expected member or sub, not ${t}`)
 			}
-			return rest.reduce(memberOrSubscript(px), px.wt(h, parseSingle_()))
+			return rest.reduce(memberOrSubscript(px), px.wt(h, parseSingle))
 		}
 	}
 }

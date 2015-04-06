@@ -6,11 +6,12 @@ import { head, isEmpty, last, opSplitOnceWhere } from '../U/Bag'
 import { ifElse, some } from '../U/Op'
 import type from '../U/type'
 import { assert } from '../U/util'
-import { justBlockDo, parseLinesFromBlock } from './parseBlock'
-import parseCase from './parseCase'
+import { parseCase } from './parseCase'
 import parseExpr from './parseExpr'
 import parseLocalDeclares from './parseLocalDeclares'
 import Px from './Px'
+// TODO:ES6
+import * as PB from './parseBlock'
 
 // Returns line or sq of lines
 export default function parseLine(px) {
@@ -30,7 +31,7 @@ export default function parseLine(px) {
 			case 'debug':
 				return Group.isBlock(px.tokens.second()) ?
 					// `debug`, then indented block
-					Debug(px.span, parseLinesFromBlock(px)) :
+					Debug(px.span, PB.parseLinesFromBlock(px)) :
 					// `debug`, then single line
 					Debug(px.span, px.w(rest, parseLineOrLines))
 			case 'debugger':
@@ -40,9 +41,9 @@ export default function parseLine(px) {
 				px.checkEmpty(rest, () => `Did not expect anything after ${h}`)
 				return EndLoop(px.span)
 			case 'loop!':
-				return Loop(px.span, px.w(rest, justBlockDo))
+				return Loop(px.span, px.w(rest, PB.justBlockDo))
 			case 'region':
-				return parseLinesFromBlock(px)
+				return PB.parseLinesFromBlock(px)
 			default:
 				// fall through
 		}

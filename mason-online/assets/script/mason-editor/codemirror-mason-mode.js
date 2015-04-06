@@ -1,4 +1,4 @@
-import CodeMirror from 'codemirror'
+import CodeMirror from '../../lib/codemirror/lib/codemirror'
 
 CodeMirror.defineMode('mason', () => {
 	// Declares styles for various Mason tokens.
@@ -13,21 +13,20 @@ CodeMirror.defineMode('mason', () => {
 	return { startState, token, lineComment: '#' }
 })
 
-// Available styles:
 // atom bracket comment def error keyword link number property string tag variable variable-2
 const style = {
 	assignLocal: 'atom',
 	assignObj: 'keyword',
-	brace: 'bracket',
+	brace: 'keyword',
 	comment: 'comment',
 	focusCall: 'variable-2',
 	fun: 'def',
 	invalid: 'error',
 	keyword: 'keyword',
-	local: 'variable',
+	local: 'variable-3',
 	member: 'comment',
 	number: 'number',
-	plain: 'variable',
+	plain: 'variable-3',
 	region: 'comment',
 	string: 'string',
 	type: 'atom'
@@ -93,7 +92,7 @@ const keywords = new Set([
 	'this',
 	'use', 'use!', 'use~', 'use-debug',
 	'->',
-	'case!', 'case?', 'else',
+	'case', 'case!', 'else',
 	'in', 'out', 'res',
 	'_',
 	'loop!', 'end-loop!',

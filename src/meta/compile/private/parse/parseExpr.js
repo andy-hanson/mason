@@ -5,12 +5,12 @@ import { assert, lazy } from '../U/util'
 import { GeneratorKeywords, KFun } from '../Lang'
 import { ifElse } from '../U/Op'
 import { cons, head, isEmpty, last, push, rtail, tail } from '../U/Bag'
-import parseCase from './parseCase'
+import parseFun from './parseFun'
 import { parseLocalDeclare } from './parseLocalDeclares'
 import parseSingle from './parseSingle'
 import Px from './Px'
 // TODO:ES6
-const parseFun_ = lazy(() => require('./parseFun'))
+import * as PC from './parseCase'
 
 export default function parseExpr(px) {
 	return ifElse(px.tokens.opSplitManyWhere(Keyword.isObjAssign),
@@ -68,9 +68,9 @@ export function parseExprParts(px) {
 			const rest = () => px.tokens._new(i + 1, end)
 			switch (here.k) {
 				case '|': case '~|':
-					return push(out, px.w(rest(), parseFun_(), here.k))
+					return push(out, px.w(rest(), parseFun, here.k))
 				case 'case':
-					return push(out, px.w(rest(), parseCase, 'case', false))
+					return push(out, px.w(rest(), PC.parseCase, 'case', false))
 				case '<~':
 					return push(out, Yield(px.span, px.w(rest(), parseExpr)))
 				case '<~~':

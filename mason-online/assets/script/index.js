@@ -3,7 +3,6 @@ window.global = window
 window.requirejs.config({
 	paths: {
 		mason: '../lib/mason',
-		codemirror: '../lib/codemirror/lib/codemirror',
 		jquery: '../lib/jquery/dist/jquery.min'
 	}
 })

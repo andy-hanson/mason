@@ -4,12 +4,11 @@ import { CallOnFocus, DotName, Group, Keyword, Literal, Name } from '../Token'
 import { JsGlobals, SpecialKeywords } from '../Lang'
 import type from '../U/type'
 import { assert, lazy } from '../U/util'
-import parseSpaced from './parseSpaced'
 import Px from './Px'
 // TODO:ES6
-const
-	blockWrap_ = lazy(() => require('./parseBlock').blockWrap),
-	parseExpr_ = lazy(() => require('./parseExpr'))
+import * as PB from './parseBlock'
+import * as ParseExpr from './parseExpr'
+import * as PS from './parseSpaced'
 
 export default function parseSingle(px) {
 	type(px, Px)
@@ -30,11 +29,11 @@ export default function parseSingle(px) {
 			// Else fallthrough to fail
 		case t instanceof Group:
 			switch (t.k) {
-				case 'sp': return px.w(t.tokens, parseSpaced)
-				case '->': return px.w(t.tokens, blockWrap_(), 'val')
+				case 'sp': return px.w(t.tokens, PS.parseSpaced)
+				case '->': return px.w(t.tokens, PB.blockWrap, 'val')
 				case '"': return Quote(px.span, t.tokens.map(tSub => px.wt(tSub, parseSingle)))
-				case '(': return px.w(t.tokens, parseExpr_().default)
-				case '[': return ListSimple(px.span, px.w(t.tokens, parseExpr_().parseExprParts))
+				case '(': return px.w(t.tokens, ParseExpr.default)
+				case '[': return ListSimple(px.span, px.w(t.tokens, ParseExpr.parseExprParts))
 				default:
 					// fallthrough
 			}

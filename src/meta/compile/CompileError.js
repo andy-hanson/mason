@@ -16,5 +16,19 @@ CompileError.prototype = Object.create(Error.prototype)
 export const Warning = tuple(Object, 'span', Span, 'message', String)
 
 export const code = str => `{{${str}}}`
-export const formatCode = (str, formatter) => str.replace(/({{.+}})/g, _ =>
-	formatter(_.slice(2, _.length - 2)))
+
+export const formatCode = function*(str, formatter) {
+	const rgx = /{{(.*?)}}/g
+	let prevIdx = 0
+	while (true) {
+		const match = rgx.exec(str)
+		if (match === null) {
+			yield str.slice(prevIdx, str.length)
+			break
+		} else {
+			yield str.slice(prevIdx, match.index)
+			yield formatter(match[1])
+			prevIdx = rgx.lastIndex
+		}
+	}
+}

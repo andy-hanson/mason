@@ -5,7 +5,7 @@ import { Group, Keyword, Name } from '../Token'
 import { None, some } from '../U/Op'
 import type from '../U/type'
 import { assert } from '../U/util'
-import parseSpaced from './parseSpaced'
+import { parseSpaced } from './parseSpaced'
 
 export default px => px.tokens.map(t => px.wt(t, parseLocalDeclare))
 

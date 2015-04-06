@@ -7,8 +7,9 @@ import type from '../U/type'
 import { assert, lazy } from '../U/util'
 import Px from './Px'
 // TODO:ES6
-const parseLine_ = lazy(() => require('./parseLine').default)
-const parseLineOrLines_ = lazy(() => require('./parseLine').parseLineOrLines)
+import * as PL from './parseLine'
+const parseLine_ = () => PL.default
+const parseLineOrLines_ = () => PL.parseLineOrLines
 
 export const
 	takeBlockLinesFromEnd = px => {

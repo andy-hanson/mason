@@ -8,9 +8,8 @@ import type from '../U/type'
 import { assert, lazy } from '../U/util'
 import Px from './Px'
 // TODO:ES6
-const
-	takeBlockLinesFromEnd_ = lazy(() => require('./parseBlock').takeBlockLinesFromEnd),
-	parseLocalDeclares_ = lazy(() => require('./parseLocalDeclares').default)
+import * as PB from './parseBlock'
+import * as ParseLocalDeclares from './parseLocalDeclares'
 
 export default function tryParseUse(px, k) {
 	type(px, Px, k, UseKeywords)
@@ -28,7 +27,7 @@ export default function tryParseUse(px, k) {
 
 function parseUse(px, k) {
 	type(px, Px, k, UseKeywords)
-	const { before, lines } = takeBlockLinesFromEnd_()(px)
+	const { before, lines } = PB.takeBlockLinesFromEnd(px)
 	px.check(before.isEmpty(), () =>
 		`Did not expect anything after ${code(k)} other than a block`)
 	return lines.map(line => px.w(line.tokens, useLine, k))
@@ -57,7 +56,7 @@ function parseThingsUsed(px, name, isLazy) {
 		const hasDefaultUse = Keyword.isFocus(px.tokens.head())
 		const opUseDefault = opIf(hasDefaultUse, useDefault)
 		const rest = hasDefaultUse ? px.tokens.tail() : px.tokens
-		const used = px.w(rest, parseLocalDeclares_()).map(l => {
+		const used = px.w(rest, ParseLocalDeclares.default).map(l => {
 			px.check(l.name !== '_', () => `${code('_')} not allowed as import name.`)
 			l.isLazy = isLazy
 			return l

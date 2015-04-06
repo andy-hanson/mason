@@ -113,8 +113,8 @@ export default class Vx extends SubContext {
 			accesses.push(access)
 		} else
 			this.fail(access.span,
-				`Could not find local or global ${code(name)}.
-				Available locals are: ${code(toArray(this.allLocalNames()).join(' '))}.
-				Available globals are: ${code(toArray(JsGlobals.values()).join(' '))}.`)
+				`Could not find local or global ${code(name)}.\n` +
+				'Available locals are:\n' +
+				`${code(toArray(this.allLocalNames()).join(' '))}.`)
 	}
 }

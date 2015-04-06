@@ -1,4 +1,44 @@
-#ms .CodeMirror
-	border-radius 25px
-	border 1px solid black
+@require 'lib'
+
+#all
+	margin-left auto
+	margin-right auto
+	width 500px
+	display block
+
+#outContainer
+	display flex
+	flex-direction row
+	background azure
+#status
+	flex-basis 2em
+	text-align center
+#out
+	flex-basis auto
+#out .warning
+	color mauve
+#out .error
+	color firebrick
+#out .span
+	font-weight bold
+	color seagreen
+#out .code
+	font-weight bold
+	color indigo
+
+#statusIcon
+	margin 0.25em
+	font-size 1.5em
+#statusIcon.fa-check
+	color chartreuse
+#statusIcon.fa-exclamation
+	color red
+#statusIcon.fa-circle-o-notch
+	color blue
+
+.CodeMirror
 	height 100%
+#ms .CodeMirror
+	border-radius-top 2em
+#js .CodeMirror
+	border-radius-bottom 2em

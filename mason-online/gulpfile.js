@@ -43,7 +43,20 @@ gulp.task('mason', function() {
 gulp.task('script', function() {
 	return watchStream('script')
 	.pipe(sourceMaps.init())
-	.pipe(babel({ modules: 'amd' }))
+	.pipe(babel({
+		modules: 'amd',
+		whitelist: [
+			'es6.arrowFunctions',
+			'es6.classes',
+			'es6.destructuring',
+			'es6.modules',
+			'es6.parameters.rest',
+			'es6.spread',
+			'es6.properties.shorthand',
+			'es6.templateLiterals',
+			'strict'
+		]
+	}))
 	.pipe(sourceMaps.write('.'))
 	.pipe(gulp.dest('public/script'))
 })
