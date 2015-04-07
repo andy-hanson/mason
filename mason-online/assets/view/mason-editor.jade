@@ -1,22 +1,11 @@
-// Both these *and* identical imports below are needed. TODO: Find out why.
 link(rel='stylesheet', href='./lib/codemirror/lib/codemirror.css')
 link(rel='stylesheet', href='./lib/font-awesome/css/font-awesome.css')
+link(rel='stylesheet', href='./lib/codemirror/theme/monokai.css')
+link(rel='stylesheet', href='./lib/codemirror/theme/base16-light.css')
+link(rel='stylesheet', href='./lib/font-awesome/css/font-awesome.css')
 
-template#mason-editor-template
-	// Can't use <link> in shadow DOM.
-	// http://stackoverflow.com/questions/23176330/use-a-remote-stylesheet-inside-a-template-tag-with-shadow-dom
-	style.
-		@import './lib/codemirror/lib/codemirror.css';
-	style.
-		@import './lib/codemirror/theme/eclipse.css';
-	style.
-		@import './lib/codemirror/theme/monokai.css';
-	style.
-		@import './lib/codemirror/theme/base16-light.css';
-	style.
-		@import '../lib/font-awesome/css/font-awesome.css';
-	style.
-		@import './style/mason-editor.css';
+template
+	link(rel='stylesheet', href='./style/mason-editor.css')
 	div#all
 		div#ms
 		div#outContainer

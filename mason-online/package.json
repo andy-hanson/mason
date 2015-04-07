@@ -7,7 +7,9 @@
 		"gulp-sourcemaps": "1.5.1",
 		"gulp-stylus": "2.0.1",
 		"gulp-watch": "4.2.1",
-		"http-server": "0.8.0"
+		"http-server": "0.8.0",
+		"marked": "0.3.3",
+		"jade": "1.9.2"
 	},
 	"eslintConfig": {
 		"env": {

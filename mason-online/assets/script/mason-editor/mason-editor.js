@@ -1,73 +1,45 @@
 import $ from 'jquery'
-import compile from 'mason/meta/compile/compile'
-import compileErrorToDomSpan from 'mason/meta/compile/browser-only/compileErrorToDomSpan'
 import require from 'require'
-import CompileError from 'mason/meta/compile/CompileError'
-import BootOrder from 'mason/private/boot-order'
-_ms.getModule(BootOrder)
 import { setContent } from '../U/dom'
 import { $done } from '../U/Promise'
+import $compile from './$compile'
 import $eval from './$eval'
 import { msCodeMirror, jsCodeMirror } from './make-codemirror'
 
-const masonEditorImport = document.getElementById('link-mason-editor').import
-const template = masonEditorImport.getElementById('mason-editor-template')
+const template =
+	document.getElementById('link-mason-editor').import.querySelector('template')
 
-const sampleMs = `use
-	mason.math.methods * -
-	mason.compare <?
-factorial = |case
-	<? _ 2
-		1
-	else
-		* _ (factorial (- _ 1
-factorial 4`
-
-const MasonEditorPrototype = Object.create(HTMLElement.prototype)
-Object.assign(MasonEditorPrototype, {
+const MasonEditorPrototype = Object.assign(Object.create(HTMLElement.prototype), {
 	createdCallback() {
-		const shadow = this.createShadowRoot()
-		shadow.appendChild(document.importNode(template.content, true))
+		this.initialCode = this.textContent.trim()
+		$(this).empty()
+		this.appendChild(document.importNode(template.content, true))
 
-		const ms = shadow.getElementById('ms')
-		const js = shadow.getElementById('js')
-		this.statusIcon = shadow.getElementById('statusIcon')
-		this.out = shadow.getElementById('out')
-
+		const get = id => this.querySelector(`#${id}`)
+		const ms = get('ms'), js = get('js')
 		this.ms = msCodeMirror(ms)
-		this.js = jsCodeMirror(js, { readOnly: true })
+		this.js = jsCodeMirror(js)
+		this.statusIcon = get('statusIcon')
+		this.out = get('out')
 
 		this.setStatus('writing')
 		this.ms.on('changes', () => { this.setStatus('writing') })
-
 		this.statusIcon.onclick = () => this.compile()
-
-		this.ms.setValue(sampleMs)
+		this.ms.setValue(this.initialCode)
+		this.style.visibility = 'visible'
 		this.compile()
 	},
 
 	compile() {
 		const msCode = this.ms.getValue()
-		// TODO: use warnings
-		try {
-			const { result } = compile(msCode, {
-				// TODO: Button for checks: false
-				includeAmdefine: false,
-				includeSourceMap: false,
-				includeModuleDisplayName: false,
-				forceNonLazyModule: true
-			})
-			if (result instanceof Error) {
-				this.js.setValue('')
-				this.showError(result)
-			} else {
+		$done($compile(msCode).then(({ success, result }) => {
+			if (success) {
 				this.js.setValue(result)
 				this.evaluate(result)
 			}
-		} catch (err) {
-			console.log(err.stack)
-			throw err
-		}
+			else
+				this.showError(result)
+		}))
 	},
 
 	evaluate(js) {
@@ -77,10 +49,10 @@ Object.assign(MasonEditorPrototype, {
 		}).catch(err => this.showError(err)))
 	},
 
-	showError(err) {
+	showError(errorDomNode) {
+		this.js.setValue('')
 		this.setStatus('error')
-		setContent(this.out,
-			err instanceof CompileError ? compileErrorToDomSpan(err) : err.stack)
+		setContent(this.out, errorDomNode)
 	},
 
 	setStatus(status) {
