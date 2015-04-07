@@ -1,22 +1,70 @@
 import { last } from './U/Bag'
+import type from './U/type'
 import { ObjType } from './U/types'
+
+
+/*
+Opts object
+mandatory:
+	inFile: String
+		path to input file.
+		Optional if not includeSourceMap.
+
+optional:
+	checks: Boolean
+		Whether to include assertions.
+		Call also be { use, type, inout, case } for specific types of assertions.
+	includeSourceMap: Boolean
+	useStrict: Boolean
+*/
+export const OptsFromObject = obj => {
+	const defaults = {
+		checks: true,
+		includeAmdefine: true,
+		includeSourceMap: true,
+		includeModuleDisplayName: true
+	}
+	const opts = Object.assign({}, defaults, obj)
+	if (!opts.inFile) {
+		if (opts.includeSourceMap)
+			throw new Error('Either supply `inFile` option or make `includeSourceMap` false.')
+		if (opts.includeModuleDisplayName)
+			throw new Error(
+				'Either supply `inFile` option or make `includeModuleDisplayName` false.')
+	}
+	return new Opts(opts)
+}
 
 const Opts = ObjType('Opts', Object, {
 	inFile: String,
-	checks: Boolean
+	checks: Boolean,
+	includeAmdefine: Boolean,
+	includeSourceMap: Boolean,
+	includeModuleDisplayName: Boolean
 })
 export default Opts
 Object.assign(Opts.prototype, {
-	moduleName() {
-		return noExt(basename(this.inFile))
-	},
-	jsBaseName() {
-		return `${this.moduleName()}.js`
-	},
+	moduleName() { return noExt(basename(this.inFile)) },
+	jsBaseName() { return `${this.moduleName()}.js` },
 	modulePath() { return this.inFile },
-	includeTypeChecks() { return this.checks },
-	includeInoutChecks() { return this.checks },
-	includeCaseChecks() { return this.checks }
+
+	_check(name) {
+		if (typeof this.checks === 'boolean')
+			return this.checks
+		else {
+			type(this.checks, Object)
+			type(this.checks[name], 'boolean')
+			return this.checks[name]
+		}
+	},
+	includeUseChecks() { return this._check('use') },
+	includeTypeChecks() { return this._check('type') },
+	includeInoutChecks() { return this._check('inout') },
+	includeCaseChecks() { return this._check('case') },
+
+	amdefine() { return this.includeAmdefine },
+	sourceMap() { return this.includeSourceMap },
+	moduleDisplayName() { return this.includeModuleDisplayName }
 })
 
 const basename = path =>

@@ -27,7 +27,8 @@ import Tx from './Tx'
 export default function transpile(cx, e, vr) {
 	const tx = new Tx(cx, vr)
 	const ast = t(tx)(e)
-	ast.loc.source = tx.opts().modulePath()
+	if (tx.opts().sourceMap())
+		ast.loc.source = tx.opts().modulePath()
 	return ast
 }
 

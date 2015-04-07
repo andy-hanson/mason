@@ -1,13 +1,17 @@
 import { isEmpty } from '../U/Bag'
 import { assert, implementMany } from '../U/util'
 import * as Esast from '../esast'
+import { SourceNode } from './source-map/source-node'
 import Rx from './Rx'
 
 export default function render(cx, ast) {
 	const node = new Rx(cx).render(ast)
-	return node.toStringWithSourceMap({
-		file: './' + cx.opts.jsBaseName()
-	})
+	if (cx.opts.sourceMap())
+		return node.toStringWithSourceMap({
+			file: './' + cx.opts.jsBaseName()
+		})
+	else
+		return new SourceNode(null, null, null, node).toString()
 }
 
 const rCall = (_, rx) => {
@@ -20,9 +24,7 @@ const rCall = (_, rx) => {
 implementMany(Esast, 'render', {
 	Program: (_, rx) => rx.interleave(_.body, rx.snl),
 	Identifier: (_, rx) => rx.o(_.name),
-	BlockStatement(_, rx) {
-		rx.block(_.body, rx.snl)
-	},
+	BlockStatement: (_, rx) => rx.block(_.body, rx.snl),
 	FunctionExpression(_, rx) {
 		rx.o(_.generator ? 'function*' : 'function')
 		if (_.id) {
@@ -63,7 +65,12 @@ implementMany(Esast, 'render', {
 			rx.e(_.value.body)
 		}
 	},
-	ObjectExpression: (_, rx) => rx.block(_.properties, rx.cnl),
+	ObjectExpression: (_, rx) => {
+		if (isEmpty(_.properties))
+			rx.o('{}')
+		else
+			rx.block(_.properties, rx.cnl)
+	},
 	NewExpression(_, rx) {
 		rx.o('new ')
 		rCall(_, rx)

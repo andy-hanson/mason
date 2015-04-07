@@ -7,10 +7,10 @@ import { assert } from '../U/util'
 import { t, maybeWrapInCheckContains, ReturnRes } from './util'
 
 export default (_, tx, lead, opResDeclare, opOut) => {
-	if (lead === undefined) {
+	if (lead === undefined)
 		lead = []
+	if (opResDeclare === undefined)
 		opResDeclare = opOut = None
-	}
 	const body = flatMap(_.lines, line => toStatements(t(tx)(line)))
 	const fin = ifElse(opResDeclare,
 		rd => {

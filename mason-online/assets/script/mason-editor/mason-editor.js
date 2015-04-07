@@ -49,15 +49,22 @@ Object.assign(MasonEditorPrototype, {
 	compile() {
 		const msCode = this.ms.getValue()
 		// TODO: use warnings
-		const { result } = compile(msCode, 'web-sample.ms', {
-			// TODO: options
-		})
-		if (result instanceof Error) {
-			this.js.setValue('')
-			this.showError(result)
-		} else {
-			this.js.setValue(result.code)
-			this.evaluate(result.code)
+		try {
+			const { result } = compile(msCode, {
+				includeAmdefine: false,
+				includeSourceMap: false,
+				includeModuleDisplayName: false
+			})
+			if (result instanceof Error) {
+				this.js.setValue('')
+				this.showError(result)
+			} else {
+				this.js.setValue(result)
+				this.evaluate(result)
+			}
+		} catch (err) {
+			console.log(err.stack)
+			throw err
 		}
 	},
 

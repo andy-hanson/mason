@@ -11,10 +11,6 @@ const Name = 'gulp-mason'
 
 export default function gulpMs(opts) {
 	opts = opts || { }
-	// TODO: Move to Opts.js
-	if (opts.checks === undefined)
-		opts.checks = true
-
 	return obj(function(file, enc, cb) {
 		if (opts.verbose)
 			console.log(`Compiling ${file.path}`)
@@ -27,7 +23,13 @@ export default function gulpMs(opts) {
 		else {
 			const src = file.contents.toString('utf8')
 			const outFile = manglePath(replaceExtension(file.path, '.js'))
-			const { warnings, result } = compile(src, file.path, opts)
+			if (Object.prototype.hasOwnProperty.call(opts, 'inFile')) {
+				console.log(opts)
+				throw new Error('inFile set by stream')
+			}
+			const allOpts = Object.assign({}, opts, { inFile: file.path })
+			const { warnings, result } = compile(src, allOpts)
+
 			warnings.forEach(w => console.log(formatWarningForConsole(w, file.path)))
 			if (result instanceof CompileError) {
 				const message = formatCompileErrorForConsole(result, file.path)

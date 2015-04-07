@@ -11,10 +11,10 @@ import Px from './Px'
 export default function parse(cx, rootToken) {
 	assert(Group.isBlock(rootToken))
 	const px = new Px(cx, rootToken.tokens, rootToken.span)
-	return parseModule(px, cx.opts.moduleName())
+	return parseModule(px)
 }
 
-function parseModule(px, moduleName) {
+function parseModule(px) {
 	const { uses: doUses, rest } = tryParseUse(px, 'use!')
 	const { uses: plainUses, rest: rest1 } = px.w(rest, tryParseUse, 'use')
 	const { uses: lazyUses, rest: rest2 } = px.w(rest1, tryParseUse, 'use~')
@@ -26,10 +26,13 @@ function parseModule(px, moduleName) {
 			px.check(line.assignee.name !== 'displayName',
 				'Module can not choose its own displayName.')
 	})
-	block.lines.push(Assign(px.span,
-		LocalDeclare(px.span, 'displayName', [], false, true),
-		'export',
-		ELiteral(px.span, moduleName, String)))
+	if (px.opts().moduleDisplayName())
+		block.lines.push(
+			Assign(
+				px.span,
+				LocalDeclare(px.span, 'displayName', [], false, true),
+				'export',
+				ELiteral(px.span, px.opts().moduleName(), String)))
 
 	const uses = plainUses.concat(lazyUses)
 	return Module(px.span, doUses, uses, debugUses, block)

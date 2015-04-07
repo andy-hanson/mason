@@ -2,7 +2,7 @@ import fs from 'q-io/fs'
 import { relative } from 'path'
 import { BlockDo, ELiteral, ListSimple, Module, ModuleDefaultExport } from '../Expression'
 import Cx from '../private/Cx'
-import Opts from '../private/Opts'
+import { OptsFromObject } from '../private/Opts'
 import { single, StartPos } from '../private/Span'
 import transpile from '../private/transpile/transpile'
 import render from '../private/render/render'
@@ -26,7 +26,11 @@ export default (dirPath, opts) =>
 		const span = single(StartPos)
 		const val = ListSimple(span, moduleFiles.map(f => ELiteral(span, f, String)))
 		const e = Module(span, [], [], [], BlockDo(span, [ ModuleDefaultExport(span, val) ]))
-		const cx = new Cx(Opts({ inFile: 'modules-list.ms', checks: true }))
+
+		const cx = new Cx(OptsFromObject({
+			includeSourceMap: false,
+			includeModuleDisplayName: false
+		}))
 		const ast = transpile(cx, e, emptyVr())
-		return render(cx, ast).code
+		return render(cx, ast)
 	})

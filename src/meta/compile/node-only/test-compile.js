@@ -8,7 +8,7 @@ import render from '../private/render/render'
 import transpile from '../private/transpile/transpile'
 import verify from '../private/verify/verify'
 import { log } from '../private/U/util'
-import Opts from '../private/Opts'
+import { OptsFromObject } from '../private/Opts'
 
 export default () => {
 	global.DEBUG = true
@@ -24,9 +24,8 @@ export default () => {
 	}
 
 	const source = fs.readFileSync('./ms-test.ms', 'utf-8')
-	const opts = Opts({
-		inFile: './ms-test.ms',
-		checks: true
+	const opts = OptsFromObject({
+		inFile: './ms-test.ms'
 	})
 	const cx = new Cx(opts)
 

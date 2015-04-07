@@ -49,7 +49,7 @@ export default class Rx extends SubContext {
 	}
 
 	block(lines, lineSeparator) {
-		lineSeparator = '\t' + lineSeparator
+		lineSeparator = lineSeparator + '\t'
 		this.o('{')
 		this.indent(() => {
 			this.o(this.nl)

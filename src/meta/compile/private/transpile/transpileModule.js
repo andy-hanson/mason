@@ -6,7 +6,7 @@ import { ArrayExpression, BinaryExpression, BlockStatement, CallExpression,
 	from '../esast'
 import manglePath from '../manglePath'
 import { flatMap, isEmpty, last, push } from '../U/Bag'
-import { opIf } from '../U/Op'
+import { None, opIf } from '../U/Op'
 import { t, IdDefine, IdExports, IdModule, lazyWrap,
 	msGetModule, msLazyGetModule, msGetDefaultExport,
 	makeDestructureDeclarators, msLazy } from './util'
@@ -42,12 +42,17 @@ export default (_, tx) => {
 		useDeclarators(tx, use, useIdentifiers[i + _.doUses.length]))
 	const opUseDeclare = opIf(!isEmpty(allUseDeclarators),
 		() => VariableDeclaration('const', allUseDeclarators))
-	const moduleBody = useDos.concat(opUseDeclare, [ t(tx)(_.block) ])
+	const lead = useDos.concat(opUseDeclare, [ DeclareExports ])
+	const trail = [ ReturnStatement(IdExports) ]
+	const moduleBody = t(tx, lead, None, trail)(_.block)
 	const doDefine = ExpressionStatement(
 		CallExpression(IdDefine, [
 			amdNames,
 			FunctionExpression(null, amdArgs, BlockStatement([ lazyBody(moduleBody) ])) ]))
-	return Program([ UseStrict, AmdefineHeader, doDefine ])
+
+	return Program([ UseStrict ].concat(
+		opIf(tx.opts().amdefine(), () => AmdefineHeader),
+		[ doDefine ]))
 }
 
 const useDeclarators = (tx, _, moduleIdentifier) => {
@@ -80,8 +85,7 @@ const
 	lazyBody = body =>
 		ExpressionStatement(
 			assignmentExpressionPlain(member(IdExports, '_get'), msLazy([
-				FunctionExpression(null, [ ], BlockStatement(
-					[DeclareExports].concat(body, ReturnStatement(IdExports))))]))),
+				FunctionExpression(null, [ ], body)]))),
 
 	// if (typeof define !== 'function') var define = require('amdefine')(module)
 	AmdefineHeader = IfStatement(

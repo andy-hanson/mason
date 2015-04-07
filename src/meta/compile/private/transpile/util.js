@@ -12,12 +12,14 @@ import Tx from './Tx'
 
 export const t = (tx, arg, arg2, arg3) => expr => {
 	const ast = expr.transpileSubtree(expr, tx, arg, arg2, arg3)
-	const setLoc = _ => { _.loc = expr.span }
-	if (ast instanceof Array)
-		// This is only allowed inside of Blocks, which use `toStatements`.
-		ast.forEach(setLoc)
-	else
-		setLoc(ast)
+	if (tx.opts().sourceMap()) {
+		const setLoc = _ => { _.loc = expr.span }
+		if (ast instanceof Array)
+			// This is only allowed inside of Blocks, which use `toStatements`.
+			ast.forEach(setLoc)
+		else
+			setLoc(ast)
+	}
 	return ast
 }
 
@@ -64,7 +66,7 @@ export const makeDestructureDeclarators = (tx, span, assignees, isLazy, value, k
 	const idDestructured = Identifier(destructuredName)
 	const declarators = assignees.map(assignee => {
 		// TODO: Don't compile it if it's never accessed
-		const get = getMember(idDestructured, assignee.name, isLazy, isModule)
+		const get = getMember(tx, idDestructured, assignee.name, isLazy, isModule)
 		return makeDeclarator(tx, assignee.span, assignee, k, get, isLazy)
 	})
 	// Getting lazy module is done by ms.lazyGetModule.
@@ -72,11 +74,11 @@ export const makeDestructureDeclarators = (tx, span, assignees, isLazy, value, k
 	return unshift(VariableDeclarator(idDestructured, val), declarators)
 }
 
-const getMember = (astObject, gotName, isLazy, isModule) => {
+const getMember = (tx, astObject, gotName, isLazy, isModule) => {
 	type(astObject, Object, gotName, String, isLazy, Boolean, isModule, Boolean)
 	if (isLazy)
 		return msLazyGet([ astObject, Literal(gotName) ])
-	else if (isModule)
+	else if (isModule && tx.opts().includeUseChecks())
 		return msGet([ astObject, Literal(gotName) ])
 	else
 		return member(astObject, gotName)
