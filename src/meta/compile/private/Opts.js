@@ -22,7 +22,8 @@ export const OptsFromObject = obj => {
 		checks: true,
 		includeAmdefine: true,
 		includeSourceMap: true,
-		includeModuleDisplayName: true
+		includeModuleDisplayName: true,
+		forceNonLazyModule: false
 	}
 	const opts = Object.assign({}, defaults, obj)
 	if (!opts.inFile) {
@@ -40,7 +41,8 @@ const Opts = ObjType('Opts', Object, {
 	checks: Boolean,
 	includeAmdefine: Boolean,
 	includeSourceMap: Boolean,
-	includeModuleDisplayName: Boolean
+	includeModuleDisplayName: Boolean,
+	forceNonLazyModule: Boolean
 })
 export default Opts
 Object.assign(Opts.prototype, {
@@ -64,7 +66,8 @@ Object.assign(Opts.prototype, {
 
 	amdefine() { return this.includeAmdefine },
 	sourceMap() { return this.includeSourceMap },
-	moduleDisplayName() { return this.includeModuleDisplayName }
+	moduleDisplayName() { return this.includeModuleDisplayName },
+	lazyModule() { return !this.forceNonLazyModule }
 })
 
 const basename = path =>
@@ -72,4 +75,5 @@ const basename = path =>
 const extname = path =>
 	last(path.split('.'))
 const noExt = path =>
-	path.substring(0, path.length - extname(path).length)
+	// - 1 for the '.'
+	path.substring(0, path.length - 1 - extname(path).length)

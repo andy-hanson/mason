@@ -15,7 +15,6 @@ global.DEBUG = true
 // See private/Opts.js for description of opts
 export default function compile(src, opts) {
 	type(src, String, opts, Object)
-
 	const cx = new Cx(OptsFromObject(opts))
 	try {
 		const e = parse(cx, lex(cx, src))

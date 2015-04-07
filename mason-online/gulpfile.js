@@ -9,7 +9,9 @@ var
 	stylus = require('gulp-stylus'),
 	watch = require('gulp-watch')
 
-gulp.task('default', [ 'view', 'style', 'lint', 'mason', 'lib', 'script', 'serve' ])
+// Doing 'lib' and 'mason' at the same time seems to cause crashes,
+// so do 'mason' in a separate console if you want live updating of mason library.
+gulp.task('default', [ 'view', 'style', 'lint', 'lib', 'script', 'serve' ])
 
 function watchStream(name) {
 	var glob = 'assets/' + name + '/**/*'
@@ -37,7 +39,7 @@ gulp.task('lib', function() {
 gulp.task('mason', function() {
 	return gulp.src('../js/**/*')
 	.pipe(watch('../js/**/*', { verbose: true }))
-	.pipe(gulp.dest('bower_components/mason'))
+	.pipe(gulp.dest('public/lib/mason'))
 })
 
 gulp.task('script', function() {

@@ -51,9 +51,11 @@ Object.assign(MasonEditorPrototype, {
 		// TODO: use warnings
 		try {
 			const { result } = compile(msCode, {
+				// TODO: Button for checks: false
 				includeAmdefine: false,
 				includeSourceMap: false,
-				includeModuleDisplayName: false
+				includeModuleDisplayName: false,
+				forceNonLazyModule: true
 			})
 			if (result instanceof Error) {
 				this.js.setValue('')

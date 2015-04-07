@@ -12,15 +12,11 @@ export default (require, js) => {
 					const exports = { }
 					modules.unshift(exports)
 					doDefine(...modules)
-					// TODO: Make public API for this sort of thing.
-					const module = _ms.getModule(exports)
-					// TODO: compile option to not include module name
-					delete module.displayName
-					const keys = Object.keys(module)
+					const keys = Object.keys(exports)
 					if (keys.length === 1 && keys[0] === 'default')
-						resolve(module.default)
+						resolve(exports.default)
 					else
-						resolve(module)
+						resolve(exports)
 				} catch (err) {
 					reject(err)
 				}

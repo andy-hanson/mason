@@ -42,13 +42,22 @@ export default (_, tx) => {
 		useDeclarators(tx, use, useIdentifiers[i + _.doUses.length]))
 	const opUseDeclare = opIf(!isEmpty(allUseDeclarators),
 		() => VariableDeclaration('const', allUseDeclarators))
-	const lead = useDos.concat(opUseDeclare, [ DeclareExports ])
+
+	// TODO: Some way of determining when it's OK for a module to not be lazy.
+	const isLazy = tx.opts().lazyModule()
+
+	const lead = useDos.concat(opUseDeclare, opIf(isLazy, () => DeclareExports))
 	const trail = [ ReturnStatement(IdExports) ]
 	const moduleBody = t(tx, lead, None, trail)(_.block)
+	const body =
+		isLazy ?
+			BlockStatement([ lazyBody(moduleBody) ])
+			: moduleBody
+
 	const doDefine = ExpressionStatement(
 		CallExpression(IdDefine, [
 			amdNames,
-			FunctionExpression(null, amdArgs, BlockStatement([ lazyBody(moduleBody) ])) ]))
+			FunctionExpression(null, amdArgs, body) ]))
 
 	return Program([ UseStrict ].concat(
 		opIf(tx.opts().amdefine(), () => AmdefineHeader),
