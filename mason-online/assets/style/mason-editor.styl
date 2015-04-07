@@ -1,9 +1,7 @@
 @require 'lib'
 
-#all
-	margin-left 10%
-	margin-right 10%
-	min-width 400px
+mason-editor
+	display block
 
 #outContainer
 	display flex
@@ -35,10 +33,18 @@
 #statusIcon.fa-circle-o-notch
 	color blue
 
+radius = 2em
+
 .CodeMirror
 	height 100%
 #ms .CodeMirror
-	border-radius-top 2em
+	border-radius-top radius
 #js .CodeMirror
-	border-radius-bottom 2em
 	font-size 10px
+
+#js
+	border-radius-bottom radius
+	overflow hidden
+	// mason-editor.js expands the height when hovered over.
+	max-height 0.5em
+	transition max-height 1s

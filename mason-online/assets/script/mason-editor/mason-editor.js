@@ -22,6 +22,13 @@ const MasonEditorPrototype = Object.assign(Object.create(HTMLElement.prototype),
 		this.statusIcon = get('statusIcon')
 		this.out = get('out')
 
+		// Only expand JS when hovering. CSS animations for this in mason-editor.styl.
+		$(js).hover(
+			// hover in:
+			() => { js.style['max-height'] = `${js.querySelector('.CodeMirror').offsetHeight}px` },
+			// hover out:
+			() => { js.style['max-height'] = '0.5em' })
+
 		this.setStatus('writing')
 		this.ms.on('changes', () => { this.setStatus('writing') })
 		this.statusIcon.onclick = () => this.compile()

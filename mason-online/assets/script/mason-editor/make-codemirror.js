@@ -19,7 +19,5 @@ export const msCodeMirror = special({ mode: 'mason', theme: 'monokai' })
 
 export const jsCodeMirror = special({
 	mode: 'javascript',
-	theme: 'base16-light',
-	// Kludge because a scrollbar showed up even with nowhere to scroll.
-	scrollbarStyle: null
+	theme: 'base16-light'
 })
