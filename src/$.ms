@@ -11,7 +11,7 @@ use
 	.Type.Type =>
 use~
 	.math.Num
-	.Try $catch
+	.Try $catch oh-no!
 use-debug
 	.@.Stream
 	.!
@@ -19,7 +19,7 @@ use-debug
 	.io.time $after-time
 	.math.Num divisible?
 	.math.methods +
-	.Try oh-no! $try
+	.Try $try
 
 $ =
 	doc. "
@@ -42,8 +42,12 @@ $done.
 		$catch _ |err
 			# Don't use log! because there if errors happen in there, the error disappears!
 			global.console.log "
+				=== error ===
+				{err.message}
 				{err.stack}
-				{"==="}
+				=== error ===
+			# We're already $done so this shouldn't matter, but just in case...
+			oh-no! err
 
 $fail-after-time.
 	doc. "Fails if it takes too long."

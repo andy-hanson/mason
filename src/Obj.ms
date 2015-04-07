@@ -17,8 +17,7 @@ use~
 	.Obj! empty-Obj! p+!
 use-debug
 	.!
-	.@.Seq seq=?
-	.@.Stream
+	.@.Set set=?
 	.math.Num
 	.Try fails?
 
@@ -69,9 +68,9 @@ flag?.
 		Obj.defineProperty obj sym
 			value. 0
 			enumerable. false
-		! seq=? (@p-all obj) [ "a" sym ]
+		! set=? (@p-all obj) [ "a" sym ]
 		# But not "arguments" or "caller"
-		[ @p-all ] -> => Stream [ "length" "name" "prototype" "doc" "test" "displayName" ]
+		! set=? (@p-all @p-all) [ "length" "name" "prototype" "doc" "test" "displayName" ]
 	|:@[Obj-Key] _
 		props = Obj.getOwnPropertyNames _
 		# TODO: case!, keep!
@@ -96,7 +95,7 @@ flag?.
 			value. 0
 			enumerable.
 		! empty? (@p obj)
-		[ @p ] -> [ "doc" "test" "displayName" ]
+		! set=? (@p @p) [ "doc" "test" "displayName" ]
 	|:@[Str] _
 		case
 			can-get-p?_

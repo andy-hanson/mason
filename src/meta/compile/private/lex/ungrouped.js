@@ -39,7 +39,7 @@ export default function* ungrouped(lx, stream, isInQuote) {
 		const keyword = k => Keyword(span(), k)
 		const gp = k => GroupPre(span(), k)
 
-		function eatNumber() {
+		const eatNumber = () => {
 			let msLit = _ + stream.takeWhile(/[0-9\.e_]/)
 			if (msLit.endsWith('.')) {
 				msLit = msLit.slice(0, msLit.length - 1)

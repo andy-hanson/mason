@@ -4,18 +4,18 @@ html
 		title Mason
 		meta(charset='utf-8')
 		// ID needed because mason-editor.js is not run inside of this.
-		link#link-mason-editor(rel='import', href='./mason-editor.html')
+		link#link-mason-editor(rel='import' href='./mason-editor.html')
 
 		// Shim
 		script(src='./lib/es6-shim/es6-shim.min.js')
-		// script(src='./lib/webcomponentsjs/webcomponents.js')
+		script(src='./lib/webcomponentsjs/webcomponents.js')
 
 		// I'd like to include this in mason-editor.jade, but RequireJS won't let me.
-		script(src='./lib/requirejs/require.js', data-main='./script/index.js')
+		script(src='./lib/requirejs/require.js' data-main='./script/index.js')
 
-		link(rel='stylesheet',
+		link(rel='stylesheet'
 			href='http://fonts.googleapis.com/css?family=Overlock|PT+Sans|Oxygen+Mono')
-		link(rel='stylesheet', href='./style/index.css')
+		link(rel='stylesheet' href='./style/index.css')
 	body
 		a(href='https://github.com/andy-hanson/mason')
 			img(style='position: absolute; top: 0; right: 0; border: 0;'
