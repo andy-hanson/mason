@@ -35,7 +35,6 @@ const MasonEditorPrototype = Object.assign(Object.create(HTMLElement.prototype),
 		this.statusIcon.onclick = () => this.compile()
 
 		this.ms.setValue(this.initialCode)
-		this.compile()
 
 		this.style.visibility = 'visible'
 	},
@@ -45,6 +44,12 @@ const MasonEditorPrototype = Object.assign(Object.create(HTMLElement.prototype),
 	},
 
 	compile() {
+		if (this.status === 'working')
+			// Already compiling / running code.
+			// TODO: Run code in Worker. Stop it if this is clicked again.
+			return
+
+		this.setStatus('working')
 		const msCode = this.ms.getValue()
 		$done($compile(msCode).then(({ success, result }) => {
 			if (success) {
@@ -74,7 +79,8 @@ const MasonEditorPrototype = Object.assign(Object.create(HTMLElement.prototype),
 		const className = () => {
 			switch (status) {
 				case 'compiled': return 'fa fa-check'
-				case 'writing': return 'fa fa-circle-o-notch'
+				case 'writing': return 'fa fa-refresh'
+				case 'working': return 'fa fa-refresh fa-spin'
 				case 'error': return 'fa fa-exclamation'
 				default: throw new Error(status)
 			}
