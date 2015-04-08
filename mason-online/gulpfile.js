@@ -1,4 +1,6 @@
-var
+'use strict'
+
+const
 	babel = require('gulp-babel'),
 	createServer = require('http-server').createServer,
 	eslint = require('gulp-eslint'),
@@ -15,15 +17,15 @@ var
 gulp.task('default', [ 'view', 'style', 'lint', 'lib', 'image', 'script', 'serve' ])
 
 function watchStream(name) {
-	var glob = 'assets/' + name + '/**/*'
+	const glob = 'assets/' + name + '/**/*'
 	return gulp.src(glob).pipe(watch(glob, { verbose: true })).pipe(plumber())
 }
 
 function simple(name, stream, outName) {
 	if (outName === undefined)
 		outName = name
-	var _ = watchStream(name)
-	if (stream)
+	let _ = watchStream(name)
+	if (stream !== undefined)
 		_ = _.pipe(stream)
 	return _.pipe(gulp.dest('public/' + outName))
 }
@@ -78,7 +80,7 @@ gulp.task('lint', function() {
 })
 
 gulp.task('serve', function() {
-	var port = 8000
+	const port = 8000
 	createServer({ root: 'public' }).listen(port)
 	console.log('Serving at localhost:' + port + '/')
 })

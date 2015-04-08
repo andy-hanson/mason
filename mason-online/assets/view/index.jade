@@ -5,6 +5,7 @@ html
 		meta(charset='utf-8')
 		// ID needed because mason-editor.js is not run inside of this.
 		link#link-mason-editor(rel='import' href='./mason-editor.html')
+		link(rel='import' href='./mason-explain.html')
 
 		// Shim
 		script(src='./lib/es6-shim/es6-shim.min.js')
@@ -24,26 +25,20 @@ html
 				data-canonical-src='https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png')
 		h1 Mason
 
-		.explain
-			:md
-				This here is my `factorial` function. Is it not nifty?
-
-		mason-editor
+		mason-explain
 			:raw
-				use
-					mason.math.methods * -
-					mason.compare <?
-				factorial = |case
-					<? _ 2
-						1
-					else
-						* _ (factorial (- _ 1
-				factorial 4
+				This here is my `factorial` function. It uses the `<?` method.
 
-		.explain
-			:md
+					use
+						mason.math.methods * -
+						mason.compare <?
+					factorial = |case
+						<? _ 2
+							1
+						else
+							* _ (factorial (- _ 1
+					factorial 4
+
 				I optimized it!
 
-		mason-editor
-			:raw
-				24
+					24

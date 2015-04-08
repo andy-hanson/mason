@@ -1,1 +1,1 @@
-npm install; bower install; node_modules/gulp/bin/gulp.js
+cd ..; ./gulp all; cd mason-online; npm install; bower install; ./gulp

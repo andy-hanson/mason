@@ -1,6 +1,5 @@
-import $ from 'jquery'
 import require from 'require'
-import { setContent } from '../U/dom'
+import { empty, setContent } from '../U/dom'
 import { $done } from '../U/Promise'
 import $compile from './$compile'
 import $eval from './$eval'
@@ -10,9 +9,12 @@ const template =
 	document.getElementById('link-mason-editor').import.querySelector('template')
 
 const MasonEditorPrototype = Object.assign(Object.create(HTMLElement.prototype), {
-	createdCallback() {
-		this.initialCode = this.textContent.trim()
-		$(this).empty()
+	attachedCallback() {
+		if (this.initialCode === undefined)
+			this.initialCode = this.textContent.trim()
+		else if (this.textContent)
+			throw new Error('Ignoring text content because setContent was called.')
+		empty(this)
 		this.appendChild(document.importNode(template.content, true))
 
 		const get = id => this.querySelector(`#${id}`)
@@ -23,18 +25,23 @@ const MasonEditorPrototype = Object.assign(Object.create(HTMLElement.prototype),
 		this.out = get('out')
 
 		// Only expand JS when hovering. CSS animations for this in mason-editor.styl.
-		$(js).hover(
-			// hover in:
-			() => { js.style['max-height'] = `${js.querySelector('.CodeMirror').offsetHeight}px` },
-			// hover out:
-			() => { js.style['max-height'] = '0.5em' })
+		js.addEventListener('mouseover', () => {
+			js.style['max-height'] = `${js.querySelector('.CodeMirror').offsetHeight}px`
+		})
+		js.addEventListener('mouseout', () => { js.style['max-height'] = '0.5em' })
 
 		this.setStatus('writing')
 		this.ms.on('changes', () => { this.setStatus('writing') })
 		this.statusIcon.onclick = () => this.compile()
+
 		this.ms.setValue(this.initialCode)
-		this.style.visibility = 'visible'
 		this.compile()
+
+		this.style.visibility = 'visible'
+	},
+
+	setContent(code) {
+		this.initialCode = code
 	},
 
 	compile() {
@@ -76,6 +83,6 @@ const MasonEditorPrototype = Object.assign(Object.create(HTMLElement.prototype),
 	}
 })
 
-export const MasonEditor = document.registerElement('mason-editor', {
+export default document.registerElement('mason-editor', {
 	prototype: MasonEditorPrototype
 })
