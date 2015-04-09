@@ -16,15 +16,15 @@ const
 // so do 'mason' in a separate console if you want live updating of mason library.
 gulp.task('default', [ 'view', 'style', 'lint', 'lib', 'image', 'script', 'serve' ])
 
-function watchStream(name) {
-	const glob = 'assets/' + name + '/**/*'
+function watchStream(name, ext) {
+	const glob = 'assets/' + name + '/**/*.' + ext
 	return gulp.src(glob).pipe(watch(glob, { verbose: true })).pipe(plumber())
 }
 
-function simple(name, stream, outName) {
+function simple(name, ext, stream, outName) {
 	if (outName === undefined)
 		outName = name
-	let _ = watchStream(name)
+	let _ = watchStream(name, ext)
 	if (stream !== undefined)
 		_ = _.pipe(stream)
 	return _.pipe(gulp.dest('public/' + outName))
@@ -32,10 +32,10 @@ function simple(name, stream, outName) {
 
 gulp.task('view', function() {
 	jade.filters.raw = jade.runtime.escape
-	return simple('view', gulpJade({ jade: jade, pretty: true }), '')
+	return simple('view', 'jade', gulpJade({ jade: jade, pretty: true }), '')
 })
 
-gulp.task('style', function() { return simple('style', stylus()) })
+gulp.task('style', function() { return simple('style', 'styl', stylus()) })
 
 gulp.task('lib', function() {
 	return gulp.src('bower_components/**/*', { base: 'bower_components' })
@@ -43,7 +43,7 @@ gulp.task('lib', function() {
 	.pipe(gulp.dest('public/lib'))
 })
 
-gulp.task('image', function() { return simple('image') })
+gulp.task('image', function() { return simple('image', '*') })
 
 gulp.task('mason', function() {
 	return gulp.src('../js/**/*')
@@ -52,7 +52,7 @@ gulp.task('mason', function() {
 })
 
 gulp.task('script', function() {
-	return watchStream('script')
+	return watchStream('script', 'js')
 	.pipe(sourceMaps.init())
 	.pipe(babel({
 		modules: 'amd',

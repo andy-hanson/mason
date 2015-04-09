@@ -1,7 +1,6 @@
-import CodeMirror from '../../lib/codemirror/lib/codemirror'
+import CodeMirror from 'codemirror/lib/codemirror'
+import 'codemirror/mode/javascript/javascript'
 import './codemirror-mason-mode'
-// TODO: RequireJS paths should let us just use 'codemirror/mode/javascript/javascript.js'
-import '../../lib/codemirror/mode/javascript/javascript.js'
 
 const commonOpts = {
 	autoClearEmptyLines: true,
@@ -19,5 +18,6 @@ export const msCodeMirror = special({ mode: 'mason', theme: 'monokai' })
 
 export const jsCodeMirror = special({
 	mode: 'javascript',
+	readOnly: true,
 	theme: 'base16-light'
 })

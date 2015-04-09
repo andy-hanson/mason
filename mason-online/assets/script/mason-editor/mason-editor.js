@@ -12,8 +12,6 @@ const MasonEditorPrototype = Object.assign(Object.create(HTMLElement.prototype),
 	attachedCallback() {
 		if (this.initialCode === undefined)
 			this.initialCode = this.textContent.trim()
-		else if (this.textContent)
-			throw new Error('Ignoring text content because setContent was called.')
 		empty(this)
 		this.appendChild(document.importNode(template.content, true))
 
@@ -65,7 +63,7 @@ const MasonEditorPrototype = Object.assign(Object.create(HTMLElement.prototype),
 		$done($eval(require, js).then(val => {
 			this.out.textContent = _ms.show(val)
 			this.setStatus('compiled')
-		}).catch(err => this.showError(err)))
+		}).catch(err => this.showError(err.stack)))
 	},
 
 	showError(errorDomNode) {
@@ -80,7 +78,7 @@ const MasonEditorPrototype = Object.assign(Object.create(HTMLElement.prototype),
 			switch (status) {
 				case 'compiled': return 'fa fa-check'
 				case 'writing': return 'fa fa-refresh'
-				case 'working': return 'fa fa-refresh fa-spin'
+				case 'working': return 'fa fa-refresh spinning'
 				case 'error': return 'fa fa-exclamation'
 				default: throw new Error(status)
 			}

@@ -34,7 +34,7 @@ make-callable-method = |method
 		add! "var impl = {impl}"
 		debug add! "
 			if (impl === undefined)
-				throw new Error(\"Method {method.displayName} not defined for \" + a)
+				throw new Error(\"Method {method.displayName} not defined for \" + a + " of type " + a.constructor)
 		case!
 			defined? method.wrap
 				add! "

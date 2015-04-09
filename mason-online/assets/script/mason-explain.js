@@ -1,18 +1,11 @@
-import marked from 'marked'
 import MasonEditor from './mason-editor/mason-editor'
 import methodUrl from './method-url'
-import { replaceNode } from './U/dom'
-
-const makeLink = (code, path) => {
-	const _ = document.createElement('a')
-	_.href = path
-	_.textContent = code
-	return _
-}
+import { setMarkdownContent } from './U/markdown'
+import { makeLink, replaceNode } from './U/dom'
 
 const MasonExplainPrototype = Object.assign(Object.create(HTMLElement.prototype), {
 	createdCallback() {
-		this.innerHTML = marked(this.textContent)
+		setMarkdownContent(this, this.textContent)
 
 		Array.prototype.forEach.call(this.querySelectorAll('pre'), pre => {
 			// TODO: Why are tabs getting replaced by spaces?
@@ -27,6 +20,8 @@ const MasonExplainPrototype = Object.assign(Object.create(HTMLElement.prototype)
 			if (path !== undefined)
 				replaceNode(code, makeLink(code.textContent, path))
 		})
+
+		this.style.visibility = 'visible'
 	}
 })
 

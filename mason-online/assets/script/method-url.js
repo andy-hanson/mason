@@ -1,7 +1,25 @@
 
 // TODO: Have this generated for me.
 const allExports = {
-	'<?': 'compare'
+	'!': '!',
+	'@': '@/@',
+	$: '$',
+	'<?': 'compare',
+	'?': '@/?',
+	Bool: 'Bool',
+	'contains?': 'Type/Type',
+	curry: 'Fun',
+	Error: 'Try',
+	'each~': 'Generator!',
+	'?find': '@/@',
+	Fun: 'Fun',
+	'Generator!': 'Generator!',
+	Map: '@/Map/Map',
+	Obj: 'Obj',
+	show: 'show',
+	sub: 'methods',
+	Str: 'Str',
+	Type: 'Type/Type'
 }
 const exportPaths = {}
 Object.keys(allExports).forEach(function(key) {

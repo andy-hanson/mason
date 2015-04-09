@@ -55,6 +55,7 @@ function verifyIsStatement(vx, line) {
 		// Some Vals are also conceptually Dos, but this was easier than multiple inheritance.
 		case line instanceof Call:
 		case line instanceof ELiteral && line.k === 'js':
+		case line instanceof Special && line.k === 'debugger':
 		// OK, used to mean `pass`
 		case line instanceof GlobalAccess && line.name === 'null':
 		case line instanceof Yield:

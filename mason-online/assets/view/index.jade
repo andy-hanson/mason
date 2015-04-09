@@ -2,21 +2,4 @@ extends layout
 
 block content
 	mason-explain
-		:raw
-			This here is my `factorial` function. It uses the `<?` method.
-
-			Click the <i class='fa fa-refresh'></i> to run it.
-
-				use
-					mason.math.methods * -
-					mason.compare <?
-				factorial = |case
-					<? _ 2
-						1
-					else
-						* _ (factorial (- _ 1
-				factorial 4
-
-			I optimized it!
-
-				24
+		include:raw ./index.md

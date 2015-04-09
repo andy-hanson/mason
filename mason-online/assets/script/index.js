@@ -5,6 +5,7 @@ const isFirefox = /firefox/i.test(navigator.userAgent)
 window.requirejs.config({
 	paths: {
 		mason: '../lib/mason',
+		codemirror: '../lib/codemirror',
 		marked: '../lib/marked/marked.min'
 	},
 	scriptType: isFirefox ? 'text/javascript;version=1.8' : 'text/javascript'

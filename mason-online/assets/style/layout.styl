@@ -3,45 +3,55 @@
 html, body
 	background url(../image/bg.gif)
 
-#head
+header
 	background #fff8
 	box-shadow 0 3px 6px gray
 	margin-bottom 1em
 
-h1
-	margin-top -0.25em
-	margin-bottom -0.15em
+	h1
+		margin-top -0.25em
+		margin-bottom -0.15em
 
-	font-size 400%
-	font-weight bold
-	text-align center
-	color indigo
-	text-shadow .03em .03em black
-	font-family 'Overlock'
+		font-size 400%
+		font-weight bold
+		text-align center
+		color indigo
+		font-family 'Patua One'
 
-#tabs
-	overflow auto
+		a
+			text-decoration none
 
-#tabs a
-	display inline-block
-	text-align center
-	width 3em
-	margin 0 1em
+	nav
+		overflow auto
 
-	font-family 'Overlock'
-	font-weight bold
-	font-size 120%
-	color darkblue
-	text-decoration none
-#tabs a:hover
-	border-radius 1em
-	background tomato
+		a
+			display inline-block
+			text-align center
+			width 3em
+			margin 0 1em
 
-#tabs #source
-	float right
-	width 1.5em
-	color orchid
+			font-family Overlock
+			font-weight bold
+			font-size 120%
+			color darkblue
+			text-decoration none
+		a:hover
+			border-radius 1em
+			background lightsalmon
 
+		#source
+			float right
+			font-size 200%
+			width 0
+			margin-bottom -1em
+
+			color black
+
+			i
+				position absolute
+				transform translate(0, -25%)
+		#source:hover
+			color violet
 
 
 mason-editor

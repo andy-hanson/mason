@@ -1,6 +1,6 @@
 export default path =>
-	path.replace(/!/g, '_bang_')
-	.replace(/@/g, '_at_')
-	.replace(/\?/g, '_q_')
-	.replace(/\$/g, '_cash_')
+	path.replace(/!/g, 'bang')
+	.replace(/@/g, 'at')
+	.replace(/\?/g, 'q')
+	.replace(/\$/g, 'cash')
 

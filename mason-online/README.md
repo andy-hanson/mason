@@ -1,1 +1,6 @@
-cd ..; ./gulp all; cd mason-online; npm install; bower install; ./gulp
+cd ..
+./gulp all
+cd mason-online
+npm install
+bower install
+./gulp

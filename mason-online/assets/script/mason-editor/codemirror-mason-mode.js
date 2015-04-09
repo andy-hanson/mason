@@ -1,4 +1,4 @@
-import CodeMirror from '../../lib/codemirror/lib/codemirror'
+import CodeMirror from 'codemirror/lib/codemirror'
 
 CodeMirror.defineMode('mason', () => {
 	// Declares styles for various Mason tokens.
