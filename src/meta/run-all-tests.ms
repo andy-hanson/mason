@@ -8,8 +8,6 @@ use
 	.tests.test $test-all # $test-module
 	.tests.perf-test $time! # time time*! race*!
 
-doc. "The program starts running here."
-
 |
 	$done ($ing ~|
 		# Load now so that module loading time is not counted as part of testing time.

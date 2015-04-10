@@ -9,9 +9,8 @@ mason-explain
 		margin 0 1em
 		padding 1em
 		background #fff6
-		// border radius is limited by height, so it will look like a 'D'.
-		border-top-right-radius 999em
-		border-bottom-right-radius 999em
+		// Generally this will be as high as possible, meaning it closes like a 'D'.
+		border-radius-right 4em
 
 	h1
 		position relative
@@ -80,6 +79,12 @@ mason-explain
 		td
 			padding 0 2em
 			text-align left
+
+	ul
+		margin 1em
+
+		li
+			list-style disc inside
 
 	.tooltip
 		font-weight bold

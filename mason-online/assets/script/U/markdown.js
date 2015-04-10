@@ -3,7 +3,7 @@ import { empty } from './dom'
 
 export const setMarkdownContent = (node, md) => {
 	node.innerHTML = marked(md)
-	joinParagraphs(node)
+	joinToSections(node)
 }
 
 const
@@ -34,18 +34,18 @@ const
 		return _
 	},
 
-	joinParagraphs = node => {
-		const isP = node =>
-			node.nodeType !== 3 && node.tagName.toLowerCase() === 'p'
-
+	insideSectionTypes = new Set([ 'p', 'ul' ]),
+	isInsideSection = node =>
+		node.nodeType !== 3 && insideSectionTypes.has(node.tagName.toLowerCase()),
+	joinToSections = node => {
 		const goodChildren = Array.prototype.filter.call(node.childNodes, node =>
 			// Don't include whitespace-only text nodes.
 			node.nodeType !== 3 || /\S/.test(node.textContent))
 
 		const newNodes = []
-		split(goodChildren, isP,
-			nonPNodes => newNodes.push(...nonPNodes),
-			pNodes => newNodes.push(makeSection(pNodes)))
+		split(goodChildren, isInsideSection,
+			outsideNodes => newNodes.push(...outsideNodes),
+			insideNodes => newNodes.push(makeSection(insideNodes)))
 		empty(node)
 		newNodes.forEach(_ => node.appendChild(_))
 	}

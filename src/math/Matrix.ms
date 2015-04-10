@@ -4,6 +4,8 @@ use
 	..@.Seq! set-nth!
 	..Bool and
 	..control if
+	..methods sub
+	..Type.Method impl!
 	..Type.Obj-Type
 	..Type.Type contains?
 	.methods * +
@@ -44,7 +46,7 @@ has-entry?.
 	|_:Matrix ix:Int iy:Int
 		if (has-entry? _ ix iy) ~_.data[(data-idx _ ix iy)]
 
-get-mat.
+impl! sub Matrix
 	doc. "TODO"
 	test. "See ?get-mat"
 	|_:Matrix ix:Nat iy:Nat

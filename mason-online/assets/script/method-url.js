@@ -2,24 +2,32 @@
 // TODO: Have this generated for me.
 const allExports = {
 	'!': '!',
-	'@': '@/@',
+	'@': '@.@',
 	$: '$',
+	$ing: '$',
 	'<?': 'compare',
-	'?': '@/?',
+	'?': '@.?',
 	Bool: 'Bool',
-	'contains?': 'Type/Type',
+	'contains?': 'Type.Type',
 	curry: 'Fun',
 	Error: 'Try',
 	'each~': 'Generator!',
-	'?find': '@/@',
+	'?find': '@.@',
 	Fun: 'Fun',
 	'Generator!': 'Generator!',
-	Map: '@/Map/Map',
+	'Impl-Type': 'Type.Impl-Type',
+	Kind: 'Type.Kind',
+	Map: '@.Map.Map',
+	Method: 'Type.Method',
 	Obj: 'Obj',
+	'Obj-Type': 'Type.Obj-Type',
+	'Pred-Type': 'Type.Pred-Type',
 	show: 'show',
 	sub: 'methods',
 	Str: 'Str',
-	Type: 'Type/Type'
+	Stream: '@.Stream',
+	Type: 'Type.Type',
+	'Wrap-Type': 'Type.Wrap-Type'
 }
 const exportPaths = {}
 Object.keys(allExports).forEach(function(key) {

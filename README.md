@@ -11,7 +11,7 @@ It is currently in progress.
 
 First off:
 
-	# See https://github.com/joyent/node/issues/14195#issuecomment-88629180
+	# See https://github.com/joyent/node/issues/14195
 	nvm use 0.11.14
 	npm install
 

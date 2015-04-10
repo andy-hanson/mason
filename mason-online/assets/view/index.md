@@ -80,7 +80,7 @@ This means that code "down and to the right" of a local can access it.
 		a = 1
 		. a # OK
 		.
-			a #OK
+			a # OK
 	.
 		a # Not OK
 
@@ -146,18 +146,10 @@ You can think of it as the "it" variable - the current value you're dealing with
 
 You can assign to it as in `_ = 1`, or make it a Fun's argument with `|_`.
 
-You can test (not assert) its inclusion in a type using `:type`.
-
 `fun_` is equivalent to `(fun _)`.
 
 	use
 		mason.math.methods * +
-		mason.math.Num
-		mason.Str
-
-	_ = 1
-	. :Num
-	. :Str
 
 	twice = |_
 		* _ 2
@@ -166,7 +158,8 @@ You can test (not assert) its inclusion in a type using `:type`.
 	two-and-a-half-of = |_
 		+ twice_ half_
 
-	. two-and-a-half-of 2
+	_ = 2
+	. two-and-a-half-of_
 
 
 # Case
@@ -206,12 +199,9 @@ Or, when a Fun has only one argument and its body is a `case`, just use `|case`.
 		case a
 			=? _ 7
 				"You got it!"
-			:Num
-				"Off by {- _ 7}"
 			else
-				"Try using a number, Einstein..."
+				"Off by {- _ 7}"
 
-	. rate-guess "swordfish"
 	. rate-guess 1337
 
 	rate-guess-2 = |case
@@ -405,12 +395,22 @@ Like `contains?`, `sub` has special syntax: `a[b]`.
 This is good for `Map` lookups, `@` lookups by index, and for `curry`.
 
 	use
+		mason.!
+		mason.compare =?
 		mason.methods sub
+		mason.math.methods +
 	map =
 		1 -> 2
 		3 -> 4
 	. map[1]
 	. sub map 1
+	# This does *not* call `=? 3`, they are passed separately.
+	must-be-three = ![=? 3]
+	must-be-three 3
+	# To call function inside, must use parentheses.
+	add-two = +[(+ 1 1)]
+	. add-two 2
+
 
 Like with parentheses, the closing `]` can be omitted.
 
@@ -422,6 +422,7 @@ Often you need to get more than one value out of an Obj.
 	one two = my-obj
 	. one
 	. two
+
 
 # More
 
