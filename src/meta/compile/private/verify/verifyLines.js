@@ -13,7 +13,7 @@ export default function verifyLines(vx, lines) {
 	function processLine(line) {
 		if (line instanceof Debug)
 			// TODO: Do anything in this situation?
-			// vx.check(!inDebug, line.span, 'Redundant `debug`.')
+			// vx.check(!inDebug, line.loc, 'Redundant `debug`.')
 			vx.withInDebug(true, () => line.lines.forEach(processLine))
 		else {
 			verifyIsStatement(vx, line)
@@ -21,8 +21,8 @@ export default function verifyLines(vx, lines) {
 			prevLocals.forEach(prevLocal =>
 				lineNews.forEach(newLocal =>
 					vx.check(
-						prevLocal.name !== newLocal.name, newLocal.span,
-						`${code(newLocal.name)} already declared at ${prevLocal.span.start}`)))
+						prevLocal.name !== newLocal.name, newLocal.loc,
+						`${code(newLocal.name)} already declared at ${prevLocal.loc.start}`)))
 			lineNews.forEach(_ => vx.registerLocal(_))
 			const newLocals = prevLocals.concat(lineNews)
 			lineToLocals.set(line, prevLocals)
@@ -62,7 +62,7 @@ function verifyIsStatement(vx, line) {
 		case line instanceof YieldTo:
 			return
 		default:
-			vx.fail(line.span, 'Expression in statement position.')
+			vx.fail(line.loc, 'Expression in statement position.')
 	}
 }
 

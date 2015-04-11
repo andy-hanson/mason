@@ -24,7 +24,7 @@ export function parseCase(px, k, casedFromFun) {
 			return None
 		}
 		else return opIf(!before.isEmpty(), () =>
-			px.w(before, () => Assign.focus(px.span, ParseExpr.default(px))))
+			px.w(before, () => Assign.focus(px.loc, ParseExpr.default(px))))
 	})()
 
 	const l = lines.last()
@@ -40,8 +40,8 @@ export function parseCase(px, k, casedFromFun) {
 		const { before, block } =
 			px.w(line.tokens, isVal ? PB.takeBlockValFromEnd : PB.takeBlockDoFromEnd)
 		const test = px.w(before, ParseExpr.default)
-		return (isVal ? CaseValPart : CaseDoPart)(line.span, test, block)
+		return (isVal ? CaseValPart : CaseDoPart)(line.loc, test, block)
 	})
 
-	return (isVal ? CaseVal : CaseDo)(px.span, opCased, parts, opElse)
+	return (isVal ? CaseVal : CaseDo)(px.loc, opCased, parts, opElse)
 }

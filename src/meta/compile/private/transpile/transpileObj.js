@@ -1,4 +1,6 @@
-import { Literal, ObjectExpression, property, thunk, propertyIdOrLiteral } from '../esast'
+import { Literal, ObjectExpression } from 'esast/ast'
+import { propertyIdOrLiteralCached, thunk } from 'esast/util'
+import { property } from 'esast/specialize'
 import { cat, flatMap, isEmpty, unshift } from '../U/Bag'
 import { ifElse } from '../U/Op'
 import { assert } from '../U/util'
@@ -28,7 +30,7 @@ export const
 				assert(!isEmpty(keys))
 				const props = keys.map(key => {
 					const val = accessLocalDeclare(key)
-					const id = propertyIdOrLiteral(key.name)
+					const id = propertyIdOrLiteralCached(key.name)
 					return key.isLazy ?
 						property('get', id, thunk(val)) :
 						property('init', id, val)
@@ -41,4 +43,4 @@ export const
 
 	transpileObjSimple = (_, tx) =>
 		ObjectExpression(Object.getOwnPropertyNames(_.keysVals).map(keyName =>
-			property('init', propertyIdOrLiteral(keyName), t(tx)(_.keysVals[keyName]))))
+			property('init', propertyIdOrLiteralCached(keyName), t(tx)(_.keysVals[keyName]))))

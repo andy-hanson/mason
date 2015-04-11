@@ -1,12 +1,13 @@
+import { ArrayExpression, BinaryExpression, BlockStatement, CallExpression, Identifier,
+	ExpressionStatement, FunctionExpression, IfStatement, Literal, ObjectExpression, Program,
+	ReturnStatement, UnaryExpression, VariableDeclaration, VariableDeclarator } from 'esast/ast'
+import { idCached, member } from 'esast/util'
+import { assignmentExpressionPlain } from 'esast/specialize'
 import { UseDo } from '../../Expression'
-import { ArrayExpression, BinaryExpression, BlockStatement, CallExpression,
-	Identifier, ExpressionStatement, FunctionExpression, IfStatement, Literal, ObjectExpression,
-	Program, ReturnStatement, UnaryExpression, VariableDeclaration, VariableDeclarator,
-	assignmentExpressionPlain, member, idCached, idSpecialCached }
-	from '../esast'
 import manglePath from '../manglePath'
 import { flatMap, isEmpty, last, push } from '../U/Bag'
 import { None, opIf } from '../U/Op'
+import { idForDeclareCached } from './esast-util'
 import { t, IdDefine, IdExports, IdModule, lazyWrap,
 	msGetModule, msLazyGetModule, msGetDefaultExport,
 	makeDestructureDeclarators, msLazy } from './util'
@@ -35,7 +36,7 @@ export default (_, tx) => {
 	const amdArgs = AmdFirstArgs.concat(useIdentifiers)
 	const useDos = _.doUses.map((use, i) => {
 		const d = ExpressionStatement(msGetModule([ useIdentifiers[i] ]))
-		d.loc = use.span
+		d.loc = use.loc
 		return d
 	})
 	const allUseDeclarators = flatMap(_.uses.concat(_.debugUses), (use, i) =>
@@ -72,20 +73,20 @@ const useDeclarators = (tx, _, moduleIdentifier) => {
 	const usedDefault = _.opUseDefault.map(def => {
 		const defexp = msGetDefaultExport([ moduleIdentifier ])
 		const val = isLazy ? lazyWrap(defexp) : defexp
-		const vd = VariableDeclarator(idCached(def), val)
-		vd.loc = def.span
+		const vd = VariableDeclarator(idForDeclareCached(def), val)
+		vd.loc = def.loc
 		return vd
 	})
 
 	const usedDestruct = isEmpty(_.used) ? [] :
-		makeDestructureDeclarators(tx, _.span, _.used, isLazy, value, '=', true)
-	usedDestruct.forEach(_ => _.loc = _.span)
+		makeDestructureDeclarators(tx, _.loc, _.used, isLazy, value, '=', true)
+	usedDestruct.forEach(_ => _.loc = _.loc)
 
 	return usedDefault.concat(usedDestruct)
 }
 
 const
-	useIdentifier = (use, i) => idSpecialCached(`${last(use.path.split('/'))}_${i}`),
+	useIdentifier = (use, i) => idCached(`${last(use.path.split('/'))}_${i}`),
 
 	// const exports = { }
 	DeclareExports = VariableDeclaration('const', [

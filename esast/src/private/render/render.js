@@ -1,17 +1,14 @@
-import { isEmpty } from '../U/Bag'
-import { assert, implementMany } from '../U/util'
-import * as Esast from '../esast'
+import * as EsAst from '../../ast'
+import { assert, implementMany, isEmpty } from '../util'
 import { SourceNode } from './source-map/source-node'
 import Rx from './Rx'
 
-export default function render(cx, ast) {
-	const node = new Rx(cx).render(ast)
-	if (cx.opts.sourceMap())
-		return node.toStringWithSourceMap({
-			file: './' + cx.opts.jsBaseName()
-		})
-	else
-		return new SourceNode(null, null, null, node).toString()
+// TODO: 'modulePath' parameter is kludge
+export default (ast, inFilePath, outFilePath) => {
+	const node = new Rx(inFilePath).render(ast)
+	return outFilePath === undefined ?
+		new SourceNode(null, null, null, node).toString() :
+		node.toStringWithSourceMap({ file: outFilePath })
 }
 
 const rCall = (_, rx) => {
@@ -21,7 +18,7 @@ const rCall = (_, rx) => {
 	rx.o(')')
 }
 
-implementMany(Esast, 'render', {
+implementMany(EsAst, 'render', {
 	Program: (_, rx) => rx.interleave(_.body, rx.snl),
 	Identifier: (_, rx) => rx.o(_.name),
 	BlockStatement: (_, rx) => rx.block(_.body, rx.snl),
@@ -36,7 +33,7 @@ implementMany(Esast, 'render', {
 		rx.o(') ')
 		rx.e(_.body)
 	},
-	Literal: (_, rx) => {
+	Literal(_, rx) {
 		if (_.value === null)
 			rx.o('null')
 		else if (typeof _.value === 'string')
@@ -60,7 +57,7 @@ implementMany(Esast, 'render', {
 			rx.o('get ')
 			rx.e(_.key)
 			rx.o('() ')
-			assert(_.value instanceof Esast.FunctionExpression)
+			assert(_.value instanceof EsAst.FunctionExpression)
 			assert(_.value.id === null && isEmpty(_.value.params) && !_.value.generator)
 			rx.e(_.value.body)
 		}

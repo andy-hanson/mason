@@ -1,4 +1,4 @@
-import Span from './private/Span'
+import Loc from 'esast/Loc'
 import type from './private/U/type'
 import { tuple } from './private/U/types'
 
@@ -13,7 +13,7 @@ export default function CompileError(warning) {
 }
 CompileError.prototype = Object.create(Error.prototype)
 
-export const Warning = tuple(Object, 'span', Span, 'message', String)
+export const Warning = tuple(Object, 'loc', Loc, 'message', String)
 
 export const code = str => `{{${str}}}`
 

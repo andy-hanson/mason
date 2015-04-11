@@ -1,5 +1,5 @@
 import type from './type'
-import { assert, indented } from './util'
+import { assert } from './util'
 
 export const tuple = (superType, ...namesTypes) => {
 	let names = []

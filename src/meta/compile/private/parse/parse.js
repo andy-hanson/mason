@@ -10,7 +10,7 @@ import Px from './Px'
 
 export default function parse(cx, rootToken) {
 	assert(Group.isBlock(rootToken))
-	const px = new Px(cx, rootToken.tokens, rootToken.span)
+	const px = new Px(cx, rootToken.tokens, rootToken.loc)
 	return parseModule(px)
 }
 
@@ -29,11 +29,11 @@ function parseModule(px) {
 	if (px.opts().moduleDisplayName())
 		block.lines.push(
 			Assign(
-				px.span,
-				LocalDeclare(px.span, 'displayName', [], false, true),
+				px.loc,
+				LocalDeclare(px.loc, 'displayName', [], false, true),
 				'export',
-				ELiteral(px.span, px.opts().moduleName(), String)))
+				ELiteral(px.loc, px.opts().moduleName(), String)))
 
 	const uses = plainUses.concat(lazyUses)
-	return Module(px.span, doUses, uses, debugUses, block)
+	return Module(px.loc, doUses, uses, debugUses, block)
 }

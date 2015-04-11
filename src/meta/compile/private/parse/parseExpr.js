@@ -29,17 +29,17 @@ export default function parseExpr(px) {
 					splits[i + 1].before.rtail()
 				const value = px.w(tokensValue, parseExprPlain)
 				px.check(!Object.prototype.hasOwnProperty.call(keysVals, local.name),
-					local.span, () => `Duplicate property ${local}.`)
+					local.loc, () => `Duplicate property ${local}.`)
 				Object.defineProperty(keysVals, local.name, { value })
 			}
 			assert(last(splits).at === undefined)
-			const val = ObjSimple(px.span, keysVals)
+			const val = ObjSimple(px.loc, keysVals)
 			if (tokensCaller.isEmpty())
 				return val
 			else {
 				const parts = px.w(tokensCaller, parseExprParts)
 				assert(!isEmpty(parts))
-				return Call(px.span, head(parts), push(tail(parts), val))
+				return Call(px.loc, head(parts), push(tail(parts), val))
 			}
 		},
 		() => parseExprPlain(px)
@@ -51,11 +51,11 @@ function parseExprPlain(px) {
 	const parts = parseExprParts(px)
 	switch (parts.length) {
 		case 0:
-			return GlobalAccess.null(px.span)
+			return GlobalAccess.null(px.loc)
 		case 1:
 			return head(parts)
 		default:
-			return Call(px.span, head(parts), tail(parts))
+			return Call(px.loc, head(parts), tail(parts))
 	}
 }
 
@@ -72,9 +72,9 @@ export function parseExprParts(px) {
 				case 'case':
 					return push(out, px.w(rest(), PC.parseCase, 'case', false))
 				case '<~':
-					return push(out, Yield(px.span, px.w(rest(), parseExpr)))
+					return push(out, Yield(px.loc, px.w(rest(), parseExpr)))
 				case '<~~':
-					return push(out, YieldTo(px.span, px.w(rest(), parseExpr)))
+					return push(out, YieldTo(px.loc, px.w(rest(), parseExpr)))
 				default:
 					// fallthrough
 			}

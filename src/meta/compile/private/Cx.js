@@ -1,5 +1,5 @@
 import CompileError, { Warning } from '../CompileError'
-import Span, { Pos, single } from './Span'
+import Loc, { Pos, singleCharLoc } from 'esast/Loc'
 import type from './U/type'
 
 export default class Cx {
@@ -15,18 +15,18 @@ export class SubContext {
 		this.cx = cx
 	}
 
-	check(cond, span, message) {
+	check(cond, loc, message) {
 		if (!cond)
-			this.fail(span, message)
+			this.fail(loc, message)
 	}
 
-	fail(span, message) {
-		throw CompileError(warning(span, message))
+	fail(loc, message) {
+		throw CompileError(warning(loc, message))
 	}
 
-	warnIf(cond, span, message) {
+	warnIf(cond, loc, message) {
 		if (cond)
-			this.cx.warnings.push(warning(span, message))
+			this.cx.warnings.push(warning(loc, message))
 	}
 
 	opts() { return this.cx.opts }
@@ -34,10 +34,11 @@ export class SubContext {
 
 const unlazy = _ => _ instanceof Function ? _() : _
 
-const warning = (span, message) => {
-	span = unlazy(span); message = unlazy(message)
-	if (span instanceof Pos)
-		span = single(span)
-	type(span, Span, message, String)
-	return Warning(span, message)
+const warning = (loc, message) => {
+	loc = unlazy(loc)
+	message = unlazy(message)
+	if (loc instanceof Pos)
+		loc = singleCharLoc(loc)
+	type(loc, Loc, message, String)
+	return Warning(loc, message)
 }

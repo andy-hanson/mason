@@ -1,0 +1,8 @@
+{
+	"name": "esast",
+	"//": "This file will be copied to ./dist.",
+	"main": "**/*",
+	"moduleType": "amd",
+	"license": "WTFPL",
+	"private": true
+}

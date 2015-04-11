@@ -40,16 +40,16 @@ function useLine(px, k) {
 
 	if (k === 'use!') {
 		px.check(px.tokens.size() === 1, () => `Unexpected ${px.tokens[1]}`)
-		return UseDo(px.span, path)
+		return UseDo(px.loc, path)
 	} else {
 		const isLazy = k === 'use~' || k === 'use-debug'
 		const { used, opUseDefault } = px.w(px.tokens.tail(), parseThingsUsed, name, isLazy)
-		return Use(px.span, path, used, opUseDefault)
+		return Use(px.loc, path, used, opUseDefault)
 	}
 }
 
 function parseThingsUsed(px, name, isLazy) {
-	const useDefault = () => LocalDeclare(px.span, name, None, isLazy, false)
+	const useDefault = () => LocalDeclare(px.loc, name, None, isLazy, false)
 	if (px.tokens.isEmpty())
 		return { used: [], opUseDefault: some(useDefault()) }
 	else {
@@ -84,10 +84,10 @@ function parseLocalRequire(px) {
 	if (first instanceof DotName)
 		parts = first.nDots === 1 ? ['.'] : repeat('..', first.nDots - 1)
 	else
-		px.check(first instanceof Name, first.span, 'Not a valid part of module path.')
+		px.check(first instanceof Name, first.loc, 'Not a valid part of module path.')
 	parts.push(first.name)
 	px.tokens.tail().each(t => {
-		px.check(t instanceof DotName && t.nDots === 1, t.span, 'Not a valid part of module path.')
+		px.check(t instanceof DotName && t.nDots === 1, t.loc, 'Not a valid part of module path.')
 		parts.push(t.name)
 	})
 	return {

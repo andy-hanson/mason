@@ -1,11 +1,11 @@
+import { singleCharLoc, StartPos } from 'esast/Loc'
 import fs from 'q-io/fs'
 import { relative } from 'path'
 import { BlockDo, ELiteral, ListSimple, Module, ModuleDefaultExport } from '../Expression'
 import Cx from '../private/Cx'
 import { OptsFromObject } from '../private/Opts'
-import { single, StartPos } from '../private/Span'
 import transpile from '../private/transpile/transpile'
-import render from '../private/render/render'
+import render from '../private/render'
 import { flatMap } from '../private/U/Bag'
 import { emptyVr } from '../private/Vr'
 
@@ -22,10 +22,10 @@ export default (dirPath, opts) =>
 			const noExt = f.slice(0, f.length - ext.length)
 			return [ `./${relative(dirPath, noExt)}` ]
 		}).sort()
-		// Dummy span. We will not use source maps.
-		const span = single(StartPos)
-		const val = ListSimple(span, moduleFiles.map(f => ELiteral(span, f, String)))
-		const e = Module(span, [], [], [], BlockDo(span, [ ModuleDefaultExport(span, val) ]))
+		// Dummy Loc. We will not use source maps.
+		const loc = singleCharLoc(StartPos)
+		const val = ListSimple(loc, moduleFiles.map(f => ELiteral(loc, f, String)))
+		const e = Module(loc, [], [], [], BlockDo(loc, [ ModuleDefaultExport(loc, val) ]))
 
 		const cx = new Cx(OptsFromObject({
 			includeSourceMap: false,

@@ -3,6 +3,9 @@
 	"//": "This file will be copied to ./js.",
 	"main": "**/*",
 	"ignore": [ "meta/compile/node-only" ],
+	"dependencies": {
+		"esast": "../esast/dist"
+	},
 	"moduleType": "amd",
 	"license": "WTFPL",
 	"private": true

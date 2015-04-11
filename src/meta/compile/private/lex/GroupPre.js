@@ -1,4 +1,5 @@
+import Loc from 'esast/Loc'
 import { GroupPres } from '../Lang'
-import { spanTuple } from '../Span'
+import { tuple } from '../U/types'
 
-export default spanTuple(Object, 'k', GroupPres)
+export default tuple(Object, 'loc', Loc, 'k', GroupPres)

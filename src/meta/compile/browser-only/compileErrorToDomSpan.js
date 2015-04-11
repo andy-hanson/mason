@@ -13,9 +13,9 @@ export const formatWarningForHtml = (warning, modulePath) => {
 }
 
 const format = (warning, modulePath, kind) => {
-	const spanSpan = document.createElement('span')
-	spanSpan.className = 'span'
-	spanSpan.textContent = warning.span + ' '
+	const locSpan = document.createElement('span')
+	locSpan.className = 'loc'
+	locSpan.textContent = warning.loc + ' '
 
 	const messageSpan = document.createElement('message')
 	messageSpan.className = 'message'
@@ -30,7 +30,7 @@ const format = (warning, modulePath, kind) => {
 
 	const allSpan = document.createElement('span')
 	allSpan.className = kind
-	allSpan.appendChild(spanSpan)
+	allSpan.appendChild(locSpan)
 	allSpan.appendChild(messageSpan)
 	return allSpan
 }

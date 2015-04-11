@@ -1,13 +1,13 @@
+import Loc from 'esast/Loc'
 import { code } from '../CompileError'
 import { AllKeywords, CaseKeywords, GroupKinds, GroupOpenToClose, LineSplitKeywords } from './Lang'
-import { spanTuple } from './Span'
 import type from './U/type'
-import { abstractType } from './U/types'
+import { tuple } from './U/types'
 import { implementMany2 } from './U/util'
 
 export default class Token { }
 
-const tt = function() { return spanTuple(Token, ...arguments) }
+const tt = function() { return tuple(Token, 'loc', Loc, ...arguments) }
 
 const gIs = k => {
 	type(k, GroupKinds)

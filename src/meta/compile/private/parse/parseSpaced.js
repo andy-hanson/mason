@@ -15,28 +15,28 @@ export function parseSpaced(px) {
 	switch (true) {
 		case h instanceof Keyword:
 			if (h.k === ':') {
-				px.check(!Keyword.isColon(rest.head()), h.span, () => `Two ${h} in a row`)
+				px.check(!Keyword.isColon(rest.head()), h.loc, () => `Two ${h} in a row`)
 				const eType = px.w(rest, parseSpaced)
-				const focus = LocalAccess.focus(h.span)
-				return Call.contains(h.span, eType, focus)
+				const focus = LocalAccess.focus(h.loc)
+				return Call.contains(h.loc, eType, focus)
 			} else if (h.k === '~')
-				return Lazy(h.span, px.w(rest, parseSpaced))
+				return Lazy(h.loc, px.w(rest, parseSpaced))
 		default: {
 			const memberOrSubscript = px => (e, t) => {
-				const span = t.span
+				const loc = t.loc
 				if (t instanceof DotName) {
-					px.check(t.nDots === 1, span, 'Too many dots!')
-					return Member(span, e, t.name)
+					px.check(t.nDots === 1, loc, 'Too many dots!')
+					return Member(loc, e, t.name)
 				} else if (t instanceof Group) {
 					if (t.k === '[')
-						return Call.sub(span,
+						return Call.sub(loc,
 							unshift(e, px.w(t.tokens, PE.parseExprParts)))
 					if (t.k === '(') {
-						px.check(t.tokens.isEmpty(), span,
+						px.check(t.tokens.isEmpty(), loc,
 							() => `Use ${code('(a b)')}, not ${code('a(b)')}`)
-						return Call(span, e, [])
+						return Call(loc, e, [])
 					}
-				} else px.fail(span, `Expected member or sub, not ${t}`)
+				} else px.fail(loc, `Expected member or sub, not ${t}`)
 			}
 			return rest.reduce(memberOrSubscript(px), px.wt(h, parseSingle))
 		}

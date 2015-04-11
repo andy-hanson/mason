@@ -16,11 +16,11 @@ export const
 		type(px, Px)
 		px.check(!px.tokens.isEmpty(), 'Expected an indented block')
 		const l = px.tokens.last()
-		px.check(Group.isBlock(l), l.span, 'Expected an indented block at the end')
+		px.check(Group.isBlock(l), l.loc, 'Expected an indented block at the end')
 		return { before: px.tokens.rtail(), lines: l.tokens }
 	},
 
-	blockWrap = px => BlockWrap(px.span, parseBody(px, 'val')),
+	blockWrap = px => BlockWrap(px.loc, parseBody(px, 'val')),
 
 	justBlockDo = px => {
 		const { before, block } = takeBlockDoFromEnd(px)
@@ -52,7 +52,7 @@ export const
 	// Gets lines in a region or Debug.
 	parseLinesFromBlock = px => {
 		const h = px.tokens.head()
-		px.check(px.tokens.size() > 1, h.span, () => `Expected indented block after ${h}`)
+		px.check(px.tokens.size() > 1, h.loc, () => `Expected indented block after ${h}`)
 		const block = px.tokens.second()
 		assert(px.tokens.size() === 2 && Group.isBlock(block))
 		return block.tokens.flatMap(line => px.w(line.tokens, parseLineOrLines_()))
@@ -62,7 +62,7 @@ const
 	parseBodyDo = px => {
 		const { eLines, kReturn } = parseBlockLines(px)
 		px.check(kReturn === 'plain', `Can not make ${kReturn} in statement context.`)
-		return BlockDo(px.span, eLines)
+		return BlockDo(px.loc, eLines)
 	},
 
 	parseBody = (px, k) => {
@@ -75,12 +75,12 @@ const
 			if (kReturn === 'bag')
 				return {
 					doLines: eLines,
-					opReturn: some(ListReturn(px.span, listLength))
+					opReturn: some(ListReturn(px.loc, listLength))
 				}
 			if (kReturn === 'map')
 				return {
 					doLines: eLines,
-					opReturn: some(MapReturn(px.span, mapLength))
+					opReturn: some(MapReturn(px.loc, mapLength))
 				}
 
 			const lastReturn = !isEmpty(eLines) && last(eLines) instanceof Val
@@ -89,7 +89,7 @@ const
 					{
 						doLines: rtail(eLines),
 						opReturn: some(ObjReturn(
-							px.span,
+							px.loc,
 							objKeys,
 							debugKeys,
 							some(last(eLines)),
@@ -98,7 +98,7 @@ const
 					} : {
 						doLines: eLines,
 						opReturn: some(ObjReturn(
-							px.span,
+							px.loc,
 							objKeys,
 							debugKeys,
 							None,
@@ -114,12 +114,12 @@ const
 		switch (k) {
 			case 'val':
 				return ifElse(opReturn,
-					returned => BlockVal(px.span, doLines, returned),
+					returned => BlockVal(px.loc, doLines, returned),
 					() => px.fail('Expected a value block.'))
 			case 'any':
 				return ifElse(opReturn,
-					returned => BlockVal(px.span, doLines, returned),
-					() => BlockDo(px.span, doLines))
+					returned => BlockVal(px.loc, doLines, returned),
+					() => BlockDo(px.loc, doLines))
 			case 'module': {
 				// TODO: Handle debug-only exports
 				const lines =
@@ -130,8 +130,8 @@ const
 								line.k = 'export'
 							return line
 						}),
-						opReturn.map(ret => ModuleDefaultExport(ret.span, ret)))
-				return BlockDo(px.span, lines)
+						opReturn.map(ret => ModuleDefaultExport(ret.loc, ret)))
+				return BlockDo(px.loc, lines)
 			}
 			default: throw new Error(k)
 		}
@@ -174,7 +174,7 @@ const
 		const isObj = !(isEmpty(objKeys) && isEmpty(debugKeys))
 		// TODO
 		// if (isEmpty(objKeys))
-		//	px.check(isEmpty(debugKeys), px.span, 'Block can't have only debug keys')
+		//	px.check(isEmpty(debugKeys), px.loc, 'Block can't have only debug keys')
 		const isBag = listLength > 0
 		const isMap = mapLength > 0
 		px.check(!(isObj && isBag), 'Block has both Bag and Obj lines.')

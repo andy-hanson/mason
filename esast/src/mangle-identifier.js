@@ -1,7 +1,3 @@
-import { JsGlobals } from '../Lang'
-import type from '../U/type'
-import { setUnion } from '../U/util'
-
 export default name =>
 	forbiddenNames.has(name) ?
 		'_' + name :
@@ -14,7 +10,7 @@ export const
 	propertyNameOk = name =>
 		name.search(/[^a-zA-Z0-9$_]/) === -1
 
-const forbiddenNames = setUnion(JsGlobals, new Set([
+const forbiddenNames = new Set([
 	'abstract',
 	'arguments',
 	'boolean',
@@ -82,4 +78,4 @@ const forbiddenNames = setUnion(JsGlobals, new Set([
 	'with',
 	'yield',
 	'yield*'
-]))
+])

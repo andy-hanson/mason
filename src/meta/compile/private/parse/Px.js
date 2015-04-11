@@ -1,46 +1,46 @@
+import Loc, { locType } from 'esast/Loc'
 import { SubContext } from '../Cx'
-import Span, { spanType } from '../Span'
 import { head, isEmpty, last } from '../U/Bag'
 import type from '../U/type'
 import Slice from '../U/Slice'
 import T from '../Token'
 
 export default class Px extends SubContext {
-	constructor(cx, tokens, span) {
+	constructor(cx, tokens, loc) {
 		super(cx)
 		type(tokens, Slice)
 		this.tokens = tokens
-		this.span = span
+		this.loc = loc
 	}
 
-	check(cond, span, message) {
+	check(cond, loc, message) {
 		if (message === undefined) {
-			message = span
-			super.check(cond, this.span, message)
+			message = loc
+			super.check(cond, this.loc, message)
 		} else
-			super.check(cond, span, message)
+			super.check(cond, loc, message)
 	}
 
 	checkEmpty(tokens, message) {
-		super.check(tokens.isEmpty(), () => spanFromTokens(tokens), message)
+		super.check(tokens.isEmpty(), () => locFromTokens(tokens), message)
 	}
 
-	fail(span, message) {
+	fail(loc, message) {
 		if (message === undefined) {
-			message = span
-			super.fail(this.span, message)
+			message = loc
+			super.fail(this.loc, message)
 		} else
-			super.fail(span, message)
+			super.fail(loc, message)
 	}
 
 	w(tokens, fun, arg, arg2, arg3) {
 		const t = this.tokens
 		this.tokens = tokens
-		const s = this.span
-		this.span = tokens.isEmpty() ? this.span : spanFromTokens(tokens)
+		const s = this.loc
+		this.loc = tokens.isEmpty() ? this.loc : locFromTokens(tokens)
 		const res = fun(this, arg, arg2, arg3)
 		this.tokens = t
-		this.span = s
+		this.loc = s
 		return res
 	}
 
@@ -49,4 +49,4 @@ export default class Px extends SubContext {
 	}
 }
 
-const spanFromTokens = ts => new Span(ts.head().span.start, ts.last().span.end)
+const locFromTokens = ts => Loc(ts.head().loc.start, ts.last().loc.end)

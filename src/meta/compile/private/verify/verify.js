@@ -22,13 +22,13 @@ function verifyLocalUse(vx) {
 		const info = vr.localToInfo.get(local)
 		const noNonDebug = isEmpty(info.nonDebugAccesses)
 		if (noNonDebug && isEmpty(info.debugAccesses))
-			vx.warnIf(!local.okToNotUse, local.span, () =>
+			vx.warnIf(!local.okToNotUse, local.loc, () =>
 				`Unused local variable ${code(local.name)}.`)
 		else if (info.isInDebug)
-			vx.check(noNonDebug, () => head(info.nonDebugAccesses).span, () =>
+			vx.check(noNonDebug, () => head(info.nonDebugAccesses).loc, () =>
 				`Debug-only local ${code(local.name)} used outside of debug.`)
 		else
-			vx.warnIf(!local.okToNotUse && noNonDebug, local.span, () =>
+			vx.warnIf(!local.okToNotUse && noNonDebug, local.loc, () =>
 				`Local ${code(local.name)} used only in debug.`)
 	}
 }
@@ -60,11 +60,11 @@ implementMany(EExports, 'verify', {
 	EndLoop(_, vx) {
 		ifElse(vx.opLoop,
 			loop => vx.setEndLoop(_, loop),
-			() => vx.fail(_.span, 'Not in a loop.'))
+			() => vx.fail(_.loc, 'Not in a loop.'))
 	},
 	Fun(_, vx) {
 		vx.withBlockLocals(() => {
-			vx.check(isEmpty(_.opResDeclare) || _.block instanceof EExports.BlockVal, _.span,
+			vx.check(isEmpty(_.opResDeclare) || _.block instanceof EExports.BlockVal, _.loc,
 				'Function with return condition must return something.')
 			_.args.forEach((arg) => arg.opType.forEach(v(vx)))
 			vx.withInGenerator(_.k === '~|', () => {
@@ -96,11 +96,11 @@ implementMany(EExports, 'verify', {
 		vx.plusLocals(useLocals, () => v(vx)(_.block))
 	},
 	Yield(_, vx) {
-		vx.check(vx.isInGenerator, _.span, 'Cannot yield outside of generator context')
+		vx.check(vx.isInGenerator, _.loc, 'Cannot yield outside of generator context')
 		v(vx)(_.yielded)
 	},
 	YieldTo(_, vx) {
-		vx.check(vx.isInGenerator, _.span, 'Cannot yield outside of generator context')
+		vx.check(vx.isInGenerator, _.loc, 'Cannot yield outside of generator context')
 		v(vx)(_.yieldedTo)
 	},
 
@@ -123,7 +123,7 @@ implementMany(EExports, 'verify', {
 	ListReturn() { },
 	ListEntry(_, vx) { v(vx)(_.value) },
 	ListSimple(_, vx) { _.parts.map(v(vx)) },
-	ELiteral(_, vx) { vx.warnIf(_.k === 'js', _.span, 'Js literal') },
+	ELiteral(_, vx) { vx.warnIf(_.k === 'js', _.loc, 'Js literal') },
 	MapReturn() { },
 	Member(_, vx) { v(vx)(_.object) },
 	ModuleDefaultExport(_, vx) { v(vx)(_.value) },

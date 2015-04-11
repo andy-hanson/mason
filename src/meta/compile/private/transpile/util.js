@@ -1,19 +1,20 @@
-import Expression, { LocalAccess, LocalDeclare } from '../../Expression'
 import { ArrayExpression, AssignmentExpression, BreakStatement, CallExpression, ExpressionStatement,
-	Identifier, Literal, ReturnStatement, VariableDeclarator,
-	member, thunk, idCached, idNew } from '../esast'
+	Identifier, Literal, ReturnStatement, VariableDeclarator } from 'esast/ast'
+import Loc from 'esast/Loc'
+import { member, thunk } from 'esast/util'
+import Expression, { LocalAccess, LocalDeclare } from '../../Expression'
 import { KAssign } from '../Lang'
-import Span from '../Span'
 import { flatMap, isEmpty, unshift } from '../U/Bag'
 import { ifElse, None } from '../U/Op'
 import type from '../U/type'
 import { assert } from '../U/util'
+import { idForDeclareCached, idForDeclareNew } from './esast-util'
 import Tx from './Tx'
 
 export const t = (tx, arg, arg2, arg3) => expr => {
 	const ast = expr.transpileSubtree(expr, tx, arg, arg2, arg3)
 	if (tx.opts().sourceMap()) {
-		const setLoc = _ => { _.loc = expr.span }
+		const setLoc = _ => { _.loc = expr.loc }
 		if (ast instanceof Array)
 			// This is only allowed inside of Blocks, which use `toStatements`.
 			ast.forEach(setLoc)
@@ -59,15 +60,15 @@ export const
 	msLazy = ms('lazy'),
 	msLazyGet = ms('lazyProp')
 
-export const makeDestructureDeclarators = (tx, span, assignees, isLazy, value, k, isModule) => {
-	type(tx, Tx, span, Span, assignees, [LocalDeclare],
+export const makeDestructureDeclarators = (tx, loc, assignees, isLazy, value, k, isModule) => {
+	type(tx, Tx, loc, Loc, assignees, [LocalDeclare],
 		isLazy, Boolean, value, Object, k, KAssign, isModule, Boolean)
-	const destructuredName = `_$${span.start.line}`
+	const destructuredName = `_$${loc.start.line}`
 	const idDestructured = Identifier(destructuredName)
 	const declarators = assignees.map(assignee => {
 		// TODO: Don't compile it if it's never accessed
 		const get = getMember(tx, idDestructured, assignee.name, isLazy, isModule)
-		return makeDeclarator(tx, assignee.span, assignee, k, get, isLazy)
+		return makeDeclarator(tx, assignee.loc, assignee, k, get, isLazy)
 	})
 	// Getting lazy module is done by ms.lazyGetModule.
 	const val = (isLazy && !isModule) ? lazyWrap(value) : value
@@ -84,8 +85,8 @@ const getMember = (tx, astObject, gotName, isLazy, isModule) => {
 		return member(astObject, gotName)
 }
 
-export const makeDeclarator = (tx, span, assignee, k, value, valueIsAlreadyLazy) => {
-	type(tx, Tx, span, Span, assignee, Expression, k, KAssign, value, Object)
+export const makeDeclarator = (tx, loc, assignee, k, value, valueIsAlreadyLazy) => {
+	type(tx, Tx, loc, Loc, assignee, Expression, k, KAssign, value, Object)
 	// TODO: assert(isEmpty(assignee.opType))
 	// or TODO: Allow type check on lazy value?
 	value = assignee.isLazy ? value :
@@ -94,13 +95,13 @@ export const makeDeclarator = (tx, span, assignee, k, value, valueIsAlreadyLazy)
 		case '=': case '. ': case '<~': case '<~~': {
 			const val = assignee.isLazy && !valueIsAlreadyLazy ? lazyWrap(value) : value
 			assert(assignee.isLazy || !valueIsAlreadyLazy)
-			return VariableDeclarator(idCached(assignee), val)
+			return VariableDeclarator(idForDeclareCached(assignee), val)
 		}
 		case 'export': {
 			// TODO:ES6
 			assert(!assignee.isLazy)
 			return VariableDeclarator(
-				idCached(assignee),
+				idForDeclareCached(assignee),
 				AssignmentExpression('=', member(IdExports, assignee.name), value))
 		}
 		default: throw new Error(k)
@@ -114,8 +115,8 @@ export const accessLocal = (tx, localAccess) => {
 export const accessLocalDeclare = localDeclare => {
 	type(localDeclare, LocalDeclare)
 	return localDeclare.isLazy ?
-		msUnlazy([ idCached(localDeclare) ]) :
-		idNew(localDeclare)
+		msUnlazy([ idForDeclareCached(localDeclare) ]) :
+		idForDeclareNew(localDeclare)
 }
 
 export const maybeWrapInCheckContains = (ast, tx, opType, name) =>

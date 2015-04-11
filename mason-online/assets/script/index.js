@@ -3,9 +3,9 @@ window.global = window
 const isFirefox = /firefox/i.test(navigator.userAgent)
 
 window.requirejs.config({
+	// Global requires are assumed to be for lib.
+	baseUrl: '../lib',
 	paths: {
-		mason: '../lib/mason',
-		codemirror: '../lib/codemirror',
 		marked: '../lib/marked/marked.min'
 	},
 	scriptType: isFirefox ? 'text/javascript;version=1.8' : 'text/javascript'
@@ -13,4 +13,4 @@ window.requirejs.config({
 
 // require([ 'mason/private/boot-order' ], () =>
 //	require([ 'mason/meta/run-all-tests' ], rat => _ms.getModule(rat).default()))
-require([ './mason-explain' ])
+require([ '../script/mason-explain' ])

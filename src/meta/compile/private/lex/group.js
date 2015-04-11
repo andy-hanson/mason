@@ -1,5 +1,5 @@
+import Loc, { Pos, StartPos } from 'esast/Loc'
 import { GroupOpenToClose } from '../Lang'
-import Span, { Pos, StartPos } from '../Span'
 import Token, { Group, Keyword } from '../Token'
 import { isEmpty, last } from '../U/Bag'
 import Slice from '../U/Slice'
@@ -61,10 +61,10 @@ export default function group(lx, preGroupedTokens) {
 		const old = stack.pop()
 		cur = isEmpty(stack) ? null : last(stack)
 		type(old, GroupBuilder)
-		const span = new Span(old.startPos, closePos)
+		const loc = Loc(old.startPos, closePos)
 		assert(GroupOpenToClose.get(old.k) === k)
 		const tokens = new Slice(old.body)
-		return Group(span, tokens, old.k)
+		return Group(loc, tokens, old.k)
 	}
 
 	function startLine(pos) {
@@ -76,65 +76,64 @@ export default function group(lx, preGroupedTokens) {
 		finishLevels(pos, 'ln')
 	}
 
-	function endAndStart(span, k) {
-		type(span, Span, k, String)
-		finishLevels(span.start, k)
-		newLevel(span.end, k)
+	function endAndStart(loc, k) {
+		finishLevels(loc.start, k)
+		newLevel(loc.end, k)
 	}
 
 	newLevel(StartPos, '->')
 	startLine(StartPos)
 
-	let endSpan = new Span(StartPos, StartPos)
+	let endLoc = Loc(StartPos, StartPos)
 	for (let _ of preGroupedTokens) {
 		if (_ instanceof Token)
 			cur.add(_)
 		else {
 			type(_, GroupPre)
-			type(_.span, Span)
+			type(_.loc, Loc)
 			// U.log(_.k)
-			const span = _.span
-			endSpan = span
+			const loc = _.loc
+			endLoc = loc
 			const k = _.k
 			switch (k) {
 				case '(': case '[': case '{':
-					newLevel(span.start, k)
-					newLevel(span.end, 'sp')
+					newLevel(loc.start, k)
+					newLevel(loc.end, 'sp')
 					break
 				case ')': case ']': case '}':
-					finishLevels(span.end, k)
+					finishLevels(loc.end, k)
 					break
 				case '"':
-					newLevel(span.start, k)
+					newLevel(loc.start, k)
 					break
 				case 'close"':
-					finishLevels(span.start, k)
+					finishLevels(loc.start, k)
 					break
 				case '->':
 					//  ~ before block is OK
 					if (isEmpty(cur.body) || !Keyword.isTilde(last(cur.body)))
-						endAndStart(span, 'sp')
-					newLevel(span.start, k)
-					startLine(span.end)
+						endAndStart(loc, 'sp')
+					newLevel(loc.start, k)
+					startLine(loc.end)
 					break
 				case '<-':
-					endLine(span.start)
-					finishLevels(span.end, k)
+					endLine(loc.start)
+					finishLevels(loc.end, k)
 					break
 				case 'ln':
-					endLine(span.start)
-					startLine(span.end)
+					endLine(loc.start)
+					startLine(loc.end)
 					break
 				case 'sp':
-					endAndStart(span, k)
+					endAndStart(loc, k)
 					break
 				default: throw new Error(k)
 			}
 		}
 	}
 
-	endLine(endSpan.end)
-	const wholeModuleBlock = wrapLevel(endSpan.end, '<-')
+	endLine(endLoc.end)
+	const wholeModuleBlock = wrapLevel(endLoc.end, '<-')
 	assert(isEmpty(stack))
 	return wholeModuleBlock
 }

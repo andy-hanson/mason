@@ -16,5 +16,5 @@ export const formatWarningForConsole = (warning, modulePath) => {
 const format = (warning, modulePath, kind) => {
 	// Turn code green
 	const message = toArray(formatCode(warning.message, green)).join('')
-	return `${blue(modulePath)}\n${magenta(kind)} ${bold.red(warning.span)} ${message}`
+	return `${blue(modulePath)}\n${magenta(kind)} ${bold.red(warning.loc)} ${message}`
 }

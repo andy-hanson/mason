@@ -20,9 +20,9 @@ export default function parseFun(px, k) {
 	const { args, opRestArg, block, opIn, opOut } = px.w(rest, argsAndBlock)
 	// Need res declare if there is a return type or out condition.
 	const opResDeclare = ifElse(opReturnType,
-		rt => some(LocalDeclare.res(rt.span, opReturnType)),
-		() => opOut.map(o => LocalDeclare.res(o.span, opReturnType)))
-	return Fun(px.span, k, args, opRestArg, block, opIn, opResDeclare, opOut)
+		rt => some(LocalDeclare.res(rt.loc, opReturnType)),
+		() => opOut.map(o => LocalDeclare.res(o.loc, opReturnType)))
+	return Fun(px.loc, k, args, opRestArg, block, opIn, opResDeclare, opOut)
 }
 
 const tryTakeReturnType = px => {
@@ -42,15 +42,15 @@ const argsAndBlock = px => {
 	// Might be `|case`
 	if (Keyword.isCaseOrCaseDo(h)) {
 		const eCase = px.w(px.tokens.tail(), PC.parseCase, h.k, true)
-		const args = [ LocalDeclare.focus(h.span) ]
+		const args = [ LocalDeclare.focus(h.loc) ]
 		return (h.k === 'case') ?
 			{
 				args, opRestArg: None, opIn: None, opOut: None,
-				block: BlockVal(px.span, [ ], eCase)
+				block: BlockVal(px.loc, [ ], eCase)
 			} :
 			{
 				args, opRestArg: None, opIn: None, opOut: None,
-				block: BlockDo(px.span, [ eCase ])
+				block: BlockDo(px.loc, [ eCase ])
 			}
 	} else {
 		const { before, lines } = PB.takeBlockLinesFromEnd(px)
@@ -67,10 +67,10 @@ const parseFunLocals = px => {
 	else {
 		const l = px.tokens.last()
 		if (l instanceof DotName) {
-			px.check(l.nDots === 3, l.span, 'Splat argument must have exactly 3 dots')
+			px.check(l.nDots === 3, l.loc, 'Splat argument must have exactly 3 dots')
 			return {
 				args: px.w(px.tokens.rtail(), parseLocalDeclares),
-				opRestArg: some(LocalDeclare(l.span, l.name, None, false, false))
+				opRestArg: some(LocalDeclare(l.loc, l.name, None, false, false))
 			}
 		}
 		else return { args: parseLocalDeclares(px), opRestArg: None }
@@ -86,7 +86,7 @@ function tryTakeInOut(px) {
 			if (Keyword.is(inOrOut)(tokensFirst.head()))
 				return {
 					took: some(Debug(
-						firstLine.span,
+						firstLine.loc,
 						px.w(tokensFirst, PB.parseLinesFromBlock))),
 					rest: lines.tail()
 				}

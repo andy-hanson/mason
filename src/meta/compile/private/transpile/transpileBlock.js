@@ -1,9 +1,10 @@
+import { BlockStatement, ReturnStatement } from 'esast/ast'
+import { toStatements } from 'esast/util'
 import { BlockVal, LocalDeclare } from '../../Expression'
-import { BlockStatement, ReturnStatement,
-	declare, toStatements } from '../esast'
 import { flatMap, isEmpty } from '../U/Bag'
 import { ifElse, opIf, None } from '../U/Op'
 import { assert } from '../U/util'
+import { declare } from './esast-util'
 import { t, maybeWrapInCheckContains, ReturnRes } from './util'
 
 export default (_, tx, lead, opResDeclare, opOut) => {

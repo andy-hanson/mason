@@ -1,6 +1,6 @@
+import Loc, { singleCharLoc } from 'esast/Loc'
 import { code } from '../../CompileError'
 import { AllKeywords, isNameCharacter, ReservedCharacters, ReservedWords } from '../Lang'
-import Span, { single } from '../Span'
 import { CallOnFocus, DotName, Keyword, Literal, Name } from '../Token'
 import { rcons } from '../U/Bag'
 import type from '../U/type'
@@ -35,9 +35,9 @@ export default function* ungrouped(lx, stream, isInQuote) {
 
 	while (stream.hasNext()) {
 		const startPos = stream.pos
-		const span = () => new Span(startPos, stream.pos)
-		const keyword = k => Keyword(span(), k)
-		const gp = k => GroupPre(span(), k)
+		const loc = () => Loc(startPos, stream.pos)
+		const keyword = k => Keyword(loc(), k)
+		const gp = k => GroupPre(loc(), k)
 
 		const eatNumber = () => {
 			let msLit = _ + stream.takeWhile(/[0-9\.e_]/)
@@ -48,7 +48,7 @@ export default function* ungrouped(lx, stream, isInQuote) {
 			const jsLit = msLit.replace(/_/g, '')
 			lx.check(!Number.isNaN(Number(jsLit)), stream.pos, () =>
 				`Invalid number literal ${code(msLit)}`)
-			return Literal(span(), jsLit, Number)
+			return Literal(loc(), jsLit, Number)
 		}
 
 		const _ = stream.eat()
@@ -66,7 +66,7 @@ export default function* ungrouped(lx, stream, isInQuote) {
 				yield gp(_)
 				break
 			case Space:
-				lx.warnIf(stream.peek() === ' ', span, 'Multiple spaces in a row')
+				lx.warnIf(stream.peek() === ' ', loc, 'Multiple spaces in a row')
 				yield gp('sp')
 				break
 			case Dot:
@@ -78,7 +78,7 @@ export default function* ungrouped(lx, stream, isInQuote) {
 					break
 				} else {
 					yield DotName(
-						span(),
+						loc(),
 						// +1 for the dot we just skipped.
 						stream.takeWhile('.').length + 1,
 						stream.takeWhile(isNameCharacter))
@@ -109,8 +109,8 @@ export default function* ungrouped(lx, stream, isInQuote) {
 				stream.takeUpTo('\n')
 				break
 			case Newline: {
-				lx.check(!isInQuote, span, 'Quote interpolation cannot contain newline')
-				lx.check(stream.prev() !== ' ', span, 'Line ends in a space')
+				lx.check(!isInQuote, loc, 'Quote interpolation cannot contain newline')
+				lx.check(stream.prev() !== ' ', loc, 'Line ends in a space')
 				// Skip any blank lines.
 				stream.takeWhile('\n')
 				const oldIndent = indent
@@ -121,22 +121,22 @@ export default function* ungrouped(lx, stream, isInQuote) {
 						yield gp('<-')
 					yield gp('ln')
 				} else {
-					lx.check(indent === oldIndent + 1, span, 'Line is indented more than once')
+					lx.check(indent === oldIndent + 1, loc, 'Line is indented more than once')
 					yield gp('->')
 				}
 				break
 			}
 			case Backtick: {
 				const js = stream.takeUpTo(/[`\n]/)
-				lx.check(stream.eat() === '`', span, () => `Unclosed ${code('`')}`)
-				yield Literal(span(), js, 'js')
+				lx.check(stream.eat() === '`', loc, () => `Unclosed ${code('`')}`)
+				yield Literal(loc(), js, 'js')
 				break
 			}
 			case Quote:
 				yield* lexQuote(lx, stream, indent)
 				break
 			case Tab:
-				lx.fail(span(), 'Tab may only be used to indent')
+				lx.fail(loc(), 'Tab may only be used to indent')
 			case Hyphen:
 				if (/[0-9]/.test(stream.peek())) {
 					yield eatNumber()
@@ -144,7 +144,7 @@ export default function* ungrouped(lx, stream, isInQuote) {
 				}
 				// Else fallthrough
 			default: {
-				lx.check(!ReservedCharacters.has(_), span, () => `Reserved character ${code(_)}`)
+				lx.check(!ReservedCharacters.has(_), loc, () => `Reserved character ${code(_)}`)
 				// All other characters should be handled in a case above.
 				assert(isNameCharacter(_))
 				const name = _ + stream.takeWhile(isNameCharacter)
@@ -156,13 +156,13 @@ export default function* ungrouped(lx, stream, isInQuote) {
 						break
 					default:
 						if (stream.tryEat('_'))
-							yield CallOnFocus(span(), name)
+							yield CallOnFocus(loc(), name)
 						else if (AllKeywords.has(name))
 							yield keyword(name)
 						else if (ReservedWords.has(name))
-							lx.fail(span, `Reserved word ${code(name)}`)
+							lx.fail(loc, `Reserved word ${code(name)}`)
 						else
-							yield Name(span(), name)
+							yield Name(loc(), name)
 				}
 			}
 		}
@@ -183,7 +183,7 @@ function* lexQuote(lx, stream, indent) {
 	function* yieldRead() {
 		if (read !== '') {
 			yield Literal(
-				new Span(startOfRead, stream.pos),
+				Loc(startOfRead, stream.pos),
 				// Don't include leading newline of indented block
 				first && isIndented ? read.slice(1) : read,
 				String)
@@ -193,7 +193,7 @@ function* lexQuote(lx, stream, indent) {
 		startOfRead = stream.pos
 	}
 
-	yield GroupPre(single(stream.pos), '"')
+	yield GroupPre(singleCharLoc(stream.pos), '"')
 
 	eatChars: while (true) {
 		const chPos = stream.pos
@@ -209,9 +209,9 @@ function* lexQuote(lx, stream, indent) {
 			case OpBrace: {
 				yield* yieldRead()
 				// We can't just create a Group now because there may be other GroupPre_s inside.
-				yield GroupPre(single(chPos), '(')
+				yield GroupPre(singleCharLoc(chPos), '(')
 				yield* ungrouped(lx, stream, true)
-				yield GroupPre(single(stream.pos), ')')
+				yield GroupPre(singleCharLoc(stream.pos), ')')
 				break
 			}
 			case Newline: {
@@ -249,7 +249,7 @@ function* lexQuote(lx, stream, indent) {
 	}
 
 	yield* yieldRead()
-	yield GroupPre(single(stream.pos), 'close"')
+	yield GroupPre(singleCharLoc(stream.pos), 'close"')
 }
 
 const quoteEscape = new Map([['{', '{'], ['n', '\n'], ['t', '\t'], ['"', '"'], ['\\', '\\']])

@@ -72,9 +72,9 @@ export default class Vx extends SubContext {
 		fun()
 		this.isInDebug = d
 	}
-	withRes(span, fun) {
+	withRes(loc, fun) {
 		// TODO: Bad idea to be creating new E at this point...
-		const res = LocalDeclare.res(span)
+		const res = LocalDeclare.res(loc)
 		this.registerLocal(res)
 		return this.plusLocals([ res ], fun)
 	}
@@ -112,7 +112,7 @@ export default class Vx extends SubContext {
 			const accesses = this.isInDebug ? info.debugAccesses : info.nonDebugAccesses
 			accesses.push(access)
 		} else
-			this.fail(access.span,
+			this.fail(access.loc,
 				`Could not find local or global ${code(name)}.\n` +
 				'Available locals are:\n' +
 				`${code(toArray(this.allLocalNames()).join(' '))}.`)

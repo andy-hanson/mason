@@ -7,15 +7,21 @@ Mason (rhymes with 'JSON') is a subset of JavaScript with nifty syntax for decla
 It is currently in progress.
 
 
-## Run
-
-First off:
+## Build
 
 	# See https://github.com/joyent/node/issues/14195
 	nvm use 0.11.14
-	npm install
 
-To build everything: `./gulp all`
+	cd esast
+	npm install
+	./gulp all
+
+	cd ..
+	npm install
+	./gulp all
+
+
+## Run
 
 To test changes to the compiler:
 

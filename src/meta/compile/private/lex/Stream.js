@@ -1,4 +1,4 @@
-import Span, { Pos, StartPos } from '../Span'
+import { StartPos } from 'esast/Loc'
 import type from '../U/type'
 import { assert, set } from '../U/util'
 
@@ -7,7 +7,7 @@ export default class Stream {
 		type(str, String)
 		assert(this instanceof Stream)
 		Object.defineProperty(this, 'str', { value: str })
-		// _pos and _index are mutable. _pos should always be the position at _index.
+		// pos and index are mutable. pos should always be the position at index.
 		this.pos = StartPos
 		this.index = 0
 	}

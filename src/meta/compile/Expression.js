@@ -1,8 +1,9 @@
+import Loc from 'esast/Loc'
 import { JsGlobals, KAssign, KFun, SpecialKeywords, UseKeywords } from './private/Lang'
-import Span, { spanTuple } from './private/Span'
 import { cons } from './private/U/Bag'
 import Op, { None } from './private/U/Op'
 import type from './private/U/type'
+import { tuple } from './private/U/types'
 import { abstractType } from './private/U/types'
 import { assert, setUnion } from './private/U/util'
 
@@ -14,9 +15,9 @@ export class Do extends Expression { }
 export class Val extends Expression { }
 
 // TODO:ES6 splat
-const ee = function() { return spanTuple(Expression, ...arguments) }
-const ed = function() { return spanTuple(Do, ...arguments) }
-const ev = function() { return spanTuple(Val, ...arguments) }
+const ee = function() { return tuple(Expression, 'loc', Loc, ...arguments) }
+const ed = function() { return tuple(Do, 'loc', Loc, ...arguments) }
+const ev = function() { return tuple(Val, 'loc', Loc, ...arguments) }
 
 // TODO: Get rid of null
 const KSpecial = setUnion(SpecialKeywords, [ 'contains', 'debugger', 'sub', 'null' ])
@@ -29,12 +30,12 @@ export const
 	LocalDeclare = Object.assign(
 		ee('name', String, 'opType', Op(Val), 'isLazy', Boolean, 'okToNotUse', Boolean),
 		{
-			focus: span => new LocalDeclare(span, '_', None, false, false),
-			res: (span, opType) => new LocalDeclare(span, 'res', opType, false, true)
+			focus: loc => LocalDeclare(loc, '_', None, false, false),
+			res: (loc, opType) => LocalDeclare(loc, 'res', opType, false, true)
 		}),
 	Assign = Object.assign(
 		ed('assignee', LocalDeclare, 'k', KAssign, 'value', Val),
-		{ focus: (span, value) => new Assign(span, LocalDeclare.focus(span), '=', value) }),
+		{ focus: (loc, value) => Assign(loc, LocalDeclare.focus(loc), '=', value) }),
 	AssignDestructure = ed(
 		'assignees', [LocalDeclare],
 		'k', KAssign,
@@ -42,12 +43,12 @@ export const
 		'isLazy', Boolean),
 	LocalAccess = Object.assign(
 		ev('name', String),
-		{ focus: span => new LocalAccess(span, '_') }),
+		{ focus: loc => LocalAccess(loc, '_') }),
 	GlobalAccess = Object.assign(
 		ev('name', JsGlobals),
 		{
-			null: span => new GlobalAccess(span, 'null'),
-			true: span => new GlobalAccess(span, 'true')
+			null: loc => GlobalAccess(loc, 'null'),
+			true: loc => GlobalAccess(loc, 'true')
 		}),
 	// Module
 	UseDo = ee('path', String),
@@ -94,9 +95,9 @@ export const
 	Call = Object.assign(
 		ev('called', Val, 'args', [Val]),
 		{
-			contains: (span, testType, tested) =>
-				new Call(span, Special.contains(span), [ testType, tested ]),
-			sub: (span, args) => new Call(span, Special.sub(span), args)
+			contains: (loc, testType, tested) =>
+				Call(loc, Special.contains(loc), [ testType, tested ]),
+			sub: (loc, args) => Call(loc, Special.sub(loc), args)
 		}),
 	// Only for use in a Call
 	Splat = ev('splatted', Val),
@@ -122,8 +123,8 @@ export const
 	Special = Object.assign(
 		ev('k', KSpecial),
 		{
-			contains: span => new Special(span, 'contains'),
-			debugger: span => new Special(span, 'debugger'),
-			sub: span => new Special(span, 'sub')
+			contains: loc => Special(loc, 'contains'),
+			debugger: loc => Special(loc, 'debugger'),
+			sub: loc => Special(loc, 'sub')
 		})
 

@@ -1,34 +1,22 @@
 {
-	"name": "mason",
+	"name": "esast",
 	"version": "0.0.0",
-	"private": true,
-	"//": "Dependencies are for gulp tasks only.",
-	"dependencies": {
-		"esast": "./esast/dist",
-		"amdefine": "0.1.0",
-		"chalk": "1.0.0",
-		"gulp-util": "3.0.4",
-		"q-io": "1.12.0",
-		"through2": "1.1.1",
-		"vinyl-sourcemaps-apply": "0.1.4"
-	},
+	"main": "dist",
 	"devDependencies": {
-		"es6-shim": "0.27.1",
-		"gulp": "3.8.11",
-		"gulp-babel": "4.0.1",
-		"gulp-eslint": "0.8.0",
-		"gulp-header": "1.2.2",
-		"gulp-plumber": "1.0.0",
-		"gulp-sourcemaps": "1.5.1",
-		"gulp-watch": "4.2.2",
-		"js-yaml": "3.2.7",
-		"plist": "1.1.0",
-		"requirejs": "2.1.17",
-		"source-map-support": "0.2.10"
+		"amdefine": "^0.1.0",
+		"es6-shim": "^0.27.1",
+		"gulp": "^3.8.11",
+		"gulp-babel": "^5.1.0",
+		"gulp-eslint": "^0.8.0",
+		"gulp-header": "^1.2.2",
+		"gulp-mocha": "^2.0.1",
+		"gulp-plumber": "^1.0.0",
+		"gulp-sourcemaps": "^1.5.1",
+		"gulp-watch": "^4.2.4"
 	},
-	"engines": {
-		"//": "Crashes in 0.11.15+!",
-		"node": "0.11.14"
+	"repository": {
+		"type": "git",
+		"url": "http://github.com/andy-hanson/esast"
 	},
 	"eslintConfig": {
 		"env": {

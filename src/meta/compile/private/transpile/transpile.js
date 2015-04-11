@@ -1,19 +1,22 @@
-import { ArrayExpression, AssignmentExpression, BlockStatement, BreakStatement, CallExpression,
-	DebuggerStatement, Identifier, LabeledStatement, Literal, SwitchCase, SwitchStatement,
-	ThisExpression, VariableDeclarator,
-	binaryExpressionPlus, declare, declareSpecial, callExpressionThunk, functionExpressionPlain,
-	functionExpressionThunk, member, idCached, idSpecialCached, switchStatementOnTrue, throwError,
-	toStatement, toStatements, unaryExpressionNegate, variableDeclarationConst,
-	whileStatementInfinite, yieldExpressionDelegate, yieldExpressionNoDelegate } from '../esast'
+import { ArrayExpression, AssignmentExpression, BlockStatement, BreakStatement,
+	CallExpression, DebuggerStatement, Identifier, LabeledStatement, Literal,
+	SwitchCase, SwitchStatement, ThisExpression, VariableDeclarator } from 'esast/ast'
+import Loc from 'esast/Loc'
+import { idCached, member, throwError, toStatement, toStatements } from 'esast/util'
+import {
+	binaryExpressionPlus, callExpressionThunk, functionExpressionPlain, functionExpressionThunk,
+	switchStatementOnTrue,
+	unaryExpressionNegate, variableDeclarationConst, whileStatementInfinite,
+	yieldExpressionDelegate, yieldExpressionNoDelegate } from 'esast/specialize'
 import Expression, * as EExports from '../../Expression'
 import { KAssign } from '../Lang'
 import Opts from '../Opts'
-import Span from '../Span'
 import { cat, cons, flatMap, isEmpty, push, range, tail, unshift } from '../U/Bag'
 import { ifElse, opIf, None, some } from '../U/Op'
 import type from '../U/type'
 import { assert, implementMany, isPositive, log } from '../U/util'
 import Vr from '../Vr'
+import { declare, declareSpecial, idForDeclareCached } from './esast-util'
 import transpileBlock from './transpileBlock'
 import { transpileObjReturn, transpileObjSimple } from './transpileObj'
 import transpileModule from './transpileModule'
@@ -34,10 +37,10 @@ export default function transpile(cx, e, vr) {
 
 implementMany(EExports, 'transpileSubtree', {
 	Assign: (_, tx) => variableDeclarationConst([
-		makeDeclarator(tx, _.span, _.assignee, _.k, t(tx)(_.value)) ]),
+		makeDeclarator(tx, _.loc, _.assignee, _.k, t(tx)(_.value)) ]),
 	// TODO:ES6 Just use native destructuring assign
 	AssignDestructure: (_, tx) => variableDeclarationConst(
-		makeDestructureDeclarators(tx, _.span, _.assignees, _.isLazy, t(tx)(_.value), _.k, false)),
+		makeDestructureDeclarators(tx, _.loc, _.assignees, _.isLazy, t(tx)(_.value), _.k, false)),
 	BlockDo: transpileBlock,
 	BlockVal: transpileBlock,
 	BlockWrap: (_, tx) => blockWrap(_, tx, t(tx)(_.block)),
@@ -88,7 +91,7 @@ implementMany(EExports, 'transpileSubtree', {
 		return functionExpressionPlain(args, body, _.k === '~|')
 	},
 	Lazy: (_, tx) => lazyWrap(t(tx)(_.value)),
-	ListReturn: _ => ArrayExpression(range(0, _.length).map(i => idSpecialCached(`_${i}`))),
+	ListReturn: _ => ArrayExpression(range(0, _.length).map(i => idCached(`_${i}`))),
 	ListSimple: (_, tx) => ArrayExpression(_.parts.map(t(tx))),
 	ListEntry: (_, tx) => declareSpecial(`_${_.index}`, t(tx)(_.value)),
 	ELiteral(_) {
@@ -107,7 +110,7 @@ implementMany(EExports, 'transpileSubtree', {
 				switch (_.value) {
 					// TODO:USE* Get rid of this!
 					case 'msGetModule': return member(IdMs, 'getModule')
-					case 'require': return idSpecialCached('require')
+					case 'require': return idCached('require')
 					default: throw new Error('This js literal not supported.')
 				}
 			default: throw new Error(_.k)
@@ -115,15 +118,15 @@ implementMany(EExports, 'transpileSubtree', {
 	},
 	GlobalAccess: _ => Identifier(_.name),
 	LocalAccess: (_, tx) => accessLocal(tx, _),
-	LocalDeclare: _ => idCached(_),
+	LocalDeclare: _ => idForDeclareCached(_),
 	// TODO: Don't always label!
 	Loop: (_, tx) =>
 		LabeledStatement(loopId(_), whileStatementInfinite(t(tx)(_.block))),
 	MapReturn: _ => msMap(flatMap(range(0, _.length), i =>
-		[ idSpecialCached('_k' + i.toString()), idSpecialCached('_v' + i.toString()) ])),
+		[ idCached('_k' + i.toString()), idCached('_v' + i.toString()) ])),
 	MapEntry: (_, tx) => variableDeclarationConst([
-		VariableDeclarator(idSpecialCached(`_k${_.index}`), t(tx)(_.key)),
-		VariableDeclarator(idSpecialCached(`_v${_.index}`), t(tx)(_.val))
+		VariableDeclarator(idCached(`_k${_.index}`), t(tx)(_.key)),
+		VariableDeclarator(idCached(`_v${_.index}`), t(tx)(_.val))
 	]),
 	Member: (_, tx) => member(t(tx)(_.object), _.name),
 	Module: transpileModule,
@@ -154,7 +157,7 @@ implementMany(EExports, 'transpileSubtree', {
 			default: throw new Error(_.k)
 		}
 	},
-	Splat: (_, tx) => tx.fail(_.span, 'Splat must appear as argument to a call.'),
+	Splat: (_, tx) => tx.fail(_.loc, 'Splat must appear as argument to a call.'),
 	Yield: (_, tx) => yieldExpressionNoDelegate(t(tx)(_.yielded)),
 	YieldTo: (_, tx) => yieldExpressionDelegate(t(tx)(_.yieldedTo))
 })
@@ -183,6 +186,6 @@ function casePart(tx, test, result, needBreak) {
 // TODO: MOVE
 
 const loopId = loop => {
-	type(loop.span.start.line, Number)
-	return idSpecialCached(`loop${loop.span.start.line}`)
+	type(loop.loc.start.line, Number)
+	return idCached(`loop${loop.loc.start.line}`)
 }

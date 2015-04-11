@@ -28,7 +28,7 @@ export function parseLocalDeclare(px) {
 		const rest2 = rest.tail()
 		if (!rest2.isEmpty()) {
 			const colon = rest2.head()
-			px.check(Keyword.isColon(colon), colon.span, () => `Expected ${code(':')}`)
+			px.check(Keyword.isColon(colon), colon.loc, () => `Expected ${code(':')}`)
 			px.check(rest2.size() > 1, () => `Expected something after ${colon}`)
 			const tokensType = rest2.tail()
 			opType = some(px.w(tokensType, parseSpaced))
@@ -37,16 +37,16 @@ export function parseLocalDeclare(px) {
 	else
 		name = parseLocalName(px, t)
 
-	return LocalDeclare(px.span, name, opType, isLazy, false)
+	return LocalDeclare(px.loc, name, opType, isLazy, false)
 }
 
 const parseLocalName = (px, t) => {
 	if (Keyword.isFocus(t))
 		return '_'
 	else {
-		px.check(t instanceof Name, t.span, () => `Expected a local name, not ${t}`)
+		px.check(t instanceof Name, t.loc, () => `Expected a local name, not ${t}`)
 		// TODO: Allow this?
-		px.check(!JsGlobals.has(t.name), t.span, () => `Can not shadow global ${code(t.name)}`)
+		px.check(!JsGlobals.has(t.name), t.loc, () => `Can not shadow global ${code(t.name)}`)
 		return t.name
 	}
 }

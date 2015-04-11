@@ -15,7 +15,7 @@ const
 gulp.task('default', [ 'watch' ])
 
 gulp.task('all', [ 'bower', 'js', 'ms', 'list-modules' ])
-gulp.task('watch', [ 'bower', 'js-lib', 'watch-js', 'watch-ms', 'watch-list-modules' ])
+gulp.task('watch', [ 'bower', 'watch-js', 'watch-ms', 'watch-list-modules' ])
 
 gulp.task('run', function() {
 	const test = require('./js/meta/run-all-tests')
@@ -39,7 +39,7 @@ function writeListModules() {
 }
 gulp.task('list-modules', [ 'js', 'ms' ], writeListModules)
 gulp.task('watch-list-modules', [ 'list-modules' ], function() {
-	const src = [ srcMs ].concat(srcJs)
+	const src = [ srcJs, srcMs ]
 	return watchVerbose(src, writeListModules)
 })
 
@@ -57,8 +57,7 @@ gulp.task('test-compile', function() {
 
 const
 	srcMs = 'src/**/*.ms',
-	libJs = 'src/meta/compile/private/render/source-map/**/*.js',
-	srcJs = [ 'src/**/*.js', '!' + libJs ],
+	srcJs = 'src/**/*.js',
 	dest = 'js'
 
 function pipeMs(stream) {
@@ -101,11 +100,8 @@ function pipeJs(stream) {
 	.pipe(gulp.dest(dest))
 }
 
-gulp.task('js', [ 'js-lib' ], function() {
+gulp.task('js', function() {
 	return pipeJs(src(srcJs))
-})
-gulp.task('js-lib', function() {
-	return gulp.src(libJs).pipe(gulp.dest('js/meta/compile/private/render/source-map'))
 })
 gulp.task('watch-js', function() { return pipeJs(srcWatch(srcJs)) })
 
@@ -116,7 +112,7 @@ gulp.task('lint', function() {
 	// For some reason, requiring this makes es6-shim unhappy.
 	// So, can't lint and do other things in the same task.
 	const eslint = require('gulp-eslint')
-	return src([ './*.js' ].concat(srcJs))
+	return src([ './*.js', srcJs ])
 	.pipe(eslint())
 	.pipe(eslint.format())
 })

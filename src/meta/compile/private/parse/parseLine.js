@@ -25,23 +25,23 @@ export default function parseLine(px) {
 		switch (h.k) {
 			case '. ':
 				// Index is set by parseBlock.
-				return ListEntry(px.span, px.w(rest, parseExpr), -1)
+				return ListEntry(px.loc, px.w(rest, parseExpr), -1)
 			case 'case!':
 				return px.w(rest, parseCase, 'case!', false)
 			case 'debug':
 				return Group.isBlock(px.tokens.second()) ?
 					// `debug`, then indented block
-					Debug(px.span, PB.parseLinesFromBlock(px)) :
+					Debug(px.loc, PB.parseLinesFromBlock(px)) :
 					// `debug`, then single line
-					Debug(px.span, px.w(rest, parseLineOrLines))
+					Debug(px.loc, px.w(rest, parseLineOrLines))
 			case 'debugger':
 				px.checkEmpty(rest, () => `Did not expect anything after ${h}`)
-				return Special.debugger(px.span)
+				return Special.debugger(px.loc)
 			case 'end-loop!':
 				px.checkEmpty(rest, () => `Did not expect anything after ${h}`)
-				return EndLoop(px.span)
+				return EndLoop(px.loc)
 			case 'loop!':
-				return Loop(px.span, px.w(rest, PB.justBlockDo))
+				return Loop(px.loc, px.w(rest, PB.justBlockDo))
 			case 'region':
 				return PB.parseLinesFromBlock(px)
 			default:
@@ -65,7 +65,7 @@ export function parseLineOrLines(px) {
 function parseAssign(px, assigned, assigner, value) {
 	let locals = px.w(assigned, parseLocalDeclares)
 	const k = assigner.k
-	const eValuePre = value.isEmpty() ? GlobalAccess.true(px.span) : px.w(value, parseExpr)
+	const eValuePre = value.isEmpty() ? GlobalAccess.true(px.loc) : px.w(value, parseExpr)
 
 	let eValueNamed
 	if (locals.length === 1) {
@@ -93,31 +93,31 @@ function parseAssign(px, assigned, assigner, value) {
 	}
 
 	if (isYield)
-		locals.forEach(_ => px.check(_.k !== 'lazy', _.span, 'Can not yield to lazy variable.'))
+		locals.forEach(_ => px.check(_.k !== 'lazy', _.loc, 'Can not yield to lazy variable.'))
 
 	if (k === '. ')
 		locals.forEach(l => { l.okToNotUse = true })
 
 	if (locals.length === 1) {
-		const assign = Assign(px.span, locals[0], k, eValue)
+		const assign = Assign(px.loc, locals[0], k, eValue)
 		const isTest = assign.assignee.name.endsWith('test')
-		return isTest && k === '. ' ? Debug(px.span, [ assign ]) : assign
+		return isTest && k === '. ' ? Debug(px.loc, [ assign ]) : assign
 	}
 	else {
 		const isLazy = locals.some(l => l.isLazy)
 		if (isLazy)
-			locals.forEach(_ => px.check(_.isLazy, _.span,
+			locals.forEach(_ => px.check(_.isLazy, _.loc,
 				'If any part of destructuring assign is lazy, all must be.'))
-		return AssignDestructure(px.span, locals, k, eValue, isLazy)
+		return AssignDestructure(px.loc, locals, k, eValue, isLazy)
 	}
 }
 
 function valueFromAssign(valuePre, kAssign) {
 	switch (kAssign) {
 		case '<~':
-			return Yield(valuePre.span, valuePre)
+			return Yield(valuePre.loc, valuePre)
 		case '<~~':
-			return YieldTo(valuePre.span, valuePre)
+			return YieldTo(valuePre.loc, valuePre)
 		default:
 			return valuePre
 	}
@@ -138,7 +138,7 @@ function tryAddDisplayName(eValuePre, displayName) {
 			return eValuePre
 
 		case eValuePre instanceof Fun:
-			return ObjReturn(eValuePre.span, [], [], some(eValuePre), some(displayName))
+			return ObjReturn(eValuePre.loc, [], [], some(eValuePre), some(displayName))
 
 		case eValuePre instanceof ObjReturn &&
 			!eValuePre.keys.some(key => key.name === 'displayName'):
@@ -158,5 +158,5 @@ function tryAddDisplayName(eValuePre, displayName) {
 
 function parseMapEntry(px, before, after) {
 	// TODO: index Filled in by ???
-	return MapEntry(px.span, px.w(before, parseExpr), px.w(after, parseExpr), -1)
+	return MapEntry(px.loc, px.w(before, parseExpr), px.w(after, parseExpr), -1)
 }

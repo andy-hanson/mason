@@ -1,13 +1,10 @@
+import { ESNode } from '../../ast'
+import { isEmpty, type } from '../util'
 import { SourceNode } from './source-map/source-node'
-import { ESNode } from '../esast'
-import { SubContext } from '../Cx'
-import { assert } from '../U/util'
-import { isEmpty, last } from '../U/Bag'
-import type from '../U/type'
 
-export default class Rx extends SubContext {
-	constructor(cx) {
-		this.cx = cx
+export default class Rx {
+	constructor(inFilePath) {
+		this.inFilePath = inFilePath
 		this.indentStr = ''
 	}
 
@@ -21,7 +18,7 @@ export default class Rx extends SubContext {
 			return new SourceNode(
 				ast.loc.start.line,
 				ast.loc.start.column,
-				this.opts().modulePath(),
+				this.inFilePath,
 				content)
 		else
 			return content
