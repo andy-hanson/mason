@@ -1,4 +1,4 @@
-import Loc from 'esast/Loc'
+import Loc from 'esast/dist/Loc'
 import { JsGlobals, KAssign, KFun, SpecialKeywords, UseKeywords } from './private/Lang'
 import { cons } from './private/U/Bag'
 import Op, { None } from './private/U/Op'

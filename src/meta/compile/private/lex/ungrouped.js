@@ -1,4 +1,4 @@
-import Loc, { singleCharLoc } from 'esast/Loc'
+import Loc, { singleCharLoc } from 'esast/dist/Loc'
 import { code } from '../../CompileError'
 import { AllKeywords, isNameCharacter, ReservedCharacters, ReservedWords } from '../Lang'
 import { CallOnFocus, DotName, Keyword, Literal, Name } from '../Token'

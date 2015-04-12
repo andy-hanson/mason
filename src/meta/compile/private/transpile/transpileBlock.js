@@ -1,5 +1,5 @@
-import { BlockStatement, ReturnStatement } from 'esast/ast'
-import { toStatements } from 'esast/util'
+import { BlockStatement, ReturnStatement } from 'esast/dist/ast'
+import { toStatements } from 'esast/dist/util'
 import { BlockVal, LocalDeclare } from '../../Expression'
 import { flatMap, isEmpty } from '../U/Bag'
 import { ifElse, opIf, None } from '../U/Op'

@@ -4,7 +4,7 @@
 	"private": true,
 	"//": "Dependencies are for gulp tasks only.",
 	"dependencies": {
-		"esast": "./esast/dist",
+		"esast": "andy-hanson/esast",
 		"amdefine": "0.1.0",
 		"chalk": "1.0.0",
 		"gulp-util": "3.0.4",

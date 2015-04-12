@@ -1,4 +1,4 @@
-import Loc, { locType } from 'esast/Loc'
+import Loc, { locType } from 'esast/dist/Loc'
 import { SubContext } from '../Cx'
 import { head, isEmpty, last } from '../U/Bag'
 import type from '../U/type'

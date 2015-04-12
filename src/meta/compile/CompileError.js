@@ -1,4 +1,4 @@
-import Loc from 'esast/Loc'
+import Loc from 'esast/dist/Loc'
 import type from './private/U/type'
 import { tuple } from './private/U/types'
 

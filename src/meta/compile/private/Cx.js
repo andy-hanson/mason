@@ -1,5 +1,5 @@
 import CompileError, { Warning } from '../CompileError'
-import Loc, { Pos, singleCharLoc } from 'esast/Loc'
+import Loc, { Pos, singleCharLoc } from 'esast/dist/Loc'
 import type from './U/type'
 
 export default class Cx {

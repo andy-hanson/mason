@@ -1,8 +1,8 @@
 import { ArrayExpression, BinaryExpression, BlockStatement, CallExpression, Identifier,
 	ExpressionStatement, FunctionExpression, IfStatement, Literal, ObjectExpression, Program,
-	ReturnStatement, UnaryExpression, VariableDeclaration, VariableDeclarator } from 'esast/ast'
-import { idCached, member } from 'esast/util'
-import { assignmentExpressionPlain } from 'esast/specialize'
+	ReturnStatement, UnaryExpression, VariableDeclaration, VariableDeclarator } from 'esast/dist/ast'
+import { idCached, member } from 'esast/dist/util'
+import { assignmentExpressionPlain } from 'esast/dist/specialize'
 import { UseDo } from '../../Expression'
 import manglePath from '../manglePath'
 import { flatMap, isEmpty, last, push } from '../U/Bag'

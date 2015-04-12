@@ -2,7 +2,7 @@
 	"name": "mason-online",
 	"dependencies": {
 		"mason": "../js",
-		"esast": "../esast/dist",
+		"esast": "../esast",
 
 		"codemirror": "5.1.0",
 		"es6-shim": "0.27.1",

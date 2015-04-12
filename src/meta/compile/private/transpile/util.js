@@ -1,7 +1,7 @@
 import { ArrayExpression, AssignmentExpression, BreakStatement, CallExpression, ExpressionStatement,
-	Identifier, Literal, ReturnStatement, VariableDeclarator } from 'esast/ast'
-import Loc from 'esast/Loc'
-import { member, thunk } from 'esast/util'
+	Identifier, Literal, ReturnStatement, VariableDeclarator } from 'esast/dist/ast'
+import Loc from 'esast/dist/Loc'
+import { member, thunk } from 'esast/dist/util'
 import Expression, { LocalAccess, LocalDeclare } from '../../Expression'
 import { KAssign } from '../Lang'
 import { flatMap, isEmpty, unshift } from '../U/Bag'

@@ -1,7 +1,7 @@
-import { Identifier, VariableDeclarator } from 'esast/ast'
-import { idCached } from 'esast/util'
-import { variableDeclarationConst } from 'esast/specialize'
-import mangleIdentifier from 'esast/mangle-identifier'
+import { Identifier, VariableDeclarator } from 'esast/dist/ast'
+import { idCached } from 'esast/dist/util'
+import { variableDeclarationConst } from 'esast/dist/specialize'
+import mangleIdentifier from 'esast/dist/mangle-identifier'
 import { LocalDeclare } from '../../Expression'
 import type from '../U/type'
 

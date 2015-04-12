@@ -1,4 +1,4 @@
-import { ESNode } from 'esast/ast'
+import { ESNode } from 'esast/dist/ast'
 import fs from 'fs'
 import Expression from '../Expression'
 import Cx from '../private/Cx'

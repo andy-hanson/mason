@@ -1,13 +1,13 @@
 import { ArrayExpression, AssignmentExpression, BlockStatement, BreakStatement,
 	CallExpression, DebuggerStatement, Identifier, LabeledStatement, Literal,
-	SwitchCase, SwitchStatement, ThisExpression, VariableDeclarator } from 'esast/ast'
-import Loc from 'esast/Loc'
-import { idCached, member, throwError, toStatement, toStatements } from 'esast/util'
+	SwitchCase, SwitchStatement, ThisExpression, VariableDeclarator } from 'esast/dist/ast'
+import Loc from 'esast/dist/Loc'
+import { idCached, member, throwError, toStatement, toStatements } from 'esast/dist/util'
 import {
 	binaryExpressionPlus, callExpressionThunk, functionExpressionPlain, functionExpressionThunk,
 	switchStatementOnTrue,
 	unaryExpressionNegate, variableDeclarationConst, whileStatementInfinite,
-	yieldExpressionDelegate, yieldExpressionNoDelegate } from 'esast/specialize'
+	yieldExpressionDelegate, yieldExpressionNoDelegate } from 'esast/dist/specialize'
 import Expression, * as EExports from '../../Expression'
 import { KAssign } from '../Lang'
 import Opts from '../Opts'

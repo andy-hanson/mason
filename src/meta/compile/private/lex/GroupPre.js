@@ -1,4 +1,4 @@
-import Loc from 'esast/Loc'
+import Loc from 'esast/dist/Loc'
 import { GroupPres } from '../Lang'
 import { tuple } from '../U/types'
 

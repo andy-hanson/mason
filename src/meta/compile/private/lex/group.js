@@ -1,4 +1,4 @@
-import Loc, { Pos, StartPos } from 'esast/Loc'
+import Loc, { Pos, StartPos } from 'esast/dist/Loc'
 import { GroupOpenToClose } from '../Lang'
 import Token, { Group, Keyword } from '../Token'
 import { isEmpty, last } from '../U/Bag'

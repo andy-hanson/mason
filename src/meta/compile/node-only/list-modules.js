@@ -1,4 +1,4 @@
-import { singleCharLoc, StartPos } from 'esast/Loc'
+import { singleCharLoc, StartPos } from 'esast/dist/Loc'
 import fs from 'q-io/fs'
 import { relative } from 'path'
 import { BlockDo, ELiteral, ListSimple, Module, ModuleDefaultExport } from '../Expression'

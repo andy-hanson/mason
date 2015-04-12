@@ -1,4 +1,4 @@
-import Loc from 'esast/Loc'
+import Loc from 'esast/dist/Loc'
 import { code } from '../CompileError'
 import { AllKeywords, CaseKeywords, GroupKinds, GroupOpenToClose, LineSplitKeywords } from './Lang'
 import type from './U/type'

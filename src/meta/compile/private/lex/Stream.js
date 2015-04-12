@@ -1,4 +1,4 @@
-import { StartPos } from 'esast/Loc'
+import { StartPos } from 'esast/dist/Loc'
 import type from '../U/type'
 import { assert, set } from '../U/util'
 
