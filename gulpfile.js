@@ -14,16 +14,12 @@ const
 
 gulp.task('default', [ 'watch' ])
 
-gulp.task('all', [ 'bower', 'js', 'ms', 'list-modules' ])
-gulp.task('watch', [ 'bower', 'watch-js', 'watch-ms', 'watch-list-modules' ])
+gulp.task('all', [ 'js', 'ms', 'list-modules' ])
+gulp.task('watch', [ 'watch-js', 'watch-ms', 'watch-list-modules' ])
 
 gulp.task('run', function() {
-	const test = require('./js/meta/run-all-tests')
+	const test = require('./dist/meta/run-all-tests')
 	_ms.getModule(test).default()
-})
-
-gulp.task('bower', function() {
-	return gulp.src('./bower.json').pipe(gulp.dest('js'))
 })
 
 function src(glob) { return gulp.src(glob) }
@@ -32,9 +28,9 @@ function srcWatch(glob) { return src(glob).pipe(watchVerbose(glob)).pipe(plumber
 
 function writeListModules() {
 	// Required lazily because 'js' task must run first.
-	const listModules = require('./js/meta/compile/node-only/list-modules')
-	return listModules('./js', { exclude: /meta\/compile\/node-only\/.*/ }).then(function(js) {
-		return fs.write('./js/modules-list.js', js)
+	const listModules = require('./dist/meta/compile/node-only/list-modules')
+	return listModules('./dist', { exclude: /meta\/compile\/node-only\/.*/ }).then(function(js) {
+		return fs.write('./dist/modules-list.js', js)
 	}).done()
 }
 gulp.task('list-modules', [ 'js', 'ms' ], writeListModules)
@@ -44,25 +40,22 @@ gulp.task('watch-list-modules', [ 'list-modules' ], function() {
 })
 
 gulp.task('run-requirejs', function() {
-	requirejs.config({
-		baseUrl: 'js'
-	})
-	const test = requirejs('meta/run-all-tests')
+	const test = requirejs(__dirname + '/dist/meta/run-all-tests')
 	_ms.getModule(test).default()
 })
 
 gulp.task('test-compile', function() {
-	require('./js/meta/compile/node-only/test-compile')()
+	require('./dist/meta/compile/node-only/test-compile')()
 })
 
 const
 	srcMs = 'src/**/*.ms',
 	srcJs = 'src/**/*.js',
-	dest = 'js'
+	dist = 'dist'
 
 function pipeMs(stream) {
 	// This can only be required after we've created it, so 'ms' task depends on 'js'.
-	const ms = require('./js/meta/compile/node-only/gulp-mason')
+	const ms = require('./dist/meta/compile/node-only/gulp-mason')
 	return stream
 	.pipe(sourcemaps.init())
 	.pipe(ms({ verbose: true }))
@@ -71,7 +64,7 @@ function pipeMs(stream) {
 		includeContent: false,
 		sourceRoot: './src'
 	}))
-	.pipe(gulp.dest(dest))
+	.pipe(gulp.dest(dist))
 }
 
 function pipeJs(stream) {
@@ -97,7 +90,7 @@ function pipeJs(stream) {
 		debug: true,
 		sourceRoot: '/src'
 	}))
-	.pipe(gulp.dest(dest))
+	.pipe(gulp.dest(dist))
 }
 
 gulp.task('js', function() {

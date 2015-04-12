@@ -1,11 +1,11 @@
 use
-	...$ _ $after $all $ing
 	...! _ !call
 	...@.@ _ ++ each! flatten flat-map map
 	...@.@-Type empty
 	...@.? ?-or
 	...@.Id-Set!
 	...@.Map.Map
+	...$ _ $after $all $ing
 	...Bool _ and or
 	...compare =?
 	...control if
@@ -90,6 +90,7 @@ $test-module.
 	module-name = ?-or (?p module "displayName") "<anonymous module>"
 	@$maybe-test module-name module true
 
+# TODO: Make this local to a single run of $test-all.
 all-tested = empty Id-Set!
 
 # TODO: Better name
@@ -99,25 +100,35 @@ all-tested = empty Id-Set!
 			[ ]
 		else
 			all-tested.add value
-			a = test-special value
-			b = case value
-				or is-module ~:ObjLit ~:Fun
-					flat-map @p_ |prop-name
-						next-name = "{name}.{prop-name}"
-						prop-val = p _ prop-name
-						case prop-name
-							=? _ "test"
-								@$test-test-prop value prop-val next-name
-							=? _ "$test"
-								@$test-$test-prop prop-val next-name
-							else
-								@$maybe-test next-name prop-val false
-				and :Obj ~(p? _ "test")
-					@$test-test-prop _ _.test "{name}.test"
-				else
-					[]
+			@$test-single name value is-module
 
-			++ (@$-from-any a) b
+$test-fun.
+	doc. "TODO"
+	test. |
+		"TODO"
+	|_:Fun
+		$all (@$test-single _.displayName _ false)
+
+@$test-single = |name:Str value is-module:Bool
+	a = test-special value
+	b = case value
+		or is-module ~:ObjLit ~:Fun
+			flat-map @p_ |prop-name
+				next-name = "{name}.{prop-name}"
+				prop-val = p _ prop-name
+				case prop-name
+					=? _ "test"
+						@$test-test-prop value prop-val next-name
+					=? _ "$test"
+						@$test-$test-prop prop-val next-name
+					else
+						@$maybe-test next-name prop-val false
+		and :Obj ~(p? _ "test")
+			@$test-test-prop _ _.test "{name}.test"
+		else
+			[]
+
+	++ (@$-from-any a) b
 
 @$test-test-prop = |value value-test name # TODO: ...test-args
 	# Could be both Fun and ObjLit

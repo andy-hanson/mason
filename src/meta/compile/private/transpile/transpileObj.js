@@ -11,6 +11,9 @@ export const
 		const nonDebugKeys = _.keys
 		// TODO: includeTypeChecks() is not the right method for this
 		const keys = tx.opts().includeTypeChecks() ? _.keys.concat(_.debugKeys) : _.keys
+		// Make compilation deterministic.
+		keys.sort()
+
 		return ifElse(_.opObjed,
 			objed => {
 				const astObjed = t(tx)(objed)
@@ -41,6 +44,9 @@ export const
 			})
 	},
 
-	transpileObjSimple = (_, tx) =>
-		ObjectExpression(Object.getOwnPropertyNames(_.keysVals).map(keyName =>
-			property('init', propertyIdOrLiteralCached(keyName), t(tx)(_.keysVals[keyName]))))
+	transpileObjSimple = (_, tx) => {
+		// Sort to keep compilation deterministic.
+		const keys = Object.getOwnPropertyNames(_.keysVals).sort()
+		return ObjectExpression(keys.map(key =>
+			property('init', propertyIdOrLiteralCached(key), t(tx)(_.keysVals[key]))))
+	}

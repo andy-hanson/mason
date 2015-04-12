@@ -39,6 +39,14 @@ range. |-start-:Num -end-:Num ?step:Opt[Num]
 		end. -end-
 		step. -step-
 
+range-incl.
+	doc. "TODO"
+	test. |
+		"TODO"
+	|start:Num end:Num ?step:Opt[Num]
+		step = opr ?step (sign (- end start
+		range start (+ end step) step
+
 self-kind! Range @-Type
 	empty -> thunk (range 0 0)
 	from-stream -> |

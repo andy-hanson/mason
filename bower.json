@@ -1,10 +1,9 @@
 {
 	"name": "mason",
-	"//": "This file will be copied to ./js.",
-	"main": "**/*",
-	"ignore": [ "meta/compile/node-only" ],
+	"main": "dist/**/*",
+	"ignore": [ "dist/meta/compile/node-only" ],
 	"dependencies": {
-		"esast": "../esast/dist"
+		"esast": "andy-hanson/esast"
 	},
 	"moduleType": "amd",
 	"license": "WTFPL",
