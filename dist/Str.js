@@ -3,7 +3,7 @@ if (typeof define !== "function") var define = require("amdefine")(module);
 define([ "exports", "./Bool", "./compare", "./js", "./RegExp", "./Type/Kind", "./Type/Method", "./Type/Pred-Type", "./at/at" ], function(exports, Bool_0, compare_1, js_2, RegExp_3, Kind_4, Method_5, Pred_45Type_6, _64_7) {
 	exports._get = _ms.lazy(function() {
 		const _$2 = _ms.getModule(Bool_0), and = _ms.get(_$2, "and"), compare = _ms.getDefaultExport(compare_1), _$3 = _ms.getModule(compare_1), _61_63 = _ms.get(_$3, "=?"), _$4 = _ms.getModule(js_2), id_61_63 = _ms.get(_$4, "id=?"), _$5 = _ms.getModule(RegExp_3), regexp = _ms.get(_$5, "regexp"), Kind = _ms.getDefaultExport(Kind_4), _$7 = _ms.getModule(Method_5), impl_33 = _ms.get(_$7, "impl!"), Pred_45Type = _ms.getDefaultExport(Pred_45Type_6), _$10 = _ms.lazyGetModule(_64_7), count = _ms.lazyProp(_$10, "count");
-		const exports = {};
+		const exports = { };
 		const Str = function() {
 			const doc = "JavaScript's native String type.";
 			return _ms.set(global.String, "doc", doc, "displayName", "Str")

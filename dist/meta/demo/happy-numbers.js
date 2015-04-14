@@ -5,7 +5,7 @@ define([ "exports", "../../at/at", "../../at/atbang", "../../at/at-Type", "../..
 		const _$2 = _ms.getModule(_64_0), each_33 = _ms.get(_$2, "each!"), fold = _ms.get(_$2, "fold"), keep = _ms.get(_$2, "keep"), map = _ms.get(_$2, "map"), _$3 = _ms.getModule(_64_33_1), _43_43_33 = _ms.get(_$3, "++!"), _$4 = _ms.getModule(_64_45Type_2), empty = _ms.get(_$4, "empty"), Array_33 = _ms.getDefaultExport(Array_33_3), Id_45Set_33 = _ms.getDefaultExport(Id_45Set_33_4), _$7 = _ms.getModule(Range_5), range = _ms.get(_$7, "range"), _$8 = _ms.getModule(Seq_33_6), set_45nth_33 = _ms.get(_$8, "set-nth!"), Stream = _ms.getDefaultExport(Stream_7), Bool = _ms.getDefaultExport(Bool_8), _$10 = _ms.getModule(Bool_8), and = _ms.get(_$10, "and"), not = _ms.get(_$10, "not"), _$11 = _ms.getModule(control_9), returning = _ms.get(_$11, "returning"), _$12 = _ms.getModule(js_10), defined_63 = _ms.get(_$12, "defined?"), js_45sub = _ms.get(_$12, "js-sub"), Num = _ms.getDefaultExport(Num_11), _$13 = _ms.getModule(Num_11), infinity = _ms.get(_$13, "infinity"), Nat = _ms.get(_$13, "Nat"), square = _ms.get(_$13, "square"), _$14 = _ms.getModule(methods_12), _43 = _ms.get(_$14, "+"), _$15 = _ms.getModule(Type_13), contains_63 = _ms.get(_$15, "contains?"), _33 = _ms.lazy(function() {
 			return _ms.getDefaultExport(_33_14)
 		}), _$18 = _ms.lazyGetModule(Seq_15), seq_61_63 = _ms.lazyProp(_$18, "seq=?"), take = _ms.lazyProp(_$18, "take");
-		const exports = {};
+		const exports = { };
 		const digits = function(_) {
 			_ms.checkContains(Nat, _, "_");
 			return map(_.toString(10), Num.parseInt)

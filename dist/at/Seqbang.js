@@ -9,7 +9,7 @@ define([ "exports", "../math/Num", "../Type/Kind", "../Type/Method", "./at", "./
 		}), _$14 = _ms.lazyGetModule(compare_10), _61_63 = _ms.lazyProp(_$14, "=?"), _$15 = _ms.lazyGetModule(_64_11), empty_63 = _ms.lazyProp(_$15, "empty?"), Array_33 = _ms.lazy(function() {
 			return _ms.getDefaultExport(Array_33_12)
 		}), _$17 = _ms.lazyGetModule(Seq_13), seq_61_63 = _ms.lazyProp(_$17, "seq=?");
-		const exports = {};
+		const exports = { };
 		const Seq_33 = Kind(function() {
 			const doc = "Mutable Seq.\nArray!s can efficiently change existing elements and add new ones on the right.\nDeque!s are like Arrays, but can add new values on the left.";
 			const implementor_45test = function(type) {

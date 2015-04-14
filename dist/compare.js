@@ -15,7 +15,7 @@ define([ "exports", "./Bool", "./js", "./Type/Method", "./at/at", "./at/at-Type"
 		}), _$17 = _ms.lazyGetModule(_64_13), count = _ms.lazyProp(_$17, "count"), _63 = _ms.lazy(function() {
 			return _ms.getDefaultExport(_63_14)
 		}), _$19 = _ms.lazyGetModule(_64_45Type_15), empty = _ms.lazyProp(_$19, "empty"), _$20 = _ms.lazyGetModule(Try_16), fails_63 = _ms.lazyProp(_$20, "fails?");
-		const exports = {};
+		const exports = { };
 		const compare = Method(function() {
 			const doc = "A Num < 0 if a < b, > 0 if a > b, and = 0 if a = b.\nIt could be implemented as:\n\tcase\n\t\t<? a b\n\t\t\t-1\n\t\t>? a b\n\t\t\t1\n\t\telse\n\t\t\t0\nBut instead, other comparison operators are defined in terms of this.\n`compare a b` should always be `* -1 (compare b a)`.";
 			return {
@@ -62,7 +62,7 @@ define([ "exports", "./Bool", "./js", "./Type/Method", "./at/at", "./at/at-Type"
 			const doc = "Whether two values have the same `f`.";
 			const test = function() {
 				const _k0 = [ _ms.unlazy(count), [ 1 ], [ 2 ] ], _v0 = true;
-				const _k1 = [ _ms.unlazy(count), [  ], [ 1 ] ], _v1 = false;
+				const _k1 = [ _ms.unlazy(count), [ ], [ 1 ] ], _v1 = false;
 				return _ms.map(_k0, _v0, _k1, _v1)
 			};
 			return _ms.set(function(f, a, b) {
@@ -76,7 +76,7 @@ define([ "exports", "./Bool", "./js", "./Type/Method", "./at/at", "./at/at-Type"
 				const _k0 = [ [ 1, 3, 2 ] ], _v0 = 3;
 				const _k1 = [ [ 2, 1, 2 ] ], _v1 = 2;
 				_ms.unlazy(_33)(_ms.unlazy(fails_63), function() {
-					return max([  ])
+					return max([ ])
 				});
 				return _ms.map(_k0, _v0, _k1, _v1)
 			};
@@ -89,7 +89,7 @@ define([ "exports", "./Bool", "./js", "./Type/Method", "./at/at", "./at/at-Type"
 			const doc = "Like max, but returns empty ? for empty.";
 			const test = function() {
 				const _k0 = [ [ 1 ] ], _v0 = _ms.unlazy(_63)(1);
-				const _k1 = [ [  ] ], _v1 = _ms.unlazy(empty)(_ms.unlazy(_63));
+				const _k1 = [ [ ] ], _v1 = _ms.unlazy(empty)(_ms.unlazy(_63));
 				return _ms.map(_k0, _v0, _k1, _v1)
 			};
 			return _ms.set(function(_) {
@@ -102,7 +102,7 @@ define([ "exports", "./Bool", "./js", "./Type/Method", "./at/at", "./at/at-Type"
 			const test = function() {
 				const _k0 = [ [ "five", "six", "seven" ], _ms.unlazy(count) ], _v0 = "seven";
 				_ms.unlazy(_33)(_ms.unlazy(fails_63), function() {
-					return max_45by([  ], _ms.unlazy(identity))
+					return max_45by([ ], _ms.unlazy(identity))
 				});
 				return _ms.map(_k0, _v0)
 			};
@@ -116,7 +116,7 @@ define([ "exports", "./Bool", "./js", "./Type/Method", "./at/at", "./at/at-Type"
 			const doc = "Like max-by, but returns empty ? for empty.";
 			const test = function() {
 				const _k0 = [ [ 1 ], _ms.unlazy(identity) ], _v0 = _ms.unlazy(_63)(1);
-				const _k1 = [ [  ], _ms.unlazy(identity) ], _v1 = _ms.unlazy(empty)(_ms.unlazy(_63));
+				const _k1 = [ [ ], _ms.unlazy(identity) ], _v1 = _ms.unlazy(empty)(_ms.unlazy(_63));
 				return _ms.map(_k0, _v0, _k1, _v1)
 			};
 			return _ms.set(function(_, by) {
@@ -128,7 +128,7 @@ define([ "exports", "./Bool", "./js", "./Type/Method", "./at/at", "./at/at-Type"
 						const value = iter.next().value;
 						const cur_45max = _ms.unlazy(Ref_33)(value);
 						const cur_45max_45by = _ms.unlazy(Ref_33)(by(value));
-						loop113 :  while (true) {
+						loop113: while (true) {
 							const _$114 = iter.next(), value = _$114.value, done = _$114.done;
 							switch (true) {
 								case _ms.bool(done):
@@ -136,7 +136,6 @@ define([ "exports", "./Bool", "./js", "./Type/Method", "./at/at", "./at/at-Type"
 										break loop113
 									};
 									break
-								
 								default: {
 									const value_45by = by(value);
 									_ms.unlazy(if_33)(_60_63(_ms.unlazy(get)(cur_45max_45by), value_45by), function() {
@@ -154,7 +153,7 @@ define([ "exports", "./Bool", "./js", "./Type/Method", "./at/at", "./at/at-Type"
 		const sorted_63 = exports["sorted?"] = function() {
 			const doc = "Whether it is already in sorted order.";
 			const test = function() {
-				const _k0 = [ [  ] ], _v0 = true;
+				const _k0 = [ [ ] ], _v0 = true;
 				const _k1 = [ [ 1, 2, 3 ] ], _v1 = true;
 				const _k2 = [ [ 3, 2, 1 ] ], _v2 = false;
 				const _k3 = [ [ "six", "five", "seven" ], _ms.unlazy(count) ], _v3 = true;

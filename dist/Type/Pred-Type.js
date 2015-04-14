@@ -9,7 +9,7 @@ define([ "exports", "../Bool", "../Fun", "../js", "../methods", "../Obj", "../pr
 		}), _$17 = _ms.lazyGetModule(compare_13), _61_63 = _ms.lazyProp(_$17, "=?"), Num = _ms.lazy(function() {
 			return _ms.getDefaultExport(Num_14)
 		});
-		const exports = {};
+		const exports = { };
 		const Pred_45Type = Obj_45Type(function() {
 			const doc = "Arbitrary predicates can be made into types using Pred-Type.";
 			const props = function() {
@@ -129,7 +129,7 @@ define([ "exports", "../Bool", "../Fun", "../js", "../methods", "../Obj", "../pr
 			}
 		}();
 		self_45impl_33(sub, Union, function() {
-			const types = [  ].slice.call(arguments, 0);
+			const types = [ ].slice.call(arguments, 0);
 			return Pred_45Type(function() {
 				const displayName = "Union[" + _ms.show(_61_62(Str, types, " ")) + "]";
 				const predicate = function(_) {

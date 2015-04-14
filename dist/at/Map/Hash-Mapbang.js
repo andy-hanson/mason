@@ -5,7 +5,7 @@ define([ "exports", "../../compare", "../../hash-code", "../../js", "../../metho
 		const _$4 = _ms.getModule(compare_0), _61_63 = _ms.get(_$4, "=?"), hash_45code = _ms.getDefaultExport(hash_45code_1), _$6 = _ms.getModule(js_2), defined_63 = _ms.get(_$6, "defined?"), _$7 = _ms.getModule(methods_3), freeze = _ms.get(_$7, "freeze"), Obj = _ms.getDefaultExport(Obj_4), _$9 = _ms.getModule(Obj_33_5), p_33 = _ms.get(_$9, "p!"), _$10 = _ms.getModule(Kind_6), kind_33 = _ms.get(_$10, "kind!"), self_45kind_33 = _ms.get(_$10, "self-kind!"), _$11 = _ms.getModule(Method_7), impl_33 = _ms.get(_$11, "impl!"), self_45impl_33 = _ms.get(_$11, "self-impl!"), Obj_45Type = _ms.getDefaultExport(Obj_45Type_8), _$13 = _ms.getModule(_64_9), flat_45map = _ms.get(_$13, "flat-map"), map_39 = _ms.get(_$13, "map'"), _$14 = _ms.getModule(_64_33_10), empty_33 = _ms.get(_$14, "empty!"), _$15 = _ms.getModule(_64_45Type_11), empty = _ms.get(_$15, "empty"), Stream = _ms.getDefaultExport(Stream_12), _63 = _ms.getDefaultExport(_63_13), _$17 = _ms.getModule(_63_13), Opt_45_62_63 = _ms.get(_$17, "Opt->?"), _$18 = _ms.getModule(Map_14), _63get = _ms.get(_$18, "?get"), keys = _ms.get(_$18, "keys"), values = _ms.get(_$18, "values"), Id_45Map_33 = _ms.getDefaultExport(Id_45Map_33_15), Map_33 = _ms.getDefaultExport(Map_33_16), _$20 = _ms.getModule(Map_33_16), assoc_33 = _ms.get(_$20, "assoc!"), un_45assoc_33 = _ms.get(_$20, "un-assoc!"), Map_45Type = _ms.getDefaultExport(Map_45Type_17), _$23 = _ms.lazyGetModule(Generator_33_18), if_126 = _ms.lazyProp(_$23, "if~"), _33 = _ms.lazy(function() {
 			return _ms.getDefaultExport(_33_19)
 		}), _$26 = _ms.lazyGetModule(Seq_20), seq_61_63 = _ms.lazyProp(_$26, "seq=?");
-		const exports = {};
+		const exports = { };
 		const Hash_45Map_33 = Obj_45Type(function() {
 			const doc = "Default Map! type. Depends on efficient `hash-code` of its keys.";
 			const test = function() {
@@ -99,7 +99,6 @@ define([ "exports", "../../compare", "../../hash-code", "../../js", "../../metho
 							p_33(_, "val!", val)
 						};
 						break
-					
 					default: {
 						const k = key;
 						hm["hash->bucket"].set(hash_45code(key), function() {
@@ -133,7 +132,6 @@ define([ "exports", "../../compare", "../../hash-code", "../../js", "../../metho
 													assoc_33(hm["hash->bucket"], key, _)
 												};
 												break
-											
 											default: {
 												un_45assoc_33(hm["hash->bucket"], hash_45code(key))
 											}

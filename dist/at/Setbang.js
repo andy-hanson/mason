@@ -7,7 +7,7 @@ define([ "exports", "../Type/Kind", "./atbang", "./at-Type", "./at-Type", "./Set
 		}), _33 = _ms.lazy(function() {
 			return _ms.getDefaultExport(_33_6)
 		}), _$10 = _ms.lazyGetModule(_33_6), _33not = _ms.lazyProp(_$10, "!not"), _$11 = _ms.lazyGetModule(Type_7), contains_63 = _ms.lazyProp(_$11, "contains?"), _$12 = _ms.lazyGetModule(_64_8), empty_63 = _ms.lazyProp(_$12, "empty?"), _$13 = _ms.lazyGetModule(_64_33_9), _43_43_33 = _ms.lazyProp(_$13, "++!"), _45_45_33 = _ms.lazyProp(_$13, "--!"), empty_33 = _ms.lazyProp(_$13, "empty!");
-		const exports = {};
+		const exports = { };
 		const Set_33 = Kind(function() {
 			const doc = "Mutable Set.";
 			const implementor_45test = function(type) {

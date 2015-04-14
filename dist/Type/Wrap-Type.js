@@ -7,7 +7,7 @@ define([ "exports", "../Fun", "../js", "../private/js-impl", "../Obj", "../Objba
 		}), _$15 = _ms.lazyGetModule(compare_12), _61_63 = _ms.lazyProp(_$15, "=?"), _$17 = _ms.lazyGetModule(js_13), defined_63 = _ms.lazyProp(_$17, "defined?"), Num = _ms.lazy(function() {
 			return _ms.getDefaultExport(Num_14)
 		}), _$19 = _ms.lazyGetModule(Try_15), fails_63 = _ms.lazyProp(_$19, "fails?");
-		const exports = {};
+		const exports = { };
 		const if_33 = function(cond, fun) {
 			switch (true) {
 				case _ms.bool(cond):
@@ -15,7 +15,6 @@ define([ "exports", "../Fun", "../js", "../private/js-impl", "../Obj", "../Objba
 						fun()
 					};
 					break
-				
 				default: {
 					null
 				}

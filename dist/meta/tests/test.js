@@ -5,7 +5,7 @@ define([ "exports", "../../bang", "../../at/at", "../../at/at-Type", "../../at/q
 		const _33 = _ms.getDefaultExport(_33_0), _$2 = _ms.getModule(_33_0), _33call = _ms.get(_$2, "!call"), _64 = _ms.getDefaultExport(_64_1), _$3 = _ms.getModule(_64_1), _43_43 = _ms.get(_$3, "++"), each_33 = _ms.get(_$3, "each!"), flatten = _ms.get(_$3, "flatten"), flat_45map = _ms.get(_$3, "flat-map"), map = _ms.get(_$3, "map"), _$4 = _ms.getModule(_64_45Type_2), empty = _ms.get(_$4, "empty"), _$5 = _ms.getModule(_63_3), _63_45or = _ms.get(_$5, "?-or"), Id_45Set_33 = _ms.getDefaultExport(Id_45Set_33_4), Map = _ms.getDefaultExport(Map_5), $ = _ms.getDefaultExport($_6), _$8 = _ms.getModule($_6), $after = _ms.get(_$8, "$after"), $all = _ms.get(_$8, "$all"), $ing = _ms.get(_$8, "$ing"), Bool = _ms.getDefaultExport(Bool_7), _$9 = _ms.getModule(Bool_7), and = _ms.get(_$9, "and"), or = _ms.get(_$9, "or"), _$10 = _ms.getModule(compare_8), _61_63 = _ms.get(_$10, "=?"), _$11 = _ms.getModule(control_9), _if = _ms.get(_$11, "if"), Fun = _ms.getDefaultExport(Fun_10), _$12 = _ms.getModule(Fun_10), noop = _ms.get(_$12, "noop"), Generator_33 = _ms.getDefaultExport(Generator_33_11), Obj = _ms.getDefaultExport(Obj_12), _$14 = _ms.getModule(Obj_12), _63p = _ms.get(_$14, "?p"), p = _ms.get(_$14, "p"), p_63 = _ms.get(_$14, "p?"), _64p = _ms.get(_$14, "@p"), _64p_45all = _ms.get(_$14, "@p-all"), Str = _ms.getDefaultExport(Str_13), _$16 = _ms.getModule(Try_14), $annotate_45errors = _ms.get(_$16, "$annotate-errors"), annotate_45errors = _ms.get(_$16, "annotate-errors"), oh_45no_33 = _ms.get(_$16, "oh-no!"), Success = _ms.get(_$16, "Success"), _try = _ms.get(_$16, "try"), Impl_45Type = _ms.getDefaultExport(Impl_45Type_15), Kind = _ms.getDefaultExport(Kind_16), _$18 = _ms.getModule(Kind_16), concrete_45implementors = _ms.get(_$18, "concrete-implementors"), Method = _ms.getDefaultExport(Method_17), _$19 = _ms.getModule(Method_17), impl_33 = _ms.get(_$19, "impl!"), impl_45for = _ms.get(_$19, "impl-for"), _$20 = _ms.getModule(Pred_45Type_18), ObjLit = _ms.get(_$20, "ObjLit"), _$21 = _ms.getModule(Type_19), contains_63 = _ms.get(_$21, "contains?"), _$22 = _ms.getModule(modules_20), $_64all_45modules = _ms.get(_$22, "$@all-modules"), _$24 = _ms.lazyGetModule(control_21), build = _ms.lazyProp(_$24, "build"), Obj_33 = _ms.lazy(function() {
 			return _ms.getDefaultExport(Obj_33_22)
 		}), _$26 = _ms.lazyGetModule(Method_23), self_45impl_33 = _ms.lazyProp(_$26, "self-impl!");
-		const exports = {};
+		const exports = { };
 		const doc = exports.doc = "For running code in `test` properties.";
 		const test = function() {
 			return _33(_61_63, [ "x", "y", "b" ], _ms.unlazy(build)(function(_yield) {
@@ -114,7 +114,7 @@ define([ "exports", "../../bang", "../../at/at", "../../at/at-Type", "../../at/q
 			return function() {
 				switch (true) {
 					case _ms.bool(all_45tested.has(value)): {
-						return [  ]
+						return [ ]
 					}
 					default: {
 						all_45tested.add(value);
@@ -170,7 +170,7 @@ define([ "exports", "../../bang", "../../at/at", "../../at/at-Type", "../../at/q
 						return _64$test_45test_45prop(_, _.test, "" + _ms.show(name) + ".test")
 					}
 					default: {
-						return [  ]
+						return [ ]
 					}
 				}
 			}();
@@ -196,7 +196,7 @@ define([ "exports", "../../bang", "../../at/at", "../../at/at-Type", "../../at/q
 			return [ _0 ]
 		};
 		const _64$test_45test_45fun = function(value, value_45test, name) {
-			const args = [  ].slice.call(arguments, 3);
+			const args = [ ].slice.call(arguments, 3);
 			_ms.checkContains(Fun, value_45test, "value-test");
 			const ano = _ms.lazy(function() {
 				return "" + _ms.show(name) + ": "
@@ -204,7 +204,7 @@ define([ "exports", "../../bang", "../../at/at", "../../at/at-Type", "../../at/q
 			const _ = annotate_45errors(_ms.lazy(function() {
 				return _ms.unlazy(ano)
 			}), function() {
-				return Function.apply.call(value_45test, null, [  ].concat(_ms.arr(args)))
+				return Function.apply.call(value_45test, null, [ ].concat(_ms.arr(args)))
 			});
 			return function() {
 				switch (true) {
@@ -219,7 +219,7 @@ define([ "exports", "../../bang", "../../at/at", "../../at/at-Type", "../../at/q
 						}), function() {
 							return _33call(value, _)
 						});
-						return [  ]
+						return [ ]
 					}
 					case _ms.bool(_ms.contains($, _)): {
 						return [ $annotate_45errors(_ms.lazy(function() {
@@ -227,7 +227,7 @@ define([ "exports", "../../bang", "../../at/at", "../../at/at-Type", "../../at/q
 						}), _) ]
 					}
 					default: {
-						return [  ]
+						return [ ]
 					}
 				}
 			}()
@@ -255,7 +255,7 @@ define([ "exports", "../../bang", "../../at/at", "../../at/at-Type", "../../at/q
 							return [ _ ]
 						}
 						default: {
-							return [  ]
+							return [ ]
 						}
 					}
 				}()

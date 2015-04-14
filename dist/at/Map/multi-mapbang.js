@@ -7,7 +7,7 @@ define([ "exports", "../../control", "../../Fun", "../../Type/Pred-Type", "../at
 		}), _$12 = _ms.lazyGetModule(compare_9), _61_63 = _ms.lazyProp(_$12, "=?"), show = _ms.lazy(function() {
 			return _ms.getDefaultExport(show_10)
 		}), _$14 = _ms.lazyGetModule(_64_11), keep = _ms.lazyProp(_$14, "keep"), _$15 = _ms.lazyGetModule(Seq_12), seq_61_63 = _ms.lazyProp(_$15, "seq=?");
-		const exports = {};
+		const exports = { };
 		const add_45to_45_64_33 = exports["add-to-@!"] = function() {
 			const doc = "Treat `map` as a multi-map and add `added` to the @ associated with `key`.\n`@-type` is the type to use to create the `@` if it's not already there.";
 			const test = function() {

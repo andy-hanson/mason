@@ -17,7 +17,7 @@ define([ "exports", "../Bool", "../compare", "../Fun", "../js", "../math/methods
 		}), Weak_45Id_45Map_33 = _ms.lazy(function() {
 			return _ms.getDefaultExport(Weak_45Id_45Map_33_25)
 		});
-		const exports = {};
+		const exports = { };
 		const _64 = Kind(function() {
 			const doc = "\"Bag\". Contains a variable number of elements. Most things implementing `iterator` should be @s.\nIf the iteration order of an @ is meaningful and `+ a b` is the concatenation, it is a Seq.\nIf an @ only stores a given element once, it is a Set.";
 			const implementor_45test = function(_64_45type) {
@@ -46,7 +46,7 @@ define([ "exports", "../Bool", "../compare", "../Fun", "../js", "../math/methods
 		const empty_63 = exports["empty?"] = Method(function() {
 			const doc = "Whether `count` is 0. Often much faster.";
 			const test = function() {
-				const _k0 = [ [  ] ], _v0 = true;
+				const _k0 = [ [ ] ], _v0 = true;
 				const _k1 = [ [ 1 ] ], _v1 = false;
 				return _ms.map(_k0, _v0, _k1, _v1)
 			};
@@ -108,7 +108,7 @@ define([ "exports", "../Bool", "../compare", "../Fun", "../js", "../math/methods
 				}(), start = _$74.start, rest = _$74.rest, folder = _$74.folder;
 				const acc = _ms.unlazy(Ref_33)(start);
 				const iter = iterator(rest);
-				loop86 :  while (true) {
+				loop86: while (true) {
 					const _$87 = iter.next(), value = _$87.value, done = _$87.done;
 					switch (true) {
 						case _ms.bool(done):
@@ -116,7 +116,6 @@ define([ "exports", "../Bool", "../compare", "../Fun", "../js", "../math/methods
 								break loop86
 							};
 							break
-						
 						default: {
 							_ms.unlazy(set_33)(acc, folder(_ms.unlazy(get)(acc), value))
 						}
@@ -135,7 +134,7 @@ define([ "exports", "../Bool", "../compare", "../Fun", "../js", "../math/methods
 			const _default = function(_, do_45for_45each) {
 				_ms.checkContains(Act, do_45for_45each, "do-for-each");
 				const iter = iterator(_);
-				loop102 :  while (true) {
+				loop102: while (true) {
 					const _$103 = iter.next(), value = _$103.value, done = _$103.done;
 					switch (true) {
 						case _ms.bool(done):
@@ -143,7 +142,6 @@ define([ "exports", "../Bool", "../compare", "../Fun", "../js", "../math/methods
 								break loop102
 							};
 							break
-						
 						default: {
 							do_45for_45each(value)
 						}
@@ -198,7 +196,7 @@ define([ "exports", "../Bool", "../compare", "../Fun", "../js", "../math/methods
 				_ms.checkContains(Pred, pred_63, "pred?");
 				const iter = iterator(_);
 				const found = _ms.unlazy(Ref_33)(_ms.unlazy(empty)(_ms.unlazy(_63)));
-				loop140 :  while (true) {
+				loop140: while (true) {
 					const _$141 = iter.next(), value = _$141.value, done = _$141.done;
 					switch (true) {
 						case _ms.bool(done):
@@ -206,14 +204,12 @@ define([ "exports", "../Bool", "../compare", "../Fun", "../js", "../math/methods
 								break loop140
 							};
 							break
-						
 						case _ms.bool(pred_63(value)):
 							{
 								_ms.unlazy(set_33)(found, _ms.unlazy(_63)(value));
 								break loop140
 							};
 							break
-						
 						default: {
 							null
 						}
@@ -225,7 +221,7 @@ define([ "exports", "../Bool", "../compare", "../Fun", "../js", "../math/methods
 		const count = exports.count = Method(function() {
 			const doc = "Number of elements.";
 			const test = function() {
-				const _k0 = [ [  ] ], _v0 = 0;
+				const _k0 = [ [ ] ], _v0 = 0;
 				const _k1 = [ [ 1, 2, 3 ] ], _v1 = 3;
 				return _ms.map(_k0, _v0, _k1, _v1)
 			};
@@ -251,7 +247,7 @@ define([ "exports", "../Bool", "../compare", "../Fun", "../js", "../math/methods
 				_ms.checkContains(Pred, keep_45if_63, "keep-if?");
 				return _ms.unlazy(Stream)(function*() {
 					const iter = iterator(_);
-					loop169 :  while (true) {
+					loop169: while (true) {
 						const _$170 = iter.next(), value = _$170.value, done = _$170.done;
 						switch (true) {
 							case _ms.bool(done):
@@ -259,13 +255,11 @@ define([ "exports", "../Bool", "../compare", "../Fun", "../js", "../math/methods
 									break loop169
 								};
 								break
-							
 							case _ms.bool(keep_45if_63(value)):
 								{
 									(yield value)
 								};
 								break
-							
 							default: {
 								null
 							}
@@ -303,7 +297,7 @@ define([ "exports", "../Bool", "../compare", "../Fun", "../js", "../math/methods
 				_ms.checkContains(Fun, mapper, "mapper");
 				return _ms.unlazy(Stream)(function*() {
 					const iter = iterator(_);
-					loop193 :  while (true) {
+					loop193: while (true) {
 						const _$194 = iter.next(), value = _$194.value, done = _$194.done;
 						switch (true) {
 							case _ms.bool(done):
@@ -311,7 +305,6 @@ define([ "exports", "../Bool", "../compare", "../Fun", "../js", "../math/methods
 									break loop193
 								};
 								break
-							
 							default: {
 								(yield mapper(value))
 							}
@@ -393,7 +386,7 @@ define([ "exports", "../Bool", "../compare", "../Fun", "../js", "../math/methods
 				_ms.checkContains(_ms.sub(Fun, Any, _64), mapper, "mapper");
 				return _ms.unlazy(Stream)(function*() {
 					const iter = iterator(_);
-					loop244 :  while (true) {
+					loop244: while (true) {
 						const _$245 = iter.next(), value = _$245.value, done = _$245.done;
 						switch (true) {
 							case _ms.bool(done):
@@ -401,7 +394,6 @@ define([ "exports", "../Bool", "../compare", "../Fun", "../js", "../math/methods
 									break loop244
 								};
 								break
-							
 							default: {
 								(yield* iterator(mapper(value)))
 							}
@@ -433,7 +425,7 @@ define([ "exports", "../Bool", "../compare", "../Fun", "../js", "../math/methods
 		const flatten = exports.flatten = function() {
 			const doc = "For an @ containing many @, produces an @ containing all of their entries combined.\nThis does *not* consider more than 1 nested level, and there *every* element of _ must be an @.\nMore efficient than `fold + _`.";
 			const test = function() {
-				const _k0 = [ [ [ 1, 2 ], [ 3 ], [  ] ] ], _v0 = _61_62(_ms.unlazy(Stream), [ 1, 2, 3 ]);
+				const _k0 = [ [ [ 1, 2 ], [ 3 ], [ ] ] ], _v0 = _61_62(_ms.unlazy(Stream), [ 1, 2, 3 ]);
 				const _k1 = [ [ [ 1 ], [ [ 2 ] ] ] ], _v1 = _61_62(_ms.unlazy(Stream), [ 1, [ 2 ] ]);
 				_ms.unlazy(_33)(_ms.unlazy(fails_63), function() {
 					return _61_62(Array, flatten([ [ 1 ], 2, [ 3 ] ]))
@@ -444,7 +436,7 @@ define([ "exports", "../Bool", "../compare", "../Fun", "../js", "../math/methods
 				_ms.checkContains(_ms.sub(_64, _64), _, "_");
 				return _ms.unlazy(Stream)(function*() {
 					const iter = iterator(_);
-					loop276 :  while (true) {
+					loop276: while (true) {
 						const _$277 = iter.next(), value = _$277.value, done = _$277.done;
 						switch (true) {
 							case _ms.bool(done):
@@ -452,7 +444,6 @@ define([ "exports", "../Bool", "../compare", "../Fun", "../js", "../math/methods
 									break loop276
 								};
 								break
-							
 							default: {
 								(yield* iterator(value))
 							}
@@ -464,7 +455,7 @@ define([ "exports", "../Bool", "../compare", "../Fun", "../js", "../math/methods
 		const flatten_39 = exports["flatten'"] = Method(function() {
 			const doc = "Type-preserving flatten.";
 			const test = function() {
-				const _k0 = [ [ [ 1, 2 ], [ 3 ], [  ] ] ], _v0 = [ 1, 2, 3 ];
+				const _k0 = [ [ [ 1, 2 ], [ 3 ], [ ] ] ], _v0 = [ 1, 2, 3 ];
 				return _ms.map(_k0, _v0)
 			};
 			const _default = function(_) {
@@ -517,7 +508,7 @@ define([ "exports", "../Bool", "../compare", "../Fun", "../js", "../math/methods
 				return _ms.checkContains(_64, _ms.unlazy(Stream)(function*() {
 					const iter = iterator(_);
 					const remove_45us = _61_62(_ms.unlazy(Set_33), remove);
-					loop317 :  while (true) {
+					loop317: while (true) {
 						const _$318 = iter.next(), value = _$318.value, done = _$318.done;
 						switch (true) {
 							case _ms.bool(done):
@@ -525,7 +516,6 @@ define([ "exports", "../Bool", "../compare", "../Fun", "../js", "../math/methods
 									break loop317
 								};
 								break
-							
 							default: {
 								{
 									const _ = value;
@@ -535,7 +525,6 @@ define([ "exports", "../Bool", "../compare", "../Fun", "../js", "../math/methods
 												_ms.unlazy(_45_45_33)(remove_45us, [ value ])
 											};
 											break
-										
 										default: {
 											(yield value)
 										}

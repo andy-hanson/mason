@@ -11,7 +11,7 @@ define([ "exports", "./Bool", "./compare", "./private/bootstrap", "./at/at", "./
 		}), _$11 = _ms.lazyGetModule(Str_8), indent = _ms.lazyProp(_$11, "indent"), _$12 = _ms.lazyGetModule(Try_9), oh_45no_33 = _ms.lazyProp(_$12, "oh-no!"), _$13 = _ms.lazyGetModule(Pred_45Type_10), Any = _ms.lazyProp(_$13, "Any"), _$14 = _ms.lazyGetModule(Type_11), _61_62 = _ms.lazyProp(_$14, "=>"), _$16 = _ms.lazyGetModule(compare_12), same_63 = _ms.lazyProp(_$16, "same?"), _$17 = _ms.lazyGetModule(methods_13), _43 = _ms.lazyProp(_$17, "+"), show = _ms.lazy(function() {
 			return _ms.getDefaultExport(show_14)
 		}), _$19 = _ms.lazyGetModule(Try_15), fails_45with_63 = _ms.lazyProp(_$19, "fails-with?");
-		const exports = {};
+		const exports = { };
 		const doc = exports.doc = "For making assertions.";
 		const _33 = function() {
 			const doc = "Pronounced 'assert'.\nIt may be called as:\n\t! fun arg arg arg ...\n\t\tCalls fun on the arguments.\n\t\tfun must return a Bool\n\t\tIf it returns false, an error will be thrown.\n\t\tThe error will contain information about fun and its arguments.\n\t! bool ~message\n\t\tSame as:\n\t\t\tif! (not bool) |\n\t\t\t\toh-no! message";
@@ -27,26 +27,24 @@ define([ "exports", "./Bool", "./compare", "./private/bootstrap", "./at/at", "./
 				})
 			};
 			return _ms.set(function(a) {
-				const args = [  ].slice.call(arguments, 1);
+				const args = [ ].slice.call(arguments, 1);
 				{
 					const _ = a;
 					switch (true) {
 						case _ms.bool(_ms.contains(Fun, _)):
 							{
 								switch (true) {
-									case _ms.bool(Function.apply.call(_, null, [  ].concat(_ms.arr(args)))):
+									case _ms.bool(Function.apply.call(_, null, [ ].concat(_ms.arr(args)))):
 										{
 											null
 										};
 										break
-									
 									default: {
 										_ms.unlazy(oh_45no_33)("Expected " + _ms.show(a) + "\n\t" + _ms.show(_ms.unlazy(indent)(_ms.unlazy(_61_62)(_ms.unlazy(Str), _ms.unlazy(map)(args, _ms.unlazy(repr)), "\n"))))
 									}
 								}
 							};
 							break
-						
 						case _ms.bool(_ms.contains(Bool, _)):
 							{
 								switch (true) {
@@ -55,20 +53,17 @@ define([ "exports", "./Bool", "./compare", "./private/bootstrap", "./at/at", "./
 											_ms.unlazy(oh_45no_33)("Use `! fun args...` or `! bool explanation`, never just `! bool`.")
 										};
 										break
-									
 									case _ms.bool(_):
 										{
 											null
 										};
 										break
-									
 									default: {
 										_ms.unlazy(oh_45no_33)(_ms.sub(args, 0))
 									}
 								}
 							};
 							break
-						
 						default: {
 							_ms.unlazy(oh_45no_33)("First argument to `!` must be Fun or Bool. Got " + _ms.show(_) + ".")
 						}
@@ -83,26 +78,24 @@ define([ "exports", "./Bool", "./compare", "./private/bootstrap", "./at/at", "./
 				return _33not(_61_63, 1, 2)
 			};
 			return _ms.set(function(a) {
-				const args = [  ].slice.call(arguments, 1);
+				const args = [ ].slice.call(arguments, 1);
 				{
 					const _ = a;
 					switch (true) {
 						case _ms.bool(_ms.contains(Fun, _)):
 							{
 								switch (true) {
-									case _ms.bool(Function.apply.call(_, null, [  ].concat(_ms.arr(args)))):
+									case _ms.bool(Function.apply.call(_, null, [ ].concat(_ms.arr(args)))):
 										{
 											_ms.unlazy(oh_45no_33)("Unexpected " + _ms.show(a) + "\n\t" + _ms.show(_ms.unlazy(indent)(_ms.unlazy(map)(args, _ms.unlazy(repr)).join("\n"))))
 										};
 										break
-									
 									default: {
 										null
 									}
 								}
 							};
 							break
-						
 						case _ms.bool(_ms.contains(Bool, _)):
 							{
 								_33(_61_63, 1, args.length);
@@ -112,14 +105,12 @@ define([ "exports", "./Bool", "./compare", "./private/bootstrap", "./at/at", "./
 											_ms.unlazy(oh_45no_33)(_ms.sub(args, 0))
 										};
 										break
-									
 									default: {
 										null
 									}
 								}
 							};
 							break
-						
 						default: {
 							_ms.unlazy(oh_45no_33)("First argument to `!not` must be Fun or Bool. Got " + _ms.show(_) + ".")
 						}
@@ -163,7 +154,7 @@ define([ "exports", "./Bool", "./compare", "./private/bootstrap", "./at/at", "./
 				return _ms.unlazy(each_33)(args_45_62result, function(pair) {
 					const args = _ms.checkContains(_ms.unlazy(_64), pair.key, "args");
 					const expected_45res = pair.val;
-					const actual = Function.apply.call(fun, null, [  ].concat(_ms.arr(args)));
+					const actual = Function.apply.call(fun, null, [ ].concat(_ms.arr(args)));
 					return _ms.unlazy(if_33)(not(equal_63(actual, expected_45res)), function() {
 						return _ms.unlazy(oh_45no_33)(_ms.lazy(function() {
 							return "" + _ms.show(fun) + " of:\n\t" + _ms.show(_ms.unlazy(indent)(_ms.unlazy(_61_62)(_ms.unlazy(Str), _ms.unlazy(map)(args, _ms.unlazy(repr)), "\n"))) + "\nShould " + _ms.show(equal_63) + ":\n\t" + _ms.show(_ms.unlazy(indent)(_ms.unlazy(repr)(expected_45res))) + "\nGot:\n\t" + _ms.show(_ms.unlazy(indent)(_ms.unlazy(repr)(actual)))

@@ -7,7 +7,7 @@ define([ "exports", "../methods", "../private/bootstrap", "./Kind", "./Method", 
 		}), _$9 = _ms.lazyGetModule(_33_6), _33not = _ms.lazyProp(_$9, "!not"), _63 = _ms.lazy(function() {
 			return _ms.getDefaultExport(_63_7)
 		}), _$11 = _ms.lazyGetModule(compare_8), _61_63 = _ms.lazyProp(_$11, "=?");
-		const exports = {};
+		const exports = { };
 		const Alias_45Type = Obj_45Type(function() {
 			const doc = "Contains the same instances as another type (officially), but has its own meaning and identity.";
 			const test = function() {
@@ -55,8 +55,8 @@ define([ "exports", "../methods", "../private/bootstrap", "./Kind", "./Method", 
 				return _ms.map(_k0, _v0)
 			};
 			return _ms.set(function(_) {
-				const args = [  ].slice.call(arguments, 1);
-				return Function.apply.call(sub, null, [  ].concat(_["alias-of"], _ms.arr(args)))
+				const args = [ ].slice.call(arguments, 1);
+				return Function.apply.call(sub, null, [ ].concat(_["alias-of"], _ms.arr(args)))
 			}, "test", test)
 		}());
 		exports.default = Alias_45Type;

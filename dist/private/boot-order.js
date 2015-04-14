@@ -12,7 +12,7 @@ define([ "exports", "./bootstrap", "../Type/Type", "../Fun", "../at/Array-as-Seq
 		_ms.getModule(show_45_64_7);
 		_ms.getModule(show_45Map_8);
 		_ms.getModule(show_45Type_9);
-		const exports = {};
+		const exports = { };
 		exports.default = null;
 		const displayName = exports.displayName = "boot-order";
 		return exports

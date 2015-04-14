@@ -5,7 +5,7 @@ define([ "exports", "../../at/at", "../../at/Range", "../../control", "../../mat
 		const _$2 = _ms.getModule(_64_0), empty_63 = _ms.get(_$2, "empty?"), flat_45map = _ms.get(_$2, "flat-map"), map = _ms.get(_$2, "map"), _$3 = _ms.getModule(Range_1), range = _ms.get(_$3, "range"), _$4 = _ms.getModule(control_2), _if = _ms.get(_$4, "if"), _$5 = _ms.getModule(Num_3), divisible_63 = _ms.get(_$5, "divisible?"), infinity = _ms.get(_$5, "infinity"), Nat = _ms.get(_$5, "Nat"), _$6 = _ms.getModule(Obj_4), Obj_45_62Map = _ms.get(_$6, "Obj->Map"), Str = _ms.getDefaultExport(Str_5), _$8 = _ms.getModule(Type_6), _61_62 = _ms.get(_$8, "=>"), _33 = _ms.lazy(function() {
 			return _ms.getDefaultExport(_33_7)
 		}), _$11 = _ms.lazyGetModule(Seq_8), seq_61_63 = _ms.lazyProp(_$11, "seq=?"), take = _ms.lazyProp(_$11, "take");
-		const exports = {};
+		const exports = { };
 		const make_45fb = function(spec) {
 			return map(range(1, infinity), function(n) {
 				const parts = flat_45map(Obj_45_62Map(spec), function(_) {

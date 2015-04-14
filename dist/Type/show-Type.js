@@ -5,7 +5,7 @@ define([ "exports", "../at/at", "../Obj", "../show", "./Method", "./Type", "./Me
 		const _$2 = _ms.getModule(_64_0), empty_63 = _ms.get(_$2, "empty?"), _$3 = _ms.getModule(Obj_1), flag_63 = _ms.get(_$3, "flag?"), _63p = _ms.get(_$3, "?p"), show = _ms.getDefaultExport(show_2), _$5 = _ms.getModule(Method_3), impl_33 = _ms.get(_$5, "impl!"), Type = _ms.getDefaultExport(Type_4), Method = _ms.lazy(function() {
 			return _ms.getDefaultExport(Method_5)
 		});
-		const exports = {};
+		const exports = { };
 		impl_33(show, Type, function() {
 			const test = function() {
 				const _k0 = [ _ms.unlazy(Method) ], _v0 = "Method";

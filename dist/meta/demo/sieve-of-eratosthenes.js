@@ -5,7 +5,7 @@ define([ "exports", "../../at/at", "../../at/Map/Mapbang", "../../at/Map/Id-Mapb
 		const _$2 = _ms.getModule(_64_0), each_33 = _ms.get(_$2, "each!"), empty_63 = _ms.get(_$2, "empty?"), _$3 = _ms.getModule(Map_33_1), assoc_33 = _ms.get(_$3, "assoc!"), un_45assoc_33 = _ms.get(_$3, "un-assoc!"), Id_45Map_33 = _ms.getDefaultExport(Id_45Map_33_2), _$5 = _ms.getModule(multi_45map_33_3), add_45to_45_64_33 = _ms.get(_$5, "add-to-@!"), _$6 = _ms.getModule(Range_4), range = _ms.get(_$6, "range"), Stream = _ms.getDefaultExport(Stream_5), _$8 = _ms.getModule(Generator_33_6), each_126 = _ms.get(_$8, "each~"), _$9 = _ms.getModule(Num_7), infinity = _ms.get(_$9, "infinity"), square = _ms.get(_$9, "square"), _$10 = _ms.getModule(methods_8), _43 = _ms.get(_$10, "+"), _42 = _ms.get(_$10, "*"), _$11 = _ms.getModule(Type_9), _61_62 = _ms.get(_$11, "=>"), _33 = _ms.lazy(function() {
 			return _ms.getDefaultExport(_33_10)
 		}), _$14 = _ms.lazyGetModule(_64_11), any_63 = _ms.lazyProp(_$14, "any?"), _$15 = _ms.lazyGetModule(Seq_12), take = _ms.lazyProp(_$15, "take"), _$16 = _ms.lazyGetModule(Bool_13), not = _ms.lazyProp(_$16, "not"), _$17 = _ms.lazyGetModule(Num_14), divisible_63 = _ms.lazyProp(_$17, "divisible?");
-		const exports = {};
+		const exports = { };
 		const primes = exports.primes = function() {
 			const doc = "Infinite Seq of Num > 2, each divisible only by itself and one.";
 			const test = function() {
@@ -31,7 +31,6 @@ define([ "exports", "../../at/at", "../../at/Map/Mapbang", "../../at/Map/Id-Mapb
 									assoc_33(prime_45factors, square(candidate), [ candidate ])
 								};
 								break
-							
 							default: {
 								each_33(_.val, function(factor) {
 									const key = _43(candidate, _42(2, factor));

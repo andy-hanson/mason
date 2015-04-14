@@ -3,7 +3,7 @@ if (typeof define !== "function") var define = require("amdefine")(module);
 define([ "exports", "../../at/at", "../../cash", "../../io/console", "../../io/time", "../../Fun", "../../private/js-impl", "../../math/Num", "../../math/methods", "../../Str" ], function(exports, _64_0, $_1, console_2, time_3, Fun_4, js_45impl_5, Num_6, methods_7, Str_8) {
 	exports._get = _ms.lazy(function() {
 		const _64 = _ms.getDefaultExport(_64_0), _$2 = _ms.getModule(_64_0), each_33 = _ms.get(_$2, "each!"), $ = _ms.getDefaultExport($_1), _$3 = _ms.getModule($_1), $after = _ms.get(_$3, "$after"), _$4 = _ms.getModule(console_2), log_33 = _ms.get(_$4, "log!"), _$5 = _ms.getModule(time_3), current_45time_45ms = _ms.get(_$5, "current-time-ms"), Fun = _ms.getDefaultExport(Fun_4), _$6 = _ms.getModule(Fun_4), Act = _ms.get(_$6, "Act"), _$7 = _ms.getModule(js_45impl_5), timeStar = _ms.get(_$7, "timeStar"), Num = _ms.getDefaultExport(Num_6), _$8 = _ms.getModule(Num_6), Nat = _ms.get(_$8, "Nat"), _$9 = _ms.getModule(methods_7), _45 = _ms.get(_$9, "-"), Str = _ms.getDefaultExport(Str_8);
-		const exports = {};
+		const exports = { };
 		const time_33 = exports["time!"] = function() {
 			const doc = "Logs the time taken to run time-me once.";
 			return _ms.set(function(name, time_45me) {

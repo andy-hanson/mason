@@ -3,7 +3,7 @@ if (typeof define !== "function") var define = require("amdefine")(module);
 define([ "exports", "./methods", "./Num", "../bang", "./Num" ], function(exports, methods_0, Num_1, _33_2, Num_3) {
 	exports._get = _ms.lazy(function() {
 		const _$2 = _ms.getModule(methods_0), _42 = _ms.get(_$2, "*"), _47 = _ms.get(_$2, "/"), Num = _ms.getDefaultExport(Num_1), _$5 = _ms.lazyGetModule(_33_2), _33call_45with = _ms.lazyProp(_$5, "!call-with"), _$6 = _ms.lazyGetModule(Num_3), near_63 = _ms.lazyProp(_$6, "near?");
-		const exports = {};
+		const exports = { };
 		const doc = exports.doc = "For dealing with angles. By default angles are in radians.";
 		const pi = exports.pi = Math.PI;
 		const pi_472 = exports["pi/2"] = _47(pi, 2);

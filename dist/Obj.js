@@ -17,7 +17,7 @@ define([ "exports", "./Bool", "./compare", "./js", "./methods", "./private/boots
 		}), _$20 = _ms.lazyGetModule(Set_16), set_61_63 = _ms.lazyProp(_$20, "set=?"), Num = _ms.lazy(function() {
 			return _ms.getDefaultExport(Num_17)
 		}), _$22 = _ms.lazyGetModule(Try_18), fails_63 = _ms.lazyProp(_$22, "fails?");
-		const exports = {};
+		const exports = { };
 		const Obj = function() {
 			const doc = "Contains anything that can store keys.\nEverything shares Obj.prototype.";
 			return _ms.set(global.Object, "doc", doc, "displayName", "Obj")
@@ -139,7 +139,7 @@ define([ "exports", "./Bool", "./compare", "./js", "./methods", "./private/boots
 							return Obj.keys(_)
 						}
 						default: {
-							return [  ]
+							return [ ]
 						}
 					}
 				}(), "res")

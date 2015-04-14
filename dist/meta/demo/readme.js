@@ -19,7 +19,7 @@ define([ "exports", "../../bang", "../../at/at", "../../at/at-Type", "../../at/A
 		}), _$13 = _ms.lazyGetModule(Num_11), divisible_63 = _ms.lazyProp(_$13, "divisible?"), Int = _ms.lazyProp(_$13, "Int"), _$14 = _ms.lazyGetModule(methods_12), _43 = _ms.lazyProp(_$14, "+"), _45 = _ms.lazyProp(_$14, "-"), _42 = _ms.lazyProp(_$14, "*"), _47 = _ms.lazyProp(_$14, "/"), Str = _ms.lazy(function() {
 			return _ms.getDefaultExport(Str_13)
 		}), _$16 = _ms.lazyGetModule(Try_14), fails_63 = _ms.lazyProp(_$16, "fails?");
-		const exports = {};
+		const exports = { };
 		const doc = exports.doc = "Making sure the code in README.md actually works.";
 		const test = function() {
 			const my_45obj = function() {
@@ -173,7 +173,7 @@ define([ "exports", "../../bang", "../../at/at", "../../at/at-Type", "../../at/A
 				return arr.push(_)
 			};
 			const i = _ms.unlazy(Ref_33)(10);
-			loop144 :  while (true) {
+			loop144: while (true) {
 				{
 					const _ = _ms.unlazy(get)(i);
 					switch (true) {
@@ -183,7 +183,6 @@ define([ "exports", "../../bang", "../../at/at", "../../at/at-Type", "../../at/A
 								_ms.unlazy(set_33)(i, _ms.unlazy(_45)(_, 1))
 							};
 							break
-						
 						default: {
 							break loop144;
 							log_33("This line is never run")
@@ -196,7 +195,7 @@ define([ "exports", "../../bang", "../../at/at", "../../at/at-Type", "../../at/A
 				_ms.checkContains(_ms.sub(_ms.unlazy(Fun), _ms.unlazy(Generator_33)), gen_45maker, "gen-maker");
 				const gen = _ms.checkContains(_ms.unlazy(Generator_33), gen_45maker(null), "gen");
 				const last_45value = _ms.unlazy(Ref_33)(0);
-				loop158 :  while (true) {
+				loop158: while (true) {
 					const _$159 = _ms.unlazy(gen_45next_33)(gen, _ms.unlazy(_43)(_ms.unlazy(get)(last_45value), 1)), value = _$159.value, done = _$159.done;
 					_ms.unlazy(set_33)(last_45value, value);
 					{
@@ -207,7 +206,6 @@ define([ "exports", "../../bang", "../../at/at", "../../at/at-Type", "../../at/A
 									break loop158
 								};
 								break
-							
 							default: {
 								null
 							}
@@ -258,7 +256,7 @@ define([ "exports", "../../bang", "../../at/at", "../../at/at-Type", "../../at/A
 				_ms.checkContains(_ms.sub(_ms.unlazy(Fun), _ms.unlazy(Generator_33)), gen_45maker, "gen-maker");
 				const gen = gen_45maker(null);
 				const last_45value = _ms.unlazy(Ref_33)(null);
-				loop204 :  while (true) {
+				loop204: while (true) {
 					const _$205 = _ms.unlazy(gen_45next_33)(gen), value = _$205.value, done = _$205.done;
 					{
 						const _ = done;
@@ -269,7 +267,6 @@ define([ "exports", "../../bang", "../../at/at", "../../at/at-Type", "../../at/A
 									break loop204
 								};
 								break
-							
 							default: {
 								log.push(value)
 							}

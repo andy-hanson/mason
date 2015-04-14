@@ -3,7 +3,7 @@ if (typeof define !== "function") var define = require("amdefine")(module);
 define([ "exports", "./private/js-impl", "./Try" ], function(exports, js_45impl_0, Try_1) {
 	exports._get = _ms.lazy(function() {
 		const _$2 = _ms.getModule(js_45impl_0), iAnd = _ms.get(_$2, "iAnd"), iOr = _ms.get(_$2, "iOr"), _$4 = _ms.lazyGetModule(Try_1), oh_45no_33 = _ms.lazyProp(_$4, "oh-no!");
-		const exports = {};
+		const exports = { };
 		const Bool = function() {
 			const doc = "JavaScript's native Boolean type.\nEither true or false.";
 			return _ms.set(Boolean, "doc", doc, "displayName", "Bool")
@@ -58,8 +58,8 @@ define([ "exports", "./private/js-impl", "./Try" ], function(exports, js_45impl_
 				return _ms.map(_k0, _v0, _k1, _v1, _k2, _v2, _k3, _v3, _k4, _v4, _k5, _v5)
 			};
 			return _ms.set(function() {
-				const args = [  ].slice.call(arguments, 0);
-				return not(Function.apply.call(and, null, [  ].concat(_ms.arr(args))))
+				const args = [ ].slice.call(arguments, 0);
+				return not(Function.apply.call(and, null, [ ].concat(_ms.arr(args))))
 			}, "doc", doc, "test", test, "displayName", "nand")
 		}();
 		const or = exports.or = function() {
@@ -91,8 +91,8 @@ define([ "exports", "./private/js-impl", "./Try" ], function(exports, js_45impl_
 				return _ms.map(_k0, _v0, _k1, _v1, _k2, _v2, _k3, _v3, _k4, _v4, _k5, _v5)
 			};
 			return _ms.set(function() {
-				const args = [  ].slice.call(arguments, 0);
-				return not(Function.apply.call(or, null, [  ].concat(_ms.arr(args))))
+				const args = [ ].slice.call(arguments, 0);
+				return not(Function.apply.call(or, null, [ ].concat(_ms.arr(args))))
 			}, "doc", doc, "test", test, "displayName", "nor")
 		}();
 		const implies = exports.implies = function() {

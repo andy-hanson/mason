@@ -15,7 +15,7 @@ define([ "exports", "../Bool", "../compare", "../js", "../private/bootstrap", ".
 		}), _$17 = _ms.lazyGetModule(Try_13), fails_45with_63 = _ms.lazyProp(_$17, "fails-with?"), Method = _ms.lazy(function() {
 			return _ms.getDefaultExport(Method_14)
 		}), _$19 = _ms.lazyGetModule(Type_15), _61_62 = _ms.lazyProp(_$19, "=>"), contains_63 = _ms.lazyProp(_$19, "contains?");
-		const exports = {};
+		const exports = { };
 		const Kind = Obj_45Type(function() {
 			const doc = "A Kind is like a tag you can apply to a Concrete-Type to signify that it belongs in some category.\nThat category is typically a group of types all of which implement the same set of methods.\nType checking for Kind membership is O(1).\n-\nThe `prototype` on a Kind is not meant to be used as a prototype.\nIt stores the impl!_s that have been done on the Kind0.\nimpl! and kind! make sure that Concrete-Types receive the methods of their Kinds.\nThey require the Kind to correctly track super-kinds and implementors.";
 			const test = function() {
@@ -161,7 +161,6 @@ define([ "exports", "../Bool", "../compare", "../js", "../private/bootstrap", ".
 							null
 						};
 						break
-					
 					default: {
 						_.implementors.forEach(function(implementor) {
 							return on_45implementor_33(implementor, _)
@@ -285,7 +284,6 @@ define([ "exports", "../Bool", "../compare", "../js", "../private/bootstrap", ".
 								})
 							};
 							break
-						
 						default: {
 							null
 						}
@@ -344,7 +342,6 @@ define([ "exports", "../Bool", "../compare", "../js", "../private/bootstrap", ".
 							_["super-kinds"].push(kind)
 						};
 						break
-					
 					default: {
 						null
 					}

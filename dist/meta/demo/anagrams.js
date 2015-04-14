@@ -5,7 +5,7 @@ define([ "exports", "../../at/at", "../../at/at-Type", "../../at/Map/Map", "../.
 		const _$2 = _ms.getModule(_64_0), count = _ms.get(_$2, "count"), each_33 = _ms.get(_$2, "each!"), keep = _ms.get(_$2, "keep"), map = _ms.get(_$2, "map"), _$3 = _ms.getModule(_64_45Type_1), empty = _ms.get(_$3, "empty"), _$4 = _ms.getModule(Map_2), values = _ms.get(_$4, "values"), Id_45Map_33 = _ms.getDefaultExport(Id_45Map_33_3), _$6 = _ms.getModule(multi_45map_33_4), add_45to_45_64_33 = _ms.get(_$6, "add-to-@!"), _$7 = _ms.getModule(compare_5), _61_63 = _ms.get(_$7, "=?"), max = _ms.get(_$7, "max"), sort = _ms.get(_$7, "sort"), _33 = _ms.lazy(function() {
 			return _ms.getDefaultExport(_33_6)
 		}), _$10 = _ms.lazyGetModule(Seq_7), seq_61_63 = _ms.lazyProp(_$10, "seq=?"), _$11 = _ms.lazyGetModule(RegExp_8), regexp = _ms.lazyProp(_$11, "regexp"), _$12 = _ms.lazyGetModule(Str_9), split_45str = _ms.lazyProp(_$12, "split-str");
-		const exports = {};
+		const exports = { };
 		const maximum_45anagram_45sets = exports["maximum-anagram-sets"] = function() {
 			const doc = "http://rosettacode.org/wiki/Anagrams#JavaScript";
 			const test = function() {

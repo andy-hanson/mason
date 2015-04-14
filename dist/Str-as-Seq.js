@@ -5,7 +5,7 @@ define([ "exports", "./at/at", "./at/at-Type", "./at/Seq", "./compare", "./contr
 		const _64 = _ms.getDefaultExport(_64_0), _$2 = _ms.getModule(_64_0), count = _ms.get(_$2, "count"), iterator = _ms.get(_$2, "iterator"), map = _ms.get(_$2, "map"), _64_45Type = _ms.getDefaultExport(_64_45Type_1), _$3 = _ms.getModule(_64_45Type_1), empty = _ms.get(_$3, "empty"), from_45stream = _ms.get(_$3, "from-stream"), Seq = _ms.getDefaultExport(Seq_2), _$5 = _ms.getModule(compare_3), sort = _ms.get(_$5, "sort"), _$6 = _ms.getModule(control_4), opr = _ms.get(_$6, "opr"), Fun = _ms.getDefaultExport(Fun_5), _$7 = _ms.getModule(Fun_5), noop = _ms.get(_$7, "noop"), thunk = _ms.get(_$7, "thunk"), show = _ms.getDefaultExport(show_6), Str = _ms.getDefaultExport(Str_7), _$10 = _ms.getModule(Impl_45Type_8), self_45type = _ms.get(_$10, "self-type"), _$11 = _ms.getModule(Kind_9), kind_33 = _ms.get(_$11, "kind!"), self_45kind_33 = _ms.get(_$11, "self-kind!"), _$12 = _ms.getModule(Method_10), impl_33 = _ms.get(_$12, "impl!"), impl_45double_33 = _ms.get(_$12, "impl-double!"), impl_45for = _ms.get(_$12, "impl-for"), _$13 = _ms.getModule(Pred_45Type_11), Opt = _ms.get(_$13, "Opt"), _$14 = _ms.getModule(Type_12), _61_62 = _ms.get(_$14, "=>"), _33 = _ms.lazy(function() {
 			return _ms.getDefaultExport(_33_13)
 		}), _$17 = _ms.lazyGetModule(compare_14), _61_63 = _ms.lazyProp(_$17, "=?"), _$18 = _ms.lazyGetModule(Fun_15), identity = _ms.lazyProp(_$18, "identity");
-		const exports = {};
+		const exports = { };
 		const test = function() {
 			return _ms.unlazy(_33)(_ms.unlazy(_61_63), [ "1", "2", "3" ], map("123", _ms.unlazy(identity)))
 		};

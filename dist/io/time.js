@@ -5,7 +5,7 @@ define([ "exports", "../cash", "../Fun", "../js", "../math/Num", "../bang", "../
 		const $ = _ms.getDefaultExport($_0), Fun = _ms.getDefaultExport(Fun_1), _$4 = _ms.getModule(js_2), _new = _ms.get(_$4, "new"), Num = _ms.getDefaultExport(Num_3), _33 = _ms.lazy(function() {
 			return _ms.getDefaultExport(_33_4)
 		}), _$8 = _ms.lazyGetModule(compare_5), _61_63 = _ms.lazyProp(_$8, "=?"), _60_63 = _ms.lazyProp(_$8, "<?"), _$9 = _ms.lazyGetModule(perf_45test_6), $time = _ms.lazyProp(_$9, "$time");
-		const exports = {};
+		const exports = { };
 		const current_45time_45ms = exports["current-time-ms"] = function() {
 			const doc = "Milliseconds since 1 January 1970 00:00:00 UTC.";
 			return _ms.set(function() {

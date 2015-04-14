@@ -7,7 +7,7 @@ define([ "exports", "../../Bool", "../../compare", "../../Fun", "../../Generator
 		}), _$16 = _ms.lazyGetModule(Map_33_13), assoc_33 = _ms.lazyProp(_$16, "assoc!"), _33 = _ms.lazy(function() {
 			return _ms.getDefaultExport(_33_14)
 		}), _$19 = _ms.lazyGetModule(methods_15), _43 = _ms.lazyProp(_$19, "+");
-		const exports = {};
+		const exports = { };
 		const Map = Kind(function() {
 			const doc = "Mapping from keys to values.";
 			return {

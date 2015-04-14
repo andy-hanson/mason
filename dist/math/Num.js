@@ -5,7 +5,7 @@ define([ "exports", "../Bool", "../compare", "../control", "../Obj", "../js", ".
 		const _$2 = _ms.getModule(Bool_0), and = _ms.get(_$2, "and"), compare = _ms.getDefaultExport(compare_1), _$3 = _ms.getModule(compare_1), _61_63 = _ms.get(_$3, "=?"), _60_63 = _ms.get(_$3, "<?"), _60_61_63 = _ms.get(_$3, "<=?"), _$4 = _ms.getModule(control_2), opr = _ms.get(_$4, "opr"), _$5 = _ms.getModule(Obj_3), p = _ms.get(_$5, "p"), _$6 = _ms.getModule(js_4), id_61_63 = _ms.get(_$6, "id=?"), js_45bar = _ms.get(_$6, "js-bar"), js_60 = _ms.get(_$6, "js<"), js_60_61 = _ms.get(_$6, "js<="), js_43 = _ms.get(_$6, "js+"), js_45 = _ms.get(_$6, "js-"), js_42 = _ms.get(_$6, "js*"), js_47 = _ms.get(_$6, "js/"), js_45mod = _ms.get(_$6, "js-mod"), _$7 = _ms.getModule(Method_5), impl_33 = _ms.get(_$7, "impl!"), Pred_45Type = _ms.getDefaultExport(Pred_45Type_6), _$8 = _ms.getModule(Pred_45Type_6), Opt = _ms.get(_$8, "Opt"), _$9 = _ms.getModule(methods_7), _43 = _ms.get(_$9, "+"), _45 = _ms.get(_$9, "-"), _42 = _ms.get(_$9, "*"), _47 = _ms.get(_$9, "/"), _33 = _ms.lazy(function() {
 			return _ms.getDefaultExport(_33_8)
 		}), _$11 = _ms.lazyGetModule(_33_8), _33not = _ms.lazyProp(_$11, "!not"), _$12 = _ms.lazyGetModule(Fun_9), spread_33 = _ms.lazyProp(_$12, "spread!"), _$13 = _ms.lazyGetModule(Try_10), fails_63 = _ms.lazyProp(_$13, "fails?"), _$14 = _ms.lazyGetModule(Type_11), contains_63 = _ms.lazyProp(_$14, "contains?");
-		const exports = {};
+		const exports = { };
 		const Num = function() {
 			const doc = "JavaScript's native Number type.\nAny floating-point value.";
 			return _ms.set(global.Number, "doc", doc, "displayName", "Num")

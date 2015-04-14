@@ -13,7 +13,7 @@ define([ "exports", "./Bool", "./Fun", "./js", "./methods", "./Objbang", "./Type
 		}), _$15 = _ms.lazyGetModule(Map_12), _63get = _ms.lazyProp(_$15, "?get"), _$16 = _ms.lazyGetModule(Try_13), oh_45no_33 = _ms.lazyProp(_$16, "oh-no!"), _33 = _ms.lazy(function() {
 			return _ms.getDefaultExport(_33_14)
 		}), _$18 = _ms.lazyGetModule(_33_14), _33call = _ms.lazyProp(_$18, "!call"), _$19 = _ms.lazyGetModule(compare_15), _61_63 = _ms.lazyProp(_$19, "=?"), _$20 = _ms.lazyGetModule(methods_16), _43 = _ms.lazyProp(_$20, "+");
-		const exports = {};
+		const exports = { };
 		const opr = exports.opr = function() {
 			const doc = "Fills in an Opt with a default value.";
 			const test = function() {
@@ -133,7 +133,6 @@ define([ "exports", "./Bool", "./Fun", "./js", "./methods", "./Objbang", "./Type
 							result()
 						};
 						break
-					
 					default: {
 						null
 					}
@@ -190,7 +189,7 @@ define([ "exports", "./Bool", "./Fun", "./js", "./methods", "./Objbang", "./Type
 				_ms.checkContains(Fun, transform_45state, "transform-state");
 				const state = Ref_33(init_45state);
 				const output = Ref_33(null);
-				loop133 :  while (true) {
+				loop133: while (true) {
 					{
 						const _ = transform_45state(get(state));
 						switch (true) {
@@ -200,7 +199,6 @@ define([ "exports", "./Bool", "./Fun", "./js", "./methods", "./Objbang", "./Type
 									break loop133
 								};
 								break
-							
 							default: {
 								set_33(state, _)
 							}

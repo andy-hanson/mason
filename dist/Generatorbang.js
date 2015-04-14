@@ -7,7 +7,7 @@ define([ "exports", "./at/at", "./at/at-Type", "./at/q", "./Bool", "./Fun", "./J
 		}), _$14 = _ms.lazyGetModule(Seq_11), seq_61_63 = _ms.lazyProp(_$14, "seq=?"), Stream = _ms.lazy(function() {
 			return _ms.getDefaultExport(Stream_12)
 		}), _$16 = _ms.lazyGetModule(compare_13), _61_63 = _ms.lazyProp(_$16, "=?");
-		const exports = {};
+		const exports = { };
 		const Generator_33 = Pred_45Type(function() {
 			const doc = "A block of code which yields values and receives responses from a context.\nAlso known as a coroutine.";
 			const predicate = function(_) {

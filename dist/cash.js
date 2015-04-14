@@ -9,7 +9,7 @@ define([ "exports", "./at/at", "./Bool", "./control", "./Fun", "./Generatorbang"
 		}), _33 = _ms.lazy(function() {
 			return _ms.getDefaultExport(_33_13)
 		}), _$18 = _ms.lazyGetModule(compare_14), _61_63 = _ms.lazyProp(_$18, "=?"), _$19 = _ms.lazyGetModule(time_15), $after_45time = _ms.lazyProp(_$19, "$after-time"), _$20 = _ms.lazyGetModule(Num_16), divisible_63 = _ms.lazyProp(_$20, "divisible?"), _$21 = _ms.lazyGetModule(methods_17), _43 = _ms.lazyProp(_$21, "+"), _$22 = _ms.lazyGetModule(Try_18), $try = _ms.lazyProp(_$22, "$try");
-		const exports = {};
+		const exports = { };
 		const $ = function() {
 			const doc = "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise\nCalled `$` because you \"cash in\" on it after some time.";
 			return _ms.set(Promise, "doc", doc, "displayName", "$")
@@ -166,7 +166,7 @@ define([ "exports", "./at/at", "./Bool", "./control", "./Fun", "./Generatorbang"
 				return _ms.unlazy(_33)(_ms.unlazy(_61_63), 3, (yield $call(_ms.unlazy(_43), $resolved(1), $resolved(2))))
 			};
 			return _ms.set(function(f) {
-				const $args = [  ].slice.call(arguments, 1);
+				const $args = [ ].slice.call(arguments, 1);
 				return _ms.checkContains($, $after($all($args), _ms.sub(apply, f)), "res")
 			}, "doc", doc, "$test", $test, "displayName", "$call")
 		}();

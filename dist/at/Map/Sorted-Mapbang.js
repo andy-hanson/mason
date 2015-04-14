@@ -7,7 +7,7 @@ define([ "exports", "../../Type/Kind", "../at-Type", "./Mapbang", "./Map-Type", 
 		}), _33 = _ms.lazy(function() {
 			return _ms.getDefaultExport(_33_5)
 		}), _$10 = _ms.lazyGetModule(compare_6), sorted_63 = _ms.lazyProp(_$10, "sorted?"), _$11 = _ms.lazyGetModule(_64_7), each_33 = _ms.lazyProp(_$11, "each!"), _$12 = _ms.lazyGetModule(Map_8), keys = _ms.lazyProp(_$12, "keys"), _$13 = _ms.lazyGetModule(Map_33_9), assoc_33 = _ms.lazyProp(_$13, "assoc!");
-		const exports = {};
+		const exports = { };
 		const Sorted_45Map_33 = Kind(function() {
 			const doc = "Map! whose `keys` are in sorted order.\nThis kind of Map! depends on an efficient `compare` between its keys.";
 			const implementor_45test = function(type) {

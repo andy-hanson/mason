@@ -7,7 +7,7 @@ define([ "exports", "../Bool", "../compare", "../Type/Type", "../Type/Kind", "..
 		}), _$12 = _ms.lazyGetModule(_64_8), _45_45 = _ms.lazyProp(_$12, "--"), Stream = _ms.lazy(function() {
 			return _ms.getDefaultExport(Stream_9)
 		});
-		const exports = {};
+		const exports = { };
 		const Set = Kind(function() {
 			const doc = "@ without repeat values.";
 			return {

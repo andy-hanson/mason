@@ -5,7 +5,7 @@ define([ "exports", "../js", "../Str", "./Num", "../bang", "../RegExp", "../Try"
 		const _$2 = _ms.getModule(js_0), js_45bar = _ms.get(_$2, "js-bar"), js_45and = _ms.get(_$2, "js-and"), js_45caret = _ms.get(_$2, "js-caret"), js_126 = _ms.get(_$2, "js~"), js_60_60 = _ms.get(_$2, "js<<"), js_62_62 = _ms.get(_$2, "js>>"), js_62_62_62 = _ms.get(_$2, "js>>>"), Str = _ms.getDefaultExport(Str_1), Num = _ms.getDefaultExport(Num_2), _$4 = _ms.getModule(Num_2), Int = _ms.get(_$4, "Int"), _33 = _ms.lazy(function() {
 			return _ms.getDefaultExport(_33_3)
 		}), _$6 = _ms.lazyGetModule(_33_3), _33not = _ms.lazyProp(_$6, "!not"), _$7 = _ms.lazyGetModule(RegExp_4), regexp = _ms.lazyProp(_$7, "regexp"), _$8 = _ms.lazyGetModule(Try_5), fails_63 = _ms.lazyProp(_$8, "fails?");
-		const exports = {};
+		const exports = { };
 		const doc = exports.doc = "For dealing with Ints qua sequences of bits.";
 		const binary = exports.binary = function() {
 			const doc = "Makes an Int out of a string of 0s and 1s.";

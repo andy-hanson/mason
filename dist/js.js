@@ -11,7 +11,7 @@ define([ "exports", "./private/bootstrap", "./private/js-impl", "./at/at", "./Bo
 		}), _$9 = _ms.lazyGetModule(_33_5), _33not = _ms.lazyProp(_$9, "!not"), _$10 = _ms.lazyGetModule(_64_6), each_33 = _ms.lazyProp(_$10, "each!"), _$11 = _ms.lazyGetModule(compare_7), _61_63 = _ms.lazyProp(_$11, "=?"), _$12 = _ms.lazyGetModule(methods_8), _43 = _ms.lazyProp(_$12, "+"), Num = _ms.lazy(function() {
 			return _ms.getDefaultExport(Num_9)
 		}), _$14 = _ms.lazyGetModule(Obj_33_10), p_43_33 = _ms.lazyProp(_$14, "p+!");
-		const exports = {};
+		const exports = { };
 		const doc = exports.doc = "Functions implementing behavior native to JavaScript.";
 		const op = function(op_45name) {
 			return Fun("a", "b", "return a " + _ms.show(op_45name) + " b")
@@ -77,7 +77,7 @@ define([ "exports", "./private/bootstrap", "./private/js-impl", "./at/at", "./Bo
 				_ms.unlazy(each_33)(falsy, function(_) {
 					return _ms.unlazy(_33not)(truthy_63, _)
 				});
-				_ms.unlazy(_33)(truthy_63, [  ]);
+				_ms.unlazy(_33)(truthy_63, [ ]);
 				return _ms.unlazy(_33)(truthy_63, true)
 			};
 			return _ms.set(function(a) {
@@ -136,7 +136,7 @@ define([ "exports", "./private/bootstrap", "./private/js-impl", "./at/at", "./Bo
 				return _ms.unlazy(_33)(_ms.unlazy(_61_63), call_45with_45this(f, 1, 2), 3)
 			};
 			return _ms.set(function(f, new_45this) {
-				const args = [  ].slice.call(arguments, 2);
+				const args = [ ].slice.call(arguments, 2);
 				_ms.checkContains(Fun, f, "f");
 				return apply_45with_45this(f, new_45this, args)
 			}, "doc", doc, "test", test, "displayName", "call-with-this")

@@ -5,7 +5,7 @@ define([ "exports", "../../Bool", "../../compare", "../../control", "../../js", 
 		const Bool = _ms.getDefaultExport(Bool_0), _$2 = _ms.getModule(Bool_0), and = _ms.get(_$2, "and"), not = _ms.get(_$2, "not"), _$3 = _ms.getModule(compare_1), _60_63 = _ms.get(_$3, "<?"), _$4 = _ms.getModule(control_2), _if = _ms.get(_$4, "if"), loop = _ms.get(_$4, "loop"), End_45Loop = _ms.get(_$4, "End-Loop"), _$5 = _ms.getModule(js_3), defined_63 = _ms.get(_$5, "defined?"), _$6 = _ms.getModule(Obj_33_4), p_33 = _ms.get(_$6, "p!"), _$7 = _ms.getModule(Kind_5), kind_33 = _ms.get(_$7, "kind!"), self_45kind_33 = _ms.get(_$7, "self-kind!"), Obj_45Type = _ms.getDefaultExport(Obj_45Type_6), _$9 = _ms.getModule(_64_7), empty_63 = _ms.get(_$9, "empty?"), _$10 = _ms.getModule(_64_33_8), empty_33 = _ms.get(_$10, "empty!"), _$11 = _ms.getModule(_64_45Type_9), empty = _ms.get(_$11, "empty"), Stream = _ms.getDefaultExport(Stream_10), _$13 = _ms.getModule(Map_11), _63get = _ms.get(_$13, "?get"), keys = _ms.get(_$13, "keys"), _$14 = _ms.getModule(Map_33_12), assoc_33 = _ms.get(_$14, "assoc!"), un_45assoc_33 = _ms.get(_$14, "un-assoc!"), Map_45Type = _ms.getDefaultExport(Map_45Type_13), Sorted_45Map_33 = _ms.getDefaultExport(Sorted_45Map_33_14), _33 = _ms.lazy(function() {
 			return _ms.getDefaultExport(_33_15)
 		}), _$18 = _ms.lazyGetModule(_33_15), _33not = _ms.lazyProp(_$18, "!not"), _$19 = _ms.lazyGetModule(compare_16), _61_63 = _ms.lazyProp(_$19, "=?");
-		const exports = {};
+		const exports = { };
 		const Splay_45Tree_33 = Obj_45Type(function() {
 			const doc = "Default Sorted-Map! implementation.\nBinary tree that is good at accessing the same values many times.";
 			const props = function() {
@@ -57,7 +57,6 @@ define([ "exports", "../../Bool", "../../compare", "../../control", "../../js", 
 									(yield* get_126(_["right!"]))
 								};
 								break
-							
 							default: {
 								null
 							}
@@ -78,13 +77,11 @@ define([ "exports", "../../Bool", "../../compare", "../../control", "../../js", 
 							})
 						};
 						break
-					
 					case _ms.bool(splay_33_63(_, k)):
 						{
 							p_33(_["root!"], "val!", v)
 						};
 						break
-					
 					default: {
 						const old_45root = _["root!"];
 						_ms.unlazy(_33not)(empty_63, _);

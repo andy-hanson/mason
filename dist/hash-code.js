@@ -5,7 +5,7 @@ define([ "exports", "./at/at", "./at/at-Type", "./at/Map/Weak-Id-Mapbang", "./Bo
 		const _$2 = _ms.getModule(_64_0), empty_63 = _ms.get(_$2, "empty?"), fold = _ms.get(_$2, "fold"), map = _ms.get(_$2, "map"), _$3 = _ms.getModule(_64_45Type_1), empty = _ms.get(_$3, "empty"), Weak_45Id_45Map_33 = _ms.getDefaultExport(Weak_45Id_45Map_33_2), Bool = _ms.getDefaultExport(Bool_3), Fun = _ms.getDefaultExport(Fun_4), _$7 = _ms.getModule(js_5), id_61_63 = _ms.get(_$7, "id=?"), _$8 = _ms.getModule(bit_45arithmetic_6), bit_45and = _ms.get(_$8, "bit-and"), hexidecimal = _ms.get(_$8, "hexidecimal"), Num = _ms.getDefaultExport(Num_7), _$9 = _ms.getModule(Num_7), Int = _ms.get(_$9, "Int"), round_45towards_450 = _ms.get(_$9, "round-towards-0"), _$10 = _ms.getModule(methods_8), _43 = _ms.get(_$10, "+"), _42 = _ms.get(_$10, "*"), _$11 = _ms.getModule(Obj_9), p = _ms.get(_$11, "p"), _63p = _ms.get(_$11, "?p"), _64p_45all = _ms.get(_$11, "@p-all"), Str = _ms.getDefaultExport(Str_10), Method = _ms.getDefaultExport(Method_11), _$13 = _ms.getModule(Method_11), impl_33 = _ms.get(_$13, "impl!"), impl_45for = _ms.get(_$13, "impl-for"), _33 = _ms.lazy(function() {
 			return _ms.getDefaultExport(_33_12)
 		}), _$15 = _ms.lazyGetModule(_33_12), _33not = _ms.lazyProp(_$15, "!not"), _$16 = _ms.lazyGetModule(compare_13), _61_63 = _ms.lazyProp(_$16, "=?");
-		const exports = {};
+		const exports = { };
 		const max_45hash_45code = hexidecimal("7fffffff");
 		const keep_45small = function(_) {
 			return bit_45and(_, max_45hash_45code)

@@ -7,7 +7,7 @@ define([ "exports", "../Type/Kind", "../Type/Method", "./atbang", "../bang", "..
 		}), _$7 = _ms.lazyGetModule(compare_4), _61_63 = _ms.lazyProp(_$7, "=?"), _$8 = _ms.lazyGetModule(_64_5), empty_63 = _ms.lazyProp(_$8, "empty?"), _$9 = _ms.lazyGetModule(_64_33_6), _43_43_33 = _ms.lazyProp(_$9, "++!"), _$10 = _ms.lazyGetModule(_64_45Type_7), empty = _ms.lazyProp(_$10, "empty"), _63 = _ms.lazy(function() {
 			return _ms.getDefaultExport(_63_8)
 		});
-		const exports = {};
+		const exports = { };
 		const Priority_45Queue_33 = Kind(function() {
 			const doc = "@ whose first item will always be the smallest.\nIteration order has no other guaranees,\nbut repeatedly calling ?pop! will give the values from least to greatest.";
 			const implementor_45test = function(type) {

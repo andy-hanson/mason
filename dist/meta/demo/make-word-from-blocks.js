@@ -7,7 +7,7 @@ define([ "exports", "../../at/at", "../../at/q", "../../at/Seq", "../../Str", ".
 		}), _$9 = _ms.lazyGetModule(_64_6), each_33 = _ms.lazyProp(_$9, "each!"), Stream = _ms.lazy(function() {
 			return _ms.getDefaultExport(Stream_7)
 		}), _$11 = _ms.lazyGetModule(compare_8), _61_63 = _ms.lazyProp(_$11, "=?"), _$12 = _ms.lazyGetModule(Str_9), split_45str = _ms.lazyProp(_$12, "split-str"), _$13 = _ms.lazyGetModule(Type_10), _61_62 = _ms.lazyProp(_$13, "=>");
-		const exports = {};
+		const exports = { };
 		const make_45word_45from_45blocks = exports["make-word-from-blocks"] = function() {
 			const doc = "http://rosettacode.org/wiki/ABC_Problem";
 			const test = function() {
@@ -38,9 +38,9 @@ define([ "exports", "../../at/at", "../../at/q", "../../at/Seq", "../../Str", ".
 				const sample_45answers = function() {
 					const _k0 = "a", _v0 = [ "NA" ];
 					const _k1 = "bark", _v1 = [ "BO NA RE XK" ];
-					const _k2 = "book", _v2 = [  ];
+					const _k2 = "book", _v2 = [ ];
 					const _k3 = "treat", _v3 = [ "GT RE ER NA TG" ];
-					const _k4 = "common", _v4 = [  ];
+					const _k4 = "common", _v4 = [ ];
 					const _k5 = "squad", _v5 = [ "FS DQ HU NA QD" ];
 					const _k6 = "confuse", _v6 = [ "CP BO NA FS HU FS RE" ];
 					return _ms.map(_k0, _v0, _k1, _v1, _k2, _v2, _k3, _v3, _k4, _v4, _k5, _v5, _k6, _v6)
@@ -63,7 +63,7 @@ define([ "exports", "../../at/at", "../../at/q", "../../at/Seq", "../../Str", ".
 						const _ = word;
 						switch (true) {
 							case _ms.bool(empty_63(_)): {
-								return _63([  ])
+								return _63([ ])
 							}
 							default: {
 								const rest_45word = tail(_);

@@ -5,7 +5,7 @@ define([ "exports", "../at/at", "../Obj", "../Objbang", "../show", "../Str", "./
 		const _$2 = _ms.getModule(_64_0), each_33 = _ms.get(_$2, "each!"), Obj = _ms.getDefaultExport(Obj_1), _$4 = _ms.getModule(Obj_33_2), p_43_33 = _ms.get(_$4, "p+!"), show = _ms.getDefaultExport(show_3), Str = _ms.getDefaultExport(Str_4), Impl_45Type = _ms.getDefaultExport(Impl_45Type_5), _$8 = _ms.getModule(Kind_6), kind_33 = _ms.get(_$8, "kind!"), _$9 = _ms.getModule(Method_7), impl_33 = _ms.get(_$9, "impl!"), Obj_45Type = _ms.getDefaultExport(Obj_45Type_8), _$11 = _ms.getModule(Type_9), contains_63 = _ms.get(_$11, "contains?"), _33 = _ms.lazy(function() {
 			return _ms.getDefaultExport(_33_10)
 		}), _$14 = _ms.lazyGetModule(compare_11), _61_63 = _ms.lazyProp(_$14, "=?"), _$15 = _ms.lazyGetModule(Type_12), type_45of = _ms.lazyProp(_$15, "type-of");
-		const exports = {};
+		const exports = { };
 		const Enum = Obj_45Type(function() {
 			const doc = "A Concrete-Type with a small number of instances.\nGreat for using with `switch`.";
 			const test = function() {

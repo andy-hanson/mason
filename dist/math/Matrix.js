@@ -7,7 +7,7 @@ define([ "exports", "../at/q", "../at/Range", "../at/Seqbang", "../Bool", "../co
 		}), _63 = _ms.lazy(function() {
 			return _ms.getDefaultExport(_63_12)
 		}), _$16 = _ms.lazyGetModule(_64_45Type_13), empty = _ms.lazyProp(_$16, "empty");
-		const exports = {};
+		const exports = { };
 		const Matrix = Obj_45Type(function() {
 			const props = function() {
 				const width = Nat;

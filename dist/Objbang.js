@@ -5,7 +5,7 @@ define([ "exports", "./js", "./Obj", "./Type/Alias-Type", "./Type/Pred-Type", ".
 		const _$2 = _ms.getModule(js_0), js_45delete = _ms.get(_$2, "js-delete"), js_45set = _ms.get(_$2, "js-set"), Obj = _ms.getDefaultExport(Obj_1), _$3 = _ms.getModule(Obj_1), Obj_45Key = _ms.get(_$3, "Obj-Key"), Alias_45Type = _ms.getDefaultExport(Alias_45Type_2), _$5 = _ms.getModule(Pred_45Type_3), Opt = _ms.get(_$5, "Opt"), _$7 = _ms.lazyGetModule(control_4), opr = _ms.lazyProp(_$7, "opr"), _33 = _ms.lazy(function() {
 			return _ms.getDefaultExport(_33_5)
 		}), _$9 = _ms.lazyGetModule(_33_5), _33not = _ms.lazyProp(_$9, "!not"), _$10 = _ms.lazyGetModule(compare_6), _61_63 = _ms.lazyProp(_$10, "=?"), _$11 = _ms.lazyGetModule(Obj_7), empty_45Obj_63 = _ms.lazyProp(_$11, "empty-Obj?"), p_63 = _ms.lazyProp(_$11, "p?"), prototype = _ms.lazyProp(_$11, "prototype"), _$12 = _ms.lazyGetModule(Try_8), fails_63 = _ms.lazyProp(_$12, "fails?");
-		const exports = {};
+		const exports = { };
 		const doc = exports.doc = "For mutating Objs.";
 		const Obj_33 = Alias_45Type(function() {
 			const doc = "Obj which is at least partially mutable.";

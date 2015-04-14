@@ -13,7 +13,7 @@ define([ "exports", "../Bool", "../js", "../private/js-impl", "../private/bootst
 		}), _$19 = _ms.lazyGetModule(compare_15), _61_63 = _ms.lazyProp(_$19, "=?"), _$20 = _ms.lazyGetModule(Fun_16), thunk = _ms.lazyProp(_$20, "thunk"), Num = _ms.lazy(function() {
 			return _ms.getDefaultExport(Num_17)
 		}), _$22 = _ms.lazyGetModule(bootstrap_18), p_43_33 = _ms.lazyProp(_$22, "p+!"), _$23 = _ms.lazyGetModule(Try_19), fails_63 = _ms.lazyProp(_$23, "fails?"), _$24 = _ms.lazyGetModule(Type_20), contains_63 = _ms.lazyProp(_$24, "contains?");
-		const exports = {};
+		const exports = { };
 		const make_45callable_45method = function(method) {
 			const src = buildStr(function(add_33) {
 				add_33("return function(a, b, c, d) {");
@@ -35,7 +35,6 @@ define([ "exports", "../Bool", "../js", "../private/js-impl", "../private/bootst
 							add_33("switch (arguments.length) {\n\tcase 1: return wrap(impl, a)\n\tcase 2: return wrap(impl, a, b)\n\tcase 3: return wrap(impl, a, b, c)\n\tcase 4: return wrap(impl, a, b, c, d)\n\tdefault: throw new Error(\"Code not generated to accept \" + arguments.length + \" arguments.\")\n}")
 						};
 						break
-					
 					default: {
 						add_33("switch (arguments.length) {\n\tcase 1: return impl(a)\n\tcase 2: return impl(a, b)\n\tcase 3: return impl(a, b, c)\n\tcase 4: return impl(a, b, c, d)\n\tdefault: throw new Error(\"Code not generated to accept \" + arguments.length + \" arguments.\")\n}")
 					}
@@ -187,9 +186,9 @@ define([ "exports", "../Bool", "../js", "../private/js-impl", "../private/bootst
 				_ms.checkContains(Obj, implementor, "implementor");
 				_ms.checkContains(Fun, implementation, "implementation");
 				return impl_33(method, _ms.unlazy(self_45type)(implementor), function(implementor) {
-					const args = [  ].slice.call(arguments, 1);
+					const args = [ ].slice.call(arguments, 1);
 					_ms.unlazy(noop)(implementor);
-					return Function.apply.call(implementation, null, [  ].concat(_ms.arr(args)))
+					return Function.apply.call(implementation, null, [ ].concat(_ms.arr(args)))
 				})
 			}, "doc", doc, "test", test, "displayName", "self-impl!")
 		}();
@@ -249,7 +248,6 @@ define([ "exports", "../Bool", "../js", "../private/js-impl", "../private/bootst
 										})
 									};
 									break
-								
 								default: {
 									Obj.defineProperty(_.prototype, method_45symbol, function() {
 										const value = implementation;
@@ -263,7 +261,6 @@ define([ "exports", "../Bool", "../js", "../private/js-impl", "../private/bootst
 							}
 						};
 						break
-					
 					default: {
 						null
 					}
@@ -277,7 +274,6 @@ define([ "exports", "../Bool", "../js", "../private/js-impl", "../private/bootst
 						null
 					};
 					break
-				
 				default: {
 					_ms.unlazy(oh_45no_33)("Can not redefine method " + _ms.show(method) + " for " + _ms.show(implementor) + ".")
 				}
@@ -300,7 +296,6 @@ define([ "exports", "../Bool", "../js", "../private/js-impl", "../private/bootst
 							})
 						};
 						break
-					
 					default: {
 						null
 					}
@@ -322,7 +317,7 @@ define([ "exports", "../Bool", "../js", "../private/js-impl", "../private/bootst
 			}();
 			const make_45callable = function(_) {
 				return function() {
-					const args = [  ].slice.call(arguments, 0);
+					const args = [ ].slice.call(arguments, 0);
 					const target_452 = js_45sub(args, 1);
 					switch (true) {
 						case _ms.bool(defined_63(target_452)):
@@ -330,7 +325,6 @@ define([ "exports", "../Bool", "../js", "../private/js-impl", "../private/bootst
 								null
 							};
 							break
-						
 						default: {
 							_ms.unlazy(oh_45no_33)(_ms.lazy(function() {
 								return "Can't double-dispatch " + _ms.show(_.method) + " for undefined."
@@ -344,14 +338,13 @@ define([ "exports", "../Bool", "../js", "../private/js-impl", "../private/bootst
 								_ms.unlazy(_33)(_ms.unlazy(contains_63), Fun, impl)
 							};
 							break
-						
 						default: {
 							_ms.unlazy(oh_45no_33)(_ms.lazy(function() {
 								return "Can't double-dispatch " + _ms.show(_.method) + " for " + _ms.show(_["first-type"]) + " on " + _ms.show(target_452)
 							}))
 						}
 					};
-					return Function.apply.call(impl, null, [  ].concat(_ms.arr(args)))
+					return Function.apply.call(impl, null, [ ].concat(_ms.arr(args)))
 				}
 			};
 			return {

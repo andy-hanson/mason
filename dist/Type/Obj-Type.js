@@ -7,7 +7,7 @@ define([ "exports", "../Bool", "../private/bootstrap", "../js", "../private/js-i
 		}), _$8 = _ms.lazyGetModule(compare_5), _61_63 = _ms.lazyProp(_$8, "=?"), _$9 = _ms.lazyGetModule(js_45impl_6), addOne = _ms.lazyProp(_$9, "addOne"), Num = _ms.lazy(function() {
 			return _ms.getDefaultExport(Num_7)
 		}), _$11 = _ms.lazyGetModule(Try_8), fails_63 = _ms.lazyProp(_$11, "fails?"), _$12 = _ms.lazyGetModule(Type_9), type_45of = _ms.lazyProp(_$12, "type-of");
-		const exports = {};
+		const exports = { };
 		const if_33 = function(bool, act) {
 			switch (true) {
 				case _ms.bool(bool):
@@ -15,7 +15,6 @@ define([ "exports", "../Bool", "../private/bootstrap", "../js", "../private/js-i
 						act(null)
 					};
 					break
-				
 				default: {
 					null
 				}
@@ -74,13 +73,11 @@ define([ "exports", "../Bool", "../private/bootstrap", "../js", "../private/js-i
 								add_33("_ms.checkContains(props" + _ms.show(acc) + ", this" + _ms.show(acc) + ", \"" + _ms.show(prop) + "\")")
 							};
 							break
-						
 						case _ms.bool(default_63):
 							{
 								null
 							};
 							break
-						
 						default: {
 							add_33("if (!Object.prototype.hasOwnProperty.call(_, \"" + _ms.show(prop) + "\"))\n\tthrow new Error(\"Forgot to assign " + _ms.show(prop) + ".\")")
 						}
@@ -109,7 +106,6 @@ define([ "exports", "../Bool", "../private/bootstrap", "../js", "../private/js-i
 								add_33(check)
 							};
 							break
-						
 						default: {
 							const n_45props = real_45props.length;
 							const n_45props_45compare = function() {

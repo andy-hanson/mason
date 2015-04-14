@@ -7,7 +7,7 @@ define([ "exports", "../compare", "../control", "../Fun", "../math/Num", "../mat
 		}), _63 = _ms.lazy(function() {
 			return _ms.getDefaultExport(_63_13)
 		}), _$17 = _ms.lazyGetModule(compare_14), _61_63 = _ms.lazyProp(_$17, "=?"), _$18 = _ms.lazyGetModule(Num_15), infinity = _ms.lazyProp(_$18, "infinity"), _$19 = _ms.lazyGetModule(Seq_16), seq_61_63 = _ms.lazyProp(_$19, "seq=?"), take = _ms.lazyProp(_$19, "take");
-		const exports = {};
+		const exports = { };
 		const Range = Obj_45Type(function() {
 			const doc = "Seq of Nums taking fixed steps.";
 			const props = function() {
@@ -113,7 +113,7 @@ define([ "exports", "../compare", "../control", "../Fun", "../math/Num", "../mat
 				};
 				return _ms.set(function*(range) {
 					const cur = Ref_33(range.start);
-					loop84 :  while (true) {
+					loop84: while (true) {
 						{
 							const _ = get(cur);
 							switch (true) {
@@ -122,7 +122,6 @@ define([ "exports", "../compare", "../control", "../Fun", "../math/Num", "../mat
 										break loop84
 									};
 									break
-								
 								default: {
 									(yield _);
 									set_33(cur, _43(_, range.step))

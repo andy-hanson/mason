@@ -1,4 +1,4 @@
-import { ESNode } from 'esast/dist/ast'
+import { Node } from 'esast/dist/ast'
 import fs from 'fs'
 import Expression from '../Expression'
 import Cx from '../private/Cx'
@@ -43,7 +43,7 @@ export default () => {
 	console.timeEnd('all')
 	const
 		eSize = treeSize(e, _ => _ instanceof Expression),
-		astSize = treeSize(ast, _ => _ instanceof ESNode)
+		astSize = treeSize(ast, _ => _ instanceof Node)
 	log(`Expression tree size: ${eSize.size}.`)
 	log(`ES AST size: ${astSize.size}, nLeaves: ${astSize.nLeaves}.`)
 	log(`Output size: ${code.length} characters.`)

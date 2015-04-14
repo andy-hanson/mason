@@ -5,7 +5,7 @@ define([ "exports", "../control", "../js", "../Type/Kind", "../Type/Method", "..
 		const _$2 = _ms.getModule(control_0), opr = _ms.get(_$2, "opr"), _$3 = _ms.getModule(js_1), defined_63 = _ms.get(_$3, "defined?"), id_61_63 = _ms.get(_$3, "id=?"), _$4 = _ms.getModule(Kind_2), kind_33 = _ms.get(_$4, "kind!"), self_45kind_33 = _ms.get(_$4, "self-kind!"), _$5 = _ms.getModule(Method_3), impl_33 = _ms.get(_$5, "impl!"), self_45impl_33 = _ms.get(_$5, "self-impl!"), Wrap_45Type = _ms.getDefaultExport(Wrap_45Type_4), _$7 = _ms.getModule(_64_5), empty_63 = _ms.get(_$7, "empty?"), iterator = _ms.get(_$7, "iterator"), _64_45Type = _ms.getDefaultExport(_64_45Type_6), _$8 = _ms.getModule(_64_45Type_6), empty = _ms.get(_$8, "empty"), from_45stream = _ms.get(_$8, "from-stream"), Seq = _ms.getDefaultExport(Seq_7), _$11 = _ms.lazyGetModule(Try_8), oh_45no_33 = _ms.lazyProp(_$11, "oh-no!"), _33 = _ms.lazy(function() {
 			return _ms.getDefaultExport(_33_9)
 		}), _$13 = _ms.lazyGetModule(_33_9), _33not = _ms.lazyProp(_$13, "!not"), _$14 = _ms.lazyGetModule(Try_10), fails_63 = _ms.lazyProp(_$14, "fails?");
-		const exports = {};
+		const exports = { };
 		const _63 = Wrap_45Type(function() {
 			const doc = "A Seq with 0 or 1 elements.\nTODO: MORE";
 			return {
@@ -52,7 +52,6 @@ define([ "exports", "../control", "../js", "../Type/Kind", "../Type/Method", "..
 						null
 					};
 					break
-				
 				default: {
 					(yield _.val)
 				}

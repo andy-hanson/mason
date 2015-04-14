@@ -3,7 +3,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-	var ESNode = _esastDistAst.ESNode;
+	var Node = _esastDistAst.Node;
 
 	var fs = _interopRequire(_fs);
 
@@ -64,7 +64,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 			return _ instanceof Expression;
 		}),
 		      astSize = treeSize(ast, function (_) {
-			return _ instanceof ESNode;
+			return _ instanceof Node;
 		});
 		log("Expression tree size: " + eSize.size + ".");
 		log("ES AST size: " + astSize.size + ", nLeaves: " + astSize.nLeaves + ".");

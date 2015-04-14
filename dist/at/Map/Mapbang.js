@@ -13,7 +13,7 @@ define([ "exports", "../../Type/Kind", "../../Type/Method", "../../Type/Pred-Typ
 		}), _$20 = _ms.lazyGetModule(Type_16), _61_62 = _ms.lazyProp(_$20, "=>"), _$21 = _ms.lazyGetModule(_64_17), map = _ms.lazyProp(_$21, "map"), _$22 = _ms.lazyGetModule(_64_33_18), empty_33 = _ms.lazyProp(_$22, "empty!"), _$23 = _ms.lazyGetModule(Set_19), set_61_63 = _ms.lazyProp(_$23, "set=?"), _$24 = _ms.lazyGetModule(Map_20), has_45key_63 = _ms.lazyProp(_$24, "has-key?"), keys = _ms.lazyProp(_$24, "keys"), Weak_45Id_45Map_33 = _ms.lazy(function() {
 			return _ms.getDefaultExport(Weak_45Id_45Map_33_21)
 		});
-		const exports = {};
+		const exports = { };
 		const Map_33 = Kind(function() {
 			const doc = "TODO";
 			const implementor_45test = function(type) {

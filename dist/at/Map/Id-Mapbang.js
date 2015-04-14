@@ -5,7 +5,7 @@ define([ "exports", "../../control", "../../js", "../../Type/Kind", "../../Type/
 		const _$2 = _ms.getModule(control_0), returning = _ms.get(_$2, "returning"), _$3 = _ms.getModule(js_1), _new = _ms.get(_$3, "new"), _$4 = _ms.getModule(Kind_2), kind_33 = _ms.get(_$4, "kind!"), self_45kind_33 = _ms.get(_$4, "self-kind!"), _$5 = _ms.getModule(Method_3), impl_33 = _ms.get(_$5, "impl!"), self_45impl_33 = _ms.get(_$5, "self-impl!"), _$6 = _ms.getModule(_64_33_4), empty_33 = _ms.get(_$6, "empty!"), _$7 = _ms.getModule(_64_45Type_5), empty = _ms.get(_$7, "empty"), _$8 = _ms.getModule(_63_6), Opt_45_62_63 = _ms.get(_$8, "Opt->?"), Stream = _ms.getDefaultExport(Stream_7), _$10 = _ms.getModule(Map_8), _63get = _ms.get(_$10, "?get"), has_45key_63 = _ms.get(_$10, "has-key?"), keys = _ms.get(_$10, "keys"), values = _ms.get(_$10, "values"), Map_33 = _ms.getDefaultExport(Map_33_9), _$11 = _ms.getModule(Map_33_9), assoc_33 = _ms.get(_$11, "assoc!"), un_45assoc_33 = _ms.get(_$11, "un-assoc!"), Map_45Type = _ms.getDefaultExport(Map_45Type_10), _33 = _ms.lazy(function() {
 			return _ms.getDefaultExport(_33_11)
 		}), _$15 = _ms.lazyGetModule(compare_12), _61_63 = _ms.lazyProp(_$15, "=?"), _$16 = _ms.lazyGetModule(Seq_13), seq_61_63 = _ms.lazyProp(_$16, "seq=?");
-		const exports = {};
+		const exports = { };
 		const Id_45Map_33 = function() {
 			const doc = "JavaScript's native Map type.\nOnly considers exactly identical keys =?; this makes it the fastest Map.";
 			const test = function() {

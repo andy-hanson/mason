@@ -7,7 +7,7 @@ define([ "exports", "../Type/Kind", "../Type/Method", "./at", "./at-Type", "./Ar
 		}), _$8 = _ms.lazyGetModule(Seq_33_5), _43_43_62_33 = _ms.lazyProp(_$8, "++>!"), _33 = _ms.lazy(function() {
 			return _ms.getDefaultExport(_33_6)
 		}), _$10 = _ms.lazyGetModule(_33_6), _33not = _ms.lazyProp(_$10, "!not"), _$11 = _ms.lazyGetModule(compare_7), _61_63 = _ms.lazyProp(_$11, "=?"), _$12 = _ms.lazyGetModule(Type_8), contains_63 = _ms.lazyProp(_$12, "contains?"), _$13 = _ms.lazyGetModule(_64_9), each_33 = _ms.lazyProp(_$13, "each!"), empty_63 = _ms.lazyProp(_$13, "empty?");
-		const exports = {};
+		const exports = { };
 		const _64_33 = Kind(function() {
 			const doc = "Mutable @.";
 			const implementor_45test = function(type) {

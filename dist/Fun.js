@@ -15,7 +15,7 @@ define([ "exports", "./methods", "./private/js-impl", "./Type/Alias-Type", "./Ty
 		}), _$14 = _ms.lazyGetModule(Obj_11), Obj_45_62Map = _ms.lazyProp(_$14, "Obj->Map"), _$15 = _ms.lazyGetModule(Try_12), oh_45no_33 = _ms.lazyProp(_$15, "oh-no!"), _33 = _ms.lazy(function() {
 			return _ms.getDefaultExport(_33_13)
 		}), _$18 = _ms.lazyGetModule(Seq_14), seq_61_63 = _ms.lazyProp(_$18, "seq=?"), _$19 = _ms.lazyGetModule(compare_15), _61_63 = _ms.lazyProp(_$19, "=?"), _$20 = _ms.lazyGetModule(control_16), build = _ms.lazyProp(_$20, "build"), _$21 = _ms.lazyGetModule(methods_17), _43 = _ms.lazyProp(_$21, "+");
-		const exports = {};
+		const exports = { };
 		const Fun = function() {
 			const doc = "TODO\n<describe Fun vs Callable>\nsub does nothing, but here is the syntax.\n* Fun[Num Str] takes a Num and returns a Str.\n* Fun[2] takes 2 arguments.\n* Fun[2 Str] takes 2 arguments and returns a Str.\n* Fun without a sub is assumed to be a one-argument function, so never write Fun[1].";
 			return _ms.set(global.Function, "doc", doc, "displayName", "Fun")
@@ -47,7 +47,7 @@ define([ "exports", "./methods", "./private/js-impl", "./Type/Alias-Type", "./Ty
 			return _ms.set(function(_, args) {
 				_ms.checkContains(Fun, _, "_");
 				_ms.checkContains(_ms.unlazy(_64), args, "args");
-				return Function.apply.call(_, null, [  ].concat(_ms.arr(args)))
+				return Function.apply.call(_, null, [ ].concat(_ms.arr(args)))
 			}, "doc", doc, "test", test, "displayName", "apply")
 		}();
 		const call = exports.call = function() {
@@ -57,9 +57,9 @@ define([ "exports", "./methods", "./private/js-impl", "./Type/Alias-Type", "./Ty
 				return _ms.map(_k0, _v0)
 			};
 			return _ms.set(function(_) {
-				const args = [  ].slice.call(arguments, 1);
+				const args = [ ].slice.call(arguments, 1);
 				_ms.checkContains(Fun, _, "_");
-				return Function.apply.call(_, null, [  ].concat(_ms.arr(args)))
+				return Function.apply.call(_, null, [ ].concat(_ms.arr(args)))
 			}, "doc", doc, "test", test, "displayName", "call")
 		}();
 		const fun_45copy = exports["fun-copy"] = function() {
@@ -218,7 +218,7 @@ define([ "exports", "./methods", "./private/js-impl", "./Type/Alias-Type", "./Ty
 				}())
 			};
 			return _ms.set(function(fun) {
-				const args = [  ].slice.call(arguments, 1);
+				const args = [ ].slice.call(arguments, 1);
 				_ms.checkContains(Fun, fun, "fun");
 				const init_45args = _ms.unlazy(rtail)(args);
 				const last_45arg = _ms.unlazy(last)(args);
@@ -249,7 +249,7 @@ define([ "exports", "./methods", "./private/js-impl", "./Type/Alias-Type", "./Ty
 				}();
 				return _ms.checkContains(_ms.unlazy(_64), _ms.unlazy(map)(_64spreaded, function(spreaded) {
 					const all_45args = _ms.unlazy(_43_43)(init_45args, spreaded);
-					return Function.apply.call(fun, null, [  ].concat(_ms.arr(all_45args)))
+					return Function.apply.call(fun, null, [ ].concat(_ms.arr(all_45args)))
 				}), "res")
 			}, "doc", doc, "test", test, "displayName", "spread")
 		}();
@@ -269,8 +269,8 @@ define([ "exports", "./methods", "./private/js-impl", "./Type/Alias-Type", "./Ty
 				}))
 			};
 			return _ms.set(function(fun) {
-				const args = [  ].slice.call(arguments, 1);
-				return _ms.unlazy(each_33)(Function.apply.call(spread, null, [  ].concat(fun, _ms.arr(args))), noop)
+				const args = [ ].slice.call(arguments, 1);
+				return _ms.unlazy(each_33)(Function.apply.call(spread, null, [ ].concat(fun, _ms.arr(args))), noop)
 			}, "doc", doc, "test", test, "displayName", "spread!")
 		}();
 		const thunk = exports.thunk = function() {

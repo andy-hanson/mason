@@ -5,7 +5,7 @@ define([ "exports", "./Fun", "./js", "./Obj", "./Str", "./Type/Obj-Type", "./Typ
 		const Fun = _ms.getDefaultExport(Fun_0), _$3 = _ms.getModule(js_1), js_45sub = _ms.get(_$3, "js-sub"), _$4 = _ms.getModule(Obj_2), Obj_45Key = _ms.get(_$4, "Obj-Key"), Str = _ms.getDefaultExport(Str_3), Obj_45Type = _ms.getDefaultExport(Obj_45Type_4), _$7 = _ms.getModule(Pred_45Type_5), Any = _ms.get(_$7, "Any"), _33 = _ms.lazy(function() {
 			return _ms.getDefaultExport(_33_6)
 		}), _$10 = _ms.lazyGetModule(compare_7), _61_63 = _ms.lazyProp(_$10, "=?"), _$11 = _ms.lazyGetModule(Type_8), contains_63 = _ms.lazyProp(_$11, "contains?");
-		const exports = {};
+		const exports = { };
 		const Js_45Method = Obj_45Type(function() {
 			const doc = "A Js-Method allows you to call a JavaScript-style method as a function.\nUnlike a Mason Method, for a Js-Method,\nthe first argument becomes `this` within the implementation's body.";
 			const test = function() {
@@ -47,7 +47,7 @@ define([ "exports", "./Fun", "./js", "./Obj", "./Str", "./Type/Obj-Type", "./Typ
 				return _ms.map(_k0, _v0)
 			};
 			return _ms.set(function(target, name) {
-				const args = [  ].slice.call(arguments, 2);
+				const args = [ ].slice.call(arguments, 2);
 				_ms.checkContains(Any, target, "target");
 				_ms.checkContains(Obj_45Key, name, "name");
 				const impl = js_45sub(target, name);
