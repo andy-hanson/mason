@@ -36,10 +36,17 @@ export const
 		return function() { return arguments[0][methodName](...arguments) }
 	},
 
-	setUnion = function() {
-		const s = new Set()
+	// TODO:ES6 Just use `new Set`
+	newSet = function() {
+		const set = new Set()
 		for (let i = 0; i < arguments.length; i = i + 1)
-			for (let x of arguments[i].values())
-				s.add(x)
-		return s
+			arguments[i].forEach(s => s.forEach(_ => set.add(_)))
+		return set
+	},
+
+	// TODO:ES6 Just use `new Map`
+	newMap = mapMembers => {
+		const map = new Map()
+		mapMembers.forEach(([ key, val ]) => map.set(key, val))
+		return map
 	}

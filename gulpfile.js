@@ -1,7 +1,7 @@
 'use strict'
 
+require('./es6-shim')
 require('source-map-support').install()
-require('es6-shim')
 const
 	babel = require('gulp-babel'),
 	fs = require('q-io/fs'),
@@ -19,7 +19,13 @@ gulp.task('all', [ 'js', 'ms', 'list-modules' ])
 gulp.task('watch', [ 'watch-js', 'watch-ms', 'watch-list-modules' ])
 
 gulp.task('run', function() {
+	require('es6-shim')
 	const test = require('./dist/meta/run-all-tests')
+	_ms.getModule(test).default()
+})
+gulp.task('run-requirejs', function() {
+	require('es6-shim')
+	const test = requirejs(path.join(__dirname, 'dist/meta/run-all-tests'))
 	_ms.getModule(test).default()
 })
 
@@ -38,11 +44,6 @@ gulp.task('list-modules', [ 'js', 'ms' ], writeListModules)
 gulp.task('watch-list-modules', [ 'list-modules' ], function() {
 	const src = [ srcJs, srcMs ]
 	return watchVerbose(src, writeListModules)
-})
-
-gulp.task('run-requirejs', function() {
-	const test = requirejs(path.join(__dirname, 'dist/meta/run-all-tests'))
-	_ms.getModule(test).default()
 })
 
 gulp.task('test-compile', function() {

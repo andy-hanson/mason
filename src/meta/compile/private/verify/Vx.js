@@ -19,6 +19,8 @@ export default class Vx extends SubContext {
 		this.isInGenerator = false
 		this.opLoop = []
 		this.vr = emptyVr()
+		// TODO:ES6 Just use localToInfo.keys()
+		this.allLocalDeclares = [ ]
 	}
 
 	// Getters
@@ -93,6 +95,7 @@ export default class Vx extends SubContext {
 	registerLocal(local) {
 		type(local, LocalDeclare)
 		assert(!this.vr.localToInfo.has(local))
+		this.allLocalDeclares.push(local)
 		this.vr.localToInfo.set(local, VrLocalInfo({
 			isInDebug: this.isInDebug,
 			debugAccesses: [],

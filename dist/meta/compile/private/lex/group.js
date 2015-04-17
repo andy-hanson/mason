@@ -134,7 +134,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		return wholeModuleBlock;
 	}
 
-	const AutoCloseableGroups = new Set(['(', '[', 'sp']);
+	const AutoCloseableGroups = _UUtil.newSet(['(', '[', 'sp']);
 
 	const GroupBuilder = _UTypes.ObjType('GroupBuilder', Object, {
 		startPos: _esastDistLoc.Pos,

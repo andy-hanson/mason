@@ -6,45 +6,45 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	});
 
 	const g = ['<~', '<~~'];
-	const GeneratorKeywords = new Set(g);
+	const GeneratorKeywords = _UUtil.newSet(g);
 	exports.GeneratorKeywords = GeneratorKeywords;
-	const AssignKeywords = new Set(['=', '. '].concat(g));
+	const AssignKeywords = _UUtil.newSet(['=', '. '].concat(g));
 
 	exports.AssignKeywords = AssignKeywords;
-	const LineSplitKeywords = _UUtil.setUnion(AssignKeywords, new Set(['->']));
+	const LineSplitKeywords = _UUtil.newSet(AssignKeywords, ['->']);
 
 	exports.LineSplitKeywords = LineSplitKeywords;
 	// `export` is not a keyword, but `. ` assigns in module context become exports.
-	const KAssign = _UUtil.setUnion(AssignKeywords, new Set(['export']));
+	const KAssign = _UUtil.newSet(AssignKeywords, ['export']);
 	exports.KAssign = KAssign;
-	const KFun = new Set(['|', '~|']);
+	const KFun = _UUtil.newSet(['|', '~|']);
 	exports.KFun = KFun;
-	const CaseKeywords = new Set(['case', 'case!']);
+	const CaseKeywords = _UUtil.newSet(['case', 'case!']);
 	exports.CaseKeywords = CaseKeywords;
-	const SpecialKeywords = new Set(['this', 'this-module-directory']);
+	const SpecialKeywords = _UUtil.newSet(['this', 'this-module-directory']);
 	exports.SpecialKeywords = SpecialKeywords;
-	const UseKeywords = new Set(['use!', 'use', 'use~', 'use-debug']);
+	const UseKeywords = _UUtil.newSet(['use!', 'use', 'use~', 'use-debug']);
 
 	exports.UseKeywords = UseKeywords;
-	const AllKeywords = _UUtil.setUnion(LineSplitKeywords, KFun, CaseKeywords, SpecialKeywords, UseKeywords, new Set(['~', ':', '_', 'debug', 'debugger', 'else', 'end-loop!', 'in', 'loop!', 'out', 'region']));
+	const AllKeywords = _UUtil.newSet(LineSplitKeywords, KFun, CaseKeywords, SpecialKeywords, UseKeywords, ['~', ':', '_', 'debug', 'debugger', 'else', 'end-loop!', 'in', 'loop!', 'out', 'region']);
 
 	exports.AllKeywords = AllKeywords;
-	const ReservedWords = new Set(['for', 'return']);
+	const ReservedWords = _UUtil.newSet(['for', 'return']);
 
 	exports.ReservedWords = ReservedWords;
-	const GroupKinds = new Set(['(', '[', '{', '->', 'ln', 'sp', '"']);
+	const GroupKinds = _UUtil.newSet(['(', '[', '{', '->', 'ln', 'sp', '"']);
 	exports.GroupKinds = GroupKinds;
-	const GroupPres = _UUtil.setUnion(GroupKinds, new Set([')', ']', '}', '<-', 'close"']));
+	const GroupPres = _UUtil.newSet(GroupKinds, [')', ']', '}', '<-', 'close"']);
 
 	exports.GroupPres = GroupPres;
-	const ReservedCharacters = new Set('`;,%^&\\');
+	const ReservedCharacters = _UUtil.newSet(['`', ';', ',', '%', '^', '&', '\\']);
 
 	exports.ReservedCharacters = ReservedCharacters;
-	const GroupOpenToClose = new Map([['(', ')'], ['[', ']'], ['{', '}'], ['->', '<-'], ['ln', 'ln'], ['sp', 'sp'], ['"', 'close"']]);
+	const GroupOpenToClose = _UUtil.newMap([['(', ')'], ['[', ']'], ['{', '}'], ['->', '<-'], ['ln', 'ln'], ['sp', 'sp'], ['"', 'close"']]);
 
 	exports.GroupOpenToClose = GroupOpenToClose;
 	// TODO: Allow Opts to specify additional globals.
-	const JsGlobals = new Set(['Array', 'Boolean', 'Date', 'Error', 'EvalError', 'Function', 'JSON', 'Math', 'Number', 'Object', 'Promise', 'RangeError', 'ReferenceError', 'RegExp', 'String', 'Symbol', 'SyntaxError', 'TypeError', 'URIError', 'decodeURI', 'decodeURIComponent', 'encodeURI', 'encodeURIComponent', 'eval', 'undefined', 'Buffer', 'clearInterval', 'clearTimeout', 'console', 'global', 'setInterval', 'setTimeout',
+	const JsGlobals = _UUtil.newSet(['Array', 'Boolean', 'Date', 'Error', 'EvalError', 'Function', 'JSON', 'Math', 'Number', 'Object', 'Promise', 'RangeError', 'ReferenceError', 'RegExp', 'String', 'Symbol', 'SyntaxError', 'TypeError', 'URIError', 'decodeURI', 'decodeURIComponent', 'encodeURI', 'encodeURIComponent', 'eval', 'undefined', 'Buffer', 'clearInterval', 'clearTimeout', 'console', 'global', 'setInterval', 'setTimeout',
 	// Not really globals, but it works out that way.
 	'false', 'true', 'null']);
 

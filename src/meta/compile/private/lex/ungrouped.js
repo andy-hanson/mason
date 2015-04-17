@@ -3,7 +3,7 @@ import { code } from '../../CompileError'
 import { AllKeywords, isNameCharacter, ReservedCharacters, ReservedWords } from '../Lang'
 import { CallOnFocus, DotName, Keyword, Literal, Name } from '../Token'
 import type from '../U/type'
-import { assert } from '../U/util'
+import { assert, newMap } from '../U/util'
 import GroupPre from './GroupPre'
 import Stream from './Stream'
 
@@ -254,5 +254,5 @@ function* lexQuote(lx, stream, indent) {
 	yield GroupPre(singleCharLoc(stream.pos), 'close"')
 }
 
-const quoteEscape = new Map([['{', '{'], ['n', '\n'], ['t', '\t'], ['"', '"'], ['\\', '\\']])
+const quoteEscape = newMap([['{', '{'], ['n', '\n'], ['t', '\t'], ['"', '"'], ['\\', '\\']])
 

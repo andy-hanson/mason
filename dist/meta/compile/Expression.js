@@ -72,7 +72,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	};
 
 	// TODO: Get rid of null
-	const KSpecial = _privateUUtil.setUnion(_privateLang.SpecialKeywords, ['contains', 'debugger', 'sub', 'null']);
+	const KSpecial = _privateUUtil.newSet(_privateLang.SpecialKeywords, ['contains', 'debugger', 'sub', 'null']);
 
 	const Debug = ed('lines', [Expression]),
 	      BlockDo = ed('lines', [Expression]),
@@ -169,7 +169,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	// If non-empty, block should be a BlockVal, and either it has a type or opOut is non-empty.
 	'opResDeclare', _Op(LocalDeclare), 'opOut', _Op(Debug)),
 	      Lazy = ev('value', Val),
-	      ELiteral = ev('value', String, 'k', new Set([Number, String, 'js'])),
+	      ELiteral = ev('value', String, 'k', _privateUUtil.newSet([Number, String, 'js'])),
 	      Member = ev('object', Val, 'name', String),
 	      Quote = ev('parts', [Val]),
 	      Special = Object.assign(ev('k', KSpecial), {

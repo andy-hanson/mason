@@ -2,7 +2,7 @@ import Loc from 'esast/dist/Loc'
 import { JsGlobals, KAssign, KFun, SpecialKeywords } from './private/Lang'
 import Op, { None } from './private/U/Op'
 import { tuple } from './private/U/types'
-import { setUnion } from './private/U/util'
+import { newSet } from './private/U/util'
 
 export default class Expression { }
 // These can only appear as lines in a Block.
@@ -17,7 +17,7 @@ const ed = function() { return tuple(Do, 'loc', Loc, ...arguments) }
 const ev = function() { return tuple(Val, 'loc', Loc, ...arguments) }
 
 // TODO: Get rid of null
-const KSpecial = setUnion(SpecialKeywords, [ 'contains', 'debugger', 'sub', 'null' ])
+const KSpecial = newSet(SpecialKeywords, [ 'contains', 'debugger', 'sub', 'null' ])
 
 export const
 	Debug = ed('lines', [Expression]),
@@ -113,7 +113,7 @@ export const
 		'opOut', Op(Debug)),
 
 	Lazy = ev('value', Val),
-	ELiteral = ev('value', String, 'k', new Set([Number, String, 'js'])),
+	ELiteral = ev('value', String, 'k', newSet([Number, String, 'js'])),
 	Member = ev('object', Val, 'name', String),
 	Quote = ev('parts', [Val]),
 

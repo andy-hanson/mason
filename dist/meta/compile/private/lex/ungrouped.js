@@ -270,6 +270,6 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		yield _GroupPre2(_esastDistLoc.singleCharLoc(stream.pos), 'close"');
 	}
 
-	const quoteEscape = new Map([['{', '{'], ['n', '\n'], ['t', '\t'], ['"', '"'], ['\\', '\\']]);
+	const quoteEscape = _UUtil.newMap([['{', '{'], ['n', '\n'], ['t', '\t'], ['"', '"'], ['\\', '\\']]);
 });
 //# sourceMappingURL=../../../../meta/compile/private/lex/ungrouped.js.map

@@ -4,7 +4,7 @@ import Token, { Group, Keyword } from '../Token'
 import { isEmpty, last } from '../U/Bag'
 import Slice from '../U/Slice'
 import type from '../U/type'
-import { assert } from '../U/util'
+import { assert, newSet } from '../U/util'
 import { ObjType } from '../U/types'
 import GroupPre from './GroupPre'
 
@@ -138,7 +138,7 @@ export default function group(lx, preGroupedTokens) {
 	return wholeModuleBlock
 }
 
-const AutoCloseableGroups = new Set(['(', '[', 'sp'])
+const AutoCloseableGroups = newSet(['(', '[', 'sp'])
 
 const GroupBuilder = ObjType('GroupBuilder', Object, {
 	startPos: Pos,

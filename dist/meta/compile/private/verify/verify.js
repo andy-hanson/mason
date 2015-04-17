@@ -20,7 +20,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 
 	function verifyLocalUse(vx) {
 		const vr = vx.vr;
-		for (let local of vr.localToInfo.keys()) {
+		vx.allLocalDeclares.forEach(function (local) {
 			const info = vr.localToInfo.get(local);
 			const noNonDebug = _UBag.isEmpty(info.nonDebugAccesses);
 			if (noNonDebug && _UBag.isEmpty(info.debugAccesses)) vx.warnIf(!local.okToNotUse, local.loc, function () {
@@ -32,7 +32,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 			});else vx.warnIf(!local.okToNotUse && noNonDebug, local.loc, function () {
 				return 'Local ' + _CompileError.code(local.name) + ' used only in debug.';
 			});
-		}
+		});
 	}
 
 	_UUtil.implementMany(_Expression, 'verify', {

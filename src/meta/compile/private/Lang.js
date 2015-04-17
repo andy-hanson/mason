@@ -1,20 +1,20 @@
-import { setUnion } from './U/util'
+import { newSet, newMap } from './U/util'
 
 const g = [ '<~', '<~~' ]
-export const GeneratorKeywords = new Set(g)
-export const AssignKeywords = new Set(['=', '. '].concat(g))
+export const GeneratorKeywords = newSet(g)
+export const AssignKeywords = newSet([ '=', '. ' ].concat(g))
 
-export const LineSplitKeywords = setUnion(AssignKeywords, new Set(['->']))
+export const LineSplitKeywords = newSet(AssignKeywords, [ '->' ])
 
 // `export` is not a keyword, but `. ` assigns in module context become exports.
-export const KAssign = setUnion(AssignKeywords, new Set(['export']))
-export const KFun = new Set(['|', '~|'])
-export const CaseKeywords = new Set(['case', 'case!'])
-export const SpecialKeywords = new Set([ 'this', 'this-module-directory' ])
-export const UseKeywords = new Set([ 'use!', 'use', 'use~', 'use-debug' ])
+export const KAssign = newSet(AssignKeywords, [ 'export' ])
+export const KFun = newSet([ '|', '~|' ])
+export const CaseKeywords = newSet([ 'case', 'case!' ])
+export const SpecialKeywords = newSet([ 'this', 'this-module-directory' ])
+export const UseKeywords = newSet([ 'use!', 'use', 'use~', 'use-debug' ])
 
-export const AllKeywords = setUnion(
-	LineSplitKeywords, KFun, CaseKeywords, SpecialKeywords, UseKeywords, new Set([
+export const AllKeywords = newSet(
+	LineSplitKeywords, KFun, CaseKeywords, SpecialKeywords, UseKeywords, [
 	'~',
 	':',
 	'_',
@@ -26,16 +26,16 @@ export const AllKeywords = setUnion(
 	'loop!',
 	'out',
 	'region'
-]))
+])
 
-export const ReservedWords = new Set([ 'for', 'return' ])
+export const ReservedWords = newSet([ 'for', 'return' ])
 
-export const GroupKinds = new Set(['(', '[', '{', '->', 'ln', 'sp', '"'])
-export const GroupPres = setUnion(GroupKinds, new Set([')', ']', '}', '<-', 'close"']))
+export const GroupKinds = newSet(['(', '[', '{', '->', 'ln', 'sp', '"'])
+export const GroupPres = newSet(GroupKinds, [ ')', ']', '}', '<-', 'close"' ])
 
-export const ReservedCharacters = new Set('`;,%^&\\')
+export const ReservedCharacters = newSet([ '`', ';', ',', '%', '^', '&', '\\' ])
 
-export const GroupOpenToClose = new Map([
+export const GroupOpenToClose = newMap([
 	['(', ')'],
 	['[', ']'],
 	['{', '}'],
@@ -45,7 +45,7 @@ export const GroupOpenToClose = new Map([
 	['"', 'close"']])
 
 // TODO: Allow Opts to specify additional globals.
-export const JsGlobals = new Set([
+export const JsGlobals = newSet([
 	'Array',
 	'Boolean',
 	'Date',

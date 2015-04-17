@@ -30,6 +30,8 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 			this.isInGenerator = false;
 			this.opLoop = [];
 			this.vr = _Vr.emptyVr();
+			// TODO:ES6 Just use localToInfo.keys()
+			this.allLocalDeclares = [];
 		}
 
 		_inherits(Vx, _SubContext);
@@ -131,6 +133,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 			value: function registerLocal(local) {
 				_type(local, _Expression.LocalDeclare);
 				_UUtil.assert(!this.vr.localToInfo.has(local));
+				this.allLocalDeclares.push(local);
 				this.vr.localToInfo.set(local, _Vr.VrLocalInfo({
 					isInDebug: this.isInDebug,
 					debugAccesses: [],

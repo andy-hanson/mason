@@ -17,7 +17,7 @@ export default function verify(cx, e) {
 
 function verifyLocalUse(vx) {
 	const vr = vx.vr
-	for (let local of vr.localToInfo.keys()) {
+	vx.allLocalDeclares.forEach(local => {
 		const info = vr.localToInfo.get(local)
 		const noNonDebug = isEmpty(info.nonDebugAccesses)
 		if (noNonDebug && isEmpty(info.debugAccesses))
@@ -29,7 +29,7 @@ function verifyLocalUse(vx) {
 		else
 			vx.warnIf(!local.okToNotUse && noNonDebug, local.loc, () =>
 				`Local ${code(local.name)} used only in debug.`)
-	}
+	})
 }
 
 implementMany(EExports, 'verify', {

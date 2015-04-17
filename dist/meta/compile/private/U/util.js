@@ -51,10 +51,31 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 			return (_arguments$0 = arguments[0])[methodName].apply(_arguments$0, arguments);
 		};
 	},
-	      setUnion = function () {
-		const s = new Set();
-		for (let i = 0; i < arguments.length; i = i + 1) for (let x of arguments[i].values()) s.add(x);
-		return s;
+	     
+
+	// TODO:ES6 Just use `new Set`
+	newSet = function () {
+		const set = new Set();
+		for (let i = 0; i < arguments.length; i = i + 1) arguments[i].forEach(function (s) {
+			return s.forEach(function (_) {
+				return set.add(_);
+			});
+		});
+		return set;
+	},
+	     
+
+	// TODO:ES6 Just use `new Map`
+	newMap = function (mapMembers) {
+		const map = new Map();
+		mapMembers.forEach(function (_ref3) {
+			var _ref32 = _slicedToArray(_ref3, 2);
+
+			let key = _ref32[0];
+			let val = _ref32[1];
+			return map.set(key, val);
+		});
+		return map;
 	};
 	exports.assert = assert;
 	exports.log = log;
@@ -62,6 +83,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	exports.isPositive = isPositive;
 	exports.implementMany = implementMany;
 	exports.implementMany2 = implementMany2;
-	exports.setUnion = setUnion;
+	exports.newSet = newSet;
+	exports.newMap = newMap;
 });
 //# sourceMappingURL=../../../../meta/compile/private/U/util.js.map
