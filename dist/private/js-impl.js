@@ -1,18 +1,19 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(["exports"], function (exports) {
-	"use strict";
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports'], function (exports) {
+	'use strict';
 
-	Object.defineProperty(exports, "__esModule", {
+	Object.defineProperty(exports, '__esModule', {
 		value: true
 	});
-	const bool = _ms.bool;
-	const unlazy = _ms.unlazy;
+	var _ms2 = _ms;
+	const bool = _ms2.bool;
+	const unlazy = _ms2.unlazy;
 	const
 	// js.ms
 	iNew = function (ctr, a, b, c) {
 		// TODO:ES6 return new ctr(...args)
 		switch (arguments.length) {
 			case 0:
-				throw new Error("`new` needs a constructor.");
+				throw new Error('`new` needs a constructor.');
 			case 1:
 				return new ctr();
 			case 2:
@@ -22,7 +23,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 			case 4:
 				return new ctr(a, b, c);
 			default:
-				throw new Error("This many arguments not supported.");
+				throw new Error('This many arguments not supported.');
 		}
 	},
 	     
@@ -69,7 +70,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 
 	// Kind.ms
 	KindContains = function (kind, _) {
-		return _ != null && _[kind["symbol-for-isa"]] !== undefined;
+		return _ != null && _[kind['symbol-for-isa']] !== undefined;
 	},
 	      isEmpty = function (array) {
 		return array.length === 0;
@@ -105,11 +106,10 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		try {
 			err = _ms.unlazy(error);
 		} catch (e) {
-			return makeError(e)
 			// TODO: return new Error ('Error making error: ' + e.message)
-			;
+			return makeError(e);
 		}
-		if (err instanceof Error) return err;else if (typeof err === "string") return new Error(err);else if (err === undefined) return new Error("Oh no!");else throw new Error("Argument to `oh-no!` must be Error or String");
+		if (err instanceof Error) return err;else if (typeof err === 'string') return new Error(err);else if (err === undefined) return new Error('Oh no!');else throw new Error('Argument to `oh-no!` must be Error or String');
 	},
 	     
 
@@ -141,9 +141,9 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 
 	// Obj-Type.ms and Method.ms and Wrap-Type.ms
 	buildStr = function (builder) {
-		let s = "";
+		let s = '';
 		builder(function (str) {
-			s = s + str + "\n";
+			s = s + str + '\n';
 		});
 		return s;
 	},

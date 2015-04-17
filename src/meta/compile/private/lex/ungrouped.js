@@ -2,7 +2,6 @@ import Loc, { singleCharLoc } from 'esast/dist/Loc'
 import { code } from '../../CompileError'
 import { AllKeywords, isNameCharacter, ReservedCharacters, ReservedWords } from '../Lang'
 import { CallOnFocus, DotName, Keyword, Literal, Name } from '../Token'
-import { rcons } from '../U/Bag'
 import type from '../U/type'
 import { assert } from '../U/util'
 import GroupPre from './GroupPre'
@@ -144,7 +143,10 @@ export default function* ungrouped(lx, stream, isInQuote) {
 				}
 				// Else fallthrough
 			default: {
-				lx.check(!ReservedCharacters.has(_), loc, () => `Reserved character ${code(_)}`)
+				lx.check(
+					!ReservedCharacters.has(_),
+					loc,
+					() => `Reserved character ${code(_)}`)
 				// All other characters should be handled in a case above.
 				assert(isNameCharacter(_))
 				const name = _ + stream.takeWhile(isNameCharacter)

@@ -1,185 +1,230 @@
 import { ArrayExpression, AssignmentExpression, BlockStatement, BreakStatement,
 	CallExpression, DebuggerStatement, Identifier, LabeledStatement, Literal,
-	SwitchCase, SwitchStatement, ThisExpression, VariableDeclarator } from 'esast/dist/ast'
-import Loc from 'esast/dist/Loc'
-import { idCached, member, throwError, toStatement, toStatements } from 'esast/dist/util'
+	SwitchCase, ThisExpression, VariableDeclarator, ReturnStatement } from 'esast/dist/ast'
+import { idCached, member, throwError, toStatements } from 'esast/dist/util'
 import {
 	binaryExpressionPlus, callExpressionThunk, functionExpressionPlain, functionExpressionThunk,
 	switchStatementOnTrue,
 	unaryExpressionNegate, variableDeclarationConst, whileStatementInfinite,
 	yieldExpressionDelegate, yieldExpressionNoDelegate } from 'esast/dist/specialize'
-import Expression, * as EExports from '../../Expression'
-import { KAssign } from '../Lang'
-import Opts from '../Opts'
-import { cat, cons, flatMap, isEmpty, push, range, tail, unshift } from '../U/Bag'
-import { ifElse, opIf, None, some } from '../U/Op'
+import * as EExports from '../../Expression'
+import { flatMap, push, range, tail } from '../U/Bag'
+import { ifElse, None, opIf } from '../U/Op'
 import type from '../U/type'
-import { assert, implementMany, isPositive, log } from '../U/util'
-import Vr from '../Vr'
+import { assert, implementMany, isPositive } from '../U/util'
 import { declare, declareSpecial, idForDeclareCached } from './esast-util'
-import transpileBlock from './transpileBlock'
 import { transpileObjReturn, transpileObjSimple } from './transpileObj'
 import transpileModule from './transpileModule'
-import { t,
+import {
 	IdExports, IdArguments, IdArraySliceCall, IdFunctionApplyCall, IdMs,
-	LitEmptyArray, LitEmptyString, LitNull, Break,
+	LitEmptyArray, LitEmptyString, LitNull, Break, ReturnRes,
 	accessLocal, lazyWrap, makeDeclarator, makeDestructureDeclarators,
+	maybeWrapInCheckContains,
 	opLocalCheck, msArr, msBool, msMap, msShow } from './util'
-import Tx from './Tx'
 
-export default function transpile(cx, e, vr) {
-	const tx = new Tx(cx, vr)
-	const ast = t(tx)(e)
-	if (tx.opts().sourceMap())
-		ast.loc.source = tx.opts().modulePath()
+let cx, vr
+
+export default function transpile(_cx, e, _vr) {
+	cx = _cx
+	vr = _vr
+	return t(e)
+}
+
+export const t = (expr, arg, arg2, arg3) => {
+	const ast = expr.transpileSubtree(arg, arg2, arg3)
+	if (cx.opts.sourceMap() && !(ast instanceof Array))
+		// Array is only allowed for statement groups inside of Blocks, such as Debug.
+		ast.loc = expr.loc
 	return ast
 }
 
+function transpileBlock(lead, opResDeclare, opOut) {
+	if (lead === undefined)
+		lead = []
+	if (opResDeclare === undefined)
+		opResDeclare = opOut = None
+	const body = flatMap(this.lines, line => toStatements(t(line)))
+	const isVal = this instanceof EExports.BlockVal
+	const fin = ifElse(opResDeclare,
+		rd => {
+			assert(isVal)
+			const returned = maybeWrapInCheckContains(cx, t(this.returned), rd.opType, 'res')
+			return ifElse(opOut,
+				o => [ declare(rd, returned) ].concat(o, [ ReturnRes ]),
+				() => [ ReturnStatement(returned) ])
+		},
+		() => opOut.concat(opIf(isVal, () => ReturnStatement(t(this.returned)))))
+	return BlockStatement(lead.concat(body, fin))
+}
+
 implementMany(EExports, 'transpileSubtree', {
-	Assign: (_, tx) => variableDeclarationConst([
-		makeDeclarator(tx, _.loc, _.assignee, _.k, t(tx)(_.value)) ]),
+	Assign() {
+		return variableDeclarationConst([
+			makeDeclarator(cx, this.loc, this.assignee, this.k, t(this.value)) ])
+	},
 	// TODO:ES6 Just use native destructuring assign
-	AssignDestructure: (_, tx) => variableDeclarationConst(
-		makeDestructureDeclarators(tx, _.loc, _.assignees, _.isLazy, t(tx)(_.value), _.k, false)),
+	AssignDestructure() {
+		return variableDeclarationConst(
+			makeDestructureDeclarators(
+				cx,
+				this.loc,
+				this.assignees,
+				this.isLazy,
+				t(this.value),
+				this.k,
+				false))
+	},
 	BlockDo: transpileBlock,
 	BlockVal: transpileBlock,
-	BlockWrap: (_, tx) => blockWrap(_, tx, t(tx)(_.block)),
-	Call(_, tx) {
-		const anySplat = _.args.some(arg => arg instanceof EExports.Splat)
+	BlockWrap() { return blockWrap(this, t(this.block)) },
+	Call() {
+		const anySplat = this.args.some(arg => arg instanceof EExports.Splat)
 		if (anySplat) {
-			const args = _.args.map(arg =>
+			const args = this.args.map(arg =>
 				arg instanceof EExports.Splat ?
-					msArr([ t(tx)(arg.splatted) ]) :
-					t(tx)(arg))
+					msArr([ t(arg.splatted) ]) :
+					t(arg))
 			return CallExpression(IdFunctionApplyCall, [
-				t(tx)(_.called),
+				t(this.called),
 				LitNull,
 				CallExpression(member(LitEmptyArray, 'concat'), args)])
 		}
-		else return CallExpression(t(tx)(_.called), _.args.map(t(tx)))
+		else return CallExpression(t(this.called), this.args.map(t))
 	},
-	CaseDo: (_, tx) =>
-		ifElse(_.opCased,
-			cased => BlockStatement([ t(tx)(cased), caseBody(tx, _.parts, _.opElse) ]),
-			() => caseBody(tx, _.parts, _.opElse)),
-	CaseVal: (_, tx) => {
-		const body = caseBody(tx, _.parts, _.opElse)
-		const block = ifElse(_.opCased, cased => [ t(tx)(cased), body ], () => [ body ])
-		return blockWrap(_, tx, BlockStatement(block))
+	CaseDo() {
+		return ifElse(this.opCased,
+			cased => BlockStatement([ t(cased), caseBody(this.parts, this.opElse) ]),
+			() => caseBody(this.parts, this.opElse))
 	},
-	CaseDoPart: (_, tx) => casePart(tx, _.test, _.result, true),
-	CaseValPart: (_, tx) => casePart(tx, _.test, _.result, false),
+	CaseVal() {
+		const body = caseBody(this.parts, this.opElse)
+		const block = ifElse(this.opCased, cased => [ t(cased), body ], () => [ body ])
+		return blockWrap(this, BlockStatement(block))
+	},
+	CaseDoPart() { return casePart(this.test, this.result, true) },
+	CaseValPart() { return casePart(this.test, this.result, false) },
 	// TODO: includeInoutChecks is misnamed
-	Debug: (_, tx) => tx.opts().includeInoutChecks() ?
-		flatMap(_.lines, line => toStatements(t(tx)(line))) :
-		[ ],
-	ObjReturn: transpileObjReturn,
-	ObjSimple: transpileObjSimple,
-	EndLoop: (_, tx) => BreakStatement(loopId(tx.vr.endLoopToLoop.get(_))),
-	Fun(_, tx) {
+	Debug() {
+		return cx.opts.includeInoutChecks() ?
+			flatMap(this.lines, line => toStatements(t(line))) :
+			[ ]
+	},
+	ObjReturn() { return transpileObjReturn(this, cx) },
+	ObjSimple() { return transpileObjSimple(this, cx) },
+	EndLoop() { return BreakStatement(loopId(vr.endLoopToLoop.get(this))) },
+	Fun() {
 		// TODO: cache literals for small numbers
-		const nArgs = Literal(_.args.length)
-		const opDeclareRest = _.opRestArg.map(rest =>
+		const nArgs = Literal(this.args.length)
+		const opDeclareRest = this.opRestArg.map(rest =>
 			declare(rest, CallExpression(IdArraySliceCall, [IdArguments, nArgs])))
-		const argChecks = flatMap(_.args, arg => opLocalCheck(tx, arg, arg.isLazy))
-		const _in = flatMap(_.opIn, i => toStatements(t(tx)(i)))
+		const argChecks = flatMap(this.args, arg => opLocalCheck(cx, arg, arg.isLazy))
+		const _in = flatMap(this.opIn, i => toStatements(t(i)))
 		const lead = opDeclareRest.concat(argChecks, _in)
 
-		const _out = flatMap(_.opOut, o => toStatements(t(tx)(o)))
-		const body = t(tx, lead, _.opResDeclare, _out)(_.block)
-		const args = _.args.map(t(tx))
-		return functionExpressionPlain(args, body, _.k === '~|')
+		const _out = flatMap(this.opOut, o => toStatements(t(o)))
+		const body = t(this.block, lead, this.opResDeclare, _out)
+		const args = this.args.map(t)
+		return functionExpressionPlain(args, body, this.k === '~|')
 	},
-	Lazy: (_, tx) => lazyWrap(t(tx)(_.value)),
-	ListReturn: _ => ArrayExpression(range(0, _.length).map(i => idCached(`_${i}`))),
-	ListSimple: (_, tx) => ArrayExpression(_.parts.map(t(tx))),
-	ListEntry: (_, tx) => declareSpecial(`_${_.index}`, t(tx)(_.value)),
-	ELiteral(_) {
-		switch (_.k) {
+	Lazy() { return lazyWrap(t(this.value)) },
+	ListReturn() {
+		return ArrayExpression(range(0, this.length).map(i => idCached(`_${i}`)))
+	},
+	ListSimple() { return ArrayExpression(this.parts.map(t)) },
+	ListEntry() { return declareSpecial(`_${this.index}`, t(this.value)) },
+	ELiteral() {
+		switch (this.k) {
 			case Number: {
 				// TODO: Number literals should store Numbers...
-				const n = Number.parseFloat(_.value)
+				const n = Number.parseFloat(this.value)
 				// Negative numbers are not part of ES spec.
 				// http://www.ecma-international.org/ecma-262/5.1/#sec-7.8.3
 				const lit = Literal(Math.abs(n))
 				return isPositive(n) ? lit : unaryExpressionNegate(lit)
 			}
 			case String:
-				return Literal(_.value)
+				return Literal(this.value)
 			case 'js':
-				switch (_.value) {
+				switch (this.value) {
 					// TODO:USE* Get rid of this!
 					case 'msGetModule': return member(IdMs, 'getModule')
 					case 'require': return idCached('require')
 					default: throw new Error('This js literal not supported.')
 				}
-			default: throw new Error(_.k)
+			default: throw new Error(this.k)
 		}
 	},
-	GlobalAccess: _ => Identifier(_.name),
-	LocalAccess: (_, tx) => accessLocal(tx, _),
-	LocalDeclare: _ => idForDeclareCached(_),
+	GlobalAccess() { return Identifier(this.name) },
+	LocalAccess() { return accessLocal(this, vr) },
+	LocalDeclare() { return idForDeclareCached(this) },
 	// TODO: Don't always label!
-	Loop: (_, tx) =>
-		LabeledStatement(loopId(_), whileStatementInfinite(t(tx)(_.block))),
-	MapReturn: _ => msMap(flatMap(range(0, _.length), i =>
-		[ idCached('_k' + i.toString()), idCached('_v' + i.toString()) ])),
-	MapEntry: (_, tx) => variableDeclarationConst([
-		VariableDeclarator(idCached(`_k${_.index}`), t(tx)(_.key)),
-		VariableDeclarator(idCached(`_v${_.index}`), t(tx)(_.val))
-	]),
-	Member: (_, tx) => member(t(tx)(_.object), _.name),
-	Module: transpileModule,
-	// TODO:ES6 Use `export default`
-	ModuleDefaultExport(_, tx) {
-		const m = member(IdExports, 'default')
-		return AssignmentExpression('=', m, t(tx)(_.value))
+	Loop() {
+		return LabeledStatement(loopId(this), whileStatementInfinite(t(this.block)))
 	},
-	Quote(_, tx) {
+	MapReturn() {
+		return msMap(flatMap(range(0, this.length), i =>
+			[ idCached('_k' + i.toString()), idCached('_v' + i.toString()) ]))
+	},
+	MapEntry() {
+		return variableDeclarationConst([
+			VariableDeclarator(idCached(`_k${this.index}`), t(this.key)),
+			VariableDeclarator(idCached(`_v${this.index}`), t(this.val))
+		])
+	},
+	Member() {
+		return member(t(this.object), this.name)
+	},
+	Module() { return transpileModule(this, cx) },
+	// TODO:ES6 Use `export default`
+	ModuleDefaultExport() {
+		const m = member(IdExports, 'default')
+		return AssignmentExpression('=', m, t(this.value))
+	},
+	Quote() {
 		// TODO:ES6 use template strings
 		const isStrLit = _ => _ instanceof EExports.ELiteral && _.k === String
-		const part0 = _.parts[0]
+		const part0 = this.parts[0]
 		const [ first, restParts ] =
-			isStrLit(part0) ? [ t(tx)(part0), tail(_.parts) ] : [ LitEmptyString, _.parts ]
+			isStrLit(part0) ? [ t(part0), tail(this.parts) ] : [ LitEmptyString, this.parts ]
 		return restParts.reduce(
 			(ex, _) =>
-				binaryExpressionPlus(ex, isStrLit(_) ? t(tx)(_) : msShow([ t(tx)(_) ])),
+				binaryExpressionPlus(ex, isStrLit(_) ? t(_) : msShow([ t(_) ])),
 			first)
 	},
-	Special(_) {
+	Special() {
 		// Make new objects because we will assign `loc` to them.
-		switch (_.k) {
+		switch (this.k) {
 			case 'contains': return member(IdMs, 'contains')
 			case 'debugger': return DebuggerStatement()
 			case 'sub': return member(IdMs, 'sub')
 			case 'this': return 	ThisExpression()
 			case 'this-module-directory': return Identifier('__dirname')
-			default: throw new Error(_.k)
+			default: throw new Error(this.k)
 		}
 	},
-	Splat: (_, tx) => tx.fail(_.loc, 'Splat must appear as argument to a call.'),
-	Yield: (_, tx) => yieldExpressionNoDelegate(t(tx)(_.yielded)),
-	YieldTo: (_, tx) => yieldExpressionDelegate(t(tx)(_.yieldedTo))
+	Splat() { cx.fail(this.loc, 'Splat must appear as argument to a call.') },
+	Yield() { return yieldExpressionNoDelegate(t(this.yielded)) },
+	YieldTo() { return yieldExpressionDelegate(t(this.yieldedTo)) }
 })
 
-const blockWrap = (_, tx, block) => {
-	const g = tx.vr.eIsInGenerator(_)
+const blockWrap = (_, block) => {
+	const g = vr.eIsInGenerator(_)
 	const invoke = callExpressionThunk(functionExpressionThunk(block, g))
 	return g ? yieldExpressionDelegate(invoke) : invoke
 }
 
 const caseFail = SwitchCase(null, [ throwError('No branch of `case` matches.') ])
-function caseBody(tx, parts, opElse) {
+function caseBody(parts, opElse) {
 	const elze = ifElse(opElse,
-		_ => SwitchCase(null, [ t(tx)(_) ]),
+		_ => SwitchCase(null, [ t(_) ]),
 		() => caseFail)
-	const cases = push(parts.map(part => t(tx)(part)), elze)
+	const cases = push(parts.map(part => t(part)), elze)
 	return switchStatementOnTrue(cases)
 }
 
-function casePart(tx, test, result, needBreak) {
-	const checkedTest = tx.opts().includeCaseChecks() ? msBool([ t(tx)(test) ]) : t(tx)(test)
-	const lines = needBreak ? [ t(tx)(result), Break ] : [ t(tx)(result) ]
+function casePart(test, result, needBreak) {
+	const checkedTest = cx.opts.includeCaseChecks() ? msBool([ t(test) ]) : t(test)
+	const lines = needBreak ? [ t(result), Break ] : [ t(result) ]
 	return SwitchCase(checkedTest, lines)
 }
 

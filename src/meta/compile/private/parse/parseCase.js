@@ -1,10 +1,8 @@
-import { Assign, BlockWrap, CaseDo, CaseVal,
-	CaseDoPart, CaseValPart, LocalDeclare } from '../../Expression'
+import { Assign, CaseDo, CaseVal, CaseDoPart, CaseValPart } from '../../Expression'
 import { CaseKeywords } from '../Lang'
 import { Keyword } from '../Token'
-import { ifElse, None, opIf, some } from '../U/Op'
+import { None, opIf, some } from '../U/Op'
 import type from '../U/type'
-import { lazy } from '../U/util'
 import Px from './Px'
 // TODO:ES6
 import * as PB from './parseBlock'

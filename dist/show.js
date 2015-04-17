@@ -1,5 +1,5 @@
 "use strict";
-if (typeof define !== "function") var define = require("amdefine")(module);
+if ((typeof define !== "function")) var define = require("amdefine")(module);
 define([ "exports", "./Bool", "./compare", "./Fun", "./js", "./math/Num", "./private/bootstrap", "./private/js-impl", "./Obj", "./Str", "./Type/Method", "./Type/Type", "./at/at", "./at/q", "./Obj" ], function(exports, Bool_0, compare_1, Fun_2, js_3, Num_4, bootstrap_5, js_45impl_6, Obj_7, Str_8, Method_9, Type_10, _64_11, _63_12, Obj_13) {
 	exports._get = _ms.lazy(function() {
 		const Bool = _ms.getDefaultExport(Bool_0), _$3 = _ms.getModule(compare_1), _61_63 = _ms.get(_$3, "=?"), Fun = _ms.getDefaultExport(Fun_2), _$4 = _ms.getModule(Fun_2), spread_33 = _ms.get(_$4, "spread!"), _$5 = _ms.getModule(js_3), js_43 = _ms.get(_$5, "js+"), Num = _ms.getDefaultExport(Num_4), _$7 = _ms.getModule(bootstrap_5), msDef = _ms.get(_$7, "msDef"), _$8 = _ms.getModule(js_45impl_6), newSet = _ms.get(_$8, "newSet"), _$9 = _ms.getModule(Obj_7), flag_63 = _ms.get(_$9, "flag?"), p = _ms.get(_$9, "p"), _63p = _ms.get(_$9, "?p"), _64p = _ms.get(_$9, "@p"), Str = _ms.getDefaultExport(Str_8), _$10 = _ms.getModule(Str_8), indent = _ms.get(_$10, "indent"), Method = _ms.getDefaultExport(Method_9), _$11 = _ms.getModule(Method_9), impl_33 = _ms.get(_$11, "impl!"), _$12 = _ms.getModule(Type_10), _61_62 = _ms.get(_$12, "=>"), type_45of = _ms.get(_$12, "type-of"), _$14 = _ms.lazyGetModule(_64_11), _45_45 = _ms.lazyProp(_$14, "--"), empty_63 = _ms.lazyProp(_$14, "empty?"), map = _ms.lazyProp(_$14, "map"), _$15 = _ms.lazyGetModule(_63_12), _63_45or = _ms.lazyProp(_$15, "?-or"), Obj = _ms.lazy(function() {
@@ -59,9 +59,9 @@ define([ "exports", "./Bool", "./compare", "./Fun", "./js", "./math/Num", "./pri
 							const props = _ms.unlazy(_45_45)(_64p(_), [ "prototype" ]);
 							const key_45vals = _61_62(Array, _ms.unlazy(map)(props, function(key) {
 								const val = _ms.checkContains(Str, show(p(_, key), opts), "val");
-								return "" + _ms.show(key) + ". " + _ms.show(indent(val))
+								return ((("" + _ms.show(key)) + ". ") + _ms.show(indent(val)))
 							}));
-							return "" + _ms.show(type_45of(_)) + "\n\t" + _ms.show(key_45vals.join("\n\t"))
+							return ((("" + _ms.show(type_45of(_))) + "\n\t") + _ms.show(key_45vals.join("\n\t")))
 						}
 					}
 				}()

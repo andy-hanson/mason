@@ -1,5 +1,4 @@
 import { assert } from './util'
-import { None, some } from './Op'
 import type from './type'
 
 export const

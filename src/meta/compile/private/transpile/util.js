@@ -4,25 +4,13 @@ import Loc from 'esast/dist/Loc'
 import { member, thunk } from 'esast/dist/util'
 import Expression, { LocalAccess, LocalDeclare } from '../../Expression'
 import { KAssign } from '../Lang'
-import { flatMap, isEmpty, unshift } from '../U/Bag'
+import { unshift } from '../U/Bag'
 import { ifElse, None } from '../U/Op'
 import type from '../U/type'
 import { assert } from '../U/util'
+import Vr from '../Vr'
+import { t } from './transpile'
 import { idForDeclareCached, idForDeclareNew } from './esast-util'
-import Tx from './Tx'
-
-export const t = (tx, arg, arg2, arg3) => expr => {
-	const ast = expr.transpileSubtree(expr, tx, arg, arg2, arg3)
-	if (tx.opts().sourceMap()) {
-		const setLoc = _ => { _.loc = expr.loc }
-		if (ast instanceof Array)
-			// This is only allowed inside of Blocks, which use `toStatements`.
-			ast.forEach(setLoc)
-		else
-			setLoc(ast)
-	}
-	return ast
-}
 
 export const
 	LitEmptyArray = ArrayExpression([]),
@@ -60,37 +48,37 @@ export const
 	msLazy = ms('lazy'),
 	msLazyGet = ms('lazyProp')
 
-export const makeDestructureDeclarators = (tx, loc, assignees, isLazy, value, k, isModule) => {
-	type(tx, Tx, loc, Loc, assignees, [LocalDeclare],
+export const makeDestructureDeclarators = (cx, loc, assignees, isLazy, value, k, isModule) => {
+	type(loc, Loc, assignees, [LocalDeclare],
 		isLazy, Boolean, value, Object, k, KAssign, isModule, Boolean)
 	const destructuredName = `_$${loc.start.line}`
 	const idDestructured = Identifier(destructuredName)
 	const declarators = assignees.map(assignee => {
 		// TODO: Don't compile it if it's never accessed
-		const get = getMember(tx, idDestructured, assignee.name, isLazy, isModule)
-		return makeDeclarator(tx, assignee.loc, assignee, k, get, isLazy)
+		const get = getMember(cx, idDestructured, assignee.name, isLazy, isModule)
+		return makeDeclarator(cx, assignee.loc, assignee, k, get, isLazy)
 	})
 	// Getting lazy module is done by ms.lazyGetModule.
 	const val = (isLazy && !isModule) ? lazyWrap(value) : value
 	return unshift(VariableDeclarator(idDestructured, val), declarators)
 }
 
-const getMember = (tx, astObject, gotName, isLazy, isModule) => {
+const getMember = (cx, astObject, gotName, isLazy, isModule) => {
 	type(astObject, Object, gotName, String, isLazy, Boolean, isModule, Boolean)
 	if (isLazy)
 		return msLazyGet([ astObject, Literal(gotName) ])
-	else if (isModule && tx.opts().includeUseChecks())
+	else if (isModule && cx.opts.includeUseChecks())
 		return msGet([ astObject, Literal(gotName) ])
 	else
 		return member(astObject, gotName)
 }
 
-export const makeDeclarator = (tx, loc, assignee, k, value, valueIsAlreadyLazy) => {
-	type(tx, Tx, loc, Loc, assignee, Expression, k, KAssign, value, Object)
+export const makeDeclarator = (cx, loc, assignee, k, value, valueIsAlreadyLazy) => {
+	type(loc, Loc, assignee, Expression, k, KAssign, value, Object)
 	// TODO: assert(isEmpty(assignee.opType))
 	// or TODO: Allow type check on lazy value?
 	value = assignee.isLazy ? value :
-		maybeWrapInCheckContains(value, tx, assignee.opType, assignee.name)
+		maybeWrapInCheckContains(cx, value, assignee.opType, assignee.name)
 	switch (k) {
 		case '=': case '. ': case '<~': case '<~~': {
 			const val = assignee.isLazy && !valueIsAlreadyLazy ? lazyWrap(value) : value
@@ -108,9 +96,9 @@ export const makeDeclarator = (tx, loc, assignee, k, value, valueIsAlreadyLazy) 
 	}
 }
 
-export const accessLocal = (tx, localAccess) => {
-	type(tx, Tx, localAccess, LocalAccess)
-	return accessLocalDeclare(tx.vr.accessToLocal.get(localAccess))
+export const accessLocal = (localAccess, vr) => {
+	type(localAccess, LocalAccess, vr, Vr)
+	return accessLocalDeclare(vr.accessToLocal.get(localAccess))
 }
 export const accessLocalDeclare = localDeclare => {
 	type(localDeclare, LocalDeclare)
@@ -119,21 +107,21 @@ export const accessLocalDeclare = localDeclare => {
 		idForDeclareNew(localDeclare)
 }
 
-export const maybeWrapInCheckContains = (ast, tx, opType, name) =>
-	tx.opts().includeTypeChecks() ?
+export const maybeWrapInCheckContains = (cx, ast, opType, name) =>
+	cx.opts.includeTypeChecks() ?
 		ifElse(opType,
-			typ => msCheckContains([ t(tx)(typ), ast, Literal(name) ]),
+			typ => msCheckContains([ t(typ), ast, Literal(name) ]),
 			() => ast) :
 		ast
 
-export const opLocalCheck = (tx, local, isLazy) => {
-	type(tx, Tx, local, LocalDeclare, isLazy, Boolean)
+export const opLocalCheck = (cx, local, isLazy) => {
+	type(local, LocalDeclare, isLazy, Boolean)
 	// TODO: Way to typecheck lazies
-	if (!tx.opts().includeTypeChecks() || isLazy)
+	if (!cx.opts.includeTypeChecks() || isLazy)
 		return None
-	return local.opType.map(typ =>
+	else return local.opType.map(typ =>
 		ExpressionStatement(msCheckContains([
-			t(tx)(typ),
+			t(typ),
 			accessLocalDeclare(local),
 			Literal(local.name)])))
 }

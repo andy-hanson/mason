@@ -1,5 +1,5 @@
 "use strict";
-if (typeof define !== "function") var define = require("amdefine")(module);
+if ((typeof define !== "function")) var define = require("amdefine")(module);
 define([ "exports", "../Fun", "../js", "../private/js-impl", "../Obj", "../Objbang", "../Str", "./Impl-Type", "./Kind", "./Method", "./Obj-Type", "./Type", "../bang", "../compare", "../js", "../math/Num", "../Try" ], function(exports, Fun_0, js_1, js_45impl_2, Obj_3, Obj_33_4, Str_5, Impl_45Type_6, Kind_7, Method_8, Obj_45Type_9, Type_10, _33_11, compare_12, js_13, Num_14, Try_15) {
 	exports._get = _ms.lazy(function() {
 		const Fun = _ms.getDefaultExport(Fun_0), _$3 = _ms.getModule(js_1), js_45instanceof = _ms.get(_$3, "js-instanceof"), _$4 = _ms.getModule(js_45impl_2), buildStr = _ms.get(_$4, "buildStr"), Obj = _ms.getDefaultExport(Obj_3), _$6 = _ms.getModule(Obj_33_4), p_43_33 = _ms.get(_$6, "p+!"), Str = _ms.getDefaultExport(Str_5), Impl_45Type = _ms.getDefaultExport(Impl_45Type_6), _$9 = _ms.getModule(Kind_7), kind_33 = _ms.get(_$9, "kind!"), _$10 = _ms.getModule(Method_8), impl_33 = _ms.get(_$10, "impl!"), Obj_45Type = _ms.getDefaultExport(Obj_45Type_9), Type = _ms.getDefaultExport(Type_10), _$12 = _ms.getModule(Type_10), contains_63 = _ms.get(_$12, "contains?"), _33 = _ms.lazy(function() {

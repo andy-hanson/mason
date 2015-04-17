@@ -1,6 +1,7 @@
-import renderAst from 'esast/dist/render'
+import r, { renderWithSourceMap } from 'esast/dist/render'
 
 export default function render(cx, ast) {
-	return renderAst(ast, cx.opts.modulePath(),
-		cx.opts.sourceMap() ? `./${cx.opts.jsBaseName()}` : undefined)
+	return cx.opts.sourceMap() ?
+		renderWithSourceMap(ast, cx.opts.modulePath(), `./${cx.opts.jsBaseName()}`) :
+		r(ast)
 }

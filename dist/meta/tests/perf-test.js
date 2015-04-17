@@ -1,5 +1,5 @@
 "use strict";
-if (typeof define !== "function") var define = require("amdefine")(module);
+if ((typeof define !== "function")) var define = require("amdefine")(module);
 define([ "exports", "../../at/at", "../../cash", "../../io/console", "../../io/time", "../../Fun", "../../private/js-impl", "../../math/Num", "../../math/methods", "../../Str" ], function(exports, _64_0, $_1, console_2, time_3, Fun_4, js_45impl_5, Num_6, methods_7, Str_8) {
 	exports._get = _ms.lazy(function() {
 		const _64 = _ms.getDefaultExport(_64_0), _$2 = _ms.getModule(_64_0), each_33 = _ms.get(_$2, "each!"), $ = _ms.getDefaultExport($_1), _$3 = _ms.getModule($_1), $after = _ms.get(_$3, "$after"), _$4 = _ms.getModule(console_2), log_33 = _ms.get(_$4, "log!"), _$5 = _ms.getModule(time_3), current_45time_45ms = _ms.get(_$5, "current-time-ms"), Fun = _ms.getDefaultExport(Fun_4), _$6 = _ms.getModule(Fun_4), Act = _ms.get(_$6, "Act"), _$7 = _ms.getModule(js_45impl_5), timeStar = _ms.get(_$7, "timeStar"), Num = _ms.getDefaultExport(Num_6), _$8 = _ms.getModule(Num_6), Nat = _ms.get(_$8, "Nat"), _$9 = _ms.getModule(methods_7), _45 = _ms.get(_$9, "-"), Str = _ms.getDefaultExport(Str_8);
@@ -10,7 +10,7 @@ define([ "exports", "../../at/at", "../../cash", "../../io/console", "../../io/t
 				_ms.checkContains(Str, name, "name");
 				_ms.checkContains(Act, time_45me, "time-me");
 				const _$15 = time(time_45me), val = _$15.val, time_45taken = _$15["time-taken"];
-				log_33("" + _ms.show(name) + ": " + _ms.show(time_45taken));
+				log_33(((("" + _ms.show(name)) + ": ") + _ms.show(time_45taken)));
 				return val
 			}, "doc", doc, "displayName", "time!")
 		}();
@@ -66,7 +66,7 @@ define([ "exports", "../../at/at", "../../cash", "../../io/console", "../../io/t
 				_ms.checkContains($, $time_45me, "$time-me");
 				return _ms.checkContains($, $after($time($time_45me), function(time) {
 					_ms.checkContains(Num, time, "time");
-					log_33("" + _ms.show(name) + ": " + _ms.show(time));
+					log_33(((("" + _ms.show(name)) + ": ") + _ms.show(time)));
 					return $time_45me
 				}), "res")
 			}, "doc", doc, "displayName", "$time!")

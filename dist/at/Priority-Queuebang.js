@@ -1,5 +1,5 @@
 "use strict";
-if (typeof define !== "function") var define = require("amdefine")(module);
+if ((typeof define !== "function")) var define = require("amdefine")(module);
 define([ "exports", "../Type/Kind", "../Type/Method", "./atbang", "../bang", "../compare", "./at", "./atbang", "./at-Type", "./q" ], function(exports, Kind_0, Method_1, _64_33_2, _33_3, compare_4, _64_5, _64_33_6, _64_45Type_7, _63_8) {
 	exports._get = _ms.lazy(function() {
 		const Kind = _ms.getDefaultExport(Kind_0), _$2 = _ms.getModule(Kind_0), kind_33 = _ms.get(_$2, "kind!"), Method = _ms.getDefaultExport(Method_1), _64_33 = _ms.getDefaultExport(_64_33_2), _33 = _ms.lazy(function() {

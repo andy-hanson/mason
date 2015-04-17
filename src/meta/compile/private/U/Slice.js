@@ -1,6 +1,5 @@
 import { isEmpty } from './Bag'
 import { None, some } from './Op'
-import type from './type'
 import { assert } from './util'
 
 export default class Slice {

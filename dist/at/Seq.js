@@ -1,5 +1,5 @@
 "use strict";
-if (typeof define !== "function") var define = require("amdefine")(module);
+if ((typeof define !== "function")) var define = require("amdefine")(module);
 define([ "exports", "../Bool", "../compare", "../control", "../Fun", "../math/methods", "../methods", "../Str", "../Type/Kind", "../Type/Method", "../Type/Type", "./at", "./at-Type", "../control", "../show", "./q", "./Arraybang", "../math/Num", "./Seqbang", "./Stream", "../bang", "../compare", "../Try" ], function(exports, Bool_0, compare_1, control_2, Fun_3, methods_4, methods_5, Str_6, Kind_7, Method_8, Type_9, _64_10, _64_45Type_11, control_12, show_13, _63_14, Array_33_15, Num_16, Seq_33_17, Stream_18, _33_19, compare_20, Try_21) {
 	exports._get = _ms.lazy(function() {
 		const _$2 = _ms.getModule(Bool_0), not = _ms.get(_$2, "not"), _$3 = _ms.getModule(compare_1), _61_63 = _ms.get(_$3, "=?"), _$4 = _ms.getModule(control_2), End_45Loop = _ms.get(_$4, "End-Loop"), _if = _ms.get(_$4, "if"), loop = _ms.get(_$4, "loop"), Fun = _ms.getDefaultExport(Fun_3), _$5 = _ms.getModule(Fun_3), Pred = _ms.get(_$5, "Pred"), _$6 = _ms.getModule(methods_4), _45 = _ms.get(_$6, "-"), _43 = _ms.get(_$6, "+"), _$7 = _ms.getModule(methods_5), freeze = _ms.get(_$7, "freeze"), sub = _ms.get(_$7, "sub"), _$8 = _ms.getModule(Str_6), indent = _ms.get(_$8, "indent"), Kind = _ms.getDefaultExport(Kind_7), _$9 = _ms.getModule(Kind_7), kind_33 = _ms.get(_$9, "kind!"), self_45kind_33 = _ms.get(_$9, "self-kind!"), Method = _ms.getDefaultExport(Method_8), _$10 = _ms.getModule(Method_8), impl_33 = _ms.get(_$10, "impl!"), self_45impl_33 = _ms.get(_$10, "self-impl!"), _$11 = _ms.getModule(Type_9), _61_62 = _ms.get(_$11, "=>"), type_45of = _ms.get(_$11, "type-of"), _64 = _ms.getDefaultExport(_64_10), _$12 = _ms.getModule(_64_10), _43_43 = _ms.get(_$12, "++"), count = _ms.get(_$12, "count"), empty_63 = _ms.get(_$12, "empty?"), iterator = _ms.get(_$12, "iterator"), _64_45Type = _ms.getDefaultExport(_64_45Type_11), _$13 = _ms.getModule(_64_45Type_11), empty = _ms.get(_$13, "empty"), from_45stream = _ms.get(_$13, "from-stream"), _$15 = _ms.lazyGetModule(control_12), Ref_33 = _ms.lazyProp(_$15, "Ref!"), get = _ms.lazyProp(_$15, "get"), mod_33 = _ms.lazyProp(_$15, "mod!"), set_33 = _ms.lazyProp(_$15, "set!"), show = _ms.lazy(function() {
@@ -241,7 +241,7 @@ define([ "exports", "../Bool", "../compare", "../control", "../Fun", "../math/me
 			return _ms.set(function(_, n) {
 				_ms.checkContains(_ms.unlazy(Nat), n, "n");
 				return _ms.unlazy(un_45_63)(_63nth(_, n), _ms.lazy(function() {
-					return "No element at index " + _ms.show(n) + " for\n\t" + _ms.show(indent(_ms.unlazy(show)(_)))
+					return ((("No element at index " + _ms.show(n)) + " for\n\t") + _ms.show(indent(_ms.unlazy(show)(_))))
 				}))
 			}, "doc", doc, "test", test)
 		}());

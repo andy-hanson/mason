@@ -1,37 +1,21 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(["exports", "esast/dist/Loc", "./private/Lang", "./private/U/Bag", "./private/U/Op", "./private/U/type", "./private/U/types", "./private/U/util"], function (exports, _esastDistLoc, _privateLang, _privateUBag, _privateUOp, _privateUType, _privateUTypes, _privateUUtil) {
-	"use strict";
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'esast/dist/Loc', './private/Lang', './private/U/Op', './private/U/types', './private/U/util'], function (exports, _esastDistLoc, _privateLang, _privateUOp, _privateUTypes, _privateUUtil) {
+	'use strict';
 
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
 	var _slice = Array.prototype.slice;
 
-	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
 
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
 
-	Object.defineProperty(exports, "__esModule", {
+	Object.defineProperty(exports, '__esModule', {
 		value: true
 	});
 
-	var Loc = _interopRequire(_esastDistLoc);
+	var _Loc = _interopRequire(_esastDistLoc);
 
-	var JsGlobals = _privateLang.JsGlobals;
-	var KAssign = _privateLang.KAssign;
-	var KFun = _privateLang.KFun;
-	var SpecialKeywords = _privateLang.SpecialKeywords;
-	var UseKeywords = _privateLang.UseKeywords;
-	var cons = _privateUBag.cons;
-
-	var Op = _interopRequire(_privateUOp);
-
-	var None = _privateUOp.None;
-
-	var type = _interopRequire(_privateUType);
-
-	var tuple = _privateUTypes.tuple;
-	var abstractType = _privateUTypes.abstractType;
-	var assert = _privateUUtil.assert;
-	var setUnion = _privateUUtil.setUnion;
+	var _Op = _interopRequire(_privateUOp);
 
 	let Expression = function Expression() {
 		_classCallCheck(this, Expression);
@@ -42,7 +26,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	// These can only appear as lines in a Block.
 	// Not to be confused with Generator expressions resulting from `do` keyword.
 
-	let Do = exports.Do = (function (_Expression) {
+	let Do = (function (_Expression) {
 		function Do() {
 			_classCallCheck(this, Do);
 
@@ -56,9 +40,11 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		return Do;
 	})(Expression);
 
+	exports.Do = Do;
+
 	// These can appear in any expression.
 
-	let Val = exports.Val = (function (_Expression2) {
+	let Val = (function (_Expression2) {
 		function Val() {
 			_classCallCheck(this, Val);
 
@@ -72,98 +58,100 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		return Val;
 	})(Expression);
 
+	exports.Val = Val;
+
 	// TODO:ES6 splat
 	const ee = function () {
-		return tuple.apply(undefined, [Expression, "loc", Loc].concat(_slice.call(arguments)));
+		return _privateUTypes.tuple.apply(undefined, [Expression, 'loc', _Loc].concat(_slice.call(arguments)));
 	};
 	const ed = function () {
-		return tuple.apply(undefined, [Do, "loc", Loc].concat(_slice.call(arguments)));
+		return _privateUTypes.tuple.apply(undefined, [Do, 'loc', _Loc].concat(_slice.call(arguments)));
 	};
 	const ev = function () {
-		return tuple.apply(undefined, [Val, "loc", Loc].concat(_slice.call(arguments)));
+		return _privateUTypes.tuple.apply(undefined, [Val, 'loc', _Loc].concat(_slice.call(arguments)));
 	};
 
 	// TODO: Get rid of null
-	const KSpecial = setUnion(SpecialKeywords, ["contains", "debugger", "sub", "null"]);
+	const KSpecial = _privateUUtil.setUnion(_privateLang.SpecialKeywords, ['contains', 'debugger', 'sub', 'null']);
 
-	const Debug = ed("lines", [Expression]),
-	      BlockDo = ed("lines", [Expression]),
-	      BlockVal = ed("lines", [Expression], "returned", Val),
-	      ModuleDefaultExport = ed("value", Val),
-	      LocalDeclare = Object.assign(ee("name", String, "opType", Op(Val), "isLazy", Boolean, "okToNotUse", Boolean), {
+	const Debug = ed('lines', [Expression]),
+	      BlockDo = ed('lines', [Expression]),
+	      BlockVal = ed('lines', [Expression], 'returned', Val),
+	      ModuleDefaultExport = ed('value', Val),
+	      LocalDeclare = Object.assign(ee('name', String, 'opType', _Op(Val), 'isLazy', Boolean, 'okToNotUse', Boolean), {
 		focus: function (loc) {
-			return LocalDeclare(loc, "_", None, false, false);
+			return LocalDeclare(loc, '_', _privateUOp.None, false, false);
 		},
 		res: function (loc, opType) {
-			return LocalDeclare(loc, "res", opType, false, true);
+			return LocalDeclare(loc, 'res', opType, false, true);
 		}
 	}),
-	      Assign = Object.assign(ed("assignee", LocalDeclare, "k", KAssign, "value", Val), { focus: function (loc, value) {
-			return Assign(loc, LocalDeclare.focus(loc), "=", value);
+	      Assign = Object.assign(ed('assignee', LocalDeclare, 'k', _privateLang.KAssign, 'value', Val), { focus: function (loc, value) {
+			return Assign(loc, LocalDeclare.focus(loc), '=', value);
 		} }),
-	      AssignDestructure = ed("assignees", [LocalDeclare], "k", KAssign, "value", Val, "isLazy", Boolean),
-	      LocalAccess = Object.assign(ev("name", String), { focus: function (loc) {
-			return LocalAccess(loc, "_");
+	      AssignDestructure = ed('assignees', [LocalDeclare], 'k', _privateLang.KAssign, 'value', Val, 'isLazy', Boolean),
+	      LocalAccess = Object.assign(ev('name', String), { focus: function (loc) {
+			return LocalAccess(loc, '_');
 		} }),
-	      GlobalAccess = Object.assign(ev("name", JsGlobals), {
+	      GlobalAccess = Object.assign(ev('name', _privateLang.JsGlobals), {
 		null: function (loc) {
-			return GlobalAccess(loc, "null");
+			return GlobalAccess(loc, 'null');
 		},
 		true: function (loc) {
-			return GlobalAccess(loc, "true");
+			return GlobalAccess(loc, 'true');
 		}
 	}),
 	     
 	// Module
-	UseDo = ee("path", String),
-	      Use = ee("path", String, "used", [LocalDeclare], "opUseDefault", Op(LocalDeclare)),
+	UseDo = ee('path', String),
+	      Use = ee('path', String, 'used', [LocalDeclare], 'opUseDefault', _Op(LocalDeclare)),
 	     
 	// `block` will contain ModuleExport and ModuleDefaultExport_s
 	// TODO: BlockVal and don't have `exports` object
-	Module = ee("doUses", [UseDo], "uses", [Use], "debugUses", [Use], "block", BlockDo),
+	Module = ee('doUses', [UseDo], 'uses', [Use], 'debugUses', [Use], 'block', BlockDo),
 	     
 
 	// Data
 	// TODO: Don't store index here, do it in Vr
-	ListEntry = ed("value", Val, "index", Number),
+	ListEntry = ed('value', Val, 'index', Number),
 	     
 	// TODO: Don't store length here, do it in Vr
-	ListReturn = ev("length", Number),
-	      ListSimple = ev("parts", [Val]),
+	ListReturn = ev('length', Number),
+	      ListSimple = ev('parts', [Val]),
 	     
 
 	// TODO: Don't store index here, do it in Vr
-	MapEntry = ed("key", Val, "val", Val, "index", Number),
+	MapEntry = ed('key', Val, 'val', Val, 'index', Number),
 	     
 	// TODO: Don't store length here, do it in Vr
-	MapReturn = ev("length", Number),
-	      ObjReturn = ev("keys", [LocalDeclare], "debugKeys", [LocalDeclare], "opObjed", Op(Val), "opDisplayName", Op(String)),
+	MapReturn = ev('length', Number),
+	      ObjReturn = ev('keys', [LocalDeclare], 'debugKeys', [LocalDeclare], 'opObjed', _Op(Val), 'opDisplayName', _Op(String)),
 	     
 	// keysVals: values are Vals
-	ObjSimple = ev("keysVals", Object),
+	ObjSimple = ev('keysVals', Object),
 	     
 
 	// Case
-	CaseDoPart = ee("test", Val, "result", BlockDo),
-	      CaseValPart = ee("test", Val, "result", BlockVal),
-	      CaseDo = ed("opCased", Op(Assign), "parts", [CaseDoPart], "opElse", Op(BlockDo)),
+	CaseDoPart = ee('test', Val, 'result', BlockDo),
+	      CaseValPart = ee('test', Val, 'result', BlockVal),
+	      CaseDo = ed('opCased', _Op(Assign), 'parts', [CaseDoPart], 'opElse', _Op(BlockDo)),
 	     
 	// Unlike CaseDo, this has `return` statements.
-	CaseVal = ev("opCased", Op(Assign), "parts", [CaseValPart], "opElse", Op(BlockVal)),
+	CaseVal = ev('opCased', _Op(Assign), 'parts', [CaseValPart], 'opElse', _Op(BlockVal)),
 	     
 
 	// Statements
-	Loop = ed("block", BlockDo),
+	Loop = ed('block', BlockDo),
 	      EndLoop = ed(),
 	     
 
 	// Generators
-	Yield = ev("yielded", Val),
-	      YieldTo = ev("yieldedTo", Val),
+	Yield = ev('yielded', Val),
+	      YieldTo = ev('yieldedTo', Val),
 	     
 
 	// Expressions
-	Call = Object.assign(ev("called", Val, "args", [Val]), {
+	Call = Object.assign(ev('called', Val, 'args', [Val]), {
 		contains: function (loc, testType, tested) {
 			return Call(loc, Special.contains(loc), [testType, tested]);
 		},
@@ -173,26 +161,26 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	}),
 	     
 	// Only for use in a Call
-	Splat = ev("splatted", Val),
-	      BlockWrap = ev("block", BlockVal),
-	      Fun = ev("k", KFun, "args", [LocalDeclare], "opRestArg", Op(LocalDeclare),
+	Splat = ev('splatted', Val),
+	      BlockWrap = ev('block', BlockVal),
+	      Fun = ev('k', _privateLang.KFun, 'args', [LocalDeclare], 'opRestArg', _Op(LocalDeclare),
 	// BlockDo or BlockVal
-	"block", Expression, "opIn", Op(Debug),
+	'block', Expression, 'opIn', _Op(Debug),
 	// If non-empty, block should be a BlockVal, and either it has a type or opOut is non-empty.
-	"opResDeclare", Op(LocalDeclare), "opOut", Op(Debug)),
-	      Lazy = ev("value", Val),
-	      ELiteral = ev("value", String, "k", new Set([Number, String, "js"])),
-	      Member = ev("object", Val, "name", String),
-	      Quote = ev("parts", [Val]),
-	      Special = Object.assign(ev("k", KSpecial), {
+	'opResDeclare', _Op(LocalDeclare), 'opOut', _Op(Debug)),
+	      Lazy = ev('value', Val),
+	      ELiteral = ev('value', String, 'k', new Set([Number, String, 'js'])),
+	      Member = ev('object', Val, 'name', String),
+	      Quote = ev('parts', [Val]),
+	      Special = Object.assign(ev('k', KSpecial), {
 		contains: function (loc) {
-			return Special(loc, "contains");
+			return Special(loc, 'contains');
 		},
 		debugger: function (loc) {
-			return Special(loc, "debugger");
+			return Special(loc, 'debugger');
 		},
 		sub: function (loc) {
-			return Special(loc, "sub");
+			return Special(loc, 'sub');
 		}
 	});
 	exports.Debug = Debug;

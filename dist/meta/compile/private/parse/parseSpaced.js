@@ -1,70 +1,57 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(["exports", "../../CompileError", "../../Expression", "../Token", "../U/Bag", "../U/type", "../U/util", "./Px", "./parseSingle", "./parseExpr"], function (exports, _CompileError, _Expression, _Token, _UBag, _UType, _UUtil, _Px, _parseSingle, _parseExpr) {
-	"use strict";
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', '../../CompileError', '../../Expression', '../Token', '../U/Bag', '../U/type', './Px', './parseSingle', './parseExpr'], function (exports, _CompileError, _Expression, _Token, _UBag, _UType, _Px, _parseSingle, _parseExpr) {
+	'use strict';
 
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-	exports.parseSpaced = parseSpaced;
-	Object.defineProperty(exports, "__esModule", {
+	Object.defineProperty(exports, '__esModule', {
 		value: true
 	});
-	var code = _CompileError.code;
-	var Call = _Expression.Call;
-	var Lazy = _Expression.Lazy;
-	var LocalAccess = _Expression.LocalAccess;
-	var Member = _Expression.Member;
-	var DotName = _Token.DotName;
-	var Group = _Token.Group;
-	var Keyword = _Token.Keyword;
-	var unshift = _UBag.unshift;
+	exports.parseSpaced = parseSpaced;
 
-	var type = _interopRequire(_UType);
+	var _type = _interopRequire(_UType);
 
-	var assert = _UUtil.assert;
-	var lazy = _UUtil.lazy;
+	var _Px2 = _interopRequire(_Px);
 
-	var Px = _interopRequire(_Px);
-
-	var parseSingle = _interopRequire(_parseSingle);
-
-	// TODO:ES6
-	var PE = _parseExpr;
+	var _parseSingle2 = _interopRequire(_parseSingle);
 
 	function parseSpaced(px) {
-		type(px, Px);
+		_type(px, _Px2);
 		const h = px.tokens.head(),
 		      rest = px.tokens.tail();
 		switch (true) {
-			case h instanceof Keyword:
-				if (h.k === ":") {
-					px.check(!Keyword.isColon(rest.head()), h.loc, function () {
-						return "Two " + h + " in a row";
+			case h instanceof _Token.Keyword:
+				if (h.k === ':') {
+					px.check(!_Token.Keyword.isColon(rest.head()), h.loc, function () {
+						return 'Two ' + h + ' in a row';
 					});
 					const eType = px.w(rest, parseSpaced);
-					const focus = LocalAccess.focus(h.loc);
-					return Call.contains(h.loc, eType, focus);
-				} else if (h.k === "~") return Lazy(h.loc, px.w(rest, parseSpaced));
+					const focus = _Expression.LocalAccess.focus(h.loc);
+					return _Expression.Call.contains(h.loc, eType, focus);
+				} else if (h.k === '~') return _Expression.Lazy(h.loc, px.w(rest, parseSpaced));
 			default:
 				{
 					const memberOrSubscript = function (px) {
 						return function (e, t) {
 							const loc = t.loc;
-							if (t instanceof DotName) {
-								px.check(t.nDots === 1, loc, "Too many dots!");
-								return Member(loc, e, t.name);
-							} else if (t instanceof Group) {
-								if (t.k === "[") return Call.sub(loc, unshift(e, px.w(t.tokens, PE.parseExprParts)));
-								if (t.k === "(") {
+							if (t instanceof _Token.DotName) {
+								px.check(t.nDots === 1, loc, 'Too many dots!');
+								return _Expression.Member(loc, e, t.name);
+							} else if (t instanceof _Token.Group) {
+								if (t.k === '[') return _Expression.Call.sub(loc, _UBag.unshift(e, px.w(t.tokens, _parseExpr.parseExprParts)));
+								if (t.k === '(') {
 									px.check(t.tokens.isEmpty(), loc, function () {
-										return "Use " + code("(a b)") + ", not " + code("a(b)");
+										return 'Use ' + _CompileError.code('(a b)') + ', not ' + _CompileError.code('a(b)');
 									});
-									return Call(loc, e, []);
+									return _Expression.Call(loc, e, []);
 								}
-							} else px.fail(loc, "Expected member or sub, not " + t);
+							} else px.fail(loc, 'Expected member or sub, not ' + t);
 						};
 					};
-					return rest.reduce(memberOrSubscript(px), px.wt(h, parseSingle));
+					return rest.reduce(memberOrSubscript(px), px.wt(h, _parseSingle2));
 				}
 		}
 	}
 });
+
+// TODO:ES6
 //# sourceMappingURL=../../../../meta/compile/private/parse/parseSpaced.js.map

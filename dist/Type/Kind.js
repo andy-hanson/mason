@@ -1,5 +1,5 @@
 "use strict";
-if (typeof define !== "function") var define = require("amdefine")(module);
+if ((typeof define !== "function")) var define = require("amdefine")(module);
 define([ "exports", "../Bool", "../compare", "../js", "../private/bootstrap", "../private/js-impl", "./Method", "./Obj-Type", "../at/at", "../control", "./Impl-Type", "../methods", "../bang", "../at/Stream", "../Try", "./Method", "./Type" ], function(exports, Bool_0, compare_1, js_2, bootstrap_3, js_45impl_4, Method_5, Obj_45Type_6, _64_7, control_8, Impl_45Type_9, methods_10, _33_11, Stream_12, Try_13, Method_14, Type_15) {
 	exports._get = _ms.lazy(function() {
 		const _$2 = _ms.getModule(Bool_0), or = _ms.get(_$2, "or"), not = _ms.get(_$2, "not"), _$3 = _ms.getModule(compare_1), _61_63 = _ms.get(_$3, "=?"), _$4 = _ms.getModule(js_2), defined_63 = _ms.get(_$4, "defined?"), js_45sub = _ms.get(_$4, "js-sub"), _$5 = _ms.getModule(bootstrap_3), impl_45contains_63_33 = _ms.get(_$5, "impl-contains?!"), Obj = _ms.get(_$5, "Obj"), p_43_33 = _ms.get(_$5, "p+!"), Str = _ms.get(_$5, "Str"), _$6 = _ms.getModule(js_45impl_4), isEmpty = _ms.get(_$6, "isEmpty"), KindContains = _ms.get(_$6, "KindContains"), _$7 = _ms.getModule(Method_5), impl_33 = _ms.get(_$7, "impl!"), propagate_45method_45down_33 = _ms.get(_$7, "propagate-method-down!"), self_45impl_33 = _ms.get(_$7, "self-impl!"), Obj_45Type = _ms.getDefaultExport(Obj_45Type_6), _64 = _ms.lazy(function() {
@@ -143,7 +143,7 @@ define([ "exports", "../Bool", "../compare", "../js", "../private/bootstrap", ".
 				};
 				const symbol_45for_45isa = function(_) {
 					const name = _ms.checkContains(Str, _.displayName, "name");
-					return Symbol("isa-" + _ms.show(name))
+					return Symbol(("isa-" + _ms.show(name)))
 				};
 				return {
 					"super-kinds": super_45kinds,
@@ -270,7 +270,7 @@ define([ "exports", "../Bool", "../compare", "../js", "../private/bootstrap", ".
 			return _ms.set(function(implementor, kind, method_45impls) {
 				_ms.checkContains(Kind, kind, "kind");
 				_ms.unlazy(_33)(can_45subtype_63(kind), _ms.lazy(function() {
-					return "" + _ms.show(kind) + " is not open to new subtypes."
+					return (("" + _ms.show(kind)) + " is not open to new subtypes.")
 				}));
 				_ms.unlazy(_33not)(kind_63, implementor, kind);
 				unchecked_45kind_33(implementor, kind);

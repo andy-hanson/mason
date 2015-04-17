@@ -7,6 +7,10 @@ export default class Cx {
 		this.opts = opts
 		this.warnings = []
 	}
+
+	fail(loc, message) {
+		throw CompileError(warning(loc, message))
+	}
 }
 
 // Intended to be inherited by specific contexts.
@@ -21,7 +25,7 @@ export class SubContext {
 	}
 
 	fail(loc, message) {
-		throw CompileError(warning(loc, message))
+		this.cx.fail(loc, message)
 	}
 
 	warnIf(cond, loc, message) {

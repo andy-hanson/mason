@@ -1,16 +1,13 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(["exports", "./U/Bag", "./U/type", "./U/types"], function (exports, _UBag, _UType, _UTypes) {
-	"use strict";
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', './U/Bag', './U/type', './U/types'], function (exports, _UBag, _UType, _UTypes) {
+	'use strict';
 
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-	Object.defineProperty(exports, "__esModule", {
+	Object.defineProperty(exports, '__esModule', {
 		value: true
 	});
-	var last = _UBag.last;
 
-	var type = _interopRequire(_UType);
-
-	var ObjType = _UTypes.ObjType;
+	var _type = _interopRequire(_UType);
 
 	/*
  Opts object
@@ -36,14 +33,14 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		};
 		const opts = Object.assign({}, defaults, obj);
 		if (!opts.inFile) {
-			if (opts.includeSourceMap) throw new Error("Either supply `inFile` option or make `includeSourceMap` false.");
-			if (opts.includeModuleDisplayName) throw new Error("Either supply `inFile` option or make `includeModuleDisplayName` false.");
+			if (opts.includeSourceMap) throw new Error('Either supply `inFile` option or make `includeSourceMap` false.');
+			if (opts.includeModuleDisplayName) throw new Error('Either supply `inFile` option or make `includeModuleDisplayName` false.');
 		}
 		return new Opts(opts);
 	};
 
 	exports.OptsFromObject = OptsFromObject;
-	const Opts = ObjType("Opts", Object, {
+	const Opts = _UTypes.ObjType('Opts', Object, {
 		inFile: String,
 		checks: Boolean,
 		includeAmdefine: Boolean,
@@ -58,30 +55,30 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 			return noExt(basename(this.inFile));
 		},
 		jsBaseName: function () {
-			return "" + this.moduleName() + ".js";
+			return '' + this.moduleName() + '.js';
 		},
 		modulePath: function () {
 			return this.inFile;
 		},
 
 		_check: function (name) {
-			if (typeof this.checks === "boolean") return this.checks;else {
-				type(this.checks, Object);
-				type(this.checks[name], "boolean");
+			if (typeof this.checks === 'boolean') return this.checks;else {
+				_type(this.checks, Object);
+				_type(this.checks[name], 'boolean');
 				return this.checks[name];
 			}
 		},
 		includeUseChecks: function () {
-			return this._check("use");
+			return this._check('use');
 		},
 		includeTypeChecks: function () {
-			return this._check("type");
+			return this._check('type');
 		},
 		includeInoutChecks: function () {
-			return this._check("inout");
+			return this._check('inout');
 		},
 		includeCaseChecks: function () {
-			return this._check("case");
+			return this._check('case');
 		},
 
 		amdefine: function () {
@@ -99,10 +96,10 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	});
 
 	const basename = function (path) {
-		return last(path.split("/"));
+		return _UBag.last(path.split('/'));
 	};
 	const extname = function (path) {
-		return last(path.split("."));
+		return _UBag.last(path.split('.'));
 	};
 	const noExt = function (path) {
 		return (

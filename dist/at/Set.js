@@ -1,5 +1,5 @@
 "use strict";
-if (typeof define !== "function") var define = require("amdefine")(module);
+if ((typeof define !== "function")) var define = require("amdefine")(module);
 define([ "exports", "../Bool", "../compare", "../Type/Type", "../Type/Kind", "../Type/Method", "./at", "./at-Type", "./Hash-Setbang", "./at", "./Stream" ], function(exports, Bool_0, compare_1, Type_2, Kind_3, Method_4, _64_5, _64_45Type_6, Hash_45Set_33_7, _64_8, Stream_9) {
 	exports._get = _ms.lazy(function() {
 		const _$2 = _ms.getModule(Bool_0), and = _ms.get(_$2, "and"), _$3 = _ms.getModule(compare_1), _61_63 = _ms.get(_$3, "=?"), same_63 = _ms.get(_$3, "same?"), _$4 = _ms.getModule(Type_2), _61_62 = _ms.get(_$4, "=>"), contains_63 = _ms.get(_$4, "contains?"), type_45of = _ms.get(_$4, "type-of"), Kind = _ms.getDefaultExport(Kind_3), _$5 = _ms.getModule(Kind_3), kind_33 = _ms.get(_$5, "kind!"), self_45kind_33 = _ms.get(_$5, "self-kind!"), Method = _ms.getDefaultExport(Method_4), _$6 = _ms.getModule(Method_4), impl_33 = _ms.get(_$6, "impl!"), _64 = _ms.getDefaultExport(_64_5), _$7 = _ms.getModule(_64_5), all_63 = _ms.get(_$7, "all?"), count = _ms.get(_$7, "count"), keep = _ms.get(_$7, "keep"), _64_45Type = _ms.getDefaultExport(_64_45Type_6), _$8 = _ms.getModule(_64_45Type_6), empty = _ms.get(_$8, "empty"), from_45stream = _ms.get(_$8, "from-stream"), Hash_45Set_33 = _ms.lazy(function() {

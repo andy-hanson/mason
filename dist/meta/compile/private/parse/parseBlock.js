@@ -1,62 +1,32 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(["exports", "../../Expression", "../Token", "../U/Bag", "../U/Op", "../U/type", "../U/util", "./Px", "./parseLine"], function (exports, _Expression, _Token, _UBag, _UOp, _UType, _UUtil, _Px, _parseLine) {
-	"use strict";
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', '../../Expression', '../Token', '../U/Bag', '../U/Op', '../U/type', '../U/util', './Px', './parseLine'], function (exports, _Expression, _Token, _UBag, _UOp, _UType, _UUtil, _Px, _parseLine) {
+	'use strict';
 
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-	Object.defineProperty(exports, "__esModule", {
+	Object.defineProperty(exports, '__esModule', {
 		value: true
 	});
-	var Assign = _Expression.Assign;
-	var BlockDo = _Expression.BlockDo;
-	var BlockVal = _Expression.BlockVal;
-	var BlockWrap = _Expression.BlockWrap;
-	var Debug = _Expression.Debug;
-	var ObjReturn = _Expression.ObjReturn;
-	var ListEntry = _Expression.ListEntry;
-	var ListReturn = _Expression.ListReturn;
-	var ELiteral = _Expression.ELiteral;
-	var LocalDeclare = _Expression.LocalDeclare;
-	var MapReturn = _Expression.MapReturn;
-	var MapEntry = _Expression.MapEntry;
-	var Module = _Expression.Module;
-	var ModuleDefaultExport = _Expression.ModuleDefaultExport;
-	var Val = _Expression.Val;
-	var Group = _Token.Group;
-	var Keyword = _Token.Keyword;
-	var cat = _UBag.cat;
-	var isEmpty = _UBag.isEmpty;
-	var last = _UBag.last;
-	var rtail = _UBag.rtail;
-	var ifElse = _UOp.ifElse;
-	var None = _UOp.None;
-	var some = _UOp.some;
 
-	var type = _interopRequire(_UType);
+	var _type = _interopRequire(_UType);
 
-	var assert = _UUtil.assert;
-	var lazy = _UUtil.lazy;
-
-	var Px = _interopRequire(_Px);
-
-	// TODO:ES6
-	var PL = _parseLine;
+	var _Px2 = _interopRequire(_Px);
 
 	const parseLine_ = function () {
-		return PL.default;
+		return _parseLine.default;
 	};
 	const parseLineOrLines_ = function () {
-		return PL.parseLineOrLines;
+		return _parseLine.parseLineOrLines;
 	};
 
 	const takeBlockLinesFromEnd = function (px) {
-		type(px, Px);
-		px.check(!px.tokens.isEmpty(), "Expected an indented block");
+		_type(px, _Px2);
+		px.check(!px.tokens.isEmpty(), 'Expected an indented block');
 		const l = px.tokens.last();
-		px.check(Group.isBlock(l), l.loc, "Expected an indented block at the end");
+		px.check(_Token.Group.isBlock(l), l.loc, 'Expected an indented block at the end');
 		return { before: px.tokens.rtail(), lines: l.tokens };
 	},
 	      blockWrap = function (px) {
-		return BlockWrap(px.loc, parseBody(px, "val"));
+		return _Expression.BlockWrap(px.loc, parseBody(px, 'val'));
 	},
 	      justBlockDo = function (px) {
 		var _takeBlockDoFromEnd = takeBlockDoFromEnd(px);
@@ -64,7 +34,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		const before = _takeBlockDoFromEnd.before;
 		const block = _takeBlockDoFromEnd.block;
 
-		px.check(before.isEmpty(), "Expected just a block.");
+		px.check(before.isEmpty(), 'Expected just a block.');
 		return block;
 	},
 	      justBlockVal = function (px) {
@@ -73,7 +43,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		const before = _takeBlockValFromEnd.before;
 		const block = _takeBlockValFromEnd.block;
 
-		px.check(before.isEmpty(), "Expected just a block.");
+		px.check(before.isEmpty(), 'Expected just a block.');
 		return block;
 	},
 	      takeBlockDoFromEnd = function (px) {
@@ -86,22 +56,22 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		return { before: before, block: block };
 	},
 	      takeBlockValFromEnd = function (px) {
-		var _takeBlockLinesFromEnd = takeBlockLinesFromEnd(px);
+		var _takeBlockLinesFromEnd2 = takeBlockLinesFromEnd(px);
 
-		const before = _takeBlockLinesFromEnd.before;
-		const lines = _takeBlockLinesFromEnd.lines;
+		const before = _takeBlockLinesFromEnd2.before;
+		const lines = _takeBlockLinesFromEnd2.lines;
 
-		const block = px.w(lines, parseBody, "val");
+		const block = px.w(lines, parseBody, 'val');
 		return { before: before, block: block };
 	},
 	     
 
 	// TODO: Just have module return a value and use a normal block.
 	parseModuleBody = function (px) {
-		return parseBody(px, "module");
+		return parseBody(px, 'module');
 	},
 	      parseBlockFromLines = function (px) {
-		return parseBody(px, "any");
+		return parseBody(px, 'any');
 	},
 	     
 
@@ -109,10 +79,10 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	parseLinesFromBlock = function (px) {
 		const h = px.tokens.head();
 		px.check(px.tokens.size() > 1, h.loc, function () {
-			return "Expected indented block after " + h;
+			return 'Expected indented block after ' + h;
 		});
 		const block = px.tokens.second();
-		assert(px.tokens.size() === 2 && Group.isBlock(block));
+		_UUtil.assert(px.tokens.size() === 2 && _Token.Group.isBlock(block));
 		return block.tokens.flatMap(function (line) {
 			return px.w(line.tokens, parseLineOrLines_());
 		});
@@ -133,75 +103,75 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		const eLines = _parseBlockLines.eLines;
 		const kReturn = _parseBlockLines.kReturn;
 
-		px.check(kReturn === "plain", "Can not make " + kReturn + " in statement context.");
-		return BlockDo(px.loc, eLines);
+		px.check(kReturn === 'plain', 'Can not make ' + kReturn + ' in statement context.');
+		return _Expression.BlockDo(px.loc, eLines);
 	},
 	      parseBody = function (px, k) {
-		assert(k === "val" || k === "module" || k === "any");
+		_UUtil.assert(k === 'val' || k === 'module' || k === 'any');
 
 		// keys only matter if kReturn === 'obj'
 
-		var _parseBlockLines = parseBlockLines(px);
+		var _parseBlockLines2 = parseBlockLines(px);
 
-		const eLines = _parseBlockLines.eLines;
-		const kReturn = _parseBlockLines.kReturn;
-		const listLength = _parseBlockLines.listLength;
-		const mapLength = _parseBlockLines.mapLength;
-		const objKeys = _parseBlockLines.objKeys;
-		const debugKeys = _parseBlockLines.debugKeys;
+		const eLines = _parseBlockLines2.eLines;
+		const kReturn = _parseBlockLines2.kReturn;
+		const listLength = _parseBlockLines2.listLength;
+		const mapLength = _parseBlockLines2.mapLength;
+		const objKeys = _parseBlockLines2.objKeys;
+		const debugKeys = _parseBlockLines2.debugKeys;
 
 		var _ref = (function () {
-			if (kReturn === "bag") return {
+			if (kReturn === 'bag') return {
 				doLines: eLines,
-				opReturn: some(ListReturn(px.loc, listLength))
+				opReturn: _UOp.some(_Expression.ListReturn(px.loc, listLength))
 			};
-			if (kReturn === "map") return {
+			if (kReturn === 'map') return {
 				doLines: eLines,
-				opReturn: some(MapReturn(px.loc, mapLength))
+				opReturn: _UOp.some(_Expression.MapReturn(px.loc, mapLength))
 			};
 
-			const lastReturn = !isEmpty(eLines) && last(eLines) instanceof Val;
-			if (kReturn === "obj" && k !== "module") return lastReturn ? {
-				doLines: rtail(eLines),
-				opReturn: some(ObjReturn(px.loc, objKeys, debugKeys, some(last(eLines)),
+			const lastReturn = !_UBag.isEmpty(eLines) && _UBag.last(eLines) instanceof _Expression.Val;
+			if (kReturn === 'obj' && k !== 'module') return lastReturn ? {
+				doLines: _UBag.rtail(eLines),
+				opReturn: _UOp.some(_Expression.ObjReturn(px.loc, objKeys, debugKeys, _UOp.some(_UBag.last(eLines)),
 				// displayName is filled in by parseAssign.
-				None))
+
+				// displayName is filled in by parseAssign.
+				_UOp.None))
 			} : {
 				doLines: eLines,
-				opReturn: some(ObjReturn(px.loc, objKeys, debugKeys, None,
-				// displayName is filled in by parseAssign.
-				None))
-			};else return lastReturn ? { doLines: rtail(eLines), opReturn: some(last(eLines)) } : { doLines: eLines, opReturn: None };
+				opReturn: _UOp.some(_Expression.ObjReturn(px.loc, objKeys, debugKeys, _UOp.None, _UOp.None))
+			};else return lastReturn ? { doLines: _UBag.rtail(eLines), opReturn: _UOp.some(_UBag.last(eLines)) } : { doLines: eLines, opReturn: _UOp.None };
 		})();
 
 		const doLines = _ref.doLines;
 		const opReturn = _ref.opReturn;
 
 		switch (k) {
-			case "val":
-				return ifElse(opReturn, function (returned) {
-					return BlockVal(px.loc, doLines, returned);
+			case 'val':
+				return _UOp.ifElse(opReturn, function (returned) {
+					return _Expression.BlockVal(px.loc, doLines, returned);
 				}, function () {
-					return px.fail("Expected a value block.");
+					return px.fail('Expected a value block.');
 				});
-			case "any":
-				return ifElse(opReturn, function (returned) {
-					return BlockVal(px.loc, doLines, returned);
+			case 'any':
+				return _UOp.ifElse(opReturn, function (returned) {
+					return _Expression.BlockVal(px.loc, doLines, returned);
 				}, function () {
-					return BlockDo(px.loc, doLines);
+					return _Expression.BlockDo(px.loc, doLines);
 				});
-			case "module":
+			case 'module':
 				{
 					// TODO: Handle debug-only exports
 					const lines =
 					// Turn Obj assigns into exports.
-					cat(doLines.map(function (line) {
-						if (line instanceof Assign && line.k === ". ") line.k = "export";
+					_UBag.cat(doLines.map(function (line) {
+						if (line instanceof _Expression.Assign && line.k === '. ') line.k = 'export';
 						return line;
 					}), opReturn.map(function (ret) {
-						return ModuleDefaultExport(ret.loc, ret);
+						return _Expression.ModuleDefaultExport(ret.loc, ret);
 					}));
-					return BlockDo(px.loc, lines);
+					return _Expression.BlockDo(px.loc, lines);
 				}
 			default:
 				throw new Error(k);
@@ -218,41 +188,44 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 			if (ln instanceof Array) ln.forEach(function (_) {
 				return addLine(_, inDebug);
 			});else {
-				if (ln instanceof Debug) ln.lines.forEach(function (_) {
+				if (ln instanceof _Expression.Debug) ln.lines.forEach(function (_) {
 					return addLine(_, true);
-				});else if (ln instanceof ListEntry) {
-					assert(!inDebug, "Not supported: debug list entries");
+				});else if (ln instanceof _Expression.ListEntry) {
+					_UUtil.assert(!inDebug, 'Not supported: debug list entries');
 					// When ListEntries are first created they have no index.
-					assert(ln.index === -1);
+					_UUtil.assert(ln.index === -1);
 					ln.index = listLength;
 					listLength = listLength + 1;
-				} else if (ln instanceof MapEntry) {
-					assert(!inDebug, "Not supported: debug map entries");
-					assert(ln.index === -1);
+				} else if (ln instanceof _Expression.MapEntry) {
+					_UUtil.assert(!inDebug, 'Not supported: debug map entries');
+					_UUtil.assert(ln.index === -1);
 					ln.index = mapLength;
 					mapLength = mapLength + 1;
-				} else if (ln instanceof Assign && ln.k === ". ") (inDebug ? debugKeys : objKeys).push(ln.assignee);
+				} else if (ln instanceof _Expression.Assign && ln.k === '. ') (inDebug ? debugKeys : objKeys).push(ln.assignee);
 
-				if (!inDebug) eLines.push(ln);
+				if (!inDebug)
+					// Else we are adding the Debug as a single line.
+					eLines.push(ln);
 			}
 		};
 		lines.each(function (line) {
 			return addLine(px.w(line.tokens, parseLine_(), listLength));
 		});
 
-		const isObj = !(isEmpty(objKeys) && isEmpty(debugKeys));
+		const isObj = !(_UBag.isEmpty(objKeys) && _UBag.isEmpty(debugKeys));
 		// TODO
 		// if (isEmpty(objKeys))
 		//	px.check(isEmpty(debugKeys), px.loc, 'Block can't have only debug keys')
 		const isBag = listLength > 0;
 		const isMap = mapLength > 0;
-		px.check(!(isObj && isBag), "Block has both Bag and Obj lines.");
-		px.check(!(isObj && isMap), "Block has both Obj and Map lines.");
-		px.check(!(isBag && isMap), "Block has both Bag and Map lines.");
+		px.check(!(isObj && isBag), 'Block has both Bag and Obj lines.');
+		px.check(!(isObj && isMap), 'Block has both Obj and Map lines.');
+		px.check(!(isBag && isMap), 'Block has both Bag and Map lines.');
 
-		const kReturn = isObj ? "obj" : isBag ? "bag" : isMap ? "map" : "plain";
+		const kReturn = isObj ? 'obj' : isBag ? 'bag' : isMap ? 'map' : 'plain';
 		return { eLines: eLines, kReturn: kReturn, listLength: listLength, mapLength: mapLength, objKeys: objKeys, debugKeys: debugKeys };
 	};
 });
-// Else we are adding the Debug as a single line.
+
+// TODO:ES6
 //# sourceMappingURL=../../../../meta/compile/private/parse/parseBlock.js.map

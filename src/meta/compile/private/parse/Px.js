@@ -1,9 +1,7 @@
-import Loc, { locType } from 'esast/dist/Loc'
+import Loc from 'esast/dist/Loc'
 import { SubContext } from '../Cx'
-import { head, isEmpty, last } from '../U/Bag'
 import type from '../U/type'
 import Slice from '../U/Slice'
-import T from '../Token'
 
 export default class Px extends SubContext {
 	constructor(cx, tokens, loc) {

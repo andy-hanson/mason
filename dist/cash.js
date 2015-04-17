@@ -1,5 +1,5 @@
 "use strict";
-if (typeof define !== "function") var define = require("amdefine")(module);
+if ((typeof define !== "function")) var define = require("amdefine")(module);
 define([ "exports", "./at/at", "./Bool", "./control", "./Fun", "./Generatorbang", "./js", "./methods", "./Type/Method", "./Type/Pred-Type", "./Type/Type", "./math/Num", "./Try", "./at/Stream", "./bang", "./compare", "./io/time", "./math/Num", "./math/methods", "./Try" ], function(exports, _64_0, Bool_1, control_2, Fun_3, Generator_33_4, js_5, methods_6, Method_7, Pred_45Type_8, Type_9, Num_10, Try_11, Stream_12, _33_13, compare_14, time_15, Num_16, methods_17, Try_18) {
 	exports._get = _ms.lazy(function() {
 		const _64 = _ms.getDefaultExport(_64_0), _$2 = _ms.getModule(_64_0), flatten = _ms.get(_$2, "flatten"), map = _ms.get(_$2, "map"), Bool = _ms.getDefaultExport(Bool_1), _$4 = _ms.getModule(control_2), _if = _ms.get(_$4, "if"), Fun = _ms.getDefaultExport(Fun_3), _$5 = _ms.getModule(Fun_3), apply = _ms.get(_$5, "apply"), Generator_33 = _ms.getDefaultExport(Generator_33_4), _$7 = _ms.getModule(js_5), _new = _ms.get(_$7, "new"), _$8 = _ms.getModule(methods_6), sub = _ms.get(_$8, "sub"), _$9 = _ms.getModule(Method_7), self_45impl_33 = _ms.get(_$9, "self-impl!"), _$10 = _ms.getModule(Pred_45Type_8), Any = _ms.get(_$10, "Any"), _$11 = _ms.getModule(Type_9), _61_62 = _ms.get(_$11, "=>"), Num = _ms.lazy(function() {
@@ -22,7 +22,7 @@ define([ "exports", "./at/at", "./Bool", "./control", "./Fun", "./Generatorbang"
 			return _ms.set(function(_) {
 				_ms.checkContains($, _, "_");
 				return _ms.unlazy($catch)(_, function(err) {
-					global.console.log("=== error ===\n" + _ms.show(err.message) + "\n" + _ms.show(err.stack) + "\n=== error ===");
+					global.console.log((((("=== error ===\n" + _ms.show(err.message)) + "\n") + _ms.show(err.stack)) + "\n=== error ==="));
 					return _ms.unlazy(oh_45no_33)(err)
 				})
 			}, "doc", doc, "displayName", "$done")
@@ -43,7 +43,7 @@ define([ "exports", "./at/at", "./Bool", "./control", "./Fun", "./Generatorbang"
 				return _ms.checkContains($, _new($, function(resolve, reject) {
 					$after(_, resolve);
 					const timeout = function() {
-						return reject(_61_62(Error, "Took longer than " + _ms.show(time_45ms) + " milliseconds."))
+						return reject(_61_62(Error, (("Took longer than " + _ms.show(time_45ms)) + " milliseconds.")))
 					};
 					return global.setTimeout(timeout, time_45ms)
 				}), "res")

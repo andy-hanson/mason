@@ -1,9 +1,9 @@
-import { Call, ListSimple, ELiteral, GlobalAccess, LocalAccess,
-	Quote, Special, Splat, This } from '../../Expression'
+import { Call, ListSimple, ELiteral, GlobalAccess,
+	LocalAccess, Quote, Special, Splat } from '../../Expression'
 import { CallOnFocus, DotName, Group, Keyword, Literal, Name } from '../Token'
 import { JsGlobals, SpecialKeywords } from '../Lang'
 import type from '../U/type'
-import { assert, lazy } from '../U/util'
+import { assert } from '../U/util'
 import Px from './Px'
 // TODO:ES6
 import * as PB from './parseBlock'

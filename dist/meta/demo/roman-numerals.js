@@ -1,5 +1,5 @@
 "use strict";
-if (typeof define !== "function") var define = require("amdefine")(module);
+if ((typeof define !== "function")) var define = require("amdefine")(module);
 define([ "exports", "../../compare", "../../math/Num", "../../math/methods", "../../Str", "../../bang", "../../at/Range", "../../Type/Type" ], function(exports, compare_0, Num_1, methods_2, Str_3, _33_4, Range_5, Type_6) {
 	exports._get = _ms.lazy(function() {
 		const _$2 = _ms.getModule(compare_0), _61_63 = _ms.get(_$2, "=?"), _60_61_63 = _ms.get(_$2, "<=?"), _$3 = _ms.getModule(Num_1), log = _ms.get(_$3, "log"), Nat = _ms.get(_$3, "Nat"), pow = _ms.get(_$3, "pow"), round_45down = _ms.get(_$3, "round-down"), _$4 = _ms.getModule(methods_2), _45 = _ms.get(_$4, "-"), _42 = _ms.get(_$4, "*"), Str = _ms.getDefaultExport(Str_3), _33 = _ms.lazy(function() {
@@ -57,16 +57,16 @@ define([ "exports", "../../compare", "../../math/Num", "../../math/methods", "..
 				return _ms.checkContains(Str, function() {
 					switch (true) {
 						case _ms.bool(gt_63(9)): {
-							return "" + _ms.show(dig(1)) + _ms.show(dig(10)) + _ms.show(rec(9))
+							return ((("" + _ms.show(dig(1))) + _ms.show(dig(10))) + _ms.show(rec(9)))
 						}
 						case _ms.bool(gt_63(5)): {
-							return "" + _ms.show(dig(5)) + _ms.show(rec(5))
+							return (("" + _ms.show(dig(5))) + _ms.show(rec(5)))
 						}
 						case _ms.bool(gt_63(4)): {
-							return "" + _ms.show(dig(1)) + _ms.show(dig(5)) + _ms.show(rec(4))
+							return ((("" + _ms.show(dig(1))) + _ms.show(dig(5))) + _ms.show(rec(4)))
 						}
 						default: {
-							return "" + _ms.show(dig(1)) + _ms.show(rec(1))
+							return (("" + _ms.show(dig(1))) + _ms.show(rec(1)))
 						}
 					}
 				}(), "res")

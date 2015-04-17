@@ -1,4 +1,9 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(["exports", "./util"], function (exports, _util) {
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', './util'], function (exports, _util) {
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+		value: true
+	});
 
 	/*
  Cheap-ass option type.
@@ -6,16 +11,10 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
  */
 
 	// This constructs an Op *type*. Use Op.Some and Op.None to construct instances.
-	"use strict";
-
 	exports.default = Op;
 	exports.some = some;
 	exports.opIf = opIf;
 	exports.ifElse = ifElse;
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	var assert = _util.assert;
 
 	function Op(opType) {
 		const op = Object.create(Op.prototype);
@@ -25,7 +24,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 
 	Object.assign(Op.prototype, {
 		getName: function () {
-			return "Op(" + this.type.getName() + ")";
+			return 'Op(' + this.type.getName() + ')';
 		},
 		toString: function () {
 			return this.getName();
@@ -45,7 +44,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 
 	function ifElse(op, ifSome, ifNone) {
 		if (op.length === 0) return ifNone();else {
-			assert(op.length === 1);
+			_util.assert(op.length === 1);
 			return ifSome(op[0]);
 		}
 	}

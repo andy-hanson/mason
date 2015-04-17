@@ -1,14 +1,11 @@
 import { code } from '../../CompileError'
-import { GlobalDeclare, LocalDeclare } from '../../Expression'
+import { LocalDeclare } from '../../Expression'
 import { SubContext } from '../Cx'
-import { JsGlobals } from '../Lang'
-import Opts from '../Opts'
 import { assert } from '../U/util'
-import { isEmpty, toArray } from '../U/Bag'
-import Op, { None, opIf, some } from '../U/Op'
+import { toArray } from '../U/Bag'
+import { some } from '../U/Op'
 import type from '../U/type'
-import { ObjType } from '../U/types'
-import Vr, { emptyVr, VrLocalInfo } from '../Vr'
+import { emptyVr, VrLocalInfo } from '../Vr'
 
 // Context used during verification.
 export default class Vx extends SubContext {

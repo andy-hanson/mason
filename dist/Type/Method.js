@@ -1,5 +1,5 @@
 "use strict";
-if (typeof define !== "function") var define = require("amdefine")(module);
+if ((typeof define !== "function")) var define = require("amdefine")(module);
 define([ "exports", "../Bool", "../js", "../private/js-impl", "../private/bootstrap", "./Obj-Type", "../at/q", "../control", "../Fun", "../Obj", "../Try", "./Impl-Type", "./Kind", "../bang", "../at/at-Type", "../at/q", "../compare", "../Fun", "../math/Num", "../private/bootstrap", "../Try", "./Type" ], function(exports, Bool_0, js_1, js_45impl_2, bootstrap_3, Obj_45Type_4, _63_5, control_6, Fun_7, Obj_8, Try_9, Impl_45Type_10, Kind_11, _33_12, _64_45Type_13, _63_14, compare_15, Fun_16, Num_17, bootstrap_18, Try_19, Type_20) {
 	exports._get = _ms.lazy(function() {
 		const Bool = _ms.getDefaultExport(Bool_0), _$2 = _ms.getModule(Bool_0), and = _ms.get(_$2, "and"), implies = _ms.get(_$2, "implies"), not = _ms.get(_$2, "not"), _$3 = _ms.getModule(js_1), defined_63 = _ms.get(_$3, "defined?"), js_45sub = _ms.get(_$3, "js-sub"), _$4 = _ms.getModule(js_45impl_2), buildStr = _ms.get(_$4, "buildStr"), _$5 = _ms.getModule(bootstrap_3), Fun = _ms.get(_$5, "Fun"), impl_45contains_63_33 = _ms.get(_$5, "impl-contains?!"), Obj = _ms.get(_$5, "Obj"), Str = _ms.get(_$5, "Str"), msDef = _ms.get(_$5, "msDef"), contains_63_45impl_45symbol = _ms.get(_$5, "contains?-impl-symbol"), Obj_45Type = _ms.getDefaultExport(Obj_45Type_4), _$8 = _ms.lazyGetModule(_63_5), un_45_63 = _ms.lazyProp(_$8, "un-?"), _$9 = _ms.lazyGetModule(control_6), _if = _ms.lazyProp(_$9, "if"), _$10 = _ms.lazyGetModule(Fun_7), noop = _ms.lazyProp(_$10, "noop"), _$11 = _ms.lazyGetModule(Obj_8), p_45with_45proto_63 = _ms.lazyProp(_$11, "p-with-proto?"), _$12 = _ms.lazyGetModule(Try_9), oh_45no_33 = _ms.lazyProp(_$12, "oh-no!"), Impl_45Type = _ms.lazy(function() {
@@ -20,15 +20,15 @@ define([ "exports", "../Bool", "../js", "../private/js-impl", "../private/bootst
 				const impl = function() {
 					switch (true) {
 						case _ms.bool(defined_63(method.default)): {
-							return "(a == null) ? def : (a[\"" + _ms.show(method["impl-symbol"]) + "\"] || def)"
+							return (("(a == null) ? def : (a[\"" + _ms.show(method["impl-symbol"])) + "\"] || def)")
 						}
 						default: {
-							return "a[\"" + _ms.show(method["impl-symbol"]) + "\"]"
+							return (("a[\"" + _ms.show(method["impl-symbol"])) + "\"]")
 						}
 					}
 				}();
-				add_33("var impl = " + _ms.show(impl));
-				add_33("if (impl === undefined)\n\tthrow new Error(\"Method " + _ms.show(method.displayName) + " not defined for \" + a + \" of type \" + a.constructor)");
+				add_33(("var impl = " + _ms.show(impl)));
+				add_33((("if (impl === undefined)\n\tthrow new Error(\"Method " + _ms.show(method.displayName)) + " not defined for \" + a + \" of type \" + a.constructor)"));
 				switch (true) {
 					case _ms.bool(defined_63(method.wrap)):
 						{
@@ -69,10 +69,10 @@ define([ "exports", "../Bool", "../js", "../private/js-impl", "../private/bootst
 				return _ms.unlazy(_33)(_ms.unlazy(_61_63), "wrap-call-arg", function() {
 					const wrap_45method = Method(function() {
 						const _default = function(_) {
-							return "call-" + _ms.show(_)
+							return ("call-" + _ms.show(_))
 						};
 						const wrap = function(impl, arg) {
-							return "wrap-" + _ms.show(impl(arg))
+							return ("wrap-" + _ms.show(impl(arg)))
 						};
 						return {
 							default: _default,
@@ -106,7 +106,7 @@ define([ "exports", "../Bool", "../js", "../private/js-impl", "../private/bootst
 					return _ms.unlazy(oh_45no_33)("displayName required!")
 				};
 				const impl_45symbol = function(_) {
-					return "impl-" + _ms.show(_.displayName)
+					return ("impl-" + _ms.show(_.displayName))
 				};
 				return {
 					displayName: displayName,
@@ -167,7 +167,7 @@ define([ "exports", "../Bool", "../js", "../private/js-impl", "../private/bootst
 									return _
 								}
 								default: {
-									return _ms.unlazy(oh_45no_33)("Can't define double dispatch of " + _ms.show(method) + " for " + _ms.show(implementor_450) + ".\nA single-dispatch implementation already exists: " + _ms.show(_) + ".")
+									return _ms.unlazy(oh_45no_33)((((((("Can't define double dispatch of " + _ms.show(method)) + " for ") + _ms.show(implementor_450)) + ".\nA single-dispatch implementation already exists: ") + _ms.show(_)) + "."))
 								}
 							}
 						}()
@@ -221,7 +221,7 @@ define([ "exports", "../Bool", "../js", "../private/js-impl", "../private/bootst
 				_ms.checkContains(Method, method, "method");
 				_ms.checkContains(_ms.unlazy(Impl_45Type), type, "type");
 				return _ms.unlazy(un_45_63)(_63impl_45for(method, type), _ms.lazy(function() {
-					return "" + _ms.show(method) + " not implemented for " + _ms.show(type) + "."
+					return (((("" + _ms.show(method)) + " not implemented for ") + _ms.show(type)) + ".")
 				}))
 			}, "doc", doc, "test", test, "displayName", "impl-for")
 		}();
@@ -275,7 +275,7 @@ define([ "exports", "../Bool", "../js", "../private/js-impl", "../private/bootst
 					};
 					break
 				default: {
-					_ms.unlazy(oh_45no_33)("Can not redefine method " + _ms.show(method) + " for " + _ms.show(implementor) + ".")
+					_ms.unlazy(oh_45no_33)((((("Can not redefine method " + _ms.show(method)) + " for ") + _ms.show(implementor)) + "."))
 				}
 			};
 			Obj.defineProperty(implementor.prototype, method["impl-symbol"], function() {
@@ -327,7 +327,7 @@ define([ "exports", "../Bool", "../js", "../private/js-impl", "../private/bootst
 							break
 						default: {
 							_ms.unlazy(oh_45no_33)(_ms.lazy(function() {
-								return "Can't double-dispatch " + _ms.show(_.method) + " for undefined."
+								return (("Can't double-dispatch " + _ms.show(_.method)) + " for undefined.")
 							}))
 						}
 					};
@@ -340,7 +340,7 @@ define([ "exports", "../Bool", "../js", "../private/js-impl", "../private/bootst
 							break
 						default: {
 							_ms.unlazy(oh_45no_33)(_ms.lazy(function() {
-								return "Can't double-dispatch " + _ms.show(_.method) + " for " + _ms.show(_["first-type"]) + " on " + _ms.show(target_452)
+								return ((((("Can't double-dispatch " + _ms.show(_.method)) + " for ") + _ms.show(_["first-type"])) + " on ") + _ms.show(target_452))
 							}))
 						}
 					};

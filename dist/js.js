@@ -1,5 +1,5 @@
 "use strict";
-if (typeof define !== "function") var define = require("amdefine")(module);
+if ((typeof define !== "function")) var define = require("amdefine")(module);
 define([ "exports", "./private/bootstrap", "./private/js-impl", "./at/at", "./Bool", "./Type/Type", "./bang", "./at/at", "./compare", "./math/methods", "./math/Num", "./Objbang" ], function(exports, bootstrap_0, js_45impl_1, _64_2, Bool_3, Type_4, _33_5, _64_6, compare_7, methods_8, Num_9, Obj_33_10) {
 	exports._get = _ms.lazy(function() {
 		const _$2 = _ms.getModule(bootstrap_0), Fun = _ms.get(_$2, "Fun"), _$3 = _ms.getModule(js_45impl_1), iNew = _ms.get(_$3, "iNew"), _64 = _ms.lazy(function() {
@@ -14,10 +14,10 @@ define([ "exports", "./private/bootstrap", "./private/js-impl", "./at/at", "./Bo
 		const exports = { };
 		const doc = exports.doc = "Functions implementing behavior native to JavaScript.";
 		const op = function(op_45name) {
-			return Fun("a", "b", "return a " + _ms.show(op_45name) + " b")
+			return Fun("a", "b", (("return a " + _ms.show(op_45name)) + " b"))
 		};
 		const unary_45op = function(op_45name) {
-			return Fun("_", "return " + _ms.show(op_45name) + " _")
+			return Fun("_", (("return " + _ms.show(op_45name)) + " _"))
 		};
 		const js_45and = exports["js-and"] = op("&");
 		const js_45caret = exports["js-caret"] = op("^");

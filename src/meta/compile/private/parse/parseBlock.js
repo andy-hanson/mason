@@ -1,10 +1,10 @@
-import { Assign, BlockDo, BlockVal, BlockWrap, Debug, ObjReturn, ListEntry, ListReturn, ELiteral,
-	LocalDeclare, MapReturn, MapEntry, Module, ModuleDefaultExport, Val } from '../../Expression'
-import { Group, Keyword } from '../Token'
+import { Assign, BlockDo, BlockVal, BlockWrap, Debug, ObjReturn, ListEntry, ListReturn,
+	MapReturn, MapEntry, ModuleDefaultExport, Val } from '../../Expression'
+import { Group } from '../Token'
 import { cat, isEmpty, last, rtail } from '../U/Bag'
 import { ifElse, None, some } from '../U/Op'
 import type from '../U/type'
-import { assert, lazy } from '../U/util'
+import { assert } from '../U/util'
 import Px from './Px'
 // TODO:ES6
 import * as PL from './parseLine'
@@ -165,8 +165,8 @@ const
 					(inDebug ? debugKeys : objKeys).push(ln.assignee)
 
 				if (!inDebug)
+					// Else we are adding the Debug as a single line.
 					eLines.push(ln)
-				// Else we are adding the Debug as a single line.
 			}
 		}
 		lines.each(line => addLine(px.w(line.tokens, parseLine_(), listLength)))

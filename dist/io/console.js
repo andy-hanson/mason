@@ -1,5 +1,5 @@
 "use strict";
-if (typeof define !== "function") var define = require("amdefine")(module);
+if ((typeof define !== "function")) var define = require("amdefine")(module);
 define([ "exports", "../Str-as-Seq", "../at/at", "../show", "../Str", "../Type/Type" ], function(exports, Str_45as_45Seq_0, _64_1, show_2, Str_3, Type_4) {
 	exports._get = _ms.lazy(function() {
 		_ms.getModule(Str_45as_45Seq_0);

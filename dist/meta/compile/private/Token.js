@@ -1,29 +1,19 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(["exports", "esast/dist/Loc", "../CompileError", "./Lang", "./U/type", "./U/types", "./U/util"], function (exports, _esastDistLoc, _CompileError, _Lang, _UType, _UTypes, _UUtil) {
-	"use strict";
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'esast/dist/Loc', '../CompileError', './Lang', './U/type', './U/types', './U/util'], function (exports, _esastDistLoc, _CompileError, _Lang, _UType, _UTypes, _UUtil) {
+	'use strict';
 
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
 	var _slice = Array.prototype.slice;
 
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
 
-	Object.defineProperty(exports, "__esModule", {
+	Object.defineProperty(exports, '__esModule', {
 		value: true
 	});
 
-	var Loc = _interopRequire(_esastDistLoc);
+	var _Loc = _interopRequire(_esastDistLoc);
 
-	var code = _CompileError.code;
-	var AllKeywords = _Lang.AllKeywords;
-	var CaseKeywords = _Lang.CaseKeywords;
-	var GroupKinds = _Lang.GroupKinds;
-	var GroupOpenToClose = _Lang.GroupOpenToClose;
-	var LineSplitKeywords = _Lang.LineSplitKeywords;
-
-	var type = _interopRequire(_UType);
-
-	var tuple = _UTypes.tuple;
-	var implementMany2 = _UUtil.implementMany2;
+	var _type = _interopRequire(_UType);
 
 	let Token = function Token() {
 		_classCallCheck(this, Token);
@@ -32,11 +22,11 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	exports.default = Token;
 
 	const tt = function () {
-		return tuple.apply(undefined, [Token, "loc", Loc].concat(_slice.call(arguments)));
+		return _UTypes.tuple.apply(undefined, [Token, 'loc', _Loc].concat(_slice.call(arguments)));
 	};
 
 	const gIs = function (k) {
-		type(k, GroupKinds);
+		_type(k, _Lang.GroupKinds);
 		return function (t) {
 			return t instanceof Group && t.k === k;
 		};
@@ -45,35 +35,35 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		if (k instanceof Set) return function (t) {
 			return t instanceof Keyword && k.has(t.k);
 		};else {
-			type(k, AllKeywords);
+			_type(k, _Lang.AllKeywords);
 			return function (t) {
 				return t instanceof Keyword && t.k === k;
 			};
 		}
 	};
 
-	const Name = tt("name", String),
-	      Group = Object.assign(tt("tokens", [Token], "k", GroupKinds), {
-		isBlock: gIs("->"),
-		isLine: gIs("ln"),
-		isSpaced: gIs("sp")
+	const Name = tt('name', String),
+	      Group = Object.assign(tt('tokens', [Token], 'k', _Lang.GroupKinds), {
+		isBlock: gIs('->'),
+		isLine: gIs('ln'),
+		isSpaced: gIs('sp')
 	}),
-	      Keyword = Object.assign(tt("k", AllKeywords), {
+	      Keyword = Object.assign(tt('k', _Lang.AllKeywords), {
 		is: kwIs,
-		isBar: kwIs("|"),
-		isCaseOrCaseDo: kwIs(CaseKeywords),
-		isColon: kwIs(":"),
-		isFocus: kwIs("_"),
-		isElse: kwIs("else"),
-		isLineSplit: kwIs(LineSplitKeywords),
-		isTilde: kwIs("~"),
-		isObjAssign: kwIs(". ")
+		isBar: kwIs('|'),
+		isCaseOrCaseDo: kwIs(_Lang.CaseKeywords),
+		isColon: kwIs(':'),
+		isFocus: kwIs('_'),
+		isElse: kwIs('else'),
+		isLineSplit: kwIs(_Lang.LineSplitKeywords),
+		isTilde: kwIs('~'),
+		isObjAssign: kwIs('. ')
 	}),
 	     
 	// k: Number | String | 'js'
-	Literal = tt("value", String, "k", Object),
-	      CallOnFocus = tt("name", String),
-	      DotName = tt("nDots", Number, "name", String);
+	Literal = tt('value', String, 'k', Object),
+	      CallOnFocus = tt('name', String),
+	      DotName = tt('nDots', Number, 'name', String);
 
 	exports.Name = Name;
 	exports.Group = Group;
@@ -82,12 +72,12 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	exports.CallOnFocus = CallOnFocus;
 	exports.DotName = DotName;
 	// toString is used by some parsing errors. Use U.inspect for a more detailed view.
-	const show = implementMany2("show", [[CallOnFocus, function () {
-		return "_";
+	const show = _UUtil.implementMany2('show', [[CallOnFocus, function () {
+		return '_';
 	}], [DotName, function (_) {
-		return ".".repeat(_.nDots) + _.name;
+		return '.'.repeat(_.nDots) + _.name;
 	}], [Group, function (_) {
-		return "" + _.k + "..." + GroupOpenToClose.get(_.k);
+		return '' + _.k + '...' + _Lang.GroupOpenToClose.get(_.k);
 	}], [Keyword, function (_) {
 		return _.k;
 	}], [Literal, function (_) {
@@ -97,7 +87,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	}]]);
 	Object.assign(Token.prototype, {
 		toString: function () {
-			return code(show(this));
+			return _CompileError.code(show(this));
 		}
 	});
 });

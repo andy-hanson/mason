@@ -1,5 +1,5 @@
 "use strict";
-if (typeof define !== "function") var define = require("amdefine")(module);
+if ((typeof define !== "function")) var define = require("amdefine")(module);
 define([ "exports", "../../at/at", "../../at/q", "../../at/Seq", "../../Str", "../../Type/Type", "../../bang", "../../at/at", "../../at/Stream", "../../compare", "../../Str", "../../Type/Type" ], function(exports, _64_0, _63_1, Seq_2, Str_3, Type_4, _33_5, _64_6, Stream_7, compare_8, Str_9, Type_10) {
 	exports._get = _ms.lazy(function() {
 		const _64 = _ms.getDefaultExport(_64_0), _$2 = _ms.getModule(_64_0), _43_43 = _ms.get(_$2, "++"), _45_45_39 = _ms.get(_$2, "--'"), empty_63 = _ms.get(_$2, "empty?"), flat_45map = _ms.get(_$2, "flat-map"), keep = _ms.get(_$2, "keep"), map = _ms.get(_$2, "map"), _63 = _ms.getDefaultExport(_63_1), Seq = _ms.getDefaultExport(Seq_2), _$4 = _ms.getModule(Seq_2), _63first = _ms.get(_$4, "?first"), tail = _ms.get(_$4, "tail"), Str = _ms.getDefaultExport(Str_3), _$5 = _ms.getModule(Str_3), _45_62upper = _ms.get(_$5, "->upper"), _$6 = _ms.getModule(Type_4), contains_63 = _ms.get(_$6, "contains?"), _33 = _ms.lazy(function() {

@@ -1,5 +1,5 @@
 "use strict";
-if (typeof define !== "function") var define = require("amdefine")(module);
+if ((typeof define !== "function")) var define = require("amdefine")(module);
 define([ "exports", "../../at/at", "../../at/Dequebang", "../../at/Seq", "../../at/Seqbang", "../../compare", "../../control", "../../math/methods", "../../Obj", "../../Type/Type", "../../Type/Pred-Type" ], function(exports, _64_0, Deque_33_1, Seq_2, Seq_33_3, compare_4, control_5, methods_6, Obj_7, Type_8, Pred_45Type_9) {
 	exports._get = _ms.lazy(function() {
 		const _$2 = _ms.getModule(_64_0), count = _ms.get(_$2, "count"), empty_63 = _ms.get(_$2, "empty?"), Deque_33 = _ms.getDefaultExport(Deque_33_1), Seq = _ms.getDefaultExport(Seq_2), _$5 = _ms.getModule(Seq_33_3), _60_43_43_33 = _ms.get(_$5, "<++!"), _43_43_62_33 = _ms.get(_$5, "++>!"), set_45nth_33 = _ms.get(_$5, "set-nth!"), _$6 = _ms.getModule(compare_4), _61_63 = _ms.get(_$6, "=?"), _$7 = _ms.getModule(control_5), End_45Loop = _ms.get(_$7, "End-Loop"), if_33 = _ms.get(_$7, "if!"), loop = _ms.get(_$7, "loop"), _$8 = _ms.getModule(methods_6), _43 = _ms.get(_$8, "+"), _45 = _ms.get(_$8, "-"), Obj = _ms.getDefaultExport(Obj_7), _$9 = _ms.getModule(Obj_7), p = _ms.get(_$9, "p"), _$10 = _ms.getModule(Type_8), _61_62 = _ms.get(_$10, "=>"), _$11 = _ms.getModule(Pred_45Type_9), Any = _ms.get(_$11, "Any");

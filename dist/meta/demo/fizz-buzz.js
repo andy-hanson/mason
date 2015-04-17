@@ -1,5 +1,5 @@
 "use strict";
-if (typeof define !== "function") var define = require("amdefine")(module);
+if ((typeof define !== "function")) var define = require("amdefine")(module);
 define([ "exports", "../../at/at", "../../at/Range", "../../control", "../../math/Num", "../../Obj", "../../Str", "../../Type/Type", "../../bang", "../../at/Seq" ], function(exports, _64_0, Range_1, control_2, Num_3, Obj_4, Str_5, Type_6, _33_7, Seq_8) {
 	exports._get = _ms.lazy(function() {
 		const _$2 = _ms.getModule(_64_0), empty_63 = _ms.get(_$2, "empty?"), flat_45map = _ms.get(_$2, "flat-map"), map = _ms.get(_$2, "map"), _$3 = _ms.getModule(Range_1), range = _ms.get(_$3, "range"), _$4 = _ms.getModule(control_2), _if = _ms.get(_$4, "if"), _$5 = _ms.getModule(Num_3), divisible_63 = _ms.get(_$5, "divisible?"), infinity = _ms.get(_$5, "infinity"), Nat = _ms.get(_$5, "Nat"), _$6 = _ms.getModule(Obj_4), Obj_45_62Map = _ms.get(_$6, "Obj->Map"), Str = _ms.getDefaultExport(Str_5), _$8 = _ms.getModule(Type_6), _61_62 = _ms.get(_$8, "=>"), _33 = _ms.lazy(function() {

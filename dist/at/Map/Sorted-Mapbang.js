@@ -1,5 +1,5 @@
 "use strict";
-if (typeof define !== "function") var define = require("amdefine")(module);
+if ((typeof define !== "function")) var define = require("amdefine")(module);
 define([ "exports", "../../Type/Kind", "../at-Type", "./Mapbang", "./Map-Type", "./Splay-Treebang", "../../bang", "../../compare", "../at", "./Map", "./Mapbang" ], function(exports, Kind_0, _64_45Type_1, Map_33_2, Map_45Type_3, Splay_45Tree_33_4, _33_5, compare_6, _64_7, Map_8, Map_33_9) {
 	exports._get = _ms.lazy(function() {
 		const Kind = _ms.getDefaultExport(Kind_0), _$2 = _ms.getModule(Kind_0), kind_33 = _ms.get(_$2, "kind!"), self_45kind_33 = _ms.get(_$2, "self-kind!"), _$3 = _ms.getModule(_64_45Type_1), empty = _ms.get(_$3, "empty"), Map_33 = _ms.getDefaultExport(Map_33_2), Map_45Type = _ms.getDefaultExport(Map_45Type_3), Splay_45Tree_33 = _ms.lazy(function() {

@@ -1,5 +1,5 @@
 "use strict";
-if (typeof define !== "function") var define = require("amdefine")(module);
+if ((typeof define !== "function")) var define = require("amdefine")(module);
 define([ "exports", "../../Bool", "../../compare", "../../Fun", "../../Generatorbang", "../../methods", "../../Type/Type", "../../Type/Kind", "../../Type/Method", "../../Type/Pred-Type", "../at", "../at-Type", "../q", "./Hash-Mapbang", "./Mapbang", "../../bang", "../../math/methods" ], function(exports, Bool_0, compare_1, Fun_2, Generator_33_3, methods_4, Type_5, Kind_6, Method_7, Pred_45Type_8, _64_9, _64_45Type_10, _63_11, Hash_45Map_33_12, Map_33_13, _33_14, methods_15) {
 	exports._get = _ms.lazy(function() {
 		const Bool = _ms.getDefaultExport(Bool_0), _$2 = _ms.getModule(Bool_0), and = _ms.get(_$2, "and"), not = _ms.get(_$2, "not"), _$3 = _ms.getModule(compare_1), _61_63 = _ms.get(_$3, "=?"), Fun = _ms.getDefaultExport(Fun_2), _$5 = _ms.getModule(Generator_33_3), each_126 = _ms.get(_$5, "each~"), _$6 = _ms.getModule(methods_4), sub = _ms.get(_$6, "sub"), _$7 = _ms.getModule(Type_5), type_45of = _ms.get(_$7, "type-of"), Kind = _ms.getDefaultExport(Kind_6), _$8 = _ms.getModule(Kind_6), kind_33 = _ms.get(_$8, "kind!"), Method = _ms.getDefaultExport(Method_7), _$9 = _ms.getModule(Method_7), impl_33 = _ms.get(_$9, "impl!"), _$10 = _ms.getModule(Pred_45Type_8), Any = _ms.get(_$10, "Any"), _64 = _ms.getDefaultExport(_64_9), _$11 = _ms.getModule(_64_9), all_63 = _ms.get(_$11, "all?"), count = _ms.get(_$11, "count"), each_33 = _ms.get(_$11, "each!"), empty_63 = _ms.get(_$11, "empty?"), iterator = _ms.get(_$11, "iterator"), map = _ms.get(_$11, "map"), _$12 = _ms.getModule(_64_45Type_10), empty = _ms.get(_$12, "empty"), _63 = _ms.getDefaultExport(_63_11), _$13 = _ms.getModule(_63_11), un_45_63 = _ms.get(_$13, "un-?"), Hash_45Map_33 = _ms.lazy(function() {
@@ -118,7 +118,7 @@ define([ "exports", "../../Bool", "../../compare", "../../Fun", "../../Generator
 		impl_33(sub, Map, function(map, key) {
 			_ms.checkContains(Any, key, "key");
 			return un_45_63(_63get(map, key), _ms.lazy(function() {
-				return "" + _ms.show(map) + " does not contain " + _ms.show(key) + "."
+				return (((("" + _ms.show(map)) + " does not contain ") + _ms.show(key)) + ".")
 			}))
 		});
 		const make_45map = exports["make-map"] = function() {

@@ -1,5 +1,5 @@
 "use strict";
-if (typeof define !== "function") var define = require("amdefine")(module);
+if ((typeof define !== "function")) var define = require("amdefine")(module);
 define([ "exports", "./private/js-impl", "./Try" ], function(exports, js_45impl_0, Try_1) {
 	exports._get = _ms.lazy(function() {
 		const _$2 = _ms.getModule(js_45impl_0), iAnd = _ms.get(_$2, "iAnd"), iOr = _ms.get(_$2, "iOr"), _$4 = _ms.lazyGetModule(Try_1), oh_45no_33 = _ms.lazyProp(_$4, "oh-no!");

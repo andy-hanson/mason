@@ -1,5 +1,5 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(["exports"], function (exports) {
-	"use strict";
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports'], function (exports) {
+	'use strict';
 
 	const pAdd = function (object, key, value) {
 		return Object.defineProperty(object, key, {
@@ -13,7 +13,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	// region Builtin Funs for use by the compiler
 	// This object contains functions called upon by compiled code.
 	const ms = exports.ms = {};
-	pAdd(global, "_ms", ms);
+	pAdd(global, '_ms', ms);
 
 	const msDef = exports.msDef = function (name, fun) {
 		return pAdd(ms, name, fun);
@@ -31,25 +31,25 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 
 	const msDefs = {
 		lazyGetModule: function (module) {
-			if (module === undefined) throw new Error("Module undefined.");
+			if (module === undefined) throw new Error('Module undefined.');
 			return module._get instanceof Lazy ? module._get : ms.lazy(function () {
 				return module;
 			});
 		},
 
 		getModule: function (module) {
-			if (module === undefined) throw new Error("Module undefined.");
+			if (module === undefined) throw new Error('Module undefined.');
 			return module._get instanceof Lazy ? module._get.get() : module;
 		},
 
 		getDefaultExport: function (module) {
-			if (module === undefined) throw new Error("Module undefined.");
+			if (module === undefined) throw new Error('Module undefined.');
 			const mod = ms.getModule(module);
 			return mod.default === undefined ? mod : mod.default;
 		},
 
 		lazyProp: function (lazyObject, key) {
-			if (!(lazyObject instanceof Lazy)) throw new Error("Expected a Lazy, got: " + lazyObject);
+			if (!(lazyObject instanceof Lazy)) throw new Error('Expected a Lazy, got: ' + lazyObject);
 			return ms.lazy(function () {
 				return lazyObject.get()[key];
 			});
@@ -57,12 +57,12 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 
 		get: function (object, key) {
 			const _ = object[key];
-			if (_ === undefined) throw new Error("Module " + object.displayName + " does not have " + key);
+			if (_ === undefined) throw new Error('Module ' + object.displayName + ' does not have ' + key);
 			return _;
 		},
 
 		bool: function (b) {
-			if (typeof b !== "boolean") throw new Error("Expected Bool, got " + b);
+			if (typeof b !== 'boolean') throw new Error('Expected Bool, got ' + b);
 			return b;
 		},
 
@@ -79,7 +79,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		checkNoExtras: function (_this, _, rtName) {
 			// If there was some key in `_` that we didn't copy:
 			if (Object.keys(_).length > Object.keys(_this).length) Object.getOwnPropertyNames(_).forEach(function (name) {
-				if (name !== "displayName") if (!Object.prototype.hasOwnProperty.call(_this, name)) throw new Error("Extra prop " + name + " for " + rtName);
+				if (name !== 'displayName') if (!Object.prototype.hasOwnProperty.call(_this, name)) throw new Error('Extra prop ' + name + ' for ' + rtName);
 			});
 		},
 
@@ -127,7 +127,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 
 		this.get = function () {
 			_this.get = function () {
-				throw new Error("Lazy value depends on itself. Thunk: " + get);
+				throw new Error('Lazy value depends on itself. Thunk: ' + get);
 			};
 			const _ = get();
 			_this.get = function () {
@@ -138,8 +138,8 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	}
 
 	// Overwritten by show.ms
-	msDefTemp("show", function (_) {
-		if (typeof _ !== "string" && typeof _ !== "number") throw new Error("Should only be using Strs or Nums here until this is defined for real in show.ms.");
+	msDefTemp('show', function (_) {
+		if (typeof _ !== 'string' && typeof _ !== 'number') throw new Error('Should only be using Strs or Nums here until this is defined for real in show.ms.');
 		return _.toString();
 	});
 
@@ -147,31 +147,31 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	exports.Fun = Function;
 	exports.Obj = Object;
 	exports.Str = String;
-	exports["p+!"] = pAdd;
+	exports['p+!'] = pAdd;
 
 	// region Contains
 	// Some Types want to implement contains? before it is officially defined.
-	const containsImplSymbol = exports["contains?-impl-symbol"] = "impl-contains?";
-	exports["impl-contains?!"] = function (type, impl) {
-		Object.defineProperty(type.prototype, exports["contains?-impl-symbol"], {
+	const containsImplSymbol = exports['contains?-impl-symbol'] = 'impl-contains?';
+	exports['impl-contains?!'] = function (type, impl) {
+		Object.defineProperty(type.prototype, exports['contains?-impl-symbol'], {
 			value: impl,
 			enumerable: false
 		});
 	};
 
 	// Overwritten by Type/index.ms to actually do type checking.
-	msDefTemp("checkContains", function (type, val) {
+	msDefTemp('checkContains', function (type, val) {
 		return val;
 	});
 
 	Object[containsImplSymbol] = function (ignore, _) {
 		if (_ == null) return false;
 		switch (typeof _) {
-			case "boolean":
-			case "undefined":
-			case "number":
-			case "string":
-			case "symbol":
+			case 'boolean':
+			case 'undefined':
+			case 'number':
+			case 'string':
+			case 'symbol':
 				return false;
 			default:
 				return true;

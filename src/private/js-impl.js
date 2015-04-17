@@ -82,8 +82,8 @@ export	const
 		try {
 			err = _ms.unlazy(error)
 		} catch (e) {
-			return makeError(e)
 			// TODO: return new Error ('Error making error: ' + e.message)
+			return makeError(e)
 		}
 		if (err instanceof Error)
 			return err

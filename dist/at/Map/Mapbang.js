@@ -1,5 +1,5 @@
 "use strict";
-if (typeof define !== "function") var define = require("amdefine")(module);
+if ((typeof define !== "function")) var define = require("amdefine")(module);
 define([ "exports", "../../Type/Kind", "../../Type/Method", "../../Type/Pred-Type", "../at", "../at-Type", "../q", "./Map", "./Map-Type", "./Hash-Mapbang", "../../bang", "../../Bool", "../../compare", "../../control", "../../math/methods", "../../Type/Method", "../../Type/Wrap-Type", "../../Type/Type", "../at", "../atbang", "../Set", "./Map", "./Weak-Id-Mapbang" ], function(exports, Kind_0, Method_1, Pred_45Type_2, _64_3, _64_45Type_4, _63_5, Map_6, Map_45Type_7, Hash_45Map_33_8, _33_9, Bool_10, compare_11, control_12, methods_13, Method_14, Wrap_45Type_15, Type_16, _64_17, _64_33_18, Set_19, Map_20, Weak_45Id_45Map_33_21) {
 	exports._get = _ms.lazy(function() {
 		const Kind = _ms.getDefaultExport(Kind_0), _$2 = _ms.getModule(Kind_0), kind_33 = _ms.get(_$2, "kind!"), self_45kind_33 = _ms.get(_$2, "self-kind!"), Method = _ms.getDefaultExport(Method_1), _$3 = _ms.getModule(Method_1), self_45impl_33 = _ms.get(_$3, "self-impl!"), _$4 = _ms.getModule(Pred_45Type_2), Any = _ms.get(_$4, "Any"), _64 = _ms.getDefaultExport(_64_3), _$5 = _ms.getModule(_64_3), each_33 = _ms.get(_$5, "each!"), empty_63 = _ms.get(_$5, "empty?"), _$6 = _ms.getModule(_64_45Type_4), empty = _ms.get(_$6, "empty"), _63 = _ms.getDefaultExport(_63_5), Map = _ms.getDefaultExport(Map_6), _$8 = _ms.getModule(Map_6), _63get = _ms.get(_$8, "?get"), Map_45Type = _ms.getDefaultExport(Map_45Type_7), Hash_45Map_33 = _ms.lazy(function() {
@@ -117,7 +117,7 @@ define([ "exports", "../../Type/Kind", "../../Type/Method", "../../Type/Pred-Typ
 				_ms.checkContains(Any, key, "key");
 				_ms.checkContains(Any, val, "val");
 				_ms.unlazy(_33not)(_ms.unlazy(has_45key_63)(_, key), _ms.lazy(function() {
-					return "Already have key " + _ms.show(key) + "."
+					return (("Already have key " + _ms.show(key)) + ".")
 				}));
 				return assoc_33(_, key, val)
 			};

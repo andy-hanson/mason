@@ -1,22 +1,20 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(["exports", "esast/dist/Loc", "./private/U/type", "./private/U/types"], function (exports, _esastDistLoc, _privateUType, _privateUTypes) {
-	"use strict";
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'esast/dist/Loc', './private/U/type', './private/U/types'], function (exports, _esastDistLoc, _privateUType, _privateUTypes) {
+	'use strict';
 
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-	exports.default = CompileError;
-	Object.defineProperty(exports, "__esModule", {
+	Object.defineProperty(exports, '__esModule', {
 		value: true
 	});
+	exports.default = CompileError;
 
-	var Loc = _interopRequire(_esastDistLoc);
+	var _Loc = _interopRequire(_esastDistLoc);
 
-	var type = _interopRequire(_privateUType);
-
-	var tuple = _privateUTypes.tuple;
+	var _type = _interopRequire(_privateUType);
 
 	function CompileError(warning) {
 		if (!(this instanceof CompileError)) return new CompileError(warning);
-		type(warning, Warning);
+		_type(warning, Warning);
 		this.warning = warning;
 		// In case it's not caught and formatted:
 		this.message = warning.message;
@@ -25,11 +23,11 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 
 	CompileError.prototype = Object.create(Error.prototype);
 
-	const Warning = tuple(Object, "loc", Loc, "message", String);
+	const Warning = _privateUTypes.tuple(Object, 'loc', _Loc, 'message', String);
 
 	exports.Warning = Warning;
 	const code = function (str) {
-		return "{{" + str + "}}";
+		return '{{' + str + '}}';
 	};
 
 	exports.code = code;

@@ -3,7 +3,6 @@ import { LocalDeclare } from '../../Expression'
 import { JsGlobals } from '../Lang'
 import { Group, Keyword, Name } from '../Token'
 import { None, some } from '../U/Op'
-import type from '../U/type'
 import { assert } from '../U/util'
 import { parseSpaced } from './parseSpaced'
 

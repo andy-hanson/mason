@@ -1,11 +1,9 @@
 import E, { Assign, AssignDestructure, BlockWrap, Call, Debug, GlobalAccess, ObjReturn,
 	Fun, EndLoop, ListEntry, Loop, MapEntry, Special, Yield, YieldTo } from '../../Expression'
-import { defaultLoopName, LineSplitKeywords } from '../Lang'
-import { Group, Keyword, Name } from '../Token'
-import { head, isEmpty, last, opSplitOnceWhere } from '../U/Bag'
+import { Group, Keyword } from '../Token'
+import { head, isEmpty, last } from '../U/Bag'
 import { ifElse, some } from '../U/Op'
 import type from '../U/type'
-import { assert } from '../U/util'
 import { parseCase } from './parseCase'
 import parseExpr from './parseExpr'
 import parseLocalDeclares from './parseLocalDeclares'

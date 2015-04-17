@@ -7,6 +7,7 @@ const
 	fs = require('q-io/fs'),
 	header = require('gulp-header'),
 	gulp = require('gulp'),
+	path = require('path'),
 	plumber = require('gulp-plumber'),
 	requirejs = require('requirejs'),
 	sourcemaps = require('gulp-sourcemaps'),
@@ -40,7 +41,7 @@ gulp.task('watch-list-modules', [ 'list-modules' ], function() {
 })
 
 gulp.task('run-requirejs', function() {
-	const test = requirejs(__dirname + '/dist/meta/run-all-tests')
+	const test = requirejs(path.join(__dirname, 'dist/meta/run-all-tests'))
 	_ms.getModule(test).default()
 })
 

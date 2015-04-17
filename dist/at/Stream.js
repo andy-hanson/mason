@@ -1,5 +1,5 @@
 "use strict";
-if (typeof define !== "function") var define = require("amdefine")(module);
+if ((typeof define !== "function")) var define = require("amdefine")(module);
 define([ "exports", "../Fun", "../Generatorbang", "../Type/Kind", "../Type/Method", "../Type/Wrap-Type", "./at", "./at-Type", "./Seq", "../bang", "./Seq" ], function(exports, Fun_0, Generator_33_1, Kind_2, Method_3, Wrap_45Type_4, _64_5, _64_45Type_6, Seq_7, _33_8, Seq_9) {
 	exports._get = _ms.lazy(function() {
 		const Fun = _ms.getDefaultExport(Fun_0), _$2 = _ms.getModule(Fun_0), thunk = _ms.get(_$2, "thunk"), Generator_33 = _ms.getDefaultExport(Generator_33_1), _$3 = _ms.getModule(Generator_33_1), empty_45Generator = _ms.get(_$3, "empty-Generator"), _$4 = _ms.getModule(Kind_2), kind_33 = _ms.get(_$4, "kind!"), self_45kind_33 = _ms.get(_$4, "self-kind!"), _$5 = _ms.getModule(Method_3), impl_33 = _ms.get(_$5, "impl!"), self_45impl_33 = _ms.get(_$5, "self-impl!"), Wrap_45Type = _ms.getDefaultExport(Wrap_45Type_4), _$7 = _ms.getModule(_64_5), iterator = _ms.get(_$7, "iterator"), _64_45Type = _ms.getDefaultExport(_64_45Type_6), _$8 = _ms.getModule(_64_45Type_6), empty = _ms.get(_$8, "empty"), from_45stream = _ms.get(_$8, "from-stream"), Seq = _ms.getDefaultExport(Seq_7), _33 = _ms.lazy(function() {

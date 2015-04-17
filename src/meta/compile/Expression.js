@@ -1,11 +1,8 @@
 import Loc from 'esast/dist/Loc'
-import { JsGlobals, KAssign, KFun, SpecialKeywords, UseKeywords } from './private/Lang'
-import { cons } from './private/U/Bag'
+import { JsGlobals, KAssign, KFun, SpecialKeywords } from './private/Lang'
 import Op, { None } from './private/U/Op'
-import type from './private/U/type'
 import { tuple } from './private/U/types'
-import { abstractType } from './private/U/types'
-import { assert, setUnion } from './private/U/util'
+import { setUnion } from './private/U/util'
 
 export default class Expression { }
 // These can only appear as lines in a Block.

@@ -1,13 +1,11 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(["exports", "module", "./Op", "./util"], function (exports, module, _Op, _util) {
-	"use strict";
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'module', './Op', './util'], function (exports, module, _Op, _util) {
+	'use strict';
 
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
 	module.exports = type;
 
-	var Op = _interopRequire(_Op);
-
-	var assert = _util.assert;
+	var _Op2 = _interopRequire(_Op);
 
 	function type() {
 		if (!global.DEBUG) return;
@@ -16,7 +14,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 
 	function typePair(instance, itsType) {
 		if (itsType instanceof Array) {
-			assert(itsType.length === 1);
+			_util.assert(itsType.length === 1);
 			const emType = itsType[0];
 			type(instance, Array);
 			instance.forEach(function (em) {
@@ -25,11 +23,11 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 			});
 		}
 		if (!isa(instance, itsType)) {
-			if (instance === null) throw new Error("Value null");
-			if (instance === undefined) throw new Error("Value undefined");
-			const toArray = require("./Bag").toArray;
-			const strType = itsType instanceof Array ? "[" + itsType[0].name + "]" : itsType instanceof Set ? "{" + toArray(itsType.values()) : itsType.displayName || itsType.name;
-			throw new Error("" + instance + " is not a " + strType);
+			if (instance === null) throw new Error('Value null');
+			if (instance === undefined) throw new Error('Value undefined');
+			const toArray = require('./Bag').toArray;
+			const strType = itsType instanceof Array ? '[' + itsType[0].name + ']' : itsType instanceof Set ? '{' + toArray(itsType.values()) : itsType.displayName || itsType.name;
+			throw new Error('' + instance + ' is not a ' + strType);
 		}
 	}
 
@@ -39,18 +37,18 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 				return instance != null && itsType.prototype.isPrototypeOf(Object(instance));
 			case itsType instanceof Array:
 				{
-					assert(itsType.length === 1);
+					_util.assert(itsType.length === 1);
 					const emType = itsType[0];
 					return instance instanceof Array && instance.every(function (em) {
 						return isa(em, emType);
 					});
 				}
-			case Op.prototype.isPrototypeOf(itsType):
+			case _Op2.prototype.isPrototypeOf(itsType):
 				return instance instanceof Array && instance.length < 2 && (instance.length === 0 || isa(instance[0], itsType.type));
 			case itsType instanceof Set:
 				return itsType.has(instance);
 			default:
-				throw new Error("Not a type: " + itsType);
+				throw new Error('Not a type: ' + itsType);
 		}
 	}
 });

@@ -1,5 +1,5 @@
 "use strict";
-if (typeof define !== "function") var define = require("amdefine")(module);
+if ((typeof define !== "function")) var define = require("amdefine")(module);
 define([ "exports", "../Bool", "../Fun", "../js", "../methods", "../Obj", "../private/bootstrap", "./Kind", "./Method", "./Obj-Type", "./Type", "../at/at", "../bang", "../Bool", "../compare", "../math/Num" ], function(exports, Bool_0, Fun_1, js_2, methods_3, Obj_4, bootstrap_5, Kind_6, Method_7, Obj_45Type_8, Type_9, _64_10, _33_11, Bool_12, compare_13, Num_14) {
 	exports._get = _ms.lazy(function() {
 		const _$2 = _ms.getModule(Bool_0), and = _ms.get(_$2, "and"), not = _ms.get(_$2, "not"), or = _ms.get(_$2, "or"), _$3 = _ms.getModule(Fun_1), Pred = _ms.get(_$3, "Pred"), _$4 = _ms.getModule(js_2), defined_63 = _ms.get(_$4, "defined?"), id_61_63 = _ms.get(_$4, "id=?"), _$5 = _ms.getModule(methods_3), sub = _ms.get(_$5, "sub"), Obj = _ms.getDefaultExport(Obj_4), _$7 = _ms.getModule(bootstrap_5), Str = _ms.get(_$7, "Str"), _$8 = _ms.getModule(Kind_6), kind_33 = _ms.get(_$8, "kind!"), _$9 = _ms.getModule(Method_7), impl_33 = _ms.get(_$9, "impl!"), self_45impl_33 = _ms.get(_$9, "self-impl!"), Obj_45Type = _ms.getDefaultExport(Obj_45Type_8), Type = _ms.getDefaultExport(Type_9), _$11 = _ms.getModule(Type_9), _61_62 = _ms.get(_$11, "=>"), contains_63 = _ms.get(_$11, "contains?"), _$13 = _ms.lazyGetModule(_64_10), any_63 = _ms.lazyProp(_$13, "any?"), _33 = _ms.lazy(function() {
@@ -131,7 +131,7 @@ define([ "exports", "../Bool", "../Fun", "../js", "../methods", "../Obj", "../pr
 		self_45impl_33(sub, Union, function() {
 			const types = [ ].slice.call(arguments, 0);
 			return Pred_45Type(function() {
-				const displayName = "Union[" + _ms.show(_61_62(Str, types, " ")) + "]";
+				const displayName = (("Union[" + _ms.show(_61_62(Str, types, " "))) + "]");
 				const predicate = function(_) {
 					return _ms.unlazy(any_63)(types, function(type) {
 						return contains_63(type, _)

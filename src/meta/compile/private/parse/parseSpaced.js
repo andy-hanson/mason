@@ -3,7 +3,6 @@ import { Call, Lazy, LocalAccess, Member } from '../../Expression'
 import { DotName, Group, Keyword } from '../Token'
 import { unshift } from '../U/Bag'
 import type from '../U/type'
-import { assert, lazy } from '../U/util'
 import Px from './Px'
 import parseSingle from './parseSingle'
 // TODO:ES6

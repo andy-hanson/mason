@@ -4,19 +4,20 @@ import { property } from 'esast/dist/specialize'
 import { cat, flatMap, isEmpty, unshift } from '../U/Bag'
 import { ifElse } from '../U/Op'
 import { assert } from '../U/util'
-import { t, accessLocalDeclare, msLset, msSet, IdDisplayName, LitStrDisplayName } from './util'
+import { t } from './transpile'
+import { accessLocalDeclare, msLset, msSet, IdDisplayName, LitStrDisplayName } from './util'
 
 export const
-	transpileObjReturn = (_, tx) => {
+	transpileObjReturn = (_, cx) => {
 		const nonDebugKeys = _.keys
 		// TODO: includeTypeChecks() is not the right method for this
-		const keys = tx.opts().includeTypeChecks() ? _.keys.concat(_.debugKeys) : _.keys
+		const keys = cx.opts.includeTypeChecks() ? _.keys.concat(_.debugKeys) : _.keys
 		// Make compilation deterministic.
 		keys.sort()
 
 		return ifElse(_.opObjed,
 			objed => {
-				const astObjed = t(tx)(objed)
+				const astObjed = t(objed)
 				if (isEmpty(keys)) {
 					assert(isEmpty(nonDebugKeys))
 					return astObjed
@@ -44,9 +45,9 @@ export const
 			})
 	},
 
-	transpileObjSimple = (_, tx) => {
+	transpileObjSimple = _ => {
 		// Sort to keep compilation deterministic.
 		const keys = Object.getOwnPropertyNames(_.keysVals).sort()
 		return ObjectExpression(keys.map(key =>
-			property('init', propertyIdOrLiteralCached(key), t(tx)(_.keysVals[key]))))
+			property('init', propertyIdOrLiteralCached(key), t(_.keysVals[key]))))
 	}

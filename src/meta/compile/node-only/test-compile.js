@@ -1,8 +1,13 @@
+import { Suite } from 'benchmark'
 import { Node } from 'esast/dist/ast'
 import fs from 'fs'
+import numeral from 'numeral'
 import Expression from '../Expression'
-import Cx from '../private/Cx'
+import Cx, { SubContext } from '../private/Cx'
 import lex from '../private/lex/lex'
+import lexUngrouped from '../private/lex/ungrouped'
+import lexGroup from '../private/lex/group'
+import Stream from '../private/lex/Stream'
 import parse from '../private/parse/parse'
 import render from '../private/render'
 import transpile from '../private/transpile/transpile'
@@ -10,18 +15,32 @@ import verify from '../private/verify/verify'
 import { log } from '../private/U/util'
 import { OptsFromObject } from '../private/Opts'
 
+
+const eager = gen => {
+	const arr = []
+	for (let em of gen)
+		arr.push(em)
+	return arr
+}
+
+const test = tests => {
+	const suite = new Suite()
+	Object.keys(tests).forEach(name =>
+		suite.add(name, tests[name]))
+	suite.on('complete', function() {
+		this.forEach(_ => {
+			const ms = numeral(_.stats.mean * 1000).format('0.00')
+			console.log(`${_.name}: ${ms}ms mean, ${_.hz}Hz`)
+		})
+	})
+	suite.on('error', err => {
+		throw err.target.error
+	})
+	suite.run()
+}
+
 export default () => {
 	global.DEBUG = true
-	global.LOG_TIME = true
-
-	function time(fun) {
-		if (global.LOG_TIME)
-			console.time(fun.name)
-		const res = fun.apply(null, Array.prototype.slice.call(arguments, 1))
-		if (global.LOG_TIME)
-			console.timeEnd(fun.name)
-		return res
-	}
 
 	const source = fs.readFileSync('./ms-test.ms', 'utf-8')
 	const opts = OptsFromObject({
@@ -29,18 +48,35 @@ export default () => {
 	})
 	const cx = new Cx(opts)
 
-	console.time('all')
-	const t = time(lex, cx, source)
+	const t = lex(cx, source)
 	// log(`==>\n${t}`)
-	const e = time(parse, cx, t)
+	const e = parse(cx, t)
 	// log(`==>\n${e}`)
-	const vr = time(verify, cx, e)
+	const vr = verify(cx, e)
 	// log(`+++\n${vr})
-	const ast = time(transpile, cx, e, vr)
+	const ast = transpile(cx, e, vr)
 	// log(`==>\n${ast}`)
-	const { code, map } = time(render, cx, ast)
-	time(function renderSourceMap(_) { return _.toString() }, map)
-	console.timeEnd('all')
+	const { code } = render(cx, ast)
+
+	const tUngroupedEager =
+		eager(lexUngrouped(new SubContext(cx), new Stream(source), false))
+
+	// Benchmark has problems if I don't put these in global variables...
+	global.lexUngroupedTest = () =>
+		eager(lexUngrouped(new SubContext(cx), new Stream(source), false))
+	global.lexGroupTest = () =>
+		lexGroup(new SubContext(cx), tUngroupedEager[Symbol.iterator]())
+
+	test({
+		lexUngrouped: () => global.lexUngroupedTest(),
+		lexGroup: () => global.lexGroupTest(),
+		'lex (all)': () => lex(cx, source),
+		parse: () => parse(cx, t),
+		verify: () => verify(cx, e),
+		transpile: () => transpile(cx, e, vr),
+		render: () => render(cx, ast)
+	})
+
 	const
 		eSize = treeSize(e, _ => _ instanceof Expression),
 		astSize = treeSize(ast, _ => _ instanceof Node)

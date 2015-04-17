@@ -1,5 +1,5 @@
 "use strict";
-if (typeof define !== "function") var define = require("amdefine")(module);
+if ((typeof define !== "function")) var define = require("amdefine")(module);
 define([ "exports", "../cash", "../Fun", "../js", "../private/bootstrap", "../RegExp", "../Str" ], function(exports, $_0, Fun_1, js_2, bootstrap_3, RegExp_4, Str_5) {
 	exports._get = _ms.lazy(function() {
 		const $ = _ms.getDefaultExport($_0), _$2 = _ms.getModule($_0), $after = _ms.get(_$2, "$after"), $map = _ms.get(_$2, "$map"), Fun = _ms.getDefaultExport(Fun_1), _$4 = _ms.getModule(js_2), _new = _ms.get(_$4, "new"), _$5 = _ms.getModule(bootstrap_3), msCall = _ms.get(_$5, "msCall"), _$6 = _ms.getModule(RegExp_4), regexp = _ms.get(_$6, "regexp"), Str = _ms.getDefaultExport(Str_5);
@@ -29,7 +29,7 @@ define([ "exports", "../cash", "../Fun", "../js", "../private/bootstrap", "../Re
 				return $after($get_45module(require, module_45list_45path), function(mp) {
 					const module_45paths = msCall("getDefaultExport", mp);
 					return $map(module_45paths, function(module_45path) {
-						return $get_45module(require, "" + _ms.show(modules_45list_45dir) + "/" + _ms.show(module_45path))
+						return $get_45module(require, ((("" + _ms.show(modules_45list_45dir)) + "/") + _ms.show(module_45path)))
 					})
 				})
 			}, "doc", doc, "displayName", "$@all-modules")

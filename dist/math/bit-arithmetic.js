@@ -1,5 +1,5 @@
 "use strict";
-if (typeof define !== "function") var define = require("amdefine")(module);
+if ((typeof define !== "function")) var define = require("amdefine")(module);
 define([ "exports", "../js", "../Str", "./Num", "../bang", "../RegExp", "../Try" ], function(exports, js_0, Str_1, Num_2, _33_3, RegExp_4, Try_5) {
 	exports._get = _ms.lazy(function() {
 		const _$2 = _ms.getModule(js_0), js_45bar = _ms.get(_$2, "js-bar"), js_45and = _ms.get(_$2, "js-and"), js_45caret = _ms.get(_$2, "js-caret"), js_126 = _ms.get(_$2, "js~"), js_60_60 = _ms.get(_$2, "js<<"), js_62_62 = _ms.get(_$2, "js>>"), js_62_62_62 = _ms.get(_$2, "js>>>"), Str = _ms.getDefaultExport(Str_1), Num = _ms.getDefaultExport(Num_2), _$4 = _ms.getModule(Num_2), Int = _ms.get(_$4, "Int"), _33 = _ms.lazy(function() {
@@ -19,7 +19,7 @@ define([ "exports", "../js", "../Str", "./Num", "../bang", "../RegExp", "../Try"
 			return _ms.set(function(bin_45str) {
 				_ms.checkContains(Str, bin_45str, "bin-str");
 				_ms.unlazy(_33not)(_ms.unlazy(regexp)("[^01]").test(bin_45str), _ms.lazy(function() {
-					return "Not a valid binary number: " + _ms.show(bin_45str)
+					return ("Not a valid binary number: " + _ms.show(bin_45str))
 				}));
 				const res = _ms.checkContains(Int, Num.parseInt(bin_45str, 2), "res");
 				_ms.unlazy(_33not)(Num.isNaN, res);
@@ -38,7 +38,7 @@ define([ "exports", "../js", "../Str", "./Num", "../bang", "../RegExp", "../Try"
 			return _ms.set(function(hex_45str) {
 				_ms.checkContains(Str, hex_45str, "hex-str");
 				_ms.unlazy(_33not)(_ms.unlazy(regexp)("[^0-9a-fA-F]").test(hex_45str), _ms.lazy(function() {
-					return "Not a valid hexidecimal number: " + _ms.show(hex_45str)
+					return ("Not a valid hexidecimal number: " + _ms.show(hex_45str))
 				}));
 				const res = _ms.checkContains(Int, Num.parseInt(hex_45str, 16), "res");
 				_ms.unlazy(_33not)(Num.isNaN, res);

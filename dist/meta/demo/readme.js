@@ -1,5 +1,5 @@
 "use strict";
-if (typeof define !== "function") var define = require("amdefine")(module);
+if ((typeof define !== "function")) var define = require("amdefine")(module);
 define([ "exports", "../../bang", "../../at/at", "../../at/at-Type", "../../at/Arraybang", "../../at/Seq", "../../at/Stream", "../../Bool", "../../compare", "../../control", "../../Fun", "../../Generatorbang", "../../math/Num", "../../math/methods", "../../Str", "../../Try" ], function(exports, _33_0, _64_1, _64_45Type_2, Array_33_3, Seq_4, Stream_5, Bool_6, compare_7, control_8, Fun_9, Generator_33_10, Num_11, methods_12, Str_13, Try_14) {
 	exports._get = _ms.lazy(function() {
 		const _33 = _ms.lazy(function() {
@@ -153,7 +153,7 @@ define([ "exports", "../../bang", "../../at/at", "../../at/at-Type", "../../at/A
 							return "You got it!"
 						}
 						case _ms.bool(_ms.contains(_ms.unlazy(Num), _)): {
-							return "Off by " + _ms.show(_ms.unlazy(_45)(_, 7))
+							return ("Off by " + _ms.show(_ms.unlazy(_45)(_, 7)))
 						}
 						default: {
 							return "Try using a number..."
@@ -164,8 +164,8 @@ define([ "exports", "../../bang", "../../at/at", "../../at/at-Type", "../../at/A
 			_ms.unlazy(_33)(_ms.unlazy(_61_63), rate_45guess(7), "You got it!");
 			_ms.unlazy(_33)(_ms.unlazy(_61_63), rate_45guess(9), "Off by 2");
 			_ms.unlazy(_33)(_ms.unlazy(_61_63), rate_45guess("seven"), "Try using a number...");
-			_ms.unlazy(_33)(_ms.unlazy(_61_63), "One plus one is " + _ms.show(_ms.unlazy(_43)(1, 1)) + ".", "One plus one is 2.");
-			const x = "We hold these truths to be self-evident,\nthat one plus one is " + _ms.show(_ms.unlazy(_43)(1, 1)) + ".";
+			_ms.unlazy(_33)(_ms.unlazy(_61_63), (("One plus one is " + _ms.show(_ms.unlazy(_43)(1, 1))) + "."), "One plus one is 2.");
+			const x = (("We hold these truths to be self-evident,\nthat one plus one is " + _ms.show(_ms.unlazy(_43)(1, 1))) + ".");
 			_ms.unlazy(_33)(_ms.unlazy(_61_63), x, "We hold these truths to be self-evident,\nthat one plus one is 2.");
 			_ms.unlazy(_33)(_ms.unlazy(_61_63), _ms.unlazy(count)("\t\n{\\"), 4);
 			const arr = _ms.unlazy(empty)(_ms.unlazy(Array_33));
@@ -283,7 +283,7 @@ define([ "exports", "../../bang", "../../at/at", "../../at/at-Type", "../../at/A
 				})
 			};
 			const increment_126 = function*(x) {
-				(yield "Incrementing " + _ms.show(x));
+				(yield ("Incrementing " + _ms.show(x)));
 				return _ms.unlazy(_43)(x, 1)
 			};
 			_ms.unlazy(_33)(_ms.unlazy(_61_63), increment_45thrice(0), 3);

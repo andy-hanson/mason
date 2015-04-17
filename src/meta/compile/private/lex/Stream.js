@@ -1,6 +1,6 @@
 import { StartPos } from 'esast/dist/Loc'
 import type from '../U/type'
-import { assert, set } from '../U/util'
+import { assert } from '../U/util'
 
 export default class Stream {
 	constructor(str) {

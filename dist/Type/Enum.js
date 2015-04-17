@@ -1,5 +1,5 @@
 "use strict";
-if (typeof define !== "function") var define = require("amdefine")(module);
+if ((typeof define !== "function")) var define = require("amdefine")(module);
 define([ "exports", "../at/at", "../Obj", "../Objbang", "../show", "../Str", "./Impl-Type", "./Kind", "./Method", "./Obj-Type", "./Type", "../bang", "../compare", "./Type" ], function(exports, _64_0, Obj_1, Obj_33_2, show_3, Str_4, Impl_45Type_5, Kind_6, Method_7, Obj_45Type_8, Type_9, _33_10, compare_11, Type_12) {
 	exports._get = _ms.lazy(function() {
 		const _$2 = _ms.getModule(_64_0), each_33 = _ms.get(_$2, "each!"), Obj = _ms.getDefaultExport(Obj_1), _$4 = _ms.getModule(Obj_33_2), p_43_33 = _ms.get(_$4, "p+!"), show = _ms.getDefaultExport(show_3), Str = _ms.getDefaultExport(Str_4), Impl_45Type = _ms.getDefaultExport(Impl_45Type_5), _$8 = _ms.getModule(Kind_6), kind_33 = _ms.get(_$8, "kind!"), _$9 = _ms.getModule(Method_7), impl_33 = _ms.get(_$9, "impl!"), Obj_45Type = _ms.getDefaultExport(Obj_45Type_8), _$11 = _ms.getModule(Type_9), contains_63 = _ms.get(_$11, "contains?"), _33 = _ms.lazy(function() {
@@ -28,7 +28,7 @@ define([ "exports", "../at/at", "../Obj", "../Objbang", "../show", "../Str", "./
 				_ms.unlazy(_33)(_ms.unlazy(_61_63), _ms.sub(prices, Fruit.apple), 1);
 				_ms.unlazy(_33)(_ms.unlazy(_61_63), _ms.sub(prices, Fruit.orange), 2);
 				_ms.unlazy(_33)(_ms.unlazy(_61_63), _ms.unlazy(type_45of)(Fruit.apple), Fruit);
-				return _ms.unlazy(_33)(_ms.unlazy(_61_63), "" + _ms.show(Fruit.apple), "Fruit.apple")
+				return _ms.unlazy(_33)(_ms.unlazy(_61_63), ("" + _ms.show(Fruit.apple)), "Fruit.apple")
 			};
 			const props = function() {
 				const displayName = Str;
@@ -57,7 +57,7 @@ define([ "exports", "../at/at", "../Obj", "../Objbang", "../show", "../Str", "./
 				});
 				p_43_33(_enum.prototype, "constructor", _enum);
 				return impl_33(show, _enum, function(val) {
-					return "" + _ms.show(_enum.displayName) + "." + _ms.show(val.name)
+					return ((("" + _ms.show(_enum.displayName)) + ".") + _ms.show(val.name))
 				})
 			};
 			return {

@@ -1,5 +1,5 @@
 "use strict";
-if (typeof define !== "function") var define = require("amdefine")(module);
+if ((typeof define !== "function")) var define = require("amdefine")(module);
 define([ "exports", "./at/at-Type", "./at/q", "./cash", "./Bool", "./compare", "./Fun", "./js", "./private/js-impl", "./Obj", "./Objbang", "./Str", "./Type/Method", "./Type/Obj-Type", "./Type/Kind", "./Type/Pred-Type", "./Type/Type", "./Type/Wrap-Type", "./bang", "./control", "./Fun", "./cash" ], function(exports, _64_45Type_0, _63_1, $_2, Bool_3, compare_4, Fun_5, js_6, js_45impl_7, Obj_8, Obj_33_9, Str_10, Method_11, Obj_45Type_12, Kind_13, Pred_45Type_14, Type_15, Wrap_45Type_16, _33_17, control_18, Fun_19, $_20) {
 	exports._get = _ms.lazy(function() {
 		const _$2 = _ms.getModule(_64_45Type_0), empty = _ms.get(_$2, "empty"), _63 = _ms.getDefaultExport(_63_1), $ = _ms.getDefaultExport($_2), _$4 = _ms.getModule($_2), $after = _ms.get(_$4, "$after"), _$5 = _ms.getModule(Bool_3), and = _ms.get(_$5, "and"), _$6 = _ms.getModule(compare_4), _61_63 = _ms.get(_$6, "=?"), Fun = _ms.getDefaultExport(Fun_5), _$7 = _ms.getModule(Fun_5), Act = _ms.get(_$7, "Act"), spread_33 = _ms.get(_$7, "spread!"), _$8 = _ms.getModule(js_6), _new = _ms.get(_$8, "new"), _$9 = _ms.getModule(js_45impl_7), makeError = _ms.get(_$9, "makeError"), alwaysDoAfter = _ms.get(_$9, "alwaysDoAfter"), ohNo = _ms.get(_$9, "ohNo"), iTry = _ms.get(_$9, "iTry"), Obj = _ms.getDefaultExport(Obj_8), _$11 = _ms.getModule(Obj_33_9), p_33 = _ms.get(_$11, "p!"), p_43_33 = _ms.get(_$11, "p+!"), Str = _ms.getDefaultExport(Str_10), _$13 = _ms.getModule(Method_11), self_45impl_33 = _ms.get(_$13, "self-impl!"), Obj_45Type = _ms.getDefaultExport(Obj_45Type_12), Kind = _ms.getDefaultExport(Kind_13), _$16 = _ms.getModule(Pred_45Type_14), Any = _ms.get(_$16, "Any"), Union = _ms.get(_$16, "Union"), Type = _ms.getDefaultExport(Type_15), _$17 = _ms.getModule(Type_15), contains_63 = _ms.get(_$17, "contains?"), _61_62 = _ms.get(_$17, "=>"), Wrap_45Type = _ms.getDefaultExport(Wrap_45Type_16), _33 = _ms.lazy(function() {
@@ -202,8 +202,8 @@ define([ "exports", "./at/at-Type", "./at/q", "./cash", "./Bool", "./compare", "
 							return _.val
 						}
 						default: {
-							p_33(_, "stack", "" + _ms.show(_ms.unlazy(annotation)) + _ms.show(_.stack));
-							p_33(_, "message", "" + _ms.show(_ms.unlazy(annotation)) + _ms.show(_.message));
+							p_33(_, "stack", (("" + _ms.show(_ms.unlazy(annotation))) + _ms.show(_.stack)));
+							p_33(_, "message", (("" + _ms.show(_ms.unlazy(annotation))) + _ms.show(_.message)));
 							return oh_45no_33(_)
 						}
 					}
@@ -243,8 +243,8 @@ define([ "exports", "./at/at-Type", "./at/q", "./cash", "./Bool", "./compare", "
 			return _ms.set(function(annotation, $tried) {
 				_ms.checkContains($, $tried, "$tried");
 				return $catch($tried, function(_) {
-					p_33(_, "stack", "" + _ms.show(_ms.unlazy(annotation)) + _ms.show(_.stack));
-					p_33(_, "message", "" + _ms.show(_ms.unlazy(annotation)) + _ms.show(_.message));
+					p_33(_, "stack", (("" + _ms.show(_ms.unlazy(annotation))) + _ms.show(_.stack)));
+					p_33(_, "message", (("" + _ms.show(_ms.unlazy(annotation))) + _ms.show(_.message)));
 					return oh_45no_33(_)
 				})
 			}, "doc", doc, "$test", $test, "displayName", "$annotate-errors")

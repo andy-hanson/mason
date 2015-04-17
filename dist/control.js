@@ -1,5 +1,5 @@
 "use strict";
-if (typeof define !== "function") var define = require("amdefine")(module);
+if ((typeof define !== "function")) var define = require("amdefine")(module);
 define([ "exports", "./Bool", "./Fun", "./js", "./methods", "./Objbang", "./Type/Pred-Type", "./Type/Wrap-Type", "./at/at-Type", "./at/q", "./at/Arraybang", "./at/Seq", "./at/Seqbang", "./at/Map/Map", "./Try", "./bang", "./compare", "./math/methods" ], function(exports, Bool_0, Fun_1, js_2, methods_3, Obj_33_4, Pred_45Type_5, Wrap_45Type_6, _64_45Type_7, _63_8, Array_33_9, Seq_10, Seq_33_11, Map_12, Try_13, _33_14, compare_15, methods_16) {
 	exports._get = _ms.lazy(function() {
 		const Bool = _ms.getDefaultExport(Bool_0), Fun = _ms.getDefaultExport(Fun_1), _$3 = _ms.getModule(Fun_1), Act = _ms.get(_$3, "Act"), _$4 = _ms.getModule(js_2), defined_63 = _ms.get(_$4, "defined?"), _$5 = _ms.getModule(methods_3), freeze = _ms.get(_$5, "freeze"), _$6 = _ms.getModule(Obj_33_4), p_33 = _ms.get(_$6, "p!"), _$7 = _ms.getModule(Pred_45Type_5), Any = _ms.get(_$7, "Any"), Opt = _ms.get(_$7, "Opt"), Wrap_45Type = _ms.getDefaultExport(Wrap_45Type_6), _$10 = _ms.lazyGetModule(_64_45Type_7), empty = _ms.lazyProp(_$10, "empty"), _63 = _ms.lazy(function() {

@@ -1,5 +1,5 @@
 "use strict";
-if (typeof define !== "function") var define = require("amdefine")(module);
+if ((typeof define !== "function")) var define = require("amdefine")(module);
 define([ "exports", "./Bool", "./compare", "./private/bootstrap", "./at/at", "./at/Map/Map", "./control", "./Fun", "./show", "./Str", "./Try", "./Type/Pred-Type", "./Type/Type", "./compare", "./math/methods", "./show", "./Try" ], function(exports, Bool_0, compare_1, bootstrap_2, _64_3, Map_4, control_5, Fun_6, show_7, Str_8, Try_9, Pred_45Type_10, Type_11, compare_12, methods_13, show_14, Try_15) {
 	exports._get = _ms.lazy(function() {
 		const Bool = _ms.getDefaultExport(Bool_0), _$2 = _ms.getModule(Bool_0), not = _ms.get(_$2, "not"), _$3 = _ms.getModule(compare_1), _61_63 = _ms.get(_$3, "=?"), _$4 = _ms.getModule(bootstrap_2), Fun = _ms.get(_$4, "Fun"), _64 = _ms.lazy(function() {
@@ -40,7 +40,7 @@ define([ "exports", "./Bool", "./compare", "./private/bootstrap", "./at/at", "./
 										};
 										break
 									default: {
-										_ms.unlazy(oh_45no_33)("Expected " + _ms.show(a) + "\n\t" + _ms.show(_ms.unlazy(indent)(_ms.unlazy(_61_62)(_ms.unlazy(Str), _ms.unlazy(map)(args, _ms.unlazy(repr)), "\n"))))
+										_ms.unlazy(oh_45no_33)(((("Expected " + _ms.show(a)) + "\n\t") + _ms.show(_ms.unlazy(indent)(_ms.unlazy(_61_62)(_ms.unlazy(Str), _ms.unlazy(map)(args, _ms.unlazy(repr)), "\n")))))
 									}
 								}
 							};
@@ -65,7 +65,7 @@ define([ "exports", "./Bool", "./compare", "./private/bootstrap", "./at/at", "./
 							};
 							break
 						default: {
-							_ms.unlazy(oh_45no_33)("First argument to `!` must be Fun or Bool. Got " + _ms.show(_) + ".")
+							_ms.unlazy(oh_45no_33)((("First argument to `!` must be Fun or Bool. Got " + _ms.show(_)) + "."))
 						}
 					}
 				}
@@ -87,7 +87,7 @@ define([ "exports", "./Bool", "./compare", "./private/bootstrap", "./at/at", "./
 								switch (true) {
 									case _ms.bool(Function.apply.call(_, null, [ ].concat(_ms.arr(args)))):
 										{
-											_ms.unlazy(oh_45no_33)("Unexpected " + _ms.show(a) + "\n\t" + _ms.show(_ms.unlazy(indent)(_ms.unlazy(map)(args, _ms.unlazy(repr)).join("\n"))))
+											_ms.unlazy(oh_45no_33)(((("Unexpected " + _ms.show(a)) + "\n\t") + _ms.show(_ms.unlazy(indent)(_ms.unlazy(map)(args, _ms.unlazy(repr)).join("\n")))))
 										};
 										break
 									default: {
@@ -112,7 +112,7 @@ define([ "exports", "./Bool", "./compare", "./private/bootstrap", "./at/at", "./
 							};
 							break
 						default: {
-							_ms.unlazy(oh_45no_33)("First argument to `!not` must be Fun or Bool. Got " + _ms.show(_) + ".")
+							_ms.unlazy(oh_45no_33)((("First argument to `!not` must be Fun or Bool. Got " + _ms.show(_)) + "."))
 						}
 					}
 				}
@@ -157,7 +157,7 @@ define([ "exports", "./Bool", "./compare", "./private/bootstrap", "./at/at", "./
 					const actual = Function.apply.call(fun, null, [ ].concat(_ms.arr(args)));
 					return _ms.unlazy(if_33)(not(equal_63(actual, expected_45res)), function() {
 						return _ms.unlazy(oh_45no_33)(_ms.lazy(function() {
-							return "" + _ms.show(fun) + " of:\n\t" + _ms.show(_ms.unlazy(indent)(_ms.unlazy(_61_62)(_ms.unlazy(Str), _ms.unlazy(map)(args, _ms.unlazy(repr)), "\n"))) + "\nShould " + _ms.show(equal_63) + ":\n\t" + _ms.show(_ms.unlazy(indent)(_ms.unlazy(repr)(expected_45res))) + "\nGot:\n\t" + _ms.show(_ms.unlazy(indent)(_ms.unlazy(repr)(actual)))
+							return ((((((((("" + _ms.show(fun)) + " of:\n\t") + _ms.show(_ms.unlazy(indent)(_ms.unlazy(_61_62)(_ms.unlazy(Str), _ms.unlazy(map)(args, _ms.unlazy(repr)), "\n")))) + "\nShould ") + _ms.show(equal_63)) + ":\n\t") + _ms.show(_ms.unlazy(indent)(_ms.unlazy(repr)(expected_45res)))) + "\nGot:\n\t") + _ms.show(_ms.unlazy(indent)(_ms.unlazy(repr)(actual))))
 						}))
 					})
 				})

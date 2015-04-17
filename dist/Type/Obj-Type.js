@@ -1,5 +1,5 @@
 "use strict";
-if (typeof define !== "function") var define = require("amdefine")(module);
+if ((typeof define !== "function")) var define = require("amdefine")(module);
 define([ "exports", "../Bool", "../private/bootstrap", "../js", "../private/js-impl", "../bang", "../compare", "../private/js-impl", "../math/Num", "../Try", "./Type" ], function(exports, Bool_0, bootstrap_1, js_2, js_45impl_3, _33_4, compare_5, js_45impl_6, Num_7, Try_8, Type_9) {
 	exports._get = _ms.lazy(function() {
 		const Bool = _ms.getDefaultExport(Bool_0), _$2 = _ms.getModule(Bool_0), and = _ms.get(_$2, "and"), implies = _ms.get(_$2, "implies"), not = _ms.get(_$2, "not"), _$3 = _ms.getModule(bootstrap_1), Fun = _ms.get(_$3, "Fun"), impl_45contains_63_33 = _ms.get(_$3, "impl-contains?!"), Obj = _ms.get(_$3, "Obj"), p_43_33 = _ms.get(_$3, "p+!"), Str = _ms.get(_$3, "Str"), _$4 = _ms.getModule(js_2), defined_63 = _ms.get(_$4, "defined?"), js_61_61_61 = _ms.get(_$4, "js==="), js_45instanceof = _ms.get(_$4, "js-instanceof"), js_45sub = _ms.get(_$4, "js-sub"), js_45typeof = _ms.get(_$4, "js-typeof"), _$5 = _ms.getModule(js_45impl_3), buildStr = _ms.get(_$5, "buildStr"), _33 = _ms.lazy(function() {
@@ -45,7 +45,7 @@ define([ "exports", "../Bool", "../private/bootstrap", "../js", "../private/js-i
 				}))
 			};
 			const access = function(name) {
-				return "[\"" + _ms.show(name) + "\"]"
+				return (("[\"" + _ms.show(name)) + "\"]")
 			};
 			const src = buildStr(function(add_33) {
 				add_33("return function ctr(_) {\nif (!(this instanceof ctr)) return new ctr(_)");
@@ -59,18 +59,18 @@ define([ "exports", "../Bool", "../private/bootstrap", "../js", "../private/js-i
 				real_45props.forEach(function(prop) {
 					const acc = access(prop);
 					if_33(not(extensible), function() {
-						return add_33("this" + _ms.show(acc) + " = _" + _ms.show(acc))
+						return add_33(((("this" + _ms.show(acc)) + " = _") + _ms.show(acc)))
 					});
 					const default_63 = and(defined_63(ot.defaults), _ms.lazy(function() {
 						return defined_63(js_45sub(ot.defaults, prop))
 					}));
 					if_33(default_63, function() {
-						return add_33("if (this" + _ms.show(acc) + " === undefined) this" + _ms.show(acc) + " = defaults" + _ms.show(acc) + "(_)")
+						return add_33((((((("if (this" + _ms.show(acc)) + " === undefined) this") + _ms.show(acc)) + " = defaults") + _ms.show(acc)) + "(_)"))
 					});
 					switch (true) {
 						case _ms.bool(prop_45has_45type_63(ot.props, prop)):
 							{
-								add_33("_ms.checkContains(props" + _ms.show(acc) + ", this" + _ms.show(acc) + ", \"" + _ms.show(prop) + "\")")
+								add_33((((((("_ms.checkContains(props" + _ms.show(acc)) + ", this") + _ms.show(acc)) + ", \"") + _ms.show(prop)) + "\")"))
 							};
 							break
 						case _ms.bool(default_63):
@@ -79,7 +79,7 @@ define([ "exports", "../Bool", "../private/bootstrap", "../js", "../private/js-i
 							};
 							break
 						default: {
-							add_33("if (!Object.prototype.hasOwnProperty.call(_, \"" + _ms.show(prop) + "\"))\n\tthrow new Error(\"Forgot to assign " + _ms.show(prop) + ".\")")
+							add_33((((("if (!Object.prototype.hasOwnProperty.call(_, \"" + _ms.show(prop)) + "\"))\n\tthrow new Error(\"Forgot to assign ") + _ms.show(prop)) + ".\")"))
 						}
 					}
 				});
@@ -87,19 +87,19 @@ define([ "exports", "../Bool", "../private/bootstrap", "../js", "../private/js-i
 					return Obj.getOwnPropertyNames(ot["opt-props"]).forEach(function(prop) {
 						return if_33(real_45prop_63(ot["opt-props"], prop), function() {
 							const acc = access(prop);
-							add_33("if (_" + _ms.show(acc) + " !== undefined) {");
+							add_33((("if (_" + _ms.show(acc)) + " !== undefined) {"));
 							if_33(not(extensible), function() {
-								return add_33("this" + _ms.show(acc) + " = _" + _ms.show(acc))
+								return add_33(((("this" + _ms.show(acc)) + " = _") + _ms.show(acc)))
 							});
 							if_33(prop_45has_45type_63(ot["opt-props"], prop), function() {
-								return add_33("_ms.checkContains(optProps" + _ms.show(acc) + ", this" + _ms.show(acc) + ", \"" + _ms.show(prop) + "\")")
+								return add_33((((((("_ms.checkContains(optProps" + _ms.show(acc)) + ", this") + _ms.show(acc)) + ", \"") + _ms.show(prop)) + "\")"))
 							});
 							return add_33("}")
 						})
 					})
 				});
 				if_33(not(extensible), function() {
-					const check = "_ms.checkNoExtras(this, _, \"" + _ms.show(ot.displayName) + "\")";
+					const check = (("_ms.checkNoExtras(this, _, \"" + _ms.show(ot.displayName)) + "\")");
 					switch (true) {
 						case _ms.bool(defined_63(ot["opt-props"])):
 							{
@@ -111,14 +111,14 @@ define([ "exports", "../Bool", "../private/bootstrap", "../js", "../private/js-i
 							const n_45props_45compare = function() {
 								switch (true) {
 									case _ms.bool(defined_63(real_45props.displayName)): {
-										return "" + _ms.show(n_45props)
+										return ("" + _ms.show(n_45props))
 									}
 									default: {
-										return "(Object.prototype.hasOwnProperty.call(_, \"displayName\") ? " + _ms.show(_ms.unlazy(addOne)(n_45props)) + " : " + _ms.show(n_45props) + ")"
+										return (((("(Object.prototype.hasOwnProperty.call(_, \"displayName\") ? " + _ms.show(_ms.unlazy(addOne)(n_45props))) + " : ") + _ms.show(n_45props)) + ")")
 									}
 								}
 							}();
-							add_33("if (Object.keys(_).length > " + _ms.show(n_45props_45compare) + ")  {\n\t" + _ms.show(check) + "\n\tthrow new Error(\"Unreachable\")\n}")
+							add_33((((("if (Object.keys(_).length > " + _ms.show(n_45props_45compare)) + ")  {\n\t") + _ms.show(check)) + "\n\tthrow new Error(\"Unreachable\")\n}"))
 						}
 					}
 				});
@@ -136,7 +136,7 @@ define([ "exports", "../Bool", "../private/bootstrap", "../js", "../private/js-i
 							}
 						}
 					}();
-					return add_33("postConstruct(" + _ms.show(post) + ")")
+					return add_33((("postConstruct(" + _ms.show(post)) + ")"))
 				});
 				if_33(defined_63(ot["make-callable"]), function() {
 					return add_33("return callBaby")

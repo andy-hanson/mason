@@ -1,5 +1,5 @@
 "use strict";
-if (typeof define !== "function") var define = require("amdefine")(module);
+if ((typeof define !== "function")) var define = require("amdefine")(module);
 define([ "exports", "../Bool", "../compare", "../control", "../Obj", "../js", "../Type/Method", "../Type/Pred-Type", "./methods", "../bang", "../Fun", "../Try", "../Type/Type" ], function(exports, Bool_0, compare_1, control_2, Obj_3, js_4, Method_5, Pred_45Type_6, methods_7, _33_8, Fun_9, Try_10, Type_11) {
 	exports._get = _ms.lazy(function() {
 		const _$2 = _ms.getModule(Bool_0), and = _ms.get(_$2, "and"), compare = _ms.getDefaultExport(compare_1), _$3 = _ms.getModule(compare_1), _61_63 = _ms.get(_$3, "=?"), _60_63 = _ms.get(_$3, "<?"), _60_61_63 = _ms.get(_$3, "<=?"), _$4 = _ms.getModule(control_2), opr = _ms.get(_$4, "opr"), _$5 = _ms.getModule(Obj_3), p = _ms.get(_$5, "p"), _$6 = _ms.getModule(js_4), id_61_63 = _ms.get(_$6, "id=?"), js_45bar = _ms.get(_$6, "js-bar"), js_60 = _ms.get(_$6, "js<"), js_60_61 = _ms.get(_$6, "js<="), js_43 = _ms.get(_$6, "js+"), js_45 = _ms.get(_$6, "js-"), js_42 = _ms.get(_$6, "js*"), js_47 = _ms.get(_$6, "js/"), js_45mod = _ms.get(_$6, "js-mod"), _$7 = _ms.getModule(Method_5), impl_33 = _ms.get(_$7, "impl!"), Pred_45Type = _ms.getDefaultExport(Pred_45Type_6), _$8 = _ms.getModule(Pred_45Type_6), Opt = _ms.get(_$8, "Opt"), _$9 = _ms.getModule(methods_7), _43 = _ms.get(_$9, "+"), _45 = _ms.get(_$9, "-"), _42 = _ms.get(_$9, "*"), _47 = _ms.get(_$9, "/"), _33 = _ms.lazy(function() {
@@ -232,7 +232,7 @@ define([ "exports", "../Bool", "../compare", "../control", "../Obj", "../js", ".
 			};
 			return _ms.set(function(_) {
 				_ms.checkContains(Num, _, "_");
-				_ms.unlazy(_33)(_60_61_63(0, _), "Can't take square root of negative number " + _ms.show(_) + ".");
+				_ms.unlazy(_33)(_60_61_63(0, _), (("Can't take square root of negative number " + _ms.show(_)) + "."));
 				return Math.sqrt(_)
 			}, "test", test, "displayName", "square-root")
 		}();

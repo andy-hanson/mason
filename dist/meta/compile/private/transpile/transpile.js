@@ -1,269 +1,226 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(["exports", "module", "esast/dist/ast", "esast/dist/Loc", "esast/dist/util", "esast/dist/specialize", "../../Expression", "../Lang", "../Opts", "../U/Bag", "../U/Op", "../U/type", "../U/util", "../Vr", "./esast-util", "./transpileBlock", "./transpileObj", "./transpileModule", "./util", "./Tx"], function (exports, module, _esastDistAst, _esastDistLoc, _esastDistUtil, _esastDistSpecialize, _Expression, _Lang, _Opts, _UBag, _UOp, _UType, _UUtil, _Vr, _esastUtil, _transpileBlock, _transpileObj, _transpileModule, _util, _Tx) {
-	"use strict";
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'esast/dist/ast', 'esast/dist/util', 'esast/dist/specialize', '../../Expression', '../U/Bag', '../U/Op', '../U/type', '../U/util', './esast-util', './transpileObj', './transpileModule', './util'], function (exports, _esastDistAst, _esastDistUtil, _esastDistSpecialize, _Expression, _UBag, _UOp, _UType, _UUtil, _esastUtil, _transpileObj, _transpileModule, _util) {
+	'use strict';
 
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-	var _slicedToArray = function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { var _arr = []; for (var _iterator = arr[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) { _arr.push(_step.value); if (i && _arr.length === i) break; } return _arr; } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } };
+	var _slicedToArray = function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } };
 
-	module.exports = transpile;
-	var ArrayExpression = _esastDistAst.ArrayExpression;
-	var AssignmentExpression = _esastDistAst.AssignmentExpression;
-	var BlockStatement = _esastDistAst.BlockStatement;
-	var BreakStatement = _esastDistAst.BreakStatement;
-	var CallExpression = _esastDistAst.CallExpression;
-	var DebuggerStatement = _esastDistAst.DebuggerStatement;
-	var Identifier = _esastDistAst.Identifier;
-	var LabeledStatement = _esastDistAst.LabeledStatement;
-	var Literal = _esastDistAst.Literal;
-	var SwitchCase = _esastDistAst.SwitchCase;
-	var SwitchStatement = _esastDistAst.SwitchStatement;
-	var ThisExpression = _esastDistAst.ThisExpression;
-	var VariableDeclarator = _esastDistAst.VariableDeclarator;
+	Object.defineProperty(exports, '__esModule', {
+		value: true
+	});
+	exports.default = transpile;
 
-	var Loc = _interopRequire(_esastDistLoc);
+	var _type = _interopRequire(_UType);
 
-	var idCached = _esastDistUtil.idCached;
-	var member = _esastDistUtil.member;
-	var throwError = _esastDistUtil.throwError;
-	var toStatement = _esastDistUtil.toStatement;
-	var toStatements = _esastDistUtil.toStatements;
-	var binaryExpressionPlus = _esastDistSpecialize.binaryExpressionPlus;
-	var callExpressionThunk = _esastDistSpecialize.callExpressionThunk;
-	var functionExpressionPlain = _esastDistSpecialize.functionExpressionPlain;
-	var functionExpressionThunk = _esastDistSpecialize.functionExpressionThunk;
-	var switchStatementOnTrue = _esastDistSpecialize.switchStatementOnTrue;
-	var unaryExpressionNegate = _esastDistSpecialize.unaryExpressionNegate;
-	var variableDeclarationConst = _esastDistSpecialize.variableDeclarationConst;
-	var whileStatementInfinite = _esastDistSpecialize.whileStatementInfinite;
-	var yieldExpressionDelegate = _esastDistSpecialize.yieldExpressionDelegate;
-	var yieldExpressionNoDelegate = _esastDistSpecialize.yieldExpressionNoDelegate;
+	var _transpileModule2 = _interopRequire(_transpileModule);
 
-	var Expression = _interopRequire(_Expression);
+	let cx, vr;
 
-	var EExports = _Expression;
-	var KAssign = _Lang.KAssign;
-
-	var Opts = _interopRequire(_Opts);
-
-	var cat = _UBag.cat;
-	var cons = _UBag.cons;
-	var flatMap = _UBag.flatMap;
-	var isEmpty = _UBag.isEmpty;
-	var push = _UBag.push;
-	var range = _UBag.range;
-	var tail = _UBag.tail;
-	var unshift = _UBag.unshift;
-	var ifElse = _UOp.ifElse;
-	var opIf = _UOp.opIf;
-	var None = _UOp.None;
-	var some = _UOp.some;
-
-	var type = _interopRequire(_UType);
-
-	var assert = _UUtil.assert;
-	var implementMany = _UUtil.implementMany;
-	var isPositive = _UUtil.isPositive;
-	var log = _UUtil.log;
-
-	var Vr = _interopRequire(_Vr);
-
-	var declare = _esastUtil.declare;
-	var declareSpecial = _esastUtil.declareSpecial;
-	var idForDeclareCached = _esastUtil.idForDeclareCached;
-
-	var transpileBlock = _interopRequire(_transpileBlock);
-
-	var transpileObjReturn = _transpileObj.transpileObjReturn;
-	var transpileObjSimple = _transpileObj.transpileObjSimple;
-
-	var transpileModule = _interopRequire(_transpileModule);
-
-	var t = _util.t;
-	var IdExports = _util.IdExports;
-	var IdArguments = _util.IdArguments;
-	var IdArraySliceCall = _util.IdArraySliceCall;
-	var IdFunctionApplyCall = _util.IdFunctionApplyCall;
-	var IdMs = _util.IdMs;
-	var LitEmptyArray = _util.LitEmptyArray;
-	var LitEmptyString = _util.LitEmptyString;
-	var LitNull = _util.LitNull;
-	var Break = _util.Break;
-	var accessLocal = _util.accessLocal;
-	var lazyWrap = _util.lazyWrap;
-	var makeDeclarator = _util.makeDeclarator;
-	var makeDestructureDeclarators = _util.makeDestructureDeclarators;
-	var opLocalCheck = _util.opLocalCheck;
-	var msArr = _util.msArr;
-	var msBool = _util.msBool;
-	var msMap = _util.msMap;
-	var msShow = _util.msShow;
-
-	var Tx = _interopRequire(_Tx);
-
-	function transpile(cx, e, vr) {
-		const tx = new Tx(cx, vr);
-		const ast = t(tx)(e);
-		if (tx.opts().sourceMap()) ast.loc.source = tx.opts().modulePath();
-		return ast;
+	function transpile(_cx, e, _vr) {
+		cx = _cx;
+		vr = _vr;
+		return t(e);
 	}
 
-	implementMany(EExports, "transpileSubtree", {
-		Assign: function (_, tx) {
-			return variableDeclarationConst([makeDeclarator(tx, _.loc, _.assignee, _.k, t(tx)(_.value))]);
+	const t = function (expr, arg, arg2, arg3) {
+		const ast = expr.transpileSubtree(arg, arg2, arg3);
+		if (cx.opts.sourceMap() && !(ast instanceof Array))
+			// Array is only allowed for statement groups inside of Blocks, such as Debug.
+			ast.loc = expr.loc;
+		return ast;
+	};
+
+	exports.t = t;
+	function transpileBlock(lead, opResDeclare, opOut) {
+		var _this = this;
+
+		if (lead === undefined) lead = [];
+		if (opResDeclare === undefined) opResDeclare = opOut = _UOp.None;
+		const body = _UBag.flatMap(this.lines, function (line) {
+			return _esastDistUtil.toStatements(t(line));
+		});
+		const isVal = this instanceof _Expression.BlockVal;
+		const fin = _UOp.ifElse(opResDeclare, function (rd) {
+			_UUtil.assert(isVal);
+			const returned = _util.maybeWrapInCheckContains(cx, t(_this.returned), rd.opType, 'res');
+			return _UOp.ifElse(opOut, function (o) {
+				return [_esastUtil.declare(rd, returned)].concat(o, [_util.ReturnRes]);
+			}, function () {
+				return [_esastDistAst.ReturnStatement(returned)];
+			});
+		}, function () {
+			return opOut.concat(_UOp.opIf(isVal, function () {
+				return _esastDistAst.ReturnStatement(t(_this.returned));
+			}));
+		});
+		return _esastDistAst.BlockStatement(lead.concat(body, fin));
+	}
+
+	_UUtil.implementMany(_Expression, 'transpileSubtree', {
+		Assign: function () {
+			return _esastDistSpecialize.variableDeclarationConst([_util.makeDeclarator(cx, this.loc, this.assignee, this.k, t(this.value))]);
 		},
 		// TODO:ES6 Just use native destructuring assign
-		AssignDestructure: function (_, tx) {
-			return variableDeclarationConst(makeDestructureDeclarators(tx, _.loc, _.assignees, _.isLazy, t(tx)(_.value), _.k, false));
+		AssignDestructure: function () {
+			return _esastDistSpecialize.variableDeclarationConst(_util.makeDestructureDeclarators(cx, this.loc, this.assignees, this.isLazy, t(this.value), this.k, false));
 		},
 		BlockDo: transpileBlock,
 		BlockVal: transpileBlock,
-		BlockWrap: function (_, tx) {
-			return blockWrap(_, tx, t(tx)(_.block));
+		BlockWrap: function () {
+			return blockWrap(this, t(this.block));
 		},
-		Call: function (_, tx) {
-			const anySplat = _.args.some(function (arg) {
-				return arg instanceof EExports.Splat;
+		Call: function () {
+			const anySplat = this.args.some(function (arg) {
+				return arg instanceof _Expression.Splat;
 			});
 			if (anySplat) {
-				const args = _.args.map(function (arg) {
-					return arg instanceof EExports.Splat ? msArr([t(tx)(arg.splatted)]) : t(tx)(arg);
+				const args = this.args.map(function (arg) {
+					return arg instanceof _Expression.Splat ? _util.msArr([t(arg.splatted)]) : t(arg);
 				});
-				return CallExpression(IdFunctionApplyCall, [t(tx)(_.called), LitNull, CallExpression(member(LitEmptyArray, "concat"), args)]);
-			} else return CallExpression(t(tx)(_.called), _.args.map(t(tx)));
+				return _esastDistAst.CallExpression(_util.IdFunctionApplyCall, [t(this.called), _util.LitNull, _esastDistAst.CallExpression(_esastDistUtil.member(_util.LitEmptyArray, 'concat'), args)]);
+			} else return _esastDistAst.CallExpression(t(this.called), this.args.map(t));
 		},
-		CaseDo: function (_, tx) {
-			return ifElse(_.opCased, function (cased) {
-				return BlockStatement([t(tx)(cased), caseBody(tx, _.parts, _.opElse)]);
+		CaseDo: function () {
+			var _this2 = this;
+
+			return _UOp.ifElse(this.opCased, function (cased) {
+				return _esastDistAst.BlockStatement([t(cased), caseBody(_this2.parts, _this2.opElse)]);
 			}, function () {
-				return caseBody(tx, _.parts, _.opElse);
+				return caseBody(_this2.parts, _this2.opElse);
 			});
 		},
-		CaseVal: function (_, tx) {
-			const body = caseBody(tx, _.parts, _.opElse);
-			const block = ifElse(_.opCased, function (cased) {
-				return [t(tx)(cased), body];
+		CaseVal: function () {
+			const body = caseBody(this.parts, this.opElse);
+			const block = _UOp.ifElse(this.opCased, function (cased) {
+				return [t(cased), body];
 			}, function () {
 				return [body];
 			});
-			return blockWrap(_, tx, BlockStatement(block));
+			return blockWrap(this, _esastDistAst.BlockStatement(block));
 		},
-		CaseDoPart: function (_, tx) {
-			return casePart(tx, _.test, _.result, true);
+		CaseDoPart: function () {
+			return casePart(this.test, this.result, true);
 		},
-		CaseValPart: function (_, tx) {
-			return casePart(tx, _.test, _.result, false);
+		CaseValPart: function () {
+			return casePart(this.test, this.result, false);
 		},
 		// TODO: includeInoutChecks is misnamed
-		Debug: function (_, tx) {
-			return tx.opts().includeInoutChecks() ? flatMap(_.lines, function (line) {
-				return toStatements(t(tx)(line));
+		Debug: function () {
+			return cx.opts.includeInoutChecks() ? _UBag.flatMap(this.lines, function (line) {
+				return _esastDistUtil.toStatements(t(line));
 			}) : [];
 		},
-		ObjReturn: transpileObjReturn,
-		ObjSimple: transpileObjSimple,
-		EndLoop: function (_, tx) {
-			return BreakStatement(loopId(tx.vr.endLoopToLoop.get(_)));
+		ObjReturn: function () {
+			return _transpileObj.transpileObjReturn(this, cx);
 		},
-		Fun: function (_, tx) {
+		ObjSimple: function () {
+			return _transpileObj.transpileObjSimple(this, cx);
+		},
+		EndLoop: function () {
+			return _esastDistAst.BreakStatement(loopId(vr.endLoopToLoop.get(this)));
+		},
+		Fun: function () {
 			// TODO: cache literals for small numbers
-			const nArgs = Literal(_.args.length);
-			const opDeclareRest = _.opRestArg.map(function (rest) {
-				return declare(rest, CallExpression(IdArraySliceCall, [IdArguments, nArgs]));
+			const nArgs = _esastDistAst.Literal(this.args.length);
+			const opDeclareRest = this.opRestArg.map(function (rest) {
+				return _esastUtil.declare(rest, _esastDistAst.CallExpression(_util.IdArraySliceCall, [_util.IdArguments, nArgs]));
 			});
-			const argChecks = flatMap(_.args, function (arg) {
-				return opLocalCheck(tx, arg, arg.isLazy);
+			const argChecks = _UBag.flatMap(this.args, function (arg) {
+				return _util.opLocalCheck(cx, arg, arg.isLazy);
 			});
-			const _in = flatMap(_.opIn, function (i) {
-				return toStatements(t(tx)(i));
+			const _in = _UBag.flatMap(this.opIn, function (i) {
+				return _esastDistUtil.toStatements(t(i));
 			});
 			const lead = opDeclareRest.concat(argChecks, _in);
 
-			const _out = flatMap(_.opOut, function (o) {
-				return toStatements(t(tx)(o));
+			const _out = _UBag.flatMap(this.opOut, function (o) {
+				return _esastDistUtil.toStatements(t(o));
 			});
-			const body = t(tx, lead, _.opResDeclare, _out)(_.block);
-			const args = _.args.map(t(tx));
-			return functionExpressionPlain(args, body, _.k === "~|");
+			const body = t(this.block, lead, this.opResDeclare, _out);
+			const args = this.args.map(t);
+			return _esastDistSpecialize.functionExpressionPlain(args, body, this.k === '~|');
 		},
-		Lazy: function (_, tx) {
-			return lazyWrap(t(tx)(_.value));
+		Lazy: function () {
+			return _util.lazyWrap(t(this.value));
 		},
-		ListReturn: function (_) {
-			return ArrayExpression(range(0, _.length).map(function (i) {
-				return idCached("_" + i);
+		ListReturn: function () {
+			return _esastDistAst.ArrayExpression(_UBag.range(0, this.length).map(function (i) {
+				return _esastDistUtil.idCached('_' + i);
 			}));
 		},
-		ListSimple: function (_, tx) {
-			return ArrayExpression(_.parts.map(t(tx)));
+		ListSimple: function () {
+			return _esastDistAst.ArrayExpression(this.parts.map(t));
 		},
-		ListEntry: function (_, tx) {
-			return declareSpecial("_" + _.index, t(tx)(_.value));
+		ListEntry: function () {
+			return _esastUtil.declareSpecial('_' + this.index, t(this.value));
 		},
-		ELiteral: function (_) {
-			switch (_.k) {
+		ELiteral: function () {
+			switch (this.k) {
 				case Number:
 					{
 						// TODO: Number literals should store Numbers...
-						const n = Number.parseFloat(_.value);
+						const n = Number.parseFloat(this.value);
 						// Negative numbers are not part of ES spec.
 						// http://www.ecma-international.org/ecma-262/5.1/#sec-7.8.3
-						const lit = Literal(Math.abs(n));
-						return isPositive(n) ? lit : unaryExpressionNegate(lit);
+						const lit = _esastDistAst.Literal(Math.abs(n));
+						return _UUtil.isPositive(n) ? lit : _esastDistSpecialize.unaryExpressionNegate(lit);
 					}
 				case String:
-					return Literal(_.value);
-				case "js":
-					switch (_.value) {
+					return _esastDistAst.Literal(this.value);
+				case 'js':
+					switch (this.value) {
 						// TODO:USE* Get rid of this!
-						case "msGetModule":
-							return member(IdMs, "getModule");
-						case "require":
-							return idCached("require");
+						case 'msGetModule':
+							return _esastDistUtil.member(_util.IdMs, 'getModule');
+						case 'require':
+							return _esastDistUtil.idCached('require');
 						default:
-							throw new Error("This js literal not supported.");
+							throw new Error('This js literal not supported.');
 					}
 				default:
-					throw new Error(_.k);
+					throw new Error(this.k);
 			}
 		},
-		GlobalAccess: function (_) {
-			return Identifier(_.name);
+		GlobalAccess: function () {
+			return _esastDistAst.Identifier(this.name);
 		},
-		LocalAccess: function (_, tx) {
-			return accessLocal(tx, _);
+		LocalAccess: function () {
+			return _util.accessLocal(this, vr);
 		},
-		LocalDeclare: function (_) {
-			return idForDeclareCached(_);
+		LocalDeclare: function () {
+			return _esastUtil.idForDeclareCached(this);
 		},
 		// TODO: Don't always label!
-		Loop: function (_, tx) {
-			return LabeledStatement(loopId(_), whileStatementInfinite(t(tx)(_.block)));
+		Loop: function () {
+			return _esastDistAst.LabeledStatement(loopId(this), _esastDistSpecialize.whileStatementInfinite(t(this.block)));
 		},
-		MapReturn: function (_) {
-			return msMap(flatMap(range(0, _.length), function (i) {
-				return [idCached("_k" + i.toString()), idCached("_v" + i.toString())];
+		MapReturn: function () {
+			return _util.msMap(_UBag.flatMap(_UBag.range(0, this.length), function (i) {
+				return [_esastDistUtil.idCached('_k' + i.toString()), _esastDistUtil.idCached('_v' + i.toString())];
 			}));
 		},
-		MapEntry: function (_, tx) {
-			return variableDeclarationConst([VariableDeclarator(idCached("_k" + _.index), t(tx)(_.key)), VariableDeclarator(idCached("_v" + _.index), t(tx)(_.val))]);
+		MapEntry: function () {
+			return _esastDistSpecialize.variableDeclarationConst([_esastDistAst.VariableDeclarator(_esastDistUtil.idCached('_k' + this.index), t(this.key)), _esastDistAst.VariableDeclarator(_esastDistUtil.idCached('_v' + this.index), t(this.val))]);
 		},
-		Member: function (_, tx) {
-			return member(t(tx)(_.object), _.name);
+		Member: function () {
+			return _esastDistUtil.member(t(this.object), this.name);
 		},
-		Module: transpileModule,
+		Module: function () {
+			return _transpileModule2(this, cx);
+		},
 		// TODO:ES6 Use `export default`
-		ModuleDefaultExport: function (_, tx) {
-			const m = member(IdExports, "default");
-			return AssignmentExpression("=", m, t(tx)(_.value));
+		ModuleDefaultExport: function () {
+			const m = _esastDistUtil.member(_util.IdExports, 'default');
+			return _esastDistAst.AssignmentExpression('=', m, t(this.value));
 		},
-		Quote: function (_, tx) {
+		Quote: function () {
 			// TODO:ES6 use template strings
 			const isStrLit = function (_) {
-				return _ instanceof EExports.ELiteral && _.k === String;
+				return _ instanceof _Expression.ELiteral && _.k === String;
 			};
-			const part0 = _.parts[0];
+			const part0 = this.parts[0];
 
-			var _ref = isStrLit(part0) ? [t(tx)(part0), tail(_.parts)] : [LitEmptyString, _.parts];
+			var _ref = isStrLit(part0) ? [t(part0), _UBag.tail(this.parts)] : [_util.LitEmptyString, this.parts];
 
 			var _ref2 = _slicedToArray(_ref, 2);
 
@@ -271,67 +228,67 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 			const restParts = _ref2[1];
 
 			return restParts.reduce(function (ex, _) {
-				return binaryExpressionPlus(ex, isStrLit(_) ? t(tx)(_) : msShow([t(tx)(_)]));
+				return _esastDistSpecialize.binaryExpressionPlus(ex, isStrLit(_) ? t(_) : _util.msShow([t(_)]));
 			}, first);
 		},
-		Special: function (_) {
+		Special: function () {
 			// Make new objects because we will assign `loc` to them.
-			switch (_.k) {
-				case "contains":
-					return member(IdMs, "contains");
-				case "debugger":
-					return DebuggerStatement();
-				case "sub":
-					return member(IdMs, "sub");
-				case "this":
-					return ThisExpression();
-				case "this-module-directory":
-					return Identifier("__dirname");
+			switch (this.k) {
+				case 'contains':
+					return _esastDistUtil.member(_util.IdMs, 'contains');
+				case 'debugger':
+					return _esastDistAst.DebuggerStatement();
+				case 'sub':
+					return _esastDistUtil.member(_util.IdMs, 'sub');
+				case 'this':
+					return _esastDistAst.ThisExpression();
+				case 'this-module-directory':
+					return _esastDistAst.Identifier('__dirname');
 				default:
-					throw new Error(_.k);
+					throw new Error(this.k);
 			}
 		},
-		Splat: function (_, tx) {
-			return tx.fail(_.loc, "Splat must appear as argument to a call.");
+		Splat: function () {
+			cx.fail(this.loc, 'Splat must appear as argument to a call.');
 		},
-		Yield: function (_, tx) {
-			return yieldExpressionNoDelegate(t(tx)(_.yielded));
+		Yield: function () {
+			return _esastDistSpecialize.yieldExpressionNoDelegate(t(this.yielded));
 		},
-		YieldTo: function (_, tx) {
-			return yieldExpressionDelegate(t(tx)(_.yieldedTo));
+		YieldTo: function () {
+			return _esastDistSpecialize.yieldExpressionDelegate(t(this.yieldedTo));
 		}
 	});
 
-	const blockWrap = function (_, tx, block) {
-		const g = tx.vr.eIsInGenerator(_);
-		const invoke = callExpressionThunk(functionExpressionThunk(block, g));
-		return g ? yieldExpressionDelegate(invoke) : invoke;
+	const blockWrap = function (_, block) {
+		const g = vr.eIsInGenerator(_);
+		const invoke = _esastDistSpecialize.callExpressionThunk(_esastDistSpecialize.functionExpressionThunk(block, g));
+		return g ? _esastDistSpecialize.yieldExpressionDelegate(invoke) : invoke;
 	};
 
-	const caseFail = SwitchCase(null, [throwError("No branch of `case` matches.")]);
-	function caseBody(tx, parts, opElse) {
-		const elze = ifElse(opElse, function (_) {
-			return SwitchCase(null, [t(tx)(_)]);
+	const caseFail = _esastDistAst.SwitchCase(null, [_esastDistUtil.throwError('No branch of `case` matches.')]);
+	function caseBody(parts, opElse) {
+		const elze = _UOp.ifElse(opElse, function (_) {
+			return _esastDistAst.SwitchCase(null, [t(_)]);
 		}, function () {
 			return caseFail;
 		});
-		const cases = push(parts.map(function (part) {
-			return t(tx)(part);
+		const cases = _UBag.push(parts.map(function (part) {
+			return t(part);
 		}), elze);
-		return switchStatementOnTrue(cases);
+		return _esastDistSpecialize.switchStatementOnTrue(cases);
 	}
 
-	function casePart(tx, test, result, needBreak) {
-		const checkedTest = tx.opts().includeCaseChecks() ? msBool([t(tx)(test)]) : t(tx)(test);
-		const lines = needBreak ? [t(tx)(result), Break] : [t(tx)(result)];
-		return SwitchCase(checkedTest, lines);
+	function casePart(test, result, needBreak) {
+		const checkedTest = cx.opts.includeCaseChecks() ? _util.msBool([t(test)]) : t(test);
+		const lines = needBreak ? [t(result), _util.Break] : [t(result)];
+		return _esastDistAst.SwitchCase(checkedTest, lines);
 	}
 
 	// TODO: MOVE
 
 	const loopId = function (loop) {
-		type(loop.loc.start.line, Number);
-		return idCached("loop" + loop.loc.start.line);
+		_type(loop.loc.start.line, Number);
+		return _esastDistUtil.idCached('loop' + loop.loc.start.line);
 	};
 });
 //# sourceMappingURL=../../../../meta/compile/private/transpile/transpile.js.map

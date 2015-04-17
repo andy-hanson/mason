@@ -1,75 +1,34 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(["exports", "esast/dist/ast", "esast/dist/Loc", "esast/dist/util", "../../Expression", "../Lang", "../U/Bag", "../U/Op", "../U/type", "../U/util", "./esast-util", "./Tx"], function (exports, _esastDistAst, _esastDistLoc, _esastDistUtil, _Expression, _Lang, _UBag, _UOp, _UType, _UUtil, _esastUtil, _Tx) {
-	"use strict";
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'esast/dist/ast', 'esast/dist/Loc', 'esast/dist/util', '../../Expression', '../Lang', '../U/Bag', '../U/Op', '../U/type', '../U/util', '../Vr', './transpile', './esast-util'], function (exports, _esastDistAst, _esastDistLoc, _esastDistUtil, _Expression, _Lang, _UBag, _UOp, _UType, _UUtil, _Vr, _transpile, _esastUtil) {
+	'use strict';
 
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-	Object.defineProperty(exports, "__esModule", {
+	Object.defineProperty(exports, '__esModule', {
 		value: true
 	});
-	var ArrayExpression = _esastDistAst.ArrayExpression;
-	var AssignmentExpression = _esastDistAst.AssignmentExpression;
-	var BreakStatement = _esastDistAst.BreakStatement;
-	var CallExpression = _esastDistAst.CallExpression;
-	var ExpressionStatement = _esastDistAst.ExpressionStatement;
-	var Identifier = _esastDistAst.Identifier;
-	var Literal = _esastDistAst.Literal;
-	var ReturnStatement = _esastDistAst.ReturnStatement;
-	var VariableDeclarator = _esastDistAst.VariableDeclarator;
 
-	var Loc = _interopRequire(_esastDistLoc);
+	var _Loc = _interopRequire(_esastDistLoc);
 
-	var member = _esastDistUtil.member;
-	var thunk = _esastDistUtil.thunk;
+	var _Expression2 = _interopRequire(_Expression);
 
-	var Expression = _interopRequire(_Expression);
+	var _type = _interopRequire(_UType);
 
-	var LocalAccess = _Expression.LocalAccess;
-	var LocalDeclare = _Expression.LocalDeclare;
-	var KAssign = _Lang.KAssign;
-	var flatMap = _UBag.flatMap;
-	var isEmpty = _UBag.isEmpty;
-	var unshift = _UBag.unshift;
-	var ifElse = _UOp.ifElse;
-	var None = _UOp.None;
+	var _Vr2 = _interopRequire(_Vr);
 
-	var type = _interopRequire(_UType);
-
-	var assert = _UUtil.assert;
-	var idForDeclareCached = _esastUtil.idForDeclareCached;
-	var idForDeclareNew = _esastUtil.idForDeclareNew;
-
-	var Tx = _interopRequire(_Tx);
-
-	const t = function (tx, arg, arg2, arg3) {
-		return function (expr) {
-			const ast = expr.transpileSubtree(expr, tx, arg, arg2, arg3);
-			if (tx.opts().sourceMap()) {
-				const setLoc = function (_) {
-					_.loc = expr.loc;
-				};
-				if (ast instanceof Array)
-					// This is only allowed inside of Blocks, which use `toStatements`.
-					ast.forEach(setLoc);else setLoc(ast);
-			}
-			return ast;
-		};
-	};
-
-	exports.t = t;
-	const LitEmptyArray = ArrayExpression([]),
-	      LitEmptyString = Literal(""),
-	      LitNull = Literal(null),
-	      LitStrDisplayName = Literal("displayName"),
-	      Break = BreakStatement(),
-	      ReturnRes = ReturnStatement(Identifier("res")),
-	      IdDefine = Identifier("define"),
-	      IdDisplayName = Identifier("displayName"),
-	      IdExports = Identifier("exports"),
-	      IdArguments = Identifier("arguments"),
-	      IdArraySliceCall = member(member(LitEmptyArray, "slice"), "call"),
-	      IdFunctionApplyCall = member(member(Identifier("Function"), "apply"), "call"),
-	      IdModule = Identifier("module"),
-	      IdMs = Identifier("_ms");
+	const LitEmptyArray = _esastDistAst.ArrayExpression([]),
+	      LitEmptyString = _esastDistAst.Literal(''),
+	      LitNull = _esastDistAst.Literal(null),
+	      LitStrDisplayName = _esastDistAst.Literal('displayName'),
+	      Break = _esastDistAst.BreakStatement(),
+	      ReturnRes = _esastDistAst.ReturnStatement(_esastDistAst.Identifier('res')),
+	      IdDefine = _esastDistAst.Identifier('define'),
+	      IdDisplayName = _esastDistAst.Identifier('displayName'),
+	      IdExports = _esastDistAst.Identifier('exports'),
+	      IdArguments = _esastDistAst.Identifier('arguments'),
+	      IdArraySliceCall = _esastDistUtil.member(_esastDistUtil.member(LitEmptyArray, 'slice'), 'call'),
+	      IdFunctionApplyCall = _esastDistUtil.member(_esastDistUtil.member(_esastDistAst.Identifier('Function'), 'apply'), 'call'),
+	      IdModule = _esastDistAst.Identifier('module'),
+	      IdMs = _esastDistAst.Identifier('_ms');
 
 	exports.LitEmptyArray = LitEmptyArray;
 	exports.LitEmptyString = LitEmptyString;
@@ -86,25 +45,25 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	exports.IdModule = IdModule;
 	exports.IdMs = IdMs;
 	const ms = function (name) {
-		const m = member(IdMs, name);
+		const m = _esastDistUtil.member(IdMs, name);
 		return function (args) {
-			return CallExpression(m, args);
+			return _esastDistAst.CallExpression(m, args);
 		};
 	};
-	const msGetDefaultExport = ms("getDefaultExport"),
-	      msGet = ms("get"),
-	      msGetModule = ms("getModule"),
-	      msLazyGetModule = ms("lazyGetModule"),
-	      msArr = ms("arr"),
-	      msBool = ms("bool"),
-	      msLset = ms("lset"),
-	      msSet = ms("set"),
-	      msMap = ms("map"),
-	      msShow = ms("show"),
-	      msCheckContains = ms("checkContains"),
-	      msUnlazy = ms("unlazy"),
-	      msLazy = ms("lazy"),
-	      msLazyGet = ms("lazyProp");
+	const msGetDefaultExport = ms('getDefaultExport'),
+	      msGet = ms('get'),
+	      msGetModule = ms('getModule'),
+	      msLazyGetModule = ms('lazyGetModule'),
+	      msArr = ms('arr'),
+	      msBool = ms('bool'),
+	      msLset = ms('lset'),
+	      msSet = ms('set'),
+	      msMap = ms('map'),
+	      msShow = ms('show'),
+	      msCheckContains = ms('checkContains'),
+	      msUnlazy = ms('unlazy'),
+	      msLazy = ms('lazy'),
+	      msLazyGet = ms('lazyProp');
 
 	exports.msGetDefaultExport = msGetDefaultExport;
 	exports.msGet = msGet;
@@ -120,43 +79,43 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	exports.msUnlazy = msUnlazy;
 	exports.msLazy = msLazy;
 	exports.msLazyGet = msLazyGet;
-	const makeDestructureDeclarators = function (tx, loc, assignees, isLazy, value, k, isModule) {
-		type(tx, Tx, loc, Loc, assignees, [LocalDeclare], isLazy, Boolean, value, Object, k, KAssign, isModule, Boolean);
-		const destructuredName = "_$" + loc.start.line;
-		const idDestructured = Identifier(destructuredName);
+	const makeDestructureDeclarators = function (cx, loc, assignees, isLazy, value, k, isModule) {
+		_type(loc, _Loc, assignees, [_Expression.LocalDeclare], isLazy, Boolean, value, Object, k, _Lang.KAssign, isModule, Boolean);
+		const destructuredName = '_$' + loc.start.line;
+		const idDestructured = _esastDistAst.Identifier(destructuredName);
 		const declarators = assignees.map(function (assignee) {
 			// TODO: Don't compile it if it's never accessed
-			const get = getMember(tx, idDestructured, assignee.name, isLazy, isModule);
-			return makeDeclarator(tx, assignee.loc, assignee, k, get, isLazy);
+			const get = getMember(cx, idDestructured, assignee.name, isLazy, isModule);
+			return makeDeclarator(cx, assignee.loc, assignee, k, get, isLazy);
 		});
 		// Getting lazy module is done by ms.lazyGetModule.
 		const val = isLazy && !isModule ? lazyWrap(value) : value;
-		return unshift(VariableDeclarator(idDestructured, val), declarators);
+		return _UBag.unshift(_esastDistAst.VariableDeclarator(idDestructured, val), declarators);
 	};
 
 	exports.makeDestructureDeclarators = makeDestructureDeclarators;
-	const getMember = function (tx, astObject, gotName, isLazy, isModule) {
-		type(astObject, Object, gotName, String, isLazy, Boolean, isModule, Boolean);
-		if (isLazy) return msLazyGet([astObject, Literal(gotName)]);else if (isModule && tx.opts().includeUseChecks()) return msGet([astObject, Literal(gotName)]);else return member(astObject, gotName);
+	const getMember = function (cx, astObject, gotName, isLazy, isModule) {
+		_type(astObject, Object, gotName, String, isLazy, Boolean, isModule, Boolean);
+		if (isLazy) return msLazyGet([astObject, _esastDistAst.Literal(gotName)]);else if (isModule && cx.opts.includeUseChecks()) return msGet([astObject, _esastDistAst.Literal(gotName)]);else return _esastDistUtil.member(astObject, gotName);
 	};
 
-	const makeDeclarator = function (tx, loc, assignee, k, value, valueIsAlreadyLazy) {
-		type(tx, Tx, loc, Loc, assignee, Expression, k, KAssign, value, Object);
+	const makeDeclarator = function (cx, loc, assignee, k, value, valueIsAlreadyLazy) {
+		_type(loc, _Loc, assignee, _Expression2, k, _Lang.KAssign, value, Object);
 		// TODO: assert(isEmpty(assignee.opType))
 		// or TODO: Allow type check on lazy value?
-		value = assignee.isLazy ? value : maybeWrapInCheckContains(value, tx, assignee.opType, assignee.name);
+		value = assignee.isLazy ? value : maybeWrapInCheckContains(cx, value, assignee.opType, assignee.name);
 		switch (k) {
-			case "=":case ". ":case "<~":case "<~~":
+			case '=':case '. ':case '<~':case '<~~':
 				{
 					const val = assignee.isLazy && !valueIsAlreadyLazy ? lazyWrap(value) : value;
-					assert(assignee.isLazy || !valueIsAlreadyLazy);
-					return VariableDeclarator(idForDeclareCached(assignee), val);
+					_UUtil.assert(assignee.isLazy || !valueIsAlreadyLazy);
+					return _esastDistAst.VariableDeclarator(_esastUtil.idForDeclareCached(assignee), val);
 				}
-			case "export":
+			case 'export':
 				{
 					// TODO:ES6
-					assert(!assignee.isLazy);
-					return VariableDeclarator(idForDeclareCached(assignee), AssignmentExpression("=", member(IdExports, assignee.name), value));
+					_UUtil.assert(!assignee.isLazy);
+					return _esastDistAst.VariableDeclarator(_esastUtil.idForDeclareCached(assignee), _esastDistAst.AssignmentExpression('=', _esastDistUtil.member(IdExports, assignee.name), value));
 				}
 			default:
 				throw new Error(k);
@@ -164,38 +123,37 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	};
 
 	exports.makeDeclarator = makeDeclarator;
-	const accessLocal = function (tx, localAccess) {
-		type(tx, Tx, localAccess, LocalAccess);
-		return accessLocalDeclare(tx.vr.accessToLocal.get(localAccess));
+	const accessLocal = function (localAccess, vr) {
+		_type(localAccess, _Expression.LocalAccess, vr, _Vr2);
+		return accessLocalDeclare(vr.accessToLocal.get(localAccess));
 	};
 	exports.accessLocal = accessLocal;
 	const accessLocalDeclare = function (localDeclare) {
-		type(localDeclare, LocalDeclare);
-		return localDeclare.isLazy ? msUnlazy([idForDeclareCached(localDeclare)]) : idForDeclareNew(localDeclare);
+		_type(localDeclare, _Expression.LocalDeclare);
+		return localDeclare.isLazy ? msUnlazy([_esastUtil.idForDeclareCached(localDeclare)]) : _esastUtil.idForDeclareNew(localDeclare);
 	};
 
 	exports.accessLocalDeclare = accessLocalDeclare;
-	const maybeWrapInCheckContains = function (ast, tx, opType, name) {
-		return tx.opts().includeTypeChecks() ? ifElse(opType, function (typ) {
-			return msCheckContains([t(tx)(typ), ast, Literal(name)]);
+	const maybeWrapInCheckContains = function (cx, ast, opType, name) {
+		return cx.opts.includeTypeChecks() ? _UOp.ifElse(opType, function (typ) {
+			return msCheckContains([_transpile.t(typ), ast, _esastDistAst.Literal(name)]);
 		}, function () {
 			return ast;
 		}) : ast;
 	};
 
 	exports.maybeWrapInCheckContains = maybeWrapInCheckContains;
-	const opLocalCheck = function (tx, local, isLazy) {
-		type(tx, Tx, local, LocalDeclare, isLazy, Boolean);
+	const opLocalCheck = function (cx, local, isLazy) {
+		_type(local, _Expression.LocalDeclare, isLazy, Boolean);
 		// TODO: Way to typecheck lazies
-		if (!tx.opts().includeTypeChecks() || isLazy) return None;
-		return local.opType.map(function (typ) {
-			return ExpressionStatement(msCheckContains([t(tx)(typ), accessLocalDeclare(local), Literal(local.name)]));
+		if (!cx.opts.includeTypeChecks() || isLazy) return _UOp.None;else return local.opType.map(function (typ) {
+			return _esastDistAst.ExpressionStatement(msCheckContains([_transpile.t(typ), accessLocalDeclare(local), _esastDistAst.Literal(local.name)]));
 		});
 	};
 
 	exports.opLocalCheck = opLocalCheck;
 	const lazyWrap = function (value) {
-		return msLazy([thunk(value)]);
+		return msLazy([_esastDistUtil.thunk(value)]);
 	};
 	exports.lazyWrap = lazyWrap;
 });

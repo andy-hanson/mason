@@ -1,5 +1,5 @@
 "use strict";
-if (typeof define !== "function") var define = require("amdefine")(module);
+if ((typeof define !== "function")) var define = require("amdefine")(module);
 define([ "exports", "./Fun", "./js", "./Obj", "./Str", "./Type/Obj-Type", "./Type/Pred-Type", "./bang", "./compare", "./Type/Type" ], function(exports, Fun_0, js_1, Obj_2, Str_3, Obj_45Type_4, Pred_45Type_5, _33_6, compare_7, Type_8) {
 	exports._get = _ms.lazy(function() {
 		const Fun = _ms.getDefaultExport(Fun_0), _$3 = _ms.getModule(js_1), js_45sub = _ms.get(_$3, "js-sub"), _$4 = _ms.getModule(Obj_2), Obj_45Key = _ms.get(_$4, "Obj-Key"), Str = _ms.getDefaultExport(Str_3), Obj_45Type = _ms.getDefaultExport(Obj_45Type_4), _$7 = _ms.getModule(Pred_45Type_5), Any = _ms.get(_$7, "Any"), _33 = _ms.lazy(function() {
@@ -28,8 +28,8 @@ define([ "exports", "./Fun", "./js", "./Obj", "./Str", "./Type/Obj-Type", "./Typ
 			}();
 			const extensible = true;
 			const make_45callable = function(_) {
-				const impl = "a[\"" + _ms.show(_["impl-name"]) + "\"]";
-				return Fun("a", "b", "c", "d", "switch (arguments.length) {\n\tcase 0: throw new Error(\"Js-Methods always need at least one argument.\")\n\tcase 1: return " + _ms.show(impl) + "()\n\tcase 2: return " + _ms.show(impl) + "(b)\n\tcase 3: return " + _ms.show(impl) + "(b, c)\n\tcase 4: return " + _ms.show(impl) + "(b, c, d)\n\tcase 5: throw new Error(\"Does not support this many arguments.\")\n}")
+				const impl = (("a[\"" + _ms.show(_["impl-name"])) + "\"]");
+				return Fun("a", "b", "c", "d", (((((((("switch (arguments.length) {\n\tcase 0: throw new Error(\"Js-Methods always need at least one argument.\")\n\tcase 1: return " + _ms.show(impl)) + "()\n\tcase 2: return ") + _ms.show(impl)) + "(b)\n\tcase 3: return ") + _ms.show(impl)) + "(b, c)\n\tcase 4: return ") + _ms.show(impl)) + "(b, c, d)\n\tcase 5: throw new Error(\"Does not support this many arguments.\")\n}"))
 			};
 			return {
 				doc: doc,
@@ -52,7 +52,7 @@ define([ "exports", "./Fun", "./js", "./Obj", "./Str", "./Type/Obj-Type", "./Typ
 				_ms.checkContains(Obj_45Key, name, "name");
 				const impl = js_45sub(target, name);
 				_ms.unlazy(_33)(_ms.unlazy(contains_63)(Fun, impl), _ms.lazy(function() {
-					return "Js-Method " + _ms.show(name) + " not implemented by " + _ms.show(target) + "."
+					return (((("Js-Method " + _ms.show(name)) + " not implemented by ") + _ms.show(target)) + ".")
 				}));
 				return impl.apply(target, args)
 			}, "doc", doc, "test", test, "displayName", "send")

@@ -1,5 +1,5 @@
 "use strict";
-if (typeof define !== "function") var define = require("amdefine")(module);
+if ((typeof define !== "function")) var define = require("amdefine")(module);
 define([ "exports", "./at/at", "./at/at-Type", "./at/q", "./Bool", "./Fun", "./Js-Method", "./private/js-impl", "./Obj", "./Type/Type", "./Type/Pred-Type", "./bang", "./at/Seq", "./at/Stream", "./compare" ], function(exports, _64_0, _64_45Type_1, _63_2, Bool_3, Fun_4, Js_45Method_5, js_45impl_6, Obj_7, Type_8, Pred_45Type_9, _33_10, Seq_11, Stream_12, compare_13) {
 	exports._get = _ms.lazy(function() {
 		const _64 = _ms.getDefaultExport(_64_0), _$2 = _ms.getModule(_64_0), iterator = _ms.get(_$2, "iterator"), _$3 = _ms.getModule(_64_45Type_1), empty = _ms.get(_$3, "empty"), _63 = _ms.getDefaultExport(_63_2), Bool = _ms.getDefaultExport(Bool_3), _$5 = _ms.getModule(Bool_3), and = _ms.get(_$5, "and"), Fun = _ms.getDefaultExport(Fun_4), _$6 = _ms.getModule(Fun_4), call = _ms.get(_$6, "call"), Js_45Method = _ms.getDefaultExport(Js_45Method_5), _$8 = _ms.getModule(js_45impl_6), eachGenerator = _ms.get(_$8, "eachGenerator"), Obj = _ms.getDefaultExport(Obj_7), _$10 = _ms.getModule(Type_8), contains_63 = _ms.get(_$10, "contains?"), Pred_45Type = _ms.getDefaultExport(Pred_45Type_9), _$11 = _ms.getModule(Pred_45Type_9), Any = _ms.get(_$11, "Any"), _33 = _ms.lazy(function() {

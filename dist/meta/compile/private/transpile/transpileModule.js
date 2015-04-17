@@ -1,47 +1,9 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(["exports", "module", "esast/dist/ast", "esast/dist/util", "esast/dist/specialize", "../../Expression", "../manglePath", "../U/Bag", "../U/Op", "./esast-util", "./util"], function (exports, module, _esastDistAst, _esastDistUtil, _esastDistSpecialize, _Expression, _manglePath, _UBag, _UOp, _esastUtil, _util) {
-	"use strict";
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'module', 'esast/dist/ast', 'esast/dist/util', 'esast/dist/specialize', '../manglePath', '../U/Bag', '../U/Op', './esast-util', './transpile', './util'], function (exports, module, _esastDistAst, _esastDistUtil, _esastDistSpecialize, _manglePath, _UBag, _UOp, _esastUtil, _transpile, _util) {
+	'use strict';
 
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-	var ArrayExpression = _esastDistAst.ArrayExpression;
-	var BinaryExpression = _esastDistAst.BinaryExpression;
-	var BlockStatement = _esastDistAst.BlockStatement;
-	var CallExpression = _esastDistAst.CallExpression;
-	var Identifier = _esastDistAst.Identifier;
-	var ExpressionStatement = _esastDistAst.ExpressionStatement;
-	var FunctionExpression = _esastDistAst.FunctionExpression;
-	var IfStatement = _esastDistAst.IfStatement;
-	var Literal = _esastDistAst.Literal;
-	var ObjectExpression = _esastDistAst.ObjectExpression;
-	var Program = _esastDistAst.Program;
-	var ReturnStatement = _esastDistAst.ReturnStatement;
-	var UnaryExpression = _esastDistAst.UnaryExpression;
-	var VariableDeclaration = _esastDistAst.VariableDeclaration;
-	var VariableDeclarator = _esastDistAst.VariableDeclarator;
-	var idCached = _esastDistUtil.idCached;
-	var member = _esastDistUtil.member;
-	var assignmentExpressionPlain = _esastDistSpecialize.assignmentExpressionPlain;
-	var UseDo = _Expression.UseDo;
-
-	var manglePath = _interopRequire(_manglePath);
-
-	var flatMap = _UBag.flatMap;
-	var isEmpty = _UBag.isEmpty;
-	var last = _UBag.last;
-	var push = _UBag.push;
-	var None = _UOp.None;
-	var opIf = _UOp.opIf;
-	var idForDeclareCached = _esastUtil.idForDeclareCached;
-	var t = _util.t;
-	var IdDefine = _util.IdDefine;
-	var IdExports = _util.IdExports;
-	var IdModule = _util.IdModule;
-	var lazyWrap = _util.lazyWrap;
-	var msGetModule = _util.msGetModule;
-	var msLazyGetModule = _util.msLazyGetModule;
-	var msGetDefaultExport = _util.msGetDefaultExport;
-	var makeDestructureDeclarators = _util.makeDestructureDeclarators;
-	var msLazy = _util.msLazy;
+	var _manglePath2 = _interopRequire(_manglePath);
 
 	/*
  'use strict';
@@ -60,56 +22,56 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
  })
  */
 
-	module.exports = function (_, tx) {
+	module.exports = function (_, cx) {
 		const allUses = _.doUses.concat(_.uses, _.debugUses);
-		const amdNames = ArrayExpression(AmdFirstUses.concat(allUses.map(function (use) {
-			return Literal(manglePath(use.path, tx));
+		const amdNames = _esastDistAst.ArrayExpression(AmdFirstUses.concat(allUses.map(function (use) {
+			return _esastDistAst.Literal(_manglePath2(use.path));
 		})));
 		const useIdentifiers = allUses.map(useIdentifier);
 		const amdArgs = AmdFirstArgs.concat(useIdentifiers);
 		const useDos = _.doUses.map(function (use, i) {
-			const d = ExpressionStatement(msGetModule([useIdentifiers[i]]));
+			const d = _esastDistAst.ExpressionStatement(_util.msGetModule([useIdentifiers[i]]));
 			d.loc = use.loc;
 			return d;
 		});
-		const allUseDeclarators = flatMap(_.uses.concat(_.debugUses), function (use, i) {
-			return useDeclarators(tx, use, useIdentifiers[i + _.doUses.length]);
+		const allUseDeclarators = _UBag.flatMap(_.uses.concat(_.debugUses), function (use, i) {
+			return useDeclarators(cx, use, useIdentifiers[i + _.doUses.length]);
 		});
-		const opUseDeclare = opIf(!isEmpty(allUseDeclarators), function () {
-			return VariableDeclaration("const", allUseDeclarators);
+		const opUseDeclare = _UOp.opIf(!_UBag.isEmpty(allUseDeclarators), function () {
+			return _esastDistAst.VariableDeclaration('const', allUseDeclarators);
 		});
 
 		// TODO: Some way of determining when it's OK for a module to not be lazy.
-		const isLazy = tx.opts().lazyModule();
+		const isLazy = cx.opts.lazyModule();
 
-		const lead = useDos.concat(opUseDeclare, opIf(isLazy, function () {
+		const lead = useDos.concat(opUseDeclare, _UOp.opIf(isLazy, function () {
 			return DeclareExports;
 		}));
-		const trail = [ReturnStatement(IdExports)];
-		const moduleBody = t(tx, lead, None, trail)(_.block);
-		const body = isLazy ? BlockStatement([lazyBody(moduleBody)]) : moduleBody;
+		const trail = [_esastDistAst.ReturnStatement(_util.IdExports)];
+		const moduleBody = _transpile.t(_.block, lead, _UOp.None, trail);
+		const body = isLazy ? _esastDistAst.BlockStatement([lazyBody(moduleBody)]) : moduleBody;
 
-		const doDefine = ExpressionStatement(CallExpression(IdDefine, [amdNames, FunctionExpression(null, amdArgs, body)]));
+		const doDefine = _esastDistAst.ExpressionStatement(_esastDistAst.CallExpression(_util.IdDefine, [amdNames, _esastDistAst.FunctionExpression(null, amdArgs, body)]));
 
-		return Program([UseStrict].concat(opIf(tx.opts().amdefine(), function () {
+		return _esastDistAst.Program([UseStrict].concat(_UOp.opIf(cx.opts.amdefine(), function () {
 			return AmdefineHeader;
 		}), [doDefine]));
 	};
 
-	const useDeclarators = function (tx, _, moduleIdentifier) {
+	const useDeclarators = function (cx, _, moduleIdentifier) {
 		// TODO: Could be neater about this
-		const isLazy = (isEmpty(_.used) ? _.opUseDefault[0] : _.used[0]).isLazy;
-		const value = (isLazy ? msLazyGetModule : msGetModule)([moduleIdentifier]);
+		const isLazy = (_UBag.isEmpty(_.used) ? _.opUseDefault[0] : _.used[0]).isLazy;
+		const value = (isLazy ? _util.msLazyGetModule : _util.msGetModule)([moduleIdentifier]);
 
 		const usedDefault = _.opUseDefault.map(function (def) {
-			const defexp = msGetDefaultExport([moduleIdentifier]);
-			const val = isLazy ? lazyWrap(defexp) : defexp;
-			const vd = VariableDeclarator(idForDeclareCached(def), val);
+			const defexp = _util.msGetDefaultExport([moduleIdentifier]);
+			const val = isLazy ? _util.lazyWrap(defexp) : defexp;
+			const vd = _esastDistAst.VariableDeclarator(_esastUtil.idForDeclareCached(def), val);
 			vd.loc = def.loc;
 			return vd;
 		});
 
-		const usedDestruct = isEmpty(_.used) ? [] : makeDestructureDeclarators(tx, _.loc, _.used, isLazy, value, "=", true);
+		const usedDestruct = _UBag.isEmpty(_.used) ? [] : _util.makeDestructureDeclarators(cx, _.loc, _.used, isLazy, value, '=', true);
 		usedDestruct.forEach(function (_) {
 			return _.loc = _.loc;
 		});
@@ -118,21 +80,21 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	};
 
 	const useIdentifier = function (use, i) {
-		return idCached("" + last(use.path.split("/")) + "_" + i);
+		return _esastDistUtil.idCached('' + _UBag.last(use.path.split('/')) + '_' + i);
 	},
 	     
 
 	// const exports = { }
-	DeclareExports = VariableDeclaration("const", [VariableDeclarator(IdExports, ObjectExpression([]))]),
+	DeclareExports = _esastDistAst.VariableDeclaration('const', [_esastDistAst.VariableDeclarator(_util.IdExports, _esastDistAst.ObjectExpression([]))]),
 	      lazyBody = function (body) {
-		return ExpressionStatement(assignmentExpressionPlain(member(IdExports, "_get"), msLazy([FunctionExpression(null, [], body)])));
+		return _esastDistAst.ExpressionStatement(_esastDistSpecialize.assignmentExpressionPlain(_esastDistUtil.member(_util.IdExports, '_get'), _util.msLazy([_esastDistAst.FunctionExpression(null, [], body)])));
 	},
 	     
 
 	// if (typeof define !== 'function') var define = require('amdefine')(module)
-	AmdefineHeader = IfStatement(BinaryExpression("!==", UnaryExpression("typeof", IdDefine), Literal("function")), VariableDeclaration("var", [VariableDeclarator(IdDefine, CallExpression(CallExpression(Identifier("require"), [Literal("amdefine")]), [IdModule]))])),
-	      UseStrict = ExpressionStatement(Literal("use strict")),
-	      AmdFirstUses = [Literal("exports")],
-	      AmdFirstArgs = [IdExports];
+	AmdefineHeader = _esastDistAst.IfStatement(_esastDistAst.BinaryExpression('!==', _esastDistAst.UnaryExpression('typeof', _util.IdDefine), _esastDistAst.Literal('function')), _esastDistAst.VariableDeclaration('var', [_esastDistAst.VariableDeclarator(_util.IdDefine, _esastDistAst.CallExpression(_esastDistAst.CallExpression(_esastDistAst.Identifier('require'), [_esastDistAst.Literal('amdefine')]), [_util.IdModule]))])),
+	      UseStrict = _esastDistAst.ExpressionStatement(_esastDistAst.Literal('use strict')),
+	      AmdFirstUses = [_esastDistAst.Literal('exports')],
+	      AmdFirstArgs = [_util.IdExports];
 });
 //# sourceMappingURL=../../../../meta/compile/private/transpile/transpileModule.js.map
