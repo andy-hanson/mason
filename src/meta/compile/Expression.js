@@ -1,7 +1,7 @@
+import tuple from 'esast/dist/private/tuple'
 import Loc from 'esast/dist/Loc'
 import { JsGlobals, KAssign, KFun, SpecialKeywords } from './private/Lang'
 import Op, { None } from './private/U/Op'
-import { tuple } from './private/U/types'
 import { newSet } from './private/U/util'
 
 export default class Expression { }
@@ -11,97 +11,98 @@ export class Do extends Expression { }
 // These can appear in any expression.
 export class Val extends Expression { }
 
-// TODO:ES6 splat
-const ee = function() { return tuple(Expression, 'loc', Loc, ...arguments) }
-const ed = function() { return tuple(Do, 'loc', Loc, ...arguments) }
-const ev = function() { return tuple(Val, 'loc', Loc, ...arguments) }
+const makeType = superType => (name, ...namesTypes) =>
+	tuple(name, superType, 'doc', [ 'loc', Loc ].concat(namesTypes))
+const
+	ee = makeType(Expression), ed = makeType(Do), ev = makeType(Val)
 
 // TODO: Get rid of null
 const KSpecial = newSet(SpecialKeywords, [ 'contains', 'debugger', 'sub', 'null' ])
 
 export const
-	Debug = ed('lines', [Expression]),
-	BlockDo = ed('lines', [Expression]),
-	BlockVal = ed('lines', [Expression], 'returned', Val),
-	ModuleDefaultExport = ed('value', Val),
+	Debug = ed('Debug', 'lines', [Expression]),
+	BlockDo = ed('BlockDo', 'lines', [Expression]),
+	BlockVal = ed('BlockVal', 'lines', [Expression], 'returned', Val),
+	ModuleDefaultExport = ed('ModuleDefaultExport', 'value', Val),
 	LocalDeclare = Object.assign(
-		ee('name', String, 'opType', Op(Val), 'isLazy', Boolean, 'okToNotUse', Boolean),
+		ee('LocalDeclare',
+			'name', String, 'opType', Op(Val), 'isLazy', Boolean, 'okToNotUse', Boolean),
 		{
 			focus: loc => LocalDeclare(loc, '_', None, false, false),
 			res: (loc, opType) => LocalDeclare(loc, 'res', opType, false, true)
 		}),
 	Assign = Object.assign(
-		ed('assignee', LocalDeclare, 'k', KAssign, 'value', Val),
+		ed('Assign', 'assignee', LocalDeclare, 'k', KAssign, 'value', Val),
 		{ focus: (loc, value) => Assign(loc, LocalDeclare.focus(loc), '=', value) }),
-	AssignDestructure = ed(
+	AssignDestructure = ed('AssignDestructure',
 		'assignees', [LocalDeclare],
 		'k', KAssign,
 		'value', Val,
 		'isLazy', Boolean),
 	LocalAccess = Object.assign(
-		ev('name', String),
+		ev('LocalAccess', 'name', String),
 		{ focus: loc => LocalAccess(loc, '_') }),
 	GlobalAccess = Object.assign(
-		ev('name', JsGlobals),
+		ev('GlobalAccess', 'name', JsGlobals),
 		{
 			null: loc => GlobalAccess(loc, 'null'),
 			true: loc => GlobalAccess(loc, 'true')
 		}),
 	// Module
-	UseDo = ee('path', String),
-	Use = ee('path', String, 'used', [LocalDeclare], 'opUseDefault', Op(LocalDeclare)),
+	UseDo = ee('UseDo', 'path', String),
+	Use = ee('Use', 'path', String, 'used', [LocalDeclare], 'opUseDefault', Op(LocalDeclare)),
 	// `block` will contain ModuleExport and ModuleDefaultExport_s
 	// TODO: BlockVal and don't have `exports` object
-	Module = ee('doUses', [UseDo], 'uses', [Use], 'debugUses', [Use], 'block', BlockDo),
+	Module = ee('Module', 'doUses', [UseDo], 'uses', [Use], 'debugUses', [Use], 'block', BlockDo),
 
 	// Data
 	// TODO: Don't store index here, do it in Vr
-	ListEntry = ed('value', Val, 'index', Number),
+	ListEntry = ed('ListEntry', 'value', Val, 'index', Number),
 	// TODO: Don't store length here, do it in Vr
-	ListReturn = ev('length', Number),
-	ListSimple = ev('parts', [Val]),
+	ListReturn = ev('ListReturn', 'length', Number),
+	ListSimple = ev('ListSimple', 'parts', [Val]),
 
 	// TODO: Don't store index here, do it in Vr
-	MapEntry = ed('key', Val, 'val', Val, 'index', Number),
+	MapEntry = ed('MapEntry', 'key', Val, 'val', Val, 'index', Number),
 	// TODO: Don't store length here, do it in Vr
-	MapReturn = ev('length', Number),
-	ObjReturn = ev(
+	MapReturn = ev('MapReturn', 'length', Number),
+	ObjReturn = ev('ObjReturn',
 		'keys', [LocalDeclare],
 		'debugKeys', [LocalDeclare],
 		'opObjed', Op(Val),
 		'opDisplayName', Op(String)),
 	// keysVals: values are Vals
-	ObjSimple = ev('keysVals', Object),
+	ObjSimple = ev('ObjSimple', 'keysVals', Object),
 
 	// Case
-	CaseDoPart = ee('test', Val, 'result', BlockDo),
-	CaseValPart = ee('test', Val, 'result', BlockVal),
-	CaseDo = ed('opCased', Op(Assign), 'parts', [CaseDoPart], 'opElse', Op(BlockDo)),
+	CaseDoPart = ee('CaseDoPart', 'test', Val, 'result', BlockDo),
+	CaseValPart = ee('CaseValPart', 'test', Val, 'result', BlockVal),
+	CaseDo = ed('CaseDo', 'opCased', Op(Assign), 'parts', [CaseDoPart], 'opElse', Op(BlockDo)),
 	// Unlike CaseDo, this has `return` statements.
-	CaseVal = ev('opCased', Op(Assign), 'parts', [CaseValPart], 'opElse', Op(BlockVal)),
+	CaseVal = ev('CaseVal', 'opCased', Op(Assign), 'parts', [CaseValPart], 'opElse', Op(BlockVal)),
 
 	// Statements
-	Loop = ed('block', BlockDo),
-	EndLoop = ed(),
+	Loop = ed('Loop', 'block', BlockDo),
+	EndLoop = ed('EndLoop'),
 
 	// Generators
-	Yield = ev('yielded', Val),
-	YieldTo = ev('yieldedTo', Val),
+	Yield = ev('Yield', 'yielded', Val),
+	YieldTo = ev('YieldTo', 'yieldedTo', Val),
 
 	// Expressions
 	Call = Object.assign(
-		ev('called', Val, 'args', [Val]),
+		ev('Call', 'called', Val, 'args', [Val]),
 		{
 			contains: (loc, testType, tested) =>
 				Call(loc, Special.contains(loc), [ testType, tested ]),
 			sub: (loc, args) => Call(loc, Special.sub(loc), args)
 		}),
 	// Only for use in a Call
-	Splat = ev('splatted', Val),
+	Splat = ev('Splat', 'splatted', Val),
 
-	BlockWrap = ev('block', BlockVal),
+	BlockWrap = ev('BlockWrap', 'block', BlockVal),
 
-	Fun = ev(
+	Fun = ev('Fun',
 		'k', KFun,
 		'args', [LocalDeclare],
 		'opRestArg', Op(LocalDeclare),
@@ -112,13 +113,13 @@ export const
 		'opResDeclare', Op(LocalDeclare),
 		'opOut', Op(Debug)),
 
-	Lazy = ev('value', Val),
-	ELiteral = ev('value', String, 'k', newSet([Number, String, 'js'])),
-	Member = ev('object', Val, 'name', String),
-	Quote = ev('parts', [Val]),
+	Lazy = ev('Lazy', 'value', Val),
+	ELiteral = ev('Literal', 'value', String, 'k', newSet([Number, String, 'js'])),
+	Member = ev('Member', 'object', Val, 'name', String),
+	Quote = ev('Quote', 'parts', [Val]),
 
 	Special = Object.assign(
-		ev('k', KSpecial),
+		ev('Special', 'k', KSpecial),
 		{
 			contains: loc => Special(loc, 'contains'),
 			debugger: loc => Special(loc, 'debugger'),

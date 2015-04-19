@@ -1,13 +1,13 @@
 import Loc from 'esast/dist/Loc'
+import tuple from 'esast/dist/private/tuple'
 import { code } from '../CompileError'
 import { AllKeywords, CaseKeywords, GroupKinds, GroupOpenToClose, LineSplitKeywords } from './Lang'
 import type from './U/type'
-import { tuple } from './U/types'
 import { implementMany2 } from './U/util'
 
 export default class Token { }
 
-const tt = function() { return tuple(Token, 'loc', Loc, ...arguments) }
+const tt = (name, ...namesTypes) => tuple(name, Token, 'doc', [ 'loc', Loc ].concat(namesTypes))
 
 const gIs = k => {
 	type(k, GroupKinds)
@@ -23,16 +23,16 @@ const kwIs = k => {
 }
 
 export const
-	Name = tt('name', String),
+	Name = tt('Name', 'name', String),
 	Group = Object.assign(
-		tt('tokens', [Token], 'k', GroupKinds),
+		tt('Group', 'tokens', [Token], 'k', GroupKinds),
 		{
 			isBlock: gIs('->'),
 			isLine: gIs('ln'),
 			isSpaced: gIs('sp')
 		}),
 	Keyword = Object.assign(
-		tt('k', AllKeywords),
+		tt('Keyword', 'k', AllKeywords),
 		{
 			is: kwIs,
 			isBar: kwIs('|'),
@@ -45,9 +45,9 @@ export const
 			isObjAssign: kwIs('. ')
 		}),
 	// k: Number | String | 'js'
-	Literal = tt('value', String, 'k', Object),
-	CallOnFocus = tt('name', String),
-	DotName = tt('nDots', Number, 'name', String)
+	Literal = tt('Literal', 'value', String, 'k', Object),
+	CallOnFocus = tt('CallOnFocus', 'name', String),
+	DotName = tt('DotName', 'nDots', Number, 'name', String)
 
 // toString is used by some parsing errors. Use U.inspect for a more detailed view.
 const show = implementMany2('show', [

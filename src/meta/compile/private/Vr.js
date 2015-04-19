@@ -1,6 +1,7 @@
+import tuple from 'esast/dist/private/tuple'
 import { LocalAccess } from '../Expression'
 import { isEmpty } from './U/Bag'
-import { ObjType, tuple } from './U/types'
+import { ObjType } from './U/types'
 
 const Vr = ObjType('Vr', Object, {
 	accessToLocal: Map,
@@ -16,8 +17,8 @@ export const emptyVr = () => Vr({
 	endLoopToLoop: new Map()
 })
 
-export const VrLocalInfo = tuple(Object,
-	'isInDebug', Boolean, 'debugAccesses', [LocalAccess], 'nonDebugAccesses', [LocalAccess])
+export const VrLocalInfo = tuple('VrLocalInfo', Object, 'doc',
+	[ 'isInDebug', Boolean, 'debugAccesses', [LocalAccess], 'nonDebugAccesses', [LocalAccess] ])
 
 Object.assign(Vr.prototype, {
 	isAccessed(local) {

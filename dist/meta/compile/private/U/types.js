@@ -1,4 +1,4 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', './type', './util'], function (exports, _type, _util) {
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', './type'], function (exports, _type) {
 	'use strict';
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
@@ -9,33 +9,6 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	exports.ObjType = ObjType;
 
 	var _type2 = _interopRequire(_type);
-
-	const tuple = function (superType) {
-		for (var _len = arguments.length, namesTypes = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-			namesTypes[_key - 1] = arguments[_key];
-		}
-
-		let names = [];
-		_util.assert(namesTypes.length % 2 === 0);
-		for (let i = 0; i < namesTypes.length; i = i + 2) names.push(namesTypes[i]);
-		let args = names.join(', ');
-
-		let body = 'return function ctr(' + args + ') { if (!(this instanceof ctr)) return new ctr(' + args + ');';
-		names.forEach(function (name) {
-			body = body + ('this.' + name + ' = ' + name + ';');
-		});
-		body = body + '}';
-		const ctr = Function(body)();
-		ctr.prototype = Object.assign(Object.create(superType.prototype), {
-			constructor: ctr,
-			toString: function () {
-				return inspect(this);
-			}
-		});
-		return ctr;
-	};
-
-	exports.tuple = tuple;
 
 	function ObjType(name, superType, members) {
 		_type2(name, String, superType, Object, members, Object);

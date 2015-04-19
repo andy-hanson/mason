@@ -1,9 +1,7 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'esast/dist/Loc', '../CompileError', './Lang', './U/type', './U/types', './U/util'], function (exports, _esastDistLoc, _CompileError, _Lang, _UType, _UTypes, _UUtil) {
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'esast/dist/Loc', 'esast/dist/private/tuple', '../CompileError', './Lang', './U/type', './U/util'], function (exports, _esastDistLoc, _esastDistPrivateTuple, _CompileError, _Lang, _UType, _UUtil) {
 	'use strict';
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
-
-	var _slice = Array.prototype.slice;
 
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
 
@@ -13,6 +11,8 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 
 	var _Loc = _interopRequire(_esastDistLoc);
 
+	var _tuple = _interopRequire(_esastDistPrivateTuple);
+
 	var _type = _interopRequire(_UType);
 
 	let Token = function Token() {
@@ -21,8 +21,12 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 
 	exports.default = Token;
 
-	const tt = function () {
-		return _UTypes.tuple.apply(undefined, [Token, 'loc', _Loc].concat(_slice.call(arguments)));
+	const tt = function (name) {
+		for (var _len = arguments.length, namesTypes = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+			namesTypes[_key - 1] = arguments[_key];
+		}
+
+		return _tuple(name, Token, 'doc', ['loc', _Loc].concat(namesTypes));
 	};
 
 	const gIs = function (k) {
@@ -42,13 +46,13 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		}
 	};
 
-	const Name = tt('name', String),
-	      Group = Object.assign(tt('tokens', [Token], 'k', _Lang.GroupKinds), {
+	const Name = tt('Name', 'name', String),
+	      Group = Object.assign(tt('Group', 'tokens', [Token], 'k', _Lang.GroupKinds), {
 		isBlock: gIs('->'),
 		isLine: gIs('ln'),
 		isSpaced: gIs('sp')
 	}),
-	      Keyword = Object.assign(tt('k', _Lang.AllKeywords), {
+	      Keyword = Object.assign(tt('Keyword', 'k', _Lang.AllKeywords), {
 		is: kwIs,
 		isBar: kwIs('|'),
 		isCaseOrCaseDo: kwIs(_Lang.CaseKeywords),
@@ -61,9 +65,9 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	}),
 	     
 	// k: Number | String | 'js'
-	Literal = tt('value', String, 'k', Object),
-	      CallOnFocus = tt('name', String),
-	      DotName = tt('nDots', Number, 'name', String);
+	Literal = tt('Literal', 'value', String, 'k', Object),
+	      CallOnFocus = tt('CallOnFocus', 'name', String),
+	      DotName = tt('DotName', 'nDots', Number, 'name', String);
 
 	exports.Name = Name;
 	exports.Group = Group;

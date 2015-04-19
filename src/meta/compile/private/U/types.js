@@ -1,25 +1,4 @@
 import type from './type'
-import { assert } from './util'
-
-export const tuple = (superType, ...namesTypes) => {
-	let names = []
-	assert(namesTypes.length % 2 === 0)
-	for (let i = 0; i < namesTypes.length; i = i + 2)
-		names.push(namesTypes[i])
-	let args = names.join(', ')
-
-	let body = `return function ctr(${args}) { if (!(this instanceof ctr)) return new ctr(${args});`
-	names.forEach(name => {
-		body = body + `this.${name} = ${name};`
-	})
-	body = body + '}'
-	const ctr = Function(body)()
-	ctr.prototype = Object.assign(Object.create(superType.prototype), {
-		constructor: ctr,
-		toString() { return inspect(this) }
-	})
-	return ctr
-}
 
 export function ObjType(name, superType, members) {
 	type(name, String, superType, Object, members, Object)

@@ -1,35 +1,29 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'module', '../../CompileError', '../../Expression', '../Lang', '../Token', '../U/type', '../U/Op', '../U/util', './parseLocalDeclares', './parseSpaced', './Px', './parseCase', './parseBlock'], function (exports, module, _CompileError, _Expression, _Lang, _Token, _UType, _UOp, _UUtil, _parseLocalDeclares, _parseSpaced, _Px, _parseCase, _parseBlock) {
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'module', '../../CompileError', '../../Expression', '../Token', '../U/Op', '../U/util', './parseLocalDeclares', './parseSpaced', './parseCase', './parseBlock', './vars'], function (exports, module, _CompileError, _Expression, _Token, _UOp, _UUtil, _parseLocalDeclares, _parseSpaced, _parseCase, _parseBlock, _vars) {
 	'use strict';
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
 	module.exports = parseFun;
 
-	var _type = _interopRequire(_UType);
-
 	var _parseLocalDeclares2 = _interopRequire(_parseLocalDeclares);
 
-	var _Px2 = _interopRequire(_Px);
-
-	function parseFun(px, k) {
-		_type(px, _Px2, k, _Lang.KFun);
-
-		var _tryTakeReturnType = tryTakeReturnType(px);
+	function parseFun(k) {
+		var _tryTakeReturnType = tryTakeReturnType();
 
 		const opReturnType = _tryTakeReturnType.opReturnType;
 		const rest = _tryTakeReturnType.rest;
 
-		px.check(!rest.isEmpty(), function () {
+		_vars.check(!rest.isEmpty(), function () {
 			return 'Expected an indented block after ' + _CompileError.code(k);
 		});
 
-		var _px$w = px.w(rest, argsAndBlock);
+		var _w = _vars.w(rest, argsAndBlock);
 
-		const args = _px$w.args;
-		const opRestArg = _px$w.opRestArg;
-		const block = _px$w.block;
-		const opIn = _px$w.opIn;
-		const opOut = _px$w.opOut;
+		const args = _w.args;
+		const opRestArg = _w.opRestArg;
+		const block = _w.block;
+		const opIn = _w.opIn;
+		const opOut = _w.opOut;
 
 		// Need res declare if there is a return type or out condition.
 		const opResDeclare = _UOp.ifElse(opReturnType, function (rt) {
@@ -39,83 +33,83 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 				return _Expression.LocalDeclare.res(o.loc, opReturnType);
 			});
 		});
-		return _Expression.Fun(px.loc, k, args, opRestArg, block, opIn, opResDeclare, opOut);
+		return _Expression.Fun(_vars.loc, k, args, opRestArg, block, opIn, opResDeclare, opOut);
 	}
 
-	const tryTakeReturnType = function (px) {
-		if (!px.tokens.isEmpty()) {
-			const h = px.tokens.head();
+	const tryTakeReturnType = function () {
+		if (!_vars.tokens.isEmpty()) {
+			const h = _vars.tokens.head();
 			if (_Token.Group.isSpaced(h) && _Token.Keyword.isColon(h.tokens.head())) return {
-				opReturnType: _UOp.some(px.w(h.tokens.tail(), _parseSpaced.parseSpaced)),
-				rest: px.tokens.tail()
+				opReturnType: _UOp.some(_vars.w(h.tokens.tail(), _parseSpaced.parseSpaced)),
+				rest: _vars.tokens.tail()
 			};
 		}
-		return { opReturnType: _UOp.None, rest: px.tokens };
+		return { opReturnType: _UOp.None, rest: _vars.tokens };
 	};
 
-	const argsAndBlock = function (px) {
-		const h = px.tokens.head();
+	const argsAndBlock = function () {
+		const h = _vars.tokens.head();
 		// Might be `|case`
 		if (_Token.Keyword.isCaseOrCaseDo(h)) {
-			const eCase = px.w(px.tokens.tail(), _parseCase.parseCase, h.k, true);
+			const eCase = _vars.w(_vars.tokens.tail(), _parseCase.parseCase, h.k, true);
 			const args = [_Expression.LocalDeclare.focus(h.loc)];
 			return h.k === 'case' ? {
 				args: args, opRestArg: _UOp.None, opIn: _UOp.None, opOut: _UOp.None,
-				block: _Expression.BlockVal(px.loc, [], eCase)
+				block: _Expression.BlockVal(_vars.loc, [], eCase)
 			} : {
 				args: args, opRestArg: _UOp.None, opIn: _UOp.None, opOut: _UOp.None,
-				block: _Expression.BlockDo(px.loc, [eCase])
+				block: _Expression.BlockDo(_vars.loc, [eCase])
 			};
 		} else {
-			var _PB$takeBlockLinesFromEnd = _parseBlock.takeBlockLinesFromEnd(px);
+			var _takeBlockLinesFromEnd = _parseBlock.takeBlockLinesFromEnd();
 
-			const before = _PB$takeBlockLinesFromEnd.before;
-			const lines = _PB$takeBlockLinesFromEnd.lines;
+			const before = _takeBlockLinesFromEnd.before;
+			const lines = _takeBlockLinesFromEnd.lines;
 
-			var _px$w2 = px.w(before, parseFunLocals);
+			var _w2 = _vars.w(before, parseFunLocals);
 
-			const args = _px$w2.args;
-			const opRestArg = _px$w2.opRestArg;
+			const args = _w2.args;
+			const opRestArg = _w2.opRestArg;
 
-			var _px$w3 = px.w(lines, tryTakeInOut);
+			var _w3 = _vars.w(lines, tryTakeInOut);
 
-			const opIn = _px$w3.opIn;
-			const opOut = _px$w3.opOut;
-			const rest = _px$w3.rest;
+			const opIn = _w3.opIn;
+			const opOut = _w3.opOut;
+			const rest = _w3.rest;
 
-			const block = px.w(rest, _parseBlock.parseBlockFromLines);
+			const block = _vars.w(rest, _parseBlock.parseBlockFromLines);
 			return { args: args, opRestArg: opRestArg, block: block, opIn: opIn, opOut: opOut };
 		}
 	};
 
-	const parseFunLocals = function (px) {
-		if (px.tokens.isEmpty()) return { args: [], opRestArg: _UOp.None };else {
-			const l = px.tokens.last();
+	const parseFunLocals = function () {
+		if (_vars.tokens.isEmpty()) return { args: [], opRestArg: _UOp.None };else {
+			const l = _vars.tokens.last();
 			if (l instanceof _Token.DotName) {
-				px.check(l.nDots === 3, l.loc, 'Splat argument must have exactly 3 dots');
+				_vars.cx.check(l.nDots === 3, l.loc, 'Splat argument must have exactly 3 dots');
 				return {
-					args: px.w(px.tokens.rtail(), _parseLocalDeclares2),
+					args: _vars.w(_vars.tokens.rtail(), _parseLocalDeclares2),
 					opRestArg: _UOp.some(_Expression.LocalDeclare(l.loc, l.name, _UOp.None, false, false))
 				};
-			} else return { args: _parseLocalDeclares2(px), opRestArg: _UOp.None };
+			} else return { args: _parseLocalDeclares2(), opRestArg: _UOp.None };
 		}
 	};
 
-	function tryTakeInOut(px) {
+	function tryTakeInOut() {
 		function tryTakeInOrOut(lines, inOrOut) {
 			if (!lines.isEmpty()) {
 				const firstLine = lines.head();
 				_UUtil.assert(_Token.Group.isLine(firstLine));
 				const tokensFirst = firstLine.tokens;
 				if (_Token.Keyword.is(inOrOut)(tokensFirst.head())) return {
-					took: _UOp.some(_Expression.Debug(firstLine.loc, px.w(tokensFirst, _parseBlock.parseLinesFromBlock))),
+					took: _UOp.some(_Expression.Debug(firstLine.loc, _vars.w(tokensFirst, _parseBlock.parseLinesFromBlock))),
 					rest: lines.tail()
 				};
 			}
 			return { took: _UOp.None, rest: lines };
 		}
 
-		var _tryTakeInOrOut = tryTakeInOrOut(px.tokens, 'in');
+		var _tryTakeInOrOut = tryTakeInOrOut(_vars.tokens, 'in');
 
 		const opIn = _tryTakeInOrOut.took;
 		const restIn = _tryTakeInOrOut.rest;
@@ -128,6 +122,4 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		return { opIn: opIn, opOut: opOut, rest: rest };
 	}
 });
-
-// TODO:ES6
 //# sourceMappingURL=../../../../meta/compile/private/parse/parseFun.js.map

@@ -1,9 +1,13 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', '../Expression', './U/Bag', './U/types'], function (exports, _Expression, _UBag, _UTypes) {
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'esast/dist/private/tuple', '../Expression', './U/Bag', './U/types'], function (exports, _esastDistPrivateTuple, _Expression, _UBag, _UTypes) {
 	'use strict';
+
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
 	Object.defineProperty(exports, '__esModule', {
 		value: true
 	});
+
+	var _tuple = _interopRequire(_esastDistPrivateTuple);
 
 	const Vr = _UTypes.ObjType('Vr', Object, {
 		accessToLocal: Map,
@@ -21,7 +25,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	};
 
 	exports.emptyVr = emptyVr;
-	const VrLocalInfo = _UTypes.tuple(Object, 'isInDebug', Boolean, 'debugAccesses', [_Expression.LocalAccess], 'nonDebugAccesses', [_Expression.LocalAccess]);
+	const VrLocalInfo = _tuple('VrLocalInfo', Object, 'doc', ['isInDebug', Boolean, 'debugAccesses', [_Expression.LocalAccess], 'nonDebugAccesses', [_Expression.LocalAccess]]);
 
 	exports.VrLocalInfo = VrLocalInfo;
 	Object.assign(Vr.prototype, {

@@ -5,16 +5,17 @@ import { Group, Keyword, Name } from '../Token'
 import { None, some } from '../U/Op'
 import { assert } from '../U/util'
 import { parseSpaced } from './parseSpaced'
+import { check, cx, loc, tokens, w, wt } from './vars'
 
-export default px => px.tokens.map(t => px.wt(t, parseLocalDeclare))
+export default () => tokens.map(t => wt(t, parseLocalDeclare))
 
-export function parseLocalDeclare(px) {
+export function parseLocalDeclare() {
 	let name
 	let opType = None
 	let isLazy = false
 
-	assert(px.tokens.size() === 1)
-	const t = px.tokens.head()
+	assert(tokens.size() === 1)
+	const t = tokens.head()
 
 	if (Group.isSpaced(t)) {
 		const tokens = t.tokens
@@ -23,29 +24,29 @@ export function parseLocalDeclare(px) {
 			isLazy = true
 			rest = tokens.tail()
 		}
-		name = parseLocalName(px, rest.head())
+		name = parseLocalName(rest.head())
 		const rest2 = rest.tail()
 		if (!rest2.isEmpty()) {
 			const colon = rest2.head()
-			px.check(Keyword.isColon(colon), colon.loc, () => `Expected ${code(':')}`)
-			px.check(rest2.size() > 1, () => `Expected something after ${colon}`)
+			cx.check(Keyword.isColon(colon), colon.loc, () => `Expected ${code(':')}`)
+			check(rest2.size() > 1, () => `Expected something after ${colon}`)
 			const tokensType = rest2.tail()
-			opType = some(px.w(tokensType, parseSpaced))
+			opType = some(w(tokensType, parseSpaced))
 		}
 	}
 	else
-		name = parseLocalName(px, t)
+		name = parseLocalName(t)
 
-	return LocalDeclare(px.loc, name, opType, isLazy, false)
+	return LocalDeclare(loc, name, opType, isLazy, false)
 }
 
-const parseLocalName = (px, t) => {
+const parseLocalName = (t) => {
 	if (Keyword.isFocus(t))
 		return '_'
 	else {
-		px.check(t instanceof Name, t.loc, () => `Expected a local name, not ${t}`)
+		cx.check(t instanceof Name, t.loc, () => `Expected a local name, not ${t}`)
 		// TODO: Allow this?
-		px.check(!JsGlobals.has(t.name), t.loc, () => `Can not shadow global ${code(t.name)}`)
+		cx.check(!JsGlobals.has(t.name), t.loc, () => `Can not shadow global ${code(t.name)}`)
 		return t.name
 	}
 }

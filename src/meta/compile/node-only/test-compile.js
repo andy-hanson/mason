@@ -48,6 +48,7 @@ export default () => {
 	const ast = transpile(cx, e, vr)
 	// log(`==>\n${ast}`)
 	const { code } = render(cx, ast)
+	log(`==>\n${code}`)
 
 	// Benchmark has problems if I don't put these in global variables...
 	global.lexUngroupedTest = () =>
@@ -72,7 +73,6 @@ export default () => {
 	log(`Expression tree size: ${eSize.size}.`)
 	log(`ES AST size: ${astSize.size}, nLeaves: ${astSize.nLeaves}.`)
 	log(`Output size: ${code.length} characters.`)
-	log(`==>\n${code}`)
 }
 
 const treeSize = (tree, cond) => {

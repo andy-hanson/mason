@@ -64,6 +64,8 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 
 		const code = _render.code;
 
+		_privateUUtil.log('==>\n' + code);
+
 		// Benchmark has problems if I don't put these in global variables...
 		global.lexUngroupedTest = function () {
 			return _lexUngrouped(new _privateCx.SubContext(cx), source);
@@ -106,7 +108,6 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		_privateUUtil.log('Expression tree size: ' + eSize.size + '.');
 		_privateUUtil.log('ES AST size: ' + astSize.size + ', nLeaves: ' + astSize.nLeaves + '.');
 		_privateUUtil.log('Output size: ' + code.length + ' characters.');
-		_privateUUtil.log('==>\n' + code);
 	};
 
 	const treeSize = function (tree, cond) {

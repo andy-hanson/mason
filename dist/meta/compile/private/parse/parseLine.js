@@ -1,4 +1,4 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', '../../Expression', '../Token', '../U/Bag', '../U/Op', '../U/type', './parseCase', './parseExpr', './parseLocalDeclares', './Px', './parseBlock'], function (exports, _Expression, _Token, _UBag, _UOp, _UType, _parseCase, _parseExpr, _parseLocalDeclares, _Px, _parseBlock) {
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', '../../Expression', '../Token', '../U/Bag', '../U/Op', '../U/type', './parseCase', './parseExpr', './parseLocalDeclares', './parseBlock', './vars'], function (exports, _Expression, _Token, _UBag, _UOp, _UType, _parseCase, _parseExpr, _parseLocalDeclares, _parseBlock, _vars) {
 	'use strict';
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
@@ -9,75 +9,69 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 
 	// Returns line or sq of lines
 	exports.default = parseLine;
-	exports.parseLineOrLines = parseLineOrLines;
 
 	var _E = _interopRequire(_Expression);
 
 	var _type = _interopRequire(_UType);
 
-	var _parseExpr2 = _interopRequire(_parseExpr);
-
 	var _parseLocalDeclares2 = _interopRequire(_parseLocalDeclares);
 
-	var _Px2 = _interopRequire(_Px);
-
-	function parseLine(px) {
-		_type(px, _Px2);
-
-		const h = px.tokens.head();
-		const rest = px.tokens.tail();
+	function parseLine() {
+		const h = _vars.tokens.head();
+		const rest = _vars.tokens.tail();
 
 		// We only deal with mutable expressions here, otherwise we fall back to parseExpr.
 		if (h instanceof _Token.Keyword) switch (h.k) {
 			case '. ':
 				// Index is set by parseBlock.
-				return _Expression.ListEntry(px.loc, px.w(rest, _parseExpr2), -1);
+				return _Expression.ListEntry(_vars.loc, _vars.w(rest, _parseExpr.parseExpr), -1);
 			case 'case!':
-				return px.w(rest, _parseCase.parseCase, 'case!', false);
+				return _vars.w(rest, _parseCase.parseCase, 'case!', false);
 			case 'debug':
-				return _Token.Group.isBlock(px.tokens.second()) ?
+				return _Token.Group.isBlock(_vars.tokens.second()) ?
 				// `debug`, then indented block
-				_Expression.Debug(px.loc, _parseBlock.parseLinesFromBlock(px)) :
+				_Expression.Debug(_vars.loc, _parseBlock.parseLinesFromBlock()) :
 				// `debug`, then single line
-				_Expression.Debug(px.loc, px.w(rest, parseLineOrLines));
+				_Expression.Debug(_vars.loc, _vars.w(rest, parseLineOrLines));
 			case 'debugger':
-				px.checkEmpty(rest, function () {
+				_vars.checkEmpty(rest, function () {
 					return 'Did not expect anything after ' + h;
 				});
-				return _Expression.Special.debugger(px.loc);
+				return _Expression.Special.debugger(_vars.loc);
 			case 'end-loop!':
-				px.checkEmpty(rest, function () {
+				_vars.checkEmpty(rest, function () {
 					return 'Did not expect anything after ' + h;
 				});
-				return _Expression.EndLoop(px.loc);
+				return _Expression.EndLoop(_vars.loc);
 			case 'loop!':
-				return _Expression.Loop(px.loc, px.w(rest, _parseBlock.justBlockDo));
+				return _Expression.Loop(_vars.loc, _vars.w(rest, _parseBlock.justBlockDo));
 			case 'region':
-				return _parseBlock.parseLinesFromBlock(px);
+				return _parseBlock.parseLinesFromBlock();
 			default:
 			// fall through
 		}
 
-		return _UOp.ifElse(px.tokens.opSplitOnceWhere(_Token.Keyword.isLineSplit), function (_ref) {
+		return _UOp.ifElse(_vars.tokens.opSplitOnceWhere(_Token.Keyword.isLineSplit), function (_ref) {
 			let before = _ref.before;
 			let at = _ref.at;
 			let after = _ref.after;
 
-			return at.k === '->' ? parseMapEntry(px, before, after) : parseAssign(px, before, at, after);
+			return at.k === '->' ? parseMapEntry(before, after) : parseAssign(before, at, after);
 		}, function () {
-			return _parseExpr2(px);
+			return _parseExpr.parseExpr();
 		});
 	}
 
-	function parseLineOrLines(px) {
-		const _ = parseLine(px);
+	const parseLineOrLines = function () {
+		const _ = parseLine();
 		return _ instanceof Array ? _ : [_];
-	}
+	};
 
-	function parseAssign(px, assigned, assigner, value) {
-		let locals = px.w(assigned, _parseLocalDeclares2);
+	exports.parseLineOrLines = parseLineOrLines;
+	const parseAssign = function (assigned, assigner, value) {
+		let locals = _vars.w(assigned, _parseLocalDeclares2);
 		const k = assigner.k;
-		const eValuePre = value.isEmpty() ? _Expression.GlobalAccess.true(px.loc) : px.w(value, _parseExpr2);
+		const eValuePre = value.isEmpty() ? _Expression.GlobalAccess.true(_vars.loc) : _vars.w(value, _parseExpr.parseExpr);
 
 		let eValueNamed;
 		if (locals.length === 1) {
@@ -98,12 +92,12 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		const eValue = valueFromAssign(eValueNamed, k);
 
 		if (_UBag.isEmpty(locals)) {
-			px.check(isYield, 'Assignment to nothing');
+			_vars.check(isYield, 'Assignment to nothing');
 			return eValue;
 		}
 
 		if (isYield) locals.forEach(function (_) {
-			return px.check(_.k !== 'lazy', _.loc, 'Can not yield to lazy variable.');
+			return _vars.cx.check(_.k !== 'lazy', _.loc, 'Can not yield to lazy variable.');
 		});
 
 		if (k === '. ') locals.forEach(function (l) {
@@ -111,21 +105,20 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		});
 
 		if (locals.length === 1) {
-			const assign = _Expression.Assign(px.loc, locals[0], k, eValue);
+			const assign = _Expression.Assign(_vars.loc, locals[0], k, eValue);
 			const isTest = assign.assignee.name.endsWith('test');
-			return isTest && k === '. ' ? _Expression.Debug(px.loc, [assign]) : assign;
+			return isTest && k === '. ' ? _Expression.Debug(_vars.loc, [assign]) : assign;
 		} else {
 			const isLazy = locals.some(function (l) {
 				return l.isLazy;
 			});
 			if (isLazy) locals.forEach(function (_) {
-				return px.check(_.isLazy, _.loc, 'If any part of destructuring assign is lazy, all must be.');
+				return _vars.cx.check(_.isLazy, _.loc, 'If any part of destructuring assign is lazy, all must be.');
 			});
-			return _Expression.AssignDestructure(px.loc, locals, k, eValue, isLazy);
+			return _Expression.AssignDestructure(_vars.loc, locals, k, eValue, isLazy);
 		}
-	}
-
-	function valueFromAssign(valuePre, kAssign) {
+	},
+	      valueFromAssign = function (valuePre, kAssign) {
 		switch (kAssign) {
 			case '<~':
 				return _Expression.Yield(valuePre.loc, valuePre);
@@ -134,14 +127,15 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 			default:
 				return valuePre;
 		}
-	}
+	},
+	     
 
 	// We give it a displayName if:
 	// . It's a block
 	// . It's a function
 	// . It's one of those at the end of a block
 	// . It's one of those as the end member of a call.
-	function tryAddDisplayName(eValuePre, displayName) {
+	tryAddDisplayName = function (eValuePre, displayName) {
 		_type(eValuePre, _E, displayName, String);
 		switch (true) {
 			case eValuePre instanceof _Expression.Call && eValuePre.args.length > 0:
@@ -168,13 +162,12 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 			default:
 				return eValuePre;
 		}
-	}
-
-	function parseMapEntry(px, before, after) {
-		// TODO: index Filled in by ???
-		return _Expression.MapEntry(px.loc, px.w(before, _parseExpr2), px.w(after, _parseExpr2), -1);
-	}
+	},
+	      parseMapEntry = function (before, after) {
+		return (
+			// TODO: index Filled in by ???
+			_Expression.MapEntry(_vars.loc, _vars.w(before, _parseExpr.parseExpr), _vars.w(after, _parseExpr.parseExpr), -1)
+		);
+	};
 });
-
-// TODO:ES6
 //# sourceMappingURL=../../../../meta/compile/private/parse/parseLine.js.map

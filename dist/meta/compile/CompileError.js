@@ -1,4 +1,4 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'esast/dist/Loc', './private/U/type', './private/U/types'], function (exports, _esastDistLoc, _privateUType, _privateUTypes) {
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'esast/dist/Loc', 'esast/dist/private/tuple', './private/U/type'], function (exports, _esastDistLoc, _esastDistPrivateTuple, _privateUType) {
 	'use strict';
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
@@ -9,6 +9,8 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	exports.default = CompileError;
 
 	var _Loc = _interopRequire(_esastDistLoc);
+
+	var _tuple = _interopRequire(_esastDistPrivateTuple);
 
 	var _type = _interopRequire(_privateUType);
 
@@ -23,7 +25,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 
 	CompileError.prototype = Object.create(Error.prototype);
 
-	const Warning = _privateUTypes.tuple(Object, 'loc', _Loc, 'message', String);
+	const Warning = _tuple('Warning', Object, 'doc', ['loc', _Loc, 'message', String]);
 
 	exports.Warning = Warning;
 	const code = function (str) {

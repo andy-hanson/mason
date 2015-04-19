@@ -1,9 +1,7 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'esast/dist/Loc', './private/Lang', './private/U/Op', './private/U/types', './private/U/util'], function (exports, _esastDistLoc, _privateLang, _privateUOp, _privateUTypes, _privateUUtil) {
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'esast/dist/private/tuple', 'esast/dist/Loc', './private/Lang', './private/U/Op', './private/U/util'], function (exports, _esastDistPrivateTuple, _esastDistLoc, _privateLang, _privateUOp, _privateUUtil) {
 	'use strict';
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
-
-	var _slice = Array.prototype.slice;
 
 	var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
 
@@ -12,6 +10,8 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	Object.defineProperty(exports, '__esModule', {
 		value: true
 	});
+
+	var _tuple = _interopRequire(_esastDistPrivateTuple);
 
 	var _Loc = _interopRequire(_esastDistLoc);
 
@@ -60,25 +60,27 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 
 	exports.Val = Val;
 
-	// TODO:ES6 splat
-	const ee = function () {
-		return _privateUTypes.tuple.apply(undefined, [Expression, 'loc', _Loc].concat(_slice.call(arguments)));
+	const makeType = function (superType) {
+		return function (name) {
+			for (var _len = arguments.length, namesTypes = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+				namesTypes[_key - 1] = arguments[_key];
+			}
+
+			return _tuple(name, superType, 'doc', ['loc', _Loc].concat(namesTypes));
+		};
 	};
-	const ed = function () {
-		return _privateUTypes.tuple.apply(undefined, [Do, 'loc', _Loc].concat(_slice.call(arguments)));
-	};
-	const ev = function () {
-		return _privateUTypes.tuple.apply(undefined, [Val, 'loc', _Loc].concat(_slice.call(arguments)));
-	};
+	const ee = makeType(Expression),
+	      ed = makeType(Do),
+	      ev = makeType(Val);
 
 	// TODO: Get rid of null
 	const KSpecial = _privateUUtil.newSet(_privateLang.SpecialKeywords, ['contains', 'debugger', 'sub', 'null']);
 
-	const Debug = ed('lines', [Expression]),
-	      BlockDo = ed('lines', [Expression]),
-	      BlockVal = ed('lines', [Expression], 'returned', Val),
-	      ModuleDefaultExport = ed('value', Val),
-	      LocalDeclare = Object.assign(ee('name', String, 'opType', _Op(Val), 'isLazy', Boolean, 'okToNotUse', Boolean), {
+	const Debug = ed('Debug', 'lines', [Expression]),
+	      BlockDo = ed('BlockDo', 'lines', [Expression]),
+	      BlockVal = ed('BlockVal', 'lines', [Expression], 'returned', Val),
+	      ModuleDefaultExport = ed('ModuleDefaultExport', 'value', Val),
+	      LocalDeclare = Object.assign(ee('LocalDeclare', 'name', String, 'opType', _Op(Val), 'isLazy', Boolean, 'okToNotUse', Boolean), {
 		focus: function (loc) {
 			return LocalDeclare(loc, '_', _privateUOp.None, false, false);
 		},
@@ -86,14 +88,14 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 			return LocalDeclare(loc, 'res', opType, false, true);
 		}
 	}),
-	      Assign = Object.assign(ed('assignee', LocalDeclare, 'k', _privateLang.KAssign, 'value', Val), { focus: function (loc, value) {
+	      Assign = Object.assign(ed('Assign', 'assignee', LocalDeclare, 'k', _privateLang.KAssign, 'value', Val), { focus: function (loc, value) {
 			return Assign(loc, LocalDeclare.focus(loc), '=', value);
 		} }),
-	      AssignDestructure = ed('assignees', [LocalDeclare], 'k', _privateLang.KAssign, 'value', Val, 'isLazy', Boolean),
-	      LocalAccess = Object.assign(ev('name', String), { focus: function (loc) {
+	      AssignDestructure = ed('AssignDestructure', 'assignees', [LocalDeclare], 'k', _privateLang.KAssign, 'value', Val, 'isLazy', Boolean),
+	      LocalAccess = Object.assign(ev('LocalAccess', 'name', String), { focus: function (loc) {
 			return LocalAccess(loc, '_');
 		} }),
-	      GlobalAccess = Object.assign(ev('name', _privateLang.JsGlobals), {
+	      GlobalAccess = Object.assign(ev('GlobalAccess', 'name', _privateLang.JsGlobals), {
 		null: function (loc) {
 			return GlobalAccess(loc, 'null');
 		},
@@ -103,55 +105,55 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	}),
 	     
 	// Module
-	UseDo = ee('path', String),
-	      Use = ee('path', String, 'used', [LocalDeclare], 'opUseDefault', _Op(LocalDeclare)),
+	UseDo = ee('UseDo', 'path', String),
+	      Use = ee('Use', 'path', String, 'used', [LocalDeclare], 'opUseDefault', _Op(LocalDeclare)),
 	     
 	// `block` will contain ModuleExport and ModuleDefaultExport_s
 	// TODO: BlockVal and don't have `exports` object
-	Module = ee('doUses', [UseDo], 'uses', [Use], 'debugUses', [Use], 'block', BlockDo),
+	Module = ee('Module', 'doUses', [UseDo], 'uses', [Use], 'debugUses', [Use], 'block', BlockDo),
 	     
 
 	// Data
 	// TODO: Don't store index here, do it in Vr
-	ListEntry = ed('value', Val, 'index', Number),
+	ListEntry = ed('ListEntry', 'value', Val, 'index', Number),
 	     
 	// TODO: Don't store length here, do it in Vr
-	ListReturn = ev('length', Number),
-	      ListSimple = ev('parts', [Val]),
+	ListReturn = ev('ListReturn', 'length', Number),
+	      ListSimple = ev('ListSimple', 'parts', [Val]),
 	     
 
 	// TODO: Don't store index here, do it in Vr
-	MapEntry = ed('key', Val, 'val', Val, 'index', Number),
+	MapEntry = ed('MapEntry', 'key', Val, 'val', Val, 'index', Number),
 	     
 	// TODO: Don't store length here, do it in Vr
-	MapReturn = ev('length', Number),
-	      ObjReturn = ev('keys', [LocalDeclare], 'debugKeys', [LocalDeclare], 'opObjed', _Op(Val), 'opDisplayName', _Op(String)),
+	MapReturn = ev('MapReturn', 'length', Number),
+	      ObjReturn = ev('ObjReturn', 'keys', [LocalDeclare], 'debugKeys', [LocalDeclare], 'opObjed', _Op(Val), 'opDisplayName', _Op(String)),
 	     
 	// keysVals: values are Vals
-	ObjSimple = ev('keysVals', Object),
+	ObjSimple = ev('ObjSimple', 'keysVals', Object),
 	     
 
 	// Case
-	CaseDoPart = ee('test', Val, 'result', BlockDo),
-	      CaseValPart = ee('test', Val, 'result', BlockVal),
-	      CaseDo = ed('opCased', _Op(Assign), 'parts', [CaseDoPart], 'opElse', _Op(BlockDo)),
+	CaseDoPart = ee('CaseDoPart', 'test', Val, 'result', BlockDo),
+	      CaseValPart = ee('CaseValPart', 'test', Val, 'result', BlockVal),
+	      CaseDo = ed('CaseDo', 'opCased', _Op(Assign), 'parts', [CaseDoPart], 'opElse', _Op(BlockDo)),
 	     
 	// Unlike CaseDo, this has `return` statements.
-	CaseVal = ev('opCased', _Op(Assign), 'parts', [CaseValPart], 'opElse', _Op(BlockVal)),
+	CaseVal = ev('CaseVal', 'opCased', _Op(Assign), 'parts', [CaseValPart], 'opElse', _Op(BlockVal)),
 	     
 
 	// Statements
-	Loop = ed('block', BlockDo),
-	      EndLoop = ed(),
+	Loop = ed('Loop', 'block', BlockDo),
+	      EndLoop = ed('EndLoop'),
 	     
 
 	// Generators
-	Yield = ev('yielded', Val),
-	      YieldTo = ev('yieldedTo', Val),
+	Yield = ev('Yield', 'yielded', Val),
+	      YieldTo = ev('YieldTo', 'yieldedTo', Val),
 	     
 
 	// Expressions
-	Call = Object.assign(ev('called', Val, 'args', [Val]), {
+	Call = Object.assign(ev('Call', 'called', Val, 'args', [Val]), {
 		contains: function (loc, testType, tested) {
 			return Call(loc, Special.contains(loc), [testType, tested]);
 		},
@@ -161,18 +163,18 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	}),
 	     
 	// Only for use in a Call
-	Splat = ev('splatted', Val),
-	      BlockWrap = ev('block', BlockVal),
-	      Fun = ev('k', _privateLang.KFun, 'args', [LocalDeclare], 'opRestArg', _Op(LocalDeclare),
+	Splat = ev('Splat', 'splatted', Val),
+	      BlockWrap = ev('BlockWrap', 'block', BlockVal),
+	      Fun = ev('Fun', 'k', _privateLang.KFun, 'args', [LocalDeclare], 'opRestArg', _Op(LocalDeclare),
 	// BlockDo or BlockVal
 	'block', Expression, 'opIn', _Op(Debug),
 	// If non-empty, block should be a BlockVal, and either it has a type or opOut is non-empty.
 	'opResDeclare', _Op(LocalDeclare), 'opOut', _Op(Debug)),
-	      Lazy = ev('value', Val),
-	      ELiteral = ev('value', String, 'k', _privateUUtil.newSet([Number, String, 'js'])),
-	      Member = ev('object', Val, 'name', String),
-	      Quote = ev('parts', [Val]),
-	      Special = Object.assign(ev('k', KSpecial), {
+	      Lazy = ev('Lazy', 'value', Val),
+	      ELiteral = ev('Literal', 'value', String, 'k', _privateUUtil.newSet([Number, String, 'js'])),
+	      Member = ev('Member', 'object', Val, 'name', String),
+	      Quote = ev('Quote', 'parts', [Val]),
+	      Special = Object.assign(ev('Special', 'k', KSpecial), {
 		contains: function (loc) {
 			return Special(loc, 'contains');
 		},
