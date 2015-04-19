@@ -11,7 +11,7 @@ import Stream from '../private/lex/Stream'
 import parse from '../private/parse/parse'
 import render from '../private/render'
 import transpile from '../private/transpile/transpile'
-import verify from '../private/verify/verify'
+import verify from '../private/verify'
 import { log } from '../private/U/util'
 import { OptsFromObject } from '../private/Opts'
 

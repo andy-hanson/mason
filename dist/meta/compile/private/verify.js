@@ -1,4 +1,4 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'module', '../../CompileError', '../../Expression', '../Cx', '../U/Bag', '../U/Op', '../U/type', '../U/util', '../Vr'], function (exports, module, _CompileError, _Expression, _Cx, _UBag, _UOp, _UType, _UUtil, _Vr) {
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'module', '../CompileError', '../Expression', './U/Bag', './U/Op', './U/type', './U/util', './Vr'], function (exports, module, _CompileError, _Expression, _UBag, _UOp, _UType, _UUtil, _Vr) {
 	'use strict';
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
@@ -20,9 +20,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	let cx, locals,
 	// Locals for this block.
 	// Replaces `locals` when entering into sub-function.
-	pendingBlockLocals, isInDebug, isInGenerator, opLoop, vr,
-	// TODO:ES6 Just use localToInfo.keys()
-	allLocalDeclares;
+	pendingBlockLocals, isInDebug, isInGenerator, opLoop, vr;
 
 	const init = function (_cx) {
 		cx = _cx;
@@ -32,29 +30,19 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		isInGenerator = false;
 		opLoop = [];
 		vr = _Vr.emptyVr();
-		allLocalDeclares = [];
 	},
 	     
 	// Release for garbage collection
 	uninit = function () {
-		locals = pendingBlockLocals = opLoop = vr = allLocalDeclares = undefined;
+		locals = pendingBlockLocals = opLoop = vr = undefined;
 	},
-	     
-
-	// Modifiers
-	//TODO: No higher order funs
-	//TODO: Do during transpile
-	withInGenerator = function (_isInGenerator, fun) {
+	      withInGenerator = function (_isInGenerator, fun) {
 		const g = isInGenerator;
 		isInGenerator = _isInGenerator;
 		fun();
 		isInGenerator = g;
 	},
-	     
-
-	//TODO:higher-order
-	//TODO: better way? immutable Map?
-	plusLocals = function (addedLocals, fun) {
+	      plusLocals = function (addedLocals, fun) {
 		const shadowed = new Map();
 		addedLocals.forEach(function (l) {
 			const got = locals.get(l.name);
@@ -63,46 +51,27 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		});
 		fun();
 		addedLocals.forEach(function (l) {
-			locals.delete(l.name);
 			const s = shadowed.get(l.name);
-			if (s !== undefined) locals.set(l.name, s);
+			if (s === undefined) locals.delete(l.name);else locals.set(l.name, s);
 		});
 	},
-	     
-
-	//TODO:higher-order
-	plusPendingBlockLocals = function (pending, fun) {
+	      plusPendingBlockLocals = function (pending, fun) {
 		const oldLength = pendingBlockLocals.length;
 		pendingBlockLocals.push.apply(pendingBlockLocals, _toConsumableArray(pending));
 		fun();
 		while (pendingBlockLocals.length > oldLength) pendingBlockLocals.pop();
 	},
-	     
-
-	//TODO:higher-order
-	withInLoop = function (loop, fun) {
+	      withInLoop = function (loop, fun) {
 		const l = opLoop;
 		opLoop = _UOp.some(loop);
 		fun();
 		opLoop = l;
 	},
-	     
-
-	//TODO:Higher-order
-	withInDebug = function (_isInDebug, fun) {
+	      withInDebug = function (_isInDebug, fun) {
 		const d = isInDebug;
 		isInDebug = _isInDebug;
 		fun();
 		isInDebug = d;
-	},
-	     
-
-	//TODO:Higher-order
-	withRes = function (loc, fun) {
-		//TODO: Bad idea to be creating new E at this point...
-		const res = _Expression.LocalDeclare.res(loc);
-		registerLocal(res);
-		return plusLocals([res], fun);
 	},
 	      withBlockLocals = function (fun) {
 		const bl = pendingBlockLocals;
@@ -116,11 +85,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	setEndLoop = function (endLoop, loop) {
 		vr.endLoopToLoop.set(endLoop, loop);
 	},
-	     
-
-	//TODO: Is this taking lots of time?
-	registerLocal = function (local) {
-		allLocalDeclares.push(local);
+	      registerLocal = function (local) {
 		vr.localToInfo.set(local, _Vr.VrLocalInfo(isInDebug, [], []));
 	},
 	      localAccess = function (access) {
@@ -131,9 +96,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 			const info = vr.localToInfo.get(local);
 			const accesses = isInDebug ? info.debugAccesses : info.nonDebugAccesses;
 			accesses.push(access);
-		} else
-			//TODO:dedent
-			cx.fail(access.loc, 'Could not find local or global ' + _CompileError.code(name) + '.\n' + 'Available locals are:\n' + ('' + _CompileError.code(_UBag.toArray(locals.keys()).join(' ')) + '.'));
+		} else cx.fail(access.loc, 'Could not find local or global ' + _CompileError.code(name) + '.\n' + 'Available locals are:\n' + ('' + _CompileError.code(_UBag.toArray(locals.keys()).join(' ')) + '.'));
 	};
 
 	function verify(cx, e) {
@@ -146,8 +109,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	}
 
 	const verifyLocalUse = function () {
-		allLocalDeclares.forEach(function (local) {
-			const info = vr.localToInfo.get(local);
+		vr.localToInfo.forEach(function (info, local) {
 			const noNonDebug = _UBag.isEmpty(info.nonDebugAccesses);
 			if (noNonDebug && _UBag.isEmpty(info.debugAccesses)) cx.warnIf(!local.okToNotUse, local.loc, function () {
 				return 'Unused local variable ' + _CompileError.code(local.name) + '.';
@@ -411,7 +373,6 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		return allNewLocals;
 	}
 
-	// TODO: Clean up
 	function verifyIsStatement(line) {
 		switch (true) {
 			case line instanceof _Expression.Do:
@@ -434,5 +395,4 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		return line instanceof _Expression.Assign ? [line.assignee] : line instanceof _Expression.AssignDestructure ? line.assignees : [];
 	}
 });
-//TODO: Just verify.js, not verify/verify.js
-//# sourceMappingURL=../../../../meta/compile/private/verify/verify.js.map
+//# sourceMappingURL=../../../meta/compile/private/verify.js.map

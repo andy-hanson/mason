@@ -56,10 +56,8 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	// TODO:ES6 Just use `new Set`
 	newSet = function () {
 		const set = new Set();
-		for (let i = 0; i < arguments.length; i = i + 1) arguments[i].forEach(function (s) {
-			return s.forEach(function (_) {
-				return set.add(_);
-			});
+		for (let i = 0; i < arguments.length; i = i + 1) arguments[i].forEach(function (_) {
+			return set.add(_);
 		});
 		return set;
 	},

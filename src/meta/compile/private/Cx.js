@@ -8,8 +8,18 @@ export default class Cx {
 		this.warnings = []
 	}
 
+	check(cond, loc, message) {
+		if (!cond)
+			this.fail(loc, message)
+	}
+
 	fail(loc, message) {
 		throw CompileError(warning(loc, message))
+	}
+
+	warnIf(cond, loc, message) {
+		if (cond)
+			this.warnings.push(warning(loc, message))
 	}
 }
 
@@ -20,8 +30,7 @@ export class SubContext {
 	}
 
 	check(cond, loc, message) {
-		if (!cond)
-			this.fail(loc, message)
+		this.cx.check(cond, loc, message)
 	}
 
 	fail(loc, message) {
@@ -29,8 +38,7 @@ export class SubContext {
 	}
 
 	warnIf(cond, loc, message) {
-		if (cond)
-			this.cx.warnings.push(warning(loc, message))
+		this.cx.warnIf(cond, loc, message)
 	}
 
 	opts() { return this.cx.opts }

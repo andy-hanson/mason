@@ -1,4 +1,4 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'module', './CompileError', './private/Cx', './private/lex/lex', './private/parse/parse', './private/Opts', './private/render', './private/transpile/transpile', './private/U/type', './private/verify/verify'], function (exports, module, _CompileError, _privateCx, _privateLexLex, _privateParseParse, _privateOpts, _privateRender, _privateTranspileTranspile, _privateUType, _privateVerifyVerify) {
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'module', './CompileError', './private/Cx', './private/lex/lex', './private/parse/parse', './private/Opts', './private/render', './private/transpile/transpile', './private/U/type', './private/verify'], function (exports, module, _CompileError, _privateCx, _privateLexLex, _privateParseParse, _privateOpts, _privateRender, _privateTranspileTranspile, _privateUType, _privateVerify) {
 	'use strict';
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
@@ -20,7 +20,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 
 	var _type = _interopRequire(_privateUType);
 
-	var _verify = _interopRequire(_privateVerifyVerify);
+	var _verify = _interopRequire(_privateVerify);
 
 	// Speed boost by turning this off
 	global.DEBUG = true;

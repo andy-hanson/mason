@@ -1,4 +1,4 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'module', 'benchmark', 'esast/dist/ast', 'fs', 'numeral', '../Expression', '../private/Cx', '../private/lex/lex', '../private/lex/ungrouped', '../private/lex/group', '../private/lex/Stream', '../private/parse/parse', '../private/render', '../private/transpile/transpile', '../private/verify/verify', '../private/U/util', '../private/Opts'], function (exports, module, _benchmark, _esastDistAst, _fs, _numeral, _Expression, _privateCx, _privateLexLex, _privateLexUngrouped, _privateLexGroup, _privateLexStream, _privateParseParse, _privateRender, _privateTranspileTranspile, _privateVerifyVerify, _privateUUtil, _privateOpts) {
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'module', 'benchmark', 'esast/dist/ast', 'fs', 'numeral', '../Expression', '../private/Cx', '../private/lex/lex', '../private/lex/ungrouped', '../private/lex/group', '../private/lex/Stream', '../private/parse/parse', '../private/render', '../private/transpile/transpile', '../private/verify', '../private/U/util', '../private/Opts'], function (exports, module, _benchmark, _esastDistAst, _fs, _numeral, _Expression, _privateCx, _privateLexLex, _privateLexUngrouped, _privateLexGroup, _privateLexStream, _privateParseParse, _privateRender, _privateTranspileTranspile, _privateVerify, _privateUUtil, _privateOpts) {
 	'use strict';
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
@@ -25,7 +25,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 
 	var _transpile = _interopRequire(_privateTranspileTranspile);
 
-	var _verify = _interopRequire(_privateVerifyVerify);
+	var _verify = _interopRequire(_privateVerify);
 
 	const eager = function (gen) {
 		const arr = [];

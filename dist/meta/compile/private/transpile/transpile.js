@@ -14,12 +14,26 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 
 	var _transpileModule2 = _interopRequire(_transpileModule);
 
-	let cx, vr;
+	let cx, vr, isInGenerator;
+
+	//TODO:MOVE
+	//TODO: Don't do higher-order version at all!
+	const withInGenerator = function (_isInGenerator, fun) {
+		const g = isInGenerator;
+		isInGenerator = _isInGenerator;
+		const res = fun();
+		isInGenerator = g;
+		return res;
+	};
 
 	function transpile(_cx, e, _vr) {
 		cx = _cx;
 		vr = _vr;
-		return t(e);
+		isInGenerator = false;
+		const res = t(e);
+		// Release for garbage collection
+		cx = vr = undefined;
+		return res;
 	}
 
 	const t = function (expr, arg, arg2, arg3) {
@@ -120,25 +134,30 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 			return _esastDistAst.BreakStatement(loopId(vr.endLoopToLoop.get(this)));
 		},
 		Fun: function () {
-			// TODO: cache literals for small numbers
-			const nArgs = _esastDistAst.Literal(this.args.length);
-			const opDeclareRest = this.opRestArg.map(function (rest) {
-				return _esastUtil.declare(rest, _esastDistAst.CallExpression(_util.IdArraySliceCall, [_util.IdArguments, nArgs]));
-			});
-			const argChecks = _UBag.flatMap(this.args, function (arg) {
-				return _util.opLocalCheck(cx, arg, arg.isLazy);
-			});
-			const _in = _UBag.flatMap(this.opIn, function (i) {
-				return _esastDistUtil.toStatements(t(i));
-			});
-			const lead = opDeclareRest.concat(argChecks, _in);
+			var _this3 = this;
 
-			const _out = _UBag.flatMap(this.opOut, function (o) {
-				return _esastDistUtil.toStatements(t(o));
+			return withInGenerator(this.k === '~|', function () {
+				// TODO: cache literals for small numbers
+				const nArgs = _esastDistAst.Literal(_this3.args.length);
+				const opDeclareRest = _this3.opRestArg.map(function (rest) {
+					return _esastUtil.declare(rest, _esastDistAst.CallExpression(_util.IdArraySliceCall, [_util.IdArguments, nArgs]));
+				});
+				const argChecks = _UBag.flatMap(_this3.args, function (arg) {
+					return _util.opLocalCheck(cx, arg, arg.isLazy);
+				});
+				const _in = _UBag.flatMap(_this3.opIn, function (i) {
+					return _esastDistUtil.toStatements(t(i));
+				});
+				const lead = opDeclareRest.concat(argChecks, _in);
+
+				const _out = _UBag.flatMap(_this3.opOut, function (o) {
+					return _esastDistUtil.toStatements(t(o));
+				});
+				const body = t(_this3.block, lead, _this3.opResDeclare, _out);
+				const args = _this3.args.map(t);
+				//TODO: isInGenerator
+				return _esastDistSpecialize.functionExpressionPlain(args, body, _this3.k === '~|');
 			});
-			const body = t(this.block, lead, this.opResDeclare, _out);
-			const args = this.args.map(t);
-			return _esastDistSpecialize.functionExpressionPlain(args, body, this.k === '~|');
 		},
 		Lazy: function () {
 			return _util.lazyWrap(t(this.value));
@@ -260,7 +279,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	});
 
 	const blockWrap = function (_, block) {
-		const g = vr.eIsInGenerator(_);
+		const g = isInGenerator; //vr.eIsInGenerator(_)
 		const invoke = _esastDistSpecialize.callExpressionThunk(_esastDistSpecialize.functionExpressionThunk(block, g));
 		return g ? _esastDistSpecialize.yieldExpressionDelegate(invoke) : invoke;
 	};

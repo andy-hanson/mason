@@ -26,9 +26,19 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		}
 
 		_createClass(Cx, [{
+			key: 'check',
+			value: function check(cond, loc, message) {
+				if (!cond) this.fail(loc, message);
+			}
+		}, {
 			key: 'fail',
 			value: function fail(loc, message) {
 				throw _CompileError2(warning(loc, message));
+			}
+		}, {
+			key: 'warnIf',
+			value: function warnIf(cond, loc, message) {
+				if (cond) this.warnings.push(warning(loc, message));
 			}
 		}]);
 
@@ -49,7 +59,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		_createClass(SubContext, [{
 			key: 'check',
 			value: function check(cond, loc, message) {
-				if (!cond) this.fail(loc, message);
+				this.cx.check(cond, loc, message);
 			}
 		}, {
 			key: 'fail',
@@ -59,7 +69,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		}, {
 			key: 'warnIf',
 			value: function warnIf(cond, loc, message) {
-				if (cond) this.cx.warnings.push(warning(loc, message));
+				this.cx.warnIf(cond, loc, message);
 			}
 		}, {
 			key: 'opts',

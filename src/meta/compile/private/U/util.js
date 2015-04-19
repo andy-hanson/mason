@@ -40,7 +40,7 @@ export const
 	newSet = function() {
 		const set = new Set()
 		for (let i = 0; i < arguments.length; i = i + 1)
-			arguments[i].forEach(s => s.forEach(_ => set.add(_)))
+			arguments[i].forEach(_ => set.add(_))
 		return set
 	},
 
