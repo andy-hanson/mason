@@ -2,7 +2,7 @@ import { code } from '../CompileError'
 import * as EExports from '../Expression'
 import Expression, { Assign, AssignDestructure, BlockVal, Call, Debug, Do, ELiteral,
 	GlobalAccess, Special, Use, UseDo, Yield, YieldTo } from '../Expression'
-import { head, isEmpty, toArray } from './U/Bag'
+import { head, isEmpty, mapKeys } from './U/Bag'
 import { ifElse, some } from './U/Op'
 import type from './U/type'
 import { implementMany } from './U/util'
@@ -97,21 +97,6 @@ const
 
 	registerLocal = local => {
 		vr.localToInfo.set(local, VrLocalInfo(	isInDebug, [], []))
-	},
-
-	localAccess = access => {
-		const name = access.name
-		const local = locals.get(name)
-		if (local !== undefined) {
-			vr.accessToLocal.set(access, local)
-			const info = vr.localToInfo.get(local)
-			const accesses = isInDebug ? info.debugAccesses : info.nonDebugAccesses
-			accesses.push(access)
-		} else
-			cx.fail(access.loc,
-				`Could not find local or global ${code(name)}.\n` +
-				'Available locals are:\n' +
-				`${code(toArray(locals.keys()).join(' '))}.`)
 	}
 
 export default function verify(cx, e) {
@@ -140,7 +125,6 @@ const verifyLocalUse = () => {
 
 implementMany(EExports, 'verify', {
 	Assign() {
-		//TODO:higher-order
 		const doV = () => vm([ this.assignee, this.value ])
 		if (this.assignee.isLazy)
 			withBlockLocals(doV)
@@ -160,10 +144,9 @@ implementMany(EExports, 'verify', {
 	// Only reach here for in/out condition
 	Debug() { verifyLines([ this ]) },
 	EndLoop() {
-		//TODO:higher-order
 		ifElse(opLoop,
 			loop => setEndLoop(this, loop),
-			() => fail(this.loc, 'Not in a loop.'))
+			() => cx.fail(this.loc, 'Not in a loop.'))
 	},
 	Fun() {
 		withBlockLocals(() => {
@@ -185,11 +168,21 @@ implementMany(EExports, 'verify', {
 			})
 		})
 	},
-	//TODO: This is silly...
-	LocalAccess() { localAccess(this) },
+	LocalAccess() {
+		const local = locals.get(this.name)
+		if (local !== undefined) {
+			vr.accessToLocal.set(this, local)
+			const info = vr.localToInfo.get(local)
+			const accesses = isInDebug ? info.debugAccesses : info.nonDebugAccesses
+			accesses.push(this)
+		} else
+			cx.fail(this.loc,
+				`Could not find local or global ${code(this.name)}.\n` +
+				'Available locals are:\n' +
+				`${code(mapKeys(locals).join(' '))}.`)
+	},
 	Loop() { withInLoop(this, () => this.block.verify()) },
-	//TODO: No such thing as buildVxBlockLine...
-	// Adding LocalDeclares to the available locals is done by Fun and buildVxBlockLine.
+	// Adding LocalDeclares to the available locals is done by Fun or lineNewLocals.
 	LocalDeclare() { vm(this.opType) },
 	MapEntry() {
 		this.key.verify()

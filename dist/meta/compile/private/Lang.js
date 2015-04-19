@@ -51,11 +51,9 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	exports.JsGlobals = JsGlobals;
 	// Anything not explicitly reserved is a valid name character.
 	// A `~` may appear in a name, but not at the beginning.
-	const isNameCharacter = function (ch) {
-		return /[^()[\]{}\.:|_\s\"`#;,]/.test(ch);
-	};
+	const NameCharacter = /[^()[\]{}\.:|_\s\"`#;,]/;
 
-	exports.isNameCharacter = isNameCharacter;
+	exports.NameCharacter = NameCharacter;
 	const defaultLoopName = 'anon-loop';
 
 	exports.defaultLoopName = defaultLoopName;

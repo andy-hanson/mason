@@ -24,17 +24,6 @@ import {
 
 let cx, vr, isInGenerator
 
-//TODO:MOVE
-//TODO: Don't do higher-order version at all!
-const withInGenerator = (_isInGenerator, fun) => {
-	const g = isInGenerator
-	isInGenerator = _isInGenerator
-	const res = fun()
-	isInGenerator = g
-	return res
-}
-
-
 export default function transpile(_cx, e, _vr) {
 	cx = _cx
 	vr = _vr
@@ -128,21 +117,24 @@ implementMany(EExports, 'transpileSubtree', {
 	ObjSimple() { return transpileObjSimple(this, cx) },
 	EndLoop() { return BreakStatement(loopId(vr.endLoopToLoop.get(this))) },
 	Fun() {
-		return withInGenerator(this.k === '~|', () => {
-			// TODO: cache literals for small numbers
-			const nArgs = Literal(this.args.length)
-			const opDeclareRest = this.opRestArg.map(rest =>
-				declare(rest, CallExpression(IdArraySliceCall, [IdArguments, nArgs])))
-			const argChecks = flatMap(this.args, arg => opLocalCheck(cx, arg, arg.isLazy))
-			const _in = flatMap(this.opIn, i => toStatements(t(i)))
-			const lead = opDeclareRest.concat(argChecks, _in)
+		const oldInGenerator = isInGenerator
+		isInGenerator = this.k === '~|'
 
-			const _out = flatMap(this.opOut, o => toStatements(t(o)))
-			const body = t(this.block, lead, this.opResDeclare, _out)
-			const args = this.args.map(t)
-			//TODO: isInGenerator
-			return functionExpressionPlain(args, body, this.k === '~|')
-		})
+		// TODO:ES6 use `...`
+		const nArgs = Literal(this.args.length)
+		const opDeclareRest = this.opRestArg.map(rest =>
+			declare(rest, CallExpression(IdArraySliceCall, [IdArguments, nArgs])))
+		const argChecks = flatMap(this.args, arg => opLocalCheck(cx, arg, arg.isLazy))
+		const _in = flatMap(this.opIn, i => toStatements(t(i)))
+		const lead = opDeclareRest.concat(argChecks, _in)
+
+		const _out = flatMap(this.opOut, o => toStatements(t(o)))
+		const body = t(this.block, lead, this.opResDeclare, _out)
+		const args = this.args.map(t)
+		const res = functionExpressionPlain(args, body, this.k === '~|')
+
+		isInGenerator = oldInGenerator
+		return res
 	},
 	Lazy() { return lazyWrap(t(this.value)) },
 	ListReturn() {
@@ -226,7 +218,7 @@ implementMany(EExports, 'transpileSubtree', {
 })
 
 const blockWrap = (_, block) => {
-	const g = isInGenerator//vr.eIsInGenerator(_)
+	const g = isInGenerator
 	const invoke = callExpressionThunk(functionExpressionThunk(block, g))
 	return g ? yieldExpressionDelegate(invoke) : invoke
 }

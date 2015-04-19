@@ -1,17 +1,100 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'module', 'esast/dist/Loc', '../../CompileError', '../Lang', '../Token', '../U/type', '../U/util', './GroupPre', './Stream'], function (exports, module, _esastDistLoc, _CompileError, _Lang, _Token, _UType, _UUtil, _GroupPre, _Stream) {
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'module', 'esast/dist/Loc', '../../CompileError', '../Lang', '../Token', '../U/util', './GroupPre'], function (exports, module, _esastDistLoc, _CompileError, _Lang, _Token, _UUtil, _GroupPre) {
 	'use strict';
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-	module.exports = ungrouped;
-
 	var _Loc = _interopRequire(_esastDistLoc);
-
-	var _type = _interopRequire(_UType);
 
 	var _GroupPre2 = _interopRequire(_GroupPre);
 
-	var _Stream2 = _interopRequire(_Stream);
+	module.exports = function (_cx, _str) {
+		cx = _cx;
+		res = [];
+		str = _str;
+		len = _str.length;
+		line = _esastDistLoc.StartLine;
+		column = _esastDistLoc.StartColumn;
+		index = 0;
+		ungrouped(false);
+		const r = res;
+		cx = res = str = undefined;
+		return r;
+	};
+
+	let cx,
+	// Output array of tokens and GroupPres
+	res,
+	// String we are tokenizing, and its length
+	str, len,
+	// Position in str
+	index,
+	// Current line and column at index
+	line, column;
+
+	const o = function (t) {
+		return res.push(t);
+	},
+	      pos = function () {
+		return _esastDistLoc.Pos(line, column);
+	},
+	      loc = function () {
+		return _esastDistLoc.singleCharLoc(pos());
+	},
+	      hasNext = function () {
+		return index !== len;
+	},
+	      peek = function () {
+		return str.charAt(index);
+	},
+	      tryEat = function (ch) {
+		const canEat = peek() === ch;
+		if (canEat) skip();
+		return canEat;
+	},
+	      prev = function () {
+		return str.charAt(index - 1);
+	},
+	      eat = function () {
+		const ch = str[index];
+		index = index + 1;
+		if (ch === '\n') {
+			line = line + 1;
+			column = _esastDistLoc.StartColumn;
+		} else column = column + 1;
+		return ch;
+	},
+	      skip = eat,
+	     
+
+	// Caller must ensure that backing up nCharsToBackUp characters brings us to oldPos.
+	stepBackMany = function (oldPos, nCharsToBackUp) {
+		index = index - nCharsToBackUp;
+		line = oldPos.line;
+		column = oldPos.column;
+	},
+	      takeWhile = function (rgx) {
+		const startIndex = index;
+		while (rgx.test(peek())) index = index + 1;
+		column = column + (index - startIndex);
+		return str.slice(startIndex, index);
+	},
+	      skipWhileEquals = function (ch) {
+		const startIndex = index;
+		while (peek() === ch) index = index + 1;
+		const diff = index - startIndex;
+		column = column + diff;
+		return diff;
+	},
+	      skipNewlines = function () {
+		while (peek() === '\n') {
+			index = index + 1;
+			line = line + 1;
+		}
+		column = _esastDistLoc.StartColumn;
+	},
+	      skipRestOfLine = function () {
+		while (peek() !== '\n') index = index + 1;
+	};
 
 	const cc = function (ch) {
 		return ch.charCodeAt(0);
@@ -41,20 +124,18 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	      Backslash = cc('\\'),
 	      Hash = cc('#'),
 	      Newline = cc('\n'),
-	      Backtick = cc('`'),
 	      Quote = cc('"'),
 	      Tab = cc('\t'),
 	      Hyphen = cc('-');
 
-	function* ungrouped(lx, stream, isInQuote) {
-		_type(stream, _Stream2, isInQuote, Boolean);
-
+	const ungrouped = function (isInQuote) {
 		let indent = 0;
 
-		while (stream.hasNext()) {
-			const startPos = stream.pos;
+		while (hasNext()) {
+			const startLine = line,
+			      startColumn = column;
 			const loc = function () {
-				return _Loc(startPos, stream.pos);
+				return _Loc(_esastDistLoc.Pos(startLine, startColumn), pos());
 			};
 			const keyword = function (k) {
 				return _Token.Keyword(loc(), k);
@@ -64,163 +145,147 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 			};
 
 			const eatNumber = function () {
-				let msLit = _ + stream.takeWhile(/[0-9\.e_]/);
-				if (msLit.endsWith('.')) {
-					msLit = msLit.slice(0, msLit.length - 1);
-					stream.stepBack();
-				}
-				const jsLit = msLit.replace(/_/g, '');
-				lx.check(!Number.isNaN(Number(jsLit)), stream.pos, function () {
-					return 'Invalid number literal ' + _CompileError.code(msLit);
+				const lit = _ + takeWhile(/[0-9\.e]/);
+				cx.check(!Number.isNaN(Number(lit)), pos, function () {
+					return 'Invalid number literal ' + _CompileError.code(lit);
 				});
-				return _Token.Literal(loc(), jsLit, Number);
+				return _Token.Literal(loc(), lit, Number);
 			};
 
-			const _ = stream.eat();
+			const _ = eat();
 			switch (cc(_)) {
 				case N0:case N1:case N2:case N3:case N4:
 				case N5:case N6:case N7:case N8:case N9:
-					yield eatNumber(_, stream);
+					o(eatNumber());
 					break;
 				case OpParen:case OpBracket:case OpBrace:case ClParen:case ClBracket:
-					yield gp(_);
+					o(gp(_));
 					break;
 				case ClBrace:
 					if (isInQuote) return;
-					yield gp(_);
+					o(gp(_));
 					break;
 				case Space:
-					lx.warnIf(stream.peek() === ' ', loc, 'Multiple spaces in a row');
-					yield gp('sp');
+					cx.warnIf(peek() === ' ', loc, 'Multiple spaces in a row');
+					o(gp('sp'));
 					break;
 				case Dot:
-					if (stream.peek() === ' ' || stream.peek() === '\n') {
+					if (peek() === ' ' || peek() === '\n') {
 						// ObjLit assign in its own spaced group
-						yield gp('sp');
-						yield keyword('. ');
-						yield gp('sp');
+						o(gp('sp'));
+						o(keyword('. '));
+						o(gp('sp'));
 						break;
 					} else {
-						yield _Token.DotName(loc(),
+						o(_Token.DotName(loc(),
 						// +1 for the dot we just skipped.
-						stream.takeWhile('.').length + 1, stream.takeWhile(_Lang.isNameCharacter));
+						skipWhileEquals('.') + 1, takeWhile(_Lang.NameCharacter)));
 						break;
 					}
 				case Colon:
-					yield keyword(':');
+					o(keyword(':'));
 					break;
 				case Tilde:
-					if (stream.tryEat('|')) {
-						yield keyword('~|');
-						yield gp('sp');
+					if (tryEat('|')) {
+						o(keyword('~|'));
+						o(gp('sp'));
 						break;
 					} else {
-						yield keyword('~');
+						o(keyword('~'));
 						break;
 					}
 					break;
 				case Bar:
 					// First arg in its own spaced group
-					yield keyword('|');
-					yield gp('sp');
+					o(keyword('|'));
+					o(gp('sp'));
 					break;
 				case Underscore:
-					yield keyword('_');
+					o(keyword('_'));
 					break;
 				case Hash:
-					stream.takeUpTo('\n');
+					skipRestOfLine();
 					break;
 				case Newline:
 					{
-						lx.check(!isInQuote, loc, 'Quote interpolation cannot contain newline');
-						lx.check(stream.prev() !== ' ', loc, 'Line ends in a space');
+						cx.check(!isInQuote, loc, 'Quote interpolation cannot contain newline');
+						cx.check(prev() !== ' ', loc, 'Line ends in a space');
 						// Skip any blank lines.
-						stream.takeWhile('\n');
+						skipNewlines();
 						const oldIndent = indent;
-						indent = stream.takeWhile('\t').length;
-						lx.check(stream.peek() !== ' ', stream.pos, 'Line begins in a space');
+						indent = skipWhileEquals('\t');
+						cx.check(peek() !== ' ', pos, 'Line begins in a space');
 						if (indent <= oldIndent) {
-							for (let i = indent; i < oldIndent; i = i + 1) yield gp('<-');
-							yield gp('ln');
+							for (let i = indent; i < oldIndent; i = i + 1) o(gp('<-'));
+							o(gp('ln'));
 						} else {
-							lx.check(indent === oldIndent + 1, loc, 'Line is indented more than once');
-							yield gp('->');
+							cx.check(indent === oldIndent + 1, loc, 'Line is indented more than once');
+							o(gp('->'));
 						}
 						break;
 					}
-				case Backtick:
-					{
-						const js = stream.takeUpTo(/[`\n]/);
-						lx.check(stream.eat() === '`', loc, function () {
-							return 'Unclosed ' + _CompileError.code('`');
-						});
-						yield _Token.Literal(loc(), js, 'js');
-						break;
-					}
 				case Quote:
-					yield* lexQuote(lx, stream, indent);
+					lexQuote(indent);
 					break;
 				case Tab:
-					lx.fail(loc(), 'Tab may only be used to indent');
+					cx.fail(loc(), 'Tab may only be used to indent');
 				case Hyphen:
-					if (/[0-9]/.test(stream.peek())) {
-						yield eatNumber();
+					if (/[0-9]/.test(peek())) {
+						o(eatNumber());
 						break;
 					}
 				// Else fallthrough
 				default:
 					{
-						lx.check(!_Lang.ReservedCharacters.has(_), loc, function () {
+						cx.check(!_Lang.ReservedCharacters.has(_), loc, function () {
 							return 'Reserved character ' + _CompileError.code(_);
 						});
 						// All other characters should be handled in a case above.
-						_UUtil.assert(_Lang.isNameCharacter(_));
-						const name = _ + stream.takeWhile(_Lang.isNameCharacter);
+						_UUtil.assert(_Lang.NameCharacter.test(_));
+						const name = _ + takeWhile(_Lang.NameCharacter);
 						switch (name) {
 							case 'region':
 								// Rest of line is a comment.
-								stream.takeUpTo('\n');
-								yield keyword('region');
+								skipRestOfLine();
+								o(keyword('region'));
 								break;
 							default:
-								if (stream.tryEat('_')) yield _Token.CallOnFocus(loc(), name);else if (_Lang.AllKeywords.has(name)) yield keyword(name);else if (_Lang.ReservedWords.has(name)) lx.fail(loc, 'Reserved word ' + _CompileError.code(name));else yield _Token.Name(loc(), name);
+								if (tryEat('_')) o(_Token.CallOnFocus(loc(), name));else if (_Lang.AllKeywords.has(name)) o(keyword(name));else if (_Lang.ReservedWords.has(name)) cx.fail(loc, 'Reserved word ' + _CompileError.code(name));else o(_Token.Name(loc(), name));
 						}
 					}
 			}
 		}
-	}
+	};
 
-	function* lexQuote(lx, stream, indent) {
-		_type(stream, _Stream2, indent, Number);
-
-		const isIndented = stream.peek() === '\n';
+	const lexQuote = function (indent) {
+		const isIndented = peek() === '\n';
 		const quoteIndent = indent + 1;
 
 		let first = true;
 		let read = '';
-		let startOfRead = stream.pos;
+		let startOfRead = pos();
 
-		function* yieldRead() {
+		const yieldRead = function () {
 			if (read !== '') {
-				yield _Token.Literal(_Loc(startOfRead, stream.pos),
+				o(_Token.Literal(_Loc(startOfRead, pos()),
 				// Don't include leading newline of indented block
-				first && isIndented ? read.slice(1) : read, String);
+				first && isIndented ? read.slice(1) : read, String));
 				first = false;
 			}
 			read = '';
-			startOfRead = stream.pos;
-		}
+			startOfRead = pos();
+		};
 
-		yield _GroupPre2(_esastDistLoc.singleCharLoc(stream.pos), '"');
+		o(_GroupPre2(loc(), '"'));
 
 		eatChars: while (true) {
-			const chPos = stream.pos;
-			const ch = stream.eat();
+			const chPos = pos();
+			const ch = eat();
 			switch (cc(ch)) {
 				case Backslash:
 					{
-						const escaped = stream.eat();
-						lx.check(quoteEscape.has(escaped), stream.pos, function () {
+						const escaped = eat();
+						cx.check(quoteEscape.has(escaped), pos, function () {
 							return 'No need to escape ' + _CompileError.code(escaped);
 						});
 						read = read + quoteEscape.get(escaped);
@@ -228,32 +293,32 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 					}
 				case OpBrace:
 					{
-						yield* yieldRead();
+						yieldRead();
 						// We can't just create a Group now because there may be other GroupPre_s inside.
-						yield _GroupPre2(_esastDistLoc.singleCharLoc(chPos), '(');
-						yield* ungrouped(lx, stream, true);
-						yield _GroupPre2(_esastDistLoc.singleCharLoc(stream.pos), ')');
+						o(_GroupPre2(_esastDistLoc.singleCharLoc(chPos), '('));
+						ungrouped(true);
+						o(_GroupPre2(loc(), ')'));
 						break;
 					}
 				case Newline:
 					{
-						lx.check(stream.prev() !== ' ', chPos, 'Line ends in a space');
-						lx.check(isIndented, chPos, 'Unclosed quote.');
-						let newIndent = stream.takeWhile('\t').length;
+						cx.check(prev() !== ' ', chPos, 'Line ends in a space');
+						cx.check(isIndented, chPos, 'Unclosed quote.');
+						let newIndent = skipWhileEquals('\t');
 
 						let s = '';
 
 						// Allow blank lines.
 						if (newIndent === 0) {
-							while (stream.tryEat('\n')) s = s + '\n';
-							newIndent = stream.takeWhile('\t').length;
+							while (tryEat('\n')) s = s + '\n';
+							newIndent = skipWhileEquals('\t');
 						}
 
 						if (newIndent < quoteIndent) {
 							// Indented quote section is over.
 							// Undo reading the tabs and newline.
-							stream.stepBackMany(chPos, newIndent + 1);
-							_UUtil.assert(stream.peek() === '\n');
+							stepBackMany(chPos, newIndent + 1);
+							_UUtil.assert(peek() === '\n');
 							break eatChars;
 						} else read = read + s + '\n' + '\t'.repeat(newIndent - quoteIndent);
 						break;
@@ -266,9 +331,9 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 			}
 		}
 
-		yield* yieldRead();
-		yield _GroupPre2(_esastDistLoc.singleCharLoc(stream.pos), 'close"');
-	}
+		yieldRead();
+		o(_GroupPre2(loc(), 'close"'));
+	};
 
 	const quoteEscape = _UUtil.newMap([['{', '{'], ['n', '\n'], ['t', '\t'], ['"', '"'], ['\\', '\\']]);
 });

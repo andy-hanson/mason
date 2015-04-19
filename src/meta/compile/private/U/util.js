@@ -49,4 +49,11 @@ export const
 		const map = new Map()
 		mapMembers.forEach(([ key, val ]) => map.set(key, val))
 		return map
+	},
+
+	// TODO:ES6 map.keys()
+	mapKeys = map => {
+		const res = [ ]
+		map.forEach((value, key) => res.push(key))
+		return res
 	}

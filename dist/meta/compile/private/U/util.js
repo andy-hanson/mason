@@ -74,6 +74,16 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 			return map.set(key, val);
 		});
 		return map;
+	},
+	     
+
+	// TODO:ES6 map.keys()
+	mapKeys = function (map) {
+		const res = [];
+		map.forEach(function (value, key) {
+			return res.push(key);
+		});
+		return res;
 	};
 	exports.assert = assert;
 	exports.log = log;
@@ -83,5 +93,6 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	exports.implementMany2 = implementMany2;
 	exports.newSet = newSet;
 	exports.newMap = newMap;
+	exports.mapKeys = mapKeys;
 });
 //# sourceMappingURL=../../../../meta/compile/private/U/util.js.map

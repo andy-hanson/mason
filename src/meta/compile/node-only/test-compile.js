@@ -7,21 +7,12 @@ import Cx, { SubContext } from '../private/Cx'
 import lex from '../private/lex/lex'
 import lexUngrouped from '../private/lex/ungrouped'
 import lexGroup from '../private/lex/group'
-import Stream from '../private/lex/Stream'
 import parse from '../private/parse/parse'
 import render from '../private/render'
 import transpile from '../private/transpile/transpile'
 import verify from '../private/verify'
 import { log } from '../private/U/util'
 import { OptsFromObject } from '../private/Opts'
-
-
-const eager = gen => {
-	const arr = []
-	for (let em of gen)
-		arr.push(em)
-	return arr
-}
 
 const test = tests => {
 	const suite = new Suite()
@@ -58,14 +49,12 @@ export default () => {
 	// log(`==>\n${ast}`)
 	const { code } = render(cx, ast)
 
-	const tUngroupedEager =
-		eager(lexUngrouped(new SubContext(cx), new Stream(source), false))
-
 	// Benchmark has problems if I don't put these in global variables...
 	global.lexUngroupedTest = () =>
-		eager(lexUngrouped(new SubContext(cx), new Stream(source), false))
+		lexUngrouped(new SubContext(cx), source)
+	const tUngrouped = global.lexUngroupedTest()
 	global.lexGroupTest = () =>
-		lexGroup(new SubContext(cx), tUngroupedEager[Symbol.iterator]())
+		lexGroup(new SubContext(cx), tUngrouped)
 
 	test({
 		lexUngrouped: () => global.lexUngroupedTest(),

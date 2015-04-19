@@ -1,4 +1,4 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'module', 'benchmark', 'esast/dist/ast', 'fs', 'numeral', '../Expression', '../private/Cx', '../private/lex/lex', '../private/lex/ungrouped', '../private/lex/group', '../private/lex/Stream', '../private/parse/parse', '../private/render', '../private/transpile/transpile', '../private/verify', '../private/U/util', '../private/Opts'], function (exports, module, _benchmark, _esastDistAst, _fs, _numeral, _Expression, _privateCx, _privateLexLex, _privateLexUngrouped, _privateLexGroup, _privateLexStream, _privateParseParse, _privateRender, _privateTranspileTranspile, _privateVerify, _privateUUtil, _privateOpts) {
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'module', 'benchmark', 'esast/dist/ast', 'fs', 'numeral', '../Expression', '../private/Cx', '../private/lex/lex', '../private/lex/ungrouped', '../private/lex/group', '../private/parse/parse', '../private/render', '../private/transpile/transpile', '../private/verify', '../private/U/util', '../private/Opts'], function (exports, module, _benchmark, _esastDistAst, _fs, _numeral, _Expression, _privateCx, _privateLexLex, _privateLexUngrouped, _privateLexGroup, _privateParseParse, _privateRender, _privateTranspileTranspile, _privateVerify, _privateUUtil, _privateOpts) {
 	'use strict';
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
@@ -17,8 +17,6 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 
 	var _lexGroup = _interopRequire(_privateLexGroup);
 
-	var _Stream = _interopRequire(_privateLexStream);
-
 	var _parse = _interopRequire(_privateParseParse);
 
 	var _render2 = _interopRequire(_privateRender);
@@ -26,12 +24,6 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	var _transpile = _interopRequire(_privateTranspileTranspile);
 
 	var _verify = _interopRequire(_privateVerify);
-
-	const eager = function (gen) {
-		const arr = [];
-		for (let em of gen) arr.push(em);
-		return arr;
-	};
 
 	const test = function (tests) {
 		const suite = new _benchmark.Suite();
@@ -72,14 +64,13 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 
 		const code = _render.code;
 
-		const tUngroupedEager = eager(_lexUngrouped(new _privateCx.SubContext(cx), new _Stream(source), false));
-
 		// Benchmark has problems if I don't put these in global variables...
 		global.lexUngroupedTest = function () {
-			return eager(_lexUngrouped(new _privateCx.SubContext(cx), new _Stream(source), false));
+			return _lexUngrouped(new _privateCx.SubContext(cx), source);
 		};
+		const tUngrouped = global.lexUngroupedTest();
 		global.lexGroupTest = function () {
-			return _lexGroup(new _privateCx.SubContext(cx), tUngroupedEager[Symbol.iterator]());
+			return _lexGroup(new _privateCx.SubContext(cx), tUngrouped);
 		};
 
 		test({

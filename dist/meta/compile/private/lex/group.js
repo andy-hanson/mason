@@ -1,4 +1,4 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'module', 'esast/dist/Loc', '../Lang', '../Token', '../U/Bag', '../U/Slice', '../U/type', '../U/util', '../U/types', './GroupPre'], function (exports, module, _esastDistLoc, _Lang, _Token, _UBag, _USlice, _UType, _UUtil, _UTypes, _GroupPre) {
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'module', 'esast/dist/Loc', '../Lang', '../Token', '../U/Bag', '../U/Slice', '../U/util', '../U/types'], function (exports, module, _esastDistLoc, _Lang, _Token, _UBag, _USlice, _UUtil, _UTypes) {
 	'use strict';
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
@@ -11,10 +11,6 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 
 	var _Slice = _interopRequire(_USlice);
 
-	var _type = _interopRequire(_UType);
-
-	var _GroupPre2 = _interopRequire(_GroupPre);
-
 	function group(lx, preGroupedTokens) {
 		// Stack of GroupBuilders
 		const stack = [];
@@ -23,7 +19,6 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		let cur = null;
 
 		function newLevel(pos, k) {
-			_type(pos, _esastDistLoc.Pos, k, String);
 			// console.log(`${'\t'.repeat(stack.length)}>> ${k}`)
 			cur = GroupBuilder({ startPos: pos, k: k, body: [] });
 			stack.push(cur);
@@ -42,8 +37,6 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		}
 
 		function finishLevel(closePos, k) {
-			_type(closePos, _esastDistLoc.Pos, k, String);
-
 			const wrapped = wrapLevel(closePos, k);
 			// cur is now the previous level on the stack
 			// console.log(`${'\t'.repeat(stack.length)}<< ${k})
@@ -55,10 +48,8 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		}
 
 		function wrapLevel(closePos, k) {
-			_type(closePos, _esastDistLoc.Pos, k, String);
 			const old = stack.pop();
 			cur = _UBag.isEmpty(stack) ? null : _UBag.last(stack);
-			_type(old, GroupBuilder);
 			const loc = _Loc(old.startPos, closePos);
 			_UUtil.assert(_Lang.GroupOpenToClose.get(old.k) === k);
 			const tokens = new _Slice(old.body);
@@ -83,10 +74,8 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		startLine(_esastDistLoc.StartPos);
 
 		let endLoc = _Loc(_esastDistLoc.StartPos, _esastDistLoc.StartPos);
-		for (let _ of preGroupedTokens) {
+		preGroupedTokens.forEach(function (_) {
 			if (_ instanceof _Token2) cur.add(_);else {
-				_type(_, _GroupPre2);
-				_type(_.loc, _Loc);
 				// U.log(_.k)
 				const loc = _.loc;
 				endLoc = loc;
@@ -126,7 +115,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 						throw new Error(k);
 				}
 			}
-		}
+		});
 
 		endLine(endLoc.end);
 		const wholeModuleBlock = wrapLevel(endLoc.end, '<-');
@@ -143,7 +132,6 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	});
 	Object.assign(GroupBuilder.prototype, {
 		add: function (t) {
-			_type(t, _Token2);
 			this.body.push(t);
 		}
 	});

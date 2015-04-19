@@ -3,10 +3,8 @@ import { GroupOpenToClose } from '../Lang'
 import Token, { Group, Keyword } from '../Token'
 import { isEmpty, last } from '../U/Bag'
 import Slice from '../U/Slice'
-import type from '../U/type'
 import { assert, newSet } from '../U/util'
 import { ObjType } from '../U/types'
-import GroupPre from './GroupPre'
 
 export default function group(lx, preGroupedTokens) {
 	// Stack of GroupBuilders
@@ -16,7 +14,6 @@ export default function group(lx, preGroupedTokens) {
 	let cur = null
 
 	function newLevel(pos, k) {
-		type(pos, Pos, k, String)
 		// console.log(`${'\t'.repeat(stack.length)}>> ${k}`)
 		cur = GroupBuilder({ startPos: pos, k: k, body: [] })
 		stack.push(cur)
@@ -39,8 +36,6 @@ export default function group(lx, preGroupedTokens) {
 	}
 
 	function finishLevel(closePos, k) {
-		type(closePos, Pos, k, String)
-
 		const wrapped = wrapLevel(closePos, k)
 		// cur is now the previous level on the stack
 		// console.log(`${'\t'.repeat(stack.length)}<< ${k})
@@ -57,10 +52,8 @@ export default function group(lx, preGroupedTokens) {
 	}
 
 	function wrapLevel(closePos, k) {
-		type(closePos, Pos, k, String)
 		const old = stack.pop()
 		cur = isEmpty(stack) ? null : last(stack)
-		type(old, GroupBuilder)
 		const loc = Loc(old.startPos, closePos)
 		assert(GroupOpenToClose.get(old.k) === k)
 		const tokens = new Slice(old.body)
@@ -85,12 +78,10 @@ export default function group(lx, preGroupedTokens) {
 	startLine(StartPos)
 
 	let endLoc = Loc(StartPos, StartPos)
-	for (let _ of preGroupedTokens) {
+	preGroupedTokens.forEach(_ => {
 		if (_ instanceof Token)
 			cur.add(_)
 		else {
-			type(_, GroupPre)
-			type(_.loc, Loc)
 			// U.log(_.k)
 			const loc = _.loc
 			endLoc = loc
@@ -130,7 +121,7 @@ export default function group(lx, preGroupedTokens) {
 				default: throw new Error(k)
 			}
 		}
-	}
+	})
 
 	endLine(endLoc.end)
 	const wholeModuleBlock = wrapLevel(endLoc.end, '<-')
@@ -147,7 +138,6 @@ const GroupBuilder = ObjType('GroupBuilder', Object, {
 })
 Object.assign(GroupBuilder.prototype, {
 	add(t) {
-		type(t, Token)
 		this.body.push(t)
 	}
 })

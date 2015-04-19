@@ -87,16 +87,6 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	},
 	      registerLocal = function (local) {
 		vr.localToInfo.set(local, _Vr.VrLocalInfo(isInDebug, [], []));
-	},
-	      localAccess = function (access) {
-		const name = access.name;
-		const local = locals.get(name);
-		if (local !== undefined) {
-			vr.accessToLocal.set(access, local);
-			const info = vr.localToInfo.get(local);
-			const accesses = isInDebug ? info.debugAccesses : info.nonDebugAccesses;
-			accesses.push(access);
-		} else cx.fail(access.loc, 'Could not find local or global ' + _CompileError.code(name) + '.\n' + 'Available locals are:\n' + ('' + _CompileError.code(_UBag.toArray(locals.keys()).join(' ')) + '.'));
 	};
 
 	function verify(cx, e) {
@@ -127,7 +117,6 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		Assign: function () {
 			var _this = this;
 
-			//TODO:higher-order
 			const doV = function () {
 				return vm([_this.assignee, _this.value]);
 			};
@@ -156,11 +145,10 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		EndLoop: function () {
 			var _this3 = this;
 
-			//TODO:higher-order
 			_UOp.ifElse(opLoop, function (loop) {
 				return setEndLoop(_this3, loop);
 			}, function () {
-				return fail(_this3.loc, 'Not in a loop.');
+				return cx.fail(_this3.loc, 'Not in a loop.');
 			});
 		},
 		Fun: function () {
@@ -192,9 +180,14 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 				});
 			});
 		},
-		//TODO: This is silly...
 		LocalAccess: function () {
-			localAccess(this);
+			const local = locals.get(this.name);
+			if (local !== undefined) {
+				vr.accessToLocal.set(this, local);
+				const info = vr.localToInfo.get(local);
+				const accesses = isInDebug ? info.debugAccesses : info.nonDebugAccesses;
+				accesses.push(this);
+			} else cx.fail(this.loc, 'Could not find local or global ' + _CompileError.code(this.name) + '.\n' + 'Available locals are:\n' + ('' + _CompileError.code(_UBag.mapKeys(locals).join(' ')) + '.'));
 		},
 		Loop: function () {
 			var _this5 = this;
@@ -203,8 +196,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 				return _this5.block.verify();
 			});
 		},
-		//TODO: No such thing as buildVxBlockLine...
-		// Adding LocalDeclares to the available locals is done by Fun and buildVxBlockLine.
+		// Adding LocalDeclares to the available locals is done by Fun or lineNewLocals.
 		LocalDeclare: function () {
 			vm(this.opType);
 		},
