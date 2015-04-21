@@ -1,4 +1,4 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'module', './CompileError', './private/Cx', './private/lex/lex', './private/parse/parse', './private/Opts', './private/render', './private/transpile/transpile', './private/U/type', './private/verify'], function (exports, module, _CompileError, _privateCx, _privateLexLex, _privateParseParse, _privateOpts, _privateRender, _privateTranspileTranspile, _privateUType, _privateVerify) {
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'module', './CompileError', './private/Cx', './private/lex/lex', './private/parse', './private/Opts', './private/render', './private/transpile/transpile', './private/U/type', './private/verify'], function (exports, module, _CompileError, _privateCx, _privateLexLex, _privateParse, _privateOpts, _privateRender, _privateTranspileTranspile, _privateUType, _privateVerify) {
 	'use strict';
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
@@ -12,7 +12,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 
 	var _lex = _interopRequire(_privateLexLex);
 
-	var _parse = _interopRequire(_privateParseParse);
+	var _parse = _interopRequire(_privateParse);
 
 	var _render2 = _interopRequire(_privateRender);
 

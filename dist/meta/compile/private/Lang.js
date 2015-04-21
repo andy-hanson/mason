@@ -33,10 +33,8 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 
 	exports.ReservedWords = ReservedWords;
 	const GroupKinds = _UUtil.newSet(['(', '[', '{', '->', 'ln', 'sp', '"']);
-	exports.GroupKinds = GroupKinds;
-	const GroupPres = _UUtil.newSet(GroupKinds, [')', ']', '}', '<-', 'close"']);
 
-	exports.GroupPres = GroupPres;
+	exports.GroupKinds = GroupKinds;
 	const ReservedCharacters = _UUtil.newSet(['`', ';', ',', '%', '^', '&', '\\']);
 
 	exports.ReservedCharacters = ReservedCharacters;

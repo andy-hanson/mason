@@ -1,7 +1,7 @@
 import CompileError from './CompileError'
 import Cx from './private/Cx'
 import lex from './private/lex/lex'
-import parse from './private/parse/parse'
+import parse from './private/parse'
 import { OptsFromObject } from './private/Opts'
 import render from './private/render'
 import transpile from './private/transpile/transpile'

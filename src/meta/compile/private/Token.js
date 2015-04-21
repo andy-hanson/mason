@@ -23,13 +23,21 @@ const kwIs = k => {
 }
 
 export const
+	G_Paren = 1,
+	G_Bracket = 2,
+	G_Block = 3,
+	G_Quote = 4,
+	G_Line = 5,
+	G_Space = 6
+
+export const
 	Name = tt('Name', 'name', String),
 	Group = Object.assign(
-		tt('Group', 'tokens', [Token], 'k', GroupKinds),
+		tt('Group', 'tokens', [Token], 'k', Number),
 		{
-			isBlock: gIs('->'),
-			isLine: gIs('ln'),
-			isSpaced: gIs('sp')
+			isBlock: gIs(G_Block),
+			isLine: gIs(G_Line),
+			isSpaced: gIs(G_Space)
 		}),
 	Keyword = Object.assign(
 		tt('Keyword', 'k', AllKeywords),

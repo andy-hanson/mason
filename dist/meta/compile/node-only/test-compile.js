@@ -1,4 +1,4 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'module', 'benchmark', 'esast/dist/ast', 'fs', 'numeral', '../Expression', '../private/Cx', '../private/lex/lex', '../private/lex/ungrouped', '../private/lex/group', '../private/parse/parse', '../private/render', '../private/transpile/transpile', '../private/verify', '../private/U/util', '../private/Opts'], function (exports, module, _benchmark, _esastDistAst, _fs, _numeral, _Expression, _privateCx, _privateLexLex, _privateLexUngrouped, _privateLexGroup, _privateParseParse, _privateRender, _privateTranspileTranspile, _privateVerify, _privateUUtil, _privateOpts) {
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'module', 'benchmark', 'esast/dist/ast', 'fs', 'numeral', '../Expression', '../private/Cx', '../private/lex/lex', '../private/lex/ungrouped', '../private/lex/group', '../private/parse', '../private/render', '../private/transpile/transpile', '../private/verify', '../private/U/util', '../private/Opts'], function (exports, module, _benchmark, _esastDistAst, _fs, _numeral, _Expression, _privateCx, _privateLexLex, _privateLexUngrouped, _privateLexGroup, _privateParse, _privateRender, _privateTranspileTranspile, _privateVerify, _privateUUtil, _privateOpts) {
 	'use strict';
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
@@ -17,7 +17,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 
 	var _lexGroup = _interopRequire(_privateLexGroup);
 
-	var _parse = _interopRequire(_privateParseParse);
+	var _parse = _interopRequire(_privateParse);
 
 	var _render2 = _interopRequire(_privateRender);
 
@@ -81,9 +81,6 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 			},
 			lexGroup: function () {
 				return global.lexGroupTest();
-			},
-			'lex (all)': function () {
-				return _lex(cx, source);
 			},
 			parse: function () {
 				return _parse(cx, t);

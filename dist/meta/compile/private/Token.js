@@ -46,11 +46,24 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		}
 	};
 
+	const G_Paren = 1,
+	      G_Bracket = 2,
+	      G_Block = 3,
+	      G_Quote = 4,
+	      G_Line = 5,
+	      G_Space = 6;
+
+	exports.G_Paren = G_Paren;
+	exports.G_Bracket = G_Bracket;
+	exports.G_Block = G_Block;
+	exports.G_Quote = G_Quote;
+	exports.G_Line = G_Line;
+	exports.G_Space = G_Space;
 	const Name = tt('Name', 'name', String),
-	      Group = Object.assign(tt('Group', 'tokens', [Token], 'k', _Lang.GroupKinds), {
-		isBlock: gIs('->'),
-		isLine: gIs('ln'),
-		isSpaced: gIs('sp')
+	      Group = Object.assign(tt('Group', 'tokens', [Token], 'k', Number), {
+		isBlock: gIs(G_Block),
+		isLine: gIs(G_Line),
+		isSpaced: gIs(G_Space)
 	}),
 	      Keyword = Object.assign(tt('Keyword', 'k', _Lang.AllKeywords), {
 		is: kwIs,

@@ -55,6 +55,7 @@
 		"globals": { "_ms": true },
 		"rules": {
 			"comma-style": [ 1, "last" ],
+			"camelcase": 0,
 			"curly": [ 1, "multi" ],
 			"default-case": 1,
 			"generator-star-spacing": [ 1, "after" ],

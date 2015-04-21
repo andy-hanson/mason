@@ -31,7 +31,6 @@ export const AllKeywords = newSet(
 export const ReservedWords = newSet([ 'for', 'return' ])
 
 export const GroupKinds = newSet(['(', '[', '{', '->', 'ln', 'sp', '"'])
-export const GroupPres = newSet(GroupKinds, [ ')', ']', '}', '<-', 'close"' ])
 
 export const ReservedCharacters = newSet([ '`', ';', ',', '%', '^', '&', '\\' ])
 

@@ -7,7 +7,7 @@ import Cx, { SubContext } from '../private/Cx'
 import lex from '../private/lex/lex'
 import lexUngrouped from '../private/lex/ungrouped'
 import lexGroup from '../private/lex/group'
-import parse from '../private/parse/parse'
+import parse from '../private/parse'
 import render from '../private/render'
 import transpile from '../private/transpile/transpile'
 import verify from '../private/verify'
@@ -60,7 +60,6 @@ export default () => {
 	test({
 		lexUngrouped: () => global.lexUngroupedTest(),
 		lexGroup: () => global.lexGroupTest(),
-		'lex (all)': () => lex(cx, source),
 		parse: () => parse(cx, t),
 		verify: () => verify(cx, e),
 		transpile: () => transpile(cx, e, vr),
