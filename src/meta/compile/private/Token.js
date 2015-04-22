@@ -44,8 +44,7 @@ export const
 			isTilde: kwIs('~'),
 			isObjAssign: kwIs('. ')
 		}),
-	// k: Number | String | 'js'
-	Literal = tt('Literal', 'value', String, 'k', Object),
+	TokenNumberLiteral = tt('TokenNumberLiteral', 'value', Number),
 	CallOnFocus = tt('CallOnFocus', 'name', String),
 	DotName = tt('DotName', 'nDots', Number, 'name', String)
 
@@ -55,7 +54,7 @@ const show = implementMany2('show', [
 	[DotName, _ => '.'.repeat(_.nDots) + _.name],
 	[Group, _ => `${_.k}...${GroupOpenToClose.get(_.k)}`],
 	[Keyword, _ => { return _.k } ],
-	[Literal, _ => _.value],
+	[TokenNumberLiteral, _ => _.value],
 	[Name, _ => _.name]
 ])
 Object.assign(Token.prototype, {

@@ -114,9 +114,16 @@ export const
 		'opOut', Op(Debug)),
 
 	Lazy = ev('Lazy', 'value', Val),
-	ELiteral = ev('Literal', 'value', String, 'k', newSet([Number, String, 'js'])),
+	NumberLiteral = ev('NumberLiteral', 'value', Number),
 	Member = ev('Member', 'object', Val, 'name', String),
-	Quote = ev('Quote', 'parts', [Val]),
+	// parts are Strings interleaved with Vals.
+	Quote = Object.assign(
+		ev('Quote', 'parts', [Object]),
+		{
+			forString(loc, str) {
+				return Quote(loc, [ str ])
+			}
+		}),
 
 	Special = Object.assign(
 		ev('Special', 'k', KSpecial),
@@ -125,4 +132,3 @@ export const
 			debugger: loc => Special(loc, 'debugger'),
 			sub: loc => Special(loc, 'sub')
 		})
-

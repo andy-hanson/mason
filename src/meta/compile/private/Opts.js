@@ -2,7 +2,6 @@ import { last } from './U/Bag'
 import type from './U/type'
 import { ObjType } from './U/types'
 
-
 /*
 Opts object
 mandatory:
@@ -54,7 +53,6 @@ Object.assign(Opts.prototype, {
 		if (typeof this.checks === 'boolean')
 			return this.checks
 		else {
-			type(this.checks, Object)
 			type(this.checks[name], 'boolean')
 			return this.checks[name]
 		}

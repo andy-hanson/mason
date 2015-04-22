@@ -1,7 +1,7 @@
 import { code } from '../CompileError'
 import * as EExports from '../Expression'
 import { Assign, AssignDestructure, BlockVal, Call, Debug, Do,
-	ELiteral, GlobalAccess, Special, UseDo, Yield, YieldTo } from '../Expression'
+	GlobalAccess, Special, UseDo, Yield, YieldTo } from '../Expression'
 import { head, isEmpty, mapKeys } from './U/Bag'
 import { ifElse, some } from './U/Op'
 import { implementMany } from './U/util'
@@ -124,7 +124,10 @@ const verifyLocalUse = () => {
 
 implementMany(EExports, 'verify', {
 	Assign() {
-		const doV = () => vm([ this.assignee, this.value ])
+		const doV = () => {
+			this.assignee.verify()
+			this.value.verify()
+		}
 		if (this.assignee.isLazy)
 			withBlockLocals(doV)
 		else
@@ -220,11 +223,16 @@ implementMany(EExports, 'verify', {
 	ListReturn() { },
 	ListEntry() { this.value.verify() },
 	ListSimple() { vm(this.parts) },
-	ELiteral() { cx.warnIf(this.k === 'js', this.loc, 'Js literal') },
+	NumberLiteral() { },
 	MapReturn() { },
 	Member() { this.object.verify() },
 	ModuleDefaultExport() { this.value.verify() },
-	Quote() { vm(this.parts) },
+	Quote() {
+		this.parts.forEach(_ => {
+			if (typeof _ !== 'string')
+				_.verify()
+		})
+	},
 	Special() { },
 	Splat() { this.splatted.verify() }
 })
@@ -247,88 +255,87 @@ function verifyCasePart() {
 	this.result.verify()
 }
 
-function verifyUses(uses, debugUses) {
-	const useLocals = []
-	uses.forEach(use => {
-		if (!(use instanceof UseDo))
-			use.used.concat(use.opUseDefault).forEach(_ => {
-				registerLocal(_)
-				useLocals.push(_)
-			})
-	})
-	withInDebug(true, () =>
-		debugUses.forEach(use =>
-			use.used.concat(use.opUseDefault).forEach(_ => {
-				registerLocal(_)
-				useLocals.push(_)
-			})))
-	return useLocals
-}
+const
+	verifyUses = (uses, debugUses) => {
+		const useLocals = []
+		uses.forEach(use => {
+			if (!(use instanceof UseDo))
+				use.used.concat(use.opUseDefault).forEach(_ => {
+					registerLocal(_)
+					useLocals.push(_)
+				})
+		})
+		withInDebug(true, () =>
+			debugUses.forEach(use =>
+				use.used.concat(use.opUseDefault).forEach(_ => {
+					registerLocal(_)
+					useLocals.push(_)
+				})))
+		return useLocals
+	},
 
-function verifyLines(lines) {
-	const lineToLocals = new Map()
-	let prevLocals = []
-	let allNewLocals = []
+	verifyLines = lines => {
+		const lineToLocals = new Map()
+		let prevLocals = []
+		let allNewLocals = []
 
-	function processLine(line) {
-		if (line instanceof Debug)
-			// TODO: Do anything in this situation?
-			// cx.check(!inDebug, line.loc, 'Redundant `debug`.')
-			withInDebug(true, () => line.lines.forEach(processLine))
-		else {
-			verifyIsStatement(line)
-			const lineNews = lineNewLocals(line)
-			prevLocals.forEach(prevLocal =>
-				lineNews.forEach(newLocal =>
-					cx.check(
-						prevLocal.name !== newLocal.name, newLocal.loc,
-						`${code(newLocal.name)} already declared at ${prevLocal.loc.start}`)))
-			lineNews.forEach(_ => registerLocal(_))
-			const newLocals = prevLocals.concat(lineNews)
-			lineToLocals.set(line, prevLocals)
-			prevLocals = newLocals
-			// Final set value is answer
-			allNewLocals = newLocals
+		const processLine = line => {
+			if (line instanceof Debug)
+				// TODO: Do anything in this situation?
+				// cx.check(!inDebug, line.loc, 'Redundant `debug`.')
+				withInDebug(true, () => line.lines.forEach(processLine))
+			else {
+				verifyIsStatement(line)
+				const lineNews = lineNewLocals(line)
+				prevLocals.forEach(prevLocal =>
+					lineNews.forEach(newLocal =>
+						cx.check(
+							prevLocal.name !== newLocal.name, newLocal.loc,
+							`${code(newLocal.name)} already declared at ${prevLocal.loc.start}`)))
+				lineNews.forEach(_ => registerLocal(_))
+				const newLocals = prevLocals.concat(lineNews)
+				lineToLocals.set(line, prevLocals)
+				prevLocals = newLocals
+				// Final set value is answer
+				allNewLocals = newLocals
+			}
 		}
-	}
 
-	lines.forEach(processLine)
+		lines.forEach(processLine)
 
-	function verifyLine(line) {
-		if (line instanceof Debug)
-			withInDebug(true, () => line.lines.forEach(verifyLine))
-		else
-			plusLocals(lineToLocals.get(line), () =>
-				plusPendingBlockLocals(allNewLocals, () =>
-					line.verify()))
-	}
+		const verifyLine = line => {
+			if (line instanceof Debug)
+				withInDebug(true, () => line.lines.forEach(verifyLine))
+			else
+				plusLocals(lineToLocals.get(line), () =>
+					plusPendingBlockLocals(allNewLocals, () =>
+						line.verify()))
+		}
 
-	lines.forEach(verifyLine)
+		lines.forEach(verifyLine)
 
-	return allNewLocals
-}
+		return allNewLocals
+	},
 
-function verifyIsStatement(line) {
-	switch (true) {
-		case line instanceof Do:
-		// Some Vals are also conceptually Dos, but this was easier than multiple inheritance.
-		case line instanceof Call:
-		case line instanceof ELiteral && line.k === 'js':
-		case line instanceof Special && line.k === 'debugger':
-		// OK, used to mean `pass`
-		case line instanceof GlobalAccess && line.name === 'null':
-		case line instanceof Yield:
-		case line instanceof YieldTo:
-			return
-		default:
-			cx.fail(line.loc, 'Expression in statement position.')
-	}
-}
+	verifyIsStatement = line => {
+		switch (true) {
+			case line instanceof Do:
+			// Some Vals are also conceptually Dos, but this was easier than multiple inheritance.
+			case line instanceof Call:
+			case line instanceof Yield:
+			case line instanceof YieldTo:
+			case line instanceof Special && line.k === 'debugger':
+			// OK, used to mean `pass`
+			case line instanceof GlobalAccess && line.name === 'null':
+				return
+			default:
+				cx.fail(line.loc, 'Expression in statement position.')
+		}
+	},
 
-function lineNewLocals(line) {
-	return line instanceof Assign ?
-		[ line.assignee ] :
-		line instanceof AssignDestructure ?
-		line.assignees :
-		[ ]
-}
+	lineNewLocals = line =>
+		line instanceof Assign ?
+			[ line.assignee ] :
+			line instanceof AssignDestructure ?
+			line.assignees :
+			[ ]

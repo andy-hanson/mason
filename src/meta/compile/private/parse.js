@@ -1,13 +1,13 @@
 import Loc from 'esast/dist/Loc'
 import { code } from '../CompileError'
 import { Assign, AssignDestructure, BlockDo, BlockVal, BlockWrap, Call, CaseDoPart, CaseValPart,
-	CaseDo, CaseVal, Debug, ELiteral, EndLoop, Fun, GlobalAccess, Lazy, ListEntry, ListReturn,
+	CaseDo, CaseVal, Debug, NumberLiteral, EndLoop, Fun, GlobalAccess, Lazy, ListEntry, ListReturn,
 	ListSimple, LocalAccess, LocalDeclare, LocalDeclare, Loop, MapEntry, MapReturn, Member, Module,
 	ModuleDefaultExport, ObjReturn, ObjSimple, Quote, Special, Splat, Val, UseDo, Use,
 	Yield, YieldTo } from '../Expression'
 import { JsGlobals, SpecialKeywords } from './Lang'
 import { CallOnFocus, DotName, Group, G_Block, G_Bracket,
-	G_Paren, G_Space, G_Quote, Keyword, Literal, Name } from './Token'
+	G_Paren, G_Space, G_Quote, Keyword, TokenNumberLiteral, Name } from './Token'
 import { cat, head, flatMap, isEmpty, last, push, repeat, rtail, tail, unshift } from './U/Bag'
 import { ifElse, None, opIf, some } from './U/Op'
 import { assert } from './U/util'
@@ -24,7 +24,6 @@ export default function parse(cx, rootToken) {
 			cx.check(cond, loc, message),
 		checkEmpty = (tokens, message) =>
 			cx.check(tokens.isEmpty(), () => _locFromTokens(tokens), message),
-		fail = message => cx.fail(loc, message),
 		w0 = (_tokens, fun) => {
 			const t = tokens
 			tokens = _tokens
@@ -65,7 +64,8 @@ export default function parse(cx, rootToken) {
 			loc = l
 			return res
 		},
-		_locFromTokens = tokens => Loc(tokens.head().loc.start, tokens.last().loc.end)
+		_locFromTokens = tokens => Loc(tokens.head().loc.start, tokens.last().loc.end),
+		unexpected = t => cx.fail(t.loc, `Unexpected ${t}`)
 
 	const parseModule = () => {
 		const { uses: doUses, rest } = tryParseUse('use!')
@@ -85,7 +85,7 @@ export default function parse(cx, rootToken) {
 					loc,
 					LocalDeclare(loc, 'displayName', [], false, true),
 					'export',
-					ELiteral(loc, cx.opts.moduleName(), String)))
+					Quote.forString(loc, cx.opts.moduleName())))
 
 		const uses = plainUses.concat(lazyUses)
 		return Module(loc, doUses, uses, debugUses, block)
@@ -653,34 +653,40 @@ export default function parse(cx, rootToken) {
 
 	const parseSingle = t => {
 		switch (true) {
-			case t instanceof CallOnFocus:
-				return Call(t.loc, _access(t.name), [ LocalAccess.focus(t.loc) ])
-			case t instanceof Literal:
-				return ELiteral(t.loc, t.value, t.k)
 			case t instanceof Name:
 				return _access(t.name)
-			case t instanceof Keyword:
-				if (t.k === '_')
-					return LocalAccess.focus(t.loc)
-				if (SpecialKeywords.has(t.k))
-					return Special(t.loc, t.k)
-				// Else fallthrough to fail
 			case t instanceof Group:
 				switch (t.k) {
 					case G_Space: return wg(t, parseSpaced)
-					case G_Block: return wg(t, blockWrap, 'val')
-					case G_Quote: return Quote(t.loc, t.tokens.map(parseSingle))
 					case G_Paren: return wg(t, parseExpr)
 					case G_Bracket: return ListSimple(t.loc, wg(t, parseExprParts))
+					case G_Block: return wg(t, blockWrap, 'val')
+					case G_Quote:
+						return Quote(t.loc,
+							t.tokens.map(_ => (typeof _ === 'string') ? _ : parseSingle(_)))
 					default:
-						// fallthrough
+						unexpected(t)
 				}
+			case t instanceof TokenNumberLiteral:
+				return NumberLiteral(t.loc, t.value)
+			case t instanceof CallOnFocus:
+				return Call(t.loc, _access(t.name), [ LocalAccess.focus(t.loc) ])
+			case t instanceof Keyword:
+				if (t.k === '_')
+					return LocalAccess.focus(t.loc)
+				else if (SpecialKeywords.has(t.k))
+					return Special(t.loc, t.k)
+				else
+					unexpected(t)
+				break
 			case t instanceof DotName:
 				if (t.nDots === 3)
 					return Splat(t.loc, LocalAccess(t.loc, t.name))
-				// Else fallthrough to fail
+				else
+					unexpected(t)
+				break
 			default:
-				fail(`Unexpected ${t}`)
+				unexpected(t)
 		}
 	}
 	// parseSingle privates

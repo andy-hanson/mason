@@ -3,6 +3,7 @@
 	"version": "0.0.0",
 	"private": true,
 	"//": "Dependencies are for gulp tasks only.",
+	"files": [ "dist", "src" ],
 	"dependencies": {
 		"esast": "andy-hanson/esast",
 		"amdefine": "0.1.0",

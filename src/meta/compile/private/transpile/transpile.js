@@ -141,27 +141,11 @@ implementMany(EExports, 'transpileSubtree', {
 	},
 	ListSimple() { return ArrayExpression(this.parts.map(t)) },
 	ListEntry() { return declareSpecial(`_${this.index}`, t(this.value)) },
-	ELiteral() {
-		switch (this.k) {
-			case Number: {
-				// TODO: Number literals should store Numbers...
-				const n = Number.parseFloat(this.value)
-				// Negative numbers are not part of ES spec.
-				// http://www.ecma-international.org/ecma-262/5.1/#sec-7.8.3
-				const lit = Literal(Math.abs(n))
-				return isPositive(n) ? lit : unaryExpressionNegate(lit)
-			}
-			case String:
-				return Literal(this.value)
-			case 'js':
-				switch (this.value) {
-					// TODO:USE* Get rid of this!
-					case 'msGetModule': return member(IdMs, 'getModule')
-					case 'require': return idCached('require')
-					default: throw new Error('This js literal not supported.')
-				}
-			default: throw new Error(this.k)
-		}
+	NumberLiteral() {
+		// Negative numbers are not part of ES spec.
+		// http://www.ecma-international.org/ecma-262/5.1/#sec-7.8.3
+		const lit = Literal(Math.abs(this.value))
+		return isPositive(this.value) ? lit : unaryExpressionNegate(lit)
 	},
 	GlobalAccess() { return Identifier(this.name) },
 	LocalAccess() { return accessLocal(this, vr) },
@@ -191,13 +175,14 @@ implementMany(EExports, 'transpileSubtree', {
 	},
 	Quote() {
 		// TODO:ES6 use template strings
-		const isStrLit = _ => _ instanceof EExports.ELiteral && _.k === String
 		const part0 = this.parts[0]
 		const [ first, restParts ] =
-			isStrLit(part0) ? [ t(part0), tail(this.parts) ] : [ LitEmptyString, this.parts ]
+			typeof part0 === 'string' ?
+				[ Literal(part0), tail(this.parts) ] :
+				[ LitEmptyString, this.parts ]
 		return restParts.reduce(
 			(ex, _) =>
-				binaryExpressionPlus(ex, isStrLit(_) ? t(_) : msShow([ t(_) ])),
+				binaryExpressionPlus(ex, typeof _ === 'string' ? Literal(_) : msShow([ t(_) ])),
 			first)
 	},
 	Special() {

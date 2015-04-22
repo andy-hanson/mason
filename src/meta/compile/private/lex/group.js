@@ -1,8 +1,9 @@
 import Loc, { StartPos } from 'esast/dist/Loc'
-import Token, { Group, Keyword } from '../Token'
+import { Group, Keyword } from '../Token'
 import { head, isEmpty, last } from '../U/Bag'
 import { assert } from '../U/util'
-import { groupOpenToClose, GP_OpenParen, GP_OpenBracket, GP_OpenBlock, GP_OpenQuote, GP_Line,
+import GroupPre, {
+	groupOpenToClose, GP_OpenParen, GP_OpenBracket, GP_OpenBlock, GP_OpenQuote, GP_Line,
 	GP_Space, GP_CloseParen, GP_CloseBracket, GP_CloseBlock, GP_CloseQuote} from './GroupPre'
 
 export default function group(cx, preGroupedTokens) {
@@ -86,9 +87,7 @@ export default function group(cx, preGroupedTokens) {
 
 	let endLoc = Loc(StartPos, StartPos)
 	preGroupedTokens.forEach(_ => {
-		if (_ instanceof Token)
-			cur.tokens.push(_)
-		else {
+		if (_ instanceof GroupPre) {
 			// It's a GroupPre
 			const loc = _.loc
 			endLoc = loc
@@ -127,7 +126,8 @@ export default function group(cx, preGroupedTokens) {
 					break
 				default: throw new Error(k)
 			}
-		}
+		} else
+			cur.tokens.push(_)
 	})
 
 	endLine(endLoc.end)

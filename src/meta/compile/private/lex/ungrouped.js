@@ -1,7 +1,7 @@
 import Loc, { Pos, StartLine, StartColumn, singleCharLoc } from 'esast/dist/Loc'
 import { code } from '../../CompileError'
 import { AllKeywords, ReservedWords } from '../Lang'
-import { CallOnFocus, DotName, Keyword, Literal, Name } from '../Token'
+import { CallOnFocus, DotName, Keyword, TokenNumberLiteral, Name } from '../Token'
 import { assert } from '../U/util'
 import GroupPre, { GP_OpenParen, GP_OpenBracket, GP_OpenBlock, GP_OpenQuote, GP_Line,
 	GP_Space, GP_CloseParen, GP_CloseBracket, GP_CloseBlock, GP_CloseQuote} from './GroupPre'
@@ -36,6 +36,15 @@ export default (cx, str) => {
 			if (canEat) {
 				index = index + 1
 				column = column + 1
+			}
+			return canEat
+		},
+		tryEatNewline = () => {
+			const canEat = peek() === Newline
+			if (canEat) {
+				index = index + 1
+				line = line + 1
+				column = StartColumn
 			}
 			return canEat
 		},
@@ -94,9 +103,10 @@ export default (cx, str) => {
 			gp = k => o(GroupPre(loc(), k)),
 			eatNumber = () => {
 				const lit = takeWhileWithPrev(isNumberCharacter)
-				cx.check(!Number.isNaN(Number(lit)), pos, () =>
+				const num = Number(lit)
+				cx.check(!Number.isNaN(num), pos, () =>
 					`Invalid number literal ${code(lit)}`)
-				return Literal(loc(), lit, Number)
+				return TokenNumberLiteral(loc(), num)
 			}
 
 		while (index !== str.length) {
@@ -227,24 +237,22 @@ export default (cx, str) => {
 	}
 
 	const lexQuote = indent => {
-		const isIndented = peek() === Newline
 		const quoteIndent = indent + 1
 
-		let first = true
+		const isIndented = tryEatNewline()
+		if (isIndented) {
+			const actualIndent = skipWhileEquals(Tab)
+			cx.check(actualIndent === quoteIndent, pos,
+				'Indented quote must have exactly one more indent than previous line.')
+		}
+
 		let read = ''
-		let startOfRead = pos()
 
 		const yieldRead = () => {
 			if (read !== '') {
-				o(Literal(
-					Loc(startOfRead, pos()),
-					// Don't include leading newline of indented block
-					first && isIndented ? read.slice(1) : read,
-					String))
-				first = false
+				o(read)
+				read = ''
 			}
-			read = ''
-			startOfRead = pos()
 		}
 
 		o(GroupPre(loc(), GP_OpenQuote))

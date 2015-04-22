@@ -1,7 +1,7 @@
 import { singleCharLoc, StartPos } from 'esast/dist/Loc'
 import fs from 'q-io/fs'
 import { relative } from 'path'
-import { BlockDo, ELiteral, ListSimple, Module, ModuleDefaultExport } from '../Expression'
+import { BlockDo, ListSimple, Module, ModuleDefaultExport, Quote } from '../Expression'
 import Cx from '../private/Cx'
 import { OptsFromObject } from '../private/Opts'
 import transpile from '../private/transpile/transpile'
@@ -24,7 +24,7 @@ export default (dirPath, opts) =>
 		}).sort()
 		// Dummy Loc. We will not use source maps.
 		const loc = singleCharLoc(StartPos)
-		const val = ListSimple(loc, moduleFiles.map(f => ELiteral(loc, f, String)))
+		const val = ListSimple(loc, moduleFiles.map(f => Quote.forString(loc, f)))
 		const e = Module(loc, [], [], [], BlockDo(loc, [ ModuleDefaultExport(loc, val) ]))
 
 		const cx = new Cx(OptsFromObject({

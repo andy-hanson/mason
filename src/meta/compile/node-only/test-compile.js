@@ -14,22 +14,6 @@ import verify from '../private/verify'
 import { log } from '../private/U/util'
 import { OptsFromObject } from '../private/Opts'
 
-const test = tests => {
-	const suite = new Suite()
-	Object.keys(tests).forEach(name =>
-		suite.add(name, tests[name]))
-	suite.on('complete', function() {
-		this.forEach(_ => {
-			const ms = numeral(_.stats.mean * 1000).format('0.00')
-			console.log(`${_.name}: ${ms}ms mean, ${_.hz}Hz`)
-		})
-	})
-	suite.on('error', err => {
-		throw err.target.error
-	})
-	suite.run()
-}
-
 export default () => {
 	global.DEBUG = true
 
@@ -48,6 +32,9 @@ export default () => {
 	const ast = transpile(cx, e, vr)
 	// log(`==>\n${ast}`)
 	const { code } = render(cx, ast)
+	log(`Expression tree size: ${treeSize(e, _ => _ instanceof Expression).size}.`)
+	log(`ES AST size: ${treeSize(ast, _ => _ instanceof Node)}.`)
+	log(`Output size: ${code.length} characters.`)
 	log(`==>\n${code}`)
 
 	// Benchmark has problems if I don't put these in global variables...
@@ -57,7 +44,7 @@ export default () => {
 	global.lexGroupTest = () =>
 		lexGroup(cx, tUngrouped)
 
-	test({
+	benchmark({
 		lexUngrouped: () => global.lexUngroupedTest(),
 		lexGroup: () => global.lexGroupTest(),
 		parse: () => parse(cx, t),
@@ -65,32 +52,42 @@ export default () => {
 		transpile: () => transpile(cx, e, vr),
 		render: () => render(cx, ast)
 	})
-
-	const
-		eSize = treeSize(e, _ => _ instanceof Expression),
-		astSize = treeSize(ast, _ => _ instanceof Node)
-	log(`Expression tree size: ${eSize.size}.`)
-	log(`ES AST size: ${astSize.size}, nLeaves: ${astSize.nLeaves}.`)
-	log(`Output size: ${code.length} characters.`)
 }
 
-const treeSize = (tree, cond) => {
-	const visited = new Set()
-	let nLeaves = 0
-	const visit = node => {
-		if (node != null && !visited.has(node))
-			if (cond(node)) {
-				visited.add(node)
-				Object.getOwnPropertyNames(node).forEach(name => {
-					const child = node[name]
-					if (child instanceof Array)
-						child.forEach(visit)
-					else
-						visit(child)
-				})
-			} else
-				nLeaves = nLeaves + 1
+const
+	benchmark = tests => {
+		const suite = new Suite()
+		Object.keys(tests).forEach(name =>
+			suite.add(name, tests[name]))
+		suite.on('complete', function() {
+			this.forEach(_ => {
+				const ms = numeral(_.stats.mean * 1000).format('0.00')
+				console.log(`${_.name}: ${ms}ms`)
+			})
+		})
+		suite.on('error', err => {
+			throw err.target.error
+		})
+		suite.run()
+	},
+
+	treeSize = (tree, cond) => {
+		const visited = new Set()
+		let nLeaves = 0
+		const visit = node => {
+			if (node != null && !visited.has(node))
+				if (cond(node)) {
+					visited.add(node)
+					Object.getOwnPropertyNames(node).forEach(name => {
+						const child = node[name]
+						if (child instanceof Array)
+							child.forEach(visit)
+						else
+							visit(child)
+					})
+				} else
+					nLeaves = nLeaves + 1
+		}
+		visit(tree)
+		return { size: visited.size, nLeaves }
 	}
-	visit(tree)
-	return { size: visited.size, nLeaves }
-}

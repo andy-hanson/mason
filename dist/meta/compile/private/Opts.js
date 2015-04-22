@@ -63,7 +63,6 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 
 		_check: function (name) {
 			if (typeof this.checks === 'boolean') return this.checks;else {
-				_type(this.checks, Object);
 				_type(this.checks[name], 'boolean');
 				return this.checks[name];
 			}

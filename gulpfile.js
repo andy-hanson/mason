@@ -61,7 +61,7 @@ function pipeMs(stream) {
 	return stream
 	.pipe(sourcemaps.init())
 	.pipe(ms({ verbose: true }))
-	.pipe(sourcemaps.write('.', {
+	.pipe(sourcemaps.write({
 		debug: true,
 		includeContent: false,
 		sourceRoot: './src'
@@ -88,7 +88,7 @@ function pipeJs(stream) {
 	}))
 	.pipe(header(
 		'if (typeof define !== \'function\') var define = require(\'amdefine\')(module);'))
-	.pipe(sourcemaps.write('.', {
+	.pipe(sourcemaps.write({
 		debug: true,
 		sourceRoot: '/src'
 	}))

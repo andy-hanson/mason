@@ -1,4 +1,4 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'esast/dist/ast', 'esast/dist/util', 'esast/dist/specialize', 'esast/dist/mangle-identifier', '../../Expression', '../U/type'], function (exports, _esastDistAst, _esastDistUtil, _esastDistSpecialize, _esastDistMangleIdentifier, _Expression, _UType) {
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'esast/dist/ast', 'esast/dist/util', 'esast/dist/specialize', 'esast/dist/mangle-identifier'], function (exports, _esastDistAst, _esastDistUtil, _esastDistSpecialize, _esastDistMangleIdentifier) {
 	'use strict';
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
@@ -6,12 +6,8 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	Object.defineProperty(exports, '__esModule', {
 		value: true
 	});
-	exports.declare = declare;
-	exports.declareSpecial = declareSpecial;
 
 	var _mangleIdentifier = _interopRequire(_esastDistMangleIdentifier);
-
-	var _type = _interopRequire(_UType);
 
 	const declareToId = new WeakMap();
 	const idForDeclareCached = function (localDeclare) {
@@ -21,23 +17,19 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 			declareToId.set(localDeclare, _);
 		}
 		return _;
-	};
-
-	exports.idForDeclareCached = idForDeclareCached;
-	const idForDeclareNew = function (localDeclare) {
+	},
+	      idForDeclareNew = function (localDeclare) {
 		return _esastDistAst.Identifier(idForDeclareCached(localDeclare).name);
-	};
-
-	exports.idForDeclareNew = idForDeclareNew;
-
-	function declare(localDeclare, val) {
-		_type(localDeclare, _Expression.LocalDeclare, val, Object);
+	},
+	      declare = function (localDeclare, val) {
 		return _esastDistSpecialize.variableDeclarationConst([_esastDistAst.VariableDeclarator(idForDeclareCached(localDeclare), val)]);
-	}
-
-	function declareSpecial(name, val) {
-		_type(name, String, val, Object);
+	},
+	      declareSpecial = function (name, val) {
 		return _esastDistSpecialize.variableDeclarationConst([_esastDistAst.VariableDeclarator(_esastDistUtil.idCached(name), val)]);
-	}
+	};
+	exports.idForDeclareCached = idForDeclareCached;
+	exports.idForDeclareNew = idForDeclareNew;
+	exports.declare = declare;
+	exports.declareSpecial = declareSpecial;
 });
 //# sourceMappingURL=../../../../meta/compile/private/transpile/esast-util.js.map
