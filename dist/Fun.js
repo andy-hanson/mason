@@ -227,7 +227,7 @@ define([ "exports", "./methods", "./private/js-impl", "./Type/Alias-Type", "./Ty
 					switch (true) {
 						case _ms.bool(_ms.contains(_ms.unlazy(Map), _)): {
 							return _ms.unlazy(map)(_, function(pair) {
-								const _$174 = pair, key = _$174.key, val = _$174.val;
+								const _$156 = pair, key = _$156.key, val = _$156.val;
 								return [ key, val ]
 							})
 						}
@@ -238,7 +238,7 @@ define([ "exports", "./methods", "./private/js-impl", "./Type/Alias-Type", "./Ty
 						}
 						case _ms.bool(_ms.contains(_ms.unlazy(Obj), _)): {
 							return _ms.unlazy(map)(_ms.unlazy(Obj_45_62Map)(_), function(pair) {
-								const _$181 = pair, key = _$181.key, val = _$181.val;
+								const _$163 = pair, key = _$163.key, val = _$163.val;
 								return [ key, val ]
 							})
 						}

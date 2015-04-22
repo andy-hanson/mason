@@ -189,14 +189,14 @@ define([ "exports", "./Bool", "./Fun", "./js", "./methods", "./Objbang", "./Type
 				_ms.checkContains(Fun, transform_45state, "transform-state");
 				const state = Ref_33(init_45state);
 				const output = Ref_33(null);
-				loop133: while (true) {
+				loop129: while (true) {
 					{
 						const _ = transform_45state(get(state));
 						switch (true) {
 							case _ms.bool(_ms.contains(End_45Loop, _)):
 								{
 									set_33(output, _.val);
-									break loop133
+									break loop129
 								};
 								break
 							default: {

@@ -167,7 +167,7 @@ define([ "exports", "./at/at-Type", "./at/q", "./cash", "./Bool", "./compare", "
 				}());
 				spread_33(p_43_33, _, opts);
 				return _
-			}, "test", test, "doc", doc, "displayName", "error-type")
+			}, "doc", doc, "test", test, "displayName", "error-type")
 		}();
 		const always_45do_45after = exports["always-do-after"] = function() {
 			const doc = "Executes `finally-do`, even if there are errors.";

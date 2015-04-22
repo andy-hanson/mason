@@ -1,14 +1,9 @@
 import { ArrayExpression, AssignmentExpression, BreakStatement, CallExpression, ExpressionStatement,
 	Identifier, Literal, ReturnStatement, VariableDeclarator } from 'esast/dist/ast'
-import Loc from 'esast/dist/Loc'
 import { member, thunk } from 'esast/dist/util'
-import Expression, { LocalAccess, LocalDeclare } from '../../Expression'
-import { KAssign } from '../Lang'
 import { unshift } from '../U/Bag'
 import { ifElse, None } from '../U/Op'
-import type from '../U/type'
 import { assert } from '../U/util'
-import Vr from '../Vr'
 import { t } from './transpile'
 import { idForDeclareCached, idForDeclareNew } from './esast-util'
 
@@ -49,8 +44,6 @@ export const
 	msLazyGet = ms('lazyProp')
 
 export const makeDestructureDeclarators = (cx, loc, assignees, isLazy, value, k, isModule) => {
-	type(loc, Loc, assignees, [LocalDeclare],
-		isLazy, Boolean, value, Object, k, KAssign, isModule, Boolean)
 	const destructuredName = `_$${loc.start.line}`
 	const idDestructured = Identifier(destructuredName)
 	const declarators = assignees.map(assignee => {
@@ -64,7 +57,6 @@ export const makeDestructureDeclarators = (cx, loc, assignees, isLazy, value, k,
 }
 
 const getMember = (cx, astObject, gotName, isLazy, isModule) => {
-	type(astObject, Object, gotName, String, isLazy, Boolean, isModule, Boolean)
 	if (isLazy)
 		return msLazyGet([ astObject, Literal(gotName) ])
 	else if (isModule && cx.opts.includeUseChecks())
@@ -74,7 +66,6 @@ const getMember = (cx, astObject, gotName, isLazy, isModule) => {
 }
 
 export const makeDeclarator = (cx, loc, assignee, k, value, valueIsAlreadyLazy) => {
-	type(loc, Loc, assignee, Expression, k, KAssign, value, Object)
 	// TODO: assert(isEmpty(assignee.opType))
 	// or TODO: Allow type check on lazy value?
 	value = assignee.isLazy ? value :
@@ -96,16 +87,13 @@ export const makeDeclarator = (cx, loc, assignee, k, value, valueIsAlreadyLazy) 
 	}
 }
 
-export const accessLocal = (localAccess, vr) => {
-	type(localAccess, LocalAccess, vr, Vr)
-	return accessLocalDeclare(vr.accessToLocal.get(localAccess))
-}
-export const accessLocalDeclare = localDeclare => {
-	type(localDeclare, LocalDeclare)
-	return localDeclare.isLazy ?
+export const accessLocal = (localAccess, vr) =>
+	accessLocalDeclare(vr.accessToLocal.get(localAccess))
+
+export const accessLocalDeclare = localDeclare =>
+	localDeclare.isLazy ?
 		msUnlazy([ idForDeclareCached(localDeclare) ]) :
 		idForDeclareNew(localDeclare)
-}
 
 export const maybeWrapInCheckContains = (cx, ast, opType, name) =>
 	cx.opts.includeTypeChecks() ?
@@ -115,7 +103,6 @@ export const maybeWrapInCheckContains = (cx, ast, opType, name) =>
 		ast
 
 export const opLocalCheck = (cx, local, isLazy) => {
-	type(local, LocalDeclare, isLazy, Boolean)
 	// TODO: Way to typecheck lazies
 	if (!cx.opts.includeTypeChecks() || isLazy)
 		return None

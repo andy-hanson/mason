@@ -26,7 +26,7 @@ define([ "exports", "../control", "../js", "../Type/Kind", "../Type/Method", "..
 		self_45kind_33(_63, _64_45Type);
 		self_45impl_33(from_45stream, _63, function(stream) {
 			const iter = iterator(stream);
-			const _$29 = iter.next(null), value = _$29.value, done = _$29.done;
+			const _$27 = iter.next(null), value = _$27.value, done = _$27.done;
 			return function() {
 				switch (true) {
 					case _ms.bool(done): {

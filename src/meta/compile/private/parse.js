@@ -8,13 +8,14 @@ import { Assign, AssignDestructure, BlockDo, BlockVal, BlockWrap, Call, CaseDoPa
 import { JsGlobals, SpecialKeywords } from './Lang'
 import { CallOnFocus, DotName, Group, G_Block, G_Bracket,
 	G_Paren, G_Space, G_Quote, Keyword, Literal, Name } from './Token'
-import { cat, head, isEmpty, last, push, repeat, rtail, tail, unshift } from './U/Bag'
+import { cat, head, flatMap, isEmpty, last, push, repeat, rtail, tail, unshift } from './U/Bag'
 import { ifElse, None, opIf, some } from './U/Op'
 import { assert } from './U/util'
+import Slice from './U/Slice'
 
 export default function parse(cx, rootToken) {
 	assert(Group.isBlock(rootToken))
-	let tokens = rootToken.tokens
+	let tokens = Slice.all(rootToken.tokens)
 	let loc = rootToken.loc
 
 	// Functions for moving through tokens:
@@ -38,7 +39,7 @@ export default function parse(cx, rootToken) {
 			const t = tokens
 			tokens = _tokens
 			const l = loc
-			loc = tokens.isEmpty() ? loc : Loc(tokens.head().loc.start, tokens.last().loc.end)
+			loc = tokens.isEmpty() ? loc : _locFromTokens(tokens)
 			const res = fun(arg)
 			tokens = t
 			loc = l
@@ -48,7 +49,7 @@ export default function parse(cx, rootToken) {
 			const t = tokens
 			tokens = _tokens
 			const l = loc
-			loc = tokens.isEmpty() ? loc : Loc(tokens.head().loc.start, tokens.last().loc.end)
+			loc = tokens.isEmpty() ? loc : _locFromTokens(tokens)
 			const res = fun(arg, arg2)
 			tokens = t
 			loc = l
@@ -56,7 +57,7 @@ export default function parse(cx, rootToken) {
 		},
 		wg = (group, fun, arg) => {
 			const t = tokens
-			tokens = group.tokens
+			tokens = Slice.all(group.tokens)
 			const l = loc
 			loc = group.loc
 			const res = fun(arg)
@@ -96,7 +97,7 @@ export default function parse(cx, rootToken) {
 			check(!tokens.isEmpty(), 'Expected an indented block')
 			const l = tokens.last()
 			cx.check(Group.isBlock(l), l.loc, 'Expected an indented block at the end')
-			return { before: tokens.rtail(), lines: l.tokens }
+			return { before: tokens.rtail(), lines: Slice.all(l.tokens) }
 		},
 
 		blockWrap = () => BlockWrap(loc, _parseBlockBody('val')),
@@ -134,7 +135,7 @@ export default function parse(cx, rootToken) {
 			cx.check(tokens.size() > 1, h.loc, () => `Expected indented block after ${h}`)
 			const block = tokens.second()
 			assert(tokens.size() === 2 && Group.isBlock(block))
-			return block.tokens.flatMap(line => wg(line, parseLineOrLines))
+			return flatMap(block.tokens, line => wg(line, parseLineOrLines))
 		}
 
 	// parseBlock privates
@@ -282,9 +283,9 @@ export default function parse(cx, rootToken) {
 		})()
 
 		const l = lines.last()
-		const { partLines, opElse } = Keyword.isElse(l.tokens.head()) ? {
+		const { partLines, opElse } = Keyword.isElse(head(l.tokens)) ? {
 				partLines: lines.rtail(),
-				opElse: some(w1(l.tokens.tail(), isVal ? justBlockVal : justBlockDo))
+				opElse: some(w1(Slice.all(l.tokens).tail(), isVal ? justBlockVal : justBlockDo))
 			} : {
 				partLines: lines,
 				opElse: None
@@ -383,14 +384,14 @@ export default function parse(cx, rootToken) {
 		return Fun(loc, k, args, opRestArg, block, opIn, opResDeclare, opOut)
 	}
 
-	// parseFun privatesprivate
+	// parseFun privates
 	const
 		_tryTakeReturnType = () => {
 			if (!tokens.isEmpty()) {
 				const h = tokens.head()
-				if (Group.isSpaced(h) && Keyword.isColon(h.tokens.head()))
+				if (Group.isSpaced(h) && Keyword.isColon(head(h.tokens)))
 					return {
-						opReturnType: some(w0(h.tokens.tail(), parseSpaced)),
+						opReturnType: some(w0(Slice.all(h.tokens).tail(), parseSpaced)),
 						rest: tokens.tail()
 					}
 			}
@@ -442,7 +443,7 @@ export default function parse(cx, rootToken) {
 				if (!lines.isEmpty()) {
 					const firstLine = lines.head()
 					assert(Group.isLine(firstLine))
-					const tokensFirst = firstLine.tokens
+					const tokensFirst = Slice.all(firstLine.tokens)
 					if (Keyword.is(inOrOut)(tokensFirst.head()))
 						return {
 							took: some(Debug(
@@ -614,7 +615,7 @@ export default function parse(cx, rootToken) {
 			let isLazy = false
 
 			if (Group.isSpaced(t)) {
-				const tokens = t.tokens
+				const tokens = Slice.all(t.tokens)
 				let rest = tokens
 				if (Keyword.isTilde(tokens.head())) {
 					isLazy = true
@@ -708,7 +709,7 @@ export default function parse(cx, rootToken) {
 							return Call.sub(loc,
 								unshift(e, wg(t, parseExprParts)))
 						if (t.k === G_Paren) {
-							cx.check(t.tokens.isEmpty(), loc,
+							cx.check(isEmpty(t.tokens), loc,
 								() => `Use ${code('(a b)')}, not ${code('a(b)')}`)
 							return Call(loc, e, [])
 						}
@@ -723,9 +724,9 @@ export default function parse(cx, rootToken) {
 		if (!tokens.isEmpty()) {
 			const l0 = tokens.head()
 			assert(Group.isLine(l0))
-			if (Keyword.is(k)(l0.tokens.head()))
+			if (Keyword.is(k)(head(l0.tokens)))
 				return {
-					uses: w1(l0.tokens.tail(), _parseUse, k),
+					uses: w1(Slice.all(l0.tokens).tail(), _parseUse, k),
 					rest: tokens.tail()
 				}
 		}

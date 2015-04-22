@@ -1,79 +1,70 @@
-import Loc, { Pos, StartPos } from 'esast/dist/Loc'
-import tuple from 'esast/dist/private/tuple'
+import Loc, { StartPos } from 'esast/dist/Loc'
 import Token, { Group, Keyword } from '../Token'
-import { isEmpty, last } from '../U/Bag'
+import { head, isEmpty, last } from '../U/Bag'
 import { assert } from '../U/util'
-import Slice from '../U/Slice'
 import { groupOpenToClose, GP_OpenParen, GP_OpenBracket, GP_OpenBlock, GP_OpenQuote, GP_Line,
 	GP_Space, GP_CloseParen, GP_CloseBracket, GP_CloseBlock, GP_CloseQuote} from './GroupPre'
-
 
 export default function group(cx, preGroupedTokens) {
 	// Stack of GroupBuilders
 	const stack = []
-
-	// Should always be last(stack)
-	let cur = null
+	let cur
 
 	const
 		newLevel = (pos, k) => {
-			cur = GroupBuilder(pos, k, [ ])
 			stack.push(cur)
+			cur = Group(Loc(pos, null), [ ], k)
 		},
 
 		finishLevels = (closePos, k) => {
 			// We may close other groups. For example, a G_Line can close a G_Paren.
 			while (true) {
-				const old = last(stack)
-				const oldClose = groupOpenToClose(old.k)
-				if (oldClose === k)
+				const close = groupOpenToClose(cur.k)
+				if (close === k)
 					break
 				else {
 					cx.check(
-						old.k === GP_OpenParen || old.k === GP_OpenBracket || old.k === GP_Space,
-						closePos,
-						`Trying to close ${showGroup(k)}, but last opened was ${showGroup(old.k)}`)
-					finishLevel(closePos, oldClose)
+						cur.k === GP_OpenParen || cur.k === GP_OpenBracket || cur.k === GP_Space,
+						closePos, () =>
+						`Trying to close ${showGroup(k)}, but last opened was ${showGroup(cur.k)}`)
+					finishLevel(closePos, close)
 				}
 			}
 			finishLevel(closePos, k)
 		},
 
 		finishLevel = (closePos, k) => {
-			let wrapped = wrapLevel(closePos, k)
+			let wrapped = wrapLevel(closePos)
 			// cur is now the previous level on the stack
 			// Don't add line/spaced
 			switch (k) {
 				case GP_Space: {
-					const size = wrapped.tokens.size()
+					const size = wrapped.tokens.length
 					if (size === 0)
 						return
 					else if (size === 1)
 						// Spaced should always have at least two elements
-						wrapped = wrapped.tokens.head()
+						wrapped = head(wrapped.tokens)
 					break
 				}
 				case GP_Line:
-					if (wrapped.tokens.isEmpty())
+					if (isEmpty(wrapped.tokens))
 						return
 					break
 				case GP_CloseBlock:
-					if (wrapped.tokens.isEmpty())
+					if (isEmpty(wrapped.tokens))
 						cx.fail(closePos, 'Empty block')
 				default:
 					// fallthrough
 			}
-			cur.add(wrapped)
+			cur.tokens.push(wrapped)
 		},
 
-		wrapLevel = (closePos, k) => {
-			const old = stack.pop()
-			cur = isEmpty(stack) ? null : last(stack)
-			const loc = Loc(old.startPos, closePos)
-			assert(groupOpenToClose(old.k) === k)
-			const tokens = new Slice(old.body)
-			// A GroupPre opener is also an equivalent Group kind. E.g. GP_OpenParen === G_Paren
-			return Group(loc, tokens, old.k)
+		wrapLevel = closePos => {
+			const builtGroup = cur
+			cur = stack.pop()
+			builtGroup.loc.end = closePos
+			return builtGroup
 		},
 
 		startLine = pos => {
@@ -90,13 +81,13 @@ export default function group(cx, preGroupedTokens) {
 			newLevel(loc.end, k)
 		}
 
-	newLevel(StartPos, GP_OpenBlock)
+	cur = Group(Loc(StartPos, null), [ ], GP_OpenBlock)
 	startLine(StartPos)
 
 	let endLoc = Loc(StartPos, StartPos)
 	preGroupedTokens.forEach(_ => {
 		if (_ instanceof Token)
-			cur.add(_)
+			cur.tokens.push(_)
 		else {
 			// It's a GroupPre
 			const loc = _.loc
@@ -118,7 +109,7 @@ export default function group(cx, preGroupedTokens) {
 					break
 				case GP_OpenBlock:
 					//  ~ before block is OK
-					if (isEmpty(cur.body) || !Keyword.isTilde(last(cur.body)))
+					if (isEmpty(cur.tokens) || !Keyword.isTilde(last(cur.tokens)))
 						endAndStart(loc, GP_Space)
 					newLevel(loc.start, k)
 					startLine(loc.end)
@@ -140,17 +131,10 @@ export default function group(cx, preGroupedTokens) {
 	})
 
 	endLine(endLoc.end)
-	const wholeModuleBlock = wrapLevel(endLoc.end, GP_CloseBlock)
 	assert(isEmpty(stack))
-	return wholeModuleBlock
+	cur.loc.end = endLoc.end
+	return cur
 }
 
-const GroupBuilder = tuple('GroupBuilder', Object, 'doc',
-	// k is a Group kind
-	[ 'startPos', Pos, 'k', Number, 'body', [Token] ],
-	{
-		add(t) { this.body.push(t) }
-	})
-
-// TODO: better names
+// TODO
 const showGroup = k => k

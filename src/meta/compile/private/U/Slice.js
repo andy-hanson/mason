@@ -1,19 +1,15 @@
 import { isEmpty } from './Bag'
 import { None, some } from './Op'
-import { assert } from './util'
 
 export default class Slice {
+	static all(data) {
+		return new Slice(data, 0, data.length)
+	}
+
 	constructor(data, start, end) {
 		this.data = data
-		if (start === undefined) {
-			assert(end === undefined)
-			this.start = 0
-			this.end = data.length
-		} else {
-			this.start = start
-			this.end = end
-			assert(0 <= start && start <= end && end <= data.length)
-		}
+		this.start = start
+		this.end = end
 	}
 
 	size() {
@@ -21,32 +17,26 @@ export default class Slice {
 	}
 
 	isEmpty() {
-		assert(this.start <= this.end)
 		return this.start === this.end
 	}
 
 	head() {
-		assert(!this.isEmpty())
 		return this.data[this.start]
 	}
 
 	second() {
-		assert(this.size() >= 2)
 		return this.data[this.start + 1]
 	}
 
 	last() {
-		assert(!this.isEmpty())
 		return this.data[this.end - 1]
 	}
 
 	tail() {
-		assert(!this.isEmpty())
 		return this._new(this.start + 1, this.end)
 	}
 
 	rtail() {
-		assert(!this.isEmpty())
 		return this._new(this.start, this.end - 1)
 	}
 
@@ -78,10 +68,6 @@ export default class Slice {
 		}
 	}
 
-	_new(start, end) {
-		return new Slice(this.data, start, end)
-	}
-
 	each(f) {
 		for (let i = this.start; i < this.end; i = i + 1)
 			f(this.data[i])
@@ -107,5 +93,9 @@ export default class Slice {
 
 	toString() {
 		return '[' + this.data.slice(this.start, this.end).toString() + ']'
+	}
+
+	_new(start, end) {
+		return new Slice(this.data, start, end)
 	}
 }

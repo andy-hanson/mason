@@ -1,10 +1,9 @@
 import { code } from '../CompileError'
 import * as EExports from '../Expression'
-import Expression, { Assign, AssignDestructure, BlockVal, Call, Debug, Do, ELiteral,
-	GlobalAccess, Special, Use, UseDo, Yield, YieldTo } from '../Expression'
+import { Assign, AssignDestructure, BlockVal, Call, Debug, Do,
+	ELiteral, GlobalAccess, Special, UseDo, Yield, YieldTo } from '../Expression'
 import { head, isEmpty, mapKeys } from './U/Bag'
 import { ifElse, some } from './U/Op'
-import type from './U/type'
 import { implementMany } from './U/util'
 import { emptyVr, VrLocalInfo } from './Vr'
 
@@ -251,13 +250,11 @@ function verifyCasePart() {
 function verifyUses(uses, debugUses) {
 	const useLocals = []
 	uses.forEach(use => {
-		if (!(use instanceof UseDo)) {
-			type(use, Use)
+		if (!(use instanceof UseDo))
 			use.used.concat(use.opUseDefault).forEach(_ => {
 				registerLocal(_)
 				useLocals.push(_)
 			})
-		}
 	})
 	withInDebug(true, () =>
 		debugUses.forEach(use =>
@@ -329,7 +326,6 @@ function verifyIsStatement(line) {
 }
 
 function lineNewLocals(line) {
-	type(line, Expression)
 	return line instanceof Assign ?
 		[ line.assignee ] :
 		line instanceof AssignDestructure ?

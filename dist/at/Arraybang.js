@@ -50,11 +50,11 @@ define([ "exports", "../Bool", "../control", "../js", "../math/Num", "../methods
 				}))
 			};
 			const _k4 = empty_33, _v4 = function(_) {
-				loop46: while (true) {
+				loop44: while (true) {
 					switch (true) {
 						case _ms.bool(empty_63(_)):
 							{
-								break loop46
+								break loop44
 							};
 							break
 						default: {

@@ -18,7 +18,7 @@ define([ "exports", "../../Obj", "../../show", "../../Str", "../../Type/Method",
 			};
 			return _ms.set(function(_, opts) {
 				const parts = map(_, function(pair) {
-					const _$22 = pair, key = _$22.key, val = _$22.val;
+					const _$20 = pair, key = _$20.key, val = _$20.val;
 					return ((("" + _ms.show(show(key, opts))) + " -> ") + _ms.show(show(val, opts)))
 				});
 				const type = function() {

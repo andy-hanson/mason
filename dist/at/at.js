@@ -82,7 +82,7 @@ define([ "exports", "../Bool", "../compare", "../Fun", "../js", "../math/methods
 			};
 			return _ms.set(function(_, b, c) {
 				_ms.checkContains(_64, _, "_");
-				const _$74 = function() {
+				const _$68 = function() {
 					switch (true) {
 						case _ms.bool(defined_63(c)): {
 							const start = b;
@@ -105,15 +105,15 @@ define([ "exports", "../Bool", "../compare", "../Fun", "../js", "../math/methods
 							}
 						}
 					}
-				}(), start = _$74.start, rest = _$74.rest, folder = _$74.folder;
+				}(), start = _$68.start, rest = _$68.rest, folder = _$68.folder;
 				const acc = _ms.unlazy(Ref_33)(start);
 				const iter = iterator(rest);
-				loop86: while (true) {
-					const _$87 = iter.next(), value = _$87.value, done = _$87.done;
+				loop80: while (true) {
+					const _$81 = iter.next(), value = _$81.value, done = _$81.done;
 					switch (true) {
 						case _ms.bool(done):
 							{
-								break loop86
+								break loop80
 							};
 							break
 						default: {
@@ -134,12 +134,12 @@ define([ "exports", "../Bool", "../compare", "../Fun", "../js", "../math/methods
 			const _default = function(_, do_45for_45each) {
 				_ms.checkContains(Act, do_45for_45each, "do-for-each");
 				const iter = iterator(_);
-				loop102: while (true) {
-					const _$103 = iter.next(), value = _$103.value, done = _$103.done;
+				loop96: while (true) {
+					const _$97 = iter.next(), value = _$97.value, done = _$97.done;
 					switch (true) {
 						case _ms.bool(done):
 							{
-								break loop102
+								break loop96
 							};
 							break
 						default: {
@@ -149,9 +149,9 @@ define([ "exports", "../Bool", "../compare", "../Fun", "../js", "../math/methods
 				}
 			};
 			return {
-				default: _default,
 				doc: doc,
 				test: test,
+				default: _default,
 				displayName: "each!"
 			}
 		}());
@@ -196,18 +196,18 @@ define([ "exports", "../Bool", "../compare", "../Fun", "../js", "../math/methods
 				_ms.checkContains(Pred, pred_63, "pred?");
 				const iter = iterator(_);
 				const found = _ms.unlazy(Ref_33)(_ms.unlazy(empty)(_ms.unlazy(_63)));
-				loop140: while (true) {
-					const _$141 = iter.next(), value = _$141.value, done = _$141.done;
+				loop132: while (true) {
+					const _$133 = iter.next(), value = _$133.value, done = _$133.done;
 					switch (true) {
 						case _ms.bool(done):
 							{
-								break loop140
+								break loop132
 							};
 							break
 						case _ms.bool(pred_63(value)):
 							{
 								_ms.unlazy(set_33)(found, _ms.unlazy(_63)(value));
-								break loop140
+								break loop132
 							};
 							break
 						default: {
@@ -247,12 +247,12 @@ define([ "exports", "../Bool", "../compare", "../Fun", "../js", "../math/methods
 				_ms.checkContains(Pred, keep_45if_63, "keep-if?");
 				return _ms.unlazy(Stream)(function*() {
 					const iter = iterator(_);
-					loop169: while (true) {
-						const _$170 = iter.next(), value = _$170.value, done = _$170.done;
+					loop161: while (true) {
+						const _$162 = iter.next(), value = _$162.value, done = _$162.done;
 						switch (true) {
 							case _ms.bool(done):
 								{
-									break loop169
+									break loop161
 								};
 								break
 							case _ms.bool(keep_45if_63(value)):
@@ -297,12 +297,12 @@ define([ "exports", "../Bool", "../compare", "../Fun", "../js", "../math/methods
 				_ms.checkContains(Fun, mapper, "mapper");
 				return _ms.unlazy(Stream)(function*() {
 					const iter = iterator(_);
-					loop193: while (true) {
-						const _$194 = iter.next(), value = _$194.value, done = _$194.done;
+					loop185: while (true) {
+						const _$186 = iter.next(), value = _$186.value, done = _$186.done;
 						switch (true) {
 							case _ms.bool(done):
 								{
-									break loop193
+									break loop185
 								};
 								break
 							default: {
@@ -352,7 +352,7 @@ define([ "exports", "../Bool", "../compare", "../Fun", "../js", "../math/methods
 				_ms.checkContains(_ms.sub(Fun, 2, Obj), mapper_45folder, "mapper-folder");
 				const acc = _ms.unlazy(Ref_33)(start);
 				const mapped = _61_62(Array, map(_, function(em) {
-					const _$225 = mapper_45folder(_ms.unlazy(get)(acc), em), here = _ms.checkContains(Any, _$225.here, "here"), next = _ms.checkContains(Any, _$225.next, "next");
+					const _$213 = mapper_45folder(_ms.unlazy(get)(acc), em), here = _ms.checkContains(Any, _$213.here, "here"), next = _ms.checkContains(Any, _$213.next, "next");
 					_ms.unlazy(set_33)(acc, next);
 					return here
 				}));
@@ -386,12 +386,12 @@ define([ "exports", "../Bool", "../compare", "../Fun", "../js", "../math/methods
 				_ms.checkContains(_ms.sub(Fun, Any, _64), mapper, "mapper");
 				return _ms.unlazy(Stream)(function*() {
 					const iter = iterator(_);
-					loop244: while (true) {
-						const _$245 = iter.next(), value = _$245.value, done = _$245.done;
+					loop232: while (true) {
+						const _$233 = iter.next(), value = _$233.value, done = _$233.done;
 						switch (true) {
 							case _ms.bool(done):
 								{
-									break loop244
+									break loop232
 								};
 								break
 							default: {
@@ -436,12 +436,12 @@ define([ "exports", "../Bool", "../compare", "../Fun", "../js", "../math/methods
 				_ms.checkContains(_ms.sub(_64, _64), _, "_");
 				return _ms.unlazy(Stream)(function*() {
 					const iter = iterator(_);
-					loop276: while (true) {
-						const _$277 = iter.next(), value = _$277.value, done = _$277.done;
+					loop261: while (true) {
+						const _$262 = iter.next(), value = _$262.value, done = _$262.done;
 						switch (true) {
 							case _ms.bool(done):
 								{
-									break loop276
+									break loop261
 								};
 								break
 							default: {
@@ -508,12 +508,12 @@ define([ "exports", "../Bool", "../compare", "../Fun", "../js", "../math/methods
 				return _ms.checkContains(_64, _ms.unlazy(Stream)(function*() {
 					const iter = iterator(_);
 					const remove_45us = _61_62(_ms.unlazy(Set_33), remove);
-					loop317: while (true) {
-						const _$318 = iter.next(), value = _$318.value, done = _$318.done;
+					loop300: while (true) {
+						const _$301 = iter.next(), value = _$301.value, done = _$301.done;
 						switch (true) {
 							case _ms.bool(done):
 								{
-									break loop317
+									break loop300
 								};
 								break
 							default: {

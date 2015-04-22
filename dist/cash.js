@@ -97,7 +97,7 @@ define([ "exports", "./at/at", "./Bool", "./control", "./Fun", "./Generatorbang"
 				return _new($, function(resolve) {
 					return resolve(delayed())
 				})
-			}, "$test", $test, "doc", doc, "displayName", "$delay")
+			}, "doc", doc, "$test", $test, "displayName", "$delay")
 		}();
 		const $all = exports.$all = function() {
 			const doc = "$ that resolves when the last $ in the input does, with every value in the original iteration order.\nIf any one of them fails, fails with the first such failure.";
@@ -188,7 +188,7 @@ define([ "exports", "./at/at", "./Bool", "./control", "./Fun", "./Generatorbang"
 				_ms.checkContains(_ms.sub(Fun, Generator_33), code, "code");
 				const gen = code();
 				const do_45next = function(last_45value) {
-					const _$182 = gen.next(last_45value), value = _$182.value, done = _$182.done;
+					const _$153 = gen.next(last_45value), value = _$153.value, done = _$153.done;
 					return function() {
 						switch (true) {
 							case _ms.bool(done): {

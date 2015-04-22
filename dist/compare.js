@@ -128,12 +128,12 @@ define([ "exports", "./Bool", "./js", "./Type/Method", "./at/at", "./at/at-Type"
 						const value = iter.next().value;
 						const cur_45max = _ms.unlazy(Ref_33)(value);
 						const cur_45max_45by = _ms.unlazy(Ref_33)(by(value));
-						loop113: while (true) {
-							const _$114 = iter.next(), value = _$114.value, done = _$114.done;
+						loop91: while (true) {
+							const _$92 = iter.next(), value = _$92.value, done = _$92.done;
 							switch (true) {
 								case _ms.bool(done):
 									{
-										break loop113
+										break loop91
 									};
 									break
 								default: {

@@ -1,4 +1,4 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'module', 'esast/dist/Loc', '../CompileError', '../Expression', './Lang', './Token', './U/Bag', './U/Op', './U/util'], function (exports, module, _esastDistLoc, _CompileError, _Expression, _Lang, _Token, _UBag, _UOp, _UUtil) {
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'module', 'esast/dist/Loc', '../CompileError', '../Expression', './Lang', './Token', './U/Bag', './U/Op', './U/util', './U/Slice'], function (exports, module, _esastDistLoc, _CompileError, _Expression, _Lang, _Token, _UBag, _UOp, _UUtil, _USlice) {
 	'use strict';
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
@@ -7,9 +7,11 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 
 	var _Loc = _interopRequire(_esastDistLoc);
 
+	var _Slice = _interopRequire(_USlice);
+
 	function parse(cx, rootToken) {
 		_UUtil.assert(_Token.Group.isBlock(rootToken));
-		let tokens = rootToken.tokens;
+		let tokens = _Slice.all(rootToken.tokens);
 		let loc = rootToken.loc;
 
 		// Functions for moving through tokens:
@@ -38,7 +40,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 			const t = tokens;
 			tokens = _tokens;
 			const l = loc;
-			loc = tokens.isEmpty() ? loc : _Loc(tokens.head().loc.start, tokens.last().loc.end);
+			loc = tokens.isEmpty() ? loc : _locFromTokens(tokens);
 			const res = fun(arg);
 			tokens = t;
 			loc = l;
@@ -48,7 +50,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 			const t = tokens;
 			tokens = _tokens;
 			const l = loc;
-			loc = tokens.isEmpty() ? loc : _Loc(tokens.head().loc.start, tokens.last().loc.end);
+			loc = tokens.isEmpty() ? loc : _locFromTokens(tokens);
 			const res = fun(arg, arg2);
 			tokens = t;
 			loc = l;
@@ -56,7 +58,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		},
 		      wg = function (group, fun, arg) {
 			const t = tokens;
-			tokens = group.tokens;
+			tokens = _Slice.all(group.tokens);
 			const l = loc;
 			loc = group.loc;
 			const res = fun(arg);
@@ -105,7 +107,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 			check(!tokens.isEmpty(), 'Expected an indented block');
 			const l = tokens.last();
 			cx.check(_Token.Group.isBlock(l), l.loc, 'Expected an indented block at the end');
-			return { before: tokens.rtail(), lines: l.tokens };
+			return { before: tokens.rtail(), lines: _Slice.all(l.tokens) };
 		},
 		      blockWrap = function () {
 			return _Expression.BlockWrap(loc, _parseBlockBody('val'));
@@ -165,7 +167,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 			});
 			const block = tokens.second();
 			_UUtil.assert(tokens.size() === 2 && _Token.Group.isBlock(block));
-			return block.tokens.flatMap(function (line) {
+			return _UBag.flatMap(block.tokens, function (line) {
 				return wg(line, parseLineOrLines);
 			});
 		};
@@ -322,9 +324,9 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 
 			const l = lines.last();
 
-			var _ref2 = _Token.Keyword.isElse(l.tokens.head()) ? {
+			var _ref2 = _Token.Keyword.isElse(_UBag.head(l.tokens)) ? {
 				partLines: lines.rtail(),
-				opElse: _UOp.some(w1(l.tokens.tail(), isVal ? justBlockVal : justBlockDo))
+				opElse: _UOp.some(w1(_Slice.all(l.tokens).tail(), isVal ? justBlockVal : justBlockDo))
 			} : {
 				partLines: lines,
 				opElse: _UOp.None
@@ -442,12 +444,12 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 			return _Expression.Fun(loc, k, args, opRestArg, block, opIn, opResDeclare, opOut);
 		};
 
-		// parseFun privatesprivate
+		// parseFun privates
 		const _tryTakeReturnType = function () {
 			if (!tokens.isEmpty()) {
 				const h = tokens.head();
-				if (_Token.Group.isSpaced(h) && _Token.Keyword.isColon(h.tokens.head())) return {
-					opReturnType: _UOp.some(w0(h.tokens.tail(), parseSpaced)),
+				if (_Token.Group.isSpaced(h) && _Token.Keyword.isColon(_UBag.head(h.tokens))) return {
+					opReturnType: _UOp.some(w0(_Slice.all(h.tokens).tail(), parseSpaced)),
 					rest: tokens.tail()
 				};
 			}
@@ -504,7 +506,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 				if (!lines.isEmpty()) {
 					const firstLine = lines.head();
 					_UUtil.assert(_Token.Group.isLine(firstLine));
-					const tokensFirst = firstLine.tokens;
+					const tokensFirst = _Slice.all(firstLine.tokens);
 					if (_Token.Keyword.is(inOrOut)(tokensFirst.head())) return {
 						took: _UOp.some(_Expression.Debug(firstLine.loc, w0(tokensFirst, parseLinesFromBlock))),
 						rest: lines.tail()
@@ -687,7 +689,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 			let isLazy = false;
 
 			if (_Token.Group.isSpaced(t)) {
-				const tokens = t.tokens;
+				const tokens = _Slice.all(t.tokens);
 				let rest = tokens;
 				if (_Token.Keyword.isTilde(tokens.head())) {
 					isLazy = true;
@@ -787,7 +789,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 							} else if (t instanceof _Token.Group) {
 								if (t.k === _Token.G_Bracket) return _Expression.Call.sub(loc, _UBag.unshift(e, wg(t, parseExprParts)));
 								if (t.k === _Token.G_Paren) {
-									cx.check(t.tokens.isEmpty(), loc, function () {
+									cx.check(_UBag.isEmpty(t.tokens), loc, function () {
 										return 'Use ' + _CompileError.code('(a b)') + ', not ' + _CompileError.code('a(b)');
 									});
 									return _Expression.Call(loc, e, []);
@@ -803,8 +805,8 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 			if (!tokens.isEmpty()) {
 				const l0 = tokens.head();
 				_UUtil.assert(_Token.Group.isLine(l0));
-				if (_Token.Keyword.is(k)(l0.tokens.head())) return {
-					uses: w1(l0.tokens.tail(), _parseUse, k),
+				if (_Token.Keyword.is(k)(_UBag.head(l0.tokens))) return {
+					uses: w1(_Slice.all(l0.tokens).tail(), _parseUse, k),
 					rest: tokens.tail()
 				};
 			}

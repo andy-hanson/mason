@@ -1,5 +1,4 @@
 import { assert } from './util'
-import type from './type'
 
 export const
 	head = arr => {
@@ -25,7 +24,6 @@ export const
 		return out
 	},
 	repeat = (em, n) => {
-		type(em, Object, n, Number)
 		assert(n >= 0)
 		const out = []
 		for (let i = n; i > 0; i = i - 1)
@@ -33,11 +31,9 @@ export const
 		return out
 	},
 	isEmpty = arr => {
-		type(arr, Array)
 		return arr.length === 0
 	},
 	range = (min, max) => {
-		type(min, Number, max, Number)
 		assert(min < max)
 		const out = []
 		for (let i = min; i < max; i = i + 1)
@@ -45,7 +41,6 @@ export const
 		return out
 	},
 	flatMap = (mapped, mapper) => {
-		type(mapped, Array, mapper, Function)
 		const out = []
 		mapped.forEach((_, i) => out.push(...mapper(_, i)))
 		return out

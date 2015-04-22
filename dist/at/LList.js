@@ -59,7 +59,7 @@ define([ "exports", "../js", "../Objbang", "../Type/Kind", "../Type/Obj-Type", "
 				_ms.checkContains(_64, left_45added, "left-added");
 				const iter = iterator(left_45added);
 				const f = function() {
-					const _$43 = iter.next(), value = _$43.value, done = _$43.done;
+					const _$42 = iter.next(), value = _$42.value, done = _$42.done;
 					return function() {
 						switch (true) {
 							case _ms.bool(done): {

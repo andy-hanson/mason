@@ -115,13 +115,13 @@ define([ "exports", "../Bool", "../js", "../private/js-impl", "../private/bootst
 			}();
 			const make_45callable = make_45callable_45method;
 			return {
+				doc: doc,
+				test: test,
 				props: props,
 				"opt-props": opt_45props,
 				extensible: extensible,
 				defaults: defaults,
 				"make-callable": make_45callable,
-				doc: doc,
-				test: test,
 				displayName: "Method"
 			}
 		}());
@@ -150,10 +150,10 @@ define([ "exports", "../Bool", "../js", "../private/js-impl", "../private/bootst
 							const first_45type = implementor_450;
 							const impl_45symbol = Symbol("<double dispatcher>");
 							return {
+								"impl-symbol": impl_45symbol,
 								displayName: displayName,
 								method: method,
-								"first-type": first_45type,
-								"impl-symbol": impl_45symbol
+								"first-type": first_45type
 							}
 						}());
 						do_45impl_33(method, implementor_450, dd);

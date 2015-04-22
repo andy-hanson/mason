@@ -68,11 +68,11 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 
 		// Benchmark has problems if I don't put these in global variables...
 		global.lexUngroupedTest = function () {
-			return _lexUngrouped(new _privateCx.SubContext(cx), source);
+			return _lexUngrouped(cx, source);
 		};
 		const tUngrouped = global.lexUngroupedTest();
 		global.lexGroupTest = function () {
-			return _lexGroup(new _privateCx.SubContext(cx), tUngrouped);
+			return _lexGroup(cx, tUngrouped);
 		};
 
 		test({

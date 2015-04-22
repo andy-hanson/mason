@@ -3,7 +3,7 @@ import { Node } from 'esast/dist/ast'
 import fs from 'fs'
 import numeral from 'numeral'
 import Expression from '../Expression'
-import Cx, { SubContext } from '../private/Cx'
+import Cx from '../private/Cx'
 import lex from '../private/lex/lex'
 import lexUngrouped from '../private/lex/ungrouped'
 import lexGroup from '../private/lex/group'
@@ -52,10 +52,10 @@ export default () => {
 
 	// Benchmark has problems if I don't put these in global variables...
 	global.lexUngroupedTest = () =>
-		lexUngrouped(new SubContext(cx), source)
+		lexUngrouped(cx, source)
 	const tUngrouped = global.lexUngroupedTest()
 	global.lexGroupTest = () =>
-		lexGroup(new SubContext(cx), tUngrouped)
+		lexGroup(cx, tUngrouped)
 
 	test({
 		lexUngrouped: () => global.lexUngroupedTest(),

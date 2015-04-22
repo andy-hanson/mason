@@ -32,8 +32,6 @@ export const ReservedWords = newSet([ 'for', 'return' ])
 
 export const GroupKinds = newSet(['(', '[', '{', '->', 'ln', 'sp', '"'])
 
-export const ReservedCharacters = newSet([ '`', ';', ',', '%', '^', '&', '\\' ])
-
 export const GroupOpenToClose = newMap([
 	['(', ')'],
 	['[', ']'],
@@ -83,7 +81,8 @@ export const JsGlobals = newSet([
 
 // Anything not explicitly reserved is a valid name character.
 // A `~` may appear in a name, but not at the beginning.
-export const NameCharacter = /[^()[\]{}\.:|_\s\"`#;,]/
+export const NonNameCharacters = '()[]{}.:|_ \n\t"`#;,'
+export const ReservedCharacters = '`;,%^&\\'
 
 export const defaultLoopName = 'anon-loop'
 

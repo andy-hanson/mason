@@ -1,15 +1,9 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'module', '../CompileError', '../Expression', './U/Bag', './U/Op', './U/type', './U/util', './Vr'], function (exports, module, _CompileError, _Expression, _UBag, _UOp, _UType, _UUtil, _Vr) {
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'module', '../CompileError', '../Expression', './U/Bag', './U/Op', './U/util', './Vr'], function (exports, module, _CompileError, _Expression, _UBag, _UOp, _UUtil, _Vr) {
 	'use strict';
-
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
 	var _toConsumableArray = function (arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } };
 
 	module.exports = verify;
-
-	var _Expression2 = _interopRequire(_Expression);
-
-	var _type = _interopRequire(_UType);
 
 	const vm = function (es) {
 		return es.forEach(function (e) {
@@ -299,13 +293,10 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	function verifyUses(uses, debugUses) {
 		const useLocals = [];
 		uses.forEach(function (use) {
-			if (!(use instanceof _Expression.UseDo)) {
-				_type(use, _Expression.Use);
-				use.used.concat(use.opUseDefault).forEach(function (_) {
-					registerLocal(_);
-					useLocals.push(_);
-				});
-			}
+			if (!(use instanceof _Expression.UseDo)) use.used.concat(use.opUseDefault).forEach(function (_) {
+				registerLocal(_);
+				useLocals.push(_);
+			});
 		});
 		withInDebug(true, function () {
 			return debugUses.forEach(function (use) {
@@ -383,7 +374,6 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	}
 
 	function lineNewLocals(line) {
-		_type(line, _Expression2);
 		return line instanceof _Expression.Assign ? [line.assignee] : line instanceof _Expression.AssignDestructure ? line.assignees : [];
 	}
 });

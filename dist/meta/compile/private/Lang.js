@@ -35,9 +35,6 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	const GroupKinds = _UUtil.newSet(['(', '[', '{', '->', 'ln', 'sp', '"']);
 
 	exports.GroupKinds = GroupKinds;
-	const ReservedCharacters = _UUtil.newSet(['`', ';', ',', '%', '^', '&', '\\']);
-
-	exports.ReservedCharacters = ReservedCharacters;
 	const GroupOpenToClose = _UUtil.newMap([['(', ')'], ['[', ']'], ['{', '}'], ['->', '<-'], ['ln', 'ln'], ['sp', 'sp'], ['"', 'close"']]);
 
 	exports.GroupOpenToClose = GroupOpenToClose;
@@ -49,9 +46,11 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	exports.JsGlobals = JsGlobals;
 	// Anything not explicitly reserved is a valid name character.
 	// A `~` may appear in a name, but not at the beginning.
-	const NameCharacter = /[^()[\]{}\.:|_\s\"`#;,]/;
+	const NonNameCharacters = '()[]{}.:|_ \n\t"`#;,';
+	exports.NonNameCharacters = NonNameCharacters;
+	const ReservedCharacters = '`;,%^&\\';
 
-	exports.NameCharacter = NameCharacter;
+	exports.ReservedCharacters = ReservedCharacters;
 	const defaultLoopName = 'anon-loop';
 
 	exports.defaultLoopName = defaultLoopName;

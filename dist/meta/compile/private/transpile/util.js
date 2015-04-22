@@ -1,20 +1,9 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'esast/dist/ast', 'esast/dist/Loc', 'esast/dist/util', '../../Expression', '../Lang', '../U/Bag', '../U/Op', '../U/type', '../U/util', '../Vr', './transpile', './esast-util'], function (exports, _esastDistAst, _esastDistLoc, _esastDistUtil, _Expression, _Lang, _UBag, _UOp, _UType, _UUtil, _Vr, _transpile, _esastUtil) {
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'esast/dist/ast', 'esast/dist/util', '../U/Bag', '../U/Op', '../U/util', './transpile', './esast-util'], function (exports, _esastDistAst, _esastDistUtil, _UBag, _UOp, _UUtil, _transpile, _esastUtil) {
 	'use strict';
-
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
 	Object.defineProperty(exports, '__esModule', {
 		value: true
 	});
-
-	var _Loc = _interopRequire(_esastDistLoc);
-
-	var _Expression2 = _interopRequire(_Expression);
-
-	var _type = _interopRequire(_UType);
-
-	var _Vr2 = _interopRequire(_Vr);
-
 	const LitEmptyArray = _esastDistAst.ArrayExpression([]),
 	      LitEmptyString = _esastDistAst.Literal(''),
 	      LitNull = _esastDistAst.Literal(null),
@@ -80,7 +69,6 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	exports.msLazy = msLazy;
 	exports.msLazyGet = msLazyGet;
 	const makeDestructureDeclarators = function (cx, loc, assignees, isLazy, value, k, isModule) {
-		_type(loc, _Loc, assignees, [_Expression.LocalDeclare], isLazy, Boolean, value, Object, k, _Lang.KAssign, isModule, Boolean);
 		const destructuredName = '_$' + loc.start.line;
 		const idDestructured = _esastDistAst.Identifier(destructuredName);
 		const declarators = assignees.map(function (assignee) {
@@ -95,12 +83,10 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 
 	exports.makeDestructureDeclarators = makeDestructureDeclarators;
 	const getMember = function (cx, astObject, gotName, isLazy, isModule) {
-		_type(astObject, Object, gotName, String, isLazy, Boolean, isModule, Boolean);
 		if (isLazy) return msLazyGet([astObject, _esastDistAst.Literal(gotName)]);else if (isModule && cx.opts.includeUseChecks()) return msGet([astObject, _esastDistAst.Literal(gotName)]);else return _esastDistUtil.member(astObject, gotName);
 	};
 
 	const makeDeclarator = function (cx, loc, assignee, k, value, valueIsAlreadyLazy) {
-		_type(loc, _Loc, assignee, _Expression2, k, _Lang.KAssign, value, Object);
 		// TODO: assert(isEmpty(assignee.opType))
 		// or TODO: Allow type check on lazy value?
 		value = assignee.isLazy ? value : maybeWrapInCheckContains(cx, value, assignee.opType, assignee.name);
@@ -124,12 +110,11 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 
 	exports.makeDeclarator = makeDeclarator;
 	const accessLocal = function (localAccess, vr) {
-		_type(localAccess, _Expression.LocalAccess, vr, _Vr2);
 		return accessLocalDeclare(vr.accessToLocal.get(localAccess));
 	};
+
 	exports.accessLocal = accessLocal;
 	const accessLocalDeclare = function (localDeclare) {
-		_type(localDeclare, _Expression.LocalDeclare);
 		return localDeclare.isLazy ? msUnlazy([_esastUtil.idForDeclareCached(localDeclare)]) : _esastUtil.idForDeclareNew(localDeclare);
 	};
 
@@ -144,7 +129,6 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 
 	exports.maybeWrapInCheckContains = maybeWrapInCheckContains;
 	const opLocalCheck = function (cx, local, isLazy) {
-		_type(local, _Expression.LocalDeclare, isLazy, Boolean);
 		// TODO: Way to typecheck lazies
 		if (!cx.opts.includeTypeChecks() || isLazy) return _UOp.None;else return local.opType.map(function (typ) {
 			return _esastDistAst.ExpressionStatement(msCheckContains([_transpile.t(typ), accessLocalDeclare(local), _esastDistAst.Literal(local.name)]));

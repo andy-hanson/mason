@@ -173,7 +173,7 @@ define([ "exports", "../../bang", "../../at/at", "../../at/at-Type", "../../at/A
 				return arr.push(_)
 			};
 			const i = _ms.unlazy(Ref_33)(10);
-			loop144: while (true) {
+			loop140: while (true) {
 				{
 					const _ = _ms.unlazy(get)(i);
 					switch (true) {
@@ -184,7 +184,7 @@ define([ "exports", "../../bang", "../../at/at", "../../at/at-Type", "../../at/A
 							};
 							break
 						default: {
-							break loop144;
+							break loop140;
 							log_33("This line is never run")
 						}
 					}
@@ -195,15 +195,15 @@ define([ "exports", "../../bang", "../../at/at", "../../at/at-Type", "../../at/A
 				_ms.checkContains(_ms.sub(_ms.unlazy(Fun), _ms.unlazy(Generator_33)), gen_45maker, "gen-maker");
 				const gen = _ms.checkContains(_ms.unlazy(Generator_33), gen_45maker(null), "gen");
 				const last_45value = _ms.unlazy(Ref_33)(0);
-				loop158: while (true) {
-					const _$159 = _ms.unlazy(gen_45next_33)(gen, _ms.unlazy(_43)(_ms.unlazy(get)(last_45value), 1)), value = _$159.value, done = _$159.done;
+				loop154: while (true) {
+					const _$155 = _ms.unlazy(gen_45next_33)(gen, _ms.unlazy(_43)(_ms.unlazy(get)(last_45value), 1)), value = _$155.value, done = _$155.done;
 					_ms.unlazy(set_33)(last_45value, value);
 					{
 						const _ = done;
 						switch (true) {
 							case _ms.bool(_):
 								{
-									break loop158
+									break loop154
 								};
 								break
 							default: {
@@ -256,15 +256,15 @@ define([ "exports", "../../bang", "../../at/at", "../../at/at-Type", "../../at/A
 				_ms.checkContains(_ms.sub(_ms.unlazy(Fun), _ms.unlazy(Generator_33)), gen_45maker, "gen-maker");
 				const gen = gen_45maker(null);
 				const last_45value = _ms.unlazy(Ref_33)(null);
-				loop204: while (true) {
-					const _$205 = _ms.unlazy(gen_45next_33)(gen), value = _$205.value, done = _$205.done;
+				loop200: while (true) {
+					const _$201 = _ms.unlazy(gen_45next_33)(gen), value = _$201.value, done = _$201.done;
 					{
 						const _ = done;
 						switch (true) {
 							case _ms.bool(_):
 								{
 									_ms.unlazy(set_33)(last_45value, value);
-									break loop204
+									break loop200
 								};
 								break
 							default: {

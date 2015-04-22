@@ -1,4 +1,4 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'module', 'esast/dist/Loc', '../../CompileError', '../Lang', '../Token', '../U/util', './GroupPre'], function (exports, module, _esastDistLoc, _CompileError, _Lang, _Token, _UUtil, _GroupPre) {
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'module', 'esast/dist/Loc', '../../CompileError', '../Lang', '../Token', '../U/util', './GroupPre', './char'], function (exports, module, _esastDistLoc, _CompileError, _Lang, _Token, _UUtil, _GroupPre, _char) {
 	'use strict';
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
@@ -9,13 +9,12 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 
 	module.exports = function (cx, str) {
 		const res = [];
-		const len = str.length;
 		let line = _esastDistLoc.StartLine;
 		let column = _esastDistLoc.StartColumn;
 		let index = 0;
 
 		const o = function (t) {
-			return res.push(t);
+			res.push(t);
 		},
 		      pos = function () {
 			return _esastDistLoc.Pos(line, column);
@@ -23,30 +22,26 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		      loc = function () {
 			return _esastDistLoc.singleCharLoc(pos());
 		},
-		      hasNext = function () {
-			return index !== len;
+		      prev = function () {
+			return str.charCodeAt(index - 1);
 		},
 		      peek = function () {
-			return str.charAt(index);
+			return str.charCodeAt(index);
+		},
+		      eat = function () {
+			const ch = str.charCodeAt(index);
+			index = index + 1;
+			column = column + 1;
+			return ch;
 		},
 		      tryEat = function (ch) {
 			const canEat = peek() === ch;
-			if (canEat) skip();
+			if (canEat) {
+				index = index + 1;
+				column = column + 1;
+			}
 			return canEat;
 		},
-		      prev = function () {
-			return str.charAt(index - 1);
-		},
-		      eat = function () {
-			const ch = str[index];
-			index = index + 1;
-			if (ch === '\n') {
-				line = line + 1;
-				column = _esastDistLoc.StartColumn;
-			} else column = column + 1;
-			return ch;
-		},
-		      skip = eat,
 		     
 
 		// Caller must ensure that backing up nCharsToBackUp characters brings us to oldPos.
@@ -55,128 +50,117 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 			line = oldPos.line;
 			column = oldPos.column;
 		},
-		      takeWhile = function (rgx) {
+		      _skipWhile = function (pred) {
 			const startIndex = index;
-			while (rgx.test(peek())) index = index + 1;
-			column = column + (index - startIndex);
-			return str.slice(startIndex, index);
-		},
-		      skipWhileEquals = function (ch) {
-			const startIndex = index;
-			while (peek() === ch) index = index + 1;
+			while (pred(peek())) index = index + 1;
 			const diff = index - startIndex;
 			column = column + diff;
 			return diff;
 		},
-		      skipNewlines = function () {
-			while (peek() === '\n') {
+		      takeWhileWithPrev = function (pred) {
+			const startIndex = index;
+			_skipWhile(pred);
+			return str.slice(startIndex - 1, index);
+		},
+		      takeWhile = function (pred) {
+			const startIndex = index;
+			_skipWhile(pred);
+			return str.slice(startIndex, index);
+		},
+		      skipWhileEquals = function (ch) {
+			return _skipWhile(function (_) {
+				return _ === ch;
+			});
+		},
+		     
+
+		// Called after seeing the first newline.
+		skipNewlines = function () {
+			line = line + 1;
+			const startLine = line;
+			while (peek() === _char.Newline) {
 				index = index + 1;
 				line = line + 1;
 			}
 			column = _esastDistLoc.StartColumn;
+			return line - startLine;
 		},
 		      skipRestOfLine = function () {
-			while (peek() !== '\n') index = index + 1;
+			while (peek() !== _char.Newline) index = index + 1;
 		};
-
-		const cc = function (ch) {
-			return ch.charCodeAt(0);
-		};
-		const N0 = cc('0'),
-		      N1 = cc('1'),
-		      N2 = cc('2'),
-		      N3 = cc('3'),
-		      N4 = cc('4'),
-		      N5 = cc('5'),
-		      N6 = cc('6'),
-		      N7 = cc('7'),
-		      N8 = cc('8'),
-		      N9 = cc('9'),
-		      OpParen = cc('('),
-		      OpBracket = cc('['),
-		      OpBrace = cc('{'),
-		      ClParen = cc(')'),
-		      ClBracket = cc(']'),
-		      ClBrace = cc('}'),
-		      Space = cc(' '),
-		      Dot = cc('.'),
-		      Colon = cc(':'),
-		      Tilde = cc('~'),
-		      Bar = cc('|'),
-		      Underscore = cc('_'),
-		      Backslash = cc('\\'),
-		      Hash = cc('#'),
-		      Newline = cc('\n'),
-		      Quote = cc('"'),
-		      Tab = cc('\t'),
-		      Hyphen = cc('-');
 
 		const ungrouped = function (isInQuote) {
 			let indent = 0;
 
-			while (hasNext()) {
-				const startLine = line,
-				      startColumn = column;
-				const loc = function () {
-					return _Loc(_esastDistLoc.Pos(startLine, startColumn), pos());
-				};
-				const keyword = function (k) {
-					return _Token.Keyword(loc(), k);
-				};
-				const gp = function (k) {
-					return o(_GroupPre2(loc(), k));
-				};
+			let ch, startLine, startColumn;
+			const loc = function () {
+				return _Loc(_esastDistLoc.Pos(startLine, startColumn), pos());
+			},
+			      keyword = function (k) {
+				return _Token.Keyword(loc(), k);
+			},
+			      gp = function (k) {
+				return o(_GroupPre2(loc(), k));
+			},
+			      eatNumber = function () {
+				const lit = takeWhileWithPrev(_char.isNumberCharacter);
+				cx.check(!Number.isNaN(Number(lit)), pos, function () {
+					return 'Invalid number literal ' + _CompileError.code(lit);
+				});
+				return _Token.Literal(loc(), lit, Number);
+			};
 
-				const eatNumber = function () {
-					const lit = _ + takeWhile(/[0-9\.e]/);
-					cx.check(!Number.isNaN(Number(lit)), pos, function () {
-						return 'Invalid number literal ' + _CompileError.code(lit);
-					});
-					return _Token.Literal(loc(), lit, Number);
-				};
+			while (index !== str.length) {
+				startLine = line;
+				startColumn = column;
 
-				const _ = eat();
-				switch (cc(_)) {
-					case N0:case N1:case N2:case N3:case N4:
-					case N5:case N6:case N7:case N8:case N9:
+				ch = eat();
+				switch (ch) {
+					case _char.N0:case _char.N1:case _char.N2:case _char.N3:case _char.N4:
+					case _char.N5:case _char.N6:case _char.N7:case _char.N8:case _char.N9:
 						o(eatNumber());
 						break;
-					case OpParen:
+					case _char.OpParen:
 						gp(_GroupPre.GP_OpenParen);
 						break;
-					case OpBracket:
+					case _char.OpBracket:
 						gp(_GroupPre.GP_OpenBracket);
 						break;
-					case ClParen:
+					case _char.ClParen:
 						gp(_GroupPre.GP_CloseParen);
 						break;
-					case ClBracket:
+					case _char.ClBracket:
 						gp(_GroupPre.GP_CloseBracket);
 						break;
-					case ClBrace:
-						if (isInQuote) return;else cx.fail(loc(), 'Reserved character ' + _CompileError.code(_));
-					case Space:
-						cx.warnIf(peek() === ' ', loc, 'Multiple spaces in a row');
+					case _char.ClBrace:
+						cx.check(isInQuote, loc, function () {
+							return 'Reserved character ' + _char.showChar(ch);
+						});
+						return;
+					case _char.Space:
+						cx.warnIf(peek() === _char.Space, loc, 'Multiple spaces in a row');
 						gp(_GroupPre.GP_Space);
 						break;
-					case Dot:
-						if (peek() === ' ' || peek() === '\n') {
-							// ObjLit assign in its own spaced group
-							gp(_GroupPre.GP_Space);
-							o(keyword('. '));
-							gp(_GroupPre.GP_Space);
-							break;
-						} else {
-							o(_Token.DotName(loc(),
+					case _char.Dot:
+						{
+							const p = peek();
+							if (p === _char.Space || p === _char.Newline) {
+								// ObjLit assign in its own spaced group.
+								// We can't just create a new Group here because we want to
+								// ensure it's not part of the preceding or following spaced group.
+								gp(_GroupPre.GP_Space);
+								o(keyword('. '));
+								gp(_GroupPre.GP_Space);
+							} else o(_Token.DotName(loc(),
 							// +1 for the dot we just skipped.
-							skipWhileEquals('.') + 1, takeWhile(_Lang.NameCharacter)));
+							skipWhileEquals(_char.Dot) + 1, takeWhile(_char.isNameCharacter)));
 							break;
 						}
-					case Colon:
+					case _char.Colon:
 						o(keyword(':'));
 						break;
-					case Tilde:
-						if (tryEat('|')) {
+					case _char.Tilde:
+						if (tryEat(_char.Bar)) {
 							o(keyword('~|'));
 							gp(_GroupPre.GP_Space);
 							break;
@@ -185,26 +169,27 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 							break;
 						}
 						break;
-					case Bar:
+					case _char.Bar:
 						// First arg in its own spaced group
 						o(keyword('|'));
 						gp(_GroupPre.GP_Space);
 						break;
-					case Underscore:
+					case _char.Underscore:
 						o(keyword('_'));
 						break;
-					case Hash:
+					case _char.Hash:
 						skipRestOfLine();
 						break;
-					case Newline:
+					case _char.Newline:
 						{
 							cx.check(!isInQuote, loc, 'Quote interpolation cannot contain newline');
-							cx.check(prev() !== ' ', loc, 'Line ends in a space');
+							cx.check(prev() !== _char.Space, loc, 'Line ends in a space');
+
 							// Skip any blank lines.
 							skipNewlines();
 							const oldIndent = indent;
-							indent = skipWhileEquals('\t');
-							cx.check(peek() !== ' ', pos, 'Line begins in a space');
+							indent = skipWhileEquals(_char.Tab);
+							cx.check(peek() !== _char.Space, pos, 'Line begins in a space');
 							if (indent <= oldIndent) {
 								for (let i = indent; i < oldIndent; i = i + 1) gp(_GroupPre.GP_CloseBlock);
 								gp(_GroupPre.GP_Line);
@@ -214,25 +199,25 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 							}
 							break;
 						}
-					case Quote:
+					case _char.Tab:
+						cx.fail(loc(), 'Tab may only be used to indent');
+						break;
+					case _char.Quote:
 						lexQuote(indent);
 						break;
-					case Tab:
-						cx.fail(loc(), 'Tab may only be used to indent');
-					case Hyphen:
-						if (/[0-9]/.test(peek())) {
+					case _char.Hyphen:
+						if (_char.isDigit(peek())) {
 							o(eatNumber());
 							break;
 						}
 					// Else fallthrough
 					default:
 						{
-							cx.check(!_Lang.ReservedCharacters.has(_), loc, function () {
-								return 'Reserved character ' + _CompileError.code(_);
+							cx.check(!_char.isReservedCharacter(ch), loc, function () {
+								return 'Reserved character ' + _char.showChar(ch);
 							});
 							// All other characters should be handled in a case above.
-							_UUtil.assert(_Lang.NameCharacter.test(_));
-							const name = _ + takeWhile(_Lang.NameCharacter);
+							const name = takeWhileWithPrev(_char.isNameCharacter);
 							switch (name) {
 								case 'region':
 									// Rest of line is a comment.
@@ -240,7 +225,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 									o(keyword('region'));
 									break;
 								default:
-									if (tryEat('_')) o(_Token.CallOnFocus(loc(), name));else if (_Lang.AllKeywords.has(name)) o(keyword(name));else if (_Lang.ReservedWords.has(name)) cx.fail(loc, 'Reserved word ' + _CompileError.code(name));else o(_Token.Name(loc(), name));
+									if (tryEat(_char.Underscore)) o(_Token.CallOnFocus(loc(), name));else if (_Lang.AllKeywords.has(name)) o(keyword(name));else if (_Lang.ReservedWords.has(name)) cx.fail(loc, 'Reserved word ' + _CompileError.code(name));else o(_Token.Name(loc(), name));
 							}
 						}
 				}
@@ -248,7 +233,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		};
 
 		const lexQuote = function (indent) {
-			const isIndented = peek() === '\n';
+			const isIndented = peek() === _char.Newline;
 			const quoteIndent = indent + 1;
 
 			let first = true;
@@ -271,17 +256,13 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 			eatChars: while (true) {
 				const chPos = pos();
 				const ch = eat();
-				switch (cc(ch)) {
-					case Backslash:
+				switch (ch) {
+					case _char.Backslash:
 						{
-							const escaped = eat();
-							cx.check(quoteEscape.has(escaped), pos, function () {
-								return 'No need to escape ' + _CompileError.code(escaped);
-							});
-							read = read + quoteEscape.get(escaped);
+							read = read + quoteEscape(eat());
 							break;
 						}
-					case OpBrace:
+					case _char.OpBrace:
 						{
 							yieldRead();
 							// We can't create a Group now because there may be other GroupPre_s inside.
@@ -290,34 +271,33 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 							o(_GroupPre2(loc(), _GroupPre.GP_CloseParen));
 							break;
 						}
-					case Newline:
+					case _char.Newline:
 						{
-							cx.check(prev() !== ' ', chPos, 'Line ends in a space');
+							cx.check(prev !== _char.Space, chPos, 'Line ends in a space');
 							cx.check(isIndented, chPos, 'Unclosed quote.');
-							let newIndent = skipWhileEquals('\t');
+							let newIndent = skipWhileEquals(_char.Tab);
 
-							let s = '';
-
+							let extraNewlines = '';
 							// Allow blank lines.
 							if (newIndent === 0) {
-								while (tryEat('\n')) s = s + '\n';
-								newIndent = skipWhileEquals('\t');
+								extraNewlines = '\n'.repeat(skipNewlines());
+								newIndent = skipWhileEquals(_char.Tab);
 							}
 
 							if (newIndent < quoteIndent) {
 								// Indented quote section is over.
 								// Undo reading the tabs and newline.
 								stepBackMany(chPos, newIndent + 1);
-								_UUtil.assert(peek() === '\n');
+								_UUtil.assert(peek() === _char.Newline);
 								break eatChars;
-							} else read = read + s + '\n' + '\t'.repeat(newIndent - quoteIndent);
+							} else read = read + extraNewlines + '\n' + '\t'.repeat(newIndent - quoteIndent);
 							break;
 						}
-					case Quote:
+					case _char.Quote:
 						if (!isIndented) break eatChars;
 					// Else fallthrough
 					default:
-						read = read + ch;
+						read = read + String.fromCharCode(ch);
 				}
 			}
 
@@ -325,7 +305,22 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 			o(_GroupPre2(loc(), _GroupPre.GP_CloseQuote));
 		};
 
-		const quoteEscape = _UUtil.newMap([['{', '{'], ['n', '\n'], ['t', '\t'], ['"', '"'], ['\\', '\\']]);
+		const quoteEscape = function (ch) {
+			switch (ch) {
+				case _char.OpBrace:
+					return '{';
+				case _char.LetterN:
+					return '\n';
+				case _char.LetterT:
+					return '\t';
+				case _char.Quote:
+					return '"';
+				case _char.Backslash:
+					return '\\';
+				default:
+					cx.fail(pos, 'No need to escape ' + _char.showChar(ch));
+			}
+		};
 
 		ungrouped(false);
 		return res;

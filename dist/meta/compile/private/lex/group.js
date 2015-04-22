@@ -1,4 +1,4 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'module', 'esast/dist/Loc', 'esast/dist/private/tuple', '../Token', '../U/Bag', '../U/util', '../U/Slice', './GroupPre'], function (exports, module, _esastDistLoc, _esastDistPrivateTuple, _Token, _UBag, _UUtil, _USlice, _GroupPre) {
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'module', 'esast/dist/Loc', '../Token', '../U/Bag', '../U/util', './GroupPre'], function (exports, module, _esastDistLoc, _Token, _UBag, _UUtil, _GroupPre) {
 	'use strict';
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
@@ -7,66 +7,58 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 
 	var _Loc = _interopRequire(_esastDistLoc);
 
-	var _tuple = _interopRequire(_esastDistPrivateTuple);
-
 	var _Token2 = _interopRequire(_Token);
-
-	var _Slice = _interopRequire(_USlice);
 
 	function group(cx, preGroupedTokens) {
 		// Stack of GroupBuilders
 		const stack = [];
-
-		// Should always be last(stack)
-		let cur = null;
+		let cur;
 
 		const newLevel = function (pos, k) {
-			cur = GroupBuilder(pos, k, []);
 			stack.push(cur);
+			cur = _Token.Group(_Loc(pos, null), [], k);
 		},
 		      finishLevels = function (closePos, k) {
 			// We may close other groups. For example, a G_Line can close a G_Paren.
 			while (true) {
-				const old = _UBag.last(stack);
-				const oldClose = _GroupPre.groupOpenToClose(old.k);
-				if (oldClose === k) break;else {
-					cx.check(old.k === _GroupPre.GP_OpenParen || old.k === _GroupPre.GP_OpenBracket || old.k === _GroupPre.GP_Space, closePos, 'Trying to close ' + showGroup(k) + ', but last opened was ' + showGroup(old.k));
-					finishLevel(closePos, oldClose);
+				const close = _GroupPre.groupOpenToClose(cur.k);
+				if (close === k) break;else {
+					cx.check(cur.k === _GroupPre.GP_OpenParen || cur.k === _GroupPre.GP_OpenBracket || cur.k === _GroupPre.GP_Space, closePos, function () {
+						return 'Trying to close ' + showGroup(k) + ', but last opened was ' + showGroup(cur.k);
+					});
+					finishLevel(closePos, close);
 				}
 			}
 			finishLevel(closePos, k);
 		},
 		      finishLevel = function (closePos, k) {
-			let wrapped = wrapLevel(closePos, k);
+			let wrapped = wrapLevel(closePos);
 			// cur is now the previous level on the stack
 			// Don't add line/spaced
 			switch (k) {
 				case _GroupPre.GP_Space:
 					{
-						const size = wrapped.tokens.size();
+						const size = wrapped.tokens.length;
 						if (size === 0) return;else if (size === 1)
 							// Spaced should always have at least two elements
-							wrapped = wrapped.tokens.head();
+							wrapped = _UBag.head(wrapped.tokens);
 						break;
 					}
 				case _GroupPre.GP_Line:
-					if (wrapped.tokens.isEmpty()) return;
+					if (_UBag.isEmpty(wrapped.tokens)) return;
 					break;
 				case _GroupPre.GP_CloseBlock:
-					if (wrapped.tokens.isEmpty()) cx.fail(closePos, 'Empty block');
+					if (_UBag.isEmpty(wrapped.tokens)) cx.fail(closePos, 'Empty block');
 				default:
 				// fallthrough
 			}
-			cur.add(wrapped);
+			cur.tokens.push(wrapped);
 		},
-		      wrapLevel = function (closePos, k) {
-			const old = stack.pop();
-			cur = _UBag.isEmpty(stack) ? null : _UBag.last(stack);
-			const loc = _Loc(old.startPos, closePos);
-			_UUtil.assert(_GroupPre.groupOpenToClose(old.k) === k);
-			const tokens = new _Slice(old.body);
-			// A GroupPre opener is also an equivalent Group kind. E.g. GP_OpenParen === G_Paren
-			return _Token.Group(loc, tokens, old.k);
+		      wrapLevel = function (closePos) {
+			const builtGroup = cur;
+			cur = stack.pop();
+			builtGroup.loc.end = closePos;
+			return builtGroup;
 		},
 		      startLine = function (pos) {
 			newLevel(pos, _GroupPre.GP_Line);
@@ -81,12 +73,12 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 			newLevel(loc.end, k);
 		};
 
-		newLevel(_esastDistLoc.StartPos, _GroupPre.GP_OpenBlock);
+		cur = _Token.Group(_Loc(_esastDistLoc.StartPos, null), [], _GroupPre.GP_OpenBlock);
 		startLine(_esastDistLoc.StartPos);
 
 		let endLoc = _Loc(_esastDistLoc.StartPos, _esastDistLoc.StartPos);
 		preGroupedTokens.forEach(function (_) {
-			if (_ instanceof _Token2) cur.add(_);else {
+			if (_ instanceof _Token2) cur.tokens.push(_);else {
 				// It's a GroupPre
 				const loc = _.loc;
 				endLoc = loc;
@@ -107,7 +99,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 						break;
 					case _GroupPre.GP_OpenBlock:
 						//  ~ before block is OK
-						if (_UBag.isEmpty(cur.body) || !_Token.Keyword.isTilde(_UBag.last(cur.body))) endAndStart(loc, _GroupPre.GP_Space);
+						if (_UBag.isEmpty(cur.tokens) || !_Token.Keyword.isTilde(_UBag.last(cur.tokens))) endAndStart(loc, _GroupPre.GP_Space);
 						newLevel(loc.start, k);
 						startLine(loc.end);
 						break;
@@ -129,20 +121,12 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		});
 
 		endLine(endLoc.end);
-		const wholeModuleBlock = wrapLevel(endLoc.end, _GroupPre.GP_CloseBlock);
 		_UUtil.assert(_UBag.isEmpty(stack));
-		return wholeModuleBlock;
+		cur.loc.end = endLoc.end;
+		return cur;
 	}
 
-	const GroupBuilder = _tuple('GroupBuilder', Object, 'doc',
-	// k is a Group kind
-	['startPos', _esastDistLoc.Pos, 'k', Number, 'body', [_Token2]], {
-		add: function (t) {
-			this.body.push(t);
-		}
-	});
-
-	// TODO: better names
+	// TODO
 	const showGroup = function (k) {
 		return k;
 	};

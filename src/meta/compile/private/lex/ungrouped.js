@@ -1,48 +1,44 @@
 import Loc, { Pos, StartLine, StartColumn, singleCharLoc } from 'esast/dist/Loc'
 import { code } from '../../CompileError'
-import { AllKeywords, NameCharacter, ReservedCharacters, ReservedWords } from '../Lang'
+import { AllKeywords, ReservedWords } from '../Lang'
 import { CallOnFocus, DotName, Keyword, Literal, Name } from '../Token'
-import { assert, newMap } from '../U/util'
+import { assert } from '../U/util'
 import GroupPre, { GP_OpenParen, GP_OpenBracket, GP_OpenBlock, GP_OpenQuote, GP_Line,
 	GP_Space, GP_CloseParen, GP_CloseBracket, GP_CloseBlock, GP_CloseQuote} from './GroupPre'
+import { showChar, N0, N1, N2, N3, N4, N5, N6, N7, N8, N9,
+	OpParen, OpBracket, OpBrace, ClParen, ClBracket, ClBrace, Space, Dot, Colon, Tilde, Bar,
+	Underscore, Backslash, Hash, Newline, Quote, Tab, Hyphen, LetterN, LetterT,
+	isDigit, isNameCharacter, isNumberCharacter, isReservedCharacter } from './char'
 
 export default (cx, str) => {
 	const res = [ ]
-	const len = str.length
 	let line = StartLine
 	let column = StartColumn
 	let index = 0
 
 	const
-		o = t => res.push(t),
+		o = t => { res.push(t) },
 
 		pos = () => Pos(line, column),
 		loc = () => singleCharLoc(pos()),
 
-		hasNext = () => index !== len,
-
-		peek = () => str.charAt(index),
-
-		tryEat = ch => {
-			const canEat = peek() === ch
-			if (canEat)
-				skip()
-			return canEat
-		},
-
-		prev = () => str.charAt(index - 1),
+		prev = () => str.charCodeAt(index - 1),
+		peek = () => str.charCodeAt(index),
 
 		eat = () => {
-			const ch = str[index]
+			const ch = str.charCodeAt(index)
 			index = index + 1
-			if (ch === '\n') {
-				line = line + 1
-				column = StartColumn
-			} else
-				column = column + 1
+			column = column + 1
 			return ch
 		},
-		skip = eat,
+		tryEat = ch => {
+			const canEat = peek() === ch
+			if (canEat) {
+				index = index + 1
+				column = column + 1
+			}
+			return canEat
+		},
 
 		// Caller must ensure that backing up nCharsToBackUp characters brings us to oldPos.
 		stepBackMany = (oldPos, nCharsToBackUp) => {
@@ -51,73 +47,64 @@ export default (cx, str) => {
 			column = oldPos.column
 		},
 
-		takeWhile = rgx => {
+		_skipWhile = pred => {
 			const startIndex = index
-			while (rgx.test(peek()))
-				index = index + 1
-			column = column + (index - startIndex)
-			return str.slice(startIndex, index)
-		},
-
-		skipWhileEquals = ch => {
-			const startIndex = index
-			while (peek() === ch)
+			while (pred(peek()))
 				index = index + 1
 			const diff = index - startIndex
 			column = column + diff
 			return diff
 		},
+		takeWhileWithPrev = pred => {
+			const startIndex = index
+			_skipWhile(pred)
+			return str.slice(startIndex - 1, index)
+		},
+		takeWhile = pred => {
+			const startIndex = index
+			_skipWhile(pred)
+			return str.slice(startIndex, index)
+		},
+		skipWhileEquals = ch => _skipWhile(_ => _ === ch),
 
+		// Called after seeing the first newline.
 		skipNewlines = () => {
-			while (peek() === '\n') {
+			line = line + 1
+			const startLine = line
+			while (peek() === Newline) {
 				index = index + 1
 				line = line + 1
 			}
 			column = StartColumn
+			return line - startLine
 		},
 
 		skipRestOfLine = () => {
-			while (peek() !== '\n')
+			while (peek() !== Newline)
 				index = index + 1
 		}
-
-	const cc = ch => ch.charCodeAt(0)
-	const
-		N0 = cc('0'), N1 = cc('1'), N2 = cc('2'), N3 = cc('3'), N4 = cc('4'),
-		N5 = cc('5'), N6 = cc('6'), N7 = cc('7'), N8 = cc('8'), N9 = cc('9'),
-		OpParen = cc('('), OpBracket = cc('['), OpBrace = cc('{'),
-		ClParen = cc(')'), ClBracket = cc(']'), ClBrace = cc('}'),
-		Space = cc(' '),
-		Dot = cc('.'),
-		Colon = cc(':'),
-		Tilde = cc('~'),
-		Bar = cc('|'),
-		Underscore = cc('_'),
-		Backslash = cc('\\'),
-		Hash = cc('#'),
-		Newline = cc('\n'),
-		Quote = cc('"'),
-		Tab = cc('\t'),
-		Hyphen = cc('-')
 
 	const ungrouped = isInQuote => {
 		let indent = 0
 
-		while (hasNext()) {
-			const startLine = line, startColumn = column
-			const loc = () => Loc(Pos(startLine, startColumn), pos())
-			const keyword = k => Keyword(loc(), k)
-			const gp = k => o(GroupPre(loc(), k))
-
-			const eatNumber = () => {
-				const lit = _ + takeWhile(/[0-9\.e]/)
+		let ch, startLine, startColumn
+		const
+			loc = () => Loc(Pos(startLine, startColumn), pos()),
+			keyword = k => Keyword(loc(), k),
+			gp = k => o(GroupPre(loc(), k)),
+			eatNumber = () => {
+				const lit = takeWhileWithPrev(isNumberCharacter)
 				cx.check(!Number.isNaN(Number(lit)), pos, () =>
 					`Invalid number literal ${code(lit)}`)
 				return Literal(loc(), lit, Number)
 			}
 
-			const _ = eat()
-			switch (cc(_)) {
+		while (index !== str.length) {
+			startLine = line
+			startColumn = column
+
+			ch = eat()
+			switch (ch) {
 				case N0: case N1: case N2: case N3: case N4:
 				case N5: case N6: case N7: case N8: case N9:
 					o(eatNumber())
@@ -135,34 +122,34 @@ export default (cx, str) => {
 					gp(GP_CloseBracket)
 					break
 				case ClBrace:
-					if (isInQuote)
-						return
-					else
-						cx.fail(loc(), `Reserved character ${code(_)}`)
+					cx.check(isInQuote, loc, () => `Reserved character ${showChar(ch)}`)
+					return
 				case Space:
-					cx.warnIf(peek() === ' ', loc, 'Multiple spaces in a row')
+					cx.warnIf(peek() === Space, loc, 'Multiple spaces in a row')
 					gp(GP_Space)
 					break
-				case Dot:
-					if (peek() === ' ' || peek() === '\n') {
-						// ObjLit assign in its own spaced group
+				case Dot: {
+					const p = peek()
+					if (p === Space || p === Newline) {
+						// ObjLit assign in its own spaced group.
+						// We can't just create a new Group here because we want to
+						// ensure it's not part of the preceding or following spaced group.
 						gp(GP_Space)
 						o(keyword('. '))
 						gp(GP_Space)
-						break
-					} else {
+					} else
 						o(DotName(
 							loc(),
 							// +1 for the dot we just skipped.
-							skipWhileEquals('.') + 1,
-							takeWhile(NameCharacter)))
-						break
-					}
+							skipWhileEquals(Dot) + 1,
+							takeWhile(isNameCharacter)))
+					break
+				}
 				case Colon:
 					o(keyword(':'))
 					break
 				case Tilde:
-					if (tryEat('|')) {
+					if (tryEat(Bar)) {
 						o(keyword('~|'))
 						gp(GP_Space)
 						break
@@ -184,12 +171,13 @@ export default (cx, str) => {
 					break
 				case Newline: {
 					cx.check(!isInQuote, loc, 'Quote interpolation cannot contain newline')
-					cx.check(prev() !== ' ', loc, 'Line ends in a space')
+					cx.check(prev() !== Space, loc, 'Line ends in a space')
+
 					// Skip any blank lines.
 					skipNewlines()
 					const oldIndent = indent
-					indent = skipWhileEquals('\t')
-					cx.check(peek() !== ' ', pos, 'Line begins in a space')
+					indent = skipWhileEquals(Tab)
+					cx.check(peek() !== Space, pos, 'Line begins in a space')
 					if (indent <= oldIndent) {
 						for (let i = indent; i < oldIndent; i = i + 1)
 							gp(GP_CloseBlock)
@@ -200,25 +188,23 @@ export default (cx, str) => {
 					}
 					break
 				}
+				case Tab:
+					cx.fail(loc(), 'Tab may only be used to indent')
+					break
 				case Quote:
 					lexQuote(indent)
 					break
-				case Tab:
-					cx.fail(loc(), 'Tab may only be used to indent')
 				case Hyphen:
-					if (/[0-9]/.test(peek())) {
+					if (isDigit(peek())) {
 						o(eatNumber())
 						break
 					}
 					// Else fallthrough
 				default: {
 					cx.check(
-						!ReservedCharacters.has(_),
-						loc,
-						() => `Reserved character ${code(_)}`)
+						!isReservedCharacter(ch), loc, () => `Reserved character ${showChar(ch)}`)
 					// All other characters should be handled in a case above.
-					assert(NameCharacter.test(_))
-					const name = _ + takeWhile(NameCharacter)
+					const name = takeWhileWithPrev(isNameCharacter)
 					switch (name) {
 						case 'region':
 							// Rest of line is a comment.
@@ -226,7 +212,7 @@ export default (cx, str) => {
 							o(keyword('region'))
 							break
 						default:
-							if (tryEat('_'))
+							if (tryEat(Underscore))
 								o(CallOnFocus(loc(), name))
 							else if (AllKeywords.has(name))
 								o(keyword(name))
@@ -241,7 +227,7 @@ export default (cx, str) => {
 	}
 
 	const lexQuote = indent => {
-		const isIndented = peek() === '\n'
+		const isIndented = peek() === Newline
 		const quoteIndent = indent + 1
 
 		let first = true
@@ -266,12 +252,9 @@ export default (cx, str) => {
 		eatChars: while (true) {
 			const chPos = pos()
 			const ch = eat()
-			switch (cc(ch)) {
+			switch (ch) {
 				case Backslash: {
-					const escaped = eat()
-					cx.check(quoteEscape.has(escaped), pos,
-						() => `No need to escape ${code(escaped)}`)
-					read = read + quoteEscape.get(escaped)
+					read = read + quoteEscape(eat())
 					break
 				}
 				case OpBrace: {
@@ -283,28 +266,25 @@ export default (cx, str) => {
 					break
 				}
 				case Newline: {
-					cx.check(prev() !== ' ', chPos, 'Line ends in a space')
+					cx.check(prev !== Space, chPos, 'Line ends in a space')
 					cx.check(isIndented, chPos, 'Unclosed quote.')
-					let newIndent = skipWhileEquals('\t')
+					let newIndent = skipWhileEquals(Tab)
 
-					let s = ''
-
+					let extraNewlines = ''
 					// Allow blank lines.
 					if (newIndent === 0) {
-						while (tryEat('\n'))
-							s = s + '\n'
-						newIndent = skipWhileEquals('\t')
+						extraNewlines = '\n'.repeat(skipNewlines())
+						newIndent = skipWhileEquals(Tab)
 					}
 
 					if (newIndent < quoteIndent) {
 						// Indented quote section is over.
 						// Undo reading the tabs and newline.
 						stepBackMany(chPos, newIndent + 1)
-						assert(peek() === '\n')
+						assert(peek() === Newline)
 						break eatChars
-					}
-					else
-						read = read + s + '\n' + '\t'.repeat(newIndent - quoteIndent)
+					} else
+						read = read + extraNewlines + '\n' + '\t'.repeat(newIndent - quoteIndent)
 					break
 				}
 				case Quote:
@@ -312,7 +292,7 @@ export default (cx, str) => {
 						break eatChars
 					// Else fallthrough
 				default:
-					read = read + ch
+					read = read + String.fromCharCode(ch)
 			}
 		}
 
@@ -320,9 +300,17 @@ export default (cx, str) => {
 		o(GroupPre(loc(), GP_CloseQuote))
 	}
 
-	const quoteEscape = newMap([['{', '{'], ['n', '\n'], ['t', '\t'], ['"', '"'], ['\\', '\\']])
+	const quoteEscape = ch => {
+		switch (ch) {
+			case OpBrace: return '{'
+			case LetterN: return '\n'
+			case LetterT: return '\t'
+			case Quote: return '"'
+			case Backslash: return '\\'
+			default: cx.fail(pos, `No need to escape ${showChar(ch)}`)
+		}
+	}
 
 	ungrouped(false)
 	return res
 }
-

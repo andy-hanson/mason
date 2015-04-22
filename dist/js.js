@@ -110,7 +110,7 @@ define([ "exports", "./private/bootstrap", "./private/js-impl", "./at/at", "./Bo
 				const _k7 = [ _ms.unlazy(_64) ], _v7 = "object";
 				return _ms.map(_k0, _v0, _k1, _v1, _k2, _v2, _k3, _v3, _k4, _v4, _k5, _v5, _k6, _v6, _k7, _v7)
 			};
-			return _ms.set(unary_45op("typeof"), "test", test, "doc", doc, "displayName", "js-typeof")
+			return _ms.set(unary_45op("typeof"), "doc", doc, "test", test, "displayName", "js-typeof")
 		}();
 		const apply_45with_45this = exports["apply-with-this"] = function() {
 			const doc = "Like `apply`, and also makes the hidden parameter `this` to be `new-this`.\nActs like `new-this.f ...arguments` if `f` were in the prototype chain of `new-this`.";

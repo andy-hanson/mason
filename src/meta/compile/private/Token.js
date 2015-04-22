@@ -1,26 +1,18 @@
 import Loc from 'esast/dist/Loc'
 import tuple from 'esast/dist/private/tuple'
 import { code } from '../CompileError'
-import { AllKeywords, CaseKeywords, GroupKinds, GroupOpenToClose, LineSplitKeywords } from './Lang'
-import type from './U/type'
+import { AllKeywords, CaseKeywords, GroupOpenToClose, LineSplitKeywords } from './Lang'
 import { implementMany2 } from './U/util'
 
 export default class Token { }
 
 const tt = (name, ...namesTypes) => tuple(name, Token, 'doc', [ 'loc', Loc ].concat(namesTypes))
 
-const gIs = k => {
-	type(k, GroupKinds)
-	return t => t instanceof Group && t.k === k
-}
-const kwIs = k => {
-	if (k instanceof Set)
-		return t => t instanceof Keyword && k.has(t.k)
-	else {
-		type(k, AllKeywords)
-		return t => t instanceof Keyword && t.k === k
-	}
-}
+const gIs = k => t => t instanceof Group && t.k === k
+const kwIs = k =>
+	(k instanceof Set) ?
+		t => t instanceof Keyword && k.has(t.k) :
+		t => t instanceof Keyword && t.k === k
 
 export const
 	G_Paren = 1,

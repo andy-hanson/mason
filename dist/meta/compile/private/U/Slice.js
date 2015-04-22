@@ -1,4 +1,4 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'module', './Bag', './Op', './util'], function (exports, module, _Bag, _Op, _util) {
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'module', './Bag', './Op'], function (exports, module, _Bag, _Op) {
 	'use strict';
 
 	var _toConsumableArray = function (arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } };
@@ -12,15 +12,8 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 			_classCallCheck(this, Slice);
 
 			this.data = data;
-			if (start === undefined) {
-				_util.assert(end === undefined);
-				this.start = 0;
-				this.end = data.length;
-			} else {
-				this.start = start;
-				this.end = end;
-				_util.assert(0 <= start && start <= end && end <= data.length);
-			}
+			this.start = start;
+			this.end = end;
 		}
 
 		_createClass(Slice, [{
@@ -31,37 +24,31 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		}, {
 			key: 'isEmpty',
 			value: function isEmpty() {
-				_util.assert(this.start <= this.end);
 				return this.start === this.end;
 			}
 		}, {
 			key: 'head',
 			value: function head() {
-				_util.assert(!this.isEmpty());
 				return this.data[this.start];
 			}
 		}, {
 			key: 'second',
 			value: function second() {
-				_util.assert(this.size() >= 2);
 				return this.data[this.start + 1];
 			}
 		}, {
 			key: 'last',
 			value: function last() {
-				_util.assert(!this.isEmpty());
 				return this.data[this.end - 1];
 			}
 		}, {
 			key: 'tail',
 			value: function tail() {
-				_util.assert(!this.isEmpty());
 				return this._new(this.start + 1, this.end);
 			}
 		}, {
 			key: 'rtail',
 			value: function rtail() {
-				_util.assert(!this.isEmpty());
 				return this._new(this.start, this.end - 1);
 			}
 		}, {
@@ -88,11 +75,6 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 					out.push({ before: this._new(iLast, this.end) });
 					return _Op.some(out);
 				}
-			}
-		}, {
-			key: '_new',
-			value: function _new(start, end) {
-				return new Slice(this.data, start, end);
 			}
 		}, {
 			key: 'each',
@@ -130,6 +112,16 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 			key: 'toString',
 			value: function toString() {
 				return '[' + this.data.slice(this.start, this.end).toString() + ']';
+			}
+		}, {
+			key: '_new',
+			value: function _new(start, end) {
+				return new Slice(this.data, start, end);
+			}
+		}], [{
+			key: 'all',
+			value: function all(data) {
+				return new Slice(data, 0, data.length);
 			}
 		}]);
 

@@ -1,4 +1,4 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'esast/dist/ast', 'esast/dist/util', 'esast/dist/specialize', '../../Expression', '../U/Bag', '../U/Op', '../U/type', '../U/util', './esast-util', './transpileObj', './transpileModule', './util'], function (exports, _esastDistAst, _esastDistUtil, _esastDistSpecialize, _Expression, _UBag, _UOp, _UType, _UUtil, _esastUtil, _transpileObj, _transpileModule, _util) {
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'esast/dist/ast', 'esast/dist/util', 'esast/dist/specialize', '../../Expression', '../U/Bag', '../U/Op', '../U/util', './esast-util', './transpileObj', './transpileModule', './util'], function (exports, _esastDistAst, _esastDistUtil, _esastDistSpecialize, _Expression, _UBag, _UOp, _UUtil, _esastUtil, _transpileObj, _transpileModule, _util) {
 	'use strict';
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
@@ -9,8 +9,6 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		value: true
 	});
 	exports.default = transpile;
-
-	var _type = _interopRequire(_UType);
 
 	var _transpileModule2 = _interopRequire(_transpileModule);
 
@@ -295,9 +293,7 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	}
 
 	// TODO: MOVE
-
 	const loopId = function (loop) {
-		_type(loop.loc.start.line, Number);
 		return _esastDistUtil.idCached('loop' + loop.loc.start.line);
 	};
 });

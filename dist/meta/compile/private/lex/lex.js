@@ -1,4 +1,4 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'module', '../Cx', './group', './ungrouped'], function (exports, module, _Cx, _group, _ungrouped) {
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'module', './group', './ungrouped'], function (exports, module, _group, _ungrouped) {
 	'use strict';
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
@@ -12,9 +12,8 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	function lex(cx, str) {
 		// Lexing algorithm requires trailing newline
 		str = str + '\n';
-		const lx = new _Cx.SubContext(cx);
-		const ug = _ungrouped2(lx, str);
-		return _group2(lx, ug);
+		const ug = _ungrouped2(cx, str);
+		return _group2(cx, ug);
 	}
 });
 //# sourceMappingURL=../../../../meta/compile/private/lex/lex.js.map

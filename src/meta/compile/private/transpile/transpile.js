@@ -10,7 +10,6 @@ import {
 import * as EExports from '../../Expression'
 import { flatMap, push, range, tail } from '../U/Bag'
 import { ifElse, None, opIf } from '../U/Op'
-import type from '../U/type'
 import { assert, implementMany, isPositive } from '../U/util'
 import { declare, declareSpecial, idForDeclareCached } from './esast-util'
 import { transpileObjReturn, transpileObjSimple } from './transpileObj'
@@ -239,8 +238,6 @@ function casePart(test, result, needBreak) {
 }
 
 // TODO: MOVE
-
 const loopId = loop => {
-	type(loop.loc.start.line, Number)
 	return idCached(`loop${loop.loc.start.line}`)
 }

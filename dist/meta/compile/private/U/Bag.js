@@ -1,16 +1,11 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', './util', './type'], function (exports, _util, _type) {
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', './util'], function (exports, _util) {
 	'use strict';
-
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
 	var _toConsumableArray = function (arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } };
 
 	Object.defineProperty(exports, '__esModule', {
 		value: true
 	});
-
-	var _type2 = _interopRequire(_type);
-
 	const head = function (arr) {
 		_util.assert(!isEmpty(arr));
 		return arr[0];
@@ -33,25 +28,21 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 		return out;
 	},
 	      repeat = function (em, n) {
-		_type2(em, Object, n, Number);
 		_util.assert(n >= 0);
 		const out = [];
 		for (let i = n; i > 0; i = i - 1) out.push(em);
 		return out;
 	},
 	      isEmpty = function (arr) {
-		_type2(arr, Array);
 		return arr.length === 0;
 	},
 	      range = function (min, max) {
-		_type2(min, Number, max, Number);
 		_util.assert(min < max);
 		const out = [];
 		for (let i = min; i < max; i = i + 1) out.push(i);
 		return out;
 	},
 	      flatMap = function (mapped, mapper) {
-		_type2(mapped, Array, mapper, Function);
 		const out = [];
 		mapped.forEach(function (_, i) {
 			return out.push.apply(out, _toConsumableArray(mapper(_, i)));

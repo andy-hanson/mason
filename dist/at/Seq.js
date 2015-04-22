@@ -145,9 +145,9 @@ define([ "exports", "../Bool", "../compare", "../control", "../Fun", "../math/me
 				}()
 			};
 			return {
-				default: _default,
 				doc: doc,
 				test: test,
+				default: _default,
 				displayName: "rtail"
 			}
 		}());
@@ -202,18 +202,18 @@ define([ "exports", "../Bool", "../compare", "../control", "../Fun", "../math/me
 				const iter = iterator(_);
 				const i = _ms.unlazy(Ref_33)(0);
 				const ans = _ms.unlazy(Ref_33)(empty(_ms.unlazy(_63)));
-				loop148: while (true) {
-					const _$149 = iter.next(), value = _$149.value, done = _$149.done;
+				loop137: while (true) {
+					const _$138 = iter.next(), value = _$138.value, done = _$138.done;
 					switch (true) {
 						case _ms.bool(done):
 							{
-								break loop148
+								break loop137
 							};
 							break
 						case _ms.bool(_61_63(_ms.unlazy(get)(i), n)):
 							{
 								_ms.unlazy(set_33)(ans, _ms.unlazy(_63)(value));
-								break loop148
+								break loop137
 							};
 							break
 						default: {
@@ -295,19 +295,19 @@ define([ "exports", "../Bool", "../compare", "../control", "../Fun", "../math/me
 				return _ms.unlazy(Stream)(function*() {
 					const iter = iterator(_);
 					const i = _ms.unlazy(Ref_33)(0);
-					loop200: while (true) {
+					loop184: while (true) {
 						switch (true) {
 							case _ms.bool(_61_63(_ms.unlazy(get)(i), count_45to_45take)):
 								{
-									break loop200
+									break loop184
 								};
 								break
 							default: {
-								const _$205 = iter.next(), value = _$205.value, done = _$205.done;
+								const _$189 = iter.next(), value = _$189.value, done = _$189.done;
 								switch (true) {
 									case _ms.bool(done):
 										{
-											break loop200
+											break loop184
 										};
 										break
 									default: {
@@ -331,12 +331,12 @@ define([ "exports", "../Bool", "../compare", "../control", "../Fun", "../math/me
 				_ms.checkContains(Pred, while_63, "while?");
 				return _ms.unlazy(Stream)(function*() {
 					const iter = iterator(_);
-					loop220: while (true) {
-						const _$221 = iter.next(), value = _$221.value, done = _$221.done;
+					loop204: while (true) {
+						const _$205 = iter.next(), value = _$205.value, done = _$205.done;
 						switch (true) {
 							case _ms.bool(done):
 								{
-									break loop220
+									break loop204
 								};
 								break
 							case _ms.bool(while_63(value)):
@@ -345,7 +345,7 @@ define([ "exports", "../Bool", "../compare", "../control", "../Fun", "../math/me
 								};
 								break
 							default: {
-								break loop220
+								break loop204
 							}
 						}
 					}
@@ -363,18 +363,18 @@ define([ "exports", "../Bool", "../compare", "../control", "../Fun", "../math/me
 				return _ms.checkContains(_64, _ms.unlazy(Stream)(function*() {
 					const iter = iterator(_);
 					const i = _ms.unlazy(Ref_33)(0);
-					loop239: while (true) {
+					loop223: while (true) {
 						switch (true) {
 							case _ms.bool(_61_63(_ms.unlazy(get)(i), count_45to_45drop)):
 								{
-									break loop239
+									break loop223
 								};
 								break
 							default: {
 								switch (true) {
 									case _ms.bool(iter.next().done):
 										{
-											break loop239
+											break loop223
 										};
 										break
 									default: {
@@ -407,12 +407,12 @@ define([ "exports", "../Bool", "../compare", "../control", "../Fun", "../math/me
 				return _ms.unlazy(Stream)(function*() {
 					const iter_45a = iterator(_64a);
 					const iter_45b = iterator(_64b);
-					loop265: while (true) {
+					loop246: while (true) {
 						const next_45a = iter_45a.next();
 						switch (true) {
 							case _ms.bool(next_45a.done):
 								{
-									break loop265
+									break loop246
 								};
 								break
 							default: {
@@ -420,7 +420,7 @@ define([ "exports", "../Bool", "../compare", "../control", "../Fun", "../math/me
 								switch (true) {
 									case _ms.bool(next_45b.done):
 										{
-											break loop265
+											break loop246
 										};
 										break
 									default: {
@@ -459,7 +459,7 @@ define([ "exports", "../Bool", "../compare", "../control", "../Fun", "../math/me
 					switch (true) {
 						case _ms.bool(_61_63(group_45size, 0)): {
 							return _ms.unlazy(Stream)(function*() {
-								loop298: while (true) {
+								loop279: while (true) {
 									(yield [ ])
 								}
 							})
@@ -467,14 +467,14 @@ define([ "exports", "../Bool", "../compare", "../control", "../Fun", "../math/me
 						default: {
 							return _ms.unlazy(Stream)(function*() {
 								const iter = iterator(_);
-								loop303: while (true) {
+								loop284: while (true) {
 									const next_45group = empty(_ms.unlazy(Array_33));
-									loop305: while (true) {
-										const _$306 = iter.next(), value = _$306.value, done = _$306.done;
+									loop286: while (true) {
+										const _$287 = iter.next(), value = _$287.value, done = _$287.done;
 										switch (true) {
 											case _ms.bool(done):
 												{
-													break loop305
+													break loop286
 												};
 												break
 											default: {
@@ -484,7 +484,7 @@ define([ "exports", "../Bool", "../compare", "../control", "../Fun", "../math/me
 													switch (true) {
 														case _ms.bool(_61_63(_, group_45size)):
 															{
-																break loop305
+																break loop286
 															};
 															break
 														default: {
@@ -504,7 +504,7 @@ define([ "exports", "../Bool", "../compare", "../control", "../Fun", "../math/me
 												};
 												break
 											default: {
-												break loop303
+												break loop284
 											}
 										}
 									}
@@ -544,8 +544,8 @@ define([ "exports", "../Bool", "../compare", "../control", "../Fun", "../math/me
 					const iter = iterator(_);
 					const prev_45idx = _ms.unlazy(Ref_33)(0);
 					const cur_45idx = _ms.unlazy(Ref_33)(0);
-					loop340: while (true) {
-						const _$341 = iter.next(), value = _$341.value, done = _$341.done;
+					loop321: while (true) {
+						const _$322 = iter.next(), value = _$322.value, done = _$322.done;
 						const next_45idx = _ms.lazy(function() {
 							return _43(1, _ms.unlazy(get)(cur_45idx))
 						});
@@ -553,7 +553,7 @@ define([ "exports", "../Bool", "../compare", "../control", "../Fun", "../math/me
 							case _ms.bool(done):
 								{
 									(yield slice_39(_, _ms.unlazy(get)(prev_45idx), _ms.unlazy(get)(cur_45idx)));
-									break loop340
+									break loop321
 								};
 								break
 							case _ms.bool(split_63(value)):

@@ -1,4 +1,4 @@
-if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'esast/dist/Loc', 'esast/dist/private/tuple', '../CompileError', './Lang', './U/type', './U/util'], function (exports, _esastDistLoc, _esastDistPrivateTuple, _CompileError, _Lang, _UType, _UUtil) {
+if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'esast/dist/Loc', 'esast/dist/private/tuple', '../CompileError', './Lang', './U/util'], function (exports, _esastDistLoc, _esastDistPrivateTuple, _CompileError, _Lang, _UUtil) {
 	'use strict';
 
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
@@ -12,8 +12,6 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	var _Loc = _interopRequire(_esastDistLoc);
 
 	var _tuple = _interopRequire(_esastDistPrivateTuple);
-
-	var _type = _interopRequire(_UType);
 
 	let Token = function Token() {
 		_classCallCheck(this, Token);
@@ -30,20 +28,16 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	};
 
 	const gIs = function (k) {
-		_type(k, _Lang.GroupKinds);
 		return function (t) {
 			return t instanceof Group && t.k === k;
 		};
 	};
 	const kwIs = function (k) {
-		if (k instanceof Set) return function (t) {
+		return k instanceof Set ? function (t) {
 			return t instanceof Keyword && k.has(t.k);
-		};else {
-			_type(k, _Lang.AllKeywords);
-			return function (t) {
-				return t instanceof Keyword && t.k === k;
-			};
-		}
+		} : function (t) {
+			return t instanceof Keyword && t.k === k;
+		};
 	};
 
 	const G_Paren = 1,

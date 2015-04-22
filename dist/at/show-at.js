@@ -29,7 +29,7 @@ define([ "exports", "../compare", "../Obj", "../show", "../Str", "../Type/Type",
 							const ems = map(_, function(em) {
 								return indent(show(em, opts))
 							});
-							const _$37 = function() {
+							const _$30 = function() {
 								switch (true) {
 									case _ms.bool(_60_63(100, count(_))): {
 										const show_45ems = take(ems, 100);
@@ -48,7 +48,7 @@ define([ "exports", "../compare", "../Obj", "../show", "../Str", "../Type/Type",
 										}
 									}
 								}
-							}(), show_45ems = _$37["show-ems"], end = _$37.end;
+							}(), show_45ems = _$30["show-ems"], end = _$30.end;
 							return (("\n\t. " + _ms.show(_61_62(Str, show_45ems, "\n\t. "))) + _ms.show(end))
 						}
 					}
