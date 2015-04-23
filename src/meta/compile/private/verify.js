@@ -114,7 +114,7 @@ const verifyLocalUse = () => {
 			cx.warnIf(!local.okToNotUse, local.loc, () =>
 				`Unused local variable ${code(local.name)}.`)
 		else if (info.isInDebug)
-			cx.check(noNonDebug, () => head(info.nonDebugAccesses).loc, () =>
+			cx.warnIf(!noNonDebug, () => head(info.nonDebugAccesses).loc, () =>
 				`Debug-only local ${code(local.name)} used outside of debug.`)
 		else
 			cx.warnIf(!local.okToNotUse && noNonDebug, local.loc, () =>
@@ -291,7 +291,7 @@ const
 					lineNews.forEach(newLocal =>
 						cx.check(
 							prevLocal.name !== newLocal.name, newLocal.loc,
-							`${code(newLocal.name)} already declared at ${prevLocal.loc.start}`)))
+							() => `${code(newLocal.name)} already declared at ${prevLocal.loc.start}`)))
 				lineNews.forEach(_ => registerLocal(_))
 				const newLocals = prevLocals.concat(lineNews)
 				lineToLocals.set(line, prevLocals)

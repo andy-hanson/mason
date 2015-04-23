@@ -1,5 +1,5 @@
 import Loc from 'esast/dist/Loc'
-import tuple from 'esast/dist/private/tuple'
+import tupl from 'tupl/dist/tupl'
 import type from './private/U/type'
 
 export default function CompileError(warning) {
@@ -13,7 +13,7 @@ export default function CompileError(warning) {
 }
 CompileError.prototype = Object.create(Error.prototype)
 
-export const Warning = tuple('Warning', Object, 'doc', [ 'loc', Loc, 'message', String ])
+export const Warning = tupl('Warning', Object, 'doc', [ 'loc', Loc, 'message', String ])
 
 export const code = str => `{{${str}}}`
 

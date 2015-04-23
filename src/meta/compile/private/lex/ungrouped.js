@@ -177,6 +177,8 @@ export default (cx, str) => {
 					o(keyword('_'))
 					break
 				case Hash:
+					if (!(tryEat(Space) || tryEat(Tab)))
+						cx.fail(loc, () => `${code('#')} must be followed by space or tab.}`)
 					skipRestOfLine()
 					break
 				case Newline: {

@@ -13,7 +13,7 @@ use
 use-debug
 	..!
 	..compare =?
-	#..control if!
+	# ..control if!
 	..js defined?
 	..math.Num
 	..Try fails?

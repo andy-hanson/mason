@@ -1,5 +1,5 @@
-import tuple from 'esast/dist/private/tuple'
 import Loc from 'esast/dist/Loc'
+import tupl from 'tupl/dist/tupl'
 import { JsGlobals, KAssign, KFun, SpecialKeywords } from './private/Lang'
 import Op, { None } from './private/U/Op'
 import { newSet } from './private/U/util'
@@ -12,7 +12,7 @@ export class Do extends Expression { }
 export class Val extends Expression { }
 
 const makeType = superType => (name, ...namesTypes) =>
-	tuple(name, superType, 'doc', [ 'loc', Loc ].concat(namesTypes))
+	tupl(name, superType, 'doc', [ 'loc', Loc ].concat(namesTypes))
 const
 	ee = makeType(Expression), ed = makeType(Do), ev = makeType(Val)
 

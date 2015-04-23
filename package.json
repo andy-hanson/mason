@@ -6,6 +6,7 @@
 	"files": [ "dist", "src" ],
 	"dependencies": {
 		"esast": "andy-hanson/esast",
+		"tupl": "andy-hanson/tupl",
 		"amdefine": "0.1.0",
 		"chalk": "1.0.0",
 		"gulp-util": "3.0.4",

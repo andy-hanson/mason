@@ -142,7 +142,7 @@ export default function parse(cx, rootToken) {
 	const
 		_parseBodyDo = () => {
 			const { eLines, kReturn } = _parseBlockLines()
-			check(kReturn === 'plain', `Can not make ${kReturn} in statement context.`)
+			check(kReturn === 'plain', () => `Can not make ${kReturn} in statement context.`)
 			return BlockDo(loc, eLines)
 		},
 

@@ -1,12 +1,12 @@
 import Loc from 'esast/dist/Loc'
-import tuple from 'esast/dist/private/tuple'
+import tupl from 'tupl/dist/tupl'
 import { code } from '../CompileError'
 import { AllKeywords, CaseKeywords, GroupOpenToClose, LineSplitKeywords } from './Lang'
 import { implementMany2 } from './U/util'
 
 export default class Token { }
 
-const tt = (name, ...namesTypes) => tuple(name, Token, 'doc', [ 'loc', Loc ].concat(namesTypes))
+const tt = (name, ...namesTypes) => tupl(name, Token, 'doc', [ 'loc', Loc ].concat(namesTypes))
 
 const gIs = k => t => t instanceof Group && t.k === k
 const kwIs = k =>

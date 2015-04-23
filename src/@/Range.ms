@@ -89,12 +89,12 @@ kind! Range @
 						<~ _
 						set! cur (+ _ range.step
 			# TODO:ES6 The following should be just as fast!
-			#f = ~|case
+			# f = ~|case
 			#	>=? _ range.end
 			#		()
 			#	else
 			#		<~ _
 			#		<~~ f (+ _ range.step
-			#f range.start
+			# f range.start
 
 Range
