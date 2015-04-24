@@ -4,7 +4,7 @@ import { member, thunk } from 'esast/dist/util'
 import { unshift } from '../U/Bag'
 import { ifElse, None } from '../U/Op'
 import { assert } from '../U/util'
-import { t } from './transpile'
+import { t0 } from './transpile'
 import { idForDeclareCached, idForDeclareNew } from './esast-util'
 
 export const
@@ -43,18 +43,69 @@ export const
 	msLazy = ms('lazy'),
 	msLazyGet = ms('lazyProp')
 
-export const makeDestructureDeclarators = (cx, loc, assignees, isLazy, value, k, isModule) => {
-	const destructuredName = `_$${loc.start.line}`
-	const idDestructured = Identifier(destructuredName)
-	const declarators = assignees.map(assignee => {
-		// TODO: Don't compile it if it's never accessed
-		const get = getMember(cx, idDestructured, assignee.name, isLazy, isModule)
-		return makeDeclarator(cx, assignee.loc, assignee, k, get, isLazy)
-	})
-	// Getting lazy module is done by ms.lazyGetModule.
-	const val = (isLazy && !isModule) ? lazyWrap(value) : value
-	return unshift(VariableDeclarator(idDestructured, val), declarators)
-}
+export const
+	makeDestructureDeclarators = (cx, loc, assignees, isLazy, value, k, isModule) => {
+		const destructuredName = `_$${loc.start.line}`
+		const idDestructured = Identifier(destructuredName)
+		const declarators = assignees.map(assignee => {
+			// TODO: Don't compile it if it's never accessed
+			const get = getMember(cx, idDestructured, assignee.name, isLazy, isModule)
+			return makeDeclarator(cx, assignee.loc, assignee, k, get, isLazy)
+		})
+		// Getting lazy module is done by ms.lazyGetModule.
+		const val = (isLazy && !isModule) ? lazyWrap(value) : value
+		return unshift(VariableDeclarator(idDestructured, val), declarators)
+	},
+
+	makeDeclarator = (cx, loc, assignee, k, value, valueIsAlreadyLazy) => {
+		// TODO: assert(isEmpty(assignee.opType))
+		// or TODO: Allow type check on lazy value?
+		value = assignee.isLazy ? value :
+			maybeWrapInCheckContains(cx, value, assignee.opType, assignee.name)
+		switch (k) {
+			case '=': case '. ': case '<~': case '<~~': {
+				const val = assignee.isLazy && !valueIsAlreadyLazy ? lazyWrap(value) : value
+				assert(assignee.isLazy || !valueIsAlreadyLazy)
+				return VariableDeclarator(idForDeclareCached(assignee), val)
+			}
+			case 'export': {
+				// TODO:ES6
+				assert(!assignee.isLazy)
+				return VariableDeclarator(
+					idForDeclareCached(assignee),
+					AssignmentExpression('=', member(IdExports, assignee.name), value))
+			}
+			default: throw new Error(k)
+		}
+	},
+
+	accessLocal = (localAccess, vr) =>
+		accessLocalDeclare(vr.accessToLocal.get(localAccess)),
+
+	accessLocalDeclare = localDeclare =>
+		localDeclare.isLazy ?
+			msUnlazy([ idForDeclareCached(localDeclare) ]) :
+			idForDeclareNew(localDeclare),
+
+	maybeWrapInCheckContains = (cx, ast, opType, name) =>
+		cx.opts.includeTypeChecks() ?
+			ifElse(opType,
+				typ => msCheckContains([ t0(typ), ast, Literal(name) ]),
+				() => ast) :
+			ast,
+
+	opLocalCheck = (cx, local, isLazy) => {
+		// TODO: Way to typecheck lazies
+		if (!cx.opts.includeTypeChecks() || isLazy)
+			return None
+		else return local.opType.map(typ =>
+			ExpressionStatement(msCheckContains([
+				t0(typ),
+				accessLocalDeclare(local),
+				Literal(local.name)])))
+	},
+
+	lazyWrap = value => msLazy([ thunk(value) ])
 
 const getMember = (cx, astObject, gotName, isLazy, isModule) => {
 	if (isLazy)
@@ -64,53 +115,3 @@ const getMember = (cx, astObject, gotName, isLazy, isModule) => {
 	else
 		return member(astObject, gotName)
 }
-
-export const makeDeclarator = (cx, loc, assignee, k, value, valueIsAlreadyLazy) => {
-	// TODO: assert(isEmpty(assignee.opType))
-	// or TODO: Allow type check on lazy value?
-	value = assignee.isLazy ? value :
-		maybeWrapInCheckContains(cx, value, assignee.opType, assignee.name)
-	switch (k) {
-		case '=': case '. ': case '<~': case '<~~': {
-			const val = assignee.isLazy && !valueIsAlreadyLazy ? lazyWrap(value) : value
-			assert(assignee.isLazy || !valueIsAlreadyLazy)
-			return VariableDeclarator(idForDeclareCached(assignee), val)
-		}
-		case 'export': {
-			// TODO:ES6
-			assert(!assignee.isLazy)
-			return VariableDeclarator(
-				idForDeclareCached(assignee),
-				AssignmentExpression('=', member(IdExports, assignee.name), value))
-		}
-		default: throw new Error(k)
-	}
-}
-
-export const accessLocal = (localAccess, vr) =>
-	accessLocalDeclare(vr.accessToLocal.get(localAccess))
-
-export const accessLocalDeclare = localDeclare =>
-	localDeclare.isLazy ?
-		msUnlazy([ idForDeclareCached(localDeclare) ]) :
-		idForDeclareNew(localDeclare)
-
-export const maybeWrapInCheckContains = (cx, ast, opType, name) =>
-	cx.opts.includeTypeChecks() ?
-		ifElse(opType,
-			typ => msCheckContains([ t(typ), ast, Literal(name) ]),
-			() => ast) :
-		ast
-
-export const opLocalCheck = (cx, local, isLazy) => {
-	// TODO: Way to typecheck lazies
-	if (!cx.opts.includeTypeChecks() || isLazy)
-		return None
-	else return local.opType.map(typ =>
-		ExpressionStatement(msCheckContains([
-			t(typ),
-			accessLocalDeclare(local),
-			Literal(local.name)])))
-}
-
-export const lazyWrap = value => msLazy([ thunk(value) ])

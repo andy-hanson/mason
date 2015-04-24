@@ -2,16 +2,15 @@ import { ArrayExpression, AssignmentExpression, BlockStatement, BreakStatement,
 	CallExpression, DebuggerStatement, Identifier, LabeledStatement, Literal,
 	SwitchCase, ThisExpression, VariableDeclarator, ReturnStatement } from 'esast/dist/ast'
 import { idCached, member, toStatement } from 'esast/dist/util'
-import {
-	binaryExpressionPlus, callExpressionThunk, functionExpressionPlain, functionExpressionThunk,
-	switchStatementOnTrue,
-	unaryExpressionNegate, variableDeclarationConst, whileStatementInfinite,
-	yieldExpressionDelegate, yieldExpressionNoDelegate } from 'esast/dist/specialize'
+import { callExpressionThunk, functionExpressionPlain, functionExpressionThunk,
+	variableDeclarationConst, yieldExpressionDelegate, yieldExpressionNoDelegate
+	} from 'esast/dist/specialize'
 import * as EExports from '../../Expression'
 import { flatMap, push, range, tail } from '../U/Bag'
 import { ifElse, None, opIf } from '../U/Op'
 import { assert, implementMany, isPositive } from '../U/util'
-import { declare, declareSpecial, idForDeclareCached, throwError } from './esast-util'
+import { binaryExpressionPlus, declare, declareSpecial, idForDeclareCached, switchStatementOnTrue,
+	throwError, unaryExpressionNegate, whileStatementInfinite } from './esast-util'
 import { transpileObjReturn, transpileObjSimple } from './transpileObj'
 import transpileModule from './transpileModule'
 import {
@@ -27,16 +26,28 @@ export default function transpile(_cx, e, _vr) {
 	cx = _cx
 	vr = _vr
 	isInGenerator = false
-	const res = t(e)
+	const res = t0(e)
 	// Release for garbage collection
 	cx = vr = undefined
 	return res
 }
 
-export const t = (expr, arg, arg2, arg3) => {
+export const t0 = expr => {
+	const ast = expr.transpileSubtree()
+	if (cx.opts.sourceMap())
+		ast.loc = expr.loc
+	return ast
+}
+export const t3 = (expr, arg, arg2, arg3) => {
 	const ast = expr.transpileSubtree(arg, arg2, arg3)
+	if (cx.opts.sourceMap())
+		ast.loc = expr.loc
+	return ast
+}
+const tm = expr => {
+	const ast = expr.transpileSubtree()
 	if (cx.opts.sourceMap() && !(ast instanceof Array))
-		// Array is only allowed for statement groups inside of Blocks, such as Debug.
+		// Debug may produce multiple statements.
 		ast.loc = expr.loc
 	return ast
 }
@@ -48,24 +59,24 @@ function transpileBlock(lead, opResDeclare, opOut) {
 		lead = []
 	if (opResDeclare === undefined)
 		opResDeclare = opOut = None
-	const body = flatMap(this.lines, line => toStatements(t(line)))
+	const body = flatMap(this.lines, line => toStatements(tm(line)))
 	const isVal = this instanceof EExports.BlockVal
 	const fin = ifElse(opResDeclare,
 		rd => {
 			assert(isVal)
-			const returned = maybeWrapInCheckContains(cx, t(this.returned), rd.opType, 'res')
+			const returned = maybeWrapInCheckContains(cx, t0(this.returned), rd.opType, 'res')
 			return ifElse(opOut,
 				o => [ declare(rd, returned) ].concat(o, [ ReturnRes ]),
 				() => [ ReturnStatement(returned) ])
 		},
-		() => opOut.concat(opIf(isVal, () => ReturnStatement(t(this.returned)))))
+		() => opOut.concat(opIf(isVal, () => ReturnStatement(t0(this.returned)))))
 	return BlockStatement(lead.concat(body, fin))
 }
 
 implementMany(EExports, 'transpileSubtree', {
 	Assign() {
 		return variableDeclarationConst([
-			makeDeclarator(cx, this.loc, this.assignee, this.k, t(this.value)) ])
+			makeDeclarator(cx, this.loc, this.assignee, this.k, t0(this.value)) ])
 	},
 	// TODO:ES6 Just use native destructuring assign
 	AssignDestructure() {
@@ -75,35 +86,35 @@ implementMany(EExports, 'transpileSubtree', {
 				this.loc,
 				this.assignees,
 				this.isLazy,
-				t(this.value),
+				t0(this.value),
 				this.k,
 				false))
 	},
 	BlockDo: transpileBlock,
 	BlockVal: transpileBlock,
-	BlockWrap() { return blockWrap(this, t(this.block)) },
+	BlockWrap() { return blockWrap(this, t0(this.block)) },
 	Call() {
 		const anySplat = this.args.some(arg => arg instanceof EExports.Splat)
 		if (anySplat) {
 			const args = this.args.map(arg =>
 				arg instanceof EExports.Splat ?
-					msArr([ t(arg.splatted) ]) :
-					t(arg))
+					msArr([ t0(arg.splatted) ]) :
+					t0(arg))
 			return CallExpression(IdFunctionApplyCall, [
-				t(this.called),
+				t0(this.called),
 				LitNull,
 				CallExpression(member(LitEmptyArray, 'concat'), args)])
 		}
-		else return CallExpression(t(this.called), this.args.map(t))
+		else return CallExpression(t0(this.called), this.args.map(t0))
 	},
 	CaseDo() {
 		return ifElse(this.opCased,
-			cased => BlockStatement([ t(cased), caseBody(this.parts, this.opElse) ]),
+			cased => BlockStatement([ t0(cased), caseBody(this.parts, this.opElse) ]),
 			() => caseBody(this.parts, this.opElse))
 	},
 	CaseVal() {
 		const body = caseBody(this.parts, this.opElse)
-		const block = ifElse(this.opCased, cased => [ t(cased), body ], () => [ body ])
+		const block = ifElse(this.opCased, cased => [ t0(cased), body ], () => [ body ])
 		return blockWrap(this, BlockStatement(block))
 	},
 	CaseDoPart() { return casePart(this.test, this.result, true) },
@@ -111,7 +122,7 @@ implementMany(EExports, 'transpileSubtree', {
 	// TODO: includeInoutChecks is misnamed
 	Debug() {
 		return cx.opts.includeInoutChecks() ?
-			flatMap(this.lines, line => toStatements(t(line))) :
+			flatMap(this.lines, line => toStatements(t0(line))) :
 			[ ]
 	},
 	ObjReturn() { return transpileObjReturn(this, cx) },
@@ -126,23 +137,23 @@ implementMany(EExports, 'transpileSubtree', {
 		const opDeclareRest = this.opRestArg.map(rest =>
 			declare(rest, CallExpression(IdArraySliceCall, [IdArguments, nArgs])))
 		const argChecks = flatMap(this.args, arg => opLocalCheck(cx, arg, arg.isLazy))
-		const _in = flatMap(this.opIn, i => toStatements(t(i)))
+		const _in = flatMap(this.opIn, i => toStatements(t0(i)))
 		const lead = opDeclareRest.concat(argChecks, _in)
 
-		const _out = flatMap(this.opOut, o => toStatements(t(o)))
-		const body = t(this.block, lead, this.opResDeclare, _out)
-		const args = this.args.map(t)
+		const _out = flatMap(this.opOut, o => toStatements(t0(o)))
+		const body = t3(this.block, lead, this.opResDeclare, _out)
+		const args = this.args.map(t0)
 		const res = functionExpressionPlain(args, body, this.k === '~|')
 
 		isInGenerator = oldInGenerator
 		return res
 	},
-	Lazy() { return lazyWrap(t(this.value)) },
+	Lazy() { return lazyWrap(t0(this.value)) },
 	ListReturn() {
 		return ArrayExpression(range(0, this.length).map(i => idCached(`_${i}`)))
 	},
-	ListSimple() { return ArrayExpression(this.parts.map(t)) },
-	ListEntry() { return declareSpecial(`_${this.index}`, t(this.value)) },
+	ListSimple() { return ArrayExpression(this.parts.map(t0)) },
+	ListEntry() { return declareSpecial(`_${this.index}`, t0(this.value)) },
 	NumberLiteral() {
 		// Negative numbers are not part of ES spec.
 		// http://www.ecma-international.org/ecma-262/5.1/#sec-7.8.3
@@ -154,26 +165,28 @@ implementMany(EExports, 'transpileSubtree', {
 	LocalDeclare() { return idForDeclareCached(this) },
 	// TODO: Don't always label!
 	Loop() {
-		return LabeledStatement(loopId(this), whileStatementInfinite(t(this.block)))
+		return LabeledStatement(loopId(this), whileStatementInfinite(t0(this.block)))
+	},
+	MapEntry() {
+		const k = `_k${this.index}`
+		const v = `_v${this.index}`
+		return variableDeclarationConst([
+			VariableDeclarator(idCached(k), t0(this.key)),
+			VariableDeclarator(idCached(v), t0(this.val))
+		])
 	},
 	MapReturn() {
 		return msMap(flatMap(range(0, this.length), i =>
-			[ idCached('_k' + i.toString()), idCached('_v' + i.toString()) ]))
-	},
-	MapEntry() {
-		return variableDeclarationConst([
-			VariableDeclarator(idCached(`_k${this.index}`), t(this.key)),
-			VariableDeclarator(idCached(`_v${this.index}`), t(this.val))
-		])
+			[ idCached(`_k${i}`), idCached(`_v${i}`) ]))
 	},
 	Member() {
-		return member(t(this.object), this.name)
+		return member(t0(this.object), this.name)
 	},
 	Module() { return transpileModule(this, cx) },
 	// TODO:ES6 Use `export default`
 	ModuleDefaultExport() {
 		const m = member(IdExports, 'default')
-		return AssignmentExpression('=', m, t(this.value))
+		return AssignmentExpression('=', m, t0(this.value))
 	},
 	Quote() {
 		// TODO:ES6 use template strings
@@ -184,7 +197,7 @@ implementMany(EExports, 'transpileSubtree', {
 				[ LitEmptyString, this.parts ]
 		return restParts.reduce(
 			(ex, _) =>
-				binaryExpressionPlus(ex, typeof _ === 'string' ? Literal(_) : msShow([ t(_) ])),
+				binaryExpressionPlus(ex, typeof _ === 'string' ? Literal(_) : msShow([ t0(_) ])),
 			first)
 	},
 	Special() {
@@ -199,32 +212,29 @@ implementMany(EExports, 'transpileSubtree', {
 		}
 	},
 	Splat() { cx.fail(this.loc, 'Splat must appear as argument to a call.') },
-	Yield() { return yieldExpressionNoDelegate(t(this.yielded)) },
-	YieldTo() { return yieldExpressionDelegate(t(this.yieldedTo)) }
+	Yield() { return yieldExpressionNoDelegate(t0(this.yielded)) },
+	YieldTo() { return yieldExpressionDelegate(t0(this.yieldedTo)) }
 })
 
-const blockWrap = (_, block) => {
-	const g = isInGenerator
-	const invoke = callExpressionThunk(functionExpressionThunk(block, g))
-	return g ? yieldExpressionDelegate(invoke) : invoke
-}
+const
+	blockWrap = (_, block) => {
+		const invoke = callExpressionThunk(functionExpressionThunk(block, isInGenerator))
+		return isInGenerator ? yieldExpressionDelegate(invoke) : invoke
+	},
 
-const caseFail = SwitchCase(null, [ throwError('No branch of `case` matches.') ])
-function caseBody(parts, opElse) {
-	const elze = ifElse(opElse,
-		_ => SwitchCase(null, [ t(_) ]),
-		() => caseFail)
-	const cases = push(parts.map(part => t(part)), elze)
-	return switchStatementOnTrue(cases)
-}
+	caseFail = SwitchCase(null, [ throwError('No branch of `case` matches.') ]),
+	caseBody = (parts, opElse) => {
+		const elze = ifElse(opElse,
+			_ => SwitchCase(null, [ t0(_) ]),
+			() => caseFail)
+		const cases = push(parts.map(t0), elze)
+		return switchStatementOnTrue(cases)
+	},
 
-function casePart(test, result, needBreak) {
-	const checkedTest = cx.opts.includeCaseChecks() ? msBool([ t(test) ]) : t(test)
-	const lines = needBreak ? [ t(result), Break ] : [ t(result) ]
-	return SwitchCase(checkedTest, lines)
-}
+	casePart = (test, result, needBreak) => {
+		const checkedTest = cx.opts.includeCaseChecks() ? msBool([ t0(test) ]) : t0(test)
+		const lines = needBreak ? [ t0(result), Break ] : [ t0(result) ]
+		return SwitchCase(checkedTest, lines)
+	},
 
-// TODO: MOVE
-const loopId = loop => {
-	return idCached(`loop${loop.loc.start.line}`)
-}
+	loopId = loop => idCached(`loop${loop.loc.start.line}`)

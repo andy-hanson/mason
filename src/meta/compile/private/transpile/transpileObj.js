@@ -4,7 +4,7 @@ import { property } from 'esast/dist/specialize'
 import { cat, flatMap, isEmpty, unshift } from '../U/Bag'
 import { ifElse } from '../U/Op'
 import { assert } from '../U/util'
-import { t } from './transpile'
+import { t0 } from './transpile'
 import { accessLocalDeclare, msLset, msSet, IdDisplayName, LitStrDisplayName } from './util'
 
 export const
@@ -17,7 +17,7 @@ export const
 
 		return ifElse(_.opObjed,
 			objed => {
-				const astObjed = t(objed)
+				const astObjed = t0(objed)
 				if (isEmpty(keys)) {
 					assert(isEmpty(nonDebugKeys))
 					return astObjed
@@ -49,5 +49,5 @@ export const
 		// Sort to keep compilation deterministic.
 		const keys = Object.getOwnPropertyNames(_.keysVals).sort()
 		return ObjectExpression(keys.map(key =>
-			property('init', propertyIdOrLiteralCached(key), t(_.keysVals[key]))))
+			property('init', propertyIdOrLiteralCached(key), t0(_.keysVals[key]))))
 	}

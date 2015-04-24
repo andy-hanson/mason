@@ -8,7 +8,7 @@ import manglePath from '../manglePath'
 import { flatMap, isEmpty, last } from '../U/Bag'
 import { None, opIf } from '../U/Op'
 import { idForDeclareCached } from './esast-util'
-import { t } from './transpile'
+import { t3 } from './transpile'
 import { IdDefine, IdExports, IdModule, lazyWrap,
 	msGetModule, msLazyGetModule, msGetDefaultExport,
 	makeDestructureDeclarators, msLazy } from './util'
@@ -50,7 +50,7 @@ export default (_, cx) => {
 
 	const lead = useDos.concat(opUseDeclare, opIf(isLazy, () => DeclareExports))
 	const trail = [ ReturnStatement(IdExports) ]
-	const moduleBody = t(_.block, lead, None, trail)
+	const moduleBody = t3(_.block, lead, None, trail)
 	const body =
 		isLazy ?
 			BlockStatement([ lazyBody(moduleBody) ])
