@@ -47,7 +47,10 @@ gulp.task('watch-list-modules', [ 'list-modules' ], function() {
 })
 
 gulp.task('test-compile', function() {
-	require('./dist/meta/compile/node-only/test-compile')()
+	require('./dist/meta/compile/node-only/test-compile').test()
+})
+gulp.task('perf-test-compile', function() {
+	require('./dist/meta/compile/node-only/test-compile').perfTest()
 })
 
 const

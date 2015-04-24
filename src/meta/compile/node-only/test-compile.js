@@ -14,7 +14,11 @@ import verify from '../private/verify'
 import { log } from '../private/U/util'
 import { OptsFromObject } from '../private/Opts'
 
-export default () => {
+export const
+	test = () => doTest(false),
+	perfTest = () => doTest(true)
+
+const doTest = includePerfTest => {
 	global.DEBUG = true
 
 	const source = fs.readFileSync('./ms-test.ms', 'utf-8')
@@ -32,26 +36,29 @@ export default () => {
 	const ast = transpile(cx, e, vr)
 	// log(`==>\n${ast}`)
 	const { code } = render(cx, ast)
-	log(`Expression tree size: ${treeSize(e, _ => _ instanceof Expression).size}.`)
-	log(`ES AST size: ${treeSize(ast, _ => _ instanceof Node)}.`)
-	log(`Output size: ${code.length} characters.`)
-	log(`==>\n${code}`)
 
-	// Benchmark has problems if I don't put these in global variables...
-	global.lexUngroupedTest = () =>
-		lexUngrouped(cx, source)
-	const tUngrouped = global.lexUngroupedTest()
-	global.lexGroupTest = () =>
-		lexGroup(cx, tUngrouped)
+	if (includePerfTest) {
+		// Benchmark has problems if I don't put these in global variables...
+		global.lexUngroupedTest = () =>
+			lexUngrouped(cx, source)
+		const tUngrouped = global.lexUngroupedTest()
+		global.lexGroupTest = () =>
+			lexGroup(cx, tUngrouped)
 
-	benchmark({
-		lexUngrouped: () => global.lexUngroupedTest(),
-		lexGroup: () => global.lexGroupTest(),
-		parse: () => parse(cx, t),
-		verify: () => verify(cx, e),
-		transpile: () => transpile(cx, e, vr),
-		render: () => render(cx, ast)
-	})
+		benchmark({
+			lexUngrouped: () => global.lexUngroupedTest(),
+			lexGroup: () => global.lexGroupTest(),
+			parse: () => parse(cx, t),
+			verify: () => verify(cx, e),
+			transpile: () => transpile(cx, e, vr),
+			render: () => render(cx, ast)
+		})
+	} else {
+		log(`Expression tree size: ${treeSize(e, _ => _ instanceof Expression).size}.`)
+		log(`ES AST size: ${treeSize(ast, _ => _ instanceof Node)}.`)
+		log(`Output size: ${code.length} characters.`)
+		log(`==>\n${code}`)
+	}
 }
 
 const

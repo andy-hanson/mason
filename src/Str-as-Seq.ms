@@ -1,8 +1,8 @@
 use
-	.@.@ _ count iterator map
+	.@.@ _ count empty? iterator map
 	.@.@-Type _ empty from-stream
 	.@.Seq
-	.compare sort
+	.compare =? sort
 	.control opr
 	.Fun _ noop thunk
 	.show
@@ -14,7 +14,6 @@ use
 	.Type.Type =>
 use-debug
 	.!
-	.compare =?
 	.Fun identity
 
 # TODO: Move
@@ -46,6 +45,8 @@ impl! sort Str
 kind! Str Seq
 	count -> |_
 		_.length
+	empty? -> |_
+		=? 0 _.length
 	# TODO:ES6 should be built-in
 	# TODO: How does this handle Unicode?
 	iterator -> impl-for iterator Array

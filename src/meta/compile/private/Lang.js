@@ -28,7 +28,10 @@ export const AllKeywords = newSet(
 	'region'
 ])
 
-export const ReservedWords = newSet([ 'for', 'return' ])
+const ReservedNames = newSet([ 'for', 'return' ])
+
+// Names that are not allowed in a Name token.
+export const NonNames = newSet([ 'region' ], AllKeywords, ReservedNames)
 
 export const GroupKinds = newSet(['(', '[', '{', '->', 'ln', 'sp', '"'])
 

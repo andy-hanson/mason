@@ -3,6 +3,7 @@ use
 	.@.@-Type empty
 	.@.Map.Weak-Id-Map!
 	.Bool
+	.compare =?
 	.Fun
 	.js id=?
 	.math.bit-arithmetic bit-and hexidecimal
@@ -13,7 +14,6 @@ use
 	.Type.Method _ impl! impl-for
 use-debug
 	.! _ !not
-	.compare =?
 
 max-hash-code = hexidecimal "7fffffff"
 
@@ -72,7 +72,11 @@ impl! hash-code Fun |fun
 	# TODO: There must be something better than this.
 	hash-code case ?p fun "displayName"
 		empty?_
-			fun.toString ()
+			case fun.name
+				=? 0 _.length # TODO: empty?_
+					fun.toString()
+				else
+					_
 		else
 			_.val
 

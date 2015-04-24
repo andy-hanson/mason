@@ -31,6 +31,10 @@
 		"requirejs": "2.1.17",
 		"source-map-support": "0.2.10"
 	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/andy-hanson/mason"
+	},
 	"engines": {
 		"//": "Crashes in 0.11.15+!",
 		"node": "0.11.14"

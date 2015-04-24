@@ -1,4 +1,5 @@
-import { Identifier, VariableDeclarator } from 'esast/dist/ast'
+import { Identifier, Literal, NewExpression,
+	ThrowStatement, VariableDeclarator } from 'esast/dist/ast'
 import { idCached } from 'esast/dist/util'
 import { variableDeclarationConst } from 'esast/dist/specialize'
 import mangleIdentifier from 'esast/dist/mangle-identifier'
@@ -20,4 +21,7 @@ export const
 		variableDeclarationConst([ VariableDeclarator(idForDeclareCached(localDeclare), val) ]),
 
 	declareSpecial = (name, val) =>
-		variableDeclarationConst([ VariableDeclarator(idCached(name), val) ])
+		variableDeclarationConst([ VariableDeclarator(idCached(name), val) ]),
+
+	throwError = msg =>
+		ThrowStatement(NewExpression(Identifier('Error'), [ Literal(msg) ]))

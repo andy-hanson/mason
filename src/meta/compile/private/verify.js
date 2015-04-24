@@ -2,9 +2,9 @@ import { code } from '../CompileError'
 import * as EExports from '../Expression'
 import { Assign, AssignDestructure, BlockVal, Call, Debug, Do,
 	GlobalAccess, Special, UseDo, Yield, YieldTo } from '../Expression'
-import { head, isEmpty, mapKeys } from './U/Bag'
+import { head, isEmpty } from './U/Bag'
 import { ifElse, some } from './U/Op'
-import { implementMany } from './U/util'
+import { implementMany, mapKeys } from './U/util'
 import { emptyVr, VrLocalInfo } from './Vr'
 
 const vm = es => es.forEach(e => e.verify())
@@ -258,61 +258,71 @@ function verifyCasePart() {
 const
 	verifyUses = (uses, debugUses) => {
 		const useLocals = []
+		const
+			verifyUse = use => {
+				use.used.forEach(useLocal)
+				use.opUseDefault.forEach(useLocal)
+			},
+			useLocal = _ => {
+				registerLocal(_)
+				useLocals.push(_)
+			}
 		uses.forEach(use => {
-			if (!(use instanceof UseDo))
-				use.used.concat(use.opUseDefault).forEach(_ => {
-					registerLocal(_)
-					useLocals.push(_)
-				})
+			if (!(use instanceof UseDo)) verifyUse(use)
 		})
-		withInDebug(true, () =>
-			debugUses.forEach(use =>
-				use.used.concat(use.opUseDefault).forEach(_ => {
-					registerLocal(_)
-					useLocals.push(_)
-				})))
+		withInDebug(true, () => debugUses.forEach(verifyUse))
 		return useLocals
 	},
 
 	verifyLines = lines => {
-		const lineToLocals = new Map()
-		let prevLocals = []
-		let allNewLocals = []
-
-		const processLine = line => {
+		const allNewLocals = [ ]
+		// First, get locals for the whole block.
+		const getLineLocals = line => {
 			if (line instanceof Debug)
-				// TODO: Do anything in this situation?
-				// cx.check(!inDebug, line.loc, 'Redundant `debug`.')
-				withInDebug(true, () => line.lines.forEach(processLine))
+				withInDebug(true, () => line.lines.forEach(getLineLocals))
 			else {
-				verifyIsStatement(line)
-				const lineNews = lineNewLocals(line)
-				prevLocals.forEach(prevLocal =>
-					lineNews.forEach(newLocal =>
-						cx.check(
-							prevLocal.name !== newLocal.name, newLocal.loc,
-							() => `${code(newLocal.name)} already declared at ${prevLocal.loc.start}`)))
-				lineNews.forEach(_ => registerLocal(_))
-				const newLocals = prevLocals.concat(lineNews)
-				lineToLocals.set(line, prevLocals)
-				prevLocals = newLocals
-				// Final set value is answer
-				allNewLocals = newLocals
+				const news = lineNewLocals(line)
+				news.forEach(registerLocal)
+				allNewLocals.push(...news)
 			}
 		}
 
-		lines.forEach(processLine)
+		lines.forEach(getLineLocals)
+
+		const thisBlockLocalNames = new Set()
+		const shadowed = new Map()
 
 		const verifyLine = line => {
 			if (line instanceof Debug)
+				// TODO: Do anything in this situation?
+				// cx.check(!inDebug, line.loc, 'Redundant `debug`.')
 				withInDebug(true, () => line.lines.forEach(verifyLine))
-			else
-				plusLocals(lineToLocals.get(line), () =>
-					plusPendingBlockLocals(allNewLocals, () =>
-						line.verify()))
+			else {
+				verifyIsStatement(line)
+				lineNewLocals(line).forEach(l => {
+					const got = locals.get(l.name)
+					if (got !== undefined) {
+						cx.check(!thisBlockLocalNames.has(l.name), l.loc,
+							() => `A local ${code(l.name)} is already in this block.`)
+						shadowed.set(l.name, got)
+					}
+					locals.set(l.name, l)
+					thisBlockLocalNames.add(l.name)
+				})
+				line.verify()
+			}
 		}
 
-		lines.forEach(verifyLine)
+		plusPendingBlockLocals(allNewLocals, () =>
+			lines.forEach(verifyLine))
+
+		allNewLocals.forEach(l => {
+			const s = shadowed.get(l.name)
+			if (s === undefined)
+				locals.delete(l.name)
+			else
+				locals.set(l.name, s)
+		})
 
 		return allNewLocals
 	},

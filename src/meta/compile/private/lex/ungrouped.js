@@ -1,6 +1,6 @@
 import Loc, { Pos, StartLine, StartColumn, singleCharLoc } from 'esast/dist/Loc'
 import { code } from '../../CompileError'
-import { AllKeywords, ReservedWords } from '../Lang'
+import { AllKeywords, NonNames } from '../Lang'
 import { CallOnFocus, DotName, Keyword, TokenNumberLiteral, Name } from '../Token'
 import { assert } from '../U/util'
 import GroupPre, { GP_OpenParen, GP_OpenBracket, GP_OpenBlock, GP_OpenQuote, GP_Line,
@@ -217,22 +217,20 @@ export default (cx, str) => {
 						!isReservedCharacter(ch), loc, () => `Reserved character ${showChar(ch)}`)
 					// All other characters should be handled in a case above.
 					const name = takeWhileWithPrev(isNameCharacter)
-					switch (name) {
-						case 'region':
+
+					if (NonNames.has(name))
+						if (name === 'region') {
 							// Rest of line is a comment.
 							skipRestOfLine()
 							o(keyword('region'))
-							break
-						default:
-							if (tryEat(Underscore))
-								o(CallOnFocus(loc(), name))
-							else if (AllKeywords.has(name))
-								o(keyword(name))
-							else if (ReservedWords.has(name))
-								cx.fail(loc, `Reserved word ${code(name)}`)
-							else
-								o(Name(loc(), name))
-					}
+						} else if (AllKeywords.has(name))
+							o(keyword(name))
+						else
+							cx.fail(loc, `Reserved word ${code(name)}`)
+					else if (tryEat(Underscore))
+						o(CallOnFocus(loc(), name))
+					else
+						o(Name(loc(), name))
 				}
 			}
 		}

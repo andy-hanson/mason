@@ -1,10 +1,10 @@
 "use strict";
 if ((typeof define !== "function")) var define = require("amdefine")(module);
-define([ "exports", "./at/at", "./at/at-Type", "./at/Map/Weak-Id-Mapbang", "./Bool", "./Fun", "./js", "./math/bit-arithmetic", "./math/Num", "./math/methods", "./Obj", "./Str", "./Type/Method", "./bang", "./compare" ], function(exports, _64_0, _64_45Type_1, Weak_45Id_45Map_33_2, Bool_3, Fun_4, js_5, bit_45arithmetic_6, Num_7, methods_8, Obj_9, Str_10, Method_11, _33_12, compare_13) {
+define([ "exports", "./at/at", "./at/at-Type", "./at/Map/Weak-Id-Mapbang", "./Bool", "./compare", "./Fun", "./js", "./math/bit-arithmetic", "./math/Num", "./math/methods", "./Obj", "./Str", "./Type/Method", "./bang" ], function(exports, _64_0, _64_45Type_1, Weak_45Id_45Map_33_2, Bool_3, compare_4, Fun_5, js_6, bit_45arithmetic_7, Num_8, methods_9, Obj_10, Str_11, Method_12, _33_13) {
 	exports._get = _ms.lazy(function() {
-		const _$2 = _ms.getModule(_64_0), empty_63 = _ms.get(_$2, "empty?"), fold = _ms.get(_$2, "fold"), map = _ms.get(_$2, "map"), _$3 = _ms.getModule(_64_45Type_1), empty = _ms.get(_$3, "empty"), Weak_45Id_45Map_33 = _ms.getDefaultExport(Weak_45Id_45Map_33_2), Bool = _ms.getDefaultExport(Bool_3), Fun = _ms.getDefaultExport(Fun_4), _$7 = _ms.getModule(js_5), id_61_63 = _ms.get(_$7, "id=?"), _$8 = _ms.getModule(bit_45arithmetic_6), bit_45and = _ms.get(_$8, "bit-and"), hexidecimal = _ms.get(_$8, "hexidecimal"), Num = _ms.getDefaultExport(Num_7), _$9 = _ms.getModule(Num_7), Int = _ms.get(_$9, "Int"), round_45towards_450 = _ms.get(_$9, "round-towards-0"), _$10 = _ms.getModule(methods_8), _43 = _ms.get(_$10, "+"), _42 = _ms.get(_$10, "*"), _$11 = _ms.getModule(Obj_9), p = _ms.get(_$11, "p"), _63p = _ms.get(_$11, "?p"), _64p_45all = _ms.get(_$11, "@p-all"), Str = _ms.getDefaultExport(Str_10), Method = _ms.getDefaultExport(Method_11), _$13 = _ms.getModule(Method_11), impl_33 = _ms.get(_$13, "impl!"), impl_45for = _ms.get(_$13, "impl-for"), _33 = _ms.lazy(function() {
-			return _ms.getDefaultExport(_33_12)
-		}), _$15 = _ms.lazyGetModule(_33_12), _33not = _ms.lazyProp(_$15, "!not"), _$16 = _ms.lazyGetModule(compare_13), _61_63 = _ms.lazyProp(_$16, "=?");
+		const _$2 = _ms.getModule(_64_0), empty_63 = _ms.get(_$2, "empty?"), fold = _ms.get(_$2, "fold"), map = _ms.get(_$2, "map"), _$3 = _ms.getModule(_64_45Type_1), empty = _ms.get(_$3, "empty"), Weak_45Id_45Map_33 = _ms.getDefaultExport(Weak_45Id_45Map_33_2), Bool = _ms.getDefaultExport(Bool_3), _$6 = _ms.getModule(compare_4), _61_63 = _ms.get(_$6, "=?"), Fun = _ms.getDefaultExport(Fun_5), _$8 = _ms.getModule(js_6), id_61_63 = _ms.get(_$8, "id=?"), _$9 = _ms.getModule(bit_45arithmetic_7), bit_45and = _ms.get(_$9, "bit-and"), hexidecimal = _ms.get(_$9, "hexidecimal"), Num = _ms.getDefaultExport(Num_8), _$10 = _ms.getModule(Num_8), Int = _ms.get(_$10, "Int"), round_45towards_450 = _ms.get(_$10, "round-towards-0"), _$11 = _ms.getModule(methods_9), _43 = _ms.get(_$11, "+"), _42 = _ms.get(_$11, "*"), _$12 = _ms.getModule(Obj_10), p = _ms.get(_$12, "p"), _63p = _ms.get(_$12, "?p"), _64p_45all = _ms.get(_$12, "@p-all"), Str = _ms.getDefaultExport(Str_11), Method = _ms.getDefaultExport(Method_12), _$14 = _ms.getModule(Method_12), impl_33 = _ms.get(_$14, "impl!"), impl_45for = _ms.get(_$14, "impl-for"), _33 = _ms.lazy(function() {
+			return _ms.getDefaultExport(_33_13)
+		}), _$16 = _ms.lazyGetModule(_33_13), _33not = _ms.lazyProp(_$16, "!not");
 		const exports = { };
 		const max_45hash_45code = hexidecimal("7fffffff");
 		const keep_45small = function(_) {
@@ -34,8 +34,8 @@ define([ "exports", "./at/at", "./at/at-Type", "./at/Map/Weak-Id-Mapbang", "./Bo
 						displayName: "b"
 					}
 				}();
-				_ms.unlazy(_33)(_ms.unlazy(_61_63), hash_45code(a), hash_45code(a));
-				return _ms.unlazy(_33not)(_ms.unlazy(_61_63), hash_45code(a), hash_45code(b))
+				_ms.unlazy(_33)(_61_63, hash_45code(a), hash_45code(a));
+				return _ms.unlazy(_33not)(_61_63, hash_45code(a), hash_45code(b))
 			};
 			const _default = function(_) {
 				return _ms.checkContains(Int, function() {
@@ -91,7 +91,17 @@ define([ "exports", "./at/at", "./at/at-Type", "./at/Map/Weak-Id-Mapbang", "./Bo
 				const _ = _63p(fun, "displayName");
 				switch (true) {
 					case _ms.bool(empty_63(_)): {
-						return fun.toString(null)
+						return function() {
+							const _ = fun.name;
+							switch (true) {
+								case _ms.bool(_61_63(0, _.length)): {
+									return fun.toString()
+								}
+								default: {
+									return _
+								}
+							}
+						}()
 					}
 					default: {
 						return _.val
@@ -101,8 +111,8 @@ define([ "exports", "./at/at", "./at/at-Type", "./at/Map/Weak-Id-Mapbang", "./Bo
 		});
 		impl_33(hash_45code, Str, function() {
 			const test = function() {
-				_ms.unlazy(_33)(_ms.unlazy(_61_63), hash_45code("a"), hash_45code("a"));
-				return _ms.unlazy(_33not)(_ms.unlazy(_61_63), hash_45code("a"), hash_45code("b"))
+				_ms.unlazy(_33)(_61_63, hash_45code("a"), hash_45code("a"));
+				return _ms.unlazy(_33not)(_61_63, hash_45code("a"), hash_45code("b"))
 			};
 			return _ms.set(function(_) {
 				const reducer = function(hash, ch) {
@@ -114,7 +124,7 @@ define([ "exports", "./at/at", "./at/at-Type", "./at/Map/Weak-Id-Mapbang", "./Bo
 		impl_33(hash_45code, Symbol, function() {
 			const test = function() {
 				const sym = Symbol("test");
-				return _ms.unlazy(_33)(_ms.unlazy(_61_63), hash_45code(sym), hash_45code(sym))
+				return _ms.unlazy(_33)(_61_63, hash_45code(sym), hash_45code(sym))
 			};
 			return _ms.set(function() {
 				return _ms.checkContains(Int, 42, "res")
@@ -128,4 +138,4 @@ define([ "exports", "./at/at", "./at/at-Type", "./at/Map/Weak-Id-Mapbang", "./Bo
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9oYXNoLWNvZGUubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O29DQWlCQTtBQUFBOzs7O0VBQUEsMEJBQWdCLFlBQWE7QUFBQSxFQUU3QixxQkFBYyxTQUFBLEdBQ2I7QUFBQSxVQUFBLFVBQVEsR0FBUjtBQUFBO0FBQUEsRUFFRCxlQUFTLE1BQUE7QUFBQSxFQUVULG9CQUFZLGtCQUFNO0FBQUEsR0FDakIsWUFBTSxTQUFLLEdBQ1Y7QUFBQSw2QkFETSxLQUVMOztHQUNGLGFBQU8sV0FDTjtBQUFBLElBQUEscUJBQUc7QUFBQSxLQUNGLFVBQUc7QUFBQSxLQUNILFVBQUc7QUFBQSxZQUZEO0FBQUE7Ozs7O0lBR0gscUJBQUc7QUFBQSxLQUNGLFVBQUc7QUFBQSxLQUNILFVBQUc7QUFBQSxZQUZEO0FBQUE7Ozs7O3dDQUdFLFlBQUEsSUFBYyxZQUFBO0FBQUEsa0RBQ1gsWUFBQSxJQUFjLFlBQUE7QUFBQTtBQUFBLEdBR3ZCLGlCQUFVLFNBQUssR0FDZDtBQUFBLDZCQURVOztNQUVULGNBQUEsU0FBSyxHQUFFLFFBQ047QUFBQSxjQUFBO0FBQUE7QUFBQSxNQUNELGNBQUEsU0FBSyxHQUFMLGFBQ0M7QUFBQSxjQUFBO0FBQUE7QUFBQSxNQUNELGNBQUEsV0FBVyxLQUNWO0FBQUEsY0FBQSxXQUFXO0FBQUE7QUFBQSxNQUNaLDJCQUFDLEtBQUQsS0FFQztBQUFBLGNBQUEsV0FBQSxhQUFBLEtBQXlCO0FBQUE7QUFBQSxlQUd6QjtBQUFBLE9BQUEsV0FBVyxHQUFFO0FBQUEsT0FFYixhQUFPLElBQUEsV0FBSSxJQUFTLFNBQUEsTUFDbkI7QUFBQSxlQUFBLEVBQUUsR0FBRjtBQUFBO0FBQUEsT0FDRCxhQUFPLEtBQUEsTUFBVSxJQUFJLFNBQUEsS0FBSSxLQUN4QjtBQUFBLFFBQUEsVUFBSSxhQUFXLElBQUEsS0FBTztBQUFBLGVBQ3RCLGFBQVcsSUFBRyxZQUFBLE1BQUg7QUFBQTtBQUFBLE9BQ1osV0FBVyxHQUFYO0FBQUEsY0FDQTtBQUFBO0FBQUE7QUFBQTs7VUFwQ2M7QUFBQTs7Ozs7O0VBdUNsQixRQUFBLGFBQUEsTUFBc0IsU0FBQSxHQUFBO0FBQUE7O0tBQ3JCLGNBQUEsSUFDQztBQUFBLGFBQUE7QUFBQTtBQUFBLGNBRUE7QUFBQSxhQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQSxFQUVGLFFBQUEsYUFBQSxLQUFxQixTQUFBLEtBRXBCO0FBQUEsVUFBQTtJQUFlLFVBQUEsS0FBQSxLQUFRO0FBQUE7S0FDdEIsY0FBQSxTQUFBLEtBQ0M7QUFBQSxhQUFBLGFBQWE7QUFBQTtBQUFBLGNBRWI7QUFBQSxhQUFBOzs7OztFQUVILFFBQUEsYUFBQSxnQkFBbUI7QUFBQSxHQUNsQixhQUFPLFdBQ047QUFBQSx3Q0FBSyxZQUFZLE1BQUksWUFBWTtBQUFBLGtEQUN6QixZQUFZLE1BQUksWUFBWTtBQUFBO0FBQUEsa0JBQ3BDLFNBQUEsR0FDQTtBQUFBLElBQUEsZ0JBQVcsU0FBQSxNQUFLLElBQ2Y7QUFBQSxZQUFBLGFBQVcsSUFBRyxJQUFHLElBQUEsTUFBUyxjQUFjO0FBQUE7QUFBQSxXQUN6Qyw0QkFBNEIsR0FBNUIsU0FBc0M7QUFBQTs7RUFFeEMsUUFBQSxhQUFBLG1CQUFzQjtBQUFBLEdBQ3JCLGFBQU8sV0FDTjtBQUFBLElBQUEsWUFBTSxPQUFRO0FBQUEsK0NBQ1QsWUFBQSxNQUFnQixZQUFBO0FBQUE7QUFBQSxrQkFDckIsV0FFQTtBQUFBLDZCQUZDLEtBRUQ7OztFQUVGLFFBQUEsYUFBQSxLQUFxQixTQUFBLEdBRXBCO0FBQUEsVUFBQSxVQUFBLG9CQUFRLElBQVI7QUFBQTtBQUFBLG9CQUVEO0FBQUEsRUFsR0EsMENBQUE7QUFBQSIsImZpbGUiOiJoYXNoLWNvZGUuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9oYXNoLWNvZGUubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O29DQWlCQTtBQUFBOzs7O0VBQUEsMEJBQWdCLFlBQWE7QUFBQSxFQUU3QixxQkFBYyxTQUFBLEdBQ2I7QUFBQSxVQUFBLFVBQVEsR0FBUjtBQUFBO0FBQUEsRUFFRCxlQUFTLE1BQUE7QUFBQSxFQUVULG9CQUFZLGtCQUFNO0FBQUEsR0FDakIsWUFBTSxTQUFLLEdBQ1Y7QUFBQSw2QkFETSxLQUVMOztHQUNGLGFBQU8sV0FDTjtBQUFBLElBQUEscUJBQUc7QUFBQSxLQUNGLFVBQUc7QUFBQSxLQUNILFVBQUc7QUFBQSxZQUZEO0FBQUE7Ozs7O0lBR0gscUJBQUc7QUFBQSxLQUNGLFVBQUc7QUFBQSxLQUNILFVBQUc7QUFBQSxZQUZEO0FBQUE7Ozs7O29CQUdILFFBQUssWUFBQSxJQUFjLFlBQUE7QUFBQSw4QkFDbkIsUUFBUSxZQUFBLElBQWMsWUFBQTtBQUFBO0FBQUEsR0FHdkIsaUJBQVUsU0FBSyxHQUNkO0FBQUEsNkJBRFU7O01BRVQsY0FBQSxTQUFLLEdBQUUsUUFDTjtBQUFBLGNBQUE7QUFBQTtBQUFBLE1BQ0QsY0FBQSxTQUFLLEdBQUwsYUFDQztBQUFBLGNBQUE7QUFBQTtBQUFBLE1BQ0QsY0FBQSxXQUFXLEtBQ1Y7QUFBQSxjQUFBLFdBQVc7QUFBQTtBQUFBLE1BQ1osMkJBQUMsS0FBRCxLQUVDO0FBQUEsY0FBQSxXQUFBLGFBQUEsS0FBeUI7QUFBQTtBQUFBLGVBR3pCO0FBQUEsT0FBQSxXQUFXLEdBQUU7QUFBQSxPQUViLGFBQU8sSUFBQSxXQUFJLElBQVMsU0FBQSxNQUNuQjtBQUFBLGVBQUEsRUFBRSxHQUFGO0FBQUE7QUFBQSxPQUNELGFBQU8sS0FBQSxNQUFVLElBQUksU0FBQSxLQUFJLEtBQ3hCO0FBQUEsUUFBQSxVQUFJLGFBQVcsSUFBQSxLQUFPO0FBQUEsZUFDdEIsYUFBVyxJQUFHLFlBQUEsTUFBSDtBQUFBO0FBQUEsT0FDWixXQUFXLEdBQVg7QUFBQSxjQUNBO0FBQUE7QUFBQTtBQUFBOztVQXBDYztBQUFBOzs7Ozs7RUF1Q2xCLFFBQUEsYUFBQSxNQUFzQixTQUFBLEdBQUE7QUFBQTs7S0FDckIsY0FBQSxJQUNDO0FBQUEsYUFBQTtBQUFBO0FBQUEsY0FFQTtBQUFBLGFBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBLEVBRUYsUUFBQSxhQUFBLEtBQXFCLFNBQUEsS0FFcEI7QUFBQSxVQUFBO0lBQWUsVUFBQSxLQUFBLEtBQVE7QUFBQTtLQUN0QixjQUFBLFNBQUEsS0FDQztBQUFBO09BQUssVUFBQTs7UUFDSixjQUFBLE9BQUcsR0FBRSxZQUNKO0FBQUEsZ0JBQUE7O2lCQUVBO0FBQUEsZ0JBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBLGNBRUY7QUFBQSxhQUFBOzs7OztFQUVILFFBQUEsYUFBQSxnQkFBbUI7QUFBQSxHQUNsQixhQUFPLFdBQ047QUFBQSxvQkFBQSxRQUFLLFlBQVksTUFBSSxZQUFZO0FBQUEsOEJBQ2pDLFFBQVEsWUFBWSxNQUFJLFlBQVk7QUFBQTtBQUFBLGtCQUNwQyxTQUFBLEdBQ0E7QUFBQSxJQUFBLGdCQUFXLFNBQUEsTUFBSyxJQUNmO0FBQUEsWUFBQSxhQUFXLElBQUcsSUFBRyxJQUFBLE1BQVMsY0FBYztBQUFBO0FBQUEsV0FDekMsNEJBQTRCLEdBQTVCLFNBQXNDO0FBQUE7O0VBRXhDLFFBQUEsYUFBQSxtQkFBc0I7QUFBQSxHQUNyQixhQUFPLFdBQ047QUFBQSxJQUFBLFlBQU0sT0FBUTtBQUFBLDJCQUNkLFFBQUssWUFBQSxNQUFnQixZQUFBO0FBQUE7QUFBQSxrQkFDckIsV0FFQTtBQUFBLDZCQUZDLEtBRUQ7OztFQUVGLFFBQUEsYUFBQSxLQUFxQixTQUFBLEdBRXBCO0FBQUEsVUFBQSxVQUFBLG9CQUFRLElBQVI7QUFBQTtBQUFBLG9CQUVEO0FBQUEsRUF0R0EsMENBQUE7QUFBQSIsImZpbGUiOiJoYXNoLWNvZGUuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

@@ -1,7 +1,7 @@
 import { ArrayExpression, AssignmentExpression, BlockStatement, BreakStatement,
 	CallExpression, DebuggerStatement, Identifier, LabeledStatement, Literal,
 	SwitchCase, ThisExpression, VariableDeclarator, ReturnStatement } from 'esast/dist/ast'
-import { idCached, member, throwError, toStatements } from 'esast/dist/util'
+import { idCached, member, toStatement } from 'esast/dist/util'
 import {
 	binaryExpressionPlus, callExpressionThunk, functionExpressionPlain, functionExpressionThunk,
 	switchStatementOnTrue,
@@ -11,7 +11,7 @@ import * as EExports from '../../Expression'
 import { flatMap, push, range, tail } from '../U/Bag'
 import { ifElse, None, opIf } from '../U/Op'
 import { assert, implementMany, isPositive } from '../U/util'
-import { declare, declareSpecial, idForDeclareCached } from './esast-util'
+import { declare, declareSpecial, idForDeclareCached, throwError } from './esast-util'
 import { transpileObjReturn, transpileObjSimple } from './transpileObj'
 import transpileModule from './transpileModule'
 import {
@@ -40,6 +40,8 @@ export const t = (expr, arg, arg2, arg3) => {
 		ast.loc = expr.loc
 	return ast
 }
+
+const toStatements = _ => _ instanceof Array ? _.map(toStatement) : [ toStatement(_) ]
 
 function transpileBlock(lead, opResDeclare, opOut) {
 	if (lead === undefined)
