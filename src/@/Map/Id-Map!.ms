@@ -6,14 +6,14 @@ use
 	..@! empty!
 	..@-Type empty
 	..? Opt->?
-	..Stream
+	..Seq.Stream
 	.Map ?get has-key? keys values
 	.Map! _ assoc! un-assoc!
 	.Map-Type
 use-debug
 	...!
 	...compare =?
-	..Seq seq=?
+	..Seq.Seq seq=?
 
 Id-Map! =
 	doc. "

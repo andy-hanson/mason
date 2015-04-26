@@ -2,11 +2,11 @@ use
 	...@.@ each! fold keep map
 	...@.@! ++!
 	...@.@-Type empty
-	...@.Array!
-	...@.Id-Set!
-	...@.Range range
-	...@.Seq! set-nth!
-	...@.Stream
+	...@.Seq.Array!
+	...@.Seq.Range range
+	...@.Seq.Seq! set-nth!
+	...@.Seq.Stream
+	...@.Set.Id-Set!
 	...Bool _ and not
 	...control returning
 	...js defined? js-sub
@@ -15,7 +15,7 @@ use
 	...Type.Type contains?
 use-debug
 	...!
-	...@.Seq seq=? take
+	...@.Seq.Seq seq=? take
 
 
 digits = |_:Nat

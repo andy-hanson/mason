@@ -1,13 +1,13 @@
 use
 	...@.@ _ ++ --' empty? flat-map keep map
 	...@.?
-	...@.Seq _ ?first tail
+	...@.Seq.Seq _ ?first tail
 	...Str _ ->upper
 	...Type.Type contains?
 use-debug
 	...!
 	...@.@ each!
-	...@.Stream
+	...@.Seq.Stream
 	...compare =?
 	...Str split-str
 	...Type.Type =>

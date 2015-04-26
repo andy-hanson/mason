@@ -1,6 +1,6 @@
 use
 	...@.@ empty? flat-map map
-	...@.Range range
+	...@.Seq.Range range
 	...control if
 	...math.Num divisible? infinity Nat
 	...Obj Obj->Map
@@ -8,7 +8,7 @@ use
 	...Type.Type =>
 use-debug
 	...!
-	...@.Seq seq=? take
+	...@.Seq.Seq seq=? take
 
 make-fb = |spec
 	map (range 1 infinity) |n

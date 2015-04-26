@@ -13,7 +13,7 @@ use~
 	..methods freeze frozen?
 use-debug
 	..! _ !not
-	..@.Stream
+	..@.Seq.Stream
 	..Try _ fails-with?
 	.Method
 	.Type => contains?
@@ -82,11 +82,11 @@ Kind = Obj-Type
 	extensible.
 	defaults.
 		super-kinds. |
-			global.Array 0
+			Array 0
 		prototype. |
 			Obj.create ()
 		implementors. |
-			global.Array 0
+			Array 0
 		symbol-for-isa. |_
 			name:Str = _.displayName
 			Symbol "isa-{name}"

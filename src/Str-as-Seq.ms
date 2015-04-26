@@ -1,7 +1,7 @@
 use
 	.@.@ _ count empty? iterator map
 	.@.@-Type _ empty from-stream
-	.@.Seq
+	.@.Seq.Seq
 	.compare =? sort
 	.control opr
 	.Fun _ noop thunk

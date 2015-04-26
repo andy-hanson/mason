@@ -1,8 +1,8 @@
 use
 	...!
 	...@.@ fold-map
-	...@.Seq reverse tail take-while
-	...@.Stream
+	...@.Seq.Seq reverse tail take-while
+	...@.Seq.Stream
 	...compare =? <=?
 	...math.Num Nat
 	...math.methods + -

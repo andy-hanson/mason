@@ -1,16 +1,16 @@
 "use strict";
 if ((typeof define !== "function")) var define = require("amdefine")(module);
-define([ "exports", "./Bool", "./compare", "./js", "./methods", "./private/bootstrap", "./Type/Type", "./Type/Kind", "./at/at", "./at/at-Type", "./at/q", "./at/Id-Setbang", "./at/Map/Map", "./control", "./Fun", "./Objbang", "./bang", "./at/Set", "./math/Num", "./Try" ], function(exports, Bool_0, compare_1, js_2, methods_3, bootstrap_4, Type_5, Kind_6, _64_7, _64_45Type_8, _63_9, Id_45Set_33_10, Map_11, control_12, Fun_13, Obj_33_14, _33_15, Set_16, Num_17, Try_18) {
+define([ "exports", "./Bool", "./compare", "./js", "./methods", "./private/bootstrap", "./Type/Type", "./Type/Kind", "./at/at", "./at/at-Type", "./at/q", "./at/Map/Map", "./at/Set/Id-Setbang", "./control", "./Fun", "./Objbang", "./bang", "./at/Set/Set", "./math/Num", "./Try" ], function(exports, Bool_0, compare_1, js_2, methods_3, bootstrap_4, Type_5, Kind_6, _64_7, _64_45Type_8, _63_9, Map_10, Id_45Set_33_11, control_12, Fun_13, Obj_33_14, _33_15, Set_16, Num_17, Try_18) {
 	exports._get = _ms.lazy(function() {
 		const Bool = _ms.getDefaultExport(Bool_0), _$2 = _ms.getModule(Bool_0), and = _ms.get(_$2, "and"), not = _ms.get(_$2, "not"), nor = _ms.get(_$2, "nor"), xor = _ms.get(_$2, "xor"), _$3 = _ms.getModule(compare_1), _61_63 = _ms.get(_$3, "=?"), _$4 = _ms.getModule(js_2), defined_63 = _ms.get(_$4, "defined?"), js_61_61 = _ms.get(_$4, "js=="), js_45typeof = _ms.get(_$4, "js-typeof"), id_61_63 = _ms.get(_$4, "id=?"), js_45sub = _ms.get(_$4, "js-sub"), _$5 = _ms.getModule(methods_3), freeze = _ms.get(_$5, "freeze"), _$6 = _ms.getModule(bootstrap_4), Str = _ms.get(_$6, "Str"), _$7 = _ms.getModule(Type_5), _61_62 = _ms.get(_$7, "=>"), contains_63 = _ms.get(_$7, "contains?"), Kind = _ms.getDefaultExport(Kind_6), _64 = _ms.lazy(function() {
 			return _ms.getDefaultExport(_64_7)
 		}), _$10 = _ms.lazyGetModule(_64_7), _43_43 = _ms.lazyProp(_$10, "++"), all_63 = _ms.lazyProp(_$10, "all?"), count = _ms.lazyProp(_$10, "count"), each_33 = _ms.lazyProp(_$10, "each!"), empty_63 = _ms.lazyProp(_$10, "empty?"), keep = _ms.lazyProp(_$10, "keep"), _$11 = _ms.lazyGetModule(_64_45Type_8), empty = _ms.lazyProp(_$11, "empty"), _63 = _ms.lazy(function() {
 			return _ms.getDefaultExport(_63_9)
-		}), _$12 = _ms.lazyGetModule(_63_9), Opt_45_62_63 = _ms.lazyProp(_$12, "Opt->?"), Id_45Set_33 = _ms.lazy(function() {
-			return _ms.getDefaultExport(Id_45Set_33_10)
-		}), Map = _ms.lazy(function() {
-			return _ms.getDefaultExport(Map_11)
-		}), _$14 = _ms.lazyGetModule(Map_11), make_45map = _ms.lazyProp(_$14, "make-map"), _$15 = _ms.lazyGetModule(control_12), returning = _ms.lazyProp(_$15, "returning"), Fun = _ms.lazy(function() {
+		}), _$12 = _ms.lazyGetModule(_63_9), Opt_45_62_63 = _ms.lazyProp(_$12, "Opt->?"), Map = _ms.lazy(function() {
+			return _ms.getDefaultExport(Map_10)
+		}), _$13 = _ms.lazyGetModule(Map_10), make_45map = _ms.lazyProp(_$13, "make-map"), Id_45Set_33 = _ms.lazy(function() {
+			return _ms.getDefaultExport(Id_45Set_33_11)
+		}), _$15 = _ms.lazyGetModule(control_12), returning = _ms.lazyProp(_$15, "returning"), Fun = _ms.lazy(function() {
 			return _ms.getDefaultExport(Fun_13)
 		}), _$17 = _ms.lazyGetModule(Obj_33_14), empty_45Obj_33 = _ms.lazyProp(_$17, "empty-Obj!"), p_43_33 = _ms.lazyProp(_$17, "p+!"), _33 = _ms.lazy(function() {
 			return _ms.getDefaultExport(_33_15)

@@ -5,7 +5,7 @@ use
 	...Str
 use-debug
 	...!
-	...@.Range range
+	...@.Seq.Range range
 	...Type.Type contains?
 
 

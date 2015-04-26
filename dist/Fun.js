@@ -1,16 +1,16 @@
 "use strict";
 if ((typeof define !== "function")) var define = require("amdefine")(module);
-define([ "exports", "./methods", "./private/js-impl", "./Type/Alias-Type", "./Type/Method", "./at/at", "./at/at-Type", "./at/Seq", "./at/Map/Map", "./at/Map/Hash-Mapbang", "./at/Map/Mapbang", "./at/Map/Weak-Id-Mapbang", "./Obj", "./Try", "./bang", "./at/Seq", "./compare", "./control", "./math/methods" ], function(exports, methods_0, js_45impl_1, Alias_45Type_2, Method_3, _64_4, _64_45Type_5, Seq_6, Map_7, Hash_45Map_33_8, Map_33_9, Weak_45Id_45Map_33_10, Obj_11, Try_12, _33_13, Seq_14, compare_15, control_16, methods_17) {
+define([ "exports", "./methods", "./private/js-impl", "./Type/Alias-Type", "./Type/Method", "./at/at", "./at/at-Type", "./at/Map/Map", "./at/Map/Hash-Mapbang", "./at/Map/Mapbang", "./at/Map/Weak-Id-Mapbang", "./at/Seq/Seq", "./Obj", "./Try", "./bang", "./at/Seq/Seq", "./compare", "./control", "./math/methods" ], function(exports, methods_0, js_45impl_1, Alias_45Type_2, Method_3, _64_4, _64_45Type_5, Map_6, Hash_45Map_33_7, Map_33_8, Weak_45Id_45Map_33_9, Seq_10, Obj_11, Try_12, _33_13, Seq_14, compare_15, control_16, methods_17) {
 	exports._get = _ms.lazy(function() {
 		const _$2 = _ms.getModule(methods_0), sub = _ms.get(_$2, "sub"), _$3 = _ms.getModule(js_45impl_1), iCurry = _ms.get(_$3, "iCurry"), Alias_45Type = _ms.getDefaultExport(Alias_45Type_2), Method = _ms.getDefaultExport(Method_3), _$5 = _ms.getModule(Method_3), impl_33 = _ms.get(_$5, "impl!"), self_45impl_33 = _ms.get(_$5, "self-impl!"), _64 = _ms.lazy(function() {
 			return _ms.getDefaultExport(_64_4)
-		}), _$7 = _ms.lazyGetModule(_64_4), _43_43 = _ms.lazyProp(_$7, "++"), each_33 = _ms.lazyProp(_$7, "each!"), map = _ms.lazyProp(_$7, "map"), _$8 = _ms.lazyGetModule(_64_45Type_5), empty = _ms.lazyProp(_$8, "empty"), _$9 = _ms.lazyGetModule(Seq_6), rtail = _ms.lazyProp(_$9, "rtail"), last = _ms.lazyProp(_$9, "last"), Map = _ms.lazy(function() {
-			return _ms.getDefaultExport(Map_7)
+		}), _$7 = _ms.lazyGetModule(_64_4), _43_43 = _ms.lazyProp(_$7, "++"), each_33 = _ms.lazyProp(_$7, "each!"), map = _ms.lazyProp(_$7, "map"), _$8 = _ms.lazyGetModule(_64_45Type_5), empty = _ms.lazyProp(_$8, "empty"), Map = _ms.lazy(function() {
+			return _ms.getDefaultExport(Map_6)
 		}), Hash_45Map_33 = _ms.lazy(function() {
-			return _ms.getDefaultExport(Hash_45Map_33_8)
-		}), _$12 = _ms.lazyGetModule(Map_33_9), get_45or_45add_33 = _ms.lazyProp(_$12, "get-or-add!"), Weak_45Id_45Map_33 = _ms.lazy(function() {
-			return _ms.getDefaultExport(Weak_45Id_45Map_33_10)
-		}), Obj = _ms.lazy(function() {
+			return _ms.getDefaultExport(Hash_45Map_33_7)
+		}), _$11 = _ms.lazyGetModule(Map_33_8), get_45or_45add_33 = _ms.lazyProp(_$11, "get-or-add!"), Weak_45Id_45Map_33 = _ms.lazy(function() {
+			return _ms.getDefaultExport(Weak_45Id_45Map_33_9)
+		}), _$13 = _ms.lazyGetModule(Seq_10), rtail = _ms.lazyProp(_$13, "rtail"), last = _ms.lazyProp(_$13, "last"), Obj = _ms.lazy(function() {
 			return _ms.getDefaultExport(Obj_11)
 		}), _$14 = _ms.lazyGetModule(Obj_11), Obj_45_62Map = _ms.lazyProp(_$14, "Obj->Map"), _$15 = _ms.lazyGetModule(Try_12), oh_45no_33 = _ms.lazyProp(_$15, "oh-no!"), _33 = _ms.lazy(function() {
 			return _ms.getDefaultExport(_33_13)

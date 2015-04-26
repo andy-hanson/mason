@@ -15,14 +15,17 @@ const
 
 gulp.task('default', [ 'watch' ])
 
-gulp.task('all', [ 'js', 'ms', 'list-modules' ])
+gulp.task('compile-all', [ 'js', 'ms', 'list-modules' ])
 gulp.task('watch', [ 'watch-js', 'watch-ms', 'watch-list-modules' ])
+gulp.task('all', [ 'compile-all' ], run)
 
-gulp.task('run', function() {
+function run() {
 	require('es6-shim')
 	const test = require('./dist/meta/run-all-tests')
 	_ms.getModule(test).default()
-})
+}
+
+gulp.task('run', run)
 gulp.task('run-requirejs', function() {
 	require('es6-shim')
 	const test = requirejs(path.join(__dirname, 'dist/meta/run-all-tests'))

@@ -1,7 +1,7 @@
 use
 	..@.? un-?
-	..@.Range range
-	..@.Seq! set-nth!
+	..@.Seq.Range range
+	..@.Seq.Seq! set-nth!
 	..Bool and
 	..control if
 	..methods sub

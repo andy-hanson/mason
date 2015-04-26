@@ -9,7 +9,7 @@ use
 use~
 	.@! ++!
 use-debug
-	.Range range
+	.Seq.Range range
 
 @-Type = Kind
 	doc. "Any sub-type of @."

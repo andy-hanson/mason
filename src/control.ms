@@ -9,10 +9,10 @@ use
 use~
 	.@.@-Type empty
 	.@.? _ ?-or
-	.@.Array!
-	.@.Seq
-	.@.Seq! ++>!
 	.@.Map.Map _ ?get
+	.@.Seq.Array!
+	.@.Seq.Seq
+	.@.Seq.Seq! ++>!
 	.Try oh-no!
 use-debug
 	.! _ !call

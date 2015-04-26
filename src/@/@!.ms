@@ -4,8 +4,8 @@ use
 	.@
 	.@-Type _ empty
 use~
-	.Array!
-	.Seq! ++>!
+	.Seq.Array!
+	.Seq.Seq! ++>!
 use-debug
 	..! _ !not
 	..compare =?

@@ -3,8 +3,8 @@ use
 	...@.Map.Map! assoc! un-assoc!
 	...@.Map.Id-Map!
 	...@.Map.multi-map! add-to-@!
-	...@.Range range
-	...@.Stream
+	...@.Seq.Range range
+	...@.Seq.Stream
 	...Generator! each~
 	...math.Num infinity square
 	...math.methods + *
@@ -12,7 +12,7 @@ use
 use-debug
 	...!
 	...@.@ any?
-	...@.Seq take
+	...@.Seq.Seq take
 	...Bool not
 	...math.Num divisible?
 

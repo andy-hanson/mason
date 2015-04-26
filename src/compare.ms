@@ -5,9 +5,9 @@ use
 use~
 	.@.@ _ all? empty? iterator
 	.@.@-Type from-stream
-	.@.Array!
 	.@.? un-?
-	.@.Seq _ first tail
+	.@.Seq.Array!
+	.@.Seq.Seq _ first tail
 	.control if if! opr returning Ref! get set!
 	.Fun _ identity
 	.Obj obj=?

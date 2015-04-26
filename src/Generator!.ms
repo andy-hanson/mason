@@ -11,8 +11,8 @@ use
 	.Type.Pred-Type _ Any
 use-debug
 	.!
-	.@.Seq seq=?
-	.@.Stream
+	.@.Seq.Seq seq=?
+	.@.Seq.Stream
 	.compare =?
 
 Generator! = Pred-Type

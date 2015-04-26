@@ -13,7 +13,7 @@ use~
 	.math.Num
 	.Try $catch oh-no!
 use-debug
-	.@.Stream
+	.@.Seq.Stream
 	.!
 	.compare =?
 	.io.time $after-time

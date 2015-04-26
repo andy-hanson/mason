@@ -6,16 +6,16 @@ use
 use~
 	.@.@ _ ++ each! map
 	.@.@-Type empty
-	.@.Seq rtail last
 	.@.Map.Map
 	.@.Map.Hash-Map!
 	.@.Map.Map! get-or-add!
 	.@.Map.Weak-Id-Map!
+	.@.Seq.Seq rtail last
 	.Obj _ Obj->Map
 	.Try oh-no!
 use-debug
 	.!
-	.@.Seq seq=?
+	.@.Seq.Seq seq=?
 	.compare =?
 	.control build
 	.math.methods +

@@ -1,6 +1,6 @@
 "use strict";
 if ((typeof define !== "function")) var define = require("amdefine")(module);
-define([ "exports", "../compare", "../Obj", "../show", "../Str", "../Type/Type", "../Type/Method", "./at", "./Seq", "./at-Type", "./Dequebang" ], function(exports, compare_0, Obj_1, show_2, Str_3, Type_4, Method_5, _64_6, Seq_7, _64_45Type_8, Deque_33_9) {
+define([ "exports", "../compare", "../Obj", "../show", "../Str", "../Type/Type", "../Type/Method", "./at", "./Seq/Seq", "./at-Type", "./Seq/Dequebang" ], function(exports, compare_0, Obj_1, show_2, Str_3, Type_4, Method_5, _64_6, Seq_7, _64_45Type_8, Deque_33_9) {
 	exports._get = _ms.lazy(function() {
 		const _$2 = _ms.getModule(compare_0), _60_63 = _ms.get(_$2, "<?"), _$3 = _ms.getModule(Obj_1), flag_63 = _ms.get(_$3, "flag?"), show = _ms.getDefaultExport(show_2), Str = _ms.getDefaultExport(Str_3), _$5 = _ms.getModule(Str_3), indent = _ms.get(_$5, "indent"), _$6 = _ms.getModule(Type_4), _61_62 = _ms.get(_$6, "=>"), type_45of = _ms.get(_$6, "type-of"), _$7 = _ms.getModule(Method_5), impl_33 = _ms.get(_$7, "impl!"), impl_45for = _ms.get(_$7, "impl-for"), _64 = _ms.getDefaultExport(_64_6), _$8 = _ms.getModule(_64_6), count = _ms.get(_$8, "count"), empty_63 = _ms.get(_$8, "empty?"), map = _ms.get(_$8, "map"), _$9 = _ms.getModule(Seq_7), take = _ms.get(_$9, "take"), _$11 = _ms.lazyGetModule(_64_45Type_8), empty = _ms.lazyProp(_$11, "empty"), Deque_33 = _ms.lazy(function() {
 			return _ms.getDefaultExport(Deque_33_9)

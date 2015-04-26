@@ -17,9 +17,9 @@ use~
 	.@! --!
 	.@-Type empty
 	.?
-	.Seq first seq=? tail
-	.Set!
-	.Stream
+	.Seq.Seq first seq=? tail
+	.Seq.Stream
+	.Set.Set!
 use-debug
 	..control build if!
 	..! _ !not
@@ -304,6 +304,7 @@ region Lazy functions, and their eager versions.
 		default. |@a @b
 			=> (type-of @a) (++ @a @b
 
+	# TODO: Move to Set?
 	--.
 		doc. "
 			@ without any of the elements in `remove`.

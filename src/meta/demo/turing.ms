@@ -1,8 +1,8 @@
 use
 	...@.@ count empty?
-	...@.Deque!
-	...@.Seq
-	...@.Seq! <++! ++>! set-nth!
+	...@.Seq.Deque!
+	...@.Seq.Seq
+	...@.Seq.Seq! <++! ++>! set-nth!
 	...compare =?
 	...control End-Loop if! loop
 	...math.methods + -

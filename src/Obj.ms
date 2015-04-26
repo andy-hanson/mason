@@ -10,14 +10,14 @@ use~
 	.@.@ _ ++ all? count each! empty? keep
 	.@.@-Type empty
 	.@.? _ Opt->?
-	.@.Id-Set!
 	.@.Map.Map _ make-map
+	.@.Set.Id-Set!
 	.control returning
 	.Fun
 	.Obj! empty-Obj! p+!
 use-debug
 	.!
-	.@.Set set=?
+	.@.Set.Set set=?
 	.math.Num
 	.Try fails?
 

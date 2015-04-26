@@ -3,8 +3,8 @@ use
 	...@.@ _ ++ each! flatten flat-map map
 	...@.@-Type empty
 	...@.? ?-or
-	...@.Id-Set!
 	...@.Map.Map
+	...@.Set.Id-Set!
 	...$ _ $after $all $ing
 	...Bool _ and or
 	...compare =?

@@ -13,7 +13,7 @@ use
 	..@ flat-map map'
 	..@! empty!
 	..@-Type empty
-	..Stream
+	..Seq.Stream
 	..? _ Opt->?
 	.Map ?get keys values
 	.Id-Map!
@@ -23,7 +23,7 @@ use~
 	...Generator! if~
 use-debug
 	...!
-	..Seq seq=?
+	..Seq.Seq seq=?
 
 Hash-Map! = Obj-Type
 	doc. "Default Map! type. Depends on efficient `hash-code` of its keys."

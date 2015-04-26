@@ -20,7 +20,7 @@ use-debug
 	...Type.Type =>
 	..@ map
 	..@! empty!
-	..Set set=?
+	..Set.Set set=?
 	.Map has-key? keys
 	.Weak-Id-Map!
 

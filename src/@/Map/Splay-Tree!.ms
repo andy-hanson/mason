@@ -9,7 +9,7 @@ use
 	..@ empty?
 	..@! empty!
 	..@-Type empty
-	..Stream
+	..Seq.Stream
 	.Map ?get keys
 	.Map! assoc! un-assoc!
 	.Map-Type

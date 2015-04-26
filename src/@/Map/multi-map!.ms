@@ -4,15 +4,15 @@ use
 	...Type.Pred-Type Opt
 	..@ _ each!
 	..@! ++!
-	..Array!
 	..@-Type _ empty
+	..Seq.Array!
 	.Map! _ get-or-add!
 use-debug
 	...!
 	...compare =?
 	...show
 	..@ keep
-	..Seq seq=?
+	..Seq.Seq seq=?
 
 add-to-@!.
 	doc. "

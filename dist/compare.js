@@ -1,12 +1,12 @@
 "use strict";
 if ((typeof define !== "function")) var define = require("amdefine")(module);
-define([ "exports", "./Bool", "./js", "./Type/Method", "./at/at", "./at/at-Type", "./at/Arraybang", "./at/q", "./at/Seq", "./control", "./Fun", "./Obj", "./Type/Pred-Type", "./bang", "./at/at", "./at/q", "./at/at-Type", "./Try" ], function(exports, Bool_0, js_1, Method_2, _64_3, _64_45Type_4, Array_33_5, _63_6, Seq_7, control_8, Fun_9, Obj_10, Pred_45Type_11, _33_12, _64_13, _63_14, _64_45Type_15, Try_16) {
+define([ "exports", "./Bool", "./js", "./Type/Method", "./at/at", "./at/at-Type", "./at/q", "./at/Seq/Arraybang", "./at/Seq/Seq", "./control", "./Fun", "./Obj", "./Type/Pred-Type", "./bang", "./at/at", "./at/q", "./at/at-Type", "./Try" ], function(exports, Bool_0, js_1, Method_2, _64_3, _64_45Type_4, _63_5, Array_33_6, Seq_7, control_8, Fun_9, Obj_10, Pred_45Type_11, _33_12, _64_13, _63_14, _64_45Type_15, Try_16) {
 	exports._get = _ms.lazy(function() {
 		const Bool = _ms.getDefaultExport(Bool_0), _$2 = _ms.getModule(Bool_0), not = _ms.get(_$2, "not"), or = _ms.get(_$2, "or"), _$3 = _ms.getModule(js_1), id_61_63 = _ms.get(_$3, "id=?"), Method = _ms.getDefaultExport(Method_2), _64 = _ms.lazy(function() {
 			return _ms.getDefaultExport(_64_3)
-		}), _$6 = _ms.lazyGetModule(_64_3), all_63 = _ms.lazyProp(_$6, "all?"), empty_63 = _ms.lazyProp(_$6, "empty?"), iterator = _ms.lazyProp(_$6, "iterator"), _$7 = _ms.lazyGetModule(_64_45Type_4), from_45stream = _ms.lazyProp(_$7, "from-stream"), Array_33 = _ms.lazy(function() {
-			return _ms.getDefaultExport(Array_33_5)
-		}), _$9 = _ms.lazyGetModule(_63_6), un_45_63 = _ms.lazyProp(_$9, "un-?"), Seq = _ms.lazy(function() {
+		}), _$6 = _ms.lazyGetModule(_64_3), all_63 = _ms.lazyProp(_$6, "all?"), empty_63 = _ms.lazyProp(_$6, "empty?"), iterator = _ms.lazyProp(_$6, "iterator"), _$7 = _ms.lazyGetModule(_64_45Type_4), from_45stream = _ms.lazyProp(_$7, "from-stream"), _$8 = _ms.lazyGetModule(_63_5), un_45_63 = _ms.lazyProp(_$8, "un-?"), Array_33 = _ms.lazy(function() {
+			return _ms.getDefaultExport(Array_33_6)
+		}), Seq = _ms.lazy(function() {
 			return _ms.getDefaultExport(Seq_7)
 		}), _$10 = _ms.lazyGetModule(Seq_7), first = _ms.lazyProp(_$10, "first"), tail = _ms.lazyProp(_$10, "tail"), _$11 = _ms.lazyGetModule(control_8), _if = _ms.lazyProp(_$11, "if"), if_33 = _ms.lazyProp(_$11, "if!"), opr = _ms.lazyProp(_$11, "opr"), returning = _ms.lazyProp(_$11, "returning"), Ref_33 = _ms.lazyProp(_$11, "Ref!"), get = _ms.lazyProp(_$11, "get"), set_33 = _ms.lazyProp(_$11, "set!"), Fun = _ms.lazy(function() {
 			return _ms.getDefaultExport(Fun_9)

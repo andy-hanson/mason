@@ -6,7 +6,7 @@ use
 	..Type.Wrap-Type
 	.@ empty? iterator
 	.@-Type _ empty from-stream
-	.Seq
+	.Seq.Seq
 use~
 	..Try oh-no!
 use-debug

@@ -7,7 +7,7 @@ use
 	...compare =? max sort
 use-debug
 	...!
-	...@.Seq seq=?
+	...@.Seq.Seq seq=?
 	...RegExp regexp
 	...Str split-str
 
