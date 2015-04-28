@@ -9,7 +9,7 @@ use
 	...Type.Kind kind! self-kind!
 	...Type.Pred-Type Any
 	...Type.Obj-Type
-	..@ _ ++ count each! empty? iterator map map'
+	..@ _ ++ count each! empty? iterator map
 	..@! empty!
 	..@-Type _ empty
 	..? un-?
@@ -109,7 +109,7 @@ kind! Deque! Seq!
 			_.data![new-end]
 
 	?nth -> |_ index:Nat
-		map' (?data-index _ index) sub[_.data!]
+		map (?data-index _ index) sub[_.data!]
 
 	set-nth! -> |_ index:Nat set-to:Any
 		data-index = un-? (?data-index _ index) ~"Can't set at index {index}; count is {count_}"

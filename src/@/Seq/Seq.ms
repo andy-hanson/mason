@@ -33,7 +33,7 @@ self-kind! Seq @-Type
 self-impl! empty Seq |
 	empty Array
 
-region ???
+region TODO
 	<++'. Method
 		doc. "
 			TODO:REST
@@ -89,7 +89,7 @@ region Very first and last
 			empty?_
 				_
 			else
-				drop _ 1
+				drop' _ 1
 
 	rtail. Method
 		doc. "
@@ -102,7 +102,7 @@ region Very first and last
 			empty?_
 				_
 			else
-				take _ (- count_ 1
+				take' _ (- count_ 1
 
 region Search
 	seq=?.
@@ -175,25 +175,26 @@ region Update
 			Takes as much as possible.
 			Result length should be - end start, unless `end` was past the end.
 		test. |
-			[ [ 0 1 2 3 ] 1 3 ] -> => Stream [ 1 2 ]
-		default. |:@ _ start:Nat end:Nat
-			take (drop _ start) (- end start
-
-	slice'. Method
-		doc. "Type-preserving slice."
-		test. |
 			[ [ 0 1 2 3 ] 1 3 ] -> [ 1 2 ]
 		default. |_ start:Nat end:Nat
-			=> type-of_ (slice _ start end
+			=> type-of_ (slice' _ start end
 
-	take.
+	slice'.
+		doc. "Lazy slice."
+		test. |
+			[ [ 0 1 2 3 ] 1 3 ] -> => Stream [ 1 2 ]
+		|:@ _ start:Nat end:Nat
+			take' (drop' _ start) (- end start
+
+
+	take'.
 		doc. "Stream including only the first count-to-take elements."
 		test. |
 			[ [ 0 1 2 ] 2 ] -> => Stream [ 0 1 ]
 			# OK if not enough to satisfy count-to-take
 			[ [ 0 ] 2 ] -> => Stream [ 0 ]
 			_ = [ 0 1 2 3 4 ]
-			! seq=? _ (++ (take _ 2) (drop _ 2
+			! seq=? _ (++ (take' _ 2) (drop' _ 2
 		|_ count-to-take:Nat
 			Stream ~|
 				iter = iterator_
@@ -211,7 +212,7 @@ region Update
 									<~ value
 									mod! i +[1]
 
-	take-while.
+	take-while'.
 		doc. "Stream stopping (and not including) the first element not satisfying while?."
 		test. |
 			[ [ 1 2 -1 3 ] <?[0] ] -> => Stream [ 1 2 ]
@@ -229,7 +230,7 @@ region Update
 							end-loop!
 
 
-	drop. Method
+	drop'. Method
 		doc. "Stream without the first count-to-drop elements."
 		test. |
 			[ [ 0 1 2 3 ] 2 ] -> => Stream [ 2 3 ]
@@ -249,10 +250,17 @@ region Update
 									mod! i +[1]
 				<~~ iter
 
-	# TODO: drop-while
+	# TODO: drop-while'
 
 region Combination
 	zip.
+		doc. "Type-preserving zip."
+		test. |
+			[ [ 1 2 ] [ 10 20 ] + ] -> [ 11 22 ]
+		|@a:@ @b:@ zipper:Fun[2]
+			=> (type-of @a) (zip' @a @b zipper
+
+	zip'.
 		doc. "
 			Seq of zipper applied to corresponding elements of @a and @b.
 			Ends as soon as either of them does, discarding extra elements.
@@ -276,21 +284,14 @@ region Combination
 								else
 									<~ zipper next-a.value next-b.value
 
-	zip'.
-		doc. "Type-preserving zip."
-		test. |
-			[ [ 1 2 ] [ 10 20 ] + ] -> [ 11 22 ]
-		|@a:@ @b:@ zipper:Fun[2]
-			=> (type-of @a) (zip @a @b zipper
-
 region TODO: put somewhere
-	groups-of.
+	groups-of'.
 		doc. "Seq of consecutive groups of `group-size` elements."
 		test. |
-			! seq=? [ [ 1 2 ] [ 3 4 ] ] (groups-of 2 [ 1 2 3 4 ])
+			! seq=? [ [ 1 2 ] [ 3 4 ] ] (groups-of' 2 [ 1 2 3 4 ])
 			# Tosses off partial group at end (e.g. no [ 4 ])
-			! seq=? [ [ 1 2 3 ] ] (groups-of 3 [ 1 2 3 4 ])
-			! seq=? [ [] [] [] ] (take (groups-of 0 [ 1 ]) 3)
+			! seq=? [ [ 1 2 3 ] ] (groups-of' 3 [ 1 2 3 4 ])
+			! seq=? [ [] [] [] ] (take' (groups-of' 0 [ 1 ]) 3)
 		|:Seq[Array] group-size:Nat _
 			case
 				=? group-size 0
@@ -328,7 +329,7 @@ region TODO: put somewhere
 		default. |:Array _
 			(from-stream Array! _).reverse()
 
-	split.
+	split'.
 		doc. "Subseqs separated by elements where split? is true."
 		test. |
 			[ [ 1 0 1 ] =?[0] ] -> => Stream [ [ 1 ] [ 1 ] ]
@@ -343,10 +344,10 @@ region TODO: put somewhere
 					~next-idx = + 1 (get cur-idx
 					case!
 						done
-							<~ slice' _ (get prev-idx) (get cur-idx)
+							<~ slice _ (get prev-idx) (get cur-idx)
 							end-loop!
 						split? value
-							<~ slice' _ (get prev-idx) (get cur-idx)
+							<~ slice _ (get prev-idx) (get cur-idx)
 							set! prev-idx next-idx
 							set! cur-idx next-idx
 						else

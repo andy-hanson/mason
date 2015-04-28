@@ -1,8 +1,8 @@
 use
-	...control returning
 	...Fun identity
 	...methods sub
 	...Type.Method impl! self-impl!
+	...Type.Pred-Type Any
 	...Type.Kind _ kind! self-kind!
 	..@ _ each!
 	..@-Type _ empty from-stream
@@ -33,9 +33,10 @@ impl! from-stream Map-Type
 			1 -> 2
 			3 -> 4
 	|type stream:@
-		returning (empty type) |_
-			each! stream |pair
-				key val = pair
-				assoc! _ key val
+		_ = empty type
+		each! stream |pair
+			key:Any val:Any = pair
+			assoc! _ key val
+		_
 
 Map-Type

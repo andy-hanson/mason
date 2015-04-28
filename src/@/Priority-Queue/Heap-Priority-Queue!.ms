@@ -6,7 +6,7 @@ use
 	...math.methods + - *
 	...Type.Kind kind! self-kind!
 	...Type.Wrap-Type
-	..@ count each! empty? iterator map'
+	..@ count each! empty? iterator map
 	..@! ++! empty!
 	..@-Type _ empty
 	..? un-?
@@ -28,7 +28,7 @@ kind! Heap-Priority-Queue! Priority-Queue!
 		each! added add![_.val]
 	?pop! -> |_
 		heap = _.val
-		map' (?first heap) |first
+		map (?first heap) |first
 			returning first |
 				last-leaf = un-? (?pop>! heap
 				if! (not empty?_) |

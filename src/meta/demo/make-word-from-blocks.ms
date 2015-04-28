@@ -1,5 +1,5 @@
 use
-	...@.@ _ ++ --' empty? flat-map keep map
+	...@.@ _ ++ -- empty? flat-map keep map
 	...@.?
 	...@.Seq.Seq _ ?first tail
 	...Str _ ->upper
@@ -7,16 +7,14 @@ use
 use-debug
 	...!
 	...@.@ each!
-	...@.Seq.Stream
+	...@.@-Type empty
 	...compare =?
-	...Str split-str
-	...Type.Type =>
 
 make-word-from-blocks.
 	doc. "http://rosettacode.org/wiki/ABC_Problem"
 	test. |
 		# Backtracking is necessary - can't use the first block first!
-		[ "AB" [ "AB" "AC" ] ] -> ? (=> Stream [ "AC" "AB" ]
+		[ "AB" [ "AB" "AC" ] ] -> ? [ "AC" "AB" ]
 
 		sample-blocks =
 			. "BO"
@@ -41,19 +39,17 @@ make-word-from-blocks.
 			. "ZM"
 
 		sample-answers =
-			"a" -> [ "NA" ]
-			"bark" -> [ "BO NA RE XK" ]
-			"book" -> [ ]
-			"treat" -> [ "GT RE ER NA TG" ]
-			"common" -> [ ]
-			"squad" -> [ "FS DQ HU NA QD" ]
-			"confuse" -> [ "CP BO NA FS HU FS RE" ]
+			"a" -> ? [ "NA" ]
+			"bark" -> ? [ "BO" "NA" "RE" "XK" ]
+			"book" -> empty ?
+			"treat" -> ? [ "GT" "RE" "ER" "NA" "TG" ]
+			"common" -> empty ?
+			"squad" -> ? [ "FS" "DQ" "HU" "NA" "QD" ]
+			"confuse" -> ? [ "CP" "BO" "NA" "FS" "HU" "FS" "RE" ]
 		each! sample-answers |pair
 			word = pair.key
 			ans = pair.val
-			real-ans = => ? (map ans |_
-				=> Stream (split-str " " _
-			! =? real-ans (make-word-from-blocks word sample-blocks)
+			! =? ans (make-word-from-blocks word sample-blocks)
 
 	|:?[Seq[Str]] word:Str blocks:@[Str]
 		rec = |word blocks
@@ -65,6 +61,7 @@ make-word-from-blocks.
 					this-char-blocks = keep blocks |_
 						contains? _ word[0]
 					?first (flat-map this-char-blocks |_
-						map (rec rest-word (--' blocks [ _ ])) |ans
+						# TODO -, not --
+						map (rec rest-word (-- blocks [ _ ])) |ans
 							++ [ _ ] ans
 		rec (->upper word) (map blocks ->upper

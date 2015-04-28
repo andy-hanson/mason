@@ -19,7 +19,7 @@ use-debug
 	...math.Num infinity
 	...Type.Type =>
 	.Range range
-	.Seq seq=? take
+	.Seq seq=? take'
 
 Lazy-Stream = Obj-Type
 	doc. "
@@ -49,8 +49,8 @@ kind! Lazy-Stream Seq
 					yield 2
 					<~ 2
 					yield 3
-				! seq=? [ 1 ] (take _ 1
-				! seq=? [ 1 2 ] (take _ 2
+				! seq=? [ 1 ] (take' _ 1
+				! seq=? [ 1 2 ] (take' _ 2
 		~|_
 			<~~ iterator _.cache
 			<~~ _.caching-iterator
@@ -72,7 +72,7 @@ lazy-streaming.
 			<~~ each~ (range 2 infinity) ~|i
 				# This is *not* an exponential blowup because these are cached.
 				<~ + fibonaccis[(- i 1] fibonaccis[(- i 2]
-		! seq=? (take fibonaccis 10) [ 1 1 2 3 5 8 13 21 34 55 ]
+		! seq=? (take' fibonaccis 10) [ 1 1 2 3 5 8 13 21 34 55 ]
 	|stream:Fun[Generator!]
 		cash = empty Array!
 		Lazy-Stream

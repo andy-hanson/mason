@@ -13,7 +13,6 @@ use~
 	.math.Num
 	.Try $catch oh-no!
 use-debug
-	.@.Seq.Stream
 	.!
 	.compare =?
 	.io.time $after-time
@@ -132,7 +131,7 @@ $map.
 $flat-map.
 	doc. "Like $map but flattens the result."
 	$test. ~|
-		! =? (=> Stream [ 1 1 2 2 3 3 ]) (<~ ($flat-map [ 1 2 3 ] |_
+		! =? [ 1 1 2 2 3 3 ] (<~ ($flat-map [ 1 2 3 ] |_
 			$delay |
 				[ _ _ ]
 	|:$[@] mapped:@ mapper:Fun[Any $[@]]
@@ -143,7 +142,7 @@ $keep.
 		Asynchronously runs keep-if? on each element and creates an Array of those that match.
 		Maintains the original order.
 	$test. ~|
-		! =? (=> Stream [ 2 4 ]) (<~ ($keep [ 1 2 3 4 ] |_
+		! =? [ 2 4 ] (<~ ($keep [ 1 2 3 4 ] |_
 			$delay |
 				divisible? _ 2
 	|:$[Array] keep-some:@ keep-if?:Fun[Any $[Bool]]

@@ -24,8 +24,7 @@ msDef "checkContains" |type value name
 		contains? type value
 			()
 		else
-			# `throw new Error(name + " is no " + type + ", is ")`
-			oh-no! "{name} is no {type}, is {value}"
+			oh-no! "{name} is no {type}, is a {type-of value}: {value}"
 	value
 
 =>. Method

@@ -3,7 +3,7 @@ use
 	...Obj! p!
 	...Type.Kind kind! self-kind!
 	...Type.Obj-Type
-	..@ _ ++' empty? iterator
+	..@ _ ++ empty? iterator
 	..@-Type _ empty from-stream
 	.Seq _ <++' tail
 
@@ -51,11 +51,11 @@ kind! LList Seq
 		f()
 
 	# For the concatenation of two LLists, we can just use the second as a tail.
-	++' -> |a b
+	++ -> |a b
 		case b
 			:LList
 				<++' b a
 			else
-				++'.default a b
+				++.default a b
 
 LList

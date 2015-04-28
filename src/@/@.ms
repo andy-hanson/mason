@@ -159,8 +159,15 @@ region Using iterator
 
 region Lazy functions, and their eager versions.
 	# Eager versions are Methods if certain types can do them faster.
-	keep.
+	keep. Method
 		doc. "Only the elements that satisfy `keep-if?`."
+		test. |
+			[ [ 1 2 ] =?[2] ] -> [ 2 ]
+		default. |_:@ keep-if?:Pred
+			=> type-of_ (keep' _ keep-if?
+
+	keep'.
+		doc. "Lazy keep."
 		test. |
 			[ [ 1 2 ] =?[2] ] -> => Stream [ 2 ]
 		|_:@ keep-if?:Pred
@@ -176,15 +183,16 @@ region Lazy functions, and their eager versions.
 						else
 							()
 
-	keep'. Method
-		doc. "Type-preserving `keep`."
-		test. |
-			[ [ 1 2 ] =?[2] ] -> [ 2 ]
-		default. |_:@ keep-if?:Pred
-			=> type-of_ (keep _ keep-if?
-
+	# TODO: Method
 	map.
-		doc. "Stream with `mapper` applied indiviually to the original elements."
+		doc. "TODO"
+		test. |
+			[ [ true false ] not ] -> [ false true ]
+		|_:@ mapper:Fun
+			=> type-of_ (map' _ mapper
+
+	map'.
+		doc. "Lazy map."
 		test. |
 			[ [ true false ] not ] -> => Stream [ false true ]
 		|_:@ mapper:Fun
@@ -198,12 +206,6 @@ region Lazy functions, and their eager versions.
 						else
 							<~ mapper value
 
-	map'.
-		doc. "Type-preserving `map`."
-		test. |
-			[ [ true false ] not ] -> [ false true ]
-		|_:@ mapper:Fun
-			=> type-of_ (map _ mapper
 
 	# TODO: Preserve type as long as it is not Stream or Lazy-Stream?
 	fold-map.
@@ -228,8 +230,17 @@ region Lazy functions, and their eager versions.
 			folded. get acc
 
 	# TODO: Better name?
-	flat-map.
+	flat-map. Method
 		doc. "Like `map`, but each mapping produces multiple values."
+		test. |
+			f = |a
+				[ a a ]
+			[ [ 1 2 ] f ] -> [ 1 1 2 2 ]
+		default. |_ mapper:Fun[Any @]
+			=> type-of_ (flat-map' _ mapper
+
+	flat-map'.
+		doc. "Lazy flat-map."
 		test. |
 			f = |case
 				divisible? _ 2
@@ -249,20 +260,19 @@ region Lazy functions, and their eager versions.
 						else
 							<~~ iterator (mapper value
 
-	flat-map'. Method
-		doc. "Type-preserving flat-map."
-		test. |
-			f = |a
-				[ a a ]
-			[ [ 1 2 ] f ] -> [ 1 1 2 2 ]
-		default. |_ mapper:Fun[Any @]
-			=> type-of_ (flat-map _ mapper
 
-	flatten.
+	flatten. Method
 		doc. "
 			For an @ containing many @, produces an @ containing all of their entries combined.
 			This does *not* consider more than 1 nested level, and there *every* element of _ must be an @.
 			More efficient than `fold + _`.
+		test. |
+			[ [ [ 1 2 ] [ 3 ] [ ] ] ] -> [ 1 2 3 ]
+		default. |_
+			=> type-of_ flatten'_
+
+	flatten'.
+		doc. "Lazy flatten."
 		test. |
 			[ [ [ 1 2 ] [ 3 ] [ ] ] ] -> => Stream [ 1 2 3 ]
 			# Ignores further nested @s.
@@ -281,14 +291,15 @@ region Lazy functions, and their eager versions.
 						else
 							<~~ iterator value
 
-	flatten'. Method
-		doc. "Type-preserving flatten."
-		test. |
-			[ [ [ 1 2 ] [ 3 ] [ ] ] ] -> [ 1 2 3 ]
-		default. |_
-			=> type-of_ flatten_
 
-	++.
+	++. Method
+		doc. "Type-preserving +."
+		test. |
+			[ [ 0 ] [ 1 ] ] -> [ 0 1 ]
+		default. |@a @b
+			=> (type-of @a) (++' @a @b
+
+	++'.
 		doc. "Concatenation. Sets should override this."
 		test. |
 			[ [ 0 ] [ 1 ] ] -> => Stream [ 0 1 ]
@@ -297,24 +308,24 @@ region Lazy functions, and their eager versions.
 				<~~ iterator @a
 				<~~ iterator @b
 
-	++'. Method
-		doc. "Type-preserving +."
-		test. |
-			[ [ 0 ] [ 1 ] ] -> [ 0 1 ]
-		default. |@a @b
-			=> (type-of @a) (++ @a @b
-
 	# TODO: Move to Set?
-	--.
+	--. Method
 		doc. "
 			@ without any of the elements in `remove`.
 			Removes the *first* occurrence of each element.
 		test. |
+			[ [ 1 2 1 ] [ 1 ] ] -> [ 2 1 ]
+		default. |_ @remove:@
+			=> type-of_ (--' _ @remove
+
+	--'.
+		doc. "Lazy --."
+		test. |
 			[ [ 1 2 1 ] [ 1 ] ] -> => Stream [ 2 1 ]
-		|:@ _ remove:@
+		|:@ _ @remove:@
 			Stream ~|
 				iter = iterator_
-				remove-us = => Set! remove
+				@remove-remaining = => Set! @remove
 				loop!
 					value done = iter.next()
 					case!
@@ -322,17 +333,12 @@ region Lazy functions, and their eager versions.
 							end-loop!
 						else
 							case! value
-								:remove-us
-									--! remove-us [ value ]
+								:@remove-remaining
+									# TODO: -!
+									--! @remove-remaining [ value ]
 								else
 									<~ value
 
-	--'. Method
-		doc. "Type-preserving --."
-		test. |
-			[ [ 1 2 1 ] [ 1 ] ] -> [ 2 1 ]
-		default. |_ remove:@
-			=> type-of_ (-- _ remove
 
 	impl! =? @
 		test. |

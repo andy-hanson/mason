@@ -4,7 +4,7 @@ use
 	...Str
 	...Type.Method impl!
 	...Type.Type => type-of
-	..@ map
+	..@ map'
 	.Map
 	.Weak-Id-Map!
 
@@ -14,11 +14,13 @@ impl! show Map
 			1 -> 2
 		[ m ] -> "\n\t1 -> 2"
 		# TODO:SYNTAX [ m repr. ]
-		[ m (repr. true) ] -> "
-			Hash-Map!
-				1 -> 2
+		# TODO
+		# [ m (repr. true) ] -> "
+		#	Hash-Map!
+		#		1 -> 2
 	|_ opts
-		parts = map _ |pair
+		# TODO: map Map to Array
+		parts = map' _ |pair
 			key val = pair
 			"{show key opts} -> {show val opts}"
 		type = case

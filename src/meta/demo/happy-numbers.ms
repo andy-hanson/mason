@@ -1,5 +1,5 @@
 use
-	...@.@ each! fold keep map
+	...@.@ each! fold keep map map'
 	...@.@! ++!
 	...@.@-Type empty
 	...@.Seq.Array!
@@ -15,11 +15,11 @@ use
 	...Type.Type contains?
 use-debug
 	...!
-	...@.Seq.Seq seq=? take
-
+	...@.Seq.Seq seq=? take'
 
 digits = |_:Nat
-	map (_.toString 10) Num.parseInt
+	# TODO: map String to Array
+	map' (_.toString 10) Num.parseInt
 
 step =
 	|:Nat _:Nat
@@ -38,6 +38,7 @@ happy?.
 					_
 				else
 					and (not (contains? stepped-through cur)) ~
+						# TODO: <+>!
 						++! stepped-through [ cur ]
 						loop (step cur
 		returning (loop n) |ans:Bool
@@ -48,7 +49,7 @@ happy?.
 happy-numbers:Stream[Nat].
 	doc. "Stream of all happy numbers."
 	test. |
-		! seq=? (take happy-numbers 8)
+		! seq=? (take' happy-numbers 8)
 			. 1
 			. 7
 			. 10

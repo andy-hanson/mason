@@ -4,7 +4,6 @@ use
 	...Fun noop thunk
 	...math.Num _ Nat round-down sign
 	...math.methods + - * /
-	...Try oh-no!
 	...Type.Kind kind! self-kind!
 	...Type.Pred-Type Opt
 	...Type.Obj-Type
@@ -16,7 +15,7 @@ use-debug
 	...compare =?
 	...math.Num infinity
 	..?
-	.Seq seq=? take
+	.Seq seq=? take'
 
 Range = Obj-Type
 	doc. "Seq of Nums taking fixed steps."
@@ -29,7 +28,7 @@ Range = Obj-Type
 			! =? (sign _.step) (sign (- _.end _.start
 		noop _
 	test. |
-		! seq=? [ 0 1 2 ] (take (range 0 infinity) 3
+		! seq=? [ 0 1 2 ] (take' (range 0 infinity) 3
 
 # TODO:SYNTAX
 range. |-start-:Num -end-:Num ?step:Opt[Num]
@@ -49,9 +48,10 @@ range-incl.
 
 self-kind! Range @-Type
 	empty -> thunk (range 0 0)
-	from-stream -> |
-		oh-no! "Range can not be made from arbitrary @."
-
+	# We can't build a Range out of arbitrary elements...
+	# TODO: impl-for from-stream Array
+	from-stream -> |_
+		_
 
 length.
 	doc. "Difference between and and start values."

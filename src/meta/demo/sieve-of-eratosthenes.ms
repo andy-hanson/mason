@@ -12,7 +12,7 @@ use
 use-debug
 	...!
 	...@.@ any?
-	...@.Seq.Seq take
+	...@.Seq.Seq take'
 	...Bool not
 	...math.Num divisible?
 
@@ -22,7 +22,7 @@ primes.
 	test. |
 		is-prime? = |_
 			not (any? (range 2 _) divisible?[_]
-		each! (take primes 20) ![is-prime?]
+		each! (take' primes 20) ![is-prime?]
 	Stream ~|
 		<~ 2
 		<~ 3

@@ -10,7 +10,6 @@ use~
 	.Hash-Set!
 use-debug
 	..@ --
-	..Seq.Stream
 
 Set = Kind
 	doc. "@ without repeat values."
@@ -44,7 +43,7 @@ set=?.
 intersect. Method
 	doc. "TODO"
 	test. |
-		[ (=> Set [ 1 2 ]) (=> Set [ 2 3 ]) ] -> => Stream [ 2 ]
+		[ (=> Set [ 1 2 ]) (=> Set [ 2 3 ]) ] -> => Set [ 2 ]
 	default. |a b
 		keep a contains?[(=> Set b)]
 

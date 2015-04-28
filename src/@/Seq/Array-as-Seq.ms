@@ -6,15 +6,13 @@ use
 	...Fun thunk
 	...js js-sub
 	...private.js-impl arrayIterator
-	...methods freeze
 	...Type.Kind kind! self-kind!
 	...Type.Method impl! self-impl!
-	..@ count iterator
+	..@ each! count iterator
 	..@-Type _ empty from-stream
 	.Seq _ ?nth
 use~
 	...math.Num Nat
-	.Array!
 
 doc. "Javascript's native mutable Array type. TODO: `Array` vs `Array!`"
 
@@ -27,8 +25,12 @@ impl! iterator Array arrayIterator
 
 self-kind! Array @-Type
 self-impl! empty Array (thunk []
+# TODO: Identical code in Array!.ms
 self-impl! from-stream Array |stream
-	freeze (from-stream Array! stream
+	arr = Array 0
+	each! stream |em
+		arr.push em
+	arr
 
 impl! ?nth Array |_ n:Nat
 	if (<? n count_) ~(js-sub _ n

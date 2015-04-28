@@ -2,7 +2,7 @@
 if ((typeof define !== "function")) var define = require("amdefine")(module);
 define([ "exports", "../../Obj", "../../show", "../../Str", "../../Type/Method", "../../Type/Type", "../at", "./Map", "./Weak-Id-Mapbang" ], function(exports, Obj_0, show_1, Str_2, Method_3, Type_4, _64_5, Map_6, Weak_45Id_45Map_33_7) {
 	exports._get = _ms.lazy(function() {
-		const _$2 = _ms.getModule(Obj_0), flag_63 = _ms.get(_$2, "flag?"), show = _ms.getDefaultExport(show_1), Str = _ms.getDefaultExport(Str_2), _$5 = _ms.getModule(Method_3), impl_33 = _ms.get(_$5, "impl!"), _$6 = _ms.getModule(Type_4), _61_62 = _ms.get(_$6, "=>"), type_45of = _ms.get(_$6, "type-of"), _$7 = _ms.getModule(_64_5), map = _ms.get(_$7, "map"), Map = _ms.getDefaultExport(Map_6), Weak_45Id_45Map_33 = _ms.getDefaultExport(Weak_45Id_45Map_33_7);
+		const _$2 = _ms.getModule(Obj_0), flag_63 = _ms.get(_$2, "flag?"), show = _ms.getDefaultExport(show_1), Str = _ms.getDefaultExport(Str_2), _$5 = _ms.getModule(Method_3), impl_33 = _ms.get(_$5, "impl!"), _$6 = _ms.getModule(Type_4), _61_62 = _ms.get(_$6, "=>"), type_45of = _ms.get(_$6, "type-of"), _$7 = _ms.getModule(_64_5), map_39 = _ms.get(_$7, "map'"), Map = _ms.getDefaultExport(Map_6), Weak_45Id_45Map_33 = _ms.getDefaultExport(Weak_45Id_45Map_33_7);
 		const exports = { };
 		impl_33(show, Map, function() {
 			const test = function() {
@@ -11,14 +11,11 @@ define([ "exports", "../../Obj", "../../show", "../../Str", "../../Type/Method",
 					return _ms.map(_k0, _v0)
 				}();
 				const _k0 = [ m ], _v0 = "\n\t1 -> 2";
-				const _k1 = [ m, {
-					repr: true
-				} ], _v1 = "Hash-Map!\n\t1 -> 2";
-				return _ms.map(_k0, _v0, _k1, _v1)
+				return _ms.map(_k0, _v0)
 			};
 			return _ms.set(function(_, opts) {
-				const parts = map(_, function(pair) {
-					const _$21 = pair, key = _$21.key, val = _$21.val;
+				const parts = map_39(_, function(pair) {
+					const _$24 = pair, key = _$24.key, val = _$24.val;
 					return ((("" + _ms.show(show(key, opts))) + " -> ") + _ms.show(show(val, opts)))
 				});
 				const type = function() {
@@ -41,4 +38,4 @@ define([ "exports", "../../Obj", "../../show", "../../Str", "../../Type/Method",
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL01hcC9zaG93LU1hcC5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7b0NBVUE7QUFBQTs7RUFBQSxRQUFBLE1BQUEsZ0JBQWM7QUFBQSxHQUNiLGFBQU8sV0FDTjtBQUFBLElBQUEscUJBQUc7QUFBQSxLQUNGLFlBQUEsU0FBSztBQUFBOztJQUNOLFlBQUEsRUFBQSxXQUFVO0FBQUEsSUFFVixZQUFBLEVBQUEsR0FBSTtBQUFBLFdBQU87QUFBQSxlQUNWO0FBQUE7O2tCQUNELFNBQUEsR0FBRSxNQUNGO0FBQUEsSUFBQSxjQUFRLElBQUksR0FBRyxTQUFBLE1BQ2Q7QUFBQSxLQUFBLGFBQVU7WUFDVCxHQUtDLGNBTEQsS0FBQSxLQUFBLDZCQUFtQixLQUFBLEtBQUE7QUFBQTtBQUFBLElBQ3JCOztNQUNDLGNBQUEsUUFBQSxNQUFZLFVBQ1g7QUFBQSxjQUFBLEtBQUEsVUFBSyxJQUFMO0FBQUE7QUFBQSxlQUVBO0FBQUEsY0FBQztBQUFBO0FBQUE7QUFBQTtBQUFBLFdBRUYsR0FGRSxjQUVGLDRCQUFXLE9BQUEsS0FBQSxPQUFlO0FBQUE7O29CQUM3QixRQUFBLE1BQUEsb0JBQXlCLFdBQ3hCO0FBQUEsVUFBQztBQUFBO0FBQUEsRUE5QkYsMENBQUE7QUFBQSIsImZpbGUiOiJhdC9NYXAvc2hvdy1NYXAuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL01hcC9zaG93LU1hcC5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7b0NBVUE7QUFBQTs7RUFBQSxRQUFBLE1BQUEsZ0JBQWM7QUFBQSxHQUNiLGFBQU8sV0FDTjtBQUFBLElBQUEscUJBQUc7QUFBQSxLQUNGLFlBQUEsU0FBSztBQUFBOztJQUNOLFlBQUEsRUFBQSxXQUFVO0FBQUE7O2tCQU1WLFNBQUEsR0FBRSxNQUVGO0FBQUEsSUFBQSxjQUFRLE9BQUssR0FBRyxTQUFBLE1BQ2Y7QUFBQSxLQUFBLGFBQVU7WUFDVCxHQUtDLGNBTEQsS0FBQSxLQUFBLDZCQUFtQixLQUFBLEtBQUE7QUFBQTtBQUFBLElBQ3JCOztNQUNDLGNBQUEsUUFBQSxNQUFZLFVBQ1g7QUFBQSxjQUFBLEtBQUEsVUFBSyxJQUFMO0FBQUE7QUFBQSxlQUVBO0FBQUEsY0FBQztBQUFBO0FBQUE7QUFBQTtBQUFBLFdBRUYsR0FGRSxjQUVGLDRCQUFXLE9BQUEsS0FBQSxPQUFlO0FBQUE7O29CQUM3QixRQUFBLE1BQUEsb0JBQXlCLFdBQ3hCO0FBQUEsVUFBQztBQUFBO0FBQUEsRUFqQ0YsMENBQUE7QUFBQSIsImZpbGUiOiJhdC9NYXAvc2hvdy1NYXAuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

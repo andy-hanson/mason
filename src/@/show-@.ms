@@ -5,8 +5,8 @@ use
 	..Str _ indent
 	..Type.Type => type-of
 	..Type.Method impl! impl-for
-	.@ _ count empty? map
-	.Seq.Seq take
+	.@ _ count empty? map'
+	.Seq.Seq take'
 use-debug
 	.@-Type empty
 	.Seq.Deque!
@@ -32,11 +32,12 @@ impl! show @
 			empty?_
 				"[ ]"
 			else
-				ems = map _ |em
+				# TODO: map (eager)
+				ems = map' _ |em
 					indent (show em opts
 				show-ems end = case
 					<? 100 count_
-						show-ems. take ems 100
+						show-ems. take' ems 100
 						end. "\n\t..."
 					else
 						show-ems. ems

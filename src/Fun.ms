@@ -4,7 +4,7 @@ use
 	.Type.Alias-Type
 	.Type.Method _ impl! self-impl!
 use~
-	.@.@ _ ++ each! map
+	.@.@ _ ++ each! map map'
 	.@.@-Type empty
 	.@.Map.Map
 	.@.Map.Hash-Map!
@@ -167,18 +167,20 @@ spread.
 
 	# TODO:ES6 Non-last rest arg?
 	|:@ fun:Fun ...args
+		# TODO: right uncons
 		init-args = rtail args
 		last-arg = last args
 		@spreaded = case last-arg
 			:Map
-				map _ |pair
+				# TODO: apping map to pairs is hard...
+				map' _ |pair
 					key val = pair
 					[ key val ]
 			:@
 				map _ |em
 					[ em ]
 			:Obj
-				map Obj->Map_ |pair
+				map' Obj->Map_ |pair
 					key val = pair
 					[ key val ]
 			else

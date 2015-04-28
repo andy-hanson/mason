@@ -13,10 +13,9 @@ use~
 	..methods freeze frozen?
 use-debug
 	..! _ !not
-	..@.Seq.Stream
 	..Try _ fails-with?
 	.Method
-	.Type => contains?
+	.Type contains?
 
 Kind = Obj-Type
 	doc. "
@@ -137,7 +136,7 @@ concrete-implementors.
 		kind! Y X
 		kind! Z X
 		kind! W Y
-		[ X ] -> => Stream [ W Z ]
+		[ X ] -> [ W Z ]
 	|:@[Impl-Type] kind:Kind
 		flat-map kind.implementors |case
 			:Kind

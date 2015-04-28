@@ -1,7 +1,7 @@
 use
 	...!
 	...@.@ fold-map
-	...@.Seq.Seq reverse tail take-while
+	...@.Seq.Seq reverse tail take-while'
 	...@.Seq.Stream
 	...compare =? <=?
 	...math.Num Nat
@@ -24,7 +24,7 @@ zeckendorf.
 		[ 1111 ] -> "100001010000001"
 	|n:Nat
 		z-fibs = tail fibs # Don't include the first `1`, so `[ 1 2 3 5 8 ... ]`.
-		candidate-fibs = reverse (take-while z-fibs |_
+		candidate-fibs = reverse (take-while' z-fibs |_
 			<=? _ n # Highest numbers go first
 		mapped folded = fold-map candidate-fibs n |left fib
 			case fib

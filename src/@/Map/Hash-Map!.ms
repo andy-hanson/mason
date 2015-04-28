@@ -10,7 +10,7 @@ use
 	...Type.Kind kind! self-kind!
 	...Type.Method impl! self-impl!
 	...Type.Obj-Type
-	..@ flat-map map'
+	..@ flat-map map
 	..@! empty!
 	..@-Type empty
 	..Seq.Stream
@@ -63,7 +63,7 @@ opt-bucket-entry = |opt-bucket key
 impl! ?get Hash-Map! |:? _ key
 	bucket = opt-bucket _ key
 	entry = opt-bucket-entry bucket key
-	map' (Opt->? entry) |be
+	map (Opt->? entry) |be
 		be.val!
 
 impl! keys Hash-Map! |_

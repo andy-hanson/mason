@@ -64,6 +64,8 @@ show = Method
 					{type-of_}
 						{key-vals.join "\n\t"}
 
+msDef "show" show
+
 repr.
 	doc. "
 		Shows it with the `repr` flag set.
@@ -114,8 +116,11 @@ spread! impl! show
 
 	Fun ->
 		test. |
-			a = |
-				1
+			# TODO:DISPLAYNAME
+			a =
+				doc. "a"
+				|
+					1
 			[ a ] -> "a"
 			[ Obj ] -> "Obj"
 			[ (Fun "" "") ] -> "<anonymous Fun>"
@@ -128,7 +133,5 @@ spread! impl! show
 						"<anonymous Fun>"
 					else
 						_
-
-msDef "show" show
 
 show

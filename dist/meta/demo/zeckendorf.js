@@ -2,7 +2,7 @@
 if ((typeof define !== "function")) var define = require("amdefine")(module);
 define([ "exports", "../../bang", "../../at/at", "../../at/Seq/Seq", "../../at/Seq/Stream", "../../compare", "../../math/Num", "../../math/methods", "../../Str", "../../Type/Type" ], function(exports, _33_0, _64_1, Seq_2, Stream_3, compare_4, Num_5, methods_6, Str_7, Type_8) {
 	exports._get = _ms.lazy(function() {
-		const _33 = _ms.getDefaultExport(_33_0), _$3 = _ms.getModule(_64_1), fold_45map = _ms.get(_$3, "fold-map"), _$4 = _ms.getModule(Seq_2), reverse = _ms.get(_$4, "reverse"), tail = _ms.get(_$4, "tail"), take_45while = _ms.get(_$4, "take-while"), Stream = _ms.getDefaultExport(Stream_3), _$6 = _ms.getModule(compare_4), _61_63 = _ms.get(_$6, "=?"), _60_61_63 = _ms.get(_$6, "<=?"), _$7 = _ms.getModule(Num_5), Nat = _ms.get(_$7, "Nat"), _$8 = _ms.getModule(methods_6), _43 = _ms.get(_$8, "+"), _45 = _ms.get(_$8, "-"), Str = _ms.getDefaultExport(Str_7), _$10 = _ms.getModule(Type_8), _61_62 = _ms.get(_$10, "=>");
+		const _33 = _ms.getDefaultExport(_33_0), _$3 = _ms.getModule(_64_1), fold_45map = _ms.get(_$3, "fold-map"), _$4 = _ms.getModule(Seq_2), reverse = _ms.get(_$4, "reverse"), tail = _ms.get(_$4, "tail"), take_45while_39 = _ms.get(_$4, "take-while'"), Stream = _ms.getDefaultExport(Stream_3), _$6 = _ms.getModule(compare_4), _61_63 = _ms.get(_$6, "=?"), _60_61_63 = _ms.get(_$6, "<=?"), _$7 = _ms.getModule(Num_5), Nat = _ms.get(_$7, "Nat"), _$8 = _ms.getModule(methods_6), _43 = _ms.get(_$8, "+"), _45 = _ms.get(_$8, "-"), Str = _ms.getDefaultExport(Str_7), _$10 = _ms.getModule(Type_8), _61_62 = _ms.get(_$10, "=>");
 		const exports = { };
 		const fibs = function() {
 			const rec = function*(prev, cur) {
@@ -25,7 +25,7 @@ define([ "exports", "../../bang", "../../at/at", "../../at/Seq/Seq", "../../at/S
 			return _ms.set(function(n) {
 				_ms.checkContains(Nat, n, "n");
 				const z_45fibs = tail(fibs);
-				const candidate_45fibs = reverse(take_45while(z_45fibs, function(_) {
+				const candidate_45fibs = reverse(take_45while_39(z_45fibs, function(_) {
 					return _60_61_63(_, n)
 				}));
 				const _$29 = fold_45map(candidate_45fibs, n, function(left, fib) {
@@ -59,4 +59,4 @@ define([ "exports", "../../bang", "../../at/at", "../../at/Seq/Seq", "../../at/S
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL2RlbW8vemVja2VuZG9yZi5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7b0NBV0E7QUFBQTs7RUFBQSx3QkFBTTtBQUFBLEdBQ0wsWUFBUSxVQUFBLE1BQVMsS0FDaEI7QUFBQSxzQkFEWTtzQkFBUTtJQUNqQixPQUFBO0FBQUEsV0FDQyxRQUFBLElBQUEsS0FBUSxJQUFBLE1BQUE7QUFBQTtBQUFBLFVBQ2IsZUFBTyxLQUFJLEdBQUU7QUFBQTtBQUFBLEVBRWQsbURBQVc7QUFBQSxHQUNWLFlBQU07QUFBQSxHQUNOLGFBQU8sV0FDTjtBQUFBLElBQUEsWUFBQSxFQUFFLFdBQVE7QUFBQSxJQUNWLFlBQUEsRUFBRSxXQUFRO0FBQUEsSUFDVixZQUFBLEVBQUUsWUFBUztBQUFBLElBQ1gsWUFBQSxFQUFFLGNBQVc7QUFBQTs7a0JBQ2IsU0FBQSxHQUNBO0FBQUEsc0JBREU7SUFDRixpQkFBUyxLQUFBO0FBQUEsSUFDVCx5QkFBaUIsUUFBUSxhQUFBLFVBQW9CLFNBQUEsR0FDNUM7QUFBQSxZQUFBLFVBQUksR0FBSjtBQUFBO0FBQUEsSUFDRCxhQUFnQixXQUFBLGtCQUFBLEdBQTJCLFNBQUEsTUFBSyxLQUMvQztBQUFBO01BQUssVUFBQTtBQUFBO09BQ0osY0FBQSxVQUFJLEdBQUosUUFDQztBQUFBLFFBQUEsYUFBTTtBQUFBLFFBQ04sYUFBTSxJQUFBLE1BQU87QUFBQSxlQURiO0FBQUE7Ozs7Z0JBR0E7QUFBQSxRQUFBLGFBQU07QUFBQSxRQUNOLGFBQU07QUFBQSxlQUROO0FBQUE7Ozs7Ozs7SUFFSCxJQUFBLFFBQUssR0FBTDtBQUFBLFdBQ0EsT0FBQSxLQUFBO0FBQUE7O0VBckNGLDBDQUFBO0FBQUEiLCJmaWxlIjoibWV0YS9kZW1vL3plY2tlbmRvcmYuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL2RlbW8vemVja2VuZG9yZi5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7b0NBV0E7QUFBQTs7RUFBQSx3QkFBTTtBQUFBLEdBQ0wsWUFBUSxVQUFBLE1BQVMsS0FDaEI7QUFBQSxzQkFEWTtzQkFBUTtJQUNqQixPQUFBO0FBQUEsV0FDQyxRQUFBLElBQUEsS0FBUSxJQUFBLE1BQUE7QUFBQTtBQUFBLFVBQ2IsZUFBTyxLQUFJLEdBQUU7QUFBQTtBQUFBLEVBRWQsbURBQVc7QUFBQSxHQUNWLFlBQU07QUFBQSxHQUNOLGFBQU8sV0FDTjtBQUFBLElBQUEsWUFBQSxFQUFFLFdBQVE7QUFBQSxJQUNWLFlBQUEsRUFBRSxXQUFRO0FBQUEsSUFDVixZQUFBLEVBQUUsWUFBUztBQUFBLElBQ1gsWUFBQSxFQUFFLGNBQVc7QUFBQTs7a0JBQ2IsU0FBQSxHQUNBO0FBQUEsc0JBREU7SUFDRixpQkFBUyxLQUFBO0FBQUEsSUFDVCx5QkFBaUIsUUFBUSxnQkFBQSxVQUFxQixTQUFBLEdBQzdDO0FBQUEsWUFBQSxVQUFJLEdBQUo7QUFBQTtBQUFBLElBQ0QsYUFBZ0IsV0FBQSxrQkFBQSxHQUEyQixTQUFBLE1BQUssS0FDL0M7QUFBQTtNQUFLLFVBQUE7QUFBQTtPQUNKLGNBQUEsVUFBSSxHQUFKLFFBQ0M7QUFBQSxRQUFBLGFBQU07QUFBQSxRQUNOLGFBQU0sSUFBQSxNQUFPO0FBQUEsZUFEYjtBQUFBOzs7O2dCQUdBO0FBQUEsUUFBQSxhQUFNO0FBQUEsUUFDTixhQUFNO0FBQUEsZUFETjtBQUFBOzs7Ozs7O0lBRUgsSUFBQSxRQUFLLEdBQUw7QUFBQSxXQUNBLE9BQUEsS0FBQTtBQUFBOztFQXJDRiwwQ0FBQTtBQUFBIiwiZmlsZSI6Im1ldGEvZGVtby96ZWNrZW5kb3JmLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
