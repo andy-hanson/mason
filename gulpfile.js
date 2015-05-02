@@ -1,7 +1,7 @@
 'use strict'
 
 require('./es6-shim')
-//require('source-map-support').install()
+require('source-map-support').install()
 const
 	babel = require('gulp-babel'),
 	fs = require('q-io/fs'),

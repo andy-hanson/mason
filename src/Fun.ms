@@ -117,7 +117,6 @@ region Memoize
 			Stores the argument every time you call it,
 			and re-uses the result if called again with the same argument.
 			This will make those arguments unavailable for garbage collection...
-
 		test. |
 			! seq=? [ 1 2 ] (build |yield
 				get-a = hash-memoize |x

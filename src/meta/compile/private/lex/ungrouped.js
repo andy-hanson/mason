@@ -16,6 +16,43 @@ export default (cx, str) => {
 	let column = StartColumn
 	let index = 0
 
+	// Use these for debugging pos.
+	/*
+	const
+		checkPos = () => {
+			const p = getCorrectPos()
+			if (p.line !== line || p.column !== column)
+				throw new Error(`index: ${index}, wrong: ${Pos(line, column)}, right: ${p}`)
+		},
+		indexToPos = new Map(),
+		getCorrectPos = () => {
+			if (index === 0)
+				return Pos(StartLine, StartColumn)
+
+			let oldPos, oldIndex
+			for (oldIndex = index - 1; oldIndex > 0; oldIndex = oldIndex - 1) {
+				oldPos = indexToPos.get(oldIndex)
+				if (oldPos)
+					break
+			}
+			if (oldPos === undefined) {
+				assert(oldIndex === 0)
+				oldPos = Pos(StartLine, StartColumn)
+			}
+			let newLine = oldPos.line, newColumn = oldPos.column
+			for (; oldIndex < index; oldIndex = oldIndex + 1)
+				if (str.charCodeAt(oldIndex) === Newline) {
+					newLine = newLine + 1
+					newColumn = StartColumn
+				} else
+					newColumn = newColumn + 1
+
+			const p = Pos(newLine, newColumn)
+			indexToPos.set(index, p)
+			return p
+		}
+	*/
+
 	const
 		o = t => { res.push(t) },
 
@@ -88,10 +125,8 @@ export default (cx, str) => {
 			return line - startLine
 		},
 
-		skipRestOfLine = () => {
-			while (peek() !== Newline)
-				index = index + 1
-		}
+		skipRestOfLine = () =>
+			_skipWhile(_ => _ !== Newline)
 
 	const ungrouped = isInQuote => {
 		let indent = 0
@@ -276,23 +311,18 @@ export default (cx, str) => {
 				case Newline: {
 					cx.check(prev !== Space, chPos, 'Line ends in a space')
 					cx.check(isIndented, chPos, 'Unclosed quote.')
-					let newIndent = skipWhileEquals(Tab)
-
-					let extraNewlines = ''
-					// Allow blank lines.
-					if (newIndent === 0) {
-						extraNewlines = '\n'.repeat(skipNewlines())
-						newIndent = skipWhileEquals(Tab)
-					}
-
+					// Allow extra blank lines.
+					const numNewlines = skipNewlines() + 1
+					const newIndent = skipWhileEquals(Tab)
 					if (newIndent < quoteIndent) {
 						// Indented quote section is over.
 						// Undo reading the tabs and newline.
-						stepBackMany(chPos, newIndent + 1)
+						stepBackMany(chPos, numNewlines + newIndent)
 						assert(peek() === Newline)
 						break eatChars
 					} else
-						read = read + extraNewlines + '\n' + '\t'.repeat(newIndent - quoteIndent)
+						read = read +
+							'\n'.repeat(numNewlines) + '\t'.repeat(newIndent - quoteIndent)
 					break
 				}
 				case Quote:
