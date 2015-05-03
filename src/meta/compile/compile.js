@@ -21,9 +21,9 @@ export default function compile(src, opts) {
 		const ast = transpile(cx, e, vr)
 		let result
 		if (cx.opts.sourceMap()) {
+			//TODO: Name it sourceMap
 			const { code, map } = render(cx, ast)
-			// TODO: There must be a better way of doing this...
-			result = { code, sourceMap: JSON.parse(map.toString()) }
+			result = { code, sourceMap: map.toJSON() }
 		} else
 			result = render(cx, ast)
 		return { warnings: cx.warnings, result }

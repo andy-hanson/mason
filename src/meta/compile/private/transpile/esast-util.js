@@ -1,6 +1,5 @@
-import { Expression, BinaryExpression, Identifier, Literal, NewExpression, Statement, SwitchCase,
-	SwitchStatement, ThrowStatement, UnaryExpression, VariableDeclarator, WhileStatement
-	} from 'esast/dist/ast'
+import { Expression, BinaryExpression, Identifier, Literal, NewExpression, Statement,
+	ThrowStatement, UnaryExpression, VariableDeclarator, WhileStatement } from 'esast/dist/ast'
 import mangleIdentifier from 'esast/dist/mangle-identifier'
 import specialize, { variableDeclarationConst } from 'esast/dist/specialize'
 import { idCached } from 'esast/dist/util'
@@ -33,14 +32,6 @@ export const
 	binaryExpressionPlus = specialize(BinaryExpression,
 		[ 'left', Expression, 'right', Expression ],
 		{ operator: '+' }),
-
-	switchStatementOnTrue = specialize(SwitchStatement,
-		[ 'cases', [SwitchCase] ],
-		{
-			discriminant: LitTrue,
-			// May contain nested variable declarations
-			lexical: true
-		}),
 
 	unaryExpressionNegate = specialize(UnaryExpression,
 		[ 'argument', Expression ],

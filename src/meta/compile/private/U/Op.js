@@ -1,11 +1,7 @@
-import { assert } from './util'
+// Cheap-ass option type.
+// It's just an array with 0 or 1 elements.
 
-/*
-Cheap-ass option type.
-It's just an array with 0 or 1 elements.
-*/
-
-// This constructs an Op *type*. Use Op.Some and Op.None to construct instances.
+// This constructs an Op *type*. Use some and None to construct instances.
 export default function Op(opType) {
 	const op = Object.create(Op.prototype)
 	op.type = opType
@@ -20,20 +16,14 @@ Object.assign(Op.prototype, {
 	}
 })
 
-export const None = []
-export function some(_) {
-	return [ _ ]
-}
+export const
+	None = [],
+	some = _ => [ _ ],
 
-export function opIf(cond, then) {
-	return cond ? some(then()) : None
-}
+	opIf = (cond, then) =>
+		cond ? some(then()) : None,
 
-export function ifElse(op, ifSome, ifNone) {
-	if (op.length === 0)
-		return ifNone()
-	else {
-		assert(op.length === 1)
-		return ifSome(op[0])
-	}
-}
+	ifElse = (op, ifSome, ifNone) =>
+		op.length === 0 ?
+			ifNone() :
+			ifSome(op[0])

@@ -22,7 +22,8 @@ export const OptsFromObject = obj => {
 		includeAmdefine: true,
 		includeSourceMap: true,
 		includeModuleDisplayName: true,
-		forceNonLazyModule: false
+		forceNonLazyModule: false,
+		useStrict: true
 	}
 	const opts = Object.assign({}, defaults, obj)
 	if (!opts.inFile) {
@@ -41,7 +42,8 @@ const Opts = ObjType('Opts', Object, {
 	includeAmdefine: Boolean,
 	includeSourceMap: Boolean,
 	includeModuleDisplayName: Boolean,
-	forceNonLazyModule: Boolean
+	forceNonLazyModule: Boolean,
+	useStrict: Boolean
 })
 export default Opts
 Object.assign(Opts.prototype, {
@@ -65,7 +67,9 @@ Object.assign(Opts.prototype, {
 	amdefine() { return this.includeAmdefine },
 	sourceMap() { return this.includeSourceMap },
 	moduleDisplayName() { return this.includeModuleDisplayName },
-	lazyModule() { return !this.forceNonLazyModule }
+	lazyModule() { return !this.forceNonLazyModule },
+
+	includeUseStrict() { return this.useStrict }
 })
 
 const basename = path =>

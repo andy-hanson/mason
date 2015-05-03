@@ -1,151 +1,151 @@
 "use strict";
-if ((typeof define !== "function")) var define = require("amdefine")(module);
-define([ "exports", "../Bool", "../Fun", "../js", "../methods", "../Obj", "../private/bootstrap", "./Kind", "./Method", "./Obj-Type", "./Type", "../at/at", "../bang", "../Bool", "../compare", "../math/Num" ], function(exports, Bool_0, Fun_1, js_2, methods_3, Obj_4, bootstrap_5, Kind_6, Method_7, Obj_45Type_8, Type_9, _64_10, _33_11, Bool_12, compare_13, Num_14) {
-	exports._get = _ms.lazy(function() {
-		const _$2 = _ms.getModule(Bool_0), and = _ms.get(_$2, "and"), not = _ms.get(_$2, "not"), or = _ms.get(_$2, "or"), _$3 = _ms.getModule(Fun_1), Pred = _ms.get(_$3, "Pred"), _$4 = _ms.getModule(js_2), defined_63 = _ms.get(_$4, "defined?"), id_61_63 = _ms.get(_$4, "id=?"), _$5 = _ms.getModule(methods_3), sub = _ms.get(_$5, "sub"), Obj = _ms.getDefaultExport(Obj_4), _$7 = _ms.getModule(bootstrap_5), Str = _ms.get(_$7, "Str"), _$8 = _ms.getModule(Kind_6), kind_33 = _ms.get(_$8, "kind!"), _$9 = _ms.getModule(Method_7), impl_33 = _ms.get(_$9, "impl!"), self_45impl_33 = _ms.get(_$9, "self-impl!"), Obj_45Type = _ms.getDefaultExport(Obj_45Type_8), Type = _ms.getDefaultExport(Type_9), _$11 = _ms.getModule(Type_9), _61_62 = _ms.get(_$11, "=>"), contains_63 = _ms.get(_$11, "contains?"), _$13 = _ms.lazyGetModule(_64_10), any_63 = _ms.lazyProp(_$13, "any?"), _33 = _ms.lazy(function() {
+if((typeof define!=="function"))var define=require("amdefine")(module);
+define(["exports","../Bool","../Fun","../js","../methods","../Obj","../private/bootstrap","./Kind","./Method","./Obj-Type","./Type","../at/at","../bang","../Bool","../compare","../math/Num"],function(exports,Bool_0,Fun_1,js_2,methods_3,Obj_4,bootstrap_5,Kind_6,Method_7,Obj_45Type_8,Type_9,_64_10,_33_11,Bool_12,compare_13,Num_14){
+	exports._get=_ms.lazy(function(){
+		const _$2=_ms.getModule(Bool_0),and=_ms.get(_$2,"and"),not=_ms.get(_$2,"not"),or=_ms.get(_$2,"or"),_$3=_ms.getModule(Fun_1),Pred=_ms.get(_$3,"Pred"),_$4=_ms.getModule(js_2),defined_63=_ms.get(_$4,"defined?"),id_61_63=_ms.get(_$4,"id=?"),_$5=_ms.getModule(methods_3),sub=_ms.get(_$5,"sub"),Obj=_ms.getDefaultExport(Obj_4),_$7=_ms.getModule(bootstrap_5),Str=_ms.get(_$7,"Str"),_$8=_ms.getModule(Kind_6),kind_33=_ms.get(_$8,"kind!"),_$9=_ms.getModule(Method_7),impl_33=_ms.get(_$9,"impl!"),self_45impl_33=_ms.get(_$9,"self-impl!"),Obj_45Type=_ms.getDefaultExport(Obj_45Type_8),Type=_ms.getDefaultExport(Type_9),_$11=_ms.getModule(Type_9),_61_62=_ms.get(_$11,"=>"),contains_63=_ms.get(_$11,"contains?"),_$13=_ms.lazyGetModule(_64_10),any_63=_ms.lazyProp(_$13,"any?"),_33=_ms.lazy(function(){
 			return _ms.getDefaultExport(_33_11)
-		}), _$15 = _ms.lazyGetModule(_33_11), _33not = _ms.lazyProp(_$15, "!not"), Bool = _ms.lazy(function() {
+		}),_$15=_ms.lazyGetModule(_33_11),_33not=_ms.lazyProp(_$15,"!not"),Bool=_ms.lazy(function(){
 			return _ms.getDefaultExport(Bool_12)
-		}), _$17 = _ms.lazyGetModule(compare_13), _61_63 = _ms.lazyProp(_$17, "=?"), Num = _ms.lazy(function() {
+		}),_$17=_ms.lazyGetModule(compare_13),_61_63=_ms.lazyProp(_$17,"=?"),Num=_ms.lazy(function(){
 			return _ms.getDefaultExport(Num_14)
 		});
-		const exports = { };
-		const Pred_45Type = Obj_45Type(function() {
-			const doc = "Arbitrary predicates can be made into types using Pred-Type.";
-			const props = function() {
-				const displayName = Str;
-				const predicate = Pred;
+		const exports={};
+		const Pred_45Type=Obj_45Type(function(){
+			const doc="Arbitrary predicates can be made into types using Pred-Type.";
+			const props=function(){
+				const displayName=Str;
+				const predicate=Pred;
 				return {
-					displayName: displayName,
-					predicate: predicate
+					displayName:displayName,
+					predicate:predicate
 				}
 			}();
-			const extensible = true;
+			const extensible=true;
 			return {
-				doc: doc,
-				props: props,
-				extensible: extensible,
-				displayName: "Pred-Type"
+				doc:doc,
+				props:props,
+				extensible:extensible,
+				displayName:"Pred-Type"
 			}
 		}());
-		kind_33(Pred_45Type, Type);
-		impl_33(contains_63, Pred_45Type, function(_, value) {
+		kind_33(Pred_45Type,Type);
+		impl_33(contains_63,Pred_45Type,function(_,value){
 			return _.predicate(value)
 		});
-		const Opt = exports.Opt = Pred_45Type(function() {
-			const doc = "A value which could be anything, even undefined.";
-			const predicate = function() {
+		const Opt=exports.Opt=Pred_45Type(function(){
+			const doc="A value which could be anything, even undefined.";
+			const predicate=function(){
 				return true
 			};
 			return {
-				doc: doc,
-				predicate: predicate,
-				displayName: "Opt"
+				doc:doc,
+				predicate:predicate,
+				displayName:"Opt"
 			}
 		}());
-		self_45impl_33(sub, Opt, function() {
-			const doc = "Contains null, undefined, or an instance of Exists-Type.";
-			return _ms.set(function(Exists_45Type) {
-				_ms.checkContains(Type, Exists_45Type, "Exists-Type");
-				const ET = Exists_45Type;
-				return Opt_45Sub(function() {
-					const Exists_45Type = ET;
+		self_45impl_33(sub,Opt,function(){
+			const doc="Contains null, undefined, or an instance of Exists-Type.";
+			return _ms.set(function(Exists_45Type){
+				_ms.checkContains(Type,Exists_45Type,"Exists-Type");
+				const ET=Exists_45Type;
+				return Opt_45Sub(function(){
+					const Exists_45Type=ET;
 					return {
-						"Exists-Type": Exists_45Type
+						"Exists-Type":Exists_45Type
 					}
 				}())
-			}, "doc", doc)
+			},"doc",doc)
 		}());
-		const Opt_45Sub = Obj_45Type(function() {
-			const doc = "Result of calling Opt[something].";
-			const props = function() {
-				const Exists_45Type = Type;
+		const Opt_45Sub=Obj_45Type(function(){
+			const doc="Result of calling Opt[something].";
+			const props=function(){
+				const Exists_45Type=Type;
 				return {
-					"Exists-Type": Exists_45Type,
-					displayName: "props"
+					"Exists-Type":Exists_45Type,
+					displayName:"props"
 				}
 			}();
 			return {
-				doc: doc,
-				props: props,
-				displayName: "Opt-Sub"
+				doc:doc,
+				props:props,
+				displayName:"Opt-Sub"
 			}
 		}());
-		kind_33(Opt_45Sub, Type);
-		impl_33(contains_63, Opt_45Sub, function(nt, _) {
-			return or(not(defined_63(_)), _ms.lazy(function() {
-				return contains_63(nt["Exists-Type"], _)
+		kind_33(Opt_45Sub,Type);
+		impl_33(contains_63,Opt_45Sub,function(nt,_){
+			return or(not(defined_63(_)),_ms.lazy(function(){
+				return contains_63(nt["Exists-Type"],_)
 			}))
 		});
-		const Any = exports.Any = Pred_45Type(function() {
-			const doc = "Not undefined.";
-			const test = function() {
-				_ms.unlazy(_33)(contains_63, Any, 0);
-				_ms.unlazy(_33)(contains_63, Any, null);
-				return _ms.unlazy(_33not)(contains_63, Any, undefined)
+		const Any=exports.Any=Pred_45Type(function(){
+			const doc="Not undefined.";
+			const test=function(){
+				_ms.unlazy(_33)(contains_63,Any,0);
+				_ms.unlazy(_33)(contains_63,Any,null);
+				return _ms.unlazy(_33not)(contains_63,Any,undefined)
 			};
-			const predicate = defined_63;
+			const predicate=defined_63;
 			return {
-				doc: doc,
-				test: test,
-				predicate: predicate,
-				displayName: "Any"
+				doc:doc,
+				test:test,
+				predicate:predicate,
+				displayName:"Any"
 			}
 		}());
-		const ObjLit = exports.ObjLit = Pred_45Type(function() {
-			const doc = "Matches only Objs which have no type (other than Obj itself).";
-			const test = function() {
-				_ms.unlazy(_33)(contains_63, ObjLit, {
-					a: 1
+		const ObjLit=exports.ObjLit=Pred_45Type(function(){
+			const doc="Matches only Objs which have no type (other than Obj itself).";
+			const test=function(){
+				_ms.unlazy(_33)(contains_63,ObjLit,{
+					a:1
 				});
-				return _ms.unlazy(_33not)(contains_63, ObjLit, ObjLit)
+				return _ms.unlazy(_33not)(contains_63,ObjLit,ObjLit)
 			};
-			const predicate = function(_) {
-				return and(_ms.contains(Obj, _), _ms.lazy(function() {
-					return id_61_63(Obj.getPrototypeOf(_), Obj.prototype)
+			const predicate=function(_){
+				return and(_ms.contains(Obj,_),_ms.lazy(function(){
+					return id_61_63(Obj.getPrototypeOf(_),Obj.prototype)
 				}))
 			};
 			return {
-				doc: doc,
-				test: test,
-				predicate: predicate,
-				displayName: "ObjLit"
+				doc:doc,
+				test:test,
+				predicate:predicate,
+				displayName:"ObjLit"
 			}
 		}());
-		const Union = exports.Union = function() {
-			const doc = "Type that matches one of several types. Analogous to `or`.";
-			const test = function() {
-				const SBN = _ms.sub(Union, Str, _ms.unlazy(Bool), _ms.unlazy(Num));
-				_ms.unlazy(_33)(_ms.unlazy(_61_63), SBN.displayName, "Union[Str Bool Num]");
-				_ms.unlazy(_33)(contains_63, SBN, "true");
-				_ms.unlazy(_33)(contains_63, SBN, true);
-				_ms.unlazy(_33)(contains_63, SBN, 3);
-				return _ms.unlazy(_33not)(contains_63, SBN, null)
+		const Union=exports.Union=function(){
+			const doc="Type that matches one of several types. Analogous to `or`.";
+			const test=function(){
+				const SBN=_ms.sub(Union,Str,_ms.unlazy(Bool),_ms.unlazy(Num));
+				_ms.unlazy(_33)(_ms.unlazy(_61_63),SBN.displayName,"Union[Str Bool Num]");
+				_ms.unlazy(_33)(contains_63,SBN,"true");
+				_ms.unlazy(_33)(contains_63,SBN,true);
+				_ms.unlazy(_33)(contains_63,SBN,3);
+				return _ms.unlazy(_33not)(contains_63,SBN,null)
 			};
 			return {
-				doc: doc,
-				test: test,
-				displayName: "Union"
+				doc:doc,
+				test:test,
+				displayName:"Union"
 			}
 		}();
-		self_45impl_33(sub, Union, function() {
-			const types = [ ].slice.call(arguments, 0);
-			return Pred_45Type(function() {
-				const displayName = (("Union[" + _ms.show(_61_62(Str, types, " "))) + "]");
-				const predicate = function(_) {
-					return _ms.unlazy(any_63)(types, function(type) {
-						return contains_63(type, _)
+		self_45impl_33(sub,Union,function(){
+			const types=[].slice.call(arguments,0);
+			return Pred_45Type(function(){
+				const displayName=(("Union["+_ms.show(_61_62(Str,types," ")))+"]");
+				const predicate=function(_){
+					return _ms.unlazy(any_63)(types,function(type){
+						return contains_63(type,_)
 					})
 				};
 				return {
-					displayName: displayName,
-					predicate: predicate
+					displayName:displayName,
+					predicate:predicate
 				}
 			}())
 		});
-		exports.default = Pred_45Type;
-		const displayName = exports.displayName = "Pred-Type";
+		exports.default=Pred_45Type;
+		const displayName=exports.displayName="Pred-Type";
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL1ByZWQtVHlwZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7b0NBbUJBO0FBQUE7Ozs7Ozs7O0VBQUEsb0JBQVksc0JBQVE7QUFBQSxHQUNuQixZQUFNO0FBQUEsR0FDTix5QkFBTTtBQUFBLElBQ0wsb0JBQWE7QUFBQSxJQUNiLGtCQUFXO0FBQUEsV0FGTjtBQUFBOzs7O0dBR04sbUJBQUE7QUFBQSxVQUxtQjtBQUFBOzs7Ozs7RUFPcEIsUUFBQSxhQUFBO0FBQUEsRUFDQSxRQUFBLGFBQUEsYUFBMkIsU0FBQSxHQUFFLE9BQzVCO0FBQUEsVUFBQSxZQUFBO0FBQUE7QUFBQSxFQUdBLDBCQUFLLHVCQUFTO0FBQUEsR0FDYixZQUFNO0FBQUEsR0FDTixrQkFBWSxXQUNYO0FBQUEsV0FBQTtBQUFBO0FBQUEsVUFIWTtBQUFBOzs7OztFQUtkLGVBQUEsS0FBQSxnQkFBa0I7QUFBQSxHQUNqQixZQUFNO0FBQUEsa0JBQ0wsU0FBQSxlQUNBO0FBQUEsc0JBRFk7SUFDWixXQUFLO0FBQUEsV0FDTCxxQkFBTztBQUFBLEtBQ04sc0JBQWE7QUFBQSxZQURQO0FBQUE7Ozs7O0VBR1Qsa0JBQVUsc0JBQVE7QUFBQSxHQUNqQixZQUFNO0FBQUEsR0FDTix5QkFBTTtBQUFBLElBQ0wsc0JBQWE7QUFBQSxXQURSO0FBQUE7Ozs7VUFGVztBQUFBOzs7OztFQUlsQixRQUFBLFdBQUE7QUFBQSxFQUNBLFFBQUEsYUFBQSxXQUF5QixTQUFBLElBQUcsR0FDM0I7QUFBQSxVQUFBLEdBQUcsSUFBQSxXQUFLO1dBQVksWUFBVyxtQkFBZTtBQUFBO0FBQUE7QUFBQSxFQUVoRCwwQkFBSyx1QkFBUztBQUFBLEdBQ2IsWUFBTTtBQUFBLEdBQ04sYUFBTyxXQUNOO0FBQUEsb0JBQUEsYUFBQSxLQUFnQjtBQUFBLG9CQUNoQixhQUFBLEtBQWdCO0FBQUEsOEJBQ2hCLGFBQUEsS0FBQTtBQUFBO0FBQUEsR0FDRCxrQkFBVztBQUFBLFVBTkU7QUFBQTs7Ozs7O0VBUWQsZ0NBQVEsdUJBQVM7QUFBQSxHQUNoQixZQUFNO0FBQUEsR0FDTixhQUFPLFdBQ047QUFBQSxvQkFBQSxhQUFBLFFBQW1CO0FBQUEsUUFBSTtBQUFBO0FBQUEsOEJBQ3ZCLGFBQUEsUUFBQTtBQUFBO0FBQUEsR0FDRCxrQkFBWSxTQUFBLEdBQ1g7QUFBQSxXQUFBLGlCQUFLLEtBQUQ7WUFBTSxTQUFPLG1CQUFtQixJQUFHOzs7VUFOeEI7QUFBQTs7Ozs7O0VBUWpCLHlDQUFNO0FBQUEsR0FDTCxZQUFNO0FBQUEsR0FDTixhQUFPLFdBRU47QUFBQSxJQUFBLG9CQUFNLE9BQUs7d0NBQ04saUJBQWlCO0FBQUEsb0JBQ3RCLGFBQUEsS0FBaUI7QUFBQSxvQkFDakIsYUFBQSxLQUFBO0FBQUEsb0JBQ0EsYUFBQSxLQUFnQjtBQUFBLDhCQUNoQixhQUFBLEtBQW1CO0FBQUE7QUFBQSxVQVRmO0FBQUE7Ozs7O0VBV04sZUFBQSxLQUFBLE9BQXNCLFdBQ3JCO0FBQUE7VUFBQSx1QkFBUztBQUFBLElBQ1Isb0JBQWMsc0JBQU0sT0FBQSxLQUFBLE9BQWU7SUFDbkMsa0JBQVksU0FBQSxHQUNYO0FBQUEsK0JBQUEsT0FBWSxTQUFBLE1BQ1g7QUFBQSxhQUFBLFlBQUEsTUFBZTtBQUFBO0FBQUE7QUFBQSxXQUpUO0FBQUE7Ozs7O29CQUtWO0FBQUEsRUFwRkEsMENBQUE7QUFBQSIsImZpbGUiOiJUeXBlL1ByZWQtVHlwZS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL1ByZWQtVHlwZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7aUNBbUJBOzs7Ozs7Ozs7RUFBQSxrQkFBWSxxQkFBUTtHQUNuQixVQUFNO0dBQ04sc0JBQU07SUFDTCxrQkFBYTtJQUNiLGdCQUFXO1dBRk47Ozs7O0dBR04saUJBQUE7VUFMbUI7Ozs7Ozs7RUFPcEIsUUFBQSxZQUFBO0VBQ0EsUUFBQSxZQUFBLFlBQTJCLFNBQUEsRUFBRSxNQUM1QjtVQUFBLFlBQUE7RUFBQTtFQUdBLHNCQUFLLHNCQUFTO0dBQ2IsVUFBTTtHQUNOLGdCQUFZLFVBQ1g7V0FBQTtHQUFBO1VBSFk7Ozs7OztFQUtkLGVBQUEsSUFBQSxjQUFrQjtHQUNqQixVQUFNO2tCQUNMLFNBQUEsY0FDQTtzQkFEWTtJQUNaLFNBQUs7V0FDTCxvQkFBTztLQUNOLG9CQUFhO1lBRFA7Ozs7OztFQUdULGdCQUFVLHFCQUFRO0dBQ2pCLFVBQU07R0FDTixzQkFBTTtJQUNMLG9CQUFhO1dBRFI7Ozs7O1VBRlc7Ozs7OztFQUlsQixRQUFBLFVBQUE7RUFDQSxRQUFBLFlBQUEsVUFBeUIsU0FBQSxHQUFHLEVBQzNCO1VBQUEsR0FBRyxJQUFBLFdBQUs7V0FBWSxZQUFXLGtCQUFlO0dBQUE7RUFBQTtFQUVoRCxzQkFBSyxzQkFBUztHQUNiLFVBQU07R0FDTixXQUFPLFVBQ047b0JBQUEsWUFBQSxJQUFnQjtvQkFDaEIsWUFBQSxJQUFnQjs4QkFDaEIsWUFBQSxJQUFBO0dBQUE7R0FDRCxnQkFBVztVQU5FOzs7Ozs7O0VBUWQsNEJBQVEsc0JBQVM7R0FDaEIsVUFBTTtHQUNOLFdBQU8sVUFDTjtvQkFBQSxZQUFBLE9BQW1CO09BQUk7SUFBQTs4QkFDdkIsWUFBQSxPQUFBO0dBQUE7R0FDRCxnQkFBWSxTQUFBLEVBQ1g7V0FBQSxpQkFBSyxJQUFEO1lBQU0sU0FBTyxtQkFBbUIsR0FBRzs7O1VBTnhCOzs7Ozs7O0VBUWpCLG9DQUFNO0dBQ0wsVUFBTTtHQUNOLFdBQU8sVUFFTjtJQUFBLGtCQUFNLE1BQUs7dUNBQ04sZ0JBQWlCO29CQUN0QixZQUFBLElBQWlCO29CQUNqQixZQUFBLElBQUE7b0JBQ0EsWUFBQSxJQUFnQjs4QkFDaEIsWUFBQSxJQUFtQjtHQUFBO1VBVGY7Ozs7OztFQVdOLGVBQUEsSUFBQSxNQUFzQixVQUNyQjs7VUFBQSxzQkFBUztJQUNSLGtCQUFjLG9CQUFNLE9BQUEsSUFBQSxNQUFlO0lBQ25DLGdCQUFZLFNBQUEsRUFDWDsrQkFBQSxNQUFZLFNBQUEsS0FDWDthQUFBLFlBQUEsS0FBZTtLQUFBO0lBQUE7V0FKVDs7Ozs7O2tCQUtWO0VBcEZBLHNDQUFBIiwiZmlsZSI6IlR5cGUvUHJlZC1UeXBlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

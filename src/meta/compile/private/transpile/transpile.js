@@ -1,21 +1,21 @@
 import { ArrayExpression, AssignmentExpression, BlockStatement, BreakStatement,
-	CallExpression, DebuggerStatement, Identifier, LabeledStatement, Literal,
-	SwitchCase, ThisExpression, VariableDeclarator, ReturnStatement } from 'esast/dist/ast'
+	CallExpression, DebuggerStatement, Identifier, IfStatement, LabeledStatement, Literal,
+	ThisExpression, VariableDeclarator, ReturnStatement } from 'esast/dist/ast'
 import { idCached, member, toStatement } from 'esast/dist/util'
 import { callExpressionThunk, functionExpressionPlain, functionExpressionThunk,
 	variableDeclarationConst, yieldExpressionDelegate, yieldExpressionNoDelegate
 	} from 'esast/dist/specialize'
 import * as EExports from '../../Expression'
-import { flatMap, push, range, tail } from '../U/Bag'
-import { ifElse, None, opIf } from '../U/Op'
+import { flatMap, range, tail } from '../U/Bag'
+import { ifElse, None, opIf, opOr } from '../U/Op'
 import { assert, implementMany, isPositive } from '../U/util'
-import { binaryExpressionPlus, declare, declareSpecial, idForDeclareCached, switchStatementOnTrue,
+import { binaryExpressionPlus, declare, declareSpecial, idForDeclareCached,
 	throwError, unaryExpressionNegate, whileStatementInfinite } from './esast-util'
 import { transpileObjReturn, transpileObjSimple } from './transpileObj'
 import transpileModule from './transpileModule'
 import {
 	IdExports, IdArguments, IdArraySliceCall, IdFunctionApplyCall, IdMs,
-	LitEmptyArray, LitEmptyString, LitNull, Break, ReturnRes,
+	LitEmptyArray, LitEmptyString, LitNull, ReturnRes,
 	accessLocal, lazyWrap, makeDeclarator, makeDestructureDeclarators,
 	maybeWrapInCheckContains,
 	opLocalCheck, msArr, msBool, msMap, msShow } from './util'
@@ -73,6 +73,12 @@ function transpileBlock(lead, opResDeclare, opOut) {
 	return BlockStatement(lead.concat(body, fin))
 }
 
+function casePart() {
+	const checkedTest = cx.opts.includeCaseChecks() ? msBool([ t0(this.test) ]) : t0(this.test)
+	// alternate written to by `caseBody`.
+	return IfStatement(checkedTest, t0(this.result))
+}
+
 implementMany(EExports, 'transpileSubtree', {
 	Assign() {
 		return variableDeclarationConst([
@@ -108,17 +114,18 @@ implementMany(EExports, 'transpileSubtree', {
 		else return CallExpression(t0(this.called), this.args.map(t0))
 	},
 	CaseDo() {
+		const body = caseBody(this.parts, this.opElse)
 		return ifElse(this.opCased,
-			cased => BlockStatement([ t0(cased), caseBody(this.parts, this.opElse) ]),
-			() => caseBody(this.parts, this.opElse))
+			cased => BlockStatement([ t0(cased), body ]),
+			() => body)
 	},
 	CaseVal() {
 		const body = caseBody(this.parts, this.opElse)
 		const block = ifElse(this.opCased, cased => [ t0(cased), body ], () => [ body ])
 		return blockWrap(this, BlockStatement(block))
 	},
-	CaseDoPart() { return casePart(this.test, this.result, true) },
-	CaseValPart() { return casePart(this.test, this.result, false) },
+	CaseDoPart: casePart,
+	CaseValPart: casePart,
 	// TODO: includeInoutChecks is misnamed
 	Debug() {
 		return cx.opts.includeInoutChecks() ?
@@ -222,19 +229,13 @@ const
 		return isInGenerator ? yieldExpressionDelegate(invoke) : invoke
 	},
 
-	caseFail = SwitchCase(null, [ throwError('No branch of `case` matches.') ]),
 	caseBody = (parts, opElse) => {
-		const elze = ifElse(opElse,
-			_ => SwitchCase(null, [ t0(_) ]),
-			() => caseFail)
-		const cases = push(parts.map(t0), elze)
-		return switchStatementOnTrue(cases)
-	},
-
-	casePart = (test, result, needBreak) => {
-		const checkedTest = cx.opts.includeCaseChecks() ? msBool([ t0(test) ]) : t0(test)
-		const lines = needBreak ? [ t0(result), Break ] : [ t0(result) ]
-		return SwitchCase(checkedTest, lines)
+		const ifs = parts.map(t0)
+		const lastIdx = ifs.length - 1
+		for (let i = 0; i < lastIdx; i = i + 1)
+			ifs[i].alternate = ifs[i + 1]
+		ifs[lastIdx].alternate = ifElse(opElse, t0, () => throwError('No branch of `case` matches.'))
+		return ifs[0]
 	},
 
 	loopId = loop => idCached(`loop${loop.loc.start.line}`)

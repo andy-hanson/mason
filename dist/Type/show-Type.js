@@ -1,42 +1,36 @@
 "use strict";
-if ((typeof define !== "function")) var define = require("amdefine")(module);
-define([ "exports", "../at/at", "../Obj", "../show", "./Method", "./Type", "./Method" ], function(exports, _64_0, Obj_1, show_2, Method_3, Type_4, Method_5) {
-	exports._get = _ms.lazy(function() {
-		const _$2 = _ms.getModule(_64_0), empty_63 = _ms.get(_$2, "empty?"), _$3 = _ms.getModule(Obj_1), flag_63 = _ms.get(_$3, "flag?"), _63p = _ms.get(_$3, "?p"), show = _ms.getDefaultExport(show_2), _$5 = _ms.getModule(Method_3), impl_33 = _ms.get(_$5, "impl!"), Type = _ms.getDefaultExport(Type_4), Method = _ms.lazy(function() {
+if((typeof define!=="function"))var define=require("amdefine")(module);
+define(["exports","../at/at","../Obj","../show","./Method","./Type","./Method"],function(exports,_64_0,Obj_1,show_2,Method_3,Type_4,Method_5){
+	exports._get=_ms.lazy(function(){
+		const _$2=_ms.getModule(_64_0),empty_63=_ms.get(_$2,"empty?"),_$3=_ms.getModule(Obj_1),flag_63=_ms.get(_$3,"flag?"),_63p=_ms.get(_$3,"?p"),show=_ms.getDefaultExport(show_2),_$5=_ms.getModule(Method_3),impl_33=_ms.get(_$5,"impl!"),Type=_ms.getDefaultExport(Type_4),Method=_ms.lazy(function(){
 			return _ms.getDefaultExport(Method_5)
 		});
-		const exports = { };
-		impl_33(show, Type, function() {
-			const test = function() {
-				const _k0 = [ _ms.unlazy(Method) ], _v0 = "Method";
-				return _ms.map(_k0, _v0)
+		const exports={};
+		impl_33(show,Type,function(){
+			const test=function(){
+				const _k0=[_ms.unlazy(Method)],_v0="Method";
+				return _ms.map(_k0,_v0)
 			};
-			return _ms.set(function(type, opts) {
-				return function() {
-					switch (true) {
-						case _ms.bool(flag_63(opts, "repr")): {
-							return show.default(type, opts)
-						}
-						default: {
-							return function() {
-								const _ = _63p(type, "displayName");
-								switch (true) {
-									case _ms.bool(empty_63(_)): {
-										return "<anonymous Type>"
-									}
-									default: {
-										return _.val
-									}
-								}
-							}()
-						}
+			return _ms.set(function(type,opts){
+				return function(){
+					if(_ms.bool(flag_63(opts,"repr"))){
+						return show.default(type,opts)
+					} else {
+						return function(){
+							const _=_63p(type,"displayName");
+							if(_ms.bool(empty_63(_))){
+								return "<anonymous Type>"
+							} else {
+								return _.val
+							}
+						}()
 					}
 				}()
-			}, "test", test)
+			},"test",test)
 		}());
-		exports.default = null;
-		const displayName = exports.displayName = "show-Type";
+		exports.default=null;
+		const displayName=exports.displayName="show-Type";
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL3Nob3ctVHlwZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7b0NBU0E7QUFBQTs7OztFQUFBLFFBQUEsTUFBQSxpQkFBZTtBQUFBLEdBQ2QsYUFBTyxXQUNOO0FBQUEsSUFBQSxZQUFBLDhCQUFlO0FBQUE7O2tCQUNmLFNBQUEsTUFBSyxNQUNMO0FBQUE7O01BQ0MsY0FBQSxRQUFBLE1BQVksVUFDWDtBQUFBLGNBQUEsYUFBQSxNQUFBO0FBQUE7QUFBQSxlQUVBO0FBQUE7UUFBSyxVQUFBLEtBQUEsTUFBUztBQUFBO1NBQ2IsY0FBQSxTQUFBLEtBQ0M7QUFBQSxpQkFBQztBQUFBO0FBQUEsa0JBRUQ7QUFBQSxpQkFBQTs7Ozs7Ozs7O29CQUVOO0FBQUEsRUF2QkEsMENBQUE7QUFBQSIsImZpbGUiOiJUeXBlL3Nob3ctVHlwZS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL3Nob3ctVHlwZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7aUNBU0E7Ozs7O0VBQUEsUUFBQSxLQUFBLGVBQWU7R0FDZCxXQUFPLFVBQ047SUFBQSxVQUFBLHlCQUFlOzs7a0JBQ2YsU0FBQSxLQUFLLEtBQ0w7O0tBQ0MsWUFBQSxRQUFBLEtBQVksU0FDWDthQUFBLGFBQUEsS0FBQTtLQUFBLE9BRUE7O09BQUssUUFBQSxLQUFBLEtBQVM7T0FDYixZQUFBLFNBQUEsSUFDQztlQUFDO09BQUEsT0FFRDtlQUFBOzs7Ozs7O2tCQUVOO0VBdkJBLHNDQUFBIiwiZmlsZSI6IlR5cGUvc2hvdy1UeXBlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

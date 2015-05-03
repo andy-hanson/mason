@@ -1,66 +1,66 @@
 "use strict";
-if ((typeof define !== "function")) var define = require("amdefine")(module);
-define([ "exports", "./Fun", "./js", "./Obj", "./Str", "./Type/Obj-Type", "./Type/Pred-Type", "./bang", "./compare", "./Type/Type" ], function(exports, Fun_0, js_1, Obj_2, Str_3, Obj_45Type_4, Pred_45Type_5, _33_6, compare_7, Type_8) {
-	exports._get = _ms.lazy(function() {
-		const Fun = _ms.getDefaultExport(Fun_0), _$3 = _ms.getModule(js_1), js_45sub = _ms.get(_$3, "js-sub"), _$4 = _ms.getModule(Obj_2), Obj_45Key = _ms.get(_$4, "Obj-Key"), Str = _ms.getDefaultExport(Str_3), Obj_45Type = _ms.getDefaultExport(Obj_45Type_4), _$7 = _ms.getModule(Pred_45Type_5), Any = _ms.get(_$7, "Any"), _33 = _ms.lazy(function() {
+if((typeof define!=="function"))var define=require("amdefine")(module);
+define(["exports","./Fun","./js","./Obj","./Str","./Type/Obj-Type","./Type/Pred-Type","./bang","./compare","./Type/Type"],function(exports,Fun_0,js_1,Obj_2,Str_3,Obj_45Type_4,Pred_45Type_5,_33_6,compare_7,Type_8){
+	exports._get=_ms.lazy(function(){
+		const Fun=_ms.getDefaultExport(Fun_0),_$3=_ms.getModule(js_1),js_45sub=_ms.get(_$3,"js-sub"),_$4=_ms.getModule(Obj_2),Obj_45Key=_ms.get(_$4,"Obj-Key"),Str=_ms.getDefaultExport(Str_3),Obj_45Type=_ms.getDefaultExport(Obj_45Type_4),_$7=_ms.getModule(Pred_45Type_5),Any=_ms.get(_$7,"Any"),_33=_ms.lazy(function(){
 			return _ms.getDefaultExport(_33_6)
-		}), _$10 = _ms.lazyGetModule(compare_7), _61_63 = _ms.lazyProp(_$10, "=?"), _$11 = _ms.lazyGetModule(Type_8), contains_63 = _ms.lazyProp(_$11, "contains?");
-		const exports = { };
-		const Js_45Method = Obj_45Type(function() {
-			const doc = "A Js-Method allows you to call a JavaScript-style method as a function.\nUnlike a Mason Method, for a Js-Method,\nthe first argument becomes `this` within the implementation's body.";
-			const test = function() {
-				const toString = Js_45Method(function() {
-					const impl_45name = "toString";
+		}),_$10=_ms.lazyGetModule(compare_7),_61_63=_ms.lazyProp(_$10,"=?"),_$11=_ms.lazyGetModule(Type_8),contains_63=_ms.lazyProp(_$11,"contains?");
+		const exports={};
+		const Js_45Method=Obj_45Type(function(){
+			const doc="A Js-Method allows you to call a JavaScript-style method as a function.\nUnlike a Mason Method, for a Js-Method,\nthe first argument becomes `this` within the implementation's body.";
+			const test=function(){
+				const toString=Js_45Method(function(){
+					const impl_45name="toString";
 					return {
-						"impl-name": impl_45name,
-						displayName: "toString"
+						"impl-name":impl_45name,
+						displayName:"toString"
 					}
 				}());
-				return _ms.unlazy(_33)(_ms.unlazy(_61_63), toString(1), "1")
+				return _ms.unlazy(_33)(_ms.unlazy(_61_63),toString(1),"1")
 			};
-			const props = function() {
-				const displayName = Str;
-				const impl_45name = Str;
+			const props=function(){
+				const displayName=Str;
+				const impl_45name=Str;
 				return {
-					displayName: displayName,
-					"impl-name": impl_45name
+					displayName:displayName,
+					"impl-name":impl_45name
 				}
 			}();
-			const extensible = true;
-			const make_45callable = function(_) {
-				const impl = (("a[\"" + _ms.show(_["impl-name"])) + "\"]");
-				return Fun("a", "b", "c", "d", (((((((("switch (arguments.length) {\n\tcase 0: throw new Error(\"Js-Methods always need at least one argument.\")\n\tcase 1: return " + _ms.show(impl)) + "()\n\tcase 2: return ") + _ms.show(impl)) + "(b)\n\tcase 3: return ") + _ms.show(impl)) + "(b, c)\n\tcase 4: return ") + _ms.show(impl)) + "(b, c, d)\n\tcase 5: throw new Error(\"Does not support this many arguments.\")\n}"))
+			const extensible=true;
+			const make_45callable=function(_){
+				const impl=(("a[\""+_ms.show(_["impl-name"]))+"\"]");
+				return Fun("a","b","c","d",(((((((("switch (arguments.length) {\n\tcase 0: throw new Error(\"Js-Methods always need at least one argument.\")\n\tcase 1: return "+_ms.show(impl))+"()\n\tcase 2: return ")+_ms.show(impl))+"(b)\n\tcase 3: return ")+_ms.show(impl))+"(b, c)\n\tcase 4: return ")+_ms.show(impl))+"(b, c, d)\n\tcase 5: throw new Error(\"Does not support this many arguments.\")\n}"))
 			};
 			return {
-				doc: doc,
-				test: test,
-				props: props,
-				extensible: extensible,
-				"make-callable": make_45callable,
-				displayName: "Js-Method"
+				doc:doc,
+				test:test,
+				props:props,
+				extensible:extensible,
+				"make-callable":make_45callable,
+				displayName:"Js-Method"
 			}
 		}());
-		const send = exports.send = function() {
-			const doc = "Calls `target`'s js-method `name` with the given arguments.";
-			const test = function() {
-				const _k0 = [ 1, "toFixed", 2 ], _v0 = "1.00";
-				return _ms.map(_k0, _v0)
+		const send=exports.send=function(){
+			const doc="Calls `target`'s js-method `name` with the given arguments.";
+			const test=function(){
+				const _k0=[1,"toFixed",2],_v0="1.00";
+				return _ms.map(_k0,_v0)
 			};
-			return _ms.set(function(target, name) {
-				const args = [ ].slice.call(arguments, 2);
-				_ms.checkContains(Any, target, "target");
-				_ms.checkContains(Obj_45Key, name, "name");
-				const impl = js_45sub(target, name);
-				_ms.unlazy(_33)(_ms.unlazy(contains_63)(Fun, impl), _ms.lazy(function() {
-					return (((("Js-Method " + _ms.show(name)) + " not implemented by ") + _ms.show(target)) + ".")
+			return _ms.set(function(target,name){
+				const args=[].slice.call(arguments,2);
+				_ms.checkContains(Any,target,"target");
+				_ms.checkContains(Obj_45Key,name,"name");
+				const impl=js_45sub(target,name);
+				_ms.unlazy(_33)(_ms.unlazy(contains_63)(Fun,impl),_ms.lazy(function(){
+					return (((("Js-Method "+_ms.show(name))+" not implemented by ")+_ms.show(target))+".")
 				}));
-				return impl.apply(target, args)
-			}, "doc", doc, "test", test, "displayName", "send")
+				return impl.apply(target,args)
+			},"doc",doc,"test",test,"displayName","send")
 		}();
-		const send_33 = exports["send!"] = send;
-		exports.default = Js_45Method;
-		const displayName = exports.displayName = "Js-Method";
+		const send_33=exports["send!"]=send;
+		exports.default=Js_45Method;
+		const displayName=exports.displayName="Js-Method";
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9Kcy1NZXRob2QubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O29DQVlBO0FBQUE7Ozs7RUFBQSxvQkFBWSxzQkFBUTtBQUFBLEdBQ25CLFlBQ0M7QUFBQSxHQUdELGFBQU8sV0FDTjtBQUFBLElBQUEsaUJBQVcsdUJBQVM7QUFBQSxLQUNuQixvQkFBWTtBQUFBLFlBRE87QUFBQTs7OzsrQ0FFZixTQUFVLElBQUk7QUFBQTtBQUFBLEdBQ3BCLHlCQUFNO0FBQUEsSUFDTCxvQkFBYTtBQUFBLElBQ2Isb0JBQVc7QUFBQSxXQUZOO0FBQUE7Ozs7R0FHTixtQkFBQTtBQUFBLEdBQ0Esd0JBQWdCLFNBQUEsR0FDZjtBQUFBLElBQUEsYUFBUSxvQkFBSztXQUViLElBQUssS0FBSSxLQUFJLEtBQUksS0FDaEIsa0pBRWdCLDZDQUNBLDhDQUNBLGlEQUNBOztVQXRCQztBQUFBOzs7Ozs7OztFQTBCcEIsdUNBQUs7QUFBQSxHQUNKLFlBQU07QUFBQSxHQUNOLGFBQU8sV0FDTjtBQUFBLElBQUEsWUFBQSxFQUFFLEdBQUcsV0FBUyxXQUFRO0FBQUE7O2tCQUN0QixTQUFBLFFBQVcsTUFDWDtBQUFBO3NCQURPO3NCQUFTO0lBQ2hCLGFBQU8sU0FBQSxRQUFBO0FBQUEsNENBQ0MsS0FBQTtZQUF1Qiw0QkFBVSw0Q0FBMEI7O1dBQ25FLFdBQUEsUUFBQTtBQUFBOztFQUVGLG1DQUFPO0FBQUEsb0JBSVA7QUFBQSxFQW5EQSwwQ0FBQTtBQUFBIiwiZmlsZSI6IkpzLU1ldGhvZC5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9Kcy1NZXRob2QubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O2lDQVlBOzs7OztFQUFBLGtCQUFZLHFCQUFRO0dBQ25CLFVBQ0M7R0FHRCxXQUFPLFVBQ047SUFBQSxlQUFXLHNCQUFTO0tBQ25CLGtCQUFZO1lBRE87Ozs7OzhDQUVmLFNBQVUsR0FBSTtHQUFBO0dBQ3BCLHNCQUFNO0lBQ0wsa0JBQWE7SUFDYixrQkFBVztXQUZOOzs7OztHQUdOLGlCQUFBO0dBQ0Esc0JBQWdCLFNBQUEsRUFDZjtJQUFBLFdBQVEsa0JBQUs7V0FFYixJQUFLLElBQUksSUFBSSxJQUFJLElBQ2hCLGdKQUVnQix5Q0FDQSwwQ0FDQSw2Q0FDQTs7VUF0QkM7Ozs7Ozs7OztFQTBCcEIsa0NBQUs7R0FDSixVQUFNO0dBQ04sV0FBTyxVQUNOO0lBQUEsVUFBQSxDQUFFLEVBQUcsVUFBUyxPQUFROzs7a0JBQ3RCLFNBQUEsT0FBVyxLQUNYOztzQkFETztzQkFBUztJQUNoQixXQUFPLFNBQUEsT0FBQTs0Q0FDQyxJQUFBO1lBQXVCLDBCQUFVLHdDQUEwQjs7V0FDbkUsV0FBQSxPQUFBO0dBQUE7O0VBRUYsK0JBQU87a0JBSVA7RUFuREEsc0NBQUEiLCJmaWxlIjoiSnMtTWV0aG9kLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

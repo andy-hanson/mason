@@ -1,81 +1,81 @@
 "use strict";
-if ((typeof define !== "function")) var define = require("amdefine")(module);
-define([ "exports", "../at/at", "../Obj", "../Objbang", "../show", "../Str", "./Impl-Type", "./Kind", "./Method", "./Obj-Type", "./Type", "../bang", "../compare", "./Type" ], function(exports, _64_0, Obj_1, Obj_33_2, show_3, Str_4, Impl_45Type_5, Kind_6, Method_7, Obj_45Type_8, Type_9, _33_10, compare_11, Type_12) {
-	exports._get = _ms.lazy(function() {
-		const _$2 = _ms.getModule(_64_0), each_33 = _ms.get(_$2, "each!"), Obj = _ms.getDefaultExport(Obj_1), _$4 = _ms.getModule(Obj_33_2), p_43_33 = _ms.get(_$4, "p+!"), show = _ms.getDefaultExport(show_3), Str = _ms.getDefaultExport(Str_4), Impl_45Type = _ms.getDefaultExport(Impl_45Type_5), _$8 = _ms.getModule(Kind_6), kind_33 = _ms.get(_$8, "kind!"), _$9 = _ms.getModule(Method_7), impl_33 = _ms.get(_$9, "impl!"), Obj_45Type = _ms.getDefaultExport(Obj_45Type_8), _$11 = _ms.getModule(Type_9), contains_63 = _ms.get(_$11, "contains?"), _33 = _ms.lazy(function() {
+if((typeof define!=="function"))var define=require("amdefine")(module);
+define(["exports","../at/at","../Obj","../Objbang","../show","../Str","./Impl-Type","./Kind","./Method","./Obj-Type","./Type","../bang","../compare","./Type"],function(exports,_64_0,Obj_1,Obj_33_2,show_3,Str_4,Impl_45Type_5,Kind_6,Method_7,Obj_45Type_8,Type_9,_33_10,compare_11,Type_12){
+	exports._get=_ms.lazy(function(){
+		const _$2=_ms.getModule(_64_0),each_33=_ms.get(_$2,"each!"),Obj=_ms.getDefaultExport(Obj_1),_$4=_ms.getModule(Obj_33_2),p_43_33=_ms.get(_$4,"p+!"),show=_ms.getDefaultExport(show_3),Str=_ms.getDefaultExport(Str_4),Impl_45Type=_ms.getDefaultExport(Impl_45Type_5),_$8=_ms.getModule(Kind_6),kind_33=_ms.get(_$8,"kind!"),_$9=_ms.getModule(Method_7),impl_33=_ms.get(_$9,"impl!"),Obj_45Type=_ms.getDefaultExport(Obj_45Type_8),_$11=_ms.getModule(Type_9),contains_63=_ms.get(_$11,"contains?"),_33=_ms.lazy(function(){
 			return _ms.getDefaultExport(_33_10)
-		}), _$14 = _ms.lazyGetModule(compare_11), _61_63 = _ms.lazyProp(_$14, "=?"), _$15 = _ms.lazyGetModule(Type_12), type_45of = _ms.lazyProp(_$15, "type-of");
-		const exports = { };
-		const Enum = Obj_45Type(function() {
-			const doc = "A Concrete-Type with a small number of instances.\nGreat for using with `switch`.";
-			const test = function() {
-				const Fruit = Enum(function() {
-					const values = function() {
-						const _0 = "apple";
-						const _1 = "orange";
-						return [ _0, _1 ]
+		}),_$14=_ms.lazyGetModule(compare_11),_61_63=_ms.lazyProp(_$14,"=?"),_$15=_ms.lazyGetModule(Type_12),type_45of=_ms.lazyProp(_$15,"type-of");
+		const exports={};
+		const Enum=Obj_45Type(function(){
+			const doc="A Concrete-Type with a small number of instances.\nGreat for using with `switch`.";
+			const test=function(){
+				const Fruit=Enum(function(){
+					const values=function(){
+						const _0="apple";
+						const _1="orange";
+						return [_0,_1]
 					}();
 					return {
-						values: values,
-						displayName: "Fruit"
+						values:values,
+						displayName:"Fruit"
 					}
 				}());
-				const prices = function() {
-					const _k0 = Fruit.apple, _v0 = 1;
-					const _k1 = Fruit.orange, _v1 = 2;
-					return _ms.map(_k0, _v0, _k1, _v1)
+				const prices=function(){
+					const _k0=Fruit.apple,_v0=1;
+					const _k1=Fruit.orange,_v1=2;
+					return _ms.map(_k0,_v0,_k1,_v1)
 				}();
-				_ms.unlazy(_33)(_ms.unlazy(_61_63), _ms.sub(prices, Fruit.apple), 1);
-				_ms.unlazy(_33)(_ms.unlazy(_61_63), _ms.sub(prices, Fruit.orange), 2);
-				_ms.unlazy(_33)(_ms.unlazy(_61_63), _ms.unlazy(type_45of)(Fruit.apple), Fruit);
-				return _ms.unlazy(_33)(_ms.unlazy(_61_63), ("" + _ms.show(Fruit.apple)), "Fruit.apple")
+				_ms.unlazy(_33)(_ms.unlazy(_61_63),_ms.sub(prices,Fruit.apple),1);
+				_ms.unlazy(_33)(_ms.unlazy(_61_63),_ms.sub(prices,Fruit.orange),2);
+				_ms.unlazy(_33)(_ms.unlazy(_61_63),_ms.unlazy(type_45of)(Fruit.apple),Fruit);
+				return _ms.unlazy(_33)(_ms.unlazy(_61_63),(""+_ms.show(Fruit.apple)),"Fruit.apple")
 			};
-			const props = function() {
-				const displayName = Str;
-				const prototype = Obj;
-				const values = _ms.sub(Array, Str);
+			const props=function(){
+				const displayName=Str;
+				const prototype=Obj;
+				const values=_ms.sub(Array,Str);
 				return {
-					displayName: displayName,
-					prototype: prototype,
-					values: values
+					displayName:displayName,
+					prototype:prototype,
+					values:values
 				}
 			}();
-			const defaults = function() {
-				const prototype = function() {
+			const defaults=function(){
+				const prototype=function(){
 					return Obj.create(Obj.prototype)
 				};
 				return {
-					prototype: prototype,
-					displayName: "defaults"
+					prototype:prototype,
+					displayName:"defaults"
 				}
 			}();
-			const post_45construct = function(_enum) {
-				each_33(_enum.values, function(val_45name) {
-					const enum_45val = Obj.create(_enum.prototype);
-					p_43_33(enum_45val, "name", val_45name);
-					return p_43_33(_enum, val_45name, enum_45val)
+			const post_45construct=function(_enum){
+				each_33(_enum.values,function(val_45name){
+					const enum_45val=Obj.create(_enum.prototype);
+					p_43_33(enum_45val,"name",val_45name);
+					return p_43_33(_enum,val_45name,enum_45val)
 				});
-				p_43_33(_enum.prototype, "constructor", _enum);
-				return impl_33(show, _enum, function(val) {
-					return ((("" + _ms.show(_enum.displayName)) + ".") + _ms.show(val.name))
+				p_43_33(_enum.prototype,"constructor",_enum);
+				return impl_33(show,_enum,function(val){
+					return (((""+_ms.show(_enum.displayName))+".")+_ms.show(val.name))
 				})
 			};
 			return {
-				doc: doc,
-				test: test,
-				props: props,
-				defaults: defaults,
-				"post-construct": post_45construct,
-				displayName: "Enum"
+				doc:doc,
+				test:test,
+				props:props,
+				defaults:defaults,
+				"post-construct":post_45construct,
+				displayName:"Enum"
 			}
 		}());
-		kind_33(Enum, Impl_45Type);
-		impl_33(contains_63, Enum, function(_, value) {
-			return Obj.prototype.isPrototypeOf.call(_.prototype, value)
+		kind_33(Enum,Impl_45Type);
+		impl_33(contains_63,Enum,function(_,value){
+			return Obj.prototype.isPrototypeOf.call(_.prototype,value)
 		});
-		exports.default = Enum;
-		const displayName = exports.displayName = "Enum";
+		exports.default=Enum;
+		const displayName=exports.displayName="Enum";
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL0VudW0ubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O29DQWdCQTtBQUFBOzs7O0VBQUEsYUFBTyxzQkFBUTtBQUFBLEdBQ2QsWUFDQztBQUFBLEdBRUQsYUFBTyxXQUNOO0FBQUEsSUFBQSxjQUFRLGdCQUFJO0FBQUEsS0FDWCwwQkFBTztBQUFBLE1BQ04sV0FBRztBQUFBLE1BQ0gsV0FBRztBQUFBLGFBRkc7O1lBREk7QUFBQTs7OztJQUlaLDBCQUFRO0FBQUEsS0FDUCxZQUFBLG1CQUFlO0FBQUEsS0FDZixZQUFBLG9CQUFnQjtBQUFBOztnREFDWixRQUFPLGNBQWE7QUFBQSxnREFDcEIsUUFBTyxlQUFjO0FBQUEsOERBQ1osY0FBZDtBQUFBLCtDQUNNLENBWUksY0FaSCxlQUFlO0FBQUE7QUFBQSxHQUN2Qix5QkFBTTtBQUFBLElBQ0wsb0JBQWE7QUFBQSxJQUNiLGtCQUFXO0FBQUEsSUFDWCx1QkFBUSxPQUFLO0FBQUEsV0FIUjtBQUFBOzs7OztHQUlOLDRCQUFTO0FBQUEsSUFDUixrQkFBWSxXQUNYO0FBQUEsWUFBQSxXQUFXOztXQUZKO0FBQUE7Ozs7R0FHVCx5QkFBaUIsU0FBQSxPQUNoQjtBQUFBLElBQUEsUUFBTSxjQUFhLFNBQUEsWUFDbEI7QUFBQSxLQUFBLG1CQUFXLFdBQVc7S0FDdEIsUUFBQSxZQUFjLFFBQWQ7QUFBQSxZQUNBLFFBQUEsT0FBQSxZQUFBO0FBQUE7QUFBQSxJQUNELFFBQUksaUJBQWdCLGVBQXBCO0FBQUEsV0FDQSxRQUFBLE1BQUEsT0FBaUIsU0FBQSxLQUNoQjtBQUFBLFlBQUMsR0FIUSxjQUdQLHNDQUFtQjs7O1VBOUJUO0FBQUE7Ozs7Ozs7O0VBZ0NmLFFBQUEsTUFBQTtBQUFBLEVBRUEsUUFBQSxhQUFBLE1BQXNCLFNBQUEsR0FBRSxPQUN2QjtBQUFBLFVBQUEsaUNBQWlDLGFBQWpDO0FBQUE7QUFBQSxvQkFFRDtBQUFBLEVBckRBLDBDQUFBO0FBQUEiLCJmaWxlIjoiVHlwZS9FbnVtLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL0VudW0ubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O2lDQWdCQTs7Ozs7RUFBQSxXQUFPLHFCQUFRO0dBQ2QsVUFDQztHQUVELFdBQU8sVUFDTjtJQUFBLFlBQVEsZUFBSTtLQUNYLHVCQUFPO01BQ04sU0FBRztNQUNILFNBQUc7YUFGRzs7WUFESTs7Ozs7SUFJWix1QkFBUTtLQUNQLFVBQUEsZ0JBQWU7S0FDZixVQUFBLGlCQUFnQjs7OytDQUNaLE9BQU8sYUFBYTsrQ0FDcEIsT0FBTyxjQUFjOzZEQUNaLGFBQWQ7OENBQ00sQ0FZSSxZQVpILGNBQWU7R0FBQTtHQUN2QixzQkFBTTtJQUNMLGtCQUFhO0lBQ2IsZ0JBQVc7SUFDWCxxQkFBUSxNQUFLO1dBSFI7Ozs7OztHQUlOLHlCQUFTO0lBQ1IsZ0JBQVksVUFDWDtZQUFBLFdBQVc7O1dBRko7Ozs7O0dBR1QsdUJBQWlCLFNBQUEsTUFDaEI7SUFBQSxRQUFNLGFBQWEsU0FBQSxXQUNsQjtLQUFBLGlCQUFXLFdBQVc7S0FDdEIsUUFBQSxXQUFjLE9BQWQ7WUFDQSxRQUFBLE1BQUEsV0FBQTtJQUFBO0lBQ0QsUUFBSSxnQkFBZ0IsY0FBcEI7V0FDQSxRQUFBLEtBQUEsTUFBaUIsU0FBQSxJQUNoQjtZQUFDLEdBSFEsWUFHUCxrQ0FBbUI7OztVQTlCVDs7Ozs7Ozs7O0VBZ0NmLFFBQUEsS0FBQTtFQUVBLFFBQUEsWUFBQSxLQUFzQixTQUFBLEVBQUUsTUFDdkI7VUFBQSxpQ0FBaUMsWUFBakM7RUFBQTtrQkFFRDtFQXJEQSxzQ0FBQSIsImZpbGUiOiJUeXBlL0VudW0uanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

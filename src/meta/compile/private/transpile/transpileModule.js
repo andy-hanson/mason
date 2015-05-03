@@ -61,9 +61,10 @@ export default (_, cx) => {
 			amdNames,
 			FunctionExpression(null, amdArgs, body) ]))
 
-	return Program([ UseStrict ].concat(
+	const parts = opIf(cx.opts.includeUseStrict(), () => UseStrict).concat(
 		opIf(cx.opts.amdefine(), () => AmdefineHeader),
-		[ doDefine ]))
+		[ doDefine ])
+	return Program(parts)
 }
 
 const useDeclarators = (cx, _, moduleIdentifier) => {

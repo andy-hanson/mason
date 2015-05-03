@@ -298,6 +298,8 @@ export default function parse(cx, rootToken) {
 			return (isVal ? CaseValPart : CaseDoPart)(line.loc, test, block)
 		})
 
+		check(parts.length > 0, 'Must have at least 1 non-`else` test.')
+
 		return (isVal ? CaseVal : CaseDo)(loc, opCased, parts, opElse)
 	}
 

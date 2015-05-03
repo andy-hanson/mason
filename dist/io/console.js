@@ -1,51 +1,51 @@
 "use strict";
-if ((typeof define !== "function")) var define = require("amdefine")(module);
-define([ "exports", "../Str-as-Seq", "../at/at", "../show", "../Str", "../Type/Type" ], function(exports, Str_45as_45Seq_0, _64_1, show_2, Str_3, Type_4) {
-	exports._get = _ms.lazy(function() {
+if((typeof define!=="function"))var define=require("amdefine")(module);
+define(["exports","../Str-as-Seq","../at/at","../show","../Str","../Type/Type"],function(exports,Str_45as_45Seq_0,_64_1,show_2,Str_3,Type_4){
+	exports._get=_ms.lazy(function(){
 		_ms.getModule(Str_45as_45Seq_0);
-		const _$4 = _ms.getModule(_64_1), each_33 = _ms.get(_$4, "each!"), show = _ms.getDefaultExport(show_2), Str = _ms.getDefaultExport(Str_3), _$7 = _ms.getModule(Type_4), _61_62 = _ms.get(_$7, "=>");
-		const exports = { };
-		const doc = exports.doc = "Funs that write to the console (also known as shell, command prompt, stdout/stderr).";
-		const js_45console = global.console;
-		const log_33 = exports["log!"] = function() {
-			const doc = "Prints its arguments to the console, separated by spaces.\nAlways adds a newline at the end.";
-			return _ms.set(function() {
-				const args = [ ].slice.call(arguments, 0);
-				return js_45console.log(_61_62(Str, args, " "))
-			}, "doc", doc, "displayName", "log!")
+		const _$4=_ms.getModule(_64_1),each_33=_ms.get(_$4,"each!"),show=_ms.getDefaultExport(show_2),Str=_ms.getDefaultExport(Str_3),_$7=_ms.getModule(Type_4),_61_62=_ms.get(_$7,"=>");
+		const exports={};
+		const doc=exports.doc="Funs that write to the console (also known as shell, command prompt, stdout/stderr).";
+		const js_45console=global.console;
+		const log_33=exports["log!"]=function(){
+			const doc="Prints its arguments to the console, separated by spaces.\nAlways adds a newline at the end.";
+			return _ms.set(function(){
+				const args=[].slice.call(arguments,0);
+				return js_45console.log(_61_62(Str,args," "))
+			},"doc",doc,"displayName","log!")
 		}();
-		const warn_33 = exports["warn!"] = function() {
-			const doc = "Like `log!`, but prints to stderr.";
-			return _ms.set(function() {
-				const args = [ ].slice.call(arguments, 0);
-				return js_45console.warn(_61_62(Str, args, " "))
-			}, "doc", doc, "displayName", "warn!")
+		const warn_33=exports["warn!"]=function(){
+			const doc="Like `log!`, but prints to stderr.";
+			return _ms.set(function(){
+				const args=[].slice.call(arguments,0);
+				return js_45console.warn(_61_62(Str,args," "))
+			},"doc",doc,"displayName","warn!")
 		}();
-		const dbg_33 = exports["dbg!"] = function() {
-			const doc = "Show something for debugging.";
-			return _ms.set(function() {
-				const args = [ ].slice.call(arguments, 0);
+		const dbg_33=exports["dbg!"]=function(){
+			const doc="Show something for debugging.";
+			return _ms.set(function(){
+				const args=[].slice.call(arguments,0);
 				warn_33("-->");
-				each_33(args, function(_) {
-					return warn_33(show(_, function() {
-						const repr = true;
+				each_33(args,function(_){
+					return warn_33(show(_,function(){
+						const repr=true;
 						return {
-							repr: repr
+							repr:repr
 						}
 					}()))
 				});
 				return warn_33("<--")
-			}, "doc", doc, "displayName", "dbg!")
+			},"doc",doc,"displayName","dbg!")
 		}();
-		const trace_33 = exports["trace!"] = function() {
-			const doc = "Logs the current stacktrace.";
-			return _ms.set(function() {
-				const args = [ ].slice.call(arguments, 0);
-				return js_45console.trace(_61_62(Str, args, " "))
-			}, "doc", doc, "displayName", "trace!")
+		const trace_33=exports["trace!"]=function(){
+			const doc="Logs the current stacktrace.";
+			return _ms.set(function(){
+				const args=[].slice.call(arguments,0);
+				return js_45console.trace(_61_62(Str,args," "))
+			},"doc",doc,"displayName","trace!")
 		}();
-		const displayName = exports.displayName = "console";
+		const displayName=exports.displayName="console";
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9pby9jb25zb2xlLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztvQ0FRQTtBQUFBOzs7RUFBQSwwQkFBTTtBQUFBLEVBRU4scUJBQWE7RUFFYiw0Q0FBSztBQUFBLEdBQ0osWUFDQztBQUFBLGtCQUVBLFdBQ0E7QUFBQTtXQUFBLGlCQUFlLE9BQUEsS0FBQSxNQUFjO0FBQUE7O0VBRS9CLDhDQUFNO0FBQUEsR0FDTCxZQUFNO0FBQUEsa0JBQ0wsV0FDQTtBQUFBO1dBQUEsa0JBQWdCLE9BQUEsS0FBQSxNQUFjO0FBQUE7O0VBRy9CLDRDQUFLO0FBQUEsR0FDSixZQUFNO0FBQUEsa0JBQ0wsV0FDQTtBQUFBO0lBQUEsUUFBTztBQUFBLElBQ1AsUUFBQSxNQUFZLFNBQUEsR0FDWDtBQUFBLFlBQUEsUUFBTSxLQUFNLGNBQUM7QUFBQSxNQUNaLGFBQUE7QUFBQSxhQURZO0FBQUE7Ozs7V0FFZCxRQUFPO0FBQUE7O0VBRVQsZ0RBQU87QUFBQSxHQUNOLFlBQU07QUFBQSxrQkFDTCxXQUNBO0FBQUE7V0FBQSxtQkFBaUIsT0FBQSxLQUFBLE1BQWM7QUFBQTs7RUFyQ2xDLDBDQUFBO0FBQUEiLCJmaWxlIjoiaW8vY29uc29sZS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9pby9jb25zb2xlLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztpQ0FRQTs7OztFQUFBLHNCQUFNO0VBRU4sbUJBQWE7RUFFYix1Q0FBSztHQUNKLFVBQ0M7a0JBRUEsVUFDQTs7V0FBQSxpQkFBZSxPQUFBLElBQUEsS0FBYztHQUFBOztFQUUvQix5Q0FBTTtHQUNMLFVBQU07a0JBQ0wsVUFDQTs7V0FBQSxrQkFBZ0IsT0FBQSxJQUFBLEtBQWM7R0FBQTs7RUFHL0IsdUNBQUs7R0FDSixVQUFNO2tCQUNMLFVBQ0E7O0lBQUEsUUFBTztJQUNQLFFBQUEsS0FBWSxTQUFBLEVBQ1g7WUFBQSxRQUFNLEtBQU0sWUFBQztNQUNaLFdBQUE7YUFEWTs7Ozs7V0FFZCxRQUFPO0dBQUE7O0VBRVQsMkNBQU87R0FDTixVQUFNO2tCQUNMLFVBQ0E7O1dBQUEsbUJBQWlCLE9BQUEsSUFBQSxLQUFjO0dBQUE7O0VBckNsQyxzQ0FBQSIsImZpbGUiOiJpby9jb25zb2xlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

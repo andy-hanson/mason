@@ -23,7 +23,12 @@ const doTest = includePerfTest => {
 
 	const source = fs.readFileSync('./ms-test.ms', 'utf-8')
 	const opts = OptsFromObject({
-		inFile: './ms-test.ms'
+		inFile: './ms-test.ms',
+		includeAmdefine: false,
+		includeSourceMap: true,
+		includeModuleDisplayName: false,
+		forceNonLazyModule: true,
+		useStrict: false
 	})
 	const cx = new Cx(opts)
 
