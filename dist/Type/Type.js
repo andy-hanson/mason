@@ -1,10 +1,12 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","../compare","../js","../private/bootstrap","./Impl-Type","./Kind","./Method","../at/q","../Obj","../Try"],function(exports,compare_0,js_1,bootstrap_2,Impl_45Type_3,Kind_4,Method_5,_63_6,Obj_7,Try_8){
+define(["exports","../compare","../js","../private/bootstrap","./Impl-Type","./Kind","./Method","../at/q","../Obj","../Try","../bang","./Method"],function(exports,compare_0,js_1,bootstrap_2,Impl_45Type_3,Kind_4,Method_5,_63_6,Obj_7,Try_8,_33_9,Method_10){
 	exports._get=_ms.lazy(function(){
 		const _$2=_ms.getModule(compare_0),_61_63=_ms.get(_$2,"=?"),_$3=_ms.getModule(js_1),id_61_63=_ms.get(_$3,"id=?"),js_45instanceof=_ms.get(_$3,"js-instanceof"),_$4=_ms.getModule(bootstrap_2),Fun=_ms.get(_$4,"Fun"),impl_45contains_63_33=_ms.get(_$4,"impl-contains?!"),msDef=_ms.get(_$4,"msDef"),Impl_45Type=_ms.getDefaultExport(Impl_45Type_3),Kind=_ms.getDefaultExport(Kind_4),_$6=_ms.getModule(Kind_4),kind_33=_ms.get(_$6,"kind!"),Method=_ms.getDefaultExport(Method_5),_$7=_ms.getModule(Method_5),_45_45contains_63=_ms.get(_$7,"--contains?"),impl_33=_ms.get(_$7,"impl!"),_$9=_ms.lazyGetModule(_63_6),_63_45or=_ms.lazyProp(_$9,"?-or"),Obj=_ms.lazy(function(){
 			return _ms.getDefaultExport(Obj_7)
-		}),_$10=_ms.lazyGetModule(Obj_7),_63p_45with_45proto=_ms.lazyProp(_$10,"?p-with-proto"),_$11=_ms.lazyGetModule(Try_8),oh_45no_33=_ms.lazyProp(_$11,"oh-no!");
+		}),_$10=_ms.lazyGetModule(Obj_7),_63p_45with_45proto=_ms.lazyProp(_$10,"?p-with-proto"),_$11=_ms.lazyGetModule(Try_8),oh_45no_33=_ms.lazyProp(_$11,"oh-no!"),_33=_ms.lazy(function(){
+			return _ms.getDefaultExport(_33_9)
+		}),_$14=_ms.lazyGetModule(Method_10),self_45impl_33=_ms.lazyProp(_$14,"self-impl!");
 		const exports={};
 		const Type=Kind(function(){
 			const doc="Anything implementing contains?.\nTypes are generally used to succinctly make assertions about values.";
@@ -15,6 +17,48 @@ define(["exports","../compare","../js","../private/bootstrap","./Impl-Type","./K
 		}());
 		impl_33(_61_63,Type,id_61_63);
 		const contains_63=exports["contains?"]=_45_45contains_63;
+		const extract=exports.extract=Method(function(){
+			const doc="Given a type and arbitrary value:\n\tIf the value is of the type, return an array of sub-values.\n\tOtherwise, return `null`.\nThe array of values are taken into local variables.\nFor example:";
+			const test=function(){
+				const My_45Type=function(){
+					const doc="Example type";
+					return {
+						doc:doc,
+						displayName:"My-Type"
+					}
+				}();
+				_ms.unlazy(self_45impl_33)(extract,My_45Type,function(_){
+					return function(){
+						if(_ms.bool(_61_63(_,"extractable"))){
+							return [1,2]
+						} else {
+							return null
+						}
+					}()
+				});
+				const f=function(_){
+					return function(){
+						{
+							const _$=_ms.extract(My_45Type,_);
+							if((_$!==null)){
+								const a=_$[0],b=_$[1];
+								return ((""+_ms.show(a))+_ms.show(b))
+							} else {
+								return "not extractable"
+							}
+						}
+					}()
+				};
+				_ms.unlazy(_33)(_61_63,"12",f("extractable"));
+				return _ms.unlazy(_33)(_61_63,"not extractable",f(null))
+			};
+			return {
+				doc:doc,
+				test:test,
+				displayName:"extract"
+			}
+		}());
+		msDef("extract",extract);
 		msDef("checkContains",function(type,value,name){
 			if(_ms.bool(contains_63(type,value))){
 				null
@@ -65,4 +109,4 @@ define(["exports","../compare","../js","../private/bootstrap","./Impl-Type","./K
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL1R5cGUubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O2lDQVlBOzs7OztFQUFBLFdBQU8sZUFBSTtHQUNWLFVBQ0M7VUFGUzs7Ozs7RUFLWCxRQUFBLE9BQUEsS0FBQTtFQUVBLHVDQUFXO0VBRVgsTUFBTyxnQkFBZ0IsU0FBQSxLQUFLLE1BQU0sS0FDakM7R0FBSyxZQUNKLFlBQUEsS0FBQSxRQUNDO0lBQUE7R0FBQSxPQUVBOzJCQUFRLE9BaUJDLFlBakJELDJCQUFhLDJCQUFhLFVBQUEsd0JBQWlCO0dBQUE7VUFDckQ7RUFBQTtFQUVELDJCQUFJLGlCQUFNO0dBQ1QsVUFBTSxTQUFBLGFBQWdCLGFBQ3JCO3NCQURnQjtXQUNmO0dBQUE7R0FDRixXQUFPLFNBQUEsS0FBSyxLQUFLLFVBQVUsS0FDMUI7O0tBQUssUUFBQTtLQUNKLHlCQUFDLEtBQUQsSUFDQzthQUFBO0tBQUEsT0FFQTthQUFBLEtBQUEsS0FBQSxVQUFBO0tBQUE7SUFBQTtHQUFBO1VBUk07Ozs7OztFQVVWLDZDQUFRO0dBQ1AsVUFDQztHQUNELFdBQU8sVUFDTjtJQUFBLFVBQUEsQ0FBQSxVQUFZO0lBQ1osVUFBQSxDQUFFOzs7a0JBQ0YsU0FBVyxJQUNYOzZCQURDLGlFQUNJLElBQW9COzs7RUFHMUIsUUFBQSxZQUFBO0VBQ0EsUUFBQSxPQUFBO0VBR0Esc0JBQUEsSUFBcUIsU0FBQSxJQUFJLEVBQ3hCO1VBQUEsZ0JBQWMsRUFBZDtFQUFBO2tCQUVGO0VBeERBLHNDQUFBIiwiZmlsZSI6IlR5cGUvVHlwZS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL1R5cGUubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O2lDQWVBOzs7Ozs7O0VBQUEsV0FBTyxlQUFJO0dBQ1YsVUFDQztVQUZTOzs7OztFQUtYLFFBQUEsT0FBQSxLQUFBO0VBRUEsdUNBQVc7RUFFWCw4QkFBUyxpQkFBTTtHQUNkLFVBQ0M7R0FLRCxXQUFPLFVBQ047SUFBQSwwQkFBUztLQUNSLFVBQU07WUFERTs7Ozs7K0JBRVQsUUFBQSxVQUE0QixTQUFBLEVBQUE7O01BQzNCLFlBQUEsT0FBRyxFQUFHLGdCQUNMO2NBQUEsQ0FBRSxFQUFFO01BQUEsT0FFSjtjQUFBO01BQUE7S0FBQTtJQUFBO0lBRUYsUUFBSyxTQUFBLEVBQUE7O01BQ0o7NEJBQUMsVUFBRDtzQkFDQzs7ZUFBQyxFQUNPLFlBRFAsYUFBRztPQUFBLE9BRUo7ZUFBQztPQUFBO01BQUE7S0FBQTtJQUFBO29CQUVILE9BQU0sS0FBSSxFQUFJOzJCQUNkLE9BQU0sa0JBQWlCLEVBQUc7R0FBQTtVQXZCYjs7Ozs7O0VBeUJmLE1BQU8sVUFBUDtFQUVBLE1BQU8sZ0JBQWdCLFNBQUEsS0FBSyxNQUFNLEtBQ2pDO0dBQUssWUFDSixZQUFBLEtBQUEsUUFDQztJQUFBO0dBQUEsT0FFQTsyQkFBUSxPQWJDLFlBYUQsMkJBQWEsMkJBQWEsVUFBQSx3QkFBaUI7R0FBQTtVQUNyRDtFQUFBO0VBRUQsMkJBQUksaUJBQU07R0FDVCxVQUFNLFNBQUEsYUFBZ0IsYUFDckI7c0JBRGdCO1dBQ2Y7R0FBQTtHQUNGLFdBQU8sU0FBQSxLQUFLLEtBQUssVUFBVSxLQUMxQjs7S0FBSyxRQUFBO0tBQ0oseUJBQUMsS0FBRCxJQUNDO2FBQUE7S0FBQSxPQUVBO2FBQUEsS0FBQSxLQUFBLFVBQUE7S0FBQTtJQUFBO0dBQUE7VUFSTTs7Ozs7O0VBVVYsNkNBQVE7R0FDUCxVQUNDO0dBQ0QsV0FBTyxVQUNOO0lBQUEsVUFBQSxDQUFBLFVBQVk7SUFDWixVQUFBLENBQUU7OztrQkFDRixTQUFXLElBQ1g7NkJBREMsaUVBQ0ksSUFBb0I7OztFQUcxQixRQUFBLFlBQUE7RUFDQSxRQUFBLE9BQUE7RUFHQSxzQkFBQSxJQUFxQixTQUFBLElBQUksRUFDeEI7VUFBQSxnQkFBYyxFQUFkO0VBQUE7a0JBRUY7RUF0RkEsc0NBQUEiLCJmaWxlIjoiVHlwZS9UeXBlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

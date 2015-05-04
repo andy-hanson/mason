@@ -42,6 +42,8 @@ const doTest = includePerfTest => {
 	// log(`==>\n${ast}`)
 	const { code } = render(cx, ast)
 
+	cx.warnings.forEach(w => console.log(w))
+
 	if (includePerfTest) {
 		// Benchmark has problems if I don't put these in global variables...
 		global.lexUngroupedTest = () =>

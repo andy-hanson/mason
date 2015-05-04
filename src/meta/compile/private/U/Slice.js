@@ -87,7 +87,8 @@ export default class Slice {
 
 	reduce(reducer, start) {
 		let acc = start
-		this.each(_ => acc = reducer(acc, _))
+		for (let i = this.start; i < this.end; i = i + 1)
+			acc = reducer(acc, this.data[i])
 		return acc
 	}
 

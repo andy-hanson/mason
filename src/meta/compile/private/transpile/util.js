@@ -25,7 +25,7 @@ export const
 
 const ms = name => {
 	const m = member(IdMs, name)
-	return args => CallExpression(m, args)
+	return (...args) => CallExpression(m, args)
 }
 export const
 	msGetDefaultExport = ms('getDefaultExport'),
@@ -34,6 +34,7 @@ export const
 	msLazyGetModule = ms('lazyGetModule'),
 	msArr = ms('arr'),
 	msBool = ms('bool'),
+	msExtract = ms('extract'),
 	msLset = ms('lset'),
 	msSet = ms('set'),
 	msMap = ms('map'),
@@ -84,13 +85,13 @@ export const
 
 	accessLocalDeclare = localDeclare =>
 		localDeclare.isLazy ?
-			msUnlazy([ idForDeclareCached(localDeclare) ]) :
+			msUnlazy(idForDeclareCached(localDeclare)) :
 			idForDeclareNew(localDeclare),
 
 	maybeWrapInCheckContains = (cx, ast, opType, name) =>
 		cx.opts.includeTypeChecks() ?
 			ifElse(opType,
-				typ => msCheckContains([ t0(typ), ast, Literal(name) ]),
+				typ => msCheckContains(t0(typ), ast, Literal(name)),
 				() => ast) :
 			ast,
 
@@ -99,19 +100,19 @@ export const
 		if (!cx.opts.includeTypeChecks() || isLazy)
 			return None
 		else return local.opType.map(typ =>
-			ExpressionStatement(msCheckContains([
+			ExpressionStatement(msCheckContains(
 				t0(typ),
 				accessLocalDeclare(local),
-				Literal(local.name)])))
+				Literal(local.name))))
 	},
 
-	lazyWrap = value => msLazy([ thunk(value) ])
+	lazyWrap = value => msLazy(thunk(value))
 
 const getMember = (cx, astObject, gotName, isLazy, isModule) => {
 	if (isLazy)
-		return msLazyGet([ astObject, Literal(gotName) ])
+		return msLazyGet(astObject, Literal(gotName))
 	else if (isModule && cx.opts.includeUseChecks())
-		return msGet([ astObject, Literal(gotName) ])
+		return msGet(astObject, Literal(gotName))
 	else
 		return member(astObject, gotName)
 }

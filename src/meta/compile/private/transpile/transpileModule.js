@@ -36,7 +36,7 @@ export default (_, cx) => {
 	const useIdentifiers = allUses.map(useIdentifier)
 	const amdArgs = AmdFirstArgs.concat(useIdentifiers)
 	const useDos = _.doUses.map((use, i) => {
-		const d = ExpressionStatement(msGetModule([ useIdentifiers[i] ]))
+		const d = ExpressionStatement(msGetModule(useIdentifiers[i]))
 		d.loc = use.loc
 		return d
 	})
@@ -70,10 +70,10 @@ export default (_, cx) => {
 const useDeclarators = (cx, _, moduleIdentifier) => {
 	// TODO: Could be neater about this
 	const isLazy = (isEmpty(_.used) ? _.opUseDefault[0] : _.used[0]).isLazy
-	const value = (isLazy ? msLazyGetModule : msGetModule)([ moduleIdentifier ])
+	const value = (isLazy ? msLazyGetModule : msGetModule)(moduleIdentifier)
 
 	const usedDefault = _.opUseDefault.map(def => {
-		const defexp = msGetDefaultExport([ moduleIdentifier ])
+		const defexp = msGetDefaultExport(moduleIdentifier)
 		const val = isLazy ? lazyWrap(defexp) : defexp
 		const vd = VariableDeclarator(idForDeclareCached(def), val)
 		vd.loc = def.loc
@@ -96,8 +96,8 @@ const
 
 	lazyBody = body =>
 		ExpressionStatement(
-			assignmentExpressionPlain(member(IdExports, '_get'), msLazy([
-				FunctionExpression(null, [ ], body)]))),
+			assignmentExpressionPlain(member(IdExports, '_get'), msLazy(
+				FunctionExpression(null, [ ], body)))),
 
 	// if (typeof define !== 'function') var define = require('amdefine')(module)
 	AmdefineHeader = IfStatement(

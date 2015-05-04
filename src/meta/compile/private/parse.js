@@ -3,7 +3,7 @@ import { code } from '../CompileError'
 import { Assign, AssignDestructure, BlockDo, BlockVal, BlockWrap, Call, CaseDoPart, CaseValPart,
 	CaseDo, CaseVal, Debug, NumberLiteral, EndLoop, Fun, GlobalAccess, Lazy, ListEntry, ListReturn,
 	ListSimple, LocalAccess, LocalDeclare, LocalDeclare, Loop, MapEntry, MapReturn, Member, Module,
-	ModuleDefaultExport, ObjReturn, ObjSimple, Quote, Special, Splat, Val, UseDo, Use,
+	ModuleDefaultExport, ObjReturn, ObjSimple, Pattern, Quote, Special, Splat, Val, UseDo, Use,
 	Yield, YieldTo } from '../Expression'
 import { JsGlobals, SpecialKeywords } from './Lang'
 import { CallOnFocus, DotName, Group, G_Block, G_Bracket,
@@ -294,7 +294,7 @@ export default function parse(cx, rootToken) {
 		const parts = partLines.map(line => {
 			const { before, block } =
 				wg(line, isVal ? takeBlockValFromEnd : takeBlockDoFromEnd)
-			const test = w0(before, parseExpr)
+			const test = w0(before, _parseCaseTest)
 			return (isVal ? CaseValPart : CaseDoPart)(line.loc, test, block)
 		})
 
@@ -302,6 +302,22 @@ export default function parse(cx, rootToken) {
 
 		return (isVal ? CaseVal : CaseDo)(loc, opCased, parts, opElse)
 	}
+	// parseCase privates
+	const
+		_parseCaseTest = () => {
+			const first = tokens.head()
+			// Pattern match starts with type test and is followed by local declares.
+			// E.g., `:Some val`
+			if (Group.isSpaced(first) && tokens.size() > 1) {
+				const ft = Slice.all(first.tokens)
+				if (Keyword.isColon(ft.head())) {
+					const type = w0(ft.tail(), parseSpaced)
+					const locals = w0(tokens.tail(), parseLocalDeclares)
+					return Pattern(first.loc, type, locals, LocalAccess.focus(loc))
+				}
+			}
+			return parseExpr()
+		}
 
 	const
 		parseExpr = () => {

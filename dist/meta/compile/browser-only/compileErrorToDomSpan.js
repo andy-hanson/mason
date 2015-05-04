@@ -1,11 +1,11 @@
 if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', '../CompileError', '../private/U/type'], function (exports, _CompileError, _privateUType) {
 	'use strict';
 
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
-
 	Object.defineProperty(exports, '__esModule', {
 		value: true
 	});
+
+	function _interopRequire(obj) { return obj && obj.__esModule ? obj['default'] : obj; }
 
 	var _CompileError2 = _interopRequire(_CompileError);
 

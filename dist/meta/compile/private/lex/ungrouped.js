@@ -1,7 +1,7 @@
 if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'module', 'esast/dist/Loc', '../../CompileError', '../Lang', '../Token', '../U/util', './GroupPre', './char'], function (exports, module, _esastDistLoc, _CompileError, _Lang, _Token, _UUtil, _GroupPre, _char) {
 	'use strict';
 
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
+	function _interopRequire(obj) { return obj && obj.__esModule ? obj['default'] : obj; }
 
 	var _Loc = _interopRequire(_esastDistLoc);
 

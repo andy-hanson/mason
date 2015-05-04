@@ -2,23 +2,27 @@ import { ArrayExpression, AssignmentExpression, BlockStatement, BreakStatement,
 	CallExpression, DebuggerStatement, Identifier, IfStatement, LabeledStatement, Literal,
 	ThisExpression, VariableDeclarator, ReturnStatement } from 'esast/dist/ast'
 import { idCached, member, toStatement } from 'esast/dist/util'
-import { callExpressionThunk, functionExpressionPlain, functionExpressionThunk,
+import { callExpressionThunk, functionExpressionPlain, functionExpressionThunk, memberExpression,
 	variableDeclarationConst, yieldExpressionDelegate, yieldExpressionNoDelegate
 	} from 'esast/dist/specialize'
 import * as EExports from '../../Expression'
+import { BlockVal, Pattern, Splat } from '../../Expression'
 import { flatMap, range, tail } from '../U/Bag'
-import { ifElse, None, opIf, opOr } from '../U/Op'
+import { ifElse, None, opIf } from '../U/Op'
 import { assert, implementMany, isPositive } from '../U/util'
-import { binaryExpressionPlus, declare, declareSpecial, idForDeclareCached,
-	throwError, unaryExpressionNegate, whileStatementInfinite } from './esast-util'
+import { binaryExpressionPlus, binaryExpressionNotEqual, declare, declareSpecial,
+	idForDeclareCached, throwError, unaryExpressionNegate, whileStatementInfinite
+	} from './esast-util'
 import { transpileObjReturn, transpileObjSimple } from './transpileObj'
 import transpileModule from './transpileModule'
 import {
-	IdExports, IdArguments, IdArraySliceCall, IdFunctionApplyCall, IdMs,
+	IdArguments, IdArraySliceCall, IdExports, IdFunctionApplyCall, IdMs,
 	LitEmptyArray, LitEmptyString, LitNull, ReturnRes,
 	accessLocal, lazyWrap, makeDeclarator, makeDestructureDeclarators,
-	maybeWrapInCheckContains,
-	opLocalCheck, msArr, msBool, msMap, msShow } from './util'
+	maybeWrapInCheckContains, opLocalCheck,
+	msArr, msBool, msExtract, msMap, msShow } from './util'
+
+const ExtractVar = Identifier('_$')
 
 let cx, vr, isInGenerator
 
@@ -34,19 +38,22 @@ export default function transpile(_cx, e, _vr) {
 
 export const t0 = expr => {
 	const ast = expr.transpileSubtree()
-	if (cx.opts.sourceMap())
-		ast.loc = expr.loc
+	ast.loc = expr.loc
+	return ast
+}
+const t1 = (expr, arg) => {
+	const ast = expr.transpileSubtree(arg)
+	ast.loc = expr.loc
 	return ast
 }
 export const t3 = (expr, arg, arg2, arg3) => {
 	const ast = expr.transpileSubtree(arg, arg2, arg3)
-	if (cx.opts.sourceMap())
-		ast.loc = expr.loc
+	ast.loc = expr.loc
 	return ast
 }
 const tm = expr => {
 	const ast = expr.transpileSubtree()
-	if (cx.opts.sourceMap() && !(ast instanceof Array))
+	if (!(ast instanceof Array))
 		// Debug may produce multiple statements.
 		ast.loc = expr.loc
 	return ast
@@ -60,7 +67,7 @@ function transpileBlock(lead, opResDeclare, opOut) {
 	if (opResDeclare === undefined)
 		opResDeclare = opOut = None
 	const body = flatMap(this.lines, line => toStatements(tm(line)))
-	const isVal = this instanceof EExports.BlockVal
+	const isVal = this instanceof BlockVal
 	const fin = ifElse(opResDeclare,
 		rd => {
 			assert(isVal)
@@ -73,10 +80,22 @@ function transpileBlock(lead, opResDeclare, opOut) {
 	return BlockStatement(lead.concat(body, fin))
 }
 
-function casePart() {
-	const checkedTest = cx.opts.includeCaseChecks() ? msBool([ t0(this.test) ]) : t0(this.test)
-	// alternate written to by `caseBody`.
-	return IfStatement(checkedTest, t0(this.result))
+function casePart(alternate) {
+	if (this.test instanceof Pattern) {
+		const decl = variableDeclarationConst([
+			VariableDeclarator(
+				ExtractVar,
+				msExtract(t0(this.test.type), t0(this.test.patterned)))
+			])
+		const test = binaryExpressionNotEqual(ExtractVar, Literal(null))
+		const ext = arrayExtract(this.test.locals)
+		const res = t3(this.result, [ ext ])
+		return BlockStatement([ decl, IfStatement(test, res, alternate) ])
+	} else {
+		const checkedTest = cx.opts.includeCaseChecks() ? msBool(t0(this.test)) : t0(this.test)
+		// alternate written to by `caseBody`.
+		return IfStatement(checkedTest, t0(this.result), alternate)
+	}
 }
 
 implementMany(EExports, 'transpileSubtree', {
@@ -100,11 +119,11 @@ implementMany(EExports, 'transpileSubtree', {
 	BlockVal: transpileBlock,
 	BlockWrap() { return blockWrap(this, t0(this.block)) },
 	Call() {
-		const anySplat = this.args.some(arg => arg instanceof EExports.Splat)
+		const anySplat = this.args.some(arg => arg instanceof Splat)
 		if (anySplat) {
 			const args = this.args.map(arg =>
-				arg instanceof EExports.Splat ?
-					msArr([ t0(arg.splatted) ]) :
+				arg instanceof Splat ?
+					msArr(t0(arg.splatted)) :
 					t0(arg))
 			return CallExpression(IdFunctionApplyCall, [
 				t0(this.called),
@@ -183,7 +202,7 @@ implementMany(EExports, 'transpileSubtree', {
 		])
 	},
 	MapReturn() {
-		return msMap(flatMap(range(0, this.length), i =>
+		return msMap(...flatMap(range(0, this.length), i =>
 			[ idCached(`_k${i}`), idCached(`_v${i}`) ]))
 	},
 	Member() {
@@ -204,7 +223,7 @@ implementMany(EExports, 'transpileSubtree', {
 				[ LitEmptyString, this.parts ]
 		return restParts.reduce(
 			(ex, _) =>
-				binaryExpressionPlus(ex, typeof _ === 'string' ? Literal(_) : msShow([ t0(_) ])),
+				binaryExpressionPlus(ex, typeof _ === 'string' ? Literal(_) : msShow(t0(_))),
 			first)
 	},
 	Special() {
@@ -224,18 +243,22 @@ implementMany(EExports, 'transpileSubtree', {
 })
 
 const
+	arrayExtract = locals =>
+		variableDeclarationConst(locals.map((l, index) =>
+			VariableDeclarator(
+				idForDeclareCached(l),
+				memberExpression(ExtractVar, Literal(index))))),
+
 	blockWrap = (_, block) => {
 		const invoke = callExpressionThunk(functionExpressionThunk(block, isInGenerator))
 		return isInGenerator ? yieldExpressionDelegate(invoke) : invoke
 	},
 
 	caseBody = (parts, opElse) => {
-		const ifs = parts.map(t0)
-		const lastIdx = ifs.length - 1
-		for (let i = 0; i < lastIdx; i = i + 1)
-			ifs[i].alternate = ifs[i + 1]
-		ifs[lastIdx].alternate = ifElse(opElse, t0, () => throwError('No branch of `case` matches.'))
-		return ifs[0]
+		let acc = ifElse(opElse, t0, () => throwError('No branch of `case` matches.'))
+		for (let i = parts.length - 1; i >= 0; i = i - 1)
+			acc = t1(parts[i], acc)
+		return acc
 	},
 
 	loopId = loop => idCached(`loop${loop.loc.start.line}`)

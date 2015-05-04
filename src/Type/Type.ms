@@ -9,6 +9,9 @@ use~
 	..@.? ?-or
 	..Obj _ ?p-with-proto
 	..Try oh-no!
+use-debug
+	..!
+	.Method self-impl!
 
 Type = Kind
 	doc. "
@@ -18,6 +21,33 @@ Type = Kind
 impl! =? Type id=?
 
 contains?. --contains?
+
+extract. Method
+	doc. "
+		Given a type and arbitrary value:
+			If the value is of the type, return an array of sub-values.
+			Otherwise, return `null`.
+		The array of values are taken into local variables.
+		For example:
+	test. |
+		My-Type =
+			doc. "Example type"
+		self-impl! extract My-Type |case
+			=? _ "extractable"
+				[ 1 2 ]
+			else
+				()
+
+		f = |case
+			:My-Type a b
+				"{a}{b}"
+			else
+				"not extractable"
+
+		! =? "12" (f "extractable"
+		! =? "not extractable" (f ()
+
+msDef "extract" extract
 
 msDef "checkContains" |type value name
 	case!

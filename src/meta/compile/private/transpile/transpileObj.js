@@ -1,7 +1,7 @@
 import { Literal, ObjectExpression } from 'esast/dist/ast'
 import { propertyIdOrLiteralCached, thunk } from 'esast/dist/util'
 import { property } from 'esast/dist/specialize'
-import { cat, flatMap, isEmpty, unshift } from '../U/Bag'
+import { cat, flatMap, isEmpty } from '../U/Bag'
 import { ifElse } from '../U/Op'
 import { assert } from '../U/util'
 import { t0 } from './transpile'
@@ -26,8 +26,7 @@ export const
 						flatMap(keys, key => [ Literal(key.name), accessLocalDeclare(key) ]),
 						flatMap(_.opDisplayName, dn => [LitStrDisplayName, Literal(dn)]))
 					const anyLazy = keys.some(key => key.isLazy)
-					const args = unshift(astObjed, keysVals)
-					return (anyLazy ? msLset : msSet)(args)
+					return (anyLazy ? msLset : msSet)(astObjed, ...keysVals)
 				}
 			},
 			() => {

@@ -1,17 +1,21 @@
 import Loc from 'esast/dist/Loc'
-import tupl from 'tupl/dist/tupl'
+import tupl, { abstract } from 'tupl/dist/tupl'
+import { Union } from 'tupl/dist/type'
 import { JsGlobals, KAssign, KFun, SpecialKeywords } from './private/Lang'
 import Op, { None } from './private/U/Op'
 import { newSet } from './private/U/util'
 
-export default class Expression { }
-// These can only appear as lines in a Block.
-// Not to be confused with Generator expressions resulting from `do` keyword.
-export class Do extends Expression { }
-// These can appear in any expression.
-export class Val extends Expression { }
+const Expression = abstract('Expression', Object, 'doc')
+export default Expression
+
+export const
+	Do = abstract('Do', Expression, `
+		These can only appear as lines in a Block.
+		Not to be confused with Generator expressions resulting from \`do\` keyword.`),
+	Val = abstract('Val', Expression, 'These can appear in any expression.')
 
 const makeType = superType => (name, ...namesTypes) =>
+	// TODO: provide actual docs...
 	tupl(name, superType, 'doc', [ 'loc', Loc ].concat(namesTypes))
 const
 	ee = makeType(Expression), ed = makeType(Do), ev = makeType(Val)
@@ -75,8 +79,9 @@ export const
 	ObjSimple = ev('ObjSimple', 'keysVals', Object),
 
 	// Case
-	CaseDoPart = ee('CaseDoPart', 'test', Val, 'result', BlockDo),
-	CaseValPart = ee('CaseValPart', 'test', Val, 'result', BlockVal),
+	Pattern = ee('Pattern', 'type', Val, 'locals', [LocalDeclare], 'patterned', LocalAccess),
+	CaseDoPart = ee('CaseDoPart', 'test', Union(Val, Pattern), 'result', BlockDo),
+	CaseValPart = ee('CaseValPart', 'test', Union(Val, Pattern), 'result', BlockVal),
 	CaseDo = ed('CaseDo', 'opCased', Op(Assign), 'parts', [CaseDoPart], 'opElse', Op(BlockDo)),
 	// Unlike CaseDo, this has `return` statements.
 	CaseVal = ev('CaseVal', 'opCased', Op(Assign), 'parts', [CaseValPart], 'opElse', Op(BlockVal)),

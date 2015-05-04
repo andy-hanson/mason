@@ -1,11 +1,11 @@
 if (typeof define !== 'function') var define = require('amdefine')(module);define(['exports', 'esast/dist/Loc', 'tupl/dist/tupl', '../Token'], function (exports, _esastDistLoc, _tuplDistTupl, _Token) {
 	'use strict';
 
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
-
 	Object.defineProperty(exports, '__esModule', {
 		value: true
 	});
+
+	function _interopRequire(obj) { return obj && obj.__esModule ? obj['default'] : obj; }
 
 	var _Loc = _interopRequire(_esastDistLoc);
 

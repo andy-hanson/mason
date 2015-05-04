@@ -32,6 +32,9 @@ export const
 	binaryExpressionPlus = specialize(BinaryExpression,
 		[ 'left', Expression, 'right', Expression ],
 		{ operator: '+' }),
+	binaryExpressionNotEqual = specialize(BinaryExpression,
+		[ 'left', Expression, 'right', Expression ],
+		{ operator: '!==' }),
 
 	unaryExpressionNegate = specialize(UnaryExpression,
 		[ 'argument', Expression ],

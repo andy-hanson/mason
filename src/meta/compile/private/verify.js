@@ -1,7 +1,7 @@
 import { code } from '../CompileError'
 import * as EExports from '../Expression'
-import { Assign, AssignDestructure, BlockVal, Call, Debug, Do,
-	GlobalAccess, Special, UseDo, Yield, YieldTo } from '../Expression'
+import { Assign, AssignDestructure, BlockVal, Call, Debug, Do, GlobalAccess,
+	Pattern, Special, UseDo, Yield, YieldTo } from '../Expression'
 import { head, isEmpty } from './U/Bag'
 import { ifElse, some } from './U/Op'
 import { implementMany, mapKeys } from './U/util'
@@ -251,8 +251,16 @@ function verifyCase() {
 }
 
 function verifyCasePart() {
-	this.test.verify()
-	this.result.verify()
+	if (this.test instanceof Pattern) {
+		this.test.type.verify()
+		this.test.patterned.verify()
+		vm(this.test.locals)
+		this.test.locals.forEach(registerLocal)
+		plusLocals(this.test.locals, () => this.result.verify())
+	} else {
+		this.test.verify()
+		this.result.verify()
+	}
 }
 
 const
