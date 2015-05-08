@@ -4,7 +4,7 @@ use
 	...math.Num Nat
 	...math.methods -
 	...Type.Kind kind! self-kind!
-	...Type.Obj-Type
+	...Type.Tuple
 	..@ count empty? iterator
 	..@! ++!
 	..@-Type _ empty from-stream
@@ -21,19 +21,17 @@ use-debug
 	.Range range
 	.Seq seq=? take'
 
-Lazy-Stream = Obj-Type
+Lazy-Stream = Tuple
 	doc. "
 		Like Stream, but caches its elements as it produces them.
 		If you want to stream the results of an expensive computation and use it multiple times, use this.
 		If you have a cheap computation or only need to iterate through it once, use Stream.
 	props.
-		caching-iterator. Generator!
-		cache. Array!
+		. [ "caching-iterator" Generator!
+		. [ "cache" Array!
 
 self-kind! Lazy-Stream @-Type
-	empty -> thunk (Lazy-Stream
-		caching-iterator. empty-Generator
-		cache. empty Array!
+	empty -> thunk (Lazy-Stream empty-Generator (empty Array!
 
 	from-stream -> |_
 		lazy-streaming |
@@ -75,10 +73,10 @@ lazy-streaming.
 		! seq=? (take' fibonaccis 10) [ 1 1 2 3 5 8 13 21 34 55 ]
 	|stream:Fun[Generator!]
 		cash = empty Array!
-		Lazy-Stream
-			caching-iterator. each~ (Stream stream) ~|_
-				++! cash [ _ ]
-				<~ _
-			cache. cash
+		# TODO: Don't use each~
+		iter = each~ (Stream stream) ~|_
+			++! cash [ _ ]
+			<~ _
+		Lazy-Stream iter cash
 
 Lazy-Stream

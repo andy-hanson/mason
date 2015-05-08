@@ -5,7 +5,8 @@ use
 	...js defined?
 	...Obj! p!
 	...Type.Kind kind! self-kind!
-	...Type.Obj-Type
+	...Type.Tuple
+	...Type.Wrap-Type
 	..@ empty?
 	..@! empty!
 	..@-Type empty
@@ -18,25 +19,25 @@ use-debug
 	...! _ !not
 	...compare =?
 
-Splay-Tree! = Obj-Type
+Splay-Node = Tuple
+	props. [ "key" "val!" "left!" "right!"
+
+Splay-Tree! = Wrap-Type
 	doc. "
 		Default Sorted-Map! implementation.
 		Binary tree that is good at accessing the same values many times.
-	props.
-		root!.
 
 self-kind! Splay-Tree! Map-Type
 	empty -> |
-		Splay-Tree!
-			root!. undefined
+		Splay-Tree! undefined
 
 kind! Splay-Tree! Sorted-Map!
 	empty? -> |_
-		not (defined? _.root!
+		not (defined? _.val
 	empty! -> |_
-		p! _ "root!" undefined
+		p! _ "val" undefined
 	?get -> |_ key
-		if (and (not empty?_) ~(splay!? _ key)) ~_.root!.val!
+		if (and (not empty?_) ~(splay!? _ key)) ~_.val.val!
 	keys -> |_
 		Stream ~|
 			get~ = ~|case!
@@ -46,30 +47,30 @@ kind! Splay-Tree! Sorted-Map!
 					<~~ get~ _.right!
 				else
 					()
-			<~~ get~ _.root!
-	assoc! -> |_ k v
+			<~~ get~ _.val
+	assoc! -> |_ key val
 		case!
 			empty?_
-				p! _ "root!" (key. k val!. v left!. undefined right!. undefined
-			splay!? _ k
-				p! _.root! "val!" v
+				p! _ "val" (Splay-Node key val undefined undefined
+			splay!? _ key
+				p! _.val "val!" val
 			else
-				old-root = _.root!
+				old-root = _.val
 				debug !not empty? _
-				p! _ "root!" case
-					<? old-root.key k
+				p! _ "val" case
+					<? old-root.key key
 						old-right = old-root.right!
 						p! old-root "right!" undefined
-						(key. k val!. v left!. old-root right!. old-right
+						Splay-Node key val old-root old-right
 					else
 						old-left = old-root.left!
 						p! old-root "left!" undefined
-						(key. k val!. v left!. old-left right!. old-root
+						Splay-Node key val old-left old-root
 	un-assoc! -> |_ key
 		if (and (not empty?_) ~(splay!? _ key)) ~
-			removed = _.root!
+			removed = _.val
 			# Link out the root.
-			p! _ "root!" case
+			p! _ "val" case
 				has-left? removed
 					right = removed.right # OK if null
 					new-root = removed.left
@@ -90,14 +91,14 @@ region Implementation
 		in
 			!not empty? _
 
-		dummy = left!. undefined right!. undefined
-		start = left. dummy right. dummy cur. _.root!
+		dummy = Splay-Node undefined undefined undefined undefined
+		start = left. dummy right. dummy cur. _.val
 		left right cur found = loop start splay-step![key]
 		p! left "right!" cur.left!
 		p! right "left!" cur.right!
 		p! cur "left!" dummy.right!
 		p! cur "right!" dummy.left!
-		p! _ "root!" cur
+		p! _ "val" cur
 		found
 
 	splay-step! = |key _

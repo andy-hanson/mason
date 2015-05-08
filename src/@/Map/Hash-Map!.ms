@@ -9,7 +9,7 @@ use
 	...Obj! p!
 	...Type.Kind kind! self-kind!
 	...Type.Method impl! self-impl!
-	...Type.Obj-Type
+	...Type.Wrap-Type
 	..@ flat-map map
 	..@! empty!
 	..@-Type empty
@@ -25,7 +25,7 @@ use-debug
 	...!
 	..Seq.Seq seq=?
 
-Hash-Map! = Obj-Type
+Hash-Map! = Wrap-Type
 	doc. "Default Map! type. Depends on efficient `hash-code` of its keys."
 	test. |
 		_ =
@@ -35,19 +35,17 @@ Hash-Map! = Obj-Type
 		! =? _[3] 4
 		! seq=? keys_ [ 1 3 ]
 		! =? (?get _ 8) (empty ?)
-
-	props.
-		hash->bucket. Id-Map!
+	# Wraps a map from hash codes to buckets.
+	wrapped-type. Id-Map!
 
 kind! Hash-Map! Map!
 
 self-kind! Hash-Map! Map-Type
 self-impl! empty Hash-Map! |
-	Hash-Map!
-		hash->bucket. empty Id-Map!
+	Hash-Map! (empty Id-Map!
 
 opt-bucket = |_ key
-	_.hash->bucket.get (hash-code key
+	_.val.get (hash-code key
 
 opt-bucket-entry = |opt-bucket key
 	case opt-bucket
@@ -67,7 +65,7 @@ impl! ?get Hash-Map! |:? _ key
 		be.val!
 
 impl! keys Hash-Map! |_
-	buckets = values _.hash->bucket
+	buckets = values _.val
 	bucket-keys~ = |_
 		if~ defined?_ ~|
 			<~ _.key
@@ -86,7 +84,7 @@ impl! assoc! Hash-Map! |hm key val
 		else
 			# Add it at the front.
 			k = key # TODO:SYNTAX
-			hm.hash->bucket.set (hash-code key)
+			hm.val.set (hash-code key)
 				key. k # TODO:SYNTAX
 				val!. val
 				next!. bucket
@@ -99,9 +97,9 @@ impl! un-assoc! Hash-Map! |hm key
 				=? _.key key
 					case! bucket.next!
 						defined?_
-							assoc! hm.hash->bucket key _
+							assoc! hm.val key _
 						else
-							un-assoc! hm.hash->bucket (hash-code key
+							un-assoc! hm.val (hash-code key
 					? _.val!
 				else
 					delete-from-next-bucket! = |prev-bucket
@@ -122,10 +120,10 @@ impl! un-assoc! Hash-Map! |hm key
 			empty ?
 
 impl! freeze Hash-Map! |_
-	freeze _.hash->bucket
+	freeze _.val
 	Obj.freeze _
 
 impl! empty! Hash-Map! |_
-	empty! _.hash->bucket
+	empty! _.val
 
 Hash-Map!

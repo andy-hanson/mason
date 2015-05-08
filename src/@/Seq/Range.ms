@@ -6,7 +6,7 @@ use
 	...math.methods + - * /
 	...Type.Kind kind! self-kind!
 	...Type.Pred-Type Opt
-	...Type.Obj-Type
+	...Type.Tuple
 	..@ _ count iterator
 	..@-Type _ empty from-stream
 	.Seq ?nth
@@ -17,12 +17,12 @@ use-debug
 	..?
 	.Seq seq=? take'
 
-Range = Obj-Type
+Range = Tuple
 	doc. "Seq of Nums taking fixed steps."
 	props.
-		start. Num
-		end. Num
-		step. Num
+		. [ "start" Num
+		. [ "end" Num
+		. [ "step" Num
 	post-construct. |_
 		in
 			! =? (sign _.step) (sign (- _.end _.start
@@ -30,13 +30,9 @@ Range = Obj-Type
 	test. |
 		! seq=? [ 0 1 2 ] (take' (range 0 infinity) 3
 
-# TODO:SYNTAX
-range. |-start-:Num -end-:Num ?step:Opt[Num]
-	-step- = opr ?step (sign (- -end- -start-
-	Range
-		start. -start-
-		end. -end-
-		step. -step-
+range. |start:Num end:Num ?step:Opt[Num]
+	step = opr ?step (sign (- end start
+	Range start end step
 
 range-incl.
 	doc. "TODO"

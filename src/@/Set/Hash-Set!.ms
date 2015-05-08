@@ -2,7 +2,7 @@ use
 	...compare =?
 	...Type.Kind kind! self-kind!
 	...Type.Method impl! impl-for
-	...Type.Obj-Type
+	...Type.Wrap-Type
 	..@ each! iterator
 	..@! ++! --! empty!
 	..@-Type _ empty
@@ -12,32 +12,30 @@ use
 	.Set
 	.Set!
 
-Hash-Set! = Obj-Type
+Hash-Set! = Wrap-Type
 	doc. "
 		Set that considers elements equal using =?.
 		Relies on an efficient hash-code implementation.
-	props.
-		data. Hash-Map!
+	wrapped-type. Hash-Map!
 
 self-kind! Hash-Set! @-Type
 	empty -> |
-		Hash-Set!
-			data. empty Hash-Map!
+		Hash-Set! (empty Hash-Map!
 
 kind! Hash-Set! Set!
 	iterator -> |_
-		iterator (keys _.data
+		iterator (keys _.val
 
 	++! -> |_ addeds
 		each! addeds |added
-			assoc! _.data added true
+			assoc! _.val added true
 
 	--! -> |_ deleteds
 		each! deleteds |deleted
-			un-assoc! _.data deleted
+			un-assoc! _.val deleted
 
 	empty! -> |_
-		empty! _.data
+		empty! _.val
 
 # TODO: This should not be necessary!
 impl! =? Hash-Set! (impl-for =? Set)

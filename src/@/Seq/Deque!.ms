@@ -8,7 +8,7 @@ use
 	...Obj! p!
 	...Type.Kind kind! self-kind!
 	...Type.Pred-Type Any
-	...Type.Obj-Type
+	...Type.Tuple
 	..@ _ ++ count each! empty? iterator map
 	..@! empty!
 	..@-Type _ empty
@@ -18,19 +18,16 @@ use
 	.Seq ?nth reverse
 	.Seq! _ <++! ++>! ?<pop! ?pop>! set-nth!
 
-Deque! = Obj-Type
+Deque! = Tuple
 	doc. "Seq! that can efficiently add values on either side."
 	props.
-		data!. Array!
-		start-index!. Nat # Inclusive (unless =? end-index)
-		end-index!. Nat # Exclusive
+		. [ "data!" Array!
+		. [ "start-index!" Nat # Inclusive (unless =? end-index)
+		. [ "end-index!" Nat # Exclusive
 
 self-kind! Deque! @-Type
 	empty -> |
-		Deque!
-			data!. empty Array! 8
-			start-index!. 0
-			end-index!. 0
+		Deque! (empty Array! 8) 0 0
 
 region Helpers
 	capacity = |_

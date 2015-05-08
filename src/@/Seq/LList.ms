@@ -2,19 +2,17 @@ use
 	...js id=?
 	...Obj! p!
 	...Type.Kind kind! self-kind!
-	...Type.Obj-Type
+	...Type.Tuple
 	..@ _ ++ empty? iterator
 	..@-Type _ empty from-stream
 	.Seq _ <++' tail
 
-LList = Obj-Type
+LList = Tuple
 	doc. "
 		Singly-linked list.
-	props.
-		head.
-		tail.
+	props. [ "head" "tail"
 
-empty-LList = LList head. undefined tail. undefined
+empty-LList = LList undefined undefined
 p! empty-LList "tail" empty-LList
 
 self-kind! LList @-Type
@@ -45,9 +43,7 @@ kind! LList Seq
 				done
 					_
 				else
-					LList
-						head. value
-						tail. f()
+					LList value f()
 		f()
 
 	# For the concatenation of two LLists, we can just use the second as a tail.
