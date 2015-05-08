@@ -41,7 +41,7 @@ function writeListModules() {
 	const listModules = require('./dist/meta/compile/node-only/list-modules')
 	return listModules('./dist', { exclude: /meta\/compile\/node-only\/.*/ }).then(function(js) {
 		return fs.write('./dist/modules-list.js', js)
-	}).done()
+	})
 }
 gulp.task('list-modules', [ 'js', 'ms' ], writeListModules)
 gulp.task('watch-list-modules', [ 'list-modules' ], function() {
