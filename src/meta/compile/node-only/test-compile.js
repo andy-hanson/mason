@@ -53,12 +53,12 @@ const doTest = includePerfTest => {
 			lexGroup(cx, tUngrouped)
 
 		benchmark({
-			lexUngrouped: () => global.lexUngroupedTest(),
-			lexGroup: () => global.lexGroupTest(),
+			//lexUngrouped: () => global.lexUngroupedTest(),
+			//lexGroup: () => global.lexGroupTest(),
 			parse: () => parse(cx, t),
-			verify: () => verify(cx, e),
-			transpile: () => transpile(cx, e, vr),
-			render: () => render(cx, ast)
+			//verify: () => verify(cx, e),
+			//transpile: () => transpile(cx, e, vr),
+			//render: () => render(cx, ast)
 		})
 	} else {
 		log(`Expression tree size: ${treeSize(e, _ => _ instanceof Expression).size}.`)

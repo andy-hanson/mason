@@ -24,7 +24,7 @@ export default function parse(cx, rootToken) {
 			cx.check(cond, loc, message),
 		checkEmpty = (tokens, message) =>
 			cx.check(tokens.isEmpty(), () => _locFromTokens(tokens), message),
-		w0 = (_tokens, fun) => {
+		w = (_tokens, fun) => {
 			const t = tokens
 			tokens = _tokens
 			const l = loc
@@ -34,32 +34,12 @@ export default function parse(cx, rootToken) {
 			loc = l
 			return res
 		},
-		w1 = (_tokens, fun, arg) => {
-			const t = tokens
-			tokens = _tokens
-			const l = loc
-			loc = tokens.isEmpty() ? loc : _locFromTokens(tokens)
-			const res = fun(arg)
-			tokens = t
-			loc = l
-			return res
-		},
-		w2 = (_tokens, fun, arg, arg2) => {
-			const t = tokens
-			tokens = _tokens
-			const l = loc
-			loc = tokens.isEmpty() ? loc : _locFromTokens(tokens)
-			const res = fun(arg, arg2)
-			tokens = t
-			loc = l
-			return res
-		},
-		wg = (group, fun, arg) => {
+		wg = (group, fun) => {
 			const t = tokens
 			tokens = Slice.all(group.tokens)
 			const l = loc
 			loc = group.loc
-			const res = fun(arg)
+			const res = fun()
 			tokens = t
 			loc = l
 			return res
@@ -68,11 +48,11 @@ export default function parse(cx, rootToken) {
 		unexpected = t => cx.fail(t.loc, `Unexpected ${t}`)
 
 	const parseModule = () => {
-		const { uses: doUses, rest } = tryParseUse('use!')
-		const { uses: plainUses, rest: rest1 } = w1(rest, tryParseUse, 'use')
-		const { uses: lazyUses, rest: rest2 } = w1(rest1, tryParseUse, 'use~')
-		const { uses: debugUses, rest: rest3 } = w1(rest2, tryParseUse, 'use-debug')
-		const block = w0(rest3, parseModuleBody)
+		const { uses: doUses, rest } = tryParseUse('use!')()
+		const { uses: plainUses, rest: rest1 } = w(rest, tryParseUse('use'))
+		const { uses: lazyUses, rest: rest2 } = w(rest1, tryParseUse('use~'))
+		const { uses: debugUses, rest: rest3 } = w(rest2, tryParseUse('use-debug'))
+		const block = w(rest3, parseModuleBody)
 
 		block.lines.forEach(line => {
 			if (line instanceof Assign && line.k === 'export')
@@ -93,14 +73,14 @@ export default function parse(cx, rootToken) {
 
 	// parseBlock
 	const
-		takeBlockLinesFromEnd = () => {
-			check(!tokens.isEmpty(), 'Expected an indented block')
-			const l = tokens.last()
-			cx.check(Group.isBlock(l), l.loc, 'Expected an indented block at the end')
-			return { before: tokens.rtail(), lines: Slice.all(l.tokens) }
+		takeBlockFromEnd = () => {
+			check(!tokens.isEmpty(), 'Expected an indented block.')
+			const block = tokens.last()
+			cx.check(Group.isBlock(block), block.loc, 'Expected an indented block.')
+			return { before: tokens.rtail(), block }
 		},
 
-		blockWrap = () => BlockWrap(loc, _parseBlockBody('val')),
+		blockWrap = () => BlockWrap(loc, _parseBlockBody('val')()),
 
 		justBlockDo = () => {
 			const { before, block } = takeBlockDoFromEnd()
@@ -114,20 +94,18 @@ export default function parse(cx, rootToken) {
 		},
 
 		takeBlockDoFromEnd = () => {
-			const{ before, lines } = takeBlockLinesFromEnd()
-			const block = w0(lines, _parseBodyDo)
-			return { before, block }
+			const{ before, block } = takeBlockFromEnd()
+			return { before, block: wg(block, _parseBodyDo)  }
 		},
 		takeBlockValFromEnd = () => {
-			const { before, lines } = takeBlockLinesFromEnd()
-			const block = w1(lines, _parseBlockBody, 'val')
-			return { before, block }
+			const { before, block} = takeBlockFromEnd()
+			return { before, block: wg(block, _parseBlockBody('val')) }
 		},
 
 		// TODO: Just have module return a value and use a normal block.
-		parseModuleBody = () => _parseBlockBody('module'),
+		parseModuleBody = () => _parseBlockBody('module')(),
 
-		parseBlockFromLines = () => _parseBlockBody('any'),
+		parseBlockFromLines = () => _parseBlockBody('any')(),
 
 		// Gets lines in a region or Debug.
 		parseLinesFromBlock = () => {
@@ -146,7 +124,7 @@ export default function parse(cx, rootToken) {
 			return BlockDo(loc, eLines)
 		},
 
-		_parseBlockBody = k => {
+		_parseBlockBody = k => () => {
 			assert(k === 'val' || k === 'module' || k === 'any')
 
 			// keys only matter if kReturn === 'obj'
@@ -251,7 +229,7 @@ export default function parse(cx, rootToken) {
 						eLines.push(ln)
 				}
 			}
-			lines.each(line => addLine(wg(line, parseLine, listLength)))
+			lines.each(line => addLine(wg(line, parseLine)))
 
 			const isObj = !(isEmpty(objKeys) && isEmpty(debugKeys))
 			// TODO
@@ -267,10 +245,10 @@ export default function parse(cx, rootToken) {
 			return { eLines, kReturn, listLength, mapLength, objKeys, debugKeys }
 		}
 
-	const parseCase = (k, casedFromFun) => {
+	const parseCase = (k, casedFromFun) => () => {
 		const isVal = k === 'case'
 
-		const { before, lines } = takeBlockLinesFromEnd()
+		const { before, block } = takeBlockFromEnd()
 
 		const opCased = (() => {
 			if (casedFromFun) {
@@ -279,22 +257,22 @@ export default function parse(cx, rootToken) {
 				return None
 			}
 			else return opIf(!before.isEmpty(), () =>
-				w0(before, () => Assign.focus(loc, parseExpr())))
+				w(before, () => Assign.focus(loc, parseExpr())))
 		})()
 
-		const l = lines.last()
-		const { partLines, opElse } = Keyword.isElse(head(l.tokens)) ? {
-				partLines: lines.rtail(),
-				opElse: some(w1(Slice.all(l.tokens).tail(), isVal ? justBlockVal : justBlockDo))
+		const lastLine = last(block.tokens)
+		const { partLines, opElse } = Keyword.isElse(head(lastLine.tokens)) ? {
+				partLines: rtail(block.tokens),
+				opElse: some(w(Slice.all(lastLine.tokens).tail(), isVal ? justBlockVal : justBlockDo))
 			} : {
-				partLines: lines,
+				partLines: block.tokens,
 				opElse: None
 			}
 
 		const parts = partLines.map(line => {
 			const { before, block } =
 				wg(line, isVal ? takeBlockValFromEnd : takeBlockDoFromEnd)
-			const test = w0(before, _parseCaseTest)
+			const test = w(before, _parseCaseTest)
 			return (isVal ? CaseValPart : CaseDoPart)(line.loc, test, block)
 		})
 
@@ -311,8 +289,8 @@ export default function parse(cx, rootToken) {
 			if (Group.isSpaced(first) && tokens.size() > 1) {
 				const ft = Slice.all(first.tokens)
 				if (Keyword.isColon(ft.head())) {
-					const type = w0(ft.tail(), parseSpaced)
-					const locals = w0(tokens.tail(), parseLocalDeclares)
+					const type = w(ft.tail(), parseSpaced)
+					const locals = w(tokens.tail(), parseLocalDeclares)
 					return Pattern(first.loc, type, locals, LocalAccess.focus(loc))
 				}
 			}
@@ -335,7 +313,7 @@ export default function parse(cx, rootToken) {
 						const tokensValue = i === splits.length - 2 ?
 							splits[i + 1].before :
 							splits[i + 1].before.rtail()
-						const value = w0(tokensValue, parseExprPlain)
+						const value = w(tokensValue, parseExprPlain)
 						cx.check(!Object.prototype.hasOwnProperty.call(keysVals, local.name),
 							local.loc, () => `Duplicate property ${local}.`)
 						Object.defineProperty(keysVals, local.name, { value })
@@ -345,7 +323,7 @@ export default function parse(cx, rootToken) {
 					if (tokensCaller.isEmpty())
 						return val
 					else {
-						const parts = w0(tokensCaller, parseExprParts)
+						const parts = w(tokensCaller, parseExprParts)
 						assert(!isEmpty(parts))
 						return Call(loc, head(parts), push(tail(parts), val))
 					}
@@ -363,13 +341,13 @@ export default function parse(cx, rootToken) {
 					const rest = () => tokens._new(i + 1, end)
 					switch (here.k) {
 						case '|': case '~|':
-							return push(out, w1(rest(), parseFun, here.k))
+							return push(out, w(rest(), parseFun(here.k)))
 						case 'case':
-							return push(out, w2(rest(), parseCase, 'case', false))
+							return push(out, w(rest(), parseCase('case', false)))
 						case '<~':
-							return push(out, Yield(loc, w0(rest(), parseExpr)))
+							return push(out, Yield(loc, w(rest(), parseExpr)))
 						case '<~~':
-							return push(out, YieldTo(loc, w0(rest(), parseExpr)))
+							return push(out, YieldTo(loc, w(rest(), parseExpr)))
 						default:
 							// fallthrough
 					}
@@ -391,10 +369,10 @@ export default function parse(cx, rootToken) {
 			}
 		}
 
-	const parseFun = k => {
+	const parseFun = k => () => {
 		const { opReturnType, rest } = _tryTakeReturnType()
 		check(!rest.isEmpty(), () => `Expected an indented block after ${code(k)}`)
-		const { args, opRestArg, block, opIn, opOut } = w0(rest, _funArgsAndBlock)
+		const { args, opRestArg, block, opIn, opOut } = w(rest, _funArgsAndBlock)
 		// Need res declare if there is a return type or out condition.
 		const opResDeclare = ifElse(opReturnType,
 			rt => some(LocalDeclare.res(rt.loc, opReturnType)),
@@ -409,7 +387,7 @@ export default function parse(cx, rootToken) {
 				const h = tokens.head()
 				if (Group.isSpaced(h) && Keyword.isColon(head(h.tokens)))
 					return {
-						opReturnType: some(w0(Slice.all(h.tokens).tail(), parseSpaced)),
+						opReturnType: some(w(Slice.all(h.tokens).tail(), parseSpaced)),
 						rest: tokens.tail()
 					}
 			}
@@ -420,7 +398,7 @@ export default function parse(cx, rootToken) {
 			const h = tokens.head()
 			// Might be `|case`
 			if (Keyword.isCaseOrCaseDo(h)) {
-				const eCase = w2(tokens.tail(), parseCase, h.k, true)
+				const eCase = w(tokens.tail(), parseCase(h.k, true))
 				const args = [ LocalDeclare.focus(h.loc) ]
 				return (h.k === 'case') ?
 					{
@@ -432,11 +410,10 @@ export default function parse(cx, rootToken) {
 						block: BlockDo(loc, [ eCase ])
 					}
 			} else {
-				const { before, lines } = takeBlockLinesFromEnd()
-				const { args, opRestArg } = w0(before, _parseFunLocals)
-				const { opIn, opOut, rest } = w0(lines, _tryTakeInOut)
-				const block = w0(rest, parseBlockFromLines)
-				return { args, opRestArg, block, opIn, opOut }
+				const { before, block } = takeBlockFromEnd()
+				const { args, opRestArg } = w(before, _parseFunLocals)
+				const { opIn, opOut, rest } = wg(block, _tryTakeInOut)
+				return { args, opRestArg, block: w(rest, parseBlockFromLines), opIn, opOut }
 			}
 		},
 
@@ -448,7 +425,7 @@ export default function parse(cx, rootToken) {
 				if (l instanceof DotName) {
 					cx.check(l.nDots === 3, l.loc, 'Splat argument must have exactly 3 dots')
 					return {
-						args: w0(tokens.rtail(), parseLocalDeclares),
+						args: w(tokens.rtail(), parseLocalDeclares),
 						opRestArg: some(LocalDeclare(l.loc, l.name, None, false, false))
 					}
 				}
@@ -466,7 +443,7 @@ export default function parse(cx, rootToken) {
 						return {
 							took: some(Debug(
 								firstLine.loc,
-								w0(tokensFirst, parseLinesFromBlock))),
+								w(tokensFirst, parseLinesFromBlock))),
 							rest: lines.tail()
 						}
 				}
@@ -488,15 +465,15 @@ export default function parse(cx, rootToken) {
 				switch (h.k) {
 					case '. ':
 						// Index is set by parseBlock.
-						return ListEntry(loc, w0(rest, parseExpr), -1)
+						return ListEntry(loc, w(rest, parseExpr), -1)
 					case 'case!':
-						return w2(rest, parseCase, 'case!', false)
+						return w(rest, parseCase('case!', false))
 					case 'debug':
 						return Group.isBlock(tokens.second()) ?
 							// `debug`, then indented block
 							Debug(loc, parseLinesFromBlock()) :
 							// `debug`, then single line
-							Debug(loc, w0(rest, parseLineOrLines))
+							Debug(loc, w(rest, parseLineOrLines))
 					case 'debugger':
 						checkEmpty(rest, () => `Did not expect anything after ${h}`)
 						return Special.debugger(loc)
@@ -504,7 +481,7 @@ export default function parse(cx, rootToken) {
 						checkEmpty(rest, () => `Did not expect anything after ${h}`)
 						return EndLoop(loc)
 					case 'loop!':
-						return Loop(loc, w0(rest, justBlockDo))
+						return Loop(loc, w(rest, justBlockDo))
 					case 'region':
 						return parseLinesFromBlock()
 					default:
@@ -528,9 +505,9 @@ export default function parse(cx, rootToken) {
 	// parseLine privates
 	const
 		_parseAssign = (assigned, assigner, value) => {
-			let locals = w0(assigned, parseLocalDeclares)
+			let locals = w(assigned, parseLocalDeclares)
 			const k = assigner.k
-			const eValuePre = value.isEmpty() ? GlobalAccess.true(loc) : w0(value, parseExpr)
+			const eValuePre = value.isEmpty() ? GlobalAccess.true(loc) : w(value, parseExpr)
 
 			let eValueNamed
 			if (locals.length === 1) {
@@ -623,7 +600,7 @@ export default function parse(cx, rootToken) {
 
 		_parseMapEntry = (before, after) =>
 			// TODO: index Filled in by ???
-			MapEntry(loc, w0(before, parseExpr), w0(after, parseExpr), -1)
+			MapEntry(loc, w(before, parseExpr), w(after, parseExpr), -1)
 
 	const
 		parseLocalDeclares = () => tokens.map(parseLocalDeclare),
@@ -646,7 +623,7 @@ export default function parse(cx, rootToken) {
 					cx.check(Keyword.isColon(colon), colon.loc, () => `Expected ${code(':')}`)
 					check(rest2.size() > 1, () => `Expected something after ${colon}`)
 					const tokensType = rest2.tail()
-					opType = some(w0(tokensType, parseSpaced))
+					opType = some(w(tokensType, parseSpaced))
 				}
 			}
 			else
@@ -678,7 +655,7 @@ export default function parse(cx, rootToken) {
 					case G_Space: return wg(t, parseSpaced)
 					case G_Paren: return wg(t, parseExpr)
 					case G_Bracket: return ListSimple(t.loc, wg(t, parseExprParts))
-					case G_Block: return wg(t, blockWrap, 'val')
+					case G_Block: return wg(t, blockWrap)
 					case G_Quote:
 						return Quote(t.loc,
 							t.tokens.map(_ => (typeof _ === 'string') ? _ : parseSingle(_)))
@@ -717,11 +694,11 @@ export default function parse(cx, rootToken) {
 			case h instanceof Keyword:
 				if (h.k === ':') {
 					cx.check(!Keyword.isColon(rest.head()), h.loc, () => `Two ${h} in a row`)
-					const eType = w0(rest, parseSpaced)
+					const eType = w(rest, parseSpaced)
 					const focus = LocalAccess.focus(h.loc)
 					return Call.contains(h.loc, eType, focus)
 				} else if (h.k === '~')
-					return Lazy(h.loc, w0(rest, parseSpaced))
+					return Lazy(h.loc, w(rest, parseSpaced))
 			default: {
 				const memberOrSubscript = (e, t) => {
 					const loc = t.loc
@@ -744,13 +721,13 @@ export default function parse(cx, rootToken) {
 		}
 	}
 
-	const tryParseUse = k => {
+	const tryParseUse = k => () => {
 		if (!tokens.isEmpty()) {
 			const l0 = tokens.head()
 			assert(Group.isLine(l0))
 			if (Keyword.is(k)(head(l0.tokens)))
 				return {
-					uses: w1(Slice.all(l0.tokens).tail(), _parseUse, k),
+					uses: w(Slice.all(l0.tokens).tail(), _parseUse(k)),
 					rest: tokens.tail()
 				}
 		}
@@ -759,29 +736,40 @@ export default function parse(cx, rootToken) {
 
 	// tryParseUse privates
 	const
-		_parseUse = k => {
-			const { before, lines } = takeBlockLinesFromEnd()
+		_parseUse = k => () => {
+			const { before, block } = takeBlockFromEnd()
 			check(before.isEmpty(), () =>
 				`Did not expect anything after ${code(k)} other than a block`)
-			return lines.map(line => wg(line, _useLine, k))
+			return block.tokens.map(line => {
+				const tReq = line.tokens[0]
+				const { path, name } = _parseRequire(tReq)
+				if (k === 'use!') {
+					if (line.tokens.length > 1)
+						unexpected(line.tokens[1])
+					return UseDo(line.loc, path)
+				} else {
+					const isLazy = k === 'use~' || k === 'use-debug'
+					const { used, opUseDefault } =
+						w(Slice.all(line.tokens).tail(), _parseThingsUsed(name, isLazy))
+					return Use(line.loc, path, used, opUseDefault)
+				}
+			})
 		},
 
-		// TODO:ES6 Just use module imports, no AssignDestructure needed
-		_useLine = k => {
+		_useLine = k => () => {
 			const tReq = tokens.head()
 			const { path, name } = _parseRequire(tReq)
-
 			if (k === 'use!') {
 				check(tokens.size() === 1, () => `Unexpected ${tokens[1]}`)
 				return UseDo(loc, path)
 			} else {
 				const isLazy = k === 'use~' || k === 'use-debug'
-				const { used, opUseDefault } = w2(tokens.tail(), _parseThingsUsed, name, isLazy)
+				const { used, opUseDefault } = w(tokens.tail(), _parseThingsUsed(name, isLazy))
 				return Use(loc, path, used, opUseDefault)
 			}
 		},
 
-		_parseThingsUsed = (name, isLazy) => {
+		_parseThingsUsed = (name, isLazy) => () => {
 			const useDefault = () => LocalDeclare(loc, name, None, isLazy, false)
 			if (tokens.isEmpty())
 				return { used: [], opUseDefault: some(useDefault()) }
@@ -789,7 +777,7 @@ export default function parse(cx, rootToken) {
 				const hasDefaultUse = Keyword.isFocus(tokens.head())
 				const opUseDefault = opIf(hasDefaultUse, useDefault)
 				const rest = hasDefaultUse ? tokens.tail() : tokens
-				const used = w0(rest, parseLocalDeclares).map(l => {
+				const used = w(rest, parseLocalDeclares).map(l => {
 					check(l.name !== '_', () => `${code('_')} not allowed as import name.`)
 					l.isLazy = isLazy
 					return l
