@@ -1,9 +1,12 @@
 use
+	..Bool and not
 	..control opr
 	..js defined? id=?
 	..Type.Kind kind! self-kind!
 	..Type.Method impl! self-impl!
+	..Type.Pred-Type
 	..Type.Wrap-Type
+	..Type.Type extract
 	.@ empty? iterator
 	.@-Type _ empty from-stream
 	.Seq.Seq
@@ -11,6 +14,7 @@ use~
 	..Try oh-no!
 use-debug
 	..! _ !not
+	..compare =?
 	..Try fails?
 ? = Wrap-Type
 	doc. "
@@ -98,5 +102,20 @@ region Funs
 					or
 				else
 					_.val
+
+Some. Pred-Type
+	doc. "TODO"
+	predicate. |_
+		and :? ~(not empty?_
+	test. |
+		case ? 1
+			:Some val
+				! =? val 1
+
+self-impl! extract Some |case
+	:Some
+		[ _.val ]
+	else
+		()
 
 ?

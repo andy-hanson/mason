@@ -9,7 +9,7 @@ use
 	.Kind kind!
 	.Method impl!
 	.Obj-Type
-	.Type _ contains?
+	.Type _ contains? extract
 use-debug
 	..!
 	..compare =?
@@ -64,5 +64,11 @@ Wrap-Type = Obj-Type
 kind! Wrap-Type Impl-Type
 impl! contains? Wrap-Type |wt _
 	js-instanceof _ wt
+impl! extract Wrap-Type |wt _
+	case
+		js-instanceof _ wt
+			[ _.val ]
+		else
+			()
 
 Wrap-Type

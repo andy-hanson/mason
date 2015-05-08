@@ -5,9 +5,10 @@ use
 	...math.methods -
 	...Type.Kind kind! self-kind!
 	...Type.Tuple
-	..@ count empty? iterator
+	..@ count iterator
 	..@! ++!
 	..@-Type _ empty from-stream
+	..? ?-or
 	.Array!
 	.Seq _ ?nth
 	.Stream
@@ -54,12 +55,9 @@ kind! Lazy-Stream Seq
 			<~~ _.caching-iterator
 
 	?nth -> |stream n:Nat
-		case ?nth stream.cache n
-			empty?_
-				left = - n (count stream.cache
-				?nth (Stream stream.caching-iterator) left
-			else
-				_
+		?-or (?nth stream.cache n) ~
+			n-left = - n (count stream.cache
+			?nth (Stream stream.caching-iterator) n-left
 
 lazy-streaming.
 	doc. "Creates a Lazy-Stream from a generator."

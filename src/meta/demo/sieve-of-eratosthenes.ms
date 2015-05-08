@@ -1,5 +1,6 @@
 use
-	...@.@ each! empty?
+	...@.@ each!
+	...@.? Some
 	...@.Map.Map! assoc! un-assoc!
 	...@.Map.Id-Map!
 	...@.Map.multi-map! add-to-@!
@@ -32,10 +33,10 @@ primes.
 		<~~ each~ (range 5 infinity 2) ~|candidate
 			# un-assoc! is to save memory - we won't need to look up this value any more.
 			case! un-assoc! prime-factors candidate
-				empty?_
+				:Some factors
+					each! factors |_
+						key = + candidate (* 2 _
+						add-to-@! prime-factors key [ _ ]
+				else
 					<~ candidate
 					assoc! prime-factors (square candidate) [ candidate ]
-				else
-					each! _.val |factor
-						key = + candidate (* 2 factor
-						add-to-@! prime-factors key [ factor ]

@@ -1,5 +1,5 @@
 use
-	..@.@ empty?
+	..@.? ?-or
 	..Obj flag? ?p
 	..show
 	.Method impl!
@@ -15,10 +15,4 @@ impl! show Type
 			flag? opts "repr"
 				show.default type opts
 			else
-				case ?p type "displayName"
-					empty?_
-						"<anonymous Type>"
-					else
-						_.val
-
-()
+				?-or (?p type "displayName") "<anonymous Type>"

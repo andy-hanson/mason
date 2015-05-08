@@ -9,7 +9,7 @@ use
 use~
 	.@.@ _ ++ all? count each! empty? keep
 	.@.@-Type empty
-	.@.? _ Opt->?
+	.@.? _ ?-or Opt->?
 	.@.Map.Map _ make-map
 	.@.Set.Id-Set!
 	.control returning
@@ -47,13 +47,8 @@ flag?.
 		[ (a. true) "a" ] -> true
 		[ (a. false) "a" ] -> false
 		[ empty-Obj "a" ] -> false
-	|obj flag:Obj-Key
-		case ?p obj flag
-			empty?_
-				false
-			else
-				b:Bool = _.val
-				b
+	|:Bool obj flag:Obj-Key
+		?-or (?p obj flag) false
 
 ~forbidden-fun-props = => Id-Set! [ "arguments" "caller" ]
 @p-all.

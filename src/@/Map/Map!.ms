@@ -2,9 +2,9 @@ use
 	...Type.Kind _ kind! self-kind!
 	...Type.Method _ self-impl!
 	...Type.Pred-Type Any
-	..@ _ each! empty?
+	..@ _ each!
 	..@-Type empty
-	..?
+	..? _ ?-or
 	.Map _ ?get
 	.Map-Type
 use~
@@ -18,7 +18,7 @@ use-debug
 	...Type.Method impl!
 	...Type.Wrap-Type
 	...Type.Type =>
-	..@ map
+	..@ empty? map
 	..@! empty!
 	..Set.Set set=?
 	.Map has-key? keys
@@ -97,12 +97,9 @@ add!. Method
 get-or-add!. Method
 	doc. "map[key], and if it's not already there, fill it in with default-val."
 	default. |map key:Any ~default-val
-		case ?get map key
-			empty?_
-				assoc! map key default-val
-				default-val
-			else
-				_.val
+		?-or (?get map key) ~
+			assoc! map key default-val
+			default-val
 
 kind! Map! Map
 
