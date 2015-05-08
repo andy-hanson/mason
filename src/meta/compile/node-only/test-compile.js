@@ -7,7 +7,7 @@ import Cx from '../private/Cx'
 import lex from '../private/lex/lex'
 import lexUngrouped from '../private/lex/ungrouped'
 import lexGroup from '../private/lex/group'
-import parse from '../private/parse'
+import parse from '../private/parse/parse'
 import render from '../private/render'
 import transpile from '../private/transpile/transpile'
 import verify from '../private/verify'
@@ -53,12 +53,12 @@ const doTest = includePerfTest => {
 			lexGroup(cx, tUngrouped)
 
 		benchmark({
-			//lexUngrouped: () => global.lexUngroupedTest(),
-			//lexGroup: () => global.lexGroupTest(),
+			lexUngrouped: () => global.lexUngroupedTest(),
+			lexGroup: () => global.lexGroupTest(),
 			parse: () => parse(cx, t),
-			//verify: () => verify(cx, e),
-			//transpile: () => transpile(cx, e, vr),
-			//render: () => render(cx, ast)
+			verify: () => verify(cx, e),
+			transpile: () => transpile(cx, e, vr),
+			render: () => render(cx, ast)
 		})
 	} else {
 		log(`Expression tree size: ${treeSize(e, _ => _ instanceof Expression).size}.`)

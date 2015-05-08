@@ -1,15 +1,18 @@
-import { isEmpty } from './Bag'
-import { None, some } from './Op'
+import Loc from 'esast/dist/Loc'
+import { isEmpty } from '../U/Bag'
+import { None, some } from '../U/Op'
 
 export default class Slice {
-	static all(data) {
-		return new Slice(data, 0, data.length)
+	static group(g) {
+		return new Slice(g.tokens, 0, g.tokens.length, g.loc)
 	}
 
-	constructor(data, start, end) {
+	constructor(data, start, end, loc) {
 		this.data = data
 		this.start = start
+		// end is exclusive
 		this.end = end
+		this.loc = loc
 	}
 
 	size() {
@@ -33,20 +36,20 @@ export default class Slice {
 	}
 
 	tail() {
-		return this._new(this.start + 1, this.end)
+		return this._chopStart(this.start + 1)
 	}
 
 	rtail() {
-		return this._new(this.start, this.end - 1)
+		return this._chopEnd(this.end - 1)
 	}
 
 	opSplitOnceWhere(splitOn) {
 		for (let i = this.start; i < this.end; i = i + 1)
 			if (splitOn(this.data[i]))
 				return some({
-					before: this._new(this.start, i),
+					before: this._chopEnd(i),
 					at: this.data[i],
-					after: this._new(i + 1, this.end)
+					after: this._chopStart(i + 1)
 				})
 		return None
 	}
@@ -56,14 +59,14 @@ export default class Slice {
 		const out = []
 		for (let i = this.start; i < this.end; i = i + 1)
 			if (splitOn(this.data[i])) {
-				out.push({ before: this._new(iLast, i), at: this.data[i] })
+				out.push({ before: this._chop(iLast, i), at: this.data[i] })
 				iLast = i + 1
 			}
 
 		if (isEmpty(out))
 			return None
 		else {
-			out.push({ before: this._new(iLast, this.end) })
+			out.push({ before: this._chopStart(iLast) })
 			return some(out)
 		}
 	}
@@ -79,12 +82,6 @@ export default class Slice {
 		return out
 	}
 
-	flatMap(f) {
-		const out = []
-		this.each(_ => out.push(...f(_)))
-		return out
-	}
-
 	reduce(reducer, start) {
 		let acc = start
 		for (let i = this.start; i < this.end; i = i + 1)
@@ -92,11 +89,16 @@ export default class Slice {
 		return acc
 	}
 
-	toString() {
-		return '[' + this.data.slice(this.start, this.end).toString() + ']'
+	_chop(newStart, newEnd) {
+		const loc = Loc(this.data[newStart].loc.start, this.data[newEnd - 1].loc.end)
+		return new Slice(this.data, newStart, newEnd, loc)
 	}
-
-	_new(start, end) {
-		return new Slice(this.data, start, end)
+	_chopStart(newStart) {
+		return new Slice(this.data, newStart, this.end,
+			newStart === this.end ? this.loc : Loc(this.data[newStart].loc.start, this.loc.end))
+	}
+	_chopEnd(newEnd) {
+		return new Slice(this.data, this.start, newEnd,
+			(newEnd === this.start) ? this.loc : Loc(this.loc.start, this.data[newEnd - 1].loc.end))
 	}
 }
