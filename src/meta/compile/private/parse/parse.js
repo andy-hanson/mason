@@ -1,9 +1,10 @@
+import Loc from 'esast/dist/Loc'
 import { code } from '../../CompileError'
 import { Assign, AssignDestructure, BlockDo, BlockVal, BlockWrap, Call, CaseDoPart, CaseValPart,
 	CaseDo, CaseVal, Debug, NumberLiteral, EndLoop, Fun, GlobalAccess, Lazy, ListEntry, ListReturn,
 	ListSimple, LocalAccess, LocalDeclare, LocalDeclare, Loop, MapEntry, MapReturn, Member, Module,
-	ModuleDefaultExport, ObjReturn, ObjSimple, Pattern, Quote, Special, Splat, Val, UseDo, Use,
-	Yield, YieldTo } from '../../Expression'
+	ModuleDefaultExport, ObjPair, ObjReturn, ObjSimple, Pattern, Quote, Special, Splat, Val, Use,
+	UseDo, Yield, YieldTo } from '../../Expression'
 import { JsGlobals } from '../Lang'
 import { CallOnFocus, DotName, Group, G_Block, G_Bracket,
 	G_Paren, G_Space, G_Quote, Keyword, TokenNumberLiteral, Name, opKWtoSP,
@@ -272,26 +273,23 @@ const
 				const first = splits[0].before
 				const tokensCaller = first.rtail()
 
-				const keysVals = {}
+				const pairs = [ ]
 				for (let i = 0; i < splits.length - 1; i = i + 1) {
-					const local = parseLocalDeclare(splits[i].before.last())
-					// Can't have got a type because there's only one token.
-					assert(isEmpty(local.opType))
+					const name = splits[i].before.last()
+					cx.check(name instanceof Name, name.loc, () => `Expected a name, not ${name}`)
 					const tokensValue = i === splits.length - 2 ?
 						splits[i + 1].before :
 						splits[i + 1].before.rtail()
 					const value = parseExprPlain(tokensValue)
-					cx.check(!Object.prototype.hasOwnProperty.call(keysVals, local.name),
-						local.loc, () => `Duplicate property ${local}.`)
-					Object.defineProperty(keysVals, local.name, { value })
+					const loc = Loc(name.loc.start, tokensValue.loc.end)
+					pairs.push(ObjPair(loc, name.name, value))
 				}
 				assert(last(splits).at === undefined)
-				const val = ObjSimple(tokens.loc, keysVals)
+				const val = ObjSimple(tokens.loc, pairs)
 				if (tokensCaller.isEmpty())
 					return val
 				else {
 					const parts = parseExprParts(tokensCaller)
-					assert(!isEmpty(parts))
 					return Call(tokens.loc, head(parts), push(tail(parts), val))
 				}
 			},

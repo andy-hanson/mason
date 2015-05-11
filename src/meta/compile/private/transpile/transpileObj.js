@@ -42,11 +42,4 @@ export const
 					property('init', IdDisplayName, Literal(dn)))
 				return ObjectExpression(cat(props, opPropDisplayName))
 			})
-	},
-
-	transpileObjSimple = _ => {
-		// Sort to keep compilation deterministic.
-		const keys = Object.getOwnPropertyNames(_.keysVals).sort()
-		return ObjectExpression(keys.map(key =>
-			property('init', propertyIdOrLiteralCached(key), t0(_.keysVals[key]))))
 	}

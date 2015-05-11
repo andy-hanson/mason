@@ -73,8 +73,9 @@ export const
 		'debugKeys', [LocalDeclare],
 		'opObjed', Op(Val),
 		'opDisplayName', Op(String)),
-	// keysVals: values are Vals
-	ObjSimple = ev('ObjSimple', 'keysVals', Object),
+	ObjPair = ee('ObjPair', 'key', String, 'value', Val),
+	// Verifier checks that no two pairs may have the same key.
+	ObjSimple = ev('ObjSimple', 'pairs', [ObjPair]),
 
 	// Case
 	Pattern = ee('Pattern', 'type', Val, 'locals', [LocalDeclare], 'patterned', LocalAccess),

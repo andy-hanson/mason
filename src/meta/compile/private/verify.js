@@ -217,7 +217,12 @@ implementMany(EExports, 'verify', {
 	GlobalAccess() { },
 	ObjReturn() { vm(this.opObjed) },
 	ObjSimple() {
-		Object.getOwnPropertyNames(this.keysVals).forEach(key => this.keysVals[key].verify())
+		const keys = new Set()
+		this.pairs.forEach(pair => {
+			cx.check(!keys.has(pair.key), pair.loc, () => `Duplicate key ${pair.key}`)
+			keys.add(pair.key)
+			pair.value.verify()
+		})
 	},
 	Lazy() { withBlockLocals(() => this.value.verify()) },
 	ListReturn() { },

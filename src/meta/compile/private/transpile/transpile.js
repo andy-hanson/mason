@@ -1,9 +1,9 @@
 import { ArrayExpression, AssignmentExpression, BlockStatement, BreakStatement,
 	CallExpression, DebuggerStatement, Identifier, IfStatement, LabeledStatement, Literal,
-	ThisExpression, VariableDeclarator, ReturnStatement } from 'esast/dist/ast'
-import { idCached, member, toStatement } from 'esast/dist/util'
+	ObjectExpression, ThisExpression, VariableDeclarator, ReturnStatement } from 'esast/dist/ast'
+import { idCached, member, propertyIdOrLiteralCached, toStatement } from 'esast/dist/util'
 import { callExpressionThunk, functionExpressionPlain, functionExpressionThunk, memberExpression,
-	variableDeclarationConst, yieldExpressionDelegate, yieldExpressionNoDelegate
+	property, variableDeclarationConst, yieldExpressionDelegate, yieldExpressionNoDelegate
 	} from 'esast/dist/specialize'
 import * as EExports from '../../Expression'
 import { BlockVal, Pattern, Splat,
@@ -15,7 +15,7 @@ import { assert, implementMany, isPositive } from '../U/util'
 import { binaryExpressionPlus, binaryExpressionNotEqual, declare, declareSpecial,
 	idForDeclareCached, throwError, unaryExpressionNegate, whileStatementInfinite
 	} from './esast-util'
-import { transpileObjReturn, transpileObjSimple } from './transpileObj'
+import { transpileObjReturn } from './transpileObj'
 import transpileModule from './transpileModule'
 import {
 	IdArguments, IdArraySliceCall, IdExports, IdFunctionApplyCall, IdMs,
@@ -154,7 +154,10 @@ implementMany(EExports, 'transpileSubtree', {
 			[ ]
 	},
 	ObjReturn() { return transpileObjReturn(this, cx) },
-	ObjSimple() { return transpileObjSimple(this, cx) },
+	ObjSimple() {
+		return ObjectExpression(this.pairs.map(pair =>
+			property('init', propertyIdOrLiteralCached(pair.key), t0(pair.value))))
+	},
 	EndLoop() { return BreakStatement(loopId(vr.endLoopToLoop.get(this))) },
 	Fun() {
 		const oldInGenerator = isInGenerator
