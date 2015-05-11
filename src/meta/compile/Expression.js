@@ -53,21 +53,19 @@ export const
 	// Module
 	UseDo = ee('UseDo', 'path', String),
 	Use = ee('Use', 'path', String, 'used', [LocalDeclare], 'opUseDefault', Op(LocalDeclare)),
-	// `block` will contain ModuleExport and ModuleDefaultExport_s
+	// `block` will contain ModuleExports and ModuleDefaultExport_s
 	// TODO: BlockVal and don't have `exports` object
-	Module = ee('Module', 'doUses', [UseDo], 'uses', [Use], 'debugUses', [Use], 'block', BlockDo),
+	Module = ee('Module',
+		'doUses', [UseDo], 'uses', [Use], 'debugUses', [Use], 'block', BlockDo),
 
 	// Data
-	// TODO: Don't store index here, do it in Vr
-	ListEntry = ed('ListEntry', 'value', Val, 'index', Number),
-	// TODO: Don't store length here, do it in Vr
-	ListReturn = ev('ListReturn', 'length', Number),
+	ListEntry = ed('ListEntry', 'value', Val),
+	ListReturn = ev('ListReturn'),
 	ListSimple = ev('ListSimple', 'parts', [Val]),
 
-	// TODO: Don't store index here, do it in Vr
-	MapEntry = ed('MapEntry', 'key', Val, 'val', Val, 'index', Number),
-	// TODO: Don't store length here, do it in Vr
-	MapReturn = ev('MapReturn', 'length', Number),
+	MapEntry = ed('MapEntry', 'key', Val, 'val', Val),
+	MapReturn = ev('MapReturn'),
+
 	ObjReturn = ev('ObjReturn',
 		'keys', [LocalDeclare],
 		'debugKeys', [LocalDeclare],

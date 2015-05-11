@@ -104,19 +104,18 @@ const
 		assert(k === 'val' || k === 'module' || k === 'any')
 
 		// keys only matter if kReturn === 'obj'
-		const { eLines, kReturn, listLength, mapLength, objKeys, debugKeys } =
-			_parseBlockLines(tokens)
+		const { eLines, kReturn, objKeys, debugKeys } = _parseBlockLines(tokens)
 
 		const { doLines, opReturn } = (() => {
 			if (kReturn === 'bag')
 				return {
 					doLines: eLines,
-					opReturn: some(ListReturn(tokens.loc, listLength))
+					opReturn: some(ListReturn(tokens.loc))
 				}
 			if (kReturn === 'map')
 				return {
 					doLines: eLines,
-					opReturn: some(MapReturn(tokens.loc, mapLength))
+					opReturn: some(MapReturn(tokens.loc))
 				}
 
 			const lastReturn = !isEmpty(eLines) && last(eLines) instanceof Val
@@ -175,8 +174,8 @@ const
 
 	_parseBlockLines = lines => {
 		const objKeys = [], debugKeys = []
-		let listLength = 0, mapLength = 0
 		const eLines = []
+		let isBag = false, isMap = false
 		const addLine = (ln, inDebug) => {
 			if (ln instanceof Array)
 				ln.forEach(_ => addLine(_, inDebug))
@@ -185,18 +184,11 @@ const
 					ln.lines.forEach(_ => addLine(_, true))
 				else if (ln instanceof ListEntry) {
 					assert(!inDebug, 'Not supported: debug list entries')
-					// When ListEntries are first created they have no index.
-					assert(ln.index === -1)
-					ln.index = listLength
-					listLength = listLength + 1
-				}
-				else if (ln instanceof MapEntry) {
+					isBag = true
+				} else if (ln instanceof MapEntry) {
 					assert(!inDebug, 'Not supported: debug map entries')
-					assert(ln.index === -1)
-					ln.index = mapLength
-					mapLength = mapLength + 1
-				}
-				else if (ln instanceof Assign && ln.k === KW_ObjAssign)
+					isMap = true
+				} else if (ln instanceof Assign && ln.k === KW_ObjAssign)
 					(inDebug ? debugKeys : objKeys).push(ln.assignee)
 
 				if (!inDebug)
@@ -210,14 +202,12 @@ const
 		// TODO
 		// if (isEmpty(objKeys))
 		//	cx.check(isEmpty(debugKeys), lines.loc, 'Block can't have only debug keys')
-		const isBag = listLength > 0
-		const isMap = mapLength > 0
 		cx.check(!(isObj && isBag), lines.loc, 'Block has both Bag and Obj lines.')
 		cx.check(!(isObj && isMap), lines.loc, 'Block has both Obj and Map lines.')
 		cx.check(!(isBag && isMap), lines.loc, 'Block has both Bag and Map lines.')
 
 		const kReturn = isObj ? 'obj' : isBag ? 'bag' : isMap ? 'map' : 'plain'
-		return { eLines, kReturn, listLength, mapLength, objKeys, debugKeys }
+		return { eLines, kReturn, objKeys, debugKeys }
 	}
 
 const parseCase = (k, casedFromFun, tokens) => {

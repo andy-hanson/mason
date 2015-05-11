@@ -181,10 +181,12 @@ implementMany(EExports, 'transpileSubtree', {
 	},
 	Lazy() { return lazyWrap(t0(this.value)) },
 	ListReturn() {
-		return ArrayExpression(range(0, this.length).map(i => idCached(`_${i}`)))
+		const length = vr.listMapLength(this)
+		assert(length >= 0)
+		return ArrayExpression(range(0, length).map(i => idCached(`_${i}`)))
 	},
 	ListSimple() { return ArrayExpression(this.parts.map(t0)) },
-	ListEntry() { return declareSpecial(`_${this.index}`, t0(this.value)) },
+	ListEntry() { return declareSpecial(`_${vr.listMapEntryIndex(this)}`, t0(this.value)) },
 	NumberLiteral() {
 		// Negative numbers are not part of ES spec.
 		// http://www.ecma-international.org/ecma-262/5.1/#sec-7.8.3
@@ -199,15 +201,17 @@ implementMany(EExports, 'transpileSubtree', {
 		return LabeledStatement(loopId(this), whileStatementInfinite(t0(this.block)))
 	},
 	MapEntry() {
-		const k = `_k${this.index}`
-		const v = `_v${this.index}`
+		const index = vr.listMapEntryIndex(this)
+		const k = `_k${index}`
+		const v = `_v${index}`
 		return variableDeclarationConst([
 			VariableDeclarator(idCached(k), t0(this.key)),
 			VariableDeclarator(idCached(v), t0(this.val))
 		])
 	},
 	MapReturn() {
-		return msMap(...flatMap(range(0, this.length), i =>
+		const length = vr.listMapLength(this)
+		return msMap(...flatMap(range(0, length), i =>
 			[ idCached(`_k${i}`), idCached(`_v${i}`) ]))
 	},
 	Member() {

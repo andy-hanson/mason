@@ -1,11 +1,12 @@
 import { code } from '../CompileError'
 import * as EExports from '../Expression'
 import { Assign, AssignDestructure, BlockVal, Call, Debug, Do, GlobalAccess,
-	Pattern, Special, UseDo, Yield, YieldTo } from '../Expression'
-import { head, isEmpty } from './U/Bag'
+	ListEntry, ListReturn, MapEntry, MapReturn,
+	ModuleDefaultExport, Pattern, Special, UseDo, Yield, YieldTo } from '../Expression'
+import { head, isEmpty, last } from './U/Bag'
 import { ifElse, some } from './U/Op'
-import { implementMany, mapKeys } from './U/util'
-import { emptyVr, VrLocalInfo } from './Vr'
+import { assert, implementMany, mapKeys } from './U/util'
+import Vr, { VrLocalInfo } from './Vr'
 
 const vm = es => es.forEach(e => e.verify())
 
@@ -28,7 +29,7 @@ const
 		isInDebug = false
 		isInGenerator = false
 		opLoop = []
-		vr = emptyVr()
+		vr = new Vr()
 	},
 	// Release for garbage collection
 	uninit = () => {
@@ -96,6 +97,13 @@ const
 
 	registerLocal = local => {
 		vr.localToInfo.set(local, VrLocalInfo(	isInDebug, [], []))
+	},
+
+	setEntryIndex = (listMapEntry, index) => {
+		vr.entryToIndex.set(listMapEntry, index)
+	},
+	setListMapLength = (returner, length) => {
+		vr.returnToLength.set(returner, length)
 	}
 
 export default function verify(cx, e) {
@@ -135,7 +143,11 @@ implementMany(EExports, 'verify', {
 	},
 	BlockDo() { verifyLines(this.lines) },
 	BlockVal() {
-		const newLocals = verifyLines(this.lines)
+		const { newLocals, listMapLength } = verifyLines(this.lines)
+		if (this.returned instanceof ListReturn || this.returned instanceof MapReturn)
+			setListMapLength(this.returned, listMapLength)
+		else
+			assert(listMapLength === 0)
 		plusLocals(newLocals, () => this.returned.verify())
 	},
 	BlockWrap() {
@@ -190,9 +202,19 @@ implementMany(EExports, 'verify', {
 		this.key.verify()
 		this.val.verify()
 	},
+	// TODO: Just have lines, not block.lines
 	Module() {
 		const useLocals = verifyUses(this.uses, this.debugUses)
-		plusLocals(useLocals, () => this.block.verify())
+		plusLocals(useLocals, () => {
+			const { listMapLength } = verifyLines(this.block.lines)
+			// If we are returning a list, the ModuleDefaultExport will be the last line.
+			const ex = last(this.block.lines)
+			if (ex instanceof ModuleDefaultExport) {
+				const ret = ex.value
+				if (ret instanceof ListReturn || ret instanceof MapReturn)
+					setListMapLength(ret, listMapLength)
+			}
+		})
 	},
 	Yield() {
 		cx.check(isInGenerator, this.loc, 'Cannot yield outside of generator context')
@@ -288,7 +310,7 @@ const
 	},
 
 	verifyLines = lines => {
-		const allNewLocals = [ ]
+		const newLocals = [ ]
 		// First, get locals for the whole block.
 		const getLineLocals = line => {
 			if (line instanceof Debug)
@@ -296,7 +318,7 @@ const
 			else {
 				const news = lineNewLocals(line)
 				news.forEach(registerLocal)
-				allNewLocals.push(...news)
+				newLocals.push(...news)
 			}
 		}
 
@@ -304,6 +326,8 @@ const
 
 		const thisBlockLocalNames = new Set()
 		const shadowed = new Map()
+
+		let listMapLength = 0
 
 		const verifyLine = line => {
 			if (line instanceof Debug)
@@ -322,14 +346,18 @@ const
 					locals.set(l.name, l)
 					thisBlockLocalNames.add(l.name)
 				})
+				if (line instanceof ListEntry || line instanceof MapEntry) {
+					setEntryIndex(line, listMapLength)
+					listMapLength = listMapLength + 1
+				}
 				line.verify()
 			}
 		}
 
-		plusPendingBlockLocals(allNewLocals, () =>
-			lines.forEach(verifyLine))
+		plusPendingBlockLocals(newLocals, () => lines.forEach(verifyLine))
 
-		allNewLocals.forEach(l => {
+		newLocals.forEach(l => {
+			//TODO:ifElse
 			const s = shadowed.get(l.name)
 			if (s === undefined)
 				locals.delete(l.name)
@@ -337,7 +365,7 @@ const
 				locals.set(l.name, s)
 		})
 
-		return allNewLocals
+		return { newLocals, listMapLength }
 	},
 
 	verifyIsStatement = line => {
