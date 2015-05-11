@@ -1,7 +1,6 @@
 import tupl from 'tupl/dist//tupl'
 import { LocalAccess } from '../Expression'
 import { isEmpty } from './U/Bag'
-import { ObjType } from './U/types'
 
 export default class Vr {
 	constructor() {

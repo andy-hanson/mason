@@ -22,7 +22,7 @@ Js-Method = Obj-Type
 	props.
 		displayName. Str
 		impl-name. Str
-	extensible.
+	extensible. true
 	make-callable. |_
 		impl = "a[\"{_.impl-name}\"]"
 		# TODO:ES6 "return target.name(...args)"

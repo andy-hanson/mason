@@ -29,7 +29,7 @@ region Debugging
 			warn! "-->"
 			each! args |_
 				warn! (show _
-					repr. # TODO:SYNTAX [ repr. ]
+					repr. true # TODO:SYNTAX [ repr. true ]
 			warn! "<--"
 
 	trace!.

@@ -88,7 +88,7 @@ flag?.
 		sym = Symbol "s"
 		Obj.defineProperty obj sym
 			value. 0
-			enumerable.
+			enumerable. true
 		! empty? (@p obj)
 		! set=? (@p @p) [ "doc" "test" "displayName" ]
 	|:@[Str] _

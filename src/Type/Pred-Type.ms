@@ -22,7 +22,7 @@ Pred-Type = Obj-Type
 	props.
 		displayName. Str
 		predicate. Pred
-	extensible.
+	extensible. true
 
 kind! Pred-Type Type
 impl! contains? Pred-Type |_ value

@@ -2,13 +2,14 @@ use
 	..compare =?
 	..js id=? js-instanceof
 	..private.bootstrap Fun impl-contains?! msDef
+	# Don't want to depend on Try because that can cause circular dependency problems.
+	..private.js-impl ohNo
 	.Impl-Type
 	.Kind _ kind!
 	.Method _ --contains? impl!
 use~
 	..@.? ?-or
 	..Obj _ ?p-with-proto
-	..Try oh-no!
 use-debug
 	..!
 	.Method self-impl!
@@ -54,12 +55,13 @@ msDef "checkContains" |type value name
 		contains? type value
 			()
 		else
-			oh-no! "{name} is no {type}, is a {type-of value}: {value}"
+			ohNo "{name} is no {type}, is a {type-of value}: {value}"
 	value
 
 =>. Method
-	doc. |convert-to:Type convert-me
-		"Converts a value to a given type."
+	doc. "
+		|convert-to:Type convert-me
+		Converts a value to a given type.
 	wrap. |impl type converted opts
 		case converted
 			:type

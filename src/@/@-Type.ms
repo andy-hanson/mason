@@ -22,8 +22,9 @@ empty. Method
 		Should always return the same thing iff immutable.
 
 from-stream. Method
-	doc. |_ stream:@
-		"Creates a new value of this type by reading out from an @'s iterator."
+	doc. "
+		|_ stream:@
+		Creates a new value of this type by reading out from an @'s iterator.
 	test. |
 		[ Array (range 0 5) ] -> [ 0 1 2 3 4 ]
 	default. |type stream

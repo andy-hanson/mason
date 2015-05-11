@@ -454,28 +454,13 @@ const
 	_parseAssign = (assigned, assigner, value, loc) => {
 		let locals = parseLocalDeclares(assigned)
 		const k = assigner.k
-		const eValuePre = value.isEmpty() ? GlobalAccess.true(value.loc) : parseExpr(value)
 
-		let eValueNamed
-		if (locals.length === 1) {
-			const name = head(locals).name
-			if (name === 'doc') {
-				if (eValuePre instanceof Fun)
-					// KLUDGE: `doc` for module can be a Fun signature.
-					// TODO: Something better...
-					eValuePre.args.forEach(arg => { arg.okToNotUse = true })
-				eValueNamed = eValuePre
-			}
-			else
-				eValueNamed = _tryAddDisplayName(eValuePre, name)
-		}
-		else
-			eValueNamed = eValuePre
-
-		const isYield = k === KW_Yield || k === KW_YieldTo
-
+		const eValuePre = parseExpr(value)
+		const eValueNamed =
+			locals.length === 1 ? _tryAddDisplayName(eValuePre, head(locals).name) : eValuePre
 		const eValue = _valueFromAssign(eValueNamed, k)
 
+		const isYield = k === KW_Yield || k === KW_YieldTo
 		if (isEmpty(locals)) {
 			cx.check(isYield, assigned.loc, 'Assignment to nothing')
 			return eValue

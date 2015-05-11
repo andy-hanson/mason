@@ -1,5 +1,5 @@
 use
-	...Bool _ and not
+	...Bool and not
 	...compare =?
 	...Fun
 	...Generator! each~
@@ -10,7 +10,7 @@ use
 	...Type.Pred-Type Any
 	..@ _ all? count each! empty? iterator map
 	..@-Type empty
-	..? _ un-?
+	..? un-?
 use~
 	.Hash-Map!
 	.Map! assoc!
@@ -28,22 +28,22 @@ impl! iterator Map |_
 
 region New methods
 	?get. Method
-		doc. |:? _ key:Any
-			"`?` containing the value corresponding to `key`, if any."
+		doc. "
+			|:? _ key:Any
+			`?` containing the value corresponding to `key`, if any.
 
 	has-key?. Method
-		doc. |:Bool _ key:Any
-			"Whether the key is in the Map."
+		doc. "
+			|:Bool _ key:Any
+			Whether the key is in the Map.
 		default. |_ key:Any
 			not (empty? (?get _ key
 
 	keys. Method
-		doc. |:@ _
-			"Every key that the Map `has-key?`."
+		doc. "Every key that the Map `has-key?`."
 
 	values. Method
-		doc. |:@ _
-			"Every value in the Map."
+		doc. "Every value in the Map."
 		default. |_
 			map keys_ |key
 				_[key]

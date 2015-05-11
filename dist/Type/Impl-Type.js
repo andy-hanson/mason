@@ -25,7 +25,7 @@ define(["exports","../private/bootstrap","./Kind","./Obj-Type","../bang","../com
 				}());
 				const C=Obj_45Type(function(){
 					const props=function(){
-						const c=true;
+						const c=null;
 						return {
 							c:c,
 							displayName:"props"

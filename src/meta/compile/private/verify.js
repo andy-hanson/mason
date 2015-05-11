@@ -357,7 +357,6 @@ const
 		plusPendingBlockLocals(newLocals, () => lines.forEach(verifyLine))
 
 		newLocals.forEach(l => {
-			//TODO:ifElse
 			const s = shadowed.get(l.name)
 			if (s === undefined)
 				locals.delete(l.name)

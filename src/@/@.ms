@@ -12,7 +12,6 @@ use
 	..Type.Pred-Type Any Opt
 use~
 	..control opr Ref! get set!
-	..Generator!
 	..math.Num Nat
 	.@! --!
 	.@-Type empty
@@ -40,8 +39,7 @@ use-debug
 			! empty? _
 
 iterator. Method
-	doc. |:Generator! _
-		"Creates a new Generator! which yields the values in the @. Should create a new one every time."
+	doc. "Creates a new Generator! which yields the values in the @."
 msDef "iterator" iterator
 
 empty?. Method

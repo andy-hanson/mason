@@ -40,7 +40,7 @@ p+!.
 			p+! "string" "a" 1
 	|_:Obj! name:Obj-Key val
 		Obj.defineProperty _ name
-			enumerable.
+			enumerable. true
 			writable. false # TODO:ES6 Shouldn't need to be explicit
 			value. val
 		()
@@ -50,10 +50,10 @@ p+mut!.
 	test. "See `p!`"
 	|_:Obj! name:Obj-Key val
 		Obj.defineProperty _ name
-			enumerable.
-			writable.
+			enumerable. true
+			writable. true
 			value. val
-			configurable.
+			configurable. true
 		()
 
 p!.

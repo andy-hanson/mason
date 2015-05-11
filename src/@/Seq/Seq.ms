@@ -133,10 +133,10 @@ region Search
 						()
 
 	?nth. Method
-		doc. |_ n:Nat
-			"
-				`n`th element in iteration order, if there are at least that many values.
-				0th is the first."
+		doc. "
+			|_ n:Nat
+			`n`th element in iteration order, if there are at least that many values.
+			0th is the first."
 		test. |
 			[ [ 0 1 ] 1 ] -> ? 1
 			[ [ 0 1 ] 2 ] -> empty ?

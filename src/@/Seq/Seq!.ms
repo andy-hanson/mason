@@ -1,11 +1,8 @@
 use
-	...math.Num Nat
 	...Type.Kind _ kind! self-kind!
 	...Type.Method
-	..@
 	..@!
 	..@-Type _ empty
-	..?
 	.Seq
 use~
 	.Deque!
@@ -13,6 +10,7 @@ use-debug
 	...!
 	...compare =?
 	..@ empty?
+	..?
 	.Array!
 	.Seq seq=?
 
@@ -47,22 +45,26 @@ kind! Seq! @!
 kind! Seq! Seq
 
 <++!. Method
-	doc. |_ added:@
-		"Makes `_` into `+ added _`."
-
+	doc. "
+		|_ added:@
+		Makes `_` into `+ added _`.
 ++>!. Method
-	doc. |_ added:@
-		"Makes `_` into `+ _ added`."
+	doc. "
+		|_ added:@
+		Makes `_` into `+ _ added`.
 
 ?<pop!. Method
-	doc. |:? _
-		"Takes one element off the left side, if not empty?."
+	doc. "
+		|:? _
+		Takes one element off the left side, if not empty?.
 ?pop>!. Method
-	doc. |:? _
-		"Takes one element off the right side, if not empty?."
+	doc. "
+		|:? _
+		Takes one element off the right side, if not empty?.
 
 set-nth!. Method
-	doc. |_ n:Nat val
-		"Makes `_[n]` be `val`."
+	doc. "
+		|_ n:Nat val
+		Makes `_[n]` be `val`.
 
 Seq!

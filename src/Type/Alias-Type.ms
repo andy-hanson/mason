@@ -20,7 +20,7 @@ Alias-Type = Obj-Type
 	props.
 		displayName. Str
 		alias-of. Type
-	extensible.
+	extensible. true
 
 kind! Alias-Type Type
 

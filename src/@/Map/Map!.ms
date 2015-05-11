@@ -4,7 +4,7 @@ use
 	...Type.Pred-Type Any
 	..@ _ each!
 	..@-Type empty
-	..? _ ?-or
+	..? ?-or
 	.Map _ ?get
 	.Map-Type
 use~
@@ -66,8 +66,9 @@ self-impl! empty Map! |
 	empty Hash-Map!
 
 assoc!. Method
-	doc. |_ key:Any val:Any
-		"Set _[key] to val."
+	doc. "
+		|_ key:Any val:Any
+		Set _[key] to val.
 
 assoc*!.
 	doc. "Adds the other map's keys to mine, overriding my values."
@@ -77,8 +78,9 @@ assoc*!.
 			assoc! _ pair.key pair.val
 
 un-assoc!. Method
-	doc. |:? _ key
-		"If there is a value associated with `key`, removes it and returns the value associated."
+	doc. "
+		|:? _ key
+		If there is a value associated with `key`, removes it and returns the value associated.
 
 un-assoc*!.
 	doc. "Removes keys (and by proxy, their associated values)."
@@ -86,8 +88,9 @@ un-assoc*!.
 		each! @to-delete un-assoc![_]
 
 add!. Method
-	doc. |_ key:Any val:Any
-		"assoc! key val, but fail if _[key] is set already."
+	doc. "
+		|_ key:Any val:Any
+		assoc! key val, but fail if _[key] is set already.
 	default. |_ key:Any val:Any
 		in
 			!not (has-key? _ key) ~"

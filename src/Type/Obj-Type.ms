@@ -1,7 +1,7 @@
 use
 	..Bool _ and implies not
 	..private.bootstrap Fun impl-contains?! Obj p+! Str
-	..js defined? js=== js-instanceof js-sub js-typeof
+	..js defined? js! js=== js-instanceof js-sub js-typeof
 	..private.js-impl buildStr
 use-debug
 	..!
@@ -14,13 +14,13 @@ use-debug
 if! = |bool act
 	case!
 		bool
-			act ()
+			act()
 		else
 			()
 
 flag? = |case
 	defined?_
-		_
+		js! (js=== _ false)
 	else
 		false
 
@@ -28,7 +28,7 @@ make-ctr = |ot
 	debug prop-has-type? = |props prop
 		# Type might be lazily defined, but don't trigger it yet.
 		desc = Obj.getOwnPropertyDescriptor props prop
-		not (js=== desc.value true)
+		not (js=== desc.value null)
 
 	real-prop? = |props prop
 		# Ignore accidental displayName.
@@ -199,7 +199,7 @@ obj-type-args =
 		Ex = Obj-Type
 			props.
 				x.
-			extensible.
+			extensible. true
 		ex = Ex
 			x. 1
 			y. 2

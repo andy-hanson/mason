@@ -1,5 +1,5 @@
 use
-	..Bool _ and implies not
+	..Bool and implies not
 	..js defined? js-sub
 	..private.js-impl buildStr
 	..private.bootstrap Fun impl-contains?! Obj Str msDef contains?-impl-symbol
@@ -106,7 +106,7 @@ Method = Obj-Type
 	opt-props.
 		default. Fun
 		wrap. Fun
-	extensible.
+	extensible. true
 	defaults.
 		# TODO:DISPLAYNAME
 		displayName. |
@@ -196,7 +196,7 @@ region Private
 						# Since this is inherited, it is mutable and can be overridden.
 						Obj.defineProperty _.prototype method-symbol
 							value. implementation
-							writable.
+							writable. true
 			else
 				()
 
@@ -249,8 +249,9 @@ impl-contains?! Method method-contains?
 
 # TODO: Not public, try moving to Type.ms
 --contains?. Method
-	doc. |:Bool collection value
-		"Whether some collection of things as as an element `value`."
+	doc. "
+		|:Bool collection value
+		Whether some collection of things as as an element `value`."
 	impl-symbol. contains?-impl-symbol
 
 msDef "contains" --contains?

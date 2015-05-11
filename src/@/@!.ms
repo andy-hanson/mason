@@ -51,8 +51,9 @@ empty!. Method
 		++>! _ added
 
 --!. Method
-	doc. |_ removed:@
+	doc.
 		"
+			|_ removed:@
 			Removes all elements in `removed` once.
 			For Seqs these are removed starting from the left.
 	test. |

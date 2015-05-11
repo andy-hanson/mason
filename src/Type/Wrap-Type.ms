@@ -35,7 +35,7 @@ Wrap-Type = Obj-Type
 		prototype. Obj
 	opt-props.
 		wrapped-type. Type
-	extensible.
+	extensible. true
 	defaults.
 		prototype. |
 			Obj.create Obj.prototype

@@ -19,8 +19,9 @@ use-debug
 showing = newSet()
 
 show = Method
-	doc. |:Str _ opts
+	doc.
 		"
+			|:Str _ opts
 			Converts the value to a string for string interpolation.
 			This is the method called when you do `\{...}`.
 			For a more detailed Str representation of data, use `inspect`.

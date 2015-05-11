@@ -133,7 +133,7 @@ define(["exports","./at/at-Type","./at/q","./cash","./Bool","./compare","./Fun",
 				const _=Obj_45Type(function(){
 					const props=function(){
 						const message=Str;
-						const stack=true;
+						const stack=null;
 						return {
 							message:message,
 							stack:stack,

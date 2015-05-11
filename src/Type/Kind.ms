@@ -78,7 +78,7 @@ Kind = Obj-Type
 		# doc. "If immutable, this Kind does not accept new subtypes."
 		implementors. Array # TODO: [~Impl-Type]
 		symbol-for-isa. Symbol
-	extensible.
+	extensible. true
 	defaults.
 		super-kinds. |
 			Array 0
