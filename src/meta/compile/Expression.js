@@ -1,9 +1,8 @@
 import Loc from 'esast/dist/Loc'
 import tupl, { abstract } from 'tupl/dist/tupl'
 import { Union } from 'tupl/dist/type'
-import { JsGlobals, KAssign, KFun, SpecialKeywords } from './private/Lang'
+import { JsGlobals } from './private/Lang'
 import Op, { None } from './private/U/Op'
-import { newSet } from './private/U/util'
 
 const Expression = abstract('Expression', Object, 'doc')
 export default Expression
@@ -20,9 +19,6 @@ const makeType = superType => (name, ...namesTypes) =>
 const
 	ee = makeType(Expression), ed = makeType(Do), ev = makeType(Val)
 
-// TODO: Get rid of null
-const KSpecial = newSet(SpecialKeywords, [ 'contains', 'debugger', 'sub', 'null' ])
-
 export const
 	Debug = ed('Debug', 'lines', [Expression]),
 	BlockDo = ed('BlockDo', 'lines', [Expression]),
@@ -36,11 +32,13 @@ export const
 			res: (loc, opType) => LocalDeclare(loc, 'res', opType, false, true)
 		}),
 	Assign = Object.assign(
-		ed('Assign', 'assignee', LocalDeclare, 'k', KAssign, 'value', Val),
+		// TODO: 'k' may also be the string 'export'...
+		ed('Assign', 'assignee', LocalDeclare, 'k', Number, 'value', Val),
 		{ focus: (loc, value) => Assign(loc, LocalDeclare.focus(loc), '=', value) }),
 	AssignDestructure = ed('AssignDestructure',
 		'assignees', [LocalDeclare],
-		'k', KAssign,
+		// TODO: 'k' may also be the string 'export'...
+		'k', Number,
 		'value', Val,
 		'isLazy', Boolean),
 	LocalAccess = Object.assign(
@@ -108,7 +106,7 @@ export const
 	BlockWrap = ev('BlockWrap', 'block', BlockVal),
 
 	Fun = ev('Fun',
-		'k', KFun,
+		'isGenerator', Boolean,
 		'args', [LocalDeclare],
 		'opRestArg', Op(LocalDeclare),
 		// BlockDo or BlockVal
@@ -130,10 +128,16 @@ export const
 			}
 		}),
 
+	SP_Contains = 0,
+	SP_Debugger = 1,
+	SP_Sub = 2,
+	SP_This = 3,
+	SP_ThisModuleDirectory = 4,
 	Special = Object.assign(
-		ev('Special', 'k', KSpecial),
+		// k is a SP_***
+		ev('Special', 'k', Number),
 		{
-			contains: loc => Special(loc, 'contains'),
-			debugger: loc => Special(loc, 'debugger'),
-			sub: loc => Special(loc, 'sub')
+			contains: loc => Special(loc, SP_Contains),
+			debugger: loc => Special(loc, SP_Debugger),
+			sub: loc => Special(loc, SP_Sub)
 		})

@@ -4,9 +4,12 @@ import { Assign, AssignDestructure, BlockDo, BlockVal, BlockWrap, Call, CaseDoPa
 	ListSimple, LocalAccess, LocalDeclare, LocalDeclare, Loop, MapEntry, MapReturn, Member, Module,
 	ModuleDefaultExport, ObjReturn, ObjSimple, Pattern, Quote, Special, Splat, Val, UseDo, Use,
 	Yield, YieldTo } from '../../Expression'
-import { JsGlobals, SpecialKeywords } from '../Lang'
+import { JsGlobals } from '../Lang'
 import { CallOnFocus, DotName, Group, G_Block, G_Bracket,
-	G_Paren, G_Space, G_Quote, Keyword, TokenNumberLiteral, Name } from '../Token'
+	G_Paren, G_Space, G_Quote, Keyword, TokenNumberLiteral, Name, opKWtoSP,
+	KW_Case, KW_CaseDo, KW_Debug, KW_Debugger, KW_EndLoop, KW_Focus, KW_Fun, KW_GenFun, KW_In,
+	KW_Loop, KW_MapEntry, KW_ObjAssign, KW_Out, KW_Region, KW_Use, KW_UseDebug, KW_UseDo,
+	KW_UseLazy, KW_Yield, KW_YieldTo } from '../Token'
 import { cat, head, flatMap, isEmpty, last, push, repeat, rtail, tail, unshift } from '../U/Bag'
 import { ifElse, None, opIf, some } from '../U/Op'
 import { assert } from '../U/util'
@@ -29,10 +32,10 @@ const
 
 const parseModule = tokens => {
 	// tryParseUses moves tokens forward
-	const [ doUses, rest0 ] = tryParseUses('use!', tokens)
-	const [ plainUses, rest1 ] = tryParseUses('use', rest0)
-	const [ lazyUses, rest2 ] = tryParseUses('use~', rest1)
-	const [ debugUses, rest3 ] = tryParseUses('use-debug', rest2)
+	const [ doUses, rest0 ] = tryParseUses(KW_UseDo, tokens)
+	const [ plainUses, rest1 ] = tryParseUses(KW_Use, rest0)
+	const [ lazyUses, rest2 ] = tryParseUses(KW_UseLazy, rest1)
+	const [ debugUses, rest3 ] = tryParseUses(KW_UseDebug, rest2)
 	const block = parseModuleBody(rest3)
 	block.lines.forEach(line => {
 		if (line instanceof Assign && line.k === 'export')
@@ -158,7 +161,7 @@ const
 					// Turn Obj assigns into exports.
 					cat(
 						doLines.map(line => {
-							if (line instanceof Assign && line.k === '. ')
+							if (line instanceof Assign && line.k === KW_ObjAssign)
 								line.k = 'export'
 							return line
 						}),
@@ -192,7 +195,7 @@ const
 					ln.index = mapLength
 					mapLength = mapLength + 1
 				}
-				else if (ln instanceof Assign && ln.k === '. ')
+				else if (ln instanceof Assign && ln.k === KW_ObjAssign)
 					(inDebug ? debugKeys : objKeys).push(ln.assignee)
 
 				if (!inDebug)
@@ -217,7 +220,7 @@ const
 	}
 
 const parseCase = (k, casedFromFun, tokens) => {
-	const isVal = k === 'case'
+	const isVal = k === KW_Case
 
 	const [ before, block ] = beforeAndBlock(tokens)
 
@@ -252,7 +255,7 @@ const
 		// E.g., `:Some val`
 		if (Group.isSpaced(first) && tokens.size() > 1) {
 			const ft = Slice.group(first)
-			if (Keyword.isColon(ft.head())) {
+			if (Keyword.isType(ft.head())) {
 				const type = parseSpaced(ft.tail())
 				const locals = parseLocalDeclares(tokens.tail())
 				return Pattern(first.loc, type, locals, LocalAccess.focus(tokens.loc))
@@ -303,13 +306,13 @@ const
 			if (here instanceof Keyword) {
 				const rest = () => tokens._chopStart(i + 1)
 				switch (here.k) {
-					case '|': case '~|':
-						return push(out, parseFun(here.k, rest()))
-					case 'case':
-						return push(out, parseCase('case', false, rest()))
-					case '<~':
+					case KW_Fun: case KW_GenFun:
+						return push(out, parseFun(here.k === KW_GenFun, rest()))
+					case KW_Case:
+						return push(out, parseCase(KW_Case, false, rest()))
+					case KW_Yield:
 						return push(out, Yield(tokens.loc, parseExpr(rest())))
-					case '<~~':
+					case KW_YieldTo:
 						return push(out, YieldTo(tokens.loc, parseExpr(rest())))
 					default:
 						// fallthrough
@@ -332,15 +335,15 @@ const
 		}
 	}
 
-const parseFun = (k, tokens) => {
+const parseFun = (isGenerator, tokens) => {
 	const { opReturnType, rest } = _tryTakeReturnType(tokens)
-	checkNonEmpty(rest, () => `Expected an indented block after ${code(k)}`)
+	checkNonEmpty(rest, () => `Expected an indented block.`)
 	const { args, opRestArg, block, opIn, opOut } = _funArgsAndBlock(rest)
 	// Need res declare if there is a return type or out condition.
 	const opResDeclare = ifElse(opReturnType,
 		rt => some(LocalDeclare.res(rt.loc, opReturnType)),
 		() => opOut.map(o => LocalDeclare.res(o.loc, opReturnType)))
-	return Fun(tokens.loc, k, args, opRestArg, block, opIn, opResDeclare, opOut)
+	return Fun(tokens.loc, isGenerator, args, opRestArg, block, opIn, opResDeclare, opOut)
 }
 
 // parseFun privates
@@ -348,7 +351,7 @@ const
 	_tryTakeReturnType = tokens => {
 		if (!tokens.isEmpty()) {
 			const h = tokens.head()
-			if (Group.isSpaced(h) && Keyword.isColon(head(h.tokens)))
+			if (Group.isSpaced(h) && Keyword.isType(head(h.tokens)))
 				return {
 					opReturnType: some(parseSpaced(Slice.group(h).tail())),
 					rest: tokens.tail()
@@ -360,10 +363,10 @@ const
 	_funArgsAndBlock = tokens => {
 		const h = tokens.head()
 		// Might be `|case`
-		if (Keyword.isCaseOrCaseDo(h)) {
+		if (h instanceof Keyword && (h.k === KW_Case || h.k === KW_CaseDo)) {
 			const eCase = parseCase(h.k, true, tokens.tail())
 			const args = [ LocalDeclare.focus(h.loc) ]
-			return (h.k === 'case') ?
+			return h.k === KW_Case ?
 				{
 					args, opRestArg: None, opIn: None, opOut: None,
 					block: BlockVal(tokens.loc, [ ], eCase)
@@ -375,8 +378,8 @@ const
 		} else {
 			const [ before, block ] = beforeAndBlock(tokens)
 			const { args, opRestArg } = _parseFunLocals(before)
-			const [ opIn, rest0 ] = _tryTakeInOrOut('in', block)
-			const [ opOut, rest1 ] = _tryTakeInOrOut('out', rest0)
+			const [ opIn, rest0 ] = _tryTakeInOrOut(KW_In, block)
+			const [ opOut, rest1 ] = _tryTakeInOrOut(KW_Out, rest0)
 			return { args, opRestArg, block: parseBlockFromLines(rest1), opIn, opOut }
 		}
 	},
@@ -400,7 +403,6 @@ const
 	_tryTakeInOrOut = (inOrOut, tokens) => {
 		if (!tokens.isEmpty()) {
 			const firstLine = tokens.head()
-			assert(Group.isLine(firstLine))
 			if (Keyword.is(inOrOut)(head(firstLine.tokens))) {
 				const inOut = Debug(
 					firstLine.loc,
@@ -419,27 +421,27 @@ const
 		// We only deal with mutable expressions here, otherwise we fall back to parseExpr.
 		if (h instanceof Keyword)
 			switch (h.k) {
-				case '. ':
+				case KW_ObjAssign:
 					// Index is set by parseBlock.
 					return ListEntry(tokens.loc, parseExpr(rest), -1)
-				case 'case!':
-					return parseCase('case!', false, rest)
-				case 'debug':
+				case KW_CaseDo:
+					return parseCase(KW_CaseDo, false, rest)
+				case KW_Debug:
 					return Debug(tokens.lok,
 						Group.isBlock(tokens.second()) ?
 						// `debug`, then indented block
 						parseLinesFromBlock() :
 						// `debug`, then single line
 						parseLineOrLines(rest))
-				case 'debugger':
+				case KW_Debugger:
 					checkEmpty(rest, () => `Did not expect anything after ${h}`)
 					return Special.debugger(tokens.loc)
-				case 'end-loop!':
+				case KW_EndLoop:
 					checkEmpty(rest, () => `Did not expect anything after ${h}`)
 					return EndLoop(tokens.loc)
-				case 'loop!':
+				case KW_Loop:
 					return Loop(tokens.loc, justBlockDo(rest))
-				case 'region':
+				case KW_Region:
 					return parseLinesFromBlock(tokens)
 				default:
 					// fall through
@@ -447,7 +449,7 @@ const
 
 		return ifElse(tokens.opSplitOnceWhere(Keyword.isLineSplit),
 			({ before, at, after }) => {
-				return at.k === '->' ?
+				return at.k === KW_MapEntry ?
 					_parseMapEntry(before, after, tokens.loc) :
 					_parseAssign(before, at, after, tokens.loc)
 			},
@@ -482,7 +484,7 @@ const
 		else
 			eValueNamed = eValuePre
 
-		const isYield = k === '<~' || k === '<~~'
+		const isYield = k === KW_Yield || k === KW_YieldTo
 
 		const eValue = _valueFromAssign(eValueNamed, k)
 
@@ -493,15 +495,15 @@ const
 
 		if (isYield)
 			locals.forEach(_ =>
-				cx.check(_.k !== 'lazy', _.loc, 'Can not yield to lazy variable.'))
+				cx.check(!_.isLazy, _.loc, 'Can not yield to lazy variable.'))
 
-		if (k === '. ')
+		if (k === KW_ObjAssign)
 			locals.forEach(l => { l.okToNotUse = true })
 
 		if (locals.length === 1) {
 			const assign = Assign(loc, locals[0], k, eValue)
 			const isTest = assign.assignee.name.endsWith('test')
-			return isTest && k === '. ' ? Debug(loc, [ assign ]) : assign
+			return isTest && k === KW_ObjAssign ? Debug(loc, [ assign ]) : assign
 		}
 		else {
 			const isLazy = locals.some(l => l.isLazy)
@@ -514,9 +516,9 @@ const
 
 	_valueFromAssign = (valuePre, kAssign) => {
 		switch (kAssign) {
-			case '<~':
+			case KW_Yield:
 				return Yield(valuePre.loc, valuePre)
-			case '<~~':
+			case KW_YieldTo:
 				return YieldTo(valuePre.loc, valuePre)
 			default:
 				return valuePre
@@ -569,7 +571,7 @@ const
 		if (Group.isSpaced(t)) {
 			const tokens = Slice.group(t)
 			let rest = tokens
-			if (Keyword.isTilde(tokens.head())) {
+			if (Keyword.isLazy(tokens.head())) {
 				isLazy = true
 				rest = tokens.tail()
 			}
@@ -577,7 +579,7 @@ const
 			const rest2 = rest.tail()
 			if (!rest2.isEmpty()) {
 				const colon = rest2.head()
-				cx.check(Keyword.isColon(colon), colon.loc, () => `Expected ${code(':')}`)
+				cx.check(Keyword.isType(colon), colon.loc, () => `Expected ${code(':')}`)
 				const tokensType = rest2.tail()
 				checkNonEmpty(tokensType, () => `Expected something after ${colon}`)
 				opType = some(parseSpaced(tokensType))
@@ -624,19 +626,20 @@ const parseSingle = t => {
 		case t instanceof CallOnFocus:
 			return Call(t.loc, _access(t.name, t.loc), [ LocalAccess.focus(t.loc) ])
 		case t instanceof Keyword:
-			if (t.k === '_')
+			if (t.k === KW_Focus)
 				return LocalAccess.focus(t.loc)
-			else if (SpecialKeywords.has(t.k))
-				return Special(t.loc, t.k)
-			else
-				unexpected(t)
-			break
+			else {
+				const sp = opKWtoSP(t.k)
+				if (sp === undefined)
+					unexpected(t)
+				else
+					return Special(t.loc, sp)
+			}
 		case t instanceof DotName:
 			if (t.nDots === 3)
 				return Splat(t.loc, LocalAccess(t.loc, t.name))
 			else
 				unexpected(t)
-			break
 		default:
 			unexpected(t)
 	}
@@ -647,34 +650,30 @@ const _access = (name, loc) =>
 
 const parseSpaced = tokens => {
 	const h = tokens.head(), rest = tokens.tail()
-	switch (true) {
-		case h instanceof Keyword:
-			if (h.k === ':') {
-				cx.check(!Keyword.isColon(rest.head()), h.loc, () => `Two ${h} in a row`)
-				const eType = parseSpaced(rest)
-				const focus = LocalAccess.focus(h.loc)
-				return Call.contains(h.loc, eType, focus)
-			} else if (h.k === '~')
-				return Lazy(h.loc, parseSpaced(rest))
-		default: {
-			const memberOrSubscript = (e, t) => {
-				const loc = t.loc
-				if (t instanceof DotName) {
-					cx.check(t.nDots === 1, tokens.loc, 'Too many dots!')
-					return Member(tokens.loc, e, t.name)
-				} else if (t instanceof Group) {
-					if (t.k === G_Bracket)
-						return Call.sub(loc,
-							unshift(e, parseExprParts(Slice.group(t))))
-					if (t.k === G_Paren) {
-						checkEmpty(Slice.group(t),
-							() => `Use ${code('(a b)')}, not ${code('a(b)')}`)
-						return Call(tokens.loc, e, [])
-					}
-				} else cx.fail(tokens.loc, `Expected member or sub, not ${t}`)
-			}
-			return rest.reduce(memberOrSubscript, parseSingle(h))
+	if (Keyword.isType(h)) {
+		const eType = parseSpaced(rest)
+		const focus = LocalAccess.focus(h.loc)
+		return Call.contains(h.loc, eType, focus)
+	} else if (Keyword.isLazy(h))
+		return Lazy(h.loc, parseSpaced(rest))
+	else {
+		const memberOrSubscript = (e, t) => {
+			const loc = t.loc
+			if (t instanceof DotName) {
+				cx.check(t.nDots === 1, tokens.loc, 'Too many dots!')
+				return Member(tokens.loc, e, t.name)
+			} else if (t instanceof Group) {
+				if (t.k === G_Bracket)
+					return Call.sub(loc,
+						unshift(e, parseExprParts(Slice.group(t))))
+				if (t.k === G_Paren) {
+					checkEmpty(Slice.group(t),
+						() => `Use ${code('(a b)')}, not ${code('a(b)')}`)
+					return Call(tokens.loc, e, [])
+				}
+			} else cx.fail(tokens.loc, `Expected member or sub, not ${t}`)
 		}
+		return rest.reduce(memberOrSubscript, parseSingle(h))
 	}
 }
 
@@ -695,12 +694,12 @@ const
 		return lines.map(line => {
 			const tReq = line.tokens[0]
 			const { path, name } = _parseRequire(tReq)
-			if (k === 'use!') {
+			if (k === KW_UseDo) {
 				if (line.tokens.length > 1)
 					unexpected(line.tokens[1])
 				return UseDo(line.loc, path)
 			} else {
-				const isLazy = k === 'use~' || k === 'use-debug'
+				const isLazy = k === KW_UseLazy || k === KW_UseDebug
 				const { used, opUseDefault } =
 					_parseThingsUsed(name, isLazy, Slice.group(line).tail())
 				return Use(line.loc, path, used, opUseDefault)

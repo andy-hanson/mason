@@ -155,7 +155,7 @@ implementMany(EExports, 'verify', {
 			cx.check(isEmpty(this.opResDeclare) || this.block instanceof BlockVal, this.loc,
 				'Function with return condition must return something.')
 			this.args.forEach(arg => vm(arg.opType))
-			withInGenerator(this.k === '~|', () => {
+			withInGenerator(this.isGenerator, () => {
 				const allArgs = this.args.concat(this.opRestArg)
 				allArgs.forEach(_ => registerLocal(_))
 				plusLocals(allArgs, () => {

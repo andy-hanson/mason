@@ -1,19 +1,23 @@
 import Loc from 'esast/dist/Loc'
-import tupl from 'tupl/dist/tupl'
+import tupl, { abstract } from 'tupl/dist/tupl'
 import { code } from '../CompileError'
-import { AllKeywords, CaseKeywords, GroupOpenToClose, LineSplitKeywords } from './Lang'
-import { implementMany2 } from './U/util'
+import { SP_This, SP_ThisModuleDirectory } from '../Expression'
+import { implementMany } from './U/util'
 
-export default class Token { }
+const Token = abstract('Token', Object,
+	'TODO:doc',
+	{
+		toString() { return code(this.show()) }
+	})
+export default Token
 
-const tt = (name, ...namesTypes) => tupl(name, Token, 'doc', [ 'loc', Loc ].concat(namesTypes))
+const tt = (name, namesTypes, props) =>
+	tupl(name, Token, 'doc', [ 'loc', Loc ].concat(namesTypes), { }, props)
 
 const gIs = k => t => t instanceof Group && t.k === k
-const kwIs = k =>
-	(k instanceof Set) ?
-		t => t instanceof Keyword && k.has(t.k) :
-		t => t instanceof Keyword && t.k === k
+const kwIs = k => t => t instanceof Keyword && t.k === k
 
+// Don't use `0` because we want to use negative nmbers to represent GroupPre closers.
 export const
 	G_Paren = 1,
 	G_Bracket = 2,
@@ -22,41 +26,92 @@ export const
 	G_Line = 5,
 	G_Space = 6
 
+let nextId = 0
+const nameToK = new Map()
+const kToName = new Map()
+const kw = name => {
+	const k = kwNotName(name)
+	nameToK.set(name, k)
+	return k
+}
+const kwNotName = debugName => {
+	const k = nextId
+	kToName.set(k, debugName)
+	nextId = nextId + 1
+	return k
+}
+
 export const
-	Name = tt('Name', 'name', String),
-	Group = Object.assign(
-		tt('Group', 'tokens', [Token], 'k', Number),
+	KW_Assign = kw('='),
+	KW_Case = kw('case'),
+	KW_CaseDo = kw('case!'),
+	KW_Debug = kw('debug'),
+	KW_Debugger = kw('debugger'),
+	KW_Else = kw('else'),
+	KW_EndLoop = kw('end-loop!'),
+	KW_Focus = kwNotName('_'),
+	KW_Fun = kw('|'),
+	KW_GenFun = kw('~|'),
+	KW_In = kw('in'),
+	KW_Lazy = kwNotName('~'),
+	KW_Loop = kw('loop!'),
+	KW_MapEntry = kw('->'),
+	KW_ObjAssign = kw('. '),
+	KW_Out = kw('out'),
+	KW_Region = kw('region'),
+	KW_This = kw('this'),
+	KW_ThisModuleDirectory = kw('this-module-directory'),
+	KW_Type = kwNotName(':'),
+	KW_Use = kw('use'),
+	KW_UseDebug = kw('use-debug'),
+	KW_UseDo = kw('use!'),
+	KW_UseLazy = kw('use~'),
+	KW_Yield = kw('<~'),
+	KW_YieldTo = kw('<~~')
+
+export const
+	keywordKFromName = name => nameToK.get(name),
+	opKWtoSP = k =>
+		k === KW_This ? SP_This :
+			k === KW_ThisModuleDirectory ? SP_ThisModuleDirectory :
+			undefined
+
+export const
+	CallOnFocus = tt('CallOnFocus', [ 'name', String ]),
+	DotName = tt('DotName', [ 'nDots', Number, 'name', String ]),
+	Group = tt('Group',
+		[ 'tokens', [Token], 'k', Number ],
 		{
 			isBlock: gIs(G_Block),
-			isLine: gIs(G_Line),
 			isSpaced: gIs(G_Space)
 		}),
-	Keyword = Object.assign(
-		tt('Keyword', 'k', AllKeywords),
+	Keyword = tt('Keyword', [ 'k', Number ],
 		{
 			is: kwIs,
-			isBar: kwIs('|'),
-			isCaseOrCaseDo: kwIs(CaseKeywords),
-			isColon: kwIs(':'),
-			isFocus: kwIs('_'),
-			isElse: kwIs('else'),
-			isLineSplit: kwIs(LineSplitKeywords),
-			isTilde: kwIs('~'),
-			isObjAssign: kwIs('. ')
+			isType: kwIs(KW_Type),
+			isFocus: kwIs(KW_Focus),
+			isElse: kwIs(KW_Else),
+			isLazy: kwIs(KW_Lazy),
+			isLineSplit: t =>
+				t instanceof Keyword && (
+					t.k === KW_Assign ||
+					t.k === KW_ObjAssign ||
+					t.k === KW_Yield ||
+					t.k === KW_YieldTo ||
+					t.k === KW_MapEntry),
+			isObjAssign: kwIs(KW_ObjAssign)
 		}),
-	TokenNumberLiteral = tt('TokenNumberLiteral', 'value', Number),
-	CallOnFocus = tt('CallOnFocus', 'name', String),
-	DotName = tt('DotName', 'nDots', Number, 'name', String)
+	Name = tt('Name', [ 'name', String ]),
+	TokenNumberLiteral = tt('TokenNumberLiteral', [ 'value', Number ])
 
 // toString is used by some parsing errors. Use U.inspect for a more detailed view.
-const show = implementMany2('show', [
-	[CallOnFocus, () => '_'],
-	[DotName, _ => '.'.repeat(_.nDots) + _.name],
-	[Group, _ => `${_.k}...${GroupOpenToClose.get(_.k)}`],
-	[Keyword, _ => { return _.k } ],
-	[TokenNumberLiteral, _ => _.value],
-	[Name, _ => _.name]
-])
-Object.assign(Token.prototype, {
-	toString() { return code(show(this)) }
+implementMany({ CallOnFocus, DotName, Group, Keyword, Name, TokenNumberLiteral }, 'show', {
+	CallOnFocus() { return `${this.name}_` },
+	DotName() { return `${'.'.repeat(this.nDots)}${this.name}` },
+	// TODO: better representation of k
+	Group() { return `group(k=${this.k})` },
+	// TODO: better representation of k
+	Keyword() { return `keyword(k=${kToName.get(this.k)})` },
+	Name() { return this.name },
+	TokenNumberLiteral() { return this.value }
 })

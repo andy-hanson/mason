@@ -2,6 +2,7 @@ import { Suite } from 'benchmark'
 import { Node } from 'esast/dist/ast'
 import fs from 'fs'
 import numeral from 'numeral'
+import compile from '../compile'
 import Expression from '../Expression'
 import Cx from '../private/Cx'
 import lex from '../private/lex/lex'
@@ -11,7 +12,6 @@ import parse from '../private/parse/parse'
 import render from '../private/render'
 import transpile from '../private/transpile/transpile'
 import verify from '../private/verify'
-import { log } from '../private/U/util'
 import { OptsFromObject } from '../private/Opts'
 
 export const
@@ -33,13 +33,13 @@ const doTest = includePerfTest => {
 	const cx = new Cx(opts)
 
 	const t = lex(cx, source)
-	// log(`==>\n${t}`)
+	// console.log(`==>\n${t}`)
 	const e = parse(cx, t)
-	// log(`==>\n${e}`)
+	// console.log(`==>\n${e}`)
 	const vr = verify(cx, e)
-	// log(`+++\n${vr})
+	// console.log(`+++\n${vr}`)
 	const ast = transpile(cx, e, vr)
-	// log(`==>\n${ast}`)
+	// console.log(`==>\n${ast}`)
 	const { code } = render(cx, ast)
 
 	cx.warnings.forEach(w => console.log(w))
@@ -52,19 +52,22 @@ const doTest = includePerfTest => {
 		global.lexGroupTest = () =>
 			lexGroup(cx, tUngrouped)
 
+		global.cmp = () =>
+			compile(source, opts)
 		benchmark({
 			lexUngrouped: () => global.lexUngroupedTest(),
 			lexGroup: () => global.lexGroupTest(),
 			parse: () => parse(cx, t),
 			verify: () => verify(cx, e),
 			transpile: () => transpile(cx, e, vr),
-			render: () => render(cx, ast)
+			render: () => render(cx, ast),
+			all: () => global.cmp()
 		})
 	} else {
-		log(`Expression tree size: ${treeSize(e, _ => _ instanceof Expression).size}.`)
-		log(`ES AST size: ${treeSize(ast, _ => _ instanceof Node)}.`)
-		log(`Output size: ${code.length} characters.`)
-		log(`==>\n${code}`)
+		console.log(`Expression tree size: ${treeSize(e, _ => _ instanceof Expression).size}.`)
+		console.log(`ES AST size: ${treeSize(ast, _ => _ instanceof Node)}.`)
+		console.log(`Output size: ${code.length} characters.`)
+		console.log(`==>\n${code}`)
 	}
 }
 

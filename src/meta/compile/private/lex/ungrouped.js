@@ -1,14 +1,40 @@
 import Loc, { Pos, StartLine, StartColumn, singleCharLoc } from 'esast/dist/Loc'
 import { code } from '../../CompileError'
-import { AllKeywords, NonNames } from '../Lang'
-import { CallOnFocus, DotName, Keyword, TokenNumberLiteral, Name } from '../Token'
+import { isReservedName } from '../Lang'
+import { CallOnFocus, DotName, Keyword, TokenNumberLiteral, Name,
+	keywordKFromName,
+	KW_Focus, KW_Fun, KW_GenFun, KW_Lazy, KW_ObjAssign, KW_Region, KW_Type } from '../Token'
 import { assert } from '../U/util'
 import GroupPre, { GP_OpenParen, GP_OpenBracket, GP_OpenBlock, GP_OpenQuote, GP_Line,
 	GP_Space, GP_CloseParen, GP_CloseBracket, GP_CloseBlock, GP_CloseQuote} from './GroupPre'
-import { showChar, N0, N1, N2, N3, N4, N5, N6, N7, N8, N9,
-	OpParen, OpBracket, OpBrace, ClParen, ClBracket, ClBrace, Space, Dot, Colon, Tilde, Bar,
-	Underscore, Backslash, Hash, Newline, Quote, Tab, Hyphen, LetterN, LetterT,
-	isDigit, isNameCharacter, isNumberCharacter, isReservedCharacter } from './char'
+import { showChar, isDigit, isNameCharacter, isNumberCharacter } from './char'
+
+const cc = ch => ch.charCodeAt(0)
+const
+	N0 = cc('0'), N1 = cc('1'), N2 = cc('2'), N3 = cc('3'), N4 = cc('4'),
+	N5 = cc('5'), N6 = cc('6'), N7 = cc('7'), N8 = cc('8'), N9 = cc('9'),
+	OpParen = cc('('), OpBracket = cc('['), OpBrace = cc('{'),
+	ClParen = cc(')'), ClBracket = cc(']'), ClBrace = cc('}'),
+	Ampersand = cc('&'),
+	Backslash = cc('\\'),
+	Backtick = cc('`'),
+	Bar = cc('|'),
+	Caret = cc('^'),
+	Colon = cc(':'),
+	Comma = cc(','),
+	Dot = cc('.'),
+	Hash = cc('#'),
+	Hyphen = cc('-'),
+	LetterN = cc('n'),
+	LetterT = cc('t'),
+	Newline = cc('\n'),
+	Percent = cc('%'),
+	Quote = cc('"'),
+	Semicolon = cc(';'),
+	Space = cc(' '),
+	Tab = cc('\t'),
+	Tilde = cc('~'),
+	Underscore = cc('_')
 
 export default (cx, str) => {
 	const res = [ ]
@@ -131,9 +157,9 @@ export default (cx, str) => {
 	const ungrouped = isInQuote => {
 		let indent = 0
 
-		let ch, startLine, startColumn
+		let ch, startColumn
 		const
-			loc = () => Loc(Pos(startLine, startColumn), pos()),
+			loc = () => Loc(Pos(line, startColumn), pos()),
 			keyword = k => Keyword(loc(), k),
 			gp = k => o(GroupPre(loc(), k)),
 			eatNumber = () => {
@@ -145,9 +171,7 @@ export default (cx, str) => {
 			}
 
 		while (index !== str.length) {
-			startLine = line
 			startColumn = column
-
 			ch = eat()
 			switch (ch) {
 				case N0: case N1: case N2: case N3: case N4:
@@ -180,7 +204,7 @@ export default (cx, str) => {
 						// We can't just create a new Group here because we want to
 						// ensure it's not part of the preceding or following spaced group.
 						gp(GP_Space)
-						o(keyword('. '))
+						o(keyword(KW_ObjAssign))
 						gp(GP_Space)
 					} else
 						o(DotName(
@@ -191,25 +215,25 @@ export default (cx, str) => {
 					break
 				}
 				case Colon:
-					o(keyword(':'))
+					o(keyword(KW_Type))
 					break
 				case Tilde:
 					if (tryEat(Bar)) {
-						o(keyword('~|'))
+						o(keyword(KW_GenFun))
 						gp(GP_Space)
 						break
 					} else {
-						o(keyword('~'))
+						o(keyword(KW_Lazy))
 						break
 					}
 					break
 				case Bar:
+					o(keyword(KW_Fun))
 					// First arg in its own spaced group
-					o(keyword('|'))
 					gp(GP_Space)
 					break
 				case Underscore:
-					o(keyword('_'))
+					o(keyword(KW_Focus))
 					break
 				case Hash:
 					if (!(tryEat(Space) || tryEat(Tab)))
@@ -235,37 +259,34 @@ export default (cx, str) => {
 					}
 					break
 				}
-				case Tab:
-					cx.fail(loc(), 'Tab may only be used to indent')
-					break
 				case Quote:
 					lexQuote(indent)
 					break
+				case Ampersand: case Backslash: case Backtick: case Caret:
+				case Comma: case Percent: case Semicolon:
+					cx.fail(loc, `Reserved character ${showChar(ch)}`)
+				case Tab:
+					cx.fail(loc(), 'Tab may only be used to indent')
 				case Hyphen:
 					if (isDigit(peek())) {
 						o(eatNumber())
 						break
 					}
-					// Else fallthrough
+					// else fallthrough
 				default: {
-					cx.check(
-						!isReservedCharacter(ch), loc, () => `Reserved character ${showChar(ch)}`)
 					// All other characters should be handled in a case above.
 					const name = takeWhileWithPrev(isNameCharacter)
-
-					if (NonNames.has(name))
-						if (name === 'region') {
-							// Rest of line is a comment.
+					const k = keywordKFromName(name)
+					if (k !== undefined) {
+						if (k === KW_Region)
 							skipRestOfLine()
-							o(keyword('region'))
-						} else if (AllKeywords.has(name))
-							o(keyword(name))
-						else
-							cx.fail(loc, `Reserved word ${code(name)}`)
-					else if (tryEat(Underscore))
+						o(keyword(k))
+					} else if (tryEat(Underscore))
 						o(CallOnFocus(loc(), name))
-					else
+					else {
+						cx.check(!isReservedName(name), pos, () => `Reserved name ${code(name)}`)
 						o(Name(loc(), name))
+					}
 				}
 			}
 		}

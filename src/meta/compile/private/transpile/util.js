@@ -63,20 +63,17 @@ export const
 		// or TODO: Allow type check on lazy value?
 		value = assignee.isLazy ? value :
 			maybeWrapInCheckContains(cx, value, assignee.opType, assignee.name)
-		switch (k) {
-			case '=': case '. ': case '<~': case '<~~': {
-				const val = assignee.isLazy && !valueIsAlreadyLazy ? lazyWrap(value) : value
-				assert(assignee.isLazy || !valueIsAlreadyLazy)
-				return VariableDeclarator(idForDeclareCached(assignee), val)
-			}
-			case 'export': {
-				// TODO:ES6
-				assert(!assignee.isLazy)
-				return VariableDeclarator(
-					idForDeclareCached(assignee),
-					AssignmentExpression('=', member(IdExports, assignee.name), value))
-			}
-			default: throw new Error(k)
+
+		if (k === 'export') {
+			// TODO:ES6
+			assert(!assignee.isLazy)
+			return VariableDeclarator(
+				idForDeclareCached(assignee),
+				AssignmentExpression('=', member(IdExports, assignee.name), value))
+		} else {
+			const val = assignee.isLazy && !valueIsAlreadyLazy ? lazyWrap(value) : value
+			assert(assignee.isLazy || !valueIsAlreadyLazy)
+			return VariableDeclarator(idForDeclareCached(assignee), val)
 		}
 	},
 

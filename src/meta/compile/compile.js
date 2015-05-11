@@ -12,11 +12,11 @@ import verify from './private/verify'
 global.DEBUG = true
 
 // See private/Opts.js for description of opts
-export default function compile(src, opts) {
-	type(src, String, opts, Object)
+export default function compile(source, opts) {
+	type(source, String, opts, Object)
 	const cx = new Cx(OptsFromObject(opts))
 	try {
-		const e = parse(cx, lex(cx, src))
+		const e = parse(cx, lex(cx, source))
 		const vr = verify(cx, e)
 		const ast = transpile(cx, e, vr)
 		let result

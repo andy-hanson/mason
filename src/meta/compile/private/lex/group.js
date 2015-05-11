@@ -108,7 +108,7 @@ export default function group(cx, preGroupedTokens) {
 					break
 				case GP_OpenBlock:
 					//  ~ before block is OK
-					if (isEmpty(cur.tokens) || !Keyword.isTilde(last(cur.tokens)))
+					if (isEmpty(cur.tokens) || !Keyword.isLazy(last(cur.tokens)))
 						endAndStart(loc, GP_Space)
 					newLevel(loc.start, k)
 					startLine(loc.end)

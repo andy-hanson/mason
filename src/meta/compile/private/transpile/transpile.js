@@ -6,7 +6,9 @@ import { callExpressionThunk, functionExpressionPlain, functionExpressionThunk, 
 	variableDeclarationConst, yieldExpressionDelegate, yieldExpressionNoDelegate
 	} from 'esast/dist/specialize'
 import * as EExports from '../../Expression'
-import { BlockVal, Pattern, Splat } from '../../Expression'
+import { BlockVal, Pattern, Splat,
+	SP_Contains, SP_Debugger, SP_Sub, SP_This, SP_ThisModuleDirectory
+	} from '../../Expression'
 import { flatMap, range, tail } from '../U/Bag'
 import { ifElse, None, opIf } from '../U/Op'
 import { assert, implementMany, isPositive } from '../U/util'
@@ -156,7 +158,7 @@ implementMany(EExports, 'transpileSubtree', {
 	EndLoop() { return BreakStatement(loopId(vr.endLoopToLoop.get(this))) },
 	Fun() {
 		const oldInGenerator = isInGenerator
-		isInGenerator = this.k === '~|'
+		isInGenerator = this.isGenerator
 
 		// TODO:ES6 use `...`
 		const nArgs = Literal(this.args.length)
@@ -169,7 +171,7 @@ implementMany(EExports, 'transpileSubtree', {
 		const _out = flatMap(this.opOut, o => toStatements(t0(o)))
 		const body = t3(this.block, lead, this.opResDeclare, _out)
 		const args = this.args.map(t0)
-		const res = functionExpressionPlain(args, body, this.k === '~|')
+		const res = functionExpressionPlain(args, body, this.isGenerator)
 
 		isInGenerator = oldInGenerator
 		return res
@@ -229,11 +231,11 @@ implementMany(EExports, 'transpileSubtree', {
 	Special() {
 		// Make new objects because we will assign `loc` to them.
 		switch (this.k) {
-			case 'contains': return member(IdMs, 'contains')
-			case 'debugger': return DebuggerStatement()
-			case 'sub': return member(IdMs, 'sub')
-			case 'this': return 	ThisExpression()
-			case 'this-module-directory': return Identifier('__dirname')
+			case SP_Contains: return member(IdMs, 'contains')
+			case SP_Debugger: return DebuggerStatement()
+			case SP_Sub: return member(IdMs, 'sub')
+			case SP_This: return 	ThisExpression()
+			case SP_ThisModuleDirectory: return Identifier('__dirname')
 			default: throw new Error(this.k)
 		}
 	},
