@@ -61,7 +61,7 @@ impl! test-special Impl-Type |type
 			case x
 				:Success
 					each! _.val |val
-						@$maybe-test "{type}#{name}" val false
+						@$maybe-test ~"{type}#{name}" val false
 				else
 					()
 
@@ -70,7 +70,7 @@ impl! test-special Kind |_
 	a = @$-from-any ((impl-for test-special Impl-Type) _
 	b = flat-map (?p _ "implementor-test") |test:Fun
 		flat-map concrete-implementors_ |implementor
-			@$test-test-fun implementor test "{_}.implementor-test of {implementor}" implementor
+			@$test-test-fun implementor test ~"{_}.implementor-test of {implementor}" implementor
 	++ a b
 
 
@@ -94,13 +94,13 @@ $test-module.
 all-tested = empty Id-Set!
 
 # TODO: Better name
-@$maybe-test = |name:Str value is-module:Bool
+@$maybe-test = |~name:Str value is-module:Bool
 	case
 		all-tested.has value
 			[ ]
 		else
 			all-tested.add value
-			@$test-single name value is-module
+			@$test-single ~name value is-module
 
 $test-fun.
 	doc. "TODO"
@@ -109,40 +109,40 @@ $test-fun.
 	|_:Fun
 		$all (@$test-single _.displayName _ false)
 
-@$test-single = |name:Str value is-module:Bool
+@$test-single = |~name:Str value is-module:Bool
 	a = test-special value
 	b = case value
 		or is-module ~:ObjLit ~:Fun
 			flat-map @p_ |prop-name
-				next-name = "{name}.{prop-name}"
+				~next-name = "{name}.{prop-name}"
 				prop-val = p _ prop-name
 				case prop-name
 					=? _ "test"
-						@$test-test-prop value prop-val next-name
+						@$test-test-prop value prop-val ~next-name
 					=? _ "$test"
-						@$test-$test-prop prop-val next-name
+						@$test-$test-prop prop-val ~next-name
 					else
-						@$maybe-test next-name prop-val false
+						@$maybe-test ~next-name prop-val false
 		and :Obj ~(p? _ "test")
-			@$test-test-prop _ _.test "{name}.test"
+			@$test-test-prop _ _.test ~"{name}.test"
 		else
 			[]
 
 	++ (@$-from-any a) b
 
-@$test-test-prop = |value value-test name # TODO: ...test-args
+@$test-test-prop = |value value-test ~name # TODO: ...test-args
 	# Could be both Fun and ObjLit
 	# TODO: No it can't
 	_ = value-test
-	@$a = flatten (if :Fun ~(@$test-test-fun value value-test name
+	@$a = flatten (if :Fun ~(@$test-test-fun value value-test ~name
 	@$b = flatten (if :ObjLit ~(flat-map @p_ |sub-name
-		@$test-test-prop value (p _ sub-name) "{name}.{sub-name}"
+		@$test-test-prop value (p _ sub-name) ~"{name}.{sub-name}"
 	++ @$a @$b
 
-@$test-$test-prop = |value-$test:Fun[Generator!] name
+@$test-$test-prop = |value-$test:Fun[Generator!] ~name
 	. $annotate-errors ~"{name}: " ($ing value-$test
 
-@$test-test-fun = |value value-test:Fun name ...args
+@$test-test-fun = |value value-test:Fun ~name ...args
 	~ano = "{name}: "
 	_ = annotate-errors ~ano |
 		value-test ...args
