@@ -15,7 +15,6 @@ define(["exports","./Bool","./js","./Type/Method","./at/at","./at/at-Type","./at
 		}),_$17=_ms.lazyGetModule(_64_13),count=_ms.lazyProp(_$17,"count"),_63=_ms.lazy(function(){
 			return _ms.getDefaultExport(_63_14)
 		}),_$19=_ms.lazyGetModule(_64_45Type_15),empty=_ms.lazyProp(_$19,"empty"),_$20=_ms.lazyGetModule(Try_16),fails_63=_ms.lazyProp(_$20,"fails?");
-		const exports={};
 		const compare=Method(function(){
 			const doc="A Num < 0 if a < b, > 0 if a > b, and = 0 if a = b.\nIt could be implemented as:\n\tcase\n\t\t<? a b\n\t\t\t-1\n\t\t>? a b\n\t\t\t1\n\t\telse\n\t\t\t0\nBut instead, other comparison operators are defined in terms of this.\n`compare a b` should always be `* -1 (compare b a)`.";
 			return {
@@ -25,11 +24,11 @@ define(["exports","./Bool","./js","./Type/Method","./at/at","./at/at-Type","./at
 		}());
 		const _61_63=exports["=?"]=Method(function(){
 			const doc="Whether two objects are considered equivalent.\nGenerally, if two values are `=?`, then most functions called on them should return the same results.\n`=?` defaults to `obj=?`.\nValues can be `=?` but not `obj=?` if they are conceptually the same, but have different representations.\nFor example, two Sets with the same values might internally have different ordering.\n\nValues of different types should generally not be =?.\nFor example, [ 1 2 3 ] is not `=?` (=> Stream [ 1 2 3 ]), but it is `seq=?`.\nUnlike other comparison methods, `=?` should not make assertions about type.";
-			const _default=function(a,b){
+			const _default=_ms.set(function(a,b){
 				return _ms.checkContains(Bool,or(id_61_63(a,b),_ms.lazy(function(){
 					return _ms.unlazy(obj_61_63)(a,b)
 				})),"res")
-			};
+			},"displayName","default");
 			return {
 				doc:doc,
 				default:_default,
@@ -38,9 +37,9 @@ define(["exports","./Bool","./js","./Type/Method","./at/at","./at/at-Type","./at
 		}());
 		const _60_63=exports["<?"]=Method(function(){
 			const doc="Whether `lesser` comes before `greater` in these values' ordering.\nSame as `not  (>=? lesser greater)`.";
-			const _default=function(lesser,greater){
+			const _default=_ms.set(function(lesser,greater){
 				return _ms.checkContains(Bool,_60_63(compare(lesser,greater),0),"res")
-			};
+			},"displayName","default");
 			return {
 				doc:doc,
 				default:_default,
@@ -49,9 +48,9 @@ define(["exports","./Bool","./js","./Type/Method","./at/at","./at/at-Type","./at
 		}());
 		const _60_61_63=exports["<=?"]=Method(function(){
 			const doc="<? or =?.";
-			const _default=function(lesser,greater){
+			const _default=_ms.set(function(lesser,greater){
 				return _ms.checkContains(Bool,_60_61_63(compare(lesser,greater),0),"res")
-			};
+			},"displayName","default");
 			return {
 				doc:doc,
 				default:_default,
@@ -60,11 +59,11 @@ define(["exports","./Bool","./js","./Type/Method","./at/at","./at/at-Type","./at
 		}());
 		const same_63=exports["same?"]=function(){
 			const doc="Whether two values have the same `f`.";
-			const test=function(){
+			const test=_ms.set(function(){
 				const _k0=[_ms.unlazy(count),[1],[2]],_v0=true;
 				const _k1=[_ms.unlazy(count),[],[1]],_v1=false;
 				return _ms.map(_k0,_v0,_k1,_v1)
-			};
+			},"displayName","test");
 			return _ms.set(function(f,a,b){
 				_ms.checkContains(_ms.unlazy(Fun),f,"f");
 				return _61_63(f(a),f(b))
@@ -72,14 +71,14 @@ define(["exports","./Bool","./js","./Type/Method","./at/at","./at/at-Type","./at
 		}();
 		const max=exports.max=function(){
 			const doc="An element that is >=? all others. Fails when empty.";
-			const test=function(){
+			const test=_ms.set(function(){
 				const _k0=[[1,3,2]],_v0=3;
 				const _k1=[[2,1,2]],_v1=2;
 				_ms.unlazy(_33)(_ms.unlazy(fails_63),function(){
 					return max([])
 				});
 				return _ms.map(_k0,_v0,_k1,_v1)
-			};
+			},"displayName","test");
 			return _ms.set(function(_){
 				_ms.checkContains(_ms.unlazy(_64),_,"_");
 				return _ms.unlazy(un_45_63)(_63max(_),"Can not take max of empty.")
@@ -87,11 +86,11 @@ define(["exports","./Bool","./js","./Type/Method","./at/at","./at/at-Type","./at
 		}();
 		const _63max=exports["?max"]=function(){
 			const doc="Like max, but returns empty ? for empty.";
-			const test=function(){
+			const test=_ms.set(function(){
 				const _k0=[[1]],_v0=_ms.unlazy(_63)(1);
 				const _k1=[[]],_v1=_ms.unlazy(empty)(_ms.unlazy(_63));
 				return _ms.map(_k0,_v0,_k1,_v1)
-			};
+			},"displayName","test");
 			return _ms.set(function(_){
 				_ms.checkContains(_ms.unlazy(_64),_,"_");
 				return _63max_45by(_,_ms.unlazy(identity))
@@ -99,13 +98,13 @@ define(["exports","./Bool","./js","./Type/Method","./at/at","./at/at-Type","./at
 		}();
 		const max_45by=exports["max-by"]=function(){
 			const doc="An element whose `by em` is >=? all other elements' `by em`s.\nLike `max (map _ by)` except the mapping is not applied to the result.";
-			const test=function(){
+			const test=_ms.set(function(){
 				const _k0=[["five","six","seven"],_ms.unlazy(count)],_v0="seven";
 				_ms.unlazy(_33)(_ms.unlazy(fails_63),function(){
 					return max_45by([],_ms.unlazy(identity))
 				});
 				return _ms.map(_k0,_v0)
-			};
+			},"displayName","test");
 			return _ms.set(function(_,by){
 				_ms.checkContains(_ms.unlazy(_64),_,"_");
 				_ms.checkContains(_ms.unlazy(Fun),by,"by");
@@ -114,11 +113,11 @@ define(["exports","./Bool","./js","./Type/Method","./at/at","./at/at-Type","./at
 		}();
 		const _63max_45by=exports["?max-by"]=function(){
 			const doc="Like max-by, but returns empty ? for empty.";
-			const test=function(){
+			const test=_ms.set(function(){
 				const _k0=[[1],_ms.unlazy(identity)],_v0=_ms.unlazy(_63)(1);
 				const _k1=[[],_ms.unlazy(identity)],_v1=_ms.unlazy(empty)(_ms.unlazy(_63));
 				return _ms.map(_k0,_v0,_k1,_v1)
-			};
+			},"displayName","test");
 			return _ms.set(function(_,by){
 				_ms.checkContains(_ms.unlazy(_64),_,"_");
 				_ms.checkContains(_ms.unlazy(Fun),by,"by");
@@ -147,13 +146,13 @@ define(["exports","./Bool","./js","./Type/Method","./at/at","./at/at-Type","./at
 		}();
 		const sorted_63=exports["sorted?"]=function(){
 			const doc="Whether it is already in sorted order.";
-			const test=function(){
+			const test=_ms.set(function(){
 				const _k0=[[]],_v0=true;
 				const _k1=[[1,2,3]],_v1=true;
 				const _k2=[[3,2,1]],_v2=false;
 				const _k3=[["six","five","seven"],_ms.unlazy(count)],_v3=true;
 				return _ms.map(_k0,_v0,_k1,_v1,_k2,_v2,_k3,_v3)
-			};
+			},"displayName","test");
 			return _ms.set(function(seq,_63sort_45by){
 				_ms.checkContains(_ms.unlazy(Seq),seq,"seq");
 				_ms.checkContains(_ms.sub(_ms.unlazy(Opt),_ms.unlazy(Fun)),_63sort_45by,"?sort-by");
@@ -176,12 +175,12 @@ define(["exports","./Bool","./js","./Type/Method","./at/at","./at/at-Type","./at
 		}();
 		const sort=exports.sort=Method(function(){
 			const doc="Puts the elements in sorted order.\nOrder is determined by calling `compare`.\nOptional `sort-by` determines an attribute of elements to be compared.";
-			const test=function(){
+			const test=_ms.set(function(){
 				const _k0=[[3,2,1]],_v0=[1,2,3];
 				const _k1=[["five","six","seven"],_ms.unlazy(count)],_v1=["six","five","seven"];
 				return _ms.map(_k0,_v0,_k1,_v1)
-			};
-			const _default=function(_,_63sort_45by){
+			},"displayName","test");
+			const _default=_ms.set(function(_,_63sort_45by){
 				_ms.checkContains(_ms.unlazy(_64),_,"_");
 				_ms.checkContains(_ms.sub(_ms.unlazy(Opt),_ms.unlazy(Fun)),_63sort_45by,"?sort-by");
 				const sort_45by=_ms.unlazy(opr)(_63sort_45by,_ms.unlazy(identity));
@@ -190,7 +189,7 @@ define(["exports","./Bool","./js","./Type/Method","./at/at","./at/at-Type","./at
 					return compare(sort_45by(a),sort_45by(b))
 				});
 				return _ms.checkContains(Array,sorted,"res")
-			};
+			},"displayName","default");
 			return {
 				doc:doc,
 				test:test,
@@ -198,9 +197,9 @@ define(["exports","./Bool","./js","./Type/Method","./at/at","./at/at-Type","./at
 				displayName:"sort"
 			}
 		}());
-		exports.default=compare;
 		const displayName=exports.displayName="compare";
+		exports.default=compare;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9jb21wYXJlLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztpQ0FxQkE7Ozs7Ozs7Ozs7Ozs7OztFQUFBLGNBQVUsaUJBQ007R0FBZixVQUNDO1VBRGM7Ozs7O0VBYWhCLDJCQUFJLGlCQUNNO0dBQVQsVUFDQztHQVVELGVBQVUsU0FBTSxFQUFFLEVBQ0M7NkJBRFIsS0FDVixHQUFJLFNBQUssRUFBRTtrQ0FBVyxFQUFFO0lBQUE7O1VBWmhCOzs7Ozs7RUFjViwyQkFBSSxpQkFDTTtHQUFULFVBQ0M7R0FFRCxlQUFVLFNBQU0sT0FBTyxRQUNPOzZCQURuQixLQUNWLE9BQUksUUFBUSxPQUFPLFNBQVM7O1VBSnBCOzs7Ozs7RUFNViwrQkFBSyxpQkFDTTtHQUFWLFVBQU07R0FDTixlQUFVLFNBQU0sT0FBTyxRQUNPOzZCQURuQixLQUNWLFVBQUssUUFBUSxPQUFPLFNBQVM7O1VBRnBCOzs7Ozs7RUFLVix5Q0FDTTtHQUFMLFVBQU07R0FDTixXQUNPLFVBQUE7SUFBTixVQUFBLG1CQUFRLENBQUUsR0FBSSxDQUFFLFFBQVM7SUFDekIsVUFBQSxtQkFBUSxHQUFJLENBQUUsUUFBUzs7O2tCQUN2QixTQUFBLEVBQU0sRUFBRSxFQUNDOztXQUFULE9BQUksRUFBRSxHQUFJLEVBQUU7R0FBQTs7RUFLZCxnQ0FDSTtHQUFILFVBQU07R0FDTixXQUNPLFVBQUE7SUFBTixVQUFBLENBQUUsQ0FBRSxFQUFFLEVBQUUsUUFBUztJQUNqQixVQUFBLENBQUUsQ0FBRSxFQUFFLEVBQUUsUUFBUzt5Q0FFUCxVQUFBO1lBQVQsSUFBSTtJQUFBOzs7a0JBQ0wsU0FBQSxFQUNHOztnQ0FBRSxPQUFBLEdBQU87R0FBQTs7RUFFZCx1Q0FDSztHQUFKLFVBQU07R0FDTixXQUNPLFVBQUE7SUFBTixVQUFBLENBQUUsQ0FBRSx3QkFBVztJQUNmLFVBQUEsQ0FBRTs7O2tCQUNGLFNBQUEsRUFDRzs7V0FBSCxZQUFROzs7RUFFViwyQ0FDTztHQUFOLFVBQ0M7R0FFRCxXQUNPLFVBQUE7SUFBTixVQUFBLENBQUUsQ0FBRyxPQUFPLE1BQU0sZ0NBQXFCO3lDQUU3QixVQUFBO1lBQVQsU0FBTzs7OztrQkFDUixTQUFBLEVBQUksR0FDTTs7O2dDQUFKLFlBQVEsRUFBRSxJQUFLO0dBQUE7O0VBRXZCLCtDQUNRO0dBQVAsVUFBTTtHQUNOLFdBQ08sVUFBQTtJQUFOLFVBQUEsQ0FBRSxDQUFFLDZDQUFvQjtJQUN4QixVQUFBLENBQUU7OztrQkFDRixTQUFBLEVBQUksR0FDTTs7OzJCQUFOLHlCQUFJO3NCQUNVO01BQWpCLGdDQUFPO01BQ1AsWUFBUTtNQUNSLG1DQUFlO01BQ2Ysd0NBQW1CLEdBQUc7eUJBRWpCO09BQUosWUFBYTtPQUVSLFlBQUosTUFDSTtRQUFIO2NBRUc7UUFBSCxpQkFBVyxHQUFHOzBCQUNULHVCQUFRLGdCQUFZLFlBQ1csVUFBQTs0QkFBOUIsVUFBUTttQ0FDUixlQUFXO1FBQUE7T0FBQTtNQUFBOzZCQUNoQjtLQUFBO0lBQUE7R0FBQTs7RUFHUCw2Q0FDUTtHQUFQLFVBQU07R0FDTixXQUNPLFVBQUE7SUFBTixVQUFBLENBQUUsUUFBUztJQUNYLFVBQUEsQ0FBRSxDQUFFLEVBQUUsRUFBRSxRQUFTO0lBQ2pCLFVBQUEsQ0FBRSxDQUFFLEVBQUUsRUFBRSxRQUFTO0lBQ2pCLFVBQUEsQ0FBRSxDQUFHLE1BQU0sT0FBTyxnQ0FBb0I7OztrQkFDdEMsU0FBQSxJQUFRLGFBQ2lCOzs7SUFBekIsZ0NBQWM7O0tBQ1QsUUFBQTtLQUNKLGlDQUFBLElBQ087YUFBTjtLQUFBLE9BRUc7TUFBSCxtQ0FBZ0IsNEJBQVE7aURBQ25CLEdBQU8sU0FBQSxHQUNFO09BQWIsZUFBUyxVQUFRO29DQUNOLHVCQUFRLFdBQVMsVUFDUyxVQUFBO2tDQUEvQixVQUFRO09BQUE7TUFBQTtLQUFBO0lBQUE7R0FBQTs7RUFFbkIsd0JBQU0saUJBQ007R0FBWCxVQUNDO0dBR0QsV0FDTyxVQUFBO0lBQU4sVUFBQSxDQUFFLENBQUUsRUFBRSxFQUFFLFFBQVMsQ0FBRSxFQUFFLEVBQUU7SUFDdkIsVUFBQSxDQUFFLENBQUcsT0FBTyxNQUFNLGdDQUFvQixDQUFHLE1BQU0sT0FBTzs7O0dBQ3ZELGVBQVUsU0FBTyxFQUFJLGFBQ2lCOzs7SUFBckMsZ0NBQWM7SUFFZCw0REFBNEI7SUFDNUIsWUFBYSxTQUFBLEVBQUUsRUFDQztZQUFmLFFBQVMsVUFBUSxHQUFJLFVBQVE7SUFBQTs2QkFMcEIsTUFNVjs7VUFiVTs7Ozs7OztrQkFlYjtFQWxLQSxzQ0FBQSIsImZpbGUiOiJjb21wYXJlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9jb21wYXJlLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7Ozs7Ozs7O0VBcUJBLGNBQVUsaUJBQ007R0FBZixVQUNDO1VBRGM7Ozs7O0VBYWhCLDJCQUFJLGlCQUNNO0dBQVQsVUFDQztHQVVELHVCQUFVLFNBQU0sRUFBRSxFQUNDOzZCQURSLEtBQ1YsR0FBSSxTQUFLLEVBQUU7a0NBQVcsRUFBRTtJQUFBOztVQVpoQjs7Ozs7O0VBY1YsMkJBQUksaUJBQ007R0FBVCxVQUNDO0dBRUQsdUJBQVUsU0FBTSxPQUFPLFFBQ087NkJBRG5CLEtBQ1YsT0FBSSxRQUFRLE9BQU8sU0FBUzs7VUFKcEI7Ozs7OztFQU1WLCtCQUFLLGlCQUNNO0dBQVYsVUFBTTtHQUNOLHVCQUFVLFNBQU0sT0FBTyxRQUNPOzZCQURuQixLQUNWLFVBQUssUUFBUSxPQUFPLFNBQVM7O1VBRnBCOzs7Ozs7RUFLVix5Q0FDTTtHQUFMLFVBQU07R0FDTixtQkFDTyxVQUFBO0lBQU4sVUFBQSxtQkFBUSxDQUFFLEdBQUksQ0FBRSxRQUFTO0lBQ3pCLFVBQUEsbUJBQVEsR0FBSSxDQUFFLFFBQVM7OztrQkFDdkIsU0FBQSxFQUFNLEVBQUUsRUFDQzs7V0FBVCxPQUFJLEVBQUUsR0FBSSxFQUFFO0dBQUE7O0VBS2QsZ0NBQ0k7R0FBSCxVQUFNO0dBQ04sbUJBQ08sVUFBQTtJQUFOLFVBQUEsQ0FBRSxDQUFFLEVBQUUsRUFBRSxRQUFTO0lBQ2pCLFVBQUEsQ0FBRSxDQUFFLEVBQUUsRUFBRSxRQUFTO3lDQUVQLFVBQUE7WUFBVCxJQUFJO0lBQUE7OztrQkFDTCxTQUFBLEVBQ0c7O2dDQUFFLE9BQUEsR0FBTztHQUFBOztFQUVkLHVDQUNLO0dBQUosVUFBTTtHQUNOLG1CQUNPLFVBQUE7SUFBTixVQUFBLENBQUUsQ0FBRSx3QkFBVztJQUNmLFVBQUEsQ0FBRTs7O2tCQUNGLFNBQUEsRUFDRzs7V0FBSCxZQUFROzs7RUFFViwyQ0FDTztHQUFOLFVBQ0M7R0FFRCxtQkFDTyxVQUFBO0lBQU4sVUFBQSxDQUFFLENBQUcsT0FBTyxNQUFNLGdDQUFxQjt5Q0FFN0IsVUFBQTtZQUFULFNBQU87Ozs7a0JBQ1IsU0FBQSxFQUFJLEdBQ007OztnQ0FBSixZQUFRLEVBQUUsSUFBSztHQUFBOztFQUV2QiwrQ0FDUTtHQUFQLFVBQU07R0FDTixtQkFDTyxVQUFBO0lBQU4sVUFBQSxDQUFFLENBQUUsNkNBQW9CO0lBQ3hCLFVBQUEsQ0FBRTs7O2tCQUNGLFNBQUEsRUFBSSxHQUNNOzs7MkJBQU4seUJBQUk7c0JBQ1U7TUFBakIsZ0NBQU87TUFDUCxZQUFRO01BQ1IsbUNBQWU7TUFDZix3Q0FBbUIsR0FBRzt5QkFFakI7T0FBSixZQUFhO09BRVIsWUFBSixNQUNJO1FBQUg7Y0FFRztRQUFILGlCQUFXLEdBQUc7MEJBQ1QsdUJBQVEsZ0JBQVksWUFDVyxVQUFBOzRCQUE5QixVQUFRO21DQUNSLGVBQVc7UUFBQTtPQUFBO01BQUE7NkJBQ2hCO0tBQUE7SUFBQTtHQUFBOztFQUdQLDZDQUNRO0dBQVAsVUFBTTtHQUNOLG1CQUNPLFVBQUE7SUFBTixVQUFBLENBQUUsUUFBUztJQUNYLFVBQUEsQ0FBRSxDQUFFLEVBQUUsRUFBRSxRQUFTO0lBQ2pCLFVBQUEsQ0FBRSxDQUFFLEVBQUUsRUFBRSxRQUFTO0lBQ2pCLFVBQUEsQ0FBRSxDQUFHLE1BQU0sT0FBTyxnQ0FBb0I7OztrQkFDdEMsU0FBQSxJQUFRLGFBQ2lCOzs7SUFBekIsZ0NBQWM7O0tBQ1QsUUFBQTtLQUNKLGlDQUFBLElBQ087YUFBTjtLQUFBLE9BRUc7TUFBSCxtQ0FBZ0IsNEJBQVE7aURBQ25CLEdBQU8sU0FBQSxHQUNFO09BQWIsZUFBUyxVQUFRO29DQUNOLHVCQUFRLFdBQVMsVUFDUyxVQUFBO2tDQUEvQixVQUFRO09BQUE7TUFBQTtLQUFBO0lBQUE7R0FBQTs7RUFFbkIsd0JBQU0saUJBQ007R0FBWCxVQUNDO0dBR0QsbUJBQ08sVUFBQTtJQUFOLFVBQUEsQ0FBRSxDQUFFLEVBQUUsRUFBRSxRQUFTLENBQUUsRUFBRSxFQUFFO0lBQ3ZCLFVBQUEsQ0FBRSxDQUFHLE9BQU8sTUFBTSxnQ0FBb0IsQ0FBRyxNQUFNLE9BQU87OztHQUN2RCx1QkFBVSxTQUFPLEVBQUksYUFDaUI7OztJQUFyQyxnQ0FBYztJQUVkLDREQUE0QjtJQUM1QixZQUFhLFNBQUEsRUFBRSxFQUNDO1lBQWYsUUFBUyxVQUFRLEdBQUksVUFBUTtJQUFBOzZCQUxwQixNQU1WOztVQWJVOzs7Ozs7O0VBbkpiLHNDQUFBO2tCQWtLQSIsImZpbGUiOiJjb21wYXJlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

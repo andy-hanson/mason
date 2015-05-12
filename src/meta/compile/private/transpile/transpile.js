@@ -1,7 +1,7 @@
 import { ArrayExpression, AssignmentExpression, BlockStatement, BreakStatement,
 	CallExpression, DebuggerStatement, Identifier, IfStatement, LabeledStatement, Literal,
 	ObjectExpression, ThisExpression, VariableDeclarator, ReturnStatement } from 'esast/dist/ast'
-import { idCached, member, propertyIdOrLiteralCached, toStatement } from 'esast/dist/util'
+import { idCached, member, propertyIdOrLiteralCached, thunk } from 'esast/dist/util'
 import { callExpressionThunk, functionExpressionPlain, functionExpressionThunk, memberExpression,
 	property, variableDeclarationConst, yieldExpressionDelegate, yieldExpressionNoDelegate
 	} from 'esast/dist/specialize'
@@ -9,20 +9,19 @@ import * as EExports from '../../Expression'
 import { BlockVal, Pattern, Splat,
 	SP_Contains, SP_Debugger, SP_Sub, SP_This, SP_ThisModuleDirectory
 	} from '../../Expression'
-import { flatMap, range, tail } from '../U/Bag'
+import { cat, flatMap, range, tail } from '../U/Bag'
 import { ifElse, None, opIf } from '../U/Op'
 import { assert, implementMany, isPositive } from '../U/util'
 import { binaryExpressionPlus, binaryExpressionNotEqual, declare, declareSpecial,
 	idForDeclareCached, throwError, unaryExpressionNegate, whileStatementInfinite
 	} from './esast-util'
-import { transpileObjReturn } from './transpileObj'
 import transpileModule from './transpileModule'
 import {
-	IdArguments, IdArraySliceCall, IdExports, IdFunctionApplyCall, IdMs,
-	LitEmptyArray, LitEmptyString, LitNull, ReturnRes,
-	accessLocal, lazyWrap, makeDeclarator, makeDestructureDeclarators,
-	maybeWrapInCheckContains, opLocalCheck,
-	msArr, msBool, msExtract, msMap, msShow } from './util'
+	IdArguments, IdArraySliceCall, IdDisplayName, IdExports, IdFunctionApplyCall, IdMs,
+	LitEmptyArray, LitEmptyString, LitNull, LitStrDisplayName, ReturnRes,
+	accessLocal, accessLocalDeclare, lazyWrap, makeDeclarator, makeDestructureDeclarators,
+	maybeWrapInCheckContains, opLocalCheck, toStatements,
+	msArr, msBool, msExtract, msLset, msMap, msSet, msShow } from './util'
 
 const ExtractVar = Identifier('_$')
 
@@ -53,15 +52,13 @@ export const t3 = (expr, arg, arg2, arg3) => {
 	ast.loc = expr.loc
 	return ast
 }
-const tm = expr => {
+export const tm = expr => {
 	const ast = expr.transpileSubtree()
 	if (!(ast instanceof Array))
 		// Debug may produce multiple statements.
 		ast.loc = expr.loc
 	return ast
 }
-
-const toStatements = _ => _ instanceof Array ? _.map(toStatement) : [ toStatement(_) ]
 
 function transpileBlock(lead, opResDeclare, opOut) {
 	if (lead === undefined)
@@ -103,7 +100,11 @@ function casePart(alternate) {
 implementMany(EExports, 'transpileSubtree', {
 	Assign() {
 		return variableDeclarationConst([
-			makeDeclarator(cx, this.loc, this.assignee, this.k, t0(this.value)) ])
+			makeDeclarator(
+				cx, this.loc,
+				this.assignee,
+				t0(this.value),
+				false, vr.isExportAssign(this)) ])
 	},
 	// TODO:ES6 Just use native destructuring assign
 	AssignDestructure() {
@@ -114,8 +115,8 @@ implementMany(EExports, 'transpileSubtree', {
 				this.assignees,
 				this.isLazy,
 				t0(this.value),
-				this.k,
-				false))
+				false,
+				vr.isExportAssign(this)))
 	},
 	BlockDo: transpileBlock,
 	BlockVal: transpileBlock,
@@ -153,7 +154,32 @@ implementMany(EExports, 'transpileSubtree', {
 			flatMap(this.lines, line => toStatements(t0(line))) :
 			[ ]
 	},
-	ObjReturn() { return transpileObjReturn(this, cx) },
+	ObjReturn() {
+		// TODO: includeTypeChecks() is not the right method for this
+		const keys =
+			cx.opts.includeTypeChecks() ? this.keys : this.keys.filter(_ => !vr.isDebugLocal(_))
+		return ifElse(this.opObjed,
+			objed => {
+				const astObjed = t0(objed)
+				const keysVals = cat(
+					flatMap(keys, key => [ Literal(key.name), accessLocalDeclare(key) ]),
+					flatMap(this.opDisplayName, dn => [LitStrDisplayName, Literal(dn)]))
+				const anyLazy = keys.some(key => key.isLazy)
+				return (anyLazy ? msLset : msSet)(astObjed, ...keysVals)
+			},
+			() => {
+				const props = keys.map(key => {
+					const val = accessLocalDeclare(key)
+					const id = propertyIdOrLiteralCached(key.name)
+					return key.isLazy ?
+						property('get', id, thunk(val)) :
+						property('init', id, val)
+				})
+				const opPropDisplayName = this.opDisplayName.map(dn =>
+					property('init', IdDisplayName, Literal(dn)))
+				return ObjectExpression(cat(props, opPropDisplayName))
+			})
+	},
 	ObjSimple() {
 		return ObjectExpression(this.pairs.map(pair =>
 			property('init', propertyIdOrLiteralCached(pair.key), t0(pair.value))))
@@ -168,10 +194,10 @@ implementMany(EExports, 'transpileSubtree', {
 		const opDeclareRest = this.opRestArg.map(rest =>
 			declare(rest, CallExpression(IdArraySliceCall, [IdArguments, nArgs])))
 		const argChecks = flatMap(this.args, arg => opLocalCheck(cx, arg, arg.isLazy))
-		const _in = flatMap(this.opIn, i => toStatements(t0(i)))
+		const _in = flatMap(this.opIn, t0)
 		const lead = opDeclareRest.concat(argChecks, _in)
 
-		const _out = flatMap(this.opOut, o => toStatements(t0(o)))
+		const _out = this.opOut.map(t0)
 		const body = t3(this.block, lead, this.opResDeclare, _out)
 		const args = this.args.map(t0)
 		const res = functionExpressionPlain(args, body, this.isGenerator)
@@ -237,7 +263,7 @@ implementMany(EExports, 'transpileSubtree', {
 	},
 	Special() {
 		// Make new objects because we will assign `loc` to them.
-		switch (this.k) {
+		switch (this.kind) {
 			case SP_Contains: return member(IdMs, 'contains')
 			case SP_Debugger: return DebuggerStatement()
 			case SP_Sub: return member(IdMs, 'sub')

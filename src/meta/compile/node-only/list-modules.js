@@ -1,12 +1,13 @@
 import { singleCharLoc, StartPos } from 'esast/dist/Loc'
 import fs from 'q-io/fs'
 import { relative } from 'path'
-import { BlockDo, ListSimple, Module, ModuleDefaultExport, Quote } from '../Expression'
+import { ListSimple, Module, Quote } from '../Expression'
 import Cx from '../private/Cx'
 import { OptsFromObject } from '../private/Opts'
 import transpile from '../private/transpile/transpile'
 import render from '../private/render'
 import { flatMap } from '../private/U/Bag'
+import { some } from '../private/U/Op'
 import Vr from '../private/Vr'
 
 // Searches a directory and creates a module whose default export is
@@ -25,8 +26,7 @@ export default (dirPath, opts) =>
 		// Dummy Loc. We will not use source maps.
 		const loc = singleCharLoc(StartPos)
 		const val = ListSimple(loc, moduleFiles.map(f => Quote.forString(loc, f)))
-		const e = Module(loc, [], [], [], BlockDo(loc, [ ModuleDefaultExport(loc, val) ]))
-
+		const e = Module(loc, [], [], [], [], [], some(val))
 		const cx = new Cx(OptsFromObject({
 			includeSourceMap: false,
 			includeModuleDisplayName: false

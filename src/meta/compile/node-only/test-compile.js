@@ -3,6 +3,7 @@ import { Node } from 'esast/dist/ast'
 import fs from 'fs'
 import numeral from 'numeral'
 import compile from '../compile'
+import CompileError from '../CompileError'
 import Expression from '../Expression'
 import Cx from '../private/Cx'
 import lex from '../private/lex/lex'
@@ -13,6 +14,7 @@ import render from '../private/render'
 import transpile from '../private/transpile/transpile'
 import verify from '../private/verify'
 import { OptsFromObject } from '../private/Opts'
+import formatCompileErrorForConsole from './formatCompileErrorForConsole'
 
 export const
 	test = () => doTest(false),
@@ -32,42 +34,49 @@ const doTest = includePerfTest => {
 	})
 	const cx = new Cx(opts)
 
-	const t = lex(cx, source)
-	// console.log(`==>\n${t}`)
-	const e = parse(cx, t)
-	// console.log(`==>\n${e}`)
-	const vr = verify(cx, e)
-	// console.log(`+++\n${vr}`)
-	const ast = transpile(cx, e, vr)
-	// console.log(`==>\n${ast}`)
-	const { code } = render(cx, ast)
+	try {
+		const t = lex(cx, source)
+		// console.log(`==>\n${t}`)
+		const e = parse(cx, t)
+		// console.log(`==>\n${e}`)
+		const vr = verify(cx, e)
+		// console.log(`+++\n${vr}`)
+		const ast = transpile(cx, e, vr)
+		// console.log(`==>\n${ast}`)
+		const { code } = render(cx, ast)
 
-	cx.warnings.forEach(w => console.log(w))
+		cx.warnings.forEach(w => console.log(w))
 
-	if (includePerfTest) {
-		// Benchmark has problems if I don't put these in global variables...
-		global.lexUngroupedTest = () =>
-			lexUngrouped(cx, source)
-		const tUngrouped = global.lexUngroupedTest()
-		global.lexGroupTest = () =>
-			lexGroup(cx, tUngrouped)
+		if (includePerfTest) {
+			// Benchmark has problems if I don't put these in global variables...
+			global.lexUngroupedTest = () =>
+				lexUngrouped(cx, source)
+			const tUngrouped = global.lexUngroupedTest()
+			global.lexGroupTest = () =>
+				lexGroup(cx, tUngrouped)
 
-		global.cmp = () =>
-			compile(source, opts)
-		benchmark({
-			lexUngrouped: () => global.lexUngroupedTest(),
-			lexGroup: () => global.lexGroupTest(),
-			parse: () => parse(cx, t),
-			verify: () => verify(cx, e),
-			transpile: () => transpile(cx, e, vr),
-			render: () => render(cx, ast),
-			all: () => global.cmp()
-		})
-	} else {
-		console.log(`Expression tree size: ${treeSize(e, _ => _ instanceof Expression).size}.`)
-		console.log(`ES AST size: ${treeSize(ast, _ => _ instanceof Node)}.`)
-		console.log(`Output size: ${code.length} characters.`)
-		console.log(`==>\n${code}`)
+			global.cmp = () =>
+				compile(source, opts)
+			benchmark({
+				lexUngrouped: () => global.lexUngroupedTest(),
+				lexGroup: () => global.lexGroupTest(),
+				parse: () => parse(cx, t),
+				verify: () => verify(cx, e),
+				transpile: () => transpile(cx, e, vr),
+				render: () => render(cx, ast),
+				all: () => global.cmp()
+			})
+		} else {
+			console.log(`Expression tree size: ${treeSize(e, _ => _ instanceof Expression).size}.`)
+			console.log(`ES AST size: ${treeSize(ast, _ => _ instanceof Node).size}.`)
+			console.log(`Output size: ${code.length} characters.`)
+			console.log(`==>\n${code}`)
+		}
+	} catch (error) {
+		if (error instanceof CompileError)
+			console.log(formatCompileErrorForConsole(error))
+		else
+			throw error
 	}
 }
 

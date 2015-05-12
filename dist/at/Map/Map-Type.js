@@ -5,7 +5,6 @@ define(["exports","../../Fun","../../methods","../../Type/Method","../../Type/Pr
 		const _$2=_ms.getModule(Fun_0),identity=_ms.get(_$2,"identity"),_$3=_ms.getModule(methods_1),sub=_ms.get(_$3,"sub"),_$4=_ms.getModule(Method_2),impl_33=_ms.get(_$4,"impl!"),self_45impl_33=_ms.get(_$4,"self-impl!"),_$5=_ms.getModule(Pred_45Type_3),Any=_ms.get(_$5,"Any"),Kind=_ms.getDefaultExport(Kind_4),_$6=_ms.getModule(Kind_4),kind_33=_ms.get(_$6,"kind!"),self_45kind_33=_ms.get(_$6,"self-kind!"),_64=_ms.getDefaultExport(_64_5),_$7=_ms.getModule(_64_5),each_33=_ms.get(_$7,"each!"),_64_45Type=_ms.getDefaultExport(_64_45Type_6),_$8=_ms.getModule(_64_45Type_6),empty=_ms.get(_$8,"empty"),from_45stream=_ms.get(_$8,"from-stream"),Map=_ms.getDefaultExport(Map_7),Hash_45Map_33=_ms.lazy(function(){
 			return _ms.getDefaultExport(Hash_45Map_33_8)
 		}),_$12=_ms.lazyGetModule(Map_33_9),assoc_33=_ms.lazyProp(_$12,"assoc!");
-		const exports={};
 		const Map_45Type=Kind(function(){
 			const doc="Any sub-type of Map.";
 			return {
@@ -20,7 +19,7 @@ define(["exports","../../Fun","../../methods","../../Type/Method","../../Type/Pr
 		});
 		impl_33(sub,Map_45Type,identity);
 		impl_33(from_45stream,Map_45Type,function(){
-			const test=function(){
+			const test=_ms.set(function(){
 				const m=function(){
 					const _k0=1,_v0=2;
 					const _k1=3,_v1=4;
@@ -32,7 +31,7 @@ define(["exports","../../Fun","../../methods","../../Type/Method","../../Type/Pr
 					return _ms.map(_k0,_v0,_k1,_v1)
 				}();
 				return _ms.map(_k0,_v0)
-			};
+			},"displayName","test");
 			return _ms.set(function(type,stream){
 				_ms.checkContains(_64,stream,"stream");
 				const _=empty(type);
@@ -43,9 +42,9 @@ define(["exports","../../Fun","../../methods","../../Type/Method","../../Type/Pr
 				return _
 			},"test",test)
 		}());
-		exports.default=Map_45Type;
 		const displayName=exports.displayName="Map-Type";
+		exports.default=Map_45Type;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL01hcC9NYXAtVHlwZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7aUNBYUE7Ozs7O0VBQUEsaUJBQVcsZUFDSTtHQUFkLFVBQU07VUFBUTs7Ozs7RUFFZixRQUFNLFdBQVM7RUFHZixlQUFXLElBQUk7RUFDZixlQUFXLE1BQU0sSUFDSyxVQUFBO1VBQXJCOztFQUVELFFBQU0sSUFBSSxXQUFTO0VBRW5CLFFBQU0sY0FBWSxxQkFDUTtHQUF6QixXQUNPLFVBQUE7SUFDTixrQkFDRztLQUFGLFVBQUEsTUFBSztLQUNMLFVBQUEsTUFBSzs7O0lBQ04sVUFBQSwyQkFBWSxpQkFDTTtLQUFqQixVQUFBLE1BQUs7S0FDTCxVQUFBLE1BQUs7Ozs7O2tCQUNOLFNBQUEsS0FBSyxPQUNRO3NCQUREO0lBQ1osUUFBSSxNQUFNO0lBQ1YsUUFBTSxPQUFRLFNBQUEsS0FDSTtLQUFqQixXQUFrQiwyQkFBZCwwQ0FBUTtpQ0FDTCxFQUFFLElBQUk7SUFBQTtXQUNkO0dBQUE7O2tCQUVGO0VBekNBLHNDQUFBIiwiZmlsZSI6ImF0L01hcC9NYXAtVHlwZS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL01hcC9NYXAtVHlwZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7O0VBYUEsaUJBQVcsZUFDSTtHQUFkLFVBQU07VUFBUTs7Ozs7RUFFZixRQUFNLFdBQVM7RUFHZixlQUFXLElBQUk7RUFDZixlQUFXLE1BQU0sSUFDSyxVQUFBO1VBQXJCOztFQUVELFFBQU0sSUFBSSxXQUFTO0VBRW5CLFFBQU0sY0FBWSxxQkFDUTtHQUF6QixtQkFDTyxVQUFBO0lBQ04sa0JBQ0c7S0FBRixVQUFBLE1BQUs7S0FDTCxVQUFBLE1BQUs7OztJQUNOLFVBQUEsMkJBQVksaUJBQ007S0FBakIsVUFBQSxNQUFLO0tBQ0wsVUFBQSxNQUFLOzs7OztrQkFDTixTQUFBLEtBQUssT0FDUTtzQkFERDtJQUNaLFFBQUksTUFBTTtJQUNWLFFBQU0sT0FBUSxTQUFBLEtBQ0k7S0FBakIsV0FBa0IsMkJBQWQsMENBQVE7aUNBQ0wsRUFBRSxJQUFJO0lBQUE7V0FDZDtHQUFBOztFQXZDRixzQ0FBQTtrQkF5Q0EiLCJmaWxlIjoiYXQvTWFwL01hcC1UeXBlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

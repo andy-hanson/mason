@@ -1,11 +1,11 @@
 import { code } from '../CompileError'
 import * as EExports from '../Expression'
-import { Assign, AssignDestructure, BlockVal, Call, Debug, Do, GlobalAccess,
-	ListEntry, ListReturn, MapEntry, MapReturn,
-	ModuleDefaultExport, Pattern, Special, UseDo, Yield, YieldTo } from '../Expression'
-import { head, isEmpty, last } from './U/Bag'
+import { Assign, AssignDestructure, BlockVal, Call, Debug, Do, GlobalAccess, ListEntry, ListReturn,
+	LocalDeclareRes, MapEntry, MapReturn, Pattern, Special, SP_Debugger, UseDo, Yield, YieldTo
+	} from '../Expression'
+import { head, isEmpty } from './U/Bag'
 import { ifElse, some } from './U/Op'
-import { assert, implementMany, mapKeys } from './U/util'
+import { assert, implementMany, mapKeys, newSet } from './U/util'
 import Vr, { VrLocalInfo } from './Vr'
 
 const vm = es => es.forEach(e => e.verify())
@@ -90,6 +90,16 @@ const
 		pendingBlockLocals = bl
 	},
 
+	accessLocal = (declare, access, isDebugAccess) =>
+		_addAccess(vr.localToInfo.get(declare), access, isDebugAccess),
+	accessLocalForReturn = (declare, access) => {
+		const info = vr.localToInfo.get(declare)
+		_addAccess(info, access, info.isInDebug)
+	},
+	_addAccess = (localInfo, access, isDebugAccess) =>
+		(isDebugAccess ? localInfo.debugAccesses : localInfo.nonDebugAccesses).push(access),
+
+
 	// Vr setters
 	setEndLoop = (endLoop, loop) => {
 		vr.endLoopToLoop.set(endLoop, loop)
@@ -102,8 +112,12 @@ const
 	setEntryIndex = (listMapEntry, index) => {
 		vr.entryToIndex.set(listMapEntry, index)
 	},
-	setListMapLength = (returner, length) => {
-		vr.returnToLength.set(returner, length)
+
+	maybeSetListMapLength = (returner, length) => {
+		if (returner instanceof ListReturn || returner instanceof MapReturn)
+			vr.returnToLength.set(returner, length)
+		else
+			assert(length === 0)
 	}
 
 export default function verify(cx, e) {
@@ -117,16 +131,17 @@ export default function verify(cx, e) {
 
 const verifyLocalUse = () => {
 	vr.localToInfo.forEach((info, local) => {
-		const noNonDebug = isEmpty(info.nonDebugAccesses)
-		if (noNonDebug && isEmpty(info.debugAccesses))
-			cx.warnIf(!local.okToNotUse, local.loc, () =>
-				`Unused local variable ${code(local.name)}.`)
-		else if (info.isInDebug)
-			cx.warnIf(!noNonDebug, () => head(info.nonDebugAccesses).loc, () =>
-				`Debug-only local ${code(local.name)} used outside of debug.`)
-		else
-			cx.warnIf(!local.okToNotUse && noNonDebug, local.loc, () =>
-				`Local ${code(local.name)} used only in debug.`)
+		if (!(local instanceof LocalDeclareRes)) {
+			const noNonDebug = isEmpty(info.nonDebugAccesses)
+			if (noNonDebug && isEmpty(info.debugAccesses))
+				cx.warn(local.loc, () => `Unused local variable ${code(local.name)}.`)
+			else if (info.isInDebug)
+				cx.warnIf(!noNonDebug, () => head(info.nonDebugAccesses).loc, () =>
+					`Debug-only local ${code(local.name)} used outside of debug.`)
+			else
+				cx.warnIf(noNonDebug, local.loc, () =>
+					`Local ${code(local.name)} used only in debug.`)
+		}
 	})
 }
 
@@ -144,10 +159,7 @@ implementMany(EExports, 'verify', {
 	BlockDo() { verifyLines(this.lines) },
 	BlockVal() {
 		const { newLocals, listMapLength } = verifyLines(this.lines)
-		if (this.returned instanceof ListReturn || this.returned instanceof MapReturn)
-			setListMapLength(this.returned, listMapLength)
-		else
-			assert(listMapLength === 0)
+		maybeSetListMapLength(this.returned, listMapLength)
 		plusLocals(newLocals, () => this.returned.verify())
 	},
 	BlockWrap() {
@@ -183,17 +195,11 @@ implementMany(EExports, 'verify', {
 		})
 	},
 	LocalAccess() {
-		const local = locals.get(this.name)
-		if (local !== undefined) {
-			vr.accessToLocal.set(this, local)
-			const info = vr.localToInfo.get(local)
-			const accesses = isInDebug ? info.debugAccesses : info.nonDebugAccesses
-			accesses.push(this)
-		} else
-			cx.fail(this.loc,
-				`Could not find local or global ${code(this.name)}.\n` +
-				'Available locals are:\n' +
-				`${code(mapKeys(locals).join(' '))}.`)
+		const declare = locals.get(this.name)
+		cx.check(declare !== undefined, this.loc, () =>
+			`No such local ${code(this.name)}.\nLocals are:\n${code(mapKeys(locals).join(' '))}.`)
+		vr.accessToLocal.set(this, declare)
+		accessLocal(declare, this, isInDebug)
 	},
 	Loop() { withInLoop(this, () => this.block.verify()) },
 	// Adding LocalDeclares to the available locals is done by Fun or lineNewLocals.
@@ -202,19 +208,30 @@ implementMany(EExports, 'verify', {
 		this.key.verify()
 		this.val.verify()
 	},
-	// TODO: Just have lines, not block.lines
 	Module() {
 		const useLocals = verifyUses(this.uses, this.debugUses)
 		plusLocals(useLocals, () => {
-			const { listMapLength } = verifyLines(this.block.lines)
-			// If we are returning a list, the ModuleDefaultExport will be the last line.
-			const ex = last(this.block.lines)
-			if (ex instanceof ModuleDefaultExport) {
-				const ret = ex.value
-				if (ret instanceof ListReturn || ret instanceof MapReturn)
-					setListMapLength(ret, listMapLength)
-			}
+			const { newLocals, listMapLength } = verifyLines(this.lines)
+			this.exports.forEach(ex => accessLocalForReturn(ex, this))
+			this.opDefaultExport.forEach(def => {
+				maybeSetListMapLength(def, listMapLength)
+				plusLocals(newLocals, () => def.verify())
+			})
 		})
+
+		const exports = newSet(this.exports)
+		const markExportLines = line => {
+			if (line instanceof Assign && exports.has(line.assignee) ||
+				line instanceof AssignDestructure && line.assignees.some(_ => exports.has(_)))
+				vr.exportAssigns.add(line)
+			else if (line instanceof Debug)
+				line.lines.forEach(markExportLines)
+		}
+		this.lines.forEach(markExportLines)
+	},
+	ObjReturn() {
+		vm(this.opObjed)
+		this.keys.forEach(key => accessLocalForReturn(key, this))
 	},
 	Yield() {
 		cx.check(isInGenerator, this.loc, 'Cannot yield outside of generator context')
@@ -237,7 +254,6 @@ implementMany(EExports, 'verify', {
 	CaseDoPart: verifyCasePart,
 	CaseValPart: verifyCasePart,
 	GlobalAccess() { },
-	ObjReturn() { vm(this.opObjed) },
 	ObjSimple() {
 		const keys = new Set()
 		this.pairs.forEach(pair => {
@@ -253,7 +269,6 @@ implementMany(EExports, 'verify', {
 	NumberLiteral() { },
 	MapReturn() { },
 	Member() { this.object.verify() },
-	ModuleDefaultExport() { this.value.verify() },
 	Quote() {
 		this.parts.forEach(_ => {
 			if (typeof _ !== 'string')
@@ -374,7 +389,7 @@ const
 			case line instanceof Call:
 			case line instanceof Yield:
 			case line instanceof YieldTo:
-			case line instanceof Special && line.k === 'debugger':
+			case line instanceof Special && line.k === SP_Debugger:
 			// OK, used to mean `pass`
 			case line instanceof GlobalAccess && line.name === 'null':
 				return

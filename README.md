@@ -11,12 +11,6 @@ It is currently in progress.
 
 	# See https://github.com/joyent/node/issues/14195
 	nvm use 0.11.14
-
-	cd esast
-	npm install
-	./gulp all
-
-	cd ..
 	npm install
 	./gulp all
 
@@ -31,11 +25,9 @@ To test changes to the compiler:
 
 To test changes to Mason code:
 
-	./gulp
+	./gulp watch
 	# In another console:
 	./gulp run # Runs src/meta/run-all-tests.ms
-
-And in the other console, `./gulp run` will run all tests.
 
 
 ## Edit

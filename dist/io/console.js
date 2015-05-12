@@ -4,7 +4,6 @@ define(["exports","../Str-as-Seq","../at/at","../show","../Str","../Type/Type"],
 	exports._get=_ms.lazy(function(){
 		_ms.getModule(Str_45as_45Seq_0);
 		const _$4=_ms.getModule(_64_1),each_33=_ms.get(_$4,"each!"),show=_ms.getDefaultExport(show_2),Str=_ms.getDefaultExport(Str_3),_$7=_ms.getModule(Type_4),_61_62=_ms.get(_$7,"=>");
-		const exports={};
 		const doc=exports.doc="Funs that write to the console (also known as shell, command prompt, stdout/stderr).";
 		const js_45console=global.console;
 		const log_33=exports["log!"]=function(){
@@ -48,4 +47,4 @@ define(["exports","../Str-as-Seq","../at/at","../show","../Str","../Type/Type"],
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9pby9jb25zb2xlLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztpQ0FRQTs7OztFQUFBLHNCQUFNO0VBRU4sbUJBQWE7RUFFYix1Q0FDSztHQUFKLFVBQ0M7a0JBRUEsVUFDTzs7V0FBUCxpQkFBZ0IsT0FBRyxJQUFJLEtBQU07R0FBQTs7RUFFL0IseUNBQ007R0FBTCxVQUFNO2tCQUNMLFVBQ087O1dBQVAsa0JBQWlCLE9BQUcsSUFBSSxLQUFNO0dBQUE7O0VBRy9CLHVDQUNLO0dBQUosVUFBTTtrQkFDTCxVQUNPOztJQUFQLFFBQU87SUFDUCxRQUFNLEtBQU0sU0FBQSxFQUNDO1lBQVosUUFBTyxLQUFLLFlBQ0M7TUFBWixXQUFNO2FBQU07Ozs7O1dBQ2QsUUFBTztHQUFBOztFQUVULDJDQUNPO0dBQU4sVUFBTTtrQkFDTCxVQUNPOztXQUFQLG1CQUFrQixPQUFHLElBQUksS0FBTTtHQUFBOztFQXJDbEMsc0NBQUEiLCJmaWxlIjoiaW8vY29uc29sZS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9pby9jb25zb2xlLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7OztFQVFBLHNCQUFNO0VBRU4sbUJBQWE7RUFFYix1Q0FDSztHQUFKLFVBQ0M7a0JBRUEsVUFDTzs7V0FBUCxpQkFBZ0IsT0FBRyxJQUFJLEtBQU07R0FBQTs7RUFFL0IseUNBQ007R0FBTCxVQUFNO2tCQUNMLFVBQ087O1dBQVAsa0JBQWlCLE9BQUcsSUFBSSxLQUFNO0dBQUE7O0VBRy9CLHVDQUNLO0dBQUosVUFBTTtrQkFDTCxVQUNPOztJQUFQLFFBQU87SUFDUCxRQUFNLEtBQU0sU0FBQSxFQUNDO1lBQVosUUFBTyxLQUFLLFlBQ0M7TUFBWixXQUFNO2FBQU07Ozs7O1dBQ2QsUUFBTztHQUFBOztFQUVULDJDQUNPO0dBQU4sVUFBTTtrQkFDTCxVQUNPOztXQUFQLG1CQUFrQixPQUFHLElBQUksS0FBTTtHQUFBOztFQXJDbEMsc0NBQUEiLCJmaWxlIjoiaW8vY29uc29sZS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

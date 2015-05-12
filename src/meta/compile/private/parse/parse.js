@@ -1,22 +1,26 @@
 import Loc from 'esast/dist/Loc'
+import tupl from 'tupl/dist/tupl'
 import { code } from '../../CompileError'
 import { Assign, AssignDestructure, BlockDo, BlockVal, BlockWrap, Call, CaseDoPart, CaseValPart,
-	CaseDo, CaseVal, Debug, NumberLiteral, EndLoop, Fun, GlobalAccess, Lazy, ListEntry, ListReturn,
-	ListSimple, LocalAccess, LocalDeclare, LocalDeclare, Loop, MapEntry, MapReturn, Member, Module,
-	ModuleDefaultExport, ObjPair, ObjReturn, ObjSimple, Pattern, Quote, Special, Splat, Val, Use,
-	UseDo, Yield, YieldTo } from '../../Expression'
+	CaseDo, CaseVal, Debug, Do, NumberLiteral, EndLoop, Fun, GlobalAccess, Lazy, ListEntry,
+	ListReturn, ListSimple, LocalAccess, LocalDeclare, LocalDeclareRes, Loop, MapEntry, MapReturn,
+	Member, Module, ObjPair, ObjReturn, ObjSimple, Pattern, Quote, Special, Splat, Val, Use, UseDo,
+	Yield, YieldTo } from '../../Expression'
 import { JsGlobals } from '../Lang'
-import { CallOnFocus, DotName, Group, G_Block, G_Bracket,
-	G_Paren, G_Space, G_Quote, Keyword, TokenNumberLiteral, Name, opKWtoSP,
+import { CallOnFocus, DotName, Group, G_Block, G_Bracket, G_Paren, G_Space, G_Quote, Keyword,
 	KW_Case, KW_CaseDo, KW_Debug, KW_Debugger, KW_EndLoop, KW_Focus, KW_Fun, KW_GenFun, KW_In,
 	KW_Loop, KW_MapEntry, KW_ObjAssign, KW_Out, KW_Region, KW_Use, KW_UseDebug, KW_UseDo,
-	KW_UseLazy, KW_Yield, KW_YieldTo } from '../Token'
-import { cat, head, flatMap, isEmpty, last, push, repeat, rtail, tail, unshift } from '../U/Bag'
+	KW_UseLazy, KW_Yield, KW_YieldTo, Name, opKWtoSP, TokenNumberLiteral } from '../Token'
+import { head, flatMap, isEmpty, last, push, repeat, rtail, tail, unshift } from '../U/Bag'
 import { ifElse, None, opIf, some } from '../U/Op'
 import { assert } from '../U/util'
 import Slice from './Slice'
 
 let cx
+
+const WithObjKeys = tupl('WithObjKeys', Object,
+	'Wraps an Do with keys for this block\'s Obj. Not meant to escape this file.',
+	[ 'keys', [LocalDeclare], 'line', Do])
 
 export default function parse(_cx, rootToken) {
 	cx = _cx
@@ -37,22 +41,16 @@ const parseModule = tokens => {
 	const [ plainUses, rest1 ] = tryParseUses(KW_Use, rest0)
 	const [ lazyUses, rest2 ] = tryParseUses(KW_UseLazy, rest1)
 	const [ debugUses, rest3 ] = tryParseUses(KW_UseDebug, rest2)
-	const block = parseModuleBody(rest3)
-	block.lines.forEach(line => {
-		if (line instanceof Assign && line.k === 'export')
-			cx.check(line.assignee.name !== 'displayName', line.assignee.loc,
-				'Module can not choose its own displayName.')
-	})
-	if (cx.opts.moduleDisplayName())
-		block.lines.push(
-			Assign(
-				tokens.loc,
-				LocalDeclare(tokens.loc, 'displayName', [], false, true),
-				'export',
-				Quote.forString(tokens.loc, cx.opts.moduleName())))
+	const { lines, exports, opDefault } = parseModuleBody(rest3)
 
+	if (cx.opts.moduleDisplayName() && !exports.some(ex => ex.name === 'displayName')) {
+		const dn = LocalDeclare.displayName(tokens.loc)
+		lines.push(Assign(tokens.loc, dn,
+			Quote.forString(tokens.loc, cx.opts.moduleName())))
+		exports.push(dn)
+	}
 	const uses = plainUses.concat(lazyUses)
-	return Module(tokens.loc, doUses, uses, debugUses, block)
+	return Module(tokens.loc, doUses, uses, debugUses, lines, exports, opDefault)
 }
 
 // parseBlock
@@ -85,10 +83,10 @@ const
 	},
 
 	parseBodyDo = tokens => {
-		const { eLines, kReturn } = _parseBlockLines(tokens)
+		const { allLines, kReturn } = _parseBlockLines(tokens)
 		cx.check(kReturn === 'plain', tokens.loc,
 			() => `Can not make ${kReturn} in statement context.`)
-		return BlockDo(tokens.loc, eLines)
+		return BlockDo(tokens.loc, allLines)
 	},
 	parseBodyVal = tokens => _parseBlockBody('val', tokens)
 
@@ -104,46 +102,44 @@ const
 		assert(k === 'val' || k === 'module' || k === 'any')
 
 		// keys only matter if kReturn === 'obj'
-		const { eLines, kReturn, objKeys, debugKeys } = _parseBlockLines(tokens)
+		const { allLines, kReturn, objKeys } = _parseBlockLines(tokens)
 
 		const { doLines, opReturn } = (() => {
 			if (kReturn === 'bag')
 				return {
-					doLines: eLines,
+					doLines: allLines,
 					opReturn: some(ListReturn(tokens.loc))
 				}
 			if (kReturn === 'map')
 				return {
-					doLines: eLines,
+					doLines: allLines,
 					opReturn: some(MapReturn(tokens.loc))
 				}
 
-			const lastReturn = !isEmpty(eLines) && last(eLines) instanceof Val
+			const lastReturn = !isEmpty(allLines) && last(allLines) instanceof Val
 			if (kReturn === 'obj' && k !== 'module')
 				return lastReturn ?
 					{
-						doLines: rtail(eLines),
+						doLines: rtail(allLines),
 						opReturn: some(ObjReturn(
 							tokens.loc,
 							objKeys,
-							debugKeys,
-							some(last(eLines)),
+							some(last(allLines)),
 							// displayName is filled in by parseAssign.
 							None))
 					} : {
-						doLines: eLines,
+						doLines: allLines,
 						opReturn: some(ObjReturn(
 							tokens.loc,
 							objKeys,
-							debugKeys,
 							None,
 							// displayName is filled in by parseAssign.
 							None))
 					}
 			else
 				return lastReturn ?
-				{ doLines: rtail(eLines), opReturn: some(last(eLines)) } :
-				{ doLines: eLines, opReturn: None }
+				{ doLines: rtail(allLines), opReturn: some(last(allLines)) } :
+				{ doLines: allLines, opReturn: None }
 		})()
 
 		switch (k) {
@@ -155,59 +151,50 @@ const
 				return ifElse(opReturn,
 					returned => BlockVal(tokens.loc, doLines, returned),
 					() => BlockDo(tokens.loc, doLines))
-			case 'module': {
-				// TODO: Handle debug-only exports
-				const lines =
-					// Turn Obj assigns into exports.
-					cat(
-						doLines.map(line => {
-							if (line instanceof Assign && line.k === KW_ObjAssign)
-								line.k = 'export'
-							return line
-						}),
-						opReturn.map(ret => ModuleDefaultExport(ret.loc, ret)))
-				return BlockDo(tokens.loc, lines)
-			}
-			default: throw new Error(k)
+			case 'module':
+				return ifElse(opReturn,
+					returned => ({ lines: doLines, exports: objKeys, opDefault: some(returned) }),
+					() => ({ lines: doLines, exports: objKeys, opDefault: None }))
+			default:
+				throw new Error(k)
 		}
 	},
 
 	_parseBlockLines = lines => {
-		const objKeys = [], debugKeys = []
-		const eLines = []
+		const objKeys = []
 		let isBag = false, isMap = false
-		const addLine = (ln, inDebug) => {
-			if (ln instanceof Array)
-				ln.forEach(_ => addLine(_, inDebug))
-			else {
-				if (ln instanceof Debug)
-					ln.lines.forEach(_ => addLine(_, true))
-				else if (ln instanceof ListEntry) {
-					assert(!inDebug, 'Not supported: debug list entries')
-					isBag = true
-				} else if (ln instanceof MapEntry) {
-					assert(!inDebug, 'Not supported: debug map entries')
-					isMap = true
-				} else if (ln instanceof Assign && ln.k === KW_ObjAssign)
-					(inDebug ? debugKeys : objKeys).push(ln.assignee)
-
-				if (!inDebug)
-					// Else we are adding the Debug as a single line.
-					eLines.push(ln)
+		const checkLine = (line, inDebug) => {
+			if (line instanceof Debug)
+				line.lines.forEach(_ => checkLine(_, true))
+			else if (line instanceof ListEntry) {
+				cx.check(!inDebug, line.loc, 'Not supported: debug list entries')
+				isBag = true
+			} else if (line instanceof MapEntry) {
+				cx.check(!inDebug, line.loc, 'Not supported: debug map entries')
+				isMap = true
+			} else if (line instanceof WithObjKeys) {
+				objKeys.push(...line.keys)
+				line = line.line
 			}
 		}
-		lines.each(line => addLine(parseLine(Slice.group(line))))
+		const allLines = [ ]
+		const addLine = line => {
+			if (line instanceof Array)
+				line.forEach(addLine)
+			else {
+				checkLine(line, false)
+				allLines.push(line instanceof WithObjKeys ? line.line : line)
+			}
+		}
+		lines.each(_ => addLine(parseLine(Slice.group(_))))
 
-		const isObj = !(isEmpty(objKeys) && isEmpty(debugKeys))
-		// TODO
-		// if (isEmpty(objKeys))
-		//	cx.check(isEmpty(debugKeys), lines.loc, 'Block can't have only debug keys')
+		const isObj = !isEmpty(objKeys)
 		cx.check(!(isObj && isBag), lines.loc, 'Block has both Bag and Obj lines.')
 		cx.check(!(isObj && isMap), lines.loc, 'Block has both Obj and Map lines.')
 		cx.check(!(isBag && isMap), lines.loc, 'Block has both Bag and Map lines.')
 
 		const kReturn = isObj ? 'obj' : isBag ? 'bag' : isMap ? 'map' : 'plain'
-		return { eLines, kReturn, objKeys, debugKeys }
+		return { allLines, kReturn, objKeys }
 	}
 
 const parseCase = (k, casedFromFun, tokens) => {
@@ -329,8 +316,8 @@ const parseFun = (isGenerator, tokens) => {
 	const { args, opRestArg, block, opIn, opOut } = _funArgsAndBlock(rest)
 	// Need res declare if there is a return type or out condition.
 	const opResDeclare = ifElse(opReturnType,
-		rt => some(LocalDeclare.res(rt.loc, opReturnType)),
-		() => opOut.map(o => LocalDeclare.res(o.loc, opReturnType)))
+		rt => some(LocalDeclareRes(rt.loc, opReturnType)),
+		() => opOut.map(o => LocalDeclareRes(o.loc, opReturnType)))
 	return Fun(tokens.loc, isGenerator, args, opRestArg, block, opIn, opResDeclare, opOut)
 }
 
@@ -381,7 +368,7 @@ const
 				cx.check(l.nDots === 3, l.loc, 'Splat argument must have exactly 3 dots')
 				return {
 					args: parseLocalDeclares(tokens.rtail()),
-					opRestArg: some(LocalDeclare(l.loc, l.name, None, false, false))
+					opRestArg: some(LocalDeclare.plain(l.loc, l.name))
 				}
 			}
 			else return { args: parseLocalDeclares(tokens), opRestArg: None }
@@ -473,18 +460,21 @@ const
 		if (k === KW_ObjAssign)
 			locals.forEach(l => { l.okToNotUse = true })
 
+		const isObjAssign = k === KW_ObjAssign
+		let ass
 		if (locals.length === 1) {
-			const assign = Assign(loc, locals[0], k, eValue)
-			const isTest = assign.assignee.name.endsWith('test')
-			return isTest && k === KW_ObjAssign ? Debug(loc, [ assign ]) : assign
-		}
-		else {
+			const assignee = locals[0]
+			const assign = Assign(loc, assignee, eValue)
+			const isTest = isObjAssign && assign.assignee.name.endsWith('test')
+			ass = isTest ? Debug(loc, [ assign ]) : assign
+		} else {
 			const isLazy = locals.some(l => l.isLazy)
 			if (isLazy)
 				locals.forEach(_ => cx.check(_.isLazy, _.loc,
 					'If any part of destructuring assign is lazy, all must be.'))
-			return AssignDestructure(loc, locals, k, eValue, isLazy)
+			ass = AssignDestructure(loc, locals, eValue, isLazy)
 		}
+		return isObjAssign ? WithObjKeys(locals, ass) : ass
 	},
 
 	_valueFromAssign = (valuePre, kAssign) => {
@@ -504,30 +494,23 @@ const
 	// . It's one of those at the end of a block
 	// . It's one of those as the end member of a call.
 	_tryAddDisplayName = (eValuePre, displayName) => {
-		switch (true) {
-			case eValuePre instanceof Call && eValuePre.args.length > 0:
-				// TODO: Immutable
-				eValuePre.args[eValuePre.args.length - 1] =
-					_tryAddDisplayName(last(eValuePre.args), displayName)
-				return eValuePre
-
-			case eValuePre instanceof Fun:
-				return ObjReturn(eValuePre.loc, [], [], some(eValuePre), some(displayName))
-
-			case eValuePre instanceof ObjReturn &&
-				!eValuePre.keys.some(key => key.name === 'displayName'):
-				eValuePre.opDisplayName = some(displayName)
-				return eValuePre
-
-			case eValuePre instanceof BlockWrap: {
-				const block = eValuePre.block
-				block.returned = _tryAddDisplayName(block.returned, displayName)
-				return eValuePre
-			}
-
-			default:
-				return eValuePre
-		}
+		if (eValuePre instanceof Call && eValuePre.args.length > 0) {
+			// TODO: Immutable
+			eValuePre.args[eValuePre.args.length - 1] =
+				_tryAddDisplayName(last(eValuePre.args), displayName)
+			return eValuePre
+		} else if (eValuePre instanceof Fun)
+			return ObjReturn(eValuePre.loc, [], some(eValuePre), some(displayName))
+		else if (eValuePre instanceof ObjReturn &&
+			!eValuePre.keys.some(key => key.name === 'displayName')) {
+			eValuePre.opDisplayName = some(displayName)
+			return eValuePre
+		} else if (eValuePre instanceof BlockWrap) {
+			const block = eValuePre.block
+			block.returned = _tryAddDisplayName(block.returned, displayName)
+			return eValuePre
+		} else
+			return eValuePre
 	},
 
 	_parseMapEntry = (before, after, loc) =>
@@ -561,7 +544,7 @@ const
 		else
 			name = _parseLocalName(t)
 
-		return LocalDeclare(t.loc, name, opType, isLazy, false)
+		return LocalDeclare(t.loc, name, opType, isLazy)
 	}
 
 // parseLocalDeclare privates

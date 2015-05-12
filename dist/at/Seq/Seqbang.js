@@ -11,10 +11,9 @@ define(["exports","../../Type/Kind","../../Type/Method","../atbang","../at-Type"
 		}),Array_33=_ms.lazy(function(){
 			return _ms.getDefaultExport(Array_33_10)
 		}),_$15=_ms.lazyGetModule(Seq_11),seq_61_63=_ms.lazyProp(_$15,"seq=?");
-		const exports={};
 		const Seq_33=Kind(function(){
 			const doc="Mutable Seq.\nArray!s can efficiently change existing elements and add new ones on the right.\nDeque!s are like Arrays, but can add new values on the left.";
-			const implementor_45test=function(type){
+			const implementor_45test=_ms.set(function(type){
 				const _=function(){
 					const _=type;
 					if(_ms.bool(_ms.unlazy(_61_63)(_,Array))){
@@ -33,7 +32,7 @@ define(["exports","../../Type/Kind","../../Type/Method","../atbang","../at-Type"
 				_ms.unlazy(_33)(_ms.unlazy(_61_63),_63pop_62_33(_),empty(_ms.unlazy(_63)));
 				_ms.unlazy(_33)(_ms.unlazy(empty_63),_);
 				return _43_43_62_33(_,[1,2,3])
-			};
+			},"displayName","implementor-test");
 			return {
 				doc:doc,
 				"implementor-test":implementor_45test,
@@ -83,9 +82,9 @@ define(["exports","../../Type/Kind","../../Type/Method","../atbang","../at-Type"
 				displayName:"set-nth!"
 			}
 		}());
-		exports.default=Seq_33;
 		const displayName=exports.displayName="Seq!";
+		exports.default=Seq_33;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1NlcS9TZXEhLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztpQ0FnQkE7Ozs7Ozs7Ozs7O0VBQUEsYUFBTyxlQUNJO0dBQVYsVUFDQztHQUdELHlCQUFtQixTQUFBLEtBQ0k7SUFDdEI7S0FBUyxRQUFBO0tBQ1IsK0JBQUcsRUFBRSxRQUNLO2FBQVQ7WUFFRzthQUFILE1BQU07S0FBQTtJQUFBO0lBQ1IsYUFBSyxFQUFFLENBQUUsRUFBRTtJQUNYLGFBQUssRUFBRSxDQUFFLElBQUc7MENBQ0osRUFBRSxDQUFFLElBQUcsSUFBRyxFQUFFO3VDQUNmLGFBQUEsbUJBQVc7dUNBQ1gsYUFBQSxtQkFBVzt1Q0FDWCxhQUFBLG1CQUFXO3VDQUNYLGFBQUEsbUJBQVc7dUNBQ1gsYUFBQSxHQUFTO3lDQUNMO1dBQ1QsYUFBSyxFQUFFLENBQUUsRUFBRSxFQUFFO0dBQUE7VUFwQko7Ozs7OztFQXNCWCxlQUFXLE9BQUsscUJBQ007R0FBckIsVUFBQSxVQUNVLFVBQUE7V0FBVDs7OztFQUVGLFFBQU0sT0FBSztFQUNYLFFBQU0sT0FBSztFQUVYLG1DQUFNLGlCQUNNO0dBQVgsVUFDQztVQURVOzs7OztFQUdaLG1DQUFNLGlCQUNNO0dBQVgsVUFDQztVQURVOzs7OztFQUlaLHFDQUFRLGlCQUNNO0dBQWIsVUFDQztVQURZOzs7OztFQUdkLHFDQUFRLGlCQUNNO0dBQWIsVUFDQztVQURZOzs7OztFQUlkLHVDQUFVLGlCQUNNO0dBQWYsVUFDQztVQURjOzs7OztrQkFJaEI7RUFyRUEsc0NBQUEiLCJmaWxlIjoiYXQvU2VxL1NlcWJhbmcuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1NlcS9TZXEhLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7Ozs7RUFnQkEsYUFBTyxlQUNJO0dBQVYsVUFDQztHQUdELGlDQUFtQixTQUFBLEtBQ0k7SUFDdEI7S0FBUyxRQUFBO0tBQ1IsK0JBQUcsRUFBRSxRQUNLO2FBQVQ7WUFFRzthQUFILE1BQU07S0FBQTtJQUFBO0lBQ1IsYUFBSyxFQUFFLENBQUUsRUFBRTtJQUNYLGFBQUssRUFBRSxDQUFFLElBQUc7MENBQ0osRUFBRSxDQUFFLElBQUcsSUFBRyxFQUFFO3VDQUNmLGFBQUEsbUJBQVc7dUNBQ1gsYUFBQSxtQkFBVzt1Q0FDWCxhQUFBLG1CQUFXO3VDQUNYLGFBQUEsbUJBQVc7dUNBQ1gsYUFBQSxHQUFTO3lDQUNMO1dBQ1QsYUFBSyxFQUFFLENBQUUsRUFBRSxFQUFFO0dBQUE7VUFwQko7Ozs7OztFQXNCWCxlQUFXLE9BQUsscUJBQ007R0FBckIsVUFBQSxVQUNVLFVBQUE7V0FBVDs7OztFQUVGLFFBQU0sT0FBSztFQUNYLFFBQU0sT0FBSztFQUVYLG1DQUFNLGlCQUNNO0dBQVgsVUFDQztVQURVOzs7OztFQUdaLG1DQUFNLGlCQUNNO0dBQVgsVUFDQztVQURVOzs7OztFQUlaLHFDQUFRLGlCQUNNO0dBQWIsVUFDQztVQURZOzs7OztFQUdkLHFDQUFRLGlCQUNNO0dBQWIsVUFDQztVQURZOzs7OztFQUlkLHVDQUFVLGlCQUNNO0dBQWYsVUFDQztVQURjOzs7OztFQWpFaEIsc0NBQUE7a0JBcUVBIiwiZmlsZSI6ImF0L1NlcS9TZXFiYW5nLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

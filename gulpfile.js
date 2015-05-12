@@ -18,6 +18,7 @@ gulp.task('default', [ 'watch' ])
 gulp.task('compile-all', [ 'js', 'ms', 'list-modules' ])
 gulp.task('watch', [ 'watch-js', 'watch-ms', 'watch-list-modules' ])
 gulp.task('all', [ 'compile-all' ], run)
+gulp.task('all-minus-js', [ 'ms-minus-js' ], run)
 
 function run() {
 	require('es6-shim')
@@ -106,6 +107,7 @@ gulp.task('js', function() {
 })
 gulp.task('watch-js', function() { return pipeJs(srcWatch(srcJs)) })
 
+gulp.task('ms-minus-js', function() { return pipeMs(src(srcMs)) })
 gulp.task('ms', [ 'js' ], function() { return pipeMs(src(srcMs)) })
 gulp.task('watch-ms', [ 'js' ], function() { return pipeMs(srcWatch(srcMs)) })
 

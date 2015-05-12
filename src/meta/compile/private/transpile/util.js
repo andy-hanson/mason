@@ -1,6 +1,6 @@
 import { ArrayExpression, AssignmentExpression, BreakStatement, CallExpression, ExpressionStatement,
 	Identifier, Literal, ReturnStatement, VariableDeclarator } from 'esast/dist/ast'
-import { member, thunk } from 'esast/dist/util'
+import { member, thunk, toStatement } from 'esast/dist/util'
 import { unshift } from '../U/Bag'
 import { ifElse, None } from '../U/Op'
 import { assert } from '../U/util'
@@ -45,28 +45,28 @@ export const
 	msLazyGet = ms('lazyProp')
 
 export const
-	makeDestructureDeclarators = (cx, loc, assignees, isLazy, value, k, isModule) => {
+	makeDestructureDeclarators = (cx, loc, assignees, isLazy, value, isModule, isExport) => {
 		const destructuredName = `_$${loc.start.line}`
 		const idDestructured = Identifier(destructuredName)
 		const declarators = assignees.map(assignee => {
 			// TODO: Don't compile it if it's never accessed
 			const get = getMember(cx, idDestructured, assignee.name, isLazy, isModule)
-			return makeDeclarator(cx, assignee.loc, assignee, k, get, isLazy)
+			return makeDeclarator(cx, assignee.loc, assignee, get, isLazy, isExport)
 		})
 		// Getting lazy module is done by ms.lazyGetModule.
 		const val = (isLazy && !isModule) ? lazyWrap(value) : value
 		return unshift(VariableDeclarator(idDestructured, val), declarators)
 	},
 
-	makeDeclarator = (cx, loc, assignee, k, value, valueIsAlreadyLazy) => {
+	makeDeclarator = (cx, loc, assignee, value, valueIsAlreadyLazy, isExport) => {
 		// TODO: assert(isEmpty(assignee.opType))
 		// or TODO: Allow type check on lazy value?
 		value = assignee.isLazy ? value :
 			maybeWrapInCheckContains(cx, value, assignee.opType, assignee.name)
 
-		if (k === 'export') {
+		if (isExport) {
 			// TODO:ES6
-			assert(!assignee.isLazy)
+			cx.check(!assignee.isLazy, assignee.loc, 'Lazy export not supported.')
 			return VariableDeclarator(
 				idForDeclareCached(assignee),
 				AssignmentExpression('=', member(IdExports, assignee.name), value))
@@ -103,7 +103,9 @@ export const
 				Literal(local.name))))
 	},
 
-	lazyWrap = value => msLazy(thunk(value))
+	lazyWrap = value => msLazy(thunk(value)),
+
+	toStatements = _ => _ instanceof Array ? _.map(toStatement) : [ toStatement(_) ]
 
 const getMember = (cx, astObject, gotName, isLazy, isModule) => {
 	if (isLazy)

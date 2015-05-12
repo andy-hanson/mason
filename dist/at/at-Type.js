@@ -3,7 +3,6 @@ if((typeof define!=="function"))var define=require("amdefine")(module);
 define(["exports","../control","../Fun","../methods","../Type/Kind","../Type/Method","../Type/Type","./at","./atbang","./Seq/Range"],function(exports,control_0,Fun_1,methods_2,Kind_3,Method_4,Type_5,_64_6,_64_33_7,Range_8){
 	exports._get=_ms.lazy(function(){
 		const _$2=_ms.getModule(control_0),returning=_ms.get(_$2,"returning"),_$3=_ms.getModule(Fun_1),identity=_ms.get(_$3,"identity"),_$4=_ms.getModule(methods_2),sub=_ms.get(_$4,"sub"),Kind=_ms.getDefaultExport(Kind_3),_$5=_ms.getModule(Kind_3),self_45kind_33=_ms.get(_$5,"self-kind!"),Method=_ms.getDefaultExport(Method_4),_$6=_ms.getModule(Method_4),impl_33=_ms.get(_$6,"impl!"),self_45impl_33=_ms.get(_$6,"self-impl!"),_$7=_ms.getModule(Type_5),_61_62=_ms.get(_$7,"=>"),_64=_ms.getDefaultExport(_64_6),_$10=_ms.lazyGetModule(_64_33_7),_43_43_33=_ms.lazyProp(_$10,"++!"),_$12=_ms.lazyGetModule(Range_8),range=_ms.lazyProp(_$12,"range");
-		const exports={};
 		const _64_45Type=Kind(function(){
 			const doc="Any sub-type of @.";
 			return {
@@ -21,15 +20,15 @@ define(["exports","../control","../Fun","../methods","../Type/Kind","../Type/Met
 		}());
 		const from_45stream=exports["from-stream"]=Method(function(){
 			const doc="|_ stream:@\nCreates a new value of this type by reading out from an @'s iterator.";
-			const test=function(){
+			const test=_ms.set(function(){
 				const _k0=[Array,_ms.unlazy(range)(0,5)],_v0=[0,1,2,3,4];
 				return _ms.map(_k0,_v0)
-			};
-			const _default=function(type,stream){
+			},"displayName","test");
+			const _default=_ms.set(function(type,stream){
 				return returning(empty(type),function(_){
 					return _ms.unlazy(_43_43_33)(_,stream)
 				})
-			};
+			},"displayName","default");
 			return {
 				doc:doc,
 				test:test,
@@ -42,9 +41,9 @@ define(["exports","../control","../Fun","../methods","../Type/Kind","../Type/Met
 			return empty(Array)
 		});
 		impl_33(_61_62,_64_45Type,from_45stream);
-		exports.default=_64_45Type;
 		const displayName=exports.displayName="@-Type";
+		exports.default=_64_45Type;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL0AtVHlwZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7aUNBYUE7OztFQUFBLGlCQUFTLGVBQ0k7R0FBWixVQUFNO1VBQU07Ozs7O0VBRWIsUUFBTSxJQUFJLFdBQU87RUFFakIsMEJBQU8saUJBQ007R0FBWixVQUNDO1VBRFc7Ozs7O0VBSWIsMkNBQWEsaUJBQ007R0FBbEIsVUFDQztHQUVELFdBQ08sVUFBQTtJQUFOLFVBQUEsQ0FBRSx3QkFBYSxFQUFFLFFBQVEsQ0FBRSxFQUFFLEVBQUUsRUFBRSxFQUFFOzs7R0FDcEMsZUFBVSxTQUFBLEtBQUssT0FDTTtXQUFwQixVQUFXLE1BQU0sTUFBTyxTQUFBLEVBQ0M7a0NBQXBCLEVBQUU7SUFBQTtHQUFBO1VBUFU7Ozs7Ozs7RUFVbkIsZUFBVyxJQUFFO0VBQ2IsZUFBVyxNQUFNLElBQ0csVUFBQTtVQUFuQixNQUFNO0VBQUE7RUFFUCxRQUFNLE9BQUcsV0FBTztrQkFFaEI7RUF4Q0Esc0NBQUEiLCJmaWxlIjoiYXQvYXQtVHlwZS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL0AtVHlwZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQWFBLGlCQUFTLGVBQ0k7R0FBWixVQUFNO1VBQU07Ozs7O0VBRWIsUUFBTSxJQUFJLFdBQU87RUFFakIsMEJBQU8saUJBQ007R0FBWixVQUNDO1VBRFc7Ozs7O0VBSWIsMkNBQWEsaUJBQ007R0FBbEIsVUFDQztHQUVELG1CQUNPLFVBQUE7SUFBTixVQUFBLENBQUUsd0JBQWEsRUFBRSxRQUFRLENBQUUsRUFBRSxFQUFFLEVBQUUsRUFBRTs7O0dBQ3BDLHVCQUFVLFNBQUEsS0FBSyxPQUNNO1dBQXBCLFVBQVcsTUFBTSxNQUFPLFNBQUEsRUFDQztrQ0FBcEIsRUFBRTtJQUFBO0dBQUE7VUFQVTs7Ozs7OztFQVVuQixlQUFXLElBQUU7RUFDYixlQUFXLE1BQU0sSUFDRyxVQUFBO1VBQW5CLE1BQU07RUFBQTtFQUVQLFFBQU0sT0FBRyxXQUFPO0VBdENoQixzQ0FBQTtrQkF3Q0EiLCJmaWxlIjoiYXQvYXQtVHlwZS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

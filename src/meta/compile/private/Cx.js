@@ -16,9 +16,13 @@ export default class Cx {
 		throw CompileError(warning(loc, message))
 	}
 
+	warn(loc, message) {
+		this.warnings.push(warning(loc, message))
+	}
+
 	warnIf(cond, loc, message) {
 		if (cond)
-			this.warnings.push(warning(loc, message))
+			this.warn(loc, message)
 	}
 }
 

@@ -22,7 +22,7 @@ use
 	..modules $@all-modules
 use-debug
 	...control build
-	...Obj!
+	...Obj! empty-Obj!
 	...Type.Method self-impl!
 
 doc. "For running code in `test` properties."
@@ -37,7 +37,7 @@ test. |
 						yield "x"
 					y. |
 						yield "y"
-			b. empty Obj!
+			b. empty-Obj!()
 			self-impl! test-special b |
 				yield "b"
 			c. () # not testable

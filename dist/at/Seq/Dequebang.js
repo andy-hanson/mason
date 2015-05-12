@@ -3,7 +3,6 @@ if((typeof define!=="function"))var define=require("amdefine")(module);
 define(["exports","../../Bool","../../compare","../../control","../../math/Num","../../math/methods","../../methods","../../Objbang","../../Type/Kind","../../Type/Pred-Type","../../Type/Tuple","../at","../atbang","../at-Type","../q","./Arraybang","./Range","./Seq","./Seqbang"],function(exports,Bool_0,compare_1,control_2,Num_3,methods_4,methods_5,Obj_33_6,Kind_7,Pred_45Type_8,Tuple_9,_64_10,_64_33_11,_64_45Type_12,_63_13,Array_33_14,Range_15,Seq_16,Seq_33_17){
 	exports._get=_ms.lazy(function(){
 		const _$2=_ms.getModule(Bool_0),and=_ms.get(_$2,"and"),not=_ms.get(_$2,"not"),or=_ms.get(_$2,"or"),_$3=_ms.getModule(compare_1),_61_63=_ms.get(_$3,"=?"),_60_63=_ms.get(_$3,"<?"),_$4=_ms.getModule(control_2),_if=_ms.get(_$4,"if"),_$5=_ms.getModule(Num_3),modulo=_ms.get(_$5,"modulo"),Nat=_ms.get(_$5,"Nat"),_$6=_ms.getModule(methods_4),_43=_ms.get(_$6,"+"),_45=_ms.get(_$6,"-"),_42=_ms.get(_$6,"*"),_$7=_ms.getModule(methods_5),sub=_ms.get(_$7,"sub"),_$8=_ms.getModule(Obj_33_6),p_33=_ms.get(_$8,"p!"),_$9=_ms.getModule(Kind_7),kind_33=_ms.get(_$9,"kind!"),self_45kind_33=_ms.get(_$9,"self-kind!"),_$10=_ms.getModule(Pred_45Type_8),Any=_ms.get(_$10,"Any"),Tuple=_ms.getDefaultExport(Tuple_9),_64=_ms.getDefaultExport(_64_10),_$12=_ms.getModule(_64_10),_43_43=_ms.get(_$12,"++"),count=_ms.get(_$12,"count"),each_33=_ms.get(_$12,"each!"),empty_63=_ms.get(_$12,"empty?"),iterator=_ms.get(_$12,"iterator"),map=_ms.get(_$12,"map"),_$13=_ms.getModule(_64_33_11),empty_33=_ms.get(_$13,"empty!"),_64_45Type=_ms.getDefaultExport(_64_45Type_12),_$14=_ms.getModule(_64_45Type_12),empty=_ms.get(_$14,"empty"),_$15=_ms.getModule(_63_13),un_45_63=_ms.get(_$15,"un-?"),Array_33=_ms.getDefaultExport(Array_33_14),_$17=_ms.getModule(Range_15),range=_ms.get(_$17,"range"),_$18=_ms.getModule(Seq_16),_63nth=_ms.get(_$18,"?nth"),reverse=_ms.get(_$18,"reverse"),Seq_33=_ms.getDefaultExport(Seq_33_17),_$19=_ms.getModule(Seq_33_17),_60_43_43_33=_ms.get(_$19,"<++!"),_43_43_62_33=_ms.get(_$19,"++>!"),_63_60pop_33=_ms.get(_$19,"?<pop!"),_63pop_62_33=_ms.get(_$19,"?pop>!"),set_45nth_33=_ms.get(_$19,"set-nth!");
-		const exports={};
 		const Deque_33=Tuple(function(){
 			const doc="Seq! that can efficiently add values on either side.";
 			const props=function(){
@@ -24,10 +23,10 @@ define(["exports","../../Bool","../../compare","../../control","../../math/Num",
 			};
 			return _ms.map(_k0,_v0)
 		}());
-		const capacity=function(_){
+		const capacity=_ms.set(function(_){
 			return count(_["data!"])
-		};
-		const expand_33=function(_){
+		},"displayName","capacity");
+		const expand_33=_ms.set(function(_){
 			const old_45data=_["data!"];
 			const old_45capacity=capacity(_);
 			const new_45capacity=_42(2,old_45capacity);
@@ -36,19 +35,19 @@ define(["exports","../../Bool","../../compare","../../control","../../math/Num",
 				return set_45nth_33(new_45data,index,_ms.sub(old_45data,index))
 			});
 			return p_33(_,"data!",new_45data)
-		};
-		const wrap_45index=function(_,index){
+		},"displayName","expand!");
+		const wrap_45index=_ms.set(function(_,index){
 			return modulo(index,capacity(_))
-		};
-		const next_45index=function(_,index){
+		},"displayName","wrap-index");
+		const next_45index=_ms.set(function(_,index){
 			_ms.checkContains(Nat,index,"index");
 			return wrap_45index(_,_43(index,1))
-		};
-		const prev_45index=function(_,index){
+		},"displayName","next-index");
+		const prev_45index=_ms.set(function(_,index){
 			_ms.checkContains(Nat,index,"index");
 			return wrap_45index(_,_45(index,1))
-		};
-		const _63data_45index=function(_,index){
+		},"displayName","prev-index");
+		const _63data_45index=_ms.set(function(_,index){
 			_ms.checkContains(Nat,index,"index");
 			const a=_43(_["start-index!"],index);
 			return function(){
@@ -63,7 +62,7 @@ define(["exports","../../Bool","../../compare","../../control","../../math/Num",
 					})),b)
 				}
 			}()
-		};
+		},"displayName","?data-index");
 		kind_33(Deque_33,Seq_33,function(){
 			const _k0=iterator,_v0=function(_){
 				const indices=function(){
@@ -138,9 +137,9 @@ define(["exports","../../Bool","../../compare","../../control","../../math/Num",
 			};
 			return _ms.map(_k0,_v0,_k1,_v1,_k2,_v2,_k3,_v3,_k4,_v4,_k5,_v5,_k6,_v6,_k7,_v7)
 		}());
-		exports.default=Deque_33;
 		const displayName=exports.displayName="Deque!";
+		exports.default=Deque_33;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1NlcS9EZXF1ZSEubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O2lDQW9CQTs7O0VBQUEsZUFBUyxnQkFDSztHQUFiLFVBQU07R0FDTixzQkFDTTtJQUFMLFNBQUUsQ0FBRyxRQUFPO0lBQ1osU0FBRSxDQUFHLGVBQWM7SUFDbkIsU0FBRSxDQUFHLGFBQVk7V0FGWjs7VUFGTzs7Ozs7O0VBTWQsZUFBVyxTQUFPLHFCQUNNO0dBQXZCLFVBQUEsVUFDVSxVQUFBO1dBQVQsU0FBUSxNQUFNLFNBQU8sR0FBRyxFQUFFO0dBQUE7OztFQUczQixlQUFZLFNBQUEsRUFDQztVQUFaLE1BQU07O0VBRVAsZ0JBQVcsU0FBQSxFQUNDO0dBQVgsaUJBQVc7R0FDWCxxQkFBZSxTQUFBO0dBQ2YscUJBQWUsSUFBRSxFQUFFO0dBQ25CLGlCQUFXLE1BQU0sU0FBTztHQUN4QixRQUFPLE1BQU0sRUFBRSxnQkFBZSxTQUFBLE1BQ0s7V0FBbEMsYUFBUyxXQUFTLGNBQU0sV0FBUztHQUFBO1VBQ2xDLEtBQUcsRUFBRyxRQUFPO0VBQUE7RUFFZCxtQkFBYyxTQUFBLEVBQUUsTUFDSztVQUFwQixPQUFPLE1BQU0sU0FBQTtFQUFBO0VBRWQsbUJBQWMsU0FBQSxFQUFFLE1BQ1M7cUJBREg7VUFDckIsYUFBVyxFQUFHLElBQUUsTUFBTTtFQUFBO0VBRXZCLG1CQUFjLFNBQUEsRUFBRSxNQUNTO3FCQURIO1VBQ3JCLGFBQVcsRUFBRyxJQUFFLE1BQU07RUFBQTtFQUV2QixzQkFBZSxTQUFBLEVBQUUsTUFDUztxQkFESDtHQUN0QixRQUFJLElBQUUsa0JBQWU7O0lBRXBCLFlBQUEsT0FBRyxFQUFFLFNBQUEsS0FDUztZQUFiLElBQUksR0FBSSxPQUFHLGdCQUFhO2FBQWtCLE9BQUcsRUFBRTtTQUFlO0lBQUEsT0FFM0Q7S0FBSCxRQUFJLGFBQVcsRUFBRTtZQUNqQixJQUFJLElBQUssT0FBRyxnQkFBYTthQUFrQixPQUFHLEVBQUU7U0FBZTtJQUFBO0dBQUE7RUFBQTtFQUVuRSxRQUFNLFNBQU8saUJBQ0k7R0FBaEIsVUFBQSxhQUFhLFNBQUEsRUFDQztJQUFiO0tBQ0MsWUFBQSxPQUFHLGdCQUFhLG9CQUNjO2FBQTdCLE9BQUksTUFBTSxrQkFBZ0IsTUFBTSxhQUFXLE1BQU0sRUFBRTtZQUVoRDthQUFILE1BQU0sa0JBQWU7OztXQUN2QixTQUFVLElBQUksZ0JBQVEsSUFBSTs7R0FFM0IsVUFBQSxpQkFBUyxTQUFBLEVBQUUsSUFDSztzQkFERDtXQUNkLFFBQU8sUUFBUSxLQUFNLFNBQUEsR0FDRTtLQUF0QixrQkFBWSxhQUFXLEVBQUU7S0FFcEIsWUFBSixPQUFHLFlBQVUsa0JBQ1k7TUFBeEIsVUFBQTtNQUNBLGFBQUssRUFBRSxDQUFFO0tBQUEsT0FFTjtNQUFILEtBQUcsRUFBRyxlQUFjO01BQ3BCLGFBQVMsV0FBUSxrQkFBZTtLQUFBO0lBQUE7R0FBQTtHQUVwQyxVQUFBLGlCQUFTLFNBQUEsRUFBRSxJQUNLO3NCQUREO1dBQ2QsUUFBTSxJQUFLLFNBQUEsR0FDRTtLQUFaLGdCQUFVLGFBQVcsRUFBRTtLQUVsQixZQUFKLE9BQUcsVUFBUSxvQkFDYztNQUF4QixVQUFBO01BQ0EsYUFBSyxFQUFFLENBQUU7S0FBQSxPQUVOO01BQUgsYUFBUyxXQUFRLGdCQUFhO01BQzlCLEtBQUcsRUFBRyxhQUFZO0tBQUE7SUFBQTtHQUFBO0dBSXRCLFVBQUEsaUJBQVcsU0FBQSxFQUNDO1dBQVgsSUFBSSxJQUFJLFNBQUE7c0JBQ1U7TUFBakIsZ0JBQUksV0FBUTtNQUNaLEtBQUcsRUFBRyxlQUFlLGFBQVcsRUFBRTthQUNsQztLQUFBO0lBQUE7R0FBQTtHQUVGLFVBQUEsaUJBQVcsU0FBQSxFQUNDO1dBQVgsSUFBSSxJQUFJLFNBQUE7c0JBQ1U7TUFBakIsZ0JBQVUsYUFBVyxFQUFFO01BQ3ZCLEtBQUcsRUFBRyxhQUFZO3FCQUNsQixXQUFRO0tBQUE7SUFBQTtHQUFBO0dBRVYsVUFBQSxXQUFTLFNBQUEsRUFBRSxNQUNTO3NCQURIO1dBQ2hCLElBQUssZ0JBQVksRUFBRSxlQUFPLElBQUk7O0dBRS9CLFVBQUEsaUJBQWEsU0FBQSxFQUFFLE1BQVUsU0FDVTtzQkFEZDtzQkFBVztJQUMvQixtQkFBYSxTQUFNLGdCQUFZLEVBQUU7WUFBUyxrQ0FBb0IsZ0NBQWtCLE1BQUE7SUFBQTtXQUNoRixhQUFTLFdBQVEsYUFBVztHQUFBO0dBRTdCLFVBQUEsYUFBVyxTQUFBLEVBQ0M7SUFBWCxTQUFPO0lBRVAsS0FBRyxFQUFHLGVBQWM7V0FDcEIsS0FBRyxFQUFHLGFBQVk7R0FBQTs7O2tCQUVwQjtFQXhIQSxzQ0FBQSIsImZpbGUiOiJhdC9TZXEvRGVxdWViYW5nLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1NlcS9EZXF1ZSEubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFvQkEsZUFBUyxnQkFDSztHQUFiLFVBQU07R0FDTixzQkFDTTtJQUFMLFNBQUUsQ0FBRyxRQUFPO0lBQ1osU0FBRSxDQUFHLGVBQWM7SUFDbkIsU0FBRSxDQUFHLGFBQVk7V0FGWjs7VUFGTzs7Ozs7O0VBTWQsZUFBVyxTQUFPLHFCQUNNO0dBQXZCLFVBQUEsVUFDVSxVQUFBO1dBQVQsU0FBUSxNQUFNLFNBQU8sR0FBRyxFQUFFO0dBQUE7OztFQUczQix1QkFBWSxTQUFBLEVBQ0M7VUFBWixNQUFNOztFQUVQLHdCQUFXLFNBQUEsRUFDQztHQUFYLGlCQUFXO0dBQ1gscUJBQWUsU0FBQTtHQUNmLHFCQUFlLElBQUUsRUFBRTtHQUNuQixpQkFBVyxNQUFNLFNBQU87R0FDeEIsUUFBTyxNQUFNLEVBQUUsZ0JBQWUsU0FBQSxNQUNLO1dBQWxDLGFBQVMsV0FBUyxjQUFNLFdBQVM7R0FBQTtVQUNsQyxLQUFHLEVBQUcsUUFBTztFQUFBO0VBRWQsMkJBQWMsU0FBQSxFQUFFLE1BQ0s7VUFBcEIsT0FBTyxNQUFNLFNBQUE7RUFBQTtFQUVkLDJCQUFjLFNBQUEsRUFBRSxNQUNTO3FCQURIO1VBQ3JCLGFBQVcsRUFBRyxJQUFFLE1BQU07RUFBQTtFQUV2QiwyQkFBYyxTQUFBLEVBQUUsTUFDUztxQkFESDtVQUNyQixhQUFXLEVBQUcsSUFBRSxNQUFNO0VBQUE7RUFFdkIsOEJBQWUsU0FBQSxFQUFFLE1BQ1M7cUJBREg7R0FDdEIsUUFBSSxJQUFFLGtCQUFlOztJQUVwQixZQUFBLE9BQUcsRUFBRSxTQUFBLEtBQ1M7WUFBYixJQUFJLEdBQUksT0FBRyxnQkFBYTthQUFrQixPQUFHLEVBQUU7U0FBZTtJQUFBLE9BRTNEO0tBQUgsUUFBSSxhQUFXLEVBQUU7WUFDakIsSUFBSSxJQUFLLE9BQUcsZ0JBQWE7YUFBa0IsT0FBRyxFQUFFO1NBQWU7SUFBQTtHQUFBO0VBQUE7RUFFbkUsUUFBTSxTQUFPLGlCQUNJO0dBQWhCLFVBQUEsYUFBYSxTQUFBLEVBQ0M7SUFBYjtLQUNDLFlBQUEsT0FBRyxnQkFBYSxvQkFDYzthQUE3QixPQUFJLE1BQU0sa0JBQWdCLE1BQU0sYUFBVyxNQUFNLEVBQUU7WUFFaEQ7YUFBSCxNQUFNLGtCQUFlOzs7V0FDdkIsU0FBVSxJQUFJLGdCQUFRLElBQUk7O0dBRTNCLFVBQUEsaUJBQVMsU0FBQSxFQUFFLElBQ0s7c0JBREQ7V0FDZCxRQUFPLFFBQVEsS0FBTSxTQUFBLEdBQ0U7S0FBdEIsa0JBQVksYUFBVyxFQUFFO0tBRXBCLFlBQUosT0FBRyxZQUFVLGtCQUNZO01BQXhCLFVBQUE7TUFDQSxhQUFLLEVBQUUsQ0FBRTtLQUFBLE9BRU47TUFBSCxLQUFHLEVBQUcsZUFBYztNQUNwQixhQUFTLFdBQVEsa0JBQWU7S0FBQTtJQUFBO0dBQUE7R0FFcEMsVUFBQSxpQkFBUyxTQUFBLEVBQUUsSUFDSztzQkFERDtXQUNkLFFBQU0sSUFBSyxTQUFBLEdBQ0U7S0FBWixnQkFBVSxhQUFXLEVBQUU7S0FFbEIsWUFBSixPQUFHLFVBQVEsb0JBQ2M7TUFBeEIsVUFBQTtNQUNBLGFBQUssRUFBRSxDQUFFO0tBQUEsT0FFTjtNQUFILGFBQVMsV0FBUSxnQkFBYTtNQUM5QixLQUFHLEVBQUcsYUFBWTtLQUFBO0lBQUE7R0FBQTtHQUl0QixVQUFBLGlCQUFXLFNBQUEsRUFDQztXQUFYLElBQUksSUFBSSxTQUFBO3NCQUNVO01BQWpCLGdCQUFJLFdBQVE7TUFDWixLQUFHLEVBQUcsZUFBZSxhQUFXLEVBQUU7YUFDbEM7S0FBQTtJQUFBO0dBQUE7R0FFRixVQUFBLGlCQUFXLFNBQUEsRUFDQztXQUFYLElBQUksSUFBSSxTQUFBO3NCQUNVO01BQWpCLGdCQUFVLGFBQVcsRUFBRTtNQUN2QixLQUFHLEVBQUcsYUFBWTtxQkFDbEIsV0FBUTtLQUFBO0lBQUE7R0FBQTtHQUVWLFVBQUEsV0FBUyxTQUFBLEVBQUUsTUFDUztzQkFESDtXQUNoQixJQUFLLGdCQUFZLEVBQUUsZUFBTyxJQUFJOztHQUUvQixVQUFBLGlCQUFhLFNBQUEsRUFBRSxNQUFVLFNBQ1U7c0JBRGQ7c0JBQVc7SUFDL0IsbUJBQWEsU0FBTSxnQkFBWSxFQUFFO1lBQVMsa0NBQW9CLGdDQUFrQixNQUFBO0lBQUE7V0FDaEYsYUFBUyxXQUFRLGFBQVc7R0FBQTtHQUU3QixVQUFBLGFBQVcsU0FBQSxFQUNDO0lBQVgsU0FBTztJQUVQLEtBQUcsRUFBRyxlQUFjO1dBQ3BCLEtBQUcsRUFBRyxhQUFZO0dBQUE7OztFQXRIcEIsc0NBQUE7a0JBd0hBIiwiZmlsZSI6ImF0L1NlcS9EZXF1ZWJhbmcuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

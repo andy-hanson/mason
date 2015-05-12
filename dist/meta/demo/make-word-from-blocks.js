@@ -5,10 +5,9 @@ define(["exports","../../at/at","../../at/q","../../at/Seq/Seq","../../Str","../
 		const _64=_ms.getDefaultExport(_64_0),_$2=_ms.getModule(_64_0),_43_43=_ms.get(_$2,"++"),_45_45=_ms.get(_$2,"--"),empty_63=_ms.get(_$2,"empty?"),flat_45map=_ms.get(_$2,"flat-map"),keep=_ms.get(_$2,"keep"),map=_ms.get(_$2,"map"),_63=_ms.getDefaultExport(_63_1),Seq=_ms.getDefaultExport(Seq_2),_$4=_ms.getModule(Seq_2),_63first=_ms.get(_$4,"?first"),tail=_ms.get(_$4,"tail"),Str=_ms.getDefaultExport(Str_3),_$5=_ms.getModule(Str_3),_45_62upper=_ms.get(_$5,"->upper"),_$6=_ms.getModule(Type_4),contains_63=_ms.get(_$6,"contains?"),_33=_ms.lazy(function(){
 			return _ms.getDefaultExport(_33_5)
 		}),_$9=_ms.lazyGetModule(_64_6),each_33=_ms.lazyProp(_$9,"each!"),_$10=_ms.lazyGetModule(_64_45Type_7),empty=_ms.lazyProp(_$10,"empty"),_$11=_ms.lazyGetModule(compare_8),_61_63=_ms.lazyProp(_$11,"=?");
-		const exports={};
 		const make_45word_45from_45blocks=exports["make-word-from-blocks"]=function(){
 			const doc="http://rosettacode.org/wiki/ABC_Problem";
-			const test=function(){
+			const test=_ms.set(function(){
 				const _k0=["AB",["AB","AC"]],_v0=_63(["AC","AB"]);
 				const sample_45blocks=function(){
 					const _0="BO";
@@ -49,20 +48,20 @@ define(["exports","../../at/at","../../at/q","../../at/Seq/Seq","../../Str","../
 					return _ms.unlazy(_33)(_ms.unlazy(_61_63),ans,make_45word_45from_45blocks(word,sample_45blocks))
 				});
 				return _ms.map(_k0,_v0)
-			};
+			},"displayName","test");
 			return _ms.set(function(word,blocks){
 				_ms.checkContains(Str,word,"word");
 				_ms.checkContains(_ms.sub(_64,Str),blocks,"blocks");
-				const rec=function(word,blocks){
+				const rec=_ms.set(function(word,blocks){
 					return function(){
 						const _=word;
 						if(_ms.bool(empty_63(_))){
 							return _63([])
 						} else {
 							const rest_45word=tail(_);
-							const this_45char_45blocks=keep(blocks,function(_){
+							const this_45char_45blocks=keep(blocks,_ms.set(function(_){
 								return contains_63(_,_ms.sub(word,0))
-							});
+							},"displayName","this-char-blocks"));
 							return _63first(flat_45map(this_45char_45blocks,function(_){
 								return map(rec(rest_45word,_45_45(blocks,[_])),function(ans){
 									return _43_43([_],ans)
@@ -70,7 +69,7 @@ define(["exports","../../at/at","../../at/q","../../at/Seq/Seq","../../Str","../
 							}))
 						}
 					}()
-				};
+				},"displayName","rec");
 				return _ms.checkContains(_ms.sub(_63,_ms.sub(Seq,Str)),rec(_45_62upper(word),map(blocks,_45_62upper)),"res")
 			},"doc",doc,"test",test,"displayName","make-word-from-blocks")
 		}();
@@ -78,4 +77,4 @@ define(["exports","../../at/at","../../at/q","../../at/Seq/Seq","../../Str","../
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL2RlbW8vbWFrZS13b3JkLWZyb20tYmxvY2tzLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztpQ0FZQTs7Ozs7RUFBQSw2RUFDc0I7R0FBckIsVUFBTTtHQUNOLFdBQ08sVUFBQTtJQUNOLFVBQUEsQ0FBRyxLQUFJLENBQUcsS0FBSyxXQUFXLElBQUUsQ0FBRyxLQUFLO0lBRXBDLGdDQUNlO0tBQWQsU0FBRztLQUNILFNBQUc7S0FDSCxTQUFHO0tBQ0gsU0FBRztLQUNILFNBQUc7S0FDSCxTQUFHO0tBQ0gsU0FBRztLQUNILFNBQUc7S0FDSCxTQUFHO0tBQ0gsU0FBRztLQUNILFVBQUc7S0FDSCxVQUFHO0tBQ0gsVUFBRztLQUNILFVBQUc7S0FDSCxVQUFHO0tBQ0gsVUFBRztLQUNILFVBQUc7S0FDSCxVQUFHO0tBQ0gsVUFBRztLQUNILFVBQUc7WUFuQlc7O0lBcUJmLGlDQUNnQjtLQUFmLFVBQUMsUUFBTSxJQUFFLENBQUc7S0FDWixVQUFDLFdBQVMsSUFBRSxDQUFHLEtBQUssS0FBSyxLQUFLO0tBQzlCLFVBQUMsNkJBQWU7S0FDaEIsVUFBQyxZQUFVLElBQUUsQ0FBRyxLQUFLLEtBQUssS0FBSyxLQUFLO0tBQ3BDLFVBQUMsK0JBQWlCO0tBQ2xCLFVBQUMsWUFBVSxJQUFFLENBQUcsS0FBSyxLQUFLLEtBQUssS0FBSztLQUNwQyxVQUFDLGNBQVksSUFBRSxDQUFHLEtBQUssS0FBSyxLQUFLLEtBQUssS0FBSyxLQUFLOzs7d0JBQzNDLGlCQUFnQixTQUFBLEtBQ0k7S0FBekIsV0FBTztLQUNQLFVBQU07K0NBQ0QsSUFBSyw0QkFBc0IsS0FBSztJQUFBOzs7a0JBRXRDLFNBQWEsS0FBUyxPQUNhO3NCQURqQjs4QkFBVyxJQUFFO0lBQy9CLFVBQU8sU0FBQSxLQUFLLE9BQ007O01BQVosUUFBQTtNQUNKLFlBQUEsU0FBQSxJQUNPO2NBQU4sSUFBRTtNQUFBLE9BRUM7T0FBSCxrQkFBWSxLQUFBO09BQ1osMkJBQW1CLEtBQUssT0FBUSxTQUFBLEVBQ0M7ZUFBaEMsWUFBVSxVQUFFLEtBQUs7T0FBQTtjQUNsQixTQUFRLFdBQVMscUJBQWtCLFNBQUEsRUFDQztlQUNuQyxJQUFLLElBQUksWUFBVyxPQUFHLE9BQU8sQ0FBRSxLQUFPLFNBQUEsSUFDRztnQkFBekMsT0FBRyxDQUFFLEdBQUk7UUFBQTtPQUFBO01BQUE7S0FBQTtJQUFBO3FDQVpiLFlBQUUsSUFBSSxNQWFQLElBQUssWUFBUSxNQUFPLElBQUksT0FBTzs7O0VBbEVqQyxzQ0FBQSIsImZpbGUiOiJtZXRhL2RlbW8vbWFrZS13b3JkLWZyb20tYmxvY2tzLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL2RlbW8vbWFrZS13b3JkLWZyb20tYmxvY2tzLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7RUFZQSw2RUFDc0I7R0FBckIsVUFBTTtHQUNOLG1CQUNPLFVBQUE7SUFDTixVQUFBLENBQUcsS0FBSSxDQUFHLEtBQUssV0FBVyxJQUFFLENBQUcsS0FBSztJQUVwQyxnQ0FDZTtLQUFkLFNBQUc7S0FDSCxTQUFHO0tBQ0gsU0FBRztLQUNILFNBQUc7S0FDSCxTQUFHO0tBQ0gsU0FBRztLQUNILFNBQUc7S0FDSCxTQUFHO0tBQ0gsU0FBRztLQUNILFNBQUc7S0FDSCxVQUFHO0tBQ0gsVUFBRztLQUNILFVBQUc7S0FDSCxVQUFHO0tBQ0gsVUFBRztLQUNILFVBQUc7S0FDSCxVQUFHO0tBQ0gsVUFBRztLQUNILFVBQUc7S0FDSCxVQUFHO1lBbkJXOztJQXFCZixpQ0FDZ0I7S0FBZixVQUFDLFFBQU0sSUFBRSxDQUFHO0tBQ1osVUFBQyxXQUFTLElBQUUsQ0FBRyxLQUFLLEtBQUssS0FBSztLQUM5QixVQUFDLDZCQUFlO0tBQ2hCLFVBQUMsWUFBVSxJQUFFLENBQUcsS0FBSyxLQUFLLEtBQUssS0FBSztLQUNwQyxVQUFDLCtCQUFpQjtLQUNsQixVQUFDLFlBQVUsSUFBRSxDQUFHLEtBQUssS0FBSyxLQUFLLEtBQUs7S0FDcEMsVUFBQyxjQUFZLElBQUUsQ0FBRyxLQUFLLEtBQUssS0FBSyxLQUFLLEtBQUssS0FBSzs7O3dCQUMzQyxpQkFBZ0IsU0FBQSxLQUNJO0tBQXpCLFdBQU87S0FDUCxVQUFNOytDQUNELElBQUssNEJBQXNCLEtBQUs7SUFBQTs7O2tCQUV0QyxTQUFhLEtBQVMsT0FDYTtzQkFEakI7OEJBQVcsSUFBRTtJQUMvQixrQkFBTyxTQUFBLEtBQUssT0FDTTs7TUFBWixRQUFBO01BQ0osWUFBQSxTQUFBLElBQ087Y0FBTixJQUFFO01BQUEsT0FFQztPQUFILGtCQUFZLEtBQUE7T0FDWiwyQkFBbUIsS0FBSyxlQUFRLFNBQUEsRUFDQztlQUFoQyxZQUFVLFVBQUUsS0FBSztPQUFBO2NBQ2xCLFNBQVEsV0FBUyxxQkFBa0IsU0FBQSxFQUNDO2VBQ25DLElBQUssSUFBSSxZQUFXLE9BQUcsT0FBTyxDQUFFLEtBQU8sU0FBQSxJQUNHO2dCQUF6QyxPQUFHLENBQUUsR0FBSTtRQUFBO09BQUE7TUFBQTtLQUFBO0lBQUE7cUNBWmIsWUFBRSxJQUFJLE1BYVAsSUFBSyxZQUFRLE1BQU8sSUFBSSxPQUFPOzs7RUFsRWpDLHNDQUFBIiwiZmlsZSI6Im1ldGEvZGVtby9tYWtlLXdvcmQtZnJvbS1ibG9ja3MuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

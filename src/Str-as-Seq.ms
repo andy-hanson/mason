@@ -19,7 +19,7 @@ use-debug
 # TODO: Move
 
 test. |
-	! =? [ "1" "2" "3" ] (map "123" identity)
+	! =? "123" (map "123" identity
 
 self-kind! Str @-Type
 	empty -> thunk ""

@@ -12,10 +12,17 @@ export default class Vr {
 		this.entryToIndex = new Map()
 		// ListReturn / MapReturn -> # entries
 		this.returnToLength = new Map()
+		// TODO:ES6 Can use do `export { a, b, ... }` at the end, so shouldn't need this.
+		// Includes both Assigns and AssignDestructures.
+		this.exportAssigns = new Set()
 	}
 
-	isAccessed(local) {
-		const info = this.localToInfo.get(local)
+	isDebugLocal(localDeclare) {
+		return this.localToInfo.get(localDeclare).isInDebug
+	}
+
+	isAccessed(localDeclare) {
+		const info = this.localToInfo.get(localDeclare)
 		return !(isEmpty(info.debugAccesses) && isEmpty(info.nonDebugAccesses))
 	}
 
@@ -25,6 +32,10 @@ export default class Vr {
 
 	listMapLength(returner) {
 		return this.returnToLength.get(returner)
+	}
+
+	isExportAssign(assign) {
+		return this.exportAssigns.has(assign)
 	}
 }
 

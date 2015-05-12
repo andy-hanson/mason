@@ -13,118 +13,237 @@ export const
 		Not to be confused with Generator expressions resulting from \`do\` keyword.`),
 	Val = abstract('Val', Expression, 'These can appear in any expression.')
 
-const makeType = superType => (name, ...namesTypes) =>
+const makeType = superType => (name, doc, namesTypes, protoProps, tuplProps) =>
 	// TODO: provide actual docs...
-	tupl(name, superType, 'doc', [ 'loc', Loc ].concat(namesTypes))
+	tupl(name, superType, 'doc', [ 'loc', Loc ].concat(namesTypes), protoProps, tuplProps)
 const
 	ee = makeType(Expression), ed = makeType(Do), ev = makeType(Val)
 
 export const
-	Debug = ed('Debug', 'lines', [Expression]),
-	BlockDo = ed('BlockDo', 'lines', [Expression]),
-	BlockVal = ed('BlockVal', 'lines', [Expression], 'returned', Val),
-	ModuleDefaultExport = ed('ModuleDefaultExport', 'value', Val),
-	LocalDeclare = Object.assign(
-		ee('LocalDeclare',
-			'name', String, 'opType', Op(Val), 'isLazy', Boolean, 'okToNotUse', Boolean),
+	Debug = ed('Debug',
+		'TODO:DOC',
+		[ 'lines', [Expression] ]),
+	BlockDo = ed('BlockDo',
+		'TODO:DOC',
+		[ 'lines', [Expression] ]),
+	BlockVal = ed('BlockVal',
+		'TODO:DOC',
+		[ 'lines', [Expression], 'returned', Val ]),
+	ModuleDefaultExport = ed('ModuleDefaultExport',
+		'TODO:DOC',
+		[ 'value', Val ]),
+	LocalDeclare = ee('LocalDeclare',
+		'TODO:DOC',
+		[
+			'name', String,
+			'opType', Op(Val),
+			'isLazy', Boolean
+		],
+		{ },
 		{
-			focus: loc => LocalDeclare(loc, '_', None, false, false),
-			res: (loc, opType) => LocalDeclare(loc, 'res', opType, false, true)
+			displayName: loc => LocalDeclare.plain(loc, 'displayName'),
+			focus: loc => LocalDeclare.plain(loc, '_'),
+			plain: (loc, name) => LocalDeclare(loc, name, None, false)
 		}),
-	Assign = Object.assign(
-		// TODO: 'k' may also be the string 'export'...
-		ed('Assign', 'assignee', LocalDeclare, 'k', Number, 'value', Val),
-		{ focus: (loc, value) => Assign(loc, LocalDeclare.focus(loc), '=', value) }),
+	LocalDeclareRes = makeType(LocalDeclare)('LocalDeclareRes',
+		'TODO:DOC',
+		[ 'opType', Op(Val) ],
+		{
+			name: 'res',
+			isLazy: false
+		}),
+	Assign = ed('Assign',
+		'TODO:DOC',
+		[
+			'assignee', LocalDeclare,
+			'value', Val
+		],
+		{ },
+		{ focus: (loc, value) => Assign(loc, LocalDeclare.focus(loc), value) }),
 	AssignDestructure = ed('AssignDestructure',
-		'assignees', [LocalDeclare],
-		// TODO: 'k' may also be the string 'export'...
-		'k', Number,
-		'value', Val,
-		'isLazy', Boolean),
-	LocalAccess = Object.assign(
-		ev('LocalAccess', 'name', String),
+		'TODO:DOC',
+		[
+			'assignees', [LocalDeclare],
+			'value', Val,
+			'isLazy', Boolean
+		]),
+	LocalAccess = ev('LocalAccess',
+		'TODO:DOC',
+		[ 'name', String ],
+		{ },
 		{ focus: loc => LocalAccess(loc, '_') }),
-	GlobalAccess = Object.assign(
-		ev('GlobalAccess', 'name', JsGlobals),
+	GlobalAccess = ev('GlobalAccess',
+		'TODO:DOC',
+		[ 'name', JsGlobals ],
+		{ },
 		{
 			null: loc => GlobalAccess(loc, 'null'),
 			true: loc => GlobalAccess(loc, 'true')
 		}),
 	// Module
-	UseDo = ee('UseDo', 'path', String),
-	Use = ee('Use', 'path', String, 'used', [LocalDeclare], 'opUseDefault', Op(LocalDeclare)),
-	// `block` will contain ModuleExports and ModuleDefaultExport_s
-	// TODO: BlockVal and don't have `exports` object
+	UseDo = ee('UseDo',
+		'TODO:DOC',
+		[ 'path', String ]),
+	Use = ee('Use',
+		'TODO:DOC',
+		[
+			'path', String,
+			'used', [LocalDeclare],
+			'opUseDefault', Op(LocalDeclare)
+		]),
 	Module = ee('Module',
-		'doUses', [UseDo], 'uses', [Use], 'debugUses', [Use], 'block', BlockDo),
+		'TODO:DOC',
+		[
+			'doUses', [UseDo],
+			'uses', [Use],
+			'debugUses', [Use],
+			'lines', [Do],
+			'exports', [LocalDeclare],
+			'opDefaultExport', Val
+		]),
 
 	// Data
-	ListEntry = ed('ListEntry', 'value', Val),
-	ListReturn = ev('ListReturn'),
-	ListSimple = ev('ListSimple', 'parts', [Val]),
+	ListEntry = ed('ListEntry',
+		'TODO:DOC',
+		[ 'value', Val ]),
+	ListReturn = ev('ListReturn',
+		'TODO:DOC',
+		[ ]),
+	ListSimple = ev('ListSimple',
+		'TODO:DOC',
+		[ 'parts', [Val] ]),
 
-	MapEntry = ed('MapEntry', 'key', Val, 'val', Val),
-	MapReturn = ev('MapReturn'),
+	MapEntry = ed('MapEntry',
+		'TODO:DOC',
+		[ 'key', Val, 'val', Val ]),
+	MapReturn = ev('MapReturn',
+		'TODO:DOC',
+		[ ]),
 
 	ObjReturn = ev('ObjReturn',
-		'keys', [LocalDeclare],
-		'debugKeys', [LocalDeclare],
-		'opObjed', Op(Val),
-		'opDisplayName', Op(String)),
-	ObjPair = ee('ObjPair', 'key', String, 'value', Val),
+		'TODO:DOC',
+		[
+			'keys', [LocalDeclare],
+			'opObjed', Op(Val),
+			'opDisplayName', Op(String)
+		]),
+	ObjPair = ee('ObjPair',
+		'TODO:DOC',
+		[
+			'key', String,
+			'value', Val
+		]),
 	// Verifier checks that no two pairs may have the same key.
-	ObjSimple = ev('ObjSimple', 'pairs', [ObjPair]),
+	ObjSimple = ev('ObjSimple',
+		'TODO:DOC',
+		[ 'pairs', [ObjPair] ]),
 
 	// Case
-	Pattern = ee('Pattern', 'type', Val, 'locals', [LocalDeclare], 'patterned', LocalAccess),
-	CaseDoPart = ee('CaseDoPart', 'test', Union(Val, Pattern), 'result', BlockDo),
-	CaseValPart = ee('CaseValPart', 'test', Union(Val, Pattern), 'result', BlockVal),
-	CaseDo = ed('CaseDo', 'opCased', Op(Assign), 'parts', [CaseDoPart], 'opElse', Op(BlockDo)),
+	Pattern = ee('Pattern',
+		'TODO:DOC',
+		[
+			'type', Val,
+			'locals', [LocalDeclare],
+			'patterned', LocalAccess
+		]),
+	CaseDoPart = ee('CaseDoPart',
+		'TODO:DOC',
+		[
+			'test', Union(Val, Pattern),
+			'result', BlockDo
+		]),
+	CaseValPart = ee('CaseValPart',
+		'TODO:DOC',
+		[
+			'test', Union(Val, Pattern),
+			'result', BlockVal
+		]),
+	CaseDo = ed('CaseDo',
+		'TODO:DOC',
+		[
+			'opCased', Op(Assign),
+			'parts', [CaseDoPart],
+			'opElse', Op(BlockDo)
+		]),
 	// Unlike CaseDo, this has `return` statements.
-	CaseVal = ev('CaseVal', 'opCased', Op(Assign), 'parts', [CaseValPart], 'opElse', Op(BlockVal)),
+	CaseVal = ev('CaseVal',
+		'TODO:DOC',
+		[
+			'opCased', Op(Assign),
+			'parts', [CaseValPart],
+			'opElse', Op(BlockVal)
+		]),
 
 	// Statements
-	Loop = ed('Loop', 'block', BlockDo),
-	EndLoop = ed('EndLoop'),
+	Loop = ed('Loop',
+		'TODO:DOC',
+		[ 'block', BlockDo ]),
+	EndLoop = ed('EndLoop',
+		'TODO:DOC',
+		[ ]),
 
 	// Generators
-	Yield = ev('Yield', 'yielded', Val),
-	YieldTo = ev('YieldTo', 'yieldedTo', Val),
+	Yield = ev('Yield',
+		'TODO:DOC',
+		[ 'yielded', Val ]),
+	YieldTo = ev('YieldTo',
+		'TODO:DOC',
+		[ 'yieldedTo', Val ]),
 
 	// Expressions
-	Call = Object.assign(
-		ev('Call', 'called', Val, 'args', [Val]),
+	Splat = ee('Splat',
+		'TODO:DOC',
+		[ 'splatted', Val ]),
+	Call = ev('Call',
+		'TODO:DOC',
+		[
+			'called', Val,
+			'args', [Union(Val, Splat)]
+		],
+		{ },
 		{
 			contains: (loc, testType, tested) =>
 				Call(loc, Special.contains(loc), [ testType, tested ]),
 			sub: (loc, args) => Call(loc, Special.sub(loc), args)
 		}),
-	// Only for use in a Call
-	Splat = ev('Splat', 'splatted', Val),
-
-	BlockWrap = ev('BlockWrap', 'block', BlockVal),
+	BlockWrap = ev('BlockWrap',
+		'TODO:DOC',
+		[ 'block', BlockVal ]),
 
 	Fun = ev('Fun',
-		'isGenerator', Boolean,
-		'args', [LocalDeclare],
-		'opRestArg', Op(LocalDeclare),
-		// BlockDo or BlockVal
-		'block', Expression,
-		'opIn', Op(Debug),
-		// If non-empty, block should be a BlockVal, and either it has a type or opOut is non-empty.
-		'opResDeclare', Op(LocalDeclare),
-		'opOut', Op(Debug)),
+		'TODO:DOC',
+		[
+			'isGenerator', Boolean,
+			'args', [LocalDeclare],
+			'opRestArg', Op(LocalDeclare),
+			// BlockDo or BlockVal
+			'block', Expression,
+			'opIn', Op(Debug),
+			// If non-empty, block should be a BlockVal,
+			// and either it has a type or opOut is non-empty.
+			'opResDeclare', Op(LocalDeclareRes),
+			'opOut', Op(Debug)
+		]),
 
-	Lazy = ev('Lazy', 'value', Val),
-	NumberLiteral = ev('NumberLiteral', 'value', Number),
-	Member = ev('Member', 'object', Val, 'name', String),
+	Lazy = ev('Lazy',
+		'TODO:DOC',
+		[ 'value', Val ]),
+	NumberLiteral = ev('NumberLiteral',
+		'TODO:DOC',
+		[ 'value', Number ]),
+	Member = ev('Member',
+		'TODO:DOC',
+		[
+			'object', Val,
+			'name', String
+		]),
 	// parts are Strings interleaved with Vals.
-	Quote = Object.assign(
-		ev('Quote', 'parts', [Object]),
+	Quote = ev('Quote',
+		'TODO:DOC',
+		[ 'parts', [Object] ],
+		{ },
 		{
-			forString(loc, str) {
-				return Quote(loc, [ str ])
-			}
+			forString: (loc, str) => Quote(loc, [ str ])
 		}),
 
 	SP_Contains = 0,
@@ -132,9 +251,11 @@ export const
 	SP_Sub = 2,
 	SP_This = 3,
 	SP_ThisModuleDirectory = 4,
-	Special = Object.assign(
-		// k is a SP_***
-		ev('Special', 'k', Number),
+	// k is a SP_***
+	Special = ev('Special',
+		'TODO:DOC',
+		[ 'kind', Number ],
+		{ },
 		{
 			contains: loc => Special(loc, SP_Contains),
 			debugger: loc => Special(loc, SP_Debugger),

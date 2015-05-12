@@ -11,11 +11,10 @@ define(["exports","./Bool","./compare","./private/bootstrap","./at/at","./at/Map
 		}),_$11=_ms.lazyGetModule(Str_8),indent=_ms.lazyProp(_$11,"indent"),_$12=_ms.lazyGetModule(Try_9),oh_45no_33=_ms.lazyProp(_$12,"oh-no!"),_$13=_ms.lazyGetModule(Pred_45Type_10),Any=_ms.lazyProp(_$13,"Any"),_$14=_ms.lazyGetModule(Type_11),_61_62=_ms.lazyProp(_$14,"=>"),_$16=_ms.lazyGetModule(compare_12),same_63=_ms.lazyProp(_$16,"same?"),_$17=_ms.lazyGetModule(methods_13),_43=_ms.lazyProp(_$17,"+"),show=_ms.lazy(function(){
 			return _ms.getDefaultExport(show_14)
 		}),_$19=_ms.lazyGetModule(Try_15),fails_45with_63=_ms.lazyProp(_$19,"fails-with?");
-		const exports={};
 		const doc=exports.doc="For making assertions.";
 		const _33=function(){
 			const doc="Pronounced 'assert'.\nIt may be called as:\n\t! fun arg arg arg ...\n\t\tCalls fun on the arguments.\n\t\tfun must return a Bool\n\t\tIf it returns false, an error will be thrown.\n\t\tThe error will contain information about fun and its arguments.\n\t! bool ~message\n\t\tSame as:\n\t\t\tif! (not bool) |\n\t\t\t\toh-no! message";
-			const test=function(){
+			const test=_ms.set(function(){
 				_33(_61_63,1,1);
 				_33(true,"a");
 				const one_45not_45two="Expected =?\n\t1\n\t2";
@@ -25,7 +24,7 @@ define(["exports","./Bool","./compare","./private/bootstrap","./at/at","./at/Map
 				return _33(_ms.unlazy(fails_45with_63),"a",function(){
 					return _33(_61_63(1,2),"a")
 				})
-			};
+			},"displayName","test");
 			return _ms.set(function(a){
 				const args=[].slice.call(arguments,1);
 				{
@@ -52,10 +51,10 @@ define(["exports","./Bool","./compare","./private/bootstrap","./at/at","./at/Map
 		}();
 		const _33not=exports["!not"]=function(){
 			const doc="Like `!`, but inverts the condition.";
-			const test=function(){
+			const test=_ms.set(function(){
 				_33not(false,"a");
 				return _33not(_61_63,1,2)
-			};
+			},"displayName","test");
 			return _ms.set(function(a){
 				const args=[].slice.call(arguments,1);
 				{
@@ -81,7 +80,7 @@ define(["exports","./Bool","./compare","./private/bootstrap","./at/at","./at/Map
 		}();
 		const _33call=exports["!call"]=function(){
 			const doc="For each entry in args->result, asserts that calling `fun` with arguments of key will `=?` the value.";
-			const test=function(){
+			const test=_ms.set(function(){
 				_33call(_ms.unlazy(_43),function(){
 					const _k0=[1,1],_v0=2;
 					return _ms.map(_k0,_v0)
@@ -93,7 +92,7 @@ define(["exports","./Bool","./compare","./private/bootstrap","./at/at","./at/Map
 						return _ms.map(_k0,_v0)
 					}())
 				})
-			};
+			},"displayName","test");
 			return _ms.set(function(fun,args_45_62result){
 				_ms.checkContains(Fun,fun,"fun");
 				_ms.checkContains(_ms.sub(_ms.unlazy(Map),Array,_ms.unlazy(Any)),args_45_62result,"args->result");
@@ -102,12 +101,12 @@ define(["exports","./Bool","./compare","./private/bootstrap","./at/at","./at/Map
 		}();
 		const _33call_45with=exports["!call-with"]=function(){
 			const doc="Like !call but allows any equality predicate.";
-			const test=function(){
+			const test=_ms.set(function(){
 				return _33call_45with(_ms.sub(_ms.unlazy(same_63),_ms.unlazy(show)),_ms.unlazy(_43),function(){
 					const _k0=[1,2],_v0="3";
 					return _ms.map(_k0,_v0)
 				}())
-			};
+			},"displayName","test");
 			return _ms.set(function(equal_63,fun,args_45_62result){
 				_ms.checkContains(_ms.unlazy(Pred),equal_63,"equal?");
 				_ms.checkContains(Fun,fun,"fun");
@@ -124,9 +123,9 @@ define(["exports","./Bool","./compare","./private/bootstrap","./at/at","./at/Map
 				})
 			},"doc",doc,"test",test,"displayName","!call-with")
 		}();
-		exports.default=_33;
 		const displayName=exports.displayName="!";
+		exports.default=_33;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy8hLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztpQ0FvQkE7Ozs7Ozs7Ozs7O0VBQUEsc0JBQU07RUFFTixvQkFDRztHQUFGLFVBQ0M7R0FXRCxXQUNPLFVBQUE7SUFBTixJQUFFLE9BQUcsRUFBRTtJQUNQLElBQUUsS0FBTTtJQUNSLHNCQUNDO0lBR0QsZ0NBQWMsZ0JBQ2EsVUFBQTtZQUExQixJQUFFLE9BQUcsRUFBRTtJQUFBO1dBQ1IsZ0NBQWUsSUFDSSxVQUFBO1lBQWxCLElBQUcsT0FBRyxFQUFFLEdBQUk7SUFBQTtHQUFBO2tCQUNiLFNBQUEsRUFDUzs7SUFBSDtLQUFBLFFBQUE7S0FDTCx5QkFBQyxJQUFELElBQ0k7TUFDRSxnQ0FBSix5QkFBRSxTQUNPO09BQVI7TUFBQSxPQUVHOzhCQUNGLHdCQUFVLDJGQUNZLHVCQUFZO01BQUE7S0FBQSxPQUN0Qyx5QkFBQyxLQUFELElBQ0s7TUFDQyxZQUFKLElBQUssT0FBRyxFQUFFLGVBQ1k7OEJBQWI7TUFBQSxPQUNULFlBQUEsR0FDQztPQUFBO01BQUEsT0FFRztzQ0FBSSxLQUFLO01BQUE7S0FBQSxPQUVYOzZCQUFLLDZEQUFnRDs7Ozs7RUFFNUQsdUNBQ0s7R0FBSixVQUFNO0dBQ04sV0FDTyxVQUFBO0lBQU4sT0FBSyxNQUFPO1dBQ1osT0FBSyxPQUFHLEVBQUU7R0FBQTtrQkFDVixTQUFBLEVBQ1M7O0lBQUg7S0FBQSxRQUFBO0tBQ0wseUJBQUMsSUFBRCxJQUNJO01BQ0UsZ0NBQUoseUJBQUUsU0FDTzs4QkFDUCwwQkFBWSx3REFDRyw0QkFBaUI7TUFBQSxPQUU5QjtPQUFIO01BQUE7S0FBQSxPQUNILHlCQUFDLEtBQUQsSUFDSztNQUFKLElBQUUsT0FBRyxFQUFFO01BRUYsWUFBSixHQUNDO3NDQUFPLEtBQUs7TUFBQSxPQUVUO09BQUg7TUFBQTtLQUFBLE9BRUM7NkJBQUssZ0VBQW1EOzs7OztFQUUvRCx5Q0FDTTtHQUFMLFVBQ0M7R0FDRCxXQUNPLFVBQUE7SUFBTixrQ0FDTztLQUFOLFVBQUEsQ0FBRSxFQUFFLE9BQU87OztJQUNaLFdBQ0M7V0FPRCxnQ0FBYyxLQUNNLFVBQUE7WUFBbkIsa0NBQ087TUFBTixVQUFBLENBQUUsRUFBRSxPQUFPOzs7OztrQkFDYixTQUFBLElBQVEsaUJBQzJCO3NCQUQvQjs4Q0FBcUI7V0FDekIsZUFBVyxPQUFHLElBQUk7R0FBQTs7RUFFcEIscURBQ1c7R0FBVixVQUFNO0dBQ04sV0FDTyxVQUFBO1dBQU4sdUZBQ3dCO0tBQXZCLFVBQUEsQ0FBRSxFQUFFLE9BQVE7Ozs7a0JBQ2IsU0FBQSxTQUFZLElBQVEsaUJBQzJCOztzQkFEL0I7OENBQXFCOytCQUMvQixpQkFBYyxTQUFBLEtBQ0k7S0FBdkIsNkNBQVM7S0FDVCxxQkFBZTtLQUNmLGlDQUFTLDJCQUFJOzhCQUNSLElBQUssU0FBTyxPQUFPLGlCQUNnQixVQUFBOztjQUN0QyxxQkFBQyxpR0FDcUIsdUJBQVksK0JBQzFCLGlFQUNPLDhFQUVBO01BQUE7S0FBQTtJQUFBO0dBQUE7O2tCQUVwQjtFQW5JQSxzQ0FBQSIsImZpbGUiOiJiYW5nLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy8hLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7Ozs7RUFvQkEsc0JBQU07RUFFTixvQkFDRztHQUFGLFVBQ0M7R0FXRCxtQkFDTyxVQUFBO0lBQU4sSUFBRSxPQUFHLEVBQUU7SUFDUCxJQUFFLEtBQU07SUFDUixzQkFDQztJQUdELGdDQUFjLGdCQUNhLFVBQUE7WUFBMUIsSUFBRSxPQUFHLEVBQUU7SUFBQTtXQUNSLGdDQUFlLElBQ0ksVUFBQTtZQUFsQixJQUFHLE9BQUcsRUFBRSxHQUFJO0lBQUE7R0FBQTtrQkFDYixTQUFBLEVBQ1M7O0lBQUg7S0FBQSxRQUFBO0tBQ0wseUJBQUMsSUFBRCxJQUNJO01BQ0UsZ0NBQUoseUJBQUUsU0FDTztPQUFSO01BQUEsT0FFRzs4QkFDRix3QkFBVSwyRkFDWSx1QkFBWTtNQUFBO0tBQUEsT0FDdEMseUJBQUMsS0FBRCxJQUNLO01BQ0MsWUFBSixJQUFLLE9BQUcsRUFBRSxlQUNZOzhCQUFiO01BQUEsT0FDVCxZQUFBLEdBQ0M7T0FBQTtNQUFBLE9BRUc7c0NBQUksS0FBSztNQUFBO0tBQUEsT0FFWDs2QkFBSyw2REFBZ0Q7Ozs7O0VBRTVELHVDQUNLO0dBQUosVUFBTTtHQUNOLG1CQUNPLFVBQUE7SUFBTixPQUFLLE1BQU87V0FDWixPQUFLLE9BQUcsRUFBRTtHQUFBO2tCQUNWLFNBQUEsRUFDUzs7SUFBSDtLQUFBLFFBQUE7S0FDTCx5QkFBQyxJQUFELElBQ0k7TUFDRSxnQ0FBSix5QkFBRSxTQUNPOzhCQUNQLDBCQUFZLHdEQUNHLDRCQUFpQjtNQUFBLE9BRTlCO09BQUg7TUFBQTtLQUFBLE9BQ0gseUJBQUMsS0FBRCxJQUNLO01BQUosSUFBRSxPQUFHLEVBQUU7TUFFRixZQUFKLEdBQ0M7c0NBQU8sS0FBSztNQUFBLE9BRVQ7T0FBSDtNQUFBO0tBQUEsT0FFQzs2QkFBSyxnRUFBbUQ7Ozs7O0VBRS9ELHlDQUNNO0dBQUwsVUFDQztHQUNELG1CQUNPLFVBQUE7SUFBTixrQ0FDTztLQUFOLFVBQUEsQ0FBRSxFQUFFLE9BQU87OztJQUNaLFdBQ0M7V0FPRCxnQ0FBYyxLQUNNLFVBQUE7WUFBbkIsa0NBQ087TUFBTixVQUFBLENBQUUsRUFBRSxPQUFPOzs7OztrQkFDYixTQUFBLElBQVEsaUJBQzJCO3NCQUQvQjs4Q0FBcUI7V0FDekIsZUFBVyxPQUFHLElBQUk7R0FBQTs7RUFFcEIscURBQ1c7R0FBVixVQUFNO0dBQ04sbUJBQ08sVUFBQTtXQUFOLHVGQUN3QjtLQUF2QixVQUFBLENBQUUsRUFBRSxPQUFROzs7O2tCQUNiLFNBQUEsU0FBWSxJQUFRLGlCQUMyQjs7c0JBRC9COzhDQUFxQjsrQkFDL0IsaUJBQWMsU0FBQSxLQUNJO0tBQXZCLDZDQUFTO0tBQ1QscUJBQWU7S0FDZixpQ0FBUywyQkFBSTs4QkFDUixJQUFLLFNBQU8sT0FBTyxpQkFDZ0IsVUFBQTs7Y0FDdEMscUJBQUMsaUdBQ3FCLHVCQUFZLCtCQUMxQixpRUFDTyw4RUFFQTtNQUFBO0tBQUE7SUFBQTtHQUFBOztFQWpJcEIsc0NBQUE7a0JBbUlBIiwiZmlsZSI6ImJhbmcuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

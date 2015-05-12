@@ -6,13 +6,12 @@ use
 	.math.Num
 	.private.bootstrap msDef
 	.private.js-impl newSet
-	.Obj flag? p ?p @p
+	.Obj flag? p @p
 	.Str _ indent
 	.Type.Method _ impl!
 	.Type.Type => type-of
 use~
 	.@.@ -- empty? map
-	.@.? ?-or
 use-debug
 	.Obj
 
@@ -125,14 +124,16 @@ spread! impl! show
 			[ a ] -> "a"
 			[ Obj ] -> "Obj"
 			[ (Fun "" "") ] -> "<anonymous Fun>"
-		|:Str _
-			?-or (?p _ "displayName") ~
-				# Every function has name property - empty string means anonymous function.
-				name = p _ "name"
-				case name
-					empty?_
-						"<anonymous Fun>"
-					else
-						_
+		|:Str fun
+			case fun.displayName
+				:Str
+					_
+				else
+					case fun.name
+						# Every Fun has `name` property, but for anonymous Funs it is empty.
+						empty?_
+							"<anonymous Fun>"
+						else
+							_
 
 show

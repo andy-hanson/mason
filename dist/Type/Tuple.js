@@ -7,11 +7,10 @@ define(["exports","esast/dist/mangle-identifier","../control","../js","../privat
 		}),_$14=_ms.lazyGetModule(compare_11),_61_63=_ms.lazyProp(_$14,"=?"),Num=_ms.lazy(function(){
 			return _ms.getDefaultExport(Num_12)
 		});
-		const exports={};
-		const access=function(name){
+		const access=_ms.set(function(name){
 			return (("[\""+_ms.show(name))+"\"]")
-		};
-		const get_45prop=function(_){
+		},"displayName","access");
+		const get_45prop=_ms.set(function(_){
 			return function(){
 				if(_ms.bool(_ms.contains(Array,_))){
 					const name=_ms.sub(_,0);
@@ -31,7 +30,7 @@ define(["exports","esast/dist/mangle-identifier","../control","../js","../privat
 					}
 				} else throw new Error("No branch of `case` matches.")
 			}()
-		};
+		},"displayName","get-prop");
 		const Tuple=Obj_45Type(function(){
 			const props=function(){
 				const displayName=Str;
@@ -55,21 +54,21 @@ define(["exports","esast/dist/mangle-identifier","../control","../js","../privat
 				}
 			}();
 			const defaults=function(){
-				const prototype=function(){
+				const prototype=_ms.set(function(){
 					return Obj.create(Obj.prototype)
-				};
+				},"displayName","prototype");
 				return {
 					prototype:prototype,
 					displayName:"defaults"
 				}
 			}();
-			const make_45callable=function(tuple){
+			const make_45callable=_ms.set(function(tuple){
 				const props=tuple.props.map(get_45prop);
-				const args=props.map(function(_){
+				const args=props.map(_ms.set(function(_){
 					return _.id
-				});
+				},"displayName","args"));
 				const argsStr=args.join(",");
-				const src=buildStr(function(add_33){
+				const src=buildStr(_ms.set(function(add_33){
 					add_33((((("return function ctr("+_ms.show(argsStr))+") {\nif (!(this instanceof ctr)) return new ctr(")+_ms.show(argsStr))+")"));
 					props.forEach(function(_){
 						if_33(defined_63(_.type),function(){
@@ -82,29 +81,29 @@ define(["exports","esast/dist/mangle-identifier","../control","../js","../privat
 						return add_33("postConstruct(this)")
 					});
 					return add_33("}")
-				});
-				const type_45args=props.map(function(_){
+				},"displayName","src"));
+				const type_45args=props.map(_ms.set(function(_){
 					return ((""+_ms.show(_.id))+"_type")
-				});
+				},"displayName","type-args"));
 				const make_45ctr=Function.apply.call(Fun,null,[].concat("postConstruct",_ms.arr(type_45args),src));
-				const types=props.map(function(prop){
+				const types=props.map(_ms.set(function(prop){
 					return prop.type
-				});
+				},"displayName","types"));
 				const ctr=Function.apply.call(make_45ctr,null,[].concat(tuple["post-construct"],_ms.arr(types)));
 				p_43_33(ctr,"source",src);
 				return ctr
-			};
-			const post_45construct=function(_){
+			},"displayName","make-callable");
+			const post_45construct=_ms.set(function(_){
 				p_43_33(_.prototype,"constructor",_);
-				const accesses=_.props.map(get_45prop).map(function(_){
+				const accesses=_.props.map(get_45prop).map(_ms.set(function(_){
 					return ("_"+_ms.show(access(_.name)))
-				});
+				},"displayName","accesses"));
 				const extract_45src=(("return function(_) { return _ instanceof tuple ? [ "+_ms.show(accesses.join(",")))+" ] : null }");
 				const make_45extractor=Fun("tuple",extract_45src);
 				const extractor=make_45extractor(_);
 				return self_45impl_33(extract,_,extractor)
-			};
-			const test=function(){
+			},"displayName","post-construct");
+			const test=_ms.set(function(){
 				const Vec2=Tuple(function(){
 					const props=function(){
 						const _0="x";
@@ -130,7 +129,7 @@ define(["exports","esast/dist/mangle-identifier","../control","../js","../privat
 						} else throw new Error("No branch of `case` matches.")
 					}
 				}()
-			};
+			},"displayName","test");
 			return {
 				props:props,
 				"opt-props":opt_45props,
@@ -145,9 +144,9 @@ define(["exports","esast/dist/mangle-identifier","../control","../js","../privat
 			return js_45instanceof(_,tuple)
 		});
 		kind_33(Tuple,Impl_45Type);
-		exports.default=Tuple;
 		const displayName=exports.displayName="Tuple";
+		exports.default=Tuple;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL1R1cGxlLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztpQ0FnQkE7Ozs7Ozs7RUFBQSxhQUFVLFNBQUEsS0FDSTtVQUFaLGlCQUFJOztFQUVOLGlCQUFZLFNBQUEsRUFBQTs7SUFFWCx5QkFBQyxNQUFELElBQ007S0FBTCxtQkFBTSxFQUFFO0tBQ1IsU0FBSSw0QkFBa0IsRUFBRTtLQUN4QixtQkFBTSxFQUFFO1lBRkg7Ozs7O1dBR04seUJBQUMsSUFBRCxJQUNJO0tBQUgsV0FBTTtLQUNOLFNBQUksb0JBQUE7WUFERDs7Ozs7OztFQUdMLFlBQVEscUJBQ1E7R0FBZixzQkFDTTtJQUFMLGtCQUFhO0lBQ2IsWUFBTztJQUNQLGdCQUFXO1dBRk47Ozs7OztHQUdOLDRCQUNVO0lBQ1QsdUJBQWdCO0lBQ2hCLFVBQUs7SUFDTCxXQUFNO1dBSEc7Ozs7Ozs7R0FJVix5QkFDUztJQUFSLGdCQUNZLFVBQUE7WUFBWCxXQUFXOztXQURKOzs7OztHQUVULHNCQUFnQixTQUFBLE1BQ0s7SUFBcEIsWUFBUSxnQkFBZ0I7SUFHeEIsV0FBTyxVQUFXLFNBQUEsRUFDQztZQUFsQjs7SUFDRCxjQUFVLFVBQVc7SUFFckIsVUFBTSxTQUFVLFNBQUEsT0FDSTtLQUNuQixPQUNDLG9DQUFxQix1RUFDdUI7S0FFN0MsY0FBZSxTQUFBLEVBQ0M7TUFBZixNQUFLLFdBQVMsUUFDUyxVQUFBO2NBQXRCLE9BQU0sb0NBQW1CLDJCQUFhLHdCQUFVOzthQUVqRCxPQUFNLG1CQUFLLE9BQU8sMEJBQVc7O0tBRTlCLE9BQ0MsdUNBQXdCLGlFQUNTO0tBSWxDLE1BQUssV0FBUyx5QkFDdUIsVUFBQTthQUFwQyxPQUFNO0tBQUE7WUFFUCxPQUFNO0lBQUE7SUFFUCxrQkFBWSxVQUFXLFNBQUEsRUFDQztZQUF0QixFQS9CUSxZQStCUDs7SUFDSCxxQ0FBVyxtQkFBSyx3QkFBZSxhQUFhO0lBQzVDLFlBQVEsVUFBVyxTQUFBLEtBQ0k7WUFBdEI7O0lBQ0QsOEJBQU0sMEJBQVMsZ0NBQXFCO0lBQzlCLFFBQUksSUFBSyxTQUFRO1dBQ3ZCO0dBQUE7R0FFRCx1QkFBaUIsU0FBQSxFQUNDO0lBQWpCLFFBQUksWUFBYSxjQUFhO0lBQzlCLGVBQVksWUFBWSxnQkFBZSxTQUFBLEVBQ0M7WUFBdEMsY0FBRSxPQUFPOztJQUNYLG9CQUFlLGlFQUFxRCxjQUFlO0lBQ25GLHVCQUFpQixJQUFLLFFBQU87SUFDN0IsZ0JBQVksaUJBQWU7V0FDM0IsZUFBVyxRQUFRLEVBQUU7R0FBQTtHQUV0QixXQUNPLFVBQUE7SUFBTixXQUFPLGdCQUNLO0tBQVgsc0JBQ007TUFBTCxTQUFHO01BQ0gsU0FBRSxDQUFHO2FBREE7O1lBREs7Ozs7O0lBR1osUUFBSSxLQUFLLEVBQUU7dUNBQ04sRUFBRTt1Q0FDRixFQUFFOztLQUNGLFFBQUE7S0FDSjsyQkFBQyxLQUFEO3FCQUNTOzswQ0FBSCxFQUFFO2lEQUNGLEVBQUU7TUFBQTs7OztVQXhFSzs7Ozs7Ozs7OztFQTBFaEIsc0JBQWdCLE1BQU8sU0FBQSxNQUFNLEVBQ0M7VUFBN0IsZ0JBQWMsRUFBRTtFQUFBO0VBRWpCLFFBQU0sTUFBTTtrQkFFWjtFQTdHQSxzQ0FBQSIsImZpbGUiOiJUeXBlL1R1cGxlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL1R1cGxlLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7OztFQWdCQSxxQkFBVSxTQUFBLEtBQ0k7VUFBWixpQkFBSTs7RUFFTix5QkFBWSxTQUFBLEVBQUE7O0lBRVgseUJBQUMsTUFBRCxJQUNNO0tBQUwsbUJBQU0sRUFBRTtLQUNSLFNBQUksNEJBQWtCLEVBQUU7S0FDeEIsbUJBQU0sRUFBRTtZQUZIOzs7OztXQUdOLHlCQUFDLElBQUQsSUFDSTtLQUFILFdBQU07S0FDTixTQUFJLG9CQUFBO1lBREQ7Ozs7Ozs7RUFHTCxZQUFRLHFCQUNRO0dBQWYsc0JBQ007SUFBTCxrQkFBYTtJQUNiLFlBQU87SUFDUCxnQkFBVztXQUZOOzs7Ozs7R0FHTiw0QkFDVTtJQUNULHVCQUFnQjtJQUNoQixVQUFLO0lBQ0wsV0FBTTtXQUhHOzs7Ozs7O0dBSVYseUJBQ1M7SUFBUix3QkFDWSxVQUFBO1lBQVgsV0FBVzs7V0FESjs7Ozs7R0FFVCw4QkFBZ0IsU0FBQSxNQUNLO0lBQXBCLFlBQVEsZ0JBQWdCO0lBR3hCLFdBQU8sa0JBQVcsU0FBQSxFQUNDO1lBQWxCOztJQUNELGNBQVUsVUFBVztJQUVyQixVQUFNLGlCQUFVLFNBQUEsT0FDSTtLQUNuQixPQUNDLG9DQUFxQix1RUFDdUI7S0FFN0MsY0FBZSxTQUFBLEVBQ0M7TUFBZixNQUFLLFdBQVMsUUFDUyxVQUFBO2NBQXRCLE9BQU0sb0NBQW1CLDJCQUFhLHdCQUFVOzthQUVqRCxPQUFNLG1CQUFLLE9BQU8sMEJBQVc7O0tBRTlCLE9BQ0MsdUNBQXdCLGlFQUNTO0tBSWxDLE1BQUssV0FBUyx5QkFDdUIsVUFBQTthQUFwQyxPQUFNO0tBQUE7WUFFUCxPQUFNO0lBQUE7SUFFUCxrQkFBWSxrQkFBVyxTQUFBLEVBQ0M7WUFBdEIsRUFtRFUsWUFuRFQ7O0lBQ0gscUNBQVcsbUJBQUssd0JBQWUsYUFBYTtJQUM1QyxZQUFRLGtCQUFXLFNBQUEsS0FDSTtZQUF0Qjs7SUFDRCw4QkFBTSwwQkFBUyxnQ0FBcUI7SUFDOUIsUUFBSSxJQUFLLFNBQVE7V0FDdkI7R0FBQTtHQUVELCtCQUFpQixTQUFBLEVBQ0M7SUFBakIsUUFBSSxZQUFhLGNBQWE7SUFDOUIsZUFBWSxZQUFZLHdCQUFlLFNBQUEsRUFDQztZQUF0QyxjQUFFLE9BQU87O0lBQ1gsb0JBQWUsaUVBQXFELGNBQWU7SUFDbkYsdUJBQWlCLElBQUssUUFBTztJQUM3QixnQkFBWSxpQkFBZTtXQUMzQixlQUFXLFFBQVEsRUFBRTtHQUFBO0dBRXRCLG1CQUNPLFVBQUE7SUFBTixXQUFPLGdCQUNLO0tBQVgsc0JBQ007TUFBTCxTQUFHO01BQ0gsU0FBRSxDQUFHO2FBREE7O1lBREs7Ozs7O0lBR1osUUFBSSxLQUFLLEVBQUU7dUNBQ04sRUFBRTt1Q0FDRixFQUFFOztLQUNGLFFBQUE7S0FDSjsyQkFBQyxLQUFEO3FCQUNTOzswQ0FBSCxFQUFFO2lEQUNGLEVBQUU7TUFBQTs7OztVQXhFSzs7Ozs7Ozs7OztFQTBFaEIsc0JBQWdCLE1BQU8sU0FBQSxNQUFNLEVBQ0M7VUFBN0IsZ0JBQWMsRUFBRTtFQUFBO0VBRWpCLFFBQU0sTUFBTTtFQTNHWixzQ0FBQTtrQkE2R0EiLCJmaWxlIjoiVHlwZS9UdXBsZS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

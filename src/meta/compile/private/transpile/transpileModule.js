@@ -1,17 +1,16 @@
-import { ArrayExpression, BinaryExpression, BlockStatement, CallExpression, Identifier,
-	ExpressionStatement, FunctionExpression, IfStatement, Literal, ObjectExpression, Program,
+import { ArrayExpression, AssignmentExpression, BinaryExpression, BlockStatement, CallExpression,
+	Identifier, ExpressionStatement, FunctionExpression, IfStatement, Literal, Program,
 	ReturnStatement, UnaryExpression, VariableDeclaration, VariableDeclarator
 	} from 'esast/dist/ast'
 import { idCached, member } from 'esast/dist/util'
 import { assignmentExpressionPlain } from 'esast/dist/specialize'
 import manglePath from '../manglePath'
 import { flatMap, isEmpty, last } from '../U/Bag'
-import { None, opIf } from '../U/Op'
+import { opIf } from '../U/Op'
 import { idForDeclareCached } from './esast-util'
-import { t3 } from './transpile'
-import { IdDefine, IdExports, IdModule, lazyWrap,
-	msGetModule, msLazyGetModule, msGetDefaultExport,
-	makeDestructureDeclarators, msLazy } from './util'
+import { t0, tm } from './transpile'
+import { IdDefine, IdExports, IdModule, lazyWrap, makeDestructureDeclarators,
+	toStatements, msGetModule, msLazyGetModule, msGetDefaultExport, msLazy } from './util'
 
 /*
 'use strict';
@@ -48,23 +47,23 @@ export default (_, cx) => {
 	// TODO: Some way of determining when it's OK for a module to not be lazy.
 	const isLazy = cx.opts.lazyModule()
 
-	const lead = useDos.concat(opUseDeclare, opIf(isLazy, () => DeclareExports))
-	const trail = [ ReturnStatement(IdExports) ]
-	const moduleBody = t3(_.block, lead, None, trail)
-	const body =
-		isLazy ?
-			BlockStatement([ lazyBody(moduleBody) ])
-			: moduleBody
+	const lines = flatMap(_.lines, line => toStatements(tm(line)))
+
+	const opDefaultExport = _.opDefaultExport.map(_ =>
+		AssignmentExpression('=', ExportsDefault, t0(_)))
+
+	const moduleBody = BlockStatement(
+		useDos.concat(opUseDeclare, lines, opDefaultExport, [ ReturnExports ]))
+
+	const body = isLazy ? BlockStatement([ lazyBody(moduleBody) ]) : moduleBody
 
 	const doDefine = ExpressionStatement(
-		CallExpression(IdDefine, [
-			amdNames,
-			FunctionExpression(null, amdArgs, body) ]))
+		CallExpression(IdDefine, [ amdNames, FunctionExpression(null, amdArgs, body) ]))
 
-	const parts = opIf(cx.opts.includeUseStrict(), () => UseStrict).concat(
-		opIf(cx.opts.amdefine(), () => AmdefineHeader),
-		[ doDefine ])
-	return Program(parts)
+	const opUseStrict = opIf(cx.opts.includeUseStrict(), () => UseStrict)
+	const opAmdefine = opIf(cx.opts.amdefine(), () => AmdefineHeader)
+
+	return Program(opUseStrict.concat(opAmdefine, [ doDefine ]))
 }
 
 const useDeclarators = (cx, _, moduleIdentifier) => {
@@ -80,8 +79,8 @@ const useDeclarators = (cx, _, moduleIdentifier) => {
 		return vd
 	})
 
-	const usedDestruct = isEmpty(_.used) ? [] :
-		makeDestructureDeclarators(cx, _.loc, _.used, isLazy, value, '=', true)
+	const usedDestruct = isEmpty(_.used) ? [ ] :
+		makeDestructureDeclarators(cx, _.loc, _.used, isLazy, value, true, false)
 	usedDestruct.forEach(_ => _.loc = _.loc)
 
 	return usedDefault.concat(usedDestruct)
@@ -89,10 +88,6 @@ const useDeclarators = (cx, _, moduleIdentifier) => {
 
 const
 	useIdentifier = (use, i) => idCached(`${last(use.path.split('/'))}_${i}`),
-
-	// const exports = { }
-	DeclareExports = VariableDeclaration('const', [
-		VariableDeclarator(IdExports, ObjectExpression([]))]),
 
 	lazyBody = body =>
 		ExpressionStatement(
@@ -108,6 +103,10 @@ const
 				[ IdModule ])) ])),
 
 	UseStrict = ExpressionStatement(Literal('use strict')),
+
+	ReturnExports = ReturnStatement(IdExports),
+
+	ExportsDefault = member(IdExports, 'default'),
 
 	AmdFirstUses = [ Literal('exports') ],
 	AmdFirstArgs = [ IdExports ]
