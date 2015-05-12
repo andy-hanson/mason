@@ -2,7 +2,7 @@ import Loc from 'esast/dist/Loc'
 import tupl from 'tupl/dist/tupl'
 import { G_Paren, G_Bracket, G_Block, G_Quote, G_Line, G_Space } from '../Token'
 
-export default tupl('GroupPre', Object, 'doc', [ 'loc', Loc, 'k', Number ])
+export default tupl('GroupPre', Object, 'doc', [ 'loc', Loc, 'kind', Number ])
 
 export const groupOpenToClose = k =>
 	(k === GP_Line || k === GP_Space) ? k : -k

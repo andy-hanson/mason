@@ -251,6 +251,8 @@ export const
 	SP_Sub = 2,
 	SP_This = 3,
 	SP_ThisModuleDirectory = 4,
+	SP_False = 5,
+	SP_True = 6,
 	// k is a SP_***
 	Special = ev('Special',
 		'TODO:DOC',

@@ -1,7 +1,7 @@
 import Loc from 'esast/dist/Loc'
 import tupl, { abstract } from 'tupl/dist/tupl'
 import { code } from '../CompileError'
-import { SP_This, SP_ThisModuleDirectory } from '../Expression'
+import { SP_False, SP_This, SP_ThisModuleDirectory, SP_True } from '../Expression'
 import { implementMany } from './U/util'
 
 const Token = abstract('Token', Object,
@@ -14,8 +14,8 @@ export default Token
 const tt = (name, namesTypes, props) =>
 	tupl(name, Token, 'doc', [ 'loc', Loc ].concat(namesTypes), { }, props)
 
-const gIs = k => t => t instanceof Group && t.k === k
-const kwIs = k => t => t instanceof Keyword && t.k === k
+const gIs = k => t => t instanceof Group && t.kind === k
+const kwIs = k => t => t instanceof Keyword && t.kind === k
 
 // Don't use `0` because we want to use negative nmbers to represent GroupPre closers.
 export const
@@ -49,6 +49,7 @@ export const
 	KW_Debugger = kw('debugger'),
 	KW_Else = kw('else'),
 	KW_EndLoop = kw('end-loop!'),
+	KW_False = kw('false'),
 	KW_Focus = kwNotName('_'),
 	KW_Fun = kw('|'),
 	KW_GenFun = kw('~|'),
@@ -61,6 +62,7 @@ export const
 	KW_Region = kw('region'),
 	KW_This = kw('this'),
 	KW_ThisModuleDirectory = kw('this-module-directory'),
+	KW_True = kw('true'),
 	KW_Type = kwNotName(':'),
 	KW_Use = kw('use'),
 	KW_UseDebug = kw('use-debug'),
@@ -71,21 +73,26 @@ export const
 
 export const
 	keywordKFromName = name => nameToK.get(name),
-	opKWtoSP = k =>
-		k === KW_This ? SP_This :
-			k === KW_ThisModuleDirectory ? SP_ThisModuleDirectory :
-			undefined
+	opKWtoSP = kw => {
+		switch (kw) {
+			case KW_This: return SP_This
+			case KW_ThisModuleDirectory: return SP_ThisModuleDirectory
+			case KW_False: return SP_False
+			case KW_True: return SP_True
+			default: return null
+		}
+	}
 
 export const
 	CallOnFocus = tt('CallOnFocus', [ 'name', String ]),
 	DotName = tt('DotName', [ 'nDots', Number, 'name', String ]),
 	Group = tt('Group',
-		[ 'tokens', [Token], 'k', Number ],
+		[ 'tokens', [Token], 'kind', Number ],
 		{
 			isBlock: gIs(G_Block),
 			isSpaced: gIs(G_Space)
 		}),
-	Keyword = tt('Keyword', [ 'k', Number ],
+	Keyword = tt('Keyword', [ 'kind', Number ],
 		{
 			is: kwIs,
 			isType: kwIs(KW_Type),
@@ -94,11 +101,11 @@ export const
 			isLazy: kwIs(KW_Lazy),
 			isLineSplit: t =>
 				t instanceof Keyword && (
-					t.k === KW_Assign ||
-					t.k === KW_ObjAssign ||
-					t.k === KW_Yield ||
-					t.k === KW_YieldTo ||
-					t.k === KW_MapEntry),
+					t.kind === KW_Assign ||
+					t.kind === KW_ObjAssign ||
+					t.kind === KW_Yield ||
+					t.kind === KW_YieldTo ||
+					t.kind === KW_MapEntry),
 			isObjAssign: kwIs(KW_ObjAssign)
 		}),
 	Name = tt('Name', [ 'name', String ]),
@@ -109,9 +116,9 @@ implementMany({ CallOnFocus, DotName, Group, Keyword, Name, TokenNumberLiteral }
 	CallOnFocus() { return `${this.name}_` },
 	DotName() { return `${'.'.repeat(this.nDots)}${this.name}` },
 	// TODO: better representation of k
-	Group() { return `group(k=${this.k})` },
+	Group() { return `group(k=${this.kind})` },
 	// TODO: better representation of k
-	Keyword() { return `keyword(k=${kToName.get(this.k)})` },
+	Keyword() { return `keyword(k=${kToName.get(this.kind)})` },
 	Name() { return this.name },
 	TokenNumberLiteral() { return this.value }
 })

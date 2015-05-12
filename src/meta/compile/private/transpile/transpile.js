@@ -7,7 +7,7 @@ import { callExpressionThunk, functionExpressionPlain, functionExpressionThunk, 
 	} from 'esast/dist/specialize'
 import * as EExports from '../../Expression'
 import { BlockVal, Pattern, Splat,
-	SP_Contains, SP_Debugger, SP_Sub, SP_This, SP_ThisModuleDirectory
+	SP_Contains, SP_Debugger, SP_False, SP_Sub, SP_This, SP_ThisModuleDirectory, SP_True
 	} from '../../Expression'
 import { cat, flatMap, range, tail } from '../U/Bag'
 import { ifElse, None, opIf } from '../U/Op'
@@ -266,10 +266,12 @@ implementMany(EExports, 'transpileSubtree', {
 		switch (this.kind) {
 			case SP_Contains: return member(IdMs, 'contains')
 			case SP_Debugger: return DebuggerStatement()
+			case SP_False: return Literal(false)
 			case SP_Sub: return member(IdMs, 'sub')
 			case SP_This: return 	ThisExpression()
 			case SP_ThisModuleDirectory: return Identifier('__dirname')
-			default: throw new Error(this.k)
+			case SP_True: return Literal(true)
+			default: throw new Error(this.kind)
 		}
 	},
 	Splat() { cx.fail(this.loc, 'Splat must appear as argument to a call.') },

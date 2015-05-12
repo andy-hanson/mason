@@ -20,14 +20,16 @@ export default function group(cx, preGroupedTokens) {
 		finishLevels = (closePos, k) => {
 			// We may close other groups. For example, a G_Line can close a G_Paren.
 			while (true) {
-				const close = groupOpenToClose(cur.k)
+				const close = groupOpenToClose(cur.kind)
 				if (close === k)
 					break
 				else {
 					cx.check(
-						cur.k === GP_OpenParen || cur.k === GP_OpenBracket || cur.k === GP_Space,
+						cur.kind === GP_OpenParen ||
+							cur.kind === GP_OpenBracket ||
+							cur.kind === GP_Space,
 						closePos, () =>
-						`Trying to close ${showGroup(k)}, but last opened was ${showGroup(cur.k)}`)
+						`Trying to close ${showG(k)}, but last opened was ${showG(cur.kind)}`)
 					finishLevel(closePos, close)
 				}
 			}
@@ -91,40 +93,40 @@ export default function group(cx, preGroupedTokens) {
 			// It's a GroupPre
 			const loc = _.loc
 			endLoc = loc
-			const k = _.k
-			switch (k) {
+			const kind = _.kind
+			switch (kind) {
 				case GP_OpenParen: case GP_OpenBracket:
-					newLevel(loc.start, k)
+					newLevel(loc.start, kind)
 					newLevel(loc.end, GP_Space)
 					break
 				case GP_CloseParen: case GP_CloseBracket:
-					finishLevels(loc.end, k)
+					finishLevels(loc.end, kind)
 					break
 				case GP_OpenQuote:
-					newLevel(loc.start, k)
+					newLevel(loc.start, kind)
 					break
 				case GP_CloseQuote:
-					finishLevels(loc.start, k)
+					finishLevels(loc.start, kind)
 					break
 				case GP_OpenBlock:
 					//  ~ before block is OK
 					if (isEmpty(cur.tokens) || !Keyword.isLazy(last(cur.tokens)))
 						endAndStart(loc, GP_Space)
-					newLevel(loc.start, k)
+					newLevel(loc.start, kind)
 					startLine(loc.end)
 					break
 				case GP_CloseBlock:
 					endLine(loc.start)
-					finishLevels(loc.end, k)
+					finishLevels(loc.end, kind)
 					break
 				case GP_Line:
 					endLine(loc.start)
 					startLine(loc.end)
 					break
 				case GP_Space:
-					endAndStart(loc, k)
+					endAndStart(loc, kind)
 					break
-				default: throw new Error(k)
+				default: throw new Error(kind)
 			}
 		} else
 			cur.tokens.push(_)
@@ -137,4 +139,4 @@ export default function group(cx, preGroupedTokens) {
 }
 
 // TODO
-const showGroup = k => k
+const showG = kind => kind

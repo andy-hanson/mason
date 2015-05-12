@@ -28,7 +28,7 @@ make-ctr = |ot
 	debug prop-has-type? = |props prop
 		# Type might be lazily defined, but don't trigger it yet.
 		desc = Obj.getOwnPropertyDescriptor props prop
-		not (js=== desc.value null)
+		not (js=== desc.value ())
 
 	real-prop? = |props prop
 		# Ignore accidental displayName.

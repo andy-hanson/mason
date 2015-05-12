@@ -389,7 +389,7 @@ const
 			case line instanceof Call:
 			case line instanceof Yield:
 			case line instanceof YieldTo:
-			case line instanceof Special && line.k === SP_Debugger:
+			case line instanceof Special && line.kind === SP_Debugger:
 			// OK, used to mean `pass`
 			case line instanceof GlobalAccess && line.name === 'null':
 				return

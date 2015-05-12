@@ -36,9 +36,7 @@ export const JsGlobals = newSet([
 	'console',
 	'global',
 	'setInterval',
-	'setTimeout',
-	// Not really globals, but it works out that way.
-	'false', 'true', 'null'
+	'setTimeout'
 ])
 
 // Anything not explicitly reserved is a valid name character.

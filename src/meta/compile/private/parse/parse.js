@@ -13,6 +13,7 @@ import { CallOnFocus, DotName, Group, G_Block, G_Bracket, G_Paren, G_Space, G_Qu
 	KW_UseLazy, KW_Yield, KW_YieldTo, Name, opKWtoSP, TokenNumberLiteral } from '../Token'
 import { head, flatMap, isEmpty, last, push, repeat, rtail, tail, unshift } from '../U/Bag'
 import { ifElse, None, opIf, some } from '../U/Op'
+import { ifElse2 } from '../U/Op2'
 import { assert } from '../U/util'
 import Slice from './Slice'
 
@@ -36,12 +37,11 @@ const
 	unexpected = t => cx.fail(t.loc, `Unexpected ${t}`)
 
 const parseModule = tokens => {
-	// tryParseUses moves tokens forward
 	const [ doUses, rest0 ] = tryParseUses(KW_UseDo, tokens)
 	const [ plainUses, rest1 ] = tryParseUses(KW_Use, rest0)
 	const [ lazyUses, rest2 ] = tryParseUses(KW_UseLazy, rest1)
 	const [ debugUses, rest3 ] = tryParseUses(KW_UseDebug, rest2)
-	const { lines, exports, opDefault } = parseModuleBody(rest3)
+	const { doLines: lines, opReturn: opDefault, objKeys: exports } = blockDigest(rest3)
 
 	if (cx.opts.moduleDisplayName() && !exports.some(ex => ex.name === 'displayName')) {
 		const dn = LocalDeclare.displayName(tokens.loc)
@@ -63,15 +63,18 @@ const
 		return [ tokens.rtail(), Slice.group(block) ]
 	},
 
-	blockWrap = tokens => BlockWrap(tokens.loc, _parseBlockBody('val', tokens)),
+	blockWrap = tokens => BlockWrap(tokens.loc, parseBlockVal(tokens)),
 
-	justBlockDo = tokens => parseBodyDo(_justBlock(tokens)),
-	justBlockVal = tokens => parseBodyVal(_justBlock(tokens)),
+	justBlockDo = tokens => parseBlockDo(_justBlock(tokens)),
+	justBlockVal = tokens => parseBlockVal(_justBlock(tokens)),
 
-	// TODO: Just have module return a value and use a normal block.
-	parseModuleBody = tokens => _parseBlockBody('module', tokens),
-
-	parseBlockFromLines = tokens => _parseBlockBody('any', tokens),
+	parseAnyBlock = tokens => {
+		const { doLines, opReturn, objKeys } = blockDigest(tokens)
+		const bv = ret => BlockVal(tokens.loc, doLines, ret)
+		return isEmpty(objKeys) ?
+			ifElse(opReturn, bv, () => BlockDo(tokens.loc, doLines)) :
+			bv(ObjReturn(tokens.loc, objKeys, opReturn, None))
+	},
 
 	// Gets lines in a region or Debug.
 	parseLinesFromBlock = tokens => {
@@ -82,13 +85,32 @@ const
 		return flatMap(block.tokens, line => parseLineOrLines(Slice.group(line)))
 	},
 
-	parseBodyDo = tokens => {
+	parseBlockDo = tokens => {
 		const { allLines, kReturn } = _parseBlockLines(tokens)
-		cx.check(kReturn === 'plain', tokens.loc,
+		cx.check(kReturn === KReturn_Plain, tokens.loc,
 			() => `Can not make ${kReturn} in statement context.`)
 		return BlockDo(tokens.loc, allLines)
 	},
-	parseBodyVal = tokens => _parseBlockBody('val', tokens)
+	parseBlockVal = tokens => {
+		const block = parseAnyBlock(tokens)
+		cx.check(!(block instanceof BlockDo), block.loc, 'Expected a value block.')
+		return block
+	},
+
+	blockDigest = tokens => {
+		const { allLines, kReturn, objKeys } = _parseBlockLines(tokens)
+		switch (kReturn) {
+			case KReturn_Bag:
+				return { doLines: allLines, opReturn: some(ListReturn(tokens.loc)), objKeys }
+			case KReturn_Map:
+				return { doLines: allLines, opReturn: some(MapReturn(tokens.loc)), objKeys }
+			default:
+				// Don't deal with KReturn_Obj here, just return objKeys
+				return !isEmpty(allLines) && last(allLines) instanceof Val ?
+					{ doLines: rtail(allLines), opReturn: some(last(allLines)), objKeys } :
+					{ doLines: allLines, opReturn: None, objKeys }
+		}
+	}
 
 // parseBlock privates
 const
@@ -98,70 +120,12 @@ const
 		return block
 	},
 
-	_parseBlockBody = (k, tokens) => {
-		assert(k === 'val' || k === 'module' || k === 'any')
-
-		// keys only matter if kReturn === 'obj'
-		const { allLines, kReturn, objKeys } = _parseBlockLines(tokens)
-
-		const { doLines, opReturn } = (() => {
-			if (kReturn === 'bag')
-				return {
-					doLines: allLines,
-					opReturn: some(ListReturn(tokens.loc))
-				}
-			if (kReturn === 'map')
-				return {
-					doLines: allLines,
-					opReturn: some(MapReturn(tokens.loc))
-				}
-
-			const lastReturn = !isEmpty(allLines) && last(allLines) instanceof Val
-			if (kReturn === 'obj' && k !== 'module')
-				return lastReturn ?
-					{
-						doLines: rtail(allLines),
-						opReturn: some(ObjReturn(
-							tokens.loc,
-							objKeys,
-							some(last(allLines)),
-							// displayName is filled in by parseAssign.
-							None))
-					} : {
-						doLines: allLines,
-						opReturn: some(ObjReturn(
-							tokens.loc,
-							objKeys,
-							None,
-							// displayName is filled in by parseAssign.
-							None))
-					}
-			else
-				return lastReturn ?
-				{ doLines: rtail(allLines), opReturn: some(last(allLines)) } :
-				{ doLines: allLines, opReturn: None }
-		})()
-
-		switch (k) {
-			case 'val':
-				return ifElse(opReturn,
-					returned => BlockVal(tokens.loc, doLines, returned),
-					() => cx.fail(tokens.loc, 'Expected a value block.'))
-			case 'any':
-				return ifElse(opReturn,
-					returned => BlockVal(tokens.loc, doLines, returned),
-					() => BlockDo(tokens.loc, doLines))
-			case 'module':
-				return ifElse(opReturn,
-					returned => ({ lines: doLines, exports: objKeys, opDefault: some(returned) }),
-					() => ({ lines: doLines, exports: objKeys, opDefault: None }))
-			default:
-				throw new Error(k)
-		}
-	},
-
+	KReturn_Plain = 0,
+	KReturn_Obj = 1,
+	KReturn_Bag = 2,
+	KReturn_Map = 3,
 	_parseBlockLines = lines => {
-		const objKeys = []
+		const objKeys = [ ]
 		let isBag = false, isMap = false
 		const checkLine = (line, inDebug) => {
 			if (line instanceof Debug)
@@ -172,10 +136,8 @@ const
 			} else if (line instanceof MapEntry) {
 				cx.check(!inDebug, line.loc, 'Not supported: debug map entries')
 				isMap = true
-			} else if (line instanceof WithObjKeys) {
+			} else if (line instanceof WithObjKeys)
 				objKeys.push(...line.keys)
-				line = line.line
-			}
 		}
 		const allLines = [ ]
 		const addLine = line => {
@@ -193,7 +155,8 @@ const
 		cx.check(!(isObj && isMap), lines.loc, 'Block has both Obj and Map lines.')
 		cx.check(!(isBag && isMap), lines.loc, 'Block has both Bag and Map lines.')
 
-		const kReturn = isObj ? 'obj' : isBag ? 'bag' : isMap ? 'map' : 'plain'
+		const kReturn =
+			isObj ? KReturn_Obj : isBag ? KReturn_Bag : isMap ? KReturn_Map : KReturn_Plain
 		return { allLines, kReturn, objKeys }
 	}
 
@@ -218,7 +181,7 @@ const parseCase = (k, casedFromFun, tokens) => {
 		line = Slice.group(line)
 		const [ before, block ] = beforeAndBlock(line)
 		const test = _parseCaseTest(before)
-		const result = (isVal ? parseBodyVal : parseBodyDo)(block)
+		const result = (isVal ? parseBlockVal : parseBlockDo)(block)
 		return (isVal ? CaseValPart : CaseDoPart)(line.loc, test, result)
 	})
 	cx.check(parts.length > 0, tokens.loc, 'Must have at least 1 non-`else` test.')
@@ -280,9 +243,9 @@ const
 			const here = tokens.data[i]
 			if (here instanceof Keyword) {
 				const rest = () => tokens._chopStart(i + 1)
-				switch (here.k) {
+				switch (here.kind) {
 					case KW_Fun: case KW_GenFun:
-						return push(out, parseFun(here.k === KW_GenFun, rest()))
+						return push(out, parseFun(here.kind === KW_GenFun, rest()))
 					case KW_Case:
 						return push(out, parseCase(KW_Case, false, rest()))
 					case KW_Yield:
@@ -338,10 +301,10 @@ const
 	_funArgsAndBlock = tokens => {
 		const h = tokens.head()
 		// Might be `|case`
-		if (h instanceof Keyword && (h.k === KW_Case || h.k === KW_CaseDo)) {
-			const eCase = parseCase(h.k, true, tokens.tail())
+		if (h instanceof Keyword && (h.kind === KW_Case || h.kind === KW_CaseDo)) {
+			const eCase = parseCase(h.kind, true, tokens.tail())
 			const args = [ LocalDeclare.focus(h.loc) ]
-			return h.k === KW_Case ?
+			return h.kind === KW_Case ?
 				{
 					args, opRestArg: None, opIn: None, opOut: None,
 					block: BlockVal(tokens.loc, [ ], eCase)
@@ -355,7 +318,7 @@ const
 			const { args, opRestArg } = _parseFunLocals(before)
 			const [ opIn, rest0 ] = _tryTakeInOrOut(KW_In, block)
 			const [ opOut, rest1 ] = _tryTakeInOrOut(KW_Out, rest0)
-			return { args, opRestArg, block: parseBlockFromLines(rest1), opIn, opOut }
+			return { args, opRestArg, block: parseAnyBlock(rest1), opIn, opOut }
 		}
 	},
 
@@ -395,7 +358,7 @@ const
 
 		// We only deal with mutable expressions here, otherwise we fall back to parseExpr.
 		if (h instanceof Keyword)
-			switch (h.k) {
+			switch (h.kind) {
 				case KW_ObjAssign:
 					// Index is set by parseBlock.
 					return ListEntry(tokens.loc, parseExpr(rest), -1)
@@ -424,7 +387,7 @@ const
 
 		return ifElse(tokens.opSplitOnceWhere(Keyword.isLineSplit),
 			({ before, at, after }) => {
-				return at.k === KW_MapEntry ?
+				return at.kind === KW_MapEntry ?
 					_parseMapEntry(before, after, tokens.loc) :
 					_parseAssign(before, at, after, tokens.loc)
 			},
@@ -440,14 +403,14 @@ const
 const
 	_parseAssign = (assigned, assigner, value, loc) => {
 		let locals = parseLocalDeclares(assigned)
-		const k = assigner.k
+		const kind = assigner.kind
 
 		const eValuePre = parseExpr(value)
 		const eValueNamed =
 			locals.length === 1 ? _tryAddDisplayName(eValuePre, head(locals).name) : eValuePre
-		const eValue = _valueFromAssign(eValueNamed, k)
+		const eValue = _valueFromAssign(eValueNamed, kind)
 
-		const isYield = k === KW_Yield || k === KW_YieldTo
+		const isYield = kind === KW_Yield || kind === KW_YieldTo
 		if (isEmpty(locals)) {
 			cx.check(isYield, assigned.loc, 'Assignment to nothing')
 			return eValue
@@ -457,10 +420,10 @@ const
 			locals.forEach(_ =>
 				cx.check(!_.isLazy, _.loc, 'Can not yield to lazy variable.'))
 
-		if (k === KW_ObjAssign)
+		if (kind === KW_ObjAssign)
 			locals.forEach(l => { l.okToNotUse = true })
 
-		const isObjAssign = k === KW_ObjAssign
+		const isObjAssign = kind === KW_ObjAssign
 		let ass
 		if (locals.length === 1) {
 			const assignee = locals[0]
@@ -566,7 +529,7 @@ const parseSingle = t => {
 		case t instanceof Name:
 			return _access(t.name, t.loc)
 		case t instanceof Group:
-			switch (t.k) {
+			switch (t.kind) {
 				case G_Space: return parseSpaced(Slice.group(t))
 				case G_Paren: return parseExpr(Slice.group(t))
 				case G_Bracket: return ListSimple(t.loc, parseExprParts(Slice.group(t)))
@@ -582,15 +545,9 @@ const parseSingle = t => {
 		case t instanceof CallOnFocus:
 			return Call(t.loc, _access(t.name, t.loc), [ LocalAccess.focus(t.loc) ])
 		case t instanceof Keyword:
-			if (t.k === KW_Focus)
-				return LocalAccess.focus(t.loc)
-			else {
-				const sp = opKWtoSP(t.k)
-				if (sp === undefined)
-					unexpected(t)
-				else
-					return Special(t.loc, sp)
-			}
+			return t.kind === KW_Focus ?
+				LocalAccess.focus(t.loc) :
+				ifElse2(opKWtoSP(t.kind), sp => Special(t.loc, sp), () => unexpected(t))
 		case t instanceof DotName:
 			if (t.nDots === 3)
 				return Splat(t.loc, LocalAccess(t.loc, t.name))
@@ -619,10 +576,10 @@ const parseSpaced = tokens => {
 				cx.check(t.nDots === 1, tokens.loc, 'Too many dots!')
 				return Member(tokens.loc, e, t.name)
 			} else if (t instanceof Group) {
-				if (t.k === G_Bracket)
+				if (t.kind === G_Bracket)
 					return Call.sub(loc,
 						unshift(e, parseExprParts(Slice.group(t))))
-				if (t.k === G_Paren) {
+				if (t.kind === G_Paren) {
 					checkEmpty(Slice.group(t),
 						() => `Use ${code('(a b)')}, not ${code('a(b)')}`)
 					return Call(tokens.loc, e, [])
