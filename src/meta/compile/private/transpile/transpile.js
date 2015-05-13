@@ -10,7 +10,7 @@ import { BlockVal, Pattern, Splat,
 	SP_Contains, SP_Debugger, SP_False, SP_Sub, SP_This, SP_ThisModuleDirectory, SP_True
 	} from '../../Expression'
 import { cat, flatMap, range, tail } from '../U/Bag'
-import { ifElse, None, opIf } from '../U/Op'
+import { flatOpMap, ifElse, opIf, opMap } from '../U/op'
 import { assert, implementMany, isPositive } from '../U/util'
 import { binaryExpressionPlus, binaryExpressionNotEqual, declare, declareSpecial,
 	idForDeclareCached, throwError, unaryExpressionNegate, whileStatementInfinite
@@ -47,7 +47,7 @@ const t1 = (expr, arg) => {
 	ast.loc = expr.loc
 	return ast
 }
-export const t3 = (expr, arg, arg2, arg3) => {
+const t3 = (expr, arg, arg2, arg3) => {
 	const ast = expr.transpileSubtree(arg, arg2, arg3)
 	ast.loc = expr.loc
 	return ast
@@ -64,7 +64,7 @@ function transpileBlock(lead, opResDeclare, opOut) {
 	if (lead === undefined)
 		lead = []
 	if (opResDeclare === undefined)
-		opResDeclare = opOut = None
+		opResDeclare = opOut = null
 	const body = flatMap(this.lines, line => toStatements(tm(line)))
 	const isVal = this instanceof BlockVal
 	const fin = ifElse(opResDeclare,
@@ -72,11 +72,11 @@ function transpileBlock(lead, opResDeclare, opOut) {
 			assert(isVal)
 			const returned = maybeWrapInCheckContains(cx, t0(this.returned), rd.opType, 'res')
 			return ifElse(opOut,
-				o => [ declare(rd, returned) ].concat(o, [ ReturnRes ]),
-				() => [ ReturnStatement(returned) ])
+				_ => cat(declare(rd, returned), _, ReturnRes),
+				() => ReturnStatement(returned))
 		},
-		() => opOut.concat(opIf(isVal, () => ReturnStatement(t0(this.returned)))))
-	return BlockStatement(lead.concat(body, fin))
+		() => cat(opOut, opIf(isVal, () => ReturnStatement(t0(this.returned)))))
+	return BlockStatement(cat(lead, body, fin))
 }
 
 function casePart(alternate) {
@@ -137,13 +137,11 @@ implementMany(EExports, 'transpileSubtree', {
 	},
 	CaseDo() {
 		const body = caseBody(this.parts, this.opElse)
-		return ifElse(this.opCased,
-			cased => BlockStatement([ t0(cased), body ]),
-			() => body)
+		return ifElse(this.opCased, _ => BlockStatement([ t0(_), body ]), () => body)
 	},
 	CaseVal() {
 		const body = caseBody(this.parts, this.opElse)
-		const block = ifElse(this.opCased, cased => [ t0(cased), body ], () => [ body ])
+		const block = ifElse(this.opCased, _ => [ t0(_), body ], () => [ body ])
 		return blockWrap(this, BlockStatement(block))
 	},
 	CaseDoPart: casePart,
@@ -163,7 +161,7 @@ implementMany(EExports, 'transpileSubtree', {
 				const astObjed = t0(objed)
 				const keysVals = cat(
 					flatMap(keys, key => [ Literal(key.name), accessLocalDeclare(key) ]),
-					flatMap(this.opDisplayName, dn => [LitStrDisplayName, Literal(dn)]))
+					opMap(this.opDisplayName, _ => [ LitStrDisplayName, Literal(_) ]))
 				const anyLazy = keys.some(key => key.isLazy)
 				return (anyLazy ? msLset : msSet)(astObjed, ...keysVals)
 			},
@@ -175,8 +173,8 @@ implementMany(EExports, 'transpileSubtree', {
 						property('get', id, thunk(val)) :
 						property('init', id, val)
 				})
-				const opPropDisplayName = this.opDisplayName.map(dn =>
-					property('init', IdDisplayName, Literal(dn)))
+				const opPropDisplayName = opMap(this.opDisplayName, _ =>
+					property('init', IdDisplayName, Literal(_)))
 				return ObjectExpression(cat(props, opPropDisplayName))
 			})
 	},
@@ -191,13 +189,13 @@ implementMany(EExports, 'transpileSubtree', {
 
 		// TODO:ES6 use `...`
 		const nArgs = Literal(this.args.length)
-		const opDeclareRest = this.opRestArg.map(rest =>
+		const opDeclareRest = opMap(this.opRestArg, rest =>
 			declare(rest, CallExpression(IdArraySliceCall, [IdArguments, nArgs])))
-		const argChecks = flatMap(this.args, arg => opLocalCheck(cx, arg, arg.isLazy))
-		const _in = flatMap(this.opIn, t0)
-		const lead = opDeclareRest.concat(argChecks, _in)
+		const argChecks = flatOpMap(this.args, _ => opLocalCheck(cx, _, _.isLazy))
+		const _in = opMap(this.opIn, t0)
+		const lead = cat(opDeclareRest, argChecks, _in)
 
-		const _out = this.opOut.map(t0)
+		const _out = opMap(this.opOut, t0)
 		const body = t3(this.block, lead, this.opResDeclare, _out)
 		const args = this.args.map(t0)
 		const res = functionExpressionPlain(args, body, this.isGenerator)

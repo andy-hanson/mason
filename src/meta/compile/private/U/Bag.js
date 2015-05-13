@@ -1,6 +1,16 @@
 import { assert } from './util'
 
 export const
+	cat = (...parts) => {
+		const out = [ ]
+		parts.forEach(_ => {
+			if (_ instanceof Array)
+				out.push(..._)
+			else if (_ !== null)
+				out.push(_)
+		})
+		return out
+	},
 	head = arr => {
 		assert(!isEmpty(arr))
 		return arr[0]
@@ -54,9 +64,4 @@ export const
 	push = (mutArr, em) => {
 		mutArr.push(em)
 		return mutArr
-	},
-	cat = (mutArr, ems) => {
-		mutArr.push(...ems)
-		return mutArr
 	}
-

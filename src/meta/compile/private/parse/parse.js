@@ -12,8 +12,7 @@ import { CallOnFocus, DotName, Group, G_Block, G_Bracket, G_Paren, G_Space, G_Qu
 	KW_Loop, KW_MapEntry, KW_ObjAssign, KW_Out, KW_Region, KW_Use, KW_UseDebug, KW_UseDo,
 	KW_UseLazy, KW_Yield, KW_YieldTo, Name, opKWtoSP, TokenNumberLiteral } from '../Token'
 import { head, flatMap, isEmpty, last, push, repeat, rtail, tail, unshift } from '../U/Bag'
-import { ifElse, None, opIf, some } from '../U/Op'
-import { ifElse2 } from '../U/Op2'
+import { ifElse, opIf, opMap } from '../U/op'
 import { assert } from '../U/util'
 import Slice from './Slice'
 
@@ -25,7 +24,6 @@ const WithObjKeys = tupl('WithObjKeys', Object,
 
 export default function parse(_cx, rootToken) {
 	cx = _cx
-	assert(Group.isBlock(rootToken))
 	return parseModule(Slice.group(rootToken))
 }
 
@@ -41,7 +39,7 @@ const parseModule = tokens => {
 	const [ plainUses, rest1 ] = tryParseUses(KW_Use, rest0)
 	const [ lazyUses, rest2 ] = tryParseUses(KW_UseLazy, rest1)
 	const [ debugUses, rest3 ] = tryParseUses(KW_UseDebug, rest2)
-	const { doLines: lines, opReturn: opDefault, objKeys: exports } = blockDigest(rest3)
+	const { doLines: lines, opReturn: opDefaultExport, objKeys: exports } = blockDigest(rest3)
 
 	if (cx.opts.moduleDisplayName() && !exports.some(ex => ex.name === 'displayName')) {
 		const dn = LocalDeclare.displayName(tokens.loc)
@@ -50,7 +48,7 @@ const parseModule = tokens => {
 		exports.push(dn)
 	}
 	const uses = plainUses.concat(lazyUses)
-	return Module(tokens.loc, doUses, uses, debugUses, lines, exports, opDefault)
+	return Module(tokens.loc, doUses, uses, debugUses, lines, exports, opDefaultExport)
 }
 
 // parseBlock
@@ -73,7 +71,7 @@ const
 		const bv = ret => BlockVal(tokens.loc, doLines, ret)
 		return isEmpty(objKeys) ?
 			ifElse(opReturn, bv, () => BlockDo(tokens.loc, doLines)) :
-			bv(ObjReturn(tokens.loc, objKeys, opReturn, None))
+			bv(ObjReturn(tokens.loc, objKeys, opReturn, null))
 	},
 
 	// Gets lines in a region or Debug.
@@ -101,14 +99,14 @@ const
 		const { allLines, kReturn, objKeys } = _parseBlockLines(tokens)
 		switch (kReturn) {
 			case KReturn_Bag:
-				return { doLines: allLines, opReturn: some(ListReturn(tokens.loc)), objKeys }
+				return { doLines: allLines, opReturn: ListReturn(tokens.loc), objKeys }
 			case KReturn_Map:
-				return { doLines: allLines, opReturn: some(MapReturn(tokens.loc)), objKeys }
+				return { doLines: allLines, opReturn: MapReturn(tokens.loc), objKeys }
 			default:
 				// Don't deal with KReturn_Obj here, just return objKeys
 				return !isEmpty(allLines) && last(allLines) instanceof Val ?
-					{ doLines: rtail(allLines), opReturn: some(last(allLines)), objKeys } :
-					{ doLines: allLines, opReturn: None, objKeys }
+					{ doLines: rtail(allLines), opReturn: last(allLines), objKeys } :
+					{ doLines: allLines, opReturn: null, objKeys }
 		}
 	}
 
@@ -168,14 +166,14 @@ const parseCase = (k, casedFromFun, tokens) => {
 	let opCased
 	if (casedFromFun) {
 		checkEmpty(before, 'Can\'t make focus -- is implicitly provided as first argument.')
-		opCased = None
+		opCased = null
 	} else
 		opCased = opIf(!before.isEmpty(), () => Assign.focus(before.loc, parseExpr(before)))
 
 	const lastLine = Slice.group(block.last())
 	const [ partLines, opElse ] = Keyword.isElse(lastLine.head()) ?
-		[ block.rtail(), some((isVal ? justBlockVal : justBlockDo)(lastLine.tail())) ] :
-		[ block, None ]
+		[ block.rtail(), (isVal ? justBlockVal : justBlockDo)(lastLine.tail()) ] :
+		[ block, null ]
 
 	const parts = partLines.map(line => {
 		line = Slice.group(line)
@@ -279,8 +277,8 @@ const parseFun = (isGenerator, tokens) => {
 	const { args, opRestArg, block, opIn, opOut } = _funArgsAndBlock(rest)
 	// Need res declare if there is a return type or out condition.
 	const opResDeclare = ifElse(opReturnType,
-		rt => some(LocalDeclareRes(rt.loc, opReturnType)),
-		() => opOut.map(o => LocalDeclareRes(o.loc, opReturnType)))
+		_ => LocalDeclareRes(_.loc, _),
+		() => opMap(opOut, o => LocalDeclareRes(o.loc, null)))
 	return Fun(tokens.loc, isGenerator, args, opRestArg, block, opIn, opResDeclare, opOut)
 }
 
@@ -291,11 +289,11 @@ const
 			const h = tokens.head()
 			if (Group.isSpaced(h) && Keyword.isType(head(h.tokens)))
 				return {
-					opReturnType: some(parseSpaced(Slice.group(h).tail())),
+					opReturnType: parseSpaced(Slice.group(h).tail()),
 					rest: tokens.tail()
 				}
 		}
-		return { opReturnType: None, rest: tokens }
+		return { opReturnType: null, rest: tokens }
 	},
 
 	_funArgsAndBlock = tokens => {
@@ -306,11 +304,11 @@ const
 			const args = [ LocalDeclare.focus(h.loc) ]
 			return h.kind === KW_Case ?
 				{
-					args, opRestArg: None, opIn: None, opOut: None,
+					args, opRestArg: null, opIn: null, opOut: null,
 					block: BlockVal(tokens.loc, [ ], eCase)
 				} :
 				{
-					args, opRestArg: None, opIn: None, opOut: None,
+					args, opRestArg: null, opIn: null, opOut: null,
 					block: BlockDo(tokens.loc, [ eCase ])
 				}
 		} else {
@@ -324,17 +322,17 @@ const
 
 	_parseFunLocals = tokens => {
 		if (tokens.isEmpty())
-			return { args: [], opRestArg: None }
+			return { args: [], opRestArg: null }
 		else {
 			const l = tokens.last()
 			if (l instanceof DotName) {
 				cx.check(l.nDots === 3, l.loc, 'Splat argument must have exactly 3 dots')
 				return {
 					args: parseLocalDeclares(tokens.rtail()),
-					opRestArg: some(LocalDeclare.plain(l.loc, l.name))
+					opRestArg: LocalDeclare.plain(l.loc, l.name)
 				}
 			}
-			else return { args: parseLocalDeclares(tokens), opRestArg: None }
+			else return { args: parseLocalDeclares(tokens), opRestArg: null }
 		}
 	},
 
@@ -345,10 +343,10 @@ const
 				const inOut = Debug(
 					firstLine.loc,
 					parseLinesFromBlock(Slice.group(firstLine)))
-				return [ some(inOut), tokens.tail() ]
+				return [ inOut, tokens.tail() ]
 			}
 		}
-		return [ None, tokens ]
+		return [ null, tokens ]
 	}
 
 const
@@ -463,10 +461,10 @@ const
 				_tryAddDisplayName(last(eValuePre.args), displayName)
 			return eValuePre
 		} else if (eValuePre instanceof Fun)
-			return ObjReturn(eValuePre.loc, [], some(eValuePre), some(displayName))
+			return ObjReturn(eValuePre.loc, [], eValuePre, displayName)
 		else if (eValuePre instanceof ObjReturn &&
 			!eValuePre.keys.some(key => key.name === 'displayName')) {
-			eValuePre.opDisplayName = some(displayName)
+			eValuePre.opDisplayName = displayName
 			return eValuePre
 		} else if (eValuePre instanceof BlockWrap) {
 			const block = eValuePre.block
@@ -484,7 +482,7 @@ const
 	parseLocalDeclares = tokens => tokens.map(parseLocalDeclare),
 	parseLocalDeclare = t => {
 		let name
-		let opType = None
+		let opType = null
 		let isLazy = false
 
 		if (Group.isSpaced(t)) {
@@ -501,7 +499,7 @@ const
 				cx.check(Keyword.isType(colon), colon.loc, () => `Expected ${code(':')}`)
 				const tokensType = rest2.tail()
 				checkNonEmpty(tokensType, () => `Expected something after ${colon}`)
-				opType = some(parseSpaced(tokensType))
+				opType = parseSpaced(tokensType)
 			}
 		}
 		else
@@ -547,7 +545,7 @@ const parseSingle = t => {
 		case t instanceof Keyword:
 			return t.kind === KW_Focus ?
 				LocalAccess.focus(t.loc) :
-				ifElse2(opKWtoSP(t.kind), sp => Special(t.loc, sp), () => unexpected(t))
+				Special(t.loc, opKWtoSP(t.kind) || unexpected(t))
 		case t instanceof DotName:
 			if (t.nDots === 3)
 				return Splat(t.loc, LocalAccess(t.loc, t.name))
@@ -621,13 +619,14 @@ const
 	},
 
 	_parseThingsUsed = (name, isLazy, tokens) => {
-		const useDefault = () => LocalDeclare(tokens.loc, name, None, isLazy, false)
+		const useDefault = () => LocalDeclare.noType(tokens.loc, name, isLazy)
 		if (tokens.isEmpty())
-			return { used: [], opUseDefault: some(useDefault()) }
+			return { used: [ ], opUseDefault: useDefault() }
 		else {
-			const hasDefaultUse = Keyword.isFocus(tokens.head())
-			const opUseDefault = opIf(hasDefaultUse, useDefault)
-			const rest = hasDefaultUse ? tokens.tail() : tokens
+			const [ opUseDefault, rest ] =
+				Keyword.isFocus(tokens.head()) ?
+					[ useDefault(), tokens.tail() ] :
+					[ null, tokens ]
 			const used = parseLocalDeclares(rest).map(l => {
 				cx.check(l.name !== '_', l.pos,
 					() => `${code('_')} not allowed as import name.`)
@@ -664,10 +663,7 @@ const
 				'Not a valid part of module path.')
 			parts.push(t.name)
 		})
-		return {
-			path: parts.join('/'),
-			name: tokens.last().name
-		}
+		return { path: parts.join('/'), name: tokens.last().name }
 	},
 
 	_partsFromDotName = dotName =>

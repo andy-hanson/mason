@@ -2,7 +2,7 @@ import { ArrayExpression, AssignmentExpression, BreakStatement, CallExpression, 
 	Identifier, Literal, ReturnStatement, VariableDeclarator } from 'esast/dist/ast'
 import { member, thunk, toStatement } from 'esast/dist/util'
 import { unshift } from '../U/Bag'
-import { ifElse, None } from '../U/Op'
+import { opMap } from '../U/op'
 import { assert } from '../U/util'
 import { t0 } from './transpile'
 import { idForDeclareCached, idForDeclareNew } from './esast-util'
@@ -59,7 +59,7 @@ export const
 	},
 
 	makeDeclarator = (cx, loc, assignee, value, valueIsAlreadyLazy, isExport) => {
-		// TODO: assert(isEmpty(assignee.opType))
+		// TODO: assert(assignee.opType === null)
 		// or TODO: Allow type check on lazy value?
 		value = assignee.isLazy ? value :
 			maybeWrapInCheckContains(cx, value, assignee.opType, assignee.name)
@@ -86,22 +86,18 @@ export const
 			idForDeclareNew(localDeclare),
 
 	maybeWrapInCheckContains = (cx, ast, opType, name) =>
-		cx.opts.includeTypeChecks() ?
-			ifElse(opType,
-				typ => msCheckContains(t0(typ), ast, Literal(name)),
-				() => ast) :
+		(cx.opts.includeTypeChecks() && opType !== null) ?
+			msCheckContains(t0(opType), ast, Literal(name)) :
 			ast,
 
-	opLocalCheck = (cx, local, isLazy) => {
+	opLocalCheck = (cx, local, isLazy) =>
 		// TODO: Way to typecheck lazies
-		if (!cx.opts.includeTypeChecks() || isLazy)
-			return None
-		else return local.opType.map(typ =>
-			ExpressionStatement(msCheckContains(
-				t0(typ),
-				accessLocalDeclare(local),
-				Literal(local.name))))
-	},
+		(!cx.opts.includeTypeChecks() || isLazy) ? null :
+			opMap(local.opType, typ =>
+				ExpressionStatement(msCheckContains(
+					t0(typ),
+					accessLocalDeclare(local),
+					Literal(local.name)))),
 
 	lazyWrap = value => msLazy(thunk(value)),
 

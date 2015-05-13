@@ -1,8 +1,7 @@
 import Loc from 'esast/dist/Loc'
 import tupl, { abstract } from 'tupl/dist/tupl'
-import { Union } from 'tupl/dist/type'
+import { Nullable, Union } from 'tupl/dist/type'
 import { JsGlobals } from './private/Lang'
-import Op, { None } from './private/U/Op'
 
 const Expression = abstract('Expression', Object, 'doc')
 export default Expression
@@ -36,18 +35,19 @@ export const
 		'TODO:DOC',
 		[
 			'name', String,
-			'opType', Op(Val),
+			'opType', Nullable(Val),
 			'isLazy', Boolean
 		],
 		{ },
 		{
 			displayName: loc => LocalDeclare.plain(loc, 'displayName'),
 			focus: loc => LocalDeclare.plain(loc, '_'),
-			plain: (loc, name) => LocalDeclare(loc, name, None, false)
+			noType: (loc, name, isLazy) => LocalDeclare(loc, name, null, isLazy),
+			plain: (loc, name) => LocalDeclare.noType(loc, name, false)
 		}),
 	LocalDeclareRes = makeType(LocalDeclare)('LocalDeclareRes',
 		'TODO:DOC',
-		[ 'opType', Op(Val) ],
+		[ 'opType', Nullable(Val) ],
 		{
 			name: 'res',
 			isLazy: false
@@ -89,7 +89,7 @@ export const
 		[
 			'path', String,
 			'used', [LocalDeclare],
-			'opUseDefault', Op(LocalDeclare)
+			'opUseDefault', Nullable(LocalDeclare)
 		]),
 	Module = ee('Module',
 		'TODO:DOC',
@@ -99,7 +99,7 @@ export const
 			'debugUses', [Use],
 			'lines', [Do],
 			'exports', [LocalDeclare],
-			'opDefaultExport', Val
+			'opDefaultExport', Nullable(Val)
 		]),
 
 	// Data
@@ -124,8 +124,8 @@ export const
 		'TODO:DOC',
 		[
 			'keys', [LocalDeclare],
-			'opObjed', Op(Val),
-			'opDisplayName', Op(String)
+			'opObjed', Nullable(Val),
+			'opDisplayName', Nullable(String)
 		]),
 	ObjPair = ee('ObjPair',
 		'TODO:DOC',
@@ -161,17 +161,17 @@ export const
 	CaseDo = ed('CaseDo',
 		'TODO:DOC',
 		[
-			'opCased', Op(Assign),
+			'opCased', Nullable(Assign),
 			'parts', [CaseDoPart],
-			'opElse', Op(BlockDo)
+			'opElse', Nullable(BlockDo)
 		]),
 	// Unlike CaseDo, this has `return` statements.
 	CaseVal = ev('CaseVal',
 		'TODO:DOC',
 		[
-			'opCased', Op(Assign),
+			'opCased', Nullable(Assign),
 			'parts', [CaseValPart],
-			'opElse', Op(BlockVal)
+			'opElse', Nullable(BlockVal)
 		]),
 
 	// Statements
@@ -215,14 +215,14 @@ export const
 		[
 			'isGenerator', Boolean,
 			'args', [LocalDeclare],
-			'opRestArg', Op(LocalDeclare),
+			'opRestArg', Nullable(LocalDeclare),
 			// BlockDo or BlockVal
 			'block', Expression,
-			'opIn', Op(Debug),
+			'opIn', Nullable(Debug),
 			// If non-empty, block should be a BlockVal,
 			// and either it has a type or opOut is non-empty.
-			'opResDeclare', Op(LocalDeclareRes),
-			'opOut', Op(Debug)
+			'opResDeclare', Nullable(LocalDeclareRes),
+			'opOut', Nullable(Debug)
 		]),
 
 	Lazy = ev('Lazy',

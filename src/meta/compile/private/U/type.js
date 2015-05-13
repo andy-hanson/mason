@@ -1,4 +1,3 @@
-import Op from './Op'
 import { assert } from './util'
 
 export default function type() {
@@ -42,10 +41,6 @@ function isa(instance, itsType) {
 			return instance instanceof Array &&
 				instance.every(em => isa(em, emType))
 		}
-		case Op.prototype.isPrototypeOf(itsType):
-			return instance instanceof Array &&
-				instance.length < 2 &&
-				(instance.length === 0 || isa(instance[0], itsType.type))
 		case itsType instanceof Set:
 			return itsType.has(instance)
 		default:

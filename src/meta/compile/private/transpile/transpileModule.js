@@ -5,8 +5,8 @@ import { ArrayExpression, AssignmentExpression, BinaryExpression, BlockStatement
 import { idCached, member } from 'esast/dist/util'
 import { assignmentExpressionPlain } from 'esast/dist/specialize'
 import manglePath from '../manglePath'
-import { flatMap, isEmpty, last } from '../U/Bag'
-import { opIf } from '../U/Op'
+import { cat, flatMap, isEmpty, last } from '../U/Bag'
+import { opIf, opMap } from '../U/op'
 import { idForDeclareCached } from './esast-util'
 import { t0, tm } from './transpile'
 import { IdDefine, IdExports, IdModule, lazyWrap, makeDestructureDeclarators,
@@ -49,11 +49,11 @@ export default (_, cx) => {
 
 	const lines = flatMap(_.lines, line => toStatements(tm(line)))
 
-	const opDefaultExport = _.opDefaultExport.map(_ =>
+	const opDefaultExport = opMap(_.opDefaultExport, _ =>
 		AssignmentExpression('=', ExportsDefault, t0(_)))
 
 	const moduleBody = BlockStatement(
-		useDos.concat(opUseDeclare, lines, opDefaultExport, [ ReturnExports ]))
+		cat(useDos, opUseDeclare, lines, opDefaultExport, [ ReturnExports ]))
 
 	const body = isLazy ? BlockStatement([ lazyBody(moduleBody) ]) : moduleBody
 
@@ -63,15 +63,15 @@ export default (_, cx) => {
 	const opUseStrict = opIf(cx.opts.includeUseStrict(), () => UseStrict)
 	const opAmdefine = opIf(cx.opts.amdefine(), () => AmdefineHeader)
 
-	return Program(opUseStrict.concat(opAmdefine, [ doDefine ]))
+	return Program(cat(opUseStrict, opAmdefine, doDefine))
 }
 
 const useDeclarators = (cx, _, moduleIdentifier) => {
 	// TODO: Could be neater about this
-	const isLazy = (isEmpty(_.used) ? _.opUseDefault[0] : _.used[0]).isLazy
+	const isLazy = (isEmpty(_.used) ? _.opUseDefault : _.used[0]).isLazy
 	const value = (isLazy ? msLazyGetModule : msGetModule)(moduleIdentifier)
 
-	const usedDefault = _.opUseDefault.map(def => {
+	const usedDefault = opMap(_.opUseDefault, def => {
 		const defexp = msGetDefaultExport(moduleIdentifier)
 		const val = isLazy ? lazyWrap(defexp) : defexp
 		const vd = VariableDeclarator(idForDeclareCached(def), val)
@@ -79,11 +79,10 @@ const useDeclarators = (cx, _, moduleIdentifier) => {
 		return vd
 	})
 
-	const usedDestruct = isEmpty(_.used) ? [ ] :
+	const usedDestruct = isEmpty(_.used) ? null :
 		makeDestructureDeclarators(cx, _.loc, _.used, isLazy, value, true, false)
-	usedDestruct.forEach(_ => _.loc = _.loc)
 
-	return usedDefault.concat(usedDestruct)
+	return cat(usedDefault, usedDestruct)
 }
 
 const

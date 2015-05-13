@@ -3,12 +3,13 @@ import * as EExports from '../Expression'
 import { Assign, AssignDestructure, BlockVal, Call, Debug, Do, GlobalAccess, ListEntry, ListReturn,
 	LocalDeclareRes, MapEntry, MapReturn, Pattern, Special, SP_Debugger, UseDo, Yield, YieldTo
 	} from '../Expression'
-import { head, isEmpty } from './U/Bag'
-import { ifElse, some } from './U/Op'
+import { cat, head, isEmpty } from './U/Bag'
+import { ifElse, opEach } from './U/op'
 import { assert, implementMany, mapKeys, newSet } from './U/util'
 import Vr, { VrLocalInfo } from './Vr'
 
 const vm = es => es.forEach(e => e.verify())
+const vop = op => opEach(op, _ => _.verify())
 
 let
 	cx,
@@ -28,7 +29,7 @@ const
 		pendingBlockLocals = []
 		isInDebug = false
 		isInGenerator = false
-		opLoop = []
+		opLoop = null
 		vr = new Vr()
 	},
 	// Release for garbage collection
@@ -71,7 +72,7 @@ const
 
 	withInLoop = (loop, fun) => {
 		const l = opLoop
-		opLoop = some(loop)
+		opLoop = loop
 		fun()
 		opLoop = l
 	},
@@ -170,26 +171,25 @@ implementMany(EExports, 'verify', {
 	// Only reach here for in/out condition
 	Debug() { verifyLines([ this ]) },
 	EndLoop() {
-		ifElse(opLoop,
-			loop => setEndLoop(this, loop),
-			() => cx.fail(this.loc, 'Not in a loop.'))
+		ifElse(opLoop, _ => setEndLoop(this, _), () => cx.fail(this.loc, 'Not in a loop.'))
 	},
 	Fun() {
 		withBlockLocals(() => {
-			cx.check(isEmpty(this.opResDeclare) || this.block instanceof BlockVal, this.loc,
+			cx.check(this.opResDeclare === null || this.block instanceof BlockVal, this.loc,
 				'Function with return condition must return something.')
-			this.args.forEach(arg => vm(arg.opType))
+			this.args.forEach(arg => vop(arg.opType))
 			withInGenerator(this.isGenerator, () => {
-				const allArgs = this.args.concat(this.opRestArg)
+				const allArgs = cat(this.args, this.opRestArg)
 				allArgs.forEach(_ => registerLocal(_))
 				plusLocals(allArgs, () => {
-					vm(this.opIn)
+					vop(this.opIn)
 					this.block.verify()
-					this.opResDeclare.forEach(rd => {
-						rd.verify()
-						registerLocal(rd)
+					opEach(this.opResDeclare, _ => {
+						_.verify()
+						registerLocal(_)
 					})
-					this.opOut.forEach(o => plusLocals(this.opResDeclare, () => o.verify()))
+					const verifyOut = () => opEach(this.opOut, _ => _.verify())
+					ifElse(this.opResDeclare, rd => plusLocals([ rd ], verifyOut), verifyOut)
 				})
 			})
 		})
@@ -203,7 +203,7 @@ implementMany(EExports, 'verify', {
 	},
 	Loop() { withInLoop(this, () => this.block.verify()) },
 	// Adding LocalDeclares to the available locals is done by Fun or lineNewLocals.
-	LocalDeclare() { vm(this.opType) },
+	LocalDeclare() { vop(this.opType) },
 	MapEntry() {
 		this.key.verify()
 		this.val.verify()
@@ -213,7 +213,7 @@ implementMany(EExports, 'verify', {
 		plusLocals(useLocals, () => {
 			const { newLocals, listMapLength } = verifyLines(this.lines)
 			this.exports.forEach(ex => accessLocalForReturn(ex, this))
-			this.opDefaultExport.forEach(def => {
+			opEach(this.opDefaultExport, def => {
 				maybeSetListMapLength(def, listMapLength)
 				plusLocals(newLocals, () => def.verify())
 			})
@@ -230,7 +230,7 @@ implementMany(EExports, 'verify', {
 		this.lines.forEach(markExportLines)
 	},
 	ObjReturn() {
-		vm(this.opObjed)
+		vop(this.opObjed)
 		this.keys.forEach(key => accessLocalForReturn(key, this))
 	},
 	Yield() {
@@ -281,14 +281,14 @@ implementMany(EExports, 'verify', {
 
 function verifyCase() {
 	const newLocals = []
-	this.opCased.forEach(cased => {
-		registerLocal(cased.assignee)
-		cased.verify()
-		newLocals.push(cased.assignee)
+	opEach(this.opCased, _ => {
+		registerLocal(_.assignee)
+		_.verify()
+		newLocals.push(_.assignee)
 	})
 	plusLocals(newLocals, () => {
 		vm(this.parts)
-		vm(this.opElse)
+		vop(this.opElse)
 	})
 }
 
@@ -311,7 +311,7 @@ const
 		const
 			verifyUse = use => {
 				use.used.forEach(useLocal)
-				use.opUseDefault.forEach(useLocal)
+				opEach(use.opUseDefault, useLocal)
 			},
 			useLocal = _ => {
 				registerLocal(_)

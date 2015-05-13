@@ -7,7 +7,6 @@ import { OptsFromObject } from '../private/Opts'
 import transpile from '../private/transpile/transpile'
 import render from '../private/render'
 import { flatMap } from '../private/U/Bag'
-import { some } from '../private/U/Op'
 import Vr from '../private/Vr'
 
 // Searches a directory and creates a module whose default export is
@@ -26,7 +25,7 @@ export default (dirPath, opts) =>
 		// Dummy Loc. We will not use source maps.
 		const loc = singleCharLoc(StartPos)
 		const val = ListSimple(loc, moduleFiles.map(f => Quote.forString(loc, f)))
-		const e = Module(loc, [], [], [], [], [], some(val))
+		const e = Module(loc, [], [], [], [], [], val)
 		const cx = new Cx(OptsFromObject({
 			includeSourceMap: false,
 			includeModuleDisplayName: false

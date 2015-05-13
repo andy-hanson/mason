@@ -1,6 +1,5 @@
 import Loc from 'esast/dist/Loc'
 import { isEmpty } from '../U/Bag'
-import { None, some } from '../U/Op'
 
 export default class Slice {
 	static group(g) {
@@ -46,12 +45,12 @@ export default class Slice {
 	opSplitOnceWhere(splitOn) {
 		for (let i = this.start; i < this.end; i = i + 1)
 			if (splitOn(this.data[i]))
-				return some({
+				return {
 					before: this._chopEnd(i),
 					at: this.data[i],
 					after: this._chopStart(i + 1)
-				})
-		return None
+				}
+		return null
 	}
 
 	opSplitManyWhere(splitOn) {
@@ -64,10 +63,10 @@ export default class Slice {
 			}
 
 		if (isEmpty(out))
-			return None
+			return null
 		else {
 			out.push({ before: this._chopStart(iLast) })
-			return some(out)
+			return out
 		}
 	}
 
