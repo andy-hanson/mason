@@ -1,12 +1,12 @@
 import { code } from '../CompileError'
 import * as EExports from '../Expression'
-import { Assign, AssignDestructure, BlockVal, Call, Debug, Do, GlobalAccess, ListEntry, ListReturn,
-	LocalDeclareRes, MapEntry, MapReturn, Pattern, Special, SP_Debugger, UseDo, Yield, YieldTo
+import { Assign, AssignDestructure, BlockVal, Call, Debug, Do, GlobalAccess, BagEntry,
+	LocalDeclareRes, MapEntry, Pattern, Special, SP_Debugger, UseDo, Yield, YieldTo
 	} from '../Expression'
 import { cat, head, isEmpty } from './U/Bag'
 import { ifElse, opEach } from './U/op'
-import { assert, implementMany, mapKeys, newSet } from './U/util'
-import Vr, { VrLocalInfo } from './Vr'
+import { implementMany, mapKeys, newSet } from './U/util'
+import VerifyResults, { LocalInfo } from './VerifyResults'
 
 const vm = es => es.forEach(e => e.verify())
 const vop = op => opEach(op, _ => _.verify())
@@ -30,7 +30,7 @@ const
 		isInDebug = false
 		isInGenerator = false
 		opLoop = null
-		vr = new Vr()
+		vr = new VerifyResults()
 	},
 	// Release for garbage collection
 	uninit = () => {
@@ -107,18 +107,11 @@ const
 	},
 
 	registerLocal = local => {
-		vr.localToInfo.set(local, VrLocalInfo(	isInDebug, [], []))
+		vr.localToInfo.set(local, LocalInfo(isInDebug, [], []))
 	},
 
 	setEntryIndex = (listMapEntry, index) => {
 		vr.entryToIndex.set(listMapEntry, index)
-	},
-
-	maybeSetListMapLength = (returner, length) => {
-		if (returner instanceof ListReturn || returner instanceof MapReturn)
-			vr.returnToLength.set(returner, length)
-		else
-			assert(length === 0)
 	}
 
 export default function verify(cx, e) {
@@ -158,11 +151,17 @@ implementMany(EExports, 'verify', {
 			doV()
 	},
 	BlockDo() { verifyLines(this.lines) },
-	BlockVal() {
-		const { newLocals, listMapLength } = verifyLines(this.lines)
-		maybeSetListMapLength(this.returned, listMapLength)
+	BlockWithReturn() {
+		const { newLocals } = verifyLines(this.lines)
 		plusLocals(newLocals, () => this.returned.verify())
 	},
+	BlockObj() {
+		const { newLocals } = verifyLines(this.lines)
+		this.keys.forEach(_ => accessLocalForReturn(_, this))
+		opEach(this.opObjed, _ => plusLocals(newLocals, () => _.verify()))
+	},
+	BlockBag: blockBagOrMap,
+	BlockMap: blockBagOrMap,
 	BlockWrap() {
 		this.block.verify()
 	},
@@ -211,12 +210,9 @@ implementMany(EExports, 'verify', {
 	Module() {
 		const useLocals = verifyUses(this.uses, this.debugUses)
 		plusLocals(useLocals, () => {
-			const { newLocals, listMapLength } = verifyLines(this.lines)
+			const { newLocals } = verifyLines(this.lines)
 			this.exports.forEach(ex => accessLocalForReturn(ex, this))
-			opEach(this.opDefaultExport, def => {
-				maybeSetListMapLength(def, listMapLength)
-				plusLocals(newLocals, () => def.verify())
-			})
+			opEach(this.opDefaultExport, _ => plusLocals(newLocals, () => _.verify()))
 		})
 
 		const exports = newSet(this.exports)
@@ -228,10 +224,6 @@ implementMany(EExports, 'verify', {
 				line.lines.forEach(markExportLines)
 		}
 		this.lines.forEach(markExportLines)
-	},
-	ObjReturn() {
-		vop(this.opObjed)
-		this.keys.forEach(key => accessLocalForReturn(key, this))
 	},
 	Yield() {
 		cx.check(isInGenerator, this.loc, 'Cannot yield outside of generator context')
@@ -263,11 +255,9 @@ implementMany(EExports, 'verify', {
 		})
 	},
 	Lazy() { withBlockLocals(() => this.value.verify()) },
-	ListReturn() { },
-	ListEntry() { this.value.verify() },
+	BagEntry() { this.value.verify() },
 	ListSimple() { vm(this.parts) },
 	NumberLiteral() { },
-	MapReturn() { },
 	Member() { this.object.verify() },
 	Quote() {
 		this.parts.forEach(_ => {
@@ -278,6 +268,11 @@ implementMany(EExports, 'verify', {
 	Special() { },
 	Splat() { this.splatted.verify() }
 })
+
+function blockBagOrMap() {
+	const { listMapLength } = verifyLines(this.lines)
+	vr.blockToLength.set(this, listMapLength)
+}
 
 function verifyCase() {
 	const newLocals = []
@@ -361,7 +356,7 @@ const
 					locals.set(l.name, l)
 					thisBlockLocalNames.add(l.name)
 				})
-				if (line instanceof ListEntry || line instanceof MapEntry) {
+				if (line instanceof BagEntry || line instanceof MapEntry) {
 					setEntryIndex(line, listMapLength)
 					listMapLength = listMapLength + 1
 				}
@@ -383,19 +378,17 @@ const
 	},
 
 	verifyIsStatement = line => {
-		switch (true) {
-			case line instanceof Do:
-			// Some Vals are also conceptually Dos, but this was easier than multiple inheritance.
-			case line instanceof Call:
-			case line instanceof Yield:
-			case line instanceof YieldTo:
-			case line instanceof Special && line.kind === SP_Debugger:
+		const isStatement =
+			line instanceof Do ||
+			line instanceof Call ||
+			line instanceof Yield ||
+			line instanceof YieldTo ||
+			line instanceof BagEntry ||
+			line instanceof MapEntry ||
+			line instanceof Special && line.kind === SP_Debugger ||
 			// OK, used to mean `pass`
-			case line instanceof GlobalAccess && line.name === 'null':
-				return
-			default:
-				cx.fail(line.loc, 'Expression in statement position.')
-		}
+			line instanceof GlobalAccess && line.name === 'null'
+		cx.check(isStatement, line.loc, 'Expression in statement position.')
 	},
 
 	lineNewLocals = line =>

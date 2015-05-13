@@ -5,14 +5,11 @@ import parse from './private/parse/parse'
 import { OptsFromObject } from './private/Opts'
 import render from './private/render'
 import transpile from './private/transpile/transpile'
-import type from './private/U/type'
+import { type } from './private/U/util'
 import verify from './private/verify'
 
-// Speed boost by turning this off
-global.DEBUG = true
-
 // See private/Opts.js for description of opts
-export default function compile(source, opts) {
+export default function compile(source, opts = { }) {
 	type(source, String, opts, Object)
 	const cx = new Cx(OptsFromObject(opts))
 	try {

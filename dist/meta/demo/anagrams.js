@@ -7,18 +7,20 @@ define(["exports","../../at/at","../../at/at-Type","../../at/Map/Map","../../at/
 		}),_$10=_ms.lazyGetModule(Seq_7),seq_61_63=_ms.lazyProp(_$10,"seq=?"),_$11=_ms.lazyGetModule(RegExp_8),regexp=_ms.lazyProp(_$11,"regexp"),_$12=_ms.lazyGetModule(Str_9),split_45str=_ms.lazyProp(_$12,"split-str");
 		const maximum_45anagram_45sets=exports["maximum-anagram-sets"]=function(){
 			const doc="http://rosettacode.org/wiki/Anagrams#JavaScript";
-			const test=_ms.set(function(){
-				const words=_ms.unlazy(split_45str)(_ms.unlazy(regexp)("\\s"),"abel able bale bela elba\nalger glare lager large regal\nangel angle galen glean lange\ncaret carte cater crate trace\nelan lane lean lena neal\nevil levi live veil vile\nrandom words to prove it's doing work");
-				return _ms.unlazy(_33)(_ms.unlazy(seq_61_63),maximum_45anagram_45sets(words),function(){
-					const _0=["abel","able","bale","bela","elba"];
-					const _1=["alger","glare","lager","large","regal"];
-					const _2=["angel","angle","galen","glean","lange"];
-					const _3=["caret","carte","cater","crate","trace"];
-					const _4=["elan","lane","lean","lena","neal"];
-					const _5=["evil","levi","live","veil","vile"];
-					return [_0,_1,_2,_3,_4,_5]
-				}())
-			},"displayName","test");
+			const test=function(){
+				return _ms.set(function(){
+					const words=_ms.unlazy(split_45str)(_ms.unlazy(regexp)("\\s"),"abel able bale bela elba\nalger glare lager large regal\nangel angle galen glean lange\ncaret carte cater crate trace\nelan lane lean lena neal\nevil levi live veil vile\nrandom words to prove it's doing work");
+					return _ms.unlazy(_33)(_ms.unlazy(seq_61_63),maximum_45anagram_45sets(words),function(){
+						const _0=["abel","able","bale","bela","elba"];
+						const _1=["alger","glare","lager","large","regal"];
+						const _2=["angel","angle","galen","glean","lange"];
+						const _3=["caret","carte","cater","crate","trace"];
+						const _4=["elan","lane","lean","lena","neal"];
+						const _5=["evil","levi","live","veil","vile"];
+						return [_0,_1,_2,_3,_4,_5]
+					}())
+				},"displayName","test")
+			}();
 			return _ms.set(function(words){
 				const sorted_45_62words=empty(Id_45Map_33);
 				each_33(words,function(_){
@@ -34,4 +36,4 @@ define(["exports","../../at/at","../../at/at-Type","../../at/Map/Map","../../at/
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL2RlbW8vYW5hZ3JhbXMubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQWFBLHlFQUNxQjtHQUFwQixVQUFNO0dBQ04sbUJBQ08sVUFBQTtJQUFOLHVEQUEyQixPQUMxQjtpREFPUSx5QkFBcUIsaUJBQ007S0FBbkMsU0FBRSxDQUFHLE9BQU8sT0FBTyxPQUFPLE9BQU87S0FDakMsU0FBRSxDQUFHLFFBQVEsUUFBUSxRQUFRLFFBQVE7S0FDckMsU0FBRSxDQUFHLFFBQVEsUUFBUSxRQUFRLFFBQVE7S0FDckMsU0FBRSxDQUFHLFFBQVEsUUFBUSxRQUFRLFFBQVE7S0FDckMsU0FBRSxDQUFHLE9BQU8sT0FBTyxPQUFPLE9BQU87S0FDakMsU0FBRSxDQUFHLE9BQU8sT0FBTyxPQUFPLE9BQU87WUFMRTs7O2tCQU1wQyxTQUFBLE1BQ0s7SUFDTCx3QkFBZ0IsTUFBTTtJQUN0QixRQUFNLE1BQU8sU0FBQSxFQUNDO1lBQWIsa0JBQVUsa0JBQWMsS0FBQSxHQUFNLENBQUU7SUFBQTtJQUNqQyxrQkFBWSxJQUFLLElBQUssT0FBTyxtQkFBZTtXQUM1QyxLQUFNLE9BQU8sbUJBQWdCLFNBQUEsRUFDQztZQUE3QixPQUFHLE1BQUEsR0FBTztJQUFBO0dBQUE7O0VBdENiLHNDQUFBIiwiZmlsZSI6Im1ldGEvZGVtby9hbmFncmFtcy5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL2RlbW8vYW5hZ3JhbXMubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQWFBLHlFQUNxQjtHQUFwQixVQUFNO0dBQ04scUJBQ087bUJBQUEsVUFBQTtLQUFOLHVEQUEyQixPQUMxQjtrREFPUSx5QkFBcUIsaUJBQ007TUFBbkMsU0FBRSxDQUFHLE9BQU8sT0FBTyxPQUFPLE9BQU87TUFDakMsU0FBRSxDQUFHLFFBQVEsUUFBUSxRQUFRLFFBQVE7TUFDckMsU0FBRSxDQUFHLFFBQVEsUUFBUSxRQUFRLFFBQVE7TUFDckMsU0FBRSxDQUFHLFFBQVEsUUFBUSxRQUFRLFFBQVE7TUFDckMsU0FBRSxDQUFHLE9BQU8sT0FBTyxPQUFPLE9BQU87TUFDakMsU0FBRSxDQUFHLE9BQU8sT0FBTyxPQUFPLE9BQU87Ozs7O2tCQUNsQyxTQUFBLE1BQ0s7SUFDTCx3QkFBZ0IsTUFBTTtJQUN0QixRQUFNLE1BQU8sU0FBQSxFQUNDO1lBQWIsa0JBQVUsa0JBQWMsS0FBQSxHQUFNLENBQUU7SUFBQTtJQUNqQyxrQkFBWSxJQUFLLElBQUssT0FBTyxtQkFBZTtXQUM1QyxLQUFNLE9BQU8sbUJBQWdCLFNBQUEsRUFDQztZQUE3QixPQUFHLE1BQUEsR0FBTztJQUFBO0dBQUE7O0VBdENiLHNDQUFBIiwiZmlsZSI6Im1ldGEvZGVtby9hbmFncmFtcy5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

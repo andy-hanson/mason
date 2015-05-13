@@ -1,7 +1,7 @@
 import { blue, green, magenta, bold } from 'chalk'
 import { Warning, formatCode } from '../CompileError'
 import { toArray } from '../private/U/Bag'
-import type from '../private/U/type'
+import { type } from '../private/U/util'
 
 export default (error, modulePath) => format(error.warning, modulePath, 'error')
 

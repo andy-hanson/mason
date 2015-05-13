@@ -2,16 +2,16 @@ import tupl from 'tupl/dist//tupl'
 import { LocalAccess } from '../Expression'
 import { isEmpty } from './U/Bag'
 
-export default class Vr {
+export default class VerifyResults {
 	constructor() {
 		this.accessToLocal = new Map()
 		// LocalDeclare -> VrLocalInfo
 		this.localToInfo = new Map()
 		this.endLoopToLoop = new Map()
-		// ListEntry / MapEntry -> index
+		// BagEntry or MapEntry -> index
 		this.entryToIndex = new Map()
-		// ListReturn / MapReturn -> # entries
-		this.returnToLength = new Map()
+		// BlockBag / BlockMap -> # entries
+		this.blockToLength = new Map()
 		// TODO:ES6 Can use do `export { a, b, ... }` at the end, so shouldn't need this.
 		// Includes both Assigns and AssignDestructures.
 		this.exportAssigns = new Set()
@@ -30,8 +30,8 @@ export default class Vr {
 		return this.entryToIndex.get(entry)
 	}
 
-	listMapLength(returner) {
-		return this.returnToLength.get(returner)
+	listMapLength(block) {
+		return this.blockToLength.get(block)
 	}
 
 	isExportAssign(assign) {
@@ -39,5 +39,5 @@ export default class Vr {
 	}
 }
 
-export const VrLocalInfo = tupl('VrLocalInfo', Object, 'TODO:doc',
+export const LocalInfo = tupl('VrLocalInfo', Object, 'TODO:doc',
 	[ 'isInDebug', Boolean, 'debugAccesses', [LocalAccess], 'nonDebugAccesses', [LocalAccess] ])

@@ -7,12 +7,9 @@ export const
 	// -0 is negative
 	isPositive = n => n >= 0 && 1 / n !== -Infinity,
 
-	implementMany = (holder, methodName, nameToImpl) => {
-		Object.keys(nameToImpl).forEach(name => {
-			holder[name].prototype[methodName] = nameToImpl[name]
-		})
-		return function(target) { return target[methodName].apply(null, arguments) }
-	},
+	implementMany = (holder, methodName, nameToImpl) =>
+		Object.keys(nameToImpl).forEach(name =>
+			holder[name].prototype[methodName] = nameToImpl[name]),
 
 	// TODO:ES6 Just use `new Set`
 	newSet = function() {
@@ -27,4 +24,12 @@ export const
 		const res = [ ]
 		map.forEach((value, key) => res.push(key))
 		return res
+	},
+
+	type = (...valsTypes) => {
+		for (let i = 0; i < valsTypes.length; i = i + 2) {
+			const instance = valsTypes[i], itsType = valsTypes[i + 1]
+			if (!(Object(instance) instanceof itsType))
+				throw new Error(`${instance} is not a ${itsType.name}`)
+		}
 	}

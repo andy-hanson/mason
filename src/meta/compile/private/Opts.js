@@ -1,6 +1,6 @@
 import { last } from './U/Bag'
-import type from './U/type'
 import { ObjType } from './U/types'
+import { type } from './U/util'
 
 /*
 Opts object
@@ -55,7 +55,7 @@ Object.assign(Opts.prototype, {
 		if (typeof this.checks === 'boolean')
 			return this.checks
 		else {
-			type(this.checks[name], 'boolean')
+			type(this.checks[name], Boolean)
 			return this.checks[name]
 		}
 	},

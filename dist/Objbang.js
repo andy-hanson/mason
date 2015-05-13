@@ -17,12 +17,14 @@ define(["exports","./js","./Obj","./Type/Alias-Type","./Type/Pred-Type","./contr
 		}());
 		const empty_45Obj_33=exports["empty-Obj!"]=function(){
 			const doc="Creates a new Obj! with no properties and the given prototype.";
-			const test=_ms.set(function(){
-				const _=empty_45Obj_33();
-				_ms.unlazy(_33)(_ms.unlazy(empty_45Obj_63),_);
-				const child=empty_45Obj_33(_);
-				return _ms.unlazy(_33)(_ms.unlazy(_61_63),_,_ms.unlazy(prototype)(child))
-			},"displayName","test");
+			const test=function(){
+				return _ms.set(function(){
+					const _=empty_45Obj_33();
+					_ms.unlazy(_33)(_ms.unlazy(empty_45Obj_63),_);
+					const child=empty_45Obj_33(_);
+					return _ms.unlazy(_33)(_ms.unlazy(_61_63),_,_ms.unlazy(prototype)(child))
+				},"displayName","test")
+			}();
 			return _ms.set(function(_63prototype){
 				_ms.checkContains(_ms.sub(Opt,Obj),_63prototype,"?prototype");
 				const prototype=_ms.unlazy(opr)(_63prototype,Obj.prototype);
@@ -31,17 +33,19 @@ define(["exports","./js","./Obj","./Type/Alias-Type","./Type/Pred-Type","./contr
 		}();
 		const p_43_33=exports["p+!"]=function(){
 			const doc="Adds a new immutable property.";
-			const test=_ms.set(function(){
-				const _=empty_45Obj_33();
-				p_43_33(_,"a",1);
-				_ms.unlazy(_33)(_ms.unlazy(_61_63),_.a,1);
-				_ms.unlazy(_33)(_ms.unlazy(fails_63),function(){
-					return p_43_33(_,"a",2)
-				});
-				return _ms.unlazy(_33)(_ms.unlazy(fails_63),function(){
-					return p_43_33("string","a",1)
-				})
-			},"displayName","test");
+			const test=function(){
+				return _ms.set(function(){
+					const _=empty_45Obj_33();
+					p_43_33(_,"a",1);
+					_ms.unlazy(_33)(_ms.unlazy(_61_63),_.a,1);
+					_ms.unlazy(_33)(_ms.unlazy(fails_63),function(){
+						return p_43_33(_,"a",2)
+					});
+					return _ms.unlazy(_33)(_ms.unlazy(fails_63),function(){
+						return p_43_33("string","a",1)
+					})
+				},"displayName","test")
+			}();
 			return _ms.set(function(_,name,val){
 				_ms.checkContains(Obj_33,_,"_");
 				_ms.checkContains(Obj_45Key,name,"name");
@@ -81,12 +85,14 @@ define(["exports","./js","./Obj","./Type/Alias-Type","./Type/Pred-Type","./contr
 		}();
 		const p_33=exports["p!"]=function(){
 			const doc="Modifies an already-existing property.";
-			const test=_ms.set(function(){
-				const _=empty_45Obj_33();
-				p_43mut_33(_,"a",1);
-				p_33(_,"a",2);
-				return _ms.unlazy(_33)(_ms.unlazy(_61_63),_.a,2)
-			},"displayName","test");
+			const test=function(){
+				return _ms.set(function(){
+					const _=empty_45Obj_33();
+					p_43mut_33(_,"a",1);
+					p_33(_,"a",2);
+					return _ms.unlazy(_33)(_ms.unlazy(_61_63),_.a,2)
+				},"displayName","test")
+			}();
 			return _ms.set(function(_,name,new_45val){
 				_ms.checkContains(Obj_33,_,"_");
 				_ms.checkContains(Obj_45Key,name,"name");
@@ -95,12 +101,14 @@ define(["exports","./js","./Obj","./Type/Alias-Type","./Type/Pred-Type","./contr
 			},"doc",doc,"test",test,"displayName","p!")
 		}();
 		const p_45_33=exports["p-!"]=function(){
-			const test=_ms.set(function(){
-				const _=empty_45Obj_33();
-				p_43mut_33(_,"a",1);
-				p_45_33(_,"a");
-				return _ms.unlazy(_33not)(_ms.unlazy(p_63),_,"a")
-			},"displayName","test");
+			const test=function(){
+				return _ms.set(function(){
+					const _=empty_45Obj_33();
+					p_43mut_33(_,"a",1);
+					p_45_33(_,"a");
+					return _ms.unlazy(_33not)(_ms.unlazy(p_63),_,"a")
+				},"displayName","test")
+			}();
 			return _ms.set(function(_,name){
 				_ms.checkContains(Obj_33,_,"_");
 				_ms.checkContains(Obj_45Key,name,"name");
@@ -110,16 +118,18 @@ define(["exports","./js","./Obj","./Type/Alias-Type","./Type/Pred-Type","./contr
 		}();
 		const extend_33=exports["extend!"]=function(){
 			const doc="Adds all the properties in `extender` to `_`.";
-			const test=_ms.set(function(){
-				const _=empty_45Obj_33();
-				extend_33(_,function(){
-					const a=1;
-					return {
-						a:a
-					}
-				}());
-				return _ms.unlazy(_33)(_ms.unlazy(_61_63),_.a,1)
-			},"displayName","test");
+			const test=function(){
+				return _ms.set(function(){
+					const _=empty_45Obj_33();
+					extend_33(_,function(){
+						const a=1;
+						return {
+							a:a
+						}
+					}());
+					return _ms.unlazy(_33)(_ms.unlazy(_61_63),_.a,1)
+				},"displayName","test")
+			}();
 			return _ms.set(function(_,extender){
 				_ms.checkContains(Obj_33,_,"_");
 				_ms.checkContains(Obj,extender,"extender");
@@ -131,4 +141,4 @@ define(["exports","./js","./Obj","./Type/Alias-Type","./Type/Pred-Type","./contr
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9PYmohLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7RUFhQSxzQkFBTTtFQUVOLGFBQU8sdUJBQ1U7R0FBaEIsVUFBTTtHQUNOLGlCQUFVO1VBRE07Ozs7OztFQUdqQixxREFDVztHQUFWLFVBQU07R0FDTixtQkFDTyxVQUFBO0lBQU4sUUFBSTsrQ0FDUztJQUNiLFlBQVEsZUFBVzs4Q0FDZCx3QkFBYTtHQUFBO2tCQUNsQixTQUFBLGFBQ21COzhCQURSLElBQUk7SUFDZixnQ0FBZ0IsYUFBVztXQUMzQixXQUFXO0dBQUE7O0VBRWIsdUNBQ0k7R0FBSCxVQUFNO0dBQ04sbUJBQ08sVUFBQTtJQUFOLFFBQUk7SUFDSixRQUFJLEVBQUcsSUFBRzt1Q0FDTCxJQUFJO3lDQUVDLFVBQUE7WUFBVCxRQUFJLEVBQUcsSUFBRztJQUFBO2dEQUVELFVBQUE7WUFBVCxRQUFLLFNBQVMsSUFBRztJQUFBO0dBQUE7a0JBQ2xCLFNBQUEsRUFBTyxLQUFhLElBQ0c7c0JBRHJCO3NCQUFVO0lBQ1osbUJBQW1CLEVBQUUsZUFDSTtLQUF4QixpQkFBWTtLQUNaLGVBQVU7S0FDVixZQUFPO1lBRmlCOzs7Ozs7V0FHekI7R0FBQTs7RUFFRiw2Q0FDTztHQUFOLFVBQU07R0FDTixXQUFPO2tCQUNOLFNBQUEsRUFBTyxLQUFhLElBQ0c7c0JBRHJCO3NCQUFVO0lBQ1osbUJBQW1CLEVBQUUsZUFDSTtLQUF4QixpQkFBWTtLQUNaLGVBQVU7S0FDVixZQUFPO0tBQ1AsbUJBQWM7WUFIVTs7Ozs7OztXQUl6QjtHQUFBOztFQUVGLG1DQUNHO0dBQUYsVUFBTTtHQUNOLG1CQUNPLFVBQUE7SUFBTixRQUFJO0lBQ0osV0FBTyxFQUFHLElBQUc7SUFDYixLQUFHLEVBQUcsSUFBRzs4Q0FDSixJQUFJO0dBQUE7a0JBQ1QsU0FBQSxFQUFPLEtBQWEsVUFJcEI7c0JBSkU7c0JBQVU7cUNBRU4sRUFBRTtXQUVSLFNBQU8sRUFBRSxLQUFLO0dBQUE7O0VBRWhCLHVDQUNJO0dBQUgsbUJBQ08sVUFBQTtJQUFOLFFBQUk7SUFDSixXQUFPLEVBQUcsSUFBRztJQUNiLFFBQUksRUFBRzsrQ0FDQyxFQUFHO0dBQUE7a0JBQ1gsU0FBQSxFQUFPLEtBSVA7c0JBSkU7c0JBQVU7cUNBRU4sRUFBRTtXQUVSLFlBQVUsRUFBRTtHQUFBOztFQUdkLDZDQUNRO0dBQVAsVUFBTTtHQUNOLG1CQUNPLFVBQUE7SUFBTixRQUFJO0lBQ0osVUFBUSxZQUNDO0tBQVIsUUFBRztZQUFLOzs7OzhDQUNKLElBQUk7R0FBQTtrQkFDVCxTQUFBLEVBQU8sU0FDWTtzQkFEakI7c0JBQWM7V0FDaEIsV0FBVyxFQUFFO0dBQUE7O0VBNUZmLHNDQUFBO2tCQThGQSIsImZpbGUiOiJPYmpiYW5nLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9PYmohLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7RUFhQSxzQkFBTTtFQUVOLGFBQU8sdUJBQ1U7R0FBaEIsVUFBTTtHQUNOLGlCQUFVOzs7Ozs7O0VBRVgscURBQ1c7R0FBVixVQUFNO0dBQ04scUJBQ087bUJBQUEsVUFBQTtLQUFOLFFBQUk7Z0RBQ1M7S0FDYixZQUFRLGVBQVc7K0NBQ2Qsd0JBQWE7SUFBQTs7a0JBQ2xCLFNBQUEsYUFDbUI7OEJBRFIsSUFBSTtJQUNmLGdDQUFnQixhQUFXO1dBQzNCLFdBQVc7R0FBQTs7RUFFYix1Q0FDSTtHQUFILFVBQU07R0FDTixxQkFDTzttQkFBQSxVQUFBO0tBQU4sUUFBSTtLQUNKLFFBQUksRUFBRyxJQUFHO3dDQUNMLElBQUk7MENBRUMsVUFBQTthQUFULFFBQUksRUFBRyxJQUFHO0tBQUE7aURBRUQsVUFBQTthQUFULFFBQUssU0FBUyxJQUFHO0tBQUE7SUFBQTs7a0JBQ2xCLFNBQUEsRUFBTyxLQUFhLElBQ0c7c0JBRHJCO3NCQUFVO0lBQ1osbUJBQW1CLEVBQUUsZUFDSTtLQUF4QixpQkFBWTtLQUNaLGVBQVU7S0FDVixZQUFPOzs7Ozs7O1dBQ1I7R0FBQTs7RUFFRiw2Q0FDTztHQUFOLFVBQU07R0FDTixXQUFPO2tCQUNOLFNBQUEsRUFBTyxLQUFhLElBQ0c7c0JBRHJCO3NCQUFVO0lBQ1osbUJBQW1CLEVBQUUsZUFDSTtLQUF4QixpQkFBWTtLQUNaLGVBQVU7S0FDVixZQUFPO0tBQ1AsbUJBQWM7Ozs7Ozs7O1dBQ2Y7R0FBQTs7RUFFRixtQ0FDRztHQUFGLFVBQU07R0FDTixxQkFDTzttQkFBQSxVQUFBO0tBQU4sUUFBSTtLQUNKLFdBQU8sRUFBRyxJQUFHO0tBQ2IsS0FBRyxFQUFHLElBQUc7K0NBQ0osSUFBSTtJQUFBOztrQkFDVCxTQUFBLEVBQU8sS0FBYSxVQUlwQjtzQkFKRTtzQkFBVTtxQ0FFTixFQUFFO1dBRVIsU0FBTyxFQUFFLEtBQUs7R0FBQTs7RUFFaEIsdUNBQ0k7R0FBSCxxQkFDTzttQkFBQSxVQUFBO0tBQU4sUUFBSTtLQUNKLFdBQU8sRUFBRyxJQUFHO0tBQ2IsUUFBSSxFQUFHO2dEQUNDLEVBQUc7SUFBQTs7a0JBQ1gsU0FBQSxFQUFPLEtBSVA7c0JBSkU7c0JBQVU7cUNBRU4sRUFBRTtXQUVSLFlBQVUsRUFBRTtHQUFBOztFQUdkLDZDQUNRO0dBQVAsVUFBTTtHQUNOLHFCQUNPO21CQUFBLFVBQUE7S0FBTixRQUFJO0tBQ0osVUFBUSxZQUNDO01BQVIsUUFBRzs7Ozs7K0NBQ0MsSUFBSTtJQUFBOztrQkFDVCxTQUFBLEVBQU8sU0FDWTtzQkFEakI7c0JBQWM7V0FDaEIsV0FBVyxFQUFFO0dBQUE7O0VBNUZmLHNDQUFBO2tCQThGQSIsImZpbGUiOiJPYmpiYW5nLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

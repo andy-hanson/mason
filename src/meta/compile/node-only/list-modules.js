@@ -7,7 +7,7 @@ import { OptsFromObject } from '../private/Opts'
 import transpile from '../private/transpile/transpile'
 import render from '../private/render'
 import { flatMap } from '../private/U/Bag'
-import Vr from '../private/Vr'
+import VerifyResults from '../private/VerifyResults'
 
 // Searches a directory and creates a module whose default export is
 // a list of the paths of every module in that directory, relative to it.
@@ -30,6 +30,6 @@ export default (dirPath, opts) =>
 			includeSourceMap: false,
 			includeModuleDisplayName: false
 		}))
-		const ast = transpile(cx, e, new Vr())
+		const ast = transpile(cx, e, new VerifyResults())
 		return render(cx, ast)
 	})

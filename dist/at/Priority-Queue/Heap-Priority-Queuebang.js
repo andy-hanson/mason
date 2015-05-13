@@ -44,85 +44,107 @@ define(["exports","../../Bool","../../compare","../../control","../../math/Num",
 			};
 			return _ms.map(_k0,_v0,_k1,_v1,_k2,_v2,_k3,_v3,_k4,_v4)
 		}());
-		const idx_45left=_ms.set(function(idx){
-			return _43(1,_42(2,idx))
-		},"displayName","idx-left");
-		const idx_45right=_ms.set(function(idx){
-			return _43(2,_42(2,idx))
-		},"displayName","idx-right");
-		const idx_45parent=_ms.set(function(idx){
-			return _45(int_47(_43(1,idx),2),1)
-		},"displayName","idx-parent");
-		const add_33=_ms.set(function(heap,em){
-			heap.push(em);
-			return fix_45up_33(heap,em)
-		},"displayName","add!");
-		const fix_45up_33=_ms.set(function(heap,val){
-			const rec_33=_ms.set(function(idx){
-				const ip=_ms.lazy(function(){
-					return idx_45parent(idx)
-				});
-				const parent=_ms.lazy(function(){
-					return _ms.sub(heap,_ms.unlazy(ip))
-				});
-				if(_ms.bool(and(_60_63(0,idx),_ms.lazy(function(){
-					return _60_63(val,_ms.unlazy(parent))
-				})))){
-					set_45nth_33(heap,idx,_ms.unlazy(parent));
-					rec_33(_ms.unlazy(ip))
-				} else {
-					set_45nth_33(heap,idx,val)
-				}
-			},"displayName","rec!");
-			return rec_33(_45(count(heap),1))
-		},"displayName","fix-up!");
-		const fix_45down_33=_ms.set(function(heap,val){
-			const size=count(heap);
-			const rec_33=_ms.set(function(idx){
-				const il=idx_45left(idx);
-				const left=_ms.lazy(function(){
-					return _ms.sub(heap,il)
-				});
-				const l_60=and(_60_63(il,size),_ms.lazy(function(){
-					return _60_63(_ms.unlazy(left),val)
-				}));
-				const ir=idx_45right(idx);
-				const right=_ms.lazy(function(){
-					return _ms.sub(heap,ir)
-				});
-				const r_60=and(_60_63(ir,size),_ms.lazy(function(){
-					return _60_63(_ms.unlazy(right),val)
-				}));
-				const fill_33=_ms.set(function(val){
-					return set_45nth_33(heap,idx,val)
-				},"displayName","fill!");
-				const rec_45left_33=_ms.set(function(){
-					fill_33(_ms.unlazy(left));
-					return rec_33(il)
-				},"displayName","rec-left!");
-				const rec_45right_33=_ms.set(function(){
-					fill_33(_ms.unlazy(right));
-					return rec_33(ir)
-				},"displayName","rec-right!");
-				if(_ms.bool(l_60)){
-					if(_ms.bool(and(r_60,_ms.lazy(function(){
-						return _60_63(_ms.unlazy(right),_ms.unlazy(left))
-					})))){
-						rec_45right_33()
-					} else {
-						rec_45left_33()
-					}
-				} else if(_ms.bool(r_60)){
-					rec_45right_33(null)
-				} else {
-					fill_33(val)
-				}
-			},"displayName","rec!");
-			return rec_33(0)
-		},"displayName","fix-down!");
+		const idx_45left=function(){
+			return _ms.set(function(idx){
+				return _43(1,_42(2,idx))
+			},"displayName","idx-left")
+		}();
+		const idx_45right=function(){
+			return _ms.set(function(idx){
+				return _43(2,_42(2,idx))
+			},"displayName","idx-right")
+		}();
+		const idx_45parent=function(){
+			return _ms.set(function(idx){
+				return _45(int_47(_43(1,idx),2),1)
+			},"displayName","idx-parent")
+		}();
+		const add_33=function(){
+			return _ms.set(function(heap,em){
+				heap.push(em);
+				return fix_45up_33(heap,em)
+			},"displayName","add!")
+		}();
+		const fix_45up_33=function(){
+			return _ms.set(function(heap,val){
+				const rec_33=function(){
+					return _ms.set(function(idx){
+						const ip=_ms.lazy(function(){
+							return idx_45parent(idx)
+						});
+						const parent=_ms.lazy(function(){
+							return _ms.sub(heap,_ms.unlazy(ip))
+						});
+						if(_ms.bool(and(_60_63(0,idx),_ms.lazy(function(){
+							return _60_63(val,_ms.unlazy(parent))
+						})))){
+							set_45nth_33(heap,idx,_ms.unlazy(parent));
+							rec_33(_ms.unlazy(ip))
+						} else {
+							set_45nth_33(heap,idx,val)
+						}
+					},"displayName","rec!")
+				}();
+				return rec_33(_45(count(heap),1))
+			},"displayName","fix-up!")
+		}();
+		const fix_45down_33=function(){
+			return _ms.set(function(heap,val){
+				const size=count(heap);
+				const rec_33=function(){
+					return _ms.set(function(idx){
+						const il=idx_45left(idx);
+						const left=_ms.lazy(function(){
+							return _ms.sub(heap,il)
+						});
+						const l_60=and(_60_63(il,size),_ms.lazy(function(){
+							return _60_63(_ms.unlazy(left),val)
+						}));
+						const ir=idx_45right(idx);
+						const right=_ms.lazy(function(){
+							return _ms.sub(heap,ir)
+						});
+						const r_60=and(_60_63(ir,size),_ms.lazy(function(){
+							return _60_63(_ms.unlazy(right),val)
+						}));
+						const fill_33=function(){
+							return _ms.set(function(val){
+								return set_45nth_33(heap,idx,val)
+							},"displayName","fill!")
+						}();
+						const rec_45left_33=function(){
+							return _ms.set(function(){
+								fill_33(_ms.unlazy(left));
+								return rec_33(il)
+							},"displayName","rec-left!")
+						}();
+						const rec_45right_33=function(){
+							return _ms.set(function(){
+								fill_33(_ms.unlazy(right));
+								return rec_33(ir)
+							},"displayName","rec-right!")
+						}();
+						if(_ms.bool(l_60)){
+							if(_ms.bool(and(r_60,_ms.lazy(function(){
+								return _60_63(_ms.unlazy(right),_ms.unlazy(left))
+							})))){
+								rec_45right_33()
+							} else {
+								rec_45left_33()
+							}
+						} else if(_ms.bool(r_60)){
+							rec_45right_33(null)
+						} else {
+							fill_33(val)
+						}
+					},"displayName","rec!")
+				}();
+				return rec_33(0)
+			},"displayName","fix-down!")
+		}();
 		const displayName=exports.displayName="Heap-Priority-Queue!";
 		exports.default=Heap_45Priority_45Queue_33;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1ByaW9yaXR5LVF1ZXVlL0hlYXAtUHJpb3JpdHktUXVldWUhLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBaUJBLGlDQUF1QixzQkFDUztHQUEvQixVQUFNO0dBQ04scUJBQWM7VUFEaUI7Ozs7OztFQUdoQyxlQUFXLDJCQUFxQixxQkFDTTtHQUFyQyxVQUFBLFVBQ1UsVUFBQTtXQUFULDJCQUFzQixNQUFNO0dBQUE7OztFQUU5QixRQUFNLDJCQUFxQiw4QkFDZTtHQUF6QyxVQUFBLGNBQVEsU0FBQSxFQUFFLE1BQ0s7V0FBZCxRQUFNLGNBQU0sT0FBSzs7R0FDbEIsVUFBQSxjQUFVLFNBQUEsRUFDQztJQUFWLFdBQU87V0FDUCxJQUFLLFNBQU8sTUFBTyxTQUFBLE1BQ0s7WUFBdkIsVUFBVSxNQUNPLFVBQUE7TUFBaEIsa0JBQVksU0FBTSxhQUFPO2FBQ3pCLE1BQUssSUFBSSxTQUFBLElBQ1UsVUFBQTtjQUFsQixjQUFVLEtBQUs7TUFBQTtLQUFBO0lBQUE7R0FBQTtHQUNuQixVQUFBLGFBQVcsU0FBQSxFQUNDO1dBQVgsU0FBTzs7R0FDUixVQUFBLGFBQVcsU0FBQSxFQUNDO1dBQVgsU0FBTzs7R0FDUixVQUFBLGFBQWEsU0FBQSxFQUNDO1dBQWIsU0FBUzs7OztFQUlWLHlCQUFZLFNBQUEsSUFDRztVQUFkLElBQUUsRUFBRyxJQUFFLEVBQUU7RUFBQTtFQUNWLDBCQUFhLFNBQUEsSUFDRztVQUFmLElBQUUsRUFBRyxJQUFFLEVBQUU7RUFBQTtFQUNWLDJCQUFjLFNBQUEsSUFDRztVQUFoQixJQUFHLE9BQU0sSUFBRSxFQUFFLEtBQUssR0FBRztFQUFBO0VBRXRCLHFCQUFRLFNBQUEsS0FBSyxHQUNFO0dBQWQsVUFBVTtVQUNWLFlBQVEsS0FBSztFQUFBO0VBR2QsMEJBQVcsU0FBQSxLQUFLLElBQ0c7R0FBbEIscUJBQVEsU0FBQSxJQUNHO0lBQVY7WUFBTSxhQUFXO0lBQUE7SUFDakI7b0JBQVU7O0lBRUwsWUFBSixJQUFLLE9BQUcsRUFBRTtZQUFPLE9BQUc7U0FDVztLQUE5QixhQUFTLEtBQUs7S0FDZDtXQUVHO0tBQUgsYUFBUyxLQUFLLElBQUk7SUFBQTtHQUFBO1VBQ3JCLE9BQU0sSUFBRyxNQUFNLE1BQU07RUFBQTtFQUl0Qiw0QkFBYSxTQUFBLEtBQUssSUFDRztHQUFwQixXQUFPLE1BQU07R0FDYixxQkFBUSxTQUFBLElBQ0c7SUFBVixTQUFLLFdBQVM7SUFDZDtvQkFBUSxLQUFLO0lBQUE7SUFDYixXQUFLLElBQUssT0FBRyxHQUFHO1lBQVEsd0JBQVE7SUFBQTtJQUNoQyxTQUFLLFlBQVU7SUFDZjtvQkFBUyxLQUFLO0lBQUE7SUFDZCxXQUFLLElBQUssT0FBRyxHQUFHO1lBQVEseUJBQVM7SUFBQTtJQUVqQyxzQkFBUyxTQUFBLElBQ0c7WUFBWCxhQUFTLEtBQUssSUFBSTtJQUFBO0lBQ25CLDRCQUNhLFVBQUE7S0FBWjtZQUNBLE9BQUs7SUFBQTtJQUNOLDZCQUNjLFVBQUE7S0FBYjtZQUNBLE9BQUs7SUFBQTtJQUVELFlBQUosTUFDRTtLQUNJLFlBQUosSUFBSTthQUFLO1VBQ2M7TUFBdEI7S0FBQSxPQUVHO01BQUg7S0FBQTtJQUFBLE9BQ0gsWUFBQSxNQUNFO0tBQUQsZUFBVztJQUFBLE9BRVI7S0FBSCxRQUFNO0lBQUE7R0FBQTtVQUNULE9BQUs7RUFBQTtFQW5HUCxzQ0FBQTtrQkFxR0EiLCJmaWxlIjoiYXQvUHJpb3JpdHktUXVldWUvSGVhcC1Qcmlvcml0eS1RdWV1ZWJhbmcuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1ByaW9yaXR5LVF1ZXVlL0hlYXAtUHJpb3JpdHktUXVldWUhLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBaUJBLGlDQUF1QixzQkFDUztHQUEvQixVQUFNO0dBQ04scUJBQWM7Ozs7Ozs7RUFFZixlQUFXLDJCQUFxQixxQkFDTTtHQUFyQyxVQUFBLFVBQ1UsVUFBQTtXQUFULDJCQUFzQixNQUFNO0dBQUE7OztFQUU5QixRQUFNLDJCQUFxQiw4QkFDZTtHQUF6QyxVQUFBLGNBQVEsU0FBQSxFQUFFLE1BQ0s7V0FBZCxRQUFNLGNBQU0sT0FBSzs7R0FDbEIsVUFBQSxjQUFVLFNBQUEsRUFDQztJQUFWLFdBQU87V0FDUCxJQUFLLFNBQU8sTUFBTyxTQUFBLE1BQ0s7WUFBdkIsVUFBVSxNQUNPLFVBQUE7TUFBaEIsa0JBQVksU0FBTSxhQUFPO2FBQ3pCLE1BQUssSUFBSSxTQUFBLElBQ1UsVUFBQTtjQUFsQixjQUFVLEtBQUs7TUFBQTtLQUFBO0lBQUE7R0FBQTtHQUNuQixVQUFBLGFBQVcsU0FBQSxFQUNDO1dBQVgsU0FBTzs7R0FDUixVQUFBLGFBQVcsU0FBQSxFQUNDO1dBQVgsU0FBTzs7R0FDUixVQUFBLGFBQWEsU0FBQSxFQUNDO1dBQWIsU0FBUzs7OztFQUlWLDJCQUFZO2tCQUFBLFNBQUEsSUFDRztXQUFkLElBQUUsRUFBRyxJQUFFLEVBQUU7R0FBQTs7RUFDViw0QkFBYTtrQkFBQSxTQUFBLElBQ0c7V0FBZixJQUFFLEVBQUcsSUFBRSxFQUFFO0dBQUE7O0VBQ1YsNkJBQWM7a0JBQUEsU0FBQSxJQUNHO1dBQWhCLElBQUcsT0FBTSxJQUFFLEVBQUUsS0FBSyxHQUFHO0dBQUE7O0VBRXRCLHVCQUFRO2tCQUFBLFNBQUEsS0FBSyxHQUNFO0lBQWQsVUFBVTtXQUNWLFlBQVEsS0FBSztHQUFBOztFQUdkLDRCQUFXO2tCQUFBLFNBQUEsS0FBSyxJQUNHO0lBQWxCLHVCQUFRO29CQUFBLFNBQUEsSUFDRztNQUFWO2NBQU0sYUFBVztNQUFBO01BQ2pCO3NCQUFVOztNQUVMLFlBQUosSUFBSyxPQUFHLEVBQUU7Y0FBTyxPQUFHO1dBQ1c7T0FBOUIsYUFBUyxLQUFLO09BQ2Q7YUFFRztPQUFILGFBQVMsS0FBSyxJQUFJO01BQUE7S0FBQTs7V0FDckIsT0FBTSxJQUFHLE1BQU0sTUFBTTtHQUFBOztFQUl0Qiw4QkFBYTtrQkFBQSxTQUFBLEtBQUssSUFDRztJQUFwQixXQUFPLE1BQU07SUFDYix1QkFBUTtvQkFBQSxTQUFBLElBQ0c7TUFBVixTQUFLLFdBQVM7TUFDZDtzQkFBUSxLQUFLO01BQUE7TUFDYixXQUFLLElBQUssT0FBRyxHQUFHO2NBQVEsd0JBQVE7TUFBQTtNQUNoQyxTQUFLLFlBQVU7TUFDZjtzQkFBUyxLQUFLO01BQUE7TUFDZCxXQUFLLElBQUssT0FBRyxHQUFHO2NBQVEseUJBQVM7TUFBQTtNQUVqQyx3QkFBUztzQkFBQSxTQUFBLElBQ0c7ZUFBWCxhQUFTLEtBQUssSUFBSTtPQUFBOztNQUNuQiw4QkFDYTtzQkFBQSxVQUFBO1FBQVo7ZUFDQSxPQUFLO09BQUE7O01BQ04sK0JBQ2M7c0JBQUEsVUFBQTtRQUFiO2VBQ0EsT0FBSztPQUFBOztNQUVELFlBQUosTUFDRTtPQUNJLFlBQUosSUFBSTtlQUFLO1lBQ2M7UUFBdEI7T0FBQSxPQUVHO1FBQUg7T0FBQTtNQUFBLE9BQ0gsWUFBQSxNQUNFO09BQUQsZUFBVztNQUFBLE9BRVI7T0FBSCxRQUFNO01BQUE7S0FBQTs7V0FDVCxPQUFLO0dBQUE7O0VBbkdQLHNDQUFBO2tCQXFHQSIsImZpbGUiOiJhdC9Qcmlvcml0eS1RdWV1ZS9IZWFwLVByaW9yaXR5LVF1ZXVlYmFuZy5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

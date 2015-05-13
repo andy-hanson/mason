@@ -9,14 +9,16 @@ define(["exports","../../Type/Kind","../../Type/Method","../atbang","../../bang"
 		});
 		const Priority_45Queue_33=Kind(function(){
 			const doc="@ whose first item will always be the smallest.\nIteration order has no other guaranees,\nbut repeatedly calling ?pop! will give the values from least to greatest.";
-			const implementor_45test=_ms.set(function(type){
-				const _=_ms.unlazy(empty)(type);
-				_ms.unlazy(_43_43_33)(_,[3,1,2]);
-				_ms.unlazy(_33)(_ms.unlazy(_61_63),_ms.unlazy(_63)(1),_63pop_33(_));
-				_ms.unlazy(_33)(_ms.unlazy(_61_63),_ms.unlazy(_63)(2),_63pop_33(_));
-				_ms.unlazy(_33)(_ms.unlazy(_61_63),_ms.unlazy(_63)(3),_63pop_33(_));
-				return _ms.unlazy(_33)(_ms.unlazy(empty_63),_)
-			},"displayName","implementor-test");
+			const implementor_45test=function(){
+				return _ms.set(function(type){
+					const _=_ms.unlazy(empty)(type);
+					_ms.unlazy(_43_43_33)(_,[3,1,2]);
+					_ms.unlazy(_33)(_ms.unlazy(_61_63),_ms.unlazy(_63)(1),_63pop_33(_));
+					_ms.unlazy(_33)(_ms.unlazy(_61_63),_ms.unlazy(_63)(2),_63pop_33(_));
+					_ms.unlazy(_33)(_ms.unlazy(_61_63),_ms.unlazy(_63)(3),_63pop_33(_));
+					return _ms.unlazy(_33)(_ms.unlazy(empty_63),_)
+				},"displayName","implementor-test")
+			}();
 			return {
 				doc:doc,
 				"implementor-test":implementor_45test,
@@ -36,4 +38,4 @@ define(["exports","../../Type/Kind","../../Type/Method","../atbang","../../bang"
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1ByaW9yaXR5LVF1ZXVlL1ByaW9yaXR5LVF1ZXVlIS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7RUFZQSwwQkFBa0IsZUFDSTtHQUFyQixVQUNDO0dBR0QsaUNBQW1CLFNBQUEsS0FDSTtJQUF0QiwwQkFBVTswQkFDTixFQUFFLENBQUUsRUFBRSxFQUFFO3VEQUNKLEdBQUcsVUFBQTt1REFDSCxHQUFHLFVBQUE7dURBQ0gsR0FBRyxVQUFBO2dEQUNGO0dBQUE7VUFWVzs7Ozs7O0VBWXRCLFFBQU0sb0JBQWdCO0VBR3RCLGlDQUFPLGlCQUNNO0dBQVosVUFBTTtVQUFNOzs7OztFQTdCYixzQ0FBQTtrQkErQkEiLCJmaWxlIjoiYXQvUHJpb3JpdHktUXVldWUvUHJpb3JpdHktUXVldWViYW5nLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1ByaW9yaXR5LVF1ZXVlL1ByaW9yaXR5LVF1ZXVlIS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7RUFZQSwwQkFBa0IsZUFDSTtHQUFyQixVQUNDO0dBR0QsbUNBQW1CO21CQUFBLFNBQUEsS0FDSTtLQUF0QiwwQkFBVTsyQkFDTixFQUFFLENBQUUsRUFBRSxFQUFFO3dEQUNKLEdBQUcsVUFBQTt3REFDSCxHQUFHLFVBQUE7d0RBQ0gsR0FBRyxVQUFBO2lEQUNGO0lBQUE7Ozs7Ozs7O0VBRVgsUUFBTSxvQkFBZ0I7RUFHdEIsaUNBQU8saUJBQ007R0FBWixVQUFNOzs7Ozs7RUE3QlAsc0NBQUE7a0JBK0JBIiwiZmlsZSI6ImF0L1ByaW9yaXR5LVF1ZXVlL1ByaW9yaXR5LVF1ZXVlYmFuZy5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

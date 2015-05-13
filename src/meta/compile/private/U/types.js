@@ -1,4 +1,4 @@
-import type from './type'
+import { type } from './util'
 
 export function ObjType(name, superType, members) {
 	type(name, String, superType, Object, members, Object)

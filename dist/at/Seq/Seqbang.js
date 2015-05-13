@@ -13,26 +13,28 @@ define(["exports","../../Type/Kind","../../Type/Method","../atbang","../at-Type"
 		}),_$15=_ms.lazyGetModule(Seq_11),seq_61_63=_ms.lazyProp(_$15,"seq=?");
 		const Seq_33=Kind(function(){
 			const doc="Mutable Seq.\nArray!s can efficiently change existing elements and add new ones on the right.\nDeque!s are like Arrays, but can add new values on the left.";
-			const implementor_45test=_ms.set(function(type){
-				const _=function(){
-					const _=type;
-					if(_ms.bool(_ms.unlazy(_61_63)(_,Array))){
-						return empty(_ms.unlazy(Array_33))
-					} else {
-						return empty(type)
-					}
-				}();
-				_43_43_62_33(_,[1,2]);
-				_60_43_43_33(_,[- 2,- 1]);
-				_ms.unlazy(_33)(_ms.unlazy(seq_61_63),_,[- 2,- 1,1,2]);
-				_ms.unlazy(_33)(_ms.unlazy(_61_63),_63pop_62_33(_),_ms.unlazy(_63)(2));
-				_ms.unlazy(_33)(_ms.unlazy(_61_63),_63_60pop_33(_),_ms.unlazy(_63)(- 2));
-				_ms.unlazy(_33)(_ms.unlazy(_61_63),_63pop_62_33(_),_ms.unlazy(_63)(1));
-				_ms.unlazy(_33)(_ms.unlazy(_61_63),_63_60pop_33(_),_ms.unlazy(_63)(- 1));
-				_ms.unlazy(_33)(_ms.unlazy(_61_63),_63pop_62_33(_),empty(_ms.unlazy(_63)));
-				_ms.unlazy(_33)(_ms.unlazy(empty_63),_);
-				return _43_43_62_33(_,[1,2,3])
-			},"displayName","implementor-test");
+			const implementor_45test=function(){
+				return _ms.set(function(type){
+					const _=function(){
+						const _=type;
+						if(_ms.bool(_ms.unlazy(_61_63)(_,Array))){
+							return empty(_ms.unlazy(Array_33))
+						} else {
+							return empty(type)
+						}
+					}();
+					_43_43_62_33(_,[1,2]);
+					_60_43_43_33(_,[- 2,- 1]);
+					_ms.unlazy(_33)(_ms.unlazy(seq_61_63),_,[- 2,- 1,1,2]);
+					_ms.unlazy(_33)(_ms.unlazy(_61_63),_63pop_62_33(_),_ms.unlazy(_63)(2));
+					_ms.unlazy(_33)(_ms.unlazy(_61_63),_63_60pop_33(_),_ms.unlazy(_63)(- 2));
+					_ms.unlazy(_33)(_ms.unlazy(_61_63),_63pop_62_33(_),_ms.unlazy(_63)(1));
+					_ms.unlazy(_33)(_ms.unlazy(_61_63),_63_60pop_33(_),_ms.unlazy(_63)(- 1));
+					_ms.unlazy(_33)(_ms.unlazy(_61_63),_63pop_62_33(_),empty(_ms.unlazy(_63)));
+					_ms.unlazy(_33)(_ms.unlazy(empty_63),_);
+					return _43_43_62_33(_,[1,2,3])
+				},"displayName","implementor-test")
+			}();
 			return {
 				doc:doc,
 				"implementor-test":implementor_45test,
@@ -87,4 +89,4 @@ define(["exports","../../Type/Kind","../../Type/Method","../atbang","../at-Type"
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1NlcS9TZXEhLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7Ozs7RUFnQkEsYUFBTyxlQUNJO0dBQVYsVUFDQztHQUdELGlDQUFtQixTQUFBLEtBQ0k7SUFDdEI7S0FBUyxRQUFBO0tBQ1IsK0JBQUcsRUFBRSxRQUNLO2FBQVQ7WUFFRzthQUFILE1BQU07S0FBQTtJQUFBO0lBQ1IsYUFBSyxFQUFFLENBQUUsRUFBRTtJQUNYLGFBQUssRUFBRSxDQUFFLElBQUc7MENBQ0osRUFBRSxDQUFFLElBQUcsSUFBRyxFQUFFO3VDQUNmLGFBQUEsbUJBQVc7dUNBQ1gsYUFBQSxtQkFBVzt1Q0FDWCxhQUFBLG1CQUFXO3VDQUNYLGFBQUEsbUJBQVc7dUNBQ1gsYUFBQSxHQUFTO3lDQUNMO1dBQ1QsYUFBSyxFQUFFLENBQUUsRUFBRSxFQUFFO0dBQUE7VUFwQko7Ozs7OztFQXNCWCxlQUFXLE9BQUsscUJBQ007R0FBckIsVUFBQSxVQUNVLFVBQUE7V0FBVDs7OztFQUVGLFFBQU0sT0FBSztFQUNYLFFBQU0sT0FBSztFQUVYLG1DQUFNLGlCQUNNO0dBQVgsVUFDQztVQURVOzs7OztFQUdaLG1DQUFNLGlCQUNNO0dBQVgsVUFDQztVQURVOzs7OztFQUlaLHFDQUFRLGlCQUNNO0dBQWIsVUFDQztVQURZOzs7OztFQUdkLHFDQUFRLGlCQUNNO0dBQWIsVUFDQztVQURZOzs7OztFQUlkLHVDQUFVLGlCQUNNO0dBQWYsVUFDQztVQURjOzs7OztFQWpFaEIsc0NBQUE7a0JBcUVBIiwiZmlsZSI6ImF0L1NlcS9TZXFiYW5nLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1NlcS9TZXEhLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7Ozs7RUFnQkEsYUFBTyxlQUNJO0dBQVYsVUFDQztHQUdELG1DQUFtQjttQkFBQSxTQUFBLEtBQ0k7S0FDdEI7TUFBUyxRQUFBO01BQ1IsK0JBQUcsRUFBRSxRQUNLO2NBQVQ7YUFFRztjQUFILE1BQU07TUFBQTtLQUFBO0tBQ1IsYUFBSyxFQUFFLENBQUUsRUFBRTtLQUNYLGFBQUssRUFBRSxDQUFFLElBQUc7MkNBQ0osRUFBRSxDQUFFLElBQUcsSUFBRyxFQUFFO3dDQUNmLGFBQUEsbUJBQVc7d0NBQ1gsYUFBQSxtQkFBVzt3Q0FDWCxhQUFBLG1CQUFXO3dDQUNYLGFBQUEsbUJBQVc7d0NBQ1gsYUFBQSxHQUFTOzBDQUNMO1lBQ1QsYUFBSyxFQUFFLENBQUUsRUFBRSxFQUFFO0lBQUE7Ozs7Ozs7O0VBRWYsZUFBVyxPQUFLLHFCQUNNO0dBQXJCLFVBQUEsVUFDVSxVQUFBO1dBQVQ7Ozs7RUFFRixRQUFNLE9BQUs7RUFDWCxRQUFNLE9BQUs7RUFFWCxtQ0FBTSxpQkFDTTtHQUFYLFVBQ0M7Ozs7OztFQUVGLG1DQUFNLGlCQUNNO0dBQVgsVUFDQzs7Ozs7O0VBR0YscUNBQVEsaUJBQ007R0FBYixVQUNDOzs7Ozs7RUFFRixxQ0FBUSxpQkFDTTtHQUFiLFVBQ0M7Ozs7OztFQUdGLHVDQUFVLGlCQUNNO0dBQWYsVUFDQzs7Ozs7O0VBbEVGLHNDQUFBO2tCQXFFQSIsImZpbGUiOiJhdC9TZXEvU2VxYmFuZy5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

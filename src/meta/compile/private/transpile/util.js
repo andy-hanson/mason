@@ -1,6 +1,6 @@
 import { ArrayExpression, AssignmentExpression, BreakStatement, CallExpression, ExpressionStatement,
 	Identifier, Literal, ReturnStatement, VariableDeclarator } from 'esast/dist/ast'
-import { member, thunk, toStatement } from 'esast/dist/util'
+import { member, thunk } from 'esast/dist/util'
 import { unshift } from '../U/Bag'
 import { opMap } from '../U/op'
 import { assert } from '../U/util'
@@ -99,9 +99,7 @@ export const
 					accessLocalDeclare(local),
 					Literal(local.name)))),
 
-	lazyWrap = value => msLazy(thunk(value)),
-
-	toStatements = _ => _ instanceof Array ? _.map(toStatement) : [ toStatement(_) ]
+	lazyWrap = value => msLazy(thunk(value))
 
 const getMember = (cx, astObject, gotName, isLazy, isModule) => {
 	if (isLazy)

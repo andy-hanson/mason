@@ -7,10 +7,11 @@ const Expression = abstract('Expression', Object, 'doc')
 export default Expression
 
 export const
-	Do = abstract('Do', Expression, `
+	LineContent = abstract('ValOrDo', Expression, 'Valid part of a Block.'),
+	Do = abstract('Do', LineContent, `
 		These can only appear as lines in a Block.
 		Not to be confused with Generator expressions resulting from \`do\` keyword.`),
-	Val = abstract('Val', Expression, 'These can appear in any expression.')
+	Val = abstract('Val', LineContent, 'These can appear in any expression.')
 
 const makeType = superType => (name, doc, namesTypes, protoProps, tuplProps) =>
 	// TODO: provide actual docs...
@@ -19,18 +20,6 @@ const
 	ee = makeType(Expression), ed = makeType(Do), ev = makeType(Val)
 
 export const
-	Debug = ed('Debug',
-		'TODO:DOC',
-		[ 'lines', [Expression] ]),
-	BlockDo = ed('BlockDo',
-		'TODO:DOC',
-		[ 'lines', [Expression] ]),
-	BlockVal = ed('BlockVal',
-		'TODO:DOC',
-		[ 'lines', [Expression], 'returned', Val ]),
-	ModuleDefaultExport = ed('ModuleDefaultExport',
-		'TODO:DOC',
-		[ 'value', Val ]),
 	LocalDeclare = ee('LocalDeclare',
 		'TODO:DOC',
 		[
@@ -52,6 +41,43 @@ export const
 			name: 'res',
 			isLazy: false
 		}),
+
+	Debug = ed('Debug',
+		'TODO:DOC',
+		[ 'lines', [LineContent] ]),
+
+	Block = abstract('Block', Expression, 'TODO:DOC'),
+	BlockDo = makeType(Block)('BlockDo',
+		'TODO:DOC',
+		[ 'lines', [LineContent] ]),
+	BlockVal = abstract('BlockVal', Block, 'TODO:DOC'),
+	BlockWithReturn = makeType(BlockVal)('BlockWithReturn',
+		'TODO:DOC',
+		[ 'lines', [LineContent], 'returned', Val ]),
+
+	BlockObj = makeType(BlockVal)('BlockObj',
+		'TODO:DOC',
+		[
+			'lines', [LineContent],
+			'keys', [LocalDeclare],
+			'opObjed', Nullable(Val),
+			'opDisplayName', Nullable(String)
+		]),
+
+	BagEntry = ee('BagEntry',
+		'TODO:DOC',
+		[ 'value', Val ]),
+	BlockBag = makeType(BlockVal)('BlockBag',
+		'TODO:DOC',
+		[ 'lines', [Union(LineContent, BagEntry)] ]),
+
+	MapEntry = ee('MapEntry',
+		'TODO:DOC',
+		[ 'key', Val, 'val', Val ]),
+	BlockMap = makeType(BlockVal)('BlockMap',
+		'TODO:DOC',
+		[ 'lines', [Union(LineContent, MapEntry)] ]),
+
 	Assign = ed('Assign',
 		'TODO:DOC',
 		[
@@ -103,30 +129,9 @@ export const
 		]),
 
 	// Data
-	ListEntry = ed('ListEntry',
-		'TODO:DOC',
-		[ 'value', Val ]),
-	ListReturn = ev('ListReturn',
-		'TODO:DOC',
-		[ ]),
 	ListSimple = ev('ListSimple',
 		'TODO:DOC',
 		[ 'parts', [Val] ]),
-
-	MapEntry = ed('MapEntry',
-		'TODO:DOC',
-		[ 'key', Val, 'val', Val ]),
-	MapReturn = ev('MapReturn',
-		'TODO:DOC',
-		[ ]),
-
-	ObjReturn = ev('ObjReturn',
-		'TODO:DOC',
-		[
-			'keys', [LocalDeclare],
-			'opObjed', Nullable(Val),
-			'opDisplayName', Nullable(String)
-		]),
 	ObjPair = ee('ObjPair',
 		'TODO:DOC',
 		[
@@ -216,13 +221,13 @@ export const
 			'isGenerator', Boolean,
 			'args', [LocalDeclare],
 			'opRestArg', Nullable(LocalDeclare),
-			// BlockDo or BlockVal
-			'block', Expression,
+			'block', Block,
 			'opIn', Nullable(Debug),
 			// If non-empty, block should be a BlockVal,
 			// and either it has a type or opOut is non-empty.
 			'opResDeclare', Nullable(LocalDeclareRes),
-			'opOut', Nullable(Debug)
+			'opOut', Nullable(Debug),
+			'name', Nullable(String)
 		]),
 
 	Lazy = ev('Lazy',

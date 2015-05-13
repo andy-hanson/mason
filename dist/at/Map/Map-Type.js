@@ -19,19 +19,21 @@ define(["exports","../../Fun","../../methods","../../Type/Method","../../Type/Pr
 		});
 		impl_33(sub,Map_45Type,identity);
 		impl_33(from_45stream,Map_45Type,function(){
-			const test=_ms.set(function(){
-				const m=function(){
-					const _k0=1,_v0=2;
-					const _k1=3,_v1=4;
-					return _ms.map(_k0,_v0,_k1,_v1)
-				}();
-				const _k0=[_ms.unlazy(Hash_45Map_33),m],_v0=function(){
-					const _k0=1,_v0=2;
-					const _k1=3,_v1=4;
-					return _ms.map(_k0,_v0,_k1,_v1)
-				}();
-				return _ms.map(_k0,_v0)
-			},"displayName","test");
+			const test=function(){
+				return _ms.set(function(){
+					const m=function(){
+						const _k0=1,_v0=2;
+						const _k1=3,_v1=4;
+						return _ms.map(_k0,_v0,_k1,_v1)
+					}();
+					const _k0=[_ms.unlazy(Hash_45Map_33),m],_v0=function(){
+						const _k0=1,_v0=2;
+						const _k1=3,_v1=4;
+						return _ms.map(_k0,_v0,_k1,_v1)
+					}();
+					return _ms.map(_k0,_v0)
+				},"displayName","test")
+			}();
 			return _ms.set(function(type,stream){
 				_ms.checkContains(_64,stream,"stream");
 				const _=empty(type);
@@ -47,4 +49,4 @@ define(["exports","../../Fun","../../methods","../../Type/Method","../../Type/Pr
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL01hcC9NYXAtVHlwZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7O0VBYUEsaUJBQVcsZUFDSTtHQUFkLFVBQU07VUFBUTs7Ozs7RUFFZixRQUFNLFdBQVM7RUFHZixlQUFXLElBQUk7RUFDZixlQUFXLE1BQU0sSUFDSyxVQUFBO1VBQXJCOztFQUVELFFBQU0sSUFBSSxXQUFTO0VBRW5CLFFBQU0sY0FBWSxxQkFDUTtHQUF6QixtQkFDTyxVQUFBO0lBQ04sa0JBQ0c7S0FBRixVQUFBLE1BQUs7S0FDTCxVQUFBLE1BQUs7OztJQUNOLFVBQUEsMkJBQVksaUJBQ007S0FBakIsVUFBQSxNQUFLO0tBQ0wsVUFBQSxNQUFLOzs7OztrQkFDTixTQUFBLEtBQUssT0FDUTtzQkFERDtJQUNaLFFBQUksTUFBTTtJQUNWLFFBQU0sT0FBUSxTQUFBLEtBQ0k7S0FBakIsV0FBa0IsMkJBQWQsMENBQVE7aUNBQ0wsRUFBRSxJQUFJO0lBQUE7V0FDZDtHQUFBOztFQXZDRixzQ0FBQTtrQkF5Q0EiLCJmaWxlIjoiYXQvTWFwL01hcC1UeXBlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL01hcC9NYXAtVHlwZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7O0VBYUEsaUJBQVcsZUFDSTtHQUFkLFVBQU07Ozs7OztFQUVQLFFBQU0sV0FBUztFQUdmLGVBQVcsSUFBSTtFQUNmLGVBQVcsTUFBTSxJQUNLLFVBQUE7VUFBckI7O0VBRUQsUUFBTSxJQUFJLFdBQVM7RUFFbkIsUUFBTSxjQUFZLHFCQUNRO0dBQXpCLHFCQUNPO21CQUFBLFVBQUE7S0FDTixrQkFDRztNQUFGLFVBQUEsTUFBSztNQUNMLFVBQUEsTUFBSzs7O0tBQ04sVUFBQSwyQkFBWSxpQkFDTTtNQUFqQixVQUFBLE1BQUs7TUFDTCxVQUFBLE1BQUs7Ozs7OztrQkFDTixTQUFBLEtBQUssT0FDUTtzQkFERDtJQUNaLFFBQUksTUFBTTtJQUNWLFFBQU0sT0FBUSxTQUFBLEtBQ0k7S0FBakIsV0FBa0IsMkJBQWQsMENBQVE7aUNBQ0wsRUFBRSxJQUFJO0lBQUE7V0FDZDtHQUFBOztFQXZDRixzQ0FBQTtrQkF5Q0EiLCJmaWxlIjoiYXQvTWFwL01hcC1UeXBlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

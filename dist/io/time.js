@@ -13,20 +13,26 @@ define(["exports","../cash","../Fun","../js","../math/Num","../bang","../compare
 		}();
 		const $after_45time=exports["$after-time"]=function(){
 			const doc="Does something after a certain time has passed.";
-			const $test=_ms.set(function*(){
-				const _=$after_45time(100,_ms.set(function(){
-					return 1
-				},"displayName","_"));
-				_ms.unlazy(_33)(_ms.unlazy(_60_63),100,(yield _ms.unlazy($time)(_)));
-				return _ms.unlazy(_33)(_ms.unlazy(_61_63),1,(yield _))
-			},"displayName","$test");
+			const $test=function(){
+				return _ms.set(function*(){
+					const _=$after_45time(100,(yield* function*(){
+						return _ms.set(function(){
+							return 1
+						},"displayName","_")
+					}()));
+					_ms.unlazy(_33)(_ms.unlazy(_60_63),100,(yield _ms.unlazy($time)(_)));
+					return _ms.unlazy(_33)(_ms.unlazy(_61_63),1,(yield _))
+				},"displayName","$test")
+			}();
 			return _ms.set(function(time_45ms,_){
 				_ms.checkContains(Num,time_45ms,"time-ms");
 				_ms.checkContains(Fun,_,"_");
 				return _new($,function(resolve){
-					const f=_ms.set(function(){
-						return resolve(_())
-					},"displayName","f");
+					const f=function(){
+						return _ms.set(function(){
+							return resolve(_())
+						},"displayName","f")
+					}();
 					return global.setTimeout(f,time_45ms)
 				})
 			},"doc",doc,"$test",$test,"displayName","$after-time")
@@ -35,4 +41,4 @@ define(["exports","../cash","../Fun","../js","../math/Num","../bang","../compare
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9pby90aW1lLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7RUFXQSwrREFDZ0I7R0FBZixVQUFNO2tCQUVMLFVBQUE7V0FBQyxLQUFJOzs7RUFFUCxxREFDWTtHQUFYLFVBQU07R0FDTixvQkFDUyxXQUFBO0lBQVIsUUFBSSxjQUFZLFlBQ0ssVUFBQTtZQUFwQjtJQUFBO3VDQUNJLElBQUkseUJBQUk7OENBQ1IsRUFBRSxPQUFJO0dBQUE7a0JBQ1gsU0FBQSxVQUFZLEVBQ0s7c0JBRFQ7c0JBQU07V0FFZCxLQUFJLEVBQUcsU0FBQSxRQUNPO0tBQWIsZ0JBQ0ssVUFBQTthQUFKLFFBQVE7S0FBQTtZQUNULGtCQUFrQixFQUFFO0lBQUE7R0FBQTs7RUE1QnZCLHNDQUFBIiwiZmlsZSI6ImlvL3RpbWUuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9pby90aW1lLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7RUFXQSwrREFDZ0I7R0FBZixVQUFNO2tCQUVMLFVBQUE7V0FBQyxLQUFJOzs7RUFFUCxxREFDWTtHQUFYLFVBQU07R0FDTixzQkFDUzttQkFBQSxXQUFBO0tBQVIsUUFBSSxjQUFZLElBQ0ssbUJBQUE7cUJBQUEsVUFBQTtjQUFwQjtNQUFBOzt3Q0FDSSxJQUFJLHlCQUFJOytDQUNSLEVBQUUsT0FBSTtJQUFBOztrQkFDWCxTQUFBLFVBQVksRUFDSztzQkFEVDtzQkFBTTtXQUVkLEtBQUksRUFBRyxTQUFBLFFBQ087S0FBYixrQkFDSztxQkFBQSxVQUFBO2NBQUosUUFBUTtNQUFBOztZQUNULGtCQUFrQixFQUFFO0lBQUE7R0FBQTs7RUE1QnZCLHNDQUFBIiwiZmlsZSI6ImlvL3RpbWUuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

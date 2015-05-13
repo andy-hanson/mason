@@ -7,13 +7,15 @@ define(["exports","../Fun","../js","../private/js-impl","../Obj","../Objbang",".
 		}),_$15=_ms.lazyGetModule(compare_12),_61_63=_ms.lazyProp(_$15,"=?"),_$17=_ms.lazyGetModule(js_13),defined_63=_ms.lazyProp(_$17,"defined?"),Num=_ms.lazy(function(){
 			return _ms.getDefaultExport(Num_14)
 		}),_$19=_ms.lazyGetModule(Try_15),fails_63=_ms.lazyProp(_$19,"fails?");
-		const if_33=_ms.set(function(cond,fun){
-			if(_ms.bool(cond)){
-				fun()
-			} else {
-				null
-			}
-		},"displayName","if!");
+		const if_33=function(){
+			return _ms.set(function(cond,fun){
+				if(_ms.bool(cond)){
+					fun()
+				} else {
+					null
+				}
+			},"displayName","if!")
+		}();
 		const Wrap_45Type=Obj_45Type(function(){
 			const doc="Obj with only one prop (always called `val`).\nThese are useful for wrapping a value with a new type.";
 			const props=function(){
@@ -33,44 +35,54 @@ define(["exports","../Fun","../js","../private/js-impl","../Obj","../Objbang",".
 			}();
 			const extensible=true;
 			const defaults=function(){
-				const prototype=_ms.set(function(){
-					return Obj.create(Obj.prototype)
-				},"displayName","prototype");
+				const prototype=function(){
+					return _ms.set(function(){
+						return Obj.create(Obj.prototype)
+					},"displayName","prototype")
+				}();
 				return {
 					prototype:prototype,
 					displayName:"defaults"
 				}
 			}();
-			const post_45construct=_ms.set(function(_){
-				return p_43_33(_.prototype,"constructor",_)
-			},"displayName","post-construct");
-			const make_45callable=_ms.set(function(_){
-				const src=buildStr(_ms.set(function(add_33){
-					add_33("return function ctr(_) {\n\tif (!(this instanceof ctr)) return new ctr(_)\n\tthis.val = _");
-					if_33(_ms.unlazy(defined_63)(_["wrapped-type"]),function(){
-						return add_33("_ms.checkContains(wrappedType, _, \"val\")")
-					});
-					return add_33("}")
-				},"displayName","src"));
-				const f=Fun("wrappedType",src);
-				return f(_["wrapped-type"])
-			},"displayName","make-callable");
-			const test=_ms.set(function(){
-				const W=Wrap_45Type(function(){
-					const doc="W";
-					const wrapped_45type=_ms.unlazy(Num);
-					return {
-						doc:doc,
-						"wrapped-type":wrapped_45type,
-						displayName:"W"
-					}
-				}());
-				const w=W(3);
-				_ms.unlazy(_33)(_ms.unlazy(_61_63),w.val,3);
-				_ms.unlazy(_33)(_ms.unlazy(fails_63),function(){
-					return W("three")
-				})
-			},"displayName","test");
+			const post_45construct=function(){
+				return _ms.set(function(_){
+					return p_43_33(_.prototype,"constructor",_)
+				},"displayName","post-construct")
+			}();
+			const make_45callable=function(){
+				return _ms.set(function(_){
+					const src=buildStr(function(){
+						return _ms.set(function(add_33){
+							add_33("return function ctr(_) {\n\tif (!(this instanceof ctr)) return new ctr(_)\n\tthis.val = _");
+							if_33(_ms.unlazy(defined_63)(_["wrapped-type"]),function(){
+								return add_33("_ms.checkContains(wrappedType, _, \"val\")")
+							});
+							return add_33("}")
+						},"displayName","src")
+					}());
+					const f=Fun("wrappedType",src);
+					return f(_["wrapped-type"])
+				},"displayName","make-callable")
+			}();
+			const test=function(){
+				return _ms.set(function(){
+					const W=Wrap_45Type(function(){
+						const doc="W";
+						const wrapped_45type=_ms.unlazy(Num);
+						return {
+							doc:doc,
+							"wrapped-type":wrapped_45type,
+							displayName:"W"
+						}
+					}());
+					const w=W(3);
+					_ms.unlazy(_33)(_ms.unlazy(_61_63),w.val,3);
+					_ms.unlazy(_33)(_ms.unlazy(fails_63),function(){
+						return W("three")
+					})
+				},"displayName","test")
+			}();
 			return {
 				doc:doc,
 				props:props,
@@ -101,4 +113,4 @@ define(["exports","../Fun","../js","../private/js-impl","../Obj","../Objbang",".
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL1dyYXAtVHlwZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7RUFxQk0sb0JBQU8sU0FBQSxLQUFLLElBQ0c7R0FDZixZQUFKLE1BQ0k7SUFBSDtHQUFBLE9BRUc7SUFBSDtHQUFBO0VBQUE7RUFFSCxrQkFBWSxxQkFDUTtHQUFuQixVQUNDO0dBRUQsc0JBQ007SUFBTCxrQkFBYTtJQUNiLGdCQUFXO1dBRE47Ozs7O0dBRU4sNEJBQ1U7SUFBVCxxQkFBYztXQUFMOzs7OztHQUNWLGlCQUFZO0dBQ1oseUJBQ1M7SUFBUix3QkFDWSxVQUFBO1lBQVgsV0FBVzs7V0FESjs7Ozs7R0FFVCwrQkFBaUIsU0FBQSxFQUNDO1dBQWpCLFFBQUksWUFBYSxjQUFhO0dBQUE7R0FDL0IsOEJBQWdCLFNBQUEsRUFDQztJQUFoQixVQUFNLGlCQUFVLFNBQUEsT0FDSTtLQUFuQixPQUNDO0tBR0ssNkJBQWMsbUJBQ2lCLFVBQUE7YUFBcEMsT0FBTTtLQUFBO1lBQ1AsT0FBTTtJQUFBO0lBQ1AsUUFBSSxJQUFLLGNBQWE7V0FDdEIsRUFBRTs7R0FDSCxtQkFDTyxVQUFBO0lBQU4sUUFBSSxzQkFDUztLQUFaLFVBQU07S0FDTjtZQURZOzs7Ozs7SUFFYixRQUFJLEVBQUU7dUNBQ0QsTUFBTTt5Q0FFSyxVQUFBO1lBQWYsRUFBRztJQUFBO0dBQUE7VUFoQ2M7Ozs7Ozs7Ozs7OztFQWtDcEIsUUFBTSxZQUFVO0VBQ2hCLFFBQU0sWUFBVSxZQUFXLFNBQUEsR0FBRyxFQUNDO1VBQTlCLGdCQUFjLEVBQUU7RUFBQTtFQUNqQixRQUFNLFFBQVEsWUFBVyxTQUFBLEdBQUcsRUFDQzs7SUFDM0IsWUFBQSxnQkFBYyxFQUFFLEtBQ0U7WUFBakIsQ0FBRTtXQUVDO1lBQUg7SUFBQTtHQUFBO0VBQUE7RUF2RUgsc0NBQUE7a0JBeUVBIiwiZmlsZSI6IlR5cGUvV3JhcC1UeXBlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL1dyYXAtVHlwZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7RUFxQk0sc0JBQU87a0JBQUEsU0FBQSxLQUFLLElBQ0c7SUFDZixZQUFKLE1BQ0k7S0FBSDtJQUFBLE9BRUc7Ozs7O0VBRU4sa0JBQVkscUJBQ1E7R0FBbkIsVUFDQztHQUVELHNCQUNNO0lBQUwsa0JBQWE7SUFDYixnQkFBVzs7Ozs7O0dBQ1osNEJBQ1U7SUFBVCxxQkFBYzs7Ozs7O0dBQ2YsaUJBQVk7R0FDWix5QkFDUztJQUFSLDBCQUNZO29CQUFBLFVBQUE7YUFBWCxXQUFXOzs7Ozs7OztHQUNiLGlDQUFpQjttQkFBQSxTQUFBLEVBQ0M7WUFBakIsUUFBSSxZQUFhLGNBQWE7SUFBQTs7R0FDL0IsZ0NBQWdCO21CQUFBLFNBQUEsRUFDQztLQUFoQixVQUFNLG1CQUFVO3FCQUFBLFNBQUEsT0FDSTtPQUFuQixPQUNDO09BR0ssNkJBQWMsbUJBQ2lCLFVBQUE7ZUFBcEMsT0FBTTtPQUFBO2NBQ1AsT0FBTTtNQUFBOztLQUNQLFFBQUksSUFBSyxjQUFhO1lBQ3RCLEVBQUU7OztHQUNILHFCQUNPO21CQUFBLFVBQUE7S0FBTixRQUFJLHNCQUNTO01BQVosVUFBTTtNQUNOOzs7Ozs7O0tBQ0QsUUFBSSxFQUFFO3dDQUNELE1BQU07MENBRUssVUFBQTthQUFmLEVBQUc7S0FBQTtJQUFBOzs7Ozs7Ozs7Ozs7OztFQUVOLFFBQU0sWUFBVTtFQUNoQixRQUFNLFlBQVUsWUFBVyxTQUFBLEdBQUcsRUFDQztVQUE5QixnQkFBYyxFQUFFO0VBQUE7RUFDakIsUUFBTSxRQUFRLFlBQVcsU0FBQSxHQUFHLEVBQ0M7O0lBQzNCLFlBQUEsZ0JBQWMsRUFBRSxLQUNFO1lBQWpCLENBQUU7V0FFQztZQUFIO0lBQUE7R0FBQTtFQUFBO0VBdkVILHNDQUFBO2tCQXlFQSIsImZpbGUiOiJUeXBlL1dyYXAtVHlwZS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

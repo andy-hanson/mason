@@ -8,9 +8,9 @@ import manglePath from '../manglePath'
 import { cat, flatMap, isEmpty, last } from '../U/Bag'
 import { opIf, opMap } from '../U/op'
 import { idForDeclareCached } from './esast-util'
-import { t0, tm } from './transpile'
+import { t0, tLines } from './transpile'
 import { IdDefine, IdExports, IdModule, lazyWrap, makeDestructureDeclarators,
-	toStatements, msGetModule, msLazyGetModule, msGetDefaultExport, msLazy } from './util'
+	msGetModule, msLazyGetModule, msGetDefaultExport, msLazy } from './util'
 
 /*
 'use strict';
@@ -47,7 +47,7 @@ export default (_, cx) => {
 	// TODO: Some way of determining when it's OK for a module to not be lazy.
 	const isLazy = cx.opts.lazyModule()
 
-	const lines = flatMap(_.lines, line => toStatements(tm(line)))
+	const lines = tLines(_.lines)
 
 	const opDefaultExport = opMap(_.opDefaultExport, _ =>
 		AssignmentExpression('=', ExportsDefault, t0(_)))

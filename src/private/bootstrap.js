@@ -133,11 +133,10 @@ function Lazy(get) {
 	}
 }
 
-// Overwritten by show.ms
 msDefTemp('show', _ => {
 	if (typeof _ !== 'string' && typeof _ !== 'number')
 		throw new Error(
-			'Should only be using Strs or Nums here until this is defined for real in show.ms.')
+			`Should only use Strs or Nums here until this is overridden by show.ms. Got:\n${_}`)
 	return _.toString()
 })
 

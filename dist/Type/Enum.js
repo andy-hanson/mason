@@ -7,28 +7,30 @@ define(["exports","../at/at","../Obj","../Objbang","../show","../Str","./Impl-Ty
 		}),_$14=_ms.lazyGetModule(compare_11),_61_63=_ms.lazyProp(_$14,"=?"),_$15=_ms.lazyGetModule(Type_12),type_45of=_ms.lazyProp(_$15,"type-of");
 		const Enum=Obj_45Type(function(){
 			const doc="A Concrete-Type with a small number of instances.\nGreat for using with `switch`.";
-			const test=_ms.set(function(){
-				const Fruit=Enum(function(){
-					const values=function(){
-						const _0="apple";
-						const _1="orange";
-						return [_0,_1]
+			const test=function(){
+				return _ms.set(function(){
+					const Fruit=Enum(function(){
+						const values=function(){
+							const _0="apple";
+							const _1="orange";
+							return [_0,_1]
+						}();
+						return {
+							values:values,
+							displayName:"Fruit"
+						}
+					}());
+					const prices=function(){
+						const _k0=Fruit.apple,_v0=1;
+						const _k1=Fruit.orange,_v1=2;
+						return _ms.map(_k0,_v0,_k1,_v1)
 					}();
-					return {
-						values:values,
-						displayName:"Fruit"
-					}
-				}());
-				const prices=function(){
-					const _k0=Fruit.apple,_v0=1;
-					const _k1=Fruit.orange,_v1=2;
-					return _ms.map(_k0,_v0,_k1,_v1)
-				}();
-				_ms.unlazy(_33)(_ms.unlazy(_61_63),_ms.sub(prices,Fruit.apple),1);
-				_ms.unlazy(_33)(_ms.unlazy(_61_63),_ms.sub(prices,Fruit.orange),2);
-				_ms.unlazy(_33)(_ms.unlazy(_61_63),_ms.unlazy(type_45of)(Fruit.apple),Fruit);
-				return _ms.unlazy(_33)(_ms.unlazy(_61_63),(""+_ms.show(Fruit.apple)),"Fruit.apple")
-			},"displayName","test");
+					_ms.unlazy(_33)(_ms.unlazy(_61_63),_ms.sub(prices,Fruit.apple),1);
+					_ms.unlazy(_33)(_ms.unlazy(_61_63),_ms.sub(prices,Fruit.orange),2);
+					_ms.unlazy(_33)(_ms.unlazy(_61_63),_ms.unlazy(type_45of)(Fruit.apple),Fruit);
+					return _ms.unlazy(_33)(_ms.unlazy(_61_63),(""+_ms.show(Fruit.apple)),"Fruit.apple")
+				},"displayName","test")
+			}();
 			const props=function(){
 				const displayName=Str;
 				const prototype=Obj;
@@ -40,25 +42,29 @@ define(["exports","../at/at","../Obj","../Objbang","../show","../Str","./Impl-Ty
 				}
 			}();
 			const defaults=function(){
-				const prototype=_ms.set(function(){
-					return Obj.create(Obj.prototype)
-				},"displayName","prototype");
+				const prototype=function(){
+					return _ms.set(function(){
+						return Obj.create(Obj.prototype)
+					},"displayName","prototype")
+				}();
 				return {
 					prototype:prototype,
 					displayName:"defaults"
 				}
 			}();
-			const post_45construct=_ms.set(function(_enum){
-				each_33(_enum.values,function(val_45name){
-					const enum_45val=Obj.create(_enum.prototype);
-					p_43_33(enum_45val,"name",val_45name);
-					return p_43_33(_enum,val_45name,enum_45val)
-				});
-				p_43_33(_enum.prototype,"constructor",_enum);
-				return impl_33(show,_enum,function(val){
-					return (((""+_ms.show(_enum.displayName))+".")+_ms.show(val.name))
-				})
-			},"displayName","post-construct");
+			const post_45construct=function(){
+				return _ms.set(function(_enum){
+					each_33(_enum.values,function(val_45name){
+						const enum_45val=Obj.create(_enum.prototype);
+						p_43_33(enum_45val,"name",val_45name);
+						return p_43_33(_enum,val_45name,enum_45val)
+					});
+					p_43_33(_enum.prototype,"constructor",_enum);
+					return impl_33(show,_enum,function(val){
+						return (((""+_ms.show(_enum.displayName))+".")+_ms.show(val.name))
+					})
+				},"displayName","post-construct")
+			}();
 			return {
 				doc:doc,
 				test:test,
@@ -77,4 +83,4 @@ define(["exports","../at/at","../Obj","../Objbang","../show","../Str","./Impl-Ty
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL0VudW0ubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQWdCQSxXQUFPLHFCQUNRO0dBQWQsVUFDQztHQUVELG1CQUNPLFVBQUE7SUFBTixZQUFRLGVBQ0k7S0FBWCx1QkFDTztNQUFOLFNBQUc7TUFDSCxTQUFHO2FBREc7O1lBREk7Ozs7O0lBR1osdUJBQ1E7S0FBUCxVQUFBLGdCQUFlO0tBQ2YsVUFBQSxpQkFBZ0I7OzsrQ0FDWixPQUFPLGFBQWE7K0NBQ3BCLE9BQU8sY0FBYzs2REFDWixhQUFhOzhDQUNyQixDQVlJLFlBWkgsY0FBZTtHQUFBO0dBQ3ZCLHNCQUNNO0lBQUwsa0JBQWE7SUFDYixnQkFBVztJQUNYLHFCQUFRLE1BQU07V0FGVDs7Ozs7O0dBR04seUJBQ1M7SUFBUix3QkFDWSxVQUFBO1lBQVgsV0FBVzs7V0FESjs7Ozs7R0FFVCwrQkFBaUIsU0FBQSxNQUNJO0lBQXBCLFFBQU0sYUFBYSxTQUFBLFdBQ1E7S0FBMUIsaUJBQVcsV0FBVztLQUN0QixRQUFJLFdBQVUsT0FBTTtZQUNwQixRQUFJLE1BQUssV0FBUztJQUFBO0lBQ25CLFFBQUksZ0JBQWdCLGNBQWE7V0FDakMsUUFBTSxLQUFLLE1BQU0sU0FBQSxJQUNHO1lBQWxCLEdBSFEsWUFHUCxrQ0FBbUI7OztVQTdCVDs7Ozs7Ozs7O0VBK0JmLFFBQU0sS0FBSztFQUVYLFFBQU0sWUFBVSxLQUFNLFNBQUEsRUFBRSxNQUNLO1VBQTVCLGlDQUFpQyxZQUFZO0VBQUE7RUFuRDlDLHNDQUFBO2tCQXFEQSIsImZpbGUiOiJUeXBlL0VudW0uanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL0VudW0ubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQWdCQSxXQUFPLHFCQUNRO0dBQWQsVUFDQztHQUVELHFCQUNPO21CQUFBLFVBQUE7S0FBTixZQUFRLGVBQ0k7TUFBWCx1QkFDTztPQUFOLFNBQUc7T0FDSCxTQUFHOzs7Ozs7OztLQUNMLHVCQUNRO01BQVAsVUFBQSxnQkFBZTtNQUNmLFVBQUEsaUJBQWdCOzs7Z0RBQ1osT0FBTyxhQUFhO2dEQUNwQixPQUFPLGNBQWM7OERBQ1osYUFBYTsrQ0FDckIsQ0FZSSxZQVpILGNBQWU7SUFBQTs7R0FDdkIsc0JBQ007SUFBTCxrQkFBYTtJQUNiLGdCQUFXO0lBQ1gscUJBQVEsTUFBTTs7Ozs7OztHQUNmLHlCQUNTO0lBQVIsMEJBQ1k7b0JBQUEsVUFBQTthQUFYLFdBQVc7Ozs7Ozs7O0dBQ2IsaUNBQWlCO21CQUFBLFNBQUEsTUFDSTtLQUFwQixRQUFNLGFBQWEsU0FBQSxXQUNRO01BQTFCLGlCQUFXLFdBQVc7TUFDdEIsUUFBSSxXQUFVLE9BQU07YUFDcEIsUUFBSSxNQUFLLFdBQVM7S0FBQTtLQUNuQixRQUFJLGdCQUFnQixjQUFhO1lBQ2pDLFFBQU0sS0FBSyxNQUFNLFNBQUEsSUFDRzthQUFsQixHQUhRLFlBR1Asa0NBQW1COzs7Ozs7Ozs7Ozs7O0VBRXhCLFFBQU0sS0FBSztFQUVYLFFBQU0sWUFBVSxLQUFNLFNBQUEsRUFBRSxNQUNLO1VBQTVCLGlDQUFpQyxZQUFZO0VBQUE7RUFuRDlDLHNDQUFBO2tCQXFEQSIsImZpbGUiOiJUeXBlL0VudW0uanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

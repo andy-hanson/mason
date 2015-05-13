@@ -7,12 +7,16 @@ define(["exports","../../at/at","../../at/q","../../at/Map/Mapbang","../../at/Ma
 		}),_$15=_ms.lazyGetModule(_64_12),any_63=_ms.lazyProp(_$15,"any?"),_$16=_ms.lazyGetModule(Seq_13),take_39=_ms.lazyProp(_$16,"take'"),_$17=_ms.lazyGetModule(Bool_14),not=_ms.lazyProp(_$17,"not"),_$18=_ms.lazyGetModule(Num_15),divisible_63=_ms.lazyProp(_$18,"divisible?");
 		const primes=exports.primes=function(){
 			const doc="Infinite Seq of Num > 2, each divisible only by itself and one.";
-			const test=_ms.set(function(){
-				const is_45prime_63=_ms.set(function(_){
-					return _ms.unlazy(not)(_ms.unlazy(any_63)(range(2,_),_ms.sub(_ms.unlazy(divisible_63),_)))
-				},"displayName","is-prime?");
-				return each_33(_ms.unlazy(take_39)(primes,20),_ms.sub(_ms.unlazy(_33),is_45prime_63))
-			},"displayName","test");
+			const test=function(){
+				return _ms.set(function(){
+					const is_45prime_63=function(){
+						return _ms.set(function(_){
+							return _ms.unlazy(not)(_ms.unlazy(any_63)(range(2,_),_ms.sub(_ms.unlazy(divisible_63),_)))
+						},"displayName","is-prime?")
+					}();
+					return each_33(_ms.unlazy(take_39)(primes,20),_ms.sub(_ms.unlazy(_33),is_45prime_63))
+				},"displayName","test")
+			}();
 			return _ms.set(Stream(function*(){
 				(yield 2);
 				(yield 3);
@@ -44,4 +48,4 @@ define(["exports","../../at/at","../../at/q","../../at/Map/Mapbang","../../at/Ma
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL2RlbW8vc2lldmUtb2YtZXJhdG9zdGhlbmVzLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7RUFvQkEsc0NBQ087R0FBTixVQUFNO0dBQ04sbUJBQ08sVUFBQTtJQUFOLDRCQUFhLFNBQUEsRUFDQzsrQ0FBRixNQUFNLEVBQUUsb0NBQWM7SUFBQTtXQUNsQyw0QkFBYSxPQUFPLDRCQUFNO0dBQUE7a0JBQzNCLE9BQ1MsV0FBQTtJQUFMLE9BQUE7SUFDQSxPQUFBO0lBRUgsc0JBQWdCLE9BQUcsWUFDTyxtQkFBQTtLQUF6QixVQUFBLE1BQUssQ0FBRTs7O1dBQ0osUUFBQSxTQUFPLE1BQU0sRUFBRSxTQUFTLEdBQUssVUFBQSxVQUNTO0tBQ25DO01BQUEsUUFBQSxjQUFVLGdCQUFjO01BQzdCOzRCQUFDLEtBQUQ7c0JBQ2E7O1FBQVosUUFBTSxRQUFTLFNBQUEsRUFDQztTQUFmLFVBQU0sSUFBRSxVQUFXLElBQUUsRUFBRTtnQkFDdkIsa0JBQVUsZ0JBQWMsSUFBSSxDQUFFO1FBQUE7T0FBQSxPQUU1QjtRQUFBLE9BQUE7UUFDSCxTQUFPLGdCQUFlLE9BQU8sV0FBVyxDQUFFO09BQUE7TUFBQTtLQUFBO0lBQUE7R0FBQTs7RUF6Qy9DLHNDQUFBIiwiZmlsZSI6Im1ldGEvZGVtby9zaWV2ZS1vZi1lcmF0b3N0aGVuZXMuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL2RlbW8vc2lldmUtb2YtZXJhdG9zdGhlbmVzLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7RUFvQkEsc0NBQ087R0FBTixVQUFNO0dBQ04scUJBQ087bUJBQUEsVUFBQTtLQUFOLDhCQUFhO3FCQUFBLFNBQUEsRUFDQztpREFBRixNQUFNLEVBQUUsb0NBQWM7TUFBQTs7WUFDbEMsNEJBQWEsT0FBTyw0QkFBTTtJQUFBOztrQkFDM0IsT0FDUyxXQUFBO1dBQUw7V0FDQTtJQUVILHNCQUFnQixPQUFHLFlBQ08sbUJBQUE7S0FBekIsVUFBQSxNQUFLLENBQUU7OztXQUNKLFFBQUEsU0FBTyxNQUFNLEVBQUUsU0FBUyxHQUFLLFVBQUEsVUFDUztLQUNuQztNQUFBLFFBQUEsY0FBVSxnQkFBYztNQUM3Qjs0QkFBQyxLQUFEO3NCQUNhOztRQUFaLFFBQU0sUUFBUyxTQUFBLEVBQ0M7U0FBZixVQUFNLElBQUUsVUFBVyxJQUFFLEVBQUU7Z0JBQ3ZCLGtCQUFVLGdCQUFjLElBQUksQ0FBRTtRQUFBO09BQUEsT0FFNUI7ZUFBQTtRQUNILFNBQU8sZ0JBQWUsT0FBTyxXQUFXLENBQUU7T0FBQTtNQUFBO0tBQUE7SUFBQTtHQUFBOztFQXpDL0Msc0NBQUEiLCJmaWxlIjoibWV0YS9kZW1vL3NpZXZlLW9mLWVyYXRvc3RoZW5lcy5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

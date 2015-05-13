@@ -21,8 +21,6 @@ export const
 	perfTest = () => doTest(true)
 
 const doTest = includePerfTest => {
-	global.DEBUG = true
-
 	const source = fs.readFileSync('./ms-test.ms', 'utf-8')
 	const opts = OptsFromObject({
 		inFile: './ms-test.ms',

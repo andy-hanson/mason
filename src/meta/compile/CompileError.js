@@ -1,6 +1,6 @@
 import Loc from 'esast/dist/Loc'
 import tupl from 'tupl/dist/tupl'
-import type from './private/U/type'
+import { type } from './private/U/util'
 
 export default function CompileError(warning) {
 	if (!(this instanceof CompileError))
