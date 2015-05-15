@@ -1,7 +1,6 @@
 use
-	...Bool and not
+	...Boolean and not
 	...compare =?
-	...Fun
 	...Generator! each~
 	...methods sub
 	...Type.Type type-of
@@ -34,7 +33,7 @@ region New methods
 
 	has-key?. Method
 		doc. "
-			|:Bool _ key:Any
+			|:Boolean _ key:Any
 			Whether the key is in the Map.
 		default. |_ key:Any
 			not (empty? (?get _ key
@@ -83,7 +82,7 @@ region Functions
 				+ x 1
 			! =? map[1] 2
 			! =? map[2] 3
-		|@key:@ get-value:Fun
+		|@key:@ get-value:Function
 			map = empty Hash-Map!
 			each! @key |_
 				assoc! map _ get-value_

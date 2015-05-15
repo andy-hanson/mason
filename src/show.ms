@@ -1,40 +1,36 @@
 use
-	.Bool
 	.compare =?
-	.Fun _ spread!
+	.Function spread!
 	.js js+
-	.math.Num
 	.private.bootstrap msDef
 	.private.js-impl newSet
-	.Obj flag? p @p
-	.Str _ indent
+	.Object flag? p @p
+	.String indent
 	.Type.Method _ impl!
 	.Type.Type => type-of
 use~
 	.@.@ -- empty? map
-use-debug
-	.Obj
 
 showing = newSet()
 
 show = Method
 	doc.
 		"
-			|:Str _ opts
+			|:String _ opts
 			Converts the value to a string for string interpolation.
 			This is the method called when you do `\{...}`.
-			For a more detailed Str representation of data, use `inspect`.
+			For a more detailed String representation of data, use `inspect`.
 	test. |
 		# TODO: How to not include displayName
 		a =
 			~x. a
 		[ a ] -> "
-			Obj
+			Object
 				x. <recursive>
 				displayName. a
 		# TODO:SYNTAX [ a repr. ]
 		[ a (repr. true) ] -> "
-			Obj
+			Object
 				x. <recursive>
 				displayName. "a"
 		[ () ] -> "()"
@@ -45,7 +41,7 @@ show = Method
 				"<recursive>"
 			else
 				showing.add _
-				x:Str = impl _ opts
+				x:String = impl _ opts
 				showing.delete _
 				x
 	default. |_ opts
@@ -58,7 +54,7 @@ show = Method
 				# Don't show "prototype" because that is treated as an instance of itself and causes errors.
 				props = -- @p_ [ "prototype" ]
 				key-vals = => Array (map props |key
-					val:Str = show (p _ key) opts
+					val:String = show (p _ key) opts
 					"{key}. {indent val}"
 				"
 					{type-of_}
@@ -75,7 +71,7 @@ repr.
 		show _ (repr. true)
 
 spread! impl! show
-	Str ->
+	String ->
 		test. |
 			[ "a" ] -> "a"
 			# TODO:SYNTAX [ "a" repr. ]
@@ -87,7 +83,7 @@ spread! impl! show
 				else
 					_
 
-	Num ->
+	Number ->
 		test. |
 			[ 12 ] -> "12"
 			[ -1.0 ] -> "-1"
@@ -104,7 +100,7 @@ spread! impl! show
 			# TODO:ES6 _.name
 			"<Symbol>"
 
-	Bool ->
+	Boolean ->
 		test. |
 			[ true ] -> "true"
 			[ false ] -> "false"
@@ -114,7 +110,7 @@ spread! impl! show
 			else
 				"false"
 
-	Fun ->
+	Function ->
 		test. |
 			# TODO:DISPLAYNAME
 			a =
@@ -122,17 +118,17 @@ spread! impl! show
 				|
 					1
 			[ a ] -> "a"
-			[ Obj ] -> "Obj"
-			[ (Fun "" "") ] -> "<anonymous Fun>"
-		|:Str fun
+			[ Object ] -> "Object"
+			[ (Function "" "") ] -> "<anonymous Function>"
+		|:String fun
 			case fun.displayName
-				:Str
+				:String
 					_
 				else
 					case fun.name
-						# Every Fun has `name` property, but for anonymous Funs it is empty.
+						# Every Function has `name` property, but for anonymous Functions it is empty.
 						empty?_
-							"<anonymous Fun>"
+							"<anonymous Function>"
 						else
 							_
 

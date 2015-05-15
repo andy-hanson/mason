@@ -1,9 +1,8 @@
 use
-	.Bool
-	.Fun _ Act
+	.Function Action
 	.js defined?
 	.methods freeze
-	.Obj! p!
+	.Object! p!
 	.Type.Pred-Type Any Opt
 	.Type.Wrap-Type
 use~
@@ -33,13 +32,13 @@ opr.
 
 build.
 	doc. "
-		Passes in a `yield` function to `calls-yield`.
+		Passes in a `yield` Function to `calls-yield`.
 		Returns a Seq of what `calls-yield` called `yield` with.
 	test. |
 		! =? [ 0 1 ] (build |yield
 			yield 0
 			yield 1
-	|:Seq calls-yield:Fun
+	|:Seq calls-yield:Function
 		yielded = empty Array!
 		yield = |_
 			++>! yielded [ _ ]
@@ -48,7 +47,7 @@ build.
 
 region Conditional execution
 	switch.
-		doc. "Calls the Fun that `cases` associates with `val`."
+		doc. "Calls the Function that `cases` associates with `val`."
 		test. |
 			n = |x
 				switch x
@@ -62,9 +61,8 @@ region Conditional execution
 				[ 1 ] -> "one"
 				[ 2 ] -> "two"
 				[ 3 ] -> "three"
-		|val:Any cases:Map[Any Fun]
-			dispatch:Fun = ?-or (?get cases val) ~cases[switch-else]
-			dispatch()
+		|val:Any cases:Map[Any Function]
+			(?-or (?get cases val) ~cases[switch-else])()
 	switch-else.
 		doc. "Special object used as default for `switch` statements."
 
@@ -73,7 +71,7 @@ region Conditional execution
 		test. |
 			[ true 1 ] -> ? 1
 			[ false 1 ] -> empty ?
-		|:? condition:Bool ~result
+		|:? condition:Boolean ~result
 			case
 				condition
 					? result
@@ -87,7 +85,7 @@ region Conditional execution
 				if! true |
 					yield 0
 			if! false oh-no!
-		|condition:Bool result:Act
+		|condition:Boolean result:Action
 			case!
 				condition
 					result()
@@ -110,7 +108,7 @@ returning.
 		! =? [ 0 ] (build |yield
 			! =? 1 (returning 1 |
 				yield 0
-	|returned:Any do-after:Fun
+	|returned:Any do-after:Function
 		do-after returned
 		returned
 
@@ -127,7 +125,7 @@ region Loops
 					+ _ 1
 			[ 0 f ] -> "end"
 
-		|init-state transform-state:Fun
+		|init-state transform-state:Function
 			state = Ref! init-state
 			output = Ref! ()
 			loop!
@@ -165,7 +163,7 @@ region Ref!
 			_ = Ref! 0
 			mod! _ +[1]
 			! =? get_ 1
-		|_:Ref! f:Fun
+		|_:Ref! f:Function
 			set! _ (f get_
 
 	get.

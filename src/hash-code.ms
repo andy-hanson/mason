@@ -2,15 +2,12 @@ use
 	.@.@ empty? fold map
 	.@.@-Type empty
 	.@.Map.Weak-Id-Map!
-	.Bool
 	.compare =?
-	.Fun
 	.js id=?
 	.math.bit-arithmetic bit-and hexidecimal
-	.math.Num _ Int round-towards-0
+	.math.Number Int round-towards-0
 	.math.methods + *
-	.Obj p ?p @p-all
-	.Str
+	.Object p ?p @p-all
 	.Type.Method _ impl! impl-for
 use-debug
 	.! _ !not
@@ -47,13 +44,13 @@ hash-code = Method
 				109
 			hashes.has _
 				hashes.get _
-			:Fun
+			:Function
 				# TODO: Want to do other case below but it seems to cause infinite loop
-				(impl-for hash-code Fun) _
+				(impl-for hash-code Function) _
 			else
 				# Set it now so we don't recurse infinitely
 				hashes.set _ 17
-				# TODO: Should this be a function in Obj.ms?
+				# TODO: Should this be a function in Object.ms?
 				vals = map @p-all_ |name
 					p _ name
 				hash = fold vals 17 |acc val
@@ -62,14 +59,14 @@ hash-code = Method
 				hashes.set _ hash
 				hash
 
-# Since default hash-code only works on Objs, let's implement hash-code for primitives.
-impl! hash-code Bool |case
+# Since default hash-code only works on Objects, let's implement hash-code for primitives.
+impl! hash-code Boolean |case
 	_
 		1
 	else
 		0
 
-impl! hash-code Fun |fun
+impl! hash-code Function |fun
 	# TODO: There must be something better than this.
 	hash-code case ?p fun "displayName"
 		empty?_
@@ -81,7 +78,7 @@ impl! hash-code Fun |fun
 		else
 			_.val
 
-impl! hash-code Str
+impl! hash-code String
 	test. |
 		! =? (hash-code "a") (hash-code "a")
 		!not =? (hash-code "a") (hash-code "b")
@@ -98,7 +95,7 @@ impl! hash-code Symbol
 		# TODO:ES6 (currently this returns undefined)
 		42 # Symbol.keyFor _
 
-impl! hash-code Num |_
+impl! hash-code Number |_
 	# TODO: This treats small floats as equivalent.
 	bit-and round-towards-0_ max-hash-code
 

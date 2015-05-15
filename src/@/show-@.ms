@@ -1,8 +1,8 @@
 use
 	..compare <?
-	..Obj flag?
+	..Object flag?
 	..show
-	..Str _ indent
+	..String indent
 	..Type.Type => type-of
 	..Type.Method impl! impl-for
 	.@ _ count empty? map'
@@ -42,7 +42,7 @@ impl! show @
 					else
 						show-ems. ems
 						end. ""
-				"\n\t. {=> Str show-ems "\n\t. "}{end}"
+				"\n\t. {=> String show-ems "\n\t. "}{end}"
 		case
 			flag? opts "repr"
 				case

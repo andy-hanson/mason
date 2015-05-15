@@ -1,5 +1,5 @@
 use
-	...Fun identity
+	...Function identity
 	...methods sub
 	...Type.Method impl! self-impl!
 	...Type.Pred-Type Any

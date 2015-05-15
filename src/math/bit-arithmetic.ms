@@ -1,7 +1,6 @@
 use
 	..js js-bar js-and js-caret js~ js<< js>> js>>>
-	..Str
-	.Num _ Int
+	.Number Int
 use-debug
 	..! _ !not
 	..RegExp regexp
@@ -15,13 +14,13 @@ binary.
 		[ "101" ] -> 5
 		debug ! fails? |
 			binary "0a"
-	|:Int bin-str:Str
+	|:Int bin-str:String
 		in
 			!not ((regexp "[^01]").test bin-str) ~"Not a valid binary number: {bin-str}"
 		out
-			!not Num.isNaN res
+			!not Number.isNaN res
 
-		Num.parseInt bin-str 2
+		Number.parseInt bin-str 2
 
 hexidecimal.
 	doc. "Max an Int out of a string of hex codes (0-f). Capitalization ignored."
@@ -29,13 +28,13 @@ hexidecimal.
 		[ "7f" ] -> 127
 		debug ! fails? |
 			hexidecimal "asdfghjkl"
-	|:Int hex-str:Str
+	|:Int hex-str:String
 		in
 			!not ((regexp "[^0-9a-fA-F]").test hex-str) ~"Not a valid hexidecimal number: {hex-str}"
 		out
-			!not Num.isNaN res
+			!not Number.isNaN res
 
-		Num.parseInt hex-str 16
+		Number.parseInt hex-str 16
 
 bit-or.
 	doc. "JavaScript's `|` operator."

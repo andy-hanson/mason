@@ -14,7 +14,7 @@ export	const
 		}
 	},
 
-	// Bool.ms
+	// Boolean.ms
 	// TODO:ES6 ...args
 	iAnd = function() {
 		const args = arguments
@@ -103,7 +103,7 @@ export	const
 	},
 
 	// show.ms
-	newSet = () => new global.Set(),
+	newSet = () => new Set(),
 
 	// Hash-Map.ms
 	makeMap = (hm, assoc, args) => {
@@ -137,7 +137,7 @@ export	const
 		return out
 	},
 
-	// Fun.ms
+	// Function.ms
 	// TODO:ES6 (f, ...args) => Function.prototype.bind.call(f, null, ...args)
 	iCurry = function(f) {
 		return Function.prototype.bind.apply(f, arguments)

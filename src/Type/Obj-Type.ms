@@ -1,13 +1,12 @@
 use
-	..Bool _ and implies not
-	..private.bootstrap Fun impl-contains?! Obj p+! Str
+	..Boolean and implies not
+	..private.bootstrap impl-contains?! p+!
 	..js defined? js! js=== js-instanceof js-sub js-typeof
 	..private.js-impl buildStr
 use-debug
 	..!
 	..compare =?
 	..private.js-impl addOne
-	..math.Num
 	..Try fails?
 	.Type type-of
 
@@ -27,7 +26,7 @@ flag? = |case
 make-ctr = |ot
 	debug prop-has-type? = |props prop
 		# Type might be lazily defined, but don't trigger it yet.
-		desc = Obj.getOwnPropertyDescriptor props prop
+		desc = Object.getOwnPropertyDescriptor props prop
 		not (js=== desc.value ())
 
 	real-prop? = |props prop
@@ -44,7 +43,7 @@ make-ctr = |ot
 			return function ctr(_) \{
 			if (!(this instanceof ctr)) return new ctr(_)
 
-		real-props = (Obj.getOwnPropertyNames ot.props).filter |prop
+		real-props = (Object.getOwnPropertyNames ot.props).filter |prop
 			real-prop? ot.props prop
 
 		extensible = flag? ot.extensible
@@ -74,7 +73,7 @@ make-ctr = |ot
 							throw new Error(\"Forgot to assign {prop}.\")
 
 		if! (defined? ot.opt-props) |
-			(Obj.getOwnPropertyNames ot.opt-props).forEach |prop
+			(Object.getOwnPropertyNames ot.opt-props).forEach |prop
 				if! (real-prop? ot.opt-props prop) |
 					acc = access prop
 					add! "if (_{acc} !== undefined) \{"
@@ -123,45 +122,45 @@ make-ctr = |ot
 
 		add! "}"
 
-	make-ctr = Fun "prototype" "props" "defaults" "makeCallable" "postConstruct" "optProps" src
+	make-ctr = Function "prototype" "props" "defaults" "makeCallable" "postConstruct" "optProps" src
 	ctr = make-ctr ot.prototype ot.props ot.defaults ot.make-callable ot.post-construct ot.opt-props
 	debug p+! ctr "source" src
 	ctr
 
 obj-type-args =
 	doc. "
-		Impl-Type for Objs with specific properties.
+		Impl-Type for Objects with specific properties.
 		Obj-Types are nominal types;
 		a value must be constructed by calling the Obj-Type in order to be contained by it.
-		-
-		Note that there are Objs whose types are not Obj-Types;
-		these include those of Wrap-Types and those made by constructor Funs, JavaScript-style.
+
+		Note that there are Objects whose types are not Obj-Types;
+		these include those of Wrap-Types and those made by constructor Functions, JavaScript-style.
 	# This must be explicit because of the way we construct Obj-Type
-	prototype. Obj.create Obj.prototype
+	prototype. Object.create Object.prototype
 	props.
-		displayName. Str # displayName is mandatory for types.
-		props. Obj
-		prototype. Obj
+		displayName. String # displayName is mandatory for types.
+		props. Object
+		prototype. Object
 	opt-props.
-		defaults. Obj
-		# This takes in the props and outputs a Fun.
-		make-callable. Fun
-		opt-props. Obj
-		post-construct. Fun
-		doc. Str
-		test. Fun
-		extensible. Bool
+		defaults. Object
+		# This takes in the props and outputs a Function.
+		make-callable. Function
+		opt-props. Object
+		post-construct. Function
+		doc. String
+		test. Function
+		extensible. Boolean
 	defaults.
 		prototype. |
-			Obj.create Obj.prototype
+			Object.create Object.prototype
 	post-construct. |_
 		p+! _.prototype "constructor" _
 	make-callable. make-ctr
 	test. |
 		Vec2D = Obj-Type
 			props.
-				x. Num
-				y. Num
+				x. Number
+				y. Number
 		v = Vec2D
 			x. 1
 			y. 2
@@ -185,7 +184,7 @@ obj-type-args =
 			props.
 				x.
 			opt-props.
-				y. Num
+				y. Number
 		q = Q
 			x. 1
 			y. 2

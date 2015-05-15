@@ -1,11 +1,10 @@
 use
-	..private.bootstrap Fun Obj
 	.Kind _ kind! unchecked-kind!
 	.Obj-Type
 use-debug
 	..! _ !not
 	..compare =?
-	..Obj! empty-Obj!
+	..Object! empty-Object!
 	.Kind kind?
 	.Method impl!
 	.Type contains?
@@ -30,7 +29,7 @@ Impl-Type = Kind
 		!not kind? A B
 
 unchecked-kind! Obj-Type Impl-Type # Obj-Type isa Obj-Type, so can't use kind!
-unchecked-kind! Fun Impl-Type # Fun isa Fun, so can't use kind!
+unchecked-kind! Function Impl-Type # Function isa Function, so can't use kind!
 kind! Kind Impl-Type
 
 region Self-Type
@@ -38,18 +37,18 @@ region Self-Type
 	Self-Type. Obj-Type
 		doc. "
 			Impl-Type with exactly one member.
-			Calling impl! on it will directly modify an Obj to contain method implementations.
+			Calling impl! on it will directly modify an Object to contain method implementations.
 		props.
-			prototype. Obj
+			prototype. Object
 		test. |
-			x = empty-Obj!()
+			x = empty-Object!()
 			impl! contains? (self-type x) |
 				1
 			! =? (contains? x) 1
 
 	kind! Self-Type Impl-Type
 
-	self-type. |_:Obj
+	self-type. |_:Object
 		Self-Type (prototype. _
 
 Impl-Type

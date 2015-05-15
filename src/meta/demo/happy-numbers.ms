@@ -7,10 +7,10 @@ use
 	...@.Seq.Seq! set-nth!
 	...@.Seq.Stream
 	...@.Set.Id-Set!
-	...Bool _ and not
+	...Boolean and not
 	...control returning
 	...js defined? js-sub
-	...math.Num _ infinity Nat square
+	...math.Number infinity Nat square
 	...math.methods +
 	...Type.Type contains?
 use-debug
@@ -19,7 +19,7 @@ use-debug
 
 digits = |_:Nat
 	# TODO: map String to Array
-	map' (_.toString 10) Num.parseInt
+	map' (_.toString 10) Number.parseInt
 
 step =
 	|:Nat _:Nat
@@ -41,7 +41,7 @@ happy?.
 						# TODO: <+>!
 						++! stepped-through [ cur ]
 						loop (step cur
-		returning (loop n) |ans:Bool
+		returning (loop n) |ans
 			each! stepped-through |_
 				set-nth! cache _ ans
 			set-nth! cache n ans

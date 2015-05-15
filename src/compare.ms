@@ -1,5 +1,5 @@
 use
-	.Bool _ not or
+	.Boolean not or
 	.js id=?
 	.Type.Method
 use~
@@ -9,8 +9,8 @@ use~
 	.@.Seq.Array!
 	.@.Seq.Seq _ first tail
 	.control if if! opr returning Ref! get set!
-	.Fun _ identity
-	.Obj obj=?
+	.Function identity
+	.Object object=?
 	.Type.Pred-Type Opt
 use-debug
 	.!
@@ -21,7 +21,7 @@ use-debug
 
 compare = Method
 	doc. "
-		A Num < 0 if a < b, > 0 if a > b, and = 0 if a = b.
+		A Number < 0 if a < b, > 0 if a > b, and = 0 if a = b.
 		It could be implemented as:
 			case
 				<? a b
@@ -36,28 +36,28 @@ compare = Method
 =?. Method
 	doc. "
 		Whether two objects are considered equivalent.
-		Generally, if two values are `=?`, then most functions called on them should return the same results.
-		`=?` defaults to `obj=?`.
-		Values can be `=?` but not `obj=?` if they are conceptually the same, but have different representations.
+		Generally, if two values are `=?`, then most Functions called on them should return the same results.
+		`=?` defaults to `object=?`.
+		Values can be `=?` but not `object=?` if they are conceptually the same, but have different representations.
 		For example, two Sets with the same values might internally have different ordering.
 
 		Values of different types should generally not be =?.
 		For example, [ 1 2 3 ] is not `=?` (=> Stream [ 1 2 3 ]), but it is `seq=?`.
 		Unlike other comparison methods, `=?` should not make assertions about type.
 
-	default. |:Bool a b
-		or (id=? a b) ~(obj=? a b
+	default. |:Boolean a b
+		or (id=? a b) ~(object=? a b
 
 <?. Method
 	doc. "
 		Whether `lesser` comes before `greater` in these values' ordering.
 		Same as `not  (>=? lesser greater)`.
-	default. |:Bool lesser greater
+	default. |:Boolean lesser greater
 		<? (compare lesser greater) 0
 
 <=?. Method
 	doc. "<? or =?."
-	default. |:Bool lesser greater
+	default. |:Boolean lesser greater
 		<=? (compare lesser greater) 0
 
 region Misc
@@ -66,7 +66,7 @@ region Misc
 		test. |
 			[ count [ 1 ] [ 2 ] ] -> true
 			[ count [ ] [ 1 ] ] -> false
-		|f:Fun a b
+		|f:Function a b
 			=? (f a) (f b)
 
 
@@ -98,7 +98,7 @@ region Min/max
 			[ [ "five" "six" "seven" ] count ] -> "seven"
 			! fails? |
 				max-by [ ] identity
-		|_:@ by:Fun
+		|_:@ by:Function
 			un-? (?max-by _ by) "Can not take max of empty."
 
 	?max-by.
@@ -106,7 +106,7 @@ region Min/max
 		test. |
 			[ [ 1 ] identity ] -> ? 1
 			[ [ ] identity ] -> empty ?
-		|_:@ by:Fun
+		|_:@ by:Function
 			if (not empty?_) ~
 				iter = iterator_
 				value = iter.next().value
@@ -132,7 +132,7 @@ region Sorting
 			[ [ 1 2 3 ] ] -> true
 			[ [ 3 2 1 ] ] -> false
 			[ [ "six" "five" "seven" ] count ] -> true
-		|seq:Seq ?sort-by:Opt[Fun]
+		|seq:Seq ?sort-by:Opt[Function]
 			sort-by = opr ?sort-by identity
 			case seq
 				empty?_
@@ -152,7 +152,7 @@ region Sorting
 		test. |
 			[ [ 3 2 1 ] ] -> [ 1 2 3 ]
 			[ [ "five" "six" "seven" ] count ] -> [ "six" "five" "seven" ]
-		default. |:Array _:@ ?sort-by:Opt[Fun]
+		default. |:Array _:@ ?sort-by:Opt[Function]
 			sort-by = opr ?sort-by identity
 			# Ensure that we create a *new* Array!, because we're about to mutate it.
 			sorted = from-stream Array! _

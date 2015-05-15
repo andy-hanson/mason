@@ -1,11 +1,11 @@
 use
-	...Bool not
+	...Boolean not
 	...compare =?
 	...control End-Loop if loop
-	...Fun _ Pred
+	...Function Pred
 	...math.methods - +
 	...methods freeze sub
-	...Str indent
+	...String indent
 	...Type.Kind _ kind! self-kind!
 	...Type.Method _ impl! self-impl!
 	...Type.Type => type-of
@@ -13,7 +13,7 @@ use
 	..@-Type _ empty from-stream
 use~
 	...control Ref! get mod! set!
-	...math.Num Nat
+	...math.Number Nat
 	...show
 	..? _ un-?
 	.Array!
@@ -257,7 +257,7 @@ region Combination
 		doc. "Type-preserving zip."
 		test. |
 			[ [ 1 2 ] [ 10 20 ] + ] -> [ 11 22 ]
-		|@a:@ @b:@ zipper:Fun[2]
+		|@a:@ @b:@ zipper:Function[2]
 			=> (type-of @a) (zip' @a @b zipper
 
 	zip'.
@@ -267,7 +267,7 @@ region Combination
 			(Corresponding means: with the same index.)
 		test. |
 			[ [ 1 2 ] [ 10 20 30 ] + ] -> => Stream [ 11 22 ]
-		|@a:@ @b:@ zipper:Fun[2]
+		|@a:@ @b:@ zipper:Function[2]
 			Stream ~|
 				iter-a = iterator @a
 				iter-b = iterator @b

@@ -1,8 +1,6 @@
 use
-	.Fun
 	.js js-sub
-	.Obj Obj-Key
-	.Str
+	.Object Object-Key
 	.Type.Obj-Type
 	.Type.Pred-Type Any
 use-debug
@@ -20,13 +18,13 @@ Js-Method = Obj-Type
 			impl-name. "toString"
 		! =? (toString 1) "1"
 	props.
-		displayName. Str
-		impl-name. Str
+		displayName. String
+		impl-name. String
 	extensible. true
 	make-callable. |_
 		impl = "a[\"{_.impl-name}\"]"
 		# TODO:ES6 "return target.name(...args)"
-		Fun "a" "b" "c" "d" "
+		Function "a" "b" "c" "d" "
 			switch (arguments.length) \{
 				case 0: throw new Error("Js-Methods always need at least one argument.")
 				case 1: return {impl}()
@@ -40,9 +38,9 @@ send.
 	doc. "Calls `target`'s js-method `name` with the given arguments."
 	test. |
 		[ 1 "toFixed" 2 ] -> "1.00"
-	|target:Any name:Obj-Key ...args
+	|target:Any name:Object-Key ...args
 		impl = js-sub target name
-		debug ! (contains? Fun impl) ~"Js-Method {name} not implemented by {target}."
+		debug ! (contains? Function impl) ~"Js-Method {name} not implemented by {target}."
 		impl.apply target args
 
 send!. send

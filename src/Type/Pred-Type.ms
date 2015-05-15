@@ -1,10 +1,8 @@
 use
-	..Bool and not or
-	..Fun Pred
+	..Boolean and not or
+	..Function Pred
 	..js defined? id=?
 	..methods sub
-	..Obj
-	..private.bootstrap Str
 	.Kind kind!
 	.Method impl! self-impl!
 	.Obj-Type
@@ -13,14 +11,12 @@ use~
 	..@.@ any?
 use-debug
 	..! _ !not
-	..Bool
 	..compare =?
-	..math.Num
 
 Pred-Type = Obj-Type
 	doc. "Arbitrary predicates can be made into types using Pred-Type."
 	props.
-		displayName. Str
+		displayName. String
 		predicate. Pred
 	extensible. true
 
@@ -58,19 +54,19 @@ Any. Pred-Type
 	predicate. defined?
 
 ObjLit. Pred-Type
-	doc. "Matches only Objs which have no type (other than Obj itself)."
+	doc. "Matches only Objects which have no type (other than Object itself)."
 	test. |
 		! contains? ObjLit (a. 1
 		!not contains? ObjLit ObjLit
 	predicate. |_
-		and :Obj ~(id=? (Obj.getPrototypeOf _) Obj.prototype
+		and :Object ~(id=? (Object.getPrototypeOf _) Object.prototype
 
 Union.
 	doc. "Type that matches one of several types. Analogous to `or`."
 	test. |
 		# As these are all Impl-Types, it would be better to use a Kind.
-		SBN = Union[Str Bool Num]
-		! =? SBN.displayName "Union[Str Bool Num]"
+		SBN = Union[String Boolean Number]
+		! =? SBN.displayName "Union[String Boolean Number]"
 		! contains? SBN "true"
 		! contains? SBN true
 		! contains? SBN 3
@@ -78,7 +74,7 @@ Union.
 
 self-impl! sub Union |...types
 	Pred-Type
-		displayName. "Union[{=> Str types " "}]"
+		displayName. "Union[{=> String types " "}]"
 		predicate. |_
 			any? types |type
 				contains? type _

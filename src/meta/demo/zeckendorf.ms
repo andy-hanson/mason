@@ -4,9 +4,8 @@ use
 	...@.Seq.Seq reverse tail take-while'
 	...@.Seq.Stream
 	...compare =? <=?
-	...math.Num Nat
+	...math.Number Nat
 	...math.methods + -
-	...Str
 	...Type.Type =>
 
 fibs =
@@ -35,4 +34,4 @@ zeckendorf.
 					here. 0
 					next. left
 		! =? 0 folded # We should have managed to add up to `n` exactly.
-		=> Str mapped
+		=> String mapped

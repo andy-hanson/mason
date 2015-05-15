@@ -1,12 +1,12 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","../../Type/Kind","../../Type/Method","../../Type/Pred-Type","../at","../at-Type","../q","./Map","./Map-Type","./Hash-Mapbang","../../bang","../../Bool","../../compare","../../control","../../math/methods","../../Type/Method","../../Type/Wrap-Type","../../Type/Type","../at","../atbang","../Set/Set","./Map","./Weak-Id-Mapbang"],function(exports,Kind_0,Method_1,Pred_45Type_2,_64_3,_64_45Type_4,_63_5,Map_6,Map_45Type_7,Hash_45Map_33_8,_33_9,Bool_10,compare_11,control_12,methods_13,Method_14,Wrap_45Type_15,Type_16,_64_17,_64_33_18,Set_19,Map_20,Weak_45Id_45Map_33_21){
+define(["exports","../../Type/Kind","../../Type/Method","../../Type/Pred-Type","../at","../at-Type","../q","./Map","./Map-Type","./Hash-Mapbang","../../bang","../../Boolean","../../compare","../../control","../../math/methods","../../Type/Method","../../Type/Wrap-Type","../../Type/Type","../at","../atbang","../Set/Set","./Map","./Weak-Id-Mapbang"],function(exports,Kind_0,Method_1,Pred_45Type_2,_64_3,_64_45Type_4,_63_5,Map_6,Map_45Type_7,Hash_45Map_33_8,_33_9,Boolean_10,compare_11,control_12,methods_13,Method_14,Wrap_45Type_15,Type_16,_64_17,_64_33_18,Set_19,Map_20,Weak_45Id_45Map_33_21){
 	exports._get=_ms.lazy(function(){
 		const Kind=_ms.getDefaultExport(Kind_0),_$2=_ms.getModule(Kind_0),kind_33=_ms.get(_$2,"kind!"),self_45kind_33=_ms.get(_$2,"self-kind!"),Method=_ms.getDefaultExport(Method_1),_$3=_ms.getModule(Method_1),self_45impl_33=_ms.get(_$3,"self-impl!"),_$4=_ms.getModule(Pred_45Type_2),Any=_ms.get(_$4,"Any"),_64=_ms.getDefaultExport(_64_3),_$5=_ms.getModule(_64_3),each_33=_ms.get(_$5,"each!"),_$6=_ms.getModule(_64_45Type_4),empty=_ms.get(_$6,"empty"),_$7=_ms.getModule(_63_5),_63_45or=_ms.get(_$7,"?-or"),Map=_ms.getDefaultExport(Map_6),_$8=_ms.getModule(Map_6),_63get=_ms.get(_$8,"?get"),Map_45Type=_ms.getDefaultExport(Map_45Type_7),Hash_45Map_33=_ms.lazy(function(){
 			return _ms.getDefaultExport(Hash_45Map_33_8)
 		}),_33=_ms.lazy(function(){
 			return _ms.getDefaultExport(_33_9)
-		}),_$13=_ms.lazyGetModule(_33_9),_33not=_ms.lazyProp(_$13,"!not"),_$14=_ms.lazyGetModule(Bool_10),not=_ms.lazyProp(_$14,"not"),compare=_ms.lazy(function(){
+		}),_$13=_ms.lazyGetModule(_33_9),_33not=_ms.lazyProp(_$13,"!not"),_$14=_ms.lazyGetModule(Boolean_10),not=_ms.lazyProp(_$14,"not"),compare=_ms.lazy(function(){
 			return _ms.getDefaultExport(compare_11)
 		}),_$15=_ms.lazyGetModule(compare_11),_61_63=_ms.lazyProp(_$15,"=?"),_$16=_ms.lazyGetModule(control_12),if_33=_ms.lazyProp(_$16,"if!"),_$17=_ms.lazyGetModule(methods_13),_42=_ms.lazyProp(_$17,"*"),_$18=_ms.lazyGetModule(Method_14),impl_33=_ms.lazyProp(_$18,"impl!"),Wrap_45Type=_ms.lazy(function(){
 			return _ms.getDefaultExport(Wrap_45Type_15)

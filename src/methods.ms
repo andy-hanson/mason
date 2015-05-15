@@ -1,5 +1,5 @@
 use
-	.private.bootstrap Obj msDef
+	.private.bootstrap msDef
 	.Type.Method
 
 region Basics
@@ -15,8 +15,7 @@ region Unsorted
 			Does not have to return the same value, but often does.
 		# TODO: Lazy default?
 		default. |_
-			Obj.freeze _
+			Object.freeze _
 	# TODO: Lazy export?
 	frozen?. |_
-		Obj.isFrozen _
-
+		Object.isFrozen _

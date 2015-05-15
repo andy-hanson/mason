@@ -6,13 +6,12 @@ use
 	...@.Map.Map
 	...@.Set.Id-Set!
 	...$ _ $after $all $ing
-	...Bool _ and or
+	...Boolean and or
 	...compare =?
 	...control if
-	...Fun _ noop
+	...Function noop
 	...Generator!
-	...Obj _ ?p p p? @p @p-all
-	...Str
+	...Object ?p p p? @p @p-all
 	...Try $annotate-errors annotate-errors oh-no! Success try
 	...Type.Impl-Type
 	...Type.Kind _ concrete-implementors
@@ -22,7 +21,7 @@ use
 	..modules $@all-modules
 use-debug
 	...control build
-	...Obj! empty-Obj!
+	...Object! empty-Object!
 	...Type.Method self-impl!
 
 doc. "For running code in `test` properties."
@@ -37,7 +36,7 @@ test. |
 						yield "x"
 					y. |
 						yield "y"
-			b. empty-Obj!()
+			b. empty-Object!()
 			self-impl! test-special b |
 				yield "b"
 			c. () # not testable
@@ -68,7 +67,7 @@ impl! test-special Impl-Type |type
 # TODO: MOVE THESE
 impl! test-special Kind |_
 	a = @$-from-any ((impl-for test-special Impl-Type) _
-	b = flat-map (?p _ "implementor-test") |test:Fun
+	b = flat-map (?p _ "implementor-test") |test:Function
 		flat-map concrete-implementors_ |implementor
 			@$test-test-fun implementor test ~"{_}.implementor-test of {implementor}" implementor
 	++ a b
@@ -76,17 +75,17 @@ impl! test-special Kind |_
 
 $test-all.
 	doc. "Tests all modules in dir-path."
-	|require:Fun dir-path:Str
+	|require:Function dir-path:String
 		$after ($@all-modules require dir-path) |_
 			$all (flat-map _ @$test-module)
 
 $test-module.
-	doc. "Treats an Obj as a module and tests it."
-	|module:Obj
+	doc. "Treats an Object as a module and tests it."
+	|module:Object
 		$all (@$test-module module
 
 # TODO:ES6 Use module reflection
-@$test-module = |module:Obj
+@$test-module = |module:Object
 	module-name = ?-or (?p module "displayName") "<anonymous module>"
 	@$maybe-test module-name module true
 
@@ -94,7 +93,7 @@ $test-module.
 all-tested = empty Id-Set!
 
 # TODO: Better name
-@$maybe-test = |~name:Str value is-module:Bool
+@$maybe-test = |~name value is-module
 	case
 		all-tested.has value
 			[ ]
@@ -106,13 +105,13 @@ $test-fun.
 	doc. "TODO"
 	test. |
 		"TODO"
-	|_:Fun
-		$all (@$test-single _.displayName _ false)
+	|_:Function
+		$all (@$test-single "{_}" _ false)
 
-@$test-single = |~name:Str value is-module:Bool
+@$test-single = |~name value is-module
 	a = test-special value
 	b = case value
-		or is-module ~:ObjLit ~:Fun
+		or is-module ~:ObjLit ~:Function
 			flat-map @p_ |prop-name
 				~next-name = "{name}.{prop-name}"
 				prop-val = p _ prop-name
@@ -123,7 +122,7 @@ $test-fun.
 						@$test-$test-prop prop-val ~next-name
 					else
 						@$maybe-test ~next-name prop-val false
-		and :Obj ~(p? _ "test")
+		and :Object ~(p? _ "test")
 			@$test-test-prop _ _.test ~"{name}.test"
 		else
 			[]
@@ -131,24 +130,24 @@ $test-fun.
 	++ (@$-from-any a) b
 
 @$test-test-prop = |value value-test ~name # TODO: ...test-args
-	# Could be both Fun and ObjLit
+	# Could be both Function and ObjLit
 	# TODO: No it can't
 	_ = value-test
-	@$a = flatten (if :Fun ~(@$test-test-fun value value-test ~name
+	@$a = flatten (if :Function ~(@$test-test-fun value value-test ~name
 	@$b = flatten (if :ObjLit ~(flat-map @p_ |sub-name
 		@$test-test-prop value (p _ sub-name) ~"{name}.{sub-name}"
 	++ @$a @$b
 
-@$test-$test-prop = |value-$test:Fun[Generator!] ~name
+@$test-$test-prop = |value-$test:Function[Generator!] ~name
 	. $annotate-errors ~"{name}: " ($ing value-$test
 
-@$test-test-fun = |value value-test:Fun ~name ...args
+@$test-test-fun = |value value-test:Function ~name ...args
 	~ano = "{name}: "
 	_ = annotate-errors ~ano |
 		value-test ...args
 	case
 		:Map
-			! (contains? Fun value) ~
+			! (contains? Function value) ~
 				"Test of {name} returned a Map, but the value is not callable."
 			annotate-errors ~ano |
 				!call value _

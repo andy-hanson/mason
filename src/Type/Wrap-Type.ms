@@ -1,10 +1,7 @@
 use
-	..Fun
 	..js js-instanceof
 	..private.js-impl buildStr
-	..Obj
-	..Obj! p+!
-	..Str
+	..Object! p+!
 	.Impl-Type
 	.Kind kind!
 	.Method impl!
@@ -15,7 +12,6 @@ use-debug
 	..compare =?
 	# ..control if!
 	..js defined?
-	..math.Num
 	..Try fails?
 
 # TODO: use `control` version
@@ -28,17 +24,17 @@ debug if! = |cond fun
 
 Wrap-Type = Obj-Type
 	doc. "
-		Obj with only one prop (always called `val`).
+		Object with only one prop (always called `val`).
 		These are useful for wrapping a value with a new type.
 	props.
-		displayName. Str
-		prototype. Obj
+		displayName. String
+		prototype. Object
 	opt-props.
 		wrapped-type. Type
 	extensible. true
 	defaults.
 		prototype. |
-			Obj.create Obj.prototype
+			Object.create Object.prototype
 	post-construct. |_
 		p+! _.prototype "constructor" _
 	make-callable. |_
@@ -50,12 +46,12 @@ Wrap-Type = Obj-Type
 			debug if! (defined? _.wrapped-type) |
 				add! "_ms.checkContains(wrappedType, _, \"val\")"
 			add! "}"
-		f = Fun "wrappedType" src
+		f = Function "wrappedType" src
 		f _.wrapped-type
 	test. |
 		W = Wrap-Type
 			doc. "W"
-			wrapped-type. Num
+			wrapped-type. Number
 		w = W 3
 		! =? w.val 3
 		debug ! fails? |

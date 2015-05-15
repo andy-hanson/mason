@@ -1,10 +1,9 @@
 use
-	..Bool _ and not
+	..Boolean and not
 	..compare =?
-	..Fun _ Act identity Pred
+	..Function Action identity Pred
 	..js defined? id=?
 	..math.methods +
-	..Obj
 	..private.bootstrap msDef
 	..Type.Type => contains? type-of
 	..Type.Kind
@@ -12,7 +11,8 @@ use
 	..Type.Pred-Type Any Opt
 use~
 	..control opr Ref! get set!
-	..math.Num Nat
+	# TODO: Try eager use
+	..math.Number Nat
 	.@! --!
 	.@-Type empty
 	.?
@@ -22,7 +22,7 @@ use~
 use-debug
 	..control build if!
 	..! _ !not
-	..math.Num divisible?
+	..math.Number divisible?
 	..Try fails?
 	.@-Type
 	.Map.Weak-Id-Map!
@@ -47,7 +47,7 @@ empty?. Method
 	test. |
 		[ [ ] ] -> true
 		[ [ 1 ] ] -> false
-	default. |:Bool _
+	default. |_
 		iterator_.next().done
 
 region Using iterator
@@ -95,7 +95,7 @@ region Using iterator
 		test. |
 			! =? [ 1 2 3 ] (build |yield
 				each! [ 1 2 3 ] yield
-		default. |_ do-for-each:Act
+		default. |_ do-for-each:Action
 			iter = iterator_
 			loop!
 				value done = iter.next()
@@ -186,14 +186,14 @@ region Lazy functions, and their eager versions.
 		doc. "TODO"
 		test. |
 			[ [ true false ] not ] -> [ false true ]
-		|_:@ mapper:Fun
+		|_:@ mapper:Function
 			=> type-of_ (map' _ mapper
 
 	map'.
 		doc. "Lazy map."
 		test. |
 			[ [ true false ] not ] -> => Stream [ false true ]
-		|_:@ mapper:Fun
+		|_:@ mapper:Function
 			Stream ~|
 				iter = iterator_
 				loop!
@@ -219,7 +219,7 @@ region Lazy functions, and their eager versions.
 			[ [ 1 2 3 ] 0 f ] ->
 				mapped. [ 2 3 4 ]
 				folded. 3
-		|_:@ start:Any mapper-folder:Fun[2 Obj]
+		|_:@ start:Any mapper-folder:Function[2 Object]
 			acc = Ref! start
 			mapped. => Array (map _ |em
 				here:Any next:Any = mapper-folder (get acc) em
@@ -234,7 +234,7 @@ region Lazy functions, and their eager versions.
 			f = |a
 				[ a a ]
 			[ [ 1 2 ] f ] -> [ 1 1 2 2 ]
-		default. |_ mapper:Fun[Any @]
+		default. |_ mapper:Function[Any @]
 			=> type-of_ (flat-map' _ mapper
 
 	flat-map'.
@@ -246,7 +246,7 @@ region Lazy functions, and their eager versions.
 				else
 					[ _ ]
 			[ [ 1 2 3 4 ] f ] -> => Stream [ 1 2 2 3 4 4 ]
-		|_:@ mapper:Fun[Any @]
+		|_:@ mapper:Function[Any @]
 			# Same as `flatten (map _ mapper)`, but with smaller stacktrace.
 			Stream ~|
 				iter = iterator_

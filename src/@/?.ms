@@ -1,5 +1,5 @@
 use
-	..Bool and not
+	..Boolean and not
 	..control opr
 	..js defined? id=?
 	..Type.Kind kind! self-kind!
@@ -52,7 +52,7 @@ region Is Seq
 		else
 			<~ _.val
 
-region Funs
+region Functions
 	Opt->?.
 		doc. "`?` containing the value iff it is defined."
 		test. |

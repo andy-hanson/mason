@@ -1,6 +1,5 @@
 use
 	...control opr
-	...Fun
 	...Type.Pred-Type Opt
 	..@ _ each!
 	..@! ++!
@@ -42,7 +41,7 @@ group.
 		# You shouldn't use `group-by` if all you need is `keep`.
 		! seq=? (group @sample show)["1"] (keep @sample |_
 			=? show_ "1"
-	|@value:@ group-by:Fun
+	|@value:@ group-by:Function
 		map = empty Map!
 		each! @value |val
 			key = group-by val

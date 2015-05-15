@@ -1,8 +1,8 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","../at/q","../Obj","../show","./Method","./Type","./Method"],function(exports,_63_0,Obj_1,show_2,Method_3,Type_4,Method_5){
+define(["exports","../at/q","../Object","../show","./Method","./Type","./Method"],function(exports,_63_0,Object_1,show_2,Method_3,Type_4,Method_5){
 	exports._get=_ms.lazy(function(){
-		const _$2=_ms.getModule(_63_0),_63_45or=_ms.get(_$2,"?-or"),_$3=_ms.getModule(Obj_1),flag_63=_ms.get(_$3,"flag?"),_63p=_ms.get(_$3,"?p"),show=_ms.getDefaultExport(show_2),_$5=_ms.getModule(Method_3),impl_33=_ms.get(_$5,"impl!"),Type=_ms.getDefaultExport(Type_4),Method=_ms.lazy(function(){
+		const _$2=_ms.getModule(_63_0),_63_45or=_ms.get(_$2,"?-or"),_$3=_ms.getModule(Object_1),flag_63=_ms.get(_$3,"flag?"),_63p=_ms.get(_$3,"?p"),show=_ms.getDefaultExport(show_2),_$5=_ms.getModule(Method_3),impl_33=_ms.get(_$5,"impl!"),Type=_ms.getDefaultExport(Type_4),Method=_ms.lazy(function(){
 			return _ms.getDefaultExport(Method_5)
 		});
 		const displayName=exports.displayName="show-Type";

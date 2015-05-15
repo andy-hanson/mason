@@ -1,6 +1,6 @@
 use
 	..@.? ?-or
-	..Obj flag? ?p
+	..Object flag? ?p
 	..show
 	.Method impl!
 	.Type

@@ -6,7 +6,7 @@ const pAdd = (object, key, value) =>
 		writable: false
 	})
 
-// region Builtin Funs for use by the compiler
+// region Builtin Functions for use by the compiler
 // This object contains functions called upon by compiled code.
 const ms = exports.ms = {}
 pAdd(global, '_ms', ms)
@@ -54,7 +54,7 @@ const msDefs = {
 
 	bool(b) {
 		if (typeof b !== 'boolean')
-			throw new Error(`Expected Bool, got ${b}`)
+			throw new Error(`Expected Boolean, got ${b}`)
 		return b
 	},
 
@@ -136,14 +136,10 @@ function Lazy(get) {
 msDefTemp('show', _ => {
 	if (typeof _ !== 'string' && typeof _ !== 'number')
 		throw new Error(
-			`Should only use Strs or Nums here until this is overridden by show.ms. Got:\n${_}`)
+			`Only use Strings or Numbers here until this is overridden by show.ms. Got:\n${_}`)
 	return _.toString()
 })
 
-// region Funs used by bootstrapping code
-exports.Fun = Function
-exports.Obj = Object
-exports.Str = String
 exports['p+!'] = pAdd
 
 // region Contains
@@ -176,7 +172,7 @@ Object[containsImplSymbol] = function(ignore, _) {
 
 // An object is a Function if its typeof is `function`.
 // This helps us catch any callabe Obj-Type.
-// TODO: Separate Fun from Callable
+// TODO: Separate Function from Callable
 // Since these are primitives, we can't use `instanceof`.
 [ Function, Boolean, String, Symbol, Number ].forEach(function(type) {
 	const typeOf = type.name.toLowerCase()

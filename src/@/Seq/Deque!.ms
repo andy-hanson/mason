@@ -1,11 +1,11 @@
 use
-	...Bool and not or
+	...Boolean and not or
 	...compare =? <?
 	...control if
-	...math.Num modulo Nat
+	...math.Number modulo Nat
 	...math.methods + - *
 	...methods sub
-	...Obj! p!
+	...Object! p!
 	...Type.Kind kind! self-kind!
 	...Type.Pred-Type Any
 	...Type.Tuple

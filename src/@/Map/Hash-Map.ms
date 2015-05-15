@@ -1,5 +1,5 @@
 use
-	...Fun thunk
+	...Function thunk
 	...private.js-impl makeMap
 	...methods freeze
 	...private.bootstrap msDef

@@ -1,12 +1,10 @@
 # TODO: TEST
-
 use
 	...compare =?
 	...hash-code
 	...js defined?
 	...methods freeze
-	...Obj
-	...Obj! p!
+	...Object! p!
 	...Type.Kind kind! self-kind!
 	...Type.Method impl! self-impl!
 	...Type.Wrap-Type
@@ -121,7 +119,7 @@ impl! un-assoc! Hash-Map! |hm key
 
 impl! freeze Hash-Map! |_
 	freeze _.val
-	Obj.freeze _
+	Object.freeze _
 
 impl! empty! Hash-Map! |_
 	empty! _.val

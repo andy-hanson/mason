@@ -1,8 +1,8 @@
 use
-	...Bool and not
+	...Boolean and not
 	...compare <?
 	...control if! returning
-	...math.Num int/
+	...math.Number int/
 	...math.methods + - *
 	...Type.Kind kind! self-kind!
 	...Type.Wrap-Type

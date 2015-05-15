@@ -1,8 +1,8 @@
 use
 	...compare <? <=?
 	...control if opr Ref! get set!
-	...Fun noop thunk
-	...math.Num _ Nat round-down sign
+	...Function noop thunk
+	...math.Number Nat round-down sign
 	...math.methods + - * /
 	...Type.Kind kind! self-kind!
 	...Type.Pred-Type Opt
@@ -13,16 +13,16 @@ use
 use-debug
 	...!
 	...compare =?
-	...math.Num infinity
+	...math.Number infinity
 	..?
 	.Seq seq=? take'
 
 Range = Tuple
-	doc. "Seq of Nums taking fixed steps."
+	doc. "Seq of Numbers taking fixed steps."
 	props.
-		. [ "start" Num
-		. [ "end" Num
-		. [ "step" Num
+		. [ "start" Number
+		. [ "end" Number
+		. [ "step" Number
 	post-construct. |_
 		in
 			! =? (sign _.step) (sign (- _.end _.start
@@ -30,7 +30,7 @@ Range = Tuple
 	test. |
 		! seq=? [ 0 1 2 ] (take' (range 0 infinity) 3
 
-range. |start:Num end:Num ?step:Opt[Num]
+range. |start:Number end:Number ?step:Opt[Number]
 	step = opr ?step (sign (- end start
 	Range start end step
 
@@ -38,7 +38,7 @@ range-incl.
 	doc. "TODO"
 	test. |
 		"TODO"
-	|start:Num end:Num ?step:Opt[Num]
+	|start:Number end:Number ?step:Opt[Number]
 		step = opr ?step (sign (- end start
 		range start (+ end step) step
 

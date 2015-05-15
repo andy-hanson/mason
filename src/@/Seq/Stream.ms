@@ -1,5 +1,5 @@
 use
-	...Fun _ thunk
+	...Function thunk
 	...Generator! _ empty-Generator
 	...Type.Kind kind! self-kind!
 	...Type.Method impl! self-impl!
@@ -15,7 +15,7 @@ Stream = Wrap-Type
 	doc. "
 		A Stream is a @ whose elements are the outputs of a Generator!.
 		Unlike a Generator!, a Stream can be used multiple times.
-	wrapped-type. Fun[Generator!]
+	wrapped-type. Function[Generator!]
 	test. |
 		_ = Stream ~|
 			<~ 1

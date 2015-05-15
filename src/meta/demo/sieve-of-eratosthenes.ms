@@ -7,19 +7,19 @@ use
 	...@.Seq.Range range
 	...@.Seq.Stream
 	...Generator! each~
-	...math.Num infinity square
+	...math.Number infinity square
 	...math.methods + *
 	...Type.Type =>
 use-debug
 	...!
 	...@.@ any?
 	...@.Seq.Seq take'
-	...Bool not
-	...math.Num divisible?
+	...Boolean not
+	...math.Number divisible?
 
 # http://stackoverflow.com/questions/13463417/the-genuine-sieve-of-eratosthenes-in-python-why-is-heapq-slower-than-dict
 primes.
-	doc. "Infinite Seq of Num > 2, each divisible only by itself and one."
+	doc. "Infinite Seq of Numbers > 2, each divisible only by itself and one."
 	test. |
 		is-prime? = |_
 			not (any? (range 2 _) divisible?[_]

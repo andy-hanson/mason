@@ -1,9 +1,8 @@
 use
-	.Bool _ and not nor xor
+	.Boolean and not nor xor
 	.compare =?
 	.js defined? js== js-typeof id=? js-sub
 	.methods freeze
-	.private.bootstrap Str
 	.Type.Type => contains?
 	.Type.Kind
 use~
@@ -13,23 +12,15 @@ use~
 	.@.Map.Map _ make-map
 	.@.Set.Id-Set!
 	.control returning
-	.Fun
-	.Obj! empty-Obj! p+!
+	.Object! empty-Object! p+!
 use-debug
 	.!
 	.@.Set.Set set=?
-	.math.Num
 	.Try fails?
 
-Obj =
-	doc. "
-		Contains anything that can store keys.
-		Everything shares Obj.prototype.
-	global.Object
-
-Obj-Key. Kind
+Object-Key. Kind
 	doc. "Can be used as a name for a property of an object."
-	implementors. [ Str Symbol ]
+	implementors. [ String Symbol ]
 
 can-get-p?.
 	doc. "Whether it's safe to try to directly access properties."
@@ -46,8 +37,8 @@ flag?.
 		# TODO:SYNTAX (a.)
 		[ (a. true) "a" ] -> true
 		[ (a. false) "a" ] -> false
-		[ empty-Obj "a" ] -> false
-	|:Bool obj flag:Obj-Key
+		[ empty-Object "a" ] -> false
+	|:Boolean obj flag:Object-Key
 		?-or (?p obj flag) false
 
 ~forbidden-fun-props = => Id-Set! [ "arguments" "caller" ]
@@ -57,44 +48,44 @@ flag?.
 		Includes non-enumerable properties and symbols.
 
 	test. |
-		obj = empty-Obj!()
+		obj = empty-Object!()
 		p+! obj "a" 0
 		sym = Symbol "s"
-		Obj.defineProperty obj sym
+		Object.defineProperty obj sym
 			value. 0
 			enumerable. false
 		! set=? (@p-all obj) [ "a" sym ]
 		# But not "arguments" or "caller"
 		! set=? (@p-all @p-all) [ "length" "name" "prototype" "doc" "test" "displayName" ]
-	|:@[Obj-Key] _
-		props = Obj.getOwnPropertyNames _
+	|:@[Object-Key] _
+		props = Object.getOwnPropertyNames _
 		# TODO: case!, keep!
 		own-names = case
-			:Fun
+			:Function
 				keep props |name
 					not (contains? forbidden-fun-props name)
 			else
 				props
-		++ own-names (Obj.getOwnPropertySymbols _
+		++ own-names (Object.getOwnPropertySymbols _
 
 @p.
 	doc. "
 		Like @p-all, but excludes non-enumerable properties and symbols.
 	test. |
-		obj = empty-Obj!()
-		Obj.defineProperty obj "a"
+		obj = empty-Object!()
+		Object.defineProperty obj "a"
 			value. 0
 			enumerable. false
 		sym = Symbol "s"
-		Obj.defineProperty obj sym
+		Object.defineProperty obj sym
 			value. 0
 			enumerable. true
 		! empty? (@p obj)
 		! set=? (@p @p) [ "doc" "test" "displayName" ]
-	|:@[Str] _
+	|:@[String] _
 		case
 			can-get-p?_
-				Obj.keys _
+				Object.keys _
 			else
 				[ ]
 
@@ -108,7 +99,7 @@ flag?.
 		[ x "b" ] -> ? ()
 		# Does not inherit from prototype.
 		[ x "toString" ] -> empty ?
-	|_ name:Obj-Key
+	|_ name:Object-Key
 		case
 			p? _ name
 				? (js-sub _ name
@@ -118,9 +109,9 @@ flag?.
 ?p-with-proto.
 	doc. "Like `?p`, but also looks through the prototype chain."
 	test. |
-		[ 1 "toString" ] -> ? Num.prototype.toString
+		[ 1 "toString" ] -> ? Number.prototype.toString
 		[ 1 "asdfghjkl" ] -> empty ?
-	|_ name:Obj-Key
+	|_ name:Object-Key
 		case
 			can-get-p?_
 				Opt->? (js-sub _ name
@@ -137,7 +128,7 @@ p.
 		[ x "b" ] -> ()
 		debug ! fails? |
 			p "c"
-	|_ name:Obj-Key
+	|_ name:Object-Key
 		in
 			! p? _ name
 
@@ -150,20 +141,20 @@ p?.
 		[ x "a" ] -> true
 		[ x "b" ] -> false
 		[ x "toString" ] -> false # use p-with-proto? for that.
-	|_ name:Obj-Key
-		and can-get-p?_ ~(Obj.prototype.hasOwnProperty.call _ name
+	|_ name:Object-Key
+		and can-get-p?_ ~(Object.prototype.hasOwnProperty.call _ name
 
 p-with-proto?.
 	doc. "Like `p?` but looks through the prototype."
 	test. |
-		[ empty-Obj "toString" ] -> true
-	|_ name:Obj-Key
+		[ empty-Object "toString" ] -> true
+	|_ name:Object-Key
 		and can-get-p?_ ~(defined? (js-sub _ name
 
 # TODO: Handle recursive references.
-obj=?.
+object=?.
 	doc. "
-		For Objs, whether they are of the same type and have `=?` properties.
+		For Objects, whether they are of the same type and have `=?` properties.
 		For primitives, whether they are `=?`.
 	test. |
 		a =
@@ -178,12 +169,12 @@ obj=?.
 		[ a c ] -> false
 		[ 1 1 ] -> true
 		# For functions, is identity
-		[ obj=? obj=? ] -> true
-	|:Bool a b
+		[ object=? object=? ] -> true
+	|:Boolean a b
 		# Necessary because `js-typeof null` is "object"
 		null-a = id=? a ()
 		null-b = id=? b ()
-		# TODO: Not :Obj because that currently also includes Funs
+		# TODO: Not :Object because that currently also includes Functions
 		obj-a = and (not null-a) ~(id=? (js-typeof a) "object"
 		obj-b = and (not null-b) ~(id=? (js-typeof b) "object"
 		case
@@ -192,25 +183,25 @@ obj=?.
 			xor obj-a obj-b
 				false
 			else
-				same-type = id=? (Obj.getPrototypeOf a) (Obj.getPrototypeOf b
+				same-type = id=? (Object.getPrototypeOf a) (Object.getPrototypeOf b
 				and same-type ~
-					ak = Obj.getOwnPropertyNames a
-					bk = Obj.getOwnPropertyNames b
+					ak = Object.getOwnPropertyNames a
+					bk = Object.getOwnPropertyNames b
 					and (=? (count ak) (count bk)) ~
 						all? ak |k
 							=? (js-sub a k) (js-sub b k)
 
-empty-Obj. Obj.freeze (Obj.create Obj.prototype
+empty-Object. Object.freeze (Object.create Object.prototype
 
-empty-Obj?.
+empty-Object?.
 	doc. "Whether there are no properties, not even hidden ones."
 	test. |
-		[ empty-Obj ] -> true
-		[ Obj ] -> false
-	|_:Obj
+		[ empty-Object ] -> true
+		[ Object ] -> false
+	|_:Object
 		empty? @p-all_
 
-Obj->Map.
+Object->Map.
 	doc. "A Map whose keys are property names and whose values are the properties' values."
 	test. |
 		[ (a. 1 b. 2) ] ->
@@ -219,20 +210,20 @@ Obj->Map.
 	|_
 		make-map @p_ p[_]
 
-Map->Obj.
-	doc. "Given a Map whose keys are Strs, creates an Obj whose Obj->Map is that."
+Map->Object.
+	doc. "Given a Map whose keys are Strings, creates an Object whose Object->Map is that."
 	test. |
 		# TODO:SYNTAX [ "a" -> 1, "b" -> 2 ]
 		map =
 			"a" -> 1
 			"b" -> 2
 		[ map ] -> a. 1 b. 2
-		! =? map (Obj->Map (Map->Obj map
+		! =? map (Object->Map (Map->Object map
 		debug ! fails? |
-			Map->Obj
+			Map->Object
 				1 -> 2
 	|_:Map
-		returning empty-Obj!() |obj
+		returning empty-Object!() |obj
 			each! _ |pair
 				p+! obj pair.key pair.val
 			freeze obj
@@ -240,8 +231,6 @@ Map->Obj.
 prototype.
 	doc. "Gets prototype of an object."
 	test. |
-		[ empty-Obj ] -> Obj.prototype
-		[ Obj-Key ] -> Kind.prototype
-	Obj.getPrototypeOf
-
-Obj
+		[ empty-Object ] -> Object.prototype
+		[ Object-Key ] -> Kind.prototype
+	Object.getPrototypeOf

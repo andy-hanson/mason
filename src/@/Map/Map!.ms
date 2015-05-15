@@ -11,7 +11,7 @@ use~
 	.Hash-Map!
 use-debug
 	...! _ !not
-	...Bool not
+	...Boolean not
 	...compare _ =?
 	...control if!
 	...math.methods *

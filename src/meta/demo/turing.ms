@@ -6,7 +6,7 @@ use
 	...compare =?
 	...control End-Loop if! loop
 	...math.methods + -
-	...Obj _ p
+	...Object p
 	...Type.Type =>
 	...Type.Pred-Type Any
 
@@ -72,7 +72,7 @@ run-turing.
 		[ sorting-test [ 2 2 2 1 2 2 1 2 1 2 1 2 1 2 ] ] -> [ 0 1 1 1 1 1 2 2 2 2 2 2 2 2 2 0 ]
 
 	|:Seq spec init-tape:Seq
-		rules:Obj blank:Any init-state:Any = spec
+		rules:Object blank:Any init-state:Any = spec
 		tape = => Deque! case
 			empty? init-tape
 				[ blank ]

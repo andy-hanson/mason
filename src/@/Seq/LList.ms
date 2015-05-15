@@ -1,6 +1,6 @@
 use
 	...js id=?
-	...Obj! p!
+	...Object! p!
 	...Type.Kind kind! self-kind!
 	...Type.Tuple
 	..@ _ ++ empty? iterator

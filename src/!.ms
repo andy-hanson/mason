@@ -1,14 +1,13 @@
 use
-	.Bool _ not
+	.Boolean not
 	.compare =?
-	.private.bootstrap Fun
 use~
 	.@.@ _ each! map
 	.@.Map.Map
 	.control if!
-	.Fun Pred
+	.Function Pred
 	.show repr
-	.Str _ indent
+	.String indent
 	.Try oh-no!
 	.Type.Pred-Type Any
 	.Type.Type =>
@@ -26,7 +25,7 @@ doc. "For making assertions."
 		It may be called as:
 			! fun arg arg arg ...
 				Calls fun on the arguments.
-				fun must return a Bool
+				fun must return a Boolean.
 				If it returns false, an error will be thrown.
 				The error will contain information about fun and its arguments.
 			! bool ~message
@@ -46,15 +45,15 @@ doc. "For making assertions."
 			! (=? 1 2) "a"
 	|a ...args
 		case! a
-			:Fun
+			:Function
 				case!
 					_ ...args
 						pass
 					else
 						oh-no! "
 							Expected {a}
-								{indent (=> Str (map args repr) "\n")}
-			:Bool
+								{indent (=> String (map args repr) "\n")}
+			:Boolean
 				case!
 					not (=? 1 args.length)
 						oh-no! "Use `! fun args...` or `! bool explanation`, never just `! bool`."
@@ -63,7 +62,7 @@ doc. "For making assertions."
 					else
 						oh-no! args[0]
 			else
-				oh-no! "First argument to `!` must be Fun or Bool. Got {_}."
+				oh-no! "First argument to `!` must be Function or Boolean. Got {_}."
 
 !not.
 	doc. "Like `!`, but inverts the condition."
@@ -72,7 +71,7 @@ doc. "For making assertions."
 		!not =? 1 2
 	|a ...args
 		case! a
-			:Fun
+			:Function
 				case!
 					_ ...args
 						oh-no! "
@@ -80,7 +79,7 @@ doc. "For making assertions."
 								{indent ((map args repr).join "\n")}
 					else
 						pass
-			:Bool
+			:Boolean
 				! =? 1 args.length
 				case!
 					_
@@ -88,7 +87,7 @@ doc. "For making assertions."
 					else
 						pass
 			else
-				oh-no! "First argument to `!not` must be Fun or Bool. Got {_}."
+				oh-no! "First argument to `!not` must be Function or Boolean. Got {_}."
 
 !call.
 	doc. "
@@ -107,7 +106,7 @@ doc. "For making assertions."
 		! fails-with? nope |
 			!call +
 				[ 1 1 ] -> 3
-	|fun:Fun args->result:Map[Array Any]
+	|fun:Function args->result:Map[Array Any]
 		!call-with =? fun args->result
 
 !call-with.
@@ -115,7 +114,7 @@ doc. "For making assertions."
 	test. |
 		!call-with same?[show] +
 			[ 1 2 ] -> "3"
-	|equal?:Pred fun:Fun args->result:Map[Array Any]
+	|equal?:Pred fun:Function args->result:Map[Array Any]
 		each! args->result |pair
 			args:@ = pair.key
 			expected-res = pair.val
@@ -123,7 +122,7 @@ doc. "For making assertions."
 			if! (not (equal? actual expected-res)) |
 				oh-no! ~"
 					{fun} of:
-						{indent (=> Str (map args repr) "\n")}
+						{indent (=> String (map args repr) "\n")}
 					Should {equal?}:
 						{indent (repr expected-res)}
 					Got:

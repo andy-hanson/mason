@@ -4,9 +4,8 @@ use
 	.@.Seq.Seq
 	.compare =? sort
 	.control opr
-	.Fun _ noop thunk
+	.Function noop thunk
 	.show
-	.Str
 	.Type.Impl-Type self-type
 	.Type.Kind kind! self-kind!
 	.Type.Method impl! impl-double! impl-for
@@ -14,35 +13,37 @@ use
 	.Type.Type =>
 use-debug
 	.!
-	.Fun identity
+	.Function identity
 
 # TODO: Move
 
 test. |
 	! =? "123" (map "123" identity
 
-self-kind! Str @-Type
+self-kind! String @-Type
 	empty -> thunk ""
 	# TODO
 	from-stream -> |_
 		from-stream Array _
 
-impl-double! => (self-type Str) @
+# TODO: self-impl-double! ?
+impl-double! => (self-type String) @
 	test. |
-		[ Str [ 1 2 3 ] ] -> "123"
-		[ Str [ 1 2 3 ] ", " ] -> "1, 2, 3"
-	|Str _ ?joiner:Opt[Str]
-		noop Str
+		[ String [ 1 2 3 ] ] -> "123"
+		[ String [ 1 2 3 ] ", " ] -> "1, 2, 3"
+	|str _ ?joiner:Opt[String]
+		noop str
 		joiner = opr ?joiner ""
 		(=> Array (map _ show)).join joiner
 
-impl! sort Str
+# TODO: Should this be necessary?
+impl! sort String
 	test. |
 		"TODO"
-	|:Str _ ?sort-by:Opt[Fun]
-		=> Str (sort.default _ ?sort-by)
+	|_ ?sort-by:Opt[Function]
+		=> String (sort.default _ ?sort-by)
 
-kind! Str Seq
+kind! String Seq
 	count -> |_
 		_.length
 	empty? -> |_

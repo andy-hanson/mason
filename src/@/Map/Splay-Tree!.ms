@@ -1,9 +1,9 @@
 use
-	...Bool _ and not
+	...Boolean and not
 	...compare <?
 	...control if loop End-Loop
 	...js defined?
-	...Obj! p!
+	...Object! p!
 	...Type.Kind kind! self-kind!
 	...Type.Tuple
 	...Type.Wrap-Type
@@ -87,7 +87,7 @@ kind! Splay-Tree! Sorted-Map!
 region Implementation
 	# Searches for the key, bringing nodes up to the root along the way.
 	# Returns whether the root now matches the key.
-	splay!? = |:Bool _ key
+	splay!? = |:Boolean _ key
 		in
 			!not empty? _
 

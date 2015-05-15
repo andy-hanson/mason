@@ -2,7 +2,7 @@ use
 	...@.@ _ ++ -- empty? flat-map keep map
 	...@.?
 	...@.Seq.Seq _ ?first tail
-	...Str _ ->upper
+	...String ->upper
 	...Type.Type contains?
 use-debug
 	...!
@@ -51,7 +51,7 @@ make-word-from-blocks.
 			ans = pair.val
 			! =? ans (make-word-from-blocks word sample-blocks)
 
-	|:?[Seq[Str]] word:Str blocks:@[Str]
+	|:?[Seq[String]] word:String blocks:@[String]
 		rec = |word blocks
 			case word
 				empty?_

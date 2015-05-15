@@ -1,7 +1,7 @@
 use
 	..compare =?
 	..js id=? js-instanceof
-	..private.bootstrap Fun impl-contains?! msDef
+	..private.bootstrap impl-contains?! msDef
 	# Don't want to depend on Try because that can cause circular dependency problems.
 	..private.js-impl ohNo
 	.Impl-Type
@@ -9,7 +9,7 @@ use
 	.Method _ --contains? impl!
 use~
 	..@.? ?-or
-	..Obj _ ?p-with-proto
+	..Object ?p-with-proto
 use-debug
 	..!
 	.Method self-impl!
@@ -74,16 +74,16 @@ type-of.
 		Most specific Impl-Type for a value.
 	test. |
 		[ Type ] -> Kind
-		[ () ] -> Obj
-	|:Impl-Type obj
-		?-or (?p-with-proto obj "constructor") Obj
+		[ () ] -> Object
+	|:Impl-Type _
+		?-or (?p-with-proto _ "constructor") Object
 
 region We make some things Types here due to bootstrapping order issues.
 	kind! Impl-Type Type
 	kind! Method Type
 
 	# TODO: Move?
-	impl-contains?! Fun |fun _
+	impl-contains?! Function |fun _
 		js-instanceof _ fun
 
 Type

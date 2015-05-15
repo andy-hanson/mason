@@ -1,8 +1,8 @@
 use
-	..Bool or not
+	..Boolean or not
 	..compare =?
 	..js defined? js-sub
-	..private.bootstrap impl-contains?! Obj p+! Str
+	..private.bootstrap impl-contains?! p+!
 	..private.js-impl isEmpty KindContains
 	.Method impl! propagate-method-down! self-impl!
 	.Obj-Type
@@ -71,9 +71,9 @@ Kind = Obj-Type
 				kind! X Closed
 
 	props.
-		displayName. Str
+		displayName. String
 		super-kinds. Array # TODO: [~Kind]
-		prototype. Obj
+		prototype. Object
 		# TODO: Allow doc on prop
 		# doc. "If immutable, this Kind does not accept new subtypes."
 		implementors. Array # TODO: [~Impl-Type]
@@ -83,11 +83,11 @@ Kind = Obj-Type
 		super-kinds. |
 			Array 0
 		prototype. |
-			Obj.create ()
+			Object.create ()
 		implementors. |
 			Array 0
 		symbol-for-isa. |_
-			name:Str = _.displayName
+			name:String = _.displayName
 			Symbol "isa-{name}"
 	post-construct. |_
 		p+! _.prototype _.symbol-for-isa true
@@ -168,7 +168,7 @@ self-kind!.
 	doc. "TODO"
 	test. |
 		"TODO"
-	|implementor:Obj kind:Kind method-impls
+	|implementor:Object kind:Kind method-impls
 		kind! (self-type implementor) kind
 		if! (defined? method-impls) |
 			each! method-impls |pair
@@ -191,7 +191,7 @@ kind?.
 
 region Private
 	@p-all = |_
-		(Obj.getOwnPropertyNames _).concat (Obj.getOwnPropertySymbols _)
+		(Object.getOwnPropertyNames _).concat (Object.getOwnPropertySymbols _)
 
 	on-implementor! = |implementor kind
 		case! implementor

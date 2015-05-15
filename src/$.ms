@@ -1,8 +1,7 @@
 use
 	.@.@ _ flatten map
-	.Bool
 	.control if
-	.Fun _ apply
+	.Function apply
 	.Generator!
 	.js new
 	.methods sub
@@ -10,13 +9,12 @@ use
 	.Type.Pred-Type Any
 	.Type.Type =>
 use~
-	.math.Num
 	.Try $catch oh-no!
 use-debug
 	.!
 	.compare =?
 	.io.time $after-time
-	.math.Num divisible?
+	.math.Number divisible?
 	.math.methods +
 	.Try $try
 
@@ -24,7 +22,7 @@ $ =
 	doc. "
 		https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
 		Called `$` because you "cash in" on it after some time.
-	Promise
+	global.Promise
 
 self-impl! sub $ |
 	$
@@ -56,7 +54,7 @@ $fail-after-time.
 		a <~ $try ($fail-after-time $x 1
 		! =? a.message "Took longer than 1 milliseconds."
 		! =? 1 (<~ $fail-after-time $x 200
-	|:$ _:$ time-ms:Num
+	|:$ _:$ time-ms:Number
 		# TODO:ES6 Shouldn't need `new`
 		new $ |resolve reject
 			$after _ resolve
@@ -70,7 +68,7 @@ $after.
 		If `then` returns a $, returns a $ for that $'s value; else returns a $ for the result of `then`.
 	$test. ~|
 		! =? 2 (<~ $after ($resolved 1) +[1]
-	|:$ _:$ then:Fun
+	|:$ _:$ then:Function
 		_.then then
 
 $resolved.
@@ -78,7 +76,7 @@ $resolved.
 	$test. ~|
 		! =? 1 (<~ $resolved 1
 	|:$ value
-		Promise.resolve value
+		$.resolve value
 
 $rejected.
 	doc. "$ that is already rejected."
@@ -91,7 +89,7 @@ $rejected.
 				oh-no! "b"
 			! =? "a" b.message
 	|_
-		Promise.reject (=> Error _
+		$.reject (=> Error _
 
 $delay.
 	doc. "
@@ -102,7 +100,7 @@ $delay.
 	$test. ~|
 		! =? 1 (<~ $delay |
 			1
-	|delayed:Fun[0]
+	|delayed:Function[0]
 		new $ |resolve
 			resolve delayed()
 
@@ -125,7 +123,7 @@ $map.
 		! =? [ 2 3 4 ] (<~ $map [ 1 2 3 ] |_
 			$delay |
 				+ _ 1
-	|:$[Array] mapped:@ mapper:Fun[Any $]
+	|:$[Array] mapped:@ mapper:Function[Any $]
 		$all (map mapped mapper
 
 $flat-map.
@@ -134,7 +132,7 @@ $flat-map.
 		! =? [ 1 1 2 2 3 3 ] (<~ ($flat-map [ 1 2 3 ] |_
 			$delay |
 				[ _ _ ]
-	|:$[@] mapped:@ mapper:Fun[Any $[@]]
+	|:$[@] mapped:@ mapper:Function[Any $[@]]
 		$after ($map mapped mapper) flatten
 
 $keep.
@@ -145,7 +143,7 @@ $keep.
 		! =? [ 2 4 ] (<~ ($keep [ 1 2 3 4 ] |_
 			$delay |
 				divisible? _ 2
-	|:$[Array] keep-some:@ keep-if?:Fun[Any $[Bool]]
+	|:$[Array] keep-some:@ keep-if?:Function[Any $[Boolean]]
 		$flat-map keep-some |_
 			$after keep-if?_ |keep
 				if keep _
@@ -175,7 +173,7 @@ $ing.
 			<~ $rejected "whoops"
 			oh-no! "It's been rejected, so the rest is never called."
 		! =? "whoops" $whoops.message
-	|:$ code:Fun[Generator!]
+	|:$ code:Function[Generator!]
 		gen = code()
 		do-next = |last-value
 			value done = gen.next last-value

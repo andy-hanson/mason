@@ -1,9 +1,7 @@
 use
 	..@.@ each!
-	..Obj
-	..Obj! p+!
+	..Object! p+!
 	..show
-	..Str
 	.Impl-Type
 	.Kind kind!
 	.Method impl!
@@ -31,15 +29,15 @@ Enum = Obj-Type
 		! =? (type-of Fruit.apple) Fruit
 		! =? "{Fruit.apple}" "Fruit.apple"
 	props.
-		displayName. Str
-		prototype. Obj
-		values. Array[Str]
+		displayName. String
+		prototype. Object
+		values. Array[String]
 	defaults.
 		prototype. |
-			Obj.create Obj.prototype
+			Object.create Object.prototype
 	post-construct. |enum
 		each! enum.values |val-name
-			enum-val = Obj.create enum.prototype
+			enum-val = Object.create enum.prototype
 			p+! enum-val "name" val-name
 			p+! enum val-name enum-val
 		p+! enum.prototype "constructor" enum
@@ -49,6 +47,6 @@ Enum = Obj-Type
 kind! Enum Impl-Type
 
 impl! contains? Enum |_ value
-	Obj.prototype.isPrototypeOf.call _.prototype value
+	Object.prototype.isPrototypeOf.call _.prototype value
 
 Enum

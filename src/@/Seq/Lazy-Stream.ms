@@ -1,7 +1,7 @@
 use
-	...Fun _ thunk
+	...Function thunk
 	...Generator! _ each~ empty-Generator
-	...math.Num Nat
+	...math.Number Nat
 	...math.methods -
 	...Type.Kind kind! self-kind!
 	...Type.Tuple
@@ -17,7 +17,7 @@ use-debug
 	...compare =?
 	...control build
 	...math.methods +
-	...math.Num infinity
+	...math.Number infinity
 	...Type.Type =>
 	.Range range
 	.Seq seq=? take'
@@ -69,7 +69,7 @@ lazy-streaming.
 				# This is *not* an exponential blowup because these are cached.
 				<~ + fibonaccis[(- i 1] fibonaccis[(- i 2]
 		! seq=? (take' fibonaccis 10) [ 1 1 2 3 5 8 13 21 34 55 ]
-	|stream:Fun[Generator!]
+	|stream:Function[Generator!]
 		cash = empty Array!
 		# TODO: Don't use each~
 		iter = each~ (Stream stream) ~|_

@@ -1,6 +1,6 @@
 use
 	..control returning
-	..Fun identity
+	..Function identity
 	..methods sub
 	..Type.Kind _ self-kind!
 	..Type.Method _ impl! self-impl!

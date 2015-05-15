@@ -2,11 +2,10 @@ use
 	.@.@ _ iterator
 	.@.@-Type empty
 	.@.?
-	.Bool _ and
-	.Fun _ call
+	.Boolean and
+	.Function call
 	.Js-Method
 	.private.js-impl eachGenerator
-	.Obj
 	.Type.Type contains?
 	.Type.Pred-Type _ Any
 use-debug
@@ -20,7 +19,7 @@ Generator! = Pred-Type
 		A block of code which yields values and receives responses from a context.
 		Also known as a coroutine.
 	predicate. |_
-		and :Obj ~(contains? Fun _.next)
+		and :Object ~(contains? Function _.next)
 
 empty-Generator.
 	doc. "Does nothing."
@@ -43,7 +42,7 @@ if~.
 				<~ 3
 			! =? b (empty ?)
 		! seq=? stream [ 1 ]
-	~|:? condition:Bool result:Fun[Generator!]
+	~|:? condition:Boolean result:Function[Generator!]
 		case
 			condition
 				_ <~~ result ()
@@ -58,7 +57,7 @@ each~.
 			<~~ each~ [ 1 2 3 ] ~|em
 				<~ em
 		! seq=? x [ 1 2 3 ]
-	|_:@ do-each:Fun[Any Generator!]
+	|_:@ do-each:Function[Any Generator!]
 		eachGenerator iterator_ do-each
 
 # TODO: Others...

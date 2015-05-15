@@ -1,5 +1,5 @@
 use
-	...Bool and
+	...Boolean and
 	...compare =? same?
 	...Type.Type => contains? type-of
 	...Type.Kind _ kind! self-kind!

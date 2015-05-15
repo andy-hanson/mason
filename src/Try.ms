@@ -2,14 +2,12 @@ use
 	.@.@-Type empty
 	.@.?
 	.$ _ $after
-	.Bool and
+	.Boolean and
 	.compare =?
-	.Fun _ Act spread!
+	.Function Action spread!
 	.js new
 	.private.js-impl makeError alwaysDoAfter ohNo iTry
-	.Obj
-	.Obj! p! p+!
-	.Str
+	.Object! p! p+!
 	.Type.Method self-impl!
 	.Type.Obj-Type
 	.Type.Kind
@@ -19,7 +17,7 @@ use
 use-debug
 	.! _ !not
 	.control build
-	.Fun thunk
+	.Function thunk
 	.$ $rejected $resolved
 
 Success. Wrap-Type
@@ -34,7 +32,7 @@ self-impl! => Error makeError
 oh-no!.
 	doc. "
 		Throws an Error.
-		If `error` is a Str, it will be put into a new Error.
+		If `error` is a String, it will be put into a new Error.
 		If it is possible for the creation of `error` to fail, make it lazy.
 	test. |
 		! fails-with? "a" |
@@ -50,18 +48,18 @@ try.
 	test. |
 		[ (thunk 1) ] -> Success 1
 		! fails-with? "Oh no!" oh-no!
-	|tried:Fun[Any]
+	|tried:Function[Any]
 		iTry Success tried
 
 ?try.
 	doc. "
 		`?` containing any successes.
-		This can be thought of as translating an Error-throwing Fun to an ?-returning one.
+		This can be thought of as translating an Error-throwing Function to an ?-returning one.
 		The opposite of this is `@.?.un-?`.
 	test. |
 		[ (thunk 1) ] -> ? 1
 		[ oh-no! ] -> empty ?
-	|tried:Fun[Any]
+	|tried:Function[Any]
 		case try tried
 			:Success
 				? _.val
@@ -69,29 +67,29 @@ try.
 				empty ?
 
 fails?.
-	doc. "Whether the Fun throws some error."
+	doc. "Whether the Function throws some error."
 	test. |
 		! fails? |
 			oh-no!()
 		!not fails? |
 			()
-	|_:Act
+	|_:Action
 		contains? Error try_
 
 fails-with?.
-	doc. "Whether the Fun throws an error of the given type or with the given message."
+	doc. "Whether the Function throws an error of the given type or with the given message."
 	test. |
 		! fails-with? "message" |
 			oh-no! "message"
 		! fails-with? TypeError |
 			().missing-property
-	|expected-error:Union[Str Type] act:Act
+	|expected-error:Union[String Type] act:Action
 		result = try act
 		and (contains? Error result) ~
 			case expected-error
 				:Type
 					contains? _ result
-				:Str
+				:String
 					=? result.message _
 
 error-type.
@@ -109,13 +107,12 @@ error-type.
 	|opts
 		_ = Obj-Type
 			props.
-				message. Str
+				message. String
 				stack.
 			defaults.
 				stack. |_
-					message:Str = _.message
-					(new Error message).stack
-			prototype. Obj.create Error.prototype
+					(new Error _.message).stack
+			prototype. Object.create Error.prototype
 		spread! p+! _ opts
 		_
 
@@ -125,7 +122,7 @@ always-do-after.
 		! =? [ 0 ] (build |yield
 			try |
 				always-do-after oh-no! yield[0]
-	|tried:Fun[Any] finally-do:Act
+	|tried:Function[Any] finally-do:Action
 		alwaysDoAfter tried finally-do
 
 annotate-errors.
@@ -134,7 +131,7 @@ annotate-errors.
 		! fails-with? "ab" |
 			annotate-errors "a" |
 				oh-no! "b"
-	|~annotation:Str tried:Act
+	|~annotation:String tried:Action
 		case try tried
 			:Success
 				_.val
@@ -163,14 +160,14 @@ region $
 		$test. ~|
 			! =? "a" (<~ ($catch ($rejected "a") |_
 				_.message
-		|:$ promise:$ catcher:Fun
+		|:$ promise:$ catcher:Function
 			promise.catch catcher
 
 	$annotate-errors.
 		doc. "Like `annotate-errors` but works on errors thrown in a `$`."
 		$test. ~|
 			! =? "ab" (<~ $try ($annotate-errors "a" ($rejected "b"))).message
-		|~annotation:Str $tried:$
+		|~annotation:String $tried:$
 			$catch $tried |_
 				p! _ "stack" "{annotation}{_.stack}"
 				p! _ "message" "{annotation}{_.message}"

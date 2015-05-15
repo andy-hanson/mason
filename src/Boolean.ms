@@ -3,18 +3,12 @@ use
 use-debug
 	.Try oh-no!
 
-Bool =
-	doc. "
-		JavaScript's native Boolean type.
-		Either true or false.
-	Boolean
-
 not.
-	doc. "Negation of a Bool."
+	doc. "Negation of a Boolean."
 	test. |
 		[ false ] -> true
 		[ true ] -> false
-	|_:Bool
+	|_:Boolean
 		case
 			_
 				false
@@ -86,7 +80,7 @@ implies.
 		[ false true ] -> true
 		[ true false ] -> false
 		[ true true ] -> true
-	|if:Bool ~then:Bool
+	|if:Boolean ~then:Boolean
 		case
 			if
 				then
@@ -100,11 +94,9 @@ xor.
 		[ false true ] -> true
 		[ true false ] -> true
 		[ true true ] -> false
-	|a:Bool b:Bool
+	|a:Boolean b:Boolean
 		case
 			a
 				not b
 			else
 				b
-
-Bool

@@ -1,8 +1,8 @@
 use
-	...Bool and not
+	...Boolean and not
 	...control if opr
 	...js js-set
-	...math.Num Nat
+	...math.Number Nat
 	...methods frozen?
 	...Type.Kind kind! self-kind!
 	...Type.Pred-Type

@@ -1,28 +1,22 @@
 use
-	..Bool and
+	..Boolean and
 	..compare _ =? <? <=?
 	..control opr
-	..Obj p
+	..Object p
 	..js id=? js-bar js< js<= js+ js- js* js/ js-mod
 	..Type.Method impl!
 	..Type.Pred-Type _ Opt
 	.methods + - * /
 use-debug
 	..! _ !not
-	..Fun spread!
+	..Function spread!
 	..Try fails?
 	..Type.Type contains?
-
-Num =
-	doc. "
-		JavaScript's native Number type.
-		Any floating-point value.
-	global.Number
 
 Int. Pred-Type
 	doc. "
 		A multiple of 1.
-		This only contains Nums for which integer methods return sensible results, AKA safe ints.
+		This only contains Numbers for which integer methods return sensible results, AKA safe ints.
 		This is anything between min-safe-integer and max-safe-integer.
 	test. |
 		spread! ![contains?[Int]]
@@ -34,7 +28,7 @@ Int. Pred-Type
 			. - min-safe-int 1
 			. + max-safe-int 1
 	predicate. |_
-		Num.isSafeInteger _
+		Number.isSafeInteger _
 
 Nat. Pred-Type
 	doc. "Any counting number, including `0`."
@@ -45,22 +39,23 @@ Nat. Pred-Type
 		and :Int ~(<=? 0 _
 
 region impl!
-	impl! compare Num -
-	impl! =? Num
+	# TODO: impl*!
+	impl! compare Number -
+	impl! =? Number
 		test. |
 			[ not-a-number not-a-number ] -> true
 		id=?
-	impl! <? Num |a b:Num
+	impl! <? Number |a b:Number
 		js< a b
-	impl! <=? Num |a b:Num
+	impl! <=? Number |a b:Number
 		js<= a b
-	impl! + Num |a b:Num
+	impl! + Number |a b:Number
 		js+ a b
-	impl! - Num |a b:Num
+	impl! - Number |a b:Number
 		js- a b
-	impl! * Num |a b:Num
+	impl! * Number |a b:Number
 		js* a b
-	impl! / Num |a b:Num
+	impl! / Number |a b:Number
 		js/ a b
 
 region Tests
@@ -69,7 +64,7 @@ region Tests
 			[ -8 ] -> -1
 			[ 0 ] -> 0
 			[ 8 ] -> 1
-		|_:Num
+		|_:Number
 			case
 				<? 0 _
 					1
@@ -88,7 +83,7 @@ region Integer arithmetic
 			[ 2 -3 ] -> 2
 			[ -2 3 ] -> -2
 			[ -2 -3 ] -> -2
-		|numerator:Num denominator:Num
+		|numerator:Number denominator:Number
 			js-mod numerator denominator
 
 	int/.
@@ -98,7 +93,7 @@ region Integer arithmetic
 		test. |
 			[ 3 2 ] -> 1
 			[ -3 2 ] -> -2
-		|a:Num b:Num
+		|a:Number b:Number
 			round-down (/ a b
 
 	modulo.
@@ -110,7 +105,7 @@ region Integer arithmetic
 			[ 2 -3 ] -> 2
 			[ -2 3 ] -> 1
 			[ -2 -3 ] -> 1
-		|numerator:Num denominator:Num
+		|numerator:Number denominator:Number
 			out
 				divisible? (- numerator res) denominator
 			case
@@ -125,11 +120,13 @@ region Integer arithmetic
 			! divisible? 4 2
 			! divisible? 4 -2
 			!not divisible? 3 2
-		|a:Num b:Num
+		|a:Number b:Number
 			=? 0 (remainder a b)
 
 region Real arithmetic
-	log-e. |_:Num
+	# TODO: Some of these are unnecessary...
+
+	log-e. |_:Number
 		Math.log _
 
 	log.
@@ -137,7 +134,7 @@ region Real arithmetic
 		test. |
 			! near? (log 10 0.01) -2
 			[ 2 8 ] -> 3
-		|base:Num n:Num
+		|base:Number n:Number
 			/ (log-e n) (log-e base)
 
 	abs.
@@ -145,17 +142,17 @@ region Real arithmetic
 		test. |
 			[ 1 ] -> 1
 			[ -1 ] -> 1
-		|a:Num
+		|a:Number
 			Math.abs a
 
 	pow.
 		doc. "`a` raised to the power of `b`."
 		test. |
 			[ 2 3 ] -> 8
-		|a:Num b:Num
+		|a:Number b:Number
 			Math.pow a b
 
-	square. |_:Num
+	square. |_:Number
 		* _ _
 
 	square-root.
@@ -163,7 +160,7 @@ region Real arithmetic
 			[ 4 ] -> 2
 			debug ! fails? |
 				square-root -1
-		|_:Num
+		|_:Number
 			in
 				! (<=? 0 _) "Can't take square root of negative number {_}."
 			Math.sqrt _
@@ -176,7 +173,7 @@ region Rounding
 		test. |
 			[ -0.5 ] -> -0
 			[ 0.5 ] -> 1
-		|_:Num
+		|_:Number
 			Math.round _
 
 	round-down.
@@ -184,7 +181,7 @@ region Rounding
 		test. |
 			[ -0.5 ] -> -1
 			[ 0.5 ] -> 0
-		|_:Num
+		|_:Number
 			Math.floor _
 
 	round-up.
@@ -192,7 +189,7 @@ region Rounding
 		test. |
 			[ -0.5 ] -> -0
 			[ 0.5 ] -> 1
-		|_:Num
+		|_:Number
 			Math.ceil _
 
 	round-towards-0.
@@ -200,7 +197,7 @@ region Rounding
 		test. |
 			[ -0.5 ] -> 0
 			[ 0.5 ] -> 0
-		|_:Num
+		|_:Number
 			js-bar _ 0
 
 region Near
@@ -215,7 +212,7 @@ region Near
 			region Behaves like `near-0?` when an arg is 0
 				[ 0.00999 0 2 ] -> true
 				[ 0 0.00999 2 ] -> true
-		|a b:Num ?sig-figs:Opt[Nat]
+		|a b:Number ?sig-figs:Opt[Nat]
 			sig-figs = opr ?sig-figs 6
 			case
 				=? a 0
@@ -244,10 +241,8 @@ region Near
 			<? abs_ max
 
 region Constants
-	infinity. p Num "POSITIVE_INFINITY"
-	-infinity. p Num "NEGATIVE_INFINITY"
-	max-safe-int. p Num "MAX_SAFE_INTEGER"
-	min-safe-int. p Num "MIN_SAFE_INTEGER"
-	not-a-number. Num.NaN
-
-Num
+	infinity. p Number "POSITIVE_INFINITY"
+	-infinity. p Number "NEGATIVE_INFINITY"
+	max-safe-int. p Number "MAX_SAFE_INTEGER"
+	min-safe-int. p Number "MIN_SAFE_INTEGER"
+	not-a-number. Number.NaN

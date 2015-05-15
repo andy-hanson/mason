@@ -9,7 +9,7 @@ use-debug
 	...!
 	...@.Seq.Seq seq=?
 	...RegExp regexp
-	...Str split-str
+	...String split-str
 
 maximum-anagram-sets.
 	doc. "http://rosettacode.org/wiki/Anagrams#JavaScript"

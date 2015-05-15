@@ -1,7 +1,6 @@
 use
-	...Obj flag?
+	...Object flag?
 	...show
-	...Str
 	...Type.Method impl!
 	...Type.Type => type-of
 	..@ map'
@@ -30,7 +29,7 @@ impl! show Map
 				""
 		"
 			{type}
-				{=> Str parts "\n\t"}
+				{=> String parts "\n\t"}
 
 impl! show Weak-Id-Map! |
 	"<a Weak-Id-Map!>"

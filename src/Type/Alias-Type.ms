@@ -1,6 +1,5 @@
 use
 	..methods sub
-	..private.bootstrap Str
 	.Kind kind!
 	.Method impl!
 	.Obj-Type
@@ -14,11 +13,11 @@ Alias-Type = Obj-Type
 	doc. "Contains the same instances as another type (officially), but has its own meaning and identity."
 	test. |
 		A = Alias-Type
-			alias-of. Str
+			alias-of. String
 		! contains? A "0"
-		!not =? A Str
+		!not =? A String
 	props.
-		displayName. Str
+		displayName. String
 		alias-of. Type
 	extensible. true
 
@@ -33,7 +32,7 @@ impl! sub Alias-Type
 	test. |
 		?2 = Alias-Type
 			alias-of. ?
-		[ ?2 Str ] -> ?[Str]
+		[ ?2 String ] -> ?[String]
 	|_ ...args
 		sub _.alias-of ...args
 

@@ -11,15 +11,16 @@ export const isReservedName = name => {
 export const JsGlobals = newSet([
 	'Array',
 	'Boolean',
+	'Buffer',
 	'Date',
 	'Error',
 	'EvalError',
 	'Function',
+	'global',
 	'JSON',
 	'Math',
 	'Number',
 	'Object',
-	'Promise',
 	'RangeError',
 	'ReferenceError',
 	'RegExp',
@@ -27,20 +28,12 @@ export const JsGlobals = newSet([
 	'Symbol',
 	'SyntaxError',
 	'TypeError',
-	'URIError',
-	'decodeURI',
-	'decodeURIComponent',
-	'encodeURI',
-	'encodeURIComponent',
-	'eval',
-	'undefined',
-	'Buffer',
-	'clearInterval',
-	'clearTimeout',
-	'console',
-	'global',
-	'setInterval',
-	'setTimeout'
+	'URIError'
+	// 'Set' and 'Map' conflict with mason's versions.
+	// 'Promise': Use '$' instead.
+	// For following, just use `global.xxx`.
+	// 'clearInterval', 'clearTimeout', 'console', 'decodeURI', 'decodeURIComponent',
+	// 'encodeURI', 'encodeURIComponent', 'eval', 'setInterval', 'setTimeout'
 ])
 
 // Anything not explicitly reserved is a valid name character.

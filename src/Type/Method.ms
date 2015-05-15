@@ -1,15 +1,16 @@
 use
-	..Bool and implies not
+	..Boolean and implies not
 	..js defined? js-sub
 	..private.js-impl buildStr
-	..private.bootstrap Fun impl-contains?! Obj Str msDef contains?-impl-symbol
+	..private.bootstrap impl-contains?! msDef contains?-impl-symbol
+	# Don't want to depend on Try because that can cause circular dependency problems.
+	..private.js-impl ohNo
 	.Obj-Type
 use~
 	..@.? un-?
 	..control if
-	..Fun noop
-	..Obj p-with-proto?
-	..Try oh-no!
+	..Function noop
+	..Object p-with-proto?
 	.Impl-Type _ self-type
 	.Kind
 use-debug
@@ -17,8 +18,7 @@ use-debug
 	..@.@-Type empty
 	..@.?
 	..compare =?
-	..Fun thunk
-	..math.Num
+	..Function thunk
 	..private.bootstrap p+!
 	..Try fails?
 	.Type contains?
@@ -56,7 +56,7 @@ make-callable-method = |method
 					}
 		add! "}"
 
-	f = Fun "def" "wrap" src
+	f = Function "def" "wrap" src
 	call = f method.default method.wrap
 	debug p+! call "source" src
 	call
@@ -82,13 +82,13 @@ Method = Obj-Type
 	test. |
 		m = Method
 			default. thunk "default"
-		impl! m Str (thunk "Str")
-		impl-double! m Num Num (thunk "Num Num")
-		impl-double! m Num Str (thunk "Num Str")
+		impl! m String (thunk "String")
+		impl-double! m Number Number (thunk "Number Number")
+		impl-double! m Number String (thunk "Number String")
 		! =? (m ()) "default"
-		! =? (m "a") "Str"
-		! =? (m 1 1) "Num Num"
-		! =? (m 1 "a") "Num Str"
+		! =? (m "a") "String"
+		! =? (m 1 1) "Number Number"
+		! =? (m 1 "a") "Number String"
 		debug ! fails? |
 			m 1 m
 
@@ -101,16 +101,16 @@ Method = Obj-Type
 			wrap-method "arg"
 
 	props.
-		displayName. Str # Required!
-		impl-symbol. Str
+		displayName. String # Required!
+		impl-symbol. String
 	opt-props.
-		default. Fun
-		wrap. Fun
+		default. Function
+		wrap. Function
 	extensible. true
 	defaults.
 		# TODO:DISPLAYNAME
 		displayName. |
-			oh-no! "displayName required!"
+			ohNo "displayName required!"
 		impl-symbol. |_
 			"impl-{_.displayName}"
 	make-callable. make-callable-method
@@ -118,10 +118,10 @@ Method = Obj-Type
 impl!.
 	doc. "Implements a Method for a type or types."
 	test. "See Method.test."
-	|method:Method implementor:Impl-Type implementation:Fun
+	|method:Method implementor:Impl-Type implementation:Function
 		do-impl! method implementor implementation
 
-impl-double!. |method:Method implementor-0:Impl-Type implementor-1:Impl-Type implementation:Fun
+impl-double!. |method:Method implementor-0:Impl-Type implementor-1:Impl-Type implementation:Function
 	dispatcher = case
 		writable? implementor-0.prototype method.impl-symbol
 			m = method
@@ -137,7 +137,7 @@ impl-double!. |method:Method implementor-0:Impl-Type implementor-1:Impl-Type imp
 				:Double-Dispatcher
 					_
 				else
-					oh-no! "
+					ohNo "
 						Can't define double dispatch of {method} for {implementor-0}.
 						A single-dispatch implementation already exists: {_}.
 
@@ -147,7 +147,7 @@ self-impl!.
 	doc. "TODO"
 	test. |
 		"TODO"
-	|method:Method implementor:Obj implementation:Fun
+	|method:Method implementor:Object implementation:Function
 		impl! method (self-type implementor) |implementor ...args
 			noop implementor
 			implementation ...args
@@ -161,8 +161,8 @@ self-impl!.
 		[ contains? Method ] -> ? method-contains?
 		[ =? Method ] -> empty ?
 	|method:Method type:Impl-Type
-		# TODO: Obj.ms Fun
-		desc = Obj.getOwnPropertyDescriptor type.prototype method.impl-symbol
+		# TODO: Object.ms Function
+		desc = Object.getOwnPropertyDescriptor type.prototype method.impl-symbol
 		if (and (defined? desc) ~(not desc.writable)) ~desc.value
 
 impl-for.
@@ -176,14 +176,14 @@ impl-for.
 
 region Private
 	writable? = |obj property
-		desc = global.Object.getOwnPropertyDescriptor obj property
+		desc = Object.getOwnPropertyDescriptor obj property
 		implies (defined? desc) ~desc.writable
 
 	p? = |obj property
 		defined? (js-sub obj property
 
 	# TODO: Not public
-	propagate-method-down!. |implementor method-symbol implementation # TODO: :Impl-Type :Symbol :Fun
+	propagate-method-down!. |implementor method-symbol implementation # TODO: :Impl-Type :Symbol :Function
 		case! implementor
 			# Only bring it down if there isn't already one there.
 			not (p? _.prototype method-symbol)
@@ -194,7 +194,7 @@ region Private
 					else
 						# TODO: What to do in case of multiple inheritance collision?
 						# Since this is inherited, it is mutable and can be overridden.
-						Obj.defineProperty _.prototype method-symbol
+						Object.defineProperty _.prototype method-symbol
 							value. implementation
 							writable. true
 			else
@@ -208,9 +208,9 @@ region Private
 				writable? implementor.prototype method.impl-symbol
 					pass
 				else
-					oh-no! "Can not redefine method {method} for {implementor}."
+					ohNo "Can not redefine method {method} for {implementor}."
 
-		Obj.defineProperty implementor.prototype method.impl-symbol
+		Object.defineProperty implementor.prototype method.impl-symbol
 			value. implementation
 			enumerable. false # TODO:ES6 Should not need this
 		case! implementor
@@ -222,7 +222,7 @@ region Private
 
 	Double-Dispatcher = Obj-Type
 		props.
-			displayName. Str
+			displayName. String
 			method. Method
 			first-type. # TODO: Impl-Type
 			impl-symbol. Symbol
@@ -233,14 +233,14 @@ region Private
 					defined? target-2
 						pass
 					else
-						oh-no! ~"Can't double-dispatch {_.method} for undefined."
+						ohNo ~"Can't double-dispatch {_.method} for undefined."
 
 				impl = js-sub target-2 _.impl-symbol
 				debug case!
 					defined? impl
-						! contains? Fun impl
+						! contains? Function impl
 					else
-						oh-no! ~"Can't double-dispatch {_.method} for {_.first-type} on {target-2}"
+						ohNo ~"Can't double-dispatch {_.method} for {_.first-type} on {target-2}"
 				impl ...args
 
 method-contains? = |method value
@@ -250,7 +250,7 @@ impl-contains?! Method method-contains?
 # TODO: Not public, try moving to Type.ms
 --contains?. Method
 	doc. "
-		|:Bool collection value
+		|:Boolean collection value
 		Whether some collection of things as as an element `value`."
 	impl-symbol. contains?-impl-symbol
 

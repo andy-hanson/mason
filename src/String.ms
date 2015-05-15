@@ -1,5 +1,5 @@
 use
-	.Bool and
+	.Boolean and
 	.compare _ =?
 	.js id=?
 	.RegExp regexp
@@ -9,25 +9,21 @@ use
 use~
 	.@.@ count
 
-Str =
-	doc. "JavaScript's native String type."
-	global.String
-
-Str-Test. Kind
-	doc. "Something we can compare a Str to."
-	implementors. [ Str RegExp ]
+String-Test. Kind
+	doc. "Something we can compare a String to."
+	implementors. [ String RegExp ]
 
 ->upper.
 	doc. "Converts a-z to A-Z."
 	test. |
 		[ "hi" ] -> "HI"
-	|s:Str
-		s.toUpperCase()
+	|_:String
+		_.toUpperCase()
 
 Char. Pred-Type
 	doc. "Any String with only one character."
 	predicate. |_
-		and :Str ~(=? count_ 1
+		and :String ~(=? count_ 1
 
 indent.
 	doc. "
@@ -44,19 +40,17 @@ indent.
 
 		[ s ] -> s-indented
 		[ "a" ] -> "a"
-	|str:Str
-		"{str.replace (regexp "\n" "g") "\n\t"}"
+	|_:String
+		"{_.replace (regexp "\n" "g") "\n\t"}"
 
 split-str.
-	doc. "Like `@.split` but using a Str-Test instead of a predicate."
+	doc. "Like `@.split` but using a String-Test instead of a predicate."
 	test. |
-		[ " " "I am a Str" ] -> [ "I" "am" "a" "Str" ]
+		[ " " "I am a String" ] -> [ "I" "am" "a" "String" ]
 		[ (regexp ".") "abc" ] -> [ "" "" "" "" ]
-	|:Array[Str] splitter:Str-Test _:Str
+	|:Array[String] splitter:String-Test _:String
 		_.split splitter
 
-impl! =? Str id=?
-impl! compare Str |a b
+impl! =? String id=?
+impl! compare String |a b
 	a.localeCompare b
-
-Str

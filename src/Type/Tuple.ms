@@ -2,7 +2,7 @@ use
 	esast.dist.mangle-identifier
 	..control if!
 	..js defined? js-instanceof
-	..private.bootstrap Fun impl-contains?! Obj p+! Str
+	..private.bootstrap impl-contains?! p+!
 	..private.js-impl buildStr
 	.Impl-Type
 	.Kind kind!
@@ -12,7 +12,6 @@ use
 use-debug
 	..!
 	..compare =?
-	..math.Num
 
 access = |name
 	"[\"{name}\"]"
@@ -23,23 +22,23 @@ get-prop = |case
 		name. _[0]
 		id. mangle-identifier _[0]
 		type. _[1]
-	:Str
+	:String
 		name. _
 		id. mangle-identifier_
 
 Tuple = Obj-Type
 	props.
-		displayName. Str
-		props. Obj
-		prototype. Obj
+		displayName. String
+		props. Object
+		prototype. Object
 	opt-props.
-		# TODO make-callable. Fun
-		post-construct. Fun
-		doc. Str
-		test. Fun
+		# TODO make-callable. Function
+		post-construct. Function
+		doc. String
+		test. Function
 	defaults.
 		prototype. |
-			Obj.create Obj.prototype
+			Object.create Object.prototype
 	make-callable. |tuple
 		props = tuple.props.map get-prop
 
@@ -73,7 +72,7 @@ Tuple = Obj-Type
 
 		type-args = props.map |_
 			"{_.id}_type"
-		make-ctr = Fun "postConstruct" ...type-args src
+		make-ctr = Function "postConstruct" ...type-args src
 		types = props.map |prop
 			prop.type
 		ctr = make-ctr tuple.post-construct ...types
@@ -85,7 +84,7 @@ Tuple = Obj-Type
 		accesses = (_.props.map get-prop).map |_
 			"_{access _.name}"
 		extract-src = "return function(_) \{ return _ instanceof tuple ? [ {accesses.join ","} ] : null }"
-		make-extractor = Fun "tuple" extract-src
+		make-extractor = Function "tuple" extract-src
 		extractor = make-extractor _
 		self-impl! extract _ extractor
 
@@ -93,7 +92,7 @@ Tuple = Obj-Type
 		Vec2 = Tuple
 			props.
 				. "x"
-				. [ "y" Num
+				. [ "y" Number
 		v = Vec2 1 2
 		! =? 1 v.x
 		! =? 2 v.y

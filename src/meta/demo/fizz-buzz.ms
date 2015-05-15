@@ -2,9 +2,8 @@ use
 	...@.@ empty? flat-map' map'
 	...@.Seq.Range range
 	...control if
-	...math.Num divisible? infinity Nat
-	...Obj Obj->Map
-	...Str
+	...math.Number divisible? infinity Nat
+	...Object Object->Map
 	...Type.Type =>
 use-debug
 	...!
@@ -13,15 +12,15 @@ use-debug
 make-fb = |spec
 	map' (range 1 infinity) |n
 		# TODO: map Map to Array is hard
-		parts = flat-map' (Obj->Map spec) |_
+		parts = flat-map' (Object->Map spec) |_
 			divisor:Nat = _.val
-			shout:Str = _.key
+			shout:String = _.key
 			if (divisible? n divisor) shout
 		case parts
 			empty?_
 				n
 			else
-				=> Str parts " "
+				=> String parts " "
 
 fizz-buzz.
 	doc. "Infinite Seq of Fizz Buzz game."

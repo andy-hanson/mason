@@ -13,7 +13,7 @@ use
 
 Weak-Id-Map! =
 	doc. "
-		Map! which can only hold have Objs as keys and stops holding them when they are garbage collected.
+		Map! which can only hold have Objects as keys and stops holding them when they are garbage collected.
 		Good for caches.
 		It does not have the full functionality of a Map! because there is no way to iterate over the keys.
 	global.WeakMap

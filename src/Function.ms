@@ -11,7 +11,7 @@ use~
 	.@.Map.Map! get-or-add!
 	.@.Map.Weak-Id-Map!
 	.@.Seq.Seq rtail last
-	.Obj _ Obj->Map
+	.Object Object->Map
 	.Try oh-no!
 use-debug
 	.!
@@ -20,40 +20,29 @@ use-debug
 	.control build
 	.math.methods +
 
-Fun =
-	doc. "
-		TODO
-		<describe Fun vs Callable>
-		sub does nothing, but here is the syntax.
-		* Fun[Num Str] takes a Num and returns a Str.
-		* Fun[2] takes 2 arguments.
-		* Fun[2 Str] takes 2 arguments and returns a Str.
-		* Fun without a sub is assumed to be a one-argument function, so never write Fun[1].
-	global.Function
-
-Act. Alias-Type
+Action. Alias-Type
 	doc. "
 		A function returning nothing.
-		Fun[Num] describes a function taking nothing and returning a Num;
-		Act[Num] describes a function taking a Num and returning nothing.
-	alias-of. Fun
+		Function[Number] describes a Function taking nothing and returning a Number;
+		Action[Number] describes a Function taking a Number and returning nothing.
+	alias-of. Function
 
 Pred. Alias-Type
-	doc. "Fun[Any Bool]."
-	alias-of. Fun
+	doc. "Function[Any Boolean]."
+	alias-of. Function
 
 apply.
 	doc. "Calls the function with the given arguments list."
 	test. |
 		[ + [ 1 2 ] ] -> 3
-	|_:Fun args:@
+	|_:Function args:@
 		_ ...args
 
 call.
 	doc. "Calls the function with the given arguments."
 	test. |
 		[ + 1 2 ] -> 3
-	|_:Fun ...args
+	|_:Function ...args
 		_ ...args
 
 fun-copy.
@@ -73,9 +62,9 @@ fun-copy.
 		! =? f2.doc "f2"
 		! =? (f1 1) (f2 1)
 
-	|_:Fun
+	|_:Function
 		# Fill in `this` as null.
-		Fun.prototype.call.bind _ ()
+		Function.prototype.call.bind _ ()
 
 identity.
 	doc. "Outputs its input unmodified."
@@ -93,8 +82,8 @@ region Memoize
 	# TODO: perf.ms?
 	id-memoize.
 		doc. "
-			When an Obj is passed into `fun`, stores the result in a `Weak-Id-Map!`
-			and uses that if the exact same (`id=?`) Obj is used again.
+			When an Object is passed into `fun`, stores the result in a `Weak-Id-Map!`
+			and uses that if the exact same (`id=?`) Object is used again.
 		test. |
 			! seq=? [ 1 2 1 ] (build |yield
 				get-a = id-memoize |x
@@ -107,9 +96,9 @@ region Memoize
 				! =? (get-a a2) 2
 				a1b = a. 1
 				! =? (get-a a1b) 1
-		|_:Fun
+		|_:Function
 			wm = empty Weak-Id-Map!
-			|arg:Obj
+			|arg:Object
 				get-or-add! wm arg ~(_ arg
 
 	hash-memoize.
@@ -132,9 +121,9 @@ region Memoize
 					a. 1
 				! =? a1 a1b
 				! =? (get-a a1b) 1
-		|_:Fun
+		|_:Function
 			hm = empty Hash-Map!
-			|arg:Obj
+			|arg:Object
 				get-or-add! hm arg ~(_ arg
 
 spread.
@@ -165,7 +154,7 @@ spread.
 			. [ 1 2 "displayName" "z" ] # TODO:DISPLAYNAME
 
 	# TODO:ES6 Non-last rest arg?
-	|:@ fun:Fun ...args
+	|:@ fun:Function ...args
 		# TODO: right uncons
 		init-args = rtail args
 		last-arg = last args
@@ -178,8 +167,8 @@ spread.
 			:@
 				map _ |em
 					[ em ]
-			:Obj
-				map' Obj->Map_ |pair
+			:Object
+				map' Object->Map_ |pair
 					key val = pair
 					[ key val ]
 			else
@@ -220,17 +209,18 @@ curry =
 		! =? (one-two 3) [ 1 2 3 ]
 	iCurry
 
-impl! sub Fun curry
+impl! sub Function curry
 # TODO: Make Method a Callable
 impl! sub Method curry
 
-self-impl! sub Fun
+self-impl! sub Function
 	doc. "
-		Subbing Fun does nothing and is only for documentation.
-		E.g. Fun[Int Str] takes an Int and returns a Str.
+		Subbing Function does nothing and is only for documentation.
+		* Function[Number String] takes a Number and returns a String.
+		* Function[2] takes 2 arguments.
+		* Function[2 String] takes 2 arguments and returns a String.
+		* Function without a sub is assumed to be a one-argument function, so never write Function[1].
 	test. |
-		! =? Fun[Fun Fun] Fun
+		! =? Function[Function Function] Function
 	|
-		Fun
-
-Fun
+		Function

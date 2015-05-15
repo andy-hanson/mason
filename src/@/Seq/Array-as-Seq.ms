@@ -3,7 +3,7 @@
 use
 	...compare <?
 	...control if
-	...Fun thunk
+	...Function thunk
 	...js js-sub
 	...private.js-impl arrayIterator
 	...Type.Kind kind! self-kind!
@@ -12,7 +12,7 @@ use
 	..@-Type _ empty from-stream
 	.Seq _ ?nth
 use~
-	...math.Num Nat
+	...math.Number Nat
 
 doc. "Javascript's native mutable Array type. TODO: `Array` vs `Array!`"
 

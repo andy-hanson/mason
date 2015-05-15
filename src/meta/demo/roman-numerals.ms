@@ -1,8 +1,7 @@
 use
 	...compare =? <=?
-	...math.Num log Nat pow round-down
+	...math.Number log Nat pow round-down
 	...math.methods - *
-	...Str
 use-debug
 	...!
 	...@.Seq.Range range
@@ -34,7 +33,7 @@ roman.
 		[ 49 ] -> "XLIX"
 		[ 2014 ] -> "MMXIV"
 
-	|:Str n:Nat
+	|:String n:Nat
 		in
 			! contains? (range 1 4000) n
 
