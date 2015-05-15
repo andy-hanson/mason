@@ -49,7 +49,7 @@ doc. "For making assertions."
 			:Fun
 				case!
 					_ ...args
-						()
+						pass
 					else
 						oh-no! "
 							Expected {a}
@@ -59,7 +59,7 @@ doc. "For making assertions."
 					not (=? 1 args.length)
 						oh-no! "Use `! fun args...` or `! bool explanation`, never just `! bool`."
 					_
-						()
+						pass
 					else
 						oh-no! args[0]
 			else
@@ -79,14 +79,14 @@ doc. "For making assertions."
 							Unexpected {a}
 								{indent ((map args repr).join "\n")}
 					else
-						()
+						pass
 			:Bool
 				! =? 1 args.length
 				case!
 					_
 						oh-no! args[0]
 					else
-						()
+						pass
 			else
 				oh-no! "First argument to `!not` must be Fun or Bool. Got {_}."
 

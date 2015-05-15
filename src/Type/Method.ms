@@ -198,7 +198,7 @@ region Private
 							value. implementation
 							writable. true
 			else
-				()
+				pass
 
 	# TODO: Multiple-inheritance proxy scheme for Obj-Type, Wrap-Type, Enum
 	# "method" can be a Method or a Double-Dispatcher.
@@ -206,7 +206,7 @@ region Private
 		in
 			case!
 				writable? implementor.prototype method.impl-symbol
-					()
+					pass
 				else
 					oh-no! "Can not redefine method {method} for {implementor}."
 
@@ -218,7 +218,7 @@ region Private
 				_.implementors.forEach |sub
 					propagate-method-down! sub method.impl-symbol implementation
 			else
-				()
+				pass
 
 	Double-Dispatcher = Obj-Type
 		props.
@@ -231,7 +231,7 @@ region Private
 				target-2 = js-sub args 1
 				debug case!
 					defined? target-2
-						()
+						pass
 					else
 						oh-no! ~"Can't double-dispatch {_.method} for undefined."
 

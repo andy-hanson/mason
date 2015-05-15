@@ -1,12 +1,12 @@
 import { singleCharLoc, StartPos } from 'esast/dist/Loc'
 import fs from 'q-io/fs'
 import { relative } from 'path'
-import { ListSimple, Module, Quote } from '../Expression'
+import { BagSimple, Module, Quote } from '../Expression'
 import Cx from '../private/Cx'
 import { OptsFromObject } from '../private/Opts'
 import transpile from '../private/transpile/transpile'
 import render from '../private/render'
-import { flatMap } from '../private/U/Bag'
+import { flatOpMap, opIf } from '../private/U/op'
 import VerifyResults from '../private/VerifyResults'
 
 // Searches a directory and creates a module whose default export is
@@ -14,22 +14,17 @@ import VerifyResults from '../private/VerifyResults'
 export default (dirPath, opts) =>
 	fs.listTree(dirPath).then(files => {
 		const ext = '.js'
-		const moduleFiles = flatMap(files, f => {
-			if (!f.endsWith(ext))
-				return []
-			if (opts.exclude && opts.exclude.test(f))
-				return []
-			const noExt = f.slice(0, f.length - ext.length)
-			return [ `./${relative(dirPath, noExt)}` ]
-		}).sort()
+		const moduleFiles = flatOpMap(files, _ =>
+			opIf(_.endsWith(ext) && !(opts.exclude && opts.exclude.test(_)), () =>
+				`./${relative(dirPath, _.slice(0, _.length - ext.length))}`))
 		// Dummy Loc. We will not use source maps.
 		const loc = singleCharLoc(StartPos)
-		const val = ListSimple(loc, moduleFiles.map(f => Quote.forString(loc, f)))
-		const e = Module(loc, [], [], [], [], [], val)
+		// Sort to keep it deterministic.
+		const modulesBag = BagSimple(loc, moduleFiles.sort().map(_ => Quote.forString(loc, _)))
+		const module = Module(loc, [ ], [ ], [ ], [ ], [ ], modulesBag)
 		const cx = new Cx(OptsFromObject({
 			includeSourceMap: false,
 			includeModuleDisplayName: false
 		}))
-		const ast = transpile(cx, e, new VerifyResults())
-		return render(cx, ast)
+		return render(cx, transpile(cx, module, new VerifyResults()))
 	})

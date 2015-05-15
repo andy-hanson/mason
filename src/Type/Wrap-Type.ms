@@ -24,7 +24,7 @@ debug if! = |cond fun
 		cond
 			fun()
 		else
-			()
+			pass
 
 Wrap-Type = Obj-Type
 	doc. "

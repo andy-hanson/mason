@@ -46,7 +46,7 @@ kind! Splay-Tree! Sorted-Map!
 					<~ _.key
 					<~~ get~ _.right!
 				else
-					()
+					pass
 			<~~ get~ _.val
 	assoc! -> |_ key val
 		case!

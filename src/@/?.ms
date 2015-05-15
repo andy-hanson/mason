@@ -31,7 +31,7 @@ region Is Seq
 
 	self-impl! from-stream ? |stream
 		iter = iterator stream
-		value done = iter.next ()
+		value done = iter.next()
 		case
 			done
 				empty-?
@@ -48,7 +48,7 @@ region Is Seq
 
 	impl! iterator ? ~|case!
 		empty?_
-			()
+			pass
 		else
 			<~ _.val
 

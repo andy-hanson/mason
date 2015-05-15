@@ -8,20 +8,21 @@ import { assignmentExpressionPlain, callExpressionThunk, functionExpressionPlain
 	functionExpressionThunk, memberExpression, property, variableDeclarationConst,
 	yieldExpressionDelegate, yieldExpressionNoDelegate } from 'esast/dist/specialize'
 import * as EExports from '../../Expression'
-import { Pattern, Splat, SP_Contains, SP_Debugger, SP_False, SP_Sub,
-	SP_This, SP_ThisModuleDirectory, SP_True } from '../../Expression'
+import { Pattern, Splat, SD_Debugger, SV_Contains, SV_False, SV_Null, SV_Sub,
+	SV_This, SV_ThisModuleDirectory, SV_True, SV_Undefined } from '../../Expression'
 import manglePath from '../manglePath'
 import { cat, flatMap, isEmpty, range, tail, unshift } from '../U/Bag'
 import { flatOpMap, ifElse, opIf, opMap } from '../U/op'
 import { assert, implementMany, isPositive } from '../U/util'
 import { AmdefineHeader, ArraySliceCall, ExportsDefault, ExportsGet, IdDefine, IdDisplayName,
 	IdArguments, IdExports, IdExtract, IdFunctionApplyCall, LitEmptyArray, LitEmptyString, LitNull,
-	LitStrDisplayName, LitStrExports, ReturnExports, ReturnRes, UseStrict } from './ast-constants'
+	LitStrDisplayName, LitStrExports, LitZero, ReturnExports, ReturnRes, UseStrict
+	} from './ast-constants'
 import { IdMs, lazyWrap, msArr, msBool, msCheckContains, msExtract, msGet, msGetDefaultExport,
 	msGetModule, msLazy, msLazyGet, msLazyGetModule, msLset, msMap, msSet, msShow
 	} from './ms-call'
 import { accessLocalDeclare, binaryExpressionNotEqual, binaryExpressionPlus, declare,
-	declareSpecial, idForDeclareCached, throwError, unaryExpressionNegate,
+	declareSpecial, idForDeclareCached, throwError, unaryExpressionNegate, unaryExpressionVoid,
 	whileStatementInfinite } from './util'
 
 let cx, vr, isInGenerator
@@ -63,6 +64,10 @@ implementMany(EExports, 'transpileSubtree', {
 		return variableDeclarationConst(makeDestructureDeclarators(
 			this.assignees, this.isLazy, t0(this.value), false, vr.isExportAssign(this)))
 	},
+
+	BagEntry() { return declareSpecial(`_${vr.listMapEntryIndex(this)}`, t0(this.value)) },
+
+	BagSimple() { return ArrayExpression(this.parts.map(t0)) },
 
 	BlockDo(lead = null, opResDeclare = null, opOut = null) {
 		assert(opResDeclare === null)
@@ -186,10 +191,6 @@ implementMany(EExports, 'transpileSubtree', {
 
 	Lazy() { return lazyWrap(t0(this.value)) },
 
-	ListSimple() { return ArrayExpression(this.parts.map(t0)) },
-
-	BagEntry() { return declareSpecial(`_${vr.listMapEntryIndex(this)}`, t0(this.value)) },
-
 	NumberLiteral() {
 		// Negative numbers are not part of ES spec.
 		// http://www.ecma-international.org/ecma-262/5.1/#sec-7.8.3
@@ -243,16 +244,24 @@ implementMany(EExports, 'transpileSubtree', {
 			first)
 	},
 
-	Special() {
+	SpecialDo() {
+		switch (this.kind) {
+			case SD_Debugger: return DebuggerStatement()
+			default: throw new Error(this.kind)
+		}
+	},
+
+	SpecialVal() {
 		// Make new objects because we will assign `loc` to them.
 		switch (this.kind) {
-			case SP_Contains: return member(IdMs, 'contains')
-			case SP_Debugger: return DebuggerStatement()
-			case SP_False: return Literal(false)
-			case SP_Sub: return member(IdMs, 'sub')
-			case SP_This: return 	ThisExpression()
-			case SP_ThisModuleDirectory: return Identifier('__dirname')
-			case SP_True: return Literal(true)
+			case SV_Contains: return member(IdMs, 'contains')
+			case SV_False: return Literal(false)
+			case SV_Null: return Literal(null)
+			case SV_Sub: return member(IdMs, 'sub')
+			case SV_This: return 	ThisExpression()
+			case SV_ThisModuleDirectory: return Identifier('__dirname')
+			case SV_True: return Literal(true)
+			case SV_Undefined: return unaryExpressionVoid(LitZero)
 			default: throw new Error(this.kind)
 		}
 	},

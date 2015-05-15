@@ -85,10 +85,10 @@ fails-with?.
 			oh-no! "message"
 		! fails-with? TypeError |
 			().missing-property
-	|with:Union[Str Type] act:Act
+	|expected-error:Union[Str Type] act:Act
 		result = try act
 		and (contains? Error result) ~
-			case with
+			case expected-error
 				:Type
 					contains? _ result
 				:Str

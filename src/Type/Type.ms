@@ -46,14 +46,14 @@ extract. Method
 				"not extractable"
 
 		! =? "12" (f "extractable"
-		! =? "not extractable" (f ()
+		! =? "not extractable" f()
 
 msDef "extract" extract
 
 msDef "checkContains" |type value name
 	case!
 		contains? type value
-			()
+			pass
 		else
 			ohNo "{name} is no {type}, is a {type-of value}: {value}"
 	value

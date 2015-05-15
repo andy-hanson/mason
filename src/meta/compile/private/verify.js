@@ -1,8 +1,7 @@
 import { code } from '../CompileError'
 import * as EExports from '../Expression'
-import { Assign, AssignDestructure, BlockVal, Call, Debug, Do, GlobalAccess, BagEntry,
-	LocalDeclareRes, MapEntry, Pattern, Special, SP_Debugger, UseDo, Yield, YieldTo
-	} from '../Expression'
+import { Assign, AssignDestructure, BlockVal, Call, Debug, Do, BagEntry,
+	LocalDeclareRes, MapEntry, Pattern, UseDo, Yield, YieldTo } from '../Expression'
 import { cat, head, isEmpty } from './U/Bag'
 import { ifElse, opEach } from './U/op'
 import { implementMany, mapKeys, newSet } from './U/util'
@@ -150,6 +149,12 @@ implementMany(EExports, 'verify', {
 		else
 			doV()
 	},
+	AssignDestructure() {
+		this.value.verify()
+		vm(this.assignees)
+	},
+	BagEntry() { this.value.verify() },
+	BagSimple() { vm(this.parts) },
 	BlockDo() { verifyLines(this.lines) },
 	BlockWithReturn() {
 		const { newLocals } = verifyLines(this.lines)
@@ -165,8 +170,14 @@ implementMany(EExports, 'verify', {
 	BlockWrap() {
 		this.block.verify()
 	},
+	Call() {
+		this.called.verify()
+		vm(this.args)
+	},
 	CaseDo: verifyCase,
+	CaseDoPart: verifyCasePart,
 	CaseVal: verifyCase,
+	CaseValPart: verifyCasePart,
 	// Only reach here for in/out condition
 	Debug() { verifyLines([ this ]) },
 	EndLoop() {
@@ -193,6 +204,8 @@ implementMany(EExports, 'verify', {
 			})
 		})
 	},
+	GlobalAccess() { },
+	Lazy() { withBlockLocals(() => this.value.verify()) },
 	LocalAccess() {
 		const declare = locals.get(this.name)
 		cx.check(declare !== undefined, this.loc, () =>
@@ -203,10 +216,12 @@ implementMany(EExports, 'verify', {
 	Loop() { withInLoop(this, () => this.block.verify()) },
 	// Adding LocalDeclares to the available locals is done by Fun or lineNewLocals.
 	LocalDeclare() { vop(this.opType) },
+	NumberLiteral() { },
 	MapEntry() {
 		this.key.verify()
 		this.val.verify()
 	},
+	Member() { this.object.verify() },
 	Module() {
 		const useLocals = verifyUses(this.uses, this.debugUses)
 		plusLocals(useLocals, () => {
@@ -225,27 +240,6 @@ implementMany(EExports, 'verify', {
 		}
 		this.lines.forEach(markExportLines)
 	},
-	Yield() {
-		cx.check(isInGenerator, this.loc, 'Cannot yield outside of generator context')
-		this.yielded.verify()
-	},
-	YieldTo() {
-		cx.check(isInGenerator, this.loc, 'Cannot yield outside of generator context')
-		this.yieldedTo.verify()
-	},
-
-	// These ones just recurse to their children.
-	AssignDestructure() {
-		this.value.verify()
-		vm(this.assignees)
-	},
-	Call() {
-		this.called.verify()
-		vm(this.args)
-	},
-	CaseDoPart: verifyCasePart,
-	CaseValPart: verifyCasePart,
-	GlobalAccess() { },
 	ObjSimple() {
 		const keys = new Set()
 		this.pairs.forEach(pair => {
@@ -254,19 +248,23 @@ implementMany(EExports, 'verify', {
 			pair.value.verify()
 		})
 	},
-	Lazy() { withBlockLocals(() => this.value.verify()) },
-	BagEntry() { this.value.verify() },
-	ListSimple() { vm(this.parts) },
-	NumberLiteral() { },
-	Member() { this.object.verify() },
 	Quote() {
 		this.parts.forEach(_ => {
 			if (typeof _ !== 'string')
 				_.verify()
 		})
 	},
-	Special() { },
-	Splat() { this.splatted.verify() }
+	SpecialDo() { },
+	SpecialVal() { },
+	Splat() { this.splatted.verify() },
+	Yield() {
+		cx.check(isInGenerator, this.loc, 'Cannot yield outside of generator context')
+		this.yielded.verify()
+	},
+	YieldTo() {
+		cx.check(isInGenerator, this.loc, 'Cannot yield outside of generator context')
+		this.yieldedTo.verify()
+	}
 })
 
 function blockBagOrMap() {
@@ -384,10 +382,7 @@ const
 			line instanceof Yield ||
 			line instanceof YieldTo ||
 			line instanceof BagEntry ||
-			line instanceof MapEntry ||
-			line instanceof Special && line.kind === SP_Debugger ||
-			// OK, used to mean `pass`
-			line instanceof GlobalAccess && line.name === 'null'
+			line instanceof MapEntry
 		cx.check(isStatement, line.loc, 'Expression in statement position.')
 	},
 

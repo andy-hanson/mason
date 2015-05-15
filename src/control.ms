@@ -92,7 +92,7 @@ region Conditional execution
 				condition
 					result()
 				else
-					()
+					pass
 
 unreachable!.
 	doc. "Call this to mark code as unreachable."

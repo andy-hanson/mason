@@ -17,6 +17,7 @@ export const
 	LitEmptyString = Literal(''),
 	LitNull = Literal(null),
 	LitTrue = Literal(true),
+	LitZero = Literal(0),
 	LitStrDisplayName = Literal('displayName'),
 	LitStrExports = Literal('exports'),
 	ReturnExports = ReturnStatement(IdExports),

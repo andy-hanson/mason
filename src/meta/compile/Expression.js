@@ -100,12 +100,7 @@ export const
 		{ focus: loc => LocalAccess(loc, '_') }),
 	GlobalAccess = ev('GlobalAccess',
 		'TODO:DOC',
-		[ 'name', JsGlobals ],
-		{ },
-		{
-			null: loc => GlobalAccess(loc, 'null'),
-			true: loc => GlobalAccess(loc, 'true')
-		}),
+		[ 'name', JsGlobals ]),
 	// Module
 	UseDo = ee('UseDo',
 		'TODO:DOC',
@@ -129,7 +124,7 @@ export const
 		]),
 
 	// Data
-	ListSimple = ev('ListSimple',
+	BagSimple = ev('ListSimple',
 		'TODO:DOC',
 		[ 'parts', [Val] ]),
 	ObjPair = ee('ObjPair',
@@ -208,8 +203,8 @@ export const
 		{ },
 		{
 			contains: (loc, testType, tested) =>
-				Call(loc, Special.contains(loc), [ testType, tested ]),
-			sub: (loc, args) => Call(loc, Special.sub(loc), args)
+				Call(loc, SpecialVal.contains(loc), [ testType, tested ]),
+			sub: (loc, args) => Call(loc, SpecialVal.sub(loc), args)
 		}),
 	BlockWrap = ev('BlockWrap',
 		'TODO:DOC',
@@ -251,20 +246,30 @@ export const
 			forString: (loc, str) => Quote(loc, [ str ])
 		}),
 
-	SP_Contains = 0,
-	SP_Debugger = 1,
-	SP_Sub = 2,
-	SP_This = 3,
-	SP_ThisModuleDirectory = 4,
-	SP_False = 5,
-	SP_True = 6,
-	// k is a SP_***
-	Special = ev('Special',
+	SD_Debugger = 0,
+	SpecialDo = ed('SpecialDo',
 		'TODO:DOC',
 		[ 'kind', Number ],
 		{ },
 		{
-			contains: loc => Special(loc, SP_Contains),
-			debugger: loc => Special(loc, SP_Debugger),
-			sub: loc => Special(loc, SP_Sub)
+			debugger: loc => SpecialDo(loc, SD_Debugger)
+		}),
+
+	SV_Contains = 0,
+	SV_False = 1,
+	SV_Null = 2,
+	SV_Sub = 3,
+	SV_This = 4,
+	SV_ThisModuleDirectory = 5,
+	SV_True = 6,
+	SV_Undefined = 7,
+	// k is a SP_***
+	SpecialVal = ev('Special',
+		'TODO:DOC',
+		[ 'kind', Number ],
+		{ },
+		{
+			contains: loc => SpecialVal(loc, SV_Contains),
+			sub: loc => SpecialVal(loc, SV_Sub),
+			null: loc => SpecialVal(loc, SV_Null)
 		})

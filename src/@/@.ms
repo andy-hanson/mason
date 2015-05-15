@@ -144,7 +144,7 @@ region Using iterator
 						set! found (? value
 						end-loop!
 					else
-						()
+						pass
 			get found
 
 	count. Method
@@ -179,7 +179,7 @@ region Lazy functions, and their eager versions.
 						keep-if? value
 							<~ value
 						else
-							()
+							pass
 
 	# TODO: Method
 	map.

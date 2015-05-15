@@ -43,6 +43,10 @@ export const
 		[ 'argument', Expression ],
 		{ operator: '-' }),
 
+	unaryExpressionVoid = specialize(UnaryExpression,
+		[ 'argument', Expression ],
+		{ operator: 'void' }),
+
 	whileStatementInfinite = specialize(WhileStatement,
 		[ 'body', Statement ],
 		{ test: Literal(true) })

@@ -16,7 +16,7 @@ if! = |bool act
 		bool
 			act()
 		else
-			()
+			pass
 
 flag? = |case
 	defined?_
@@ -67,7 +67,7 @@ make-ctr = |ot
 				prop-has-type? ot.props prop
 					add! "_ms.checkContains(props{acc}, this{acc}, \"{prop}\")"
 				default?
-					()
+					pass
 				else
 					add! "
 						if (!Object.prototype.hasOwnProperty.call(_, \"{prop}\"))

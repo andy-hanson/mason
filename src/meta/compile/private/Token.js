@@ -1,7 +1,7 @@
 import Loc from 'esast/dist/Loc'
 import tupl, { abstract } from 'tupl/dist/tupl'
 import { code } from '../CompileError'
-import { SP_False, SP_This, SP_ThisModuleDirectory, SP_True } from '../Expression'
+import { SV_False, SV_This, SV_ThisModuleDirectory, SV_True, SV_Undefined } from '../Expression'
 import { implementMany } from './U/util'
 
 const Token = abstract('Token', Object,
@@ -59,11 +59,13 @@ export const
 	KW_MapEntry = kw('->'),
 	KW_ObjAssign = kw('. '),
 	KW_Out = kw('out'),
+	KW_Pass = kw('pass'),
 	KW_Region = kw('region'),
 	KW_This = kw('this'),
 	KW_ThisModuleDirectory = kw('this-module-directory'),
 	KW_True = kw('true'),
 	KW_Type = kwNotName(':'),
+	KW_Undefined = kw('undefined'),
 	KW_Use = kw('use'),
 	KW_UseDebug = kw('use-debug'),
 	KW_UseDo = kw('use!'),
@@ -73,12 +75,13 @@ export const
 
 export const
 	keywordKFromName = name => nameToK.get(name),
-	opKWtoSP = kw => {
+	opKWtoSV = kw => {
 		switch (kw) {
-			case KW_This: return SP_This
-			case KW_ThisModuleDirectory: return SP_ThisModuleDirectory
-			case KW_False: return SP_False
-			case KW_True: return SP_True
+			case KW_False: return SV_False
+			case KW_This: return SV_This
+			case KW_ThisModuleDirectory: return SV_ThisModuleDirectory
+			case KW_True: return SV_True
+			case KW_Undefined: return SV_Undefined
 			default: return null
 		}
 	}

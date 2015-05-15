@@ -93,7 +93,7 @@ Kind = Obj-Type
 		p+! _.prototype _.symbol-for-isa true
 		case!
 			isEmpty _.implementors
-				()
+				pass
 			else
 				_.implementors.forEach |implementor
 					on-implementor! implementor _
@@ -162,7 +162,7 @@ kind!.
 				each! _ |pair
 					impl! pair.key implementor pair.val
 			else
-				()
+				pass
 
 self-kind!.
 	doc. "TODO"
@@ -198,7 +198,7 @@ region Private
 			:Kind
 				_.super-kinds.push kind
 			else
-				()
+				pass
 		inherit-methods! implementor kind
 
 	inherit-methods! = |implementor kind

@@ -1,7 +1,11 @@
 import { newSet } from './U/util'
 
-export const isReservedName = name =>
-	name === 'for' || name === 'return'
+export const isReservedName = name => {
+	switch (name) {
+		case 'for': case 'return': case 'with': return true
+		default: return false
+	}
+}
 
 // TODO: Allow Opts to specify additional globals.
 export const JsGlobals = newSet([

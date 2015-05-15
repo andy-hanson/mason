@@ -27,7 +27,7 @@ kind! LList Seq
 
 	iterator -> ~|case!
 		empty?_
-			()
+			pass
 		else
 			<~ _.head
 			<~~ iterator _.tail

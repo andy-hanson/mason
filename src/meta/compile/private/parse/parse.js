@@ -1,16 +1,16 @@
 import Loc from 'esast/dist/Loc'
 import tupl from 'tupl/dist/tupl'
 import { code } from '../../CompileError'
-import { Assign, AssignDestructure, BlockBag, BlockDo, BlockMap, BlockObj, BlockWithReturn,
-	BlockWrap, Call, CaseDoPart, CaseValPart, CaseDo, CaseVal, Debug, Do, NumberLiteral, EndLoop,
-	Fun, GlobalAccess, Lazy, BagEntry, ListSimple, LocalAccess, LocalDeclare, LocalDeclareRes,
-	Loop, MapEntry, Member, Module, ObjPair, ObjSimple, Pattern, Quote, Special, Splat, Val, Use,
-	UseDo, Yield, YieldTo } from '../../Expression'
+import { Assign, AssignDestructure, BagEntry, BagSimple, BlockBag, BlockDo, BlockMap, BlockObj,
+	BlockWithReturn, BlockWrap, Call, CaseDoPart, CaseValPart, CaseDo, CaseVal, Debug, Do,
+	NumberLiteral, EndLoop, Fun, GlobalAccess, Lazy, LocalAccess, LocalDeclare, LocalDeclareRes,
+	Loop, MapEntry, Member, Module, ObjPair, ObjSimple, Pattern, Quote, SpecialDo, SpecialVal,
+	Splat, Val, Use, UseDo, Yield, YieldTo } from '../../Expression'
 import { JsGlobals } from '../Lang'
 import { CallOnFocus, DotName, Group, G_Block, G_Bracket, G_Paren, G_Space, G_Quote, Keyword,
 	KW_Case, KW_CaseDo, KW_Debug, KW_Debugger, KW_EndLoop, KW_Focus, KW_Fun, KW_GenFun, KW_In,
-	KW_Loop, KW_MapEntry, KW_ObjAssign, KW_Out, KW_Region, KW_Use, KW_UseDebug, KW_UseDo,
-	KW_UseLazy, KW_Yield, KW_YieldTo, Name, opKWtoSP, TokenNumberLiteral } from '../Token'
+	KW_Loop, KW_MapEntry, KW_ObjAssign, KW_Pass, KW_Out, KW_Region, KW_Use, KW_UseDebug, KW_UseDo,
+	KW_UseLazy, KW_Yield, KW_YieldTo, Name, opKWtoSV, TokenNumberLiteral } from '../Token'
 import { head, flatMap, isEmpty, last, push, repeat, rtail, tail, unshift } from '../U/Bag'
 import { ifElse, opIf, opMap } from '../U/op'
 import { assert } from '../U/util'
@@ -270,7 +270,7 @@ const
 		const parts = parseExprParts(tokens)
 		switch (parts.length) {
 			case 0:
-				return GlobalAccess.null(tokens.loc)
+				return SpecialVal.null(tokens.loc)
 			case 1:
 				return head(parts)
 			default:
@@ -376,9 +376,9 @@ const
 						parseLinesFromBlock() :
 						// `debug`, then single line
 						parseLineOrLines(rest))
-				case KW_Debugger:
+				case KW_Debugger: case KW_Pass:
 					checkEmpty(rest, () => `Did not expect anything after ${h}`)
-					return Special.debugger(tokens.loc)
+					return h.kind === KW_Pass ? [ ] : SpecialDo.debugger(tokens.loc)
 				case KW_EndLoop:
 					checkEmpty(rest, () => `Did not expect anything after ${h}`)
 					return EndLoop(tokens.loc)
@@ -537,7 +537,7 @@ const parseSingle = t =>
 		switch (t.kind) {
 			case G_Space: return parseSpaced(Slice.group(t))
 			case G_Paren: return parseExpr(Slice.group(t))
-			case G_Bracket: return ListSimple(t.loc, parseExprParts(Slice.group(t)))
+			case G_Bracket: return BagSimple(t.loc, parseExprParts(Slice.group(t)))
 			case G_Block: return blockWrap(Slice.group(t))
 			case G_Quote:
 				return Quote(t.loc,
@@ -553,7 +553,7 @@ const parseSingle = t =>
 	t instanceof Keyword ?
 		t.kind === KW_Focus ?
 			LocalAccess.focus(t.loc) :
-			Special(t.loc, opKWtoSP(t.kind) || unexpected(t)) :
+			SpecialVal(t.loc, opKWtoSV(t.kind) || unexpected(t)) :
 	t instanceof DotName && t.nDots === 3 ?
 	Splat(t.loc, LocalAccess(t.loc, t.name)) :
 	unexpected(t)
