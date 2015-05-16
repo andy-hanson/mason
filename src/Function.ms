@@ -64,7 +64,7 @@ fun-copy.
 
 	|_:Function
 		# Fill in `this` as null.
-		Function.prototype.call.bind _ ()
+		Function.prototype.call.bind _ null
 
 identity.
 	doc. "Outputs its input unmodified."
@@ -76,7 +76,7 @@ identity.
 noop.
 	doc. "Does nothing."
 	|
-		()
+		pass
 
 region Memoize
 	# TODO: perf.ms?

@@ -2,7 +2,7 @@ use
 	..Boolean or not
 	..compare =?
 	..js defined? js-sub
-	..private.bootstrap impl-contains?! p+!
+	..private.bootstrap implContains pAdd
 	..private.js-impl isEmpty KindContains
 	.Method impl! propagate-method-down! self-impl!
 	.Obj-Type
@@ -83,14 +83,14 @@ Kind = Obj-Type
 		super-kinds. |
 			Array 0
 		prototype. |
-			Object.create ()
+			Object.create null
 		implementors. |
 			Array 0
 		symbol-for-isa. |_
 			name:String = _.displayName
 			Symbol "isa-{name}"
 	post-construct. |_
-		p+! _.prototype _.symbol-for-isa true
+		pAdd _.prototype _.symbol-for-isa true
 		case!
 			isEmpty _.implementors
 				pass
@@ -99,7 +99,7 @@ Kind = Obj-Type
 					on-implementor! implementor _
 				freeze _.implementors
 
-impl-contains?! Kind KindContains
+implContains Kind KindContains
 
 can-subtype?.
 	doc. "Whether a Kind accepts new subtypes."

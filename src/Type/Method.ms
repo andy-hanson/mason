@@ -2,7 +2,7 @@ use
 	..Boolean and implies not
 	..js defined? js-sub
 	..private.js-impl buildStr
-	..private.bootstrap impl-contains?! msDef contains?-impl-symbol
+	..private.bootstrap implContains msDef containsImplSymbol
 	# Don't want to depend on Try because that can cause circular dependency problems.
 	..private.js-impl ohNo
 	.Obj-Type
@@ -19,7 +19,7 @@ use-debug
 	..@.?
 	..compare =?
 	..Function thunk
-	..private.bootstrap p+!
+	..private.bootstrap pAdd
 	..Try fails?
 	.Type contains?
 
@@ -58,7 +58,7 @@ make-callable-method = |method
 
 	f = Function "def" "wrap" src
 	call = f method.default method.wrap
-	debug p+! call "source" src
+	debug pAdd call "source" src
 	call
 
 Method = Obj-Type
@@ -85,7 +85,7 @@ Method = Obj-Type
 		impl! m String (thunk "String")
 		impl-double! m Number Number (thunk "Number Number")
 		impl-double! m Number String (thunk "Number String")
-		! =? (m ()) "default"
+		! =? (m null) "default"
 		! =? (m "a") "String"
 		! =? (m 1 1) "Number Number"
 		! =? (m 1 "a") "Number String"
@@ -245,14 +245,14 @@ region Private
 
 method-contains? = |method value
 	p-with-proto? value method.impl-symbol
-impl-contains?! Method method-contains?
+implContains Method method-contains?
 
 # TODO: Not public, try moving to Type.ms
 --contains?. Method
 	doc. "
 		|:Boolean collection value
 		Whether some collection of things as as an element `value`."
-	impl-symbol. contains?-impl-symbol
+	impl-symbol. containsImplSymbol
 
 msDef "contains" --contains?
 

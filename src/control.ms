@@ -127,7 +127,7 @@ region Loops
 
 		|init-state transform-state:Function
 			state = Ref! init-state
-			output = Ref! ()
+			output = Ref! null
 			loop!
 				case! transform-state (get state)
 					:End-Loop
@@ -151,7 +151,7 @@ region Ref!
 	set!.
 		doc. "Change the current value."
 		test. |
-			_ = Ref! ()
+			_ = Ref! null
 			set! _ 0
 			! =? get_ 0
 		|_:Ref! new-value

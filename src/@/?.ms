@@ -57,7 +57,7 @@ region Functions
 		doc. "`?` containing the value iff it is defined."
 		test. |
 			[ 0 ] -> ? 0
-			[ () ] -> ? ()
+			[ null ] -> ? null
 			[ undefined ] -> empty ?
 		|case
 			defined?_
@@ -116,6 +116,6 @@ self-impl! extract Some |case
 	:Some
 		[ _.val ]
 	else
-		()
+		null
 
 ?

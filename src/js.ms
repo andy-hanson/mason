@@ -65,7 +65,7 @@ truthy?.
 	doc. "Whether javascript's `if` statement would consider the value to be true."
 	test. |
 		falsy =
-			. ()
+			. null
 			. undefined
 			. 0
 			. Number.NaN
@@ -97,7 +97,7 @@ js-typeof.
 	doc. "JavaScript's `typeof` operator."
 	test. |
 		[ undefined ] -> "undefined"
-		[ () ] -> "object"
+		[ null ] -> "object"
 		[ true ] -> "boolean"
 		[ 0 ] -> "number"
 		[ "a" ] -> "string"

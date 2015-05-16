@@ -1,6 +1,6 @@
 use
 	..Boolean and implies not
-	..private.bootstrap impl-contains?! p+!
+	..private.bootstrap implContains pAdd
 	..js defined? js! js=== js-instanceof js-sub js-typeof
 	..private.js-impl buildStr
 use-debug
@@ -27,7 +27,7 @@ make-ctr = |ot
 	debug prop-has-type? = |props prop
 		# Type might be lazily defined, but don't trigger it yet.
 		desc = Object.getOwnPropertyDescriptor props prop
-		not (js=== desc.value ())
+		not (js=== desc.value null)
 
 	real-prop? = |props prop
 		# Ignore accidental displayName.
@@ -124,7 +124,7 @@ make-ctr = |ot
 
 	make-ctr = Function "prototype" "props" "defaults" "makeCallable" "postConstruct" "optProps" src
 	ctr = make-ctr ot.prototype ot.props ot.defaults ot.make-callable ot.post-construct ot.opt-props
-	debug p+! ctr "source" src
+	debug pAdd ctr "source" src
 	ctr
 
 obj-type-args =
@@ -154,7 +154,7 @@ obj-type-args =
 		prototype. |
 			Object.create Object.prototype
 	post-construct. |_
-		p+! _.prototype "constructor" _
+		pAdd _.prototype "constructor" _
 	make-callable. make-ctr
 	test. |
 		Vec2D = Obj-Type
@@ -207,7 +207,7 @@ obj-type-args =
 
 Obj-Type = (make-ctr obj-type-args) obj-type-args
 
-impl-contains?! Obj-Type |ot _
+implContains Obj-Type |ot _
 	js-instanceof _ ot
 
 Obj-Type

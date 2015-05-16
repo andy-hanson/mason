@@ -24,7 +24,7 @@ Generator! = Pred-Type
 empty-Generator.
 	doc. "Does nothing."
 	call ~|
-		()
+		pass
 
 gen-next!. Js-Method
 	doc. "Continues until the next `<~`."
@@ -45,7 +45,7 @@ if~.
 	~|:? condition:Boolean result:Function[Generator!]
 		case
 			condition
-				_ <~~ result ()
+				_ <~~ result()
 				? _
 			else
 				empty ?

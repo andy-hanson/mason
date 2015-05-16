@@ -2,7 +2,7 @@ use
 	esast.dist.mangle-identifier
 	..control if!
 	..js defined? js-instanceof
-	..private.bootstrap impl-contains?! p+!
+	..private.bootstrap implContains pAdd
 	..private.js-impl buildStr
 	.Impl-Type
 	.Kind kind!
@@ -76,11 +76,11 @@ Tuple = Obj-Type
 		types = props.map |prop
 			prop.type
 		ctr = make-ctr tuple.post-construct ...types
-		debug p+! ctr "source" src
+		debug pAdd ctr "source" src
 		ctr
 
 	post-construct. |_
-		p+! _.prototype "constructor" _
+		pAdd _.prototype "constructor" _
 		accesses = (_.props.map get-prop).map |_
 			"_{access _.name}"
 		extract-src = "return function(_) \{ return _ instanceof tuple ? [ {accesses.join ","} ] : null }"
@@ -101,7 +101,7 @@ Tuple = Obj-Type
 				! =? 1 x
 				! =? 2 y
 
-impl-contains?! Tuple |tuple _
+implContains Tuple |tuple _
 	js-instanceof _ tuple
 
 kind! Tuple Impl-Type

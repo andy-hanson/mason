@@ -94,7 +94,7 @@ region Implementation
 						else
 							rec-left!()
 				r<
-					rec-right! ()
+					rec-right!()
 				else
 					fill! val
 		rec! 0

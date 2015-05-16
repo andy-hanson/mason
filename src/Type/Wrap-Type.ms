@@ -65,6 +65,6 @@ impl! extract Wrap-Type |wt _
 		js-instanceof _ wt
 			[ _.val ]
 		else
-			()
+			null
 
 Wrap-Type

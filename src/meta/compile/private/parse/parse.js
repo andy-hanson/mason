@@ -270,7 +270,7 @@ const
 		const parts = parseExprParts(tokens)
 		switch (parts.length) {
 			case 0:
-				return SpecialVal.null(tokens.loc)
+				cx.fail(tokens.loc, 'Expected an expression, got nothing.')
 			case 1:
 				return head(parts)
 			default:
@@ -406,53 +406,51 @@ const
 
 // parseLine privates
 const
-	_parseAssign = (assigned, assigner, value, loc) => {
-		let locals = parseLocalDeclares(assigned)
+	_parseAssign = (localsTokens, assigner, valueTokens, loc) => {
 		const kind = assigner.kind
-
-		const _ = parseExpr(value)
-		const eValueNamed =
-			locals.length === 1 ? _tryAddDisplayName(_, head(locals).name) : _
-		const eValue = _valueFromAssign(eValueNamed, kind)
+		const locals = parseLocalDeclares(localsTokens)
+		const opName = opIf(locals.length === 1, () => locals[0].name)
+		const value = _parseAssignValue(kind, opName, valueTokens)
 
 		const isYield = kind === KW_Yield || kind === KW_YieldTo
 		if (isEmpty(locals)) {
-			cx.check(isYield, assigned.loc, 'Assignment to nothing')
-			return eValue
-		}
-
-		if (isYield)
-			locals.forEach(_ =>
-				cx.check(!_.isLazy, _.loc, 'Can not yield to lazy variable.'))
-
-		if (kind === KW_ObjAssign)
-			locals.forEach(l => { l.okToNotUse = true })
-
-		const isObjAssign = kind === KW_ObjAssign
-		let ass
-		if (locals.length === 1) {
-			const assignee = locals[0]
-			const assign = Assign(loc, assignee, eValue)
-			const isTest = isObjAssign && assign.assignee.name.endsWith('test')
-			ass = isTest ? Debug(loc, [ assign ]) : assign
+			cx.check(isYield, localsTokens.loc, 'Assignment to nothing')
+			return value
 		} else {
-			const isLazy = locals.some(l => l.isLazy)
-			if (isLazy)
-				locals.forEach(_ => cx.check(_.isLazy, _.loc,
-					'If any part of destructuring assign is lazy, all must be.'))
-			ass = AssignDestructure(loc, locals, eValue, isLazy)
+			if (isYield)
+				locals.forEach(_ => cx.check(!_.isLazy, _.loc, 'Can not yield to lazy variable.'))
+
+			const isObjAssign = kind === KW_ObjAssign
+			const ass = (() => {
+				if (locals.length === 1) {
+					const assignee = locals[0]
+					const assign = Assign(loc, assignee, value)
+					const isTest = isObjAssign && assignee.name.endsWith('test')
+					return isTest ? Debug(loc, [ assign ]) : assign
+				} else {
+					const isLazy = locals.some(_ => _.isLazy)
+					if (isLazy)
+						locals.forEach(_ => cx.check(_.isLazy, _.loc,
+							'If any part of destructuring assign is lazy, all must be.'))
+					return AssignDestructure(loc, locals, value, isLazy)
+				}
+			})()
+			return isObjAssign ? WithObjKeys(locals, ass) : ass
 		}
-		return isObjAssign ? WithObjKeys(locals, ass) : ass
 	},
 
-	_valueFromAssign = (valuePre, kAssign) => {
-		switch (kAssign) {
+	_parseAssignValue = (kind, opName, valueTokens) => {
+		const valuePlain = valueTokens.isEmpty() && kind === KW_ObjAssign ?
+			SpecialVal.null(valueTokens.loc) :
+			parseExpr(valueTokens)
+		const valueNamed = ifElse(opName, _ => _tryAddDisplayName(valuePlain, _), () => valuePlain)
+		switch (kind) {
 			case KW_Yield:
-				return Yield(valuePre.loc, valuePre)
+				return Yield(valueNamed.loc, valueNamed)
 			case KW_YieldTo:
-				return YieldTo(valuePre.loc, valuePre)
+				return YieldTo(valueNamed.loc, valueNamed)
 			default:
-				return valuePre
+				return valueNamed
 		}
 	},
 

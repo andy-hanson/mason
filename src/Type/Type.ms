@@ -1,7 +1,7 @@
 use
 	..compare =?
 	..js id=? js-instanceof
-	..private.bootstrap impl-contains?! msDef
+	..private.bootstrap implContains msDef
 	# Don't want to depend on Try because that can cause circular dependency problems.
 	..private.js-impl ohNo
 	.Impl-Type
@@ -37,7 +37,7 @@ extract. Method
 			=? _ "extractable"
 				[ 1 2 ]
 			else
-				()
+				null
 
 		f = |case
 			:My-Type a b
@@ -74,7 +74,7 @@ type-of.
 		Most specific Impl-Type for a value.
 	test. |
 		[ Type ] -> Kind
-		[ () ] -> Object
+		[ null ] -> Object
 	|:Impl-Type _
 		?-or (?p-with-proto _ "constructor") Object
 
@@ -83,7 +83,7 @@ region We make some things Types here due to bootstrapping order issues.
 	kind! Method Type
 
 	# TODO: Move?
-	impl-contains?! Function |fun _
+	implContains Function |fun _
 		js-instanceof _ fun
 
 Type

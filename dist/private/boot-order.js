@@ -13,8 +13,7 @@ define(["exports","./bootstrap","../Type/Type","../Function","../at/Seq/Array-as
 		_ms.getModule(show_45Map_8);
 		_ms.getModule(show_45Type_9);
 		const displayName=exports.displayName="boot-order";
-		exports.default=null;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9wcml2YXRlL2Jvb3Qtb3JkZXIubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7RUFBQSxzQ0FBQTtrQkFXQSIsImZpbGUiOiJwcml2YXRlL2Jvb3Qtb3JkZXIuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9wcml2YXRlL2Jvb3Qtb3JkZXIubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7RUFBQSxzQ0FBQSIsImZpbGUiOiJwcml2YXRlL2Jvb3Qtb3JkZXIuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

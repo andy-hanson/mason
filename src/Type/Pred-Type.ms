@@ -49,7 +49,7 @@ Any. Pred-Type
 	doc. "Not undefined."
 	test. |
 		! contains? Any 0
-		! contains? Any ()
+		! contains? Any null
 		!not contains? Any undefined
 	predicate. defined?
 
@@ -70,7 +70,7 @@ Union.
 		! contains? SBN "true"
 		! contains? SBN true
 		! contains? SBN 3
-		!not contains? SBN ()
+		!not contains? SBN null
 
 self-impl! sub Union |...types
 	Pred-Type

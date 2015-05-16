@@ -38,7 +38,7 @@ hash-code = Method
 
 	default. |:Int _
 		case
-			id=? _ ()
+			id=? _ null
 				108
 			id=? _ undefined
 				109

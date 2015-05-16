@@ -20,13 +20,13 @@ kind! Id-Set! Set!
 		each! addeds |added
 			_.add added
 	empty! -> |_
-		_.clear ()
+		_.clear()
 	--! -> |_ deleteds
 		each! deleteds |deleted
 			_.delete deleted
 	iterator -> |_
 		# TODO:ES6 Should be done by default
-		_.keys ()
+		_.keys()
 	contains? -> |_ val
 		_.has val
 

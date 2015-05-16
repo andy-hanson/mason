@@ -25,11 +25,11 @@ Object-Key. Kind
 can-get-p?.
 	doc. "Whether it's safe to try to directly access properties."
 	test. |
-		[ () ] -> false
+		[ null ] -> false
 		[ undefined ] -> false
 		[ 1 ] -> true
 	|_
-		not (js== _ ()
+		not (js== _ null
 
 flag?.
 	doc. "If it has a property for the flag, uses that. Otherwise false."
@@ -94,9 +94,9 @@ flag?.
 	test. |
 		x =
 			a. 1
-			b. ()
+			b. null
 		[ x "a" ] -> ? 1
-		[ x "b" ] -> ? ()
+		[ x "b" ] -> ? null
 		# Does not inherit from prototype.
 		[ x "toString" ] -> empty ?
 	|_ name:Object-Key
@@ -123,9 +123,9 @@ p.
 	test. |
 		x =
 			a. 1
-			b. ()
+			b. null
 		[ x "a" ] -> 1
-		[ x "b" ] -> ()
+		[ x "b" ] -> null
 		debug ! fails? |
 			p "c"
 	|_ name:Object-Key
@@ -172,8 +172,8 @@ object=?.
 		[ object=? object=? ] -> true
 	|:Boolean a b
 		# Necessary because `js-typeof null` is "object"
-		null-a = id=? a ()
-		null-b = id=? b ()
+		null-a = id=? a null
+		null-b = id=? b null
 		# TODO: Not :Object because that currently also includes Functions
 		obj-a = and (not null-a) ~(id=? (js-typeof a) "object"
 		obj-b = and (not null-b) ~(id=? (js-typeof b) "object"

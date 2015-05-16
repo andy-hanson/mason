@@ -1,7 +1,6 @@
 use
-	.compare =?
 	.Function spread!
-	.js js+
+	.js id=? js+
 	.private.bootstrap msDef
 	.private.js-impl newSet
 	.Object flag? p @p
@@ -33,7 +32,7 @@ show = Method
 			Object
 				x. <recursive>
 				displayName. "a"
-		[ () ] -> "()"
+		[ null ] -> "null"
 		[ undefined ] -> "undefined"
 	wrap. |impl _ opts
 		case
@@ -46,9 +45,9 @@ show = Method
 				x
 	default. |_ opts
 		case
-			=? _ ()
-				"()"
-			=? _ undefined
+			id=? _ null
+				"null"
+			id=? _ undefined
 				"undefined"
 			else
 				# Don't show "prototype" because that is treated as an instance of itself and causes errors.

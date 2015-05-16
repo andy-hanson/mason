@@ -43,7 +43,7 @@ p+!.
 			enumerable. true
 			writable. false # TODO:ES6 Shouldn't need to be explicit
 			value. val
-		()
+		pass
 
 p+mut!.
 	doc. "Adds a new mutable property."
@@ -54,7 +54,7 @@ p+mut!.
 			writable. true
 			value. val
 			configurable. true
-		()
+		pass
 
 p!.
 	doc. "Modifies an already-existing property."

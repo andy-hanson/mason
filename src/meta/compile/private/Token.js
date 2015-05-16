@@ -1,7 +1,8 @@
 import Loc from 'esast/dist/Loc'
 import tupl, { abstract } from 'tupl/dist/tupl'
 import { code } from '../CompileError'
-import { SV_False, SV_This, SV_ThisModuleDirectory, SV_True, SV_Undefined } from '../Expression'
+import { SV_False, SV_Null, SV_This, SV_ThisModuleDirectory, SV_True, SV_Undefined
+	} from '../Expression'
 import { implementMany } from './U/util'
 
 const Token = abstract('Token', Object,
@@ -57,6 +58,7 @@ export const
 	KW_Lazy = kwNotName('~'),
 	KW_Loop = kw('loop!'),
 	KW_MapEntry = kw('->'),
+	KW_Null = kw('null'),
 	KW_ObjAssign = kw('. '),
 	KW_Out = kw('out'),
 	KW_Pass = kw('pass'),
@@ -78,6 +80,7 @@ export const
 	opKWtoSV = kw => {
 		switch (kw) {
 			case KW_False: return SV_False
+			case KW_Null: return SV_Null
 			case KW_This: return SV_This
 			case KW_ThisModuleDirectory: return SV_ThisModuleDirectory
 			case KW_True: return SV_True

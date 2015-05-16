@@ -72,7 +72,7 @@ fails?.
 		! fails? |
 			oh-no!()
 		!not fails? |
-			()
+			pass
 	|_:Action
 		contains? Error try_
 
@@ -82,7 +82,7 @@ fails-with?.
 		! fails-with? "message" |
 			oh-no! "message"
 		! fails-with? TypeError |
-			().missing-property
+			null.missing-property
 	|expected-error:Union[String Type] act:Action
 		result = try act
 		and (contains? Error result) ~

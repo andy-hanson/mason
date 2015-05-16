@@ -1,6 +1,6 @@
 use
 	...! _ !call
-	...@.@ _ ++ each! flatten flat-map map
+	...@.@ _ ++ flatten flat-map map
 	...@.@-Type empty
 	...@.? ?-or
 	...@.Map.Map
@@ -39,7 +39,7 @@ test. |
 			b. empty-Object!()
 			self-impl! test-special b |
 				yield "b"
-			c. () # not testable
+			c. null # not testable
 		@$maybe-test "obj" obj true
 
 # TODO: Better name (but not `test`, because that's a common module property)
@@ -52,17 +52,17 @@ test-special. Method
 # TODO: MOVE THESE
 impl! test-special Impl-Type |type
 	$all (flat-map (?p type "prototype") |prototype
-		map (@p-all prototype) |name
+		flat-map (@p-all prototype) |name
 			# Some prototype properties throw errors. For example, global.Map.size.
 			# TODO:SYNTAX Inline fun
 			x = try |
 				?p prototype name
 			case x
 				:Success
-					each! _.val |val
+					flat-map _.val |val
 						@$maybe-test ~"{type}#{name}" val false
 				else
-					()
+					[ ]
 
 # TODO: MOVE THESE
 impl! test-special Kind |_
@@ -165,7 +165,7 @@ $test-fun.
 					:$
 						_
 					else
-						oh-no! "Result of test should be $, @[$], or (). Got: {_}"
+						oh-no! "Result of test should be $, @[$], or undefined. Got: {_}"
 			:$
 				[ _ ]
 			else

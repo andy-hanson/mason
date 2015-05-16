@@ -1,4 +1,4 @@
-const pAdd = (object, key, value) =>
+export const pAdd = (object, key, value) =>
 	Object.defineProperty(object, key, {
 		value,
 		enumerable: true,
@@ -7,29 +7,27 @@ const pAdd = (object, key, value) =>
 	})
 
 // region Builtin Functions for use by the compiler
-// This object contains functions called upon by compiled code.
-const ms = exports.ms = {}
+export const
+	// This object contains functions called upon by compiled code.
+	ms = { },
+	msDef = (name, fun) =>
+		pAdd(ms, name, fun),
+	msCall = (name, ...args) =>
+		ms[name](...args)
+
 pAdd(global, '_ms', ms)
-
-const msDef = exports.msDef = (name, fun) =>
-	pAdd(ms, name, fun)
-const msDefTemp = (name, fun) =>
-	ms[name] = fun
-exports.msCall = (name, ...args) =>
-	ms[name](...args)
-
 
 const msDefs = {
 	lazyGetModule(module) {
 		if (module === undefined)
 			throw new Error('Module undefined.')
-		return module._get instanceof Lazy ? module._get : ms.lazy(() => module)
+		return module._get instanceof ms.Lazy ? module._get : ms.lazy(() => module)
 	},
 
 	getModule(module) {
 		if (module === undefined)
 			throw new Error('Module undefined.')
-		return module._get instanceof Lazy ? module._get.get() : module
+		return module._get instanceof ms.Lazy ? module._get.get() : module
 	},
 
 	getDefaultExport: module => {
@@ -40,7 +38,7 @@ const msDefs = {
 	},
 
 	lazyProp(lazyObject, key) {
-		if (!(lazyObject instanceof Lazy))
+		if (!(lazyObject instanceof ms.Lazy))
 			throw new Error(`Expected a Lazy, got: ${lazyObject}`)
 		return ms.lazy(() => lazyObject.get()[key])
 	},
@@ -59,7 +57,7 @@ const msDefs = {
 	},
 
 	// Used for splat calls.
-	// TODO:ES6 Shouldn't need fun(...arg) should work for any iterable.
+	// TODO:ES6 Shouldn't need. `fun(...arg)` should work for any iterable.
 	arr(a) {
 		if (a instanceof Array)
 			return a
@@ -80,8 +78,18 @@ const msDefs = {
 			})
 	},
 
-	lazy: _ => new Lazy(_),
-	unlazy: _ => _ instanceof Lazy ? _.get() : _,
+	Lazy: function Lazy(get) {
+		this.get = () => {
+			this.get = () => {
+				throw new Error(`Lazy value depends on itself. Thunk: ${get}`)
+			}
+			const _ = get()
+			this.get = () => _
+			return _
+		}
+	},
+	lazy: _ => new ms.Lazy(_),
+	unlazy: _ => _ instanceof ms.Lazy ? _.get() : _,
 
 	set(_, k0, v0, k1, v1, k2, v2, k3) {
 		_[k0] = v0
@@ -113,25 +121,17 @@ const msDefs = {
 		return _
 	}
 }
-Object.keys(msDefs).forEach(key => msDef(key, msDefs[key]))
+Object.keys(msDefs).forEach(_ => msDef(_, msDefs[_]))
 
-const setOrLazy = (_, k, v) => {
-	if (v instanceof Lazy)
-		Object.setProperty(_, k, { get: function() { return ms.unlazy(v) } })
+const setOrLazy = (obj, key, val) => {
+	if (val instanceof ms.Lazy)
+		Object.setProperty(obj, key, { get() { return ms.unlazy(val) } })
 	else
-		pAdd(_, k, v)
+		pAdd(obj, key, val)
 }
 
-function Lazy(get) {
-	this.get = () => {
-		this.get = () => {
-			throw new Error(`Lazy value depends on itself. Thunk: ${get}`)
-		}
-		const _ = get()
-		this.get = () => _
-		return _
-	}
-}
+const msDefTemp = (name, fun) =>
+	ms[name] = fun
 
 msDefTemp('show', _ => {
 	if (typeof _ !== 'string' && typeof _ !== 'number')
@@ -140,17 +140,14 @@ msDefTemp('show', _ => {
 	return _.toString()
 })
 
-exports['p+!'] = pAdd
-
 // region Contains
 // Some Types want to implement contains? before it is officially defined.
-const containsImplSymbol = exports['contains?-impl-symbol'] = 'impl-contains?'
-exports['impl-contains?!'] = function(type, impl) {
-	Object.defineProperty(type.prototype, exports['contains?-impl-symbol'], {
+export const containsImplSymbol = 'impl-contains?'
+export const implContains = (type, impl) =>
+	Object.defineProperty(type.prototype, containsImplSymbol, {
 		value: impl,
 		enumerable: false
 	})
-}
 
 // Overwritten by Type/index.ms to actually do type checking.
 msDefTemp('checkContains', (type, val) => val)
@@ -160,7 +157,6 @@ Object[containsImplSymbol] = function(ignore, _) {
 		return false
 	switch (typeof _) {
 		case 'boolean':
-		case 'undefined':
 		case 'number':
 		case 'string':
 		case 'symbol':
@@ -174,9 +170,7 @@ Object[containsImplSymbol] = function(ignore, _) {
 // This helps us catch any callabe Obj-Type.
 // TODO: Separate Function from Callable
 // Since these are primitives, we can't use `instanceof`.
-[ Function, Boolean, String, Symbol, Number ].forEach(function(type) {
+[ Function, Boolean, String, Symbol, Number ].forEach(type => {
 	const typeOf = type.name.toLowerCase()
-	type[containsImplSymbol] = function(ignore, _) {
-		return typeof _ === typeOf
-	}
+	type[containsImplSymbol] = (ignore, _) => typeof _ === typeOf
 })

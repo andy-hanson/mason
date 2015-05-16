@@ -1,7 +1,7 @@
 import { code } from '../CompileError'
 import * as EExports from '../Expression'
 import { Assign, AssignDestructure, BlockVal, Call, Debug, Do, BagEntry,
-	LocalDeclareRes, MapEntry, Pattern, UseDo, Yield, YieldTo } from '../Expression'
+	LocalDeclareRes, MapEntry, Pattern, SpecialDo, UseDo, Yield, YieldTo } from '../Expression'
 import { cat, head, isEmpty } from './U/Bag'
 import { ifElse, opEach } from './U/op'
 import { implementMany, mapKeys, newSet } from './U/util'
@@ -382,7 +382,8 @@ const
 			line instanceof Yield ||
 			line instanceof YieldTo ||
 			line instanceof BagEntry ||
-			line instanceof MapEntry
+			line instanceof MapEntry ||
+			line instanceof SpecialDo
 		cx.check(isStatement, line.loc, 'Expression in statement position.')
 	},
 

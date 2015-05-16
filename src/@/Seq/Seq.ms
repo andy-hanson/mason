@@ -118,7 +118,7 @@ region Search
 		|@a:@ @b:@
 			iter-a = iterator @a
 			iter-b = iterator @b
-			loop () |
+			loop null |
 				next-a = iter-a.next()
 				next-b = iter-b.next()
 				case
@@ -130,7 +130,7 @@ region Search
 					not (=? next-a.value next-b.value)
 						End-Loop false
 					else
-						()
+						null
 
 	?nth. Method
 		doc. "
