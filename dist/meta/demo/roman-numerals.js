@@ -15,51 +15,41 @@ define(["exports","../../compare","../../math/Number","../../math/methods","../.
 			const _k6=1000,_v6="M";
 			return _ms.map(_k0,_v0,_k1,_v1,_k2,_v2,_k3,_v3,_k4,_v4,_k5,_v5,_k6,_v6)
 		}();
-		const power_45of_4510_45below=function(){
-			return _ms.set(function(_){
-				return pow(10,round_45down(log(10,_)))
-			},"displayName","power-of-10-below")
-		}();
+		const power_45of_4510_45below=function power_45of_4510_45below(_){
+			return pow(10,round_45down(log(10,_)))
+		};
 		const roman=exports.roman=function(){
 			const doc="Converts a number to Roman numerals.\nOnly works for values 1-3999.";
-			const test=function(){
-				return _ms.set(function(){
-					const _k0=[1],_v0="I";
-					const _k1=[4],_v1="IV";
-					const _k2=[5],_v2="V";
-					const _k3=[9],_v3="IX";
-					const _k4=[44],_v4="XLIV";
-					const _k5=[49],_v5="XLIX";
-					const _k6=[2014],_v6="MMXIV";
-					return _ms.map(_k0,_v0,_k1,_v1,_k2,_v2,_k3,_v3,_k4,_v4,_k5,_v5,_k6,_v6)
-				},"displayName","test")
-			}();
-			return _ms.set(function(n){
+			const test=function test(){
+				const _k0=[1],_v0="I";
+				const _k1=[4],_v1="IV";
+				const _k2=[5],_v2="V";
+				const _k3=[9],_v3="IX";
+				const _k4=[44],_v4="XLIV";
+				const _k5=[49],_v5="XLIX";
+				const _k6=[2014],_v6="MMXIV";
+				return _ms.map(_k0,_v0,_k1,_v1,_k2,_v2,_k3,_v3,_k4,_v4,_k5,_v5,_k6,_v6)
+			};
+			return _ms.set(function roman(n){
 				_ms.checkContains(Nat,n,"n");
 				_ms.unlazy(_33)(_ms.unlazy(contains_63),_ms.unlazy(range)(1,4000),n);
 				const dec=power_45of_4510_45below(n);
-				const dig=function(){
-					return _ms.set(function(dec_45multiple){
-						return _ms.sub(roman_45digits,_42(dec_45multiple,dec))
-					},"displayName","dig")
-				}();
-				const rec=function(){
-					return _ms.set(function(dec_45multiple){
-						return function(){
-							const _=_45(n,_42(dec_45multiple,dec));
-							if(_ms.bool(_61_63(_,0))){
-								return ""
-							} else {
-								return roman(_)
-							}
-						}()
-					},"displayName","rec")
-				}();
-				const gt_63=function(){
-					return _ms.set(function(dec_45multiple){
-						return _60_61_63(_42(dec_45multiple,dec),n)
-					},"displayName","gt?")
-				}();
+				const dig=function dig(dec_45multiple){
+					return _ms.sub(roman_45digits,_42(dec_45multiple,dec))
+				};
+				const rec=function rec(dec_45multiple){
+					return function(){
+						const _=_45(n,_42(dec_45multiple,dec));
+						if(_ms.bool(_61_63(_,0))){
+							return ""
+						} else {
+							return roman(_)
+						}
+					}()
+				};
+				const gt_63=function gt_63(dec_45multiple){
+					return _60_61_63(_42(dec_45multiple,dec),n)
+				};
 				return _ms.checkContains(String,function(){
 					if(_ms.bool(gt_63(9))){
 						return (((""+_ms.show(dig(1)))+_ms.show(dig(10)))+_ms.show(rec(9)))
@@ -71,10 +61,10 @@ define(["exports","../../compare","../../math/Number","../../math/methods","../.
 						return ((""+_ms.show(dig(1)))+_ms.show(rec(1)))
 					}
 				}(),"res")
-			},"doc",doc,"test",test,"displayName","roman")
+			},"doc",doc,"test",test)
 		}();
-		const displayName=exports.displayName="roman-numerals";
+		const name=exports.name="roman-numerals";
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL2RlbW8vcm9tYW4tbnVtZXJhbHMubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQVVBLCtCQUNjO0dBQWIsVUFBQSxNQUFNO0dBQ04sVUFBQSxNQUFNO0dBQ04sVUFBQSxPQUFPO0dBQ1AsVUFBQSxPQUFPO0dBQ1AsVUFBQSxRQUFRO0dBQ1IsVUFBQSxRQUFRO0dBQ1IsVUFBQSxTQUFTOzs7RUFFVix3Q0FBcUI7a0JBQUEsU0FBQSxFQUNDO1dBQXJCLElBQUksR0FBSSxhQUFZLElBQUksR0FBRztHQUFBOztFQUU1QixvQ0FDTTtHQUFMLFVBQ0M7R0FFRCxxQkFDTzttQkFBQSxVQUFBO0tBQU4sVUFBQSxDQUFFLE9BQVE7S0FDVixVQUFBLENBQUUsT0FBUTtLQUNWLFVBQUEsQ0FBRSxPQUFRO0tBQ1YsVUFBQSxDQUFFLE9BQVE7S0FDVixVQUFBLENBQUUsUUFBUztLQUNYLFVBQUEsQ0FBRSxRQUFTO0tBQ1gsVUFBQSxDQUFFLFVBQVc7Ozs7a0JBRWIsU0FBUSxFQUlSO3NCQUpVOzhEQUVVLEVBQUUsTUFBTTtJQUU1QixVQUFNLHdCQUFrQjtJQUN4QixvQkFBTztvQkFBQSxTQUFBLGVBQ1k7cUJBQWxCLGVBQWMsSUFBRSxlQUFhO0tBQUE7O0lBQzlCLG9CQUFPO29CQUFBLFNBQUEsZUFDWTs7T0FBYixRQUFBLElBQUUsRUFBRyxJQUFFLGVBQWE7T0FDeEIsWUFBQSxPQUFHLEVBQUUsSUFDQztlQUFKO09BQUEsT0FFRTtlQUFILE1BQUE7T0FBQTtNQUFBO0tBQUE7O0lBQ0gsc0JBQU87b0JBQUEsU0FBQSxlQUNZO2FBQWxCLFVBQUssSUFBRSxlQUFhLEtBQUs7S0FBQTs7NkJBZHpCO0tBZ0JBLFlBQUEsTUFBSSxJQUNDO2FBQUgsR0FQQyxZQU9BLElBQUksY0FBRyxJQUFJLGVBQUksSUFBSTtLQUFBLE9BQ3RCLFlBQUEsTUFBSSxJQUNDO2FBQUgsRUFUQyxZQVNBLElBQUksY0FBRyxJQUFJO0tBQUEsT0FDZCxZQUFBLE1BQUksSUFDQzthQUFILEdBWEMsWUFXQSxJQUFJLGNBQUcsSUFBSSxjQUFHLElBQUk7S0FBQSxPQUVqQjthQUFGLEVBYkMsWUFhQSxJQUFJLGNBQUcsSUFBSTtLQUFBO0lBQUE7OztFQTFEakIsc0NBQUEiLCJmaWxlIjoibWV0YS9kZW1vL3JvbWFuLW51bWVyYWxzLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL2RlbW8vcm9tYW4tbnVtZXJhbHMubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQVVBLCtCQUNjO0dBQWIsVUFBQSxNQUFNO0dBQ04sVUFBQSxNQUFNO0dBQ04sVUFBQSxPQUFPO0dBQ1AsVUFBQSxPQUFPO0dBQ1AsVUFBQSxRQUFRO0dBQ1IsVUFBQSxRQUFRO0dBQ1IsVUFBQSxTQUFTOzs7RUFFViw4QkFBcUIsaUNBQUEsRUFDQztVQUFyQixJQUFJLEdBQUksYUFBWSxJQUFJLEdBQUc7RUFBQTtFQUU1QixvQ0FDTTtHQUFMLFVBQ0M7R0FFRCxXQUNPLGVBQUE7SUFBTixVQUFBLENBQUUsT0FBUTtJQUNWLFVBQUEsQ0FBRSxPQUFRO0lBQ1YsVUFBQSxDQUFFLE9BQVE7SUFDVixVQUFBLENBQUUsT0FBUTtJQUNWLFVBQUEsQ0FBRSxRQUFTO0lBQ1gsVUFBQSxDQUFFLFFBQVM7SUFDWCxVQUFBLENBQUUsVUFBVzs7O2tCQUViLGVBQVEsRUFJUjtzQkFKVTs4REFFVSxFQUFFLE1BQU07SUFFNUIsVUFBTSx3QkFBa0I7SUFDeEIsVUFBTyxhQUFBLGVBQ1k7b0JBQWxCLGVBQWMsSUFBRSxlQUFhO0lBQUE7SUFDOUIsVUFBTyxhQUFBLGVBQ1k7O01BQWIsUUFBQSxJQUFFLEVBQUcsSUFBRSxlQUFhO01BQ3hCLFlBQUEsT0FBRyxFQUFFLElBQ0M7Y0FBSjtNQUFBLE9BRUU7Y0FBSCxNQUFBO01BQUE7S0FBQTtJQUFBO0lBQ0gsWUFBTyxlQUFBLGVBQ1k7WUFBbEIsVUFBSyxJQUFFLGVBQWEsS0FBSztJQUFBOzZCQWR6QjtLQWdCQSxZQUFBLE1BQUksSUFDQzthQUFILEdBUEMsWUFPQSxJQUFJLGNBQUcsSUFBSSxlQUFJLElBQUk7S0FBQSxPQUN0QixZQUFBLE1BQUksSUFDQzthQUFILEVBVEMsWUFTQSxJQUFJLGNBQUcsSUFBSTtLQUFBLE9BQ2QsWUFBQSxNQUFJLElBQ0M7YUFBSCxHQVhDLFlBV0EsSUFBSSxjQUFHLElBQUksY0FBRyxJQUFJO0tBQUEsT0FFakI7YUFBRixFQWJDLFlBYUEsSUFBSSxjQUFHLElBQUk7S0FBQTtJQUFBOzs7RUExRGpCLHdCQUFBIiwiZmlsZSI6Im1ldGEvZGVtby9yb21hbi1udW1lcmFscy5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

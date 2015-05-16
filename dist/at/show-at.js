@@ -6,30 +6,26 @@ define(["exports","../compare","../Object","../show","../String","../Type/Type",
 			return _ms.getDefaultExport(Deque_33_9)
 		});
 		impl_33(show,_64,function(){
-			const test=function(){
-				return _ms.set(function(){
-					const d=_61_62(_ms.unlazy(Deque_33),[1,2,3]);
-					const _k0=[d],_v0="\n\t. 1\n\t. 2\n\t. 3";
-					const _k1=[d,{
-						repr:true
-					}],_v1="=> Deque!\n\t. 1\n\t. 2\n\t. 3";
-					const _k2=[_ms.unlazy(empty)(_ms.unlazy(Deque_33))],_v2="[ ]";
-					const _k3=[_ms.unlazy(empty)(_ms.unlazy(Deque_33)),{
-						repr:true
-					}],_v3="empty Deque!";
-					return _ms.map(_k0,_v0,_k1,_v1,_k2,_v2,_k3,_v3)
-				},"displayName","test")
-			}();
+			const test=function test(){
+				const d=_61_62(_ms.unlazy(Deque_33),[1,2,3]);
+				const _k0=[d],_v0="\n\t. 1\n\t. 2\n\t. 3";
+				const _k1=[d,{
+					repr:true
+				}],_v1="=> Deque!\n\t. 1\n\t. 2\n\t. 3";
+				const _k2=[_ms.unlazy(empty)(_ms.unlazy(Deque_33))],_v2="[ ]";
+				const _k3=[_ms.unlazy(empty)(_ms.unlazy(Deque_33)),{
+					repr:true
+				}],_v3="empty Deque!";
+				return _ms.map(_k0,_v0,_k1,_v1,_k2,_v2,_k3,_v3)
+			};
 			return _ms.set(function(_,opts){
 				const content=function(){
 					if(_ms.bool(empty_63(_))){
 						return "[ ]"
 					} else {
-						const ems=map_39(_,function(){
-							return _ms.set(function(em){
-								return indent(show(em,opts))
-							},"displayName","ems")
-						}());
+						const ems=map_39(_,function(em){
+							return indent(show(em,opts))
+						});
 						const _$38=function(){
 							if(_ms.bool(_60_63(100,count(_)))){
 								const show_45ems=take_39(ems,100);
@@ -65,9 +61,9 @@ define(["exports","../compare","../Object","../show","../String","../Type/Type",
 				}()
 			},"test",test)
 		}());
-		const displayName=exports.displayName="show-@";
+		const name=exports.name="show-@";
 		exports.default=impl_33(show,Array,impl_45for(show,_64));
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL3Nob3ctQC5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7O0VBYUEsUUFBTSxLQUFLLGNBQ0M7R0FBWCxxQkFDTzttQkFBQSxVQUFBO0tBQU4sUUFBSSw0QkFBVSxDQUFFLEVBQUUsRUFBRTtLQUNwQixVQUFBLENBQUUsT0FDRDtLQUlELFVBQUEsQ0FBRSxFQUFFO1dBQU87S0FBQSxPQUNWO0tBSUQsVUFBQSw4Q0FBdUI7S0FDdkIsVUFBQSx5Q0FBaUI7V0FBTztLQUFBLE9BQVk7Ozs7a0JBRXBDLFNBQUEsRUFBRSxLQUNJO0lBQU47S0FDQyxZQUFBLFNBQUEsSUFDTzthQUFMO0tBQUEsT0FFRTtNQUNILFVBQU0sT0FBSyxZQUFHO3NCQUFBLFNBQUEsR0FDRTtlQUFmLE9BQVEsS0FBSyxHQUFHO09BQUE7O01BQ2pCO09BQ0MsWUFBQSxPQUFHLElBQUksTUFBQSxLQUNNO1FBQVosaUJBQVUsUUFBTSxJQUFJO1FBQ3BCLFVBQU07Ozs7O2NBRUg7UUFBSCxpQkFBVTtRQUNWLFVBQU07Ozs7Ozs7YUFDUCxvQkFBTyxPQUFHLE9BQU8sV0FBVSxxQkFBUztLQUFBO0lBQUE7O0tBRXRDLFlBQUEsUUFBTSxLQUFNLFNBQ0s7O09BQ2YsWUFBQSxTQUFBLElBQ087ZUFBTCxtQkFBTyxVQUFBO09BQUEsT0FFTDtlQUFGLGlCQUFJLFVBQUEsY0FBVTtPQUFBO01BQUE7S0FBQSxPQUVkO2FBQUg7S0FBQTtJQUFBO0dBQUE7O0VBckRKLHNDQUFBO2tCQXdEQSxRQUFNLEtBQUssTUFBTyxXQUFTLEtBQUsiLCJmaWxlIjoiYXQvc2hvdy1hdC5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL3Nob3ctQC5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7O0VBYUEsUUFBTSxLQUFLLGNBQ0M7R0FBWCxXQUNPLGVBQUE7SUFBTixRQUFJLDRCQUFVLENBQUUsRUFBRSxFQUFFO0lBQ3BCLFVBQUEsQ0FBRSxPQUNEO0lBSUQsVUFBQSxDQUFFLEVBQUU7VUFBTztJQUFBLE9BQ1Y7SUFJRCxVQUFBLDhDQUF1QjtJQUN2QixVQUFBLHlDQUFpQjtVQUFPO0lBQUEsT0FBWTs7O2tCQUVwQyxTQUFBLEVBQUUsS0FDSTtJQUFOO0tBQ0MsWUFBQSxTQUFBLElBQ087YUFBTDtLQUFBLE9BRUU7TUFDSCxVQUFNLE9BQUssRUFBRyxTQUFBLEdBQ0U7Y0FBZixPQUFRLEtBQUssR0FBRztNQUFBO01BQ2pCO09BQ0MsWUFBQSxPQUFHLElBQUksTUFBQSxLQUNNO1FBQVosaUJBQVUsUUFBTSxJQUFJO1FBQ3BCLFVBQU07Ozs7O2NBRUg7UUFBSCxpQkFBVTtRQUNWLFVBQU07Ozs7Ozs7YUFDUCxvQkFBTyxPQUFHLE9BQU8sV0FBVSxxQkFBUztLQUFBO0lBQUE7O0tBRXRDLFlBQUEsUUFBTSxLQUFNLFNBQ0s7O09BQ2YsWUFBQSxTQUFBLElBQ087ZUFBTCxtQkFBTyxVQUFBO09BQUEsT0FFTDtlQUFGLGlCQUFJLFVBQUEsY0FBVTtPQUFBO01BQUE7S0FBQSxPQUVkO2FBQUg7S0FBQTtJQUFBO0dBQUE7O0VBckRKLHdCQUFBO2tCQXdEQSxRQUFNLEtBQUssTUFBTyxXQUFTLEtBQUsiLCJmaWxlIjoiYXQvc2hvdy1hdC5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

@@ -28,7 +28,7 @@ get-prop = |case
 
 Tuple = Obj-Type
 	props.
-		displayName. String
+		name. String
 		props. Object
 		prototype. Object
 	opt-props.
@@ -48,10 +48,12 @@ Tuple = Obj-Type
 		argsStr = args.join ","
 
 		src = buildStr |add!
+			name = mangle-identifier tuple.name
+
 			# TODO: Mangle name, use instead of `ctr`
 			add! "
-				return function ctr({argsStr}) \{
-				if (!(this instanceof ctr)) return new ctr({argsStr})
+				return function {name}({argsStr}) \{
+				if (!(this instanceof {name})) return new {name}({argsStr})
 
 			props.forEach |_
 				if! (defined? _.type) |

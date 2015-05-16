@@ -1,5 +1,5 @@
 use
-	.@.@ empty? fold map
+	.@.@ fold map
 	.@.@-Type empty
 	.@.Map.Weak-Id-Map!
 	.compare =?
@@ -7,7 +7,7 @@ use
 	.math.bit-arithmetic bit-and hexidecimal
 	.math.Number Int round-towards-0
 	.math.methods + *
-	.Object p ?p @p-all
+	.Object p @p-all
 	.Type.Method _ impl! impl-for
 use-debug
 	.! _ !not
@@ -69,15 +69,11 @@ impl! hash-code Boolean |case
 
 impl! hash-code Function |fun
 	# TODO: There must be something better than this.
-	hash-code case ?p fun "displayName"
-		empty?_
-			case fun.name
-				=? 0 _.length # TODO: empty?_
-					fun.toString()
-				else
-					_
+	hash-code case fun.name
+		=? 0 _.length # TODO: empty?_
+			fun.toString()
 		else
-			_.val
+			_
 
 impl! hash-code String
 	test. |

@@ -15,7 +15,7 @@ define(["exports","../../Function","../../Generatorbang","../../math/Number","..
 			return {
 				doc:doc,
 				props:props,
-				displayName:"Lazy-Stream"
+				name:"Lazy-Stream"
 			}
 		}());
 		self_45kind_33(Lazy_45Stream,_64_45Type,function(){
@@ -29,23 +29,19 @@ define(["exports","../../Function","../../Generatorbang","../../math/Number","..
 		}());
 		kind_33(Lazy_45Stream,Seq,function(){
 			const _k0=iterator,_v0=function(){
-				const test=function(){
-					return _ms.set(function(){
-						return _ms.unlazy(_33)(_ms.unlazy(_61_63),[1,2],_ms.unlazy(build)(function(_yield){
-							const _=_ms.unlazy(_61_62)(Lazy_45Stream,Stream(function(){
-								return _ms.set(function*(){
-									_yield(1);
-									(yield 1);
-									_yield(2);
-									(yield 2);
-									return _yield(3)
-								},"displayName","_")
-							}()));
-							_ms.unlazy(_33)(_ms.unlazy(seq_61_63),[1],_ms.unlazy(take_39)(_,1));
-							return _ms.unlazy(_33)(_ms.unlazy(seq_61_63),[1,2],_ms.unlazy(take_39)(_,2))
-						}))
-					},"displayName","test")
-				}();
+				const test=function test(){
+					return _ms.unlazy(_33)(_ms.unlazy(_61_63),[1,2],_ms.unlazy(build)(function(_yield){
+						const _=_ms.unlazy(_61_62)(Lazy_45Stream,Stream(function*(){
+							_yield(1);
+							(yield 1);
+							_yield(2);
+							(yield 2);
+							return _yield(3)
+						}));
+						_ms.unlazy(_33)(_ms.unlazy(seq_61_63),[1],_ms.unlazy(take_39)(_,1));
+						return _ms.unlazy(_33)(_ms.unlazy(seq_61_63),[1,2],_ms.unlazy(take_39)(_,2))
+					}))
+				};
 				return _ms.set(function*(_){
 					(yield* iterator(_.cache));
 					return (yield* _["caching-iterator"])
@@ -64,35 +60,29 @@ define(["exports","../../Function","../../Generatorbang","../../math/Number","..
 		}());
 		const lazy_45streaming=exports["lazy-streaming"]=function(){
 			const doc="Creates a Lazy-Stream from a generator.";
-			const test=function(){
-				return _ms.set(function(){
-					const fibonaccis=Stream(function(){
-						return _ms.set(function*(){
-							(yield 1);
-							(yield 1);
-							return (yield* each_126(_ms.unlazy(range)(2,_ms.unlazy(infinity)),function*(i){
-								return (yield _ms.unlazy(_43)(_ms.sub(fibonaccis,_45(i,1)),_ms.sub(fibonaccis,_45(i,2))))
-							}))
-						},"displayName","fibonaccis")
-					}());
-					return _ms.unlazy(_33)(_ms.unlazy(seq_61_63),_ms.unlazy(take_39)(fibonaccis,10),[1,1,2,3,5,8,13,21,34,55])
-				},"displayName","test")
-			}();
-			return _ms.set(function(stream){
+			const test=function test(){
+				const fibonaccis=Stream(function*(){
+					(yield 1);
+					(yield 1);
+					return (yield* each_126(_ms.unlazy(range)(2,_ms.unlazy(infinity)),function*(i){
+						return (yield _ms.unlazy(_43)(_ms.sub(fibonaccis,_45(i,1)),_ms.sub(fibonaccis,_45(i,2))))
+					}))
+				});
+				return _ms.unlazy(_33)(_ms.unlazy(seq_61_63),_ms.unlazy(take_39)(fibonaccis,10),[1,1,2,3,5,8,13,21,34,55])
+			};
+			return _ms.set(function lazy_45streaming(stream){
 				_ms.checkContains(_ms.sub(Function,Generator_33),stream,"stream");
 				const cash=empty(Array_33);
-				const iter=each_126(Stream(stream),function(){
-					return _ms.set(function*(_){
-						_43_43_33(cash,[_]);
-						return (yield _)
-					},"displayName","iter")
-				}());
+				const iter=each_126(Stream(stream),function*(_){
+					_43_43_33(cash,[_]);
+					return (yield _)
+				});
 				return Lazy_45Stream(iter,cash)
-			},"doc",doc,"test",test,"displayName","lazy-streaming")
+			},"doc",doc,"test",test)
 		}();
-		const displayName=exports.displayName="Lazy-Stream";
+		const name=exports.name="Lazy-Stream";
 		exports.default=Lazy_45Stream;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1NlcS9MYXp5LVN0cmVhbS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7O0VBd0JBLG9CQUFjLGdCQUNLO0dBQWxCLFVBQ0M7R0FHRCxzQkFDTTtJQUFMLFNBQUUsQ0FBRyxtQkFBa0I7SUFDdkIsU0FBRSxDQUFHLFFBQU87Ozs7Ozs7OztFQUVkLGVBQVcsY0FBWSxxQkFDTTtHQUE1QixVQUFBLFVBQVMsTUFBTyxjQUFZLGtCQUFpQixNQUFNO0dBRW5ELFVBQUEsa0JBQWdCLFNBQUEsRUFDQztXQUFoQixpQkFDZ0IsVUFBQTtZQUFmLFNBQUE7SUFBQTtHQUFBOzs7RUFFSCxRQUFNLGNBQVksY0FDRztHQUFwQixVQUFBLHVCQUNXO0lBQVYscUJBQ087b0JBQUEsVUFBQTtnREFBRCxDQUFFLEVBQUUscUJBQVksU0FBQSxPQUNLO09BQXpCLDJCQUFPLGNBQWEsaUJBQ1M7dUJBQUEsV0FBQTtTQUE1QixPQUFNO2dCQUNIO1NBQ0gsT0FBTTtnQkFDSDtnQkFDSCxPQUFNO1FBQUE7OzZDQUNDLENBQUUsdUJBQVcsRUFBRTtvREFDZixDQUFFLEVBQUUsdUJBQVcsRUFBRTtNQUFBO0tBQUE7O21CQUN6QixVQUFBLEVBQ0M7YUFBRSxTQUFTO1lBQ1QsUUFBQTs7O0dBRU4sVUFBQSxXQUFTLFNBQUEsT0FBTyxFQUNLO3NCQURIO1dBQ2pCLFNBQU0sT0FBSyxhQUFhO3NCQUNJO01BQTNCLGVBQVMsSUFBRSxFQUFHLE1BQU07YUFDcEIsT0FBTSxPQUFPLDRCQUF5QjtLQUFBO0lBQUE7R0FBQTs7O0VBRXpDLDJEQUNlO0dBQWQsVUFBTTtHQUNOLHFCQUNPO21CQUFBLFVBQUE7S0FBTixpQkFBYSxpQkFDUztxQkFBQSxXQUFBO2NBQWxCO2NBQ0E7Y0FDQyxRQUFBLDJCQUFhLHdCQUFjLFVBQUEsRUFDQztlQUM1QiwrQkFBRSxXQUFZLElBQUUsRUFBRSxZQUFHLFdBQVksSUFBRSxFQUFFO09BQUE7TUFBQTs7c0VBQzNCLFdBQVcsSUFBSSxDQUFFLEVBQUUsRUFBRSxFQUFFLEVBQUUsRUFBRSxFQUFFLEdBQUcsR0FBRyxHQUFHO0lBQUE7O2tCQUNyRCxTQUFBLE9BQzJCOzhCQURwQixTQUFTO0lBQ2hCLFdBQU8sTUFBTTtJQUViLFdBQU8sU0FBTyxPQUFPLGtCQUFVO29CQUFBLFVBQUEsRUFDQztNQUEvQixVQUFJLEtBQUssQ0FBRTthQUNSLE9BQUE7S0FBQTs7V0FDSixjQUFZLEtBQUs7R0FBQTs7RUE3RW5CLHNDQUFBO2tCQStFQSIsImZpbGUiOiJhdC9TZXEvTGF6eS1TdHJlYW0uanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1NlcS9MYXp5LVN0cmVhbS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7O0VBd0JBLG9CQUFjLGdCQUNLO0dBQWxCLFVBQ0M7R0FHRCxzQkFDTTtJQUFMLFNBQUUsQ0FBRyxtQkFBa0I7SUFDdkIsU0FBRSxDQUFHLFFBQU87Ozs7Ozs7OztFQUVkLGVBQVcsY0FBWSxxQkFDTTtHQUE1QixVQUFBLFVBQVMsTUFBTyxjQUFZLGtCQUFpQixNQUFNO0dBRW5ELFVBQUEsa0JBQWdCLFNBQUEsRUFDQztXQUFoQixpQkFDZ0IsVUFBQTtZQUFmLFNBQUE7SUFBQTtHQUFBOzs7RUFFSCxRQUFNLGNBQVksY0FDRztHQUFwQixVQUFBLHVCQUNXO0lBQVYsV0FDTyxlQUFBOytDQUFELENBQUUsRUFBRSxxQkFBWSxTQUFBLE9BQ0s7TUFBekIsMkJBQU8sY0FBYSxPQUNTLFdBQUE7T0FBNUIsT0FBTTtjQUNIO09BQ0gsT0FBTTtjQUNIO2NBQ0gsT0FBTTtNQUFBOzRDQUNDLENBQUUsdUJBQVcsRUFBRTttREFDZixDQUFFLEVBQUUsdUJBQVcsRUFBRTtLQUFBO0lBQUE7bUJBQ3pCLFVBQUEsRUFDQzthQUFFLFNBQVM7WUFDVCxRQUFBOzs7R0FFTixVQUFBLFdBQVMsU0FBQSxPQUFPLEVBQ0s7c0JBREg7V0FDakIsU0FBTSxPQUFLLGFBQWE7c0JBQ0k7TUFBM0IsZUFBUyxJQUFFLEVBQUcsTUFBTTthQUNwQixPQUFNLE9BQU8sNEJBQXlCO0tBQUE7SUFBQTtHQUFBOzs7RUFFekMsMkRBQ2U7R0FBZCxVQUFNO0dBQ04sV0FDTyxlQUFBO0lBQU4saUJBQWEsT0FDUyxXQUFBO1lBQWxCO1lBQ0E7WUFDQyxRQUFBLDJCQUFhLHdCQUFjLFVBQUEsRUFDQzthQUM1QiwrQkFBRSxXQUFZLElBQUUsRUFBRSxZQUFHLFdBQVksSUFBRSxFQUFFO0tBQUE7SUFBQTtxRUFDM0IsV0FBVyxJQUFJLENBQUUsRUFBRSxFQUFFLEVBQUUsRUFBRSxFQUFFLEVBQUUsR0FBRyxHQUFHLEdBQUc7R0FBQTtrQkFDckQsMEJBQUEsT0FDMkI7OEJBRHBCLFNBQVM7SUFDaEIsV0FBTyxNQUFNO0lBRWIsV0FBTyxTQUFPLE9BQU8sUUFBVSxVQUFBLEVBQ0M7S0FBL0IsVUFBSSxLQUFLLENBQUU7WUFDUixPQUFBO0lBQUE7V0FDSixjQUFZLEtBQUs7R0FBQTs7RUE3RW5CLHdCQUFBO2tCQStFQSIsImZpbGUiOiJhdC9TZXEvTGF6eS1TdHJlYW0uanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

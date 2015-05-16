@@ -29,7 +29,7 @@ Enum = Obj-Type
 		! =? (type-of Fruit.apple) Fruit
 		! =? "{Fruit.apple}" "Fruit.apple"
 	props.
-		displayName. String
+		name. String
 		prototype. Object
 		values. Array[String]
 	defaults.
@@ -42,7 +42,7 @@ Enum = Obj-Type
 			p+! enum val-name enum-val
 		p+! enum.prototype "constructor" enum
 		impl! show enum |val
-			"{enum.displayName}.{val.name}"
+			"{enum.name}.{val.name}"
 
 kind! Enum Impl-Type
 

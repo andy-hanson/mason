@@ -26,7 +26,7 @@ const doTest = includePerfTest => {
 		inFile: './ms-test.ms',
 		includeAmdefine: false,
 		includeSourceMap: true,
-		includeModuleDisplayName: false,
+		includeModuleName: false,
 		forceNonLazyModule: true,
 		useStrict: false
 	})
@@ -36,7 +36,7 @@ const doTest = includePerfTest => {
 		const t = lex(cx, source)
 		// console.log(`==>\n${t}`)
 		const e = parse(cx, t)
-		// console.log(`==>\n${e}`)
+		console.log(`==>\n${e}`)
 		const vr = verify(cx, e)
 		// console.log(`+++\n${vr}`)
 		const ast = transpile(cx, e, vr)

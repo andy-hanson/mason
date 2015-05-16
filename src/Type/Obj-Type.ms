@@ -1,4 +1,5 @@
 use
+	esast.dist.mangle-identifier
 	..Boolean and implies not
 	..private.bootstrap implContains pAdd
 	..js defined? js! js=== js-instanceof js-sub js-typeof
@@ -30,8 +31,8 @@ make-ctr = |ot
 		not (js=== desc.value null)
 
 	real-prop? = |props prop
-		# Ignore accidental displayName.
-		implies (js=== prop "displayName") ~
+		# TODO:DISPLAYNAME Ignore accidental name.
+		implies (js=== prop "name") ~
 			# This looks funny since `contains?` isn't defined until methods.ms.
 			not (js=== (js-typeof (js-sub props prop)) "string"
 
@@ -39,9 +40,11 @@ make-ctr = |ot
 		"[\"{name}\"]"
 
 	src = buildStr |add!
+		name = mangle-identifier ot.name
+
 		add! "
-			return function ctr(_) \{
-			if (!(this instanceof ctr)) return new ctr(_)
+			return function {name}(_) \{
+			if (!(this instanceof {name})) return new {name}(_)
 
 		real-props = (Object.getOwnPropertyNames ot.props).filter |prop
 			real-prop? ot.props prop
@@ -85,17 +88,18 @@ make-ctr = |ot
 					add! "}"
 
 		debug if! (not extensible) |
-			check = "_ms.checkNoExtras(this, _, \"{ot.displayName}\")"
+			check = "_ms.checkNoExtras(this, _, \"{ot.name}\")"
 			case!
 				defined? ot.opt-props
 					add! check
 				else
 					n-props = real-props.length
 					n-props-compare = case
-						defined? real-props.displayName
+						defined? real-props.name
 							"{n-props}"
 						else
-							"(Object.prototype.hasOwnProperty.call(_, \"displayName\") ? {addOne n-props} : {n-props})"
+							# TODO:DISPLAYNAME
+							"(Object.prototype.hasOwnProperty.call(_, \"name\") ? {addOne n-props} : {n-props})"
 					# If the conditions pass the check will definitely fail, and will give nice error info.
 					add! "
 						if (Object.keys(_).length > {n-props-compare})  \{
@@ -104,9 +108,11 @@ make-ctr = |ot
 						}
 
 		if! (defined? ot.make-callable) |
+			# TODO:DISPLAYNAME `delete this.name` is OK because make-callable should provide the name.
 			add! "
-				var callBaby = makeCallable(this)
+				const callBaby = makeCallable(this)
 				Object.setPrototypeOf(callBaby, prototype)
+				delete this.name
 				Object.assign(callBaby, this)
 
 		if! (defined? ot.post-construct) |
@@ -138,7 +144,7 @@ obj-type-args =
 	# This must be explicit because of the way we construct Obj-Type
 	prototype. Object.create Object.prototype
 	props.
-		displayName. String # displayName is mandatory for types.
+		name. String
 		props. Object
 		prototype. Object
 	opt-props.

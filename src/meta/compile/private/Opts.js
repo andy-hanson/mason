@@ -21,7 +21,7 @@ export const OptsFromObject = obj => {
 		checks: true,
 		includeAmdefine: true,
 		includeSourceMap: true,
-		includeModuleDisplayName: true,
+		includeModuleName: true,
 		forceNonLazyModule: false,
 		useStrict: true
 	}
@@ -29,9 +29,9 @@ export const OptsFromObject = obj => {
 	if (!opts.inFile) {
 		if (opts.includeSourceMap)
 			throw new Error('Either supply `inFile` option or make `includeSourceMap` false.')
-		if (opts.includeModuleDisplayName)
+		if (opts.includeModuleName)
 			throw new Error(
-				'Either supply `inFile` option or make `includeModuleDisplayName` false.')
+				'Either supply `inFile` option or make `includeModuleName` false.')
 	}
 	return new Opts(opts)
 }
@@ -41,7 +41,7 @@ const Opts = ObjType('Opts', Object, {
 	checks: Boolean,
 	includeAmdefine: Boolean,
 	includeSourceMap: Boolean,
-	includeModuleDisplayName: Boolean,
+	includeModuleName: Boolean,
 	forceNonLazyModule: Boolean,
 	useStrict: Boolean
 })
@@ -66,7 +66,7 @@ Object.assign(Opts.prototype, {
 
 	amdefine() { return this.includeAmdefine },
 	sourceMap() { return this.includeSourceMap },
-	moduleDisplayName() { return this.includeModuleDisplayName },
+	doIncludeModuleName() { return this.includeModuleName },
 	lazyModule() { return !this.forceNonLazyModule },
 
 	includeUseStrict() { return this.useStrict }

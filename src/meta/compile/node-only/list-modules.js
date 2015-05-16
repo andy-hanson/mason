@@ -24,7 +24,7 @@ export default (dirPath, opts) =>
 		const module = Module(loc, [ ], [ ], [ ], [ ], [ ], modulesBag)
 		const cx = new Cx(OptsFromObject({
 			includeSourceMap: false,
-			includeModuleDisplayName: false
+			includeModuleName: false
 		}))
 		return render(cx, transpile(cx, module, new VerifyResults()))
 	})

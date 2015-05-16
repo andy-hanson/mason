@@ -4,10 +4,10 @@ use
 	.$ _ $after
 	.Boolean and
 	.compare =?
-	.Function Action spread!
+	.Function Action
 	.js new
 	.private.js-impl makeError alwaysDoAfter ohNo iTry
-	.Object! p! p+!
+	.Object! p!
 	.Type.Method self-impl!
 	.Type.Obj-Type
 	.Type.Kind
@@ -105,7 +105,7 @@ error-type.
 		! fails-with? "mess" |
 			oh-no! x
 	|opts
-		_ = Obj-Type
+		default-args =
 			props.
 				message. String
 				stack.
@@ -113,8 +113,8 @@ error-type.
 				stack. |_
 					(new Error _.message).stack
 			prototype. Object.create Error.prototype
-		spread! p+! _ opts
-		_
+		args = Object.assign default-args opts
+		Obj-Type args
 
 always-do-after.
 	doc. "Executes `finally-do`, even if there are errors."

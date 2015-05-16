@@ -1,25 +1,24 @@
-import { ArrayExpression, BreakStatement, CallExpression, ExpressionStatement, Identifier,
-	IfStatement, Literal, ReturnStatement, UnaryExpression, VariableDeclaration, VariableDeclarator
+import { ArrayExpression, CallExpression, ExpressionStatement, Identifier, IfStatement, Literal,
+	ReturnStatement, UnaryExpression, VariableDeclaration, VariableDeclarator
 	} from 'esast/dist/ast'
 import { member } from 'esast/dist/util'
 import { binaryExpressionNotEqual } from './util'
 
 export const
-	Break = BreakStatement(),
+	IdArguments = Identifier('arguments'),
 	IdDefine = Identifier('define'),
-	IdDisplayName = Identifier('displayName'),
 	IdError = Identifier('Error'),
 	IdExports = Identifier('exports'),
 	IdExtract = Identifier('_$'),
-	IdArguments = Identifier('arguments'),
 	IdFunctionApplyCall = member(member(Identifier('Function'), 'apply'), 'call'),
+	IdName = Identifier('name'),
 	LitEmptyArray = ArrayExpression([]),
 	LitEmptyString = Literal(''),
 	LitNull = Literal(null),
 	LitTrue = Literal(true),
 	LitZero = Literal(0),
-	LitStrDisplayName = Literal('displayName'),
 	LitStrExports = Literal('exports'),
+	LitStrName = Literal('name'),
 	ReturnExports = ReturnStatement(IdExports),
 	ReturnRes = ReturnStatement(Identifier('res')),
 	UseStrict = ExpressionStatement(Literal('use strict')),

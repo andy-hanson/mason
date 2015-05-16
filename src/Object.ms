@@ -56,7 +56,8 @@ flag?.
 			enumerable. false
 		! set=? (@p-all obj) [ "a" sym ]
 		# But not "arguments" or "caller"
-		! set=? (@p-all @p-all) [ "length" "name" "prototype" "doc" "test" "displayName" ]
+		# TODO:DISPLAYNAME
+		! set=? (@p-all @p-all) [ "length" "name" "prototype" "doc" "test" "name" ]
 	|:@[Object-Key] _
 		props = Object.getOwnPropertyNames _
 		# TODO: case!, keep!
@@ -81,7 +82,7 @@ flag?.
 			value. 0
 			enumerable. true
 		! empty? (@p obj)
-		! set=? (@p @p) [ "doc" "test" "displayName" ]
+		! set=? (@p @p) [ "doc" "test" ]
 	|:@[String] _
 		case
 			can-get-p?_
@@ -161,7 +162,7 @@ object=?.
 			a. 1
 		b =
 			# TODO:DISPLAYNAME
-			displayName. "a"
+			name. "a"
 			a. 1
 		c =
 			x. 3

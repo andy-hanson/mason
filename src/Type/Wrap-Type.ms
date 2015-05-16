@@ -27,7 +27,7 @@ Wrap-Type = Obj-Type
 		Object with only one prop (always called `val`).
 		These are useful for wrapping a value with a new type.
 	props.
-		displayName. String
+		name. String
 		prototype. Object
 	opt-props.
 		wrapped-type. Type

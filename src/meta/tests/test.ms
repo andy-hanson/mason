@@ -88,7 +88,7 @@ $test-module.
 
 # TODO:ES6 Use module reflection
 @$test-module = |module:Object
-	module-name = ?-or (?p module "displayName") "<anonymous module>"
+	module-name = ?-or (?p module "name") "<anonymous module>"
 	@$maybe-test module-name module true
 
 # TODO: Make this local to a single run of $test-all.

@@ -9,16 +9,14 @@ define(["exports","../../control","../../Type/Pred-Type","../at","../atbang","..
 		}),_$13=_ms.lazyGetModule(_64_10),keep=_ms.lazyProp(_$13,"keep"),_$14=_ms.lazyGetModule(Seq_11),seq_61_63=_ms.lazyProp(_$14,"seq=?");
 		const add_45to_45_64_33=exports["add-to-@!"]=function(){
 			const doc="Treat `map` as a multi-map and add `added` to the @ associated with `key`.\n`@-type` is the type to use to create the `@` if it's not already there.";
-			const test=function(){
-				return _ms.set(function(){
-					const _=empty(Map_33);
-					add_45to_45_64_33(_,1,[1]);
-					_ms.unlazy(_33)(_ms.unlazy(_61_63),_ms.sub(_,1),[1]);
-					add_45to_45_64_33(_,1,[1]);
-					return _ms.unlazy(_33)(_ms.unlazy(_61_63),_ms.sub(_,1),[1,1])
-				},"displayName","test")
-			}();
-			return _ms.set(function(map,key,added,_63_64_45type){
+			const test=function test(){
+				const _=empty(Map_33);
+				add_45to_45_64_33(_,1,[1]);
+				_ms.unlazy(_33)(_ms.unlazy(_61_63),_ms.sub(_,1),[1]);
+				add_45to_45_64_33(_,1,[1]);
+				return _ms.unlazy(_33)(_ms.unlazy(_61_63),_ms.sub(_,1),[1,1])
+			};
+			return _ms.set(function add_45to_45_64_33(map,key,added,_63_64_45type){
 				_ms.checkContains(Map_33,map,"map");
 				_ms.checkContains(_64,added,"added");
 				_ms.checkContains(_ms.sub(Opt,_64_45Type),_63_64_45type,"?@-type");
@@ -28,25 +26,23 @@ define(["exports","../../control","../../Type/Pred-Type","../at","../atbang","..
 					}()
 				}));
 				return _43_43_33(_,added)
-			},"doc",doc,"test",test,"displayName","add-to-@!")
+			},"doc",doc,"test",test)
 		}();
 		const group=exports.group=function(){
 			const doc="Creates groups of elements which all have the same result for some function.\n`(group @x f)[k]` should be `f";
-			const test=function(){
-				return _ms.set(function(){
-					const _64sample=[1,"1",2,"2"];
-					const _k0=[_64sample,_ms.unlazy(show)],_v0=function(){
-						const _k0="1",_v0=[1,"1"];
-						const _k1="2",_v1=[2,"2"];
-						return _ms.map(_k0,_v0,_k1,_v1)
-					}();
-					_ms.unlazy(_33)(_ms.unlazy(seq_61_63),_ms.sub(group(_64sample,_ms.unlazy(show)),"1"),_ms.unlazy(keep)(_64sample,function(_){
-						return _ms.unlazy(_61_63)(_ms.unlazy(show)(_),"1")
-					}));
-					return _ms.map(_k0,_v0)
-				},"displayName","test")
-			}();
-			return _ms.set(function(_64value,group_45by){
+			const test=function test(){
+				const _64sample=[1,"1",2,"2"];
+				const _k0=[_64sample,_ms.unlazy(show)],_v0=function(){
+					const _k0="1",_v0=[1,"1"];
+					const _k1="2",_v1=[2,"2"];
+					return _ms.map(_k0,_v0,_k1,_v1)
+				}();
+				_ms.unlazy(_33)(_ms.unlazy(seq_61_63),_ms.sub(group(_64sample,_ms.unlazy(show)),"1"),_ms.unlazy(keep)(_64sample,function(_){
+					return _ms.unlazy(_61_63)(_ms.unlazy(show)(_),"1")
+				}));
+				return _ms.map(_k0,_v0)
+			};
+			return _ms.set(function group(_64value,group_45by){
 				_ms.checkContains(_64,_64value,"@value");
 				_ms.checkContains(Function,group_45by,"group-by");
 				const map=empty(Map_33);
@@ -55,10 +51,10 @@ define(["exports","../../control","../../Type/Pred-Type","../at","../atbang","..
 					return add_45to_45_64_33(map,key,[val])
 				});
 				return map
-			},"doc",doc,"test",test,"displayName","group")
+			},"doc",doc,"test",test)
 		}();
-		const displayName=exports.displayName="multi-map!";
+		const name=exports.name="multi-map!";
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL01hcC9tdWx0aS1tYXAhLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7OztFQWVBLHVEQUNVO0dBQVQsVUFDQztHQUVELHFCQUNPO21CQUFBLFVBQUE7S0FBTixRQUFJLE1BQU07S0FDVixrQkFBVSxFQUFFLEVBQUUsQ0FBRTtnREFDWCxFQUFFLEdBQUcsQ0FBRTtLQUNaLGtCQUFVLEVBQUUsRUFBRSxDQUFDO3VEQUNWLEVBQUUsR0FBRyxDQUFFLEVBQUU7SUFBQTs7a0JBQ2QsU0FBQSxJQUFTLElBQUksTUFBUSxjQUNtQjtzQkFEcEM7c0JBQWU7OEJBQVUsSUFBSTtJQUNqQyxRQUFJLGtCQUFZLElBQUk7c0JBQ0s7YUFBeEIsTUFBTyxJQUFJLGNBQVE7S0FBQTtJQUFBO1dBQ3BCLFVBQUksRUFBRTtHQUFBOztFQUVSLG9DQUNNO0dBQUwsVUFDQztHQUVELHFCQUNPO21CQUFBLFVBQUE7S0FBTixnQkFBVSxDQUFFLEVBQUcsSUFBRyxFQUFHO0tBQ3JCLFVBQUEsQ0FBRSwwQ0FDaUI7TUFBbEIsVUFBQyxRQUFNLENBQUUsRUFBRztNQUNaLFVBQUMsUUFBTSxDQUFFLEVBQUc7OzttREFHSixNQUFNLDRCQUFlLHNCQUFVLFVBQVMsU0FBQSxFQUNDO2lEQUE5QyxHQUFPO0tBQUE7Ozs7a0JBQ1gsU0FBQSxTQUFTLFdBQ2lCO3NCQURuQjtzQkFBVztJQUNsQixVQUFNLE1BQU07SUFDWixRQUFNLFNBQVEsU0FBQSxJQUNHO0tBQWhCLFVBQU0sV0FBUztZQUNmLGtCQUFVLElBQUksSUFBSSxDQUFFO0lBQUE7V0FDckI7R0FBQTs7RUFoREYsc0NBQUEiLCJmaWxlIjoiYXQvTWFwL211bHRpLW1hcGJhbmcuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL01hcC9tdWx0aS1tYXAhLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7OztFQWVBLHVEQUNVO0dBQVQsVUFDQztHQUVELFdBQ08sZUFBQTtJQUFOLFFBQUksTUFBTTtJQUNWLGtCQUFVLEVBQUUsRUFBRSxDQUFFOytDQUNYLEVBQUUsR0FBRyxDQUFFO0lBQ1osa0JBQVUsRUFBRSxFQUFFLENBQUM7c0RBQ1YsRUFBRSxHQUFHLENBQUUsRUFBRTtHQUFBO2tCQUNkLDJCQUFBLElBQVMsSUFBSSxNQUFRLGNBQ21CO3NCQURwQztzQkFBZTs4QkFBVSxJQUFJO0lBQ2pDLFFBQUksa0JBQVksSUFBSTtzQkFDSzthQUF4QixNQUFPLElBQUksY0FBUTtLQUFBO0lBQUE7V0FDcEIsVUFBSSxFQUFFO0dBQUE7O0VBRVIsb0NBQ007R0FBTCxVQUNDO0dBRUQsV0FDTyxlQUFBO0lBQU4sZ0JBQVUsQ0FBRSxFQUFHLElBQUcsRUFBRztJQUNyQixVQUFBLENBQUUsMENBQ2lCO0tBQWxCLFVBQUMsUUFBTSxDQUFFLEVBQUc7S0FDWixVQUFDLFFBQU0sQ0FBRSxFQUFHOzs7a0RBR0osTUFBTSw0QkFBZSxzQkFBVSxVQUFTLFNBQUEsRUFDQztnREFBOUMsR0FBTztJQUFBOzs7a0JBQ1gsZUFBQSxTQUFTLFdBQ2lCO3NCQURuQjtzQkFBVztJQUNsQixVQUFNLE1BQU07SUFDWixRQUFNLFNBQVEsU0FBQSxJQUNHO0tBQWhCLFVBQU0sV0FBUztZQUNmLGtCQUFVLElBQUksSUFBSSxDQUFFO0lBQUE7V0FDckI7R0FBQTs7RUFoREYsd0JBQUEiLCJmaWxlIjoiYXQvTWFwL211bHRpLW1hcGJhbmcuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

@@ -7,7 +7,7 @@ define(["exports","../control","../Function","../methods","../Type/Kind","../Typ
 			const doc="Any sub-type of @.";
 			return {
 				doc:doc,
-				displayName:"@-Type"
+				name:"@-Type"
 			}
 		}());
 		impl_33(sub,_64_45Type,identity);
@@ -15,31 +15,27 @@ define(["exports","../control","../Function","../methods","../Type/Kind","../Typ
 			const doc="Given a type, makes an instance which is `empty?`.\nShould always return the same thing iff immutable.";
 			return {
 				doc:doc,
-				displayName:"empty"
+				name:"empty"
 			}
 		}());
 		const from_45stream=exports["from-stream"]=Method(function(){
 			const doc="|_ stream:@\nCreates a new value of this type by reading out from an @'s iterator.";
-			const test=function(){
-				return _ms.set(function(){
-					const _k0=[Array,_ms.unlazy(range)(0,5)],_v0=[0,1,2,3,4];
-					return _ms.map(_k0,_v0)
-				},"displayName","test")
-			}();
+			const test=function test(){
+				const _k0=[Array,_ms.unlazy(range)(0,5)],_v0=[0,1,2,3,4];
+				return _ms.map(_k0,_v0)
+			};
 			const args=["type","stream"];
-			const _default=function(){
-				return _ms.set(function(type,stream){
-					return returning(empty(type),function(_){
-						return _ms.unlazy(_43_43_33)(_,stream)
-					})
-				},"displayName","default")
-			}();
+			const _default=function _default(type,stream){
+				return returning(empty(type),function(_){
+					return _ms.unlazy(_43_43_33)(_,stream)
+				})
+			};
 			return {
 				doc:doc,
 				test:test,
 				args:args,
 				default:_default,
-				displayName:"from-stream"
+				name:"from-stream"
 			}
 		}());
 		self_45kind_33(_64,_64_45Type);
@@ -47,9 +43,9 @@ define(["exports","../control","../Function","../methods","../Type/Kind","../Typ
 			return empty(Array)
 		});
 		impl_33(_61_62,_64_45Type,from_45stream);
-		const displayName=exports.displayName="@-Type";
+		const name=exports.name="@-Type";
 		exports.default=_64_45Type;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL0AtVHlwZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQWFBLGlCQUFTLGVBQ0k7R0FBWixVQUFNOzs7Ozs7RUFFUCxRQUFNLElBQUksV0FBTztFQUVqQiwwQkFBTyxpQkFDTTtHQUFaLFVBQ0M7Ozs7OztFQUdGLDJDQUFhLGlCQUNNO0dBQWxCLFVBQ0M7R0FFRCxxQkFDTzttQkFBQSxVQUFBO0tBQU4sVUFBQSxDQUFFLHdCQUFhLEVBQUUsUUFBUSxDQUFFLEVBQUUsRUFBRSxFQUFFLEVBQUU7Ozs7R0FDcEMsV0FBTSxDQUFHLE9BQU87R0FDaEIseUJBQVU7bUJBQUEsU0FBQSxLQUFLLE9BQ007WUFBcEIsVUFBVyxNQUFNLE1BQU8sU0FBQSxFQUNDO21DQUFwQixFQUFFO0tBQUE7SUFBQTs7Ozs7Ozs7OztFQUdULGVBQVcsSUFBRTtFQUNiLGVBQVcsTUFBTSxJQUNHLFVBQUE7VUFBbkIsTUFBTTtFQUFBO0VBRVAsUUFBTSxPQUFHLFdBQU87RUF2Q2hCLHNDQUFBO2tCQXlDQSIsImZpbGUiOiJhdC9hdC1UeXBlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL0AtVHlwZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQWFBLGlCQUFTLGVBQ0k7R0FBWixVQUFNOzs7Ozs7RUFFUCxRQUFNLElBQUksV0FBTztFQUVqQiwwQkFBTyxpQkFDTTtHQUFaLFVBQ0M7Ozs7OztFQUdGLDJDQUFhLGlCQUNNO0dBQWxCLFVBQ0M7R0FFRCxXQUNPLGVBQUE7SUFBTixVQUFBLENBQUUsd0JBQWEsRUFBRSxRQUFRLENBQUUsRUFBRSxFQUFFLEVBQUUsRUFBRTs7O0dBQ3BDLFdBQU0sQ0FBRyxPQUFPO0dBQ2hCLGVBQVUsa0JBQUEsS0FBSyxPQUNNO1dBQXBCLFVBQVcsTUFBTSxNQUFPLFNBQUEsRUFDQztrQ0FBcEIsRUFBRTtJQUFBO0dBQUE7Ozs7Ozs7OztFQUdULGVBQVcsSUFBRTtFQUNiLGVBQVcsTUFBTSxJQUNHLFVBQUE7VUFBbkIsTUFBTTtFQUFBO0VBRVAsUUFBTSxPQUFHLFdBQU87RUF2Q2hCLHdCQUFBO2tCQXlDQSIsImZpbGUiOiJhdC9hdC1UeXBlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

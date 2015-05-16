@@ -12,41 +12,37 @@ define(["exports","./js","./Object","./Type/Alias-Type","./Type/Pred-Type","./co
 			return {
 				doc:doc,
 				"alias-of":alias_45of,
-				displayName:"Object!"
+				name:"Object!"
 			}
 		}());
 		const empty_45Object_33=exports["empty-Object!"]=function(){
 			const doc="Creates a new Object! with no properties and the given prototype.";
-			const test=function(){
-				return _ms.set(function(){
-					const _=empty_45Object_33();
-					_ms.unlazy(_33)(_ms.unlazy(empty_45Object_63),_);
-					const child=empty_45Object_33(_);
-					return _ms.unlazy(_33)(_ms.unlazy(_61_63),_,_ms.unlazy(prototype)(child))
-				},"displayName","test")
-			}();
-			return _ms.set(function(_63prototype){
+			const test=function test(){
+				const _=empty_45Object_33();
+				_ms.unlazy(_33)(_ms.unlazy(empty_45Object_63),_);
+				const child=empty_45Object_33(_);
+				return _ms.unlazy(_33)(_ms.unlazy(_61_63),_,_ms.unlazy(prototype)(child))
+			};
+			return _ms.set(function empty_45Object_33(_63prototype){
 				_ms.checkContains(_ms.sub(Opt,Object),_63prototype,"?prototype");
 				const prototype=_ms.unlazy(opr)(_63prototype,Object.prototype);
 				return Object.create(prototype)
-			},"doc",doc,"test",test,"displayName","empty-Object!")
+			},"doc",doc,"test",test)
 		}();
 		const p_43_33=exports["p+!"]=function(){
 			const doc="Adds a new immutable property.";
-			const test=function(){
-				return _ms.set(function(){
-					const _=empty_45Object_33();
-					p_43_33(_,"a",1);
-					_ms.unlazy(_33)(_ms.unlazy(_61_63),_.a,1);
-					_ms.unlazy(_33)(_ms.unlazy(fails_63),function(){
-						return p_43_33(_,"a",2)
-					});
-					return _ms.unlazy(_33)(_ms.unlazy(fails_63),function(){
-						return p_43_33("string","a",1)
-					})
-				},"displayName","test")
-			}();
-			return _ms.set(function(_,name,val){
+			const test=function test(){
+				const _=empty_45Object_33();
+				p_43_33(_,"a",1);
+				_ms.unlazy(_33)(_ms.unlazy(_61_63),_.a,1);
+				_ms.unlazy(_33)(_ms.unlazy(fails_63),function(){
+					return p_43_33(_,"a",2)
+				});
+				return _ms.unlazy(_33)(_ms.unlazy(fails_63),function(){
+					return p_43_33("string","a",1)
+				})
+			};
+			return _ms.set(function p_43_33(_,name,val){
 				_ms.checkContains(Object_33,_,"_");
 				_ms.checkContains(Object_45Key,name,"name");
 				return Object.defineProperty(_,name,function(){
@@ -59,12 +55,12 @@ define(["exports","./js","./Object","./Type/Alias-Type","./Type/Pred-Type","./co
 						value:value
 					}
 				}())
-			},"doc",doc,"test",test,"displayName","p+!")
+			},"doc",doc,"test",test)
 		}();
 		const p_43mut_33=exports["p+mut!"]=function(){
 			const doc="Adds a new mutable property.";
 			const test="See `p!`";
-			return _ms.set(function(_,name,val){
+			return _ms.set(function p_43mut_33(_,name,val){
 				_ms.checkContains(Object_33,_,"_");
 				_ms.checkContains(Object_45Key,name,"name");
 				return Object.defineProperty(_,name,function(){
@@ -79,64 +75,58 @@ define(["exports","./js","./Object","./Type/Alias-Type","./Type/Pred-Type","./co
 						configurable:configurable
 					}
 				}())
-			},"doc",doc,"test",test,"displayName","p+mut!")
+			},"doc",doc,"test",test)
 		}();
 		const p_33=exports["p!"]=function(){
 			const doc="Modifies an already-existing property.";
-			const test=function(){
-				return _ms.set(function(){
-					const _=empty_45Object_33();
-					p_43mut_33(_,"a",1);
-					p_33(_,"a",2);
-					return _ms.unlazy(_33)(_ms.unlazy(_61_63),_.a,2)
-				},"displayName","test")
-			}();
-			return _ms.set(function(_,name,new_45val){
+			const test=function test(){
+				const _=empty_45Object_33();
+				p_43mut_33(_,"a",1);
+				p_33(_,"a",2);
+				return _ms.unlazy(_33)(_ms.unlazy(_61_63),_.a,2)
+			};
+			return _ms.set(function p_33(_,name,new_45val){
 				_ms.checkContains(Object_33,_,"_");
 				_ms.checkContains(Object_45Key,name,"name");
 				_ms.unlazy(_33)(_ms.unlazy(p_63),_,name);
 				return js_45set(_,name,new_45val)
-			},"doc",doc,"test",test,"displayName","p!")
+			},"doc",doc,"test",test)
 		}();
 		const p_45_33=exports["p-!"]=function(){
-			const test=function(){
-				return _ms.set(function(){
-					const _=empty_45Object_33();
-					p_43mut_33(_,"a",1);
-					p_45_33(_,"a");
-					return _ms.unlazy(_33not)(_ms.unlazy(p_63),_,"a")
-				},"displayName","test")
-			}();
-			return _ms.set(function(_,name){
+			const test=function test(){
+				const _=empty_45Object_33();
+				p_43mut_33(_,"a",1);
+				p_45_33(_,"a");
+				return _ms.unlazy(_33not)(_ms.unlazy(p_63),_,"a")
+			};
+			return _ms.set(function p_45_33(_,name){
 				_ms.checkContains(Object_33,_,"_");
 				_ms.checkContains(Object_45Key,name,"name");
 				_ms.unlazy(_33)(_ms.unlazy(p_63),_,name);
 				return js_45delete(_,name)
-			},"test",test,"displayName","p-!")
+			},"test",test)
 		}();
 		const extend_33=exports["extend!"]=function(){
 			const doc="Adds all the properties in `extender` to `_`.";
-			const test=function(){
-				return _ms.set(function(){
-					const _=empty_45Object_33();
-					extend_33(_,function(){
-						const a=1;
-						return {
-							a:a
-						}
-					}());
-					return _ms.unlazy(_33)(_ms.unlazy(_61_63),_.a,1)
-				},"displayName","test")
-			}();
-			return _ms.set(function(_,extender){
+			const test=function test(){
+				const _=empty_45Object_33();
+				extend_33(_,function(){
+					const a=1;
+					return {
+						a:a
+					}
+				}());
+				return _ms.unlazy(_33)(_ms.unlazy(_61_63),_.a,1)
+			};
+			return _ms.set(function extend_33(_,extender){
 				_ms.checkContains(Object_33,_,"_");
 				_ms.checkContains(Object,extender,"extender");
 				return Object.assign(_,extender)
-			},"doc",doc,"test",test,"displayName","extend!")
+			},"doc",doc,"test",test)
 		}();
-		const displayName=exports.displayName="Object!";
+		const name=exports.name="Object!";
 		exports.default=Object_33;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9PYmplY3QhLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7RUFhQSxzQkFBTTtFQUVOLGdCQUFVLHVCQUNVO0dBQW5CLFVBQU07R0FDTixpQkFBVTs7Ozs7OztFQUVYLDJEQUNjO0dBQWIsVUFBTTtHQUNOLHFCQUNPO21CQUFBLFVBQUE7S0FBTixRQUFJO21EQUNZO0tBQ2hCLFlBQVEsa0JBQWM7K0NBQ2pCLHdCQUFhO0lBQUE7O2tCQUNsQixTQUFBLGFBQ3NCOzhCQURYLElBQUk7SUFDZixnQ0FBZ0IsYUFBVztXQUMzQixjQUFjO0dBQUE7O0VBRWhCLHVDQUNJO0dBQUgsVUFBTTtHQUNOLHFCQUNPO21CQUFBLFVBQUE7S0FBTixRQUFJO0tBQ0osUUFBSSxFQUFHLElBQUc7d0NBQ0wsSUFBSTswQ0FFQyxVQUFBO2FBQVQsUUFBSSxFQUFHLElBQUc7S0FBQTtpREFFRCxVQUFBO2FBQVQsUUFBSyxTQUFTLElBQUc7S0FBQTtJQUFBOztrQkFDbEIsU0FBQSxFQUFVLEtBQWdCLElBQ0c7c0JBRDNCO3NCQUFhO1dBQ2Ysc0JBQXNCLEVBQUUsZUFDSTtLQUEzQixpQkFBWTtLQUNaLGVBQVU7S0FDVixZQUFPOzs7Ozs7Ozs7RUFHViw2Q0FDTztHQUFOLFVBQU07R0FDTixXQUFPO2tCQUNOLFNBQUEsRUFBVSxLQUFnQixJQUNHO3NCQUQzQjtzQkFBYTtXQUNmLHNCQUFzQixFQUFFLGVBQ0k7S0FBM0IsaUJBQVk7S0FDWixlQUFVO0tBQ1YsWUFBTztLQUNQLG1CQUFjOzs7Ozs7Ozs7O0VBR2pCLG1DQUNHO0dBQUYsVUFBTTtHQUNOLHFCQUNPO21CQUFBLFVBQUE7S0FBTixRQUFJO0tBQ0osV0FBTyxFQUFHLElBQUc7S0FDYixLQUFHLEVBQUcsSUFBRzsrQ0FDSixJQUFJO0lBQUE7O2tCQUNULFNBQUEsRUFBVSxLQUFnQixVQUkxQjtzQkFKRTtzQkFBYTtxQ0FFVCxFQUFFO1dBRVIsU0FBTyxFQUFFLEtBQUs7R0FBQTs7RUFFaEIsdUNBQ0k7R0FBSCxxQkFDTzttQkFBQSxVQUFBO0tBQU4sUUFBSTtLQUNKLFdBQU8sRUFBRyxJQUFHO0tBQ2IsUUFBSSxFQUFHO2dEQUNDLEVBQUc7SUFBQTs7a0JBQ1gsU0FBQSxFQUFVLEtBSVY7c0JBSkU7c0JBQWE7cUNBRVQsRUFBRTtXQUVSLFlBQVUsRUFBRTtHQUFBOztFQUdkLDZDQUNRO0dBQVAsVUFBTTtHQUNOLHFCQUNPO21CQUFBLFVBQUE7S0FBTixRQUFJO0tBQ0osVUFBUSxZQUNDO01BQVIsUUFBRzs7Ozs7K0NBQ0MsSUFBSTtJQUFBOztrQkFDVCxTQUFBLEVBQVUsU0FDZTtzQkFEdkI7c0JBQWlCO1dBQ25CLGNBQWMsRUFBRTtHQUFBOztFQTVGbEIsc0NBQUE7a0JBOEZBIiwiZmlsZSI6Ik9iamVjdGJhbmcuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9PYmplY3QhLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7RUFhQSxzQkFBTTtFQUVOLGdCQUFVLHVCQUNVO0dBQW5CLFVBQU07R0FDTixpQkFBVTs7Ozs7OztFQUVYLDJEQUNjO0dBQWIsVUFBTTtHQUNOLFdBQ08sZUFBQTtJQUFOLFFBQUk7a0RBQ1k7SUFDaEIsWUFBUSxrQkFBYzs4Q0FDakIsd0JBQWE7R0FBQTtrQkFDbEIsMkJBQUEsYUFDc0I7OEJBRFgsSUFBSTtJQUNmLGdDQUFnQixhQUFXO1dBQzNCLGNBQWM7R0FBQTs7RUFFaEIsdUNBQ0k7R0FBSCxVQUFNO0dBQ04sV0FDTyxlQUFBO0lBQU4sUUFBSTtJQUNKLFFBQUksRUFBRyxJQUFHO3VDQUNMLElBQUk7eUNBRUMsVUFBQTtZQUFULFFBQUksRUFBRyxJQUFHO0lBQUE7Z0RBRUQsVUFBQTtZQUFULFFBQUssU0FBUyxJQUFHO0lBQUE7R0FBQTtrQkFDbEIsaUJBQUEsRUFBVSxLQUFnQixJQUNHO3NCQUQzQjtzQkFBYTtXQUNmLHNCQUFzQixFQUFFLGVBQ0k7S0FBM0IsaUJBQVk7S0FDWixlQUFVO0tBQ1YsWUFBTzs7Ozs7Ozs7O0VBR1YsNkNBQ087R0FBTixVQUFNO0dBQ04sV0FBTztrQkFDTixvQkFBQSxFQUFVLEtBQWdCLElBQ0c7c0JBRDNCO3NCQUFhO1dBQ2Ysc0JBQXNCLEVBQUUsZUFDSTtLQUEzQixpQkFBWTtLQUNaLGVBQVU7S0FDVixZQUFPO0tBQ1AsbUJBQWM7Ozs7Ozs7Ozs7RUFHakIsbUNBQ0c7R0FBRixVQUFNO0dBQ04sV0FDTyxlQUFBO0lBQU4sUUFBSTtJQUNKLFdBQU8sRUFBRyxJQUFHO0lBQ2IsS0FBRyxFQUFHLElBQUc7OENBQ0osSUFBSTtHQUFBO2tCQUNULGNBQUEsRUFBVSxLQUFnQixVQUkxQjtzQkFKRTtzQkFBYTtxQ0FFVCxFQUFFO1dBRVIsU0FBTyxFQUFFLEtBQUs7R0FBQTs7RUFFaEIsdUNBQ0k7R0FBSCxXQUNPLGVBQUE7SUFBTixRQUFJO0lBQ0osV0FBTyxFQUFHLElBQUc7SUFDYixRQUFJLEVBQUc7K0NBQ0MsRUFBRztHQUFBO2tCQUNYLGlCQUFBLEVBQVUsS0FJVjtzQkFKRTtzQkFBYTtxQ0FFVCxFQUFFO1dBRVIsWUFBVSxFQUFFO0dBQUE7O0VBR2QsNkNBQ1E7R0FBUCxVQUFNO0dBQ04sV0FDTyxlQUFBO0lBQU4sUUFBSTtJQUNKLFVBQVEsWUFDQztLQUFSLFFBQUc7Ozs7OzhDQUNDLElBQUk7R0FBQTtrQkFDVCxtQkFBQSxFQUFVLFNBQ2U7c0JBRHZCO3NCQUFpQjtXQUNuQixjQUFjLEVBQUU7R0FBQTs7RUE1RmxCLHdCQUFBO2tCQThGQSIsImZpbGUiOiJPYmplY3RiYW5nLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

@@ -11,7 +11,7 @@ define(["exports","../Type/Method"],function(exports,Method_0){
 			return {
 				doc:doc,
 				args:args,
-				displayName:"+"
+				name:"+"
 			}
 		}());
 		const _45=exports["-"]=Method(function(){
@@ -22,7 +22,7 @@ define(["exports","../Type/Method"],function(exports,Method_0){
 			return {
 				doc:doc,
 				args:args,
-				displayName:"-"
+				name:"-"
 			}
 		}());
 		const _42=exports["*"]=Method(function(){
@@ -33,7 +33,7 @@ define(["exports","../Type/Method"],function(exports,Method_0){
 			return {
 				doc:doc,
 				args:args,
-				displayName:"*"
+				name:"*"
 			}
 		}());
 		const _47=exports["/"]=Method(function(){
@@ -44,11 +44,11 @@ define(["exports","../Type/Method"],function(exports,Method_0){
 			return {
 				doc:doc,
 				args:args,
-				displayName:"/"
+				name:"/"
 			}
 		}());
-		const displayName=exports.displayName="methods";
+		const name=exports.name="methods";
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tYXRoL21ldGhvZHMubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFHQSx1QkFBRyxpQkFDTTtHQUFSLG9CQUNJO1dBQUY7R0FBQTtHQUNGLFdBQU07Ozs7Ozs7RUFFUCx1QkFBRyxpQkFDTTtHQUFSLG9CQUNJO1dBQUY7R0FBQTtHQUNGLFdBQU07Ozs7Ozs7RUFFUCx1QkFBRyxpQkFDTTtHQUFSLG9CQUNJO1dBQUY7R0FBQTtHQUNGLFdBQU07Ozs7Ozs7RUFFUCx1QkFBRyxpQkFDTTtHQUFSLG9CQUNJO1dBQUY7R0FBQTtHQUNGLFdBQU07Ozs7Ozs7RUFyQlAsc0NBQUEiLCJmaWxlIjoibWF0aC9tZXRob2RzLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tYXRoL21ldGhvZHMubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFHQSx1QkFBRyxpQkFDTTtHQUFSLG9CQUNJO1dBQUY7R0FBQTtHQUNGLFdBQU07Ozs7Ozs7RUFFUCx1QkFBRyxpQkFDTTtHQUFSLG9CQUNJO1dBQUY7R0FBQTtHQUNGLFdBQU07Ozs7Ozs7RUFFUCx1QkFBRyxpQkFDTTtHQUFSLG9CQUNJO1dBQUY7R0FBQTtHQUNGLFdBQU07Ozs7Ozs7RUFFUCx1QkFBRyxpQkFDTTtHQUFSLG9CQUNJO1dBQUY7R0FBQTtHQUNGLFdBQU07Ozs7Ozs7RUFyQlAsd0JBQUEiLCJmaWxlIjoibWF0aC9tZXRob2RzLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

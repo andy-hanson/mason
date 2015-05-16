@@ -71,7 +71,7 @@ Kind = Obj-Type
 				kind! X Closed
 
 	props.
-		displayName. String
+		name. String
 		super-kinds. Array # TODO: [~Kind]
 		prototype. Object
 		# TODO: Allow doc on prop
@@ -87,8 +87,7 @@ Kind = Obj-Type
 		implementors. |
 			Array 0
 		symbol-for-isa. |_
-			name:String = _.displayName
-			Symbol "isa-{name}"
+			Symbol "isa-{_.name}"
 	post-construct. |_
 		pAdd _.prototype _.symbol-for-isa true
 		case!

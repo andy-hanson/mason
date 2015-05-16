@@ -29,7 +29,8 @@ export const
 		],
 		{ },
 		{
-			displayName: loc => LocalDeclare.plain(loc, 'displayName'),
+			// Can't call this 'name' because LocalDeclare.name is 'LocalDeclare'
+			declareName: loc => LocalDeclare.plain(loc, 'name'),
 			focus: loc => LocalDeclare.plain(loc, '_'),
 			noType: (loc, name, isLazy) => LocalDeclare(loc, name, null, isLazy),
 			plain: (loc, name) => LocalDeclare.noType(loc, name, false)
@@ -61,7 +62,7 @@ export const
 			'lines', [LineContent],
 			'keys', [LocalDeclare],
 			'opObjed', Nullable(Val),
-			'opDisplayName', Nullable(String)
+			'opName', Nullable(String)
 		]),
 
 	BagEntry = ee('BagEntry',

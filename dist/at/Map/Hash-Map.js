@@ -7,7 +7,7 @@ define(["exports","../../Function","../../private/js-impl","../../methods","../.
 			const alias_45of=Hash_45Map_33;
 			return {
 				"alias-of":alias_45of,
-				displayName:"Hash-Map"
+				name:"Hash-Map"
 			}
 		}());
 		self_45kind_33(Hash_45Map,Map_45Type);
@@ -18,9 +18,9 @@ define(["exports","../../Function","../../private/js-impl","../../methods","../.
 			makeMap(hm,assoc_33,args);
 			return freeze(hm)
 		});
-		const displayName=exports.displayName="Hash-Map";
+		const name=exports.name="Hash-Map";
 		exports.default=Hash_45Map;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL01hcC9IYXNoLU1hcC5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQWFBLGlCQUFXLHVCQUNVO0dBQXBCLGlCQUFVOzs7Ozs7RUFFWCxlQUFXLFdBQVM7RUFDcEIsZUFBVyxNQUFNLFdBQVUsTUFBTyxPQUFRLE1BQU07RUFHaEQsTUFBTyxNQUFNLFVBQ087O0dBQW5CLFNBQUssTUFBTTtHQUNYLFFBQVEsR0FBRyxTQUFPO1VBQ2xCLE9BQU87RUFBQTtFQXZCUixzQ0FBQTtrQkF5QkEiLCJmaWxlIjoiYXQvTWFwL0hhc2gtTWFwLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL01hcC9IYXNoLU1hcC5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQWFBLGlCQUFXLHVCQUNVO0dBQXBCLGlCQUFVOzs7Ozs7RUFFWCxlQUFXLFdBQVM7RUFDcEIsZUFBVyxNQUFNLFdBQVUsTUFBTyxPQUFRLE1BQU07RUFHaEQsTUFBTyxNQUFNLFVBQ087O0dBQW5CLFNBQUssTUFBTTtHQUNYLFFBQVEsR0FBRyxTQUFPO1VBQ2xCLE9BQU87RUFBQTtFQXZCUix3QkFBQTtrQkF5QkEiLCJmaWxlIjoiYXQvTWFwL0hhc2gtTWFwLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

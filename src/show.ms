@@ -20,18 +20,18 @@ show = Method
 			This is the method called when you do `\{...}`.
 			For a more detailed String representation of data, use `inspect`.
 	test. |
-		# TODO: How to not include displayName
+		# TODO:DISPLAYNAME How to not include name
 		a =
 			~x. a
 		[ a ] -> "
 			Object
 				x. <recursive>
-				displayName. a
+				name. a
 		# TODO:SYNTAX [ a repr. ]
 		[ a (repr. true) ] -> "
 			Object
 				x. <recursive>
-				displayName. "a"
+				name. "a"
 		[ null ] -> "null"
 		[ undefined ] -> "undefined"
 	args. 2
@@ -122,15 +122,11 @@ spread! impl! show
 			[ Object ] -> "Object"
 			[ (Function "" "") ] -> "<anonymous Function>"
 		|:String fun
-			case fun.displayName
-				:String
-					_
+			case fun.name
+				# Every Function has `name` property, but for anonymous Functions it is empty.
+				empty?_
+					"<anonymous Function>"
 				else
-					case fun.name
-						# Every Function has `name` property, but for anonymous Functions it is empty.
-						empty?_
-							"<anonymous Function>"
-						else
-							_
+					_
 
 show

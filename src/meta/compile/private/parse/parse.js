@@ -39,19 +39,10 @@ const parseModule = tokens => {
 	const [ plainUses, rest1 ] = tryParseUses(KW_Use, rest0)
 	const [ lazyUses, rest2 ] = tryParseUses(KW_UseLazy, rest1)
 	const [ debugUses, rest3 ] = tryParseUses(KW_UseDebug, rest2)
-	const block = parseAnyBlock(rest3)
-	const [ lines, exports, opDefaultExport ] =
-		block instanceof BlockWithReturn ?
-		[ block.lines, [ ], block.returned ] :
-		block instanceof BlockObj ?
-		[ block.lines, block.keys, block.opObjed ] :
-		block instanceof BlockDo ?
-		[ block.lines, [ ], null ] :
-		// other BlockVal
-		[ [ ], [ ], BlockWrap(rest3.loc, block) ]
+	const { lines, exports, opDefaultExport } = parseModuleBlock(rest3)
 
-	if (cx.opts.moduleDisplayName() && !exports.some(ex => ex.name === 'displayName')) {
-		const dn = LocalDeclare.displayName(tokens.loc)
+	if (cx.opts.doIncludeModuleName() && !exports.some(_ => _.name === 'name')) {
+		const dn = LocalDeclare.declareName(tokens.loc)
 		lines.push(Assign(tokens.loc, dn,
 			Quote.forString(tokens.loc, cx.opts.moduleName())))
 		exports.push(dn)
@@ -97,6 +88,20 @@ const
 		return block
 	},
 
+	parseModuleBlock = tokens => {
+		const { allLines, kReturn, objKeys: exports } = _parseBlockLines(tokens)
+		const loc = tokens.loc
+		switch (kReturn) {
+			case KReturn_Bag: case KReturn_Map: {
+				const ctr = kReturn === KReturn_Bag ? BlockBag : BlockMap
+				return { lines: [ ], exports, opDefaultExport: BlockWrap(loc, ctr(loc, allLines)) }
+			}
+			default:
+				const { lines, opVal: opDefaultExport } = _tryTakeLastVal(allLines)
+				return { lines, exports, opDefaultExport }
+		}
+	},
+
 	parseAnyBlock = tokens => {
 		const { allLines, kReturn, objKeys } = _parseBlockLines(tokens)
 		switch (kReturn) {
@@ -105,10 +110,7 @@ const
 			case KReturn_Map:
 				return BlockMap(tokens.loc, allLines)
 			default:
-				const [ lines, opVal ] =
-					(!isEmpty(allLines) && last(allLines) instanceof Val) ?
-						[ rtail(allLines), last(allLines) ] :
-						[ allLines, null ]
+				const { lines, opVal } = _tryTakeLastVal(allLines)
 				return kReturn === KReturn_Obj ?
 					BlockObj(tokens.loc, lines, objKeys, opVal, null) :
 					ifElse(opVal,
@@ -124,6 +126,11 @@ const
 		checkEmpty(before, 'Expected just a block.')
 		return block
 	},
+
+	_tryTakeLastVal = lines =>
+		(!isEmpty(lines) && last(lines) instanceof Val) ?
+			{ lines: rtail(lines), opVal: last(lines) } :
+			{ lines, opVal: null },
 
 	KReturn_Plain = 0,
 	KReturn_Obj = 1,
@@ -440,49 +447,44 @@ const
 	},
 
 	_parseAssignValue = (kind, opName, valueTokens) => {
-		const valuePlain = valueTokens.isEmpty() && kind === KW_ObjAssign ?
+		const value = valueTokens.isEmpty() && kind === KW_ObjAssign ?
 			SpecialVal.null(valueTokens.loc) :
 			parseExpr(valueTokens)
-		const valueNamed = ifElse(opName, _ => _tryAddDisplayName(valuePlain, _), () => valuePlain)
+		if (opName !== null)
+			_tryAddName(value, opName)
 		switch (kind) {
 			case KW_Yield:
-				return Yield(valueNamed.loc, valueNamed)
+				return Yield(value.loc, value)
 			case KW_YieldTo:
-				return YieldTo(valueNamed.loc, valueNamed)
+				return YieldTo(value.loc, value)
 			default:
-				return valueNamed
+				return value
 		}
 	},
 
-	// We give it a displayName if:
-	// . It's a block
-	// . It's a function
-	// . It's one of those at the end of a block
-	// . It's one of those as the end member of a call.
-	_tryAddDisplayName = (_, displayName) => {
-		if (_ instanceof Call && _.args.length > 0) {
-			_.args[_.args.length - 1] = _tryAddDisplayName(last(_.args), displayName)
-			return _
-		} else if (_ instanceof Fun)
-			// TODO: _.name = displayName
-			return BlockWrap(_.loc, BlockObj(_.loc, [ ], [ ], _, displayName))
-		else if (_ instanceof BlockWithReturn) {
-			_.returned = _tryAddDisplayName(_.returned, displayName)
-			return _
-		} else if (_ instanceof BlockObj) {
-			if (!(_.keys.some(_ => _.name === 'displayName')))
-				_.opDisplayName = displayName
-			return _
-		} else if (_ instanceof BlockWrap) {
-			_.block = _tryAddDisplayName(_.block, displayName)
-			return _
-		} else
-			return _
+	// We give it a name if:
+	// It's a function
+	// It's an Obj block
+	// It's an Obj block at the end of a call (as in `name = Obj-Type ...`)
+	_tryAddName = (_, name) => {
+		if (_ instanceof Fun)
+			_.name = name
+		else if (_ instanceof Call && _.args.length > 0)
+			_tryAddObjName(last(_.args), name)
+		else
+			_tryAddObjName(_, name)
+	},
+	_tryAddObjName = (_, name) => {
+		if (_ instanceof BlockWrap)
+			if (_.block instanceof BlockObj)
+				if (_.block.opObjed !== null && _.block.opObjed instanceof Fun)
+					_.block.opObjed.name = name
+				else if (!(_.block.keys.some(_ => _.name === 'name')))
+					_.block.opName = name
 	},
 
 	_parseMapEntry = (before, after, loc) =>
-		// TODO: index Filled in by ???
-		MapEntry(loc, parseExpr(before), parseExpr(after), -1)
+		MapEntry(loc, parseExpr(before), parseExpr(after))
 
 const
 	parseLocalDeclares = tokens => tokens.map(parseLocalDeclare),

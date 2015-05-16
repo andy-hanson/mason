@@ -41,7 +41,7 @@ region TODO
 		test. |
 			"TODO"
 		args. 2
-		|_:@ left-added:@
+		default. |_:@ left-added:@
 			=> type-of_ (++ left-added _
 
 region Very first and last

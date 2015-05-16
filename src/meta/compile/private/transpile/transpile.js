@@ -14,9 +14,9 @@ import manglePath from '../manglePath'
 import { cat, flatMap, isEmpty, range, tail, unshift } from '../U/Bag'
 import { flatOpMap, ifElse, opIf, opMap } from '../U/op'
 import { assert, implementMany, isPositive } from '../U/util'
-import { AmdefineHeader, ArraySliceCall, ExportsDefault, ExportsGet, IdDefine, IdDisplayName,
-	IdArguments, IdExports, IdExtract, IdFunctionApplyCall, LitEmptyArray, LitEmptyString, LitNull,
-	LitStrDisplayName, LitStrExports, LitZero, ReturnExports, ReturnRes, UseStrict
+import { AmdefineHeader, ArraySliceCall, ExportsDefault, ExportsGet, IdArguments, IdDefine,
+	IdExports, IdExtract, IdFunctionApplyCall, IdName, LitEmptyArray, LitEmptyString, LitNull,
+	LitStrExports, LitStrName, LitZero, ReturnExports, ReturnRes, UseStrict
 	} from './ast-constants'
 import { IdMs, lazyWrap, msArr, msBool, msCheckContains, msExtract, msGet, msGetDefaultExport,
 	msGetModule, msLazy, msLazyGet, msLazyGetModule, msLset, msMap, msSet, msShow
@@ -87,7 +87,7 @@ implementMany(EExports, 'transpileSubtree', {
 				const objed = t0(_)
 				const keysVals = cat(
 					flatMap(keys, key => [ Literal(key.name), accessLocalDeclare(key) ]),
-					opMap(this.opDisplayName, _ => [ LitStrDisplayName, Literal(_) ]))
+					opMap(this.opName, _ => [ LitStrName, Literal(_) ]))
 				const anyLazy = keys.some(key => key.isLazy)
 				return (anyLazy ? msLset : msSet)(objed, ...keysVals)
 			},
@@ -97,9 +97,8 @@ implementMany(EExports, 'transpileSubtree', {
 					const id = propertyIdOrLiteralCached(key.name)
 					return key.isLazy ? property('get', id, thunk(val)) : property('init', id, val)
 				})
-				const opPropDisplayName = opMap(this.opDisplayName, _ =>
-					property('init', IdDisplayName, Literal(_)))
-				return ObjectExpression(cat(props, opPropDisplayName))
+				const opPropName = opMap(this.opName, _ => property('init', IdName, Literal(_)))
+				return ObjectExpression(cat(props, opPropName))
 			})
 		return transpileBlock(ret, this.lines, lead, opResDeclare, opOut)
 	},

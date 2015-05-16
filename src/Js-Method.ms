@@ -18,7 +18,7 @@ Js-Method = Obj-Type
 			impl-name. "toString"
 		! =? (toString 1) "1"
 	props.
-		displayName. String
+		name. String
 		impl-name. String
 	extensible. true
 	make-callable. |_

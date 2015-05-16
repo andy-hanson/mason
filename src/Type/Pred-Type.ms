@@ -16,7 +16,7 @@ use-debug
 Pred-Type = Obj-Type
 	doc. "Arbitrary predicates can be made into types using Pred-Type."
 	props.
-		displayName. String
+		name. String
 		predicate. Pred
 	extensible. true
 
@@ -66,7 +66,7 @@ Union.
 	test. |
 		# As these are all Impl-Types, it would be better to use a Kind.
 		SBN = Union[String Boolean Number]
-		! =? SBN.displayName "Union[String Boolean Number]"
+		! =? SBN.name "Union[String Boolean Number]"
 		! contains? SBN "true"
 		! contains? SBN true
 		! contains? SBN 3
@@ -74,7 +74,7 @@ Union.
 
 self-impl! sub Union |...types
 	Pred-Type
-		displayName. "Union[{=> String types " "}]"
+		name. "Union[{=> String types " "}]"
 		predicate. |_
 			any? types |type
 				contains? type _

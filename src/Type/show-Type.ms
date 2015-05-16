@@ -1,6 +1,6 @@
 use
-	..@.? ?-or
-	..Object flag? ?p
+	esast.dist.mangle-identifier unmangle
+	..Object flag?
 	..show
 	.Method impl!
 	.Type
@@ -15,4 +15,4 @@ impl! show Type
 			flag? opts "repr"
 				show.default type opts
 			else
-				?-or (?p type "displayName") "<anonymous Type>"
+				unmangle type.name

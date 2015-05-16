@@ -9,19 +9,17 @@ define(["exports","../../Type/Kind","../at-Type","./Mapbang","./Map-Type","./Spl
 		}),_$10=_ms.lazyGetModule(compare_6),sorted_63=_ms.lazyProp(_$10,"sorted?"),_$11=_ms.lazyGetModule(_64_7),each_33=_ms.lazyProp(_$11,"each!"),_$12=_ms.lazyGetModule(Map_8),keys=_ms.lazyProp(_$12,"keys"),_$13=_ms.lazyGetModule(Map_33_9),assoc_33=_ms.lazyProp(_$13,"assoc!");
 		const Sorted_45Map_33=Kind(function(){
 			const doc="Map! whose `keys` are in sorted order.\nThis kind of Map! depends on an efficient `compare` between its keys.";
-			const implementor_45test=function(){
-				return _ms.set(function(type){
-					const _=empty(type);
-					_ms.unlazy(each_33)([1,3,5,4,2],function(key){
-						return _ms.unlazy(assoc_33)(_,key,key)
-					});
-					return _ms.unlazy(_33)(_ms.unlazy(sorted_63),_ms.unlazy(keys)(_))
-				},"displayName","implementor-test")
-			}();
+			const implementor_45test=function implementor_45test(type){
+				const _=empty(type);
+				_ms.unlazy(each_33)([1,3,5,4,2],function(key){
+					return _ms.unlazy(assoc_33)(_,key,key)
+				});
+				return _ms.unlazy(_33)(_ms.unlazy(sorted_63),_ms.unlazy(keys)(_))
+			};
 			return {
 				doc:doc,
 				"implementor-test":implementor_45test,
-				displayName:"Sorted-Map!"
+				name:"Sorted-Map!"
 			}
 		}());
 		self_45kind_33(Sorted_45Map_33,Map_45Type,function(){
@@ -31,9 +29,9 @@ define(["exports","../../Type/Kind","../at-Type","./Mapbang","./Map-Type","./Spl
 			return _ms.map(_k0,_v0)
 		}());
 		kind_33(Sorted_45Map_33,Map_33);
-		const displayName=exports.displayName="Sorted-Map!";
+		const name=exports.name="Sorted-Map!";
 		exports.default=Sorted_45Map_33;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL01hcC9Tb3J0ZWQtTWFwIS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7RUFjQSxzQkFBYyxlQUNJO0dBQWpCLFVBQ0M7R0FFRCxtQ0FBbUI7bUJBQUEsU0FBQSxLQUNJO0tBQXRCLFFBQUksTUFBTTt5QkFDSixDQUFFLEVBQUUsRUFBRSxFQUFFLEVBQUUsR0FBSyxTQUFBLElBQ0c7a0NBQWhCLEVBQUUsSUFBSTtLQUFBO21FQUNKO0lBQUE7Ozs7Ozs7O0VBRVosZUFBVyxnQkFBWSxxQkFDUTtHQUE5QixVQUFBLFVBQ1UsVUFBQTtXQUFUOzs7O0VBRUYsUUFBTSxnQkFBWTtFQTVCbEIsc0NBQUE7a0JBOEJBIiwiZmlsZSI6ImF0L01hcC9Tb3J0ZWQtTWFwYmFuZy5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL01hcC9Tb3J0ZWQtTWFwIS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7RUFjQSxzQkFBYyxlQUNJO0dBQWpCLFVBQ0M7R0FFRCx5QkFBbUIsNEJBQUEsS0FDSTtJQUF0QixRQUFJLE1BQU07d0JBQ0osQ0FBRSxFQUFFLEVBQUUsRUFBRSxFQUFFLEdBQUssU0FBQSxJQUNHO2lDQUFoQixFQUFFLElBQUk7SUFBQTtrRUFDSjtHQUFBOzs7Ozs7O0VBRVosZUFBVyxnQkFBWSxxQkFDUTtHQUE5QixVQUFBLFVBQ1UsVUFBQTtXQUFUOzs7O0VBRUYsUUFBTSxnQkFBWTtFQTVCbEIsd0JBQUE7a0JBOEJBIiwiZmlsZSI6ImF0L01hcC9Tb3J0ZWQtTWFwYmFuZy5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

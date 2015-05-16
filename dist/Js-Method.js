@@ -7,51 +7,45 @@ define(["exports","./js","./Object","./Type/Obj-Type","./Type/Pred-Type","./bang
 		}),_$8=_ms.lazyGetModule(compare_5),_61_63=_ms.lazyProp(_$8,"=?"),_$9=_ms.lazyGetModule(Type_6),contains_63=_ms.lazyProp(_$9,"contains?");
 		const Js_45Method=Obj_45Type(function(){
 			const doc="A Js-Method allows you to call a JavaScript-style method as a function.\nUnlike a Mason Method, for a Js-Method,\nthe first argument becomes `this` within the implementation's body.";
-			const test=function(){
-				return _ms.set(function(){
-					const toString=Js_45Method(function(){
-						const impl_45name="toString";
-						return {
-							"impl-name":impl_45name,
-							displayName:"toString"
-						}
-					}());
-					return _ms.unlazy(_33)(_ms.unlazy(_61_63),toString(1),"1")
-				},"displayName","test")
-			}();
+			const test=function test(){
+				const toString=Js_45Method(function(){
+					const impl_45name="toString";
+					return {
+						"impl-name":impl_45name,
+						name:"toString"
+					}
+				}());
+				return _ms.unlazy(_33)(_ms.unlazy(_61_63),toString(1),"1")
+			};
 			const props=function(){
-				const displayName=String;
+				const name=String;
 				const impl_45name=String;
 				return {
-					displayName:displayName,
+					name:name,
 					"impl-name":impl_45name
 				}
 			}();
 			const extensible=true;
-			const make_45callable=function(){
-				return _ms.set(function(_){
-					const impl=(("a[\""+_ms.show(_["impl-name"]))+"\"]");
-					return Function("a","b","c","d",(((((((("switch (arguments.length) {\n\tcase 0: throw new Error(\"Js-Methods always need at least one argument.\")\n\tcase 1: return "+_ms.show(impl))+"()\n\tcase 2: return ")+_ms.show(impl))+"(b)\n\tcase 3: return ")+_ms.show(impl))+"(b, c)\n\tcase 4: return ")+_ms.show(impl))+"(b, c, d)\n\tcase 5: throw new Error(\"Does not support this many arguments.\")\n}"))
-				},"displayName","make-callable")
-			}();
+			const make_45callable=function make_45callable(_){
+				const impl=(("a[\""+_ms.show(_["impl-name"]))+"\"]");
+				return Function("a","b","c","d",(((((((("switch (arguments.length) {\n\tcase 0: throw new Error(\"Js-Methods always need at least one argument.\")\n\tcase 1: return "+_ms.show(impl))+"()\n\tcase 2: return ")+_ms.show(impl))+"(b)\n\tcase 3: return ")+_ms.show(impl))+"(b, c)\n\tcase 4: return ")+_ms.show(impl))+"(b, c, d)\n\tcase 5: throw new Error(\"Does not support this many arguments.\")\n}"))
+			};
 			return {
 				doc:doc,
 				test:test,
 				props:props,
 				extensible:extensible,
 				"make-callable":make_45callable,
-				displayName:"Js-Method"
+				name:"Js-Method"
 			}
 		}());
 		const send=exports.send=function(){
 			const doc="Calls `target`'s js-method `name` with the given arguments.";
-			const test=function(){
-				return _ms.set(function(){
-					const _k0=[1,"toFixed",2],_v0="1.00";
-					return _ms.map(_k0,_v0)
-				},"displayName","test")
-			}();
-			return _ms.set(function(target,name){
+			const test=function test(){
+				const _k0=[1,"toFixed",2],_v0="1.00";
+				return _ms.map(_k0,_v0)
+			};
+			return _ms.set(function send(target,name){
 				const args=[].slice.call(arguments,2);
 				_ms.checkContains(Any,target,"target");
 				_ms.checkContains(Object_45Key,name,"name");
@@ -60,12 +54,12 @@ define(["exports","./js","./Object","./Type/Obj-Type","./Type/Pred-Type","./bang
 					return (((("Js-Method "+_ms.show(name))+" not implemented by ")+_ms.show(target))+".")
 				}));
 				return impl.apply(target,args)
-			},"doc",doc,"test",test,"displayName","send")
+			},"doc",doc,"test",test)
 		}();
 		const send_33=exports["send!"]=send;
-		const displayName=exports.displayName="Js-Method";
+		const name=exports.name="Js-Method";
 		exports.default=Js_45Method;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9Kcy1NZXRob2QubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQVVBLGtCQUFZLHFCQUNRO0dBQW5CLFVBQ0M7R0FHRCxxQkFDTzttQkFBQSxVQUFBO0tBQU4sZUFBVyxzQkFDUztNQUFuQixrQkFBWTs7Ozs7OytDQUNQLFNBQVMsR0FBSTtJQUFBOztHQUNwQixzQkFDTTtJQUFMLGtCQUFhO0lBQ2Isa0JBQVc7Ozs7OztHQUNaLGlCQUFZO0dBQ1osZ0NBQWdCO21CQUFBLFNBQUEsRUFDQztLQUFoQixXQUFRLGtCQUFLO1lBRWIsU0FBVSxJQUFJLElBQUksSUFBSSxJQUNyQixnSkFFaUIseUNBQ0EsMENBQ0EsNkNBQ0E7Ozs7Ozs7Ozs7OztFQUlwQixrQ0FDSztHQUFKLFVBQU07R0FDTixxQkFDTzttQkFBQSxVQUFBO0tBQU4sVUFBQSxDQUFFLEVBQUcsVUFBUyxPQUFROzs7O2tCQUN0QixTQUFBLE9BQVcsS0FDdUI7O3NCQUQzQjtzQkFBUztJQUNoQixXQUFPLFNBQU8sT0FBTzs0Q0FDRixTQUFTO1lBQVEsMEJBQVcsd0NBQTBCOztXQUN6RSxXQUFXLE9BQU87R0FBQTs7RUFFcEIsK0JBQU87RUE3Q1Asc0NBQUE7a0JBaURBIiwiZmlsZSI6IkpzLU1ldGhvZC5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9Kcy1NZXRob2QubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQVVBLGtCQUFZLHFCQUNRO0dBQW5CLFVBQ0M7R0FHRCxXQUNPLGVBQUE7SUFBTixlQUFXLHNCQUNTO0tBQW5CLGtCQUFZOzs7Ozs7OENBQ1AsU0FBUyxHQUFJO0dBQUE7R0FDcEIsc0JBQ007SUFBTCxXQUFNO0lBQ04sa0JBQVc7Ozs7OztHQUNaLGlCQUFZO0dBQ1osc0JBQWdCLHlCQUFBLEVBQ0M7SUFBaEIsV0FBUSxrQkFBSztXQUViLFNBQVUsSUFBSSxJQUFJLElBQUksSUFDckIsZ0pBRWlCLHlDQUNBLDBDQUNBLDZDQUNBOzs7Ozs7Ozs7OztFQUlwQixrQ0FDSztHQUFKLFVBQU07R0FDTixXQUNPLGVBQUE7SUFBTixVQUFBLENBQUUsRUFBRyxVQUFTLE9BQVE7OztrQkFDdEIsY0FBQSxPQUFXLEtBQ3VCOztzQkFEM0I7c0JBQVM7SUFDaEIsV0FBTyxTQUFPLE9BQU87NENBQ0YsU0FBUztZQUFRLDBCQUFXLHdDQUEwQjs7V0FDekUsV0FBVyxPQUFPO0dBQUE7O0VBRXBCLCtCQUFPO0VBN0NQLHdCQUFBO2tCQWlEQSIsImZpbGUiOiJKcy1NZXRob2QuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

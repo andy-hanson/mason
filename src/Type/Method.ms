@@ -1,4 +1,5 @@
 use
+	esast.dist.mangle-identifier
 	..Boolean and implies not
 	..js defined? js! js=== js-instanceof js-sub
 	# Don't want to depend on Try because that can cause circular dependency problems.
@@ -48,7 +49,7 @@ method-src = |method
 			else
 				"a, b, c, d"
 
-		add! "return function({arg-names}) \{"
+		add! "return function {mangle-identifier method.name}({arg-names}) \{"
 		if! (flag? method.allow-null?) |
 			debug if! (js! (defined? method.default)) |
 				ohNo "Method with `allow-null?` must have `default`."
@@ -129,7 +130,7 @@ Method = Obj-Type
 			wrap-method "arg"
 
 	props.
-		displayName. String # Required!
+		name. String
 		impl-symbol. String
 	opt-props.
 		args. # TODO: Number or Array
@@ -139,10 +140,11 @@ Method = Obj-Type
 	extensible. true
 	defaults.
 		# TODO:DISPLAYNAME
-		displayName. |
-			ohNo "displayName required!"
+		# Shouldn't need to provide this, but otherwise defaults.name is a string and is called...
+		name. |
+			ohNo "Must provide name."
 		impl-symbol. |_
-			"impl-{_.displayName}"
+			"impl-{_.name}"
 	make-callable. make-callable-method
 
 impl!.
@@ -156,10 +158,10 @@ impl-double!. |method:Method implementor-0:Impl-Type implementor-1:Impl-Type imp
 		writable? implementor-0.prototype method.impl-symbol
 			m = method
 			dd = Double-Dispatcher
-				displayName. "<double dispatcher>" # TODO: "<Double dispatcher for {m.displayName}>"
+				name. "<double dispatcher>" # TODO: "<Double dispatcher for {m.name}>"
 				method. m
 				first-type. implementor-0
-				impl-symbol. Symbol "<double dispatcher>" # TODO: "{m} for {implementor-0.displayName}"
+				impl-symbol. Symbol "<double dispatcher>" # TODO: "{m} for {implementor-0.name}"
 			do-impl! method implementor-0 dd
 			dd
 		else
@@ -252,7 +254,7 @@ region Private
 
 	Double-Dispatcher = Obj-Type
 		props.
-			displayName. String
+			name. String
 			method. Method
 			first-type. # TODO: Impl-Type
 			impl-symbol. Symbol

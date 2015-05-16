@@ -15,14 +15,12 @@ define(["exports","./Function","./js","./methods","./Objectbang","./Type/Pred-Ty
 		}),_$17=_ms.lazyGetModule(_33_13),_33call=_ms.lazyProp(_$17,"!call"),_$18=_ms.lazyGetModule(compare_14),_61_63=_ms.lazyProp(_$18,"=?"),_$19=_ms.lazyGetModule(methods_15),_43=_ms.lazyProp(_$19,"+");
 		const opr=exports.opr=function(){
 			const doc="Fills in an Opt with a default value.";
-			const test=function(){
-				return _ms.set(function(){
-					const _k0=[void 0,1],_v0=1;
-					const _k1=[1,2],_v1=1;
-					return _ms.map(_k0,_v0,_k1,_v1)
-				},"displayName","test")
-			}();
-			return _ms.set(function(_,_default){
+			const test=function test(){
+				const _k0=[void 0,1],_v0=1;
+				const _k1=[1,2],_v1=1;
+				return _ms.map(_k0,_v0,_k1,_v1)
+			};
+			return _ms.set(function opr(_,_default){
 				_ms.checkContains(Opt,_,"_");
 				return function(){
 					if(_ms.bool(defined_63(_))){
@@ -31,83 +29,73 @@ define(["exports","./Function","./js","./methods","./Objectbang","./Type/Pred-Ty
 						return _ms.unlazy(_default)
 					}
 				}()
-			},"doc",doc,"test",test,"displayName","opr")
+			},"doc",doc,"test",test)
 		}();
 		const build=exports.build=function(){
 			const doc="Passes in a `yield` Function to `calls-yield`.\nReturns a Seq of what `calls-yield` called `yield` with.";
-			const test=function(){
-				return _ms.set(function(){
-					return _ms.unlazy(_33)(_ms.unlazy(_61_63),[0,1],build(function(_yield){
-						_yield(0);
-						return _yield(1)
-					}))
-				},"displayName","test")
-			}();
-			return _ms.set(function(calls_45yield){
+			const test=function test(){
+				return _ms.unlazy(_33)(_ms.unlazy(_61_63),[0,1],build(function(_yield){
+					_yield(0);
+					return _yield(1)
+				}))
+			};
+			return _ms.set(function build(calls_45yield){
 				_ms.checkContains(Function,calls_45yield,"calls-yield");
 				const yielded=_ms.unlazy(empty)(_ms.unlazy(Array_33));
-				const _yield=function(){
-					return _ms.set(function(_){
-						return _ms.unlazy(_43_43_62_33)(yielded,[_])
-					},"displayName","yield")
-				}();
+				const _yield=function _yield(_){
+					return _ms.unlazy(_43_43_62_33)(yielded,[_])
+				};
 				calls_45yield(_yield);
 				return _ms.checkContains(_ms.unlazy(Seq),freeze(yielded),"res")
-			},"doc",doc,"test",test,"displayName","build")
+			},"doc",doc,"test",test)
 		}();
 		const _switch=exports.switch=function(){
 			const doc="Calls the Function that `cases` associates with `val`.";
-			const test=function(){
-				return _ms.set(function(){
-					const n=function(){
-						return _ms.set(function(x){
-							return _switch(x,function(){
-								const _k0=1,_v0=function(){
-									return "one"
-								};
-								const _k1=2,_v1=function(){
-									return "two"
-								};
-								const _k2=switch_45else,_v2=function(){
-									return "three"
-								};
-								return _ms.map(_k0,_v0,_k1,_v1,_k2,_v2)
-							}())
-						},"displayName","n")
-					}();
-					return _ms.unlazy(_33call)(n,function(){
-						const _k0=[1],_v0="one";
-						const _k1=[2],_v1="two";
-						const _k2=[3],_v2="three";
+			const test=function test(){
+				const n=function n(x){
+					return _switch(x,function(){
+						const _k0=1,_v0=function(){
+							return "one"
+						};
+						const _k1=2,_v1=function(){
+							return "two"
+						};
+						const _k2=switch_45else,_v2=function(){
+							return "three"
+						};
 						return _ms.map(_k0,_v0,_k1,_v1,_k2,_v2)
 					}())
-				},"displayName","test")
-			}();
-			return _ms.set(function(val,cases){
+				};
+				return _ms.unlazy(_33call)(n,function(){
+					const _k0=[1],_v0="one";
+					const _k1=[2],_v1="two";
+					const _k2=[3],_v2="three";
+					return _ms.map(_k0,_v0,_k1,_v1,_k2,_v2)
+				}())
+			};
+			return _ms.set(function _switch(val,cases){
 				_ms.checkContains(Any,val,"val");
 				_ms.checkContains(_ms.sub(_ms.unlazy(Map),Any,Function),cases,"cases");
 				return _ms.unlazy(_63_45or)(_ms.unlazy(_63get)(cases,val),_ms.lazy(function(){
 					return _ms.sub(cases,switch_45else)
 				}))()
-			},"doc",doc,"test",test,"displayName","switch")
+			},"doc",doc,"test",test)
 		}();
 		const switch_45else=exports["switch-else"]=function(){
 			const doc="Special object used as default for `switch` statements.";
 			return {
 				doc:doc,
-				displayName:"switch-else"
+				name:"switch-else"
 			}
 		}();
 		const _if=exports.if=function(){
 			const doc="Iff `condition`, evaluates `result` and puts it in a `?`.";
-			const test=function(){
-				return _ms.set(function(){
-					const _k0=[true,1],_v0=_ms.unlazy(_63)(1);
-					const _k1=[false,1],_v1=_ms.unlazy(empty)(_ms.unlazy(_63));
-					return _ms.map(_k0,_v0,_k1,_v1)
-				},"displayName","test")
-			}();
-			return _ms.set(function(condition,result){
+			const test=function test(){
+				const _k0=[true,1],_v0=_ms.unlazy(_63)(1);
+				const _k1=[false,1],_v1=_ms.unlazy(empty)(_ms.unlazy(_63));
+				return _ms.map(_k0,_v0,_k1,_v1)
+			};
+			return _ms.set(function _if(condition,result){
 				_ms.checkContains(Boolean,condition,"condition");
 				return _ms.checkContains(_ms.unlazy(_63),function(){
 					if(_ms.bool(condition)){
@@ -116,78 +104,70 @@ define(["exports","./Function","./js","./methods","./Objectbang","./Type/Pred-Ty
 						return _ms.unlazy(empty)(_ms.unlazy(_63))
 					}
 				}(),"res")
-			},"doc",doc,"test",test,"displayName","if")
+			},"doc",doc,"test",test)
 		}();
 		const if_33=exports["if!"]=function(){
 			const doc="Runs `result` iff `condition`.";
-			const test=function(){
-				return _ms.set(function(){
-					_ms.unlazy(_33)(_ms.unlazy(_61_63),[0],build(function(_yield){
-						return if_33(true,function(){
-							return _yield(0)
-						})
-					}));
-					return if_33(false,_ms.unlazy(oh_45no_33))
-				},"displayName","test")
-			}();
-			return _ms.set(function(condition,result){
+			const test=function test(){
+				_ms.unlazy(_33)(_ms.unlazy(_61_63),[0],build(function(_yield){
+					return if_33(true,function(){
+						return _yield(0)
+					})
+				}));
+				return if_33(false,_ms.unlazy(oh_45no_33))
+			};
+			return _ms.set(function if_33(condition,result){
 				_ms.checkContains(Boolean,condition,"condition");
 				_ms.checkContains(Action,result,"result");
 				if(_ms.bool(condition)){
 					result()
 				} else {}
-			},"doc",doc,"test",test,"displayName","if!")
+			},"doc",doc,"test",test)
 		}();
 		const unreachable_33=exports["unreachable!"]=function(){
 			const doc="Call this to mark code as unreachable.";
-			return _ms.set(function(){
+			return _ms.set(function unreachable_33(){
 				return _ms.unlazy(oh_45no_33)("This should not be reachable.")
-			},"doc",doc,"displayName","unreachable!")
+			},"doc",doc)
 		}();
 		const TODO=exports.TODO=function(){
 			const doc="Placeholder for something which you really ought to implement one of these days.";
-			return _ms.set(function(){
+			return _ms.set(function TODO(){
 				return _ms.unlazy(oh_45no_33)("This function has not yet been implemented.")
-			},"doc",doc,"displayName","TODO")
+			},"doc",doc)
 		}();
 		const returning=exports.returning=function(){
 			const doc="Calls `do-after` and returns `returned`.";
-			const test=function(){
-				return _ms.set(function(){
-					return _ms.unlazy(_33)(_ms.unlazy(_61_63),[0],build(function(_yield){
-						return _ms.unlazy(_33)(_ms.unlazy(_61_63),1,returning(1,function(){
-							return _yield(0)
-						}))
+			const test=function test(){
+				return _ms.unlazy(_33)(_ms.unlazy(_61_63),[0],build(function(_yield){
+					return _ms.unlazy(_33)(_ms.unlazy(_61_63),1,returning(1,function(){
+						return _yield(0)
 					}))
-				},"displayName","test")
-			}();
-			return _ms.set(function(returned,do_45after){
+				}))
+			};
+			return _ms.set(function returning(returned,do_45after){
 				_ms.checkContains(Any,returned,"returned");
 				_ms.checkContains(Function,do_45after,"do-after");
 				do_45after(returned);
 				return returned
-			},"doc",doc,"test",test,"displayName","returning")
+			},"doc",doc,"test",test)
 		}();
 		const loop=exports.loop=function(){
 			const doc="Maintains a value representing state, and continually applies `transform-state` to it until that returns an End-Loop.\nReturns the value inside that End-Loop.";
-			const test=function(){
-				return _ms.set(function(){
-					const f=function(){
-						return _ms.set(function(_){
-							return function(){
-								if(_ms.bool(_ms.unlazy(_61_63)(_,10))){
-									return End_45Loop("end")
-								} else {
-									return _ms.unlazy(_43)(_,1)
-								}
-							}()
-						},"displayName","f")
-					}();
-					const _k0=[0,f],_v0="end";
-					return _ms.map(_k0,_v0)
-				},"displayName","test")
-			}();
-			return _ms.set(function(init_45state,transform_45state){
+			const test=function test(){
+				const f=function f(_){
+					return function(){
+						if(_ms.bool(_ms.unlazy(_61_63)(_,10))){
+							return End_45Loop("end")
+						} else {
+							return _ms.unlazy(_43)(_,1)
+						}
+					}()
+				};
+				const _k0=[0,f],_v0="end";
+				return _ms.map(_k0,_v0)
+			};
+			return _ms.set(function loop(init_45state,transform_45state){
 				_ms.checkContains(Function,transform_45state,"transform-state");
 				const state=Ref_33(init_45state);
 				const output=Ref_33(null);
@@ -203,66 +183,60 @@ define(["exports","./Function","./js","./methods","./Objectbang","./Type/Pred-Ty
 					}
 				};
 				return get(output)
-			},"doc",doc,"test",test,"displayName","loop")
+			},"doc",doc,"test",test)
 		}();
 		const End_45Loop=exports["End-Loop"]=Wrap_45Type(function(){
 			const doc="Wrap a value in this to indicate that you want this to be the return value of the loop.";
 			return {
 				doc:doc,
-				displayName:"End-Loop"
+				name:"End-Loop"
 			}
 		}());
 		const Ref_33=exports["Ref!"]=Wrap_45Type(function(){
 			const doc="Mutable holder of some value.\nCreate a Ref! by passing in the initial value.\nChange this at any time with `set!`.\nUse `get` at any time to get the current value.";
 			return {
 				doc:doc,
-				displayName:"Ref!"
+				name:"Ref!"
 			}
 		}());
 		const set_33=exports["set!"]=function(){
 			const doc="Change the current value.";
-			const test=function(){
-				return _ms.set(function(){
-					const _=Ref_33(null);
-					set_33(_,0);
-					return _ms.unlazy(_33)(_ms.unlazy(_61_63),get(_),0)
-				},"displayName","test")
-			}();
-			return _ms.set(function(_,new_45value){
+			const test=function test(){
+				const _=Ref_33(null);
+				set_33(_,0);
+				return _ms.unlazy(_33)(_ms.unlazy(_61_63),get(_),0)
+			};
+			return _ms.set(function set_33(_,new_45value){
 				_ms.checkContains(Ref_33,_,"_");
 				return p_33(_,"val",new_45value)
-			},"doc",doc,"test",test,"displayName","set!")
+			},"doc",doc,"test",test)
 		}();
 		const mod_33=exports["mod!"]=function(){
 			const doc="Gets the value, changes it, and sets it.";
-			const test=function(){
-				return _ms.set(function(){
-					const _=Ref_33(0);
-					mod_33(_,_ms.sub(_ms.unlazy(_43),1));
-					return _ms.unlazy(_33)(_ms.unlazy(_61_63),get(_),1)
-				},"displayName","test")
-			}();
-			return _ms.set(function(_,f){
+			const test=function test(){
+				const _=Ref_33(0);
+				mod_33(_,_ms.sub(_ms.unlazy(_43),1));
+				return _ms.unlazy(_33)(_ms.unlazy(_61_63),get(_),1)
+			};
+			return _ms.set(function mod_33(_,f){
 				_ms.checkContains(Ref_33,_,"_");
 				_ms.checkContains(Function,f,"f");
 				return set_33(_,f(get(_)))
-			},"doc",doc,"test",test,"displayName","mod!")
+			},"doc",doc,"test",test)
 		}();
 		const get=exports.get=function(){
 			const doc="Current value.";
-			const test=function(){
-				return _ms.set(function(){
-					const _k0=[Ref_33(0)],_v0=0;
-					return _ms.map(_k0,_v0)
-				},"displayName","test")
-			}();
-			return _ms.set(function(_){
+			const test=function test(){
+				const _k0=[Ref_33(0)],_v0=0;
+				return _ms.map(_k0,_v0)
+			};
+			return _ms.set(function get(_){
 				_ms.checkContains(Ref_33,_,"_");
 				return _.val
-			},"doc",doc,"test",test,"displayName","get")
+			},"doc",doc,"test",test)
 		}();
-		const displayName=exports.displayName="control";
+		const name=exports.name="control";
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9jb250cm9sLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7Ozs7OztFQW9CQSxnQ0FDSTtHQUFILFVBQU07R0FDTixxQkFDTzttQkFBQSxVQUFBO0tBQU4sVUFBQSxDQUFFLE9BQVUsT0FBTztLQUNuQixVQUFBLENBQUUsRUFBRSxPQUFPOzs7O2tCQUNYLFNBQUEsRUFBTSxTQUNRO3NCQURaOztLQUVELFlBQUEsV0FBQSxJQUNTO2FBQVI7S0FBQSxPQUVHO3dCQUxDO0tBQUE7SUFBQTtHQUFBOztFQU9SLG9DQUNNO0dBQUwsVUFDQztHQUVELHFCQUNPO21CQUFBLFVBQUE7K0NBQUQsQ0FBRSxFQUFFLEdBQUssTUFBTyxTQUFBLE9BQ0s7TUFBekIsT0FBTTthQUNOLE9BQU07S0FBQTtJQUFBOztrQkFDUCxTQUFLLGNBQ29CO3NCQURSO0lBQ2pCO0lBQ0EsdUJBQVM7b0JBQUEsU0FBQSxFQUNDO3NDQUFKLFFBQVEsQ0FBRTtLQUFBOztJQUNoQixjQUFZOzZDQUNaLE9BQU87OztFQUdSLHVDQUNPO0dBQU4sVUFBTTtHQUNOLHFCQUNPO21CQUFBLFVBQUE7S0FBTixrQkFBSztxQkFBQSxTQUFBLEVBQ0M7Y0FBTCxRQUFPLFlBQ0M7UUFBUCxVQUFBLE1BQ00sVUFBQTtnQkFBSjtRQUFBO1FBQ0YsVUFBQSxNQUNNLFVBQUE7Z0JBQUo7UUFBQTtRQUNGLFVBQUEsa0JBQ2dCLFVBQUE7Z0JBQWQ7UUFBQTs7Ozs7Z0NBQ0UsWUFDQztNQUFOLFVBQUEsQ0FBRSxPQUFRO01BQ1YsVUFBQSxDQUFFLE9BQVE7TUFDVixVQUFBLENBQUUsT0FBUTs7Ozs7a0JBQ1gsU0FBQSxJQUFRLE1BQ3VCO3NCQUQzQjs4Q0FBYyxJQUFJO21EQUNWLE1BQU07b0JBQU0sTUFBTTtJQUFBO0dBQUE7O0VBQ2hDLHFEQUNZO0dBQVgsVUFBTTs7Ozs7O0VBRVAsK0JBQ0c7R0FBRixVQUFNO0dBQ04scUJBQ087bUJBQUEsVUFBQTtLQUFOLFVBQUEsQ0FBRSxLQUFLLHVCQUFTO0tBQ2hCLFVBQUEsQ0FBRSxNQUFNOzs7O2tCQUNSLFNBQUcsVUFBa0IsT0FDTztzQkFEZjs7S0FFWixZQUFBLFdBQ1M7d0NBSFc7S0FBQSxPQUtoQjs7Ozs7O0VBRVAscUNBQ0k7R0FBSCxVQUFNO0dBQ04scUJBQ087bUJBQUEsVUFBQTt3Q0FBRCxDQUFFLEdBQUssTUFBTyxTQUFBLE9BQ0s7YUFBdkIsTUFBSSxLQUNNLFVBQUE7Y0FBVCxPQUFNO01BQUE7S0FBQTtZQUNSLE1BQUk7OztrQkFDSixTQUFBLFVBQWtCLE9BQ2E7c0JBRHJCO3NCQUFlO0lBRXBCLFlBQUosV0FDUztLQUFSO0lBQUEsT0FFRztHQUFBOztFQUVSLHVEQUNhO0dBQVosVUFBTTtrQkFFTCxVQUFBO2tDQUFRO0dBQUE7O0VBRVYsa0NBQ0s7R0FBSixVQUFNO2tCQUVMLFVBQUE7a0NBQVE7R0FBQTs7RUFFViw0Q0FDVTtHQUFULFVBQU07R0FDTixxQkFDTzttQkFBQSxVQUFBOytDQUFELENBQUUsR0FBSyxNQUFPLFNBQUEsT0FDSztnREFBbEIsRUFBRyxVQUFVLEVBQ0csVUFBQTtjQUFwQixPQUFNO01BQUE7S0FBQTtJQUFBOztrQkFDUixTQUFBLFNBQWEsV0FDaUI7c0JBRHJCO3NCQUFhO0lBQ3RCLFdBQVM7V0FDVDtHQUFBOztFQUdELGtDQUNLO0dBQUosVUFDQztHQUVELHFCQUNPO21CQUFBLFVBQUE7S0FBTixrQkFBSztxQkFBQSxTQUFBLEVBQUE7O1FBQ0osK0JBQUcsRUFBRSxLQUNFO2dCQUFOLFdBQVU7UUFBQSxPQUVQO2dDQUFELEVBQUU7UUFBQTtPQUFBO01BQUE7O0tBQ04sVUFBQSxDQUFFLEVBQUUsT0FBUTs7OztrQkFFWixTQUFBLGFBQVcsa0JBQ3dCO3NCQURSO0lBQzNCLFlBQVEsT0FBSztJQUNiLGFBQVMsT0FBSzt1QkFFVDtLQUFFO01BQUEsUUFBQSxrQkFBaUIsSUFBSTtNQUMxQix5QkFBQyxXQUFELElBQ1M7T0FBUixPQUFLLE9BQU87T0FDWjthQUVHO09BQUgsT0FBSyxNQUFNO01BQUE7S0FBQTtJQUFBO1dBQ2QsSUFBSTtHQUFBOztFQUVOLHFDQUFVLHNCQUNTO0dBQWxCLFVBQU07Ozs7OztFQUdQLDZCQUFNLHNCQUNTO0dBQWQsVUFDQzs7Ozs7O0VBS0YsdUNBQ0s7R0FBSixVQUFNO0dBQ04scUJBQ087bUJBQUEsVUFBQTtLQUFOLFFBQUksT0FBSztLQUNULE9BQUssRUFBRTsrQ0FDRixJQUFBLEdBQUs7SUFBQTs7a0JBQ1YsU0FBQSxFQUFPLFlBQ1M7c0JBRGQ7V0FDRixLQUFHLEVBQUcsTUFBSztHQUFBOztFQUViLHVDQUNLO0dBQUosVUFBTTtHQUNOLHFCQUNPO21CQUFBLFVBQUE7S0FBTixRQUFJLE9BQUs7S0FDVCxPQUFLLDBCQUFJOytDQUNKLElBQUEsR0FBSztJQUFBOztrQkFDVixTQUFBLEVBQU8sRUFDVTtzQkFEZjtzQkFBTztXQUNULE9BQUssRUFBRyxFQUFFLElBQUE7R0FBQTs7RUFFWixnQ0FDSTtHQUFILFVBQU07R0FDTixxQkFDTzttQkFBQSxVQUFBO0tBQU4sVUFBQSxDQUFHLE9BQUssUUFBUTs7OztrQkFDaEIsU0FBQSxFQUNNO3NCQURKO1dBQ0Y7OztFQTdLSCxzQ0FBQSIsImZpbGUiOiJjb250cm9sLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9jb250cm9sLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7Ozs7OztFQW9CQSxnQ0FDSTtHQUFILFVBQU07R0FDTixXQUNPLGVBQUE7SUFBTixVQUFBLENBQUUsT0FBVSxPQUFPO0lBQ25CLFVBQUEsQ0FBRSxFQUFFLE9BQU87OztrQkFDWCxhQUFBLEVBQU0sU0FDUTtzQkFEWjs7S0FFRCxZQUFBLFdBQUEsSUFDUzthQUFSO0tBQUEsT0FFRzt3QkFMQztLQUFBO0lBQUE7R0FBQTs7RUFPUixvQ0FDTTtHQUFMLFVBQ0M7R0FFRCxXQUNPLGVBQUE7OENBQUQsQ0FBRSxFQUFFLEdBQUssTUFBTyxTQUFBLE9BQ0s7S0FBekIsT0FBTTtZQUNOLE9BQU07SUFBQTtHQUFBO2tCQUNQLGVBQUssY0FDb0I7c0JBRFI7SUFDakI7SUFDQSxhQUFTLGdCQUFBLEVBQ0M7cUNBQUosUUFBUSxDQUFFO0lBQUE7SUFDaEIsY0FBWTs2Q0FDWixPQUFPOzs7RUFHUix1Q0FDTztHQUFOLFVBQU07R0FDTixXQUNPLGVBQUE7SUFBTixRQUFLLFdBQUEsRUFDQztZQUFMLFFBQU8sWUFDQztNQUFQLFVBQUEsTUFDTSxVQUFBO2NBQUo7TUFBQTtNQUNGLFVBQUEsTUFDTSxVQUFBO2NBQUo7TUFBQTtNQUNGLFVBQUEsa0JBQ2dCLFVBQUE7Y0FBZDtNQUFBOzs7OytCQUNFLFlBQ0M7S0FBTixVQUFBLENBQUUsT0FBUTtLQUNWLFVBQUEsQ0FBRSxPQUFRO0tBQ1YsVUFBQSxDQUFFLE9BQVE7Ozs7a0JBQ1gsaUJBQUEsSUFBUSxNQUN1QjtzQkFEM0I7OENBQWMsSUFBSTttREFDVixNQUFNO29CQUFNLE1BQU07SUFBQTtHQUFBOztFQUNoQyxxREFDWTtHQUFYLFVBQU07Ozs7OztFQUVQLCtCQUNHO0dBQUYsVUFBTTtHQUNOLFdBQ08sZUFBQTtJQUFOLFVBQUEsQ0FBRSxLQUFLLHVCQUFTO0lBQ2hCLFVBQUEsQ0FBRSxNQUFNOzs7a0JBQ1IsYUFBRyxVQUFrQixPQUNPO3NCQURmOztLQUVaLFlBQUEsV0FDUzt3Q0FIVztLQUFBLE9BS2hCOzs7Ozs7RUFFUCxxQ0FDSTtHQUFILFVBQU07R0FDTixXQUNPLGVBQUE7dUNBQUQsQ0FBRSxHQUFLLE1BQU8sU0FBQSxPQUNLO1lBQXZCLE1BQUksS0FDTSxVQUFBO2FBQVQsT0FBTTtLQUFBO0lBQUE7V0FDUixNQUFJOztrQkFDSixlQUFBLFVBQWtCLE9BQ2E7c0JBRHJCO3NCQUFlO0lBRXBCLFlBQUosV0FDUztLQUFSO0lBQUEsT0FFRztHQUFBOztFQUVSLHVEQUNhO0dBQVosVUFBTTtrQkFFTCx5QkFBQTtrQ0FBUTtHQUFBOztFQUVWLGtDQUNLO0dBQUosVUFBTTtrQkFFTCxlQUFBO2tDQUFRO0dBQUE7O0VBRVYsNENBQ1U7R0FBVCxVQUFNO0dBQ04sV0FDTyxlQUFBOzhDQUFELENBQUUsR0FBSyxNQUFPLFNBQUEsT0FDSzsrQ0FBbEIsRUFBRyxVQUFVLEVBQ0csVUFBQTthQUFwQixPQUFNO0tBQUE7SUFBQTtHQUFBO2tCQUNSLG1CQUFBLFNBQWEsV0FDaUI7c0JBRHJCO3NCQUFhO0lBQ3RCLFdBQVM7V0FDVDtHQUFBOztFQUdELGtDQUNLO0dBQUosVUFDQztHQUVELFdBQ08sZUFBQTtJQUFOLFFBQUssV0FBQSxFQUFBOztNQUNKLCtCQUFHLEVBQUUsS0FDRTtjQUFOLFdBQVU7TUFBQSxPQUVQOzhCQUFELEVBQUU7TUFBQTtLQUFBO0lBQUE7SUFDTixVQUFBLENBQUUsRUFBRSxPQUFROzs7a0JBRVosY0FBQSxhQUFXLGtCQUN3QjtzQkFEUjtJQUMzQixZQUFRLE9BQUs7SUFDYixhQUFTLE9BQUs7dUJBRVQ7S0FBRTtNQUFBLFFBQUEsa0JBQWlCLElBQUk7TUFDMUIseUJBQUMsV0FBRCxJQUNTO09BQVIsT0FBSyxPQUFPO09BQ1o7YUFFRztPQUFILE9BQUssTUFBTTtNQUFBO0tBQUE7SUFBQTtXQUNkLElBQUk7R0FBQTs7RUFFTixxQ0FBVSxzQkFDUztHQUFsQixVQUFNOzs7Ozs7RUFHUCw2QkFBTSxzQkFDUztHQUFkLFVBQ0M7Ozs7OztFQUtGLHVDQUNLO0dBQUosVUFBTTtHQUNOLFdBQ08sZUFBQTtJQUFOLFFBQUksT0FBSztJQUNULE9BQUssRUFBRTs4Q0FDRixJQUFBLEdBQUs7R0FBQTtrQkFDVixnQkFBQSxFQUFPLFlBQ1M7c0JBRGQ7V0FDRixLQUFHLEVBQUcsTUFBSztHQUFBOztFQUViLHVDQUNLO0dBQUosVUFBTTtHQUNOLFdBQ08sZUFBQTtJQUFOLFFBQUksT0FBSztJQUNULE9BQUssMEJBQUk7OENBQ0osSUFBQSxHQUFLO0dBQUE7a0JBQ1YsZ0JBQUEsRUFBTyxFQUNVO3NCQURmO3NCQUFPO1dBQ1QsT0FBSyxFQUFHLEVBQUUsSUFBQTtHQUFBOztFQUVaLGdDQUNJO0dBQUgsVUFBTTtHQUNOLFdBQ08sZUFBQTtJQUFOLFVBQUEsQ0FBRyxPQUFLLFFBQVE7OztrQkFDaEIsYUFBQSxFQUNNO3NCQURKO1dBQ0Y7OztFQTdLSCx3QkFBQSIsImZpbGUiOiJjb250cm9sLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

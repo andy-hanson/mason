@@ -9,24 +9,22 @@ define(["exports","../methods","./Kind","./Method","./Obj-Type","./Type","../ban
 		}),_$10=_ms.lazyGetModule(compare_7),_61_63=_ms.lazyProp(_$10,"=?");
 		const Alias_45Type=Obj_45Type(function(){
 			const doc="Contains the same instances as another type (officially), but has its own meaning and identity.";
-			const test=function(){
-				return _ms.set(function(){
-					const A=Alias_45Type(function(){
-						const alias_45of=String;
-						return {
-							"alias-of":alias_45of,
-							displayName:"A"
-						}
-					}());
-					_ms.unlazy(_33)(contains_63,A,"0");
-					return _ms.unlazy(_33not)(_ms.unlazy(_61_63),A,String)
-				},"displayName","test")
-			}();
+			const test=function test(){
+				const A=Alias_45Type(function(){
+					const alias_45of=String;
+					return {
+						"alias-of":alias_45of,
+						name:"A"
+					}
+				}());
+				_ms.unlazy(_33)(contains_63,A,"0");
+				return _ms.unlazy(_33not)(_ms.unlazy(_61_63),A,String)
+			};
 			const props=function(){
-				const displayName=String;
+				const name=String;
 				const alias_45of=Type;
 				return {
-					displayName:displayName,
+					name:name,
 					"alias-of":alias_45of
 				}
 			}();
@@ -36,7 +34,7 @@ define(["exports","../methods","./Kind","./Method","./Obj-Type","./Type","../ban
 				test:test,
 				props:props,
 				extensible:extensible,
-				displayName:"Alias-Type"
+				name:"Alias-Type"
 			}
 		}());
 		kind_33(Alias_45Type,Type);
@@ -44,27 +42,25 @@ define(["exports","../methods","./Kind","./Method","./Obj-Type","./Type","../ban
 			return contains_63(_["alias-of"],value)
 		});
 		impl_33(sub,Alias_45Type,function(){
-			const test=function(){
-				return _ms.set(function(){
-					const _632=Alias_45Type(function(){
-						const alias_45of=_ms.unlazy(_63);
-						return {
-							"alias-of":alias_45of,
-							displayName:"?2"
-						}
-					}());
-					const _k0=[_632,String],_v0=_ms.sub(_ms.unlazy(_63),String);
-					return _ms.map(_k0,_v0)
-				},"displayName","test")
-			}();
+			const test=function test(){
+				const _632=Alias_45Type(function(){
+					const alias_45of=_ms.unlazy(_63);
+					return {
+						"alias-of":alias_45of,
+						name:"?2"
+					}
+				}());
+				const _k0=[_632,String],_v0=_ms.sub(_ms.unlazy(_63),String);
+				return _ms.map(_k0,_v0)
+			};
 			return _ms.set(function(_){
 				const args=[].slice.call(arguments,1);
 				return Function.apply.call(sub,null,[].concat(_["alias-of"],_ms.arr(args)))
 			},"test",test)
 		}());
-		const displayName=exports.displayName="Alias-Type";
+		const name=exports.name="Alias-Type";
 		exports.default=Alias_45Type;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL0FsaWFzLVR5cGUubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7O0VBV0EsbUJBQWEscUJBQ1E7R0FBcEIsVUFBTTtHQUNOLHFCQUNPO21CQUFBLFVBQUE7S0FBTixRQUFJLHVCQUNVO01BQWIsaUJBQVU7Ozs7OztxQkFDVCxZQUFVLEVBQUc7a0RBQ1AsRUFBRTtJQUFBOztHQUNYLHNCQUNNO0lBQUwsa0JBQWE7SUFDYixpQkFBVTs7Ozs7O0dBQ1gsaUJBQVk7Ozs7Ozs7OztFQUViLFFBQU0sYUFBVztFQUdqQixRQUFNLFlBQVUsYUFBWSxTQUFBLEVBQUUsTUFDSztVQUFsQyxZQUFVLGNBQVc7RUFBQTtFQUd0QixRQUFNLElBQUksdUJBQ1U7R0FBbkIscUJBQ087bUJBQUEsVUFBQTtLQUFOLFdBQUssdUJBQ1U7TUFBZDs7Ozs7O0tBQ0QsVUFBQSxDQUFFLEtBQUcsb0NBQWM7Ozs7a0JBQ25CLFNBQUEsRUFDUzs7K0JBQVQsbUJBQUksc0JBQVc7R0FBQTs7RUFwQ2pCLHNDQUFBO2tCQXNDQSIsImZpbGUiOiJUeXBlL0FsaWFzLVR5cGUuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL0FsaWFzLVR5cGUubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7O0VBV0EsbUJBQWEscUJBQ1E7R0FBcEIsVUFBTTtHQUNOLFdBQ08sZUFBQTtJQUFOLFFBQUksdUJBQ1U7S0FBYixpQkFBVTs7Ozs7O29CQUNULFlBQVUsRUFBRztpREFDUCxFQUFFO0dBQUE7R0FDWCxzQkFDTTtJQUFMLFdBQU07SUFDTixpQkFBVTs7Ozs7O0dBQ1gsaUJBQVk7Ozs7Ozs7OztFQUViLFFBQU0sYUFBVztFQUdqQixRQUFNLFlBQVUsYUFBWSxTQUFBLEVBQUUsTUFDSztVQUFsQyxZQUFVLGNBQVc7RUFBQTtFQUd0QixRQUFNLElBQUksdUJBQ1U7R0FBbkIsV0FDTyxlQUFBO0lBQU4sV0FBSyx1QkFDVTtLQUFkOzs7Ozs7SUFDRCxVQUFBLENBQUUsS0FBRyxvQ0FBYzs7O2tCQUNuQixTQUFBLEVBQ1M7OytCQUFULG1CQUFJLHNCQUFXO0dBQUE7O0VBcENqQix3QkFBQTtrQkFzQ0EiLCJmaWxlIjoiVHlwZS9BbGlhcy1UeXBlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

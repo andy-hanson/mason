@@ -151,7 +151,7 @@ spread.
 		! seq=? z
 			. [ 1 2 "three" 4 ]
 			. [ 1 2 "five" 6 ]
-			. [ 1 2 "displayName" "z" ] # TODO:DISPLAYNAME
+			. [ 1 2 "name" "z" ] # TODO:DISPLAYNAME
 
 	# TODO:ES6 Non-last rest arg?
 	|:@ fun:Function ...args

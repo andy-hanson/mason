@@ -46,7 +46,7 @@ const msDefs = {
 	get(object, key) {
 		const _ = object[key]
 		if (_ === undefined)
-			throw new Error(`Module ${object.displayName} does not have ${key}`)
+			throw new Error(`Module ${object.name} does not have ${key}`)
 		return _
 	},
 
@@ -72,7 +72,8 @@ const msDefs = {
 		// If there was some key in `_` that we didn't copy:
 		if (Object.keys(_).length > Object.keys(_this).length)
 			Object.getOwnPropertyNames(_).forEach(function(name) {
-				if (name !== 'displayName')
+				// TODO:DISPLAYNAME
+				if (name !== 'name')
 					if (!Object.prototype.hasOwnProperty.call(_this, name))
 						throw new Error('Extra prop ' + name + ' for ' + rtName)
 			})
@@ -92,19 +93,26 @@ const msDefs = {
 	unlazy: _ => _ instanceof ms.Lazy ? _.get() : _,
 
 	set(_, k0, v0, k1, v1, k2, v2, k3) {
-		_[k0] = v0
+		const doSet = (k, v) => {
+			// TODO:DISPLAYNAME
+			if (!(k === 'name' && _ instanceof Function))
+				_[k] = v
+		}
+
+		doSet(k0, v0)
 		if (k1 === undefined)
 			return _
-		_[k1] = v1
+		doSet(k1, v1)
 		if (k2 === undefined)
 			return _
-		_[k2] = v2
+		doSet(k2, v2)
 		if (k3 === undefined)
 			return _
 		for (let i = 7; i < arguments.length; i = i + 2)
-			_[arguments[i]] = arguments[i + 1]
+			doSet(arguments[i], arguments[i + 1])
 		return _
 	},
+
 
 	lset(_, k0, v0, k1, v1, k2, v2, k3) {
 		setOrLazy(_, k0, v0)

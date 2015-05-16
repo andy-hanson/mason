@@ -17,7 +17,7 @@ Alias-Type = Obj-Type
 		! contains? A "0"
 		!not =? A String
 	props.
-		displayName. String
+		name. String
 		alias-of. Type
 	extensible. true
 
