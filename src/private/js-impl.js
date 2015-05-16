@@ -141,4 +141,14 @@ export	const
 	// TODO:ES6 (f, ...args) => Function.prototype.bind.call(f, null, ...args)
 	iCurry = function(f) {
 		return Function.prototype.bind.apply(f, arguments)
+	},
+
+	// Method.js
+	// TODO: Should be doable in Mason...
+	methodArgNames = nArgs => {
+		const res = [ ]
+		const a = 'a'.charCodeAt(0)
+		for (let i = 0; i < nArgs; i = i + 1)
+			res.push(String.fromCharCode(a + i))
+		return res.join(',')
 	}

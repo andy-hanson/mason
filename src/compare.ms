@@ -32,6 +32,7 @@ compare = Method
 					0
 		But instead, other comparison operators are defined in terms of this.
 		`compare a b` should always be `* -1 (compare b a)`.
+	args. 2
 
 =?. Method
 	doc. "
@@ -44,7 +45,8 @@ compare = Method
 		Values of different types should generally not be =?.
 		For example, [ 1 2 3 ] is not `=?` (=> Stream [ 1 2 3 ]), but it is `seq=?`.
 		Unlike other comparison methods, `=?` should not make assertions about type.
-
+	args. 2
+	allow-null?. true
 	default. |:Boolean a b
 		or (id=? a b) ~(object=? a b
 
@@ -52,11 +54,13 @@ compare = Method
 	doc. "
 		Whether `lesser` comes before `greater` in these values' ordering.
 		Same as `not  (>=? lesser greater)`.
+	args. 2
 	default. |:Boolean lesser greater
 		<? (compare lesser greater) 0
 
 <=?. Method
 	doc. "<? or =?."
+	args. 2
 	default. |:Boolean lesser greater
 		<=? (compare lesser greater) 0
 
@@ -152,7 +156,11 @@ region Sorting
 		test. |
 			[ [ 3 2 1 ] ] -> [ 1 2 3 ]
 			[ [ "five" "six" "seven" ] count ] -> [ "six" "five" "seven" ]
-		default. |:Array _:@ ?sort-by:Opt[Function]
+		args.
+			2
+			# . [ "_" @ ] # TODO: @
+			# . [ "?sort-by" Opt[Function] ]
+		default. |_ ?sort-by
 			sort-by = opr ?sort-by identity
 			# Ensure that we create a *new* Array!, because we're about to mutate it.
 			sorted = from-stream Array! _

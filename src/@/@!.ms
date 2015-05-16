@@ -39,6 +39,7 @@ kind! @! @
 
 empty!. Method
 	doc. "Mutates this collection so that it will be `empty?`."
+	args. 1
 
 ++!. Method
 	doc. "
@@ -46,16 +47,20 @@ empty!. Method
 		For Seqs these are added on the right; use `<++!` to add on the left.
 	test. |
 		"TODO:impl-test"
+	args.
+		. "_"
+		. [ "added" @
 	# TODO: Lazy default?
 	default. |_ added
 		++>! _ added
 
 --!. Method
-	doc.
-		"
-			|_ removed:@
-			Removes all elements in `removed` once.
-			For Seqs these are removed starting from the left.
+	doc. "
+		Removes all elements in `removed` once.
+		For Seqs these are removed starting from the left.
+	args.
+		. "_"
+		. [ "@removed" @
 	test. |
 		"TODO:impl-test"
 

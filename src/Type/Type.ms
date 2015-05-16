@@ -47,6 +47,10 @@ extract. Method
 
 		! =? "12" (f "extractable"
 		! =? "not extractable" f()
+	args.
+		. "type"
+		. "candidate"
+		. [ "num-extracteds" Number ] # Nat
 
 msDef "extract" extract
 
@@ -60,7 +64,7 @@ msDef "checkContains" |type value name
 
 =>. Method
 	doc. "
-		|convert-to:Type convert-me
+		|convert-to:Type convert-me (may take additional args)
 		Converts a value to a given type.
 	wrap. |impl type converted opts
 		case converted

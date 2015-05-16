@@ -44,6 +44,7 @@ intersect. Method
 	doc. "TODO"
 	test. |
 		[ (=> Set [ 1 2 ]) (=> Set [ 2 3 ]) ] -> => Set [ 2 ]
+	args. 2
 	default. |a b
 		keep a contains?[(=> Set b)]
 

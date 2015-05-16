@@ -1,10 +1,9 @@
 use
 	..Boolean and implies not
-	..js defined? js-sub
-	..private.js-impl buildStr
-	..private.bootstrap implContains msDef containsImplSymbol
+	..js defined? js! js=== js-instanceof js-sub
 	# Don't want to depend on Try because that can cause circular dependency problems.
-	..private.js-impl ohNo
+	..private.js-impl buildStr methodArgNames ohNo
+	..private.bootstrap implContains msDef containsImplSymbol
 	.Obj-Type
 use~
 	..@.? un-?
@@ -23,39 +22,67 @@ use-debug
 	..Try fails?
 	.Type contains?
 
-make-callable-method = |method
-	src = buildStr |add!
-		add! "return function(a, b, c, d) \{"
+if! = |bool act
+	case!
+		bool
+			act()
+		else
+			pass
+
+flag? = |case
+	defined?_
+		js! (js=== _ false)
+	else
+		false
+
+method-src = |method
+	buildStr |add!
+		has-args? = defined? method.args
+		arg-names = case
+			has-args?
+				methodArgNames case method.args
+					:Number
+						_
+					js-instanceof _ Array # TODO: :Array
+						_.length
+			else
+				"a, b, c, d"
+
+		add! "return function({arg-names}) \{"
+		if! (flag? method.allow-null?) |
+			debug if! (js! (defined? method.default)) |
+				ohNo "Method with `allow-null?` must have `default`."
+			add! "if (a == null) return def.apply(null, arguments)"
+
 		impl = case
 			defined? method.default
-				"(a == null) ? def : (a[\"{method.impl-symbol}\"] || def)"
+				"(a[\"{method.impl-symbol}\"] || def)"
 			else
 				"a[\"{method.impl-symbol}\"]"
-		add! "var impl = {impl}"
-		debug add! "
-			if (impl === undefined)
-				throw new Error(\"Method {method.displayName} not defined for \" + a + " of type " + a.constructor)
-		case!
+
+		call = case
 			defined? method.wrap
-				add! "
-					switch (arguments.length) \{
-						case 1: return wrap(impl, a)
-						case 2: return wrap(impl, a, b)
-						case 3: return wrap(impl, a, b, c)
-						case 4: return wrap(impl, a, b, c, d)
-						default: throw new Error("Code not generated to accept " + arguments.length + " arguments.")
-					}
+				"wrap({impl}, "
 			else
-				add! "
+				"{impl}("
+
+		add! case
+			has-args?
+				"return {call}{arg-names})"
+			else
+				# TODO:ES6 (...args) => { call(...args) }
+				"
 					switch (arguments.length) \{
-						case 1: return impl(a)
-						case 2: return impl(a, b)
-						case 3: return impl(a, b, c)
-						case 4: return impl(a, b, c, d)
+						case 1: return {call}a)
+						case 2: return {call}a, b)
+						case 3: return {call}a, b, c)
+						case 4: return {call}a, b, c, d)
 						default: throw new Error("Code not generated to accept " + arguments.length + " arguments.")
 					}
 		add! "}"
 
+make-callable-method = |method
+	src = method-src method
 	f = Function "def" "wrap" src
 	call = f method.default method.wrap
 	debug pAdd call "source" src
@@ -81,6 +108,7 @@ Method = Obj-Type
 
 	test. |
 		m = Method
+			allow-null?. true
 			default. thunk "default"
 		impl! m String (thunk "String")
 		impl-double! m Number Number (thunk "Number Number")
@@ -104,7 +132,9 @@ Method = Obj-Type
 		displayName. String # Required!
 		impl-symbol. String
 	opt-props.
+		args. # TODO: Number or Array
 		default. Function
+		allow-null?. Boolean
 		wrap. Function
 	extensible. true
 	defaults.
@@ -252,6 +282,7 @@ implContains Method method-contains?
 	doc. "
 		|:Boolean collection value
 		Whether some collection of things as as an element `value`."
+	# args. 2 TODO
 	impl-symbol. containsImplSymbol
 
 msDef "contains" --contains?

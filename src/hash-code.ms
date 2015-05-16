@@ -35,7 +35,8 @@ hash-code = Method
 		! =? (hash-code a) (hash-code a)
 		!not =? (hash-code a) (hash-code b
 		# TODO: Check that it handles recursive values
-
+	args. 1
+	allow-null?. true
 	default. |:Int _
 		case
 			id=? _ null

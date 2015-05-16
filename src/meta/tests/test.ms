@@ -47,6 +47,8 @@ test-special. Method
 	doc. "
 		Something special to do with this value when the test runner reacher it.
 		May return a $.
+	args. 1
+	allow-null?. true
 	default. noop
 
 # TODO: MOVE THESE

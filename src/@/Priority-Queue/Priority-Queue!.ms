@@ -2,13 +2,13 @@ use
 	...Type.Kind _ kind!
 	...Type.Method
 	..@!
+	..?
 use-debug
 	...!
 	...compare =?
 	..@ empty?
 	..@! ++!
 	..@-Type empty
-	..?
 
 Priority-Queue! = Kind
 	doc. "
@@ -28,5 +28,7 @@ kind! Priority-Queue! @!
 # TODO: Move?
 ?pop!. Method
 	doc. "Takes a value from the front of the queue, unless empty?."
+	args. 1
+	returns. ?
 
 Priority-Queue!

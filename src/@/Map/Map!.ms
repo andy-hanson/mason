@@ -1,7 +1,6 @@
 use
 	...Type.Kind _ kind! self-kind!
 	...Type.Method _ self-impl!
-	...Type.Pred-Type Any
 	..@ _ each!
 	..@-Type empty
 	..? ?-or
@@ -66,9 +65,8 @@ self-impl! empty Map! |
 	empty Hash-Map!
 
 assoc!. Method
-	doc. "
-		|_ key:Any val:Any
-		Set _[key] to val.
+	doc. "Set _[key] to val."
+	args. [ "_" "key" "val"
 
 assoc*!.
 	doc. "Adds the other map's keys to mine, overriding my values."
@@ -79,8 +77,8 @@ assoc*!.
 
 un-assoc!. Method
 	doc. "
-		|:? _ key
 		If there is a value associated with `key`, removes it and returns the value associated.
+	args. [ "_" "key"
 
 un-assoc*!.
 	doc. "Removes keys (and by proxy, their associated values)."
@@ -91,7 +89,8 @@ add!. Method
 	doc. "
 		|_ key:Any val:Any
 		assoc! key val, but fail if _[key] is set already.
-	default. |_ key:Any val:Any
+	args. [ "_" "key" "val"
+	default. |_ key val
 		in
 			!not (has-key? _ key) ~"
 				Already have key {key}.
@@ -99,7 +98,8 @@ add!. Method
 
 get-or-add!. Method
 	doc. "map[key], and if it's not already there, fill it in with default-val."
-	default. |map key:Any ~default-val
+	args. [ "_" "key" "~default-val"
+	default. |map key ~default-val
 		?-or (?get map key) ~
 			assoc! map key default-val
 			default-val

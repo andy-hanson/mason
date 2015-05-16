@@ -40,6 +40,7 @@ use-debug
 
 iterator. Method
 	doc. "Creates a new Generator! which yields the values in the @."
+	args. 1
 msDef "iterator" iterator
 
 empty?. Method
@@ -47,6 +48,7 @@ empty?. Method
 	test. |
 		[ [ ] ] -> true
 		[ [ 1 ] ] -> false
+	args. 1
 	default. |_
 		iterator_.next().done
 
@@ -95,6 +97,7 @@ region Using iterator
 		test. |
 			! =? [ 1 2 3 ] (build |yield
 				each! [ 1 2 3 ] yield
+		args. 2
 		default. |_ do-for-each:Action
 			iter = iterator_
 			loop!
@@ -152,6 +155,7 @@ region Using iterator
 		test. |
 			[ [ ] ] -> 0
 			[ [ 1 2 3 ] ] -> 3
+		args. 1
 		default. |:Nat _:@
 			fold _ 0 +[1]
 
@@ -161,6 +165,7 @@ region Lazy functions, and their eager versions.
 		doc. "Only the elements that satisfy `keep-if?`."
 		test. |
 			[ [ 1 2 ] =?[2] ] -> [ 2 ]
+		args. 2
 		default. |_:@ keep-if?:Pred
 			=> type-of_ (keep' _ keep-if?
 
@@ -234,6 +239,7 @@ region Lazy functions, and their eager versions.
 			f = |a
 				[ a a ]
 			[ [ 1 2 ] f ] -> [ 1 1 2 2 ]
+		args. 2
 		default. |_ mapper:Function[Any @]
 			=> type-of_ (flat-map' _ mapper
 
@@ -246,6 +252,7 @@ region Lazy functions, and their eager versions.
 				else
 					[ _ ]
 			[ [ 1 2 3 4 ] f ] -> => Stream [ 1 2 2 3 4 4 ]
+		args. 2
 		|_:@ mapper:Function[Any @]
 			# Same as `flatten (map _ mapper)`, but with smaller stacktrace.
 			Stream ~|
@@ -266,6 +273,7 @@ region Lazy functions, and their eager versions.
 			More efficient than `fold + _`.
 		test. |
 			[ [ [ 1 2 ] [ 3 ] [ ] ] ] -> [ 1 2 3 ]
+		args. 2
 		default. |_
 			=> type-of_ flatten'_
 
@@ -294,6 +302,9 @@ region Lazy functions, and their eager versions.
 		doc. "Type-preserving +."
 		test. |
 			[ [ 0 ] [ 1 ] ] -> [ 0 1 ]
+		args.
+			. [ "@a" @
+			. [ "@b" @
 		default. |@a @b
 			=> (type-of @a) (++' @a @b
 
@@ -313,7 +324,10 @@ region Lazy functions, and their eager versions.
 			Removes the *first* occurrence of each element.
 		test. |
 			[ [ 1 2 1 ] [ 1 ] ] -> [ 2 1 ]
-		default. |_ @remove:@
+		args.
+			. "_"
+			. [ "@remove" @
+		default. |_ @remove
 			=> type-of_ (--' _ @remove
 
 	--'.

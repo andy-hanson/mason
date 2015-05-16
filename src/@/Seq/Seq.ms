@@ -40,6 +40,7 @@ region TODO
 			(There is no `++>'` because `++` by default adds to the right for Seqs.)
 		test. |
 			"TODO"
+		args. 2
 		|_:@ left-added:@
 			=> type-of_ (++ left-added _
 
@@ -58,6 +59,7 @@ region Very first and last
 		test. |
 			[ [ 1 2 ] ] -> ? 1
 			[ [ ] ] -> empty ?
+		args. 1
 		default. |_
 			?nth _ 0
 
@@ -67,6 +69,7 @@ region Very first and last
 			[ [ 1 2 ] ] -> 2
 			! fails? |
 				last [ ]
+		args. 1
 		|_
 			un-? ?last_ "Can not take `last` of empty."
 
@@ -75,6 +78,7 @@ region Very first and last
 		test. |
 			[ [ 1 2 ] ] -> ? 2
 			[ [ ] ] -> empty ?
+		args. 1
 		default. |_
 			if (not empty?_) ~_[(- count_ 1)]
 
@@ -85,6 +89,7 @@ region Very first and last
 		test. |
 			[ [ 1 2 ] ] -> => Stream [ 2 ]
 			[ [ ] ] -> [ ]
+		args. 1
 		default. |case
 			empty?_
 				_
@@ -98,6 +103,7 @@ region Very first and last
 		test. |
 			[ [ 1 2 ] ] -> => Stream [ 1 ]
 			[ [ ] ] -> [ ]
+		args. 1
 		default. |case
 			empty?_
 				_
@@ -140,7 +146,10 @@ region Search
 		test. |
 			[ [ 0 1 ] 1 ] -> ? 1
 			[ [ 0 1 ] 2 ] -> empty ?
-		default. |_ n:Nat
+		args.
+			. "_"
+			. [ "n" Nat
+		default. |_ n
 			iter = iterator_
 			i = Ref! 0
 			# TODO:SYNTAX Loop return value
@@ -169,6 +178,11 @@ region Search
 					{indent (show _}
 
 region Update
+	slice-args =
+		. "_"
+		. [ "start" Nat
+		. [ "end" Nat
+
 	slice. Method
 		doc. "
 			The elements from index start (inclusive) to end (exclusive).
@@ -176,14 +190,16 @@ region Update
 			Result length should be - end start, unless `end` was past the end.
 		test. |
 			[ [ 0 1 2 3 ] 1 3 ] -> [ 1 2 ]
-		default. |_ start:Nat end:Nat
+		args. slice-args
+		default. |_ start end
 			=> type-of_ (slice' _ start end
 
 	slice'.
 		doc. "Lazy slice."
 		test. |
 			[ [ 0 1 2 3 ] 1 3 ] -> => Stream [ 1 2 ]
-		|:@ _ start:Nat end:Nat
+		args. slice-args
+		|:@ _ start end
 			take' (drop' _ start) (- end start
 
 
@@ -234,7 +250,10 @@ region Update
 		doc. "Stream without the first count-to-drop elements."
 		test. |
 			[ [ 0 1 2 3 ] 2 ] -> => Stream [ 2 3 ]
-		default. |:@ _ count-to-drop:Nat
+		args.
+			. "_"
+			. [ "count-to-drop" Nat
+		default. |_ count-to-drop
 			Stream ~|
 				iter = iterator_
 				i = Ref! 0
@@ -326,7 +345,8 @@ region TODO: put somewhere
 		doc. "Seq with the opposite order."
 		test. |
 			[ [ 1 2 ] ] -> [ 2 1 ]
-		default. |:Array _
+		args. 1
+		default. |_
 			(from-stream Array! _).reverse()
 
 	split'.

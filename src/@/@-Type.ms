@@ -27,6 +27,7 @@ from-stream. Method
 		Creates a new value of this type by reading out from an @'s iterator.
 	test. |
 		[ Array (range 0 5) ] -> [ 0 1 2 3 4 ]
+	args. [ "type" "stream" ]
 	default. |type stream
 		returning (empty type) |_
 			++! _ stream

@@ -27,29 +27,32 @@ impl! iterator Map |_
 
 region New methods
 	?get. Method
-		doc. "
-			|:? _ key:Any
-			`?` containing the value corresponding to `key`, if any.
+		doc. "`?` containing the value corresponding to `key`, if any."
+		args. [ "_" "key"
 
 	has-key?. Method
 		doc. "
 			|:Boolean _ key:Any
 			Whether the key is in the Map.
-		default. |_ key:Any
+		args. [ "_" "key"
+		default. |_ key
 			not (empty? (?get _ key
 
 	keys. Method
 		doc. "Every key that the Map `has-key?`."
+		args. 1
 
 	values. Method
 		doc. "Every value in the Map."
+		args. 1
 		default. |_
 			map keys_ |key
 				_[key]
 
 	keys-values. Method
 		doc. |:@[Any]
-			"Every \{ key, val }."
+			"Every (key. val.)."
+		args. 1
 		default. |_
 			map keys_ |k
 				key. k

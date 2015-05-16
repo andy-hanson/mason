@@ -34,6 +34,8 @@ show = Method
 				displayName. "a"
 		[ null ] -> "null"
 		[ undefined ] -> "undefined"
+	args. 2
+	allow-null?. true
 	wrap. |impl _ opts
 		case
 			showing.has _

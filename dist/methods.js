@@ -13,6 +13,7 @@ define(["exports","./private/bootstrap","./Type/Method"],function(exports,bootst
 		msDef("sub",sub);
 		const freeze=exports.freeze=Method(function(){
 			const doc="Returns a compacted and immutable version of it.\nDoes not have to return the same value, but often does.";
+			const args=1;
 			const _default=function(){
 				return _ms.set(function(_){
 					return Object.freeze(_)
@@ -20,6 +21,7 @@ define(["exports","./private/bootstrap","./Type/Method"],function(exports,bootst
 			}();
 			return {
 				doc:doc,
+				args:args,
 				default:_default,
 				displayName:"freeze"
 			}
@@ -33,4 +35,4 @@ define(["exports","./private/bootstrap","./Type/Method"],function(exports,bootst
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRob2RzLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBS0Msc0JBQUssaUJBQ007R0FBVixVQUFNOzs7Ozs7RUFDUCxNQUFPLE1BQUs7RUFJWiw0QkFBUSxpQkFDTTtHQUFiLFVBQ0M7R0FHRCx5QkFBVTttQkFBQSxTQUFBLEVBQ0M7WUFBVixjQUFjO0lBQUE7Ozs7Ozs7O0VBRWhCLDZDQUFVO2tCQUFBLFNBQUEsRUFDQztXQUFWLGdCQUFnQjtHQUFBOztFQXBCbEIsc0NBQUEiLCJmaWxlIjoibWV0aG9kcy5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRob2RzLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBS0Msc0JBQUssaUJBQ007R0FBVixVQUFNOzs7Ozs7RUFDUCxNQUFPLE1BQUs7RUFJWiw0QkFBUSxpQkFDTTtHQUFiLFVBQ0M7R0FFRCxXQUFNO0dBRU4seUJBQVU7bUJBQUEsU0FBQSxFQUNDO1lBQVYsY0FBYztJQUFBOzs7Ozs7Ozs7RUFFaEIsNkNBQVU7a0JBQUEsU0FBQSxFQUNDO1dBQVYsZ0JBQWdCO0dBQUE7O0VBckJsQixzQ0FBQSIsImZpbGUiOiJtZXRob2RzLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

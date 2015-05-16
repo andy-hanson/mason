@@ -13,6 +13,7 @@ region Unsorted
 		doc. "
 			Returns a compacted and immutable version of it.
 			Does not have to return the same value, but often does.
+		args. 1
 		# TODO: Lazy default?
 		default. |_
 			Object.freeze _

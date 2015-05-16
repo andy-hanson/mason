@@ -45,8 +45,10 @@ define(["exports","../Type/Kind","../Type/Method","./at","./at-Type","./Seq/Arra
 		kind_33(_64_33,_64);
 		const empty_33=exports["empty!"]=Method(function(){
 			const doc="Mutates this collection so that it will be `empty?`.";
+			const args=1;
 			return {
 				doc:doc,
+				args:args,
 				displayName:"empty!"
 			}
 		}());
@@ -57,6 +59,11 @@ define(["exports","../Type/Kind","../Type/Method","./at","./at-Type","./Seq/Arra
 					return "TODO:impl-test"
 				},"displayName","test")
 			}();
+			const args=function(){
+				const _0="_";
+				const _1=["added",_64];
+				return [_0,_1]
+			}();
 			const _default=function(){
 				return _ms.set(function(_,added){
 					return _ms.unlazy(_43_43_62_33)(_,added)
@@ -65,13 +72,17 @@ define(["exports","../Type/Kind","../Type/Method","./at","./at-Type","./Seq/Arra
 			return {
 				doc:doc,
 				test:test,
+				args:args,
 				default:_default,
 				displayName:"++!"
 			}
 		}());
 		const _45_45_33=exports["--!"]=Method(function(){
-			const doc=function(){
-				return "|_ removed:@\nRemoves all elements in `removed` once.\nFor Seqs these are removed starting from the left."
+			const doc="Removes all elements in `removed` once.\nFor Seqs these are removed starting from the left.";
+			const args=function(){
+				const _0="_";
+				const _1=["@removed",_64];
+				return [_0,_1]
 			}();
 			const test=function(){
 				return _ms.set(function(){
@@ -80,6 +91,7 @@ define(["exports","../Type/Kind","../Type/Method","./at","./at-Type","./Seq/Arra
 			}();
 			return {
 				doc:doc,
+				args:args,
 				test:test,
 				displayName:"--!"
 			}
@@ -89,4 +101,4 @@ define(["exports","../Type/Kind","../Type/Method","./at","./at-Type","./Seq/Arra
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL0AhLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7OztFQWNBLGFBQUssZUFDSTtHQUFSLFVBQU07R0FDTixtQ0FBbUI7bUJBQUEsU0FBQSxLQUNJO0tBQ3RCO01BQVMsUUFBQTtNQUNSLCtCQUFHLEVBQUUsUUFDSztjQUFUO2FBRUc7Y0FBSCxNQUFNO01BQUE7S0FBQTtLQUNSLFVBQUksRUFBRSxDQUFFLEVBQUU7S0FDVixVQUFJLEVBQUUsQ0FBRSxFQUFFO3lCQUNKLENBQUUsRUFBRSxFQUFFLEVBQUUsR0FBSyxTQUFBLEdBQ0U7cURBQVIsRUFBRTtLQUFBO2dEQUNBLEVBQUU7S0FDakIsU0FBTzt5QkFDRCxDQUFFLEVBQUUsRUFBRSxFQUFFLEdBQUssU0FBQSxHQUNFO3dEQUFMLEVBQUU7S0FBQTtpREFDVDtJQUFBOzs7Ozs7OztFQUVYLGVBQVcsT0FBRztFQUNkLGVBQVcsTUFBTSxPQUNJLFVBQUE7VUFBcEI7O0VBRUQsUUFBTSxPQUFHO0VBRVQsaUNBQVEsaUJBQ007R0FBYixVQUFNOzs7Ozs7RUFFUCwrQkFBSyxpQkFDTTtHQUFWLFVBQ0M7R0FFRCxxQkFDTzttQkFBQSxVQUFBO1lBQUw7SUFBQTs7R0FFRix5QkFBVTttQkFBQSxTQUFBLEVBQUUsTUFDSztxQ0FBWCxFQUFFO0lBQUE7Ozs7Ozs7OztFQUVULCtCQUFLLGlCQUNNO0dBQVYsb0JBQ0k7V0FDRjtHQUFBO0dBR0YscUJBQ087bUJBQUEsVUFBQTtZQUFMO0lBQUE7Ozs7Ozs7O0VBM0RILHNDQUFBO2tCQTZEQSIsImZpbGUiOiJhdC9hdGJhbmcuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL0AhLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7OztFQWNBLGFBQUssZUFDSTtHQUFSLFVBQU07R0FDTixtQ0FBbUI7bUJBQUEsU0FBQSxLQUNJO0tBQ3RCO01BQVMsUUFBQTtNQUNSLCtCQUFHLEVBQUUsUUFDSztjQUFUO2FBRUc7Y0FBSCxNQUFNO01BQUE7S0FBQTtLQUNSLFVBQUksRUFBRSxDQUFFLEVBQUU7S0FDVixVQUFJLEVBQUUsQ0FBRSxFQUFFO3lCQUNKLENBQUUsRUFBRSxFQUFFLEVBQUUsR0FBSyxTQUFBLEdBQ0U7cURBQVIsRUFBRTtLQUFBO2dEQUNBLEVBQUU7S0FDakIsU0FBTzt5QkFDRCxDQUFFLEVBQUUsRUFBRSxFQUFFLEdBQUssU0FBQSxHQUNFO3dEQUFMLEVBQUU7S0FBQTtpREFDVDtJQUFBOzs7Ozs7OztFQUVYLGVBQVcsT0FBRztFQUNkLGVBQVcsTUFBTSxPQUNJLFVBQUE7VUFBcEI7O0VBRUQsUUFBTSxPQUFHO0VBRVQsaUNBQVEsaUJBQ007R0FBYixVQUFNO0dBQ04sV0FBTTs7Ozs7OztFQUVQLCtCQUFLLGlCQUNNO0dBQVYsVUFDQztHQUVELHFCQUNPO21CQUFBLFVBQUE7WUFBTDtJQUFBOztHQUNGLHFCQUNLO0lBQUosU0FBRztJQUNILFNBQUUsQ0FBRyxRQUFPOzs7R0FFYix5QkFBVTttQkFBQSxTQUFBLEVBQUUsTUFDSztxQ0FBWCxFQUFFO0lBQUE7Ozs7Ozs7Ozs7RUFFVCwrQkFBSyxpQkFDTTtHQUFWLFVBQ0M7R0FFRCxxQkFDSztJQUFKLFNBQUc7SUFDSCxTQUFFLENBQUcsV0FBVTs7O0dBQ2hCLHFCQUNPO21CQUFBLFVBQUE7WUFBTDtJQUFBOzs7Ozs7Ozs7RUFoRUgsc0NBQUE7a0JBa0VBIiwiZmlsZSI6ImF0L2F0YmFuZy5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
