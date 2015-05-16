@@ -6,7 +6,6 @@ import compile from '../compile'
 import CompileError from '../CompileError'
 import Expression from '../Expression'
 import Cx from '../private/Cx'
-import lex from '../private/lex/lex'
 import lexUngrouped from '../private/lex/ungrouped'
 import lexGroup from '../private/lex/group'
 import parse from '../private/parse/parse'
@@ -33,10 +32,12 @@ const doTest = includePerfTest => {
 	const cx = new Cx(opts)
 
 	try {
-		const t = lex(cx, source)
+		const ug = lexUngrouped(cx, source)
+		// console.log(ug)
+		const t = lexGroup(cx, ug)
 		// console.log(`==>\n${t}`)
 		const e = parse(cx, t)
-		console.log(`==>\n${e}`)
+		// console.log(`==>\n${e}`)
 		const vr = verify(cx, e)
 		// console.log(`+++\n${vr}`)
 		const ast = transpile(cx, e, vr)

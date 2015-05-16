@@ -1,6 +1,7 @@
 import CompileError from './CompileError'
 import Cx from './private/Cx'
-import lex from './private/lex/lex'
+import lexUngrouped from './private/lex/ungrouped'
+import lexGroup from './private/lex/group'
 import parse from './private/parse/parse'
 import { OptsFromObject } from './private/Opts'
 import render from './private/render'
@@ -13,7 +14,7 @@ export default function compile(source, opts = { }) {
 	type(source, String, opts, Object)
 	const cx = new Cx(OptsFromObject(opts))
 	try {
-		const e = parse(cx, lex(cx, source))
+		const e = parse(cx, lexGroup(cx, lexUngrouped(cx, source)))
 		const vr = verify(cx, e)
 		const ast = transpile(cx, e, vr)
 		let result

@@ -34,9 +34,14 @@ const
 	Space = cc(' '),
 	Tab = cc('\t'),
 	Tilde = cc('~'),
-	Underscore = cc('_')
+	Underscore = cc('_'),
+	Zero = cc('\0')
 
 export default (cx, str) => {
+	// Lexing algorithm requires trailing newline.
+	// Use a null-terminated string because it's faster than checking whether index === length.
+	str = str + '\n\0'
+
 	const res = [ ]
 	let line = StartLine
 	let column = StartColumn
@@ -170,10 +175,12 @@ export default (cx, str) => {
 				return TokenNumberLiteral(loc(), num)
 			}
 
-		while (index !== str.length) {
+		while (true) {
 			startColumn = column
 			ch = eat()
 			switch (ch) {
+				case Zero:
+					return
 				case N0: case N1: case N2: case N3: case N4:
 				case N5: case N6: case N7: case N8: case N9:
 					o(eatNumber())
