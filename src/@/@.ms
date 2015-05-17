@@ -10,7 +10,7 @@ use
 	..Type.Method _ impl!
 	..Type.Pred-Type Any Opt
 use~
-	..control opr Ref! get set!
+	..control opr
 	# TODO: Try eager use
 	..math.Number Nat
 	.@! --!
@@ -81,7 +81,7 @@ region Using iterator
 					folder. b
 					rest. tail_
 
-			acc = Ref! start
+			acc ::= start
 			iter = iterator rest
 			loop!
 				value done = iter.next()
@@ -89,8 +89,8 @@ region Using iterator
 					done
 						end-loop!
 					else
-						set! acc (folder (get acc) value
-			get acc
+						acc := folder acc value
+			acc
 
 	each!. Method
 		doc. "Calls do-for-each on every element in the @, in order."
@@ -137,18 +137,18 @@ region Using iterator
 		|_ pred?:Pred
 			iter = iterator_
 			# TODO:SYNTAX Return from loop
-			found = Ref! (empty ?
+			found ::= empty ?
 			loop!
 				value done = iter.next()
 				case!
 					done
 						end-loop!
 					pred? value
-						set! found (? value
+						found := ? value
 						end-loop!
 					else
 						pass
-			get found
+			found
 
 	count. Method
 		doc. "Number of elements."
@@ -225,12 +225,12 @@ region Lazy functions, and their eager versions.
 				mapped. [ 2 3 4 ]
 				folded. 3
 		|_:@ start:Any mapper-folder:Function[2 Object]
-			acc = Ref! start
+			acc ::= start
 			mapped. => Array (map _ |em
-				here:Any next:Any = mapper-folder (get acc) em
-				set! acc next
+				here:Any next:Any = mapper-folder acc em
+				acc := next
 				here
-			folded. get acc
+			folded. acc
 
 	# TODO: Better name?
 	flat-map. Method

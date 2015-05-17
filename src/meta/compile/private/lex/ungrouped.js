@@ -1,9 +1,9 @@
 import Loc, { Pos, StartLine, StartColumn, singleCharLoc } from 'esast/dist/Loc'
 import { code } from '../../CompileError'
 import { isReservedName } from '../language'
-import { CallOnFocus, DotName, Keyword, TokenNumberLiteral, Name,
-	keywordKFromName,
-	KW_Focus, KW_Fun, KW_GenFun, KW_Lazy, KW_ObjAssign, KW_Region, KW_Type } from '../Token'
+import { CallOnFocus, DotName, Keyword, TokenNumberLiteral, Name, keywordKFromName,
+	KW_AssignMutable, KW_AssignMutate, KW_Focus, KW_Fun, KW_GenFun,
+	KW_Lazy, KW_ObjAssign, KW_Region, KW_Type } from '../Token'
 import { assert } from '../util'
 import GroupPre, { GP_OpenParen, GP_OpenBracket, GP_OpenBlock, GP_OpenQuote, GP_Line,
 	GP_Space, GP_CloseParen, GP_CloseBracket, GP_CloseBlock, GP_CloseQuote} from './GroupPre'
@@ -23,6 +23,7 @@ const
 	Colon = cc(':'),
 	Comma = cc(','),
 	Dot = cc('.'),
+	Equal = cc('='),
 	Hash = cc('#'),
 	Hyphen = cc('-'),
 	LetterN = cc('n'),
@@ -222,7 +223,14 @@ export default (cx, str) => {
 					break
 				}
 				case Colon:
-					o(keyword(KW_Type))
+					if (tryEat(Colon)) {
+						const eq = tryEat(Equal)
+						cx.check(eq, loc, () => `${code('::')} must be followed by ${code('=')}`)
+						o(keyword(KW_AssignMutable))
+					} else if (tryEat(Equal))
+						o(keyword(KW_AssignMutate))
+					else
+						o(keyword(KW_Type))
 					break
 				case Tilde:
 					if (tryEat(Bar)) {

@@ -15,32 +15,42 @@ export const
 
 const makeType = superType => (name, doc, namesTypes, protoProps, tuplProps) =>
 	// TODO: provide actual docs...
-	tupl(name, superType, 'doc', [ 'loc', Loc ].concat(namesTypes), protoProps, tuplProps)
+	tupl(name, superType, doc, [ 'loc', Loc ].concat(namesTypes), protoProps, tuplProps)
 const
 	ee = makeType(Expression), ed = makeType(Do), ev = makeType(Val)
 
 export const
+	LD_Const = 0,
+	LD_Lazy = 1,
+	LD_Mutable = 2,
 	LocalDeclare = ee('LocalDeclare',
 		'TODO:DOC',
 		[
 			'name', String,
 			'opType', Nullable(Val),
-			'isLazy', Boolean
+			'kind', Number
 		],
-		{ },
+		{
+			isLazy() { return this.kind === LD_Lazy },
+			isMutable() { return this.kind === LD_Mutable }
+		},
 		{
 			// Can't call this 'name' because LocalDeclare.name is 'LocalDeclare'
-			declareName: loc => LocalDeclare.plain(loc, 'name'),
-			focus: loc => LocalDeclare.plain(loc, '_'),
-			noType: (loc, name, isLazy) => LocalDeclare(loc, name, null, isLazy),
-			plain: (loc, name) => LocalDeclare.noType(loc, name, false)
+			declareName: loc =>
+				LocalDeclare.plain(loc, 'name'),
+			focus: loc =>
+				LocalDeclare.plain(loc, '_'),
+			noType: (loc, name, isLazy) =>
+				LocalDeclare(loc, name, null, isLazy ? LD_Lazy : LD_Const),
+			plain: (loc, name) =>
+				LocalDeclare.noType(loc, name, false)
 		}),
 	LocalDeclareRes = makeType(LocalDeclare)('LocalDeclareRes',
 		'TODO:DOC',
 		[ 'opType', Nullable(Val) ],
 		{
 			name: 'res',
-			isLazy: false
+			kind: LD_Const
 		}),
 
 	Debug = ed('Debug',
@@ -79,6 +89,11 @@ export const
 		'TODO:DOC',
 		[ 'lines', [Union(LineContent, MapEntry)] ]),
 
+	LocalAccess = ev('LocalAccess',
+		'TODO:DOC',
+		[ 'name', String ],
+		{ },
+		{ focus: loc => LocalAccess(loc, '_') }),
 	Assign = ed('Assign',
 		'TODO:DOC',
 		[
@@ -91,14 +106,18 @@ export const
 		'TODO:DOC',
 		[
 			'assignees', [LocalDeclare],
-			'value', Val,
-			'isLazy', Boolean
-		]),
-	LocalAccess = ev('LocalAccess',
+			'value', Val
+		],
+		{
+			// All assignees must share the same kind.
+			kind() { return this.assignees[0].kind }
+		}),
+	AssignMutate = ed('AssignMutate',
 		'TODO:DOC',
-		[ 'name', String ],
-		{ },
-		{ focus: loc => LocalAccess(loc, '_') }),
+		[
+			'name', String,
+			'value', Val
+		]),
 	GlobalAccess = ev('GlobalAccess',
 		'TODO:DOC',
 		[ 'name', JsGlobals ]),

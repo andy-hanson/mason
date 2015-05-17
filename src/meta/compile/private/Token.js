@@ -15,9 +15,6 @@ export default Token
 const tt = (name, namesTypes, props) =>
 	tupl(name, Token, 'doc', [ 'loc', Loc ].concat(namesTypes), { }, props)
 
-const gIs = k => t => t instanceof Group && t.kind === k
-const kwIs = k => t => t instanceof Keyword && t.kind === k
-
 // Don't use `0` because we want to use negative nmbers to represent GroupPre closers.
 export const
 	G_Paren = 1,
@@ -44,6 +41,8 @@ const kwNotName = debugName => {
 
 export const
 	KW_Assign = kw('='),
+	KW_AssignMutable = kw('::='),
+	KW_AssignMutate = kw(':='),
 	KW_Case = kw('case'),
 	KW_CaseDo = kw('case!'),
 	KW_Debug = kw('debug'),
@@ -93,29 +92,16 @@ export const
 	CallOnFocus = tt('CallOnFocus', [ 'name', String ]),
 	DotName = tt('DotName', [ 'nDots', Number, 'name', String ]),
 	Group = tt('Group',
-		[ 'tokens', [Token], 'kind', Number ],
-		{
-			isBlock: gIs(G_Block),
-			isSpaced: gIs(G_Space)
-		}),
-	Keyword = tt('Keyword', [ 'kind', Number ],
-		{
-			is: kwIs,
-			isType: kwIs(KW_Type),
-			isFocus: kwIs(KW_Focus),
-			isElse: kwIs(KW_Else),
-			isLazy: kwIs(KW_Lazy),
-			isLineSplit: t =>
-				t instanceof Keyword && (
-					t.kind === KW_Assign ||
-					t.kind === KW_ObjAssign ||
-					t.kind === KW_Yield ||
-					t.kind === KW_YieldTo ||
-					t.kind === KW_MapEntry),
-			isObjAssign: kwIs(KW_ObjAssign)
-		}),
+		[ 'tokens', [Token], 'kind', Number ]),
+	Keyword = tt('Keyword', [ 'kind', Number ]),
 	Name = tt('Name', [ 'name', String ]),
 	TokenNumberLiteral = tt('TokenNumberLiteral', [ 'value', Number ])
+
+export const
+	isGroup = (groupKind, token) =>
+		token instanceof Group && token.kind === groupKind,
+	isKeyword = (keywordKind, token) =>
+		token instanceof Keyword && token.kind === keywordKind
 
 // toString is used by some parsing errors. Use U.inspect for a more detailed view.
 implementMany({ CallOnFocus, DotName, Group, Keyword, Name, TokenNumberLiteral }, 'show', {

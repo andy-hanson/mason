@@ -8,7 +8,7 @@ use~
 	.@.? un-?
 	.@.Seq.Array!
 	.@.Seq.Seq _ first tail
-	.control if if! opr returning Ref! get set!
+	.control if if! opr returning
 	.Function identity
 	.Object object=?
 	.Type.Pred-Type Opt
@@ -114,8 +114,8 @@ region Min/max
 			if (not empty?_) ~
 				iter = iterator_
 				value = iter.next().value
-				cur-max = Ref! value
-				cur-max-by = Ref! (by value
+				cur-max ::= value
+				cur-max-by ::= by value
 				loop!
 					value done = iter.next()
 					case!
@@ -123,10 +123,10 @@ region Min/max
 							end-loop!
 						else
 							value-by = by value
-							if! (<? (get cur-max-by) value-by) |
-								set! cur-max value
-								set! cur-max-by value-by
-				get cur-max
+							if! (<? cur-max-by value-by) |
+								cur-max := value
+								cur-max-by := value-by
+				cur-max
 
 region Sorting
 	sorted?.
@@ -142,11 +142,11 @@ region Sorting
 				empty?_
 					true
 				else
-					sb-prev = Ref! (sort-by first_
+					sb-prev ::= sort-by first_
 					all? tail_ |em
 						sb-cur = sort-by em
-						returning (<? (get sb-prev) sb-cur) |
-							set! sb-prev sb-cur
+						returning (<? sb-prev sb-cur) |
+							sb-prev := sb-cur
 
 	sort. Method
 		doc. "

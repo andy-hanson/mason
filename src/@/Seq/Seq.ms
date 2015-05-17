@@ -12,7 +12,6 @@ use
 	..@ _ ++ count empty? iterator
 	..@-Type _ empty from-stream
 use~
-	...control Ref! get mod! set!
 	...math.Number Nat
 	...show
 	..? _ un-?
@@ -151,20 +150,20 @@ region Search
 			. [ "n" Nat
 		default. |_ n
 			iter = iterator_
-			i = Ref! 0
+			i ::= 0
 			# TODO:SYNTAX Loop return value
-			ans = Ref! (empty ?
+			ans ::= empty ?
 			loop!
 				value done = iter.next()
 				case!
 					done
 						end-loop!
-					=? (get i) n
-						set! ans (? value
+					=? i n
+						ans := ? value
 						end-loop!
 					else
-						mod! i +[1]
-			get ans
+						i := + 1 i
+			ans
 
 	impl! sub Seq
 		doc. "Nth value in iteration order."
@@ -214,10 +213,10 @@ region Update
 		|_ count-to-take:Nat
 			Stream ~|
 				iter = iterator_
-				i = Ref! 0
+				i ::= 0
 				loop!
 					case!
-						=? (get i) count-to-take
+						=? i count-to-take
 							end-loop!
 						else
 							value done = iter.next()
@@ -226,7 +225,7 @@ region Update
 									end-loop!
 								else
 									<~ value
-									mod! i +[1]
+									i := + 1 i
 
 	take-while'.
 		doc. "Stream stopping (and not including) the first element not satisfying while?."
@@ -256,17 +255,17 @@ region Update
 		default. |_ count-to-drop
 			Stream ~|
 				iter = iterator_
-				i = Ref! 0
+				i ::= 0
 				loop!
 					case!
-						=? (get i) count-to-drop
+						=? i count-to-drop
 							end-loop!
 						else
 							case!
 								iter.next().done
 									end-loop!
 								else
-									mod! i +[1]
+									i := + 1 i
 				<~~ iter
 
 	# TODO: drop-while'
@@ -357,20 +356,20 @@ region TODO: put somewhere
 		|_ split?:Pred
 			Stream ~|
 				iter = iterator_
-				prev-idx = Ref! 0
-				cur-idx = Ref! 0
+				prev-idx ::= 0
+				cur-idx ::= 0
 				loop!
 					value done = iter.next()
-					~next-idx = + 1 (get cur-idx
+					~next-idx = + 1 cur-idx
 					case!
 						done
-							<~ slice _ (get prev-idx) (get cur-idx)
+							<~ slice _ prev-idx cur-idx
 							end-loop!
 						split? value
-							<~ slice _ (get prev-idx) (get cur-idx)
-							set! prev-idx next-idx
-							set! cur-idx next-idx
+							<~ slice _ prev-idx cur-idx
+							prev-idx := next-idx
+							cur-idx := next-idx
 						else
-							set! cur-idx next-idx
+							cur-idx := next-idx
 
 Seq

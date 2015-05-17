@@ -8,7 +8,7 @@ import { assignmentExpressionPlain, callExpressionThunk, functionExpressionPlain
 	functionExpressionThunk, memberExpression, property, variableDeclarationConst,
 	yieldExpressionDelegate, yieldExpressionNoDelegate } from 'esast/dist/specialize'
 import * as EExports from '../../Expression'
-import { Pattern, Splat, SD_Debugger, SV_Contains, SV_False, SV_Null, SV_Sub,
+import { LD_Lazy, LD_Mutable, Pattern, Splat, SD_Debugger, SV_Contains, SV_False, SV_Null, SV_Sub,
 	SV_This, SV_ThisModuleDirectory, SV_True, SV_Undefined } from '../../Expression'
 import manglePath from '../manglePath'
 import { assert, cat, flatMap, flatOpMap, ifElse, isEmpty,
@@ -55,13 +55,23 @@ const
 
 implementMany(EExports, 'transpileSubtree', {
 	Assign() {
-		return variableDeclarationConst([ makeDeclarator(
-			this.assignee, t0(this.value), false, vr.isExportAssign(this)) ])
+		return VariableDeclaration(
+			this.assignee.isMutable() ? 'let' : 'const',
+			[ makeDeclarator(this.assignee, t0(this.value), false, vr.isExportAssign(this)) ])
 	},
 	// TODO:ES6 Just use native destructuring assign
 	AssignDestructure() {
-		return variableDeclarationConst(makeDestructureDeclarators(
-			this.assignees, this.isLazy, t0(this.value), false, vr.isExportAssign(this)))
+		return VariableDeclaration(this.kind() === LD_Mutable ? 'let' : 'const',
+			makeDestructureDeclarators(
+				this.assignees,
+				this.kind() === LD_Lazy,
+				t0(this.value),
+				false,
+				vr.isExportAssign(this)))
+	},
+
+	AssignMutate() {
+		return assignmentExpressionPlain(idCached(this.name), t0(this.value))
 	},
 
 	BagEntry() { return declareSpecial(`_${vr.listMapEntryIndex(this)}`, t0(this.value)) },
@@ -87,14 +97,16 @@ implementMany(EExports, 'transpileSubtree', {
 				const keysVals = cat(
 					flatMap(keys, key => [ Literal(key.name), accessLocalDeclare(key) ]),
 					opMap(this.opName, _ => [ LitStrName, Literal(_) ]))
-				const anyLazy = keys.some(key => key.isLazy)
+				const anyLazy = keys.some(_ => _.isLazy())
 				return (anyLazy ? msLset : msSet)(objed, ...keysVals)
 			},
 			() => {
 				const props = keys.map(key => {
 					const val = accessLocalDeclare(key)
 					const id = propertyIdOrLiteralCached(key.name)
-					return key.isLazy ? property('get', id, thunk(val)) : property('init', id, val)
+					return key.isLazy() ?
+						property('get', id, thunk(val)) :
+						property('init', id, val)
 				})
 				const opPropName = opMap(this.opName, _ => property('init', IdName, Literal(_)))
 				return ObjectExpression(cat(props, opPropName))
@@ -169,7 +181,7 @@ implementMany(EExports, 'transpileSubtree', {
 			opIf(cx.opts.includeTypeChecks(), () =>
 				flatOpMap(this.args, _ =>
 					// TODO: Way to typecheck lazies
-					opIf(!_.isLazy, () =>
+					opIf(!_.isLazy(), () =>
 						opMap(_.opType, type =>
 							ExpressionStatement(msCheckContains(
 								t0(type),
@@ -343,7 +355,7 @@ const
 
 	useDeclarators = (use, moduleIdentifier) => {
 		// TODO: Could be neater about this
-		const isLazy = (isEmpty(use.used) ? use.opUseDefault : use.used[0]).isLazy
+		const isLazy = (isEmpty(use.used) ? use.opUseDefault : use.used[0]).isLazy()
 		const value = (isLazy ? msLazyGetModule : msGetModule)(moduleIdentifier)
 
 		const usedDefault = opMap(use.opUseDefault, def => {
@@ -374,7 +386,8 @@ const
 	},
 
 	makeDeclarator = (assignee, value, valueIsAlreadyLazy, isExport) => {
-		const { isLazy, loc, name, opType } = assignee
+		const { loc, name, opType } = assignee
+		const isLazy = assignee.isLazy()
 		// TODO: assert(assignee.opType === null)
 		// or TODO: Allow type check on lazy value?
 		value = isLazy ? value : maybeWrapInCheckContains(value, opType, name)

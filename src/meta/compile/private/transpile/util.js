@@ -8,7 +8,7 @@ import { msUnlazy } from './ms-call'
 
 export const
 	accessLocalDeclare = localDeclare =>
-		localDeclare.isLazy ?
+		localDeclare.isLazy() ?
 			msUnlazy(idForDeclareCached(localDeclare)) :
 			Identifier(idForDeclareCached(localDeclare).name),
 

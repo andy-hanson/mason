@@ -1,5 +1,5 @@
 import Loc, { StartPos } from 'esast/dist/Loc'
-import { Group, Keyword } from '../Token'
+import { Group, isKeyword, KW_Lazy } from '../Token'
 import { assert, isEmpty, last } from '../util'
 import GroupPre, {
 	groupOpenToClose, GP_OpenParen, GP_OpenBracket, GP_OpenBlock, GP_OpenQuote, GP_Line,
@@ -109,7 +109,7 @@ export default function group(cx, preGroupedTokens) {
 					break
 				case GP_OpenBlock:
 					//  ~ before block is OK
-					if (isEmpty(cur.tokens) || !Keyword.isLazy(last(cur.tokens)))
+					if (isEmpty(cur.tokens) || !isKeyword(KW_Lazy, last(cur.tokens)))
 						endAndStart(loc, GP_Space)
 					newLevel(loc.start, kind)
 					startLine(loc.end)

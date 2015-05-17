@@ -1,6 +1,6 @@
 use
 	...compare <? <=?
-	...control if opr Ref! get set!
+	...control if opr
 	...Function noop thunk
 	...math.Number Nat round-down sign
 	...math.methods + - * /
@@ -76,14 +76,14 @@ kind! Range @
 		test. |
 			! seq=? (range 0 10 2) [ 0 2 4 6 8 ]
 		~|range
-			cur = Ref! range.start
+			cur ::= range.start
 			loop!
-				case! (get cur)
+				case! cur
 					<=? range.end _
 						end-loop!
 					else
 						<~ _
-						set! cur (+ _ range.step
+						cur := + cur range.step
 			# TODO:ES6 The following should be just as fast!
 			# f = ~|case!
 			#	>=? _ range.end

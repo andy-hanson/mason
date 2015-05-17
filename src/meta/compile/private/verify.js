@@ -1,7 +1,7 @@
 import { code } from '../CompileError'
 import * as EExports from '../Expression'
 import { Assign, AssignDestructure, BlockVal, Call, Debug, Do, BagEntry,
-	LocalDeclareRes, MapEntry, Pattern, SpecialDo, UseDo, Yield, YieldTo } from '../Expression'
+	LocalDeclareRes, MapEntry, Pattern, SpecialDo, Yield, YieldTo } from '../Expression'
 import { cat, head, ifElse, implementMany, isEmpty, mapKeys, newSet, opEach } from './util'
 import VerifyResults, { LocalInfo } from './VerifyResults'
 
@@ -142,7 +142,7 @@ implementMany(EExports, 'verify', {
 			this.assignee.verify()
 			this.value.verify()
 		}
-		if (this.assignee.isLazy)
+		if (this.assignee.isLazy())
 			withBlockLocals(doV)
 		else
 			doV()
@@ -151,6 +151,13 @@ implementMany(EExports, 'verify', {
 		this.value.verify()
 		vm(this.assignees)
 	},
+	AssignMutate() {
+		const declare = getLocalDeclare(this.name, this.loc)
+		cx.check(declare.isMutable(), this.loc, () => `${code(this.name)} is not mutable.`)
+		// TODO: Track assignments. Mutable local must be mutated somewhere.
+		this.value.verify()
+	},
+
 	BagEntry() { this.value.verify() },
 	BagSimple() { vm(this.parts) },
 	BlockDo() { verifyLines(this.lines) },
@@ -205,9 +212,7 @@ implementMany(EExports, 'verify', {
 	GlobalAccess() { },
 	Lazy() { withBlockLocals(() => this.value.verify()) },
 	LocalAccess() {
-		const declare = locals.get(this.name)
-		cx.check(declare !== undefined, this.loc, () =>
-			`No such local ${code(this.name)}.\nLocals are:\n${code(mapKeys(locals).join(' '))}.`)
+		const declare = getLocalDeclare(this.name, this.loc)
 		vr.accessToLocal.set(this, declare)
 		accessLocal(declare, this, isInDebug)
 	},
@@ -221,6 +226,7 @@ implementMany(EExports, 'verify', {
 	},
 	Member() { this.object.verify() },
 	Module() {
+		// No need to verify this.doUses.
 		const useLocals = verifyUses(this.uses, this.debugUses)
 		plusLocals(useLocals, () => {
 			const { newLocals } = verifyLines(this.lines)
@@ -297,6 +303,20 @@ function verifyCasePart() {
 }
 
 const
+	getLocalDeclare = (name, accessLoc) => {
+		const declare = locals.get(name)
+		cx.check(declare !== undefined, accessLoc, () =>
+			`No such local ${code(name)}.\nLocals are:\n${code(mapKeys(locals).join(' '))}.`)
+		return declare
+	},
+
+	lineNewLocals = line =>
+		line instanceof Assign ?
+			[ line.assignee ] :
+			line instanceof AssignDestructure ?
+			line.assignees :
+			[ ],
+
 	verifyUses = (uses, debugUses) => {
 		const useLocals = []
 		const
@@ -308,9 +328,7 @@ const
 				registerLocal(_)
 				useLocals.push(_)
 			}
-		uses.forEach(use => {
-			if (!(use instanceof UseDo)) verifyUse(use)
-		})
+		uses.forEach(verifyUse)
 		withInDebug(true, () => debugUses.forEach(verifyUse))
 		return useLocals
 	},
@@ -383,11 +401,4 @@ const
 			line instanceof MapEntry ||
 			line instanceof SpecialDo
 		cx.check(isStatement, line.loc, 'Expression in statement position.')
-	},
-
-	lineNewLocals = line =>
-		line instanceof Assign ?
-			[ line.assignee ] :
-			line instanceof AssignDestructure ?
-			line.assignees :
-			[ ]
+	}

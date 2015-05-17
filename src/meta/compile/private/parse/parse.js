@@ -1,15 +1,17 @@
 import Loc from 'esast/dist/Loc'
 import tupl from 'tupl/dist/tupl'
 import { code } from '../../CompileError'
-import { Assign, AssignDestructure, BagEntry, BagSimple, BlockBag, BlockDo, BlockMap, BlockObj,
-	BlockWithReturn, BlockWrap, Call, CaseDoPart, CaseValPart, CaseDo, CaseVal, Debug, Do,
-	NumberLiteral, EndLoop, Fun, GlobalAccess, Lazy, LocalAccess, LocalDeclare, LocalDeclareRes,
-	Loop, MapEntry, Member, Module, ObjPair, ObjSimple, Pattern, Quote, SpecialDo, SpecialVal,
-	Splat, Val, Use, UseDo, Yield, YieldTo } from '../../Expression'
+import { Assign, AssignDestructure, AssignMutate, BagEntry, BagSimple, BlockBag, BlockDo, BlockMap,
+	BlockObj, BlockWithReturn, BlockWrap, Call, CaseDoPart, CaseValPart, CaseDo, CaseVal, Debug,
+	Do, NumberLiteral, EndLoop, Fun, GlobalAccess, Lazy, LD_Const, LD_Lazy, LD_Mutable,
+	LocalAccess, LocalDeclare, LocalDeclareRes, Loop, MapEntry, Member, Module, ObjPair, ObjSimple,
+	Pattern, Quote, SpecialDo, SpecialVal, Splat, Val, Use, UseDo, Yield, YieldTo
+	} from '../../Expression'
 import { JsGlobals } from '../language'
-import { CallOnFocus, DotName, Group, G_Block, G_Bracket, G_Paren, G_Space, G_Quote, Keyword,
-	KW_Case, KW_CaseDo, KW_Debug, KW_Debugger, KW_EndLoop, KW_Focus, KW_Fun, KW_GenFun, KW_In,
-	KW_Loop, KW_MapEntry, KW_ObjAssign, KW_Pass, KW_Out, KW_Region, KW_Use, KW_UseDebug, KW_UseDo,
+import { CallOnFocus, DotName, Group, G_Block, G_Bracket, G_Paren, G_Space, G_Quote, isGroup,
+	isKeyword, Keyword, KW_Assign, KW_AssignMutable, KW_AssignMutate, KW_Case, KW_CaseDo, KW_Debug,
+	KW_Debugger, KW_Else, KW_EndLoop, KW_Focus, KW_Fun, KW_GenFun, KW_In, KW_Lazy, KW_Loop,
+	KW_MapEntry, KW_ObjAssign, KW_Pass, KW_Out, KW_Region, KW_Type, KW_Use, KW_UseDebug, KW_UseDo,
 	KW_UseLazy, KW_Yield, KW_YieldTo, Name, opKWtoSV, TokenNumberLiteral } from '../Token'
 import { assert, head, ifElse, flatMap, isEmpty, last,
 	opIf, opMap, push, repeat, rtail, tail, unshift } from '../util'
@@ -56,7 +58,7 @@ const
 	beforeAndBlock = tokens => {
 		checkNonEmpty(tokens, 'Expected an indented block.')
 		const block = tokens.last()
-		cx.check(Group.isBlock(block), block.loc, 'Expected an indented block.')
+		cx.check(isGroup(G_Block, block), block.loc, 'Expected an indented block.')
 		return [ tokens.rtail(), Slice.group(block) ]
 	},
 
@@ -70,7 +72,7 @@ const
 		const h = tokens.head()
 		cx.check(tokens.size() > 1, h.loc, () => `Expected indented block after ${h}`)
 		const block = tokens.second()
-		assert(tokens.size() === 2 && Group.isBlock(block))
+		assert(tokens.size() === 2 && isGroup(G_Block, block))
 		return flatMap(block.tokens, line => parseLineOrLines(Slice.group(line)))
 	},
 
@@ -184,7 +186,7 @@ const parseCase = (k, casedFromFun, tokens) => {
 		opCased = opIf(!before.isEmpty(), () => Assign.focus(before.loc, parseExpr(before)))
 
 	const lastLine = Slice.group(block.last())
-	const [ partLines, opElse ] = Keyword.isElse(lastLine.head()) ?
+	const [ partLines, opElse ] = isKeyword(KW_Else, lastLine.head()) ?
 		[ block.rtail(), (isVal ? justBlockVal : justBlockDo)(lastLine.tail()) ] :
 		[ block, null ]
 
@@ -205,9 +207,9 @@ const
 		const first = tokens.head()
 		// Pattern match starts with type test and is followed by local declares.
 		// E.g., `:Some val`
-		if (Group.isSpaced(first) && tokens.size() > 1) {
+		if (isGroup(G_Space, first) && tokens.size() > 1) {
 			const ft = Slice.group(first)
-			if (Keyword.isType(ft.head())) {
+			if (isKeyword(KW_Type, ft.head())) {
 				const type = parseSpaced(ft.tail())
 				const locals = parseLocalDeclares(tokens.tail())
 				return Pattern(first.loc, type, locals, LocalAccess.focus(tokens.loc))
@@ -218,7 +220,7 @@ const
 
 const
 	parseExpr = tokens => {
-		return ifElse(tokens.opSplitManyWhere(Keyword.isObjAssign),
+		return ifElse(tokens.opSplitManyWhere(_ => isKeyword(KW_ObjAssign, _)),
 			splits => {
 				// Short object form, such as (a. 1, b. 2)
 				const first = splits[0].before
@@ -300,7 +302,7 @@ const
 	_tryTakeReturnType = tokens => {
 		if (!tokens.isEmpty()) {
 			const h = tokens.head()
-			if (Group.isSpaced(h) && Keyword.isType(head(h.tokens)))
+			if (isGroup(G_Space, h) && isKeyword(KW_Type, head(h.tokens)))
 				return {
 					opReturnType: parseSpaced(Slice.group(h).tail()),
 					rest: tokens.tail()
@@ -352,7 +354,7 @@ const
 	_tryTakeInOrOut = (inOrOut, tokens) => {
 		if (!tokens.isEmpty()) {
 			const firstLine = tokens.head()
-			if (Keyword.is(inOrOut)(head(firstLine.tokens))) {
+			if (isKeyword(inOrOut, head(firstLine.tokens))) {
 				const inOut = Debug(
 					firstLine.loc,
 					parseLinesFromBlock(Slice.group(firstLine)))
@@ -377,7 +379,7 @@ const
 					return parseCase(KW_CaseDo, false, rest)
 				case KW_Debug:
 					return Debug(tokens.lok,
-						Group.isBlock(tokens.second()) ?
+						isGroup(G_Block, tokens.second()) ?
 						// `debug`, then indented block
 						parseLinesFromBlock() :
 						// `debug`, then single line
@@ -396,10 +398,12 @@ const
 					// fall through
 			}
 
-		return ifElse(tokens.opSplitOnceWhere(Keyword.isLineSplit),
+		return ifElse(tokens.opSplitOnceWhere(_isLineSplitKeyword),
 			({ before, at, after }) => {
 				return at.kind === KW_MapEntry ?
 					_parseMapEntry(before, after, tokens.loc) :
+					at.kind === KW_AssignMutate ?
+					_parseAssignMutate(before, after, tokens.loc) :
 					_parseAssign(before, at, after, tokens.loc)
 			},
 			() => parseExpr(tokens))
@@ -412,6 +416,27 @@ const
 
 // parseLine privates
 const
+	_isLineSplitKeyword = token => {
+		if (token instanceof Keyword)
+			switch (token.kind) {
+				case KW_Assign: case KW_AssignMutable: case KW_AssignMutate:
+				case KW_MapEntry: case KW_ObjAssign: case KW_Yield: case KW_YieldTo:
+					return true
+				default:
+					return false
+			}
+		else
+			return false
+	},
+
+	_parseAssignMutate = (localsTokens, valueTokens, loc) => {
+		const locals = parseLocalDeclaresJustNames(localsTokens)
+		cx.check(locals.length === 1, loc, 'TODO: AssignDestructureMutate')
+		const name = locals[0].name
+		const value = parseExpr(valueTokens)
+		return AssignMutate(loc, name, value)
+	},
+
 	_parseAssign = (localsTokens, assigner, valueTokens, loc) => {
 		const kind = assigner.kind
 		const locals = parseLocalDeclares(localsTokens)
@@ -424,9 +449,16 @@ const
 			return value
 		} else {
 			if (isYield)
-				locals.forEach(_ => cx.check(!_.isLazy, _.loc, 'Can not yield to lazy variable.'))
+				locals.forEach(_ => cx.check(!_.isLazy(), _.loc, 'Can not yield to lazy variable.'))
 
 			const isObjAssign = kind === KW_ObjAssign
+
+			if (kind === KW_AssignMutable)
+				locals.forEach(_ => {
+					cx.check(!_.isLazy(), _.loc, 'Lazy local can not be mutable.')
+					_.kind = LD_Mutable
+				})
+
 			const ass = (() => {
 				if (locals.length === 1) {
 					const assignee = locals[0]
@@ -434,13 +466,13 @@ const
 					const isTest = isObjAssign && assignee.name.endsWith('test')
 					return isTest ? Debug(loc, [ assign ]) : assign
 				} else {
-					const isLazy = locals.some(_ => _.isLazy)
-					if (isLazy)
-						locals.forEach(_ => cx.check(_.isLazy, _.loc,
-							'If any part of destructuring assign is lazy, all must be.'))
-					return AssignDestructure(loc, locals, value, isLazy)
+					const kind = locals[0].kind
+					locals.forEach(_ => cx.check(_.kind === kind, _.loc,
+						'All locals of destructuring assignment must be of the same kind.'))
+					return AssignDestructure(loc, locals, value, kind)
 				}
 			})()
+
 			return isObjAssign ? WithObjKeys(locals, ass) : ass
 		}
 	},
@@ -486,39 +518,34 @@ const
 		MapEntry(loc, parseExpr(before), parseExpr(after))
 
 const
-	parseLocalDeclares = tokens => tokens.map(parseLocalDeclare),
-	parseLocalDeclare = t => {
-		let name
-		let opType = null
-		let isLazy = false
+	parseLocalDeclaresJustNames = tokens =>
+		tokens.map(_ => LocalDeclare.plain(_.loc, _parseLocalName(_))),
 
-		if (Group.isSpaced(t)) {
-			const tokens = Slice.group(t)
-			let rest = tokens
-			if (Keyword.isLazy(tokens.head())) {
-				isLazy = true
-				rest = tokens.tail()
-			}
-			name = _parseLocalName(rest.head())
+	parseLocalDeclares = tokens => tokens.map(parseLocalDeclare),
+
+	parseLocalDeclare = token => {
+		if (isGroup(G_Space, token)) {
+			const tokens = Slice.group(token)
+			const [ rest, isLazy ] =
+				isKeyword(KW_Lazy, tokens.head()) ? [ tokens.tail(), true ] : [ tokens, false ]
+			const name = _parseLocalName(rest.head())
 			const rest2 = rest.tail()
-			if (!rest2.isEmpty()) {
+			const opType = opIf(!rest2.isEmpty(), () => {
 				const colon = rest2.head()
-				cx.check(Keyword.isType(colon), colon.loc, () => `Expected ${code(':')}`)
+				cx.check(isKeyword(KW_Type, colon), colon.loc, () => `Expected ${code(':')}`)
 				const tokensType = rest2.tail()
 				checkNonEmpty(tokensType, () => `Expected something after ${colon}`)
-				opType = parseSpaced(tokensType)
-			}
-		}
-		else
-			name = _parseLocalName(t)
-
-		return LocalDeclare(t.loc, name, opType, isLazy)
+				return parseSpaced(tokensType)
+			})
+			return LocalDeclare(token.loc, name, opType, isLazy ? LD_Lazy : LD_Const)
+		} else
+			return LocalDeclare.plain(token.loc, _parseLocalName(token))
 	}
 
 // parseLocalDeclare privates
 const
 	_parseLocalName = t => {
-		if (Keyword.isFocus(t))
+		if (isKeyword(KW_Focus, t))
 			return '_'
 		else {
 			cx.check(t instanceof Name, t.loc, () => `Expected a local name, not ${t}`)
@@ -563,11 +590,11 @@ const _access = (name, loc) =>
 
 const parseSpaced = tokens => {
 	const h = tokens.head(), rest = tokens.tail()
-	if (Keyword.isType(h)) {
+	if (isKeyword(KW_Type, h)) {
 		const eType = parseSpaced(rest)
 		const focus = LocalAccess.focus(h.loc)
 		return Call.contains(h.loc, eType, focus)
-	} else if (Keyword.isLazy(h))
+	} else if (isKeyword(KW_Lazy, h))
 		return Lazy(h.loc, parseSpaced(rest))
 	else {
 		const memberOrSubscript = (e, t) => {
@@ -593,7 +620,7 @@ const parseSpaced = tokens => {
 const tryParseUses = (k, tokens) => {
 	if (!tokens.isEmpty()) {
 		const line0 = Slice.group(tokens.head())
-		if (Keyword.is(k)(line0.head()))
+		if (isKeyword(k, line0.head()))
 			return [ _parseUses(k, line0.tail()), tokens.tail() ]
 	}
 	return [ [ ], tokens ]
@@ -626,13 +653,14 @@ const
 			return { used: [ ], opUseDefault: useDefault() }
 		else {
 			const [ opUseDefault, rest ] =
-				Keyword.isFocus(tokens.head()) ?
+				isKeyword(KW_Focus, tokens.head()) ?
 					[ useDefault(), tokens.tail() ] :
 					[ null, tokens ]
-			const used = parseLocalDeclares(rest).map(l => {
+			const used = parseLocalDeclaresJustNames(rest).map(l => {
 				cx.check(l.name !== '_', l.pos,
 					() => `${code('_')} not allowed as import name.`)
-				l.isLazy = isLazy
+				if (isLazy)
+					l.kind = LD_Lazy
 				return l
 			})
 			return { used, opUseDefault }
@@ -645,7 +673,7 @@ const
 		else if (t instanceof DotName)
 			return { path: push(_partsFromDotName(t), t.name).join('/'), name: t.name }
 		else {
-			cx.check(Group.isSpaced(t), t.loc, 'Not a valid module name.')
+			cx.check(isGroup(G_Space, t), t.loc, 'Not a valid module name.')
 			return _parseLocalRequire(Slice.group(t))
 		}
 	},
