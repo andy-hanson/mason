@@ -1,7 +1,6 @@
 import { blue, green, magenta, bold } from 'chalk'
 import { Warning, formatCode } from '../CompileError'
-import { toArray } from '../private/U/Bag'
-import { type } from '../private/U/util'
+import { iteratorToArray, type } from '../private/util'
 
 export default (error, modulePath) => format(error.warning, modulePath, 'error')
 
@@ -12,7 +11,6 @@ export const formatWarningForConsole = (warning, modulePath) => {
 }
 
 const format = (warning, modulePath, kind) => {
-	// Turn code green
-	const message = toArray(formatCode(warning.message, green)).join('')
+	const message = iteratorToArray(formatCode(warning.message, green)).join('')
 	return `${blue(modulePath)}\n${magenta(kind)} ${bold.red(warning.loc)} ${message}`
 }

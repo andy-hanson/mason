@@ -11,9 +11,8 @@ import * as EExports from '../../Expression'
 import { Pattern, Splat, SD_Debugger, SV_Contains, SV_False, SV_Null, SV_Sub,
 	SV_This, SV_ThisModuleDirectory, SV_True, SV_Undefined } from '../../Expression'
 import manglePath from '../manglePath'
-import { cat, flatMap, isEmpty, range, tail, unshift } from '../U/Bag'
-import { flatOpMap, ifElse, opIf, opMap } from '../U/op'
-import { assert, implementMany, isPositive } from '../U/util'
+import { assert, cat, flatMap, flatOpMap, ifElse, isEmpty,
+	implementMany, isPositive, opIf, opMap, range, tail, unshift } from '../util'
 import { AmdefineHeader, ArraySliceCall, ExportsDefault, ExportsGet, IdArguments, IdDefine,
 	IdExports, IdExtract, IdFunctionApplyCall, IdName, LitEmptyArray, LitEmptyString, LitNull,
 	LitStrExports, LitStrName, LitZero, ReturnExports, ReturnRes, UseStrict
@@ -106,14 +105,14 @@ implementMany(EExports, 'transpileSubtree', {
 	BlockBag(lead, opResDeclare, opOut) {
 		const length = vr.listMapLength(this)
 		return transpileBlock(
-			ArrayExpression(range(0, length).map(i => idCached(`_${i}`))),
+			ArrayExpression(range(length).map(i => idCached(`_${i}`))),
 			this.lines, lead, opResDeclare, opOut)
 	},
 
 	BlockMap(lead, opResDeclare, opOut) {
 		const length = vr.listMapLength(this)
 		return transpileBlock(
-			msMap(...flatMap(range(0, length), i =>
+			msMap(...flatMap(range(length), i =>
 				[ idCached(`_k${i}`), idCached(`_v${i}`) ])),
 			this.lines, lead, opResDeclare, opOut)
 	},
@@ -226,7 +225,7 @@ implementMany(EExports, 'transpileSubtree', {
 			opMap(this.opDefaultExport, _ => assignmentExpressionPlain(ExportsDefault, t0(_))))
 		return Program(cat(
 			opIf(cx.opts.includeUseStrict(), () => UseStrict),
-			opIf(cx.opts.amdefine(), () => AmdefineHeader),
+			opIf(cx.opts.includeAmdefine(), () => AmdefineHeader),
 			toStatement(amdWrapModule(this.doUses, this.uses.concat(this.debugUses), body))))
 	},
 

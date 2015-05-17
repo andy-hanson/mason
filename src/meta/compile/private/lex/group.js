@@ -1,7 +1,6 @@
 import Loc, { StartPos } from 'esast/dist/Loc'
 import { Group, Keyword } from '../Token'
-import { head, isEmpty, last } from '../U/Bag'
-import { assert } from '../U/util'
+import { assert, isEmpty, last } from '../util'
 import GroupPre, {
 	groupOpenToClose, GP_OpenParen, GP_OpenBracket, GP_OpenBlock, GP_OpenQuote, GP_Line,
 	GP_Space, GP_CloseParen, GP_CloseBracket, GP_CloseBlock, GP_CloseQuote} from './GroupPre'
@@ -47,7 +46,7 @@ export default function group(cx, preGroupedTokens) {
 						return
 					else if (size === 1)
 						// Spaced should always have at least two elements
-						wrapped = head(wrapped.tokens)
+						wrapped = wrapped.tokens[0]
 					break
 				}
 				case GP_Line:

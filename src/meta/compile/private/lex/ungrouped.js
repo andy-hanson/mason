@@ -1,10 +1,10 @@
 import Loc, { Pos, StartLine, StartColumn, singleCharLoc } from 'esast/dist/Loc'
 import { code } from '../../CompileError'
-import { isReservedName } from '../Lang'
+import { isReservedName } from '../language'
 import { CallOnFocus, DotName, Keyword, TokenNumberLiteral, Name,
 	keywordKFromName,
 	KW_Focus, KW_Fun, KW_GenFun, KW_Lazy, KW_ObjAssign, KW_Region, KW_Type } from '../Token'
-import { assert } from '../U/util'
+import { assert } from '../util'
 import GroupPre, { GP_OpenParen, GP_OpenBracket, GP_OpenBlock, GP_OpenQuote, GP_Line,
 	GP_Space, GP_CloseParen, GP_CloseBracket, GP_CloseBlock, GP_CloseQuote} from './GroupPre'
 import { showChar, isDigit, isNameCharacter, isNumberCharacter } from './char'

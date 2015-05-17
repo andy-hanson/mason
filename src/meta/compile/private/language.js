@@ -1,4 +1,4 @@
-import { newSet } from './U/util'
+import { newSet } from './util'
 
 export const isReservedName = name => {
 	switch (name) {

@@ -2,11 +2,11 @@ import { singleCharLoc, StartPos } from 'esast/dist/Loc'
 import fs from 'q-io/fs'
 import { relative } from 'path'
 import { BagSimple, Module, Quote } from '../Expression'
-import Cx from '../private/Cx'
-import { OptsFromObject } from '../private/Opts'
+import CompileContext from '../private/CompileContext'
+import CompileOptions from '../private/CompileOptions'
 import transpile from '../private/transpile/transpile'
 import render from '../private/render'
-import { flatOpMap, opIf } from '../private/U/op'
+import { flatOpMap, opIf } from '../private/util'
 import VerifyResults from '../private/VerifyResults'
 
 // Searches a directory and creates a module whose default export is
@@ -22,7 +22,7 @@ export default (dirPath, opts) =>
 		// Sort to keep it deterministic.
 		const modulesBag = BagSimple(loc, moduleFiles.sort().map(_ => Quote.forString(loc, _)))
 		const module = Module(loc, [ ], [ ], [ ], [ ], [ ], modulesBag)
-		const cx = new Cx(OptsFromObject({
+		const cx = new CompileContext(new CompileOptions({
 			includeSourceMap: false,
 			includeModuleName: false
 		}))

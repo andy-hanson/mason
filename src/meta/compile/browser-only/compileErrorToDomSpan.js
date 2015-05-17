@@ -1,5 +1,5 @@
 import CompileError, { Warning, formatCode } from '../CompileError'
-import { type } from '../private/U/util'
+import { type } from '../private/util'
 
 export default (error, modulePath) => {
 	type(error, CompileError)

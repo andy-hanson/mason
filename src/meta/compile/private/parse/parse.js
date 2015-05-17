@@ -6,14 +6,13 @@ import { Assign, AssignDestructure, BagEntry, BagSimple, BlockBag, BlockDo, Bloc
 	NumberLiteral, EndLoop, Fun, GlobalAccess, Lazy, LocalAccess, LocalDeclare, LocalDeclareRes,
 	Loop, MapEntry, Member, Module, ObjPair, ObjSimple, Pattern, Quote, SpecialDo, SpecialVal,
 	Splat, Val, Use, UseDo, Yield, YieldTo } from '../../Expression'
-import { JsGlobals } from '../Lang'
+import { JsGlobals } from '../language'
 import { CallOnFocus, DotName, Group, G_Block, G_Bracket, G_Paren, G_Space, G_Quote, Keyword,
 	KW_Case, KW_CaseDo, KW_Debug, KW_Debugger, KW_EndLoop, KW_Focus, KW_Fun, KW_GenFun, KW_In,
 	KW_Loop, KW_MapEntry, KW_ObjAssign, KW_Pass, KW_Out, KW_Region, KW_Use, KW_UseDebug, KW_UseDo,
 	KW_UseLazy, KW_Yield, KW_YieldTo, Name, opKWtoSV, TokenNumberLiteral } from '../Token'
-import { head, flatMap, isEmpty, last, push, repeat, rtail, tail, unshift } from '../U/Bag'
-import { ifElse, opIf, opMap } from '../U/op'
-import { assert } from '../U/util'
+import { assert, head, ifElse, flatMap, isEmpty, last,
+	opIf, opMap, push, repeat, rtail, tail, unshift } from '../util'
 import Slice from './Slice'
 
 let cx
@@ -41,7 +40,7 @@ const parseModule = tokens => {
 	const [ debugUses, rest3 ] = tryParseUses(KW_UseDebug, rest2)
 	const { lines, exports, opDefaultExport } = parseModuleBlock(rest3)
 
-	if (cx.opts.doIncludeModuleName() && !exports.some(_ => _.name === 'name')) {
+	if (cx.opts.includeModuleName() && !exports.some(_ => _.name === 'name')) {
 		const dn = LocalDeclare.declareName(tokens.loc)
 		lines.push(Assign(tokens.loc, dn,
 			Quote.forString(tokens.loc, cx.opts.moduleName())))

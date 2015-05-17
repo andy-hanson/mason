@@ -1,16 +1,15 @@
 import { code } from '../../CompileError'
-import { NonNameCharacters } from '../Lang'
+import { NonNameCharacters } from '../language'
 
 export const
 	showChar = ch => code(String.fromCharCode(ch))
 
 const
-	charPred = (chars, reverse) => {
+	charPred = (chars, negate) => {
 		let src = 'switch(ch) {\n'
 		for (let i = 0; i < chars.length; i = i + 1)
 			src = `${src}case ${chars.charCodeAt(i)}: `
-		const res = !reverse
-		src = `${src} return ${res}\ndefault: return ${!res}\n}`
+		src = `${src} return ${!negate}\ndefault: return ${negate}\n}`
 		return Function('ch', src)
 	}
 export const

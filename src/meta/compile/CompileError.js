@@ -1,6 +1,6 @@
 import Loc from 'esast/dist/Loc'
 import tupl from 'tupl/dist/tupl'
-import { type } from './private/U/util'
+import { type } from './private/util'
 
 export default function CompileError(warning) {
 	if (!(this instanceof CompileError))
@@ -13,22 +13,21 @@ export default function CompileError(warning) {
 }
 CompileError.prototype = Object.create(Error.prototype)
 
-export const Warning = tupl('Warning', Object, 'doc', [ 'loc', Loc, 'message', String ])
-
-export const code = str => `{{${str}}}`
-
-export const formatCode = function*(str, formatter) {
-	const rgx = /{{(.*?)}}/g
-	let prevIdx = 0
-	while (true) {
-		const match = rgx.exec(str)
-		if (match === null) {
-			yield str.slice(prevIdx, str.length)
-			break
-		} else {
-			yield str.slice(prevIdx, match.index)
-			yield formatter(match[1])
-			prevIdx = rgx.lastIndex
+export const
+	Warning = tupl('Warning', Object, 'doc', [ 'loc', Loc, 'message', String ]),
+	code = str => `{{${str}}}`,
+	formatCode = function*(str, formatter) {
+		const rgx = /{{(.*?)}}/g
+		let prevIdx = 0
+		while (true) {
+			const match = rgx.exec(str)
+			if (match === null) {
+				yield str.slice(prevIdx, str.length)
+				break
+			} else {
+				yield str.slice(prevIdx, match.index)
+				yield formatter(match[1])
+				prevIdx = rgx.lastIndex
+			}
 		}
 	}
-}

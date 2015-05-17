@@ -2,9 +2,7 @@ import { code } from '../CompileError'
 import * as EExports from '../Expression'
 import { Assign, AssignDestructure, BlockVal, Call, Debug, Do, BagEntry,
 	LocalDeclareRes, MapEntry, Pattern, SpecialDo, UseDo, Yield, YieldTo } from '../Expression'
-import { cat, head, isEmpty } from './U/Bag'
-import { ifElse, opEach } from './U/op'
-import { implementMany, mapKeys, newSet } from './U/util'
+import { cat, head, ifElse, implementMany, isEmpty, mapKeys, newSet, opEach } from './util'
 import VerifyResults, { LocalInfo } from './VerifyResults'
 
 const vm = es => es.forEach(e => e.verify())

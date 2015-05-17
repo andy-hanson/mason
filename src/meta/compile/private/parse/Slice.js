@@ -1,5 +1,5 @@
 import Loc from 'esast/dist/Loc'
-import { isEmpty } from '../U/Bag'
+import { isEmpty, opIf, push } from '../util'
 
 export default class Slice {
 	static group(g) {
@@ -61,13 +61,7 @@ export default class Slice {
 				out.push({ before: this._chop(iLast, i), at: this.data[i] })
 				iLast = i + 1
 			}
-
-		if (isEmpty(out))
-			return null
-		else {
-			out.push({ before: this._chopStart(iLast) })
-			return out
-		}
+		return opIf(!isEmpty(out), () => push(out, { before: this._chopStart(iLast) }))
 	}
 
 	each(f) {

@@ -5,14 +5,14 @@ import numeral from 'numeral'
 import compile from '../compile'
 import CompileError from '../CompileError'
 import Expression from '../Expression'
-import Cx from '../private/Cx'
+import CompileContext from '../private/CompileContext'
+import CompileOptions from '../private/CompileOptions'
 import lexUngrouped from '../private/lex/ungrouped'
 import lexGroup from '../private/lex/group'
 import parse from '../private/parse/parse'
 import render from '../private/render'
 import transpile from '../private/transpile/transpile'
 import verify from '../private/verify'
-import { OptsFromObject } from '../private/Opts'
 import formatCompileErrorForConsole from './formatCompileErrorForConsole'
 
 export const
@@ -21,7 +21,7 @@ export const
 
 const doTest = includePerfTest => {
 	const source = fs.readFileSync('./ms-test.ms', 'utf-8')
-	const opts = OptsFromObject({
+	const opts = new CompileOptions({
 		inFile: './ms-test.ms',
 		includeAmdefine: false,
 		includeSourceMap: true,
@@ -29,7 +29,7 @@ const doTest = includePerfTest => {
 		forceNonLazyModule: true,
 		useStrict: false
 	})
-	const cx = new Cx(opts)
+	const cx = new CompileContext(opts)
 
 	try {
 		const ug = lexUngrouped(cx, source)

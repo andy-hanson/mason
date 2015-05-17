@@ -3,4 +3,3 @@ export default path =>
 	.replace(/@/g, 'at')
 	.replace(/\?/g, 'q')
 	.replace(/\$/g, 'cash')
-

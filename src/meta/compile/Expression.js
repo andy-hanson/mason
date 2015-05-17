@@ -1,7 +1,7 @@
 import Loc from 'esast/dist/Loc'
 import tupl, { abstract } from 'tupl/dist/tupl'
 import { Nullable, Union } from 'tupl/dist/type'
-import { JsGlobals } from './private/Lang'
+import { JsGlobals } from './private/language'
 
 const Expression = abstract('Expression', Object, 'doc')
 export default Expression

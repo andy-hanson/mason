@@ -3,7 +3,7 @@ import tupl, { abstract } from 'tupl/dist/tupl'
 import { code } from '../CompileError'
 import { SV_False, SV_Null, SV_This, SV_ThisModuleDirectory, SV_True, SV_Undefined
 	} from '../Expression'
-import { implementMany } from './U/util'
+import { implementMany } from './util'
 
 const Token = abstract('Token', Object,
 	'TODO:doc',
