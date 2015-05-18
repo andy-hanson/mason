@@ -113,8 +113,8 @@ region Using iterator
 		test. |
 			[ [ 0 1 ] =?[1] ] -> true
 			[ [ 0 1 ] =?[2] ] -> false
-		|_:@ ?pred?:Opt[Pred]
-			pred? = opr ?pred? identity
+		|_:@ pred?:Opt[Pred]
+			pred? := opr pred? identity
 			not (empty? (?find _ pred?
 
 	all?.
@@ -122,8 +122,8 @@ region Using iterator
 		test. |
 			[ [ 0 0 ] =?[0] ] -> true
 			[ [ 0 1 ] =?[0] ] -> false
-		|_:@ ?pred?:Opt[Pred]
-			pred? = opr ?pred? identity
+		|_:@ pred?:Opt[Pred]
+			pred? := opr pred? identity
 			empty? (?find _ |em
 				not (pred? em
 

@@ -30,16 +30,16 @@ Range = Tuple
 	test. |
 		! seq=? [ 0 1 2 ] (take' (range 0 infinity) 3
 
-range. |start:Number end:Number ?step:Opt[Number]
-	step = opr ?step (sign (- end start
+range. |start:Number end:Number step:Opt[Number]
+	step := opr step (sign (- end start
 	Range start end step
 
 range-incl.
 	doc. "TODO"
 	test. |
 		"TODO"
-	|start:Number end:Number ?step:Opt[Number]
-		step = opr ?step (sign (- end start
+	|start:Number end:Number step:Opt[Number]
+		step := opr step (sign (- end start
 		range start (+ end step) step
 
 self-kind! Range @-Type

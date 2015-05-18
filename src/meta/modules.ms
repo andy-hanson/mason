@@ -2,7 +2,6 @@ use
 	..$ _ $after $map
 	..js new
 	..private.bootstrap msCall
-	..RegExp regexp
 
 $require = |require path
 	# TODO:ES6 Shouldn't need `new`
@@ -10,7 +9,7 @@ $require = |require path
 		require [ path ] resolve reject
 
 dirname = |path
-	path.replace (regexp "/[^/]*$") ""
+	path.replace (RegExp "/[^/]*$") ""
 
 $get-module.
 	doc. "

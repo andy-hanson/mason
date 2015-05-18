@@ -1,15 +1,15 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","../cash","../js","../private/bootstrap","../RegExp"],function(exports,$_0,js_1,bootstrap_2,RegExp_3){
+define(["exports","../cash","../js","../private/bootstrap"],function(exports,$_0,js_1,bootstrap_2){
 	exports._get=_ms.lazy(function(){
-		const $=_ms.getDefaultExport($_0),_$2=_ms.getModule($_0),$after=_ms.get(_$2,"$after"),$map=_ms.get(_$2,"$map"),_$3=_ms.getModule(js_1),_new=_ms.get(_$3,"new"),_$4=_ms.getModule(bootstrap_2),msCall=_ms.get(_$4,"msCall"),_$5=_ms.getModule(RegExp_3),regexp=_ms.get(_$5,"regexp");
+		const $=_ms.getDefaultExport($_0),_$2=_ms.getModule($_0),$after=_ms.get(_$2,"$after"),$map=_ms.get(_$2,"$map"),_$3=_ms.getModule(js_1),_new=_ms.get(_$3,"new"),_$4=_ms.getModule(bootstrap_2),msCall=_ms.get(_$4,"msCall");
 		const $require=function $require(require,path){
 			return _new($,function(resolve,reject){
 				return require([path],resolve,reject)
 			})
 		};
 		const dirname=function dirname(path){
-			return path.replace(regexp("/[^/]*$"),"")
+			return path.replace(RegExp("/[^/]*$"),"")
 		};
 		const $get_45module=exports["$get-module"]=function(){
 			const doc="Retrieves module code and evaluates it.\nFirst parameter should be the result of using `require` as a global module.\nThis allows module-path to be relative to the module calling $get-module.\nThe module is represented as an object whose keys are its exports and whose `default` key is its default export.\nNote that `use~` lazily evaluates the content of a module, but eagerly loads the module code.";
@@ -37,4 +37,4 @@ define(["exports","../cash","../js","../private/bootstrap","../RegExp"],function
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL21vZHVsZXMubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFNQSxlQUFZLGtCQUFBLFFBQVEsS0FDSTtVQUN2QixLQUFJLEVBQUcsU0FBQSxRQUFRLE9BQ007V0FBcEIsUUFBUSxDQUFFLE1BQU8sUUFBUTtHQUFBO0VBQUE7RUFFM0IsY0FBVyxpQkFBQSxLQUNJO1VBQWQsYUFBYyxPQUFRLFdBQVc7RUFBQTtFQUVsQyxxREFDWTtHQUFYLFVBQ0M7a0JBS0EsdUJBQUEsUUFBaUIsY0FDa0I7c0JBRDNCO3NCQUFxQjtXQUM3QixPQUFRLFNBQVMsUUFBUSx1QkFBYSxPQUFRO0dBQUE7O0VBRWhELDJEQUNjO0dBQWIsVUFDQztrQkFHQSwyQkFBQSxRQUFpQixxQkFDdUI7c0JBRGhDO3NCQUEwQjtJQUNsQywyQkFBbUIsUUFBUTtXQUMzQixPQUFRLGNBQVksUUFBUSxzQkFBbUIsU0FBQSxHQUNFO0tBQWhELHFCQUFlLE9BQVEsbUJBQWtCO1lBQ3pDLEtBQUssZUFBYyxTQUFBLGNBQ1c7YUFDN0IsY0FBWSxRQUFTLEdBdkJTLFlBdUJSLHFDQUFtQjtLQUFBO0lBQUE7R0FBQTs7RUFuQzdDLHdCQUFBIiwiZmlsZSI6Im1ldGEvbW9kdWxlcy5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL21vZHVsZXMubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFLQSxlQUFZLGtCQUFBLFFBQVEsS0FDSTtVQUN2QixLQUFJLEVBQUcsU0FBQSxRQUFRLE9BQ007V0FBcEIsUUFBUSxDQUFFLE1BQU8sUUFBUTtHQUFBO0VBQUE7RUFFM0IsY0FBVyxpQkFBQSxLQUNJO1VBQWQsYUFBYyxPQUFRLFdBQVc7RUFBQTtFQUVsQyxxREFDWTtHQUFYLFVBQ0M7a0JBS0EsdUJBQUEsUUFBaUIsY0FDa0I7c0JBRDNCO3NCQUFxQjtXQUM3QixPQUFRLFNBQVMsUUFBUSx1QkFBYSxPQUFRO0dBQUE7O0VBRWhELDJEQUNjO0dBQWIsVUFDQztrQkFHQSwyQkFBQSxRQUFpQixxQkFDdUI7c0JBRGhDO3NCQUEwQjtJQUNsQywyQkFBbUIsUUFBUTtXQUMzQixPQUFRLGNBQVksUUFBUSxzQkFBbUIsU0FBQSxHQUNFO0tBQWhELHFCQUFlLE9BQVEsbUJBQWtCO1lBQ3pDLEtBQUssZUFBYyxTQUFBLGNBQ1c7YUFDN0IsY0FBWSxRQUFTLEdBdkJTLFlBdUJSLHFDQUFtQjtLQUFBO0lBQUE7R0FBQTs7RUFsQzdDLHdCQUFBIiwiZmlsZSI6Im1ldGEvbW9kdWxlcy5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

@@ -136,8 +136,8 @@ region Sorting
 			[ [ 1 2 3 ] ] -> true
 			[ [ 3 2 1 ] ] -> false
 			[ [ "six" "five" "seven" ] count ] -> true
-		|seq:Seq ?sort-by:Opt[Function]
-			sort-by = opr ?sort-by identity
+		|seq:Seq sort-by:Opt[Function]
+			sort-by := opr sort-by identity
 			case seq
 				empty?_
 					true
@@ -160,8 +160,8 @@ region Sorting
 			2
 			# . [ "_" @ ] # TODO: @
 			# . [ "?sort-by" Opt[Function] ]
-		default. |_ ?sort-by
-			sort-by = opr ?sort-by identity
+		default. |_ sort-by
+			sort-by := opr sort-by identity
 			# Ensure that we create a *new* Array!, because we're about to mutate it.
 			sorted = from-stream Array! _
 			sorted.sort |a b

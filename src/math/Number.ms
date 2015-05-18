@@ -212,8 +212,8 @@ region Near
 			region Behaves like `near-0?` when an arg is 0
 				[ 0.00999 0 2 ] -> true
 				[ 0 0.00999 2 ] -> true
-		|a b:Number ?sig-figs:Opt[Nat]
-			sig-figs = opr ?sig-figs 6
+		|a b:Number sig-figs:Opt[Nat]
+			sig-figs := opr sig-figs 6
 			case
 				=? a 0
 					near-0? b sig-figs
@@ -234,8 +234,8 @@ region Near
 		test. |
 			[ 0.00999 2 ] -> true
 			[ 0.01 2 ] -> false
-		|_ ?sig-figs:Opt[Nat]
-			sig-figs = opr ?sig-figs 6
+		|_ sig-figs:Opt[Nat]
+			sig-figs := opr sig-figs 6
 			# This is more accurate than `pow 0.1 sig-figs`
 			max = pow 10 (* -1 sig-figs)
 			<? abs_ max

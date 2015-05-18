@@ -24,9 +24,8 @@ empty-Object!.
 		! empty-Object? _
 		child = empty-Object! _
 		! =? _ (prototype child
-	|?prototype:Opt[Object]
-		prototype = opr ?prototype Object.prototype
-		Object.create prototype
+	|prototype:Opt[Object]
+		Object.create (opr prototype Object.prototype
 
 p+!.
 	doc. "Adds a new immutable property."

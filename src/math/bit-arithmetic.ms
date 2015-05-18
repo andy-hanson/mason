@@ -3,7 +3,6 @@ use
 	.Number Int
 use-debug
 	..! _ !not
-	..RegExp regexp
 	..Try fails?
 
 doc. "For dealing with Ints qua sequences of bits."
@@ -16,7 +15,7 @@ binary.
 			binary "0a"
 	|:Int bin-str:String
 		in
-			!not ((regexp "[^01]").test bin-str) ~"Not a valid binary number: {bin-str}"
+			!not ((RegExp "[^01]").test bin-str) ~"Not a valid binary number: {bin-str}"
 		out
 			!not Number.isNaN res
 
@@ -30,7 +29,7 @@ hexidecimal.
 			hexidecimal "asdfghjkl"
 	|:Int hex-str:String
 		in
-			!not ((regexp "[^0-9a-fA-F]").test hex-str) ~"Not a valid hexidecimal number: {hex-str}"
+			!not ((RegExp "[^0-9a-fA-F]").test hex-str) ~"Not a valid hexidecimal number: {hex-str}"
 		out
 			!not Number.isNaN res
 

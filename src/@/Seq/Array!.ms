@@ -20,9 +20,8 @@ Array! = Pred-Type
 		and :Array ~(not frozen?_)
 
 self-kind! Array! @-Type
-	empty -> |?initial-size
-		initial-size = opr ?initial-size 0
-		Array initial-size
+	empty -> |initial-size
+		Array (opr initial-size 0
 	from-stream -> |_
 		arr = Array 0
 		each! _ |em

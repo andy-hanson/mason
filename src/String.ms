@@ -2,7 +2,6 @@ use
 	.Boolean and
 	.compare _ =?
 	.js id=?
-	.RegExp regexp
 	.Type.Kind
 	.Type.Method impl!
 	.Type.Pred-Type
@@ -41,13 +40,13 @@ indent.
 		[ s ] -> s-indented
 		[ "a" ] -> "a"
 	|_:String
-		"{_.replace (regexp "\n" "g") "\n\t"}"
+		"{_.replace (RegExp "\n" "g") "\n\t"}"
 
 split-str.
 	doc. "Like `@.split` but using a String-Test instead of a predicate."
 	test. |
 		[ " " "I am a String" ] -> [ "I" "am" "a" "String" ]
-		[ (regexp ".") "abc" ] -> [ "" "" "" "" ]
+		[ (RegExp ".") "abc" ] -> [ "" "" "" "" ]
 	|:Array[String] splitter:String-Test _:String
 		_.split splitter
 

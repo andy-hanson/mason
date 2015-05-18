@@ -31,9 +31,9 @@ impl-double! => (self-type String) @
 	test. |
 		[ String [ 1 2 3 ] ] -> "123"
 		[ String [ 1 2 3 ] ", " ] -> "1, 2, 3"
-	|str _ ?joiner:Opt[String]
+	|str _ joiner:Opt[String]
 		noop str
-		joiner = opr ?joiner ""
+		joiner := opr joiner ""
 		(=> Array (map _ show)).join joiner
 
 # TODO: Should this be necessary?

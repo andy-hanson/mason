@@ -290,6 +290,10 @@ const parseFun = (isGenerator, tokens) => {
 	const { opReturnType, rest } = _tryTakeReturnType(tokens)
 	checkNonEmpty(rest, () => `Expected an indented block.`)
 	const { args, opRestArg, block, opIn, opOut } = _funArgsAndBlock(rest)
+	args.forEach(arg => {
+		if (!arg.isLazy())
+			arg.kind = LD_Mutable
+	})
 	// Need res declare if there is a return type or out condition.
 	const opResDeclare = ifElse(opReturnType,
 		_ => LocalDeclareRes(_.loc, _),
