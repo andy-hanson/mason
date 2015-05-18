@@ -50,7 +50,9 @@ export default class CompileOptions {
 				throw new Error('Either supply `inFile` option or make `includeModuleName` false.')
 		}
 
-		const checks = opts.checks || true
+		let checks = opts.checks
+		if (checks === undefined)
+			checks = true
 		const checkSubs = [ 'use', 'type', 'inout', 'case' ]
 		this._check = { }
 		if (typeof checks === 'boolean')

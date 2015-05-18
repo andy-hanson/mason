@@ -19,6 +19,7 @@ gulp.task('compile-all', [ 'js', 'ms', 'list-modules' ])
 gulp.task('watch', [ 'watch-js', 'watch-ms', 'watch-list-modules' ])
 gulp.task('all', [ 'compile-all' ], run)
 gulp.task('all-minus-js', [ 'ms-minus-js' ], run)
+gulp.task('all-no-checks', [ 'ms-no-checks' ], run)
 
 function run() {
 	require('es6-shim')
@@ -62,12 +63,12 @@ const
 	srcJs = 'src/**/*.js',
 	dist = 'dist'
 
-function pipeMs(stream) {
+function pipeMs(stream, checks) {
 	// This can only be required after we've created it, so 'ms' task depends on 'js'.
 	const ms = require('./dist/meta/compile/node-only/gulp-mason')
 	return stream
 	.pipe(sourcemaps.init())
-	.pipe(ms({ verbose: true }))
+	.pipe(ms({ checks: checks, verbose: true }))
 	.pipe(sourcemaps.write({
 		debug: true,
 		includeContent: false,
@@ -107,8 +108,9 @@ gulp.task('js', function() {
 })
 gulp.task('watch-js', function() { return pipeJs(srcWatch(srcJs)) })
 
-gulp.task('ms-minus-js', function() { return pipeMs(src(srcMs)) })
-gulp.task('ms', [ 'js' ], function() { return pipeMs(src(srcMs)) })
+gulp.task('ms-minus-js', function() { return pipeMs(src(srcMs), true) })
+gulp.task('ms', [ 'js' ], function() { return pipeMs(src(srcMs), true) })
+gulp.task('ms-no-checks', function() { return pipeMs(src(srcMs), false) })
 gulp.task('watch-ms', [ 'js' ], function() { return pipeMs(srcWatch(srcMs)) })
 
 gulp.task('lint', function() {

@@ -38,6 +38,7 @@ export const JsGlobals = newSet([
 
 // Anything not explicitly reserved is a valid name character.
 // A `~` may appear in a name, but not at the beginning.
-export const NonNameCharacters = '()[]{}.:|_ \n\t"`#;,'
+const ReservedCharacters = '`#%^&\\;,'
+export const NonNameCharacters = '()[]{}.:|_ \n\t"' + ReservedCharacters
 
 export const defaultLoopName = 'anon-loop'

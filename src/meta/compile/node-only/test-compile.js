@@ -21,15 +21,15 @@ export const
 
 const doTest = includePerfTest => {
 	const source = fs.readFileSync('./ms-test.ms', 'utf-8')
-	const opts = new CompileOptions({
+	const opts = {
 		inFile: './ms-test.ms',
 		includeAmdefine: false,
 		includeSourceMap: true,
 		includeModuleName: false,
 		forceNonLazyModule: true,
 		useStrict: false
-	})
-	const cx = new CompileContext(opts)
+	}
+	const cx = new CompileContext(new CompileOptions(opts))
 
 	try {
 		const ug = lexUngrouped(cx, source)

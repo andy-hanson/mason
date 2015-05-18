@@ -32,6 +32,7 @@ export	const
 				return true
 		}
 	},
+
 	// TODO:ES6 (...args) => {
 	iOr = function() {
 		const args = arguments
@@ -151,4 +152,35 @@ export	const
 		for (let i = 0; i < nArgs; i = i + 1)
 			res.push(String.fromCharCode(a + i))
 		return res.join(',')
+	}
+
+// hash-code.ms
+const hashes = new WeakMap()
+export const
+	hashCodeDefault = (_, hashCode) => {
+		if (_ === null)
+			return 108
+		if (_ === undefined)
+			return 109
+
+		let hash = hashes.get(_)
+		if (hash !== undefined)
+			return hash
+
+		// Don't recurse infinitely.
+		hashes.set(_, 17)
+
+		hash = 17
+		for (let key in _)
+			hash = (hashCode(_[key]) + ((hash * 23) | 0)) | 0
+
+		hashes.set(_, hash)
+		return hash
+	},
+
+	hashCodeString = _ => {
+		let hash = 13
+		for (let i = 0; i < _.length; i = i + 1)
+			hash = ((hash + _.charCodeAt(i)) | 0) * 31
+		return hash
 	}

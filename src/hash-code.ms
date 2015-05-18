@@ -1,30 +1,19 @@
 use
-	.@.@ fold map
-	.@.@-Type empty
-	.@.Map.Weak-Id-Map!
 	.compare =?
-	.js id=?
-	.math.bit-arithmetic bit-and hexidecimal
-	.math.Number Int round-towards-0
-	.math.methods + *
-	.Object p @p-all
-	.Type.Method _ impl! impl-for
+	.js js-bar
+	.math.Number Int
+	.private.js-impl hashCodeDefault hashCodeString
+	.Type.Method _ impl!
 use-debug
 	.! _ !not
 
-max-hash-code = hexidecimal "7fffffff"
-
 keep-small = |_
-	bit-and _ max-hash-code
-
-hashes = empty Weak-Id-Map!
+	js-bar _ 0
 
 hash-code = Method
-	doc.
-		"
-			|:Int _
-			Integer used to identify a value in a Hash-Map! (or Hash-Set!).
-			This should have a high probability of being different than the hash-codes of the other values in the map.
+	doc. "
+		Integer used to identify a value in a Hash-Map! (or Hash-Set!).
+		This should have a high probability of being different than the hash-codes of the other values in the map.
 	test. |
 		a =
 			x. 1
@@ -36,29 +25,10 @@ hash-code = Method
 		!not =? (hash-code a) (hash-code b
 		# TODO: Check that it handles recursive values
 	args. 1
+	returns. Int
 	allow-null?. true
-	default. |:Int _
-		case
-			id=? _ null
-				108
-			id=? _ undefined
-				109
-			hashes.has _
-				hashes.get _
-			:Function
-				# TODO: Want to do other case below but it seems to cause infinite loop
-				(impl-for hash-code Function) _
-			else
-				# Set it now so we don't recurse infinitely
-				hashes.set _ 17
-				# TODO: Should this be a function in Object.ms?
-				vals = map @p-all_ |name
-					p _ name
-				hash = fold vals 17 |acc val
-					x = keep-small (* acc 23)
-					keep-small (+ (hash-code val) x)
-				hashes.set _ hash
-				hash
+	default. |_
+		hashCodeDefault _ hash-code
 
 # Since default hash-code only works on Objects, let's implement hash-code for primitives.
 impl! hash-code Boolean |case
@@ -75,14 +45,12 @@ impl! hash-code Function |fun
 		else
 			_
 
+# TODO: Memoize this one too?
 impl! hash-code String
 	test. |
 		! =? (hash-code "a") (hash-code "a")
 		!not =? (hash-code "a") (hash-code "b")
-	|_
-		reducer = |hash ch
-			keep-small (* 31 (+ hash (ch.charCodeAt 0)))
-		Array.prototype.reduce.call _ reducer 13
+	hashCodeString
 
 impl! hash-code Symbol
 	test. |
@@ -92,8 +60,7 @@ impl! hash-code Symbol
 		# TODO:ES6 (currently this returns undefined)
 		42 # Symbol.keyFor _
 
-impl! hash-code Number |_
-	# TODO: This treats small floats as equivalent.
-	bit-and round-towards-0_ max-hash-code
+# TODO: This treats small floats as equivalent.
+impl! hash-code Number keep-small
 
 hash-code

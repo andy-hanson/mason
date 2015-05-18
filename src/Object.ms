@@ -54,6 +54,7 @@ flag?.
 		Object.defineProperty obj sym
 			value. 0
 			enumerable. false
+		! set=? (@p-all [ 0 0 ]) [ "0" "1" "length" ]
 		! set=? (@p-all obj) [ "a" sym ]
 		# But not "arguments" or "caller"
 		# TODO:DISPLAYNAME
