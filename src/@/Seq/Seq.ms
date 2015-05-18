@@ -329,11 +329,8 @@ region TODO: put somewhere
 										end-loop!
 									else
 										++>! next-group [ value ]
-										case! count next-group
-											=? _ group-size
-												end-loop!
-											else
-												pass
+										if! =? group-size (count next-group)
+											end-loop!
 							case! count next-group
 								=? _ group-size
 									<~ freeze next-group

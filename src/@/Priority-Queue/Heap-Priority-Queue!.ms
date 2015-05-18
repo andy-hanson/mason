@@ -1,7 +1,7 @@
 use
 	...Boolean and not
 	...compare <?
-	...control if! returning
+	...control returning
 	...math.Number int/
 	...math.methods + - *
 	...Type.Kind kind! self-kind!
@@ -31,7 +31,7 @@ kind! Heap-Priority-Queue! Priority-Queue!
 		map (?first heap) |first
 			returning first |
 				last-leaf = un-? (?pop>! heap
-				if! (not empty?_) |
+				if! (not empty?_)
 					fix-down! heap last-leaf
 	empty? -> |_
 		empty? _.val

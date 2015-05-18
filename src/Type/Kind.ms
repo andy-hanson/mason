@@ -8,7 +8,6 @@ use
 	.Obj-Type
 use~
 	..@.@ _ each! flat-map
-	..control if!
 	.Impl-Type _ self-type
 	..methods freeze frozen?
 use-debug
@@ -90,13 +89,10 @@ Kind = Obj-Type
 			Symbol "isa-{_.name}"
 	post-construct. |_
 		pAdd _.prototype _.symbol-for-isa true
-		case!
-			isEmpty _.implementors
-				pass
-			else
-				_.implementors.forEach |implementor
-					on-implementor! implementor _
-				freeze _.implementors
+		if! not (isEmpty _.implementors)
+			_.implementors.forEach |implementor
+				on-implementor! implementor _
+			freeze _.implementors
 
 implContains Kind KindContains
 
@@ -156,12 +152,9 @@ kind!.
 			!not kind? implementor kind
 
 		unchecked-kind! implementor kind
-		case! method-impls
-			defined?_
-				each! _ |pair
-					impl! pair.key implementor pair.val
-			else
-				pass
+		if! (defined? method-impls)
+			each! method-impls |pair
+				impl! pair.key implementor pair.val
 
 self-kind!.
 	doc. "TODO"
@@ -169,7 +162,7 @@ self-kind!.
 		"TODO"
 	|implementor:Object kind:Kind method-impls
 		kind! (self-type implementor) kind
-		if! (defined? method-impls) |
+		if! (defined? method-impls)
 			each! method-impls |pair
 				self-impl! pair.key implementor pair.val
 
@@ -192,13 +185,10 @@ region Private
 	@p-all = |_
 		(Object.getOwnPropertyNames _).concat (Object.getOwnPropertySymbols _)
 
-	on-implementor! = |implementor kind
-		case! implementor
-			:Kind
-				_.super-kinds.push kind
-			else
-				pass
-		inherit-methods! implementor kind
+	on-implementor! = |_ kind
+		if! :Kind
+			_.super-kinds.push kind
+		inherit-methods! _ kind
 
 	inherit-methods! = |implementor kind
 		rec! = |kind

@@ -46,10 +46,8 @@ region Is Seq
 	impl! empty? ? |_
 		id=? _ empty-?
 
-	impl! iterator ? ~|case!
-		empty?_
-			pass
-		else
+	impl! iterator ? ~|_
+		if! not empty?_
 			<~ _.val
 
 region Functions

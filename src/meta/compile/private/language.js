@@ -2,7 +2,7 @@ import { newSet } from './util'
 
 export const isReservedName = name => {
 	switch (name) {
-		case 'for': case 'return': case 'with': return true
+		case 'for': case 'of': case 'return': case 'with': return true
 		default: return false
 	}
 }

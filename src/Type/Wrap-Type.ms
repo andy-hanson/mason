@@ -10,17 +10,8 @@ use
 use-debug
 	..!
 	..compare =?
-	# ..control if!
 	..js defined?
 	..Try fails?
-
-# TODO: use `control` version
-debug if! = |cond fun
-	case!
-		cond
-			fun()
-		else
-			pass
 
 Wrap-Type = Obj-Type
 	doc. "
@@ -43,7 +34,7 @@ Wrap-Type = Obj-Type
 				return function ctr(_) \{
 					if (!(this instanceof ctr)) return new ctr(_)
 					this.val = _
-			debug if! (defined? _.wrapped-type) |
+			debug if! (defined? _.wrapped-type)
 				add! "_ms.checkContains(wrappedType, _, \"val\")"
 			add! "}"
 		f = Function "wrappedType" src

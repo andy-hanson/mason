@@ -4,7 +4,6 @@ use
 use~
 	.@.@ _ each! map
 	.@.Map.Map
-	.control if!
 	.Function Pred
 	.show repr
 	.String indent
@@ -30,7 +29,7 @@ doc. "For making assertions."
 				The error will contain information about fun and its arguments.
 			! bool ~message
 				Same as:
-					if! (not bool) |
+					if! (not bool)
 						oh-no! message
 	test. |
 		! =? 1 1
@@ -46,21 +45,15 @@ doc. "For making assertions."
 	|a ...args
 		case! a
 			:Function
-				case!
-					_ ...args
-						pass
-					else
-						oh-no! "
-							Expected {a}
-								{indent (=> String (map args repr) "\n")}
+				if! not (_ ...args)
+					oh-no! "
+						Expected {a}
+							{indent (=> String (map args repr) "\n")}
 			:Boolean
-				case!
-					not (=? 1 args.length)
-						oh-no! "Use `! fun args...` or `! bool explanation`, never just `! bool`."
-					_
-						pass
-					else
-						oh-no! args[0]
+				if! not (=? 1 args.length)
+					oh-no! "Use `! fun args...` or `! bool explanation`, never just `! bool`."
+				if! not _
+					oh-no! args[0]
 			else
 				oh-no! "First argument to `!` must be Function or Boolean. Got {_}."
 
@@ -119,7 +112,7 @@ doc. "For making assertions."
 			args:@ = pair.key
 			expected-res = pair.val
 			actual = fun ...args
-			if! (not (equal? actual expected-res)) |
+			if! (not (equal? actual expected-res))
 				oh-no! ~"
 					{fun} of:
 						{indent (=> String (map args repr) "\n")}

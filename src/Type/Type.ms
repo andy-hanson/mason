@@ -1,12 +1,12 @@
 use
 	..compare =?
 	..js id=? js-instanceof
-	..private.bootstrap implContains msDef
+	..private.bootstrap implContains ms msDef
 	# Don't want to depend on Try because that can cause circular dependency problems.
 	..private.js-impl ohNo
 	.Impl-Type
 	.Kind _ kind!
-	.Method _ --contains? impl!
+	.Method _ impl!
 use~
 	..@.? ?-or
 	..Object ?p-with-proto
@@ -21,7 +21,8 @@ Type = Kind
 
 impl! =? Type id=?
 
-contains?. --contains?
+# Made by Method.ms.
+contains?. ms.contains
 
 extract. Method
 	doc. "

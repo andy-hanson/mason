@@ -53,6 +53,7 @@ export const
 	KW_Focus = kwNotName('_'),
 	KW_Fun = kw('|'),
 	KW_GenFun = kw('~|'),
+	KW_IfDo = kw('if!'),
 	KW_In = kw('in'),
 	KW_Lazy = kwNotName('~'),
 	KW_Loop = kw('loop!'),

@@ -40,13 +40,11 @@ kind! Splay-Tree! Sorted-Map!
 		if (and (not empty?_) ~(splay!? _ key)) ~_.val.val!
 	keys -> |_
 		Stream ~|
-			get~ = ~|case!
-				defined?_
+			get~ = ~|_
+				if! defined?_
 					<~~ get~ _.left!
 					<~ _.key
 					<~~ get~ _.right!
-				else
-					pass
 			<~~ get~ _.val
 	assoc! -> |_ key val
 		case!

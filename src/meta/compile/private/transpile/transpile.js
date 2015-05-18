@@ -210,6 +210,8 @@ implementMany(EExports, 'transpileSubtree', {
 
 	GlobalAccess() { return Identifier(this.name) },
 
+	IfDo() { return IfStatement(t0(this.test), t0(this.result)) },
+
 	LocalAccess() { return accessLocalDeclare(vr.accessToLocal.get(this)) },
 
 	LocalDeclare() { return idForDeclareCached(this) },

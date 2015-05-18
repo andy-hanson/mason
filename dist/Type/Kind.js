@@ -1,18 +1,18 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","../Boolean","../compare","../js","../private/bootstrap","../private/js-impl","./Method","./Obj-Type","../at/at","../control","./Impl-Type","../methods","../bang","../Try","./Method","./Type"],function(exports,Boolean_0,compare_1,js_2,bootstrap_3,js_45impl_4,Method_5,Obj_45Type_6,_64_7,control_8,Impl_45Type_9,methods_10,_33_11,Try_12,Method_13,Type_14){
+define(["exports","../Boolean","../compare","../js","../private/bootstrap","../private/js-impl","./Method","./Obj-Type","../at/at","./Impl-Type","../methods","../bang","../Try","./Method","./Type"],function(exports,Boolean_0,compare_1,js_2,bootstrap_3,js_45impl_4,Method_5,Obj_45Type_6,_64_7,Impl_45Type_8,methods_9,_33_10,Try_11,Method_12,Type_13){
 	exports._get=_ms.lazy(function(){
 		const _$2=_ms.getModule(Boolean_0),or=_ms.get(_$2,"or"),not=_ms.get(_$2,"not"),_$3=_ms.getModule(compare_1),_61_63=_ms.get(_$3,"=?"),_$4=_ms.getModule(js_2),defined_63=_ms.get(_$4,"defined?"),js_45sub=_ms.get(_$4,"js-sub"),_$5=_ms.getModule(bootstrap_3),implContains=_ms.get(_$5,"implContains"),pAdd=_ms.get(_$5,"pAdd"),_$6=_ms.getModule(js_45impl_4),isEmpty=_ms.get(_$6,"isEmpty"),KindContains=_ms.get(_$6,"KindContains"),_$7=_ms.getModule(Method_5),impl_33=_ms.get(_$7,"impl!"),propagate_45method_45down_33=_ms.get(_$7,"propagate-method-down!"),self_45impl_33=_ms.get(_$7,"self-impl!"),Obj_45Type=_ms.getDefaultExport(Obj_45Type_6),_64=_ms.lazy(function(){
 			return _ms.getDefaultExport(_64_7)
-		}),_$10=_ms.lazyGetModule(_64_7),each_33=_ms.lazyProp(_$10,"each!"),flat_45map=_ms.lazyProp(_$10,"flat-map"),_$11=_ms.lazyGetModule(control_8),if_33=_ms.lazyProp(_$11,"if!"),Impl_45Type=_ms.lazy(function(){
-			return _ms.getDefaultExport(Impl_45Type_9)
-		}),_$12=_ms.lazyGetModule(Impl_45Type_9),self_45type=_ms.lazyProp(_$12,"self-type"),_$13=_ms.lazyGetModule(methods_10),freeze=_ms.lazyProp(_$13,"freeze"),frozen_63=_ms.lazyProp(_$13,"frozen?"),_33=_ms.lazy(function(){
-			return _ms.getDefaultExport(_33_11)
-		}),_$15=_ms.lazyGetModule(_33_11),_33not=_ms.lazyProp(_$15,"!not"),Try=_ms.lazy(function(){
-			return _ms.getDefaultExport(Try_12)
-		}),_$16=_ms.lazyGetModule(Try_12),fails_45with_63=_ms.lazyProp(_$16,"fails-with?"),Method=_ms.lazy(function(){
-			return _ms.getDefaultExport(Method_13)
-		}),_$18=_ms.lazyGetModule(Type_14),contains_63=_ms.lazyProp(_$18,"contains?");
+		}),_$10=_ms.lazyGetModule(_64_7),each_33=_ms.lazyProp(_$10,"each!"),flat_45map=_ms.lazyProp(_$10,"flat-map"),Impl_45Type=_ms.lazy(function(){
+			return _ms.getDefaultExport(Impl_45Type_8)
+		}),_$11=_ms.lazyGetModule(Impl_45Type_8),self_45type=_ms.lazyProp(_$11,"self-type"),_$12=_ms.lazyGetModule(methods_9),freeze=_ms.lazyProp(_$12,"freeze"),frozen_63=_ms.lazyProp(_$12,"frozen?"),_33=_ms.lazy(function(){
+			return _ms.getDefaultExport(_33_10)
+		}),_$14=_ms.lazyGetModule(_33_10),_33not=_ms.lazyProp(_$14,"!not"),Try=_ms.lazy(function(){
+			return _ms.getDefaultExport(Try_11)
+		}),_$15=_ms.lazyGetModule(Try_11),fails_45with_63=_ms.lazyProp(_$15,"fails-with?"),Method=_ms.lazy(function(){
+			return _ms.getDefaultExport(Method_12)
+		}),_$17=_ms.lazyGetModule(Type_13),contains_63=_ms.lazyProp(_$17,"contains?");
 		const Kind=Obj_45Type(function(){
 			const doc="A Kind is like a tag you can apply to a Concrete-Type to signify that it belongs in some category.\nThat category is typically a group of types all of which implement the same set of methods.\nType checking for Kind membership is O(1).\n-\nThe `prototype` on a Kind is not meant to be used as a prototype.\nIt stores the impl!_s that have been done on the Kind0.\nimpl! and kind! make sure that Concrete-Types receive the methods of their Kinds.\nThey require the Kind to correctly track super-kinds and implementors.";
 			const test=function test(){
@@ -151,7 +151,7 @@ define(["exports","../Boolean","../compare","../js","../private/bootstrap","../p
 			}();
 			const post_45construct=function post_45construct(_){
 				pAdd(_.prototype,_["symbol-for-isa"],true);
-				if(_ms.bool(isEmpty(_.implementors))){} else {
+				if(not(isEmpty(_.implementors))){
 					_.implementors.forEach(function(implementor){
 						return on_45implementor_33(implementor,_)
 					});
@@ -260,13 +260,10 @@ define(["exports","../Boolean","../compare","../js","../private/bootstrap","../p
 				}));
 				_ms.unlazy(_33not)(kind_63,implementor,kind);
 				unchecked_45kind_33(implementor,kind);
-				{
-					const _=method_45impls;
-					if(_ms.bool(defined_63(_))){
-						_ms.unlazy(each_33)(_,function(pair){
-							return impl_33(pair.key,implementor,pair.val)
-						})
-					} else {}
+				if(defined_63(method_45impls)){
+					_ms.unlazy(each_33)(method_45impls,function(pair){
+						return impl_33(pair.key,implementor,pair.val)
+					})
 				}
 			},"doc",doc,"test",test)
 		}();
@@ -279,11 +276,11 @@ define(["exports","../Boolean","../compare","../js","../private/bootstrap","../p
 				_ms.checkContains(Object,implementor,"implementor");
 				_ms.checkContains(Kind,kind,"kind");
 				kind_33(_ms.unlazy(self_45type)(implementor),kind);
-				return _ms.unlazy(if_33)(defined_63(method_45impls),function(){
-					return _ms.unlazy(each_33)(method_45impls,function(pair){
+				if(defined_63(method_45impls)){
+					_ms.unlazy(each_33)(method_45impls,function(pair){
 						return self_45impl_33(pair.key,implementor,pair.val)
 					})
-				})
+				}
 			},"doc",doc,"test",test)
 		}();
 		const kind_63=exports["kind?"]=function(){
@@ -309,14 +306,11 @@ define(["exports","../Boolean","../compare","../js","../private/bootstrap","../p
 		const _64p_45all=function _64p_45all(_){
 			return Object.getOwnPropertyNames(_).concat(Object.getOwnPropertySymbols(_))
 		};
-		const on_45implementor_33=function on_45implementor_33(implementor,kind){
-			{
-				const _=implementor;
-				if(_ms.bool(_ms.contains(Kind,_))){
-					_["super-kinds"].push(kind)
-				} else {}
+		const on_45implementor_33=function on_45implementor_33(_,kind){
+			if(_ms.contains(Kind,_)){
+				_["super-kinds"].push(kind)
 			};
-			return inherit_45methods_33(implementor,kind)
+			return inherit_45methods_33(_,kind)
 		};
 		const inherit_45methods_33=function inherit_45methods_33(implementor,kind){
 			const rec_33=function rec_33(kind){
@@ -332,4 +326,4 @@ define(["exports","../Boolean","../compare","../js","../private/bootstrap","../p
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL0tpbmQubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7O0VBbUJBLFdBQU8scUJBQ1E7R0FBZCxVQUNDO0dBUUQsV0FDTyxlQUFBO0lBQ0wsUUFBSSxlQUNJO0tBQVAsVUFBTTs7Ozs7O0lBQ1AsUUFBSSxlQUNJO0tBQVAsVUFBTTs7Ozs7O0lBQ1AsUUFBSSxxQkFDUTtLQUFYLHNCQUNNO01BQUwsUUFBQTs7Ozs7Ozs7Ozs7SUFDRixRQUFNLEVBQUU7SUFDUixRQUFNLEVBQUU7SUFDUixRQUFJLFlBQ0M7S0FBSixRQUFHOzs7Ozs7NENBQ1EsRUFBRTtJQUdkLFFBQUksZUFDSTtLQUFQLFVBQU07Ozs7OztJQUNQLFFBQUksZUFDSTtLQUFQLFVBQU07Ozs7OztJQUNQLFFBQUkscUJBQ1E7S0FBWCxzQkFDTTtNQUFMLFFBQUE7Ozs7Ozs7Ozs7O0lBQ0YsUUFBTSxFQUFFO0lBQ1IsUUFBTSxFQUFFO0lBQ1IsUUFBSSxZQUNDO0tBQUosUUFBRzs7Ozs7OzRDQUNRLEVBQUU7SUFHZCx3Q0FDYTtLQUFaLFVBQU07Ozs7OztJQUNQLFFBQU0sS0FBSyxFQUNHLFVBQUE7WUFBYjtJQUFBO29CQUNDLE9BQUksS0FBSyxHQUFHOzRDQUNGLEVBQUU7SUFHZCxhQUFTLGVBQ0k7S0FBWixtQkFBYyxDQUFFLEVBQUU7Ozs7Ozt1REFDSixzQ0FDc0MsVUFBQTtZQUFwRCxRQUFNLEVBQUU7SUFBQTtHQUFBO0dBRVgsc0JBQ007SUFBTCxXQUFNO0lBQ04sb0JBQWE7SUFDYixnQkFBVztJQUdYLG1CQUFjO0lBQ2QseUJBQWdCOzs7Ozs7Ozs7R0FDakIsaUJBQVk7R0FDWix5QkFDUztJQUFSLG9CQUNjLHdCQUFBO1lBQWIsTUFBTTtJQUFBO0lBQ1AsZ0JBQ1ksb0JBQUE7WUFBWCxjQUFjO0lBQUE7SUFDZixtQkFDZSx1QkFBQTtZQUFkLE1BQU07SUFBQTtJQUNQLHlCQUFpQiw0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
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL0tpbmQubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7O0VBa0JBLFdBQU8scUJBQ1E7R0FBZCxVQUNDO0dBUUQsV0FDTyxlQUFBO0lBQ0wsUUFBSSxlQUNJO0tBQVAsVUFBTTs7Ozs7O0lBQ1AsUUFBSSxlQUNJO0tBQVAsVUFBTTs7Ozs7O0lBQ1AsUUFBSSxxQkFDUTtLQUFYLHNCQUNNO01BQUwsUUFBQTs7Ozs7Ozs7Ozs7SUFDRixRQUFNLEVBQUU7SUFDUixRQUFNLEVBQUU7SUFDUixRQUFJLFlBQ0M7S0FBSixRQUFHOzs7Ozs7NENBQ1EsRUFBRTtJQUdkLFFBQUksZUFDSTtLQUFQLFVBQU07Ozs7OztJQUNQLFFBQUksZUFDSTtLQUFQLFVBQU07Ozs7OztJQUNQLFFBQUkscUJBQ1E7S0FBWCxzQkFDTTtNQUFMLFFBQUE7Ozs7Ozs7Ozs7O0lBQ0YsUUFBTSxFQUFFO0lBQ1IsUUFBTSxFQUFFO0lBQ1IsUUFBSSxZQUNDO0tBQUosUUFBRzs7Ozs7OzRDQUNRLEVBQUU7SUFHZCx3Q0FDYTtLQUFaLFVBQU07Ozs7OztJQUNQLFFBQU0sS0FBSyxFQUNHLFVBQUE7WUFBYjtJQUFBO29CQUNDLE9BQUksS0FBSyxHQUFHOzRDQUNGLEVBQUU7SUFHZCxhQUFTLGVBQ0k7S0FBWixtQkFBYyxDQUFFLEVBQUU7Ozs7Ozt1REFDSixzQ0FDc0MsVUFBQTtZQUFwRCxRQUFNLEVBQUU7SUFBQTtHQUFBO0dBRVgsc0JBQ007SUFBTCxXQUFNO0lBQ04sb0JBQWE7SUFDYixnQkFBVztJQUdYLG1CQUFjO0lBQ2QseUJBQWdCOzs7Ozs7Ozs7R0FDakIsaUJBQVk7R0FDWix5QkFDUztJQUFSLG9CQUNjLHdCQUFBO1lBQWIsTUFBTTtJQUFBO0lBQ1AsZ0JBQ1ksb0JBQUE7WUFBWCxjQUFjO0lBQUE7SUFDZixtQkFDZSx1QkFBQTtZQUFkLE1BQU07SUFBQTtJQUNQLHlCQUFpQiw0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

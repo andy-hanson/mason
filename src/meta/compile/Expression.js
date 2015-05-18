@@ -121,6 +121,7 @@ export const
 	GlobalAccess = ev('GlobalAccess',
 		'TODO:DOC',
 		[ 'name', JsGlobals ]),
+
 	// Module
 	UseDo = ee('UseDo',
 		'TODO:DOC',
@@ -201,6 +202,9 @@ export const
 	EndLoop = ed('EndLoop',
 		'TODO:DOC',
 		[ ]),
+	IfDo = ed('IfDo',
+		'TODO:DOC',
+		[ 'test', Val, 'result', BlockDo ]),
 
 	// Generators
 	Yield = ev('Yield',
@@ -223,8 +227,8 @@ export const
 		{ },
 		{
 			contains: (loc, testType, tested) =>
-				Call(loc, SpecialVal.contains(loc), [ testType, tested ]),
-			sub: (loc, args) => Call(loc, SpecialVal.sub(loc), args)
+				Call(loc, SpecialVal(loc, SV_Contains), [ testType, tested ]),
+			sub: (loc, args) => Call(loc, SpecialVal(loc, SV_Sub), args)
 		}),
 	BlockWrap = ev('BlockWrap',
 		'TODO:DOC',
@@ -269,11 +273,7 @@ export const
 	SD_Debugger = 0,
 	SpecialDo = ed('SpecialDo',
 		'TODO:DOC',
-		[ 'kind', Number ],
-		{ },
-		{
-			debugger: loc => SpecialDo(loc, SD_Debugger)
-		}),
+		[ 'kind', Number ]),
 
 	SV_Contains = 0,
 	SV_False = 1,
@@ -286,10 +286,4 @@ export const
 	// k is a SP_***
 	SpecialVal = ev('Special',
 		'TODO:DOC',
-		[ 'kind', Number ],
-		{ },
-		{
-			contains: loc => SpecialVal(loc, SV_Contains),
-			sub: loc => SpecialVal(loc, SV_Sub),
-			null: loc => SpecialVal(loc, SV_Null)
-		})
+		[ 'kind', Number ])

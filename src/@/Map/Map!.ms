@@ -12,7 +12,6 @@ use-debug
 	...! _ !not
 	...Boolean not
 	...compare _ =?
-	...control if!
 	...math.methods *
 	...Type.Method impl!
 	...Type.Wrap-Type
@@ -34,7 +33,8 @@ Map! = Kind
 		# => Array because these must maintain by their identity for Weak-Id-Map!
 		ks = => Array (map [ 1 3 5 4 2 ] Mt
 		noweak = |do
-			if! (not :Weak-Id-Map!) do
+			if! (not :Weak-Id-Map!)
+				do()
 		_ = empty type
 		noweak |
 			! empty? _

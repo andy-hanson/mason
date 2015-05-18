@@ -3,14 +3,14 @@ import tupl from 'tupl/dist/tupl'
 import { code } from '../../CompileError'
 import { Assign, AssignDestructure, AssignMutate, BagEntry, BagSimple, BlockBag, BlockDo, BlockMap,
 	BlockObj, BlockWithReturn, BlockWrap, Call, CaseDoPart, CaseValPart, CaseDo, CaseVal, Debug,
-	Do, NumberLiteral, EndLoop, Fun, GlobalAccess, Lazy, LD_Const, LD_Lazy, LD_Mutable,
+	Do, NumberLiteral, EndLoop, Fun, GlobalAccess, IfDo, Lazy, LD_Const, LD_Lazy, LD_Mutable,
 	LocalAccess, LocalDeclare, LocalDeclareRes, Loop, MapEntry, Member, Module, ObjPair, ObjSimple,
-	Pattern, Quote, SpecialDo, SpecialVal, Splat, Val, Use, UseDo, Yield, YieldTo
-	} from '../../Expression'
+	Pattern, Quote, SP_Debugger, SpecialDo, SpecialVal, SV_Null, Splat, Val, Use, UseDo, Yield,
+	YieldTo } from '../../Expression'
 import { JsGlobals } from '../language'
 import { CallOnFocus, DotName, Group, G_Block, G_Bracket, G_Paren, G_Space, G_Quote, isGroup,
 	isKeyword, Keyword, KW_Assign, KW_AssignMutable, KW_AssignMutate, KW_Case, KW_CaseDo, KW_Debug,
-	KW_Debugger, KW_Else, KW_EndLoop, KW_Focus, KW_Fun, KW_GenFun, KW_In, KW_Lazy, KW_Loop,
+	KW_Debugger, KW_Else, KW_EndLoop, KW_Focus, KW_Fun, KW_GenFun, KW_IfDo, KW_In, KW_Lazy, KW_Loop,
 	KW_MapEntry, KW_ObjAssign, KW_Pass, KW_Out, KW_Region, KW_Type, KW_Use, KW_UseDebug, KW_UseDo,
 	KW_UseLazy, KW_Yield, KW_YieldTo, Name, opKWtoSV, TokenNumberLiteral } from '../Token'
 import { assert, head, ifElse, flatMap, isEmpty, last,
@@ -366,15 +366,15 @@ const
 
 const
 	parseLine = tokens => {
-		const h = tokens.head()
+		const head = tokens.head()
 		const rest = tokens.tail()
 
+		const noRest = () =>
+			checkEmpty(rest, () => `Did not expect anything after ${head}`)
+
 		// We only deal with mutable expressions here, otherwise we fall back to parseExpr.
-		if (h instanceof Keyword)
-			switch (h.kind) {
-				case KW_ObjAssign:
-					// Index is set by parseBlock.
-					return BagEntry(tokens.loc, parseExpr(rest), -1)
+		if (head instanceof Keyword)
+			switch (head.kind) {
 				case KW_CaseDo:
 					return parseCase(KW_CaseDo, false, rest)
 				case KW_Debug:
@@ -384,14 +384,23 @@ const
 						parseLinesFromBlock() :
 						// `debug`, then single line
 						parseLineOrLines(rest))
-				case KW_Debugger: case KW_Pass:
-					checkEmpty(rest, () => `Did not expect anything after ${h}`)
-					return h.kind === KW_Pass ? [ ] : SpecialDo.debugger(tokens.loc)
+				case KW_Debugger:
+					noRest()
+					return SpecialDo(tokens.loc, SP_Debugger)
 				case KW_EndLoop:
-					checkEmpty(rest, () => `Did not expect anything after ${h}`)
+					checkEmpty(rest, () => `Did not expect anything after ${head}`)
 					return EndLoop(tokens.loc)
+				case KW_IfDo:
+					const [ before, block ] = beforeAndBlock(rest)
+					return IfDo(tokens.loc, parseExpr(before), parseBlockDo(block))
 				case KW_Loop:
 					return Loop(tokens.loc, justBlockDo(rest))
+				case KW_ObjAssign:
+					// Index is set by parseBlock.
+					return BagEntry(tokens.loc, parseExpr(rest), -1)
+				case KW_Pass:
+					noRest()
+					return [ ]
 				case KW_Region:
 					return parseLinesFromBlock(tokens)
 				default:
@@ -479,7 +488,7 @@ const
 
 	_parseAssignValue = (kind, opName, valueTokens) => {
 		const value = valueTokens.isEmpty() && kind === KW_ObjAssign ?
-			SpecialVal.null(valueTokens.loc) :
+			SpecialVal(valueTokens.loc, SV_Null) :
 			parseExpr(valueTokens)
 		if (opName !== null)
 			_tryAddName(value, opName)

@@ -84,13 +84,5 @@ kind! Range @
 					else
 						<~ _
 						cur := + cur range.step
-			# TODO:ES6 The following should be just as fast!
-			# f = ~|case!
-			#	>=? _ range.end
-			#		pass
-			#	else
-			#		<~ _
-			#		<~~ f (+ _ range.step
-			# f range.start
 
 Range

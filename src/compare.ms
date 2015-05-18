@@ -8,7 +8,7 @@ use~
 	.@.? un-?
 	.@.Seq.Array!
 	.@.Seq.Seq _ first tail
-	.control if if! opr returning
+	.control if opr returning
 	.Function identity
 	.Object object=?
 	.Type.Pred-Type Opt
@@ -123,7 +123,7 @@ region Min/max
 							end-loop!
 						else
 							value-by = by value
-							if! (<? cur-max-by value-by) |
+							if! (<? cur-max-by value-by)
 								cur-max := value
 								cur-max-by := value-by
 				cur-max

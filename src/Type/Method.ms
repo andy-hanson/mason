@@ -7,6 +7,7 @@ use
 	..private.bootstrap implContains msDef containsImplSymbol
 	.Obj-Type
 use~
+	..!
 	..@.? un-?
 	..control if
 	..Function noop
@@ -14,21 +15,12 @@ use~
 	.Impl-Type _ self-type
 	.Kind
 use-debug
-	..!
 	..@.@-Type empty
 	..@.?
 	..compare =?
 	..Function thunk
 	..private.bootstrap pAdd
 	..Try fails?
-	.Type contains?
-
-if! = |bool act
-	case!
-		bool
-			act()
-		else
-			pass
 
 flag? = |case
 	defined?_
@@ -50,8 +42,8 @@ method-src = |method
 				"a, b, c, d"
 
 		add! "return function {mangle-identifier method.name}({arg-names}) \{"
-		if! (flag? method.allow-null?) |
-			debug if! (js! (defined? method.default)) |
+		if! (flag? method.allow-null?)
+			debug if! (js! (defined? method.default))
 				ohNo "Method with `allow-null?` must have `default`."
 			add! "if (a == null) return def.apply(null, arguments)"
 
@@ -216,41 +208,32 @@ region Private
 
 	# TODO: Not public
 	propagate-method-down!. |implementor method-symbol implementation # TODO: :Impl-Type :Symbol :Function
-		case! implementor
-			# Only bring it down if there isn't already one there.
-			not (p? _.prototype method-symbol)
-				case!
-					:Kind
-						_.implementors.forEach |sub-implementor
-							propagate-method-down! sub-implementor method-symbol implementation
-					else
-						# TODO: What to do in case of multiple inheritance collision?
-						# Since this is inherited, it is mutable and can be overridden.
-						Object.defineProperty _.prototype method-symbol
-							value. implementation
-							writable. true
-			else
-				pass
+		if! not (p? implementor.prototype method-symbol)
+			case! implementor
+				:Kind
+					_.implementors.forEach |sub-implementor
+						propagate-method-down! sub-implementor method-symbol implementation
+				else
+					# TODO: What to do in case of multiple inheritance collision?
+					# Since this is inherited, it is mutable and can be overridden.
+					Object.defineProperty _.prototype method-symbol
+						value. implementation
+						writable. true
 
 	# TODO: Multiple-inheritance proxy scheme for Obj-Type, Wrap-Type, Enum
 	# "method" can be a Method or a Double-Dispatcher.
 	do-impl! = |method implementor implementation
 		in
-			case!
-				writable? implementor.prototype method.impl-symbol
-					pass
-				else
-					ohNo "Can not redefine method {method} for {implementor}."
+			if! not (writable? implementor.prototype method.impl-symbol)
+				ohNo "Can not redefine method {method} for {implementor}."
 
 		Object.defineProperty implementor.prototype method.impl-symbol
 			value. implementation
 			enumerable. false # TODO:ES6 Should not need this
-		case! implementor
-			:Kind
-				_.implementors.forEach |sub
-					propagate-method-down! sub method.impl-symbol implementation
-			else
-				pass
+
+		if! contains? Kind implementor
+			implementor.implementors.forEach |_
+				propagate-method-down! _ method.impl-symbol implementation
 
 	Double-Dispatcher = Obj-Type
 		props.
@@ -261,11 +244,8 @@ region Private
 		make-callable. |_
 			|...args
 				target-2 = js-sub args 1
-				debug case!
-					defined? target-2
-						pass
-					else
-						ohNo ~"Can't double-dispatch {_.method} for undefined."
+
+				! (defined? target-2) ~"Can't double-dispatch {_.method} for undefined."
 
 				impl = js-sub target-2 _.impl-symbol
 				debug case!
@@ -279,14 +259,12 @@ method-contains? = |method value
 	p-with-proto? value method.impl-symbol
 implContains Method method-contains?
 
-# TODO: Not public, try moving to Type.ms
---contains?. Method
+contains? = Method
 	doc. "
 		|:Boolean collection value
 		Whether some collection of things as as an element `value`."
 	# args. 2 TODO
 	impl-symbol. containsImplSymbol
-
-msDef "contains" --contains?
+msDef "contains" contains?
 
 Method

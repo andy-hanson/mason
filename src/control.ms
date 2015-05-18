@@ -1,5 +1,4 @@
 use
-	.Function Action
 	.js defined?
 	.methods freeze
 	.Type.Pred-Type Any Opt
@@ -76,20 +75,6 @@ region Conditional execution
 					? result
 				else
 					empty ?
-
-	if!.
-		doc. "Runs `result` iff `condition`."
-		test. |
-			! =? [ 0 ] (build |yield
-				if! true |
-					yield 0
-			if! false oh-no!
-		|condition:Boolean result:Action
-			case!
-				condition
-					result()
-				else
-					pass
 
 unreachable!.
 	doc. "Call this to mark code as unreachable."

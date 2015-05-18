@@ -1,6 +1,5 @@
 use
 	esast.dist.mangle-identifier
-	..control if!
 	..js defined? js-instanceof
 	..private.bootstrap implContains pAdd
 	..private.js-impl buildStr
@@ -56,7 +55,7 @@ Tuple = Obj-Type
 				if (!(this instanceof {name})) return new {name}({argsStr})
 
 			props.forEach |_
-				if! (defined? _.type) |
+				if! (defined? _.type)
 					add! "_ms.checkContains({_.id}_type, {_.id}, \"{_.name}\")"
 
 				add! "this{access _.name} = {_.id}"
@@ -67,7 +66,7 @@ Tuple = Obj-Type
 
 			# TODO: make-callable
 
-			if! (defined? tuple.post-construct) |
+			if! (defined? tuple.post-construct)
 				add! "postConstruct(this)"
 
 			add! "}"

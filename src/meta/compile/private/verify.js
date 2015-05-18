@@ -147,10 +147,12 @@ implementMany(EExports, 'verify', {
 		else
 			doV()
 	},
+
 	AssignDestructure() {
 		this.value.verify()
 		vm(this.assignees)
 	},
+
 	AssignMutate() {
 		const declare = getLocalDeclare(this.name, this.loc)
 		cx.check(declare.isMutable(), this.loc, () => `${code(this.name)} is not mutable.`)
@@ -159,35 +161,46 @@ implementMany(EExports, 'verify', {
 	},
 
 	BagEntry() { this.value.verify() },
+
 	BagSimple() { vm(this.parts) },
+
 	BlockDo() { verifyLines(this.lines) },
+
 	BlockWithReturn() {
 		const { newLocals } = verifyLines(this.lines)
 		plusLocals(newLocals, () => this.returned.verify())
 	},
+
 	BlockObj() {
 		const { newLocals } = verifyLines(this.lines)
 		this.keys.forEach(_ => accessLocalForReturn(_, this))
 		opEach(this.opObjed, _ => plusLocals(newLocals, () => _.verify()))
 	},
+
 	BlockBag: blockBagOrMap,
 	BlockMap: blockBagOrMap,
+
 	BlockWrap() {
 		this.block.verify()
 	},
+
 	Call() {
 		this.called.verify()
 		vm(this.args)
 	},
+
 	CaseDo: verifyCase,
 	CaseDoPart: verifyCasePart,
 	CaseVal: verifyCase,
 	CaseValPart: verifyCasePart,
+
 	// Only reach here for in/out condition
 	Debug() { verifyLines([ this ]) },
+
 	EndLoop() {
 		ifElse(opLoop, _ => setEndLoop(this, _), () => cx.fail(this.loc, 'Not in a loop.'))
 	},
+
 	Fun() {
 		withBlockLocals(() => {
 			cx.check(this.opResDeclare === null || this.block instanceof BlockVal, this.loc,
@@ -209,22 +222,36 @@ implementMany(EExports, 'verify', {
 			})
 		})
 	},
+
 	GlobalAccess() { },
+
+	IfDo() {
+		this.test.verify()
+		this.result.verify()
+	},
+
 	Lazy() { withBlockLocals(() => this.value.verify()) },
+
 	LocalAccess() {
 		const declare = getLocalDeclare(this.name, this.loc)
 		vr.accessToLocal.set(this, declare)
 		accessLocal(declare, this, isInDebug)
 	},
+
 	Loop() { withInLoop(this, () => this.block.verify()) },
+
 	// Adding LocalDeclares to the available locals is done by Fun or lineNewLocals.
 	LocalDeclare() { vop(this.opType) },
+
 	NumberLiteral() { },
+
 	MapEntry() {
 		this.key.verify()
 		this.val.verify()
 	},
+
 	Member() { this.object.verify() },
+
 	Module() {
 		// No need to verify this.doUses.
 		const useLocals = verifyUses(this.uses, this.debugUses)
@@ -244,6 +271,7 @@ implementMany(EExports, 'verify', {
 		}
 		this.lines.forEach(markExportLines)
 	},
+
 	ObjSimple() {
 		const keys = new Set()
 		this.pairs.forEach(pair => {
@@ -252,19 +280,25 @@ implementMany(EExports, 'verify', {
 			pair.value.verify()
 		})
 	},
+
 	Quote() {
 		this.parts.forEach(_ => {
 			if (typeof _ !== 'string')
 				_.verify()
 		})
 	},
+
 	SpecialDo() { },
+
 	SpecialVal() { },
+
 	Splat() { this.splatted.verify() },
+
 	Yield() {
 		cx.check(isInGenerator, this.loc, 'Cannot yield outside of generator context')
 		this.yielded.verify()
 	},
+
 	YieldTo() {
 		cx.check(isInGenerator, this.loc, 'Cannot yield outside of generator context')
 		this.yieldedTo.verify()
