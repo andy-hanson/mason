@@ -1,7 +1,6 @@
 use
-	...@.@ empty? flat-map' map'
+	...@.@ empty? map'
 	...@.Seq.Range range
-	...control if
 	...math.Number divisible? infinity Nat
 	...Object Object->Map
 	...Type.Type =>
@@ -9,22 +8,17 @@ use-debug
 	...!
 	...@.Seq.Seq seq=? take'
 
-make-fb = |spec
-	map' (range 1 infinity) |n
-		# TODO: map Map to Array is hard
-		parts = flat-map' (Object->Map spec) |_
-			divisor:Nat = _.val
-			shout:String = _.key
-			if (divisible? n divisor) shout
-		case parts
-			empty?_
-				n
-			else
-				=> String parts " "
-
-fizz-buzz.
-	doc. "Infinite Seq of Fizz Buzz game."
+make-fizz-buzz.
+	doc. "
+		Infinite Seq of Fizz Buzz game.
+		Spec is an Obj whose values are divisors and
+		whose keys are strings to be printed when the divisor matches.
 	test. |
+		fizz-buzz =
+			# TODO:DISPLAYNAME Should be able to move this to prev line...
+			make-fizz-buzz
+				Fizz. 3
+				Buzz. 5
 		! seq=? (take' fizz-buzz 6)
 			. 1
 			. 2
@@ -32,13 +26,12 @@ fizz-buzz.
 			. 4
 			. "Buzz"
 			. "Fizz"
-	make-fb
-		Fizz. 3
-		Buzz. 5
 
-fizz-buzz-jazz.
-	doc. "Infinite Seq of Fizz Buzz Jazz game."
-	test. |
+		fizz-buzz-jazz =
+			make-fizz-buzz
+				Fizz. 3
+				Jazz. 4
+				Buzz. 5
 		! seq=? (take' fizz-buzz-jazz 17)
 			. 1
 			. 2
@@ -51,13 +44,26 @@ fizz-buzz-jazz.
 			. "Fizz"
 			. "Buzz"
 			. 11
-			. "Fizz Jazz"
+			. "FizzJazz"
 			. 13
 			. 14
-			. "Fizz Buzz"
+			. "FizzBuzz"
 			. "Jazz"
 			. 17
-	make-fb
-		Fizz. 3
-		Jazz. 4
-		Buzz. 5
+	|spec
+		# TODO: map Map to Array is hard
+		tests = => Array (map' (Object->Map spec) |_
+			# TODO:SYNTAX array destructure
+			shout:String. _[0]
+			divisor:Nat. _[1]
+		map' (range 1 infinity) |n
+			s ::= ""
+			for! tests
+				if! divisible? n _.divisor
+					s := "{s}{_.shout}"
+			# TODO:SYNTAX ternary operator
+			case
+				empty? s
+					n
+				else
+					s

@@ -34,7 +34,8 @@ impl! from-stream Map-Type
 	|type stream:@
 		map = empty type
 		for! stream
-			assoc! map _.key _.val
+			# TODO:SYNTAX Array destructure
+			assoc! map _[0] _[1]
 		map
 
 Map-Type

@@ -2,12 +2,11 @@ use
 	...Boolean and not
 	...compare =?
 	...methods sub
-	...Type.Js-Method js-impl!
 	...Type.Kind _ kind!
 	...Type.Method _ impl!
 	...Type.Pred-Type Any
-	...Type.Type type-of
-	..@ _ all? count empty? iterator map
+	...Type.Type => type-of
+	..@ _ all? count empty? map'
 	..@-Type empty
 	..? un-?
 use~
@@ -21,9 +20,6 @@ Map = Kind
 	doc. "Mapping from keys to values."
 
 kind! Map @
-js-impl! iterator Map ~|
-	for! keys this
-		<~ key. _ val. this[_]
 
 region New methods
 	?get. Method
@@ -41,38 +37,20 @@ region New methods
 	keys. Method
 		doc. "Every key that the Map `has-key?`."
 		args. 1
+		default. |_
+			=> Array (map' _ |pair
+				pair[0]
 
 	values. Method
 		doc. "Every value in the Map."
 		args. 1
 		default. |_
-			map keys_ |key
-				_[key]
-
-	keys-values. Method
-		doc. |:@[Any]
-			"Every (key. val.)."
-		args. 1
-		default. |_
-			map keys_ |k
-				key. k
-				val. _[k]
+			=> Array (map' _ |pair
+				pair[1]
 
 region Old methods
 	impl! =? Map |m1 m2
 		and (=? (type-of m1) (type-of m2)) ~(map=? m1 m2
-
-	impl! count Map
-		test. |
-			map =
-				1 -> 2
-				3 -> 4
-			[ map ] -> 2
-		|_
-			count keys_
-
-	impl! empty? Map |_
-		empty? keys_
 
 	impl! sub Map |map key:Any
 		un-? (?get map key) ~"{map} does not contain {key}."
@@ -103,8 +81,11 @@ region Functions
 			[ m1 m2 ] -> false
 		|a:Map b:Map
 			and (=? (count a) (count b)) ~
-				all? (keys a) |key
+				all? a |pair
+					# TODO:SYNTAX Array destructure
+					key = pair[0]
+					val = pair[1]
 					?bk = ?get b key
-					and (not (empty? ?bk)) ~(=? a[key] ?bk.val
+					and (not (empty? ?bk)) ~(=? val ?bk.val
 
 Map

@@ -22,14 +22,12 @@ gulp.task('all-minus-js', [ 'ms-minus-js' ], run)
 gulp.task('all-no-checks', [ 'ms-no-checks' ], run)
 
 function run() {
-	require('es6-shim')
 	const test = require('./dist/meta/run-all-tests')
 	_ms.getModule(test).default()
 }
 
 gulp.task('run', run)
 gulp.task('run-requirejs', function() {
-	require('es6-shim')
 	const test = requirejs(path.join(__dirname, 'dist/meta/run-all-tests'))
 	_ms.getModule(test).default()
 })

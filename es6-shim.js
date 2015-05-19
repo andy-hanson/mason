@@ -21,15 +21,37 @@ if (!Object.assign)
 		return to
 	}
 
-function defIter(type, impl) {
-	if (type.prototype[Symbol.iterator] === undefined)
-		type.prototype[Symbol.iterator] = impl
+function def(type, name, impl) {
+	if (type.prototype[name] === undefined)
+		type.prototype[name] = impl
 }
 
-defIter(Array, function*() {
+def(Array, Symbol.iterator, function*() {
 	for (let i = 0; i < this.length; i = i + 1)
 		yield this[i]
 })
-defIter(String, Array.prototype[Symbol.iterator])
+def(String, Symbol.iterator, Array.prototype[Symbol.iterator])
 
-defIter(Set, function() { return this.keys() })
+def(Set, Symbol.iterator, function() {
+	const all = [ ]
+	this.forEach(function(_) { all.push(_) })
+	return all[Symbol.iterator]()
+})
+
+def(Map, Symbol.iterator, function() {
+	const all = [ ]
+	this.forEach(function(val, key) { all.push([ key, val ]) })
+	return all[Symbol.iterator]()
+})
+
+def(Map, 'keys', function() {
+	const keys = [ ]
+	this.forEach(function(_value, key) { keys.push(key) })
+	return keys[Symbol.iterator]()
+})
+
+def(Map, 'values', function() {
+	const values = [ ]
+	this.forEach(function(value) { values.push(value) })
+	return values[Symbol.iterator]()
+})

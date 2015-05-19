@@ -154,7 +154,8 @@ kind!.
 		unchecked-kind! implementor kind
 		if! defined? method-impls
 			for! method-impls
-				impl! _.key implementor _.val
+				# TODO:SYNTAX Array destructure
+				impl! _[0] implementor _[1]
 
 self-kind!.
 	doc. "TODO"
@@ -164,7 +165,8 @@ self-kind!.
 		kind! (self-type implementor) kind
 		if! defined? method-impls
 			for! method-impls
-				self-impl! _.key implementor _.val
+				# TODO:SYNTAX Array destructure
+				self-impl! _[0] implementor _[1]
 
 kind?.
 	doc. "

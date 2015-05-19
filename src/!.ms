@@ -108,8 +108,9 @@ doc. "For making assertions."
 			[ 1 2 ] -> "3"
 	|equal?:Pred fun:Function args->result:Map[Array Any]
 		for! args->result
-			args:@ = _.key
-			expected-res = _.val
+			# TODO:SYNTAX Array destructure
+			args:@ = _[0]
+			expected-res = _[1]
 			actual = fun ...args
 			unless! equal? actual expected-res
 				oh-no! ~"

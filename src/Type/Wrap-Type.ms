@@ -1,4 +1,5 @@
 use
+	esast.dist.mangle-identifier
 	..js js-instanceof
 	..private.js-impl buildStr
 	..Object! p+!
@@ -30,9 +31,10 @@ Wrap-Type = Obj-Type
 		p+! _.prototype "constructor" _
 	make-callable. |_
 		src = buildStr |add!
+			name = mangle-identifier _.name
 			add! "
-				return function ctr(_) \{
-					if (!(this instanceof ctr)) return new ctr(_)
+				return function {name}(_) \{
+					if (!(this instanceof {name})) return new {name}(_)
 					this.val = _
 			debug if! defined? _.wrapped-type
 				add! "_ms.checkContains(wrappedType, _, \"val\")"

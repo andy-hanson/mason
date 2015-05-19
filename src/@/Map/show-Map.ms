@@ -19,9 +19,9 @@ impl! show Map
 		#		1 -> 2
 	|_ opts
 		# TODO: map Map to Array
+		# TODO:SYNTAX Array destructure
 		parts = map' _ |pair
-			key val = pair
-			"{show key opts} -> {show val opts}"
+			"{show pair[0] opts} -> {show pair[1] opts}"
 		type = case
 			flag? opts "repr"
 				show type-of_ opts

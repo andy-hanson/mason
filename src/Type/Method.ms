@@ -19,6 +19,7 @@ use-debug
 	..@.?
 	..compare =?
 	..Function thunk
+	..js id=?
 	..private.bootstrap pAdd
 	..Try fails?
 
@@ -219,6 +220,8 @@ region Private
 					Object.defineProperty _.prototype method-symbol
 						value. implementation
 						writable. true
+						configurable. true
+						enumerable. false
 
 	# TODO: Multiple-inheritance proxy scheme for Obj-Type, Wrap-Type, Enum
 	# "method" can be a Method or a Double-Dispatcher.
@@ -226,14 +229,22 @@ region Private
 		in
 			unless! writable? implementor.prototype method.impl-symbol
 				ohNo "Can not redefine method {method} for {implementor}."
+		out
+			unless! id=? implementation (js-sub implementor.prototype method.impl-symbol)
+				ohNo "WTF???"
 
 		Object.defineProperty implementor.prototype method.impl-symbol
 			value. implementation
-			enumerable. false # TODO:ES6 Should not need this
+			writable. false
+			configurable. false
+			enumerable. false
 
 		if! contains? Kind implementor
 			for! implementor.implementors
 				propagate-method-down! _ method.impl-symbol implementation
+
+		# TODO: Shouldn't need this line...
+		null
 
 	Double-Dispatcher = Obj-Type
 		props.

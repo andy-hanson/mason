@@ -4,10 +4,11 @@ use
 	...control if loop End-Loop
 	...js defined?
 	...Object! p!
+	...Type.Js-Method js-impl!
 	...Type.Kind kind! self-kind!
 	...Type.Tuple
 	...Type.Wrap-Type
-	..@ empty?
+	..@ empty? iterator
 	..@! empty!
 	..@-Type empty
 	..Seq.Stream
@@ -19,17 +20,25 @@ use-debug
 	...! _ !not
 	...compare =?
 
-Splay-Node = Tuple
-	props. [ "key" "val!" "left!" "right!"
-
 Splay-Tree! = Wrap-Type
 	doc. "
 		Default Sorted-Map! implementation.
 		Binary tree that is good at accessing the same values many times.
 
+Splay-Node = Tuple
+	props. [ "key" "val!" "left!" "right!"
+
 self-kind! Splay-Tree! Map-Type
 	empty -> |
 		Splay-Tree! undefined
+
+js-impl! iterator Splay-Tree! |
+	get~ = ~|_
+		if! defined?_
+			<~~ get~ _.left!
+			<~ [ _.key _.val! ]
+			<~~ get~ _.right!
+	get~ this.val
 
 kind! Splay-Tree! Sorted-Map!
 	empty? -> |_

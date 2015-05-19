@@ -46,7 +46,8 @@ make-word-from-blocks.
 			"squad" -> ? [ "FS" "DQ" "HU" "NA" "QD" ]
 			"confuse" -> ? [ "CP" "BO" "NA" "FS" "HU" "FS" "RE" ]
 		for! sample-answers
-			! =? _.val (make-word-from-blocks _.key sample-blocks)
+			# TODO:SYNTAX Array destructure
+			! =? _[1] (make-word-from-blocks _[0] sample-blocks)
 
 	|:?[Seq[String]] word:String blocks:@[String]
 		rec = |word blocks

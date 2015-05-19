@@ -4,7 +4,7 @@ use
 	.Type.Alias-Type
 	.Type.Method _ impl! self-impl!
 use~
-	.@.@ _ ++ map map'
+	.@.@ _ ++ map
 	.@.@-Type empty
 	.@.Map.Map
 	.@.Map.Hash-Map!
@@ -13,6 +13,7 @@ use~
 	.@.Seq.Seq rtail last
 	.Object Object->Map
 	.Try oh-no!
+	.Type.Type =>
 use-debug
 	.!
 	.@.Seq.Seq seq=?
@@ -160,17 +161,13 @@ spread.
 		last-arg = last args
 		@spreaded = case last-arg
 			:Map
-				# TODO: apping map to pairs is hard...
-				map' _ |pair
-					key val = pair
-					[ key val ]
+				# TODO: Mapping map is hard...
+				=> Array _
 			:@
 				map _ |em
 					[ em ]
 			:Object
-				map' Object->Map_ |pair
-					key val = pair
-					[ key val ]
+				=> Array Object->Map_
 			else
 				oh-no! "Can only spread a @ or Map, not {_}"
 		map @spreaded |spreaded

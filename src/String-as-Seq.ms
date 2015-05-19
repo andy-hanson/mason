@@ -1,10 +1,12 @@
 use
-	.@.@ _ count empty? map
+	.@.@ _ count empty?
 	.@.@-Type _ empty from-stream
 	.@.Seq.Seq
 	.compare =? sort
 	.control opr
 	.Function noop thunk
+	.js js+
+	.math.methods -
 	.show
 	.Type.Impl-Type self-type
 	.Type.Kind kind! self-kind!
@@ -13,6 +15,7 @@ use
 	.Type.Type =>
 use-debug
 	.!
+	.@.@ map
 	.Function identity
 
 # TODO: Move
@@ -34,7 +37,11 @@ impl-double! => (self-type String) @
 	|str _ joiner:Opt[String]
 		noop str
 		joiner := opr joiner ""
-		(=> Array (map _ show)).join joiner
+		s ::= ""
+		for! _
+			s := js+ s show_
+			s := js+ s joiner
+		s.slice 0 (- s.length joiner.length
 
 # TODO: Should this be necessary?
 impl! sort String

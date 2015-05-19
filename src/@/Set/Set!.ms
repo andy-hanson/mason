@@ -32,7 +32,6 @@ self-kind! Set! @-Type
 	from-stream -> |_
 		from-stream Hash-Set! _
 
-
 # TODO: Way to determine which one of these is more important
 kind! Set! Set
 kind! Set! @!

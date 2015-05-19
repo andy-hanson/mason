@@ -72,7 +72,8 @@ assoc*!.
 	test. "See Map!.implementor-test."
 	|map:Map! to-add:Map
 		for! to-add
-			assoc! map _.key _.val
+			# TODO:SYNTAX Array destructure
+			assoc! map _[0] _[1]
 
 un-assoc!. Method
 	doc. "
