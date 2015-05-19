@@ -179,6 +179,7 @@ Object[containsImplSymbol] = function(ignore, _) {
 // TODO: Separate Function from Callable
 // Since these are primitives, we can't use `instanceof`.
 [ Function, Boolean, String, Symbol, Number ].forEach(type => {
-	const typeOf = type.name.toLowerCase()
-	type[containsImplSymbol] = (ignore, _) => typeof _ === typeOf
+	// Generated code is faster than using a closure.
+	const src = 'return typeof _ === "' + type.name.toLowerCase() + '"'
+	pAdd(type, containsImplSymbol, Function('ignore', '_', src))
 })

@@ -2,7 +2,6 @@ use!
 	# TODO: Needed?
 	..String-as-Seq # => Str
 use
-	..@.@ each!
 	..show
 	..Type.Type =>
 
@@ -27,7 +26,7 @@ region Debugging
 		doc. "Show something for debugging."
 		|...args
 			warn! "-->"
-			each! args |_
+			for! args
 				warn! (show _
 					repr. true # TODO:SYNTAX [ repr. true ]
 			warn! "<--"

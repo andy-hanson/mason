@@ -41,22 +41,30 @@ const
 		isInGenerator = g
 	},
 
+	plusLocal = (addedLocal, fun) => {
+		const shadowed = locals.get(addedLocal.name)
+		locals.set(addedLocal.name, addedLocal)
+		fun()
+		_removeLocal(addedLocal.name, shadowed)
+	},
+
 	plusLocals = (addedLocals, fun) => {
 		const shadowed = new Map()
-		addedLocals.forEach(l => {
-			const got = locals.get(l.name)
+		addedLocals.forEach(_ => {
+			const got = locals.get(_.name)
 			if (got !== undefined)
-				shadowed.set(l.name, got)
-			locals.set(l.name, l)
+				shadowed.set(_.name, got)
+			locals.set(_.name, _)
 		})
 		fun()
-		addedLocals.forEach(l => {
-			const s = shadowed.get(l.name)
-			if (s === undefined)
-				locals.delete(l.name)
-			else
-				locals.set(l.name, s)
-		})
+		addedLocals.forEach(_ => _removeLocal(_.name, shadowed.get(_.name)))
+	},
+
+	_removeLocal = (name, shadowed) => {
+		if (shadowed === undefined)
+			locals.delete(name)
+		else
+			locals.set(name, shadowed)
 	},
 
 	plusPendingBlockLocals = (pending, fun) => {
@@ -98,18 +106,12 @@ const
 		(isDebugAccess ? localInfo.debugAccesses : localInfo.nonDebugAccesses).push(access),
 
 
-	// Vr setters
-	setEndLoop = (endLoop, loop) => {
-		vr.endLoopToLoop.set(endLoop, loop)
-	},
+	// VerifyResults setters
+	registerLocal = local =>
+		vr.localToInfo.set(local, LocalInfo(isInDebug, [], [])),
 
-	registerLocal = local => {
-		vr.localToInfo.set(local, LocalInfo(isInDebug, [], []))
-	},
-
-	setEntryIndex = (listMapEntry, index) => {
+	setEntryIndex = (listMapEntry, index) =>
 		vr.entryToIndex.set(listMapEntry, index)
-	}
 
 export default function verify(cx, e) {
 	init(cx)
@@ -184,6 +186,11 @@ implementMany(EExports, 'verify', {
 		this.block.verify()
 	},
 
+	BreakDo() {
+		if (opLoop === null)
+			cx.fail(this.loc, 'Not in a loop.')
+	},
+
 	Call() {
 		this.called.verify()
 		vm(this.args)
@@ -197,8 +204,15 @@ implementMany(EExports, 'verify', {
 	// Only reach here for in/out condition
 	Debug() { verifyLines([ this ]) },
 
-	EndLoop() {
-		ifElse(opLoop, _ => setEndLoop(this, _), () => cx.fail(this.loc, 'Not in a loop.'))
+	ForDoPlain() {
+		withInLoop(this, () => this.block.verify())
+	},
+
+	ForDoWithBag() {
+		registerLocal(this.element)
+		this.element.verify()
+		this.bag.verify()
+		plusLocal(this.element, () => withInLoop(this, () => this.block.verify()))
 	},
 
 	Fun() {
@@ -234,8 +248,6 @@ implementMany(EExports, 'verify', {
 		vr.accessToLocal.set(this, declare)
 		accessLocal(declare, this, isInDebug)
 	},
-
-	Loop() { withInLoop(this, () => this.block.verify()) },
 
 	// Adding LocalDeclares to the available locals is done by Fun or lineNewLocals.
 	LocalDeclare() { vop(this.opType) },
@@ -315,16 +327,17 @@ function ifOrUnlessDo() {
 }
 
 function verifyCase() {
-	const newLocals = []
-	opEach(this.opCased, _ => {
-		registerLocal(_.assignee)
-		_.verify()
-		newLocals.push(_.assignee)
-	})
-	plusLocals(newLocals, () => {
+	const doit = () => {
 		vm(this.parts)
 		vop(this.opElse)
-	})
+	}
+	ifElse(this.opCased,
+		_ => {
+			_.verify()
+			registerLocal(_.assignee)
+			plusLocal(_.assignee, doit)
+		},
+		doit)
 }
 
 function verifyCasePart() {

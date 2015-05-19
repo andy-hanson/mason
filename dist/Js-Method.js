@@ -2,21 +2,11 @@
 if((typeof define!=="function"))var define=require("amdefine")(module);
 define(["exports","./js","./Object","./Type/Obj-Type","./Type/Pred-Type","./bang","./compare","./Type/Type"],function(exports,js_0,Object_1,Obj_45Type_2,Pred_45Type_3,_33_4,compare_5,Type_6){
 	exports._get=_ms.lazy(function(){
-		const _$2=_ms.getModule(js_0),js_45sub=_ms.get(_$2,"js-sub"),_$3=_ms.getModule(Object_1),Object_45Key=_ms.get(_$3,"Object-Key"),Obj_45Type=_ms.getDefaultExport(Obj_45Type_2),_$5=_ms.getModule(Pred_45Type_3),Any=_ms.get(_$5,"Any"),_33=_ms.lazy(function(){
+		const _$2=_ms.getModule(js_0),js_45sub=_$2["js-sub"],_$3=_ms.getModule(Object_1),Object_45Key=_$3["Object-Key"],Obj_45Type=_ms.getDefaultExport(Obj_45Type_2),_$5=_ms.getModule(Pred_45Type_3),Any=_$5.Any,_33=_ms.lazy(function(){
 			return _ms.getDefaultExport(_33_4)
 		}),_$8=_ms.lazyGetModule(compare_5),_61_63=_ms.lazyProp(_$8,"=?"),_$9=_ms.lazyGetModule(Type_6),contains_63=_ms.lazyProp(_$9,"contains?");
 		const Js_45Method=Obj_45Type(function(){
 			const doc="A Js-Method allows you to call a JavaScript-style method as a function.\nUnlike a Mason Method, for a Js-Method,\nthe first argument becomes `this` within the implementation's body.";
-			const test=function test(){
-				const toString=Js_45Method(function(){
-					const impl_45name="toString";
-					return {
-						"impl-name":impl_45name,
-						name:"toString"
-					}
-				}());
-				return _ms.unlazy(_33)(_ms.unlazy(_61_63),toString(1),"1")
-			};
 			const props=function(){
 				const name=String;
 				const impl_45name=String;
@@ -32,7 +22,6 @@ define(["exports","./js","./Object","./Type/Obj-Type","./Type/Pred-Type","./bang
 			};
 			return {
 				doc:doc,
-				test:test,
 				props:props,
 				extensible:extensible,
 				"make-callable":make_45callable,
@@ -41,20 +30,11 @@ define(["exports","./js","./Object","./Type/Obj-Type","./Type/Pred-Type","./bang
 		}());
 		const send=exports.send=function(){
 			const doc="Calls `target`'s js-method `name` with the given arguments.";
-			const test=function test(){
-				const _k0=[1,"toFixed",2],_v0="1.00";
-				return _ms.map(_k0,_v0)
-			};
 			return _ms.set(function send(target,name){
 				const args=[].slice.call(arguments,2);
-				_ms.checkContains(Any,target,"target");
-				_ms.checkContains(Object_45Key,name,"name");
 				const impl=js_45sub(target,name);
-				_ms.unlazy(_33)(_ms.unlazy(contains_63)(Function,impl),_ms.lazy(function(){
-					return (((("Js-Method "+_ms.show(name))+" not implemented by ")+_ms.show(target))+".")
-				}));
 				return impl.apply(target,args)
-			},"doc",doc,"test",test)
+			},"doc",doc)
 		}();
 		const send_33=exports["send!"]=send;
 		const name=exports.name="Js-Method";
@@ -62,4 +42,4 @@ define(["exports","./js","./Object","./Type/Obj-Type","./Type/Pred-Type","./bang
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9Kcy1NZXRob2QubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQVVBLGtCQUFZLHFCQUNRO0dBQW5CLFVBQ0M7R0FHRCxXQUNPLGVBQUE7SUFBTixlQUFXLHNCQUNTO0tBQW5CLGtCQUFZOzs7Ozs7OENBQ1AsU0FBUyxHQUFJO0dBQUE7R0FDcEIsc0JBQ007SUFBTCxXQUFNO0lBQ04sa0JBQVc7Ozs7OztHQUNaLGlCQUFZO0dBQ1osc0JBQWdCLHlCQUFBLEVBQ0M7SUFBaEIsV0FBUSxrQkFBSztXQUViLFNBQVUsSUFBSSxJQUFJLElBQUksSUFDckIsZ0pBRWlCLHlDQUNBLDBDQUNBLDZDQUNBOzs7Ozs7Ozs7OztFQUlwQixrQ0FDSztHQUFKLFVBQU07R0FDTixXQUNPLGVBQUE7SUFBTixVQUFBLENBQUUsRUFBRyxVQUFTLE9BQVE7OztrQkFDdEIsY0FBQSxPQUFXLEtBQ3VCOztzQkFEM0I7c0JBQVM7SUFDaEIsV0FBTyxTQUFPLE9BQU87NENBQ0YsU0FBUztZQUFRLDBCQUFXLHdDQUEwQjs7V0FDekUsV0FBVyxPQUFPO0dBQUE7O0VBRXBCLCtCQUFPO0VBN0NQLHdCQUFBO2tCQWlEQSIsImZpbGUiOiJKcy1NZXRob2QuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9Kcy1NZXRob2QubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQVVBLGtCQUFZLHFCQUNRO0dBQW5CLFVBQ0M7R0FPRCxzQkFDTTtJQUFMLFdBQU07SUFDTixrQkFBVzs7Ozs7O0dBQ1osaUJBQVk7R0FDWixzQkFBZ0IseUJBQUEsRUFDQztJQUFoQixXQUFRLGtCQUFLO1dBRWIsU0FBVSxJQUFJLElBQUksSUFBSSxJQUNyQixnSkFFaUIseUNBQ0EsMENBQ0EsNkNBQ0E7Ozs7Ozs7Ozs7RUFJcEIsa0NBQ0s7R0FBSixVQUFNO2tCQUdMLGNBQUEsT0FBVyxLQUN1Qjs7SUFBbEMsV0FBTyxTQUFPLE9BQU87V0FFckIsV0FBVyxPQUFPO0dBQUE7O0VBRXBCLCtCQUFPO0VBN0NQLHdCQUFBO2tCQWlEQSIsImZpbGUiOiJKcy1NZXRob2QuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

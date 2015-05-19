@@ -195,13 +195,18 @@ export const
 			'opElse', Nullable(BlockVal)
 		]),
 
-	// Statements
-	Loop = ed('Loop',
+	// Loops
+	ForDoPlain = ed('ForDoPlain',
 		'TODO:DOC',
 		[ 'block', BlockDo ]),
-	EndLoop = ed('EndLoop',
+	ForDoWithBag = ed('ForDoWithBag',
+		'TODO:DOC',
+		[ 'element', LocalDeclare, 'bag', Val, 'block', BlockDo ]),
+	BreakDo = ed('BreakDo',
 		'TODO:DOC',
 		[ ]),
+
+	// Other statements
 	IfDo = ed('IfDo',
 		'TODO:DOC',
 		[ 'test', Val, 'result', BlockDo ]),

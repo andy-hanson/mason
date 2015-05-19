@@ -1,5 +1,4 @@
 use
-	..@.@ each!
 	..Object! p+!
 	..show
 	.Impl-Type
@@ -36,10 +35,10 @@ Enum = Obj-Type
 		prototype. |
 			Object.create Object.prototype
 	post-construct. |enum
-		each! enum.values |val-name
+		for! value-name in enum.values
 			enum-val = Object.create enum.prototype
-			p+! enum-val "name" val-name
-			p+! enum val-name enum-val
+			p+! enum-val "name" value-name
+			p+! enum value-name enum-val
 		p+! enum.prototype "constructor" enum
 		impl! show enum |val
 			"{enum.name}.{val.name}"

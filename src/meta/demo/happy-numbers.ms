@@ -1,5 +1,5 @@
 use
-	...@.@ each! fold keep map map'
+	...@.@ fold keep map map'
 	...@.@! ++!
 	...@.@-Type empty
 	...@.Seq.Array!
@@ -42,7 +42,7 @@ happy?.
 						++! stepped-through [ cur ]
 						loop (step cur
 		returning (loop n) |ans
-			each! stepped-through |_
+			for! stepped-through
 				set-nth! cache _ ans
 			set-nth! cache n ans
 

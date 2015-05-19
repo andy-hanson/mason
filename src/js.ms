@@ -6,7 +6,6 @@ use~
 	.Type.Type =>
 use-debug
 	.! _ !not
-	.@.@ each!
 	.compare =?
 	.math.methods +
 	.Object! p+!
@@ -71,7 +70,7 @@ truthy?.
 			. Number.NaN
 			. ""
 			. false
-		each! falsy |_
+		for! falsy
 			!not truthy? _
 		! truthy? []
 		! truthy? true

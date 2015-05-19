@@ -2,7 +2,7 @@
 if((typeof define!=="function"))var define=require("amdefine")(module);
 define(["exports","./private/bootstrap","./Type/Method"],function(exports,bootstrap_0,Method_1){
 	exports._get=_ms.lazy(function(){
-		const _$2=_ms.getModule(bootstrap_0),msDef=_ms.get(_$2,"msDef"),Method=_ms.getDefaultExport(Method_1);
+		const _$2=_ms.getModule(bootstrap_0),msDef=_$2.msDef,Method=_ms.getDefaultExport(Method_1);
 		const sub=exports.sub=Method(function(){
 			const doc="Implementing this allows the use of the special syntax `a[b]`.";
 			return {

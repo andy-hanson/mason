@@ -6,7 +6,6 @@ use
 	...Type.Type contains?
 use-debug
 	...!
-	...@.@ each!
 	...@.@-Type empty
 	...compare =?
 
@@ -46,10 +45,8 @@ make-word-from-blocks.
 			"common" -> empty ?
 			"squad" -> ? [ "FS" "DQ" "HU" "NA" "QD" ]
 			"confuse" -> ? [ "CP" "BO" "NA" "FS" "HU" "FS" "RE" ]
-		each! sample-answers |pair
-			word = pair.key
-			ans = pair.val
-			! =? ans (make-word-from-blocks word sample-blocks)
+		for! sample-answers
+			! =? _.val (make-word-from-blocks _.key sample-blocks)
 
 	|:?[Seq[String]] word:String blocks:@[String]
 		rec = |word blocks

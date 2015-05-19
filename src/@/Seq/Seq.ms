@@ -149,18 +149,14 @@ region Search
 			. "_"
 			. [ "n" Nat
 		default. |_ n
-			iter = iterator_
 			i ::= 0
 			# TODO:SYNTAX Loop return value
 			ans ::= empty ?
-			loop!
-				value done = iter.next()
+			for! _
 				case!
-					done
-						end-loop!
 					=? i n
-						ans := ? value
-						end-loop!
+						ans := ?_
+						break!
 					else
 						i := + 1 i
 			ans
@@ -211,21 +207,17 @@ region Update
 			_ = [ 0 1 2 3 4 ]
 			! seq=? _ (++ (take' _ 2) (drop' _ 2
 		|_ count-to-take:Nat
-			Stream ~|
-				iter = iterator_
-				i ::= 0
-				loop!
-					case!
-						=? i count-to-take
-							end-loop!
-						else
-							value done = iter.next()
-							case!
-								done
-									end-loop!
-								else
-									<~ value
-									i := + 1 i
+			case
+				=? 0 count-to-take
+					empty Stream
+				else
+					Stream ~|
+						n ::= count-to-take
+						for! _
+							<~ _
+							n := - n 1
+							if! =? 0 n
+								break!
 
 	take-while'.
 		doc. "Stream stopping (and not including) the first element not satisfying while?."
@@ -233,17 +225,10 @@ region Update
 			[ [ 1 2 -1 3 ] <?[0] ] -> => Stream [ 1 2 ]
 		|_ while?:Pred
 			Stream ~|
-				iter = iterator_
-				loop!
-					value done = iter.next()
-					case!
-						done
-							end-loop!
-						while? value
-							<~ value
-						else
-							end-loop!
-
+				for! _
+					unless! while?_
+						break!
+					<~ _
 
 	drop'. Method
 		doc. "Stream without the first count-to-drop elements."
@@ -256,16 +241,12 @@ region Update
 			Stream ~|
 				iter = iterator_
 				i ::= 0
-				loop!
-					case!
-						=? i count-to-drop
-							end-loop!
-						else
-							case!
-								iter.next().done
-									end-loop!
-								else
-									i := + 1 i
+				for!
+					if! =? i count-to-drop
+						break!
+					if! iter.next().done
+						break!
+					i := + 1 i
 				<~~ iter
 
 	# TODO: drop-while'
@@ -289,18 +270,14 @@ region Combination
 			Stream ~|
 				iter-a = iterator @a
 				iter-b = iterator @b
-				loop!
+				for!
 					next-a = iter-a.next()
-					case!
-						next-a.done
-							end-loop!
-						else
-							next-b = iter-b.next()
-							case!
-								next-b.done
-									end-loop!
-								else
-									<~ zipper next-a.value next-b.value
+					if! next-a.done
+						break!
+					next-b = iter-b.next()
+					if! next-b.done
+						break!
+					<~ zipper next-a.value next-b.value
 
 region TODO: put somewhere
 	groups-of'.
@@ -315,27 +292,24 @@ region TODO: put somewhere
 				=? group-size 0
 					# TODO: repeat-forever [ ]
 					Stream ~|
-						loop!
+						for!
 							<~ [ ]
 				else
 					Stream ~|
 						iter = iterator_
-						loop!
+						for!
 							next-group = empty Array!
-							loop!
+							for!
 								value done = iter.next()
-								case!
-									done
-										end-loop!
-									else
-										++>! next-group [ value ]
-										if! =? group-size (count next-group)
-											end-loop!
-							case! count next-group
-								=? _ group-size
-									<~ freeze next-group
-								else
-									end-loop!
+								if! done
+									break!
+								++>! next-group [ value ]
+								if! =? group-size (count next-group)
+									break!
+							unless! =? group-size (count next-group)
+								break!
+							# TODO: Really freeze?
+							<~ freeze next-group
 
 	reverse. Method
 		doc. "Seq with the opposite order."
@@ -351,17 +325,18 @@ region TODO: put somewhere
 			[ [ 1 0 1 ] =?[0] ] -> => Stream [ [ 1 ] [ 1 ] ]
 			[ [ 0 ] =?[0] ] -> => Stream [ [] [] ]
 		|_ split?:Pred
+			# TODO: Allocate current group; don't wait to call slice.
 			Stream ~|
 				iter = iterator_
 				prev-idx ::= 0
 				cur-idx ::= 0
-				loop!
+				for!
 					value done = iter.next()
 					~next-idx = + 1 cur-idx
 					case!
 						done
 							<~ slice _ prev-idx cur-idx
-							end-loop!
+							break!
 						split? value
 							<~ slice _ prev-idx cur-idx
 							prev-idx := next-idx

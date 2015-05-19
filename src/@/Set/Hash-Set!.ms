@@ -3,7 +3,7 @@ use
 	...Type.Kind kind! self-kind!
 	...Type.Method impl! impl-for
 	...Type.Wrap-Type
-	..@ each! iterator
+	..@ iterator
 	..@! ++! --! empty!
 	..@-Type _ empty
 	..Map.Map keys
@@ -26,13 +26,15 @@ kind! Hash-Set! Set!
 	iterator -> |_
 		iterator (keys _.val
 
-	++! -> |_ addeds
-		each! addeds |added
-			assoc! _.val added true
+	# TODO: Make default falling back to +!
+	++! -> |_ @added
+		for! em in @added
+			assoc! _.val em true
 
-	--! -> |_ deleteds
-		each! deleteds |deleted
-			un-assoc! _.val deleted
+	# TODO: Make default falling back to -!
+	--! -> |_ @deleted
+		for! em in @deleted
+			un-assoc! _.val em
 
 	empty! -> |_
 		empty! _.val

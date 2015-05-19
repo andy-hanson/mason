@@ -1,5 +1,5 @@
 use
-	...@.@ count each! keep map
+	...@.@ count keep map
 	...@.@-Type empty
 	...@.Map.Map values
 	...@.Map.Id-Map!
@@ -31,7 +31,8 @@ maximum-anagram-sets.
 	|words
 		# e.g., "amnos" -> [ "mason" "monas" ]
 		sorted->words = empty Id-Map!
-		each! words |_
+		for! words
+			# TODO: Function to add just one new element
 			add-to-@! sorted->words sort_ [ _ ]
 		max-count = max (map (values sorted->words) count
 		keep (values sorted->words) |_

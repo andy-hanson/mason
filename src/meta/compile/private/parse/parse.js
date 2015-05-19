@@ -2,18 +2,18 @@ import Loc from 'esast/dist/Loc'
 import tupl from 'tupl/dist/tupl'
 import { code } from '../../CompileError'
 import { Assign, AssignDestructure, AssignMutate, BagEntry, BagSimple, BlockBag, BlockDo, BlockMap,
-	BlockObj, BlockWithReturn, BlockWrap, Call, CaseDoPart, CaseValPart, CaseDo, CaseVal, Debug,
-	Do, NumberLiteral, EndLoop, Fun, GlobalAccess, IfDo, Lazy, LD_Const, LD_Lazy, LD_Mutable,
-	LocalAccess, LocalDeclare, LocalDeclareRes, Loop, MapEntry, Member, Module, ObjPair, ObjSimple,
-	Pattern, Quote, SP_Debugger, SpecialDo, SpecialVal, SV_Null, Splat, Val, UnlessDo, Use, UseDo,
-	Yield, YieldTo } from '../../Expression'
+	BlockObj, BlockWithReturn, BlockWrap, BreakDo, Call, CaseDoPart, CaseValPart, CaseDo, CaseVal,
+	Debug, Do, NumberLiteral, ForDoPlain, ForDoWithBag, Fun, GlobalAccess, IfDo, Lazy, LD_Const,
+	LD_Lazy, LD_Mutable, LocalAccess, LocalDeclare, LocalDeclareRes, MapEntry, Member, Module,
+	ObjPair, ObjSimple, Pattern, Quote, SP_Debugger, SpecialDo, SpecialVal, SV_Null, Splat, Val,
+	UnlessDo, Use, UseDo, Yield, YieldTo } from '../../Expression'
 import { JsGlobals } from '../language'
 import { CallOnFocus, DotName, Group, G_Block, G_Bracket, G_Paren, G_Space, G_Quote, isGroup,
-	isKeyword, Keyword, KW_Assign, KW_AssignMutable, KW_AssignMutate, KW_Case, KW_CaseDo, KW_Debug,
-	KW_Debugger, KW_Else, KW_EndLoop, KW_Focus, KW_Fun, KW_GenFun, KW_IfDo, KW_In, KW_Lazy, KW_Loop,
-	KW_MapEntry, KW_ObjAssign, KW_Pass, KW_Out, KW_Region, KW_Type, KW_UnlessDo, KW_Use,
-	KW_UseDebug, KW_UseDo, KW_UseLazy, KW_Yield, KW_YieldTo, Name, opKWtoSV, TokenNumberLiteral
-	} from '../Token'
+	isKeyword, Keyword, KW_Assign, KW_AssignMutable, KW_AssignMutate, KW_BreakDo, KW_Case,
+	KW_CaseDo, KW_Debug, KW_Debugger, KW_Else, KW_ForDo, KW_Focus, KW_Fun, KW_GenFun, KW_IfDo,
+	KW_In, KW_Lazy, KW_MapEntry, KW_ObjAssign, KW_Pass, KW_Out, KW_Region, KW_Type, KW_UnlessDo,
+	KW_Use, KW_UseDebug, KW_UseDo, KW_UseLazy, KW_Yield, KW_YieldTo, Name, opKWtoSV,
+	TokenNumberLiteral } from '../Token'
 import { assert, head, ifElse, flatMap, isEmpty, last,
 	opIf, opMap, push, repeat, rtail, tail, unshift } from '../util'
 import Slice from './Slice'
@@ -392,16 +392,16 @@ const
 				case KW_Debugger:
 					noRest()
 					return SpecialDo(tokens.loc, SP_Debugger)
-				case KW_EndLoop:
+				case KW_BreakDo:
 					checkEmpty(rest, () => `Did not expect anything after ${head}`)
-					return EndLoop(tokens.loc)
+					return BreakDo(tokens.loc)
 				case KW_IfDo: case KW_UnlessDo: {
 					const [ before, block ] = beforeAndBlock(rest)
 					const ctr = head.kind === KW_IfDo ? IfDo : UnlessDo
 					return ctr(tokens.loc, parseExpr(before), parseBlockDo(block))
 				}
-				case KW_Loop:
-					return Loop(tokens.loc, justBlockDo(rest))
+				case KW_ForDo:
+					return parseFor(rest)
 				case KW_ObjAssign:
 					// Index is set by parseBlock.
 					return BagEntry(tokens.loc, parseExpr(rest), -1)
@@ -714,3 +714,24 @@ const
 
 	_partsFromDotName = dotName =>
 		dotName.nDots === 1 ? [ '.' ] : repeat('..', dotName.nDots - 1)
+
+const
+	parseFor = tokens => {
+		const [ before, block ] = beforeAndBlock(tokens)
+		const body = parseBlockDo(block)
+		if (before.isEmpty())
+			return ForDoPlain(tokens.loc, body)
+		else {
+			const { element, bag } =
+				ifElse(before.opSplitOnceWhere(_ => isKeyword(KW_In, _)),
+					({ before, after }) => {
+						cx.check(before.size() === 1, before.loc, 'TODO: pattern in for!')
+						return {
+							element: parseLocalDeclaresJustNames(before)[0],
+							bag: parseExpr(after)
+						}
+					},
+					() => ({ element: LocalDeclare.focus(before.loc), bag: parseExpr(before) }))
+			return ForDoWithBag(tokens.loc, element, bag, body)
+		}
+	}

@@ -8,7 +8,7 @@ use
 	...private.js-impl arrayIterator
 	...Type.Kind kind! self-kind!
 	...Type.Method impl! self-impl!
-	..@ each! count iterator
+	..@ count iterator
 	..@-Type _ empty from-stream
 	.Seq _ ?nth
 use~
@@ -28,8 +28,8 @@ self-impl! empty Array (thunk []
 # TODO: Identical code in Array!.ms
 self-impl! from-stream Array |stream
 	arr = Array 0
-	each! stream |em
-		arr.push em
+	for! stream
+		arr.push _
 	arr
 
 impl! ?nth Array |_ n:Nat

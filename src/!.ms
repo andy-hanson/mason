@@ -1,7 +1,7 @@
 use
 	.compare =?
 use~
-	.@.@ _ each! map
+	.@.@ _ map
 	.@.Map.Map
 	.Function Pred
 	.show repr
@@ -107,9 +107,9 @@ doc. "For making assertions."
 		!call-with same?[show] +
 			[ 1 2 ] -> "3"
 	|equal?:Pred fun:Function args->result:Map[Array Any]
-		each! args->result |pair
-			args:@ = pair.key
-			expected-res = pair.val
+		for! args->result
+			args:@ = _.key
+			expected-res = _.val
 			actual = fun ...args
 			unless! equal? actual expected-res
 				oh-no! ~"

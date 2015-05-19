@@ -6,7 +6,7 @@ use
 	.Type.Type => contains?
 	.Type.Kind
 use~
-	.@.@ _ ++ all? count each! empty? keep
+	.@.@ _ ++ all? count empty? keep
 	.@.@-Type empty
 	.@.? _ ?-or Opt->?
 	.@.Map.Map _ make-map
@@ -226,8 +226,8 @@ Map->Object.
 				1 -> 2
 	|_:Map
 		returning empty-Object!() |obj
-			each! _ |pair
-				p+! obj pair.key pair.val
+			for! _
+				p+! obj _.key _.val
 			freeze obj
 
 prototype.

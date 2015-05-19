@@ -7,7 +7,7 @@ use
 	...Type.Kind _ kind!
 	...Type.Method _ impl!
 	...Type.Pred-Type Any
-	..@ _ all? count each! empty? iterator map
+	..@ _ all? count empty? iterator map
 	..@-Type empty
 	..? un-?
 use~
@@ -87,7 +87,7 @@ region Functions
 			! =? map[2] 3
 		|@key:@ get-value:Function
 			map = empty Hash-Map!
-			each! @key |_
+			for! @key
 				assoc! map _ get-value_
 			map
 

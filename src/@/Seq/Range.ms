@@ -77,12 +77,10 @@ kind! Range @
 			! seq=? (range 0 10 2) [ 0 2 4 6 8 ]
 		~|range
 			cur ::= range.start
-			loop!
-				case! cur
-					<=? range.end _
-						end-loop!
-					else
-						<~ _
-						cur := + cur range.step
+			for!
+				if! <=? range.end cur
+					break!
+				<~ cur
+				cur := + cur range.step
 
 Range

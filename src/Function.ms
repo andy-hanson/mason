@@ -4,7 +4,7 @@ use
 	.Type.Alias-Type
 	.Type.Method _ impl! self-impl!
 use~
-	.@.@ _ ++ each! map map'
+	.@.@ _ ++ map map'
 	.@.@-Type empty
 	.@.Map.Map
 	.@.Map.Hash-Map!
@@ -188,7 +188,8 @@ spread!.
 			spread! f 1
 				2 -> 3
 	|fun ...args
-		each! (spread fun ...args) noop
+		for! spread fun ...args
+			noop _
 
 thunk.
 	doc. "Makes function which, when called, returns `a`."

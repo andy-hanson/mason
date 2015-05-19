@@ -1,12 +1,12 @@
 import { ArrayExpression, BinaryExpression, BlockStatement, BreakStatement, CallExpression,
-	DebuggerStatement, ExpressionStatement, FunctionExpression, Identifier, IfStatement,
-	LabeledStatement, Literal, ObjectExpression, Program, ReturnStatement, ThisExpression,
+	DebuggerStatement, ExpressionStatement, ForOfStatement, FunctionExpression, Identifier,
+	IfStatement, Literal, ObjectExpression, Program, ReturnStatement, ThisExpression,
 	VariableDeclaration, UnaryExpression, VariableDeclarator, ReturnStatement
 	} from 'esast/dist/ast'
 import { idCached, loc, member, propertyIdOrLiteralCached, thunk, toStatement
 	} from 'esast/dist/util'
 import { assignmentExpressionPlain, callExpressionThunk, functionExpressionPlain,
-	functionExpressionThunk, memberExpression, property, variableDeclarationConst,
+	functionExpressionThunk, memberExpression, property,
 	yieldExpressionDelegate, yieldExpressionNoDelegate } from 'esast/dist/specialize'
 import * as EExports from '../../Expression'
 import { LD_Lazy, LD_Mutable, Pattern, Splat, SD_Debugger, SV_Contains, SV_False, SV_Null, SV_Sub,
@@ -19,7 +19,7 @@ import { AmdefineHeader, ArraySliceCall, ExportsDefault, ExportsGet, IdArguments
 	LitStrExports, LitStrName, LitZero, ReturnExports, ReturnRes, UseStrict
 	} from './ast-constants'
 import { IdMs, lazyWrap, msArr, msBool, msCheckContains, msExtract, msGet, msGetDefaultExport,
-	msGetModule, msLazy, msLazyGet, msLazyGetModule, msLset, msMap, msSet, msShow
+	msGetModule, msIterator, msLazy, msLazyGet, msLazyGetModule, msLset, msMap, msSet, msShow
 	} from './ms-call'
 import { accessLocalDeclare, declare, declareSpecial,
 	idForDeclareCached, throwError, whileStatementInfinite } from './util'
@@ -131,6 +131,8 @@ implementMany(EExports, 'transpileSubtree', {
 
 	BlockWrap() { return blockWrap(this, t0(this.block)) },
 
+	BreakDo() { return BreakStatement() },
+
 	Call() {
 		const anySplat = this.args.some(arg => arg instanceof Splat)
 		if (anySplat) {
@@ -167,7 +169,14 @@ implementMany(EExports, 'transpileSubtree', {
 			property('init', propertyIdOrLiteralCached(pair.key), t0(pair.value))))
 	},
 
-	EndLoop() { return BreakStatement(loopId(vr.endLoopToLoop.get(this))) },
+	ForDoPlain() {
+		return whileStatementInfinite(t0(this.block))
+	},
+
+	ForDoWithBag() {
+		const declare = VariableDeclaration('let', [ VariableDeclarator(t0(this.element)) ])
+		return ForOfStatement(declare, msIterator(t0(this.bag)), t0(this.block))
+	},
 
 	Fun() {
 		const oldInGenerator = isInGenerator
@@ -216,16 +225,11 @@ implementMany(EExports, 'transpileSubtree', {
 
 	LocalDeclare() { return idForDeclareCached(this) },
 
-	// TODO: Don't always label!
-	Loop() {
-		return LabeledStatement(loopId(this), whileStatementInfinite(t0(this.block)))
-	},
-
 	MapEntry() {
 		const index = vr.listMapEntryIndex(this)
 		const k = `_k${index}`
 		const v = `_v${index}`
-		return variableDeclarationConst([
+		return VariableDeclaration('const', [
 			VariableDeclarator(idCached(k), t0(this.key)),
 			VariableDeclarator(idCached(v), t0(this.val))
 		])
@@ -290,10 +294,10 @@ implementMany(EExports, 'transpileSubtree', {
 function casePart(alternate) {
 	if (this.test instanceof Pattern) {
 		const { type, patterned, locals } = this.test
-		const decl = variableDeclarationConst([
+		const decl = VariableDeclaration('const', [
 			VariableDeclarator(IdExtract, msExtract(t0(type), t0(patterned))) ])
 		const test = BinaryExpression('!==', IdExtract, LitNull)
-		const extract = variableDeclarationConst(locals.map((_, idx) =>
+		const extract = VariableDeclaration('const', locals.map((_, idx) =>
 			VariableDeclarator(idForDeclareCached(_), memberExpression(IdExtract, Literal(idx)))))
 		const res = t1(this.result, extract)
 		return BlockStatement([ decl, IfStatement(test, res, alternate) ])
@@ -315,8 +319,6 @@ const
 			acc = t1(parts[i], acc)
 		return acc
 	},
-
-	loopId = loop => idCached(`loop${loop.loc.start.line}`),
 
 	transpileBlock = (returned, lines, lead = null, opResDeclare = null, opOut = null) => {
 		const fin = ifElse(opResDeclare,

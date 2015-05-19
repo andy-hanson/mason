@@ -2,7 +2,7 @@
 if((typeof define!=="function"))var define=require("amdefine")(module);
 define(["exports","../../js","../../Objectbang","../../Type/Kind","../../Type/Tuple","../at","../at-Type","./Seq"],function(exports,js_0,Object_33_1,Kind_2,Tuple_3,_64_4,_64_45Type_5,Seq_6){
 	exports._get=_ms.lazy(function(){
-		const _$2=_ms.getModule(js_0),id_61_63=_ms.get(_$2,"id=?"),_$3=_ms.getModule(Object_33_1),p_33=_ms.get(_$3,"p!"),_$4=_ms.getModule(Kind_2),kind_33=_ms.get(_$4,"kind!"),self_45kind_33=_ms.get(_$4,"self-kind!"),Tuple=_ms.getDefaultExport(Tuple_3),_64=_ms.getDefaultExport(_64_4),_$6=_ms.getModule(_64_4),_43_43=_ms.get(_$6,"++"),empty_63=_ms.get(_$6,"empty?"),iterator=_ms.get(_$6,"iterator"),_64_45Type=_ms.getDefaultExport(_64_45Type_5),_$7=_ms.getModule(_64_45Type_5),empty=_ms.get(_$7,"empty"),from_45stream=_ms.get(_$7,"from-stream"),Seq=_ms.getDefaultExport(Seq_6),_$8=_ms.getModule(Seq_6),_60_43_43_39=_ms.get(_$8,"<++'"),tail=_ms.get(_$8,"tail");
+		const _$2=_ms.getModule(js_0),id_61_63=_$2["id=?"],_$3=_ms.getModule(Object_33_1),p_33=_$3["p!"],_$4=_ms.getModule(Kind_2),kind_33=_$4["kind!"],self_45kind_33=_$4["self-kind!"],Tuple=_ms.getDefaultExport(Tuple_3),_64=_ms.getDefaultExport(_64_4),_$6=_ms.getModule(_64_4),_43_43=_$6["++"],empty_63=_$6["empty?"],iterator=_$6.iterator,_64_45Type=_ms.getDefaultExport(_64_45Type_5),_$7=_ms.getModule(_64_45Type_5),empty=_$7.empty,from_45stream=_$7["from-stream"],Seq=_ms.getDefaultExport(Seq_6),_$8=_ms.getModule(Seq_6),_60_43_43_39=_$8["<++'"],tail=_$8.tail;
 		const LList=Tuple(function(){
 			const doc="Singly-linked list.";
 			const props=["head","tail"];
@@ -28,7 +28,7 @@ define(["exports","../../js","../../Objectbang","../../Type/Kind","../../Type/Tu
 				return id_61_63(_,empty_45LList)
 			};
 			const _k1=iterator,_v1=function*(_){
-				if(! _ms.bool(empty_63(_))){
+				if(! empty_63(_)){
 					(yield _.head);
 					(yield* iterator(_.tail))
 				}
@@ -37,12 +37,11 @@ define(["exports","../../js","../../Objectbang","../../Type/Kind","../../Type/Tu
 				return _.tail
 			};
 			const _k3=_60_43_43_39,_v3=function(_,left_45added){
-				_ms.checkContains(_64,left_45added,"left-added");
 				const iter=iterator(left_45added);
 				const f=function f(){
 					const _$39=iter.next(),value=_$39.value,done=_$39.done;
 					return function(){
-						if(_ms.bool(done)){
+						if(done){
 							return _
 						} else {
 							return LList(value,f())
@@ -54,7 +53,7 @@ define(["exports","../../js","../../Objectbang","../../Type/Kind","../../Type/Tu
 			const _k4=_43_43,_v4=function(a,b){
 				return function(){
 					const _=b;
-					if(_ms.bool(_ms.contains(LList,_))){
+					if(_ms.contains(LList,_)){
 						return _60_43_43_39(b,a)
 					} else {
 						return _43_43.default(a,b)
@@ -68,4 +67,4 @@ define(["exports","../../js","../../Objectbang","../../Type/Kind","../../Type/Tu
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1NlcS9MTGlzdC5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQVNBLFlBQVEsZ0JBQ0s7R0FBWixVQUNDO0dBQ0QsWUFBTyxDQUFHLE9BQU87Ozs7Ozs7RUFFbEIsb0JBQWMsTUFBTSxPQUFVO0VBQzlCLEtBQUcsY0FBYSxPQUFNO0VBRXRCLGVBQVcsTUFBTSxxQkFDTTtHQUF0QixVQUFBLFVBQ1UsVUFBQTtXQUFUO0dBQUE7R0FDRCxVQUFBLGtCQUFnQixTQUFBLEVBQ0M7V0FBaEIsYUFBSyxjQUFZO0dBQUE7OztFQUVuQixRQUFNLE1BQU0sY0FDRztHQUFkLFVBQUEsYUFBVyxTQUFBLEVBQ0M7V0FBWCxTQUFLLEVBQUU7R0FBQTtHQUVSLFVBQUEsYUFBYyxVQUFBLEVBQ0M7SUFBZCxjQUFRLFNBQUEsSUFDTztZQUFYO2FBQ0MsU0FBUzs7O0dBRWYsVUFBQSxTQUFTLFNBQUEsRUFDQztXQUFUOztHQUVELFVBQUEsaUJBQVMsU0FBQSxFQUFFLGFBQ1k7c0JBREQ7SUFDckIsV0FBTyxTQUFTO0lBQ2hCLFFBQ0ssWUFBQTtLQUFKLFdBQWE7O01BRVosWUFBQSxNQUNJO2NBQUg7TUFBQSxPQUVHO2NBQUgsTUFBTSxNQUFNO01BQUE7S0FBQTtJQUFBO1dBQ2Y7R0FBQTtHQUdELFVBQUEsV0FBTyxTQUFBLEVBQUUsRUFDQzs7S0FBSixRQUFBO0tBQ0oseUJBQUMsTUFBRCxJQUNNO2FBQUwsYUFBSyxFQUFFO0tBQUEsT0FFSjthQUFILGVBQVcsRUFBRTtLQUFBO0lBQUE7R0FBQTs7O0VBcERqQix3QkFBQTtrQkFzREEiLCJmaWxlIjoiYXQvU2VxL0xMaXN0LmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1NlcS9MTGlzdC5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQVNBLFlBQVEsZ0JBQ0s7R0FBWixVQUNDO0dBQ0QsWUFBTyxDQUFHLE9BQU87Ozs7Ozs7RUFFbEIsb0JBQWMsTUFBTSxPQUFVO0VBQzlCLEtBQUcsY0FBYSxPQUFNO0VBRXRCLGVBQVcsTUFBTSxxQkFDTTtHQUF0QixVQUFBLFVBQ1UsVUFBQTtXQUFUO0dBQUE7R0FDRCxVQUFBLGtCQUFnQixTQUFBLEVBQ0M7V0FBaEIsYUFBSyxjQUFZO0dBQUE7OztFQUVuQixRQUFNLE1BQU0sY0FDRztHQUFkLFVBQUEsYUFBVyxTQUFBLEVBQ0M7V0FBWCxTQUFLLEVBQUU7R0FBQTtHQUVSLFVBQUEsYUFBYyxVQUFBLEVBQ0M7SUFBZCxLQUFRLFNBQUEsR0FDTztZQUFYO2FBQ0MsU0FBUzs7O0dBRWYsVUFBQSxTQUFTLFNBQUEsRUFDQztXQUFUOztHQUVELFVBQUEsaUJBQVMsU0FBQSxFQUFFLGFBQ1k7SUFBdEIsV0FBTyxTQUFTO0lBQ2hCLFFBQ0ssWUFBQTtLQUFKLFdBQWE7O01BRVosR0FBQSxLQUNJO2NBQUg7TUFBQSxPQUVHO2NBQUgsTUFBTSxNQUFNO01BQUE7S0FBQTtJQUFBO1dBQ2Y7R0FBQTtHQUdELFVBQUEsV0FBTyxTQUFBLEVBQUUsRUFDQzs7S0FBSixRQUFBO0tBQ0osZ0JBQUMsTUFBRCxHQUNNO2FBQUwsYUFBSyxFQUFFO0tBQUEsT0FFSjthQUFILGVBQVcsRUFBRTtLQUFBO0lBQUE7R0FBQTs7O0VBcERqQix3QkFBQTtrQkFzREEiLCJmaWxlIjoiYXQvU2VxL0xMaXN0LmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

@@ -9,7 +9,7 @@ use
 	...Type.Kind kind! self-kind!
 	...Type.Pred-Type Any
 	...Type.Tuple
-	..@ _ ++ count each! empty? iterator map
+	..@ _ ++ count empty? iterator map
 	..@! empty!
 	..@-Type _ empty
 	..? un-?
@@ -38,7 +38,7 @@ region Helpers
 		old-capacity = capacity_
 		new-capacity = * 2 old-capacity
 		new-data = empty Array! new-capacity
-		each! (range 0 old-capacity) |index
+		for! index in range 0 old-capacity
 			set-nth! new-data index old-data[index]
 		p! _ "data!" new-data
 
@@ -70,7 +70,7 @@ kind! Deque! Seq!
 		iterator (map indices sub[_.data!]
 
 	<++! -> |_ ems:@
-		each! (reverse ems) |em
+		for! em in reverse ems
 			new-start = prev-index _ _.start-index!
 			case!
 				=? new-start _.end-index!
@@ -81,7 +81,7 @@ kind! Deque! Seq!
 					set-nth! _.data! _.start-index! em
 
 	++>! -> |_ ems:@
-		each! ems |em
+		for! em in ems
 			new-end = next-index _ _.end-index!
 			case!
 				=? new-end _.start-index!

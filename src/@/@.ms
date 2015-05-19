@@ -1,7 +1,7 @@
 use
 	..Boolean and not
 	..compare =?
-	..Function Action identity Pred
+	..Function identity Pred
 	..js defined? id=?
 	..math.methods +
 	..private.bootstrap msDef
@@ -20,7 +20,6 @@ use~
 	.Seq.Stream
 	.Set.Set!
 use-debug
-	..control build
 	..! _ !not
 	..math.Number divisible?
 	..Try fails?
@@ -82,31 +81,9 @@ region Using iterator
 					rest. tail_
 
 			acc ::= start
-			iter = iterator rest
-			loop!
-				value done = iter.next()
-				case!
-					done
-						end-loop!
-					else
-						acc := folder acc value
+			for! rest
+				acc := folder acc _
 			acc
-
-	each!. Method
-		doc. "Calls do-for-each on every element in the @, in order."
-		test. |
-			! =? [ 1 2 3 ] (build |yield
-				each! [ 1 2 3 ] yield
-		args. 2
-		default. |_ do-for-each:Action
-			iter = iterator_
-			loop!
-				value done = iter.next()
-				case!
-					done
-						end-loop!
-					else
-						do-for-each value
 
 	any?.
 		doc. "Whether pred? is true for at least one element."
@@ -135,19 +112,12 @@ region Using iterator
 			[ [ 0 1 ] =?[1] ] -> ? 1
 			[ [ 0 ] =?[1] ] -> empty ?
 		|_ pred?:Pred
-			iter = iterator_
 			# TODO:SYNTAX Return from loop
 			found ::= empty ?
-			loop!
-				value done = iter.next()
-				case!
-					done
-						end-loop!
-					pred? value
-						found := ? value
-						end-loop!
-					else
-						pass
+			for! _
+				if! pred?_
+					found := ?_
+					break!
 			found
 
 	count. Method
@@ -173,18 +143,11 @@ region Lazy functions, and their eager versions.
 		doc. "Lazy keep."
 		test. |
 			[ [ 1 2 ] =?[2] ] -> => Stream [ 2 ]
-		|_:@ keep-if?:Pred
+		|filtered:@ keep-if?:Pred
 			Stream ~|
-				iter = iterator_
-				loop!
-					value done = iter.next()
-					case!
-						done
-							end-loop!
-						keep-if? value
-							<~ value
-						else
-							pass
+				for! filtered
+					if! keep-if?_
+						<~ _
 
 	# TODO: Method
 	map.
@@ -198,16 +161,10 @@ region Lazy functions, and their eager versions.
 		doc. "Lazy map."
 		test. |
 			[ [ true false ] not ] -> => Stream [ false true ]
-		|_:@ mapper:Function
+		|mapped:@ mapper:Function
 			Stream ~|
-				iter = iterator_
-				loop!
-					value done = iter.next()
-					case!
-						done
-							end-loop!
-						else
-							<~ mapper value
+				for! mapped
+					<~ mapper_
 
 
 	# TODO: Preserve type as long as it is not Stream or Lazy-Stream?
@@ -253,18 +210,11 @@ region Lazy functions, and their eager versions.
 					[ _ ]
 			[ [ 1 2 3 4 ] f ] -> => Stream [ 1 2 2 3 4 4 ]
 		args. 2
-		|_:@ mapper:Function[Any @]
+		|mapped:@ mapper:Function[Any @]
 			# Same as `flatten (map _ mapper)`, but with smaller stacktrace.
 			Stream ~|
-				iter = iterator_
-				loop!
-					value done = iter.next()
-					case!
-						done
-							end-loop!
-						else
-							<~~ iterator (mapper value
-
+				for! mapped
+					<~~ iterator mapper_
 
 	flatten. Method
 		doc. "
@@ -286,17 +236,10 @@ region Lazy functions, and their eager versions.
 			# Must be at least one nested level
 			! fails? |
 				=> Array (flatten [ [ 1 ] 2 [ 3 ] ]
-		|_:@[@]
+		|flattened:@[@]
 			Stream ~|
-				iter = iterator_
-				loop!
-					value done = iter.next()
-					case!
-						done
-							end-loop!
-						else
-							<~~ iterator value
-
+				for! flattened
+					<~~ iterator_
 
 	++. Method
 		doc. "Type-preserving +."
@@ -334,23 +277,16 @@ region Lazy functions, and their eager versions.
 		doc. "Lazy --."
 		test. |
 			[ [ 1 2 1 ] [ 1 ] ] -> => Stream [ 2 1 ]
-		|:@ _ @remove:@
+		|:@ @removed-from @remove:@
 			Stream ~|
-				iter = iterator_
 				@remove-remaining = => Set! @remove
-				loop!
-					value done = iter.next()
+				for! @removed-from
 					case!
-						done
-							end-loop!
+						:@remove-remaining
+							# TODO: -!
+							--! @remove-remaining [ _ ]
 						else
-							case! value
-								:@remove-remaining
-									# TODO: -!
-									--! @remove-remaining [ value ]
-								else
-									<~ value
-
+							<~ _
 
 	impl! =? @
 		test. |

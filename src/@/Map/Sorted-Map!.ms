@@ -8,7 +8,6 @@ use~
 use-debug
 	...!
 	...compare sorted?
-	..@ each!
 	.Map keys
 	.Map! assoc!
 
@@ -18,7 +17,7 @@ Sorted-Map! = Kind
 		This kind of Map! depends on an efficient `compare` between its keys.
 	implementor-test. |type
 		_ = empty type
-		each! [ 1 3 5 4 2 ] |key
+		for! key in [ 1 3 5 4 2 ]
 			assoc! _ key key
 		! sorted? keys_
 

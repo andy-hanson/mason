@@ -1,5 +1,5 @@
 use
-	...@.@ _ each!
+	...@.@
 	...$ _ $after
 	...io.console log!
 	...io.time current-time-ms
@@ -25,7 +25,8 @@ time*!.
 race*!.
 	doc. "Logs the time of to run each of time-us `times` times."
 	|times:Nat time-us:@[Action]
-		each! time-us time*!["." times]
+		for! time-us
+			time*! "." times _
 
 time.
 	doc. "Time taken to run time-me (milliseconds), and its result."

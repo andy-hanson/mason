@@ -1,7 +1,7 @@
 use
 	...Type.Kind _ kind! self-kind!
 	...Type.Method _ self-impl!
-	..@ _ each!
+	..@
 	..@-Type empty
 	..? ?-or
 	.Map _ ?get
@@ -38,10 +38,10 @@ Map! = Kind
 		noweak |
 			! empty? _
 		do-adds = |
-			each! ks |n
+			for! n in ks
 				add! _ n (* 2 n.val)
 		do-adds()
-		each! ks |n
+		for! n in ks
 			! =? _[n] (* 2 n.val)
 		?get _ (Mt 0
 		! empty? (?get _ (Mt 0
@@ -70,9 +70,9 @@ assoc!. Method
 assoc*!.
 	doc. "Adds the other map's keys to mine, overriding my values."
 	test. "See Map!.implementor-test."
-	|_:Map! to-add:Map
-		each! to-add |pair
-			assoc! _ pair.key pair.val
+	|map:Map! to-add:Map
+		for! to-add
+			assoc! map _.key _.val
 
 un-assoc!. Method
 	doc. "
@@ -81,8 +81,9 @@ un-assoc!. Method
 
 un-assoc*!.
 	doc. "Removes keys (and by proxy, their associated values)."
-	|_ @to-delete:@
-		each! @to-delete un-assoc![_]
+	|map:Map! @to-delete:@
+		for! @to-delete
+			un-assoc! map _
 
 add!. Method
 	doc. "

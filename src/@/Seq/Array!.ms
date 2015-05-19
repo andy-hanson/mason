@@ -7,7 +7,7 @@ use
 	...Type.Kind kind! self-kind!
 	...Type.Pred-Type
 	...Type.Type =>
-	..@ _ each! empty?
+	..@ _ empty?
 	..@! empty!
 	..@-Type _ empty from-stream
 	.Seq! _ <++! ++>! ?<pop! ?pop>! set-nth!
@@ -22,10 +22,11 @@ Array! = Pred-Type
 self-kind! Array! @-Type
 	empty -> |initial-size
 		Array (opr initial-size 0
-	from-stream -> |_
+	# TODO: Identical code in Array-as-Seq.ms
+	from-stream -> |stream
 		arr = Array 0
-		each! _ |em
-			arr.push em
+		for! stream
+			arr.push _
 		arr
 
 # We're defining these on Arrays, but they will only work for Array!s because Arrays are frozen
@@ -42,12 +43,11 @@ kind! Array Seq!
 		if (not empty?_) ~_.pop()
 	empty! -> |_
 		# http://jsperf.com/empty-javascript-array/15
-		loop!
-			case!
-				empty?_
-					end-loop!
-				else
-					_.pop()
+		# TODO: Test it myself...
+		for!
+			if! empty?_
+				break!
+			_.pop()
 	set-nth! -> |_ n:Nat val
 		js-set _ n val
 

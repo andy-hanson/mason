@@ -1,7 +1,7 @@
 use
 	...control opr
 	...Type.Pred-Type Opt
-	..@ _ each!
+	..@
 	..@! ++!
 	..@-Type _ empty
 	..Seq.Array!
@@ -43,7 +43,7 @@ group.
 			=? show_ "1"
 	|@value:@ group-by:Function
 		map = empty Map!
-		each! @value |val
-			key = group-by val
-			add-to-@! map key [ val ]
+		for! @value
+			key = group-by _
+			add-to-@! map key [ _ ]
 		map

@@ -2,9 +2,8 @@ use
 	...Function identity
 	...methods sub
 	...Type.Method impl! self-impl!
-	...Type.Pred-Type Any
 	...Type.Kind _ kind! self-kind!
-	..@ _ each!
+	..@
 	..@-Type _ empty from-stream
 	.Map
 use~
@@ -33,10 +32,9 @@ impl! from-stream Map-Type
 			1 -> 2
 			3 -> 4
 	|type stream:@
-		_ = empty type
-		each! stream |pair
-			key:Any val:Any = pair
-			assoc! _ key val
-		_
+		map = empty type
+		for! stream
+			assoc! map _.key _.val
+		map
 
 Map-Type

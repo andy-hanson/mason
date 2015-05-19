@@ -2,24 +2,15 @@
 if((typeof define!=="function"))var define=require("amdefine")(module);
 define(["exports","../../Function","../../Generatorbang","../../Type/Kind","../../Type/Method","../../Type/Wrap-Type","../at","../at-Type","./Seq","../../bang","./Seq"],function(exports,Function_0,Generator_33_1,Kind_2,Method_3,Wrap_45Type_4,_64_5,_64_45Type_6,Seq_7,_33_8,Seq_9){
 	exports._get=_ms.lazy(function(){
-		const _$2=_ms.getModule(Function_0),thunk=_ms.get(_$2,"thunk"),Generator_33=_ms.getDefaultExport(Generator_33_1),_$3=_ms.getModule(Generator_33_1),empty_45Generator=_ms.get(_$3,"empty-Generator"),_$4=_ms.getModule(Kind_2),kind_33=_ms.get(_$4,"kind!"),self_45kind_33=_ms.get(_$4,"self-kind!"),_$5=_ms.getModule(Method_3),impl_33=_ms.get(_$5,"impl!"),self_45impl_33=_ms.get(_$5,"self-impl!"),Wrap_45Type=_ms.getDefaultExport(Wrap_45Type_4),_$7=_ms.getModule(_64_5),iterator=_ms.get(_$7,"iterator"),_64_45Type=_ms.getDefaultExport(_64_45Type_6),_$8=_ms.getModule(_64_45Type_6),empty=_ms.get(_$8,"empty"),from_45stream=_ms.get(_$8,"from-stream"),Seq=_ms.getDefaultExport(Seq_7),_33=_ms.lazy(function(){
+		const _$2=_ms.getModule(Function_0),thunk=_$2.thunk,Generator_33=_ms.getDefaultExport(Generator_33_1),_$3=_ms.getModule(Generator_33_1),empty_45Generator=_$3["empty-Generator"],_$4=_ms.getModule(Kind_2),kind_33=_$4["kind!"],self_45kind_33=_$4["self-kind!"],_$5=_ms.getModule(Method_3),impl_33=_$5["impl!"],self_45impl_33=_$5["self-impl!"],Wrap_45Type=_ms.getDefaultExport(Wrap_45Type_4),_$7=_ms.getModule(_64_5),iterator=_$7.iterator,_64_45Type=_ms.getDefaultExport(_64_45Type_6),_$8=_ms.getModule(_64_45Type_6),empty=_$8.empty,from_45stream=_$8["from-stream"],Seq=_ms.getDefaultExport(Seq_7),_33=_ms.lazy(function(){
 			return _ms.getDefaultExport(_33_8)
 		}),_$12=_ms.lazyGetModule(Seq_9),seq_61_63=_ms.lazyProp(_$12,"seq=?");
 		const Stream=Wrap_45Type(function(){
 			const doc="A Stream is a @ whose elements are the outputs of a Generator!.\nUnlike a Generator!, a Stream can be used multiple times.";
 			const wrapped_45type=_ms.sub(Function,Generator_33);
-			const test=function test(){
-				const _=Stream(function*(){
-					(yield 1);
-					return (yield 2)
-				});
-				_ms.unlazy(_33)(_ms.unlazy(seq_61_63),_,[1,2]);
-				return _ms.unlazy(_33)(_ms.unlazy(seq_61_63),_,[1,2])
-			};
 			return {
 				doc:doc,
 				"wrapped-type":wrapped_45type,
-				test:test,
 				name:"Stream"
 			}
 		}());
@@ -41,4 +32,4 @@ define(["exports","../../Function","../../Generatorbang","../../Type/Kind","../.
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1NlcS9TdHJlYW0ubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQWFBLGFBQVMsc0JBQ1M7R0FBakIsVUFDQztHQUVELDZCQUFjLFNBQVM7R0FDdkIsV0FDTyxlQUFBO0lBQU4sUUFBSSxPQUNTLFdBQUE7WUFBVDtZQUNBLE9BQUE7SUFBQTswQ0FDSSxFQUFFLENBQUUsRUFBRTtpREFFTixFQUFFLENBQUUsRUFBRTtHQUFBOzs7Ozs7OztFQUVoQixlQUFXLE9BQU87RUFDbEIsZUFBVyxNQUFNLE9BQVEsTUFBTyxPQUNRLFVBQUE7VUFBdkM7RUFBQTtFQUNELGVBQVcsY0FBWSxPQUFRLFNBQUEsRUFDQztVQUEvQixPQUNRLFVBQUE7V0FBUCxTQUFBO0dBQUE7RUFBQTtFQUVGLFFBQU0sT0FBTztFQUNiLFFBQU0sU0FBUyxPQUFRLFNBQUEsRUFDQztVQUF2Qjs7RUFuQ0Qsd0JBQUE7a0JBcUNBIiwiZmlsZSI6ImF0L1NlcS9TdHJlYW0uanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1NlcS9TdHJlYW0ubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQWFBLGFBQVMsc0JBQ1M7R0FBakIsVUFDQztHQUVELDZCQUFjLFNBQVM7Ozs7Ozs7RUFTeEIsZUFBVyxPQUFPO0VBQ2xCLGVBQVcsTUFBTSxPQUFRLE1BQU8sT0FDUSxVQUFBO1VBQXZDO0VBQUE7RUFDRCxlQUFXLGNBQVksT0FBUSxTQUFBLEVBQ0M7VUFBL0IsT0FDUSxVQUFBO1dBQVAsU0FBQTtHQUFBO0VBQUE7RUFFRixRQUFNLE9BQU87RUFDYixRQUFNLFNBQVMsT0FBUSxTQUFBLEVBQ0M7VUFBdkI7O0VBbkNELHdCQUFBO2tCQXFDQSIsImZpbGUiOiJhdC9TZXEvU3RyZWFtLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

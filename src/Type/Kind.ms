@@ -7,7 +7,7 @@ use
 	.Method impl! propagate-method-down! self-impl!
 	.Obj-Type
 use~
-	..@.@ _ each! flat-map
+	..@.@ _ flat-map
 	.Impl-Type _ self-type
 	..methods freeze frozen?
 use-debug
@@ -153,8 +153,8 @@ kind!.
 
 		unchecked-kind! implementor kind
 		if! defined? method-impls
-			each! method-impls |pair
-				impl! pair.key implementor pair.val
+			for! method-impls
+				impl! _.key implementor _.val
 
 self-kind!.
 	doc. "TODO"
@@ -163,8 +163,8 @@ self-kind!.
 	|implementor:Object kind:Kind method-impls
 		kind! (self-type implementor) kind
 		if! defined? method-impls
-			each! method-impls |pair
-				self-impl! pair.key implementor pair.val
+			for! method-impls
+				self-impl! _.key implementor _.val
 
 kind?.
 	doc. "

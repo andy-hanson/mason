@@ -1,5 +1,4 @@
 use
-	...@.@ each!
 	...@.? Some
 	...@.Map.Map! assoc! un-assoc!
 	...@.Map.Id-Map!
@@ -23,7 +22,8 @@ primes.
 	test. |
 		is-prime? = |_
 			not (any? (range 2 _) divisible?[_]
-		each! (take' primes 20) ![is-prime?]
+		for! take' primes 20
+			! is-prime? _
 	Stream ~|
 		<~ 2
 		<~ 3
@@ -34,7 +34,7 @@ primes.
 			# un-assoc! is to save memory - we won't need to look up this value any more.
 			case! un-assoc! prime-factors candidate
 				:Some factors
-					each! factors |_
+					for! factors
 						key = + candidate (* 2 _
 						add-to-@! prime-factors key [ _ ]
 				else

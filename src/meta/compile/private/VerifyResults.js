@@ -7,7 +7,6 @@ export default class VerifyResults {
 		this.accessToLocal = new Map()
 		// LocalDeclare -> VrLocalInfo
 		this.localToInfo = new Map()
-		this.endLoopToLoop = new Map()
 		// BagEntry or MapEntry -> index
 		this.entryToIndex = new Map()
 		// BlockBag / BlockMap -> # entries

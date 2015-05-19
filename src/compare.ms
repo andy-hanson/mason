@@ -116,11 +116,11 @@ region Min/max
 				value = iter.next().value
 				cur-max ::= value
 				cur-max-by ::= by value
-				loop!
+				for!
 					value done = iter.next()
 					case!
 						done
-							end-loop!
+							break!
 						else
 							value-by = by value
 							if! <? cur-max-by value-by

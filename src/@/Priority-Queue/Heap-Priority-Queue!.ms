@@ -6,7 +6,7 @@ use
 	...math.methods + - *
 	...Type.Kind kind! self-kind!
 	...Type.Wrap-Type
-	..@ count each! empty? iterator map
+	..@ count empty? iterator map
 	..@! ++! empty!
 	..@-Type _ empty
 	..? un-?
@@ -25,7 +25,8 @@ self-kind! Heap-Priority-Queue! @-Type
 
 kind! Heap-Priority-Queue! Priority-Queue!
 	++! -> |_ added
-		each! added add![_.val]
+		for! em in added
+			add! _.val em
 	?pop! -> |_
 		heap = _.val
 		map (?first heap) |first

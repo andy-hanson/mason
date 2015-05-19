@@ -10,7 +10,7 @@ use-debug
 	..! _ !not
 	..compare =?
 	..Type.Type contains?
-	.@ each! empty?
+	.@ empty?
 
 @! = Kind
 	doc. "Mutable @."
@@ -23,11 +23,11 @@ use-debug
 				empty type
 		++! _ [ 1 2 ]
 		++! _ [ 3 4 ]
-		each! [ 1 2 3 4 ] |em
+		for! em in [ 1 2 3 4 ]
 			! contains? _ em
 		!not contains? _ 5
 		empty! _
-		each! [ 1 2 3 4 ] |em
+		for! em in [ 1 2 3 4 ]
 			!not contains? _ em
 		! empty? _
 

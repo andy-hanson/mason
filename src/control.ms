@@ -97,6 +97,7 @@ returning.
 		returned
 
 region Loops
+	# TODO: Try to avoid using...
 	loop.
 		doc. "
 			Maintains a value representing state, and continually applies `transform-state` to it until that returns an End-Loop.
@@ -112,11 +113,11 @@ region Loops
 		|init-state transform-state:Function
 			state ::= init-state
 			output ::= null
-			loop!
+			for!
 				case! transform-state state
 					:End-Loop
 						output := _.val
-						end-loop!
+						break!
 					else
 						state := _
 			output
