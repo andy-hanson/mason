@@ -90,7 +90,7 @@ run-turing.
 					state. _.state
 					idx. case
 						go-right
-							if! (=? pi (- (count tape) 1))
+							if! =? pi (- (count tape) 1)
 								++>! tape [ blank ]
 							+ pi 1
 						=? pi 0

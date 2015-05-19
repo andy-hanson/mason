@@ -5,14 +5,15 @@ import { Assign, AssignDestructure, AssignMutate, BagEntry, BagSimple, BlockBag,
 	BlockObj, BlockWithReturn, BlockWrap, Call, CaseDoPart, CaseValPart, CaseDo, CaseVal, Debug,
 	Do, NumberLiteral, EndLoop, Fun, GlobalAccess, IfDo, Lazy, LD_Const, LD_Lazy, LD_Mutable,
 	LocalAccess, LocalDeclare, LocalDeclareRes, Loop, MapEntry, Member, Module, ObjPair, ObjSimple,
-	Pattern, Quote, SP_Debugger, SpecialDo, SpecialVal, SV_Null, Splat, Val, Use, UseDo, Yield,
-	YieldTo } from '../../Expression'
+	Pattern, Quote, SP_Debugger, SpecialDo, SpecialVal, SV_Null, Splat, Val, UnlessDo, Use, UseDo,
+	Yield, YieldTo } from '../../Expression'
 import { JsGlobals } from '../language'
 import { CallOnFocus, DotName, Group, G_Block, G_Bracket, G_Paren, G_Space, G_Quote, isGroup,
 	isKeyword, Keyword, KW_Assign, KW_AssignMutable, KW_AssignMutate, KW_Case, KW_CaseDo, KW_Debug,
 	KW_Debugger, KW_Else, KW_EndLoop, KW_Focus, KW_Fun, KW_GenFun, KW_IfDo, KW_In, KW_Lazy, KW_Loop,
-	KW_MapEntry, KW_ObjAssign, KW_Pass, KW_Out, KW_Region, KW_Type, KW_Use, KW_UseDebug, KW_UseDo,
-	KW_UseLazy, KW_Yield, KW_YieldTo, Name, opKWtoSV, TokenNumberLiteral } from '../Token'
+	KW_MapEntry, KW_ObjAssign, KW_Pass, KW_Out, KW_Region, KW_Type, KW_UnlessDo, KW_Use,
+	KW_UseDebug, KW_UseDo, KW_UseLazy, KW_Yield, KW_YieldTo, Name, opKWtoSV, TokenNumberLiteral
+	} from '../Token'
 import { assert, head, ifElse, flatMap, isEmpty, last,
 	opIf, opMap, push, repeat, rtail, tail, unshift } from '../util'
 import Slice from './Slice'
@@ -394,9 +395,11 @@ const
 				case KW_EndLoop:
 					checkEmpty(rest, () => `Did not expect anything after ${head}`)
 					return EndLoop(tokens.loc)
-				case KW_IfDo:
+				case KW_IfDo: case KW_UnlessDo: {
 					const [ before, block ] = beforeAndBlock(rest)
-					return IfDo(tokens.loc, parseExpr(before), parseBlockDo(block))
+					const ctr = head.kind === KW_IfDo ? IfDo : UnlessDo
+					return ctr(tokens.loc, parseExpr(before), parseBlockDo(block))
+				}
 				case KW_Loop:
 					return Loop(tokens.loc, justBlockDo(rest))
 				case KW_ObjAssign:

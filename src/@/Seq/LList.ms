@@ -1,5 +1,4 @@
 use
-	...Boolean not
 	...js id=?
 	...Object! p!
 	...Type.Kind kind! self-kind!
@@ -27,7 +26,7 @@ kind! LList Seq
 		id=? _ empty-LList
 
 	iterator -> ~|_
-		if! not empty?_
+		unless! empty?_
 			<~ _.head
 			<~~ iterator _.tail
 

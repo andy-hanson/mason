@@ -205,6 +205,9 @@ export const
 	IfDo = ed('IfDo',
 		'TODO:DOC',
 		[ 'test', Val, 'result', BlockDo ]),
+	UnlessDo = ed('UnlessDo',
+		'TODO:DOC',
+		[ 'test', Val, 'result', BlockDo ]),
 
 	// Generators
 	Yield = ev('Yield',

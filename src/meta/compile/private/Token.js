@@ -68,6 +68,7 @@ export const
 	KW_True = kw('true'),
 	KW_Type = kwNotName(':'),
 	KW_Undefined = kw('undefined'),
+	KW_UnlessDo = kw('unless!'),
 	KW_Use = kw('use'),
 	KW_UseDebug = kw('use-debug'),
 	KW_UseDo = kw('use!'),

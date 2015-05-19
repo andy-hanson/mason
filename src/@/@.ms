@@ -33,7 +33,7 @@ use-debug
 		If the iteration order of an @ is meaningful and `+ a b` is the concatenation, it is a Seq.
 		If an @ only stores a given element once, it is a Set.
 	implementor-test. |@-type
-		if! (not (=? @-type Weak-Id-Map!))
+		unless! =? @-type Weak-Id-Map!
 			! (contains? @-Type @-type) "Be sure to make your @ type a @-Type."
 			_ = empty @-type
 			! empty? _

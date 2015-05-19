@@ -1,8 +1,7 @@
-import { ArrayExpression, CallExpression, ExpressionStatement, Identifier, IfStatement, Literal,
-	ReturnStatement, UnaryExpression, VariableDeclaration, VariableDeclarator
+import { ArrayExpression, BinaryExpression, CallExpression, ExpressionStatement, Identifier,
+	IfStatement, Literal, ReturnStatement, UnaryExpression, VariableDeclaration, VariableDeclarator
 	} from 'esast/dist/ast'
 import { member } from 'esast/dist/util'
-import { binaryExpressionNotEqual } from './util'
 
 export const
 	IdArguments = Identifier('arguments'),
@@ -26,7 +25,7 @@ export const
 	ArraySliceCall = member(member(LitEmptyArray, 'slice'), 'call'),
 	// if (typeof define !== 'function') var define = require('amdefine')(module)
 	AmdefineHeader = IfStatement(
-		binaryExpressionNotEqual(UnaryExpression('typeof', IdDefine), Literal('function')),
+		BinaryExpression('!==', UnaryExpression('typeof', IdDefine), Literal('function')),
 		VariableDeclaration('var', [
 			VariableDeclarator(IdDefine, CallExpression(
 				CallExpression(Identifier('require'), [ Literal('amdefine') ]),

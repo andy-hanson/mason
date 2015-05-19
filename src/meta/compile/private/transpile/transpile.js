@@ -1,7 +1,8 @@
-import { ArrayExpression, BlockStatement, BreakStatement, CallExpression, DebuggerStatement,
-	ExpressionStatement, FunctionExpression, Identifier, IfStatement, LabeledStatement, Literal,
-	ObjectExpression, Program, ReturnStatement, ThisExpression, VariableDeclaration,
-	VariableDeclarator, ReturnStatement } from 'esast/dist/ast'
+import { ArrayExpression, BinaryExpression, BlockStatement, BreakStatement, CallExpression,
+	DebuggerStatement, ExpressionStatement, FunctionExpression, Identifier, IfStatement,
+	LabeledStatement, Literal, ObjectExpression, Program, ReturnStatement, ThisExpression,
+	VariableDeclaration, UnaryExpression, VariableDeclarator, ReturnStatement
+	} from 'esast/dist/ast'
 import { idCached, loc, member, propertyIdOrLiteralCached, thunk, toStatement
 	} from 'esast/dist/util'
 import { assignmentExpressionPlain, callExpressionThunk, functionExpressionPlain,
@@ -20,9 +21,8 @@ import { AmdefineHeader, ArraySliceCall, ExportsDefault, ExportsGet, IdArguments
 import { IdMs, lazyWrap, msArr, msBool, msCheckContains, msExtract, msGet, msGetDefaultExport,
 	msGetModule, msLazy, msLazyGet, msLazyGetModule, msLset, msMap, msSet, msShow
 	} from './ms-call'
-import { accessLocalDeclare, binaryExpressionNotEqual, binaryExpressionPlus, declare,
-	declareSpecial, idForDeclareCached, throwError, unaryExpressionNegate, unaryExpressionVoid,
-	whileStatementInfinite } from './util'
+import { accessLocalDeclare, declare, declareSpecial,
+	idForDeclareCached, throwError, whileStatementInfinite } from './util'
 
 let cx, vr, isInGenerator
 
@@ -205,12 +205,12 @@ implementMany(EExports, 'transpileSubtree', {
 		// Negative numbers are not part of ES spec.
 		// http://www.ecma-international.org/ecma-262/5.1/#sec-7.8.3
 		const lit = Literal(Math.abs(this.value))
-		return isPositive(this.value) ? lit : unaryExpressionNegate(lit)
+		return isPositive(this.value) ? lit : UnaryExpression('-', lit)
 	},
 
 	GlobalAccess() { return Identifier(this.name) },
 
-	IfDo() { return IfStatement(t0(this.test), t0(this.result)) },
+	IfDo() { return IfStatement(maybeBoolWrap(t0(this.test)), t0(this.result)) },
 
 	LocalAccess() { return accessLocalDeclare(vr.accessToLocal.get(this)) },
 
@@ -252,7 +252,7 @@ implementMany(EExports, 'transpileSubtree', {
 				[ LitEmptyString, this.parts ]
 		return restParts.reduce(
 			(ex, _) =>
-				binaryExpressionPlus(ex, typeof _ === 'string' ? Literal(_) : msShow(t0(_))),
+				BinaryExpression('+', ex, typeof _ === 'string' ? Literal(_) : msShow(t0(_))),
 			first)
 	},
 
@@ -273,9 +273,13 @@ implementMany(EExports, 'transpileSubtree', {
 			case SV_This: return 	ThisExpression()
 			case SV_ThisModuleDirectory: return Identifier('__dirname')
 			case SV_True: return Literal(true)
-			case SV_Undefined: return unaryExpressionVoid(LitZero)
+			case SV_Undefined: return UnaryExpression('void', LitZero)
 			default: throw new Error(this.kind)
 		}
+	},
+
+	UnlessDo() {
+		return IfStatement(UnaryExpression('!', maybeBoolWrap(t0(this.test))), t0(this.result))
 	},
 
 	Yield() { return yieldExpressionNoDelegate(t0(this.yielded)) },
@@ -288,16 +292,14 @@ function casePart(alternate) {
 		const { type, patterned, locals } = this.test
 		const decl = variableDeclarationConst([
 			VariableDeclarator(IdExtract, msExtract(t0(type), t0(patterned))) ])
-		const test = binaryExpressionNotEqual(IdExtract, LitNull)
+		const test = BinaryExpression('!==', IdExtract, LitNull)
 		const extract = variableDeclarationConst(locals.map((_, idx) =>
 			VariableDeclarator(idForDeclareCached(_), memberExpression(IdExtract, Literal(idx)))))
 		const res = t1(this.result, extract)
 		return BlockStatement([ decl, IfStatement(test, res, alternate) ])
-	} else {
-		const checkedTest = cx.opts.includeCaseChecks() ? msBool(t0(this.test)) : t0(this.test)
+	} else
 		// alternate written to by `caseBody`.
-		return IfStatement(checkedTest, t0(this.result), alternate)
-	}
+		return IfStatement(maybeBoolWrap(t0(this.test)), t0(this.result), alternate)
 }
 
 // Functions specific to certain expressions.
@@ -374,6 +376,9 @@ const
 
 // General utils. Not in util.js because these close over cx.
 const
+	maybeBoolWrap = ast =>
+		cx.opts.includeCaseChecks() ? msBool(ast) : ast,
+
 	makeDestructureDeclarators = (assignees, isLazy, value, isModule, isExport) => {
 		const destructuredName = `_$${assignees[0].loc.start.line}`
 		const idDestructured = Identifier(destructuredName)

@@ -225,10 +225,7 @@ implementMany(EExports, 'verify', {
 
 	GlobalAccess() { },
 
-	IfDo() {
-		this.test.verify()
-		this.result.verify()
-	},
+	IfDo: ifOrUnlessDo,
 
 	Lazy() { withBlockLocals(() => this.value.verify()) },
 
@@ -294,6 +291,8 @@ implementMany(EExports, 'verify', {
 
 	Splat() { this.splatted.verify() },
 
+	UnlessDo: ifOrUnlessDo,
+
 	Yield() {
 		cx.check(isInGenerator, this.loc, 'Cannot yield outside of generator context')
 		this.yielded.verify()
@@ -308,6 +307,11 @@ implementMany(EExports, 'verify', {
 function blockBagOrMap() {
 	const { listMapLength } = verifyLines(this.lines)
 	vr.blockToLength.set(this, listMapLength)
+}
+
+function ifOrUnlessDo() {
+	this.test.verify()
+	this.result.verify()
 }
 
 function verifyCase() {

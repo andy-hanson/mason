@@ -42,8 +42,8 @@ method-src = |method
 				"a, b, c, d"
 
 		add! "return function {mangle-identifier method.name}({arg-names}) \{"
-		if! (flag? method.allow-null?)
-			debug if! (js! (defined? method.default))
+		if! flag? method.allow-null?
+			debug unless! defined? method.default
 				ohNo "Method with `allow-null?` must have `default`."
 			add! "if (a == null) return def.apply(null, arguments)"
 
@@ -208,7 +208,7 @@ region Private
 
 	# TODO: Not public
 	propagate-method-down!. |implementor method-symbol implementation # TODO: :Impl-Type :Symbol :Function
-		if! not (p? implementor.prototype method-symbol)
+		unless! p? implementor.prototype method-symbol
 			case! implementor
 				:Kind
 					_.implementors.forEach |sub-implementor
@@ -224,7 +224,7 @@ region Private
 	# "method" can be a Method or a Double-Dispatcher.
 	do-impl! = |method implementor implementation
 		in
-			if! not (writable? implementor.prototype method.impl-symbol)
+			unless! writable? implementor.prototype method.impl-symbol
 				ohNo "Can not redefine method {method} for {implementor}."
 
 		Object.defineProperty implementor.prototype method.impl-symbol

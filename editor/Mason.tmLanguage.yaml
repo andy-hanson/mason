@@ -120,7 +120,7 @@ patterns:
 
 - comment: A language keyword.
   name: keyword
-  match: (_|->|case!?|debug|debugger|else|end-loop!|false|if!|in|loop!|null|out|pass|this|this-module-directory|true|undefined|use|use-debug|use!|use~|<~|<~~)(\s)
+  match: (_|->|case!?|debug|debugger|else|end-loop!|false|if!|in|loop!|null|out|pass|this|this-module-directory|true|undefined|unless!|use|use-debug|use!|use~|<~|<~~)(\s)
 
 - comment: Bracket
   name: keyword

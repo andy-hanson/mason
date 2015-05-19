@@ -89,7 +89,7 @@ Kind = Obj-Type
 			Symbol "isa-{_.name}"
 	post-construct. |_
 		pAdd _.prototype _.symbol-for-isa true
-		if! not (isEmpty _.implementors)
+		unless! isEmpty _.implementors
 			_.implementors.forEach |implementor
 				on-implementor! implementor _
 			freeze _.implementors
@@ -152,7 +152,7 @@ kind!.
 			!not kind? implementor kind
 
 		unchecked-kind! implementor kind
-		if! (defined? method-impls)
+		if! defined? method-impls
 			each! method-impls |pair
 				impl! pair.key implementor pair.val
 
@@ -162,7 +162,7 @@ self-kind!.
 		"TODO"
 	|implementor:Object kind:Kind method-impls
 		kind! (self-type implementor) kind
-		if! (defined? method-impls)
+		if! defined? method-impls
 			each! method-impls |pair
 				self-impl! pair.key implementor pair.val
 

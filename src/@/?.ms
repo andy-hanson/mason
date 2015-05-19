@@ -47,7 +47,7 @@ region Is Seq
 		id=? _ empty-?
 
 	impl! iterator ? ~|_
-		if! not empty?_
+		unless! empty?_
 			<~ _.val
 
 region Functions

@@ -50,7 +50,7 @@ make-ctr = |ot
 		real-props.forEach |prop
 			acc = access prop
 
-			if! (not extensible)
+			unless! extensible
 				add! "this{acc} = _{acc}"
 
 			default? = and (defined? ot.defaults) ~(defined? (js-sub ot.defaults prop
@@ -68,19 +68,19 @@ make-ctr = |ot
 						if (!Object.prototype.hasOwnProperty.call(_, \"{prop}\"))
 							throw new Error(\"Forgot to assign {prop}.\")
 
-		if! (defined? ot.opt-props)
+		if! defined? ot.opt-props
 			(Object.getOwnPropertyNames ot.opt-props).forEach |prop
-				if! (real-prop? ot.opt-props prop)
+				if! real-prop? ot.opt-props prop
 					acc = access prop
 					add! "if (_{acc} !== undefined) \{"
-					if! (not extensible)
+					unless! extensible
 						add! "this{acc} = _{acc}"
-					debug if! (prop-has-type? ot.opt-props prop)
+					debug if! prop-has-type? ot.opt-props prop
 						# TODO: Debug mode only
 						add! "_ms.checkContains(optProps{acc}, this{acc}, \"{prop}\")"
 					add! "}"
 
-		debug if! (not extensible)
+		debug unless! extensible
 			check = "_ms.checkNoExtras(this, _, \"{ot.name}\")"
 			case!
 				defined? ot.opt-props
@@ -100,7 +100,7 @@ make-ctr = |ot
 							throw new Error(\"Unreachable\")
 						}
 
-		if! (defined? ot.make-callable)
+		if! defined? ot.make-callable
 			# TODO:DISPLAYNAME `delete this.name` is OK because make-callable should provide the name.
 			add! "
 				const callBaby = makeCallable(this)
@@ -108,7 +108,7 @@ make-ctr = |ot
 				delete this.name
 				Object.assign(callBaby, this)
 
-		if! (defined? ot.post-construct)
+		if! defined? ot.post-construct
 			post = case
 				defined? ot.make-callable
 					"callBaby"
@@ -116,7 +116,7 @@ make-ctr = |ot
 					"this"
 			add! "postConstruct({post})"
 
-		if! (defined? ot.make-callable)
+		if! defined? ot.make-callable
 			add! "return callBaby"
 
 		add! "}"

@@ -1,5 +1,4 @@
 use
-	.Boolean not
 	.compare =?
 use~
 	.@.@ _ each! map
@@ -29,7 +28,7 @@ doc. "For making assertions."
 				The error will contain information about fun and its arguments.
 			! bool ~message
 				Same as:
-					if! (not bool)
+					unless! bool
 						oh-no! message
 	test. |
 		! =? 1 1
@@ -45,14 +44,14 @@ doc. "For making assertions."
 	|a ...args
 		case! a
 			:Function
-				if! not (_ ...args)
+				unless! _ ...args
 					oh-no! "
 						Expected {a}
 							{indent (=> String (map args repr) "\n")}
 			:Boolean
-				if! not (=? 1 args.length)
+				unless! =? 1 args.length
 					oh-no! "Use `! fun args...` or `! bool explanation`, never just `! bool`."
-				if! not _
+				unless! _
 					oh-no! args[0]
 			else
 				oh-no! "First argument to `!` must be Function or Boolean. Got {_}."
@@ -112,7 +111,7 @@ doc. "For making assertions."
 			args:@ = pair.key
 			expected-res = pair.val
 			actual = fun ...args
-			if! (not (equal? actual expected-res))
+			unless! equal? actual expected-res
 				oh-no! ~"
 					{fun} of:
 						{indent (=> String (map args repr) "\n")}

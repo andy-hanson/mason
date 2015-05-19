@@ -123,7 +123,7 @@ region Min/max
 							end-loop!
 						else
 							value-by = by value
-							if! (<? cur-max-by value-by)
+							if! <? cur-max-by value-by
 								cur-max := value
 								cur-max-by := value-by
 				cur-max
