@@ -56,12 +56,6 @@ export	const
 		_ != null && _[kind['symbol-for-isa']] !== undefined,
 	isEmpty = array => array.length === 0,
 
-	// Generator.ms
-	eachGenerator = function*(iter, doEach) {
-		for (let em of iter)
-			yield* doEach(em)
-	},
-
 	// Try.ms
 	ohNo = error => { throw makeError(error) },
 	alwaysDoAfter = (tried, finallyDo) => {

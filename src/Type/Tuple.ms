@@ -54,7 +54,7 @@ Tuple = Obj-Type
 				return function {name}({argsStr}) \{
 				if (!(this instanceof {name})) return new {name}({argsStr})
 
-			props.forEach |_
+			for! props
 				if! defined? _.type
 					add! "_ms.checkContains({_.id}_type, {_.id}, \"{_.name}\")"
 

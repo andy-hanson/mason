@@ -6,10 +6,11 @@ use
 	...math.methods + - *
 	...methods sub
 	...Object! p!
+	...Type.Js-Method js-impl!
 	...Type.Kind kind! self-kind!
 	...Type.Pred-Type Any
 	...Type.Tuple
-	..@ _ ++ count empty? iterator map
+	..@ _ ++' count empty? iterator map
 	..@! empty!
 	..@-Type _ empty
 	..? un-?
@@ -60,15 +61,18 @@ region Helpers
 				b = wrap-index _ a
 				if (and (<? _.end-index! _.start-index!) ~(<? b _.end-index!)) b
 
-kind! Deque! Seq!
-	iterator -> |_
-		indices = case
-			<? _.end-index! _.start-index!
-				++ (range _.start-index! (count _.data!)) (range 0 _.end-index!
-			else
-				range _.start-index! _.end-index!
-		iterator (map indices sub[_.data!]
+js-impl! iterator Deque! ~|
+	# TODO:ES6 case should preserve `this`
+	self = this
+	indices = case
+		<? self.end-index! self.start-index!
+			++' (range self.start-index! (count self.data!)) (range 0 self.end-index!
+		else
+			range self.start-index! self.end-index!
+	for! indices
+		<~ this.data![_]
 
+kind! Deque! Seq!
 	<++! -> |_ ems:@
 		for! em in reverse ems
 			new-start = prev-index _ _.start-index!

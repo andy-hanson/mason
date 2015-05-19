@@ -21,9 +21,8 @@ digits = |_:Nat
 	# TODO: map String to Array
 	map' (_.toString 10) Number.parseInt
 
-step =
-	|:Nat _:Nat
-		fold (map digits_ square) 0 +
+step = |:Nat _:Nat
+	fold (map digits_ square) 0 +
 
 cache = empty Array!
 set-nth! cache 1 true

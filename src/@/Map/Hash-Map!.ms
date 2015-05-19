@@ -17,8 +17,6 @@ use
 	.Id-Map!
 	.Map! _ assoc! un-assoc!
 	.Map-Type
-use~
-	...Generator! if~
 use-debug
 	...!
 	..Seq.Seq seq=?
@@ -64,13 +62,14 @@ impl! ?get Hash-Map! |:? _ key
 
 impl! keys Hash-Map! |_
 	buckets = values _.val
-	bucket-keys~ = |_
-		if~ defined?_ ~|
-			<~ _.key
-			<~~ bucket-keys~ _.next!
 	flat-map buckets |_
-		Stream |
-			bucket-keys~_
+		Stream ~|
+			cur ::= _
+			for!
+				unless! defined? cur
+					break!
+				<~ cur.key
+				cur := cur.next!
 
 # TODO: impl! values, similarly
 

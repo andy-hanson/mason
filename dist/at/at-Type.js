@@ -2,7 +2,7 @@
 if((typeof define!=="function"))var define=require("amdefine")(module);
 define(["exports","../control","../Function","../methods","../Type/Kind","../Type/Method","../Type/Type","./at","./atbang","./Seq/Range"],function(exports,control_0,Function_1,methods_2,Kind_3,Method_4,Type_5,_64_6,_64_33_7,Range_8){
 	exports._get=_ms.lazy(function(){
-		const _$2=_ms.getModule(control_0),returning=_$2.returning,_$3=_ms.getModule(Function_1),identity=_$3.identity,_$4=_ms.getModule(methods_2),sub=_$4.sub,Kind=_ms.getDefaultExport(Kind_3),_$5=_ms.getModule(Kind_3),self_45kind_33=_$5["self-kind!"],Method=_ms.getDefaultExport(Method_4),_$6=_ms.getModule(Method_4),impl_33=_$6["impl!"],self_45impl_33=_$6["self-impl!"],_$7=_ms.getModule(Type_5),_61_62=_$7["=>"],_64=_ms.getDefaultExport(_64_6),_$10=_ms.lazyGetModule(_64_33_7),_43_43_33=_ms.lazyProp(_$10,"++!"),_$12=_ms.lazyGetModule(Range_8),range=_ms.lazyProp(_$12,"range");
+		const _$2=_ms.getModule(control_0),returning=_ms.get(_$2,"returning"),_$3=_ms.getModule(Function_1),identity=_ms.get(_$3,"identity"),_$4=_ms.getModule(methods_2),sub=_ms.get(_$4,"sub"),Kind=_ms.getDefaultExport(Kind_3),_$5=_ms.getModule(Kind_3),self_45kind_33=_ms.get(_$5,"self-kind!"),Method=_ms.getDefaultExport(Method_4),_$6=_ms.getModule(Method_4),impl_33=_ms.get(_$6,"impl!"),self_45impl_33=_ms.get(_$6,"self-impl!"),_$7=_ms.getModule(Type_5),_61_62=_ms.get(_$7,"=>"),_64=_ms.getDefaultExport(_64_6),_$10=_ms.lazyGetModule(_64_33_7),_43_43_33=_ms.lazyProp(_$10,"++!"),_$12=_ms.lazyGetModule(Range_8),range=_ms.lazyProp(_$12,"range");
 		const _64_45Type=Kind(function(){
 			const doc="Any sub-type of @.";
 			return {
@@ -20,6 +20,10 @@ define(["exports","../control","../Function","../methods","../Type/Kind","../Typ
 		}());
 		const from_45stream=exports["from-stream"]=Method(function(){
 			const doc="|_ stream:@\nCreates a new value of this type by reading out from an @'s iterator.";
+			const test=function test(){
+				const _k0=[Array,_ms.unlazy(range)(0,5)],_v0=[0,1,2,3,4];
+				return _ms.map(_k0,_v0)
+			};
 			const args=["type","stream"];
 			const _default=function _default(type,stream){
 				return returning(empty(type),function(_){
@@ -28,6 +32,7 @@ define(["exports","../control","../Function","../methods","../Type/Kind","../Typ
 			};
 			return {
 				doc:doc,
+				test:test,
 				args:args,
 				default:_default,
 				name:"from-stream"
@@ -43,4 +48,4 @@ define(["exports","../control","../Function","../methods","../Type/Kind","../Typ
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL0AtVHlwZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQWFBLGlCQUFTLGVBQ0k7R0FBWixVQUFNOzs7Ozs7RUFFUCxRQUFNLElBQUksV0FBTztFQUVqQiwwQkFBTyxpQkFDTTtHQUFaLFVBQ0M7Ozs7OztFQUdGLDJDQUFhLGlCQUNNO0dBQWxCLFVBQ0M7R0FJRCxXQUFNLENBQUcsT0FBTztHQUNoQixlQUFVLGtCQUFBLEtBQUssT0FDTTtXQUFwQixVQUFXLE1BQU0sTUFBTyxTQUFBLEVBQ0M7a0NBQXBCLEVBQUU7SUFBQTtHQUFBOzs7Ozs7OztFQUdULGVBQVcsSUFBRTtFQUNiLGVBQVcsTUFBTSxJQUNHLFVBQUE7VUFBbkIsTUFBTTtFQUFBO0VBRVAsUUFBTSxPQUFHLFdBQU87RUF2Q2hCLHdCQUFBO2tCQXlDQSIsImZpbGUiOiJhdC9hdC1UeXBlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL0AtVHlwZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQWFBLGlCQUFTLGVBQ0k7R0FBWixVQUFNOzs7Ozs7RUFFUCxRQUFNLElBQUksV0FBTztFQUVqQiwwQkFBTyxpQkFDTTtHQUFaLFVBQ0M7Ozs7OztFQUdGLDJDQUFhLGlCQUNNO0dBQWxCLFVBQ0M7R0FFRCxXQUNPLGVBQUE7SUFBTixVQUFBLENBQUUsd0JBQWEsRUFBRSxRQUFRLENBQUUsRUFBRSxFQUFFLEVBQUUsRUFBRTs7O0dBQ3BDLFdBQU0sQ0FBRyxPQUFPO0dBQ2hCLGVBQVUsa0JBQUEsS0FBSyxPQUNNO1dBQXBCLFVBQVcsTUFBTSxNQUFPLFNBQUEsRUFDQztrQ0FBcEIsRUFBRTtJQUFBO0dBQUE7Ozs7Ozs7OztFQUdULGVBQVcsSUFBRTtFQUNiLGVBQVcsTUFBTSxJQUNHLFVBQUE7VUFBbkIsTUFBTTtFQUFBO0VBRVAsUUFBTSxPQUFHLFdBQU87RUF2Q2hCLHdCQUFBO2tCQXlDQSIsImZpbGUiOiJhdC9hdC1UeXBlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

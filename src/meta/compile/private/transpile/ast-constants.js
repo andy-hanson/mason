@@ -20,6 +20,7 @@ export const
 	LitStrName = Literal('name'),
 	ReturnExports = ReturnStatement(IdExports),
 	ReturnRes = ReturnStatement(Identifier('res')),
+	SymbolIterator = member(Identifier('Symbol'), 'iterator'),
 	UseStrict = ExpressionStatement(Literal('use strict')),
 
 	ArraySliceCall = member(member(LitEmptyArray, 'slice'), 'call'),

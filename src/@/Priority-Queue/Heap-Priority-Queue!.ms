@@ -4,6 +4,7 @@ use
 	...control returning
 	...math.Number int/
 	...math.methods + - *
+	...Type.Js-Method js-impl!
 	...Type.Kind kind! self-kind!
 	...Type.Wrap-Type
 	..@ count empty? iterator map
@@ -23,6 +24,9 @@ self-kind! Heap-Priority-Queue! @-Type
 	empty -> |
 		Heap-Priority-Queue! (empty Array!
 
+js-impl! iterator Heap-Priority-Queue! |
+	iterator this.val
+
 kind! Heap-Priority-Queue! Priority-Queue!
 	++! -> |_ added
 		for! em in added
@@ -38,8 +42,6 @@ kind! Heap-Priority-Queue! Priority-Queue!
 		empty? _.val
 	empty! -> |_
 		empty! _.val
-	iterator -> |_
-		iterator _.val
 
 region Implementation
 	# We use a min-heap.

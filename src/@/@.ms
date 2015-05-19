@@ -4,11 +4,11 @@ use
 	..Function identity Pred
 	..js defined? id=?
 	..math.methods +
-	..private.bootstrap msDef
-	..Type.Type => contains? type-of
+	..Type.Js-Method
 	..Type.Kind
 	..Type.Method _ impl!
 	..Type.Pred-Type Any Opt
+	..Type.Type => contains? type-of
 use~
 	..control opr
 	# TODO: Try eager use
@@ -37,10 +37,10 @@ use-debug
 			_ = empty @-type
 			! empty? _
 
-iterator. Method
+iterator. Js-Method
 	doc. "Creates a new Generator! which yields the values in the @."
 	args. 1
-msDef "iterator" iterator
+	impl-symbol. Symbol.iterator
 
 empty?. Method
 	doc. "Whether `count` is 0. Often much faster."
@@ -165,29 +165,6 @@ region Lazy functions, and their eager versions.
 			Stream ~|
 				for! mapped
 					<~ mapper_
-
-
-	# TODO: Preserve type as long as it is not Stream or Lazy-Stream?
-	fold-map.
-		doc. "
-			Performs a map while also carrying some state from one element to the next.
-			`mapper-folder` takes in the state and the element,
-			and produces `here` (the mapped value) and `next` (the next state value).
-			Unlike map, this must be eagerly evaluated, like fold.
-		test. |
-			f = |acc em
-				here. + 1 em
-				next. + 1 acc
-			[ [ 1 2 3 ] 0 f ] ->
-				mapped. [ 2 3 4 ]
-				folded. 3
-		|_:@ start:Any mapper-folder:Function[2 Object]
-			acc ::= start
-			mapped. => Array (map _ |em
-				here:Any next:Any = mapper-folder acc em
-				acc := next
-				here
-			folded. acc
 
 	# TODO: Better name?
 	flat-map. Method

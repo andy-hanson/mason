@@ -1,8 +1,9 @@
 use
 	...Function thunk
 	...Generator! _ empty-Generator
+	...Type.Js-Method js-impl!
 	...Type.Kind kind! self-kind!
-	...Type.Method impl! self-impl!
+	...Type.Method self-impl!
 	...Type.Wrap-Type
 	..@ iterator
 	..@-Type _ empty from-stream
@@ -32,7 +33,7 @@ self-impl! from-stream Stream |_
 		iterator_
 
 kind! Stream Seq
-impl! iterator Stream |_
-	_.val()
+js-impl! iterator Stream |
+	this.val()
 
 Stream

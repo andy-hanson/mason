@@ -1,5 +1,6 @@
 use
 	...compare =?
+	...Type.Js-Method js-impl!
 	...Type.Kind kind! self-kind!
 	...Type.Method impl! impl-for
 	...Type.Wrap-Type
@@ -22,10 +23,10 @@ self-kind! Hash-Set! @-Type
 	empty -> |
 		Hash-Set! (empty Hash-Map!
 
-kind! Hash-Set! Set!
-	iterator -> |_
-		iterator (keys _.val
+js-impl! iterator Hash-Set! |
+	iterator (keys this.val
 
+kind! Hash-Set! Set!
 	# TODO: Make default falling back to +!
 	++! -> |_ @added
 		for! em in @added

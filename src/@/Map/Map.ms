@@ -1,12 +1,12 @@
 use
 	...Boolean and not
 	...compare =?
-	...Generator! each~
 	...methods sub
-	...Type.Type type-of
+	...Type.Js-Method js-impl!
 	...Type.Kind _ kind!
 	...Type.Method _ impl!
 	...Type.Pred-Type Any
+	...Type.Type type-of
 	..@ _ all? count empty? iterator map
 	..@-Type empty
 	..? un-?
@@ -21,9 +21,9 @@ Map = Kind
 	doc. "Mapping from keys to values."
 
 kind! Map @
-impl! iterator Map |_
-	each~ keys_ ~|k
-		<~ key. k val. _[k]
+js-impl! iterator Map ~|
+	for! keys this
+		<~ key. _ val. this[_]
 
 region New methods
 	?get. Method

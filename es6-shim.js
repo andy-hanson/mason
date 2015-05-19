@@ -21,8 +21,15 @@ if (!Object.assign)
 		return to
 	}
 
-if (!Array.prototype[Symbol.iterator])
-	Array.prototype[Symbol.iterator] = function*() {
-		for (let i = 0; i < this.length; i = i + 1)
-			yield this[i]
-	}
+function defIter(type, impl) {
+	if (type.prototype[Symbol.iterator] === undefined)
+		type.prototype[Symbol.iterator] = impl
+}
+
+defIter(Array, function*() {
+	for (let i = 0; i < this.length; i = i + 1)
+		yield this[i]
+})
+defIter(String, Array.prototype[Symbol.iterator])
+
+defIter(Set, function() { return this.keys() })

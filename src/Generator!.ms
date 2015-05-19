@@ -1,18 +1,9 @@
 use
-	.@.@ _ iterator
-	.@.@-Type empty
-	.@.?
 	.Boolean and
 	.Function call
-	.Js-Method
-	.private.js-impl eachGenerator
+	.Type.Js-Method
+	.Type.Pred-Type
 	.Type.Type contains?
-	.Type.Pred-Type _ Any
-use-debug
-	.!
-	.@.Seq.Seq seq=?
-	.@.Seq.Stream
-	.compare =?
 
 Generator! = Pred-Type
 	doc. "
@@ -28,38 +19,6 @@ empty-Generator.
 
 gen-next!. Js-Method
 	doc. "Continues until the next `<~`."
-	impl-name. "next"
-
-if~.
-	doc. "Runs through the sub-generator only if `condition`. Returns a `?` of the result."
-	test. |
-		stream = Stream ~|
-			a <~~ if~ true ~|
-				<~ 1
-				2
-			! =? a (? 2
-			b <~~ if~ false ~|
-				<~ 3
-			! =? b (empty ?)
-		! seq=? stream [ 1 ]
-	~|:? condition:Boolean result:Function[Generator!]
-		case
-			condition
-				_ <~~ result()
-				? _
-			else
-				empty ?
-
-each~.
-	doc. "A Generator! that goes through every element of `_`, yielding to `do-each` of it."
-	test. |
-		x = Stream ~|
-			<~~ each~ [ 1 2 3 ] ~|em
-				<~ em
-		! seq=? x [ 1 2 3 ]
-	|_:@ do-each:Function[Any Generator!]
-		eachGenerator iterator_ do-each
-
-# TODO: Others...
+	impl-symbol. "next"
 
 Generator!

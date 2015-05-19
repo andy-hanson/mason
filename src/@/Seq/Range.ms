@@ -4,6 +4,7 @@ use
 	...Function noop thunk
 	...math.Number Nat round-down sign
 	...math.methods + - * /
+	...Type.Js-Method js-impl!
 	...Type.Kind kind! self-kind!
 	...Type.Pred-Type Opt
 	...Type.Tuple
@@ -57,6 +58,17 @@ length.
 	|_:Range
 		- _.end _.start
 
+js-impl! iterator Range
+	test. |
+		! seq=? (range 0 10 2) [ 0 2 4 6 8 ]
+	~|
+		cur ::= this.start
+		for!
+			if! <=? this.end cur
+				break!
+			<~ cur
+			cur := + cur this.step
+
 kind! Range @
 	?nth ->
 		test. |
@@ -71,16 +83,5 @@ kind! Range @
 			[ (range 0 2 0.5) ] -> 4
 		|_
 			round-down (/ length_ _.step)
-
-	iterator ->
-		test. |
-			! seq=? (range 0 10 2) [ 0 2 4 6 8 ]
-		~|range
-			cur ::= range.start
-			for!
-				if! <=? range.end cur
-					break!
-				<~ cur
-				cur := + cur range.step
 
 Range

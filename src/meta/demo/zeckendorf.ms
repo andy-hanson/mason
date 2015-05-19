@@ -1,6 +1,6 @@
 use
 	...!
-	...@.@ fold-map
+	...@.@ map
 	...@.Seq.Seq reverse tail take-while'
 	...@.Seq.Stream
 	...compare =? <=?
@@ -25,13 +25,12 @@ zeckendorf.
 		z-fibs = tail fibs # Don't include the first `1`, so `[ 1 2 3 5 8 ... ]`.
 		candidate-fibs = reverse (take-while' z-fibs |_
 			<=? _ n # Highest numbers go first
-		mapped folded = fold-map candidate-fibs n |left fib
-			case fib
-				<=? _ left
-					here. 1
-					next. - left _
-				else
-					here. 0
-					next. left
-		! =? 0 folded # We should have managed to add up to `n` exactly.
-		=> String mapped
+		left ::= n
+		digits = map candidate-fibs |case
+			<=? _ left
+				left := - left _
+				1
+			else
+				0
+		! =? 0 left # We should have managed to add up to `n` exactly.
+		=> String digits

@@ -58,11 +58,12 @@ const msDefs = {
 
 	// Used for splat calls.
 	// TODO:ES6 Shouldn't need. `fun(...arg)` should work for any iterable.
-	arr(a) {
-		if (a instanceof Array)
-			return a
-		const out = []
-		for (let em of ms.iterator(a))
+	arr(_) {
+		if (_ instanceof Array)
+			return _
+		const out = [ ]
+		// TODO:ES6 Shouldn't need [Symbol.iterator]()
+		for (let em of _[Symbol.iterator]())
 			out.push(em)
 		return out
 	},

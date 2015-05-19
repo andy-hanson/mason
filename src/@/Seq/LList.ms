@@ -1,6 +1,7 @@
 use
 	...js id=?
 	...Object! p!
+	...Type.Js-Method js-impl!
 	...Type.Kind kind! self-kind!
 	...Type.Tuple
 	..@ _ ++ empty? iterator
@@ -21,14 +22,17 @@ self-kind! LList @-Type
 	from-stream -> |_
 		<++' empty-LList _
 
+js-impl! iterator LList ~|
+	cur ::= this
+	for!
+		if! empty? cur
+			break!
+		<~ cur.head
+		cur := cur.tail
+
 kind! LList Seq
 	empty? -> |_
 		id=? _ empty-LList
-
-	iterator -> ~|_
-		unless! empty?_
-			<~ _.head
-			<~~ iterator _.tail
 
 	tail -> |_
 		_.tail

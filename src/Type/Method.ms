@@ -211,7 +211,7 @@ region Private
 		unless! p? implementor.prototype method-symbol
 			case! implementor
 				:Kind
-					_.implementors.forEach |sub-implementor
+					for! sub-implementor in _.implementors
 						propagate-method-down! sub-implementor method-symbol implementation
 				else
 					# TODO: What to do in case of multiple inheritance collision?
@@ -232,7 +232,7 @@ region Private
 			enumerable. false # TODO:ES6 Should not need this
 
 		if! contains? Kind implementor
-			implementor.implementors.forEach |_
+			for! implementor.implementors
 				propagate-method-down! _ method.impl-symbol implementation
 
 	Double-Dispatcher = Obj-Type

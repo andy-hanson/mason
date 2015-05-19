@@ -90,7 +90,7 @@ Kind = Obj-Type
 	post-construct. |_
 		pAdd _.prototype _.symbol-for-isa true
 		unless! isEmpty _.implementors
-			_.implementors.forEach |implementor
+			for! implementor in _.implementors
 				on-implementor! implementor _
 			freeze _.implementors
 
@@ -192,9 +192,10 @@ region Private
 
 	inherit-methods! = |implementor kind
 		rec! = |kind
-			(@p-all kind.prototype).forEach |name
-				propagate-method-down! implementor name (js-sub kind.prototype name)
-			kind.super-kinds.forEach rec!
+			for! name in @p-all kind.prototype
+				propagate-method-down! implementor name (js-sub kind.prototype name
+			for! kind.super-kinds
+				rec! _
 		rec! kind
 
 Kind

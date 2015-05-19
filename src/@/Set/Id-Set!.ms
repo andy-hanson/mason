@@ -2,7 +2,7 @@ use
 	...js new
 	...Type.Kind kind! self-kind!
 	...Type.Type contains?
-	..@ count iterator
+	..@ count
 	..@! ++! --! empty!
 	..@-Type _ empty
 	.Set!
@@ -26,9 +26,6 @@ kind! Id-Set! Set!
 	--! -> |_ @deleted
 		for! em in @deleted
 			_.delete em
-	iterator -> |_
-		# TODO:ES6 Should be done by default
-		_.keys()
 	contains? -> |_ val
 		_.has val
 

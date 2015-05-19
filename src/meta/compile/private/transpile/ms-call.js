@@ -14,7 +14,6 @@ export const
 	msGetDefaultExport = ms('getDefaultExport'),
 	msExtract = ms('extract'),
 	msGetModule = ms('getModule'),
-	msIterator = ms('iterator'),
 	msLazy = ms('lazy'),
 	msLazyGet = ms('lazyProp'),
 	msLazyGetModule = ms('lazyGetModule'),

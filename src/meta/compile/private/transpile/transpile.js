@@ -1,7 +1,7 @@
 import { ArrayExpression, BinaryExpression, BlockStatement, BreakStatement, CallExpression,
 	DebuggerStatement, ExpressionStatement, ForOfStatement, FunctionExpression, Identifier,
-	IfStatement, Literal, ObjectExpression, Program, ReturnStatement, ThisExpression,
-	VariableDeclaration, UnaryExpression, VariableDeclarator, ReturnStatement
+	IfStatement, Literal, MemberExpression, ObjectExpression, Program, ReturnStatement,
+	ThisExpression, VariableDeclaration, UnaryExpression, VariableDeclarator, ReturnStatement
 	} from 'esast/dist/ast'
 import { idCached, loc, member, propertyIdOrLiteralCached, thunk, toStatement
 	} from 'esast/dist/util'
@@ -16,10 +16,10 @@ import { assert, cat, flatMap, flatOpMap, ifElse, isEmpty,
 	implementMany, isPositive, opIf, opMap, range, tail, unshift } from '../util'
 import { AmdefineHeader, ArraySliceCall, ExportsDefault, ExportsGet, IdArguments, IdDefine,
 	IdExports, IdExtract, IdFunctionApplyCall, IdName, LitEmptyArray, LitEmptyString, LitNull,
-	LitStrExports, LitStrName, LitZero, ReturnExports, ReturnRes, UseStrict
+	LitStrExports, LitStrName, LitZero, ReturnExports, ReturnRes, SymbolIterator, UseStrict
 	} from './ast-constants'
 import { IdMs, lazyWrap, msArr, msBool, msCheckContains, msExtract, msGet, msGetDefaultExport,
-	msGetModule, msIterator, msLazy, msLazyGet, msLazyGetModule, msLset, msMap, msSet, msShow
+	msGetModule, msLazy, msLazyGet, msLazyGetModule, msLset, msMap, msSet, msShow
 	} from './ms-call'
 import { accessLocalDeclare, declare, declareSpecial,
 	idForDeclareCached, throwError, whileStatementInfinite } from './util'
@@ -175,7 +175,9 @@ implementMany(EExports, 'transpileSubtree', {
 
 	ForDoWithBag() {
 		const declare = VariableDeclaration('let', [ VariableDeclarator(t0(this.element)) ])
-		return ForOfStatement(declare, msIterator(t0(this.bag)), t0(this.block))
+		// TODO:ES6 shouldn't have to explicitly get iterator
+		const iter = CallExpression(MemberExpression(t0(this.bag), SymbolIterator, true), [ ])
+		return ForOfStatement(declare, iter, t0(this.block))
 	},
 
 	Fun() {

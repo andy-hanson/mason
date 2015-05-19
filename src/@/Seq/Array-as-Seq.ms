@@ -5,10 +5,9 @@ use
 	...control if
 	...Function thunk
 	...js js-sub
-	...private.js-impl arrayIterator
 	...Type.Kind kind! self-kind!
 	...Type.Method impl! self-impl!
-	..@ count iterator
+	..@ count
 	..@-Type _ empty from-stream
 	.Seq _ ?nth
 use~
@@ -20,8 +19,6 @@ kind! Array Seq
 
 impl! count Array |_
 	_.length
-# TODO:ES6 This should be implemented for me
-impl! iterator Array arrayIterator
 
 self-kind! Array @-Type
 self-impl! empty Array (thunk []

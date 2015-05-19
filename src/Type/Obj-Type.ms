@@ -39,15 +39,15 @@ make-ctr = |ot
 			return function {name}(_) \{
 			if (!(this instanceof {name})) return new {name}(_)
 
-		real-props = (Object.getOwnPropertyNames ot.props).filter |prop
-			real-prop? ot.props prop
+		real-props = (Object.getOwnPropertyNames ot.props).filter |_
+			real-prop? ot.props _
 
 		extensible = flag? ot.extensible
 
 		if! extensible
 			add! "Object.assign(this, _)"
 
-		real-props.forEach |prop
+		for! prop in real-props
 			acc = access prop
 
 			unless! extensible
@@ -69,7 +69,7 @@ make-ctr = |ot
 							throw new Error(\"Forgot to assign {prop}.\")
 
 		if! defined? ot.opt-props
-			(Object.getOwnPropertyNames ot.opt-props).forEach |prop
+			for! prop in Object.getOwnPropertyNames ot.opt-props
 				if! real-prop? ot.opt-props prop
 					acc = access prop
 					add! "if (_{acc} !== undefined) \{"

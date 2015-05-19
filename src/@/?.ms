@@ -2,6 +2,7 @@ use
 	..Boolean and not
 	..control opr
 	..js defined? id=?
+	..Type.Js-Method js-impl!
 	..Type.Kind kind! self-kind!
 	..Type.Method impl! self-impl!
 	..Type.Pred-Type
@@ -46,9 +47,9 @@ region Is Seq
 	impl! empty? ? |_
 		id=? _ empty-?
 
-	impl! iterator ? ~|_
-		unless! empty?_
-			<~ _.val
+	js-impl! iterator ? ~|
+		unless! empty? this
+			<~ this.val
 
 region Functions
 	Opt->?.

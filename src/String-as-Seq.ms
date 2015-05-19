@@ -1,5 +1,5 @@
 use
-	.@.@ _ count empty? iterator map
+	.@.@ _ count empty? map
 	.@.@-Type _ empty from-stream
 	.@.Seq.Seq
 	.compare =? sort
@@ -8,7 +8,7 @@ use
 	.show
 	.Type.Impl-Type self-type
 	.Type.Kind kind! self-kind!
-	.Type.Method impl! impl-double! impl-for
+	.Type.Method impl! impl-double!
 	.Type.Pred-Type Opt
 	.Type.Type =>
 use-debug
@@ -48,6 +48,3 @@ kind! String Seq
 		_.length
 	empty? -> |_
 		=? 0 _.length
-	# TODO:ES6 should be built-in
-	# TODO: How does this handle Unicode?
-	iterator -> impl-for iterator Array
