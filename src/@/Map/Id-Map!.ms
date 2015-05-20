@@ -3,6 +3,7 @@ use
 	...js new
 	...Type.Kind kind! self-kind!
 	...Type.Method impl! self-impl!
+	..@ count
 	..@! empty!
 	..@-Type empty
 	..? Opt->?
@@ -45,6 +46,8 @@ self-impl! empty Id-Map! |
 	new Id-Map!
 
 kind! Id-Map! Map!
+impl! count Id-Map! |_
+	_.size
 impl! ?get Id-Map! |_ key
 	Opt->? (_.get key)
 impl! has-key? Id-Map! |_ key

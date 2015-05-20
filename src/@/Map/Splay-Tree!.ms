@@ -1,7 +1,7 @@
 use
 	...Boolean and not
-	...compare <?
-	...control if loop End-Loop
+	...compare _ <?
+	...control if
 	...js defined?
 	...Object! p!
 	...Type.Js-Method js-impl!
@@ -11,14 +11,12 @@ use
 	..@ empty? iterator
 	..@! empty!
 	..@-Type empty
-	..Seq.Stream
-	.Map ?get keys
+	.Map ?get
 	.Map! assoc! un-assoc!
 	.Map-Type
 	.Sorted-Map!
 use-debug
-	...! _ !not
-	...compare =?
+	...! !not
 
 Splay-Tree! = Wrap-Type
 	doc. "
@@ -33,12 +31,12 @@ self-kind! Splay-Tree! Map-Type
 		Splay-Tree! undefined
 
 js-impl! iterator Splay-Tree! |
-	get~ = ~|_
+	iter = ~|_
 		if! defined?_
-			<~~ get~ _.left!
+			<~~ iter _.left!
 			<~ [ _.key _.val! ]
-			<~~ get~ _.right!
-	get~ this.val
+			<~~ iter _.right!
+	iter this.val
 
 kind! Splay-Tree! Sorted-Map!
 	empty? -> |_
@@ -47,14 +45,6 @@ kind! Splay-Tree! Sorted-Map!
 		p! _ "val" undefined
 	?get -> |_ key
 		if (and (not empty?_) ~(splay!? _ key)) ~_.val.val!
-	keys -> |_
-		Stream ~|
-			get~ = ~|_
-				if! defined?_
-					<~~ get~ _.left!
-					<~ _.key
-					<~~ get~ _.right!
-			<~~ get~ _.val
 	assoc! -> |_ key val
 		case!
 			empty?_
@@ -95,12 +85,61 @@ region Implementation
 	# Searches for the key, bringing nodes up to the root along the way.
 	# Returns whether the root now matches the key.
 	splay!? = |:Boolean _ key
-		in
-			!not empty? _
-
 		dummy = Splay-Node undefined undefined undefined undefined
-		start = left. dummy right. dummy cur. _.val
-		left right cur found = loop start splay-step![key]
+		left ::= dummy
+		right ::= dummy
+		cur ::= _.val
+		# TODO:SYNTAX loop return value
+		found ::= null
+		for!
+			case! compare key cur.key
+				<? _ 0
+					unless! has-left? cur
+						found := false
+						break!
+					link-right! = |new-right
+						p! right "left!" new-right
+						cur := new-right.left!
+						right := new-right
+					case!
+						<? key cur.left!.key
+							# Rotate right
+							old-left = cur.left!
+							p! cur "left!" old-left.right!
+							p! old-left "right!" cur
+							unless! has-left? old-left
+								cur := old-left
+								found := false
+								break!
+							cur := old-left
+							link-right! old-left
+						else
+							link-right! cur
+				<? 0 _
+					unless! has-right? cur
+						found := false
+						break!
+					link-left! = |new-left
+						p! left "right!" new-left
+						cur := new-left.right!
+						left := new-left
+					case!
+						<? cur.right!.key key
+							# Rotate left
+							tmp = cur.right!
+							p! cur "right!" tmp.left!
+							p! tmp "left!" cur
+							unless! has-right? tmp
+								cur := tmp
+								found := false
+								break!
+							link-left! tmp
+						else
+							link-left! cur
+				else
+					found := true
+					break!
+
 		p! left "right!" cur.left!
 		p! right "left!" cur.right!
 		p! cur "left!" dummy.right!
@@ -108,61 +147,9 @@ region Implementation
 		p! _ "val" cur
 		found
 
-	splay-step! = |key _
-		not-found = |end
-			End-Loop (found. false cur. end left. _.left right. _.right
-		case
-			<? key _.cur.key
-				case
-					has-left? _.cur
-						link-right = |new-cur
-							p! _.right "left!" new-cur
-							(cur. new-cur.left! left. _.left right. new-cur
-						case
-							<? key _.cur.left!.key
-								# Rotate right
-								tmp = _.cur.left!
-								p! _.cur "left!" tmp.right!
-								p! tmp "right!" _.cur
-								case
-									has-left? tmp
-										link-right tmp
-									else
-										not-found tmp
-							else
-								link-right _.cur
-					else
-						not-found _.cur
-
-			<? _.cur.key key
-				case
-					has-right? _.cur
-						link-left = |new-cur
-							p! _.left "right!" new-cur
-							(cur. new-cur.right! left. new-cur right. _.right
-						case
-							<? _.cur.right!.key key
-								# Rotate left
-								tmp = _.cur.right!
-								p! _.cur "right!" tmp.left!
-								p! tmp "left!" _.cur
-								case
-									has-right? tmp
-										link-left tmp
-									else
-										not-found tmp
-							else
-								link-left _.cur
-					else
-						not-found _.cur
-			else
-				debug ! =? key _.cur.key
-				End-Loop (found. true cur. _.cur left. _.left right. _.right
-
 	has-left? = |node
 		defined? node.left!
 	has-right? = |node
 		defined? node.right!
-
 
 Splay-Tree!

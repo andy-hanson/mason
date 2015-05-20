@@ -40,7 +40,7 @@ indent.
 		[ s ] -> s-indented
 		[ "a" ] -> "a"
 	|_:String
-		"{_.replace (RegExp "\n" "g") "\n\t"}"
+		_.replace (RegExp "\n" "g") "\n\t"
 
 split-str.
 	doc. "Like `@.split` but using a String-Test instead of a predicate."

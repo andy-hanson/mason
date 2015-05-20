@@ -6,10 +6,7 @@ import { SV_False, SV_Null, SV_This, SV_ThisModuleDirectory, SV_True, SV_Undefin
 import { implementMany } from './util'
 
 const Token = abstract('Token', Object,
-	'TODO:doc',
-	{
-		toString() { return code(this.show()) }
-	})
+	'TODO:doc')
 export default Token
 
 const tt = (name, namesTypes, props) =>
@@ -112,7 +109,10 @@ implementMany({ CallOnFocus, DotName, Group, Keyword, Name, TokenNumberLiteral }
 	// TODO: better representation of k
 	Group() { return `group(k=${this.kind})` },
 	// TODO: better representation of k
-	Keyword() { return `keyword(k=${kToName.get(this.kind)})` },
+	Keyword() { return code(kToName.get(this.kind)) },
 	Name() { return this.name },
 	TokenNumberLiteral() { return this.value }
 })
+
+//TODO:KILL
+Keyword.prototype.toString = Keyword.prototype.show

@@ -34,7 +34,7 @@ const
 		cx.check(tokens.isEmpty(), tokens.loc, message),
 	checkNonEmpty = (tokens, message) =>
 		cx.check(!tokens.isEmpty(), tokens.loc, message),
-	unexpected = t => cx.fail(t.loc, `Unexpected ${t}`)
+	unexpected = t => cx.fail(t.loc, `Unexpected ${t.show()}`)
 
 const parseModule = tokens => {
 	const [ doUses, rest0 ] = tryParseUses(KW_UseDo, tokens)
@@ -71,7 +71,7 @@ const
 	// Gets lines in a region or Debug.
 	parseLinesFromBlock = tokens => {
 		const h = tokens.head()
-		cx.check(tokens.size() > 1, h.loc, () => `Expected indented block after ${h}`)
+		cx.check(tokens.size() > 1, h.loc, () => `Expected indented block after ${h.show()}`)
 		const block = tokens.second()
 		assert(tokens.size() === 2 && isGroup(G_Block, block))
 		return flatMap(block.tokens, line => parseLineOrLines(Slice.group(line)))
@@ -225,12 +225,13 @@ const
 			splits => {
 				// Short object form, such as (a. 1, b. 2)
 				const first = splits[0].before
+				checkNonEmpty(first, () => `Unexpected ${splits[0].at.show()}`)
 				const tokensCaller = first.rtail()
 
 				const pairs = [ ]
 				for (let i = 0; i < splits.length - 1; i = i + 1) {
 					const name = splits[i].before.last()
-					cx.check(name instanceof Name, name.loc, () => `Expected a name, not ${name}`)
+					cx.check(name instanceof Name, name.loc, () => `Expected a name, not ${name.show()}`)
 					const tokensValue = i === splits.length - 2 ?
 						splits[i + 1].before :
 						splits[i + 1].before.rtail()
@@ -375,7 +376,7 @@ const
 		const rest = tokens.tail()
 
 		const noRest = () =>
-			checkEmpty(rest, () => `Did not expect anything after ${head}`)
+			checkEmpty(rest, () => `Did not expect anything after ${head.show()}`)
 
 		// We only deal with mutable expressions here, otherwise we fall back to parseExpr.
 		if (head instanceof Keyword)
@@ -393,7 +394,7 @@ const
 					noRest()
 					return SpecialDo(tokens.loc, SP_Debugger)
 				case KW_BreakDo:
-					checkEmpty(rest, () => `Did not expect anything after ${head}`)
+					noRest()
 					return BreakDo(tokens.loc)
 				case KW_IfDo: case KW_UnlessDo: {
 					const [ before, block ] = beforeAndBlock(rest)
@@ -550,7 +551,7 @@ const
 				const colon = rest2.head()
 				cx.check(isKeyword(KW_Type, colon), colon.loc, () => `Expected ${code(':')}`)
 				const tokensType = rest2.tail()
-				checkNonEmpty(tokensType, () => `Expected something after ${colon}`)
+				checkNonEmpty(tokensType, () => `Expected something after ${colon.show()}`)
 				return parseSpaced(tokensType)
 			})
 			return LocalDeclare(token.loc, name, opType, isLazy ? LD_Lazy : LD_Const)
@@ -564,10 +565,9 @@ const
 		if (isKeyword(KW_Focus, t))
 			return '_'
 		else {
-			cx.check(t instanceof Name, t.loc, () => `Expected a local name, not ${t}`)
+			cx.check(t instanceof Name, t.loc, () => `Expected a local name, not ${t.show()}`)
 			// TODO: Allow this?
-			cx.check(!JsGlobals.has(t.name), t.loc, () =>
-				`Can not shadow global ${code(t.name)}`)
+			cx.check(!JsGlobals.has(t.name), t.loc, () => `Can not shadow global ${code(t.name)}`)
 			return t.name
 		}
 	}
@@ -627,7 +627,8 @@ const parseSpaced = tokens => {
 						() => `Use ${code('(a b)')}, not ${code('a(b)')}`)
 					return Call(tokens.loc, e, [])
 				}
-			} else cx.fail(tokens.loc, `Expected member or sub, not ${t}`)
+			} else
+				cx.fail(tokens.loc, `Expected member or sub, not ${t.show()}`)
 		}
 		return rest.reduce(memberOrSubscript, parseSingle(h))
 	}
