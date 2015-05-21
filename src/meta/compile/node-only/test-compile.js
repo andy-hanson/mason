@@ -4,11 +4,10 @@ import fs from 'fs'
 import numeral from 'numeral'
 import compile from '../compile'
 import CompileError from '../CompileError'
-import Expression from '../Expression'
+import MsAst from '../MsAst'
 import CompileContext from '../private/CompileContext'
 import CompileOptions from '../private/CompileOptions'
-import lexUngrouped from '../private/lex/ungrouped'
-import lexGroup from '../private/lex/group'
+import lex from '../private/lex'
 import parse from '../private/parse/parse'
 import render from '../private/render'
 import transpile from '../private/transpile/transpile'
@@ -19,7 +18,7 @@ export const
 	test = () => doTest(false),
 	perfTest = () => doTest(true)
 
-const doTest = includePerfTest => {
+const doTest = isPerfTest => {
 	const source = fs.readFileSync('./ms-test.ms', 'utf-8')
 	const opts = {
 		inFile: './ms-test.ms',
@@ -29,45 +28,33 @@ const doTest = includePerfTest => {
 		forceNonLazyModule: true,
 		useStrict: false
 	}
-	const cx = new CompileContext(new CompileOptions(opts))
+	const context = new CompileContext(new CompileOptions(opts))
 
 	try {
-		const ug = lexUngrouped(cx, source)
-		// console.log(ug)
-		const t = lexGroup(cx, ug)
-		// console.log(`==>\n${t}`)
-		const e = parse(cx, t)
-		// console.log(`==>\n${e}`)
-		const vr = verify(cx, e)
-		// console.log(`+++\n${vr}`)
-		const ast = transpile(cx, e, vr)
-		// console.log(`==>\n${ast}`)
-		const { code } = render(cx, ast)
+		const rootToken = lex(context, source)
+		// console.log(`==>\n${rootToken}`)
+		const msAst = parse(context, rootToken)
+		// console.log(`==>\n${msAst}`)
+		const verifyResults = verify(context, msAst)
+		// console.log(`+++\n${verifyResults.___}`)
+		const esAst = transpile(context, msAst, verifyResults)
+		// console.log(`==>\n${esAst}`)
+		const { code } = render(context, esAst)
 
-		cx.warnings.forEach(w => console.log(w))
+		context.warnings.forEach(w => console.log(w))
 
-		if (includePerfTest) {
-			// Benchmark has problems if I don't put these in global variables...
-			global.lexUngroupedTest = () =>
-				lexUngrouped(cx, source)
-			const tUngrouped = global.lexUngroupedTest()
-			global.lexGroupTest = () =>
-				lexGroup(cx, tUngrouped)
-
-			global.cmp = () =>
-				compile(source, opts)
+		if (isPerfTest)
 			benchmark({
-				lexUngrouped: () => global.lexUngroupedTest(),
-				lexGroup: () => global.lexGroupTest(),
-				parse: () => parse(cx, t),
-				verify: () => verify(cx, e),
-				transpile: () => transpile(cx, e, vr),
-				render: () => render(cx, ast),
-				all: () => global.cmp()
+				lex: () => lex(context, source),
+				parse: () => parse(context, rootToken),
+				verify: () => verify(context, msAst),
+				transpile: () => transpile(context, msAst, verifyResults),
+				render: () => render(context, esAst),
+				all: () => compile(source, opts)
 			})
-		} else {
-			console.log(`Expression tree size: ${treeSize(e, _ => _ instanceof Expression).size}.`)
-			console.log(`ES AST size: ${treeSize(ast, _ => _ instanceof Node).size}.`)
+		else {
+			console.log(`Expression tree size: ${treeSize(msAst, _ => _ instanceof MsAst).size}.`)
+			console.log(`ES AST size: ${treeSize(esAst, _ => _ instanceof Node).size}.`)
 			console.log(`Output size: ${code.length} characters.`)
 			console.log(`==>\n${code}`)
 		}

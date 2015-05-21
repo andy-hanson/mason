@@ -9,7 +9,7 @@ import formatCompileErrorForConsole, { formatWarningForConsole }
 
 const Name = 'gulp-mason'
 
-export default function gulpMs(opts = { }) {
+export default (opts = { }) => {
 	return obj(function(file, enc, cb) {
 		if (opts.verbose)
 			console.log(`Compiling ${file.path}`)

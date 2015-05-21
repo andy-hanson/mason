@@ -6,9 +6,9 @@ import { Assign, AssignDestructure, AssignMutate, BagEntry, BagSimple, BlockBag,
 	Debug, Do, NumberLiteral, ForDoPlain, ForDoWithBag, Fun, GlobalAccess, IfDo, Lazy, LD_Const,
 	LD_Lazy, LD_Mutable, LocalAccess, LocalDeclare, LocalDeclareRes, MapEntry, Member, Module,
 	ObjPair, ObjSimple, Pattern, Quote, SP_Debugger, SpecialDo, SpecialVal, SV_Null, Splat, Val,
-	UnlessDo, Use, UseDo, Yield, YieldTo } from '../../Expression'
+	UnlessDo, Use, UseDo, Yield, YieldTo } from '../../MsAst'
 import { JsGlobals } from '../language'
-import { CallOnFocus, DotName, Group, G_Block, G_Bracket, G_Paren, G_Space, G_Quote, isGroup,
+import { CallOnFocus, DotName, Group, G_Block, G_Bracket, G_Parenthesis, G_Space, G_Quote, isGroup,
 	isKeyword, Keyword, KW_Assign, KW_AssignMutable, KW_AssignMutate, KW_BreakDo, KW_Case,
 	KW_CaseDo, KW_Debug, KW_Debugger, KW_Else, KW_ForDo, KW_Focus, KW_Fun, KW_GenFun, KW_IfDo,
 	KW_In, KW_Lazy, KW_MapEntry, KW_ObjAssign, KW_Pass, KW_Out, KW_Region, KW_Type, KW_UnlessDo,
@@ -18,23 +18,24 @@ import { assert, head, ifElse, flatMap, isEmpty, last,
 	opIf, opMap, push, repeat, rtail, tail, unshift } from '../util'
 import Slice from './Slice'
 
-let cx
+let context
 
 const WithObjKeys = tupl('WithObjKeys', Object,
 	'Wraps an Do with keys for this block\'s Obj. Not meant to escape this file.',
 	[ 'keys', [LocalDeclare], 'line', Do])
 
-export default function parse(_cx, rootToken) {
-	cx = _cx
+export default (_context, rootToken) => {
+	context = _context
+	assert(isGroup(G_Block, rootToken))
 	return parseModule(Slice.group(rootToken))
 }
 
 const
 	checkEmpty = (tokens, message) =>
-		cx.check(tokens.isEmpty(), tokens.loc, message),
+		context.check(tokens.isEmpty(), tokens.loc, message),
 	checkNonEmpty = (tokens, message) =>
-		cx.check(!tokens.isEmpty(), tokens.loc, message),
-	unexpected = t => cx.fail(t.loc, `Unexpected ${t.show()}`)
+		context.check(!tokens.isEmpty(), tokens.loc, message),
+	unexpected = t => context.fail(t.loc, `Unexpected ${t.show()}`)
 
 const parseModule = tokens => {
 	const [ doUses, rest0 ] = tryParseUses(KW_UseDo, tokens)
@@ -43,10 +44,10 @@ const parseModule = tokens => {
 	const [ debugUses, rest3 ] = tryParseUses(KW_UseDebug, rest2)
 	const { lines, exports, opDefaultExport } = parseModuleBlock(rest3)
 
-	if (cx.opts.includeModuleName() && !exports.some(_ => _.name === 'name')) {
+	if (context.opts.includeModuleName() && !exports.some(_ => _.name === 'name')) {
 		const dn = LocalDeclare.declareName(tokens.loc)
 		lines.push(Assign(tokens.loc, dn,
-			Quote.forString(tokens.loc, cx.opts.moduleName())))
+			Quote.forString(tokens.loc, context.opts.moduleName())))
 		exports.push(dn)
 	}
 	const uses = plainUses.concat(lazyUses)
@@ -59,7 +60,7 @@ const
 	beforeAndBlock = tokens => {
 		checkNonEmpty(tokens, 'Expected an indented block.')
 		const block = tokens.last()
-		cx.check(isGroup(G_Block, block), block.loc, 'Expected an indented block.')
+		context.check(isGroup(G_Block, block), block.loc, 'Expected an indented block.')
 		return [ tokens.rtail(), Slice.group(block) ]
 	},
 
@@ -71,7 +72,7 @@ const
 	// Gets lines in a region or Debug.
 	parseLinesFromBlock = tokens => {
 		const h = tokens.head()
-		cx.check(tokens.size() > 1, h.loc, () => `Expected indented block after ${h.show()}`)
+		context.check(tokens.size() > 1, h.loc, () => `Expected indented block after ${h.show()}`)
 		const block = tokens.second()
 		assert(tokens.size() === 2 && isGroup(G_Block, block))
 		return flatMap(block.tokens, line => parseLineOrLines(Slice.group(line)))
@@ -80,13 +81,13 @@ const
 	parseBlockDo = tokens => {
 		// OK if last line is a Val, we'll just treat it as a Do.
 		const { allLines, kReturn } = _parseBlockLines(tokens)
-		cx.check(kReturn === KReturn_Plain, tokens.loc,
+		context.check(kReturn === KReturn_Plain, tokens.loc,
 			() => `Can not make ${kReturn} in statement context.`)
 		return BlockDo(tokens.loc, allLines)
 	},
 	parseBlockVal = tokens => {
 		const block = parseAnyBlock(tokens)
-		cx.check(!(block instanceof BlockDo), block.loc, 'Expected a value block.')
+		context.check(!(block instanceof BlockDo), block.loc, 'Expected a value block.')
 		return block
 	},
 
@@ -145,10 +146,10 @@ const
 			if (line instanceof Debug)
 				line.lines.forEach(_ => checkLine(_, true))
 			else if (line instanceof BagEntry) {
-				cx.check(!inDebug, line.loc, 'Not supported: debug list entries')
+				context.check(!inDebug, line.loc, 'Not supported: debug list entries')
 				isBag = true
 			} else if (line instanceof MapEntry) {
-				cx.check(!inDebug, line.loc, 'Not supported: debug map entries')
+				context.check(!inDebug, line.loc, 'Not supported: debug map entries')
 				isMap = true
 			} else if (line instanceof WithObjKeys)
 				objKeys.push(...line.keys)
@@ -165,9 +166,9 @@ const
 		lines.each(_ => addLine(parseLine(Slice.group(_))))
 
 		const isObj = !isEmpty(objKeys)
-		cx.check(!(isObj && isBag), lines.loc, 'Block has both Bag and Obj lines.')
-		cx.check(!(isObj && isMap), lines.loc, 'Block has both Obj and Map lines.')
-		cx.check(!(isBag && isMap), lines.loc, 'Block has both Bag and Map lines.')
+		context.check(!(isObj && isBag), lines.loc, 'Block has both Bag and Obj lines.')
+		context.check(!(isObj && isMap), lines.loc, 'Block has both Obj and Map lines.')
+		context.check(!(isBag && isMap), lines.loc, 'Block has both Bag and Map lines.')
 
 		const kReturn =
 			isObj ? KReturn_Obj : isBag ? KReturn_Bag : isMap ? KReturn_Map : KReturn_Plain
@@ -198,7 +199,7 @@ const parseCase = (k, casedFromFun, tokens) => {
 		const result = (isVal ? parseBlockVal : parseBlockDo)(block)
 		return (isVal ? CaseValPart : CaseDoPart)(line.loc, test, result)
 	})
-	cx.check(parts.length > 0, tokens.loc, 'Must have at least 1 non-`else` test.')
+	context.check(parts.length > 0, tokens.loc, 'Must have at least 1 non-`else` test.')
 
 	return (isVal ? CaseVal : CaseDo)(tokens.loc, opCased, parts, opElse)
 }
@@ -231,7 +232,8 @@ const
 				const pairs = [ ]
 				for (let i = 0; i < splits.length - 1; i = i + 1) {
 					const name = splits[i].before.last()
-					cx.check(name instanceof Name, name.loc, () => `Expected a name, not ${name.show()}`)
+					context.check(name instanceof Name, name.loc, () =>
+						`Expected a name, not ${name.show()}`)
 					const tokensValue = i === splits.length - 2 ?
 						splits[i + 1].before :
 						splits[i + 1].before.rtail()
@@ -280,7 +282,7 @@ const
 		const parts = parseExprParts(tokens)
 		switch (parts.length) {
 			case 0:
-				cx.fail(tokens.loc, 'Expected an expression, got nothing.')
+				context.fail(tokens.loc, 'Expected an expression, got nothing.')
 			case 1:
 				return head(parts)
 			default:
@@ -347,7 +349,7 @@ const
 		else {
 			const l = tokens.last()
 			if (l instanceof DotName) {
-				cx.check(l.nDots === 3, l.loc, 'Splat argument must have exactly 3 dots')
+				context.check(l.nDots === 3, l.loc, 'Splat argument must have exactly 3 dots')
 				return {
 					args: parseLocalDeclares(tokens.rtail()),
 					opRestArg: LocalDeclare.plain(l.loc, l.name)
@@ -448,7 +450,7 @@ const
 
 	_parseAssignMutate = (localsTokens, valueTokens, loc) => {
 		const locals = parseLocalDeclaresJustNames(localsTokens)
-		cx.check(locals.length === 1, loc, 'TODO: AssignDestructureMutate')
+		context.check(locals.length === 1, loc, 'TODO: AssignDestructureMutate')
 		const name = locals[0].name
 		const value = parseExpr(valueTokens)
 		return AssignMutate(loc, name, value)
@@ -462,17 +464,18 @@ const
 
 		const isYield = kind === KW_Yield || kind === KW_YieldTo
 		if (isEmpty(locals)) {
-			cx.check(isYield, localsTokens.loc, 'Assignment to nothing')
+			context.check(isYield, localsTokens.loc, 'Assignment to nothing')
 			return value
 		} else {
 			if (isYield)
-				locals.forEach(_ => cx.check(!_.isLazy(), _.loc, 'Can not yield to lazy variable.'))
+				locals.forEach(_ =>
+					context.check(!_.isLazy(), _.loc, 'Can not yield to lazy variable.'))
 
 			const isObjAssign = kind === KW_ObjAssign
 
 			if (kind === KW_AssignMutable)
 				locals.forEach(_ => {
-					cx.check(!_.isLazy(), _.loc, 'Lazy local can not be mutable.')
+					context.check(!_.isLazy(), _.loc, 'Lazy local can not be mutable.')
 					_.kind = LD_Mutable
 				})
 
@@ -484,7 +487,7 @@ const
 					return isTest ? Debug(loc, [ assign ]) : assign
 				} else {
 					const kind = locals[0].kind
-					locals.forEach(_ => cx.check(_.kind === kind, _.loc,
+					locals.forEach(_ => context.check(_.kind === kind, _.loc,
 						'All locals of destructuring assignment must be of the same kind.'))
 					return AssignDestructure(loc, locals, value, kind)
 				}
@@ -549,7 +552,7 @@ const
 			const rest2 = rest.tail()
 			const opType = opIf(!rest2.isEmpty(), () => {
 				const colon = rest2.head()
-				cx.check(isKeyword(KW_Type, colon), colon.loc, () => `Expected ${code(':')}`)
+				context.check(isKeyword(KW_Type, colon), colon.loc, () => `Expected ${code(':')}`)
 				const tokensType = rest2.tail()
 				checkNonEmpty(tokensType, () => `Expected something after ${colon.show()}`)
 				return parseSpaced(tokensType)
@@ -565,9 +568,10 @@ const
 		if (isKeyword(KW_Focus, t))
 			return '_'
 		else {
-			cx.check(t instanceof Name, t.loc, () => `Expected a local name, not ${t.show()}`)
+			context.check(t instanceof Name, t.loc, () => `Expected a local name, not ${t.show()}`)
 			// TODO: Allow this?
-			cx.check(!JsGlobals.has(t.name), t.loc, () => `Can not shadow global ${code(t.name)}`)
+			context.check(!JsGlobals.has(t.name), t.loc, () =>
+				`Can not shadow global ${code(t.name)}`)
 			return t.name
 		}
 	}
@@ -578,7 +582,7 @@ const parseSingle = t =>
 	t instanceof Group ? (() => {
 		switch (t.kind) {
 			case G_Space: return parseSpaced(Slice.group(t))
-			case G_Paren: return parseExpr(Slice.group(t))
+			case G_Parenthesis: return parseExpr(Slice.group(t))
 			case G_Bracket: return BagSimple(t.loc, parseExprParts(Slice.group(t)))
 			case G_Block: return blockWrap(Slice.group(t))
 			case G_Quote:
@@ -616,19 +620,19 @@ const parseSpaced = tokens => {
 		const memberOrSubscript = (e, t) => {
 			const loc = t.loc
 			if (t instanceof DotName) {
-				cx.check(t.nDots === 1, tokens.loc, 'Too many dots!')
+				context.check(t.nDots === 1, tokens.loc, 'Too many dots!')
 				return Member(tokens.loc, e, t.name)
 			} else if (t instanceof Group) {
 				if (t.kind === G_Bracket)
 					return Call.sub(loc,
 						unshift(e, parseExprParts(Slice.group(t))))
-				if (t.kind === G_Paren) {
+				if (t.kind === G_Parenthesis) {
 					checkEmpty(Slice.group(t),
 						() => `Use ${code('(a b)')}, not ${code('a(b)')}`)
 					return Call(tokens.loc, e, [])
 				}
 			} else
-				cx.fail(tokens.loc, `Expected member or sub, not ${t.show()}`)
+				context.fail(tokens.loc, `Expected member or sub, not ${t.show()}`)
 		}
 		return rest.reduce(memberOrSubscript, parseSingle(h))
 	}
@@ -674,7 +678,7 @@ const
 					[ useDefault(), tokens.tail() ] :
 					[ null, tokens ]
 			const used = parseLocalDeclaresJustNames(rest).map(l => {
-				cx.check(l.name !== '_', l.pos,
+				context.check(l.name !== '_', l.pos,
 					() => `${code('_')} not allowed as import name.`)
 				if (isLazy)
 					l.kind = LD_Lazy
@@ -690,7 +694,7 @@ const
 		else if (t instanceof DotName)
 			return { path: push(_partsFromDotName(t), t.name).join('/'), name: t.name }
 		else {
-			cx.check(isGroup(G_Space, t), t.loc, 'Not a valid module name.')
+			context.check(isGroup(G_Space, t), t.loc, 'Not a valid module name.')
 			return _parseLocalRequire(Slice.group(t))
 		}
 	},
@@ -701,12 +705,12 @@ const
 		if (first instanceof DotName)
 			parts = _partsFromDotName(first)
 		else {
-			cx.check(first instanceof Name, first.loc, 'Not a valid part of module path.')
+			context.check(first instanceof Name, first.loc, 'Not a valid part of module path.')
 			parts = [ ]
 		}
 		parts.push(first.name)
 		tokens.tail().each(t => {
-			cx.check(t instanceof DotName && t.nDots === 1, t.loc,
+			context.check(t instanceof DotName && t.nDots === 1, t.loc,
 				'Not a valid part of module path.')
 			parts.push(t.name)
 		})
@@ -726,7 +730,7 @@ const
 			const { element, bag } =
 				ifElse(before.opSplitOnceWhere(_ => isKeyword(KW_In, _)),
 					({ before, after }) => {
-						cx.check(before.size() === 1, before.loc, 'TODO: pattern in for!')
+						context.check(before.size() === 1, before.loc, 'TODO: pattern in for!')
 						return {
 							element: parseLocalDeclaresJustNames(before)[0],
 							bag: parseExpr(after)

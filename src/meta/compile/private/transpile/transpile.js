@@ -8,9 +8,9 @@ import { idCached, loc, member, propertyIdOrLiteralCached, thunk, toStatement
 import { assignmentExpressionPlain, callExpressionThunk, functionExpressionPlain,
 	functionExpressionThunk, memberExpression, property,
 	yieldExpressionDelegate, yieldExpressionNoDelegate } from 'esast/dist/specialize'
-import * as EExports from '../../Expression'
+import * as MsAstTypes from '../../MsAst'
 import { LD_Lazy, LD_Mutable, Pattern, Splat, SD_Debugger, SV_Contains, SV_False, SV_Null, SV_Sub,
-	SV_This, SV_ThisModuleDirectory, SV_True, SV_Undefined } from '../../Expression'
+	SV_This, SV_ThisModuleDirectory, SV_True, SV_Undefined } from '../../MsAst'
 import manglePath from '../manglePath'
 import { assert, cat, flatMap, flatOpMap, ifElse, isEmpty,
 	implementMany, isPositive, opIf, opMap, range, tail, unshift } from '../util'
@@ -24,15 +24,15 @@ import { IdMs, lazyWrap, msArr, msBool, msCheckContains, msExtract, msGet, msGet
 import { accessLocalDeclare, declare, declareSpecial,
 	idForDeclareCached, throwError, whileStatementInfinite } from './util'
 
-let cx, vr, isInGenerator
+let context, verifyResults, isInGenerator
 
-export default function transpile(_cx, moduleExpression, _vr) {
-	cx = _cx
-	vr = _vr
+export default (_context, moduleExpression, _verifyResults) => {
+	context = _context
+	verifyResults = _verifyResults
 	isInGenerator = false
 	const res = t0(moduleExpression)
-	// Release for garbage collection
-	cx = vr = undefined
+	// Release for garbage collection.
+	context = verifyResults = undefined
 	return res
 }
 
@@ -53,11 +53,11 @@ const
 		return out
 	}
 
-implementMany(EExports, 'transpileSubtree', {
+implementMany(MsAstTypes, 'transpileSubtree', {
 	Assign() {
-		return VariableDeclaration(
-			this.assignee.isMutable() ? 'let' : 'const',
-			[ makeDeclarator(this.assignee, t0(this.value), false, vr.isExportAssign(this)) ])
+		const declare =
+			makeDeclarator(this.assignee, t0(this.value), false, verifyResults.isExportAssign(this))
+		return VariableDeclaration(this.assignee.isMutable() ? 'let' : 'const', [ declare ])
 	},
 	// TODO:ES6 Just use native destructuring assign
 	AssignDestructure() {
@@ -67,14 +67,16 @@ implementMany(EExports, 'transpileSubtree', {
 				this.kind() === LD_Lazy,
 				t0(this.value),
 				false,
-				vr.isExportAssign(this)))
+				verifyResults.isExportAssign(this)))
 	},
 
 	AssignMutate() {
 		return assignmentExpressionPlain(idCached(this.name), t0(this.value))
 	},
 
-	BagEntry() { return declareSpecial(`_${vr.listMapEntryIndex(this)}`, t0(this.value)) },
+	BagEntry() {
+		return declareSpecial(`_${verifyResults.listMapEntryIndex(this)}`, t0(this.value))
+	},
 
 	BagSimple() { return ArrayExpression(this.parts.map(t0)) },
 
@@ -89,8 +91,9 @@ implementMany(EExports, 'transpileSubtree', {
 
 	BlockObj(lead, opResDeclare, opOut) {
 		// TODO: includeTypeChecks() is not the right method for this
-		const keys =
-			cx.opts.includeTypeChecks() ? this.keys : this.keys.filter(_ => !vr.isDebugLocal(_))
+		const keys = context.opts.includeTypeChecks() ?
+			this.keys :
+			this.keys.filter(_ => !verifyResults.isDebugLocal(_))
 		const ret = ifElse(this.opObjed,
 			_ => {
 				const objed = t0(_)
@@ -115,14 +118,14 @@ implementMany(EExports, 'transpileSubtree', {
 	},
 
 	BlockBag(lead, opResDeclare, opOut) {
-		const length = vr.listMapLength(this)
+		const length = verifyResults.listMapLength(this)
 		return transpileBlock(
 			ArrayExpression(range(length).map(i => idCached(`_${i}`))),
 			this.lines, lead, opResDeclare, opOut)
 	},
 
 	BlockMap(lead, opResDeclare, opOut) {
-		const length = vr.listMapLength(this)
+		const length = verifyResults.listMapLength(this)
 		return transpileBlock(
 			msMap(...flatMap(range(length), i =>
 				[ idCached(`_k${i}`), idCached(`_v${i}`) ])),
@@ -162,7 +165,7 @@ implementMany(EExports, 'transpileSubtree', {
 	CaseDoPart: casePart,
 	CaseValPart: casePart,
 	// TODO: includeInoutChecks is misnamed
-	Debug() { return cx.opts.includeInoutChecks() ? tLines(this.lines) : [ ] },
+	Debug() { return context.opts.includeInoutChecks() ? tLines(this.lines) : [ ] },
 
 	ObjSimple() {
 		return ObjectExpression(this.pairs.map(pair =>
@@ -189,7 +192,7 @@ implementMany(EExports, 'transpileSubtree', {
 		const opDeclareRest = opMap(this.opRestArg, rest =>
 			declare(rest, CallExpression(ArraySliceCall, [IdArguments, nArgs])))
 		const argChecks =
-			opIf(cx.opts.includeTypeChecks(), () =>
+			opIf(context.opts.includeTypeChecks(), () =>
 				flatOpMap(this.args, _ =>
 					// TODO: Way to typecheck lazies
 					opIf(!_.isLazy(), () =>
@@ -223,12 +226,12 @@ implementMany(EExports, 'transpileSubtree', {
 
 	IfDo() { return IfStatement(maybeBoolWrap(t0(this.test)), t0(this.result)) },
 
-	LocalAccess() { return accessLocalDeclare(vr.accessToLocal.get(this)) },
+	LocalAccess() { return accessLocalDeclare(verifyResults.accessToLocal.get(this)) },
 
 	LocalDeclare() { return idForDeclareCached(this) },
 
 	MapEntry() {
-		const index = vr.listMapEntryIndex(this)
+		const index = verifyResults.listMapEntryIndex(this)
 		const k = `_k${index}`
 		const v = `_v${index}`
 		return VariableDeclaration('const', [
@@ -244,8 +247,8 @@ implementMany(EExports, 'transpileSubtree', {
 			tLines(this.lines),
 			opMap(this.opDefaultExport, _ => assignmentExpressionPlain(ExportsDefault, t0(_))))
 		return Program(cat(
-			opIf(cx.opts.includeUseStrict(), () => UseStrict),
-			opIf(cx.opts.includeAmdefine(), () => AmdefineHeader),
+			opIf(context.opts.includeUseStrict(), () => UseStrict),
+			opIf(context.opts.includeAmdefine(), () => AmdefineHeader),
 			toStatement(amdWrapModule(this.doUses, this.uses.concat(this.debugUses), body))))
 	},
 
@@ -350,7 +353,7 @@ const
 				useDeclarators(use, useIdentifiers[i + doUses.length]))))
 		const fullBody = BlockStatement(cat(useDos, opUseDeclare, body, ReturnExports))
 		const lazyBody =
-			cx.opts.lazyModule() ?
+			context.opts.lazyModule() ?
 				BlockStatement([ ExpressionStatement(
 					assignmentExpressionPlain(ExportsGet,
 						msLazy(functionExpressionThunk(fullBody)))) ]) :
@@ -378,10 +381,10 @@ const
 		return cat(usedDefault, usedDestruct)
 	}
 
-// General utils. Not in util.js because these close over cx.
+// General utils. Not in util.js because these close over context.
 const
 	maybeBoolWrap = ast =>
-		cx.opts.includeCaseChecks() ? msBool(ast) : ast,
+		context.opts.includeCaseChecks() ? msBool(ast) : ast,
 
 	makeDestructureDeclarators = (assignees, isLazy, value, isModule, isExport) => {
 		const destructuredName = `_$${assignees[0].loc.start.line}`
@@ -404,7 +407,7 @@ const
 		value = isLazy ? value : maybeWrapInCheckContains(value, opType, name)
 		if (isExport) {
 			// TODO:ES6
-			cx.check(!isLazy, loc, 'Lazy export not supported.')
+			context.check(!isLazy, loc, 'Lazy export not supported.')
 			return VariableDeclarator(
 				idForDeclareCached(assignee),
 				assignmentExpressionPlain(member(IdExports, name), value))
@@ -416,13 +419,13 @@ const
 	},
 
 	maybeWrapInCheckContains = (ast, opType, name) =>
-		(cx.opts.includeTypeChecks() && opType !== null) ?
+		(context.opts.includeTypeChecks() && opType !== null) ?
 			msCheckContains(t0(opType), ast, Literal(name)) :
 			ast,
 
 	getMember = (astObject, gotName, isLazy, isModule) =>
 		isLazy ?
 		msLazyGet(astObject, Literal(gotName)) :
-		isModule && cx.opts.includeUseChecks() ?
+		isModule && context.opts.includeUseChecks() ?
 		msGet(astObject, Literal(gotName)) :
 		member(astObject, gotName)

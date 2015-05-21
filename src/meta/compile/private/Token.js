@@ -2,40 +2,111 @@ import Loc from 'esast/dist/Loc'
 import tupl, { abstract } from 'tupl/dist/tupl'
 import { code } from '../CompileError'
 import { SV_False, SV_Null, SV_This, SV_ThisModuleDirectory, SV_True, SV_Undefined
-	} from '../Expression'
+	} from '../MsAst'
 import { implementMany } from './util'
 
-const Token = abstract('Token', Object,
-	'TODO:doc')
+/*
+Token tree, output of `lex/group`.
+That's right: in Mason, the tokens form a tree containing both plain tokens and Group tokens.
+This means that the parser avoids doing much of the work that parsers normally have to do;
+it doesn't have to handle a "left parenthesis", only a Group(tokens, G_Parenthesis).
+*/
+const Token = abstract('Token', Object)
 export default Token
 
-const tt = (name, namesTypes, props) =>
-	tupl(name, Token, 'doc', [ 'loc', Loc ].concat(namesTypes), { }, props)
+const tokenType = (name, namesTypes) =>
+	tupl(name, Token, null, [ 'loc', Loc ].concat(namesTypes))
 
-// Don't use `0` because we want to use negative nmbers to represent GroupPre closers.
 export const
-	G_Paren = 1,
-	G_Bracket = 2,
-	G_Block = 3,
-	G_Quote = 4,
-	G_Line = 5,
-	G_Space = 6
+	// `name_`.
+	CallOnFocus = tokenType('CallOnFocus', [ 'name', String ]),
+	// `.name`, `..name`, etc.
+	// Currently nDots > 1 is only used by `use` blocks.
+	DotName = tokenType('DotName', [ 'nDots', Number, 'name', String ]),
+	// kind is a G_***.
+	Group = tokenType('Group', [ 'tokens', [Token], 'kind', Number ]),
+	/*
+	A key"word" is any set of characters with a particular meaning.
+	This can even include ones like `. ` (defines an object property, as in `key. value`).
+	Kind is a KW_***. See the full list below.
+	*/
+	Keyword = tokenType('Keyword', [ 'kind', Number ]),
+	// A name is guaranteed to *not* be a keyword.
+	// It's also not a CallOnFocus or DotName.
+	Name = tokenType('Name', [ 'name', String ]),
+	// These are parsed directly into NumberLiterals.
+	TokenNumberLiteral = tokenType('TokenNumberLiteral', [ 'value', Number ])
 
-let nextId = 0
-const nameToK = new Map()
-const kToName = new Map()
-const kw = name => {
-	const k = kwNotName(name)
-	nameToK.set(name, k)
-	return k
-}
-const kwNotName = debugName => {
-	const k = nextId
-	kToName.set(k, debugName)
-	nextId = nextId + 1
-	return k
-}
+// toString is used by some parsing errors. Use U.inspect for a more detailed view.
+implementMany({ CallOnFocus, DotName, Group, Keyword, Name, TokenNumberLiteral }, 'show', {
+	CallOnFocus() { return `${this.name}_` },
+	DotName() { return `${'.'.repeat(this.nDots)}${this.name}` },
+	// TODO: better representation of k
+	Group() { return `group(k=${groupKindToName.get(this.kind)}` },
+	// TODO: better representation of k
+	Keyword() { return code(keywordKindToName.get(this.kind)) },
+	Name() { return this.name },
+	TokenNumberLiteral() { return this.value }
+})
 
+let nextGroupKind = 0
+const
+	groupKindToName = new Map(),
+	g = name => {
+		const kind = nextGroupKind
+		groupKindToName.set(kind, name)
+		nextGroupKind = nextGroupKind + 1
+		return kind
+	}
+export const
+	G_Parenthesis = g('( )'),
+	G_Bracket = g('[ ]'),
+	// Lines in an indented block.
+	// Sub-tokens will always be G_Line groups.
+	// Note that G_Blocks do not always map to Block* MsAsts.
+	G_Block = g('indented block'),
+	// Within a quote.
+	// Sub-tokens may be strings, or G_Parenthesis groups.
+	G_Quote = g('quote'),
+	/*
+	Tokens on a line.
+	NOTE: The indented block following the end of the line is considered to be a part of the line!
+	This means that in this code:
+		a
+			b
+			c
+		d
+	There are 2 lines, one starting with 'a' and one starting with 'd'.
+	The first line contains 'a' and a G_Block which in turn contains two other lines.
+	*/
+	G_Line = g('line'),
+	/*
+	Groups two or more tokens that are *not* separated by spaces.
+	`a[b].c` is an example.
+	A single token on its own will not be given a G_Space.
+	*/
+	G_Space = g('spaced group'),
+	showGroupKind = groupKind => groupKindToName.get(groupKind)
+
+
+let nextKeywordKind = 0
+const
+	keywordNameToKind = new Map(),
+	keywordKindToName = new Map(),
+	// These keywords are special names.
+	// When lexing a name, a map lookup is done by keywordKindFromName.
+	kw = name => {
+		const kind = kwNotName(name)
+		keywordNameToKind.set(name, kind)
+		return kind
+	},
+	// These keywords must be lexed specially.
+	kwNotName = debugName => {
+		const kind = nextKeywordKind
+		keywordKindToName.set(kind, debugName)
+		nextKeywordKind = nextKeywordKind + 1
+		return kind
+	}
 export const
 	KW_Assign = kw('='),
 	KW_AssignMutable = kw('::='),
@@ -71,10 +142,10 @@ export const
 	KW_UseDo = kw('use!'),
 	KW_UseLazy = kw('use~'),
 	KW_Yield = kw('<~'),
-	KW_YieldTo = kw('<~~')
+	KW_YieldTo = kw('<~~'),
 
-export const
-	keywordKFromName = name => nameToK.get(name),
+	keywordKindFromName = name =>
+		keywordNameToKind.get(name),
 	opKWtoSV = kw => {
 		switch (kw) {
 			case KW_False: return SV_False
@@ -85,34 +156,8 @@ export const
 			case KW_Undefined: return SV_Undefined
 			default: return null
 		}
-	}
-
-export const
-	CallOnFocus = tt('CallOnFocus', [ 'name', String ]),
-	DotName = tt('DotName', [ 'nDots', Number, 'name', String ]),
-	Group = tt('Group',
-		[ 'tokens', [Token], 'kind', Number ]),
-	Keyword = tt('Keyword', [ 'kind', Number ]),
-	Name = tt('Name', [ 'name', String ]),
-	TokenNumberLiteral = tt('TokenNumberLiteral', [ 'value', Number ])
-
-export const
+	},
 	isGroup = (groupKind, token) =>
 		token instanceof Group && token.kind === groupKind,
 	isKeyword = (keywordKind, token) =>
 		token instanceof Keyword && token.kind === keywordKind
-
-// toString is used by some parsing errors. Use U.inspect for a more detailed view.
-implementMany({ CallOnFocus, DotName, Group, Keyword, Name, TokenNumberLiteral }, 'show', {
-	CallOnFocus() { return `${this.name}_` },
-	DotName() { return `${'.'.repeat(this.nDots)}${this.name}` },
-	// TODO: better representation of k
-	Group() { return `group(k=${this.kind})` },
-	// TODO: better representation of k
-	Keyword() { return code(kToName.get(this.kind)) },
-	Name() { return this.name },
-	TokenNumberLiteral() { return this.value }
-})
-
-//TODO:KILL
-Keyword.prototype.toString = Keyword.prototype.show

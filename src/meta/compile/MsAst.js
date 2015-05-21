@@ -3,11 +3,11 @@ import tupl, { abstract } from 'tupl/dist/tupl'
 import { Nullable, Union } from 'tupl/dist/type'
 import { JsGlobals } from './private/language'
 
-const Expression = abstract('Expression', Object, 'doc')
-export default Expression
+const MsAst = abstract('MsAst', Object, 'doc')
+export default MsAst
 
 export const
-	LineContent = abstract('ValOrDo', Expression, 'Valid part of a Block.'),
+	LineContent = abstract('ValOrDo', MsAst, 'Valid part of a Block.'),
 	Do = abstract('Do', LineContent, `
 		These can only appear as lines in a Block.
 		Not to be confused with Generator expressions resulting from \`do\` keyword.`),
@@ -17,13 +17,13 @@ const makeType = superType => (name, doc, namesTypes, protoProps, tuplProps) =>
 	// TODO: provide actual docs...
 	tupl(name, superType, doc, [ 'loc', Loc ].concat(namesTypes), protoProps, tuplProps)
 const
-	ee = makeType(Expression), ed = makeType(Do), ev = makeType(Val)
+	m = makeType(MsAst), d = makeType(Do), v = makeType(Val)
 
 export const
 	LD_Const = 0,
 	LD_Lazy = 1,
 	LD_Mutable = 2,
-	LocalDeclare = ee('LocalDeclare',
+	LocalDeclare = m('LocalDeclare',
 		'TODO:DOC',
 		[
 			'name', String,
@@ -53,11 +53,11 @@ export const
 			kind: LD_Const
 		}),
 
-	Debug = ed('Debug',
+	Debug = d('Debug',
 		'TODO:DOC',
 		[ 'lines', [LineContent] ]),
 
-	Block = abstract('Block', Expression, 'TODO:DOC'),
+	Block = abstract('Block', MsAst, 'TODO:DOC'),
 	BlockDo = makeType(Block)('BlockDo',
 		'TODO:DOC',
 		[ 'lines', [LineContent] ]),
@@ -75,26 +75,26 @@ export const
 			'opName', Nullable(String)
 		]),
 
-	BagEntry = ee('BagEntry',
+	BagEntry = m('BagEntry',
 		'TODO:DOC',
 		[ 'value', Val ]),
 	BlockBag = makeType(BlockVal)('BlockBag',
 		'TODO:DOC',
 		[ 'lines', [Union(LineContent, BagEntry)] ]),
 
-	MapEntry = ee('MapEntry',
+	MapEntry = m('MapEntry',
 		'TODO:DOC',
 		[ 'key', Val, 'val', Val ]),
 	BlockMap = makeType(BlockVal)('BlockMap',
 		'TODO:DOC',
 		[ 'lines', [Union(LineContent, MapEntry)] ]),
 
-	LocalAccess = ev('LocalAccess',
+	LocalAccess = v('LocalAccess',
 		'TODO:DOC',
 		[ 'name', String ],
 		{ },
 		{ focus: loc => LocalAccess(loc, '_') }),
-	Assign = ed('Assign',
+	Assign = d('Assign',
 		'TODO:DOC',
 		[
 			'assignee', LocalDeclare,
@@ -102,7 +102,7 @@ export const
 		],
 		{ },
 		{ focus: (loc, value) => Assign(loc, LocalDeclare.focus(loc), value) }),
-	AssignDestructure = ed('AssignDestructure',
+	AssignDestructure = d('AssignDestructure',
 		'TODO:DOC',
 		[
 			'assignees', [LocalDeclare],
@@ -112,28 +112,28 @@ export const
 			// All assignees must share the same kind.
 			kind() { return this.assignees[0].kind }
 		}),
-	AssignMutate = ed('AssignMutate',
+	AssignMutate = d('AssignMutate',
 		'TODO:DOC',
 		[
 			'name', String,
 			'value', Val
 		]),
-	GlobalAccess = ev('GlobalAccess',
+	GlobalAccess = v('GlobalAccess',
 		'TODO:DOC',
 		[ 'name', JsGlobals ]),
 
 	// Module
-	UseDo = ee('UseDo',
+	UseDo = m('UseDo',
 		'TODO:DOC',
 		[ 'path', String ]),
-	Use = ee('Use',
+	Use = m('Use',
 		'TODO:DOC',
 		[
 			'path', String,
 			'used', [LocalDeclare],
 			'opUseDefault', Nullable(LocalDeclare)
 		]),
-	Module = ee('Module',
+	Module = m('Module',
 		'TODO:DOC',
 		[
 			'doUses', [UseDo],
@@ -145,41 +145,41 @@ export const
 		]),
 
 	// Data
-	BagSimple = ev('ListSimple',
+	BagSimple = v('ListSimple',
 		'TODO:DOC',
 		[ 'parts', [Val] ]),
-	ObjPair = ee('ObjPair',
+	ObjPair = m('ObjPair',
 		'TODO:DOC',
 		[
 			'key', String,
 			'value', Val
 		]),
 	// Verifier checks that no two pairs may have the same key.
-	ObjSimple = ev('ObjSimple',
+	ObjSimple = v('ObjSimple',
 		'TODO:DOC',
 		[ 'pairs', [ObjPair] ]),
 
 	// Case
-	Pattern = ee('Pattern',
+	Pattern = m('Pattern',
 		'TODO:DOC',
 		[
 			'type', Val,
 			'locals', [LocalDeclare],
 			'patterned', LocalAccess
 		]),
-	CaseDoPart = ee('CaseDoPart',
+	CaseDoPart = m('CaseDoPart',
 		'TODO:DOC',
 		[
 			'test', Union(Val, Pattern),
 			'result', BlockDo
 		]),
-	CaseValPart = ee('CaseValPart',
+	CaseValPart = m('CaseValPart',
 		'TODO:DOC',
 		[
 			'test', Union(Val, Pattern),
 			'result', BlockVal
 		]),
-	CaseDo = ed('CaseDo',
+	CaseDo = d('CaseDo',
 		'TODO:DOC',
 		[
 			'opCased', Nullable(Assign),
@@ -187,7 +187,7 @@ export const
 			'opElse', Nullable(BlockDo)
 		]),
 	// Unlike CaseDo, this has `return` statements.
-	CaseVal = ev('CaseVal',
+	CaseVal = v('CaseVal',
 		'TODO:DOC',
 		[
 			'opCased', Nullable(Assign),
@@ -196,37 +196,37 @@ export const
 		]),
 
 	// Loops
-	ForDoPlain = ed('ForDoPlain',
+	ForDoPlain = d('ForDoPlain',
 		'TODO:DOC',
 		[ 'block', BlockDo ]),
-	ForDoWithBag = ed('ForDoWithBag',
+	ForDoWithBag = d('ForDoWithBag',
 		'TODO:DOC',
 		[ 'element', LocalDeclare, 'bag', Val, 'block', BlockDo ]),
-	BreakDo = ed('BreakDo',
+	BreakDo = d('BreakDo',
 		'TODO:DOC',
 		[ ]),
 
 	// Other statements
-	IfDo = ed('IfDo',
+	IfDo = d('IfDo',
 		'TODO:DOC',
 		[ 'test', Val, 'result', BlockDo ]),
-	UnlessDo = ed('UnlessDo',
+	UnlessDo = d('UnlessDo',
 		'TODO:DOC',
 		[ 'test', Val, 'result', BlockDo ]),
 
 	// Generators
-	Yield = ev('Yield',
+	Yield = v('Yield',
 		'TODO:DOC',
 		[ 'yielded', Val ]),
-	YieldTo = ev('YieldTo',
+	YieldTo = v('YieldTo',
 		'TODO:DOC',
 		[ 'yieldedTo', Val ]),
 
 	// Expressions
-	Splat = ee('Splat',
+	Splat = m('Splat',
 		'TODO:DOC',
 		[ 'splatted', Val ]),
-	Call = ev('Call',
+	Call = v('Call',
 		'TODO:DOC',
 		[
 			'called', Val,
@@ -238,11 +238,11 @@ export const
 				Call(loc, SpecialVal(loc, SV_Contains), [ testType, tested ]),
 			sub: (loc, args) => Call(loc, SpecialVal(loc, SV_Sub), args)
 		}),
-	BlockWrap = ev('BlockWrap',
+	BlockWrap = v('BlockWrap',
 		'TODO:DOC',
 		[ 'block', BlockVal ]),
 
-	Fun = ev('Fun',
+	Fun = v('Fun',
 		'TODO:DOC',
 		[
 			'isGenerator', Boolean,
@@ -257,20 +257,20 @@ export const
 			'name', Nullable(String)
 		]),
 
-	Lazy = ev('Lazy',
+	Lazy = v('Lazy',
 		'TODO:DOC',
 		[ 'value', Val ]),
-	NumberLiteral = ev('NumberLiteral',
+	NumberLiteral = v('NumberLiteral',
 		'TODO:DOC',
 		[ 'value', Number ]),
-	Member = ev('Member',
+	Member = v('Member',
 		'TODO:DOC',
 		[
 			'object', Val,
 			'name', String
 		]),
 	// parts are Strings interleaved with Vals.
-	Quote = ev('Quote',
+	Quote = v('Quote',
 		'TODO:DOC',
 		[ 'parts', [Object] ],
 		{ },
@@ -279,7 +279,7 @@ export const
 		}),
 
 	SD_Debugger = 0,
-	SpecialDo = ed('SpecialDo',
+	SpecialDo = d('SpecialDo',
 		'TODO:DOC',
 		[ 'kind', Number ]),
 
@@ -292,6 +292,6 @@ export const
 	SV_True = 6,
 	SV_Undefined = 7,
 	// k is a SP_***
-	SpecialVal = ev('Special',
+	SpecialVal = v('Special',
 		'TODO:DOC',
 		[ 'kind', Number ])

@@ -1,11 +1,11 @@
 import { singleCharLoc, StartPos } from 'esast/dist/Loc'
+import render from 'esast/dist/render'
 import fs from 'q-io/fs'
 import { relative } from 'path'
-import { BagSimple, Module, Quote } from '../Expression'
+import { BagSimple, Module, Quote } from '../MsAst'
 import CompileContext from '../private/CompileContext'
 import CompileOptions from '../private/CompileOptions'
 import transpile from '../private/transpile/transpile'
-import render from '../private/render'
 import { flatOpMap, opIf } from '../private/util'
 import VerifyResults from '../private/VerifyResults'
 
@@ -22,9 +22,9 @@ export default (dirPath, opts) =>
 		// Sort to keep it deterministic.
 		const modulesBag = BagSimple(loc, moduleFiles.sort().map(_ => Quote.forString(loc, _)))
 		const module = Module(loc, [ ], [ ], [ ], [ ], [ ], modulesBag)
-		const cx = new CompileContext(new CompileOptions({
+		const context = new CompileContext(new CompileOptions({
 			includeSourceMap: false,
 			includeModuleName: false
 		}))
-		return render(cx, transpile(cx, module, new VerifyResults()))
+		return render(transpile(context, module, new VerifyResults()))
 	})

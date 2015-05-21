@@ -1,15 +1,15 @@
 import { code } from '../CompileError'
-import * as EExports from '../Expression'
+import * as MsAstTypes from '../MsAst'
 import { Assign, AssignDestructure, BlockVal, Call, Debug, Do, BagEntry,
-	LocalDeclareRes, MapEntry, Pattern, SpecialDo, Yield, YieldTo } from '../Expression'
+	LocalDeclareRes, MapEntry, Pattern, SpecialDo, Yield, YieldTo } from '../MsAst'
 import { cat, head, ifElse, implementMany, isEmpty, mapKeys, newSet, opEach } from './util'
 import VerifyResults, { LocalInfo } from './VerifyResults'
 
-const vm = es => es.forEach(e => e.verify())
-const vop = op => opEach(op, _ => _.verify())
+const verifyEach = es => es.forEach(_ => _.verify())
+const verifyOpEach = op => opEach(op, _ => _.verify())
 
 let
-	cx,
+	context,
 	locals,
 	// Locals for this block.
 	// Replaces `locals` when entering into sub-function.
@@ -17,23 +17,9 @@ let
 	isInDebug,
 	isInGenerator,
 	opLoop,
-	vr
+	results
 
 const
-	init = _cx => {
-		cx = _cx
-		locals = new Map()
-		pendingBlockLocals = []
-		isInDebug = false
-		isInGenerator = false
-		opLoop = null
-		vr = new VerifyResults()
-	},
-	// Release for garbage collection
-	uninit = () => {
-		locals = pendingBlockLocals = opLoop = vr = undefined
-	},
-
 	withInGenerator = (_isInGenerator, fun) => {
 		const g = isInGenerator
 		isInGenerator = _isInGenerator
@@ -97,48 +83,56 @@ const
 	},
 
 	accessLocal = (declare, access, isDebugAccess) =>
-		_addAccess(vr.localToInfo.get(declare), access, isDebugAccess),
+		_addAccess(results.localToInfo.get(declare), access, isDebugAccess),
 	accessLocalForReturn = (declare, access) => {
-		const info = vr.localToInfo.get(declare)
+		const info = results.localToInfo.get(declare)
 		_addAccess(info, access, info.isInDebug)
 	},
 	_addAccess = (localInfo, access, isDebugAccess) =>
 		(isDebugAccess ? localInfo.debugAccesses : localInfo.nonDebugAccesses).push(access),
 
-
 	// VerifyResults setters
 	registerLocal = local =>
-		vr.localToInfo.set(local, LocalInfo(isInDebug, [], [])),
+		results.localToInfo.set(local, LocalInfo(isInDebug, [], [])),
 
 	setEntryIndex = (listMapEntry, index) =>
-		vr.entryToIndex.set(listMapEntry, index)
+		results.entryToIndex.set(listMapEntry, index)
 
-export default function verify(cx, e) {
-	init(cx)
-	e.verify()
+export default (_context, ast) => {
+	context = _context
+	locals = new Map()
+	pendingBlockLocals = []
+	isInDebug = false
+	isInGenerator = false
+	opLoop = null
+	results = new VerifyResults()
+
+	ast.verify()
 	verifyLocalUse()
-	const out = vr
-	uninit()
+	const out = results
+
+	// Release for garbage collection.
+	locals = pendingBlockLocals = opLoop = results = undefined
+
 	return out
 }
 
-const verifyLocalUse = () => {
-	vr.localToInfo.forEach((info, local) => {
+const verifyLocalUse = () =>
+	results.localToInfo.forEach((info, local) => {
 		if (!(local instanceof LocalDeclareRes)) {
 			const noNonDebug = isEmpty(info.nonDebugAccesses)
 			if (noNonDebug && isEmpty(info.debugAccesses))
-				cx.warn(local.loc, () => `Unused local variable ${code(local.name)}.`)
+				context.warn(local.loc, () => `Unused local variable ${code(local.name)}.`)
 			else if (info.isInDebug)
-				cx.warnIf(!noNonDebug, () => head(info.nonDebugAccesses).loc, () =>
+				context.warnIf(!noNonDebug, () => head(info.nonDebugAccesses).loc, () =>
 					`Debug-only local ${code(local.name)} used outside of debug.`)
 			else
-				cx.warnIf(noNonDebug, local.loc, () =>
+				context.warnIf(noNonDebug, local.loc, () =>
 					`Local ${code(local.name)} used only in debug.`)
 		}
 	})
-}
 
-implementMany(EExports, 'verify', {
+implementMany(MsAstTypes, 'verify', {
 	Assign() {
 		const doV = () => {
 			this.assignee.verify()
@@ -152,19 +146,19 @@ implementMany(EExports, 'verify', {
 
 	AssignDestructure() {
 		this.value.verify()
-		vm(this.assignees)
+		verifyEach(this.assignees)
 	},
 
 	AssignMutate() {
 		const declare = getLocalDeclare(this.name, this.loc)
-		cx.check(declare.isMutable(), this.loc, () => `${code(this.name)} is not mutable.`)
+		context.check(declare.isMutable(), this.loc, () => `${code(this.name)} is not mutable.`)
 		// TODO: Track assignments. Mutable local must be mutated somewhere.
 		this.value.verify()
 	},
 
 	BagEntry() { this.value.verify() },
 
-	BagSimple() { vm(this.parts) },
+	BagSimple() { verifyEach(this.parts) },
 
 	BlockDo() { verifyLines(this.lines) },
 
@@ -188,12 +182,12 @@ implementMany(EExports, 'verify', {
 
 	BreakDo() {
 		if (opLoop === null)
-			cx.fail(this.loc, 'Not in a loop.')
+			context.fail(this.loc, 'Not in a loop.')
 	},
 
 	Call() {
 		this.called.verify()
-		vm(this.args)
+		verifyEach(this.args)
 	},
 
 	CaseDo: verifyCase,
@@ -217,14 +211,14 @@ implementMany(EExports, 'verify', {
 
 	Fun() {
 		withBlockLocals(() => {
-			cx.check(this.opResDeclare === null || this.block instanceof BlockVal, this.loc,
+			context.check(this.opResDeclare === null || this.block instanceof BlockVal, this.loc,
 				'Function with return condition must return something.')
-			this.args.forEach(arg => vop(arg.opType))
+			this.args.forEach(arg => verifyOpEach(arg.opType))
 			withInGenerator(this.isGenerator, () => {
 				const allArgs = cat(this.args, this.opRestArg)
 				allArgs.forEach(_ => registerLocal(_))
 				plusLocals(allArgs, () => {
-					vop(this.opIn)
+					verifyOpEach(this.opIn)
 					this.block.verify()
 					opEach(this.opResDeclare, _ => {
 						_.verify()
@@ -245,12 +239,12 @@ implementMany(EExports, 'verify', {
 
 	LocalAccess() {
 		const declare = getLocalDeclare(this.name, this.loc)
-		vr.accessToLocal.set(this, declare)
+		results.accessToLocal.set(this, declare)
 		accessLocal(declare, this, isInDebug)
 	},
 
 	// Adding LocalDeclares to the available locals is done by Fun or lineNewLocals.
-	LocalDeclare() { vop(this.opType) },
+	LocalDeclare() { verifyOpEach(this.opType) },
 
 	NumberLiteral() { },
 
@@ -274,7 +268,7 @@ implementMany(EExports, 'verify', {
 		const markExportLines = line => {
 			if (line instanceof Assign && exports.has(line.assignee) ||
 				line instanceof AssignDestructure && line.assignees.some(_ => exports.has(_)))
-				vr.exportAssigns.add(line)
+				results.exportAssigns.add(line)
 			else if (line instanceof Debug)
 				line.lines.forEach(markExportLines)
 		}
@@ -284,7 +278,7 @@ implementMany(EExports, 'verify', {
 	ObjSimple() {
 		const keys = new Set()
 		this.pairs.forEach(pair => {
-			cx.check(!keys.has(pair.key), pair.loc, () => `Duplicate key ${pair.key}`)
+			context.check(!keys.has(pair.key), pair.loc, () => `Duplicate key ${pair.key}`)
 			keys.add(pair.key)
 			pair.value.verify()
 		})
@@ -306,19 +300,19 @@ implementMany(EExports, 'verify', {
 	UnlessDo: ifOrUnlessDo,
 
 	Yield() {
-		cx.check(isInGenerator, this.loc, 'Cannot yield outside of generator context')
+		context.check(isInGenerator, this.loc, 'Cannot yield outside of generator context')
 		this.yielded.verify()
 	},
 
 	YieldTo() {
-		cx.check(isInGenerator, this.loc, 'Cannot yield outside of generator context')
+		context.check(isInGenerator, this.loc, 'Cannot yield outside of generator context')
 		this.yieldedTo.verify()
 	}
 })
 
 function blockBagOrMap() {
 	const { listMapLength } = verifyLines(this.lines)
-	vr.blockToLength.set(this, listMapLength)
+	results.blockToLength.set(this, listMapLength)
 }
 
 function ifOrUnlessDo() {
@@ -328,8 +322,8 @@ function ifOrUnlessDo() {
 
 function verifyCase() {
 	const doit = () => {
-		vm(this.parts)
-		vop(this.opElse)
+		verifyEach(this.parts)
+		verifyOpEach(this.opElse)
 	}
 	ifElse(this.opCased,
 		_ => {
@@ -344,7 +338,7 @@ function verifyCasePart() {
 	if (this.test instanceof Pattern) {
 		this.test.type.verify()
 		this.test.patterned.verify()
-		vm(this.test.locals)
+		verifyEach(this.test.locals)
 		this.test.locals.forEach(registerLocal)
 		plusLocals(this.test.locals, () => this.result.verify())
 	} else {
@@ -356,7 +350,7 @@ function verifyCasePart() {
 const
 	getLocalDeclare = (name, accessLoc) => {
 		const declare = locals.get(name)
-		cx.check(declare !== undefined, accessLoc, () =>
+		context.check(declare !== undefined, accessLoc, () =>
 			`No such local ${code(name)}.\nLocals are:\n${code(mapKeys(locals).join(' '))}.`)
 		return declare
 	},
@@ -407,14 +401,14 @@ const
 		const verifyLine = line => {
 			if (line instanceof Debug)
 				// TODO: Do anything in this situation?
-				// cx.check(!inDebug, line.loc, 'Redundant `debug`.')
+				// context.check(!inDebug, line.loc, 'Redundant `debug`.')
 				withInDebug(true, () => line.lines.forEach(verifyLine))
 			else {
 				verifyIsStatement(line)
 				lineNewLocals(line).forEach(l => {
 					const got = locals.get(l.name)
 					if (got !== undefined) {
-						cx.check(!thisBlockLocalNames.has(l.name), l.loc,
+						context.check(!thisBlockLocalNames.has(l.name), l.loc,
 							() => `A local ${code(l.name)} is already in this block.`)
 						shadowed.set(l.name, got)
 					}
@@ -451,5 +445,5 @@ const
 			line instanceof BagEntry ||
 			line instanceof MapEntry ||
 			line instanceof SpecialDo
-		cx.check(isStatement, line.loc, 'Expression in statement position.')
+		context.check(isStatement, line.loc, 'Expression in statement position.')
 	}

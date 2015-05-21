@@ -1,5 +1,5 @@
 import tupl from 'tupl/dist//tupl'
-import { LocalAccess } from '../Expression'
+import { LocalAccess } from '../MsAst'
 import { isEmpty } from './util'
 
 export default class VerifyResults {
