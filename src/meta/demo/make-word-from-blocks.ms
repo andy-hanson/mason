@@ -50,16 +50,16 @@ make-word-from-blocks.
 			! =? _[1] (make-word-from-blocks _[0] sample-blocks)
 
 	|:?[Seq[String]] word:String blocks:@[String]
-		rec = |word blocks
-			case word
+		rec = |chars-left blocks-left
+			case chars-left
 				empty?_
 					? [ ]
 				else
 					rest-word = tail_
-					this-char-blocks = keep blocks |_
-						contains? _ word[0]
+					this-char-blocks = keep blocks-left |_
+						contains? _ chars-left[0]
 					?first (flat-map this-char-blocks |_
 						# TODO -, not --
-						map (rec rest-word (-- blocks [ _ ])) |ans
+						map (rec rest-word (-- blocks-left [ _ ])) |ans
 							++ [ _ ] ans
 		rec (->upper word) (map blocks ->upper

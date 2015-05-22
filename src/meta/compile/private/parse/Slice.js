@@ -1,15 +1,22 @@
 import Loc from 'esast/dist/Loc'
 import { isEmpty, opIf, push } from '../util'
 
+/*
+Represents a section of tokens that the parser is currently working on.
+Since we don't modify the Token tree, this is just a view on it.
+So, taking the tail is O(1).
+*/
 export default class Slice {
-	static group(g) {
-		return new Slice(g.tokens, 0, g.tokens.length, g.loc)
+	static group(groupToken) {
+		const { subTokens, loc } = groupToken
+		return new Slice(subTokens, 0, subTokens.length, loc)
 	}
 
-	constructor(data, start, end, loc) {
-		this.data = data
+	// Do not use `new`. Use Slice.group.
+	constructor(tokens, start, end, loc) {
+		this.tokens = tokens
 		this.start = start
-		// end is exclusive
+		// end is exclusive.
 		this.end = end
 		this.loc = loc
 	}
@@ -22,16 +29,17 @@ export default class Slice {
 		return this.start === this.end
 	}
 
+	// For these methods, caller must ensure non-empty.
 	head() {
-		return this.data[this.start]
+		return this.tokens[this.start]
 	}
 
 	second() {
-		return this.data[this.start + 1]
+		return this.tokens[this.start + 1]
 	}
 
 	last() {
-		return this.data[this.end - 1]
+		return this.tokens[this.end - 1]
 	}
 
 	tail() {
@@ -42,23 +50,26 @@ export default class Slice {
 		return this._chopEnd(this.end - 1)
 	}
 
+	// Looks for the first token to satisfy `splitOn` and does not look further.
 	opSplitOnceWhere(splitOn) {
 		for (let i = this.start; i < this.end; i = i + 1)
-			if (splitOn(this.data[i]))
+			if (splitOn(this.tokens[i]))
 				return {
 					before: this._chopEnd(i),
-					at: this.data[i],
+					at: this.tokens[i],
 					after: this._chopStart(i + 1)
 				}
 		return null
 	}
 
+	// Splits every time  `splitOn` is true.
+	// Every output but last will be { before, at }; last will be just { before }.
 	opSplitManyWhere(splitOn) {
 		let iLast = this.start
-		const out = []
+		const out = [ ]
 		for (let i = this.start; i < this.end; i = i + 1)
-			if (splitOn(this.data[i])) {
-				out.push({ before: this._chop(iLast, i), at: this.data[i] })
+			if (splitOn(this.tokens[i])) {
+				out.push({ before: this._chop(iLast, i), at: this.tokens[i] })
 				iLast = i + 1
 			}
 		return opIf(!isEmpty(out), () => push(out, { before: this._chopStart(iLast) }))
@@ -66,7 +77,7 @@ export default class Slice {
 
 	each(f) {
 		for (let i = this.start; i < this.end; i = i + 1)
-			f(this.data[i])
+			f(this.tokens[i])
 	}
 
 	map(f) {
@@ -77,21 +88,24 @@ export default class Slice {
 
 	reduce(reducer, start) {
 		let acc = start
-		for (let i = this.start; i < this.end; i = i + 1)
-			acc = reducer(acc, this.data[i])
+		this.each(_ => acc = reducer(acc, _))
 		return acc
 	}
 
 	_chop(newStart, newEnd) {
-		const loc = Loc(this.data[newStart].loc.start, this.data[newEnd - 1].loc.end)
-		return new Slice(this.data, newStart, newEnd, loc)
+		const loc = Loc(this.tokens[newStart].loc.start, this.tokens[newEnd - 1].loc.end)
+		return new Slice(this.tokens, newStart, newEnd, loc)
 	}
 	_chopStart(newStart) {
-		return new Slice(this.data, newStart, this.end,
-			newStart === this.end ? this.loc : Loc(this.data[newStart].loc.start, this.loc.end))
+		const loc = newStart === this.end ?
+			this.loc :
+			Loc(this.tokens[newStart].loc.start, this.loc.end)
+		return new Slice(this.tokens, newStart, this.end, loc)
 	}
 	_chopEnd(newEnd) {
-		return new Slice(this.data, this.start, newEnd,
-			(newEnd === this.start) ? this.loc : Loc(this.loc.start, this.data[newEnd - 1].loc.end))
+		const loc = newEnd === this.start ?
+			this.loc :
+			Loc(this.loc.start, this.tokens[newEnd - 1].loc.end)
+		return new Slice(this.tokens, this.start, newEnd, loc)
 	}
 }

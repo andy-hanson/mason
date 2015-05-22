@@ -18,13 +18,11 @@ const tokenType = (name, namesTypes) =>
 	tupl(name, Token, null, [ 'loc', Loc ].concat(namesTypes))
 
 export const
-	// `name_`.
-	CallOnFocus = tokenType('CallOnFocus', [ 'name', String ]),
 	// `.name`, `..name`, etc.
 	// Currently nDots > 1 is only used by `use` blocks.
 	DotName = tokenType('DotName', [ 'nDots', Number, 'name', String ]),
 	// kind is a G_***.
-	Group = tokenType('Group', [ 'tokens', [Token], 'kind', Number ]),
+	Group = tokenType('Group', [ 'subTokens', [Token], 'kind', Number ]),
 	/*
 	A key"word" is any set of characters with a particular meaning.
 	This can even include ones like `. ` (defines an object property, as in `key. value`).
@@ -32,14 +30,13 @@ export const
 	*/
 	Keyword = tokenType('Keyword', [ 'kind', Number ]),
 	// A name is guaranteed to *not* be a keyword.
-	// It's also not a CallOnFocus or DotName.
+	// It's also not a DotName.
 	Name = tokenType('Name', [ 'name', String ]),
 	// These are parsed directly into NumberLiterals.
 	TokenNumberLiteral = tokenType('TokenNumberLiteral', [ 'value', Number ])
 
 // toString is used by some parsing errors. Use U.inspect for a more detailed view.
-implementMany({ CallOnFocus, DotName, Group, Keyword, Name, TokenNumberLiteral }, 'show', {
-	CallOnFocus() { return `${this.name}_` },
+implementMany({ DotName, Group, Keyword, Name, TokenNumberLiteral }, 'show', {
 	DotName() { return `${'.'.repeat(this.nDots)}${this.name}` },
 	// TODO: better representation of k
 	Group() { return `group(k=${groupKindToName.get(this.kind)}` },
@@ -106,7 +103,13 @@ const
 		keywordKindToName.set(kind, debugName)
 		nextKeywordKind = nextKeywordKind + 1
 		return kind
+	},
+	kwReserved = name => {
+		keywordNameToKind.set(name, -1)
 	}
+
+;[ 'for', 'of', 'return', 'with' ].forEach(kwReserved)
+
 export const
 	KW_Assign = kw('='),
 	KW_AssignMutable = kw('::='),
@@ -144,9 +147,10 @@ export const
 	KW_Yield = kw('<~'),
 	KW_YieldTo = kw('<~~'),
 
-	keywordKindFromName = name =>
+	// Returns -1 for reserved keyword or undefined for not-a-keyword.
+	opKeywordKindFromName = name =>
 		keywordNameToKind.get(name),
-	opKWtoSV = kw => {
+	opKeywordKindToSpecialValueKind = kw => {
 		switch (kw) {
 			case KW_False: return SV_False
 			case KW_Null: return SV_Null

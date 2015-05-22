@@ -8,26 +8,38 @@ import { Assign, AssignDestructure, AssignMutate, BagEntry, BagSimple, BlockBag,
 	ObjPair, ObjSimple, Pattern, Quote, SP_Debugger, SpecialDo, SpecialVal, SV_Null, Splat, Val,
 	UnlessDo, Use, UseDo, Yield, YieldTo } from '../../MsAst'
 import { JsGlobals } from '../language'
-import { CallOnFocus, DotName, Group, G_Block, G_Bracket, G_Parenthesis, G_Space, G_Quote, isGroup,
+import { DotName, Group, G_Block, G_Bracket, G_Parenthesis, G_Space, G_Quote, isGroup,
 	isKeyword, Keyword, KW_Assign, KW_AssignMutable, KW_AssignMutate, KW_BreakDo, KW_Case,
 	KW_CaseDo, KW_Debug, KW_Debugger, KW_Else, KW_ForDo, KW_Focus, KW_Fun, KW_GenFun, KW_IfDo,
 	KW_In, KW_Lazy, KW_MapEntry, KW_ObjAssign, KW_Pass, KW_Out, KW_Region, KW_Type, KW_UnlessDo,
-	KW_Use, KW_UseDebug, KW_UseDo, KW_UseLazy, KW_Yield, KW_YieldTo, Name, opKWtoSV,
-	TokenNumberLiteral } from '../Token'
+	KW_Use, KW_UseDebug, KW_UseDo, KW_UseLazy, KW_Yield, KW_YieldTo, Name,
+	opKeywordKindToSpecialValueKind, TokenNumberLiteral } from '../Token'
 import { assert, head, ifElse, flatMap, isEmpty, last,
 	opIf, opMap, push, repeat, rtail, tail, unshift } from '../util'
 import Slice from './Slice'
 
+// Since there are so many parsing functions,
+// it's faster (as of node v0.11.14) to have them all close over this mutable variable once
+// than to close over the parameter (as in lex.js, where that's much faster).
 let context
 
-const WithObjKeys = tupl('WithObjKeys', Object,
-	'Wraps an Do with keys for this block\'s Obj. Not meant to escape this file.',
-	[ 'keys', [LocalDeclare], 'line', Do])
+/*
+This converts a Token tree to a MsAst.
+This is a recursive-descent parser, made easier by two facts:
+	* We have already grouped tokens.
+	* Most of the time, an ast's type is determined by the first token.
 
+There are exceptions such as assignment statements (indicated by a `=` somewhere in the middle).
+For those we must iterate through tokens and split.
+(See Slice.opSplitOnceWhere and Slice.opSplitManyWhere.)
+*/
 export default (_context, rootToken) => {
 	context = _context
 	assert(isGroup(G_Block, rootToken))
-	return parseModule(Slice.group(rootToken))
+	const msAst = parseModule(Slice.group(rootToken))
+	// Release for garbage collections.
+	context = undefined
+	return msAst
 }
 
 const
@@ -35,9 +47,10 @@ const
 		context.check(tokens.isEmpty(), tokens.loc, message),
 	checkNonEmpty = (tokens, message) =>
 		context.check(!tokens.isEmpty(), tokens.loc, message),
-	unexpected = t => context.fail(t.loc, `Unexpected ${t.show()}`)
+	unexpected = token => context.fail(token.loc, `Unexpected ${token.show()}`)
 
 const parseModule = tokens => {
+	// Use statements must appear in order.
 	const [ doUses, rest0 ] = tryParseUses(KW_UseDo, tokens)
 	const [ plainUses, rest1 ] = tryParseUses(KW_Use, rest0)
 	const [ lazyUses, rest2 ] = tryParseUses(KW_UseLazy, rest1)
@@ -45,10 +58,10 @@ const parseModule = tokens => {
 	const { lines, exports, opDefaultExport } = parseModuleBlock(rest3)
 
 	if (context.opts.includeModuleName() && !exports.some(_ => _.name === 'name')) {
-		const dn = LocalDeclare.declareName(tokens.loc)
-		lines.push(Assign(tokens.loc, dn,
+		const name = LocalDeclare.declareName(tokens.loc)
+		lines.push(Assign(tokens.loc, name,
 			Quote.forString(tokens.loc, context.opts.moduleName())))
-		exports.push(dn)
+		exports.push(name)
 	}
 	const uses = plainUses.concat(lazyUses)
 	return Module(tokens.loc, doUses, uses, debugUses, lines, exports, opDefaultExport)
@@ -75,7 +88,7 @@ const
 		context.check(tokens.size() > 1, h.loc, () => `Expected indented block after ${h.show()}`)
 		const block = tokens.second()
 		assert(tokens.size() === 2 && isGroup(G_Block, block))
-		return flatMap(block.tokens, line => parseLineOrLines(Slice.group(line)))
+		return flatMap(block.subTokens, line => parseLineOrLines(Slice.group(line)))
 	},
 
 	parseBlockDo = tokens => {
@@ -257,7 +270,7 @@ const
 	parseExprParts = tokens => {
 		const out = []
 		for (let i = tokens.start; i < tokens.end; i = i + 1) {
-			const here = tokens.data[i]
+			const here = tokens.tokens[i]
 			if (here instanceof Keyword) {
 				const rest = () => tokens._chopStart(i + 1)
 				switch (here.kind) {
@@ -310,7 +323,7 @@ const
 	_tryTakeReturnType = tokens => {
 		if (!tokens.isEmpty()) {
 			const h = tokens.head()
-			if (isGroup(G_Space, h) && isKeyword(KW_Type, head(h.tokens)))
+			if (isGroup(G_Space, h) && isKeyword(KW_Type, head(h.subTokens)))
 				return {
 					opReturnType: parseSpaced(Slice.group(h).tail()),
 					rest: tokens.tail()
@@ -362,7 +375,7 @@ const
 	_tryTakeInOrOut = (inOrOut, tokens) => {
 		if (!tokens.isEmpty()) {
 			const firstLine = tokens.head()
-			if (isKeyword(inOrOut, head(firstLine.tokens))) {
+			if (isKeyword(inOrOut, head(firstLine.subTokens))) {
 				const inOut = Debug(
 					firstLine.loc,
 					parseLinesFromBlock(Slice.group(firstLine)))
@@ -386,7 +399,7 @@ const
 				case KW_CaseDo:
 					return parseCase(KW_CaseDo, false, rest)
 				case KW_Debug:
-					return Debug(tokens.lok,
+					return Debug(tokens.loc,
 						isGroup(G_Block, tokens.second()) ?
 						// `debug`, then indented block
 						parseLinesFromBlock() :
@@ -576,33 +589,40 @@ const
 		}
 	}
 
-const parseSingle = t =>
-	t instanceof Name ?
-	_access(t.name, t.loc) :
-	t instanceof Group ? (() => {
-		switch (t.kind) {
-			case G_Space: return parseSpaced(Slice.group(t))
-			case G_Parenthesis: return parseExpr(Slice.group(t))
-			case G_Bracket: return BagSimple(t.loc, parseExprParts(Slice.group(t)))
-			case G_Block: return blockWrap(Slice.group(t))
+const parseSingle = token => {
+	const { loc } = token
+	return token instanceof Name ?
+	_access(token.name, loc) :
+	token instanceof Group ? (() => {
+		const slice = Slice.group(token)
+		switch (token.kind) {
+			case G_Space:
+				return parseSpaced(slice)
+			case G_Parenthesis:
+				return parseExpr(slice)
+			case G_Bracket:
+				return BagSimple(loc, parseExprParts(slice))
+			case G_Block:
+				return blockWrap(slice)
 			case G_Quote:
-				return Quote(t.loc,
-					t.tokens.map(_ => (typeof _ === 'string') ? _ : parseSingle(_)))
+				return Quote(loc,
+					slice.map(_ => (typeof _ === 'string') ? _ : parseSingle(_)))
 			default:
-				unexpected(t)
+				throw new Error(token.kind)
 		}
 	})() :
-	t instanceof TokenNumberLiteral ?
-	NumberLiteral(t.loc, t.value) :
-	t instanceof CallOnFocus ?
-	Call(t.loc, _access(t.name, t.loc), [ LocalAccess.focus(t.loc) ]) :
-	t instanceof Keyword ?
-		t.kind === KW_Focus ?
-			LocalAccess.focus(t.loc) :
-			SpecialVal(t.loc, opKWtoSV(t.kind) || unexpected(t)) :
-	t instanceof DotName && t.nDots === 3 ?
-	Splat(t.loc, LocalAccess(t.loc, t.name)) :
-	unexpected(t)
+	token instanceof TokenNumberLiteral ?
+	NumberLiteral(loc, token.value) :
+	token instanceof Keyword ?
+		token.kind === KW_Focus ?
+			LocalAccess.focus(loc) :
+			ifElse(opKeywordKindToSpecialValueKind(token.kind),
+				_ => SpecialVal(loc, _),
+				() => unexpected(token)) :
+	token instanceof DotName && token.nDots === 3 ?
+	Splat(loc, LocalAccess(loc, token.name)) :
+	unexpected(token)
+}
 
 // parseSingle privates
 const _access = (name, loc) =>
@@ -617,24 +637,27 @@ const parseSpaced = tokens => {
 	} else if (isKeyword(KW_Lazy, h))
 		return Lazy(h.loc, parseSpaced(rest))
 	else {
-		const memberOrSubscript = (e, t) => {
-			const loc = t.loc
-			if (t instanceof DotName) {
-				context.check(t.nDots === 1, tokens.loc, 'Too many dots!')
-				return Member(tokens.loc, e, t.name)
-			} else if (t instanceof Group) {
-				if (t.kind === G_Bracket)
+		// Tokens within a space group wrap previous tokens.
+		const mod = (acc, token) => {
+			const loc = token.loc
+			if (token instanceof DotName) {
+				context.check(token.nDots === 1, loc, 'Too many dots!')
+				return Member(loc, acc, token.name)
+			} else if (isKeyword(KW_Focus, token))
+				return Call(loc, acc, [ LocalAccess.focus(loc) ])
+			else if (token instanceof Group) {
+				if (token.kind === G_Bracket)
 					return Call.sub(loc,
-						unshift(e, parseExprParts(Slice.group(t))))
-				if (t.kind === G_Parenthesis) {
-					checkEmpty(Slice.group(t),
+						unshift(acc, parseExprParts(Slice.group(token))))
+				if (token.kind === G_Parenthesis) {
+					checkEmpty(Slice.group(token),
 						() => `Use ${code('(a b)')}, not ${code('a(b)')}`)
-					return Call(tokens.loc, e, [])
+					return Call(loc, acc, [])
 				}
 			} else
-				context.fail(tokens.loc, `Expected member or sub, not ${t.show()}`)
+				context.fail(tokens.loc, `Expected member or sub, not ${token.show()}`)
 		}
-		return rest.reduce(memberOrSubscript, parseSingle(h))
+		return rest.reduce(mod, parseSingle(h))
 	}
 }
 
@@ -649,20 +672,22 @@ const tryParseUses = (k, tokens) => {
 
 // tryParseUse privates
 const
-	_parseUses = (k, tokens) => {
+	_parseUses = (useKeywordKind, tokens) => {
 		const [ before, lines ] = beforeAndBlock(tokens)
-		checkEmpty(before, () =>`Did not expect anything after ${code(k)} other than a block`)
+		checkEmpty(before, () =>
+			`Did not expect anything after ${code(useKeywordKind)} other than a block`)
 		return lines.map(line => {
-			const tReq = line.tokens[0]
-			const { path, name } = _parseRequire(tReq)
-			if (k === KW_UseDo) {
-				if (line.tokens.length > 1)
-					unexpected(line.tokens[1])
+			line = Slice.group(line)
+			const { path, name } = _parseRequire(line.head())
+			if (useKeywordKind === KW_UseDo) {
+				if (line.size() > 1)
+					unexpected(line.second())
 				return UseDo(line.loc, path)
 			} else {
-				const isLazy = k === KW_UseLazy || k === KW_UseDebug
+				const isLazy = useKeywordKind === KW_UseLazy ||
+					useKeywordKind === KW_UseDebug
 				const { used, opUseDefault } =
-					_parseThingsUsed(name, isLazy, Slice.group(line).tail())
+					_parseThingsUsed(name, isLazy, line.tail())
 				return Use(line.loc, path, used, opUseDefault)
 			}
 		})
@@ -709,10 +734,10 @@ const
 			parts = [ ]
 		}
 		parts.push(first.name)
-		tokens.tail().each(t => {
-			context.check(t instanceof DotName && t.nDots === 1, t.loc,
+		tokens.tail().each(token => {
+			context.check(token instanceof DotName && token.nDots === 1, token.loc,
 				'Not a valid part of module path.')
-			parts.push(t.name)
+			parts.push(token.name)
 		})
 		return { path: parts.join('/'), name: tokens.last().name }
 	},
@@ -740,3 +765,6 @@ const
 			return ForDoWithBag(tokens.loc, element, bag, body)
 		}
 	}
+
+// Wraps an Do with keys for this block\'s Obj. Not meant to escape this file.,
+const WithObjKeys = tupl('WithObjKeys', Object, null, [ 'keys', [LocalDeclare], 'line', Do])

@@ -6,7 +6,7 @@ export default class VerifyResults {
 	constructor() {
 		this.accessToLocal = new Map()
 		// LocalDeclare -> VrLocalInfo
-		this.localToInfo = new Map()
+		this.localDeclareToInfo = new Map()
 		// BagEntry or MapEntry -> index
 		this.entryToIndex = new Map()
 		// BlockBag / BlockMap -> # entries
@@ -17,11 +17,11 @@ export default class VerifyResults {
 	}
 
 	isDebugLocal(localDeclare) {
-		return this.localToInfo.get(localDeclare).isInDebug
+		return this.localDeclareToInfo.get(localDeclare).isInDebug
 	}
 
 	isAccessed(localDeclare) {
-		const info = this.localToInfo.get(localDeclare)
+		const info = this.localDeclareToInfo.get(localDeclare)
 		return !(isEmpty(info.debugAccesses) && isEmpty(info.nonDebugAccesses))
 	}
 
@@ -39,4 +39,8 @@ export default class VerifyResults {
 }
 
 export const LocalInfo = tupl('VrLocalInfo', Object, 'TODO:doc',
-	[ 'isInDebug', Boolean, 'debugAccesses', [LocalAccess], 'nonDebugAccesses', [LocalAccess] ])
+	[ 'isInDebug', Boolean, 'debugAccesses', [LocalAccess], 'nonDebugAccesses', [LocalAccess] ],
+	{ },
+	{
+		empty: isInDebug => LocalInfo(isInDebug, [ ], [ ])
+	})

@@ -17,7 +17,7 @@ flag? = |case
 	else
 		false
 
-make-ctr = |ot
+make-constructor = |ot
 	debug prop-has-type? = |props prop
 		# Type might be lazily defined, but don't trigger it yet.
 		desc = Object.getOwnPropertyDescriptor props prop
@@ -154,7 +154,7 @@ obj-type-args =
 			Object.create Object.prototype
 	post-construct. |_
 		pAdd _.prototype "constructor" _
-	make-callable. make-ctr
+	make-callable. make-constructor
 	test. |
 		Vec2D = Obj-Type
 			props.
@@ -204,7 +204,7 @@ obj-type-args =
 		! =? ex.y 2
 
 
-Obj-Type = (make-ctr obj-type-args) obj-type-args
+Obj-Type = (make-constructor obj-type-args) obj-type-args
 
 implContains Obj-Type |ot _
 	js-instanceof _ ot

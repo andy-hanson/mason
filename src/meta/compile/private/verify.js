@@ -1,124 +1,158 @@
 import { code } from '../CompileError'
 import * as MsAstTypes from '../MsAst'
-import { Assign, AssignDestructure, BlockVal, Call, Debug, Do, BagEntry,
+import { Assign, AssignDestructure, BlockVal, Call, CaseDo, Debug, Do, BagEntry,
 	LocalDeclareRes, MapEntry, Pattern, SpecialDo, Yield, YieldTo } from '../MsAst'
-import { cat, head, ifElse, implementMany, isEmpty, mapKeys, newSet, opEach } from './util'
+import { assert, cat, eachReverse, head, ifElse, implementMany,
+	isEmpty, mapKeys, newSet, opEach } from './util'
 import VerifyResults, { LocalInfo } from './VerifyResults'
 
-const verifyEach = es => es.forEach(_ => _.verify())
-const verifyOpEach = op => opEach(op, _ => _.verify())
+/*
+The verifier generates information needed during transpiling, the VerifyResults.
+*/
+export default (_context, msAst) => {
+	context = _context
+	locals = new Map()
+	pendingBlockLocals = [ ]
+	isInDebug = isInGenerator = isInLoop = false
+	results = new VerifyResults()
 
+	msAst.verify()
+	verifyLocalUse()
+
+	const res = results
+	// Release for garbage collection.
+	context = locals = pendingBlockLocals = results = undefined
+	return res
+}
+
+// Use a trick like in parse.js and have everything close over these mutable variables.
 let
 	context,
+	// Map from names to LocalDeclares.
 	locals,
-	// Locals for this block.
-	// Replaces `locals` when entering into sub-function.
+	/*
+	Locals for this block.
+	These are added to locals when entering a Function or lazy evaluation.
+	In:
+		a = |
+			b
+		b = 1
+	`b` will be a pending local.
+	However:
+		a = b
+		b = 1
+	will fail to verify, because `b` comes after `a` and is not accessed inside a function.
+	It would work for `~a is b`, though.
+	*/
 	pendingBlockLocals,
 	isInDebug,
+	// Whether we are currently able to yield.
 	isInGenerator,
-	opLoop,
+	// Whether we are currently able to break.
+	isInLoop,
 	results
 
 const
-	withInGenerator = (_isInGenerator, fun) => {
-		const g = isInGenerator
-		isInGenerator = _isInGenerator
-		fun()
-		isInGenerator = g
-	},
+	verify = msAst => msAst.verify(),
 
-	plusLocal = (addedLocal, fun) => {
-		const shadowed = locals.get(addedLocal.name)
-		locals.set(addedLocal.name, addedLocal)
-		fun()
-		_removeLocal(addedLocal.name, shadowed)
-	},
+	deleteLocal = localDeclare =>
+		locals.delete(localDeclare.name),
 
-	plusLocals = (addedLocals, fun) => {
-		const shadowed = new Map()
-		addedLocals.forEach(_ => {
-			const got = locals.get(_.name)
-			if (got !== undefined)
-				shadowed.set(_.name, got)
-			locals.set(_.name, _)
-		})
-		fun()
-		addedLocals.forEach(_ => _removeLocal(_.name, shadowed.get(_.name)))
-	},
+	setLocal = localDeclare =>
+		locals.set(localDeclare.name, localDeclare),
 
-	_removeLocal = (name, shadowed) => {
-		if (shadowed === undefined)
-			locals.delete(name)
-		else
-			locals.set(name, shadowed)
-	},
-
-	plusPendingBlockLocals = (pending, fun) => {
-		const oldLength = pendingBlockLocals.length
-		pendingBlockLocals.push(...pending)
-		fun()
-		while (pendingBlockLocals.length > oldLength)
-			pendingBlockLocals.pop()
-	},
-
-	withInLoop = (loop, fun) => {
-		const l = opLoop
-		opLoop = loop
-		fun()
-		opLoop = l
-	},
-
-	withInDebug = (_isInDebug, fun) => {
-		const d = isInDebug
-		isInDebug = _isInDebug
-		fun()
-		isInDebug = d
-	},
-
-	withBlockLocals = fun => {
-		const bl = pendingBlockLocals
-		pendingBlockLocals = []
-		plusLocals(bl, fun)
-		pendingBlockLocals = bl
-	},
-
-	accessLocal = (declare, access, isDebugAccess) =>
-		_addAccess(results.localToInfo.get(declare), access, isDebugAccess),
+	// When a local is returned from a BlockObj or Module,
+	// the return 'access' is considered to be 'debug' if the local is.
 	accessLocalForReturn = (declare, access) => {
-		const info = results.localToInfo.get(declare)
-		_addAccess(info, access, info.isInDebug)
+		const info = results.localDeclareToInfo.get(declare)
+		addLocalAccess(info, access, info.isInDebug)
 	},
-	_addAccess = (localInfo, access, isDebugAccess) =>
+
+	addLocalAccess = (localInfo, access, isDebugAccess) =>
 		(isDebugAccess ? localInfo.debugAccesses : localInfo.nonDebugAccesses).push(access),
 
-	// VerifyResults setters
-	registerLocal = local =>
-		results.localToInfo.set(local, LocalInfo(isInDebug, [], [])),
+	// For expressions affecting lineNewLocals, they will be registered before being verified.
+	// So, LocalDeclare.verify just the type.
+	// For locals not affecting lineNewLocals, use this instead of just declare.verify()
+	verifyLocalDeclare = localDeclare => {
+		registerLocal(localDeclare)
+		localDeclare.verify()
+	},
+
+	registerLocal = localDeclare =>
+		results.localDeclareToInfo.set(localDeclare, LocalInfo.empty(isInDebug)),
 
 	setEntryIndex = (listMapEntry, index) =>
 		results.entryToIndex.set(listMapEntry, index)
 
-export default (_context, ast) => {
-	context = _context
-	locals = new Map()
-	pendingBlockLocals = []
-	isInDebug = false
-	isInGenerator = false
-	opLoop = null
-	results = new VerifyResults()
+// These functions change verifier state and efficiently return to the old state when finished.
+const
+	withInDebug = action => {
+		const oldIsInDebug = isInDebug
+		isInDebug = true
+		action()
+		isInDebug = oldIsInDebug
+	},
 
-	ast.verify()
-	verifyLocalUse()
-	const out = results
+	withInGenerator = (newIsInGenerator, action) => {
+		const oldIsInGenerator = isInGenerator
+		isInGenerator = newIsInGenerator
+		action()
+		isInGenerator = oldIsInGenerator
+	},
 
-	// Release for garbage collection.
-	locals = pendingBlockLocals = opLoop = results = undefined
+	withInLoop = (newIsInLoop, action) => {
+		const oldIsInLoop = isInLoop
+		isInLoop = newIsInLoop
+		action()
+		isInLoop = oldIsInLoop
+	},
 
-	return out
-}
+	plusLocal = (addedLocal, action) => {
+		const shadowed = locals.get(addedLocal.name)
+		locals.set(addedLocal.name, addedLocal)
+		action()
+		if (shadowed === undefined)
+			deleteLocal(addedLocal)
+		else
+			setLocal(shadowed)
+	},
+
+	// Should have verified that addedLocals all have different names.
+	plusLocals = (addedLocals, action) => {
+		const shadowedLocals = [ ]
+		addedLocals.forEach(_ => {
+			const shadowed = locals.get(_.name)
+			if (shadowed !== undefined)
+				shadowedLocals.push(shadowed)
+			setLocal(_)
+		})
+
+		action()
+
+		addedLocals.forEach(deleteLocal)
+		shadowedLocals.forEach(setLocal)
+	},
+
+	plusLocalsCheckingForDuplicates = (addedLocals, action) => {
+		const names = new Set()
+		addedLocals.forEach(_ => {
+			context.check(!names.has(_.name), _.loc, () =>
+				`Duplicate local ${code(_.name)}`)
+			names.add(_.name)
+		})
+		plusLocals(addedLocals, action)
+	},
+
+	withBlockLocals = action => {
+		const oldPendingBlockLocals = pendingBlockLocals
+		pendingBlockLocals = [ ]
+		plusLocals(oldPendingBlockLocals, action)
+		pendingBlockLocals = oldPendingBlockLocals
+	}
 
 const verifyLocalUse = () =>
-	results.localToInfo.forEach((info, local) => {
+	results.localDeclareToInfo.forEach((info, local) => {
 		if (!(local instanceof LocalDeclareRes)) {
 			const noNonDebug = isEmpty(info.nonDebugAccesses)
 			if (noNonDebug && isEmpty(info.debugAccesses))
@@ -135,6 +169,7 @@ const verifyLocalUse = () =>
 implementMany(MsAstTypes, 'verify', {
 	Assign() {
 		const doV = () => {
+			// Assignee registered by verifyLines.
 			this.assignee.verify()
 			this.value.verify()
 		}
@@ -146,7 +181,8 @@ implementMany(MsAstTypes, 'verify', {
 
 	AssignDestructure() {
 		this.value.verify()
-		verifyEach(this.assignees)
+		// Assignees registered by verifyLines.
+		this.assignees.forEach(verify)
 	},
 
 	AssignMutate() {
@@ -158,7 +194,7 @@ implementMany(MsAstTypes, 'verify', {
 
 	BagEntry() { this.value.verify() },
 
-	BagSimple() { verifyEach(this.parts) },
+	BagSimple() { this.parts.forEach(verify) },
 
 	BlockDo() { verifyLines(this.lines) },
 
@@ -177,17 +213,18 @@ implementMany(MsAstTypes, 'verify', {
 	BlockMap: blockBagOrMap,
 
 	BlockWrap() {
-		this.block.verify()
+		// IIFE breaks loop. TODO: Find a way around it.
+		withInLoop(false, () => this.block.verify())
 	},
 
 	BreakDo() {
-		if (opLoop === null)
+		if (!isInLoop)
 			context.fail(this.loc, 'Not in a loop.')
 	},
 
 	Call() {
 		this.called.verify()
-		verifyEach(this.args)
+		this.args.forEach(verify)
 	},
 
 	CaseDo: verifyCase,
@@ -199,35 +236,31 @@ implementMany(MsAstTypes, 'verify', {
 	Debug() { verifyLines([ this ]) },
 
 	ForDoPlain() {
-		withInLoop(this, () => this.block.verify())
+		withInLoop(true, () => this.block.verify())
 	},
 
 	ForDoWithBag() {
-		registerLocal(this.element)
-		this.element.verify()
 		this.bag.verify()
-		plusLocal(this.element, () => withInLoop(this, () => this.block.verify()))
+		verifyLocalDeclare(this.element)
+		plusLocal(this.element, () => withInLoop(true, () => this.block.verify()))
 	},
 
 	Fun() {
 		withBlockLocals(() => {
 			context.check(this.opResDeclare === null || this.block instanceof BlockVal, this.loc,
 				'Function with return condition must return something.')
-			this.args.forEach(arg => verifyOpEach(arg.opType))
-			withInGenerator(this.isGenerator, () => {
-				const allArgs = cat(this.args, this.opRestArg)
-				allArgs.forEach(_ => registerLocal(_))
-				plusLocals(allArgs, () => {
-					verifyOpEach(this.opIn)
-					this.block.verify()
-					opEach(this.opResDeclare, _ => {
-						_.verify()
-						registerLocal(_)
-					})
-					const verifyOut = () => opEach(this.opOut, _ => _.verify())
-					ifElse(this.opResDeclare, rd => plusLocals([ rd ], verifyOut), verifyOut)
-				})
-			})
+			const allArgs = cat(this.args, this.opRestArg)
+			allArgs.forEach(verifyLocalDeclare)
+
+			withInGenerator(this.isGenerator, () =>
+				withInLoop(false, () =>
+					plusLocalsCheckingForDuplicates(allArgs, () => {
+						opEach(this.opIn, verify)
+						this.block.verify()
+						opEach(this.opResDeclare, verifyLocalDeclare)
+						const verifyOut = () => opEach(this.opOut, _ => _.verify())
+						ifElse(this.opResDeclare, _ => plusLocal(_, verifyOut), verifyOut)
+					})))
 		})
 	},
 
@@ -240,11 +273,11 @@ implementMany(MsAstTypes, 'verify', {
 	LocalAccess() {
 		const declare = getLocalDeclare(this.name, this.loc)
 		results.accessToLocal.set(this, declare)
-		accessLocal(declare, this, isInDebug)
+		addLocalAccess(results.localDeclareToInfo.get(declare), this, isInDebug)
 	},
 
 	// Adding LocalDeclares to the available locals is done by Fun or lineNewLocals.
-	LocalDeclare() { verifyOpEach(this.opType) },
+	LocalDeclare() { opEach(this.opType, verify) },
 
 	NumberLiteral() { },
 
@@ -257,12 +290,11 @@ implementMany(MsAstTypes, 'verify', {
 
 	Module() {
 		// No need to verify this.doUses.
-		const useLocals = verifyUses(this.uses, this.debugUses)
-		plusLocals(useLocals, () => {
-			const { newLocals } = verifyLines(this.lines)
-			this.exports.forEach(ex => accessLocalForReturn(ex, this))
-			opEach(this.opDefaultExport, _ => plusLocals(newLocals, () => _.verify()))
-		})
+		this.uses.forEach(verify)
+		withInDebug(() => this.debugUses.forEach(verify))
+		const { newLocals } = verifyLines(this.lines)
+		this.exports.forEach(_ => accessLocalForReturn(_, this))
+		opEach(this.opDefaultExport, _ => plusLocals(newLocals, () => _.verify()))
 
 		const exports = newSet(this.exports)
 		const markExportLines = line => {
@@ -299,6 +331,20 @@ implementMany(MsAstTypes, 'verify', {
 
 	UnlessDo: ifOrUnlessDo,
 
+	Use() {
+		// Since Uses are always in the outermost scope, don't have to worry about shadowing.
+		// So we mutate `locals` directly.
+		const addUseLocal = _ => {
+			const prev = locals.get(_.name)
+			context.check(prev === undefined, _.loc, () =>
+				`${code(_.name)} already imported at ${prev.loc}`)
+			verifyLocalDeclare(_)
+			setLocal(_)
+		}
+		this.used.forEach(addUseLocal)
+		opEach(this.opUseDefault, addUseLocal)
+	},
+
 	Yield() {
 		context.check(isInGenerator, this.loc, 'Cannot yield outside of generator context')
 		this.yielded.verify()
@@ -321,26 +367,32 @@ function ifOrUnlessDo() {
 }
 
 function verifyCase() {
-	const doit = () => {
-		verifyEach(this.parts)
-		verifyOpEach(this.opElse)
+	const reallyDoIt = () => {
+		this.parts.forEach(verify)
+		opEach(this.opElse, verify)
+	}
+	const doIt = () => {
+		if (this instanceof CaseDo)
+			reallyDoIt()
+		else
+			// IIFE breaks loop. TODO: Find a way around it.
+			withInLoop(false, reallyDoIt)
 	}
 	ifElse(this.opCased,
 		_ => {
 			_.verify()
-			registerLocal(_.assignee)
-			plusLocal(_.assignee, doit)
+			verifyLocalDeclare(_.assignee)
+			plusLocal(_.assignee, doIt)
 		},
-		doit)
+		doIt)
 }
 
 function verifyCasePart() {
 	if (this.test instanceof Pattern) {
 		this.test.type.verify()
 		this.test.patterned.verify()
-		verifyEach(this.test.locals)
-		this.test.locals.forEach(registerLocal)
-		plusLocals(this.test.locals, () => this.result.verify())
+		this.test.locals.forEach(verifyLocalDeclare)
+		plusLocalsCheckingForDuplicates(this.test.locals, () => this.result.verify())
 	} else {
 		this.test.verify()
 		this.result.verify()
@@ -362,39 +414,47 @@ const
 			line.assignees :
 			[ ],
 
-	verifyUses = (uses, debugUses) => {
-		const useLocals = []
-		const
-			verifyUse = use => {
-				use.used.forEach(useLocal)
-				opEach(use.opUseDefault, useLocal)
-			},
-			useLocal = _ => {
-				registerLocal(_)
-				useLocals.push(_)
-			}
-		uses.forEach(verifyUse)
-		withInDebug(true, () => debugUses.forEach(verifyUse))
-		return useLocals
-	},
-
 	verifyLines = lines => {
+		/*
+		We need to bet all block locals up-front because
+		Functions within lines can access locals from later lines.
+		NOTE: We push these onto pendingBlockLocals in reverse
+		so that when we iterate through lines forwards, we can pop from pendingBlockLocals
+		to remove pending locals as they become real locals.
+		It doesn't really matter what order we add locals in since it's not allowed
+		to have two locals of the same name in the same block.
+		*/
 		const newLocals = [ ]
-		// First, get locals for the whole block.
+
 		const getLineLocals = line => {
 			if (line instanceof Debug)
-				withInDebug(true, () => line.lines.forEach(getLineLocals))
-			else {
-				const news = lineNewLocals(line)
-				news.forEach(registerLocal)
-				newLocals.push(...news)
-			}
+				withInDebug(() => eachReverse(line.lines, getLineLocals))
+			else
+				eachReverse(lineNewLocals(line), _ => {
+					// Register the local now. Can't wait until the assign is verified.
+					registerLocal(_)
+					newLocals.push(_)
+				})
 		}
+		eachReverse(lines, getLineLocals)
+		pendingBlockLocals.push(...newLocals)
 
-		lines.forEach(getLineLocals)
-
+		/*
+		Keeps track of locals which have already been added in this block.
+		Mason allows shadowing, but not within the same block.
+		So, this is allowed:
+			a = 1
+			b =
+				a = 2
+				...
+		But not:
+			a = 1
+			a = 2
+		*/
 		const thisBlockLocalNames = new Set()
-		const shadowed = new Map()
+
+		// All shadowed locals for this block.
+		const shadowed = [ ]
 
 		let listMapLength = 0
 
@@ -402,18 +462,24 @@ const
 			if (line instanceof Debug)
 				// TODO: Do anything in this situation?
 				// context.check(!inDebug, line.loc, 'Redundant `debug`.')
-				withInDebug(true, () => line.lines.forEach(verifyLine))
+				withInDebug(() => line.lines.forEach(verifyLine))
 			else {
 				verifyIsStatement(line)
-				lineNewLocals(line).forEach(l => {
-					const got = locals.get(l.name)
-					if (got !== undefined) {
-						context.check(!thisBlockLocalNames.has(l.name), l.loc,
-							() => `A local ${code(l.name)} is already in this block.`)
-						shadowed.set(l.name, got)
+				lineNewLocals(line).forEach(newLocal => {
+					const name = newLocal.name
+					const oldLocal = locals.get(name)
+					if (oldLocal !== undefined) {
+						context.check(!thisBlockLocalNames.has(name), newLocal.loc,
+							() => `A local ${code(name)} is already in this block.`)
+						shadowed.push(oldLocal)
 					}
-					locals.set(l.name, l)
-					thisBlockLocalNames.add(l.name)
+					thisBlockLocalNames.add(name)
+					setLocal(newLocal)
+
+					// Now that it's added as a local, it's no longer pending.
+					// We added pendingBlockLocals in the right order that we can just pop them off.
+					const popped = pendingBlockLocals.pop()
+					assert(popped === newLocal)
 				})
 				if (line instanceof BagEntry || line instanceof MapEntry) {
 					setEntryIndex(line, listMapLength)
@@ -423,15 +489,10 @@ const
 			}
 		}
 
-		plusPendingBlockLocals(newLocals, () => lines.forEach(verifyLine))
+		lines.forEach(verifyLine)
 
-		newLocals.forEach(l => {
-			const s = shadowed.get(l.name)
-			if (s === undefined)
-				locals.delete(l.name)
-			else
-				locals.set(l.name, s)
-		})
+		newLocals.forEach(deleteLocal)
+		shadowed.forEach(_ => setLocal(_))
 
 		return { newLocals, listMapLength }
 	},

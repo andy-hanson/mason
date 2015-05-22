@@ -61,8 +61,7 @@ const doTest = isPerfTest => {
 	} catch (error) {
 		if (error instanceof CompileError)
 			console.log(formatCompileErrorForConsole(error))
-		else
-			throw error
+		throw error
 	}
 }
 

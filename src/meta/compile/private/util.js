@@ -15,6 +15,11 @@ export const
 		return out
 	},
 
+	eachReverse = (array, action) => {
+		for (let i = array.length - 1; i >= 0; i = i - 1)
+			action(array[i])
+	},
+
 	flatMap = (mapped, mapper) => {
 		const out = []
 		mapped.forEach((_, i) => out.push(...mapper(_, i)))

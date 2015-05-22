@@ -1,12 +1,5 @@
 import { newSet } from './util'
 
-export const isReservedName = name => {
-	switch (name) {
-		case 'for': case 'of': case 'return': case 'with': return true
-		default: return false
-	}
-}
-
 // TODO: Allow Opts to specify additional globals.
 export const JsGlobals = newSet([
 	'Array',

@@ -81,8 +81,8 @@ region Implementation
 			~right = heap[ir]
 			r< = and (<? ir size) ~(<? right val
 
-			fill! = |val
-				set-nth! heap idx val
+			fill! = |fill-val
+				set-nth! heap idx fill-val
 			rec-left! = |
 				fill! left
 				rec! il

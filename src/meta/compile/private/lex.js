@@ -1,10 +1,10 @@
 import Loc, { Pos, StartLine, StartPos, StartColumn, singleCharLoc } from 'esast/dist/Loc'
 import { code } from '../CompileError'
-import { isReservedName, NonNameCharacters } from './language'
-import { CallOnFocus, DotName, Group, G_Block, G_Bracket, G_Line, G_Parenthesis, G_Space, G_Quote,
-	isKeyword, Keyword, keywordKindFromName, KW_AssignMutable, KW_AssignMutate, KW_Focus, KW_Fun,
-	KW_GenFun, KW_Lazy, KW_ObjAssign, KW_Region, KW_Type, Name, showGroupKind, TokenNumberLiteral
-	} from './Token'
+import { NonNameCharacters } from './language'
+import { DotName, Group, G_Block, G_Bracket, G_Line, G_Parenthesis, G_Space, G_Quote,
+	isKeyword, Keyword, KW_AssignMutable, KW_AssignMutate, KW_Focus, KW_Fun, KW_GenFun, KW_Lazy,
+	KW_ObjAssign, KW_Region, KW_Type, Name, opKeywordKindFromName, showGroupKind,
+	TokenNumberLiteral } from './Token'
 import { assert, isEmpty, last } from './util'
 
 /*
@@ -25,7 +25,7 @@ export default (context, sourceString) => {
 	let curGroup
 	const
 		addToCurrentGroup = token =>
-			curGroup.tokens.push(token),
+			curGroup.subTokens.push(token),
 
 		// Pause writing to curGroup in favor of writing to a sub-group.
 		// When the sub-group finishes we will pop the stack and resume writing to its parent.
@@ -60,20 +60,20 @@ export default (context, sourceString) => {
 			justClosed.loc.end = closePos
 			switch (closeKind) {
 				case G_Space: {
-					const size = justClosed.tokens.length
+					const size = justClosed.subTokens.length
 					if (size !== 0)
 						// Spaced should always have at least two elements.
-						addToCurrentGroup(size === 1 ? justClosed.tokens[0] : justClosed)
+						addToCurrentGroup(size === 1 ? justClosed.subTokens[0] : justClosed)
 					break
 				}
 				case G_Line:
 					// Line must have content.
 					// This can happen if there was just a comment.
-					if (!isEmpty(justClosed.tokens))
+					if (!isEmpty(justClosed.subTokens))
 						addToCurrentGroup(justClosed)
 					break
 				case G_Block:
-					context.check(!isEmpty(justClosed.tokens), closePos, 'Empty block.')
+					context.check(!isEmpty(justClosed.subTokens), closePos, 'Empty block.')
 					addToCurrentGroup(justClosed)
 					break
 				default:
@@ -375,7 +375,8 @@ export default (context, sourceString) => {
 							'Line is indented more than once')
 						// Block at end of line goes in its own spaced group.
 						// However, `~` preceding a block goes in a group with it.
-						if (isEmpty(curGroup.tokens) || !isKeyword(KW_Lazy, last(curGroup.tokens)))
+						if (isEmpty(curGroup.subTokens) ||
+							!isKeyword(KW_Lazy, last(curGroup.subTokens)))
 							space(loc())
 						openGroup(loc().start, G_Block)
 						openLine(loc().end)
@@ -402,19 +403,16 @@ export default (context, sourceString) => {
 				default: {
 					// All other characters should be handled in a case above.
 					const name = takeWhileWithPrev(isNameCharacter)
-					const keywordKind = keywordKindFromName(name)
+					const keywordKind = opKeywordKindFromName(name)
 					if (keywordKind !== undefined) {
+						context.check(keywordKind !== -1, pos, () =>
+							`Reserved name ${code(name)}`)
 						if (keywordKind === KW_Region)
 							// TODO: Eat and put it in Region expression
 							skipRestOfLine()
 						keyword(keywordKind)
-					} else if (tryEat(Underscore))
-						addToCurrentGroup(CallOnFocus(loc(), name))
-					else {
-						context.check(!isReservedName(name), pos, () =>
-							`Reserved name ${code(name)}`)
+					} else
 						addToCurrentGroup(Name(loc(), name))
-					}
 				}
 			}
 		}

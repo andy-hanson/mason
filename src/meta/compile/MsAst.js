@@ -16,6 +16,7 @@ export const
 const makeType = superType => (name, doc, namesTypes, protoProps, tuplProps) =>
 	// TODO: provide actual docs...
 	tupl(name, superType, doc, [ 'loc', Loc ].concat(namesTypes), protoProps, tuplProps)
+
 const
 	m = makeType(MsAst), d = makeType(Do), v = makeType(Val)
 
