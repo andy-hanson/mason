@@ -3,9 +3,7 @@ use
 	..js new
 use-debug
 	..!
-	..compare =? <?
-	..meta.tests.perf-test $time
-
+	..compare =?
 
 current-time-ms.
 	doc. "Milliseconds since 1 January 1970 00:00:00 UTC."
@@ -15,10 +13,8 @@ current-time-ms.
 $after-time.
 	doc. "Does something after a certain time has passed."
 	$test. ~|
-		_ = $after-time 100 |
+		! =? 1 (<~ $after-time 1 |
 			1
-		! <? 100 (<~ $time_
-		! =? 1 (<~ _
 	|time-ms:Number _:Function
 		# TODO:ES6 Shouldn't need `new`
 		new $ |resolve

@@ -61,8 +61,6 @@ show = Method
 					{type-of_}
 						{key-vals.join "\n\t"}
 
-msDef "show" show
-
 repr.
 	doc. "
 		Shows it with the `repr` flag set.
@@ -128,5 +126,7 @@ spread! impl! show
 					"<anonymous Function>"
 				else
 					_
+
+msDef "show" show
 
 show

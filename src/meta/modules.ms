@@ -31,5 +31,6 @@ $@all-modules.
 		$after ($get-module require module-list-path) |mp
 			module-paths = msCall "getDefaultExport" mp
 			$map module-paths |module-path
+				full-path = "{modules-list-dir}/{module-path}"
 				# module-path is relative to module-list-path
-				$get-module require "{modules-list-dir}/{module-path}"
+				$get-module require full-path

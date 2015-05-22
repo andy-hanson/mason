@@ -5,7 +5,7 @@ use
 	...@.? ?-or
 	...@.Map.Map
 	...@.Set.Id-Set!
-	...$ _ $after $all $ing
+	...$ _ $all $ing
 	...Boolean and or
 	...compare =?
 	...control if
@@ -18,7 +18,6 @@ use
 	...Type.Method _ impl! impl-for
 	...Type.Pred-Type ObjLit
 	...Type.Type contains?
-	..modules $@all-modules
 use-debug
 	...control build
 	...Object! empty-Object!
@@ -74,12 +73,10 @@ impl! test-special Kind |_
 			@$test-test-fun implementor test ~"{_}.implementor-test of {implementor}" implementor
 	++ a b
 
-
 $test-all.
-	doc. "Tests all modules in dir-path."
-	|require:Function dir-path:String
-		$after ($@all-modules require dir-path) |_
-			$all (flat-map _ @$test-module)
+	doc. "Tests all modules."
+	|@all-modules:@[Object]
+		$all (flat-map @all-modules @$test-module
 
 $test-module.
 	doc. "Treats an Object as a module and tests it."

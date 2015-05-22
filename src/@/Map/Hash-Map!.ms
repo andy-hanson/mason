@@ -7,7 +7,6 @@ use
 	...Object! p!
 	...Type.Js-Method js-impl!
 	...Type.Kind kind! self-kind!
-	...Type.Method impl! self-impl!
 	...Type.Tuple
 	...Type.Wrap-Type
 	..@ iterator map
@@ -43,11 +42,9 @@ Hash-Map! = Wrap-Type
 Bucket = Tuple
 	props. [ "key" "val!" "next!"
 
-kind! Hash-Map! Map!
-
 self-kind! Hash-Map! Map-Type
-self-impl! empty Hash-Map! |
-	Hash-Map! (empty Id-Map!
+	empty -> |
+		Hash-Map! (empty Id-Map!
 
 # All entries in the bucket have the same hash code.
 # Find the first bucket that =? key.
@@ -63,12 +60,6 @@ opt-bucket-entry = |opt-bucket key
 		cur := cur.next!
 	res
 
-impl! ?get Hash-Map! |_ key
-	bucket = _.val.get (hash-code key
-	entry = opt-bucket-entry bucket key
-	map (Opt->? entry) |be
-		be.val!
-
 js-impl! iterator Hash-Map! ~|
 	for! bucket in values this.val
 		cur ::= bucket
@@ -78,52 +69,59 @@ js-impl! iterator Hash-Map! ~|
 			<~ [ cur.key cur.val! ]
 			cur := cur.next!
 
-impl! assoc! Hash-Map! |hm key val
-	hash = hash-code key
-	bucket = hm.val.get hash
-	case! opt-bucket-entry bucket key
-		defined?_
-			# TODO: Might not want to overwrite value...
-			p! _ "val!" val
-		else
-			# Add it at the front.
-			hm.val.set hash (Bucket key val bucket
+kind! Hash-Map! Map!
+	?get -> |_ key
+		bucket = _.val.get (hash-code key
+		entry = opt-bucket-entry bucket key
+		map (Opt->? entry) |_
+			_.val!
 
-impl! un-assoc! Hash-Map! |hm key
-	hash = hash-code key
-	bucket = hm.val.get hash
-	case bucket
-		defined?_
-			case
-				=? _.key key
-					case! bucket.next!
-						defined?_
-							assoc! hm.val key _
-						else
-							un-assoc! hm.val hash
-					? _.val!
-				else
-					# TODO:SYNTAX Loop return value
-					cur ::= bucket
-					res ::= empty ?
-					for!
-						next = cur.next!
-						unless! defined?_ next
-							break!
-						if! =? next.key key
-							p! cur "next!" next.next!
-							res := ? next.val!
-							break!
-						cur := next
-					res
-		else
-			empty ?
+	assoc! -> |hm key val
+		hash = hash-code key
+		bucket = hm.val.get hash
+		case! opt-bucket-entry bucket key
+			defined?_
+				# TODO: Might not want to overwrite value...
+				p! _ "val!" val
+			else
+				# Add it at the front.
+				hm.val.set hash (Bucket key val bucket
 
-impl! freeze Hash-Map! |_
-	freeze _.val
-	Object.freeze _
+	un-assoc! -> |hm key
+		hash = hash-code key
+		bucket = hm.val.get hash
+		case bucket
+			defined?_
+				case
+					=? _.key key
+						case! bucket.next!
+							defined?_
+								assoc! hm.val key _
+							else
+								un-assoc! hm.val hash
+						? _.val!
+					else
+						# TODO:SYNTAX Loop return value
+						cur ::= bucket
+						res ::= empty ?
+						for!
+							next = cur.next!
+							unless! defined?_ next
+								break!
+							if! =? next.key key
+								p! cur "next!" next.next!
+								res := ? next.val!
+								break!
+							cur := next
+						res
+			else
+				empty ?
 
-impl! empty! Hash-Map! |_
-	empty! _.val
+	freeze -> |_
+		freeze _.val
+		Object.freeze _
+
+	empty! -> |_
+		empty! _.val
 
 Hash-Map!

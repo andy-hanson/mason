@@ -13,7 +13,7 @@ import { DotName, Group, G_Block, G_Bracket, G_Parenthesis, G_Space, G_Quote, is
 	KW_CaseDo, KW_Debug, KW_Debugger, KW_Else, KW_ForDo, KW_Focus, KW_Fun, KW_GenFun, KW_IfDo,
 	KW_In, KW_Lazy, KW_MapEntry, KW_ObjAssign, KW_Pass, KW_Out, KW_Region, KW_Type, KW_UnlessDo,
 	KW_Use, KW_UseDebug, KW_UseDo, KW_UseLazy, KW_Yield, KW_YieldTo, Name,
-	opKeywordKindToSpecialValueKind, TokenNumberLiteral } from '../Token'
+	opKeywordKindToSpecialValueKind } from '../Token'
 import { assert, head, ifElse, flatMap, isEmpty, last,
 	opIf, opMap, push, repeat, rtail, tail, unshift } from '../util'
 import Slice from './Slice'
@@ -611,8 +611,8 @@ const parseSingle = token => {
 				throw new Error(token.kind)
 		}
 	})() :
-	token instanceof TokenNumberLiteral ?
-	NumberLiteral(loc, token.value) :
+	token instanceof NumberLiteral ?
+	token :
 	token instanceof Keyword ?
 		token.kind === KW_Focus ?
 			LocalAccess.focus(loc) :

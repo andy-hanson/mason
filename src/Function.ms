@@ -32,6 +32,10 @@ Pred. Alias-Type
 	doc. "Function[Any Boolean]."
 	alias-of. Function
 
+Thunk. Alias-Type
+	doc. "Function with no args returning a value."
+	alias-of. Function
+
 apply.
 	doc. "Calls the function with the given arguments list."
 	test. |

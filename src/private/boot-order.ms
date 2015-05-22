@@ -1,11 +1,14 @@
 use!
+	# Defines global._ms.
 	.bootstrap
-	..Type.Type # This turns on type checks!
-	..Function
+	# Turns on type checks.
+	..Type.Type
 	..@.Seq.Array-as-Seq
-	..@.Map.Hash-Map # Provides _ms.map
-	..show # Important to load this now, as it will help error messages
+	# kind! Id-Map! Map. Necessary for `..Function spread!` to work.
+	..@.Map.Id-Map!
 	..String-as-Seq
+	# Important to load this now, as it will help error messages
+	..show
 	..@.show-@
 	..@.Map.show-Map
 	..Type.show-Type

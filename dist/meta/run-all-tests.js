@@ -7,11 +7,13 @@ define(["exports","../private/boot-order","require","../cash","./modules","./tes
 		const name=exports.name="run-all-tests";
 		exports.default=function(){
 			return $done($ing(function*(){
-				(yield $_64all_45modules(require,"../modules-list"));
-				return (yield $time_33("test",$test_45all(require,"../modules-list")))
+				const _64all=(yield $_64all_45modules(require,"../modules-list"));
+				return (yield $time_33("test",function(){
+					return $test_45all(_64all)
+				}))
 			}))
 		};
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL3J1bi1hbGwtdGVzdHMubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7O0VBQUEsd0JBQUE7a0JBV0MsVUFBQTtVQUFBLE1BQU8sS0FDTyxXQUFBO1dBQ1Ysa0JBQWMsUUFBUztXQUN2QixPQUFBLFNBQVEsT0FBTyxZQUFVLFFBQVM7R0FBQTtFQUFBIiwiZmlsZSI6Im1ldGEvcnVuLWFsbC10ZXN0cy5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL3J1bi1hbGwtdGVzdHMubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7O0VBQUEsd0JBQUE7a0JBV0MsVUFBQTtVQUFBLE1BQU8sS0FDTyxXQUFBO0lBQ2IsYUFBUSxPQUFBLGtCQUFjLFFBQVM7V0FDNUIsT0FBQSxTQUFRLE9BQ08sVUFBQTtZQUFqQixZQUFVO0lBQUE7R0FBQTtFQUFBIiwiZmlsZSI6Im1ldGEvcnVuLWFsbC10ZXN0cy5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

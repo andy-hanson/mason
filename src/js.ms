@@ -63,16 +63,9 @@ id=?.
 truthy?.
 	doc. "Whether javascript's `if` statement would consider the value to be true."
 	test. |
-		falsy =
-			. null
-			. undefined
-			. 0
-			. Number.NaN
-			. ""
-			. false
-		for! falsy
+		for! [ null undefined 0 Number.NaN "" false ]
 			!not truthy? _
-		! truthy? []
+		! truthy? [ ]
 		! truthy? true
 
 	|:Boolean a

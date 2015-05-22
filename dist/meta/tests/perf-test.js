@@ -52,9 +52,9 @@ define(["exports","../../at/at","../../cash","../../io/console","../../io/time",
 		const $time=exports.$time=function(){
 			const doc="The difference in time (milliseconds) between when $time is called and when $time-me resolves.\nFor accuracy you should generally start $time-ing a $ as soon as you create it.\nReturned value in ms.";
 			return _ms.set(function $time($time_45me){
-				_ms.checkContains($,$time_45me,"$time-me");
+				_ms.checkContains(_ms.sub(Action,$),$time_45me,"$time-me");
 				const start=current_45time_45ms();
-				return _ms.checkContains(_ms.sub($,Number),$after($time_45me,function(){
+				return _ms.checkContains(_ms.sub($,Number),$after($time_45me(),function(){
 					const end=current_45time_45ms();
 					return _45(end,start)
 				}),"res")
@@ -64,11 +64,10 @@ define(["exports","../../at/at","../../cash","../../io/console","../../io/time",
 			const doc="Logs `$time $time-me` and returns $time-me's result.";
 			return _ms.set(function $time_33(name,$time_45me){
 				_ms.checkContains(String,name,"name");
-				_ms.checkContains($,$time_45me,"$time-me");
+				_ms.checkContains(_ms.sub(Action,$),$time_45me,"$time-me");
 				return _ms.checkContains($,$after($time($time_45me),function(time){
 					_ms.checkContains(Number,time,"time");
-					log_33((((""+_ms.show(name))+": ")+_ms.show(time)));
-					return $time_45me
+					return log_33((((""+_ms.show(name))+": ")+_ms.show(time)))
 				}),"res")
 			},"doc",doc)
 		}();
@@ -76,4 +75,4 @@ define(["exports","../../at/at","../../cash","../../io/console","../../io/time",
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL3Rlc3RzL3BlcmYtdGVzdC5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQVVBLHlDQUNNO0dBQUwsVUFBTTtrQkFDTCxpQkFBQSxLQUFZLFVBQ2M7c0JBRHJCO3NCQUFlO0lBQ3BCLFdBQWlCLEtBQUs7SUFDdEIsT0FBTSxHQUtJLFlBTEgsc0JBQVE7V0FDZjtHQUFBOztFQUVGLDZDQUNPO0dBQU4sVUFBTTtrQkFDTCxvQkFBQSxLQUFZLE1BQVUsVUFDYztzQkFEL0I7c0JBQWE7c0JBQVk7SUFDOUIsU0FBUyxNQUFNO1dBQ2YsUUFBTSxLQUNNLFVBQUE7WUFBWCxTQUFTLE1BQU07SUFBQTtHQUFBOztFQUVsQiw2Q0FDTztHQUFOLFVBQU07a0JBQ0wsb0JBQUEsTUFBVSxVQUNpQjtzQkFEckI7OEJBQVksSUFBRTtJQUNmLFFBQUEsS0FBQSw2QkFDTztLQUFYLFdBQVEsSUFBRyxNQUFNO0lBQUE7R0FBQTs7RUFFcEIsa0NBQ0s7R0FBSixVQUFNO2tCQUNMLGNBQUEsVUFDZ0I7c0JBRFI7SUFDUixZQUFRO0lBQ1IsVUFBSztJQUNMLFVBQU07SUFDTixtQkFBWSxJQUFFLElBQUk7Ozs7Ozs7RUFFcEIsb0NBQ007R0FBTCxVQUNDO2tCQUdBLGVBQVcsV0FDVTtzQkFERDtJQUNwQixZQUFRO3FDQURQLEVBQUUsUUFFSCxPQUFPLFdBQ1UsVUFBQTtLQUFoQixVQUFNO1lBQ04sSUFBRSxJQUFJO0lBQUE7OztFQUVULDJDQUNPO0dBQU4sVUFBTTtrQkFDTCxrQkFBRyxLQUFZLFdBQ1U7c0JBRGpCO3NCQUFnQjs2QkFBdkIsRUFDRCxPQUFRLE1BQU0sWUFBVyxTQUFBLEtBQ1c7dUJBRE47S0FDN0IsT0FBTSxHQWxDRyxZQWtDRixzQkFBUTtZQUNmO0lBQUE7OztFQXRESCx3QkFBQSIsImZpbGUiOiJtZXRhL3Rlc3RzL3BlcmYtdGVzdC5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL3Rlc3RzL3BlcmYtdGVzdC5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQVVBLHlDQUNNO0dBQUwsVUFBTTtrQkFDTCxpQkFBQSxLQUFZLFVBQ2M7c0JBRHJCO3NCQUFlO0lBQ3BCLFdBQWlCLEtBQUs7SUFDdEIsT0FBTSxHQUtJLFlBTEgsc0JBQVE7V0FDZjtHQUFBOztFQUVGLDZDQUNPO0dBQU4sVUFBTTtrQkFDTCxvQkFBQSxLQUFZLE1BQVUsVUFDYztzQkFEL0I7c0JBQWE7c0JBQVk7SUFDOUIsU0FBUyxNQUFNO1dBQ2YsUUFBTSxLQUNNLFVBQUE7WUFBWCxTQUFTLE1BQU07SUFBQTtHQUFBOztFQUVsQiw2Q0FDTztHQUFOLFVBQU07a0JBQ0wsb0JBQUEsTUFBVSxVQUNpQjtzQkFEckI7OEJBQVksSUFBRTtJQUNmLFFBQUEsS0FBQSw2QkFDTztLQUFYLFdBQVEsSUFBRyxNQUFNO0lBQUE7R0FBQTs7RUFFcEIsa0NBQ0s7R0FBSixVQUFNO2tCQUNMLGNBQUEsVUFDZ0I7c0JBRFI7SUFDUixZQUFRO0lBQ1IsVUFBSztJQUNMLFVBQU07SUFDTixtQkFBWSxJQUFFLElBQUk7Ozs7Ozs7RUFFcEIsb0NBQ007R0FBTCxVQUNDO2tCQUdBLGVBQVcsV0FDa0I7OEJBRFQsT0FBTztJQUMzQixZQUFRO3FDQURQLEVBQUUsUUFFSCxPQUFPLGFBQ1ksVUFBQTtLQUFsQixVQUFNO1lBQ04sSUFBRSxJQUFJO0lBQUE7OztFQUVULDJDQUNPO0dBQU4sVUFBTTtrQkFDTCxrQkFBRyxLQUFZLFdBQ2tCO3NCQUR6Qjs4QkFBZ0IsT0FBTzs2QkFBOUIsRUFDRCxPQUFRLE1BQU0sWUFBVyxTQUFBLEtBQ1c7dUJBRE47WUFDN0IsT0FBTSxHQWxDRyxZQWtDRixzQkFBUTtJQUFBOzs7RUFyRGxCLHdCQUFBIiwiZmlsZSI6Im1ldGEvdGVzdHMvcGVyZi10ZXN0LmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

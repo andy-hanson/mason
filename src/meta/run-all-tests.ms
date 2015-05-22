@@ -11,6 +11,9 @@ use
 |
 	$done ($ing ~|
 		# Load now so that module loading time is not counted as part of testing time.
-		<~ $@all-modules require "../modules-list"
-		<~ $time! "test" ($test-all require "../modules-list"
-		# $test-module (<~ $get-module require "./demo/sieve-of-eratosthenes"
+		@all <~ $@all-modules require "../modules-list"
+		<~ $time! "test" |
+			$test-all @all
+		# demo = <~ $get-module require "./demo/sieve-of-eratosthenes"
+		# $time! "demo" |
+		#	$test-module demo

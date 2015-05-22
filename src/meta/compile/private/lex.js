@@ -1,10 +1,11 @@
 import Loc, { Pos, StartLine, StartPos, StartColumn, singleCharLoc } from 'esast/dist/Loc'
 import { code } from '../CompileError'
+import { NumberLiteral } from '../MsAst'
 import { NonNameCharacters } from './language'
 import { DotName, Group, G_Block, G_Bracket, G_Line, G_Parenthesis, G_Space, G_Quote,
 	isKeyword, Keyword, KW_AssignMutable, KW_AssignMutate, KW_Focus, KW_Fun, KW_GenFun, KW_Lazy,
-	KW_ObjAssign, KW_Region, KW_Type, Name, opKeywordKindFromName, showGroupKind,
-	TokenNumberLiteral } from './Token'
+	KW_ObjAssign, KW_Region, KW_Type, Name, opKeywordKindFromName, showGroupKind
+	} from './Token'
 import { assert, isEmpty, last } from './util'
 
 /*
@@ -267,7 +268,7 @@ export default (context, sourceString) => {
 				const number = Number(numberString)
 				context.check(!Number.isNaN(number), pos, () =>
 					`Invalid number literal ${code(numberString)}`)
-				addToCurrentGroup(TokenNumberLiteral(loc(), number))
+				addToCurrentGroup(NumberLiteral(loc(), number))
 			}
 
 		while (true) {

@@ -1,9 +1,9 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","../../Type/Kind","../../Type/Method","../at","../at-Type","../q","./Map","./Map-Type","./Hash-Mapbang","../../bang","../../compare","../../math/methods","../../Type/Method","../../Type/Wrap-Type","../../Type/Type","../at","../atbang","../Set/Set","./Map","./Weak-Id-Mapbang"],function(exports,Kind_0,Method_1,_64_2,_64_45Type_3,_63_4,Map_5,Map_45Type_6,Hash_45Map_33_7,_33_8,compare_9,methods_10,Method_11,Wrap_45Type_12,Type_13,_64_14,_64_33_15,Set_16,Map_17,Weak_45Id_45Map_33_18){
+define(["exports","../../Type/Kind","../../Type/Method","../at","../at-Type","../q","./Map","./Map-Type","./Id-Mapbang","../../bang","../../compare","../../math/methods","../../Type/Method","../../Type/Wrap-Type","../../Type/Type","../at","../atbang","../Set/Set","./Map","./Weak-Id-Mapbang"],function(exports,Kind_0,Method_1,_64_2,_64_45Type_3,_63_4,Map_5,Map_45Type_6,Id_45Map_33_7,_33_8,compare_9,methods_10,Method_11,Wrap_45Type_12,Type_13,_64_14,_64_33_15,Set_16,Map_17,Weak_45Id_45Map_33_18){
 	exports._get=_ms.lazy(function(){
-		const Kind=_ms.getDefaultExport(Kind_0),_$2=_ms.getModule(Kind_0),kind_33=_ms.get(_$2,"kind!"),self_45kind_33=_ms.get(_$2,"self-kind!"),Method=_ms.getDefaultExport(Method_1),_$3=_ms.getModule(Method_1),self_45impl_33=_ms.get(_$3,"self-impl!"),_64=_ms.getDefaultExport(_64_2),_$5=_ms.getModule(_64_45Type_3),empty=_ms.get(_$5,"empty"),_$6=_ms.getModule(_63_4),_63_45or=_ms.get(_$6,"?-or"),Map=_ms.getDefaultExport(Map_5),_$7=_ms.getModule(Map_5),_63get=_ms.get(_$7,"?get"),Map_45Type=_ms.getDefaultExport(Map_45Type_6),Hash_45Map_33=_ms.lazy(function(){
-			return _ms.getDefaultExport(Hash_45Map_33_7)
+		const Kind=_ms.getDefaultExport(Kind_0),_$2=_ms.getModule(Kind_0),kind_33=_ms.get(_$2,"kind!"),self_45kind_33=_ms.get(_$2,"self-kind!"),Method=_ms.getDefaultExport(Method_1),_$3=_ms.getModule(Method_1),self_45impl_33=_ms.get(_$3,"self-impl!"),_64=_ms.getDefaultExport(_64_2),_$5=_ms.getModule(_64_45Type_3),empty=_ms.get(_$5,"empty"),_$6=_ms.getModule(_63_4),_63_45or=_ms.get(_$6,"?-or"),Map=_ms.getDefaultExport(Map_5),_$7=_ms.getModule(Map_5),_63get=_ms.get(_$7,"?get"),Map_45Type=_ms.getDefaultExport(Map_45Type_6),Id_45Map_33=_ms.lazy(function(){
+			return _ms.getDefaultExport(Id_45Map_33_7)
 		}),_33=_ms.lazy(function(){
 			return _ms.getDefaultExport(_33_8)
 		}),_$12=_ms.lazyGetModule(_33_8),_33not=_ms.lazyProp(_$12,"!not"),compare=_ms.lazy(function(){
@@ -68,7 +68,7 @@ define(["exports","../../Type/Kind","../../Type/Method","../at","../at-Type","..
 		}());
 		self_45kind_33(Map_33,Map_45Type);
 		self_45impl_33(empty,Map_33,function(){
-			return empty(_ms.unlazy(Hash_45Map_33))
+			return empty(_ms.unlazy(Id_45Map_33))
 		});
 		const assoc_33=exports["assoc!"]=Method(function(){
 			const doc="Set _[key] to val.";

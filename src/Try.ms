@@ -94,7 +94,9 @@ fails-with?.
 
 error-type.
 	doc. "
-		Makes an Obj-Type with a `message` property, and a `stack` property automatically filled in on construction.
+		Makes an Obj-Type with a `message` property,
+		and a `stack` property automatically filled in on construction.
+		Very slow to create, so use only for legitimate errors!
 	test. |
 		ET = error-type
 			doc. "ET"

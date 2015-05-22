@@ -10,7 +10,7 @@ use
 	..@-Type empty
 	..? un-?
 use~
-	.Hash-Map!
+	.Id-Map!
 	.Map! assoc!
 use-debug
 	...!
@@ -63,8 +63,9 @@ region Functions
 				+ x 1
 			! =? map[1] 2
 			! =? map[2] 3
+		# TODO: map-type param
 		|@key:@ get-value:Function
-			map = empty Hash-Map!
+			map = empty Id-Map!
 			for! @key
 				assoc! map _ get-value_
 			map

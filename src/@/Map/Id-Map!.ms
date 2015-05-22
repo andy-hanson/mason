@@ -2,7 +2,6 @@ use
 	...control returning
 	...js new
 	...Type.Kind kind! self-kind!
-	...Type.Method impl! self-impl!
 	..@ count
 	..@! empty!
 	..@-Type empty
@@ -42,28 +41,28 @@ Id-Map! =
 	global.Map
 
 self-kind! Id-Map! Map-Type
-self-impl! empty Id-Map! |
-	new Id-Map!
+	empty -> |
+		new Id-Map!
 
 kind! Id-Map! Map!
-impl! count Id-Map! |_
-	_.size
-impl! ?get Id-Map! |_ key
-	Opt->? (_.get key)
-impl! has-key? Id-Map! |_ key
-	_.has key
-impl! keys Id-Map! |_
-	Stream |
-		_.keys()
-impl! values Id-Map! |_
-	Stream |
-		_.values()
-impl! empty! Id-Map! |_
-	_.clear()
-impl! assoc! Id-Map! |_ key val
-	_.set key val
-impl! un-assoc! Id-Map! |_ key
-	returning (?get _ key) |
-		_.delete key
+	count -> |_
+		_.size
+	?get -> |_ key
+		Opt->? (_.get key
+	has-key? -> |_ key
+		_.has key
+	keys -> |_
+		Stream |
+			_.keys()
+	values -> |_
+		Stream |
+			_.values()
+	empty! -> |_
+		_.clear()
+	assoc! -> |_ key val
+		_.set key val
+	un-assoc! -> |_ key
+		returning (?get _ key) |
+			_.delete key
 
 Id-Map!

@@ -1,7 +1,7 @@
 use
 	...Boolean not
 	...compare =?
-	...control End-Loop if loop
+	...control if
 	...Function Pred
 	...math.methods - +
 	...methods freeze sub
@@ -70,7 +70,7 @@ region Very first and last
 				last [ ]
 		args. 1
 		|_
-			un-? ?last_ "Can not take `last` of empty."
+			un-? ?last_ "Can not take last of empty."
 
 	?last. Method
 		doc. "Last value in iteration order, if non-empty."
@@ -79,35 +79,35 @@ region Very first and last
 			[ [ ] ] -> empty ?
 		args. 1
 		default. |_
-			if (not empty?_) ~_[(- count_ 1)]
+			if (not empty?_) ~_[(- count_ 1
 
 	tail. Method
 		doc. "
 			All elements but the first.
 			TODO: Eager for Linked-Lists.
 		test. |
-			[ [ 1 2 ] ] -> => Stream [ 2 ]
+			[ [ 1 2 ] ] -> [ 2 ]
 			[ [ ] ] -> [ ]
 		args. 1
 		default. |case
 			empty?_
 				_
 			else
-				drop' _ 1
+				drop _ 1
 
 	rtail. Method
 		doc. "
 			All elements but the last.
 			TODO: Eager for finger trees.
 		test. |
-			[ [ 1 2 ] ] -> => Stream [ 1 ]
+			[ [ 1 2 ] ] -> [ 1 ]
 			[ [ ] ] -> [ ]
 		args. 1
 		default. |case
 			empty?_
 				_
 			else
-				take' _ (- count_ 1
+				take _ (- count_ 1
 
 region Search
 	seq=?.
@@ -123,19 +123,24 @@ region Search
 		|@a:@ @b:@
 			iter-a = iterator @a
 			iter-b = iterator @b
-			loop null |
+			# TODO:SYNTAX loop return value
+			eq ::= false
+			for!
 				next-a = iter-a.next()
 				next-b = iter-b.next()
-				case
+				case!
 					next-a.done
-						# =? If the same length and all so far are =?.
-						End-Loop next-b.done
+						eq := next-b.done
+						break!
 					next-b.done
-						End-Loop false
-					not (=? next-a.value next-b.value)
-						End-Loop false
+						eq := false
+						break!
+					=? next-a.value next-b.value
+						pass
 					else
-						null
+						eq := false
+						break!
+			eq
 
 	?nth. Method
 		doc. "
@@ -197,6 +202,13 @@ region Update
 		|:@ _ start end
 			take' (drop' _ start) (- end start
 
+	take. Method
+		doc. "TODO"
+		args.
+			. "_"
+			. [ "count-to-take" Nat
+		default. |_ count-to-take
+			=> type-of_ (take' _ count-to-take
 
 	take'.
 		doc. "Stream including only the first count-to-take elements."
@@ -219,6 +231,8 @@ region Update
 							if! =? 0 n
 								break!
 
+	# TODO: eager version
+
 	take-while'.
 		doc. "Stream stopping (and not including) the first element not satisfying while?."
 		test. |
@@ -230,14 +244,19 @@ region Update
 						break!
 					<~ _
 
-	drop'. Method
-		doc. "Stream without the first count-to-drop elements."
-		test. |
-			[ [ 0 1 2 3 ] 2 ] -> => Stream [ 2 3 ]
+	drop. Method
+		doc. "TODO"
 		args.
 			. "_"
 			. [ "count-to-drop" Nat
 		default. |_ count-to-drop
+			=> type-of_ (drop' _ count-to-drop
+
+	drop'.
+		doc. "Stream without the first count-to-drop elements."
+		test. |
+			[ [ 0 1 2 3 ] 2 ] -> => Stream [ 2 3 ]
+		|_ count-to-drop
 			Stream ~|
 				iter = iterator_
 				i ::= 0

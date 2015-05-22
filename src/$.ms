@@ -1,7 +1,7 @@
 use
 	.@.@ _ flatten map
 	.control if
-	.Function apply
+	.Function apply Thunk
 	.Generator!
 	.js new
 	.methods sub
@@ -9,11 +9,11 @@ use
 	.Type.Pred-Type Any
 	.Type.Type =>
 use~
+	.io.time $after-time
 	.Try $catch oh-no!
 use-debug
 	.!
 	.compare =?
-	.io.time $after-time
 	.math.Number divisible?
 	.math.methods +
 	.Try $try
@@ -100,9 +100,9 @@ $delay.
 	$test. ~|
 		! =? 1 (<~ $delay |
 			1
-	|delayed:Function[0]
-		new $ |resolve
-			resolve delayed()
+	|delayed:Thunk
+		# TODO: Better way?
+		$after-time 0 delayed
 
 $all.
 	doc. "

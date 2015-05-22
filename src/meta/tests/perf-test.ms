@@ -41,15 +41,14 @@ $time.
 		The difference in time (milliseconds) between when $time is called and when $time-me resolves.
 		For accuracy you should generally start $time-ing a $ as soon as you create it.
 		Returned value in ms.
-	|:$[Number] $time-me:$
+	|:$[Number] $time-me:Action[$]
 		start = current-time-ms()
-		$after $time-me |
+		$after $time-me() |
 			end = current-time-ms()
 			- end start
 
 $time!.
 	doc. "Logs `$time $time-me` and returns $time-me's result."
-	|:$ name:String $time-me:$
+	|:$ name:String $time-me:Action[$]
 		$after ($time $time-me) |time:Number
 			log! "{name}: {time}"
-			$time-me

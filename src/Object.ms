@@ -87,7 +87,7 @@ flag?.
 	|:@[String] _
 		case
 			can-get-p?_
-				Object.keys _
+				Object.keys_
 			else
 				[ ]
 

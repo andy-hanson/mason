@@ -1,5 +1,5 @@
 use
-	...@.@ fold keep map map'
+	...@.@ fold keep map
 	...@.@! ++!
 	...@.@-Type empty
 	...@.Seq.Array!
@@ -7,22 +7,29 @@ use
 	...@.Seq.Seq! set-nth!
 	...@.Seq.Stream
 	...@.Set.Id-Set!
-	...Boolean and not
-	...control returning
+	...compare =?
 	...js defined? js-sub
-	...math.Number infinity Nat square
+	...math.Number infinity int/ Nat remainder square
 	...math.methods +
 	...Type.Type contains?
 use-debug
 	...!
-	...@.Seq.Seq seq=? take'
+	...@.Seq.Seq seq=? take
 
-digits = |_:Nat
-	# TODO: map String to Array
-	map' (_.toString 10) Number.parseInt
+# Least-significant to most-significant, but order doesn't matter.
+digits = |_
+	base = 10
+	Stream ~|
+		left ::= _
+		for!
+			<~ remainder left base
+			left := int/ left base
+			if! =? left 0
+				break!
 
-step = |:Nat _:Nat
-	fold (map digits_ square) 0 +
+happy-step = |_
+	# TODO: sum function?
+	fold (map digits_ square) +
 
 cache = empty Array!
 set-nth! cache 1 true
@@ -31,24 +38,31 @@ happy?.
 	doc. "http://rosettacode.org/wiki/Happy_numbers"
 	|n:Nat
 		stepped-through = empty Id-Set!
-		loop = |cur
-			case js-sub cache cur
+		cur ::= n
+		# TODO:SYNTAX Loop return value
+		res ::= null
+		for!
+			case! js-sub cache cur
 				defined?_
-					_
+					res := _
+					break!
 				else
-					and (not (contains? stepped-through cur)) ~
-						# TODO: <+>!
-						++! stepped-through [ cur ]
-						loop (step cur
-		returning (loop n) |ans
-			for! stepped-through
-				set-nth! cache _ ans
-			set-nth! cache n ans
+					if! contains? stepped-through cur
+						res := false
+						break!
+					# TODO: +!
+					++! stepped-through [ cur ]
+					cur := happy-step cur
+
+		for! stepped-through
+			set-nth! cache _ res
+		set-nth! cache n res
+		res
 
 happy-numbers:Stream[Nat].
 	doc. "Stream of all happy numbers."
 	test. |
-		! seq=? (take' happy-numbers 8)
+		! seq=? (take happy-numbers 8)
 			. 1
 			. 7
 			. 10

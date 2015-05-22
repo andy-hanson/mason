@@ -90,27 +90,8 @@ export	const
 			throw new Error('Argument to `oh-no!` must be Error or String')
 	},
 
-	// Array.ms
-	// TODO:ES6 Shouldn't need this.
-	arrayIterator = function*(_) {
-		for (let i = 0; i < _.length; i = i + 1)
-			yield _[i]
-	},
-
 	// show.ms
 	newSet = () => new Set(),
-
-	// Hash-Map.ms
-	makeMap = (hm, assoc, args) => {
-		let i = 0
-		while (i < args.length) {
-			const key = args[i]
-			i = i + 1
-			const val = args[i]
-			i = i + 1
-			assoc(hm, key, val)
-		}
-	},
 
 	// Obj-Type.ms and Method.ms and Wrap-Type.ms
 	buildStr = builder => {

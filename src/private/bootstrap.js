@@ -1,9 +1,9 @@
 export const pAdd = (object, key, value) =>
 	Object.defineProperty(object, key, {
 		value,
-		enumerable: true,
-		// TODO:ES6 `writable` shouldn't need to be explicit
-		writable: false
+		writable: false,
+		enumerable: false,
+		configurable: false
 	})
 
 // region Builtin Functions for use by the compiler
@@ -128,6 +128,13 @@ const msDefs = {
 		for (let i = 7; i < arguments.length; i = i + 2)
 			setOrLazy(_, arguments[i], arguments[i + 1])
 		return _
+	},
+
+	map(...args) {
+		const _ = new Map()
+		for (let i = 0; i < args.length; i = i + 2)
+			_.set(args[i], args[i + 1])
+		return _
 	}
 }
 Object.keys(msDefs).forEach(_ => msDef(_, msDefs[_]))
@@ -142,6 +149,7 @@ const setOrLazy = (obj, key, val) => {
 const msDefTemp = (name, fun) =>
 	ms[name] = fun
 
+// Overridden by show.ms.
 msDefTemp('show', _ => {
 	if (typeof _ !== 'string' && typeof _ !== 'number')
 		throw new Error(
@@ -153,34 +161,31 @@ msDefTemp('show', _ => {
 // Some Types want to implement contains? before it is officially defined.
 export const containsImplSymbol = 'impl-contains?'
 export const implContains = (type, impl) =>
-	Object.defineProperty(type.prototype, containsImplSymbol, {
-		value: impl,
-		enumerable: false
-	})
+	pAdd(type.prototype, containsImplSymbol, impl)
 
 // Overwritten by Type/index.ms to actually do type checking.
-msDefTemp('checkContains', (type, val) => val)
-
-Object[containsImplSymbol] = function(ignore, _) {
-	if (_ == null)
-		return false
-	switch (typeof _) {
-		case 'boolean':
-		case 'number':
-		case 'string':
-		case 'symbol':
-			return false
-		default:
-			return true
-	}
-};
+msDefTemp('checkContains', (_type, val) => val)
 
 // An object is a Function if its typeof is `function`.
 // This helps us catch any callabe Obj-Type.
 // TODO: Separate Function from Callable
 // Since these are primitives, we can't use `instanceof`.
-[ Function, Boolean, String, Symbol, Number ].forEach(type => {
+; [ Function, Boolean, String, Symbol, Number ].forEach(type => {
 	// Generated code is faster than using a closure.
 	const src = 'return typeof _ === "' + type.name.toLowerCase() + '"'
 	pAdd(type, containsImplSymbol, Function('ignore', '_', src))
+})
+
+// Functions are Objects, so we do this one differently.
+// TODO: This treats Object.create(null) as an object. Do we want that?
+pAdd(Object, containsImplSymbol, function(_ignore, _) {
+	if (_ === null)
+		return false
+	switch (typeof _) {
+		case 'function':
+		case 'object':
+			return true
+		default:
+			return false
+	}
 })

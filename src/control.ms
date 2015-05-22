@@ -2,7 +2,6 @@ use
 	.js defined?
 	.methods freeze
 	.Type.Pred-Type Any Opt
-	.Type.Wrap-Type
 use~
 	.@.@-Type empty
 	.@.? _ ?-or
@@ -14,7 +13,6 @@ use~
 use-debug
 	.! _ !call
 	.compare =?
-	.math.methods +
 
 opr.
 	doc. "Fills in an Opt with a default value."
@@ -95,32 +93,3 @@ returning.
 	|returned:Any do-after:Function
 		do-after returned
 		returned
-
-region Loops
-	# TODO: Try to avoid using...
-	loop.
-		doc. "
-			Maintains a value representing state, and continually applies `transform-state` to it until that returns an End-Loop.
-			Returns the value inside that End-Loop.
-		test. |
-			f = |case
-				=? _ 10
-					End-Loop "end"
-				else
-					+ _ 1
-			[ 0 f ] -> "end"
-
-		|init-state transform-state:Function
-			state ::= init-state
-			output ::= null
-			for!
-				case! transform-state state
-					:End-Loop
-						output := _.val
-						break!
-					else
-						state := _
-			output
-
-	End-Loop. Wrap-Type
-		doc. "Wrap a value in this to indicate that you want this to be the return value of the loop."

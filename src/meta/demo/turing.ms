@@ -4,7 +4,7 @@ use
 	...@.Seq.Seq
 	...@.Seq.Seq! <++! ++>! set-nth!
 	...compare =?
-	...control End-Loop loop
+	...js id=?
 	...math.methods + -
 	...Object p
 	...Type.Type =>
@@ -69,7 +69,7 @@ run-turing.
 				e.
 					0 -> fin
 					1 -> L 1 "e"
-		[ sorting-test [ 2 2 2 1 2 2 1 2 1 2 1 2 1 2 ] ] -> [ 0 1 1 1 1 1 2 2 2 2 2 2 2 2 2 0 ]
+		[ sorting-test [ 2 2 2 1 1 1 ] ] -> [ 0 1 1 1 2 2 2 0 ]
 
 	|:Seq spec init-tape:Seq
 		rules:Object blank:Any init-state:Any = spec
@@ -78,23 +78,31 @@ run-turing.
 				[ blank ]
 			else
 				init-tape
-		loop (idx. 0 state. init-state) |prev
-			pi = prev.idx
-			symbol = tape[pi]
-			case (p rules prev.state)[symbol]
-				=? fin _
-					End-Loop (=> Array tape
+		index ::= 0
+		state ::= init-state
+		# TODO:SYNTAX Loop return value
+		res ::= null
+		for!
+			symbol-here = tape[index]
+			rule-here = (p rules state)[symbol-here]
+
+			if! id=? rule-here fin
+				res := => Array tape
+				break!
+
+			write go-right = rule-here
+			state := rule-here.state
+			set-nth! tape index write
+			index := case index
+				go-right
+					if! =? _ (- (count tape) 1)
+						# TODO: +>!
+						++>! tape [ blank ]
+					+ _ 1
+				=? _ 0
+					# TODO: <+!
+					<++! tape [ blank ]
+					0
 				else
-					write go-right = _
-					set-nth! tape pi write
-					state. _.state
-					idx. case
-						go-right
-							if! =? pi (- (count tape) 1)
-								++>! tape [ blank ]
-							+ pi 1
-						=? pi 0
-							<++! tape [ blank ]
-							0
-						else
-							- pi 1
+					- _ 1
+		res

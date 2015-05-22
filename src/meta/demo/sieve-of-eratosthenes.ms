@@ -11,7 +11,7 @@ use
 use-debug
 	...!
 	...@.@ any?
-	...@.Seq.Seq take'
+	...@.Seq.Seq take
 	...Boolean not
 	...math.Number divisible?
 
@@ -21,7 +21,7 @@ primes.
 	test. |
 		is-prime? = |_
 			not (any? (range 2 _) divisible?[_]
-		for! take' primes 20
+		for! take primes 20
 			! is-prime? _
 	Stream ~|
 		<~ 2
@@ -35,6 +35,7 @@ primes.
 				:Some factors
 					for! factors
 						key = + candidate (* 2 _
+						# TODO: Function to add single element
 						add-to-@! prime-factors key [ _ ]
 				else
 					<~ candidate

@@ -7,7 +7,7 @@ use
 	.Map _ ?get
 	.Map-Type
 use~
-	.Hash-Map!
+	.Id-Map!
 use-debug
 	...! _ !not
 	...compare _ =?
@@ -61,7 +61,7 @@ Map! = Kind
 
 self-kind! Map! Map-Type
 self-impl! empty Map! |
-	empty Hash-Map!
+	empty Id-Map!
 
 assoc!. Method
 	doc. "Set _[key] to val."

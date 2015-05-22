@@ -3,7 +3,6 @@ use
 	...js new
 	...Try oh-no!
 	...Type.Kind kind! self-kind!
-	...Type.Method impl! self-impl!
 	..@! empty!
 	..@-Type empty
 	..? Opt->?
@@ -19,25 +18,23 @@ Weak-Id-Map! =
 	global.WeakMap
 
 self-kind! Weak-Id-Map! Map-Type
-self-impl! empty Weak-Id-Map! |
-	new Weak-Id-Map!
+	empty -> |
+		new Weak-Id-Map!
 
 kind! Weak-Id-Map! Map!
-impl! ?get Weak-Id-Map! |_ key
-	Opt->? (_.get key
-impl! has-key? Weak-Id-Map! |_ key
-	_.has key
-impl! keys Weak-Id-Map! |
-	oh-no! "Can't get keys of Weak-Id-Map! because the garbage collector can freely change this."
-impl! empty! Weak-Id-Map! |
-	oh-no! "
-		Can't empty Weak-Id-Map! for some reason.
-		https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap/clear"
-impl! assoc! Weak-Id-Map! |_ key val
-	_.set key val
-impl! un-assoc! Weak-Id-Map! |_ key
-	returning (?get _ key) |
-		_.delete key
-
+	?get -> |_ key
+		Opt->? (_.get key
+	has-key? -> |_ key
+		_.has key
+	assoc! -> |_ key val
+		_.set key val
+	un-assoc! -> |_ key
+		returning (?get _ key) |
+			_.delete key
+	# TODO: unsupported Function?
+	keys -> |
+		oh-no! "Weak-Id-Map! does not support `keys`."
+	empty! -> |
+		oh-no! "Weak-Id-Map! does not support `empty!`."
 
 Weak-Id-Map!
