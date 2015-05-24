@@ -19,7 +19,7 @@ use-debug
 # Least-significant to most-significant, but order doesn't matter.
 digits = |_
 	base = 10
-	Stream ~|
+	Stream ~!|
 		left ::= _
 		for!
 			<~ remainder left base
@@ -61,7 +61,7 @@ happy?.
 
 happy-numbers:Stream[Nat].
 	doc. "Stream of all happy numbers."
-	test. |
+	test. !|
 		! seq=? (take happy-numbers 8)
 			. 1
 			. 7

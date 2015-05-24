@@ -47,7 +47,7 @@ region Is Seq
 	impl! empty? ? |_
 		id=? _ empty-?
 
-	js-impl! iterator ? ~|
+	js-impl! iterator ? ~!|
 		unless! empty? this
 			<~ this.val
 
@@ -106,6 +106,7 @@ Some. Pred-Type
 	doc. "TODO"
 	predicate. |_
 		and :? ~(not empty?_
+	# TODO: Move to test of self-impl!
 	test. |
 		case ? 1
 			:Some val

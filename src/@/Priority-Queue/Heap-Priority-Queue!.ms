@@ -1,19 +1,16 @@
 use
-	...Boolean and
-	...compare <?
-	...control returning
+	...compare =? <?
+	...control returning unless
 	...math.Number int/
 	...math.methods + - *
 	...Type.Js-Method js-impl!
 	...Type.Kind kind! self-kind!
 	...Type.Wrap-Type
-	..@ count empty? iterator map
+	..@ count empty? iterator
 	..@! ++! empty!
 	..@-Type _ empty
-	..? un-?
 	..Seq.Array!
-	..Seq.Seq ?first
-	..Seq.Seq! ?pop>! set-nth!
+	..Seq.Seq! set-nth!
 	.Priority-Queue! _ ?pop!
 
 Heap-Priority-Queue! = Wrap-Type
@@ -28,78 +25,82 @@ js-impl! iterator Heap-Priority-Queue! |
 	iterator this.val
 
 kind! Heap-Priority-Queue! Priority-Queue!
-	++! -> |_ added
+	++! -> !|_ added
 		for! em in added
 			add! _.val em
 	?pop! -> |_
-		heap = _.val
-		map (?first heap) |first
-			returning first |
-				last-leaf = un-? (?pop>! heap
-				unless! empty?_
-					fix-down! heap last-leaf
+		unless empty?_ ~
+			returning _.val[0] !|
+				fix-down! _.val
+
 	empty? -> |_
 		empty? _.val
-	empty! -> |_
+	empty! -> !|_
 		empty! _.val
 
 region Implementation
 	# We use a min-heap.
-	idx-left = |idx
+	index-left-child = |idx
 		+ 1 (* 2 idx
-	idx-right = |idx
-		+ 2 (* 2 idx
-	idx-parent = |idx
+	index-parent = |idx
 		- (int/ (+ 1 idx) 2) 1
 
-	add! = |heap em
-		heap.push em
-		fix-up! heap em
+	add! = !|heap val
+		# We move this 'hole' up the heap, swapping with its parent,
+		# until we find a place where `val` is greater than its parent.
+		heap.push()
+		i-cur ::= count heap
+		for!
+			if! =? i-cur 0
+				set-nth! heap 0 val
+				break!
+			i-parent = index-parent i-cur
+			parent = heap[i-parent]
+			unless! <? val parent
+				set-nth! heap i-cur val
+				break!
+			set-nth! heap i-cur parent
+			i-cur := i-parent
 
-	# Smallest items should go at the top, so keep moving `val` up while it's smaller than its parent.
-	fix-up! = |heap val
-		rec! = |idx
-			~ip = idx-parent idx
-			~parent = heap[ip]
-			case!
-				and (<? 0 idx) ~(<? val parent)
-					set-nth! heap idx parent
-					rec! ip
-				else
-					set-nth! heap idx val
-		rec! (- (count heap) 1
-
-	# Keep moving `val` down while it's larger than either child.
-	# Prefer moving to the left child because this is a left-leaning heap.
-	fix-down! = |heap val
+	fix-down! = !|heap
+		val = heap.pop()
 		size = count heap
-		rec! = |idx
-			il = idx-left idx
-			~left = heap[il]
-			l< = and (<? il size) ~(<? left val
-			ir = idx-right idx
-			~right = heap[ir]
-			r< = and (<? ir size) ~(<? right val
+		unless! =? size 0
+			# There is a 'hole' at the first element.
+			# Move the hole down while it's larger than either child.
+			# (Prefer moving to the left child.)
+			# When it can move no further, put `val` in there.
+			i-cur ::= 0
+			go! = !|goto-idx
+				set-nth! heap i-cur heap[goto-idx]
+				i-cur := goto-idx
+			ok-index? = |_
+				<? _ size
+			for!
+				i-left-child = index-left-child i-cur
+				unless! ok-index? i-left-child
+					break!
+				left = heap[i-left-child]
+				i-right-child = + i-left-child 1
+				unless! ok-index? i-right-child
+					if! <? left val
+						go! i-left-child
+					break!
+				right = heap[i-right-child]
+				case!
+					<? left val
+						# TODO:SYNTAX Ternary
+						go! case
+							<? right left
+								i-right-child
+							else
+								i-left-child
+					<? right val
+						go! i-right-child
+					else
+						break!
+			set-nth! heap i-cur val
 
-			fill! = |fill-val
-				set-nth! heap idx fill-val
-			rec-left! = |
-				fill! left
-				rec! il
-			rec-right! = |
-				fill! right
-				rec! ir
-			case!
-				l<
-					case!
-						and r< ~(<? right left)
-							rec-right!()
-						else
-							rec-left!()
-				r<
-					rec-right!()
-				else
-					fill! val
-		rec! 0
+
 
 Heap-Priority-Queue!

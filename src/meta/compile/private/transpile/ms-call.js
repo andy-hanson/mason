@@ -8,7 +8,9 @@ const ms = name => {
 export const
 	IdMs = Identifier('_ms'),
 	lazyWrap = value => msLazy(thunk(value)),
+	msAdd = ms('add'),
 	msArr = ms('arr'),
+	msAssoc = ms('assoc'),
 	msBool = ms('bool'),
 	msGet = ms('get'),
 	msGetDefaultExport = ms('getDefaultExport'),

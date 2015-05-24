@@ -19,7 +19,7 @@ Object! = Alias-Type
 
 empty-Object!.
 	doc. "Creates a new Object! with no properties and the given prototype."
-	test. |
+	test. !|
 		_ = empty-Object!()
 		! empty-Object? _
 		child = empty-Object! _
@@ -29,7 +29,7 @@ empty-Object!.
 
 p+!.
 	doc. "Adds a new immutable property."
-	test. |
+	test. !|
 		_ = empty-Object!()
 		p+! _ "a" 1
 		! =? _.a 1
@@ -37,44 +37,42 @@ p+!.
 			p+! _ "a" 2
 		! fails? |
 			p+! "string" "a" 1
-	|_:Object! name:Object-Key val
+	!|_:Object! name:Object-Key val
 		Object.defineProperty _ name
 			enumerable. true
 			writable. false # TODO:ES6 Shouldn't need to be explicit
 			value. val
-		pass
 
 p+mut!.
 	doc. "Adds a new mutable property."
 	test. "See `p!`"
-	|_:Object! name:Object-Key val
+	!|_:Object! name:Object-Key val
 		Object.defineProperty _ name
 			enumerable. true
 			writable. true
 			value. val
 			configurable. true
-		pass
 
 p!.
 	doc. "Modifies an already-existing property."
-	test. |
+	test. !|
 		_ = empty-Object!()
 		p+mut! _ "a" 1
 		p! _ "a" 2
 		! =? _.a 2
-	|_:Object! name:Object-Key new-val
+	!|_:Object! name:Object-Key new-val
 		in
 			! p? _ name
 
 		js-set _ name new-val
 
 p-!.
-	test. |
+	test. !|
 		_ = empty-Object!()
 		p+mut! _ "a" 1
 		p-! _ "a"
 		!not p? _ "a"
-	|_:Object! name:Object-Key
+	!|_:Object! name:Object-Key
 		in
 			! p? _ name
 
@@ -83,12 +81,12 @@ p-!.
 # TODO: Don't bother, just `spread p+!`
 extend!.
 	doc. "Adds all the properties in `extender` to `_`."
-	test. |
+	test. !|
 		_ = empty-Object!()
 		extend! _
 			a. 1
 		! =? _.a 1
-	|_:Object! extender:Object
+	!|_:Object! extender:Object
 		Object.assign _ extender
 
 Object!

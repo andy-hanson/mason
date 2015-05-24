@@ -13,7 +13,7 @@ make-fizz-buzz.
 		Infinite Seq of Fizz Buzz game.
 		Spec is an Obj whose values are divisors and
 		whose keys are strings to be printed when the divisor matches.
-	test. |
+	test. !|
 		fizz-buzz =
 			# TODO:DISPLAYNAME Should be able to move this to prev line...
 			make-fizz-buzz

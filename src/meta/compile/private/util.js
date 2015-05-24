@@ -90,13 +90,6 @@ export const
 		return mutArr
 	},
 
-	range = max => {
-		const out = []
-		for (let i = 0; i < max; i = i + 1)
-			out.push(i)
-		return out
-	},
-
 	repeat = (em, n) => {
 		assert(n >= 0)
 		const out = []

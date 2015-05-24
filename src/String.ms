@@ -32,11 +32,9 @@ indent.
 		s = "
 			a
 			b
-
 		s-indented = "
 			a
 				b
-
 		[ s ] -> s-indented
 		[ "a" ] -> "a"
 	|_:String

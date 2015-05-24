@@ -9,7 +9,7 @@ use
 	...Type.Type =>
 
 fibs =
-	rec = ~|prev:Nat cur:Nat
+	rec = ~!|prev:Nat cur:Nat
 		<~ cur
 		<~~ rec cur (+ prev cur)
 	Stream rec[0 1]

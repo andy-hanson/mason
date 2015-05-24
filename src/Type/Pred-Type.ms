@@ -47,7 +47,7 @@ region Opt
 
 Any. Pred-Type
 	doc. "Not undefined."
-	test. |
+	test. !|
 		! contains? Any 0
 		! contains? Any null
 		!not contains? Any undefined
@@ -55,7 +55,7 @@ Any. Pred-Type
 
 ObjLit. Pred-Type
 	doc. "Matches only Objects which have no type (other than Object itself)."
-	test. |
+	test. !|
 		! contains? ObjLit (a. 1
 		!not contains? ObjLit ObjLit
 	predicate. |_
@@ -63,7 +63,7 @@ ObjLit. Pred-Type
 
 Union.
 	doc. "Type that matches one of several types. Analogous to `or`."
-	test. |
+	test. !|
 		# As these are all Impl-Types, it would be better to use a Kind.
 		SBN = Union[String Boolean Number]
 		! =? SBN.name "Union[String Boolean Number]"

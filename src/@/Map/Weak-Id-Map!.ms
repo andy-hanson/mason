@@ -26,15 +26,15 @@ kind! Weak-Id-Map! Map!
 		Opt->? (_.get key
 	has-key? -> |_ key
 		_.has key
-	assoc! -> |_ key val
+	assoc! -> !|_ key val
 		_.set key val
 	un-assoc! -> |_ key
-		returning (?get _ key) |
+		returning (?get _ key) !|
 			_.delete key
 	# TODO: unsupported Function?
-	keys -> |
+	keys -> !|
 		oh-no! "Weak-Id-Map! does not support `keys`."
-	empty! -> |
+	empty! -> !|
 		oh-no! "Weak-Id-Map! does not support `empty!`."
 
 Weak-Id-Map!

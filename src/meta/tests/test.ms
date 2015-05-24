@@ -11,6 +11,7 @@ use
 	...control if
 	...Function noop
 	...Generator!
+	...js defined?
 	...Object ?p p p? @p @p-all
 	...Try $annotate-errors annotate-errors oh-no! Success try
 	...Type.Impl-Type
@@ -26,7 +27,7 @@ use-debug
 doc. "For running code in `test` properties."
 
 # TODO
-test. |
+test. !|
 	! =? [ "x" "y" "b" ] (build |yield
 		obj =
 			a.
@@ -102,8 +103,8 @@ all-tested = empty Id-Set!
 
 $test-fun.
 	doc. "TODO"
-	test. |
-		"TODO"
+	test. !|
+		pass # TODO
 	|_:Function
 		$all (@$test-single "{_}" _ false)
 
@@ -153,6 +154,9 @@ $test-fun.
 			[ ]
 		:$
 			[ ($annotate-errors ~ano _) ]
+		defined?_
+			annotate-errors ~ano !|
+				oh-no! "Test must return Map or $."
 		else
 			[ ]
 

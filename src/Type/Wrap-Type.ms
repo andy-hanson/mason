@@ -41,7 +41,7 @@ Wrap-Type = Obj-Type
 			add! "}"
 		f = Function "wrappedType" src
 		f _.wrapped-type
-	test. |
+	test. !|
 		W = Wrap-Type
 			doc. "W"
 			wrapped-type. Number

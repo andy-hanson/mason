@@ -36,7 +36,7 @@ $done.
 		It would be great if we could make these errors happen top-level...
 		This is probably a kludge. See <http://blog.soareschen.com/the-problem-with-es6-promises>.
 	|_:$
-		$catch _ |err
+		$catch _ !|err
 			# Don't use log! because there if errors happen in there, the error disappears!
 			global.console.log "
 				=== error ===
@@ -48,7 +48,7 @@ $done.
 
 $fail-after-time.
 	doc. "Fails if it takes too long."
-	$test. ~|
+	$test. ~!|
 		$x = $after-time 100 |
 			1
 		a <~ $try ($fail-after-time $x 1
@@ -66,14 +66,14 @@ $after.
 	doc. "
 		Applies `then` to the result whenever it is ready.
 		If `then` returns a $, returns a $ for that $'s value; else returns a $ for the result of `then`.
-	$test. ~|
+	$test. ~!|
 		! =? 2 (<~ $after ($resolved 1) +[1]
 	|:$ _:$ then:Function
 		_.then then
 
 $resolved.
 	doc. "$ that is already resolved."
-	$test. ~|
+	$test. ~!|
 		! =? 1 (<~ $resolved 1
 	|:$ value
 		$.resolve value
@@ -81,7 +81,7 @@ $resolved.
 $rejected.
 	doc. "$ that is already rejected."
 	test. |
-		$ing ~|
+		$ing ~!|
 			r = $rejected "a"
 			! =? "a" (<~ $try r).message
 			# $after will be ignored
@@ -97,7 +97,7 @@ $delay.
 		Does *not* run it in parallel.
 		It should go without saying,
 		but if you needlessly $delay things all the time your program will take longer.
-	$test. ~|
+	$test. ~!|
 		! =? 1 (<~ $delay |
 			1
 	|delayed:Thunk
@@ -108,7 +108,7 @@ $all.
 	doc. "
 		$ that resolves when the last $ in the input does, with every value in the original iteration order.
 		If any one of them fails, fails with the first such failure.
-	$test. ~|
+	$test. ~!|
 		! =? [ 1 2 ] (<~ ($all [ ($resolved 1) ($resolved 2
 		all-rejected = $all [ ($rejected "a") ($rejected "b") ]
 		! =? "a" (<~ $try all-rejected).message
@@ -119,7 +119,7 @@ $map.
 	doc. "
 		Asynchronously runs mapper for every element of mapped and returns a $ joining them.
 		Unlike map, this always returns an Array.
-	$test. ~|
+	$test. ~!|
 		! =? [ 2 3 4 ] (<~ $map [ 1 2 3 ] |_
 			$delay |
 				+ _ 1
@@ -128,7 +128,7 @@ $map.
 
 $flat-map.
 	doc. "Like $map but flattens the result."
-	$test. ~|
+	$test. ~!|
 		! =? [ 1 1 2 2 3 3 ] (<~ ($flat-map [ 1 2 3 ] |_
 			$delay |
 				[ _ _ ]
@@ -139,7 +139,7 @@ $keep.
 	doc. "
 		Asynchronously runs keep-if? on each element and creates an Array of those that match.
 		Maintains the original order.
-	$test. ~|
+	$test. ~!|
 		! =? [ 2 4 ] (<~ ($keep [ 1 2 3 4 ] |_
 			$delay |
 				divisible? _ 2
@@ -153,7 +153,7 @@ $call.
 		Allows you to cal a function on $s as if they were the arguments.
 		So for any place you would write `f x` where `x` is an actualized value,
 		you may write `$call f $x` where `$x` is a promise.
-	$test. ~|
+	$test. ~!|
 		! =? 3 (<~ $call + ($resolved 1) ($resolved 2)
 	|:$ f ...$args
 		$after ($all $args) apply[f]
@@ -164,12 +164,12 @@ $ing.
 			a <~ $get-a
 		The code after the assignment will become an $after of it.
 		Note that $ing returns a $; it does *not* call $done at the end.
-	$test. ~|
+	$test. ~!|
 		! =? "res" (<~ $ing ~|
 			promised <~ $resolved "promised"
 			! =? "promised" promised
 			"res"
-		$whoops <~ $try ($ing ~|
+		$whoops <~ $try ($ing ~!|
 			<~ $rejected "whoops"
 			oh-no! "It's been rejected, so the rest is never called."
 		! =? "whoops" $whoops.message

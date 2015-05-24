@@ -12,7 +12,7 @@ use-debug
 
 maximum-anagram-sets.
 	doc. "http://rosettacode.org/wiki/Anagrams#JavaScript"
-	test. |
+	test. !|
 		words = split-str (RegExp "\\s") "
 			abel able bale bela elba
 			alger glare lager large regal

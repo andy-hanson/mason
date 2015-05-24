@@ -9,21 +9,21 @@ define(["exports","../Boolean","../compare","../control","../Object","../js","..
 			const doc="A multiple of 1.\nThis only contains Numbers for which integer methods return sensible results, AKA safe ints.\nThis is anything between min-safe-integer and max-safe-integer.";
 			const test=function test(){
 				_ms.unlazy(spread_33)(_ms.sub(_ms.unlazy(_33),_ms.sub(_ms.unlazy(contains_63),Int)),function(){
-					const _0=1;
-					const _1=min_45safe_45int;
-					const _2=max_45safe_45int;
-					return [_0,_1,_2]
+					const built=[];
+					_ms.add(built,1);
+					_ms.add(built,min_45safe_45int);
+					_ms.add(built,max_45safe_45int);
+					return built
 				}());
-				return _ms.unlazy(spread_33)(_ms.sub(_ms.unlazy(_33not),_ms.sub(_ms.unlazy(contains_63),Int)),function(){
-					const _0=1.1;
-					const _1=_45(min_45safe_45int,1);
-					const _2=_43(max_45safe_45int,1);
-					return [_0,_1,_2]
+				_ms.unlazy(spread_33)(_ms.sub(_ms.unlazy(_33not),_ms.sub(_ms.unlazy(contains_63),Int)),function(){
+					const built=[];
+					_ms.add(built,1.1);
+					_ms.add(built,_45(min_45safe_45int,1));
+					_ms.add(built,_43(max_45safe_45int,1));
+					return built
 				}())
 			};
-			const predicate=function predicate(_){
-				return Number.isSafeInteger(_)
-			};
+			const predicate=Number.isSafeInteger;
 			return {
 				doc:doc,
 				test:test,
@@ -35,7 +35,7 @@ define(["exports","../Boolean","../compare","../control","../Object","../js","..
 			const doc="Any counting number, including `0`.";
 			const test=function test(){
 				_ms.unlazy(_33)(_ms.unlazy(contains_63),Nat,0);
-				return _ms.unlazy(_33not)(_ms.unlazy(contains_63),Nat,- 1)
+				_ms.unlazy(_33not)(_ms.unlazy(contains_63),Nat,- 1)
 			};
 			const predicate=function predicate(_){
 				return and(_ms.contains(Int,_),_ms.lazy(function(){
@@ -52,8 +52,9 @@ define(["exports","../Boolean","../compare","../control","../Object","../js","..
 		impl_33(compare,Number,_45);
 		impl_33(_61_63,Number,function(){
 			const test=function test(){
-				const _k0=[not_45a_45number,not_45a_45number],_v0=true;
-				return _ms.map(_k0,_v0)
+				const built=new global.Map();
+				_ms.assoc(built,[not_45a_45number,not_45a_45number],true);
+				return built
 			};
 			return _ms.set(id_61_63,"test",test)
 		}());
@@ -83,10 +84,11 @@ define(["exports","../Boolean","../compare","../control","../Object","../js","..
 		});
 		const sign=exports.sign=function(){
 			const test=function test(){
-				const _k0=[- 8],_v0=- 1;
-				const _k1=[0],_v1=0;
-				const _k2=[8],_v2=1;
-				return _ms.map(_k0,_v0,_k1,_v1,_k2,_v2)
+				const built=new global.Map();
+				_ms.assoc(built,[- 8],- 1);
+				_ms.assoc(built,[0],0);
+				_ms.assoc(built,[8],1);
+				return built
 			};
 			return _ms.set(function sign(_){
 				_ms.checkContains(Number,_,"_");
@@ -104,11 +106,12 @@ define(["exports","../Boolean","../compare","../control","../Object","../js","..
 		const remainder=exports.remainder=function(){
 			const doc="Remainder of `a` after dividing by `b`.\nSign of result is sign of `a`. Sign of `b` is ignored.";
 			const test=function test(){
-				const _k0=[2,3],_v0=2;
-				const _k1=[2,- 3],_v1=2;
-				const _k2=[- 2,3],_v2=- 2;
-				const _k3=[- 2,- 3],_v3=- 2;
-				return _ms.map(_k0,_v0,_k1,_v1,_k2,_v2,_k3,_v3)
+				const built=new global.Map();
+				_ms.assoc(built,[2,3],2);
+				_ms.assoc(built,[2,- 3],2);
+				_ms.assoc(built,[- 2,3],- 2);
+				_ms.assoc(built,[- 2,- 3],- 2);
+				return built
 			};
 			return _ms.set(function remainder(numerator,denominator){
 				_ms.checkContains(Number,numerator,"numerator");
@@ -119,9 +122,10 @@ define(["exports","../Boolean","../compare","../control","../Object","../js","..
 		const int_47=exports["int/"]=function(){
 			const doc="Integer division: throws out any remainder.\nThis is the default in other programming languages, but in Mason `/ 1 2` is 0.5, not 0.";
 			const test=function test(){
-				const _k0=[3,2],_v0=1;
-				const _k1=[- 3,2],_v1=- 2;
-				return _ms.map(_k0,_v0,_k1,_v1)
+				const built=new global.Map();
+				_ms.assoc(built,[3,2],1);
+				_ms.assoc(built,[- 3,2],- 2);
+				return built
 			};
 			return _ms.set(function int_47(a,b){
 				_ms.checkContains(Number,a,"a");
@@ -132,11 +136,12 @@ define(["exports","../Boolean","../compare","../control","../Object","../js","..
 		const modulo=exports.modulo=function(){
 			const doc="Mathematical modulus.\nSmallest positive number which can be added to a multiple of `denominator` to get `numerator`.\"";
 			const test=function test(){
-				const _k0=[2,3],_v0=2;
-				const _k1=[2,- 3],_v1=2;
-				const _k2=[- 2,3],_v2=1;
-				const _k3=[- 2,- 3],_v3=1;
-				return _ms.map(_k0,_v0,_k1,_v1,_k2,_v2,_k3,_v3)
+				const built=new global.Map();
+				_ms.assoc(built,[2,3],2);
+				_ms.assoc(built,[2,- 3],2);
+				_ms.assoc(built,[- 2,3],1);
+				_ms.assoc(built,[- 2,- 3],1);
+				return built
 			};
 			return _ms.set(function modulo(numerator,denominator){
 				_ms.checkContains(Number,numerator,"numerator");
@@ -172,9 +177,10 @@ define(["exports","../Boolean","../compare","../control","../Object","../js","..
 		const log=exports.log=function(){
 			const doc="Mathematical logarithm.";
 			const test=function test(){
+				const built=new global.Map();
 				_ms.unlazy(_33)(near_63,log(10,0.01),- 2);
-				const _k0=[2,8],_v0=3;
-				return _ms.map(_k0,_v0)
+				_ms.assoc(built,[2,8],3);
+				return built
 			};
 			return _ms.set(function log(base,n){
 				_ms.checkContains(Number,base,"base");
@@ -185,9 +191,10 @@ define(["exports","../Boolean","../compare","../control","../Object","../js","..
 		const abs=exports.abs=function(){
 			const doc="Negates `a` until it is positive.";
 			const test=function test(){
-				const _k0=[1],_v0=1;
-				const _k1=[- 1],_v1=1;
-				return _ms.map(_k0,_v0,_k1,_v1)
+				const built=new global.Map();
+				_ms.assoc(built,[1],1);
+				_ms.assoc(built,[- 1],1);
+				return built
 			};
 			return _ms.set(function abs(a){
 				_ms.checkContains(Number,a,"a");
@@ -197,8 +204,9 @@ define(["exports","../Boolean","../compare","../control","../Object","../js","..
 		const pow=exports.pow=function(){
 			const doc="`a` raised to the power of `b`.";
 			const test=function test(){
-				const _k0=[2,3],_v0=8;
-				return _ms.map(_k0,_v0)
+				const built=new global.Map();
+				_ms.assoc(built,[2,3],8);
+				return built
 			};
 			return _ms.set(function pow(a,b){
 				_ms.checkContains(Number,a,"a");
@@ -212,11 +220,12 @@ define(["exports","../Boolean","../compare","../control","../Object","../js","..
 		};
 		const square_45root=exports["square-root"]=function(){
 			const test=function test(){
-				const _k0=[4],_v0=2;
+				const built=new global.Map();
+				_ms.assoc(built,[4],2);
 				_ms.unlazy(_33)(_ms.unlazy(fails_63),function(){
-					return square_45root(- 1)
+					square_45root(- 1)
 				});
-				return _ms.map(_k0,_v0)
+				return built
 			};
 			return _ms.set(function square_45root(_){
 				_ms.checkContains(Number,_,"_");
@@ -227,9 +236,10 @@ define(["exports","../Boolean","../compare","../control","../Object","../js","..
 		const round=exports.round=function(){
 			const doc="Closest integer.\nRounds up to break ties.";
 			const test=function test(){
-				const _k0=[- 0.5],_v0=- 0;
-				const _k1=[0.5],_v1=1;
-				return _ms.map(_k0,_v0,_k1,_v1)
+				const built=new global.Map();
+				_ms.assoc(built,[- 0.5],- 0);
+				_ms.assoc(built,[0.5],1);
+				return built
 			};
 			return _ms.set(function round(_){
 				_ms.checkContains(Number,_,"_");
@@ -239,9 +249,10 @@ define(["exports","../Boolean","../compare","../control","../Object","../js","..
 		const round_45down=exports["round-down"]=function(){
 			const doc="Greatest integer no greater than `a`.";
 			const test=function test(){
-				const _k0=[- 0.5],_v0=- 1;
-				const _k1=[0.5],_v1=0;
-				return _ms.map(_k0,_v0,_k1,_v1)
+				const built=new global.Map();
+				_ms.assoc(built,[- 0.5],- 1);
+				_ms.assoc(built,[0.5],0);
+				return built
 			};
 			return _ms.set(function round_45down(_){
 				_ms.checkContains(Number,_,"_");
@@ -251,9 +262,10 @@ define(["exports","../Boolean","../compare","../control","../Object","../js","..
 		const round_45up=exports["round-up"]=function(){
 			const doc="Least integer no less than `a`.";
 			const test=function test(){
-				const _k0=[- 0.5],_v0=- 0;
-				const _k1=[0.5],_v1=1;
-				return _ms.map(_k0,_v0,_k1,_v1)
+				const built=new global.Map();
+				_ms.assoc(built,[- 0.5],- 0);
+				_ms.assoc(built,[0.5],1);
+				return built
 			};
 			return _ms.set(function round_45up(_){
 				_ms.checkContains(Number,_,"_");
@@ -263,9 +275,10 @@ define(["exports","../Boolean","../compare","../control","../Object","../js","..
 		const round_45towards_450=exports["round-towards-0"]=function(){
 			const doc="`round-down` if positive, else `round-up`.";
 			const test=function test(){
-				const _k0=[- 0.5],_v0=0;
-				const _k1=[0.5],_v1=0;
-				return _ms.map(_k0,_v0,_k1,_v1)
+				const built=new global.Map();
+				_ms.assoc(built,[- 0.5],0);
+				_ms.assoc(built,[0.5],0);
+				return built
 			};
 			return _ms.set(function round_45towards_450(_){
 				_ms.checkContains(Number,_,"_");
@@ -275,14 +288,15 @@ define(["exports","../Boolean","../compare","../control","../Object","../js","..
 		const near_63=exports["near?"]=function(){
 			const doc="Whether they are within sig-figs precision.";
 			const test=function test(){
-				const _k0=[1000.9,1000,3],_v0=true;
-				const _k1=[1000.9,1000,4],_v1=false;
-				const _k2=[0.001001,0.001,3],_v2=true;
-				const _k3=[0.001001,0.001,4],_v3=false;
-				const _k4=[0.001,- 0.001,1],_v4=false;
-				const _k5=[0.00999,0,2],_v5=true;
-				const _k6=[0,0.00999,2],_v6=true;
-				return _ms.map(_k0,_v0,_k1,_v1,_k2,_v2,_k3,_v3,_k4,_v4,_k5,_v5,_k6,_v6)
+				const built=new global.Map();
+				_ms.assoc(built,[1000.9,1000,3],true);
+				_ms.assoc(built,[1000.9,1000,4],false);
+				_ms.assoc(built,[0.001001,0.001,3],true);
+				_ms.assoc(built,[0.001001,0.001,4],false);
+				_ms.assoc(built,[0.001,- 0.001,1],false);
+				_ms.assoc(built,[0.00999,0,2],true);
+				_ms.assoc(built,[0,0.00999,2],true);
+				return built
 			};
 			return _ms.set(function near_63(a,b,sig_45figs){
 				_ms.checkContains(Number,b,"b");
@@ -307,9 +321,10 @@ define(["exports","../Boolean","../compare","../control","../Object","../js","..
 		const near_450_63=exports["near-0?"]=function(){
 			const doc="Whether it is close to zero.\nIt must be `0.0...` where there are `sig-figs` 0s after the decimal point.";
 			const test=function test(){
-				const _k0=[0.00999,2],_v0=true;
-				const _k1=[0.01,2],_v1=false;
-				return _ms.map(_k0,_v0,_k1,_v1)
+				const built=new global.Map();
+				_ms.assoc(built,[0.00999,2],true);
+				_ms.assoc(built,[0.01,2],false);
+				return built
 			};
 			return _ms.set(function near_450_63(_,sig_45figs){
 				_ms.checkContains(_ms.sub(Opt,Nat),sig_45figs,"sig-figs");
@@ -327,4 +342,4 @@ define(["exports","../Boolean","../compare","../control","../Object","../js","..
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tYXRoL051bWJlci5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7O0VBZUEsc0JBQUssc0JBQ1M7R0FBYixVQUNDO0dBR0QsV0FDTyxlQUFBO2tGQUFjLGdCQUNLO0tBQXhCLFNBQUU7S0FDRixTQUFFO0tBQ0YsU0FBRTs7OzRGQUNvQixnQkFDSztLQUEzQixTQUFFO0tBQ0YsU0FBRSxJQUFFLGlCQUFhO0tBQ2pCLFNBQUUsSUFBRSxpQkFBYTs7OztHQUNuQixnQkFBWSxtQkFBQSxFQUNDO1dBQVoscUJBQXFCO0dBQUE7Ozs7Ozs7O0VBRXZCLHNCQUFLLHNCQUNTO0dBQWIsVUFBTTtHQUNOLFdBQ08sZUFBQTs0Q0FBTSxJQUFJO3NEQUNELElBQUk7O0dBQ3BCLGdCQUFZLG1CQUFBLEVBQ0M7V0FBWixpQkFBSyxJQUFEO1lBQU8sVUFBSSxFQUFFO0lBQUE7R0FBQTs7Ozs7Ozs7RUFJbEIsUUFBTSxRQUFRLE9BQU87RUFDckIsUUFBTSxPQUFHLGlCQUNNO0dBQWQsV0FDTyxlQUFBO0lBQU4sVUFBQSxDQUFFLGlCQUFhLHNCQUFrQjs7O2tCQUNsQzs7RUFDRCxRQUFNLE9BQUcsT0FBUSxTQUFBLEVBQUUsRUFDUTtxQkFETjtVQUNwQixNQUFJLEVBQUU7RUFBQTtFQUNQLFFBQU0sVUFBSSxPQUFRLFNBQUEsRUFBRSxFQUNRO3FCQUROO1VBQ3JCLFNBQUssRUFBRTtFQUFBO0VBQ1IsUUFBTSxJQUFFLE9BQVEsU0FBQSxFQUFFLEVBQ1E7cUJBRE47VUFDbkIsTUFBSSxFQUFFO0VBQUE7RUFDUCxRQUFNLElBQUUsT0FBUSxTQUFBLEVBQUUsRUFDUTtxQkFETjtVQUNuQixNQUFJLEVBQUU7RUFBQTtFQUNQLFFBQU0sSUFBRSxPQUFRLFNBQUEsRUFBRSxFQUNRO3FCQUROO1VBQ25CLE1BQUksRUFBRTtFQUFBO0VBQ1AsUUFBTSxJQUFFLE9BQVEsU0FBQSxFQUFFLEVBQ1E7cUJBRE47VUFDbkIsTUFBSSxFQUFFO0VBQUE7RUFHUCxrQ0FDSztHQUFKLFdBQ08sZUFBQTtJQUFOLFVBQUEsQ0FBRSxTQUFRO0lBQ1YsVUFBQSxDQUFFLE9BQU87SUFDVCxVQUFBLENBQUUsT0FBTzs7O2tCQUNULGNBQUEsRUFDUTtzQkFETjs7S0FFRCxZQUFBLE9BQUcsRUFBRSxJQUNDO2FBQUw7S0FBQSxPQUNELFlBQUEsT0FBRyxFQUFFLElBQ0M7YUFBTDtZQUVHO2FBQUg7S0FBQTtJQUFBO0dBQUE7O0VBR0osNENBQ1U7R0FBVCxVQUNDO0dBRUQsV0FDTyxlQUFBO0lBQU4sVUFBQSxDQUFFLEVBQUUsT0FBTztJQUNYLFVBQUEsQ0FBRSxFQUFFLFNBQVE7SUFDWixVQUFBLENBQUUsSUFBRyxPQUFPO0lBQ1osVUFBQSxDQUFFLElBQUcsU0FBUTs7O2tCQUNiLG1CQUFBLFVBQWlCLFlBQ2tCO3NCQUR6QjtzQkFBbUI7V0FDN0IsU0FBTyxVQUFVO0dBQUE7O0VBRW5CLHVDQUNLO0dBQUosVUFDQztHQUVELFdBQ08sZUFBQTtJQUFOLFVBQUEsQ0FBRSxFQUFFLE9BQU87SUFDWCxVQUFBLENBQUUsSUFBRyxPQUFPOzs7a0JBQ1osZ0JBQUEsRUFBUyxFQUNRO3NCQURmO3NCQUFTO1dBQ1gsYUFBWSxJQUFFLEVBQUU7R0FBQTs7RUFFbEIsc0NBQ087R0FBTixVQUNDO0dBRUQsV0FDTyxlQUFBO0lBQU4sVUFBQSxDQUFFLEVBQUUsT0FBTztJQUNYLFVBQUEsQ0FBRSxFQUFFLFNBQVE7SUFDWixVQUFBLENBQUUsSUFBRyxPQUFPO0lBQ1osVUFBQSxDQUFFLElBQUcsU0FBUTs7O2tCQUNiLGdCQUFBLFVBQWlCLFlBR2pCO3NCQUhVO3NCQUFtQjs7S0FJNUIsWUFBQSxPQUFHLFVBQVUsSUFDQzthQUFiLElBQUcsSUFBSSxhQUFjLFVBQVUsVUFBVTtLQUFBLE9BRXRDO2FBQUgsVUFBVSxVQUFVO0tBQUE7SUFBQTtJQUxyQixhQUFZLElBQUUsVUFBVSxLQUFLOzs7O0VBT2hDLG1EQUNXO0dBQVYsVUFBTTtHQUNOLFdBQ08sZUFBQTtvQkFBSixhQUFXLEVBQUU7b0JBQ2IsYUFBVyxFQUFFOzhCQUNWLGFBQVcsRUFBRTtHQUFBO2tCQUNsQixzQkFBQSxFQUFTLEVBQ1E7c0JBRGY7c0JBQVM7V0FDWCxPQUFHLEVBQUcsVUFBVSxFQUFFO0dBQUE7O0VBS3BCLCtCQUFRLGlCQUFBLEVBQ1E7cUJBRE47VUFDVCxTQUFTO0VBQUE7RUFFVixnQ0FDSTtHQUFILFVBQU07R0FDTixXQUNPLGVBQUE7b0JBQUosUUFBTyxJQUFJLEdBQUcsTUFBTTtJQUN0QixVQUFBLENBQUUsRUFBRSxPQUFPOzs7a0JBQ1gsYUFBQSxLQUFZLEVBQ1E7c0JBRGY7c0JBQVM7V0FDZCxJQUFHLFFBQU0sR0FBSSxRQUFNO0dBQUE7O0VBRXJCLGdDQUNJO0dBQUgsVUFBTTtHQUNOLFdBQ08sZUFBQTtJQUFOLFVBQUEsQ0FBRSxPQUFPO0lBQ1QsVUFBQSxDQUFFLFNBQVE7OztrQkFDVixhQUFBLEVBQ1E7c0JBRE47V0FDRixTQUFTO0dBQUE7O0VBRVgsZ0NBQ0k7R0FBSCxVQUFNO0dBQ04sV0FDTyxlQUFBO0lBQU4sVUFBQSxDQUFFLEVBQUUsT0FBTzs7O2tCQUNYLGFBQUEsRUFBUyxFQUNRO3NCQURmO3NCQUFTO1dBQ1gsU0FBUyxFQUFFO0dBQUE7O0VBRWIsNEJBQVMsZ0JBQUEsRUFDUTtxQkFETjtVQUNWLElBQUUsRUFBRTtFQUFBO0VBRUwscURBQ1k7R0FBWCxXQUNPLGVBQUE7SUFBTixVQUFBLENBQUUsT0FBTzt5Q0FFTyxVQUFBO1lBQWYsY0FBWTs7OztrQkFDYix1QkFBQSxFQUdBO3NCQUhFO29CQUVFLFVBQUksRUFBRSxHQUFJLHdEQUEyQztXQUN6RCxVQUFVO0dBQUE7O0VBR1osb0NBQ007R0FBTCxVQUNDO0dBRUQsV0FDTyxlQUFBO0lBQU4sVUFBQSxDQUFFLFdBQVU7SUFDWixVQUFBLENBQUUsU0FBUzs7O2tCQUNYLGVBQUEsRUFDUTtzQkFETjtXQUNGLFdBQVc7R0FBQTs7RUFFYixtREFDVztHQUFWLFVBQU07R0FDTixXQUNPLGVBQUE7SUFBTixVQUFBLENBQUUsV0FBVTtJQUNaLFVBQUEsQ0FBRSxTQUFTOzs7a0JBQ1gsc0JBQUEsRUFDUTtzQkFETjtXQUNGLFdBQVc7R0FBQTs7RUFFYiwrQ0FDUztHQUFSLFVBQU07R0FDTixXQUNPLGVBQUE7SUFBTixVQUFBLENBQUUsV0FBVTtJQUNaLFVBQUEsQ0FBRSxTQUFTOzs7a0JBQ1gsb0JBQUEsRUFDUTtzQkFETjtXQUNGLFVBQVU7R0FBQTs7RUFFWiwrREFDZ0I7R0FBZixVQUFNO0dBQ04sV0FDTyxlQUFBO0lBQU4sVUFBQSxDQUFFLFdBQVU7SUFDWixVQUFBLENBQUUsU0FBUzs7O2tCQUNYLDZCQUFBLEVBQ1E7c0JBRE47V0FDRixTQUFPLEVBQUU7R0FBQTs7RUFHWCx5Q0FDTTtHQUFMLFVBQU07R0FDTixXQUNPLGVBQUE7SUFBTixVQUFBLENBQUUsT0FBTyxLQUFLLE9BQU87SUFDckIsVUFBQSxDQUFFLE9BQU8sS0FBSyxPQUFPO0lBQ3JCLFVBQUEsQ0FBRSxTQUFTLE1BQU0sT0FBTztJQUN4QixVQUFBLENBQUUsU0FBUyxNQUFNLE9BQU87SUFDeEIsVUFBQSxDQUFFLE1BQU0sUUFBTyxPQUFPO0lBRXJCLFVBQUEsQ0FBRSxRQUFRLEVBQUUsT0FBTztJQUNuQixVQUFBLENBQUUsRUFBRSxRQUFRLE9BQU87OztrQkFDcEIsaUJBQUEsRUFBRSxFQUFTLFdBQ2lCO3NCQUR4Qjs4QkFBZ0IsSUFBSTtlQUNaLElBQUksV0FBUzs7S0FFeEIsWUFBQSxPQUFHLEVBQUUsSUFDQzthQUFMLFlBQVEsRUFBRTtLQUFBLE9BQ1gsWUFBQSxPQUFHLEVBQUUsSUFDQzthQUFMLFlBQVEsRUFBRTtLQUFBLE9BRVA7TUFBSCxnQkFBVSxJQUFHLElBQUcsSUFBSSxHQUFJLElBQUksSUFBSTtNQUNoQyw2QkFBbUIsYUFBWSxJQUFJLEdBQUc7TUFDdEMsWUFBUSxJQUFJLEdBQUksSUFBRSxJQUFHO01BQ3JCLG9CQUFjLElBQUcsSUFBRSxFQUFFLE9BQVEsSUFBRSxFQUFFO01BQ2pDLGNBQVUsSUFBSSxHQUFJLElBQUUsSUFBRzthQUN2QixPQUFJLElBQUksZUFBYTtLQUFBO0lBQUE7R0FBQTs7RUFFekIsK0NBQ1E7R0FBUCxVQUNDO0dBRUQsV0FDTyxlQUFBO0lBQU4sVUFBQSxDQUFFLFFBQVEsT0FBTztJQUNqQixVQUFBLENBQUUsS0FBSyxPQUFPOzs7a0JBQ2QscUJBQUEsRUFBRSxXQUNpQjs4QkFEUixJQUFJO2VBQ0gsSUFBSSxXQUFTO0lBRXpCLFVBQU0sSUFBSSxHQUFJLElBQUUsSUFBRztXQUNuQixPQUFHLElBQUcsR0FBRTtHQUFBOztFQUdWLGdDQUFVLEVBQUUsT0FBUTtFQUNwQix1Q0FBVyxFQUFFLE9BQVE7RUFDckIsK0NBQWMsRUFBRSxPQUFRO0VBQ3hCLCtDQUFjLEVBQUUsT0FBUTtFQUN4QiwrQ0FBYztFQXZQZix3QkFBQSIsImZpbGUiOiJtYXRoL051bWJlci5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tYXRoL051bWJlci5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7O0VBZUEsc0JBQUssc0JBQ1M7R0FBYixVQUNDO0dBR0QsV0FDUSxlQUFBO2tGQUFhLGdCQUNLOzttQkFBdEI7bUJBQ0E7bUJBQ0E7OztxRkFDb0IsZ0JBQ0s7O21CQUF6QjttQkFDQSxJQUFFLGlCQUFhO21CQUNmLElBQUUsaUJBQWE7Ozs7R0FDbkIsZ0JBQVc7Ozs7Ozs7O0VBRVosc0JBQUssc0JBQ1M7R0FBYixVQUFNO0dBQ04sV0FDUSxlQUFBOzRDQUFLLElBQUk7K0NBQ0QsSUFBSTs7R0FDcEIsZ0JBQVksbUJBQUEsRUFDQztXQUFaLGlCQUFLLElBQUQ7WUFBTyxVQUFJLEVBQUU7SUFBQTtHQUFBOzs7Ozs7OztFQUlsQixRQUFNLFFBQVEsT0FBTztFQUNyQixRQUFNLE9BQUcsaUJBQ007R0FBZCxXQUNPLGVBQUE7O29CQUFOLENBQUUsaUJBQWEsa0JBQWtCOzs7a0JBQ2xDOztFQUNELFFBQU0sT0FBRyxPQUFRLFNBQUEsRUFBRSxFQUNRO3FCQUROO1VBQ3BCLE1BQUksRUFBRTtFQUFBO0VBQ1AsUUFBTSxVQUFJLE9BQVEsU0FBQSxFQUFFLEVBQ1E7cUJBRE47VUFDckIsU0FBSyxFQUFFO0VBQUE7RUFDUixRQUFNLElBQUUsT0FBUSxTQUFBLEVBQUUsRUFDUTtxQkFETjtVQUNuQixNQUFJLEVBQUU7RUFBQTtFQUNQLFFBQU0sSUFBRSxPQUFRLFNBQUEsRUFBRSxFQUNRO3FCQUROO1VBQ25CLE1BQUksRUFBRTtFQUFBO0VBQ1AsUUFBTSxJQUFFLE9BQVEsU0FBQSxFQUFFLEVBQ1E7cUJBRE47VUFDbkIsTUFBSSxFQUFFO0VBQUE7RUFDUCxRQUFNLElBQUUsT0FBUSxTQUFBLEVBQUUsRUFDUTtxQkFETjtVQUNuQixNQUFJLEVBQUU7RUFBQTtFQUdQLGtDQUNLO0dBQUosV0FDTyxlQUFBOztvQkFBTixD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WixDQUFFLEtBQVM7OztrQkFDWCxvQkFBQSxFQUNRO3NCQUROO1dBQ0YsVUFBVTtHQUFBOztFQUVaLCtEQUNnQjtHQUFmLFVBQU07R0FDTixXQUNPLGVBQUE7O29CQUFOLENBQUUsT0FBVTtvQkFDWixDQUFFLEtBQVM7OztrQkFDWCw2QkFBQSxFQUNRO3NCQUROO1dBQ0YsU0FBTyxFQUFFO0dBQUE7O0VBR1gseUNBQ007R0FBTCxVQUFNO0dBQ04sV0FDTyxlQUFBOztvQkFBTixDQUFFLE9BQU8sS0FBSyxHQUFPO29CQUNyQixDQUFFLE9BQU8sS0FBSyxHQUFPO29CQUNyQixDQUFFLFNBQVMsTUFBTSxHQUFPO29CQUN4QixDQUFFLFNBQVMsTUFBTSxHQUFPO29CQUN4QixDQUFFLE1BQU0sUUFBTyxHQUFPO29CQUVyQixDQUFFLFFBQVEsRUFBRSxHQUFPO29CQUNuQixDQUFFLEVBQUUsUUFBUSxHQUFPOzs7a0JBQ3BCLGlCQUFBLEVBQUUsRUFBUyxXQUNpQjtzQkFEeEI7OEJBQWdCLElBQUk7ZUFDWixJQUFJLFdBQVM7O0tBRXhCLFlBQUEsT0FBRyxFQUFFLElBQ0M7YUFBTCxZQUFRLEVBQUU7S0FBQSxPQUNYLFlBQUEsT0FBRyxFQUFFLElBQ0M7YUFBTCxZQUFRLEVBQUU7S0FBQSxPQUVQO01BQUgsZ0JBQVUsSUFBRyxJQUFHLElBQUksR0FBSSxJQUFJLElBQUk7TUFDaEMsNkJBQW1CLGFBQVksSUFBSSxHQUFHO01BQ3RDLFlBQVEsSUFBSSxHQUFJLElBQUUsSUFBRztNQUNyQixvQkFBYyxJQUFHLElBQUUsRUFBRSxPQUFRLElBQUUsRUFBRTtNQUNqQyxjQUFVLElBQUksR0FBSSxJQUFFLElBQUc7YUFDdkIsT0FBSSxJQUFJLGVBQWE7S0FBQTtJQUFBO0dBQUE7O0VBRXpCLCtDQUNRO0dBQVAsVUFDQztHQUVELFdBQ08sZUFBQTs7b0JBQU4sQ0FBRSxRQUFRLEdBQU87b0JBQ2pCLENBQUUsS0FBSyxHQUFPOzs7a0JBQ2QscUJBQUEsRUFBRSxXQUNpQjs4QkFEUixJQUFJO2VBQ0gsSUFBSSxXQUFTO0lBRXpCLFVBQU0sSUFBSSxHQUFJLElBQUUsSUFBRztXQUNuQixPQUFHLElBQUcsR0FBRTtHQUFBOztFQUdWLGdDQUFVLEVBQUUsT0FBUTtFQUNwQix1Q0FBVyxFQUFFLE9BQVE7RUFDckIsK0NBQWMsRUFBRSxPQUFRO0VBQ3hCLCtDQUFjLEVBQUUsT0FBUTtFQUN4QiwrQ0FBYztFQXRQZix3QkFBQSIsImZpbGUiOiJtYXRoL051bWJlci5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

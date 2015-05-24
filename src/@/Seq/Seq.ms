@@ -37,8 +37,8 @@ region TODO
 		doc. "
 			TODO:REST
 			(There is no `++>'` because `++` by default adds to the right for Seqs.)
-		test. |
-			"TODO"
+		test. !|
+			pass # TODO
 		args. 2
 		default. |_:@ left-added:@
 			=> type-of_ (++ left-added _
@@ -116,7 +116,7 @@ region Search
 			The types of the @s do not matter.
 			Equivalent to `=? (=> Array @a) (=> Array @b)`, but may not have to fully unlazy both.
 		test. |
-			s = Stream ~|
+			s = Stream ~!|
 				<~ 1
 			! seq=? s [ 1 ]
 			!not seq=? s [ 2 ]
@@ -168,7 +168,7 @@ region Search
 
 	impl! sub Seq
 		doc. "Nth value in iteration order."
-		test. |
+		test. !|
 			! =? [ 0 1 ][1] 1
 			! fails? |
 				[ 0 1 ][2]
@@ -223,7 +223,7 @@ region Update
 				=? 0 count-to-take
 					empty Stream
 				else
-					Stream ~|
+					Stream ~!|
 						n ::= count-to-take
 						for! _
 							<~ _
@@ -238,7 +238,7 @@ region Update
 		test. |
 			[ [ 1 2 -1 3 ] <?[0] ] -> => Stream [ 1 2 ]
 		|_ while?:Pred
-			Stream ~|
+			Stream ~!|
 				for! _
 					unless! while?_
 						break!
@@ -257,7 +257,7 @@ region Update
 		test. |
 			[ [ 0 1 2 3 ] 2 ] -> => Stream [ 2 3 ]
 		|_ count-to-drop
-			Stream ~|
+			Stream ~!|
 				iter = iterator_
 				i ::= 0
 				for!
@@ -286,7 +286,7 @@ region Combination
 		test. |
 			[ [ 1 2 ] [ 10 20 30 ] + ] -> => Stream [ 11 22 ]
 		|@a:@ @b:@ zipper:Function[2]
-			Stream ~|
+			Stream ~!|
 				iter-a = iterator @a
 				iter-b = iterator @b
 				for!
@@ -301,7 +301,7 @@ region Combination
 region TODO: put somewhere
 	groups-of'.
 		doc. "Seq of consecutive groups of `group-size` elements."
-		test. |
+		test. !|
 			! seq=? [ [ 1 2 ] [ 3 4 ] ] (groups-of' 2 [ 1 2 3 4 ])
 			# Tosses off partial group at end (e.g. no [ 4 ])
 			! seq=? [ [ 1 2 3 ] ] (groups-of' 3 [ 1 2 3 4 ])
@@ -310,11 +310,11 @@ region TODO: put somewhere
 			case
 				=? group-size 0
 					# TODO: repeat-forever [ ]
-					Stream ~|
+					Stream ~!|
 						for!
 							<~ [ ]
 				else
-					Stream ~|
+					Stream ~!|
 						iter = iterator_
 						for!
 							next-group = empty Array!
@@ -345,7 +345,7 @@ region TODO: put somewhere
 			[ [ 0 ] =?[0] ] -> => Stream [ [] [] ]
 		|_ split?:Pred
 			# TODO: Allocate current group; don't wait to call slice.
-			Stream ~|
+			Stream ~!|
 				iter = iterator_
 				prev-idx ::= 0
 				cur-idx ::= 0

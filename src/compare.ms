@@ -47,7 +47,7 @@ compare = Method
 		Unlike other comparison methods, `=?` should not make assertions about type.
 	args. 2
 	allow-null?. true
-	default. |:Boolean a b
+	default. |a b
 		or (id=? a b) ~(object=? a b
 
 <?. Method
@@ -55,13 +55,13 @@ compare = Method
 		Whether `lesser` comes before `greater` in these values' ordering.
 		Same as `not  (>=? lesser greater)`.
 	args. 2
-	default. |:Boolean lesser greater
+	default. |lesser greater
 		<? (compare lesser greater) 0
 
 <=?. Method
 	doc. "<? or =?."
 	args. 2
-	default. |:Boolean lesser greater
+	default. |lesser greater
 		<=? (compare lesser greater) 0
 
 region Misc
@@ -145,7 +145,7 @@ region Sorting
 					sb-prev ::= sort-by first_
 					all? tail_ |em
 						sb-cur = sort-by em
-						returning (<? sb-prev sb-cur) |
+						returning (<? sb-prev sb-cur) !|
 							sb-prev := sb-cur
 
 	sort. Method

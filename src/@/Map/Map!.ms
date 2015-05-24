@@ -23,7 +23,7 @@ use-debug
 
 Map! = Kind
 	doc. "TODO"
-	implementor-test. |type
+	implementor-test. !|type
 		Mt = Wrap-Type
 			doc. "Mappable Thing; might be a Weak-Id-Map!, so must be a reference type."
 		# Might be a Sorted-Map, so must be comparable.
@@ -31,13 +31,13 @@ Map! = Kind
 			compare a.val b.val
 		# => Array because these must maintain by their identity for Weak-Id-Map!
 		ks = => Array (map [ 1 3 5 4 2 ] Mt
-		noweak = |do
+		noweak = !|do
 			unless! :Weak-Id-Map!
 				do()
 		_ = empty type
-		noweak |
+		noweak !|
 			! empty? _
-		do-adds = |
+		do-adds = !|
 			for! n in ks
 				add! _ n (* 2 n.val)
 		do-adds()
@@ -45,7 +45,7 @@ Map! = Kind
 			! =? _[n] (* 2 n.val)
 		?get _ (Mt 0
 		! empty? (?get _ (Mt 0
-		noweak |
+		noweak !|
 			! set=? keys_ (map [ 1 2 3 4 5 ] Mt
 			empty! _
 			! empty? _
@@ -70,7 +70,7 @@ assoc!. Method
 assoc*!.
 	doc. "Adds the other map's keys to mine, overriding my values."
 	test. "See Map!.implementor-test."
-	|map:Map! to-add:Map
+	!|map:Map! to-add:Map
 		for! to-add
 			# TODO:SYNTAX Array destructure
 			assoc! map _[0] _[1]
@@ -82,7 +82,7 @@ un-assoc!. Method
 
 un-assoc*!.
 	doc. "Removes keys (and by proxy, their associated values)."
-	|map:Map! @to-delete:@
+	!|map:Map! @to-delete:@
 		for! @to-delete
 			un-assoc! map _
 
@@ -91,7 +91,7 @@ add!. Method
 		|_ key:Any val:Any
 		assoc! key val, but fail if _[key] is set already.
 	args. [ "_" "key" "val"
-	default. |_ key val
+	default. !|_ key val
 		in
 			!not (has-key? _ key) ~"
 				Already have key {key}.

@@ -17,7 +17,7 @@ $after-time.
 			1
 	|time-ms:Number _:Function
 		# TODO:ES6 Shouldn't need `new`
-		new $ |resolve
-			f = |
+		new $ !|resolve
+			f = !|
 				resolve _()
 			global.setTimeout f time-ms

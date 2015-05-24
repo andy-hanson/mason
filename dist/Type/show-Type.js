@@ -8,8 +8,9 @@ define(["exports","esast/dist/mangle-identifier","../Object","../show","./Method
 		const name=exports.name="show-Type";
 		exports.default=impl_33(show,Type,function(){
 			const test=function test(){
-				const _k0=[_ms.unlazy(Method)],_v0="Method";
-				return _ms.map(_k0,_v0)
+				const built=new global.Map();
+				_ms.assoc(built,[_ms.unlazy(Method)],"Method");
+				return built
 			};
 			return _ms.set(function(type,opts){
 				return function(){
@@ -24,4 +25,4 @@ define(["exports","esast/dist/mangle-identifier","../Object","../show","./Method
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL3Nob3ctVHlwZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7O0VBQUEsd0JBQUE7a0JBU0EsUUFBTSxLQUFLLGVBQ0k7R0FBZCxXQUNPLGVBQUE7SUFBTixVQUFBLHlCQUFlOzs7a0JBQ2YsU0FBQSxLQUFLLEtBQ0k7O0tBQ1IsWUFBQSxRQUFNLEtBQU0sU0FDSzthQUFoQixhQUFhLEtBQUs7S0FBQSxPQUVmO2FBQUgsU0FBUyIsImZpbGUiOiJUeXBlL3Nob3ctVHlwZS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL3Nob3ctVHlwZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7O0VBQUEsd0JBQUE7a0JBU0EsUUFBTSxLQUFLLGVBQ0k7R0FBZCxXQUNPLGVBQUE7O29CQUFOLHFCQUFlOzs7a0JBQ2YsU0FBQSxLQUFLLEtBQ0k7O0tBQ1IsWUFBQSxRQUFNLEtBQU0sU0FDSzthQUFoQixhQUFhLEtBQUs7S0FBQSxPQUVmO2FBQUgsU0FBUyIsImZpbGUiOiJUeXBlL3Nob3ctVHlwZS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

@@ -18,7 +18,7 @@ Stream = Wrap-Type
 		Unlike a Generator!, a Stream can be used multiple times.
 	wrapped-type. Function[Generator!]
 	test. |
-		_ = Stream ~|
+		_ = Stream ~!|
 			<~ 1
 			<~ 2
 		! seq=? _ [ 1 2 ]

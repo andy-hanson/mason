@@ -8,18 +8,19 @@ define(["exports","../../bang","../../at/at","../../at/Seq/Seq","../../at/Seq/St
 				_ms.checkContains(Nat,prev,"prev");
 				_ms.checkContains(Nat,cur,"cur");
 				(yield cur);
-				return (yield* rec(cur,_43(prev,cur)))
+				(yield* rec(cur,_43(prev,cur)))
 			};
 			return Stream(_ms.sub(rec,0,1))
 		}();
 		const zeckendorf=exports.zeckendorf=function(){
 			const doc="http://rosettacode.org/wiki/Zeckendorf_number_representation";
 			const test=function test(){
-				const _k0=[0],_v0="";
-				const _k1=[1],_v1="1";
-				const _k2=[19],_v2="101001";
-				const _k3=[1111],_v3="100001010000001";
-				return _ms.map(_k0,_v0,_k1,_v1,_k2,_v2,_k3,_v3)
+				const built=new global.Map();
+				_ms.assoc(built,[0],"");
+				_ms.assoc(built,[1],"1");
+				_ms.assoc(built,[19],"101001");
+				_ms.assoc(built,[1111],"100001010000001");
+				return built
 			};
 			return _ms.set(function zeckendorf(n){
 				_ms.checkContains(Nat,n,"n");
@@ -46,4 +47,4 @@ define(["exports","../../bang","../../at/at","../../at/Seq/Seq","../../at/Seq/St
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL2RlbW8vemVja2VuZG9yZi5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQVVBLHFCQUNNO0dBQUwsVUFBUSxjQUFBLEtBQVMsSUFDTztzQkFEWDtzQkFBUTtXQUNqQjtXQUNDLFFBQUEsSUFBSSxJQUFLLElBQUUsS0FBSztHQUFBO1VBQ3JCLGVBQU8sSUFBSSxFQUFFO0VBQUE7RUFFZCw4Q0FDVztHQUFWLFVBQU07R0FDTixXQUNPLGVBQUE7SUFBTixVQUFBLENBQUUsT0FBUTtJQUNWLFVBQUEsQ0FBRSxPQUFRO0lBQ1YsVUFBQSxDQUFFLFFBQVM7SUFDWCxVQUFBLENBQUUsVUFBVzs7O2tCQUNiLG9CQUFBLEVBQ0s7c0JBREg7SUFDRixlQUFTLEtBQUs7SUFDZCx1QkFBaUIsUUFBUyxnQkFBWSxTQUFRLFNBQUEsRUFDQztZQUE5QyxVQUFJLEVBQUU7SUFBQTtJQUNQLFNBQVM7SUFDVCxhQUFTLElBQUksaUJBQWdCLFNBQUEsRUFBQTs7TUFDNUIsWUFBQSxVQUFJLEVBQUUsT0FDSTtZQUFELElBQUUsS0FBSztjQUNmO01BQUEsT0FFRztjQUFIO01BQUE7S0FBQTtJQUFBO0lBQ0YsSUFBRSxPQUFHLEVBQUU7V0FDUCxPQUFHLE9BQU87R0FBQTs7RUFuQ1osd0JBQUEiLCJmaWxlIjoibWV0YS9kZW1vL3plY2tlbmRvcmYuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL2RlbW8vemVja2VuZG9yZi5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQVVBLHFCQUNNO0dBQUwsVUFBUyxjQUFBLEtBQVMsSUFDTztzQkFEWDtzQkFBUTtXQUNsQjtZQUNDLElBQUksSUFBSyxJQUFFLEtBQUs7R0FBQTtVQUNyQixlQUFPLElBQUksRUFBRTtFQUFBO0VBRWQsOENBQ1c7R0FBVixVQUFNO0dBQ04sV0FDTyxlQUFBOztvQkFBTixDQUFFLEdBQVE7b0JBQ1YsQ0FBRSxHQUFRO29CQUNWLENBQUUsSUFBUztvQkFDWCxDQUFFLE1BQVc7OztrQkFDYixvQkFBQSxFQUNLO3NCQURIO0lBQ0YsZUFBUyxLQUFLO0lBQ2QsdUJBQWlCLFFBQVMsZ0JBQVksU0FBUSxTQUFBLEVBQ0M7WUFBOUMsVUFBSSxFQUFFO0lBQUE7SUFDUCxTQUFTO0lBQ1QsYUFBUyxJQUFJLGlCQUFnQixTQUFBLEVBQUE7O01BQzVCLFlBQUEsVUFBSSxFQUFFLE9BQ0k7WUFBRCxJQUFFLEtBQUs7Y0FDZjtNQUFBLE9BRUc7Y0FBSDtNQUFBO0tBQUE7SUFBQTtJQUNGLElBQUUsT0FBRyxFQUFFO1dBQ1AsT0FBRyxPQUFPO0dBQUE7O0VBbkNaLHdCQUFBIiwiZmlsZSI6Im1ldGEvZGVtby96ZWNrZW5kb3JmLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

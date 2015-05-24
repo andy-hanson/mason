@@ -11,8 +11,6 @@ use
 	..Type.Type => contains? type-of
 use~
 	..control opr
-	# TODO: Try eager use
-	..math.Number Nat
 	.@! --!
 	.@-Type empty
 	.?
@@ -31,7 +29,7 @@ use-debug
 		"Bag". Contains a variable number of elements. Most things implementing `iterator` should be @s.
 		If the iteration order of an @ is meaningful and `+ a b` is the concatenation, it is a Seq.
 		If an @ only stores a given element once, it is a Set.
-	implementor-test. |@-type
+	implementor-test. !|@-type
 		unless! =? @-type Weak-Id-Map!
 			! (contains? @-Type @-type) "Be sure to make your @ type a @-Type."
 			_ = empty @-type
@@ -54,7 +52,7 @@ empty?. Method
 region Using iterator
 	impl! contains? @
 		doc. "Whether one of the elements =? em."
-		test. |
+		test. !|
 			! contains? [ 0 ] 0
 			!not contains? [ 0 ] 1
 		|_ em:Any
@@ -112,7 +110,7 @@ region Using iterator
 			[ [ 0 1 ] =?[1] ] -> ? 1
 			[ [ 0 ] =?[1] ] -> empty ?
 		|_ pred?:Pred
-			# TODO:SYNTAX Return from loop
+			# TODO:SYNTAX Loop return value
 			found ::= empty ?
 			for! _
 				if! pred?_
@@ -126,7 +124,7 @@ region Using iterator
 			[ [ ] ] -> 0
 			[ [ 1 2 3 ] ] -> 3
 		args. 1
-		default. |:Nat _:@
+		default. |_:@
 			fold _ 0 +[1]
 
 region Lazy functions, and their eager versions.
@@ -144,7 +142,7 @@ region Lazy functions, and their eager versions.
 		test. |
 			[ [ 1 2 ] =?[2] ] -> => Stream [ 2 ]
 		|filtered:@ keep-if?:Pred
-			Stream ~|
+			Stream ~!|
 				for! filtered
 					if! keep-if?_
 						<~ _
@@ -162,7 +160,7 @@ region Lazy functions, and their eager versions.
 		test. |
 			[ [ true false ] not ] -> => Stream [ false true ]
 		|mapped:@ mapper:Function
-			Stream ~|
+			Stream ~!|
 				for! mapped
 					<~ mapper_
 
@@ -189,7 +187,7 @@ region Lazy functions, and their eager versions.
 		args. 2
 		|mapped:@ mapper:Function[Any @]
 			# Same as `flatten (map _ mapper)`, but with smaller stacktrace.
-			Stream ~|
+			Stream ~!|
 				for! mapped
 					<~~ iterator mapper_
 
@@ -214,7 +212,7 @@ region Lazy functions, and their eager versions.
 			! fails? |
 				=> Array (flatten [ [ 1 ] 2 [ 3 ] ]
 		|flattened:@[@]
-			Stream ~|
+			Stream ~!|
 				for! flattened
 					<~~ iterator_
 
@@ -233,7 +231,7 @@ region Lazy functions, and their eager versions.
 		test. |
 			[ [ 0 ] [ 1 ] ] -> => Stream [ 0 1 ]
 		|:Stream @a @b
-			Stream ~|
+			Stream ~!|
 				<~~ iterator @a
 				<~~ iterator @b
 
@@ -255,7 +253,7 @@ region Lazy functions, and their eager versions.
 		test. |
 			[ [ 1 2 1 ] [ 1 ] ] -> => Stream [ 2 1 ]
 		|:@ @removed-from @remove:@
-			Stream ~|
+			Stream ~!|
 				@remove-remaining = => Set! @remove
 				for! @removed-from
 					case!

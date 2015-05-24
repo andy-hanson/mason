@@ -25,7 +25,7 @@ use-debug
 Hash-Map! = Wrap-Type
 	doc. "Default Map! type. Depends on efficient `hash-code` of its keys."
 	# TODO: Remove, just use Map.implementor-test.
-	test. |
+	test. !|
 		_ =
 			1 -> 2
 			3 -> 4
@@ -60,7 +60,7 @@ opt-bucket-entry = |opt-bucket key
 		cur := cur.next!
 	res
 
-js-impl! iterator Hash-Map! ~|
+js-impl! iterator Hash-Map! ~!|
 	for! bucket in values this.val
 		cur ::= bucket
 		for!
@@ -76,7 +76,7 @@ kind! Hash-Map! Map!
 		map (Opt->? entry) |_
 			_.val!
 
-	assoc! -> |hm key val
+	assoc! -> !|hm key val
 		hash = hash-code key
 		bucket = hm.val.get hash
 		case! opt-bucket-entry bucket key
@@ -121,7 +121,7 @@ kind! Hash-Map! Map!
 		freeze _.val
 		Object.freeze _
 
-	empty! -> |_
+	empty! -> !|_
 		empty! _.val
 
 Hash-Map!

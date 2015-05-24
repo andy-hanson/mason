@@ -120,7 +120,7 @@ patterns:
 
 - comment: A language keyword.
   name: keyword
-  match: (_|->|break!|case!?|debug|debugger|else|false|for|for!|if!|in|null|out|pass|this|this-module-directory|true|undefined|unless!|use|use-debug|use!|use~|<~|<~~)(\s)
+  match: (_|->|break!?|built|case!?|debug|debugger|else|false|@for|for!?|if!|in|null|out|pass|this|this-module-directory|true|undefined|unless!|use|use-debug|use!|use~|<~|<~~)(\s)
 
 - comment: Bracket
   name: keyword
@@ -152,7 +152,7 @@ patterns:
 
 - comment: Function
   name: variable.parameter
-  begin: (\~?\|)
+  begin: (\~?!?\|)
   beginCaptures:
     '1':
       name: comment

@@ -141,21 +141,20 @@ obj-type-args =
 		props. Object
 		prototype. Object
 	opt-props.
+		opt-props. Object
+		extensible. Boolean
 		defaults. Object
 		# This takes in the props and outputs a Function.
 		make-callable. Function
-		opt-props. Object
 		post-construct. Function
-		doc. String
-		test. Function
-		extensible. Boolean
+	extensible. true
 	defaults.
 		prototype. |
 			Object.create Object.prototype
 	post-construct. |_
 		pAdd _.prototype "constructor" _
 	make-callable. make-constructor
-	test. |
+	test. !|
 		Vec2D = Obj-Type
 			props.
 				x. Number

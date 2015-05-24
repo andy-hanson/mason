@@ -24,11 +24,11 @@ Range = Tuple
 		. [ "start" Number
 		. [ "end" Number
 		. [ "step" Number
-	post-construct. |_
+	post-construct. !|_
 		in
 			! =? (sign _.step) (sign (- _.end _.start
 		noop _
-	test. |
+	test. !|
 		! seq=? [ 0 1 2 ] (take' (range 0 infinity) 3
 
 range. |start:Number end:Number step:Opt[Number]
@@ -37,8 +37,8 @@ range. |start:Number end:Number step:Opt[Number]
 
 range-incl.
 	doc. "TODO"
-	test. |
-		"TODO"
+	test. !|
+		pass # TODO
 	|start:Number end:Number step:Opt[Number]
 		step := opr step (sign (- end start
 		range start (+ end step) step
@@ -61,7 +61,7 @@ length.
 js-impl! iterator Range
 	test. |
 		! seq=? (range 0 10 2) [ 0 2 4 6 8 ]
-	~|
+	~!|
 		cur ::= this.start
 		for!
 			if! <=? this.end cur

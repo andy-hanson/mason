@@ -29,7 +29,7 @@ from-stream. Method
 		[ Array (range 0 5) ] -> [ 0 1 2 3 4 ]
 	args. [ "type" "stream" ]
 	default. |type stream
-		returning (empty type) |_
+		returning (empty type) !|_
 			++! _ stream
 
 # TODO: Do this in @.ms

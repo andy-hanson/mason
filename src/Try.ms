@@ -25,7 +25,7 @@ Success. Wrap-Type
 
 Try = Kind
 	doc. "Result of running failable code. Success or Error."
-	implementors. [ Success Error ]
+	implementors. [ Success Error
 
 self-impl! => Error makeError
 
@@ -34,10 +34,10 @@ oh-no!.
 		Throws an Error.
 		If `error` is a String, it will be put into a new Error.
 		If it is possible for the creation of `error` to fail, make it lazy.
-	test. |
-		! fails-with? "a" |
+	test. !|
+		! fails-with? "a" !|
 			oh-no! "a"
-		! fails-with? TypeError |
+		! fails-with? TypeError !|
 			oh-no! TypeError()
 	ohNo
 
@@ -68,18 +68,18 @@ try.
 
 fails?.
 	doc. "Whether the Function throws some error."
-	test. |
-		! fails? |
+	test. !|
+		! fails? !|
 			oh-no!()
-		!not fails? |
+		!not fails? !|
 			pass
 	|_:Action
 		contains? Error try_
 
 fails-with?.
 	doc. "Whether the Function throws an error of the given type or with the given message."
-	test. |
-		! fails-with? "message" |
+	test. !|
+		! fails-with? "message" !|
 			oh-no! "message"
 		! fails-with? TypeError |
 			null.missing-property
@@ -97,14 +97,14 @@ error-type.
 		Makes an Obj-Type with a `message` property,
 		and a `stack` property automatically filled in on construction.
 		Very slow to create, so use only for legitimate errors!
-	test. |
+	test. !|
 		ET = error-type
 			doc. "ET"
 		! =? ET.doc "ET"
 		x = ET (message. "mess"
 		! contains? Error x
 		! =? "mess" x.message
-		! fails-with? "mess" |
+		! fails-with? "mess" !|
 			oh-no! x
 	|opts
 		default-args =
@@ -120,9 +120,9 @@ error-type.
 
 always-do-after.
 	doc. "Executes `finally-do`, even if there are errors."
-	test. |
+	test. !|
 		! =? [ 0 ] (build |yield
-			try |
+			try !|
 				always-do-after oh-no! yield[0]
 	|tried:Function[Any] finally-do:Action
 		alwaysDoAfter tried finally-do
@@ -145,12 +145,12 @@ annotate-errors.
 region $
 	$try.
 		doc. "Success if the $ is resolved, Error if rejected."
-		$test. ~|
+		$test. ~!|
 			! =? (Success 1) (<~ $try ($resolved 1
 			! =? "a" (<~ ($try ($rejected "a"))).message
 			# $rejected but with non-error:
 			! =? "a" (<~ ($try ($.reject "a"))).message
-		|:$[Try] _:$
+		|_:$
 			# =>[Error] because it's possible for a Promise to reject with a non-Error.
 			$catch ($after _ Success) =>[Error]
 
@@ -159,7 +159,7 @@ region $
 			If `$` succeeds, acts like `identity`.
 			Else returns a `$` for the result of running `catcher` on the Error.
 			Like for `$after`, `catcher` can also return another `$`.
-		$test. ~|
+		$test. ~!|
 			! =? "a" (<~ ($catch ($rejected "a") |_
 				_.message
 		|:$ promise:$ catcher:Function
@@ -167,7 +167,7 @@ region $
 
 	$annotate-errors.
 		doc. "Like `annotate-errors` but works on errors thrown in a `$`."
-		$test. ~|
+		$test. ~!|
 			! =? "ab" (<~ $try ($annotate-errors "a" ($rejected "b"))).message
 		|~annotation:String $tried:$
 			$catch $tried |_

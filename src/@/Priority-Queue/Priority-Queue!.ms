@@ -15,7 +15,7 @@ Priority-Queue! = Kind
 		@ whose first item will always be the smallest.
 		Iteration order has no other guaranees,
 		but repeatedly calling ?pop! will give the values from least to greatest.
-	implementor-test. |type
+	implementor-test. !|type
 		_ = empty type
 		++! _ [ 3 1 2 ]
 		! =? (? 1) ?pop!_

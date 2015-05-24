@@ -31,7 +31,8 @@ extract. Method
 			Otherwise, return `null`.
 		The array of values are taken into local variables.
 		For example:
-	test. |
+	test. !|
+		# TODO: syntax-test.ms
 		My-Type =
 			doc. "Example type"
 		self-impl! extract My-Type |case
@@ -56,15 +57,13 @@ extract. Method
 msDef "extract" extract
 
 msDef "checkContains" |type value name
-	case!
-		contains? type value
-			pass
-		else
-			ohNo "{name} is no {type}, is a {type-of value}: {value}"
+	unless! contains? type value
+		ohNo "{name} is no {type}, is a {type-of value}: {value}"
 	value
 
 =>. Method
 	doc. "
+		TODO: Don't take additional args...
 		|convert-to:Type convert-me (may take additional args)
 		Converts a value to a given type.
 	wrap. |impl type converted opts

@@ -9,11 +9,12 @@ define(["exports","../js","./Number","../bang","../Try"],function(exports,js_0,N
 		const binary=exports.binary=function(){
 			const doc="Makes an Int out of a string of 0s and 1s.";
 			const test=function test(){
-				const _k0=["101"],_v0=5;
+				const built=new global.Map();
+				_ms.assoc(built,["101"],5);
 				_ms.unlazy(_33)(_ms.unlazy(fails_63),function(){
-					return binary("0a")
+					binary("0a")
 				});
-				return _ms.map(_k0,_v0)
+				return built
 			};
 			return _ms.set(function binary(bin_45str){
 				_ms.checkContains(String,bin_45str,"bin-str");
@@ -28,11 +29,12 @@ define(["exports","../js","./Number","../bang","../Try"],function(exports,js_0,N
 		const hexidecimal=exports.hexidecimal=function(){
 			const doc="Max an Int out of a string of hex codes (0-f). Capitalization ignored.";
 			const test=function test(){
-				const _k0=["7f"],_v0=127;
+				const built=new global.Map();
+				_ms.assoc(built,["7f"],127);
 				_ms.unlazy(_33)(_ms.unlazy(fails_63),function(){
-					return hexidecimal("asdfghjkl")
+					hexidecimal("asdfghjkl")
 				});
-				return _ms.map(_k0,_v0)
+				return built
 			};
 			return _ms.set(function hexidecimal(hex_45str){
 				_ms.checkContains(String,hex_45str,"hex-str");
@@ -47,8 +49,9 @@ define(["exports","../js","./Number","../bang","../Try"],function(exports,js_0,N
 		const bit_45or=exports["bit-or"]=function(){
 			const doc="JavaScript's `|` operator.";
 			const test=function test(){
-				const _k0=[binary("0101"),binary("0011")],_v0=binary("0111");
-				return _ms.map(_k0,_v0)
+				const built=new global.Map();
+				_ms.assoc(built,[binary("0101"),binary("0011")],binary("0111"));
+				return built
 			};
 			return _ms.set(function bit_45or(a,b){
 				_ms.checkContains(Int,a,"a");
@@ -59,8 +62,9 @@ define(["exports","../js","./Number","../bang","../Try"],function(exports,js_0,N
 		const bit_45and=exports["bit-and"]=function(){
 			const doc="JavaScript's `&` operator.";
 			const test=function test(){
-				const _k0=[binary("0101"),binary("0011")],_v0=binary("0001");
-				return _ms.map(_k0,_v0)
+				const built=new global.Map();
+				_ms.assoc(built,[binary("0101"),binary("0011")],binary("0001"));
+				return built
 			};
 			return _ms.set(function bit_45and(a,b){
 				_ms.checkContains(Int,a,"a");
@@ -71,8 +75,9 @@ define(["exports","../js","./Number","../bang","../Try"],function(exports,js_0,N
 		const bit_45xor=exports["bit-xor"]=function(){
 			const doc="Javascript's `^` operator.";
 			const test=function test(){
-				const _k0=[binary("0101"),binary("0011")],_v0=binary("0110");
-				return _ms.map(_k0,_v0)
+				const built=new global.Map();
+				_ms.assoc(built,[binary("0101"),binary("0011")],binary("0110"));
+				return built
 			};
 			return _ms.set(function bit_45xor(a,b){
 				_ms.checkContains(Int,a,"a");
@@ -83,9 +88,10 @@ define(["exports","../js","./Number","../bang","../Try"],function(exports,js_0,N
 		const bit_45not=exports["bit-not"]=function(){
 			const doc="Javascript's `~` operator.";
 			const test=function test(){
-				const _k0=[0],_v0=- 1;
-				const _k1=[- 1],_v1=0;
-				return _ms.map(_k0,_v0,_k1,_v1)
+				const built=new global.Map();
+				_ms.assoc(built,[0],- 1);
+				_ms.assoc(built,[- 1],0);
+				return built
 			};
 			return _ms.set(function bit_45not(_){
 				_ms.checkContains(Int,_,"_");
@@ -95,8 +101,9 @@ define(["exports","../js","./Number","../bang","../Try"],function(exports,js_0,N
 		const bit_45shift_45left=exports["bit-shift-left"]=function(){
 			const doc="Javascript's `<<` operator.";
 			const test=function test(){
-				const _k0=[binary("01"),1],_v0=binary("10");
-				return _ms.map(_k0,_v0)
+				const built=new global.Map();
+				_ms.assoc(built,[binary("01"),1],binary("10"));
+				return built
 			};
 			return _ms.set(function bit_45shift_45left(a,b){
 				_ms.checkContains(Int,a,"a");
@@ -107,10 +114,11 @@ define(["exports","../js","./Number","../bang","../Try"],function(exports,js_0,N
 		const bit_45shift_45right_45signed=exports["bit-shift-right-signed"]=function(){
 			const doc="Javascript's `>>` operator.";
 			const test=function test(){
-				const _k0=[1,1],_v0=0;
-				const _k1=[- 1,1],_v1=- 1;
-				const _k2=[- 2,1],_v2=- 1;
-				return _ms.map(_k0,_v0,_k1,_v1,_k2,_v2)
+				const built=new global.Map();
+				_ms.assoc(built,[1,1],0);
+				_ms.assoc(built,[- 1,1],- 1);
+				_ms.assoc(built,[- 2,1],- 1);
+				return built
 			};
 			return _ms.set(function bit_45shift_45right_45signed(a,b){
 				_ms.checkContains(Int,a,"a");
@@ -121,10 +129,11 @@ define(["exports","../js","./Number","../bang","../Try"],function(exports,js_0,N
 		const bit_45shift_45right_45unsigned=exports["bit-shift-right-unsigned"]=function(){
 			const doc="Javascript's `>>>` operator.";
 			const test=function test(){
-				const _k0=[1,1],_v0=0;
-				const _k1=[- 1,1],_v1=binary("1".repeat(31));
-				const _k2=[- 2,1],_v2=binary("1".repeat(31));
-				return _ms.map(_k0,_v0,_k1,_v1,_k2,_v2)
+				const built=new global.Map();
+				_ms.assoc(built,[1,1],0);
+				_ms.assoc(built,[- 1,1],binary("1".repeat(31)));
+				_ms.assoc(built,[- 2,1],binary("1".repeat(31)));
+				return built
 			};
 			return _ms.set(function bit_45shift_45right_45unsigned(a,b){
 				_ms.checkContains(Int,a,"a");
@@ -136,4 +145,4 @@ define(["exports","../js","./Number","../bang","../Try"],function(exports,js_0,N
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tYXRoL2JpdC1hcml0aG1ldGljLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7RUFPQSxzQkFBTTtFQUVOLHNDQUNPO0dBQU4sVUFBTTtHQUNOLFdBQ08sZUFBQTtJQUFOLFVBQUEsQ0FBRyxXQUFVO3lDQUVHLFVBQUE7WUFBZixPQUFRO0lBQUE7OztrQkFDVCxnQkFBSyxVQU1MO3NCQU5hO3VCQUVMLE9BQVEsY0FBYTtZQUFXLHdDQUE0QjtJQUFBO2dDQUZuRSxJQU1ELGdCQUFnQixVQUFRO3VCQUZsQixhQUFhOzs7O0VBSXJCLGdEQUNZO0dBQVgsVUFBTTtHQUNOLFdBQ08sZUFBQTtJQUFOLFVBQUEsQ0FBRyxVQUFTO3lDQUVJLFVBQUE7WUFBZixZQUFhO0lBQUE7OztrQkFDZCxxQkFBSyxVQU1MO3NCQU5hO3VCQUVMLE9BQVEscUJBQW9CO1lBQVcsNkNBQWlDO0lBQUE7Z0NBRi9FLElBTUQsZ0JBQWdCLFVBQVE7dUJBRmxCLGFBQWE7Ozs7RUFJckIsMkNBQ087R0FBTixVQUFNO0dBQ04sV0FDTyxlQUFBO0lBQU4sVUFBQSxDQUFHLE9BQVEsUUFBUSxPQUFRLGFBQVksT0FBUTs7O2tCQUMvQyxrQkFBQSxFQUFNLEVBQ0s7c0JBRFQ7c0JBQU07V0FDUixTQUFPLEVBQUU7R0FBQTs7RUFFWCw2Q0FDUTtHQUFQLFVBQU07R0FDTixXQUNPLGVBQUE7SUFBTixVQUFBLENBQUcsT0FBUSxRQUFRLE9BQVEsYUFBWSxPQUFROzs7a0JBQy9DLG1CQUFBLEVBQU0sRUFDSztzQkFEVDtzQkFBTTtXQUNSLFNBQU8sRUFBRTtHQUFBOztFQUVYLDZDQUNRO0dBQVAsVUFBTTtHQUNOLFdBQ08sZUFBQTtJQUFOLFVBQUEsQ0FBRyxPQUFRLFFBQVEsT0FBUSxhQUFZLE9BQVE7OztrQkFDL0MsbUJBQUEsRUFBTSxFQUNLO3NCQURUO3NCQUFNO1dBQ1IsV0FBUyxFQUFFO0dBQUE7O0VBRWIsNkNBQ1E7R0FBUCxVQUFNO0dBQ04sV0FDTyxlQUFBO0lBQU4sVUFBQSxDQUFFLE9BQU87SUFDVCxVQUFBLENBQUUsU0FBUTs7O2tCQUNWLG1CQUFBLEVBQ0s7c0JBREg7V0FDRixPQUFHO0dBQUE7O0VBRUwsNkRBQ2U7R0FBZCxVQUFNO0dBQ04sV0FDTyxlQUFBO0lBQU4sVUFBQSxDQUFHLE9BQVEsTUFBSyxPQUFPLE9BQVE7OztrQkFDL0IsNEJBQUEsRUFBTSxFQUNLO3NCQURUO3NCQUFNO1dBQ1IsU0FBSyxFQUFFO0dBQUE7O0VBRVQsK0VBQ3VCO0dBQXRCLFVBQU07R0FDTixXQUNPLGVBQUE7SUFBTixVQUFBLENBQUUsRUFBRSxPQUFPO0lBQ1gsVUFBQSxDQUFFLElBQUcsT0FBTztJQUNaLFVBQUEsQ0FBRSxJQUFHLE9BQU87OztrQkFDWixzQ0FBQSxFQUFNLEVBQ0s7c0JBRFQ7c0JBQU07V0FDUixTQUFLLEVBQUU7R0FBQTs7RUFFVCxtRkFDeUI7R0FBeEIsVUFBTTtHQUNOLFdBQ08sZUFBQTtJQUFOLFVBQUEsQ0FBRSxFQUFFLE9BQU87SUFDWCxVQUFBLENBQUUsSUFBRyxPQUFRLE9BQVMsV0FBVTtJQUNoQyxVQUFBLENBQUUsSUFBRyxPQUFRLE9BQVMsV0FBVTs7O2tCQUNoQyx3Q0FBQSxFQUFNLEVBQ0s7c0JBRFQ7c0JBQU07V0FDUixZQUFNLEVBQUU7R0FBQTs7RUF6RlYsd0JBQUEiLCJmaWxlIjoibWF0aC9iaXQtYXJpdGhtZXRpYy5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tYXRoL2JpdC1hcml0aG1ldGljLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7RUFPQSxzQkFBTTtFQUVOLHNDQUNPO0dBQU4sVUFBTTtHQUNOLFdBQ08sZUFBQTs7b0JBQU4sQ0FBRyxPQUFVO3lDQUVJLFVBQUE7S0FBaEIsT0FBUTtJQUFBOzs7a0JBQ1QsZ0JBQUssVUFNTDtzQkFOYTt1QkFFTCxPQUFRLGNBQWE7WUFBVyx3Q0FBNEI7SUFBQTtnQ0FGbkUsSUFNRCxnQkFBZ0IsVUFBUTt1QkFGbEIsYUFBYTs7OztFQUlyQixnREFDWTtHQUFYLFVBQU07R0FDTixXQUNPLGVBQUE7O29CQUFOLENBQUcsTUFBUzt5Q0FFSyxVQUFBO0tBQWhCLFlBQWE7SUFBQTs7O2tCQUNkLHFCQUFLLFVBTUw7c0JBTmE7dUJBRUwsT0FBUSxxQkFBb0I7WUFBVyw2Q0FBaUM7SUFBQTtnQ0FGL0UsSUFNRCxnQkFBZ0IsVUFBUTt1QkFGbEIsYUFBYTs7OztFQUlyQiwyQ0FDTztHQUFOLFVBQU07R0FDTixXQUNPLGVBQUE7O29CQUFOLENBQUcsT0FBUSxRQUFRLE9BQVEsU0FBWSxPQUFROzs7a0JBQy9DLGtCQUFBLEVBQU0sRUFDSztzQkFEVDtzQkFBTTtXQUNSLFNBQU8sRUFBRTtHQUFBOztFQUVYLDZDQUNRO0dBQVAsVUFBTTtHQUNOLFdBQ08sZUFBQTs7b0JBQU4sQ0FBRyxPQUFRLFFBQVEsT0FBUSxTQUFZLE9BQVE7OztrQkFDL0MsbUJBQUEsRUFBTSxFQUNLO3NCQURUO3NCQUFNO1dBQ1IsU0FBTyxFQUFFO0dBQUE7O0VBRVgsNkNBQ1E7R0FBUCxVQUFNO0dBQ04sV0FDTyxlQUFBOztvQkFBTixDQUFHLE9BQVEsUUFBUSxPQUFRLFNBQVksT0FBUTs7O2tCQUMvQyxtQkFBQSxFQUFNLEVBQ0s7c0JBRFQ7c0JBQU07V0FDUixXQUFTLEVBQUU7R0FBQTs7RUFFYiw2Q0FDUTtHQUFQLFVBQU07R0FDTixXQUNPLGVBQUE7O29CQUFOLENBQUUsR0FBTztvQkFDVCxDQUFFLEtBQVE7OztrQkFDVixtQkFBQSxFQUNLO3NCQURIO1dBQ0YsT0FBRztHQUFBOztFQUVMLDZEQUNlO0dBQWQsVUFBTTtHQUNOLFdBQ08sZUFBQTs7b0JBQU4sQ0FBRyxPQUFRLE1BQUssR0FBTyxPQUFROzs7a0JBQy9CLDRCQUFBLEVBQU0sRUFDSztzQkFEVDtzQkFBTTtXQUNSLFNBQUssRUFBRTtHQUFBOztFQUVULCtFQUN1QjtHQUF0QixVQUFNO0dBQ04sV0FDTyxlQUFBOztvQkFBTixDQUFFLEVBQUUsR0FBTztvQkFDWCxDQUFFLElBQUcsR0FBTztvQkFDWixDQUFFLElBQUcsR0FBTzs7O2tCQUNaLHNDQUFBLEVBQU0sRUFDSztzQkFEVDtzQkFBTTtXQUNSLFNBQUssRUFBRTtHQUFBOztFQUVULG1GQUN5QjtHQUF4QixVQUFNO0dBQ04sV0FDTyxlQUFBOztvQkFBTixDQUFFLEVBQUUsR0FBTztvQkFDWCxDQUFFLElBQUcsR0FBUSxPQUFTLFdBQVU7b0JBQ2hDLENBQUUsSUFBRyxHQUFRLE9BQVMsV0FBVTs7O2tCQUNoQyx3Q0FBQSxFQUFNLEVBQ0s7c0JBRFQ7c0JBQU07V0FDUixZQUFNLEVBQUU7R0FBQTs7RUF6RlYsd0JBQUEiLCJmaWxlIjoibWF0aC9iaXQtYXJpdGhtZXRpYy5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

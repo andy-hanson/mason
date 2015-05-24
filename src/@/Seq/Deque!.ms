@@ -34,7 +34,7 @@ region Helpers
 	capacity = |_
 		count _.data!
 
-	expand! = |_
+	expand! = !|_
 		old-data = _.data!
 		old-capacity = capacity_
 		new-capacity = * 2 old-capacity
@@ -61,7 +61,7 @@ region Helpers
 				b = wrap-index _ a
 				if (and (<? _.end-index! _.start-index!) ~(<? b _.end-index!)) b
 
-js-impl! iterator Deque! ~|
+js-impl! iterator Deque! ~!|
 	# TODO:ES6 case should preserve `this`
 	self = this
 	indices = case
@@ -73,7 +73,7 @@ js-impl! iterator Deque! ~|
 		<~ this.data![_]
 
 kind! Deque! Seq!
-	<++! -> |_ ems:@
+	<++! -> !|_ ems:@
 		for! em in reverse ems
 			new-start = prev-index _ _.start-index!
 			case!
@@ -84,7 +84,7 @@ kind! Deque! Seq!
 					p! _ "start-index!" new-start
 					set-nth! _.data! _.start-index! em
 
-	++>! -> |_ ems:@
+	++>! -> !|_ ems:@
 		for! em in ems
 			new-end = next-index _ _.end-index!
 			case!
@@ -112,11 +112,11 @@ kind! Deque! Seq!
 	?nth -> |_ index:Nat
 		map (?data-index _ index) sub[_.data!]
 
-	set-nth! -> |_ index:Nat set-to:Any
+	set-nth! -> !|_ index:Nat set-to:Any
 		data-index = un-? (?data-index _ index) ~"Can't set at index {index}; count is {count_}"
 		set-nth! _.data! data-index set-to
 
-	empty! -> |_
+	empty! -> !|_
 		empty! _.data!
 		# TODO: change-properties!
 		p! _ "start-index!" 0

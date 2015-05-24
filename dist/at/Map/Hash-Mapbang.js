@@ -9,19 +9,21 @@ define(["exports","../../compare","../../hash-code","../../js","../../methods","
 			const doc="Default Map! type. Depends on efficient `hash-code` of its keys.";
 			const test=function test(){
 				const _=function(){
-					const _k0=1,_v0=2;
-					const _k1=3,_v1=4;
-					return _ms.map(_k0,_v0,_k1,_v1)
+					const built=new global.Map();
+					_ms.assoc(built,1,2);
+					_ms.assoc(built,3,4);
+					return built
 				}();
 				_ms.unlazy(_33)(_61_63,_ms.sub(_,1),2);
 				_ms.unlazy(_33)(_61_63,_ms.sub(_,3),4);
 				_ms.unlazy(_33)(_ms.unlazy(seq_61_63),_,function(){
-					const _0=[1,2];
-					const _1=[3,4];
-					return [_0,_1]
+					const built=[];
+					_ms.add(built,[1,2]);
+					_ms.add(built,[3,4]);
+					return built
 				}());
 				_ms.unlazy(_33)(_ms.unlazy(seq_61_63),_ms.unlazy(keys)(_),[1,3]);
-				return _ms.unlazy(_33)(_61_63,_63get(_,8),empty(_63))
+				_ms.unlazy(_33)(_61_63,_63get(_,8),empty(_63))
 			};
 			const wrapped_45type=Id_45Map_33;
 			return {
@@ -39,15 +41,16 @@ define(["exports","../../compare","../../hash-code","../../js","../../methods","
 			}
 		}());
 		self_45kind_33(Hash_45Map_33,Map_45Type,function(){
-			const _k0=empty,_v0=function(){
+			const built=new global.Map();
+			_ms.assoc(built,empty,function(){
 				return Hash_45Map_33(empty(Id_45Map_33))
-			};
-			return _ms.map(_k0,_v0)
+			});
+			return built
 		}());
 		const opt_45bucket_45entry=function opt_45bucket_45entry(opt_45bucket,key){
 			let cur=opt_45bucket;
 			let res=void 0;
-			while(true){
+			for(;;){
 				if(! _ms.bool(defined_63(cur))){
 					break
 				};
@@ -61,7 +64,7 @@ define(["exports","../../compare","../../hash-code","../../js","../../methods","
 		js_45impl_33(iterator,Hash_45Map_33,function*(){
 			for(let bucket of values(this.val)[Symbol.iterator]()){
 				let cur=bucket;
-				while(true){
+				for(;;){
 					if(! _ms.bool(defined_63(cur))){
 						break
 					};
@@ -71,14 +74,15 @@ define(["exports","../../compare","../../hash-code","../../js","../../methods","
 			}
 		});
 		kind_33(Hash_45Map_33,Map_33,function(){
-			const _k0=_63get,_v0=function(_,key){
+			const built=new global.Map();
+			_ms.assoc(built,_63get,function(_,key){
 				const bucket=_.val.get(hash_45code(key));
 				const entry=opt_45bucket_45entry(bucket,key);
 				return map(Opt_45_62_63(entry),function(_){
 					return _["val!"]
 				})
-			};
-			const _k1=assoc_33,_v1=function(hm,key,val){
+			});
+			_ms.assoc(built,assoc_33,function(hm,key,val){
 				const hash=hash_45code(key);
 				const bucket=hm.val.get(hash);
 				{
@@ -89,8 +93,8 @@ define(["exports","../../compare","../../hash-code","../../js","../../methods","
 						hm.val.set(hash,Bucket(key,val,bucket))
 					}
 				}
-			};
-			const _k2=un_45assoc_33,_v2=function(hm,key){
+			});
+			_ms.assoc(built,un_45assoc_33,function(hm,key){
 				const hash=hash_45code(key);
 				const bucket=hm.val.get(hash);
 				return function(){
@@ -110,7 +114,7 @@ define(["exports","../../compare","../../hash-code","../../js","../../methods","
 							} else {
 								let cur=bucket;
 								let res=empty(_63);
-								while(true){
+								for(;;){
 									const next=cur["next!"];
 									if(! _ms.bool(defined_63(_)(next))){
 										break
@@ -129,19 +133,19 @@ define(["exports","../../compare","../../hash-code","../../js","../../methods","
 						return empty(_63)
 					}
 				}()
-			};
-			const _k3=freeze,_v3=function(_){
+			});
+			_ms.assoc(built,freeze,function(_){
 				freeze(_.val);
 				return Object.freeze(_)
-			};
-			const _k4=empty_33,_v4=function(_){
-				return empty_33(_.val)
-			};
-			return _ms.map(_k0,_v0,_k1,_v1,_k2,_v2,_k3,_v3,_k4,_v4)
+			});
+			_ms.assoc(built,empty_33,function(_){
+				empty_33(_.val)
+			});
+			return built
 		}());
 		const name=exports.name="Hash-Map!";
 		exports.default=Hash_45Map_33;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL01hcC9IYXNoLU1hcCEubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQXdCQSxvQkFBWSxzQkFDUztHQUFwQixVQUFNO0dBRU4sV0FDTyxlQUFBO0lBQU4sa0JBQ0c7S0FBRixVQUFBLE1BQUs7S0FDTCxVQUFBLE1BQUs7OztvQkFDSixlQUFHLEVBQUUsR0FBRztvQkFDUixlQUFHLEVBQUUsR0FBRzswQ0FDRixZQUNDO0tBQVIsU0FBRSxDQUFFLEVBQUU7S0FDTixTQUFFLENBQUUsRUFBRTs7OzJEQUNLLEdBQUUsQ0FBRSxFQUFFOzJCQUNoQixPQUFJLE9BQUssRUFBRSxHQUFJLE1BQU07R0FBQTtHQUV4QixxQkFBYzs7Ozs7Ozs7RUFFZixhQUFTLGdCQUNLO0dBQWIsWUFBTyxDQUFHLE1BQU0sT0FBTzs7Ozs7O0VBRXhCLGVBQVcsY0FBVSxxQkFDUTtHQUE1QixVQUFBLFVBQ1UsVUFBQTtXQUFULGNBQVcsTUFBTTtHQUFBOzs7RUFJbkIsMkJBQW9CLDhCQUFBLGFBQVcsSUFDRztHQUFqQyxRQUFRO0dBRVIsUUFBUTtHQUVKLFdBQUE7SUFBSCxjQUFRLFdBQVMsTUFDRztLQUFuQjtJQUFBO0lBQ0QsWUFBSSxPQUFHLFFBQVEsTUFDRztTQUFWO0lBQUE7UUFDRDs7VUFDUjtFQUFBO0VBRUQsYUFBUyxTQUFTLGNBQ1ksV0FBQTtHQUF4QixRQUFBLFVBQVUsT0FBTyw2QkFDUTtJQUE3QixRQUFRO0lBRUosV0FBQTtLQUFILGNBQVEsV0FBUyxNQUNHO01BQW5CO0tBQUE7WUFDRSxDQUFFLFFBQVE7U0FDTjs7OztFQUVWLFFBQU0sY0FBVSxpQkFDSTtHQUFuQixVQUFBLFdBQVMsU0FBQSxFQUFFLElBQ0c7SUFBYixhQUFTLFVBQVcsWUFBVTtJQUM5QixZQUFRLHFCQUFpQixPQUFPO1dBQ2hDLElBQUssYUFBTyxPQUFRLFNBQUEsRUFDQztZQUFwQjs7O0dBRUYsVUFBQSxhQUFXLFNBQUEsR0FBRyxJQUFJLElBQ0c7SUFBcEIsV0FBTyxZQUFVO0lBQ2pCLGFBQVMsV0FBVztJQUNkO0tBQUEsUUFBQSxxQkFBaUIsT0FBTztLQUM3QixZQUFBLFdBQVEsSUFDQztNQUNSLEtBQUcsRUFBRyxPQUFNO0tBQUEsT0FFVDtNQUNILFdBQVcsS0FBTSxPQUFPLElBQUksSUFBSTtLQUFBO0lBQUE7R0FBQTtHQUVuQyxVQUFBLGtCQUFjLFNBQUEsR0FBRyxJQUNHO0lBQW5CLFdBQU8sWUFBVTtJQUNqQixhQUFTLFdBQVc7O0tBQ2YsUUFBQTtLQUNKLFlBQUEsV0FBUSxJQUNDOztPQUNQLFlBQUEsT0FBRyxNQUFNLE1BQ0c7UUFBTDtTQUFBLFFBQUE7U0FDTCxZQUFBLFdBQVEsSUFDQztVQUFSLFNBQU8sT0FBTyxJQUFJO1NBQUEsT0FFZjtVQUFILGNBQVUsT0FBTztTQUFBO1FBQUE7ZUFDbkIsSUFBRTtjQUVDO1FBQ0gsUUFBUTtRQUNSLFFBQVEsTUFBTTtRQUVWLFdBQUE7U0FBSCxXQUFPO1NBQ1AsY0FBUSxXQUFRLEdBQUUsT0FDSTtVQUFyQjtTQUFBO1NBQ0QsWUFBSSxPQUFHLFNBQVMsTUFDRztVQUFsQixLQUFHLElBQUssUUFBTztjQUNSLElBQUU7VUFDVDtTQUFBO2FBQ007UUFBQTtlQUNSO09BQUE7TUFBQTtLQUFBLE9BRUM7YUFBSCxNQUFNO0tBQUE7SUFBQTtHQUFBO0dBRVQsVUFBQSxXQUFXLFNBQUEsRUFDQztJQUFYLE9BQU87V0FDUCxjQUFjO0dBQUE7R0FFZixVQUFBLGFBQVcsU0FBQSxFQUNDO1dBQVgsU0FBTzs7OztFQTVIVCx3QkFBQTtrQkE4SEEiLCJmaWxlIjoiYXQvTWFwL0hhc2gtTWFwYmFuZy5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL01hcC9IYXNoLU1hcCEubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQXdCQSxvQkFBWSxzQkFDUztHQUFwQixVQUFNO0dBRU4sV0FDUSxlQUFBO0lBQVAsa0JBQ0c7O3FCQUFGLEVBQUs7cUJBQ0wsRUFBSzs7O29CQUNKLGVBQUcsRUFBRSxHQUFHO29CQUNSLGVBQUcsRUFBRSxHQUFHOzBDQUNGLFlBQ0M7O21CQUFOLENBQUUsRUFBRTttQkFDSixDQUFFLEVBQUU7OzsyREFDSyxHQUFFLENBQUUsRUFBRTtvQkFDaEIsT0FBSSxPQUFLLEVBQUUsR0FBSSxNQUFNO0dBQUE7R0FFeEIscUJBQWM7Ozs7Ozs7O0VBRWYsYUFBUyxnQkFDSztHQUFiLFlBQU8sQ0FBRyxNQUFNLE9BQU87Ozs7OztFQUV4QixlQUFXLGNBQVUscUJBQ1E7O21CQUE1QixNQUNVLFVBQUE7V0FBVCxjQUFXLE1BQU07R0FBQTs7O0VBSW5CLDJCQUFvQiw4QkFBQSxhQUFXLElBQ0c7R0FBakMsUUFBUTtHQUVSLFFBQVE7R0FFSixPQUFBO0lBQUgsY0FBUSxXQUFTLE1BQ0c7S0FBbkI7SUFBQTtJQUNELFlBQUksT0FBRyxRQUFRLE1BQ0c7U0FBVjtJQUFBO1FBQ0Q7O1VBQ1I7RUFBQTtFQUVELGFBQVMsU0FBUyxjQUNhLFdBQUE7R0FBekIsUUFBQSxVQUFVLE9BQU8sNkJBQ1E7SUFBN0IsUUFBUTtJQUVKLE9BQUE7S0FBSCxjQUFRLFdBQVMsTUFDRztNQUFuQjtLQUFBO1lBQ0UsQ0FBRSxRQUFRO1NBQ047Ozs7RUFFVixRQUFNLGNBQVUsaUJBQ0k7O21CQUFuQixPQUFTLFNBQUEsRUFBRSxJQUNHO0lBQWIsYUFBUyxVQUFXLFlBQVU7SUFDOUIsWUFBUSxxQkFBaUIsT0FBTztXQUNoQyxJQUFLLGFBQU8sT0FBUSxTQUFBLEVBQ0M7WUFBcEI7OzttQkFFRixTQUFZLFNBQUEsR0FBRyxJQUFJLElBQ0c7SUFBckIsV0FBTyxZQUFVO0lBQ2pCLGFBQVMsV0FBVztJQUNkO0tBQUEsUUFBQSxxQkFBaUIsT0FBTztLQUM3QixZQUFBLFdBQVEsSUFDQztNQUNSLEtBQUcsRUFBRyxPQUFNO0tBQUEsT0FFVDtNQUNILFdBQVcsS0FBTSxPQUFPLElBQUksSUFBSTtLQUFBO0lBQUE7R0FBQTttQkFFbkMsY0FBYyxTQUFBLEdBQUcsSUFDRztJQUFuQixXQUFPLFlBQVU7SUFDakIsYUFBUyxXQUFXOztLQUNmLFFBQUE7S0FDSixZQUFBLFdBQVEsSUFDQzs7T0FDUCxZQUFBLE9BQUcsTUFBTSxNQUNHO1FBQUw7U0FBQSxRQUFBO1NBQ0wsWUFBQSxXQUFRLElBQ0M7VUFBUixTQUFPLE9BQU8sSUFBSTtTQUFBLE9BRWY7VUFBSCxjQUFVLE9BQU87U0FBQTtRQUFBO2VBQ25CLElBQUU7Y0FFQztRQUNILFFBQVE7UUFDUixRQUFRLE1BQU07UUFFVixPQUFBO1NBQUgsV0FBTztTQUNQLGNBQVEsV0FBUSxHQUFFLE9BQ0k7VUFBckI7U0FBQTtTQUNELFlBQUksT0FBRyxTQUFTLE1BQ0c7VUFBbEIsS0FBRyxJQUFLLFFBQU87Y0FDUixJQUFFO1VBQ1Q7U0FBQTthQUNNO1FBQUE7ZUFDUjtPQUFBO01BQUE7S0FBQSxPQUVDO2FBQUgsTUFBTTtLQUFBO0lBQUE7R0FBQTttQkFFVCxPQUFXLFNBQUEsRUFDQztJQUFYLE9BQU87V0FDUCxjQUFjO0dBQUE7bUJBRWYsU0FBWSxTQUFBLEVBQ0M7SUFBWixTQUFPOzs7O0VBNUhULHdCQUFBO2tCQThIQSIsImZpbGUiOiJhdC9NYXAvSGFzaC1NYXBiYW5nLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

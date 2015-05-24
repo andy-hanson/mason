@@ -11,12 +11,13 @@ define(["exports","./methods","../bang","./Number"],function(exports,methods_0,_
 		const sin=exports.sin=function(){
 			const doc="Y-value of the point on the unit circle this many radians counter-clockwise from +x.";
 			const test=function test(){
-				return _ms.unlazy(_33call_45with)(_ms.unlazy(near_63),sin,function(){
-					const _k0=[0],_v0=0;
-					const _k1=[pi_472],_v1=1;
-					const _k2=[pi],_v2=0;
-					const _k3=[pi3_472],_v3=- 1;
-					return _ms.map(_k0,_v0,_k1,_v1,_k2,_v2,_k3,_v3)
+				_ms.unlazy(_33call_45with)(_ms.unlazy(near_63),sin,function(){
+					const built=new global.Map();
+					_ms.assoc(built,[0],0);
+					_ms.assoc(built,[pi_472],1);
+					_ms.assoc(built,[pi],0);
+					_ms.assoc(built,[pi3_472],- 1);
+					return built
 				}())
 			};
 			return _ms.set(function sin(radian_45angle){
@@ -27,12 +28,13 @@ define(["exports","./methods","../bang","./Number"],function(exports,methods_0,_
 		const cos=exports.cos=function(){
 			const doc="X-value of the point on the unit circle this many radians counter-clockwise from +x.";
 			const test=function test(){
-				return _ms.unlazy(_33call_45with)(_ms.unlazy(near_63),cos,function(){
-					const _k0=[0],_v0=1;
-					const _k1=[pi_472],_v1=0;
-					const _k2=[pi],_v2=- 1;
-					const _k3=[pi3_472],_v3=0;
-					return _ms.map(_k0,_v0,_k1,_v1,_k2,_v2,_k3,_v3)
+				_ms.unlazy(_33call_45with)(_ms.unlazy(near_63),cos,function(){
+					const built=new global.Map();
+					_ms.assoc(built,[0],1);
+					_ms.assoc(built,[pi_472],0);
+					_ms.assoc(built,[pi],- 1);
+					_ms.assoc(built,[pi3_472],0);
+					return built
 				}())
 			};
 			return _ms.set(function cos(radian_45angle){
@@ -43,10 +45,11 @@ define(["exports","./methods","../bang","./Number"],function(exports,methods_0,_
 		const tan=exports.tan=function(){
 			const doc="`/ sin cos`";
 			const test=function test(){
-				return _ms.unlazy(_33call_45with)(_ms.unlazy(near_63),tan,function(){
-					const _k0=[0],_v0=0;
-					const _k1=[pi],_v1=0;
-					return _ms.map(_k0,_v0,_k1,_v1)
+				_ms.unlazy(_33call_45with)(_ms.unlazy(near_63),tan,function(){
+					const built=new global.Map();
+					_ms.assoc(built,[0],0);
+					_ms.assoc(built,[pi],0);
+					return built
 				}())
 			};
 			return _ms.set(function tan(radian_45angle){
@@ -57,11 +60,12 @@ define(["exports","./methods","../bang","./Number"],function(exports,methods_0,_
 		const acos=exports.acos=function(){
 			const doc="`cos res` should be `cos`.";
 			const test=function test(){
-				return _ms.unlazy(_33call_45with)(_ms.unlazy(near_63),acos,function(){
-					const _k0=[0],_v0=pi_472;
-					const _k1=[0.5],_v1=_47(pi,3);
-					const _k2=[1],_v2=0;
-					return _ms.map(_k0,_v0,_k1,_v1,_k2,_v2)
+				_ms.unlazy(_33call_45with)(_ms.unlazy(near_63),acos,function(){
+					const built=new global.Map();
+					_ms.assoc(built,[0],pi_472);
+					_ms.assoc(built,[0.5],_47(pi,3));
+					_ms.assoc(built,[1],0);
+					return built
 				}())
 			};
 			return _ms.set(function acos(cos){
@@ -72,11 +76,12 @@ define(["exports","./methods","../bang","./Number"],function(exports,methods_0,_
 		const asin=exports.asin=function(){
 			const doc="`sin res` should be `sin`.";
 			const test=function test(){
-				return _ms.unlazy(_33call_45with)(_ms.unlazy(near_63),asin,function(){
-					const _k0=[0],_v0=0;
-					const _k1=[0.5],_v1=_47(pi,6);
-					const _k2=[1],_v2=pi_472;
-					return _ms.map(_k0,_v0,_k1,_v1,_k2,_v2)
+				_ms.unlazy(_33call_45with)(_ms.unlazy(near_63),asin,function(){
+					const built=new global.Map();
+					_ms.assoc(built,[0],0);
+					_ms.assoc(built,[0.5],_47(pi,6));
+					_ms.assoc(built,[1],pi_472);
+					return built
 				}())
 			};
 			return _ms.set(function asin(sin){
@@ -87,9 +92,10 @@ define(["exports","./methods","../bang","./Number"],function(exports,methods_0,_
 		const atan=exports.atan=function(){
 			const doc="`tan res` should be `tan`.";
 			const test=function test(){
-				return _ms.unlazy(_33call_45with)(_ms.unlazy(near_63),atan,function(){
-					const _k0=[0],_v0=0;
-					return _ms.map(_k0,_v0)
+				_ms.unlazy(_33call_45with)(_ms.unlazy(near_63),atan,function(){
+					const built=new global.Map();
+					_ms.assoc(built,[0],0);
+					return built
 				}())
 			};
 			return _ms.set(function atan(tan){
@@ -101,8 +107,9 @@ define(["exports","./methods","../bang","./Number"],function(exports,methods_0,_
 		const degrees_45to_45radians=exports["degrees-to-radians"]=function(){
 			const doc="Converts an angle in degrees to one in radians.";
 			const test=function test(){
-				const _k0=[180],_v0=pi;
-				return _ms.map(_k0,_v0)
+				const built=new global.Map();
+				_ms.assoc(built,[180],pi);
+				return built
 			};
 			return _ms.set(function degrees_45to_45radians(degrees){
 				_ms.checkContains(Number,degrees,"degrees");
@@ -113,8 +120,9 @@ define(["exports","./methods","../bang","./Number"],function(exports,methods_0,_
 		const radians_45to_45degrees=exports["radians-to-degrees"]=function(){
 			const doc="Converts an angle in radians to one in degrees.";
 			const test=function test(){
-				const _k0=[pi],_v0=180;
-				return _ms.map(_k0,_v0)
+				const built=new global.Map();
+				_ms.assoc(built,[pi],180);
+				return built
 			};
 			return _ms.set(function radians_45to_45degrees(radians){
 				_ms.checkContains(Number,radians,"radians");
@@ -125,4 +133,4 @@ define(["exports","./methods","../bang","./Number"],function(exports,methods_0,_
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tYXRoL3RyaWcubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFNQSxzQkFBTTtFQUVOLG9CQUFJO0VBQ0osNkJBQU0sSUFBRSxHQUFHO0VBQ1gsK0JBQU8sSUFBRSxHQUFHO0VBQ1osNkJBQU0sSUFBRSxHQUFHO0VBRVgsZ0NBQ0k7R0FBSCxVQUFNO0dBQ04sV0FDTyxlQUFBOzBEQUFXLGNBQ0c7S0FBbkIsVUFBQSxDQUFFLE9BQU87S0FDVCxVQUFBLENBQUUsWUFBVTtLQUNaLFVBQUEsQ0FBRSxRQUFRO0tBQ1YsVUFBQSxDQUFFLGFBQVc7Ozs7a0JBQ2QsYUFBQSxlQUNtQjtzQkFETjtXQUNiLFNBQVM7R0FBQTs7RUFFWCxnQ0FDSTtHQUFILFVBQU07R0FDTixXQUNPLGVBQUE7MERBQVcsY0FDRztLQUFuQixVQUFBLENBQUUsT0FBTztLQUNULFVBQUEsQ0FBRSxZQUFVO0tBQ1osVUFBQSxDQUFFLFFBQVE7S0FDVixVQUFBLENBQUUsYUFBVzs7OztrQkFDZCxhQUFBLGVBQ21CO3NCQUROO1dBQ2IsU0FBUztHQUFBOztFQUVYLGdDQUNJO0dBQUgsVUFBTTtHQUNOLFdBQ08sZUFBQTswREFBVyxjQUNHO0tBQW5CLFVBQUEsQ0FBRSxPQUFPO0tBQ1QsVUFBQSxDQUFFLFFBQVE7Ozs7a0JBQ1gsYUFBQSxlQUNtQjtzQkFETjtXQUNiLFNBQVM7R0FBQTs7RUFFWCxrQ0FDSztHQUFKLFVBQU07R0FDTixXQUNPLGVBQUE7MERBQVcsZUFDSTtLQUFwQixVQUFBLENBQUUsT0FBTztLQUNULFVBQUEsQ0FBRSxTQUFTLElBQUUsR0FBRztLQUNoQixVQUFBLENBQUUsT0FBTzs7OztrQkFDVixjQUFBLElBQ1U7c0JBRE47V0FDSixVQUFVO0dBQUE7O0VBRVosa0NBQ0s7R0FBSixVQUFNO0dBQ04sV0FDTyxlQUFBOzBEQUFXLGVBQ0k7S0FBcEIsVUFBQSxDQUFFLE9BQU87S0FDVCxVQUFBLENBQUUsU0FBUyxJQUFFLEdBQUc7S0FDaEIsVUFBQSxDQUFFLE9BQU87Ozs7a0JBQ1YsY0FBQSxJQUNVO3NCQUROO1dBQ0osVUFBVTtHQUFBOztFQUVaLGtDQUNLO0dBQUosVUFBTTtHQUNOLFdBQ08sZUFBQTswREFBVyxlQUNJO0tBQXBCLFVBQUEsQ0FBRSxPQUFPOzs7O2tCQUNWLGNBQUEsSUFDVTtzQkFETjtXQUNKLFVBQVU7R0FBQTs7RUFHWCwyRUFBMkIsSUFBRSxHQUFHO0VBQ2hDLHFFQUNtQjtHQUFsQixVQUFNO0dBQ04sV0FDTyxlQUFBO0lBQU4sVUFBQSxDQUFFLFNBQVM7OztrQkFDWCxnQ0FBQSxRQUNjO3NCQUROO1dBQ1IsSUFBRSxRQUFRO0dBQUE7O0VBRVosMkVBQTJCLElBQUUsSUFBSTtFQUNqQyxxRUFDbUI7R0FBbEIsVUFBTTtHQUNOLFdBQ08sZUFBQTtJQUFOLFVBQUEsQ0FBRSxRQUFROzs7a0JBQ1YsZ0NBQUEsUUFDYztzQkFETjtXQUNSLElBQUUsUUFBUTtHQUFBOztFQXZGYix3QkFBQSIsImZpbGUiOiJtYXRoL3RyaWcuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tYXRoL3RyaWcubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFNQSxzQkFBTTtFQUVOLG9CQUFJO0VBQ0osNkJBQU0sSUFBRSxHQUFHO0VBQ1gsK0JBQU8sSUFBRSxHQUFHO0VBQ1osNkJBQU0sSUFBRSxHQUFHO0VBRVgsZ0NBQ0k7R0FBSCxVQUFNO0dBQ04sV0FDUSxlQUFBO21EQUFVLGNBQ0c7O3FCQUFuQixDQUFFLEdBQU87cUJBQ1QsQ0FBRSxRQUFVO3FCQUNaLENBQUUsSUFBUTtxQkFDVixDQUFFLFNBQVc7Ozs7a0JBQ2QsYUFBQSxlQUNtQjtzQkFETjtXQUNiLFNBQVM7R0FBQTs7RUFFWCxnQ0FDSTtHQUFILFVBQU07R0FDTixXQUNRLGVBQUE7bURBQVUsY0FDRzs7cUJBQW5CLENBQUUsR0FBTztxQkFDVCxDQUFFLFFBQVU7cUJBQ1osQ0FBRSxJQUFRO3FCQUNWLENBQUUsU0FBVzs7OztrQkFDZCxhQUFBLGVBQ21CO3NCQUROO1dBQ2IsU0FBUztHQUFBOztFQUVYLGdDQUNJO0dBQUgsVUFBTTtHQUNOLFdBQ1EsZUFBQTttREFBVSxjQUNHOztxQkFBbkIsQ0FBRSxHQUFPO3FCQUNULENBQUUsSUFBUTs7OztrQkFDWCxhQUFBLGVBQ21CO3NCQUROO1dBQ2IsU0FBUztHQUFBOztFQUVYLGtDQUNLO0dBQUosVUFBTTtHQUNOLFdBQ1EsZUFBQTttREFBVSxlQUNJOztxQkFBcEIsQ0FBRSxHQUFPO3FCQUNULENBQUUsS0FBUyxJQUFFLEdBQUc7cUJBQ2hCLENBQUUsR0FBTzs7OztrQkFDVixjQUFBLElBQ1U7c0JBRE47V0FDSixVQUFVO0dBQUE7O0VBRVosa0NBQ0s7R0FBSixVQUFNO0dBQ04sV0FDUSxlQUFBO21EQUFVLGVBQ0k7O3FCQUFwQixDQUFFLEdBQU87cUJBQ1QsQ0FBRSxLQUFTLElBQUUsR0FBRztxQkFDaEIsQ0FBRSxHQUFPOzs7O2tCQUNWLGNBQUEsSUFDVTtzQkFETjtXQUNKLFVBQVU7R0FBQTs7RUFFWixrQ0FDSztHQUFKLFVBQU07R0FDTixXQUNRLGVBQUE7bURBQVUsZUFDSTs7cUJBQXBCLENBQUUsR0FBTzs7OztrQkFDVixjQUFBLElBQ1U7c0JBRE47V0FDSixVQUFVO0dBQUE7O0VBR1gsMkVBQTJCLElBQUUsR0FBRztFQUNoQyxxRUFDbUI7R0FBbEIsVUFBTTtHQUNOLFdBQ08sZUFBQTs7b0JBQU4sQ0FBRSxLQUFTOzs7a0JBQ1gsZ0NBQUEsUUFDYztzQkFETjtXQUNSLElBQUUsUUFBUTtHQUFBOztFQUVaLDJFQUEyQixJQUFFLElBQUk7RUFDakMscUVBQ21CO0dBQWxCLFVBQU07R0FDTixXQUNPLGVBQUE7O29CQUFOLENBQUUsSUFBUTs7O2tCQUNWLGdDQUFBLFFBQ2M7c0JBRE47V0FDUixJQUFFLFFBQVE7R0FBQTs7RUF2RmIsd0JBQUEiLCJmaWxlIjoibWF0aC90cmlnLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

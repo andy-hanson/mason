@@ -33,8 +33,7 @@ Tuple = Obj-Type
 	opt-props.
 		# TODO make-callable. Function
 		post-construct. Function
-		doc. String
-		test. Function
+	extensible. true
 	defaults.
 		prototype. |
 			Object.create Object.prototype
@@ -89,7 +88,7 @@ Tuple = Obj-Type
 		extractor = make-extractor _
 		self-impl! extract _ extractor
 
-	test. |
+	test. !|
 		Vec2 = Tuple
 			props.
 				. "x"
@@ -97,7 +96,7 @@ Tuple = Obj-Type
 		v = Vec2 1 2
 		! =? 1 v.x
 		! =? 2 v.y
-		case v
+		case! v
 			:Vec2 x y
 				! =? 1 x
 				! =? 2 y

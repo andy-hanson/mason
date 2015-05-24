@@ -7,7 +7,6 @@ use-debug
 	...@.Seq.Range range
 	...Type.Type contains?
 
-
 roman-digits =
 	1 -> "I"
 	5 -> "V"
@@ -33,7 +32,7 @@ roman.
 		[ 49 ] -> "XLIX"
 		[ 2014 ] -> "MMXIV"
 
-	|:String n:Nat
+	|n:Nat
 		in
 			! contains? (range 1 4000) n
 

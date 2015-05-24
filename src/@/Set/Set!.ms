@@ -14,7 +14,7 @@ use-debug
 
 Set! = Kind
 	doc. "Mutable Set."
-	implementor-test. |type
+	implementor-test. !|type
 		_ = empty type
 		++! _ [ 1 2 ]
 		! contains? _ 1

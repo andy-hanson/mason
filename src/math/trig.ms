@@ -13,7 +13,7 @@ pi*2. * pi 2
 
 sin.
 	doc. "Y-value of the point on the unit circle this many radians counter-clockwise from +x."
-	test. |
+	test. !|
 		!call-with near? sin
 			[ 0 ] -> 0
 			[ pi/2 ] -> 1
@@ -24,7 +24,7 @@ sin.
 
 cos.
 	doc. "X-value of the point on the unit circle this many radians counter-clockwise from +x."
-	test. |
+	test. !|
 		!call-with near? cos
 			[ 0 ] -> 1
 			[ pi/2 ] -> 0
@@ -35,7 +35,7 @@ cos.
 
 tan.
 	doc. "`/ sin cos`"
-	test. |
+	test. !|
 		!call-with near? tan
 			[ 0 ] -> 0
 			[ pi ] -> 0
@@ -44,7 +44,7 @@ tan.
 
 acos.
 	doc. "`cos res` should be `cos`."
-	test. |
+	test. !|
 		!call-with near? acos
 			[ 0 ] -> pi/2
 			[ 0.5 ] -> / pi 3
@@ -54,7 +54,7 @@ acos.
 
 asin.
 	doc. "`sin res` should be `sin`."
-	test. |
+	test. !|
 		!call-with near? asin
 			[ 0 ] -> 0
 			[ 0.5 ] -> / pi 6
@@ -64,7 +64,7 @@ asin.
 
 atan.
 	doc. "`tan res` should be `tan`."
-	test. |
+	test. !|
 		!call-with near? atan
 			[ 0 ] -> 0
 	|tan:Number

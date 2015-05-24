@@ -1,7 +1,7 @@
 import { code } from '../CompileError'
 import * as MsAstTypes from '../MsAst'
-import { Assign, AssignDestructure, BlockVal, Call, CaseDo, Debug, Do, BagEntry,
-	LocalDeclareRes, MapEntry, Pattern, SpecialDo, Yield, YieldTo } from '../MsAst'
+import { Assign, AssignDestructure, BlockVal, Call, Debug, Do, BagEntry, LocalDeclareRes,
+	MapEntry, Pattern, SpecialDo, Yield, YieldTo } from '../MsAst'
 import { assert, cat, eachReverse, head, ifElse, implementMany,
 	isEmpty, mapKeys, newSet, opEach } from './util'
 import VerifyResults, { LocalInfo } from './VerifyResults'
@@ -65,10 +65,16 @@ const
 	// the return 'access' is considered to be 'debug' if the local is.
 	accessLocalForReturn = (declare, access) => {
 		const info = results.localDeclareToInfo.get(declare)
-		addLocalAccess(info, access, info.isInDebug)
+		_addLocalAccess(info, access, info.isInDebug)
 	},
 
-	addLocalAccess = (localInfo, access, isDebugAccess) =>
+	accessLocal = (access, name) => {
+		const declare = getLocalDeclare(name, access.loc)
+		results.localAccessToDeclare.set(access, declare)
+		_addLocalAccess(results.localDeclareToInfo.get(declare), access, isInDebug)
+	},
+
+	_addLocalAccess = (localInfo, access, isDebugAccess) =>
 		(isDebugAccess ? localInfo.debugAccesses : localInfo.nonDebugAccesses).push(access),
 
 	// For expressions affecting lineNewLocals, they will be registered before being verified.
@@ -80,10 +86,7 @@ const
 	},
 
 	registerLocal = localDeclare =>
-		results.localDeclareToInfo.set(localDeclare, LocalInfo.empty(isInDebug)),
-
-	setEntryIndex = (listMapEntry, index) =>
-		results.entryToIndex.set(listMapEntry, index)
+		results.localDeclareToInfo.set(localDeclare, LocalInfo.empty(isInDebug))
 
 // These functions change verifier state and efficiently return to the old state when finished.
 const
@@ -134,7 +137,13 @@ const
 		shadowedLocals.forEach(setLocal)
 	},
 
-	plusLocalsCheckingForDuplicates = (addedLocals, action) => {
+	verifyAndPlusLocal = (addedLocal, action) => {
+		verifyLocalDeclare(addedLocal)
+		plusLocal(addedLocal, action)
+	},
+
+	verifyAndPlusLocals = (addedLocals, action) => {
+		addedLocals.forEach(verifyLocalDeclare)
 		const names = new Set()
 		addedLocals.forEach(_ => {
 			context.check(!names.has(_.name), _.loc, () =>
@@ -192,30 +201,32 @@ implementMany(MsAstTypes, 'verify', {
 		this.value.verify()
 	},
 
-	BagEntry() { this.value.verify() },
+	BagEntry() {
+		accessLocal(this, 'built')
+		this.value.verify()
+	},
 
 	BagSimple() { this.parts.forEach(verify) },
 
 	BlockDo() { verifyLines(this.lines) },
 
 	BlockWithReturn() {
-		const { newLocals } = verifyLines(this.lines)
+		const newLocals = verifyLines(this.lines)
 		plusLocals(newLocals, () => this.returned.verify())
 	},
 
 	BlockObj() {
-		const { newLocals } = verifyLines(this.lines)
+		const newLocals = verifyLines(this.lines)
 		this.keys.forEach(_ => accessLocalForReturn(_, this))
 		opEach(this.opObjed, _ => plusLocals(newLocals, () => _.verify()))
 	},
 
-	BlockBag: blockBagOrMap,
-	BlockMap: blockBagOrMap,
+	BlockBag: verifyBlockBagOrMap,
+	BlockMap: verifyBlockBagOrMap,
 
-	BlockWrap() {
-		// IIFE breaks loop. TODO: Find a way around it.
-		withInLoop(false, () => this.block.verify())
-	},
+	// BlockWrap uses IIFE, so can't break loop.
+	// block will set buildType.
+	BlockWrap() { withInLoop(false, () => this.block.verify()) },
 
 	BreakDo() {
 		if (!isInLoop)
@@ -227,40 +238,37 @@ implementMany(MsAstTypes, 'verify', {
 		this.args.forEach(verify)
 	},
 
-	CaseDo: verifyCase,
+	CaseDo() { verifyCase(this) },
 	CaseDoPart: verifyCasePart,
-	CaseVal: verifyCase,
+	// CaseVal uses IIFE, so can't break loop
+	CaseVal() { withInLoop(false, () => verifyCase(this)) },
 	CaseValPart: verifyCasePart,
 
 	// Only reach here for in/out condition
 	Debug() { verifyLines([ this ]) },
 
-	ForDoPlain() {
-		withInLoop(true, () => this.block.verify())
-	},
+	ForDoPlain() { withInLoop(true, () => this.block.verify()) },
 
 	ForDoWithBag() {
 		this.bag.verify()
-		verifyLocalDeclare(this.element)
-		plusLocal(this.element, () => withInLoop(true, () => this.block.verify()))
+		verifyAndPlusLocal(this.element, () => withInLoop(true, () => this.block.verify()))
 	},
 
 	Fun() {
 		withBlockLocals(() => {
 			context.check(this.opResDeclare === null || this.block instanceof BlockVal, this.loc,
 				'Function with return condition must return something.')
-			const allArgs = cat(this.args, this.opRestArg)
-			allArgs.forEach(verifyLocalDeclare)
-
 			withInGenerator(this.isGenerator, () =>
-				withInLoop(false, () =>
-					plusLocalsCheckingForDuplicates(allArgs, () => {
+				withInLoop(false, () => {
+					const allArgs = cat(this.args, this.opRestArg)
+					verifyAndPlusLocals(allArgs, () => {
 						opEach(this.opIn, verify)
 						this.block.verify()
 						opEach(this.opResDeclare, verifyLocalDeclare)
 						const verifyOut = () => opEach(this.opOut, _ => _.verify())
 						ifElse(this.opResDeclare, _ => plusLocal(_, verifyOut), verifyOut)
-					})))
+					})
+				}))
 		})
 	},
 
@@ -270,11 +278,7 @@ implementMany(MsAstTypes, 'verify', {
 
 	Lazy() { withBlockLocals(() => this.value.verify()) },
 
-	LocalAccess() {
-		const declare = getLocalDeclare(this.name, this.loc)
-		results.accessToLocal.set(this, declare)
-		addLocalAccess(results.localDeclareToInfo.get(declare), this, isInDebug)
-	},
+	LocalAccess() { accessLocal(this, this.name) },
 
 	// Adding LocalDeclares to the available locals is done by Fun or lineNewLocals.
 	LocalDeclare() { opEach(this.opType, verify) },
@@ -282,6 +286,7 @@ implementMany(MsAstTypes, 'verify', {
 	NumberLiteral() { },
 
 	MapEntry() {
+		accessLocal(this, 'built')
 		this.key.verify()
 		this.val.verify()
 	},
@@ -292,7 +297,7 @@ implementMany(MsAstTypes, 'verify', {
 		// No need to verify this.doUses.
 		this.uses.forEach(verify)
 		withInDebug(() => this.debugUses.forEach(verify))
-		const { newLocals } = verifyLines(this.lines)
+		const newLocals = verifyLines(this.lines)
 		this.exports.forEach(_ => accessLocalForReturn(_, this))
 		opEach(this.opDefaultExport, _ => plusLocals(newLocals, () => _.verify()))
 
@@ -356,33 +361,24 @@ implementMany(MsAstTypes, 'verify', {
 	}
 })
 
-function blockBagOrMap() {
-	const { listMapLength } = verifyLines(this.lines)
-	results.blockToLength.set(this, listMapLength)
-}
-
 function ifOrUnlessDo() {
 	this.test.verify()
 	this.result.verify()
 }
 
-function verifyCase() {
-	const reallyDoIt = () => {
-		this.parts.forEach(verify)
-		opEach(this.opElse, verify)
-	}
+function verifyBlockBagOrMap() {
+	verifyAndPlusLocal(this.built, () => verifyLines(this.lines))
+}
+
+const verifyCase = _ => {
 	const doIt = () => {
-		if (this instanceof CaseDo)
-			reallyDoIt()
-		else
-			// IIFE breaks loop. TODO: Find a way around it.
-			withInLoop(false, reallyDoIt)
+		_.parts.forEach(verify)
+		opEach(_.opElse, verify)
 	}
-	ifElse(this.opCased,
+	ifElse(_.opCased,
 		_ => {
 			_.verify()
-			verifyLocalDeclare(_.assignee)
-			plusLocal(_.assignee, doIt)
+			verifyAndPlusLocal(_.assignee, doIt)
 		},
 		doIt)
 }
@@ -391,8 +387,7 @@ function verifyCasePart() {
 	if (this.test instanceof Pattern) {
 		this.test.type.verify()
 		this.test.patterned.verify()
-		this.test.locals.forEach(verifyLocalDeclare)
-		plusLocalsCheckingForDuplicates(this.test.locals, () => this.result.verify())
+		verifyAndPlusLocals(this.test.locals, () => this.result.verify())
 	} else {
 		this.test.verify()
 		this.result.verify()
@@ -456,8 +451,6 @@ const
 		// All shadowed locals for this block.
 		const shadowed = [ ]
 
-		let listMapLength = 0
-
 		const verifyLine = line => {
 			if (line instanceof Debug)
 				// TODO: Do anything in this situation?
@@ -481,10 +474,6 @@ const
 					const popped = pendingBlockLocals.pop()
 					assert(popped === newLocal)
 				})
-				if (line instanceof BagEntry || line instanceof MapEntry) {
-					setEntryIndex(line, listMapLength)
-					listMapLength = listMapLength + 1
-				}
 				line.verify()
 			}
 		}
@@ -494,7 +483,7 @@ const
 		newLocals.forEach(deleteLocal)
 		shadowed.forEach(_ => setLocal(_))
 
-		return { newLocals, listMapLength }
+		return newLocals
 	},
 
 	verifyIsStatement = line => {

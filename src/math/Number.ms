@@ -18,7 +18,7 @@ Int. Pred-Type
 		A multiple of 1.
 		This only contains Numbers for which integer methods return sensible results, AKA safe ints.
 		This is anything between min-safe-integer and max-safe-integer.
-	test. |
+	test. !|
 		spread! ![contains?[Int]]
 			. 1
 			. min-safe-int
@@ -27,12 +27,11 @@ Int. Pred-Type
 			. 1.1
 			. - min-safe-int 1
 			. + max-safe-int 1
-	predicate. |_
-		Number.isSafeInteger _
+	predicate. Number.isSafeInteger
 
 Nat. Pred-Type
 	doc. "Any counting number, including `0`."
-	test. |
+	test. !|
 		! contains? Nat 0
 		!not contains? Nat -1
 	predicate. |_
@@ -158,7 +157,7 @@ region Real arithmetic
 	square-root.
 		test. |
 			[ 4 ] -> 2
-			debug ! fails? |
+			debug ! fails? !|
 				square-root -1
 		|_:Number
 			in

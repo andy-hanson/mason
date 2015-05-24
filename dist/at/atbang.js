@@ -28,7 +28,7 @@ define(["exports","../Type/Kind","../Type/Method","./at","./at-Type","./Seq/Arra
 				for(let em of [1,2,3,4][Symbol.iterator]()){
 					_ms.unlazy(_33not)(_ms.unlazy(contains_63),_,em)
 				};
-				return _ms.unlazy(_33)(_ms.unlazy(empty_63),_)
+				_ms.unlazy(_33)(_ms.unlazy(empty_63),_)
 			};
 			return {
 				doc:doc,
@@ -52,16 +52,15 @@ define(["exports","../Type/Kind","../Type/Method","./at","./at-Type","./Seq/Arra
 		}());
 		const _43_43_33=exports["++!"]=Method(function(){
 			const doc="Adds new elements.\nFor Seqs these are added on the right; use `<++!` to add on the left.";
-			const test=function test(){
-				return "TODO:impl-test"
-			};
+			const test=function test(){};
 			const args=function(){
-				const _0="_";
-				const _1=["added",_64];
-				return [_0,_1]
+				const built=[];
+				_ms.add(built,"_");
+				_ms.add(built,["added",_64]);
+				return built
 			}();
 			const _default=function _default(_,added){
-				return _ms.unlazy(_43_43_62_33)(_,added)
+				_ms.unlazy(_43_43_62_33)(_,added)
 			};
 			return {
 				doc:doc,
@@ -74,13 +73,12 @@ define(["exports","../Type/Kind","../Type/Method","./at","./at-Type","./Seq/Arra
 		const _45_45_33=exports["--!"]=Method(function(){
 			const doc="Removes all elements in `removed` once.\nFor Seqs these are removed starting from the left.";
 			const args=function(){
-				const _0="_";
-				const _1=["@removed",_64];
-				return [_0,_1]
+				const built=[];
+				_ms.add(built,"_");
+				_ms.add(built,["@removed",_64]);
+				return built
 			}();
-			const test=function test(){
-				return "TODO:impl-test"
-			};
+			const test=function test(){};
 			return {
 				doc:doc,
 				args:args,
@@ -93,4 +91,4 @@ define(["exports","../Type/Kind","../Type/Method","./at","./at-Type","./Seq/Arra
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL0AhLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7OztFQWNBLGFBQUssZUFDSTtHQUFSLFVBQU07R0FDTix5QkFBbUIsNEJBQUEsS0FDSTtJQUN0QjtLQUFTLFFBQUE7S0FDUiwrQkFBRyxFQUFFLFFBQ0s7YUFBVDtZQUVHO2FBQUgsTUFBTTtLQUFBO0lBQUE7SUFDUixVQUFJLEVBQUUsQ0FBRSxFQUFFO0lBQ1YsVUFBSSxFQUFFLENBQUUsRUFBRTtJQUNMLFFBQUEsTUFBTSxDQUFFLEVBQUUsRUFBRSxFQUFFLHNCQUNHOzZDQUFULEVBQUU7SUFBQTsrQ0FDQSxFQUFFO0lBQ2pCLFNBQU87SUFDRixRQUFBLE1BQU0sQ0FBRSxFQUFFLEVBQUUsRUFBRSxzQkFDRztnREFBTixFQUFFO0lBQUE7Z0RBQ1Q7R0FBQTs7Ozs7OztFQUVYLGVBQVcsT0FBRztFQUNkLGVBQVcsTUFBTSxPQUNJLFVBQUE7VUFBcEI7O0VBRUQsUUFBTSxPQUFHO0VBRVQsaUNBQVEsaUJBQ007R0FBYixVQUFNO0dBQ04sV0FBTTs7Ozs7OztFQUVQLCtCQUFLLGlCQUNNO0dBQVYsVUFDQztHQUVELFdBQ08sZUFBQTtXQUFMO0dBQUE7R0FDRixxQkFDSztJQUFKLFNBQUc7SUFDSCxTQUFFLENBQUcsUUFBTzs7O0dBRWIsZUFBVSxrQkFBQSxFQUFFLE1BQ0s7b0NBQVgsRUFBRTtHQUFBOzs7Ozs7Ozs7RUFFVCwrQkFBSyxpQkFDTTtHQUFWLFVBQ0M7R0FFRCxxQkFDSztJQUFKLFNBQUc7SUFDSCxTQUFFLENBQUcsV0FBVTs7O0dBQ2hCLFdBQ08sZUFBQTtXQUFMO0dBQUE7Ozs7Ozs7O0VBaEVILHdCQUFBO2tCQWtFQSIsImZpbGUiOiJhdC9hdGJhbmcuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL0AhLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7OztFQWNBLGFBQUssZUFDSTtHQUFSLFVBQU07R0FDTix5QkFBb0IsNEJBQUEsS0FDSTtJQUN2QjtLQUFTLFFBQUE7S0FDUiwrQkFBRyxFQUFFLFFBQ0s7YUFBVDtZQUVHO2FBQUgsTUFBTTtLQUFBO0lBQUE7SUFDUixVQUFJLEVBQUUsQ0FBRSxFQUFFO0lBQ1YsVUFBSSxFQUFFLENBQUUsRUFBRTtJQUNMLFFBQUEsTUFBTSxDQUFFLEVBQUUsRUFBRSxFQUFFLHNCQUNHOzZDQUFULEVBQUU7SUFBQTsrQ0FDQSxFQUFFO0lBQ2pCLFNBQU87SUFDRixRQUFBLE1BQU0sQ0FBRSxFQUFFLEVBQUUsRUFBRSxzQkFDRztnREFBTixFQUFFO0lBQUE7eUNBQ1Q7R0FBQTs7Ozs7OztFQUVYLGVBQVcsT0FBRztFQUNkLGVBQVcsTUFBTSxPQUNJLFVBQUE7VUFBcEI7O0VBRUQsUUFBTSxPQUFHO0VBRVQsaUNBQVEsaUJBQ007R0FBYixVQUFNO0dBQ04sV0FBTTs7Ozs7OztFQUVQLCtCQUFLLGlCQUNNO0dBQVYsVUFDQztHQUVELFdBQ1EsZUFBQTtHQUNSLHFCQUNLOztrQkFBRDtrQkFDRCxDQUFHLFFBQU87OztHQUViLGVBQVcsa0JBQUEsRUFBRSxNQUNLOzZCQUFaLEVBQUU7R0FBQTs7Ozs7Ozs7O0VBRVQsK0JBQUssaUJBQ007R0FBVixVQUNDO0dBRUQscUJBQ0s7O2tCQUFEO2tCQUNELENBQUcsV0FBVTs7O0dBQ2hCLFdBQ1EsZUFBQTs7Ozs7Ozs7RUFoRVQsd0JBQUE7a0JBa0VBIiwiZmlsZSI6ImF0L2F0YmFuZy5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

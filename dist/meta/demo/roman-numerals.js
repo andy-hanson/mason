@@ -6,14 +6,15 @@ define(["exports","../../compare","../../math/Number","../../math/methods","../.
 			return _ms.getDefaultExport(_33_3)
 		}),_$7=_ms.lazyGetModule(Range_4),range=_ms.lazyProp(_$7,"range"),_$8=_ms.lazyGetModule(Type_5),contains_63=_ms.lazyProp(_$8,"contains?");
 		const roman_45digits=function(){
-			const _k0=1,_v0="I";
-			const _k1=5,_v1="V";
-			const _k2=10,_v2="X";
-			const _k3=50,_v3="L";
-			const _k4=100,_v4="C";
-			const _k5=500,_v5="D";
-			const _k6=1000,_v6="M";
-			return _ms.map(_k0,_v0,_k1,_v1,_k2,_v2,_k3,_v3,_k4,_v4,_k5,_v5,_k6,_v6)
+			const built=new global.Map();
+			_ms.assoc(built,1,"I");
+			_ms.assoc(built,5,"V");
+			_ms.assoc(built,10,"X");
+			_ms.assoc(built,50,"L");
+			_ms.assoc(built,100,"C");
+			_ms.assoc(built,500,"D");
+			_ms.assoc(built,1000,"M");
+			return built
 		}();
 		const power_45of_4510_45below=function power_45of_4510_45below(_){
 			return pow(10,round_45down(log(10,_)))
@@ -21,14 +22,15 @@ define(["exports","../../compare","../../math/Number","../../math/methods","../.
 		const roman=exports.roman=function(){
 			const doc="Converts a number to Roman numerals.\nOnly works for values 1-3999.";
 			const test=function test(){
-				const _k0=[1],_v0="I";
-				const _k1=[4],_v1="IV";
-				const _k2=[5],_v2="V";
-				const _k3=[9],_v3="IX";
-				const _k4=[44],_v4="XLIV";
-				const _k5=[49],_v5="XLIX";
-				const _k6=[2014],_v6="MMXIV";
-				return _ms.map(_k0,_v0,_k1,_v1,_k2,_v2,_k3,_v3,_k4,_v4,_k5,_v5,_k6,_v6)
+				const built=new global.Map();
+				_ms.assoc(built,[1],"I");
+				_ms.assoc(built,[4],"IV");
+				_ms.assoc(built,[5],"V");
+				_ms.assoc(built,[9],"IX");
+				_ms.assoc(built,[44],"XLIV");
+				_ms.assoc(built,[49],"XLIX");
+				_ms.assoc(built,[2014],"MMXIV");
+				return built
 			};
 			return _ms.set(function roman(n){
 				_ms.checkContains(Nat,n,"n");
@@ -50,7 +52,7 @@ define(["exports","../../compare","../../math/Number","../../math/methods","../.
 				const gt_63=function gt_63(dec_45multiple){
 					return _60_61_63(_42(dec_45multiple,dec),n)
 				};
-				return _ms.checkContains(String,function(){
+				return function(){
 					if(_ms.bool(gt_63(9))){
 						return (((""+_ms.show(dig(1)))+_ms.show(dig(10)))+_ms.show(rec(9)))
 					} else if(_ms.bool(gt_63(5))){
@@ -60,11 +62,11 @@ define(["exports","../../compare","../../math/Number","../../math/methods","../.
 					} else {
 						return ((""+_ms.show(dig(1)))+_ms.show(rec(1)))
 					}
-				}(),"res")
+				}()
 			},"doc",doc,"test",test)
 		}();
 		const name=exports.name="roman-numerals";
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL2RlbW8vcm9tYW4tbnVtZXJhbHMubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQVVBLCtCQUNjO0dBQWIsVUFBQSxNQUFNO0dBQ04sVUFBQSxNQUFNO0dBQ04sVUFBQSxPQUFPO0dBQ1AsVUFBQSxPQUFPO0dBQ1AsVUFBQSxRQUFRO0dBQ1IsVUFBQSxRQUFRO0dBQ1IsVUFBQSxTQUFTOzs7RUFFViw4QkFBcUIsaUNBQUEsRUFDQztVQUFyQixJQUFJLEdBQUksYUFBWSxJQUFJLEdBQUc7RUFBQTtFQUU1QixvQ0FDTTtHQUFMLFVBQ0M7R0FFRCxXQUNPLGVBQUE7SUFBTixVQUFBLENBQUUsT0FBUTtJQUNWLFVBQUEsQ0FBRSxPQUFRO0lBQ1YsVUFBQSxDQUFFLE9BQVE7SUFDVixVQUFBLENBQUUsT0FBUTtJQUNWLFVBQUEsQ0FBRSxRQUFTO0lBQ1gsVUFBQSxDQUFFLFFBQVM7SUFDWCxVQUFBLENBQUUsVUFBVzs7O2tCQUViLGVBQVEsRUFJUjtzQkFKVTs4REFFVSxFQUFFLE1BQU07SUFFNUIsVUFBTSx3QkFBa0I7SUFDeEIsVUFBTyxhQUFBLGVBQ1k7b0JBQWxCLGVBQWMsSUFBRSxlQUFhO0lBQUE7SUFDOUIsVUFBTyxhQUFBLGVBQ1k7O01BQWIsUUFBQSxJQUFFLEVBQUcsSUFBRSxlQUFhO01BQ3hCLFlBQUEsT0FBRyxFQUFFLElBQ0M7Y0FBSjtNQUFBLE9BRUU7Y0FBSCxNQUFLO01BQUE7S0FBQTtJQUFBO0lBQ1IsWUFBTyxlQUFBLGVBQ1k7WUFBbEIsVUFBSyxJQUFFLGVBQWEsS0FBSztJQUFBOzZCQWR6QjtLQWdCQSxZQUFBLE1BQUksSUFDQzthQUFILEdBUEMsWUFPQSxJQUFJLGNBQUcsSUFBSSxlQUFJLElBQUk7S0FBQSxPQUN0QixZQUFBLE1BQUksSUFDQzthQUFILEVBVEMsWUFTQSxJQUFJLGNBQUcsSUFBSTtLQUFBLE9BQ2QsWUFBQSxNQUFJLElBQ0M7YUFBSCxHQVhDLFlBV0EsSUFBSSxjQUFHLElBQUksY0FBRyxJQUFJO0tBQUEsT0FFakI7YUFBRixFQWJDLFlBYUEsSUFBSSxjQUFHLElBQUk7S0FBQTtJQUFBOzs7RUExRGpCLHdCQUFBIiwiZmlsZSI6Im1ldGEvZGVtby9yb21hbi1udW1lcmFscy5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL2RlbW8vcm9tYW4tbnVtZXJhbHMubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQVNBLCtCQUNjOzttQkFBYixFQUFNO21CQUNOLEVBQU07bUJBQ04sR0FBTzttQkFDUCxHQUFPO21CQUNQLElBQVE7bUJBQ1IsSUFBUTttQkFDUixLQUFTOzs7RUFFViw4QkFBcUIsaUNBQUEsRUFDQztVQUFyQixJQUFJLEdBQUksYUFBWSxJQUFJLEdBQUc7RUFBQTtFQUU1QixvQ0FDTTtHQUFMLFVBQ0M7R0FFRCxXQUNPLGVBQUE7O29CQUFOLENBQUUsR0FBUTtvQkFDVixDQUFFLEdBQVE7b0JBQ1YsQ0FBRSxHQUFRO29CQUNWLENBQUUsR0FBUTtvQkFDVixDQUFFLElBQVM7b0JBQ1gsQ0FBRSxJQUFTO29CQUNYLENBQUUsTUFBVzs7O2tCQUViLGVBQUEsRUFJQTtzQkFKRTs4REFFa0IsRUFBRSxNQUFNO0lBRTVCLFVBQU0sd0JBQWtCO0lBQ3hCLFVBQU8sYUFBQSxlQUNZO29CQUFsQixlQUFjLElBQUUsZUFBYTtJQUFBO0lBQzlCLFVBQU8sYUFBQSxlQUNZOztNQUFiLFFBQUEsSUFBRSxFQUFHLElBQUUsZUFBYTtNQUN4QixZQUFBLE9BQUcsRUFBRSxJQUNDO2NBQUo7TUFBQSxPQUVFO2NBQUgsTUFBSztNQUFBO0tBQUE7SUFBQTtJQUNSLFlBQU8sZUFBQSxlQUNZO1lBQWxCLFVBQUssSUFBRSxlQUFhLEtBQUs7SUFBQTs7S0FFekIsWUFBQSxNQUFJLElBQ0M7YUFBSCxHQVBDLFlBT0EsSUFBSSxjQUFHLElBQUksZUFBSSxJQUFJO0tBQUEsT0FDdEIsWUFBQSxNQUFJLElBQ0M7YUFBSCxFQVRDLFlBU0EsSUFBSSxjQUFHLElBQUk7S0FBQSxPQUNkLFlBQUEsTUFBSSxJQUNDO2FBQUgsR0FYQyxZQVdBLElBQUksY0FBRyxJQUFJLGNBQUcsSUFBSTtLQUFBLE9BRWpCO2FBQUYsRUFiQyxZQWFBLElBQUksY0FBRyxJQUFJO0tBQUE7SUFBQTtHQUFBOztFQXpEakIsd0JBQUEiLCJmaWxlIjoibWV0YS9kZW1vL3JvbWFuLW51bWVyYWxzLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

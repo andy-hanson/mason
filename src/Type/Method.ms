@@ -19,7 +19,6 @@ use-debug
 	..@.?
 	..compare =?
 	..Function thunk
-	..js id=?
 	..private.bootstrap pAdd
 	..Try fails?
 
@@ -100,7 +99,7 @@ Method = Obj-Type
 						! >=? res 0
 					impl x
 
-	test. |
+	test. !|
 		m = Method
 			allow-null?. true
 			default. thunk "default"
@@ -134,7 +133,7 @@ Method = Obj-Type
 	defaults.
 		# TODO:DISPLAYNAME
 		# Shouldn't need to provide this, but otherwise defaults.name is a string and is called...
-		name. |
+		name. !|
 			ohNo "Must provide name."
 		impl-symbol. |_
 			"impl-{_.name}"
@@ -143,10 +142,10 @@ Method = Obj-Type
 impl!.
 	doc. "Implements a Method for a type or types."
 	test. "See Method.test."
-	|method:Method implementor:Impl-Type implementation:Function
+	!|method:Method implementor:Impl-Type implementation:Function
 		do-impl! method implementor implementation
 
-impl-double!. |method:Method implementor-0:Impl-Type implementor-1:Impl-Type implementation:Function
+impl-double!. !|method:Method implementor-0:Impl-Type implementor-1:Impl-Type implementation:Function
 	dispatcher = case
 		writable? implementor-0.prototype method.impl-symbol
 			m = method
@@ -170,9 +169,9 @@ impl-double!. |method:Method implementor-0:Impl-Type implementor-1:Impl-Type imp
 
 self-impl!.
 	doc. "TODO"
-	test. |
-		"TODO"
-	|method:Method implementor:Object implementation:Function
+	test. !|
+		pass # TODO
+	!|method:Method implementor:Object implementation:Function
 		impl! method (self-type implementor) |implementor ...args
 			noop implementor
 			implementation ...args
@@ -208,7 +207,7 @@ region Private
 		defined? (js-sub obj property
 
 	# TODO: Not public
-	propagate-method-down!. |implementor method-symbol implementation # TODO: :Impl-Type :Symbol :Function
+	propagate-method-down!. !|implementor method-symbol implementation # TODO: :Impl-Type :Symbol :Function
 		unless! p? implementor.prototype method-symbol
 			case! implementor
 				:Kind
@@ -225,13 +224,10 @@ region Private
 
 	# TODO: Multiple-inheritance proxy scheme for Obj-Type, Wrap-Type, Enum
 	# "method" can be a Method or a Double-Dispatcher.
-	do-impl! = |method implementor implementation
+	do-impl! = !|method implementor implementation
 		in
 			unless! writable? implementor.prototype method.impl-symbol
 				ohNo "Can not redefine method {method} for {implementor}."
-		out
-			unless! id=? implementation (js-sub implementor.prototype method.impl-symbol)
-				ohNo "WTF???"
 
 		Object.defineProperty implementor.prototype method.impl-symbol
 			value. implementation
@@ -242,9 +238,6 @@ region Private
 		if! contains? Kind implementor
 			for! implementor.implementors
 				propagate-method-down! _ method.impl-symbol implementation
-
-		# TODO: Shouldn't need this line...
-		null
 
 	Double-Dispatcher = Obj-Type
 		props.

@@ -18,6 +18,16 @@ export const
 pAdd(global, '_ms', ms)
 
 const msDefs = {
+	// TODO: use +! method
+	add(bag, value) {
+		bag.push(value)
+	},
+
+	// TODO: use assoc! method
+	assoc(map, key, val) {
+		map.set(key, val)
+	},
+
 	lazyGetModule(module) {
 		if (module === undefined)
 			throw new Error('Module undefined.')
@@ -127,13 +137,6 @@ const msDefs = {
 			return _
 		for (let i = 7; i < arguments.length; i = i + 2)
 			setOrLazy(_, arguments[i], arguments[i + 1])
-		return _
-	},
-
-	map(...args) {
-		const _ = new Map()
-		for (let i = 0; i < args.length; i = i + 2)
-			_.set(args[i], args[i + 1])
 		return _
 	}
 }

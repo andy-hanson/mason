@@ -6,7 +6,7 @@ use
 	.Type.Type => contains?
 	.Type.Kind
 use~
-	.@.@ _ ++ all? count empty? keep
+	.@.@ ++ all? count empty? keep
 	.@.@-Type empty
 	.@.? _ ?-or Opt->?
 	.@.Map.Map _ make-map
@@ -46,8 +46,7 @@ flag?.
 	doc. "
 		Every property name directly stored in an object.
 		Includes non-enumerable properties and symbols.
-
-	test. |
+	test. !|
 		obj = empty-Object!()
 		p+! obj "a" 0
 		sym = Symbol "s"
@@ -59,13 +58,13 @@ flag?.
 		# But not "arguments" or "caller"
 		# TODO:DISPLAYNAME
 		! set=? (@p-all @p-all) [ "length" "name" "prototype" "doc" "test" "name" ]
-	|:@[Object-Key] _
-		props = Object.getOwnPropertyNames _
+	|_
+		props = Object.getOwnPropertyNames_
 		# TODO: case!, keep!
 		own-names = case
 			:Function
 				keep props |name
-					not (contains? forbidden-fun-props name)
+					not (contains? forbidden-fun-props name
 			else
 				props
 		++ own-names (Object.getOwnPropertySymbols _
@@ -73,7 +72,7 @@ flag?.
 @p.
 	doc. "
 		Like @p-all, but excludes non-enumerable properties and symbols.
-	test. |
+	test. !|
 		obj = empty-Object!()
 		Object.defineProperty obj "a"
 			value. 0
@@ -84,12 +83,11 @@ flag?.
 			enumerable. true
 		! empty? (@p obj)
 		! set=? (@p @p) [ "doc" "test" ]
-	|:@[String] _
-		case
-			can-get-p?_
-				Object.keys_
-			else
-				[ ]
+	|case
+		can-get-p?_
+			Object.keys_
+		else
+			[ ]
 
 ?p.
 	doc. "`?` containing the value of the property, if it exists."
@@ -172,7 +170,7 @@ object=?.
 		[ 1 1 ] -> true
 		# For functions, is identity
 		[ object=? object=? ] -> true
-	|:Boolean a b
+	|a b
 		# Necessary because `js-typeof null` is "object"
 		null-a = id=? a null
 		null-b = id=? b null
@@ -225,7 +223,7 @@ Map->Object.
 			Map->Object
 				1 -> 2
 	|_:Map
-		returning empty-Object!() |obj
+		returning empty-Object!() !|obj
 			for! _
 				# TODO:SYNTAX Array destructure
 				p+! obj _[0] _[1]

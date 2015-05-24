@@ -42,6 +42,7 @@ build.
 		freeze yielded
 
 region Conditional execution
+	# TODO:SYNTAX
 	switch.
 		doc. "Calls the Function that `cases` associates with `val`."
 		test. |
@@ -67,21 +68,33 @@ region Conditional execution
 		test. |
 			[ true 1 ] -> ? 1
 			[ false 1 ] -> empty ?
-		|:? condition:Boolean ~result
+		|condition:Boolean ~result
 			case
 				condition
 					? result
 				else
 					empty ?
 
+	unless.
+		doc. "`if` with negated condition."
+		test. |
+			[ true 1 ] -> empty ?
+			[ false 1 ] -> ? 1
+		|condition:Boolean ~result
+			case
+				condition
+					empty ?
+				else
+					? result
+
 unreachable!.
 	doc. "Call this to mark code as unreachable."
-	|
+	!|
 		oh-no! "This should not be reachable."
 
 TODO.
 	doc. "Placeholder for something which you really ought to implement one of these days."
-	|
+	!|
 		oh-no! "This function has not yet been implemented."
 
 returning.

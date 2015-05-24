@@ -28,16 +28,16 @@ js-impl! iterator Hash-Set! |
 
 kind! Hash-Set! Set!
 	# TODO: Make default falling back to +!
-	++! -> |_ @added
+	++! -> !|_ @added
 		for! em in @added
 			assoc! _.val em true
 
 	# TODO: Make default falling back to -!
-	--! -> |_ @deleted
+	--! -> !|_ @deleted
 		for! em in @deleted
 			un-assoc! _.val em
 
-	empty! -> |_
+	empty! -> !|_
 		empty! _.val
 
 # TODO: This should not be necessary!

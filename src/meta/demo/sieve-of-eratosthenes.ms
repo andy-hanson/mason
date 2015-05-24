@@ -18,12 +18,12 @@ use-debug
 # http://stackoverflow.com/questions/13463417/the-genuine-sieve-of-eratosthenes-in-python-why-is-heapq-slower-than-dict
 primes.
 	doc. "Infinite Seq of Numbers > 2, each divisible only by itself and one."
-	test. |
+	test. !|
 		is-prime? = |_
 			not (any? (range 2 _) divisible?[_]
 		for! take primes 20
 			! is-prime? _
-	Stream ~|
+	Stream ~!|
 		<~ 2
 		<~ 3
 		# Maps a composite number to its prime factors.

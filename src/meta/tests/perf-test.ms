@@ -24,7 +24,7 @@ time*!.
 
 race*!.
 	doc. "Logs the time of to run each of time-us `times` times."
-	|times:Nat time-us:@[Action]
+	!|times:Nat time-us:@[Action]
 		for! time-us
 			time*! "." times _
 
@@ -50,5 +50,5 @@ $time.
 $time!.
 	doc. "Logs `$time $time-me` and returns $time-me's result."
 	|:$ name:String $time-me:Action[$]
-		$after ($time $time-me) |time:Number
+		$after ($time $time-me) !|time:Number
 			log! "{name}: {time}"

@@ -1,10 +1,12 @@
 import { ArrayExpression, BinaryExpression, CallExpression, ExpressionStatement, Identifier,
-	IfStatement, Literal, ReturnStatement, UnaryExpression, VariableDeclaration, VariableDeclarator
-	} from 'esast/dist/ast'
+	IfStatement, Literal, NewExpression, ReturnStatement, UnaryExpression, VariableDeclaration,
+	VariableDeclarator } from 'esast/dist/ast'
 import { member } from 'esast/dist/util'
+
 
 export const
 	IdArguments = Identifier('arguments'),
+	IdBuilt = Identifier('built'),
 	IdDefine = Identifier('define'),
 	IdError = Identifier('Error'),
 	IdExports = Identifier('exports'),
@@ -31,5 +33,9 @@ export const
 			VariableDeclarator(IdDefine, CallExpression(
 				CallExpression(Identifier('require'), [ Literal('amdefine') ]),
 				[ Identifier('module') ])) ])),
+	DeclareBuiltBag = VariableDeclaration('const', [ VariableDeclarator(IdBuilt, LitEmptyArray) ]),
+	DeclareBuiltMap = VariableDeclaration('const', [
+		VariableDeclarator(IdBuilt,
+			NewExpression(member(Identifier('global'), 'Map'), [ ])) ]),
 	ExportsDefault = member(IdExports, 'default'),
 	ExportsGet = member(IdExports, '_get')

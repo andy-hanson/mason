@@ -15,7 +15,7 @@ define(["exports","esast/dist/mangle-identifier","../js","../Object","../Objectb
 						name:"toString"
 					}
 				}());
-				return _ms.unlazy(_33)(_ms.unlazy(_61_63),toString(1),"1")
+				_ms.unlazy(_33)(_ms.unlazy(_61_63),toString(1),"1")
 			};
 			const props=function(){
 				const name=String;
@@ -51,8 +51,9 @@ define(["exports","esast/dist/mangle-identifier","../js","../Object","../Objectb
 		const send=exports.send=function(){
 			const doc="Calls `target`'s js-method `name` with the given arguments.";
 			const test=function test(){
-				const _k0=[1,"toFixed",2],_v0="1.00";
-				return _ms.map(_k0,_v0)
+				const built=new global.Map();
+				_ms.assoc(built,[1,"toFixed",2],"1.00");
+				return built
 			};
 			return _ms.set(function send(target,name){
 				const args=[].slice.call(arguments,2);
@@ -70,11 +71,11 @@ define(["exports","esast/dist/mangle-identifier","../js","../Object","../Objectb
 			_ms.checkContains(Js_45Method,method,"method");
 			_ms.checkContains(Impl_45Type,type,"type");
 			_ms.checkContains(Function,implementation,"implementation");
-			return p_43_33(type.prototype,method["impl-symbol"],implementation)
+			p_43_33(type.prototype,method["impl-symbol"],implementation)
 		};
 		const name=exports.name="Js-Method";
 		exports.default=Js_45Method;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL0pzLU1ldGhvZC5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7O0VBYUEsa0JBQVkscUJBQ1E7R0FBbkIsVUFDQztHQUdELFdBQ08sZUFBQTtJQUFOLGVBQVcsc0JBQ1M7S0FBbkIsb0JBQWM7Ozs7Ozs4Q0FDVCxTQUFTLEdBQUk7R0FBQTtHQUNwQixzQkFDTTtJQUFMLFdBQU07SUFDTixvQkFBYTs7Ozs7O0dBQ2QsaUJBQVk7R0FDWixzQkFBZ0IseUJBQUEsSUFDRztJQUFsQjtLQUFZLFFBQUE7S0FDWCx5QkFBQyxPQUFELElBQ087YUFBTCxrQkFBSztZQUNQLHlCQUFDLE9BQUQsSUFDTzthQUFMO0tBQUE7O0lBR0gsVUFDQyxzQ0FBaUIsb0JBQWtCLDJLQUdqQiwyQ0FDQSw0Q0FDQSwrQ0FDQTtJQUluQixvQkFBYyxTQUFVLFNBQVE7V0FDaEMsY0FBWTs7Ozs7Ozs7Ozs7RUFFZCxrQ0FDSztHQUFKLFVBQU07R0FDTixXQUNPLGVBQUE7SUFBTixVQUFBLENBQUUsRUFBRyxVQUFTLE9BQVE7OztrQkFDdEIsY0FBQSxPQUFXLEtBQ3VCOztzQkFEM0I7c0JBQVM7SUFDaEIsV0FBTyxTQUFPLE9BQU87NENBQ0YsU0FBUztZQUFRLDBCQUFXLHdDQUEwQjs7V0FDekUsV0FBVyxPQUFPO0dBQUE7O0VBRXBCLCtCQUFPO0VBRVAsdUNBQVcsc0JBQUEsT0FBaUIsS0FBZSxlQUN1QjtxQkFEaEQ7cUJBQWU7cUJBQXlCO1VBQ3pELFFBQUksZUFBZSxzQkFBbUI7RUFBQTtFQTVEdkMsd0JBQUE7a0JBOERBIiwiZmlsZSI6IlR5cGUvSnMtTWV0aG9kLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL0pzLU1ldGhvZC5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7O0VBYUEsa0JBQVkscUJBQ1E7R0FBbkIsVUFDQztHQUdELFdBQ1EsZUFBQTtJQUFQLGVBQVcsc0JBQ1M7S0FBbkIsb0JBQWM7Ozs7Ozt1Q0FDVCxTQUFTLEdBQUk7R0FBQTtHQUNwQixzQkFDTTtJQUFMLFdBQU07SUFDTixvQkFBYTs7Ozs7O0dBQ2QsaUJBQVk7R0FDWixzQkFBZ0IseUJBQUEsSUFDRztJQUFsQjtLQUFZLFFBQUE7S0FDWCx5QkFBQyxPQUFELElBQ087YUFBTCxrQkFBSztZQUNQLHlCQUFDLE9BQUQsSUFDTzthQUFMO0tBQUE7O0lBR0gsVUFDQyxzQ0FBaUIsb0JBQWtCLDJLQUdqQiwyQ0FDQSw0Q0FDQSwrQ0FDQTtJQUluQixvQkFBYyxTQUFVLFNBQVE7V0FDaEMsY0FBWTs7Ozs7Ozs7Ozs7RUFFZCxrQ0FDSztHQUFKLFVBQU07R0FDTixXQUNPLGVBQUE7O29CQUFOLENBQUUsRUFBRyxVQUFTLEdBQVE7OztrQkFDdEIsY0FBQSxPQUFXLEtBQ3VCOztzQkFEM0I7c0JBQVM7SUFDaEIsV0FBTyxTQUFPLE9BQU87NENBQ0YsU0FBUztZQUFRLDBCQUFXLHdDQUEwQjs7V0FDekUsV0FBVyxPQUFPO0dBQUE7O0VBRXBCLCtCQUFPO0VBRVAsdUNBQVksc0JBQUEsT0FBaUIsS0FBZSxlQUN1QjtxQkFEaEQ7cUJBQWU7cUJBQXlCO0dBQzFELFFBQUksZUFBZSxzQkFBbUI7RUFBQTtFQTVEdkMsd0JBQUE7a0JBOERBIiwiZmlsZSI6IlR5cGUvSnMtTWV0aG9kLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

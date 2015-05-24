@@ -16,7 +16,7 @@ Js-Method = Obj-Type
 		A Js-Method allows you to call a JavaScript-style method as a function.
 		Unlike a Mason Method, for a Js-Method,
 		the first argument becomes `this` within the implementation's body.
-	test. |
+	test. !|
 		toString = Js-Method
 			impl-symbol. "toString"
 		! =? (toString 1) "1"
@@ -57,7 +57,7 @@ send.
 
 send!. send
 
-js-impl!. |method:Js-Method type:Impl-Type implementation:Function
+js-impl!. !|method:Js-Method type:Impl-Type implementation:Function
 	p+! type.prototype method.impl-symbol implementation
 
 Js-Method

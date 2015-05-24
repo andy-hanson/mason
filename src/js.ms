@@ -62,21 +62,20 @@ id=?.
 
 truthy?.
 	doc. "Whether javascript's `if` statement would consider the value to be true."
-	test. |
+	test. !|
 		for! [ null undefined 0 Number.NaN "" false ]
 			!not truthy? _
 		! truthy? [ ]
 		! truthy? true
-
-	|:Boolean a
-		js! (js! a
+	|_
+		js! js!_
 
 new.
 	doc. "
 		Emulates JavaScript's `new` keyword.
 		Creates a new Object whose prototype is `constructor.prototype` and calls the constructor on it.
 		Wierd things may happen if you try to create a new Error this way.
-	test. |
+	test. !|
 		My-Function-Type = |a
 			p+! this "a" a
 		x:My-Function-Type = new My-Function-Type 1
@@ -98,6 +97,7 @@ js-typeof.
 		[ @ ] -> "object"
 	unary-op "typeof"
 
+# TODO: Move to Function.ms?
 apply-with-this.
 	doc. "
 		Like `apply`, and also makes the hidden parameter `this` to be `new-this`.
@@ -112,7 +112,7 @@ apply-with-this.
 
 call-with-this.
 	doc. "Like `apply-with-this` but does not take a list."
-	test. |
+	test. !|
 		f = |a
 			+ this a
 		! =? (call-with-this f 1 2) 3

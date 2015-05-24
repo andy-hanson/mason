@@ -15,7 +15,7 @@ Sorted-Map! = Kind
 	doc. "
 		Map! whose `keys` are in sorted order.
 		This kind of Map! depends on an efficient `compare` between its keys.
-	implementor-test. |type
+	implementor-test. !|type
 		_ = empty type
 		for! key in [ 1 3 5 4 2 ]
 			assoc! _ key key

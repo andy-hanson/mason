@@ -15,17 +15,18 @@ define(["exports","../../js","../../Objectbang","../../Type/Js-Method","../../Ty
 		const empty_45LList=LList(void 0,void 0);
 		p_33(empty_45LList,"tail",empty_45LList);
 		self_45kind_33(LList,_64_45Type,function(){
-			const _k0=empty,_v0=function(){
+			const built=new global.Map();
+			_ms.assoc(built,empty,function(){
 				return empty_45LList
-			};
-			const _k1=from_45stream,_v1=function(_){
+			});
+			_ms.assoc(built,from_45stream,function(_){
 				return _60_43_43_39(empty_45LList,_)
-			};
-			return _ms.map(_k0,_v0,_k1,_v1)
+			});
+			return built
 		}());
 		js_45impl_33(iterator,LList,function*(){
 			let cur=this;
-			while(true){
+			for(;;){
 				if(_ms.bool(empty_63(cur))){
 					break
 				};
@@ -34,13 +35,14 @@ define(["exports","../../js","../../Objectbang","../../Type/Js-Method","../../Ty
 			}
 		});
 		kind_33(LList,Seq,function(){
-			const _k0=empty_63,_v0=function(_){
+			const built=new global.Map();
+			_ms.assoc(built,empty_63,function(_){
 				return id_61_63(_,empty_45LList)
-			};
-			const _k1=tail,_v1=function(_){
+			});
+			_ms.assoc(built,tail,function(_){
 				return _.tail
-			};
-			const _k2=_60_43_43_39,_v2=function(_,left_45added){
+			});
+			_ms.assoc(built,_60_43_43_39,function(_,left_45added){
 				_ms.checkContains(_64,left_45added,"left-added");
 				const iter=iterator(left_45added);
 				const f=function f(){
@@ -54,8 +56,8 @@ define(["exports","../../js","../../Objectbang","../../Type/Js-Method","../../Ty
 					}()
 				};
 				return f()
-			};
-			const _k3=_43_43,_v3=function(a,b){
+			});
+			_ms.assoc(built,_43_43,function(a,b){
 				return function(){
 					const _=b;
 					if(_ms.bool(_ms.contains(LList,_))){
@@ -64,12 +66,12 @@ define(["exports","../../js","../../Objectbang","../../Type/Js-Method","../../Ty
 						return _43_43.default(a,b)
 					}
 				}()
-			};
-			return _ms.map(_k0,_v0,_k1,_v1,_k2,_v2,_k3,_v3)
+			});
+			return built
 		}());
 		const name=exports.name="LList";
 		exports.default=LList;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1NlcS9MTGlzdC5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQVVBLFlBQVEsZ0JBQ0s7R0FBWixVQUNDO0dBQ0QsWUFBTyxDQUFHLE9BQU87Ozs7Ozs7RUFFbEIsb0JBQWMsTUFBTSxPQUFVO0VBQzlCLEtBQUcsY0FBYSxPQUFNO0VBRXRCLGVBQVcsTUFBTSxxQkFDTTtHQUF0QixVQUFBLFVBQ1UsVUFBQTtXQUFUO0dBQUE7R0FDRCxVQUFBLGtCQUFnQixTQUFBLEVBQ0M7V0FBaEIsYUFBSyxjQUFZO0dBQUE7OztFQUVuQixhQUFTLFNBQVMsTUFDUSxXQUFBO0dBQXpCLFFBQVE7R0FFSixXQUFBO0lBQUgsWUFBSSxTQUFPLE1BQ0c7S0FBYjtJQUFBO1dBQ0U7UUFDSTs7O0VBRVQsUUFBTSxNQUFNLGNBQ0c7R0FBZCxVQUFBLGFBQVcsU0FBQSxFQUNDO1dBQVgsU0FBSyxFQUFFO0dBQUE7R0FFUixVQUFBLFNBQVMsU0FBQSxFQUNDO1dBQVQ7O0dBRUQsVUFBQSxpQkFBUyxTQUFBLEVBQUUsYUFDWTtzQkFERDtJQUNyQixXQUFPLFNBQVM7SUFDaEIsUUFDSyxZQUFBO0tBQUosV0FBYTs7TUFFWixZQUFBLE1BQ0k7Y0FBSDtNQUFBLE9BRUc7Y0FBSCxNQUFNLE1BQU07TUFBQTtLQUFBO0lBQUE7V0FDZjtHQUFBO0dBR0QsVUFBQSxXQUFPLFNBQUEsRUFBRSxFQUNDOztLQUFKLFFBQUE7S0FDSix5QkFBQyxNQUFELElBQ007YUFBTCxhQUFLLEVBQUU7S0FBQSxPQUVKO2FBQUgsZUFBVyxFQUFFO0tBQUE7SUFBQTtHQUFBOzs7RUF4RGpCLHdCQUFBO2tCQTBEQSIsImZpbGUiOiJhdC9TZXEvTExpc3QuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1NlcS9MTGlzdC5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQVVBLFlBQVEsZ0JBQ0s7R0FBWixVQUNDO0dBQ0QsWUFBTyxDQUFHLE9BQU87Ozs7Ozs7RUFFbEIsb0JBQWMsTUFBTSxPQUFVO0VBQzlCLEtBQUcsY0FBYSxPQUFNO0VBRXRCLGVBQVcsTUFBTSxxQkFDTTs7bUJBQXRCLE1BQ1UsVUFBQTtXQUFUO0dBQUE7bUJBQ0QsY0FBZ0IsU0FBQSxFQUNDO1dBQWhCLGFBQUssY0FBWTtHQUFBOzs7RUFFbkIsYUFBUyxTQUFTLE1BQ1MsV0FBQTtHQUExQixRQUFRO0dBRUosT0FBQTtJQUFILFlBQUksU0FBTyxNQUNHO0tBQWI7SUFBQTtXQUNFO1FBQ0k7OztFQUVULFFBQU0sTUFBTSxjQUNHOzttQkFBZCxTQUFXLFNBQUEsRUFDQztXQUFYLFNBQUssRUFBRTtHQUFBO21CQUVSLEtBQVMsU0FBQSxFQUNDO1dBQVQ7O21CQUVELGFBQVMsU0FBQSxFQUFFLGFBQ1k7c0JBREQ7SUFDckIsV0FBTyxTQUFTO0lBQ2hCLFFBQ0ssWUFBQTtLQUFKLFdBQWE7O01BRVosWUFBQSxNQUNJO2NBQUg7TUFBQSxPQUVHO2NBQUgsTUFBTSxNQUFNO01BQUE7S0FBQTtJQUFBO1dBQ2Y7R0FBQTttQkFHRCxPQUFPLFNBQUEsRUFBRSxFQUNDOztLQUFKLFFBQUE7S0FDSix5QkFBQyxNQUFELElBQ007YUFBTCxhQUFLLEVBQUU7S0FBQSxPQUVKO2FBQUgsZUFBVyxFQUFFO0tBQUE7SUFBQTtHQUFBOzs7RUF4RGpCLHdCQUFBO2tCQTBEQSIsImZpbGUiOiJhdC9TZXEvTExpc3QuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

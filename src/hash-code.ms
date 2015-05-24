@@ -14,14 +14,14 @@ hash-code = Method
 	doc. "
 		Integer used to identify a value in a Hash-Map! (or Hash-Set!).
 		This should have a high probability of being different than the hash-codes of the other values in the map.
-	test. |
+	test. !|
 		a =
 			x. 1
 			y. 2
 		b =
 			x. 1
 			y. 1
-		! =? (hash-code a) (hash-code a)
+		! =? (hash-code a) (hash-code a
 		!not =? (hash-code a) (hash-code b
 		# TODO: Check that it handles recursive values
 	args. 1
@@ -47,13 +47,13 @@ impl! hash-code Function |fun
 
 # TODO: Memoize this one too?
 impl! hash-code String
-	test. |
+	test. !|
 		! =? (hash-code "a") (hash-code "a")
 		!not =? (hash-code "a") (hash-code "b")
 	hashCodeString
 
 impl! hash-code Symbol
-	test. |
+	test. !|
 		sym = Symbol "test"
 		! =? (hash-code sym) (hash-code sym)
 	|:Int

@@ -13,18 +13,18 @@ log!.
 	doc. "
 		Prints its arguments to the console, separated by spaces.
 		Always adds a newline at the end.
-	|...args
+	!|...args
 		js-console.log (=> String args " "
 
 warn!.
 	doc. "Like `log!`, but prints to stderr."
-	|...args
+	!|...args
 		js-console.warn (=> String args " "
 
 region Debugging
 	dbg!.
 		doc. "Show something for debugging."
-		|...args
+		!|...args
 			warn! "-->"
 			for! args
 				warn! (show _
@@ -33,5 +33,5 @@ region Debugging
 
 	trace!.
 		doc. "Logs the current stacktrace."
-		|...args
+		!|...args
 			js-console.trace (=> String args " "

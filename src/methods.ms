@@ -14,9 +14,5 @@ region Unsorted
 			Returns a compacted and immutable version of it.
 			Does not have to return the same value, but often does.
 		args. 1
-		# TODO: Lazy default?
-		default. |_
-			Object.freeze _
-	# TODO: Lazy export?
-	frozen?. |_
-		Object.isFrozen _
+		default. Object.freeze
+	frozen?. Object.isFrozen

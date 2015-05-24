@@ -29,7 +29,7 @@ define(["exports","../../math/Number","../../Type/Kind","../../Type/Method","../
 				_ms.unlazy(_33)(_ms.unlazy(_61_63),_63_60pop_33(_),_63(- 1));
 				_ms.unlazy(_33)(_ms.unlazy(_61_63),_63pop_62_33(_),empty(_63));
 				_ms.unlazy(_33)(_ms.unlazy(empty_63),_);
-				return _43_43_62_33(_,[1,2,3])
+				_43_43_62_33(_,[1,2,3])
 			};
 			return {
 				doc:doc,
@@ -38,19 +38,21 @@ define(["exports","../../math/Number","../../Type/Kind","../../Type/Method","../
 			}
 		}());
 		self_45kind_33(Seq_33,_64_45Type,function(){
-			const _k0=empty,_v0=function(){
+			const built=new global.Map();
+			_ms.assoc(built,empty,function(){
 				return empty(_ms.unlazy(Deque_33))
-			};
-			return _ms.map(_k0,_v0)
+			});
+			return built
 		}());
 		kind_33(Seq_33,_64_33);
 		kind_33(Seq_33,Seq);
 		const _60_43_43_33=exports["<++!"]=Method(function(){
 			const doc="Makes `_` into `+ added _`.";
 			const args=function(){
-				const _0="_";
-				const _1=["added",_64];
-				return [_0,_1]
+				const built=[];
+				_ms.add(built,"_");
+				_ms.add(built,["added",_64]);
+				return built
 			}();
 			return {
 				doc:doc,
@@ -61,9 +63,10 @@ define(["exports","../../math/Number","../../Type/Kind","../../Type/Method","../
 		const _43_43_62_33=exports["++>!"]=Method(function(){
 			const doc="Makes `_` into `+ _ added`.";
 			const args=function(){
-				const _0="_";
-				const _1=["added",_64];
-				return [_0,_1]
+				const built=[];
+				_ms.add(built,"_");
+				_ms.add(built,["added",_64]);
+				return built
 			}();
 			return {
 				doc:doc,
@@ -96,10 +99,11 @@ define(["exports","../../math/Number","../../Type/Kind","../../Type/Method","../
 		const set_45nth_33=exports["set-nth!"]=Method(function(){
 			const doc="Makes `_[n]` be `val`.";
 			const args=function(){
-				const _0="_";
-				const _1=["n",Nat];
-				const _2="val";
-				return [_0,_1,_2]
+				const built=[];
+				_ms.add(built,"_");
+				_ms.add(built,["n",Nat]);
+				_ms.add(built,"val");
+				return built
 			}();
 			return {
 				doc:doc,
@@ -112,4 +116,4 @@ define(["exports","../../math/Number","../../Type/Kind","../../Type/Method","../
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1NlcS9TZXEhLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7O0VBa0JBLGFBQU8sZUFDSTtHQUFWLFVBQ0M7R0FHRCx5QkFBbUIsNEJBQUEsS0FDSTtJQUN0QjtLQUFTLFFBQUE7S0FDUiwrQkFBRyxFQUFFLFFBQ0s7YUFBVDtZQUVHO2FBQUgsTUFBTTtLQUFBO0lBQUE7SUFDUixhQUFLLEVBQUUsQ0FBRSxFQUFFO0lBQ1gsYUFBSyxFQUFFLENBQUUsSUFBRzswQ0FDSixFQUFFLENBQUUsSUFBRyxJQUFHLEVBQUU7dUNBQ2YsYUFBTSxHQUFHLElBQUU7dUNBQ1gsYUFBTSxHQUFHLElBQUU7dUNBQ1gsYUFBTSxHQUFHLElBQUU7dUNBQ1gsYUFBTSxHQUFHLElBQUU7dUNBQ1gsYUFBTSxHQUFHLE1BQU07eUNBQ1g7V0FDVCxhQUFLLEVBQUUsQ0FBRSxFQUFFLEVBQUU7R0FBQTs7Ozs7OztFQUVmLGVBQVcsT0FBSyxxQkFDTTtHQUFyQixVQUFBLFVBQ1UsVUFBQTtXQUFUOzs7O0VBRUYsUUFBTSxPQUFLO0VBQ1gsUUFBTSxPQUFLO0VBRVgsbUNBQU0saUJBQ007R0FBWCxVQUFNO0dBQ04scUJBQ0s7SUFBSixTQUFHO0lBQ0gsU0FBRSxDQUFHLFFBQU87Ozs7Ozs7OztFQUNkLG1DQUFNLGlCQUNNO0dBQVgsVUFBTTtHQUNOLHFCQUNLO0lBQUosU0FBRztJQUNILFNBQUUsQ0FBRyxRQUFPOzs7Ozs7Ozs7RUFFZCxxQ0FBUSxpQkFDTTtHQUFiLFVBQU07R0FDTixXQUFNO0dBQ04sY0FBUzs7Ozs7Ozs7RUFDVixxQ0FBUSxpQkFDTTtHQUFiLFVBQU07R0FDTixXQUFNO0dBQ04sY0FBUzs7Ozs7Ozs7RUFFVix1Q0FBVSxpQkFDTTtHQUFmLFVBQU07R0FDTixxQkFDSztJQUFKLFNBQUc7SUFDSCxTQUFFLENBQUcsSUFBRztJQUNSLFNBQUc7Ozs7Ozs7OztFQXpFTCx3QkFBQTtrQkEyRUEiLCJmaWxlIjoiYXQvU2VxL1NlcWJhbmcuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1NlcS9TZXEhLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7O0VBa0JBLGFBQU8sZUFDSTtHQUFWLFVBQ0M7R0FHRCx5QkFBb0IsNEJBQUEsS0FDSTtJQUN2QjtLQUFTLFFBQUE7S0FDUiwrQkFBRyxFQUFFLFFBQ0s7YUFBVDtZQUVHO2FBQUgsTUFBTTtLQUFBO0lBQUE7SUFDUixhQUFLLEVBQUUsQ0FBRSxFQUFFO0lBQ1gsYUFBSyxFQUFFLENBQUUsSUFBRzswQ0FDSixFQUFFLENBQUUsSUFBRyxJQUFHLEVBQUU7dUNBQ2YsYUFBTSxHQUFHLElBQUU7dUNBQ1gsYUFBTSxHQUFHLElBQUU7dUNBQ1gsYUFBTSxHQUFHLElBQUU7dUNBQ1gsYUFBTSxHQUFHLElBQUU7dUNBQ1gsYUFBTSxHQUFHLE1BQU07eUNBQ1g7SUFDVCxhQUFLLEVBQUUsQ0FBRSxFQUFFLEVBQUU7R0FBQTs7Ozs7OztFQUVmLGVBQVcsT0FBSyxxQkFDTTs7bUJBQXJCLE1BQ1UsVUFBQTtXQUFUOzs7O0VBRUYsUUFBTSxPQUFLO0VBQ1gsUUFBTSxPQUFLO0VBRVgsbUNBQU0saUJBQ007R0FBWCxVQUFNO0dBQ04scUJBQ0s7O2tCQUFEO2tCQUNELENBQUcsUUFBTzs7Ozs7Ozs7O0VBQ2QsbUNBQU0saUJBQ007R0FBWCxVQUFNO0dBQ04scUJBQ0s7O2tCQUFEO2tCQUNELENBQUcsUUFBTzs7Ozs7Ozs7O0VBRWQscUNBQVEsaUJBQ007R0FBYixVQUFNO0dBQ04sV0FBTTtHQUNOLGNBQVM7Ozs7Ozs7O0VBQ1YscUNBQVEsaUJBQ007R0FBYixVQUFNO0dBQ04sV0FBTTtHQUNOLGNBQVM7Ozs7Ozs7O0VBRVYsdUNBQVUsaUJBQ007R0FBZixVQUFNO0dBQ04scUJBQ0s7O2tCQUFEO2tCQUNELENBQUcsSUFBRztrQkFDTDs7Ozs7Ozs7O0VBekVMLHdCQUFBO2tCQTJFQSIsImZpbGUiOiJhdC9TZXEvU2VxYmFuZy5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

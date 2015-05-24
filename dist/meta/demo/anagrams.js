@@ -9,14 +9,15 @@ define(["exports","../../at/at","../../at/at-Type","../../at/Map/Map","../../at/
 			const doc="http://rosettacode.org/wiki/Anagrams#JavaScript";
 			const test=function test(){
 				const words=_ms.unlazy(split_45str)(RegExp("\\s"),"abel able bale bela elba\nalger glare lager large regal\nangel angle galen glean lange\ncaret carte cater crate trace\nelan lane lean lena neal\nevil levi live veil vile\nrandom words to prove it's doing work");
-				return _ms.unlazy(_33)(_ms.unlazy(seq_61_63),maximum_45anagram_45sets(words),function(){
-					const _0=["abel","able","bale","bela","elba"];
-					const _1=["alger","glare","lager","large","regal"];
-					const _2=["angel","angle","galen","glean","lange"];
-					const _3=["caret","carte","cater","crate","trace"];
-					const _4=["elan","lane","lean","lena","neal"];
-					const _5=["evil","levi","live","veil","vile"];
-					return [_0,_1,_2,_3,_4,_5]
+				_ms.unlazy(_33)(_ms.unlazy(seq_61_63),maximum_45anagram_45sets(words),function(){
+					const built=[];
+					_ms.add(built,["abel","able","bale","bela","elba"]);
+					_ms.add(built,["alger","glare","lager","large","regal"]);
+					_ms.add(built,["angel","angle","galen","glean","lange"]);
+					_ms.add(built,["caret","carte","cater","crate","trace"]);
+					_ms.add(built,["elan","lane","lean","lena","neal"]);
+					_ms.add(built,["evil","levi","live","veil","vile"]);
+					return built
 				}())
 			};
 			return _ms.set(function maximum_45anagram_45sets(words){
@@ -34,4 +35,4 @@ define(["exports","../../at/at","../../at/at-Type","../../at/Map/Map","../../at/
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL2RlbW8vYW5hZ3JhbXMubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQVlBLHlFQUNxQjtHQUFwQixVQUFNO0dBQ04sV0FDTyxlQUFBO0lBQU4sb0NBQW1CLE9BQVEsT0FDMUI7aURBT1EseUJBQXFCLGlCQUNNO0tBQW5DLFNBQUUsQ0FBRyxPQUFPLE9BQU8sT0FBTyxPQUFPO0tBQ2pDLFNBQUUsQ0FBRyxRQUFRLFFBQVEsUUFBUSxRQUFRO0tBQ3JDLFNBQUUsQ0FBRyxRQUFRLFFBQVEsUUFBUSxRQUFRO0tBQ3JDLFNBQUUsQ0FBRyxRQUFRLFFBQVEsUUFBUSxRQUFRO0tBQ3JDLFNBQUUsQ0FBRyxPQUFPLE9BQU8sT0FBTyxPQUFPO0tBQ2pDLFNBQUUsQ0FBRyxPQUFPLE9BQU8sT0FBTyxPQUFPOzs7O2tCQUNsQyxrQ0FBQSxNQUNLO0lBQ0wsd0JBQWdCLE1BQU07SUFDakIsUUFBQSxLQUFBLHlCQUNLO0tBQ1Qsa0JBQVUsa0JBQWMsS0FBSSxHQUFFLENBQUU7SUFBQTtJQUNqQyxrQkFBWSxJQUFLLElBQUssT0FBTyxtQkFBZTtXQUM1QyxLQUFNLE9BQU8sbUJBQWdCLFNBQUEsRUFDQztZQUE3QixPQUFHLE1BQUssR0FBRTtJQUFBO0dBQUE7O0VBdENiLHdCQUFBIiwiZmlsZSI6Im1ldGEvZGVtby9hbmFncmFtcy5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL2RlbW8vYW5hZ3JhbXMubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQVlBLHlFQUNxQjtHQUFwQixVQUFNO0dBQ04sV0FDUSxlQUFBO0lBQVAsb0NBQW1CLE9BQVEsT0FDMUI7MENBT1EseUJBQXFCLGlCQUNNOzttQkFBakMsQ0FBRyxPQUFPLE9BQU8sT0FBTyxPQUFPO21CQUMvQixDQUFHLFFBQVEsUUFBUSxRQUFRLFFBQVE7bUJBQ25DLENBQUcsUUFBUSxRQUFRLFFBQVEsUUFBUTttQkFDbkMsQ0FBRyxRQUFRLFFBQVEsUUFBUSxRQUFRO21CQUNuQyxDQUFHLE9BQU8sT0FBTyxPQUFPLE9BQU87bUJBQy9CLENBQUcsT0FBTyxPQUFPLE9BQU8sT0FBTzs7OztrQkFDbEMsa0NBQUEsTUFDSztJQUNMLHdCQUFnQixNQUFNO0lBQ2pCLFFBQUEsS0FBQSx5QkFDSztLQUNULGtCQUFVLGtCQUFjLEtBQUksR0FBRSxDQUFFO0lBQUE7SUFDakMsa0JBQVksSUFBSyxJQUFLLE9BQU8sbUJBQWU7V0FDNUMsS0FBTSxPQUFPLG1CQUFnQixTQUFBLEVBQ0M7WUFBN0IsT0FBRyxNQUFLLEdBQUU7SUFBQTtHQUFBOztFQXRDYix3QkFBQSIsImZpbGUiOiJtZXRhL2RlbW8vYW5hZ3JhbXMuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

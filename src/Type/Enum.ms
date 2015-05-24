@@ -15,7 +15,7 @@ Enum = Obj-Type
 	doc. "
 		A Concrete-Type with a small number of instances.
 		Great for using with `switch`.
-	test. |
+	test. !|
 		Fruit = Enum
 			values.
 				. "apple"
@@ -34,7 +34,7 @@ Enum = Obj-Type
 	defaults.
 		prototype. |
 			Object.create Object.prototype
-	post-construct. |enum
+	post-construct. !|enum
 		for! value-name in enum.values
 			enum-val = Object.create enum.prototype
 			p+! enum-val "name" value-name

@@ -14,7 +14,7 @@ Generator! = Pred-Type
 
 empty-Generator.
 	doc. "Does nothing."
-	call ~|
+	call ~!|
 		pass
 
 gen-next!. Js-Method

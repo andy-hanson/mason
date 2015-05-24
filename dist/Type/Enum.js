@@ -10,9 +10,10 @@ define(["exports","../Objectbang","../show","./Impl-Type","./Kind","./Method",".
 			const test=function test(){
 				const Fruit=Enum(function(){
 					const values=function(){
-						const _0="apple";
-						const _1="orange";
-						return [_0,_1]
+						const built=[];
+						_ms.add(built,"apple");
+						_ms.add(built,"orange");
+						return built
 					}();
 					return {
 						values:values,
@@ -20,14 +21,15 @@ define(["exports","../Objectbang","../show","./Impl-Type","./Kind","./Method",".
 					}
 				}());
 				const prices=function(){
-					const _k0=Fruit.apple,_v0=1;
-					const _k1=Fruit.orange,_v1=2;
-					return _ms.map(_k0,_v0,_k1,_v1)
+					const built=new global.Map();
+					_ms.assoc(built,Fruit.apple,1);
+					_ms.assoc(built,Fruit.orange,2);
+					return built
 				}();
 				_ms.unlazy(_33)(_ms.unlazy(_61_63),_ms.sub(prices,Fruit.apple),1);
 				_ms.unlazy(_33)(_ms.unlazy(_61_63),_ms.sub(prices,Fruit.orange),2);
 				_ms.unlazy(_33)(_ms.unlazy(_61_63),_ms.unlazy(type_45of)(Fruit.apple),Fruit);
-				return _ms.unlazy(_33)(_ms.unlazy(_61_63),(""+_ms.show(Fruit.apple)),"Fruit.apple")
+				_ms.unlazy(_33)(_ms.unlazy(_61_63),(""+_ms.show(Fruit.apple)),"Fruit.apple")
 			};
 			const props=function(){
 				const name=String;
@@ -55,7 +57,7 @@ define(["exports","../Objectbang","../show","./Impl-Type","./Kind","./Method",".
 					p_43_33(_enum,value_45name,enum_45val)
 				};
 				p_43_33(_enum.prototype,"constructor",_enum);
-				return impl_33(show,_enum,function(val){
+				impl_33(show,_enum,function(val){
 					return (((""+_ms.show(_enum.name))+".")+_ms.show(val.name))
 				})
 			};
@@ -77,4 +79,4 @@ define(["exports","../Objectbang","../show","./Impl-Type","./Kind","./Method",".
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL0VudW0ubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQWFBLFdBQU8scUJBQ1E7R0FBZCxVQUNDO0dBRUQsV0FDTyxlQUFBO0lBQU4sWUFBUSxlQUNJO0tBQVgsdUJBQ087TUFBTixTQUFHO01BQ0gsU0FBRzs7Ozs7Ozs7SUFDTCx1QkFDUTtLQUFQLFVBQUEsZ0JBQWU7S0FDZixVQUFBLGlCQUFnQjs7OytDQUNaLE9BQU8sYUFBYTsrQ0FDcEIsT0FBTyxjQUFjOzZEQUNaLGFBQWE7OENBQ3JCLENBZUksWUFmSCxjQUFlO0dBQUE7R0FDdkIsc0JBQ007SUFBTCxXQUFNO0lBQ04sZ0JBQVc7SUFDWCxxQkFBUSxNQUFNOzs7Ozs7O0dBQ2YseUJBQ1M7SUFBUixnQkFDWSxvQkFBQTtZQUFYLGNBQWM7Ozs7Ozs7R0FDaEIsdUJBQWlCLDBCQUFBLE1BQ0k7SUFBZixRQUFBLGdCQUFjLGdDQUNXO0tBQTdCLGlCQUFXLGNBQWM7S0FDekIsUUFBSSxXQUFVLE9BQU07S0FDcEIsUUFBSSxNQUFLLGFBQVc7SUFBQTtJQUNyQixRQUFJLGdCQUFnQixjQUFhO1dBQ2pDLFFBQU0sS0FBSyxNQUFNLFNBQUEsSUFDRztZQUFsQixHQUFRLFlBQVAsMkJBQVk7Ozs7Ozs7Ozs7OztFQUVqQixRQUFNLEtBQUs7RUFFWCxRQUFNLFlBQVUsS0FBTSxTQUFBLEVBQUUsTUFDSztVQUE1QixvQ0FBb0MsWUFBWTtFQUFBO0VBaERqRCx3QkFBQTtrQkFrREEiLCJmaWxlIjoiVHlwZS9FbnVtLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL0VudW0ubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQWFBLFdBQU8scUJBQ1E7R0FBZCxVQUNDO0dBRUQsV0FDUSxlQUFBO0lBQVAsWUFBUSxlQUNJO0tBQVgsdUJBQ087O29CQUFIO29CQUNBOzs7Ozs7OztJQUNMLHVCQUNROztxQkFBUCxZQUFlO3FCQUNmLGFBQWdCOzs7K0NBQ1osT0FBTyxhQUFhOytDQUNwQixPQUFPLGNBQWM7NkRBQ1osYUFBYTt1Q0FDckIsQ0FlSSxZQWZILGNBQWU7R0FBQTtHQUN2QixzQkFDTTtJQUFMLFdBQU07SUFDTixnQkFBVztJQUNYLHFCQUFRLE1BQU07Ozs7Ozs7R0FDZix5QkFDUztJQUFSLGdCQUNZLG9CQUFBO1lBQVgsY0FBYzs7Ozs7OztHQUNoQix1QkFBa0IsMEJBQUEsTUFDSTtJQUFoQixRQUFBLGdCQUFjLGdDQUNXO0tBQTdCLGlCQUFXLGNBQWM7S0FDekIsUUFBSSxXQUFVLE9BQU07S0FDcEIsUUFBSSxNQUFLLGFBQVc7SUFBQTtJQUNyQixRQUFJLGdCQUFnQixjQUFhO0lBQ2pDLFFBQU0sS0FBSyxNQUFNLFNBQUEsSUFDRztZQUFsQixHQUFRLFlBQVAsMkJBQVk7Ozs7Ozs7Ozs7OztFQUVqQixRQUFNLEtBQUs7RUFFWCxRQUFNLFlBQVUsS0FBTSxTQUFBLEVBQUUsTUFDSztVQUE1QixvQ0FBb0MsWUFBWTtFQUFBO0VBaERqRCx3QkFBQTtrQkFrREEiLCJmaWxlIjoiVHlwZS9FbnVtLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

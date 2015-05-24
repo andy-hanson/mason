@@ -31,7 +31,7 @@ self-kind! Splay-Tree! Map-Type
 		Splay-Tree! undefined
 
 js-impl! iterator Splay-Tree! |
-	iter = ~|_
+	iter = ~!|_
 		if! defined?_
 			<~~ iter _.left!
 			<~ [ _.key _.val! ]
@@ -41,11 +41,11 @@ js-impl! iterator Splay-Tree! |
 kind! Splay-Tree! Sorted-Map!
 	empty? -> |_
 		not (defined? _.val
-	empty! -> |_
+	empty! -> !|_
 		p! _ "val" undefined
 	?get -> |_ key
 		if (and (not empty?_) ~(splay!? _ key)) ~_.val.val!
-	assoc! -> |_ key val
+	assoc! -> !|_ key val
 		case!
 			empty?_
 				p! _ "val" (Splay-Node key val undefined undefined
@@ -84,7 +84,7 @@ kind! Splay-Tree! Sorted-Map!
 region Implementation
 	# Searches for the key, bringing nodes up to the root along the way.
 	# Returns whether the root now matches the key.
-	splay!? = |:Boolean _ key
+	splay!? = |_ key
 		dummy = Splay-Node undefined undefined undefined undefined
 		left ::= dummy
 		right ::= dummy
@@ -97,7 +97,7 @@ region Implementation
 					unless! has-left? cur
 						found := false
 						break!
-					link-right! = |new-right
+					link-right! = !|new-right
 						p! right "left!" new-right
 						cur := new-right.left!
 						right := new-right
@@ -119,7 +119,7 @@ region Implementation
 					unless! has-right? cur
 						found := false
 						break!
-					link-left! = |new-left
+					link-left! = !|new-left
 						p! left "right!" new-left
 						cur := new-left.right!
 						left := new-left

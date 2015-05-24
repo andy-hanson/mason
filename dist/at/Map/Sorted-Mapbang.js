@@ -14,7 +14,7 @@ define(["exports","../../Type/Kind","../at-Type","./Mapbang","./Map-Type","./Spl
 				for(let key of [1,3,5,4,2][Symbol.iterator]()){
 					_ms.unlazy(assoc_33)(_,key,key)
 				};
-				return _ms.unlazy(_33)(_ms.unlazy(sorted_63),_ms.unlazy(keys)(_))
+				_ms.unlazy(_33)(_ms.unlazy(sorted_63),_ms.unlazy(keys)(_))
 			};
 			return {
 				doc:doc,
@@ -23,10 +23,11 @@ define(["exports","../../Type/Kind","../at-Type","./Mapbang","./Map-Type","./Spl
 			}
 		}());
 		self_45kind_33(Sorted_45Map_33,Map_45Type,function(){
-			const _k0=empty,_v0=function(){
+			const built=new global.Map();
+			_ms.assoc(built,empty,function(){
 				return empty(_ms.unlazy(Splay_45Tree_33))
-			};
-			return _ms.map(_k0,_v0)
+			});
+			return built
 		}());
 		kind_33(Sorted_45Map_33,Map_33);
 		const name=exports.name="Sorted-Map!";
@@ -34,4 +35,4 @@ define(["exports","../../Type/Kind","../at-Type","./Mapbang","./Map-Type","./Spl
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL01hcC9Tb3J0ZWQtTWFwIS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7RUFhQSxzQkFBYyxlQUNJO0dBQWpCLFVBQ0M7R0FFRCx5QkFBbUIsNEJBQUEsS0FDSTtJQUF0QixRQUFJLE1BQU07SUFDTCxRQUFBLE9BQU8sQ0FBRSxFQUFFLEVBQUUsRUFBRSxFQUFFLHNCQUNHOzBCQUFqQixFQUFFLElBQUk7SUFBQTtrRUFDQTtHQUFBOzs7Ozs7O0VBRWhCLGVBQVcsZ0JBQVkscUJBQ1E7R0FBOUIsVUFBQSxVQUNVLFVBQUE7V0FBVDs7OztFQUVGLFFBQU0sZ0JBQVk7RUEzQmxCLHdCQUFBO2tCQTZCQSIsImZpbGUiOiJhdC9NYXAvU29ydGVkLU1hcGJhbmcuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL01hcC9Tb3J0ZWQtTWFwIS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7RUFhQSxzQkFBYyxlQUNJO0dBQWpCLFVBQ0M7R0FFRCx5QkFBb0IsNEJBQUEsS0FDSTtJQUF2QixRQUFJLE1BQU07SUFDTCxRQUFBLE9BQU8sQ0FBRSxFQUFFLEVBQUUsRUFBRSxFQUFFLHNCQUNHOzBCQUFqQixFQUFFLElBQUk7SUFBQTsyREFDQTtHQUFBOzs7Ozs7O0VBRWhCLGVBQVcsZ0JBQVkscUJBQ1E7O21CQUE5QixNQUNVLFVBQUE7V0FBVDs7OztFQUVGLFFBQU0sZ0JBQVk7RUEzQmxCLHdCQUFBO2tCQTZCQSIsImZpbGUiOiJhdC9NYXAvU29ydGVkLU1hcGJhbmcuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

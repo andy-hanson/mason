@@ -22,7 +22,7 @@ self-kind! LList @-Type
 	from-stream -> |_
 		<++' empty-LList _
 
-js-impl! iterator LList ~|
+js-impl! iterator LList ~!|
 	cur ::= this
 	for!
 		if! empty? cur

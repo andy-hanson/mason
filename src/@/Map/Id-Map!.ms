@@ -19,7 +19,7 @@ Id-Map! =
 	doc. "
 		JavaScript's native Map type.
 		Only considers exactly identical keys =?; this makes it the fastest Map.
-	test. |
+	test. !|
 		# TODO: Just use generic Map! test
 		_ = empty Id-Map!
 		assoc! _ 1 2
@@ -57,12 +57,12 @@ kind! Id-Map! Map!
 	values -> |_
 		Stream |
 			_.values()
-	empty! -> |_
+	empty! -> !|_
 		_.clear()
-	assoc! -> |_ key val
+	assoc! -> !|_ key val
 		_.set key val
 	un-assoc! -> |_ key
-		returning (?get _ key) |
+		returning (?get _ key) !|
 			_.delete key
 
 Id-Map!

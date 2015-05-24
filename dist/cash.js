@@ -18,7 +18,7 @@ define(["exports","./at/at","./control","./Function","./Generatorbang","./js",".
 				_ms.checkContains($,_,"_");
 				return _ms.unlazy($catch)(_,function(err){
 					global.console.log((((("=== error ===\n"+_ms.show(err.message))+"\n")+_ms.show(err.stack))+"\n=== error ==="));
-					return _ms.unlazy(oh_45no_33)(err)
+					_ms.unlazy(oh_45no_33)(err)
 				})
 			},"doc",doc)
 		}();
@@ -30,7 +30,7 @@ define(["exports","./at/at","./control","./Function","./Generatorbang","./js",".
 				});
 				const a=(yield _ms.unlazy($try)($fail_45after_45time($x,1)));
 				_ms.unlazy(_33)(_ms.unlazy(_61_63),a.message,"Took longer than 1 milliseconds.");
-				return _ms.unlazy(_33)(_ms.unlazy(_61_63),1,(yield $fail_45after_45time($x,200)))
+				_ms.unlazy(_33)(_ms.unlazy(_61_63),1,(yield $fail_45after_45time($x,200)))
 			};
 			return _ms.set(function $fail_45after_45time(_,time_45ms){
 				_ms.checkContains($,_,"_");
@@ -47,7 +47,7 @@ define(["exports","./at/at","./control","./Function","./Generatorbang","./js",".
 		const $after=exports.$after=function(){
 			const doc="Applies `then` to the result whenever it is ready.\nIf `then` returns a $, returns a $ for that $'s value; else returns a $ for the result of `then`.";
 			const $test=function* $test(){
-				return _ms.unlazy(_33)(_ms.unlazy(_61_63),2,(yield $after($resolved(1),_ms.sub(_ms.unlazy(_43),1))))
+				_ms.unlazy(_33)(_ms.unlazy(_61_63),2,(yield $after($resolved(1),_ms.sub(_ms.unlazy(_43),1))))
 			};
 			return _ms.set(function $after(_,then){
 				_ms.checkContains($,_,"_");
@@ -58,7 +58,7 @@ define(["exports","./at/at","./control","./Function","./Generatorbang","./js",".
 		const $resolved=exports.$resolved=function(){
 			const doc="$ that is already resolved.";
 			const $test=function* $test(){
-				return _ms.unlazy(_33)(_ms.unlazy(_61_63),1,(yield $resolved(1)))
+				_ms.unlazy(_33)(_ms.unlazy(_61_63),1,(yield $resolved(1)))
 			};
 			return _ms.set(function $resolved(value){
 				return _ms.checkContains($,$.resolve(value),"res")
@@ -73,7 +73,7 @@ define(["exports","./at/at","./control","./Function","./Generatorbang","./js",".
 					const b=(yield _ms.unlazy($try)($after(r,function(){
 						return _ms.unlazy(oh_45no_33)("b")
 					})));
-					return _ms.unlazy(_33)(_ms.unlazy(_61_63),"a",b.message)
+					_ms.unlazy(_33)(_ms.unlazy(_61_63),"a",b.message)
 				})
 			};
 			return _ms.set(function $rejected(_){
@@ -83,7 +83,7 @@ define(["exports","./at/at","./control","./Function","./Generatorbang","./js",".
 		const $delay=exports.$delay=function(){
 			const doc="Schedules a computation to happen later.\nDoes *not* run it in parallel.\nIt should go without saying,\nbut if you needlessly $delay things all the time your program will take longer.";
 			const $test=function* $test(){
-				return _ms.unlazy(_33)(_ms.unlazy(_61_63),1,(yield $delay(function(){
+				_ms.unlazy(_33)(_ms.unlazy(_61_63),1,(yield $delay(function(){
 					return 1
 				})))
 			};
@@ -97,7 +97,7 @@ define(["exports","./at/at","./control","./Function","./Generatorbang","./js",".
 			const $test=function* $test(){
 				_ms.unlazy(_33)(_ms.unlazy(_61_63),[1,2],(yield $all([$resolved(1),$resolved(2)])));
 				const all_45rejected=$all([$rejected("a"),$rejected("b")]);
-				return _ms.unlazy(_33)(_ms.unlazy(_61_63),"a",(yield _ms.unlazy($try)(all_45rejected)).message)
+				_ms.unlazy(_33)(_ms.unlazy(_61_63),"a",(yield _ms.unlazy($try)(all_45rejected)).message)
 			};
 			return _ms.set(function $all(_){
 				_ms.checkContains(_ms.sub(_64,$),_,"_");
@@ -107,7 +107,7 @@ define(["exports","./at/at","./control","./Function","./Generatorbang","./js",".
 		const $map=exports.$map=function(){
 			const doc="Asynchronously runs mapper for every element of mapped and returns a $ joining them.\nUnlike map, this always returns an Array.";
 			const $test=function* $test(){
-				return _ms.unlazy(_33)(_ms.unlazy(_61_63),[2,3,4],(yield $map([1,2,3],function(_){
+				_ms.unlazy(_33)(_ms.unlazy(_61_63),[2,3,4],(yield $map([1,2,3],function(_){
 					return $delay(function(){
 						return _ms.unlazy(_43)(_,1)
 					})
@@ -122,7 +122,7 @@ define(["exports","./at/at","./control","./Function","./Generatorbang","./js",".
 		const $flat_45map=exports["$flat-map"]=function(){
 			const doc="Like $map but flattens the result.";
 			const $test=function* $test(){
-				return _ms.unlazy(_33)(_ms.unlazy(_61_63),[1,1,2,2,3,3],(yield $flat_45map([1,2,3],function(_){
+				_ms.unlazy(_33)(_ms.unlazy(_61_63),[1,1,2,2,3,3],(yield $flat_45map([1,2,3],function(_){
 					return $delay(function(){
 						return [_,_]
 					})
@@ -137,7 +137,7 @@ define(["exports","./at/at","./control","./Function","./Generatorbang","./js",".
 		const $keep=exports.$keep=function(){
 			const doc="Asynchronously runs keep-if? on each element and creates an Array of those that match.\nMaintains the original order.";
 			const $test=function* $test(){
-				return _ms.unlazy(_33)(_ms.unlazy(_61_63),[2,4],(yield $keep([1,2,3,4],function(_){
+				_ms.unlazy(_33)(_ms.unlazy(_61_63),[2,4],(yield $keep([1,2,3,4],function(_){
 					return $delay(function(){
 						return _ms.unlazy(divisible_63)(_,2)
 					})
@@ -156,7 +156,7 @@ define(["exports","./at/at","./control","./Function","./Generatorbang","./js",".
 		const $call=exports.$call=function(){
 			const doc="Allows you to cal a function on $s as if they were the arguments.\nSo for any place you would write `f x` where `x` is an actualized value,\nyou may write `$call f $x` where `$x` is a promise.";
 			const $test=function* $test(){
-				return _ms.unlazy(_33)(_ms.unlazy(_61_63),3,(yield $call(_ms.unlazy(_43),$resolved(1),$resolved(2))))
+				_ms.unlazy(_33)(_ms.unlazy(_61_63),3,(yield $call(_ms.unlazy(_43),$resolved(1),$resolved(2))))
 			};
 			return _ms.set(function $call(f){
 				const $args=[].slice.call(arguments,1);
@@ -173,9 +173,9 @@ define(["exports","./at/at","./control","./Function","./Generatorbang","./js",".
 				})));
 				const $whoops=(yield _ms.unlazy($try)($ing(function*(){
 					(yield $rejected("whoops"));
-					return _ms.unlazy(oh_45no_33)("It's been rejected, so the rest is never called.")
+					_ms.unlazy(oh_45no_33)("It's been rejected, so the rest is never called.")
 				})));
-				return _ms.unlazy(_33)(_ms.unlazy(_61_63),"whoops",$whoops.message)
+				_ms.unlazy(_33)(_ms.unlazy(_61_63),"whoops",$whoops.message)
 			};
 			return _ms.set(function $ing(code){
 				_ms.checkContains(_ms.sub(Function,Generator_33),code,"code");
@@ -198,4 +198,4 @@ define(["exports","./at/at","./control","./Function","./Generatorbang","./js",".
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy8kLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7RUFvQkEsa0JBQ0c7R0FBRixVQUNDO2tCQUVEOztFQUVELGVBQVcsSUFBSSxFQUNHLFVBQUE7VUFBakI7RUFBQTtFQUlELG9DQUNNO0dBQUwsVUFDQztrQkFJQSxlQUFBLEVBQ0c7c0JBREQ7OEJBQ0ssRUFBRyxTQUFBLElBQ0c7S0FDWixtQkFDQywrQkFDQyw2QkFDQTttQ0FHSztJQUFBO0dBQUE7O0VBRVYsaUVBQ2lCO0dBQWhCLFVBQU07R0FDTixZQUNTLGlCQUFBO0lBQVIsbUNBQWlCLElBQ0ssVUFBQTtZQUFyQjtJQUFBO0lBQ0QsUUFBSyx3QkFBTSxxQkFBaUIsR0FBRzt1Q0FDMUIsVUFBVzs4Q0FDWCxFQUFFLE9BQUkscUJBQWlCLEdBQUc7R0FBQTtrQkFDL0IsOEJBQUcsRUFBSSxVQUNjO3NCQURoQjtzQkFBVTs2QkFBZCxFQUVELEtBQUksRUFBRyxTQUFBLFFBQVEsT0FDTTtLQUFwQixPQUFPLEVBQUU7S0FDVCxjQUNXLGtCQUFBO2FBQVYsT0FBUSxPQUFHLE1BQU8sK0JBQWtCOztZQUNyQyxrQkFBa0IsUUFBUTtJQUFBOzs7RUFFN0Isc0NBQ087R0FBTixVQUNDO0dBRUQsWUFDUyxpQkFBQTs4Q0FBSCxFQUFFLE9BQUksT0FBUSxVQUFVLDJCQUFLO0dBQUE7a0JBQ2xDLGdCQUFHLEVBQUksS0FDYTtzQkFEZjtzQkFBTzs2QkFBWCxFQUNELE9BQU87OztFQUVULDRDQUNVO0dBQVQsVUFBTTtHQUNOLFlBQ1MsaUJBQUE7OENBQUgsRUFBRSxPQUFJLFVBQVU7R0FBQTtrQkFDckIsbUJBQUcsTUFDSzs2QkFEUCxFQUNELFVBQVU7OztFQUVaLDRDQUNVO0dBQVQsVUFBTTtHQUNOLFdBQ08sZUFBQTtXQUFOLEtBQ08sV0FBQTtLQUFOLFFBQUksVUFBVzt3Q0FDVCxJQUFHLHdCQUFTO0tBRWxCLFFBQUssd0JBQU0sT0FBTyxFQUNHLFVBQUE7b0NBQVo7S0FBQTsrQ0FDSCxJQUFHOzs7a0JBQ1YsbUJBQUEsRUFDQztXQUFELFNBQVUsT0FBRyxNQUFNO0dBQUE7O0VBRXJCLHNDQUNPO0dBQU4sVUFDQztHQUlELFlBQ1MsaUJBQUE7OENBQUgsRUFBRSxPQUFJLE9BQ1EsVUFBQTtZQUFsQjtJQUFBO0dBQUE7a0JBQ0QsZ0JBQUEsUUFDYTtzQkFETDtxQ0FFSSxFQUFFO0dBQUE7O0VBRWhCLGtDQUNLO0dBQUosVUFDQztHQUVELFlBQ1MsaUJBQUE7dUNBQUgsQ0FBRSxFQUFFLEdBQUksT0FBSyxLQUFLLENBQUcsVUFBVSxHQUFJLFVBQVU7SUFDbEQscUJBQWUsS0FBSyxDQUFHLFVBQVcsS0FBSyxVQUFXOzhDQUM1QyxJQUFHLHdCQUFTOztrQkFDbEIsY0FBVSxFQUNNOzhCQURKLElBQUU7cUNBQWIsRUFBRSxPQUNILE1BQU8sT0FBRyxNQUFNOzs7RUFFbEIsa0NBQ0s7R0FBSixVQUNDO0dBRUQsWUFDUyxpQkFBQTs4Q0FBSCxDQUFFLEVBQUUsRUFBRSxHQUFJLE9BQUksS0FBSyxDQUFFLEVBQUUsRUFBRSxHQUFLLFNBQUEsRUFDQztZQUFuQyxPQUNRLFVBQUE7NkJBQUwsRUFBRTtLQUFBO0lBQUE7R0FBQTtrQkFDTixjQUFVLE9BQVMsT0FDc0I7c0JBRHhCOzhCQUFTLFNBQVMsSUFBSTtxQ0FBdEMsRUFBRSxPQUNILEtBQU0sSUFBSSxPQUFPOzs7RUFFbkIsaURBQ1U7R0FBVCxVQUFNO0dBQ04sWUFDUyxpQkFBQTs4Q0FBSCxDQUFFLEVBQUUsRUFBRSxFQUFFLEVBQUUsRUFBRSxHQUFJLE9BQUssWUFBVSxDQUFFLEVBQUUsRUFBRSxHQUFLLFNBQUEsRUFDQztZQUEvQyxPQUNRLFVBQUE7YUFBUCxDQUFFLEVBQUU7S0FBQTtJQUFBO0dBQUE7a0JBQ04scUJBQU0sT0FBUyxPQUN5QjtzQkFEM0I7OEJBQVMsU0FBUyxZQUFJLEVBQUU7cUNBQXBDLEVBQUUsS0FDSCxPQUFRLEtBQUssT0FBTyxRQUFROzs7RUFFOUIsb0NBQ007R0FBTCxVQUNDO0dBRUQsWUFDUyxpQkFBQTs4Q0FBSCxDQUFFLEVBQUUsR0FBSSxPQUFLLE1BQU0sQ0FBRSxFQUFFLEVBQUUsRUFBRSxHQUFLLFNBQUEsRUFDQztZQUFyQyxPQUNRLFVBQUE7c0NBQUksRUFBRTtLQUFBO0lBQUE7R0FBQTtrQkFDZixlQUFVLFlBQVksYUFDaUM7c0JBRG5DOzhCQUFXLFNBQVMsWUFBSSxFQUFFO3FDQUE3QyxFQUFFLE9BQ0gsWUFBVSxZQUFXLFNBQUEsRUFDQztZQUFyQixPQUFPLGFBQVEsR0FBRyxTQUFBLEtBQ0k7YUFBckIsSUFBRyxLQUFLO0tBQUE7SUFBQTs7O0VBRVosb0NBQ007R0FBTCxVQUNDO0dBR0QsWUFDUyxpQkFBQTs4Q0FBSCxFQUFFLE9BQUksc0JBQVMsVUFBVSxHQUFJLFVBQVU7R0FBQTtrQkFDNUMsZUFBRyxFQUNVOzs2QkFEWixFQUNELE9BQVEsS0FBSyxlQUFPLE1BQU07OztFQUU1QixrQ0FDSztHQUFKLFVBQ0M7R0FJRCxZQUNTLGlCQUFBO3VDQUFGLE1BQUssT0FBSSxLQUNPLFdBQUE7S0FBckIsZUFBWSxPQUFBLFVBQVc7d0NBQ2pCLFdBQVU7WUFDZjtJQUFBO0lBQ0YsY0FBVyx3QkFBTSxLQUNPLFdBQUE7WUFBcEIsVUFBVzttQ0FDTjtJQUFBOzhDQUNILFNBQVE7O2tCQUNkLGNBQUcsS0FDeUI7OEJBRHBCLFNBQVM7SUFDakIsVUFBTTtJQUNOLGdCQUFXLG1CQUFBLGFBQ1U7S0FBcEIsWUFBYSxTQUFTOztNQUVyQixZQUFBLE1BQ0k7Y0FBSDtNQUFBLE9BRUc7Y0FBSCxPQUFPLE1BQU07TUFBQTtLQUFBO0lBQUE7NkJBUmYsRUFTRDs7O0VBeExGLHdCQUFBO2tCQTBMQSIsImZpbGUiOiJjYXNoLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy8kLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7RUFvQkEsa0JBQ0c7R0FBRixVQUNDO2tCQUVEOztFQUVELGVBQVcsSUFBSSxFQUNHLFVBQUE7VUFBakI7RUFBQTtFQUlELG9DQUNNO0dBQUwsVUFDQztrQkFJQSxlQUFBLEVBQ0c7c0JBREQ7OEJBQ0ssRUFBSSxTQUFBLElBQ0c7S0FDYixtQkFDQywrQkFDQyw2QkFDQTs0QkFHSztJQUFBO0dBQUE7O0VBRVYsaUVBQ2lCO0dBQWhCLFVBQU07R0FDTixZQUNVLGlCQUFBO0lBQVQsbUNBQWlCLElBQ0ssVUFBQTtZQUFyQjtJQUFBO0lBQ0QsUUFBSyx3QkFBTSxxQkFBaUIsR0FBRzt1Q0FDMUIsVUFBVzt1Q0FDWCxFQUFHLE9BQUcscUJBQWlCLEdBQUc7R0FBQTtrQkFDL0IsOEJBQUcsRUFBSSxVQUNjO3NCQURoQjtzQkFBVTs2QkFBZCxFQUVELEtBQUksRUFBRyxTQUFBLFFBQVEsT0FDTTtLQUFwQixPQUFPLEVBQUU7S0FDVCxjQUNXLGtCQUFBO2FBQVYsT0FBUSxPQUFHLE1BQU8sK0JBQWtCOztZQUNyQyxrQkFBa0IsUUFBUTtJQUFBOzs7RUFFN0Isc0NBQ087R0FBTixVQUNDO0dBRUQsWUFDVSxpQkFBQTt1Q0FBSixFQUFHLE9BQUcsT0FBUSxVQUFVLDJCQUFLO0dBQUE7a0JBQ2xDLGdCQUFHLEVBQUksS0FDYTtzQkFEZjtzQkFBTzs2QkFBWCxFQUNELE9BQU87OztFQUVULDRDQUNVO0dBQVQsVUFBTTtHQUNOLFlBQ1UsaUJBQUE7dUNBQUosRUFBRyxPQUFHLFVBQVU7R0FBQTtrQkFDckIsbUJBQUcsTUFDSzs2QkFEUCxFQUNELFVBQVU7OztFQUVaLDRDQUNVO0dBQVQsVUFBTTtHQUNOLFdBQ08sZUFBQTtXQUFOLEtBQ1EsV0FBQTtLQUFQLFFBQUksVUFBVzt3Q0FDVCxJQUFJLHdCQUFRO0tBRWxCLFFBQUssd0JBQU0s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

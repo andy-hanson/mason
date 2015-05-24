@@ -31,24 +31,24 @@ self-kind! Array! @-Type
 
 # We're defining these on Arrays, but they will only work for Array!s because Arrays are frozen
 kind! Array Seq!
-	<++! -> |_ added:@
+	<++! -> !|_ added:@
 		# TODO:SYNTAX _.unshift ...added
 		Array.prototype.unshift.apply _ (=> Array added
-	++>! -> |_ added
+	++>! -> !|_ added
 		# TODO:SYNTAX _.push ...added
 		Array.prototype.push.apply _ (=> Array added
 	?<pop! -> |_
 		if (not empty?_) ~_.shift()
 	?pop>! -> |_
 		if (not empty?_) ~_.pop()
-	empty! -> |_
+	empty! -> !|_
 		# http://jsperf.com/empty-javascript-array/15
 		# TODO: Test it myself...
 		for!
 			if! empty?_
 				break!
 			_.pop()
-	set-nth! -> |_ n:Nat val
+	set-nth! -> !|_ n:Nat val
 		js-set _ n val
 
 Array!

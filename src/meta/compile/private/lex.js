@@ -3,9 +3,9 @@ import { code } from '../CompileError'
 import { NumberLiteral } from '../MsAst'
 import { NonNameCharacters } from './language'
 import { DotName, Group, G_Block, G_Bracket, G_Line, G_Parenthesis, G_Space, G_Quote,
-	isKeyword, Keyword, KW_AssignMutable, KW_AssignMutate, KW_Focus, KW_Fun, KW_GenFun, KW_Lazy,
-	KW_ObjAssign, KW_Region, KW_Type, Name, opKeywordKindFromName, showGroupKind
-	} from './Token'
+	isKeyword, Keyword, KW_AssignMutable, KW_AssignMutate, KW_Focus, KW_Fun, KW_FunDo, KW_GenFun,
+	KW_GenFunDo, KW_Lazy, KW_ObjAssign, KW_Region, KW_Type, Name, opKeywordKindFromName,
+	showGroupKind } from './Token'
 import { assert, isEmpty, last } from './util'
 
 /*
@@ -148,6 +148,12 @@ export default (context, sourceString) => {
 			return canEat
 		},
 
+		mustEat = (charToEat, precededBy) => {
+			const canEat = tryEat(charToEat)
+			context.check(canEat, pos, () =>
+				`${code(precededBy)} must be followed by ${showChar(charToEat)}`)
+		},
+
 		tryEatNewline = () => {
 			const canEat = peek() === Newline
 			if (canEat) {
@@ -262,6 +268,10 @@ export default (context, sourceString) => {
 			loc = () => Loc(startPos(), pos()),
 			keyword = kind =>
 				addToCurrentGroup(Keyword(loc(), kind)),
+			funKeyword = kind => {
+				keyword(kind)
+				space(loc())
+			},
 			eatAndAddNumber = () => {
 				// TODO: A real number literal lexer, not just JavaScript's...
 				const numberString = takeWhileWithPrev(isNumberCharacter)
@@ -271,6 +281,21 @@ export default (context, sourceString) => {
 				addToCurrentGroup(NumberLiteral(loc(), number))
 			}
 
+		const handleName = () => {
+			// All other characters should be handled in a case above.
+			const name = takeWhileWithPrev(isNameCharacter)
+			const keywordKind = opKeywordKindFromName(name)
+			if (keywordKind !== undefined) {
+				context.check(keywordKind !== -1, pos, () =>
+					`Reserved name ${code(name)}`)
+				if (keywordKind === KW_Region)
+					// TODO: Eat and put it in Region expression
+					skipRestOfLine()
+				keyword(keywordKind)
+			} else
+				addToCurrentGroup(Name(loc(), name))
+		}
+
 		while (true) {
 			startColumn = column
 			const characterEaten = eat()
@@ -278,10 +303,16 @@ export default (context, sourceString) => {
 			switch (characterEaten) {
 				case Zero:
 					return
-				case N0: case N1: case N2: case N3: case N4:
-				case N5: case N6: case N7: case N8: case N9:
-					eatAndAddNumber()
+				case CloseBrace:
+					context.check(isInQuote, loc, () =>
+						`Reserved character ${showChar(CloseBrace)}`)
+					return
+				case Quote:
+					lexQuote(indent)
 					break
+
+				// GROUPS
+
 				case OpenParenthesis:
 					openParenthesis(loc())
 					break
@@ -292,12 +323,9 @@ export default (context, sourceString) => {
 					closeGroups(pos(), G_Parenthesis)
 					break
 				case CloseBracket:
-					closeGroups(pos().end, G_Bracket)
+					closeGroups(pos(), G_Bracket)
 					break
-				case CloseBrace:
-					context.check(isInQuote, loc, () =>
-						`Reserved character ${showChar(CloseBrace)}`)
-					return
+
 				case Space: {
 					const next = peek()
 					context.warnIf(next === Space, loc, 'Multiple spaces in a row.')
@@ -305,9 +333,90 @@ export default (context, sourceString) => {
 					space(loc())
 					break
 				}
+
+				case Newline: {
+					context.check(!isInQuote, loc, 'Quote interpolation cannot contain newline')
+
+					// Skip any blank lines.
+					skipNewlines()
+					const oldIndent = indent
+					indent = skipWhileEquals(Tab)
+					context.check(peek() !== Space, pos, 'Line begins in a space')
+					if (indent <= oldIndent) {
+						const l = loc()
+						for (let i = indent; i < oldIndent; i = i + 1) {
+							closeLine(l.start)
+							closeGroups(l.end, G_Block)
+						}
+						closeLine(l.start)
+						openLine(l.end)
+					} else {
+						context.check(indent === oldIndent + 1, loc,
+							'Line is indented more than once')
+						// Block at end of line goes in its own spaced group.
+						// However, `~` preceding a block goes in a group with it.
+						if (isEmpty(curGroup.subTokens) ||
+							!isKeyword(KW_Lazy, last(curGroup.subTokens)))
+							space(loc())
+						openGroup(loc().start, G_Block)
+						openLine(loc().end)
+					}
+					break
+				}
+				case Tab:
+					// We always eat tabs in the Newline handler,
+					// so this will only happen in the middle of a line.
+					context.fail(loc(), 'Tab may only be used to indent')
+
+				// FUN
+
+				case Bang:
+					if (tryEat(Bar))
+						funKeyword(KW_FunDo)
+					else
+						handleName()
+					break
+				case Tilde:
+					if (tryEat(Bang)) {
+						mustEat(Bar, '~!')
+						funKeyword(KW_GenFunDo)
+					} else if (tryEat(Bar))
+						funKeyword(KW_GenFun)
+					else
+						keyword(KW_Lazy)
+					break
+				case Bar:
+					keyword(KW_Fun)
+					// First arg in its own spaced group
+					space(loc())
+					break
+
+				// NUMBER
+
+				case Hyphen:
+					if (isDigit(peek()))
+						// eatNumber() looks at prev character, so hyphen included.
+						eatAndAddNumber()
+					else
+						handleName()
+					break
+				case N0: case N1: case N2: case N3: case N4:
+				case N5: case N6: case N7: case N8: case N9:
+					eatAndAddNumber()
+					break
+
+
+				// OTHER
+
+				case Hash:
+					if (!(tryEat(Space) || tryEat(Tab)))
+						context.fail(loc, () => `${code('#')} must be followed by space or tab.`)
+					skipRestOfLine()
+					break
+
 				case Dot: {
-					const p = peek()
-					if (p === Space || p === Newline) {
+					const next = peek()
+					if (next === Space || next === Newline) {
 						// ObjLit assign in its own spaced group.
 						// We can't just create a new Group here because we want to
 						// ensure it's not part of the preceding or following spaced group.
@@ -322,99 +431,26 @@ export default (context, sourceString) => {
 							takeWhile(isNameCharacter)))
 					break
 				}
+
 				case Colon:
 					if (tryEat(Colon)) {
-						const eq = tryEat(Equal)
-						context.check(eq, loc, () =>
-							`${code('::')} must be followed by ${code('=')}`)
+						mustEat(Equal, '::')
 						keyword(KW_AssignMutable)
 					} else if (tryEat(Equal))
 						keyword(KW_AssignMutate)
 					else
 						keyword(KW_Type)
 					break
-				case Tilde:
-					if (tryEat(Bar)) {
-						keyword(KW_GenFun)
-						space(loc())
-						break
-					} else {
-						keyword(KW_Lazy)
-						break
-					}
-					break
-				case Bar:
-					keyword(KW_Fun)
-					// First arg in its own spaced group
-					space(loc())
-					break
+
 				case Underscore:
 					keyword(KW_Focus)
 					break
-				case Hash:
-					if (!(tryEat(Space) || tryEat(Tab)))
-						context.fail(loc, () => `${code('#')} must be followed by space or tab.}`)
-					skipRestOfLine()
-					break
-				case Newline: {
-					context.check(!isInQuote, loc, 'Quote interpolation cannot contain newline')
 
-					// Skip any blank lines.
-					skipNewlines()
-					const oldIndent = indent
-					indent = skipWhileEquals(Tab)
-					context.check(peek() !== Space, pos, 'Line begins in a space')
-					if (indent <= oldIndent) {
-						for (let i = indent; i < oldIndent; i = i + 1) {
-							closeLine(loc.start)
-							closeGroups(loc.end, G_Block)
-						}
-						closeLine(loc().start)
-						openLine(loc().end)
-					} else {
-						context.check(indent === oldIndent + 1, loc,
-							'Line is indented more than once')
-						// Block at end of line goes in its own spaced group.
-						// However, `~` preceding a block goes in a group with it.
-						if (isEmpty(curGroup.subTokens) ||
-							!isKeyword(KW_Lazy, last(curGroup.subTokens)))
-							space(loc())
-						openGroup(loc().start, G_Block)
-						openLine(loc().end)
-					}
-					break
-				}
-				case Quote:
-					lexQuote(indent)
-					break
 				case Ampersand: case Backslash: case Backtick: case Caret:
 				case Comma: case Percent: case Semicolon:
 					context.fail(loc, `Reserved character ${showChar(characterEaten)}`)
-				case Tab:
-					// We always eat tabs in the Newline handler,
-					// so this will only happen in the middle of a line.
-					context.fail(loc(), 'Tab may only be used to indent')
-				case Hyphen:
-					if (isDigit(peek())) {
-						// eatNumber() looks at prev character, so hyphen included.
-						eatAndAddNumber()
-						break
-					}
-					// else fallthrough
-				default: {
-					// All other characters should be handled in a case above.
-					const name = takeWhileWithPrev(isNameCharacter)
-					const keywordKind = opKeywordKindFromName(name)
-					if (keywordKind !== undefined) {
-						context.check(keywordKind !== -1, pos, () =>
-							`Reserved name ${code(name)}`)
-						if (keywordKind === KW_Region)
-							// TODO: Eat and put it in Region expression
-							skipRestOfLine()
-						keyword(keywordKind)
-					} else
-						addToCurrentGroup(Name(loc(), name))
-				}
+				default:
+					handleName()
 			}
 		}
 	}
@@ -492,7 +528,7 @@ export default (context, sourceString) => {
 		}
 
 		maybeOutputRead()
-		closeGroups(locSingle().start, G_Quote)
+		closeGroups(pos(), G_Quote)
 	}
 
 	const quoteEscape = ch => {
@@ -523,6 +559,7 @@ const
 	Ampersand = cc('&'),
 	Backslash = cc('\\'),
 	Backtick = cc('`'),
+	Bang = cc('!'),
 	Bar = cc('|'),
 	Caret = cc('^'),
 	CloseBrace = cc('}'),

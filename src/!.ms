@@ -30,7 +30,7 @@ doc. "For making assertions."
 				Same as:
 					unless! bool
 						oh-no! message
-	test. |
+	test. !|
 		! =? 1 1
 		! true "a"
 		one-not-two = "
@@ -41,7 +41,7 @@ doc. "For making assertions."
 			! =? 1 2
 		! fails-with? "a" |
 			! (=? 1 2) "a"
-	|a ...args
+	!|a ...args
 		case! a
 			:Function
 				unless! _ ...args
@@ -58,10 +58,10 @@ doc. "For making assertions."
 
 !not.
 	doc. "Like `!`, but inverts the condition."
-	test. |
+	test. !|
 		!not false "a"
 		!not =? 1 2
-	|a ...args
+	!|a ...args
 		case! a
 			:Function
 				case!
@@ -95,18 +95,18 @@ doc. "For making assertions."
 				3
 			Got:
 				2
-		! fails-with? nope |
+		! fails-with? nope !|
 			!call +
 				[ 1 1 ] -> 3
-	|fun:Function args->result:Map[Array Any]
+	!|fun:Function args->result:Map[Array Any]
 		!call-with =? fun args->result
 
 !call-with.
 	doc. "Like !call but allows any equality predicate."
-	test. |
+	test. !|
 		!call-with same?[show] +
 			[ 1 2 ] -> "3"
-	|equal?:Pred fun:Function args->result:Map[Array Any]
+	!|equal?:Pred fun:Function args->result:Map[Array Any]
 		for! args->result
 			# TODO:SYNTAX Array destructure
 			args:@ = _[0]

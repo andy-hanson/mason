@@ -13,16 +13,16 @@ import { LD_Lazy, LD_Mutable, Pattern, Splat, SD_Debugger, SV_Contains, SV_False
 	SV_This, SV_ThisModuleDirectory, SV_True, SV_Undefined } from '../../MsAst'
 import manglePath from '../manglePath'
 import { assert, cat, flatMap, flatOpMap, ifElse, isEmpty,
-	implementMany, isPositive, opIf, opMap, range, tail, unshift } from '../util'
-import { AmdefineHeader, ArraySliceCall, ExportsDefault, ExportsGet, IdArguments, IdDefine,
-	IdExports, IdExtract, IdFunctionApplyCall, IdName, LitEmptyArray, LitEmptyString, LitNull,
-	LitStrExports, LitStrName, LitZero, ReturnExports, ReturnRes, SymbolIterator, UseStrict
-	} from './ast-constants'
-import { IdMs, lazyWrap, msArr, msBool, msCheckContains, msExtract, msGet, msGetDefaultExport,
-	msGetModule, msLazy, msLazyGet, msLazyGetModule, msLset, msMap, msSet, msShow
+	implementMany, isPositive, opIf, opMap, tail, unshift } from '../util'
+import { AmdefineHeader, ArraySliceCall, DeclareBuiltBag, DeclareBuiltMap, ExportsDefault,
+	ExportsGet, IdArguments, IdBuilt, IdDefine, IdExports, IdExtract, IdFunctionApplyCall, IdName,
+	LitEmptyArray, LitEmptyString, LitNull, LitStrExports, LitStrName, LitZero, ReturnExports,
+	ReturnRes, SymbolIterator, UseStrict } from './ast-constants'
+import { IdMs, lazyWrap, msAdd, msArr, msAssoc, msBool, msCheckContains, msExtract, msGet,
+	msGetDefaultExport, msGetModule, msLazy, msLazyGet, msLazyGetModule, msLset, msSet, msShow
 	} from './ms-call'
-import { accessLocalDeclare, declare, declareSpecial,
-	idForDeclareCached, throwError, whileStatementInfinite } from './util'
+import { accessLocalDeclare, declare, forStatementInfinite,
+	idForDeclareCached, throwError } from './util'
 
 let context, verifyResults, isInGenerator
 
@@ -74,9 +74,7 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 		return assignmentExpressionPlain(idCached(this.name), t0(this.value))
 	},
 
-	BagEntry() {
-		return declareSpecial(`_${verifyResults.listMapEntryIndex(this)}`, t0(this.value))
-	},
+	BagEntry() { return msAdd(IdBuilt, t0(this.value)) },
 
 	BagSimple() { return ArrayExpression(this.parts.map(t0)) },
 
@@ -86,7 +84,7 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 	},
 
 	BlockWithReturn(lead, opResDeclare, opOut) {
-		return transpileBlock(t0(this.returned), this.lines, lead, opResDeclare, opOut)
+		return transpileBlock(t0(this.returned), tLines(this.lines), lead, opResDeclare, opOut)
 	},
 
 	BlockObj(lead, opResDeclare, opOut) {
@@ -114,22 +112,21 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 				const opPropName = opMap(this.opName, _ => property('init', IdName, Literal(_)))
 				return ObjectExpression(cat(props, opPropName))
 			})
-		return transpileBlock(ret, this.lines, lead, opResDeclare, opOut)
+		return transpileBlock(ret, tLines(this.lines), lead, opResDeclare, opOut)
 	},
 
 	BlockBag(lead, opResDeclare, opOut) {
-		const length = verifyResults.listMapLength(this)
 		return transpileBlock(
-			ArrayExpression(range(length).map(i => idCached(`_${i}`))),
-			this.lines, lead, opResDeclare, opOut)
+			IdBuilt,
+			cat(DeclareBuiltBag, tLines(this.lines)),
+			lead, opResDeclare, opOut)
 	},
 
 	BlockMap(lead, opResDeclare, opOut) {
-		const length = verifyResults.listMapLength(this)
 		return transpileBlock(
-			msMap(...flatMap(range(length), i =>
-				[ idCached(`_k${i}`), idCached(`_v${i}`) ])),
-			this.lines, lead, opResDeclare, opOut)
+			IdBuilt,
+			cat(DeclareBuiltMap, tLines(this.lines)),
+			lead, opResDeclare, opOut)
 	},
 
 	BlockWrap() { return blockWrap(this, t0(this.block)) },
@@ -173,7 +170,7 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 	},
 
 	ForDoPlain() {
-		return whileStatementInfinite(t0(this.block))
+		return forStatementInfinite(t0(this.block))
 	},
 
 	ForDoWithBag() {
@@ -226,19 +223,11 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 
 	IfDo() { return IfStatement(maybeBoolWrap(t0(this.test)), t0(this.result)) },
 
-	LocalAccess() { return accessLocalDeclare(verifyResults.accessToLocal.get(this)) },
+	LocalAccess() { return accessLocalDeclare(verifyResults.localDeclareForAccess(this)) },
 
 	LocalDeclare() { return idForDeclareCached(this) },
 
-	MapEntry() {
-		const index = verifyResults.listMapEntryIndex(this)
-		const k = `_k${index}`
-		const v = `_v${index}`
-		return VariableDeclaration('const', [
-			VariableDeclarator(idCached(k), t0(this.key)),
-			VariableDeclarator(idCached(v), t0(this.val))
-		])
-	},
+	MapEntry() { return msAssoc(IdBuilt, t0(this.key), t0(this.val)) },
 
 	Member() { return member(t0(this.object), this.name) },
 
@@ -334,7 +323,7 @@ const
 					() => ReturnStatement(ret))
 			},
 			() => cat(opOut, ReturnStatement(returned)))
-		return BlockStatement(cat(lead, tLines(lines), fin))
+		return BlockStatement(cat(lead, lines, fin))
 	}
 
 // Module helpers

@@ -23,9 +23,9 @@ define(["exports","../cash","../js","../bang","../compare"],function(exports,$_0
 				_ms.checkContains(Function,_,"_");
 				return _new($,function(resolve){
 					const f=function f(){
-						return resolve(_())
+						resolve(_())
 					};
-					return global.setTimeout(f,time_45ms)
+					global.setTimeout(f,time_45ms)
 				})
 			},"doc",doc,"$test",$test)
 		}();
@@ -33,4 +33,4 @@ define(["exports","../cash","../js","../bang","../compare"],function(exports,$_0
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9pby90aW1lLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7RUFPQSwrREFDZ0I7R0FBZixVQUFNO2tCQUVMLDhCQUFBO1dBQUMsS0FBSTs7O0VBRVAscURBQ1k7R0FBWCxVQUFNO0dBQ04sWUFDUyxpQkFBQTs4Q0FBSCxFQUFFLE9BQUksY0FBWSxFQUNHLFVBQUE7WUFBekI7SUFBQTtHQUFBO2tCQUNELHVCQUFBLFVBQWUsRUFDVTtzQkFEakI7c0JBQVM7V0FFakIsS0FBSSxFQUFHLFNBQUEsUUFDTztLQUFiLFFBQ0ssWUFBQTthQUFKLFFBQVE7S0FBQTtZQUNULGtCQUFrQixFQUFFO0lBQUE7R0FBQTs7RUF0QnZCLHdCQUFBIiwiZmlsZSI6ImlvL3RpbWUuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9pby90aW1lLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7RUFPQSwrREFDZ0I7R0FBZixVQUFNO2tCQUVMLDhCQUFBO1dBQUMsS0FBSTs7O0VBRVAscURBQ1k7R0FBWCxVQUFNO0dBQ04sWUFDUyxpQkFBQTs4Q0FBSCxFQUFHLE9BQUcsY0FBWSxFQUNHLFVBQUE7WUFBekI7SUFBQTtHQUFBO2tCQUNELHVCQUFBLFVBQWUsRUFDVTtzQkFEakI7c0JBQVM7V0FFakIsS0FBSSxFQUFJLFNBQUEsUUFDTztLQUFkLFFBQ00sWUFBQTtNQUFMLFFBQVE7S0FBQTtLQUNULGtCQUFrQixFQUFFO0lBQUE7R0FBQTs7RUF0QnZCLHdCQUFBIiwiZmlsZSI6ImlvL3RpbWUuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

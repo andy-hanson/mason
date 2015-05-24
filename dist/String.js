@@ -15,8 +15,9 @@ define(["exports","./Boolean","./compare","./js","./Type/Kind","./Type/Method","
 		const _45_62upper=exports["->upper"]=function(){
 			const doc="Converts a-z to A-Z.";
 			const test=function test(){
-				const _k0=["hi"],_v0="HI";
-				return _ms.map(_k0,_v0)
+				const built=new global.Map();
+				_ms.assoc(built,["hi"],"HI");
+				return built
 			};
 			return _ms.set(function _45_62upper(_){
 				_ms.checkContains(String,_,"_");
@@ -39,11 +40,12 @@ define(["exports","./Boolean","./compare","./js","./Type/Kind","./Type/Method","
 		const indent=exports.indent=function(){
 			const doc="Adds a `\\t` to all `\\n` in `str`.\nDoes *not* do anything to the first line.";
 			const test=function test(){
+				const built=new global.Map();
 				const s="a\nb";
 				const s_45indented="a\n\tb";
-				const _k0=[s],_v0=s_45indented;
-				const _k1=["a"],_v1="a";
-				return _ms.map(_k0,_v0,_k1,_v1)
+				_ms.assoc(built,[s],s_45indented);
+				_ms.assoc(built,["a"],"a");
+				return built
 			};
 			return _ms.set(function indent(_){
 				_ms.checkContains(String,_,"_");
@@ -53,9 +55,10 @@ define(["exports","./Boolean","./compare","./js","./Type/Kind","./Type/Method","
 		const split_45str=exports["split-str"]=function(){
 			const doc="Like `@.split` but using a String-Test instead of a predicate.";
 			const test=function test(){
-				const _k0=[" ","I am a String"],_v0=["I","am","a","String"];
-				const _k1=[RegExp("."),"abc"],_v1=["","","",""];
-				return _ms.map(_k0,_v0,_k1,_v1)
+				const built=new global.Map();
+				_ms.assoc(built,[" ","I am a String"],["I","am","a","String"]);
+				_ms.assoc(built,[RegExp("."),"abc"],["","","",""]);
+				return built
 			};
 			return _ms.set(function split_45str(splitter,_){
 				_ms.checkContains(String_45Test,splitter,"splitter");
@@ -71,4 +74,4 @@ define(["exports","./Boolean","./compare","./js","./Type/Kind","./Type/Method","
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9TdHJpbmcubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFVQSwyQ0FBYSxlQUNJO0dBQWhCLFVBQU07R0FDTixtQkFBYyxDQUFFLE9BQU87Ozs7Ozs7RUFFeEIsK0NBQ1E7R0FBUCxVQUFNO0dBQ04sV0FDTyxlQUFBO0lBQU4sVUFBQSxDQUFHLFVBQVU7OztrQkFDYixxQkFBQSxFQUNRO3NCQUROO1dBQ0Y7OztFQUVGLHdCQUFNLHNCQUNTO0dBQWQsVUFBTTtHQUNOLGdCQUFZLG1CQUFBLEVBQ0M7V0FBWixpQkFBSyxPQUFEO1lBQVUseUJBQVEsR0FBRTtJQUFBO0dBQUE7Ozs7Ozs7RUFFMUIsc0NBQ087R0FBTixVQUNDO0dBRUQsV0FDTyxlQUFBO0lBQU4sUUFDQztJQUdELG1CQUNDO0lBR0QsVUFBQSxDQUFFLE9BQU87SUFDVCxVQUFBLENBQUcsU0FBUzs7O2tCQUNaLGdCQUFBLEVBQ1E7c0JBRE47V0FDRixVQUFXLE9BQVEsS0FBSyxLQUFLO0dBQUE7O0VBRS9CLGlEQUNVO0dBQVQsVUFBTTtHQUNOLFdBQ08sZUFBQTtJQUFOLFVBQUEsQ0FBRyxJQUFJLHFCQUFvQixDQUFHLElBQUksS0FBSyxJQUFJO0lBQzNDLFVBQUEsQ0FBRyxPQUFRLEtBQUssV0FBVSxDQUFZOzs7a0JBQ3RDLHFCQUFlLFNBQXFCLEVBQ1E7c0JBRHBCO3NCQUFjO3FDQUFyQyxNQUFNLFFBQ1AsUUFBUTs7O0VBRVYsUUFBTSxPQUFHLE9BQU87RUFwRGhCLHdCQUFBO2tCQXFEQSxRQUFNLFFBQVEsT0FBUSxTQUFBLEVBQUUsRUFDQztVQUF4QixnQkFBZ0I7RUFBQSIsImZpbGUiOiJTdHJpbmcuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9TdHJpbmcubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFVQSwyQ0FBYSxlQUNJO0dBQWhCLFVBQU07R0FDTixtQkFBYyxDQUFFLE9BQU87Ozs7Ozs7RUFFeEIsK0NBQ1E7R0FBUCxVQUFNO0dBQ04sV0FDTyxlQUFBOztvQkFBTixDQUFHLE1BQVU7OztrQkFDYixxQkFBQSxFQUNRO3NCQUROO1dBQ0Y7OztFQUVGLHdCQUFNLHNCQUNTO0dBQWQsVUFBTTtHQUNOLGdCQUFZLG1CQUFBLEVBQ0M7V0FBWixpQkFBSyxPQUFEO1lBQVUseUJBQVEsR0FBRTtJQUFBO0dBQUE7Ozs7Ozs7RUFFMUIsc0NBQ087R0FBTixVQUNDO0dBRUQsV0FDTyxlQUFBOztJQUFOLFFBQ0M7SUFFRCxtQkFDQztvQkFFRCxDQUFFLEdBQU87b0JBQ1QsQ0FBRyxLQUFTOzs7a0JBQ1osZ0JBQUEsRUFDUTtzQkFETjtXQUNGLFVBQVcsT0FBUSxLQUFLLEtBQUs7R0FBQTs7RUFFL0IsaURBQ1U7R0FBVCxVQUFNO0dBQ04sV0FDTyxlQUFBOztvQkFBTixDQUFHLElBQUksaUJBQW9CLENBQUcsSUFBSSxLQUFLLElBQUk7b0JBQzNDLENBQUcsT0FBUSxLQUFLLE9BQVUsQ0FBWTs7O2tCQUN0QyxxQkFBZSxTQUFxQixFQUNRO3NCQURwQjtzQkFBYztxQ0FBckMsTUFBTSxRQUNQLFFBQVE7OztFQUVWLFFBQU0sT0FBRyxPQUFPO0VBbERoQix3QkFBQTtrQkFtREEsUUFBTSxRQUFRLE9BQVEsU0FBQSxFQUFFLEVBQ0M7VUFBeEIsZ0JBQWdCO0VBQUEiLCJmaWxlIjoiU3RyaW5nLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

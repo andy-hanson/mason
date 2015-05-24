@@ -20,7 +20,7 @@ use-debug
 
 # TODO: Move
 
-test. |
+test. !|
 	! =? "123" (map "123" identity
 
 self-kind! String @-Type
@@ -45,8 +45,8 @@ impl-double! => (self-type String) @
 
 # TODO: Should this be necessary?
 impl! sort String
-	test. |
-		"TODO"
+	test. !|
+		pass # TODO
 	|_ ?sort-by:Opt[Function]
 		=> String (sort.default _ ?sort-by)
 

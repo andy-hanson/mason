@@ -26,7 +26,7 @@ Kind = Obj-Type
 		It stores the impl!_s that have been done on the Kind0.
 		impl! and kind! make sure that Concrete-Types receive the methods of their Kinds.
 		They require the Kind to correctly track super-kinds and implementors.
-	test. |
+	test. !|
 		region Inheritance chans - one way
 			A = Kind
 				doc. "A"
@@ -87,7 +87,7 @@ Kind = Obj-Type
 			Array 0
 		symbol-for-isa. |_
 			Symbol "isa-{_.name}"
-	post-construct. |_
+	post-construct. !|_
 		pAdd _.prototype _.symbol-for-isa true
 		unless! isEmpty _.implementors
 			for! implementor in _.implementors
@@ -109,7 +109,7 @@ unchecked-kind!.
 	doc. "
 		kind! without any checks.
 		Necessary if trying to implement Impl-Type itself.
-	|implementor kind
+	!|implementor kind
 		kind.implementors.push implementor
 		on-implementor! implementor kind
 
@@ -146,7 +146,7 @@ kind!.
 	test. "See Impl-Type.test."
 	# TODO: Assert no circular chains of kind!.
 	# TODO implementor:Impl-Type
-	|implementor kind:Kind method-impls
+	!|implementor kind:Kind method-impls
 		in
 			! (can-subtype? kind) ~"{kind} is not open to new subtypes."
 			!not kind? implementor kind
@@ -159,9 +159,9 @@ kind!.
 
 self-kind!.
 	doc. "TODO"
-	test. |
-		"TODO"
-	|implementor:Object kind:Kind method-impls
+	test. !|
+		pass # TODO
+	!|implementor:Object kind:Kind method-impls
 		kind! (self-type implementor) kind
 		if! defined? method-impls
 			for! method-impls
@@ -185,15 +185,15 @@ kind?.
 
 region Private
 	@p-all = |_
-		(Object.getOwnPropertyNames _).concat (Object.getOwnPropertySymbols _)
+		Object.getOwnPropertyNames_.concat Object.getOwnPropertySymbols_
 
-	on-implementor! = |_ kind
+	on-implementor! = !|_ kind
 		if! :Kind
 			_.super-kinds.push kind
 		inherit-methods! _ kind
 
-	inherit-methods! = |implementor kind
-		rec! = |kind
+	inherit-methods! = !|implementor kind
+		rec! = !|kind
 			for! name in @p-all kind.prototype
 				propagate-method-down! implementor name (js-sub kind.prototype name
 			for! kind.super-kinds

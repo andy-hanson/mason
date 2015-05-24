@@ -1,8 +1,7 @@
-import { Identifier, Literal, NewExpression, Statement,
-	ThrowStatement, VariableDeclarator, WhileStatement } from 'esast/dist/ast'
+import { ForStatement, Identifier, Literal, NewExpression, Statement,
+	ThrowStatement, VariableDeclarator } from 'esast/dist/ast'
 import mangleIdentifier from 'esast/dist/mangle-identifier'
 import specialize, { variableDeclarationConst } from 'esast/dist/specialize'
-import { idCached } from 'esast/dist/util'
 import { IdError } from './ast-constants'
 import { msUnlazy } from './ms-call'
 
@@ -15,9 +14,9 @@ export const
 	declare = (localDeclare, val) =>
 		variableDeclarationConst([ VariableDeclarator(idForDeclareCached(localDeclare), val) ]),
 
-	// Make declare from a string. This is for compiler-generated temporary locals.
-	declareSpecial = (name, val) =>
-		variableDeclarationConst([ VariableDeclarator(idCached(name), val) ]),
+	forStatementInfinite = specialize(ForStatement,
+		[ 'body', Statement ],
+		{ init: null, test: null, update: null }),
 
 	idForDeclareCached = localDeclare => {
 		let _ = declareToId.get(localDeclare)
@@ -29,11 +28,7 @@ export const
 	},
 
 	throwError = msg =>
-		ThrowStatement(NewExpression(IdError, [ Literal(msg) ])),
-
-	whileStatementInfinite = specialize(WhileStatement,
-		[ 'body', Statement ],
-		{ test: Literal(true) })
+		ThrowStatement(NewExpression(IdError, [ Literal(msg) ]))
 
 const
 	declareToId = new WeakMap()

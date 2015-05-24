@@ -15,7 +15,6 @@ showing = newSet()
 show = Method
 	doc.
 		"
-			|:String _ opts
 			Converts the value to a string for string interpolation.
 			This is the method called when you do `\{...}`.
 			For a more detailed String representation of data, use `inspect`.
@@ -34,7 +33,8 @@ show = Method
 				name. "a"
 		[ null ] -> "null"
 		[ undefined ] -> "undefined"
-	args. 2
+	args. [ "_" "opts"
+	returns. String
 	allow-null?. true
 	wrap. |impl _ opts
 		case

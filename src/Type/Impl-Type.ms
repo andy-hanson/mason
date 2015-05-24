@@ -13,7 +13,7 @@ Impl-Type = Kind
 	doc. "
 		TODO:REST
 		Every Impl-Type should have a `prototype` property.
-	test. |
+	test. !|
 		A = Kind
 			doc. "A"
 		B = Kind
@@ -40,7 +40,7 @@ region Self-Type
 			Calling impl! on it will directly modify an Object to contain method implementations.
 		props.
 			prototype. Object
-		test. |
+		test. !|
 			x = empty-Object!()
 			impl! contains? (self-type x) |
 				1

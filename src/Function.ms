@@ -55,7 +55,7 @@ fun-copy.
 		Creates a new function with identical functionality.
 		*Does* copy any values captured by its scope.
 		Does *not* copy any properties on the old function.
-	test. |
+	test. !|
 		f1 =
 			doc. "f1"
 			|_
@@ -80,7 +80,7 @@ identity.
 
 noop.
 	doc. "Does nothing."
-	|
+	!|
 		pass
 
 region Memoize
@@ -89,7 +89,7 @@ region Memoize
 		doc. "
 			When an Object is passed into `fun`, stores the result in a `Weak-Id-Map!`
 			and uses that if the exact same (`id=?`) Object is used again.
-		test. |
+		test. !|
 			! seq=? [ 1 2 1 ] (build |yield
 				get-a = id-memoize |x
 					yield x.a
@@ -111,7 +111,7 @@ region Memoize
 			Stores the argument every time you call it,
 			and re-uses the result if called again with the same argument.
 			This will make those arguments unavailable for garbage collection...
-		test. |
+		test. !|
 			! seq=? [ 1 2 ] (build |yield
 				get-a = hash-memoize |x
 					yield x.a
@@ -133,7 +133,7 @@ region Memoize
 
 spread.
 	doc. "Applies `fun`, starting with the given args, to each entry in an arguments list or map."
-	test. |
+	test. !|
 		all-4 = |a b c d
 			[ a b c d ]
 		x = spread all-4 1 2 3
@@ -180,7 +180,7 @@ spread.
 
 spread!.
 	doc. "TODO"
-	test. |
+	test. !|
 		! =? [ 1 2 3 ] (build |yield!
 			f = |a b c
 				yield! a
@@ -188,13 +188,13 @@ spread!.
 				yield! c
 			spread! f 1
 				2 -> 3
-	|fun ...args
+	!|fun ...args
 		for! spread fun ...args
 			noop _
 
 thunk.
 	doc. "Makes function which, when called, returns `a`."
-	test. |
+	test. !|
 		! =? (thunk 1)() 1
 	|_
 		|
@@ -202,7 +202,7 @@ thunk.
 
 curry =
 	doc. "Creates a function which calls `f` with the given arguments first."
-	test. |
+	test. !|
 		+1 = +[1]
 		! =? (+1 1) 2
 		all-3 = |a b c

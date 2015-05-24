@@ -9,7 +9,7 @@ define(["exports","../../at/at","../../at/atbang","../../at/at-Type","../../at/S
 			const base=10;
 			return Stream(function*(){
 				let left=_;
-				while(true){
+				for(;;){
 					(yield remainder(left,base));
 					left=int_47(left,base);
 					if(_ms.bool(_61_63(left,0))){
@@ -30,7 +30,7 @@ define(["exports","../../at/at","../../at/atbang","../../at/at-Type","../../at/S
 				const stepped_45through=empty(Id_45Set_33);
 				let cur=n;
 				let res=null;
-				while(true){
+				for(;;){
 					{
 						const _=js_45sub(cache,cur);
 						if(_ms.bool(defined_63(_))){
@@ -56,16 +56,17 @@ define(["exports","../../at/at","../../at/atbang","../../at/at-Type","../../at/S
 		const happy_45numbers=exports["happy-numbers"]=_ms.checkContains(_ms.sub(Stream,Nat),function(){
 			const doc="Stream of all happy numbers.";
 			const test=function test(){
-				return _ms.unlazy(_33)(_ms.unlazy(seq_61_63),_ms.unlazy(take)(happy_45numbers,8),function(){
-					const _0=1;
-					const _1=7;
-					const _2=10;
-					const _3=13;
-					const _4=19;
-					const _5=23;
-					const _6=28;
-					const _7=31;
-					return [_0,_1,_2,_3,_4,_5,_6,_7]
+				_ms.unlazy(_33)(_ms.unlazy(seq_61_63),_ms.unlazy(take)(happy_45numbers,8),function(){
+					const built=[];
+					_ms.add(built,1);
+					_ms.add(built,7);
+					_ms.add(built,10);
+					_ms.add(built,13);
+					_ms.add(built,19);
+					_ms.add(built,23);
+					_ms.add(built,28);
+					_ms.add(built,31);
+					return built
 				}())
 			};
 			return _ms.set(keep(range(1,infinity),happy_63),"doc",doc,"test",test,"name","happy-numbers")
@@ -74,4 +75,4 @@ define(["exports","../../at/at","../../at/atbang","../../at/at-Type","../../at/S
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL2RlbW8vaGFwcHktbnVtYmVycy5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7O0VBbUJBLGFBQVUsZ0JBQUEsRUFDQztHQUFWLFdBQU87VUFDUCxPQUNTLFdBQUE7SUFBUixTQUFTO0lBRUwsV0FBQTtZQUFBLFVBQVUsS0FBSztVQUNWLE9BQUssS0FBSztLQUNsQixZQUFJLE9BQUcsS0FBSyxJQUNDO01BQVo7S0FBQTtJQUFBO0dBQUE7RUFBQTtFQUVKLG1CQUFjLHNCQUFBLEVBQ0M7VUFDZCxLQUFNLElBQUksT0FBTSxHQUFFLFFBQVE7RUFBQTtFQUUzQixZQUFRLE1BQU07RUFDZCxhQUFTLE1BQU0sRUFBRTtFQUVqQiwyQ0FDTztHQUFOLFVBQU07a0JBQ0wsa0JBQUEsRUFDSztzQkFESDtJQUNGLHdCQUFrQixNQUFNO0lBQ3hCLFFBQVE7SUFFUixRQUFRO0lBRUosV0FBQTtLQUFHO01BQUEsUUFBQSxTQUFPLE1BQU07TUFDbEIsWUFBQSxXQUFRLElBQ0M7V0FBRDtPQUNQO01BQUEsT0FFRztPQUFILFlBQUksWUFBVSxrQkFBZ0IsTUFDRztZQUF6QjtRQUNQO09BQUE7T0FFRCxVQUFJLGtCQUFnQixDQUFFO1dBQ2YsYUFBVztNQUFBO0tBQUE7SUFBQTtJQUVoQixRQUFBLEtBQUEscUNBQ2U7S0FBbkIsYUFBUyxNQUFNLEVBQUU7SUFBQTtJQUNsQixhQUFTLE1BQU0sRUFBRTtXQUNqQjtHQUFBOztFQUVGLHlFQUFjLE9BQU8sZUFDSztHQUF6QixVQUFNO0dBQ04sV0FDTyxlQUFBO2tFQUFRLGdCQUFjLGFBQ0U7S0FBN0IsU0FBRTtLQUNGLFNBQUU7S0FDRixTQUFFO0tBQ0YsU0FBRTtLQUNGLFNBQUU7S0FDRixTQUFFO0tBQ0YsU0FBRTtLQUNGLFNBQUU7Ozs7a0JBQ0osS0FBTSxNQUFNLEVBQUUsVUFBVTs7RUF6RXpCLHdCQUFBIiwiZmlsZSI6Im1ldGEvZGVtby9oYXBweS1udW1iZXJzLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL2RlbW8vaGFwcHktbnVtYmVycy5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7O0VBbUJBLGFBQVUsZ0JBQUEsRUFDQztHQUFWLFdBQU87VUFDUCxPQUNVLFdBQUE7SUFBVCxTQUFTO0lBRUwsT0FBQTtZQUFBLFVBQVUsS0FBSztVQUNWLE9BQUssS0FBSztLQUNsQixZQUFJLE9BQUcsS0FBSyxJQUNDO01BQVo7S0FBQTtJQUFBO0dBQUE7RUFBQTtFQUVKLG1CQUFjLHNCQUFBLEVBQ0M7VUFDZCxLQUFNLElBQUksT0FBTSxHQUFFLFFBQVE7RUFBQTtFQUUzQixZQUFRLE1BQU07RUFDZCxhQUFTLE1BQU0sRUFBRTtFQUVqQiwyQ0FDTztHQUFOLFVBQU07a0JBQ0wsa0JBQUEsRUFDSztzQkFESDtJQUNGLHdCQUFrQixNQUFNO0lBQ3hCLFFBQVE7SUFFUixRQUFRO0lBRUosT0FBQTtLQUFHO01BQUEsUUFBQSxTQUFPLE1BQU07TUFDbEIsWUFBQSxXQUFRLElBQ0M7V0FBRDtPQUNQO01BQUEsT0FFRztPQUFILFlBQUksWUFBVSxrQkFBZ0IsTUFDRztZQUF6QjtRQUNQO09BQUE7T0FFRCxVQUFJLGtCQUFnQixDQUFFO1dBQ2YsYUFBVztNQUFBO0tBQUE7SUFBQTtJQUVoQixRQUFBLEtBQUEscUNBQ2U7S0FBbkIsYUFBUyxNQUFNLEVBQUU7SUFBQTtJQUNsQixhQUFTLE1BQU0sRUFBRTtXQUNqQjtHQUFBOztFQUVGLHlFQUFjLE9BQU8sZUFDSztHQUF6QixVQUFNO0dBQ04sV0FDUSxlQUFBOzJEQUFPLGdCQUFjLGFBQ0U7O21CQUEzQjttQkFDQTttQkFDQTttQkFDQTttQkFDQTttQkFDQTttQkFDQTttQkFDQTs7OztrQkFDSixLQUFNLE1BQU0sRUFBRSxVQUFVOztFQXpFekIsd0JBQUEiLCJmaWxlIjoibWV0YS9kZW1vL2hhcHB5LW51bWJlcnMuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

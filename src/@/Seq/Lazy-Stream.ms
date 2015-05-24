@@ -39,9 +39,9 @@ self-kind! Lazy-Stream @-Type
 			iterator_
 
 js-impl! iterator Lazy-Stream
-	test. |
-		! =? [ 1 2 ] (build |yield
-			_ = => Lazy-Stream (Stream ~|
+	test. !|
+		! =? [ 1 2 ] (build !|yield
+			_ = => Lazy-Stream (Stream ~!|
 				yield 1
 				<~ 1
 				yield 2
@@ -49,7 +49,7 @@ js-impl! iterator Lazy-Stream
 				yield 3
 			! seq=? [ 1 ] (take' _ 1
 			! seq=? [ 1 2 ] (take' _ 2
-	~|
+	~!|
 		<~~ iterator this.cache
 		<~~ this.caching-iterator
 
@@ -62,7 +62,7 @@ kind! Lazy-Stream Seq
 lazy-streaming.
 	doc. "Creates a Lazy-Stream from a generator."
 	test. |
-		fibonaccis = Stream ~|
+		fibonaccis = Stream ~!|
 			<~ 1
 			<~ 1
 			for! range 2 infinity
@@ -75,7 +75,7 @@ lazy-streaming.
 		# We wrap this in a Stream because `for!` calls [Symbol.iterator]().
 		# We should be able to do `for!` on both @s and unwrapped iterators.
 		strm = Stream stream
-		iter = call ~|
+		iter = call ~!|
 			for! strm
 				# TODO: +>!
 				cache.push _

@@ -46,6 +46,14 @@ export const
 			plain: (loc, name) =>
 				LocalDeclare.noType(loc, name, false)
 		}),
+	LocalDeclareBuilt = makeType(LocalDeclare)('LocalDeclareBuilt',
+		'TODO:DOC',
+		[ ],
+		{
+			name: 'built',
+			opType: null,
+			kind: LD_Const
+		}),
 	LocalDeclareRes = makeType(LocalDeclare)('LocalDeclareRes',
 		'TODO:DOC',
 		[ 'opType', Nullable(Val) ],
@@ -81,14 +89,18 @@ export const
 		[ 'value', Val ]),
 	BlockBag = makeType(BlockVal)('BlockBag',
 		'TODO:DOC',
-		[ 'lines', [Union(LineContent, BagEntry)] ]),
+		[ 'built', LocalDeclareBuilt, 'lines', [Union(LineContent, BagEntry)] ],
+		{ },
+		{ of: (loc, lines) => BlockBag(loc, LocalDeclareBuilt(loc), lines) }),
 
 	MapEntry = m('MapEntry',
 		'TODO:DOC',
 		[ 'key', Val, 'val', Val ]),
 	BlockMap = makeType(BlockVal)('BlockMap',
 		'TODO:DOC',
-		[ 'lines', [Union(LineContent, MapEntry)] ]),
+		[ 'built', LocalDeclareBuilt, 'lines', [Union(LineContent, MapEntry)] ],
+		{ },
+		{ of: (loc, lines) => BlockMap(loc, LocalDeclareBuilt(loc), lines) }),
 
 	LocalAccess = v('LocalAccess',
 		'TODO:DOC',
@@ -146,7 +158,7 @@ export const
 		]),
 
 	// Data
-	BagSimple = v('ListSimple',
+	BagSimple = v('BagSimple',
 		'TODO:DOC',
 		[ 'parts', [Val] ]),
 	ObjPair = m('ObjPair',

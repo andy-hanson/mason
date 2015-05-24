@@ -8,9 +8,10 @@ define(["exports","../../Function","../../Generatorbang","../../math/Number","..
 		const Lazy_45Stream=Tuple(function(){
 			const doc="Like Stream, but caches its elements as it produces them.\nIf you want to stream the results of an expensive computation and use it multiple times, use this.\nIf you have a cheap computation or only need to iterate through it once, use Stream.";
 			const props=function(){
-				const _0=["caching-iterator",Generator_33];
-				const _1=["cache",Array_33];
-				return [_0,_1]
+				const built=[];
+				_ms.add(built,["caching-iterator",Generator_33]);
+				_ms.add(built,["cache",Array_33]);
+				return built
 			}();
 			return {
 				doc:doc,
@@ -19,35 +20,37 @@ define(["exports","../../Function","../../Generatorbang","../../math/Number","..
 			}
 		}());
 		self_45kind_33(Lazy_45Stream,_64_45Type,function(){
-			const _k0=empty,_v0=thunk(Lazy_45Stream(empty_45Generator,empty(Array_33)));
-			const _k1=from_45stream,_v1=function(_){
+			const built=new global.Map();
+			_ms.assoc(built,empty,thunk(Lazy_45Stream(empty_45Generator,empty(Array_33))));
+			_ms.assoc(built,from_45stream,function(_){
 				return lazy_45streaming(function(){
 					return iterator(_)
 				})
-			};
-			return _ms.map(_k0,_v0,_k1,_v1)
+			});
+			return built
 		}());
 		js_45impl_33(iterator,Lazy_45Stream,function(){
 			const test=function test(){
-				return _ms.unlazy(_33)(_ms.unlazy(_61_63),[1,2],_ms.unlazy(build)(function(_yield){
+				_ms.unlazy(_33)(_ms.unlazy(_61_63),[1,2],_ms.unlazy(build)(function(_yield){
 					const _=_ms.unlazy(_61_62)(Lazy_45Stream,Stream(function*(){
 						_yield(1);
 						(yield 1);
 						_yield(2);
 						(yield 2);
-						return _yield(3)
+						_yield(3)
 					}));
 					_ms.unlazy(_33)(_ms.unlazy(seq_61_63),[1],_ms.unlazy(take_39)(_,1));
-					return _ms.unlazy(_33)(_ms.unlazy(seq_61_63),[1,2],_ms.unlazy(take_39)(_,2))
+					_ms.unlazy(_33)(_ms.unlazy(seq_61_63),[1,2],_ms.unlazy(take_39)(_,2))
 				}))
 			};
 			return _ms.set(function*(){
 				(yield* iterator(this.cache));
-				return (yield* this["caching-iterator"])
+				(yield* this["caching-iterator"])
 			},"test",test)
 		}());
 		kind_33(Lazy_45Stream,Seq,function(){
-			const _k0=_63nth,_v0=function(stream,n){
+			const built=new global.Map();
+			_ms.assoc(built,_63nth,function(stream,n){
 				_ms.checkContains(Nat,n,"n");
 				return _63_45or(_63nth(stream.cache,n),_ms.lazy(function(){
 					return function(){
@@ -55,8 +58,8 @@ define(["exports","../../Function","../../Generatorbang","../../math/Number","..
 						return _63nth(Stream(stream["caching-iterator"]),n_45left)
 					}()
 				}))
-			};
-			return _ms.map(_k0,_v0)
+			});
+			return built
 		}());
 		const lazy_45streaming=exports["lazy-streaming"]=function(){
 			const doc="Creates a Lazy-Stream from a generator.";
@@ -88,4 +91,4 @@ define(["exports","../../Function","../../Generatorbang","../../math/Number","..
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1NlcS9MYXp5LVN0cmVhbS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7O0VBd0JBLG9CQUFjLGdCQUNLO0dBQWxCLFVBQ0M7R0FHRCxzQkFDTTtJQUFMLFNBQUUsQ0FBRyxtQkFBa0I7SUFDdkIsU0FBRSxDQUFHLFFBQU87Ozs7Ozs7OztFQUVkLGVBQVcsY0FBWSxxQkFDTTtHQUE1QixVQUFBLFVBQVMsTUFBTyxjQUFZLGtCQUFpQixNQUFNO0dBRW5ELFVBQUEsa0JBQWdCLFNBQUEsRUFDQztXQUFoQixpQkFDZ0IsVUFBQTtZQUFmLFNBQVE7SUFBQTtHQUFBOzs7RUFFWCxhQUFTLFNBQVMsd0JBQ1c7R0FBNUIsV0FDTyxlQUFBOzhDQUFELENBQUUsRUFBRSxxQkFBWSxTQUFBLE9BQ0s7S0FBekIsMkJBQU8sY0FBYSxPQUNTLFdBQUE7TUFBNUIsT0FBTTthQUNIO01BQ0gsT0FBTTthQUNIO2FBQ0gsT0FBTTtLQUFBOzJDQUNDLENBQUUsdUJBQVcsRUFBRTtrREFDZixDQUFFLEVBQUUsdUJBQVcsRUFBRTtJQUFBO0dBQUE7a0JBRXpCLFdBQUE7WUFBRyxTQUFTO1dBQ0wsUUFBSjs7O0VBRU4sUUFBTSxjQUFZLGNBQ0c7R0FBcEIsVUFBQSxXQUFTLFNBQUEsT0FBTyxFQUNLO3NCQURIO1dBQ2pCLFNBQU0sT0FBSyxhQUFhO3NCQUNJO01BQTNCLGVBQVMsSUFBRSxFQUFHLE1BQU07YUFDcEIsT0FBTSxPQUFPLDRCQUF5QjtLQUFBO0lBQUE7R0FBQTs7O0VBRXpDLDJEQUNlO0dBQWQsVUFBTTtHQUNOLFdBQ08sZUFBQTtJQUFOLGlCQUFhLE9BQ1MsV0FBQTtZQUFsQjtZQUNBO0tBQ0UsUUFBQSx1QkFBTSwyQ0FDVTtxQ0FDZixXQUFZLElBQUUsRUFBRSxZQUFHLFdBQVksSUFBRSxFQUFFO0tBQUE7SUFBQTtxRUFDM0IsV0FBVyxJQUFJLENBQUUsRUFBRSxFQUFFLEVBQUUsRUFBRSxFQUFFLEVBQUUsR0FBRyxHQUFHLEdBQUc7R0FBQTtrQkFDckQsMEJBQUEsT0FDMkI7OEJBRHBCLFNBQVM7SUFDaEIsWUFBUSxNQUFNO0lBSWQsV0FBTyxPQUFPO0lBQ2QsV0FBTyxLQUNPLFdBQUE7S0FBUixRQUFBLEtBQUEsd0JBQ0k7TUFDUixXQUFXO2FBQ1I7S0FBQTtJQUFBO1dBQ0wsY0FBWSxLQUFLO0dBQUE7O0VBbEZuQix3QkFBQTtrQkFvRkEiLCJmaWxlIjoiYXQvU2VxL0xhenktU3RyZWFtLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1NlcS9MYXp5LVN0cmVhbS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7O0VBd0JBLG9CQUFjLGdCQUNLO0dBQWxCLFVBQ0M7R0FHRCxzQkFDTTs7a0JBQUgsQ0FBRyxtQkFBa0I7a0JBQ3JCLENBQUcsUUFBTzs7Ozs7Ozs7O0VBRWQsZUFBVyxjQUFZLHFCQUNNOzttQkFBNUIsTUFBUyxNQUFPLGNBQVksa0JBQWlCLE1BQU07bUJBRW5ELGNBQWdCLFNBQUEsRUFDQztXQUFoQixpQkFDZ0IsVUFBQTtZQUFmLFNBQVE7SUFBQTtHQUFBOzs7RUFFWCxhQUFTLFNBQVMsd0JBQ1c7R0FBNUIsV0FDUSxlQUFBO3VDQUFGLENBQUUsRUFBRSxxQkFBYSxTQUFBLE9BQ0s7S0FBMUIsMkJBQU8sY0FBYSxPQUNVLFdBQUE7TUFBN0IsT0FBTTthQUNIO01BQ0gsT0FBTTthQUNIO01BQ0gsT0FBTTtLQUFBOzJDQUNDLENBQUUsdUJBQVcsRUFBRTsyQ0FDZixDQUFFLEVBQUUsdUJBQVcsRUFBRTtJQUFBO0dBQUE7a0JBRXhCLFdBQUE7WUFBRSxTQUFTO1lBQ1Q7OztFQUVOLFFBQU0sY0FBWSxjQUNHOzttQkFBcEIsT0FBUyxTQUFBLE9BQU8sRUFDSztzQkFESDtXQUNqQixTQUFNLE9BQUssYUFBYTtzQkFDSTtNQUEzQixlQUFTLElBQUUsRUFBRyxNQUFNO2FBQ3BCLE9BQU0sT0FBTyw0QkFBeUI7S0FBQTtJQUFBO0dBQUE7OztFQUV6QywyREFDZTtHQUFkLFVBQU07R0FDTixXQUNPLGVBQUE7SUFBTixpQkFBYSxPQUNVLFdBQUE7WUFBbkI7WUFDQTtLQUNFLFFBQUEsdUJBQU0sMkNBQ1U7cUNBQ2YsV0FBWSxJQUFFLEVBQUUsWUFBRyxXQUFZLElBQUUsRUFBRTtLQUFBO0lBQUE7cUVBQzNCLFdBQVcsSUFBSSxDQUFFLEVBQUUsRUFBRSxFQUFFLEVBQUUsRUFBRSxFQUFFLEdBQUcsR0FBRyxHQUFHO0dBQUE7a0JBQ3JELDBCQUFBLE9BQzJCOzhCQURwQixTQUFTO0lBQ2hCLFlBQVEsTUFBTTtJQUlkLFdBQU8sT0FBTztJQUNkLFdBQU8sS0FDUSxXQUFBO0tBQVQsUUFBQSxLQUFBLHdCQUNJO01BQ1IsV0FBVzthQUNSO0tBQUE7SUFBQTtXQUNMLGNBQVksS0FBSztHQUFBOztFQWxGbkIsd0JBQUE7a0JBb0ZBIiwiZmlsZSI6ImF0L1NlcS9MYXp5LVN0cmVhbS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

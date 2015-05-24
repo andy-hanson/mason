@@ -4,13 +4,12 @@ import { isEmpty } from './util'
 
 export default class VerifyResults {
 	constructor() {
-		this.accessToLocal = new Map()
-		// LocalDeclare -> VrLocalInfo
+		// LocalAccess -> LocalDeclare.
+		// Needed because lazy accesses must be compiled differently.
+		this.localAccessToDeclare = new Map()
+		// LocalDeclare -> VrLocalInfo.
+		// Debug locals will not be output if not in debug mode.
 		this.localDeclareToInfo = new Map()
-		// BagEntry or MapEntry -> index
-		this.entryToIndex = new Map()
-		// BlockBag / BlockMap -> # entries
-		this.blockToLength = new Map()
 		// TODO:ES6 Can use do `export { a, b, ... }` at the end, so shouldn't need this.
 		// Includes both Assigns and AssignDestructures.
 		this.exportAssigns = new Set()
@@ -25,16 +24,12 @@ export default class VerifyResults {
 		return !(isEmpty(info.debugAccesses) && isEmpty(info.nonDebugAccesses))
 	}
 
-	listMapEntryIndex(entry) {
-		return this.entryToIndex.get(entry)
-	}
-
-	listMapLength(block) {
-		return this.blockToLength.get(block)
-	}
-
 	isExportAssign(assign) {
 		return this.exportAssigns.has(assign)
+	}
+
+	localDeclareForAccess(localAccess) {
+		return this.localAccessToDeclare.get(localAccess)
 	}
 }
 

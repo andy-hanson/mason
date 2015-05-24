@@ -71,7 +71,7 @@ run-turing.
 					1 -> L 1 "e"
 		[ sorting-test [ 2 2 2 1 1 1 ] ] -> [ 0 1 1 1 2 2 2 0 ]
 
-	|:Seq spec init-tape:Seq
+	|spec init-tape:Seq
 		rules:Object blank:Any init-state:Any = spec
 		tape = => Deque! case
 			empty? init-tape
