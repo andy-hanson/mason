@@ -22,7 +22,7 @@ use-debug
 	..Seq.Seq seq=?
 	.Map keys
 
-Hash-Map! = Wrap-Type
+Hash-Map!. Wrap-Type
 	doc. "Default Map! type. Depends on efficient `hash-code` of its keys."
 	# TODO: Remove, just use Map.implementor-test.
 	test. !|
@@ -123,5 +123,3 @@ kind! Hash-Map! Map!
 
 	empty! -> !|_
 		empty! _.val
-
-Hash-Map!

@@ -14,7 +14,7 @@ use-debug
 	..js defined?
 	..Try fails?
 
-Wrap-Type = Obj-Type
+Wrap-Type. Obj-Type
 	doc. "
 		Object with only one prop (always called `val`).
 		These are useful for wrapping a value with a new type.
@@ -59,5 +59,3 @@ impl! extract Wrap-Type |wt _
 			[ _.val ]
 		else
 			null
-
-Wrap-Type

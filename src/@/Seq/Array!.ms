@@ -12,7 +12,7 @@ use
 	..@-Type _ empty from-stream
 	.Seq! _ <++! ++>! ?<pop! ?pop>! set-nth!
 
-Array! = Pred-Type
+Array!. Pred-Type
 	doc. "
 		TODO:MORE
 		Unlike Deque!, pushing and popping elements from the left side is expensive.
@@ -50,5 +50,3 @@ kind! Array Seq!
 			_.pop()
 	set-nth! -> !|_ n:Nat val
 		js-set _ n val
-
-Array!

@@ -13,7 +13,7 @@ use
 	.Set
 	.Set!
 
-Hash-Set! = Wrap-Type
+Hash-Set!. Wrap-Type
 	doc. "
 		Set that considers elements equal using =?.
 		Relies on an efficient hash-code implementation.
@@ -42,5 +42,3 @@ kind! Hash-Set! Set!
 
 # TODO: This should not be necessary!
 impl! =? Hash-Set! (impl-for =? Set)
-
-Hash-Set!

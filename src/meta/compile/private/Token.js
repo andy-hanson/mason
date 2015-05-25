@@ -107,7 +107,7 @@ const
 export const
 	KW_Assign = kw('='),
 	KW_AssignMutable = kw('::='),
-	KW_AssignMutate = kw(':='),
+	KW_LocalMutate = kw(':='),
 	KW_Break = kw('break'),
 	KW_BreakDo = kw('break!'),
 	KW_Built = kw('built'),

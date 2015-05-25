@@ -1,7 +1,8 @@
 import { code } from '../CompileError'
 import * as MsAstTypes from '../MsAst'
-import { Assign, AssignDestructure, BlockVal, Call, Debug, Do, BagEntry, LocalDeclareRes,
-	MapEntry, Pattern, SpecialDo, Yield, YieldTo } from '../MsAst'
+import { Assign, AssignDestructure, AssignSingle, BlockVal, Call, Debug, Do, BagEntry,
+	LocalDeclareBuilt, LocalDeclareRes, ObjEntry, MapEntry, Pattern, SpecialDo, Yield, YieldTo
+	} from '../MsAst'
 import { assert, cat, eachReverse, head, ifElse, implementMany,
 	isEmpty, mapKeys, newSet, opEach } from './util'
 import VerifyResults, { LocalInfo } from './VerifyResults'
@@ -162,7 +163,7 @@ const
 
 const verifyLocalUse = () =>
 	results.localDeclareToInfo.forEach((info, local) => {
-		if (!(local instanceof LocalDeclareRes)) {
+		if (!(local instanceof LocalDeclareBuilt || local instanceof LocalDeclareRes)) {
 			const noNonDebug = isEmpty(info.nonDebugAccesses)
 			if (noNonDebug && isEmpty(info.debugAccesses))
 				context.warn(local.loc, () => `Unused local variable ${code(local.name)}.`)
@@ -176,7 +177,7 @@ const verifyLocalUse = () =>
 	})
 
 implementMany(MsAstTypes, 'verify', {
-	Assign() {
+	AssignSingle() {
 		const doV = () => {
 			// Assignee registered by verifyLines.
 			this.assignee.verify()
@@ -189,15 +190,8 @@ implementMany(MsAstTypes, 'verify', {
 	},
 
 	AssignDestructure() {
-		this.value.verify()
 		// Assignees registered by verifyLines.
 		this.assignees.forEach(verify)
-	},
-
-	AssignMutate() {
-		const declare = getLocalDeclare(this.name, this.loc)
-		context.check(declare.isMutable(), this.loc, () => `${code(this.name)} is not mutable.`)
-		// TODO: Track assignments. Mutable local must be mutated somewhere.
 		this.value.verify()
 	},
 
@@ -216,9 +210,10 @@ implementMany(MsAstTypes, 'verify', {
 	},
 
 	BlockObj() {
-		const newLocals = verifyLines(this.lines)
-		this.keys.forEach(_ => accessLocalForReturn(_, this))
-		opEach(this.opObjed, _ => plusLocals(newLocals, () => _.verify()))
+		verifyAndPlusLocal(this.built, () => {
+			const newLocals = verifyLines(this.lines)
+			opEach(this.opObjed, _ => plusLocals(newLocals, () => _.verify()))
+		})
 	},
 
 	BlockBag: verifyBlockBagOrMap,
@@ -240,11 +235,11 @@ implementMany(MsAstTypes, 'verify', {
 
 	CaseDo() { verifyCase(this) },
 	CaseDoPart: verifyCasePart,
-	// CaseVal uses IIFE, so can't break loop
+	// CaseVal uses IIFE, so can't break loop.
 	CaseVal() { withInLoop(false, () => verifyCase(this)) },
 	CaseValPart: verifyCasePart,
 
-	// Only reach here for in/out condition
+	// Only reach here for in/out condition.
 	Debug() { verifyLines([ this ]) },
 
 	ForDoPlain() { withInLoop(true, () => this.block.verify()) },
@@ -283,6 +278,13 @@ implementMany(MsAstTypes, 'verify', {
 	// Adding LocalDeclares to the available locals is done by Fun or lineNewLocals.
 	LocalDeclare() { opEach(this.opType, verify) },
 
+	LocalMutate() {
+		const declare = getLocalDeclare(this.name, this.loc)
+		context.check(declare.isMutable(), this.loc, () => `${code(this.name)} is not mutable.`)
+		// TODO: Track mutations. Mutable local must be mutated somewhere.
+		this.value.verify()
+	},
+
 	NumberLiteral() { },
 
 	MapEntry() {
@@ -303,13 +305,18 @@ implementMany(MsAstTypes, 'verify', {
 
 		const exports = newSet(this.exports)
 		const markExportLines = line => {
-			if (line instanceof Assign && exports.has(line.assignee) ||
-				line instanceof AssignDestructure && line.assignees.some(_ => exports.has(_)))
+			if (line instanceof Assign && line.allAssignees().some(_ => exports.has(_)))
 				results.exportAssigns.add(line)
 			else if (line instanceof Debug)
 				line.lines.forEach(markExportLines)
 		}
 		this.lines.forEach(markExportLines)
+	},
+
+	ObjEntry() {
+		accessLocal(this, 'built')
+		this.assign.verify()
+		this.assign.allAssignees().forEach(_ => accessLocal(this, _.name))
 	},
 
 	ObjSimple() {
@@ -403,10 +410,12 @@ const
 	},
 
 	lineNewLocals = line =>
-		line instanceof Assign ?
+		line instanceof AssignSingle ?
 			[ line.assignee ] :
 			line instanceof AssignDestructure ?
 			line.assignees :
+			line instanceof ObjEntry ?
+			lineNewLocals(line.assign) :
 			[ ],
 
 	verifyLines = lines => {
@@ -494,6 +503,7 @@ const
 			line instanceof YieldTo ||
 			line instanceof BagEntry ||
 			line instanceof MapEntry ||
+			line instanceof ObjEntry ||
 			line instanceof SpecialDo
 		context.check(isStatement, line.loc, 'Expression in statement position.')
 	}

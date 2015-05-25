@@ -12,9 +12,10 @@ define(["exports","../../bang","../../at/at","../../at/Seq/Seq","../../at/Seq/St
 			};
 			return Stream(_ms.sub(rec,0,1))
 		}();
-		const zeckendorf=exports.zeckendorf=function(){
-			const doc="http://rosettacode.org/wiki/Zeckendorf_number_representation";
-			const test=function test(){
+		const zeckendorf=function(){
+			const built={};
+			const doc=built.doc="http://rosettacode.org/wiki/Zeckendorf_number_representation";
+			const test=built.test=function test(){
 				const built=new global.Map();
 				_ms.assoc(built,[0],"");
 				_ms.assoc(built,[1],"1");
@@ -41,10 +42,11 @@ define(["exports","../../bang","../../at/at","../../at/Seq/Seq","../../at/Seq/St
 				});
 				_33(_61_63,0,left);
 				return _61_62(String,digits)
-			},"doc",doc,"test",test)
+			},built)
 		}();
 		const name=exports.name="zeckendorf";
+		exports.default=zeckendorf;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL2RlbW8vemVja2VuZG9yZi5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQVVBLHFCQUNNO0dBQUwsVUFBUyxjQUFBLEtBQVMsSUFDTztzQkFEWDtzQkFBUTtXQUNsQjtZQUNDLElBQUksSUFBSyxJQUFFLEtBQUs7R0FBQTtVQUNyQixlQUFPLElBQUksRUFBRTtFQUFBO0VBRWQsOENBQ1c7R0FBVixVQUFNO0dBQ04sV0FDTyxlQUFBOztvQkFBTixDQUFFLEdBQVE7b0JBQ1YsQ0FBRSxHQUFRO29CQUNWLENBQUUsSUFBUztvQkFDWCxDQUFFLE1BQVc7OztrQkFDYixvQkFBQSxFQUNLO3NCQURIO0lBQ0YsZUFBUyxLQUFLO0lBQ2QsdUJBQWlCLFFBQVMsZ0JBQVksU0FBUSxTQUFBLEVBQ0M7WUFBOUMsVUFBSSxFQUFFO0lBQUE7SUFDUCxTQUFTO0lBQ1QsYUFBUyxJQUFJLGlCQUFnQixTQUFBLEVBQUE7O01BQzVCLFlBQUEsVUFBSSxFQUFFLE9BQ0k7WUFBRCxJQUFFLEtBQUs7Y0FDZjtNQUFBLE9BRUc7Y0FBSDtNQUFBO0tBQUE7SUFBQTtJQUNGLElBQUUsT0FBRyxFQUFFO1dBQ1AsT0FBRyxPQUFPO0dBQUE7O0VBbkNaLHdCQUFBIiwiZmlsZSI6Im1ldGEvZGVtby96ZWNrZW5kb3JmLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL2RlbW8vemVja2VuZG9yZi5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQVVBLHFCQUNNO0dBQUwsVUFBUyxjQUFBLEtBQVMsSUFDTztzQkFEWDtzQkFBUTtXQUNsQjtZQUNDLElBQUksSUFBSyxJQUFFLEtBQUs7R0FBQTtVQUNyQixlQUFPLElBQUksRUFBRTtFQUFBO0VBRWQsMkJBQ1c7O0dBQVYsb0JBQU07R0FDTixzQkFDTyxlQUFBOztvQkFBTixDQUFFLEdBQVE7b0JBQ1YsQ0FBRSxHQUFRO29CQUNWLENBQUUsSUFBUztvQkFDWCxDQUFFLE1BQVc7OztrQkFDYixvQkFBQSxFQUNLO3NCQURIO0lBQ0YsZUFBUyxLQUFLO0lBQ2QsdUJBQWlCLFFBQVMsZ0JBQVksU0FBUSxTQUFBLEVBQ0M7WUFBOUMsVUFBSSxFQUFFO0lBQUE7SUFDUCxTQUFTO0lBQ1QsYUFBUyxJQUFJLGlCQUFnQixTQUFBLEVBQUE7O01BQzVCLFlBQUEsVUFBSSxFQUFFLE9BQ0k7WUFBRCxJQUFFLEtBQUs7Y0FDZjtNQUFBLE9BRUc7Y0FBSDtNQUFBO0tBQUE7SUFBQTtJQUNGLElBQUUsT0FBRyxFQUFFO1dBQ1AsT0FBRyxPQUFPO0dBQUE7O0VBbkNaLHdCQUFBO2tCQWdCQSIsImZpbGUiOiJtZXRhL2RlbW8vemVja2VuZG9yZi5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

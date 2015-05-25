@@ -12,7 +12,7 @@ use-debug
 	...!
 	.Seq seq=?
 
-Stream = Wrap-Type
+Stream. Wrap-Type
 	doc. "
 		A Stream is a @ whose elements are the outputs of a Generator!.
 		Unlike a Generator!, a Stream can be used multiple times.
@@ -35,5 +35,3 @@ self-impl! from-stream Stream |_
 kind! Stream Seq
 js-impl! iterator Stream |
 	this.val()
-
-Stream

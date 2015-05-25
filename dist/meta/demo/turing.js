@@ -18,129 +18,104 @@ define(["exports","../../at/at","../../at/Seq/Dequebang","../../at/Seq/Seq","../
 			}
 		};
 		const fin=exports.fin=function(){
-			const doc="Stops the machine.";
-			return {
-				doc:doc,
-				name:"fin"
-			}
+			const built={};
+			const doc=built.doc="Stops the machine.";
+			return _ms.setName(built,"fin")
 		}();
 		const run_45turing=exports["run-turing"]=function(){
-			const doc="http://rosettacode.org/wiki/Universal_Turing_machine";
-			const test=function test(){
+			const built={};
+			const doc=built.doc="http://rosettacode.org/wiki/Universal_Turing_machine";
+			const test=built.test=function test(){
 				const built=new global.Map();
 				const incrementer=function(){
-					const init_45state="a";
-					const blank=0;
-					const rules=function(){
-						const a=function(){
+					const built={};
+					const init_45state=built["init-state"]="a";
+					const blank=built.blank=0;
+					const rules=built.rules=function(){
+						const built={};
+						const a=built.a=function(){
 							const built=new global.Map();
 							_ms.assoc(built,1,R(1,"a"));
 							_ms.assoc(built,0,fin);
 							return built
 						}();
-						return {
-							a:a,
-							name:"rules"
-						}
+						return _ms.setName(built,"rules")
 					}();
-					return {
-						"init-state":init_45state,
-						blank:blank,
-						rules:rules,
-						name:"incrementer"
-					}
+					return _ms.setName(built,"incrementer")
 				}();
 				_ms.assoc(built,[incrementer,[1,1,1]],[1,1,1,0]);
 				const busy_45beaver=function(){
-					const init_45state="a";
-					const blank=0;
-					const rules=function(){
-						const a=function(){
+					const built={};
+					const init_45state=built["init-state"]="a";
+					const blank=built.blank=0;
+					const rules=built.rules=function(){
+						const built={};
+						const a=built.a=function(){
 							const built=new global.Map();
 							_ms.assoc(built,0,R(1,"b"));
 							_ms.assoc(built,1,L(1,"c"));
 							return built
 						}();
-						const b=function(){
+						const b=built.b=function(){
 							const built=new global.Map();
 							_ms.assoc(built,0,L(1,"a"));
 							_ms.assoc(built,1,R(1,"b"));
 							return built
 						}();
-						const c=function(){
+						const c=built.c=function(){
 							const built=new global.Map();
 							_ms.assoc(built,0,L(1,"b"));
 							_ms.assoc(built,1,fin);
 							return built
 						}();
-						return {
-							a:a,
-							b:b,
-							c:c,
-							name:"rules"
-						}
+						return _ms.setName(built,"rules")
 					}();
-					return {
-						"init-state":init_45state,
-						blank:blank,
-						rules:rules,
-						name:"busy-beaver"
-					}
+					return _ms.setName(built,"busy-beaver")
 				}();
 				_ms.assoc(built,[busy_45beaver,[]],[1,1,1,1,1,1]);
 				const sorting_45test=function(){
-					const init_45state="a";
-					const blank=0;
-					const rules=function(){
-						const a=function(){
+					const built={};
+					const init_45state=built["init-state"]="a";
+					const blank=built.blank=0;
+					const rules=built.rules=function(){
+						const built={};
+						const a=built.a=function(){
 							const built=new global.Map();
 							_ms.assoc(built,0,L(0,"e"));
 							_ms.assoc(built,1,R(1,"a"));
 							_ms.assoc(built,2,R(3,"b"));
 							return built
 						}();
-						const b=function(){
+						const b=built.b=function(){
 							const built=new global.Map();
 							_ms.assoc(built,0,L(0,"c"));
 							_ms.assoc(built,1,R(1,"b"));
 							_ms.assoc(built,2,R(2,"b"));
 							return built
 						}();
-						const c=function(){
+						const c=built.c=function(){
 							const built=new global.Map();
 							_ms.assoc(built,1,L(2,"d"));
 							_ms.assoc(built,2,L(2,"c"));
 							_ms.assoc(built,3,L(2,"e"));
 							return built
 						}();
-						const d=function(){
+						const d=built.d=function(){
 							const built=new global.Map();
 							_ms.assoc(built,1,L(1,"d"));
 							_ms.assoc(built,2,L(2,"d"));
 							_ms.assoc(built,3,R(1,"a"));
 							return built
 						}();
-						const e=function(){
+						const e=built.e=function(){
 							const built=new global.Map();
 							_ms.assoc(built,0,fin);
 							_ms.assoc(built,1,L(1,"e"));
 							return built
 						}();
-						return {
-							a:a,
-							b:b,
-							c:c,
-							d:d,
-							e:e,
-							name:"rules"
-						}
+						return _ms.setName(built,"rules")
 					}();
-					return {
-						"init-state":init_45state,
-						blank:blank,
-						rules:rules,
-						name:"sorting-test"
-					}
+					return _ms.setName(built,"sorting-test")
 				}();
 				_ms.assoc(built,[sorting_45test,[2,2,2,1,1,1]],[0,1,1,1,2,2,2,0]);
 				return built
@@ -184,10 +159,10 @@ define(["exports","../../at/at","../../at/Seq/Dequebang","../../at/Seq/Seq","../
 					}()
 				};
 				return res
-			},"doc",doc,"test",test)
+			},built)
 		}();
 		const name=exports.name="turing";
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL2RlbW8vdHVyaW5nLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBYUMsa0JBQUksV0FBQSxRQUFRLFlBQ1M7VUFDcEI7VUFBUTtlQUFrQjtVQUFZO0dBQUE7RUFBQTtFQUN2QyxrQkFBSSxXQUFBLFFBQVEsWUFDUztVQUFwQjtVQUFRO2VBQWtCO1VBQWE7R0FBQTtFQUFBO0VBQ3hDLGdDQUNJO0dBQUgsVUFBTTs7Ozs7O0VBRVIsbURBQ1c7R0FBVixVQUFNO0dBQ04sV0FDTyxlQUFBOztJQUFOLDRCQUNhO0tBQVosbUJBQWE7S0FDYixZQUFPO0tBQ1Asc0JBQ007TUFBTCxrQkFDRTs7dUJBQUQsRUFBSyxFQUFFLEVBQUc7dUJBQ1YsRUFBSzs7Ozs7Ozs7Ozs7Ozs7O29CQUNSLENBQUUsWUFBWSxDQUFFLEVBQUUsRUFBRSxJQUFTLENBQUUsRUFBRSxFQUFFLEVBQUU7SUFFckMsOEJBQ2E7S0FBWixtQkFBYTtLQUNiLFlBQU87S0FDUCxzQkFDTTtNQUFMLGtCQUNFOzt1QkFBRCxFQUFLLEVBQUUsRUFBRzt1QkFDVixFQUFLLEVBQUUsRUFBRzs7O01BQ1gsa0JBQ0U7O3VCQUFELEVBQUssRUFBRSxFQUFHO3VCQUNWLEVBQUssRUFBRSxFQUFHOzs7TUFDWCxrQkFDRTs7dUJBQUQsRUFBSyxFQUFFLEVBQUc7dUJBQ1YsRUFBSzs7Ozs7Ozs7Ozs7Ozs7Ozs7b0JBQ1IsQ0FBRSxjQUFZLElBQVMsQ0FBRSxFQUFFLEVBQUUsRUFBRSxFQUFFLEVBQUU7SUFFbkMsK0JBQ2M7S0FBYixtQkFBYTtLQUNiLFlBQU87S0FDUCxzQkFDTTtNQUFMLGtCQUNFOzt1QkFBRCxFQUFLLEVBQUUsRUFBRzt1QkFDVixFQUFLLEVBQUUsRUFBRzt1QkFDVixFQUFLLEVBQUUsRUFBRzs7O01BQ1gsa0JBQ0U7O3VCQUFELEVBQUssRUFBRSxFQUFHO3VCQUNWLEVBQUssRUFBRSxFQUFHO3VCQUNWLEVBQUssRUFBRSxFQUFHOzs7TUFDWCxrQkFDRTs7dUJBQUQsRUFBSyxFQUFFLEVBQUc7dUJBQ1YsRUFBSyxFQUFFLEVBQUc7dUJBQ1YsRUFBSyxFQUFFLEVBQUc7OztNQUNYLGtCQUNFOzt1QkFBRCxFQUFLLEVBQUUsRUFBRzt1QkFDVixFQUFLLEVBQUUsRUFBRzt1QkFDVixFQUFLLEVBQUUsRUFBRzs7O01BQ1gsa0JBQ0U7O3VCQUFELEVBQUs7dUJBQ0wsRUFBSyxFQUFFLEVBQUc7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7b0JBQ2IsQ0FBRSxlQUFhLENBQUUsRUFBRSxFQUFFLEVBQUUsRUFBRSxFQUFFLElBQVMsQ0FBRSxFQUFFLEVBQUUsRUFBRSxFQUFFLEVBQUUsRUFBRSxFQUFFOzs7a0JBRXBELHNCQUFBLEtBQUssWUFDYTtzQkFESDtJQUNmLFdBQXdDLDZCQUFsQyxtREFBYSx1REFBZTtJQUNsQyxXQUFPLE9BQUc7S0FDVCxZQUFBLFNBQU8sY0FDUzthQUFmLENBQUU7S0FBQSxPQUVDO2FBQUg7S0FBQTtJQUFBO0lBQ0YsVUFBVTtJQUNWLFVBQVU7SUFFVixRQUFRO0lBRUosT0FBQTtLQUFILDRCQUFjLEtBQUs7S0FDbkIsMEJBQWEsRUFBRSxNQUFNLE9BQU87S0FFNUIsWUFBSSxTQUFLLFlBQVUsTUFDRztVQUFkLE9BQUcsTUFBTTtNQUNoQjtLQUFBO0tBRUQsV0FBaUI7V0FDUjtLQUNULGFBQVMsS0FBSyxNQUFNOztNQUNOLFFBQUE7TUFDYixZQUFBLFlBQ1E7T0FBUCxZQUFJLE9BQUcsRUFBRyxJQUFHLE1BQU0sTUFBTSxLQUNFO1FBQzFCLGFBQUssS0FBSyxDQUFFO09BQUE7Y0FDYixJQUFFLEVBQUU7TUFBQSxPQUNMLFlBQUEsT0FBRyxFQUFFLElBQ0M7T0FDTCxhQUFLLEtBQUssQ0FBRTtjQUNaO01BQUEsT0FFRztjQUFILElBQUUsRUFBRTtNQUFBO0tBQUE7SUFBQTtXQUNQO0dBQUE7O0VBM0dGLHdCQUFBIiwiZmlsZSI6Im1ldGEvZGVtby90dXJpbmcuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL2RlbW8vdHVyaW5nLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBYUMsa0JBQUksV0FBQSxRQUFRLFlBQ1M7VUFDcEI7VUFBUTtlQUFrQjtVQUFZO0dBQUE7RUFBQTtFQUN2QyxrQkFBSSxXQUFBLFFBQVEsWUFDUztVQUFwQjtVQUFRO2VBQWtCO1VBQWE7R0FBQTtFQUFBO0VBQ3hDLGdDQUNJOztHQUFILG9CQUFNOzs7RUFFUixtREFDVzs7R0FBVixvQkFBTTtHQUNOLHNCQUNPLGVBQUE7O0lBQU4sNEJBQ2E7O0tBQVosdUNBQWE7S0FDYix3QkFBTztLQUNQLGtDQUNNOztNQUFMLDBCQUNFOzt1QkFBRCxFQUFLLEVBQUUsRUFBRzt1QkFDVixFQUFLOzs7Ozs7O29CQUNSLENBQUUsWUFBWSxDQUFFLEVBQUUsRUFBRSxJQUFTLENBQUUsRUFBRSxFQUFFLEVBQUU7SUFFckMsOEJBQ2E7O0tBQVosdUNBQWE7S0FDYix3QkFBTztLQUNQLGtDQUNNOztNQUFMLDBCQUNFOzt1QkFBRCxFQUFLLEVBQUUsRUFBRzt1QkFDVixFQUFLLEVBQUUsRUFBRzs7O01BQ1gsMEJBQ0U7O3VCQUFELEVBQUssRUFBRSxFQUFHO3VCQUNWLEVBQUssRUFBRSxFQUFHOzs7TUFDWCwwQkFDRTs7dUJBQUQsRUFBSyxFQUFFLEVBQUc7dUJBQ1YsRUFBSzs7Ozs7OztvQkFDUixDQUFFLGNBQVksSUFBUyxDQUFFLEVBQUUsRUFBRSxFQUFFLEVBQUUsRUFBRTtJQUVuQywrQkFDYzs7S0FBYix1Q0FBYTtLQUNiLHdCQUFPO0tBQ1Asa0NBQ007O01BQUwsMEJBQ0U7O3VCQUFELEVBQUssRUFBRSxFQUFHO3VCQUNWLEVBQUssRUFBRSxFQUFHO3VCQUNWLEVBQUssRUFBRSxFQUFHOzs7TUFDWCwwQkFDRTs7dUJBQUQsRUFBSyxFQUFFLEVBQUc7dUJBQ1YsRUFBSyxFQUFFLEVBQUc7dUJBQ1YsRUFBSyxFQUFFLEVBQUc7OztNQUNYLDBCQUNFOzt1QkFBRCxFQUFLLEVBQUUsRUFBRzt1QkFDVixFQUFLLEVBQUUsRUFBRzt1QkFDVixFQUFLLEVBQUUsRUFBRzs7O01BQ1gsMEJBQ0U7O3VCQUFELEVBQUssRUFBRSxFQUFHO3VCQUNWLEVBQUssRUFBRSxFQUFHO3VCQUNWLEVBQUssRUFBRSxFQUFHOzs7TUFDWCwwQkFDRTs7dUJBQUQsRUFBSzt1QkFDTCxFQUFLLEVBQUUsRUFBRzs7Ozs7OztvQkFDYixDQUFFLGVBQWEsQ0FBRSxFQUFFLEVBQUUsRUFBRSxFQUFFLEVBQUUsSUFBUyxDQUFFLEVBQUUsRUFBRSxFQUFFLEVBQUUsRUFBRSxFQUFFLEVBQUU7OztrQkFFcEQsc0JBQUEsS0FBSyxZQUNhO3NCQURIO0lBQ2YsV0FBd0MsNkJBQWxDLG1EQUFhLHVEQUFlO0lBQ2xDLFdBQU8sT0FBRztLQUNULFlBQUEsU0FBTyxjQUNTO2FBQWYsQ0FBRTtLQUFBLE9BRUM7YUFBSDtLQUFBO0lBQUE7SUFDRixVQUFVO0lBQ1YsVUFBVTtJQUVWLFFBQVE7SUFFSixPQUFBO0tBQUgsNEJBQWMsS0FBSztLQUNuQiwwQkFBYSxFQUFFLE1BQU0sT0FBTztLQUU1QixZQUFJLFNBQUssWUFBVSxNQUNHO1VBQWQsT0FBRyxNQUFNO01BQ2hCO0tBQUE7S0FFRCxXQUFpQjtXQUNSO0tBQ1QsYUFBUyxLQUFLLE1BQU07O01BQ04sUUFBQTtNQUNiLFlBQUEsWUFDUTtPQUFQLFlBQUksT0FBRyxFQUFHLElBQUcsTUFBTSxNQUFNLEtBQ0U7UUFDMUIsYUFBSyxLQUFLLENBQUU7T0FBQTtjQUNiLElBQUUsRUFBRTtNQUFBLE9BQ0wsWUFBQSxPQUFHLEVBQUUsSUFDQztPQUNMLGFBQUssS0FBSyxDQUFFO2NBQ1o7TUFBQSxPQUVHO2NBQUgsSUFBRSxFQUFFO01BQUE7S0FBQTtJQUFBO1dBQ1A7R0FBQTs7RUEzR0Ysd0JBQUEiLCJmaWxlIjoibWV0YS9kZW1vL3R1cmluZy5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

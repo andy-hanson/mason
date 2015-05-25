@@ -81,7 +81,7 @@ make-callable-method = |method
 	debug pAdd call "source" src
 	call
 
-Method = Obj-Type
+Method. Obj-Type
 	doc. "
 		TODO:REST
 		The `doc` of the method should be its signature, followed by a string of the meaning.
@@ -270,5 +270,3 @@ contains? = Method
 	# args. 2 TODO
 	impl-symbol. containsImplSymbol
 msDef "contains" contains?
-
-Method

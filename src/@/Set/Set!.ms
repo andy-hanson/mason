@@ -12,7 +12,7 @@ use-debug
 	..@ empty?
 	..@! ++! --! empty!
 
-Set! = Kind
+Set!. Kind
 	doc. "Mutable Set."
 	implementor-test. !|type
 		_ = empty type
@@ -35,5 +35,3 @@ self-kind! Set! @-Type
 # TODO: Way to determine which one of these is more important
 kind! Set! Set
 kind! Set! @!
-
-Set!

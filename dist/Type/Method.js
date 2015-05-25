@@ -76,16 +76,14 @@ define(["exports","esast/dist/mangle-identifier","../Boolean","../js","../privat
 			return call
 		};
 		const Method=Obj_45Type(function(){
-			const doc="TODO:REST\nThe `doc` of the method should be its signature, followed by a string of the meaning.\nFor example:\n\tsizeness.\n\t\tdoc. |:Int _\n\t\t\t\"How big it is.\"\n\t\t...\nThe `wrap` property can replace the default calling mechanism.\nIt will be given the implementation, then the method's arguments.\nYou can use this to, for example, apply in/out conditions to every implementation.\n\tsizeness.\n\t\twrap. |impl x\n\t\t\tout\n\t\t\t\t! >=? res 0\n\t\t\timpl x";
-			const test=function test(){
+			const built={};
+			const doc=built.doc="TODO:REST\nThe `doc` of the method should be its signature, followed by a string of the meaning.\nFor example:\n\tsizeness.\n\t\tdoc. |:Int _\n\t\t\t\"How big it is.\"\n\t\t...\nThe `wrap` property can replace the default calling mechanism.\nIt will be given the implementation, then the method's arguments.\nYou can use this to, for example, apply in/out conditions to every implementation.\n\tsizeness.\n\t\twrap. |impl x\n\t\t\tout\n\t\t\t\t! >=? res 0\n\t\t\timpl x";
+			const test=built.test=function test(){
 				const m=Method(function(){
-					const allow_45null_63=true;
-					const _default=_ms.unlazy(thunk)("default");
-					return {
-						"allow-null?":allow_45null_63,
-						default:_default,
-						name:"m"
-					}
+					const built={};
+					const allow_45null_63=built["allow-null?"]=true;
+					const _default=built.default=_ms.unlazy(thunk)("default");
+					return _ms.setName(built,"m")
 				}());
 				impl_33(m,String,_ms.unlazy(thunk)("String"));
 				impl_45double_33(m,Number,Number,_ms.unlazy(thunk)("Number Number"));
@@ -99,76 +97,56 @@ define(["exports","esast/dist/mangle-identifier","../Boolean","../js","../privat
 				});
 				_ms.unlazy(_33)(_ms.unlazy(_61_63),"wrap-call-arg",function(){
 					const wrap_45method=Method(function(){
-						const _default=function _default(_){
+						const built={};
+						const _default=built.default=function _default(_){
 							return ("call-"+_ms.show(_))
 						};
-						const wrap=function wrap(impl,arg){
+						const wrap=built.wrap=function wrap(impl,arg){
 							return ("wrap-"+_ms.show(impl(arg)))
 						};
-						return {
-							default:_default,
-							wrap:wrap,
-							name:"wrap-method"
-						}
+						return _ms.setName(built,"wrap-method")
 					}());
 					return wrap_45method("arg")
 				}())
 			};
-			const props=function(){
-				const name=String;
-				const impl_45symbol=String;
-				return {
-					name:name,
-					"impl-symbol":impl_45symbol
-				}
+			const props=built.props=function(){
+				const built={};
+				const name=built.name=String;
+				const impl_45symbol=built["impl-symbol"]=String;
+				return built
 			}();
-			const opt_45props=function(){
-				const args=null;
-				const _default=Function;
-				const allow_45null_63=Boolean;
-				const wrap=Function;
-				return {
-					args:args,
-					default:_default,
-					"allow-null?":allow_45null_63,
-					wrap:wrap,
-					name:"opt-props"
-				}
+			const opt_45props=built["opt-props"]=function(){
+				const built={};
+				const args=built.args=null;
+				const _default=built.default=Function;
+				const allow_45null_63=built["allow-null?"]=Boolean;
+				const wrap=built.wrap=Function;
+				return _ms.setName(built,"opt-props")
 			}();
-			const extensible=true;
-			const defaults=function(){
-				const name=function name(){
+			const extensible=built.extensible=true;
+			const defaults=built.defaults=function(){
+				const built={};
+				const name=built.name=function name(){
 					ohNo("Must provide name.")
 				};
-				const impl_45symbol=function impl_45symbol(_){
+				const impl_45symbol=built["impl-symbol"]=function impl_45symbol(_){
 					return ("impl-"+_ms.show(_.name))
 				};
-				return {
-					name:name,
-					"impl-symbol":impl_45symbol
-				}
+				return built
 			}();
-			const make_45callable=make_45callable_45method;
-			return {
-				doc:doc,
-				test:test,
-				props:props,
-				"opt-props":opt_45props,
-				extensible:extensible,
-				defaults:defaults,
-				"make-callable":make_45callable,
-				name:"Method"
-			}
+			const make_45callable=built["make-callable"]=make_45callable_45method;
+			return _ms.setName(built,"Method")
 		}());
 		const impl_33=exports["impl!"]=function(){
-			const doc="Implements a Method for a type or types.";
-			const test="See Method.test.";
+			const built={};
+			const doc=built.doc="Implements a Method for a type or types.";
+			const test=built.test="See Method.test.";
 			return _ms.set(function impl_33(method,implementor,implementation){
 				_ms.checkContains(Method,method,"method");
 				_ms.checkContains(_ms.unlazy(Impl_45Type),implementor,"implementor");
 				_ms.checkContains(Function,implementation,"implementation");
 				do_45impl_33(method,implementor,implementation)
-			},"doc",doc,"test",test)
+			},built)
 		}();
 		const impl_45double_33=exports["impl-double!"]=function impl_45double_33(method,implementor_450,implementor_451,implementation){
 			_ms.checkContains(Method,method,"method");
@@ -179,16 +157,12 @@ define(["exports","esast/dist/mangle-identifier","../Boolean","../js","../privat
 				if(_ms.bool(writable_63(implementor_450.prototype,method["impl-symbol"]))){
 					const m=method;
 					const dd=Double_45Dispatcher(function(){
-						const name="<double dispatcher>";
-						const method=m;
-						const first_45type=implementor_450;
-						const impl_45symbol=Symbol("<double dispatcher>");
-						return {
-							name:name,
-							method:method,
-							"first-type":first_45type,
-							"impl-symbol":impl_45symbol
-						}
+						const built={};
+						const name=built.name="<double dispatcher>";
+						const method=built.method=m;
+						const first_45type=built["first-type"]=implementor_450;
+						const impl_45symbol=built["impl-symbol"]=Symbol("<double dispatcher>");
+						return built
 					}());
 					do_45impl_33(method,implementor_450,dd);
 					return dd
@@ -206,8 +180,9 @@ define(["exports","esast/dist/mangle-identifier","../Boolean","../js","../privat
 			do_45impl_33(dispatcher,implementor_451,implementation)
 		};
 		const self_45impl_33=exports["self-impl!"]=function(){
-			const doc="TODO";
-			const test=function test(){};
+			const built={};
+			const doc=built.doc="TODO";
+			const test=built.test=function test(){};
 			return _ms.set(function self_45impl_33(method,implementor,implementation){
 				_ms.checkContains(Method,method,"method");
 				_ms.checkContains(Object,implementor,"implementor");
@@ -217,11 +192,12 @@ define(["exports","esast/dist/mangle-identifier","../Boolean","../js","../privat
 					_ms.unlazy(noop)(implementor);
 					return Function.apply.call(implementation,null,[].concat(_ms.arr(args)))
 				})
-			},"doc",doc,"test",test)
+			},built)
 		}();
 		const _63impl_45for=exports["?impl-for"]=function(){
-			const doc="Implementation of a method for a particular Impl-Type.\nDoes not reference method.default or impls on super-types.\nEmpty if the type would use method.default.";
-			const test=function test(){
+			const built={};
+			const doc=built.doc="Implementation of a method for a particular Impl-Type.\nDoes not reference method.default or impls on super-types.\nEmpty if the type would use method.default.";
+			const test=built.test=function test(){
 				const built=new global.Map();
 				_ms.assoc(built,[contains_63,Method],_ms.unlazy(_63)(method_45contains_63));
 				_ms.assoc(built,[_ms.unlazy(_61_63),Method],_ms.unlazy(empty)(_ms.unlazy(_63)));
@@ -236,11 +212,12 @@ define(["exports","esast/dist/mangle-identifier","../Boolean","../js","../privat
 				})),_ms.lazy(function(){
 					return desc.value
 				}))
-			},"doc",doc,"test",test)
+			},built)
 		}();
 		const impl_45for=exports["impl-for"]=function(){
-			const doc="impl-for that fails when there is no implementation.";
-			const test=function test(){
+			const built={};
+			const doc=built.doc="impl-for that fails when there is no implementation.";
+			const test=built.test=function test(){
 				const built=new global.Map();
 				_ms.assoc(built,[contains_63,Method],method_45contains_63);
 				_ms.unlazy(_33)(impl_45for(contains_63,_ms.unlazy(Kind)),_ms.unlazy(Impl_45Type),_ms.unlazy(Kind));
@@ -252,7 +229,7 @@ define(["exports","esast/dist/mangle-identifier","../Boolean","../js","../privat
 				return _ms.unlazy(un_45_63)(_63impl_45for(method,type),_ms.lazy(function(){
 					return ((((""+_ms.show(method))+" not implemented for ")+_ms.show(type))+".")
 				}))
-			},"doc",doc,"test",test)
+			},built)
 		}();
 		const writable_63=function writable_63(obj,property){
 			const desc=Object.getOwnPropertyDescriptor(obj,property);
@@ -273,16 +250,12 @@ define(["exports","esast/dist/mangle-identifier","../Boolean","../js","../privat
 						}
 					} else {
 						Object.defineProperty(_.prototype,method_45symbol,function(){
-							const value=implementation;
-							const writable=true;
-							const configurable=true;
-							const enumerable=false;
-							return {
-								value:value,
-								writable:writable,
-								configurable:configurable,
-								enumerable:enumerable
-							}
+							const built={};
+							const value=built.value=implementation;
+							const writable=built.writable=true;
+							const configurable=built.configurable=true;
+							const enumerable=built.enumerable=false;
+							return built
 						}())
 					}
 				}
@@ -293,16 +266,12 @@ define(["exports","esast/dist/mangle-identifier","../Boolean","../js","../privat
 				ohNo((((("Can not redefine method "+_ms.show(method))+" for ")+_ms.show(implementor))+"."))
 			};
 			Object.defineProperty(implementor.prototype,method["impl-symbol"],function(){
-				const value=implementation;
-				const writable=false;
-				const configurable=false;
-				const enumerable=false;
-				return {
-					value:value,
-					writable:writable,
-					configurable:configurable,
-					enumerable:enumerable
-				}
+				const built={};
+				const value=built.value=implementation;
+				const writable=built.writable=false;
+				const configurable=built.configurable=false;
+				const enumerable=built.enumerable=false;
+				return built
 			}());
 			if(_ms.bool(contains_63(_ms.unlazy(Kind),implementor))){
 				for(let _ of implementor.implementors[Symbol.iterator]()){
@@ -311,19 +280,16 @@ define(["exports","esast/dist/mangle-identifier","../Boolean","../js","../privat
 			}
 		};
 		const Double_45Dispatcher=Obj_45Type(function(){
-			const props=function(){
-				const name=String;
-				const method=Method;
-				const first_45type=null;
-				const impl_45symbol=Symbol;
-				return {
-					name:name,
-					method:method,
-					"first-type":first_45type,
-					"impl-symbol":impl_45symbol
-				}
+			const built={};
+			const props=built.props=function(){
+				const built={};
+				const name=built.name=String;
+				const method=built.method=Method;
+				const first_45type=built["first-type"]=null;
+				const impl_45symbol=built["impl-symbol"]=Symbol;
+				return built
 			}();
-			const make_45callable=function make_45callable(_){
+			const make_45callable=built["make-callable"]=function make_45callable(_){
 				return function(){
 					const args=[].slice.call(arguments,0);
 					const target_452=js_45sub(args,1);
@@ -341,24 +307,17 @@ define(["exports","esast/dist/mangle-identifier","../Boolean","../js","../privat
 					return Function.apply.call(impl,null,[].concat(_ms.arr(args)))
 				}
 			};
-			return {
-				props:props,
-				"make-callable":make_45callable,
-				name:"Double-Dispatcher"
-			}
+			return _ms.setName(built,"Double-Dispatcher")
 		}());
 		const method_45contains_63=function method_45contains_63(method,value){
 			return _ms.unlazy(p_45with_45proto_63)(value,method["impl-symbol"])
 		};
 		implContains(Method,method_45contains_63);
 		const contains_63=Method(function(){
-			const doc="|:Boolean collection value\nWhether some collection of things as as an element `value`.\"";
-			const impl_45symbol=containsImplSymbol;
-			return {
-				doc:doc,
-				"impl-symbol":impl_45symbol,
-				name:"contains?"
-			}
+			const built={};
+			const doc=built.doc="|:Boolean collection value\nWhether some collection of things as as an element `value`.\"";
+			const impl_45symbol=built["impl-symbol"]=containsImplSymbol;
+			return _ms.setName(built,"contains?")
 		}());
 		msDef("contains",contains_63);
 		const name=exports.name="Method";
@@ -366,4 +325,4 @@ define(["exports","esast/dist/mangle-identifier","../Boolean","../js","../privat
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL01ldGhvZC5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7O0VBd0JBLGNBQVMsaUJBQUEsRUFBQTs7SUFDUixZQUFBLFdBQVEsSUFDQztZQUFSLE1BQUssWUFBTSxFQUFFO0lBQUEsT0FFVjtZQUFIO0lBQUE7R0FBQTtFQUFBO0VBRUYsbUJBQWMsc0JBQUEsT0FDTTtVQUFuQixTQUFVLFNBQUEsT0FDSTtJQUFiLG9CQUFZLFdBQVM7SUFDckI7S0FDQyxZQUFBLGVBQ1M7YUFBUjtPQUFvQixRQUFBO09BQ25CLHlCQUFDLE9BQUQsSUFDTztlQUFOO09BQUEsT0FDRCxZQUFBLGdCQUFjLEVBQUUsUUFDb0I7ZUFBbkM7OztZQUVDO2FBQUY7S0FBQTtJQUFBO0lBRUgsT0FBTSxnQ0FBaUIsb0JBQWtCLDZCQUFjO0lBQ3ZELFlBQUksUUFBTSx3QkFDa0I7S0FBckIsY0FBUSxXQUFTLGlCQUNjO01BQXBDLEtBQU07S0FBQTtLQUNQLE9BQU07SUFBQTtJQUVQO0tBQ0MsWUFBQSxXQUFTLGlCQUNjO2FBQXJCLG1CQUFNO1lBRUo7YUFBRixrQkFBSzs7O0lBRVI7S0FDQyxZQUFBLFdBQVMsY0FDVzthQUFsQixtQkFBTTtZQUVKO2FBQUYsRUFoQk8sWUFnQk47OztJQUVKO0tBQ0MsWUFBQSxlQUNTO2FBQVAsc0JBQVEsZ0JBQU07WUFFWjthQUVGLGtFQUNpQix5Q0FDQSw0Q0FDQSwrQ0FDQTs7O1dBR3BCLE9BQU07R0FBQTtFQUFBO0VBRVIsK0JBQXdCLGtDQUFBLE9BQ007R0FBN0IsVUFBTSxhQUFXO0dBQ2pCLFFBQUksU0FBVSxNQUFNLE9BQU07R0FDMUIsV0FBTyxFQUFFLGVBQWU7b0JBQ2IsS0FBTSxTQUFRO1VBQ3pCO0VBQUE7RUFFRCxhQUFTLHFCQUNRO0dBQWhCLFVBQ0M7R0FnQkQsV0FDUSxlQUFBO0lBQVAsUUFBSSxpQkFDTTtLQUFULHNCQUFhO0tBQ2Is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
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL01ldGhvZC5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7O0VBd0JBLGNBQVMsaUJBQUEsRUFBQTs7SUFDUixZQUFBLFdBQVEsSUFDQztZQUFSLE1BQUssWUFBTSxFQUFFO0lBQUEsT0FFVjtZQUFIO0lBQUE7R0FBQTtFQUFBO0VBRUYsbUJBQWMsc0JBQUEsT0FDTTtVQUFuQixTQUFVLFNBQUEsT0FDSTtJQUFiLG9CQUFZLFdBQVM7SUFDckI7S0FDQyxZQUFBLGVBQ1M7YUFBUjtPQUFvQixRQUFBO09BQ25CLHlCQUFDLE9BQUQsSUFDTztlQUFOO09BQUEsT0FDRCxZQUFBLGdCQUFjLEVBQUUsUUFDb0I7ZUFBbkM7OztZQUVDO2FBQUY7S0FBQTtJQUFBO0lBRUgsT0FBTSxnQ0FBaUIsb0JBQWtCLDZCQUFjO0lBQ3ZELFlBQUksUUFBTSx3QkFDa0I7S0FBckIsY0FBUSxXQUFTLGlCQUNjO01BQXBDLEtBQU07S0FBQTtLQUNQLE9BQU07SUFBQTtJQUVQO0tBQ0MsWUFBQSxXQUFTLGlCQUNjO2FBQXJCLG1CQUFNO1lBRUo7YUFBRixrQkFBSzs7O0lBRVI7S0FDQyxZQUFBLFdBQVMsY0FDVzthQUFsQixtQkFBTTtZQUVKO2FBQUYsRUFoQk8sWUFnQk47OztJQUVKO0tBQ0MsWUFBQSxlQUNTO2FBQVAsc0JBQVEsZ0JBQU07WUFFWjthQUVGLGtFQUNpQix5Q0FDQSw0Q0FDQSwrQ0FDQTs7O1dBR3BCLE9BQU07R0FBQTtFQUFBO0VBRVIsK0JBQXdCLGtDQUFBLE9BQ007R0FBN0IsVUFBTSxhQUFXO0dBQ2pCLFFBQUksU0FBVSxNQUFNLE9BQU07R0FDMUIsV0FBTyxFQUFFLGVBQWU7b0JBQ2IsS0FBTSxTQUFRO1VBQ3pCO0VBQUE7RUFFRCxhQUFRLHFCQUNROztHQUFmLG9CQUNDO0dBZ0JELHNCQUNRLGVBQUE7SUFBUCxRQUFJLGlCQUNNOztLQUFULDJDQUFhO0tB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

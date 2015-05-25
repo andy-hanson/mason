@@ -17,7 +17,8 @@ use-debug
 	..! _ !not
 	..compare =?
 	..Try fails?
-? = Wrap-Type
+
+?. Wrap-Type
 	doc. "
 		A Seq with 0 or 1 elements.
 		TODO: MORE
@@ -117,5 +118,3 @@ self-impl! extract Some |case
 		[ _.val ]
 	else
 		null
-
-?

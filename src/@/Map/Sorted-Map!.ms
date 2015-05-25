@@ -11,7 +11,7 @@ use-debug
 	.Map keys
 	.Map! assoc!
 
-Sorted-Map! = Kind
+Sorted-Map!. Kind
 	doc. "
 		Map! whose `keys` are in sorted order.
 		This kind of Map! depends on an efficient `compare` between its keys.
@@ -26,5 +26,3 @@ self-kind! Sorted-Map! Map-Type
 		empty Splay-Tree!
 
 kind! Sorted-Map! Map!
-
-Sorted-Map!

@@ -8,48 +8,38 @@ define(["exports","../methods","./Kind","./Method","./Obj-Type","./Type","../ban
 			return _ms.getDefaultExport(_63_6)
 		}),_$10=_ms.lazyGetModule(compare_7),_61_63=_ms.lazyProp(_$10,"=?");
 		const Alias_45Type=Obj_45Type(function(){
-			const doc="Contains the same instances as another type (officially), but has its own meaning and identity.";
-			const test=function test(){
+			const built={};
+			const doc=built.doc="Contains the same instances as another type (officially), but has its own meaning and identity.";
+			const test=built.test=function test(){
 				const A=Alias_45Type(function(){
-					const alias_45of=String;
-					return {
-						"alias-of":alias_45of,
-						name:"A"
-					}
+					const built={};
+					const alias_45of=built["alias-of"]=String;
+					return _ms.setName(built,"A")
 				}());
 				_ms.unlazy(_33)(contains_63,A,"0");
 				return _ms.unlazy(_33not)(_ms.unlazy(_61_63),A,String)
 			};
-			const props=function(){
-				const name=String;
-				const alias_45of=Type;
-				return {
-					name:name,
-					"alias-of":alias_45of
-				}
+			const props=built.props=function(){
+				const built={};
+				const name=built.name=String;
+				const alias_45of=built["alias-of"]=Type;
+				return built
 			}();
-			const extensible=true;
-			return {
-				doc:doc,
-				test:test,
-				props:props,
-				extensible:extensible,
-				name:"Alias-Type"
-			}
+			const extensible=built.extensible=true;
+			return _ms.setName(built,"Alias-Type")
 		}());
 		kind_33(Alias_45Type,Type);
 		impl_33(contains_63,Alias_45Type,function(_,value){
 			return contains_63(_["alias-of"],value)
 		});
 		impl_33(sub,Alias_45Type,function(){
-			const test=function test(){
+			const built={};
+			const test=built.test=function test(){
 				const built=new global.Map();
 				const _632=Alias_45Type(function(){
-					const alias_45of=_ms.unlazy(_63);
-					return {
-						"alias-of":alias_45of,
-						name:"?2"
-					}
+					const built={};
+					const alias_45of=built["alias-of"]=_ms.unlazy(_63);
+					return _ms.setName(built,"?2")
 				}());
 				_ms.assoc(built,[_632,String],_ms.sub(_ms.unlazy(_63),String));
 				return built
@@ -57,11 +47,11 @@ define(["exports","../methods","./Kind","./Method","./Obj-Type","./Type","../ban
 			return _ms.set(function(_){
 				const args=[].slice.call(arguments,1);
 				return Function.apply.call(sub,null,[].concat(_["alias-of"],_ms.arr(args)))
-			},"test",test)
+			},built)
 		}());
 		const name=exports.name="Alias-Type";
 		exports.default=Alias_45Type;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL0FsaWFzLVR5cGUubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7O0VBV0EsbUJBQWEscUJBQ1E7R0FBcEIsVUFBTTtHQUNOLFdBQ08sZUFBQTtJQUFOLFFBQUksdUJBQ1U7S0FBYixpQkFBVTs7Ozs7O29CQUNULFlBQVUsRUFBRztpREFDUCxFQUFFO0dBQUE7R0FDWCxzQkFDTTtJQUFMLFdBQU07SUFDTixpQkFBVTs7Ozs7O0dBQ1gsaUJBQVk7Ozs7Ozs7OztFQUViLFFBQU0sYUFBVztFQUdqQixRQUFNLFlBQVUsYUFBWSxTQUFBLEVBQUUsTUFDSztVQUFsQyxZQUFVLGNBQVc7RUFBQTtFQUd0QixRQUFNLElBQUksdUJBQ1U7R0FBbkIsV0FDTyxlQUFBOztJQUFOLFdBQUssdUJBQ1U7S0FBZDs7Ozs7O29CQUNELENBQUUsS0FBRyxnQ0FBYzs7O2tCQUNuQixTQUFBLEVBQ1M7OytCQUFULG1CQUFJLHNCQUFXO0dBQUE7O0VBcENqQix3QkFBQTtrQkFzQ0EiLCJmaWxlIjoiVHlwZS9BbGlhcy1UeXBlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL0FsaWFzLVR5cGUubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7O0VBV0EsbUJBQVkscUJBQ1E7O0dBQW5CLG9CQUFNO0dBQ04sc0JBQ08sZUFBQTtJQUFOLFFBQUksdUJBQ1U7O0tBQWIsbUNBQVU7OztvQkFDVCxZQUFVLEVBQUc7aURBQ1AsRUFBRTtHQUFBO0dBQ1gsa0NBQ007O0lBQUwsc0JBQU07SUFDTixtQ0FBVTs7O0dBQ1gsa0NBQVk7OztFQUViLFFBQU0sYUFBVztFQUdqQixRQUFNLFlBQVUsYUFBWSxTQUFBLEVBQUUsTUFDSztVQUFsQyxZQUFVLGNBQVc7RUFBQTtFQUd0QixRQUFNLElBQUksdUJBQ1U7O0dBQW5CLHNCQUNPLGVBQUE7O0lBQU4sV0FBSyx1QkFDVTs7S0FBZDs7O29CQUNELENBQUUsS0FBRyxnQ0FBYzs7O2tCQUNuQixTQUFBLEVBQ1M7OytCQUFULG1CQUFJLHNCQUFXO0dBQUE7O0VBcENqQix3QkFBQTtrQkFXQSIsImZpbGUiOiJUeXBlL0FsaWFzLVR5cGUuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

@@ -10,7 +10,7 @@ use-debug
 	..@! ++!
 	..@-Type empty
 
-Priority-Queue! = Kind
+Priority-Queue!. Kind
 	doc. "
 		@ whose first item will always be the smallest.
 		Iteration order has no other guaranees,
@@ -30,5 +30,3 @@ kind! Priority-Queue! @!
 	doc. "Takes a value from the front of the queue, unless empty?."
 	args. 1
 	returns. ?
-
-Priority-Queue!

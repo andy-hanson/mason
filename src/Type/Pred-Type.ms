@@ -13,7 +13,7 @@ use-debug
 	..! _ !not
 	..compare =?
 
-Pred-Type = Obj-Type
+Pred-Type. Obj-Type
 	doc. "Arbitrary predicates can be made into types using Pred-Type."
 	props.
 		name. String
@@ -78,4 +78,3 @@ self-impl! sub Union |...types
 		predicate. |_
 			any? types |type
 				contains? type _
-Pred-Type

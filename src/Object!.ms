@@ -13,7 +13,7 @@ use-debug
 
 doc. "For mutating Objects."
 
-Object! = Alias-Type
+Object!. Alias-Type
 	doc. "Object which is at least partially mutable."
 	alias-of. Object
 
@@ -88,5 +88,3 @@ extend!.
 		! =? _.a 1
 	!|_:Object! extender:Object
 		Object.assign _ extender
-
-Object!

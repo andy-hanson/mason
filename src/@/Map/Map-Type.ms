@@ -9,7 +9,7 @@ use~
 use-debug
 	.Hash-Map!
 
-Map-Type = Kind
+Map-Type. Kind
 	doc. "Any sub-type of Map."
 
 # TODO: Do this in Map.ms ?
@@ -34,5 +34,3 @@ kind! Map-Type @-Type
 				# TODO:SYNTAX Array destructure
 				assoc! map _[0] _[1]
 			map
-
-Map-Type

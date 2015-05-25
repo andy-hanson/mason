@@ -10,7 +10,7 @@ use
 	.Map-Type
 	.Map! _ assoc! un-assoc!
 
-Weak-Id-Map! =
+Weak-Id-Map!.
 	doc. "
 		Map! which can only hold have Objects as keys and stops holding them when they are garbage collected.
 		Good for caches.
@@ -36,5 +36,3 @@ kind! Weak-Id-Map! Map!
 		oh-no! "Weak-Id-Map! does not support `keys`."
 	empty! -> !|
 		oh-no! "Weak-Id-Map! does not support `empty!`."
-
-Weak-Id-Map!

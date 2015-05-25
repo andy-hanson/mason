@@ -6,6 +6,8 @@ import { JsGlobals } from './private/language'
 const MsAst = abstract('MsAst', Object, 'doc')
 export default MsAst
 
+// TODO: Diagnose all those 'unused `doc`' errors.
+
 export const
 	LineContent = abstract('ValOrDo', MsAst, 'Valid part of a Block.'),
 	Do = abstract('Do', LineContent, `
@@ -62,6 +64,33 @@ export const
 			kind: LD_Const
 		}),
 
+	// All have .allAssignees()
+	Assign = abstract('Assign', Do, 'TODO:DOC'),
+	AssignSingle = makeType(Assign)('AssignSingle',
+		'TODO:DOC',
+		[
+			'assignee', LocalDeclare,
+			'value', Val
+		],
+		{
+			allAssignees() { return [ this.assignee ] }
+		},
+		{
+			focus: (loc, value) =>
+				AssignSingle(loc, LocalDeclare.focus(loc), value)
+		}),
+	AssignDestructure = makeType(Assign)('AssignDestructure',
+		'TODO:DOC',
+		[
+			'assignees', [LocalDeclare],
+			'value', Val
+		],
+		{
+			allAssignees() { return this.assignees },
+			// All assignees must share the same kind.
+			kind() { return this.assignees[0].kind }
+		}),
+
 	Debug = d('Debug',
 		'TODO:DOC',
 		[ 'lines', [LineContent] ]),
@@ -75,14 +104,24 @@ export const
 		'TODO:DOC',
 		[ 'lines', [LineContent], 'returned', Val ]),
 
+	ObjEntry = m('ObjEntry',
+		'TODO:DOC',
+		[ 'assign', Assign ]),
+
+	// TODO: BlockBag, BlockMap, BlockObj => BlockBuild(kind, ...)
 	BlockObj = makeType(BlockVal)('BlockObj',
 		'TODO:DOC',
 		[
+			'built', LocalDeclareBuilt,
 			'lines', [LineContent],
-			'keys', [LocalDeclare],
 			'opObjed', Nullable(Val),
 			'opName', Nullable(String)
-		]),
+		],
+		{ },
+		{
+			of: (loc, lines, opObjed, opName) =>
+				BlockObj(loc, LocalDeclareBuilt(loc), lines, opObjed, opName)
+		}),
 
 	BagEntry = m('BagEntry',
 		'TODO:DOC',
@@ -107,33 +146,16 @@ export const
 		[ 'name', String ],
 		{ },
 		{ focus: loc => LocalAccess(loc, '_') }),
-	Assign = d('Assign',
+	GlobalAccess = v('GlobalAccess',
 		'TODO:DOC',
-		[
-			'assignee', LocalDeclare,
-			'value', Val
-		],
-		{ },
-		{ focus: (loc, value) => Assign(loc, LocalDeclare.focus(loc), value) }),
-	AssignDestructure = d('AssignDestructure',
-		'TODO:DOC',
-		[
-			'assignees', [LocalDeclare],
-			'value', Val
-		],
-		{
-			// All assignees must share the same kind.
-			kind() { return this.assignees[0].kind }
-		}),
-	AssignMutate = d('AssignMutate',
+		[ 'name', JsGlobals ]),
+
+	LocalMutate = d('LocalMutate',
 		'TODO:DOC',
 		[
 			'name', String,
 			'value', Val
 		]),
-	GlobalAccess = v('GlobalAccess',
-		'TODO:DOC',
-		[ 'name', JsGlobals ]),
 
 	// Module
 	UseDo = m('UseDo',
@@ -195,7 +217,7 @@ export const
 	CaseDo = d('CaseDo',
 		'TODO:DOC',
 		[
-			'opCased', Nullable(Assign),
+			'opCased', Nullable(AssignSingle),
 			'parts', [CaseDoPart],
 			'opElse', Nullable(BlockDo)
 		]),
@@ -203,7 +225,7 @@ export const
 	CaseVal = v('CaseVal',
 		'TODO:DOC',
 		[
-			'opCased', Nullable(Assign),
+			'opCased', Nullable(AssignSingle),
 			'parts', [CaseValPart],
 			'opElse', Nullable(BlockVal)
 		]),

@@ -19,9 +19,9 @@ export const
 	perfTest = () => doTest(true)
 
 const doTest = isPerfTest => {
-	const source = fs.readFileSync('./ms-test.ms', 'utf-8')
+	const source = fs.readFileSync('./test-compile.ms', 'utf-8')
 	const opts = {
-		inFile: './ms-test.ms',
+		inFile: './test-compile.ms',
 		includeAmdefine: false,
 		includeSourceMap: true,
 		includeModuleName: false,

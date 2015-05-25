@@ -11,7 +11,7 @@ use~
 use-debug
 	.Seq.Range range
 
-@-Type = Kind
+@-Type. Kind
 	doc. "Any sub-type of @."
 
 impl! sub @-Type identity
@@ -38,5 +38,3 @@ self-impl! empty @ |
 	empty Array
 
 impl! => @-Type from-stream
-
-@-Type

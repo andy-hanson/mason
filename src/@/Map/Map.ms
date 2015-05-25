@@ -16,7 +16,7 @@ use-debug
 	...!
 	...math.methods +
 
-Map = Kind
+Map. Kind
 	doc. "Mapping from keys to values."
 
 kind! Map @
@@ -88,5 +88,3 @@ region Functions
 					val = pair[1]
 					?bk = ?get b key
 					and (not (empty? ?bk)) ~(=? val ?bk.val
-
-Map

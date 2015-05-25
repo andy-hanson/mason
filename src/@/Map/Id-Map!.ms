@@ -15,7 +15,7 @@ use-debug
 	...compare =?
 	..Seq.Seq seq=?
 
-Id-Map! =
+Id-Map!.
 	doc. "
 		JavaScript's native Map type.
 		Only considers exactly identical keys =?; this makes it the fastest Map.
@@ -64,5 +64,3 @@ kind! Id-Map! Map!
 	un-assoc! -> |_ key
 		returning (?get _ key) !|
 			_.delete key
-
-Id-Map!

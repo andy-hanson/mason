@@ -8,8 +8,9 @@ define(["exports","../../control","../../Type/Pred-Type","../at","../atbang","..
 			return _ms.getDefaultExport(show_9)
 		}),_$13=_ms.lazyGetModule(_64_10),keep=_ms.lazyProp(_$13,"keep"),_$14=_ms.lazyGetModule(Seq_11),seq_61_63=_ms.lazyProp(_$14,"seq=?");
 		const add_45to_45_64_33=exports["add-to-@!"]=function(){
-			const doc="Treat `map` as a multi-map and add `added` to the @ associated with `key`.\n`@-type` is the type to use to create the `@` if it's not already there.";
-			const test=function test(){
+			const built={};
+			const doc=built.doc="Treat `map` as a multi-map and add `added` to the @ associated with `key`.\n`@-type` is the type to use to create the `@` if it's not already there.";
+			const test=built.test=function test(){
 				const _=empty(Map_33);
 				add_45to_45_64_33(_,1,[1]);
 				_ms.unlazy(_33)(_ms.unlazy(_61_63),_ms.sub(_,1),[1]);
@@ -26,11 +27,12 @@ define(["exports","../../control","../../Type/Pred-Type","../at","../atbang","..
 					}()
 				}));
 				return _43_43_33(_,added)
-			},"doc",doc,"test",test)
+			},built)
 		}();
 		const group=exports.group=function(){
-			const doc="Creates groups of elements which all have the same result for some function.\n`(group @x f)[k]` should be `f";
-			const test=function test(){
+			const built={};
+			const doc=built.doc="Creates groups of elements which all have the same result for some function.\n`(group @x f)[k]` should be `f";
+			const test=built.test=function test(){
 				const built=new global.Map();
 				const _64sample=[1,"1",2,"2"];
 				_ms.assoc(built,[_64sample,_ms.unlazy(show)],function(){
@@ -53,10 +55,10 @@ define(["exports","../../control","../../Type/Pred-Type","../at","../atbang","..
 					add_45to_45_64_33(map,key,[_])
 				};
 				return map
-			},"doc",doc,"test",test)
+			},built)
 		}();
 		const name=exports.name="multi-map!";
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL01hcC9tdWx0aS1tYXAhLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7OztFQWVBLHVEQUNVO0dBQVQsVUFDQztHQUVELFdBQ1EsZUFBQTtJQUFQLFFBQUksTUFBTTtJQUNWLGtCQUFVLEVBQUUsRUFBRSxDQUFFOytDQUNYLEVBQUUsR0FBRyxDQUFFO0lBQ1osa0JBQVUsRUFBRSxFQUFFLENBQUM7K0NBQ1YsRUFBRSxHQUFHLENBQUUsRUFBRTtHQUFBO2tCQUNkLDJCQUFBLElBQVMsSUFBSSxNQUFRLFdBQ2tCO3NCQURuQztzQkFBZTs4QkFBUyxJQUFJO0lBQ2hDLFFBQUksa0JBQVksSUFBSTtzQkFDSzthQUF4QixNQUFPLElBQUksV0FBTztLQUFBO0lBQUE7V0FDbkIsVUFBSSxFQUFFO0dBQUE7O0VBRVIsb0NBQ007R0FBTCxVQUNDO0dBRUQsV0FDTyxlQUFBOztJQUFOLGdCQUFVLENBQUUsRUFBRyxJQUFHLEVBQUc7b0JBQ3JCLENBQUUsc0NBQ2lCOztxQkFBakIsSUFBTSxDQUFFLEVBQUc7cUJBQ1gsSUFBTSxDQUFFLEVBQUc7OztrREFHSixNQUFNLDRCQUFlLHNCQUFVLFVBQVMsU0FBQSxFQUNDO2dEQUExQyxHQUFHO0lBQUE7OztrQkFDWCxlQUFBLFNBQVMsV0FDaUI7c0JBRG5CO3NCQUFXO0lBQ2xCLFVBQU0sTUFBTTtJQUNQLFFBQUEsS0FBQSw0QkFDTTtLQUFWLFVBQU0sV0FBUztLQUNmLGtCQUFVLElBQUksSUFBSSxDQUFFO0lBQUE7V0FDckI7R0FBQTs7RUFoREYsd0JBQUEiLCJmaWxlIjoiYXQvTWFwL211bHRpLW1hcGJhbmcuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL01hcC9tdWx0aS1tYXAhLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7OztFQWVBLHVEQUNVOztHQUFULG9CQUNDO0dBRUQsc0JBQ1EsZUFBQTtJQUFQLFFBQUksTUFBTTtJQUNWLGtCQUFVLEVBQUUsRUFBRSxDQUFFOytDQUNYLEVBQUUsR0FBRyxDQUFFO0lBQ1osa0JBQVUsRUFBRSxFQUFFLENBQUM7K0NBQ1YsRUFBRSxHQUFHLENBQUUsRUFBRTtHQUFBO2tCQUNkLDJCQUFBLElBQVMsSUFBSSxNQUFRLFdBQ2tCO3NCQURuQztzQkFBZTs4QkFBUyxJQUFJO0lBQ2hDLFFBQUksa0JBQVksSUFBSTtzQkFDSzthQUF4QixNQUFPLElBQUksV0FBTztLQUFBO0lBQUE7V0FDbkIsVUFBSSxFQUFFO0dBQUE7O0VBRVIsb0NBQ007O0dBQUwsb0JBQ0M7R0FFRCxzQkFDTyxlQUFBOztJQUFOLGdCQUFVLENBQUUsRUFBRyxJQUFHLEVBQUc7b0JBQ3JCLENBQUUsc0NBQ2lCOztxQkFBakIsSUFBTSxDQUFFLEVBQUc7cUJBQ1gsSUFBTSxDQUFFLEVBQUc7OztrREFHSixNQUFNLDRCQUFlLHNCQUFVLFVBQVMsU0FBQSxFQUNDO2dEQUExQyxHQUFHO0lBQUE7OztrQkFDWCxlQUFBLFNBQVMsV0FDaUI7c0JBRG5CO3NCQUFXO0lBQ2xCLFVBQU0sTUFBTTtJQUNQLFFBQUEsS0FBQSw0QkFDTTtLQUFWLFVBQU0sV0FBUztLQUNmLGtCQUFVLElBQUksSUFBSSxDQUFFO0lBQUE7V0FDckI7R0FBQTs7RUFoREYsd0JBQUEiLCJmaWxlIjoiYXQvTWFwL211bHRpLW1hcGJhbmcuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

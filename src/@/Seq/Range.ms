@@ -18,7 +18,7 @@ use-debug
 	..?
 	.Seq seq=? take'
 
-Range = Tuple
+Range. Tuple
 	doc. "Seq of Numbers taking fixed steps."
 	props.
 		. [ "start" Number
@@ -83,5 +83,3 @@ kind! Range @
 			[ (range 0 2 0.5) ] -> 4
 		|_
 			round-down (/ length_ _.step)
-
-Range

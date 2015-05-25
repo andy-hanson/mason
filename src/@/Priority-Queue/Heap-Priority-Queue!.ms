@@ -13,7 +13,7 @@ use
 	..Seq.Seq! set-nth!
 	.Priority-Queue! _ ?pop!
 
-Heap-Priority-Queue! = Wrap-Type
+Heap-Priority-Queue!. Wrap-Type
 	doc. "Default implementation for Priority-Queue!."
 	wrapped-type. Array!
 
@@ -100,7 +100,3 @@ region Implementation
 					else
 						break!
 			set-nth! heap i-cur val
-
-
-
-Heap-Priority-Queue!

@@ -6,36 +6,31 @@ define(["exports","esast/dist/mangle-identifier","../js","../private/js-impl",".
 			return _ms.getDefaultExport(_33_9)
 		}),_$13=_ms.lazyGetModule(compare_10),_61_63=_ms.lazyProp(_$13,"=?"),_$14=_ms.lazyGetModule(js_11),defined_63=_ms.lazyProp(_$14,"defined?"),_$15=_ms.lazyGetModule(Try_12),fails_63=_ms.lazyProp(_$15,"fails?");
 		const Wrap_45Type=Obj_45Type(function(){
-			const doc="Object with only one prop (always called `val`).\nThese are useful for wrapping a value with a new type.";
-			const props=function(){
-				const name=String;
-				const prototype=Object;
-				return {
-					name:name,
-					prototype:prototype
-				}
+			const built={};
+			const doc=built.doc="Object with only one prop (always called `val`).\nThese are useful for wrapping a value with a new type.";
+			const props=built.props=function(){
+				const built={};
+				const name=built.name=String;
+				const prototype=built.prototype=Object;
+				return built
 			}();
-			const opt_45props=function(){
-				const wrapped_45type=Type;
-				return {
-					"wrapped-type":wrapped_45type,
-					name:"opt-props"
-				}
+			const opt_45props=built["opt-props"]=function(){
+				const built={};
+				const wrapped_45type=built["wrapped-type"]=Type;
+				return _ms.setName(built,"opt-props")
 			}();
-			const extensible=true;
-			const defaults=function(){
-				const prototype=function prototype(){
+			const extensible=built.extensible=true;
+			const defaults=built.defaults=function(){
+				const built={};
+				const prototype=built.prototype=function prototype(){
 					return Object.create(Object.prototype)
 				};
-				return {
-					prototype:prototype,
-					name:"defaults"
-				}
+				return _ms.setName(built,"defaults")
 			}();
-			const post_45construct=function post_45construct(_){
+			const post_45construct=built["post-construct"]=function post_45construct(_){
 				return p_43_33(_.prototype,"constructor",_)
 			};
-			const make_45callable=function make_45callable(_){
+			const make_45callable=built["make-callable"]=function make_45callable(_){
 				const src=buildStr(function(add_33){
 					const name=mangle_45identifier(_.name);
 					add_33((((((("return function "+_ms.show(name))+"(_) {\n\tif (!(this instanceof ")+_ms.show(name))+")) return new ")+_ms.show(name))+"(_)\n\tthis.val = _"));
@@ -47,15 +42,12 @@ define(["exports","esast/dist/mangle-identifier","../js","../private/js-impl",".
 				const f=Function("wrappedType",src);
 				return f(_["wrapped-type"])
 			};
-			const test=function test(){
+			const test=built.test=function test(){
 				const W=Wrap_45Type(function(){
-					const doc="W";
-					const wrapped_45type=Number;
-					return {
-						doc:doc,
-						"wrapped-type":wrapped_45type,
-						name:"W"
-					}
+					const built={};
+					const doc=built.doc="W";
+					const wrapped_45type=built["wrapped-type"]=Number;
+					return _ms.setName(built,"W")
 				}());
 				const w=W(3);
 				_ms.unlazy(_33)(_ms.unlazy(_61_63),w.val,3);
@@ -63,17 +55,7 @@ define(["exports","esast/dist/mangle-identifier","../js","../private/js-impl",".
 					return W("three")
 				})
 			};
-			return {
-				doc:doc,
-				props:props,
-				"opt-props":opt_45props,
-				extensible:extensible,
-				defaults:defaults,
-				"post-construct":post_45construct,
-				"make-callable":make_45callable,
-				test:test,
-				name:"Wrap-Type"
-			}
+			return _ms.setName(built,"Wrap-Type")
 		}());
 		kind_33(Wrap_45Type,Impl_45Type);
 		impl_33(contains_63,Wrap_45Type,function(wt,_){
@@ -93,4 +75,4 @@ define(["exports","esast/dist/mangle-identifier","../js","../private/js-impl",".
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL1dyYXAtVHlwZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7O0VBZ0JBLGtCQUFZLHFCQUNRO0dBQW5CLFVBQ0M7R0FFRCxzQkFDTTtJQUFMLFdBQU07SUFDTixnQkFBVzs7Ozs7O0dBQ1osNEJBQ1U7SUFBVCxxQkFBYzs7Ozs7O0dBQ2YsaUJBQVk7R0FDWix5QkFDUztJQUFSLGdCQUNZLG9CQUFBO1lBQVgsY0FBYzs7Ozs7OztHQUNoQix1QkFBaUIsMEJBQUEsRUFDQztXQUFqQixRQUFJLFlBQWEsY0FBYTtHQUFBO0dBQy9CLHNCQUFnQix5QkFBQSxFQUNDO0lBQWhCLFVBQU0sU0FBVSxTQUFBLE9BQ0k7S0FBbkIsV0FBTyxvQkFBa0I7S0FDekIsT0FDQyxrQ0FBaUIsbURBQ08sa0NBQW9CO0tBRXZDLG1DQUFhLG9CQUNjO01BQWhDLE9BQU07S0FBQTtZQUNQLE9BQU07SUFBQTtJQUNQLFFBQUksU0FBVSxjQUFhO1dBQzNCLEVBQUU7O0dBQ0gsV0FDUSxlQUFBO0lBQVAsUUFBSSxzQkFDUztLQUFaLFVBQU07S0FDTixxQkFBYzs7Ozs7OztJQUNmLFFBQUksRUFBRTt1Q0FDRCxNQUFNO3lDQUVLLFVBQUE7WUFBZixFQUFHO0lBQUE7R0FBQTs7Ozs7Ozs7Ozs7OztFQUVOLFFBQU0sWUFBVTtFQUNoQixRQUFNLFlBQVUsWUFBVyxTQUFBLEdBQUcsRUFDQztVQUE5QixnQkFBYyxFQUFFO0VBQUE7RUFDakIsUUFBTSxRQUFRLFlBQVcsU0FBQSxHQUFHLEVBQ0M7O0lBQzNCLFlBQUEsZ0JBQWMsRUFBRSxLQUNFO1lBQWpCLENBQUU7V0FFQztZQUFIO0lBQUE7R0FBQTtFQUFBO0VBNURILHdCQUFBO2tCQThEQSIsImZpbGUiOiJUeXBlL1dyYXAtVHlwZS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL1dyYXAtVHlwZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7O0VBZ0JBLGtCQUFXLHFCQUNROztHQUFsQixvQkFDQztHQUVELGtDQUNNOztJQUFMLHNCQUFNO0lBQ04sZ0NBQVc7OztHQUNaLCtDQUNVOztJQUFULDJDQUFjOzs7R0FDZixrQ0FBWTtHQUNaLHdDQUNTOztJQUFSLGdDQUNZLG9CQUFBO1lBQVgsY0FBYzs7OztHQUNoQiwrQ0FBaUIsMEJBQUEsRUFDQztXQUFqQixRQUFJLFlBQWEsY0FBYTtHQUFBO0dBQy9CLDZDQUFnQix5QkFBQSxFQUNDO0lBQWhCLFVBQU0sU0FBVSxTQUFBLE9BQ0k7S0FBbkIsV0FBTyxvQkFBa0I7S0FDekIsT0FDQyxrQ0FBaUIsbURBQ08sa0NBQW9CO0tBRXZDLG1DQUFhLG9CQUNjO01BQWhDLE9BQU07S0FBQTtZQUNQLE9BQU07SUFBQTtJQUNQLFFBQUksU0FBVSxjQUFhO1dBQzNCLEVBQUU7O0dBQ0gsc0JBQ1EsZUFBQTtJQUFQLFFBQUksc0JBQ1M7O0tBQVosb0JBQU07S0FDTiwyQ0FBYzs7O0lBQ2YsUUFBSSxFQUFFO3VDQUNELE1BQU07eUNBRUssVUFBQTtZQUFmLEVBQUc7SUFBQTtHQUFBOzs7RUFFTixRQUFNLFlBQVU7RUFDaEIsUUFBTSxZQUFVLFlBQVcsU0FBQSxHQUFHLEVBQ0M7VUFBOUIsZ0JBQWMsRUFBRTtFQUFBO0VBQ2pCLFFBQU0sUUFBUSxZQUFXLFNBQUEsR0FBRyxFQUNDOztJQUMzQixZQUFBLGdCQUFjLEVBQUUsS0FDRTtZQUFqQixDQUFFO1dBRUM7WUFBSDtJQUFBO0dBQUE7RUFBQTtFQTVESCx3QkFBQTtrQkFnQkEiLCJmaWxlIjoiVHlwZS9XcmFwLVR5cGUuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

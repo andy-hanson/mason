@@ -3,24 +3,24 @@ import { ArrayExpression, BinaryExpression, BlockStatement, BreakStatement, Call
 	IfStatement, Literal, MemberExpression, ObjectExpression, Program, ReturnStatement,
 	ThisExpression, VariableDeclaration, UnaryExpression, VariableDeclarator, ReturnStatement
 	} from 'esast/dist/ast'
-import { idCached, loc, member, propertyIdOrLiteralCached, thunk, toStatement
-	} from 'esast/dist/util'
+import { idCached, loc, member, propertyIdOrLiteralCached, toStatement } from 'esast/dist/util'
 import { assignmentExpressionPlain, callExpressionThunk, functionExpressionPlain,
 	functionExpressionThunk, memberExpression, property,
 	yieldExpressionDelegate, yieldExpressionNoDelegate } from 'esast/dist/specialize'
 import * as MsAstTypes from '../../MsAst'
-import { LD_Lazy, LD_Mutable, Pattern, Splat, SD_Debugger, SV_Contains, SV_False, SV_Null, SV_Sub,
-	SV_This, SV_ThisModuleDirectory, SV_True, SV_Undefined } from '../../MsAst'
+import { AssignSingle, LD_Lazy, LD_Mutable, Pattern, Splat, SD_Debugger, SV_Contains,
+	SV_False, SV_Null, SV_Sub, SV_This, SV_ThisModuleDirectory, SV_True, SV_Undefined
+	} from '../../MsAst'
 import manglePath from '../manglePath'
 import { assert, cat, flatMap, flatOpMap, ifElse, isEmpty,
 	implementMany, isPositive, opIf, opMap, tail, unshift } from '../util'
-import { AmdefineHeader, ArraySliceCall, DeclareBuiltBag, DeclareBuiltMap, ExportsDefault,
-	ExportsGet, IdArguments, IdBuilt, IdDefine, IdExports, IdExtract, IdFunctionApplyCall, IdName,
-	LitEmptyArray, LitEmptyString, LitNull, LitStrExports, LitStrName, LitZero, ReturnExports,
-	ReturnRes, SymbolIterator, UseStrict } from './ast-constants'
+import { AmdefineHeader, ArraySliceCall, DeclareBuiltBag, DeclareBuiltMap, DeclareBuiltObj,
+	ExportsDefault, ExportsGet, IdArguments, IdBuilt, IdDefine, IdExports, IdExtract,
+	IdFunctionApplyCall, LitEmptyArray, LitEmptyString, LitNull, LitStrExports, LitZero,
+	ReturnExports, ReturnRes, SymbolIterator, UseStrict } from './ast-constants'
 import { IdMs, lazyWrap, msAdd, msArr, msAssoc, msBool, msCheckContains, msExtract, msGet,
-	msGetDefaultExport, msGetModule, msLazy, msLazyGet, msLazyGetModule, msLset, msSet, msShow
-	} from './ms-call'
+	msGetDefaultExport, msGetModule, msLazy, msLazyGet, msLazyGetModule, msSet, msSetName,
+	msSetLazy, msShow } from './ms-call'
 import { accessLocalDeclare, declare, forStatementInfinite,
 	idForDeclareCached, throwError } from './util'
 
@@ -54,9 +54,10 @@ const
 	}
 
 implementMany(MsAstTypes, 'transpileSubtree', {
-	Assign() {
+	AssignSingle(valWrap) {
+		const val = valWrap === undefined ? t0(this.value) : valWrap(t0(this.value))
 		const declare =
-			makeDeclarator(this.assignee, t0(this.value), false, verifyResults.isExportAssign(this))
+			makeDeclarator(this.assignee, val, false, verifyResults.isExportAssign(this))
 		return VariableDeclaration(this.assignee.isMutable() ? 'let' : 'const', [ declare ])
 	},
 	// TODO:ES6 Just use native destructuring assign
@@ -68,10 +69,6 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 				t0(this.value),
 				false,
 				verifyResults.isExportAssign(this)))
-	},
-
-	AssignMutate() {
-		return assignmentExpressionPlain(idCached(this.name), t0(this.value))
 	},
 
 	BagEntry() { return msAdd(IdBuilt, t0(this.value)) },
@@ -87,39 +84,23 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 		return transpileBlock(t0(this.returned), tLines(this.lines), lead, opResDeclare, opOut)
 	},
 
-	BlockObj(lead, opResDeclare, opOut) {
-		// TODO: includeTypeChecks() is not the right method for this
-		const keys = context.opts.includeTypeChecks() ?
-			this.keys :
-			this.keys.filter(_ => !verifyResults.isDebugLocal(_))
-		const ret = ifElse(this.opObjed,
-			_ => {
-				const objed = t0(_)
-				const keysVals = cat(
-					flatMap(keys, key => [ Literal(key.name), accessLocalDeclare(key) ]),
-					opMap(this.opName, _ => [ LitStrName, Literal(_) ]))
-				const anyLazy = keys.some(_ => _.isLazy())
-				return (anyLazy ? msLset : msSet)(objed, ...keysVals)
-			},
-			() => {
-				const props = keys.map(key => {
-					const val = accessLocalDeclare(key)
-					const id = propertyIdOrLiteralCached(key.name)
-					return key.isLazy() ?
-						property('get', id, thunk(val)) :
-						property('init', id, val)
-				})
-				const opPropName = opMap(this.opName, _ => property('init', IdName, Literal(_)))
-				return ObjectExpression(cat(props, opPropName))
-			})
-		return transpileBlock(ret, tLines(this.lines), lead, opResDeclare, opOut)
-	},
-
 	BlockBag(lead, opResDeclare, opOut) {
 		return transpileBlock(
 			IdBuilt,
 			cat(DeclareBuiltBag, tLines(this.lines)),
 			lead, opResDeclare, opOut)
+	},
+
+	BlockObj(lead, opResDeclare, opOut) {
+		const lines = cat(DeclareBuiltObj, tLines(this.lines))
+		const res = ifElse(this.opObjed,
+			objed => ifElse(this.opName,
+				name => msSet(t0(objed), IdBuilt, Literal(name)),
+				() => msSet(t0(objed), IdBuilt)),
+			() => ifElse(this.opName,
+				_ => msSetName(IdBuilt, Literal(_)),
+				() => IdBuilt))
+		return transpileBlock(res, lines, lead, opResDeclare, opOut)
 	},
 
 	BlockMap(lead, opResDeclare, opOut) {
@@ -227,6 +208,10 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 
 	LocalDeclare() { return idForDeclareCached(this) },
 
+	LocalMutate() {
+		return assignmentExpressionPlain(idCached(this.name), t0(this.value))
+	},
+
 	MapEntry() { return msAssoc(IdBuilt, t0(this.key), t0(this.val)) },
 
 	Member() { return member(t0(this.object), this.name) },
@@ -239,6 +224,16 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 			opIf(context.opts.includeUseStrict(), () => UseStrict),
 			opIf(context.opts.includeAmdefine(), () => AmdefineHeader),
 			toStatement(amdWrapModule(this.doUses, this.uses.concat(this.debugUses), body))))
+	},
+
+	ObjEntry() {
+		return (this.assign instanceof AssignSingle && !this.assign.assignee.isLazy()) ?
+			t1(this.assign, val =>
+				assignmentExpressionPlain(member(IdBuilt, this.assign.assignee.name), val)) :
+			cat(
+				t0(this.assign),
+				this.assign.allAssignees().map(_ =>
+					msSetLazy(IdBuilt, Literal(_.name), idForDeclareCached(_))))
 	},
 
 	Quote() {

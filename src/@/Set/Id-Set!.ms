@@ -7,7 +7,7 @@ use
 	..@-Type _ empty
 	.Set!
 
-Id-Set! = global.Set
+Id-Set!. global.Set
 
 self-kind! Id-Set! @-Type
 	empty -> |
@@ -28,5 +28,3 @@ kind! Id-Set! Set!
 			_.delete em
 	contains? -> |_ val
 		_.has val
-
-Id-Set!

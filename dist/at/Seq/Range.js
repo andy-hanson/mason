@@ -8,28 +8,23 @@ define(["exports","../../compare","../../control","../../Function","../../math/N
 			return _ms.getDefaultExport(_63_15)
 		}),_$19=_ms.lazyGetModule(Seq_16),seq_61_63=_ms.lazyProp(_$19,"seq=?"),take_39=_ms.lazyProp(_$19,"take'");
 		const Range=Tuple(function(){
-			const doc="Seq of Numbers taking fixed steps.";
-			const props=function(){
+			const built={};
+			const doc=built.doc="Seq of Numbers taking fixed steps.";
+			const props=built.props=function(){
 				const built=[];
 				_ms.add(built,["start",Number]);
 				_ms.add(built,["end",Number]);
 				_ms.add(built,["step",Number]);
 				return built
 			}();
-			const post_45construct=function post_45construct(_){
+			const post_45construct=built["post-construct"]=function post_45construct(_){
 				_ms.unlazy(_33)(_ms.unlazy(_61_63),sign(_.step),sign(_45(_.end,_.start)));
 				noop(_)
 			};
-			const test=function test(){
+			const test=built.test=function test(){
 				_ms.unlazy(_33)(_ms.unlazy(seq_61_63),[0,1,2],_ms.unlazy(take_39)(range(0,_ms.unlazy(infinity)),3))
 			};
-			return {
-				doc:doc,
-				props:props,
-				"post-construct":post_45construct,
-				test:test,
-				name:"Range"
-			}
+			return _ms.setName(built,"Range")
 		}());
 		const range=exports.range=function range(start,end,step){
 			_ms.checkContains(Number,start,"start");
@@ -39,15 +34,16 @@ define(["exports","../../compare","../../control","../../Function","../../math/N
 			return Range(start,end,step)
 		};
 		const range_45incl=exports["range-incl"]=function(){
-			const doc="TODO";
-			const test=function test(){};
+			const built={};
+			const doc=built.doc="TODO";
+			const test=built.test=function test(){};
 			return _ms.set(function range_45incl(start,end,step){
 				_ms.checkContains(Number,start,"start");
 				_ms.checkContains(Number,end,"end");
 				_ms.checkContains(_ms.sub(Opt,Number),step,"step");
 				step=opr(step,sign(_45(end,start)));
 				return range(start,_43(end,step),step)
-			},"doc",doc,"test",test)
+			},built)
 		}();
 		self_45kind_33(Range,_64_45Type,function(){
 			const built=new global.Map();
@@ -58,8 +54,9 @@ define(["exports","../../compare","../../control","../../Function","../../math/N
 			return built
 		}());
 		const length=exports.length=function(){
-			const doc="Difference between and and start values.";
-			const test=function test(){
+			const built={};
+			const doc=built.doc="Difference between and and start values.";
+			const test=built.test=function test(){
 				const built=new global.Map();
 				_ms.assoc(built,[range(5,10,2)],5);
 				_ms.assoc(built,[range(5,10,3)],5);
@@ -68,10 +65,11 @@ define(["exports","../../compare","../../control","../../Function","../../math/N
 			return _ms.set(function length(_){
 				_ms.checkContains(Range,_,"_");
 				return _45(_.end,_.start)
-			},"doc",doc,"test",test)
+			},built)
 		}();
 		js_45impl_33(iterator,Range,function(){
-			const test=function test(){
+			const built={};
+			const test=built.test=function test(){
 				return _ms.unlazy(_33)(_ms.unlazy(seq_61_63),range(0,10,2),[0,2,4,6,8])
 			};
 			return _ms.set(function*(){
@@ -83,12 +81,13 @@ define(["exports","../../compare","../../control","../../Function","../../math/N
 					(yield cur);
 					cur=_43(cur,this.step)
 				}
-			},"test",test)
+			},built)
 		}());
 		kind_33(Range,_64,function(){
 			const built=new global.Map();
 			_ms.assoc(built,_63nth,function(){
-				const test=function test(){
+				const built={};
+				const test=built.test=function test(){
 					const built=new global.Map();
 					const r=range(0,10,2);
 					_ms.assoc(built,[r,2],_ms.unlazy(_63)(4));
@@ -99,17 +98,18 @@ define(["exports","../../compare","../../control","../../Function","../../math/N
 					_ms.checkContains(Nat,n,"n");
 					const it=_43(_.start,_42(_.step,n));
 					return _if(_60_63(it,_.end),it)
-				},"test",test)
+				},built)
 			}());
 			_ms.assoc(built,count,function(){
-				const test=function test(){
+				const built={};
+				const test=built.test=function test(){
 					const built=new global.Map();
 					_ms.assoc(built,[range(0,2,0.5)],4);
 					return built
 				};
 				return _ms.set(function(_){
 					return round_45down(_47(length(_),_.step))
-				},"test",test)
+				},built)
 			}());
 			return built
 		}());
@@ -118,4 +118,4 @@ define(["exports","../../compare","../../control","../../Function","../../math/N
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1NlcS9SYW5nZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7RUFvQkEsWUFBUSxnQkFDSztHQUFaLFVBQU07R0FDTixzQkFDTTs7a0JBQUgsQ0FBRyxRQUFPO2tCQUNWLENBQUcsTUFBSztrQkFDUixDQUFHLE9BQU07OztHQUNaLHVCQUFrQiwwQkFBQSxFQUdqQjt1Q0FETyxLQUFLLFFBQVMsS0FBTSxJQUFFLE1BQU07SUFDbkMsS0FBSztHQUFBO0dBQ04sV0FDUSxlQUFBOzBDQUFDLENBQUUsRUFBRSxFQUFFLHVCQUFZLE1BQU0sd0JBQVk7R0FBQTs7Ozs7Ozs7O0VBRTlDLDBCQUFRLGVBQUEsTUFBYSxJQUFXLEtBQ2dCO3FCQURsQztxQkFBVzs2QkFBWSxJQUFJO1FBQ2hDLElBQUksS0FBTSxLQUFNLElBQUUsSUFBSTtVQUM5QixNQUFNLE1BQU0sSUFBSTtFQUFBO0VBRWpCLG1EQUNXO0dBQVYsVUFBTTtHQUNOLFdBQ1EsZUFBQTtrQkFDUCxzQkFBQSxNQUFhLElBQVcsS0FDZ0I7c0JBRGxDO3NCQUFXOzhCQUFZLElBQUk7U0FDekIsSUFBSSxLQUFNLEtBQU0sSUFBRSxJQUFJO1dBQzlCLE1BQU0sTUFBTyxJQUFFLElBQUksTUFBTTtHQUFBOztFQUUzQixlQUFXLE1BQU0scUJBQ007O21CQUF0QixNQUFTLE1BQU8sTUFBTSxFQUFFO21CQUd4QixjQUFnQixTQUFBLEVBQ0M7V0FBaEI7R0FBQTs7O0VBRUYsc0NBQ087R0FBTixVQUFNO0dBQ04sV0FDTyxlQUFBOztvQkFBTixDQUFHLE1BQU0sRUFBRSxHQUFHLElBQVE7b0JBQ3RCLENBQUcsTUFBTSxFQUFFLEdBQUcsSUFBUTs7O2tCQUN0QixnQkFBQSxFQUNPO3NCQURMO1dBQ0YsSUFBRSxNQUFNOzs7RUFFVixhQUFTLFNBQVMsZ0JBQ0s7R0FBdEIsV0FDTyxlQUFBO2lEQUFHLE1BQU0sRUFBRSxHQUFHLEdBQUcsQ0FBRSxFQUFFLEVBQUUsRUFBRSxFQUFFO0dBQUE7a0JBRS9CLFdBQUE7SUFBRixRQUFRO0lBRUosT0FBQTtLQUFILFlBQUksVUFBSSxTQUFTLE1BQ0c7TUFBbkI7S0FBQTtZQUNFO1NBQ0ksSUFBRSxJQUFJOzs7O0VBRWhCLFFBQU0sTUFBTSxjQUNDOzttQkFBWixpQkFDTztJQUFOLFdBQ08sZUFBQTs7S0FBTixRQUFJLE1BQU0sRUFBRSxHQUFHO3FCQUNmLENBQUUsRUFBRSxtQkFBUztxQkFDYixDQUFFLEVBQUUsR0FBTzs7O21CQUNYLFNBQUEsRUFBRSxFQUNLO3VCQURIO0tBQ0osU0FBSyxJQUFFLFFBQVMsSUFBRSxPQUFPO1lBQ3pCLElBQUksT0FBRyxHQUFHLE9BQU87SUFBQTs7bUJBQ25CLGdCQUNRO0lBQVAsV0FDTyxlQUFBOztxQkFBTixDQUFHLE1BQU0sRUFBRSxFQUFFLE1BQVU7OzttQkFDdkIsU0FBQSxFQUNDO1lBQUQsYUFBWSxJQUFFLE9BQU0sR0FBRTs7Ozs7RUFwRnpCLHdCQUFBO2tCQXNGQSIsImZpbGUiOiJhdC9TZXEvUmFuZ2UuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1NlcS9SYW5nZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7RUFvQkEsWUFBTyxnQkFDSzs7R0FBWCxvQkFBTTtHQUNOLGtDQUNNOztrQkFBSCxDQUFHLFFBQU87a0JBQ1YsQ0FBRyxNQUFLO2tCQUNSLENBQUcsT0FBTTs7O0dBQ1osK0NBQWtCLDBCQUFBLEVBR2pCO3VDQURPLEtBQUssUUFBUyxLQUFNLElBQUUsTUFBTTtJQUNuQyxLQUFLO0dBQUE7R0FDTixzQkFDUSxlQUFBOzBDQUFDLENBQUUsRUFBRSxFQUFFLHVCQUFZLE1BQU0sd0JBQVk7R0FBQTs7O0VBRTlDLDBCQUFRLGVBQUEsTUFBYSxJQUFXLEtBQ2dCO3FCQURsQztxQkFBVzs2QkFBWSxJQUFJO1FBQ2hDLElBQUksS0FBTSxLQUFNLElBQUUsSUFBSTtVQUM5QixNQUFNLE1BQU0sSUFBSTtFQUFBO0VBRWpCLG1EQUNXOztHQUFWLG9CQUFNO0dBQ04sc0JBQ1EsZUFBQTtrQkFDUCxzQkFBQSxNQUFhLElBQVcsS0FDZ0I7c0JBRGxDO3NCQUFXOzhCQUFZLElBQUk7U0FDekIsSUFBSSxLQUFNLEtBQU0sSUFBRSxJQUFJO1dBQzlCLE1BQU0sTUFBTyxJQUFFLElBQUksTUFBTTtHQUFBOztFQUUzQixlQUFXLE1BQU0scUJBQ007O21CQUF0QixNQUFTLE1BQU8sTUFBTSxFQUFFO21CQUd4QixjQUFnQixTQUFBLEVBQ0M7V0FBaEI7R0FBQTs7O0VBRUYsc0NBQ087O0dBQU4sb0JBQU07R0FDTixzQkFDTyxlQUFBOztvQkFBTixDQUFHLE1BQU0sRUFBRSxHQUFHLElBQVE7b0JBQ3RCLENBQUcsTUFBTSxFQUFFLEdBQUcsSUFBUTs7O2tCQUN0QixnQkFBQSxFQUNPO3NCQURMO1dBQ0YsSUFBRSxNQUFNOzs7RUFFVixhQUFTLFNBQVMsZ0JBQ0s7O0dBQXRCLHNCQUNPLGVBQUE7aURBQUcsTUFBTSxFQUFFLEdBQUcsR0FBRyxDQUFFLEVBQUUsRUFBRSxFQUFFLEVBQUU7R0FBQTtrQkFFL0IsV0FBQTtJQUFGLFFBQVE7SUFFSixPQUFBO0tBQUgsWUFBSSxVQUFJLFNBQVMsTUFDRztNQUFuQjtLQUFBO1lBQ0U7U0FDSSxJQUFFLElBQUk7Ozs7RUFFaEIsUUFBTSxNQUFNLGNBQ0M7O21CQUFaLGlCQUNPOztJQUFOLHNCQUNPLGVBQUE7O0tBQU4sUUFBSSxNQUFNLEVBQUUsR0FBRztxQkFDZixDQUFFLEVBQUUsbUJBQVM7cUJBQ2IsQ0FBRSxFQUFFLEdBQU87OzttQkFDWCxTQUFBLEVBQUUsRUFDSzt1QkFESDtLQUNKLFNBQUssSUFBRSxRQUFTLElBQUUsT0FBTztZQUN6QixJQUFJLE9BQUcsR0FBRyxPQUFPO0lBQUE7O21CQUNuQixnQkFDUTs7SUFBUCxzQkFDTyxlQUFBOztxQkFBTixDQUFHLE1BQU0sRUFBRSxFQUFFLE1BQVU7OzttQkFDdkIsU0FBQSxFQUNDO1lBQUQsYUFBWSxJQUFFLE9BQU0sR0FBRTs7Ozs7RUFwRnpCLHdCQUFBO2tCQW9CQSIsImZpbGUiOiJhdC9TZXEvUmFuZ2UuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

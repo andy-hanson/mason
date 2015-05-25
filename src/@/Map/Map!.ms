@@ -21,7 +21,7 @@ use-debug
 	.Map has-key? keys
 	.Weak-Id-Map!
 
-Map! = Kind
+Map!. Kind
 	doc. "TODO"
 	implementor-test. !|type
 		Mt = Wrap-Type
@@ -106,5 +106,3 @@ get-or-add!. Method
 			default-val
 
 kind! Map! Map
-
-Map!

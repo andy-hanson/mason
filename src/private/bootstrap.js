@@ -103,51 +103,25 @@ const msDefs = {
 	lazy: _ => new ms.Lazy(_),
 	unlazy: _ => _ instanceof ms.Lazy ? _.get() : _,
 
-	set(_, k0, v0, k1, v1, k2, v2, k3) {
-		const doSet = (k, v) => {
-			// TODO:DISPLAYNAME
-			if (!(k === 'name' && _ instanceof Function))
-				_[k] = v
-		}
-
-		doSet(k0, v0)
-		if (k1 === undefined)
-			return _
-		doSet(k1, v1)
-		if (k2 === undefined)
-			return _
-		doSet(k2, v2)
-		if (k3 === undefined)
-			return _
-		for (let i = 7; i < arguments.length; i = i + 2)
-			doSet(arguments[i], arguments[i + 1])
-		return _
+	// Unlike Object.assign, does *not* invoke getters.
+	set(value, propertiesObject, opName) {
+		Object.keys(propertiesObject).forEach(key =>
+			Object.defineProperty(value, key,
+				Object.getOwnPropertyDescriptor(propertiesObject, key)))
+		if (!(value instanceof Function))
+			if (opName !== undefined)
+				ms.setName(value, opName)
+		return value
 	},
-
-
-	lset(_, k0, v0, k1, v1, k2, v2, k3) {
-		setOrLazy(_, k0, v0)
-		if (k1 === undefined)
-			return _
-		setOrLazy(_, k1, v1)
-		if (k2 === undefined)
-			return _
-		setOrLazy(_, k2, v2)
-		if (k3 === undefined)
-			return _
-		for (let i = 7; i < arguments.length; i = i + 2)
-			setOrLazy(_, arguments[i], arguments[i + 1])
-		return _
+	setName(value, name) {
+		value.name = name
+		return value
+	},
+	setLazy(value, name, lazy) {
+		Object.defineProperty(value, name, { get: lazy.get, enumerable: true })
 	}
 }
 Object.keys(msDefs).forEach(_ => msDef(_, msDefs[_]))
-
-const setOrLazy = (obj, key, val) => {
-	if (val instanceof ms.Lazy)
-		Object.setProperty(obj, key, { get() { return ms.unlazy(val) } })
-	else
-		pAdd(obj, key, val)
-}
 
 const msDefTemp = (name, fun) =>
 	ms[name] = fun

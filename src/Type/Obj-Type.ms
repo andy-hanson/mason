@@ -203,9 +203,7 @@ obj-type-args =
 		! =? ex.y 2
 
 
-Obj-Type = (make-constructor obj-type-args) obj-type-args
+Obj-Type. (make-constructor obj-type-args) obj-type-args
 
 implContains Obj-Type |ot _
 	js-instanceof _ ot
-
-Obj-Type

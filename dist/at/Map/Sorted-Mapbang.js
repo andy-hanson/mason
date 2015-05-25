@@ -8,19 +8,16 @@ define(["exports","../../Type/Kind","../at-Type","./Mapbang","./Map-Type","./Spl
 			return _ms.getDefaultExport(_33_5)
 		}),_$10=_ms.lazyGetModule(compare_6),sorted_63=_ms.lazyProp(_$10,"sorted?"),_$11=_ms.lazyGetModule(Map_7),keys=_ms.lazyProp(_$11,"keys"),_$12=_ms.lazyGetModule(Map_33_8),assoc_33=_ms.lazyProp(_$12,"assoc!");
 		const Sorted_45Map_33=Kind(function(){
-			const doc="Map! whose `keys` are in sorted order.\nThis kind of Map! depends on an efficient `compare` between its keys.";
-			const implementor_45test=function implementor_45test(type){
+			const built={};
+			const doc=built.doc="Map! whose `keys` are in sorted order.\nThis kind of Map! depends on an efficient `compare` between its keys.";
+			const implementor_45test=built["implementor-test"]=function implementor_45test(type){
 				const _=empty(type);
 				for(let key of [1,3,5,4,2][Symbol.iterator]()){
 					_ms.unlazy(assoc_33)(_,key,key)
 				};
 				_ms.unlazy(_33)(_ms.unlazy(sorted_63),_ms.unlazy(keys)(_))
 			};
-			return {
-				doc:doc,
-				"implementor-test":implementor_45test,
-				name:"Sorted-Map!"
-			}
+			return _ms.setName(built,"Sorted-Map!")
 		}());
 		self_45kind_33(Sorted_45Map_33,Map_45Type,function(){
 			const built=new global.Map();
@@ -35,4 +32,4 @@ define(["exports","../../Type/Kind","../at-Type","./Mapbang","./Map-Type","./Spl
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL01hcC9Tb3J0ZWQtTWFwIS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7RUFhQSxzQkFBYyxlQUNJO0dBQWpCLFVBQ0M7R0FFRCx5QkFBb0IsNEJBQUEsS0FDSTtJQUF2QixRQUFJLE1BQU07SUFDTCxRQUFBLE9BQU8sQ0FBRSxFQUFFLEVBQUUsRUFBRSxFQUFFLHNCQUNHOzBCQUFqQixFQUFFLElBQUk7SUFBQTsyREFDQTtHQUFBOzs7Ozs7O0VBRWhCLGVBQVcsZ0JBQVkscUJBQ1E7O21CQUE5QixNQUNVLFVBQUE7V0FBVDs7OztFQUVGLFFBQU0sZ0JBQVk7RUEzQmxCLHdCQUFBO2tCQTZCQSIsImZpbGUiOiJhdC9NYXAvU29ydGVkLU1hcGJhbmcuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL01hcC9Tb3J0ZWQtTWFwIS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7RUFhQSxzQkFBYSxlQUNJOztHQUFoQixvQkFDQztHQUVELG1EQUFvQiw0QkFBQSxLQUNJO0lBQXZCLFFBQUksTUFBTTtJQUNMLFFBQUEsT0FBTyxDQUFFLEVBQUUsRUFBRSxFQUFFLEVBQUUsc0JBQ0c7MEJBQWpCLEVBQUUsSUFBSTtJQUFBOzJEQUNBO0dBQUE7OztFQUVoQixlQUFXLGdCQUFZLHFCQUNROzttQkFBOUIsTUFDVSxVQUFBO1dBQVQ7Ozs7RUFFRixRQUFNLGdCQUFZO0VBM0JsQix3QkFBQTtrQkFhQSIsImZpbGUiOiJhdC9NYXAvU29ydGVkLU1hcGJhbmcuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

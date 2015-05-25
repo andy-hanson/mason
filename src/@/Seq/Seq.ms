@@ -23,7 +23,7 @@ use-debug
 	...compare <?
 	...Try fails?
 
-Seq = Kind
+Seq. Kind
 	doc. "@ whose values are in a meaningful order."
 
 kind! Seq @
@@ -362,5 +362,3 @@ region TODO: put somewhere
 							cur-idx := next-idx
 						else
 							cur-idx := next-idx
-
-Seq

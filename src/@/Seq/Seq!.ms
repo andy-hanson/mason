@@ -16,7 +16,7 @@ use-debug
 	.Array!
 	.Seq seq=?
 
-Seq! = Kind
+Seq!. Kind
 	doc. "
 		Mutable Seq.
 		Array!s can efficiently change existing elements and add new ones on the right.
@@ -72,5 +72,3 @@ set-nth!. Method
 		. "_"
 		. [ "n" Nat
 		. "val"
-
-Seq!

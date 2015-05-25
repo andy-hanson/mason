@@ -6,8 +6,9 @@ define(["exports","../../at/q","../../at/Map/Mapbang","../../at/Map/Id-Mapbang",
 			return _ms.getDefaultExport(_33_9)
 		}),_$13=_ms.lazyGetModule(_64_10),any_63=_ms.lazyProp(_$13,"any?"),_$14=_ms.lazyGetModule(Seq_11),take=_ms.lazyProp(_$14,"take"),_$15=_ms.lazyGetModule(Boolean_12),not=_ms.lazyProp(_$15,"not"),_$16=_ms.lazyGetModule(Number_13),divisible_63=_ms.lazyProp(_$16,"divisible?");
 		const primes=exports.primes=function(){
-			const doc="Infinite Seq of Numbers > 2, each divisible only by itself and one.";
-			const test=function test(){
+			const built={};
+			const doc=built.doc="Infinite Seq of Numbers > 2, each divisible only by itself and one.";
+			const test=built.test=function test(){
 				const is_45prime_63=function is_45prime_63(_){
 					return _ms.unlazy(not)(_ms.unlazy(any_63)(range(2,_),_ms.sub(_ms.unlazy(divisible_63),_)))
 				};
@@ -41,10 +42,10 @@ define(["exports","../../at/q","../../at/Map/Mapbang","../../at/Map/Id-Mapbang",
 						}
 					}
 				}
-			}),"doc",doc,"test",test,"name","primes")
+			}),built,"primes")
 		}();
 		const name=exports.name="sieve-of-eratosthenes";
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL2RlbW8vc2lldmUtb2YtZXJhdG9zdGhlbmVzLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7RUFrQkEsc0NBQ087R0FBTixVQUFNO0dBQ04sV0FDUSxlQUFBO0lBQVAsb0JBQWEsdUJBQUEsRUFDQzsrQ0FBRixNQUFNLEVBQUUsb0NBQWM7SUFBQTtJQUM3QixRQUFBLHNCQUFLLE9BQU8sdUJBQ0U7cUJBQWhCLGNBQVU7SUFBQTtHQUFBO2tCQUNkLE9BQ1UsV0FBQTtXQUFOO1dBQ0E7SUFFSCxzQkFBZ0IsT0FBRyxZQUNPLG1CQUFBOztxQkFBekIsRUFBSyxDQUFFOzs7SUFDSCxRQUFBLGFBQWEsTUFBTSxFQUFFLFNBQVMsc0JBQ0M7S0FDN0I7TUFBQSxRQUFBLGNBQVUsZ0JBQWM7TUFDN0I7NEJBQUMsS0FBRDtzQkFDYTs7UUFBUCxRQUFBLEtBQUEsMkJBQ087U0FBWCxVQUFNLElBQUUsVUFBVyxJQUFFLEVBQUU7U0FFdkIsa0JBQVUsZ0JBQWMsSUFBSSxDQUFFO1FBQUE7T0FBQSxPQUU1QjtlQUFBO1FBQ0gsU0FBTyxnQkFBZSxPQUFPLFdBQVcsQ0FBRTtPQUFBO01BQUE7S0FBQTtJQUFBO0dBQUE7O0VBekMvQyx3QkFBQSIsImZpbGUiOiJtZXRhL2RlbW8vc2lldmUtb2YtZXJhdG9zdGhlbmVzLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL2RlbW8vc2lldmUtb2YtZXJhdG9zdGhlbmVzLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7RUFrQkEsc0NBQ087O0dBQU4sb0JBQU07R0FDTixzQkFDUSxlQUFBO0lBQVAsb0JBQWEsdUJBQUEsRUFDQzsrQ0FBRixNQUFNLEVBQUUsb0NBQWM7SUFBQTtJQUM3QixRQUFBLHNCQUFLLE9BQU8sdUJBQ0U7cUJBQWhCLGNBQVU7SUFBQTtHQUFBO2tCQUNkLE9BQ1UsV0FBQTtXQUFOO1dBQ0E7SUFFSCxzQkFBZ0IsT0FBRyxZQUNPLG1CQUFBOztxQkFBekIsRUFBSyxDQUFFOzs7SUFDSCxRQUFBLGFBQWEsTUFBTSxFQUFFLFNBQVMsc0JBQ0M7S0FDN0I7TUFBQSxRQUFBLGNBQVUsZ0JBQWM7TUFDN0I7NEJBQUMsS0FBRDtzQkFDYTs7UUFBUCxRQUFBLEtBQUEsMkJBQ087U0FBWCxVQUFNLElBQUUsVUFBVyxJQUFFLEVBQUU7U0FFdkIsa0JBQVUsZ0JBQWMsSUFBSSxDQUFFO1FBQUE7T0FBQSxPQUU1QjtlQUFBO1FBQ0gsU0FBTyxnQkFBZSxPQUFPLFdBQVcsQ0FBRTtPQUFBO01BQUE7S0FBQTtJQUFBO0dBQUE7O0VBekMvQyx3QkFBQSIsImZpbGUiOiJtZXRhL2RlbW8vc2lldmUtb2YtZXJhdG9zdGhlbmVzLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

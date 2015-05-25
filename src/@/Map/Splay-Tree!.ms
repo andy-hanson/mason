@@ -18,7 +18,7 @@ use
 use-debug
 	...! !not
 
-Splay-Tree! = Wrap-Type
+Splay-Tree!. Wrap-Type
 	doc. "
 		Default Sorted-Map! implementation.
 		Binary tree that is good at accessing the same values many times.
@@ -151,5 +151,3 @@ region Implementation
 		defined? node.left!
 	has-right? = |node
 		defined? node.right!
-
-Splay-Tree!

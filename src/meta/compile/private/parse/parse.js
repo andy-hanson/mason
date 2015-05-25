@@ -1,18 +1,17 @@
 import Loc from 'esast/dist/Loc'
-import tupl from 'tupl/dist/tupl'
 import { code } from '../../CompileError'
-import { Assign, AssignDestructure, AssignMutate, BagEntry, BagSimple, BlockBag, BlockDo, BlockMap,
+import { AssignDestructure, AssignSingle, BagEntry, BagSimple, BlockBag, BlockDo, BlockMap,
 	BlockObj, BlockWithReturn, BlockWrap, BreakDo, Call, CaseDoPart, CaseValPart, CaseDo, CaseVal,
-	Debug, Do, NumberLiteral, ForDoPlain, ForDoWithBag, Fun, GlobalAccess, IfDo, Lazy, LD_Const,
-	LD_Lazy, LD_Mutable, LocalAccess, LocalDeclare, LocalDeclareRes, MapEntry, Member, Module,
-	ObjPair, ObjSimple, Pattern, Quote, SP_Debugger, SpecialDo, SpecialVal, SV_Null, Splat, Val,
-	UnlessDo, Use, UseDo, Yield, YieldTo } from '../../MsAst'
+	Debug, NumberLiteral, ForDoPlain, ForDoWithBag, Fun, GlobalAccess, IfDo, Lazy, LD_Const,
+	LD_Lazy, LD_Mutable, LocalAccess, LocalDeclare, LocalDeclareRes, LocalMutate, MapEntry, Member,
+	Module, ObjEntry, ObjPair, ObjSimple, Pattern, Quote, SP_Debugger, SpecialDo, SpecialVal,
+	SV_Null, Splat, Val, UnlessDo, Use, UseDo, Yield, YieldTo } from '../../MsAst'
 import { JsGlobals } from '../language'
 import { DotName, Group, G_Block, G_Bracket, G_Parenthesis, G_Space, G_Quote, isGroup,
-	isKeyword, Keyword, KW_Assign, KW_AssignMutable, KW_AssignMutate, KW_BreakDo, KW_Case,
-	KW_CaseDo, KW_Debug, KW_Debugger, KW_Else, KW_ForDo, KW_Focus, KW_Fun, KW_FunDo, KW_GenFun,
-	KW_GenFunDo, KW_IfDo, KW_In, KW_Lazy, KW_MapEntry, KW_ObjAssign, KW_Pass, KW_Out, KW_Region,
-	KW_Type, KW_UnlessDo, KW_Use, KW_UseDebug, KW_UseDo, KW_UseLazy, KW_Yield, KW_YieldTo, Name,
+	isKeyword, Keyword, KW_Assign, KW_AssignMutable, KW_BreakDo, KW_Case, KW_CaseDo, KW_Debug,
+	KW_Debugger, KW_Else, KW_ForDo, KW_Focus, KW_Fun, KW_FunDo, KW_GenFun, KW_GenFunDo, KW_IfDo,
+	KW_In, KW_Lazy, KW_LocalMutate, KW_MapEntry, KW_ObjAssign, KW_Pass, KW_Out, KW_Region, KW_Type,
+	KW_UnlessDo, KW_Use, KW_UseDebug, KW_UseDo, KW_UseLazy, KW_Yield, KW_YieldTo, Name,
 	opKeywordKindToSpecialValueKind } from '../Token'
 import { assert, head, ifElse, flatMap, isEmpty, last,
 	opIf, opMap, push, repeat, rtail, tail, unshift } from '../util'
@@ -59,7 +58,7 @@ const parseModule = tokens => {
 
 	if (context.opts.includeModuleName() && !exports.some(_ => _.name === 'name')) {
 		const name = LocalDeclare.declareName(tokens.loc)
-		lines.push(Assign(tokens.loc, name,
+		lines.push(AssignSingle(tokens.loc, name,
 			Quote.forString(tokens.loc, context.opts.moduleName())))
 		exports.push(name)
 	}
@@ -93,13 +92,11 @@ const
 
 	parseBlockDo = tokens => {
 		const lines = _plainBlockLines(tokens)
-		lines.forEach(_ =>
-			context.check(!(_ instanceof WithObjKeys), _.loc, 'TODO: Allow obj keys here'))
 		return BlockDo(tokens.loc, lines)
 	},
 
 	parseBlockVal = tokens => {
-		const { lines, kReturn, objKeys } = _parseBlockLines(tokens)
+		const { lines, kReturn } = _parseBlockLines(tokens)
 		switch (kReturn) {
 			case KReturn_Bag:
 				return BlockBag.of(tokens.loc, lines)
@@ -107,7 +104,8 @@ const
 				return BlockMap.of(tokens.loc, lines)
 			case KReturn_Obj:
 				const [ doLines, opVal ] = _tryTakeLastVal(lines)
-				return BlockObj(tokens.loc, doLines, objKeys, opVal, null)
+				// opName written to by _tryAddName.
+				return BlockObj.of(tokens.loc, doLines, opVal, null)
 			default: {
 				context.check(!isEmpty(lines), tokens.loc, 'Value block must end in a value.')
 				const val = last(lines)
@@ -118,16 +116,49 @@ const
 	},
 
 	parseModuleBlock = tokens => {
-		const { lines, kReturn, objKeys: exports } = _parseBlockLines(tokens)
+		const { lines, kReturn } = _parseBlockLines(tokens)
 		const loc = tokens.loc
 		switch (kReturn) {
 			case KReturn_Bag: case KReturn_Map: {
 				const block = (kReturn === KReturn_Bag ? BlockBag : BlockMap).of(loc, lines)
 				return { lines: [ ], exports, opDefaultExport: BlockWrap(loc, block) }
 			}
-			default:
-				const [ doLines, opDefaultExport ] = _tryTakeLastVal(lines)
-				return { lines: doLines, exports, opDefaultExport }
+			default: {
+				const exports = [ ]
+				let opDefaultExport = null
+				const moduleName = context.opts.moduleName()
+
+				// Module exports look like a BlockObj,  but are really different.
+				// In ES6, module exports must be completely static.
+				// So we keep an array of exports attached directly to the Module ast.
+				// If you write:
+				//	if! cond
+				//		a. b
+				// in a module context, it will be an error. (The module creates no `built` local.)
+				const getLineExports = line => {
+					if (line instanceof ObjEntry) {
+						line.assign.allAssignees().forEach(_ => {
+							if (_.name === moduleName) {
+								context.check(opDefaultExport === null, _.loc, () =>
+									`Default export already declared at ${opDefaultExport.loc}`)
+								opDefaultExport = LocalAccess(_.loc, _.name)
+							} else
+								exports.push(_)
+						})
+						return line.assign
+					} else if (line instanceof Debug)
+						line.lines = line.lines.map(getLineExports)
+					return line
+				}
+
+				const moduleLines = lines.map(getLineExports)
+
+				if (isEmpty(exports) && opDefaultExport === null) {
+					const [ lines, opDefaultExport ] = _tryTakeLastVal(moduleLines)
+					return { lines, exports, opDefaultExport }
+				} else
+					return { lines: moduleLines, exports, opDefaultExport }
+			}
 		}
 	}
 
@@ -161,8 +192,7 @@ const
 	KReturn_Bag = 2,
 	KReturn_Map = 3,
 	_parseBlockLines = lineTokens => {
-		const objKeys = [ ]
-		let isBag = false, isMap = false
+		let isBag = false, isMap = false, isObj = false
 		const checkLine = line => {
 			if (line instanceof Debug)
 				line.lines.forEach(checkLine)
@@ -170,21 +200,19 @@ const
 				isBag = true
 			else if (line instanceof MapEntry)
 				isMap = true
-			else if (line instanceof WithObjKeys)
-				objKeys.push(...line.keys)
+			else if (line instanceof ObjEntry)
+				isObj = true
 		}
-		let lines = _plainBlockLines(lineTokens)
+		const lines = _plainBlockLines(lineTokens)
 		lines.forEach(checkLine)
-		lines = lines.map(_ => _ instanceof WithObjKeys ? _.line : _)
 
-		const isObj = !isEmpty(objKeys)
 		context.check(!(isObj && isBag), lines.loc, 'Block has both Bag and Obj lines.')
 		context.check(!(isObj && isMap), lines.loc, 'Block has both Obj and Map lines.')
 		context.check(!(isBag && isMap), lines.loc, 'Block has both Bag and Map lines.')
 
 		const kReturn =
 			isObj ? KReturn_Obj : isBag ? KReturn_Bag : isMap ? KReturn_Map : KReturn_Plain
-		return { lines, kReturn, objKeys }
+		return { lines, kReturn }
 	}
 
 const parseCase = (k, casedFromFun, tokens) => {
@@ -197,7 +225,7 @@ const parseCase = (k, casedFromFun, tokens) => {
 		checkEmpty(before, 'Can\'t make focus -- is implicitly provided as first argument.')
 		opCased = null
 	} else
-		opCased = opIf(!before.isEmpty(), () => Assign.focus(before.loc, parseExpr(before)))
+		opCased = opIf(!before.isEmpty(), () => AssignSingle.focus(before.loc, parseExpr(before)))
 
 	const lastLine = Slice.group(block.last())
 	const [ partLines, opElse ] = isKeyword(KW_Else, lastLine.head()) ?
@@ -448,8 +476,8 @@ const
 			({ before, at, after }) => {
 				return at.kind === KW_MapEntry ?
 					_parseMapEntry(before, after, tokens.loc) :
-					at.kind === KW_AssignMutate ?
-					_parseAssignMutate(before, after, tokens.loc) :
+					at.kind === KW_LocalMutate ?
+					_parseLocalMutate(before, after, tokens.loc) :
 					_parseAssign(before, at, after, tokens.loc)
 			},
 			() => parseExpr(tokens))
@@ -465,7 +493,7 @@ const
 	_isLineSplitKeyword = token => {
 		if (token instanceof Keyword)
 			switch (token.kind) {
-				case KW_Assign: case KW_AssignMutable: case KW_AssignMutate:
+				case KW_Assign: case KW_AssignMutable: case KW_LocalMutate:
 				case KW_MapEntry: case KW_ObjAssign: case KW_Yield: case KW_YieldTo:
 					return true
 				default:
@@ -475,12 +503,12 @@ const
 			return false
 	},
 
-	_parseAssignMutate = (localsTokens, valueTokens, loc) => {
+	_parseLocalMutate = (localsTokens, valueTokens, loc) => {
 		const locals = parseLocalDeclaresJustNames(localsTokens)
-		context.check(locals.length === 1, loc, 'TODO: AssignDestructureMutate')
+		context.check(locals.length === 1, loc, 'TODO: LocalDestructureMutate')
 		const name = locals[0].name
 		const value = parseExpr(valueTokens)
-		return AssignMutate(loc, name, value)
+		return LocalMutate(loc, name, value)
 	},
 
 	_parseAssign = (localsTokens, assigner, valueTokens, loc) => {
@@ -506,21 +534,19 @@ const
 					_.kind = LD_Mutable
 				})
 
-			const ass = (() => {
-				if (locals.length === 1) {
-					const assignee = locals[0]
-					const assign = Assign(loc, assignee, value)
-					const isTest = isObjAssign && assignee.name.endsWith('test')
-					return isTest ? Debug(loc, [ assign ]) : assign
-				} else {
-					const kind = locals[0].kind
-					locals.forEach(_ => context.check(_.kind === kind, _.loc,
-						'All locals of destructuring assignment must be of the same kind.'))
-					return AssignDestructure(loc, locals, value, kind)
-				}
-			})()
+			const wrap = _ => isObjAssign ? ObjEntry(loc, _) : _
 
-			return isObjAssign ? WithObjKeys(locals, ass) : ass
+			if (locals.length === 1) {
+				const assignee = locals[0]
+				const assign = AssignSingle(loc, assignee, value)
+				const isTest = isObjAssign && assignee.name.endsWith('test')
+				return isTest ? Debug(loc, [ wrap(assign) ]) : wrap(assign)
+			} else {
+				const kind = locals[0].kind
+				locals.forEach(_ => context.check(_.kind === kind, _.loc,
+					'All locals of destructuring assignment must be of the same kind.'))
+				return wrap(AssignDestructure(loc, locals, value, kind))
+			}
 		}
 	},
 
@@ -552,14 +578,18 @@ const
 		else
 			_tryAddObjName(_, name)
 	},
+
 	_tryAddObjName = (_, name) => {
-		if (_ instanceof BlockWrap)
-			if (_.block instanceof BlockObj)
-				if (_.block.opObjed !== null && _.block.opObjed instanceof Fun)
-					_.block.opObjed.name = name
-				else if (!(_.block.keys.some(_ => _.name === 'name')))
-					_.block.opName = name
+		if (_ instanceof BlockWrap && _.block instanceof BlockObj)
+			if (_.block.opObjed !== null && _.block.opObjed instanceof Fun)
+				_.block.opObjed.name = name
+			else if (!_nameObjAssignSomewhere(_.block.lines))
+				_.block.opName = name
 	},
+	_nameObjAssignSomewhere = lines =>
+		lines.some(line =>
+			line instanceof ObjEntry && line.assign.allAssignees().some(_ =>
+				_.name === 'name')),
 
 	_parseMapEntry = (before, after, loc) =>
 		MapEntry(loc, parseExpr(before), parseExpr(after))
@@ -779,6 +809,3 @@ const
 			return ForDoWithBag(tokens.loc, element, bag, body)
 		}
 	}
-
-// Wraps an Do with keys for this block\'s Obj. Not meant to escape this file.,
-const WithObjKeys = tupl('WithObjKeys', Object, null, [ 'keys', [LocalDeclare], 'line', Do])

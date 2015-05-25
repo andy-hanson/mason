@@ -6,27 +6,24 @@ define(["exports","esast/dist/mangle-identifier","../js","../Object","../Objectb
 			return _ms.getDefaultExport(_33_7)
 		}),_$11=_ms.lazyGetModule(compare_8),_61_63=_ms.lazyProp(_$11,"=?"),_$12=_ms.lazyGetModule(Type_9),contains_63=_ms.lazyProp(_$12,"contains?");
 		const Js_45Method=Obj_45Type(function(){
-			const doc="A Js-Method allows you to call a JavaScript-style method as a function.\nUnlike a Mason Method, for a Js-Method,\nthe first argument becomes `this` within the implementation's body.";
-			const test=function test(){
+			const built={};
+			const doc=built.doc="A Js-Method allows you to call a JavaScript-style method as a function.\nUnlike a Mason Method, for a Js-Method,\nthe first argument becomes `this` within the implementation's body.";
+			const test=built.test=function test(){
 				const toString=Js_45Method(function(){
-					const impl_45symbol="toString";
-					return {
-						"impl-symbol":impl_45symbol,
-						name:"toString"
-					}
+					const built={};
+					const impl_45symbol=built["impl-symbol"]="toString";
+					return _ms.setName(built,"toString")
 				}());
 				_ms.unlazy(_33)(_ms.unlazy(_61_63),toString(1),"1")
 			};
-			const props=function(){
-				const name=String;
-				const impl_45symbol=Object_45Key;
-				return {
-					name:name,
-					"impl-symbol":impl_45symbol
-				}
+			const props=built.props=function(){
+				const built={};
+				const name=built.name=String;
+				const impl_45symbol=built["impl-symbol"]=Object_45Key;
+				return built
 			}();
-			const extensible=true;
-			const make_45callable=function make_45callable(jsm){
+			const extensible=built.extensible=true;
+			const make_45callable=built["make-callable"]=function make_45callable(jsm){
 				const impl=function(){
 					const _=jsm["impl-symbol"];
 					if(_ms.bool(_ms.contains(String,_))){
@@ -39,18 +36,12 @@ define(["exports","esast/dist/mangle-identifier","../js","../Object","../Objectb
 				const make_45method=Function("symbol",src);
 				return make_45method(jsm["impl-symbol"])
 			};
-			return {
-				doc:doc,
-				test:test,
-				props:props,
-				extensible:extensible,
-				"make-callable":make_45callable,
-				name:"Js-Method"
-			}
+			return _ms.setName(built,"Js-Method")
 		}());
 		const send=exports.send=function(){
-			const doc="Calls `target`'s js-method `name` with the given arguments.";
-			const test=function test(){
+			const built={};
+			const doc=built.doc="Calls `target`'s js-method `name` with the given arguments.";
+			const test=built.test=function test(){
 				const built=new global.Map();
 				_ms.assoc(built,[1,"toFixed",2],"1.00");
 				return built
@@ -64,7 +55,7 @@ define(["exports","esast/dist/mangle-identifier","../js","../Object","../Objectb
 					return (((("Js-Method "+_ms.show(name))+" not implemented by ")+_ms.show(target))+".")
 				}));
 				return impl.apply(target,args)
-			},"doc",doc,"test",test)
+			},built)
 		}();
 		const send_33=exports["send!"]=send;
 		const js_45impl_33=exports["js-impl!"]=function js_45impl_33(method,type,implementation){
@@ -78,4 +69,4 @@ define(["exports","esast/dist/mangle-identifier","../js","../Object","../Objectb
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL0pzLU1ldGhvZC5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7O0VBYUEsa0JBQVkscUJBQ1E7R0FBbkIsVUFDQztHQUdELFdBQ1EsZUFBQTtJQUFQLGVBQVcsc0JBQ1M7S0FBbkIsb0JBQWM7Ozs7Ozt1Q0FDVCxTQUFTLEdBQUk7R0FBQTtHQUNwQixzQkFDTTtJQUFMLFdBQU07SUFDTixvQkFBYTs7Ozs7O0dBQ2QsaUJBQVk7R0FDWixzQkFBZ0IseUJBQUEsSUFDRztJQUFsQjtLQUFZLFFBQUE7S0FDWCx5QkFBQyxPQUFELElBQ087YUFBTCxrQkFBSztZQUNQLHlCQUFDLE9BQUQsSUFDTzthQUFMO0tBQUE7O0lBR0gsVUFDQyxzQ0FBaUIsb0JBQWtCLDJLQUdqQiwyQ0FDQSw0Q0FDQSwrQ0FDQTtJQUluQixvQkFBYyxTQUFVLFNBQVE7V0FDaEMsY0FBWTs7Ozs7Ozs7Ozs7RUFFZCxrQ0FDSztHQUFKLFVBQU07R0FDTixXQUNPLGVBQUE7O29CQUFOLENBQUUsRUFBRyxVQUFTLEdBQVE7OztrQkFDdEIsY0FBQSxPQUFXLEtBQ3VCOztzQkFEM0I7c0JBQVM7SUFDaEIsV0FBTyxTQUFPLE9BQU87NENBQ0YsU0FBUztZQUFRLDBCQUFXLHdDQUEwQjs7V0FDekUsV0FBVyxPQUFPO0dBQUE7O0VBRXBCLCtCQUFPO0VBRVAsdUNBQVksc0JBQUEsT0FBaUIsS0FBZSxlQUN1QjtxQkFEaEQ7cUJBQWU7cUJBQXlCO0dBQzFELFFBQUksZUFBZSxzQkFBbUI7RUFBQTtFQTVEdkMsd0JBQUE7a0JBOERBIiwiZmlsZSI6IlR5cGUvSnMtTWV0aG9kLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL0pzLU1ldGhvZC5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7O0VBYUEsa0JBQVcscUJBQ1E7O0dBQWxCLG9CQUNDO0dBR0Qsc0JBQ1EsZUFBQTtJQUFQLGVBQVcsc0JBQ1M7O0tBQW5CLHlDQUFjOzs7dUNBQ1QsU0FBUyxHQUFJO0dBQUE7R0FDcEIsa0NBQ007O0lBQUwsc0JBQU07SUFDTix5Q0FBYTs7O0dBQ2Qsa0NBQVk7R0FDWiw2Q0FBZ0IseUJBQUEsSUFDRztJQUFsQjtLQUFZLFFBQUE7S0FDWCx5QkFBQyxPQUFELElBQ087YUFBTCxrQkFBSztZQUNQLHlCQUFDLE9BQUQsSUFDTzthQUFMO0tBQUE7O0lBR0gsVUFDQyxzQ0FBaUIsb0JBQWtCLDJLQUdqQiwyQ0FDQSw0Q0FDQSwrQ0FDQTtJQUluQixvQkFBYyxTQUFVLFNBQVE7V0FDaEMsY0FBWTs7OztFQUVkLGtDQUNLOztHQUFKLG9CQUFNO0dBQ04sc0JBQ08sZUFBQTs7b0JBQU4sQ0FBRSxFQUFHLFVBQVMsR0FBUTs7O2tCQUN0QixjQUFBLE9BQVcsS0FDdUI7O3NCQUQzQjtzQkFBUztJQUNoQixXQUFPLFNBQU8sT0FBTzs0Q0FDRixTQUFTO1lBQVEsMEJBQVcsd0NBQTBCOztXQUN6RSxXQUFXLE9BQU87R0FBQTs7RUFFcEIsK0JBQU87RUFFUCx1Q0FBWSxzQkFBQSxPQUFpQixLQUFlLGVBQ3VCO3FCQURoRDtxQkFBZTtxQkFBeUI7R0FDMUQsUUFBSSxlQUFlLHNCQUFtQjtFQUFBO0VBNUR2Qyx3QkFBQTtrQkFhQSIsImZpbGUiOiJUeXBlL0pzLU1ldGhvZC5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

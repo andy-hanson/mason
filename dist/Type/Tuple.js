@@ -11,53 +11,42 @@ define(["exports","esast/dist/mangle-identifier","../js","../private/bootstrap",
 		const get_45prop=function get_45prop(_){
 			return function(){
 				if(_ms.bool(_ms.contains(Array,_))){
-					const name=_ms.sub(_,0);
-					const id=mangle_45identifier(_ms.sub(_,0));
-					const type=_ms.sub(_,1);
-					return {
-						name:name,
-						id:id,
-						type:type
-					}
+					const built={};
+					const name=built.name=_ms.sub(_,0);
+					const id=built.id=mangle_45identifier(_ms.sub(_,0));
+					const type=built.type=_ms.sub(_,1);
+					return built
 				} else if(_ms.bool(_ms.contains(String,_))){
-					const name=_;
-					const id=mangle_45identifier(_);
-					return {
-						name:name,
-						id:id
-					}
+					const built={};
+					const name=built.name=_;
+					const id=built.id=mangle_45identifier(_);
+					return built
 				} else throw new Error("No branch of `case` matches.")
 			}()
 		};
 		const Tuple=Obj_45Type(function(){
-			const props=function(){
-				const name=String;
-				const props=Object;
-				const prototype=Object;
-				return {
-					name:name,
-					props:props,
-					prototype:prototype
-				}
+			const built={};
+			const props=built.props=function(){
+				const built={};
+				const name=built.name=String;
+				const props=built.props=Object;
+				const prototype=built.prototype=Object;
+				return built
 			}();
-			const opt_45props=function(){
-				const post_45construct=Function;
-				return {
-					"post-construct":post_45construct,
-					name:"opt-props"
-				}
+			const opt_45props=built["opt-props"]=function(){
+				const built={};
+				const post_45construct=built["post-construct"]=Function;
+				return _ms.setName(built,"opt-props")
 			}();
-			const extensible=true;
-			const defaults=function(){
-				const prototype=function prototype(){
+			const extensible=built.extensible=true;
+			const defaults=built.defaults=function(){
+				const built={};
+				const prototype=built.prototype=function prototype(){
 					return Object.create(Object.prototype)
 				};
-				return {
-					prototype:prototype,
-					name:"defaults"
-				}
+				return _ms.setName(built,"defaults")
 			}();
-			const make_45callable=function make_45callable(tuple){
+			const make_45callable=built["make-callable"]=function make_45callable(tuple){
 				const props=tuple.props.map(get_45prop);
 				const args=props.map(function(_){
 					return _.id
@@ -89,7 +78,7 @@ define(["exports","esast/dist/mangle-identifier","../js","../private/bootstrap",
 				pAdd(ctr,"source",src);
 				return ctr
 			};
-			const post_45construct=function post_45construct(_){
+			const post_45construct=built["post-construct"]=function post_45construct(_){
 				pAdd(_.prototype,"constructor",_);
 				const accesses=_.props.map(get_45prop).map(function(_){
 					return ("_"+_ms.show(access(_.name)))
@@ -99,18 +88,16 @@ define(["exports","esast/dist/mangle-identifier","../js","../private/bootstrap",
 				const extractor=make_45extractor(_);
 				return self_45impl_33(extract,_,extractor)
 			};
-			const test=function test(){
+			const test=built.test=function test(){
 				const Vec2=Tuple(function(){
-					const props=function(){
+					const built={};
+					const props=built.props=function(){
 						const built=[];
 						_ms.add(built,"x");
 						_ms.add(built,["y",Number]);
 						return built
 					}();
-					return {
-						props:props,
-						name:"Vec2"
-					}
+					return _ms.setName(built,"Vec2")
 				}());
 				const v=Vec2(1,2);
 				_ms.unlazy(_33)(_ms.unlazy(_61_63),1,v.x);
@@ -127,16 +114,7 @@ define(["exports","esast/dist/mangle-identifier","../js","../private/bootstrap",
 					}
 				}
 			};
-			return {
-				props:props,
-				"opt-props":opt_45props,
-				extensible:extensible,
-				defaults:defaults,
-				"make-callable":make_45callable,
-				"post-construct":post_45construct,
-				test:test,
-				name:"Tuple"
-			}
+			return _ms.setName(built,"Tuple")
 		}());
 		implContains(Tuple,function(tuple,_){
 			return js_45instanceof(_,tuple)
@@ -147,4 +125,4 @@ define(["exports","esast/dist/mangle-identifier","../js","../private/bootstrap",
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL1R1cGxlLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7RUFjQSxhQUFVLGdCQUFBLEtBQ0k7VUFBWixpQkFBSTs7RUFFTixpQkFBWSxvQkFBQSxFQUFBOztJQUVYLHlCQUFDLE1BQUQsSUFDTTtLQUFMLG1CQUFNLEVBQUU7S0FDUixTQUFJLDRCQUFrQixFQUFFO0tBQ3hCLG1CQUFNLEVBQUU7Ozs7OztXQUNULHlCQUFDLE9BQUQsSUFDTztLQUFOLFdBQU07S0FDTixTQUFJLG9CQUFpQjs7Ozs7Ozs7RUFFdkIsWUFBUSxxQkFDUTtHQUFmLHNCQUNNO0lBQUwsV0FBTTtJQUNOLFlBQU87SUFDUCxnQkFBVzs7Ozs7OztHQUNaLDRCQUNVO0lBQ1QsdUJBQWdCOzs7Ozs7R0FDakIsaUJBQVk7R0FDWix5QkFDUztJQUFSLGdCQUNZLG9CQUFBO1lBQVgsY0FBYzs7Ozs7OztHQUNoQixzQkFBZ0IseUJBQUEsTUFDSztJQUFwQixZQUFRLGdCQUFnQjtJQUd4QixXQUFPLFVBQVcsU0FBQSxFQUNDO1lBQWxCOztJQUNELGNBQVUsVUFBVztJQUVyQixVQUFNLFNBQVUsU0FBQSxPQUNJO0tBQW5CLFdBQU8sb0JBQWtCO0tBR3pCLE9BQ0Msc0NBQWlCLHFCQUFPLGtEQUNELGtDQUFvQixxQkFBTztLQUU5QyxRQUFBLEtBQUEseUJBQ0s7TUFBVCxZQUFJLFdBQVMsU0FDTTtPQUFsQixPQUFNLG9DQUFtQiwyQkFBYSx3QkFBVTs7TUFFakQsT0FBTSxtQkFBSyxPQUFPLDBCQUFXOztLQUU5QixPQUNDLHVDQUF3QixpRUFDUztLQUlsQyxZQUFJLFdBQVMsMEJBQ29CO01BQWhDLE9BQU07S0FBQTtZQUVQLE9BQU07SUFBQTtJQUVQLGtCQUFZLFVBQVcsU0FBQSxFQUNDO1lBQXRCLEVBOUJRLFlBOEJQOztJQUNILHFDQUFXLHdCQUFVLHdCQUFlLGFBQWE7SUFDakQsWUFBUSxVQUFXLFNBQUEsS0FDSTtZQUF0Qjs7SUFDRCw4QkFBTSwwQkFBUyxnQ0FBcUI7SUFDOUIsS0FBSyxJQUFLLFNBQVE7V0FDeEI7R0FBQTtHQUVELHVCQUFpQiwwQkFBQSxFQUNDO0lBQWpCLEtBQUssWUFBYSxjQUFhO0lBQy9CLGVBQVksWUFBWSxnQkFBZSxTQUFBLEVBQ0M7WUFBdEMsY0FBRSxPQUFPOztJQUNYLG9CQUFlLGlFQUFxRCxjQUFlO0lBQ25GLHVCQUFpQixTQUFVLFFBQU87SUFDbEMsZ0JBQVksaUJBQWU7V0FDM0IsZUFBVyxRQUFRLEVBQUU7R0FBQTtHQUV0QixXQUNRLGVBQUE7SUFBUCxXQUFPLGdCQUNLO0tBQVgsc0JBQ007O29CQUFGO29CQUNELENBQUcsSUFBRzs7Ozs7Ozs7SUFDVixRQUFJLEtBQUssRUFBRTt1Q0FDTixFQUFFO3VDQUNGLEVBQUU7SUFDRDtLQUFBLFFBQUE7S0FDTDsyQkFBQyxLQUFEO3FCQUNTOzswQ0FBSCxFQUFFOzBDQUNGLEVBQUU7TUFBQTs7Ozs7Ozs7Ozs7Ozs7O0VBRVgsYUFBYSxNQUFPLFNBQUEsTUFBTSxFQUNDO1VBQTFCLGdCQUFjLEVBQUU7RUFBQTtFQUVqQixRQUFNLE1BQU07RUExR1osd0JBQUE7a0JBNEdBIiwiZmlsZSI6IlR5cGUvVHVwbGUuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL1R1cGxlLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7RUFjQSxhQUFVLGdCQUFBLEtBQ0k7VUFBWixpQkFBSTs7RUFFTixpQkFBWSxvQkFBQSxFQUFBOztJQUVYLHlCQUFDLE1BQUQsSUFDTTs7S0FBTCw4QkFBTSxFQUFFO0tBQ1Isa0JBQUksNEJBQWtCLEVBQUU7S0FDeEIsOEJBQU0sRUFBRTs7V0FDVCx5QkFBQyxPQUFELElBQ087O0tBQU4sc0JBQU07S0FDTixrQkFBSSxvQkFBaUI7Ozs7O0VBRXZCLFlBQU8scUJBQ1E7O0dBQWQsa0NBQ007O0lBQUwsc0JBQU07SUFDTix3QkFBTztJQUNQLGdDQUFXOzs7R0FDWiwrQ0FDVTs7SUFDVCwrQ0FBZ0I7OztHQUNqQixrQ0FBWTtHQUNaLHdDQUNTOztJQUFSLGdDQUNZLG9CQUFBO1lBQVgsY0FBYzs7OztHQUNoQiw2Q0FBZ0IseUJBQUEsTUFDSztJQUFwQixZQUFRLGdCQUFnQjtJQUd4QixXQUFPLFVBQVcsU0FBQSxFQUNDO1lBQWxCOztJQUNELGNBQVUsVUFBVztJQUVyQixVQUFNLFNBQVUsU0FBQSxPQUNJO0tBQW5CLFdBQU8sb0JBQWtCO0tBR3pCLE9BQ0Msc0NBQWlCLHFCQUFPLGtEQUNELGtDQUFvQixxQkFBTztLQUU5QyxRQUFBLEtBQUEseUJBQ0s7TUFBVCxZQUFJLFdBQVMsU0FDTTtPQUFsQixPQUFNLG9DQUFtQiwyQkFBYSx3QkFBVTs7TUFFakQsT0FBTSxtQkFBSyxPQUFPLDBCQUFXOztLQUU5QixPQUNDLHVDQUF3QixpRUFDUztLQUlsQyxZQUFJLFdBQVMsMEJBQ29CO01BQWhDLE9BQU07S0FBQTtZQUVQLE9BQU07SUFBQTtJQUVQLGtCQUFZLFVBQVcsU0FBQSxFQUNDO1lBQXRCLEVBOUJRLFlBOEJQOztJQUNILHFDQUFXLHdCQUFVLHdCQUFlLGFBQWE7SUFDakQsWUFBUSxVQUFXLFNBQUEsS0FDSTtZQUF0Qjs7SUFDRCw4QkFBTSwwQkFBUyxnQ0FBcUI7SUFDOUIsS0FBSyxJQUFLLFNBQVE7V0FDeEI7R0FBQTtHQUVELCtDQUFpQiwwQkFBQSxFQUNDO0lBQWpCLEtBQUssWUFBYSxjQUFhO0lBQy9CLGVBQVksWUFBWSxnQkFBZSxTQUFBLEVBQ0M7WUFBdEMsY0FBRSxPQUFPOztJQUNYLG9CQUFlLGlFQUFxRCxjQUFlO0lBQ25GLHVCQUFpQixTQUFVLFFBQU87SUFDbEMsZ0JBQVksaUJBQWU7V0FDM0IsZUFBVyxRQUFRLEVBQUU7R0FBQTtHQUV0QixzQkFDUSxlQUFBO0lBQVAsV0FBTyxnQkFDSzs7S0FBWCxrQ0FDTTs7b0JBQUY7b0JBQ0QsQ0FBRyxJQUFHOzs7OztJQUNWLFFBQUksS0FBSyxFQUFFO3VDQUNOLEVBQUU7dUNBQ0YsRUFBRTtJQUNEO0tBQUEsUUFBQTtLQUNMOzJCQUFDLEtBQUQ7cUJBQ1M7OzBDQUFILEVBQUU7MENBQ0YsRUFBRTtNQUFBOzs7Ozs7RUFFWCxhQUFhLE1BQU8sU0FBQSxNQUFNLEVBQ0M7VUFBMUIsZ0JBQWMsRUFBRTtFQUFBO0VBRWpCLFFBQU0sTUFBTTtFQTFHWix3QkFBQTtrQkEyQkEiLCJmaWxlIjoiVHlwZS9UdXBsZS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

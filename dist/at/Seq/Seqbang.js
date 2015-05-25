@@ -10,8 +10,9 @@ define(["exports","../../math/Number","../../Type/Kind","../../Type/Method","../
 			return _ms.getDefaultExport(Array_33_12)
 		}),_$17=_ms.lazyGetModule(Seq_13),seq_61_63=_ms.lazyProp(_$17,"seq=?");
 		const Seq_33=Kind(function(){
-			const doc="Mutable Seq.\nArray!s can efficiently change existing elements and add new ones on the right.\nDeque!s are like Arrays, but can add new values on the left.";
-			const implementor_45test=function implementor_45test(type){
+			const built={};
+			const doc=built.doc="Mutable Seq.\nArray!s can efficiently change existing elements and add new ones on the right.\nDeque!s are like Arrays, but can add new values on the left.";
+			const implementor_45test=built["implementor-test"]=function implementor_45test(type){
 				const _=function(){
 					const _=type;
 					if(_ms.bool(_ms.unlazy(_61_63)(_,Array))){
@@ -31,11 +32,7 @@ define(["exports","../../math/Number","../../Type/Kind","../../Type/Method","../
 				_ms.unlazy(_33)(_ms.unlazy(empty_63),_);
 				_43_43_62_33(_,[1,2,3])
 			};
-			return {
-				doc:doc,
-				"implementor-test":implementor_45test,
-				name:"Seq!"
-			}
+			return _ms.setName(built,"Seq!")
 		}());
 		self_45kind_33(Seq_33,_64_45Type,function(){
 			const built=new global.Map();
@@ -47,73 +44,56 @@ define(["exports","../../math/Number","../../Type/Kind","../../Type/Method","../
 		kind_33(Seq_33,_64_33);
 		kind_33(Seq_33,Seq);
 		const _60_43_43_33=exports["<++!"]=Method(function(){
-			const doc="Makes `_` into `+ added _`.";
-			const args=function(){
+			const built={};
+			const doc=built.doc="Makes `_` into `+ added _`.";
+			const args=built.args=function(){
 				const built=[];
 				_ms.add(built,"_");
 				_ms.add(built,["added",_64]);
 				return built
 			}();
-			return {
-				doc:doc,
-				args:args,
-				name:"<++!"
-			}
+			return _ms.setName(built,"<++!")
 		}());
 		const _43_43_62_33=exports["++>!"]=Method(function(){
-			const doc="Makes `_` into `+ _ added`.";
-			const args=function(){
+			const built={};
+			const doc=built.doc="Makes `_` into `+ _ added`.";
+			const args=built.args=function(){
 				const built=[];
 				_ms.add(built,"_");
 				_ms.add(built,["added",_64]);
 				return built
 			}();
-			return {
-				doc:doc,
-				args:args,
-				name:"++>!"
-			}
+			return _ms.setName(built,"++>!")
 		}());
 		const _63_60pop_33=exports["?<pop!"]=Method(function(){
-			const doc="Takes one element off the left side, if not empty?.";
-			const args=1;
-			const returns=_63;
-			return {
-				doc:doc,
-				args:args,
-				returns:returns,
-				name:"?<pop!"
-			}
+			const built={};
+			const doc=built.doc="Takes one element off the left side, if not empty?.";
+			const args=built.args=1;
+			const returns=built.returns=_63;
+			return _ms.setName(built,"?<pop!")
 		}());
 		const _63pop_62_33=exports["?pop>!"]=Method(function(){
-			const doc="Takes one element off the right side, if not empty?.";
-			const args=1;
-			const returns=_63;
-			return {
-				doc:doc,
-				args:args,
-				returns:returns,
-				name:"?pop>!"
-			}
+			const built={};
+			const doc=built.doc="Takes one element off the right side, if not empty?.";
+			const args=built.args=1;
+			const returns=built.returns=_63;
+			return _ms.setName(built,"?pop>!")
 		}());
 		const set_45nth_33=exports["set-nth!"]=Method(function(){
-			const doc="Makes `_[n]` be `val`.";
-			const args=function(){
+			const built={};
+			const doc=built.doc="Makes `_[n]` be `val`.";
+			const args=built.args=function(){
 				const built=[];
 				_ms.add(built,"_");
 				_ms.add(built,["n",Nat]);
 				_ms.add(built,"val");
 				return built
 			}();
-			return {
-				doc:doc,
-				args:args,
-				name:"set-nth!"
-			}
+			return _ms.setName(built,"set-nth!")
 		}());
 		const name=exports.name="Seq!";
 		exports.default=Seq_33;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1NlcS9TZXEhLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7O0VBa0JBLGFBQU8sZUFDSTtHQUFWLFVBQ0M7R0FHRCx5QkFBb0IsNEJBQUEsS0FDSTtJQUN2QjtLQUFTLFFBQUE7S0FDUiwrQkFBRyxFQUFFLFFBQ0s7YUFBVDtZQUVHO2FBQUgsTUFBTTtLQUFBO0lBQUE7SUFDUixhQUFLLEVBQUUsQ0FBRSxFQUFFO0lBQ1gsYUFBSyxFQUFFLENBQUUsSUFBRzswQ0FDSixFQUFFLENBQUUsSUFBRyxJQUFHLEVBQUU7dUNBQ2YsYUFBTSxHQUFHLElBQUU7dUNBQ1gsYUFBTSxHQUFHLElBQUU7dUNBQ1gsYUFBTSxHQUFHLElBQUU7dUNBQ1gsYUFBTSxHQUFHLElBQUU7dUNBQ1gsYUFBTSxHQUFHLE1BQU07eUNBQ1g7SUFDVCxhQUFLLEVBQUUsQ0FBRSxFQUFFLEVBQUU7R0FBQTs7Ozs7OztFQUVmLGVBQVcsT0FBSyxxQkFDTTs7bUJBQXJCLE1BQ1UsVUFBQTtXQUFUOzs7O0VBRUYsUUFBTSxPQUFLO0VBQ1gsUUFBTSxPQUFLO0VBRVgsbUNBQU0saUJBQ007R0FBWCxVQUFNO0dBQ04scUJBQ0s7O2tCQUFEO2tCQUNELENBQUcsUUFBTzs7Ozs7Ozs7O0VBQ2QsbUNBQU0saUJBQ007R0FBWCxVQUFNO0dBQ04scUJBQ0s7O2tCQUFEO2tCQUNELENBQUcsUUFBTzs7Ozs7Ozs7O0VBRWQscUNBQVEsaUJBQ007R0FBYixVQUFNO0dBQ04sV0FBTTtHQUNOLGNBQVM7Ozs7Ozs7O0VBQ1YscUNBQVEsaUJBQ007R0FBYixVQUFNO0dBQ04sV0FBTTtHQUNOLGNBQVM7Ozs7Ozs7O0VBRVYsdUNBQVUsaUJBQ007R0FBZixVQUFNO0dBQ04scUJBQ0s7O2tCQUFEO2tCQUNELENBQUcsSUFBRztrQkFDTDs7Ozs7Ozs7O0VBekVMLHdCQUFBO2tCQTJFQSIsImZpbGUiOiJhdC9TZXEvU2VxYmFuZy5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1NlcS9TZXEhLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7O0VBa0JBLGFBQU0sZUFDSTs7R0FBVCxvQkFDQztHQUdELG1EQUFvQiw0QkFBQSxLQUNJO0lBQ3ZCO0tBQVMsUUFBQTtLQUNSLCtCQUFHLEVBQUUsUUFDSzthQUFUO1lBRUc7YUFBSCxNQUFNO0tBQUE7SUFBQTtJQUNSLGFBQUssRUFBRSxDQUFFLEVBQUU7SUFDWCxhQUFLLEVBQUUsQ0FBRSxJQUFHOzBDQUNKLEVBQUUsQ0FBRSxJQUFHLElBQUcsRUFBRTt1Q0FDZixhQUFNLEdBQUcsSUFBRTt1Q0FDWCxhQUFNLEdBQUcsSUFBRTt1Q0FDWCxhQUFNLEdBQUcsSUFBRTt1Q0FDWCxhQUFNLEdBQUcsSUFBRTt1Q0FDWCxhQUFNLEdBQUcsTUFBTTt5Q0FDWDtJQUNULGFBQUssRUFBRSxDQUFFLEVBQUUsRUFBRTtHQUFBOzs7RUFFZixlQUFXLE9BQUsscUJBQ007O21CQUFyQixNQUNVLFVBQUE7V0FBVDs7OztFQUVGLFFBQU0sT0FBSztFQUNYLFFBQU0sT0FBSztFQUVYLG1DQUFNLGlCQUNNOztHQUFYLG9CQUFNO0dBQ04sZ0NBQ0s7O2tCQUFEO2tCQUNELENBQUcsUUFBTzs7Ozs7RUFDZCxtQ0FBTSxpQkFDTTs7R0FBWCxvQkFBTTtHQUNOLGdDQUNLOztrQkFBRDtrQkFDRCxDQUFHLFFBQU87Ozs7O0VBRWQscUNBQVEsaUJBQ007O0dBQWIsb0JBQU07R0FDTixzQkFBTTtHQUNOLDRCQUFTOzs7RUFDVixxQ0FBUSxpQkFDTTs7R0FBYixvQkFBTTtHQUNOLHNCQUFNO0dBQ04sNEJBQVM7OztFQUVWLHVDQUFVLGlCQUNNOztHQUFmLG9CQUFNO0dBQ04sZ0NBQ0s7O2tCQUFEO2tCQUNELENBQUcsSUFBRztrQkFDTDs7Ozs7RUF6RUwsd0JBQUE7a0JBa0JBIiwiZmlsZSI6ImF0L1NlcS9TZXFiYW5nLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

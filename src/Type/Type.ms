@@ -14,7 +14,7 @@ use-debug
 	..!
 	.Method self-impl!
 
-Type = Kind
+Type. Kind
 	doc. "
 		Anything implementing contains?.
 		Types are generally used to succinctly make assertions about values.
@@ -89,5 +89,3 @@ region We make some things Types here due to bootstrapping order issues.
 	# TODO: Move?
 	implContains Function |fun _
 		js-instanceof _ fun
-
-Type

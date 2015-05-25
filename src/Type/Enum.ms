@@ -11,7 +11,7 @@ use-debug
 	..compare =?
 	.Type type-of
 
-Enum = Obj-Type
+Enum. Obj-Type
 	doc. "
 		A Concrete-Type with a small number of instances.
 		Great for using with `switch`.
@@ -47,5 +47,3 @@ kind! Enum Impl-Type
 
 impl! contains? Enum |_ value
 	Object.prototype.isPrototypeOf.call _.prototype value
-
-Enum

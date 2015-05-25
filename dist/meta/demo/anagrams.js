@@ -6,8 +6,9 @@ define(["exports","../../at/at","../../at/at-Type","../../at/Map/Map","../../at/
 			return _ms.getDefaultExport(_33_6)
 		}),_$10=_ms.lazyGetModule(Seq_7),seq_61_63=_ms.lazyProp(_$10,"seq=?"),_$11=_ms.lazyGetModule(String_8),split_45str=_ms.lazyProp(_$11,"split-str");
 		const maximum_45anagram_45sets=exports["maximum-anagram-sets"]=function(){
-			const doc="http://rosettacode.org/wiki/Anagrams#JavaScript";
-			const test=function test(){
+			const built={};
+			const doc=built.doc="http://rosettacode.org/wiki/Anagrams#JavaScript";
+			const test=built.test=function test(){
 				const words=_ms.unlazy(split_45str)(RegExp("\\s"),"abel able bale bela elba\nalger glare lager large regal\nangel angle galen glean lange\ncaret carte cater crate trace\nelan lane lean lena neal\nevil levi live veil vile\nrandom words to prove it's doing work");
 				_ms.unlazy(_33)(_ms.unlazy(seq_61_63),maximum_45anagram_45sets(words),function(){
 					const built=[];
@@ -29,10 +30,10 @@ define(["exports","../../at/at","../../at/at-Type","../../at/Map/Map","../../at/
 				return keep(values(sorted_45_62words),function(_){
 					return _61_63(count(_),max_45count)
 				})
-			},"doc",doc,"test",test)
+			},built)
 		}();
 		const name=exports.name="anagrams";
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL2RlbW8vYW5hZ3JhbXMubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQVlBLHlFQUNxQjtHQUFwQixVQUFNO0dBQ04sV0FDUSxlQUFBO0lBQVAsb0NBQW1CLE9BQVEsT0FDMUI7MENBT1EseUJBQXFCLGlCQUNNOzttQkFBakMsQ0FBRyxPQUFPLE9BQU8sT0FBTyxPQUFPO21CQUMvQixDQUFHLFFBQVEsUUFBUSxRQUFRLFFBQVE7bUJBQ25DLENBQUcsUUFBUSxRQUFRLFFBQVEsUUFBUTttQkFDbkMsQ0FBRyxRQUFRLFFBQVEsUUFBUSxRQUFRO21CQUNuQyxDQUFHLE9BQU8sT0FBTyxPQUFPLE9BQU87bUJBQy9CLENBQUcsT0FBTyxPQUFPLE9BQU8sT0FBTzs7OztrQkFDbEMsa0NBQUEsTUFDSztJQUNMLHdCQUFnQixNQUFNO0lBQ2pCLFFBQUEsS0FBQSx5QkFDSztLQUNULGtCQUFVLGtCQUFjLEtBQUksR0FBRSxDQUFFO0lBQUE7SUFDakMsa0JBQVksSUFBSyxJQUFLLE9BQU8sbUJBQWU7V0FDNUMsS0FBTSxPQUFPLG1CQUFnQixTQUFBLEVBQ0M7WUFBN0IsT0FBRyxNQUFLLEdBQUU7SUFBQTtHQUFBOztFQXRDYix3QkFBQSIsImZpbGUiOiJtZXRhL2RlbW8vYW5hZ3JhbXMuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL2RlbW8vYW5hZ3JhbXMubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQVlBLHlFQUNxQjs7R0FBcEIsb0JBQU07R0FDTixzQkFDUSxlQUFBO0lBQVAsb0NBQW1CLE9BQVEsT0FDMUI7MENBT1EseUJBQXFCLGlCQUNNOzttQkFBakMsQ0FBRyxPQUFPLE9BQU8sT0FBTyxPQUFPO21CQUMvQixDQUFHLFFBQVEsUUFBUSxRQUFRLFFBQVE7bUJBQ25DLENBQUcsUUFBUSxRQUFRLFFBQVEsUUFBUTttQkFDbkMsQ0FBRyxRQUFRLFFBQVEsUUFBUSxRQUFRO21CQUNuQyxDQUFHLE9BQU8sT0FBTyxPQUFPLE9BQU87bUJBQy9CLENBQUcsT0FBTyxPQUFPLE9BQU8sT0FBTzs7OztrQkFDbEMsa0NBQUEsTUFDSztJQUNMLHdCQUFnQixNQUFNO0lBQ2pCLFFBQUEsS0FBQSx5QkFDSztLQUNULGtCQUFVLGtCQUFjLEtBQUksR0FBRSxDQUFFO0lBQUE7SUFDakMsa0JBQVksSUFBSyxJQUFLLE9BQU8sbUJBQWU7V0FDNUMsS0FBTSxPQUFPLG1CQUFnQixTQUFBLEVBQ0M7WUFBN0IsT0FBRyxNQUFLLEdBQUU7SUFBQTtHQUFBOztFQXRDYix3QkFBQSIsImZpbGUiOiJtZXRhL2RlbW8vYW5hZ3JhbXMuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

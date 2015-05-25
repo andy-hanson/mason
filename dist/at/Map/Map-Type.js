@@ -8,11 +8,9 @@ define(["exports","../../Type/Kind","../at","../at-Type","./Map","./Id-Mapbang",
 			return _ms.getDefaultExport(Hash_45Map_33_6)
 		});
 		const Map_45Type=Kind(function(){
-			const doc="Any sub-type of Map.";
-			return {
-				doc:doc,
-				name:"Map-Type"
-			}
+			const built={};
+			const doc=built.doc="Any sub-type of Map.";
+			return _ms.setName(built,"Map-Type")
 		}());
 		self_45kind_33(Map,Map_45Type,function(){
 			const built=new global.Map();
@@ -24,7 +22,8 @@ define(["exports","../../Type/Kind","../at","../at-Type","./Map","./Id-Mapbang",
 		kind_33(Map_45Type,_64_45Type,function(){
 			const built=new global.Map();
 			_ms.assoc(built,from_45stream,function(){
-				const test=function test(){
+				const built={};
+				const test=built.test=function test(){
 					const built=new global.Map();
 					const m=function(){
 						const built=new global.Map();
@@ -45,7 +44,7 @@ define(["exports","../../Type/Kind","../at","../at-Type","./Map","./Id-Mapbang",
 						_ms.unlazy(assoc_33)(map,_ms.sub(_,0),_ms.sub(_,1))
 					};
 					return map
-				},"test",test)
+				},built)
 			}());
 			return built
 		}());
@@ -54,4 +53,4 @@ define(["exports","../../Type/Kind","../at","../at-Type","./Map","./Id-Mapbang",
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL01hcC9NYXAtVHlwZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7RUFXQSxpQkFBVyxlQUNJO0dBQWQsVUFBTTs7Ozs7O0VBR1AsZUFBVyxJQUFJLHFCQUNROzttQkFBdEIsTUFDVSxVQUFBO1dBQVQ7Ozs7RUFFRixRQUFNLFdBQVMscUJBQ007O21CQUFwQix3QkFDYztJQUFiLFdBQ08sZUFBQTs7S0FDTixrQkFDRzs7c0JBQUYsRUFBSztzQkFDTCxFQUFLOzs7S0FDTixTQUFLOzBCQUNFLEdBQUcsRUFBRTswQkFDTCxHQUFHLEVBQUU7cUJBQ1osMkJBQVksR0FBTzs7O21CQUNuQixTQUFBLEtBQUssT0FDUTt1QkFERDtLQUNaLFVBQU0sTUFBTTtLQUNQLFFBQUEsS0FBQSwwQkFDTTsyQkFDSCxZQUFJLEVBQUUsV0FBRyxFQUFFO0tBQUE7WUFDbkI7SUFBQTs7OztFQW5DSCx3QkFBQTtrQkFxQ0EiLCJmaWxlIjoiYXQvTWFwL01hcC1UeXBlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL01hcC9NYXAtVHlwZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7RUFXQSxpQkFBVSxlQUNJOztHQUFiLG9CQUFNOzs7RUFHUCxlQUFXLElBQUkscUJBQ1E7O21CQUF0QixNQUNVLFVBQUE7V0FBVDs7OztFQUVGLFFBQU0sV0FBUyxxQkFDTTs7bUJBQXBCLHdCQUNjOztJQUFiLHNCQUNPLGVBQUE7O0tBQ04sa0JBQ0c7O3NCQUFGLEVBQUs7c0JBQ0wsRUFBSzs7O0tBQ04sU0FBSzswQkFDRSxHQUFHLEVBQUU7MEJBQ0wsR0FBRyxFQUFFO3FCQUNaLDJCQUFZLEdBQU87OzttQkFDbkIsU0FBQSxLQUFLLE9BQ1E7dUJBREQ7S0FDWixVQUFNLE1BQU07S0FDUCxRQUFBLEtBQUEsMEJBQ007MkJBQ0gsWUFBSSxFQUFFLFdBQUcsRUFBRTtLQUFBO1lBQ25CO0lBQUE7Ozs7RUFuQ0gsd0JBQUE7a0JBV0EiLCJmaWxlIjoiYXQvTWFwL01hcC1UeXBlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

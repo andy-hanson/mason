@@ -6,18 +6,14 @@ define(["exports","../Boolean","../control","../js","../Type/Js-Method","../Type
 			return _ms.getDefaultExport(_33_13)
 		}),_$17=_ms.lazyGetModule(_33_13),_33not=_ms.lazyProp(_$17,"!not"),_$18=_ms.lazyGetModule(compare_14),_61_63=_ms.lazyProp(_$18,"=?"),_$19=_ms.lazyGetModule(Try_15),fails_63=_ms.lazyProp(_$19,"fails?");
 		const _63=Wrap_45Type(function(){
-			const doc="A Seq with 0 or 1 elements.\nTODO: MORE";
-			return {
-				doc:doc,
-				name:"?"
-			}
+			const built={};
+			const doc=built.doc="A Seq with 0 or 1 elements.\nTODO: MORE";
+			return _ms.setName(built,"?")
 		}());
 		const empty_45marker=function(){
-			const doc="`_.val` on an empty `?` will return this.";
-			return {
-				doc:doc,
-				name:"empty-marker"
-			}
+			const built={};
+			const doc=built.doc="`_.val` on an empty `?` will return this.";
+			return _ms.setName(built,"empty-marker")
 		}();
 		const empty_45_63=function(){
 			return _63(empty_45marker)
@@ -25,7 +21,7 @@ define(["exports","../Boolean","../control","../js","../Type/Js-Method","../Type
 		self_45kind_33(_63,_64_45Type);
 		self_45impl_33(from_45stream,_63,function(stream){
 			const iter=iterator(stream);
-			const _$35=iter.next(),value=_$35.value,done=_$35.done;
+			const _$36=iter.next(),value=_$36.value,done=_$36.done;
 			return function(){
 				if(_ms.bool(done)){
 					return empty_45_63
@@ -47,8 +43,9 @@ define(["exports","../Boolean","../control","../js","../Type/Js-Method","../Type
 			}
 		});
 		const Opt_45_62_63=exports["Opt->?"]=function(){
-			const doc="`?` containing the value iff it is defined.";
-			const test=function test(){
+			const built={};
+			const doc=built.doc="`?` containing the value iff it is defined.";
+			const test=built.test=function test(){
 				const built=new global.Map();
 				_ms.assoc(built,[0],_63(0));
 				_ms.assoc(built,[null],_63(null));
@@ -63,11 +60,12 @@ define(["exports","../Boolean","../control","../js","../Type/Js-Method","../Type
 						return empty(_63)
 					}
 				}()
-			},"doc",doc,"test",test)
+			},built)
 		}();
 		const _63_45_62Opt=exports["?->Opt"]=function(){
-			const doc="Extracts the value from a `?`, or returns undefined.";
-			const test=function test(){
+			const built={};
+			const doc=built.doc="Extracts the value from a `?`, or returns undefined.";
+			const test=built.test=function test(){
 				const built=new global.Map();
 				_ms.assoc(built,[_63(0)],0);
 				_ms.unlazy(_33not)(defined_63,_63_45_62Opt(empty(_63)));
@@ -82,11 +80,12 @@ define(["exports","../Boolean","../control","../js","../Type/Js-Method","../Type
 						return _.val
 					}
 				}()
-			},"doc",doc,"test",test)
+			},built)
 		}();
 		const un_45_63=exports["un-?"]=function(){
-			const doc="Tries to extract the value out of a `?`. Throws an error if it is empty.";
-			const test=function test(){
+			const built={};
+			const doc=built.doc="Tries to extract the value out of a `?`. Throws an error if it is empty.";
+			const test=built.test=function test(){
 				const built=new global.Map();
 				_ms.assoc(built,[_63(1)],1);
 				_ms.unlazy(_33)(_ms.unlazy(fails_63),function(){
@@ -103,11 +102,12 @@ define(["exports","../Boolean","../control","../js","../Type/Js-Method","../Type
 						return _.val
 					}
 				}()
-			},"doc",doc,"test",test)
+			},built)
 		}();
 		const _63_45or=exports["?-or"]=function(){
-			const doc="If empty, defaults to `or` - else returns its value.";
-			const test=function test(){
+			const built={};
+			const doc=built.doc="If empty, defaults to `or` - else returns its value.";
+			const test=built.test=function test(){
 				const built=new global.Map();
 				_ms.assoc(built,[empty(_63),1],1);
 				_ms.assoc(built,[_63(1),2],1);
@@ -122,16 +122,17 @@ define(["exports","../Boolean","../control","../js","../Type/Js-Method","../Type
 						return _.val
 					}
 				}()
-			},"doc",doc,"test",test)
+			},built)
 		}();
 		const Some=exports.Some=Pred_45Type(function(){
-			const doc="TODO";
-			const predicate=function predicate(_){
+			const built={};
+			const doc=built.doc="TODO";
+			const predicate=built.predicate=function predicate(_){
 				return and(_ms.contains(_63,_),_ms.lazy(function(){
 					return not(empty_63(_))
 				}))
 			};
-			const test=function test(){
+			const test=built.test=function test(){
 				return function(){
 					const _=_63(1);
 					{
@@ -143,12 +144,7 @@ define(["exports","../Boolean","../control","../js","../Type/Js-Method","../Type
 					}
 				}()
 			};
-			return {
-				doc:doc,
-				predicate:predicate,
-				test:test,
-				name:"Some"
-			}
+			return _ms.setName(built,"Some")
 		}());
 		self_45impl_33(extract,Some,function(_){
 			return function(){
@@ -164,4 +160,4 @@ define(["exports","../Boolean","../control","../js","../Type/Js-Method","../Type
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9ALz8ubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQW1CQSxVQUFJLHNCQUNTO0dBQVosVUFDQzs7Ozs7O0VBR0YsK0JBQ2M7R0FBYixVQUFNOzs7Ozs7RUFDUCw0QkFDUztVQUFSLElBQUU7RUFBQTtFQUdGLGVBQVcsSUFBRTtFQUViLGVBQVcsY0FBWSxJQUFHLFNBQUEsT0FDTTtHQUEvQixXQUFPLFNBQVM7R0FDaEIsV0FBYTs7SUFFWixZQUFBLE1BQ0k7WUFBSDtJQUFBLE9BRUc7WUFBSCxJQUFFO0lBQUE7R0FBQTtFQUFBO0VBRUwsZUFBVyxNQUFNLElBQ0csVUFBQTtVQUFuQjtFQUFBO0VBRUQsUUFBTSxJQUFFO0VBRVIsUUFBTSxTQUFPLElBQUcsU0FBQSxFQUNDO1VBQWhCLFNBQUssRUFBRTtFQUFBO0VBRVIsYUFBUyxTQUFTLElBQ0ssV0FBQTtHQUF0QixjQUFRLFNBQU8sT0FDSTtXQUFmOzs7RUFHTCwrQ0FDTztHQUFOLFVBQU07R0FDTixXQUNPLGVBQUE7O29CQUFOLENBQUUsR0FBTyxJQUFFO29CQUNYLENBQUUsTUFBVSxJQUFFO29CQUNkLENBQUUsUUFBZSxNQUFNOzs7a0JBQ3ZCLHNCQUFBLEVBQUE7O0tBQ0EsWUFBQSxXQUFRLElBQ0M7YUFBUixJQUFFO0tBQUEsT0FFQzthQUFILE1BQU07S0FBQTtJQUFBO0dBQUE7O0VBRVQsK0NBQ087R0FBTixVQUFNO0dBQ04sV0FDTyxlQUFBOztvQkFBTixDQUFHLElBQUUsSUFBUTt1QkFDUixXQUFVLGFBQVEsTUFBTTs7O2tCQUM3QixzQkFBQSxFQUNHO3NCQUREOztLQUVELFlBQUEsU0FBTSxJQUNDO2FBQU47WUFFRzthQUFIOzs7OztFQUdKLHlDQUNLO0dBQUosVUFBTTtHQUNOLFdBQ08sZUFBQTs7b0JBQU4sQ0FBRyxJQUFFLElBQVE7eUNBRUgsVUFBQTtZQUFULFNBQU0sTUFBTTtJQUFBOzs7a0JBQ2Isa0JBQUEsRUFBSSxlQUNhO3NCQURmOztLQUVELFlBQUEsU0FBTSxJQUNDO29DQUFFLGVBSE4sZ0JBR3dCO0tBQUEsT0FFdkI7YUFBSDs7Ozs7RUFFSix5Q0FDSztHQUFKLFVBQU07R0FDTixXQUNPLGVBQUE7O29CQUFOLENBQUcsTUFBTSxLQUFHLEdBQU87b0JBQ25CLENBQUcsSUFBRSxHQUFHLEdBQU87OztrQkFDZixrQkFBQSxFQUFJLEdBQ0c7c0JBREw7O0tBRUQsWUFBQSxTQUFNLElBQ0M7d0JBSEo7S0FBQSxPQUtDO2FBQUg7Ozs7O0VBRUwsd0JBQU0sc0JBQ1M7R0FBZCxVQUFNO0dBQ04sZ0JBQVksbUJBQUEsRUFDQztXQUFaLGlCQUFLLElBQUQ7WUFBSyxJQUFJLFNBQU07SUFBQTtHQUFBO0dBRXBCLFdBQ08sZUFBQTs7S0FBRCxRQUFBLElBQUU7S0FDTjsyQkFBQyxLQUFEO3FCQUNTOztpREFBSCxJQUFJO01BQUE7Ozs7Ozs7Ozs7O0VBRWIsZUFBVyxRQUFRLEtBQU0sU0FBQSxFQUFBOztJQUN4Qix5QkFBQyxLQUFELElBQ0s7WUFBSixDQUFFO1dBRUM7WUFBSDtJQUFBO0dBQUE7RUFBQTtFQXRIRix3QkFBQTtrQkF3SEEiLCJmaWxlIjoiYXQvcS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9ALz8ubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQW9CQSxVQUFHLHNCQUNTOztHQUFYLG9CQUNDOzs7RUFHRiwrQkFDYzs7R0FBYixvQkFBTTs7O0VBQ1AsNEJBQ1M7VUFBUixJQUFFO0VBQUE7RUFHRixlQUFXLElBQUU7RUFFYixlQUFXLGNBQVksSUFBRyxTQUFBLE9BQ007R0FBL0IsV0FBTyxTQUFTO0dBQ2hCLFdBQWE7O0lBRVosWUFBQSxNQUNJO1lBQUg7SUFBQSxPQUVHO1lBQUgsSUFBRTtJQUFBO0dBQUE7RUFBQTtFQUVMLGVBQVcsTUFBTSxJQUNHLFVBQUE7VUFBbkI7RUFBQTtFQUVELFFBQU0sSUFBRTtFQUVSLFFBQU0sU0FBTyxJQUFHLFNBQUEsRUFDQztVQUFoQixTQUFLLEVBQUU7RUFBQTtFQUVSLGFBQVMsU0FBUyxJQUNLLFdBQUE7R0FBdEIsY0FBUSxTQUFPLE9BQ0k7V0FBZjs7O0VBR0wsK0NBQ087O0dBQU4sb0JBQU07R0FDTixzQkFDTyxlQUFBOztvQkFBTixDQUFFLEdBQU8sSUFBRTtvQkFDWCxDQUFFLE1BQVUsSUFBRTtvQkFDZCxDQUFFLFFBQWUsTUFBTTs7O2tCQUN2QixzQkFBQSxFQUFBOztLQUNBLFlBQUEsV0FBUSxJQUNDO2FBQVIsSUFBRTtLQUFBLE9BRUM7YUFBSCxNQUFNO0tBQUE7SUFBQTtHQUFBOztFQUVULCtDQUNPOztHQUFOLG9CQUFNO0dBQ04sc0JBQ08sZUFBQTs7b0JBQU4sQ0FBRyxJQUFFLElBQVE7dUJBQ1IsV0FBVSxhQUFRLE1BQU07OztrQkFDN0Isc0JBQUEsRUFDRztzQkFERDs7S0FFRCxZQUFBLFNBQU0sSUFDQzthQUFOO1lBRUc7YUFBSDs7Ozs7RUFHSix5Q0FDSzs7R0FBSixvQkFBTTtHQUNOLHNCQUNPLGVBQUE7O29CQUFOLENBQUcsSUFBRSxJQUFRO3lDQUVILFVBQUE7WUFBVCxTQUFNLE1BQU07SUFBQTs7O2tCQUNiLGtCQUFBLEVBQUksZUFDYTtzQkFEZjs7S0FFRCxZQUFBLFNBQU0sSUFDQztvQ0FBRSxlQUhOLGdCQUd3QjtLQUFBLE9BRXZCO2FBQUg7Ozs7O0VBRUoseUNBQ0s7O0dBQUosb0JBQU07R0FDTixzQkFDTyxlQUFBOztvQkFBTixDQUFHLE1BQU0sS0FBRyxHQUFPO29CQUNuQixDQUFHLElBQUUsR0FBRyxHQUFPOzs7a0JBQ2Ysa0JBQUEsRUFBSSxHQUNHO3NCQURMOztLQUVELFlBQUEsU0FBTSxJQUNDO3dCQUhKO0tBQUEsT0FLQzthQUFIOzs7OztFQUVMLHdCQUFNLHNCQUNTOztHQUFkLG9CQUFNO0dBQ04sZ0NBQVksbUJBQUEsRUFDQztXQUFaLGlCQUFLLElBQUQ7WUFBSyxJQUFJLFNBQU07SUFBQTtHQUFBO0dBRXBCLHNCQUNPLGVBQUE7O0tBQUQsUUFBQSxJQUFFO0tBQ047MkJBQUMsS0FBRDtxQkFDUzs7aURBQUgsSUFBSTtNQUFBOzs7Ozs7RUFFYixlQUFXLFFBQVEsS0FBTSxTQUFBLEVBQUE7O0lBQ3hCLHlCQUFDLEtBQUQsSUFDSztZQUFKLENBQUU7V0FFQztZQUFIO0lBQUE7R0FBQTtFQUFBO0VBdkhGLHdCQUFBO2tCQW9CQSIsImZpbGUiOiJhdC9xLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

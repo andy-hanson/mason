@@ -24,7 +24,8 @@ define(["exports","../../at/at","../../at/atbang","../../at/at-Type","../../at/S
 		const cache=empty(Array_33);
 		set_45nth_33(cache,1,true);
 		const happy_63=exports["happy?"]=function(){
-			const doc="http://rosettacode.org/wiki/Happy_numbers";
+			const built={};
+			const doc=built.doc="http://rosettacode.org/wiki/Happy_numbers";
 			return _ms.set(function happy_63(n){
 				_ms.checkContains(Nat,n,"n");
 				const stepped_45through=empty(Id_45Set_33);
@@ -51,11 +52,12 @@ define(["exports","../../at/at","../../at/atbang","../../at/at-Type","../../at/S
 				};
 				set_45nth_33(cache,n,res);
 				return res
-			},"doc",doc)
+			},built)
 		}();
-		const happy_45numbers=exports["happy-numbers"]=_ms.checkContains(_ms.sub(Stream,Nat),function(){
-			const doc="Stream of all happy numbers.";
-			const test=function test(){
+		const happy_45numbers=_ms.checkContains(_ms.sub(Stream,Nat),function(){
+			const built={};
+			const doc=built.doc="Stream of all happy numbers.";
+			const test=built.test=function test(){
 				_ms.unlazy(_33)(_ms.unlazy(seq_61_63),_ms.unlazy(take)(happy_45numbers,8),function(){
 					const built=[];
 					_ms.add(built,1);
@@ -69,10 +71,11 @@ define(["exports","../../at/at","../../at/atbang","../../at/at-Type","../../at/S
 					return built
 				}())
 			};
-			return _ms.set(keep(range(1,infinity),happy_63),"doc",doc,"test",test,"name","happy-numbers")
+			return _ms.set(keep(range(1,infinity),happy_63),built,"happy-numbers")
 		}(),"happy-numbers");
 		const name=exports.name="happy-numbers";
+		exports.default=happy_45numbers;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL2RlbW8vaGFwcHktbnVtYmVycy5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7O0VBbUJBLGFBQVUsZ0JBQUEsRUFDQztHQUFWLFdBQU87VUFDUCxPQUNVLFdBQUE7SUFBVCxTQUFTO0lBRUwsT0FBQTtZQUFBLFVBQVUsS0FBSztVQUNWLE9BQUssS0FBSztLQUNsQixZQUFJLE9BQUcsS0FBSyxJQUNDO01BQVo7S0FBQTtJQUFBO0dBQUE7RUFBQTtFQUVKLG1CQUFjLHNCQUFBLEVBQ0M7VUFDZCxLQUFNLElBQUksT0FBTSxHQUFFLFFBQVE7RUFBQTtFQUUzQixZQUFRLE1BQU07RUFDZCxhQUFTLE1BQU0sRUFBRTtFQUVqQiwyQ0FDTztHQUFOLFVBQU07a0JBQ0wsa0JBQUEsRUFDSztzQkFESDtJQUNGLHdCQUFrQixNQUFNO0lBQ3hCLFFBQVE7SUFFUixRQUFRO0lBRUosT0FBQTtLQUFHO01BQUEsUUFBQSxTQUFPLE1BQU07TUFDbEIsWUFBQSxXQUFRLElBQ0M7V0FBRDtPQUNQO01BQUEsT0FFRztPQUFILFlBQUksWUFBVSxrQkFBZ0IsTUFDRztZQUF6QjtRQUNQO09BQUE7T0FFRCxVQUFJLGtCQUFnQixDQUFFO1dBQ2YsYUFBVztNQUFBO0tBQUE7SUFBQTtJQUVoQixRQUFBLEtBQUEscUNBQ2U7S0FBbkIsYUFBUyxNQUFNLEVBQUU7SUFBQTtJQUNsQixhQUFTLE1BQU0sRUFBRTtXQUNqQjtHQUFBOztFQUVGLHlFQUFjLE9BQU8sZUFDSztHQUF6QixVQUFNO0dBQ04sV0FDUSxlQUFBOzJEQUFPLGdCQUFjLGFBQ0U7O21CQUEzQjttQkFDQTttQkFDQTttQkFDQTttQkFDQTttQkFDQTttQkFDQTttQkFDQTs7OztrQkFDSixLQUFNLE1BQU0sRUFBRSxVQUFVOztFQXpFekIsd0JBQUEiLCJmaWxlIjoibWV0YS9kZW1vL2hhcHB5LW51bWJlcnMuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL2RlbW8vaGFwcHktbnVtYmVycy5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7O0VBbUJBLGFBQVUsZ0JBQUEsRUFDQztHQUFWLFdBQU87VUFDUCxPQUNVLFdBQUE7SUFBVCxTQUFTO0lBRUwsT0FBQTtZQUFBLFVBQVUsS0FBSztVQUNWLE9BQUssS0FBSztLQUNsQixZQUFJLE9BQUcsS0FBSyxJQUNDO01BQVo7S0FBQTtJQUFBO0dBQUE7RUFBQTtFQUVKLG1CQUFjLHNCQUFBLEVBQ0M7VUFDZCxLQUFNLElBQUksT0FBTSxHQUFFLFFBQVE7RUFBQTtFQUUzQixZQUFRLE1BQU07RUFDZCxhQUFTLE1BQU0sRUFBRTtFQUVqQiwyQ0FDTzs7R0FBTixvQkFBTTtrQkFDTCxrQkFBQSxFQUNLO3NCQURIO0lBQ0Ysd0JBQWtCLE1BQU07SUFDeEIsUUFBUTtJQUVSLFFBQVE7SUFFSixPQUFBO0tBQUc7TUFBQSxRQUFBLFNBQU8sTUFBTTtNQUNsQixZQUFBLFdBQVEsSUFDQztXQUFEO09BQ1A7TUFBQSxPQUVHO09BQUgsWUFBSSxZQUFVLGtCQUFnQixNQUNHO1lBQXpCO1FBQ1A7T0FBQTtPQUVELFVBQUksa0JBQWdCLENBQUU7V0FDZixhQUFXO01BQUE7S0FBQTtJQUFBO0lBRWhCLFFBQUEsS0FBQSxxQ0FDZTtLQUFuQixhQUFTLE1BQU0sRUFBRTtJQUFBO0lBQ2xCLGFBQVMsTUFBTSxFQUFFO1dBQ2pCO0dBQUE7O0VBRUYsZ0RBQWMsT0FBTyxlQUNLOztHQUF6QixvQkFBTTtHQUNOLHNCQUNRLGVBQUE7MkRBQU8sZ0JBQWMsYUFDRTs7bUJBQTNCO21CQUNBO21CQUNBO21CQUNBO21CQUNBO21CQUNBO21CQUNBO21CQUNBOzs7O2tCQUNKLEtBQU0sTUFBTSxFQUFFLFVBQVU7O0VBekV6Qix3QkFBQTtrQkE2REEiLCJmaWxlIjoibWV0YS9kZW1vL2hhcHB5LW51bWJlcnMuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

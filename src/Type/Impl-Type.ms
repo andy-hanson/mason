@@ -9,7 +9,7 @@ use-debug
 	.Method impl!
 	.Type contains?
 
-Impl-Type = Kind
+Impl-Type. Kind
 	doc. "
 		TODO:REST
 		Every Impl-Type should have a `prototype` property.
@@ -50,5 +50,3 @@ region Self-Type
 
 	self-type. |_:Object
 		Self-Type (prototype. _
-
-Impl-Type

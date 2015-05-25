@@ -23,7 +23,7 @@ use-debug
 Success. Wrap-Type
 	doc. "Attempt that did not fail. _.val is the result of the attempted code."
 
-Try = Kind
+Try. Kind
 	doc. "Result of running failable code. Success or Error."
 	implementors. [ Success Error
 
@@ -174,5 +174,3 @@ region $
 				p! _ "stack" "{annotation}{_.stack}"
 				p! _ "message" "{annotation}{_.message}"
 				oh-no! _
-
-Try

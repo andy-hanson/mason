@@ -19,9 +19,10 @@ export const
 	msLazy = ms('lazy'),
 	msLazyGet = ms('lazyProp'),
 	msLazyGetModule = ms('lazyGetModule'),
-	msLset = ms('lset'),
 	msMap = ms('map'),
 	msSet = ms('set'),
+	msSetName = ms('setName'),
+	msSetLazy = ms('setLazy'),
 	msShow = ms('show'),
 	msCheckContains = ms('checkContains'),
 	msUnlazy = ms('unlazy')

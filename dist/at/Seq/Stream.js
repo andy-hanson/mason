@@ -6,9 +6,10 @@ define(["exports","../../Function","../../Generatorbang","../../Type/Js-Method",
 			return _ms.getDefaultExport(_33_9)
 		}),_$13=_ms.lazyGetModule(Seq_10),seq_61_63=_ms.lazyProp(_$13,"seq=?");
 		const Stream=Wrap_45Type(function(){
-			const doc="A Stream is a @ whose elements are the outputs of a Generator!.\nUnlike a Generator!, a Stream can be used multiple times.";
-			const wrapped_45type=_ms.sub(Function,Generator_33);
-			const test=function test(){
+			const built={};
+			const doc=built.doc="A Stream is a @ whose elements are the outputs of a Generator!.\nUnlike a Generator!, a Stream can be used multiple times.";
+			const wrapped_45type=built["wrapped-type"]=_ms.sub(Function,Generator_33);
+			const test=built.test=function test(){
 				const _=Stream(function*(){
 					(yield 1);
 					(yield 2)
@@ -16,12 +17,7 @@ define(["exports","../../Function","../../Generatorbang","../../Type/Js-Method",
 				_ms.unlazy(_33)(_ms.unlazy(seq_61_63),_,[1,2]);
 				return _ms.unlazy(_33)(_ms.unlazy(seq_61_63),_,[1,2])
 			};
-			return {
-				doc:doc,
-				"wrapped-type":wrapped_45type,
-				test:test,
-				name:"Stream"
-			}
+			return _ms.setName(built,"Stream")
 		}());
 		self_45kind_33(Stream,_64_45Type);
 		self_45impl_33(empty,Stream,thunk(Stream(function(){
@@ -41,4 +37,4 @@ define(["exports","../../Function","../../Generatorbang","../../Type/Js-Method",
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1NlcS9TdHJlYW0ubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQWNBLGFBQVMsc0JBQ1M7R0FBakIsVUFDQztHQUVELDZCQUFjLFNBQVM7R0FDdkIsV0FDTyxlQUFBO0lBQU4sUUFBSSxPQUNVLFdBQUE7WUFBVjtZQUNBO0lBQUE7MENBQ0ksRUFBRSxDQUFFLEVBQUU7aURBRU4sRUFBRSxDQUFFLEVBQUU7R0FBQTs7Ozs7Ozs7RUFFaEIsZUFBVyxPQUFPO0VBQ2xCLGVBQVcsTUFBTSxPQUFRLE1BQU8sT0FDUSxVQUFBO1VBQXZDO0VBQUE7RUFDRCxlQUFXLGNBQVksT0FBUSxTQUFBLEVBQ0M7VUFBL0IsT0FDUSxVQUFBO1dBQVAsU0FBUTtHQUFBO0VBQUE7RUFFVixRQUFNLE9BQU87RUFDYixhQUFTLFNBQVMsT0FDUSxVQUFBO1VBQXpCOztFQXBDRCx3QkFBQTtrQkFzQ0EiLCJmaWxlIjoiYXQvU2VxL1N0cmVhbS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1NlcS9TdHJlYW0ubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQWNBLGFBQVEsc0JBQ1M7O0dBQWhCLG9CQUNDO0dBRUQsbURBQWMsU0FBUztHQUN2QixzQkFDTyxlQUFBO0lBQU4sUUFBSSxPQUNVLFdBQUE7WUFBVjtZQUNBO0lBQUE7MENBQ0ksRUFBRSxDQUFFLEVBQUU7aURBRU4sRUFBRSxDQUFFLEVBQUU7R0FBQTs7O0VBRWhCLGVBQVcsT0FBTztFQUNsQixlQUFXLE1BQU0sT0FBUSxNQUFPLE9BQ1EsVUFBQTtVQUF2QztFQUFBO0VBQ0QsZUFBVyxjQUFZLE9BQVEsU0FBQSxFQUNDO1VBQS9CLE9BQ1EsVUFBQTtXQUFQLFNBQVE7R0FBQTtFQUFBO0VBRVYsUUFBTSxPQUFPO0VBQ2IsYUFBUyxTQUFTLE9BQ1EsVUFBQTtVQUF6Qjs7RUFwQ0Qsd0JBQUE7a0JBY0EiLCJmaWxlIjoiYXQvU2VxL1N0cmVhbS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

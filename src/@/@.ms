@@ -24,7 +24,7 @@ use-debug
 	.@-Type
 	.Map.Weak-Id-Map!
 
-@ = Kind
+@. Kind
 	doc. "
 		"Bag". Contains a variable number of elements. Most things implementing `iterator` should be @s.
 		If the iteration order of an @ is meaningful and `+ a b` is the concatenation, it is a Seq.
@@ -268,5 +268,3 @@ region Lazy functions, and their eager versions.
 			! =? [ 1 ] [ 1 ]
 		|@a @b
 			and (id=? (type-of @a) (type-of @b)) ~(seq=? @a @b
-
-@

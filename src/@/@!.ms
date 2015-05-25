@@ -12,7 +12,7 @@ use-debug
 	..Type.Type contains?
 	.@ empty?
 
-@! = Kind
+@!. Kind
 	doc. "Mutable @."
 	implementor-test. !|type
 		# TODO:KLUDGE because Array and Array! are the same thing (also in Seq!.ms)
@@ -63,5 +63,3 @@ empty!. Method
 		. [ "@removed" @
 	test. !|
 		pass # TODO:impl-test
-
-@!

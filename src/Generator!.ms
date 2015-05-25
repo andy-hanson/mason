@@ -5,7 +5,7 @@ use
 	.Type.Pred-Type
 	.Type.Type contains?
 
-Generator! = Pred-Type
+Generator!. Pred-Type
 	doc. "
 		A block of code which yields values and receives responses from a context.
 		Also known as a coroutine.
@@ -20,5 +20,3 @@ empty-Generator.
 gen-next!. Js-Method
 	doc. "Continues until the next `<~`."
 	impl-symbol. "next"
-
-Generator!

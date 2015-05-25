@@ -1,6 +1,6 @@
 import { ArrayExpression, BinaryExpression, CallExpression, ExpressionStatement, Identifier,
-	IfStatement, Literal, NewExpression, ReturnStatement, UnaryExpression, VariableDeclaration,
-	VariableDeclarator } from 'esast/dist/ast'
+	IfStatement, Literal, NewExpression, ObjectExpression, ReturnStatement, UnaryExpression,
+	VariableDeclaration, VariableDeclarator } from 'esast/dist/ast'
 import { member } from 'esast/dist/util'
 
 
@@ -12,14 +12,12 @@ export const
 	IdExports = Identifier('exports'),
 	IdExtract = Identifier('_$'),
 	IdFunctionApplyCall = member(member(Identifier('Function'), 'apply'), 'call'),
-	IdName = Identifier('name'),
 	LitEmptyArray = ArrayExpression([]),
 	LitEmptyString = Literal(''),
 	LitNull = Literal(null),
 	LitTrue = Literal(true),
 	LitZero = Literal(0),
 	LitStrExports = Literal('exports'),
-	LitStrName = Literal('name'),
 	ReturnExports = ReturnStatement(IdExports),
 	ReturnRes = ReturnStatement(Identifier('res')),
 	SymbolIterator = member(Identifier('Symbol'), 'iterator'),
@@ -37,5 +35,8 @@ export const
 	DeclareBuiltMap = VariableDeclaration('const', [
 		VariableDeclarator(IdBuilt,
 			NewExpression(member(Identifier('global'), 'Map'), [ ])) ]),
+	DeclareBuiltObj = VariableDeclaration('const', [
+		VariableDeclarator(IdBuilt, ObjectExpression([ ])) ]),
+
 	ExportsDefault = member(IdExports, 'default'),
 	ExportsGet = member(IdExports, '_get')

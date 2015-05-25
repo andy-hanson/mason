@@ -18,7 +18,7 @@ use-debug
 	.math.methods +
 	.Try $try
 
-$ =
+$.
 	doc. "
 		https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
 		Called `$` because you "cash in" on it after some time.
@@ -183,5 +183,3 @@ $ing.
 				else
 					$after value do-next
 		do-next()
-
-$

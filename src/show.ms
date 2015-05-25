@@ -12,7 +12,7 @@ use~
 
 showing = newSet()
 
-show = Method
+show. Method
 	doc.
 		"
 			Converts the value to a string for string interpolation.
@@ -128,5 +128,3 @@ spread! impl! show
 					_
 
 msDef "show" show
-
-show

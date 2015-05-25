@@ -22,7 +22,7 @@ use-debug
 	.Range range
 	.Seq seq=? take'
 
-Lazy-Stream = Tuple
+Lazy-Stream. Tuple
 	doc. "
 		Like Stream, but caches its elements as it produces them.
 		If you want to stream the results of an expensive computation and use it multiple times, use this.
@@ -81,5 +81,3 @@ lazy-streaming.
 				cache.push _
 				<~ _
 		Lazy-Stream iter cache
-
-Lazy-Stream

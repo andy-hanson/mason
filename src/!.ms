@@ -17,7 +17,7 @@ use-debug
 
 doc. "For making assertions."
 
-! =
+!.
 	doc. "
 		Pronounced 'assert'.
 		It may be called as:
@@ -120,5 +120,3 @@ doc. "For making assertions."
 						{indent (repr expected-res)}
 					Got:
 						{indent (repr actual)}
-
-!

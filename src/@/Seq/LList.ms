@@ -8,7 +8,7 @@ use
 	..@-Type _ empty from-stream
 	.Seq _ <++' tail
 
-LList = Tuple
+LList. Tuple
 	doc. "
 		Singly-linked list.
 	props. [ "head" "tail"
@@ -55,5 +55,3 @@ kind! LList Seq
 				<++' b a
 			else
 				++.default a b
-
-LList

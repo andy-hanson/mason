@@ -9,44 +9,31 @@ define(["exports","./compare","./js","./math/Number","./private/js-impl","./Type
 			return js_45bar(_,0)
 		};
 		const hash_45code=Method(function(){
-			const doc="Integer used to identify a value in a Hash-Map! (or Hash-Set!).\nThis should have a high probability of being different than the hash-codes of the other values in the map.";
-			const test=function test(){
+			const built={};
+			const doc=built.doc="Integer used to identify a value in a Hash-Map! (or Hash-Set!).\nThis should have a high probability of being different than the hash-codes of the other values in the map.";
+			const test=built.test=function test(){
 				const a=function(){
-					const x=1;
-					const y=2;
-					return {
-						x:x,
-						y:y,
-						name:"a"
-					}
+					const built={};
+					const x=built.x=1;
+					const y=built.y=2;
+					return _ms.setName(built,"a")
 				}();
 				const b=function(){
-					const x=1;
-					const y=1;
-					return {
-						x:x,
-						y:y,
-						name:"b"
-					}
+					const built={};
+					const x=built.x=1;
+					const y=built.y=1;
+					return _ms.setName(built,"b")
 				}();
 				_ms.unlazy(_33)(_61_63,hash_45code(a),hash_45code(a));
 				_ms.unlazy(_33not)(_61_63,hash_45code(a),hash_45code(b))
 			};
-			const args=1;
-			const returns=Int;
-			const allow_45null_63=true;
-			const _default=function _default(_){
+			const args=built.args=1;
+			const returns=built.returns=Int;
+			const allow_45null_63=built["allow-null?"]=true;
+			const _default=built.default=function _default(_){
 				return hashCodeDefault(_,hash_45code)
 			};
-			return {
-				doc:doc,
-				test:test,
-				args:args,
-				returns:returns,
-				"allow-null?":allow_45null_63,
-				default:_default,
-				name:"hash-code"
-			}
+			return _ms.setName(built,"hash-code")
 		}());
 		impl_33(hash_45code,Boolean,function(_){
 			return function(){
@@ -68,20 +55,22 @@ define(["exports","./compare","./js","./math/Number","./private/js-impl","./Type
 			}())
 		});
 		impl_33(hash_45code,String,function(){
-			const test=function test(){
+			const built={};
+			const test=built.test=function test(){
 				_ms.unlazy(_33)(_61_63,hash_45code("a"),hash_45code("a"));
 				_ms.unlazy(_33not)(_61_63,hash_45code("a"),hash_45code("b"))
 			};
-			return _ms.set(hashCodeString,"test",test)
+			return _ms.set(hashCodeString,built)
 		}());
 		impl_33(hash_45code,Symbol,function(){
-			const test=function test(){
+			const built={};
+			const test=built.test=function test(){
 				const sym=Symbol("test");
 				_ms.unlazy(_33)(_61_63,hash_45code(sym),hash_45code(sym))
 			};
 			return _ms.set(function(){
 				return _ms.checkContains(Int,42,"res")
-			},"test",test)
+			},built)
 		}());
 		impl_33(hash_45code,Number,keep_45small);
 		const name=exports.name="hash-code";
@@ -89,4 +78,4 @@ define(["exports","./compare","./js","./math/Number","./private/js-impl","./Type
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9oYXNoLWNvZGUubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQVNBLG1CQUFjLHNCQUFBLEVBQ0M7VUFBZCxTQUFPLEVBQUU7RUFBQTtFQUVWLGtCQUFZLGlCQUNNO0dBQWpCLFVBQ0M7R0FFRCxXQUNRLGVBQUE7SUFBUCxrQkFDRztLQUFGLFFBQUc7S0FDSCxRQUFHOzs7Ozs7O0lBQ0osa0JBQ0c7S0FBRixRQUFHO0tBQ0gsUUFBRzs7Ozs7OztvQkFDRixPQUFJLFlBQVUsR0FBSSxZQUFVO3VCQUN6QixPQUFJLFlBQVUsR0FBSSxZQUFVO0dBQUE7R0FFbEMsV0FBTTtHQUNOLGNBQVM7R0FDVCxzQkFBYTtHQUNiLGVBQVUsa0JBQUEsRUFDQztXQUFWLGdCQUFnQixFQUFFO0dBQUE7Ozs7Ozs7Ozs7O0VBR3BCLFFBQU0sWUFBVSxRQUFTLFNBQUEsRUFBQTs7SUFDeEIsWUFBQSxHQUNDO1lBQUE7SUFBQSxPQUVHO1lBQUg7SUFBQTtHQUFBO0VBQUE7RUFFRixRQUFNLFlBQVUsU0FBVSxTQUFBLElBQ0c7VUFDNUI7SUFBZSxRQUFBO0lBQ2QsWUFBQSxPQUFHLEVBQUUsV0FDd0I7WUFBNUI7V0FFRztZQUFIO0lBQUE7R0FBQTtFQUFBO0VBR0gsUUFBTSxZQUFVLGlCQUNNO0dBQXJCLFdBQ1EsZUFBQTtvQkFBTCxPQUFJLFlBQVcsS0FBSyxZQUFXO3VCQUM1QixPQUFJLFlBQVcsS0FBSyxZQUFXO0dBQUE7a0JBQ3JDOztFQUVELFFBQU0sWUFBVSxpQkFDTTtHQUFyQixXQUNRLGVBQUE7SUFBUCxVQUFNLE9BQVE7b0JBQ1osT0FBSSxZQUFVLEtBQU0sWUFBVTtHQUFBO2tCQUNoQyxVQUNJOzZCQURILElBRUQ7OztFQUdGLFFBQU0sWUFBVSxPQUFPO0VBL0R2Qix3QkFBQTtrQkFpRUEiLCJmaWxlIjoiaGFzaC1jb2RlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9oYXNoLWNvZGUubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQVNBLG1CQUFjLHNCQUFBLEVBQ0M7VUFBZCxTQUFPLEVBQUU7RUFBQTtFQUVWLGtCQUFXLGlCQUNNOztHQUFoQixvQkFDQztHQUVELHNCQUNRLGVBQUE7SUFBUCxrQkFDRzs7S0FBRixnQkFBRztLQUNILGdCQUFHOzs7SUFDSixrQkFDRzs7S0FBRixnQkFBRztLQUNILGdCQUFHOzs7b0JBQ0YsT0FBSSxZQUFVLEdBQUksWUFBVTt1QkFDekIsT0FBSSxZQUFVLEdBQUksWUFBVTtHQUFBO0dBRWxDLHNCQUFNO0dBQ04sNEJBQVM7R0FDVCwyQ0FBYTtHQUNiLDZCQUFVLGtCQUFBLEVBQ0M7V0FBVixnQkFBZ0IsRUFBRTtHQUFBOzs7RUFHcEIsUUFBTSxZQUFVLFFBQVMsU0FBQSxFQUFBOztJQUN4QixZQUFBLEdBQ0M7WUFBQTtJQUFBLE9BRUc7WUFBSDtJQUFBO0dBQUE7RUFBQTtFQUVGLFFBQU0sWUFBVSxTQUFVLFNBQUEsSUFDRztVQUM1QjtJQUFlLFFBQUE7SUFDZCxZQUFBLE9BQUcsRUFBRSxXQUN3QjtZQUE1QjtXQUVHO1lBQUg7SUFBQTtHQUFBO0VBQUE7RUFHSCxRQUFNLFlBQVUsaUJBQ007O0dBQXJCLHNCQUNRLGVBQUE7b0JBQUwsT0FBSSxZQUFXLEtBQUssWUFBVzt1QkFDNUIsT0FBSSxZQUFXLEtBQUssWUFBVztHQUFBO2tCQUNyQzs7RUFFRCxRQUFNLFlBQVUsaUJBQ007O0dBQXJCLHNCQUNRLGVBQUE7SUFBUCxVQUFNLE9BQVE7b0JBQ1osT0FBSSxZQUFVLEtBQU0sWUFBVTtHQUFBO2tCQUNoQyxVQUNJOzZCQURILElBRUQ7OztFQUdGLFFBQU0sWUFBVSxPQUFPO0VBL0R2Qix3QkFBQTtrQkFZQSIsImZpbGUiOiJoYXNoLWNvZGUuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

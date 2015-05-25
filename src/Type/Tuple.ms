@@ -25,7 +25,7 @@ get-prop = |case
 		name. _
 		id. mangle-identifier_
 
-Tuple = Obj-Type
+Tuple. Obj-Type
 	props.
 		name. String
 		props. Object
@@ -105,5 +105,3 @@ implContains Tuple |tuple _
 	js-instanceof _ tuple
 
 kind! Tuple Impl-Type
-
-Tuple

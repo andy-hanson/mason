@@ -3,8 +3,8 @@ import { code } from '../CompileError'
 import { NumberLiteral } from '../MsAst'
 import { NonNameCharacters } from './language'
 import { DotName, Group, G_Block, G_Bracket, G_Line, G_Parenthesis, G_Space, G_Quote,
-	isKeyword, Keyword, KW_AssignMutable, KW_AssignMutate, KW_Focus, KW_Fun, KW_FunDo, KW_GenFun,
-	KW_GenFunDo, KW_Lazy, KW_ObjAssign, KW_Region, KW_Type, Name, opKeywordKindFromName,
+	isKeyword, Keyword, KW_AssignMutable, KW_Focus, KW_Fun, KW_FunDo, KW_GenFun, KW_GenFunDo,
+	KW_Lazy, KW_LocalMutate, KW_ObjAssign, KW_Region, KW_Type, Name, opKeywordKindFromName,
 	showGroupKind } from './Token'
 import { assert, isEmpty, last } from './util'
 
@@ -437,7 +437,7 @@ export default (context, sourceString) => {
 						mustEat(Equal, '::')
 						keyword(KW_AssignMutable)
 					} else if (tryEat(Equal))
-						keyword(KW_AssignMutate)
+						keyword(KW_LocalMutate)
 					else
 						keyword(KW_Type)
 					break

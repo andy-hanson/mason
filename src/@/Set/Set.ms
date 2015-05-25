@@ -11,7 +11,7 @@ use~
 use-debug
 	..@ --
 
-Set = Kind
+Set. Kind
 	doc. "@ without repeat values."
 
 self-kind! Set @-Type
@@ -47,5 +47,3 @@ intersect. Method
 	args. 2
 	default. |a b
 		keep a contains?[(=> Set b)]
-
-Set

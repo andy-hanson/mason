@@ -6,19 +6,18 @@ define(["exports","../Objectbang","../show","./Impl-Type","./Kind","./Method",".
 			return _ms.getDefaultExport(_33_7)
 		}),_$11=_ms.lazyGetModule(compare_8),_61_63=_ms.lazyProp(_$11,"=?"),_$12=_ms.lazyGetModule(Type_9),type_45of=_ms.lazyProp(_$12,"type-of");
 		const Enum=Obj_45Type(function(){
-			const doc="A Concrete-Type with a small number of instances.\nGreat for using with `switch`.";
-			const test=function test(){
+			const built={};
+			const doc=built.doc="A Concrete-Type with a small number of instances.\nGreat for using with `switch`.";
+			const test=built.test=function test(){
 				const Fruit=Enum(function(){
-					const values=function(){
+					const built={};
+					const values=built.values=function(){
 						const built=[];
 						_ms.add(built,"apple");
 						_ms.add(built,"orange");
 						return built
 					}();
-					return {
-						values:values,
-						name:"Fruit"
-					}
+					return _ms.setName(built,"Fruit")
 				}());
 				const prices=function(){
 					const built=new global.Map();
@@ -31,26 +30,21 @@ define(["exports","../Objectbang","../show","./Impl-Type","./Kind","./Method",".
 				_ms.unlazy(_33)(_ms.unlazy(_61_63),_ms.unlazy(type_45of)(Fruit.apple),Fruit);
 				_ms.unlazy(_33)(_ms.unlazy(_61_63),(""+_ms.show(Fruit.apple)),"Fruit.apple")
 			};
-			const props=function(){
-				const name=String;
-				const prototype=Object;
-				const values=_ms.sub(Array,String);
-				return {
-					name:name,
-					prototype:prototype,
-					values:values
-				}
+			const props=built.props=function(){
+				const built={};
+				const name=built.name=String;
+				const prototype=built.prototype=Object;
+				const values=built.values=_ms.sub(Array,String);
+				return built
 			}();
-			const defaults=function(){
-				const prototype=function prototype(){
+			const defaults=built.defaults=function(){
+				const built={};
+				const prototype=built.prototype=function prototype(){
 					return Object.create(Object.prototype)
 				};
-				return {
-					prototype:prototype,
-					name:"defaults"
-				}
+				return _ms.setName(built,"defaults")
 			}();
-			const post_45construct=function post_45construct(_enum){
+			const post_45construct=built["post-construct"]=function post_45construct(_enum){
 				for(let value_45name of _enum.values[Symbol.iterator]()){
 					const enum_45val=Object.create(_enum.prototype);
 					p_43_33(enum_45val,"name",value_45name);
@@ -61,14 +55,7 @@ define(["exports","../Objectbang","../show","./Impl-Type","./Kind","./Method",".
 					return (((""+_ms.show(_enum.name))+".")+_ms.show(val.name))
 				})
 			};
-			return {
-				doc:doc,
-				test:test,
-				props:props,
-				defaults:defaults,
-				"post-construct":post_45construct,
-				name:"Enum"
-			}
+			return _ms.setName(built,"Enum")
 		}());
 		kind_33(Enum,Impl_45Type);
 		impl_33(contains_63,Enum,function(_,value){
@@ -79,4 +66,4 @@ define(["exports","../Objectbang","../show","./Impl-Type","./Kind","./Method",".
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL0VudW0ubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQWFBLFdBQU8scUJBQ1E7R0FBZCxVQUNDO0dBRUQsV0FDUSxlQUFBO0lBQVAsWUFBUSxlQUNJO0tBQVgsdUJBQ087O29CQUFIO29CQUNBOzs7Ozs7OztJQUNMLHVCQUNROztxQkFBUCxZQUFlO3FCQUNmLGFBQWdCOzs7K0NBQ1osT0FBTyxhQUFhOytDQUNwQixPQUFPLGNBQWM7NkRBQ1osYUFBYTt1Q0FDckIsQ0FlSSxZQWZILGNBQWU7R0FBQTtHQUN2QixzQkFDTTtJQUFMLFdBQU07SUFDTixnQkFBVztJQUNYLHFCQUFRLE1BQU07Ozs7Ozs7R0FDZix5QkFDUztJQUFSLGdCQUNZLG9CQUFBO1lBQVgsY0FBYzs7Ozs7OztHQUNoQix1QkFBa0IsMEJBQUEsTUFDSTtJQUFoQixRQUFBLGdCQUFjLGdDQUNXO0tBQTdCLGlCQUFXLGNBQWM7S0FDekIsUUFBSSxXQUFVLE9BQU07S0FDcEIsUUFBSSxNQUFLLGFBQVc7SUFBQTtJQUNyQixRQUFJLGdCQUFnQixjQUFhO0lBQ2pDLFFBQU0sS0FBSyxNQUFNLFNBQUEsSUFDRztZQUFsQixHQUFRLFlBQVAsMkJBQVk7Ozs7Ozs7Ozs7OztFQUVqQixRQUFNLEtBQUs7RUFFWCxRQUFNLFlBQVUsS0FBTSxTQUFBLEVBQUUsTUFDSztVQUE1QixvQ0FBb0MsWUFBWTtFQUFBO0VBaERqRCx3QkFBQTtrQkFrREEiLCJmaWxlIjoiVHlwZS9FbnVtLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL0VudW0ubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQWFBLFdBQU0scUJBQ1E7O0dBQWIsb0JBQ0M7R0FFRCxzQkFDUSxlQUFBO0lBQVAsWUFBUSxlQUNJOztLQUFYLG9DQUNPOztvQkFBSDtvQkFDQTs7Ozs7SUFDTCx1QkFDUTs7cUJBQVAsWUFBZTtxQkFDZixhQUFnQjs7OytDQUNaLE9BQU8sYUFBYTsrQ0FDcEIsT0FBTyxjQUFjOzZEQUNaLGFBQWE7dUNBQ3JCLENBZUksWUFmSCxjQUFlO0dBQUE7R0FDdkIsa0NBQ007O0lBQUwsc0JBQU07SUFDTixnQ0FBVztJQUNYLGtDQUFRLE1BQU07OztHQUNmLHdDQUNTOztJQUFSLGdDQUNZLG9CQUFBO1lBQVgsY0FBYzs7OztHQUNoQiwrQ0FBa0IsMEJBQUEsTUFDSTtJQUFoQixRQUFBLGdCQUFjLGdDQUNXO0tBQTdCLGlCQUFXLGNBQWM7S0FDekIsUUFBSSxXQUFVLE9BQU07S0FDcEIsUUFBSSxNQUFLLGFBQVc7SUFBQTtJQUNyQixRQUFJLGdCQUFnQixjQUFhO0lBQ2pDLFFBQU0sS0FBSyxNQUFNLFNBQUEsSUFDRztZQUFsQixHQUFRLFlBQVAsMkJBQVk7Ozs7O0VBRWpCLFFBQU0sS0FBSztFQUVYLFFBQU0sWUFBVSxLQUFNLFNBQUEsRUFBRSxNQUNLO1VBQTVCLG9DQUFvQyxZQUFZO0VBQUE7RUFoRGpELHdCQUFBO2tCQWFBIiwiZmlsZSI6IlR5cGUvRW51bS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

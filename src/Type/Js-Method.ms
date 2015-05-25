@@ -11,7 +11,7 @@ use-debug
 	..compare =?
 	.Type contains?
 
-Js-Method = Obj-Type
+Js-Method. Obj-Type
 	doc. "
 		A Js-Method allows you to call a JavaScript-style method as a function.
 		Unlike a Mason Method, for a Js-Method,
@@ -59,5 +59,3 @@ send!. send
 
 js-impl!. !|method:Js-Method type:Impl-Type implementation:Function
 	p+! type.prototype method.impl-symbol implementation
-
-Js-Method

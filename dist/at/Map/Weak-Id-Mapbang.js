@@ -4,8 +4,9 @@ define(["exports","../../control","../../js","../../Try","../../Type/Kind","../a
 	exports._get=_ms.lazy(function(){
 		const _$2=_ms.getModule(control_0),returning=_ms.get(_$2,"returning"),_$3=_ms.getModule(js_1),_new=_ms.get(_$3,"new"),_$4=_ms.getModule(Try_2),oh_45no_33=_ms.get(_$4,"oh-no!"),_$5=_ms.getModule(Kind_3),kind_33=_ms.get(_$5,"kind!"),self_45kind_33=_ms.get(_$5,"self-kind!"),_$6=_ms.getModule(_64_33_4),empty_33=_ms.get(_$6,"empty!"),_$7=_ms.getModule(_64_45Type_5),empty=_ms.get(_$7,"empty"),_$8=_ms.getModule(_63_6),Opt_45_62_63=_ms.get(_$8,"Opt->?"),_$9=_ms.getModule(Map_7),_63get=_ms.get(_$9,"?get"),has_45key_63=_ms.get(_$9,"has-key?"),keys=_ms.get(_$9,"keys"),Map_45Type=_ms.getDefaultExport(Map_45Type_8),Map_33=_ms.getDefaultExport(Map_33_9),_$11=_ms.getModule(Map_33_9),assoc_33=_ms.get(_$11,"assoc!"),un_45assoc_33=_ms.get(_$11,"un-assoc!");
 		const Weak_45Id_45Map_33=function(){
-			const doc="Map! which can only hold have Objects as keys and stops holding them when they are garbage collected.\nGood for caches.\nIt does not have the full functionality of a Map! because there is no way to iterate over the keys.";
-			return _ms.set(global.WeakMap,"doc",doc,"name","Weak-Id-Map!")
+			const built={};
+			const doc=built.doc="Map! which can only hold have Objects as keys and stops holding them when they are garbage collected.\nGood for caches.\nIt does not have the full functionality of a Map! because there is no way to iterate over the keys.";
+			return _ms.set(global.WeakMap,built,"Weak-Id-Map!")
 		}();
 		self_45kind_33(Weak_45Id_45Map_33,Map_45Type,function(){
 			const built=new global.Map();
@@ -43,4 +44,4 @@ define(["exports","../../control","../../js","../../Try","../../Type/Kind","../a
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL01hcC9XZWFrLUlkLU1hcCEubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFZQSxtQ0FDYztHQUFiLFVBQ0M7a0JBR0Q7O0VBRUQsZUFBVyxtQkFBYSxxQkFDUTs7bUJBQS9CLE1BQ1UsVUFBQTtXQUFULEtBQUk7R0FBQTs7O0VBRU4sUUFBTSxtQkFBYSxpQkFDSTs7bUJBQXRCLE9BQVMsU0FBQSxFQUFFLElBQ0c7V0FBYixhQUFRLE1BQU07R0FBQTttQkFDZixhQUFhLFNBQUEsRUFBRSxJQUNHO1dBQWpCLE1BQU07R0FBQTttQkFDUCxTQUFZLFNBQUEsRUFBRSxJQUFJLElBQ0c7SUFBcEIsTUFBTSxJQUFJO0dBQUE7bUJBQ1gsY0FBYyxTQUFBLEVBQUUsSUFDRztXQUFsQixVQUFXLE9BQUssRUFBRSxLQUNPLFVBQUE7S0FBeEIsU0FBUztJQUFBO0dBQUE7bUJBRVgsS0FDVSxVQUFBO0lBQVQsV0FBUTtHQUFBO21CQUNULFNBQ1ksVUFBQTtJQUFYLFdBQVE7R0FBQTs7O0VBckNWLHdCQUFBO2tCQXVDQSIsImZpbGUiOiJhdC9NYXAvV2Vhay1JZC1NYXBiYW5nLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL01hcC9XZWFrLUlkLU1hcCEubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFZQSxtQ0FDYTs7R0FBWixvQkFDQztrQkFHRDs7RUFFRCxlQUFXLG1CQUFhLHFCQUNROzttQkFBL0IsTUFDVSxVQUFBO1dBQVQsS0FBSTtHQUFBOzs7RUFFTixRQUFNLG1CQUFhLGlCQUNJOzttQkFBdEIsT0FBUyxTQUFBLEVBQUUsSUFDRztXQUFiLGFBQVEsTUFBTTtHQUFBO21CQUNmLGFBQWEsU0FBQSxFQUFFLElBQ0c7V0FBakIsTUFBTTtHQUFBO21CQUNQLFNBQVksU0FBQSxFQUFFLElBQUksSUFDRztJQUFwQixNQUFNLElBQUk7R0FBQTttQkFDWCxjQUFjLFNBQUEsRUFBRSxJQUNHO1dBQWxCLFVBQVcsT0FBSyxFQUFFLEtBQ08sVUFBQTtLQUF4QixTQUFTO0lBQUE7R0FBQTttQkFFWCxLQUNVLFVBQUE7SUFBVCxXQUFRO0dBQUE7bUJBQ1QsU0FDWSxVQUFBO0lBQVgsV0FBUTtHQUFBOzs7RUFyQ1Ysd0JBQUE7a0JBWUEiLCJmaWxlIjoiYXQvTWFwL1dlYWstSWQtTWFwYmFuZy5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
