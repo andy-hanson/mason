@@ -1,6 +1,6 @@
 import { ArrayExpression, BinaryExpression, BlockStatement, BreakStatement, CallExpression,
-	DebuggerStatement, ExpressionStatement, ForOfStatement, FunctionExpression, Identifier,
-	IfStatement, Literal, MemberExpression, ObjectExpression, Program, ReturnStatement,
+	ContinueStatement, DebuggerStatement, ExpressionStatement, ForOfStatement, FunctionExpression,
+	Identifier, IfStatement, Literal, MemberExpression, ObjectExpression, Program, ReturnStatement,
 	ThisExpression, VariableDeclaration, UnaryExpression, VariableDeclarator, ReturnStatement
 	} from 'esast/dist/ast'
 import { idCached, loc, member, propertyIdOrLiteralCached, toStatement } from 'esast/dist/util'
@@ -17,7 +17,7 @@ import { assert, cat, flatMap, flatOpMap, ifElse, isEmpty,
 import { AmdefineHeader, ArraySliceCall, DeclareBuiltBag, DeclareBuiltMap, DeclareBuiltObj,
 	ExportsDefault, ExportsGet, IdArguments, IdBuilt, IdDefine, IdExports, IdExtract,
 	IdFunctionApplyCall, LitEmptyArray, LitEmptyString, LitNull, LitStrExports, LitZero,
-	ReturnExports, ReturnRes, SymbolIterator, UseStrict } from './ast-constants'
+	ReturnBuilt, ReturnExports, ReturnRes, SymbolIterator, UseStrict } from './ast-constants'
 import { IdMs, lazyWrap, msAdd, msArr, msAssoc, msBool, msCheckContains, msExtract, msGet,
 	msGetDefaultExport, msGetModule, msLazy, msLazyGet, msLazyGetModule, msSet, msSetName,
 	msSetLazy, msShow } from './ms-call'
@@ -110,9 +110,11 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 			lead, opResDeclare, opOut)
 	},
 
-	BlockWrap() { return blockWrap(this, t0(this.block)) },
+	BlockWrap() { return blockWrap(t0(this.block)) },
 
 	BreakDo() { return BreakStatement() },
+
+	BreakVal() { return ReturnStatement(t0(this.value)) },
 
 	Call() {
 		const anySplat = this.args.some(arg => arg instanceof Splat)
@@ -137,11 +139,14 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 	CaseVal() {
 		const body = caseBody(this.parts, this.opElse)
 		const block = ifElse(this.opCased, _ => [ t0(_), body ], () => [ body ])
-		return blockWrap(this, BlockStatement(block))
+		return blockWrap(BlockStatement(block))
 	},
 
 	CaseDoPart: casePart,
 	CaseValPart: casePart,
+
+	Continue() { return ContinueStatement() },
+
 	// TODO: includeInoutChecks is misnamed
 	Debug() { return context.opts.includeInoutChecks() ? tLines(this.lines) : [ ] },
 
@@ -150,15 +155,18 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 			property('init', propertyIdOrLiteralCached(pair.key), t0(pair.value))))
 	},
 
-	ForDoPlain() {
-		return forStatementInfinite(t0(this.block))
+	ForDo() { return forLoop(this.opIteratee, this.block) },
+
+	ForBag() {
+		return blockWrap(BlockStatement([
+			DeclareBuiltBag,
+			forLoop(this.opIteratee, this.block),
+			ReturnBuilt
+		]))
 	},
 
-	ForDoWithBag() {
-		const declare = VariableDeclaration('let', [ VariableDeclarator(t0(this.element)) ])
-		// TODO:ES6 shouldn't have to explicitly get iterator
-		const iter = CallExpression(MemberExpression(t0(this.bag), SymbolIterator, true), [ ])
-		return ForOfStatement(declare, iter, t0(this.block))
+	ForVal() {
+		return blockWrap(BlockStatement([ forLoop(this.opIteratee, this.block) ]))
 	},
 
 	Fun() {
@@ -297,7 +305,8 @@ function casePart(alternate) {
 
 // Functions specific to certain expressions.
 const
-	blockWrap = (_, block) => {
+	// Wraps a block (with `return` statements in it) in an IIFE.
+	blockWrap = block => {
 		const invoke = callExpressionThunk(functionExpressionThunk(block, isInGenerator))
 		return isInGenerator ? yieldExpressionDelegate(invoke) : invoke
 	},
@@ -308,6 +317,16 @@ const
 			acc = t1(parts[i], acc)
 		return acc
 	},
+
+	forLoop = (opIteratee, block) =>
+		ifElse(opIteratee,
+			({ element, bag }) => {
+				const declare = VariableDeclaration('let', [ VariableDeclarator(t0(element)) ])
+				// TODO:ES6 shouldn't have to explicitly get iterator
+				const iter = CallExpression(MemberExpression(t0(bag), SymbolIterator, true), [ ])
+				return ForOfStatement(declare, iter, t0(block))
+			},
+			() => forStatementInfinite(t0(block))),
 
 	transpileBlock = (returned, lines, lead = null, opResDeclare = null, opOut = null) => {
 		const fin = ifElse(opResDeclare,

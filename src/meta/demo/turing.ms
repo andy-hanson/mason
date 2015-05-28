@@ -80,15 +80,12 @@ run-turing.
 				init-tape
 		index ::= 0
 		state ::= init-state
-		# TODO:SYNTAX Loop return value
-		res ::= null
-		for!
+		for
 			symbol-here = tape[index]
 			rule-here = (p rules state)[symbol-here]
 
 			if! id=? rule-here fin
-				res := => Array tape
-				break!
+				break => Array tape
 
 			write go-right = rule-here
 			state := rule-here.state
@@ -105,4 +102,3 @@ run-turing.
 					0
 				else
 					- _ 1
-		res

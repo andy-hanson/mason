@@ -50,15 +50,12 @@ self-kind! Hash-Map! Map-Type
 # Find the first bucket that =? key.
 opt-bucket-entry = |opt-bucket key
 	cur ::= opt-bucket
-	# TODO:SYNTAX Loop return value
-	res ::= undefined
-	for!
+	for
 		unless! defined? cur
-			break!
+			break undefined
 		if! =? cur.key key
-			res := cur
+			break cur
 		cur := cur.next!
-	res
 
 js-impl! iterator Hash-Map! ~!|
 	for! bucket in values this.val
@@ -101,19 +98,15 @@ kind! Hash-Map! Map!
 								un-assoc! hm.val hash
 						? _.val!
 					else
-						# TODO:SYNTAX Loop return value
 						cur ::= bucket
-						res ::= empty ?
-						for!
+						for
 							next = cur.next!
 							unless! defined?_ next
-								break!
+								break empty ?
 							if! =? next.key key
 								p! cur "next!" next.next!
-								res := ? next.val!
-								break!
+								break ? next.val!
 							cur := next
-						res
 			else
 				empty ?
 

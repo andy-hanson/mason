@@ -4,7 +4,7 @@ use
 	.Type.Alias-Type
 	.Type.Method _ impl! self-impl!
 use~
-	.@.@ _ ++ map
+	.@.@ _ ++
 	.@.@-Type empty
 	.@.Map.Map
 	.@.Map.Hash-Map!
@@ -168,15 +168,16 @@ spread.
 				# TODO: Mapping map is hard...
 				=> Array _
 			:@
-				map _ |em
-					[ em ]
+				@for _
+					[ _ ]
 			:Object
 				=> Array Object->Map_
 			else
 				oh-no! "Can only spread a @ or Map, not {_}"
-		map @spreaded |spreaded
-			all-args = ++ init-args spreaded
-			fun ...all-args
+		# TODO:SYNTAX @for -> Array
+		@for @spreaded
+			all-args = ++ init-args _
+			. fun ...all-args
 
 spread!.
 	doc. "TODO"
@@ -189,8 +190,7 @@ spread!.
 			spread! f 1
 				2 -> 3
 	!|fun ...args
-		for! spread fun ...args
-			noop _
+		spread fun ...args
 
 thunk.
 	doc. "Makes function which, when called, returns `a`."

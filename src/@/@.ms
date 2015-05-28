@@ -12,8 +12,7 @@ use
 use~
 	..control opr
 	.@! --!
-	.@-Type empty
-	.?
+	.? Opt->?
 	.Seq.Seq first seq=? tail
 	.Seq.Stream
 	.Set.Set!
@@ -21,7 +20,8 @@ use-debug
 	..! _ !not
 	..math.Number divisible?
 	..Try fails?
-	.@-Type
+	.@-Type _ empty
+	.?
 	.Map.Weak-Id-Map!
 
 @. Kind
@@ -110,13 +110,10 @@ region Using iterator
 			[ [ 0 1 ] =?[1] ] -> ? 1
 			[ [ 0 ] =?[1] ] -> empty ?
 		|_ pred?:Pred
-			# TODO:SYNTAX Loop return value
-			found ::= empty ?
-			for! _
+			# TODO:SYNTAX for-else
+			Opt->? for _
 				if! pred?_
-					found := ?_
-					break!
-			found
+					break _
 
 	count. Method
 		doc. "Number of elements."
@@ -135,13 +132,17 @@ region Lazy functions, and their eager versions.
 			[ [ 1 2 ] =?[2] ] -> [ 2 ]
 		args. 2
 		default. |_:@ keep-if?:Pred
-			=> type-of_ (keep' _ keep-if?
+			# TODO:SYNTAX Shouldn't need => type-of_
+			=> type-of_ @for _
+				if! keep-if?_
+					. _
 
 	keep'.
 		doc. "Lazy keep."
 		test. |
 			[ [ 1 2 ] =?[2] ] -> => Stream [ 2 ]
 		|filtered:@ keep-if?:Pred
+			# TODO:SYNTAX @for~
 			Stream ~!|
 				for! filtered
 					if! keep-if?_
@@ -153,13 +154,16 @@ region Lazy functions, and their eager versions.
 		test. |
 			[ [ true false ] not ] -> [ false true ]
 		|_:@ mapper:Function
-			=> type-of_ (map' _ mapper
+			# TODO:SYNTAX Shouldn't need => type-of_
+			=> type-of_ @for _
+				mapper_
 
 	map'.
 		doc. "Lazy map."
 		test. |
 			[ [ true false ] not ] -> => Stream [ false true ]
 		|mapped:@ mapper:Function
+			# TODO:SYNTAX @for~
 			Stream ~!|
 				for! mapped
 					<~ mapper_
@@ -173,7 +177,11 @@ region Lazy functions, and their eager versions.
 			[ [ 1 2 ] f ] -> [ 1 1 2 2 ]
 		args. 2
 		default. |_ mapper:Function[Any @]
-			=> type-of_ (flat-map' _ mapper
+			# TODO:SYNTAX Shouldn't need => type-of_
+			=> type-of_ @for _
+				# TODO:SYNTAX `...`
+				for! mapper_
+					. _
 
 	flat-map'.
 		doc. "Lazy flat-map."
@@ -186,7 +194,7 @@ region Lazy functions, and their eager versions.
 			[ [ 1 2 3 4 ] f ] -> => Stream [ 1 2 2 3 4 4 ]
 		args. 2
 		|mapped:@ mapper:Function[Any @]
-			# Same as `flatten (map _ mapper)`, but with smaller stacktrace.
+			# TODO:SYNTAX @for~
 			Stream ~!|
 				for! mapped
 					<~~ iterator mapper_
@@ -200,7 +208,11 @@ region Lazy functions, and their eager versions.
 			[ [ [ 1 2 ] [ 3 ] [ ] ] ] -> [ 1 2 3 ]
 		args. 2
 		default. |_
-			=> type-of_ flatten'_
+			# TODO:SYNTAX Shouldn't need => type-of_
+			=> type-of_ @for _
+				# TODO:SYNTAX `...`
+				for! _
+					. _
 
 	flatten'.
 		doc. "Lazy flatten."
@@ -212,25 +224,35 @@ region Lazy functions, and their eager versions.
 			! fails? |
 				=> Array (flatten [ [ 1 ] 2 [ 3 ] ]
 		|flattened:@[@]
+			# TODO:SYNTAX @for~
 			Stream ~!|
 				for! flattened
 					<~~ iterator_
 
 	++. Method
-		doc. "Type-preserving +."
+		doc. "Concatenation. Sets should override this."
 		test. |
 			[ [ 0 ] [ 1 ] ] -> [ 0 1 ]
 		args.
 			. [ "@a" @
 			. [ "@b" @
 		default. |@a @b
-			=> (type-of @a) (++' @a @b
+			# TODO:SYNTAX @for -> type-of a
+			# TODO:SYNTAX Just build without @for
+			=> (type-of @a) @for
+				# TODO:SYNTAX `...`
+				for! @a
+					. _
+				for! @b
+					. _
+				break!
 
 	++'.
-		doc. "Concatenation. Sets should override this."
+		doc. "Lazy ++."
 		test. |
 			[ [ 0 ] [ 1 ] ] -> => Stream [ 0 1 ]
 		|:Stream @a @b
+			# TODO:SYNTAX @for~
 			Stream ~!|
 				<~~ iterator @a
 				<~~ iterator @b
@@ -253,6 +275,7 @@ region Lazy functions, and their eager versions.
 		test. |
 			[ [ 1 2 1 ] [ 1 ] ] -> => Stream [ 2 1 ]
 		|:@ @removed-from @remove:@
+			# TODO:SYNTAX @for~
 			Stream ~!|
 				@remove-remaining = => Set! @remove
 				for! @removed-from

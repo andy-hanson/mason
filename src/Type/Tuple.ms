@@ -40,8 +40,7 @@ Tuple. Obj-Type
 	make-callable. |tuple
 		props = tuple.props.map get-prop
 
-		# TODO: Mangle names!
-		args = props.map |_
+		args = @for props
 			_.id
 		argsStr = args.join ","
 
@@ -70,19 +69,19 @@ Tuple. Obj-Type
 
 			add! "}"
 
-		type-args = props.map |_
+		type-args = @for props
 			"{_.id}_type"
 		make-ctr = Function "postConstruct" ...type-args src
-		types = props.map |prop
-			prop.type
+		types = @for props
+			_.type
 		ctr = make-ctr tuple.post-construct ...types
 		debug pAdd ctr "source" src
 		ctr
 
-	post-construct. |_
+	post-construct. !|_
 		pAdd _.prototype "constructor" _
-		accesses = (_.props.map get-prop).map |_
-			"_{access _.name}"
+		accesses = @for _.props
+			"_{access get-prop_.name}"
 		extract-src = "return function(_) \{ return _ instanceof tuple ? [ {accesses.join ","} ] : null }"
 		make-extractor = Function "tuple" extract-src
 		extractor = make-extractor _

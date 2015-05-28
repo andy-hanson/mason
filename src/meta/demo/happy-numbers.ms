@@ -1,5 +1,5 @@
 use
-	...@.@ fold keep map
+	...@.@ fold keep' map
 	...@.@! ++!
 	...@.@-Type empty
 	...@.Seq.Array!
@@ -8,6 +8,7 @@ use
 	...@.Seq.Stream
 	...@.Set.Id-Set!
 	...compare =?
+	...control returning
 	...js defined? js-sub
 	...math.Number infinity int/ Nat remainder square
 	...math.methods +
@@ -39,25 +40,20 @@ happy?.
 	|n:Nat
 		stepped-through = empty Id-Set!
 		cur ::= n
-		# TODO:SYNTAX Loop return value
-		res ::= null
-		for!
+		n-happy? = for
 			case! js-sub cache cur
 				defined?_
-					res := _
-					break!
+					break _
 				else
 					if! contains? stepped-through cur
-						res := false
-						break!
+						break false
 					# TODO: +!
 					++! stepped-through [ cur ]
 					cur := happy-step cur
-
-		for! stepped-through
-			set-nth! cache _ res
-		set-nth! cache n res
-		res
+		returning n-happy? !|
+			for! stepped-through
+				set-nth! cache _ n-happy?
+			set-nth! cache n n-happy?
 
 happy-numbers:Stream[Nat].
 	doc. "Stream of all happy numbers."
@@ -71,4 +67,4 @@ happy-numbers:Stream[Nat].
 			. 23
 			. 28
 			. 31
-	keep (range 1 infinity) happy?
+	keep' (range 1 infinity) happy?

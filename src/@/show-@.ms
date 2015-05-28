@@ -5,7 +5,7 @@ use
 	..String indent
 	..Type.Type => type-of
 	..Type.Method impl! impl-for
-	.@ _ count empty? map'
+	.@ _ count empty?
 	.Seq.Seq take'
 use-debug
 	.@-Type empty
@@ -33,8 +33,8 @@ impl! show @
 				"[ ]"
 			else
 				# TODO: map (eager)
-				ems = map' _ |em
-					indent (show em opts
+				ems = @for _
+					indent (show _ opts
 				show-ems end = case
 					<? 100 count_
 						show-ems. take' ems 100

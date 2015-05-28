@@ -1,8 +1,8 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","../../bang","../../at/at","../../at/Seq/Seq","../../at/Seq/Stream","../../compare","../../math/Number","../../math/methods","../../Type/Type"],function(exports,_33_0,_64_1,Seq_2,Stream_3,compare_4,Number_5,methods_6,Type_7){
+define(["exports","../../bang","../../at/Seq/Seq","../../at/Seq/Stream","../../compare","../../math/Number","../../math/methods","../../Type/Type"],function(exports,_33_0,Seq_1,Stream_2,compare_3,Number_4,methods_5,Type_6){
 	exports._get=_ms.lazy(function(){
-		const _33=_ms.getDefaultExport(_33_0),_$3=_ms.getModule(_64_1),map=_ms.get(_$3,"map"),_$4=_ms.getModule(Seq_2),reverse=_ms.get(_$4,"reverse"),tail=_ms.get(_$4,"tail"),take_45while_39=_ms.get(_$4,"take-while'"),Stream=_ms.getDefaultExport(Stream_3),_$6=_ms.getModule(compare_4),_61_63=_ms.get(_$6,"=?"),_60_61_63=_ms.get(_$6,"<=?"),_$7=_ms.getModule(Number_5),Nat=_ms.get(_$7,"Nat"),_$8=_ms.getModule(methods_6),_43=_ms.get(_$8,"+"),_45=_ms.get(_$8,"-"),_$9=_ms.getModule(Type_7),_61_62=_ms.get(_$9,"=>");
+		const _33=_ms.getDefaultExport(_33_0),_$3=_ms.getModule(Seq_1),reverse=_ms.get(_$3,"reverse"),tail=_ms.get(_$3,"tail"),take_45while_39=_ms.get(_$3,"take-while'"),Stream=_ms.getDefaultExport(Stream_2),_$5=_ms.getModule(compare_3),_61_63=_ms.get(_$5,"=?"),_60_61_63=_ms.get(_$5,"<=?"),_$6=_ms.getModule(Number_4),Nat=_ms.get(_$6,"Nat"),_$7=_ms.getModule(methods_5),_43=_ms.get(_$7,"+"),_45=_ms.get(_$7,"-"),_$8=_ms.getModule(Type_6),_61_62=_ms.get(_$8,"=>");
 		const fibs=function(){
 			const rec=function* rec(prev,cur){
 				_ms.checkContains(Nat,prev,"prev");
@@ -30,16 +30,20 @@ define(["exports","../../bang","../../at/at","../../at/Seq/Seq","../../at/Seq/St
 					return _60_61_63(_,n)
 				}));
 				let left=n;
-				const digits=map(candidate_45fibs,function(_){
-					return function(){
-						if(_ms.bool(_60_61_63(_,left))){
-							left=_45(left,_);
-							return 1
-						} else {
-							return 0
-						}
-					}()
-				});
+				const digits=function(){
+					const built=[];
+					for(let _ of candidate_45fibs[Symbol.iterator]()){
+						_ms.add(built,function(){
+							if(_ms.bool(_60_61_63(_,left))){
+								left=_45(left,_);
+								return 1
+							} else {
+								return 0
+							}
+						}())
+					};
+					return built
+				}();
 				_33(_61_63,0,left);
 				return _61_62(String,digits)
 			},built)
@@ -49,4 +53,4 @@ define(["exports","../../bang","../../at/at","../../at/Seq/Seq","../../at/Seq/St
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL2RlbW8vemVja2VuZG9yZi5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQVVBLHFCQUNNO0dBQUwsVUFBUyxjQUFBLEtBQVMsSUFDTztzQkFEWDtzQkFBUTtXQUNsQjtZQUNDLElBQUksSUFBSyxJQUFFLEtBQUs7R0FBQTtVQUNyQixlQUFPLElBQUksRUFBRTtFQUFBO0VBRWQsMkJBQ1c7O0dBQVYsb0JBQU07R0FDTixzQkFDTyxlQUFBOztvQkFBTixDQUFFLEdBQVE7b0JBQ1YsQ0FBRSxHQUFRO29CQUNWLENBQUUsSUFBUztvQkFDWCxDQUFFLE1BQVc7OztrQkFDYixvQkFBQSxFQUNLO3NCQURIO0lBQ0YsZUFBUyxLQUFLO0lBQ2QsdUJBQWlCLFFBQVMsZ0JBQVksU0FBUSxTQUFBLEVBQ0M7WUFBOUMsVUFBSSxFQUFFO0lBQUE7SUFDUCxTQUFTO0lBQ1QsYUFBUyxJQUFJLGlCQUFnQixTQUFBLEVBQUE7O01BQzVCLFlBQUEsVUFBSSxFQUFFLE9BQ0k7WUFBRCxJQUFFLEtBQUs7Y0FDZjtNQUFBLE9BRUc7Y0FBSDtNQUFBO0tBQUE7SUFBQTtJQUNGLElBQUUsT0FBRyxFQUFFO1dBQ1AsT0FBRyxPQUFPO0dBQUE7O0VBbkNaLHdCQUFBO2tCQWdCQSIsImZpbGUiOiJtZXRhL2RlbW8vemVja2VuZG9yZi5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL2RlbW8vemVja2VuZG9yZi5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQVNBLHFCQUNNO0dBQUwsVUFBUyxjQUFBLEtBQVMsSUFDTztzQkFEWDtzQkFBUTtXQUNsQjtZQUNDLElBQUksSUFBSyxJQUFFLEtBQUs7R0FBQTtVQUNyQixlQUFPLElBQUksRUFBRTtFQUFBO0VBRWQsMkJBQ1c7O0dBQVYsb0JBQU07R0FDTixzQkFDTyxlQUFBOztvQkFBTixDQUFFLEdBQVE7b0JBQ1YsQ0FBRSxHQUFRO29CQUNWLENBQUUsSUFBUztvQkFDWCxDQUFFLE1BQVc7OztrQkFDYixvQkFBQSxFQUNLO3NCQURIO0lBQ0YsZUFBUyxLQUFLO0lBQ2QsdUJBQWlCLFFBQVMsZ0JBQVksU0FBUSxTQUFBLEVBQ0M7WUFBOUMsVUFBSSxFQUFFO0lBQUE7SUFDUCxTQUFTO0lBQ1Q7O2FBQWMsS0FBQSxvQ0FDYzs7T0FDMUIsWUFBQSxVQUFJLEVBQUUsT0FDSTthQUFELElBQUUsS0FBSztlQUNmO09BQUEsT0FFRztlQUFIO09BQUE7TUFBQTtLQUFBOzs7SUFDSCxJQUFFLE9BQUcsRUFBRTtXQUNQLE9BQUcsT0FBTztHQUFBOztFQW5DWix3QkFBQTtrQkFlQSIsImZpbGUiOiJtZXRhL2RlbW8vemVja2VuZG9yZi5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

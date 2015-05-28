@@ -48,9 +48,13 @@ define(["exports","esast/dist/mangle-identifier","../js","../private/bootstrap",
 			}();
 			const make_45callable=built["make-callable"]=function make_45callable(tuple){
 				const props=tuple.props.map(get_45prop);
-				const args=props.map(function(_){
-					return _.id
-				});
+				const args=function(){
+					const built=[];
+					for(let _ of props[Symbol.iterator]()){
+						_ms.add(built,_.id)
+					};
+					return built
+				}();
 				const argsStr=args.join(",");
 				const src=buildStr(function(add_33){
 					const name=mangle_45identifier(tuple.name);
@@ -67,26 +71,38 @@ define(["exports","esast/dist/mangle-identifier","../js","../private/bootstrap",
 					};
 					return add_33("}")
 				});
-				const type_45args=props.map(function(_){
-					return ((""+_ms.show(_.id))+"_type")
-				});
+				const type_45args=function(){
+					const built=[];
+					for(let _ of props[Symbol.iterator]()){
+						_ms.add(built,((""+_ms.show(_.id))+"_type"))
+					};
+					return built
+				}();
 				const make_45ctr=Function.apply.call(Function,null,[].concat("postConstruct",_ms.arr(type_45args),src));
-				const types=props.map(function(prop){
-					return prop.type
-				});
+				const types=function(){
+					const built=[];
+					for(let _ of props[Symbol.iterator]()){
+						_ms.add(built,_.type)
+					};
+					return built
+				}();
 				const ctr=Function.apply.call(make_45ctr,null,[].concat(tuple["post-construct"],_ms.arr(types)));
 				pAdd(ctr,"source",src);
 				return ctr
 			};
 			const post_45construct=built["post-construct"]=function post_45construct(_){
 				pAdd(_.prototype,"constructor",_);
-				const accesses=_.props.map(get_45prop).map(function(_){
-					return ("_"+_ms.show(access(_.name)))
-				});
+				const accesses=function(){
+					const built=[];
+					for(let _ of _.props[Symbol.iterator]()){
+						_ms.add(built,("_"+_ms.show(access(get_45prop(_).name))))
+					};
+					return built
+				}();
 				const extract_45src=(("return function(_) { return _ instanceof tuple ? [ "+_ms.show(accesses.join(",")))+" ] : null }");
 				const make_45extractor=Function("tuple",extract_45src);
 				const extractor=make_45extractor(_);
-				return self_45impl_33(extract,_,extractor)
+				self_45impl_33(extract,_,extractor)
 			};
 			const test=built.test=function test(){
 				const Vec2=Tuple(function(){
@@ -125,4 +141,4 @@ define(["exports","esast/dist/mangle-identifier","../js","../private/bootstrap",
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL1R1cGxlLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7RUFjQSxhQUFVLGdCQUFBLEtBQ0k7VUFBWixpQkFBSTs7RUFFTixpQkFBWSxvQkFBQSxFQUFBOztJQUVYLHlCQUFDLE1BQUQsSUFDTTs7S0FBTCw4QkFBTSxFQUFFO0tBQ1Isa0JBQUksNEJBQWtCLEVBQUU7S0FDeEIsOEJBQU0sRUFBRTs7V0FDVCx5QkFBQyxPQUFELElBQ087O0tBQU4sc0JBQU07S0FDTixrQkFBSSxvQkFBaUI7Ozs7O0VBRXZCLFlBQU8scUJBQ1E7O0dBQWQsa0NBQ007O0lBQUwsc0JBQU07SUFDTix3QkFBTztJQUNQLGdDQUFXOzs7R0FDWiwrQ0FDVTs7SUFDVCwrQ0FBZ0I7OztHQUNqQixrQ0FBWTtHQUNaLHdDQUNTOztJQUFSLGdDQUNZLG9CQUFBO1lBQVgsY0FBYzs7OztHQUNoQiw2Q0FBZ0IseUJBQUEsTUFDSztJQUFwQixZQUFRLGdCQUFnQjtJQUd4QixXQUFPLFVBQVcsU0FBQSxFQUNDO1lBQWxCOztJQUNELGNBQVUsVUFBVztJQUVyQixVQUFNLFNBQVUsU0FBQSxPQUNJO0tBQW5CLFdBQU8sb0JBQWtCO0tBR3pCLE9BQ0Msc0NBQWlCLHFCQUFPLGtEQUNELGtDQUFvQixxQkFBTztLQUU5QyxRQUFBLEtBQUEseUJBQ0s7TUFBVCxZQUFJLFdBQVMsU0FDTTtPQUFsQixPQUFNLG9DQUFtQiwyQkFBYSx3QkFBVTs7TUFFakQsT0FBTSxtQkFBSyxPQUFPLDBCQUFXOztLQUU5QixPQUNDLHVDQUF3QixpRUFDUztLQUlsQyxZQUFJLFdBQVMsMEJBQ29CO01BQWhDLE9BQU07S0FBQTtZQUVQLE9BQU07SUFBQTtJQUVQLGtCQUFZLFVBQVcsU0FBQSxFQUNDO1lBQXRCLEVBOUJRLFlBOEJQOztJQUNILHFDQUFXLHdCQUFVLHdCQUFlLGFBQWE7SUFDakQsWUFBUSxVQUFXLFNBQUEsS0FDSTtZQUF0Qjs7SUFDRCw4QkFBTSwwQkFBUyxnQ0FBcUI7SUFDOUIsS0FBSyxJQUFLLFNBQVE7V0FDeEI7R0FBQTtHQUVELCtDQUFpQiwwQkFBQSxFQUNDO0lBQWpCLEtBQUssWUFBYSxjQUFhO0lBQy9CLGVBQVksWUFBWSxnQkFBZSxTQUFBLEVBQ0M7WUFBdEMsY0FBRSxPQUFPOztJQUNYLG9CQUFlLGlFQUFxRCxjQUFlO0lBQ25GLHVCQUFpQixTQUFVLFFBQU87SUFDbEMsZ0JBQVksaUJBQWU7V0FDM0IsZUFBVyxRQUFRLEVBQUU7R0FBQTtHQUV0QixzQkFDUSxlQUFBO0lBQVAsV0FBTyxnQkFDSzs7S0FBWCxrQ0FDTTs7b0JBQUY7b0JBQ0QsQ0FBRyxJQUFHOzs7OztJQUNWLFFBQUksS0FBSyxFQUFFO3VDQUNOLEVBQUU7dUNBQ0YsRUFBRTtJQUNEO0tBQUEsUUFBQTtLQUNMOzJCQUFDLEtBQUQ7cUJBQ1M7OzBDQUFILEVBQUU7MENBQ0YsRUFBRTtNQUFBOzs7Ozs7RUFFWCxhQUFhLE1BQU8sU0FBQSxNQUFNLEVBQ0M7VUFBMUIsZ0JBQWMsRUFBRTtFQUFBO0VBRWpCLFFBQU0sTUFBTTtFQTFHWix3QkFBQTtrQkEyQkEiLCJmaWxlIjoiVHlwZS9UdXBsZS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL1R1cGxlLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7RUFjQSxhQUFVLGdCQUFBLEtBQ0k7VUFBWixpQkFBSTs7RUFFTixpQkFBWSxvQkFBQSxFQUFBOztJQUVYLHlCQUFDLE1BQUQsSUFDTTs7S0FBTCw4QkFBTSxFQUFFO0tBQ1Isa0JBQUksNEJBQWtCLEVBQUU7S0FDeEIsOEJBQU0sRUFBRTs7V0FDVCx5QkFBQyxPQUFELElBQ087O0tBQU4sc0JBQU07S0FDTixrQkFBSSxvQkFBaUI7Ozs7O0VBRXZCLFlBQU8scUJBQ1E7O0dBQWQsa0NBQ007O0lBQUwsc0JBQU07SUFDTix3QkFBTztJQUNQLGdDQUFXOzs7R0FDWiwrQ0FDVTs7SUFDVCwrQ0FBZ0I7OztHQUNqQixrQ0FBWTtHQUNaLHdDQUNTOztJQUFSLGdDQUNZLG9CQUFBO1lBQVgsY0FBYzs7OztHQUNoQiw2Q0FBZ0IseUJBQUEsTUFDSztJQUFwQixZQUFRLGdCQUFnQjtJQUV4Qjs7YUFBWSxLQUFBLHlCQUNLO29CQUFoQjs7OztJQUNELGNBQVUsVUFBVztJQUVyQixVQUFNLFNBQVUsU0FBQSxPQUNJO0tBQW5CLFdBQU8sb0JBQWtCO0tBR3pCLE9BQ0Msc0NBQWlCLHFCQUFPLGtEQUNELGtDQUFvQixxQkFBTztLQUU5QyxRQUFBLEtBQUEseUJBQ0s7TUFBVCxZQUFJLFdBQVMsU0FDTTtPQUFsQixPQUFNLG9DQUFtQiwyQkFBYSx3QkFBVTs7TUFFakQsT0FBTSxtQkFBSyxPQUFPLDBCQUFXOztLQUU5QixPQUNDLHVDQUF3QixpRUFDUztLQUlsQyxZQUFJLFdBQVMsMEJBQ29CO01BQWhDLE9BQU07S0FBQTtZQUVQLE9BQU07SUFBQTtJQUVQOzthQUFpQixLQUFBLHlCQUNLO29CQUFwQixFQWdEZSxZQWhEZDs7OztJQUNILHFDQUFXLHdCQUFVLHdCQUFlLGFBQWE7SUFDakQ7O2FBQWEsS0FBQSx5QkFDSztvQkFBakI7Ozs7SUFDRCw4QkFBTSwwQkFBUyxnQ0FBcUI7SUFDOUIsS0FBSyxJQUFLLFNBQVE7V0FDeEI7R0FBQTtHQUVELCtDQUFrQiwwQkFBQSxFQUNDO0lBQWxCLEtBQUssWUFBYSxjQUFhO0lBQy9COzthQUFnQixLQUFBLDJCQUNPO29CQUFyQixjQUFFLE9BQU8sV0FBUTs7OztJQUNuQixvQkFBZSxpRUFBcUQsY0FBZTtJQUNuRix1QkFBaUIsU0FBVSxRQUFPO0lBQ2xDLGdCQUFZLGlCQUFlO0lBQzNCLGVBQVcsUUFBUSxFQUFFO0dBQUE7R0FFdEIsc0JBQ1EsZUFBQTtJQUFQLFdBQU8sZ0JBQ0s7O0tBQVgsa0NBQ007O29CQUFGO29CQUNELENBQUcsSUFBRzs7Ozs7SUFDVixRQUFJLEtBQUssRUFBRTt1Q0FDTixFQUFFO3VDQUNGLEVBQUU7SUFDRDtLQUFBLFFBQUE7S0FDTDsyQkFBQyxLQUFEO3FCQUNTOzswQ0FBSCxFQUFFOzBDQUNGLEVBQUU7TUFBQTs7Ozs7O0VBRVgsYUFBYSxNQUFPLFNBQUEsTUFBTSxFQUNDO1VBQTFCLGdCQUFjLEVBQUU7RUFBQTtFQUVqQixRQUFNLE1BQU07RUF6R1osd0JBQUE7a0JBMkJBIiwiZmlsZSI6IlR5cGUvVHVwbGUuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

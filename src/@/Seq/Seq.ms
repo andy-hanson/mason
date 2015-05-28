@@ -14,7 +14,7 @@ use
 use~
 	...math.Number Nat
 	...show
-	..? _ un-?
+	..? Opt->? un-?
 	.Array!
 	.Seq! ++>!
 	.Stream
@@ -22,6 +22,7 @@ use-debug
 	...! _ !not
 	...compare <?
 	...Try fails?
+	..?
 
 Seq. Kind
 	doc. "@ whose values are in a meaningful order."
@@ -33,6 +34,7 @@ self-impl! empty Seq |
 	empty Array
 
 region TODO
+	# TODO: Review name...
 	<++'. Method
 		doc. "
 			TODO:REST
@@ -79,7 +81,8 @@ region Very first and last
 			[ [ ] ] -> empty ?
 		args. 1
 		default. |_
-			if (not empty?_) ~_[(- count_ 1
+			if (not empty?_) ~
+				_[(- count_ 1
 
 	tail. Method
 		doc. "
@@ -123,24 +126,18 @@ region Search
 		|@a:@ @b:@
 			iter-a = iterator @a
 			iter-b = iterator @b
-			# TODO:SYNTAX loop return value
-			eq ::= false
-			for!
+			for
 				next-a = iter-a.next()
 				next-b = iter-b.next()
 				case!
 					next-a.done
-						eq := next-b.done
-						break!
+						break next-b.done
 					next-b.done
-						eq := false
-						break!
+						break false
 					=? next-a.value next-b.value
 						pass
 					else
-						eq := false
-						break!
-			eq
+						break false
 
 	?nth. Method
 		doc. "
@@ -155,16 +152,14 @@ region Search
 			. [ "n" Nat
 		default. |_ n
 			i ::= 0
-			# TODO:SYNTAX Loop return value
-			ans ::= empty ?
-			for! _
+			# TODO:SYNTAX for-else
+			Opt->? for _
 				case!
 					=? i n
-						ans := ?_
-						break!
+						break _
 					else
+						# TODO: Incr
 						i := + 1 i
-			ans
 
 	impl! sub Seq
 		doc. "Nth value in iteration order."
@@ -219,6 +214,7 @@ region Update
 			_ = [ 0 1 2 3 4 ]
 			! seq=? _ (++ (take' _ 2) (drop' _ 2
 		|_ count-to-take:Nat
+			# TODO:SYNTAX @for~
 			case
 				=? 0 count-to-take
 					empty Stream
@@ -238,6 +234,7 @@ region Update
 		test. |
 			[ [ 1 2 -1 3 ] <?[0] ] -> => Stream [ 1 2 ]
 		|_ while?:Pred
+			# TODO:SYNTAX @for~
 			Stream ~!|
 				for! _
 					unless! while?_
@@ -257,6 +254,7 @@ region Update
 		test. |
 			[ [ 0 1 2 3 ] 2 ] -> => Stream [ 2 3 ]
 		|_ count-to-drop
+			# TODO:SYNTAX @for~
 			Stream ~!|
 				iter = iterator_
 				i ::= 0
@@ -286,6 +284,7 @@ region Combination
 		test. |
 			[ [ 1 2 ] [ 10 20 30 ] + ] -> => Stream [ 11 22 ]
 		|@a:@ @b:@ zipper:Function[2]
+			# TODO:SYNTAX @for~
 			Stream ~!|
 				iter-a = iterator @a
 				iter-b = iterator @b
@@ -330,6 +329,7 @@ region TODO: put somewhere
 							# TODO: Really freeze?
 							<~ freeze next-group
 
+	# TODO: reverse'?
 	reverse. Method
 		doc. "Seq with the opposite order."
 		test. |

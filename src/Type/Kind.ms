@@ -7,7 +7,7 @@ use
 	.Method impl! propagate-method-down! self-impl!
 	.Obj-Type
 use~
-	..@.@ _ flat-map
+	..@.@
 	.Impl-Type _ self-type
 	..methods freeze frozen?
 use-debug
@@ -133,11 +133,14 @@ concrete-implementors.
 		kind! W Y
 		[ X ] -> [ W Z ]
 	|:@[Impl-Type] kind:Kind
-		flat-map kind.implementors |case
-			:Kind
-				concrete-implementors_
-			else
-				[ _ ]
+		@for kind.implementors
+			case!
+				:Kind
+					# TODO:SYNTAX `...`
+					for! concrete-implementors_
+						. _
+				else
+					. _
 
 kind!.
 	doc. "

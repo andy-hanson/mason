@@ -1,6 +1,6 @@
 use
 	...! _ !call
-	...@.@ _ ++ flatten flat-map map
+	...@.@
 	...@.@-Type empty
 	...@.? ?-or
 	...@.Map.Map
@@ -8,7 +8,6 @@ use
 	...$ _ $all $ing
 	...Boolean and or
 	...compare =?
-	...control if
 	...Function noop
 	...Generator!
 	...js defined?
@@ -53,31 +52,39 @@ test-special. Method
 
 # TODO: MOVE THESE
 impl! test-special Impl-Type |type
-	$all (flat-map (?p type "prototype") |prototype
-		flat-map (@p-all prototype) |name
+	$all @for prototype in ?p type "prototype"
+		for! name in @p-all prototype
 			# Some prototype properties throw errors. For example, global.Map.size.
 			# TODO:SYNTAX Inline fun
-			x = try |
+			_ = try |
 				?p prototype name
-			case x
-				:Success
-					flat-map _.val |val
-						@$maybe-test ~"{type}#{name}" val false
-				else
-					[ ]
+			if! :Success
+				for! prop-val in _.val
+					# TODO:SYNTAX `...`
+					for! @$maybe-test ~"{type}#{name}" prop-val false
+						. _
 
 # TODO: MOVE THESE
 impl! test-special Kind |_
-	a = @$-from-any ((impl-for test-special Impl-Type) _
-	b = flat-map (?p _ "implementor-test") |test:Function
-		flat-map concrete-implementors_ |implementor
-			@$test-test-fun implementor test ~"{_}.implementor-test of {implementor}" implementor
-	++ a b
+	# TODO:SYNTAX Just build without @for
+	@for
+		# TODO:SYNTAX `...`
+		for! @$-from-any ((impl-for test-special Impl-Type) _)
+			. _
+		for! test in ?p _ "implementor-test"
+			for! implementor in concrete-implementors_
+				# TODO:SYNTAX `...`
+				for! @$test-test-fun implementor test ~"{_}.implementor-test of {implementor}" implementor
+					. _
+		break!
 
 $test-all.
 	doc. "Tests all modules."
 	|@all-modules:@[Object]
-		$all (flat-map @all-modules @$test-module
+		$all @for @all-modules
+			# TODO:SYNTAX `...`
+			for! @$test-module_
+				. _
 
 $test-module.
 	doc. "Treats an Object as a module and tests it."
@@ -109,34 +116,55 @@ $test-fun.
 		$all (@$test-single "{_}" _ false)
 
 @$test-single = |~name value is-module
-	a = test-special value
-	b = case value
-		or is-module ~:ObjLit ~:Function
-			flat-map @p_ |prop-name
-				~next-name = "{name}.{prop-name}"
-				prop-val = p _ prop-name
-				case prop-name
-					=? _ "test"
-						@$test-test-prop value prop-val ~next-name
-					=? _ "$test"
-						@$test-$test-prop prop-val ~next-name
-					else
-						@$maybe-test ~next-name prop-val false
-		and :Object ~(p? _ "test")
-			@$test-test-prop _ _.test ~"{name}.test"
-		else
-			[]
+	# TODO:SYNTAX Just build without @for
+	@for
+		# TODO:SYNTAX `...`
+		for! @$-from-any (test-special value)
+			. _
+		case! value
+			or is-module ~:ObjLit ~:Function
+				for! prop-name in @p_
+					~next-name = "{name}.{prop-name}"
+					prop-val = p _ prop-name
+					# TODO:SYNTAX switch!
+					case! prop-name
+						=? _ "test"
+							# TODO:SYNTAX `...`
+							for! @$test-test-prop value prop-val ~next-name
+								. _
+						=? _ "$test"
+							# TODO:SYNTAX `...`
+							for! @$test-$test-prop prop-val ~next-name
+								. _
+						else
+							# TODO:SYNTAX `...`
+							for! @$maybe-test ~next-name prop-val false
+								. _
 
-	++ (@$-from-any a) b
+			and :Object ~(p? _ "test")
+				# TODO:SYNTAX `...`
+				for! @$test-test-prop _ _.test ~"{name}.test"
+					. _
+			else
+				pass
+		break!
 
 @$test-test-prop = |value value-test ~name # TODO: ...test-args
-	# Could be both Function and ObjLit
-	# TODO: No it can't
-	_ = value-test
-	@$a = flatten (if :Function ~(@$test-test-fun value value-test ~name
-	@$b = flatten (if :ObjLit ~(flat-map @p_ |sub-name
-		@$test-test-prop value (p _ sub-name) ~"{name}.{sub-name}"
-	++ @$a @$b
+	# TODO:SYNTAX Just build without @for
+	@for
+		_ = value-test
+		# Could be both Function and ObjLit
+		# TODO: No it can't
+		if! :Function
+			# TODO:SYNTAX `...`
+			for! @$test-test-fun value value-test ~name
+				. _
+		if! :ObjLit
+			for! sub-name in @p_
+				# TODO:SYNTAX `...`
+				for! @$test-test-prop value (p _ sub-name) ~"{name}.{sub-name}"
+					. _
+		break!
 
 @$test-$test-prop = |value-$test:Function[Generator!] ~name
 	. $annotate-errors ~"{name}: " ($ing value-$test
@@ -153,7 +181,7 @@ $test-fun.
 				!call value _
 			[ ]
 		:$
-			[ ($annotate-errors ~ano _) ]
+			[ ($annotate-errors ~ano _
 		defined?_
 			annotate-errors ~ano !|
 				oh-no! "Test must return Map or $."
@@ -164,12 +192,14 @@ $test-fun.
 	|test-result
 		case test-result
 			:@
-				map _ |case
-					:$
-						_
-					else
+				for! _
+					unless! :$
 						oh-no! "Result of test should be $, @[$], or undefined. Got: {_}"
+				_
 			:$
 				[ _ ]
+			defined?_
+				oh-no! "Result of test should be $, @[$], or undefined. Got: {_}"
 			else
 				[ ]
+

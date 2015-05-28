@@ -1,6 +1,5 @@
 use
 	...!
-	...@.@ map
 	...@.Seq.Seq reverse tail take-while'
 	...@.Seq.Stream
 	...compare =? <=?
@@ -26,11 +25,12 @@ zeckendorf.
 		candidate-fibs = reverse (take-while' z-fibs |_
 			<=? _ n # Highest numbers go first
 		left ::= n
-		digits = map candidate-fibs |case
-			<=? _ left
-				left := - left _
-				1
-			else
-				0
+		digits = @for candidate-fibs
+			case
+				<=? _ left
+					left := - left _
+					1
+				else
+					0
 		! =? 0 left # We should have managed to add up to `n` exactly.
 		=> String digits

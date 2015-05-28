@@ -1,6 +1,6 @@
 import { code } from '../CompileError'
 import * as MsAstTypes from '../MsAst'
-import { Assign, AssignDestructure, AssignSingle, BlockVal, Call, Debug, Do, BagEntry,
+import { Assign, AssignDestructure, AssignSingle, BagEntry, BlockVal, Call, Debug, Do, ForVal,
 	LocalDeclareBuilt, LocalDeclareRes, ObjEntry, MapEntry, Pattern, SpecialDo, Yield, YieldTo
 	} from '../MsAst'
 import { assert, cat, eachReverse, head, ifElse, implementMany,
@@ -14,7 +14,8 @@ export default (_context, msAst) => {
 	context = _context
 	locals = new Map()
 	pendingBlockLocals = [ ]
-	isInDebug = isInGenerator = isInLoop = false
+	isInDebug = isInGenerator = false
+	opLoop = null
 	results = new VerifyResults()
 
 	msAst.verify()
@@ -22,7 +23,7 @@ export default (_context, msAst) => {
 
 	const res = results
 	// Release for garbage collection.
-	context = locals = pendingBlockLocals = results = undefined
+	context = locals = opLoop = pendingBlockLocals = results = undefined
 	return res
 }
 
@@ -31,6 +32,7 @@ let
 	context,
 	// Map from names to LocalDeclares.
 	locals,
+	opLoop,
 	/*
 	Locals for this block.
 	These are added to locals when entering a Function or lazy evaluation.
@@ -49,8 +51,6 @@ let
 	isInDebug,
 	// Whether we are currently able to yield.
 	isInGenerator,
-	// Whether we are currently able to break.
-	isInLoop,
 	results
 
 const
@@ -105,11 +105,11 @@ const
 		isInGenerator = oldIsInGenerator
 	},
 
-	withInLoop = (newIsInLoop, action) => {
-		const oldIsInLoop = isInLoop
-		isInLoop = newIsInLoop
+	withInLoop = (newLoop, action) => {
+		const oldLoop = opLoop
+		opLoop = newLoop
 		action()
-		isInLoop = oldIsInLoop
+		opLoop = oldLoop
 	},
 
 	plusLocal = (addedLocal, action) => {
@@ -224,8 +224,16 @@ implementMany(MsAstTypes, 'verify', {
 	BlockWrap() { withInLoop(false, () => this.block.verify()) },
 
 	BreakDo() {
-		if (!isInLoop)
-			context.fail(this.loc, 'Not in a loop.')
+		verifyInLoop(this)
+		context.check(!(opLoop instanceof ForVal), this.loc, () =>
+			`${code('for')} must break with a value.`)
+	},
+
+	BreakVal() {
+		verifyInLoop(this)
+		context.check(opLoop instanceof ForVal, this.loc, () =>
+			`${code('break')} only valid inside ${code('for')}`)
+		this.value.verify()
 	},
 
 	Call() {
@@ -239,15 +247,16 @@ implementMany(MsAstTypes, 'verify', {
 	CaseVal() { withInLoop(false, () => verifyCase(this)) },
 	CaseValPart: verifyCasePart,
 
+	Continue() { verifyInLoop(this) },
+
 	// Only reach here for in/out condition.
 	Debug() { verifyLines([ this ]) },
 
-	ForDoPlain() { withInLoop(true, () => this.block.verify()) },
+	ForBag() { verifyAndPlusLocal(this.built, () => verifyFor(this)) },
 
-	ForDoWithBag() {
-		this.bag.verify()
-		verifyAndPlusLocal(this.element, () => withInLoop(true, () => this.block.verify()))
-	},
+	ForDo() { verifyFor(this) },
+
+	ForVal() { verifyFor(this) },
 
 	Fun() {
 		withBlockLocals(() => {
@@ -368,6 +377,7 @@ implementMany(MsAstTypes, 'verify', {
 	}
 })
 
+// Shared implementations
 function ifOrUnlessDo() {
 	this.test.verify()
 	this.result.verify()
@@ -375,19 +385,6 @@ function ifOrUnlessDo() {
 
 function verifyBlockBagOrMap() {
 	verifyAndPlusLocal(this.built, () => verifyLines(this.lines))
-}
-
-const verifyCase = _ => {
-	const doIt = () => {
-		_.parts.forEach(verify)
-		opEach(_.opElse, verify)
-	}
-	ifElse(_.opCased,
-		_ => {
-			_.verify()
-			verifyAndPlusLocal(_.assignee, doIt)
-		},
-		doIt)
 }
 
 function verifyCasePart() {
@@ -401,6 +398,36 @@ function verifyCasePart() {
 	}
 }
 
+// Helpers specific to certain MsAst types:
+const
+	verifyFor = forLoop => {
+		const verifyBlock = () => withInLoop(forLoop, () => forLoop.block.verify())
+		ifElse(forLoop.opIteratee,
+			({ element, bag }) => {
+				bag.verify()
+				verifyAndPlusLocal(element, verifyBlock)
+			},
+			verifyBlock)
+	},
+
+	verifyInLoop = loopUser =>
+		context.check(opLoop !== null, loopUser.loc, 'Not in a loop.'),
+
+
+	verifyCase = _ => {
+		const doIt = () => {
+			_.parts.forEach(verify)
+			opEach(_.opElse, verify)
+		}
+		ifElse(_.opCased,
+			_ => {
+				_.verify()
+				verifyAndPlusLocal(_.assignee, doIt)
+			},
+			doIt)
+	}
+
+// General utilities:
 const
 	getLocalDeclare = (name, accessLoc) => {
 		const declare = locals.get(name)

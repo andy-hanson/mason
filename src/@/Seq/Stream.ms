@@ -3,7 +3,6 @@ use
 	...Generator! _ empty-Generator
 	...Type.Js-Method js-impl!
 	...Type.Kind kind! self-kind!
-	...Type.Method self-impl!
 	...Type.Wrap-Type
 	..@ iterator
 	..@-Type _ empty from-stream
@@ -26,12 +25,12 @@ Stream. Wrap-Type
 		! seq=? _ [ 1 2 ]
 
 self-kind! Stream @-Type
-self-impl! empty Stream (thunk (Stream |
-	empty-Generator
-self-impl! from-stream Stream |_
-	Stream |
-		iterator_
+	empty -> thunk (Stream |
+		empty-Generator
+	from-stream -> |_
+		Stream |
+			iterator_
 
-kind! Stream Seq
 js-impl! iterator Stream |
 	this.val()
+kind! Stream Seq

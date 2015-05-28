@@ -6,8 +6,6 @@ import { JsGlobals } from './private/language'
 const MsAst = abstract('MsAst', Object, 'doc')
 export default MsAst
 
-// TODO: Diagnose all those 'unused `doc`' errors.
-
 export const
 	LineContent = abstract('ValOrDo', MsAst, 'Valid part of a Block.'),
 	Do = abstract('Do', LineContent, `
@@ -16,7 +14,6 @@ export const
 	Val = abstract('Val', LineContent, 'These can appear in any expression.')
 
 const makeType = superType => (name, doc, namesTypes, protoProps, tuplProps) =>
-	// TODO: provide actual docs...
 	tupl(name, superType, doc, [ 'loc', Loc ].concat(namesTypes), protoProps, tuplProps)
 
 const
@@ -36,26 +33,26 @@ export const
 		{
 			isLazy() { return this.kind === LD_Lazy },
 			isMutable() { return this.kind === LD_Mutable }
-		},
-		{
-			// Can't call this 'name' because LocalDeclare.name is 'LocalDeclare'
-			declareName: loc =>
-				LocalDeclare.plain(loc, 'name'),
-			focus: loc =>
-				LocalDeclare.plain(loc, '_'),
-			noType: (loc, name, isLazy) =>
-				LocalDeclare(loc, name, null, isLazy ? LD_Lazy : LD_Const),
-			plain: (loc, name) =>
-				LocalDeclare.noType(loc, name, false)
 		}),
-	LocalDeclareBuilt = makeType(LocalDeclare)('LocalDeclareBuilt',
+	LocalDeclareUntyped = makeType(LocalDeclare)('LocalDeclareUntyped',
+		'TODO:DOC',
+		[ 'name', String, 'kind', Number ],
+		{ opType: null }),
+	LocalDeclarePlain = makeType(LocalDeclareUntyped)('LocalDeclarePlain',
+		'TODO:DOC',
+		[ 'name', String ],
+		{ kind: LD_Const })
+
+const localDeclarePlainType = name =>
+	makeType(LocalDeclarePlain)(`LocalDeclare_${name}`,
 		'TODO:DOC',
 		[ ],
-		{
-			name: 'built',
-			opType: null,
-			kind: LD_Const
-		}),
+		{ name })
+
+export const
+	LocalDeclareBuilt = localDeclarePlainType('built'),
+	LocalDeclareFocus = localDeclarePlainType('_'),
+	LocalDeclareName = localDeclarePlainType('name'),
 	LocalDeclareRes = makeType(LocalDeclare)('LocalDeclareRes',
 		'TODO:DOC',
 		[ 'opType', Nullable(Val) ],
@@ -77,7 +74,7 @@ export const
 		},
 		{
 			focus: (loc, value) =>
-				AssignSingle(loc, LocalDeclare.focus(loc), value)
+				AssignSingle(loc, LocalDeclareFocus(loc), value)
 		}),
 	AssignDestructure = makeType(Assign)('AssignDestructure',
 		'TODO:DOC',
@@ -230,14 +227,35 @@ export const
 			'opElse', Nullable(BlockVal)
 		]),
 
-	// Loops
-	ForDoPlain = d('ForDoPlain',
+	Iteratee = m('Iteratee',
 		'TODO:DOC',
-		[ 'block', BlockDo ]),
-	ForDoWithBag = d('ForDoWithBag',
+		[
+			'element', LocalDeclare,
+			'bag', Val
+		]),
+
+
+	ForDo = d('ForDo',
 		'TODO:DOC',
-		[ 'element', LocalDeclare, 'bag', Val, 'block', BlockDo ]),
+		[ 'opIteratee', Nullable(Iteratee), 'block', BlockDo ]),
+	ForVal = v('ForVal',
+		'TODO:DOC',
+		[ 'opIteratee', Nullable(Iteratee), 'block', BlockDo ]),
+	ForBag = v('ForBag',
+		'TODO:DOC',
+		[ 'built', LocalDeclareBuilt, 'opIteratee', Nullable(Iteratee), 'block', BlockDo ],
+		{ },
+		{
+			of: (loc, opIteratee, block) => ForBag(loc, LocalDeclareBuilt(loc), opIteratee, block)
+		}),
+
 	BreakDo = d('BreakDo',
+		'TODO:DOC',
+		[ ]),
+	BreakVal = d('BreakVal',
+		'TODO:DOC',
+		[ 'value', Val ]),
+	Continue = d('Continue',
 		'TODO:DOC',
 		[ ]),
 
@@ -326,7 +344,6 @@ export const
 	SV_ThisModuleDirectory = 5,
 	SV_True = 6,
 	SV_Undefined = 7,
-	// k is a SP_***
-	SpecialVal = v('Special',
+	SpecialVal = v('SpecialVal',
 		'TODO:DOC',
 		[ 'kind', Number ])

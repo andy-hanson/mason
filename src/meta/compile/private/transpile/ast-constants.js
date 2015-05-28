@@ -18,6 +18,7 @@ export const
 	LitTrue = Literal(true),
 	LitZero = Literal(0),
 	LitStrExports = Literal('exports'),
+	ReturnBuilt = ReturnStatement(IdBuilt),
 	ReturnExports = ReturnStatement(IdExports),
 	ReturnRes = ReturnStatement(Identifier('res')),
 	SymbolIterator = member(Identifier('Symbol'), 'iterator'),
