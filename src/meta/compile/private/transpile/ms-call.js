@@ -9,9 +9,11 @@ export const
 	IdMs = Identifier('_ms'),
 	lazyWrap = value => msLazy(thunk(value)),
 	msAdd = ms('add'),
+	msAddMany = ms('addMany'),
 	msArr = ms('arr'),
 	msAssoc = ms('assoc'),
 	msBool = ms('bool'),
+	msCheckContains = ms('checkContains'),
 	msGet = ms('get'),
 	msGetDefaultExport = ms('getDefaultExport'),
 	msExtract = ms('extract'),
@@ -24,6 +26,6 @@ export const
 	msSetName = ms('setName'),
 	msSetLazy = ms('setLazy'),
 	msShow = ms('show'),
-	msCheckContains = ms('checkContains'),
-	msUnlazy = ms('unlazy')
-
+	msSome = ms('some'),
+	msUnlazy = ms('unlazy'),
+	MsNone = member(IdMs, 'None')

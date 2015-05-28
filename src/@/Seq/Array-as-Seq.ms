@@ -2,7 +2,6 @@
 
 use
 	...compare <?
-	...control if
 	...Function thunk
 	...js js-sub
 	...Type.Kind kind! self-kind!
@@ -30,4 +29,5 @@ self-impl! from-stream Array |stream
 	arr
 
 impl! ?nth Array |_ n:Nat
-	if (<? n count_) ~(js-sub _ n
+	if <? n count_
+		js-sub _ n

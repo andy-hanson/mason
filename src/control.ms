@@ -4,7 +4,7 @@ use
 	.Type.Pred-Type Any Opt
 use~
 	.@.@-Type empty
-	.@.? _ ?-or
+	.@.? ?-or
 	.@.Map.Map _ ?get
 	.@.Seq.Array!
 	.@.Seq.Seq
@@ -62,30 +62,6 @@ region Conditional execution
 			(?-or (?get cases val) ~cases[switch-else])()
 	switch-else.
 		doc. "Special object used as default for `switch` statements."
-
-	if.
-		doc. "Iff `condition`, evaluates `result` and puts it in a `?`."
-		test. |
-			[ true 1 ] -> ? 1
-			[ false 1 ] -> empty ?
-		|condition:Boolean ~result
-			case
-				condition
-					? result
-				else
-					empty ?
-
-	unless.
-		doc. "`if` with negated condition."
-		test. |
-			[ true 1 ] -> empty ?
-			[ false 1 ] -> ? 1
-		|condition:Boolean ~result
-			case
-				condition
-					empty ?
-				else
-					? result
 
 unreachable!.
 	doc. "Call this to mark code as unreachable."

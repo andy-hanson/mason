@@ -1,6 +1,6 @@
 use
 	...Boolean and not
-	...control if opr
+	...control opr
 	...js js-set
 	...math.Number Nat
 	...methods frozen?
@@ -38,9 +38,11 @@ kind! Array Seq!
 		# TODO:SYNTAX _.push ...added
 		Array.prototype.push.apply _ (=> Array added
 	?<pop! -> |_
-		if (not empty?_) ~_.shift()
+		if not empty?_
+			_.shift()
 	?pop>! -> |_
-		if (not empty?_) ~_.pop()
+		if not empty?_
+			_.pop()
 	empty! -> !|_
 		# http://jsperf.com/empty-javascript-array/15
 		# TODO: Test it myself...

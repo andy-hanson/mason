@@ -1,6 +1,6 @@
 use
 	...compare <? <=?
-	...control if opr
+	...control opr
 	...Function noop thunk
 	...math.Number Nat round-down sign
 	...math.methods + - * /
@@ -76,8 +76,10 @@ kind! Range @
 			[ r 2 ] -> ? 4
 			[ r 6 ] -> empty ?
 		|_ n:Nat
+			# TODO: Function if-test ?
 			it = + _.start (* _.step n)
-			if (<? it _.end) it
+			if <? it _.end
+				it
 	count ->
 		test. |
 			[ (range 0 2 0.5) ] -> 4

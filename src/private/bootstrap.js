@@ -23,6 +23,12 @@ const msDefs = {
 		bag.push(value)
 	},
 
+	addMany(bag, values) {
+		// TODO:ES6 Shouldn't need [Symbol.iterator]()
+		for (let value of values[Symbol.iterator]())
+			ms.add(bag, value)
+	},
+
 	// TODO: use assoc! method
 	assoc(map, key, val) {
 		map.set(key, val)

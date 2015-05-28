@@ -1,7 +1,6 @@
 use
 	...Boolean and not
 	...compare _ <?
-	...control if
 	...js defined?
 	...Object! p!
 	...Type.Js-Method js-impl!
@@ -44,7 +43,8 @@ kind! Splay-Tree! Sorted-Map!
 	empty! -> !|_
 		p! _ "val" undefined
 	?get -> |_ key
-		if (and (not empty?_) ~(splay!? _ key)) ~_.val.val!
+		if and (not empty?_) ~(splay!? _ key)
+			_.val.val!
 	assoc! -> !|_ key val
 		case!
 			empty?_
@@ -64,7 +64,7 @@ kind! Splay-Tree! Sorted-Map!
 						p! old-root "left!" undefined
 						Splay-Node key val old-left old-root
 	un-assoc! -> |_ key
-		if (and (not empty?_) ~(splay!? _ key)) ~
+		if and (not empty?_) ~(splay!? _ key)
 			removed = _.val
 			# Link out the root.
 			p! _ "val" case

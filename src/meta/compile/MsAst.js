@@ -101,7 +101,7 @@ export const
 		'TODO:DOC',
 		[ 'lines', [LineContent], 'returned', Val ]),
 
-	ObjEntry = m('ObjEntry',
+	ObjEntry = d('ObjEntry',
 		'TODO:DOC',
 		[ 'assign', Assign ]),
 
@@ -120,7 +120,10 @@ export const
 				BlockObj(loc, LocalDeclareBuilt(loc), lines, opObjed, opName)
 		}),
 
-	BagEntry = m('BagEntry',
+	BagEntry = d('BagEntry',
+		'TODO:DOC',
+		[ 'value', Val ]),
+	BagEntryMany = d('BagEntryMany',
 		'TODO:DOC',
 		[ 'value', Val ]),
 	BlockBag = makeType(BlockVal)('BlockBag',
@@ -129,7 +132,7 @@ export const
 		{ },
 		{ of: (loc, lines) => BlockBag(loc, LocalDeclareBuilt(loc), lines) }),
 
-	MapEntry = m('MapEntry',
+	MapEntry = d('MapEntry',
 		'TODO:DOC',
 		[ 'key', Val, 'val', Val ]),
 	BlockMap = makeType(BlockVal)('BlockMap',
@@ -260,12 +263,13 @@ export const
 		[ ]),
 
 	// Other statements
-	IfDo = d('IfDo',
+	ConditionalDo = d('ConditionalDo',
 		'TODO:DOC',
-		[ 'test', Val, 'result', BlockDo ]),
-	UnlessDo = d('UnlessDo',
+		[ 'test', Val, 'result', BlockDo, 'isUnless', Boolean ]),
+
+	ConditionalVal = v('ConditionalVal',
 		'TODO:DOC',
-		[ 'test', Val, 'result', BlockDo ]),
+		[ 'test', Val, 'result', BlockVal, 'isUnless', Boolean ]),
 
 	// Generators
 	Yield = v('Yield',

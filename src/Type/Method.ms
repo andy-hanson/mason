@@ -9,7 +9,6 @@ use
 use~
 	..!
 	..@.? un-?
-	..control if
 	..Function noop
 	..Object p-with-proto?
 	.Impl-Type _ self-type
@@ -187,7 +186,8 @@ self-impl!.
 	|method:Method type:Impl-Type
 		# TODO: Object.ms Function
 		desc = Object.getOwnPropertyDescriptor type.prototype method.impl-symbol
-		if (and (defined? desc) ~(not desc.writable)) ~desc.value
+		if and (defined? desc) ~(not desc.writable)
+			desc.value
 
 impl-for.
 	doc. "impl-for that fails when there is no implementation."

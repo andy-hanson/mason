@@ -1,6 +1,5 @@
 use
 	.@.@ _ flatten map
-	.control if
 	.Function apply Thunk
 	.Generator!
 	.js new
@@ -146,7 +145,8 @@ $keep.
 	|:$[Array] keep-some:@ keep-if?:Function[Any $[Boolean]]
 		$flat-map keep-some |_
 			$after keep-if?_ |keep
-				if keep _
+				if keep
+					_
 
 $call.
 	doc. "
@@ -174,9 +174,9 @@ $ing.
 			oh-no! "It's been rejected, so the rest is never called."
 		! =? "whoops" $whoops.message
 	|:$ code:Function[Generator!]
-		gen = code()
+		$-generator = code()
 		do-next = |last-value
-			value done = gen.next last-value
+			value done = $-generator.next last-value
 			case
 				done
 					value

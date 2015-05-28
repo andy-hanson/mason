@@ -1,19 +1,21 @@
 import Loc from 'esast/dist/Loc'
 import { code } from '../../CompileError'
-import { AssignDestructure, AssignSingle, BagEntry, BagSimple, BlockBag, BlockDo, BlockMap,
-	BlockObj, BlockWithReturn, BlockWrap, BreakDo, BreakVal, Call, CaseDoPart, CaseValPart, CaseDo,
-	CaseVal, Continue, Debug, Iteratee, NumberLiteral, ForBag, ForDo, ForVal, Fun, GlobalAccess,
-	IfDo, Lazy, LD_Const, LD_Lazy, LD_Mutable, LocalAccess, LocalDeclare, LocalDeclareFocus,
-	LocalDeclareName, LocalDeclarePlain, LocalDeclareRes, LocalDeclareUntyped, LocalMutate,
-	MapEntry, Member, Module, ObjEntry, ObjPair, ObjSimple, Pattern, Quote, SP_Debugger, SpecialDo,
-	SpecialVal, SV_Null, Splat, Val, UnlessDo, Use, UseDo, Yield, YieldTo } from '../../MsAst'
+import { AssignDestructure, AssignSingle, BagEntry, BagEntryMany, BagSimple, BlockBag, BlockDo,
+	BlockMap, BlockObj, BlockWithReturn, BlockWrap, BreakDo, BreakVal, Call, CaseDoPart,
+	CaseValPart, CaseDo, CaseVal, ConditionalDo, ConditionalVal, Continue, Debug, Iteratee,
+	NumberLiteral, ForBag, ForDo, ForVal, Fun, GlobalAccess, Lazy, LD_Const, LD_Lazy, LD_Mutable,
+	LocalAccess, LocalDeclare, LocalDeclareFocus, LocalDeclareName, LocalDeclarePlain,
+	LocalDeclareRes, LocalDeclareUntyped, LocalMutate, MapEntry, Member, Module, ObjEntry, ObjPair,
+	ObjSimple, Pattern, Quote, SP_Debugger, SpecialDo, SpecialVal, SV_Null, Splat, Val, Use, UseDo,
+	Yield, YieldTo } from '../../MsAst'
 import { JsGlobals } from '../language'
 import { DotName, Group, G_Block, G_Bracket, G_Parenthesis, G_Space, G_Quote, isGroup, isKeyword,
 	Keyword, KW_Assign, KW_AssignMutable, KW_BreakDo, KW_BreakVal, KW_CaseVal, KW_CaseDo,
-	KW_Continue, KW_Debug, KW_Debugger, KW_Else, KW_ForBag, KW_ForDo, KW_ForVal, KW_Focus, KW_Fun,
-	KW_FunDo, KW_GenFun, KW_GenFunDo, KW_IfDo, KW_In, KW_Lazy, KW_LocalMutate, KW_MapEntry,
-	KW_ObjAssign, KW_Pass, KW_Out, KW_Region, KW_Type, KW_UnlessDo, KW_Use, KW_UseDebug, KW_UseDo,
-	KW_UseLazy, KW_Yield, KW_YieldTo, Name, opKeywordKindToSpecialValueKind } from '../Token'
+	KW_Continue, KW_Debug, KW_Debugger, KW_Ellipsis, KW_Else, KW_ForBag, KW_ForDo, KW_ForVal,
+	KW_Focus, KW_Fun, KW_FunDo, KW_GenFun, KW_GenFunDo, KW_IfDo, KW_IfVal, KW_In, KW_Lazy,
+	KW_LocalMutate, KW_MapEntry, KW_ObjAssign, KW_Pass, KW_Out, KW_Region, KW_Type, KW_UnlessDo,
+	KW_UnlessVal, KW_Use, KW_UseDebug, KW_UseDo, KW_UseLazy, KW_Yield, KW_YieldTo, Name,
+	opKeywordKindToSpecialValueKind } from '../Token'
 import { assert, head, ifElse, flatMap, isEmpty, last,
 	opIf, opMap, push, repeat, rtail, tail, unshift } from '../util'
 import Slice from './Slice'
@@ -122,7 +124,7 @@ const
 		switch (kReturn) {
 			case KReturn_Bag: case KReturn_Map: {
 				const block = (kReturn === KReturn_Bag ? BlockBag : BlockMap).of(loc, lines)
-				return { lines: [ ], exports, opDefaultExport: BlockWrap(loc, block) }
+				return { lines: [ ], exports: [ ], opDefaultExport: BlockWrap(loc, block) }
 			}
 			default: {
 				const exports = [ ]
@@ -298,7 +300,8 @@ const
 			if (token instanceof Keyword)
 				switch (token.kind) {
 					case KW_CaseVal: case KW_ForBag: case KW_ForVal: case KW_Fun: case KW_FunDo:
-					case KW_GenFun: case KW_GenFunDo: case KW_Yield: case KW_YieldTo:
+					case KW_GenFun: case KW_GenFunDo: case KW_IfVal: case KW_UnlessVal:
+					case KW_Yield: case KW_YieldTo:
 						return true
 					default:
 						return false
@@ -323,6 +326,13 @@ const
 							return parseFun(false, true, after)
 						case KW_GenFunDo:
 							return parseFun(true, true, after)
+						case KW_IfVal: case KW_UnlessVal: {
+							const [ before, block ] = beforeAndBlock(after)
+							return ConditionalVal(tokens.loc,
+								parseExpr(before),
+								parseBlockVal(block),
+								at.kind === KW_UnlessVal)
+						}
 						case KW_Yield:
 							return Yield(at.loc, parseExpr(after))
 						case KW_YieldTo:
@@ -461,16 +471,19 @@ const
 				case KW_Debugger:
 					noRest()
 					return SpecialDo(tokens.loc, SP_Debugger)
-				case KW_IfDo: case KW_UnlessDo: {
-					const [ before, block ] = beforeAndBlock(rest)
-					const ctr = head.kind === KW_IfDo ? IfDo : UnlessDo
-					return ctr(tokens.loc, parseExpr(before), parseBlockDo(block))
-				}
+				case KW_Ellipsis:
+					return BagEntryMany(tokens.loc, parseExpr(rest))
 				case KW_ForDo:
 					return parseForDo(rest)
+				case KW_IfDo: case KW_UnlessDo: {
+					const [ before, block ] = beforeAndBlock(rest)
+					return ConditionalDo(tokens.loc,
+						parseExpr(before),
+						parseBlockDo(block),
+						head.kind === KW_UnlessDo)
+				}
 				case KW_ObjAssign:
-					// Index is set by parseBlock.
-					return BagEntry(tokens.loc, parseExpr(rest), -1)
+					return BagEntry(tokens.loc, parseExpr(rest))
 				case KW_Pass:
 					noRest()
 					return [ ]

@@ -2,9 +2,10 @@ use
 	..Boolean and not
 	..control opr
 	..js defined? id=?
+	..private.bootstrap msDef
 	..Type.Js-Method js-impl!
 	..Type.Kind kind! self-kind!
-	..Type.Method impl! self-impl!
+	..Type.Method self-impl!
 	..Type.Pred-Type
 	..Type.Wrap-Type
 	..Type.Type extract
@@ -28,25 +29,26 @@ empty-marker =
 empty-? =
 	? empty-marker
 
+msDef "some" ?
+msDef "None" empty-?
+
 region Is Seq
 	self-kind! ? @-Type
+		from-stream -> |stream
+			iter = iterator stream
+			value done = iter.next()
+			case
+				done
+					empty-?
+				else
+					? value
 
-	self-impl! from-stream ? |stream
-		iter = iterator stream
-		value done = iter.next()
-		case
-			done
-				empty-?
-			else
-				? value
-
-	self-impl! empty ? |
-		empty-?
+		empty -> |
+			empty-?
 
 	kind! ? Seq
-
-	impl! empty? ? |_
-		id=? _ empty-?
+		empty? -> |_
+			id=? _ empty-?
 
 	js-impl! iterator ? ~!|
 		unless! empty? this
@@ -59,11 +61,10 @@ region Functions
 			[ 0 ] -> ? 0
 			[ null ] -> ? null
 			[ undefined ] -> empty ?
-		|case
-			defined?_
-				? _
-			else
-				empty ?
+		|_
+			# TODO: `if-test defined? _` ?
+			if defined?_
+				_
 
 	?->Opt.
 		doc. "Extracts the value from a `?`, or returns undefined."

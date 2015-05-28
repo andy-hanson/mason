@@ -60,31 +60,23 @@ impl! test-special Impl-Type |type
 				?p prototype name
 			if! :Success
 				for! prop-val in _.val
-					# TODO:SYNTAX `...`
-					for! @$maybe-test ~"{type}#{name}" prop-val false
-						. _
+					... @$maybe-test ~"{type}#{name}" prop-val false
 
 # TODO: MOVE THESE
 impl! test-special Kind |_
 	# TODO:SYNTAX Just build without @for
 	@for
-		# TODO:SYNTAX `...`
-		for! @$-from-any ((impl-for test-special Impl-Type) _)
-			. _
+		... @$-from-any ((impl-for test-special Impl-Type) _)
 		for! test in ?p _ "implementor-test"
 			for! implementor in concrete-implementors_
-				# TODO:SYNTAX `...`
-				for! @$test-test-fun implementor test ~"{_}.implementor-test of {implementor}" implementor
-					. _
+				... @$test-test-fun implementor test ~"{_}.implementor-test of {implementor}" implementor
 		break!
 
 $test-all.
 	doc. "Tests all modules."
 	|@all-modules:@[Object]
 		$all @for @all-modules
-			# TODO:SYNTAX `...`
-			for! @$test-module_
-				. _
+			... @$test-module_
 
 $test-module.
 	doc. "Treats an Object as a module and tests it."
@@ -118,9 +110,7 @@ $test-fun.
 @$test-single = |~name value is-module
 	# TODO:SYNTAX Just build without @for
 	@for
-		# TODO:SYNTAX `...`
-		for! @$-from-any (test-special value)
-			. _
+		... @$-from-any (test-special value
 		case! value
 			or is-module ~:ObjLit ~:Function
 				for! prop-name in @p_
@@ -129,22 +119,14 @@ $test-fun.
 					# TODO:SYNTAX switch!
 					case! prop-name
 						=? _ "test"
-							# TODO:SYNTAX `...`
-							for! @$test-test-prop value prop-val ~next-name
-								. _
+							... @$test-test-prop value prop-val ~next-name
 						=? _ "$test"
-							# TODO:SYNTAX `...`
-							for! @$test-$test-prop prop-val ~next-name
-								. _
+							... @$test-$test-prop prop-val ~next-name
 						else
-							# TODO:SYNTAX `...`
-							for! @$maybe-test ~next-name prop-val false
-								. _
+							... @$maybe-test ~next-name prop-val false
 
 			and :Object ~(p? _ "test")
-				# TODO:SYNTAX `...`
-				for! @$test-test-prop _ _.test ~"{name}.test"
-					. _
+				... @$test-test-prop _ _.test ~"{name}.test"
 			else
 				pass
 		break!
@@ -156,14 +138,10 @@ $test-fun.
 		# Could be both Function and ObjLit
 		# TODO: No it can't
 		if! :Function
-			# TODO:SYNTAX `...`
-			for! @$test-test-fun value value-test ~name
-				. _
+			... @$test-test-fun value value-test ~name
 		if! :ObjLit
 			for! sub-name in @p_
-				# TODO:SYNTAX `...`
-				for! @$test-test-prop value (p _ sub-name) ~"{name}.{sub-name}"
-					. _
+				... @$test-test-prop value (p _ sub-name) ~"{name}.{sub-name}"
 		break!
 
 @$test-$test-prop = |value-$test:Function[Generator!] ~name

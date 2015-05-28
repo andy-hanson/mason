@@ -98,11 +98,11 @@ const
 		keywordKindToName.set(kind, debugName)
 		nextKeywordKind = nextKeywordKind + 1
 		return kind
-	},
-	kwReserved = name =>
-		keywordNameToKind.set(name, -1)
+	}
 
-; [ 'for', 'of', 'return', 'with' ].forEach(kwReserved)
+// Reserved words
+; [ 'as', 'gen', 'gen!', 'of', 'of!', 'return', 'to', 'with' ].forEach(name =>
+	keywordNameToKind.set(name, -1))
 
 export const
 	KW_Assign = kw('='),
@@ -116,6 +116,8 @@ export const
 	KW_Continue = kw('continue!'),
 	KW_Debug = kw('debug'),
 	KW_Debugger = kw('debugger!'),
+	// Three dots followed by a space, as in `... things-added-to-@`.
+	KW_Ellipsis = kw('... '),
 	KW_Else = kw('else'),
 	KW_False = kw('false'),
 	KW_Focus = kwNotName('_'),
@@ -126,6 +128,7 @@ export const
 	KW_FunDo = kw('!|'),
 	KW_GenFun = kw('~|'),
 	KW_GenFunDo = kw('~!|'),
+	KW_IfVal = kw('if'),
 	KW_IfDo = kw('if!'),
 	KW_In = kw('in'),
 	KW_Lazy = kwNotName('~'),
@@ -140,6 +143,7 @@ export const
 	KW_True = kw('true'),
 	KW_Type = kwNotName(':'),
 	KW_Undefined = kw('undefined'),
+	KW_UnlessVal = kw('unless'),
 	KW_UnlessDo = kw('unless!'),
 	KW_Use = kw('use'),
 	KW_UseDebug = kw('use-debug'),

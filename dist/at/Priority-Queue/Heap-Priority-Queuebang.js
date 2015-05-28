@@ -2,7 +2,7 @@
 if((typeof define!=="function"))var define=require("amdefine")(module);
 define(["exports","../../compare","../../control","../../math/Number","../../math/methods","../../Type/Js-Method","../../Type/Kind","../../Type/Wrap-Type","../at","../atbang","../at-Type","../Seq/Arraybang","../Seq/Seqbang","./Priority-Queuebang"],function(exports,compare_0,control_1,Number_2,methods_3,Js_45Method_4,Kind_5,Wrap_45Type_6,_64_7,_64_33_8,_64_45Type_9,Array_33_10,Seq_33_11,Priority_45Queue_33_12){
 	exports._get=_ms.lazy(function(){
-		const _$2=_ms.getModule(compare_0),_61_63=_ms.get(_$2,"=?"),_60_63=_ms.get(_$2,"<?"),_$3=_ms.getModule(control_1),returning=_ms.get(_$3,"returning"),unless=_ms.get(_$3,"unless"),_$4=_ms.getModule(Number_2),int_47=_ms.get(_$4,"int/"),_$5=_ms.getModule(methods_3),_43=_ms.get(_$5,"+"),_45=_ms.get(_$5,"-"),_42=_ms.get(_$5,"*"),_$6=_ms.getModule(Js_45Method_4),js_45impl_33=_ms.get(_$6,"js-impl!"),_$7=_ms.getModule(Kind_5),kind_33=_ms.get(_$7,"kind!"),self_45kind_33=_ms.get(_$7,"self-kind!"),Wrap_45Type=_ms.getDefaultExport(Wrap_45Type_6),_$9=_ms.getModule(_64_7),count=_ms.get(_$9,"count"),empty_63=_ms.get(_$9,"empty?"),iterator=_ms.get(_$9,"iterator"),_$10=_ms.getModule(_64_33_8),_43_43_33=_ms.get(_$10,"++!"),empty_33=_ms.get(_$10,"empty!"),_64_45Type=_ms.getDefaultExport(_64_45Type_9),_$11=_ms.getModule(_64_45Type_9),empty=_ms.get(_$11,"empty"),Array_33=_ms.getDefaultExport(Array_33_10),_$13=_ms.getModule(Seq_33_11),set_45nth_33=_ms.get(_$13,"set-nth!"),Priority_45Queue_33=_ms.getDefaultExport(Priority_45Queue_33_12),_$14=_ms.getModule(Priority_45Queue_33_12),_63pop_33=_ms.get(_$14,"?pop!");
+		const _$2=_ms.getModule(compare_0),_61_63=_ms.get(_$2,"=?"),_60_63=_ms.get(_$2,"<?"),_$3=_ms.getModule(control_1),returning=_ms.get(_$3,"returning"),_$4=_ms.getModule(Number_2),int_47=_ms.get(_$4,"int/"),_$5=_ms.getModule(methods_3),_43=_ms.get(_$5,"+"),_45=_ms.get(_$5,"-"),_42=_ms.get(_$5,"*"),_$6=_ms.getModule(Js_45Method_4),js_45impl_33=_ms.get(_$6,"js-impl!"),_$7=_ms.getModule(Kind_5),kind_33=_ms.get(_$7,"kind!"),self_45kind_33=_ms.get(_$7,"self-kind!"),Wrap_45Type=_ms.getDefaultExport(Wrap_45Type_6),_$9=_ms.getModule(_64_7),count=_ms.get(_$9,"count"),empty_63=_ms.get(_$9,"empty?"),iterator=_ms.get(_$9,"iterator"),_$10=_ms.getModule(_64_33_8),_43_43_33=_ms.get(_$10,"++!"),empty_33=_ms.get(_$10,"empty!"),_64_45Type=_ms.getDefaultExport(_64_45Type_9),_$11=_ms.getModule(_64_45Type_9),empty=_ms.get(_$11,"empty"),Array_33=_ms.getDefaultExport(Array_33_10),_$13=_ms.getModule(Seq_33_11),set_45nth_33=_ms.get(_$13,"set-nth!"),Priority_45Queue_33=_ms.getDefaultExport(Priority_45Queue_33_12),_$14=_ms.getModule(Priority_45Queue_33_12),_63pop_33=_ms.get(_$14,"?pop!");
 		const Heap_45Priority_45Queue_33=Wrap_45Type(function(){
 			const built={};
 			const doc=built.doc="Default implementation for Priority-Queue!.";
@@ -27,13 +27,11 @@ define(["exports","../../compare","../../control","../../math/Number","../../mat
 				}
 			});
 			_ms.assoc(built,_63pop_33,function(_){
-				return unless(empty_63(_),_ms.lazy(function(){
-					return function(){
-						return returning(_ms.sub(_.val,0),function(){
-							fix_45down_33(_.val)
-						})
-					}()
-				}))
+				return _ms.bool(empty_63(_))?_ms.None:_ms.some(function(){
+					return returning(_ms.sub(_.val,0),function(){
+						fix_45down_33(_.val)
+					})
+				}())
 			});
 			_ms.assoc(built,empty_63,function(_){
 				return empty_63(_.val)
@@ -53,7 +51,7 @@ define(["exports","../../compare","../../control","../../math/Number","../../mat
 			heap.push();
 			let i_45cur=count(heap);
 			for(;;){
-				if(_ms.bool(_61_63(i_45cur,0))){
+				if(_61_63(i_45cur,0)){
 					set_45nth_33(heap,0,val);
 					break
 				};
@@ -87,7 +85,7 @@ define(["exports","../../compare","../../control","../../math/Number","../../mat
 					const left=_ms.sub(heap,i_45left_45child);
 					const i_45right_45child=_43(i_45left_45child,1);
 					if(! _ms.bool(ok_45index_63(i_45right_45child))){
-						if(_ms.bool(_60_63(left,val))){
+						if(_60_63(left,val)){
 							go_33(i_45left_45child)
 						};
 						break
@@ -115,4 +113,4 @@ define(["exports","../../compare","../../control","../../math/Number","../../mat
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1ByaW9yaXR5LVF1ZXVlL0hlYXAtUHJpb3JpdHktUXVldWUhLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBZUEsaUNBQXNCLHNCQUNTOztHQUE5QixvQkFBTTtHQUNOLDJDQUFjOzs7RUFFZixlQUFXLDJCQUFxQixxQkFDTTs7bUJBQXJDLE1BQ1UsVUFBQTtXQUFULDJCQUFzQixNQUFNO0dBQUE7OztFQUU5QixhQUFTLFNBQVMsMkJBQ3NCLFVBQUE7VUFBdkMsU0FBUzs7RUFFVixRQUFNLDJCQUFxQiw4QkFDZTs7bUJBQXpDLFVBQVMsU0FBQSxFQUFFLE1BQ0s7SUFBVixRQUFBLE1BQU0seUJBQ0s7S0FBZixPQUFLLE1BQU07SUFBQTtHQUFBO21CQUNiLFVBQVUsU0FBQSxFQUNDO1dBQVYsT0FBTyxTQUFNO3NCQUNHO2FBQWYsa0JBQVUsTUFBTSxHQUNLLFVBQUE7T0FBcEIsY0FBVTs7Ozs7bUJBRWIsU0FBVyxTQUFBLEVBQ0M7V0FBWCxTQUFPOzttQkFDUixTQUFZLFNBQUEsRUFDQztJQUFaLFNBQU87Ozs7RUFJUiwyQkFBb0IsOEJBQUEsSUFDRztVQUF0QixJQUFFLEVBQUcsSUFBRSxFQUFFO0VBQUE7RUFDVixxQkFBZ0Isd0JBQUEsSUFDRztVQUFsQixJQUFHLE9BQU0sSUFBRSxFQUFFLEtBQUssR0FBRztFQUFBO0VBRXRCLGFBQVMsZ0JBQUEsS0FBSyxJQUNHO0dBRWhCO0dBQ0EsWUFBVSxNQUFNO0dBRVosT0FBQTtJQUFILFlBQUksT0FBRyxRQUFNLElBQ0M7S0FBYixhQUFTLEtBQUssRUFBRTtLQUNoQjtJQUFBO0lBQ0QsaUJBQVcsZUFBYTtJQUN4QixxQkFBUyxLQUFLO0lBQ2QsY0FBUSxPQUFHLElBQUksU0FDTTtLQUFwQixhQUFTLEtBQUssUUFBTTtLQUNwQjtJQUFBO0lBQ0QsYUFBUyxLQUFLLFFBQU07WUFDWDtHQUFBO0VBQUE7RUFFWCxvQkFBYyx1QkFBQSxLQUNJO0dBQWpCLFVBQU07R0FDTixXQUFPLE1BQU07R0FDYixjQUFRLE9BQUcsS0FBSyxJQUNDO0lBSWhCLFlBQVU7SUFDVixZQUFRLGVBQUEsV0FDUTtLQUFmLGFBQVMsS0FBSyxnQkFBTSxLQUFLO2FBQ2hCO0lBQUE7SUFDVixvQkFBYSx1QkFBQSxFQUNDO1lBQWIsT0FBRyxFQUFFO0lBQUE7SUFFRixPQUFBO0tBQUgsdUJBQWUscUJBQWlCO0tBQ2hDLGNBQVEsY0FBVSxtQkFDWTtNQUE3QjtLQUFBO0tBQ0QsbUJBQU8sS0FBSztLQUNaLHdCQUFnQixJQUFFLGlCQUFhO0tBQy9CLGNBQVEsY0FBVSxvQkFDYTtNQUE5QixZQUFJLE9BQUcsS0FBSyxNQUNHO09BQWQsTUFBSTtNQUFBO01BQ0w7S0FBQTtLQUNELG9CQUFRLEtBQUs7S0FFUixZQUFKLE9BQUcsS0FBSyxNQUNHO01BQ1Y7T0FDQyxZQUFBLE9BQUcsTUFBTSxPQUNJO2VBQVo7T0FBQSxPQUVHO2VBQUg7T0FBQTtNQUFBO0tBQUEsT0FDSCxZQUFBLE9BQUcsTUFBTSxNQUNHO01BQVgsTUFBSTtLQUFBLE9BRUQ7TUFBSDtLQUFBO0lBQUE7SUFDSCxhQUFTLEtBQUssUUFBTTtHQUFBO0VBQUE7RUFyR3ZCLHdCQUFBO2tCQWVBIiwiZmlsZSI6ImF0L1ByaW9yaXR5LVF1ZXVlL0hlYXAtUHJpb3JpdHktUXVldWViYW5nLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1ByaW9yaXR5LVF1ZXVlL0hlYXAtUHJpb3JpdHktUXVldWUhLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBZUEsaUNBQXNCLHNCQUNTOztHQUE5QixvQkFBTTtHQUNOLDJDQUFjOzs7RUFFZixlQUFXLDJCQUFxQixxQkFDTTs7bUJBQXJDLE1BQ1UsVUFBQTtXQUFULDJCQUFzQixNQUFNO0dBQUE7OztFQUU5QixhQUFTLFNBQVMsMkJBQ3NCLFVBQUE7VUFBdkMsU0FBUzs7RUFFVixRQUFNLDJCQUFxQiw4QkFDZTs7bUJBQXpDLFVBQVMsU0FBQSxFQUFFLE1BQ0s7SUFBVixRQUFBLE1BQU0seUJBQ0s7S0FBZixPQUFLLE1BQU07SUFBQTtHQUFBO21CQUNiLFVBQVUsU0FBQSxFQUNDO29CQUFILFNBQU0sZ0NBQ0M7WUFBYixrQkFBVSxNQUFNLEdBQ0ssVUFBQTtNQUFwQixjQUFVOzs7O21CQUViLFNBQVcsU0FBQSxFQUNDO1dBQVgsU0FBTzs7bUJBQ1IsU0FBWSxTQUFBLEVBQ0M7SUFBWixTQUFPOzs7O0VBSVIsMkJBQW9CLDhCQUFBLElBQ0c7VUFBdEIsSUFBRSxFQUFHLElBQUUsRUFBRTtFQUFBO0VBQ1YscUJBQWdCLHdCQUFBLElBQ0c7VUFBbEIsSUFBRyxPQUFNLElBQUUsRUFBRSxLQUFLLEdBQUc7RUFBQTtFQUV0QixhQUFTLGdCQUFBLEtBQUssSUFDRztHQUVoQjtHQUNBLFlBQVUsTUFBTTtHQUVaLE9BQUE7SUFBSCxHQUFJLE9BQUcsUUFBTSxHQUNDO0tBQWIsYUFBUyxLQUFLLEVBQUU7S0FDaEI7SUFBQTtJQUNELGlCQUFXLGVBQWE7SUFDeEIscUJBQVMsS0FBSztJQUNkLGNBQVEsT0FBRyxJQUFJLFNBQ007S0FBcEIsYUFBUyxLQUFLLFFBQU07S0FDcEI7SUFBQTtJQUNELGFBQVMsS0FBSyxRQUFNO1lBQ1g7R0FBQTtFQUFBO0VBRVgsb0JBQWMsdUJBQUEsS0FDSTtHQUFqQixVQUFNO0dBQ04sV0FBTyxNQUFNO0dBQ2IsY0FBUSxPQUFHLEtBQUssSUFDQztJQUloQixZQUFVO0lBQ1YsWUFBUSxlQUFBLFdBQ1E7S0FBZixhQUFTLEtBQUssZ0JBQU0sS0FBSzthQUNoQjtJQUFBO0lBQ1Ysb0JBQWEsdUJBQUEsRUFDQztZQUFiLE9BQUcsRUFBRTtJQUFBO0lBRUYsT0FBQTtLQUFILHVCQUFlLHFCQUFpQjtLQUNoQyxjQUFRLGNBQVUsbUJBQ1k7TUFBN0I7S0FBQTtLQUNELG1CQUFPLEtBQUs7S0FDWix3QkFBZ0IsSUFBRSxpQkFBYTtLQUMvQixjQUFRLGNBQVUsb0JBQ2E7TUFBOUIsR0FBSSxPQUFHLEtBQUssS0FDRztPQUFkLE1BQUk7TUFBQTtNQUNMO0tBQUE7S0FDRCxvQkFBUSxLQUFLO0tBRVIsWUFBSixPQUFHLEtBQUssTUFDRztNQUNWO09BQ0MsWUFBQSxPQUFHLE1BQU0sT0FDSTtlQUFaO09BQUEsT0FFRztlQUFIO09BQUE7TUFBQTtLQUFBLE9BQ0gsWUFBQSxPQUFHLE1BQU0sTUFDRztNQUFYLE1BQUk7S0FBQSxPQUVEO01BQUg7S0FBQTtJQUFBO0lBQ0gsYUFBUyxLQUFLLFFBQU07R0FBQTtFQUFBO0VBckd2Qix3QkFBQTtrQkFlQSIsImZpbGUiOiJhdC9Qcmlvcml0eS1RdWV1ZS9IZWFwLVByaW9yaXR5LVF1ZXVlYmFuZy5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

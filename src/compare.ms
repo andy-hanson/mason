@@ -8,7 +8,7 @@ use~
 	.@.? un-?
 	.@.Seq.Array!
 	.@.Seq.Seq _ first tail
-	.control if opr returning
+	.control opr returning
 	.Function identity
 	.Object object=?
 	.Type.Pred-Type Opt
@@ -111,7 +111,7 @@ region Min/max
 			[ [ 1 ] identity ] -> ? 1
 			[ [ ] identity ] -> empty ?
 		|_:@ by:Function
-			if (not empty?_) ~
+			if not empty?_
 				iter = iterator_
 				value = iter.next().value
 				cur-max ::= value

@@ -1,7 +1,6 @@
 use
 	...Boolean not
 	...compare =?
-	...control if
 	...Function Pred
 	...math.methods - +
 	...methods freeze sub
@@ -81,7 +80,7 @@ region Very first and last
 			[ [ ] ] -> empty ?
 		args. 1
 		default. |_
-			if (not empty?_) ~
+			if not empty?_
 				_[(- count_ 1
 
 	tail. Method

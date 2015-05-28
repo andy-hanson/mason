@@ -1,6 +1,6 @@
 use
 	...compare =? <?
-	...control returning unless
+	...control returning
 	...math.Number int/
 	...math.methods + - *
 	...Type.Js-Method js-impl!
@@ -29,7 +29,7 @@ kind! Heap-Priority-Queue! Priority-Queue!
 		for! em in added
 			add! _.val em
 	?pop! -> |_
-		unless empty?_ ~
+		unless empty?_
 			returning _.val[0] !|
 				fix-down! _.val
 

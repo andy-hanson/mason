@@ -80,10 +80,10 @@ implies.
 		[ false true ] -> true
 		[ true false ] -> false
 		[ true true ] -> true
-	|if:Boolean ~then:Boolean
+	|if?:Boolean ~then?:Boolean
 		case
-			if
-				then
+			if?
+				then?
 			else
 				true
 

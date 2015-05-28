@@ -1,8 +1,7 @@
 import { code } from '../CompileError'
 import * as MsAstTypes from '../MsAst'
-import { Assign, AssignDestructure, AssignSingle, BagEntry, BlockVal, Call, Debug, Do, ForVal,
-	LocalDeclareBuilt, LocalDeclareRes, ObjEntry, MapEntry, Pattern, SpecialDo, Yield, YieldTo
-	} from '../MsAst'
+import { Assign, AssignDestructure, AssignSingle, BlockVal, Call, Debug, Do, ForVal,
+	LocalDeclareBuilt, LocalDeclareRes, ObjEntry, Pattern, Yield, YieldTo } from '../MsAst'
 import { assert, cat, eachReverse, head, ifElse, implementMany,
 	isEmpty, mapKeys, newSet, opEach } from './util'
 import VerifyResults, { LocalInfo } from './VerifyResults'
@@ -159,6 +158,11 @@ const
 		pendingBlockLocals = [ ]
 		plusLocals(oldPendingBlockLocals, action)
 		pendingBlockLocals = oldPendingBlockLocals
+	},
+
+	// Can't break out of loop inside of IIFE.
+	withIIFE = action => {
+		withInLoop(false, action)
 	}
 
 const verifyLocalUse = () =>
@@ -195,10 +199,8 @@ implementMany(MsAstTypes, 'verify', {
 		this.value.verify()
 	},
 
-	BagEntry() {
-		accessLocal(this, 'built')
-		this.value.verify()
-	},
+	BagEntry: verifyBagEntry,
+	BagEntryMany: verifyBagEntry,
 
 	BagSimple() { this.parts.forEach(verify) },
 
@@ -219,9 +221,7 @@ implementMany(MsAstTypes, 'verify', {
 	BlockBag: verifyBlockBagOrMap,
 	BlockMap: verifyBlockBagOrMap,
 
-	// BlockWrap uses IIFE, so can't break loop.
-	// block will set buildType.
-	BlockWrap() { withInLoop(false, () => this.block.verify()) },
+	BlockWrap() { withIIFE(() => this.block.verify()) },
 
 	BreakDo() {
 		verifyInLoop(this)
@@ -243,9 +243,18 @@ implementMany(MsAstTypes, 'verify', {
 
 	CaseDo() { verifyCase(this) },
 	CaseDoPart: verifyCasePart,
-	// CaseVal uses IIFE, so can't break loop.
-	CaseVal() { withInLoop(false, () => verifyCase(this)) },
+	CaseVal() { withIIFE(() => verifyCase(this)) },
 	CaseValPart: verifyCasePart,
+
+
+	ConditionalDo() {
+		this.test.verify()
+		this.result.verify()
+	},
+	ConditionalVal() {
+		this.test.verify()
+		withIIFE(() => this.result.verify())
+	},
 
 	Continue() { verifyInLoop(this) },
 
@@ -277,8 +286,6 @@ implementMany(MsAstTypes, 'verify', {
 	},
 
 	GlobalAccess() { },
-
-	IfDo: ifOrUnlessDo,
 
 	Lazy() { withBlockLocals(() => this.value.verify()) },
 
@@ -350,8 +357,6 @@ implementMany(MsAstTypes, 'verify', {
 
 	Splat() { this.splatted.verify() },
 
-	UnlessDo: ifOrUnlessDo,
-
 	Use() {
 		// Since Uses are always in the outermost scope, don't have to worry about shadowing.
 		// So we mutate `locals` directly.
@@ -377,10 +382,9 @@ implementMany(MsAstTypes, 'verify', {
 	}
 })
 
-// Shared implementations
-function ifOrUnlessDo() {
-	this.test.verify()
-	this.result.verify()
+function verifyBagEntry() {
+	accessLocal(this, 'built')
+	this.value.verify()
 }
 
 function verifyBlockBagOrMap() {
@@ -525,12 +529,9 @@ const
 	verifyIsStatement = line => {
 		const isStatement =
 			line instanceof Do ||
+			// Some values are also acceptable.
 			line instanceof Call ||
 			line instanceof Yield ||
-			line instanceof YieldTo ||
-			line instanceof BagEntry ||
-			line instanceof MapEntry ||
-			line instanceof ObjEntry ||
-			line instanceof SpecialDo
+			line instanceof YieldTo
 		context.check(isStatement, line.loc, 'Expression in statement position.')
 	}

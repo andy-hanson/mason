@@ -1,8 +1,8 @@
 import { ArrayExpression, BinaryExpression, BlockStatement, BreakStatement, CallExpression,
-	ContinueStatement, DebuggerStatement, ExpressionStatement, ForOfStatement, FunctionExpression,
-	Identifier, IfStatement, Literal, MemberExpression, ObjectExpression, Program, ReturnStatement,
-	ThisExpression, VariableDeclaration, UnaryExpression, VariableDeclarator, ReturnStatement
-	} from 'esast/dist/ast'
+	ConditionalExpression, ContinueStatement, DebuggerStatement, ExpressionStatement,
+	ForOfStatement, FunctionExpression, Identifier, IfStatement, Literal, MemberExpression,
+	ObjectExpression, Program, ReturnStatement, ThisExpression, VariableDeclaration,
+	UnaryExpression, VariableDeclarator, ReturnStatement } from 'esast/dist/ast'
 import { idCached, loc, member, propertyIdOrLiteralCached, toStatement } from 'esast/dist/util'
 import { assignmentExpressionPlain, callExpressionThunk, functionExpressionPlain,
 	functionExpressionThunk, memberExpression, property,
@@ -18,9 +18,9 @@ import { AmdefineHeader, ArraySliceCall, DeclareBuiltBag, DeclareBuiltMap, Decla
 	ExportsDefault, ExportsGet, IdArguments, IdBuilt, IdDefine, IdExports, IdExtract,
 	IdFunctionApplyCall, LitEmptyArray, LitEmptyString, LitNull, LitStrExports, LitZero,
 	ReturnBuilt, ReturnExports, ReturnRes, SymbolIterator, UseStrict } from './ast-constants'
-import { IdMs, lazyWrap, msAdd, msArr, msAssoc, msBool, msCheckContains, msExtract, msGet,
-	msGetDefaultExport, msGetModule, msLazy, msLazyGet, msLazyGetModule, msSet, msSetName,
-	msSetLazy, msShow } from './ms-call'
+import { IdMs, lazyWrap, msAdd, msAddMany, msArr, msAssoc, msBool, msCheckContains, msExtract,
+	msGet, msGetDefaultExport, msGetModule, msLazy, msLazyGet, msLazyGetModule, msSet, msSetName,
+	msSetLazy, msShow, msSome, MsNone } from './ms-call'
 import { accessLocalDeclare, declare, forStatementInfinite,
 	idForDeclareCached, throwError } from './util'
 
@@ -72,6 +72,8 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 	},
 
 	BagEntry() { return msAdd(IdBuilt, t0(this.value)) },
+
+	BagEntryMany() { return msAddMany(IdBuilt, t0(this.value)) },
 
 	BagSimple() { return ArrayExpression(this.parts.map(t0)) },
 
@@ -145,6 +147,20 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 	CaseDoPart: casePart,
 	CaseValPart: casePart,
 
+	ConditionalDo() {
+		return IfStatement(
+			this.isUnless ? UnaryExpression('!', maybeBoolWrap(t0(this.test))) : t0(this.test),
+			t0(this.result))
+	},
+
+	ConditionalVal() {
+		const test = maybeBoolWrap(t0(this.test))
+		const result = msSome(blockWrap(t0(this.result)))
+		return this.isUnless ?
+			ConditionalExpression(test, MsNone, result) :
+			ConditionalExpression(test, result, MsNone)
+	},
+
 	Continue() { return ContinueStatement() },
 
 	// TODO: includeInoutChecks is misnamed
@@ -209,8 +225,6 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 	},
 
 	GlobalAccess() { return Identifier(this.name) },
-
-	IfDo() { return IfStatement(maybeBoolWrap(t0(this.test)), t0(this.result)) },
 
 	LocalAccess() { return accessLocalDeclare(verifyResults.localDeclareForAccess(this)) },
 
@@ -277,10 +291,6 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 			case SV_Undefined: return UnaryExpression('void', LitZero)
 			default: throw new Error(this.kind)
 		}
-	},
-
-	UnlessDo() {
-		return IfStatement(UnaryExpression('!', maybeBoolWrap(t0(this.test))), t0(this.result))
 	},
 
 	Yield() { return yieldExpressionNoDelegate(t0(this.yielded)) },

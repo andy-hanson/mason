@@ -136,9 +136,7 @@ concrete-implementors.
 		@for kind.implementors
 			case!
 				:Kind
-					# TODO:SYNTAX `...`
-					for! concrete-implementors_
-						. _
+					... concrete-implementors_
 				else
 					. _
 
@@ -158,7 +156,7 @@ kind!.
 		if! defined? method-impls
 			for! method-impls
 				# TODO:SYNTAX Array destructure
-				impl! _[0] implementor _[1]
+				impl! (js-sub _ 0) implementor (js-sub _ 1)
 
 self-kind!.
 	doc. "TODO"
@@ -169,7 +167,7 @@ self-kind!.
 		if! defined? method-impls
 			for! method-impls
 				# TODO:SYNTAX Array destructure
-				self-impl! _[0] implementor _[1]
+				self-impl! (js-sub _ 0) implementor (js-sub _ 1)
 
 kind?.
 	doc. "

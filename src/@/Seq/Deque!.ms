@@ -1,7 +1,6 @@
 use
 	...Boolean and not or
 	...compare =? <?
-	...control if
 	...math.Number modulo Nat
 	...math.methods + - *
 	...methods sub
@@ -56,10 +55,12 @@ region Helpers
 		a = + _.start-index! index
 		case
 			<? a capacity_
-				if (or (<? _.end-index! _.start-index!) ~(<? a _.end-index!)) a
+				if or (<? _.end-index! _.start-index!) ~(<? a _.end-index!)
+					a
 			else
 				b = wrap-index _ a
-				if (and (<? _.end-index! _.start-index!) ~(<? b _.end-index!)) b
+				if and (<? _.end-index! _.start-index!) ~(<? b _.end-index!)
+					b
 
 js-impl! iterator Deque! ~!|
 	# TODO:ES6 case should preserve `this`
@@ -98,13 +99,13 @@ kind! Deque! Seq!
 	# TODO: Shrink on occasion
 
 	?<pop! -> |_
-		if (not empty?_) ~
+		if not empty?_
 			x = _.data![_.start-index!]
 			p! _ "start-index!" (next-index _ _.start-index!)
 			x
 
 	?pop>! -> |_
-		if (not empty?_) ~
+		if not empty?_
 			new-end = prev-index _ _.end-index!
 			p! _ "end-index!" new-end
 			_.data![new-end]

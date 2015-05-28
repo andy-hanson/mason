@@ -3,9 +3,9 @@ import { code } from '../CompileError'
 import { NumberLiteral } from '../MsAst'
 import { NonNameCharacters } from './language'
 import { DotName, Group, G_Block, G_Bracket, G_Line, G_Parenthesis, G_Space, G_Quote,
-	isKeyword, Keyword, KW_AssignMutable, KW_Focus, KW_Fun, KW_FunDo, KW_GenFun, KW_GenFunDo,
-	KW_Lazy, KW_LocalMutate, KW_ObjAssign, KW_Region, KW_Type, Name, opKeywordKindFromName,
-	showGroupKind } from './Token'
+	isKeyword, Keyword, KW_AssignMutable, KW_Ellipsis, KW_Focus, KW_Fun, KW_FunDo, KW_GenFun,
+	KW_GenFunDo, KW_Lazy, KW_LocalMutate, KW_ObjAssign, KW_Region, KW_Type, Name,
+	opKeywordKindFromName, showGroupKind } from './Token'
 import { assert, isEmpty, last } from './util'
 
 /*
@@ -422,13 +422,17 @@ export default (context, sourceString) => {
 						// ensure it's not part of the preceding or following spaced group.
 						closeGroups(startPos(), G_Space)
 						keyword(KW_ObjAssign)
+						// This exists solely so that the Space or Newline handler can close it...
 						openGroup(pos(), G_Space)
-					} else
-						addToCurrentGroup(DotName(
-							loc(),
-							// +1 for the dot we just skipped.
-							skipWhileEquals(Dot) + 1,
-							takeWhile(isNameCharacter)))
+					} else {
+						// +1 for the dot we just ate.
+						const nDots = skipWhileEquals(Dot) + 1
+						const next = peek()
+						if (nDots === 3 && next === Space || next === Newline)
+							keyword(KW_Ellipsis)
+						else
+							addToCurrentGroup(DotName(loc(), nDots, takeWhile(isNameCharacter)))
+					}
 					break
 				}
 

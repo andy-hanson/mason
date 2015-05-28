@@ -179,9 +179,7 @@ region Lazy functions, and their eager versions.
 		default. |_ mapper:Function[Any @]
 			# TODO:SYNTAX Shouldn't need => type-of_
 			=> type-of_ @for _
-				# TODO:SYNTAX `...`
-				for! mapper_
-					. _
+				... mapper_
 
 	flat-map'.
 		doc. "Lazy flat-map."
@@ -210,9 +208,7 @@ region Lazy functions, and their eager versions.
 		default. |_
 			# TODO:SYNTAX Shouldn't need => type-of_
 			=> type-of_ @for _
-				# TODO:SYNTAX `...`
-				for! _
-					. _
+				... _
 
 	flatten'.
 		doc. "Lazy flatten."
@@ -240,11 +236,8 @@ region Lazy functions, and their eager versions.
 			# TODO:SYNTAX @for -> type-of a
 			# TODO:SYNTAX Just build without @for
 			=> (type-of @a) @for
-				# TODO:SYNTAX `...`
-				for! @a
-					. _
-				for! @b
-					. _
+				... @a
+				... @b
 				break!
 
 	++'.
