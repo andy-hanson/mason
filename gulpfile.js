@@ -85,7 +85,7 @@ function pipeJs(stream) {
 			'es6.classes',
 			'es6.destructuring',
 			'es6.modules',
-			'es6.parameters.rest',
+			'es6.parameters',
 			'es6.spread',
 			'es6.properties.shorthand',
 			'es6.templateLiterals',

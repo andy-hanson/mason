@@ -88,6 +88,10 @@ export const
 			kind() { return this.assignees[0].kind }
 		}),
 
+	OhNo = d('OhNoDo',
+		'TODO:DOC',
+		[ 'opThrown', Nullable(Val) ]),
+
 	Debug = d('Debug',
 		'TODO:DOC',
 		[ 'lines', [LineContent] ]),
@@ -100,6 +104,9 @@ export const
 	BlockWithReturn = makeType(BlockVal)('BlockWithReturn',
 		'TODO:DOC',
 		[ 'lines', [LineContent], 'returned', Val ]),
+	BlockValOhNo = makeType(BlockVal)('BlockValOhNo',
+		'TODO:DOC',
+		[ 'lines', [LineContent], 'ohNo', OhNo ]),
 
 	ObjEntry = d('ObjEntry',
 		'TODO:DOC',

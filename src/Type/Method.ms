@@ -3,7 +3,7 @@ use
 	..Boolean and implies not
 	..js defined? js! js=== js-instanceof js-sub
 	# Don't want to depend on Try because that can cause circular dependency problems.
-	..private.js-impl buildStr methodArgNames ohNo
+	..private.js-impl buildStr methodArgNames
 	..private.bootstrap implContains msDef containsImplSymbol
 	.Obj-Type
 use~
@@ -42,8 +42,9 @@ method-src = |method
 
 		add! "return function {mangle-identifier method.name}({arg-names}) \{"
 		if! flag? method.allow-null?
+			# TODO: ! (assert)
 			debug unless! defined? method.default
-				ohNo "Method with `allow-null?` must have `default`."
+				oh-no! "Method with `allow-null?` must have `default`."
 			add! "if (a == null) return def.apply(null, arguments)"
 
 		impl = case
@@ -133,7 +134,7 @@ Method. Obj-Type
 		# TODO:DISPLAYNAME
 		# Shouldn't need to provide this, but otherwise defaults.name is a string and is called...
 		name. !|
-			ohNo "Must provide name."
+			oh-no! "Must provide name."
 		impl-symbol. |_
 			"impl-{_.name}"
 	make-callable. make-callable-method
@@ -160,7 +161,7 @@ impl-double!. !|method:Method implementor-0:Impl-Type implementor-1:Impl-Type im
 				:Double-Dispatcher
 					_
 				else
-					ohNo "
+					oh-no! "
 						Can't define double dispatch of {method} for {implementor-0}.
 						A single-dispatch implementation already exists: {_}.
 
@@ -226,8 +227,9 @@ region Private
 	# "method" can be a Method or a Double-Dispatcher.
 	do-impl! = !|method implementor implementation
 		in
+			# TODO: ! (assert)
 			unless! writable? implementor.prototype method.impl-symbol
-				ohNo "Can not redefine method {method} for {implementor}."
+				oh-no! "Can not redefine method {method} for {implementor}."
 
 		Object.defineProperty implementor.prototype method.impl-symbol
 			value. implementation
@@ -256,7 +258,7 @@ region Private
 					defined? impl
 						! contains? Function impl
 					else
-						ohNo ~"Can't double-dispatch {_.method} for {_.first-type} on {target-2}"
+						oh-no! "Can't double-dispatch {_.method} for {_.first-type} on {target-2}"
 				impl ...args
 
 method-contains? = |method value

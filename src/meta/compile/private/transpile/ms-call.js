@@ -14,6 +14,7 @@ export const
 	msAssoc = ms('assoc'),
 	msBool = ms('bool'),
 	msCheckContains = ms('checkContains'),
+	msError = ms('error'),
 	msGet = ms('get'),
 	msGetDefaultExport = ms('getDefaultExport'),
 	msExtract = ms('extract'),

@@ -84,6 +84,17 @@ const msDefs = {
 		return out
 	},
 
+	error(err) {
+		if (err instanceof Error)
+			return err
+		else if (typeof err === 'string')
+			return new Error(err)
+		else if (err instanceof _ms.Lazy)
+			return _ms.error(err.get())
+		else
+			throw new Error('Thrown value must be Error or String')
+	},
+
 	// For use by Obj-Type.ms generated code.
 	checkNoExtras(_this, _, rtName) {
 		// If there was some key in `_` that we didn't copy:

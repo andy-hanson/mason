@@ -57,7 +57,6 @@ export	const
 	isEmpty = array => array.length === 0,
 
 	// Try.ms
-	ohNo = error => { throw makeError(error) },
 	alwaysDoAfter = (tried, finallyDo) => {
 		try {
 			return tried()
@@ -71,23 +70,6 @@ export	const
 		} catch (e) {
 			return e
 		}
-	},
-	makeError = error => {
-		let err
-		try {
-			err = _ms.unlazy(error)
-		} catch (e) {
-			// TODO: return new Error ('Error making error: ' + e.message)
-			return makeError(e)
-		}
-		if (err instanceof Error)
-			return err
-		else if (typeof err === 'string')
-			return new Error(err)
-		else if (err === undefined)
-			return new Error('Oh no!')
-		else
-			throw new Error('Argument to `oh-no!` must be Error or String')
 	},
 
 	// show.ms

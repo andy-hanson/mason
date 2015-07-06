@@ -1,8 +1,9 @@
 import { ArrayExpression, BinaryExpression, BlockStatement, BreakStatement, CallExpression,
 	ConditionalExpression, ContinueStatement, DebuggerStatement, ExpressionStatement,
 	ForOfStatement, FunctionExpression, Identifier, IfStatement, Literal, MemberExpression,
-	ObjectExpression, Program, ReturnStatement, ThisExpression, VariableDeclaration,
-	UnaryExpression, VariableDeclarator, ReturnStatement } from 'esast/dist/ast'
+	ObjectExpression, Program, ReturnStatement, ThisExpression, ThrowStatement,
+	VariableDeclaration, UnaryExpression, VariableDeclarator, ReturnStatement
+	} from 'esast/dist/ast'
 import { idCached, loc, member, propertyIdOrLiteralCached, toStatement } from 'esast/dist/util'
 import { assignmentExpressionPlain, callExpressionThunk, functionExpressionPlain,
 	functionExpressionThunk, memberExpression, property,
@@ -16,13 +17,13 @@ import { assert, cat, flatMap, flatOpMap, ifElse, isEmpty,
 	implementMany, isPositive, opIf, opMap, tail, unshift } from '../util'
 import { AmdefineHeader, ArraySliceCall, DeclareBuiltBag, DeclareBuiltMap, DeclareBuiltObj,
 	ExportsDefault, ExportsGet, IdArguments, IdBuilt, IdDefine, IdExports, IdExtract,
-	IdFunctionApplyCall, LitEmptyArray, LitEmptyString, LitNull, LitStrExports, LitZero,
+	IdFunctionApplyCall, LitEmptyArray, LitEmptyString, LitNull, LitStrExports, LitStrOhNo, LitZero,
 	ReturnBuilt, ReturnExports, ReturnRes, SymbolIterator, UseStrict } from './ast-constants'
-import { IdMs, lazyWrap, msAdd, msAddMany, msArr, msAssoc, msBool, msCheckContains, msExtract,
-	msGet, msGetDefaultExport, msGetModule, msLazy, msLazyGet, msLazyGetModule, msSet, msSetName,
-	msSetLazy, msShow, msSome, MsNone } from './ms-call'
+import { IdMs, lazyWrap, msAdd, msAddMany, msArr, msAssoc, msBool, msCheckContains, msError,
+	msExtract, msGet, msGetDefaultExport, msGetModule, msLazy, msLazyGet, msLazyGetModule, msSet,
+	msSetName, msSetLazy, msShow, msSome, MsNone } from './ms-call'
 import { accessLocalDeclare, declare, forStatementInfinite,
-	idForDeclareCached, throwError } from './util'
+	idForDeclareCached, throwErrorFromString } from './util'
 
 let context, verifyResults, isInGenerator
 
@@ -80,6 +81,12 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 	BlockDo(lead = null, opResDeclare = null, opOut = null) {
 		assert(opResDeclare === null)
 		return BlockStatement(cat(lead, tLines(this.lines), opOut))
+	},
+
+	BlockValOhNo(lead = null, opResDeclare = null, opOut = null) {
+		context.warnIf(opResDeclare !== null || opOut !== null, this.loc,
+			'Out condition ignored because of oh-no!')
+		return BlockStatement(cat(lead, tLines(this.lines), t0(this.ohNo)))
 	},
 
 	BlockWithReturn(lead, opResDeclare, opOut) {
@@ -258,6 +265,12 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 					msSetLazy(IdBuilt, Literal(_.name), idForDeclareCached(_))))
 	},
 
+	OhNo() {
+		return ifElse(this.opThrown,
+			_ => ThrowStatement(msError(t0(_))),
+			() => ThrowStatement(msError(LitStrOhNo)))
+	},
+
 	Quote() {
 		// TODO:ES6 use template strings
 		const part0 = this.parts[0]
@@ -322,7 +335,7 @@ const
 	},
 
 	caseBody = (parts, opElse) => {
-		let acc = ifElse(opElse, t0, () => throwError('No branch of `case` matches.'))
+		let acc = ifElse(opElse, t0, () => throwErrorFromString('No branch of `case` matches.'))
 		for (let i = parts.length - 1; i >= 0; i = i - 1)
 			acc = t1(parts[i], acc)
 		return acc

@@ -12,7 +12,6 @@ use~
 	.@.Map.Weak-Id-Map!
 	.@.Seq.Seq rtail last
 	.Object Object->Map
-	.Try oh-no!
 	.Type.Type =>
 use-debug
 	.!

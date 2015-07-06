@@ -1,21 +1,21 @@
 import Loc from 'esast/dist/Loc'
 import { code } from '../../CompileError'
 import { AssignDestructure, AssignSingle, BagEntry, BagEntryMany, BagSimple, BlockBag, BlockDo,
-	BlockMap, BlockObj, BlockWithReturn, BlockWrap, BreakDo, BreakVal, Call, CaseDoPart,
-	CaseValPart, CaseDo, CaseVal, ConditionalDo, ConditionalVal, Continue, Debug, Iteratee,
-	NumberLiteral, ForBag, ForDo, ForVal, Fun, GlobalAccess, Lazy, LD_Const, LD_Lazy, LD_Mutable,
-	LocalAccess, LocalDeclare, LocalDeclareFocus, LocalDeclareName, LocalDeclarePlain,
+	BlockMap, BlockObj, BlockValOhNo, BlockWithReturn, BlockWrap, BreakDo, BreakVal, Call,
+	CaseDoPart, CaseValPart, CaseDo, CaseVal, ConditionalDo, ConditionalVal, Continue, Debug,
+	Iteratee, NumberLiteral, ForBag, ForDo, ForVal, Fun, GlobalAccess, Lazy, LD_Const, LD_Lazy,
+	LD_Mutable, LocalAccess, LocalDeclare, LocalDeclareFocus, LocalDeclareName, LocalDeclarePlain,
 	LocalDeclareRes, LocalDeclareUntyped, LocalMutate, MapEntry, Member, Module, ObjEntry, ObjPair,
-	ObjSimple, Pattern, Quote, SP_Debugger, SpecialDo, SpecialVal, SV_Null, Splat, Val, Use, UseDo,
-	Yield, YieldTo } from '../../MsAst'
+	ObjSimple, OhNo, Pattern, Quote, SP_Debugger, SpecialDo, SpecialVal, SV_Null, Splat, Val, Use,
+	UseDo, Yield, YieldTo } from '../../MsAst'
 import { JsGlobals } from '../language'
 import { DotName, Group, G_Block, G_Bracket, G_Parenthesis, G_Space, G_Quote, isGroup, isKeyword,
 	Keyword, KW_Assign, KW_AssignMutable, KW_BreakDo, KW_BreakVal, KW_CaseVal, KW_CaseDo,
 	KW_Continue, KW_Debug, KW_Debugger, KW_Ellipsis, KW_Else, KW_ForBag, KW_ForDo, KW_ForVal,
 	KW_Focus, KW_Fun, KW_FunDo, KW_GenFun, KW_GenFunDo, KW_IfDo, KW_IfVal, KW_In, KW_Lazy,
-	KW_LocalMutate, KW_MapEntry, KW_ObjAssign, KW_Pass, KW_Out, KW_Region, KW_Type, KW_UnlessDo,
-	KW_UnlessVal, KW_Use, KW_UseDebug, KW_UseDo, KW_UseLazy, KW_Yield, KW_YieldTo, Name,
-	opKeywordKindToSpecialValueKind } from '../Token'
+	KW_LocalMutate, KW_MapEntry, KW_ObjAssign, KW_OhNo, KW_Pass, KW_Out, KW_Region, KW_Type,
+	KW_UnlessDo, KW_UnlessVal, KW_Use, KW_UseDebug, KW_UseDo, KW_UseLazy, KW_Yield, KW_YieldTo,
+	Name, opKeywordKindToSpecialValueKind } from '../Token'
 import { assert, head, ifElse, flatMap, isEmpty, last,
 	opIf, opMap, push, repeat, rtail, tail, unshift } from '../util'
 import Slice from './Slice'
@@ -112,8 +112,12 @@ const
 			default: {
 				context.check(!isEmpty(lines), tokens.loc, 'Value block must end in a value.')
 				const val = last(lines)
-				context.check(val instanceof Val, val.loc, 'Value block must end in a value.')
-				return BlockWithReturn(tokens.loc, rtail(lines), val)
+				if (val instanceof OhNo)
+					return BlockValOhNo(tokens.loc, rtail(lines), val)
+				else {
+					context.check(val instanceof Val, val.loc, 'Value block must end in a value.')
+					return BlockWithReturn(tokens.loc, rtail(lines), val)
+				}
 			}
 		}
 	},
@@ -484,6 +488,8 @@ const
 				}
 				case KW_ObjAssign:
 					return BagEntry(tokens.loc, parseExpr(rest))
+				case KW_OhNo:
+					return OhNo(tokens.loc, opIf(!rest.isEmpty(), () => parseExpr(rest)))
 				case KW_Pass:
 					noRest()
 					return [ ]

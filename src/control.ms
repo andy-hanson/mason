@@ -9,7 +9,6 @@ use~
 	.@.Seq.Array!
 	.@.Seq.Seq
 	.@.Seq.Seq! ++>!
-	.Try oh-no!
 use-debug
 	.! _ !call
 	.compare =?

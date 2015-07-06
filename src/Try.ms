@@ -6,7 +6,9 @@ use
 	.compare =?
 	.Function Action
 	.js new
-	.private.js-impl makeError alwaysDoAfter ohNo iTry
+	.private.bootstrap ms
+	.private.js-impl alwaysDoAfter iTry
+	.Object p
 	.Object! p!
 	.Type.Method self-impl!
 	.Type.Obj-Type
@@ -17,8 +19,12 @@ use
 use-debug
 	.! _ !not
 	.control build
-	.Function thunk
+	.Function noop thunk
 	.$ $rejected $resolved
+
+# TODO:SYNTAX One-line fun
+debug fail! = !|
+	oh-no!
 
 Success. Wrap-Type
 	doc. "Attempt that did not fail. _.val is the result of the attempted code."
@@ -27,19 +33,7 @@ Try. Kind
 	doc. "Result of running failable code. Success or Error."
 	implementors. [ Success Error
 
-self-impl! => Error makeError
-
-oh-no!.
-	doc. "
-		Throws an Error.
-		If `error` is a String, it will be put into a new Error.
-		If it is possible for the creation of `error` to fail, make it lazy.
-	test. !|
-		! fails-with? "a" !|
-			oh-no! "a"
-		! fails-with? TypeError !|
-			oh-no! TypeError()
-	ohNo
+self-impl! => Error (p ms "error"
 
 try.
 	doc. "
@@ -47,7 +41,7 @@ try.
 		If you don't care about the value of the error, use `?try` instead.
 	test. |
 		[ (thunk 1) ] -> Success 1
-		! fails-with? "Oh no!" oh-no!
+		! =? (try fail!).message "Oh no!"
 	|tried:Function[Any]
 		iTry Success tried
 
@@ -58,7 +52,7 @@ try.
 		The opposite of this is `@.?.un-?`.
 	test. |
 		[ (thunk 1) ] -> ? 1
-		[ oh-no! ] -> empty ?
+		[ fail! ] -> empty ?
 	|tried:Function[Any]
 		case try tried
 			:Success
@@ -69,10 +63,8 @@ try.
 fails?.
 	doc. "Whether the Function throws some error."
 	test. !|
-		! fails? !|
-			oh-no!()
-		!not fails? !|
-			pass
+		! fails? fail!
+		!not fails? noop
 	|_:Action
 		contains? Error try_
 
@@ -123,15 +115,15 @@ always-do-after.
 	test. !|
 		! =? [ 0 ] (build |yield
 			try !|
-				always-do-after oh-no! yield[0]
+				always-do-after fail! yield[0]
 	|tried:Function[Any] finally-do:Action
 		alwaysDoAfter tried finally-do
 
 annotate-errors.
 	doc. "If there are thrown errors, prepends `annotation` to their stack and message."
 	test. |
-		! fails-with? "ab" |
-			annotate-errors "a" |
+		! fails-with? "ab" !|
+			annotate-errors "a" !|
 				oh-no! "b"
 	|~annotation:String tried:Action
 		case try tried

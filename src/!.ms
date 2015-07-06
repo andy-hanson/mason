@@ -6,7 +6,6 @@ use~
 	.Function Pred
 	.show repr
 	.String indent
-	.Try oh-no!
 	.Type.Pred-Type Any
 	.Type.Type =>
 use-debug
@@ -64,20 +63,14 @@ doc. "For making assertions."
 	!|a ...args
 		case! a
 			:Function
-				case!
-					_ ...args
-						oh-no! "
-							Unexpected {a}
-								{indent ((map args repr).join "\n")}
-					else
-						pass
+				if! _ ...args
+					oh-no! "
+						Unexpected {a}
+							{indent ((map args repr).join "\n")}
 			:Boolean
 				! =? 1 args.length
-				case!
-					_
-						oh-no! args[0]
-					else
-						pass
+				if! _
+					oh-no! args[0]
 			else
 				oh-no! "First argument to `!not` must be Function or Boolean. Got {_}."
 
@@ -113,7 +106,7 @@ doc. "For making assertions."
 			expected-res = _[1]
 			actual = fun ...args
 			unless! equal? actual expected-res
-				oh-no! ~"
+				oh-no! "
 					{fun} of:
 						{indent (=> String (map args repr) "\n")}
 					Should {equal?}:

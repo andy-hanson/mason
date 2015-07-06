@@ -1,7 +1,5 @@
 use
 	.private.js-impl iAnd iOr
-use-debug
-	.Try oh-no!
 
 not.
 	doc. "Negation of a Boolean."
@@ -26,8 +24,6 @@ and.
 		[ true false ] -> false
 		[ true true ] -> true
 		[ true true false ] -> false
-		# No need to run any condition after false.
-		[ true false ~(oh-no!()) ] -> false
 	iAnd
 
 nand.
@@ -38,8 +34,6 @@ nand.
 		[ true false ] -> true
 		[ true true ] -> false
 		[ true true false ] -> true
-		# No need to run any condition after false.
-		[ true false ~(oh-no!()) ] -> true
 	|...args
 		not (and ...args
 
@@ -54,8 +48,6 @@ or.
 		[ true false ] -> true
 		[ true true ] -> true
 		[ false false true ] -> true
-		# No need to run any condition after true.
-		[ false true ~(oh-no!()) ] -> true
 	iOr
 
 nor.
@@ -66,8 +58,6 @@ nor.
 		[ true false ] -> false
 		[ true true ] -> false
 		[ false false true ] -> false
-		# No need to run any condition after true.
-		[ false true ~(oh-no!()) ] -> false
 	|...args
 		not (or ...args)
 

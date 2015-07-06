@@ -3,7 +3,6 @@ use
 	..js id=? js-instanceof
 	..private.bootstrap implContains ms msDef
 	# Don't want to depend on Try because that can cause circular dependency problems.
-	..private.js-impl ohNo
 	.Impl-Type
 	.Kind _ kind!
 	.Method _ impl!
@@ -57,8 +56,9 @@ extract. Method
 msDef "extract" extract
 
 msDef "checkContains" |type value name
+	# TODO: ! (assert)
 	unless! contains? type value
-		ohNo "{name} is no {type}, is a {type-of value}: {value}"
+		oh-no! "{name} is no {type}, is a {type-of value}: {value}"
 	value
 
 =>. Method

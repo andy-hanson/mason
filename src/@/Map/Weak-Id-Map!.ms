@@ -1,7 +1,6 @@
 use
 	...control returning
 	...js new
-	...Try oh-no!
 	...Type.Kind kind! self-kind!
 	..@! empty!
 	..@-Type empty

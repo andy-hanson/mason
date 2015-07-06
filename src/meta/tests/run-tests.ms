@@ -12,7 +12,7 @@ use
 	...Generator!
 	...js defined?
 	...Object ?p p p? @p @p-all
-	...Try $annotate-errors annotate-errors oh-no! Success try
+	...Try $annotate-errors annotate-errors Success try
 	...Type.Impl-Type
 	...Type.Kind _ concrete-implementors
 	...Type.Method _ impl! impl-for

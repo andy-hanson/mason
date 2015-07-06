@@ -12,8 +12,6 @@ use
 	.@ empty? iterator
 	.@-Type _ empty from-stream
 	.Seq.Seq
-use~
-	..Try oh-no!
 use-debug
 	..! _ !not
 	..compare =?
@@ -88,7 +86,7 @@ region Functions
 		|_:? ~fail-message
 			case
 				empty?_
-					oh-no! (opr fail-message "Tried to force empty `?`."
+					oh-no! opr fail-message "Tried to force empty `?`."
 				else
 					_.val
 

@@ -135,6 +135,7 @@ export const
 	KW_MapEntry = kw('->'),
 	KW_Null = kw('null'),
 	KW_ObjAssign = kw('. '),
+	KW_OhNo = kw('oh-no!'),
 	KW_Out = kw('out'),
 	KW_Pass = kw('pass'),
 	KW_Region = kw('region'),

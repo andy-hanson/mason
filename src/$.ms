@@ -9,7 +9,7 @@ use
 	.Type.Type =>
 use~
 	.io.time $after-time
-	.Try $catch oh-no!
+	.Try $catch
 use-debug
 	.!
 	.compare =?
@@ -84,7 +84,7 @@ $rejected.
 			r = $rejected "a"
 			! =? "a" (<~ $try r).message
 			# $after will be ignored
-			b <~ $try ($after r |
+			b <~ $try ($after r !|
 				oh-no! "b"
 			! =? "a" b.message
 	|_

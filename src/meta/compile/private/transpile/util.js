@@ -27,7 +27,7 @@ export const
 		return _
 	},
 
-	throwError = msg =>
+	throwErrorFromString = msg =>
 		ThrowStatement(NewExpression(IdError, [ Literal(msg) ]))
 
 const

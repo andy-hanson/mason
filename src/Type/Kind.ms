@@ -66,7 +66,7 @@ Kind. Obj-Type
 		region Closed Kind
 			Closed = Kind
 				implementors. [ C Z ]
-			! fails-with? "Closed is not open to new subtypes." |
+			! fails-with? "Closed is not open to new subtypes." !|
 				kind! X Closed
 
 	props.

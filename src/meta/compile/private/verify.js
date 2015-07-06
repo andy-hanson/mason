@@ -206,6 +206,11 @@ implementMany(MsAstTypes, 'verify', {
 
 	BlockDo() { verifyLines(this.lines) },
 
+	BlockValOhNo() {
+		const newLocals = verifyLines(this.lines)
+		plusLocals(newLocals, () => this.ohNo.verify())
+	},
+
 	BlockWithReturn() {
 		const newLocals = verifyLines(this.lines)
 		plusLocals(newLocals, () => this.returned.verify())
@@ -342,6 +347,10 @@ implementMany(MsAstTypes, 'verify', {
 			keys.add(pair.key)
 			pair.value.verify()
 		})
+	},
+
+	OhNo() {
+		opEach(this.opThrown, verify)
 	},
 
 	Quote() {

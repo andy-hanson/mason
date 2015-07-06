@@ -1,6 +1,6 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","./js","./methods","./Type/Pred-Type","./at/at-Type","./at/q","./at/Map/Map","./at/Seq/Arraybang","./at/Seq/Seq","./at/Seq/Seqbang","./Try","./bang","./compare"],function(exports,js_0,methods_1,Pred_45Type_2,_64_45Type_3,_63_4,Map_5,Array_33_6,Seq_7,Seq_33_8,Try_9,_33_10,compare_11){
+define(["exports","./js","./methods","./Type/Pred-Type","./at/at-Type","./at/q","./at/Map/Map","./at/Seq/Arraybang","./at/Seq/Seq","./at/Seq/Seqbang","./bang","./compare"],function(exports,js_0,methods_1,Pred_45Type_2,_64_45Type_3,_63_4,Map_5,Array_33_6,Seq_7,Seq_33_8,_33_9,compare_10){
 	exports._get=_ms.lazy(function(){
 		const _$2=_ms.getModule(js_0),defined_63=_ms.get(_$2,"defined?"),_$3=_ms.getModule(methods_1),freeze=_ms.get(_$3,"freeze"),_$4=_ms.getModule(Pred_45Type_2),Any=_ms.get(_$4,"Any"),Opt=_ms.get(_$4,"Opt"),_$6=_ms.lazyGetModule(_64_45Type_3),empty=_ms.lazyProp(_$6,"empty"),_$7=_ms.lazyGetModule(_63_4),_63_45or=_ms.lazyProp(_$7,"?-or"),Map=_ms.lazy(function(){
 			return _ms.getDefaultExport(Map_5)
@@ -8,9 +8,9 @@ define(["exports","./js","./methods","./Type/Pred-Type","./at/at-Type","./at/q",
 			return _ms.getDefaultExport(Array_33_6)
 		}),Seq=_ms.lazy(function(){
 			return _ms.getDefaultExport(Seq_7)
-		}),_$11=_ms.lazyGetModule(Seq_33_8),_43_43_62_33=_ms.lazyProp(_$11,"++>!"),_$12=_ms.lazyGetModule(Try_9),oh_45no_33=_ms.lazyProp(_$12,"oh-no!"),_33=_ms.lazy(function(){
-			return _ms.getDefaultExport(_33_10)
-		}),_$14=_ms.lazyGetModule(_33_10),_33call=_ms.lazyProp(_$14,"!call"),_$15=_ms.lazyGetModule(compare_11),_61_63=_ms.lazyProp(_$15,"=?");
+		}),_$11=_ms.lazyGetModule(Seq_33_8),_43_43_62_33=_ms.lazyProp(_$11,"++>!"),_33=_ms.lazy(function(){
+			return _ms.getDefaultExport(_33_9)
+		}),_$13=_ms.lazyGetModule(_33_9),_33call=_ms.lazyProp(_$13,"!call"),_$14=_ms.lazyGetModule(compare_10),_61_63=_ms.lazyProp(_$14,"=?");
 		const opr=exports.opr=function(){
 			const built={};
 			const doc=built.doc="Fills in an Opt with a default value.";
@@ -94,14 +94,14 @@ define(["exports","./js","./methods","./Type/Pred-Type","./at/at-Type","./at/q",
 			const built={};
 			const doc=built.doc="Call this to mark code as unreachable.";
 			return _ms.set(function unreachable_33(){
-				_ms.unlazy(oh_45no_33)("This should not be reachable.")
+				throw _ms.error("This should not be reachable.")
 			},built)
 		}();
 		const TODO=exports.TODO=function(){
 			const built={};
 			const doc=built.doc="Placeholder for something which you really ought to implement one of these days.";
 			return _ms.set(function TODO(){
-				_ms.unlazy(oh_45no_33)("This function has not yet been implemented.")
+				throw _ms.error("This function has not yet been implemented.")
 			},built)
 		}();
 		const returning=exports.returning=function(){
@@ -125,4 +125,4 @@ define(["exports","./js","./methods","./Type/Pred-Type","./at/at-Type","./at/q",
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9jb250cm9sLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7Ozs7RUFnQkEsZ0NBQ0k7O0dBQUgsb0JBQU07R0FDTixzQkFDTyxlQUFBOztvQkFBTixDQUFFLE9BQVUsR0FBTztvQkFDbkIsQ0FBRSxFQUFFLEdBQU87OztrQkFDWCxhQUFBLEVBQU0sU0FDUTtzQkFEWjs7S0FFRCxZQUFBLFdBQVEsSUFDQzthQUFSO0tBQUEsT0FFRzt3QkFMQztLQUFBO0lBQUE7R0FBQTs7RUFPUixvQ0FDTTs7R0FBTCxvQkFDQztHQUVELHNCQUNPLGVBQUE7OENBQUQsQ0FBRSxFQUFFLEdBQUssTUFBTyxTQUFBLE9BQ0s7S0FBekIsT0FBTTtZQUNOLE9BQU07SUFBQTtHQUFBO2tCQUNQLGVBQUssY0FDb0I7c0JBRFI7SUFDakI7SUFDQSxhQUFTLGdCQUFBLEVBQ0M7cUNBQUosUUFBUSxDQUFFO0lBQUE7SUFDaEIsY0FBWTs2Q0FDWixPQUFPOzs7RUFJUix1Q0FDTzs7R0FBTixvQkFBTTtHQUNOLHNCQUNPLGVBQUE7SUFBTixRQUFLLFdBQUEsRUFDQztZQUFMLFFBQU8sWUFDQzs7c0JBQVAsRUFDTSxVQUFBO2NBQUo7TUFBQTtzQkFDRixFQUNNLFVBQUE7Y0FBSjtNQUFBO3NCQUNGLGNBQ2dCLFVBQUE7Y0FBZDtNQUFBOzs7OytCQUNFLFlBQ0M7O3FCQUFOLENBQUUsR0FBUTtxQkFDVixDQUFFLEdBQVE7cUJBQ1YsQ0FBRSxHQUFROzs7O2tCQUNYLGlCQUFBLElBQVEsTUFDdUI7c0JBRDNCOzhDQUFjLElBQUk7bURBQ1YsTUFBTTtvQkFBTSxNQUFNO0lBQUE7R0FBQTs7RUFDaEMscURBQ1k7O0dBQVgsb0JBQU07OztFQUVSLHVEQUNhOztHQUFaLG9CQUFNO2tCQUVKLHlCQUFBOzJCQUFPO0dBQUE7O0VBRVYsa0NBQ0s7O0dBQUosb0JBQU07a0JBRUosZUFBQTsyQkFBTztHQUFBOztFQUVWLDRDQUNVOztHQUFULG9CQUFNO0dBQ04sc0JBQ08sZUFBQTs4Q0FBRCxDQUFFLEdBQUssTUFBTyxTQUFBLE9BQ0s7K0NBQWxCLEVBQUcsVUFBVSxFQUNHLFVBQUE7YUFBcEIsT0FBTTtLQUFBO0lBQUE7R0FBQTtrQkFDUixtQkFBQSxTQUFhLFdBQ2lCO3NCQURyQjtzQkFBYTtJQUN0QixXQUFTO1dBQ1Q7R0FBQTs7RUFuRkYsd0JBQUEiLCJmaWxlIjoiY29udHJvbC5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9jb250cm9sLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7Ozs7RUFlQSxnQ0FDSTs7R0FBSCxvQkFBTTtHQUNOLHNCQUNPLGVBQUE7O29CQUFOLENBQUUsT0FBVSxHQUFPO29CQUNuQixDQUFFLEVBQUUsR0FBTzs7O2tCQUNYLGFBQUEsRUFBTSxTQUNRO3NCQURaOztLQUVELFlBQUEsV0FBUSxJQUNDO2FBQVI7S0FBQSxPQUVHO3dCQUxDO0tBQUE7SUFBQTtHQUFBOztFQU9SLG9DQUNNOztHQUFMLG9CQUNDO0dBRUQsc0JBQ08sZUFBQTs4Q0FBRCxDQUFFLEVBQUUsR0FBSyxNQUFPLFNBQUEsT0FDSztLQUF6QixPQUFNO1lBQ04sT0FBTTtJQUFBO0dBQUE7a0JBQ1AsZUFBSyxjQUNvQjtzQkFEUjtJQUNqQjtJQUNBLGFBQVMsZ0JBQUEsRUFDQztxQ0FBSixRQUFRLENBQUU7SUFBQTtJQUNoQixjQUFZOzZDQUNaLE9BQU87OztFQUlSLHVDQUNPOztHQUFOLG9CQUFNO0dBQ04sc0JBQ08sZUFBQTtJQUFOLFFBQUssV0FBQSxFQUNDO1lBQUwsUUFBTyxZQUNDOztzQkFBUCxFQUNNLFVBQUE7Y0FBSjtNQUFBO3NCQUNGLEVBQ00sVUFBQTtjQUFKO01BQUE7c0JBQ0YsY0FDZ0IsVUFBQTtjQUFkO01BQUE7Ozs7K0JBQ0UsWUFDQzs7cUJBQU4sQ0FBRSxHQUFRO3FCQUNWLENBQUUsR0FBUTtxQkFDVixDQUFFLEdBQVE7Ozs7a0JBQ1gsaUJBQUEsSUFBUSxNQUN1QjtzQkFEM0I7OENBQWMsSUFBSTttREFDVixNQUFNO29CQUFNLE1BQU07SUFBQTtHQUFBOztFQUNoQyxxREFDWTs7R0FBWCxvQkFBTTs7O0VBRVIsdURBQ2E7O0dBQVosb0JBQU07a0JBRUoseUJBQUE7SUFBRCxnQkFBUTtHQUFBOztFQUVWLGtDQUNLOztHQUFKLG9CQUFNO2tCQUVKLGVBQUE7SUFBRCxnQkFBUTtHQUFBOztFQUVWLDRDQUNVOztHQUFULG9CQUFNO0dBQ04sc0JBQ08sZUFBQTs4Q0FBRCxDQUFFLEdBQUssTUFBTyxTQUFBLE9BQ0s7K0NBQWxCLEVBQUcsVUFBVSxFQUNHLFVBQUE7YUFBcEIsT0FBTTtLQUFBO0lBQUE7R0FBQTtrQkFDUixtQkFBQSxTQUFhLFdBQ2lCO3NCQURyQjtzQkFBYTtJQUN0QixXQUFTO1dBQ1Q7R0FBQTs7RUFsRkYsd0JBQUEiLCJmaWxlIjoiY29udHJvbC5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
