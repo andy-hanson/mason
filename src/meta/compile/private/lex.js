@@ -409,9 +409,21 @@ export default (context, sourceString) => {
 				// OTHER
 
 				case Hash:
-					if (!(tryEat(Space) || tryEat(Tab)))
-						context.fail(loc, () => `${code('#')} must be followed by space or tab.`)
-					skipRestOfLine()
+					if (tryEat(Hash)) {
+						// Multi-line comment
+						mustEat(Hash, '##')
+						while (true)
+							if (eat() === Hash && eat() === Hash && eat() === Hash) {
+								const nl = tryEat(Newline)
+								context.check(nl, loc, `#Closing {code('###')} must be followed by newline.`)
+								break
+							}
+					} else {
+						// Single-line comment
+						if (!(tryEat(Space) || tryEat(Tab)))
+							context.fail(loc, () => `${code('#')} must be followed by space or tab.`)
+						skipRestOfLine()
+					}
 					break
 
 				case Dot: {

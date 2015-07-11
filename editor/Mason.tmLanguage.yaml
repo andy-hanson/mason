@@ -81,6 +81,13 @@ patterns:
     comment: Interpolation
     match: \{[^\}]*\}
 
+- comment: Multi-line comment
+  name: comment
+  begin: '###'
+  end: '###'
+  patterns:
+  - name: invalid
+    match: "TODO"
 - comment: Comment
   name: comment
   begin: '#'
