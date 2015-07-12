@@ -2,20 +2,21 @@ import Loc from 'esast/dist/Loc'
 import { code } from '../../CompileError'
 import { AssignDestructure, AssignSingle, BagEntry, BagEntryMany, BagSimple, BlockBag, BlockDo,
 	BlockMap, BlockObj, BlockValOhNo, BlockWithReturn, BlockWrap, BreakDo, BreakVal, Call,
-	CaseDoPart, CaseValPart, CaseDo, CaseVal, ConditionalDo, ConditionalVal, Continue, Debug,
-	Iteratee, NumberLiteral, ForBag, ForDo, ForVal, Fun, GlobalAccess, Lazy, LD_Const, LD_Lazy,
-	LD_Mutable, LocalAccess, LocalDeclare, LocalDeclareFocus, LocalDeclareName, LocalDeclarePlain,
-	LocalDeclareRes, LocalDeclareUntyped, LocalMutate, MapEntry, Member, Module, ObjEntry, ObjPair,
-	ObjSimple, OhNo, Pattern, Quote, SP_Debugger, SpecialDo, SpecialVal, SV_Null, Splat, Val, Use,
-	UseDo, Yield, YieldTo } from '../../MsAst'
+	CaseDoPart, CaseValPart, CaseDo, CaseVal, Catch, ConditionalDo, ConditionalVal, Continue, Debug,
+	Iteratee, NumberLiteral, ExceptDo, ExceptVal, ForBag, ForDo, ForVal, Fun, GlobalAccess, Lazy,
+	LD_Const, LD_Lazy, LD_Mutable, LocalAccess, LocalDeclare, LocalDeclareFocus, LocalDeclareName,
+	LocalDeclarePlain, LocalDeclareRes, LocalDeclareUntyped, LocalMutate, MapEntry, Member, Module,
+	ObjEntry, ObjPair, ObjSimple, OhNo, Pattern, Quote, SP_Debugger, SpecialDo, SpecialVal,
+	SV_Null, Splat, Val, Use, UseDo, Yield, YieldTo } from '../../MsAst'
 import { JsGlobals } from '../language'
 import { DotName, Group, G_Block, G_Bracket, G_Parenthesis, G_Space, G_Quote, isGroup, isKeyword,
 	Keyword, KW_Assign, KW_AssignMutable, KW_BreakDo, KW_BreakVal, KW_CaseVal, KW_CaseDo,
-	KW_Continue, KW_Debug, KW_Debugger, KW_Ellipsis, KW_Else, KW_ForBag, KW_ForDo, KW_ForVal,
-	KW_Focus, KW_Fun, KW_FunDo, KW_GenFun, KW_GenFunDo, KW_IfDo, KW_IfVal, KW_In, KW_Lazy,
-	KW_LocalMutate, KW_MapEntry, KW_ObjAssign, KW_OhNo, KW_Pass, KW_Out, KW_Region, KW_Type,
-	KW_UnlessDo, KW_UnlessVal, KW_Use, KW_UseDebug, KW_UseDo, KW_UseLazy, KW_Yield, KW_YieldTo,
-	Name, opKeywordKindToSpecialValueKind } from '../Token'
+	KW_CatchDo, KW_CatchVal, KW_Continue, KW_Debug, KW_Debugger, KW_Ellipsis, KW_Else, KW_ExceptDo,
+	KW_ExceptVal, KW_Finally, KW_ForBag, KW_ForDo, KW_ForVal, KW_Focus, KW_Fun, KW_FunDo,
+	KW_GenFun, KW_GenFunDo, KW_IfDo, KW_IfVal, KW_In, KW_Lazy, KW_LocalMutate, KW_MapEntry,
+	KW_ObjAssign, KW_OhNo, KW_Pass, KW_Out, KW_Region, KW_TryDo, KW_TryVal, KW_Type, KW_UnlessDo,
+	KW_UnlessVal, KW_Use, KW_UseDebug, KW_UseDo, KW_UseLazy, KW_Yield, KW_YieldTo, Name,
+	keywordName, opKeywordKindToSpecialValueKind } from '../Token'
 import { assert, head, ifElse, flatMap, isEmpty, last,
 	opIf, opMap, push, repeat, rtail, tail, unshift } from '../util'
 import Slice from './Slice'
@@ -81,8 +82,16 @@ const
 
 	blockWrap = tokens => BlockWrap(tokens.loc, parseBlockVal(tokens)),
 
-	justBlockDo = tokens => parseBlockDo(_justBlock(tokens)),
-	justBlockVal = tokens => parseBlockVal(_justBlock(tokens)),
+	justBlock = (keyword, tokens) => {
+		const [ before, block ] = beforeAndBlock(tokens)
+		checkEmpty(before, () =>
+			`Did not expect anything between ${code(keywordName(keyword))} and block.`)
+		return block
+	},
+	justBlockDo = (keyword, tokens) =>
+		parseBlockDo(justBlock(keyword, tokens)),
+	justBlockVal = (keyword, tokens) =>
+		parseBlockVal(justBlock(keyword, tokens)),
 
 	// Gets lines in a region or Debug.
 	parseLinesFromBlock = tokens => {
@@ -171,12 +180,6 @@ const
 
 // parseBlock privates
 const
-	_justBlock = tokens => {
-		const [ before, block ] = beforeAndBlock(tokens)
-		checkEmpty(before, 'Expected just a block.')
-		return block
-	},
-
 	_tryTakeLastVal = lines =>
 		(!isEmpty(lines) && last(lines) instanceof Val) ?
 			[ rtail(lines), last(lines) ] :
@@ -234,7 +237,7 @@ const parseCase = (isVal, casedFromFun, tokens) => {
 
 	const lastLine = Slice.group(block.last())
 	const [ partLines, opElse ] = isKeyword(KW_Else, lastLine.head()) ?
-		[ block.rtail(), (isVal ? justBlockVal : justBlockDo)(lastLine.tail()) ] :
+		[ block.rtail(), (isVal ? justBlockVal : justBlockDo)(KW_Else, lastLine.tail()) ] :
 		[ block, null ]
 
 	const parts = partLines.map(line => {
@@ -303,9 +306,9 @@ const
 		const opSplit = tokens.opSplitOnceWhere(token => {
 			if (token instanceof Keyword)
 				switch (token.kind) {
-					case KW_CaseVal: case KW_ForBag: case KW_ForVal: case KW_Fun: case KW_FunDo:
-					case KW_GenFun: case KW_GenFunDo: case KW_IfVal: case KW_UnlessVal:
-					case KW_Yield: case KW_YieldTo:
+					case KW_CaseVal: case KW_ExceptVal: case KW_ForBag: case KW_ForVal:
+					case KW_Fun: case KW_FunDo: case KW_GenFun: case KW_GenFunDo: case KW_IfVal:
+					case KW_UnlessVal: case KW_Yield: case KW_YieldTo:
 						return true
 					default:
 						return false
@@ -318,6 +321,8 @@ const
 					switch (at.kind) {
 						case KW_CaseVal:
 							return parseCase(true, false, after)
+						case KW_ExceptVal:
+							return parseExcept(KW_ExceptVal, after)
 						case KW_ForBag:
 							return parseForBag(after)
 						case KW_ForVal:
@@ -455,6 +460,8 @@ const
 		// We only deal with mutable expressions here, otherwise we fall back to parseExpr.
 		if (head instanceof Keyword)
 			switch (head.kind) {
+				case KW_ExceptDo:
+					return parseExcept(KW_ExceptDo, rest)
 				case KW_BreakDo:
 					noRest()
 					return BreakDo(tokens.loc)
@@ -843,4 +850,66 @@ const
 		if (block.lines.length === 1 && block.lines[0] instanceof Val)
 			block.lines[0] = BagEntry(block.lines[0].loc, block.lines[0])
 		return ForBag.of(tokens.loc, _parseOpIteratee(before), block)
+	}
+
+
+const
+	parseExcept = (kwExcept, tokens) => {
+		const
+			isVal = kwExcept === KW_ExceptVal,
+			justDoValBlock = isVal ? justBlockVal : justBlockDo,
+			parseBlock = isVal ? parseBlockVal : parseBlockDo,
+			Except = isVal ? ExceptVal : ExceptDo,
+			kwTry = isVal ? KW_TryVal : KW_TryDo,
+			kwCatch = isVal ? KW_CatchVal : KW_CatchDo,
+			nameTry = () => code(keywordName(kwTry)),
+			nameCatch = () => code(keywordName(kwCatch)),
+			nameFinally = () => code(keywordName(KW_Finally))
+
+		const lines = justBlock(kwExcept, tokens)
+
+		// `try` *must* come first.
+		const firstLine = Slice.group(lines.head())
+		const tokenTry = firstLine.head()
+		context.check(isKeyword(kwTry, tokenTry), tokenTry.loc, () =>
+			`Must start with ${nameTry()}`)
+		const _try = justDoValBlock(kwTry, firstLine.tail())
+
+		const restLines = lines.tail()
+		checkNonEmpty(restLines, () =>
+			`Must have at least one of ${nameCatch()} or ${nameFinally()}`)
+
+		const handleFinally = restLines => {
+			const line = Slice.group(restLines.head())
+			const tokenFinally = line.head()
+			context.check(isKeyword(KW_Finally, tokenFinally), tokenFinally.loc, () =>
+				`Expected ${nameFinally()}`)
+			context.check(restLines.size() === 1, restLines.loc, () =>
+				`Nothing is allowed to come after ${nameFinally()}.`)
+			return justBlockDo(KW_Finally, line.tail())
+		}
+
+		let _catch, _finally
+
+		const line2 = Slice.group(restLines.head())
+		const head2 = line2.head()
+		if (isKeyword(kwCatch, head2)) {
+			const [ before2, block2 ] = beforeAndBlock(line2.tail())
+			const caught = _parseOneLocalDeclareOrFocus(before2)
+			_catch = Catch(line2.loc, caught, parseBlock(block2))
+			_finally = opIf(restLines.size() > 1, () => handleFinally(restLines.tail()))
+		} else {
+			_catch = null
+			_finally = handleFinally(restLines)
+		}
+
+		return Except(tokens.loc, _try, _catch, _finally)
+	},
+	_parseOneLocalDeclareOrFocus = tokens => {
+		if (tokens.isEmpty())
+			return LocalDeclareFocus(tokens.loc)
+		else {
+			context.check(tokens.size() === 1, 'Expected only one local declare.')
+			return parseLocalDeclares(tokens)[0]
+		}
 	}

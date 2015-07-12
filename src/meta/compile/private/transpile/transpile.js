@@ -1,7 +1,7 @@
 import { ArrayExpression, BinaryExpression, BlockStatement, BreakStatement, CallExpression,
-	ConditionalExpression, ContinueStatement, DebuggerStatement, ExpressionStatement,
+	CatchClause, ConditionalExpression, ContinueStatement, DebuggerStatement, ExpressionStatement,
 	ForOfStatement, FunctionExpression, Identifier, IfStatement, Literal, MemberExpression,
-	ObjectExpression, Program, ReturnStatement, ThisExpression, ThrowStatement,
+	ObjectExpression, Program, ReturnStatement, ThisExpression, ThrowStatement, TryStatement,
 	VariableDeclaration, UnaryExpression, VariableDeclarator, ReturnStatement
 	} from 'esast/dist/ast'
 import { idCached, loc, member, propertyIdOrLiteralCached, toStatement } from 'esast/dist/util'
@@ -22,8 +22,8 @@ import { AmdefineHeader, ArraySliceCall, DeclareBuiltBag, DeclareBuiltMap, Decla
 import { IdMs, lazyWrap, msAdd, msAddMany, msArr, msAssoc, msBool, msCheckContains, msError,
 	msExtract, msGet, msGetDefaultExport, msGetModule, msLazy, msLazyGet, msLazyGetModule, msSet,
 	msSetName, msSetLazy, msShow, msSome, MsNone } from './ms-call'
-import { accessLocalDeclare, declare, forStatementInfinite,
-	idForDeclareCached, throwErrorFromString } from './util'
+import { accessLocalDeclare, declare, forStatementInfinite, idForDeclareCached,
+	opTypeCheckForLocalDeclare, throwErrorFromString } from './util'
 
 let context, verifyResults, isInGenerator
 
@@ -37,8 +37,9 @@ export default (_context, moduleExpression, _verifyResults) => {
 	return res
 }
 
+export const
+	t0 = expr => loc(expr.transpileSubtree(), expr.loc)
 const
-	t0 = expr => loc(expr.transpileSubtree(), expr.loc),
 	t1 = (expr, arg) => loc(expr.transpileSubtree(arg), expr.loc),
 	t3 = (expr, arg, arg2, arg3) => loc(expr.transpileSubtree(arg, arg2, arg3), expr.loc),
 	tLines = exprs => {
@@ -168,15 +169,17 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 			ConditionalExpression(test, result, MsNone)
 	},
 
+	Catch() {
+		return CatchClause(t0(this.caught), t0(this.block))
+	},
+
 	Continue() { return ContinueStatement() },
 
 	// TODO: includeInoutChecks is misnamed
 	Debug() { return context.opts.includeInoutChecks() ? tLines(this.lines) : [ ] },
 
-	ObjSimple() {
-		return ObjectExpression(this.pairs.map(pair =>
-			property('init', propertyIdOrLiteralCached(pair.key), t0(pair.value))))
-	},
+	ExceptDo() { return transpileExcept(this) },
+	ExceptVal() { return blockWrap(BlockStatement([ transpileExcept(this) ])) },
 
 	ForDo() { return forLoop(this.opIteratee, this.block) },
 
@@ -200,16 +203,8 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 		const nArgs = Literal(this.args.length)
 		const opDeclareRest = opMap(this.opRestArg, rest =>
 			declare(rest, CallExpression(ArraySliceCall, [IdArguments, nArgs])))
-		const argChecks =
-			opIf(context.opts.includeTypeChecks(), () =>
-				flatOpMap(this.args, _ =>
-					// TODO: Way to typecheck lazies
-					opIf(!_.isLazy(), () =>
-						opMap(_.opType, type =>
-							ExpressionStatement(msCheckContains(
-								t0(type),
-								accessLocalDeclare(_),
-								Literal(_.name)))))))
+		const argChecks = opIf(context.opts.includeTypeChecks(), () =>
+			flatOpMap(this.args, opTypeCheckForLocalDeclare))
 
 		const _in = opMap(this.opIn, t0)
 		const lead = cat(opDeclareRest, argChecks, _in)
@@ -263,6 +258,11 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 				t0(this.assign),
 				this.assign.allAssignees().map(_ =>
 					msSetLazy(IdBuilt, Literal(_.name), idForDeclareCached(_))))
+	},
+
+	ObjSimple() {
+		return ObjectExpression(this.pairs.map(pair =>
+			property('init', propertyIdOrLiteralCached(pair.key), t0(pair.value))))
 	},
 
 	OhNo() {
@@ -361,7 +361,13 @@ const
 			},
 			() => cat(opOut, ReturnStatement(returned)))
 		return BlockStatement(cat(lead, lines, fin))
-	}
+	},
+
+	transpileExcept = except =>
+		TryStatement(
+			t0(except._try),
+			opMap(except._catch, t0),
+			opMap(except._finally, t0))
 
 // Module helpers
 const

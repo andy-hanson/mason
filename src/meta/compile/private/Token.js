@@ -101,8 +101,11 @@ const
 	}
 
 // Reserved words
-; [ 'as', 'gen', 'gen!', 'of', 'of!', 'return', 'to', 'with' ].forEach(name =>
-	keywordNameToKind.set(name, -1))
+const reserved_words =
+	[ 'as', 'class', 'construct', 'data', 'gen', 'gen!', 'of', 'of!', 'return', 'static', 'to',
+		'with' ]
+for (const name of reserved_words)
+	keywordNameToKind.set(name, -1)
 
 export const
 	KW_Assign = kw('='),
@@ -113,13 +116,18 @@ export const
 	KW_Built = kw('built'),
 	KW_CaseDo = kw('case!'),
 	KW_CaseVal = kw('case'),
+	KW_CatchDo = kw('catch!'),
+	KW_CatchVal = kw('catch'),
 	KW_Continue = kw('continue!'),
 	KW_Debug = kw('debug'),
 	KW_Debugger = kw('debugger!'),
 	// Three dots followed by a space, as in `... things-added-to-@`.
 	KW_Ellipsis = kw('... '),
 	KW_Else = kw('else'),
+	KW_ExceptDo = kw('except!'),
+	KW_ExceptVal = kw('except'),
 	KW_False = kw('false'),
+	KW_Finally = kw('finally!'),
 	KW_Focus = kwNotName('_'),
 	KW_ForBag = kw('@for'),
 	KW_ForDo = kw('for!'),
@@ -142,6 +150,8 @@ export const
 	KW_This = kw('this'),
 	KW_ThisModuleDirectory = kw('this-module-directory'),
 	KW_True = kw('true'),
+	KW_TryDo = kw('try!'),
+	KW_TryVal = kw('try'),
 	KW_Type = kwNotName(':'),
 	KW_Undefined = kw('undefined'),
 	KW_UnlessVal = kw('unless'),
@@ -153,6 +163,8 @@ export const
 	KW_Yield = kw('<~'),
 	KW_YieldTo = kw('<~~'),
 
+	keywordName = kind =>
+		keywordKindToName.get(kind),
 	// Returns -1 for reserved keyword or undefined for not-a-keyword.
 	opKeywordKindFromName = name =>
 		keywordNameToKind.get(name),

@@ -2,12 +2,10 @@ use
 	.@.@-Type empty
 	.@.?
 	.$ _ $after
-	.Boolean and
 	.compare =?
-	.Function Action
+	.Function Action noop
 	.js new
 	.private.bootstrap ms
-	.private.js-impl alwaysDoAfter iTry
 	.Object p
 	.Object! p!
 	.Type.Method self-impl!
@@ -18,8 +16,7 @@ use
 	.Type.Wrap-Type
 use-debug
 	.! _ !not
-	.control build
-	.Function noop thunk
+	.Function thunk
 	.$ $rejected $resolved
 
 # TODO:SYNTAX One-line fun
@@ -35,15 +32,19 @@ Try. Kind
 
 self-impl! => Error (p ms "error"
 
-try.
+try-result.
 	doc. "
 		If `tried` throws an error, returns it; else returns Success of its result.
 		If you don't care about the value of the error, use `?try` instead.
 	test. |
 		[ (thunk 1) ] -> Success 1
-		! =? (try fail!).message "Oh no!"
-	|tried:Function[Any]
-		iTry Success tried
+		! =? (try-result fail!).message "Oh no!"
+	|tried:Action
+		except
+			try
+				Success tried()
+			catch
+				_
 
 ?try.
 	doc. "
@@ -54,10 +55,11 @@ try.
 		[ (thunk 1) ] -> ? 1
 		[ fail! ] -> empty ?
 	|tried:Function[Any]
-		case try tried
-			:Success
-				? _.val
-			else
+		except
+			try
+				? tried()
+			catch
+				noop_
 				empty ?
 
 fails?.
@@ -65,8 +67,14 @@ fails?.
 	test. !|
 		! fails? fail!
 		!not fails? noop
-	|_:Action
-		contains? Error try_
+	|tried:Action
+		except
+			try
+				tried()
+				false
+			catch
+				noop_
+				true
 
 fails-with?.
 	doc. "Whether the Function throws an error of the given type or with the given message."
@@ -75,14 +83,17 @@ fails-with?.
 			oh-no! "message"
 		! fails-with? TypeError |
 			null.missing-property
-	|expected-error:Union[String Type] act:Action
-		result = try act
-		and (contains? Error result) ~
-			case expected-error
-				:Type
-					contains? _ result
-				:String
-					=? result.message _
+	|expected-error:Union[String Type] tried:Action
+		except
+			try
+				tried()
+				false
+			catch error
+				case expected-error
+					:Type
+						contains? _ error
+					:String
+						=? error.message _
 
 error-type.
 	doc. "
@@ -110,15 +121,6 @@ error-type.
 		args = Object.assign default-args opts
 		Obj-Type args
 
-always-do-after.
-	doc. "Executes `finally-do`, even if there are errors."
-	test. !|
-		! =? [ 0 ] (build |yield
-			try !|
-				always-do-after fail! yield[0]
-	|tried:Function[Any] finally-do:Action
-		alwaysDoAfter tried finally-do
-
 annotate-errors.
 	doc. "If there are thrown errors, prepends `annotation` to their stack and message."
 	test. |
@@ -126,10 +128,10 @@ annotate-errors.
 			annotate-errors "a" !|
 				oh-no! "b"
 	|~annotation:String tried:Action
-		case try tried
-			:Success
-				_.val
-			else
+		except
+			try
+				tried()
+			catch
 				p! _ "stack" "{annotation}{_.stack}"
 				p! _ "message" "{annotation}{_.message}"
 				oh-no! _

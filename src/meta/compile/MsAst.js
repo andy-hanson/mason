@@ -269,6 +269,18 @@ export const
 		'TODO:DOC',
 		[ ]),
 
+	// Except
+	Catch = m('CatchDo',
+		'TODO:DOC',
+		[ 'caught', LocalDeclare, 'block', BlockDo ]),
+	ExceptDo = d('ExceptDo',
+		'TODO:DOC',
+		[ '_try', BlockDo, '_catch', Nullable(Catch), '_finally', Nullable(BlockDo) ]),
+	ExceptVal = v('ExceptVal',
+		'TODO:DOC',
+		[ '_try', BlockVal, '_catch', Nullable(Catch), '_finally', Nullable(BlockDo) ]),
+
+
 	// Other statements
 	ConditionalDo = d('ConditionalDo',
 		'TODO:DOC',

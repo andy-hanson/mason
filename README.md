@@ -9,10 +9,11 @@ It is currently in progress.
 
 ## Build
 
-	# See https://github.com/joyent/node/issues/14195
-	nvm use 0.11.14
+	# Currently only works in io.js
+	nvm use iojs
 	npm install
-	./gulp all
+	./gulp compile-all
+	./gulp run
 
 
 ## Run

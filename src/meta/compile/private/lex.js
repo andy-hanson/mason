@@ -415,13 +415,15 @@ export default (context, sourceString) => {
 						while (true)
 							if (eat() === Hash && eat() === Hash && eat() === Hash) {
 								const nl = tryEat(Newline)
-								context.check(nl, loc, `#Closing {code('###')} must be followed by newline.`)
+								context.check(nl, loc, () =>
+									`#Closing {code('###')} must be followed by newline.`)
 								break
 							}
 					} else {
 						// Single-line comment
 						if (!(tryEat(Space) || tryEat(Tab)))
-							context.fail(loc, () => `${code('#')} must be followed by space or tab.`)
+							context.fail(loc, () =>
+								`${code('#')} must be followed by space or tab.`)
 						skipRestOfLine()
 					}
 					break

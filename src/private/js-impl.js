@@ -56,22 +56,6 @@ export	const
 		_ != null && _[kind['symbol-for-isa']] !== undefined,
 	isEmpty = array => array.length === 0,
 
-	// Try.ms
-	alwaysDoAfter = (tried, finallyDo) => {
-		try {
-			return tried()
-		} finally {
-			finallyDo()
-		}
-	},
-	iTry = (Success, tried) => {
-		try {
-			return Success(tried())
-		} catch (e) {
-			return e
-		}
-	},
-
 	// show.ms
 	newSet = () => new Set(),
 

@@ -17,7 +17,6 @@ gulp.task('default', [ 'watch' ])
 
 gulp.task('compile-all', [ 'js', 'ms', 'list-modules' ])
 gulp.task('watch', [ 'watch-js', 'watch-ms', 'watch-list-modules' ])
-gulp.task('all', [ 'compile-all' ], run)
 gulp.task('all-minus-js', [ 'ms-minus-js' ], run)
 gulp.task('all-no-checks', [ 'ms-no-checks' ], run)
 

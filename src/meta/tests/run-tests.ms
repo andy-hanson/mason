@@ -12,7 +12,7 @@ use
 	...Generator!
 	...js defined?
 	...Object ?p p p? @p @p-all
-	...Try $annotate-errors annotate-errors Success try
+	...Try $annotate-errors annotate-errors ?try
 	...Type.Impl-Type
 	...Type.Kind _ concrete-implementors
 	...Type.Method _ impl! impl-for
@@ -55,12 +55,10 @@ impl! test-special Impl-Type |type
 	$all @for prototype in ?p type "prototype"
 		for! name in @p-all prototype
 			# Some prototype properties throw errors. For example, global.Map.size.
-			# TODO:SYNTAX Inline fun
-			_ = try |
-				?p prototype name
-			if! :Success
-				for! prop-val in _.val
-					... @$maybe-test ~"{type}#{name}" prop-val false
+			?prop-val = ?try |
+				p prototype name
+			for! prop-val in ?prop-val
+				... @$maybe-test ~"{type}#{name}" prop-val false
 
 # TODO: MOVE THESE
 impl! test-special Kind |_

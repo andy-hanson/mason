@@ -7,7 +7,7 @@
 	"dependencies": {
 		"esast": "andy-hanson/esast",
 		"tupl": "andy-hanson/tupl",
-		"amdefine": "0.1.1",
+		"amdefine": "1.0.0",
 		"chalk": "1.1.0",
 		"gulp-util": "3.0.6",
 		"q-io": "1.13.1",
@@ -35,8 +35,8 @@
 		"url": "https://github.com/andy-hanson/mason"
 	},
 	"engines": {
-		"//": "Crashes in 0.11.15+!",
-		"node": "0.11.14"
+		"//": "Crashes in node.js (https://github.com/joyent/node/issues/14195)",
+		"iojs": "2.3.4"
 	},
 	"eslintConfig": {
 		"env": {

@@ -1,9 +1,11 @@
-import { ForStatement, Identifier, Literal, NewExpression, Statement,
+import { ExpressionStatement, ForStatement, Identifier, Literal, NewExpression, Statement,
 	ThrowStatement, VariableDeclarator } from 'esast/dist/ast'
 import mangleIdentifier from 'esast/dist/mangle-identifier'
 import specialize, { variableDeclarationConst } from 'esast/dist/specialize'
+import { opIf, opMap } from '../util'
 import { IdError } from './ast-constants'
-import { msUnlazy } from './ms-call'
+import { msCheckContains, msUnlazy } from './ms-call'
+import { t0 } from './transpile'
 
 export const
 	accessLocalDeclare = localDeclare =>
@@ -26,6 +28,15 @@ export const
 		}
 		return _
 	},
+
+	opTypeCheckForLocalDeclare = localDeclare =>
+		// TODO: Way to typecheck lazies
+		opIf(!localDeclare.isLazy(), () =>
+			opMap(localDeclare.opType, type =>
+				ExpressionStatement(msCheckContains(
+					t0(type),
+					accessLocalDeclare(localDeclare),
+					Literal(localDeclare.name))))),
 
 	throwErrorFromString = msg =>
 		ThrowStatement(NewExpression(IdError, [ Literal(msg) ]))

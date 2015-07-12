@@ -251,6 +251,10 @@ implementMany(MsAstTypes, 'verify', {
 	CaseVal() { withIIFE(() => verifyCase(this)) },
 	CaseValPart: verifyCasePart,
 
+	Catch() {
+		context.check(this.caught.opType === null, this.caught.loc, 'TODO: Caught types')
+		verifyAndPlusLocal(this.caught, () => this.block.verify())
+	},
 
 	ConditionalDo() {
 		this.test.verify()
@@ -265,6 +269,9 @@ implementMany(MsAstTypes, 'verify', {
 
 	// Only reach here for in/out condition.
 	Debug() { verifyLines([ this ]) },
+
+	ExceptDo: verifyExcept,
+	ExceptVal: verifyExcept,
 
 	ForBag() { verifyAndPlusLocal(this.built, () => verifyFor(this)) },
 
@@ -409,6 +416,12 @@ function verifyCasePart() {
 		this.test.verify()
 		this.result.verify()
 	}
+}
+
+function verifyExcept() {
+	this._try.verify()
+	opEach(this._catch, verify)
+	opEach(this._finally, verify)
 }
 
 // Helpers specific to certain MsAst types:
