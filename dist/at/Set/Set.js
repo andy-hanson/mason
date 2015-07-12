@@ -7,7 +7,7 @@ define(["exports","../../Boolean","../../compare","../../Type/Type","../../Type/
 		}),_$12=_ms.lazyGetModule(_64_8),_45_45=_ms.lazyProp(_$12,"--");
 		const Set=Kind(function(){
 			const built={};
-			const doc=built.doc="@ without repeat values.";
+			const doc=built.doc=`@ without repeat values.`;
 			return _ms.setName(built,"Set")
 		}());
 		self_45kind_33(Set,_64_45Type,function(){
@@ -23,7 +23,7 @@ define(["exports","../../Boolean","../../compare","../../Type/Type","../../Type/
 		kind_33(Set,_64);
 		impl_33(_61_63,Set,function(){
 			const built={};
-			const doc=built.doc="Two Sets are =? if they have the same type and contain the same values.";
+			const doc=built.doc=`Two Sets are =? if they have the same type and contain the same values.`;
 			const test=built.test=function test(){
 				const built=new global.Map();
 				const a=_61_62(Set,[1,2]);
@@ -42,7 +42,7 @@ define(["exports","../../Boolean","../../compare","../../Type/Type","../../Type/
 		}());
 		const set_61_63=exports["set=?"]=function(){
 			const built={};
-			const doc=built.doc="Whether two @s have the same values, regardless of order or count.";
+			const doc=built.doc=`Whether two @s have the same values, regardless of order or count.`;
 			const test=built.test=function test(){
 				const built=new global.Map();
 				_ms.assoc(built,[[1,2,3],[3,2,1]],true);
@@ -58,7 +58,7 @@ define(["exports","../../Boolean","../../compare","../../Type/Type","../../Type/
 		}();
 		const intersect=exports.intersect=Method(function(){
 			const built={};
-			const doc=built.doc="TODO";
+			const doc=built.doc=`TODO`;
 			const test=built.test=function test(){
 				const built=new global.Map();
 				_ms.assoc(built,[_61_62(Set,[1,2]),_61_62(Set,[2,3])],_61_62(Set,[2]));
@@ -70,7 +70,7 @@ define(["exports","../../Boolean","../../compare","../../Type/Type","../../Type/
 			};
 			return _ms.setName(built,"intersect")
 		}());
-		const name=exports.name="Set";
+		const name=exports.name=`Set`;
 		exports.default=Set;
 		return exports
 	})

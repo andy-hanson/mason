@@ -6,12 +6,11 @@ export const
 
 	cat = (...parts) => {
 		const out = [ ]
-		parts.forEach(_ => {
+		for (const _ of parts)
 			if (_ instanceof Array)
 				out.push(..._)
 			else if (_ !== null)
 				out.push(_)
-		})
 		return out
 	},
 
@@ -22,14 +21,16 @@ export const
 
 	flatMap = (mapped, mapper) => {
 		const out = []
-		mapped.forEach((_, i) => out.push(...mapper(_, i)))
+		for (let i = 0; i < mapped.length; i = i + 1)
+			out.push(...mapper(mapped[i], i))
 		return out
 	},
 
 	// flatMap where opMapper returns optionals instead of arrays.
 	flatOpMap = (arr, opMapper) => {
 		const out = [ ]
-		arr.forEach(em => opEach(opMapper(em), _ => out.push(_)))
+		for (const em of arr)
+			opEach(opMapper(em), _ => out.push(_))
 		return out
 	},
 
@@ -41,9 +42,10 @@ export const
 	ifElse = (op, ifSome, ifNone) =>
 		op === null ? ifNone() : ifSome(op),
 
-	implementMany = (holder, methodName, nameToImpl) =>
-		Object.keys(nameToImpl).forEach(name =>
-			holder[name].prototype[methodName] = nameToImpl[name]),
+	implementMany = (holder, methodName, nameToImpl) => {
+		for (const name in nameToImpl)
+			holder[name].prototype[methodName] = nameToImpl[name]
+	},
 
 	isEmpty = arr => arr.length === 0,
 
@@ -60,21 +62,6 @@ export const
 	last = arr => {
 		assert(!isEmpty(arr))
 		return arr[arr.length - 1]
-	},
-
-	// TODO:ES6 map.keys()
-	mapKeys = map => {
-		const res = [ ]
-		map.forEach((value, key) => res.push(key))
-		return res
-	},
-
-	// TODO:ES6 Just use `new Set`
-	newSet = function() {
-		const set = new Set()
-		for (let i = 0; i < arguments.length; i = i + 1)
-			arguments[i].forEach(_ => set.add(_))
-		return set
 	},
 
 	opEach = (op, mapper) =>

@@ -3,7 +3,7 @@ import * as MsAstTypes from '../MsAst'
 import { Assign, AssignDestructure, AssignSingle, BlockVal, Call, Debug, Do, ForVal,
 	LocalDeclareBuilt, LocalDeclareRes, ObjEntry, Pattern, Yield, YieldTo } from '../MsAst'
 import { assert, cat, eachReverse, head, ifElse, implementMany,
-	isEmpty, mapKeys, newSet, opEach } from './util'
+	isEmpty, iteratorToArray, opEach } from './util'
 import VerifyResults, { LocalInfo } from './VerifyResults'
 
 /*
@@ -124,12 +124,12 @@ const
 	// Should have verified that addedLocals all have different names.
 	plusLocals = (addedLocals, action) => {
 		const shadowedLocals = [ ]
-		addedLocals.forEach(_ => {
+		for (const _ of addedLocals) {
 			const shadowed = locals.get(_.name)
 			if (shadowed !== undefined)
 				shadowedLocals.push(shadowed)
 			setLocal(_)
-		})
+		}
 
 		action()
 
@@ -145,11 +145,11 @@ const
 	verifyAndPlusLocals = (addedLocals, action) => {
 		addedLocals.forEach(verifyLocalDeclare)
 		const names = new Set()
-		addedLocals.forEach(_ => {
+		for (const _ of addedLocals) {
 			context.check(!names.has(_.name), _.loc, () =>
 				`Duplicate local ${code(_.name)}`)
 			names.add(_.name)
-		})
+		}
 		plusLocals(addedLocals, action)
 	},
 
@@ -328,10 +328,11 @@ implementMany(MsAstTypes, 'verify', {
 		this.uses.forEach(verify)
 		withInDebug(() => this.debugUses.forEach(verify))
 		const newLocals = verifyLines(this.lines)
-		this.exports.forEach(_ => accessLocalForReturn(_, this))
+		for (const _ of this.exports)
+			accessLocalForReturn(_, this)
 		opEach(this.opDefaultExport, _ => plusLocals(newLocals, () => _.verify()))
 
-		const exports = newSet(this.exports)
+		const exports = new Set(this.exports)
 		const markExportLines = line => {
 			if (line instanceof Assign && line.allAssignees().some(_ => exports.has(_)))
 				results.exportAssigns.add(line)
@@ -344,16 +345,18 @@ implementMany(MsAstTypes, 'verify', {
 	ObjEntry() {
 		accessLocal(this, 'built')
 		this.assign.verify()
-		this.assign.allAssignees().forEach(_ => accessLocal(this, _.name))
+		for (const _ of this.assign.allAssignees())
+			accessLocal(this, _.name)
 	},
 
 	ObjSimple() {
 		const keys = new Set()
-		this.pairs.forEach(pair => {
-			context.check(!keys.has(pair.key), pair.loc, () => `Duplicate key ${pair.key}`)
-			keys.add(pair.key)
-			pair.value.verify()
-		})
+		for (const pair of this.pairs) {
+			const { key, value } = pair
+			context.check(!keys.has(key), pair.loc, () => `Duplicate key ${key}`)
+			keys.add(key)
+			value.verify()
+		}
 	},
 
 	OhNo() {
@@ -361,10 +364,9 @@ implementMany(MsAstTypes, 'verify', {
 	},
 
 	Quote() {
-		this.parts.forEach(_ => {
+		for (const _ of this.parts)
 			if (typeof _ !== 'string')
 				_.verify()
-		})
 	},
 
 	SpecialDo() { },
@@ -457,8 +459,10 @@ const
 const
 	getLocalDeclare = (name, accessLoc) => {
 		const declare = locals.get(name)
-		context.check(declare !== undefined, accessLoc, () =>
-			`No such local ${code(name)}.\nLocals are:\n${code(mapKeys(locals).join(' '))}.`)
+		context.check(declare !== undefined, accessLoc, () => {
+			const showLocals = code(iteratorToArray(locals.keys()).join(' '))
+			return `No such local ${code(name)}.\nLocals are:\n${showLocals}.`
+		})
 		return declare
 	},
 
@@ -520,7 +524,7 @@ const
 				withInDebug(() => line.lines.forEach(verifyLine))
 			else {
 				verifyIsStatement(line)
-				lineNewLocals(line).forEach(newLocal => {
+				for (const newLocal of lineNewLocals(line)) {
 					const name = newLocal.name
 					const oldLocal = locals.get(name)
 					if (oldLocal !== undefined) {
@@ -535,7 +539,7 @@ const
 					// We added pendingBlockLocals in the right order that we can just pop them off.
 					const popped = pendingBlockLocals.pop()
 					assert(popped === newLocal)
-				})
+				}
 				line.verify()
 			}
 		}
@@ -543,7 +547,7 @@ const
 		lines.forEach(verifyLine)
 
 		newLocals.forEach(deleteLocal)
-		shadowed.forEach(_ => setLocal(_))
+		shadowed.forEach(setLocal)
 
 		return newLocals
 	},

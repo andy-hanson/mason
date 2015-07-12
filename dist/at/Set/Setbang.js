@@ -9,7 +9,7 @@ define(["exports","../../Type/Kind","../atbang","../at-Type","../at-Type","./Set
 		}),_$10=_ms.lazyGetModule(_33_6),_33not=_ms.lazyProp(_$10,"!not"),_$11=_ms.lazyGetModule(Type_7),contains_63=_ms.lazyProp(_$11,"contains?"),_$12=_ms.lazyGetModule(_64_8),empty_63=_ms.lazyProp(_$12,"empty?"),_$13=_ms.lazyGetModule(_64_33_9),_43_43_33=_ms.lazyProp(_$13,"++!"),_45_45_33=_ms.lazyProp(_$13,"--!"),empty_33=_ms.lazyProp(_$13,"empty!");
 		const Set_33=Kind(function(){
 			const built={};
-			const doc=built.doc="Mutable Set.";
+			const doc=built.doc=`Mutable Set.`;
 			const implementor_45test=built["implementor-test"]=function implementor_45test(type){
 				const _=empty(type);
 				_ms.unlazy(_43_43_33)(_,[1,2]);
@@ -36,7 +36,7 @@ define(["exports","../../Type/Kind","../atbang","../at-Type","../at-Type","./Set
 		}());
 		kind_33(Set_33,Set);
 		kind_33(Set_33,_64_33);
-		const name=exports.name="Set!";
+		const name=exports.name=`Set!`;
 		exports.default=Set_33;
 		return exports
 	})

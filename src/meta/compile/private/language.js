@@ -1,7 +1,5 @@
-import { newSet } from './util'
-
 // TODO: Allow Opts to specify additional globals.
-export const JsGlobals = newSet([
+export const JsGlobals = new Set([
 	'Array',
 	'Boolean',
 	'Buffer',

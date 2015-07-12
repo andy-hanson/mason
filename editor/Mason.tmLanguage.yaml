@@ -127,7 +127,7 @@ patterns:
 
 - comment: A language keyword.
   name: keyword
-  match: (_|->|except!?|break!?|built|case!?|catch!?|class|construct|continue!|data|debug|debugger|else|false|finally!|@for~?|for!?|if!?|in|null|oh-no!|out|pass|returning|static|switch!?|this|this-module-directory|true|try!?|undefined|unless!?|use|use-debug|use!|use~|<~|<~~)(\s)
+  match: (!|_|->|except!?|break!?|built|case!?|catch!?|class|construct|continue!|data|debug|debugger|else|false|finally!|@for~?|for!?|if!?|in|new|null|oh-no!|out|pass|returning|static|switch!?|this|this-module-directory|true|try!?|undefined|unless!?|use|use-debug|use!|use~|<~|<~~)(\s)
 
 - comment: Bracket
   name: keyword

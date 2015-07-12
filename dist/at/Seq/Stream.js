@@ -7,7 +7,7 @@ define(["exports","../../Function","../../Generatorbang","../../Type/Js-Method",
 		}),_$12=_ms.lazyGetModule(Seq_9),seq_61_63=_ms.lazyProp(_$12,"seq=?");
 		const Stream=Wrap_45Type(function(){
 			const built={};
-			const doc=built.doc="A Stream is a @ whose elements are the outputs of a Generator!.\nUnlike a Generator!, a Stream can be used multiple times.";
+			const doc=built.doc=`A Stream is a @ whose elements are the outputs of a Generator!.\nUnlike a Generator!, a Stream can be used multiple times.`;
 			const wrapped_45type=built["wrapped-type"]=_ms.sub(Function,Generator_33);
 			const test=built.test=function test(){
 				const _=Stream(function*(){
@@ -35,7 +35,7 @@ define(["exports","../../Function","../../Generatorbang","../../Type/Js-Method",
 			return this.val()
 		});
 		kind_33(Stream,Seq);
-		const name=exports.name="Stream";
+		const name=exports.name=`Stream`;
 		exports.default=Stream;
 		return exports
 	})

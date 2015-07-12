@@ -9,12 +9,12 @@ define(["exports","../../compare","../../control","../../Function","../../math/N
 		}),_$19=_ms.lazyGetModule(Seq_16),seq_61_63=_ms.lazyProp(_$19,"seq=?"),take_39=_ms.lazyProp(_$19,"take'");
 		const Range=Tuple(function(){
 			const built={};
-			const doc=built.doc="Seq of Numbers taking fixed steps.";
+			const doc=built.doc=`Seq of Numbers taking fixed steps.`;
 			const props=built.props=function(){
 				const built=[];
-				_ms.add(built,["start",Number]);
-				_ms.add(built,["end",Number]);
-				_ms.add(built,["step",Number]);
+				_ms.add(built,[`start`,Number]);
+				_ms.add(built,[`end`,Number]);
+				_ms.add(built,[`step`,Number]);
 				return built
 			}();
 			const post_45construct=built["post-construct"]=function post_45construct(_){
@@ -35,7 +35,7 @@ define(["exports","../../compare","../../control","../../Function","../../math/N
 		};
 		const range_45incl=exports["range-incl"]=function(){
 			const built={};
-			const doc=built.doc="TODO";
+			const doc=built.doc=`TODO`;
 			const test=built.test=function test(){};
 			return _ms.set(function range_45incl(start,end,step){
 				_ms.checkContains(Number,start,"start");
@@ -55,7 +55,7 @@ define(["exports","../../compare","../../control","../../Function","../../math/N
 		}());
 		const length=exports.length=function(){
 			const built={};
-			const doc=built.doc="Difference between and and start values.";
+			const doc=built.doc=`Difference between and and start values.`;
 			const test=built.test=function test(){
 				const built=new global.Map();
 				_ms.assoc(built,[range(5,10,2)],5);
@@ -115,7 +115,7 @@ define(["exports","../../compare","../../control","../../Function","../../math/N
 			}());
 			return built
 		}());
-		const name=exports.name="Range";
+		const name=exports.name=`Range`;
 		exports.default=Range;
 		return exports
 	})

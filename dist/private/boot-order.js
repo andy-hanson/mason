@@ -11,7 +11,7 @@ define(["exports","./bootstrap","../Type/Type","../at/Seq/Array-as-Seq","../at/M
 		_ms.getModule(show_45_64_6);
 		_ms.getModule(show_45Map_7);
 		_ms.getModule(show_45Type_8);
-		const name=exports.name="boot-order";
+		const name=exports.name=`boot-order`;
 		return exports
 	})
 })

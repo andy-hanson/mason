@@ -5,19 +5,19 @@ define(["exports","./private/bootstrap","./Type/Method"],function(exports,bootst
 		const _$2=_ms.getModule(bootstrap_0),msDef=_ms.get(_$2,"msDef"),Method=_ms.getDefaultExport(Method_1);
 		const sub=exports.sub=Method(function(){
 			const built={};
-			const doc=built.doc="Implementing this allows the use of the special syntax `a[b]`.";
+			const doc=built.doc=`Implementing this allows the use of the special syntax \`a[b]\`.`;
 			return _ms.setName(built,"sub")
 		}());
-		msDef("sub",sub);
+		msDef(`sub`,sub);
 		const freeze=exports.freeze=Method(function(){
 			const built={};
-			const doc=built.doc="Returns a compacted and immutable version of it.\nDoes not have to return the same value, but often does.";
+			const doc=built.doc=`Returns a compacted and immutable version of it.\nDoes not have to return the same value, but often does.`;
 			const args=built.args=1;
 			const _default=built.default=Object.freeze;
 			return _ms.setName(built,"freeze")
 		}());
 		const frozen_63=exports["frozen?"]=Object.isFrozen;
-		const name=exports.name="methods";
+		const name=exports.name=`methods`;
 		return exports
 	})
 })

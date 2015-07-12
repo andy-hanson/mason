@@ -2,9 +2,10 @@ import { ArrayExpression, BinaryExpression, CallExpression, ExpressionStatement,
 	IfStatement, Literal, NewExpression, ObjectExpression, ReturnStatement, UnaryExpression,
 	VariableDeclaration, VariableDeclarator } from 'esast/dist/ast'
 import { member } from 'esast/dist/util'
-
+import { templateElementForString } from './util'
 
 export const
+	EmptyTemplateElement = templateElementForString(''),
 	IdArguments = Identifier('arguments'),
 	IdBuilt = Identifier('built'),
 	IdDefine = Identifier('define'),

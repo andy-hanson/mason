@@ -5,12 +5,12 @@ define(["exports","../../js","../../Objectbang","../../Type/Js-Method","../../Ty
 		const _$2=_ms.getModule(js_0),id_61_63=_ms.get(_$2,"id=?"),_$3=_ms.getModule(Object_33_1),p_33=_ms.get(_$3,"p!"),_$4=_ms.getModule(Js_45Method_2),js_45impl_33=_ms.get(_$4,"js-impl!"),_$5=_ms.getModule(Kind_3),kind_33=_ms.get(_$5,"kind!"),self_45kind_33=_ms.get(_$5,"self-kind!"),Tuple=_ms.getDefaultExport(Tuple_4),_64=_ms.getDefaultExport(_64_5),_$7=_ms.getModule(_64_5),_43_43=_ms.get(_$7,"++"),empty_63=_ms.get(_$7,"empty?"),iterator=_ms.get(_$7,"iterator"),_64_45Type=_ms.getDefaultExport(_64_45Type_6),_$8=_ms.getModule(_64_45Type_6),empty=_ms.get(_$8,"empty"),from_45stream=_ms.get(_$8,"from-stream"),Seq=_ms.getDefaultExport(Seq_7),_$9=_ms.getModule(Seq_7),_60_43_43_39=_ms.get(_$9,"<++'"),tail=_ms.get(_$9,"tail");
 		const LList=Tuple(function(){
 			const built={};
-			const doc=built.doc="Singly-linked list.";
-			const props=built.props=["head","tail"];
+			const doc=built.doc=`Singly-linked list.`;
+			const props=built.props=[`head`,`tail`];
 			return _ms.setName(built,"LList")
 		}());
 		const empty_45LList=LList(void 0,void 0);
-		p_33(empty_45LList,"tail",empty_45LList);
+		p_33(empty_45LList,`tail`,empty_45LList);
 		self_45kind_33(LList,_64_45Type,function(){
 			const built=new global.Map();
 			_ms.assoc(built,empty,function(){
@@ -66,7 +66,7 @@ define(["exports","../../js","../../Objectbang","../../Type/Js-Method","../../Ty
 			});
 			return built
 		}());
-		const name=exports.name="LList";
+		const name=exports.name=`LList`;
 		exports.default=LList;
 		return exports
 	})

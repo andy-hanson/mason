@@ -9,20 +9,20 @@ define(["exports","../../Boolean","../../compare","../../methods","../../Type/Ki
 		}),_$17=_ms.lazyGetModule(methods_13),_43=_ms.lazyProp(_$17,"+");
 		const Map=Kind(function(){
 			const built={};
-			const doc=built.doc="Mapping from keys to values.";
+			const doc=built.doc=`Mapping from keys to values.`;
 			return _ms.setName(built,"Map")
 		}());
 		kind_33(Map,_64);
 		const _63get=exports["?get"]=Method(function(){
 			const built={};
-			const doc=built.doc="`?` containing the value corresponding to `key`, if any.";
-			const args=built.args=["_","key"];
+			const doc=built.doc=`\`?\` containing the value corresponding to \`key\`, if any.`;
+			const args=built.args=[`_`,`key`];
 			return _ms.setName(built,"?get")
 		}());
 		const has_45key_63=exports["has-key?"]=Method(function(){
 			const built={};
-			const doc=built.doc="|:Boolean _ key:Any\nWhether the key is in the Map.";
-			const args=built.args=["_","key"];
+			const doc=built.doc=`|:Boolean _ key:Any\nWhether the key is in the Map.`;
+			const args=built.args=[`_`,`key`];
 			const _default=built.default=function _default(_,key){
 				return not(empty_63(_63get(_,key)))
 			};
@@ -30,7 +30,7 @@ define(["exports","../../Boolean","../../compare","../../methods","../../Type/Ki
 		}());
 		const keys=exports.keys=Method(function(){
 			const built={};
-			const doc=built.doc="Every key that the Map `has-key?`.";
+			const doc=built.doc=`Every key that the Map \`has-key?\`.`;
 			const args=built.args=1;
 			const _default=built.default=function _default(_){
 				return _61_62(Array,map_39(_,function(pair){
@@ -41,7 +41,7 @@ define(["exports","../../Boolean","../../compare","../../methods","../../Type/Ki
 		}());
 		const values=exports.values=Method(function(){
 			const built={};
-			const doc=built.doc="Every value in the Map.";
+			const doc=built.doc=`Every value in the Map.`;
 			const args=built.args=1;
 			const _default=built.default=function _default(_){
 				return _61_62(Array,map_39(_,function(pair){
@@ -58,12 +58,12 @@ define(["exports","../../Boolean","../../compare","../../methods","../../Type/Ki
 		impl_33(sub,Map,function(map,key){
 			_ms.checkContains(Any,key,"key");
 			return un_45_63(_63get(map,key),_ms.lazy(function(){
-				return ((((""+_ms.show(map))+" does not contain ")+_ms.show(key))+".")
+				return `${_ms.show(map)} does not contain ${_ms.show(key)}.`
 			}))
 		});
 		const make_45map=exports["make-map"]=function(){
 			const built={};
-			const doc=built.doc="Creates a Map whose values are the result of applying `get-value` to each key.";
+			const doc=built.doc=`Creates a Map whose values are the result of applying \`get-value\` to each key.`;
 			const test=built.test=function test(){
 				const map=make_45map([1,2],function(x){
 					return _ms.unlazy(_43)(x,1)
@@ -75,7 +75,7 @@ define(["exports","../../Boolean","../../compare","../../methods","../../Type/Ki
 				_ms.checkContains(_64,_64key,"@key");
 				_ms.checkContains(Function,get_45value,"get-value");
 				const map=empty(_ms.unlazy(Id_45Map_33));
-				for(let _ of _64key[Symbol.iterator]()){
+				for(let _ of _64key){
 					_ms.unlazy(assoc_33)(map,_,get_45value(_))
 				};
 				return map
@@ -83,7 +83,7 @@ define(["exports","../../Boolean","../../compare","../../methods","../../Type/Ki
 		}();
 		const map_61_63=exports["map=?"]=function(){
 			const built={};
-			const doc=built.doc="Whether the two maps have the same keys and the same associated values, regardless of the maps' types.";
+			const doc=built.doc=`Whether the two maps have the same keys and the same associated values, regardless of the maps' types.`;
 			const test=built.test=function test(){
 				const built=new global.Map();
 				const m1=function(){
@@ -118,9 +118,9 @@ define(["exports","../../Boolean","../../compare","../../methods","../../Type/Ki
 				}))
 			},built)
 		}();
-		const name=exports.name="Map";
+		const name=exports.name=`Map`;
 		exports.default=Map;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL01hcC9NYXAubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7O0VBa0JBLFVBQUssZUFDSTs7R0FBUixvQkFBTTs7O0VBRVAsUUFBTSxJQUFJO0VBR1QsNkJBQU0saUJBQ007O0dBQVgsb0JBQU07R0FDTixzQkFBTSxDQUFHLElBQUk7OztFQUVkLHVDQUFVLGlCQUNNOztHQUFmLG9CQUNDO0dBRUQsc0JBQU0sQ0FBRyxJQUFJO0dBQ2IsNkJBQVUsa0JBQUEsRUFBRSxJQUNHO1dBQWQsSUFBSyxTQUFRLE9BQUssRUFBRTtHQUFBOzs7RUFFdEIsd0JBQU0saUJBQ007O0dBQVgsb0JBQU07R0FDTixzQkFBTTtHQUNOLDZCQUFVLGtCQUFBLEVBQ0M7V0FBVixPQUFHLE1BQU8sT0FBSyxFQUFHLFNBQUEsS0FDSTtvQkFBckIsS0FBSztJQUFBO0dBQUE7OztFQUVSLDRCQUFRLGlCQUNNOztHQUFiLG9CQUFNO0dBQ04sc0JBQU07R0FDTiw2QkFBVSxrQkFBQSxFQUNDO1dBQVYsT0FBRyxNQUFPLE9BQUssRUFBRyxTQUFBLEtBQ0k7b0JBQXJCLEtBQUs7SUFBQTtHQUFBOzs7RUFHUixRQUFNLE9BQUcsSUFBSyxTQUFBLEdBQUcsR0FDRTtVQUFsQixJQUFLLE9BQUksVUFBUSxJQUFLLFVBQVE7V0FBTyxVQUFNLEdBQUc7R0FBQTtFQUFBO0VBRS9DLFFBQU0sSUFBSSxJQUFLLFNBQUEsSUFBSSxJQUNPO3FCQURIO1VBQ3RCLFNBQU0sT0FBSyxJQUFJO1dBQU8sSUE1Q1UsWUE0Q1QscUNBQXVCOzs7RUFHL0MsK0NBQ1M7O0dBQVIsb0JBQU07R0FDTixzQkFDTyxlQUFBO0lBQU4sVUFBTSxXQUFTLENBQUUsRUFBRSxHQUFLLFNBQUEsRUFDQzs0QkFBdEIsRUFBRTtJQUFBO29CQUNILGVBQUcsSUFBSSxHQUFHOzJCQUNWLGVBQUcsSUFBSSxHQUFHO0dBQUE7a0JBRVosb0JBQUEsT0FBTyxZQUNrQjtzQkFEcEI7c0JBQVk7SUFDakIsVUFBTTtJQUNELFFBQUEsS0FBQSwwQkFDSTswQkFBRCxJQUFJLEVBQUUsWUFBUztJQUFBO1dBQ3ZCO0dBQUE7O0VBRUYsMkNBQ007O0dBQUwsb0JBQU07R0FDTixzQkFDTyxlQUFBOztJQUFOLG1CQUNJOztxQkFBSCxFQUFLO3FCQUNMLEVBQUs7OztJQUNOLG1CQUNJOztxQkFBSCxFQUFLOzs7b0JBQ04sQ0FBRSxHQUFHLElBQVE7b0JBQ2IsQ0FBRSxHQUFHLElBQVE7OztrQkFDYixtQkFBQSxFQUFNLEVBQ0s7c0JBRFQ7c0JBQU07V0FDUixJQUFLLE9BQUksTUFBTSxHQUFJLE1BQU07c0JBQ0s7YUFBN0IsT0FBSyxFQUFHLFNBQUEsS0FDSTtPQUNYLGtCQUFNLEtBQUs7T0FDWCxrQkFBTSxLQUFLO09BQ1gsWUFBTSxPQUFLLEVBQUU7Y0FDYixJQUFLLElBQUssU0FBTztlQUFRLE9BQUcsSUFBSTs7Ozs7OztFQXpGckMsd0JBQUE7a0JBa0JBIiwiZmlsZSI6ImF0L01hcC9NYXAuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL01hcC9NYXAubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7O0VBa0JBLFVBQUssZUFDSTs7R0FBUixvQkFBTTs7O0VBRVAsUUFBTSxJQUFJO0VBR1QsNkJBQU0saUJBQ007O0dBQVgsb0JBQU07R0FDTixzQkFBTSxDQUFHLElBQUk7OztFQUVkLHVDQUFVLGlCQUNNOztHQUFmLG9CQUNDO0dBRUQsc0JBQU0sQ0FBRyxJQUFJO0dBQ2IsNkJBQVUsa0JBQUEsRUFBRSxJQUNHO1dBQWQsSUFBSyxTQUFRLE9BQUssRUFBRTtHQUFBOzs7RUFFdEIsd0JBQU0saUJBQ007O0dBQVgsb0JBQU07R0FDTixzQkFBTTtHQUNOLDZCQUFVLGtCQUFBLEVBQ0M7V0FBVixPQUFHLE1BQU8sT0FBSyxFQUFHLFNBQUEsS0FDSTtvQkFBckIsS0FBSztJQUFBO0dBQUE7OztFQUVSLDRCQUFRLGlCQUNNOztHQUFiLG9CQUFNO0dBQ04sc0JBQU07R0FDTiw2QkFBVSxrQkFBQSxFQUNDO1dBQVYsT0FBRyxNQUFPLE9BQUssRUFBRyxTQUFBLEtBQ0k7b0JBQXJCLEtBQUs7SUFBQTtHQUFBOzs7RUFHUixRQUFNLE9BQUcsSUFBSyxTQUFBLEdBQUcsR0FDRTtVQUFsQixJQUFLLE9BQUksVUFBUSxJQUFLLFVBQVE7V0FBTyxVQUFNLEdBQUc7R0FBQTtFQUFBO0VBRS9DLFFBQU0sSUFBSSxJQUFLLFNBQUEsSUFBSSxJQUNPO3FCQURIO1VBQ3RCLFNBQU0sT0FBSyxJQUFJO1dBQU8sWUFBQyxrQ0FBdUI7OztFQUcvQywrQ0FDUzs7R0FBUixvQkFBTTtHQUNOLHNCQUNPLGVBQUE7SUFBTixVQUFNLFdBQVMsQ0FBRSxFQUFFLEdBQUssU0FBQSxFQUNDOzRCQUF0QixFQUFFO0lBQUE7b0JBQ0gsZUFBRyxJQUFJLEdBQUc7MkJBQ1YsZUFBRyxJQUFJLEdBQUc7R0FBQTtrQkFFWixvQkFBQSxPQUFPLFlBQ2tCO3NCQURwQjtzQkFBWTtJQUNqQixVQUFNO0lBQ0QsUUFBQSxLQUFBLE9BQ0k7MEJBQUQsSUFBSSxFQUFFLFlBQVM7SUFBQTtXQUN2QjtHQUFBOztFQUVGLDJDQUNNOztHQUFMLG9CQUFNO0dBQ04sc0JBQ08sZUFBQTs7SUFBTixtQkFDSTs7cUJBQUgsRUFBSztxQkFDTCxFQUFLOzs7SUFDTixtQkFDSTs7cUJBQUgsRUFBSzs7O29CQUNOLENBQUUsR0FBRyxJQUFRO29CQUNiLENBQUUsR0FBRyxJQUFROzs7a0JBQ2IsbUJBQUEsRUFBTSxFQUNLO3NCQURUO3NCQUFNO1dBQ1IsSUFBSyxPQUFJLE1BQU0sR0FBSSxNQUFNO3NCQUNLO2FBQTdCLE9BQUssRUFBRyxTQUFBLEtBQ0k7T0FDWCxrQkFBTSxLQUFLO09BQ1gsa0JBQU0sS0FBSztPQUNYLFlBQU0sT0FBSyxFQUFFO2NBQ2IsSUFBSyxJQUFLLFNBQU87ZUFBUSxPQUFHLElBQUk7Ozs7Ozs7RUF6RnJDLHdCQUFBO2tCQWtCQSIsImZpbGUiOiJhdC9NYXAvTWFwLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

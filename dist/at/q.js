@@ -7,19 +7,19 @@ define(["exports","../Boolean","../control","../js","../private/bootstrap","../T
 		}),_$16=_ms.lazyGetModule(_33_13),_33not=_ms.lazyProp(_$16,"!not"),_$17=_ms.lazyGetModule(compare_14),_61_63=_ms.lazyProp(_$17,"=?"),_$18=_ms.lazyGetModule(Try_15),fails_63=_ms.lazyProp(_$18,"fails?");
 		const _63=Wrap_45Type(function(){
 			const built={};
-			const doc=built.doc="A Seq with 0 or 1 elements.\nTODO: MORE";
+			const doc=built.doc=`A Seq with 0 or 1 elements.\nTODO: MORE`;
 			return _ms.setName(built,"?")
 		}());
 		const empty_45marker=function(){
 			const built={};
-			const doc=built.doc="`_.val` on an empty `?` will return this.";
+			const doc=built.doc=`\`_.val\` on an empty \`?\` will return this.`;
 			return _ms.setName(built,"empty-marker")
 		}();
 		const empty_45_63=function(){
 			return _63(empty_45marker)
 		}();
-		msDef("some",_63);
-		msDef("None",empty_45_63);
+		msDef(`some`,_63);
+		msDef(`None`,empty_45_63);
 		self_45kind_33(_63,_64_45Type,function(){
 			const built=new global.Map();
 			_ms.assoc(built,from_45stream,function(stream){
@@ -52,7 +52,7 @@ define(["exports","../Boolean","../control","../js","../private/bootstrap","../T
 		});
 		const Opt_45_62_63=exports["Opt->?"]=function(){
 			const built={};
-			const doc=built.doc="`?` containing the value iff it is defined.";
+			const doc=built.doc=`\`?\` containing the value iff it is defined.`;
 			const test=built.test=function test(){
 				const built=new global.Map();
 				_ms.assoc(built,[0],_63(0));
@@ -68,7 +68,7 @@ define(["exports","../Boolean","../control","../js","../private/bootstrap","../T
 		}();
 		const _63_45_62Opt=exports["?->Opt"]=function(){
 			const built={};
-			const doc=built.doc="Extracts the value from a `?`, or returns undefined.";
+			const doc=built.doc=`Extracts the value from a \`?\`, or returns undefined.`;
 			const test=built.test=function test(){
 				const built=new global.Map();
 				_ms.assoc(built,[_63(0)],0);
@@ -88,7 +88,7 @@ define(["exports","../Boolean","../control","../js","../private/bootstrap","../T
 		}();
 		const un_45_63=exports["un-?"]=function(){
 			const built={};
-			const doc=built.doc="Tries to extract the value out of a `?`. Throws an error if it is empty.";
+			const doc=built.doc=`Tries to extract the value out of a \`?\`. Throws an error if it is empty.`;
 			const test=built.test=function test(){
 				const built=new global.Map();
 				_ms.assoc(built,[_63(1)],1);
@@ -101,7 +101,7 @@ define(["exports","../Boolean","../control","../js","../private/bootstrap","../T
 				_ms.checkContains(_63,_,"_");
 				return function(){
 					if(_ms.bool(empty_63(_))){
-						throw _ms.error(opr(_ms.unlazy(fail_45message),"Tried to force empty `?`."))
+						throw _ms.error(opr(_ms.unlazy(fail_45message),`Tried to force empty \`?\`.`))
 					} else {
 						return _.val
 					}
@@ -110,7 +110,7 @@ define(["exports","../Boolean","../control","../js","../private/bootstrap","../T
 		}();
 		const _63_45or=exports["?-or"]=function(){
 			const built={};
-			const doc=built.doc="If empty, defaults to `or` - else returns its value.";
+			const doc=built.doc=`If empty, defaults to \`or\` - else returns its value.`;
 			const test=built.test=function test(){
 				const built=new global.Map();
 				_ms.assoc(built,[empty(_63),1],1);
@@ -130,7 +130,7 @@ define(["exports","../Boolean","../control","../js","../private/bootstrap","../T
 		}();
 		const Some=exports.Some=Pred_45Type(function(){
 			const built={};
-			const doc=built.doc="TODO";
+			const doc=built.doc=`TODO`;
 			const predicate=built.predicate=function predicate(_){
 				return and(_ms.contains(_63,_),_ms.lazy(function(){
 					return not(empty_63(_))
@@ -159,9 +159,9 @@ define(["exports","../Boolean","../control","../js","../private/bootstrap","../T
 				}
 			}()
 		});
-		const name=exports.name="?";
+		const name=exports.name=`?`;
 		exports.default=_63;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9ALz8ubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQW1CQSxVQUFHLHNCQUNTOztHQUFYLG9CQUNDOzs7RUFHRiwrQkFDYzs7R0FBYixvQkFBTTs7O0VBQ1AsNEJBQ1M7VUFBUixJQUFFO0VBQUE7RUFFSCxNQUFPLE9BQU07RUFDYixNQUFPLE9BQU07RUFHWixlQUFXLElBQUUscUJBQ007O21CQUFsQixjQUFnQixTQUFBLE9BQ007SUFBckIsV0FBTyxTQUFTO0lBQ2hCLFdBQWE7O0tBRVosWUFBQSxNQUNJO2FBQUg7S0FBQSxPQUVHO2FBQUgsSUFBRTtLQUFBO0lBQUE7R0FBQTttQkFFTCxNQUNVLFVBQUE7V0FBVDtHQUFBOzs7RUFFRixRQUFNLElBQUUsY0FDRzs7bUJBQVYsU0FBVyxTQUFBLEVBQ0M7V0FBWCxTQUFLLEVBQUU7R0FBQTs7O0VBRVQsYUFBUyxTQUFTLElBQ0ssV0FBQTtHQUF0QixjQUFRLFNBQU8sT0FDSTtXQUFmOzs7RUFHTCwrQ0FDTzs7R0FBTixvQkFBTTtHQUNOLHNCQUNPLGVBQUE7O29CQUFOLENBQUUsR0FBTyxJQUFFO29CQUNYLENBQUUsTUFBVSxJQUFFO29CQUNkLENBQUUsUUFBZSxNQUFNOzs7a0JBQ3ZCLHNCQUFBLEVBQ0M7b0JBQ0UsV0FBUSx1QkFDQztZQUFYO0lBQUE7OztFQUVILCtDQUNPOztHQUFOLG9CQUFNO0dBQ04sc0JBQ08sZUFBQTs7b0JBQU4sQ0FBRyxJQUFFLElBQVE7dUJBQ1IsV0FBVSxhQUFRLE1BQU07OztrQkFDN0Isc0JBQUEsRUFDRztzQkFERDs7S0FFRCxZQUFBLFNBQU0sSUFDQzthQUFOO1lBRUc7YUFBSDs7Ozs7RUFHSix5Q0FDSzs7R0FBSixvQkFBTTtHQUNOLHNCQUNPLGVBQUE7O29CQUFOLENBQUcsSUFBRSxJQUFRO3lDQUVILFVBQUE7WUFBVCxTQUFNLE1BQU07SUFBQTs7O2tCQUNiLGtCQUFBLEVBQUksZUFDYTtzQkFEZjs7S0FFRCxZQUFBLFNBQU0sSUFDQztNQUFOLGdCQUFPLGVBSEwsZ0JBR3VCO0tBQUEsT0FFdEI7YUFBSDs7Ozs7RUFFSix5Q0FDSzs7R0FBSixvQkFBTTtHQUNOLHNCQUNPLGVBQUE7O29CQUFOLENBQUcsTUFBTSxLQUFHLEdBQU87b0JBQ25CLENBQUcsSUFBRSxHQUFHLEdBQU87OztrQkFDZixrQkFBQSxFQUFJLEdBQ0c7c0JBREw7O0tBRUQsWUFBQSxTQUFNLElBQ0M7d0JBSEo7S0FBQSxPQUtDO2FBQUg7Ozs7O0VBRUwsd0JBQU0sc0JBQ1M7O0dBQWQsb0JBQU07R0FDTixnQ0FBWSxtQkFBQSxFQUNDO1dBQVosaUJBQUssSUFBRDtZQUFLLElBQUksU0FBTTtJQUFBO0dBQUE7R0FFcEIsc0JBQ08sZUFBQTs7S0FBRCxRQUFBLElBQUU7S0FDTjsyQkFBQyxLQUFEO3FCQUNTOztpREFBSCxJQUFJO01BQUE7Ozs7OztFQUViLGVBQVcsUUFBUSxLQUFNLFNBQUEsRUFBQTs7SUFDeEIseUJBQUMsS0FBRCxJQUNLO1lBQUosQ0FBRTtXQUVDO1lBQUg7SUFBQTtHQUFBO0VBQUE7RUF0SEYsd0JBQUE7a0JBbUJBIiwiZmlsZSI6ImF0L3EuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9ALz8ubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQW1CQSxVQUFHLHNCQUNTOztHQUFYLG9CQUNDOzs7RUFHRiwrQkFDYzs7R0FBYixvQkFBTTs7O0VBQ1AsNEJBQ1M7VUFBUixJQUFFO0VBQUE7RUFFSCxNQUFPLE9BQU07RUFDYixNQUFPLE9BQU07RUFHWixlQUFXLElBQUUscUJBQ007O21CQUFsQixjQUFnQixTQUFBLE9BQ007SUFBckIsV0FBTyxTQUFTO0lBQ2hCLFdBQWE7O0tBRVosWUFBQSxNQUNJO2FBQUg7S0FBQSxPQUVHO2FBQUgsSUFBRTtLQUFBO0lBQUE7R0FBQTttQkFFTCxNQUNVLFVBQUE7V0FBVDtHQUFBOzs7RUFFRixRQUFNLElBQUUsY0FDRzs7bUJBQVYsU0FBVyxTQUFBLEVBQ0M7V0FBWCxTQUFLLEVBQUU7R0FBQTs7O0VBRVQsYUFBUyxTQUFTLElBQ0ssV0FBQTtHQUF0QixjQUFRLFNBQU8sT0FDSTtXQUFmOzs7RUFHTCwrQ0FDTzs7R0FBTixvQkFBTTtHQUNOLHNCQUNPLGVBQUE7O29CQUFOLENBQUUsR0FBTyxJQUFFO29CQUNYLENBQUUsTUFBVSxJQUFFO29CQUNkLENBQUUsUUFBZSxNQUFNOzs7a0JBQ3ZCLHNCQUFBLEVBQ0M7b0JBQ0UsV0FBUSx1QkFDQztZQUFYO0lBQUE7OztFQUVILCtDQUNPOztHQUFOLG9CQUFNO0dBQ04sc0JBQ08sZUFBQTs7b0JBQU4sQ0FBRyxJQUFFLElBQVE7dUJBQ1IsV0FBVSxhQUFRLE1BQU07OztrQkFDN0Isc0JBQUEsRUFDRztzQkFERDs7S0FFRCxZQUFBLFNBQU0sSUFDQzthQUFOO1lBRUc7YUFBSDs7Ozs7RUFHSix5Q0FDSzs7R0FBSixvQkFBTTtHQUNOLHNCQUNPLGVBQUE7O29CQUFOLENBQUcsSUFBRSxJQUFRO3lDQUVILFVBQUE7WUFBVCxTQUFNLE1BQU07SUFBQTs7O2tCQUNiLGtCQUFBLEVBQUksZUFDYTtzQkFEZjs7S0FFRCxZQUFBLFNBQU0sSUFDQztNQUFOLGdCQUFPLGVBSEwsZ0JBR3VCO1lBRXRCO2FBQUg7Ozs7O0VBRUoseUNBQ0s7O0dBQUosb0JBQU07R0FDTixzQkFDTyxlQUFBOztvQkFBTixDQUFHLE1BQU0sS0FBRyxHQUFPO29CQUNuQixDQUFHLElBQUUsR0FBRyxHQUFPOzs7a0JBQ2Ysa0JBQUEsRUFBSSxHQUNHO3NCQURMOztLQUVELFlBQUEsU0FBTSxJQUNDO3dCQUhKO0tBQUEsT0FLQzthQUFIOzs7OztFQUVMLHdCQUFNLHNCQUNTOztHQUFkLG9CQUFNO0dBQ04sZ0NBQVksbUJBQUEsRUFDQztXQUFaLGlCQUFLLElBQUQ7WUFBSyxJQUFJLFNBQU07SUFBQTtHQUFBO0dBRXBCLHNCQUNPLGVBQUE7O0tBQUQsUUFBQSxJQUFFO0tBQ047MkJBQUMsS0FBRDtxQkFDUzs7aURBQUgsSUFBSTtNQUFBOzs7Ozs7RUFFYixlQUFXLFFBQVEsS0FBTSxTQUFBLEVBQUE7O0lBQ3hCLHlCQUFDLEtBQUQsSUFDSztZQUFKLENBQUU7V0FFQztZQUFIO0lBQUE7R0FBQTtFQUFBO0VBdEhGLHdCQUFBO2tCQW1CQSIsImZpbGUiOiJhdC9xLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

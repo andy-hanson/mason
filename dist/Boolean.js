@@ -5,7 +5,7 @@ define(["exports","./private/js-impl"],function(exports,js_45impl_0){
 		const _$2=_ms.getModule(js_45impl_0),iAnd=_ms.get(_$2,"iAnd"),iOr=_ms.get(_$2,"iOr");
 		const not=exports.not=function(){
 			const built={};
-			const doc=built.doc="Negation of a Boolean.";
+			const doc=built.doc=`Negation of a Boolean.`;
 			const test=built.test=function test(){
 				const built=new global.Map();
 				_ms.assoc(built,[false],true);
@@ -25,7 +25,7 @@ define(["exports","./private/js-impl"],function(exports,js_45impl_0){
 		}();
 		const and=exports.and=function(){
 			const built={};
-			const doc=built.doc="True iff all conditions are true.\nEquivalent to `all? args`.\nAll arguments after the first may be lazy.\"";
+			const doc=built.doc=`True iff all conditions are true.\nEquivalent to \`all? args\`.\nAll arguments after the first may be lazy."`;
 			const test=built.test=function test(){
 				const built=new global.Map();
 				_ms.assoc(built,[false,false],false);
@@ -39,7 +39,7 @@ define(["exports","./private/js-impl"],function(exports,js_45impl_0){
 		}();
 		const nand=exports.nand=function(){
 			const built={};
-			const doc=built.doc="Negation of and.";
+			const doc=built.doc=`Negation of and.`;
 			const test=built.test=function test(){
 				const built=new global.Map();
 				_ms.assoc(built,[false,false],true);
@@ -56,7 +56,7 @@ define(["exports","./private/js-impl"],function(exports,js_45impl_0){
 		}();
 		const or=exports.or=function(){
 			const built={};
-			const doc=built.doc="True iff any condition is true.\nEquivalent to `any? args`.\nAll arguments after the first may be lazy.";
+			const doc=built.doc=`True iff any condition is true.\nEquivalent to \`any? args\`.\nAll arguments after the first may be lazy.`;
 			const test=built.test=function test(){
 				const built=new global.Map();
 				_ms.assoc(built,[false,false],false);
@@ -70,7 +70,7 @@ define(["exports","./private/js-impl"],function(exports,js_45impl_0){
 		}();
 		const nor=exports.nor=function(){
 			const built={};
-			const doc=built.doc="Negation of or.";
+			const doc=built.doc=`Negation of or.`;
 			const test=built.test=function test(){
 				const built=new global.Map();
 				_ms.assoc(built,[false,false],true);
@@ -87,7 +87,7 @@ define(["exports","./private/js-impl"],function(exports,js_45impl_0){
 		}();
 		const implies=exports.implies=function(){
 			const built={};
-			const doc=built.doc="Whether `then` is true whenever `if` is.\nAlways true when `if` is false.";
+			const doc=built.doc=`Whether \`then\` is true whenever \`if\` is.\nAlways true when \`if\` is false.`;
 			const test=built.test=function test(){
 				const built=new global.Map();
 				_ms.assoc(built,[false,false],true);
@@ -109,7 +109,7 @@ define(["exports","./private/js-impl"],function(exports,js_45impl_0){
 		}();
 		const xor=exports.xor=function(){
 			const built={};
-			const doc=built.doc="True if `a` and `b` differ.";
+			const doc=built.doc=`True if \`a\` and \`b\` differ.`;
 			const test=built.test=function test(){
 				const built=new global.Map();
 				_ms.assoc(built,[false,false],false);
@@ -130,7 +130,7 @@ define(["exports","./private/js-impl"],function(exports,js_45impl_0){
 				}()
 			},built)
 		}();
-		const name=exports.name="Boolean";
+		const name=exports.name=`Boolean`;
 		return exports
 	})
 })

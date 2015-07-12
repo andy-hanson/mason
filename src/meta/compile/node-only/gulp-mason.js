@@ -27,7 +27,8 @@ export default (opts = { }) => {
 			const allOpts = Object.assign({}, opts, { inFile: file.path })
 			const { warnings, result } = compile(src, allOpts)
 
-			warnings.forEach(w => console.log(formatWarningForConsole(w, file.path)))
+			for (const _ of warnings)
+				console.log(formatWarningForConsole(_, file.path))
 			if (result instanceof CompileError) {
 				const message = formatCompileErrorForConsole(result, file.path)
 				// Not cb(new PluginError(...)).

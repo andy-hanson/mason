@@ -7,7 +7,7 @@ define(["exports","esast/dist/mangle-identifier","../js","../private/js-impl",".
 		}),_$13=_ms.lazyGetModule(compare_10),_61_63=_ms.lazyProp(_$13,"=?"),_$14=_ms.lazyGetModule(js_11),defined_63=_ms.lazyProp(_$14,"defined?"),_$15=_ms.lazyGetModule(Try_12),fails_63=_ms.lazyProp(_$15,"fails?");
 		const Wrap_45Type=Obj_45Type(function(){
 			const built={};
-			const doc=built.doc="Object with only one prop (always called `val`).\nThese are useful for wrapping a value with a new type.";
+			const doc=built.doc=`Object with only one prop (always called \`val\`).\nThese are useful for wrapping a value with a new type.`;
 			const props=built.props=function(){
 				const built={};
 				const name=built.name=String;
@@ -28,31 +28,31 @@ define(["exports","esast/dist/mangle-identifier","../js","../private/js-impl",".
 				return _ms.setName(built,"defaults")
 			}();
 			const post_45construct=built["post-construct"]=function post_45construct(_){
-				return p_43_33(_.prototype,"constructor",_)
+				return p_43_33(_.prototype,`constructor`,_)
 			};
 			const make_45callable=built["make-callable"]=function make_45callable(_){
 				const src=buildStr(function(add_33){
 					const name=mangle_45identifier(_.name);
-					add_33((((((("return function "+_ms.show(name))+"(_) {\n\tif (!(this instanceof ")+_ms.show(name))+")) return new ")+_ms.show(name))+"(_)\n\tthis.val = _"));
+					add_33(`return function ${_ms.show(name)}(_) {\n\tif (!(this instanceof ${_ms.show(name)})) return new ${_ms.show(name)}(_)\n\tthis.val = _`);
 					if(_ms.unlazy(defined_63)(_["wrapped-type"])){
-						add_33("_ms.checkContains(wrappedType, _, \"val\")")
+						add_33(`_ms.checkContains(wrappedType, _, "val")`)
 					};
-					return add_33("}")
+					return add_33(`}`)
 				});
-				const f=Function("wrappedType",src);
+				const f=Function(`wrappedType`,src);
 				return f(_["wrapped-type"])
 			};
 			const test=built.test=function test(){
 				const W=Wrap_45Type(function(){
 					const built={};
-					const doc=built.doc="W";
+					const doc=built.doc=`W`;
 					const wrapped_45type=built["wrapped-type"]=Number;
 					return _ms.setName(built,"W")
 				}());
 				const w=W(3);
 				_ms.unlazy(_33)(_ms.unlazy(_61_63),w.val,3);
 				_ms.unlazy(_33)(_ms.unlazy(fails_63),function(){
-					return W("three")
+					return W(`three`)
 				})
 			};
 			return _ms.setName(built,"Wrap-Type")
@@ -70,9 +70,9 @@ define(["exports","esast/dist/mangle-identifier","../js","../private/js-impl",".
 				}
 			}()
 		});
-		const name=exports.name="Wrap-Type";
+		const name=exports.name=`Wrap-Type`;
 		exports.default=Wrap_45Type;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL1dyYXAtVHlwZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7O0VBZ0JBLGtCQUFXLHFCQUNROztHQUFsQixvQkFDQztHQUVELGtDQUNNOztJQUFMLHNCQUFNO0lBQ04sZ0NBQVc7OztHQUNaLCtDQUNVOztJQUFULDJDQUFjOzs7R0FDZixrQ0FBWTtHQUNaLHdDQUNTOztJQUFSLGdDQUNZLG9CQUFBO1lBQVgsY0FBYzs7OztHQUNoQiwrQ0FBaUIsMEJBQUEsRUFDQztXQUFqQixRQUFJLFlBQWEsY0FBYTtHQUFBO0dBQy9CLDZDQUFnQix5QkFBQSxFQUNDO0lBQWhCLFVBQU0sU0FBVSxTQUFBLE9BQ0k7S0FBbkIsV0FBTyxvQkFBa0I7S0FDekIsT0FDQyxrQ0FBaUIsbURBQ08sa0NBQW9CO0tBRXZDLDBCQUFhLG1CQUNjO01BQWhDLE9BQU07S0FBQTtZQUNQLE9BQU07SUFBQTtJQUNQLFFBQUksU0FBVSxjQUFhO1dBQzNCLEVBQUU7O0dBQ0gsc0JBQ1EsZUFBQTtJQUFQLFFBQUksc0JBQ1M7O0tBQVosb0JBQU07S0FDTiwyQ0FBYzs7O0lBQ2YsUUFBSSxFQUFFO3VDQUNELE1BQU07eUNBRUssVUFBQTtZQUFmLEVBQUc7SUFBQTtHQUFBOzs7RUFFTixRQUFNLFlBQVU7RUFDaEIsUUFBTSxZQUFVLFlBQVcsU0FBQSxHQUFHLEVBQ0M7VUFBOUIsZ0JBQWMsRUFBRTtFQUFBO0VBQ2pCLFFBQU0sUUFBUSxZQUFXLFNBQUEsR0FBRyxFQUNDOztJQUMzQixZQUFBLGdCQUFjLEVBQUUsS0FDRTtZQUFqQixDQUFFO1dBRUM7WUFBSDtJQUFBO0dBQUE7RUFBQTtFQTVESCx3QkFBQTtrQkFnQkEiLCJmaWxlIjoiVHlwZS9XcmFwLVR5cGUuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL1dyYXAtVHlwZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7O0VBZ0JBLGtCQUFXLHFCQUNROztHQUFsQixvQkFDQztHQUVELGtDQUNNOztJQUFMLHNCQUFNO0lBQ04sZ0NBQVc7OztHQUNaLCtDQUNVOztJQUFULDJDQUFjOzs7R0FDZixrQ0FBWTtHQUNaLHdDQUNTOztJQUFSLGdDQUNZLG9CQUFBO1lBQVgsY0FBYzs7OztHQUNoQiwrQ0FBaUIsMEJBQUEsRUFDQztXQUFqQixRQUFJLFlBQWEsY0FBYTtHQUFBO0dBQy9CLDZDQUFnQix5QkFBQSxFQUNDO0lBQWhCLFVBQU0sU0FBVSxTQUFBLE9BQ0k7S0FBbkIsV0FBTyxvQkFBa0I7S0FDekIsT0FDQyw0QkFBaUIsZ0RBQ08sK0JBQW9CO0tBRXZDLDBCQUFhLG1CQUNjO01BQWhDLE9BQU07O1lBQ1AsT0FBTTs7SUFDUCxRQUFJLFNBQVUsY0FBYTtXQUMzQixFQUFFOztHQUNILHNCQUNRLGVBQUE7SUFBUCxRQUFJLHNCQUNTOztLQUFaLG9CQUFNO0tBQ04sMkNBQWM7OztJQUNmLFFBQUksRUFBRTt1Q0FDRCxNQUFNO3lDQUVLLFVBQUE7WUFBZixFQUFHOzs7OztFQUVOLFFBQU0sWUFBVTtFQUNoQixRQUFNLFlBQVUsWUFBVyxTQUFBLEdBQUcsRUFDQztVQUE5QixnQkFBYyxFQUFFO0VBQUE7RUFDakIsUUFBTSxRQUFRLFlBQVcsU0FBQSxHQUFHLEVBQ0M7O0lBQzNCLFlBQUEsZ0JBQWMsRUFBRSxLQUNFO1lBQWpCLENBQUU7V0FFQztZQUFIO0lBQUE7R0FBQTtFQUFBO0VBNURILHdCQUFBO2tCQWdCQSIsImZpbGUiOiJUeXBlL1dyYXAtVHlwZS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

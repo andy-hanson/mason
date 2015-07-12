@@ -5,7 +5,7 @@ define(["exports","./Boolean","./Function","./Type/Js-Method","./Type/Pred-Type"
 		const _$2=_ms.getModule(Boolean_0),and=_ms.get(_$2,"and"),_$3=_ms.getModule(Function_1),call=_ms.get(_$3,"call"),Js_45Method=_ms.getDefaultExport(Js_45Method_2),Pred_45Type=_ms.getDefaultExport(Pred_45Type_3),_$6=_ms.getModule(Type_4),contains_63=_ms.get(_$6,"contains?");
 		const Generator_33=Pred_45Type(function(){
 			const built={};
-			const doc=built.doc="A block of code which yields values and receives responses from a context.\nAlso known as a coroutine.";
+			const doc=built.doc=`A block of code which yields values and receives responses from a context.\nAlso known as a coroutine.`;
 			const predicate=built.predicate=function predicate(_){
 				return and(_ms.contains(Object,_),_ms.lazy(function(){
 					return contains_63(Function,_.next)
@@ -15,16 +15,16 @@ define(["exports","./Boolean","./Function","./Type/Js-Method","./Type/Pred-Type"
 		}());
 		const empty_45Generator=exports["empty-Generator"]=function(){
 			const built={};
-			const doc=built.doc="Does nothing.";
+			const doc=built.doc=`Does nothing.`;
 			return _ms.set(call(function*(){}),built,"empty-Generator")
 		}();
 		const gen_45next_33=exports["gen-next!"]=Js_45Method(function(){
 			const built={};
-			const doc=built.doc="Continues until the next `<~`.";
-			const impl_45symbol=built["impl-symbol"]="next";
+			const doc=built.doc=`Continues until the next \`<~\`.`;
+			const impl_45symbol=built["impl-symbol"]=`next`;
 			return _ms.setName(built,"gen-next!")
 		}());
-		const name=exports.name="Generator!";
+		const name=exports.name=`Generator!`;
 		exports.default=Generator_33;
 		return exports
 	})

@@ -6,7 +6,7 @@ define(["exports","esast/dist/mangle-identifier","../js","../private/bootstrap",
 			return _ms.getDefaultExport(_33_9)
 		}),_$13=_ms.lazyGetModule(compare_10),_61_63=_ms.lazyProp(_$13,"=?");
 		const access=function access(name){
-			return (("[\""+_ms.show(name))+"\"]")
+			return `["${_ms.show(name)}"]`
 		};
 		const get_45prop=function get_45prop(_){
 			return function(){
@@ -50,57 +50,57 @@ define(["exports","esast/dist/mangle-identifier","../js","../private/bootstrap",
 				const props=tuple.props.map(get_45prop);
 				const args=function(){
 					const built=[];
-					for(let _ of props[Symbol.iterator]()){
+					for(let _ of props){
 						_ms.add(built,_.id)
 					};
 					return built
 				}();
-				const argsStr=args.join(",");
+				const argsStr=args.join(`,`);
 				const src=buildStr(function(add_33){
 					const name=mangle_45identifier(tuple.name);
-					add_33((((((((((("return function "+_ms.show(name))+"(")+_ms.show(argsStr))+") {\nif (!(this instanceof ")+_ms.show(name))+")) return new ")+_ms.show(name))+"(")+_ms.show(argsStr))+")"));
-					for(let _ of props[Symbol.iterator]()){
+					add_33(`return function ${_ms.show(name)}(${_ms.show(argsStr)}) {\nif (!(this instanceof ${_ms.show(name)})) return new ${_ms.show(name)}(${_ms.show(argsStr)})`);
+					for(let _ of props){
 						if(defined_63(_.type)){
-							add_33((((((("_ms.checkContains("+_ms.show(_.id))+"_type, ")+_ms.show(_.id))+", \"")+_ms.show(_.name))+"\")"))
+							add_33(`_ms.checkContains(${_ms.show(_.id)}_type, ${_ms.show(_.id)}, "${_ms.show(_.name)}")`)
 						};
-						add_33(((("this"+_ms.show(access(_.name)))+" = ")+_ms.show(_.id)))
+						add_33(`this${_ms.show(access(_.name))} = ${_ms.show(_.id)}`)
 					};
-					add_33((((("if (arguments.length > "+_ms.show(props.length))+")\n\tthrow new Error(\"Only expected ")+_ms.show(props.length))+" args, got \" + arguments.length)"));
+					add_33(`if (arguments.length > ${_ms.show(props.length)})\n\tthrow new Error("Only expected ${_ms.show(props.length)} args, got " + arguments.length)`);
 					if(defined_63(tuple["post-construct"])){
-						add_33("postConstruct(this)")
+						add_33(`postConstruct(this)`)
 					};
-					return add_33("}")
+					return add_33(`}`)
 				});
 				const type_45args=function(){
 					const built=[];
-					for(let _ of props[Symbol.iterator]()){
-						_ms.add(built,((""+_ms.show(_.id))+"_type"))
+					for(let _ of props){
+						_ms.add(built,`${_ms.show(_.id)}_type`)
 					};
 					return built
 				}();
-				const make_45ctr=Function.apply.call(Function,null,[].concat("postConstruct",_ms.arr(type_45args),src));
+				const make_45ctr=Function.apply.call(Function,null,[].concat(`postConstruct`,_ms.arr(type_45args),src));
 				const types=function(){
 					const built=[];
-					for(let _ of props[Symbol.iterator]()){
+					for(let _ of props){
 						_ms.add(built,_.type)
 					};
 					return built
 				}();
 				const ctr=Function.apply.call(make_45ctr,null,[].concat(tuple["post-construct"],_ms.arr(types)));
-				pAdd(ctr,"source",src);
+				pAdd(ctr,`source`,src);
 				return ctr
 			};
 			const post_45construct=built["post-construct"]=function post_45construct(_){
-				pAdd(_.prototype,"constructor",_);
+				pAdd(_.prototype,`constructor`,_);
 				const accesses=function(){
 					const built=[];
-					for(let _ of _.props[Symbol.iterator]()){
-						_ms.add(built,("_"+_ms.show(access(get_45prop(_).name))))
+					for(let _ of _.props){
+						_ms.add(built,`_${_ms.show(access(get_45prop(_).name))}`)
 					};
 					return built
 				}();
-				const extract_45src=(("return function(_) { return _ instanceof tuple ? [ "+_ms.show(accesses.join(",")))+" ] : null }");
-				const make_45extractor=Function("tuple",extract_45src);
+				const extract_45src=`return function(_) { return _ instanceof tuple ? [ ${_ms.show(accesses.join(`,`))} ] : null }`;
+				const make_45extractor=Function(`tuple`,extract_45src);
 				const extractor=make_45extractor(_);
 				self_45impl_33(extract,_,extractor)
 			};
@@ -109,8 +109,8 @@ define(["exports","esast/dist/mangle-identifier","../js","../private/bootstrap",
 					const built={};
 					const props=built.props=function(){
 						const built=[];
-						_ms.add(built,"x");
-						_ms.add(built,["y",Number]);
+						_ms.add(built,`x`);
+						_ms.add(built,[`y`,Number]);
 						return built
 					}();
 					return _ms.setName(built,"Vec2")
@@ -136,9 +136,9 @@ define(["exports","esast/dist/mangle-identifier","../js","../private/bootstrap",
 			return js_45instanceof(_,tuple)
 		});
 		kind_33(Tuple,Impl_45Type);
-		const name=exports.name="Tuple";
+		const name=exports.name=`Tuple`;
 		exports.default=Tuple;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL1R1cGxlLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7RUFjQSxhQUFVLGdCQUFBLEtBQ0k7VUFBWixpQkFBSTs7RUFFTixpQkFBWSxvQkFBQSxFQUFBOztJQUVYLHlCQUFDLE1BQUQsSUFDTTs7S0FBTCw4QkFBTSxFQUFFO0tBQ1Isa0JBQUksNEJBQWtCLEVBQUU7S0FDeEIsOEJBQU0sRUFBRTs7V0FDVCx5QkFBQyxPQUFELElBQ087O0tBQU4sc0JBQU07S0FDTixrQkFBSSxvQkFBaUI7Ozs7O0VBRXZCLFlBQU8scUJBQ1E7O0dBQWQsa0NBQ007O0lBQUwsc0JBQU07SUFDTix3QkFBTztJQUNQLGdDQUFXOzs7R0FDWiwrQ0FDVTs7SUFDVCwrQ0FBZ0I7OztHQUNqQixrQ0FBWTtHQUNaLHdDQUNTOztJQUFSLGdDQUNZLG9CQUFBO1lBQVgsY0FBYzs7OztHQUNoQiw2Q0FBZ0IseUJBQUEsTUFDSztJQUFwQixZQUFRLGdCQUFnQjtJQUV4Qjs7YUFBWSxLQUFBLHlCQUNLO29CQUFoQjs7OztJQUNELGNBQVUsVUFBVztJQUVyQixVQUFNLFNBQVUsU0FBQSxPQUNJO0tBQW5CLFdBQU8sb0JBQWtCO0tBR3pCLE9BQ0Msc0NBQWlCLHFCQUFPLGtEQUNELGtDQUFvQixxQkFBTztLQUU5QyxRQUFBLEtBQUEseUJBQ0s7TUFBVCxHQUFJLFdBQVMsUUFDTTtPQUFsQixPQUFNLG9DQUFtQiwyQkFBYSx3QkFBVTs7TUFFakQsT0FBTSxtQkFBSyxPQUFPLDBCQUFXOztLQUU5QixPQUNDLHVDQUF3QixpRUFDUztLQUlsQyxHQUFJLFdBQVMseUJBQ29CO01BQWhDLE9BQU07S0FBQTtZQUVQLE9BQU07SUFBQTtJQUVQOzthQUFpQixLQUFBLHlCQUNLO29CQUFwQixFQTdCUSxZQTZCUDs7OztJQUNILHFDQUFXLHdCQUFVLHdCQUFlLGFBQWE7SUFDakQ7O2FBQWEsS0FBQSx5QkFDSztvQkFBakI7Ozs7SUFDRCw4QkFBTSwwQkFBUyxnQ0FBcUI7SUFDOUIsS0FBSyxJQUFLLFNBQVE7V0FDeEI7R0FBQTtHQUVELCtDQUFrQiwwQkFBQSxFQUNDO0lBQWxCLEtBQUssWUFBYSxjQUFhO0lBQy9COzthQUFnQixLQUFBLDJCQUNPO29CQUFyQixjQUFFLE9BQU8sV0FBUTs7OztJQUNuQixvQkFBZSxpRUFBcUQsY0FBZTtJQUNuRix1QkFBaUIsU0FBVSxRQUFPO0lBQ2xDLGdCQUFZLGlCQUFlO0lBQzNCLGVBQVcsUUFBUSxFQUFFO0dBQUE7R0FFdEIsc0JBQ1EsZUFBQTtJQUFQLFdBQU8sZ0JBQ0s7O0tBQVgsa0NBQ007O29CQUFGO29CQUNELENBQUcsSUFBRzs7Ozs7SUFDVixRQUFJLEtBQUssRUFBRTt1Q0FDTixFQUFFO3VDQUNGLEVBQUU7SUFDRDtLQUFBLFFBQUE7S0FDTDsyQkFBQyxLQUFEO3FCQUNTOzswQ0FBSCxFQUFFOzBDQUNGLEVBQUU7TUFBQTs7Ozs7O0VBRVgsYUFBYSxNQUFPLFNBQUEsTUFBTSxFQUNDO1VBQTFCLGdCQUFjLEVBQUU7RUFBQTtFQUVqQixRQUFNLE1BQU07RUF6R1osd0JBQUE7a0JBMkJBIiwiZmlsZSI6IlR5cGUvVHVwbGUuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL1R1cGxlLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7RUFjQSxhQUFVLGdCQUFBLEtBQ0k7VUFBWixjQUFJOztFQUVOLGlCQUFZLG9CQUFBLEVBQUE7O0lBRVgseUJBQUMsTUFBRCxJQUNNOztLQUFMLDhCQUFNLEVBQUU7S0FDUixrQkFBSSw0QkFBa0IsRUFBRTtLQUN4Qiw4QkFBTSxFQUFFOztXQUNULHlCQUFDLE9BQUQsSUFDTzs7S0FBTixzQkFBTTtLQUNOLGtCQUFJLG9CQUFpQjs7Ozs7RUFFdkIsWUFBTyxxQkFDUTs7R0FBZCxrQ0FDTTs7SUFBTCxzQkFBTTtJQUNOLHdCQUFPO0lBQ1AsZ0NBQVc7OztHQUNaLCtDQUNVOztJQUNULCtDQUFnQjs7O0dBQ2pCLGtDQUFZO0dBQ1osd0NBQ1M7O0lBQVIsZ0NBQ1ksb0JBQUE7WUFBWCxjQUFjOzs7O0dBQ2hCLDZDQUFnQix5QkFBQSxNQUNLO0lBQXBCLFlBQVEsZ0JBQWdCO0lBRXhCOzthQUFZLEtBQUEsTUFDSztvQkFBaEI7Ozs7SUFDRCxjQUFVLFVBQVc7SUFFckIsVUFBTSxTQUFVLFNBQUEsT0FDSTtLQUFuQixXQUFPLG9CQUFrQjtLQUd6QixPQUNDLDRCQUFpQixrQkFBTywrQ0FDRCwrQkFBb0Isa0JBQU87S0FFOUMsUUFBQSxLQUFBLE1BQ0s7TUFBVCxHQUFJLFdBQVMsUUFDTTtPQUFsQixPQUFNLDhCQUFtQix3QkFBYSxvQkFBVTs7TUFFakQsT0FBTSxnQkFBSyxPQUFPLHVCQUFXOztLQUU5QixPQUNDLG1DQUF3Qiw2REFDUztLQUlsQyxHQUFJLFdBQVMseUJBQ29CO01BQWhDLE9BQU07O1lBRVAsT0FBTTs7SUFFUDs7YUFBaUIsS0FBQSxNQUNLO29CQUFwQixZQUFDOzs7O0lBQ0gscUNBQVcsd0JBQVUsd0JBQWUsYUFBYTtJQUNqRDs7YUFBYSxLQUFBLE1BQ0s7b0JBQWpCOzs7O0lBQ0QsOEJBQU0sMEJBQVMsZ0NBQXFCO0lBQzlCLEtBQUssSUFBSyxTQUFRO1dBQ3hCO0dBQUE7R0FFRCwrQ0FBa0IsMEJBQUEsRUFDQztJQUFsQixLQUFLLFlBQWEsY0FBYTtJQUMvQjs7YUFBZ0IsS0FBQSxRQUNPO29CQUFyQixhQUFFLE9BQU8sV0FBUTs7OztJQUNuQixvQkFBZSwrREFBcUQsY0FBZTtJQUNuRix1QkFBaUIsU0FBVSxRQUFPO0lBQ2xDLGdCQUFZLGlCQUFlO0lBQzNCLGVBQVcsUUFBUSxFQUFFO0dBQUE7R0FFdEIsc0JBQ1EsZUFBQTtJQUFQLFdBQU8sZ0JBQ0s7O0tBQVgsa0NBQ007O29CQUFGO29CQUNELENBQUcsSUFBRzs7Ozs7SUFDVixRQUFJLEtBQUssRUFBRTt1Q0FDTixFQUFFO3VDQUNGLEVBQUU7SUFDRDtLQUFBLFFBQUE7S0FDTDsyQkFBQyxLQUFEO3FCQUNTOzswQ0FBSCxFQUFFOzBDQUNGLEVBQUU7TUFBQTs7Ozs7O0VBRVgsYUFBYSxNQUFPLFNBQUEsTUFBTSxFQUNDO1VBQTFCLGdCQUFjLEVBQUU7RUFBQTtFQUVqQixRQUFNLE1BQU07RUF6R1osd0JBQUE7a0JBMkJBIiwiZmlsZSI6IlR5cGUvVHVwbGUuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

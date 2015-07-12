@@ -1,5 +1,5 @@
 use
-	.@.@ _ flatten map
+	.@.@ _ flatten
 	.Function apply Thunk
 	.Generator!
 	.js new
@@ -123,7 +123,8 @@ $map.
 			$delay |
 				+ _ 1
 	|:$[Array] mapped:@ mapper:Function[Any $]
-		$all (map mapped mapper
+		$all @for mapped
+			mapper_
 
 $flat-map.
 	doc. "Like $map but flattens the result."

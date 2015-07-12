@@ -5,7 +5,7 @@ define(["exports","../../at/at","../../at/q","../../at/Seq/Seq","../../String","
 		const _64=_ms.getDefaultExport(_64_0),_$2=_ms.getModule(_64_0),_43_43=_ms.get(_$2,"++"),_45_45=_ms.get(_$2,"--"),empty_63=_ms.get(_$2,"empty?"),flat_45map_39=_ms.get(_$2,"flat-map'"),keep=_ms.get(_$2,"keep"),map=_ms.get(_$2,"map"),map_39=_ms.get(_$2,"map'"),_63=_ms.getDefaultExport(_63_1),Seq=_ms.getDefaultExport(Seq_2),_$4=_ms.getModule(Seq_2),_63first=_ms.get(_$4,"?first"),tail=_ms.get(_$4,"tail"),_$5=_ms.getModule(String_3),_45_62upper=_ms.get(_$5,"->upper"),_$6=_ms.getModule(Type_4),contains_63=_ms.get(_$6,"contains?");
 		const make_45word_45from_45blocks=function(){
 			const built={};
-			const doc=built.doc="http://rosettacode.org/wiki/ABC_Problem";
+			const doc=built.doc=`http://rosettacode.org/wiki/ABC_Problem`;
 			return _ms.set(function make_45word_45from_45blocks(word,blocks){
 				_ms.checkContains(String,word,"word");
 				_ms.checkContains(_ms.sub(_64,String),blocks,"blocks");
@@ -30,7 +30,7 @@ define(["exports","../../at/at","../../at/q","../../at/Seq/Seq","../../String","
 				return _ms.checkContains(_ms.sub(_63,_ms.sub(Seq,String)),rec(_45_62upper(word),map(blocks,_45_62upper)),"res")
 			},built)
 		}();
-		const name=exports.name="make-word-from-blocks";
+		const name=exports.name=`make-word-from-blocks`;
 		exports.default=make_45word_45from_45blocks;
 		return exports
 	})

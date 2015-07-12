@@ -7,7 +7,7 @@ define(["exports","../Boolean","../Function","../js","../methods","./Kind","./Me
 		}),_$13=_ms.lazyGetModule(_33_9),_33not=_ms.lazyProp(_$13,"!not"),_$14=_ms.lazyGetModule(compare_10),_61_63=_ms.lazyProp(_$14,"=?");
 		const Pred_45Type=Obj_45Type(function(){
 			const built={};
-			const doc=built.doc="Arbitrary predicates can be made into types using Pred-Type.";
+			const doc=built.doc=`Arbitrary predicates can be made into types using Pred-Type.`;
 			const props=built.props=function(){
 				const built={};
 				const name=built.name=String;
@@ -23,7 +23,7 @@ define(["exports","../Boolean","../Function","../js","../methods","./Kind","./Me
 		});
 		const Opt=exports.Opt=Pred_45Type(function(){
 			const built={};
-			const doc=built.doc="A value which could be anything, even undefined.";
+			const doc=built.doc=`A value which could be anything, even undefined.`;
 			const predicate=built.predicate=function predicate(){
 				return true
 			};
@@ -31,7 +31,7 @@ define(["exports","../Boolean","../Function","../js","../methods","./Kind","./Me
 		}());
 		self_45impl_33(sub,Opt,function(){
 			const built={};
-			const doc=built.doc="Contains null, undefined, or an instance of Exists-Type.";
+			const doc=built.doc=`Contains null, undefined, or an instance of Exists-Type.`;
 			return _ms.set(function(Exists_45Type){
 				_ms.checkContains(Type,Exists_45Type,"Exists-Type");
 				const ET=Exists_45Type;
@@ -44,7 +44,7 @@ define(["exports","../Boolean","../Function","../js","../methods","./Kind","./Me
 		}());
 		const Opt_45Sub=Obj_45Type(function(){
 			const built={};
-			const doc=built.doc="Result of calling Opt[something].";
+			const doc=built.doc=`Result of calling Opt[something].`;
 			const props=built.props=function(){
 				const built={};
 				const Exists_45Type=built["Exists-Type"]=Type;
@@ -60,7 +60,7 @@ define(["exports","../Boolean","../Function","../js","../methods","./Kind","./Me
 		});
 		const Any=exports.Any=Pred_45Type(function(){
 			const built={};
-			const doc=built.doc="Not undefined.";
+			const doc=built.doc=`Not undefined.`;
 			const test=built.test=function test(){
 				_ms.unlazy(_33)(contains_63,Any,0);
 				_ms.unlazy(_33)(contains_63,Any,null);
@@ -71,7 +71,7 @@ define(["exports","../Boolean","../Function","../js","../methods","./Kind","./Me
 		}());
 		const ObjLit=exports.ObjLit=Pred_45Type(function(){
 			const built={};
-			const doc=built.doc="Matches only Objects which have no type (other than Object itself).";
+			const doc=built.doc=`Matches only Objects which have no type (other than Object itself).`;
 			const test=built.test=function test(){
 				_ms.unlazy(_33)(contains_63,ObjLit,{
 					a:1
@@ -87,11 +87,11 @@ define(["exports","../Boolean","../Function","../js","../methods","./Kind","./Me
 		}());
 		const Union=exports.Union=function(){
 			const built={};
-			const doc=built.doc="Type that matches one of several types. Analogous to `or`.";
+			const doc=built.doc=`Type that matches one of several types. Analogous to \`or\`.`;
 			const test=built.test=function test(){
 				const SBN=_ms.sub(Union,String,Boolean,Number);
-				_ms.unlazy(_33)(_ms.unlazy(_61_63),SBN.name,"Union[String Boolean Number]");
-				_ms.unlazy(_33)(contains_63,SBN,"true");
+				_ms.unlazy(_33)(_ms.unlazy(_61_63),SBN.name,`Union[String Boolean Number]`);
+				_ms.unlazy(_33)(contains_63,SBN,`true`);
 				_ms.unlazy(_33)(contains_63,SBN,true);
 				_ms.unlazy(_33)(contains_63,SBN,3);
 				_ms.unlazy(_33not)(contains_63,SBN,null)
@@ -102,7 +102,7 @@ define(["exports","../Boolean","../Function","../js","../methods","./Kind","./Me
 			const types=[].slice.call(arguments,0);
 			return Pred_45Type(function(){
 				const built={};
-				const name=built.name=(("Union["+_ms.show(_61_62(String,types," ")))+"]");
+				const name=built.name=`Union[${_ms.show(_61_62(String,types,` `))}]`;
 				const predicate=built.predicate=function predicate(_){
 					return _ms.unlazy(any_63)(types,function(type){
 						return contains_63(type,_)
@@ -111,9 +111,9 @@ define(["exports","../Boolean","../Function","../js","../methods","./Kind","./Me
 				return built
 			}())
 		});
-		const name=exports.name="Pred-Type";
+		const name=exports.name=`Pred-Type`;
 		exports.default=Pred_45Type;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL1ByZWQtVHlwZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7O0VBZUEsa0JBQVcscUJBQ1E7O0dBQWxCLG9CQUFNO0dBQ04sa0NBQ007O0lBQUwsc0JBQU07SUFDTixnQ0FBVzs7O0dBQ1osa0NBQVk7OztFQUViLFFBQU0sWUFBVTtFQUNoQixRQUFNLFlBQVUsWUFBVyxTQUFBLEVBQUUsTUFDSztVQUFqQyxZQUFZO0VBQUE7RUFHWixzQkFBSyxzQkFDUzs7R0FBYixvQkFBTTtHQUNOLGdDQUNZLG9CQUFBO1dBQVg7R0FBQTs7O0VBRUYsZUFBVyxJQUFJLGNBQ0c7O0dBQWpCLG9CQUFNO2tCQUNMLFNBQUEsY0FDZ0I7c0JBREo7SUFDWixTQUFLO1dBQ0wsb0JBQ087O0tBQU4seUNBQWE7Ozs7O0VBRWhCLGdCQUFVLHFCQUNROztHQUFqQixvQkFBTTtHQUNOLGtDQUNNOztJQUFMLHlDQUFhOzs7OztFQUNmLFFBQU0sVUFBUTtFQUNkLFFBQU0sWUFBVSxVQUFTLFNBQUEsR0FBRyxFQUNDO1VBQTVCLEdBQUksSUFBSSxXQUFRO1dBQUssWUFBVSxrQkFBZTtHQUFBO0VBQUE7RUFFaEQsc0JBQUssc0JBQ1M7O0dBQWIsb0JBQU07R0FDTixzQkFDUSxlQUFBO29CQUFMLFlBQVUsSUFBSTtvQkFDZCxZQUFVLElBQUk7dUJBQ1gsWUFBVSxJQUFJOztHQUNwQixnQ0FBVzs7O0VBRVosNEJBQVEsc0JBQ1M7O0dBQWhCLG9CQUFNO0dBQ04sc0JBQ1EsZUFBQTtvQkFBTCxZQUFVLE9BQU87T0FBSTtJQUFBO3VCQUNsQixZQUFVLE9BQU87R0FBQTtHQUN2QixnQ0FBWSxtQkFBQSxFQUNDO1dBQVosaUJBQUssT0FBRDtZQUFVLFNBQU0sc0JBQXNCLEdBQUc7Ozs7O0VBRS9DLG9DQUNNOztHQUFMLG9CQUFNO0dBQ04sc0JBQ1EsZUFBQTtJQUNQLGtCQUFNLE1BQU0sT0FBTyxRQUFRO3VDQUN0QixTQUFVO29CQUNiLFlBQVUsSUFBSztvQkFDZixZQUFVLElBQUk7b0JBQ2QsWUFBVSxJQUFJO3VCQUNYLFlBQVUsSUFBSTtHQUFBOzs7RUFFckIsZUFBVyxJQUFJLE1BQU8sVUFDUTs7VUFBN0Isc0JBQ1M7O0lBQVIsc0JBQU8sb0JBQU8sT0FBRyxPQUFPLE1BQU87SUFDL0IsZ0NBQVksbUJBQUEsRUFDQzsrQkFBUCxNQUFPLFNBQUEsS0FDSTthQUFmLFlBQVUsS0FBSztLQUFBO0lBQUE7Ozs7RUEvRW5CLHdCQUFBO2tCQWVBIiwiZmlsZSI6IlR5cGUvUHJlZC1UeXBlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL1ByZWQtVHlwZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7O0VBZUEsa0JBQVcscUJBQ1E7O0dBQWxCLG9CQUFNO0dBQ04sa0NBQ007O0lBQUwsc0JBQU07SUFDTixnQ0FBVzs7O0dBQ1osa0NBQVk7OztFQUViLFFBQU0sWUFBVTtFQUNoQixRQUFNLFlBQVUsWUFBVyxTQUFBLEVBQUUsTUFDSztVQUFqQyxZQUFZO0VBQUE7RUFHWixzQkFBSyxzQkFDUzs7R0FBYixvQkFBTTtHQUNOLGdDQUNZLG9CQUFBO1dBQVg7R0FBQTs7O0VBRUYsZUFBVyxJQUFJLGNBQ0c7O0dBQWpCLG9CQUFNO2tCQUNMLFNBQUEsY0FDZ0I7c0JBREo7SUFDWixTQUFLO1dBQ0wsb0JBQ087O0tBQU4seUNBQWE7Ozs7O0VBRWhCLGdCQUFVLHFCQUNROztHQUFqQixvQkFBTTtHQUNOLGtDQUNNOztJQUFMLHlDQUFhOzs7OztFQUNmLFFBQU0sVUFBUTtFQUNkLFFBQU0sWUFBVSxVQUFTLFNBQUEsR0FBRyxFQUNDO1VBQTVCLEdBQUksSUFBSSxXQUFRO1dBQUssWUFBVSxrQkFBZTtHQUFBO0VBQUE7RUFFaEQsc0JBQUssc0JBQ1M7O0dBQWIsb0JBQU07R0FDTixzQkFDUSxlQUFBO29CQUFMLFlBQVUsSUFBSTtvQkFDZCxZQUFVLElBQUk7dUJBQ1gsWUFBVSxJQUFJOztHQUNwQixnQ0FBVzs7O0VBRVosNEJBQVEsc0JBQ1M7O0dBQWhCLG9CQUFNO0dBQ04sc0JBQ1EsZUFBQTtvQkFBTCxZQUFVLE9BQU87T0FBSTtJQUFBO3VCQUNsQixZQUFVLE9BQU87R0FBQTtHQUN2QixnQ0FBWSxtQkFBQSxFQUNDO1dBQVosaUJBQUssT0FBRDtZQUFVLFNBQU0sc0JBQXNCLEdBQUc7Ozs7O0VBRS9DLG9DQUNNOztHQUFMLG9CQUFNO0dBQ04sc0JBQ1EsZUFBQTtJQUNQLGtCQUFNLE1BQU0sT0FBTyxRQUFRO3VDQUN0QixTQUFVO29CQUNiLFlBQVUsSUFBSztvQkFDZixZQUFVLElBQUk7b0JBQ2QsWUFBVSxJQUFJO3VCQUNYLFlBQVUsSUFBSTtHQUFBOzs7RUFFckIsZUFBVyxJQUFJLE1BQU8sVUFDUTs7VUFBN0Isc0JBQ1M7O0lBQVIsc0JBQU8sa0JBQU8sT0FBRyxPQUFPLE1BQU87SUFDL0IsZ0NBQVksbUJBQUEsRUFDQzsrQkFBUCxNQUFPLFNBQUEsS0FDSTthQUFmLFlBQVUsS0FBSztLQUFBO0lBQUE7Ozs7RUEvRW5CLHdCQUFBO2tCQWVBIiwiZmlsZSI6IlR5cGUvUHJlZC1UeXBlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

@@ -1,9 +1,8 @@
 import { ArrayExpression, BinaryExpression, BlockStatement, BreakStatement, CallExpression,
 	CatchClause, ConditionalExpression, ContinueStatement, DebuggerStatement, ExpressionStatement,
-	ForOfStatement, FunctionExpression, Identifier, IfStatement, Literal, MemberExpression,
-	ObjectExpression, Program, ReturnStatement, ThisExpression, ThrowStatement, TryStatement,
-	VariableDeclaration, UnaryExpression, VariableDeclarator, ReturnStatement
-	} from 'esast/dist/ast'
+	ForOfStatement, FunctionExpression, Identifier, IfStatement, Literal, ObjectExpression,
+	Program, ReturnStatement, TemplateLiteral, ThisExpression, ThrowStatement, TryStatement, VariableDeclaration,
+	UnaryExpression, VariableDeclarator, ReturnStatement } from 'esast/dist/ast'
 import { idCached, loc, member, propertyIdOrLiteralCached, toStatement } from 'esast/dist/util'
 import { assignmentExpressionPlain, callExpressionThunk, functionExpressionPlain,
 	functionExpressionThunk, memberExpression, property,
@@ -14,16 +13,16 @@ import { AssignSingle, LD_Lazy, LD_Mutable, Pattern, Splat, SD_Debugger, SV_Cont
 	} from '../../MsAst'
 import manglePath from '../manglePath'
 import { assert, cat, flatMap, flatOpMap, ifElse, isEmpty,
-	implementMany, isPositive, opIf, opMap, tail, unshift } from '../util'
+	implementMany, isPositive, opIf, opMap, unshift } from '../util'
 import { AmdefineHeader, ArraySliceCall, DeclareBuiltBag, DeclareBuiltMap, DeclareBuiltObj,
-	ExportsDefault, ExportsGet, IdArguments, IdBuilt, IdDefine, IdExports, IdExtract,
-	IdFunctionApplyCall, LitEmptyArray, LitEmptyString, LitNull, LitStrExports, LitStrOhNo, LitZero,
-	ReturnBuilt, ReturnExports, ReturnRes, SymbolIterator, UseStrict } from './ast-constants'
+	EmptyTemplateElement, ExportsDefault, ExportsGet, IdArguments, IdBuilt, IdDefine, IdExports,
+	IdExtract, IdFunctionApplyCall, LitEmptyArray, LitEmptyString, LitNull, LitStrExports,
+	LitStrOhNo, LitZero, ReturnBuilt, ReturnExports, ReturnRes, UseStrict } from './ast-constants'
 import { IdMs, lazyWrap, msAdd, msAddMany, msArr, msAssoc, msBool, msCheckContains, msError,
 	msExtract, msGet, msGetDefaultExport, msGetModule, msLazy, msLazyGet, msLazyGetModule, msSet,
 	msSetName, msSetLazy, msShow, msSome, MsNone } from './ms-call'
 import { accessLocalDeclare, declare, forStatementInfinite, idForDeclareCached,
-	opTypeCheckForLocalDeclare, throwErrorFromString } from './util'
+	opTypeCheckForLocalDeclare, templateElementForString, throwErrorFromString } from './util'
 
 let context, verifyResults, isInGenerator
 
@@ -44,14 +43,15 @@ const
 	t3 = (expr, arg, arg2, arg3) => loc(expr.transpileSubtree(arg, arg2, arg3), expr.loc),
 	tLines = exprs => {
 		const out = [ ]
-		exprs.forEach(expr => {
+		for (const expr of exprs) {
 			const ast = expr.transpileSubtree()
 			if (ast instanceof Array)
 				// Debug may produce multiple statements.
-				ast.forEach(_ => out.push(toStatement(_)))
+				for (const _ of ast)
+					out.push(toStatement(_))
 			else
 				out.push(loc(toStatement(ast), expr.loc))
-		})
+		}
 		return out
 	}
 
@@ -272,16 +272,31 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 	},
 
 	Quote() {
-		// TODO:ES6 use template strings
-		const part0 = this.parts[0]
-		const [ first, restParts ] =
-			typeof part0 === 'string' ?
-				[ Literal(part0), tail(this.parts) ] :
-				[ LitEmptyString, this.parts ]
-		return restParts.reduce(
-			(ex, _) =>
-				BinaryExpression('+', ex, typeof _ === 'string' ? Literal(_) : msShow(t0(_))),
-			first)
+		if (this.parts.length === 0)
+			return LitEmptyString
+		else {
+			const quasis = [ ], expressions = [ ]
+
+			// TemplateLiteral must start with a TemplateElement
+			if (typeof this.parts[0] !== 'string')
+				quasis.push(EmptyTemplateElement)
+
+			for (let part of this.parts)
+				if (typeof part === 'string')
+					quasis.push(templateElementForString(part))
+				else {
+					// "{1}{1}" needs an empty quasi in the middle (and on the ends)
+					if (quasis.length === expressions.length)
+						quasis.push(EmptyTemplateElement)
+					expressions.push(msShow(t0(part)))
+				}
+
+			// TemplateLiteral must end with a TemplateElement, so one more quasi than expression.
+			if (quasis.length === expressions.length)
+				quasis.push(EmptyTemplateElement)
+
+			return TemplateLiteral(quasis, expressions)
+		}
 	},
 
 	SpecialDo() {
@@ -345,9 +360,7 @@ const
 		ifElse(opIteratee,
 			({ element, bag }) => {
 				const declare = VariableDeclaration('let', [ VariableDeclarator(t0(element)) ])
-				// TODO:ES6 shouldn't have to explicitly get iterator
-				const iter = CallExpression(MemberExpression(t0(bag), SymbolIterator, true), [ ])
-				return ForOfStatement(declare, iter, t0(block))
+				return ForOfStatement(declare, t0(bag), t0(block))
 			},
 			() => forStatementInfinite(t0(block))),
 

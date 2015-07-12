@@ -7,11 +7,11 @@ define(["exports","../../Function","../../Generatorbang","../../math/Number","..
 		}),_$17=_ms.lazyGetModule(compare_14),_61_63=_ms.lazyProp(_$17,"=?"),_$18=_ms.lazyGetModule(control_15),build=_ms.lazyProp(_$18,"build"),_$19=_ms.lazyGetModule(methods_16),_43=_ms.lazyProp(_$19,"+"),_$20=_ms.lazyGetModule(Number_17),infinity=_ms.lazyProp(_$20,"infinity"),_$21=_ms.lazyGetModule(Type_18),_61_62=_ms.lazyProp(_$21,"=>"),_$22=_ms.lazyGetModule(Range_19),range=_ms.lazyProp(_$22,"range"),_$23=_ms.lazyGetModule(Seq_20),seq_61_63=_ms.lazyProp(_$23,"seq=?"),take_39=_ms.lazyProp(_$23,"take'");
 		const Lazy_45Stream=Tuple(function(){
 			const built={};
-			const doc=built.doc="Like Stream, but caches its elements as it produces them.\nIf you want to stream the results of an expensive computation and use it multiple times, use this.\nIf you have a cheap computation or only need to iterate through it once, use Stream.";
+			const doc=built.doc=`Like Stream, but caches its elements as it produces them.\nIf you want to stream the results of an expensive computation and use it multiple times, use this.\nIf you have a cheap computation or only need to iterate through it once, use Stream.`;
 			const props=built.props=function(){
 				const built=[];
-				_ms.add(built,["caching-iterator",Generator_33]);
-				_ms.add(built,["cache",Array_33]);
+				_ms.add(built,[`caching-iterator`,Generator_33]);
+				_ms.add(built,[`cache`,Array_33]);
 				return built
 			}();
 			return _ms.setName(built,"Lazy-Stream")
@@ -61,12 +61,12 @@ define(["exports","../../Function","../../Generatorbang","../../math/Number","..
 		}());
 		const lazy_45streaming=exports["lazy-streaming"]=function(){
 			const built={};
-			const doc=built.doc="Creates a Lazy-Stream from a generator.";
+			const doc=built.doc=`Creates a Lazy-Stream from a generator.`;
 			const test=built.test=function test(){
 				const fibonaccis=Stream(function*(){
 					(yield 1);
 					(yield 1);
-					for(let _ of _ms.unlazy(range)(2,_ms.unlazy(infinity))[Symbol.iterator]()){
+					for(let _ of _ms.unlazy(range)(2,_ms.unlazy(infinity))){
 						(yield _ms.unlazy(_43)(_ms.sub(fibonaccis,_45(_,1)),_ms.sub(fibonaccis,_45(_,2))))
 					}
 				});
@@ -77,7 +77,7 @@ define(["exports","../../Function","../../Generatorbang","../../math/Number","..
 				const cache=empty(Array_33);
 				const strm=Stream(stream);
 				const iter=call(function*(){
-					for(let _ of strm[Symbol.iterator]()){
+					for(let _ of strm){
 						cache.push(_);
 						(yield _)
 					}
@@ -85,9 +85,9 @@ define(["exports","../../Function","../../Generatorbang","../../math/Number","..
 				return Lazy_45Stream(iter,cache)
 			},built)
 		}();
-		const name=exports.name="Lazy-Stream";
+		const name=exports.name=`Lazy-Stream`;
 		exports.default=Lazy_45Stream;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1NlcS9MYXp5LVN0cmVhbS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7O0VBd0JBLG9CQUFhLGdCQUNLOztHQUFqQixvQkFDQztHQUdELGtDQUNNOztrQkFBSCxDQUFHLG1CQUFrQjtrQkFDckIsQ0FBRyxRQUFPOzs7OztFQUVkLGVBQVcsY0FBWSxxQkFDTTs7bUJBQTVCLE1BQVMsTUFBTyxjQUFZLGtCQUFpQixNQUFNO21CQUVuRCxjQUFnQixTQUFBLEVBQ0M7V0FBaEIsaUJBQ2dCLFVBQUE7WUFBZixTQUFRO0lBQUE7R0FBQTs7O0VBRVgsYUFBUyxTQUFTLHdCQUNXOztHQUE1QixzQkFDUSxlQUFBO3VDQUFGLENBQUUsRUFBRSxxQkFBYSxTQUFBLE9BQ0s7S0FBMUIsMkJBQU8sY0FBYSxPQUNVLFdBQUE7TUFBN0IsT0FBTTthQUNIO01BQ0gsT0FBTTthQUNIO01BQ0gsT0FBTTtLQUFBOzJDQUNDLENBQUUsdUJBQVcsRUFBRTsyQ0FDZixDQUFFLEVBQUUsdUJBQVcsRUFBRTtJQUFBO0dBQUE7a0JBRXhCLFdBQUE7WUFBRSxTQUFTO1lBQ1Q7OztFQUVOLFFBQU0sY0FBWSxjQUNHOzttQkFBcEIsT0FBUyxTQUFBLE9BQU8sRUFDSztzQkFESDtXQUNqQixTQUFNLE9BQUssYUFBYTtzQkFDSTtNQUEzQixlQUFTLElBQUUsRUFBRyxNQUFNO2FBQ3BCLE9BQU0sT0FBTyw0QkFBeUI7S0FBQTtJQUFBO0dBQUE7OztFQUV6QywyREFDZTs7R0FBZCxvQkFBTTtHQUNOLHNCQUNPLGVBQUE7SUFBTixpQkFBYSxPQUNVLFdBQUE7WUFBbkI7WUFDQTtLQUNFLFFBQUEsdUJBQU0sMkNBQ1U7cUNBQ2YsV0FBWSxJQUFFLEVBQUUsWUFBRyxXQUFZLElBQUUsRUFBRTtLQUFBO0lBQUE7cUVBQzNCLFdBQVcsSUFBSSxDQUFFLEVBQUUsRUFBRSxFQUFFLEVBQUUsRUFBRSxFQUFFLEdBQUcsR0FBRyxHQUFHO0dBQUE7a0JBQ3JELDBCQUFBLE9BQzJCOzhCQURwQixTQUFTO0lBQ2hCLFlBQVEsTUFBTTtJQUlkLFdBQU8sT0FBTztJQUNkLFdBQU8sS0FDUSxXQUFBO0tBQVQsUUFBQSxLQUFBLHdCQUNJO01BQ1IsV0FBVzthQUNSO0tBQUE7SUFBQTtXQUNMLGNBQVksS0FBSztHQUFBOztFQWxGbkIsd0JBQUE7a0JBd0JBIiwiZmlsZSI6ImF0L1NlcS9MYXp5LVN0cmVhbS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1NlcS9MYXp5LVN0cmVhbS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7O0VBd0JBLG9CQUFhLGdCQUNLOztHQUFqQixvQkFDQztHQUdELGtDQUNNOztrQkFBSCxDQUFHLG1CQUFrQjtrQkFDckIsQ0FBRyxRQUFPOzs7OztFQUVkLGVBQVcsY0FBWSxxQkFDTTs7bUJBQTVCLE1BQVMsTUFBTyxjQUFZLGtCQUFpQixNQUFNO21CQUVuRCxjQUFnQixTQUFBLEVBQ0M7V0FBaEIsaUJBQ2dCLFVBQUE7WUFBZixTQUFRO0lBQUE7R0FBQTs7O0VBRVgsYUFBUyxTQUFTLHdCQUNXOztHQUE1QixzQkFDUSxlQUFBO3VDQUFGLENBQUUsRUFBRSxxQkFBYSxTQUFBLE9BQ0s7S0FBMUIsMkJBQU8sY0FBYSxPQUNVLFdBQUE7TUFBN0IsT0FBTTthQUNIO01BQ0gsT0FBTTthQUNIO01BQ0gsT0FBTTtLQUFBOzJDQUNDLENBQUUsdUJBQVcsRUFBRTsyQ0FDZixDQUFFLEVBQUUsdUJBQVcsRUFBRTtJQUFBO0dBQUE7a0JBRXhCLFdBQUE7WUFBRSxTQUFTO1lBQ1Q7OztFQUVOLFFBQU0sY0FBWSxjQUNHOzttQkFBcEIsT0FBUyxTQUFBLE9BQU8sRUFDSztzQkFESDtXQUNqQixTQUFNLE9BQUssYUFBYTtzQkFDSTtNQUEzQixlQUFTLElBQUUsRUFBRyxNQUFNO2FBQ3BCLE9BQU0sT0FBTyw0QkFBeUI7S0FBQTtJQUFBO0dBQUE7OztFQUV6QywyREFDZTs7R0FBZCxvQkFBTTtHQUNOLHNCQUNPLGVBQUE7SUFBTixpQkFBYSxPQUNVLFdBQUE7WUFBbkI7WUFDQTtLQUNFLFFBQUEsdUJBQU0sd0JBQ1U7cUNBQ2YsV0FBWSxJQUFFLEVBQUUsWUFBRyxXQUFZLElBQUUsRUFBRTtLQUFBO0lBQUE7cUVBQzNCLFdBQVcsSUFBSSxDQUFFLEVBQUUsRUFBRSxFQUFFLEVBQUUsRUFBRSxFQUFFLEdBQUcsR0FBRyxHQUFHO0dBQUE7a0JBQ3JELDBCQUFBLE9BQzJCOzhCQURwQixTQUFTO0lBQ2hCLFlBQVEsTUFBTTtJQUlkLFdBQU8sT0FBTztJQUNkLFdBQU8sS0FDUSxXQUFBO0tBQVQsUUFBQSxLQUFBLEtBQ0k7TUFDUixXQUFXO2FBQ1I7S0FBQTtJQUFBO1dBQ0wsY0FBWSxLQUFLO0dBQUE7O0VBbEZuQix3QkFBQTtrQkF3QkEiLCJmaWxlIjoiYXQvU2VxL0xhenktU3RyZWFtLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

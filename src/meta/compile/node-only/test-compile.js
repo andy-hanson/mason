@@ -41,7 +41,8 @@ const doTest = isPerfTest => {
 		// console.log(`==>\n${esAst}`)
 		const { code } = render(context, esAst)
 
-		context.warnings.forEach(w => console.log(w))
+		for (const _ of context.warnings)
+			console.log(_)
 
 		if (isPerfTest)
 			benchmark({
@@ -68,8 +69,8 @@ const doTest = isPerfTest => {
 const
 	benchmark = tests => {
 		const suite = new Suite()
-		Object.keys(tests).forEach(name =>
-			suite.add(name, tests[name]))
+		for (const name in tests)
+			suite.add(name, tests[name])
 		suite.on('complete', function() {
 			this.forEach(_ => {
 				const ms = numeral(_.stats.mean * 1000).format('0.00')
@@ -89,13 +90,13 @@ const
 			if (node != null && !visited.has(node))
 				if (cond(node)) {
 					visited.add(node)
-					Object.getOwnPropertyNames(node).forEach(name => {
+					for (const name in node) {
 						const child = node[name]
 						if (child instanceof Array)
 							child.forEach(visit)
 						else
 							visit(child)
-					})
+					}
 				} else
 					nLeaves = nLeaves + 1
 		}

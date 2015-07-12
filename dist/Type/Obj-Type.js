@@ -20,99 +20,99 @@ define(["exports","esast/dist/mangle-identifier","../Boolean","../private/bootst
 				return not(js_61_61_61(desc.value,null))
 			};
 			const real_45prop_63=function real_45prop_63(props,prop){
-				return implies(js_61_61_61(prop,"name"),_ms.lazy(function(){
+				return implies(js_61_61_61(prop,`name`),_ms.lazy(function(){
 					return function(){
-						return not(js_61_61_61(js_45typeof(js_45sub(props,prop)),"string"))
+						return not(js_61_61_61(js_45typeof(js_45sub(props,prop)),`string`))
 					}()
 				}))
 			};
 			const access=function access(name){
-				return (("[\""+_ms.show(name))+"\"]")
+				return `["${_ms.show(name)}"]`
 			};
 			const src=buildStr(function(add_33){
 				const name=mangle_45identifier(ot.name);
-				add_33((((((("return function "+_ms.show(name))+"(_) {\nif (!(this instanceof ")+_ms.show(name))+")) return new ")+_ms.show(name))+"(_)"));
+				add_33(`return function ${_ms.show(name)}(_) {\nif (!(this instanceof ${_ms.show(name)})) return new ${_ms.show(name)}(_)`);
 				const real_45props=Object.getOwnPropertyNames(ot.props).filter(function(_){
 					return real_45prop_63(ot.props,_)
 				});
 				const extensible=flag_63(ot.extensible);
 				if(extensible){
-					add_33("Object.assign(this, _)")
+					add_33(`Object.assign(this, _)`)
 				};
-				for(let prop of real_45props[Symbol.iterator]()){
+				for(let prop of real_45props){
 					const acc=access(prop);
 					if(! _ms.bool(extensible)){
-						add_33(((("this"+_ms.show(acc))+" = _")+_ms.show(acc)))
+						add_33(`this${_ms.show(acc)} = _${_ms.show(acc)}`)
 					};
 					const default_63=and(defined_63(ot.defaults),_ms.lazy(function(){
 						return defined_63(js_45sub(ot.defaults,prop))
 					}));
 					if(default_63){
-						add_33((((((("if (this"+_ms.show(acc))+" === undefined) this")+_ms.show(acc))+" = defaults")+_ms.show(acc))+"(_)"))
+						add_33(`if (this${_ms.show(acc)} === undefined) this${_ms.show(acc)} = defaults${_ms.show(acc)}(_)`)
 					};
 					if(_ms.bool(prop_45has_45type_63(ot.props,prop))){
-						add_33((((((("_ms.checkContains(props"+_ms.show(acc))+", this")+_ms.show(acc))+", \"")+_ms.show(prop))+"\")"))
+						add_33(`_ms.checkContains(props${_ms.show(acc)}, this${_ms.show(acc)}, "${_ms.show(prop)}")`)
 					} else if(_ms.bool(default_63)){} else {
-						add_33((((("if (!Object.prototype.hasOwnProperty.call(_, \""+_ms.show(prop))+"\"))\n\tthrow new Error(\"Forgot to assign ")+_ms.show(prop))+".\")"))
+						add_33(`if (!Object.prototype.hasOwnProperty.call(_, "${_ms.show(prop)}"))\n\tthrow new Error("Forgot to assign ${_ms.show(prop)}.")`)
 					}
 				};
 				if(defined_63(ot["opt-props"])){
-					for(let prop of Object.getOwnPropertyNames(ot["opt-props"])[Symbol.iterator]()){
+					for(let prop of Object.getOwnPropertyNames(ot["opt-props"])){
 						if(real_45prop_63(ot["opt-props"],prop)){
 							const acc=access(prop);
-							add_33((("if (_"+_ms.show(acc))+" !== undefined) {"));
+							add_33(`if (_${_ms.show(acc)} !== undefined) {`);
 							if(! _ms.bool(extensible)){
-								add_33(((("this"+_ms.show(acc))+" = _")+_ms.show(acc)))
+								add_33(`this${_ms.show(acc)} = _${_ms.show(acc)}`)
 							};
 							if(prop_45has_45type_63(ot["opt-props"],prop)){
-								add_33((((((("_ms.checkContains(optProps"+_ms.show(acc))+", this")+_ms.show(acc))+", \"")+_ms.show(prop))+"\")"))
+								add_33(`_ms.checkContains(optProps${_ms.show(acc)}, this${_ms.show(acc)}, "${_ms.show(prop)}")`)
 							};
-							add_33("}")
+							add_33(`}`)
 						}
 					}
 				};
 				if(! _ms.bool(extensible)){
-					const check=(("_ms.checkNoExtras(this, _, \""+_ms.show(ot.name))+"\")");
+					const check=`_ms.checkNoExtras(this, _, "${_ms.show(ot.name)}")`;
 					if(_ms.bool(defined_63(ot["opt-props"]))){
 						add_33(check)
 					} else {
 						const n_45props=real_45props.length;
 						const n_45props_45compare=function(){
 							if(_ms.bool(defined_63(real_45props.name))){
-								return (""+_ms.show(n_45props))
+								return `${_ms.show(n_45props)}`
 							} else {
-								return (((("(Object.prototype.hasOwnProperty.call(_, \"name\") ? "+_ms.show(_ms.unlazy(addOne)(n_45props)))+" : ")+_ms.show(n_45props))+")")
+								return `(Object.prototype.hasOwnProperty.call(_, "name") ? ${_ms.show(_ms.unlazy(addOne)(n_45props))} : ${_ms.show(n_45props)})`
 							}
 						}();
-						add_33((((("if (Object.keys(_).length > "+_ms.show(n_45props_45compare))+")  {\n\t")+_ms.show(check))+"\n\tthrow new Error(\"Unreachable\")\n}"))
+						add_33(`if (Object.keys(_).length > ${_ms.show(n_45props_45compare)})  {\n\t${_ms.show(check)}\n\tthrow new Error("Unreachable")\n}`)
 					}
 				};
 				if(defined_63(ot["make-callable"])){
-					add_33("const callBaby = makeCallable(this)\nObject.setPrototypeOf(callBaby, prototype)\ndelete this.name\nObject.assign(callBaby, this)")
+					add_33(`const callBaby = makeCallable(this)\nObject.setPrototypeOf(callBaby, prototype)\ndelete this.name\nObject.assign(callBaby, this)`)
 				};
 				if(defined_63(ot["post-construct"])){
 					const post=function(){
 						if(_ms.bool(defined_63(ot["make-callable"]))){
-							return "callBaby"
+							return `callBaby`
 						} else {
-							return "this"
+							return `this`
 						}
 					}();
-					add_33((("postConstruct("+_ms.show(post))+")"))
+					add_33(`postConstruct(${_ms.show(post)})`)
 				};
 				if(defined_63(ot["make-callable"])){
-					add_33("return callBaby")
+					add_33(`return callBaby`)
 				};
-				return add_33("}")
+				return add_33(`}`)
 			});
-			const make_45ctr=Function("prototype","props","defaults","makeCallable","postConstruct","optProps",src);
+			const make_45ctr=Function(`prototype`,`props`,`defaults`,`makeCallable`,`postConstruct`,`optProps`,src);
 			const ctr=make_45ctr(ot.prototype,ot.props,ot.defaults,ot["make-callable"],ot["post-construct"],ot["opt-props"]);
-			pAdd(ctr,"source",src);
+			pAdd(ctr,`source`,src);
 			return ctr
 		};
 		const obj_45type_45args=function(){
 			const built={};
-			const doc=built.doc="Impl-Type for Objects with specific properties.\nObj-Types are nominal types;\na value must be constructed by calling the Obj-Type in order to be contained by it.\n\nNote that there are Objects whose types are not Obj-Types;\nthese include those of Wrap-Types and those made by constructor Functions, JavaScript-style.";
+			const doc=built.doc=`Impl-Type for Objects with specific properties.\nObj-Types are nominal types;\na value must be constructed by calling the Obj-Type in order to be contained by it.\n\nNote that there are Objects whose types are not Obj-Types;\nthese include those of Wrap-Types and those made by constructor Functions, JavaScript-style.`;
 			const prototype=built.prototype=Object.create(Object.prototype);
 			const props=built.props=function(){
 				const built={};
@@ -139,7 +139,7 @@ define(["exports","esast/dist/mangle-identifier","../Boolean","../private/bootst
 				return _ms.setName(built,"defaults")
 			}();
 			const post_45construct=built["post-construct"]=function post_45construct(_){
-				return pAdd(_.prototype,"constructor",_)
+				return pAdd(_.prototype,`constructor`,_)
 			};
 			const make_45callable=built["make-callable"]=make_45constructor;
 			const test=built.test=function test(){
@@ -165,8 +165,8 @@ define(["exports","esast/dist/mangle-identifier","../Boolean","../private/bootst
 				_ms.unlazy(_33)(_ms.unlazy(fails_63),function(){
 					return Vec2D(function(){
 						const built={};
-						const x=built.x="one";
-						const y=built.y="two";
+						const x=built.x=`one`;
+						const y=built.y=`two`;
 						return built
 					}())
 				});
@@ -240,9 +240,9 @@ define(["exports","esast/dist/mangle-identifier","../Boolean","../private/bootst
 		implContains(Obj_45Type,function(ot,_){
 			return js_45instanceof(_,ot)
 		});
-		const name=exports.name="Obj-Type";
+		const name=exports.name=`Obj-Type`;
 		exports.default=Obj_45Type;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL09iai1UeXBlLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7RUFhQSxjQUFTLGlCQUFBLEVBQUE7O0lBQ1IsWUFBQSxXQUFRLElBQ0M7WUFBUixNQUFLLFlBQU0sRUFBRTtJQUFBLE9BRVY7WUFBSDtJQUFBO0dBQUE7RUFBQTtFQUVGLHlCQUFvQiw0QkFBQSxHQUNFO0dBQWYsMkJBQWtCLDhCQUFBLE1BQU0sS0FDSTtJQUNqQyxXQUFPLGdDQUFnQyxNQUFNO1dBQzdDLElBQUssWUFBTSxXQUFXO0dBQUE7R0FFdkIscUJBQWMsd0JBQUEsTUFBTSxLQUNJO1dBQ3ZCLFFBQVMsWUFBTSxLQUFNO3NCQUNRO2FBQzVCLElBQUssWUFBTyxZQUFXLFNBQU8sTUFBTSxPQUFRO0tBQUE7SUFBQTtHQUFBO0dBRTlDLGFBQVUsZ0JBQUEsS0FDSTtXQUFaLGlCQUFJOztHQUVOLFVBQU0sU0FBVSxTQUFBLE9BQ0k7SUFBbkIsV0FBTyxvQkFBa0I7SUFFekIsT0FDQyxrQ0FBaUIsaURBQ00sa0NBQW9CO0lBRTVDLG1CQUFjLDJCQUEyQixpQkFBa0IsU0FBQSxFQUNDO1lBQTNELGVBQVcsU0FBUztJQUFBO0lBRXJCLGlCQUFhLFFBQU07SUFFbkIsR0FBSSxXQUNVO0tBQWIsT0FBTTtJQUFBO0lBRUYsUUFBQSxRQUFRLGdDQUNVO0tBQXRCLFVBQU0sT0FBTztLQUViLGNBQVEsWUFDVTtNQUFqQixPQUFNLG1CQUFLLHVCQUFTO0tBQUE7S0FFckIsaUJBQVcsSUFBSyxXQUFTO2FBQWUsV0FBVSxTQUFPLFlBQVk7S0FBQTtLQUVyRSxHQUFJLFdBQ1E7TUFBWCxPQUFNLDBCQUFTLHVDQUF5Qiw4QkFBZ0I7O0tBRzlDLFlBQVYscUJBQWUsU0FBUyxPQUNJO01BQTNCLE9BQU0seUNBQXdCLHlCQUFXLHVCQUFTO1lBQ25ELFlBQUEsWUFDUSxRQUVKO01BQUgsT0FDQywrREFBZ0QsK0RBQ1g7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
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL09iai1UeXBlLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7RUFhQSxjQUFTLGlCQUFBLEVBQUE7O0lBQ1IsWUFBQSxXQUFRLElBQ0M7WUFBUixNQUFLLFlBQU0sRUFBRTtJQUFBLE9BRVY7WUFBSDtJQUFBO0dBQUE7RUFBQTtFQUVGLHlCQUFvQiw0QkFBQSxHQUNFO0dBQWYsMkJBQWtCLDhCQUFBLE1BQU0sS0FDSTtJQUNqQyxXQUFPLGdDQUFnQyxNQUFNO1dBQzdDLElBQUssWUFBTSxXQUFXO0dBQUE7R0FFdkIscUJBQWMsd0JBQUEsTUFBTSxLQUNJO1dBQ3ZCLFFBQVMsWUFBTSxLQUFNO3NCQUNRO2FBQzVCLElBQUssWUFBTyxZQUFXLFNBQU8sTUFBTSxPQUFROzs7O0dBRTlDLGFBQVUsZ0JBQUEsS0FDSTtXQUFaLGNBQUk7O0dBRU4sVUFBTSxTQUFVLFNBQUEsT0FDSTtJQUFuQixXQUFPLG9CQUFrQjtJQUV6QixPQUNDLDRCQUFpQiw4Q0FDTSwrQkFBb0I7SUFFNUMsbUJBQWMsMkJBQTJCLGlCQUFrQixTQUFBLEVBQ0M7WUFBM0QsZUFBVyxTQUFTO0lBQUE7SUFFckIsaUJBQWEsUUFBTTtJQUVuQixHQUFJLFdBQ1U7S0FBYixPQUFNOztJQUVGLFFBQUEsUUFBUSxhQUNVO0tBQXRCLFVBQU0sT0FBTztLQUViLGNBQVEsWUFDVTtNQUFqQixPQUFNLGdCQUFLLG9CQUFTOztLQUVyQixpQkFBVyxJQUFLLFdBQVM7YUFBZSxXQUFVLFNBQU8sWUFBWTtLQUFBO0tBRXJFLEdBQUksV0FDUTtNQUFYLE9BQU0sb0JBQVMsb0NBQXlCLDJCQUFnQjs7S0FHOUMsWUFBVixxQkFBZSxTQUFTLE9BQ0k7TUFBM0IsT0FBTSxtQ0FBd0Isc0JBQVcsbUJBQVM7WUFDbkQsWUFBQSxZQUNRLFFBRUo7TUFBSCxPQUNDLDBEQUFnRCwwREFDWDs7O0lBRXpDLEdBQUksV0FBUyxpQkFDWTtLQUFuQixRQUFBLFFBQVEsMkJBQTJCLGlCQUNZO01BQW5ELEdBQUksZUFBVyxnQkFBYSxNQUNJO09BQS9CLFVBQU0sT0FBTztPQUNiLE9BQU0saUJBQU07T0FDWixjQUFRLFlBQ1U7UUFBakIsT0FBTSxnQkFBSyxvQkFBUzs7T0FDZixHQUFJLHFCQUFlLGdCQUFhLE1BQ0k7UUFDekMsT0FBTSxzQ0FBMkIsc0JBQVcsbUJBQVM7O09BQ3RELE9BQU07Ozs7SUFFSCxjQUFRLFlBQ1U7S0FBdkIsWUFBUyx3Q0FBOEI7S0FFbEMsWUFBSixXQUFTLGtCQUNZO01BQXBCLE9BQUs7S0FBQSxPQUVGO01BQUgsZ0JBQVU7TUFDVjtPQUNDLFlBQUEsV0FBUyxvQkFDZTtlQUF0QixZQUFDO2NBRUM7ZUFDRixrRkFBNkQsMEJBQVk7OztNQUU1RSxPQUNDLHdDQUE2Qix3Q0FDM0I7OztJQUlOLEdBQUksV0FBUyxxQkFDZ0I7S0FDNUIsT0FDQzs7SUFLRixHQUFJLFdBQVMsc0JBQ2lCO0tBQTdCO01BQ0MsWUFBQSxXQUFTLHNCQUNnQjtjQUF2QjthQUVFO2NBQUY7OztLQUNILE9BQU0sMEJBQWU7O0lBRXRCLEdBQUksV0FBUyxxQkFDZ0I7S0FBNUIsT0FBTTs7V0FFUCxPQUFNOztHQUVQLGlCQUFXLFNBQVUsWUFBWSxRQUFRLFdBQVcsZUFBZSxnQkFBZ0IsV0FBVTtHQUM3RixVQUFNLFdBQVMsYUFBYSxTQUFTLFlBQVksb0JBQWlCLHFCQUFrQjtHQUM5RSxLQUFLLElBQUssU0FBUTtVQUN4QjtFQUFBO0VBRUQsa0NBQ2U7O0dBQWQsb0JBQ0M7R0FPRCxnQ0FBVyxjQUFjO0dBQ3pCLGtDQUNNOztJQUFMLHNCQUFNO0lBQ04sd0JBQU87SUFDUCxnQ0FBVzs7O0dBQ1osK0NBQ1U7O0lBQVQscUNBQVc7SUFDWCxrQ0FBWTtJQUNaLDhCQUFVO0lBRVYsNkNBQWU7SUFDZiwrQ0FBZ0I7OztHQUNqQixrQ0FBWTtHQUNaLHdDQUNTOztJQUFSLGdDQUNZLG9CQUFBO1lBQVgsY0FBYzs7OztHQUNoQiwrQ0FBaUIsMEJBQUEsRUFDQztXQUFqQixLQUFLLFlBQWEsY0FBYTtHQUFBO0dBQ2hDLDZDQUFlO0dBQ2Ysc0JBQ1EsZUFBQTtJQUFQLFlBQVEscUJBQ1E7O0tBQWYsa0NBQ007O01BQUwsZ0JBQUc7TUFDSCxnQkFBRzs7Ozs7SUFDTCxRQUFJLGdCQUNLOztLQUFSLGdCQUFHO0tBQ0gsZ0JBQUc7Ozt1Q0FDQyxJQUFJO3VDQUNKLElBQUk7NkRBQ0ssR0FBRzt5Q0FFUCxVQUFBO1lBQVQsZ0JBQ0s7O01BQUosZ0JBQUk7TUFDSixnQkFBSTs7Ozt5Q0FFSSxVQUFBO1lBQVQsZ0JBQ0s7O01BQUosZ0JBQUc7Ozs7eUNBRUssVUFBQTtZQUFULGdCQUNLOztNQUFKLGdCQUFHO01BQ0gsZ0JBQUc7TUFDSCxnQkFBRzs7OztJQUVMLFFBQUkscUJBQ1E7O0tBQVgsa0NBQ007O01BQUwsZ0JBQUE7OztLQUNELCtDQUNVOztNQUFULGdCQUFHOzs7OztJQUNMLFFBQUksWUFDQzs7S0FBSixnQkFBRztLQUNILGdCQUFHOzs7dUNBQ0MsSUFBSTt1Q0FDSixJQUFJO3lDQUVDLFVBQUE7WUFBVCxZQUNDOztNQUFBLGdCQUFHO01BQ0gsZ0JBQUc7Ozs7SUFFTCxTQUFLLHFCQUNROztLQUFaLGtDQUNNOztNQUFMLGdCQUFBOzs7S0FDRCxrQ0FBWTs7O0lBQ2IsU0FBSyxhQUNFOztLQUFOLGdCQUFHO0tBQ0gsZ0JBQUc7Ozt1Q0FDQyxLQUFLO0dBQUE7OztFQUdaLGlCQUFXLG1CQUFpQixtQkFBZTtFQUUzQyxhQUFhLFdBQVUsU0FBQSxHQUFHLEVBQ0M7VUFBMUIsZ0JBQWMsRUFBRTtFQUFBO0VBaE5qQix3QkFBQTtrQkE2TUEiLCJmaWxlIjoiVHlwZS9PYmotVHlwZS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

@@ -10,7 +10,7 @@ define(["exports","./compare","./js","./math/Number","./private/js-impl","./Type
 		};
 		const hash_45code=Method(function(){
 			const built={};
-			const doc=built.doc="Integer used to identify a value in a Hash-Map! (or Hash-Set!).\nThis should have a high probability of being different than the hash-codes of the other values in the map.";
+			const doc=built.doc=`Integer used to identify a value in a Hash-Map! (or Hash-Set!).\nThis should have a high probability of being different than the hash-codes of the other values in the map.`;
 			const test=built.test=function test(){
 				const a=function(){
 					const built={};
@@ -57,15 +57,15 @@ define(["exports","./compare","./js","./math/Number","./private/js-impl","./Type
 		impl_33(hash_45code,String,function(){
 			const built={};
 			const test=built.test=function test(){
-				_ms.unlazy(_33)(_61_63,hash_45code("a"),hash_45code("a"));
-				_ms.unlazy(_33not)(_61_63,hash_45code("a"),hash_45code("b"))
+				_ms.unlazy(_33)(_61_63,hash_45code(`a`),hash_45code(`a`));
+				_ms.unlazy(_33not)(_61_63,hash_45code(`a`),hash_45code(`b`))
 			};
 			return _ms.set(hashCodeString,built)
 		}());
 		impl_33(hash_45code,Symbol,function(){
 			const built={};
 			const test=built.test=function test(){
-				const sym=Symbol("test");
+				const sym=Symbol(`test`);
 				_ms.unlazy(_33)(_61_63,hash_45code(sym),hash_45code(sym))
 			};
 			return _ms.set(function(){
@@ -73,9 +73,9 @@ define(["exports","./compare","./js","./math/Number","./private/js-impl","./Type
 			},built)
 		}());
 		impl_33(hash_45code,Number,keep_45small);
-		const name=exports.name="hash-code";
+		const name=exports.name=`hash-code`;
 		exports.default=hash_45code;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9oYXNoLWNvZGUubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQVNBLG1CQUFjLHNCQUFBLEVBQ0M7VUFBZCxTQUFPLEVBQUU7RUFBQTtFQUVWLGtCQUFXLGlCQUNNOztHQUFoQixvQkFDQztHQUVELHNCQUNRLGVBQUE7SUFBUCxrQkFDRzs7S0FBRixnQkFBRztLQUNILGdCQUFHOzs7SUFDSixrQkFDRzs7S0FBRixnQkFBRztLQUNILGdCQUFHOzs7b0JBQ0YsT0FBSSxZQUFVLEdBQUksWUFBVTt1QkFDekIsT0FBSSxZQUFVLEdBQUksWUFBVTtHQUFBO0dBRWxDLHNCQUFNO0dBQ04sNEJBQVM7R0FDVCwyQ0FBYTtHQUNiLDZCQUFVLGtCQUFBLEVBQ0M7V0FBVixnQkFBZ0IsRUFBRTtHQUFBOzs7RUFHcEIsUUFBTSxZQUFVLFFBQVMsU0FBQSxFQUFBOztJQUN4QixZQUFBLEdBQ0M7WUFBQTtJQUFBLE9BRUc7WUFBSDtJQUFBO0dBQUE7RUFBQTtFQUVGLFFBQU0sWUFBVSxTQUFVLFNBQUEsSUFDRztVQUM1QjtJQUFlLFFBQUE7SUFDZCxZQUFBLE9BQUcsRUFBRSxXQUN3QjtZQUE1QjtXQUVHO1lBQUg7SUFBQTtHQUFBO0VBQUE7RUFHSCxRQUFNLFlBQVUsaUJBQ007O0dBQXJCLHNCQUNRLGVBQUE7b0JBQUwsT0FBSSxZQUFXLEtBQUssWUFBVzt1QkFDNUIsT0FBSSxZQUFXLEtBQUssWUFBVztHQUFBO2tCQUNyQzs7RUFFRCxRQUFNLFlBQVUsaUJBQ007O0dBQXJCLHNCQUNRLGVBQUE7SUFBUCxVQUFNLE9BQVE7b0JBQ1osT0FBSSxZQUFVLEtBQU0sWUFBVTtHQUFBO2tCQUNoQyxVQUNJOzZCQURILElBRUQ7OztFQUdGLFFBQU0sWUFBVSxPQUFPO0VBL0R2Qix3QkFBQTtrQkFZQSIsImZpbGUiOiJoYXNoLWNvZGUuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9oYXNoLWNvZGUubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQVNBLG1CQUFjLHNCQUFBLEVBQ0M7VUFBZCxTQUFPLEVBQUU7RUFBQTtFQUVWLGtCQUFXLGlCQUNNOztHQUFoQixvQkFDQztHQUVELHNCQUNRLGVBQUE7SUFBUCxrQkFDRzs7S0FBRixnQkFBRztLQUNILGdCQUFHOzs7SUFDSixrQkFDRzs7S0FBRixnQkFBRztLQUNILGdCQUFHOzs7b0JBQ0YsT0FBSSxZQUFVLEdBQUksWUFBVTt1QkFDekIsT0FBSSxZQUFVLEdBQUksWUFBVTtHQUFBO0dBRWxDLHNCQUFNO0dBQ04sNEJBQVM7R0FDVCwyQ0FBYTtHQUNiLDZCQUFVLGtCQUFBLEVBQ0M7V0FBVixnQkFBZ0IsRUFBRTtHQUFBOzs7RUFHcEIsUUFBTSxZQUFVLFFBQVMsU0FBQSxFQUFBOztJQUN4QixZQUFBLEdBQ0M7WUFBQTtJQUFBLE9BRUc7WUFBSDtJQUFBO0dBQUE7RUFBQTtFQUVGLFFBQU0sWUFBVSxTQUFVLFNBQUEsSUFDRztVQUM1QjtJQUFlLFFBQUE7SUFDZCxZQUFBLE9BQUcsRUFBRSxXQUN3QjtZQUE1QjtXQUVHO1lBQUg7SUFBQTtHQUFBO0VBQUE7RUFHSCxRQUFNLFlBQVUsaUJBQ007O0dBQXJCLHNCQUNRLGVBQUE7b0JBQUwsT0FBSSxZQUFXLEtBQUssWUFBVzt1QkFDNUIsT0FBSSxZQUFXLEtBQUssWUFBVzs7a0JBQ3JDOztFQUVELFFBQU0sWUFBVSxpQkFDTTs7R0FBckIsc0JBQ1EsZUFBQTtJQUFQLFVBQU0sT0FBUTtvQkFDWixPQUFJLFlBQVUsS0FBTSxZQUFVO0dBQUE7a0JBQ2hDLFVBQ0k7NkJBREgsSUFFRDs7O0VBR0YsUUFBTSxZQUFVLE9BQU87RUEvRHZCLHdCQUFBO2tCQVlBIiwiZmlsZSI6Imhhc2gtY29kZS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

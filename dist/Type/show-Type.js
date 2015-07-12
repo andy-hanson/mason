@@ -5,17 +5,17 @@ define(["exports","esast/dist/mangle-identifier","../Object","../show","./Method
 		const _$2=_ms.getModule(mangle_45identifier_0),unmangle=_ms.get(_$2,"unmangle"),_$3=_ms.getModule(Object_1),flag_63=_ms.get(_$3,"flag?"),show=_ms.getDefaultExport(show_2),_$5=_ms.getModule(Method_3),impl_33=_ms.get(_$5,"impl!"),Type=_ms.getDefaultExport(Type_4),Method=_ms.lazy(function(){
 			return _ms.getDefaultExport(Method_5)
 		});
-		const name=exports.name="show-Type";
+		const name=exports.name=`show-Type`;
 		exports.default=impl_33(show,Type,function(){
 			const built={};
 			const test=built.test=function test(){
 				const built=new global.Map();
-				_ms.assoc(built,[_ms.unlazy(Method)],"Method");
+				_ms.assoc(built,[_ms.unlazy(Method)],`Method`);
 				return built
 			};
 			return _ms.set(function(type,opts){
 				return function(){
-					if(_ms.bool(flag_63(opts,"repr"))){
+					if(_ms.bool(flag_63(opts,`repr`))){
 						return show.default(type,opts)
 					} else {
 						return unmangle(type.name)

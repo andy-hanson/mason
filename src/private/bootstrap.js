@@ -24,8 +24,7 @@ const msDefs = {
 	},
 
 	addMany(bag, values) {
-		// TODO:ES6 Shouldn't need [Symbol.iterator]()
-		for (let value of values[Symbol.iterator]())
+		for (let value of values)
 			ms.add(bag, value)
 	},
 
@@ -78,8 +77,7 @@ const msDefs = {
 		if (_ instanceof Array)
 			return _
 		const out = [ ]
-		// TODO:ES6 Shouldn't need [Symbol.iterator]()
-		for (let em of _[Symbol.iterator]())
+		for (let em of _)
 			out.push(em)
 		return out
 	},
@@ -99,12 +97,11 @@ const msDefs = {
 	checkNoExtras(_this, _, rtName) {
 		// If there was some key in `_` that we didn't copy:
 		if (Object.keys(_).length > Object.keys(_this).length)
-			Object.getOwnPropertyNames(_).forEach(function(name) {
+			for (const name of Object.getOwnPropertyNames(_))
 				// TODO:DISPLAYNAME
 				if (name !== 'name')
 					if (!Object.prototype.hasOwnProperty.call(_this, name))
 						throw new Error('Extra prop ' + name + ' for ' + rtName)
-			})
 	},
 
 	Lazy: function Lazy(get) {
@@ -122,9 +119,9 @@ const msDefs = {
 
 	// Unlike Object.assign, does *not* invoke getters.
 	set(value, propertiesObject, opName) {
-		Object.keys(propertiesObject).forEach(key =>
+		for (const key in propertiesObject)
 			Object.defineProperty(value, key,
-				Object.getOwnPropertyDescriptor(propertiesObject, key)))
+				Object.getOwnPropertyDescriptor(propertiesObject, key))
 		if (!(value instanceof Function))
 			if (opName !== undefined)
 				ms.setName(value, opName)
@@ -138,7 +135,8 @@ const msDefs = {
 		Object.defineProperty(value, name, { get: lazy.get, enumerable: true })
 	}
 }
-Object.keys(msDefs).forEach(_ => msDef(_, msDefs[_]))
+for (const def in msDefs)
+	msDef(def, msDefs[def])
 
 const msDefTemp = (name, fun) =>
 	ms[name] = fun
@@ -164,11 +162,11 @@ msDefTemp('checkContains', (_type, val) => val)
 // This helps us catch any callabe Obj-Type.
 // TODO: Separate Function from Callable
 // Since these are primitives, we can't use `instanceof`.
-; [ Function, Boolean, String, Symbol, Number ].forEach(type => {
+for (const type of [ Function, Boolean, String, Symbol, Number ]) {
 	// Generated code is faster than using a closure.
 	const src = 'return typeof _ === "' + type.name.toLowerCase() + '"'
 	pAdd(type, containsImplSymbol, Function('ignore', '_', src))
-})
+}
 
 // Functions are Objects, so we do this one differently.
 // TODO: This treats Object.create(null) as an object. Do we want that?

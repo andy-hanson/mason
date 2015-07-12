@@ -9,7 +9,7 @@ define(["exports","../../control","../../Type/Pred-Type","../at","../atbang","..
 		}),_$13=_ms.lazyGetModule(_64_10),keep=_ms.lazyProp(_$13,"keep"),_$14=_ms.lazyGetModule(Seq_11),seq_61_63=_ms.lazyProp(_$14,"seq=?");
 		const add_45to_45_64_33=exports["add-to-@!"]=function(){
 			const built={};
-			const doc=built.doc="Treat `map` as a multi-map and add `added` to the @ associated with `key`.\n`@-type` is the type to use to create the `@` if it's not already there.";
+			const doc=built.doc=`Treat \`map\` as a multi-map and add \`added\` to the @ associated with \`key\`.\n\`@-type\` is the type to use to create the \`@\` if it's not already there.`;
 			const test=built.test=function test(){
 				const _=empty(Map_33);
 				add_45to_45_64_33(_,1,[1]);
@@ -31,18 +31,18 @@ define(["exports","../../control","../../Type/Pred-Type","../at","../atbang","..
 		}();
 		const group=exports.group=function(){
 			const built={};
-			const doc=built.doc="Creates groups of elements which all have the same result for some function.\n`(group @x f)[k]` should be `f";
+			const doc=built.doc=`Creates groups of elements which all have the same result for some function.\n\`(group @x f)[k]\` should be \`f`;
 			const test=built.test=function test(){
 				const built=new global.Map();
-				const _64sample=[1,"1",2,"2"];
+				const _64sample=[1,`1`,2,`2`];
 				_ms.assoc(built,[_64sample,_ms.unlazy(show)],function(){
 					const built=new global.Map();
-					_ms.assoc(built,"1",[1,"1"]);
-					_ms.assoc(built,"2",[2,"2"]);
+					_ms.assoc(built,`1`,[1,`1`]);
+					_ms.assoc(built,`2`,[2,`2`]);
 					return built
 				}());
-				_ms.unlazy(_33)(_ms.unlazy(seq_61_63),_ms.sub(group(_64sample,_ms.unlazy(show)),"1"),_ms.unlazy(keep)(_64sample,function(_){
-					return _ms.unlazy(_61_63)(_ms.unlazy(show)(_),"1")
+				_ms.unlazy(_33)(_ms.unlazy(seq_61_63),_ms.sub(group(_64sample,_ms.unlazy(show)),`1`),_ms.unlazy(keep)(_64sample,function(_){
+					return _ms.unlazy(_61_63)(_ms.unlazy(show)(_),`1`)
 				}));
 				return built
 			};
@@ -50,15 +50,15 @@ define(["exports","../../control","../../Type/Pred-Type","../at","../atbang","..
 				_ms.checkContains(_64,_64value,"@value");
 				_ms.checkContains(Function,group_45by,"group-by");
 				const map=empty(Map_33);
-				for(let _ of _64value[Symbol.iterator]()){
+				for(let _ of _64value){
 					const key=group_45by(_);
 					add_45to_45_64_33(map,key,[_])
 				};
 				return map
 			},built)
 		}();
-		const name=exports.name="multi-map!";
+		const name=exports.name=`multi-map!`;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL01hcC9tdWx0aS1tYXAhLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7OztFQWVBLHVEQUNVOztHQUFULG9CQUNDO0dBRUQsc0JBQ1EsZUFBQTtJQUFQLFFBQUksTUFBTTtJQUNWLGtCQUFVLEVBQUUsRUFBRSxDQUFFOytDQUNYLEVBQUUsR0FBRyxDQUFFO0lBQ1osa0JBQVUsRUFBRSxFQUFFLENBQUM7K0NBQ1YsRUFBRSxHQUFHLENBQUUsRUFBRTtHQUFBO2tCQUNkLDJCQUFBLElBQVMsSUFBSSxNQUFRLFdBQ2tCO3NCQURuQztzQkFBZTs4QkFBUyxJQUFJO0lBQ2hDLFFBQUksa0JBQVksSUFBSTtzQkFDSzthQUF4QixNQUFPLElBQUksV0FBTztLQUFBO0lBQUE7V0FDbkIsVUFBSSxFQUFFO0dBQUE7O0VBRVIsb0NBQ007O0dBQUwsb0JBQ0M7R0FFRCxzQkFDTyxlQUFBOztJQUFOLGdCQUFVLENBQUUsRUFBRyxJQUFHLEVBQUc7b0JBQ3JCLENBQUUsc0NBQ2lCOztxQkFBakIsSUFBTSxDQUFFLEVBQUc7cUJBQ1gsSUFBTSxDQUFFLEVBQUc7OztrREFHSixNQUFNLDRCQUFlLHNCQUFVLFVBQVMsU0FBQSxFQUNDO2dEQUExQyxHQUFHO0lBQUE7OztrQkFDWCxlQUFBLFNBQVMsV0FDaUI7c0JBRG5CO3NCQUFXO0lBQ2xCLFVBQU0sTUFBTTtJQUNQLFFBQUEsS0FBQSw0QkFDTTtLQUFWLFVBQU0sV0FBUztLQUNmLGtCQUFVLElBQUksSUFBSSxDQUFFO0lBQUE7V0FDckI7R0FBQTs7RUFoREYsd0JBQUEiLCJmaWxlIjoiYXQvTWFwL211bHRpLW1hcGJhbmcuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL01hcC9tdWx0aS1tYXAhLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7OztFQWVBLHVEQUNVOztHQUFULG9CQUNDO0dBRUQsc0JBQ1EsZUFBQTtJQUFQLFFBQUksTUFBTTtJQUNWLGtCQUFVLEVBQUUsRUFBRSxDQUFFOytDQUNYLEVBQUUsR0FBRyxDQUFFO0lBQ1osa0JBQVUsRUFBRSxFQUFFLENBQUM7K0NBQ1YsRUFBRSxHQUFHLENBQUUsRUFBRTtHQUFBO2tCQUNkLDJCQUFBLElBQVMsSUFBSSxNQUFRLFdBQ2tCO3NCQURuQztzQkFBZTs4QkFBUyxJQUFJO0lBQ2hDLFFBQUksa0JBQVksSUFBSTtzQkFDSzthQUF4QixNQUFPLElBQUksV0FBTztLQUFBO0lBQUE7V0FDbkIsVUFBSSxFQUFFO0dBQUE7O0VBRVIsb0NBQ007O0dBQUwsb0JBQ0M7R0FFRCxzQkFDTyxlQUFBOztJQUFOLGdCQUFVLENBQUUsRUFBRyxJQUFHLEVBQUc7b0JBQ3JCLENBQUUsc0NBQ2lCOztxQkFBakIsSUFBTSxDQUFFLEVBQUc7cUJBQ1gsSUFBTSxDQUFFLEVBQUc7OztrREFHSixNQUFNLDRCQUFlLHNCQUFVLFVBQVMsU0FBQSxFQUNDO2dEQUExQyxHQUFHOzs7O2tCQUNYLGVBQUEsU0FBUyxXQUNpQjtzQkFEbkI7c0JBQVc7SUFDbEIsVUFBTSxNQUFNO0lBQ1AsUUFBQSxLQUFBLFNBQ007S0FBVixVQUFNLFdBQVM7S0FDZixrQkFBVSxJQUFJLElBQUksQ0FBRTtJQUFBO1dBQ3JCO0dBQUE7O0VBaERGLHdCQUFBIiwiZmlsZSI6ImF0L01hcC9tdWx0aS1tYXBiYW5nLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

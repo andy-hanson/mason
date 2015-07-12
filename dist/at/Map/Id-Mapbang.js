@@ -7,7 +7,7 @@ define(["exports","../../control","../../js","../../Type/Kind","../at","../atban
 		}),_$15=_ms.lazyGetModule(compare_12),_61_63=_ms.lazyProp(_$15,"=?"),_$16=_ms.lazyGetModule(Seq_13),seq_61_63=_ms.lazyProp(_$16,"seq=?");
 		const Id_45Map_33=function(){
 			const built={};
-			const doc=built.doc="JavaScript's native Map type.\nOnly considers exactly identical keys =?; this makes it the fastest Map.";
+			const doc=built.doc=`JavaScript's native Map type.\nOnly considers exactly identical keys =?; this makes it the fastest Map.`;
 			const test=built.test=function test(){
 				const _=empty(Id_45Map_33);
 				assoc_33(_,1,2);
@@ -73,7 +73,7 @@ define(["exports","../../control","../../js","../../Type/Kind","../at","../atban
 			});
 			return built
 		}());
-		const name=exports.name="Id-Map!";
+		const name=exports.name=`Id-Map!`;
 		exports.default=Id_45Map_33;
 		return exports
 	})

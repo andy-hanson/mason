@@ -153,14 +153,13 @@ const
 				// in a module context, it will be an error. (The module creates no `built` local.)
 				const getLineExports = line => {
 					if (line instanceof ObjEntry) {
-						line.assign.allAssignees().forEach(_ => {
+						for (const _ of line.assign.allAssignees())
 							if (_.name === moduleName) {
 								context.check(opDefaultExport === null, _.loc, () =>
 									`Default export already declared at ${opDefaultExport.loc}`)
 								opDefaultExport = LocalAccess(_.loc, _.name)
 							} else
 								exports.push(_)
-						})
 						return line.assign
 					} else if (line instanceof Debug)
 						line.lines = line.lines.map(getLineExports)
@@ -189,7 +188,8 @@ const
 		const lines = [ ]
 		const addLine = line => {
 			if (line instanceof Array)
-				line.forEach(addLine)
+				for (const _ of line)
+					addLine(_)
 			else
 				lines.push(line)
 		}
@@ -205,7 +205,8 @@ const
 		let isBag = false, isMap = false, isObj = false
 		const checkLine = line => {
 			if (line instanceof Debug)
-				line.lines.forEach(checkLine)
+				for (const _ of line.lines)
+					checkLine(_)
 			else if (line instanceof BagEntry)
 				isBag = true
 			else if (line instanceof MapEntry)
@@ -214,7 +215,8 @@ const
 				isObj = true
 		}
 		const lines = _plainBlockLines(lineTokens)
-		lines.forEach(checkLine)
+		for (const _ of lines)
+			checkLine(_)
 
 		context.check(!(isObj && isBag), lines.loc, 'Block has both Bag and Obj lines.')
 		context.check(!(isObj && isMap), lines.loc, 'Block has both Obj and Map lines.')
@@ -370,10 +372,9 @@ const parseFun = (isDo, isGenerator, tokens) => {
 	const { opReturnType, rest } = _tryTakeReturnType(tokens)
 	checkNonEmpty(rest, () => `Expected an indented block.`)
 	const { args, opRestArg, block, opIn, opOut } = _funArgsAndBlock(isDo, rest)
-	args.forEach(arg => {
+	for (const arg of args)
 		if (!arg.isLazy())
 			arg.kind = LD_Mutable
-	})
 	// Need res declare if there is a return type or out condition.
 	const opResDeclare = ifElse(opReturnType,
 		_ => LocalDeclareRes(_.loc, _),
@@ -557,16 +558,16 @@ const
 			return value
 		} else {
 			if (isYield)
-				locals.forEach(_ =>
-					context.check(!_.isLazy(), _.loc, 'Can not yield to lazy variable.'))
+				for (const _ of locals)
+					context.check(!_.isLazy(), _.loc, 'Can not yield to lazy variable.')
 
 			const isObjAssign = kind === KW_ObjAssign
 
 			if (kind === KW_AssignMutable)
-				locals.forEach(_ => {
+				for (let _ of locals) {
 					context.check(!_.isLazy(), _.loc, 'Lazy local can not be mutable.')
 					_.kind = LD_Mutable
-				})
+				}
 
 			const wrap = _ => isObjAssign ? ObjEntry(loc, _) : _
 
@@ -577,8 +578,9 @@ const
 				return isTest ? Debug(loc, [ wrap(assign) ]) : wrap(assign)
 			} else {
 				const kind = locals[0].kind
-				locals.forEach(_ => context.check(_.kind === kind, _.loc,
-					'All locals of destructuring assignment must be of the same kind.'))
+				for (const _ of locals)
+					context.check(_.kind === kind, _.loc,
+						'All locals of destructuring assignment must be of the same kind.')
 				return wrap(AssignDestructure(loc, locals, value, kind))
 			}
 		}

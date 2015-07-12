@@ -7,14 +7,14 @@ define(["exports","../cash","../js","../bang","../compare"],function(exports,$_0
 		}),_$6=_ms.lazyGetModule(compare_3),_61_63=_ms.lazyProp(_$6,"=?");
 		const current_45time_45ms=exports["current-time-ms"]=function(){
 			const built={};
-			const doc=built.doc="Milliseconds since 1 January 1970 00:00:00 UTC.";
+			const doc=built.doc=`Milliseconds since 1 January 1970 00:00:00 UTC.`;
 			return _ms.set(function current_45time_45ms(){
 				return _new(Date).getTime()
 			},built)
 		}();
 		const $after_45time=exports["$after-time"]=function(){
 			const built={};
-			const doc=built.doc="Does something after a certain time has passed.";
+			const doc=built.doc=`Does something after a certain time has passed.`;
 			const $test=built.$test=function* $test(){
 				return _ms.unlazy(_33)(_ms.unlazy(_61_63),1,(yield $after_45time(1,function(){
 					return 1
@@ -31,7 +31,7 @@ define(["exports","../cash","../js","../bang","../compare"],function(exports,$_0
 				})
 			},built)
 		}();
-		const name=exports.name="time";
+		const name=exports.name=`time`;
 		return exports
 	})
 })

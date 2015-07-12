@@ -9,14 +9,14 @@ define(["exports","../methods","./Kind","./Method","./Obj-Type","./Type","../ban
 		}),_$10=_ms.lazyGetModule(compare_7),_61_63=_ms.lazyProp(_$10,"=?");
 		const Alias_45Type=Obj_45Type(function(){
 			const built={};
-			const doc=built.doc="Contains the same instances as another type (officially), but has its own meaning and identity.";
+			const doc=built.doc=`Contains the same instances as another type (officially), but has its own meaning and identity.`;
 			const test=built.test=function test(){
 				const A=Alias_45Type(function(){
 					const built={};
 					const alias_45of=built["alias-of"]=String;
 					return _ms.setName(built,"A")
 				}());
-				_ms.unlazy(_33)(contains_63,A,"0");
+				_ms.unlazy(_33)(contains_63,A,`0`);
 				return _ms.unlazy(_33not)(_ms.unlazy(_61_63),A,String)
 			};
 			const props=built.props=function(){
@@ -49,7 +49,7 @@ define(["exports","../methods","./Kind","./Method","./Obj-Type","./Type","../ban
 				return Function.apply.call(sub,null,[].concat(_["alias-of"],_ms.arr(args)))
 			},built)
 		}());
-		const name=exports.name="Alias-Type";
+		const name=exports.name=`Alias-Type`;
 		exports.default=Alias_45Type;
 		return exports
 	})

@@ -10,7 +10,7 @@ define(["exports","../../Function","../../methods","../../Type/Alias-Type","../.
 		}());
 		self_45kind_33(Hash_45Map,Map_45Type);
 		self_45impl_33(empty,Hash_45Map,thunk(freeze(empty(Hash_45Map_33))));
-		const name=exports.name="Hash-Map";
+		const name=exports.name=`Hash-Map`;
 		exports.default=Hash_45Map;
 		return exports
 	})

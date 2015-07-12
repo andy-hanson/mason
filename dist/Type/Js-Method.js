@@ -7,14 +7,14 @@ define(["exports","esast/dist/mangle-identifier","../js","../Object","../Objectb
 		}),_$11=_ms.lazyGetModule(compare_8),_61_63=_ms.lazyProp(_$11,"=?"),_$12=_ms.lazyGetModule(Type_9),contains_63=_ms.lazyProp(_$12,"contains?");
 		const Js_45Method=Obj_45Type(function(){
 			const built={};
-			const doc=built.doc="A Js-Method allows you to call a JavaScript-style method as a function.\nUnlike a Mason Method, for a Js-Method,\nthe first argument becomes `this` within the implementation's body.";
+			const doc=built.doc=`A Js-Method allows you to call a JavaScript-style method as a function.\nUnlike a Mason Method, for a Js-Method,\nthe first argument becomes \`this\` within the implementation's body.`;
 			const test=built.test=function test(){
 				const toString=Js_45Method(function(){
 					const built={};
-					const impl_45symbol=built["impl-symbol"]="toString";
+					const impl_45symbol=built["impl-symbol"]=`toString`;
 					return _ms.setName(built,"toString")
 				}());
-				_ms.unlazy(_33)(_ms.unlazy(_61_63),toString(1),"1")
+				_ms.unlazy(_33)(_ms.unlazy(_61_63),toString(1),`1`)
 			};
 			const props=built.props=function(){
 				const built={};
@@ -27,23 +27,23 @@ define(["exports","esast/dist/mangle-identifier","../js","../Object","../Objectb
 				const impl=function(){
 					const _=jsm["impl-symbol"];
 					if(_ms.bool(_ms.contains(String,_))){
-						return (("a[\""+_ms.show(_))+"\"]")
+						return `a["${_ms.show(_)}"]`
 					} else if(_ms.bool(_ms.contains(Symbol,_))){
-						return "a[symbol]"
+						return `a[symbol]`
 					} else throw new Error("No branch of `case` matches.")
 				}();
-				const src=(((((((((("return function "+_ms.show(mangle_45identifier(jsm.name)))+"(a, b, c, d) {\n\tswitch (arguments.length) {\n\t\tcase 0: throw new Error(\"Js-Methods always need at least one argument.\")\n\t\tcase 1: return ")+_ms.show(impl))+"()\n\t\tcase 2: return ")+_ms.show(impl))+"(b)\n\t\tcase 3: return ")+_ms.show(impl))+"(b, c)\n\t\tcase 4: return ")+_ms.show(impl))+"(b, c, d)\n\t\tcase 5: throw new Error(\"Does not support this many arguments.\")\n\t}\n}");
-				const make_45method=Function("symbol",src);
+				const src=`return function ${_ms.show(mangle_45identifier(jsm.name))}(a, b, c, d) {\n\tswitch (arguments.length) {\n\t\tcase 0: throw new Error("Js-Methods always need at least one argument.")\n\t\tcase 1: return ${_ms.show(impl)}()\n\t\tcase 2: return ${_ms.show(impl)}(b)\n\t\tcase 3: return ${_ms.show(impl)}(b, c)\n\t\tcase 4: return ${_ms.show(impl)}(b, c, d)\n\t\tcase 5: throw new Error("Does not support this many arguments.")\n\t}\n}`;
+				const make_45method=Function(`symbol`,src);
 				return make_45method(jsm["impl-symbol"])
 			};
 			return _ms.setName(built,"Js-Method")
 		}());
 		const send=exports.send=function(){
 			const built={};
-			const doc=built.doc="Calls `target`'s js-method `name` with the given arguments.";
+			const doc=built.doc=`Calls \`target\`'s js-method \`name\` with the given arguments.`;
 			const test=built.test=function test(){
 				const built=new global.Map();
-				_ms.assoc(built,[1,"toFixed",2],"1.00");
+				_ms.assoc(built,[1,`toFixed`,2],`1.00`);
 				return built
 			};
 			return _ms.set(function send(target,name){
@@ -52,7 +52,7 @@ define(["exports","esast/dist/mangle-identifier","../js","../Object","../Objectb
 				_ms.checkContains(Object_45Key,name,"name");
 				const impl=js_45sub(target,name);
 				_ms.unlazy(_33)(_ms.unlazy(contains_63)(Function,impl),_ms.lazy(function(){
-					return (((("Js-Method "+_ms.show(name))+" not implemented by ")+_ms.show(target))+".")
+					return `Js-Method ${_ms.show(name)} not implemented by ${_ms.show(target)}.`
 				}));
 				return impl.apply(target,args)
 			},built)
@@ -64,9 +64,9 @@ define(["exports","esast/dist/mangle-identifier","../js","../Object","../Objectb
 			_ms.checkContains(Function,implementation,"implementation");
 			p_43_33(type.prototype,method["impl-symbol"],implementation)
 		};
-		const name=exports.name="Js-Method";
+		const name=exports.name=`Js-Method`;
 		exports.default=Js_45Method;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL0pzLU1ldGhvZC5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7O0VBYUEsa0JBQVcscUJBQ1E7O0dBQWxCLG9CQUNDO0dBR0Qsc0JBQ1EsZUFBQTtJQUFQLGVBQVcsc0JBQ1M7O0tBQW5CLHlDQUFjOzs7dUNBQ1QsU0FBUyxHQUFJO0dBQUE7R0FDcEIsa0NBQ007O0lBQUwsc0JBQU07SUFDTix5Q0FBYTs7O0dBQ2Qsa0NBQVk7R0FDWiw2Q0FBZ0IseUJBQUEsSUFDRztJQUFsQjtLQUFZLFFBQUE7S0FDWCx5QkFBQyxPQUFELElBQ087YUFBTCxrQkFBSztZQUNQLHlCQUFDLE9BQUQsSUFDTzthQUFMO0tBQUE7O0lBR0gsVUFDQyxzQ0FBaUIsb0JBQWtCLDJLQUdqQiwyQ0FDQSw0Q0FDQSwrQ0FDQTtJQUluQixvQkFBYyxTQUFVLFNBQVE7V0FDaEMsY0FBWTs7OztFQUVkLGtDQUNLOztHQUFKLG9CQUFNO0dBQ04sc0JBQ08sZUFBQTs7b0JBQU4sQ0FBRSxFQUFHLFVBQVMsR0FBUTs7O2tCQUN0QixjQUFBLE9BQVcsS0FDdUI7O3NCQUQzQjtzQkFBUztJQUNoQixXQUFPLFNBQU8sT0FBTzs0Q0FDRixTQUFTO1lBQVEsMEJBQVcsd0NBQTBCOztXQUN6RSxXQUFXLE9BQU87R0FBQTs7RUFFcEIsK0JBQU87RUFFUCx1Q0FBWSxzQkFBQSxPQUFpQixLQUFlLGVBQ3VCO3FCQURoRDtxQkFBZTtxQkFBeUI7R0FDMUQsUUFBSSxlQUFlLHNCQUFtQjtFQUFBO0VBNUR2Qyx3QkFBQTtrQkFhQSIsImZpbGUiOiJUeXBlL0pzLU1ldGhvZC5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL0pzLU1ldGhvZC5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7O0VBYUEsa0JBQVcscUJBQ1E7O0dBQWxCLG9CQUNDO0dBR0Qsc0JBQ1EsZUFBQTtJQUFQLGVBQVcsc0JBQ1M7O0tBQW5CLHlDQUFjOzs7dUNBQ1QsU0FBUyxHQUFJOztHQUNwQixrQ0FDTTs7SUFBTCxzQkFBTTtJQUNOLHlDQUFhOzs7R0FDZCxrQ0FBWTtHQUNaLDZDQUFnQix5QkFBQSxJQUNHO0lBQWxCO0tBQVksUUFBQTtLQUNYLHlCQUFDLE9BQUQsSUFDTzthQUFMLGVBQUs7WUFDUCx5QkFBQyxPQUFELElBQ087YUFBTDs7O0lBR0gsVUFDQyw0QkFBaUIsb0JBQWtCLHNLQUdqQix3Q0FDQSx5Q0FDQSw0Q0FDQTtJQUluQixvQkFBYyxTQUFVLFNBQVE7V0FDaEMsY0FBWTs7OztFQUVkLGtDQUNLOztHQUFKLG9CQUFNO0dBQ04sc0JBQ08sZUFBQTs7b0JBQU4sQ0FBRSxFQUFHLFVBQVMsR0FBUTs7O2tCQUN0QixjQUFBLE9BQVcsS0FDdUI7O3NCQUQzQjtzQkFBUztJQUNoQixXQUFPLFNBQU8sT0FBTzs0Q0FDRixTQUFTO1lBQVEsc0JBQVcscUNBQTBCOztXQUN6RSxXQUFXLE9BQU87R0FBQTs7RUFFcEIsK0JBQU87RUFFUCx1Q0FBWSxzQkFBQSxPQUFpQixLQUFlLGVBQ3VCO3FCQURoRDtxQkFBZTtxQkFBeUI7R0FDMUQsUUFBSSxlQUFlLHNCQUFtQjtFQUFBO0VBNUR2Qyx3QkFBQTtrQkFhQSIsImZpbGUiOiJUeXBlL0pzLU1ldGhvZC5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

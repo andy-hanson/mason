@@ -19,23 +19,23 @@ define(["exports","../../at/at","../../at/Seq/Dequebang","../../at/Seq/Seq","../
 		};
 		const fin=exports.fin=function(){
 			const built={};
-			const doc=built.doc="Stops the machine.";
+			const doc=built.doc=`Stops the machine.`;
 			return _ms.setName(built,"fin")
 		}();
 		const run_45turing=exports["run-turing"]=function(){
 			const built={};
-			const doc=built.doc="http://rosettacode.org/wiki/Universal_Turing_machine";
+			const doc=built.doc=`http://rosettacode.org/wiki/Universal_Turing_machine`;
 			const test=built.test=function test(){
 				const built=new global.Map();
 				const incrementer=function(){
 					const built={};
-					const init_45state=built["init-state"]="a";
+					const init_45state=built["init-state"]=`a`;
 					const blank=built.blank=0;
 					const rules=built.rules=function(){
 						const built={};
 						const a=built.a=function(){
 							const built=new global.Map();
-							_ms.assoc(built,1,R(1,"a"));
+							_ms.assoc(built,1,R(1,`a`));
 							_ms.assoc(built,0,fin);
 							return built
 						}();
@@ -46,25 +46,25 @@ define(["exports","../../at/at","../../at/Seq/Dequebang","../../at/Seq/Seq","../
 				_ms.assoc(built,[incrementer,[1,1,1]],[1,1,1,0]);
 				const busy_45beaver=function(){
 					const built={};
-					const init_45state=built["init-state"]="a";
+					const init_45state=built["init-state"]=`a`;
 					const blank=built.blank=0;
 					const rules=built.rules=function(){
 						const built={};
 						const a=built.a=function(){
 							const built=new global.Map();
-							_ms.assoc(built,0,R(1,"b"));
-							_ms.assoc(built,1,L(1,"c"));
+							_ms.assoc(built,0,R(1,`b`));
+							_ms.assoc(built,1,L(1,`c`));
 							return built
 						}();
 						const b=built.b=function(){
 							const built=new global.Map();
-							_ms.assoc(built,0,L(1,"a"));
-							_ms.assoc(built,1,R(1,"b"));
+							_ms.assoc(built,0,L(1,`a`));
+							_ms.assoc(built,1,R(1,`b`));
 							return built
 						}();
 						const c=built.c=function(){
 							const built=new global.Map();
-							_ms.assoc(built,0,L(1,"b"));
+							_ms.assoc(built,0,L(1,`b`));
 							_ms.assoc(built,1,fin);
 							return built
 						}();
@@ -75,42 +75,42 @@ define(["exports","../../at/at","../../at/Seq/Dequebang","../../at/Seq/Seq","../
 				_ms.assoc(built,[busy_45beaver,[]],[1,1,1,1,1,1]);
 				const sorting_45test=function(){
 					const built={};
-					const init_45state=built["init-state"]="a";
+					const init_45state=built["init-state"]=`a`;
 					const blank=built.blank=0;
 					const rules=built.rules=function(){
 						const built={};
 						const a=built.a=function(){
 							const built=new global.Map();
-							_ms.assoc(built,0,L(0,"e"));
-							_ms.assoc(built,1,R(1,"a"));
-							_ms.assoc(built,2,R(3,"b"));
+							_ms.assoc(built,0,L(0,`e`));
+							_ms.assoc(built,1,R(1,`a`));
+							_ms.assoc(built,2,R(3,`b`));
 							return built
 						}();
 						const b=built.b=function(){
 							const built=new global.Map();
-							_ms.assoc(built,0,L(0,"c"));
-							_ms.assoc(built,1,R(1,"b"));
-							_ms.assoc(built,2,R(2,"b"));
+							_ms.assoc(built,0,L(0,`c`));
+							_ms.assoc(built,1,R(1,`b`));
+							_ms.assoc(built,2,R(2,`b`));
 							return built
 						}();
 						const c=built.c=function(){
 							const built=new global.Map();
-							_ms.assoc(built,1,L(2,"d"));
-							_ms.assoc(built,2,L(2,"c"));
-							_ms.assoc(built,3,L(2,"e"));
+							_ms.assoc(built,1,L(2,`d`));
+							_ms.assoc(built,2,L(2,`c`));
+							_ms.assoc(built,3,L(2,`e`));
 							return built
 						}();
 						const d=built.d=function(){
 							const built=new global.Map();
-							_ms.assoc(built,1,L(1,"d"));
-							_ms.assoc(built,2,L(2,"d"));
-							_ms.assoc(built,3,R(1,"a"));
+							_ms.assoc(built,1,L(1,`d`));
+							_ms.assoc(built,2,L(2,`d`));
+							_ms.assoc(built,3,R(1,`a`));
 							return built
 						}();
 						const e=built.e=function(){
 							const built=new global.Map();
 							_ms.assoc(built,0,fin);
-							_ms.assoc(built,1,L(1,"e"));
+							_ms.assoc(built,1,L(1,`e`));
 							return built
 						}();
 						return _ms.setName(built,"rules")
@@ -160,7 +160,7 @@ define(["exports","../../at/at","../../at/Seq/Dequebang","../../at/Seq/Seq","../
 				}()
 			},built)
 		}();
-		const name=exports.name="turing";
+		const name=exports.name=`turing`;
 		return exports
 	})
 })

@@ -1,5 +1,5 @@
 import { ExpressionStatement, ForStatement, Identifier, Literal, NewExpression, Statement,
-	ThrowStatement, VariableDeclarator } from 'esast/dist/ast'
+	TemplateElement, ThrowStatement, VariableDeclarator } from 'esast/dist/ast'
 import mangleIdentifier from 'esast/dist/mangle-identifier'
 import specialize, { variableDeclarationConst } from 'esast/dist/specialize'
 import { opIf, opMap } from '../util'
@@ -39,7 +39,25 @@ export const
 					Literal(localDeclare.name))))),
 
 	throwErrorFromString = msg =>
-		ThrowStatement(NewExpression(IdError, [ Literal(msg) ]))
+		ThrowStatement(NewExpression(IdError, [ Literal(msg) ])),
+
+	templateElementForString = str =>
+		TemplateElement(false, { cooked: str, raw: strEscapeForTemplate(str) })
 
 const
-	declareToId = new WeakMap()
+	declareToId = new WeakMap(),
+
+	strEscapeForTemplate = str =>
+		str.replace(/[\\`\n\t\b\f\v\r\u2028\u2029]/g, ch => _strEscapes[ch]),
+	_strEscapes = {
+		'`': '\\`',
+		'\\': '\\\\',
+		'\n': '\\n',
+		'\t': '\\t',
+		'\b': '\\b',
+		'\f': '\\f',
+		'\v': '\\v',
+		'\r': '\\r',
+		'\u2028': '\\u2028',
+		'\u2029': '\\u2029'
+	}

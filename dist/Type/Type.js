@@ -7,23 +7,23 @@ define(["exports","../compare","../js","../private/bootstrap","./Impl-Type","./K
 		}),_$14=_ms.lazyGetModule(Method_9),self_45impl_33=_ms.lazyProp(_$14,"self-impl!");
 		const Type=Kind(function(){
 			const built={};
-			const doc=built.doc="Anything implementing contains?.\nTypes are generally used to succinctly make assertions about values.";
+			const doc=built.doc=`Anything implementing contains?.\nTypes are generally used to succinctly make assertions about values.`;
 			return _ms.setName(built,"Type")
 		}());
 		impl_33(_61_63,Type,id_61_63);
 		const contains_63=exports["contains?"]=ms.contains;
 		const extract=exports.extract=Method(function(){
 			const built={};
-			const doc=built.doc="Given a type and arbitrary value:\n\tIf the value is of the type, return an array of sub-values.\n\tOtherwise, return `null`.\nThe array of values are taken into local variables.\nFor example:";
+			const doc=built.doc=`Given a type and arbitrary value:\n\tIf the value is of the type, return an array of sub-values.\n\tOtherwise, return \`null\`.\nThe array of values are taken into local variables.\nFor example:`;
 			const test=built.test=function test(){
 				const My_45Type=function(){
 					const built={};
-					const doc=built.doc="Example type";
+					const doc=built.doc=`Example type`;
 					return _ms.setName(built,"My-Type")
 				}();
 				_ms.unlazy(self_45impl_33)(extract,My_45Type,function(_){
 					return function(){
-						if(_ms.bool(_61_63(_,"extractable"))){
+						if(_ms.bool(_61_63(_,`extractable`))){
 							return [1,2]
 						} else {
 							return null
@@ -36,35 +36,35 @@ define(["exports","../compare","../js","../private/bootstrap","./Impl-Type","./K
 							const _$=_ms.extract(My_45Type,_);
 							if((_$!==null)){
 								const a=_$[0],b=_$[1];
-								return ((""+_ms.show(a))+_ms.show(b))
+								return `${_ms.show(a)}${_ms.show(b)}`
 							} else {
-								return "not extractable"
+								return `not extractable`
 							}
 						}
 					}()
 				};
-				_ms.unlazy(_33)(_61_63,"12",f("extractable"));
-				_ms.unlazy(_33)(_61_63,"not extractable",f())
+				_ms.unlazy(_33)(_61_63,`12`,f(`extractable`));
+				_ms.unlazy(_33)(_61_63,`not extractable`,f())
 			};
 			const args=built.args=function(){
 				const built=[];
-				_ms.add(built,"type");
-				_ms.add(built,"candidate");
-				_ms.add(built,["num-extracteds",Number]);
+				_ms.add(built,`type`);
+				_ms.add(built,`candidate`);
+				_ms.add(built,[`num-extracteds`,Number]);
 				return built
 			}();
 			return _ms.setName(built,"extract")
 		}());
-		msDef("extract",extract);
-		msDef("checkContains",function(type,value,name){
+		msDef(`extract`,extract);
+		msDef(`checkContains`,function(type,value,name){
 			if(! _ms.bool(contains_63(type,value))){
-				throw _ms.error((((((((""+_ms.show(name))+" is no ")+_ms.show(type))+", is a ")+_ms.show(type_45of(value)))+": ")+_ms.show(value)))
+				throw _ms.error(`${_ms.show(name)} is no ${_ms.show(type)}, is a ${_ms.show(type_45of(value))}: ${_ms.show(value)}`)
 			};
 			return value
 		});
 		const _61_62=exports["=>"]=Method(function(){
 			const built={};
-			const doc=built.doc="TODO: Don't take additional args...\n|convert-to:Type convert-me (may take additional args)\nConverts a value to a given type.";
+			const doc=built.doc=`TODO: Don't take additional args...\n|convert-to:Type convert-me (may take additional args)\nConverts a value to a given type.`;
 			const wrap=built.wrap=function wrap(impl,type,converted,opts){
 				return function(){
 					const _=converted;
@@ -79,7 +79,7 @@ define(["exports","../compare","../js","../private/bootstrap","./Impl-Type","./K
 		}());
 		const type_45of=exports["type-of"]=function(){
 			const built={};
-			const doc=built.doc="Most specific Impl-Type for a value.";
+			const doc=built.doc=`Most specific Impl-Type for a value.`;
 			const test=built.test=function test(){
 				const built=new global.Map();
 				_ms.assoc(built,[Type],Kind);
@@ -87,7 +87,7 @@ define(["exports","../compare","../js","../private/bootstrap","./Impl-Type","./K
 				return built
 			};
 			return _ms.set(function type_45of(_){
-				return _ms.checkContains(Impl_45Type,_ms.unlazy(_63_45or)(_ms.unlazy(_63p_45with_45proto)(_,"constructor"),Object),"res")
+				return _ms.checkContains(Impl_45Type,_ms.unlazy(_63_45or)(_ms.unlazy(_63p_45with_45proto)(_,`constructor`),Object),"res")
 			},built)
 		}();
 		kind_33(Impl_45Type,Type);
@@ -95,9 +95,9 @@ define(["exports","../compare","../js","../private/bootstrap","./Impl-Type","./K
 		implContains(Function,function(fun,_){
 			return js_45instanceof(_,fun)
 		});
-		const name=exports.name="Type";
+		const name=exports.name=`Type`;
 		exports.default=Type;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL1R5cGUubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQWVBLFdBQU0sZUFDSTs7R0FBVCxvQkFDQzs7O0VBR0YsUUFBTSxPQUFHLEtBQUs7RUFHZCx1Q0FBVztFQUVYLDhCQUFTLGlCQUNNOztHQUFkLG9CQUNDO0dBS0Qsc0JBQ1EsZUFBQTtJQUNQLDBCQUNTOztLQUFSLG9CQUFNOzs7K0JBQ0ksUUFBUSxVQUFTLFNBQUEsRUFBQTs7TUFDM0IsWUFBQSxPQUFHLEVBQUcsZ0JBQ1k7Y0FBakIsQ0FBRSxFQUFFO01BQUEsT0FFRDtjQUFIO01BQUE7S0FBQTtJQUFBO0lBRUYsUUFBSyxXQUFBLEVBQUE7O01BQ0o7NEJBQUMsVUFBRDtzQkFDWTs7ZUFBVixFQURPLFlBQ04sYUFBRztPQUFBLE9BRUY7ZUFBRjtPQUFBO01BQUE7S0FBQTtJQUFBO29CQUVELE9BQUksS0FBSyxFQUFHO29CQUNaLE9BQUksa0JBQWlCO0dBQUE7R0FDeEIsZ0NBQ0s7O2tCQUFEO2tCQUNBO2tCQUNELENBQUcsaUJBQWdCOzs7OztFQUV2QixNQUFPLFVBQVM7RUFFaEIsTUFBTyxnQkFBZ0IsU0FBQSxLQUFLLE1BQU0sS0FDSTtHQUNyQyxjQUFRLFlBQVUsS0FBSyxRQUNLO0lBQTNCLGdCQUFRLE9BakJFLFlBaUJELDJCQUFhLDJCQUFhLFVBQVEsd0JBQVM7R0FBQTtVQUNyRDtFQUFBO0VBRUQsMkJBQUksaUJBQ007O0dBQVQsb0JBQ0M7R0FHRCxzQkFBTyxjQUFBLEtBQUssS0FBSyxVQUFVLEtBQ0k7O0tBQXpCLFFBQUE7S0FDSix5QkFBQyxLQUFELElBQ0s7YUFBSjtLQUFBLE9BRUc7YUFBSCxLQUFLLEtBQUssVUFBVTtLQUFBO0lBQUE7R0FBQTs7O0VBRXhCLDZDQUNROztHQUFQLG9CQUNDO0dBQ0Qsc0JBQ08sZUFBQTs7b0JBQU4sQ0FBRSxNQUFVO29CQUNaLENBQUUsTUFBVTs7O2tCQUNaLG1CQUFXLEVBQ0M7NkJBRFgsaUVBQ21CLEVBQUcsZUFBYzs7O0VBR3RDLFFBQU0sWUFBVTtFQUNoQixRQUFNLE9BQU87RUFHYixhQUFhLFNBQVUsU0FBQSxJQUFJLEVBQ0M7VUFBM0IsZ0JBQWMsRUFBRTtFQUFBO0VBMUZsQix3QkFBQTtrQkFlQSIsImZpbGUiOiJUeXBlL1R5cGUuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL1R5cGUubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQWVBLFdBQU0sZUFDSTs7R0FBVCxvQkFDQzs7O0VBR0YsUUFBTSxPQUFHLEtBQUs7RUFHZCx1Q0FBVztFQUVYLDhCQUFTLGlCQUNNOztHQUFkLG9CQUNDO0dBS0Qsc0JBQ1EsZUFBQTtJQUNQLDBCQUNTOztLQUFSLG9CQUFNOzs7K0JBQ0ksUUFBUSxVQUFTLFNBQUEsRUFBQTs7TUFDM0IsWUFBQSxPQUFHLEVBQUcsZ0JBQ1k7Y0FBakIsQ0FBRSxFQUFFO01BQUEsT0FFRDtjQUFIO01BQUE7S0FBQTtJQUFBO0lBRUYsUUFBSyxXQUFBLEVBQUE7O01BQ0o7NEJBQUMsVUFBRDtzQkFDWTs7ZUFBVixZQUFDLGNBQUc7Y0FFRjtlQUFGOzs7OztvQkFFRCxPQUFJLEtBQUssRUFBRztvQkFDWixPQUFJLGtCQUFpQjtHQUFBO0dBQ3hCLGdDQUNLOztrQkFBRDtrQkFDQTtrQkFDRCxDQUFHLGlCQUFnQjs7Ozs7RUFFdkIsTUFBTyxVQUFTO0VBRWhCLE1BQU8sZ0JBQWdCLFNBQUEsS0FBSyxNQUFNLEtBQ0k7R0FDckMsY0FBUSxZQUFVLEtBQUssUUFDSztJQUEzQixnQkFBUSxZQUFDLHdCQUFhLHdCQUFhLFVBQVEscUJBQVM7O1VBQ3JEO0VBQUE7RUFFRCwyQkFBSSxpQkFDTTs7R0FBVCxvQkFDQztHQUdELHNCQUFPLGNBQUEsS0FBSyxLQUFLLFVBQVUsS0FDSTs7S0FBekIsUUFBQTtLQUNKLHlCQUFDLEtBQUQsSUFDSzthQUFKO0tBQUEsT0FFRzthQUFILEtBQUssS0FBSyxVQUFVO0tBQUE7SUFBQTtHQUFBOzs7RUFFeEIsNkNBQ1E7O0dBQVAsb0JBQ0M7R0FDRCxzQkFDTyxlQUFBOztvQkFBTixDQUFFLE1BQVU7b0JBQ1osQ0FBRSxNQUFVOzs7a0JBQ1osbUJBQVcsRUFDQzs2QkFEWCxpRUFDbUIsRUFBRyxlQUFjOzs7RUFHdEMsUUFBTSxZQUFVO0VBQ2hCLFFBQU0sT0FBTztFQUdiLGFBQWEsU0FBVSxTQUFBLElBQUksRUFDQztVQUEzQixnQkFBYyxFQUFFO0VBQUE7RUExRmxCLHdCQUFBO2tCQWVBIiwiZmlsZSI6IlR5cGUvVHlwZS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

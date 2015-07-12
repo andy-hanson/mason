@@ -11,7 +11,7 @@ define(["exports","../../math/Number","../../Type/Kind","../../Type/Method","../
 		}),_$17=_ms.lazyGetModule(Seq_13),seq_61_63=_ms.lazyProp(_$17,"seq=?");
 		const Seq_33=Kind(function(){
 			const built={};
-			const doc=built.doc="Mutable Seq.\nArray!s can efficiently change existing elements and add new ones on the right.\nDeque!s are like Arrays, but can add new values on the left.";
+			const doc=built.doc=`Mutable Seq.\nArray!s can efficiently change existing elements and add new ones on the right.\nDeque!s are like Arrays, but can add new values on the left.`;
 			const implementor_45test=built["implementor-test"]=function implementor_45test(type){
 				const _=function(){
 					const _=type;
@@ -45,53 +45,53 @@ define(["exports","../../math/Number","../../Type/Kind","../../Type/Method","../
 		kind_33(Seq_33,Seq);
 		const _60_43_43_33=exports["<++!"]=Method(function(){
 			const built={};
-			const doc=built.doc="Makes `_` into `+ added _`.";
+			const doc=built.doc=`Makes \`_\` into \`+ added _\`.`;
 			const args=built.args=function(){
 				const built=[];
-				_ms.add(built,"_");
-				_ms.add(built,["added",_64]);
+				_ms.add(built,`_`);
+				_ms.add(built,[`added`,_64]);
 				return built
 			}();
 			return _ms.setName(built,"<++!")
 		}());
 		const _43_43_62_33=exports["++>!"]=Method(function(){
 			const built={};
-			const doc=built.doc="Makes `_` into `+ _ added`.";
+			const doc=built.doc=`Makes \`_\` into \`+ _ added\`.`;
 			const args=built.args=function(){
 				const built=[];
-				_ms.add(built,"_");
-				_ms.add(built,["added",_64]);
+				_ms.add(built,`_`);
+				_ms.add(built,[`added`,_64]);
 				return built
 			}();
 			return _ms.setName(built,"++>!")
 		}());
 		const _63_60pop_33=exports["?<pop!"]=Method(function(){
 			const built={};
-			const doc=built.doc="Takes one element off the left side, if not empty?.";
+			const doc=built.doc=`Takes one element off the left side, if not empty?.`;
 			const args=built.args=1;
 			const returns=built.returns=_63;
 			return _ms.setName(built,"?<pop!")
 		}());
 		const _63pop_62_33=exports["?pop>!"]=Method(function(){
 			const built={};
-			const doc=built.doc="Takes one element off the right side, if not empty?.";
+			const doc=built.doc=`Takes one element off the right side, if not empty?.`;
 			const args=built.args=1;
 			const returns=built.returns=_63;
 			return _ms.setName(built,"?pop>!")
 		}());
 		const set_45nth_33=exports["set-nth!"]=Method(function(){
 			const built={};
-			const doc=built.doc="Makes `_[n]` be `val`.";
+			const doc=built.doc=`Makes \`_[n]\` be \`val\`.`;
 			const args=built.args=function(){
 				const built=[];
-				_ms.add(built,"_");
-				_ms.add(built,["n",Nat]);
-				_ms.add(built,"val");
+				_ms.add(built,`_`);
+				_ms.add(built,[`n`,Nat]);
+				_ms.add(built,`val`);
 				return built
 			}();
 			return _ms.setName(built,"set-nth!")
 		}());
-		const name=exports.name="Seq!";
+		const name=exports.name=`Seq!`;
 		exports.default=Seq_33;
 		return exports
 	})

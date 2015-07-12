@@ -40,7 +40,8 @@ export default class CompileOptions {
 			useStrict: true
 		}
 
-		Object.keys(defaults).forEach(_ => define(_, defaults[_]))
+		for (const _ in defaults)
+			define(_, defaults[_])
 
 		this._inFile = opts.inFile
 		if (this._inFile === undefined) {
@@ -56,13 +57,14 @@ export default class CompileOptions {
 		const checkSubs = [ 'use', 'type', 'inout', 'case' ]
 		this._check = { }
 		if (typeof checks === 'boolean')
-			checkSubs.forEach(_ => this._check[_] = checks)
+			for (const _ of checkSubs)
+				this._check[_] = checks
 		else {
 			type(checks, Object)
-			checkSubs.forEach(_ => {
+			for (const _ of checkSubs) {
 				type(checks[_], Boolean)
 				this._check[_] = checks[_]
-			})
+			}
 		}
 	}
 

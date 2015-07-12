@@ -7,7 +7,7 @@ define(["exports","../../Type/Kind","../../Type/Method","../atbang","../q","../.
 		}),_$8=_ms.lazyGetModule(compare_5),_61_63=_ms.lazyProp(_$8,"=?"),_$9=_ms.lazyGetModule(_64_6),empty_63=_ms.lazyProp(_$9,"empty?"),_$10=_ms.lazyGetModule(_64_33_7),_43_43_33=_ms.lazyProp(_$10,"++!"),_$11=_ms.lazyGetModule(_64_45Type_8),empty=_ms.lazyProp(_$11,"empty");
 		const Priority_45Queue_33=Kind(function(){
 			const built={};
-			const doc=built.doc="@ whose first item will always be the smallest.\nIteration order has no other guaranees,\nbut repeatedly calling ?pop! will give the values from least to greatest.";
+			const doc=built.doc=`@ whose first item will always be the smallest.\nIteration order has no other guaranees,\nbut repeatedly calling ?pop! will give the values from least to greatest.`;
 			const implementor_45test=built["implementor-test"]=function implementor_45test(type){
 				const _=_ms.unlazy(empty)(type);
 				_ms.unlazy(_43_43_33)(_,[3,1,2]);
@@ -21,12 +21,12 @@ define(["exports","../../Type/Kind","../../Type/Method","../atbang","../q","../.
 		kind_33(Priority_45Queue_33,_64_33);
 		const _63pop_33=exports["?pop!"]=Method(function(){
 			const built={};
-			const doc=built.doc="Takes a value from the front of the queue, unless empty?.";
+			const doc=built.doc=`Takes a value from the front of the queue, unless empty?.`;
 			const args=built.args=1;
 			const returns=built.returns=_63;
 			return _ms.setName(built,"?pop!")
 		}());
-		const name=exports.name="Priority-Queue!";
+		const name=exports.name=`Priority-Queue!`;
 		exports.default=Priority_45Queue_33;
 		return exports
 	})

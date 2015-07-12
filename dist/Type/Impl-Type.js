@@ -7,16 +7,16 @@ define(["exports","./Kind","./Obj-Type","../bang","../compare","../Objectbang","
 		}),_$5=_ms.lazyGetModule(_33_2),_33not=_ms.lazyProp(_$5,"!not"),_$6=_ms.lazyGetModule(compare_3),_61_63=_ms.lazyProp(_$6,"=?"),_$7=_ms.lazyGetModule(Object_33_4),empty_45Object_33=_ms.lazyProp(_$7,"empty-Object!"),_$8=_ms.lazyGetModule(Kind_5),kind_63=_ms.lazyProp(_$8,"kind?"),_$9=_ms.lazyGetModule(Method_6),impl_33=_ms.lazyProp(_$9,"impl!"),_$10=_ms.lazyGetModule(Type_7),contains_63=_ms.lazyProp(_$10,"contains?");
 		const Impl_45Type=Kind(function(){
 			const built={};
-			const doc=built.doc="TODO:REST\nEvery Impl-Type should have a `prototype` property.";
+			const doc=built.doc=`TODO:REST\nEvery Impl-Type should have a \`prototype\` property.`;
 			const test=built.test=function test(){
 				const A=Kind(function(){
 					const built={};
-					const doc=built.doc="A";
+					const doc=built.doc=`A`;
 					return _ms.setName(built,"A")
 				}());
 				const B=Kind(function(){
 					const built={};
-					const doc=built.doc="B";
+					const doc=built.doc=`B`;
 					return _ms.setName(built,"B")
 				}());
 				const C=Obj_45Type(function(){
@@ -42,7 +42,7 @@ define(["exports","./Kind","./Obj-Type","../bang","../compare","../Objectbang","
 		kind_33(Kind,Impl_45Type);
 		const Self_45Type=exports["Self-Type"]=Obj_45Type(function(){
 			const built={};
-			const doc=built.doc="Impl-Type with exactly one member.\nCalling impl! on it will directly modify an Object to contain method implementations.";
+			const doc=built.doc=`Impl-Type with exactly one member.\nCalling impl! on it will directly modify an Object to contain method implementations.`;
 			const props=built.props=function(){
 				const built={};
 				const prototype=built.prototype=Object;
@@ -64,7 +64,7 @@ define(["exports","./Kind","./Obj-Type","../bang","../compare","../Objectbang","
 				prototype:_
 			})
 		};
-		const name=exports.name="Impl-Type";
+		const name=exports.name=`Impl-Type`;
 		exports.default=Impl_45Type;
 		return exports
 	})
