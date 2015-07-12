@@ -2,7 +2,6 @@ use
 	.@.@ _ flatten
 	.Function apply Thunk
 	.Generator!
-	.js new
 	.methods sub
 	.Type.Method self-impl!
 	.Type.Pred-Type Any

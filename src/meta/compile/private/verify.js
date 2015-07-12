@@ -342,6 +342,11 @@ implementMany(MsAstTypes, 'verify', {
 		this.lines.forEach(markExportLines)
 	},
 
+	New() {
+		this.type.verify()
+		this.args.forEach(verify)
+	},
+
 	ObjEntry() {
 		accessLocal(this, 'built')
 		this.assign.verify()

@@ -1,6 +1,5 @@
 use
 	..$
-	..js new
 use-debug
 	..!
 	..compare =?

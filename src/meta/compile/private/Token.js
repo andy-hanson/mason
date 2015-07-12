@@ -141,6 +141,7 @@ export const
 	KW_In = kw('in'),
 	KW_Lazy = kwNotName('~'),
 	KW_MapEntry = kw('->'),
+	KW_New = kw('new'),
 	KW_Null = kw('null'),
 	KW_ObjAssign = kw('. '),
 	KW_OhNo = kw('oh-no!'),

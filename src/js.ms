@@ -1,5 +1,3 @@
-use
-	.private.js-impl iNew
 use~
 	.@.@
 	.Boolean not
@@ -8,7 +6,6 @@ use-debug
 	.! _ !not
 	.compare =?
 	.math.methods +
-	.Object! p+!
 
 doc. "Functions implementing behavior native to JavaScript."
 
@@ -69,20 +66,6 @@ truthy?.
 		! truthy? true
 	|_
 		js! js!_
-
-new.
-	doc. "
-		Emulates JavaScript's `new` keyword.
-		Creates a new Object whose prototype is `constructor.prototype` and calls the constructor on it.
-		Wierd things may happen if you try to create a new Error this way.
-	test. !|
-		My-Function-Type = |a
-			p+! this "a" a
-		x:My-Function-Type = new My-Function-Type 1
-		! =? x.a 1
-		y:Error = new Error "Oh no!"
-		! =? y.message "Oh no!"
-	iNew
 
 js-typeof.
 	doc. "JavaScript's `typeof` operator."

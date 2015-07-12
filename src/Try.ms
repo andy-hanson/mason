@@ -4,7 +4,6 @@ use
 	.$ _ $after
 	.compare =?
 	.Function Action noop
-	.js new
 	.private.bootstrap ms
 	.Object p
 	.Object! p!

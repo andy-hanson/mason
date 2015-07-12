@@ -1,5 +1,4 @@
 use
-	...js new
 	...Type.Kind kind! self-kind!
 	...Type.Type contains?
 	..@ count

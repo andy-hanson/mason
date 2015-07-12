@@ -6,14 +6,14 @@ import { AssignDestructure, AssignSingle, BagEntry, BagEntryMany, BagSimple, Blo
 	Iteratee, NumberLiteral, ExceptDo, ExceptVal, ForBag, ForDo, ForVal, Fun, GlobalAccess, Lazy,
 	LD_Const, LD_Lazy, LD_Mutable, LocalAccess, LocalDeclare, LocalDeclareFocus, LocalDeclareName,
 	LocalDeclarePlain, LocalDeclareRes, LocalDeclareUntyped, LocalMutate, MapEntry, Member, Module,
-	ObjEntry, ObjPair, ObjSimple, OhNo, Pattern, Quote, SP_Debugger, SpecialDo, SpecialVal,
+	New, ObjEntry, ObjPair, ObjSimple, OhNo, Pattern, Quote, SP_Debugger, SpecialDo, SpecialVal,
 	SV_Null, Splat, Val, Use, UseDo, Yield, YieldTo } from '../../MsAst'
 import { JsGlobals } from '../language'
 import { DotName, Group, G_Block, G_Bracket, G_Parenthesis, G_Space, G_Quote, isGroup, isKeyword,
 	Keyword, KW_Assign, KW_AssignMutable, KW_BreakDo, KW_BreakVal, KW_CaseVal, KW_CaseDo,
 	KW_CatchDo, KW_CatchVal, KW_Continue, KW_Debug, KW_Debugger, KW_Ellipsis, KW_Else, KW_ExceptDo,
 	KW_ExceptVal, KW_Finally, KW_ForBag, KW_ForDo, KW_ForVal, KW_Focus, KW_Fun, KW_FunDo,
-	KW_GenFun, KW_GenFunDo, KW_IfDo, KW_IfVal, KW_In, KW_Lazy, KW_LocalMutate, KW_MapEntry,
+	KW_GenFun, KW_GenFunDo, KW_IfDo, KW_IfVal, KW_In, KW_Lazy, KW_LocalMutate, KW_MapEntry, KW_New,
 	KW_ObjAssign, KW_OhNo, KW_Pass, KW_Out, KW_Region, KW_TryDo, KW_TryVal, KW_Type, KW_UnlessDo,
 	KW_UnlessVal, KW_Use, KW_UseDebug, KW_UseDo, KW_UseLazy, KW_Yield, KW_YieldTo, Name,
 	keywordName, opKeywordKindToSpecialValueKind } from '../Token'
@@ -310,7 +310,7 @@ const
 				switch (token.kind) {
 					case KW_CaseVal: case KW_ExceptVal: case KW_ForBag: case KW_ForVal:
 					case KW_Fun: case KW_FunDo: case KW_GenFun: case KW_GenFunDo: case KW_IfVal:
-					case KW_UnlessVal: case KW_Yield: case KW_YieldTo:
+					case KW_New: case KW_UnlessVal: case KW_Yield: case KW_YieldTo:
 						return true
 					default:
 						return false
@@ -343,6 +343,10 @@ const
 								parseExpr(before),
 								parseBlockVal(block),
 								at.kind === KW_UnlessVal)
+						}
+						case KW_New: {
+							const parts = parseExprParts(after)
+							return New(at.loc, parts[0], tail(parts))
 						}
 						case KW_Yield:
 							return Yield(at.loc, parseExpr(after))

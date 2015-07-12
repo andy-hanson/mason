@@ -1,8 +1,9 @@
 import { ArrayExpression, BinaryExpression, BlockStatement, BreakStatement, CallExpression,
 	CatchClause, ConditionalExpression, ContinueStatement, DebuggerStatement, ExpressionStatement,
-	ForOfStatement, FunctionExpression, Identifier, IfStatement, Literal, ObjectExpression,
-	Program, ReturnStatement, TemplateLiteral, ThisExpression, ThrowStatement, TryStatement, VariableDeclaration,
-	UnaryExpression, VariableDeclarator, ReturnStatement } from 'esast/dist/ast'
+	ForOfStatement, FunctionExpression, Identifier, IfStatement, Literal, NewExpression,
+	ObjectExpression, Program, ReturnStatement, TemplateLiteral, ThisExpression, ThrowStatement,
+	TryStatement, VariableDeclaration, UnaryExpression, VariableDeclarator, ReturnStatement
+	} from 'esast/dist/ast'
 import { idCached, loc, member, propertyIdOrLiteralCached, toStatement } from 'esast/dist/util'
 import { assignmentExpressionPlain, callExpressionThunk, functionExpressionPlain,
 	functionExpressionThunk, memberExpression, property,
@@ -248,6 +249,12 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 			opIf(context.opts.includeUseStrict(), () => UseStrict),
 			opIf(context.opts.includeAmdefine(), () => AmdefineHeader),
 			toStatement(amdWrapModule(this.doUses, this.uses.concat(this.debugUses), body))))
+	},
+
+	New() {
+		const anySplat = this.args.some(_ => _ instanceof Splat)
+		context.check(!anySplat, this.loc, 'TODO: Splat params for new')
+		return NewExpression(t0(this.type), this.args.map(t0))
 	},
 
 	ObjEntry() {

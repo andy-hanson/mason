@@ -1,19 +1,6 @@
 const { bool, unlazy } = _ms
 
 export	const
-	// js.ms
-	iNew = function(ctr, a, b, c) {
-		// TODO:ES6 return new ctr(...args)
-		switch (arguments.length) {
-			case 0: throw new Error('`new` needs a constructor.')
-			case 1: return new ctr()
-			case 2: return new ctr(a)
-			case 3: return new ctr(a, b)
-			case 4: return new ctr(a, b, c)
-			default: throw new Error('This many arguments not supported.')
-		}
-	},
-
 	// Boolean.ms
 	// TODO:ES6 ...args
 	iAnd = function() {

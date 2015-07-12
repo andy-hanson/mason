@@ -314,6 +314,12 @@ export const
 				Call(loc, SpecialVal(loc, SV_Contains), [ testType, tested ]),
 			sub: (loc, args) => Call(loc, SpecialVal(loc, SV_Sub), args)
 		}),
+	New = v('New',
+		'TODO:DOC',
+		[
+			'type', Val,
+			'args', [Union(Val, Splat)]
+		]),
 	BlockWrap = v('BlockWrap',
 		'TODO:DOC',
 		[ 'block', BlockVal ]),

@@ -1,6 +1,5 @@
 use
 	..$ _ $after $map
-	..js new
 	..private.bootstrap msCall
 
 $require = |require path
