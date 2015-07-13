@@ -135,10 +135,7 @@ spread.
 	test. !|
 		all-4 = |a b c d
 			[ a b c d ]
-		x = spread all-4 1 2 3
-			. 4
-			. 5
-		! seq=? x
+		! seq=? (spread all-4 1 2 3 [ 4 5 ])
 			. [ 1 2 3 4 ]
 			. [ 1 2 3 5 ]
 
@@ -149,13 +146,9 @@ spread.
 			. [ 1 2 3 4 ]
 			. [ 1 2 5 6 ]
 
-		z = spread all-4 1 2
-			three. 4
-			five. 6
-		! seq=? z
+		! seq=? (spread all-4 1 2 (three. 4 five. 6))
 			. [ 1 2 "three" 4 ]
 			. [ 1 2 "five" 6 ]
-			. [ 1 2 "name" "z" ] # TODO:DISPLAYNAME
 
 	# TODO:ES6 Non-last rest arg?
 	|:@ fun:Function ...args

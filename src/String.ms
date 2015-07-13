@@ -1,5 +1,4 @@
 use
-	.Boolean and
 	.compare _ =?
 	.js id=?
 	.Type.Kind
@@ -22,7 +21,7 @@ String-Test. Kind
 Char. Pred-Type
 	doc. "Any String with only one character."
 	predicate. |_
-		and :String ~(=? count_ 1
+		and :String (=? count_ 1
 
 indent.
 	doc. "

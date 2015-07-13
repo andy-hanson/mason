@@ -1,5 +1,4 @@
 use
-	...Boolean and not
 	...compare =?
 	...methods sub
 	...Type.Kind _ kind!
@@ -50,7 +49,7 @@ region New methods
 
 region Old methods
 	impl! =? Map |m1 m2
-		and (=? (type-of m1) (type-of m2)) ~(map=? m1 m2
+		and (=? (type-of m1) (type-of m2)) (map=? m1 m2
 
 	impl! sub Map |map key:Any
 		un-? (?get map key) ~"{map} does not contain {key}."
@@ -81,10 +80,10 @@ region Functions
 			[ m1 m1 ] -> true
 			[ m1 m2 ] -> false
 		|a:Map b:Map
-			and (=? (count a) (count b)) ~
+			and (=? (count a) (count b))
 				all? a |pair
 					# TODO:SYNTAX Array destructure
 					key = pair[0]
 					val = pair[1]
 					?bk = ?get b key
-					and (not (empty? ?bk)) ~(=? val ?bk.val
+					and (not empty? ?bk) (=? val ?bk.val

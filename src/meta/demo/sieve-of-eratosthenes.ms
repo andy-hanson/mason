@@ -12,7 +12,6 @@ use-debug
 	...!
 	...@.@ any?
 	...@.Seq.Seq take
-	...Boolean not
 	...math.Number divisible?
 
 # http://stackoverflow.com/questions/13463417/the-genuine-sieve-of-eratosthenes-in-python-why-is-heapq-slower-than-dict

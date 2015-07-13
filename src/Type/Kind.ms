@@ -1,5 +1,4 @@
 use
-	..Boolean or not
 	..compare =?
 	..js defined? js-sub
 	..private.bootstrap implContains pAdd
@@ -102,7 +101,7 @@ can-subtype?.
 		[ Impl-Type ] -> true
 		[ Try ] -> false
 	|_:Kind
-		not (frozen? _.implementors
+		not frozen? _.implementors
 
 # Making something an instance of Impl-Type is difficult because kind! checks that it's already an Impl-Type...
 unchecked-kind!.
@@ -179,7 +178,7 @@ kind?.
 		case implementor
 			:Kind
 				_.super-kinds.some |super
-					or (=? super kind) ~(kind? super kind
+					or (=? super kind) (kind? super kind
 			else
 				_ = implementor.prototype
 				:kind

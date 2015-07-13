@@ -3,20 +3,21 @@ import { code } from '../../CompileError'
 import { AssignDestructure, AssignSingle, BagEntry, BagEntryMany, BagSimple, BlockBag, BlockDo,
 	BlockMap, BlockObj, BlockValOhNo, BlockWithReturn, BlockWrap, BreakDo, BreakVal, Call,
 	CaseDoPart, CaseValPart, CaseDo, CaseVal, Catch, ConditionalDo, ConditionalVal, Continue, Debug,
-	Iteratee, NumberLiteral, ExceptDo, ExceptVal, ForBag, ForDo, ForVal, Fun, GlobalAccess, Lazy,
-	LD_Const, LD_Lazy, LD_Mutable, LocalAccess, LocalDeclare, LocalDeclareFocus, LocalDeclareName,
-	LocalDeclarePlain, LocalDeclareRes, LocalDeclareUntyped, LocalMutate, MapEntry, Member, Module,
-	New, ObjEntry, ObjPair, ObjSimple, OhNo, Pattern, Quote, SP_Debugger, SpecialDo, SpecialVal,
-	SV_Null, Splat, Val, Use, UseDo, Yield, YieldTo } from '../../MsAst'
+	Iteratee, NumberLiteral, ExceptDo, ExceptVal, ForBag, ForDo, ForVal, Fun, GlobalAccess, L_And,
+	L_Or, Lazy, LD_Const, LD_Lazy, LD_Mutable, LocalAccess, LocalDeclare, LocalDeclareFocus,
+	LocalDeclareName, LocalDeclarePlain, LocalDeclareRes, LocalDeclareUntyped, LocalMutate, Logic,
+	MapEntry, Member, Module, New, Not, ObjEntry, ObjPair, ObjSimple, OhNo, Pattern, Quote,
+	SP_Debugger, SpecialDo, SpecialVal, SV_Null, Splat, Val, Use, UseDo, Yield, YieldTo
+	} from '../../MsAst'
 import { JsGlobals } from '../language'
 import { DotName, Group, G_Block, G_Bracket, G_Parenthesis, G_Space, G_Quote, isGroup, isKeyword,
-	Keyword, KW_Assign, KW_AssignMutable, KW_BreakDo, KW_BreakVal, KW_CaseVal, KW_CaseDo,
+	Keyword, KW_And, KW_Assign, KW_AssignMutable, KW_BreakDo, KW_BreakVal, KW_CaseVal, KW_CaseDo,
 	KW_CatchDo, KW_CatchVal, KW_Continue, KW_Debug, KW_Debugger, KW_Ellipsis, KW_Else, KW_ExceptDo,
 	KW_ExceptVal, KW_Finally, KW_ForBag, KW_ForDo, KW_ForVal, KW_Focus, KW_Fun, KW_FunDo,
 	KW_GenFun, KW_GenFunDo, KW_IfDo, KW_IfVal, KW_In, KW_Lazy, KW_LocalMutate, KW_MapEntry, KW_New,
-	KW_ObjAssign, KW_OhNo, KW_Pass, KW_Out, KW_Region, KW_TryDo, KW_TryVal, KW_Type, KW_UnlessDo,
-	KW_UnlessVal, KW_Use, KW_UseDebug, KW_UseDo, KW_UseLazy, KW_Yield, KW_YieldTo, Name,
-	keywordName, opKeywordKindToSpecialValueKind } from '../Token'
+	KW_Not, KW_ObjAssign, KW_OhNo, KW_Or, KW_Pass, KW_Out, KW_Region, KW_TryDo, KW_TryVal, KW_Type,
+	KW_UnlessDo, KW_UnlessVal, KW_Use, KW_UseDebug, KW_UseDo, KW_UseLazy, KW_Yield, KW_YieldTo,
+	Name, keywordName, opKeywordKindToSpecialValueKind } from '../Token'
 import { assert, head, ifElse, flatMap, isEmpty, last,
 	opIf, opMap, push, repeat, rtail, tail, unshift } from '../util'
 import Slice from './Slice'
@@ -308,9 +309,10 @@ const
 		const opSplit = tokens.opSplitOnceWhere(token => {
 			if (token instanceof Keyword)
 				switch (token.kind) {
-					case KW_CaseVal: case KW_ExceptVal: case KW_ForBag: case KW_ForVal:
+					case KW_And: case KW_CaseVal: case KW_ExceptVal: case KW_ForBag: case KW_ForVal:
 					case KW_Fun: case KW_FunDo: case KW_GenFun: case KW_GenFunDo: case KW_IfVal:
-					case KW_New: case KW_UnlessVal: case KW_Yield: case KW_YieldTo:
+					case KW_New: case KW_Not: case KW_Or: case KW_UnlessVal: case KW_Yield:
+					case KW_YieldTo:
 						return true
 					default:
 						return false
@@ -321,6 +323,9 @@ const
 			({ before, at, after }) => {
 				const last = (() => {
 					switch (at.kind) {
+						case KW_And: case KW_Or:
+							return Logic(at.loc, at.kind === KW_And ? L_And : L_Or,
+								parseExprParts(after))
 						case KW_CaseVal:
 							return parseCase(true, false, after)
 						case KW_ExceptVal:
@@ -348,6 +353,8 @@ const
 							const parts = parseExprParts(after)
 							return New(at.loc, parts[0], tail(parts))
 						}
+						case KW_Not:
+							return Not(at.loc, parseExpr(after))
 						case KW_Yield:
 							return Yield(at.loc, parseExpr(after))
 						case KW_YieldTo:

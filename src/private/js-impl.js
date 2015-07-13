@@ -1,43 +1,4 @@
-const { bool, unlazy } = _ms
-
 export	const
-	// Boolean.ms
-	// TODO:ES6 ...args
-	iAnd = function() {
-		const args = arguments
-		switch (args.length) {
-			case 0: return true
-			case 1: return bool(args[0])
-			case 2: return bool(args[0]) && bool(unlazy(args[1]))
-			case 3: return bool(args[0]) && bool(unlazy(args[1])) && bool(unlazy(args[2]))
-			default:
-				if (!bool(args[0]))
-					return false
-				for (let i = 1; i < args.length; i = i + 1)
-					if (!bool(unlazy(args[i])))
-						return false
-				return true
-		}
-	},
-
-	// TODO:ES6 (...args) => {
-	iOr = function() {
-		const args = arguments
-		switch (args.length) {
-			case 0: return false
-			case 1: return bool(args[0])
-			case 2: return bool(args[0]) || bool(unlazy(args[1]))
-			case 3: return bool(args[0]) || bool(unlazy(args[1])) || bool(unlazy(args[2]))
-			default:
-				if (bool(args[0]))
-					return true
-				for (let i = 1; i < args.length; i = i + 1)
-					if (bool(unlazy(args[i])))
-						return true
-				return true
-		}
-	},
-
 	// Kind.ms
 	KindContains = (kind, _) =>
 		_ != null && _[kind['symbol-for-isa']] !== undefined,

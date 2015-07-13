@@ -1,6 +1,6 @@
 use
 	esast.dist.mangle-identifier
-	..Boolean and implies not
+	..Boolean implies
 	..js defined? js! js=== js-instanceof js-sub
 	# Don't want to depend on Try because that can cause circular dependency problems.
 	..private.js-impl buildStr methodArgNames
@@ -187,7 +187,7 @@ self-impl!.
 	|method:Method type:Impl-Type
 		# TODO: Object.ms Function
 		desc = Object.getOwnPropertyDescriptor type.prototype method.impl-symbol
-		if and (defined? desc) ~(not desc.writable)
+		if and (defined? desc) (not desc.writable)
 			desc.value
 
 impl-for.

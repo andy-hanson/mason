@@ -6,7 +6,6 @@ use
 	...@.Map.Map
 	...@.Set.Id-Set!
 	...$ _ $all $ing
-	...Boolean and or
 	...compare =?
 	...Function noop
 	...Generator!
@@ -110,7 +109,7 @@ $test-fun.
 	@for
 		... @$-from-any (test-special value
 		case! value
-			or is-module ~:ObjLit ~:Function
+			or is-module :ObjLit :Function
 				for! prop-name in @p_
 					~next-name = "{name}.{prop-name}"
 					prop-val = p _ prop-name
@@ -123,7 +122,7 @@ $test-fun.
 						else
 							... @$maybe-test ~next-name prop-val false
 
-			and :Object ~(p? _ "test")
+			and :Object (p? _ "test")
 				... @$test-test-prop _ _.test ~"{name}.test"
 			else
 				pass

@@ -66,8 +66,10 @@ const msDefs = {
 	},
 
 	bool(b) {
-		if (typeof b !== 'boolean')
+		if (typeof b !== 'boolean') {
+			console.log(b)
 			throw new Error(`Expected Boolean, got ${b}`)
+		}
 		return b
 	},
 

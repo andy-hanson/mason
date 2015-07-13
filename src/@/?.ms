@@ -1,5 +1,4 @@
 use
-	..Boolean and not
 	..control opr
 	..js defined? id=?
 	..private.bootstrap msDef
@@ -95,17 +94,17 @@ region Functions
 		test. |
 			[ (empty ?) 1 ] -> 1
 			[ (? 1) 2 ] -> 1
-		|_:? ~or
+		|_:? ~or-else
 			case
 				empty?_
-					or
+					or-else
 				else
 					_.val
 
 Some. Pred-Type
 	doc. "TODO"
 	predicate. |_
-		and :? ~(not empty?_
+		and :? (not empty?_
 	# TODO: Move to test of self-impl!
 	test. |
 		case ? 1

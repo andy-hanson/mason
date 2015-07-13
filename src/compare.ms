@@ -1,5 +1,4 @@
 use
-	.Boolean not or
 	.js id=?
 	.Type.Method
 use~
@@ -48,7 +47,7 @@ compare. Method
 	args. 2
 	allow-null?. true
 	default. |a b
-		or (id=? a b) ~(object=? a b
+		or (id=? a b) (object=? a b
 
 <?. Method
 	doc. "
@@ -111,7 +110,7 @@ region Min/max
 			[ [ 1 ] identity ] -> ? 1
 			[ [ ] identity ] -> empty ?
 		|_:@ by:Function
-			if not empty?_
+			unless empty?_
 				iter = iterator_
 				value = iter.next().value
 				cur-max ::= value

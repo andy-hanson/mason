@@ -1,5 +1,5 @@
 use
-	.Boolean and not nor xor
+	.Boolean xor
 	.compare =?
 	.js defined? js== js-typeof id=? js-sub
 	.methods freeze
@@ -29,7 +29,7 @@ can-get-p?.
 		[ undefined ] -> false
 		[ 1 ] -> true
 	|_
-		not (js== _ null
+		not js== _ null
 
 flag?.
 	doc. "If it has a property for the flag, uses that. Otherwise false."
@@ -64,7 +64,7 @@ flag?.
 		own-names = case
 			:Function
 				keep props |name
-					not (contains? forbidden-fun-props name
+					not contains? forbidden-fun-props name
 			else
 				props
 		++ own-names (Object.getOwnPropertySymbols _
@@ -142,14 +142,14 @@ p?.
 		[ x "b" ] -> false
 		[ x "toString" ] -> false # use p-with-proto? for that.
 	|_ name:Object-Key
-		and can-get-p?_ ~(Object.prototype.hasOwnProperty.call _ name
+		and can-get-p?_ (Object.prototype.hasOwnProperty.call _ name
 
 p-with-proto?.
 	doc. "Like `p?` but looks through the prototype."
 	test. |
 		[ empty-Object "toString" ] -> true
 	|_ name:Object-Key
-		and can-get-p?_ ~(defined? (js-sub _ name
+		and can-get-p?_ (defined? (js-sub _ name
 
 # TODO: Handle recursive references.
 object=?.
@@ -175,19 +175,19 @@ object=?.
 		null-a = id=? a null
 		null-b = id=? b null
 		# TODO: Not :Object because that currently also includes Functions
-		obj-a = and (not null-a) ~(id=? (js-typeof a) "object"
-		obj-b = and (not null-b) ~(id=? (js-typeof b) "object"
+		obj-a = and (not null-a) (id=? (js-typeof a) "object"
+		obj-b = and (not null-b) (id=? (js-typeof b) "object"
 		case
-			nor obj-a obj-b
+			not or obj-a obj-b
 				id=? a b
 			xor obj-a obj-b
 				false
 			else
 				same-type = id=? (Object.getPrototypeOf a) (Object.getPrototypeOf b
-				and same-type ~
+				and same-type
 					ak = Object.getOwnPropertyNames a
 					bk = Object.getOwnPropertyNames b
-					and (=? (count ak) (count bk)) ~
+					and (=? (count ak) (count bk))
 						all? ak |k
 							=? (js-sub a k) (js-sub b k)
 

@@ -1,20 +1,20 @@
 import { ArrayExpression, BinaryExpression, BlockStatement, BreakStatement, CallExpression,
 	CatchClause, ConditionalExpression, ContinueStatement, DebuggerStatement, ExpressionStatement,
-	ForOfStatement, FunctionExpression, Identifier, IfStatement, Literal, NewExpression,
-	ObjectExpression, Program, ReturnStatement, TemplateLiteral, ThisExpression, ThrowStatement,
-	TryStatement, VariableDeclaration, UnaryExpression, VariableDeclarator, ReturnStatement
-	} from 'esast/dist/ast'
+	ForOfStatement, FunctionExpression, Identifier, IfStatement, Literal, LogicalExpression,
+	NewExpression, ObjectExpression, Program, ReturnStatement, TemplateLiteral, ThisExpression,
+	ThrowStatement, TryStatement, VariableDeclaration, UnaryExpression, VariableDeclarator,
+	ReturnStatement } from 'esast/dist/ast'
 import { idCached, loc, member, propertyIdOrLiteralCached, toStatement } from 'esast/dist/util'
 import { assignmentExpressionPlain, callExpressionThunk, functionExpressionPlain,
 	functionExpressionThunk, memberExpression, property,
 	yieldExpressionDelegate, yieldExpressionNoDelegate } from 'esast/dist/specialize'
 import * as MsAstTypes from '../../MsAst'
-import { AssignSingle, LD_Lazy, LD_Mutable, Pattern, Splat, SD_Debugger, SV_Contains,
+import { AssignSingle, L_And, L_Or, LD_Lazy, LD_Mutable, Pattern, Splat, SD_Debugger, SV_Contains,
 	SV_False, SV_Null, SV_Sub, SV_This, SV_ThisModuleDirectory, SV_True, SV_Undefined
 	} from '../../MsAst'
 import manglePath from '../manglePath'
 import { assert, cat, flatMap, flatOpMap, ifElse, isEmpty,
-	implementMany, isPositive, opIf, opMap, unshift } from '../util'
+	implementMany, isPositive, opIf, opMap, tail, unshift } from '../util'
 import { AmdefineHeader, ArraySliceCall, DeclareBuiltBag, DeclareBuiltMap, DeclareBuiltObj,
 	EmptyTemplateElement, ExportsDefault, ExportsGet, IdArguments, IdBuilt, IdDefine, IdExports,
 	IdExtract, IdFunctionApplyCall, LitEmptyArray, LitEmptyString, LitNull, LitStrExports,
@@ -237,6 +237,12 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 		return assignmentExpressionPlain(idCached(this.name), t0(this.value))
 	},
 
+	Logic() {
+		assert(this.kind === L_And || this.kind === L_Or)
+		const op = this.kind === L_And ? '&&' : '||'
+		return tail(this.args).reduce((a, b) => LogicalExpression(op, a, t0(b)), t0(this.args[0]))
+	},
+
 	MapEntry() { return msAssoc(IdBuilt, t0(this.key), t0(this.val)) },
 
 	Member() { return member(t0(this.object), this.name) },
@@ -256,6 +262,8 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 		context.check(!anySplat, this.loc, 'TODO: Splat params for new')
 		return NewExpression(t0(this.type), this.args.map(t0))
 	},
+
+	Not() { return UnaryExpression('!', t0(this.arg)) },
 
 	ObjEntry() {
 		return (this.assign instanceof AssignSingle && !this.assign.assignee.isLazy()) ?

@@ -1,6 +1,6 @@
 use
 	esast.dist.mangle-identifier
-	..Boolean and implies not
+	..Boolean implies
 	..private.bootstrap implContains pAdd
 	..js defined? js! js=== js-instanceof js-sub js-typeof
 	..private.js-impl buildStr
@@ -21,13 +21,13 @@ make-constructor = |ot
 	debug prop-has-type? = |props prop
 		# Type might be lazily defined, but don't trigger it yet.
 		desc = Object.getOwnPropertyDescriptor props prop
-		not (js=== desc.value null)
+		not js=== desc.value null
 
 	real-prop? = |props prop
 		# TODO:DISPLAYNAME Ignore accidental name.
 		implies (js=== prop "name") ~
 			# This looks funny since `contains?` isn't defined until methods.ms.
-			not (js=== (js-typeof (js-sub props prop)) "string"
+			not js=== (js-typeof (js-sub props prop)) "string"
 
 	access = |name
 		"[\"{name}\"]"
@@ -53,7 +53,7 @@ make-constructor = |ot
 			unless! extensible
 				add! "this{acc} = _{acc}"
 
-			default? = and (defined? ot.defaults) ~(defined? (js-sub ot.defaults prop
+			default? = and (defined? ot.defaults) (defined? (js-sub ot.defaults prop
 
 			if! default?
 				add! "if (this{acc} === undefined) this{acc} = defaults{acc}(_)"

@@ -1,5 +1,4 @@
 use
-	...Boolean not
 	...compare =?
 	...Function Pred
 	...math.methods - +
@@ -80,7 +79,7 @@ region Very first and last
 			[ [ ] ] -> empty ?
 		args. 1
 		default. |_
-			if not empty?_
+			unless empty?_
 				_[(- count_ 1
 
 	tail. Method

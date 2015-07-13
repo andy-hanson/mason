@@ -1,5 +1,4 @@
 use
-	..Boolean and
 	..compare _ =? <? <=?
 	..control opr
 	..Object p
@@ -35,7 +34,7 @@ Nat. Pred-Type
 		! contains? Nat 0
 		!not contains? Nat -1
 	predicate. |_
-		and :Int ~(<=? 0 _
+		and :Int (<=? 0 _
 
 region impl!
 	# TODO: impl*!

@@ -1,5 +1,4 @@
 use
-	..Boolean and not or
 	..Function Pred
 	..js defined? id=?
 	..methods sub
@@ -43,7 +42,7 @@ region Opt
 			Exists-Type. Type
 	kind! Opt-Sub Type
 	impl! contains? Opt-Sub |nt _
-		or (not defined?_) ~(contains? nt.Exists-Type _)
+		or (not defined?_) (contains? nt.Exists-Type _
 
 Any. Pred-Type
 	doc. "Not undefined."
@@ -59,7 +58,7 @@ ObjLit. Pred-Type
 		! contains? ObjLit (a. 1
 		!not contains? ObjLit ObjLit
 	predicate. |_
-		and :Object ~(id=? (Object.getPrototypeOf _) Object.prototype
+		and :Object (id=? (Object.getPrototypeOf _) Object.prototype
 
 Union.
 	doc. "Type that matches one of several types. Analogous to `or`."

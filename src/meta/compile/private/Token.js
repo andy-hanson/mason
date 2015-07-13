@@ -108,6 +108,7 @@ for (const name of reserved_words)
 	keywordNameToKind.set(name, -1)
 
 export const
+	KW_And = kw('and'),
 	KW_Assign = kw('='),
 	KW_AssignMutable = kw('::='),
 	KW_LocalMutate = kw(':='),
@@ -142,9 +143,11 @@ export const
 	KW_Lazy = kwNotName('~'),
 	KW_MapEntry = kw('->'),
 	KW_New = kw('new'),
+	KW_Not = kw('not'),
 	KW_Null = kw('null'),
 	KW_ObjAssign = kw('. '),
 	KW_OhNo = kw('oh-no!'),
+	KW_Or = kw('or'),
 	KW_Out = kw('out'),
 	KW_Pass = kw('pass'),
 	KW_Region = kw('region'),

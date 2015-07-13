@@ -1,6 +1,5 @@
 use~
 	.@.@
-	.Boolean not
 	.Type.Type =>
 use-debug
 	.! _ !not
@@ -45,7 +44,7 @@ defined?.
 		[ undefined ] -> false
 		[ 0 ] -> true
 	|_
-		not (id=? _ undefined
+		not id=? _ undefined
 
 id=?.
 	doc. "

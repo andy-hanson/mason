@@ -1,5 +1,4 @@
 use
-	...Boolean and not
 	...control opr
 	...js js-set
 	...math.Number Nat
@@ -17,7 +16,7 @@ Array!. Pred-Type
 		TODO:MORE
 		Unlike Deque!, pushing and popping elements from the left side is expensive.
 	predicate. |_
-		and :Array ~(not frozen?_)
+		and :Array (not frozen?_
 
 self-kind! Array! @-Type
 	empty -> |initial-size
@@ -38,10 +37,10 @@ kind! Array Seq!
 		# TODO:SYNTAX _.push ...added
 		Array.prototype.push.apply _ (=> Array added
 	?<pop! -> |_
-		if not empty?_
+		unless empty?_
 			_.shift()
 	?pop>! -> |_
-		if not empty?_
+		unless empty?_
 			_.pop()
 	empty! -> !|_
 		# http://jsperf.com/empty-javascript-array/15

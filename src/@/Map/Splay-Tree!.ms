@@ -1,5 +1,4 @@
 use
-	...Boolean and not
 	...compare _ <?
 	...js defined?
 	...Object! p!
@@ -39,11 +38,11 @@ js-impl! iterator Splay-Tree! |
 
 kind! Splay-Tree! Sorted-Map!
 	empty? -> |_
-		not (defined? _.val
+		not defined? _.val
 	empty! -> !|_
 		p! _ "val" undefined
 	?get -> |_ key
-		if and (not empty?_) ~(splay!? _ key)
+		if and (not empty?_) (splay!? _ key)
 			_.val.val!
 	assoc! -> !|_ key val
 		case!
@@ -64,7 +63,7 @@ kind! Splay-Tree! Sorted-Map!
 						p! old-root "left!" undefined
 						Splay-Node key val old-left old-root
 	un-assoc! -> |_ key
-		if and (not empty?_) ~(splay!? _ key)
+		if and (not empty?_) (splay!? _ key)
 			removed = _.val
 			# Link out the root.
 			p! _ "val" case

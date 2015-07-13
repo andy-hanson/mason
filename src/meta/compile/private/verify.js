@@ -313,6 +313,13 @@ implementMany(MsAstTypes, 'verify', {
 		this.value.verify()
 	},
 
+	Logic() {
+		context.check(this.args.length > 1, 'Logic expression needs at least 2 arguments.')
+		this.args.forEach(verify)
+	},
+
+	Not() { this.arg.verify() },
+
 	NumberLiteral() { },
 
 	MapEntry() {

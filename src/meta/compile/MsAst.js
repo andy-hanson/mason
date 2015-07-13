@@ -298,7 +298,15 @@ export const
 		'TODO:DOC',
 		[ 'yieldedTo', Val ]),
 
-	// Expressions
+	// Other Vals
+	L_And = 0,
+	L_Or = 1,
+	Logic = v('Logic',
+		'TODO:DOC',
+		[ 'kind', Number, 'args', [Val] ]),
+	Not = v('Not',
+		'TODO:DOC',
+		[ 'arg', Val ]),
 	Splat = m('Splat',
 		'TODO:DOC',
 		[ 'splatted', Val ]),

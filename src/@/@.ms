@@ -1,5 +1,4 @@
 use
-	..Boolean and not
 	..compare =?
 	..Function identity Pred
 	..js defined? id=?
@@ -90,7 +89,7 @@ region Using iterator
 			[ [ 0 1 ] =?[2] ] -> false
 		|_:@ pred?:Opt[Pred]
 			pred? := opr pred? identity
-			not (empty? (?find _ pred?
+			not empty? (?find _ pred?
 
 	all?.
 		doc. "Whether pred? is true for every element."
@@ -100,7 +99,7 @@ region Using iterator
 		|_:@ pred?:Opt[Pred]
 			pred? := opr pred? identity
 			empty? (?find _ |em
-				not (pred? em
+				not pred? em
 
 	?find.
 		doc. "
@@ -152,7 +151,7 @@ region Lazy functions, and their eager versions.
 	map.
 		doc. "TODO"
 		test. |
-			[ [ true false ] not ] -> [ false true ]
+			[ [ 1 2 ] =?[2] ] -> [ false true ]
 		|_:@ mapper:Function
 			# TODO:SYNTAX Shouldn't need => type-of_
 			=> type-of_ @for _
@@ -161,7 +160,7 @@ region Lazy functions, and their eager versions.
 	map'.
 		doc. "Lazy map."
 		test. |
-			[ [ true false ] not ] -> => Stream [ false true ]
+			[ [ 1 2 ] =?[2] ] -> => Stream [ false true ]
 		|mapped:@ mapper:Function
 			# TODO:SYNTAX @for~
 			Stream ~!|
@@ -283,4 +282,4 @@ region Lazy functions, and their eager versions.
 		test. |
 			! =? [ 1 ] [ 1 ]
 		|@a @b
-			and (id=? (type-of @a) (type-of @b)) ~(seq=? @a @b
+			and (id=? (type-of @a) (type-of @b)) (seq=? @a @b
