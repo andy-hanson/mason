@@ -10,7 +10,6 @@ use~
 	.io.time $after-time
 	.Try $catch
 use-debug
-	.!
 	.compare =?
 	.math.Number divisible?
 	.math.methods +
@@ -42,7 +41,7 @@ $done.
 				{err.stack}
 				=== error ===
 			# We're already $done so this shouldn't matter, but just in case...
-			oh-no! err
+			throw! err
 
 $fail-after-time.
 	doc. "Fails if it takes too long."
@@ -50,8 +49,8 @@ $fail-after-time.
 		$x = $after-time 100 |
 			1
 		a <~ $try ($fail-after-time $x 1
-		! =? a.message "Took longer than 1 milliseconds."
-		! =? 1 (<~ $fail-after-time $x 200
+		assert! =? a.message "Took longer than 1 milliseconds."
+		assert! =? 1 (<~ $fail-after-time $x 200
 	|:$ _:$ time-ms:Number
 		# TODO:ES6 Shouldn't need `new`
 		new $ |resolve reject
@@ -65,14 +64,14 @@ $after.
 		Applies `then` to the result whenever it is ready.
 		If `then` returns a $, returns a $ for that $'s value; else returns a $ for the result of `then`.
 	$test. ~!|
-		! =? 2 (<~ $after ($resolved 1) +[1]
+		assert! =? 2 (<~ $after ($resolved 1) +[1]
 	|:$ _:$ then:Function
 		_.then then
 
 $resolved.
 	doc. "$ that is already resolved."
 	$test. ~!|
-		! =? 1 (<~ $resolved 1
+		assert! =? 1 (<~ $resolved 1
 	|:$ value
 		$.resolve value
 
@@ -81,11 +80,11 @@ $rejected.
 	test. |
 		$ing ~!|
 			r = $rejected "a"
-			! =? "a" (<~ $try r).message
+			assert! =? "a" (<~ $try r).message
 			# $after will be ignored
 			b <~ $try ($after r !|
-				oh-no! "b"
-			! =? "a" b.message
+				throw! "b"
+			assert! =? "a" b.message
 	|_
 		$.reject (=> Error _
 
@@ -96,7 +95,7 @@ $delay.
 		It should go without saying,
 		but if you needlessly $delay things all the time your program will take longer.
 	$test. ~!|
-		! =? 1 (<~ $delay |
+		assert! =? 1 (<~ $delay |
 			1
 	|delayed:Thunk
 		# TODO: Better way?
@@ -107,9 +106,9 @@ $all.
 		$ that resolves when the last $ in the input does, with every value in the original iteration order.
 		If any one of them fails, fails with the first such failure.
 	$test. ~!|
-		! =? [ 1 2 ] (<~ ($all [ ($resolved 1) ($resolved 2
+		assert! =? [ 1 2 ] (<~ ($all [ ($resolved 1) ($resolved 2
 		all-rejected = $all [ ($rejected "a") ($rejected "b") ]
-		! =? "a" (<~ $try all-rejected).message
+		assert! =? "a" (<~ $try all-rejected).message
 	|:$[Array] _:@[$]
 		$.all (=> Array _
 
@@ -118,7 +117,7 @@ $map.
 		Asynchronously runs mapper for every element of mapped and returns a $ joining them.
 		Unlike map, this always returns an Array.
 	$test. ~!|
-		! =? [ 2 3 4 ] (<~ $map [ 1 2 3 ] |_
+		assert! =? [ 2 3 4 ] (<~ $map [ 1 2 3 ] |_
 			$delay |
 				+ _ 1
 	|:$[Array] mapped:@ mapper:Function[Any $]
@@ -128,7 +127,7 @@ $map.
 $flat-map.
 	doc. "Like $map but flattens the result."
 	$test. ~!|
-		! =? [ 1 1 2 2 3 3 ] (<~ ($flat-map [ 1 2 3 ] |_
+		assert! =? [ 1 1 2 2 3 3 ] (<~ ($flat-map [ 1 2 3 ] |_
 			$delay |
 				[ _ _ ]
 	|:$[@] mapped:@ mapper:Function[Any $[@]]
@@ -139,7 +138,7 @@ $keep.
 		Asynchronously runs keep-if? on each element and creates an Array of those that match.
 		Maintains the original order.
 	$test. ~!|
-		! =? [ 2 4 ] (<~ ($keep [ 1 2 3 4 ] |_
+		assert! =? [ 2 4 ] (<~ ($keep [ 1 2 3 4 ] |_
 			$delay |
 				divisible? _ 2
 	|:$[Array] keep-some:@ keep-if?:Function[Any $[Boolean]]
@@ -154,7 +153,7 @@ $call.
 		So for any place you would write `f x` where `x` is an actualized value,
 		you may write `$call f $x` where `$x` is a promise.
 	$test. ~!|
-		! =? 3 (<~ $call + ($resolved 1) ($resolved 2)
+		assert! =? 3 (<~ $call + ($resolved 1) ($resolved 2)
 	|:$ f ...$args
 		$after ($all $args) apply[f]
 
@@ -165,14 +164,14 @@ $ing.
 		The code after the assignment will become an $after of it.
 		Note that $ing returns a $; it does *not* call $done at the end.
 	$test. ~!|
-		! =? "res" (<~ $ing ~|
+		assert! =? "res" (<~ $ing ~|
 			promised <~ $resolved "promised"
-			! =? "promised" promised
+			assert! =? "promised" promised
 			"res"
 		$whoops <~ $try ($ing ~!|
 			<~ $rejected "whoops"
-			oh-no! "It's been rejected, so the rest is never called."
-		! =? "whoops" $whoops.message
+			throw! "It's been rejected, so the rest is never called."
+		assert! =? "whoops" $whoops.message
 	|:$ code:Function[Generator!]
 		$-generator = code()
 		do-next = |last-value

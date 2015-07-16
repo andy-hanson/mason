@@ -16,7 +16,6 @@ use~
 	.Seq.Stream
 	.Set.Set!
 use-debug
-	..! _ !not
 	..math.Number divisible?
 	..Try fails?
 	.@-Type _ empty
@@ -30,9 +29,9 @@ use-debug
 		If an @ only stores a given element once, it is a Set.
 	implementor-test. !|@-type
 		unless! =? @-type Weak-Id-Map!
-			! (contains? @-Type @-type) "Be sure to make your @ type a @-Type."
+			assert! contains? @-Type @-type throw! "Be sure to make your @ type a @-Type."
 			_ = empty @-type
-			! empty? _
+			assert! empty? _
 
 iterator. Js-Method
 	doc. "Creates a new Generator! which yields the values in the @."
@@ -52,8 +51,8 @@ region Using iterator
 	impl! contains? @
 		doc. "Whether one of the elements =? em."
 		test. !|
-			! contains? [ 0 ] 0
-			!not contains? [ 0 ] 1
+			assert! contains? [ 0 ] 0
+			forbid! contains? [ 0 ] 1
 		|_ em:Any
 			any? _ |em-compare
 				=? em em-compare
@@ -216,7 +215,7 @@ region Lazy functions, and their eager versions.
 			# Ignores further nested @s.
 			[ [ [ 1 ] [ [ 2 ] ] ] ] -> => Stream [ 1 [ 2 ] ]
 			# Must be at least one nested level
-			! fails? |
+			assert! fails? |
 				=> Array (flatten [ [ 1 ] 2 [ 3 ] ]
 		|flattened:@[@]
 			# TODO:SYNTAX @for~
@@ -279,7 +278,7 @@ region Lazy functions, and their eager versions.
 							<~ _
 
 	impl! =? @
-		test. |
-			! =? [ 1 ] [ 1 ]
+		test. !|
+			assert! =? [ 1 ] [ 1 ]
 		|@a @b
 			and (id=? (type-of @a) (type-of @b)) (seq=? @a @b

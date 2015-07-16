@@ -14,7 +14,6 @@ use~
 	.control returning
 	.Object! empty-Object! p+!
 use-debug
-	.!
 	.@.Set.Set set=?
 	.Try fails?
 
@@ -53,11 +52,11 @@ flag?.
 		Object.defineProperty obj sym
 			value. 0
 			enumerable. false
-		! set=? (@p-all [ 0 0 ]) [ "0" "1" "length" ]
-		! set=? (@p-all obj) [ "a" sym ]
+		assert! set=? (@p-all [ 0 0 ]) [ "0" "1" "length" ]
+		assert! set=? (@p-all obj) [ "a" sym ]
 		# But not "arguments" or "caller"
 		# TODO:DISPLAYNAME
-		! set=? (@p-all @p-all) [ "length" "name" "prototype" "doc" "test" "name" ]
+		assert! set=? (@p-all @p-all) [ "length" "name" "prototype" "doc" "test" "name" ]
 	|_
 		props = Object.getOwnPropertyNames_
 		# TODO: case!, keep!
@@ -81,8 +80,8 @@ flag?.
 		Object.defineProperty obj sym
 			value. 0
 			enumerable. true
-		! empty? (@p obj)
-		! set=? (@p @p) [ "doc" "test" ]
+		assert! empty? (@p obj)
+		assert! set=? (@p @p) [ "doc" "test" ]
 	|case
 		can-get-p?_
 			Object.keys_
@@ -126,11 +125,11 @@ p.
 			b. null
 		[ x "a" ] -> 1
 		[ x "b" ] -> null
-		debug ! fails? |
+		debug assert! fails? |
 			p "c"
 	|_ name:Object-Key
 		in
-			! p? _ name
+			assert! p? _ name
 
 		js-sub _ name
 
@@ -218,8 +217,8 @@ Map->Object.
 			"a" -> 1
 			"b" -> 2
 		[ map ] -> a. 1 b. 2
-		! =? map (Object->Map (Map->Object map
-		debug ! fails? |
+		assert! =? map (Object->Map (Map->Object map
+		debug assert! fails? |
 			Map->Object
 				1 -> 2
 	|_:Map

@@ -6,7 +6,6 @@ use
 	...@.Map.multi-map! add-to-@!
 	...compare =? max sort
 use-debug
-	...!
 	...@.Seq.Seq seq=?
 	...String split-str
 
@@ -21,7 +20,7 @@ maximum-anagram-sets.
 			elan lane lean lena neal
 			evil levi live veil vile
 			random words to prove it's doing work
-		! seq=? (maximum-anagram-sets words)
+		assert! seq=? (maximum-anagram-sets words)
 			. [ "abel" "able" "bale" "bela" "elba"
 			. [ "alger" "glare" "lager" "large" "regal"
 			. [ "angel" "angle" "galen" "glean" "lange"

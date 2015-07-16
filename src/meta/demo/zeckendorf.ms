@@ -1,5 +1,4 @@
 use
-	...!
 	...@.Seq.Seq reverse tail take-while'
 	...@.Seq.Stream
 	...compare =? <=?
@@ -32,5 +31,5 @@ zeckendorf.
 					1
 				else
 					0
-		! =? 0 left # We should have managed to add up to `n` exactly.
+		assert! =? 0 left # We should have managed to add up to `n` exactly.
 		=> String digits

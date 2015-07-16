@@ -4,8 +4,6 @@ use
 	.math.Number Int
 	.private.js-impl hashCodeDefault hashCodeString
 	.Type.Method _ impl!
-use-debug
-	.! _ !not
 
 keep-small = |_
 	js-bar _ 0
@@ -21,8 +19,8 @@ hash-code. Method
 		b =
 			x. 1
 			y. 1
-		! =? (hash-code a) (hash-code a
-		!not =? (hash-code a) (hash-code b
+		assert! =? (hash-code a) (hash-code a
+		forbid! =? (hash-code a) (hash-code b
 		# TODO: Check that it handles recursive values
 	args. 1
 	returns. Int
@@ -48,14 +46,14 @@ impl! hash-code Function |fun
 # TODO: Memoize this one too?
 impl! hash-code String
 	test. !|
-		! =? (hash-code "a") (hash-code "a")
-		!not =? (hash-code "a") (hash-code "b")
+		assert! =? (hash-code "a") (hash-code "a")
+		forbid! =? (hash-code "a") (hash-code "b")
 	hashCodeString
 
 impl! hash-code Symbol
 	test. !|
 		sym = Symbol "test"
-		! =? (hash-code sym) (hash-code sym)
+		assert! =? (hash-code sym) (hash-code sym)
 	|:Int
 		# TODO:ES6 (currently this returns undefined)
 		42 # Symbol.keyFor _

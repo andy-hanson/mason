@@ -12,7 +12,6 @@ use~
 	.Object object=?
 	.Type.Pred-Type Opt
 use-debug
-	.!
 	.@.@ count
 	.@.?
 	.@.@-Type empty
@@ -80,7 +79,7 @@ region Min/max
 		test. |
 			[ [ 1 3 2 ] ] -> 3
 			[ [ 2 1 2 ] ] -> 2 # Doesn't have to be unique
-			! fails? |
+			assert! fails? |
 				max [ ]
 		|_:@
 			un-? ?max_ "Can not take max of empty."
@@ -99,7 +98,7 @@ region Min/max
 			Like `max (map _ by)` except the mapping is not applied to the result.
 		test. |
 			[ [ "five" "six" "seven" ] count ] -> "seven"
-			! fails? |
+			assert! fails? |
 				max-by [ ] identity
 		|_:@ by:Function
 			un-? (?max-by _ by) "Can not take max of empty."

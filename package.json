@@ -23,11 +23,11 @@
 		"gulp-header": "1.2.2",
 		"gulp-plumber": "1.0.1",
 		"gulp-sourcemaps": "1.5.2",
-		"gulp-watch": "4.2.4",
+		"gulp-watch": "4.3.2",
 		"js-yaml": "3.3.1",
 		"numeral": "1.5.3",
 		"plist": "1.1.0",
-		"requirejs": "2.1.18",
+		"requirejs": "2.1.19",
 		"source-map-support": "0.3.2"
 	},
 	"repository": {

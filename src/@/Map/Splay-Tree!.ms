@@ -13,8 +13,6 @@ use
 	.Map! assoc! un-assoc!
 	.Map-Type
 	.Sorted-Map!
-use-debug
-	...! !not
 
 Splay-Tree!. Wrap-Type
 	doc. "
@@ -52,7 +50,7 @@ kind! Splay-Tree! Sorted-Map!
 				p! _.val "val!" val
 			else
 				old-root = _.val
-				debug !not empty? _
+				debug forbid! empty? _
 				p! _ "val" case
 					<? old-root.key key
 						old-right = old-root.right!

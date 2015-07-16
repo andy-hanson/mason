@@ -1,6 +1,6 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","./methods","./private/js-impl","./Type/Alias-Type","./Type/Method","./at/at","./at/at-Type","./at/Map/Map","./at/Map/Hash-Mapbang","./at/Map/Mapbang","./at/Map/Weak-Id-Mapbang","./at/Seq/Seq","./Object","./Type/Type","./bang","./at/Seq/Seq","./compare","./control","./math/methods"],function(exports,methods_0,js_45impl_1,Alias_45Type_2,Method_3,_64_4,_64_45Type_5,Map_6,Hash_45Map_33_7,Map_33_8,Weak_45Id_45Map_33_9,Seq_10,Object_11,Type_12,_33_13,Seq_14,compare_15,control_16,methods_17){
+define(["exports","./methods","./private/js-impl","./Type/Alias-Type","./Type/Method","./at/at","./at/at-Type","./at/Map/Map","./at/Map/Hash-Mapbang","./at/Map/Mapbang","./at/Map/Weak-Id-Mapbang","./at/Seq/Seq","./Object","./Type/Type","./at/Seq/Seq","./compare","./control","./math/methods"],function(exports,methods_0,js_45impl_1,Alias_45Type_2,Method_3,_64_4,_64_45Type_5,Map_6,Hash_45Map_33_7,Map_33_8,Weak_45Id_45Map_33_9,Seq_10,Object_11,Type_12,Seq_13,compare_14,control_15,methods_16){
 	exports._get=_ms.lazy(function(){
 		const _$2=_ms.getModule(methods_0),sub=_ms.get(_$2,"sub"),_$3=_ms.getModule(js_45impl_1),iCurry=_ms.get(_$3,"iCurry"),Alias_45Type=_ms.getDefaultExport(Alias_45Type_2),Method=_ms.getDefaultExport(Method_3),_$5=_ms.getModule(Method_3),impl_33=_ms.get(_$5,"impl!"),self_45impl_33=_ms.get(_$5,"self-impl!"),_64=_ms.lazy(function(){
 			return _ms.getDefaultExport(_64_4)
@@ -10,9 +10,7 @@ define(["exports","./methods","./private/js-impl","./Type/Alias-Type","./Type/Me
 			return _ms.getDefaultExport(Hash_45Map_33_7)
 		}),_$11=_ms.lazyGetModule(Map_33_8),get_45or_45add_33=_ms.lazyProp(_$11,"get-or-add!"),Weak_45Id_45Map_33=_ms.lazy(function(){
 			return _ms.getDefaultExport(Weak_45Id_45Map_33_9)
-		}),_$13=_ms.lazyGetModule(Seq_10),rtail=_ms.lazyProp(_$13,"rtail"),last=_ms.lazyProp(_$13,"last"),_$14=_ms.lazyGetModule(Object_11),Object_45_62Map=_ms.lazyProp(_$14,"Object->Map"),_$15=_ms.lazyGetModule(Type_12),_61_62=_ms.lazyProp(_$15,"=>"),_33=_ms.lazy(function(){
-			return _ms.getDefaultExport(_33_13)
-		}),_$18=_ms.lazyGetModule(Seq_14),seq_61_63=_ms.lazyProp(_$18,"seq=?"),_$19=_ms.lazyGetModule(compare_15),_61_63=_ms.lazyProp(_$19,"=?"),_$20=_ms.lazyGetModule(control_16),build=_ms.lazyProp(_$20,"build"),_$21=_ms.lazyGetModule(methods_17),_43=_ms.lazyProp(_$21,"+");
+		}),_$13=_ms.lazyGetModule(Seq_10),rtail=_ms.lazyProp(_$13,"rtail"),last=_ms.lazyProp(_$13,"last"),_$14=_ms.lazyGetModule(Object_11),Object_45_62Map=_ms.lazyProp(_$14,"Object->Map"),_$15=_ms.lazyGetModule(Type_12),_61_62=_ms.lazyProp(_$15,"=>"),_$17=_ms.lazyGetModule(Seq_13),seq_61_63=_ms.lazyProp(_$17,"seq=?"),_$18=_ms.lazyGetModule(compare_14),_61_63=_ms.lazyProp(_$18,"=?"),_$19=_ms.lazyGetModule(control_15),build=_ms.lazyProp(_$19,"build"),_$20=_ms.lazyGetModule(methods_16),_43=_ms.lazyProp(_$20,"+");
 		const Action=exports.Action=Alias_45Type(function(){
 			const built={};
 			const doc=built.doc=`A function returning nothing.\nFunction[Number] describes a Function taking nothing and returning a Number;\nAction[Number] describes a Function taking a Number and returning nothing.`;
@@ -75,9 +73,9 @@ define(["exports","./methods","./private/js-impl","./Type/Alias-Type","./Type/Me
 					const doc=built.doc=`f2`;
 					return _ms.set(fun_45copy(f1),built,"f2")
 				}();
-				_ms.unlazy(_33)(_ms.unlazy(_61_63),f1.doc,`f1`);
-				_ms.unlazy(_33)(_ms.unlazy(_61_63),f2.doc,`f2`);
-				_ms.unlazy(_33)(_ms.unlazy(_61_63),f1(1),f2(1))
+				_ms.assert(_ms.unlazy(_61_63),f1.doc,`f1`);
+				_ms.assert(_ms.unlazy(_61_63),f2.doc,`f2`);
+				_ms.assert(_ms.unlazy(_61_63),f1(1),f2(1))
 			};
 			return _ms.set(function fun_45copy(_){
 				_ms.checkContains(Function,_,"_");
@@ -105,7 +103,7 @@ define(["exports","./methods","./private/js-impl","./Type/Alias-Type","./Type/Me
 			const built={};
 			const doc=built.doc=`When an Object is passed into \`fun\`, stores the result in a \`Weak-Id-Map!\`\nand uses that if the exact same (\`id=?\`) Object is used again.`;
 			const test=built.test=function test(){
-				_ms.unlazy(_33)(_ms.unlazy(seq_61_63),[1,2,1],_ms.unlazy(build)(function(_yield){
+				_ms.assert(_ms.unlazy(seq_61_63),[1,2,1],_ms.unlazy(build)(function(_yield){
 					const get_45a=id_45memoize(function(x){
 						_yield(x.a);
 						return x.a
@@ -113,16 +111,16 @@ define(["exports","./methods","./private/js-impl","./Type/Alias-Type","./Type/Me
 					const a1={
 						a:1
 					};
-					_ms.unlazy(_33)(_ms.unlazy(_61_63),get_45a(a1),1);
-					_ms.unlazy(_33)(_ms.unlazy(_61_63),get_45a(a1),1);
+					_ms.assert(_ms.unlazy(_61_63),get_45a(a1),1);
+					_ms.assert(_ms.unlazy(_61_63),get_45a(a1),1);
 					const a2={
 						a:2
 					};
-					_ms.unlazy(_33)(_ms.unlazy(_61_63),get_45a(a2),2);
+					_ms.assert(_ms.unlazy(_61_63),get_45a(a2),2);
 					const a1b={
 						a:1
 					};
-					return _ms.unlazy(_33)(_ms.unlazy(_61_63),get_45a(a1b),1)
+					_ms.assert(_ms.unlazy(_61_63),get_45a(a1b),1)
 				}))
 			};
 			return _ms.set(function id_45memoize(_){
@@ -140,7 +138,7 @@ define(["exports","./methods","./private/js-impl","./Type/Alias-Type","./Type/Me
 			const built={};
 			const doc=built.doc=`Stores the argument every time you call it,\nand re-uses the result if called again with the same argument.\nThis will make those arguments unavailable for garbage collection...`;
 			const test=built.test=function test(){
-				_ms.unlazy(_33)(_ms.unlazy(seq_61_63),[1,2],_ms.unlazy(build)(function(_yield){
+				_ms.assert(_ms.unlazy(seq_61_63),[1,2],_ms.unlazy(build)(function(_yield){
 					const get_45a=hash_45memoize(function(x){
 						_yield(x.a);
 						return x.a
@@ -150,19 +148,19 @@ define(["exports","./methods","./private/js-impl","./Type/Alias-Type","./Type/Me
 						const a=built.a=1;
 						return built
 					});
-					_ms.unlazy(_33)(_ms.unlazy(_61_63),get_45a(a1),1);
-					_ms.unlazy(_33)(_ms.unlazy(_61_63),get_45a(a1),1);
+					_ms.assert(_ms.unlazy(_61_63),get_45a(a1),1);
+					_ms.assert(_ms.unlazy(_61_63),get_45a(a1),1);
 					const a2={
 						a:2
 					};
-					_ms.unlazy(_33)(_ms.unlazy(_61_63),get_45a(a2),2);
+					_ms.assert(_ms.unlazy(_61_63),get_45a(a2),2);
 					const a1b=call(function(){
 						const built={};
 						const a=built.a=1;
 						return built
 					});
-					_ms.unlazy(_33)(_ms.unlazy(_61_63),a1,a1b);
-					return _ms.unlazy(_33)(_ms.unlazy(_61_63),get_45a(a1b),1)
+					_ms.assert(_ms.unlazy(_61_63),a1,a1b);
+					_ms.assert(_ms.unlazy(_61_63),get_45a(a1b),1)
 				}))
 			};
 			return _ms.set(function hash_45memoize(_){
@@ -183,7 +181,7 @@ define(["exports","./methods","./private/js-impl","./Type/Alias-Type","./Type/Me
 				const all_454=function all_454(a,b,c,d){
 					return [a,b,c,d]
 				};
-				_ms.unlazy(_33)(_ms.unlazy(seq_61_63),spread(all_454,1,2,3,[4,5]),function(){
+				_ms.assert(_ms.unlazy(seq_61_63),spread(all_454,1,2,3,[4,5]),function(){
 					const built=[];
 					_ms.add(built,[1,2,3,4]);
 					_ms.add(built,[1,2,3,5]);
@@ -195,13 +193,13 @@ define(["exports","./methods","./private/js-impl","./Type/Alias-Type","./Type/Me
 					_ms.assoc(built,5,6);
 					return built
 				}());
-				_ms.unlazy(_33)(_ms.unlazy(seq_61_63),y,function(){
+				_ms.assert(_ms.unlazy(seq_61_63),y,function(){
 					const built=[];
 					_ms.add(built,[1,2,3,4]);
 					_ms.add(built,[1,2,5,6]);
 					return built
 				}());
-				_ms.unlazy(_33)(_ms.unlazy(seq_61_63),spread(all_454,1,2,{
+				_ms.assert(_ms.unlazy(seq_61_63),spread(all_454,1,2,{
 					three:4,
 					five:6
 				}),function(){
@@ -248,7 +246,7 @@ define(["exports","./methods","./private/js-impl","./Type/Alias-Type","./Type/Me
 			const built={};
 			const doc=built.doc=`TODO`;
 			const test=built.test=function test(){
-				_ms.unlazy(_33)(_ms.unlazy(_61_63),[1,2,3],_ms.unlazy(build)(function(yield_33){
+				_ms.assert(_ms.unlazy(_61_63),[1,2,3],_ms.unlazy(build)(function(yield_33){
 					const f=function f(a,b,c){
 						yield_33(a);
 						yield_33(b);
@@ -270,7 +268,7 @@ define(["exports","./methods","./private/js-impl","./Type/Alias-Type","./Type/Me
 			const built={};
 			const doc=built.doc=`Makes function which, when called, returns \`a\`.`;
 			const test=built.test=function test(){
-				_ms.unlazy(_33)(_ms.unlazy(_61_63),thunk(1)(),1)
+				_ms.assert(_ms.unlazy(_61_63),thunk(1)(),1)
 			};
 			return _ms.set(function thunk(_){
 				return function(){
@@ -283,12 +281,12 @@ define(["exports","./methods","./private/js-impl","./Type/Alias-Type","./Type/Me
 			const doc=built.doc=`Creates a function which calls \`f\` with the given arguments first.`;
 			const test=built.test=function test(){
 				const _431=_ms.sub(_ms.unlazy(_43),1);
-				_ms.unlazy(_33)(_ms.unlazy(_61_63),_431(1),2);
+				_ms.assert(_ms.unlazy(_61_63),_431(1),2);
 				const all_453=function all_453(a,b,c){
 					return [a,b,c]
 				};
 				const one_45two=_ms.sub(all_453,1,2);
-				_ms.unlazy(_33)(_ms.unlazy(_61_63),one_45two(3),[1,2,3])
+				_ms.assert(_ms.unlazy(_61_63),one_45two(3),[1,2,3])
 			};
 			return _ms.set(iCurry,built,"curry")
 		}();
@@ -298,7 +296,7 @@ define(["exports","./methods","./private/js-impl","./Type/Alias-Type","./Type/Me
 			const built={};
 			const doc=built.doc=`Subbing Function does nothing and is only for documentation.\n* Function[Number String] takes a Number and returns a String.\n* Function[2] takes 2 arguments.\n* Function[2 String] takes 2 arguments and returns a String.\n* Function without a sub is assumed to be a one-argument function, so never write Function[1].`;
 			const test=built.test=function test(){
-				return _ms.unlazy(_33)(_ms.unlazy(_61_63),_ms.sub(Function,Function,Function),Function)
+				_ms.assert(_ms.unlazy(_61_63),_ms.sub(Function,Function,Function),Function)
 			};
 			return _ms.set(function(){
 				return Function
@@ -308,4 +306,4 @@ define(["exports","./methods","./private/js-impl","./Type/Alias-Type","./Type/Me
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9GdW5jdGlvbi5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7Ozs7RUFzQkEsNEJBQVEsdUJBQ1U7O0dBQWpCLG9CQUNDO0dBR0QsbUNBQVU7OztFQUVYLHdCQUFNLHVCQUNVOztHQUFmLG9CQUFNO0dBQ04sbUNBQVU7OztFQUVYLDBCQUFPLHVCQUNVOztHQUFoQixvQkFBTTtHQUNOLG1DQUFVOzs7RUFFWCxvQ0FDTTs7R0FBTCxvQkFBTTtHQUNOLHNCQUNPLGVBQUE7O29CQUFOLGlCQUFJLENBQUUsRUFBRSxJQUFTOzs7a0JBQ2pCLGVBQUEsRUFBVyxLQUNNO3NCQURmOzsrQkFDRix5QkFBRTtHQUFBOztFQUVKLGtDQUNLOztHQUFKLG9CQUFNO0dBQ04sc0JBQ08sZUFBQTs7b0JBQU4saUJBQUksRUFBRSxHQUFPOzs7a0JBQ2IsY0FBQSxFQUNrQjs7c0JBRGhCOytCQUNGLHlCQUFFO0dBQUE7O0VBRUosK0NBQ1M7O0dBQVIsb0JBQ0M7R0FHRCxzQkFDUSxlQUFBO0lBQVAsbUJBQ0k7O0tBQUgsb0JBQU07b0JBQ0wsWUFBQSxFQUNDO2FBQUQ7S0FBQTs7SUFDRixtQkFDSTs7S0FBSCxvQkFBTTtvQkFDTixXQUFTOzt1Q0FDTCxPQUFRO3VDQUNSLE9BQVE7dUNBQ1AsR0FBRyxHQUFJLEdBQUc7R0FBQTtrQkFFaEIsb0JBQUEsRUFDVTtzQkFEUjtXQUVGLDZCQUE2QixFQUFFO0dBQUE7O0VBRWpDLDBDQUNTOztHQUFSLG9CQUFNO0dBQ04sc0JBQ08sZUFBQTs7b0JBQU4sQ0FBRSxHQUFPOzs7a0JBQ1Qsa0JBQUEsRUFDQztXQUFEO0dBQUE7O0VBRUYsa0NBQ0s7O0dBQUosb0JBQU07a0JBRUosZUFBQTs7RUFJRixtREFDVzs7R0FBVixvQkFDQztHQUVELHNCQUNRLGVBQUE7MENBQUMsQ0FBRSxFQUFFLEVBQUUscUJBQVksU0FBQSxPQUNLO0tBQTlCLGNBQVEsYUFBWSxTQUFBLEVBQ0M7TUFBcEIsT0FBTTthQUNOOztLQUNELFNBQUs7UUFBRztLQUFBO3dDQUNGLFFBQU0sSUFBSTt3Q0FDVixRQUFNLElBQUk7S0FDaEIsU0FBSztRQUFHO0tBQUE7d0NBQ0YsUUFBTSxJQUFJO0tBQ2hCLFVBQU07UUFBRztLQUFBOytDQUNILFFBQU0sS0FBSztJQUFBO0dBQUE7a0JBQ2xCLHNCQUFBLEVBQ1U7c0JBRFI7SUFDRjtXQUNDLFNBQUEsSUFDVTt1QkFETjswQ0FDUSxHQUFHO2FBQU0sRUFBRTtLQUFBO0lBQUE7R0FBQTs7RUFFMUIsdURBQ2E7O0dBQVosb0JBQ0M7R0FHRCxzQkFDUSxlQUFBOzBDQUFDLENBQUUsRUFBRSxxQkFBWSxTQUFBLE9BQ0s7S0FBNUIsY0FBUSxlQUFjLFNBQUEsRUFDQztNQUF0QixPQUFNO2FBQ047O0tBQ0QsU0FBSyxLQUN5QixVQUFBOztNQUE3QixnQkFBRzs7O3dDQUNFLFFBQU0sSUFBSTt3Q0FDVixRQUFNLElBQUk7S0FDaEIsU0FBSztRQUFHO0tBQUE7d0NBQ0YsUUFBTSxJQUFJO0tBQ2hCLFVBQU0sS0FDeUIsVUFBQTs7TUFBOUIsZ0JBQUc7Ozt3Q0FDQyxHQUFHOytDQUNGLFFBQU0sS0FBSztJQUFBO0dBQUE7a0JBQ2xCLHdCQUFBLEVBQ1U7c0JBRFI7SUFDRjtXQUNDLFNBQUEsSUFDVTt1QkFETjswQ0FDUSxHQUFHO2FBQU0sRUFBRTtLQUFBO0lBQUE7R0FBQTs7RUFFM0Isc0NBQ087O0dBQU4sb0JBQU07R0FDTixzQkFDUSxlQUFBO0lBQVAsY0FBUyxpQkFBQSxFQUFFLEVBQUUsRUFBRSxFQUNDO1lBQWYsQ0FBRSxFQUFFLEVBQUUsRUFBRTtJQUFBOzBDQUNBLE9BQU8sUUFBTSxFQUFFLEVBQUUsRUFBRSxDQUFFLEVBQUUsY0FDSTs7bUJBQWpDLENBQUUsRUFBRSxFQUFFLEVBQUU7bUJBQ1IsQ0FBRSxFQUFFLEVBQUUsRUFBRTs7O0lBRVgsUUFBSSxPQUFPLFFBQU0sRUFBRSxZQUNDOztxQkFBbkIsRUFBSztxQkFDTCxFQUFLOzs7MENBQ0UsWUFDQzs7bUJBQU4sQ0FBRSxFQUFFLEVBQUUsRUFBRTttQkFDUixDQUFFLEVBQUUsRUFBRSxFQUFFOzs7MENBRUYsT0FBTyxRQUFNLEVBQUUsRUFBRTtXQUFRO1VBQVE7SUFBQSxhQUNHOzttQkFBMUMsQ0FBRSxFQUFFLEVBQUcsUUFBTzttQkFDZCxDQUFFLEVBQUUsRUFBRyxPQUFNOzs7O2tCQUdoQixnQkFBRyxJQUNvQjs7c0JBRGhCO0lBRVAsb0NBQWtCO0lBQ2xCLGtDQUFnQjtJQUNoQjtLQUFpQixRQUFBO0tBQ2hCLHlDQUFBLElBQ0k7Z0NBQ0EsTUFBTTtLQUFBLE9BQ1YseUNBQUEsSUFDRTs7O2VBQUksS0FBQSxFQUNDO3NCQUFMLENBQUU7T0FBQTs7O1lBQ0oseUJBQUMsT0FBRCxJQUNPO2dDQUFILGtDQUFpQjtLQUFBLE9BRWpCO01BQUgsZ0JBQVEsNENBQWlDOzs7OzthQUV0QyxLQUFBLFlBQ1M7TUFBYixvQ0FBYyxZQUFVO3dDQUN0QiwyQkFBSTtLQUFBOzs7OztFQUVULDZDQUNROztHQUFQLG9CQUFNO0dBQ04sc0JBQ1EsZUFBQTt1Q0FBRixDQUFFLEVBQUUsRUFBRSxxQkFBWSxTQUFBLFNBQ007S0FBNUIsUUFBSyxXQUFBLEVBQUUsRUFBRSxFQUNDO01BQVQsU0FBTztNQUNQLFNBQU87YUFDUCxTQUFPO0tBQUE7WUFDUixVQUFRLEVBQUUsWUFDQzs7c0JBQVYsRUFBSzs7Ozs7a0JBQ04sbUJBQUEsSUFDVzs7d0JBQVosc0JBQU8sWUFBSTtHQUFBOztFQUViLG9DQUNNOztHQUFMLG9CQUFNO0dBQ04sc0JBQ1EsZUFBQTt1Q0FBRCxNQUFNLEtBQUs7R0FBQTtrQkFDakIsZUFBQSxFQUNDO1dBQ0EsVUFBQTtZQUFBO0lBQUE7R0FBQTs7RUFFSCxzQkFDTzs7R0FBTixvQkFBTTtHQUNOLHNCQUNRLGVBQUE7SUFBUCxtQ0FBTzt1Q0FDRCxLQUFHLEdBQUc7SUFDWixjQUFTLGlCQUFBLEVBQUUsRUFBRSxFQUNDO1lBQWIsQ0FBRSxFQUFFLEVBQUU7SUFBQTtJQUNQLHdCQUFVLFFBQU0sRUFBRTt1Q0FDWixVQUFRLEdBQUcsQ0FBRSxFQUFFLEVBQUU7R0FBQTtrQkFDeEI7O0VBRUQsUUFBTSxJQUFJLFNBQVM7RUFFbkIsUUFBTSxJQUFJLE9BQU87RUFFakIsZUFBVyxJQUFJLG1CQUNROztHQUF0QixvQkFDQztHQUtELHNCQUNPLGVBQUE7c0RBQUQsU0FBUyxTQUFTLFVBQVU7R0FBQTtrQkFFakMsVUFBQTtXQUFBO0dBQUE7O0VBM05GLHdCQUFBIiwiZmlsZSI6IkZ1bmN0aW9uLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9GdW5jdGlvbi5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7O0VBcUJBLDRCQUFRLHVCQUNVOztHQUFqQixvQkFDQztHQUdELG1DQUFVOzs7RUFFWCx3QkFBTSx1QkFDVTs7R0FBZixvQkFBTTtHQUNOLG1DQUFVOzs7RUFFWCwwQkFBTyx1QkFDVTs7R0FBaEIsb0JBQU07R0FDTixtQ0FBVTs7O0VBRVgsb0NBQ007O0dBQUwsb0JBQU07R0FDTixzQkFDTyxlQUFBOztvQkFBTixpQkFBSSxDQUFFLEVBQUUsSUFBUzs7O2tCQUNqQixlQUFBLEVBQVcsS0FDTTtzQkFEZjs7K0JBQ0YseUJBQUU7R0FBQTs7RUFFSixrQ0FDSzs7R0FBSixvQkFBTTtHQUNOLHNCQUNPLGVBQUE7O29CQUFOLGlCQUFJLEVBQUUsR0FBTzs7O2tCQUNiLGNBQUEsRUFDa0I7O3NCQURoQjsrQkFDRix5QkFBRTtHQUFBOztFQUVKLCtDQUNTOztHQUFSLG9CQUNDO0dBR0Qsc0JBQ1EsZUFBQTtJQUFQLG1CQUNJOztLQUFILG9CQUFNO29CQUNMLFlBQUEsRUFDQzthQUFEO0tBQUE7O0lBQ0YsbUJBQ0k7O0tBQUgsb0JBQU07b0JBQ04sV0FBUzs7a0NBQ0MsT0FBUTtrQ0FDUixPQUFRO2tDQUNQLEdBQUcsR0FBSSxHQUFHO0dBQUE7a0JBRXRCLG9CQUFBLEVBQ1U7c0JBRFI7V0FFRiw2QkFBNkIsRUFBRTtHQUFBOztFQUVqQywwQ0FDUzs7R0FBUixvQkFBTTtHQUNOLHNCQUNPLGVBQUE7O29CQUFOLENBQUUsR0FBTzs7O2tCQUNULGtCQUFBLEVBQ0M7V0FBRDtHQUFBOztFQUVGLGtDQUNLOztHQUFKLG9CQUFNO2tCQUVKLGVBQUE7O0VBSUYsbURBQ1c7O0dBQVYsb0JBQ0M7R0FFRCxzQkFDUSxlQUFBO3FDQUFPLENBQUUsRUFBRSxFQUFFLHFCQUFhLFNBQUEsT0FDSztLQUFyQyxjQUFRLGFBQVksU0FBQSxFQUNDO01BQXBCLE9BQU07YUFDTjs7S0FDRCxTQUFLO1FBQUc7S0FBQTttQ0FDSSxRQUFNLElBQUk7bUNBQ1YsUUFBTSxJQUFJO0tBQ3RCLFNBQUs7UUFBRztLQUFBO21DQUNJLFFBQU0sSUFBSTtLQUN0QixVQUFNO1FBQUc7S0FBQTttQ0FDRyxRQUFNLEtBQUs7SUFBQTtHQUFBO2tCQUN4QixzQkFBQSxFQUNVO3NCQURSO0lBQ0Y7V0FDQyxTQUFBLElBQ1U7dUJBRE47MENBQ1EsR0FBRzthQUFNLEVBQUU7S0FBQTtJQUFBO0dBQUE7O0VBRTFCLHVEQUNhOztHQUFaLG9CQUNDO0dBR0Qsc0JBQ1EsZUFBQTtxQ0FBTyxDQUFFLEVBQUUscUJBQWEsU0FBQSxPQUNLO0tBQW5DLGNBQVEsZUFBYyxTQUFBLEVBQ0M7TUFBdEIsT0FBTTthQUNOOztLQUNELFNBQUssS0FDeUIsVUFBQTs7TUFBN0IsZ0JBQUc7OzttQ0FDUSxRQUFNLElBQUk7bUNBQ1YsUUFBTSxJQUFJO0tBQ3RCLFNBQUs7UUFBRztLQUFBO21DQUNJLFFBQU0sSUFBSTtLQUN0QixVQUFNLEtBQ3lCLFVBQUE7O01BQTlCLGdCQUFHOzs7bUNBQ08sR0FBRzttQ0FDRixRQUFNLEtBQUs7SUFBQTtHQUFBO2tCQUN4Qix3QkFBQSxFQUNVO3NCQURSO0lBQ0Y7V0FDQyxTQUFBLElBQ1U7dUJBRE47MENBQ1EsR0FBRzthQUFNLEVBQUU7S0FBQTtJQUFBO0dBQUE7O0VBRTNCLHNDQUNPOztHQUFOLG9CQUFNO0dBQ04sc0JBQ1EsZUFBQTtJQUFQLGNBQVMsaUJBQUEsRUFBRSxFQUFFLEVBQUUsRUFDQztZQUFmLENBQUUsRUFBRSxFQUFFLEVBQUU7SUFBQTtxQ0FDTSxPQUFPLFFBQU0sRUFBRSxFQUFFLEVBQUUsQ0FBRSxFQUFFLGNBQ0k7O21CQUF2QyxDQUFFLEVBQUUsRUFBRSxFQUFFO21CQUNSLENBQUUsRUFBRSxFQUFFLEVBQUU7OztJQUVYLFFBQUksT0FBTyxRQUFNLEVBQUUsWUFDQzs7cUJBQW5CLEVBQUs7cUJBQ0wsRUFBSzs7O3FDQUNRLFlBQ0M7O21CQUFaLENBQUUsRUFBRSxFQUFFLEVBQUU7bUJBQ1IsQ0FBRSxFQUFFLEVBQUUsRUFBRTs7O3FDQUVJLE9BQU8sUUFBTSxFQUFFLEVBQUU7V0FBUTtVQUFRO0lBQUEsYUFDRzs7bUJBQWhELENBQUUsRUFBRSxFQUFHLFFBQU87bUJBQ2QsQ0FBRSxFQUFFLEVBQUcsT0FBTTs7OztrQkFHaEIsZ0JBQUcsSUFDb0I7O3NCQURoQjtJQUVQLG9DQUFrQjtJQUNsQixrQ0FBZ0I7SUFDaEI7S0FBaUIsUUFBQTtLQUNoQix5Q0FBQSxJQUNJO2dDQUNBLE1BQU07S0FBQSxPQUNWLHlDQUFBLElBQ0U7OztlQUFJLEtBQUEsRUFDQztzQkFBTCxDQUFFO09BQUE7OztZQUNKLHlCQUFDLE9BQUQsSUFDTztnQ0FBSCxrQ0FBaUI7S0FBQSxPQUVqQjtNQUFILGdCQUFRLDRDQUFpQzs7Ozs7YUFFdEMsS0FBQSxZQUNTO01BQWIsb0NBQWMsWUFBVTt3Q0FDdEIsMkJBQUk7S0FBQTs7Ozs7RUFFVCw2Q0FDUTs7R0FBUCxvQkFBTTtHQUNOLHNCQUNRLGVBQUE7a0NBQUksQ0FBRSxFQUFFLEVBQUUscUJBQVksU0FBQSxTQUNNO0tBQWxDLFFBQUssV0FBQSxFQUFFLEVBQUUsRUFDQztNQUFULFNBQU87TUFDUCxTQUFPO2FBQ1AsU0FBTztLQUFBO1lBQ1IsVUFBUSxFQUFFLFlBQ0M7O3NCQUFWLEVBQUs7Ozs7O2tCQUNOLG1CQUFBLElBQ1c7O3dCQUFaLHNCQUFPLFlBQUk7R0FBQTs7RUFFYixvQ0FDTTs7R0FBTCxvQkFBTTtHQUNOLHNCQUNRLGVBQUE7a0NBQUssTUFBTSxLQUFLO0dBQUE7a0JBQ3ZCLGVBQUEsRUFDQztXQUNBLFVBQUE7WUFBQTtJQUFBO0dBQUE7O0VBRUgsc0JBQ087O0dBQU4sb0JBQU07R0FDTixzQkFDUSxlQUFBO0lBQVAsbUNBQU87a0NBQ0ssS0FBRyxHQUFHO0lBQ2xCLGNBQVMsaUJBQUEsRUFBRSxFQUFFLEVBQ0M7WUFBYixDQUFFLEVBQUUsRUFBRTtJQUFBO0lBQ1Asd0JBQVUsUUFBTSxFQUFFO2tDQUNOLFVBQVEsR0FBRyxDQUFFLEVBQUUsRUFBRTtHQUFBO2tCQUM5Qjs7RUFFRCxRQUFNLElBQUksU0FBUztFQUVuQixRQUFNLElBQUksT0FBTztFQUVqQixlQUFXLElBQUksbUJBQ1E7O0dBQXRCLG9CQUNDO0dBS0Qsc0JBQ1EsZUFBQTswQ0FBSSxTQUFTLFNBQVMsVUFBVTtHQUFBO2tCQUV2QyxVQUFBO1dBQUE7R0FBQTs7RUExTkYsd0JBQUEiLCJmaWxlIjoiRnVuY3Rpb24uanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

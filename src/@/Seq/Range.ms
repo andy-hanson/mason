@@ -12,7 +12,6 @@ use
 	..@-Type _ empty from-stream
 	.Seq ?nth
 use-debug
-	...!
 	...compare =?
 	...math.Number infinity
 	..?
@@ -26,10 +25,10 @@ Range. Tuple
 		. [ "step" Number
 	post-construct. !|_
 		in
-			! =? (sign _.step) (sign (- _.end _.start
+			assert! =? (sign _.step) (sign (- _.end _.start
 		noop _
 	test. !|
-		! seq=? [ 0 1 2 ] (take' (range 0 infinity) 3
+		assert! seq=? [ 0 1 2 ] (take' (range 0 infinity) 3
 
 range. |start:Number end:Number step:Opt[Number]
 	step := opr step (sign (- end start
@@ -59,8 +58,8 @@ length.
 		- _.end _.start
 
 js-impl! iterator Range
-	test. |
-		! seq=? (range 0 10 2) [ 0 2 4 6 8 ]
+	test. !|
+		assert! seq=? (range 0 10 2) [ 0 2 4 6 8 ]
 	~!|
 		cur ::= this.start
 		for!

@@ -14,7 +14,6 @@ use
 	...math.methods +
 	...Type.Type contains?
 use-debug
-	...!
 	...@.Seq.Seq seq=? take
 
 # Least-significant to most-significant, but order doesn't matter.
@@ -58,7 +57,7 @@ happy?.
 happy-numbers:Stream[Nat].
 	doc. "Stream of all happy numbers."
 	test. !|
-		! seq=? (take happy-numbers 8)
+		assert! seq=? (take happy-numbers 8)
 			. 1
 			. 7
 			. 10

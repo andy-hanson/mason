@@ -7,7 +7,6 @@ use
 	..private.bootstrap implContains msDef containsImplSymbol
 	.Obj-Type
 use~
-	..!
 	..@.? un-?
 	..Function noop
 	..Object p-with-proto?
@@ -42,9 +41,7 @@ method-src = |method
 
 		add! "return function {mangle-identifier method.name}({arg-names}) \{"
 		if! flag? method.allow-null?
-			# TODO: ! (assert)
-			debug unless! defined? method.default
-				oh-no! "Method with `allow-null?` must have `default`."
+			assert! defined? method.default throw! "Method with `allow-null?` must have `default`."
 			add! "if (a == null) return def.apply(null, arguments)"
 
 		impl = case
@@ -96,7 +93,7 @@ Method. Obj-Type
 			sizeness.
 				wrap. |impl x
 					out
-						! >=? res 0
+						assert! >=? res 0
 					impl x
 
 	test. !|
@@ -106,14 +103,14 @@ Method. Obj-Type
 		impl! m String (thunk "String")
 		impl-double! m Number Number (thunk "Number Number")
 		impl-double! m Number String (thunk "Number String")
-		! =? (m null) "default"
-		! =? (m "a") "String"
-		! =? (m 1 1) "Number Number"
-		! =? (m 1 "a") "Number String"
-		debug ! fails? |
+		assert! =? (m null) "default"
+		assert! =? (m "a") "String"
+		assert! =? (m 1 1) "Number Number"
+		assert! =? (m 1 "a") "Number String"
+		debug assert! fails? |
 			m 1 m
 
-		! =? "wrap-call-arg"
+		assert! =? "wrap-call-arg"
 			wrap-method = Method
 				default. |_
 					"call-{_}"
@@ -134,7 +131,7 @@ Method. Obj-Type
 		# TODO:DISPLAYNAME
 		# Shouldn't need to provide this, but otherwise defaults.name is a string and is called...
 		name. !|
-			oh-no! "Must provide name."
+			throw! "Must provide name."
 		impl-symbol. |_
 			"impl-{_.name}"
 	make-callable. make-callable-method
@@ -157,13 +154,11 @@ impl-double!. !|method:Method implementor-0:Impl-Type implementor-1:Impl-Type im
 			do-impl! method implementor-0 dd
 			dd
 		else
-			case js-sub implementor-0.prototype method.impl-symbol
-				:Double-Dispatcher
-					_
-				else
-					oh-no! "
-						Can't define double dispatch of {method} for {implementor-0}.
-						A single-dispatch implementation already exists: {_}.
+			_ = js-sub implementor-0.prototype method.impl-symbol
+			assert! :Double-Dispatcher throw! "
+				Can't define double dispatch of {method} for {implementor-0}.
+				A single-dispatch implementation already exists: {_}.
+			_
 
 	do-impl! dispatcher implementor-1 implementation
 
@@ -194,7 +189,7 @@ impl-for.
 	doc. "impl-for that fails when there is no implementation."
 	test. |
 		[ contains? Method ] -> method-contains?
-		! (impl-for contains? Kind) Impl-Type Kind
+		assert! (impl-for contains? Kind) Impl-Type Kind
 	|method:Method type:Impl-Type
 		un-? (?impl-for method type) ~"{method} not implemented for {type}."
 
@@ -228,8 +223,8 @@ region Private
 	do-impl! = !|method implementor implementation
 		in
 			# TODO: ! (assert)
-			unless! writable? implementor.prototype method.impl-symbol
-				oh-no! "Can not redefine method {method} for {implementor}."
+			assert! writable? implementor.prototype method.impl-symbol throw!
+				"Can not redefine method {method} for {implementor}."
 
 		Object.defineProperty implementor.prototype method.impl-symbol
 			value. implementation
@@ -251,14 +246,13 @@ region Private
 			|...args
 				target-2 = js-sub args 1
 
-				! (defined? target-2) ~"Can't double-dispatch {_.method} for undefined."
+				assert! defined? target-2 throw! "Can't double-dispatch {_.method} for undefined."
 
 				impl = js-sub target-2 _.impl-symbol
-				debug case!
-					defined? impl
-						! contains? Function impl
-					else
-						oh-no! "Can't double-dispatch {_.method} for {_.first-type} on {target-2}"
+
+				assert! defined? impl throw! "Can't double-dispatch {_.method} for {_.first-type} on {target-2}"
+				assert! contains? Function impl
+
 				impl ...args
 
 method-contains? = |method value

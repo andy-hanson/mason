@@ -9,7 +9,6 @@ use
 use~
 	..@.@ any?
 use-debug
-	..! _ !not
 	..compare =?
 
 Pred-Type. Obj-Type
@@ -47,16 +46,16 @@ region Opt
 Any. Pred-Type
 	doc. "Not undefined."
 	test. !|
-		! contains? Any 0
-		! contains? Any null
-		!not contains? Any undefined
+		assert! contains? Any 0
+		assert! contains? Any null
+		forbid! contains? Any undefined
 	predicate. defined?
 
 ObjLit. Pred-Type
 	doc. "Matches only Objects which have no type (other than Object itself)."
 	test. !|
-		! contains? ObjLit (a. 1
-		!not contains? ObjLit ObjLit
+		assert! contains? ObjLit (a. 1
+		forbid! contains? ObjLit ObjLit
 	predicate. |_
 		and :Object (id=? (Object.getPrototypeOf _) Object.prototype
 
@@ -65,11 +64,11 @@ Union.
 	test. !|
 		# As these are all Impl-Types, it would be better to use a Kind.
 		SBN = Union[String Boolean Number]
-		! =? SBN.name "Union[String Boolean Number]"
-		! contains? SBN "true"
-		! contains? SBN true
-		! contains? SBN 3
-		!not contains? SBN null
+		assert! =? SBN.name "Union[String Boolean Number]"
+		assert! contains? SBN "true"
+		assert! contains? SBN true
+		assert! contains? SBN 3
+		forbid! contains? SBN null
 
 self-impl! sub Union |...types
 	Pred-Type

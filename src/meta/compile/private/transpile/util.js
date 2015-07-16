@@ -3,9 +3,11 @@ import { ExpressionStatement, ForStatement, Identifier, Literal, NewExpression, 
 import mangleIdentifier from 'esast/dist/mangle-identifier'
 import specialize, { variableDeclarationConst } from 'esast/dist/specialize'
 import { opIf, opMap } from '../util'
-import { IdError } from './ast-constants'
 import { msCheckContains, msUnlazy } from './ms-call'
 import { t0 } from './transpile'
+
+// Define this here to avoid circular dependency with ast-constants.
+export const _IdError = Identifier('Error')
 
 export const
 	accessLocalDeclare = localDeclare =>
@@ -39,7 +41,7 @@ export const
 					Literal(localDeclare.name))))),
 
 	throwErrorFromString = msg =>
-		ThrowStatement(NewExpression(IdError, [ Literal(msg) ])),
+		ThrowStatement(NewExpression(_IdError, [ Literal(msg) ])),
 
 	templateElementForString = str =>
 		TemplateElement(false, { cooked: str, raw: strEscapeForTemplate(str) })

@@ -11,6 +11,8 @@ export const
 	msAdd = ms('add'),
 	msAddMany = ms('addMany'),
 	msArr = ms('arr'),
+	msAssert = ms('assert'),
+	msAssertNot = ms('assertNot'),
 	msAssoc = ms('assoc'),
 	msBool = ms('bool'),
 	msCheckContains = ms('checkContains'),

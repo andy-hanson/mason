@@ -1,5 +1,5 @@
 use
-	...! _ !call
+	...assert assert-call!
 	...@.@
 	...@.@-Type empty
 	...@.? ?-or
@@ -26,7 +26,7 @@ doc. "For running code in `test` properties."
 
 # TODO
 test. !|
-	! =? [ "x" "y" "b" ] (build |yield
+	assert! =? [ "x" "y" "b" ] (build |yield
 		obj =
 			a.
 				test.
@@ -150,16 +150,16 @@ $test-fun.
 		value-test ...args
 	case
 		:Map
-			! (contains? Function value) ~
+			assert! contains? Function value throw!
 				"Test of {name} returned a Map, but the value is not callable."
 			annotate-errors ~ano |
-				!call value _
+				assert-call! value _
 			[ ]
 		:$
 			[ ($annotate-errors ~ano _
 		defined?_
 			annotate-errors ~ano !|
-				oh-no! "Test must return Map or $."
+				throw! "Test must return Map or $."
 		else
 			[ ]
 
@@ -168,13 +168,11 @@ $test-fun.
 		case test-result
 			:@
 				for! _
-					unless! :$
-						oh-no! "Result of test should be $, @[$], or undefined. Got: {_}"
+					assert! :$ throw! "Result of test should be $, @[$], or undefined. Got: {_}"
 				_
 			:$
 				[ _ ]
 			defined?_
-				oh-no! "Result of test should be $, @[$], or undefined. Got: {_}"
+				throw! "Result of test should be $, @[$], or undefined. Got: {_}"
 			else
 				[ ]
-

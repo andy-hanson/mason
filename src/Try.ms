@@ -14,13 +14,12 @@ use
 	.Type.Type _ contains? =>
 	.Type.Wrap-Type
 use-debug
-	.! _ !not
 	.Function thunk
 	.$ $rejected $resolved
 
 # TODO:SYNTAX One-line fun
 debug fail! = !|
-	oh-no!
+	throw!
 
 Success. Wrap-Type
 	doc. "Attempt that did not fail. _.val is the result of the attempted code."
@@ -37,7 +36,7 @@ try-result.
 		If you don't care about the value of the error, use `?try` instead.
 	test. |
 		[ (thunk 1) ] -> Success 1
-		! =? (try-result fail!).message "Oh no!"
+		assert! =? (try-result fail!).message "An error occurred."
 	|tried:Action
 		except
 			try
@@ -64,8 +63,8 @@ try-result.
 fails?.
 	doc. "Whether the Function throws some error."
 	test. !|
-		! fails? fail!
-		!not fails? noop
+		assert! fails? fail!
+		forbid! fails? noop
 	|tried:Action
 		except
 			try
@@ -78,9 +77,9 @@ fails?.
 fails-with?.
 	doc. "Whether the Function throws an error of the given type or with the given message."
 	test. !|
-		! fails-with? "message" !|
-			oh-no! "message"
-		! fails-with? TypeError |
+		assert! fails-with? "message" !|
+			throw! "message"
+		assert! fails-with? TypeError |
 			null.missing-property
 	|expected-error:Union[String Type] tried:Action
 		except
@@ -102,12 +101,12 @@ error-type.
 	test. !|
 		ET = error-type
 			doc. "ET"
-		! =? ET.doc "ET"
+		assert! =? ET.doc "ET"
 		x = ET (message. "mess"
-		! contains? Error x
-		! =? "mess" x.message
-		! fails-with? "mess" !|
-			oh-no! x
+		assert! contains? Error x
+		assert! =? "mess" x.message
+		assert! fails-with? "mess" !|
+			throw! x
 	|opts
 		default-args =
 			props.
@@ -122,10 +121,10 @@ error-type.
 
 annotate-errors.
 	doc. "If there are thrown errors, prepends `annotation` to their stack and message."
-	test. |
-		! fails-with? "ab" !|
+	test. !|
+		assert! fails-with? "ab" !|
 			annotate-errors "a" !|
-				oh-no! "b"
+				throw! "b"
 	|~annotation:String tried:Action
 		except
 			try
@@ -133,16 +132,16 @@ annotate-errors.
 			catch
 				p! _ "stack" "{annotation}{_.stack}"
 				p! _ "message" "{annotation}{_.message}"
-				oh-no! _
+				throw! _
 
 region $
 	$try.
 		doc. "Success if the $ is resolved, Error if rejected."
 		$test. ~!|
-			! =? (Success 1) (<~ $try ($resolved 1
-			! =? "a" (<~ ($try ($rejected "a"))).message
+			assert! =? (Success 1) (<~ $try ($resolved 1
+			assert! =? "a" (<~ ($try ($rejected "a"))).message
 			# $rejected but with non-error:
-			! =? "a" (<~ ($try ($.reject "a"))).message
+			assert! =? "a" (<~ ($try ($.reject "a"))).message
 		|_:$
 			# =>[Error] because it's possible for a Promise to reject with a non-Error.
 			$catch ($after _ Success) =>[Error]
@@ -153,7 +152,7 @@ region $
 			Else returns a `$` for the result of running `catcher` on the Error.
 			Like for `$after`, `catcher` can also return another `$`.
 		$test. ~!|
-			! =? "a" (<~ ($catch ($rejected "a") |_
+			assert! =? "a" (<~ ($catch ($rejected "a") |_
 				_.message
 		|:$ promise:$ catcher:Function
 			promise.catch catcher
@@ -161,9 +160,9 @@ region $
 	$annotate-errors.
 		doc. "Like `annotate-errors` but works on errors thrown in a `$`."
 		$test. ~!|
-			! =? "ab" (<~ $try ($annotate-errors "a" ($rejected "b"))).message
+			assert! =? "ab" (<~ $try ($annotate-errors "a" ($rejected "b"))).message
 		|~annotation:String $tried:$
 			$catch $tried |_
 				p! _ "stack" "{annotation}{_.stack}"
 				p! _ "message" "{annotation}{_.message}"
-				oh-no! _
+				throw! _

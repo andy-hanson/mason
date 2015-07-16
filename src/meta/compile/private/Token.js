@@ -102,13 +102,15 @@ const
 
 // Reserved words
 const reserved_words =
-	[ 'as', 'class', 'construct', 'data', 'gen', 'gen!', 'of', 'of!', 'return', 'static', 'to',
-		'with' ]
+	[ 'as', 'class', 'construct', 'construct!', 'data', 'do', 'do!', 'gen', 'gen!', 'of', 'of!',
+		'return', 'static', 'to', 'with' ]
 for (const name of reserved_words)
 	keywordNameToKind.set(name, -1)
 
 export const
 	KW_And = kw('and'),
+	KW_Assert = kw('assert!'),
+	KW_AssertNot = kw('forbid!'),
 	KW_Assign = kw('='),
 	KW_AssignMutable = kw('::='),
 	KW_LocalMutate = kw(':='),
@@ -146,13 +148,13 @@ export const
 	KW_Not = kw('not'),
 	KW_Null = kw('null'),
 	KW_ObjAssign = kw('. '),
-	KW_OhNo = kw('oh-no!'),
 	KW_Or = kw('or'),
 	KW_Out = kw('out'),
 	KW_Pass = kw('pass'),
 	KW_Region = kw('region'),
 	KW_This = kw('this'),
 	KW_ThisModuleDirectory = kw('this-module-directory'),
+	KW_Throw = kw('throw!'),
 	KW_True = kw('true'),
 	KW_TryDo = kw('try!'),
 	KW_TryVal = kw('try'),

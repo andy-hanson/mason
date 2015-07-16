@@ -5,7 +5,6 @@ use
 	..js defined? js! js=== js-instanceof js-sub js-typeof
 	..private.js-impl buildStr
 use-debug
-	..!
 	..compare =?
 	..private.js-impl addOne
 	..Try fails?
@@ -162,17 +161,17 @@ obj-type-args =
 		v = Vec2D
 			x. 1
 			y. 2
-		! =? v.x 1
-		! =? v.y 2
-		! =? (type-of v) Vec2D
-		! fails? |
+		assert! =? v.x 1
+		assert! =? v.y 2
+		assert! =? (type-of v) Vec2D
+		assert! fails? |
 			Vec2D
 				x. "one"
 				y. "two"
-		! fails? |
+		assert! fails? |
 			Vec2D
 				x. 1
-		! fails? |
+		assert! fails? |
 			Vec2D
 				x. 1
 				y. 2
@@ -186,9 +185,9 @@ obj-type-args =
 		q = Q
 			x. 1
 			y. 2
-		! =? q.x 1
-		! =? q.y 2
-		! fails? |
+		assert! =? q.x 1
+		assert! =? q.y 2
+		assert! fails? |
 			Q
 				x. 1
 				z. 3
@@ -200,7 +199,7 @@ obj-type-args =
 		ex = Ex
 			x. 1
 			y. 2
-		! =? ex.y 2
+		assert! =? ex.y 2
 
 
 Obj-Type. (make-constructor obj-type-args) obj-type-args

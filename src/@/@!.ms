@@ -7,7 +7,6 @@ use~
 	.Seq.Array!
 	.Seq.Seq! ++>!
 use-debug
-	..! _ !not
 	..compare =?
 	..Type.Type contains?
 	.@ empty?
@@ -24,12 +23,12 @@ use-debug
 		++! _ [ 1 2 ]
 		++! _ [ 3 4 ]
 		for! em in [ 1 2 3 4 ]
-			! contains? _ em
-		!not contains? _ 5
+			assert! contains? _ em
+		forbid! contains? _ 5
 		empty! _
 		for! em in [ 1 2 3 4 ]
-			!not contains? _ em
-		! empty? _
+			forbid! contains? _ em
+		assert! empty?_
 
 self-kind! @! @-Type
 self-impl! empty @! |

@@ -6,7 +6,6 @@ use
 use~
 	.Splay-Tree!
 use-debug
-	...!
 	...compare sorted?
 	.Map keys
 	.Map! assoc!
@@ -19,7 +18,7 @@ Sorted-Map!. Kind
 		_ = empty type
 		for! key in [ 1 3 5 4 2 ]
 			assoc! _ key key
-		! sorted? keys_
+		assert! sorted? keys_
 
 self-kind! Sorted-Map! Map-Type
 	empty -> |

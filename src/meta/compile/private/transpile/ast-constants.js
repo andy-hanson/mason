@@ -2,28 +2,30 @@ import { ArrayExpression, BinaryExpression, CallExpression, ExpressionStatement,
 	IfStatement, Literal, NewExpression, ObjectExpression, ReturnStatement, UnaryExpression,
 	VariableDeclaration, VariableDeclarator } from 'esast/dist/ast'
 import { member } from 'esast/dist/util'
-import { templateElementForString } from './util'
+import { _IdError, templateElementForString, throwErrorFromString } from './util'
 
 export const
 	EmptyTemplateElement = templateElementForString(''),
 	IdArguments = Identifier('arguments'),
 	IdBuilt = Identifier('built'),
 	IdDefine = Identifier('define'),
-	IdError = Identifier('Error'),
+	IdError = _IdError,
 	IdExports = Identifier('exports'),
 	IdExtract = Identifier('_$'),
 	IdFunctionApplyCall = member(member(Identifier('Function'), 'apply'), 'call'),
 	LitEmptyArray = ArrayExpression([]),
 	LitEmptyString = Literal(''),
 	LitNull = Literal(null),
-	LitStrOhNo = Literal('Oh no!'),
 	LitStrExports = Literal('exports'),
+	LitStrThrow = Literal('An error occurred.'),
 	LitTrue = Literal(true),
 	LitZero = Literal(0),
 	ReturnBuilt = ReturnStatement(IdBuilt),
 	ReturnExports = ReturnStatement(IdExports),
 	ReturnRes = ReturnStatement(Identifier('res')),
 	SymbolIterator = member(Identifier('Symbol'), 'iterator'),
+	ThrowAssertFail = throwErrorFromString('Assertion failed.'),
+	ThrowNoCaseMatch = throwErrorFromString('No branch of `case` matches.'),
 	UseStrict = ExpressionStatement(Literal('use strict')),
 
 	ArraySliceCall = member(member(LitEmptyArray, 'slice'), 'call'),

@@ -88,7 +88,7 @@ export const
 			kind() { return this.assignees[0].kind }
 		}),
 
-	OhNo = d('OhNoDo',
+	Throw = d('Throw',
 		'TODO:DOC',
 		[ 'opThrown', Nullable(Val) ]),
 
@@ -104,9 +104,9 @@ export const
 	BlockWithReturn = makeType(BlockVal)('BlockWithReturn',
 		'TODO:DOC',
 		[ 'lines', [LineContent], 'returned', Val ]),
-	BlockValOhNo = makeType(BlockVal)('BlockValOhNo',
+	BlockValThrow = makeType(BlockVal)('BlockValThrow',
 		'TODO:DOC',
-		[ 'lines', [LineContent], 'ohNo', OhNo ]),
+		[ 'lines', [LineContent], '_throw', Throw ]),
 
 	ObjEntry = d('ObjEntry',
 		'TODO:DOC',
@@ -279,7 +279,10 @@ export const
 	ExceptVal = v('ExceptVal',
 		'TODO:DOC',
 		[ '_try', BlockVal, '_catch', Nullable(Catch), '_finally', Nullable(BlockDo) ]),
-
+	Assert = d('Assert',
+		'TODO:DOC',
+		// condition treated specially if a Call.
+		[ 'negate', Boolean, 'condition', Val, 'opThrown', Nullable(Val) ]),
 
 	// Other statements
 	ConditionalDo = d('ConditionalDo',

@@ -2,7 +2,6 @@ use
 	.Kind _ kind! unchecked-kind!
 	.Obj-Type
 use-debug
-	..! _ !not
 	..compare =?
 	..Object! empty-Object!
 	.Kind kind?
@@ -23,10 +22,10 @@ Impl-Type. Kind
 				c.
 		kind! B A
 		kind! C B
-		! kind? B A
-		! kind? C B
-		! kind? C A
-		!not kind? A B
+		assert! kind? B A
+		assert! kind? C B
+		assert! kind? C A
+		forbid! kind? A B
 
 unchecked-kind! Obj-Type Impl-Type # Obj-Type isa Obj-Type, so can't use kind!
 unchecked-kind! Function Impl-Type # Function isa Function, so can't use kind!
@@ -44,7 +43,7 @@ region Self-Type
 			x = empty-Object!()
 			impl! contains? (self-type x) |
 				1
-			! =? (contains? x) 1
+			assert! =? (contains? x) 1
 
 	kind! Self-Type Impl-Type
 

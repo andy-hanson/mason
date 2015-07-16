@@ -10,7 +10,6 @@ use~
 	.Impl-Type _ self-type
 	..methods freeze frozen?
 use-debug
-	..! _ !not
 	..Try _ fails-with?
 	.Method
 	.Type contains?
@@ -38,7 +37,7 @@ Kind. Obj-Type
 			kind! C B
 			c = C
 				c. 1
-			! contains? A c
+			assert! contains? A c
 
 		region Inheritance chains
 			X = Kind
@@ -52,20 +51,20 @@ Kind. Obj-Type
 			kind! Y X
 			z = Z
 				x. 1
-			! contains? X z
+			assert! contains? X z
 
 		region Method makes sure to do impl! on all Concrete-Type_s inheriting from an Kind.
 			asdf = Method
 				doc. "asdf_s its arguments."
 			impl! asdf X |
 				1
-			! =? (asdf z) 1
-			! contains? X z
+			assert! =? (asdf z) 1
+			assert! contains? X z
 
 		region Closed Kind
 			Closed = Kind
 				implementors. [ C Z ]
-			! fails-with? "Closed is not open to new subtypes." !|
+			assert! fails-with? "Closed is not open to new subtypes." !|
 				kind! X Closed
 
 	props.
@@ -148,8 +147,8 @@ kind!.
 	# TODO implementor:Impl-Type
 	!|implementor kind:Kind method-impls
 		in
-			! (can-subtype? kind) ~"{kind} is not open to new subtypes."
-			!not kind? implementor kind
+			assert! can-subtype? kind throw! "{kind} is not open to new subtypes."
+			forbid! kind? implementor kind
 
 		unchecked-kind! implementor kind
 		if! defined? method-impls

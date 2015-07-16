@@ -9,7 +9,6 @@ use
 	.Obj-Type
 	.Type _ contains? extract
 use-debug
-	..!
 	..compare =?
 	..js defined?
 	..Try fails?
@@ -46,8 +45,8 @@ Wrap-Type. Obj-Type
 			doc. "W"
 			wrapped-type. Number
 		w = W 3
-		! =? w.val 3
-		debug ! fails? |
+		assert! =? w.val 3
+		debug assert! fails? |
 			W "three"
 
 kind! Wrap-Type Impl-Type

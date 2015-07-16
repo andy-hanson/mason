@@ -128,3 +128,4 @@ spread! impl! show
 					_
 
 msDef "show" show
+msDef "repr" repr

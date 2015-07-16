@@ -1,14 +1,12 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","../../math/Number","../../Type/Kind","../../Type/Method","../at","../atbang","../at-Type","../q","./Seq","./Dequebang","../../bang","../../compare","../at","./Arraybang","./Seq"],function(exports,Number_0,Kind_1,Method_2,_64_3,_64_33_4,_64_45Type_5,_63_6,Seq_7,Deque_33_8,_33_9,compare_10,_64_11,Array_33_12,Seq_13){
+define(["exports","../../math/Number","../../Type/Kind","../../Type/Method","../at","../atbang","../at-Type","../q","./Seq","./Dequebang","../../compare","../at","./Arraybang","./Seq"],function(exports,Number_0,Kind_1,Method_2,_64_3,_64_33_4,_64_45Type_5,_63_6,Seq_7,Deque_33_8,compare_9,_64_10,Array_33_11,Seq_12){
 	exports._get=_ms.lazy(function(){
 		const _$2=_ms.getModule(Number_0),Nat=_ms.get(_$2,"Nat"),Kind=_ms.getDefaultExport(Kind_1),_$3=_ms.getModule(Kind_1),kind_33=_ms.get(_$3,"kind!"),self_45kind_33=_ms.get(_$3,"self-kind!"),Method=_ms.getDefaultExport(Method_2),_64=_ms.getDefaultExport(_64_3),_64_33=_ms.getDefaultExport(_64_33_4),_64_45Type=_ms.getDefaultExport(_64_45Type_5),_$7=_ms.getModule(_64_45Type_5),empty=_ms.get(_$7,"empty"),_63=_ms.getDefaultExport(_63_6),Seq=_ms.getDefaultExport(Seq_7),Deque_33=_ms.lazy(function(){
 			return _ms.getDefaultExport(Deque_33_8)
-		}),_33=_ms.lazy(function(){
-			return _ms.getDefaultExport(_33_9)
-		}),_$14=_ms.lazyGetModule(compare_10),_61_63=_ms.lazyProp(_$14,"=?"),_$15=_ms.lazyGetModule(_64_11),empty_63=_ms.lazyProp(_$15,"empty?"),Array_33=_ms.lazy(function(){
-			return _ms.getDefaultExport(Array_33_12)
-		}),_$17=_ms.lazyGetModule(Seq_13),seq_61_63=_ms.lazyProp(_$17,"seq=?");
+		}),_$13=_ms.lazyGetModule(compare_9),_61_63=_ms.lazyProp(_$13,"=?"),_$14=_ms.lazyGetModule(_64_10),empty_63=_ms.lazyProp(_$14,"empty?"),Array_33=_ms.lazy(function(){
+			return _ms.getDefaultExport(Array_33_11)
+		}),_$16=_ms.lazyGetModule(Seq_12),seq_61_63=_ms.lazyProp(_$16,"seq=?");
 		const Seq_33=Kind(function(){
 			const built={};
 			const doc=built.doc=`Mutable Seq.\nArray!s can efficiently change existing elements and add new ones on the right.\nDeque!s are like Arrays, but can add new values on the left.`;
@@ -23,13 +21,13 @@ define(["exports","../../math/Number","../../Type/Kind","../../Type/Method","../
 				}();
 				_43_43_62_33(_,[1,2]);
 				_60_43_43_33(_,[- 2,- 1]);
-				_ms.unlazy(_33)(_ms.unlazy(seq_61_63),_,[- 2,- 1,1,2]);
-				_ms.unlazy(_33)(_ms.unlazy(_61_63),_63pop_62_33(_),_63(2));
-				_ms.unlazy(_33)(_ms.unlazy(_61_63),_63_60pop_33(_),_63(- 2));
-				_ms.unlazy(_33)(_ms.unlazy(_61_63),_63pop_62_33(_),_63(1));
-				_ms.unlazy(_33)(_ms.unlazy(_61_63),_63_60pop_33(_),_63(- 1));
-				_ms.unlazy(_33)(_ms.unlazy(_61_63),_63pop_62_33(_),empty(_63));
-				_ms.unlazy(_33)(_ms.unlazy(empty_63),_);
+				_ms.assert(_ms.unlazy(seq_61_63),_,[- 2,- 1,1,2]);
+				_ms.assert(_ms.unlazy(_61_63),_63pop_62_33(_),_63(2));
+				_ms.assert(_ms.unlazy(_61_63),_63_60pop_33(_),_63(- 2));
+				_ms.assert(_ms.unlazy(_61_63),_63pop_62_33(_),_63(1));
+				_ms.assert(_ms.unlazy(_61_63),_63_60pop_33(_),_63(- 1));
+				_ms.assert(_ms.unlazy(_61_63),_63pop_62_33(_),empty(_63));
+				_ms.assert(_ms.unlazy(empty_63),_);
 				_43_43_62_33(_,[1,2,3])
 			};
 			return _ms.setName(built,"Seq!")
@@ -96,4 +94,4 @@ define(["exports","../../math/Number","../../Type/Kind","../../Type/Method","../
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1NlcS9TZXEhLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7O0VBa0JBLGFBQU0sZUFDSTs7R0FBVCxvQkFDQztHQUdELG1EQUFvQiw0QkFBQSxLQUNJO0lBQ3ZCO0tBQVMsUUFBQTtLQUNSLCtCQUFHLEVBQUUsUUFDSzthQUFUO1lBRUc7YUFBSCxNQUFNO0tBQUE7SUFBQTtJQUNSLGFBQUssRUFBRSxDQUFFLEVBQUU7SUFDWCxhQUFLLEVBQUUsQ0FBRSxJQUFHOzBDQUNKLEVBQUUsQ0FBRSxJQUFHLElBQUcsRUFBRTt1Q0FDZixhQUFNLEdBQUcsSUFBRTt1Q0FDWCxhQUFNLEdBQUcsSUFBRTt1Q0FDWCxhQUFNLEdBQUcsSUFBRTt1Q0FDWCxhQUFNLEdBQUcsSUFBRTt1Q0FDWCxhQUFNLEdBQUcsTUFBTTt5Q0FDWDtJQUNULGFBQUssRUFBRSxDQUFFLEVBQUUsRUFBRTtHQUFBOzs7RUFFZixlQUFXLE9BQUsscUJBQ007O21CQUFyQixNQUNVLFVBQUE7V0FBVDs7OztFQUVGLFFBQU0sT0FBSztFQUNYLFFBQU0sT0FBSztFQUVYLG1DQUFNLGlCQUNNOztHQUFYLG9CQUFNO0dBQ04sZ0NBQ0s7O2tCQUFEO2tCQUNELENBQUcsUUFBTzs7Ozs7RUFDZCxtQ0FBTSxpQkFDTTs7R0FBWCxvQkFBTTtHQUNOLGdDQUNLOztrQkFBRDtrQkFDRCxDQUFHLFFBQU87Ozs7O0VBRWQscUNBQVEsaUJBQ007O0dBQWIsb0JBQU07R0FDTixzQkFBTTtHQUNOLDRCQUFTOzs7RUFDVixxQ0FBUSxpQkFDTTs7R0FBYixvQkFBTTtHQUNOLHNCQUFNO0dBQ04sNEJBQVM7OztFQUVWLHVDQUFVLGlCQUNNOztHQUFmLG9CQUFNO0dBQ04sZ0NBQ0s7O2tCQUFEO2tCQUNELENBQUcsSUFBRztrQkFDTDs7Ozs7RUF6RUwsd0JBQUE7a0JBa0JBIiwiZmlsZSI6ImF0L1NlcS9TZXFiYW5nLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1NlcS9TZXEhLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7OztFQWlCQSxhQUFNLGVBQ0k7O0dBQVQsb0JBQ0M7R0FHRCxtREFBb0IsNEJBQUEsS0FDSTtJQUN2QjtLQUFTLFFBQUE7S0FDUiwrQkFBRyxFQUFFLFFBQ0s7YUFBVDtZQUVHO2FBQUgsTUFBTTtLQUFBO0lBQUE7SUFDUixhQUFLLEVBQUUsQ0FBRSxFQUFFO0lBQ1gsYUFBSyxFQUFFLENBQUUsSUFBRztxQ0FDRSxFQUFFLENBQUUsSUFBRyxJQUFHLEVBQUU7a0NBQ2YsYUFBTSxHQUFHLElBQUU7a0NBQ1gsYUFBTSxHQUFHLElBQUU7a0NBQ1gsYUFBTSxHQUFHLElBQUU7a0NBQ1gsYUFBTSxHQUFHLElBQUU7a0NBQ1gsYUFBTSxHQUFHLE1BQU07b0NBQ1g7SUFDZixhQUFLLEVBQUUsQ0FBRSxFQUFFLEVBQUU7R0FBQTs7O0VBRWYsZUFBVyxPQUFLLHFCQUNNOzttQkFBckIsTUFDVSxVQUFBO1dBQVQ7Ozs7RUFFRixRQUFNLE9BQUs7RUFDWCxRQUFNLE9BQUs7RUFFWCxtQ0FBTSxpQkFDTTs7R0FBWCxvQkFBTTtHQUNOLGdDQUNLOztrQkFBRDtrQkFDRCxDQUFHLFFBQU87Ozs7O0VBQ2QsbUNBQU0saUJBQ007O0dBQVgsb0JBQU07R0FDTixnQ0FDSzs7a0JBQUQ7a0JBQ0QsQ0FBRyxRQUFPOzs7OztFQUVkLHFDQUFRLGlCQUNNOztHQUFiLG9CQUFNO0dBQ04sc0JBQU07R0FDTiw0QkFBUzs7O0VBQ1YscUNBQVEsaUJBQ007O0dBQWIsb0JBQU07R0FDTixzQkFBTTtHQUNOLDRCQUFTOzs7RUFFVix1Q0FBVSxpQkFDTTs7R0FBZixvQkFBTTtHQUNOLGdDQUNLOztrQkFBRDtrQkFDRCxDQUFHLElBQUc7a0JBQ0w7Ozs7O0VBeEVMLHdCQUFBO2tCQWlCQSIsImZpbGUiOiJhdC9TZXEvU2VxYmFuZy5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

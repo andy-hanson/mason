@@ -9,7 +9,6 @@ use
 	...math.methods + *
 	...Type.Type =>
 use-debug
-	...!
 	...@.@ any?
 	...@.Seq.Seq take
 	...math.Number divisible?
@@ -19,9 +18,9 @@ primes.
 	doc. "Infinite Seq of Numbers > 2, each divisible only by itself and one."
 	test. !|
 		is-prime? = |_
-			not (any? (range 2 _) divisible?[_]
+			not any? (range 2 _) divisible?[_]
 		for! take primes 20
-			! is-prime? _
+			assert! is-prime? _
 	Stream ~!|
 		<~ 2
 		<~ 3

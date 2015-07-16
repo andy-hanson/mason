@@ -6,10 +6,9 @@ use
 	.Impl-Type
 	.Obj-Type
 	.Pred-Type Any
-use-debug
-	..!
-	..compare =?
 	.Type contains?
+use-debug
+	..compare =?
 
 Js-Method. Obj-Type
 	doc. "
@@ -19,7 +18,7 @@ Js-Method. Obj-Type
 	test. !|
 		toString = Js-Method
 			impl-symbol. "toString"
-		! =? (toString 1) "1"
+		assert! =? (toString 1) "1"
 	props.
 		name. String
 		impl-symbol. Object-Key
@@ -52,7 +51,7 @@ send.
 		[ 1 "toFixed" 2 ] -> "1.00"
 	|target:Any name:Object-Key ...args
 		impl = js-sub target name
-		debug ! (contains? Function impl) ~"Js-Method {name} not implemented by {target}."
+		assert! contains? Function impl throw! "Js-Method {name} not implemented by {target}."
 		impl.apply target args
 
 send!. send

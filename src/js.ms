@@ -2,7 +2,6 @@ use~
 	.@.@
 	.Type.Type =>
 use-debug
-	.! _ !not
 	.compare =?
 	.math.methods +
 
@@ -60,11 +59,11 @@ truthy?.
 	doc. "Whether javascript's `if` statement would consider the value to be true."
 	test. !|
 		for! [ null undefined 0 Number.NaN "" false ]
-			!not truthy? _
-		! truthy? [ ]
-		! truthy? true
+			forbid! truthy? _
+		assert! truthy? [ ]
+		assert! truthy? true
 	|_
-		js! js!_
+		not js!_
 
 js-typeof.
 	doc. "JavaScript's `typeof` operator."
@@ -97,6 +96,6 @@ call-with-this.
 	test. !|
 		f = |a
 			+ this a
-		! =? (call-with-this f 1 2) 3
+		assert! =? 3 (call-with-this f 1 2)
 	|_:Function new-this ...args
 		apply-with-this _ new-this args

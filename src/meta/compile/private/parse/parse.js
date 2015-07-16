@@ -1,23 +1,24 @@
 import Loc from 'esast/dist/Loc'
 import { code } from '../../CompileError'
-import { AssignDestructure, AssignSingle, BagEntry, BagEntryMany, BagSimple, BlockBag, BlockDo,
-	BlockMap, BlockObj, BlockValOhNo, BlockWithReturn, BlockWrap, BreakDo, BreakVal, Call,
-	CaseDoPart, CaseValPart, CaseDo, CaseVal, Catch, ConditionalDo, ConditionalVal, Continue, Debug,
-	Iteratee, NumberLiteral, ExceptDo, ExceptVal, ForBag, ForDo, ForVal, Fun, GlobalAccess, L_And,
-	L_Or, Lazy, LD_Const, LD_Lazy, LD_Mutable, LocalAccess, LocalDeclare, LocalDeclareFocus,
+import { Assert, AssignDestructure, AssignSingle, BagEntry, BagEntryMany, BagSimple, BlockBag,
+	BlockDo, BlockMap, BlockObj, BlockValThrow, BlockWithReturn, BlockWrap, BreakDo, BreakVal,
+	Call, CaseDoPart, CaseValPart, CaseDo, CaseVal, Catch, ConditionalDo, ConditionalVal, Continue,
+	Debug, Iteratee, NumberLiteral, ExceptDo, ExceptVal, ForBag, ForDo, ForVal, Fun, GlobalAccess,
+	L_And, L_Or, Lazy, LD_Const, LD_Lazy, LD_Mutable, LocalAccess, LocalDeclare, LocalDeclareFocus,
 	LocalDeclareName, LocalDeclarePlain, LocalDeclareRes, LocalDeclareUntyped, LocalMutate, Logic,
-	MapEntry, Member, Module, New, Not, ObjEntry, ObjPair, ObjSimple, OhNo, Pattern, Quote,
-	SP_Debugger, SpecialDo, SpecialVal, SV_Null, Splat, Val, Use, UseDo, Yield, YieldTo
+	MapEntry, Member, Module, New, Not, ObjEntry, ObjPair, ObjSimple, Pattern, Quote, SP_Debugger,
+	SpecialDo, SpecialVal, SV_Null, Splat, Throw, Val, Use, UseDo, Yield, YieldTo
 	} from '../../MsAst'
 import { JsGlobals } from '../language'
 import { DotName, Group, G_Block, G_Bracket, G_Parenthesis, G_Space, G_Quote, isGroup, isKeyword,
-	Keyword, KW_And, KW_Assign, KW_AssignMutable, KW_BreakDo, KW_BreakVal, KW_CaseVal, KW_CaseDo,
-	KW_CatchDo, KW_CatchVal, KW_Continue, KW_Debug, KW_Debugger, KW_Ellipsis, KW_Else, KW_ExceptDo,
-	KW_ExceptVal, KW_Finally, KW_ForBag, KW_ForDo, KW_ForVal, KW_Focus, KW_Fun, KW_FunDo,
-	KW_GenFun, KW_GenFunDo, KW_IfDo, KW_IfVal, KW_In, KW_Lazy, KW_LocalMutate, KW_MapEntry, KW_New,
-	KW_Not, KW_ObjAssign, KW_OhNo, KW_Or, KW_Pass, KW_Out, KW_Region, KW_TryDo, KW_TryVal, KW_Type,
-	KW_UnlessDo, KW_UnlessVal, KW_Use, KW_UseDebug, KW_UseDo, KW_UseLazy, KW_Yield, KW_YieldTo,
-	Name, keywordName, opKeywordKindToSpecialValueKind } from '../Token'
+	Keyword, KW_And, KW_Assert, KW_AssertNot, KW_Assign, KW_AssignMutable, KW_BreakDo, KW_BreakVal,
+	KW_CaseVal, KW_CaseDo, KW_CatchDo, KW_CatchVal, KW_Continue, KW_Debug, KW_Debugger,
+	KW_Ellipsis, KW_Else, KW_ExceptDo, KW_ExceptVal, KW_Finally, KW_ForBag, KW_ForDo, KW_ForVal,
+	KW_Focus, KW_Fun, KW_FunDo, KW_GenFun, KW_GenFunDo, KW_IfDo, KW_IfVal, KW_In, KW_Lazy,
+	KW_LocalMutate, KW_MapEntry, KW_New, KW_Not, KW_ObjAssign, KW_Or, KW_Pass, KW_Out, KW_Region,
+	KW_Throw, KW_TryDo, KW_TryVal, KW_Type, KW_UnlessDo, KW_UnlessVal, KW_Use, KW_UseDebug,
+	KW_UseDo, KW_UseLazy, KW_Yield, KW_YieldTo, Name, keywordName, opKeywordKindToSpecialValueKind
+	} from '../Token'
 import { assert, head, ifElse, flatMap, isEmpty, last,
 	opIf, opMap, push, repeat, rtail, tail, unshift } from '../util'
 import Slice from './Slice'
@@ -122,8 +123,8 @@ const
 			default: {
 				context.check(!isEmpty(lines), tokens.loc, 'Value block must end in a value.')
 				const val = last(lines)
-				if (val instanceof OhNo)
-					return BlockValOhNo(tokens.loc, rtail(lines), val)
+				if (val instanceof Throw)
+					return BlockValThrow(tokens.loc, rtail(lines), val)
 				else {
 					context.check(val instanceof Val, val.loc, 'Value block must end in a value.')
 					return BlockWithReturn(tokens.loc, rtail(lines), val)
@@ -472,6 +473,8 @@ const
 		// We only deal with mutable expressions here, otherwise we fall back to parseExpr.
 		if (head instanceof Keyword)
 			switch (head.kind) {
+				case KW_Assert: case KW_AssertNot:
+					return parseAssert(head.kind === KW_AssertNot, rest)
 				case KW_ExceptDo:
 					return parseExcept(KW_ExceptDo, rest)
 				case KW_BreakDo:
@@ -507,8 +510,8 @@ const
 				}
 				case KW_ObjAssign:
 					return BagEntry(tokens.loc, parseExpr(rest))
-				case KW_OhNo:
-					return OhNo(tokens.loc, opIf(!rest.isEmpty(), () => parseExpr(rest)))
+				case KW_Throw:
+					return Throw(tokens.loc, opIf(!rest.isEmpty(), () => parseExpr(rest)))
 				case KW_Pass:
 					noRest()
 					return [ ]
@@ -926,3 +929,16 @@ const
 			return parseLocalDeclares(tokens)[0]
 		}
 	}
+
+const parseAssert = (negate, tokens) => {
+	checkNonEmpty(tokens, () => `Expected something after ${keywordName(KW_Assert)}.`)
+
+	const [ condTokens, opThrown ] =
+		ifElse(tokens.opSplitOnceWhere(_ => isKeyword(KW_Throw, _)),
+			({ before, after }) => [ before, parseExpr(after) ],
+			() => [ tokens, null ])
+
+	const parts = parseExprParts(condTokens)
+	const cond = parts.length === 1 ? parts[0] : Call(condTokens.loc, parts[0], tail(parts))
+	return Assert(tokens.loc, negate, cond, opThrown)
+}

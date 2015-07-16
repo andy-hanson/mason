@@ -1,7 +1,6 @@
 use
 	..$
 use-debug
-	..!
 	..compare =?
 
 current-time-ms.
@@ -11,8 +10,8 @@ current-time-ms.
 
 $after-time.
 	doc. "Does something after a certain time has passed."
-	$test. ~|
-		! =? 1 (<~ $after-time 1 |
+	$test. ~!|
+		assert! =? 1 (<~ $after-time 1 |
 			1
 	|time-ms:Number _:Function
 		# TODO:ES6 Shouldn't need `new`

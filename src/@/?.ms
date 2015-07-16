@@ -12,7 +12,6 @@ use
 	.@-Type _ empty from-stream
 	.Seq.Seq
 use-debug
-	..! _ !not
 	..compare =?
 	..Try fails?
 
@@ -67,7 +66,7 @@ region Functions
 		doc. "Extracts the value from a `?`, or returns undefined."
 		test. |
 			[ (? 0) ] -> 0
-			!not defined? (?->Opt (empty ?
+			forbid! defined? (?->Opt (empty ?
 		|_:?
 			case
 				empty?_
@@ -80,14 +79,11 @@ region Functions
 		doc. "Tries to extract the value out of a `?`. Throws an error if it is empty."
 		test. |
 			[ (? 1) ] -> 1
-			! fails? |
+			assert! fails? |
 				un-? (empty ?)
 		|_:? ~fail-message
-			case
-				empty?_
-					oh-no! opr fail-message "Tried to force empty `?`."
-				else
-					_.val
+			forbid! empty?_ throw! opr fail-message "Tried to force empty `?`."
+			_.val
 
 	?-or.
 		doc. "If empty, defaults to `or` - else returns its value."
@@ -106,10 +102,10 @@ Some. Pred-Type
 	predicate. |_
 		and :? (not empty?_
 	# TODO: Move to test of self-impl!
-	test. |
-		case ? 1
+	test. !|
+		case! ? 1
 			:Some val
-				! =? val 1
+				assert! =? val 1
 
 self-impl! extract Some |case
 	:Some

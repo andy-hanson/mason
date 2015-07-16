@@ -3,7 +3,6 @@ use
 	...math.Number log Nat pow round-down
 	...math.methods - *
 use-debug
-	...!
 	...@.Seq.Range range
 	...Type.Type contains?
 
@@ -34,7 +33,7 @@ roman.
 
 	|n:Nat
 		in
-			! contains? (range 1 4000) n
+			assert! contains? (range 1 4000) n
 
 		dec = power-of-10-below n
 		dig = |dec-multiple

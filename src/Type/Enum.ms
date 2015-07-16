@@ -7,7 +7,6 @@ use
 	.Obj-Type
 	.Type contains?
 use-debug
-	..!
 	..compare =?
 	.Type type-of
 
@@ -23,10 +22,10 @@ Enum. Obj-Type
 		prices =
 			Fruit.apple -> 1
 			Fruit.orange -> 2
-		! =? prices[Fruit.apple] 1
-		! =? prices[Fruit.orange] 2
-		! =? (type-of Fruit.apple) Fruit
-		! =? "{Fruit.apple}" "Fruit.apple"
+		assert! =? prices[Fruit.apple] 1
+		assert! =? prices[Fruit.orange] 2
+		assert! =? (type-of Fruit.apple) Fruit
+		assert! =? "{Fruit.apple}" "Fruit.apple"
 	props.
 		name. String
 		prototype. Object

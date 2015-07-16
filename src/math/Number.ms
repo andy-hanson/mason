@@ -7,7 +7,6 @@ use
 	..Type.Pred-Type _ Opt
 	.methods + - * /
 use-debug
-	..! _ !not
 	..Function spread!
 	..Try fails?
 	..Type.Type contains?
@@ -18,11 +17,15 @@ Int. Pred-Type
 		This only contains Numbers for which integer methods return sensible results, AKA safe ints.
 		This is anything between min-safe-integer and max-safe-integer.
 	test. !|
-		spread! ![contains?[Int]]
+		assert-int! = !|_
+			assert! contains? Int _
+		forbid-int! = !|_
+			forbid! contains? Int _
+		spread! assert-int!
 			. 1
 			. min-safe-int
 			. max-safe-int
-		spread! !not[contains?[Int]]
+		spread! forbid-int!
 			. 1.1
 			. - min-safe-int 1
 			. + max-safe-int 1
@@ -31,8 +34,8 @@ Int. Pred-Type
 Nat. Pred-Type
 	doc. "Any counting number, including `0`."
 	test. !|
-		! contains? Nat 0
-		!not contains? Nat -1
+		assert! contains? Nat 0
+		forbid! contains? Nat -1
 	predicate. |_
 		and :Int (<=? 0 _
 
@@ -114,10 +117,10 @@ region Integer arithmetic
 
 	divisible?.
 		doc. "Whether an integer number of `b` can add up to `a`."
-		test. |
-			! divisible? 4 2
-			! divisible? 4 -2
-			!not divisible? 3 2
+		test. !|
+			assert! divisible? 4 2
+			assert! divisible? 4 -2
+			forbid! divisible? 3 2
 		|a:Number b:Number
 			=? 0 (remainder a b)
 
@@ -130,7 +133,7 @@ region Real arithmetic
 	log.
 		doc. "Mathematical logarithm."
 		test. |
-			! near? (log 10 0.01) -2
+			assert! near? (log 10 0.01) -2
 			[ 2 8 ] -> 3
 		|base:Number n:Number
 			/ (log-e n) (log-e base)
@@ -156,11 +159,11 @@ region Real arithmetic
 	square-root.
 		test. |
 			[ 4 ] -> 2
-			debug ! fails? !|
+			debug assert! fails? !|
 				square-root -1
 		|_:Number
 			in
-				! (<=? 0 _) "Can't take square root of negative number {_}."
+				assert! <=? 0 _ throw! "Can't take square root of negative number {_}."
 			Math.sqrt _
 
 region Rounding

@@ -7,7 +7,6 @@ use
 	..Seq.Array!
 	.Map! _ get-or-add!
 use-debug
-	...!
 	...compare =?
 	...show
 	..@ keep
@@ -20,9 +19,9 @@ add-to-@!.
 	test. !|
 		_ = empty Map!
 		add-to-@! _ 1 [ 1 ]
-		! =? _[1] [ 1 ]
+		assert! =? _[1] [ 1 ]
 		add-to-@! _ 1 [1 ]
-		! =? _[1] [ 1 1 ]
+		assert! =? _[1] [ 1 1 ]
 	|map:Map! key added:@ @-type:Opt[@-Type]
 		_ = get-or-add! map key ~
 			empty (opr @-type Array!
@@ -39,7 +38,7 @@ group.
 			"2" -> [ 2 "2" ]
 		# Each map value is a subset of it.
 		# You shouldn't use `group-by` if all you need is `keep`.
-		! seq=? (group @sample show)["1"] (keep @sample |_
+		assert! seq=? (group @sample show)["1"] (keep @sample |_
 			=? show_ "1"
 	|@value:@ group-by:Function
 		map = empty Map!

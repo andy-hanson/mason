@@ -14,14 +14,13 @@ use
 	.Type.Pred-Type Opt
 	.Type.Type =>
 use-debug
-	.!
 	.@.@ map
 	.Function identity
 
 # TODO: Move
 
 test. !|
-	! =? "123" (map "123" identity
+	assert! =? "123" (map "123" identity
 
 self-kind! String @-Type
 	empty -> thunk ""

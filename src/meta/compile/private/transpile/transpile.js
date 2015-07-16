@@ -9,8 +9,8 @@ import { assignmentExpressionPlain, callExpressionThunk, functionExpressionPlain
 	functionExpressionThunk, memberExpression, property,
 	yieldExpressionDelegate, yieldExpressionNoDelegate } from 'esast/dist/specialize'
 import * as MsAstTypes from '../../MsAst'
-import { AssignSingle, L_And, L_Or, LD_Lazy, LD_Mutable, Pattern, Splat, SD_Debugger, SV_Contains,
-	SV_False, SV_Null, SV_Sub, SV_This, SV_ThisModuleDirectory, SV_True, SV_Undefined
+import { AssignSingle, Call, L_And, L_Or, LD_Lazy, LD_Mutable, Pattern, Splat, SD_Debugger,
+	SV_Contains, SV_False, SV_Null, SV_Sub, SV_This, SV_ThisModuleDirectory, SV_True, SV_Undefined
 	} from '../../MsAst'
 import manglePath from '../manglePath'
 import { assert, cat, flatMap, flatOpMap, ifElse, isEmpty,
@@ -18,12 +18,13 @@ import { assert, cat, flatMap, flatOpMap, ifElse, isEmpty,
 import { AmdefineHeader, ArraySliceCall, DeclareBuiltBag, DeclareBuiltMap, DeclareBuiltObj,
 	EmptyTemplateElement, ExportsDefault, ExportsGet, IdArguments, IdBuilt, IdDefine, IdExports,
 	IdExtract, IdFunctionApplyCall, LitEmptyArray, LitEmptyString, LitNull, LitStrExports,
-	LitStrOhNo, LitZero, ReturnBuilt, ReturnExports, ReturnRes, UseStrict } from './ast-constants'
-import { IdMs, lazyWrap, msAdd, msAddMany, msArr, msAssoc, msBool, msCheckContains, msError,
-	msExtract, msGet, msGetDefaultExport, msGetModule, msLazy, msLazyGet, msLazyGetModule, msSet,
-	msSetName, msSetLazy, msShow, msSome, MsNone } from './ms-call'
+	LitStrThrow, LitZero, ReturnBuilt, ReturnExports, ReturnRes, ThrowAssertFail, ThrowNoCaseMatch,
+	UseStrict } from './ast-constants'
+import { IdMs, lazyWrap, msAdd, msAddMany, msArr, msAssert, msAssertNot, msAssoc, msBool,
+	msCheckContains, msError, msExtract, msGet, msGetDefaultExport, msGetModule, msLazy, msLazyGet,
+	msLazyGetModule, msSet, msSetName, msSetLazy, msShow, msSome, MsNone } from './ms-call'
 import { accessLocalDeclare, declare, forStatementInfinite, idForDeclareCached,
-	opTypeCheckForLocalDeclare, templateElementForString, throwErrorFromString } from './util'
+	opTypeCheckForLocalDeclare, templateElementForString } from './util'
 
 let context, verifyResults, isInGenerator
 
@@ -57,6 +58,26 @@ const
 	}
 
 implementMany(MsAstTypes, 'transpileSubtree', {
+	Assert() {
+		const failCond = () => {
+			const cond = msBool(t0(this.condition))
+			return this.negate ? cond : UnaryExpression('!', cond)
+		}
+
+		return ifElse(this.opThrown,
+			thrown => IfStatement(failCond(), ThrowStatement(msError(t0(thrown)))),
+			() => {
+				if (this.condition instanceof Call) {
+					const call = this.condition
+					const anySplat = call.args.some(_ => _ instanceof Splat)
+					context.check(!anySplat, call.loc, 'TODO: Splat args in assert')
+					const ass = this.negate ? msAssertNot : msAssert
+					return ass(t0(call.called), ...call.args.map(t0))
+				} else
+					return IfStatement(failCond(), ThrowAssertFail)
+			})
+	},
+
 	AssignSingle(valWrap) {
 		const val = valWrap === undefined ? t0(this.value) : valWrap(t0(this.value))
 		const declare =
@@ -85,10 +106,10 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 		return BlockStatement(cat(lead, tLines(this.lines), opOut))
 	},
 
-	BlockValOhNo(lead = null, opResDeclare = null, opOut = null) {
+	BlockValThrow(lead = null, opResDeclare = null, opOut = null) {
 		context.warnIf(opResDeclare !== null || opOut !== null, this.loc,
 			'Out condition ignored because of oh-no!')
-		return BlockStatement(cat(lead, tLines(this.lines), t0(this.ohNo)))
+		return BlockStatement(cat(lead, tLines(this.lines), t0(this._throw)))
 	},
 
 	BlockWithReturn(lead, opResDeclare, opOut) {
@@ -280,12 +301,6 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 			property('init', propertyIdOrLiteralCached(pair.key), t0(pair.value))))
 	},
 
-	OhNo() {
-		return ifElse(this.opThrown,
-			_ => ThrowStatement(msError(t0(_))),
-			() => ThrowStatement(msError(LitStrOhNo)))
-	},
-
 	Quote() {
 		if (this.parts.length === 0)
 			return LitEmptyString
@@ -336,6 +351,12 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 		}
 	},
 
+	Throw() {
+		return ifElse(this.opThrown,
+			_ => ThrowStatement(msError(t0(_))),
+			() => ThrowStatement(msError(LitStrThrow)))
+	},
+
 	Yield() { return yieldExpressionNoDelegate(t0(this.yielded)) },
 
 	YieldTo() { return yieldExpressionDelegate(t0(this.yieldedTo)) }
@@ -365,7 +386,7 @@ const
 	},
 
 	caseBody = (parts, opElse) => {
-		let acc = ifElse(opElse, t0, () => throwErrorFromString('No branch of `case` matches.'))
+		let acc = ifElse(opElse, t0, () => ThrowNoCaseMatch)
 		for (let i = parts.length - 1; i >= 0; i = i - 1)
 			acc = t1(parts[i], acc)
 		return acc

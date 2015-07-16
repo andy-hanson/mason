@@ -17,6 +17,8 @@ export const
 
 pAdd(global, '_ms', ms)
 
+const indent = str => str.replace(/\n/g, '\n\t')
+
 const msDefs = {
 	// TODO: use +! method
 	add(bag, value) {
@@ -26,6 +28,20 @@ const msDefs = {
 	addMany(bag, values) {
 		for (let value of values)
 			ms.add(bag, value)
+	},
+
+	assert(fun, ...args) {
+		if (!Function.prototype.apply.call(fun, null, args)) {
+			const showArgs = args.map(_ms.repr).join('\n')
+			throw new Error(`assert! ${_ms.show(fun)}\n\t${indent(showArgs)}`)
+		}
+	},
+
+	assertNot(fun, ...args) {
+		if (Function.prototype.apply.call(fun, null, args)) {
+			const showArgs = args.map(_ms.repr).join('\n')
+			throw new Error(`forbid! ${_ms.show(fun)}\n\t${indent(showArgs)}`)
+		}
 	},
 
 	// TODO: use assoc! method

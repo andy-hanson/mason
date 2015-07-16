@@ -1,10 +1,8 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","../Function","../js","../methods","./Kind","./Method","./Obj-Type","./Type","../at/at","../bang","../compare"],function(exports,Function_0,js_1,methods_2,Kind_3,Method_4,Obj_45Type_5,Type_6,_64_7,_33_8,compare_9){
+define(["exports","../Function","../js","../methods","./Kind","./Method","./Obj-Type","./Type","../at/at","../compare"],function(exports,Function_0,js_1,methods_2,Kind_3,Method_4,Obj_45Type_5,Type_6,_64_7,compare_8){
 	exports._get=_ms.lazy(function(){
-		const _$2=_ms.getModule(Function_0),Pred=_ms.get(_$2,"Pred"),_$3=_ms.getModule(js_1),defined_63=_ms.get(_$3,"defined?"),id_61_63=_ms.get(_$3,"id=?"),_$4=_ms.getModule(methods_2),sub=_ms.get(_$4,"sub"),_$5=_ms.getModule(Kind_3),kind_33=_ms.get(_$5,"kind!"),_$6=_ms.getModule(Method_4),impl_33=_ms.get(_$6,"impl!"),self_45impl_33=_ms.get(_$6,"self-impl!"),Obj_45Type=_ms.getDefaultExport(Obj_45Type_5),Type=_ms.getDefaultExport(Type_6),_$8=_ms.getModule(Type_6),_61_62=_ms.get(_$8,"=>"),contains_63=_ms.get(_$8,"contains?"),_$10=_ms.lazyGetModule(_64_7),any_63=_ms.lazyProp(_$10,"any?"),_33=_ms.lazy(function(){
-			return _ms.getDefaultExport(_33_8)
-		}),_$12=_ms.lazyGetModule(_33_8),_33not=_ms.lazyProp(_$12,"!not"),_$13=_ms.lazyGetModule(compare_9),_61_63=_ms.lazyProp(_$13,"=?");
+		const _$2=_ms.getModule(Function_0),Pred=_ms.get(_$2,"Pred"),_$3=_ms.getModule(js_1),defined_63=_ms.get(_$3,"defined?"),id_61_63=_ms.get(_$3,"id=?"),_$4=_ms.getModule(methods_2),sub=_ms.get(_$4,"sub"),_$5=_ms.getModule(Kind_3),kind_33=_ms.get(_$5,"kind!"),_$6=_ms.getModule(Method_4),impl_33=_ms.get(_$6,"impl!"),self_45impl_33=_ms.get(_$6,"self-impl!"),Obj_45Type=_ms.getDefaultExport(Obj_45Type_5),Type=_ms.getDefaultExport(Type_6),_$8=_ms.getModule(Type_6),_61_62=_ms.get(_$8,"=>"),contains_63=_ms.get(_$8,"contains?"),_$10=_ms.lazyGetModule(_64_7),any_63=_ms.lazyProp(_$10,"any?"),_$12=_ms.lazyGetModule(compare_8),_61_63=_ms.lazyProp(_$12,"=?");
 		const Pred_45Type=Obj_45Type(function(){
 			const built={};
 			const doc=built.doc=`Arbitrary predicates can be made into types using Pred-Type.`;
@@ -60,9 +58,9 @@ define(["exports","../Function","../js","../methods","./Kind","./Method","./Obj-
 			const built={};
 			const doc=built.doc=`Not undefined.`;
 			const test=built.test=function test(){
-				_ms.unlazy(_33)(contains_63,Any,0);
-				_ms.unlazy(_33)(contains_63,Any,null);
-				_ms.unlazy(_33not)(contains_63,Any,void 0)
+				_ms.assert(contains_63,Any,0);
+				_ms.assert(contains_63,Any,null);
+				_ms.assertNot(contains_63,Any,void 0)
 			};
 			const predicate=built.predicate=defined_63;
 			return _ms.setName(built,"Any")
@@ -71,10 +69,10 @@ define(["exports","../Function","../js","../methods","./Kind","./Method","./Obj-
 			const built={};
 			const doc=built.doc=`Matches only Objects which have no type (other than Object itself).`;
 			const test=built.test=function test(){
-				_ms.unlazy(_33)(contains_63,ObjLit,{
+				_ms.assert(contains_63,ObjLit,{
 					a:1
 				});
-				_ms.unlazy(_33not)(contains_63,ObjLit,ObjLit)
+				_ms.assertNot(contains_63,ObjLit,ObjLit)
 			};
 			const predicate=built.predicate=function predicate(_){
 				return (_ms.contains(Object,_)&&id_61_63(Object.getPrototypeOf(_),Object.prototype))
@@ -86,11 +84,11 @@ define(["exports","../Function","../js","../methods","./Kind","./Method","./Obj-
 			const doc=built.doc=`Type that matches one of several types. Analogous to \`or\`.`;
 			const test=built.test=function test(){
 				const SBN=_ms.sub(Union,String,Boolean,Number);
-				_ms.unlazy(_33)(_ms.unlazy(_61_63),SBN.name,`Union[String Boolean Number]`);
-				_ms.unlazy(_33)(contains_63,SBN,`true`);
-				_ms.unlazy(_33)(contains_63,SBN,true);
-				_ms.unlazy(_33)(contains_63,SBN,3);
-				_ms.unlazy(_33not)(contains_63,SBN,null)
+				_ms.assert(_ms.unlazy(_61_63),SBN.name,`Union[String Boolean Number]`);
+				_ms.assert(contains_63,SBN,`true`);
+				_ms.assert(contains_63,SBN,true);
+				_ms.assert(contains_63,SBN,3);
+				_ms.assertNot(contains_63,SBN,null)
 			};
 			return _ms.setName(built,"Union")
 		}();
@@ -112,4 +110,4 @@ define(["exports","../Function","../js","../methods","./Kind","./Method","./Obj-
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL1ByZWQtVHlwZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7O0VBY0Esa0JBQVcscUJBQ1E7O0dBQWxCLG9CQUFNO0dBQ04sa0NBQ007O0lBQUwsc0JBQU07SUFDTixnQ0FBVzs7O0dBQ1osa0NBQVk7OztFQUViLFFBQU0sWUFBVTtFQUNoQixRQUFNLFlBQVUsWUFBVyxTQUFBLEVBQUUsTUFDSztVQUFqQyxZQUFZO0VBQUE7RUFHWixzQkFBSyxzQkFDUzs7R0FBYixvQkFBTTtHQUNOLGdDQUNZLG9CQUFBO1dBQVg7R0FBQTs7O0VBRUYsZUFBVyxJQUFJLGNBQ0c7O0dBQWpCLG9CQUFNO2tCQUNMLFNBQUEsY0FDZ0I7c0JBREo7SUFDWixTQUFLO1dBQ0wsb0JBQ087O0tBQU4seUNBQWE7Ozs7O0VBRWhCLGdCQUFVLHFCQUNROztHQUFqQixvQkFBTTtHQUNOLGtDQUNNOztJQUFMLHlDQUFhOzs7OztFQUNmLFFBQU0sVUFBUTtFQUNkLFFBQU0sWUFBVSxVQUFTLFNBQUEsR0FBRyxFQUNDO1VBQTVCLENBQUksRUFBSSxXQUFRLElBQUksWUFBVSxrQkFBZTtFQUFBO0VBRS9DLHNCQUFLLHNCQUNTOztHQUFiLG9CQUFNO0dBQ04sc0JBQ1EsZUFBQTtvQkFBTCxZQUFVLElBQUk7b0JBQ2QsWUFBVSxJQUFJO3VCQUNYLFlBQVUsSUFBSTs7R0FDcEIsZ0NBQVc7OztFQUVaLDRCQUFRLHNCQUNTOztHQUFoQixvQkFBTTtHQUNOLHNCQUNRLGVBQUE7b0JBQUwsWUFBVSxPQUFPO09BQUk7SUFBQTt1QkFDbEIsWUFBVSxPQUFPO0dBQUE7R0FDdkIsZ0NBQVksbUJBQUEsRUFDQztXQUFaLGNBQUssT0FBRCxJQUFTLFNBQU0sc0JBQXNCLEdBQUc7Ozs7RUFFOUMsb0NBQ007O0dBQUwsb0JBQU07R0FDTixzQkFDUSxlQUFBO0lBQ1Asa0JBQU0sTUFBTSxPQUFPLFFBQVE7dUNBQ3RCLFNBQVU7b0JBQ2IsWUFBVSxJQUFLO29CQUNmLFlBQVUsSUFBSTtvQkFDZCxZQUFVLElBQUk7dUJBQ1gsWUFBVSxJQUFJO0dBQUE7OztFQUVyQixlQUFXLElBQUksTUFBTyxVQUNROztVQUE3QixzQkFDUzs7SUFBUixzQkFBTyxrQkFBTyxPQUFHLE9BQU8sTUFBTztJQUMvQixnQ0FBWSxtQkFBQSxFQUNDOytCQUFQLE1BQU8sU0FBQSxLQUNJO2FBQWYsWUFBVSxLQUFLO0tBQUE7SUFBQTs7OztFQTlFbkIsd0JBQUE7a0JBY0EiLCJmaWxlIjoiVHlwZS9QcmVkLVR5cGUuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL1ByZWQtVHlwZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQWFBLGtCQUFXLHFCQUNROztHQUFsQixvQkFBTTtHQUNOLGtDQUNNOztJQUFMLHNCQUFNO0lBQ04sZ0NBQVc7OztHQUNaLGtDQUFZOzs7RUFFYixRQUFNLFlBQVU7RUFDaEIsUUFBTSxZQUFVLFlBQVcsU0FBQSxFQUFFLE1BQ0s7VUFBakMsWUFBWTtFQUFBO0VBR1osc0JBQUssc0JBQ1M7O0dBQWIsb0JBQU07R0FDTixnQ0FDWSxvQkFBQTtXQUFYO0dBQUE7OztFQUVGLGVBQVcsSUFBSSxjQUNHOztHQUFqQixvQkFBTTtrQkFDTCxTQUFBLGNBQ2dCO3NCQURKO0lBQ1osU0FBSztXQUNMLG9CQUNPOztLQUFOLHlDQUFhOzs7OztFQUVoQixnQkFBVSxxQkFDUTs7R0FBakIsb0JBQU07R0FDTixrQ0FDTTs7SUFBTCx5Q0FBYTs7Ozs7RUFDZixRQUFNLFVBQVE7RUFDZCxRQUFNLFlBQVUsVUFBUyxTQUFBLEdBQUcsRUFDQztVQUE1QixDQUFJLEVBQUksV0FBUSxJQUFJLFlBQVUsa0JBQWU7RUFBQTtFQUUvQyxzQkFBSyxzQkFDUzs7R0FBYixvQkFBTTtHQUNOLHNCQUNRLGVBQUE7ZUFBQyxZQUFVLElBQUk7ZUFDZCxZQUFVLElBQUk7a0JBQ2QsWUFBVSxJQUFJOztHQUN2QixnQ0FBVzs7O0VBRVosNEJBQVEsc0JBQ1M7O0dBQWhCLG9CQUFNO0dBQ04sc0JBQ1EsZUFBQTtlQUFDLFlBQVUsT0FBTztPQUFJO0lBQUE7a0JBQ3JCLFlBQVUsT0FBTztHQUFBO0dBQzFCLGdDQUFZLG1CQUFBLEVBQ0M7V0FBWixjQUFLLE9BQUQsSUFBUyxTQUFNLHNCQUFzQixHQUFHOzs7O0VBRTlDLG9DQUNNOztHQUFMLG9CQUFNO0dBQ04sc0JBQ1EsZUFBQTtJQUNQLGtCQUFNLE1BQU0sT0FBTyxRQUFRO2tDQUNoQixTQUFVO2VBQ2IsWUFBVSxJQUFLO2VBQ2YsWUFBVSxJQUFJO2VBQ2QsWUFBVSxJQUFJO2tCQUNkLFlBQVUsSUFBSTtHQUFBOzs7RUFFeEIsZUFBVyxJQUFJLE1BQU8sVUFDUTs7VUFBN0Isc0JBQ1M7O0lBQVIsc0JBQU8sa0JBQU8sT0FBRyxPQUFPLE1BQU87SUFDL0IsZ0NBQVksbUJBQUEsRUFDQzsrQkFBUCxNQUFPLFNBQUEsS0FDSTthQUFmLFlBQVUsS0FBSztLQUFBO0lBQUE7Ozs7RUE3RW5CLHdCQUFBO2tCQWFBIiwiZmlsZSI6IlR5cGUvUHJlZC1UeXBlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

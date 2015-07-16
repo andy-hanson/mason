@@ -17,7 +17,6 @@ use~
 	.Seq! ++>!
 	.Stream
 use-debug
-	...! _ !not
 	...compare <?
 	...Try fails?
 	..?
@@ -48,7 +47,7 @@ region Very first and last
 		doc. "First value in iteration order."
 		test. |
 			[ [ 1 2 ] ] -> 1
-			! fails? |
+			assert! fails? |
 				first [ ]
 		|_
 			un-? ?first_ "Can not take first of empty."
@@ -66,7 +65,7 @@ region Very first and last
 		doc. "Last value in iteration order."
 		test. |
 			[ [ 1 2 ] ] -> 2
-			! fails? |
+			assert! fails? |
 				last [ ]
 		args. 1
 		|_
@@ -116,11 +115,11 @@ region Search
 			Whether two @s share the same elements in the same order.
 			The types of the @s do not matter.
 			Equivalent to `=? (=> Array @a) (=> Array @b)`, but may not have to fully unlazy both.
-		test. |
+		test. !|
 			s = Stream ~!|
 				<~ 1
-			! seq=? s [ 1 ]
-			!not seq=? s [ 2 ]
+			assert! seq=? s [ 1 ]
+			forbid! seq=? s [ 2 ]
 		|@a:@ @b:@
 			iter-a = iterator @a
 			iter-b = iterator @b
@@ -162,8 +161,8 @@ region Search
 	impl! sub Seq
 		doc. "Nth value in iteration order."
 		test. !|
-			! =? [ 0 1 ][1] 1
-			! fails? |
+			assert! =? [ 0 1 ][1] 1
+			assert! fails? |
 				[ 0 1 ][2]
 		|_ n:Nat
 			un-? (?nth _ n) ~"
@@ -210,7 +209,7 @@ region Update
 			# OK if not enough to satisfy count-to-take
 			[ [ 0 ] 2 ] -> => Stream [ 0 ]
 			_ = [ 0 1 2 3 4 ]
-			! seq=? _ (++ (take' _ 2) (drop' _ 2
+			assert! seq=? _ (++ (take' _ 2) (drop' _ 2
 		|_ count-to-take:Nat
 			# TODO:SYNTAX @for~
 			case
@@ -299,10 +298,10 @@ region TODO: put somewhere
 	groups-of'.
 		doc. "Seq of consecutive groups of `group-size` elements."
 		test. !|
-			! seq=? [ [ 1 2 ] [ 3 4 ] ] (groups-of' 2 [ 1 2 3 4 ])
+			assert! seq=? [ [ 1 2 ] [ 3 4 ] ] (groups-of' 2 [ 1 2 3 4 ])
 			# Tosses off partial group at end (e.g. no [ 4 ])
-			! seq=? [ [ 1 2 3 ] ] (groups-of' 3 [ 1 2 3 4 ])
-			! seq=? [ [] [] [] ] (take' (groups-of' 0 [ 1 ]) 3)
+			assert! seq=? [ [ 1 2 3 ] ] (groups-of' 3 [ 1 2 3 4 ])
+			assert! seq=? [ [] [] [] ] (take' (groups-of' 0 [ 1 ]) 3)
 		|:Seq[Array] group-size:Nat _
 			case
 				=? group-size 0

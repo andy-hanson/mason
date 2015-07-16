@@ -10,7 +10,7 @@ use~
 	.@.Seq.Seq
 	.@.Seq.Seq! ++>!
 use-debug
-	.! _ !call
+	.assert assert-call!
 	.compare =?
 
 opr.
@@ -29,8 +29,8 @@ build.
 	doc. "
 		Passes in a `yield` Function to `calls-yield`.
 		Returns a Seq of what `calls-yield` called `yield` with.
-	test. |
-		! =? [ 0 1 ] (build |yield
+	test. !|
+		assert! =? [ 0 1 ] (build |yield
 			yield 0
 			yield 1
 	|:Seq calls-yield:Function
@@ -45,15 +45,15 @@ region Conditional execution
 	switch.
 		doc. "Calls the Function that `cases` associates with `val`."
 		test. |
-			n = |x
-				switch x
+			test-switch = |_
+				switch _
 					1 -> |
 						"one"
 					2 -> |
 						"two"
 					switch-else -> |
 						"three"
-			!call n
+			assert-call! test-switch
 				[ 1 ] -> "one"
 				[ 2 ] -> "two"
 				[ 3 ] -> "three"
@@ -65,18 +65,18 @@ region Conditional execution
 unreachable!.
 	doc. "Call this to mark code as unreachable."
 	!|
-		oh-no! "This should not be reachable."
+		throw! "This should not be reachable."
 
 TODO.
 	doc. "Placeholder for something which you really ought to implement one of these days."
 	!|
-		oh-no! "This function has not yet been implemented."
+		throw! "This function has not yet been implemented."
 
 returning.
 	doc. "Calls `do-after` and returns `returned`."
-	test. |
-		! =? [ 0 ] (build |yield
-			! =? 1 (returning 1 |
+	test. !|
+		assert! =? [ 0 ] (build !|yield
+			assert! =? 1 (returning 1 !|
 				yield 0
 	|returned:Any do-after:Function
 		do-after returned

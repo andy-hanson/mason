@@ -5,17 +5,16 @@ use
 	.Obj-Type
 	.Type _ contains?
 use-debug
-	..! _ !not
 	..@.?
 	..compare =?
 
 Alias-Type. Obj-Type
 	doc. "Contains the same instances as another type (officially), but has its own meaning and identity."
-	test. |
+	test. !|
 		A = Alias-Type
 			alias-of. String
-		! contains? A "0"
-		!not =? A String
+		assert! contains? A "0"
+		forbid! =? A String
 	props.
 		name. String
 		alias-of. Type

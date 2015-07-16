@@ -31,6 +31,6 @@ kind! Weak-Id-Map! Map!
 			_.delete key
 	# TODO: unsupported Function?
 	keys -> !|
-		oh-no! "Weak-Id-Map! does not support `keys`."
+		throw! "Weak-Id-Map! does not support `keys`."
 	empty! -> !|
-		oh-no! "Weak-Id-Map! does not support `empty!`."
+		throw! "Weak-Id-Map! does not support `empty!`."

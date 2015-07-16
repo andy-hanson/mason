@@ -7,7 +7,6 @@ use
 use~
 	.Hash-Set!
 use-debug
-	...! _ !not
 	...Type.Type contains?
 	..@ empty?
 	..@! ++! --! empty!
@@ -17,14 +16,14 @@ Set!. Kind
 	implementor-test. !|type
 		_ = empty type
 		++! _ [ 1 2 ]
-		! contains? _ 1
-		! contains? _ 2
-		!not contains? _ 3
+		assert! contains? _ 1
+		assert! contains? _ 2
+		forbid! contains? _ 3
 		--! _ [ 1 2 ]
-		! empty? _
+		assert! empty? _
 		++! _ [ 1 2 3 ]
 		empty! _
-		! empty? _
+		assert! empty? _
 
 self-kind! Set! @-Type
 	empty -> |

@@ -5,7 +5,6 @@ use
 	...Object Object->Map
 	...Type.Type =>
 use-debug
-	...!
 	...@.Seq.Seq seq=? take'
 
 make-fizz-buzz.
@@ -19,7 +18,7 @@ make-fizz-buzz.
 			make-fizz-buzz
 				Fizz. 3
 				Buzz. 5
-		! seq=? (take' fizz-buzz 6)
+		assert! seq=? (take' fizz-buzz 6)
 			. 1
 			. 2
 			. "Fizz"
@@ -32,7 +31,7 @@ make-fizz-buzz.
 				Fizz. 3
 				Jazz. 4
 				Buzz. 5
-		! seq=? (take' fizz-buzz-jazz 17)
+		assert! seq=? (take' fizz-buzz-jazz 17)
 			. 1
 			. 2
 			. "Fizz"

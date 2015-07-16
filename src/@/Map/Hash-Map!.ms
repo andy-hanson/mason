@@ -18,7 +18,6 @@ use
 	.Map! _ assoc! un-assoc!
 	.Map-Type
 use-debug
-	...!
 	..Seq.Seq seq=?
 	.Map keys
 
@@ -29,13 +28,13 @@ Hash-Map!. Wrap-Type
 		_ =
 			1 -> 2
 			3 -> 4
-		! =? _[1] 2
-		! =? _[3] 4
-		! seq=? _
+		assert! =? _[1] 2
+		assert! =? _[3] 4
+		assert! seq=? _
 			. [ 1 2
 			. [ 3 4
-		! seq=? keys_ [ 1 3 ]
-		! =? (?get _ 8) (empty ?)
+		assert! seq=? keys_ [ 1 3 ]
+		assert! =? (?get _ 8) (empty ?)
 	# Wraps a map from hash codes to buckets.
 	wrapped-type. Id-Map!
 

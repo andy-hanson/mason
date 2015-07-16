@@ -14,7 +14,6 @@ use~
 	.Object Object->Map
 	.Type.Type =>
 use-debug
-	.!
 	.@.Seq.Seq seq=?
 	.compare =?
 	.control build
@@ -62,9 +61,9 @@ fun-copy.
 		f2 =
 			doc. "f2"
 			fun-copy f1
-		! =? f1.doc "f1"
-		! =? f2.doc "f2"
-		! =? (f1 1) (f2 1)
+		assert! =? f1.doc "f1"
+		assert! =? f2.doc "f2"
+		assert! =? (f1 1) (f2 1)
 
 	|_:Function
 		# Fill in `this` as null.
@@ -89,17 +88,17 @@ region Memoize
 			When an Object is passed into `fun`, stores the result in a `Weak-Id-Map!`
 			and uses that if the exact same (`id=?`) Object is used again.
 		test. !|
-			! seq=? [ 1 2 1 ] (build |yield
+			assert! seq=? [ 1 2 1 ] (build !|yield
 				get-a = id-memoize |x
 					yield x.a
 					x.a
 				a1 = a. 1
-				! =? (get-a a1) 1
-				! =? (get-a a1) 1
+				assert! =? (get-a a1) 1
+				assert! =? (get-a a1) 1
 				a2 = a. 2
-				! =? (get-a a2) 2
+				assert! =? (get-a a2) 2
 				a1b = a. 1
-				! =? (get-a a1b) 1
+				assert! =? (get-a a1b) 1
 		|_:Function
 			wm = empty Weak-Id-Map!
 			|arg:Object
@@ -111,20 +110,20 @@ region Memoize
 			and re-uses the result if called again with the same argument.
 			This will make those arguments unavailable for garbage collection...
 		test. !|
-			! seq=? [ 1 2 ] (build |yield
+			assert! seq=? [ 1 2 ] (build !|yield
 				get-a = hash-memoize |x
 					yield x.a
 					x.a
 				a1 = call | # TODO:DISPLAYNAME
 					a. 1
-				! =? (get-a a1) 1
-				! =? (get-a a1) 1
+				assert! =? (get-a a1) 1
+				assert! =? (get-a a1) 1
 				a2 = a. 2
-				! =? (get-a a2) 2
+				assert! =? (get-a a2) 2
 				a1b = call | # TODO:DISPLAYNAME
 					a. 1
-				! =? a1 a1b
-				! =? (get-a a1b) 1
+				assert! =? a1 a1b
+				assert! =? (get-a a1b) 1
 		|_:Function
 			hm = empty Hash-Map!
 			|arg:Object
@@ -135,18 +134,18 @@ spread.
 	test. !|
 		all-4 = |a b c d
 			[ a b c d ]
-		! seq=? (spread all-4 1 2 3 [ 4 5 ])
+		assert! seq=? (spread all-4 1 2 3 [ 4 5 ])
 			. [ 1 2 3 4 ]
 			. [ 1 2 3 5 ]
 
 		y = spread all-4 1 2
 			3 -> 4
 			5 -> 6
-		! seq=? y
+		assert! seq=? y
 			. [ 1 2 3 4 ]
 			. [ 1 2 5 6 ]
 
-		! seq=? (spread all-4 1 2 (three. 4 five. 6))
+		assert! seq=? (spread all-4 1 2 (three. 4 five. 6))
 			. [ 1 2 "three" 4 ]
 			. [ 1 2 "five" 6 ]
 
@@ -165,7 +164,7 @@ spread.
 			:Object
 				=> Array Object->Map_
 			else
-				oh-no! "Can only spread a @ or Map, not {_}"
+				throw! "Can only spread a @ or Map, not {_}"
 		# TODO:SYNTAX @for -> Array
 		@for @spreaded
 			all-args = ++ init-args _
@@ -174,7 +173,7 @@ spread.
 spread!.
 	doc. "TODO"
 	test. !|
-		! =? [ 1 2 3 ] (build |yield!
+		assert! =? [ 1 2 3 ] (build |yield!
 			f = |a b c
 				yield! a
 				yield! b
@@ -187,7 +186,7 @@ spread!.
 thunk.
 	doc. "Makes function which, when called, returns `a`."
 	test. !|
-		! =? (thunk 1)() 1
+		assert! =? (thunk 1)() 1
 	|_
 		|
 			_
@@ -196,11 +195,11 @@ curry =
 	doc. "Creates a function which calls `f` with the given arguments first."
 	test. !|
 		+1 = +[1]
-		! =? (+1 1) 2
+		assert! =? (+1 1) 2
 		all-3 = |a b c
 			[ a b c ]
 		one-two = all-3[1 2]
-		! =? (one-two 3) [ 1 2 3 ]
+		assert! =? (one-two 3) [ 1 2 3 ]
 	iCurry
 
 impl! sub Function curry
@@ -214,7 +213,7 @@ self-impl! sub Function
 		* Function[2] takes 2 arguments.
 		* Function[2 String] takes 2 arguments and returns a String.
 		* Function without a sub is assumed to be a one-argument function, so never write Function[1].
-	test. |
-		! =? Function[Function Function] Function
+	test. !|
+		assert! =? Function[Function Function] Function
 	|
 		Function

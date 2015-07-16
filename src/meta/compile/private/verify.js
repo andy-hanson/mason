@@ -181,6 +181,11 @@ const verifyLocalUse = () =>
 	})
 
 implementMany(MsAstTypes, 'verify', {
+	Assert() {
+		this.condition.verify()
+		opEach(this.opThrown, verify)
+	},
+
 	AssignSingle() {
 		const doV = () => {
 			// Assignee registered by verifyLines.
@@ -206,9 +211,9 @@ implementMany(MsAstTypes, 'verify', {
 
 	BlockDo() { verifyLines(this.lines) },
 
-	BlockValOhNo() {
+	BlockValThrow() {
 		const newLocals = verifyLines(this.lines)
-		plusLocals(newLocals, () => this.ohNo.verify())
+		plusLocals(newLocals, () => this._throw.verify())
 	},
 
 	BlockWithReturn() {
@@ -371,10 +376,6 @@ implementMany(MsAstTypes, 'verify', {
 		}
 	},
 
-	OhNo() {
-		opEach(this.opThrown, verify)
-	},
-
 	Quote() {
 		for (const _ of this.parts)
 			if (typeof _ !== 'string')
@@ -386,6 +387,10 @@ implementMany(MsAstTypes, 'verify', {
 	SpecialVal() { },
 
 	Splat() { this.splatted.verify() },
+
+	Throw() {
+		opEach(this.opThrown, verify)
+	},
 
 	Use() {
 		// Since Uses are always in the outermost scope, don't have to worry about shadowing.

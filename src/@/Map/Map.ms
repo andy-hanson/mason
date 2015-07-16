@@ -12,7 +12,6 @@ use~
 	.Id-Map!
 	.Map! assoc!
 use-debug
-	...!
 	...math.methods +
 
 Map. Kind
@@ -57,11 +56,11 @@ region Old methods
 region Functions
 	make-map.
 		doc. "Creates a Map whose values are the result of applying `get-value` to each key."
-		test. |
+		test. !|
 			map = make-map [ 1 2 ] |x
 				+ x 1
-			! =? map[1] 2
-			! =? map[2] 3
+			assert! =? map[1] 2
+			assert! =? map[2] 3
 		# TODO: map-type param
 		|@key:@ get-value:Function
 			map = empty Id-Map!

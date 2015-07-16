@@ -9,7 +9,6 @@ use
 use~
 	.Id-Map!
 use-debug
-	...! _ !not
 	...compare _ =?
 	...math.methods *
 	...Type.Method impl!
@@ -31,33 +30,33 @@ Map!. Kind
 			compare a.val b.val
 		# => Array because these must maintain by their identity for Weak-Id-Map!
 		ks = => Array (map [ 1 3 5 4 2 ] Mt
-		noweak = !|do
+		noweak = !|act
 			unless! :Weak-Id-Map!
-				do()
+				act()
 		_ = empty type
 		noweak !|
-			! empty? _
+			assert! empty? _
 		do-adds = !|
 			for! n in ks
 				add! _ n (* 2 n.val)
 		do-adds()
 		for! n in ks
-			! =? _[n] (* 2 n.val)
+			assert! =? _[n] (* 2 n.val)
 		?get _ (Mt 0
-		! empty? (?get _ (Mt 0
+		assert! empty? (?get _ (Mt 0
 		noweak !|
-			! set=? keys_ (map [ 1 2 3 4 5 ] Mt
+			assert! set=? keys_ (map [ 1 2 3 4 5 ] Mt
 			empty! _
-			! empty? _
+			assert! empty? _
 			do-adds()
 			un-assoc*! _ ks
-			! empty? _
+			assert! empty? _
 
 		# assoc! should overwrite previous values
 		zero = Mt 0
 		assoc! _ zero 0
 		assoc! _ zero 1
-		! =? _[zero] 1
+		assert! =? _[zero] 1
 
 self-kind! Map! Map-Type
 self-impl! empty Map! |
@@ -93,8 +92,7 @@ add!. Method
 	args. [ "_" "key" "val"
 	default. !|_ key val
 		in
-			!not (has-key? _ key) ~"
-				Already have key {key}.
+			forbid! has-key? _ key throw! "Already have key {key}."
 		assoc! _ key val
 
 get-or-add!. Method

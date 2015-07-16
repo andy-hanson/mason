@@ -10,7 +10,6 @@ use~
 	..@.? ?-or
 	..Object ?p-with-proto
 use-debug
-	..!
 	.Method self-impl!
 
 Type. Kind
@@ -46,8 +45,8 @@ extract. Method
 			else
 				"not extractable"
 
-		! =? "12" (f "extractable"
-		! =? "not extractable" f()
+		assert! =? "12" (f "extractable"
+		assert! =? "not extractable" f()
 	args.
 		. "type"
 		. "candidate"
@@ -56,9 +55,7 @@ extract. Method
 msDef "extract" extract
 
 msDef "checkContains" |type value name
-	# TODO: ! (assert)
-	unless! contains? type value
-		oh-no! "{name} is no {type}, is a {type-of value}: {value}"
+	assert! contains? type value throw! "{name} is no {type}, is a {type-of value}: {value}"
 	value
 
 =>. Method

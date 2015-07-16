@@ -9,7 +9,6 @@ use
 	.Obj-Type
 	.Type extract
 use-debug
-	..!
 	..compare =?
 
 access = |name
@@ -93,12 +92,12 @@ Tuple. Obj-Type
 				. "x"
 				. [ "y" Number
 		v = Vec2 1 2
-		! =? 1 v.x
-		! =? 2 v.y
+		assert! =? 1 v.x
+		assert! =? 2 v.y
 		case! v
 			:Vec2 x y
-				! =? 1 x
-				! =? 2 y
+				assert! =? 1 x
+				assert! =? 2 y
 
 implContains Tuple |tuple _
 	js-instanceof _ tuple

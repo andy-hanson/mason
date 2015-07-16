@@ -4,7 +4,6 @@ use
 	..@!
 	..?
 use-debug
-	...!
 	...compare =?
 	..@ empty?
 	..@! ++!
@@ -18,10 +17,10 @@ Priority-Queue!. Kind
 	implementor-test. !|type
 		_ = empty type
 		++! _ [ 3 1 2 ]
-		! =? (? 1) ?pop!_
-		! =? (? 2) ?pop!_
-		! =? (? 3) ?pop!_
-		! empty? _
+		assert! =? (? 1) ?pop!_
+		assert! =? (? 2) ?pop!_
+		assert! =? (? 3) ?pop!_
+		assert! empty? _
 
 kind! Priority-Queue! @!
 

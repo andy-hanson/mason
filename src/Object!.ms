@@ -6,7 +6,6 @@ use
 use~
 	.control opr
 use-debug
-	.! _ !not
 	.compare =?
 	.Object empty-Object? p? prototype
 	.Try fails?
@@ -21,9 +20,9 @@ empty-Object!.
 	doc. "Creates a new Object! with no properties and the given prototype."
 	test. !|
 		_ = empty-Object!()
-		! empty-Object? _
+		assert! empty-Object? _
 		child = empty-Object! _
-		! =? _ (prototype child
+		assert! =? _ (prototype child
 	|prototype:Opt[Object]
 		Object.create (opr prototype Object.prototype
 
@@ -32,10 +31,10 @@ p+!.
 	test. !|
 		_ = empty-Object!()
 		p+! _ "a" 1
-		! =? _.a 1
-		! fails? |
+		assert! =? _.a 1
+		assert! fails? |
 			p+! _ "a" 2
-		! fails? |
+		assert! fails? |
 			p+! "string" "a" 1
 	!|_:Object! name:Object-Key val
 		Object.defineProperty _ name
@@ -59,10 +58,10 @@ p!.
 		_ = empty-Object!()
 		p+mut! _ "a" 1
 		p! _ "a" 2
-		! =? _.a 2
+		assert! =? _.a 2
 	!|_:Object! name:Object-Key new-val
 		in
-			! p? _ name
+			assert! p? _ name
 
 		js-set _ name new-val
 
@@ -71,10 +70,10 @@ p-!.
 		_ = empty-Object!()
 		p+mut! _ "a" 1
 		p-! _ "a"
-		!not p? _ "a"
+		forbid! p? _ "a"
 	!|_:Object! name:Object-Key
 		in
-			! p? _ name
+			assert! p? _ name
 
 		js-delete _ name
 
@@ -85,6 +84,6 @@ extend!.
 		_ = empty-Object!()
 		extend! _
 			a. 1
-		! =? _.a 1
+		assert! =? _.a 1
 	!|_:Object! extender:Object
 		Object.assign _ extender

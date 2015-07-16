@@ -10,7 +10,6 @@ use
 use~
 	.Deque!
 use-debug
-	...!
 	...compare =?
 	..@ empty?
 	.Array!
@@ -30,13 +29,13 @@ Seq!. Kind
 				empty type
 		++>! _ [ 1 2
 		<++! _ [ -2 -1
-		! seq=? _ [ -2 -1 1 2
-		! =? ?pop>!_ (? 2
-		! =? ?<pop!_ (? -2
-		! =? ?pop>!_ (? 1
-		! =? ?<pop!_ (? -1
-		! =? ?pop>!_ (empty ?
-		! empty? _
+		assert! seq=? _ [ -2 -1 1 2
+		assert! =? ?pop>!_ (? 2
+		assert! =? ?<pop!_ (? -2
+		assert! =? ?pop>!_ (? 1
+		assert! =? ?<pop!_ (? -1
+		assert! =? ?pop>!_ (empty ?
+		assert! empty? _
 		++>! _ [ 1 2 3
 
 self-kind! Seq! @-Type

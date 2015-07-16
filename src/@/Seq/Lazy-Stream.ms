@@ -13,7 +13,6 @@ use
 	.Seq _ ?nth
 	.Stream
 use-debug
-	...!
 	...compare =?
 	...control build
 	...math.methods +
@@ -40,15 +39,15 @@ self-kind! Lazy-Stream @-Type
 
 js-impl! iterator Lazy-Stream
 	test. !|
-		! =? [ 1 2 ] (build !|yield
+		assert! =? [ 1 2 ] (build !|yield
 			_ = => Lazy-Stream (Stream ~!|
 				yield 1
 				<~ 1
 				yield 2
 				<~ 2
 				yield 3
-			! seq=? [ 1 ] (take' _ 1
-			! seq=? [ 1 2 ] (take' _ 2
+			assert! seq=? [ 1 ] (take' _ 1
+			assert! seq=? [ 1 2 ] (take' _ 2
 	~!|
 		<~~ iterator this.cache
 		<~~ this.caching-iterator
@@ -61,14 +60,14 @@ kind! Lazy-Stream Seq
 
 lazy-streaming.
 	doc. "Creates a Lazy-Stream from a generator."
-	test. |
+	test. !|
 		fibonaccis = Stream ~!|
 			<~ 1
 			<~ 1
 			for! range 2 infinity
 				# This is *not* an exponential blowup because these are cached.
 				<~ + fibonaccis[(- _ 1] fibonaccis[(- _ 2
-		! seq=? (take' fibonaccis 10) [ 1 1 2 3 5 8 13 21 34 55 ]
+		assert! seq=? (take' fibonaccis 10) [ 1 1 2 3 5 8 13 21 34 55 ]
 	|stream:Function[Generator!]
 		cache = empty Array!
 		# TODO:ES6
