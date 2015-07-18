@@ -4,13 +4,10 @@ use
 	.Type.Pred-Type Any Opt
 use~
 	.@.@-Type empty
-	.@.? ?-or
-	.@.Map.Map _ ?get
 	.@.Seq.Array!
 	.@.Seq.Seq
 	.@.Seq.Seq! ++>!
 use-debug
-	.assert assert-call!
 	.compare =?
 
 opr.
@@ -39,28 +36,6 @@ build.
 			++>! yielded [ _ ]
 		calls-yield yield
 		freeze yielded
-
-region Conditional execution
-	# TODO:SYNTAX
-	switch.
-		doc. "Calls the Function that `cases` associates with `val`."
-		test. |
-			test-switch = |_
-				switch _
-					1 -> |
-						"one"
-					2 -> |
-						"two"
-					switch-else -> |
-						"three"
-			assert-call! test-switch
-				[ 1 ] -> "one"
-				[ 2 ] -> "two"
-				[ 3 ] -> "three"
-		|val:Any cases:Map[Any Function]
-			(?-or (?get cases val) ~cases[switch-else])()
-	switch-else.
-		doc. "Special object used as default for `switch` statements."
 
 unreachable!.
 	doc. "Call this to mark code as unreachable."

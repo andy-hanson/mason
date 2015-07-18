@@ -33,6 +33,9 @@ export default class Slice {
 	head() {
 		return this.tokens[this.start]
 	}
+	headSlice() {
+		return Slice.group(this.head())
+	}
 
 	second() {
 		return this.tokens[this.start + 1]
@@ -83,6 +86,11 @@ export default class Slice {
 	map(f) {
 		const out = []
 		this.each(_ => out.push(f(_)))
+		return out
+	}
+	mapSlices(f) {
+		const out = []
+		this.each(_ => out.push(f(Slice.group(_))))
 		return out
 	}
 

@@ -176,8 +176,8 @@ kind?.
 	|implementor kind:Kind
 		case implementor
 			:Kind
-				_.super-kinds.some |super
-					or (=? super kind) (kind? super kind
+				_.super-kinds.some |super-kind
+					or (=? super-kind kind) (kind? super-kind kind
 			else
 				_ = implementor.prototype
 				:kind

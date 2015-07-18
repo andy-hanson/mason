@@ -87,9 +87,9 @@ apply-with-this.
 		f = |a
 			+ this a
 		[ f 1 [ 2 ] ] -> 3
-	|f:Function new-this arguments:@
+	|f:Function new-this args:@
 		# TODO:ES6 ...args
-		Function.prototype.apply.call f new-this (=> Array arguments)
+		Function.prototype.apply.call f new-this (=> Array args)
 
 call-with-this.
 	doc. "Like `apply-with-this` but does not take a list."

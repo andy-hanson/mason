@@ -33,14 +33,14 @@ Enum. Obj-Type
 	defaults.
 		prototype. |
 			Object.create Object.prototype
-	post-construct. !|enum
-		for! value-name in enum.values
-			enum-val = Object.create enum.prototype
+	post-construct. !|_
+		for! value-name in _.values
+			enum-val = Object.create _.prototype
 			p+! enum-val "name" value-name
-			p+! enum value-name enum-val
-		p+! enum.prototype "constructor" enum
-		impl! show enum |val
-			"{enum.name}.{val.name}"
+			p+! _ value-name enum-val
+		p+! _.prototype "constructor" _
+		impl! show _ |val
+			"{_.name}.{val.name}"
 
 kind! Enum Impl-Type
 

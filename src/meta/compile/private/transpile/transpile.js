@@ -1,9 +1,9 @@
 import { ArrayExpression, BinaryExpression, BlockStatement, BreakStatement, CallExpression,
-	CatchClause, ConditionalExpression, ContinueStatement, DebuggerStatement, ExpressionStatement,
-	ForOfStatement, FunctionExpression, Identifier, IfStatement, Literal, LogicalExpression,
-	NewExpression, ObjectExpression, Program, ReturnStatement, TemplateLiteral, ThisExpression,
-	ThrowStatement, TryStatement, VariableDeclaration, UnaryExpression, VariableDeclarator,
-	ReturnStatement } from 'esast/dist/ast'
+	CatchClause, ClassBody, ClassExpression, ConditionalExpression, ContinueStatement,
+	DebuggerStatement, ExpressionStatement, ForOfStatement, FunctionExpression, Identifier,
+	IfStatement, Literal, LogicalExpression, MethodDefinition, NewExpression, ObjectExpression,
+	Program, ReturnStatement, TemplateLiteral, ThisExpression, ThrowStatement, TryStatement,
+	VariableDeclaration, UnaryExpression, VariableDeclarator } from 'esast/dist/ast'
 import { idCached, loc, member, propertyIdOrLiteralCached, toStatement } from 'esast/dist/util'
 import { assignmentExpressionPlain, callExpressionThunk, functionExpressionPlain,
 	functionExpressionThunk, memberExpression, property,
@@ -177,6 +177,15 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 	CaseDoPart: casePart,
 	CaseValPart: casePart,
 
+	Class() {
+		const methods = cat(
+			this.statics.map(methodDefinition(false, true)),
+			opMap(this.opConstructor, methodDefinition(true, false)),
+			this.methods.map(methodDefinition(false, false)))
+		const opName = opMap(this.opName, idCached)
+		return ClassExpression(opName, opMap(this.superClass, t0), ClassBody(methods))
+	},
+
 	ConditionalDo() {
 		return IfStatement(
 			this.isUnless ? UnaryExpression('!', maybeBoolWrap(t0(this.test))) : t0(this.test),
@@ -235,7 +244,7 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 		const body = t3(this.block, lead, this.opResDeclare, _out)
 		const args = this.args.map(t0)
 		isInGenerator = oldInGenerator
-		const id = opMap(this.name, idCached)
+		const id = opMap(this.opName, idCached)
 		return FunctionExpression(id, args, body, this.isGenerator)
 	},
 
@@ -399,6 +408,19 @@ const
 				return ForOfStatement(declare, t0(bag), t0(block))
 			},
 			() => forStatementInfinite(t0(block))),
+
+	methodDefinition = (isConstructor, isStatic) => fun => {
+		assert(fun.opName !== null)
+		const key = propertyIdOrLiteralCached(fun.opName)
+		// This is handled by `key`.
+		value.id = null
+		const value = t0(fun)
+		// TODO: get/set!
+		const kind = isConstructor ? 'constructor' : 'method'
+		// TODO: computed class properties
+		const computed = false
+		return MethodDefinition(key, value, kind, isStatic, computed)
+	},
 
 	transpileBlock = (returned, lines, lead = null, opResDeclare = null, opOut = null) => {
 		const fin = ifElse(opResDeclare,

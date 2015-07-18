@@ -347,7 +347,18 @@ export const
 			// and either it has a type or opOut is non-empty.
 			'opResDeclare', Nullable(LocalDeclareRes),
 			'opOut', Nullable(Debug),
-			'name', Nullable(String)
+			'opName', Nullable(String)
+		]),
+
+	Class = v('Class',
+		'TODO:DOC',
+		// Every Fun in statics and methods must have a name.
+		[
+			'superClass', Nullable(Val),
+			'statics', [Fun],
+			'opConstructor', Nullable(Fun),
+			'methods', [Fun],
+			'opName', Nullable(String)
 		]),
 
 	Lazy = v('Lazy',

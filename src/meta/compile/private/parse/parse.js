@@ -2,23 +2,23 @@ import Loc from 'esast/dist/Loc'
 import { code } from '../../CompileError'
 import { Assert, AssignDestructure, AssignSingle, BagEntry, BagEntryMany, BagSimple, BlockBag,
 	BlockDo, BlockMap, BlockObj, BlockValThrow, BlockWithReturn, BlockWrap, BreakDo, BreakVal,
-	Call, CaseDoPart, CaseValPart, CaseDo, CaseVal, Catch, ConditionalDo, ConditionalVal, Continue,
-	Debug, Iteratee, NumberLiteral, ExceptDo, ExceptVal, ForBag, ForDo, ForVal, Fun, GlobalAccess,
-	L_And, L_Or, Lazy, LD_Const, LD_Lazy, LD_Mutable, LocalAccess, LocalDeclare, LocalDeclareFocus,
-	LocalDeclareName, LocalDeclarePlain, LocalDeclareRes, LocalDeclareUntyped, LocalMutate, Logic,
-	MapEntry, Member, Module, New, Not, ObjEntry, ObjPair, ObjSimple, Pattern, Quote, SP_Debugger,
-	SpecialDo, SpecialVal, SV_Null, Splat, Throw, Val, Use, UseDo, Yield, YieldTo
-	} from '../../MsAst'
+	Call, CaseDoPart, CaseValPart, CaseDo, CaseVal, Catch, Class, ConditionalDo, ConditionalVal,
+	Continue, Debug, Iteratee, NumberLiteral, ExceptDo, ExceptVal, ForBag, ForDo, ForVal, Fun,
+	GlobalAccess, L_And, L_Or, Lazy, LD_Const, LD_Lazy, LD_Mutable, LocalAccess, LocalDeclare,
+	LocalDeclareFocus, LocalDeclareName, LocalDeclarePlain, LocalDeclareRes, LocalDeclareUntyped,
+	LocalMutate, Logic, MapEntry, Member, Module, New, Not, ObjEntry, ObjPair, ObjSimple, Pattern,
+	Quote, SP_Debugger, SpecialDo, SpecialVal, SV_Null, Splat, Throw, Val, Use, UseDo, Yield,
+	YieldTo } from '../../MsAst'
 import { JsGlobals } from '../language'
 import { DotName, Group, G_Block, G_Bracket, G_Parenthesis, G_Space, G_Quote, isGroup, isKeyword,
 	Keyword, KW_And, KW_Assert, KW_AssertNot, KW_Assign, KW_AssignMutable, KW_BreakDo, KW_BreakVal,
-	KW_CaseVal, KW_CaseDo, KW_CatchDo, KW_CatchVal, KW_Continue, KW_Debug, KW_Debugger,
-	KW_Ellipsis, KW_Else, KW_ExceptDo, KW_ExceptVal, KW_Finally, KW_ForBag, KW_ForDo, KW_ForVal,
-	KW_Focus, KW_Fun, KW_FunDo, KW_GenFun, KW_GenFunDo, KW_IfDo, KW_IfVal, KW_In, KW_Lazy,
-	KW_LocalMutate, KW_MapEntry, KW_New, KW_Not, KW_ObjAssign, KW_Or, KW_Pass, KW_Out, KW_Region,
-	KW_Throw, KW_TryDo, KW_TryVal, KW_Type, KW_UnlessDo, KW_UnlessVal, KW_Use, KW_UseDebug,
-	KW_UseDo, KW_UseLazy, KW_Yield, KW_YieldTo, Name, keywordName, opKeywordKindToSpecialValueKind
-	} from '../Token'
+	KW_CaseVal, KW_CaseDo, KW_Class, KW_CatchDo, KW_CatchVal, KW_Construct, KW_Continue,
+	KW_Debug, KW_Debugger, KW_Ellipsis, KW_Else, KW_ExceptDo, KW_ExceptVal, KW_Finally, KW_ForBag,
+	KW_ForDo, KW_ForVal, KW_Focus, KW_Fun, KW_FunDo, KW_GenFun, KW_GenFunDo, KW_Get, KW_IfDo,
+	KW_IfVal, KW_In, KW_Lazy, KW_LocalMutate, KW_MapEntry, KW_New, KW_Not, KW_ObjAssign, KW_Or,
+	KW_Pass, KW_Out, KW_Region, KW_Set, KW_Static, KW_Throw, KW_TryDo, KW_TryVal, KW_Type,
+	KW_UnlessDo, KW_UnlessVal, KW_Use, KW_UseDebug, KW_UseDo, KW_UseLazy, KW_Yield, KW_YieldTo,
+	Name, keywordName, opKeywordKindToSpecialValueKind } from '../Token'
 import { assert, head, ifElse, flatMap, isEmpty, last,
 	opIf, opMap, push, repeat, rtail, tail, unshift } from '../util'
 import Slice from './Slice'
@@ -244,8 +244,7 @@ const parseCase = (isVal, casedFromFun, tokens) => {
 		[ block.rtail(), (isVal ? justBlockVal : justBlockDo)(KW_Else, lastLine.tail()) ] :
 		[ block, null ]
 
-	const parts = partLines.map(line => {
-		line = Slice.group(line)
+	const parts = partLines.mapSlices(line => {
 		const [ before, block ] = beforeAndBlock(line)
 		const test = _parseCaseTest(before)
 		const result = (isVal ? parseBlockVal : parseBlockDo)(block)
@@ -310,10 +309,10 @@ const
 		const opSplit = tokens.opSplitOnceWhere(token => {
 			if (token instanceof Keyword)
 				switch (token.kind) {
-					case KW_And: case KW_CaseVal: case KW_ExceptVal: case KW_ForBag: case KW_ForVal:
-					case KW_Fun: case KW_FunDo: case KW_GenFun: case KW_GenFunDo: case KW_IfVal:
-					case KW_New: case KW_Not: case KW_Or: case KW_UnlessVal: case KW_Yield:
-					case KW_YieldTo:
+					case KW_And: case KW_CaseVal: case KW_Class: case KW_ExceptVal: case KW_ForBag:
+					case KW_ForVal: case KW_Fun: case KW_FunDo: case KW_GenFun: case KW_GenFunDo:
+					case KW_IfVal: case KW_New: case KW_Not: case KW_Or: case KW_UnlessVal:
+					case KW_Yield: case KW_YieldTo:
 						return true
 					default:
 						return false
@@ -329,20 +328,16 @@ const
 								parseExprParts(after))
 						case KW_CaseVal:
 							return parseCase(true, false, after)
+						case KW_Class:
+							return parseClass(after)
 						case KW_ExceptVal:
 							return parseExcept(KW_ExceptVal, after)
 						case KW_ForBag:
 							return parseForBag(after)
 						case KW_ForVal:
 							return parseForVal(after)
-						case KW_Fun:
-							return parseFun(false, false, after)
-						case KW_FunDo:
-							return parseFun(true, false, after)
-						case KW_GenFun:
-							return parseFun(false, true, after)
-						case KW_GenFunDo:
-							return parseFun(true, true, after)
+						case KW_Fun: case KW_FunDo: case KW_GenFun: case KW_GenFunDo:
+							return parseFun(at.kind, after)
 						case KW_IfVal: case KW_UnlessVal: {
 							const [ before, block ] = beforeAndBlock(after)
 							return ConditionalVal(tokens.loc,
@@ -380,13 +375,11 @@ const
 		}
 	}
 
-const parseFun = (isDo, isGenerator, tokens) => {
+const parseFun = (kind, tokens) => {
+	const isDo = kind === KW_FunDo || kind === KW_GenFunDo
+	const isGenerator = kind === KW_GenFun || kind === KW_GenFunDo
 	const { opReturnType, rest } = _tryTakeReturnType(tokens)
-	checkNonEmpty(rest, () => `Expected an indented block.`)
 	const { args, opRestArg, block, opIn, opOut } = _funArgsAndBlock(isDo, rest)
-	for (const arg of args)
-		if (!arg.isLazy())
-			arg.kind = LD_Mutable
 	// Need res declare if there is a return type or out condition.
 	const opResDeclare = ifElse(opReturnType,
 		_ => LocalDeclareRes(_.loc, _),
@@ -409,6 +402,7 @@ const
 	},
 
 	_funArgsAndBlock = (isDo, tokens) => {
+		checkNonEmpty(tokens, 'Expected an indented block.')
 		const h = tokens.head()
 		// Might be `|case`
 		if (h instanceof Keyword && (h.kind === KW_CaseVal || h.kind === KW_CaseDo)) {
@@ -426,6 +420,9 @@ const
 		} else {
 			const [ before, blockLines ] = beforeAndBlock(tokens)
 			const { args, opRestArg } = _parseFunLocals(before)
+			for (const arg of args)
+				if (!arg.isLazy())
+					arg.kind = LD_Mutable
 			const [ opIn, rest0 ] = _tryTakeInOrOut(KW_In, blockLines)
 			const [ opOut, rest1 ] = _tryTakeInOrOut(KW_Out, rest0)
 			const block = (isDo ? parseBlockDo : parseBlockVal)(rest1)
@@ -451,11 +448,11 @@ const
 
 	_tryTakeInOrOut = (inOrOut, tokens) => {
 		if (!tokens.isEmpty()) {
-			const firstLine = tokens.head()
-			if (isKeyword(inOrOut, head(firstLine.subTokens))) {
+			const firstLine = tokens.headSlice()
+			if (isKeyword(inOrOut, firstLine.head())) {
 				const inOut = Debug(
 					firstLine.loc,
-					parseLinesFromBlock(Slice.group(firstLine)))
+					parseLinesFromBlock(firstLine))
 				return [ inOut, tokens.tail() ]
 			}
 		}
@@ -621,8 +618,8 @@ const
 	// It's an Obj block
 	// It's an Obj block at the end of a call (as in `name = Obj-Type ...`)
 	_tryAddName = (_, name) => {
-		if (_ instanceof Fun)
-			_.name = name
+		if (_ instanceof Fun || _ instanceof Class)
+			_.opName = name
 		else if (_ instanceof Call && _.args.length > 0)
 			_tryAddObjName(last(_.args), name)
 		else
@@ -632,7 +629,7 @@ const
 	_tryAddObjName = (_, name) => {
 		if (_ instanceof BlockWrap && _.block instanceof BlockObj)
 			if (_.block.opObjed !== null && _.block.opObjed instanceof Fun)
-				_.block.opObjed.name = name
+				_.block.opObjed.opName = name
 			else if (!_nameObjAssignSomewhere(_.block.lines))
 				_.block.opName = name
 	},
@@ -757,7 +754,7 @@ const parseSpaced = tokens => {
 
 const tryParseUses = (k, tokens) => {
 	if (!tokens.isEmpty()) {
-		const line0 = Slice.group(tokens.head())
+		const line0 = tokens.headSlice()
 		if (isKeyword(k, line0.head()))
 			return [ _parseUses(k, line0.tail()), tokens.tail() ]
 	}
@@ -770,8 +767,7 @@ const
 		const [ before, lines ] = beforeAndBlock(tokens)
 		checkEmpty(before, () =>
 			`Did not expect anything after ${code(useKeywordKind)} other than a block`)
-		return lines.map(line => {
-			line = Slice.group(line)
+		return lines.mapSlices(line => {
 			const { path, name } = _parseRequire(line.head())
 			if (useKeywordKind === KW_UseDo) {
 				if (line.size() > 1)
@@ -885,7 +881,7 @@ const
 		const lines = justBlock(kwExcept, tokens)
 
 		// `try` *must* come first.
-		const firstLine = Slice.group(lines.head())
+		const firstLine = lines.headSlice()
 		const tokenTry = firstLine.head()
 		context.check(isKeyword(kwTry, tokenTry), tokenTry.loc, () =>
 			`Must start with ${nameTry()}`)
@@ -896,7 +892,7 @@ const
 			`Must have at least one of ${nameCatch()} or ${nameFinally()}`)
 
 		const handleFinally = restLines => {
-			const line = Slice.group(restLines.head())
+			const line = restLines.headSlice()
 			const tokenFinally = line.head()
 			context.check(isKeyword(KW_Finally, tokenFinally), tokenFinally.loc, () =>
 				`Expected ${nameFinally()}`)
@@ -907,7 +903,7 @@ const
 
 		let _catch, _finally
 
-		const line2 = Slice.group(restLines.head())
+		const line2 = restLines.headSlice()
 		const head2 = line2.head()
 		if (isKeyword(kwCatch, head2)) {
 			const [ before2, block2 ] = beforeAndBlock(line2.tail())
@@ -942,3 +938,69 @@ const parseAssert = (negate, tokens) => {
 	const cond = parts.length === 1 ? parts[0] : Call(condTokens.loc, parts[0], tail(parts))
 	return Assert(tokens.loc, negate, cond, opThrown)
 }
+
+const parseClass = tokens => {
+	const [ before, block ] = beforeAndBlock(tokens)
+	const opExtended = opIf(!before.isEmpty(), () => parseExpr(before))
+
+	const line1 = block.headSlice()
+	const [ statics, rest ] = isKeyword(KW_Static, line1.head()) ?
+		[ _parseStatics(line1.tail()), block.tail() ] :
+		[ [ ], block ]
+
+	const line2 = rest.headSlice()
+	const [ opConstructor, rest2 ] = isKeyword(KW_Construct, line2.head()) ?
+		[ _parseConstructor(line2.tail()), rest.tail() ] :
+		[ null, rest ]
+
+	const methods = _parseMethods(rest2)
+
+	return Class(tokens.loc, opExtended, statics, opConstructor, methods)
+}
+
+const
+	_parseConstructor = tokens => {
+		const { args, opRestArg, block, opIn, opOut } = _funArgsAndBlock(true, tokens)
+		const isGenerator = false, opResDeclare = null
+		return Fun(tokens.loc,
+			isGenerator,
+			args, opRestArg,
+			block, opIn, opResDeclare, opOut,
+			'constructor')
+	},
+	_parseStatics = tokens => {
+		const block = justBlock(KW_Static, tokens)
+		return _parseMethods(block)
+	},
+	_parseMethods = tokens => tokens.mapSlices(_parseMethod),
+	_parseMethod = tokens => {
+		const nameToken = tokens.head()
+
+		if (isKeyword(KW_Get, nameToken) || isKeyword(KW_Set, nameToken))
+			context.fail(nameToken.loc, 'TODO: get/set!')
+
+		context.check(nameToken instanceof Name, nameToken.loc, () =>
+			`Expected name, got ${nameToken}`)
+		const name = nameToken.name
+
+		const fun = _parseMethodFun(tokens.tail())
+		assert(fun.opName === null)
+		fun.opName = name
+		return fun
+	},
+	_parseMethodFun = tokens => {
+		const funKindToken = tokens.head()
+		context.check(_isFunKind(funKindToken), funKindToken.loc, () =>
+			`Expected function, got ${funKindToken}`)
+		return parseFun(funKindToken.kind, tokens.tail())
+	},
+	_isFunKind = token => {
+		if (!(token instanceof Keyword))
+			return false
+		switch (token.kind) {
+			case KW_Fun: case KW_GenFun: case KW_FunDo: case KW_GenFunDo:
+				return true
+			default:
+				return false
+		}
+	}
