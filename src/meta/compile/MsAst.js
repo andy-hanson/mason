@@ -399,4 +399,11 @@ export const
 	SV_Undefined = 6,
 	SpecialVal = v('SpecialVal',
 		'TODO:DOC',
-		[ 'kind', Number ])
+		[ 'kind', Number ]),
+
+	MS_New = 0,
+	MS_Mutate = 1,
+	MS_NewMutable = 2,
+	MemberSet = d('SetProperty',
+		'TODO:DOC',
+		[ 'object', Val, 'name', String, 'kind', Number, 'value', Val ])

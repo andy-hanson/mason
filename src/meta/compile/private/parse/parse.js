@@ -6,9 +6,10 @@ import { Assert, AssignDestructure, AssignSingle, BagEntry, BagEntryMany, BagSim
 	Continue, Debug, Iteratee, NumberLiteral, ExceptDo, ExceptVal, ForBag, ForDo, ForVal, Fun,
 	GlobalAccess, L_And, L_Or, Lazy, LD_Const, LD_Lazy, LD_Mutable, LocalAccess, LocalDeclare,
 	LocalDeclareFocus, LocalDeclareName, LocalDeclarePlain, LocalDeclareRes, LocalDeclareThis,
-	LocalDeclareUntyped, LocalMutate, Logic, MapEntry, Member, Module, New, Not, ObjEntry, ObjPair,
-	ObjSimple, Pattern, Quote, SP_Debugger, SpecialDo, SpecialVal, SV_Null, Splat, Throw, Val, Use,
-	UseDo, Yield, YieldTo } from '../../MsAst'
+	LocalDeclareUntyped, LocalMutate, Logic, MapEntry, Member, MemberSet, Module, MS_Mutate,
+	MS_New, MS_NewMutable, New, Not, ObjEntry, ObjPair, ObjSimple, Pattern, Quote, SP_Debugger,
+	SpecialDo, SpecialVal, SV_Null, Splat, Throw, Val, Use, UseDo, Yield, YieldTo
+	} from '../../MsAst'
 import { JsGlobals } from '../language'
 import { DotName, Group, G_Block, G_Bracket, G_Parenthesis, G_Space, G_Quote, isGroup, isKeyword,
 	Keyword, KW_And, KW_Assert, KW_AssertNot, KW_Assign, KW_AssignMutable, KW_BreakDo, KW_BreakVal,
@@ -555,13 +556,7 @@ const
 			}
 
 		return ifElse(tokens.opSplitOnceWhere(_isLineSplitKeyword),
-			({ before, at, after }) => {
-				return at.kind === KW_MapEntry ?
-					_parseMapEntry(before, after, tokens.loc) :
-					at.kind === KW_LocalMutate ?
-					_parseLocalMutate(before, after, tokens.loc) :
-					_parseAssign(before, at, after, tokens.loc)
-			},
+			({ before, at, after }) => _parseAssignLike(before, at, after, tokens.loc),
 			() => parseExpr(tokens))
 	},
 
@@ -583,6 +578,44 @@ const
 			}
 		else
 			return false
+	},
+
+	_parseAssignLike = (before, at, after, loc) => {
+		if (at.kind === KW_MapEntry)
+			return _parseMapEntry(before, after, loc)
+
+		// TODO: This code is kind of ugly.
+		if (before.size() === 1) {
+			const token = before.head()
+			if (token instanceof DotName)
+				return _parseMemberSet(	LocalDeclareThis(token.loc), token.name, at, after, loc)
+			if (isGroup(G_Space, token)) {
+				const spaced = Slice.group(token)
+				if (spaced.size() === 2) {
+					const dot = spaced.second()
+					if (dot instanceof DotName) {
+						context.check(dot.nDots === 1, dot.loc, 'Must have only 1 `.`.')
+						return _parseMemberSet(
+							parseSingle(spaced.head()), spaced.second().name, at, after, loc)
+					}
+				}
+			}
+		}
+
+		return at.kind === KW_LocalMutate ?
+			_parseLocalMutate(before, after, loc) :
+			_parseAssign(before, at, after, loc)
+	},
+
+	_parseMemberSet = (object, name, at, after, loc) =>
+		MemberSet(loc, object, name, _memberSetKind(at), parseExpr(after)),
+	_memberSetKind = at => {
+		switch (at.kind) {
+			case KW_Assign: return MS_New
+			case KW_AssignMutable: return MS_NewMutable
+			case KW_LocalMutate: return MS_Mutate
+			default: throw new Error()
+		}
 	},
 
 	_parseLocalMutate = (localsTokens, valueTokens, loc) => {
@@ -674,6 +707,7 @@ const
 			line instanceof ObjEntry && line.assign.allAssignees().some(_ =>
 				_.name === 'name')),
 
+	//move
 	_parseMapEntry = (before, after, loc) =>
 		MapEntry(loc, parseExpr(before), parseExpr(after))
 

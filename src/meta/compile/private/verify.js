@@ -342,6 +342,11 @@ implementMany(MsAstTypes, 'verify', {
 
 	Member() { this.object.verify() },
 
+	MemberSet() {
+		this.object.verify()
+		this.value.verify()
+	},
+
 	Module() {
 		// No need to verify this.doUses.
 		this.uses.forEach(verify)

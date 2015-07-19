@@ -1,16 +1,16 @@
-import { ArrayExpression, ArrowFunctionExpression, BinaryExpression, BlockStatement, BreakStatement, CallExpression,
-	CatchClause, ClassBody, ClassExpression, ConditionalExpression, ContinueStatement,
-	DebuggerStatement, ExpressionStatement, ForOfStatement, FunctionExpression, Identifier,
-	IfStatement, Literal, LogicalExpression, MethodDefinition, NewExpression, ObjectExpression,
-	Program, ReturnStatement, TemplateLiteral, ThisExpression, ThrowStatement, TryStatement,
-	VariableDeclaration, UnaryExpression, VariableDeclarator } from 'esast/dist/ast'
+import { ArrayExpression, ArrowFunctionExpression, BinaryExpression, BlockStatement, BreakStatement,
+	CallExpression, CatchClause, ClassBody, ClassExpression, ConditionalExpression,
+	ContinueStatement, DebuggerStatement, ExpressionStatement, ForOfStatement, FunctionExpression,
+	Identifier, IfStatement, Literal, LogicalExpression, MethodDefinition, NewExpression,
+	ObjectExpression, Program, ReturnStatement, TemplateLiteral, ThisExpression, ThrowStatement,
+	TryStatement, VariableDeclaration, UnaryExpression, VariableDeclarator } from 'esast/dist/ast'
 import { idCached, loc, member, propertyIdOrLiteralCached, toStatement } from 'esast/dist/util'
 import { assignmentExpressionPlain, callExpressionThunk, functionExpressionThunk, memberExpression,
 	property, yieldExpressionDelegate, yieldExpressionNoDelegate } from 'esast/dist/specialize'
 import * as MsAstTypes from '../../MsAst'
-import { AssignSingle, Call, L_And, L_Or, LD_Lazy, LD_Mutable, Pattern, Splat, SD_Debugger,
-	SV_Contains, SV_False, SV_Null, SV_Sub, SV_ThisModuleDirectory, SV_True, SV_Undefined
-	} from '../../MsAst'
+import { AssignSingle, Call, L_And, L_Or, LD_Lazy, LD_Mutable, MS_Mutate, MS_New, MS_NewMutable,
+	Pattern, Splat, SD_Debugger, SV_Contains, SV_False, SV_Null, SV_Sub, SV_ThisModuleDirectory,
+	SV_True, SV_Undefined } from '../../MsAst'
 import manglePath from '../manglePath'
 import { assert, cat, flatMap, flatOpMap, ifElse, isEmpty,
 	implementMany, isPositive, opIf, opMap, tail, unshift } from '../util'
@@ -101,7 +101,7 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 	BagSimple() { return ArrayExpression(this.parts.map(t0)) },
 
 	BlockDo(lead, opDeclareRes, opOut) {
-		//todo:es6
+		// TODO:ES6 Optional arguments
 		if (lead === undefined) lead = null
 		if (opDeclareRes === undefined) opDeclareRes = null
 		if (opOut === undefined) opOut = null
@@ -110,7 +110,7 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 	},
 
 	BlockValThrow(lead, opDeclareRes, opOut) {
-		//todo:es6
+		// TODO:ES6 Optional arguments
 		if (lead === undefined) lead = null
 		if (opDeclareRes === undefined) opDeclareRes = null
 		if (opOut === undefined) opOut = null
@@ -296,6 +296,21 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 	MapEntry() { return msAssoc(IdBuilt, t0(this.key), t0(this.val)) },
 
 	Member() { return member(t0(this.object), this.name) },
+
+	MemberSet() {
+		const x = member(t0(this.object), this.name)
+		switch (this.kind) {
+			case MS_Mutate:
+				return assignmentExpressionPlain(x, t0(this.value))
+			case MS_New:
+				// TODO: Object.defineProperty(obj, 'name', { writable: false, value: val })
+				return assignmentExpressionPlain(x, t0(this.value))
+			case MS_NewMutable:
+				// TODO: Object.defineProperty(obj, 'x', { writable: true, value: 1 })
+				return assignmentExpressionPlain(x, t0(this.value))
+			default: throw new Error()
+		}
+	},
 
 	Module() {
 		const body = cat(
