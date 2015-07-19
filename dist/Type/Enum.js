@@ -1,15 +1,15 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","../Objectbang","../show","./Impl-Type","./Kind","./Method","./Obj-Type","./Type","../compare","./Type"],function(exports,Object_33_0,show_1,Impl_45Type_2,Kind_3,Method_4,Obj_45Type_5,Type_6,compare_7,Type_8){
-	exports._get=_ms.lazy(function(){
+define(["exports","../Objectbang","../show","./Impl-Type","./Kind","./Method","./Obj-Type","./Type","../compare","./Type"],(exports,Object_33_0,show_1,Impl_45Type_2,Kind_3,Method_4,Obj_45Type_5,Type_6,compare_7,Type_8)=>{
+	exports._get=_ms.lazy(()=>{
 		const _$2=_ms.getModule(Object_33_0),p_43_33=_ms.get(_$2,"p+!"),show=_ms.getDefaultExport(show_1),Impl_45Type=_ms.getDefaultExport(Impl_45Type_2),_$5=_ms.getModule(Kind_3),kind_33=_ms.get(_$5,"kind!"),_$6=_ms.getModule(Method_4),impl_33=_ms.get(_$6,"impl!"),Obj_45Type=_ms.getDefaultExport(Obj_45Type_5),_$8=_ms.getModule(Type_6),contains_63=_ms.get(_$8,"contains?"),_$10=_ms.lazyGetModule(compare_7),_61_63=_ms.lazyProp(_$10,"=?"),_$11=_ms.lazyGetModule(Type_8),type_45of=_ms.lazyProp(_$11,"type-of");
-		const Enum=Obj_45Type(function(){
+		const Enum=Obj_45Type(()=>{
 			const built={};
 			const doc=built.doc=`A Concrete-Type with a small number of instances.\nGreat for using with \`switch\`.`;
 			const test=built.test=function test(){
-				const Fruit=Enum(function(){
+				const Fruit=Enum(()=>{
 					const built={};
-					const values=built.values=function(){
+					const values=built.values=()=>{
 						const built=[];
 						_ms.add(built,`apple`);
 						_ms.add(built,`orange`);
@@ -17,7 +17,7 @@ define(["exports","../Objectbang","../show","./Impl-Type","./Kind","./Method",".
 					}();
 					return _ms.setName(built,"Fruit")
 				}());
-				const prices=function(){
+				const prices=()=>{
 					const built=new global.Map();
 					_ms.assoc(built,Fruit.apple,1);
 					_ms.assoc(built,Fruit.orange,2);
@@ -28,14 +28,14 @@ define(["exports","../Objectbang","../show","./Impl-Type","./Kind","./Method",".
 				_ms.assert(_ms.unlazy(_61_63),_ms.unlazy(type_45of)(Fruit.apple),Fruit);
 				_ms.assert(_ms.unlazy(_61_63),`${_ms.show(Fruit.apple)}`,`Fruit.apple`)
 			};
-			const props=built.props=function(){
+			const props=built.props=()=>{
 				const built={};
 				const name=built.name=String;
 				const prototype=built.prototype=Object;
 				const values=built.values=_ms.sub(Array,String);
 				return built
 			}();
-			const defaults=built.defaults=function(){
+			const defaults=built.defaults=()=>{
 				const built={};
 				const prototype=built.prototype=function prototype(){
 					return Object.create(Object.prototype)
@@ -49,14 +49,14 @@ define(["exports","../Objectbang","../show","./Impl-Type","./Kind","./Method",".
 					p_43_33(_,value_45name,enum_45val)
 				};
 				p_43_33(_.prototype,`constructor`,_);
-				impl_33(show,_,function(val){
+				impl_33(show,_,val=>{
 					return `${_ms.show(_.name)}.${_ms.show(val.name)}`
 				})
 			};
 			return _ms.setName(built,"Enum")
 		}());
 		kind_33(Enum,Impl_45Type);
-		impl_33(contains_63,Enum,function(_,value){
+		impl_33(contains_63,Enum,(_,value)=>{
 			return Object.prototype.isPrototypeOf.call(_.prototype,value)
 		});
 		const name=exports.name=`Enum`;
@@ -64,4 +64,4 @@ define(["exports","../Objectbang","../show","./Impl-Type","./Kind","./Method",".
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL0VudW0ubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFZQSxXQUFNLHFCQUNROztHQUFiLG9CQUNDO0dBRUQsc0JBQ1EsZUFBQTtJQUFQLFlBQVEsZUFDSTs7S0FBWCxvQ0FDTzs7b0JBQUg7b0JBQ0E7Ozs7O0lBQ0wsdUJBQ1E7O3FCQUFQLFlBQWU7cUJBQ2YsYUFBZ0I7OzswQ0FDTixPQUFPLGFBQWE7MENBQ3BCLE9BQU8sY0FBYzt3REFDWixhQUFhO2tDQUNyQixZQUFDLGVBQWU7O0dBQzdCLGtDQUNNOztJQUFMLHNCQUFNO0lBQ04sZ0NBQVc7SUFDWCxrQ0FBUSxNQUFNOzs7R0FDZix3Q0FDUzs7SUFBUixnQ0FDWSxvQkFBQTtZQUFYLGNBQWM7Ozs7R0FDaEIsK0NBQWtCLDBCQUFBLEVBQ0M7SUFBYixRQUFBLGdCQUFjLFNBQ1E7S0FBMUIsaUJBQVcsY0FBYztLQUN6QixRQUFJLFdBQVUsT0FBTTtLQUNwQixRQUFJLEVBQUUsYUFBVztJQUFBO0lBQ2xCLFFBQUksWUFBYSxjQUFhO0lBQzlCLFFBQU0sS0FBSyxFQUFHLFNBQUEsSUFDRztZQUFmLFlBQUMsb0JBQVM7Ozs7O0VBRWQsUUFBTSxLQUFLO0VBRVgsUUFBTSxZQUFVLEtBQU0sU0FBQSxFQUFFLE1BQ0s7VUFBNUIsb0NBQW9DLFlBQVk7RUFBQTtFQS9DakQsd0JBQUE7a0JBWUEiLCJmaWxlIjoiVHlwZS9FbnVtLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL0VudW0ubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFZQSxXQUFNLGVBQ1E7O0dBQWIsb0JBQ0M7R0FFRCxzQkFDUSxlQUFBO0lBQVAsWUFBUSxTQUNJOztLQUFYLDhCQUNPOztvQkFBSDtvQkFDQTs7Ozs7SUFDTCxpQkFDUTs7cUJBQVAsWUFBZTtxQkFDZixhQUFnQjs7OzBDQUNOLE9BQU8sYUFBYTswQ0FDcEIsT0FBTyxjQUFjO3dEQUNaLGFBQWE7a0NBQ3JCLFlBQUMsZUFBZTs7R0FDN0IsNEJBQ007O0lBQUwsc0JBQU07SUFDTixnQ0FBVztJQUNYLGtDQUFRLE1BQU07OztHQUNmLGtDQUNTOztJQUFSLGdDQUNZLG9CQUFBO1lBQVgsY0FBYzs7OztHQUNoQiwrQ0FBa0IsMEJBQUEsRUFDQztJQUFiLFFBQUEsZ0JBQWMsU0FDUTtLQUExQixpQkFBVyxjQUFjO0tBQ3pCLFFBQUksV0FBVSxPQUFNO0tBQ3BCLFFBQUksRUFBRSxhQUFXO0lBQUE7SUFDbEIsUUFBSSxZQUFhLGNBQWE7SUFDOUIsUUFBTSxLQUFLLEVBQUcsS0FDRztZQUFmLFlBQUMsb0JBQVM7Ozs7O0VBRWQsUUFBTSxLQUFLO0VBRVgsUUFBTSxZQUFVLEtBQU0sQ0FBQSxFQUFFLFFBQ0s7VUFBNUIsb0NBQW9DLFlBQVk7RUFBQTtFQS9DakQsd0JBQUE7a0JBWUEiLCJmaWxlIjoiVHlwZS9FbnVtLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

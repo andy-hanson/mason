@@ -1,8 +1,8 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports"],function(exports){
-	exports._get=_ms.lazy(function(){
-		const implies=exports.implies=function(){
+define(["exports"],exports=>{
+	exports._get=_ms.lazy(()=>{
+		const implies=exports.implies=()=>{
 			const built={};
 			const doc=built.doc=`Whether \`then\` is true whenever \`if\` is.\nAlways true when \`if\` is false.`;
 			const test=built.test=function test(){
@@ -15,7 +15,7 @@ define(["exports"],function(exports){
 			};
 			return _ms.set(function implies(if_63,then_63){
 				_ms.checkContains(Boolean,if_63,"if?");
-				return function(){
+				return ()=>{
 					if(_ms.bool(if_63)){
 						return _ms.unlazy(then_63)
 					} else {
@@ -24,7 +24,7 @@ define(["exports"],function(exports){
 				}()
 			},built)
 		}();
-		const xor=exports.xor=function(){
+		const xor=exports.xor=()=>{
 			const built={};
 			const doc=built.doc=`True if \`a\` and \`b\` differ.`;
 			const test=built.test=function test(){
@@ -38,7 +38,7 @@ define(["exports"],function(exports){
 			return _ms.set(function xor(a,b){
 				_ms.checkContains(Boolean,a,"a");
 				_ms.checkContains(Boolean,b,"b");
-				return function(){
+				return ()=>{
 					if(_ms.bool(a)){
 						return ! b
 					} else {
@@ -51,4 +51,4 @@ define(["exports"],function(exports){
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9Cb29sZWFuLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7RUFBQSx3Q0FDUTs7R0FBUCxvQkFDQztHQUVELHNCQUNPLGVBQUE7O29CQUFOLENBQUUsTUFBTSxPQUFXO29CQUNuQixDQUFFLE1BQU0sTUFBVTtvQkFDbEIsQ0FBRSxLQUFLLE9BQVc7b0JBQ2xCLENBQUUsS0FBSyxNQUFVOzs7a0JBQ2pCLGlCQUFBLE1BQVksUUFDYztzQkFEdEI7O0tBRUgsWUFBQSxPQUNHO3dCQUhRO0tBQUEsT0FLUDthQUFIO0tBQUE7SUFBQTtHQUFBOztFQUVKLGdDQUNJOztHQUFILG9CQUFNO0dBQ04sc0JBQ08sZUFBQTs7b0JBQU4sQ0FBRSxNQUFNLE9BQVc7b0JBQ25CLENBQUUsTUFBTSxNQUFVO29CQUNsQixDQUFFLEtBQUssT0FBVztvQkFDbEIsQ0FBRSxLQUFLLE1BQVU7OztrQkFDakIsYUFBQSxFQUFVLEVBQ1M7c0JBRGpCO3NCQUFVOztLQUVYLFlBQUEsR0FDQzthQUFBLEVBQUk7S0FBQSxPQUVEO2FBQUg7S0FBQTtJQUFBO0dBQUE7O0VBNUJKLHdCQUFBIiwiZmlsZSI6IkJvb2xlYW4uanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9Cb29sZWFuLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7RUFBQSxrQ0FDUTs7R0FBUCxvQkFDQztHQUVELHNCQUNPLGVBQUE7O29CQUFOLENBQUUsTUFBTSxPQUFXO29CQUNuQixDQUFFLE1BQU0sTUFBVTtvQkFDbEIsQ0FBRSxLQUFLLE9BQVc7b0JBQ2xCLENBQUUsS0FBSyxNQUFVOzs7a0JBQ2pCLGlCQUFBLE1BQVksUUFDYztzQkFEdEI7O0tBRUgsWUFBQSxPQUNHO3dCQUhRO0tBQUEsT0FLUDthQUFIO0tBQUE7SUFBQTtHQUFBOztFQUVKLDBCQUNJOztHQUFILG9CQUFNO0dBQ04sc0JBQ08sZUFBQTs7b0JBQU4sQ0FBRSxNQUFNLE9BQVc7b0JBQ25CLENBQUUsTUFBTSxNQUFVO29CQUNsQixDQUFFLEtBQUssT0FBVztvQkFDbEIsQ0FBRSxLQUFLLE1BQVU7OztrQkFDakIsYUFBQSxFQUFVLEVBQ1M7c0JBRGpCO3NCQUFVOztLQUVYLFlBQUEsR0FDQzthQUFBLEVBQUk7S0FBQSxPQUVEO2FBQUg7S0FBQTtJQUFBO0dBQUE7O0VBNUJKLHdCQUFBIiwiZmlsZSI6IkJvb2xlYW4uanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

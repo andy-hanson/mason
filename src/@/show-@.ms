@@ -33,8 +33,8 @@ impl! show @
 				"[ ]"
 			else
 				# TODO: map (eager)
-				ems = @for _
-					indent (show _ opts
+				ems = @for elem in _
+					indent (show elem opts)
 				show-ems end = case
 					<? 100 count_
 						show-ems. take' ems 100

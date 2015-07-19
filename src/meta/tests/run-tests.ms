@@ -163,16 +163,17 @@ $test-fun.
 		else
 			[ ]
 
-@$-from-any =
-	|test-result
-		case test-result
-			:@
-				for! _
-					assert! :$ throw! "Result of test should be $, @[$], or undefined. Got: {_}"
-				_
-			:$
-				[ _ ]
-			defined?_
-				throw! "Result of test should be $, @[$], or undefined. Got: {_}"
-			else
-				[ ]
+@$-from-any = |test-result
+	case test-result
+		:@
+			for! elem in _
+				assert! contains? $ elem throw! "
+					Result of test should be $, @[$], or undefined.
+					Got @ containing: {elem}
+			_
+		:$
+			[ _ ]
+		defined?_
+			throw! "Result of test should be $, @[$], or undefined. Got: {_}"
+		else
+			[ ]

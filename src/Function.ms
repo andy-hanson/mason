@@ -159,8 +159,8 @@ spread.
 				# TODO: Mapping map is hard...
 				=> Array _
 			:@
-				@for _
-					[ _ ]
+				@for elem in _
+					[ elem ]
 			:Object
 				=> Array Object->Map_
 			else

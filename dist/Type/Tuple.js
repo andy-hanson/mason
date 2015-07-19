@@ -1,13 +1,13 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","esast/dist/mangle-identifier","../js","../private/bootstrap","../private/js-impl","./Impl-Type","./Kind","./Method","./Obj-Type","./Type","../compare"],function(exports,mangle_45identifier_0,js_1,bootstrap_2,js_45impl_3,Impl_45Type_4,Kind_5,Method_6,Obj_45Type_7,Type_8,compare_9){
-	exports._get=_ms.lazy(function(){
+define(["exports","esast/dist/mangle-identifier","../js","../private/bootstrap","../private/js-impl","./Impl-Type","./Kind","./Method","./Obj-Type","./Type","../compare"],(exports,mangle_45identifier_0,js_1,bootstrap_2,js_45impl_3,Impl_45Type_4,Kind_5,Method_6,Obj_45Type_7,Type_8,compare_9)=>{
+	exports._get=_ms.lazy(()=>{
 		const mangle_45identifier=_ms.getDefaultExport(mangle_45identifier_0),_$3=_ms.getModule(js_1),defined_63=_ms.get(_$3,"defined?"),js_45instanceof=_ms.get(_$3,"js-instanceof"),_$4=_ms.getModule(bootstrap_2),implContains=_ms.get(_$4,"implContains"),pAdd=_ms.get(_$4,"pAdd"),_$5=_ms.getModule(js_45impl_3),buildStr=_ms.get(_$5,"buildStr"),Impl_45Type=_ms.getDefaultExport(Impl_45Type_4),_$7=_ms.getModule(Kind_5),kind_33=_ms.get(_$7,"kind!"),_$8=_ms.getModule(Method_6),self_45impl_33=_ms.get(_$8,"self-impl!"),Obj_45Type=_ms.getDefaultExport(Obj_45Type_7),_$10=_ms.getModule(Type_8),extract=_ms.get(_$10,"extract"),_$12=_ms.lazyGetModule(compare_9),_61_63=_ms.lazyProp(_$12,"=?");
 		const access=function access(name){
 			return `["${_ms.show(name)}"]`
 		};
 		const get_45prop=function get_45prop(_){
-			return function(){
+			return ()=>{
 				if(_ms.bool(_ms.contains(Array,_))){
 					const built={};
 					const name=built.name=_ms.sub(_,0);
@@ -22,22 +22,22 @@ define(["exports","esast/dist/mangle-identifier","../js","../private/bootstrap",
 				} else throw new Error("No branch of `case` matches.")
 			}()
 		};
-		const Tuple=Obj_45Type(function(){
+		const Tuple=Obj_45Type(()=>{
 			const built={};
-			const props=built.props=function(){
+			const props=built.props=()=>{
 				const built={};
 				const name=built.name=String;
 				const props=built.props=Object;
 				const prototype=built.prototype=Object;
 				return built
 			}();
-			const opt_45props=built["opt-props"]=function(){
+			const opt_45props=built["opt-props"]=()=>{
 				const built={};
 				const post_45construct=built["post-construct"]=Function;
 				return _ms.setName(built,"opt-props")
 			}();
 			const extensible=built.extensible=true;
-			const defaults=built.defaults=function(){
+			const defaults=built.defaults=()=>{
 				const built={};
 				const prototype=built.prototype=function prototype(){
 					return Object.create(Object.prototype)
@@ -46,7 +46,7 @@ define(["exports","esast/dist/mangle-identifier","../js","../private/bootstrap",
 			}();
 			const make_45callable=built["make-callable"]=function make_45callable(tuple){
 				const props=tuple.props.map(get_45prop);
-				const args=function(){
+				const args=()=>{
 					const built=[];
 					for(let _ of props){
 						_ms.add(built,_.id)
@@ -54,7 +54,7 @@ define(["exports","esast/dist/mangle-identifier","../js","../private/bootstrap",
 					return built
 				}();
 				const argsStr=args.join(`,`);
-				const src=buildStr(function(add_33){
+				const src=buildStr(add_33=>{
 					const name=mangle_45identifier(tuple.name);
 					add_33(`return function ${_ms.show(name)}(${_ms.show(argsStr)}) {\nif (!(this instanceof ${_ms.show(name)})) return new ${_ms.show(name)}(${_ms.show(argsStr)})`);
 					for(let _ of props){
@@ -69,7 +69,7 @@ define(["exports","esast/dist/mangle-identifier","../js","../private/bootstrap",
 					};
 					return add_33(`}`)
 				});
-				const type_45args=function(){
+				const type_45args=()=>{
 					const built=[];
 					for(let _ of props){
 						_ms.add(built,`${_ms.show(_.id)}_type`)
@@ -77,7 +77,7 @@ define(["exports","esast/dist/mangle-identifier","../js","../private/bootstrap",
 					return built
 				}();
 				const make_45ctr=Function.apply.call(Function,null,[].concat(`postConstruct`,_ms.arr(type_45args),src));
-				const types=function(){
+				const types=()=>{
 					const built=[];
 					for(let _ of props){
 						_ms.add(built,_.type)
@@ -90,10 +90,10 @@ define(["exports","esast/dist/mangle-identifier","../js","../private/bootstrap",
 			};
 			const post_45construct=built["post-construct"]=function post_45construct(_){
 				pAdd(_.prototype,`constructor`,_);
-				const accesses=function(){
+				const accesses=()=>{
 					const built=[];
-					for(let _ of _.props){
-						_ms.add(built,`_${_ms.show(access(get_45prop(_).name))}`)
+					for(let prop of _.props){
+						_ms.add(built,`_${_ms.show(access(get_45prop(prop).name))}`)
 					};
 					return built
 				}();
@@ -103,9 +103,9 @@ define(["exports","esast/dist/mangle-identifier","../js","../private/bootstrap",
 				self_45impl_33(extract,_,extractor)
 			};
 			const test=built.test=function test(){
-				const Vec2=Tuple(function(){
+				const Vec2=Tuple(()=>{
 					const built={};
-					const props=built.props=function(){
+					const props=built.props=()=>{
 						const built=[];
 						_ms.add(built,`x`);
 						_ms.add(built,[`y`,Number]);
@@ -130,7 +130,7 @@ define(["exports","esast/dist/mangle-identifier","../js","../private/bootstrap",
 			};
 			return _ms.setName(built,"Tuple")
 		}());
-		implContains(Tuple,function(tuple,_){
+		implContains(Tuple,(tuple,_)=>{
 			return js_45instanceof(_,tuple)
 		});
 		kind_33(Tuple,Impl_45Type);
@@ -139,4 +139,4 @@ define(["exports","esast/dist/mangle-identifier","../js","../private/bootstrap",
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL1R1cGxlLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBYUEsYUFBVSxnQkFBQSxLQUNJO1VBQVosY0FBSTs7RUFFTixpQkFBWSxvQkFBQSxFQUFBOztJQUVYLHlCQUFDLE1BQUQsSUFDTTs7S0FBTCw4QkFBTSxFQUFFO0tBQ1Isa0JBQUksNEJBQWtCLEVBQUU7S0FDeEIsOEJBQU0sRUFBRTs7V0FDVCx5QkFBQyxPQUFELElBQ087O0tBQU4sc0JBQU07S0FDTixrQkFBSSxvQkFBaUI7Ozs7O0VBRXZCLFlBQU8scUJBQ1E7O0dBQWQsa0NBQ007O0lBQUwsc0JBQU07SUFDTix3QkFBTztJQUNQLGdDQUFXOzs7R0FDWiwrQ0FDVTs7SUFDVCwrQ0FBZ0I7OztHQUNqQixrQ0FBWTtHQUNaLHdDQUNTOztJQUFSLGdDQUNZLG9CQUFBO1lBQVgsY0FBYzs7OztHQUNoQiw2Q0FBZ0IseUJBQUEsTUFDSztJQUFwQixZQUFRLGdCQUFnQjtJQUV4Qjs7YUFBWSxLQUFBLE1BQ0s7b0JBQWhCOzs7O0lBQ0QsY0FBVSxVQUFXO0lBRXJCLFVBQU0sU0FBVSxTQUFBLE9BQ0k7S0FBbkIsV0FBTyxvQkFBa0I7S0FHekIsT0FDQyw0QkFBaUIsa0JBQU8sK0NBQ0QsK0JBQW9CLGtCQUFPO0tBRTlDLFFBQUEsS0FBQSxNQUNLO01BQVQsR0FBSSxXQUFTLFFBQ007T0FBbEIsT0FBTSw4QkFBbUIsd0JBQWEsb0JBQVU7O01BRWpELE9BQU0sZ0JBQUssT0FBTyx1QkFBVzs7S0FFOUIsT0FDQyxtQ0FBd0IsNkRBQ1M7S0FJbEMsR0FBSSxXQUFTLHlCQUNvQjtNQUFoQyxPQUFNOztZQUVQLE9BQU07O0lBRVA7O2FBQWlCLEtBQUEsTUFDSztvQkFBcEIsWUFBQzs7OztJQUNILHFDQUFXLHdCQUFVLHdCQUFlLGFBQWE7SUFDakQ7O2FBQWEsS0FBQSxNQUNLO29CQUFqQjs7OztJQUNELDhCQUFNLDBCQUFTLGdDQUFxQjtJQUM5QixLQUFLLElBQUssU0FBUTtXQUN4QjtHQUFBO0dBRUQsK0NBQWtCLDBCQUFBLEVBQ0M7SUFBbEIsS0FBSyxZQUFhLGNBQWE7SUFDL0I7O2FBQWdCLEtBQUEsUUFDTztvQkFBckIsYUFBRSxPQUFPLFdBQVE7Ozs7SUFDbkIsb0JBQWUsK0RBQXFELGNBQWU7SUFDbkYsdUJBQWlCLFNBQVUsUUFBTztJQUNsQyxnQkFBWSxpQkFBZTtJQUMzQixlQUFXLFFBQVEsRUFBRTtHQUFBO0dBRXRCLHNCQUNRLGVBQUE7SUFBUCxXQUFPLGdCQUNLOztLQUFYLGtDQUNNOztvQkFBRjtvQkFDRCxDQUFHLElBQUc7Ozs7O0lBQ1YsUUFBSSxLQUFLLEVBQUU7a0NBQ0EsRUFBRTtrQ0FDRixFQUFFO0lBQ1A7S0FBQSxRQUFBO0tBQ0w7MkJBQUMsS0FBRDtxQkFDUzs7cUNBQUcsRUFBRTtxQ0FDRixFQUFFO01BQUE7Ozs7OztFQUVqQixhQUFhLE1BQU8sU0FBQSxNQUFNLEVBQ0M7VUFBMUIsZ0JBQWMsRUFBRTtFQUFBO0VBRWpCLFFBQU0sTUFBTTtFQXhHWix3QkFBQTtrQkEwQkEiLCJmaWxlIjoiVHlwZS9UdXBsZS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL1R1cGxlLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBYUEsYUFBVSxnQkFBQSxLQUNJO1VBQVosY0FBSTs7RUFFTixpQkFBWSxvQkFBQSxFQUFBOztJQUVYLHlCQUFDLE1BQUQsSUFDTTs7S0FBTCw4QkFBTSxFQUFFO0tBQ1Isa0JBQUksNEJBQWtCLEVBQUU7S0FDeEIsOEJBQU0sRUFBRTs7V0FDVCx5QkFBQyxPQUFELElBQ087O0tBQU4sc0JBQU07S0FDTixrQkFBSSxvQkFBaUI7Ozs7O0VBRXZCLFlBQU8sZUFDUTs7R0FBZCw0QkFDTTs7SUFBTCxzQkFBTTtJQUNOLHdCQUFPO0lBQ1AsZ0NBQVc7OztHQUNaLHlDQUNVOztJQUNULCtDQUFnQjs7O0dBQ2pCLGtDQUFZO0dBQ1osa0NBQ1M7O0lBQVIsZ0NBQ1ksb0JBQUE7WUFBWCxjQUFjOzs7O0dBQ2hCLDZDQUFnQix5QkFBQSxNQUNLO0lBQXBCLFlBQVEsZ0JBQWdCO0lBRXhCOzthQUFZLEtBQUEsTUFDSztvQkFBaEI7Ozs7SUFDRCxjQUFVLFVBQVc7SUFFckIsVUFBTSxTQUFVLFFBQ0k7S0FBbkIsV0FBTyxvQkFBa0I7S0FHekIsT0FDQyw0QkFBaUIsa0JBQU8sK0NBQ0QsK0JBQW9CLGtCQUFPO0tBRTlDLFFBQUEsS0FBQSxNQUNLO01BQVQsR0FBSSxXQUFTLFFBQ007T0FBbEIsT0FBTSw4QkFBbUIsd0JBQWEsb0JBQVU7O01BRWpELE9BQU0sZ0JBQUssT0FBTyx1QkFBVzs7S0FFOUIsT0FDQyxtQ0FBd0IsNkRBQ1M7S0FJbEMsR0FBSSxXQUFTLHlCQUNvQjtNQUFoQyxPQUFNOztZQUVQLE9BQU07O0lBRVA7O2FBQWlCLEtBQUEsTUFDSztvQkFBcEIsWUFBQzs7OztJQUNILHFDQUFXLHdCQUFVLHdCQUFlLGFBQWE7SUFDakQ7O2FBQWEsS0FBQSxNQUNLO29CQUFqQjs7OztJQUNELDhCQUFNLDBCQUFTLGdDQUFxQjtJQUM5QixLQUFLLElBQUssU0FBUTtXQUN4QjtHQUFBO0dBRUQsK0NBQWtCLDBCQUFBLEVBQ0M7SUFBbEIsS0FBSyxZQUFhLGNBQWE7SUFDL0I7O2FBQWdCLFFBQVEsUUFDTztvQkFBN0IsYUFBRSxPQUFRLFdBQVM7Ozs7SUFDckIsb0JBQWUsK0RBQXFELGNBQWU7SUFDbkYsdUJBQWlCLFNBQVUsUUFBTztJQUNsQyxnQkFBWSxpQkFBZTtJQUMzQixlQUFXLFFBQVEsRUFBRTtHQUFBO0dBRXRCLHNCQUNRLGVBQUE7SUFBUCxXQUFPLFVBQ0s7O0tBQVgsNEJBQ007O29CQUFGO29CQUNELENBQUcsSUFBRzs7Ozs7SUFDVixRQUFJLEtBQUssRUFBRTtrQ0FDQSxFQUFFO2tDQUNGLEVBQUU7SUFDUDtLQUFBLFFBQUE7S0FDTDsyQkFBQyxLQUFEO3FCQUNTOztxQ0FBRyxFQUFFO3FDQUNGLEVBQUU7TUFBQTs7Ozs7O0VBRWpCLGFBQWEsTUFBTyxDQUFBLE1BQU0sSUFDQztVQUExQixnQkFBYyxFQUFFO0VBQUE7RUFFakIsUUFBTSxNQUFNO0VBeEdaLHdCQUFBO2tCQTBCQSIsImZpbGUiOiJUeXBlL1R1cGxlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

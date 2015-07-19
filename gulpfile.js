@@ -80,14 +80,8 @@ function pipeJs(stream) {
 	.pipe(babel({
 		modules: 'amd',
 		whitelist: [
-			'es6.arrowFunctions',
-			'es6.classes',
 			'es6.destructuring',
 			'es6.modules',
-			'es6.parameters',
-			'es6.spread',
-			'es6.properties.shorthand',
-			'es6.templateLiterals',
 			'strict'
 		]
 	}))

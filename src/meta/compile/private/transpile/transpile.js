@@ -1,13 +1,12 @@
-import { ArrayExpression, BinaryExpression, BlockStatement, BreakStatement, CallExpression,
+import { ArrayExpression, ArrowFunctionExpression, BinaryExpression, BlockStatement, BreakStatement, CallExpression,
 	CatchClause, ClassBody, ClassExpression, ConditionalExpression, ContinueStatement,
 	DebuggerStatement, ExpressionStatement, ForOfStatement, FunctionExpression, Identifier,
 	IfStatement, Literal, LogicalExpression, MethodDefinition, NewExpression, ObjectExpression,
 	Program, ReturnStatement, TemplateLiteral, ThisExpression, ThrowStatement, TryStatement,
 	VariableDeclaration, UnaryExpression, VariableDeclarator } from 'esast/dist/ast'
 import { idCached, loc, member, propertyIdOrLiteralCached, toStatement } from 'esast/dist/util'
-import { assignmentExpressionPlain, callExpressionThunk, functionExpressionPlain,
-	functionExpressionThunk, memberExpression, property,
-	yieldExpressionDelegate, yieldExpressionNoDelegate } from 'esast/dist/specialize'
+import { assignmentExpressionPlain, callExpressionThunk, functionExpressionThunk, memberExpression,
+	property, yieldExpressionDelegate, yieldExpressionNoDelegate } from 'esast/dist/specialize'
 import * as MsAstTypes from '../../MsAst'
 import { AssignSingle, Call, L_And, L_Or, LD_Lazy, LD_Mutable, Pattern, Splat, SD_Debugger,
 	SV_Contains, SV_False, SV_Null, SV_Sub, SV_ThisModuleDirectory, SV_True, SV_Undefined
@@ -101,12 +100,20 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 
 	BagSimple() { return ArrayExpression(this.parts.map(t0)) },
 
-	BlockDo(lead = null, opDeclareRes = null, opOut = null) {
+	BlockDo(lead, opDeclareRes, opOut) {
+		//todo:es6
+		if (lead === undefined) lead = null
+		if (opDeclareRes === undefined) opDeclareRes = null
+		if (opOut === undefined) opOut = null
 		assert(opDeclareRes === null)
 		return BlockStatement(cat(lead, tLines(this.lines), opOut))
 	},
 
-	BlockValThrow(lead = null, opDeclareRes = null, opOut = null) {
+	BlockValThrow(lead, opDeclareRes, opOut) {
+		//todo:es6
+		if (lead === undefined) lead = null
+		if (opDeclareRes === undefined) opDeclareRes = null
+		if (opOut === undefined) opOut = null
 		context.warnIf(opDeclareRes !== null || opOut !== null, this.loc,
 			'Out condition ignored because of oh-no!')
 		return BlockStatement(cat(lead, tLines(this.lines), t0(this._throw)))
@@ -249,7 +256,12 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 		const args = this.args.map(t0)
 		isInGenerator = oldInGenerator
 		const id = opMap(this.opName, idCached)
-		return FunctionExpression(id, args, body, this.isGenerator)
+
+		const canUseArrowFunction =
+			id === null && opDeclareThis === null && opDeclareRest === null && !this.isGenerator
+		return canUseArrowFunction ?
+			ArrowFunctionExpression(args, body) :
+			FunctionExpression(id, args, body, this.isGenerator)
 	},
 
 	Lazy() { return lazyWrap(t0(this.value)) },
@@ -429,7 +441,11 @@ const
 		return MethodDefinition(key, value, kind, isStatic, computed)
 	},
 
-	transpileBlock = (returned, lines, lead = null, opDeclareRes = null, opOut = null) => {
+	transpileBlock = (returned, lines, lead, opDeclareRes, opOut) => {
+		// TODO:ES6 Optional arguments
+		if (lead === undefined) lead = null
+		if (opDeclareRes === undefined) opDeclareRes = null
+		if (opOut === undefined) opOut = null
 		const fin = ifElse(opDeclareRes,
 			rd => {
 				const ret = maybeWrapInCheckContains(returned, rd.opType, rd.name)
@@ -468,7 +484,7 @@ const
 					assignmentExpressionPlain(ExportsGet,
 						msLazy(functionExpressionThunk(fullBody)))) ]) :
 				fullBody
-		return CallExpression(IdDefine, [ usePaths, functionExpressionPlain(useArgs, lazyBody) ])
+		return CallExpression(IdDefine, [ usePaths, ArrowFunctionExpression(useArgs, lazyBody) ])
 	},
 
 	pathBaseName = path =>

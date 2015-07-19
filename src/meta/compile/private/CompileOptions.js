@@ -15,7 +15,9 @@ optional:
 	useStrict: Boolean
 */
 export default class CompileOptions {
-	constructor(opts = { }) {
+	constructor(opts) {
+		// TODO:ES6 Optional arguments
+		if (opts === undefined) opts = { }
 		type(opts, Object)
 
 		const defaultTo = (name, _default) => {

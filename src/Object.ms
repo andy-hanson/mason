@@ -223,9 +223,9 @@ Map->Object.
 				1 -> 2
 	|_:Map
 		returning empty-Object!() !|obj
-			for! _
+			for! elem in _
 				# TODO:SYNTAX Array destructure
-				p+! obj _[0] _[1]
+				p+! obj elem[0] elem[1]
 			freeze obj
 
 prototype.

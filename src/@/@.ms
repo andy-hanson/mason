@@ -109,9 +109,9 @@ region Using iterator
 			[ [ 0 ] =?[1] ] -> empty ?
 		|_ pred?:Pred
 			# TODO:SYNTAX for-else
-			Opt->? for _
-				if! pred?_
-					break _
+			Opt->? for elem in _
+				if! pred? elem
+					break elem
 
 	count. Method
 		doc. "Number of elements."
@@ -131,9 +131,9 @@ region Lazy functions, and their eager versions.
 		args. 2
 		default. |_:@ keep-if?:Pred
 			# TODO:SYNTAX Shouldn't need => type-of_
-			=> type-of_ @for _
-				if! keep-if?_
-					. _
+			=> type-of_ @for elem in _
+				if! keep-if? elem
+					. elem
 
 	keep'.
 		doc. "Lazy keep."
@@ -153,8 +153,8 @@ region Lazy functions, and their eager versions.
 			[ [ 1 2 ] =?[2] ] -> [ false true ]
 		|_:@ mapper:Function
 			# TODO:SYNTAX Shouldn't need => type-of_
-			=> type-of_ @for _
-				mapper_
+			=> type-of_ @for elem in _
+				mapper elem
 
 	map'.
 		doc. "Lazy map."
@@ -176,8 +176,8 @@ region Lazy functions, and their eager versions.
 		args. 2
 		default. |_ mapper:Function[Any @]
 			# TODO:SYNTAX Shouldn't need => type-of_
-			=> type-of_ @for _
-				... mapper_
+			=> type-of_ @for elem in _
+				... mapper elem
 
 	flat-map'.
 		doc. "Lazy flat-map."
@@ -205,8 +205,8 @@ region Lazy functions, and their eager versions.
 		args. 2
 		default. |_
 			# TODO:SYNTAX Shouldn't need => type-of_
-			=> type-of_ @for _
-				... _
+			=> type-of_ @for elem in _
+				... elem
 
 	flatten'.
 		doc. "Lazy flatten."

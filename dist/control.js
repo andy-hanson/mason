@@ -1,13 +1,13 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","./js","./methods","./Type/Pred-Type","./at/at-Type","./at/Seq/Arraybang","./at/Seq/Seq","./at/Seq/Seqbang","./compare"],function(exports,js_0,methods_1,Pred_45Type_2,_64_45Type_3,Array_33_4,Seq_5,Seq_33_6,compare_7){
-	exports._get=_ms.lazy(function(){
-		const _$2=_ms.getModule(js_0),defined_63=_ms.get(_$2,"defined?"),_$3=_ms.getModule(methods_1),freeze=_ms.get(_$3,"freeze"),_$4=_ms.getModule(Pred_45Type_2),Any=_ms.get(_$4,"Any"),Opt=_ms.get(_$4,"Opt"),_$6=_ms.lazyGetModule(_64_45Type_3),empty=_ms.lazyProp(_$6,"empty"),Array_33=_ms.lazy(function(){
+define(["exports","./js","./methods","./Type/Pred-Type","./at/at-Type","./at/Seq/Arraybang","./at/Seq/Seq","./at/Seq/Seqbang","./compare"],(exports,js_0,methods_1,Pred_45Type_2,_64_45Type_3,Array_33_4,Seq_5,Seq_33_6,compare_7)=>{
+	exports._get=_ms.lazy(()=>{
+		const _$2=_ms.getModule(js_0),defined_63=_ms.get(_$2,"defined?"),_$3=_ms.getModule(methods_1),freeze=_ms.get(_$3,"freeze"),_$4=_ms.getModule(Pred_45Type_2),Any=_ms.get(_$4,"Any"),Opt=_ms.get(_$4,"Opt"),_$6=_ms.lazyGetModule(_64_45Type_3),empty=_ms.lazyProp(_$6,"empty"),Array_33=_ms.lazy(()=>{
 			return _ms.getDefaultExport(Array_33_4)
-		}),Seq=_ms.lazy(function(){
+		}),Seq=_ms.lazy(()=>{
 			return _ms.getDefaultExport(Seq_5)
 		}),_$9=_ms.lazyGetModule(Seq_33_6),_43_43_62_33=_ms.lazyProp(_$9,"++>!"),_$11=_ms.lazyGetModule(compare_7),_61_63=_ms.lazyProp(_$11,"=?");
-		const opr=exports.opr=function(){
+		const opr=exports.opr=()=>{
 			const built={};
 			const doc=built.doc=`Fills in an Opt with a default value.`;
 			const test=built.test=function test(){
@@ -18,7 +18,7 @@ define(["exports","./js","./methods","./Type/Pred-Type","./at/at-Type","./at/Seq
 			};
 			return _ms.set(function opr(_,_default){
 				_ms.checkContains(Opt,_,"_");
-				return function(){
+				return ()=>{
 					if(_ms.bool(defined_63(_))){
 						return _
 					} else {
@@ -27,11 +27,11 @@ define(["exports","./js","./methods","./Type/Pred-Type","./at/at-Type","./at/Seq
 				}()
 			},built)
 		}();
-		const build=exports.build=function(){
+		const build=exports.build=()=>{
 			const built={};
 			const doc=built.doc=`Passes in a \`yield\` Function to \`calls-yield\`.\nReturns a Seq of what \`calls-yield\` called \`yield\` with.`;
 			const test=built.test=function test(){
-				_ms.assert(_ms.unlazy(_61_63),[0,1],build(function(_yield){
+				_ms.assert(_ms.unlazy(_61_63),[0,1],build(_yield=>{
 					_yield(0);
 					return _yield(1)
 				}))
@@ -46,26 +46,26 @@ define(["exports","./js","./methods","./Type/Pred-Type","./at/at-Type","./at/Seq
 				return _ms.checkContains(_ms.unlazy(Seq),freeze(yielded),"res")
 			},built)
 		}();
-		const unreachable_33=exports["unreachable!"]=function(){
+		const unreachable_33=exports["unreachable!"]=()=>{
 			const built={};
 			const doc=built.doc=`Call this to mark code as unreachable.`;
 			return _ms.set(function unreachable_33(){
 				throw _ms.error(`This should not be reachable.`)
 			},built)
 		}();
-		const TODO=exports.TODO=function(){
+		const TODO=exports.TODO=()=>{
 			const built={};
 			const doc=built.doc=`Placeholder for something which you really ought to implement one of these days.`;
 			return _ms.set(function TODO(){
 				throw _ms.error(`This function has not yet been implemented.`)
 			},built)
 		}();
-		const returning=exports.returning=function(){
+		const returning=exports.returning=()=>{
 			const built={};
 			const doc=built.doc=`Calls \`do-after\` and returns \`returned\`.`;
 			const test=built.test=function test(){
-				_ms.assert(_ms.unlazy(_61_63),[0],build(function(_yield){
-					_ms.assert(_ms.unlazy(_61_63),1,returning(1,function(){
+				_ms.assert(_ms.unlazy(_61_63),[0],build(_yield=>{
+					_ms.assert(_ms.unlazy(_61_63),1,returning(1,()=>{
 						_yield(0)
 					}))
 				}))
@@ -81,4 +81,4 @@ define(["exports","./js","./methods","./Type/Pred-Type","./at/at-Type","./at/Seq
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9jb250cm9sLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7OztFQVlBLGdDQUNJOztHQUFILG9CQUFNO0dBQ04sc0JBQ08sZUFBQTs7b0JBQU4sQ0FBRSxPQUFVLEdBQU87b0JBQ25CLENBQUUsRUFBRSxHQUFPOzs7a0JBQ1gsYUFBQSxFQUFNLFNBQ1E7c0JBRFo7O0tBRUQsWUFBQSxXQUFRLElBQ0M7YUFBUjtLQUFBLE9BRUc7d0JBTEM7S0FBQTtJQUFBO0dBQUE7O0VBT1Isb0NBQ007O0dBQUwsb0JBQ0M7R0FFRCxzQkFDUSxlQUFBO2tDQUFJLENBQUUsRUFBRSxHQUFLLE1BQU8sU0FBQSxPQUNLO0tBQS9CLE9BQU07WUFDTixPQUFNO0lBQUE7R0FBQTtrQkFDUCxlQUFLLGNBQ29CO3NCQURSO0lBQ2pCO0lBQ0EsYUFBUyxnQkFBQSxFQUNDO3FDQUFKLFFBQVEsQ0FBRTtJQUFBO0lBQ2hCLGNBQVk7NkNBQ1osT0FBTzs7O0VBRVQsdURBQ2E7O0dBQVosb0JBQU07a0JBRUoseUJBQUE7SUFBRCxnQkFBUTs7O0VBRVYsa0NBQ0s7O0dBQUosb0JBQU07a0JBRUosZUFBQTtJQUFELGdCQUFROzs7RUFFViw0Q0FDVTs7R0FBVCxvQkFBTTtHQUNOLHNCQUNRLGVBQUE7a0NBQUksQ0FBRSxHQUFLLE1BQVEsU0FBQSxPQUNLO21DQUFuQixFQUFHLFVBQVUsRUFDSSxVQUFBO01BQTNCLE9BQU07S0FBQTtJQUFBO0dBQUE7a0JBQ1IsbUJBQUEsU0FBYSxXQUNpQjtzQkFEckI7c0JBQWE7SUFDdEIsV0FBUztXQUNUO0dBQUE7O0VBekRGLHdCQUFBIiwiZmlsZSI6ImNvbnRyb2wuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9jb250cm9sLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7OztFQVlBLDBCQUNJOztHQUFILG9CQUFNO0dBQ04sc0JBQ08sZUFBQTs7b0JBQU4sQ0FBRSxPQUFVLEdBQU87b0JBQ25CLENBQUUsRUFBRSxHQUFPOzs7a0JBQ1gsYUFBQSxFQUFNLFNBQ1E7c0JBRFo7O0tBRUQsWUFBQSxXQUFRLElBQ0M7YUFBUjtLQUFBLE9BRUc7d0JBTEM7S0FBQTtJQUFBO0dBQUE7O0VBT1IsOEJBQ007O0dBQUwsb0JBQ0M7R0FFRCxzQkFDUSxlQUFBO2tDQUFJLENBQUUsRUFBRSxHQUFLLE1BQU8sUUFDSztLQUEvQixPQUFNO1lBQ04sT0FBTTtJQUFBO0dBQUE7a0JBQ1AsZUFBSyxjQUNvQjtzQkFEUjtJQUNqQjtJQUNBLGFBQVMsZ0JBQUEsRUFDQztxQ0FBSixRQUFRLENBQUU7SUFBQTtJQUNoQixjQUFZOzZDQUNaLE9BQU87OztFQUVULGlEQUNhOztHQUFaLG9CQUFNO2tCQUVKLHlCQUFBO0lBQUQsZ0JBQVE7OztFQUVWLDRCQUNLOztHQUFKLG9CQUFNO2tCQUVKLGVBQUE7SUFBRCxnQkFBUTs7O0VBRVYsc0NBQ1U7O0dBQVQsb0JBQU07R0FDTixzQkFDUSxlQUFBO2tDQUFJLENBQUUsR0FBSyxNQUFRLFFBQ0s7bUNBQW5CLEVBQUcsVUFBVSxFQUNJLElBQUE7TUFBM0IsT0FBTTtLQUFBO0lBQUE7R0FBQTtrQkFDUixtQkFBQSxTQUFhLFdBQ2lCO3NCQURyQjtzQkFBYTtJQUN0QixXQUFTO1dBQ1Q7R0FBQTs7RUF6REYsd0JBQUEiLCJmaWxlIjoiY29udHJvbC5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

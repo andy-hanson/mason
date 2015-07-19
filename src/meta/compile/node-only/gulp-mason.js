@@ -9,7 +9,9 @@ import formatCompileErrorForConsole, { formatWarningForConsole }
 
 const Name = 'gulp-mason'
 
-export default (opts = { }) => {
+export default opts => {
+	// TODO:ES6 Optional arguments
+	if (opts === undefined) opts = { }
 	return obj(function(file, enc, cb) {
 		if (opts.verbose)
 			console.log(`Compiling ${file.path}`)

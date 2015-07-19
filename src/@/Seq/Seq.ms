@@ -150,8 +150,8 @@ region Search
 		default. |_ n
 			i ::= 0
 			# TODO:SYNTAX for-else
-			Opt->? for _
-				case!
+			Opt->? for elem in _
+				case! elem
 					=? i n
 						break _
 					else
@@ -218,8 +218,8 @@ region Update
 				else
 					Stream ~!|
 						n ::= count-to-take
-						for! _
-							<~ _
+						for! elem in _
+							<~ elem
 							n := - n 1
 							if! =? 0 n
 								break!
@@ -233,10 +233,10 @@ region Update
 		|_ while?:Pred
 			# TODO:SYNTAX @for~
 			Stream ~!|
-				for! _
-					unless! while?_
+				for! elem in _
+					unless! while? elem
 						break!
-					<~ _
+					<~ elem
 
 	drop. Method
 		doc. "TODO"

@@ -3,7 +3,8 @@ import { member, thunk } from 'esast/dist/util'
 
 const ms = name => {
 	const m = member(IdMs, name)
-	return (...args) => CallExpression(m, args)
+	// TODO:ES6 (...args) => CallExpression(m, args)
+	return function() { return CallExpression(m, Array.prototype.slice.call(arguments)) }
 }
 export const
 	IdMs = Identifier('_ms'),

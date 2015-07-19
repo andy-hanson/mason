@@ -33,11 +33,11 @@ impl-double! => (self-type String) @
 	test. |
 		[ String [ 1 2 3 ] ] -> "123"
 		[ String [ 1 2 3 ] ", " ] -> "1, 2, 3"
-	|str _ joiner:Opt[String]
+	|str vals joiner:Opt[String]
 		noop str
 		joiner := opr joiner ""
 		s ::= ""
-		for! _
+		for! vals
 			s := js+ s show_
 			s := js+ s joiner
 		s.slice 0 (- s.length joiner.length

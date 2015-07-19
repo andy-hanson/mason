@@ -1,7 +1,7 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","./bootstrap","../Type/Type","../at/Seq/Array-as-Seq","../at/Map/Id-Mapbang","../String-as-Seq","../show","../at/show-at","../at/Map/show-Map","../Type/show-Type"],function(exports,bootstrap_0,Type_1,Array_45as_45Seq_2,Id_45Map_33_3,String_45as_45Seq_4,show_5,show_45_64_6,show_45Map_7,show_45Type_8){
-	exports._get=_ms.lazy(function(){
+define(["exports","./bootstrap","../Type/Type","../at/Seq/Array-as-Seq","../at/Map/Id-Mapbang","../String-as-Seq","../show","../at/show-at","../at/Map/show-Map","../Type/show-Type"],(exports,bootstrap_0,Type_1,Array_45as_45Seq_2,Id_45Map_33_3,String_45as_45Seq_4,show_5,show_45_64_6,show_45Map_7,show_45Type_8)=>{
+	exports._get=_ms.lazy(()=>{
 		_ms.getModule(bootstrap_0);
 		_ms.getModule(Type_1);
 		_ms.getModule(Array_45as_45Seq_2);

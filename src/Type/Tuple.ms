@@ -79,8 +79,8 @@ Tuple. Obj-Type
 
 	post-construct. !|_
 		pAdd _.prototype "constructor" _
-		accesses = @for _.props
-			"_{access get-prop_.name}"
+		accesses = @for prop in _.props
+			"_{access (get-prop prop).name}"
 		extract-src = "return function(_) \{ return _ instanceof tuple ? [ {accesses.join ","} ] : null }"
 		make-extractor = Function "tuple" extract-src
 		extractor = make-extractor _
