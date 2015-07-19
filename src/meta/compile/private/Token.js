@@ -2,8 +2,7 @@ import Loc from 'esast/dist/Loc'
 import tupl from 'tupl/dist/tupl'
 import { code } from '../CompileError'
 import { NumberLiteral } from '../MsAst'
-import { SV_False, SV_Null, SV_This, SV_ThisModuleDirectory, SV_True, SV_Undefined
-	} from '../MsAst'
+import { SV_False, SV_Null, SV_ThisModuleDirectory, SV_True, SV_Undefined } from '../MsAst'
 import { implementMany } from './util'
 
 /*
@@ -183,8 +182,12 @@ export const
 	KW_ForVal = kw('for'),
 	KW_Fun = kwNotName('|'),
 	KW_FunDo = kwNotName('!|'),
-	KW_GenFun = kwNotName('~|'),
-	KW_GenFunDo = kwNotName('~!|'),
+	KW_FunGen = kwNotName('~|'),
+	KW_FunGenDo = kwNotName('~!|'),
+	KW_FunThis = kwNotName('.|'),
+	KW_FunThisDo = kwNotName('.!|'),
+	KW_FunThisGen = kwNotName('.~|'),
+	KW_FunThisGenDo = kwNotName('.~!|'),
 	KW_Get = kw('get'),
 	KW_IfVal = kw('if'),
 	KW_IfDo = kw('if!'),
@@ -201,7 +204,6 @@ export const
 	KW_Region = kw('region'),
 	KW_Set = kw('set!'),
 	KW_Static = kw('static'),
-	KW_This = kw('this'),
 	KW_ThisModuleDirectory = kw('this-module-directory'),
 	KW_Throw = kw('throw!'),
 	KW_True = kw('true'),
@@ -227,7 +229,6 @@ export const
 		switch (kw) {
 			case KW_False: return SV_False
 			case KW_Null: return SV_Null
-			case KW_This: return SV_This
 			case KW_ThisModuleDirectory: return SV_ThisModuleDirectory
 			case KW_True: return SV_True
 			case KW_Undefined: return SV_Undefined

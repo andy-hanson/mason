@@ -48,9 +48,9 @@ js-impl! iterator Lazy-Stream
 				yield 3
 			assert! seq=? [ 1 ] (take' _ 1
 			assert! seq=? [ 1 2 ] (take' _ 2
-	~!|
-		<~~ iterator this.cache
-		<~~ this.caching-iterator
+	.~!|
+		<~~ iterator .cache
+		<~~ .caching-iterator
 
 kind! Lazy-Stream Seq
 	?nth -> |stream n:Nat

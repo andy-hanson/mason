@@ -53,6 +53,7 @@ export const
 	LocalDeclareBuilt = localDeclarePlainType('built'),
 	LocalDeclareFocus = localDeclarePlainType('_'),
 	LocalDeclareName = localDeclarePlainType('name'),
+	LocalDeclareThis = localDeclarePlainType('this'),
 	LocalDeclareRes = makeType(LocalDeclare)('LocalDeclareRes',
 		'TODO:DOC',
 		[ 'opType', Nullable(Val) ],
@@ -338,6 +339,8 @@ export const
 	Fun = v('Fun',
 		'TODO:DOC',
 		[
+			// TODO:ES6 If null, this compiles to an arrow function `( ... ) => { ... }`.
+			'opDeclareThis', Nullable(LocalDeclareThis),
 			'isGenerator', Boolean,
 			'args', [LocalDeclare],
 			'opRestArg', Nullable(LocalDeclare),
@@ -345,7 +348,7 @@ export const
 			'opIn', Nullable(Debug),
 			// If non-empty, block should be a BlockVal,
 			// and either it has a type or opOut is non-empty.
-			'opResDeclare', Nullable(LocalDeclareRes),
+			'opDeclareRes', Nullable(LocalDeclareRes),
 			'opOut', Nullable(Debug),
 			'opName', Nullable(String)
 		]),
@@ -391,10 +394,9 @@ export const
 	SV_False = 1,
 	SV_Null = 2,
 	SV_Sub = 3,
-	SV_This = 4,
-	SV_ThisModuleDirectory = 5,
-	SV_True = 6,
-	SV_Undefined = 7,
+	SV_ThisModuleDirectory = 4,
+	SV_True = 5,
+	SV_Undefined = 6,
 	SpecialVal = v('SpecialVal',
 		'TODO:DOC',
 		[ 'kind', Number ])

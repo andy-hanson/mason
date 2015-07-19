@@ -13,6 +13,8 @@ export const
 	IdExports = Identifier('exports'),
 	IdExtract = Identifier('_$'),
 	IdFunctionApplyCall = member(member(Identifier('Function'), 'apply'), 'call'),
+	// TODO:ES6 Shouldn't need, just use arrow functions.
+	IdLexicalThis = Identifier('_this'),
 	LitEmptyArray = ArrayExpression([]),
 	LitEmptyString = Literal(''),
 	LitNull = Literal(null),

@@ -56,8 +56,8 @@ opt-bucket-entry = |opt-bucket key
 			break cur
 		cur := cur.next!
 
-js-impl! iterator Hash-Map! ~!|
-	for! bucket in values this.val
+js-impl! iterator Hash-Map! .~!|
+	for! bucket in values .val
 		cur ::= bucket
 		for!
 			unless! defined? cur

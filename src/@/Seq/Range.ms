@@ -60,13 +60,13 @@ length.
 js-impl! iterator Range
 	test. !|
 		assert! seq=? (range 0 10 2) [ 0 2 4 6 8 ]
-	~!|
-		cur ::= this.start
+	.~!|
+		cur ::= .start
 		for!
-			if! <=? this.end cur
+			if! <=? .end cur
 				break!
 			<~ cur
-			cur := + cur this.step
+			cur := + cur .step
 
 kind! Range @
 	?nth ->

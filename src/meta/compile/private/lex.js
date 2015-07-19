@@ -3,9 +3,9 @@ import { code } from '../CompileError'
 import { NumberLiteral } from '../MsAst'
 import { NonNameCharacters } from './language'
 import { DotName, Group, G_Block, G_Bracket, G_Line, G_Parenthesis, G_Space, G_Quote,
-	isKeyword, Keyword, KW_AssignMutable, KW_Ellipsis, KW_Focus, KW_Fun, KW_FunDo, KW_GenFun,
-	KW_GenFunDo, KW_Lazy, KW_LocalMutate, KW_ObjAssign, KW_Region, KW_Type, Name,
-	opKeywordKindFromName, showGroupKind } from './Token'
+	isKeyword, Keyword, KW_AssignMutable, KW_Ellipsis, KW_Focus, KW_Fun, KW_FunDo, KW_FunGen,
+	KW_FunGenDo, KW_FunThis, KW_FunThisDo, KW_FunThisGen, KW_FunThisGenDo, KW_Lazy, KW_LocalMutate,
+	KW_ObjAssign, KW_Region, KW_Type, Name, opKeywordKindFromName, showGroupKind } from './Token'
 import { assert, isEmpty, last } from './util'
 
 /*
@@ -127,6 +127,7 @@ export default (context, sourceString) => {
 		pos = () => Pos(line, column),
 
 		peek = () => sourceString.charCodeAt(index),
+		peekNext = () => sourceString.charCodeAt(index + 1),
 
 		// May eat a Newline.
 		// If that happens, line and column will temporarily be wrong,
@@ -137,6 +138,7 @@ export default (context, sourceString) => {
 			column = column + 1
 			return char
 		},
+		skip = eat,
 
 		// charToEat must not be Newline.
 		tryEat = charToEat => {
@@ -379,9 +381,9 @@ export default (context, sourceString) => {
 				case Tilde:
 					if (tryEat(Bang)) {
 						mustEat(Bar, '~!')
-						funKeyword(KW_GenFunDo)
+						funKeyword(KW_FunGenDo)
 					} else if (tryEat(Bar))
-						funKeyword(KW_GenFun)
+						funKeyword(KW_FunGen)
 					else
 						keyword(KW_Lazy)
 					break
@@ -438,6 +440,25 @@ export default (context, sourceString) => {
 						keyword(KW_ObjAssign)
 						// This exists solely so that the Space or Newline handler can close it...
 						openGroup(pos(), G_Space)
+					} else if (next === Bar) {
+						skip()
+						keyword(KW_FunThis)
+						space(loc())
+					} else if (next === Bang && peekNext() === Bar) {
+						skip()
+						skip()
+						keyword(KW_FunThisDo)
+						space(loc())
+					} else if (next === Tilde) {
+						skip()
+						if (tryEat(Bang)) {
+							mustEat(Bar, '.~!')
+							keyword(KW_FunThisGenDo)
+						} else {
+							mustEat(Bar, '.~')
+							keyword(KW_FunThisGen)
+						}
+						space(loc())
 					} else {
 						// +1 for the dot we just ate.
 						const nDots = skipWhileEquals(Dot) + 1

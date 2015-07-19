@@ -26,13 +26,13 @@ self-kind! Splay-Tree! Map-Type
 	empty -> |
 		Splay-Tree! undefined
 
-js-impl! iterator Splay-Tree! |
+js-impl! iterator Splay-Tree! .|
 	iter = ~!|_
 		if! defined?_
 			<~~ iter _.left!
 			<~ [ _.key _.val! ]
 			<~~ iter _.right!
-	iter this.val
+	iter .val
 
 kind! Splay-Tree! Sorted-Map!
 	empty? -> |_

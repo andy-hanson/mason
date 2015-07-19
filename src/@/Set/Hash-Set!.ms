@@ -23,8 +23,8 @@ self-kind! Hash-Set! @-Type
 	empty -> |
 		Hash-Set! (empty Hash-Map!
 
-js-impl! iterator Hash-Set! |
-	iterator (keys this.val
+js-impl! iterator Hash-Set! .|
+	iterator (keys .val)
 
 kind! Hash-Set! Set!
 	# TODO: Make default falling back to +!

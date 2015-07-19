@@ -30,6 +30,6 @@ self-kind! Stream @-Type
 		Stream |
 			iterator_
 
-js-impl! iterator Stream |
-	this.val()
+js-impl! iterator Stream .|
+	.val()
 kind! Stream Seq

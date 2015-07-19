@@ -10,16 +10,16 @@ import { assignmentExpressionPlain, callExpressionThunk, functionExpressionPlain
 	yieldExpressionDelegate, yieldExpressionNoDelegate } from 'esast/dist/specialize'
 import * as MsAstTypes from '../../MsAst'
 import { AssignSingle, Call, L_And, L_Or, LD_Lazy, LD_Mutable, Pattern, Splat, SD_Debugger,
-	SV_Contains, SV_False, SV_Null, SV_Sub, SV_This, SV_ThisModuleDirectory, SV_True, SV_Undefined
+	SV_Contains, SV_False, SV_Null, SV_Sub, SV_ThisModuleDirectory, SV_True, SV_Undefined
 	} from '../../MsAst'
 import manglePath from '../manglePath'
 import { assert, cat, flatMap, flatOpMap, ifElse, isEmpty,
 	implementMany, isPositive, opIf, opMap, tail, unshift } from '../util'
 import { AmdefineHeader, ArraySliceCall, DeclareBuiltBag, DeclareBuiltMap, DeclareBuiltObj,
 	EmptyTemplateElement, ExportsDefault, ExportsGet, IdArguments, IdBuilt, IdDefine, IdExports,
-	IdExtract, IdFunctionApplyCall, LitEmptyArray, LitEmptyString, LitNull, LitStrExports,
-	LitStrThrow, LitZero, ReturnBuilt, ReturnExports, ReturnRes, ThrowAssertFail, ThrowNoCaseMatch,
-	UseStrict } from './ast-constants'
+	IdExtract, IdFunctionApplyCall, IdLexicalThis, LitEmptyArray, LitEmptyString, LitNull,
+	LitStrExports, LitStrThrow, LitZero, ReturnBuilt, ReturnExports, ReturnRes, ThrowAssertFail,
+	ThrowNoCaseMatch, UseStrict } from './ast-constants'
 import { IdMs, lazyWrap, msAdd, msAddMany, msArr, msAssert, msAssertNot, msAssoc, msBool,
 	msCheckContains, msError, msExtract, msGet, msGetDefaultExport, msGetModule, msLazy, msLazyGet,
 	msLazyGetModule, msSet, msSetName, msSetLazy, msShow, msSome, MsNone } from './ms-call'
@@ -101,29 +101,29 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 
 	BagSimple() { return ArrayExpression(this.parts.map(t0)) },
 
-	BlockDo(lead = null, opResDeclare = null, opOut = null) {
-		assert(opResDeclare === null)
+	BlockDo(lead = null, opDeclareRes = null, opOut = null) {
+		assert(opDeclareRes === null)
 		return BlockStatement(cat(lead, tLines(this.lines), opOut))
 	},
 
-	BlockValThrow(lead = null, opResDeclare = null, opOut = null) {
-		context.warnIf(opResDeclare !== null || opOut !== null, this.loc,
+	BlockValThrow(lead = null, opDeclareRes = null, opOut = null) {
+		context.warnIf(opDeclareRes !== null || opOut !== null, this.loc,
 			'Out condition ignored because of oh-no!')
 		return BlockStatement(cat(lead, tLines(this.lines), t0(this._throw)))
 	},
 
-	BlockWithReturn(lead, opResDeclare, opOut) {
-		return transpileBlock(t0(this.returned), tLines(this.lines), lead, opResDeclare, opOut)
+	BlockWithReturn(lead, opDeclareRes, opOut) {
+		return transpileBlock(t0(this.returned), tLines(this.lines), lead, opDeclareRes, opOut)
 	},
 
-	BlockBag(lead, opResDeclare, opOut) {
+	BlockBag(lead, opDeclareRes, opOut) {
 		return transpileBlock(
 			IdBuilt,
 			cat(DeclareBuiltBag, tLines(this.lines)),
-			lead, opResDeclare, opOut)
+			lead, opDeclareRes, opOut)
 	},
 
-	BlockObj(lead, opResDeclare, opOut) {
+	BlockObj(lead, opDeclareRes, opOut) {
 		const lines = cat(DeclareBuiltObj, tLines(this.lines))
 		const res = ifElse(this.opObjed,
 			objed => ifElse(this.opName,
@@ -132,14 +132,14 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 			() => ifElse(this.opName,
 				_ => msSetName(IdBuilt, Literal(_)),
 				() => IdBuilt))
-		return transpileBlock(res, lines, lead, opResDeclare, opOut)
+		return transpileBlock(res, lines, lead, opDeclareRes, opOut)
 	},
 
-	BlockMap(lead, opResDeclare, opOut) {
+	BlockMap(lead, opDeclareRes, opOut) {
 		return transpileBlock(
 			IdBuilt,
 			cat(DeclareBuiltMap, tLines(this.lines)),
-			lead, opResDeclare, opOut)
+			lead, opDeclareRes, opOut)
 	},
 
 	BlockWrap() { return blockWrap(t0(this.block)) },
@@ -238,10 +238,14 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 			flatOpMap(this.args, opTypeCheckForLocalDeclare))
 
 		const _in = opMap(this.opIn, t0)
-		const lead = cat(opDeclareRest, argChecks, _in)
+
+		const opDeclareThis = opMap(this.opDeclareThis, () =>
+			VariableDeclaration('const', [ VariableDeclarator(IdLexicalThis, ThisExpression()) ]))
+
+		const lead = cat(opDeclareThis, opDeclareRest, argChecks, _in)
 
 		const _out = opMap(this.opOut, t0)
-		const body = t3(this.block, lead, this.opResDeclare, _out)
+		const body = t3(this.block, lead, this.opDeclareRes, _out)
 		const args = this.args.map(t0)
 		isInGenerator = oldInGenerator
 		const id = opMap(this.opName, idCached)
@@ -259,7 +263,11 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 
 	GlobalAccess() { return Identifier(this.name) },
 
-	LocalAccess() { return accessLocalDeclare(verifyResults.localDeclareForAccess(this)) },
+	LocalAccess() {
+		return this.name === 'this' ?
+			Identifier('_this') :
+			accessLocalDeclare(verifyResults.localDeclareForAccess(this))
+	},
 
 	LocalDeclare() { return idForDeclareCached(this) },
 
@@ -352,7 +360,6 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 			case SV_False: return Literal(false)
 			case SV_Null: return Literal(null)
 			case SV_Sub: return member(IdMs, 'sub')
-			case SV_This: return 	ThisExpression()
 			case SV_ThisModuleDirectory: return Identifier('__dirname')
 			case SV_True: return Literal(true)
 			case SV_Undefined: return UnaryExpression('void', LitZero)
@@ -412,9 +419,9 @@ const
 	methodDefinition = (isConstructor, isStatic) => fun => {
 		assert(fun.opName !== null)
 		const key = propertyIdOrLiteralCached(fun.opName)
+		const value = t0(fun)
 		// This is handled by `key`.
 		value.id = null
-		const value = t0(fun)
 		// TODO: get/set!
 		const kind = isConstructor ? 'constructor' : 'method'
 		// TODO: computed class properties
@@ -422,8 +429,8 @@ const
 		return MethodDefinition(key, value, kind, isStatic, computed)
 	},
 
-	transpileBlock = (returned, lines, lead = null, opResDeclare = null, opOut = null) => {
-		const fin = ifElse(opResDeclare,
+	transpileBlock = (returned, lines, lead = null, opDeclareRes = null, opOut = null) => {
+		const fin = ifElse(opDeclareRes,
 			rd => {
 				const ret = maybeWrapInCheckContains(returned, rd.opType, rd.name)
 				return ifElse(opOut,

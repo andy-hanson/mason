@@ -46,9 +46,9 @@ region Is Seq
 		empty? -> |_
 			id=? _ empty-?
 
-	js-impl! iterator ? ~!|
+	js-impl! iterator ? .~!|
 		unless! empty? this
-			<~ this.val
+			<~ .val
 
 region Functions
 	Opt->?.

@@ -84,7 +84,7 @@ apply-with-this.
 		Like `apply`, and also makes the hidden parameter `this` to be `new-this`.
 		Acts like `new-this.f ...arguments` if `f` were in the prototype chain of `new-this`.
 	test. |
-		f = |a
+		f = .|a
 			+ this a
 		[ f 1 [ 2 ] ] -> 3
 	|f:Function new-this args:@
@@ -94,7 +94,7 @@ apply-with-this.
 call-with-this.
 	doc. "Like `apply-with-this` but does not take a list."
 	test. !|
-		f = |a
+		f = .|a
 			+ this a
 		assert! =? 3 (call-with-this f 1 2)
 	|_:Function new-this ...args

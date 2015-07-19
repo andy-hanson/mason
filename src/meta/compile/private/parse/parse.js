@@ -5,20 +5,21 @@ import { Assert, AssignDestructure, AssignSingle, BagEntry, BagEntryMany, BagSim
 	Call, CaseDoPart, CaseValPart, CaseDo, CaseVal, Catch, Class, ConditionalDo, ConditionalVal,
 	Continue, Debug, Iteratee, NumberLiteral, ExceptDo, ExceptVal, ForBag, ForDo, ForVal, Fun,
 	GlobalAccess, L_And, L_Or, Lazy, LD_Const, LD_Lazy, LD_Mutable, LocalAccess, LocalDeclare,
-	LocalDeclareFocus, LocalDeclareName, LocalDeclarePlain, LocalDeclareRes, LocalDeclareUntyped,
-	LocalMutate, Logic, MapEntry, Member, Module, New, Not, ObjEntry, ObjPair, ObjSimple, Pattern,
-	Quote, SP_Debugger, SpecialDo, SpecialVal, SV_Null, Splat, Throw, Val, Use, UseDo, Yield,
-	YieldTo } from '../../MsAst'
+	LocalDeclareFocus, LocalDeclareName, LocalDeclarePlain, LocalDeclareRes, LocalDeclareThis,
+	LocalDeclareUntyped, LocalMutate, Logic, MapEntry, Member, Module, New, Not, ObjEntry, ObjPair,
+	ObjSimple, Pattern, Quote, SP_Debugger, SpecialDo, SpecialVal, SV_Null, Splat, Throw, Val, Use,
+	UseDo, Yield, YieldTo } from '../../MsAst'
 import { JsGlobals } from '../language'
 import { DotName, Group, G_Block, G_Bracket, G_Parenthesis, G_Space, G_Quote, isGroup, isKeyword,
 	Keyword, KW_And, KW_Assert, KW_AssertNot, KW_Assign, KW_AssignMutable, KW_BreakDo, KW_BreakVal,
 	KW_CaseVal, KW_CaseDo, KW_Class, KW_CatchDo, KW_CatchVal, KW_Construct, KW_Continue,
 	KW_Debug, KW_Debugger, KW_Ellipsis, KW_Else, KW_ExceptDo, KW_ExceptVal, KW_Finally, KW_ForBag,
-	KW_ForDo, KW_ForVal, KW_Focus, KW_Fun, KW_FunDo, KW_GenFun, KW_GenFunDo, KW_Get, KW_IfDo,
-	KW_IfVal, KW_In, KW_Lazy, KW_LocalMutate, KW_MapEntry, KW_New, KW_Not, KW_ObjAssign, KW_Or,
-	KW_Pass, KW_Out, KW_Region, KW_Set, KW_Static, KW_Throw, KW_TryDo, KW_TryVal, KW_Type,
-	KW_UnlessDo, KW_UnlessVal, KW_Use, KW_UseDebug, KW_UseDo, KW_UseLazy, KW_Yield, KW_YieldTo,
-	Name, keywordName, opKeywordKindToSpecialValueKind } from '../Token'
+	KW_ForDo, KW_ForVal, KW_Focus, KW_Fun, KW_FunDo, KW_FunGen, KW_FunGenDo, KW_FunThis,
+	KW_FunThisDo, KW_FunThisGen, KW_FunThisGenDo, KW_Get, KW_IfDo, KW_IfVal, KW_In, KW_Lazy,
+	KW_LocalMutate, KW_MapEntry, KW_New, KW_Not, KW_ObjAssign, KW_Or, KW_Pass, KW_Out, KW_Region,
+	KW_Set, KW_Static, KW_Throw, KW_TryDo, KW_TryVal, KW_Type, KW_UnlessDo, KW_UnlessVal, KW_Use,
+	KW_UseDebug, KW_UseDo, KW_UseLazy, KW_Yield, KW_YieldTo, Name, keywordName,
+	opKeywordKindToSpecialValueKind } from '../Token'
 import { assert, head, ifElse, flatMap, isEmpty, last,
 	opIf, opMap, push, repeat, rtail, tail, unshift } from '../util'
 import Slice from './Slice'
@@ -310,7 +311,8 @@ const
 			if (token instanceof Keyword)
 				switch (token.kind) {
 					case KW_And: case KW_CaseVal: case KW_Class: case KW_ExceptVal: case KW_ForBag:
-					case KW_ForVal: case KW_Fun: case KW_FunDo: case KW_GenFun: case KW_GenFunDo:
+					case KW_ForVal: case KW_Fun: case KW_FunDo: case KW_FunGen: case KW_FunGenDo:
+					case KW_FunThis: case KW_FunThisDo: case KW_FunThisGen: case KW_FunThisGenDo:
 					case KW_IfVal: case KW_New: case KW_Not: case KW_Or: case KW_UnlessVal:
 					case KW_Yield: case KW_YieldTo:
 						return true
@@ -336,7 +338,9 @@ const
 							return parseForBag(after)
 						case KW_ForVal:
 							return parseForVal(after)
-						case KW_Fun: case KW_FunDo: case KW_GenFun: case KW_GenFunDo:
+						case KW_Fun: case KW_FunDo: case KW_FunGen: case KW_FunGenDo:
+						case KW_FunThis: case KW_FunThisDo: case KW_FunThisGen:
+						case KW_FunThisGenDo:
 							return parseFun(at.kind, after)
 						case KW_IfVal: case KW_UnlessVal: {
 							const [ before, block ] = beforeAndBlock(after)
@@ -376,15 +380,47 @@ const
 	}
 
 const parseFun = (kind, tokens) => {
-	const isDo = kind === KW_FunDo || kind === KW_GenFunDo
-	const isGenerator = kind === KW_GenFun || kind === KW_GenFunDo
+	let isThis = false, isDo = false, isGen = false
+	switch (kind) {
+		case KW_Fun:
+			break
+		case KW_FunDo:
+			isDo = true
+			break
+		case KW_FunGen:
+			isGen = true
+			break
+		case KW_FunGenDo:
+			isGen = true
+			isDo = true
+			break
+		case KW_FunThis:
+			isThis = true
+			break
+		case KW_FunThisDo:
+			isThis = true
+			isDo = true
+			break
+		case KW_FunThisGen:
+			isThis = true
+			isGen = true
+			break
+		case KW_FunThisGenDo:
+			isThis = true
+			isGen = true
+			isDo = true
+			break
+		default: throw new Error()
+	}
+	const opDeclareThis = opIf(isThis, () => LocalDeclareThis(tokens.loc))
+
 	const { opReturnType, rest } = _tryTakeReturnType(tokens)
 	const { args, opRestArg, block, opIn, opOut } = _funArgsAndBlock(isDo, rest)
 	// Need res declare if there is a return type or out condition.
-	const opResDeclare = ifElse(opReturnType,
+	const opDeclareRes = ifElse(opReturnType,
 		_ => LocalDeclareRes(_.loc, _),
 		() => opMap(opOut, o => LocalDeclareRes(o.loc, null)))
-	return Fun(tokens.loc, isGenerator, args, opRestArg, block, opIn, opResDeclare, opOut)
+	return Fun(tokens.loc, opDeclareThis, isGen, args, opRestArg, block, opIn, opDeclareRes, opOut)
 }
 
 // parseFun privates
@@ -710,8 +746,10 @@ const parseSingle = token => {
 			ifElse(opKeywordKindToSpecialValueKind(token.kind),
 				_ => SpecialVal(loc, _),
 				() => unexpected(token)) :
-	token instanceof DotName && token.nDots === 3 ?
-	Splat(loc, LocalAccess(loc, token.name)) :
+	token instanceof DotName ?
+		token.nDots === 1 ? Member(token.loc, LocalAccess(token.loc, 'this'), token.name) :
+		token.nDots === 3 ? Splat(loc, LocalAccess(loc, token.name)) :
+		unexpected(token) :
 	unexpected(token)
 }
 
@@ -961,11 +999,11 @@ const parseClass = tokens => {
 const
 	_parseConstructor = tokens => {
 		const { args, opRestArg, block, opIn, opOut } = _funArgsAndBlock(true, tokens)
-		const isGenerator = false, opResDeclare = null
+		const isGenerator = false, opDeclareRes = null
 		return Fun(tokens.loc,
 			isGenerator,
 			args, opRestArg,
-			block, opIn, opResDeclare, opOut,
+			block, opIn, opDeclareRes, opOut,
 			'constructor')
 	},
 	_parseStatics = tokens => {
@@ -988,19 +1026,17 @@ const
 		fun.opName = name
 		return fun
 	},
-	_parseMethodFun = tokens => {
-		const funKindToken = tokens.head()
-		context.check(_isFunKind(funKindToken), funKindToken.loc, () =>
-			`Expected function, got ${funKindToken}`)
-		return parseFun(funKindToken.kind, tokens.tail())
-	},
-	_isFunKind = token => {
-		if (!(token instanceof Keyword))
-			return false
-		switch (token.kind) {
-			case KW_Fun: case KW_GenFun: case KW_FunDo: case KW_GenFunDo:
-				return true
+	_parseMethodFun = tokens =>
+		parseFun(_methodFunKind(tokens.head()), tokens.tail()),
+	_methodFunKind = funKindToken => {
+		switch (funKindToken.kind) {
+			case KW_Fun: return KW_FunThis
+			case KW_FunDo: return KW_FunThisDo
+			case KW_FunGen: return KW_FunThisGen
+			case KW_FunGenDo: return KW_FunThisGenDo
+			case KW_FunThis: case KW_FunThisDo: case KW_FunThisGen: case KW_FunThisGenDo:
+				context.fail(funKindToken.loc, 'Function `.` is implicit for methods.')
 			default:
-				return false
+				context.fail(funKindToken.loc, `Expected function kind, got ${funKindToken}`)
 		}
 	}

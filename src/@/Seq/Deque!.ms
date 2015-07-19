@@ -61,16 +61,14 @@ region Helpers
 				if and (<? _.end-index! _.start-index!) (<? b _.end-index!)
 					b
 
-js-impl! iterator Deque! ~!|
-	# TODO:ES6 case should preserve `this`
-	self = this
+js-impl! iterator Deque! .~!|
 	indices = case
-		<? self.end-index! self.start-index!
-			++' (range self.start-index! (count self.data!)) (range 0 self.end-index!
+		<? .end-index! .start-index!
+			++' (range .start-index! (count .data!)) (range 0 .end-index!)
 		else
-			range self.start-index! self.end-index!
+			range .start-index! .end-index!
 	for! indices
-		<~ this.data![_]
+		<~ .data![_]
 
 kind! Deque! Seq!
 	<++! -> !|_ ems:@

@@ -21,8 +21,8 @@ self-kind! Heap-Priority-Queue! @-Type
 	empty -> |
 		Heap-Priority-Queue! (empty Array!
 
-js-impl! iterator Heap-Priority-Queue! |
-	iterator this.val
+js-impl! iterator Heap-Priority-Queue! .|
+	iterator .val
 
 kind! Heap-Priority-Queue! Priority-Queue!
 	++! -> !|_ added

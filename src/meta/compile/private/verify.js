@@ -293,17 +293,17 @@ implementMany(MsAstTypes, 'verify', {
 
 	Fun() {
 		withBlockLocals(() => {
-			context.check(this.opResDeclare === null || this.block instanceof BlockVal, this.loc,
+			context.check(this.opDeclareRes === null || this.block instanceof BlockVal, this.loc,
 				'Function with return condition must return something.')
 			withInGenerator(this.isGenerator, () =>
 				withInLoop(false, () => {
-					const allArgs = cat(this.args, this.opRestArg)
+					const allArgs = cat(this.opDeclareThis, this.args, this.opRestArg)
 					verifyAndPlusLocals(allArgs, () => {
 						opEach(this.opIn, verify)
 						this.block.verify()
-						opEach(this.opResDeclare, verifyLocalDeclare)
+						opEach(this.opDeclareRes, verifyLocalDeclare)
 						const verifyOut = () => opEach(this.opOut, _ => _.verify())
-						ifElse(this.opResDeclare, _ => plusLocal(_, verifyOut), verifyOut)
+						ifElse(this.opDeclareRes, _ => plusLocal(_, verifyOut), verifyOut)
 					})
 				}))
 		})
