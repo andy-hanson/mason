@@ -5,7 +5,7 @@ use
 	...Type.Type => type-of
 	..@ map'
 	.Map
-	.Weak-Id-Map!
+	.Weak-Id-Map
 
 impl! show Map
 	test. |
@@ -15,7 +15,7 @@ impl! show Map
 		# TODO:SYNTAX [ m repr. ]
 		# TODO
 		# [ m (repr. true) ] -> "
-		#	Hash-Map!
+		#	Hash-Map
 		#		1 -> 2
 	|_ opts
 		# TODO: map Map to Array
@@ -31,5 +31,5 @@ impl! show Map
 			{type}
 				{=> String parts "\n\t"}
 
-impl! show Weak-Id-Map! |
-	"<a Weak-Id-Map!>"
+impl! show Weak-Id-Map |
+	"<a Weak-Id-Map>"

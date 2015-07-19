@@ -1,12 +1,10 @@
 use
-	...@.@ fold keep' map
-	...@.@! ++!
+	...@.@ ++! fold keep' map
 	...@.@-Type empty
-	...@.Seq.Array!
 	...@.Seq.Range range
-	...@.Seq.Seq! set-nth!
+	...@.Seq.Seq set-nth!
 	...@.Seq.Stream
-	...@.Set.Id-Set!
+	...@.Set.Id-Set
 	...compare =?
 	...control returning
 	...js defined? js-sub
@@ -31,13 +29,13 @@ happy-step = |_
 	# TODO: sum function?
 	fold (map digits_ square) +
 
-cache = empty Array!
+cache = [ ]
 set-nth! cache 1 true
 
 happy?.
 	doc. "http://rosettacode.org/wiki/Happy_numbers"
 	|n:Nat
-		stepped-through = empty Id-Set!
+		stepped-through = empty Id-Set
 		cur ::= n
 		n-happy? = for
 			case! js-sub cache cur

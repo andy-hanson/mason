@@ -1,5 +1,5 @@
 use
-	..Object! p+!
+	..Object p+!
 	..show
 	.Impl-Type
 	.Kind kind!

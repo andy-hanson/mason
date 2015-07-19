@@ -2,12 +2,11 @@ use
 	...Type.Kind _ kind! self-kind!
 	..@
 	..@-Type _ empty from-stream
-	.Map
+	.Map _ assoc!
 use~
-	.Id-Map!
-	.Map! assoc!
+	.Id-Map
 use-debug
-	.Hash-Map!
+	.Hash-Map
 
 Map-Type. Kind
 	doc. "Any sub-type of Map."
@@ -15,7 +14,7 @@ Map-Type. Kind
 # TODO: Do this in Map.ms ?
 self-kind! Map Map-Type
 	empty -> |
-		empty Id-Map!
+		empty Id-Map
 
 kind! Map-Type @-Type
 	from-stream ->
@@ -24,10 +23,10 @@ kind! Map-Type @-Type
 			m =
 				1 -> 2
 				3 -> 4
-			hm = empty Hash-Map!
+			hm = empty Hash-Map
 			assoc! hm 1 2
 			assoc! hm 3 4
-			[ Hash-Map! m ] -> hm
+			[ Hash-Map m ] -> hm
 		|type stream:@
 			map = empty type
 			for! stream

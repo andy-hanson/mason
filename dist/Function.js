@@ -1,15 +1,15 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","./methods","./private/js-impl","./Type/Alias-Type","./Type/Method","./at/at","./at/at-Type","./at/Map/Map","./at/Map/Hash-Mapbang","./at/Map/Mapbang","./at/Map/Weak-Id-Mapbang","./at/Seq/Seq","./Object","./Type/Type","./at/Seq/Seq","./compare","./control","./math/methods"],(exports,methods_0,js_45impl_1,Alias_45Type_2,Method_3,_64_4,_64_45Type_5,Map_6,Hash_45Map_33_7,Map_33_8,Weak_45Id_45Map_33_9,Seq_10,Object_11,Type_12,Seq_13,compare_14,control_15,methods_16)=>{
+define(["exports","./methods","./private/js-impl","./Type/Alias-Type","./Type/Method","./at/at","./at/at-Type","./at/Map/Map","./at/Map/Hash-Map","./at/Map/Map","./at/Map/Weak-Id-Map","./at/Seq/Seq","./Object","./Type/Type","./at/Seq/Seq","./compare","./control","./math/methods"],(exports,methods_0,js_45impl_1,Alias_45Type_2,Method_3,_64_4,_64_45Type_5,Map_6,Hash_45Map_7,Map_8,Weak_45Id_45Map_9,Seq_10,Object_11,Type_12,Seq_13,compare_14,control_15,methods_16)=>{
 	exports._get=_ms.lazy(()=>{
 		const _$2=_ms.getModule(methods_0),sub=_ms.get(_$2,"sub"),_$3=_ms.getModule(js_45impl_1),iCurry=_ms.get(_$3,"iCurry"),Alias_45Type=_ms.getDefaultExport(Alias_45Type_2),Method=_ms.getDefaultExport(Method_3),_$5=_ms.getModule(Method_3),impl_33=_ms.get(_$5,"impl!"),self_45impl_33=_ms.get(_$5,"self-impl!"),_64=_ms.lazy(()=>{
 			return _ms.getDefaultExport(_64_4)
 		}),_$7=_ms.lazyGetModule(_64_4),_43_43=_ms.lazyProp(_$7,"++"),_$8=_ms.lazyGetModule(_64_45Type_5),empty=_ms.lazyProp(_$8,"empty"),Map=_ms.lazy(()=>{
 			return _ms.getDefaultExport(Map_6)
-		}),Hash_45Map_33=_ms.lazy(()=>{
-			return _ms.getDefaultExport(Hash_45Map_33_7)
-		}),_$11=_ms.lazyGetModule(Map_33_8),get_45or_45add_33=_ms.lazyProp(_$11,"get-or-add!"),Weak_45Id_45Map_33=_ms.lazy(()=>{
-			return _ms.getDefaultExport(Weak_45Id_45Map_33_9)
+		}),Hash_45Map=_ms.lazy(()=>{
+			return _ms.getDefaultExport(Hash_45Map_7)
+		}),_$11=_ms.lazyGetModule(Map_8),get_45or_45add_33=_ms.lazyProp(_$11,"get-or-add!"),Weak_45Id_45Map=_ms.lazy(()=>{
+			return _ms.getDefaultExport(Weak_45Id_45Map_9)
 		}),_$13=_ms.lazyGetModule(Seq_10),rtail=_ms.lazyProp(_$13,"rtail"),last=_ms.lazyProp(_$13,"last"),_$14=_ms.lazyGetModule(Object_11),Object_45_62Map=_ms.lazyProp(_$14,"Object->Map"),_$15=_ms.lazyGetModule(Type_12),_61_62=_ms.lazyProp(_$15,"=>"),_$17=_ms.lazyGetModule(Seq_13),seq_61_63=_ms.lazyProp(_$17,"seq=?"),_$18=_ms.lazyGetModule(compare_14),_61_63=_ms.lazyProp(_$18,"=?"),_$19=_ms.lazyGetModule(control_15),build=_ms.lazyProp(_$19,"build"),_$20=_ms.lazyGetModule(methods_16),_43=_ms.lazyProp(_$20,"+");
 		const Action=exports.Action=Alias_45Type(()=>{
 			const built={};
@@ -101,7 +101,7 @@ define(["exports","./methods","./private/js-impl","./Type/Alias-Type","./Type/Me
 		}();
 		const id_45memoize=exports["id-memoize"]=()=>{
 			const built={};
-			const doc=built.doc=`When an Object is passed into \`fun\`, stores the result in a \`Weak-Id-Map!\`\nand uses that if the exact same (\`id=?\`) Object is used again.`;
+			const doc=built.doc=`When an Object is passed into \`fun\`, stores the result in a Weak-Id-Map\nand uses that if the exact same (\`id=?\`) Object is used again.`;
 			const test=built.test=function test(){
 				_ms.assert(_ms.unlazy(seq_61_63),[1,2,1],_ms.unlazy(build)(_yield=>{
 					const get_45a=id_45memoize(x=>{
@@ -125,7 +125,7 @@ define(["exports","./methods","./private/js-impl","./Type/Alias-Type","./Type/Me
 			};
 			return _ms.set(function id_45memoize(_){
 				_ms.checkContains(Function,_,"_");
-				const wm=_ms.unlazy(empty)(_ms.unlazy(Weak_45Id_45Map_33));
+				const wm=_ms.unlazy(empty)(_ms.unlazy(Weak_45Id_45Map));
 				return arg=>{
 					_ms.checkContains(Object,arg,"arg");
 					return _ms.unlazy(get_45or_45add_33)(wm,arg,_ms.lazy(()=>{
@@ -165,7 +165,7 @@ define(["exports","./methods","./private/js-impl","./Type/Alias-Type","./Type/Me
 			};
 			return _ms.set(function hash_45memoize(_){
 				_ms.checkContains(Function,_,"_");
-				const hm=_ms.unlazy(empty)(_ms.unlazy(Hash_45Map_33));
+				const hm=_ms.unlazy(empty)(_ms.unlazy(Hash_45Map));
 				return arg=>{
 					_ms.checkContains(Object,arg,"arg");
 					return _ms.unlazy(get_45or_45add_33)(hm,arg,_ms.lazy(()=>{

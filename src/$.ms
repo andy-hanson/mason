@@ -1,7 +1,7 @@
 use
 	.@.@ _ flatten
 	.Function apply Thunk
-	.Generator!
+	.Generator
 	.methods sub
 	.Type.Method self-impl!
 	.Type.Pred-Type Any
@@ -172,7 +172,7 @@ $ing.
 			<~ $rejected "whoops"
 			throw! "It's been rejected, so the rest is never called."
 		assert! =? "whoops" $whoops.message
-	|:$ code:Function[Generator!]
+	|:$ code:Function[Generator]
 		$-generator = code()
 		do-next = |last-value
 			value done = $-generator.next last-value

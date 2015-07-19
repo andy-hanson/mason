@@ -1,6 +1,6 @@
 use
 	...Function thunk
-	...Generator! _ empty-Generator
+	...Generator _ empty-Generator
 	...Type.Js-Method js-impl!
 	...Type.Kind kind! self-kind!
 	...Type.Wrap-Type
@@ -12,9 +12,9 @@ use-debug
 
 Stream. Wrap-Type
 	doc. "
-		A Stream is a @ whose elements are the outputs of a Generator!.
-		Unlike a Generator!, a Stream can be used multiple times.
-	wrapped-type. Function[Generator!]
+		A Stream is a @ whose elements are the outputs of a Generator.
+		Unlike a Generator, a Stream can be used multiple times.
+	wrapped-type. Function[Generator]
 	test. !|
 		_ = Stream ~!|
 			<~ 1

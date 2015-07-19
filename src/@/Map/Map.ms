@@ -7,10 +7,9 @@ use
 	...Type.Type => type-of
 	..@ _ all? count empty? map'
 	..@-Type empty
-	..? un-?
+	..? ?-or un-?
 use~
-	.Id-Map!
-	.Map! assoc!
+	.Id-Map
 use-debug
 	...math.methods +
 
@@ -63,7 +62,7 @@ region Functions
 			assert! =? map[2] 3
 		# TODO: map-type param
 		|@key:@ get-value:Function
-			map = empty Id-Map!
+			map = empty Id-Map
 			for! @key
 				assoc! map _ get-value_
 			map
@@ -86,3 +85,45 @@ region Functions
 					val = pair[1]
 					?bk = ?get b key
 					and (not empty? ?bk) (=? val ?bk.val
+
+region Mutator methods
+	assoc!. Method
+		doc. "Set _[key] to val."
+		args. [ "_" "key" "val"
+
+	assoc*!.
+		doc. "Adds the other map's keys to mine, overriding my values."
+		test. "See Map.implementor-test."
+		!|map:Map to-add:Map
+			for! to-add
+				# TODO:SYNTAX Array destructure
+				assoc! map _[0] _[1]
+
+	un-assoc!. Method
+		doc. "
+			If there is a value associated with `key`, removes it and returns the value associated.
+		args. [ "_" "key"
+
+	un-assoc*!.
+		doc. "Removes keys (and by proxy, their associated values)."
+		!|map:Map @to-delete:@
+			for! @to-delete
+				un-assoc! map _
+
+	add!. Method
+		doc. "
+			|_ key:Any val:Any
+			assoc! key val, but fail if _[key] is set already.
+		args. [ "_" "key" "val"
+		default. !|_ key val
+			in
+				forbid! has-key? _ key throw! "Already have key {key}."
+			assoc! _ key val
+
+	get-or-add!. Method
+		doc. "map[key], and if it's not already there, fill it in with default-val."
+		args. [ "_" "key" "~default-val"
+		default. |map key ~default-val
+			?-or (?get map key) ~
+				assoc! map key default-val
+				default-val

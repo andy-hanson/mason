@@ -1,8 +1,7 @@
 use
 	...@.@ count empty?
-	...@.Seq.Deque!
-	...@.Seq.Seq
-	...@.Seq.Seq! <++! ++>! set-nth!
+	...@.Seq.Deque
+	...@.Seq.Seq _ <++! ++>! set-nth!
 	...compare =?
 	...js id=?
 	...math.methods + -
@@ -73,7 +72,7 @@ run-turing.
 
 	|spec init-tape:Seq
 		rules:Object blank:Any init-state:Any = spec
-		tape = => Deque! case
+		tape = => Deque case
 			empty? init-tape
 				[ blank ]
 			else

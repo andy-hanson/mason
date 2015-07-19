@@ -78,11 +78,11 @@ Kind. Obj-Type
 	extensible. true
 	defaults.
 		super-kinds. |
-			Array 0
+			[ ]
 		prototype. |
 			Object.create null
 		implementors. |
-			Array 0
+			[ ]
 		symbol-for-isa. |_
 			Symbol "isa-{_.name}"
 	post-construct. !|_

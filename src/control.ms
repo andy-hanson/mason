@@ -3,10 +3,7 @@ use
 	.methods freeze
 	.Type.Pred-Type Any Opt
 use~
-	.@.@-Type empty
-	.@.Seq.Array!
-	.@.Seq.Seq
-	.@.Seq.Seq! ++>!
+	.@.Seq.Seq _ ++>!
 use-debug
 	.compare =?
 
@@ -31,7 +28,7 @@ build.
 			yield 0
 			yield 1
 	|:Seq calls-yield:Function
-		yielded = empty Array!
+		yielded = [ ]
 		yield = |_
 			++>! yielded [ _ ]
 		calls-yield yield

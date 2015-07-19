@@ -1,8 +1,7 @@
 use
 	esast.dist.mangle-identifier
 	..js js-sub
-	..Object Object-Key
-	..Object! p+!
+	..Object Object-Key p+!
 	.Impl-Type
 	.Obj-Type
 	.Pred-Type Any

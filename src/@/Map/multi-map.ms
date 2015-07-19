@@ -1,11 +1,9 @@
 use
 	...control opr
 	...Type.Pred-Type Opt
-	..@
-	..@! ++!
+	..@ _ ++!
 	..@-Type _ empty
-	..Seq.Array!
-	.Map! _ get-or-add!
+	.Map _ get-or-add!
 use-debug
 	...compare =?
 	...show
@@ -17,14 +15,14 @@ add-to-@!.
 		Treat `map` as a multi-map and add `added` to the @ associated with `key`.
 		`@-type` is the type to use to create the `@` if it's not already there.
 	test. !|
-		_ = empty Map!
+		_ = empty Map
 		add-to-@! _ 1 [ 1 ]
 		assert! =? _[1] [ 1 ]
 		add-to-@! _ 1 [1 ]
 		assert! =? _[1] [ 1 1 ]
-	|map:Map! key added:@ @-type:Opt[@-Type]
+	|map:Map key added:@ @-type:Opt[@-Type]
 		_ = get-or-add! map key ~
-			empty (opr @-type Array!
+			empty (opr @-type Array
 		++! _ added
 
 group.
@@ -41,7 +39,7 @@ group.
 		assert! seq=? (group @sample show)["1"] (keep @sample |_
 			=? show_ "1"
 	|@value:@ group-by:Function
-		map = empty Map!
+		map = empty Map
 		for! @value
 			key = group-by _
 			add-to-@! map key [ _ ]

@@ -2,8 +2,8 @@ use
 	...@.@ count keep map
 	...@.@-Type empty
 	...@.Map.Map values
-	...@.Map.Id-Map!
-	...@.Map.multi-map! add-to-@!
+	...@.Map.Id-Map
+	...@.Map.multi-map add-to-@!
 	...compare =? max sort
 use-debug
 	...@.Seq.Seq seq=?
@@ -29,7 +29,7 @@ maximum-anagram-sets.
 			. [ "evil" "levi" "live" "veil" "vile"
 	|words
 		# e.g., "amnos" -> [ "mason" "monas" ]
-		sorted->words = empty Id-Map!
+		sorted->words = empty Id-Map
 		for! words
 			# TODO: Function to add just one new element
 			add-to-@! sorted->words sort_ [ _ ]

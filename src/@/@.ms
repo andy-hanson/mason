@@ -10,17 +10,16 @@ use
 	..Type.Type => contains? type-of
 use~
 	..control opr
-	.@! --!
 	.? Opt->?
-	.Seq.Seq first seq=? tail
+	.Seq.Seq ++>! first seq=? tail
 	.Seq.Stream
-	.Set.Set!
+	.Set.Set
 use-debug
 	..math.Number divisible?
 	..Try fails?
 	.@-Type _ empty
 	.?
-	.Map.Weak-Id-Map!
+	.Map.Weak-Id-Map
 
 @. Kind
 	doc. "
@@ -28,13 +27,13 @@ use-debug
 		If the iteration order of an @ is meaningful and `+ a b` is the concatenation, it is a Seq.
 		If an @ only stores a given element once, it is a Set.
 	implementor-test. !|@-type
-		unless! =? @-type Weak-Id-Map!
+		unless! =? @-type Weak-Id-Map
 			assert! contains? @-Type @-type throw! "Be sure to make your @ type a @-Type."
 			_ = empty @-type
 			assert! empty? _
 
 iterator. Js-Method
-	doc. "Creates a new Generator! which yields the values in the @."
+	doc. "Creates a new Generator which yields the values in the @."
 	args. 1
 	impl-symbol. Symbol.iterator
 
@@ -268,7 +267,7 @@ region Lazy functions, and their eager versions.
 		|:@ @removed-from @remove:@
 			# TODO:SYNTAX @for~
 			Stream ~!|
-				@remove-remaining = => Set! @remove
+				@remove-remaining = => Set @remove
 				for! @removed-from
 					case!
 						:@remove-remaining
@@ -282,3 +281,31 @@ region Lazy functions, and their eager versions.
 			assert! =? [ 1 ] [ 1 ]
 		|@a @b
 			and (id=? (type-of @a) (type-of @b)) (seq=? @a @b
+
+region Mutator methods
+	empty!. Method
+		doc. "Mutates this collection so that it will be `empty?`."
+		args. 1
+
+	++!. Method
+		doc. "
+			Adds new elements.
+			For Seqs these are added on the right; use `<++!` to add on the left.
+		test. !|
+			pass # TODO:impl-test
+		args.
+			. "_"
+			. [ "added" @
+		# TODO: Lazy default?
+		default. !|_ added
+			++>! _ added
+
+	--!. Method
+		doc. "
+			Removes all elements in `removed` once.
+			For Seqs these are removed starting from the left.
+		args.
+			. "_"
+			. [ "@removed" @
+		test. !|
+			pass # TODO:impl-test

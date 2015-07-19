@@ -1,15 +1,14 @@
 use
 	...Type.Kind _ kind!
 	...Type.Method
-	..@!
+	..@
 	..?
 use-debug
 	...compare =?
-	..@ empty?
-	..@! ++!
+	..@ ++! empty?
 	..@-Type empty
 
-Priority-Queue!. Kind
+Priority-Queue. Kind
 	doc. "
 		@ whose first item will always be the smallest.
 		Iteration order has no other guaranees,
@@ -22,7 +21,7 @@ Priority-Queue!. Kind
 		assert! =? (? 3) ?pop!_
 		assert! empty? _
 
-kind! Priority-Queue! @!
+kind! Priority-Queue @
 
 # TODO: Move?
 ?pop!. Method

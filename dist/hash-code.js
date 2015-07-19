@@ -8,7 +8,7 @@ define(["exports","./compare","./js","./math/Number","./private/js-impl","./Type
 		};
 		const hash_45code=Method(()=>{
 			const built={};
-			const doc=built.doc=`Integer used to identify a value in a Hash-Map! (or Hash-Set!).\nThis should have a high probability of being different than the hash-codes of the other values in the map.`;
+			const doc=built.doc=`Integer used to identify a value in a Hash-Map (or Hash-Set).\nThis should have a high probability of being different than the hash-codes of the other values in the map.`;
 			const test=built.test=function test(){
 				const a=()=>{
 					const built={};

@@ -10,7 +10,7 @@ keep-small = |_
 
 hash-code. Method
 	doc. "
-		Integer used to identify a value in a Hash-Map! (or Hash-Set!).
+		Integer used to identify a value in a Hash-Map (or Hash-Set).
 		This should have a high probability of being different than the hash-codes of the other values in the map.
 	test. !|
 		a =

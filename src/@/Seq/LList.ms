@@ -1,6 +1,6 @@
 use
 	...js id=?
-	...Object! p!
+	...Object p!
 	...Type.Js-Method js-impl!
 	...Type.Kind kind! self-kind!
 	...Type.Tuple

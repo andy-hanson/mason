@@ -6,7 +6,7 @@ use
 	..@ _ all? count keep
 	..@-Type _ empty from-stream
 use~
-	.Hash-Set!
+	.Hash-Set
 use-debug
 	..@ --
 
@@ -15,9 +15,9 @@ Set. Kind
 
 self-kind! Set @-Type
 	empty -> |
-		empty Hash-Set!
+		empty Hash-Set
 	from-stream -> |_
-		from-stream Hash-Set! _
+		from-stream Hash-Set _
 kind! Set @
 
 impl! =? Set

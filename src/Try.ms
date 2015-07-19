@@ -5,8 +5,7 @@ use
 	.compare =?
 	.Function Action noop
 	.private.bootstrap ms
-	.Object p
-	.Object! p!
+	.Object p p!
 	.Type.Method self-impl!
 	.Type.Obj-Type
 	.Type.Kind

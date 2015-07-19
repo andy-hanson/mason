@@ -5,9 +5,7 @@ use
 	..Type.Kind _ self-kind!
 	..Type.Method _ impl! self-impl!
 	..Type.Type =>
-	.@
-use~
-	.@! ++!
+	.@ _ ++!
 use-debug
 	.Seq.Range range
 
@@ -35,6 +33,6 @@ from-stream. Method
 # TODO: Do this in @.ms
 self-kind! @ @-Type
 self-impl! empty @ |
-	empty Array
+	[ ]
 
 impl! => @-Type from-stream

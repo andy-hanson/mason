@@ -1,10 +1,10 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","../../compare","../../methods","../../Type/Kind","../../Type/Method","../../Type/Pred-Type","../../Type/Type","../at","../at-Type","../q","./Id-Mapbang","./Mapbang","../../math/methods"],(exports,compare_0,methods_1,Kind_2,Method_3,Pred_45Type_4,Type_5,_64_6,_64_45Type_7,_63_8,Id_45Map_33_9,Map_33_10,methods_11)=>{
+define(["exports","../../compare","../../methods","../../Type/Kind","../../Type/Method","../../Type/Pred-Type","../../Type/Type","../at","../at-Type","../q","./Id-Map","../../math/methods"],(exports,compare_0,methods_1,Kind_2,Method_3,Pred_45Type_4,Type_5,_64_6,_64_45Type_7,_63_8,Id_45Map_9,methods_10)=>{
 	exports._get=_ms.lazy(()=>{
-		const _$2=_ms.getModule(compare_0),_61_63=_ms.get(_$2,"=?"),_$3=_ms.getModule(methods_1),sub=_ms.get(_$3,"sub"),Kind=_ms.getDefaultExport(Kind_2),_$4=_ms.getModule(Kind_2),kind_33=_ms.get(_$4,"kind!"),Method=_ms.getDefaultExport(Method_3),_$5=_ms.getModule(Method_3),impl_33=_ms.get(_$5,"impl!"),_$6=_ms.getModule(Pred_45Type_4),Any=_ms.get(_$6,"Any"),_$7=_ms.getModule(Type_5),_61_62=_ms.get(_$7,"=>"),type_45of=_ms.get(_$7,"type-of"),_64=_ms.getDefaultExport(_64_6),_$8=_ms.getModule(_64_6),all_63=_ms.get(_$8,"all?"),count=_ms.get(_$8,"count"),empty_63=_ms.get(_$8,"empty?"),map_39=_ms.get(_$8,"map'"),_$9=_ms.getModule(_64_45Type_7),empty=_ms.get(_$9,"empty"),_$10=_ms.getModule(_63_8),un_45_63=_ms.get(_$10,"un-?"),Id_45Map_33=_ms.lazy(()=>{
-			return _ms.getDefaultExport(Id_45Map_33_9)
-		}),_$13=_ms.lazyGetModule(Map_33_10),assoc_33=_ms.lazyProp(_$13,"assoc!"),_$15=_ms.lazyGetModule(methods_11),_43=_ms.lazyProp(_$15,"+");
+		const _$2=_ms.getModule(compare_0),_61_63=_ms.get(_$2,"=?"),_$3=_ms.getModule(methods_1),sub=_ms.get(_$3,"sub"),Kind=_ms.getDefaultExport(Kind_2),_$4=_ms.getModule(Kind_2),kind_33=_ms.get(_$4,"kind!"),Method=_ms.getDefaultExport(Method_3),_$5=_ms.getModule(Method_3),impl_33=_ms.get(_$5,"impl!"),_$6=_ms.getModule(Pred_45Type_4),Any=_ms.get(_$6,"Any"),_$7=_ms.getModule(Type_5),_61_62=_ms.get(_$7,"=>"),type_45of=_ms.get(_$7,"type-of"),_64=_ms.getDefaultExport(_64_6),_$8=_ms.getModule(_64_6),all_63=_ms.get(_$8,"all?"),count=_ms.get(_$8,"count"),empty_63=_ms.get(_$8,"empty?"),map_39=_ms.get(_$8,"map'"),_$9=_ms.getModule(_64_45Type_7),empty=_ms.get(_$9,"empty"),_$10=_ms.getModule(_63_8),_63_45or=_ms.get(_$10,"?-or"),un_45_63=_ms.get(_$10,"un-?"),Id_45Map=_ms.lazy(()=>{
+			return _ms.getDefaultExport(Id_45Map_9)
+		}),_$14=_ms.lazyGetModule(methods_10),_43=_ms.lazyProp(_$14,"+");
 		const Map=Kind(()=>{
 			const built={};
 			const doc=built.doc=`Mapping from keys to values.`;
@@ -70,9 +70,9 @@ define(["exports","../../compare","../../methods","../../Type/Kind","../../Type/
 			return _ms.set(function make_45map(_64key,get_45value){
 				_ms.checkContains(_64,_64key,"@key");
 				_ms.checkContains(Function,get_45value,"get-value");
-				const map=empty(_ms.unlazy(Id_45Map_33));
+				const map=empty(_ms.unlazy(Id_45Map));
 				for(let _ of _64key){
-					_ms.unlazy(assoc_33)(map,_,get_45value(_))
+					assoc_33(map,_,get_45value(_))
 				};
 				return map
 			},built)
@@ -110,9 +110,68 @@ define(["exports","../../compare","../../methods","../../Type/Kind","../../Type/
 				}())
 			},built)
 		}();
+		const assoc_33=exports["assoc!"]=Method(()=>{
+			const built={};
+			const doc=built.doc=`Set _[key] to val.`;
+			const args=built.args=[`_`,`key`,`val`];
+			return _ms.setName(built,"assoc!")
+		}());
+		const assoc_42_33=exports["assoc*!"]=()=>{
+			const built={};
+			const doc=built.doc=`Adds the other map's keys to mine, overriding my values.`;
+			const test=built.test=`See Map.implementor-test.`;
+			return _ms.set(function assoc_42_33(map,to_45add){
+				_ms.checkContains(Map,map,"map");
+				_ms.checkContains(Map,to_45add,"to-add");
+				for(let _ of to_45add){
+					assoc_33(map,_ms.sub(_,0),_ms.sub(_,1))
+				}
+			},built)
+		}();
+		const un_45assoc_33=exports["un-assoc!"]=Method(()=>{
+			const built={};
+			const doc=built.doc=`If there is a value associated with \`key\`, removes it and returns the value associated.`;
+			const args=built.args=[`_`,`key`];
+			return _ms.setName(built,"un-assoc!")
+		}());
+		const un_45assoc_42_33=exports["un-assoc*!"]=()=>{
+			const built={};
+			const doc=built.doc=`Removes keys (and by proxy, their associated values).`;
+			return _ms.set(function un_45assoc_42_33(map,_64to_45delete){
+				_ms.checkContains(Map,map,"map");
+				_ms.checkContains(_64,_64to_45delete,"@to-delete");
+				for(let _ of _64to_45delete){
+					un_45assoc_33(map,_)
+				}
+			},built)
+		}();
+		const add_33=exports["add!"]=Method(()=>{
+			const built={};
+			const doc=built.doc=`|_ key:Any val:Any\nassoc! key val, but fail if _[key] is set already.`;
+			const args=built.args=[`_`,`key`,`val`];
+			const _default=built.default=function _default(_,key,val){
+				if(_ms.bool(has_45key_63(_,key)))throw _ms.error(`Already have key ${_ms.show(key)}.`);
+				assoc_33(_,key,val)
+			};
+			return _ms.setName(built,"add!")
+		}());
+		const get_45or_45add_33=exports["get-or-add!"]=Method(()=>{
+			const built={};
+			const doc=built.doc=`map[key], and if it's not already there, fill it in with default-val.`;
+			const args=built.args=[`_`,`key`,`~default-val`];
+			const _default=built.default=function _default(map,key,default_45val){
+				return _63_45or(_63get(map,key),_ms.lazy(()=>{
+					return ()=>{
+						assoc_33(map,key,_ms.unlazy(default_45val));
+						return _ms.unlazy(default_45val)
+					}()
+				}))
+			};
+			return _ms.setName(built,"get-or-add!")
+		}());
 		const name=exports.name=`Map`;
 		exports.default=Map;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL01hcC9NYXAubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQWdCQSxVQUFLLFNBQ0k7O0dBQVIsb0JBQU07OztFQUVQLFFBQU0sSUFBSTtFQUdULDZCQUFNLFdBQ007O0dBQVgsb0JBQU07R0FDTixzQkFBTSxDQUFHLElBQUk7OztFQUVkLHVDQUFVLFdBQ007O0dBQWYsb0JBQ0M7R0FFRCxzQkFBTSxDQUFHLElBQUk7R0FDYiw2QkFBVSxrQkFBQSxFQUFFLElBQ0c7V0FBZCxFQUFLLFNBQVEsT0FBSyxFQUFFO0dBQUE7OztFQUV0Qix3QkFBTSxXQUNNOztHQUFYLG9CQUFNO0dBQ04sc0JBQU07R0FDTiw2QkFBVSxrQkFBQSxFQUNDO1dBQVYsT0FBRyxNQUFPLE9BQUssRUFBRyxNQUNJO29CQUFyQixLQUFLO0lBQUE7R0FBQTs7O0VBRVIsNEJBQVEsV0FDTTs7R0FBYixvQkFBTTtHQUNOLHNCQUFNO0dBQ04sNkJBQVUsa0JBQUEsRUFDQztXQUFWLE9BQUcsTUFBTyxPQUFLLEVBQUcsTUFDSTtvQkFBckIsS0FBSztJQUFBO0dBQUE7OztFQUdSLFFBQU0sT0FBRyxJQUFLLENBQUEsR0FBRyxLQUNFO1VBQWxCLENBQUssT0FBSSxVQUFRLElBQUssVUFBUSxNQUFNLFVBQU0sR0FBRztFQUFBO0VBRTlDLFFBQU0sSUFBSSxJQUFLLENBQUEsSUFBSSxNQUNPO3FCQURIO1VBQ3RCLFNBQU0sT0FBSyxJQUFJO1dBQU8sWUFBQyxrQ0FBdUI7OztFQUcvQyx5Q0FDUzs7R0FBUixvQkFBTTtHQUNOLHNCQUNRLGVBQUE7SUFBUCxVQUFNLFdBQVMsQ0FBRSxFQUFFLEdBQUssR0FDQzs0QkFBdEIsRUFBRTtJQUFBO2VBQ0csZUFBRyxJQUFJLEdBQUc7ZUFDVixlQUFHLElBQUksR0FBRztHQUFBO2tCQUVsQixvQkFBQSxPQUFPLFlBQ2tCO3NCQURwQjtzQkFBWTtJQUNqQixVQUFNO0lBQ0QsUUFBQSxLQUFBLE9BQ0k7MEJBQUQsSUFBSSxFQUFFLFlBQVM7SUFBQTtXQUN2QjtHQUFBOztFQUVGLHFDQUNNOztHQUFMLG9CQUFNO0dBQ04sc0JBQ08sZUFBQTs7SUFBTixhQUNJOztxQkFBSCxFQUFLO3FCQUNMLEVBQUs7OztJQUNOLGFBQ0k7O3FCQUFILEVBQUs7OztvQkFDTixDQUFFLEdBQUcsSUFBUTtvQkFDYixDQUFFLEdBQUcsSUFBUTs7O2tCQUNiLG1CQUFBLEVBQU0sRUFDSztzQkFEVDtzQkFBTTtXQUNSLENBQUssT0FBSSxNQUFNLEdBQUksTUFBTSxTQUNHO1lBQTNCLE9BQUssRUFBRyxNQUNJO01BQ1gsa0JBQU0sS0FBSztNQUNYLGtCQUFNLEtBQUs7TUFDWCxZQUFNLE9BQUssRUFBRTthQUNiLENBQUssRUFBSSxTQUFPLFFBQU0sT0FBRyxJQUFJOzs7OztFQXZGbEMsd0JBQUE7a0JBZ0JBIiwiZmlsZSI6ImF0L01hcC9NYXAuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL01hcC9NYXAubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQWVBLFVBQUssU0FDSTs7R0FBUixvQkFBTTs7O0VBRVAsUUFBTSxJQUFJO0VBR1QsNkJBQU0sV0FDTTs7R0FBWCxvQkFBTTtHQUNOLHNCQUFNLENBQUcsSUFBSTs7O0VBRWQsdUNBQVUsV0FDTTs7R0FBZixvQkFDQztHQUVELHNCQUFNLENBQUcsSUFBSTtHQUNiLDZCQUFVLGtCQUFBLEVBQUUsSUFDRztXQUFkLEVBQUssU0FBUSxPQUFLLEVBQUU7R0FBQTs7O0VBRXRCLHdCQUFNLFdBQ007O0dBQVgsb0JBQU07R0FDTixzQkFBTTtHQUNOLDZCQUFVLGtCQUFBLEVBQ0M7V0FBVixPQUFHLE1BQU8sT0FBSyxFQUFHLE1BQ0k7b0JBQXJCLEtBQUs7SUFBQTtHQUFBOzs7RUFFUiw0QkFBUSxXQUNNOztHQUFiLG9CQUFNO0dBQ04sc0JBQU07R0FDTiw2QkFBVSxrQkFBQSxFQUNDO1dBQVYsT0FBRyxNQUFPLE9BQUssRUFBRyxNQUNJO29CQUFyQixLQUFLO0lBQUE7R0FBQTs7O0VBR1IsUUFBTSxPQUFHLElBQUssQ0FBQSxHQUFHLEtBQ0U7VUFBbEIsQ0FBSyxPQUFJLFVBQVEsSUFBSyxVQUFRLE1BQU0sVUFBTSxHQUFHO0VBQUE7RUFFOUMsUUFBTSxJQUFJLElBQUssQ0FBQSxJQUFJLE1BQ087cUJBREg7VUFDdEIsU0FBTSxPQUFLLElBQUk7V0FBTyxZQUFDLGtDQUF1Qjs7O0VBRy9DLHlDQUNTOztHQUFSLG9CQUFNO0dBQ04sc0JBQ1EsZUFBQTtJQUFQLFVBQU0sV0FBUyxDQUFFLEVBQUUsR0FBSyxHQUNDOzRCQUF0QixFQUFFO0lBQUE7ZUFDRyxlQUFHLElBQUksR0FBRztlQUNWLGVBQUcsSUFBSSxHQUFHO0dBQUE7a0JBRWxCLG9CQUFBLE9BQU8sWUFDa0I7c0JBRHBCO3NCQUFZO0lBQ2pCLFVBQU07SUFDRCxRQUFBLEtBQUEsT0FDSTtLQUFSLFNBQU8sSUFBSSxFQUFFLFlBQVM7SUFBQTtXQUN2QjtHQUFBOztFQUVGLHFDQUNNOztHQUFMLG9CQUFNO0dBQ04sc0JBQ08sZUFBQTs7SUFBTixhQUNJOztxQkFBSCxFQUFLO3FCQUNMLEVBQUs7OztJQUNOLGFBQ0k7O3FCQUFILEVBQUs7OztvQkFDTixDQUFFLEdBQUcsSUFBUTtvQkFDYixDQUFFLEdBQUcsSUFBUTs7O2tCQUNiLG1CQUFBLEVBQU0sRUFDSztzQkFEVDtzQkFBTTtXQUNSLENBQUssT0FBSSxNQUFNLEdBQUksTUFBTSxTQUNHO1lBQTNCLE9BQUssRUFBRyxNQUNJO01BQ1gsa0JBQU0sS0FBSztNQUNYLGtCQUFNLEtBQUs7TUFDWCxZQUFNLE9BQUssRUFBRTthQUNiLENBQUssRUFBSSxTQUFPLFFBQU0sT0FBRyxJQUFJOzs7OztFQUdqQyxpQ0FBUSxXQUNNOztHQUFiLG9CQUFNO0dBQ04sc0JBQU0sQ0FBRyxJQUFJLE1BQU07OztFQUVwQix5Q0FDUTs7R0FBUCxvQkFBTTtHQUNOLHNCQUFPO2tCQUNMLHFCQUFBLElBQVEsU0FDVTtzQkFEZDtzQkFBVztJQUNYLFFBQUEsS0FBQSxTQUNNO0tBQ1YsU0FBTyxZQUFJLEVBQUUsV0FBRyxFQUFFO0lBQUE7R0FBQTs7RUFFckIseUNBQVcsV0FDTTs7R0FBaEIsb0JBQ0M7R0FDRCxzQkFBTSxDQUFHLElBQUk7OztFQUVkLGlEQUNXOztHQUFWLG9CQUFNO2tCQUNKLDBCQUFBLElBQVEsZUFDWTtzQkFEaEI7c0JBQWU7SUFDZixRQUFBLEtBQUEsZUFDVTtLQUFkLGNBQVUsSUFBSTtJQUFBO0dBQUE7O0VBRWpCLDZCQUFNLFdBQ007O0dBQVgsb0JBQ0M7R0FFRCxzQkFBTSxDQUFHLElBQUksTUFBTTtHQUNuQiw2QkFBVyxrQkFBQSxFQUFFLElBQUksSUFHaEI7SUFEUyxZQUFBLGFBQVMsRUFBRSxzQkFBWSw2QkFBa0I7SUFDbEQsU0FBTyxFQUFFLElBQUk7R0FBQTs7O0VBRWYsK0NBQWEsV0FDTTs7R0FBbEIsb0JBQU07R0FDTixzQkFBTSxDQUFHLElBQUksTUFBTTtHQUNuQiw2QkFBVSxrQkFBQSxJQUFJLElBQUksY0FDWTtXQUE3QixTQUFNLE9BQUssSUFBSTtnQkFDTTtNQUFwQixTQUFPLElBQUksZUFGSzt3QkFBQTtLQUFBO0lBQUE7R0FBQTs7O0VBN0hwQix3QkFBQTtrQkFlQSIsImZpbGUiOiJhdC9NYXAvTWFwLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

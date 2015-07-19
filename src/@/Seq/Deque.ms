@@ -3,30 +3,27 @@ use
 	...math.Number modulo Nat
 	...math.methods + - *
 	...methods sub
-	...Object! p!
+	...Object p!
 	...Type.Js-Method js-impl!
 	...Type.Kind kind! self-kind!
 	...Type.Pred-Type Any
 	...Type.Tuple
-	..@ _ ++' count empty? iterator map
-	..@! empty!
+	..@ _ ++' count empty! empty? iterator map
 	..@-Type _ empty
 	..? un-?
-	.Array!
 	.Range range
-	.Seq ?nth reverse
-	.Seq! _ <++! ++>! ?<pop! ?pop>! set-nth!
+	.Seq _ <++! ++>! ?nth ?<pop! ?pop>! reverse set-nth!
 
-Deque! = Tuple
-	doc. "Seq! that can efficiently add values on either side."
+Deque = Tuple
+	doc. "Seq that can efficiently add values on either side."
 	props.
-		. [ "data!" Array!
+		. [ "data!" Array
 		. [ "start-index!" Nat # Inclusive (unless =? end-index)
 		. [ "end-index!" Nat # Exclusive
 
-self-kind! Deque! @-Type
+self-kind! Deque @-Type
 	empty -> |
-		Deque! (empty Array! 8) 0 0
+		Deque (Array 8) 0 0
 
 region Helpers
 	capacity = |_
@@ -36,7 +33,7 @@ region Helpers
 		old-data = _.data!
 		old-capacity = capacity_
 		new-capacity = * 2 old-capacity
-		new-data = empty Array! new-capacity
+		new-data = Array new-capacity
 		for! index in range 0 old-capacity
 			set-nth! new-data index old-data[index]
 		p! _ "data!" new-data
@@ -61,7 +58,7 @@ region Helpers
 				if and (<? _.end-index! _.start-index!) (<? b _.end-index!)
 					b
 
-js-impl! iterator Deque! .~!|
+js-impl! iterator Deque .~!|
 	indices = case
 		<? .end-index! .start-index!
 			++' (range .start-index! (count .data!)) (range 0 .end-index!)
@@ -70,7 +67,7 @@ js-impl! iterator Deque! .~!|
 	for! indices
 		<~ .data![_]
 
-kind! Deque! Seq!
+kind! Deque Seq
 	<++! -> !|_ ems:@
 		for! em in reverse ems
 			new-start = prev-index _ _.start-index!
@@ -120,4 +117,4 @@ kind! Deque! Seq!
 		p! _ "start-index!" 0
 		p! _ "end-index!" 0
 
-Deque!
+Deque

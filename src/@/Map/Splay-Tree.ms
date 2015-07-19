@@ -1,22 +1,20 @@
 use
 	...compare _ <?
 	...js defined?
-	...Object! p!
+	...Object p!
 	...Type.Js-Method js-impl!
 	...Type.Kind kind! self-kind!
 	...Type.Tuple
 	...Type.Wrap-Type
-	..@ empty? iterator
-	..@! empty!
+	..@ empty! empty? iterator
 	..@-Type empty
-	.Map ?get
-	.Map! assoc! un-assoc!
+	.Map assoc! ?get un-assoc!
 	.Map-Type
-	.Sorted-Map!
+	.Sorted-Map
 
 Splay-Tree!. Wrap-Type
 	doc. "
-		Default Sorted-Map! implementation.
+		Default Sorted-Map implementation.
 		Binary tree that is good at accessing the same values many times.
 
 Splay-Node = Tuple
@@ -34,7 +32,7 @@ js-impl! iterator Splay-Tree! .|
 			<~~ iter _.right!
 	iter .val
 
-kind! Splay-Tree! Sorted-Map!
+kind! Splay-Tree! Sorted-Map
 	empty? -> |_
 		not defined? _.val
 	empty! -> !|_

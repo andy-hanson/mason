@@ -1,8 +1,8 @@
 use
 	...@.? Some
-	...@.Map.Map! assoc! un-assoc!
-	...@.Map.Id-Map!
-	...@.Map.multi-map! add-to-@!
+	...@.Map.Map assoc! un-assoc!
+	...@.Map.Id-Map
+	...@.Map.multi-map add-to-@!
 	...@.Seq.Range range
 	...@.Seq.Stream
 	...math.Number infinity square
@@ -25,7 +25,7 @@ primes.
 		<~ 2
 		<~ 3
 		# Maps a composite number to its prime factors.
-		prime-factors = => Id-Map!
+		prime-factors = => Id-Map
 			9 -> [ 3 ]
 		for! candidate in range 5 infinity 2
 			# un-assoc! is to save memory - we won't need to look up this value any more.

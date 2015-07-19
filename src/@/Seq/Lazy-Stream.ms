@@ -1,6 +1,6 @@
 use
 	...Function call thunk
-	...Generator! _ empty-Generator
+	...Generator _ empty-Generator
 	...math.Number Nat
 	...math.methods -
 	...Type.Js-Method js-impl!
@@ -9,7 +9,6 @@ use
 	..@ count iterator
 	..@-Type _ empty from-stream
 	..? ?-or
-	.Array!
 	.Seq _ ?nth
 	.Stream
 use-debug
@@ -27,11 +26,11 @@ Lazy-Stream. Tuple
 		If you want to stream the results of an expensive computation and use it multiple times, use this.
 		If you have a cheap computation or only need to iterate through it once, use Stream.
 	props.
-		. [ "caching-iterator" Generator!
-		. [ "cache" Array!
+		. [ "caching-iterator" Generator
+		. [ "cache" Array
 
 self-kind! Lazy-Stream @-Type
-	empty -> thunk (Lazy-Stream empty-Generator (empty Array!
+	empty -> thunk (Lazy-Stream empty-Generator [ ])
 
 	from-stream -> |_
 		lazy-streaming |
@@ -68,8 +67,8 @@ lazy-streaming.
 				# This is *not* an exponential blowup because these are cached.
 				<~ + fibonaccis[(- _ 1] fibonaccis[(- _ 2
 		assert! seq=? (take' fibonaccis 10) [ 1 1 2 3 5 8 13 21 34 55 ]
-	|stream:Function[Generator!]
-		cache = empty Array!
+	|stream:Function[Generator]
+		cache = [ ]
 		# TODO:ES6
 		# We wrap this in a Stream because `for!` calls [Symbol.iterator]().
 		# We should be able to do `for!` on both @s and unwrapped iterators.

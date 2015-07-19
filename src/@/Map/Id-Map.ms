@@ -1,25 +1,23 @@
 use
 	...control returning
 	...Type.Kind kind! self-kind!
-	..@ count
-	..@! empty!
+	..@ count empty!
 	..@-Type empty
 	..? Opt->?
 	..Seq.Stream
-	.Map ?get has-key? keys values
-	.Map! _ assoc! un-assoc!
+	.Map _ assoc! ?get has-key? keys un-assoc! values
 	.Map-Type
 use-debug
 	...compare =?
 	..Seq.Seq seq=?
 
-Id-Map!.
+Id-Map.
 	doc. "
 		JavaScript's native Map type.
 		Only considers exactly identical keys =?; this makes it the fastest Map.
 	test. !|
-		# TODO: Just use generic Map! test
-		_ = empty Id-Map!
+		# TODO: Just use generic Map test
+		_ = empty Id-Map
 		assoc! _ 1 2
 		assert! =? _[1] 2
 		key-1 =
@@ -38,11 +36,11 @@ Id-Map!.
 
 	global.Map
 
-self-kind! Id-Map! Map-Type
+self-kind! Id-Map Map-Type
 	empty -> |
-		new Id-Map!
+		new Id-Map
 
-kind! Id-Map! Map!
+kind! Id-Map Map
 	count -> |_
 		_.size
 	?get -> |_ key

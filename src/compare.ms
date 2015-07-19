@@ -5,7 +5,6 @@ use~
 	.@.@ _ all? empty? iterator
 	.@.@-Type from-stream
 	.@.? un-?
-	.@.Seq.Array!
 	.@.Seq.Seq _ first tail
 	.control opr returning
 	.Function identity
@@ -160,8 +159,8 @@ region Sorting
 			# . [ "?sort-by" Opt[Function] ]
 		default. |_ sort-by
 			sort-by := opr sort-by identity
-			# Ensure that we create a *new* Array!, because we're about to mutate it.
-			sorted = from-stream Array! _
+			# Ensure that we create a *new* Array, because we're about to mutate it.
+			sorted = from-stream Array _
 			sorted.sort |a b
 				compare (sort-by a) (sort-by b
 			sorted

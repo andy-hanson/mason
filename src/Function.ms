@@ -7,9 +7,9 @@ use~
 	.@.@ _ ++
 	.@.@-Type empty
 	.@.Map.Map
-	.@.Map.Hash-Map!
-	.@.Map.Map! get-or-add!
-	.@.Map.Weak-Id-Map!
+	.@.Map.Hash-Map
+	.@.Map.Map get-or-add!
+	.@.Map.Weak-Id-Map
 	.@.Seq.Seq rtail last
 	.Object Object->Map
 	.Type.Type =>
@@ -85,7 +85,7 @@ region Memoize
 	# TODO: perf.ms?
 	id-memoize.
 		doc. "
-			When an Object is passed into `fun`, stores the result in a `Weak-Id-Map!`
+			When an Object is passed into `fun`, stores the result in a Weak-Id-Map
 			and uses that if the exact same (`id=?`) Object is used again.
 		test. !|
 			assert! seq=? [ 1 2 1 ] (build !|yield
@@ -100,7 +100,7 @@ region Memoize
 				a1b = a. 1
 				assert! =? (get-a a1b) 1
 		|_:Function
-			wm = empty Weak-Id-Map!
+			wm = empty Weak-Id-Map
 			|arg:Object
 				get-or-add! wm arg ~(_ arg
 
@@ -125,7 +125,7 @@ region Memoize
 				assert! =? a1 a1b
 				assert! =? (get-a a1b) 1
 		|_:Function
-			hm = empty Hash-Map!
+			hm = empty Hash-Map
 			|arg:Object
 				get-or-add! hm arg ~(_ arg
 

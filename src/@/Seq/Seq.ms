@@ -13,8 +13,6 @@ use~
 	...math.Number Nat
 	...show
 	..? Opt->? un-?
-	.Array!
-	.Seq! ++>!
 	.Stream
 use-debug
 	...compare <?
@@ -28,7 +26,7 @@ kind! Seq @
 
 self-kind! Seq @-Type
 self-impl! empty Seq |
-	empty Array
+	[ ]
 
 region TODO
 	# TODO: Review name...
@@ -313,7 +311,7 @@ region TODO: put somewhere
 					Stream ~!|
 						iter = iterator_
 						for!
-							next-group = empty Array!
+							next-group = [ ]
 							for!
 								value done = iter.next()
 								if! done
@@ -333,7 +331,7 @@ region TODO: put somewhere
 			[ [ 1 2 ] ] -> [ 2 1 ]
 		args. 1
 		default. |_
-			(from-stream Array! _).reverse()
+			(from-stream Array _).reverse()
 
 	split'.
 		doc. "Subseqs separated by elements where split? is true."
@@ -359,3 +357,31 @@ region TODO: put somewhere
 							cur-idx := next-idx
 						else
 							cur-idx := next-idx
+
+region Mutator methods
+	<++!. Method
+		doc. "Makes `_` into `+ added _`."
+		args.
+			. "_"
+			. [ "added" @
+	++>!. Method
+		doc. "Makes `_` into `+ _ added`."
+		args.
+			. "_"
+			. [ "added" @
+
+	?<pop!. Method
+		doc. "Takes one element off the left side, if not empty?."
+		args. 1
+		# returns. ?
+	?pop>!. Method
+		doc. "Takes one element off the right side, if not empty?."
+		args. 1
+		# returns. ?
+
+	set-nth!. Method
+		doc. "Makes `_[n]` be `val`."
+		args.
+			. "_"
+			. [ "n" Nat
+			. "val"

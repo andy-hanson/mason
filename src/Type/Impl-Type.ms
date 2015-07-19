@@ -3,7 +3,7 @@ use
 	.Obj-Type
 use-debug
 	..compare =?
-	..Object! empty-Object!
+	..Object empty-Object!
 	.Kind kind?
 	.Method impl!
 	.Type contains?

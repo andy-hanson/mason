@@ -1,18 +1,17 @@
 use
 	...Type.Kind kind! self-kind!
 	...Type.Type contains?
-	..@ count
-	..@! ++! --! empty!
+	..@ ++! --! count empty!
 	..@-Type _ empty
-	.Set!
+	.Set
 
-Id-Set!. global.Set
+Id-Set. global.Set
 
-self-kind! Id-Set! @-Type
+self-kind! Id-Set @-Type
 	empty -> |
-		new Id-Set!
+		new Id-Set
 
-kind! Id-Set! Set!
+kind! Id-Set Set
 	count -> |_
 		_.size
 	# TODO: Make default falling back to +!

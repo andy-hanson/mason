@@ -1,8 +1,8 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","./Kind","./Obj-Type","../compare","../Objectbang","./Kind","./Method","./Type"],(exports,Kind_0,Obj_45Type_1,compare_2,Object_33_3,Kind_4,Method_5,Type_6)=>{
+define(["exports","./Kind","./Obj-Type","../compare","../Object","./Kind","./Method","./Type"],(exports,Kind_0,Obj_45Type_1,compare_2,Object_3,Kind_4,Method_5,Type_6)=>{
 	exports._get=_ms.lazy(()=>{
-		const Kind=_ms.getDefaultExport(Kind_0),_$2=_ms.getModule(Kind_0),kind_33=_ms.get(_$2,"kind!"),unchecked_45kind_33=_ms.get(_$2,"unchecked-kind!"),Obj_45Type=_ms.getDefaultExport(Obj_45Type_1),_$5=_ms.lazyGetModule(compare_2),_61_63=_ms.lazyProp(_$5,"=?"),_$6=_ms.lazyGetModule(Object_33_3),empty_45Object_33=_ms.lazyProp(_$6,"empty-Object!"),_$7=_ms.lazyGetModule(Kind_4),kind_63=_ms.lazyProp(_$7,"kind?"),_$8=_ms.lazyGetModule(Method_5),impl_33=_ms.lazyProp(_$8,"impl!"),_$9=_ms.lazyGetModule(Type_6),contains_63=_ms.lazyProp(_$9,"contains?");
+		const Kind=_ms.getDefaultExport(Kind_0),_$2=_ms.getModule(Kind_0),kind_33=_ms.get(_$2,"kind!"),unchecked_45kind_33=_ms.get(_$2,"unchecked-kind!"),Obj_45Type=_ms.getDefaultExport(Obj_45Type_1),_$5=_ms.lazyGetModule(compare_2),_61_63=_ms.lazyProp(_$5,"=?"),_$6=_ms.lazyGetModule(Object_3),empty_45Object_33=_ms.lazyProp(_$6,"empty-Object!"),_$7=_ms.lazyGetModule(Kind_4),kind_63=_ms.lazyProp(_$7,"kind?"),_$8=_ms.lazyGetModule(Method_5),impl_33=_ms.lazyProp(_$8,"impl!"),_$9=_ms.lazyGetModule(Type_6),contains_63=_ms.lazyProp(_$9,"contains?");
 		const Impl_45Type=Kind(()=>{
 			const built={};
 			const doc=built.doc=`TODO:REST\nEvery Impl-Type should have a \`prototype\` property.`;

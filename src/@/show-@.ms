@@ -9,23 +9,23 @@ use
 	.Seq.Seq take'
 use-debug
 	.@-Type empty
-	.Seq.Deque!
+	.Seq.Deque
 
 impl! show @
 	test. |
-		d = => Deque! [ 1 2 3 ]
+		d = => Deque [ 1 2 3 ]
 		[ d ] -> "
 			\n\t. 1
 				. 2
 				. 3
 		# TODO:SYNTAX [ d repr. ]
 		[ d (repr. true) ] -> "
-			=> Deque!
+			=> Deque
 				. 1
 				. 2
 				. 3
-		[ (empty Deque!) ] -> "[ ]"
-		[ (empty Deque!) (repr. true) ] -> "empty Deque!"
+		[ (empty Deque) ] -> "[ ]"
+		[ (empty Deque) (repr. true) ] -> "empty Deque"
 
 	|_ opts
 		content = case

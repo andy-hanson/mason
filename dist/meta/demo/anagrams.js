@@ -1,8 +1,8 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","../../at/at","../../at/at-Type","../../at/Map/Map","../../at/Map/Id-Mapbang","../../at/Map/multi-mapbang","../../compare","../../at/Seq/Seq","../../String"],(exports,_64_0,_64_45Type_1,Map_2,Id_45Map_33_3,multi_45map_33_4,compare_5,Seq_6,String_7)=>{
+define(["exports","../../at/at","../../at/at-Type","../../at/Map/Map","../../at/Map/Id-Map","../../at/Map/multi-map","../../compare","../../at/Seq/Seq","../../String"],(exports,_64_0,_64_45Type_1,Map_2,Id_45Map_3,multi_45map_4,compare_5,Seq_6,String_7)=>{
 	exports._get=_ms.lazy(()=>{
-		const _$2=_ms.getModule(_64_0),count=_ms.get(_$2,"count"),keep=_ms.get(_$2,"keep"),map=_ms.get(_$2,"map"),_$3=_ms.getModule(_64_45Type_1),empty=_ms.get(_$3,"empty"),_$4=_ms.getModule(Map_2),values=_ms.get(_$4,"values"),Id_45Map_33=_ms.getDefaultExport(Id_45Map_33_3),_$6=_ms.getModule(multi_45map_33_4),add_45to_45_64_33=_ms.get(_$6,"add-to-@!"),_$7=_ms.getModule(compare_5),_61_63=_ms.get(_$7,"=?"),max=_ms.get(_$7,"max"),sort=_ms.get(_$7,"sort"),_$9=_ms.lazyGetModule(Seq_6),seq_61_63=_ms.lazyProp(_$9,"seq=?"),_$10=_ms.lazyGetModule(String_7),split_45str=_ms.lazyProp(_$10,"split-str");
+		const _$2=_ms.getModule(_64_0),count=_ms.get(_$2,"count"),keep=_ms.get(_$2,"keep"),map=_ms.get(_$2,"map"),_$3=_ms.getModule(_64_45Type_1),empty=_ms.get(_$3,"empty"),_$4=_ms.getModule(Map_2),values=_ms.get(_$4,"values"),Id_45Map=_ms.getDefaultExport(Id_45Map_3),_$6=_ms.getModule(multi_45map_4),add_45to_45_64_33=_ms.get(_$6,"add-to-@!"),_$7=_ms.getModule(compare_5),_61_63=_ms.get(_$7,"=?"),max=_ms.get(_$7,"max"),sort=_ms.get(_$7,"sort"),_$9=_ms.lazyGetModule(Seq_6),seq_61_63=_ms.lazyProp(_$9,"seq=?"),_$10=_ms.lazyGetModule(String_7),split_45str=_ms.lazyProp(_$10,"split-str");
 		const maximum_45anagram_45sets=exports["maximum-anagram-sets"]=()=>{
 			const built={};
 			const doc=built.doc=`http://rosettacode.org/wiki/Anagrams#JavaScript`;
@@ -20,7 +20,7 @@ define(["exports","../../at/at","../../at/at-Type","../../at/Map/Map","../../at/
 				}())
 			};
 			return _ms.set(function maximum_45anagram_45sets(words){
-				const sorted_45_62words=empty(Id_45Map_33);
+				const sorted_45_62words=empty(Id_45Map);
 				for(let _ of words){
 					add_45to_45_64_33(sorted_45_62words,sort(_),[_])
 				};

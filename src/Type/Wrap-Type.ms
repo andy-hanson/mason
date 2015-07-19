@@ -1,8 +1,8 @@
 use
 	esast.dist.mangle-identifier
 	..js js-instanceof
+	..Object p+!
 	..private.js-impl buildStr
-	..Object! p+!
 	.Impl-Type
 	.Kind kind!
 	.Method impl!

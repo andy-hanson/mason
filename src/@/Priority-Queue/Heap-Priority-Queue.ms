@@ -6,25 +6,23 @@ use
 	...Type.Js-Method js-impl!
 	...Type.Kind kind! self-kind!
 	...Type.Wrap-Type
-	..@ count empty? iterator
-	..@! ++! empty!
+	..@ ++! count empty! empty? iterator
 	..@-Type _ empty
-	..Seq.Array!
-	..Seq.Seq! set-nth!
-	.Priority-Queue! _ ?pop!
+	..Seq.Seq set-nth!
+	.Priority-Queue _ ?pop!
 
-Heap-Priority-Queue!. Wrap-Type
-	doc. "Default implementation for Priority-Queue!."
-	wrapped-type. Array!
+Heap-Priority-Queue. Wrap-Type
+	doc. "Default implementation for Priority-Queue."
+	wrapped-type. Array
 
-self-kind! Heap-Priority-Queue! @-Type
+self-kind! Heap-Priority-Queue @-Type
 	empty -> |
-		Heap-Priority-Queue! (empty Array!
+		Heap-Priority-Queue [ ]
 
-js-impl! iterator Heap-Priority-Queue! .|
+js-impl! iterator Heap-Priority-Queue .|
 	iterator .val
 
-kind! Heap-Priority-Queue! Priority-Queue!
+kind! Heap-Priority-Queue Priority-Queue
 	++! -> !|_ added
 		for! em in added
 			add! _.val em

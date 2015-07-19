@@ -4,11 +4,11 @@ use
 	...@.@-Type empty
 	...@.? ?-or
 	...@.Map.Map
-	...@.Set.Id-Set!
+	...@.Set.Id-Set
 	...$ _ $all $ing
 	...compare =?
 	...Function noop
-	...Generator!
+	...Generator
 	...js defined?
 	...Object ?p p p? @p @p-all
 	...Try $annotate-errors annotate-errors ?try
@@ -19,7 +19,7 @@ use
 	...Type.Type contains?
 use-debug
 	...control build
-	...Object! empty-Object!
+	...Object empty-Object!
 	...Type.Method self-impl!
 
 doc. "For running code in `test` properties."
@@ -30,12 +30,12 @@ test. !|
 		obj =
 			a.
 				test.
-					x. |
+					x. !|
 						yield "x"
-					y. |
+					y. !|
 						yield "y"
 			b. empty-Object!()
-			self-impl! test-special b |
+			self-impl! test-special b !|
 				yield "b"
 			c. null # not testable
 		@$maybe-test "obj" obj true
@@ -86,7 +86,7 @@ $test-module.
 	@$maybe-test module-name module true
 
 # TODO: Make this local to a single run of $test-all.
-all-tested = empty Id-Set!
+all-tested = empty Id-Set
 
 # TODO: Better name
 @$maybe-test = |~name value is-module
@@ -141,7 +141,7 @@ $test-fun.
 				... @$test-test-prop value (p _ sub-name) ~"{name}.{sub-name}"
 		break!
 
-@$test-$test-prop = |value-$test:Function[Generator!] ~name
+@$test-$test-prop = |value-$test:Function[Generator] ~name
 	. $annotate-errors ~"{name}: " ($ing value-$test
 
 @$test-test-fun = |value value-test:Function ~name ...args
