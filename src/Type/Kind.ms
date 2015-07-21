@@ -64,6 +64,7 @@ Kind. Obj-Type
 		region Closed Kind
 			Closed = Kind
 				implementors. [ C Z ]
+
 			assert! fails-with? "Closed is not open to new subtypes." !|
 				kind! X Closed
 

@@ -1,6 +1,5 @@
 use
 	..control returning
-	..Function identity
 	..methods sub
 	..Type.Kind _ self-kind!
 	..Type.Method _ impl! self-impl!
@@ -12,7 +11,8 @@ use-debug
 @-Type. Kind
 	doc. "Any sub-type of @."
 
-impl! sub @-Type identity
+impl! sub @-Type .|
+	this
 
 empty. Method
 	doc. "
@@ -26,8 +26,8 @@ from-stream. Method
 	test. |
 		[ Array (range 0 5) ] -> [ 0 1 2 3 4 ]
 	args. [ "type" "stream" ]
-	default. |type stream
-		returning (empty type) !|_
+	default. .|stream
+		returning (empty this) !|_
 			++! _ stream
 
 # TODO: Do this in @.ms
@@ -35,4 +35,5 @@ self-kind! @ @-Type
 self-impl! empty @ |
 	[ ]
 
-impl! => @-Type from-stream
+impl! => @-Type .|stream
+	from-stream this stream

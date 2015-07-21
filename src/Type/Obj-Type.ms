@@ -204,5 +204,5 @@ obj-type-args =
 
 Obj-Type. (make-constructor obj-type-args) obj-type-args
 
-implContains Obj-Type |ot _
-	js-instanceof _ ot
+implContains Obj-Type .|_
+	js-instanceof _ this

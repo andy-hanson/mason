@@ -5,9 +5,6 @@ use
 	.private.js-impl hashCodeDefault hashCodeString
 	.Type.Method _ impl!
 
-keep-small = |_
-	js-bar _ 0
-
 hash-code. Method
 	doc. "
 		Integer used to identify a value in a Hash-Map (or Hash-Set).
@@ -25,21 +22,22 @@ hash-code. Method
 	args. 1
 	returns. Int
 	allow-null?. true
-	default. |_
-		hashCodeDefault _ hash-code
+	default. .|
+		hashCodeDefault this hash-code
 
 # Since default hash-code only works on Objects, let's implement hash-code for primitives.
-impl! hash-code Boolean |case
-	_
-		1
-	else
-		0
+impl! hash-code Boolean .|
+	case this
+		_
+			1
+		else
+			0
 
-impl! hash-code Function |fun
+impl! hash-code Function .|
 	# TODO: There must be something better than this.
-	hash-code case fun.name
+	hash-code case .name
 		=? 0 _.length # TODO: empty?_
-			fun.toString()
+			.toString()
 		else
 			_
 
@@ -54,9 +52,10 @@ impl! hash-code Symbol
 	test. !|
 		sym = Symbol "test"
 		assert! =? (hash-code sym) (hash-code sym)
-	|:Int
+	|
 		# TODO:ES6 (currently this returns undefined)
 		42 # Symbol.keyFor _
 
 # TODO: This treats small floats as equivalent.
-impl! hash-code Number keep-small
+impl! hash-code Number .|
+	js-bar this 0

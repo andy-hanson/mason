@@ -23,8 +23,8 @@ Alias-Type. Obj-Type
 kind! Alias-Type Type
 
 # TODO: impl-delegate!
-impl! contains? Alias-Type |_ value
-	contains? _.alias-of value
+impl! contains? Alias-Type .|value
+	contains? .alias-of value
 
 # TODO: impl-delegate!
 impl! sub Alias-Type
@@ -32,5 +32,5 @@ impl! sub Alias-Type
 		?2 = Alias-Type
 			alias-of. ?
 		[ ?2 String ] -> ?[String]
-	|_ ...args
-		sub _.alias-of ...args
+	.|...args
+		sub .alias-of ...args

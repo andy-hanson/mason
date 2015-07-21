@@ -1,6 +1,7 @@
 use
 	...control returning
 	...Type.Kind kind! self-kind!
+	...Type.Method impl! self-impl!
 	..@ count empty!
 	..@-Type empty
 	..? Opt->?
@@ -37,26 +38,34 @@ Id-Map.
 	global.Map
 
 self-kind! Id-Map Map-Type
-	empty -> |
-		new Id-Map
+self-impl! empty Id-Map |
+	new Id-Map
 
 kind! Id-Map Map
-	count -> |_
-		_.size
-	?get -> |_ key
-		Opt->? (_.get key
-	has-key? -> |_ key
-		_.has key
-	keys -> |_
-		Stream |
-			_.keys()
-	values -> |_
-		Stream |
-			_.values()
-	empty! -> !|_
-		_.clear()
-	assoc! -> !|_ key val
-		_.set key val
-	un-assoc! -> |_ key
-		returning (?get _ key) !|
-			_.delete key
+
+impl! count Id-Map .|
+	.size
+
+impl! ?get Id-Map .|key
+	Opt->? (.get key)
+
+impl! has-key? Id-Map .|key
+	.has key
+
+impl! keys Id-Map .|
+	Stream |
+		.keys()
+
+impl! values Id-Map .|
+	Stream |
+		.values()
+
+impl! empty! Id-Map .!|
+	.clear()
+
+impl! assoc! Id-Map .!|key val
+	.set key val
+
+impl! un-assoc! Id-Map .|key
+	returning (?get this key) !|
+		.delete key

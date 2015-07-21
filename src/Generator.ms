@@ -1,6 +1,6 @@
 use
 	.Function call
-	.Type.Js-Method
+	.Type.Method
 	.Type.Pred-Type
 	.Type.Type contains?
 
@@ -16,6 +16,6 @@ empty-Generator.
 	call ~!|
 		pass
 
-gen-next!. Js-Method
+gen-next!. Method
 	doc. "Continues until the next `<~`."
 	impl-symbol. "next"

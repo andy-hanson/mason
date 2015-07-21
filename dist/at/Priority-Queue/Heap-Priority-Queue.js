@@ -1,47 +1,45 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","../../compare","../../control","../../math/Number","../../math/methods","../../Type/Js-Method","../../Type/Kind","../../Type/Wrap-Type","../at","../at-Type","../Seq/Seq","./Priority-Queue"],(exports,compare_0,control_1,Number_2,methods_3,Js_45Method_4,Kind_5,Wrap_45Type_6,_64_7,_64_45Type_8,Seq_9,Priority_45Queue_10)=>{
+define(["exports","../../compare","../../control","../../math/Number","../../math/methods","../../Type/Method","../../Type/Kind","../../Type/Wrap-Type","../at","../at-Type","../Seq/Seq","./Priority-Queue"],(exports,compare_0,control_1,Number_2,methods_3,Method_4,Kind_5,Wrap_45Type_6,_64_7,_64_45Type_8,Seq_9,Priority_45Queue_10)=>{
 	exports._get=_ms.lazy(()=>{
-		const _$2=_ms.getModule(compare_0),_61_63=_ms.get(_$2,"=?"),_60_63=_ms.get(_$2,"<?"),_$3=_ms.getModule(control_1),returning=_ms.get(_$3,"returning"),_$4=_ms.getModule(Number_2),int_47=_ms.get(_$4,"int/"),_$5=_ms.getModule(methods_3),_43=_ms.get(_$5,"+"),_45=_ms.get(_$5,"-"),_42=_ms.get(_$5,"*"),_$6=_ms.getModule(Js_45Method_4),js_45impl_33=_ms.get(_$6,"js-impl!"),_$7=_ms.getModule(Kind_5),kind_33=_ms.get(_$7,"kind!"),self_45kind_33=_ms.get(_$7,"self-kind!"),Wrap_45Type=_ms.getDefaultExport(Wrap_45Type_6),_$9=_ms.getModule(_64_7),_43_43_33=_ms.get(_$9,"++!"),count=_ms.get(_$9,"count"),empty_33=_ms.get(_$9,"empty!"),empty_63=_ms.get(_$9,"empty?"),iterator=_ms.get(_$9,"iterator"),_64_45Type=_ms.getDefaultExport(_64_45Type_8),_$10=_ms.getModule(_64_45Type_8),empty=_ms.get(_$10,"empty"),_$11=_ms.getModule(Seq_9),set_45nth_33=_ms.get(_$11,"set-nth!"),Priority_45Queue=_ms.getDefaultExport(Priority_45Queue_10),_$12=_ms.getModule(Priority_45Queue_10),_63pop_33=_ms.get(_$12,"?pop!");
+		const _$2=_ms.getModule(compare_0),_61_63=_ms.get(_$2,"=?"),_60_63=_ms.get(_$2,"<?"),_$3=_ms.getModule(control_1),returning=_ms.get(_$3,"returning"),_$4=_ms.getModule(Number_2),int_47=_ms.get(_$4,"int/"),_$5=_ms.getModule(methods_3),_43=_ms.get(_$5,"+"),_45=_ms.get(_$5,"-"),_42=_ms.get(_$5,"*"),_$6=_ms.getModule(Method_4),impl_33=_ms.get(_$6,"impl!"),self_45impl_33=_ms.get(_$6,"self-impl!"),_$7=_ms.getModule(Kind_5),kind_33=_ms.get(_$7,"kind!"),self_45kind_33=_ms.get(_$7,"self-kind!"),Wrap_45Type=_ms.getDefaultExport(Wrap_45Type_6),_$9=_ms.getModule(_64_7),_43_43_33=_ms.get(_$9,"++!"),count=_ms.get(_$9,"count"),empty_33=_ms.get(_$9,"empty!"),empty_63=_ms.get(_$9,"empty?"),iterator=_ms.get(_$9,"iterator"),_64_45Type=_ms.getDefaultExport(_64_45Type_8),_$10=_ms.getModule(_64_45Type_8),empty=_ms.get(_$10,"empty"),_$11=_ms.getModule(Seq_9),set_45nth_33=_ms.get(_$11,"set-nth!"),Priority_45Queue=_ms.getDefaultExport(Priority_45Queue_10),_$12=_ms.getModule(Priority_45Queue_10),_63pop_33=_ms.get(_$12,"?pop!");
 		const Heap_45Priority_45Queue=Wrap_45Type(()=>{
 			const built={};
 			const doc=built.doc=`Default implementation for Priority-Queue.`;
 			const wrapped_45type=built["wrapped-type"]=Array;
 			return _ms.setName(built,"Heap-Priority-Queue")
 		}());
-		self_45kind_33(Heap_45Priority_45Queue,_64_45Type,()=>{
-			const built=new global.Map();
-			_ms.assoc(built,empty,()=>{
-				return Heap_45Priority_45Queue([])
-			});
-			return built
-		}());
-		js_45impl_33(iterator,Heap_45Priority_45Queue,function(){
+		self_45kind_33(Heap_45Priority_45Queue,_64_45Type);
+		self_45impl_33(empty,Heap_45Priority_45Queue,()=>{
+			return Heap_45Priority_45Queue([])
+		});
+		impl_33(iterator,Heap_45Priority_45Queue,function(){
 			const _this=this;
 			return iterator(_this.val)
 		});
-		kind_33(Heap_45Priority_45Queue,Priority_45Queue,()=>{
-			const built=new global.Map();
-			_ms.assoc(built,_43_43_33,(_,added)=>{
-				for(let em of added){
-					add_33(_.val,em)
-				}
-			});
-			_ms.assoc(built,_63pop_33,_=>{
-				return _ms.bool(empty_63(_))?_ms.None:_ms.some(()=>{
-					return returning(_ms.sub(_.val,0),()=>{
-						fix_45down_33(_.val)
-					})
-				}())
-			});
-			_ms.assoc(built,empty_63,_=>{
-				return empty_63(_.val)
-			});
-			_ms.assoc(built,empty_33,_=>{
-				empty_33(_.val)
-			});
-			return built
-		}());
+		kind_33(Heap_45Priority_45Queue,Priority_45Queue);
+		impl_33(_43_43_33,Heap_45Priority_45Queue,function(added){
+			const _this=this;
+			for(let em of added){
+				add_33(_this.val,em)
+			}
+		});
+		impl_33(_63pop_33,Heap_45Priority_45Queue,function(){
+			const _this=this;
+			return _ms.bool(empty_63(_this))?_ms.None:_ms.some(()=>{
+				return returning(_ms.sub(_this.val,0),()=>{
+					fix_45down_33(_this.val)
+				})
+			}())
+		});
+		impl_33(empty_63,Heap_45Priority_45Queue,function(){
+			const _this=this;
+			return empty_63(_this.val)
+		});
+		impl_33(empty_33,Heap_45Priority_45Queue,function(){
+			const _this=this;
+			empty_33(_this.val)
+		});
 		const index_45left_45child=function index_45left_45child(idx){
 			return _43(1,_42(2,idx))
 		};
@@ -114,4 +112,4 @@ define(["exports","../../compare","../../control","../../math/Number","../../mat
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1ByaW9yaXR5LVF1ZXVlL0hlYXAtUHJpb3JpdHktUXVldWUubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFhQSw4QkFBcUIsZ0JBQ1M7O0dBQTdCLG9CQUFNO0dBQ04sMkNBQWM7OztFQUVmLGVBQVcsd0JBQW9CLGVBQ007O21CQUFwQyxNQUNVLElBQUE7V0FBVCx3QkFBb0I7R0FBQTs7O0VBRXRCLGFBQVMsU0FBUyx3QkFDc0IsVUFBQTs7VUFBdkMsU0FBUzs7RUFFVixRQUFNLHdCQUFvQixxQkFDYzs7bUJBQXZDLFVBQVMsQ0FBQSxFQUFFLFFBQ0s7SUFBVixRQUFBLE1BQU0sTUFDSztLQUFmLE9BQUssTUFBTTtJQUFBO0dBQUE7bUJBQ2IsVUFBVSxHQUNDO29CQUFILFNBQU0sMEJBQ0M7WUFBYixrQkFBVSxNQUFNLEdBQ0ssSUFBQTtNQUFwQixjQUFVOzs7O21CQUViLFNBQVcsR0FDQztXQUFYLFNBQU87O21CQUNSLFNBQVksR0FDQztJQUFaLFNBQU87Ozs7RUFJUiwyQkFBb0IsOEJBQUEsSUFDRztVQUF0QixJQUFFLEVBQUcsSUFBRSxFQUFFO0VBQUE7RUFDVixxQkFBZ0Isd0JBQUEsSUFDRztVQUFsQixJQUFHLE9BQU0sSUFBRSxFQUFFLEtBQUssR0FBRztFQUFBO0VBRXRCLGFBQVMsZ0JBQUEsS0FBSyxJQUNHO0dBRWhCO0dBQ0EsWUFBVSxNQUFNO0dBRVosT0FBQTtJQUFILEdBQUksT0FBRyxRQUFNLEdBQ0M7S0FBYixhQUFTLEtBQUssRUFBRTtLQUNoQjtJQUFBO0lBQ0QsaUJBQVcsZUFBYTtJQUN4QixxQkFBUyxLQUFLO0lBQ2QsY0FBUSxPQUFHLElBQUksU0FDTTtLQUFwQixhQUFTLEtBQUssUUFBTTtLQUNwQjtJQUFBO0lBQ0QsYUFBUyxLQUFLLFFBQU07WUFDWDtHQUFBO0VBQUE7RUFFWCxvQkFBYyx1QkFBQSxLQUNJO0dBQWpCLFVBQU07R0FDTixXQUFPLE1BQU07R0FDYixjQUFRLE9BQUcsS0FBSyxJQUNDO0lBSWhCLFlBQVU7SUFDVixZQUFRLGVBQUEsV0FDUTtLQUFmLGFBQVMsS0FBSyxnQkFBTSxLQUFLO2FBQ2hCO0lBQUE7SUFDVixvQkFBYSx1QkFBQSxFQUNDO1lBQWIsT0FBRyxFQUFFO0lBQUE7SUFFRixPQUFBO0tBQUgsdUJBQWUscUJBQWlCO0tBQ2hDLGNBQVEsY0FBVSxtQkFDWTtNQUE3QjtLQUFBO0tBQ0QsbUJBQU8sS0FBSztLQUNaLHdCQUFnQixJQUFFLGlCQUFhO0tBQy9CLGNBQVEsY0FBVSxvQkFDYTtNQUE5QixHQUFJLE9BQUcsS0FBSyxLQUNHO09BQWQsTUFBSTtNQUFBO01BQ0w7S0FBQTtLQUNELG9CQUFRLEtBQUs7S0FFUixZQUFKLE9BQUcsS0FBSyxNQUNHO01BQ1Y7T0FDQyxZQUFBLE9BQUcsTUFBTSxPQUNJO2VBQVo7T0FBQSxPQUVHO2VBQUg7T0FBQTtNQUFBO0tBQUEsT0FDSCxZQUFBLE9BQUcsTUFBTSxNQUNHO01BQVgsTUFBSTtLQUFBLE9BRUQ7TUFBSDtLQUFBO0lBQUE7SUFDSCxhQUFTLEtBQUssUUFBTTtHQUFBO0VBQUE7RUFuR3ZCLHdCQUFBO2tCQWFBIiwiZmlsZSI6ImF0L1ByaW9yaXR5LVF1ZXVlL0hlYXAtUHJpb3JpdHktUXVldWUuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1ByaW9yaXR5LVF1ZXVlL0hlYXAtUHJpb3JpdHktUXVldWUubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFhQSw4QkFBcUIsZ0JBQ1M7O0dBQTdCLG9CQUFNO0dBQ04sMkNBQWM7OztFQUVmLGVBQVcsd0JBQW9CO0VBQy9CLGVBQVcsTUFBTSx3QkFDcUIsSUFBQTtVQUFyQyx3QkFBb0I7RUFBQTtFQUVyQixRQUFNLFNBQVMsd0JBQ3NCLFVBQUE7O1VBQXBDLFNBQVM7O0VBRVYsUUFBTSx3QkFBb0I7RUFFMUIsUUFBTSxVQUFJLHdCQUF1QixTQUFBLE1BQ0s7O0dBQWhDLFFBQUEsTUFBTSxNQUNLO0lBQWYsT0FBSyxVQUFLO0dBQUE7RUFBQTtFQUVaLFFBQU0sVUFBTSx3QkFDc0IsVUFBQTs7bUJBQTFCLFNBQU8sOEJBQ0k7V0FBakIsa0JBQVUsVUFBSyxHQUNLLElBQUE7S0FBbkIsY0FBVTs7OztFQUViLFFBQU0sU0FBTyx3QkFDc0IsVUFBQTs7VUFBbEMsU0FBTzs7RUFDUixRQUFNLFNBQU8sd0JBQ3VCLFVBQUE7O0dBQW5DLFNBQU87O0VBSVAsMkJBQW9CLDhCQUFBLElBQ0c7VUFBdEIsSUFBRSxFQUFHLElBQUUsRUFBRTtFQUFBO0VBQ1YscUJBQWdCLHdCQUFBLElBQ0c7VUFBbEIsSUFBRyxPQUFNLElBQUUsRUFBRSxLQUFLLEdBQUc7RUFBQTtFQUV0QixhQUFTLGdCQUFBLEtBQUssSUFDRztHQUVoQjtHQUNBLFlBQVUsTUFBTTtHQUVaLE9BQUE7SUFBSCxHQUFJLE9BQUcsUUFBTSxHQUNDO0tBQWIsYUFBUyxLQUFLLEVBQUU7S0FDaEI7SUFBQTtJQUNELGlCQUFXLGVBQWE7SUFDeEIscUJBQVMsS0FBSztJQUNkLGNBQVEsT0FBRyxJQUFJLFNBQ007S0FBcEIsYUFBUyxLQUFLLFFBQU07S0FDcEI7SUFBQTtJQUNELGFBQVMsS0FBSyxRQUFNO1lBQ1g7R0FBQTtFQUFBO0VBRVgsb0JBQWMsdUJBQUEsS0FDSTtHQUFqQixVQUFNO0dBQ04sV0FBTyxNQUFNO0dBQ2IsY0FBUSxPQUFHLEtBQUssSUFDQztJQUloQixZQUFVO0lBQ1YsWUFBUSxlQUFBLFdBQ1E7S0FBZixhQUFTLEtBQUssZ0JBQU0sS0FBSzthQUNoQjtJQUFBO0lBQ1Ysb0JBQWEsdUJBQUEsRUFDQztZQUFiLE9BQUcsRUFBRTtJQUFBO0lBRUYsT0FBQTtLQUFILHVCQUFlLHFCQUFpQjtLQUNoQyxjQUFRLGNBQVUsbUJBQ1k7TUFBN0I7S0FBQTtLQUNELG1CQUFPLEtBQUs7S0FDWix3QkFBZ0IsSUFBRSxpQkFBYTtLQUMvQixjQUFRLGNBQVUsb0JBQ2E7TUFBOUIsR0FBSSxPQUFHLEtBQUssS0FDRztPQUFkLE1BQUk7TUFBQTtNQUNMO0tBQUE7S0FDRCxvQkFBUSxLQUFLO0tBRVIsWUFBSixPQUFHLEtBQUssTUFDRztNQUNWO09BQ0MsWUFBQSxPQUFHLE1BQU0sT0FDSTtlQUFaO09BQUEsT0FFRztlQUFIO09BQUE7TUFBQTtLQUFBLE9BQ0gsWUFBQSxPQUFHLE1BQU0sTUFDRztNQUFYLE1BQUk7S0FBQSxPQUVEO01BQUg7S0FBQTtJQUFBO0lBQ0gsYUFBUyxLQUFLLFFBQU07R0FBQTtFQUFBO0VBckd2Qix3QkFBQTtrQkFhQSIsImZpbGUiOiJhdC9Qcmlvcml0eS1RdWV1ZS9IZWFwLVByaW9yaXR5LVF1ZXVlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

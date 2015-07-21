@@ -39,10 +39,10 @@ Enum. Obj-Type
 			p+! enum-val "name" value-name
 			p+! _ value-name enum-val
 		p+! _.prototype "constructor" _
-		impl! show _ |val
-			"{_.name}.{val.name}"
+		impl! show _ .|
+			"{_.name}.{.name}"
 
 kind! Enum Impl-Type
 
-impl! contains? Enum |_ value
-	Object.prototype.isPrototypeOf.call _.prototype value
+impl! contains? Enum .|value
+	Object.prototype.isPrototypeOf.call .prototype value

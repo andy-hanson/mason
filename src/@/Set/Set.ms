@@ -2,7 +2,7 @@ use
 	...compare =? same?
 	...Type.Type => contains? type-of
 	...Type.Kind _ kind! self-kind!
-	...Type.Method _ impl!
+	...Type.Method _ impl! self-impl!
 	..@ _ all? count keep
 	..@-Type _ empty from-stream
 use~
@@ -14,10 +14,10 @@ Set. Kind
 	doc. "@ without repeat values."
 
 self-kind! Set @-Type
-	empty -> |
-		empty Hash-Set
-	from-stream -> |_
-		from-stream Hash-Set _
+self-impl! empty Set |
+	empty Hash-Set
+self-impl! from-stream Set |_
+	from-stream Hash-Set _
 kind! Set @
 
 impl! =? Set
@@ -27,8 +27,8 @@ impl! =? Set
 		b = => Set [ 1 2 ]
 		[ a b ] -> true
 		[ a [ -- b [ 1 ] ] ] -> false
-	|a b
-		and (same? type-of a b) (same? count a b) (all? a contains?[b]
+	.|other
+		and (same? type-of this other) (same? count this other) (all? this contains?[other])
 
 set=?.
 	doc. "Whether two @s have the same values, regardless of order or count."
@@ -37,12 +37,12 @@ set=?.
 		[ [ 1 ] [ 1 1 1 ] ] -> true
 		[ [ 1 2 ] [ 1 2 3 ] ] -> false
 	|a:@ b:@
-		=? (=> Set a) (=> Set b
+		=? (=> Set a) (=> Set b)
 
 intersect. Method
 	doc. "TODO"
 	test. |
 		[ (=> Set [ 1 2 ]) (=> Set [ 2 3 ]) ] -> => Set [ 2 ]
 	args. 2
-	default. |a b
-		keep a contains?[(=> Set b)]
+	default. .|@intersect-with
+		keep this contains?[(=> Set @intersect-with)]

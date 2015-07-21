@@ -5,7 +5,7 @@ use
 	..$ $done $ing
 	# ..io.console log!
 	.modules $@all-modules # $get-module
-	.tests.run-tests $test-all # $test-module
+	.tests.run-tests $test-all # $test-module $test-single
 	.tests.perf-test $time! # time time*! race*!
 
 !|

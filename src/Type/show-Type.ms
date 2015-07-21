@@ -2,17 +2,25 @@ use
 	esast.dist.mangle-identifier unmangle
 	..Object flag?
 	..show
-	.Method impl!
+	.Method _ impl!
 	.Type
-use-debug
-	.Method
 
 impl! show Type
 	test. |
 		[ Method ] -> "Method"
-	|type opts
+	.|opts
 		case
 			flag? opts "repr"
-				show.default type opts
+				show.default this opts
 			else
-				unmangle type.name
+				unmangle .name
+
+impl! show Method
+	test. !|
+		pass # TODO
+	.|opts
+		case
+			flag? opts "repr"
+				show.default this opts
+			else
+				unmangle .name

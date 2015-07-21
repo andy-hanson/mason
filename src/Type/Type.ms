@@ -1,7 +1,7 @@
 use
 	..compare =?
-	..js id=? js-instanceof
-	..private.bootstrap implContains ms msDef
+	..js id=?
+	..private.bootstrap ms msDef
 	# Don't want to depend on Try because that can cause circular dependency problems.
 	.Impl-Type
 	.Kind _ kind!
@@ -17,7 +17,8 @@ Type. Kind
 		Anything implementing contains?.
 		Types are generally used to succinctly make assertions about values.
 
-impl! =? Type id=?
+impl! =? Type .|other
+	id=? this other
 
 # Made by Method.ms.
 contains?. ms.contains
@@ -68,7 +69,7 @@ msDef "checkContains" |type value name
 			:type
 				_
 			else
-				impl type converted opts
+				Function.prototype.call.call impl type converted opts
 
 type-of.
 	doc. "
@@ -82,7 +83,3 @@ type-of.
 region We make some things Types here due to bootstrapping order issues.
 	kind! Impl-Type Type
 	kind! Method Type
-
-	# TODO: Move?
-	implContains Function |fun _
-		js-instanceof _ fun

@@ -3,8 +3,8 @@ use
 	...Generator _ empty-Generator
 	...math.Number Nat
 	...math.methods -
-	...Type.Js-Method js-impl!
 	...Type.Kind kind! self-kind!
+	...Type.Method impl! self-impl!
 	...Type.Tuple
 	..@ count iterator
 	..@-Type _ empty from-stream
@@ -30,13 +30,13 @@ Lazy-Stream. Tuple
 		. [ "cache" Array
 
 self-kind! Lazy-Stream @-Type
-	empty -> thunk (Lazy-Stream empty-Generator [ ])
+self-impl! empty Lazy-Stream (thunk (Lazy-Stream empty-Generator [ ]))
 
-	from-stream -> |_
-		lazy-streaming |
-			iterator_
+self-impl! from-stream Lazy-Stream |_
+	lazy-streaming |
+		iterator_
 
-js-impl! iterator Lazy-Stream
+impl! iterator Lazy-Stream
 	test. !|
 		assert! =? [ 1 2 ] (build !|yield
 			_ = => Lazy-Stream (Stream ~!|
@@ -52,10 +52,10 @@ js-impl! iterator Lazy-Stream
 		<~~ .caching-iterator
 
 kind! Lazy-Stream Seq
-	?nth -> |stream n:Nat
-		?-or (?nth stream.cache n) ~
-			n-left = - n (count stream.cache
-			?nth (Stream stream.caching-iterator) n-left
+impl! ?nth Lazy-Stream .|n:Nat
+	?-or (?nth .cache n) ~
+		n-left = - n (count .cache)
+		?nth (Stream .caching-iterator) n-left
 
 lazy-streaming.
 	doc. "Creates a Lazy-Stream from a generator."

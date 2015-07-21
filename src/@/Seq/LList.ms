@@ -1,8 +1,8 @@
 use
 	...js id=?
 	...Object p!
-	...Type.Js-Method js-impl!
 	...Type.Kind kind! self-kind!
+	...Type.Method impl! self-impl!
 	...Type.Tuple
 	..@ _ ++ empty? iterator
 	..@-Type _ empty from-stream
@@ -17,12 +17,12 @@ empty-LList = LList undefined undefined
 p! empty-LList "tail" empty-LList
 
 self-kind! LList @-Type
-	empty -> |
-		empty-LList
-	from-stream -> |_
-		<++' empty-LList _
+self-impl! empty LList |
+	empty-LList
+self-impl! from-stream LList |_
+	<++' empty-LList _
 
-js-impl! iterator LList .~!|
+impl! iterator LList .~!|
 	cur ::= this
 	for!
 		if! empty? cur
@@ -31,27 +31,27 @@ js-impl! iterator LList .~!|
 		cur := cur.tail
 
 kind! LList Seq
-	empty? -> |_
-		id=? _ empty-LList
+impl! empty? LList .|
+	id=? this empty-LList
 
-	tail -> |_
-		_.tail
+impl! tail LList |_
+	_.tail
 
-	<++' -> |_ left-added:@
-		iter = iterator left-added
-		f = |
-			value done = iter.next()
-			case
-				done
-					_
-				else
-					LList value f()
-		f()
-
-	# For the concatenation of two LLists, we can just use the second as a tail.
-	++ -> |a b
-		case b
-			:LList
-				<++' b a
+impl! <++' LList |_ left-added:@
+	iter = iterator left-added
+	f = |
+		value done = iter.next()
+		case
+			done
+				_
 			else
-				++.default a b
+				LList value f()
+	f()
+
+# For the concatenation of two LLists, we can just use the second as a tail.
+impl! ++ LList .|other
+	case other
+		:LList
+			<++' other this
+		else
+			++.default.call this other

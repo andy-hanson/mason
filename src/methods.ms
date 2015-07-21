@@ -14,5 +14,7 @@ region Unsorted
 			Returns a compacted and immutable version of it.
 			Does not have to return the same value, but often does.
 		args. 1
-		default. Object.freeze
+		default. .|
+			Object.freeze this
+
 	frozen?. Object.isFrozen

@@ -99,7 +99,7 @@ Tuple. Obj-Type
 				assert! =? 1 x
 				assert! =? 2 y
 
-implContains Tuple |tuple _
-	js-instanceof _ tuple
+implContains Tuple .|_
+	js-instanceof _ this
 
 kind! Tuple Impl-Type

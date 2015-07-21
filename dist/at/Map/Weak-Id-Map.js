@@ -1,47 +1,49 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","../../control","../../Type/Kind","../at","../at-Type","../q","./Map","./Map-Type"],(exports,control_0,Kind_1,_64_2,_64_45Type_3,_63_4,Map_5,Map_45Type_6)=>{
+define(["exports","../../control","../../Function","../../Type/Kind","../../Type/Method","../at","../at-Type","../q","./Map","./Map-Type"],(exports,control_0,Function_1,Kind_2,Method_3,_64_4,_64_45Type_5,_63_6,Map_7,Map_45Type_8)=>{
 	exports._get=_ms.lazy(()=>{
-		const _$2=_ms.getModule(control_0),returning=_ms.get(_$2,"returning"),_$3=_ms.getModule(Kind_1),kind_33=_ms.get(_$3,"kind!"),self_45kind_33=_ms.get(_$3,"self-kind!"),_$4=_ms.getModule(_64_2),empty_33=_ms.get(_$4,"empty!"),_$5=_ms.getModule(_64_45Type_3),empty=_ms.get(_$5,"empty"),_$6=_ms.getModule(_63_4),Opt_45_62_63=_ms.get(_$6,"Opt->?"),Map=_ms.getDefaultExport(Map_5),_$7=_ms.getModule(Map_5),assoc_33=_ms.get(_$7,"assoc!"),_63get=_ms.get(_$7,"?get"),has_45key_63=_ms.get(_$7,"has-key?"),keys=_ms.get(_$7,"keys"),un_45assoc_33=_ms.get(_$7,"un-assoc!"),Map_45Type=_ms.getDefaultExport(Map_45Type_6);
+		const _$2=_ms.getModule(control_0),returning=_ms.get(_$2,"returning"),_$3=_ms.getModule(Function_1),noop=_ms.get(_$3,"noop"),_$4=_ms.getModule(Kind_2),kind_33=_ms.get(_$4,"kind!"),self_45kind_33=_ms.get(_$4,"self-kind!"),_$5=_ms.getModule(Method_3),impl_33=_ms.get(_$5,"impl!"),self_45impl_33=_ms.get(_$5,"self-impl!"),_$6=_ms.getModule(_64_4),empty_33=_ms.get(_$6,"empty!"),_$7=_ms.getModule(_64_45Type_5),empty=_ms.get(_$7,"empty"),_$8=_ms.getModule(_63_6),Opt_45_62_63=_ms.get(_$8,"Opt->?"),Map=_ms.getDefaultExport(Map_7),_$9=_ms.getModule(Map_7),assoc_33=_ms.get(_$9,"assoc!"),_63get=_ms.get(_$9,"?get"),has_45key_63=_ms.get(_$9,"has-key?"),keys=_ms.get(_$9,"keys"),un_45assoc_33=_ms.get(_$9,"un-assoc!"),Map_45Type=_ms.getDefaultExport(Map_45Type_8);
 		const Weak_45Id_45Map=()=>{
 			const built={};
 			const doc=built.doc=`Map which can only hold have Objects as keys and stops holding them when they are garbage collected.\nGood for caches.\nIt does not have the full functionality of a Map because there is no way to iterate over the keys.`;
 			return _ms.set(global.WeakMap,built,"Weak-Id-Map")
 		}();
-		self_45kind_33(Weak_45Id_45Map,Map_45Type,()=>{
-			const built=new global.Map();
-			_ms.assoc(built,empty,()=>{
-				return new Weak_45Id_45Map()
-			});
-			return built
-		}());
-		kind_33(Weak_45Id_45Map,Map,()=>{
-			const built=new global.Map();
-			_ms.assoc(built,_63get,(_,key)=>{
-				return Opt_45_62_63(_.get(key))
-			});
-			_ms.assoc(built,has_45key_63,(_,key)=>{
-				return _.has(key)
-			});
-			_ms.assoc(built,assoc_33,(_,key,val)=>{
-				_.set(key,val)
-			});
-			_ms.assoc(built,un_45assoc_33,(_,key)=>{
-				return returning(_63get(_,key),()=>{
-					_.delete(key)
-				})
-			});
-			_ms.assoc(built,keys,()=>{
-				throw _ms.error(`Weak-Id-Map does not support \`keys\`.`)
-			});
-			_ms.assoc(built,empty_33,()=>{
-				throw _ms.error(`Weak-Id-Map does not support \`empty!\`.`)
-			});
-			return built
-		}());
+		self_45kind_33(Weak_45Id_45Map,Map_45Type);
+		self_45impl_33(empty,Weak_45Id_45Map,()=>{
+			return new Weak_45Id_45Map()
+		});
+		kind_33(Weak_45Id_45Map,Map);
+		impl_33(_63get,Weak_45Id_45Map,function(key){
+			const _this=this;
+			return Opt_45_62_63(_this.get(key))
+		});
+		impl_33(has_45key_63,Weak_45Id_45Map,function(key){
+			const _this=this;
+			return _this.has(key)
+		});
+		impl_33(assoc_33,Weak_45Id_45Map,function(key,val){
+			const _this=this;
+			_this.set(key,val)
+		});
+		impl_33(un_45assoc_33,Weak_45Id_45Map,function(key){
+			const _this=this;
+			return returning(_63get(_this,key),()=>{
+				_this.delete(key)
+			})
+		});
+		impl_33(keys,Weak_45Id_45Map,function(){
+			const _this=this;
+			noop(_this);
+			throw _ms.error(`Weak-Id-Map does not support \`keys\`.`)
+		});
+		impl_33(empty_33,Weak_45Id_45Map,function(){
+			const _this=this;
+			noop(_this);
+			throw _ms.error(`Weak-Id-Map does not support \`empty!\`.`)
+		});
 		const name=exports.name=`Weak-Id-Map`;
 		exports.default=Weak_45Id_45Map;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL01hcC9XZWFrLUlkLU1hcC5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQVNBLDBCQUNZOztHQUFYLG9CQUNDO2tCQUdEOztFQUVELGVBQVcsZ0JBQVksZUFDUTs7bUJBQTlCLE1BQ1UsSUFBQTtXQUFULElBQUk7R0FBQTs7O0VBRU4sUUFBTSxnQkFBWSxRQUNHOzttQkFBcEIsT0FBUyxDQUFBLEVBQUUsTUFDRztXQUFiLGFBQVEsTUFBTTtHQUFBO21CQUNmLGFBQWEsQ0FBQSxFQUFFLE1BQ0c7V0FBakIsTUFBTTtHQUFBO21CQUNQLFNBQVksQ0FBQSxFQUFFLElBQUksTUFDRztJQUFwQixNQUFNLElBQUk7R0FBQTttQkFDWCxjQUFjLENBQUEsRUFBRSxNQUNHO1dBQWxCLFVBQVcsT0FBSyxFQUFFLEtBQ08sSUFBQTtLQUF4QixTQUFTO0lBQUE7R0FBQTttQkFFWCxLQUNVLElBQUE7SUFBVCxnQkFBUTs7bUJBQ1QsU0FDWSxJQUFBO0lBQVgsZ0JBQVE7Ozs7RUFsQ1Ysd0JBQUE7a0JBU0EiLCJmaWxlIjoiYXQvTWFwL1dlYWstSWQtTWFwLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL01hcC9XZWFrLUlkLU1hcC5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQVdBLDBCQUNZOztHQUFYLG9CQUNDO2tCQUdEOztFQUVELGVBQVcsZ0JBQVk7RUFDdkIsZUFBVyxNQUFNLGdCQUNhLElBQUE7VUFBN0IsSUFBSTtFQUFBO0VBRUwsUUFBTSxnQkFBWTtFQUNsQixRQUFNLE9BQUssZ0JBQWMsU0FBQSxJQUNHOztVQUEzQixhQUFRLFVBQUs7RUFBQTtFQUNkLFFBQU0sYUFBUyxnQkFBYyxTQUFBLElBQ0c7O1VBQS9CLFVBQUs7RUFBQTtFQUNOLFFBQU0sU0FBTyxnQkFBZSxTQUFBLElBQUksSUFDRzs7R0FBbEMsVUFBSyxJQUFJO0VBQUE7RUFDVixRQUFNLGNBQVUsZ0JBQWMsU0FBQSxJQUNHOztVQUFoQyxVQUFXLE9BQUssTUFBSyxLQUNPLElBQUE7SUFBM0IsYUFBUTtHQUFBO0VBQUE7RUFHVixRQUFNLEtBQUssZ0JBQ2UsVUFBQTs7R0FBekIsS0FBSztHQUNMLGdCQUFROztFQUVULFFBQU0sU0FBTyxnQkFDZSxVQUFBOztHQUEzQixLQUFLO0dBQ0wsZ0JBQVE7O0VBeENULHdCQUFBO2tCQVdBIiwiZmlsZSI6ImF0L01hcC9XZWFrLUlkLU1hcC5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

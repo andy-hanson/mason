@@ -1,8 +1,6 @@
 use
-	...compare =?
-	...Type.Js-Method js-impl!
 	...Type.Kind kind! self-kind!
-	...Type.Method impl! impl-for
+	...Type.Method impl! self-impl!
 	...Type.Wrap-Type
 	..@ ++! --! empty! iterator
 	..@-Type _ empty
@@ -18,25 +16,23 @@ Hash-Set. Wrap-Type
 	wrapped-type. Hash-Map
 
 self-kind! Hash-Set @-Type
-	empty -> |
-		Hash-Set (empty Hash-Map)
+self-impl! empty Hash-Set |
+	Hash-Set (empty Hash-Map)
 
-js-impl! iterator Hash-Set .|
+impl! iterator Hash-Set .|
 	iterator (keys .val)
 
 kind! Hash-Set Set
-	# TODO: Make default falling back to +!
-	++! -> !|_ @added
-		for! em in @added
-			assoc! _.val em true
 
-	# TODO: Make default falling back to -!
-	--! -> !|_ @deleted
-		for! em in @deleted
-			un-assoc! _.val em
+# TODO: Make default falling back to +!
+impl! ++! Hash-Set .!|@added
+	for! em in @added
+		assoc! .val em true
 
-	empty! -> !|_
-		empty! _.val
+# TODO: Make default falling back to -!
+impl! --! Hash-Set .!|@deleted
+	for! em in @deleted
+		un-assoc! .val em
 
-# TODO: This should not be necessary!
-impl! =? Hash-Set (impl-for =? Set)
+impl! empty! Hash-Set .!|
+	empty! .val

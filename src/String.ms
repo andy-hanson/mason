@@ -47,6 +47,7 @@ split-str.
 	|:Array[String] splitter:String-Test _:String
 		_.split splitter
 
-impl! =? String id=?
-impl! compare String |a b
-	a.localeCompare b
+impl! =? String .|other
+	id=? this other
+impl! compare String .|other
+	.localeCompare other

@@ -1,6 +1,8 @@
 use
 	...control returning
+	...Function noop
 	...Type.Kind kind! self-kind!
+	...Type.Method impl! self-impl!
 	..@ empty!
 	..@-Type empty
 	..? Opt->?
@@ -15,21 +17,25 @@ Weak-Id-Map.
 	global.WeakMap
 
 self-kind! Weak-Id-Map Map-Type
-	empty -> |
-		new Weak-Id-Map
+self-impl! empty Weak-Id-Map |
+	new Weak-Id-Map
 
 kind! Weak-Id-Map Map
-	?get -> |_ key
-		Opt->? (_.get key
-	has-key? -> |_ key
-		_.has key
-	assoc! -> !|_ key val
-		_.set key val
-	un-assoc! -> |_ key
-		returning (?get _ key) !|
-			_.delete key
-	# TODO: unsupported Function?
-	keys -> !|
-		throw! "Weak-Id-Map does not support `keys`."
-	empty! -> !|
-		throw! "Weak-Id-Map does not support `empty!`."
+impl! ?get Weak-Id-Map .|key
+	Opt->? (.get key)
+impl! has-key? Weak-Id-Map .|key
+	.has key
+impl! assoc! Weak-Id-Map .!|key val
+	.set key val
+impl! un-assoc! Weak-Id-Map .|key
+	returning (?get this key) !|
+		.delete key
+
+# TODO: unsupported! Function?
+impl! keys Weak-Id-Map .!|
+	noop this
+	throw! "Weak-Id-Map does not support `keys`."
+
+impl! empty! Weak-Id-Map .!|
+	noop this
+	throw! "Weak-Id-Map does not support `empty!`."

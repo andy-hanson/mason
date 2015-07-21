@@ -2,7 +2,7 @@ use
 	...compare _ <?
 	...js defined?
 	...Object p!
-	...Type.Js-Method js-impl!
+	...Type.Method impl! self-impl!
 	...Type.Kind kind! self-kind!
 	...Type.Tuple
 	...Type.Wrap-Type
@@ -12,7 +12,7 @@ use
 	.Map-Type
 	.Sorted-Map
 
-Splay-Tree!. Wrap-Type
+Splay-Tree. Wrap-Type
 	doc. "
 		Default Sorted-Map implementation.
 		Binary tree that is good at accessing the same values many times.
@@ -20,11 +20,11 @@ Splay-Tree!. Wrap-Type
 Splay-Node = Tuple
 	props. [ "key" "val!" "left!" "right!"
 
-self-kind! Splay-Tree! Map-Type
-	empty -> |
-		Splay-Tree! undefined
+self-kind! Splay-Tree Map-Type
+self-impl! empty Splay-Tree |
+	Splay-Tree undefined
 
-js-impl! iterator Splay-Tree! .|
+impl! iterator Splay-Tree .|
 	iter = ~!|_
 		if! defined?_
 			<~~ iter _.left!
@@ -32,49 +32,53 @@ js-impl! iterator Splay-Tree! .|
 			<~~ iter _.right!
 	iter .val
 
-kind! Splay-Tree! Sorted-Map
-	empty? -> |_
-		not defined? _.val
-	empty! -> !|_
-		p! _ "val" undefined
-	?get -> |_ key
-		if and (not empty?_) (splay!? _ key)
-			_.val.val!
-	assoc! -> !|_ key val
-		case!
-			empty?_
-				p! _ "val" (Splay-Node key val undefined undefined
-			splay!? _ key
-				p! _.val "val!" val
-			else
-				old-root = _.val
-				debug forbid! empty? _
-				p! _ "val" case
-					<? old-root.key key
-						old-right = old-root.right!
-						p! old-root "right!" undefined
-						Splay-Node key val old-root old-right
-					else
-						old-left = old-root.left!
-						p! old-root "left!" undefined
-						Splay-Node key val old-left old-root
-	un-assoc! -> |_ key
-		if and (not empty?_) (splay!? _ key)
-			removed = _.val
-			# Link out the root.
-			p! _ "val" case
-				has-left? removed
-					right = removed.right # OK if null
-					new-root = removed.left
-					# Splay to make sure the new root has an empty right child.
-					splay!? _ key
-					p! new-root "right!" right
-					new-root
-				else
-					# New tree is just right child - no left child to worry about.
-					removed.right
+kind! Splay-Tree Sorted-Map
 
-			removed.val
+impl! empty? Splay-Tree .|
+	not defined? .val
+
+impl! empty! Splay-Tree .!|
+	p! this "val" undefined
+
+impl! ?get Splay-Tree .|key
+	if and (not empty? this) (splay!? this key)
+		.val.val!
+
+impl! assoc! Splay-Tree .!|key val
+	case!
+		empty? this
+			p! this "val" (Splay-Node key val undefined undefined
+		splay!? this key
+			p! .val "val!" val
+		else
+			old-root = .val
+			debug forbid! empty? this
+			p! this "val" case
+				<? old-root.key key
+					old-right = old-root.right!
+					p! old-root "right!" undefined
+					Splay-Node key val old-root old-right
+				else
+					old-left = old-root.left!
+					p! old-root "left!" undefined
+					Splay-Node key val old-left old-root
+
+impl! un-assoc! Splay-Tree .|key
+	if and (not empty? this) (splay!? this key)
+		removed = .val
+		# Link out the root.
+		p! this "val" case
+			has-left? removed
+				right = removed.right # OK if null
+				new-root = removed.left
+				# Splay to make sure the new root has an empty right child.
+				splay!? this key
+				p! new-root "right!" right
+				new-root
+			else
+				# New tree is just right child - no left child to worry about.
+				removed.right
+		removed.val
 
 region Implementation
 	# Searches for the key, bringing nodes up to the root along the way.

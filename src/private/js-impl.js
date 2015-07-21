@@ -1,7 +1,8 @@
 export	const
 	// Kind.ms
-	KindContains = (kind, _) =>
-		_ != null && _[kind['symbol-for-isa']] !== undefined,
+	KindContains = function(_) {
+		return _ != null && _[this['symbol-for-isa']] !== undefined
+	},
 	isEmpty = array => array.length === 0,
 
 	// show.ms
@@ -38,7 +39,7 @@ export	const
 	methodArgNames = nArgs => {
 		const res = [ ]
 		const a = 'a'.charCodeAt(0)
-		for (let i = 0; i < nArgs; i = i + 1)
+		for (let i = 1; i < nArgs; i = i + 1)
 			res.push(String.fromCharCode(a + i))
 		return res.join(',')
 	}
@@ -67,9 +68,9 @@ export const
 		return hash
 	},
 
-	hashCodeString = _ => {
+	hashCodeString = function() {
 		let hash = 13
-		for (let i = 0; i < _.length; i = i + 1)
-			hash = ((hash + _.charCodeAt(i)) | 0) * 31
+		for (let i = 0; i < this.length; i = i + 1)
+			hash = ((hash + this.charCodeAt(i)) | 0) * 31
 		return hash
 	}

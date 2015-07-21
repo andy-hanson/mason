@@ -41,23 +41,25 @@ Nat. Pred-Type
 
 region impl!
 	# TODO: impl*!
-	impl! compare Number -
+	impl! compare Number .|other:Number
+		- this other
 	impl! =? Number
 		test. |
 			[ not-a-number not-a-number ] -> true
-		id=?
-	impl! <? Number |a b:Number
-		js< a b
-	impl! <=? Number |a b:Number
-		js<= a b
-	impl! + Number |a b:Number
-		js+ a b
-	impl! - Number |a b:Number
-		js- a b
-	impl! * Number |a b:Number
-		js* a b
-	impl! / Number |a b:Number
-		js/ a b
+		.|other
+			id=? this other
+	impl! <? Number .|other:Number
+		js< this other
+	impl! <=? Number .|other:Number
+		js<= this other
+	impl! + Number .|other:Number
+		js+ this other
+	impl! - Number .|other:Number
+		js- this other
+	impl! * Number .|other:Number
+		js* this other
+	impl! / Number .|other:Number
+		js/ this other
 
 region Tests
 	sign.

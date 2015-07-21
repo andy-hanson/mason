@@ -1,5 +1,6 @@
 use
 	...Type.Kind _ kind! self-kind!
+	...Type.Method self-impl!
 	..@-Type empty
 	.Map
 	.Map-Type
@@ -20,7 +21,7 @@ Sorted-Map. Kind
 		assert! sorted? keys_
 
 self-kind! Sorted-Map Map-Type
-	empty -> |
-		empty Splay-Tree
+self-impl! empty Sorted-Map |
+	empty Splay-Tree
 
 kind! Sorted-Map Map

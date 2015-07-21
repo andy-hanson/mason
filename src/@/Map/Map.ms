@@ -28,29 +28,29 @@ region New methods
 			|:Boolean _ key:Any
 			Whether the key is in the Map.
 		args. [ "_" "key"
-		default. |_ key
-			not (empty? (?get _ key
+		default. .|key
+			not (empty? (?get this key
 
 	keys. Method
 		doc. "Every key that the Map `has-key?`."
 		args. 1
-		default. |_
-			=> Array (map' _ |pair
+		default. .|
+			=> Array (map' this |pair
 				pair[0]
 
 	values. Method
 		doc. "Every value in the Map."
 		args. 1
-		default. |_
-			=> Array (map' _ |pair
+		default. .|
+			=> Array (map' this |pair
 				pair[1]
 
 region Old methods
-	impl! =? Map |m1 m2
-		and (=? (type-of m1) (type-of m2)) (map=? m1 m2
+	impl! =? Map .|other
+		and (=? (type-of this) (type-of other)) (map=? this other)
 
-	impl! sub Map |map key:Any
-		un-? (?get map key) ~"{map} does not contain {key}."
+	impl! sub Map .|key:Any
+		un-? (?get this key) ~"{this} does not contain {key}."
 
 region Functions
 	make-map.
@@ -115,15 +115,15 @@ region Mutator methods
 			|_ key:Any val:Any
 			assoc! key val, but fail if _[key] is set already.
 		args. [ "_" "key" "val"
-		default. !|_ key val
+		default. .!|key val
 			in
-				forbid! has-key? _ key throw! "Already have key {key}."
-			assoc! _ key val
+				forbid! has-key? this key throw! "Already have key {key}."
+			assoc! this key val
 
 	get-or-add!. Method
 		doc. "map[key], and if it's not already there, fill it in with default-val."
 		args. [ "_" "key" "~default-val"
-		default. |map key ~default-val
-			?-or (?get map key) ~
-				assoc! map key default-val
+		default. .|key ~default-val
+			?-or (?get this key) ~
+				assoc! this key default-val
 				default-val

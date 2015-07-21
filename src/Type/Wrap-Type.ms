@@ -50,11 +50,11 @@ Wrap-Type. Obj-Type
 			W "three"
 
 kind! Wrap-Type Impl-Type
-impl! contains? Wrap-Type |wt _
-	js-instanceof _ wt
-impl! extract Wrap-Type |wt _
+impl! contains? Wrap-Type .|_
+	js-instanceof _ this
+impl! extract Wrap-Type .|_
 	case
-		js-instanceof _ wt
+		js-instanceof _ this
 			[ _.val ]
 		else
 			null

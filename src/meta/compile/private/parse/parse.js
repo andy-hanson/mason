@@ -707,7 +707,6 @@ const
 			line instanceof ObjEntry && line.assign.allAssignees().some(_ =>
 				_.name === 'name')),
 
-	//move
 	_parseMapEntry = (before, after, loc) =>
 		MapEntry(loc, parseExpr(before), parseExpr(after))
 

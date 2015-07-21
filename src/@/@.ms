@@ -3,9 +3,9 @@ use
 	..Function identity Pred
 	..js defined? id=?
 	..math.methods +
-	..Type.Js-Method
+	..Type.Method
 	..Type.Kind
-	..Type.Method _ impl!
+	..Type.Method impl!
 	..Type.Pred-Type Any Opt
 	..Type.Type => contains? type-of
 use~
@@ -32,7 +32,7 @@ use-debug
 			_ = empty @-type
 			assert! empty? _
 
-iterator. Js-Method
+iterator. Method
 	doc. "Creates a new Generator which yields the values in the @."
 	args. 1
 	impl-symbol. Symbol.iterator
@@ -43,8 +43,8 @@ empty?. Method
 		[ [ ] ] -> true
 		[ [ 1 ] ] -> false
 	args. 1
-	default. |_
-		iterator_.next().done
+	default. .|
+		(iterator this).next().done
 
 region Using iterator
 	impl! contains? @
@@ -52,8 +52,8 @@ region Using iterator
 		test. !|
 			assert! contains? [ 0 ] 0
 			forbid! contains? [ 0 ] 1
-		|_ em:Any
-			any? _ |em-compare
+		.|em:Any
+			any? this |em-compare
 				=? em em-compare
 
 	fold.
@@ -118,8 +118,8 @@ region Using iterator
 			[ [ ] ] -> 0
 			[ [ 1 2 3 ] ] -> 3
 		args. 1
-		default. |_:@
-			fold _ 0 +[1]
+		default. .|
+			fold this 0 +[1]
 
 region Lazy functions, and their eager versions.
 	# Eager versions are Methods if certain types can do them faster.
@@ -128,11 +128,11 @@ region Lazy functions, and their eager versions.
 		test. |
 			[ [ 1 2 ] =?[2] ] -> [ 2 ]
 		args. 2
-		default. |_:@ keep-if?:Pred
+		default. .|keep-if?:Pred
 			# TODO:SYNTAX Shouldn't need => type-of_
-			=> type-of_ @for elem in _
-				if! keep-if? elem
-					. elem
+			=> (type-of this) @for this
+				if! keep-if? _
+					. _
 
 	keep'.
 		doc. "Lazy keep."
@@ -173,10 +173,10 @@ region Lazy functions, and their eager versions.
 				[ a a ]
 			[ [ 1 2 ] f ] -> [ 1 1 2 2 ]
 		args. 2
-		default. |_ mapper:Function[Any @]
+		default. .|mapper:Function[Any @]
 			# TODO:SYNTAX Shouldn't need => type-of_
-			=> type-of_ @for elem in _
-				... mapper elem
+			=> (type-of this) @for this
+				... mapper_
 
 	flat-map'.
 		doc. "Lazy flat-map."
@@ -202,10 +202,10 @@ region Lazy functions, and their eager versions.
 		test. |
 			[ [ [ 1 2 ] [ 3 ] [ ] ] ] -> [ 1 2 3 ]
 		args. 2
-		default. |_
+		default. .|
 			# TODO:SYNTAX Shouldn't need => type-of_
-			=> type-of_ @for elem in _
-				... elem
+			=> (type-of this) @for this
+				... _
 
 	flatten'.
 		doc. "Lazy flatten."
@@ -229,12 +229,12 @@ region Lazy functions, and their eager versions.
 		args.
 			. [ "@a" @
 			. [ "@b" @
-		default. |@a @b
+		default. .|@other
 			# TODO:SYNTAX @for -> type-of a
 			# TODO:SYNTAX Just build without @for
-			=> (type-of @a) @for
-				... @a
-				... @b
+			=> (type-of this) @for
+				... this
+				... @other
 				break!
 
 	++'.
@@ -257,8 +257,8 @@ region Lazy functions, and their eager versions.
 		args.
 			. "_"
 			. [ "@remove" @
-		default. |_ @remove
-			=> type-of_ (--' _ @remove
+		default. .|@remove
+			=> (type-of this) (--' this @remove)
 
 	--'.
 		doc. "Lazy --."
@@ -279,8 +279,8 @@ region Lazy functions, and their eager versions.
 	impl! =? @
 		test. !|
 			assert! =? [ 1 ] [ 1 ]
-		|@a @b
-			and (id=? (type-of @a) (type-of @b)) (seq=? @a @b
+		.|@other
+			and (id=? (type-of this) (type-of @other)) (seq=? this @other)
 
 region Mutator methods
 	empty!. Method
@@ -297,8 +297,8 @@ region Mutator methods
 			. "_"
 			. [ "added" @
 		# TODO: Lazy default?
-		default. !|_ added
-			++>! _ added
+		default. .!|added
+			++>! this added
 
 	--!. Method
 		doc. "

@@ -2,7 +2,7 @@ use
 	..control opr
 	..js defined? id=?
 	..private.bootstrap msDef
-	..Type.Js-Method js-impl!
+	..Type.Method impl!
 	..Type.Kind kind! self-kind!
 	..Type.Method self-impl!
 	..Type.Pred-Type
@@ -30,23 +30,25 @@ msDef "None" empty-?
 
 region Is Seq
 	self-kind! ? @-Type
-		from-stream -> |stream
-			iter = iterator stream
-			value done = iter.next()
-			case
-				done
-					empty-?
-				else
-					? value
 
-		empty -> |
-			empty-?
+	self-impl! from-stream ? |stream
+		iter = iterator stream
+		value done = iter.next()
+		case
+			done
+				empty-?
+			else
+				? value
+
+	self-impl! empty ? |
+		empty-?
 
 	kind! ? Seq
-		empty? -> |_
-			id=? _ empty-?
 
-	js-impl! iterator ? .~!|
+	impl! empty? ? .|
+		id=? this empty-?
+
+	impl! iterator ? .~!|
 		unless! empty? this
 			<~ .val
 

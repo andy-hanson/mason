@@ -5,7 +5,7 @@ use
 	...js defined?
 	...methods freeze
 	...Object p!
-	...Type.Js-Method js-impl!
+	...Type.Method impl! self-impl!
 	...Type.Kind kind! self-kind!
 	...Type.Tuple
 	...Type.Wrap-Type
@@ -40,8 +40,8 @@ Bucket = Tuple
 	props. [ "key" "val!" "next!"
 
 self-kind! Hash-Map Map-Type
-	empty -> |
-		Hash-Map (empty Id-Map
+self-impl! empty Hash-Map |
+	Hash-Map (empty Id-Map
 
 # All entries in the bucket have the same hash code.
 # Find the first bucket that =? key.
@@ -54,7 +54,7 @@ opt-bucket-entry = |opt-bucket key
 			break cur
 		cur := cur.next!
 
-js-impl! iterator Hash-Map .~!|
+impl! iterator Hash-Map .~!|
 	for! bucket in values .val
 		cur ::= bucket
 		for!
@@ -64,52 +64,53 @@ js-impl! iterator Hash-Map .~!|
 			cur := cur.next!
 
 kind! Hash-Map Map
-	?get -> |_ key
-		bucket = _.val.get (hash-code key
-		entry = opt-bucket-entry bucket key
-		map (Opt->? entry) |_
-			_.val!
 
-	assoc! -> !|hm key val
-		hash = hash-code key
-		bucket = hm.val.get hash
-		case! opt-bucket-entry bucket key
-			defined?_
-				# TODO: Might not want to overwrite value...
-				p! _ "val!" val
-			else
-				# Add it at the front.
-				hm.val.set hash (Bucket key val bucket
+impl! ?get Hash-Map .|key
+	bucket = .val.get (hash-code key)
+	entry = opt-bucket-entry bucket key
+	map (Opt->? entry) |_
+		_.val!
 
-	un-assoc! -> |hm key
-		hash = hash-code key
-		bucket = hm.val.get hash
-		case bucket
-			defined?_
-				case
-					=? _.key key
-						case! bucket.next!
-							defined?_
-								assoc! hm.val key _
-							else
-								un-assoc! hm.val hash
-						? _.val!
-					else
-						cur ::= bucket
-						for
-							next = cur.next!
-							unless! defined?_ next
-								break empty ?
-							if! =? next.key key
-								p! cur "next!" next.next!
-								break ? next.val!
-							cur := next
-			else
-				empty ?
+impl! assoc! Hash-Map .!|key val
+	hash = hash-code key
+	bucket = .val.get hash
+	case! opt-bucket-entry bucket key
+		defined?_
+			# TODO: Might not want to overwrite value...
+			p! _ "val!" val
+		else
+			# Add it at the front.
+			.val.set hash (Bucket key val bucket
 
-	freeze -> |_
-		freeze _.val
-		Object.freeze _
+impl! un-assoc! Hash-Map .|key
+	hash = hash-code key
+	bucket = .val.get hash
+	case bucket
+		defined?_
+			case
+				=? _.key key
+					case! bucket.next!
+						defined?_
+							assoc! .val key _
+						else
+							un-assoc! .val hash
+					? _.val!
+				else
+					cur ::= bucket
+					for
+						next = cur.next!
+						unless! defined?_ next
+							break empty ?
+						if! =? next.key key
+							p! cur "next!" next.next!
+							break ? next.val!
+						cur := next
+		else
+			empty ?
 
-	empty! -> !|_
-		empty! _.val
+impl! freeze Hash-Map .!|
+	freeze .val
+	Object.freeze this
+
+impl! empty! Hash-Map .!|
+	empty! .val

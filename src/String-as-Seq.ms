@@ -4,13 +4,11 @@ use
 	.@.Seq.Seq
 	.compare =? sort
 	.control opr
-	.Function noop thunk
-	.js js+
-	.math.methods -
+	.Function thunk
 	.show
 	.Type.Impl-Type self-type
 	.Type.Kind kind! self-kind!
-	.Type.Method impl! impl-double!
+	.Type.Method impl! impl-double! self-impl!
 	.Type.Pred-Type Opt
 	.Type.Type =>
 use-debug
@@ -23,34 +21,31 @@ test. !|
 	assert! =? "123" (map "123" identity
 
 self-kind! String @-Type
-	empty -> thunk ""
-	# TODO
-	from-stream -> |_
-		from-stream Array _
+self-impl! empty String (thunk "")
+# TODO
+self-impl! from-stream String |_
+	from-stream Array _
 
 # TODO: self-impl-double! ?
 impl-double! => (self-type String) @
 	test. |
 		[ String [ 1 2 3 ] ] -> "123"
 		[ String [ 1 2 3 ] ", " ] -> "1, 2, 3"
-	|str vals joiner:Opt[String]
-		noop str
+	|vals joiner:Opt[String]
 		joiner := opr joiner ""
-		s ::= ""
-		for! vals
-			s := js+ s show_
-			s := js+ s joiner
-		s.slice 0 (- s.length joiner.length
+		arr = @for vals
+			show_
+		arr.join joiner
 
 # TODO: Should this be necessary?
 impl! sort String
 	test. !|
 		pass # TODO
-	|_ ?sort-by:Opt[Function]
-		=> String (sort.default _ ?sort-by)
+	.|?sort-by:Opt[Function]
+		(sort.default.call this ?sort-by).join ""
 
 kind! String Seq
-	count -> |_
-		_.length
-	empty? -> |_
-		=? 0 _.length
+impl! count String .|
+	.length
+impl! empty? String .|
+	=? 0 .length

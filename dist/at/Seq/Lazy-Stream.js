@@ -1,8 +1,8 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","../../Function","../../Generator","../../math/Number","../../math/methods","../../Type/Js-Method","../../Type/Kind","../../Type/Tuple","../at","../at-Type","../q","./Seq","./Stream","../../compare","../../control","../../math/methods","../../math/Number","../../Type/Type","./Range","./Seq"],(exports,Function_0,Generator_1,Number_2,methods_3,Js_45Method_4,Kind_5,Tuple_6,_64_7,_64_45Type_8,_63_9,Seq_10,Stream_11,compare_12,control_13,methods_14,Number_15,Type_16,Range_17,Seq_18)=>{
+define(["exports","../../Function","../../Generator","../../math/Number","../../math/methods","../../Type/Kind","../../Type/Method","../../Type/Tuple","../at","../at-Type","../q","./Seq","./Stream","../../compare","../../control","../../math/methods","../../math/Number","../../Type/Type","./Range","./Seq"],(exports,Function_0,Generator_1,Number_2,methods_3,Kind_4,Method_5,Tuple_6,_64_7,_64_45Type_8,_63_9,Seq_10,Stream_11,compare_12,control_13,methods_14,Number_15,Type_16,Range_17,Seq_18)=>{
 	exports._get=_ms.lazy(()=>{
-		const _$2=_ms.getModule(Function_0),call=_ms.get(_$2,"call"),thunk=_ms.get(_$2,"thunk"),Generator=_ms.getDefaultExport(Generator_1),_$3=_ms.getModule(Generator_1),empty_45Generator=_ms.get(_$3,"empty-Generator"),_$4=_ms.getModule(Number_2),Nat=_ms.get(_$4,"Nat"),_$5=_ms.getModule(methods_3),_45=_ms.get(_$5,"-"),_$6=_ms.getModule(Js_45Method_4),js_45impl_33=_ms.get(_$6,"js-impl!"),_$7=_ms.getModule(Kind_5),kind_33=_ms.get(_$7,"kind!"),self_45kind_33=_ms.get(_$7,"self-kind!"),Tuple=_ms.getDefaultExport(Tuple_6),_$9=_ms.getModule(_64_7),count=_ms.get(_$9,"count"),iterator=_ms.get(_$9,"iterator"),_64_45Type=_ms.getDefaultExport(_64_45Type_8),_$10=_ms.getModule(_64_45Type_8),empty=_ms.get(_$10,"empty"),from_45stream=_ms.get(_$10,"from-stream"),_$11=_ms.getModule(_63_9),_63_45or=_ms.get(_$11,"?-or"),Seq=_ms.getDefaultExport(Seq_10),_$12=_ms.getModule(Seq_10),_63nth=_ms.get(_$12,"?nth"),Stream=_ms.getDefaultExport(Stream_11),_$15=_ms.lazyGetModule(compare_12),_61_63=_ms.lazyProp(_$15,"=?"),_$16=_ms.lazyGetModule(control_13),build=_ms.lazyProp(_$16,"build"),_$17=_ms.lazyGetModule(methods_14),_43=_ms.lazyProp(_$17,"+"),_$18=_ms.lazyGetModule(Number_15),infinity=_ms.lazyProp(_$18,"infinity"),_$19=_ms.lazyGetModule(Type_16),_61_62=_ms.lazyProp(_$19,"=>"),_$20=_ms.lazyGetModule(Range_17),range=_ms.lazyProp(_$20,"range"),_$21=_ms.lazyGetModule(Seq_18),seq_61_63=_ms.lazyProp(_$21,"seq=?"),take_39=_ms.lazyProp(_$21,"take'");
+		const _$2=_ms.getModule(Function_0),call=_ms.get(_$2,"call"),thunk=_ms.get(_$2,"thunk"),Generator=_ms.getDefaultExport(Generator_1),_$3=_ms.getModule(Generator_1),empty_45Generator=_ms.get(_$3,"empty-Generator"),_$4=_ms.getModule(Number_2),Nat=_ms.get(_$4,"Nat"),_$5=_ms.getModule(methods_3),_45=_ms.get(_$5,"-"),_$6=_ms.getModule(Kind_4),kind_33=_ms.get(_$6,"kind!"),self_45kind_33=_ms.get(_$6,"self-kind!"),_$7=_ms.getModule(Method_5),impl_33=_ms.get(_$7,"impl!"),self_45impl_33=_ms.get(_$7,"self-impl!"),Tuple=_ms.getDefaultExport(Tuple_6),_$9=_ms.getModule(_64_7),count=_ms.get(_$9,"count"),iterator=_ms.get(_$9,"iterator"),_64_45Type=_ms.getDefaultExport(_64_45Type_8),_$10=_ms.getModule(_64_45Type_8),empty=_ms.get(_$10,"empty"),from_45stream=_ms.get(_$10,"from-stream"),_$11=_ms.getModule(_63_9),_63_45or=_ms.get(_$11,"?-or"),Seq=_ms.getDefaultExport(Seq_10),_$12=_ms.getModule(Seq_10),_63nth=_ms.get(_$12,"?nth"),Stream=_ms.getDefaultExport(Stream_11),_$15=_ms.lazyGetModule(compare_12),_61_63=_ms.lazyProp(_$15,"=?"),_$16=_ms.lazyGetModule(control_13),build=_ms.lazyProp(_$16,"build"),_$17=_ms.lazyGetModule(methods_14),_43=_ms.lazyProp(_$17,"+"),_$18=_ms.lazyGetModule(Number_15),infinity=_ms.lazyProp(_$18,"infinity"),_$19=_ms.lazyGetModule(Type_16),_61_62=_ms.lazyProp(_$19,"=>"),_$20=_ms.lazyGetModule(Range_17),range=_ms.lazyProp(_$20,"range"),_$21=_ms.lazyGetModule(Seq_18),seq_61_63=_ms.lazyProp(_$21,"seq=?"),take_39=_ms.lazyProp(_$21,"take'");
 		const Lazy_45Stream=Tuple(()=>{
 			const built={};
 			const doc=built.doc=`Like Stream, but caches its elements as it produces them.\nIf you want to stream the results of an expensive computation and use it multiple times, use this.\nIf you have a cheap computation or only need to iterate through it once, use Stream.`;
@@ -14,17 +14,14 @@ define(["exports","../../Function","../../Generator","../../math/Number","../../
 			}();
 			return _ms.setName(built,"Lazy-Stream")
 		}());
-		self_45kind_33(Lazy_45Stream,_64_45Type,()=>{
-			const built=new global.Map();
-			_ms.assoc(built,empty,thunk(Lazy_45Stream(empty_45Generator,[])));
-			_ms.assoc(built,from_45stream,_=>{
-				return lazy_45streaming(()=>{
-					return iterator(_)
-				})
-			});
-			return built
-		}());
-		js_45impl_33(iterator,Lazy_45Stream,()=>{
+		self_45kind_33(Lazy_45Stream,_64_45Type);
+		self_45impl_33(empty,Lazy_45Stream,thunk(Lazy_45Stream(empty_45Generator,[])));
+		self_45impl_33(from_45stream,Lazy_45Stream,_=>{
+			return lazy_45streaming(()=>{
+				return iterator(_)
+			})
+		});
+		impl_33(iterator,Lazy_45Stream,()=>{
 			const built={};
 			const test=built.test=function test(){
 				_ms.assert(_ms.unlazy(_61_63),[1,2],_ms.unlazy(build)(_yield=>{
@@ -45,19 +42,17 @@ define(["exports","../../Function","../../Generator","../../math/Number","../../
 				(yield* _this["caching-iterator"])
 			},built)
 		}());
-		kind_33(Lazy_45Stream,Seq,()=>{
-			const built=new global.Map();
-			_ms.assoc(built,_63nth,(stream,n)=>{
-				_ms.checkContains(Nat,n,"n");
-				return _63_45or(_63nth(stream.cache,n),_ms.lazy(()=>{
-					return ()=>{
-						const n_45left=_45(n,count(stream.cache));
-						return _63nth(Stream(stream["caching-iterator"]),n_45left)
-					}()
-				}))
-			});
-			return built
-		}());
+		kind_33(Lazy_45Stream,Seq);
+		impl_33(_63nth,Lazy_45Stream,function(n){
+			const _this=this;
+			_ms.checkContains(Nat,n,"n");
+			return _63_45or(_63nth(_this.cache,n),_ms.lazy(()=>{
+				return ()=>{
+					const n_45left=_45(n,count(_this.cache));
+					return _63nth(Stream(_this["caching-iterator"]),n_45left)
+				}()
+			}))
+		});
 		const lazy_45streaming=exports["lazy-streaming"]=()=>{
 			const built={};
 			const doc=built.doc=`Creates a Lazy-Stream from a generator.`;
@@ -89,4 +84,4 @@ define(["exports","../../Function","../../Generator","../../math/Number","../../
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1NlcS9MYXp5LVN0cmVhbS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQXNCQSxvQkFBYSxVQUNLOztHQUFqQixvQkFDQztHQUdELDRCQUNNOztrQkFBSCxDQUFHLG1CQUFrQjtrQkFDckIsQ0FBRyxRQUFPOzs7OztFQUVkLGVBQVcsY0FBWSxlQUNNOzttQkFBNUIsTUFBUyxNQUFPLGNBQVksa0JBQWdCO21CQUU1QyxjQUFnQixHQUNDO1dBQWhCLGlCQUNnQixJQUFBO1lBQWYsU0FBUTtJQUFBO0dBQUE7OztFQUVYLGFBQVMsU0FBUyxrQkFDVzs7R0FBNUIsc0JBQ1EsZUFBQTtrQ0FBSSxDQUFFLEVBQUUscUJBQWEsUUFDSztLQUFoQywyQkFBTyxjQUFhLE9BQ1UsV0FBQTtNQUE3QixPQUFNO2FBQ0g7TUFDSCxPQUFNO2FBQ0g7TUFDSCxPQUFNO0tBQUE7c0NBQ08sQ0FBRSx1QkFBVyxFQUFFO3NDQUNmLENBQUUsRUFBRSx1QkFBVyxFQUFFO0lBQUE7R0FBQTtrQkFFN0IsV0FBQTs7WUFBQyxTQUFTO1lBQ1Q7OztFQUVOLFFBQU0sY0FBWSxRQUNHOzttQkFBcEIsT0FBUyxDQUFBLE9BQU8sSUFDSztzQkFESDtXQUNqQixTQUFNLE9BQUssYUFBYTtnQkFDSTtNQUEzQixlQUFTLElBQUUsRUFBRyxNQUFNO2FBQ3BCLE9BQU0sT0FBTyw0QkFBeUI7S0FBQTtJQUFBO0dBQUE7OztFQUV6QyxxREFDZTs7R0FBZCxvQkFBTTtHQUNOLHNCQUNRLGVBQUE7SUFBUCxpQkFBYSxPQUNVLFdBQUE7WUFBbkI7WUFDQTtLQUNFLFFBQUEsdUJBQU0sd0JBQ1U7cUNBQ2YsV0FBWSxJQUFFLEVBQUUsWUFBRyxXQUFZLElBQUUsRUFBRTtLQUFBO0lBQUE7eURBQ3JCLFdBQVcsSUFBSSxDQUFFLEVBQUUsRUFBRSxFQUFFLEVBQUUsRUFBRSxFQUFFLEdBQUcsR0FBRyxHQUFHO0dBQUE7a0JBQzNELDBCQUFBLE9BQzBCOzhCQURuQixTQUFTO0lBQ2hCLFlBQVE7SUFJUixXQUFPLE9BQU87SUFDZCxXQUFPLEtBQ1EsV0FBQTtLQUFULFFBQUEsS0FBQSxLQUNJO01BQ1IsV0FBVzthQUNSO0tBQUE7SUFBQTtXQUNMLGNBQVksS0FBSztHQUFBOztFQWhGbkIsd0JBQUE7a0JBc0JBIiwiZmlsZSI6ImF0L1NlcS9MYXp5LVN0cmVhbS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1NlcS9MYXp5LVN0cmVhbS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQXNCQSxvQkFBYSxVQUNLOztHQUFqQixvQkFDQztHQUdELDRCQUNNOztrQkFBSCxDQUFHLG1CQUFrQjtrQkFDckIsQ0FBRyxRQUFPOzs7OztFQUVkLGVBQVcsY0FBWTtFQUN2QixlQUFXLE1BQU0sY0FBYSxNQUFPLGNBQVksa0JBQWdCO0VBRWpFLGVBQVcsY0FBWSxjQUFhLEdBQ0M7VUFBcEMsaUJBQ2dCLElBQUE7V0FBZixTQUFRO0dBQUE7RUFBQTtFQUVWLFFBQU0sU0FBUyxrQkFDVzs7R0FBekIsc0JBQ1EsZUFBQTtrQ0FBSSxDQUFFLEVBQUUscUJBQWEsUUFDSztLQUFoQywyQkFBTyxjQUFhLE9BQ1UsV0FBQTtNQUE3QixPQUFNO2FBQ0g7TUFDSCxPQUFNO2FBQ0g7TUFDSCxPQUFNO0tBQUE7c0NBQ08sQ0FBRSx1QkFBVyxFQUFFO3NDQUNmLENBQUUsRUFBRSx1QkFBVyxFQUFFO0lBQUE7R0FBQTtrQkFFN0IsV0FBQTs7WUFBQyxTQUFTO1lBQ1Q7OztFQUVOLFFBQU0sY0FBWTtFQUNsQixRQUFNLE9BQUssY0FBYyxTQUFBLEVBQ0s7O3FCQURIO1VBQzFCLFNBQU0sT0FBSyxZQUFPO2VBQ0k7S0FBckIsZUFBUyxJQUFFLEVBQUcsTUFBTTtZQUNwQixPQUFNLE9BQU8sMkJBQW1CO0lBQUE7R0FBQTtFQUFBO0VBRWxDLHFEQUNlOztHQUFkLG9CQUFNO0dBQ04sc0JBQ1EsZUFBQTtJQUFQLGlCQUFhLE9BQ1UsV0FBQTtZQUFuQjtZQUNBO0tBQ0UsUUFBQSx1QkFBTSx3QkFDVTtxQ0FDZixXQUFZLElBQUUsRUFBRSxZQUFHLFdBQVksSUFBRSxFQUFFO0tBQUE7SUFBQTt5REFDckIsV0FBVyxJQUFJLENBQUUsRUFBRSxFQUFFLEVBQUUsRUFBRSxFQUFFLEVBQUUsR0FBRyxHQUFHLEdBQUc7R0FBQTtrQkFDM0QsMEJBQUEsT0FDMEI7OEJBRG5CLFNBQVM7SUFDaEIsWUFBUTtJQUlSLFdBQU8sT0FBTztJQUNkLFdBQU8sS0FDUSxXQUFBO0tBQVQsUUFBQSxLQUFBLEtBQ0k7TUFDUixXQUFXO2FBQ1I7S0FBQTtJQUFBO1dBQ0wsY0FBWSxLQUFLO0dBQUE7O0VBaEZuQix3QkFBQTtrQkFzQkEiLCJmaWxlIjoiYXQvU2VxL0xhenktU3RyZWFtLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

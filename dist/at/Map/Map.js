@@ -21,8 +21,9 @@ define(["exports","../../compare","../../methods","../../Type/Kind","../../Type/
 			const built={};
 			const doc=built.doc=`|:Boolean _ key:Any\nWhether the key is in the Map.`;
 			const args=built.args=[`_`,`key`];
-			const _default=built.default=function _default(_,key){
-				return ! empty_63(_63get(_,key))
+			const _default=built.default=function _default(key){
+				const _this=this;
+				return ! empty_63(_63get(_this,key))
 			};
 			return _ms.setName(built,"has-key?")
 		}());
@@ -30,8 +31,9 @@ define(["exports","../../compare","../../methods","../../Type/Kind","../../Type/
 			const built={};
 			const doc=built.doc=`Every key that the Map \`has-key?\`.`;
 			const args=built.args=1;
-			const _default=built.default=function _default(_){
-				return _61_62(Array,map_39(_,pair=>{
+			const _default=built.default=function _default(){
+				const _this=this;
+				return _61_62(Array,map_39(_this,pair=>{
 					return _ms.sub(pair,0)
 				}))
 			};
@@ -41,20 +43,23 @@ define(["exports","../../compare","../../methods","../../Type/Kind","../../Type/
 			const built={};
 			const doc=built.doc=`Every value in the Map.`;
 			const args=built.args=1;
-			const _default=built.default=function _default(_){
-				return _61_62(Array,map_39(_,pair=>{
+			const _default=built.default=function _default(){
+				const _this=this;
+				return _61_62(Array,map_39(_this,pair=>{
 					return _ms.sub(pair,1)
 				}))
 			};
 			return _ms.setName(built,"values")
 		}());
-		impl_33(_61_63,Map,(m1,m2)=>{
-			return (_61_63(type_45of(m1),type_45of(m2))&&map_61_63(m1,m2))
+		impl_33(_61_63,Map,function(other){
+			const _this=this;
+			return (_61_63(type_45of(_this),type_45of(other))&&map_61_63(_this,other))
 		});
-		impl_33(sub,Map,(map,key)=>{
+		impl_33(sub,Map,function(key){
+			const _this=this;
 			_ms.checkContains(Any,key,"key");
-			return un_45_63(_63get(map,key),_ms.lazy(()=>{
-				return `${_ms.show(map)} does not contain ${_ms.show(key)}.`
+			return un_45_63(_63get(_this,key),_ms.lazy(()=>{
+				return `${_ms.show(_this)} does not contain ${_ms.show(key)}.`
 			}))
 		});
 		const make_45map=exports["make-map"]=()=>{
@@ -149,9 +154,10 @@ define(["exports","../../compare","../../methods","../../Type/Kind","../../Type/
 			const built={};
 			const doc=built.doc=`|_ key:Any val:Any\nassoc! key val, but fail if _[key] is set already.`;
 			const args=built.args=[`_`,`key`,`val`];
-			const _default=built.default=function _default(_,key,val){
-				if(_ms.bool(has_45key_63(_,key)))throw _ms.error(`Already have key ${_ms.show(key)}.`);
-				assoc_33(_,key,val)
+			const _default=built.default=function _default(key,val){
+				const _this=this;
+				if(_ms.bool(has_45key_63(_this,key)))throw _ms.error(`Already have key ${_ms.show(key)}.`);
+				assoc_33(_this,key,val)
 			};
 			return _ms.setName(built,"add!")
 		}());
@@ -159,10 +165,11 @@ define(["exports","../../compare","../../methods","../../Type/Kind","../../Type/
 			const built={};
 			const doc=built.doc=`map[key], and if it's not already there, fill it in with default-val.`;
 			const args=built.args=[`_`,`key`,`~default-val`];
-			const _default=built.default=function _default(map,key,default_45val){
-				return _63_45or(_63get(map,key),_ms.lazy(()=>{
+			const _default=built.default=function _default(key,default_45val){
+				const _this=this;
+				return _63_45or(_63get(_this,key),_ms.lazy(()=>{
 					return ()=>{
-						assoc_33(map,key,_ms.unlazy(default_45val));
+						assoc_33(_this,key,_ms.unlazy(default_45val));
 						return _ms.unlazy(default_45val)
 					}()
 				}))
@@ -174,4 +181,4 @@ define(["exports","../../compare","../../methods","../../Type/Kind","../../Type/
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL01hcC9NYXAubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQWVBLFVBQUssU0FDSTs7R0FBUixvQkFBTTs7O0VBRVAsUUFBTSxJQUFJO0VBR1QsNkJBQU0sV0FDTTs7R0FBWCxvQkFBTTtHQUNOLHNCQUFNLENBQUcsSUFBSTs7O0VBRWQsdUNBQVUsV0FDTTs7R0FBZixvQkFDQztHQUVELHNCQUFNLENBQUcsSUFBSTtHQUNiLDZCQUFVLGtCQUFBLEVBQUUsSUFDRztXQUFkLEVBQUssU0FBUSxPQUFLLEVBQUU7R0FBQTs7O0VBRXRCLHdCQUFNLFdBQ007O0dBQVgsb0JBQU07R0FDTixzQkFBTTtHQUNOLDZCQUFVLGtCQUFBLEVBQ0M7V0FBVixPQUFHLE1BQU8sT0FBSyxFQUFHLE1BQ0k7b0JBQXJCLEtBQUs7SUFBQTtHQUFBOzs7RUFFUiw0QkFBUSxXQUNNOztHQUFiLG9CQUFNO0dBQ04sc0JBQU07R0FDTiw2QkFBVSxrQkFBQSxFQUNDO1dBQVYsT0FBRyxNQUFPLE9BQUssRUFBRyxNQUNJO29CQUFyQixLQUFLO0lBQUE7R0FBQTs7O0VBR1IsUUFBTSxPQUFHLElBQUssQ0FBQSxHQUFHLEtBQ0U7VUFBbEIsQ0FBSyxPQUFJLFVBQVEsSUFBSyxVQUFRLE1BQU0sVUFBTSxHQUFHO0VBQUE7RUFFOUMsUUFBTSxJQUFJLElBQUssQ0FBQSxJQUFJLE1BQ087cUJBREg7VUFDdEIsU0FBTSxPQUFLLElBQUk7V0FBTyxZQUFDLGtDQUF1Qjs7O0VBRy9DLHlDQUNTOztHQUFSLG9CQUFNO0dBQ04sc0JBQ1EsZUFBQTtJQUFQLFVBQU0sV0FBUyxDQUFFLEVBQUUsR0FBSyxHQUNDOzRCQUF0QixFQUFFO0lBQUE7ZUFDRyxlQUFHLElBQUksR0FBRztlQUNWLGVBQUcsSUFBSSxHQUFHO0dBQUE7a0JBRWxCLG9CQUFBLE9BQU8sWUFDa0I7c0JBRHBCO3NCQUFZO0lBQ2pCLFVBQU07SUFDRCxRQUFBLEtBQUEsT0FDSTtLQUFSLFNBQU8sSUFBSSxFQUFFLFlBQVM7SUFBQTtXQUN2QjtHQUFBOztFQUVGLHFDQUNNOztHQUFMLG9CQUFNO0dBQ04sc0JBQ08sZUFBQTs7SUFBTixhQUNJOztxQkFBSCxFQUFLO3FCQUNMLEVBQUs7OztJQUNOLGFBQ0k7O3FCQUFILEVBQUs7OztvQkFDTixDQUFFLEdBQUcsSUFBUTtvQkFDYixDQUFFLEdBQUcsSUFBUTs7O2tCQUNiLG1CQUFBLEVBQU0sRUFDSztzQkFEVDtzQkFBTTtXQUNSLENBQUssT0FBSSxNQUFNLEdBQUksTUFBTSxTQUNHO1lBQTNCLE9BQUssRUFBRyxNQUNJO01BQ1gsa0JBQU0sS0FBSztNQUNYLGtCQUFNLEtBQUs7TUFDWCxZQUFNLE9BQUssRUFBRTthQUNiLENBQUssRUFBSSxTQUFPLFFBQU0sT0FBRyxJQUFJOzs7OztFQUdqQyxpQ0FBUSxXQUNNOztHQUFiLG9CQUFNO0dBQ04sc0JBQU0sQ0FBRyxJQUFJLE1BQU07OztFQUVwQix5Q0FDUTs7R0FBUCxvQkFBTTtHQUNOLHNCQUFPO2tCQUNMLHFCQUFBLElBQVEsU0FDVTtzQkFEZDtzQkFBVztJQUNYLFFBQUEsS0FBQSxTQUNNO0tBQ1YsU0FBTyxZQUFJLEVBQUUsV0FBRyxFQUFFO0lBQUE7R0FBQTs7RUFFckIseUNBQVcsV0FDTTs7R0FBaEIsb0JBQ0M7R0FDRCxzQkFBTSxDQUFHLElBQUk7OztFQUVkLGlEQUNXOztHQUFWLG9CQUFNO2tCQUNKLDBCQUFBLElBQVEsZUFDWTtzQkFEaEI7c0JBQWU7SUFDZixRQUFBLEtBQUEsZUFDVTtLQUFkLGNBQVUsSUFBSTtJQUFBO0dBQUE7O0VBRWpCLDZCQUFNLFdBQ007O0dBQVgsb0JBQ0M7R0FFRCxzQkFBTSxDQUFHLElBQUksTUFBTTtHQUNuQiw2QkFBVyxrQkFBQSxFQUFFLElBQUksSUFHaEI7SUFEUyxZQUFBLGFBQVMsRUFBRSxzQkFBWSw2QkFBa0I7SUFDbEQsU0FBTyxFQUFFLElBQUk7R0FBQTs7O0VBRWYsK0NBQWEsV0FDTTs7R0FBbEIsb0JBQU07R0FDTixzQkFBTSxDQUFHLElBQUksTUFBTTtHQUNuQiw2QkFBVSxrQkFBQSxJQUFJLElBQUksY0FDWTtXQUE3QixTQUFNLE9BQUssSUFBSTtnQkFDTTtNQUFwQixTQUFPLElBQUksZUFGSzt3QkFBQTtLQUFBO0lBQUE7R0FBQTs7O0VBN0hwQix3QkFBQTtrQkFlQSIsImZpbGUiOiJhdC9NYXAvTWFwLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL01hcC9NYXAubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztFQWVBLFVBQUssU0FDSTs7R0FBUixvQkFBTTs7O0VBRVAsUUFBTSxJQUFJO0VBR1QsNkJBQU0sV0FDTTs7R0FBWCxvQkFBTTtHQUNOLHNCQUFNLENBQUcsSUFBSTs7O0VBRWQsdUNBQVUsV0FDTTs7R0FBZixvQkFDQztHQUVELHNCQUFNLENBQUcsSUFBSTtHQUNiLDZCQUFXLGtCQUFBLElBQ0c7O1dBQWIsRUFBSyxTQUFRLE9BQUssTUFBSztHQUFBOzs7RUFFekIsd0JBQU0sV0FDTTs7R0FBWCxvQkFBTTtHQUNOLHNCQUFNO0dBQ04sNkJBQ1csbUJBQUE7O1dBQVYsT0FBRyxNQUFPLE9BQUssTUFBTSxNQUNJO29CQUF4QixLQUFLO0lBQUE7R0FBQTs7O0VBRVIsNEJBQVEsV0FDTTs7R0FBYixvQkFBTTtHQUNOLHNCQUFNO0dBQ04sNkJBQ1csbUJBQUE7O1dBQVYsT0FBRyxNQUFPLE9BQUssTUFBTSxNQUNJO29CQUF4QixLQUFLO0lBQUE7R0FBQTs7O0VBR1IsUUFBTSxPQUFHLElBQU0sU0FBQSxNQUNLOztVQUFuQixDQUFLLE9BQUksVUFBUSxPQUFPLFVBQVEsU0FBUyxVQUFNLE1BQUs7RUFBQTtFQUVyRCxRQUFNLElBQUksSUFBTSxTQUFBLElBQ087O3FCQURIO1VBQ25CLFNBQU0sT0FBSyxNQUFLO1dBQU8sWUFBQyxvQ0FBd0I7OztFQUdqRCx5Q0FDUzs7R0FBUixvQkFBTTtHQUNOLHNCQUNRLGVBQUE7SUFBUCxVQUFNLFdBQVMsQ0FBRSxFQUFFLEdBQUssR0FDQzs0QkFBdEIsRUFBRTtJQUFBO2VBQ0csZUFBRyxJQUFJLEdBQUc7ZUFDVixlQUFHLElBQUksR0FBRztHQUFBO2tCQUVsQixvQkFBQSxPQUFPLFlBQ2tCO3NCQURwQjtzQkFBWTtJQUNqQixVQUFNO0lBQ0QsUUFBQSxLQUFBLE9BQ0k7S0FBUixTQUFPLElBQUksRUFBRSxZQUFTO0lBQUE7V0FDdkI7R0FBQTs7RUFFRixxQ0FDTTs7R0FBTCxvQkFBTTtHQUNOLHNCQUNPLGVBQUE7O0lBQU4sYUFDSTs7cUJBQUgsRUFBSztxQkFDTCxFQUFLOzs7SUFDTixhQUNJOztxQkFBSCxFQUFLOzs7b0JBQ04sQ0FBRSxHQUFHLElBQVE7b0JBQ2IsQ0FBRSxHQUFHLElBQVE7OztrQkFDYixtQkFBQSxFQUFNLEVBQ0s7c0JBRFQ7c0JBQU07V0FDUixDQUFLLE9BQUksTUFBTSxHQUFJLE1BQU0sU0FDRztZQUEzQixPQUFLLEVBQUcsTUFDSTtNQUNYLGtCQUFNLEtBQUs7TUFDWCxrQkFBTSxLQUFLO01BQ1gsWUFBTSxPQUFLLEVBQUU7YUFDYixDQUFLLEVBQUksU0FBTyxRQUFNLE9BQUcsSUFBSTs7Ozs7RUFHakMsaUNBQVEsV0FDTTs7R0FBYixvQkFBTTtHQUNOLHNCQUFNLENBQUcsSUFBSSxNQUFNOzs7RUFFcEIseUNBQ1E7O0dBQVAsb0JBQU07R0FDTixzQkFBTztrQkFDTCxxQkFBQSxJQUFRLFNBQ1U7c0JBRGQ7c0JBQVc7SUFDWCxRQUFBLEtBQUEsU0FDTTtLQUNWLFNBQU8sWUFBSSxFQUFFLFdBQUcsRUFBRTtJQUFBO0dBQUE7O0VBRXJCLHlDQUFXLFdBQ007O0dBQWhCLG9CQUNDO0dBQ0Qsc0JBQU0sQ0FBRyxJQUFJOzs7RUFFZCxpREFDVzs7R0FBVixvQkFBTTtrQkFDSiwwQkFBQSxJQUFRLGVBQ1k7c0JBRGhCO3NCQUFlO0lBQ2YsUUFBQSxLQUFBLGVBQ1U7S0FBZCxjQUFVLElBQUk7SUFBQTtHQUFBOztFQUVqQiw2QkFBTSxXQUNNOztHQUFYLG9CQUNDO0dBRUQsc0JBQU0sQ0FBRyxJQUFJLE1BQU07R0FDbkIsNkJBQVksa0JBQUEsSUFBSSxJQUdmOztJQURTLFlBQUEsYUFBUyxNQUFLLHNCQUFZLDZCQUFrQjtJQUNyRCxTQUFPLE1BQUssSUFBSTtHQUFBOzs7RUFFbEIsK0NBQWEsV0FDTTs7R0FBbEIsb0JBQU07R0FDTixzQkFBTSxDQUFHLElBQUksTUFBTTtHQUNuQiw2QkFBVyxrQkFBQSxJQUFJLGNBQ1k7O1dBQTFCLFNBQU0sT0FBSyxNQUFLO2dCQUNNO01BQXJCLFNBQU8sTUFBSyxlQUZDO3dCQUFBO0tBQUE7SUFBQTtHQUFBOzs7RUE3SGpCLHdCQUFBO2tCQWVBIiwiZmlsZSI6ImF0L01hcC9NYXAuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

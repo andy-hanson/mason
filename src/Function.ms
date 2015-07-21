@@ -202,9 +202,11 @@ curry =
 		assert! =? (one-two 3) [ 1 2 3 ]
 	iCurry
 
-impl! sub Function curry
+impl! sub Function .|...args
+	curry this ...args
 # TODO: Make Method a Callable
-impl! sub Method curry
+impl! sub Method .|...args
+	curry this ...args
 
 self-impl! sub Function
 	doc. "

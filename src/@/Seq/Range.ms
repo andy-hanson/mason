@@ -4,8 +4,8 @@ use
 	...Function noop thunk
 	...math.Number Nat round-down sign
 	...math.methods + - * /
-	...Type.Js-Method js-impl!
 	...Type.Kind kind! self-kind!
+	...Type.Method impl! self-impl!
 	...Type.Pred-Type Opt
 	...Type.Tuple
 	..@ _ count iterator
@@ -43,11 +43,11 @@ range-incl.
 		range start (+ end step) step
 
 self-kind! Range @-Type
-	empty -> thunk (range 0 0)
+self-impl! empty Range (thunk (range 0 0))
+self-impl! from-stream Range |_
 	# We can't build a Range out of arbitrary elements...
 	# TODO: impl-for from-stream Array
-	from-stream -> |_
-		_
+	_
 
 length.
 	doc. "Difference between and and start values."
@@ -57,7 +57,7 @@ length.
 	|_:Range
 		- _.end _.start
 
-js-impl! iterator Range
+impl! iterator Range
 	test. !|
 		assert! seq=? (range 0 10 2) [ 0 2 4 6 8 ]
 	.~!|
@@ -69,18 +69,20 @@ js-impl! iterator Range
 			cur := + cur .step
 
 kind! Range @
-	?nth ->
-		test. |
-			r = range 0 10 2
-			[ r 2 ] -> ? 4
-			[ r 6 ] -> empty ?
-		|_ n:Nat
-			# TODO: Function if-test ?
-			it = + _.start (* _.step n)
-			if <? it _.end
-				it
-	count ->
-		test. |
-			[ (range 0 2 0.5) ] -> 4
-		|_
-			round-down (/ length_ _.step)
+# TODO: Restore test when impl!
+impl! ?nth Range
+	test. |
+		r = range 0 10 2
+		[ r 2 ] -> ? 4
+		[ r 6 ] -> empty ?
+	.|n:Nat
+		# TODO: Function if-test ?
+		it = + .start (* .step n)
+		if <? it .end
+			it
+
+impl! count Range
+	test. |
+		[ (range 0 2 0.5) ] -> 4
+	.|
+		round-down (/ (length this) .step)

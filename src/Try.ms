@@ -27,7 +27,7 @@ Try. Kind
 	doc. "Result of running failable code. Success or Error."
 	implementors. [ Success Error
 
-self-impl! => Error (p ms "error"
+self-impl! => Error (p ms "error")
 
 try-result.
 	doc. "

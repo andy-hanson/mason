@@ -1,14 +1,17 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","../control","../Function","../methods","../Type/Kind","../Type/Method","../Type/Type","./at","./Seq/Range"],(exports,control_0,Function_1,methods_2,Kind_3,Method_4,Type_5,_64_6,Range_7)=>{
+define(["exports","../control","../methods","../Type/Kind","../Type/Method","../Type/Type","./at","./Seq/Range"],(exports,control_0,methods_1,Kind_2,Method_3,Type_4,_64_5,Range_6)=>{
 	exports._get=_ms.lazy(()=>{
-		const _$2=_ms.getModule(control_0),returning=_ms.get(_$2,"returning"),_$3=_ms.getModule(Function_1),identity=_ms.get(_$3,"identity"),_$4=_ms.getModule(methods_2),sub=_ms.get(_$4,"sub"),Kind=_ms.getDefaultExport(Kind_3),_$5=_ms.getModule(Kind_3),self_45kind_33=_ms.get(_$5,"self-kind!"),Method=_ms.getDefaultExport(Method_4),_$6=_ms.getModule(Method_4),impl_33=_ms.get(_$6,"impl!"),self_45impl_33=_ms.get(_$6,"self-impl!"),_$7=_ms.getModule(Type_5),_61_62=_ms.get(_$7,"=>"),_64=_ms.getDefaultExport(_64_6),_$8=_ms.getModule(_64_6),_43_43_33=_ms.get(_$8,"++!"),_$10=_ms.lazyGetModule(Range_7),range=_ms.lazyProp(_$10,"range");
+		const _$2=_ms.getModule(control_0),returning=_ms.get(_$2,"returning"),_$3=_ms.getModule(methods_1),sub=_ms.get(_$3,"sub"),Kind=_ms.getDefaultExport(Kind_2),_$4=_ms.getModule(Kind_2),self_45kind_33=_ms.get(_$4,"self-kind!"),Method=_ms.getDefaultExport(Method_3),_$5=_ms.getModule(Method_3),impl_33=_ms.get(_$5,"impl!"),self_45impl_33=_ms.get(_$5,"self-impl!"),_$6=_ms.getModule(Type_4),_61_62=_ms.get(_$6,"=>"),_64=_ms.getDefaultExport(_64_5),_$7=_ms.getModule(_64_5),_43_43_33=_ms.get(_$7,"++!"),_$9=_ms.lazyGetModule(Range_6),range=_ms.lazyProp(_$9,"range");
 		const _64_45Type=Kind(()=>{
 			const built={};
 			const doc=built.doc=`Any sub-type of @.`;
 			return _ms.setName(built,"@-Type")
 		}());
-		impl_33(sub,_64_45Type,identity);
+		impl_33(sub,_64_45Type,function(){
+			const _this=this;
+			return _this
+		});
 		const empty=exports.empty=Method(()=>{
 			const built={};
 			const doc=built.doc=`Given a type, makes an instance which is \`empty?\`.\nShould always return the same thing iff immutable.`;
@@ -23,8 +26,9 @@ define(["exports","../control","../Function","../methods","../Type/Kind","../Typ
 				return built
 			};
 			const args=built.args=[`type`,`stream`];
-			const _default=built.default=function _default(type,stream){
-				return returning(empty(type),_=>{
+			const _default=built.default=function _default(stream){
+				const _this=this;
+				return returning(empty(_this),_=>{
 					_43_43_33(_,stream)
 				})
 			};
@@ -34,10 +38,13 @@ define(["exports","../control","../Function","../methods","../Type/Kind","../Typ
 		self_45impl_33(empty,_64,()=>{
 			return []
 		});
-		impl_33(_61_62,_64_45Type,from_45stream);
+		impl_33(_61_62,_64_45Type,function(stream){
+			const _this=this;
+			return from_45stream(_this,stream)
+		});
 		const name=exports.name=`@-Type`;
 		exports.default=_64_45Type;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL0AtVHlwZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQVdBLGlCQUFRLFNBQ0k7O0dBQVgsb0JBQU07OztFQUVQLFFBQU0sSUFBSSxXQUFPO0VBRWpCLDBCQUFPLFdBQ007O0dBQVosb0JBQ0M7OztFQUdGLDJDQUFhLFdBQ007O0dBQWxCLG9CQUNDO0dBRUQsc0JBQ08sZUFBQTs7b0JBQU4sQ0FBRSx3QkFBYSxFQUFFLElBQVEsQ0FBRSxFQUFFLEVBQUUsRUFBRSxFQUFFOzs7R0FDcEMsc0JBQU0sQ0FBRyxPQUFPO0dBQ2hCLDZCQUFVLGtCQUFBLEtBQUssT0FDTTtXQUFwQixVQUFXLE1BQU0sTUFBUSxHQUNDO0tBQXpCLFVBQUksRUFBRTtJQUFBO0dBQUE7OztFQUdULGVBQVcsSUFBRTtFQUNiLGVBQVcsTUFBTSxJQUNHLElBQUE7VUFBbkI7RUFBQTtFQUVELFFBQU0sT0FBRyxXQUFPO0VBckNoQix3QkFBQTtrQkFXQSIsImZpbGUiOiJhdC9hdC1UeXBlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL0AtVHlwZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQVVBLGlCQUFRLFNBQ0k7O0dBQVgsb0JBQU07OztFQUVQLFFBQU0sSUFBSSxXQUNTLFVBQUE7O1VBQWxCO0VBQUE7RUFFRCwwQkFBTyxXQUNNOztHQUFaLG9CQUNDOzs7RUFHRiwyQ0FBYSxXQUNNOztHQUFsQixvQkFDQztHQUVELHNCQUNPLGVBQUE7O29CQUFOLENBQUUsd0JBQWEsRUFBRSxJQUFRLENBQUUsRUFBRSxFQUFFLEVBQUUsRUFBRTs7O0dBQ3BDLHNCQUFNLENBQUcsT0FBTztHQUNoQiw2QkFBVyxrQkFBQSxPQUNNOztXQUFoQixVQUFXLE1BQU0sT0FBUSxHQUNDO0tBQXpCLFVBQUksRUFBRTtJQUFBO0dBQUE7OztFQUdULGVBQVcsSUFBRTtFQUNiLGVBQVcsTUFBTSxJQUNHLElBQUE7VUFBbkI7RUFBQTtFQUVELFFBQU0sT0FBRyxXQUFTLFNBQUEsT0FDTTs7VUFBdkIsY0FBWSxNQUFLO0VBQUE7RUF0Q2xCLHdCQUFBO2tCQVVBIiwiZmlsZSI6ImF0L2F0LVR5cGUuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

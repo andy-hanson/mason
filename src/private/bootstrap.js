@@ -183,12 +183,12 @@ msDefTemp('checkContains', (_type, val) => val)
 for (const type of [ Function, Boolean, String, Symbol, Number ]) {
 	// Generated code is faster than using a closure.
 	const src = 'return typeof _ === "' + type.name.toLowerCase() + '"'
-	pAdd(type, containsImplSymbol, Function('ignore', '_', src))
+	pAdd(type, containsImplSymbol, Function('_', src))
 }
 
 // Functions are Objects, so we do this one differently.
 // TODO: This treats Object.create(null) as an object. Do we want that?
-pAdd(Object, containsImplSymbol, function(_ignore, _) {
+pAdd(Object, containsImplSymbol, function(_) {
 	if (_ === null)
 		return false
 	switch (typeof _) {
@@ -199,3 +199,5 @@ pAdd(Object, containsImplSymbol, function(_ignore, _) {
 			return false
 	}
 })
+
+implContains(Function, function(_) { return _ instanceof this })

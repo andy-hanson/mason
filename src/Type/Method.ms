@@ -1,30 +1,23 @@
 use
 	esast.dist.mangle-identifier
-	..Boolean implies
-	..js defined? js! js=== js-instanceof js-sub
-	# Don't want to depend on Try because that can cause circular dependency problems.
+	..js defined? js=== js-sub js-typeof
+	..private.bootstrap containsImplSymbol implContains msDef
 	..private.js-impl buildStr methodArgNames
-	..private.bootstrap implContains msDef containsImplSymbol
 	.Obj-Type
 use~
 	..@.? un-?
-	..Function noop
-	..Object p-with-proto?
 	.Impl-Type _ self-type
 	.Kind
+	..Object p-with-proto?
 use-debug
 	..@.@-Type empty
 	..@.?
+	..assert assert-call!
 	..compare =?
-	..Function thunk
-	..private.bootstrap pAdd
 	..Try fails?
 
-flag? = |case
-	defined?_
-		js! (js=== _ false)
-	else
-		false
+flag? = |_
+	and defined?_ _
 
 method-src = |method
 	buildStr |add!
@@ -32,95 +25,117 @@ method-src = |method
 		arg-names = case
 			has-args?
 				methodArgNames case method.args
-					:Number
+					:Number # js=== (js-typeof _) "number" # TODO: :Number
 						_
-					js-instanceof _ Array # TODO: :Array
+					:Array # js-instanceof _ Array # TODO: :Array
 						_.length
 			else
-				"a, b, c, d"
+				"b,c,d"
 
-		add! "return function {mangle-identifier method.name}({arg-names}) \{"
-		if! flag? method.allow-null?
-			assert! defined? method.default throw! "Method with `allow-null?` must have `default`."
-			add! "if (a == null) return def.apply(null, arguments)"
-
-		impl = case
-			defined? method.default
-				"(a[\"{method.impl-symbol}\"] || def)"
+		args = case
+			js=== arg-names.length 0
+				"a"
 			else
-				"a[\"{method.impl-symbol}\"]"
+				"a,{arg-names}"
 
-		call = case
-			defined? method.wrap
-				"wrap({impl}, "
-			else
-				"{impl}("
+		add! "return function {mangle-identifier method.name}({args}) \{"
+
+		impl = case method.impl-symbol
+			js=== (js-typeof _) "string" # TODO: :String
+				"a[\"{_}\"]"
+			:Symbol
+				"a[symbol]"
+
+		default? = defined? method.default
+		wrap? = defined? method.wrap
+		allow-null? = flag? method.allow-null?
+
+		if! allow-null?
+			assert! default? throw! "Method with `allow-null?` must have `default`."
+		if! default?
+			cond = case
+				allow-null?
+					"a == null || {impl} === undefined"
+				else
+					# TODO: Just implement it for Object
+					"{impl} === undefined"
+			add! case
+				wrap?
+					"if ({cond}) return wrap.apply(null, [def].concat(Array.prototype.slice.call(arguments)))"
+				else
+					"if ({cond}) return def.apply(a, Array.prototype.slice.call(arguments, 1))"
 
 		add! case
-			has-args?
-				"return {call}{arg-names})"
+			wrap?
+				case
+					has-args?
+						"return wrap({impl},{args})"
+					else
+						"
+							switch (arguments.length) \{
+								case 1: return wrap({impl}, a)
+								case 2: return wrap({impl}, a, b)
+								case 3: return wrap({impl}, a, b, c)
+								case 4: return wrap({impl}, a, b, c, d)
+								default: throw new Error("Code not generated to handle "+arguments.length+"arguments.")
+							}
 			else
-				# TODO:ES6 (...args) => { call(...args) }
-				"
-					switch (arguments.length) \{
-						case 1: return {call}a)
-						case 2: return {call}a, b)
-						case 3: return {call}a, b, c)
-						case 4: return {call}a, b, c, d)
-						default: throw new Error("Code not generated to accept " + arguments.length + " arguments.")
-					}
+				case
+					has-args?
+						"return {impl}({arg-names})"
+					else
+						"
+							switch (arguments.length) \{
+								case 1: return {impl}()
+								case 2: return {impl}(b)
+								case 3: return {impl}(b,c)
+								case 4: return {impl}(b,c,d)
+								default: throw new Error("Code not generated to handle "+arguments.length+"arguments.")
+							}
+
 		add! "}"
 
 make-callable-method = |method
 	src = method-src method
-	f = Function "def" "wrap" src
-	call = f method.default method.wrap
-	debug pAdd call "source" src
-	call
+	f = Function "symbol" "def" "wrap" src
+	f method.impl-symbol method.default method.wrap
 
 Method. Obj-Type
 	doc. "
-		TODO:REST
-		The `doc` of the method should be its signature, followed by a string of the meaning.
-		For example:
-			sizeness.
-				doc. |:Int _
-					"How big it is."
-				...
-		The `wrap` property can replace the default calling mechanism.
-		It will be given the implementation, then the method's arguments.
-		You can use this to, for example, apply in/out conditions to every implementation.
-			sizeness.
-				wrap. |impl x
-					out
-						assert! >=? res 0
-					impl x
-
+		A Method allows you to call a JavaScript-style method as a function.
+		Unlike a Mason Method, for a Method,
+		the first argument becomes `this` within the implementation's body.
+		TODO: document `wrap`
 	test. !|
 		m = Method
 			allow-null?. true
-			default. thunk "default"
-		impl! m String (thunk "String")
-		impl-double! m Number Number (thunk "Number Number")
-		impl-double! m Number String (thunk "Number String")
-		assert! =? (m null) "default"
-		assert! =? (m "a") "String"
-		assert! =? (m 1 1) "Number Number"
-		assert! =? (m 1 "a") "Number String"
+			default. |
+				"default"
+		impl! m String |
+			"String"
+		impl-double! m Number Number |
+			"Number Number"
+		impl-double! m Number String |
+			"Number String"
+
+		assert-call! m
+			[ null ] -> "default"
+			[ "a" ] -> "String"
+			[ 1 1 ] -> "Number Number"
+			[ 1 "a" ] -> "Number String"
 		debug assert! fails? |
 			m 1 m
 
 		assert! =? "wrap-call-arg"
 			wrap-method = Method
-				default. |_
-					"call-{_}"
+				default. .|
+					"call-{this}"
 				wrap. |impl arg
-					"wrap-{impl arg}"
+					"wrap-{impl.call arg}"
 			wrap-method "arg"
-
 	props.
 		name. String
-		impl-symbol. String
+		impl-symbol. # TODO: Object-Key
 	opt-props.
 		args. # TODO: Number or Array
 		default. Function
@@ -136,11 +151,8 @@ Method. Obj-Type
 			"impl-{_.name}"
 	make-callable. make-callable-method
 
-impl!.
-	doc. "Implements a Method for a type or types."
-	test. "See Method.test."
-	!|method:Method implementor:Impl-Type implementation:Function
-		do-impl! method implementor implementation
+impl!. !|method:Method implementor:Impl-Type implementation:Function
+	do-impl! method implementor implementation
 
 impl-double!. !|method:Method implementor-0:Impl-Type implementor-1:Impl-Type implementation:Function
 	dispatcher = case
@@ -167,9 +179,7 @@ self-impl!.
 	test. !|
 		pass # TODO
 	!|method:Method implementor:Object implementation:Function
-		impl! method (self-type implementor) |implementor ...args
-			noop implementor
-			implementation ...args
+		impl! method (self-type implementor) implementation
 
 ?impl-for.
 	doc. "
@@ -189,7 +199,7 @@ impl-for.
 	doc. "impl-for that fails when there is no implementation."
 	test. |
 		[ contains? Method ] -> method-contains?
-		assert! (impl-for contains? Kind) Impl-Type Kind
+		# assert! (impl-for contains? Kind).call Impl-Type Kind
 	|method:Method type:Impl-Type
 		un-? (?impl-for method type) ~"{method} not implemented for {type}."
 
@@ -197,10 +207,10 @@ impl-for.
 region Private
 	writable? = |obj property
 		desc = Object.getOwnPropertyDescriptor obj property
-		implies (defined? desc) ~desc.writable
+		or (not defined? desc) desc.writable
 
 	p? = |obj property
-		defined? (js-sub obj property
+		defined? (js-sub obj property)
 
 	# TODO: Not public
 	propagate-method-down!. !|implementor method-symbol implementation # TODO: :Impl-Type :Symbol :Function
@@ -222,7 +232,6 @@ region Private
 	# "method" can be a Method or a Double-Dispatcher.
 	do-impl! = !|method implementor implementation
 		in
-			# TODO: ! (assert)
 			assert! writable? implementor.prototype method.impl-symbol throw!
 				"Can not redefine method {method} for {implementor}."
 
@@ -243,21 +252,13 @@ region Private
 			first-type. # TODO: Impl-Type
 			impl-symbol. Symbol
 		make-callable. |_
-			|...args
-				target-2 = js-sub args 1
-
+			.|...args
+				target-2 = js-sub args 0
 				assert! defined? target-2 throw! "Can't double-dispatch {_.method} for undefined."
-
 				impl = js-sub target-2 _.impl-symbol
-
-				assert! defined? impl throw! "Can't double-dispatch {_.method} for {_.first-type} on {target-2}"
+				assert! defined? impl throw! "Can't double-dispatch {_.method} for {_.first-type} on {target-2}."
 				assert! contains? Function impl
-
-				impl ...args
-
-method-contains? = |method value
-	p-with-proto? value method.impl-symbol
-implContains Method method-contains?
+				Function.prototype.apply.call impl this args
 
 contains? = Method
 	doc. "
@@ -266,3 +267,8 @@ contains? = Method
 	# args. 2 TODO
 	impl-symbol. containsImplSymbol
 msDef "contains" contains?
+
+method-contains? = |method value
+	p-with-proto? value method.impl-symbol
+
+implContains Method method-contains?

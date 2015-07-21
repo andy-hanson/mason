@@ -19,8 +19,8 @@ Pred-Type. Obj-Type
 	extensible. true
 
 kind! Pred-Type Type
-impl! contains? Pred-Type |_ value
-	_.predicate value
+impl! contains? Pred-Type .|value
+	.predicate value
 
 region Opt
 	Opt. Pred-Type
@@ -40,8 +40,8 @@ region Opt
 		props.
 			Exists-Type. Type
 	kind! Opt-Sub Type
-	impl! contains? Opt-Sub |nt _
-		or (not defined?_) (contains? nt.Exists-Type _
+	impl! contains? Opt-Sub .|_
+		or (not defined?_) (contains? .Exists-Type _
 
 Any. Pred-Type
 	doc. "Not undefined."

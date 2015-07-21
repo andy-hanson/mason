@@ -37,8 +37,8 @@ region TODO
 		test. !|
 			pass # TODO
 		args. 2
-		default. |_:@ left-added:@
-			=> type-of_ (++ left-added _
+		default. .|left-added:@
+			=> (type-of this) (++ left-added this)
 
 region Very first and last
 	first.
@@ -56,8 +56,8 @@ region Very first and last
 			[ [ 1 2 ] ] -> ? 1
 			[ [ ] ] -> empty ?
 		args. 1
-		default. |_
-			?nth _ 0
+		default. .|
+			?nth this 0
 
 	last.
 		doc. "Last value in iteration order."
@@ -75,9 +75,9 @@ region Very first and last
 			[ [ 1 2 ] ] -> ? 2
 			[ [ ] ] -> empty ?
 		args. 1
-		default. |_
-			unless empty?_
-				_[(- count_ 1
+		default. .|
+			unless empty? this
+				this[(- (count this) 1)]
 
 	tail. Method
 		doc. "
@@ -87,11 +87,12 @@ region Very first and last
 			[ [ 1 2 ] ] -> [ 2 ]
 			[ [ ] ] -> [ ]
 		args. 1
-		default. |case
-			empty?_
-				_
-			else
-				drop _ 1
+		default. .|
+			case this
+				empty?_
+					_
+				else
+					drop _ 1
 
 	rtail. Method
 		doc. "
@@ -101,11 +102,12 @@ region Very first and last
 			[ [ 1 2 ] ] -> [ 1 ]
 			[ [ ] ] -> [ ]
 		args. 1
-		default. |case
-			empty?_
-				_
-			else
-				take _ (- count_ 1
+		default. .|
+			case this
+				empty?_
+					_
+				else
+					take _ (- count_ 1)
 
 region Search
 	seq=?.
@@ -145,10 +147,10 @@ region Search
 		args.
 			. "_"
 			. [ "n" Nat
-		default. |_ n
+		default. .|n
 			i ::= 0
 			# TODO:SYNTAX for-else
-			Opt->? for elem in _
+			Opt->? for elem in this
 				case! elem
 					=? i n
 						break _
@@ -162,10 +164,10 @@ region Search
 			assert! =? [ 0 1 ][1] 1
 			assert! fails? |
 				[ 0 1 ][2]
-		|_ n:Nat
-			un-? (?nth _ n) ~"
+		.|n:Nat
+			un-? (?nth this n) ~"
 				No element at index {n} for
-					{indent (show _}
+					{indent (show this)}
 
 region Update
 	slice-args =
@@ -181,8 +183,8 @@ region Update
 		test. |
 			[ [ 0 1 2 3 ] 1 3 ] -> [ 1 2 ]
 		args. slice-args
-		default. |_ start end
-			=> type-of_ (slice' _ start end
+		default. .|start end
+			=> (type-of this) (slice' this start end)
 
 	slice'.
 		doc. "Lazy slice."
@@ -197,8 +199,8 @@ region Update
 		args.
 			. "_"
 			. [ "count-to-take" Nat
-		default. |_ count-to-take
-			=> type-of_ (take' _ count-to-take
+		default. .|count-to-take
+			=> (type-of this) (take' this count-to-take)
 
 	take'.
 		doc. "Stream including only the first count-to-take elements."
@@ -241,8 +243,8 @@ region Update
 		args.
 			. "_"
 			. [ "count-to-drop" Nat
-		default. |_ count-to-drop
-			=> type-of_ (drop' _ count-to-drop
+		default. .|count-to-drop
+			=> (type-of this) (drop' this count-to-drop)
 
 	drop'.
 		doc. "Stream without the first count-to-drop elements."
@@ -330,8 +332,8 @@ region TODO: put somewhere
 		test. |
 			[ [ 1 2 ] ] -> [ 2 1 ]
 		args. 1
-		default. |_
-			(from-stream Array _).reverse()
+		default. .|
+			(from-stream Array this).reverse()
 
 	split'.
 		doc. "Subseqs separated by elements where split? is true."
@@ -373,11 +375,11 @@ region Mutator methods
 	?<pop!. Method
 		doc. "Takes one element off the left side, if not empty?."
 		args. 1
-		# returns. ?
+		# TODO: returns. ?
 	?pop>!. Method
 		doc. "Takes one element off the right side, if not empty?."
 		args. 1
-		# returns. ?
+		# TODO: returns. ?
 
 	set-nth!. Method
 		doc. "Makes `_[n]` be `val`."

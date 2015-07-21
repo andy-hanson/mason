@@ -27,16 +27,16 @@ impl! show @
 		[ (empty Deque) ] -> "[ ]"
 		[ (empty Deque) (repr. true) ] -> "empty Deque"
 
-	|_ opts
+	.|opts
 		content = case
-			empty?_
+			empty? this
 				"[ ]"
 			else
 				# TODO: map (eager)
-				ems = @for elem in _
-					indent (show elem opts)
+				ems = @for this
+					indent (show _ opts)
 				show-ems end = case
-					<? 100 count_
+					<? 100 (count this)
 						show-ems. take' ems 100
 						end. "\n\t..."
 					else
@@ -46,10 +46,10 @@ impl! show @
 		case
 			flag? opts "repr"
 				case
-					empty?_
-						"empty {type-of_}"
+					empty? this
+						"empty {type-of this}"
 					else
-						"=> {type-of_}{content}"
+						"=> {type-of this}{content}"
 			else
 				content
 

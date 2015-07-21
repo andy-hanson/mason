@@ -17,14 +17,14 @@ impl! show Map
 		# [ m (repr. true) ] -> "
 		#	Hash-Map
 		#		1 -> 2
-	|_ opts
+	.|opts
 		# TODO: map Map to Array
 		# TODO:SYNTAX Array destructure
-		parts = map' _ |pair
+		parts = map' this |pair
 			"{show pair[0] opts} -> {show pair[1] opts}"
 		type = case
 			flag? opts "repr"
-				show type-of_ opts
+				show (type-of this) opts
 			else
 				""
 		"

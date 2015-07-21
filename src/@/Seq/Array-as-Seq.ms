@@ -24,36 +24,36 @@ self-impl! from-stream Array |stream
 
 kind! Array Seq
 
-impl! count Array |_
-	_.length
+impl! count Array .|
+	.length
 
-impl! ?nth Array |_ n:Nat
-	if <? n count_
-		js-sub _ n
+impl! ?nth Array .|n
+	if <? n (count this)
+		js-sub this n
 
-impl! <++! Array |_ added:@
+impl! <++! Array .|added:@
 	# TODO:SYNTAX _.unshift ...added
-	Array.prototype.unshift.apply _ (=> Array added
+	Array.prototype.unshift.apply this (=> Array added)
 
-impl! ++>! Array |_ added:@
+impl! ++>! Array .|added:@
 	# TODO:SYNTAX _.push ...added
-	Array.prototype.push.apply _ (=> Array added
+	Array.prototype.push.apply this (=> Array added)
 
-impl! ?<pop! Array |_
-	unless empty?_
-		_.shift()
+impl! ?<pop! Array .|
+	unless empty? this
+		.shift()
 
-impl! ?pop>! Array |_
-	unless empty?_
-		_.pop()
+impl! ?pop>! Array .|
+	unless empty? this
+		.pop()
 
-impl! empty! Array !|_
+impl! empty! Array .!|
 	# http://jsperf.com/empty-javascript-array/15
 	# TODO: Test it myself...
 	for!
-		if! empty?_
+		if! empty? this
 			break!
-		_.pop()
+		.pop()
 
-impl! set-nth! Array !|_ n:Nat val
-	js-set _ n val
+impl! set-nth! Array .!|n:Nat val
+	js-set this n val

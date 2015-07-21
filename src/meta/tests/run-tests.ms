@@ -1,5 +1,5 @@
 use
-	...assert assert-call!
+	...assert assert-call! assert-this-call!
 	...@.@
 	...@.@-Type empty
 	...@.? ?-or
@@ -50,23 +50,27 @@ test-special. Method
 	default. noop
 
 # TODO: MOVE THESE
-impl! test-special Impl-Type |type
-	$all @for prototype in ?p type "prototype"
+impl! test-special Impl-Type .|
+	$all @for prototype in ?p this "prototype"
 		for! name in @p-all prototype
 			# Some prototype properties throw errors. For example, global.Map.size.
 			?prop-val = ?try |
 				p prototype name
-			for! prop-val in ?prop-val
-				... @$maybe-test ~"{type}#{name}" prop-val false
+			for! proto-fun in ?prop-val
+				# if! contains? Function proto-fun
+				#	for! (?p proto-fun "test")
+				#	... @$test-proto-fun _ ~"{this}#{name}"
+				... @$maybe-test ~"{this}#{name}" proto-fun false true
+
 
 # TODO: MOVE THESE
-impl! test-special Kind |_
+impl! test-special Kind .|
 	# TODO:SYNTAX Just build without @for
 	@for
-		... @$-from-any ((impl-for test-special Impl-Type) _)
-		for! test in ?p _ "implementor-test"
-			for! implementor in concrete-implementors_
-				... @$test-test-fun implementor test ~"{_}.implementor-test of {implementor}" implementor
+		... @$-from-any ((impl-for test-special Impl-Type) this)
+		for! test in ?p this "implementor-test"
+			for! implementor in concrete-implementors this
+				... @$test-test-fun implementor test ~"{this}.implementor-test of {implementor}" false implementor
 		break!
 
 $test-all.
@@ -89,25 +93,32 @@ $test-module.
 all-tested = empty Id-Set
 
 # TODO: Better name
-@$maybe-test = |~name value is-module
+@$maybe-test = |~name value is-module is-proto-prop
 	case
 		all-tested.has value
 			[ ]
 		else
 			all-tested.add value
-			@$test-single ~name value is-module
+			@$test-single ~name value is-module is-proto-prop
 
 $test-fun.
 	doc. "TODO"
 	test. !|
 		pass # TODO
 	|_:Function
-		$all (@$test-single "{_}" _ false)
+		$all (@$test-single "{_}" _ false false)
 
-@$test-single = |~name value is-module
+$test-single.
+	doc. "TODO"
+	test. !|
+		pass # TODO
+	|_
+		$all (@$test-single "" _ false false)
+
+@$test-single = |~name value is-module is-proto-prop
 	# TODO:SYNTAX Just build without @for
 	@for
-		... @$-from-any (test-special value
+		... @$-from-any (test-special value)
 		case! value
 			or is-module :ObjLit :Function
 				for! prop-name in @p_
@@ -116,35 +127,35 @@ $test-fun.
 					# TODO:SYNTAX switch!
 					case! prop-name
 						=? _ "test"
-							... @$test-test-prop value prop-val ~next-name
+							... @$test-test-prop value prop-val ~next-name is-proto-prop
 						=? _ "$test"
-							... @$test-$test-prop prop-val ~next-name
+							... @$test-$test-prop prop-val ~next-name is-proto-prop
 						else
-							... @$maybe-test ~next-name prop-val false
+							... @$maybe-test ~next-name prop-val false false
 
 			and :Object (p? _ "test")
-				... @$test-test-prop _ _.test ~"{name}.test"
+				... @$test-test-prop _ _.test ~"{name}.test" false
 			else
 				pass
 		break!
 
-@$test-test-prop = |value value-test ~name # TODO: ...test-args
+@$test-test-prop = |value value-test ~name is-proto-prop # TODO: ...test-args
 	# TODO:SYNTAX Just build without @for
 	@for
 		_ = value-test
 		# Could be both Function and ObjLit
 		# TODO: No it can't
 		if! :Function
-			... @$test-test-fun value value-test ~name
+			... @$test-test-fun value value-test ~name is-proto-prop
 		if! :ObjLit
 			for! sub-name in @p_
-				... @$test-test-prop value (p _ sub-name) ~"{name}.{sub-name}"
+				... @$test-test-prop value (p _ sub-name) ~"{name}.{sub-name}" false
 		break!
 
 @$test-$test-prop = |value-$test:Function[Generator] ~name
 	. $annotate-errors ~"{name}: " ($ing value-$test
 
-@$test-test-fun = |value value-test:Function ~name ...args
+@$test-test-fun = |value value-test:Function ~name is-proto-prop ...args
 	~ano = "{name}: "
 	_ = annotate-errors ~ano |
 		value-test ...args
@@ -152,8 +163,12 @@ $test-fun.
 		:Map
 			assert! contains? Function value throw!
 				"Test of {name} returned a Map, but the value is not callable."
-			annotate-errors ~ano |
-				assert-call! value _
+			annotate-errors ~ano !|
+				case!
+					is-proto-prop
+						assert-this-call! value _
+					else
+						assert-call! value _
 			[ ]
 		:$
 			[ ($annotate-errors ~ano _

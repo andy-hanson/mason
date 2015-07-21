@@ -4,8 +4,8 @@ use
 	...math.methods + - *
 	...methods sub
 	...Object p!
-	...Type.Js-Method js-impl!
 	...Type.Kind kind! self-kind!
+	...Type.Method impl! self-impl!
 	...Type.Pred-Type Any
 	...Type.Tuple
 	..@ _ ++' count empty! empty? iterator map
@@ -22,8 +22,8 @@ Deque = Tuple
 		. [ "end-index!" Nat # Exclusive
 
 self-kind! Deque @-Type
-	empty -> |
-		Deque (Array 8) 0 0
+self-impl! empty Deque |
+	Deque (Array 8) 0 0
 
 region Helpers
 	capacity = |_
@@ -58,7 +58,7 @@ region Helpers
 				if and (<? _.end-index! _.start-index!) (<? b _.end-index!)
 					b
 
-js-impl! iterator Deque .~!|
+impl! iterator Deque .~!|
 	indices = case
 		<? .end-index! .start-index!
 			++' (range .start-index! (count .data!)) (range 0 .end-index!)
@@ -68,53 +68,54 @@ js-impl! iterator Deque .~!|
 		<~ .data![_]
 
 kind! Deque Seq
-	<++! -> !|_ ems:@
-		for! em in reverse ems
-			new-start = prev-index _ _.start-index!
-			case!
-				=? new-start _.end-index!
-					expand!_
-					<++! _ [ em ]
-				else
-					p! _ "start-index!" new-start
-					set-nth! _.data! _.start-index! em
+impl! <++! Deque .!|ems:@
+	for! em in reverse ems
+		new-start = prev-index this .start-index!
+		case!
+			=? new-start .end-index!
+				expand! this
+				<++! this [ em ]
+			else
+				p! this "start-index!" new-start
+				set-nth! .data! .start-index! em
 
-	++>! -> !|_ ems:@
-		for! em in ems
-			new-end = next-index _ _.end-index!
-			case!
-				=? new-end _.start-index!
-					expand!_
-					++>! _ [ em ]
-				else
-					set-nth! _.data! _.end-index! em
-					p! _ "end-index!" new-end
+impl! ++>! Deque .!|ems:@
+	for! em in ems
+		new-end = next-index this .end-index!
+		case!
+			=? new-end .start-index!
+				expand! this
+				++>! this [ em ]
+			else
+				set-nth! .data! .end-index! em
+				p! this "end-index!" new-end
 
 	# TODO: Shrink on occasion
 
-	?<pop! -> |_
-		unless empty?_
-			x = _.data![_.start-index!]
-			p! _ "start-index!" (next-index _ _.start-index!)
-			x
+impl! ?<pop! Deque .|
+	unless empty? this
+		# TODO: returning
+		x = .data![.start-index!]
+		p! this "start-index!" (next-index this .start-index!)
+		x
 
-	?pop>! -> |_
-		unless empty?_
-			new-end = prev-index _ _.end-index!
-			p! _ "end-index!" new-end
-			_.data![new-end]
+impl! ?pop>! Deque .|
+	unless empty? this
+		new-end = prev-index this .end-index!
+		p! this "end-index!" new-end
+		.data![new-end]
 
-	?nth -> |_ index:Nat
-		map (?data-index _ index) sub[_.data!]
+impl! ?nth Deque .|index:Nat
+	map (?data-index this index) sub[.data!]
 
-	set-nth! -> !|_ index:Nat set-to:Any
-		data-index = un-? (?data-index _ index) ~"Can't set at index {index}; count is {count_}"
-		set-nth! _.data! data-index set-to
+impl! set-nth! Deque .!|index:Nat set-to:Any
+	data-index = un-? (?data-index this index) ~"Can't set at index {index}; count is {count this}"
+	set-nth! .data! data-index set-to
 
-	empty! -> !|_
-		empty! _.data!
-		# TODO: change-properties!
-		p! _ "start-index!" 0
-		p! _ "end-index!" 0
+impl! empty! Deque .!|
+	empty! .data!
+	# TODO: change-properties!
+	p! this "start-index!" 0
+	p! this "end-index!" 0
 
 Deque

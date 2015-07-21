@@ -42,23 +42,23 @@ show. Method
 				"<recursive>"
 			else
 				showing.add _
-				x:String = impl _ opts
+				x:String = impl.call _ opts
 				showing.delete _
 				x
-	default. |_ opts
+	default. .|opts
 		case
-			id=? _ null
+			id=? this null
 				"null"
-			id=? _ undefined
+			id=? this undefined
 				"undefined"
 			else
 				# Don't show "prototype" because that is treated as an instance of itself and causes errors.
-				props = -- @p_ [ "prototype" ]
+				props = -- (@p this) [ "prototype" ]
 				key-vals = => Array (map props |key
-					val:String = show (p _ key) opts
+					val:String = show (p this key) opts
 					"{key}. {indent val}"
 				"
-					{type-of_}
+					{type-of this}
 						{key-vals.join "\n\t"}
 
 repr.
@@ -75,20 +75,20 @@ spread! impl! show
 			[ "a" ] -> "a"
 			# TODO:SYNTAX [ "a" repr. ]
 			[ "a" (repr. true) ] -> "\"a\""
-		|_ opts
+		.|opts
 			case
 				flag? opts "repr"
-					js+ "\"" (js+ _ "\"")
+					js+ "\"" (js+ this "\"")
 				else
-					_
+					this
 
 	Number ->
 		test. |
 			[ 12 ] -> "12"
 			[ -1.0 ] -> "-1"
-		|_
+		.|
 			base = 10
-			_.toString base
+			.toString base
 
 	Symbol ->
 		test. |
@@ -103,11 +103,12 @@ spread! impl! show
 		test. |
 			[ true ] -> "true"
 			[ false ] -> "false"
-		|case
-			_
-				"true"
-			else
-				"false"
+		.|
+			case
+				this
+					"true"
+				else
+					"false"
 
 	Function ->
 		test. |
@@ -119,8 +120,8 @@ spread! impl! show
 			[ a ] -> "a"
 			[ Object ] -> "Object"
 			[ (Function "" "") ] -> "<anonymous Function>"
-		|:String fun
-			case fun.name
+		.|
+			case .name
 				# Every Function has `name` property, but for anonymous Functions it is empty.
 				empty?_
 					"<anonymous Function>"

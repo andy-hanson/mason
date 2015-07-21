@@ -44,22 +44,22 @@ compare. Method
 		Unlike other comparison methods, `=?` should not make assertions about type.
 	args. 2
 	allow-null?. true
-	default. |a b
-		or (id=? a b) (object=? a b
+	default. .|other
+		or (id=? this other) (object=? this other)
 
 <?. Method
 	doc. "
 		Whether `lesser` comes before `greater` in these values' ordering.
 		Same as `not  (>=? lesser greater)`.
 	args. 2
-	default. |lesser greater
-		<? (compare lesser greater) 0
+	default. .|other
+		<? (compare this other) 0
 
 <=?. Method
 	doc. "<? or =?."
 	args. 2
-	default. |lesser greater
-		<=? (compare lesser greater) 0
+	default. .|other
+		<=? (compare this other) 0
 
 region Misc
 	same?.
@@ -153,14 +153,15 @@ region Sorting
 		test. |
 			[ [ 3 2 1 ] ] -> [ 1 2 3 ]
 			[ [ "five" "six" "seven" ] count ] -> [ "six" "five" "seven" ]
+			[ "bac" ] -> "abc"
 		args.
 			2
 			# . [ "_" @ ] # TODO: @
 			# . [ "?sort-by" Opt[Function] ]
-		default. |_ sort-by
+		default. .|sort-by
 			sort-by := opr sort-by identity
 			# Ensure that we create a *new* Array, because we're about to mutate it.
-			sorted = from-stream Array _
+			sorted = from-stream Array this
 			sorted.sort |a b
-				compare (sort-by a) (sort-by b
+				compare (sort-by a) (sort-by b)
 			sorted

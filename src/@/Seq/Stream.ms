@@ -1,8 +1,8 @@
 use
 	...Function thunk
 	...Generator _ empty-Generator
-	...Type.Js-Method js-impl!
 	...Type.Kind kind! self-kind!
+	...Type.Method impl! self-impl!
 	...Type.Wrap-Type
 	..@ iterator
 	..@-Type _ empty from-stream
@@ -24,12 +24,12 @@ Stream. Wrap-Type
 		assert! seq=? _ [ 1 2 ]
 
 self-kind! Stream @-Type
-	empty -> thunk (Stream |
-		empty-Generator
-	from-stream -> |_
-		Stream |
-			iterator_
+self-impl! empty Stream (thunk (Stream |
+	empty-Generator
+self-impl! from-stream Stream |_
+	Stream |
+		iterator_
 
-js-impl! iterator Stream .|
+impl! iterator Stream .|
 	.val()
 kind! Stream Seq

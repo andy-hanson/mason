@@ -3,7 +3,7 @@ use
 	...control returning
 	...math.Number int/
 	...math.methods + - *
-	...Type.Js-Method js-impl!
+	...Type.Method impl! self-impl!
 	...Type.Kind kind! self-kind!
 	...Type.Wrap-Type
 	..@ ++! count empty! empty? iterator
@@ -16,25 +16,27 @@ Heap-Priority-Queue. Wrap-Type
 	wrapped-type. Array
 
 self-kind! Heap-Priority-Queue @-Type
-	empty -> |
-		Heap-Priority-Queue [ ]
+self-impl! empty Heap-Priority-Queue |
+	Heap-Priority-Queue [ ]
 
-js-impl! iterator Heap-Priority-Queue .|
+impl! iterator Heap-Priority-Queue .|
 	iterator .val
 
 kind! Heap-Priority-Queue Priority-Queue
-	++! -> !|_ added
-		for! em in added
-			add! _.val em
-	?pop! -> |_
-		unless empty?_
-			returning _.val[0] !|
-				fix-down! _.val
 
-	empty? -> |_
-		empty? _.val
-	empty! -> !|_
-		empty! _.val
+impl! ++! Heap-Priority-Queue .!|added
+	for! em in added
+		add! .val em
+
+impl! ?pop! Heap-Priority-Queue .|
+	unless empty? this
+		returning .val[0] !|
+			fix-down! .val
+
+impl! empty? Heap-Priority-Queue .|
+	empty? .val
+impl! empty! Heap-Priority-Queue .!|
+	empty! .val
 
 region Implementation
 	# We use a min-heap.
