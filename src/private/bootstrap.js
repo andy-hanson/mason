@@ -151,6 +151,22 @@ const msDefs = {
 	},
 	setLazy(value, name, lazy) {
 		Object.defineProperty(value, name, { get: lazy.get, enumerable: true })
+	},
+
+	newProperty(object, name, value) {
+		if (Object.prototype.hasOwnProperty.call(object, name))
+			throw new Error(`Property ${name} already exists.`)
+		Object.defineProperty(object, name, {
+			configurable: true,
+			enumerable: true,
+			writable: false,
+			value
+		})
+	},
+	newMutableProperty(object, name, value) {
+		if (Object.prototype.hasOwnProperty.call(object, name))
+			throw new Error(`Property ${name} already exists.`)
+		object.name = value
 	}
 }
 for (const def in msDefs)

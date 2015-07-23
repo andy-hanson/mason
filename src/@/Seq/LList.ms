@@ -1,6 +1,5 @@
 use
 	...js id=?
-	...Object p!
 	...Type.Kind kind! self-kind!
 	...Type.Method impl! self-impl!
 	...Type.Tuple
@@ -14,7 +13,7 @@ LList. Tuple
 	props. [ "head" "tail"
 
 empty-LList = LList undefined undefined
-p! empty-LList "tail" empty-LList
+empty-LList.tail := empty-LList
 
 self-kind! LList @-Type
 self-impl! empty LList |

@@ -1,7 +1,7 @@
 use
 	esast.dist.mangle-identifier
 	..Boolean implies
-	..private.bootstrap implContains pAdd
+	..private.bootstrap implContains
 	..js defined? js! js=== js-instanceof js-sub js-typeof
 	..private.js-impl buildStr
 use-debug
@@ -122,7 +122,7 @@ make-constructor = |ot
 
 	make-ctr = Function "prototype" "props" "defaults" "makeCallable" "postConstruct" "optProps" src
 	ctr = make-ctr ot.prototype ot.props ot.defaults ot.make-callable ot.post-construct ot.opt-props
-	debug pAdd ctr "source" src
+	debug ctr.source = src
 	ctr
 
 obj-type-args =
@@ -150,8 +150,8 @@ obj-type-args =
 	defaults.
 		prototype. |
 			Object.create Object.prototype
-	post-construct. |_
-		pAdd _.prototype "constructor" _
+	post-construct. !|_
+		_.prototype.constructor = _
 	make-callable. make-constructor
 	test. !|
 		Vec2D = Obj-Type

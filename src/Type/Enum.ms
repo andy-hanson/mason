@@ -36,9 +36,9 @@ Enum. Obj-Type
 	post-construct. !|_
 		for! value-name in _.values
 			enum-val = Object.create _.prototype
-			p+! enum-val "name" value-name
+			enum-val.name = value-name
 			p+! _ value-name enum-val
-		p+! _.prototype "constructor" _
+		_.prototype.constructor = _
 		impl! show _ .|
 			"{_.name}.{.name}"
 

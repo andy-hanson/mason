@@ -1,7 +1,7 @@
 use
 	esast.dist.mangle-identifier
 	..js defined? js-instanceof
-	..private.bootstrap implContains pAdd
+	..private.bootstrap implContains
 	..private.js-impl buildStr
 	.Impl-Type
 	.Kind kind!
@@ -74,11 +74,11 @@ Tuple. Obj-Type
 		types = @for props
 			_.type
 		ctr = make-ctr tuple.post-construct ...types
-		debug pAdd ctr "source" src
+		debug ctr.source = src
 		ctr
 
 	post-construct. !|_
-		pAdd _.prototype "constructor" _
+		_.prototype.constructor = _
 		accesses = @for prop in _.props
 			"_{access (get-prop prop).name}"
 		extract-src = "return function(_) \{ return _ instanceof tuple ? [ {accesses.join ","} ] : null }"

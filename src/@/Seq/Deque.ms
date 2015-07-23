@@ -3,7 +3,6 @@ use
 	...math.Number modulo Nat
 	...math.methods + - *
 	...methods sub
-	...Object p!
 	...Type.Kind kind! self-kind!
 	...Type.Method impl! self-impl!
 	...Type.Pred-Type Any
@@ -36,7 +35,7 @@ region Helpers
 		new-data = Array new-capacity
 		for! index in range 0 old-capacity
 			set-nth! new-data index old-data[index]
-		p! _ "data!" new-data
+		_.data! := new-data
 
 	wrap-index = |_ index
 		modulo index capacity_
@@ -76,7 +75,7 @@ impl! <++! Deque .!|ems:@
 				expand! this
 				<++! this [ em ]
 			else
-				p! this "start-index!" new-start
+				.start-index! := new-start
 				set-nth! .data! .start-index! em
 
 impl! ++>! Deque .!|ems:@
@@ -88,7 +87,7 @@ impl! ++>! Deque .!|ems:@
 				++>! this [ em ]
 			else
 				set-nth! .data! .end-index! em
-				p! this "end-index!" new-end
+				.end-index! := new-end
 
 	# TODO: Shrink on occasion
 
@@ -96,13 +95,13 @@ impl! ?<pop! Deque .|
 	unless empty? this
 		# TODO: returning
 		x = .data![.start-index!]
-		p! this "start-index!" (next-index this .start-index!)
+		.start-index! := next-index this .start-index!
 		x
 
 impl! ?pop>! Deque .|
 	unless empty? this
 		new-end = prev-index this .end-index!
-		p! this "end-index!" new-end
+		.end-index! := new-end
 		.data![new-end]
 
 impl! ?nth Deque .|index:Nat
@@ -114,8 +113,7 @@ impl! set-nth! Deque .!|index:Nat set-to:Any
 
 impl! empty! Deque .!|
 	empty! .data!
-	# TODO: change-properties!
-	p! this "start-index!" 0
-	p! this "end-index!" 0
+	.start-index! := 0
+	.end-index! := 0
 
 Deque

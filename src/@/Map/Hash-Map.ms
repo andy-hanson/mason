@@ -4,7 +4,6 @@ use
 	...hash-code
 	...js defined?
 	...methods freeze
-	...Object p!
 	...Type.Method impl! self-impl!
 	...Type.Kind kind! self-kind!
 	...Type.Tuple
@@ -77,7 +76,7 @@ impl! assoc! Hash-Map .!|key val
 	case! opt-bucket-entry bucket key
 		defined?_
 			# TODO: Might not want to overwrite value...
-			p! _ "val!" val
+			_.val! := val
 		else
 			# Add it at the front.
 			.val.set hash (Bucket key val bucket
@@ -102,7 +101,7 @@ impl! un-assoc! Hash-Map .|key
 						unless! defined?_ next
 							break empty ?
 						if! =? next.key key
-							p! cur "next!" next.next!
+							cur.next! := next.next!
 							break ? next.val!
 						cur := next
 		else

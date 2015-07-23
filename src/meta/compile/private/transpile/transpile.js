@@ -21,7 +21,8 @@ import { AmdefineHeader, ArraySliceCall, DeclareBuiltBag, DeclareBuiltMap, Decla
 	ThrowNoCaseMatch, UseStrict } from './ast-constants'
 import { IdMs, lazyWrap, msAdd, msAddMany, msArr, msAssert, msAssertNot, msAssoc, msBool,
 	msCheckContains, msError, msExtract, msGet, msGetDefaultExport, msGetModule, msLazy, msLazyGet,
-	msLazyGetModule, msSet, msSetName, msSetLazy, msShow, msSome, MsNone } from './ms-call'
+	msLazyGetModule, msNewMutableProperty, msNewProperty, msSet, msSetName, msSetLazy, msShow,
+	msSome, MsNone } from './ms-call'
 import { accessLocalDeclare, declare, forStatementInfinite, idForDeclareCached,
 	opTypeCheckForLocalDeclare, templateElementForString } from './util'
 
@@ -298,16 +299,13 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 	Member() { return member(t0(this.object), this.name) },
 
 	MemberSet() {
-		const x = member(t0(this.object), this.name)
 		switch (this.kind) {
 			case MS_Mutate:
-				return assignmentExpressionPlain(x, t0(this.value))
+				return assignmentExpressionPlain(member(t0(this.object), this.name), t0(this.value))
 			case MS_New:
-				// TODO: Object.defineProperty(obj, 'name', { writable: false, value: val })
-				return assignmentExpressionPlain(x, t0(this.value))
+				return msNewProperty(t0(this.object), Literal(this.name), t0(this.value))
 			case MS_NewMutable:
-				// TODO: Object.defineProperty(obj, 'x', { writable: true, value: 1 })
-				return assignmentExpressionPlain(x, t0(this.value))
+				return msNewMutableProperty(t0(this.object), Literal(this.name), t0(this.value))
 			default: throw new Error()
 		}
 	},

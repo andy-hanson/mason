@@ -5,7 +5,6 @@ use
 	.compare =?
 	.Function Action noop
 	.private.bootstrap ms
-	.Object p p!
 	.Type.Method self-impl!
 	.Type.Obj-Type
 	.Type.Kind
@@ -27,7 +26,7 @@ Try. Kind
 	doc. "Result of running failable code. Success or Error."
 	implementors. [ Success Error
 
-self-impl! => Error (p ms "error")
+self-impl! => Error ms.error
 
 try-result.
 	doc. "
@@ -129,8 +128,8 @@ annotate-errors.
 			try
 				tried()
 			catch
-				p! _ "stack" "{annotation}{_.stack}"
-				p! _ "message" "{annotation}{_.message}"
+				_.stack := "{annotation}{_.stack}"
+				_.message := "{annotation}{_.message}"
 				throw! _
 
 region $
@@ -162,6 +161,6 @@ region $
 			assert! =? "ab" (<~ $try ($annotate-errors "a" ($rejected "b"))).message
 		|~annotation:String $tried:$
 			$catch $tried |_
-				p! _ "stack" "{annotation}{_.stack}"
-				p! _ "message" "{annotation}{_.message}"
+				_.stack := "{annotation}{_.stack}"
+				_.message := "{annotation}{_.message}"
 				throw! _

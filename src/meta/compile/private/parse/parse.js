@@ -588,16 +588,13 @@ const
 		if (before.size() === 1) {
 			const token = before.head()
 			if (token instanceof DotName)
-				return _parseMemberSet(	LocalDeclareThis(token.loc), token.name, at, after, loc)
+				return _parseMemberSet(	LocalAccess.this(token.loc), token.name, at, after, loc)
 			if (isGroup(G_Space, token)) {
 				const spaced = Slice.group(token)
-				if (spaced.size() === 2) {
-					const dot = spaced.second()
-					if (dot instanceof DotName) {
-						context.check(dot.nDots === 1, dot.loc, 'Must have only 1 `.`.')
-						return _parseMemberSet(
-							parseSingle(spaced.head()), spaced.second().name, at, after, loc)
-					}
+				const dot = spaced.last()
+				if (dot instanceof DotName) {
+					context.check(dot.nDots === 1, dot.loc, 'Must have only 1 `.`.')
+					return _parseMemberSet(parseSpaced(spaced.rtail()), dot.name, at, after, loc)
 				}
 			}
 		}

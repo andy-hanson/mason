@@ -1,7 +1,6 @@
 use
 	esast.dist.mangle-identifier
 	..js js-instanceof
-	..Object p+!
 	..private.js-impl buildStr
 	.Impl-Type
 	.Kind kind!
@@ -26,8 +25,8 @@ Wrap-Type. Obj-Type
 	defaults.
 		prototype. |
 			Object.create Object.prototype
-	post-construct. |_
-		p+! _.prototype "constructor" _
+	post-construct. !|_
+		_.prototype.constructor = _
 	make-callable. |_
 		src = buildStr |add!
 			name = mangle-identifier _.name

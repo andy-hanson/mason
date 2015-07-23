@@ -153,7 +153,7 @@ export const
 		'TODO:DOC',
 		[ 'name', String ],
 		{ },
-		{ focus: loc => LocalAccess(loc, '_') }),
+		{ focus: loc => LocalAccess(loc, '_'), this: loc => LocalAccess(loc, 'this') }),
 	GlobalAccess = v('GlobalAccess',
 		'TODO:DOC',
 		[ 'name', JsGlobals ]),
