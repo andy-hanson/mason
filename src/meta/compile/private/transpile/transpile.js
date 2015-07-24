@@ -8,9 +8,9 @@ import { idCached, loc, member, propertyIdOrLiteralCached, toStatement } from 'e
 import { assignmentExpressionPlain, callExpressionThunk, functionExpressionThunk, memberExpression,
 	property, yieldExpressionDelegate, yieldExpressionNoDelegate } from 'esast/dist/specialize'
 import * as MsAstTypes from '../../MsAst'
-import { AssignSingle, Call, L_And, L_Or, LD_Lazy, LD_Mutable, MS_Mutate, MS_New, MS_NewMutable,
-	Pattern, Splat, SD_Debugger, SV_Contains, SV_False, SV_Null, SV_Sub, SV_ThisModuleDirectory,
-	SV_True, SV_Undefined } from '../../MsAst'
+import { AssignSingle, Call, Fun, L_And, L_Or, LD_Lazy, LD_Mutable, MS_Mutate, MS_New,
+	MS_NewMutable, Pattern, Splat, SD_Debugger, SV_Contains, SV_False, SV_Null, SV_Sub, SV_Super,
+	SV_ThisModuleDirectory, SV_True, SV_Undefined } from '../../MsAst'
 import manglePath from '../manglePath'
 import { assert, cat, flatMap, flatOpMap, ifElse, isEmpty,
 	implementMany, isPositive, opIf, opMap, tail, unshift } from '../util'
@@ -22,7 +22,7 @@ import { AmdefineHeader, ArraySliceCall, DeclareBuiltBag, DeclareBuiltMap, Decla
 import { IdMs, lazyWrap, msAdd, msAddMany, msArr, msAssert, msAssertNot, msAssoc, msBool,
 	msCheckContains, msError, msExtract, msGet, msGetDefaultExport, msGetModule, msLazy, msLazyGet,
 	msLazyGetModule, msNewMutableProperty, msNewProperty, msSet, msSetName, msSetLazy, msShow,
-	msSome, MsNone } from './ms-call'
+	msSome, msSymbol, MsNone } from './ms-call'
 import { accessLocalDeclare, declare, forStatementInfinite, idForDeclareCached,
 	opTypeCheckForLocalDeclare, templateElementForString } from './util'
 
@@ -187,9 +187,9 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 
 	Class() {
 		const methods = cat(
-			this.statics.map(methodDefinition(false, true)),
-			opMap(this.opConstructor, methodDefinition(true, false)),
-			this.methods.map(methodDefinition(false, false)))
+			this.statics.map(methodDefinition(true)),
+			opMap(this.opConstructor, constructorDefinition),
+			this.methods.map(methodDefinition(false)))
 		const opName = opMap(this.opName, idCached)
 		return ClassExpression(opName, opMap(this.superClass, t0), ClassBody(methods))
 	},
@@ -385,6 +385,7 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 			case SV_False: return Literal(false)
 			case SV_Null: return Literal(null)
 			case SV_Sub: return member(IdMs, 'sub')
+			case SV_Super: return Identifier('super')
 			case SV_ThisModuleDirectory: return Identifier('__dirname')
 			case SV_True: return Literal(true)
 			case SV_Undefined: return UnaryExpression('void', LitZero)
@@ -441,17 +442,27 @@ const
 			},
 			() => forStatementInfinite(t0(block))),
 
-	methodDefinition = (isConstructor, isStatic) => fun => {
-		assert(fun.opName !== null)
-		const key = propertyIdOrLiteralCached(fun.opName)
-		const value = t0(fun)
-		// This is handled by `key`.
-		value.id = null
-		// TODO: get/set!
-		const kind = isConstructor ? 'constructor' : 'method'
-		// TODO: computed class properties
-		const computed = false
-		return MethodDefinition(key, value, kind, isStatic, computed)
+	constructorDefinition = fun =>
+		MethodDefinition(Identifier('constructor'), t0(fun), 'constructor', false, false),
+	methodDefinition = isStatic => method => {
+		if (method instanceof Fun) {
+			assert(method.opName !== null)
+			const key = propertyIdOrLiteralCached(method.opName)
+			const value = t0(method)
+			value.id = null
+			const computed = false
+			return MethodDefinition(key, value, 'method', isStatic, computed)
+		} else {
+			const fun = method.fun
+			assert(fun.opName === null)
+			const key = msSymbol(t0(method.symbol))
+			const value = t0(fun)
+			// This is handled by `key`.
+			value.id = null
+			// TODO: get/set!
+			const computed = true
+			return MethodDefinition(key, value, 'method', isStatic, computed)
+		}
 	},
 
 	transpileBlock = (returned, lines, lead, opDeclareRes, opOut) => {

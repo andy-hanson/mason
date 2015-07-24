@@ -7,10 +7,8 @@ use
 	.private.bootstrap ms
 	.Type.Method self-impl!
 	.Type.Obj-Type
-	.Type.Kind
 	.Type.Pred-Type Any Union
 	.Type.Type _ contains? =>
-	.Type.Wrap-Type
 use-debug
 	.Function thunk
 	.$ $rejected $resolved
@@ -19,12 +17,12 @@ use-debug
 debug fail! = !|
 	throw!
 
-Success. Wrap-Type
-	doc. "Attempt that did not fail. _.val is the result of the attempted code."
+Success. class
+	# TODO: `data val`
+	construct! val
+		.val = val
 
-Try. Kind
-	doc. "Result of running failable code. Success or Error."
-	implementors. [ Success Error
+Success.doc = "Attempt that did not fail. _.val is the result of the attempted code."
 
 self-impl! => Error ms.error
 
@@ -33,12 +31,12 @@ try-result.
 		If `tried` throws an error, returns it; else returns Success of its result.
 		If you don't care about the value of the error, use `?try` instead.
 	test. |
-		[ (thunk 1) ] -> Success 1
+		[ (thunk 1) ] -> new Success 1
 		assert! =? (try-result fail!).message "An error occurred."
 	|tried:Action
 		except
 			try
-				Success tried()
+				new Success tried()
 			catch
 				_
 
@@ -136,13 +134,15 @@ region $
 	$try.
 		doc. "Success if the $ is resolved, Error if rejected."
 		$test. ~!|
-			assert! =? (Success 1) (<~ $try ($resolved 1
+			assert! =? (new Success 1) (<~ $try ($resolved 1
 			assert! =? "a" (<~ ($try ($rejected "a"))).message
 			# $rejected but with non-error:
 			assert! =? "a" (<~ ($try ($.reject "a"))).message
 		|_:$
 			# =>[Error] because it's possible for a Promise to reject with a non-Error.
-			$catch ($after _ Success) =>[Error]
+			success = $after _ |val
+				new Success val
+			$catch success =>[Error]
 
 	$catch.
 		doc. "

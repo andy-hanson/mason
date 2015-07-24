@@ -353,6 +353,10 @@ export const
 			'opName', Nullable(String)
 		]),
 
+	//rename
+	Method = m('Method',
+		'TODO:DOC',
+		[ 'symbol', Union(String, Val), 'fun', Fun ]),
 	Class = v('Class',
 		'TODO:DOC',
 		// Every Fun in statics and methods must have a name.
@@ -360,7 +364,7 @@ export const
 			'superClass', Nullable(Val),
 			'statics', [Fun],
 			'opConstructor', Nullable(Fun),
-			'methods', [Fun],
+			'methods', [Union(Fun, Method)],
 			'opName', Nullable(String)
 		]),
 
@@ -394,9 +398,10 @@ export const
 	SV_False = 1,
 	SV_Null = 2,
 	SV_Sub = 3,
-	SV_ThisModuleDirectory = 4,
-	SV_True = 5,
-	SV_Undefined = 6,
+	SV_Super = 4,
+	SV_ThisModuleDirectory = 5,
+	SV_True = 6,
+	SV_Undefined = 7,
 	SpecialVal = v('SpecialVal',
 		'TODO:DOC',
 		[ 'kind', Number ]),

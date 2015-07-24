@@ -10,7 +10,7 @@ use~
 	.Impl-Type _ self-type
 	..methods freeze frozen?
 use-debug
-	..Try _ fails-with?
+	..Try fails-with?
 	.Method
 	.Type contains?
 
@@ -99,7 +99,6 @@ can-subtype?.
 	doc. "Whether a Kind accepts new subtypes."
 	test. |
 		[ Impl-Type ] -> true
-		[ Try ] -> false
 	|_:Kind
 		not frozen? _.implementors
 

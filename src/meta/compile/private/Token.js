@@ -2,7 +2,8 @@ import Loc from 'esast/dist/Loc'
 import tupl from 'tupl/dist/tupl'
 import { code } from '../CompileError'
 import { NumberLiteral } from '../MsAst'
-import { SV_False, SV_Null, SV_ThisModuleDirectory, SV_True, SV_Undefined } from '../MsAst'
+import { SV_False, SV_Null, SV_Super, SV_ThisModuleDirectory, SV_True, SV_Undefined
+	} from '../MsAst'
 import { implementMany } from './util'
 
 /*
@@ -136,7 +137,6 @@ const reserved_words = [
 	'return',
 	'short',
 	'switch',
-	'super',
 	'synchronized',
 	'throws',
 	'to',
@@ -203,6 +203,7 @@ export const
 	KW_Pass = kw('pass'),
 	KW_Region = kw('region'),
 	KW_Set = kw('set!'),
+	KW_Super = kw('super'),
 	KW_Static = kw('static'),
 	KW_ThisModuleDirectory = kw('this-module-directory'),
 	KW_Throw = kw('throw!'),
@@ -229,6 +230,7 @@ export const
 		switch (kw) {
 			case KW_False: return SV_False
 			case KW_Null: return SV_Null
+			case KW_Super: return SV_Super
 			case KW_ThisModuleDirectory: return SV_ThisModuleDirectory
 			case KW_True: return SV_True
 			case KW_Undefined: return SV_Undefined

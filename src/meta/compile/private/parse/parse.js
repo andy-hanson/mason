@@ -6,7 +6,7 @@ import { Assert, AssignDestructure, AssignSingle, BagEntry, BagEntryMany, BagSim
 	Continue, Debug, Iteratee, NumberLiteral, ExceptDo, ExceptVal, ForBag, ForDo, ForVal, Fun,
 	GlobalAccess, L_And, L_Or, Lazy, LD_Const, LD_Lazy, LD_Mutable, LocalAccess, LocalDeclare,
 	LocalDeclareFocus, LocalDeclareName, LocalDeclarePlain, LocalDeclareRes, LocalDeclareThis,
-	LocalDeclareUntyped, LocalMutate, Logic, MapEntry, Member, MemberSet, Module, MS_Mutate,
+	LocalDeclareUntyped, LocalMutate, Logic, MapEntry, Member, MemberSet, Method, Module, MS_Mutate,
 	MS_New, MS_NewMutable, New, Not, ObjEntry, ObjPair, ObjSimple, Pattern, Quote, SP_Debugger,
 	SpecialDo, SpecialVal, SV_Null, Splat, Throw, Val, Use, UseDo, Yield, YieldTo
 	} from '../../MsAst'
@@ -1031,10 +1031,10 @@ const
 		const { args, opRestArg, block, opIn, opOut } = _funArgsAndBlock(true, tokens)
 		const isGenerator = false, opDeclareRes = null
 		return Fun(tokens.loc,
+			LocalDeclareThis(tokens.loc),
 			isGenerator,
 			args, opRestArg,
-			block, opIn, opDeclareRes, opOut,
-			'constructor')
+			block, opIn, opDeclareRes, opOut)
 	},
 	_parseStatics = tokens => {
 		const block = justBlock(KW_Static, tokens)
@@ -1042,22 +1042,29 @@ const
 	},
 	_parseMethods = tokens => tokens.mapSlices(_parseMethod),
 	_parseMethod = tokens => {
-		const nameToken = tokens.head()
+		const head = tokens.head()
 
-		if (isKeyword(KW_Get, nameToken) || isKeyword(KW_Set, nameToken))
-			context.fail(nameToken.loc, 'TODO: get/set!')
+		if (isKeyword(KW_Get, head) || isKeyword(KW_Set, head))
+			context.fail(head.loc, 'TODO: get/set!')
 
-		context.check(nameToken instanceof Name, nameToken.loc, () =>
-			`Expected name, got ${nameToken}`)
-		const name = nameToken.name
+		const baa = tokens.opSplitOnceWhere(_isFunKeyword)
+		context.check(baa !== null, tokens.loc, 'Expected a function keyword somewhere.')
 
-		const fun = _parseMethodFun(tokens.tail())
+		const { before, at, after } = baa
+
+		const kind = _methodFunKind(at)
+		const fun = parseFun(kind, after)
 		assert(fun.opName === null)
-		fun.opName = name
-		return fun
+
+		let symbol = parseExpr(before)
+		if (symbol instanceof Quote &&
+			symbol.parts.length === 1 &&
+			typeof symbol.parts[0] === 'string') {
+			fun.opName = symbol.parts[0]
+			return fun
+		} else
+			return Method(tokens.loc, symbol, fun)
 	},
-	_parseMethodFun = tokens =>
-		parseFun(_methodFunKind(tokens.head()), tokens.tail()),
 	_methodFunKind = funKindToken => {
 		switch (funKindToken.kind) {
 			case KW_Fun: return KW_FunThis
@@ -1069,4 +1076,17 @@ const
 			default:
 				context.fail(funKindToken.loc, `Expected function kind, got ${funKindToken}`)
 		}
+	},
+	_isFunKeyword = funKindToken => {
+		if (funKindToken instanceof Keyword)
+			switch (funKindToken.kind) {
+				case KW_Fun: case KW_FunDo: case KW_FunGen: case KW_FunGenDo:
+				case KW_FunThis: case KW_FunThisDo: case KW_FunThisGen:
+				case KW_FunThisGenDo:
+					return true
+				default:
+					return false
+			}
+		else
+			return false
 	}

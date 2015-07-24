@@ -153,6 +153,11 @@ const msDefs = {
 		Object.defineProperty(value, name, { get: lazy.get, enumerable: true })
 	},
 
+	symbol(value) {
+		const symbol = value['impl-symbol']
+		return symbol === undefined ? value : symbol
+	},
+
 	newProperty(object, name, value) {
 		if (Object.prototype.hasOwnProperty.call(object, name))
 			throw new Error(`Property ${name} already exists.`)

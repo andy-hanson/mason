@@ -33,5 +33,6 @@ export const
 	msSetLazy = ms('setLazy'),
 	msShow = ms('show'),
 	msSome = ms('some'),
+	msSymbol = ms('symbol'),
 	msUnlazy = ms('unlazy'),
 	MsNone = member(IdMs, 'None')
