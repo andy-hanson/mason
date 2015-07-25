@@ -9,7 +9,6 @@ use
 use-debug
 	..Function spread!
 	..Try fails?
-	..Type.Type contains?
 
 Int. Pred-Type
 	doc. "
@@ -18,9 +17,9 @@ Int. Pred-Type
 		This is anything between min-safe-integer and max-safe-integer.
 	test. !|
 		assert-int! = !|_
-			assert! contains? Int _
+			assert! _:Int
 		forbid-int! = !|_
-			forbid! contains? Int _
+			forbid! _:Int
 		spread! assert-int!
 			. 1
 			. min-safe-int
@@ -34,8 +33,8 @@ Int. Pred-Type
 Nat. Pred-Type
 	doc. "Any counting number, including `0`."
 	test. !|
-		assert! contains? Nat 0
-		forbid! contains? Nat -1
+		assert! 0:Nat
+		forbid! -1:Nat
 	predicate. |_
 		and :Int (<=? 0 _
 

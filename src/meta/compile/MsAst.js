@@ -353,8 +353,7 @@ export const
 			'opName', Nullable(String)
 		]),
 
-	//rename
-	Method = m('Method',
+	MethodImpl = m('MethodImpl',
 		'TODO:DOC',
 		[ 'symbol', Union(String, Val), 'fun', Fun ]),
 	Class = v('Class',
@@ -364,7 +363,7 @@ export const
 			'superClass', Nullable(Val),
 			'statics', [Fun],
 			'opConstructor', Nullable(Fun),
-			'methods', [Union(Fun, Method)],
+			'methods', [Union(Fun, MethodImpl)],
 			'opName', Nullable(String)
 		]),
 

@@ -45,4 +45,5 @@ intersect. Method
 		[ (=> Set [ 1 2 ]) (=> Set [ 2 3 ]) ] -> => Set [ 2 ]
 	args. 2
 	default. .|@intersect-with
-		keep this contains?[(=> Set @intersect-with)]
+		keep this |_
+			_:(=> Set @intersect-with)

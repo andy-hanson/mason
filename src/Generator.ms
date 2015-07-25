@@ -2,14 +2,13 @@ use
 	.Function call
 	.Type.Method
 	.Type.Pred-Type
-	.Type.Type contains?
 
 Generator. Pred-Type
 	doc. "
 		A block of code which yields values and receives responses from a context.
 		Also known as a coroutine.
 	predicate. |_
-		and :Object (contains? Function _.next
+		and :Object _.next:Function
 
 empty-Generator.
 	doc. "Does nothing."

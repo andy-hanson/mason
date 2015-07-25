@@ -28,7 +28,7 @@ use-debug
 		If an @ only stores a given element once, it is a Set.
 	implementor-test. !|@-type
 		unless! =? @-type Weak-Id-Map
-			assert! contains? @-Type @-type throw! "Be sure to make your @ type a @-Type."
+			assert! @-type:@-Type throw! "Be sure to make your @ type a @-Type."
 			_ = empty @-type
 			assert! empty? _
 
@@ -50,8 +50,8 @@ region Using iterator
 	impl! contains? @
 		doc. "Whether one of the elements =? em."
 		test. !|
-			assert! contains? [ 0 ] 0
-			forbid! contains? [ 0 ] 1
+			assert! 0:[ 0 ]
+			forbid! 1:[ 0 ]
 		.|em:Any
 			any? this |em-compare
 				=? em em-compare

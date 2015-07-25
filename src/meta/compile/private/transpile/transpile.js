@@ -8,7 +8,7 @@ import { idCached, loc, member, propertyIdOrLiteralCached, toStatement } from 'e
 import { assignmentExpressionPlain, callExpressionThunk, functionExpressionThunk, memberExpression,
 	property, yieldExpressionDelegate, yieldExpressionNoDelegate } from 'esast/dist/specialize'
 import * as MsAstTypes from '../../MsAst'
-import { AssignSingle, Call, Fun, L_And, L_Or, LD_Lazy, LD_Mutable, MS_Mutate, MS_New,
+import { AssignSingle, Call, Fun, L_And, L_Or, LD_Lazy, LD_Mutable, MethodImpl, MS_Mutate, MS_New,
 	MS_NewMutable, Pattern, Splat, SD_Debugger, SV_Contains, SV_False, SV_Null, SV_Sub, SV_Super,
 	SV_ThisModuleDirectory, SV_True, SV_Undefined } from '../../MsAst'
 import manglePath from '../manglePath'
@@ -453,6 +453,7 @@ const
 			const computed = false
 			return MethodDefinition(key, value, 'method', isStatic, computed)
 		} else {
+			assert(method instanceof MethodImpl)
 			const fun = method.fun
 			assert(fun.opName === null)
 			const key = msSymbol(t0(method.symbol))

@@ -8,7 +8,7 @@ use
 	.Type.Method self-impl!
 	.Type.Obj-Type
 	.Type.Pred-Type Any Union
-	.Type.Type _ contains? =>
+	.Type.Type _ =>
 use-debug
 	.Function thunk
 	.$ $rejected $resolved
@@ -85,7 +85,7 @@ fails-with?.
 			catch error
 				case expected-error
 					:Type
-						contains? _ error
+						error:_
 					:String
 						=? error.message _
 
@@ -99,7 +99,7 @@ error-type.
 			doc. "ET"
 		assert! =? ET.doc "ET"
 		x = ET (message. "mess"
-		assert! contains? Error x
+		assert! x:Error
 		assert! =? "mess" x.message
 		assert! fails-with? "mess" !|
 			throw! x

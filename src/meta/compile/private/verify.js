@@ -347,7 +347,7 @@ implementMany(MsAstTypes, 'verify', {
 		this.value.verify()
 	},
 
-	Method() {
+	MethodImpl() {
 		this.symbol.verify()
 		this.fun.verify()
 	},

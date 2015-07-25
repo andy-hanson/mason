@@ -125,9 +125,21 @@ patterns:
       #Dot
       name: comment
 
-- comment: A language keyword.
+- comment: JavaScript reserved word
   name: keyword
-  match: (_|->|and|assert!|break!?|built|case!?|catch!?|class|construct!|continue!|data|debug|debugger|else|except!?|extends|false|finally!|forbid!|@for~?|for!?|get|if!?|implies|in|new|not|null|oh-no!|out|or|pass|returning|set!|static|switch!?|this|this-module-directory|throw!|true|try!?|undefined|unless!?|use|use-debug|use!|use~|<~|<~~)(\s)
+  match: (await|enum|implements|interface|package|private|protected|public)(\s)
+
+- comment: JavaScript keyword
+  name: keyword
+  match: (arguments|const|delete|eval|instanceof|let|return|typeof|var|void|while|with)(\s)
+
+- comment: Mason reserved word
+  name: keyword
+  match: (abstract|as|data|do!?|final|gen!?|goto!|is|isa|of!?|to|until!?|while!?)(\s)
+
+- comment: Mason keyword
+  name: keyword
+  match: (_|->|and|assert!|break!?|built|case!?|catch!?|class|construct!|continue!|debug|debugger|else|except!?|false|finally!|forbid!|@for~?|for!?|get|if!?|in|is|new|not|null|or|out|pass|returning|set!|super|static|switch!?|this|this-module-directory|throw!|true|try!?|undefined|unless!?|use!?|use-debug|use~|<~|<~~)(\s)
 
 - comment: Bracket
   name: keyword

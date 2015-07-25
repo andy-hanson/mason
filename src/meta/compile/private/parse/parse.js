@@ -6,9 +6,9 @@ import { Assert, AssignDestructure, AssignSingle, BagEntry, BagEntryMany, BagSim
 	Continue, Debug, Iteratee, NumberLiteral, ExceptDo, ExceptVal, ForBag, ForDo, ForVal, Fun,
 	GlobalAccess, L_And, L_Or, Lazy, LD_Const, LD_Lazy, LD_Mutable, LocalAccess, LocalDeclare,
 	LocalDeclareFocus, LocalDeclareName, LocalDeclarePlain, LocalDeclareRes, LocalDeclareThis,
-	LocalDeclareUntyped, LocalMutate, Logic, MapEntry, Member, MemberSet, Method, Module, MS_Mutate,
-	MS_New, MS_NewMutable, New, Not, ObjEntry, ObjPair, ObjSimple, Pattern, Quote, SP_Debugger,
-	SpecialDo, SpecialVal, SV_Null, Splat, Throw, Val, Use, UseDo, Yield, YieldTo
+	LocalDeclareUntyped, LocalMutate, Logic, MapEntry, Member, MemberSet, MethodImpl, Module,
+	MS_Mutate, MS_New, MS_NewMutable, New, Not, ObjEntry, ObjPair, ObjSimple, Pattern, Quote,
+	SP_Debugger, SpecialDo, SpecialVal, SV_Null, Splat, Throw, Val, Use, UseDo, Yield, YieldTo
 	} from '../../MsAst'
 import { JsGlobals } from '../language'
 import { DotName, Group, G_Block, G_Bracket, G_Parenthesis, G_Space, G_Quote, isGroup, isKeyword,
@@ -789,34 +789,46 @@ const _access = (name, loc) =>
 
 const parseSpaced = tokens => {
 	const h = tokens.head(), rest = tokens.tail()
-	if (isKeyword(KW_Type, h)) {
-		const eType = parseSpaced(rest)
-		const focus = LocalAccess.focus(h.loc)
-		return Call.contains(h.loc, eType, focus)
-	} else if (isKeyword(KW_Lazy, h))
+	if (isKeyword(KW_Type, h))
+		return Call.contains(h.loc, parseSpaced(rest), LocalAccess.focus(h.loc))
+	else if (isKeyword(KW_Lazy, h))
 		return Lazy(h.loc, parseSpaced(rest))
 	else {
-		// Tokens within a space group wrap previous tokens.
-		const mod = (acc, token) => {
+		let acc = parseSingle(h)
+		for (let i = rest.start; i < rest.end; i = i + 1) {
+			const token = rest.tokens[i]
 			const loc = token.loc
 			if (token instanceof DotName) {
-				context.check(token.nDots === 1, loc, 'Too many dots!')
-				return Member(loc, acc, token.name)
-			} else if (isKeyword(KW_Focus, token))
-				return Call(loc, acc, [ LocalAccess.focus(loc) ])
-			else if (token instanceof Group) {
-				if (token.kind === G_Bracket)
-					return Call.sub(loc,
-						unshift(acc, parseExprParts(Slice.group(token))))
-				if (token.kind === G_Parenthesis) {
-					checkEmpty(Slice.group(token),
-						() => `Use ${code('(a b)')}, not ${code('a(b)')}`)
-					return Call(loc, acc, [])
+				context.check(token.nDots === 1, token.loc, 'Too many dots!')
+				acc = Member(token.loc, acc, token.name)
+				continue
+			}
+			if (token instanceof Keyword)
+				switch (token.kind) {
+					case KW_Focus:
+						acc = Call(token.loc, acc, [ LocalAccess.focus(loc) ])
+						continue
+					case KW_Type: {
+						const type = parseSpaced(tokens._chopStart(i + 1))
+						return Call.contains(token.loc, type, acc)
+					}
+					default:
 				}
-			} else
-				context.fail(tokens.loc, `Expected member or sub, not ${token.show()}`)
+			if (token instanceof Group)
+				switch (token.kind) {
+					case G_Bracket:
+						acc = Call.sub(loc, unshift(acc, parseExprParts(Slice.group(token))))
+						continue
+					case G_Parenthesis:
+						checkEmpty(Slice.group(token), () =>
+							`Use ${code('(a b)')}, not ${code('a(b)')}`)
+						acc = Call(loc, acc, [])
+						continue
+					default:
+				}
+			context.fail(tokens.loc, `Expected member or sub, not ${token}`)
 		}
-		return rest.reduce(mod, parseSingle(h))
+		return acc
 	}
 }
 
@@ -1063,7 +1075,7 @@ const
 			fun.opName = symbol.parts[0]
 			return fun
 		} else
-			return Method(tokens.loc, symbol, fun)
+			return MethodImpl(tokens.loc, symbol, fun)
 	},
 	_methodFunKind = funKindToken => {
 		switch (funKindToken.kind) {
