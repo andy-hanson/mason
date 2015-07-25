@@ -18,7 +18,7 @@ define(["exports","../../at/q","../../at/Map/Map","../../at/Map/Id-Map","../../a
 				(yield 2);
 				(yield 3);
 				const prime_45factors=_61_62(Id_45Map,(yield* function*(){
-					const built=new global.Map();
+					const built=new (global.Map)();
 					_ms.assoc(built,9,[3]);
 					return built
 				}()));

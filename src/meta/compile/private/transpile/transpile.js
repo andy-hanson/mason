@@ -26,12 +26,13 @@ import { IdMs, lazyWrap, msAdd, msAddMany, msArr, msAssert, msAssertNot, msAssoc
 import { accessLocalDeclare, declare, forStatementInfinite, idForDeclareCached,
 	opTypeCheckForLocalDeclare, templateElementForString } from './util'
 
-let context, verifyResults, isInGenerator
+let context, verifyResults, isInGenerator, isInConstructor
 
 export default (_context, moduleExpression, _verifyResults) => {
 	context = _context
 	verifyResults = _verifyResults
 	isInGenerator = false
+	isInConstructor = false
 	const res = t0(moduleExpression)
 	// Release for garbage collection.
 	context = verifyResults = undefined
@@ -247,8 +248,8 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 
 		const _in = opMap(this.opIn, t0)
 
-		const opDeclareThis = opMap(this.opDeclareThis, () =>
-			VariableDeclaration('const', [ VariableDeclarator(IdLexicalThis, ThisExpression()) ]))
+		const opDeclareThis = opIf(!isInConstructor, () => opMap(this.opDeclareThis, () =>
+			VariableDeclaration('const', [ VariableDeclarator(IdLexicalThis, ThisExpression()) ])))
 
 		const lead = cat(opDeclareThis, opDeclareRest, argChecks, _in)
 
@@ -259,7 +260,10 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 		const id = opMap(this.opName, idCached)
 
 		const canUseArrowFunction =
-			id === null && opDeclareThis === null && opDeclareRest === null && !this.isGenerator
+			id === null &&
+			this.opDeclareThis === null &&
+			opDeclareRest === null &&
+			!this.isGenerator
 		return canUseArrowFunction ?
 			ArrowFunctionExpression(args, body) :
 			FunctionExpression(id, args, body, this.isGenerator)
@@ -278,7 +282,7 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 
 	LocalAccess() {
 		return this.name === 'this' ?
-			Identifier('_this') :
+			(isInConstructor ? ThisExpression() : IdLexicalThis) :
 			accessLocalDeclare(verifyResults.localDeclareForAccess(this))
 	},
 
@@ -442,8 +446,13 @@ const
 			},
 			() => forStatementInfinite(t0(block))),
 
-	constructorDefinition = fun =>
-		MethodDefinition(Identifier('constructor'), t0(fun), 'constructor', false, false),
+	constructorDefinition = fun => {
+		isInConstructor = true
+		const res =
+			MethodDefinition(Identifier('constructor'), t0(fun), 'constructor', false, false)
+		isInConstructor = false
+		return res
+	},
 	methodDefinition = isStatic => method => {
 		if (method instanceof Fun) {
 			assert(method.opName !== null)

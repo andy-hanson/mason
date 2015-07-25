@@ -39,7 +39,7 @@ set=?.
 	|a:@ b:@
 		=? (=> Set a) (=> Set b)
 
-intersect. Method
+intersect. new Method
 	doc. "TODO"
 	test. |
 		[ (=> Set [ 1 2 ]) (=> Set [ 2 3 ]) ] -> => Set [ 2 ]

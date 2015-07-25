@@ -24,7 +24,7 @@ Priority-Queue. Kind
 kind! Priority-Queue @
 
 # TODO: Move?
-?pop!. Method
+?pop!. new Method
 	doc. "Takes a value from the front of the queue, unless empty?."
 	args. 1
 	returns. ?

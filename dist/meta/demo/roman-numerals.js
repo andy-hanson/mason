@@ -4,7 +4,7 @@ define(["exports","../../compare","../../math/Number","../../math/methods","../.
 	exports._get=_ms.lazy(()=>{
 		const _$2=_ms.getModule(compare_0),_61_63=_ms.get(_$2,"=?"),_60_61_63=_ms.get(_$2,"<=?"),_$3=_ms.getModule(Number_1),log=_ms.get(_$3,"log"),Nat=_ms.get(_$3,"Nat"),pow=_ms.get(_$3,"pow"),round_45down=_ms.get(_$3,"round-down"),_$4=_ms.getModule(methods_2),_45=_ms.get(_$4,"-"),_42=_ms.get(_$4,"*"),_$6=_ms.lazyGetModule(Range_3),range=_ms.lazyProp(_$6,"range"),_$7=_ms.lazyGetModule(Type_4),contains_63=_ms.lazyProp(_$7,"contains?");
 		const roman_45digits=()=>{
-			const built=new global.Map();
+			const built=new (global.Map)();
 			_ms.assoc(built,1,`I`);
 			_ms.assoc(built,5,`V`);
 			_ms.assoc(built,10,`X`);
@@ -21,7 +21,7 @@ define(["exports","../../compare","../../math/Number","../../math/methods","../.
 			const built={};
 			const doc=built.doc=`Converts a number to Roman numerals.\nOnly works for values 1-3999.`;
 			const test=built.test=function test(){
-				const built=new global.Map();
+				const built=new (global.Map)();
 				_ms.assoc(built,[1],`I`);
 				_ms.assoc(built,[4],`IV`);
 				_ms.assoc(built,[5],`V`);

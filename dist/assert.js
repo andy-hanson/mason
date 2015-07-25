@@ -15,14 +15,14 @@ define(["exports","./compare","./at/at","./at/Map/Map","./at/Seq/Seq","./Functio
 			const doc=built.doc=`For each entry in args->result, asserts that calling \`fun\` with arguments of key will \`=?\` the value.`;
 			const test=built.test=function test(){
 				assert_45call_33(_ms.unlazy(_43),()=>{
-					const built=new global.Map();
+					const built=new (global.Map)();
 					_ms.assoc(built,[1,1],2);
 					return built
 				}());
 				const nope=`+ of:\n\t1\n\t1\nShould =?:\n\t3\nGot:\n\t2`;
 				_ms.assert(_ms.unlazy(fails_45with_63),nope,()=>{
 					assert_45call_33(_ms.unlazy(_43),()=>{
-						const built=new global.Map();
+						const built=new (global.Map)();
 						_ms.assoc(built,[1,1],3);
 						return built
 					}())
@@ -54,7 +54,7 @@ define(["exports","./compare","./at/at","./at/Map/Map","./at/Seq/Seq","./Functio
 			const doc=built.doc=`Like !call but allows any equality predicate.`;
 			const test=built.test=function test(){
 				assert_45call_45with_33(_ms.sub(_ms.unlazy(same_63),_ms.unlazy(show)),_ms.unlazy(_43),()=>{
-					const built=new global.Map();
+					const built=new (global.Map)();
 					_ms.assoc(built,[1,2],`3`);
 					return built
 				}())

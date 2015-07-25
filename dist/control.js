@@ -9,7 +9,7 @@ define(["exports","./js","./methods","./Type/Pred-Type","./at/Seq/Seq","./compar
 			const built={};
 			const doc=built.doc=`Fills in an Opt with a default value.`;
 			const test=built.test=function test(){
-				const built=new global.Map();
+				const built=new (global.Map)();
 				_ms.assoc(built,[void 0,1],1);
 				_ms.assoc(built,[1,2],1);
 				return built

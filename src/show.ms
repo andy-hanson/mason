@@ -12,7 +12,7 @@ use~
 
 showing = newSet()
 
-show. Method
+show. new Method
 	doc.
 		"
 			Converts the value to a string for string interpolation.

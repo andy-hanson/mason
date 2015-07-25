@@ -19,7 +19,7 @@ define(["exports","./Boolean","./compare","./js","./methods","./Type/Kind","./Ty
 			const built={};
 			const doc=built.doc=`Whether it's safe to try to directly access properties.`;
 			const test=built.test=function test(){
-				const built=new global.Map();
+				const built=new (global.Map)();
 				_ms.assoc(built,[null],false);
 				_ms.assoc(built,[void 0],false);
 				_ms.assoc(built,[1],true);
@@ -33,7 +33,7 @@ define(["exports","./Boolean","./compare","./js","./methods","./Type/Kind","./Ty
 			const built={};
 			const doc=built.doc=`If it has a property for the flag, uses that. Otherwise false.`;
 			const test=built.test=function test(){
-				const built=new global.Map();
+				const built=new (global.Map)();
 				_ms.assoc(built,[{
 					a:true
 				},`a`],true);
@@ -117,7 +117,7 @@ define(["exports","./Boolean","./compare","./js","./methods","./Type/Kind","./Ty
 			const built={};
 			const doc=built.doc=`\`?\` containing the value of the property, if it exists.`;
 			const test=built.test=function test(){
-				const built=new global.Map();
+				const built=new (global.Map)();
 				const x=()=>{
 					const built={};
 					const a=built.a=1;
@@ -144,7 +144,7 @@ define(["exports","./Boolean","./compare","./js","./methods","./Type/Kind","./Ty
 			const built={};
 			const doc=built.doc=`Like \`?p\`, but also looks through the prototype chain.`;
 			const test=built.test=function test(){
-				const built=new global.Map();
+				const built=new (global.Map)();
 				_ms.assoc(built,[1,`toString`],_ms.unlazy(_63)(Number.prototype.toString));
 				_ms.assoc(built,[1,`asdfghjkl`],_ms.unlazy(empty)(_ms.unlazy(_63)));
 				return built
@@ -164,7 +164,7 @@ define(["exports","./Boolean","./compare","./js","./methods","./Type/Kind","./Ty
 			const built={};
 			const doc=built.doc=`Gets the value of a property. Does not include properties in the prototype.`;
 			const test=built.test=function test(){
-				const built=new global.Map();
+				const built=new (global.Map)();
 				const x=()=>{
 					const built={};
 					const a=built.a=1;
@@ -188,7 +188,7 @@ define(["exports","./Boolean","./compare","./js","./methods","./Type/Kind","./Ty
 			const built={};
 			const doc=built.doc=`Whether there is a property by that name.`;
 			const test=built.test=function test(){
-				const built=new global.Map();
+				const built=new (global.Map)();
 				const x={
 					a:1
 				};
@@ -206,7 +206,7 @@ define(["exports","./Boolean","./compare","./js","./methods","./Type/Kind","./Ty
 			const built={};
 			const doc=built.doc=`Like \`p?\` but looks through the prototype.`;
 			const test=built.test=function test(){
-				const built=new global.Map();
+				const built=new (global.Map)();
 				_ms.assoc(built,[empty_45Object,`toString`],true);
 				return built
 			};
@@ -219,7 +219,7 @@ define(["exports","./Boolean","./compare","./js","./methods","./Type/Kind","./Ty
 			const built={};
 			const doc=built.doc=`For Objects, whether they are of the same type and have \`=?\` properties.\nFor primitives, whether they are \`=?\`.`;
 			const test=built.test=function test(){
-				const built=new global.Map();
+				const built=new (global.Map)();
 				const a=()=>{
 					const built={};
 					const a=built.a=1;
@@ -272,7 +272,7 @@ define(["exports","./Boolean","./compare","./js","./methods","./Type/Kind","./Ty
 			const built={};
 			const doc=built.doc=`Whether there are no properties, not even hidden ones.`;
 			const test=built.test=function test(){
-				const built=new global.Map();
+				const built=new (global.Map)();
 				_ms.assoc(built,[empty_45Object],true);
 				_ms.assoc(built,[Object],false);
 				return built
@@ -286,12 +286,12 @@ define(["exports","./Boolean","./compare","./js","./methods","./Type/Kind","./Ty
 			const built={};
 			const doc=built.doc=`A Map whose keys are property names and whose values are the properties' values.`;
 			const test=built.test=function test(){
-				const built=new global.Map();
+				const built=new (global.Map)();
 				_ms.assoc(built,[{
 					a:1,
 					b:2
 				}],()=>{
-					const built=new global.Map();
+					const built=new (global.Map)();
 					_ms.assoc(built,`a`,1);
 					_ms.assoc(built,`b`,2);
 					return built
@@ -306,9 +306,9 @@ define(["exports","./Boolean","./compare","./js","./methods","./Type/Kind","./Ty
 			const built={};
 			const doc=built.doc=`Given a Map whose keys are Strings, creates an Object whose Object->Map is that.`;
 			const test=built.test=function test(){
-				const built=new global.Map();
+				const built=new (global.Map)();
 				const map=()=>{
-					const built=new global.Map();
+					const built=new (global.Map)();
 					_ms.assoc(built,`a`,1);
 					_ms.assoc(built,`b`,2);
 					return built
@@ -320,7 +320,7 @@ define(["exports","./Boolean","./compare","./js","./methods","./Type/Kind","./Ty
 				_ms.assert(_61_63,map,Object_45_62Map(Map_45_62Object(map)));
 				_ms.assert(_ms.unlazy(fails_63),()=>{
 					return Map_45_62Object(()=>{
-						const built=new global.Map();
+						const built=new (global.Map)();
 						_ms.assoc(built,1,2);
 						return built
 					}())
@@ -341,7 +341,7 @@ define(["exports","./Boolean","./compare","./js","./methods","./Type/Kind","./Ty
 			const built={};
 			const doc=built.doc=`Gets prototype of an object.`;
 			const test=built.test=function test(){
-				const built=new global.Map();
+				const built=new (global.Map)();
 				_ms.assoc(built,[empty_45Object],Object.prototype);
 				_ms.assoc(built,[Object_45Key],Kind.prototype);
 				return built

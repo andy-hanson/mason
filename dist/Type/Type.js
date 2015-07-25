@@ -13,7 +13,7 @@ define(["exports","../compare","../js","../private/bootstrap","./Impl-Type","./K
 			return id_61_63(_this,other)
 		});
 		const contains_63=exports["contains?"]=ms.contains;
-		const extract=exports.extract=Method(()=>{
+		const extract=exports.extract=new (Method)(()=>{
 			const built={};
 			const doc=built.doc=`Given a type and arbitrary value:\n\tIf the value is of the type, return an array of sub-values.\n\tOtherwise, return \`null\`.\nThe array of values are taken into local variables.\nFor example:`;
 			const test=built.test=function test(){
@@ -61,7 +61,7 @@ define(["exports","../compare","../js","../private/bootstrap","./Impl-Type","./K
 			if(! _ms.bool(contains_63(type,value)))throw _ms.error(`${_ms.show(name)} is no ${_ms.show(type)}, is a ${_ms.show(type_45of(value))}: ${_ms.show(value)}`);
 			return value
 		});
-		const _61_62=exports["=>"]=Method(()=>{
+		const _61_62=exports["=>"]=new (Method)(()=>{
 			const built={};
 			const doc=built.doc=`TODO: Don't take additional args...\n|convert-to:Type convert-me (may take additional args)\nConverts a value to a given type.`;
 			const wrap=built.wrap=function wrap(impl,type,converted,opts){
@@ -80,7 +80,7 @@ define(["exports","../compare","../js","../private/bootstrap","./Impl-Type","./K
 			const built={};
 			const doc=built.doc=`Most specific Impl-Type for a value.`;
 			const test=built.test=function test(){
-				const built=new global.Map();
+				const built=new (global.Map)();
 				_ms.assoc(built,[Type],Kind);
 				_ms.assoc(built,[null],Object);
 				return built
@@ -90,10 +90,9 @@ define(["exports","../compare","../js","../private/bootstrap","./Impl-Type","./K
 			},built)
 		}();
 		kind_33(Impl_45Type,Type);
-		kind_33(Method,Type);
 		const name=exports.name=`Type`;
 		exports.default=Type;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL1R5cGUubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFjQSxXQUFNLFNBQ0k7O0dBQVQsb0JBQ0M7OztFQUdGLFFBQU0sT0FBRyxLQUFPLFNBQUEsTUFDSzs7VUFBcEIsU0FBSyxNQUFLO0VBQUE7RUFHWCx1Q0FBVztFQUVYLDhCQUFTLFdBQ007O0dBQWQsb0JBQ0M7R0FLRCxzQkFDUSxlQUFBO0lBQ1Asb0JBQ1M7O0tBQVIsb0JBQU07OzsrQkFDSSxRQUFRLFVBQVMsR0FBQTs7TUFDM0IsWUFBQSxPQUFHLEVBQUcsZ0JBQ1k7Y0FBakIsQ0FBRSxFQUFFO01BQUEsT0FFRDtjQUFIO01BQUE7S0FBQTtJQUFBO0lBRUYsUUFBSyxXQUFBLEVBQUE7O01BQ0o7NEJBQUMsVUFBRDtzQkFDWTs7ZUFBVixZQUFDLGNBQUc7Y0FFRjtlQUFGOzs7OztlQUVLLE9BQUksS0FBSyxFQUFHO2VBQ1osT0FBSSxrQkFBaUI7R0FBQTtHQUM5QiwwQkFDSzs7a0JBQUQ7a0JBQ0E7a0JBQ0QsQ0FBRyxpQkFBZ0I7Ozs7O0VBRXZCLE1BQU8sVUFBUztFQUVoQixNQUFPLGdCQUFnQixDQUFBLEtBQUssTUFBTSxPQUNJO0dBQTdCLGNBQUEsWUFBVSxLQUFLLHdCQUFjLFlBQUMsd0JBQWEsd0JBQWEsVUFBUSxxQkFBUztVQUNqRjtFQUFBO0VBRUQsMkJBQUksV0FDTTs7R0FBVCxvQkFDQztHQUdELHNCQUFPLGNBQUEsS0FBSyxLQUFLLFVBQVUsS0FDSTs7S0FBekIsUUFBQTtLQUNKLHlCQUFDLEtBQUQsSUFDSzthQUFKO0tBQUEsT0FFRzthQUFILDZCQUE2QixLQUFLLEtBQUssVUFBVTtLQUFBO0lBQUE7R0FBQTs7O0VBRXJELHVDQUNROztHQUFQLG9CQUNDO0dBQ0Qsc0JBQ08sZUFBQTs7b0JBQU4sQ0FBRSxNQUFVO29CQUNaLENBQUUsTUFBVTs7O2tCQUNaLG1CQUFXLEVBQ0M7NkJBRFgsaUVBQ21CLEVBQUcsZUFBYzs7O0VBR3RDLFFBQU0sWUFBVTtFQUNoQixRQUFNLE9BQU87RUFwRmQsd0JBQUE7a0JBY0EiLCJmaWxlIjoiVHlwZS9UeXBlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL1R5cGUubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFjQSxXQUFNLFNBQ0k7O0dBQVQsb0JBQ0M7OztFQUdGLFFBQU0sT0FBRyxLQUFPLFNBQUEsTUFDSztTQUFmO1VBQUwsU0FBSyxNQUFLO0VBQUE7RUFHWCx1Q0FBVztFQUVYLDhCQUFTLEtBQUksWUFDTTs7R0FBbEIsb0JBQ0M7R0FLRCxzQkFDUSxlQUFBO0lBQ1Asb0JBQ1M7O0tBQVIsb0JBQU07OzsrQkFDSSxRQUFRLFVBQVMsR0FBQTs7TUFDM0IsWUFBQSxPQUFHLEVBQUcsZ0JBQ1k7Y0FBakIsQ0FBRSxFQUFFO01BQUEsT0FFRDtjQUFIO01BQUE7S0FBQTtJQUFBO0lBRUYsUUFBSyxXQUFBLEVBQUE7O01BQ0o7NEJBQUMsVUFBRDtzQkFDWTs7ZUFBVixZQUFDLGNBQUc7Y0FFRjtlQUFGOzs7OztlQUVLLE9BQUksS0FBSyxFQUFHO2VBQ1osT0FBSSxrQkFBaUI7R0FBQTtHQUM5QiwwQkFDSzs7a0JBQUQ7a0JBQ0E7a0JBQ0QsQ0FBRyxpQkFBZ0I7Ozs7O0VBRXZCLE1BQU8sVUFBUztFQUVoQixNQUFPLGdCQUFnQixDQUFBLEtBQUssTUFBTSxPQUNJO0dBQTdCLGNBQUEsWUFBVSxLQUFLLHdCQUFjLFlBQUMsd0JBQWEsd0JBQWEsVUFBUSxxQkFBUztVQUNqRjtFQUFBO0VBRUQsMkJBQUksS0FBSSxZQUNNOztHQUFiLG9CQUNDO0dBR0Qsc0JBQU8sY0FBQSxLQUFLLEtBQUssVUFBVSxLQUNJOztLQUF6QixRQUFBO0tBQ0oseUJBQUMsS0FBRCxJQUNLO2FBQUo7S0FBQSxPQUVHO2FBQUgsNkJBQTZCLEtBQUssS0FBSyxVQUFVO0tBQUE7SUFBQTtHQUFBOzs7RUFFckQsdUNBQ1E7O0dBQVAsb0JBQ0M7R0FDRCxzQkFDTyxlQUFBOztvQkFBTixDQUFFLE1BQVU7b0JBQ1osQ0FBRSxNQUFVOzs7a0JBQ1osbUJBQVcsRUFDQzs2QkFEWCxpRUFDbUIsRUFBRyxlQUFjOzs7RUFHdEMsUUFBTSxZQUFVO0VBbkZqQix3QkFBQTtrQkFjQSIsImZpbGUiOiJUeXBlL1R5cGUuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

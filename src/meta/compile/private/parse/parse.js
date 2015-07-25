@@ -686,7 +686,7 @@ const
 	_tryAddName = (_, name) => {
 		if (_ instanceof Fun || _ instanceof Class)
 			_.opName = name
-		else if (_ instanceof Call && _.args.length > 0)
+		else if ((_ instanceof Call || _ instanceof New) && !isEmpty(_.args))
 			_tryAddObjName(last(_.args), name)
 		else
 			_tryAddObjName(_, name)

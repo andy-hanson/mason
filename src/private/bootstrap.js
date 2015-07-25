@@ -190,7 +190,7 @@ msDefTemp('show', _ => {
 
 // region Contains
 // Some Types want to implement contains? before it is officially defined.
-export const containsImplSymbol = 'impl-contains?'
+export const containsImplSymbol = Symbol('contains?')
 export const implContains = (type, impl) =>
 	pAdd(type.prototype, containsImplSymbol, impl)
 

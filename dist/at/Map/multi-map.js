@@ -31,10 +31,10 @@ define(["exports","../../control","../../Type/Pred-Type","../at","../at-Type",".
 			const built={};
 			const doc=built.doc=`Creates groups of elements which all have the same result for some function.\n\`(group @x f)[k]\` should be \`f`;
 			const test=built.test=function test(){
-				const built=new global.Map();
+				const built=new (global.Map)();
 				const _64sample=[1,`1`,2,`2`];
 				_ms.assoc(built,[_64sample,_ms.unlazy(show)],()=>{
-					const built=new global.Map();
+					const built=new (global.Map)();
 					_ms.assoc(built,`1`,[1,`1`]);
 					_ms.assoc(built,`2`,[2,`2`]);
 					return built

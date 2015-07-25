@@ -1,5 +1,6 @@
 import { ExpressionStatement, ForStatement, Identifier, Literal, NewExpression, Statement,
 	TemplateElement, ThrowStatement, VariableDeclarator } from 'esast/dist/ast'
+import { escapeStringForTemplate } from 'esast/dist/util'
 import mangleIdentifier from 'esast/dist/mangle-identifier'
 import specialize, { variableDeclarationConst } from 'esast/dist/specialize'
 import { opIf, opMap } from '../util'
@@ -44,22 +45,7 @@ export const
 		ThrowStatement(NewExpression(_IdError, [ Literal(msg) ])),
 
 	templateElementForString = str =>
-		TemplateElement(false, { cooked: str, raw: strEscapeForTemplate(str) })
+		TemplateElement(false, { cooked: str, raw: escapeStringForTemplate(str) })
 
 const
-	declareToId = new WeakMap(),
-
-	strEscapeForTemplate = str =>
-		str.replace(/[\\`\n\t\b\f\v\r\u2028\u2029]/g, ch => _strEscapes[ch]),
-	_strEscapes = {
-		'`': '\\`',
-		'\\': '\\\\',
-		'\n': '\\n',
-		'\t': '\\t',
-		'\b': '\\b',
-		'\f': '\\f',
-		'\v': '\\v',
-		'\r': '\\r',
-		'\u2028': '\\u2028',
-		'\u2029': '\\u2029'
-	}
+	declareToId = new WeakMap()

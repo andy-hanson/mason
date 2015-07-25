@@ -32,12 +32,12 @@ use-debug
 			_ = empty @-type
 			assert! empty? _
 
-iterator. Method
+iterator. new Method
 	doc. "Creates a new Generator which yields the values in the @."
 	args. 1
 	impl-symbol. Symbol.iterator
 
-empty?. Method
+empty?. new Method
 	doc. "Whether `count` is 0. Often much faster."
 	test. |
 		[ [ ] ] -> true
@@ -112,7 +112,7 @@ region Using iterator
 				if! pred? elem
 					break elem
 
-	count. Method
+	count. new Method
 		doc. "Number of elements."
 		test. |
 			[ [ ] ] -> 0
@@ -123,7 +123,7 @@ region Using iterator
 
 region Lazy functions, and their eager versions.
 	# Eager versions are Methods if certain types can do them faster.
-	keep. Method
+	keep. new Method
 		doc. "Only the elements that satisfy `keep-if?`."
 		test. |
 			[ [ 1 2 ] =?[2] ] -> [ 2 ]
@@ -166,7 +166,7 @@ region Lazy functions, and their eager versions.
 					<~ mapper_
 
 	# TODO: Better name?
-	flat-map. Method
+	flat-map. new Method
 		doc. "Like `map`, but each mapping produces multiple values."
 		test. |
 			f = |a
@@ -194,7 +194,7 @@ region Lazy functions, and their eager versions.
 				for! mapped
 					<~~ iterator mapper_
 
-	flatten. Method
+	flatten. new Method
 		doc. "
 			For an @ containing many @, produces an @ containing all of their entries combined.
 			This does *not* consider more than 1 nested level, and there *every* element of _ must be an @.
@@ -222,7 +222,7 @@ region Lazy functions, and their eager versions.
 				for! flattened
 					<~~ iterator_
 
-	++. Method
+	++. new Method
 		doc. "Concatenation. Sets should override this."
 		test. |
 			[ [ 0 ] [ 1 ] ] -> [ 0 1 ]
@@ -248,7 +248,7 @@ region Lazy functions, and their eager versions.
 				<~~ iterator @b
 
 	# TODO: Move to Set?
-	--. Method
+	--. new Method
 		doc. "
 			@ without any of the elements in `remove`.
 			Removes the *first* occurrence of each element.
@@ -283,11 +283,11 @@ region Lazy functions, and their eager versions.
 			and (id=? (type-of this) (type-of @other)) (seq=? this @other)
 
 region Mutator methods
-	empty!. Method
+	empty!. new Method
 		doc. "Mutates this collection so that it will be `empty?`."
 		args. 1
 
-	++!. Method
+	++!. new Method
 		doc. "
 			Adds new elements.
 			For Seqs these are added on the right; use `<++!` to add on the left.
@@ -300,7 +300,7 @@ region Mutator methods
 		default. .!|added
 			++>! this added
 
-	--!. Method
+	--!. new Method
 		doc. "
 			Removes all elements in `removed` once.
 			For Seqs these are removed starting from the left.

@@ -16,7 +16,7 @@ define(["exports","../../at/Seq/Seq","../../at/Seq/Stream","../../compare","../.
 			const built={};
 			const doc=built.doc=`http://rosettacode.org/wiki/Zeckendorf_number_representation`;
 			const test=built.test=function test(){
-				const built=new global.Map();
+				const built=new (global.Map)();
 				_ms.assoc(built,[0],"");
 				_ms.assoc(built,[1],`1`);
 				_ms.assoc(built,[19],`101001`);

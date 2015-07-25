@@ -54,7 +54,7 @@ Kind. Obj-Type
 			assert! contains? X z
 
 		region Method makes sure to do impl! on all Concrete-Type_s inheriting from an Kind.
-			asdf = Method
+			asdf = new Method
 				doc. "asdf_s its arguments."
 			impl! asdf X |
 				1

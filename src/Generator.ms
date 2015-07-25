@@ -15,6 +15,6 @@ empty-Generator.
 	call ~!|
 		pass
 
-gen-next!. Method
+gen-next!. new Method
 	doc. "Continues until the next `<~`."
 	impl-symbol. "next"

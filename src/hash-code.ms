@@ -5,7 +5,7 @@ use
 	.private.js-impl hashCodeDefault hashCodeString
 	.Type.Method _ impl!
 
-hash-code. Method
+hash-code. new Method
 	doc. "
 		Integer used to identify a value in a Hash-Map (or Hash-Set).
 		This should have a high probability of being different than the hash-codes of the other values in the map.

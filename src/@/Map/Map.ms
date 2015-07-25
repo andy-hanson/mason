@@ -19,11 +19,11 @@ Map. Kind
 kind! Map @
 
 region New methods
-	?get. Method
+	?get. new Method
 		doc. "`?` containing the value corresponding to `key`, if any."
 		args. [ "_" "key"
 
-	has-key?. Method
+	has-key?. new Method
 		doc. "
 			|:Boolean _ key:Any
 			Whether the key is in the Map.
@@ -31,14 +31,14 @@ region New methods
 		default. .|key
 			not (empty? (?get this key
 
-	keys. Method
+	keys. new Method
 		doc. "Every key that the Map `has-key?`."
 		args. 1
 		default. .|
 			=> Array (map' this |pair
 				pair[0]
 
-	values. Method
+	values. new Method
 		doc. "Every value in the Map."
 		args. 1
 		default. .|
@@ -87,7 +87,7 @@ region Functions
 					and (not empty? ?bk) (=? val ?bk.val
 
 region Mutator methods
-	assoc!. Method
+	assoc!. new Method
 		doc. "Set _[key] to val."
 		args. [ "_" "key" "val"
 
@@ -99,7 +99,7 @@ region Mutator methods
 				# TODO:SYNTAX Array destructure
 				assoc! map _[0] _[1]
 
-	un-assoc!. Method
+	un-assoc!. new Method
 		doc. "
 			If there is a value associated with `key`, removes it and returns the value associated.
 		args. [ "_" "key"
@@ -110,7 +110,7 @@ region Mutator methods
 			for! @to-delete
 				un-assoc! map _
 
-	add!. Method
+	add!. new Method
 		doc. "
 			|_ key:Any val:Any
 			assoc! key val, but fail if _[key] is set already.
@@ -120,7 +120,7 @@ region Mutator methods
 				forbid! has-key? this key throw! "Already have key {key}."
 			assoc! this key val
 
-	get-or-add!. Method
+	get-or-add!. new Method
 		doc. "map[key], and if it's not already there, fill it in with default-val."
 		args. [ "_" "key" "~default-val"
 		default. .|key ~default-val

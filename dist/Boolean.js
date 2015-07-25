@@ -6,7 +6,7 @@ define(["exports"],exports=>{
 			const built={};
 			const doc=built.doc=`Whether \`then\` is true whenever \`if\` is.\nAlways true when \`if\` is false.`;
 			const test=built.test=function test(){
-				const built=new global.Map();
+				const built=new (global.Map)();
 				_ms.assoc(built,[false,false],true);
 				_ms.assoc(built,[false,true],true);
 				_ms.assoc(built,[true,false],false);
@@ -28,7 +28,7 @@ define(["exports"],exports=>{
 			const built={};
 			const doc=built.doc=`True if \`a\` and \`b\` differ.`;
 			const test=built.test=function test(){
-				const built=new global.Map();
+				const built=new (global.Map)();
 				_ms.assoc(built,[false,false],false);
 				_ms.assoc(built,[false,true],true);
 				_ms.assoc(built,[true,false],true);

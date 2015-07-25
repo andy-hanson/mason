@@ -30,7 +30,7 @@ self-impl! empty Seq |
 
 region TODO
 	# TODO: Review name...
-	<++'. Method
+	<++'. new Method
 		doc. "
 			TODO:REST
 			(There is no `++>'` because `++` by default adds to the right for Seqs.)
@@ -50,7 +50,7 @@ region Very first and last
 		|_
 			un-? ?first_ "Can not take first of empty."
 
-	?first. Method
+	?first. new Method
 		doc. "First value in iteration order, if non-empty."
 		test. |
 			[ [ 1 2 ] ] -> ? 1
@@ -69,7 +69,7 @@ region Very first and last
 		|_
 			un-? ?last_ "Can not take last of empty."
 
-	?last. Method
+	?last. new Method
 		doc. "Last value in iteration order, if non-empty."
 		test. |
 			[ [ 1 2 ] ] -> ? 2
@@ -79,7 +79,7 @@ region Very first and last
 			unless empty? this
 				this[(- (count this) 1)]
 
-	tail. Method
+	tail. new Method
 		doc. "
 			All elements but the first.
 			TODO: Eager for Linked-Lists.
@@ -94,7 +94,7 @@ region Very first and last
 				else
 					drop _ 1
 
-	rtail. Method
+	rtail. new Method
 		doc. "
 			All elements but the last.
 			TODO: Eager for finger trees.
@@ -136,7 +136,7 @@ region Search
 					else
 						break false
 
-	?nth. Method
+	?nth. new Method
 		doc. "
 			|_ n:Nat
 			`n`th element in iteration order, if there are at least that many values.
@@ -175,7 +175,7 @@ region Update
 		. [ "start" Nat
 		. [ "end" Nat
 
-	slice. Method
+	slice. new Method
 		doc. "
 			The elements from index start (inclusive) to end (exclusive).
 			Takes as much as possible.
@@ -194,7 +194,7 @@ region Update
 		|:@ _ start end
 			take' (drop' _ start) (- end start
 
-	take. Method
+	take. new Method
 		doc. "TODO"
 		args.
 			. "_"
@@ -238,7 +238,7 @@ region Update
 						break!
 					<~ elem
 
-	drop. Method
+	drop. new Method
 		doc. "TODO"
 		args.
 			. "_"
@@ -327,7 +327,7 @@ region TODO: put somewhere
 							<~ freeze next-group
 
 	# TODO: reverse'?
-	reverse. Method
+	reverse. new Method
 		doc. "Seq with the opposite order."
 		test. |
 			[ [ 1 2 ] ] -> [ 2 1 ]
@@ -361,27 +361,27 @@ region TODO: put somewhere
 							cur-idx := next-idx
 
 region Mutator methods
-	<++!. Method
+	<++!. new Method
 		doc. "Makes `_` into `+ added _`."
 		args.
 			. "_"
 			. [ "added" @
-	++>!. Method
+	++>!. new Method
 		doc. "Makes `_` into `+ _ added`."
 		args.
 			. "_"
 			. [ "added" @
 
-	?<pop!. Method
+	?<pop!. new Method
 		doc. "Takes one element off the left side, if not empty?."
 		args. 1
 		# TODO: returns. ?
-	?pop>!. Method
+	?pop>!. new Method
 		doc. "Takes one element off the right side, if not empty?."
 		args. 1
 		# TODO: returns. ?
 
-	set-nth!. Method
+	set-nth!. new Method
 		doc. "Makes `_[n]` be `val`."
 		args.
 			. "_"

@@ -13,7 +13,7 @@ define(["exports","./compare","./js","./Type/Kind","./Type/Method","./Type/Pred-
 			const built={};
 			const doc=built.doc=`Converts a-z to A-Z.`;
 			const test=built.test=function test(){
-				const built=new global.Map();
+				const built=new (global.Map)();
 				_ms.assoc(built,[`hi`],`HI`);
 				return built
 			};
@@ -34,7 +34,7 @@ define(["exports","./compare","./js","./Type/Kind","./Type/Method","./Type/Pred-
 			const built={};
 			const doc=built.doc=`Adds a \`\\t\` to all \`\\n\` in \`str\`.\nDoes *not* do anything to the first line.`;
 			const test=built.test=function test(){
-				const built=new global.Map();
+				const built=new (global.Map)();
 				const s=`a\nb`;
 				const s_45indented=`a\n\tb`;
 				_ms.assoc(built,[s],s_45indented);
@@ -50,7 +50,7 @@ define(["exports","./compare","./js","./Type/Kind","./Type/Method","./Type/Pred-
 			const built={};
 			const doc=built.doc=`Like \`@.split\` but using a String-Test instead of a predicate.`;
 			const test=built.test=function test(){
-				const built=new global.Map();
+				const built=new (global.Map)();
 				_ms.assoc(built,[` `,`I am a String`],[`I`,`am`,`a`,`String`]);
 				_ms.assoc(built,[RegExp(`.`),`abc`],["","","",""]);
 				return built
@@ -73,4 +73,4 @@ define(["exports","./compare","./js","./Type/Kind","./Type/Method","./Type/Pred-
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9TdHJpbmcubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFTQSwyQ0FBYSxTQUNJOztHQUFoQixvQkFBTTtHQUNOLHNDQUFjLENBQUUsT0FBTzs7O0VBRXhCLHlDQUNROztHQUFQLG9CQUFNO0dBQ04sc0JBQ08sZUFBQTs7b0JBQU4sQ0FBRyxNQUFVOzs7a0JBQ2IscUJBQUEsRUFDUTtzQkFETjtXQUNGOzs7RUFFRix3QkFBTSxnQkFDUzs7R0FBZCxvQkFBTTtHQUNOLGdDQUFZLG1CQUFBLEVBQ0M7V0FBWixjQUFLLE9BQUQsSUFBUyx5QkFBUSxHQUFFO0dBQUE7OztFQUV6QixnQ0FDTzs7R0FBTixvQkFDQztHQUVELHNCQUNPLGVBQUE7O0lBQU4sUUFDQztJQUVELG1CQUNDO29CQUVELENBQUUsR0FBTztvQkFDVCxDQUFHLEtBQVM7OztrQkFDWixnQkFBQSxFQUNRO3NCQUROO1dBQ0YsVUFBVyxPQUFRLEtBQUssS0FBSzs7O0VBRS9CLDJDQUNVOztHQUFULG9CQUFNO0dBQ04sc0JBQ08sZUFBQTs7b0JBQU4sQ0FBRyxJQUFJLGlCQUFvQixDQUFHLElBQUksS0FBSyxJQUFJO29CQUMzQyxDQUFHLE9BQVEsS0FBSyxPQUFVLENBQVk7OztrQkFDdEMscUJBQWUsU0FBcUIsRUFDUTtzQkFEcEI7c0JBQWM7cUNBQXJDLE1BQU0sUUFDUCxRQUFROzs7RUFFVixRQUFNLE9BQUcsT0FBUyxTQUFBLE1BQ0s7O1VBQXRCLFNBQUssTUFBSztFQUFBO0VBQ1gsUUFBTSxRQUFRLE9BQVMsU0FBQSxNQUNLOztVQUEzQixvQkFBZTtFQUFBO0VBcERoQix3QkFBQSIsImZpbGUiOiJTdHJpbmcuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9TdHJpbmcubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFTQSwyQ0FBYSxTQUNJOztHQUFoQixvQkFBTTtHQUNOLHNDQUFjLENBQUUsT0FBTzs7O0VBRXhCLHlDQUNROztHQUFQLG9CQUFNO0dBQ04sc0JBQ08sZUFBQTs7b0JBQU4sQ0FBRyxNQUFVOzs7a0JBQ2IscUJBQUEsRUFDUTtzQkFETjtXQUNGOzs7RUFFRix3QkFBTSxnQkFDUzs7R0FBZCxvQkFBTTtHQUNOLGdDQUFZLG1CQUFBLEVBQ0M7V0FBWixjQUFLLE9BQUQsSUFBUyx5QkFBUSxHQUFFO0dBQUE7OztFQUV6QixnQ0FDTzs7R0FBTixvQkFDQztHQUVELHNCQUNPLGVBQUE7O0lBQU4sUUFDQztJQUVELG1CQUNDO29CQUVELENBQUUsR0FBTztvQkFDVCxDQUFHLEtBQVM7OztrQkFDWixnQkFBQSxFQUNRO3NCQUROO1dBQ0YsVUFBVyxPQUFRLEtBQUssS0FBSzs7O0VBRS9CLDJDQUNVOztHQUFULG9CQUFNO0dBQ04sc0JBQ08sZUFBQTs7b0JBQU4sQ0FBRyxJQUFJLGlCQUFvQixDQUFHLElBQUksS0FBSyxJQUFJO29CQUMzQyxDQUFHLE9BQVEsS0FBSyxPQUFVLENBQVk7OztrQkFDdEMscUJBQWUsU0FBcUIsRUFDUTtzQkFEcEI7c0JBQWM7cUNBQXJDLE1BQU0sUUFDUCxRQUFROzs7RUFFVixRQUFNLE9BQUcsT0FBUyxTQUFBLE1BQ0s7U0FFdEI7VUFGQSxTQUVBLE1BRlU7RUFBQTtFQUNYLFFBQU0sUUFBUSxPQUFTLFNBQUEsTUFDSztTQUEzQjtVQUFBLG9CQUFlO0VBQUE7RUFwRGhCLHdCQUFBIiwiZmlsZSI6IlN0cmluZy5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

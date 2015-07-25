@@ -16,7 +16,7 @@ define(["exports","./Function","./Type/Method","./Type/Pred-Type"],(exports,Func
 			const doc=built.doc=`Does nothing.`;
 			return _ms.set(call(function*(){}),built,"empty-Generator")
 		}();
-		const gen_45next_33=exports["gen-next!"]=Method(()=>{
+		const gen_45next_33=exports["gen-next!"]=new (Method)(()=>{
 			const built={};
 			const doc=built.doc=`Continues until the next \`<~\`.`;
 			const impl_45symbol=built["impl-symbol"]=`next`;
@@ -27,4 +27,4 @@ define(["exports","./Function","./Type/Method","./Type/Pred-Type"],(exports,Func
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9HZW5lcmF0b3IubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFLQSxnQkFBVyxnQkFDUzs7R0FBbkIsb0JBQ0M7R0FFRCxnQ0FBWSxtQkFBQSxFQUNDO1dBQVosY0FBSyxPQUFELGlCQUFlLFNBQVA7Ozs7RUFFZCx1REFDZ0I7O0dBQWYsb0JBQU07a0JBQ04sS0FDUSxXQUFBOztFQUVULHlDQUFXLFdBQ007O0dBQWhCLG9CQUFNO0dBQ04seUNBQWM7OztFQW5CZix3QkFBQTtrQkFLQSIsImZpbGUiOiJHZW5lcmF0b3IuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9HZW5lcmF0b3IubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFLQSxnQkFBVyxnQkFDUzs7R0FBbkIsb0JBQ0M7R0FFRCxnQ0FBWSxtQkFBQSxFQUNDO1dBQVosY0FBSyxPQUFELGlCQUFlLFNBQVA7Ozs7RUFFZCx1REFDZ0I7O0dBQWYsb0JBQU07a0JBQ04sS0FDUSxXQUFBOztFQUVULHlDQUFXLEtBQUksWUFDTTs7R0FBcEIsb0JBQU07R0FDTix5Q0FBYzs7O0VBbkJmLHdCQUFBO2tCQUtBIiwiZmlsZSI6IkdlbmVyYXRvci5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

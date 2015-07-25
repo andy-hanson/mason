@@ -1,174 +1,171 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","esast/dist/mangle-identifier","../js","../private/bootstrap","../private/js-impl","./Obj-Type","../at/q","./Impl-Type","./Kind","../Object","../at/at-Type","../at/q","../assert","../compare","../Try"],(exports,mangle_45identifier_0,js_1,bootstrap_2,js_45impl_3,Obj_45Type_4,_63_5,Impl_45Type_6,Kind_7,Object_8,_64_45Type_9,_63_10,assert_11,compare_12,Try_13)=>{
+define(["exports","esast/dist/util","../js","../private/bootstrap","../private/js-impl","../at/q","../assert","../compare","./Impl-Type","./Kind","../Object","../at/at-Type","../at/q","../Try"],(exports,util_0,js_1,bootstrap_2,js_45impl_3,_63_4,assert_5,compare_6,Impl_45Type_7,Kind_8,Object_9,_64_45Type_10,_63_11,Try_12)=>{
 	exports._get=_ms.lazy(()=>{
-		const mangle_45identifier=_ms.getDefaultExport(mangle_45identifier_0),_$3=_ms.getModule(js_1),defined_63=_ms.get(_$3,"defined?"),js_61_61_61=_ms.get(_$3,"js==="),js_45sub=_ms.get(_$3,"js-sub"),js_45typeof=_ms.get(_$3,"js-typeof"),_$4=_ms.getModule(bootstrap_2),containsImplSymbol=_ms.get(_$4,"containsImplSymbol"),implContains=_ms.get(_$4,"implContains"),msDef=_ms.get(_$4,"msDef"),_$5=_ms.getModule(js_45impl_3),buildStr=_ms.get(_$5,"buildStr"),methodArgNames=_ms.get(_$5,"methodArgNames"),Obj_45Type=_ms.getDefaultExport(Obj_45Type_4),_$8=_ms.lazyGetModule(_63_5),un_45_63=_ms.lazyProp(_$8,"un-?"),Impl_45Type=_ms.lazy(()=>{
-			return _ms.getDefaultExport(Impl_45Type_6)
-		}),_$9=_ms.lazyGetModule(Impl_45Type_6),self_45type=_ms.lazyProp(_$9,"self-type"),Kind=_ms.lazy(()=>{
-			return _ms.getDefaultExport(Kind_7)
-		}),_$11=_ms.lazyGetModule(Object_8),p_45with_45proto_63=_ms.lazyProp(_$11,"p-with-proto?"),_$13=_ms.lazyGetModule(_64_45Type_9),empty=_ms.lazyProp(_$13,"empty"),_63=_ms.lazy(()=>{
-			return _ms.getDefaultExport(_63_10)
-		}),_$15=_ms.lazyGetModule(assert_11),assert_45call_33=_ms.lazyProp(_$15,"assert-call!"),_$16=_ms.lazyGetModule(compare_12),_61_63=_ms.lazyProp(_$16,"=?"),_$17=_ms.lazyGetModule(Try_13),fails_63=_ms.lazyProp(_$17,"fails?");
+		const _$2=_ms.getModule(util_0),escapeStringForLiteral=_ms.get(_$2,"escapeStringForLiteral"),_$3=_ms.getModule(js_1),defined_63=_ms.get(_$3,"defined?"),js_61_61_61=_ms.get(_$3,"js==="),js_45delete=_ms.get(_$3,"js-delete"),js_45instanceof=_ms.get(_$3,"js-instanceof"),js_45sub=_ms.get(_$3,"js-sub"),js_45typeof=_ms.get(_$3,"js-typeof"),_$4=_ms.getModule(bootstrap_2),containsImplSymbol=_ms.get(_$4,"containsImplSymbol"),implContains=_ms.get(_$4,"implContains"),msDef=_ms.get(_$4,"msDef"),pAdd=_ms.get(_$4,"pAdd"),_$5=_ms.getModule(js_45impl_3),buildStr=_ms.get(_$5,"buildStr"),_$7=_ms.lazyGetModule(_63_4),un_45_63=_ms.lazyProp(_$7,"un-?"),_$8=_ms.lazyGetModule(assert_5),assert_45call_33=_ms.lazyProp(_$8,"assert-call!"),_$9=_ms.lazyGetModule(compare_6),_61_63=_ms.lazyProp(_$9,"=?"),Impl_45Type=_ms.lazy(()=>{
+			return _ms.getDefaultExport(Impl_45Type_7)
+		}),_$10=_ms.lazyGetModule(Impl_45Type_7),self_45type=_ms.lazyProp(_$10,"self-type"),Kind=_ms.lazy(()=>{
+			return _ms.getDefaultExport(Kind_8)
+		}),_$12=_ms.lazyGetModule(Object_9),p_45with_45proto_63=_ms.lazyProp(_$12,"p-with-proto?"),_$14=_ms.lazyGetModule(_64_45Type_10),empty=_ms.lazyProp(_$14,"empty"),_63=_ms.lazy(()=>{
+			return _ms.getDefaultExport(_63_11)
+		}),_$16=_ms.lazyGetModule(Try_12),fails_63=_ms.lazyProp(_$16,"fails?");
 		const flag_63=function flag_63(_){
 			return (defined_63(_)&&_)
 		};
-		const method_45src=function method_45src(method){
-			return buildStr(add_33=>{
-				const has_45args_63=defined_63(method.args);
-				const arg_45names=()=>{
-					if(_ms.bool(has_45args_63)){
-						return methodArgNames(()=>{
-							const _=method.args;
-							if(_ms.bool(_ms.contains(Number,_))){
-								return _
-							} else if(_ms.bool(_ms.contains(Array,_))){
-								return _.length
-							} else throw new Error("No branch of `case` matches.")
-						}())
+		const random_45digits=function random_45digits(){
+			return Math.random().toString().slice(2)
+		};
+		const Method=class Method extends Function{
+			constructor(params){
+				const name=params.name;
+				if(! _ms.bool(defined_63(name)))throw _ms.error(`Must provide method name.`);
+				const default_63=defined_63(params.default);
+				const wrap_63=defined_63(params.wrap);
+				const allow_45null_63=flag_63(params["allow-null?"]);
+				if(! _ms.bool((! allow_45null_63||default_63)))throw _ms.error(`Method with \`allow-null?\` must have \`default.`);
+				const secret_45name=`__method_${_ms.show(name)}_${_ms.show(random_45digits())}`;
+				const impl_45symbol=()=>{
+					const _=params["impl-symbol"];
+					if(_ms.bool(defined_63(_))){
+						return _
 					} else {
-						return `b,c,d`
+						return Symbol(name)
 					}
 				}();
-				const args=()=>{
-					if(_ms.bool(js_61_61_61(arg_45names.length,0))){
-						return `a`
-					} else {
-						return `a,${_ms.show(arg_45names)}`
-					}
+				const has_45args_63=defined_63(params.args);
+				const num_45args=()=>{
+					const _=params.args;
+					if(_ms.bool(js_61_61_61(js_45typeof(_),`number`))){
+						return _
+					} else if(_ms.bool(js_45instanceof(_,Array))){
+						return _.length
+					} else if(_ms.bool(! defined_63(_))){
+						return - 1
+					} else throw new (Error)("No branch of `case` matches.")
 				}();
-				add_33(`return function ${_ms.show(mangle_45identifier(method.name))}(${_ms.show(args)}) {`);
-				const impl=()=>{
-					const _=method["impl-symbol"];
-					if(_ms.bool(js_61_61_61(js_45typeof(_),`string`))){
-						return `a["${_ms.show(_)}"]`
-					} else if(_ms.bool(_ms.contains(Symbol,_))){
-						return `a[symbol]`
-					} else throw new Error("No branch of `case` matches.")
-				}();
-				const default_63=defined_63(method.default);
-				const wrap_63=defined_63(method.wrap);
-				const allow_45null_63=flag_63(method["allow-null?"]);
-				if(allow_45null_63){
-					if(! _ms.bool(default_63))throw _ms.error(`Method with \`allow-null?\` must have \`default\`.`)
-				};
-				if(default_63){
-					const cond=()=>{
-						if(_ms.bool(allow_45null_63)){
-							return `a == null || ${_ms.show(impl)} === undefined`
-						} else {
-							return `${_ms.show(impl)} === undefined`
-						}
+				const src=buildStr(add_33=>{
+					const access_45method=`global["${_ms.show(escapeStringForLiteral(secret_45name))}"]`;
+					const impl=()=>{
+						const _=impl_45symbol;
+						if(_ms.bool(js_61_61_61(js_45typeof(_),`symbol`))){
+							return `a[${_ms.show(access_45method)}["impl-symbol"]]`
+						} else if(_ms.bool(_ms.contains(String,_))){
+							return `a["${_ms.show(escapeStringForLiteral(_))}"]`
+						} else throw new (Error)("No branch of `case` matches.")
 					}();
-					add_33(()=>{
-						if(_ms.bool(wrap_63)){
-							return `if (${_ms.show(cond)}) return wrap.apply(null, [def].concat(Array.prototype.slice.call(arguments)))`
+					if(default_63){
+						const cond=()=>{
+							if(_ms.bool(allow_45null_63)){
+								return `a == null || ${_ms.show(impl)} === undefined`
+							} else {
+								return `${_ms.show(impl)} === undefined`
+							}
+						}();
+						const call=()=>{
+							if(_ms.bool(wrap_63)){
+								return `${_ms.show(access_45method)}.wrap.apply(null, [${_ms.show(access_45method)}.default].concat(Array.prototype.slice.call(arguments)))`
+							} else {
+								return `${_ms.show(access_45method)}.default.apply(a, Array.prototype.slice.call(arguments, 1))`
+							}
+						}();
+						add_33(`if (${_ms.show(cond)}) return ${_ms.show(call)}`)
+					};
+					const wrap=`${_ms.show(access_45method)}.wrap`;
+					return add_33(()=>{
+						if(_ms.bool(has_45args_63)){
+							const args=()=>{
+								const _=num_45args;
+								if(_ms.bool(js_61_61_61(_,1))){
+									return `a`
+								} else if(_ms.bool(js_61_61_61(_,2))){
+									return `a, b`
+								} else if(_ms.bool(js_61_61_61(_,3))){
+									return `a, b, c`
+								} else throw new (Error)("No branch of `case` matches.")
+							}();
+							return ()=>{
+								if(_ms.bool(wrap_63)){
+									return `return ${_ms.show(wrap)}(${_ms.show(impl)}, ${_ms.show(args)})`
+								} else {
+									return `return ${_ms.show(impl)}(${_ms.show(args.slice(3))})`
+								}
+							}()
+						} else if(_ms.bool(wrap_63)){
+							return `switch (arguments.length) \{\n\tcase 1: return ${_ms.show(wrap)}(${_ms.show(impl)}, a)\n\tcase 2: return ${_ms.show(wrap)}(${_ms.show(impl)}, a, b)\n\tcase 3: return ${_ms.show(wrap)}(${_ms.show(impl)}, a, b, c)\n\tcase 4: return ${_ms.show(wrap)}(${_ms.show(impl)}, a, b, c, d)\n\tdefault: throw new Error(\`Code not generated to handle $\{arguments.length} arguments.\`)\n}`
 						} else {
-							return `if (${_ms.show(cond)}) return def.apply(a, Array.prototype.slice.call(arguments, 1))`
+							return `switch (arguments.length) \{\n\tcase 1: return ${_ms.show(impl)}()\n\tcase 2: return ${_ms.show(impl)}(b)\n\tcase 3: return ${_ms.show(impl)}(b, c)\n\tcase 4: return ${_ms.show(impl)}(b, c, d)\n\tdefault: throw new Error(\`Code not generated to handle $\{arguments.length} args.\`)\n}`
 						}
 					}())
-				};
-				add_33(()=>{
-					if(_ms.bool(wrap_63)){
-						return ()=>{
-							if(_ms.bool(has_45args_63)){
-								return `return wrap(${_ms.show(impl)},${_ms.show(args)})`
-							} else {
-								return `switch (arguments.length) {\n\tcase 1: return wrap(${_ms.show(impl)}, a)\n\tcase 2: return wrap(${_ms.show(impl)}, a, b)\n\tcase 3: return wrap(${_ms.show(impl)}, a, b, c)\n\tcase 4: return wrap(${_ms.show(impl)}, a, b, c, d)\n\tdefault: throw new Error("Code not generated to handle "+arguments.length+"arguments.")\n}`
-							}
-						}()
+				});
+				{
+					const _=num_45args;
+					if(_ms.bool(js_61_61_61(_,1))){
+						super(`a`,src)
+					} else if(_ms.bool(js_61_61_61(_,2))){
+						super(`a`,`b`,src)
+					} else if(_ms.bool(js_61_61_61(_,3))){
+						super(`a`,`b`,`c`,src)
 					} else {
-						return ()=>{
-							if(_ms.bool(has_45args_63)){
-								return `return ${_ms.show(impl)}(${_ms.show(arg_45names)})`
-							} else {
-								return `switch (arguments.length) {\n\tcase 1: return ${_ms.show(impl)}()\n\tcase 2: return ${_ms.show(impl)}(b)\n\tcase 3: return ${_ms.show(impl)}(b,c)\n\tcase 4: return ${_ms.show(impl)}(b,c,d)\n\tdefault: throw new Error("Code not generated to handle "+arguments.length+"arguments.")\n}`
-							}
-						}()
+						super(`a`,`b`,`c`,`d`,src)
 					}
-				}());
-				return add_33(`}`)
-			})
-		};
-		const make_45callable_45method=function make_45callable_45method(method){
-			const src=method_45src(method);
-			const f=Function(`symbol`,`def`,`wrap`,src);
-			return f(method["impl-symbol"],method.default,method.wrap)
-		};
-		const Method=Obj_45Type(()=>{
-			const built={};
-			const doc=built.doc=`A Method allows you to call a JavaScript-style method as a function.\nUnlike a Mason Method, for a Method,\nthe first argument becomes \`this\` within the implementation's body.\nTODO: document \`wrap\``;
-			const test=built.test=function test(){
-				const m=Method(()=>{
+				};
+				pAdd(global,secret_45name,this);
+				js_45delete(params,`name`);
+				js_45delete(params,`impl-symbol`);
+				Object.assign(this,params);
+				_ms.newProperty(this,"impl-symbol",impl_45symbol);
+				Object.defineProperty(this,`name`,()=>{
 					const built={};
-					const allow_45null_63=built["allow-null?"]=true;
-					const _default=built.default=function _default(){
-						return `default`
-					};
-					return _ms.setName(built,"m")
-				}());
-				impl_33(m,String,()=>{
-					return `String`
-				});
-				impl_45double_33(m,Number,Number,()=>{
-					return `Number Number`
-				});
-				impl_45double_33(m,Number,String,()=>{
-					return `Number String`
-				});
-				_ms.unlazy(assert_45call_33)(m,()=>{
-					const built=new global.Map();
-					_ms.assoc(built,[null],`default`);
-					_ms.assoc(built,[`a`],`String`);
-					_ms.assoc(built,[1,1],`Number Number`);
-					_ms.assoc(built,[1,`a`],`Number String`);
+					const value=built.value=name;
 					return built
-				}());
-				_ms.assert(_ms.unlazy(fails_63),()=>{
-					return m(1,m)
-				});
-				_ms.assert(_ms.unlazy(_61_63),`wrap-call-arg`,()=>{
-					const wrap_45method=Method(()=>{
-						const built={};
-						const _default=built.default=function _default(){
-							const _this=this;
-							return `call-${_ms.show(_this)}`
-						};
-						const wrap=built.wrap=function wrap(impl,arg){
-							return `wrap-${_ms.show(impl.call(arg))}`
-						};
-						return _ms.setName(built,"wrap-method")
-					}());
-					return wrap_45method(`arg`)
 				}())
-			};
-			const props=built.props=()=>{
+			}
+		};
+		_ms.newProperty(Method,"doc",`TODO`);
+		_ms.newProperty(Method,"test",()=>{
+			const m=new (Method)(()=>{
 				const built={};
-				const name=built.name=String;
-				const impl_45symbol=built["impl-symbol"]=null;
-				return built
-			}();
-			const opt_45props=built["opt-props"]=()=>{
-				const built={};
-				const args=built.args=null;
-				const _default=built.default=Function;
-				const allow_45null_63=built["allow-null?"]=Boolean;
-				const wrap=built.wrap=Function;
-				return _ms.setName(built,"opt-props")
-			}();
-			const extensible=built.extensible=true;
-			const defaults=built.defaults=()=>{
-				const built={};
-				const name=built.name=function name(){
-					throw _ms.error(`Must provide name.`)
+				const allow_45null_63=built["allow-null?"]=true;
+				const _default=built.default=function _default(){
+					return `default`
 				};
-				const impl_45symbol=built["impl-symbol"]=function impl_45symbol(_){
-					return `impl-${_ms.show(_.name)}`
-				};
+				return _ms.setName(built,"m")
+			}());
+			impl_33(m,String,()=>{
+				return `String`
+			});
+			impl_45double_33(m,Number,Number,()=>{
+				return `Number Number`
+			});
+			impl_45double_33(m,Number,String,()=>{
+				return `Number String`
+			});
+			_ms.unlazy(assert_45call_33)(m,()=>{
+				const built=new (global.Map)();
+				_ms.assoc(built,[null],`default`);
+				_ms.assoc(built,[`a`],`String`);
+				_ms.assoc(built,[1,1],`Number Number`);
+				_ms.assoc(built,[1,`a`],`Number String`);
 				return built
-			}();
-			const make_45callable=built["make-callable"]=make_45callable_45method;
-			return _ms.setName(built,"Method")
-		}());
+			}());
+			_ms.assert(_ms.unlazy(fails_63),()=>{
+				return m(1,m)
+			});
+			_ms.assert(_ms.unlazy(_61_63),`wrap-call-arg`,()=>{
+				const wrap_45method=new (Method)(()=>{
+					const built={};
+					const _default=built.default=function _default(){
+						const _this=this;
+						return `call-${_ms.show(_this)}`
+					};
+					const wrap=built.wrap=function wrap(impl,arg){
+						return `wrap-${_ms.show(impl.call(arg))}`
+					};
+					return _ms.setName(built,"wrap-method")
+				}());
+				return wrap_45method(`arg`)
+			}())
+		});
 		const impl_33=exports["impl!"]=function impl_33(method,implementor,implementation){
 			_ms.checkContains(Method,method,"method");
 			_ms.checkContains(_ms.unlazy(Impl_45Type),implementor,"implementor");
@@ -182,15 +179,7 @@ define(["exports","esast/dist/mangle-identifier","../js","../private/bootstrap",
 			_ms.checkContains(Function,implementation,"implementation");
 			const dispatcher=()=>{
 				if(_ms.bool(writable_63(implementor_450.prototype,method["impl-symbol"]))){
-					const m=method;
-					const dd=Double_45Dispatcher(()=>{
-						const built={};
-						const name=built.name=`<double dispatcher>`;
-						const method=built.method=m;
-						const first_45type=built["first-type"]=implementor_450;
-						const impl_45symbol=built["impl-symbol"]=Symbol(`<double dispatcher>`);
-						return built
-					}());
+					const dd=new (Double_45Dispatcher)(method);
 					do_45impl_33(method,implementor_450,dd);
 					return dd
 				} else {
@@ -216,7 +205,7 @@ define(["exports","esast/dist/mangle-identifier","../js","../private/bootstrap",
 			const built={};
 			const doc=built.doc=`Implementation of a method for a particular Impl-Type.\nDoes not reference method.default or impls on super-types.\nEmpty if the type would use method.default.`;
 			const test=built.test=function test(){
-				const built=new global.Map();
+				const built=new (global.Map)();
 				_ms.assoc(built,[contains_63,Method],_ms.unlazy(_63)(method_45contains_63));
 				_ms.assoc(built,[_ms.unlazy(_61_63),Method],_ms.unlazy(empty)(_ms.unlazy(_63)));
 				return built
@@ -234,7 +223,7 @@ define(["exports","esast/dist/mangle-identifier","../js","../private/bootstrap",
 			const built={};
 			const doc=built.doc=`impl-for that fails when there is no implementation.`;
 			const test=built.test=function test(){
-				const built=new global.Map();
+				const built=new (global.Map)();
 				_ms.assoc(built,[contains_63,Method],method_45contains_63);
 				return built
 			};
@@ -292,33 +281,31 @@ define(["exports","esast/dist/mangle-identifier","../js","../private/bootstrap",
 				}
 			}
 		};
-		const Double_45Dispatcher=Obj_45Type(()=>{
+		const Double_45Dispatcher=class Double_45Dispatcher extends Function{
+			constructor(method){
+				const impl_45symbol=Symbol(`${_ms.show(method.name)}_double_dispatch`);
+				const secret_45name=`__double_dispatch_${_ms.show(random_45digits())}`;
+				pAdd(global,secret_45name,impl_45symbol);
+				const src=`target2 = arguments[0]\nif (target2 === undefined)\n\tthrow new Error("Can't double-dispatch ${_ms.show(method.name)} for undefined.")\nimpl = target2[global.${_ms.show(secret_45name)}]\nif (impl === undefined)\n\tthrow new Error(\`Can't double-dispatch ${_ms.show(method.name)} for $\{this} on $\{target2}.\`)\nreturn impl.apply(this, arguments)`;
+				super(src);
+				_ms.newProperty(this,"method",method);
+				_ms.newProperty(this,"impl-symbol",impl_45symbol);
+				Object.defineProperty(this,`name`,()=>{
+					const built={};
+					const value=built.value=`${_ms.show(method.name)}__double-dispatcher`;
+					return built
+				}())
+			}
+		};
+		const contains_63=new (Method)(()=>{
 			const built={};
-			const props=built.props=()=>{
-				const built={};
-				const name=built.name=String;
-				const method=built.method=Method;
-				const first_45type=built["first-type"]=null;
-				const impl_45symbol=built["impl-symbol"]=Symbol;
+			const doc=built.doc=`Whether some collection of things as as an element \`instance\`."`;
+			const args=built.args=()=>{
+				const built=[];
+				_ms.add(built,`type`);
+				_ms.add(built,`instance`);
 				return built
 			}();
-			const make_45callable=built["make-callable"]=function make_45callable(_){
-				return function(){
-					const _this=this;
-					const args=[].slice.call(arguments,0);
-					const target_452=js_45sub(args,0);
-					if(! _ms.bool(defined_63(target_452)))throw _ms.error(`Can't double-dispatch ${_ms.show(_.method)} for undefined.`);
-					const impl=js_45sub(target_452,_["impl-symbol"]);
-					if(! _ms.bool(defined_63(impl)))throw _ms.error(`Can't double-dispatch ${_ms.show(_.method)} for ${_ms.show(_["first-type"])} on ${_ms.show(target_452)}.`);
-					_ms.assert(contains_63,Function,impl);
-					return Function.prototype.apply.call(impl,_this,args)
-				}
-			};
-			return _ms.setName(built,"Double-Dispatcher")
-		}());
-		const contains_63=Method(()=>{
-			const built={};
-			const doc=built.doc=`|:Boolean collection value\nWhether some collection of things as as an element \`value\`."`;
 			const impl_45symbol=built["impl-symbol"]=containsImplSymbol;
 			return _ms.setName(built,"contains?")
 		}());
@@ -332,4 +319,4 @@ define(["exports","esast/dist/mangle-identifier","../js","../private/bootstrap",
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL01ldGhvZC5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7OztFQWtCQSxjQUFTLGlCQUFBLEVBQ0M7VUFBVCxDQUFJLFdBQVEsSUFBRTtFQUFBO0VBRWYsbUJBQWMsc0JBQUEsT0FDTTtVQUFuQixTQUFVLFFBQ0k7SUFBYixvQkFBWSxXQUFTO0lBQ3JCO0tBQ0MsWUFBQSxlQUNTO2FBQVI7T0FBb0IsUUFBQTtPQUNuQix5QkFBQyxPQUFELElBQ3NEO2VBQXJEO09BQUEsT0FDRCx5QkFBQyxNQUFELElBQzZDO2VBQTVDOzs7WUFFQzthQUFGOzs7SUFFSDtLQUNDLFlBQUEsWUFBTSxtQkFBaUIsSUFDQzthQUF0QjtZQUVFO2FBQUYsY0FBRzs7O0lBRU4sT0FBTSw0QkFBaUIsb0JBQWtCLDBCQUFjO0lBRXZEO0tBQVksUUFBQTtLQUNYLFlBQUEsWUFBTyxZQUFVLEdBQUksV0FDdUI7YUFBMUMsZUFBSztZQUNQLHlCQUFDLE9BQUQsSUFDTzthQUFMOzs7SUFFSCxpQkFBVyxXQUFTO0lBQ3BCLGNBQVEsV0FBUztJQUNqQixzQkFBYyxRQUFNO0lBRXBCLEdBQUksZ0JBQ1c7S0FBTixjQUFBLDRCQUFpQjs7SUFDMUIsR0FBSSxXQUNRO0tBQVg7TUFDQyxZQUFBLGlCQUNXO2NBQVQseUJBQWM7YUFFWjtjQUNGLFlBQUM7OztLQUNKO01BQ0MsWUFBQSxTQUNLO2NBQUgsZ0JBQUs7YUFFSDtjQUFGLGdCQUFLOzs7O0lBRVQ7S0FDQyxZQUFBLFNBQ0s7O09BQ0gsWUFBQSxlQUNTO2VBQVAsd0JBQWEsa0JBQU87Y0FFbEI7ZUFDRiwrREFDc0IsNkNBQ0EsZ0RBQ0EsbURBQ0E7OztZQUl0Qjs7T0FDRixZQUFBLGVBQ1M7ZUFBUCxtQkFBUSxrQkFBTztjQUViO2VBQ0YsMERBQ2lCLHNDQUNBLHVDQUNBLHlDQUNBOzs7OztXQUl0QixPQUFNOzs7RUFFUiwrQkFBd0Isa0NBQUEs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
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL01ldGhvZC5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7OztFQWlCQSxjQUFTLGlCQUFBLEVBQ0M7VUFBVCxDQUFJLFdBQVEsSUFBRTtFQUFBO0VBRWYsc0JBQ2lCLDBCQUFBO1VBQWhCLCtCQUErQjtFQUFBO0VBRWhDLGFBQWMscUJBQUE7ZUFDRixPQUNNO0lBQWhCLFdBQU87SUFDQyxjQUFBLFdBQVMsdUJBQWE7SUFFOUIsaUJBQVcsV0FBUztJQUNwQixjQUFRLFdBQVM7SUFDakIsc0JBQWMsUUFBTTtJQUNaLGNBQUEsQ0FBSSxFQUFJLGlCQUFhLDZCQUFpQjtJQUU5QyxvQkFBZSxxQkFBVSxrQkFBTztJQUVoQztLQUFtQixRQUFBO0tBQ2xCLFlBQUEsV0FBUSxJQUNDO2FBQVI7S0FBQSxPQUVHO2FBQUgsT0FBTztLQUFBO0lBQUE7SUFFVCxvQkFBWSxXQUFTO0lBQ3JCO0tBQWdCLFFBQUE7S0FDZixZQUFBLFlBQU0sWUFBUyxHQUFHLFdBQ087YUFBeEI7S0FBQSxPQUNELFlBQUEsZ0JBQWMsRUFBRSxRQUNLO2FBQXBCO1lBQ0QsWUFBQSxFQUFJLFdBQVEsSUFDQzthQUFaOzs7SUFFRixVQUFNLFNBQVUsUUFDSTtLQUFuQixzQkFBaUIsb0JBQVUsdUJBQXVCO0tBRWxEO01BQVksUUFBQTtNQUNYLFlBQUEsWUFBTSxZQUFTLEdBQUcsV0FDTztjQUF2QixjQUFHO2FBQ0wseUJBQUMsT0FBRCxJQUNPO2NBQUwsZUFBSyx1QkFBc0I7OztLQUU5QixHQUFJLFdBQ1E7TUFBWDtPQUNDLFlBQUEsaUJBQ1c7ZUFBVCx5QkFBYztjQUVaO2VBQ0YsWUFBQzs7O01BQ0o7T0FDQyxZQUFBLFNBQ0s7ZUFBSCxZQUFDLCtDQUFrQztjQUVqQztlQUFGLFlBQUM7OztNQUNKLE9BQU0sZ0JBQUssMEJBQWU7O0tBRTNCLFdBQVEsWUFBQztZQUVUO01BQ0MsWUFBQSxlQUNTO09B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

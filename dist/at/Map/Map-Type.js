@@ -20,9 +20,9 @@ define(["exports","../../Type/Kind","../../Type/Method","../at","../at-Type","./
 		impl_33(from_45stream,Map_45Type,()=>{
 			const built={};
 			const test=built.test=function test(){
-				const built=new global.Map();
+				const built=new (global.Map)();
 				const m=()=>{
-					const built=new global.Map();
+					const built=new (global.Map)();
 					_ms.assoc(built,1,2);
 					_ms.assoc(built,3,4);
 					return built

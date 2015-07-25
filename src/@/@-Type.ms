@@ -14,12 +14,12 @@ use-debug
 impl! sub @-Type .|
 	this
 
-empty. Method
+empty. new Method
 	doc. "
 		Given a type, makes an instance which is `empty?`.
 		Should always return the same thing iff immutable.
 
-from-stream. Method
+from-stream. new Method
 	doc. "
 		|_ stream:@
 		Creates a new value of this type by reading out from an @'s iterator.

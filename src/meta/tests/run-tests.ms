@@ -41,7 +41,7 @@ test. !|
 		@$maybe-test "obj" obj true
 
 # TODO: Better name (but not `test`, because that's a common module property)
-test-special. Method
+test-special. new Method
 	doc. "
 		Something special to do with this value when the test runner reacher it.
 		May return a $.

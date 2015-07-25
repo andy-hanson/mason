@@ -26,7 +26,7 @@ define(["exports","../../at/at","../../at/Seq/Deque","../../at/Seq/Seq","../../c
 			const built={};
 			const doc=built.doc=`http://rosettacode.org/wiki/Universal_Turing_machine`;
 			const test=built.test=function test(){
-				const built=new global.Map();
+				const built=new (global.Map)();
 				const incrementer=()=>{
 					const built={};
 					const init_45state=built["init-state"]=`a`;
@@ -34,7 +34,7 @@ define(["exports","../../at/at","../../at/Seq/Deque","../../at/Seq/Seq","../../c
 					const rules=built.rules=()=>{
 						const built={};
 						const a=built.a=()=>{
-							const built=new global.Map();
+							const built=new (global.Map)();
 							_ms.assoc(built,1,R(1,`a`));
 							_ms.assoc(built,0,fin);
 							return built
@@ -51,19 +51,19 @@ define(["exports","../../at/at","../../at/Seq/Deque","../../at/Seq/Seq","../../c
 					const rules=built.rules=()=>{
 						const built={};
 						const a=built.a=()=>{
-							const built=new global.Map();
+							const built=new (global.Map)();
 							_ms.assoc(built,0,R(1,`b`));
 							_ms.assoc(built,1,L(1,`c`));
 							return built
 						}();
 						const b=built.b=()=>{
-							const built=new global.Map();
+							const built=new (global.Map)();
 							_ms.assoc(built,0,L(1,`a`));
 							_ms.assoc(built,1,R(1,`b`));
 							return built
 						}();
 						const c=built.c=()=>{
-							const built=new global.Map();
+							const built=new (global.Map)();
 							_ms.assoc(built,0,L(1,`b`));
 							_ms.assoc(built,1,fin);
 							return built
@@ -80,35 +80,35 @@ define(["exports","../../at/at","../../at/Seq/Deque","../../at/Seq/Seq","../../c
 					const rules=built.rules=()=>{
 						const built={};
 						const a=built.a=()=>{
-							const built=new global.Map();
+							const built=new (global.Map)();
 							_ms.assoc(built,0,L(0,`e`));
 							_ms.assoc(built,1,R(1,`a`));
 							_ms.assoc(built,2,R(3,`b`));
 							return built
 						}();
 						const b=built.b=()=>{
-							const built=new global.Map();
+							const built=new (global.Map)();
 							_ms.assoc(built,0,L(0,`c`));
 							_ms.assoc(built,1,R(1,`b`));
 							_ms.assoc(built,2,R(2,`b`));
 							return built
 						}();
 						const c=built.c=()=>{
-							const built=new global.Map();
+							const built=new (global.Map)();
 							_ms.assoc(built,1,L(2,`d`));
 							_ms.assoc(built,2,L(2,`c`));
 							_ms.assoc(built,3,L(2,`e`));
 							return built
 						}();
 						const d=built.d=()=>{
-							const built=new global.Map();
+							const built=new (global.Map)();
 							_ms.assoc(built,1,L(1,`d`));
 							_ms.assoc(built,2,L(2,`d`));
 							_ms.assoc(built,3,R(1,`a`));
 							return built
 						}();
 						const e=built.e=()=>{
-							const built=new global.Map();
+							const built=new (global.Map)();
 							_ms.assoc(built,0,fin);
 							_ms.assoc(built,1,L(1,`e`));
 							return built

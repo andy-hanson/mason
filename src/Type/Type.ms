@@ -23,7 +23,7 @@ impl! =? Type .|other
 # Made by Method.ms.
 contains?. ms.contains
 
-extract. Method
+extract. new Method
 	doc. "
 		Given a type and arbitrary value:
 			If the value is of the type, return an array of sub-values.
@@ -59,7 +59,7 @@ msDef "checkContains" |type value name
 	assert! contains? type value throw! "{name} is no {type}, is a {type-of value}: {value}"
 	value
 
-=>. Method
+=>. new Method
 	doc. "
 		TODO: Don't take additional args...
 		|convert-to:Type convert-me (may take additional args)
@@ -82,4 +82,3 @@ type-of.
 
 region We make some things Types here due to bootstrapping order issues.
 	kind! Impl-Type Type
-	kind! Method Type
