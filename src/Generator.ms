@@ -3,7 +3,7 @@ use
 	.Type.Method
 	.Type.Pred-Type
 
-Generator. Pred-Type
+Generator. new Pred-Type
 	doc. "
 		A block of code which yields values and receives responses from a context.
 		Also known as a coroutine.

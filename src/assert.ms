@@ -7,7 +7,6 @@ use~
 	.Function Pred
 	.show repr
 	.String indent
-	.Type.Pred-Type Any
 	.Type.Type =>
 use-debug
 	.compare same?
@@ -36,14 +35,14 @@ assert-call!.
 		assert! fails-with? nope !|
 			assert-call! +
 				[ 1 1 ] -> 3
-	!|fun:Function args->result:Map[Array Any]
+	!|fun:Function args->result:Map # TODO: Map[Array Any]
 		assert-call-with! =? fun args->result
 
 assert-this-call!.
 	doc. "TODO"
 	test. !|
 		pass # TODO
-	!|fun:Function args->result:Map[Array Any]
+	!|fun:Function args->result:Map # TODO: Map[Array Any]
 		for! args->result
 			# TODO:SYNTAX Array destructure
 			args:@ = _[0]
@@ -62,7 +61,7 @@ assert-call-with!.
 	test. !|
 		assert-call-with! same?[show] +
 			[ 1 2 ] -> "3"
-	!|equal?:Pred fun:Function args->result:Map[Array Any]
+	!|equal?:Pred fun:Function args->result:Map # TODO: Map[Array Any]
 		for! args->result
 			# TODO:SYNTAX Array destructure
 			args:@ = _[0]

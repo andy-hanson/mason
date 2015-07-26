@@ -129,8 +129,6 @@ const reserved_words = [
 	'abstract',
 	'as',
 	'data',
-	'do',
-	'do!',
 	'final',
 	'gen',
 	'gen!',
@@ -169,6 +167,7 @@ export const
 	KW_Continue = kw('continue!'),
 	KW_Debug = kw('debug'),
 	KW_Debugger = kw('debugger!'),
+	KW_Do = kw('do!'),
 	// Three dots followed by a space, as in `... things-added-to-@`.
 	KW_Ellipsis = kw('... '),
 	KW_Else = kw('else'),

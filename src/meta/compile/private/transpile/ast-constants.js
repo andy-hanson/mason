@@ -44,6 +44,5 @@ export const
 			NewExpression(member(Identifier('global'), 'Map'), [ ])) ]),
 	DeclareBuiltObj = VariableDeclaration('const', [
 		VariableDeclarator(IdBuilt, ObjectExpression([ ])) ]),
-
 	ExportsDefault = member(IdExports, 'default'),
 	ExportsGet = member(IdExports, '_get')

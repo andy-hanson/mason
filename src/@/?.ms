@@ -2,11 +2,9 @@ use
 	..control opr
 	..js defined? id=?
 	..private.bootstrap msDef
-	..Type.Method impl!
 	..Type.Kind kind! self-kind!
 	..Type.Method self-impl!
 	..Type.Pred-Type
-	..Type.Wrap-Type
 	..Type.Type extract
 	.@ empty? iterator
 	.@-Type _ empty from-stream
@@ -15,50 +13,58 @@ use-debug
 	..compare =?
 	..Try fails?
 
-?. Wrap-Type
-	doc. "
-		A Seq with 0 or 1 elements.
-		TODO: MORE
+?. class
+	# TODO: class attributes
+	# doc. "
+	#	A Seq with 0 or 1 elements.
+	#	TODO: MORE
+
+	do!
+		self-kind! _ @-Type
+		kind! _ Seq
+
+	static
+		empty |
+			?None
+
+		from-stream |_
+			iter = iterator_
+			value done = iter.next()
+			case
+				done
+					?None
+				else
+					?some value
+
+	# TODO: `data val`
+	construct! val
+		.val = val
+
+	empty? |
+		id=? this ?None
+
+	iterator ~!|
+		unless! empty? this
+			<~ .val
+
 
 empty-marker =
 	doc. "`_.val` on an empty `?` will return this."
-empty-? =
-	? empty-marker
 
-msDef "some" ?
-msDef "None" empty-?
+?None. new ? empty-marker
+?some. |_
+	new ? _
 
-region Is Seq
-	self-kind! ? @-Type
-
-	self-impl! from-stream ? |stream
-		iter = iterator stream
-		value done = iter.next()
-		case
-			done
-				empty-?
-			else
-				? value
-
-	self-impl! empty ? |
-		empty-?
-
-	kind! ? Seq
-
-	impl! empty? ? .|
-		id=? this empty-?
-
-	impl! iterator ? .~!|
-		unless! empty? this
-			<~ .val
+msDef "some" ?some
+msDef "None" ?None
 
 region Functions
 	Opt->?.
 		doc. "`?` containing the value iff it is defined."
 		test. |
-			[ 0 ] -> ? 0
-			[ null ] -> ? null
-			[ undefined ] -> empty ?
+			[ 0 ] -> ?some 0
+			[ null ] -> ?some null
+			[ undefined ] -> ?None
 		|_
 			# TODO: `if-test defined? _` ?
 			if defined?_
@@ -67,8 +73,8 @@ region Functions
 	?->Opt.
 		doc. "Extracts the value from a `?`, or returns undefined."
 		test. |
-			[ (? 0) ] -> 0
-			forbid! defined? (?->Opt (empty ?
+			[ (?some 0) ] -> 0
+			forbid! defined? (?->Opt ?None)
 		|_:?
 			case
 				empty?_
@@ -80,9 +86,9 @@ region Functions
 	un-?.
 		doc. "Tries to extract the value out of a `?`. Throws an error if it is empty."
 		test. |
-			[ (? 1) ] -> 1
+			[ (?some 1) ] -> 1
 			assert! fails? |
-				un-? (empty ?)
+				un-? ?None
 		|_:? ~fail-message
 			forbid! empty?_ throw! opr fail-message "Tried to force empty `?`."
 			_.val
@@ -90,8 +96,8 @@ region Functions
 	?-or.
 		doc. "If empty, defaults to `or` - else returns its value."
 		test. |
-			[ (empty ?) 1 ] -> 1
-			[ (? 1) 2 ] -> 1
+			[ ?None 1 ] -> 1
+			[ (?some 1) 2 ] -> 1
 		|_:? ~or-else
 			case
 				empty?_
@@ -99,13 +105,13 @@ region Functions
 				else
 					_.val
 
-Some. Pred-Type
+Some. new Pred-Type
 	doc. "TODO"
 	predicate. |_
 		and :? (not empty?_
 	# TODO: Move to test of self-impl!
 	test. !|
-		case! ? 1
+		case! ?some 1
 			:Some val
 				assert! =? val 1
 

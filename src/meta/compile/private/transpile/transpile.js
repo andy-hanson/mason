@@ -192,7 +192,18 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 			opMap(this.opConstructor, constructorDefinition),
 			this.methods.map(methodDefinition(false)))
 		const opName = opMap(this.opName, idCached)
-		return ClassExpression(opName, opMap(this.superClass, t0), ClassBody(methods))
+		const classExpr = ClassExpression(opName, opMap(this.superClass, t0), ClassBody(methods))
+
+		return ifElse(this.opDo, _ => t1(_, classExpr), () => classExpr)
+	},
+
+	//neater?
+	ClassDo(classExpr) {
+		const lead = VariableDeclaration('const', [
+			VariableDeclarator(t0(this.declareFocus), classExpr) ])
+		const ret = ReturnStatement(t0(this.declareFocus))
+		const block = t3(this.block, lead, null, ret)
+		return blockWrap(block)
 	},
 
 	ConditionalDo() {

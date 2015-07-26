@@ -1,38 +1,76 @@
 use
 	...compare <? <=?
 	...control opr
-	...Function noop thunk
+	...Function thunk
 	...math.Number Nat round-down sign
 	...math.methods + - * /
 	...Type.Kind kind! self-kind!
-	...Type.Method impl! self-impl!
+	...Type.Method self-impl!
 	...Type.Pred-Type Opt
-	...Type.Tuple
 	..@ _ count iterator
 	..@-Type _ empty from-stream
 	.Seq ?nth
-use-debug
-	...compare =?
+use~ # TODO: use-debug
 	...math.Number infinity
-	..?
 	.Seq seq=? take'
 
-Range. Tuple
-	doc. "Seq of Numbers taking fixed steps."
-	props.
-		. [ "start" Number
-		. [ "end" Number
-		. [ "step" Number
-	post-construct. !|_
-		in
-			assert! =? (sign _.step) (sign (- _.end _.start
-		noop _
-	test. !|
-		assert! seq=? [ 0 1 2 ] (take' (range 0 infinity) 3
+Range. class
+	do!
+		self-kind! _ @-Type
+		# TODO
+		self-impl! empty _ (thunk (new _ 0 0))
+		kind! _ @
 
+	static
+		from-stream |_
+			# We can't build a Range out of arbitrary elements...
+			# TODO: impl-for from-stream Array
+			_
+
+	# TODO: class attributes
+	# doc. "Seq of Numbers taking fixed steps."
+	construct! start end step
+		.start = start
+		.end = end
+		.step = opr step (sign (- end start))
+
+	iterator ~!|
+		# TODO
+		# test. !|
+		# 	assert! seq=? (range 0 10 2) [ 0 2 4 6 8 ]
+		cur ::= .start
+		for!
+			if! <=? .end cur
+				break!
+			<~ cur
+			cur := + cur .step
+
+	?nth |n:Nat
+		# TODO
+		# test. |
+		#	r = range 0 10 2
+		#	[ r 2 ] -> ?some 4
+		#	[ r 6 ] -> ?None
+
+		# TODO: Function if-test ?
+		it = + .start (* .step n)
+		if <? it .end
+			it
+
+	count |
+		# TODO
+		# test. |
+		#	[ (range 0 2 0.5) ] -> 4
+		round-down (/ (length this) .step)
+
+
+# TODO: class attributes
+Range.test = !|
+	assert! seq=? [ 0 1 2 ] (take' (range 0 infinity) 3
+
+# TODO:KILL
 range. |start:Number end:Number step:Opt[Number]
-	step := opr step (sign (- end start
-	Range start end step
+	new Range start end step
 
 range-incl.
 	doc. "TODO"
@@ -42,12 +80,6 @@ range-incl.
 		step := opr step (sign (- end start
 		range start (+ end step) step
 
-self-kind! Range @-Type
-self-impl! empty Range (thunk (range 0 0))
-self-impl! from-stream Range |_
-	# We can't build a Range out of arbitrary elements...
-	# TODO: impl-for from-stream Array
-	_
 
 length.
 	doc. "Difference between and and start values."
@@ -57,32 +89,3 @@ length.
 	|_:Range
 		- _.end _.start
 
-impl! iterator Range
-	test. !|
-		assert! seq=? (range 0 10 2) [ 0 2 4 6 8 ]
-	.~!|
-		cur ::= .start
-		for!
-			if! <=? .end cur
-				break!
-			<~ cur
-			cur := + cur .step
-
-kind! Range @
-# TODO: Restore test when impl!
-impl! ?nth Range
-	test. |
-		r = range 0 10 2
-		[ r 2 ] -> ? 4
-		[ r 6 ] -> empty ?
-	.|n:Nat
-		# TODO: Function if-test ?
-		it = + .start (* .step n)
-		if <? it .end
-			it
-
-impl! count Range
-	test. |
-		[ (range 0 2 0.5) ] -> 4
-	.|
-		round-down (/ (length this) .step)

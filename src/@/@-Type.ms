@@ -2,13 +2,13 @@ use
 	..control returning
 	..methods sub
 	..Type.Kind _ self-kind!
-	..Type.Method _ impl! self-impl!
+	..Type.Method _ impl!
 	..Type.Type =>
 	.@ _ ++!
 use-debug
-	.Seq.Range range
+	.Seq.Range
 
-@-Type. Kind
+@-Type. new Kind
 	doc. "Any sub-type of @."
 
 impl! sub @-Type .|
@@ -24,7 +24,7 @@ from-stream. new Method
 		|_ stream:@
 		Creates a new value of this type by reading out from an @'s iterator.
 	test. |
-		[ Array (range 0 5) ] -> [ 0 1 2 3 4 ]
+		[ Array (new Range 0 5) ] -> [ 0 1 2 3 4 ]
 	args. [ "type" "stream" ]
 	default. .|stream
 		returning (empty this) !|_
@@ -32,8 +32,8 @@ from-stream. new Method
 
 # TODO: Do this in @.ms
 self-kind! @ @-Type
-self-impl! empty @ |
-	[ ]
+# self-impl! empty @ |
+#	[ ]
 
 impl! => @-Type .|stream
 	from-stream this stream

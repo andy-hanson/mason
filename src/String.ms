@@ -7,7 +7,7 @@ use
 use~
 	.@.@ count
 
-String-Test. Kind
+String-Test. new Kind
 	doc. "Something we can compare a String to."
 	implementors. [ String RegExp ]
 
@@ -18,7 +18,7 @@ String-Test. Kind
 	|_:String
 		_.toUpperCase()
 
-Char. Pred-Type
+Char. new Pred-Type
 	doc. "Any String with only one character."
 	predicate. |_
 		and :String (=? count_ 1

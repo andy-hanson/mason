@@ -3,7 +3,7 @@ use
 	...@.Map.Map assoc! un-assoc!
 	...@.Map.Id-Map
 	...@.Map.multi-map add-to-@!
-	...@.Seq.Range range
+	...@.Seq.Range
 	...@.Seq.Stream
 	...math.Number infinity square
 	...math.methods + *
@@ -18,16 +18,16 @@ primes.
 	doc. "Infinite Seq of Numbers > 2, each divisible only by itself and one."
 	test. !|
 		is-prime? = |_
-			not any? (range 2 _) divisible?[_]
+			not any? (new Range 2 _) divisible?[_]
 		for! take primes 20
 			assert! is-prime? _
-	Stream ~!|
+	new Stream ~!|
 		<~ 2
 		<~ 3
 		# Maps a composite number to its prime factors.
 		prime-factors = => Id-Map
 			9 -> [ 3 ]
-		for! candidate in range 5 infinity 2
+		for! candidate in new Range 5 infinity 2
 			# un-assoc! is to save memory - we won't need to look up this value any more.
 			case! un-assoc! prime-factors candidate
 				:Some factors

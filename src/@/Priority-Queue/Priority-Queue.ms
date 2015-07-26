@@ -1,27 +1,35 @@
 use
 	...Type.Kind _ kind!
-	...Type.Method
+	...Type.Method _ self-impl!
 	..@
+	..@-Type empty
 	..?
+use~
+	.Heap-Priority-Queue
 use-debug
 	...compare =?
 	..@ ++! empty?
-	..@-Type empty
+	..? ?None ?some
 
-Priority-Queue. Kind
+Priority-Queue. new Kind
 	doc. "
 		@ whose first item will always be the smallest.
 		Iteration order has no other guaranees,
 		but repeatedly calling ?pop! will give the values from least to greatest.
-	implementor-test. !|type
+
+	implmentor-test. !|type
 		_ = empty type
 		++! _ [ 3 1 2 ]
-		assert! =? (? 1) ?pop!_
-		assert! =? (? 2) ?pop!_
-		assert! =? (? 3) ?pop!_
+		assert! =? (?some 1) ?pop!_
+		assert! =? (?some 2) ?pop!_
+		assert! =? (?some 3) ?pop!_
 		assert! empty? _
+		assert! =? ?None ?pop!_
 
 kind! Priority-Queue @
+
+self-impl! empty Priority-Queue |
+	empty Heap-Priority-Queue
 
 # TODO: Move?
 ?pop!. new Method

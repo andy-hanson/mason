@@ -1,36 +1,37 @@
 use
 	..methods sub
 	.Kind kind!
-	.Method impl!
-	.Obj-Type
 	.Type _ contains?
-use-debug
-	..@.?
+use~ # TODO: use-debug
 	..compare =?
 
-Alias-Type. Obj-Type
-	doc. "Contains the same instances as another type (officially), but has its own meaning and identity."
-	test. !|
-		A = Alias-Type
-			alias-of. String
-		assert! contains? A "0"
-		forbid! =? A String
-	props.
-		name. String
-		alias-of. Type
-	extensible. true
+Alias-Type. class
+	# TODO: class attributes
+	# doc. "Contains the same instances as another type (officially), but has its own meaning and identity."
 
-kind! Alias-Type Type
+	do!
+		kind! _ Type
 
-# TODO: impl-delegate!
-impl! contains? Alias-Type .|value
-	contains? .alias-of value
+	# TODO: data-extensible name:String alias-of:Type
+	construct! params
+		Object.assign this params
+		assert! .name:String
+		assert! .alias-of:Type
 
-# TODO: impl-delegate!
-impl! sub Alias-Type
-	test. |
-		?2 = Alias-Type
-			alias-of. ?
-		[ ?2 String ] -> ?[String]
-	.|...args
+	contains? |value
+		contains? .alias-of value
+
+	sub |...args
+		# TODO
+		# test. |
+		#	?2 = Alias-Type
+		#		alias-of. ?
+		#	[ ?2 String ] -> ?[String]
 		sub .alias-of ...args
+
+# TODO: class attributes
+Alias-Type.test = !|
+	A = new Alias-Type
+		alias-of. String
+	assert! contains? A "0"
+	forbid! =? A String

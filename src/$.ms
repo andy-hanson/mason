@@ -109,7 +109,7 @@ $all.
 		assert! =? [ 1 2 ] (<~ ($all [ ($resolved 1) ($resolved 2
 		all-rejected = $all [ ($rejected "a") ($rejected "b") ]
 		assert! =? "a" (<~ $try all-rejected).message
-	|:$[Array] _:@[$]
+	|:$[Array] _:@ # TODO: @[$]
 		$.all (=> Array _
 
 $map.

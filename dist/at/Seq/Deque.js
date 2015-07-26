@@ -1,24 +1,101 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","../../compare","../../math/Number","../../math/methods","../../methods","../../Type/Kind","../../Type/Method","../../Type/Pred-Type","../../Type/Tuple","../at","../at-Type","../q","./Range","./Seq"],(exports,compare_0,Number_1,methods_2,methods_3,Kind_4,Method_5,Pred_45Type_6,Tuple_7,_64_8,_64_45Type_9,_63_10,Range_11,Seq_12)=>{
+define(["exports","../../compare","../../math/Number","../../math/methods","../../methods","../../Type/Kind","../../Type/Pred-Type","../at","../at-Type","../q","./Range","./Seq"],(exports,compare_0,Number_1,methods_2,methods_3,Kind_4,Pred_45Type_5,_64_6,_64_45Type_7,_63_8,Range_9,Seq_10)=>{
 	exports._get=_ms.lazy(()=>{
-		const _$2=_ms.getModule(compare_0),_61_63=_ms.get(_$2,"=?"),_60_63=_ms.get(_$2,"<?"),_$3=_ms.getModule(Number_1),modulo=_ms.get(_$3,"modulo"),Nat=_ms.get(_$3,"Nat"),_$4=_ms.getModule(methods_2),_43=_ms.get(_$4,"+"),_45=_ms.get(_$4,"-"),_42=_ms.get(_$4,"*"),_$5=_ms.getModule(methods_3),sub=_ms.get(_$5,"sub"),_$6=_ms.getModule(Kind_4),kind_33=_ms.get(_$6,"kind!"),self_45kind_33=_ms.get(_$6,"self-kind!"),_$7=_ms.getModule(Method_5),impl_33=_ms.get(_$7,"impl!"),self_45impl_33=_ms.get(_$7,"self-impl!"),_$8=_ms.getModule(Pred_45Type_6),Any=_ms.get(_$8,"Any"),Tuple=_ms.getDefaultExport(Tuple_7),_64=_ms.getDefaultExport(_64_8),_$10=_ms.getModule(_64_8),_43_43_39=_ms.get(_$10,"++'"),count=_ms.get(_$10,"count"),empty_33=_ms.get(_$10,"empty!"),empty_63=_ms.get(_$10,"empty?"),iterator=_ms.get(_$10,"iterator"),map=_ms.get(_$10,"map"),_64_45Type=_ms.getDefaultExport(_64_45Type_9),_$11=_ms.getModule(_64_45Type_9),empty=_ms.get(_$11,"empty"),_$12=_ms.getModule(_63_10),un_45_63=_ms.get(_$12,"un-?"),_$13=_ms.getModule(Range_11),range=_ms.get(_$13,"range"),Seq=_ms.getDefaultExport(Seq_12),_$14=_ms.getModule(Seq_12),_60_43_43_33=_ms.get(_$14,"<++!"),_43_43_62_33=_ms.get(_$14,"++>!"),_63nth=_ms.get(_$14,"?nth"),_63_60pop_33=_ms.get(_$14,"?<pop!"),_63pop_62_33=_ms.get(_$14,"?pop>!"),reverse=_ms.get(_$14,"reverse"),set_45nth_33=_ms.get(_$14,"set-nth!");
-		const Deque=Tuple(()=>{
-			const built={};
-			const doc=built.doc=`Seq that can efficiently add values on either side.`;
-			const props=built.props=()=>{
-				const built=[];
-				_ms.add(built,[`data!`,Array]);
-				_ms.add(built,[`start-index!`,Nat]);
-				_ms.add(built,[`end-index!`,Nat]);
-				return built
-			}();
-			return _ms.setName(built,"Deque")
-		}());
-		self_45kind_33(Deque,_64_45Type);
-		self_45impl_33(empty,Deque,()=>{
-			return Deque(Array(8),0,0)
-		});
+		const _$2=_ms.getModule(compare_0),_61_63=_ms.get(_$2,"=?"),_60_63=_ms.get(_$2,"<?"),_$3=_ms.getModule(Number_1),modulo=_ms.get(_$3,"modulo"),Nat=_ms.get(_$3,"Nat"),_$4=_ms.getModule(methods_2),_43=_ms.get(_$4,"+"),_45=_ms.get(_$4,"-"),_42=_ms.get(_$4,"*"),_$5=_ms.getModule(methods_3),sub=_ms.get(_$5,"sub"),_$6=_ms.getModule(Kind_4),kind_33=_ms.get(_$6,"kind!"),self_45kind_33=_ms.get(_$6,"self-kind!"),_$7=_ms.getModule(Pred_45Type_5),Any=_ms.get(_$7,"Any"),_64=_ms.getDefaultExport(_64_6),_$8=_ms.getModule(_64_6),_43_43_39=_ms.get(_$8,"++'"),count=_ms.get(_$8,"count"),empty_33=_ms.get(_$8,"empty!"),empty_63=_ms.get(_$8,"empty?"),iterator=_ms.get(_$8,"iterator"),map=_ms.get(_$8,"map"),_64_45Type=_ms.getDefaultExport(_64_45Type_7),_$9=_ms.getModule(_64_45Type_7),empty=_ms.get(_$9,"empty"),_$10=_ms.getModule(_63_8),un_45_63=_ms.get(_$10,"un-?"),Range=_ms.getDefaultExport(Range_9),Seq=_ms.getDefaultExport(Seq_10),_$12=_ms.getModule(Seq_10),_60_43_43_33=_ms.get(_$12,"<++!"),_43_43_62_33=_ms.get(_$12,"++>!"),_63nth=_ms.get(_$12,"?nth"),_63_60pop_33=_ms.get(_$12,"?<pop!"),_63pop_62_33=_ms.get(_$12,"?pop>!"),reverse=_ms.get(_$12,"reverse"),set_45nth_33=_ms.get(_$12,"set-nth!");
+		const Deque=()=>{
+			const _=class Deque{
+				static [_ms.symbol(empty)](){
+					const _this=this;
+					return new (_this)()
+				}
+				constructor(){
+					_ms.newMutableProperty(this,"data!",Array(8));
+					_ms.newMutableProperty(this,"start-index!",0);
+					_ms.newMutableProperty(this,"end-index!",0)
+				}
+				*[_ms.symbol(iterator)](){
+					const _this=this;
+					const indices=(yield* function*(){
+						if(_ms.bool(_60_63(_this["end-index!"],_this["start-index!"]))){
+							return _43_43_39(new (Range)(_this["start-index!"],count(_this["data!"])),new (Range)(0,_this["end-index!"]))
+						} else {
+							return new (Range)(_this["start-index!"],_this["end-index!"])
+						}
+					}());
+					for(let _ of indices){
+						(yield _ms.sub(_this["data!"],_))
+					}
+				}
+				[_ms.symbol(_60_43_43_33)](ems){
+					const _this=this;
+					_ms.checkContains(_64,ems,"ems");
+					for(let em of reverse(ems)){
+						const new_45start=prev_45index(_this,_this["start-index!"]);
+						if(_ms.bool(_61_63(new_45start,_this["end-index!"]))){
+							expand_33(_this);
+							_60_43_43_33(_this,[em])
+						} else {
+							_this["start-index!"]=new_45start;
+							set_45nth_33(_this["data!"],_this["start-index!"],em)
+						}
+					}
+				}
+				[_ms.symbol(_43_43_62_33)](ems){
+					const _this=this;
+					_ms.checkContains(_64,ems,"ems");
+					for(let em of ems){
+						const new_45end=next_45index(_this,_this["end-index!"]);
+						if(_ms.bool(_61_63(new_45end,_this["start-index!"]))){
+							expand_33(_this);
+							_43_43_62_33(_this,[em])
+						} else {
+							set_45nth_33(_this["data!"],_this["end-index!"],em);
+							_this["end-index!"]=new_45end
+						}
+					}
+				}
+				[_ms.symbol(_63_60pop_33)](){
+					const _this=this;
+					return _ms.bool(empty_63(_this))?_ms.None:_ms.some(()=>{
+						const x=_ms.sub(_this["data!"],_this["start-index!"]);
+						_this["start-index!"]=next_45index(_this,_this["start-index!"]);
+						return x
+					}())
+				}
+				[_ms.symbol(_63pop_62_33)](){
+					const _this=this;
+					return _ms.bool(empty_63(_this))?_ms.None:_ms.some(()=>{
+						const new_45end=prev_45index(_this,_this["end-index!"]);
+						_this["end-index!"]=new_45end;
+						return _ms.sub(_this["data!"],new_45end)
+					}())
+				}
+				[_ms.symbol(_63nth)](index){
+					const _this=this;
+					_ms.checkContains(Nat,index,"index");
+					return map(_63data_45index(_this,index),_ms.sub(sub,_this["data!"]))
+				}
+				[_ms.symbol(set_45nth_33)](index,set_45to){
+					const _this=this;
+					_ms.checkContains(Nat,index,"index");
+					_ms.checkContains(Any,set_45to,"set-to");
+					const data_45index=un_45_63(_63data_45index(_this,index),_ms.lazy(()=>{
+						return `Can't set at index ${_ms.show(index)}; count is ${_ms.show(count(_this))}`
+					}));
+					set_45nth_33(_this["data!"],data_45index,set_45to)
+				}
+				[_ms.symbol(empty_33)](){
+					const _this=this;
+					empty_33(_this["data!"]);
+					_this["start-index!"]=0;
+					_this["end-index!"]=0
+				}
+			};
+			self_45kind_33(_,_64_45Type);
+			kind_33(_,Seq);
+			return _
+		}();
 		const capacity=function capacity(_){
 			return count(_["data!"])
 		};
@@ -27,7 +104,7 @@ define(["exports","../../compare","../../math/Number","../../math/methods","../.
 			const old_45capacity=capacity(_);
 			const new_45capacity=_42(2,old_45capacity);
 			const new_45data=Array(new_45capacity);
-			for(let index of range(0,old_45capacity)){
+			for(let index of new (Range)(0,old_45capacity)){
 				set_45nth_33(new_45data,index,_ms.sub(old_45data,index))
 			};
 			_["data!"]=new_45data
@@ -59,87 +136,9 @@ define(["exports","../../compare","../../math/Number","../../math/methods","../.
 				}
 			}()
 		};
-		impl_33(iterator,Deque,function*(){
-			const _this=this;
-			const indices=(yield* function*(){
-				if(_ms.bool(_60_63(_this["end-index!"],_this["start-index!"]))){
-					return _43_43_39(range(_this["start-index!"],count(_this["data!"])),range(0,_this["end-index!"]))
-				} else {
-					return range(_this["start-index!"],_this["end-index!"])
-				}
-			}());
-			for(let _ of indices){
-				(yield _ms.sub(_this["data!"],_))
-			}
-		});
-		kind_33(Deque,Seq);
-		impl_33(_60_43_43_33,Deque,function(ems){
-			const _this=this;
-			_ms.checkContains(_64,ems,"ems");
-			for(let em of reverse(ems)){
-				const new_45start=prev_45index(_this,_this["start-index!"]);
-				if(_ms.bool(_61_63(new_45start,_this["end-index!"]))){
-					expand_33(_this);
-					_60_43_43_33(_this,[em])
-				} else {
-					_this["start-index!"]=new_45start;
-					set_45nth_33(_this["data!"],_this["start-index!"],em)
-				}
-			}
-		});
-		impl_33(_43_43_62_33,Deque,function(ems){
-			const _this=this;
-			_ms.checkContains(_64,ems,"ems");
-			for(let em of ems){
-				const new_45end=next_45index(_this,_this["end-index!"]);
-				if(_ms.bool(_61_63(new_45end,_this["start-index!"]))){
-					expand_33(_this);
-					_43_43_62_33(_this,[em])
-				} else {
-					set_45nth_33(_this["data!"],_this["end-index!"],em);
-					_this["end-index!"]=new_45end
-				}
-			}
-		});
-		impl_33(_63_60pop_33,Deque,function(){
-			const _this=this;
-			return _ms.bool(empty_63(_this))?_ms.None:_ms.some(()=>{
-				const x=_ms.sub(_this["data!"],_this["start-index!"]);
-				_this["start-index!"]=next_45index(_this,_this["start-index!"]);
-				return x
-			}())
-		});
-		impl_33(_63pop_62_33,Deque,function(){
-			const _this=this;
-			return _ms.bool(empty_63(_this))?_ms.None:_ms.some(()=>{
-				const new_45end=prev_45index(_this,_this["end-index!"]);
-				_this["end-index!"]=new_45end;
-				return _ms.sub(_this["data!"],new_45end)
-			}())
-		});
-		impl_33(_63nth,Deque,function(index){
-			const _this=this;
-			_ms.checkContains(Nat,index,"index");
-			return map(_63data_45index(_this,index),_ms.sub(sub,_this["data!"]))
-		});
-		impl_33(set_45nth_33,Deque,function(index,set_45to){
-			const _this=this;
-			_ms.checkContains(Nat,index,"index");
-			_ms.checkContains(Any,set_45to,"set-to");
-			const data_45index=un_45_63(_63data_45index(_this,index),_ms.lazy(()=>{
-				return `Can't set at index ${_ms.show(index)}; count is ${_ms.show(count(_this))}`
-			}));
-			set_45nth_33(_this["data!"],data_45index,set_45to)
-		});
-		impl_33(empty_33,Deque,function(){
-			const _this=this;
-			empty_33(_this["data!"]);
-			_this["start-index!"]=0;
-			_this["end-index!"]=0
-		});
 		const name=exports.name=`Deque`;
 		exports.default=Deque;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1NlcS9EZXF1ZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQWVBLFlBQVEsVUFDSzs7R0FBWixvQkFBTTtHQUNOLDRCQUNNOztrQkFBSCxDQUFHLFFBQU87a0JBQ1YsQ0FBRyxlQUFjO2tCQUNqQixDQUFHLGFBQVk7Ozs7O0VBRW5CLGVBQVcsTUFBTTtFQUNqQixlQUFXLE1BQU0sTUFDTyxJQUFBO1VBQXZCLE1BQU8sTUFBTSxHQUFHLEVBQUU7RUFBQTtFQUdsQixlQUFZLGtCQUFBLEVBQ0M7VUFBWixNQUFNOztFQUVQLGdCQUFZLG1CQUFBLEVBQ0M7R0FBWixpQkFBVztHQUNYLHFCQUFlLFNBQVE7R0FDdkIscUJBQWUsSUFBRSxFQUFFO0dBQ25CLGlCQUFXLE1BQU07R0FDWixRQUFBLFNBQVMsTUFBTSxFQUFFLGdCQUNZO0lBQWpDLGFBQVMsV0FBUyxjQUFNLFdBQVM7R0FBQTtHQUNsQyxXQUFXO0VBQUE7RUFFWixtQkFBYyxzQkFBQSxFQUFFLE1BQ0s7VUFBcEIsT0FBTyxNQUFNLFNBQVE7RUFBQTtFQUV0QixtQkFBYyxzQkFBQSxFQUFFLE1BQ1M7cUJBREg7VUFDckIsYUFBVyxFQUFHLElBQUUsTUFBTTtFQUFBO0VBRXZCLG1CQUFjLHNCQUFBLEVBQUUsTUFDUztxQkFESDtVQUNyQixhQUFXLEVBQUcsSUFBRSxNQUFNO0VBQUE7RUFFdkIsc0JBQWUseUJBQUEsRUFBRSxNQUNTO3FCQURIO0dBQ3RCLFFBQUksSUFBRSxrQkFBZTs7SUFFcEIsWUFBQSxPQUFHLEVBQUUsU0FBUSxLQUNDO3FCQUFWLENBQUksT0FBRyxnQkFBYSxvQkFBaUIsT0FBRyxFQUFFLGdDQUNhO2FBQXpEO0tBQUE7V0FFRTtLQUFILFFBQUksYUFBVyxFQUFFO3FCQUNkLENBQUssT0FBRyxnQkFBYSxvQkFBaUIsT0FBRyxFQUFFLGdDQUNhO2FBQTFEO0tBQUE7Ozs7RUFFTCxRQUFNLFNBQVMsTUFDVSxXQUFBO1NBd0R4QjtHQXhEQSxjQUNjO0lBQWIsWUFBQSxPQXVERCw0Q0F0RDZCO1lBQTNCLFVBQUssTUFzRFAsc0JBdEQ0QixNQXNENUIsaUJBdEQ0QyxNQUFNLEVBc0RsRDtXQXBESztZQUFILE1Bb0RGOzs7R0FuREssUUFBQSxLQUFBLFFBQ087bUJBa0RaLGVBbERXO0dBQUE7RUFBQTtFQUVaLFFBQU0sTUFBTTtFQUNaLFFBQU0sYUFBSyxNQUFTLFNBQUEsSUFDSztTQThDeEI7cUJBL0N1QjtHQUNsQixRQUFBLE1BQU0sUUFBUSxLQUNHO0lBQXJCLGtCQUFZLGFBNkNiO0lBM0NNLFlBQUosT0FBRyxZQTJDTCxzQkExQzBCO0tBQXZCLFVBMENIO0tBekNHLGFBeUNILE1BekNhLENBQUU7SUFBQSxPQUVUO0tBdUNOLHNCQXZDb0I7S0FDakIsYUFzQ0gscUNBdENpQztJQUFBO0dBQUE7RUFBQTtFQUVsQyxRQUFNLGFBQUssTUFBUyxTQUFBLElBQ0s7U0FtQ3hCO3FCQXBDdUI7R0FDbEIsUUFBQSxNQUFNLElBQ0c7SUFBYixnQkFBVSxhQWtDWDtJQWhDTSxZQUFKLE9BQUcsVUFnQ0wsd0JBL0IwQjtLQUF2QixVQStCSDtLQTlCRyxhQThCSCxNQTlCYSxDQUFFO0lBQUEsT0FFVDtLQUFILGFBNEJILG1DQTVCK0I7S0E0Qi9CLG9CQTNCa0I7SUFBQTtHQUFBO0VBQUE7RUFJbkIsUUFBTSxhQUFPLE1BQ1EsVUFBQTtTQXNCcEI7bUJBdEJPLFNBc0JQLDhCQXJCa0I7SUFDakIsZ0JBb0JEO0lBQUEsc0JBbkJrQixhQW1CbEI7V0FsQkM7R0FBQTtFQUFBO0VBRUYsUUFBTSxhQUFPLE1BQ1EsVUFBQTtTQWVwQjttQkFmTyxTQWVQLDhCQWRrQjtJQUFqQixnQkFBVSxhQWNYO0lBQUEsb0JBYmdCO21CQWFoQixlQVpRO0dBQUE7RUFBQTtFQUVULFFBQU0sT0FBSyxNQUFRLFNBQUEsTUFDUztTQVMzQjtxQkFWd0I7VUFDeEIsSUFBSyxnQkFTTCxNQVRzQixlQUFPLElBUzdCOztFQVBELFFBQU0sYUFBUyxNQUFTLFNBQUEsTUFBVSxTQUNVO1NBTTNDO3FCQVA2QjtxQkFBVztHQUN4QyxtQkFBYSxTQUFNLGdCQU1uQixNQU5vQztXQUFTLCtCQUFvQiw2QkFBa0IsTUFNbkY7O0dBTEEsYUFLQSxlQUxnQixhQUFXO0VBQUE7RUFFNUIsUUFBTSxTQUFPLE1BQ1MsVUFBQTtTQUVyQjtHQUZBLFNBRUE7R0FBQSxzQkFEaUI7R0FDakIsb0JBQWU7RUFBQTtFQXBIaEIsd0JBQUE7a0JBc0hBIiwiZmlsZSI6ImF0L1NlcS9EZXF1ZS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1NlcS9EZXF1ZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQWFBLGdCQUVJO1NBREg7dUJBTUMsU0FDTztXQW1FUDtZQW5FQyxLQW1FRDtJQUFBO2lCQWhFUzs0QkFBVCxhQUFXLE1BQU07NEJBQ2pCLG9CQUFrQjs0QkFDbEIsa0JBQWdCO0lBQUE7aUJBSWpCLFlBQ1k7V0F5RFg7S0F6REEsY0FDYztNQUFiLFlBQUEsT0F3REQsNENBdkQ2QjtjQUEzQixVQUFLLEtBQUksT0F1RFgsc0JBdkRnQyxNQXVEaEMsaUJBdkRnRCxLQUFJLE9BQU0sRUF1RDFEO2FBckRLO2NBQUgsS0FBSSxPQXFETjs7O0tBcERLLFFBQUEsS0FBQSxRQUNPO3FCQW1EWixlQW5EVztLQUFBO0lBQUE7Z0JBRVosZUFBTyxJQUNLO1dBZ0RYO3VCQWpEVTtLQUNMLFFBQUEsTUFBTSxRQUFRLEtBQ0c7TUFBckIsa0JBQVksYUErQ2I7TUE3Q00sWUFBSixPQUFHLFlBNkNMLHNCQTVDMEI7T0FBdkIsVUE0Q0g7T0EzQ0csYUEyQ0gsTUEzQ2EsQ0FBRTtNQUFBLE9BRVQ7T0F5Q04sc0JBekNvQjtPQUNqQixhQXdDSCxxQ0F4Q2lDO01BQUE7S0FBQTtJQUFBO2dCQUlsQyxlQUFPLElBQ0s7V0FtQ1g7dUJBcENVO0tBQ0wsUUFBQSxNQUFNLElBQ0c7TUFBYixnQkFBVSxhQWtDWDtNQWhDTSxZQUFKLE9BQUcsVUFnQ0wsd0JBL0IwQjtPQUF2QixVQStCSDtPQTlCRyxhQThCSCxNQTlCYSxDQUFFO01BQUEsT0FFVDtPQUFILGFBNEJILG1DQTVCK0I7T0E0Qi9CLG9CQTNCa0I7TUFBQTtLQUFBO0lBQUE7Z0JBSW5CLGdCQUNRO1dBc0JQO3FCQXRCTyxTQXNCUCw4QkFyQmtCO01BQ2pCLGdCQW9CRDtNQUFBLHNCQW5Ca0IsYUFtQmxCO2FBbEJDO0tBQUE7SUFBQTtnQkFFRixnQkFDUTtXQWVQO3FCQWZPLFNBZVAsOEJBZGtCO01BQWpCLGdCQUFVLGFBY1g7TUFBQSxvQkFiZ0I7cUJBYWhCLGVBWlE7S0FBQTtJQUFBO2dCQUVULFNBQU0sTUFDUztXQVNkO3VCQVZXO1lBQ1gsSUFBSyxnQkFTTCxNQVRzQixlQUFPLElBUzdCOztnQkFQRCxlQUFXLE1BQVUsU0FDVTtXQU05Qjt1QkFQZ0I7dUJBQVc7S0FDM0IsbUJBQWEsU0FBTSxnQkFNbkIsTUFOb0M7YUFBUywrQkFBb0IsNkJBQWtCLE1BTW5GOztLQUxBLGFBS0EsZUFMZ0IsYUFBVztJQUFBO2dCQUU1QixZQUNTO1dBRVI7S0FGQSxTQUVBO0tBQUEsc0JBRGlCO0tBQ2pCLG9CQUFlO0lBQUE7R0FBQTtHQXpFZixlQUFXLEVBQUU7R0FDYixRQUFNLEVBQUU7VUFGVDtFQUFBO0VBNkVBLGVBQVksa0JBQUEsRUFDQztVQUFaLE1BQU07O0VBRVAsZ0JBQVksbUJBQUEsRUFDQztHQUFaLGlCQUFXO0dBQ1gscUJBQWUsU0FBUTtHQUN2QixxQkFBZSxJQUFFLEVBQUU7R0FDbkIsaUJBQVcsTUFBTTtHQUNaLFFBQUEsU0FBUyxLQUFJLE9BQU0sRUFBRSxnQkFDWTtJQUFyQyxhQUFTLFdBQVMsY0FBTSxXQUFTO0dBQUE7R0FDbEMsV0FBVztFQUFBO0VBRVosbUJBQWMsc0JBQUEsRUFBRSxNQUNLO1VBQXBCLE9BQU8sTUFBTSxTQUFRO0VBQUE7RUFFdEIsbUJBQWMsc0JBQUEsRUFBRSxNQUNTO3FCQURIO1VBQ3JCLGFBQVcsRUFBRyxJQUFFLE1BQU07RUFBQTtFQUV2QixtQkFBYyxzQkFBQSxFQUFFLE1BQ1M7cUJBREg7VUFDckIsYUFBVyxFQUFHLElBQUUsTUFBTTtFQUFBO0VBRXZCLHNCQUFlLHlCQUFBLEVBQUUsTUFDUztxQkFESDtHQUN0QixRQUFJLElBQUUsa0JBQWU7O0lBRXBCLFlBQUEsT0FBRyxFQUFFLFNBQVEsS0FDQztxQkFBVixDQUFJLE9BQUcsZ0JBQWEsb0JBQWlCLE9BQUcsRUFBRSxnQ0FDYTthQUF6RDtLQUFBO1dBRUU7S0FBSCxRQUFJLGFBQVcsRUFBRTtxQkFDZCxDQUFLLE9BQUcsZ0JBQWEsb0JBQWlCLE9BQUcsRUFBRSxnQ0FDYTthQUExRDtLQUFBOzs7O0VBekhMLHdCQUFBO2tCQWFBIiwiZmlsZSI6ImF0L1NlcS9EZXF1ZS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

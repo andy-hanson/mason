@@ -1,6 +1,6 @@
 use
 	...@.@ empty? map'
-	...@.Seq.Range range
+	...@.Seq.Range
 	...math.Number divisible? infinity Nat
 	...Object Object->Map
 	...Type.Type =>
@@ -55,7 +55,7 @@ make-fizz-buzz.
 			# TODO:SYNTAX array destructure
 			shout:String. _[0]
 			divisor:Nat. _[1]
-		map' (range 1 infinity) |n
+		map' (new Range 1 infinity) |n
 			s ::= ""
 			for! tests
 				if! divisible? n _.divisor

@@ -356,11 +356,15 @@ export const
 	MethodImpl = m('MethodImpl',
 		'TODO:DOC',
 		[ 'symbol', Union(String, Val), 'fun', Fun ]),
+	ClassDo = m('ClassDo',
+		'TODO:DOC',
+		[ 'declareFocus', LocalDeclareFocus, 'block', BlockDo ]),
 	Class = v('Class',
 		'TODO:DOC',
 		// Every Fun in statics and methods must have a name.
 		[
 			'superClass', Nullable(Val),
+			'opDo', Nullable(ClassDo),
 			'statics', [Fun],
 			'opConstructor', Nullable(Fun),
 			'methods', [Union(Fun, MethodImpl)],

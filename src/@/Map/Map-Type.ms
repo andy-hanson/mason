@@ -1,7 +1,6 @@
 use
 	...Type.Kind _ kind! self-kind!
 	...Type.Method impl! self-impl!
-	..@
 	..@-Type _ empty from-stream
 	.Map _ assoc!
 use~
@@ -9,7 +8,7 @@ use~
 use-debug
 	.Hash-Map
 
-Map-Type. Kind
+Map-Type. new Kind
 	doc. "Any sub-type of Map."
 
 # TODO: Do this in Map.ms ?
@@ -28,8 +27,8 @@ impl! from-stream Map-Type
 		assoc! hm 1 2
 		assoc! hm 3 4
 		[ Hash-Map m ] -> hm
-	|type stream:@
-		map = empty type
+	.|stream
+		map = empty this
 		for! stream
 			# TODO:SYNTAX Array destructure
 			assoc! map _[0] _[1]

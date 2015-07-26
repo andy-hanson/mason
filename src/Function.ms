@@ -6,12 +6,12 @@ use
 use~
 	.@.@ _ ++
 	.@.@-Type empty
-	.@.Map.Map
 	.@.Map.Hash-Map
-	.@.Map.Map get-or-add!
+	.@.Map.Map _ get-or-add!
 	.@.Map.Weak-Id-Map
 	.@.Seq.Seq rtail last
 	.Object Object->Map
+	.Type.Pred-Type ObjLit
 	.Type.Type =>
 use-debug
 	.@.Seq.Seq seq=?
@@ -19,18 +19,18 @@ use-debug
 	.control build
 	.math.methods +
 
-Action. Alias-Type
+Action. new Alias-Type
 	doc. "
 		A function returning nothing.
 		Function[Number] describes a Function taking nothing and returning a Number;
 		Action[Number] describes a Function taking a Number and returning nothing.
 	alias-of. Function
 
-Pred. Alias-Type
+Pred. new Alias-Type
 	doc. "Function[Any Boolean]."
 	alias-of. Function
 
-Thunk. Alias-Type
+Thunk. new Alias-Type
 	doc. "Function with no args returning a value."
 	alias-of. Function
 
@@ -161,10 +161,10 @@ spread.
 			:@
 				@for elem in _
 					[ elem ]
-			:Object
+			:ObjLit
 				=> Array Object->Map_
 			else
-				throw! "Can only spread a @ or Map, not {_}"
+				throw! "Can only spread a @, Map, or ObjLit, not {_}"
 		# TODO:SYNTAX @for -> Array
 		@for @spreaded
 			all-args = ++ init-args _

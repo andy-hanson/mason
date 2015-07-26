@@ -2,34 +2,38 @@ use
 	...Function thunk
 	...Generator _ empty-Generator
 	...Type.Kind kind! self-kind!
-	...Type.Method impl! self-impl!
-	...Type.Wrap-Type
+	...Type.Method self-impl!
 	..@ iterator
 	..@-Type _ empty from-stream
-	.Seq
-use-debug
-	.Seq seq=?
+	.Seq _ seq=?
 
-Stream. Wrap-Type
-	doc. "
-		A Stream is a @ whose elements are the outputs of a Generator.
-		Unlike a Generator, a Stream can be used multiple times.
-	wrapped-type. Function[Generator]
-	test. !|
-		_ = Stream ~!|
-			<~ 1
-			<~ 2
-		assert! seq=? _ [ 1 2 ]
-		# Streams can be used twice!
-		assert! seq=? _ [ 1 2 ]
+Stream. class
+	do!
+		self-kind! _ @-Type
+		kind! _ Seq
+		# TODO
+		self-impl! empty _ (thunk (new _ |
+			empty-Generator
 
-self-kind! Stream @-Type
-self-impl! empty Stream (thunk (Stream |
-	empty-Generator
-self-impl! from-stream Stream |_
-	Stream |
-		iterator_
+	# TODO: class attributes
+	# doc. "
+	#	A Stream is a @ whose elements are the outputs of a Generator.
+	#	Unlike a Generator, a Stream can be used multiple times.
 
-impl! iterator Stream .|
-	.val()
-kind! Stream Seq
+	static
+		from-stream |_
+			new this |
+				iterator_
+
+	construct! make-iterator:Function[Generator]
+		Object.defineProperty this Symbol.iterator
+			value. make-iterator
+
+# TODO: class attributes
+Stream.test = !|
+	_ = new Stream ~!|
+		<~ 1
+		<~ 2
+	assert! seq=? _ [ 1 2 ]
+	# Streams can be used twice!
+	assert! seq=? _ [ 1 2 ]

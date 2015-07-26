@@ -12,8 +12,7 @@ use~
 	.Type.Pred-Type Opt
 use-debug
 	.@.@ count
-	.@.?
-	.@.@-Type empty
+	.@.? ?None ?some
 	.Try fails?
 
 compare. new Method
@@ -86,8 +85,8 @@ region Min/max
 	?max.
 		doc. "Like max, but returns empty ? for empty."
 		test. |
-			[ [ 1 ] ] -> ? 1
-			[ [ ] ] -> empty ?
+			[ [ 1 ] ] -> ?some 1
+			[ [ ] ] -> ?None
 		|_:@
 			?max-by _ identity
 
@@ -105,8 +104,8 @@ region Min/max
 	?max-by.
 		doc. "Like max-by, but returns empty ? for empty."
 		test. |
-			[ [ 1 ] identity ] -> ? 1
-			[ [ ] identity ] -> empty ?
+			[ [ 1 ] identity ] -> ?some 1
+			[ [ ] identity ] -> ?None
 		|_:@ by:Function
 			unless empty?_
 				iter = iterator_

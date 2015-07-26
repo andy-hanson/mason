@@ -3,42 +3,48 @@ use
 	...control returning
 	...math.Number int/
 	...math.methods + - *
-	...Type.Method impl! self-impl!
 	...Type.Kind kind! self-kind!
-	...Type.Wrap-Type
 	..@ ++! count empty! empty? iterator
 	..@-Type _ empty
 	..Seq.Seq set-nth!
 	.Priority-Queue _ ?pop!
 
-Heap-Priority-Queue. Wrap-Type
-	doc. "Default implementation for Priority-Queue."
-	wrapped-type. Array
+Heap-Priority-Queue. class
+	# TODO: class attributes
+	# doc. "Default implementation for Priority-Queue."
 
-self-kind! Heap-Priority-Queue @-Type
-self-impl! empty Heap-Priority-Queue |
-	Heap-Priority-Queue [ ]
+	do!
+		self-kind! _ @-Type
+		kind! _ Priority-Queue
 
-impl! iterator Heap-Priority-Queue .|
-	iterator .val
+	static
+		# TODO: @-Type default
+		empty |
+			new this
 
-kind! Heap-Priority-Queue Priority-Queue
+	construct!
+		.array = [ ]
 
-impl! ++! Heap-Priority-Queue .!|added
-	for! em in added
-		add! .val em
+	iterator |
+		iterator .array
 
-impl! ?pop! Heap-Priority-Queue .|
-	unless empty? this
-		returning .val[0] !|
-			fix-down! .val
+	++! !|added
+		for! em in added
+			add! .array em
 
-impl! empty? Heap-Priority-Queue .|
-	empty? .val
-impl! empty! Heap-Priority-Queue .!|
-	empty! .val
+	?pop! |
+		unless empty? this
+			returning .array[0] !|
+				fix-down! .array
 
-region Implementation
+	empty? |
+		empty? .array
+
+	empty! !|
+		empty! .array
+
+
+region Private
 	# We use a min-heap.
 	index-left-child = |idx
 		+ 1 (* 2 idx

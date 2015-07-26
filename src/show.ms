@@ -1,5 +1,4 @@
 use
-	.Function spread!
 	.js id=? js+
 	.private.bootstrap msDef
 	.private.js-impl newSet
@@ -69,64 +68,64 @@ repr.
 		# TODO:SYNTAX (repr.)
 		show _ (repr. true)
 
-spread! impl! show
-	String ->
-		test. |
-			[ "a" ] -> "a"
-			# TODO:SYNTAX [ "a" repr. ]
-			[ "a" (repr. true) ] -> "\"a\""
-		.|opts
-			case
-				flag? opts "repr"
-					js+ "\"" (js+ this "\"")
-				else
-					this
-
-	Number ->
-		test. |
-			[ 12 ] -> "12"
-			[ -1.0 ] -> "-1"
-		.|
-			base = 10
-			.toString base
-
-	Symbol ->
-		test. |
-			# TODO:ES6
-			# [ (Symbol "name") ] -> "<Symbol name>"
-			[ (Symbol "name") ] -> "<Symbol>"
-		|
-			# TODO:ES6 _.name
-			"<Symbol>"
-
-	Boolean ->
-		test. |
-			[ true ] -> "true"
-			[ false ] -> "false"
-		.|
-			case
+impl! show String
+	test. |
+		[ "a" ] -> "a"
+		# TODO:SYNTAX [ "a" repr. ]
+		[ "a" (repr. true) ] -> "\"a\""
+	.|opts
+		case
+			flag? opts "repr"
+				js+ "\"" (js+ this "\"")
+			else
 				this
-					"true"
-				else
-					"false"
 
-	Function ->
-		test. |
-			# TODO:DISPLAYNAME
-			a =
-				doc. "a"
-				|
-					1
-			[ a ] -> "a"
-			[ Object ] -> "Object"
-			[ (Function "" "") ] -> "<anonymous Function>"
-		.|
-			case .name
-				# Every Function has `name` property, but for anonymous Functions it is empty.
-				empty?_
-					"<anonymous Function>"
-				else
-					_
+impl! show Number
+	test. |
+		[ 12 ] -> "12"
+		[ -1.0 ] -> "-1"
+	.|
+		base = 10
+		.toString base
+
+impl! show Symbol
+	test. |
+		# TODO:ES6
+		# [ (Symbol "name") ] -> "<Symbol name>"
+		[ (Symbol "name") ] -> "<Symbol>"
+	|
+		# TODO:ES6 _.name
+		"<Symbol>"
+
+impl! show Boolean
+	test. |
+		[ true ] -> "true"
+		[ false ] -> "false"
+	.|
+		case
+			this
+				"true"
+			else
+				"false"
+
+impl! show Function
+	test. |
+		# TODO:DISPLAYNAME
+		a =
+			doc. "a"
+			|
+				1
+		[ a ] -> "a"
+		[ Object ] -> "Object"
+		[ (Function "" "") ] -> "<anonymous Function>"
+	.|
+		case .name
+			# Every Function has `name` property, but for anonymous Functions it is empty.
+			empty?_
+				"<anonymous Function>"
+			else
+				_
+
 
 msDef "show" show
 msDef "repr" repr

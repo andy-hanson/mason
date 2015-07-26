@@ -44,11 +44,6 @@ const msDefs = {
 		}
 	},
 
-	// TODO: use assoc! method
-	assoc(map, key, val) {
-		map.set(key, val)
-	},
-
 	lazyGetModule(module) {
 		if (module === undefined)
 			throw new Error('Module undefined.')
@@ -111,17 +106,6 @@ const msDefs = {
 			throw new Error('Thrown value must be Error or String')
 	},
 
-	// For use by Obj-Type.ms generated code.
-	checkNoExtras(_this, _, rtName) {
-		// If there was some key in `_` that we didn't copy:
-		if (Object.keys(_).length > Object.keys(_this).length)
-			for (const name of Object.getOwnPropertyNames(_))
-				// TODO:DISPLAYNAME
-				if (name !== 'name')
-					if (!Object.prototype.hasOwnProperty.call(_this, name))
-						throw new Error('Extra prop ' + name + ' for ' + rtName)
-	},
-
 	Lazy: function Lazy(get) {
 		this.get = () => {
 			this.get = () => {
@@ -171,7 +155,7 @@ const msDefs = {
 	newMutableProperty(object, name, value) {
 		if (Object.prototype.hasOwnProperty.call(object, name))
 			throw new Error(`Property ${name} already exists.`)
-		object.name = value
+		object[name] = value
 	}
 }
 for (const def in msDefs)
@@ -197,11 +181,8 @@ export const implContains = (type, impl) =>
 // Overwritten by Type/index.ms to actually do type checking.
 msDefTemp('checkContains', (_type, val) => val)
 
-// An object is a Function if its typeof is `function`.
-// This helps us catch any callabe Obj-Type.
-// TODO: Separate Function from Callable
 // Since these are primitives, we can't use `instanceof`.
-for (const type of [ Function, Boolean, String, Symbol, Number ]) {
+for (const type of [ Boolean, String, Symbol, Number ]) {
 	// Generated code is faster than using a closure.
 	const src = 'return typeof _ === "' + type.name.toLowerCase() + '"'
 	pAdd(type, containsImplSymbol, Function('_', src))
@@ -220,5 +201,8 @@ pAdd(Object, containsImplSymbol, function(_) {
 			return false
 	}
 })
+
+//TODO: this should accomplish nothing
+pAdd(Function, containsImplSymbol, function(_) { return _ instanceof this })
 
 implContains(Function, function(_) { return _ instanceof this })

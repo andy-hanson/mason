@@ -4,21 +4,20 @@ use
 	...Type.Kind _ kind! self-kind!
 	...Type.Method _ impl! self-impl!
 	..@ _ all? count keep
-	..@-Type _ empty from-stream
+	..@-Type _ empty
 use~
 	.Hash-Set
 use-debug
 	..@ --
 
-Set. Kind
+Set. new Kind
 	doc. "@ without repeat values."
 
 self-kind! Set @-Type
+kind! Set @
+
 self-impl! empty Set |
 	empty Hash-Set
-self-impl! from-stream Set |_
-	from-stream Hash-Set _
-kind! Set @
 
 impl! =? Set
 	doc. "Two Sets are =? if they have the same type and contain the same values."

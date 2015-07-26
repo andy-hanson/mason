@@ -6,7 +6,7 @@ use
 	.control opr
 	.Function thunk
 	.show
-	.Type.Impl-Type self-type
+	.Type.Impl-Type Self-Type
 	.Type.Kind kind! self-kind!
 	.Type.Method impl! impl-double! self-impl!
 	.Type.Pred-Type Opt
@@ -27,7 +27,7 @@ self-impl! from-stream String |_
 	from-stream Array _
 
 # TODO: self-impl-double! ?
-impl-double! => (self-type String) @
+impl-double! => (new Self-Type String) @
 	test. |
 		[ String [ 1 2 3 ] ] -> "123"
 		[ String [ 1 2 3 ] ", " ] -> "1, 2, 3"

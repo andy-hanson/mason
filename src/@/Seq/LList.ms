@@ -1,56 +1,62 @@
 use
 	...js id=?
 	...Type.Kind kind! self-kind!
-	...Type.Method impl! self-impl!
-	...Type.Tuple
 	..@ _ ++ empty? iterator
 	..@-Type _ empty from-stream
 	.Seq _ <++' tail
 
-LList. Tuple
-	doc. "
-		Singly-linked list.
-	props. [ "head" "tail"
+LList. class
+	do!
+		self-kind! _ @-Type
+		kind! _ Seq
+	static
+		empty |
+			empty-LList
+		from-stream |_
+			<++' empty-LList _
 
-empty-LList = LList undefined undefined
-empty-LList.tail := empty-LList
+	# TODO: class attributes
+	# doc. "
+	# 	Singly-linked list.
 
-self-kind! LList @-Type
-self-impl! empty LList |
-	empty-LList
-self-impl! from-stream LList |_
-	<++' empty-LList _
+	# TODO: `data head tail`
+	construct! head tail
+		.head = head
+		.tail = tail
 
-impl! iterator LList .~!|
-	cur ::= this
-	for!
-		if! empty? cur
-			break!
-		<~ cur.head
-		cur := cur.tail
+	iterator ~!|
+		cur ::= this
+		for!
+			if! empty? cur
+				break!
+			<~ cur.head
+			cur := cur.tail
 
-kind! LList Seq
-impl! empty? LList .|
-	id=? this empty-LList
+	empty? |
+		id=? this empty-LList
 
-impl! tail LList |_
-	_.tail
+	tail |
+		.tail
 
-impl! <++' LList |_ left-added:@
-	iter = iterator left-added
-	f = |
-		value done = iter.next()
-		case
-			done
-				_
+	<++' |left-added:@
+		iter = iterator left-added
+		f = |
+			value done = iter.next()
+			case
+				done
+					this
+				else
+					new LList value f()
+		f()
+
+	# For the concatenation of two LLists, we can just use the second as a tail.
+	++ |other
+		case other
+			:LList
+				<++' other this
 			else
-				LList value f()
-	f()
+				++.default.call this other
 
-# For the concatenation of two LLists, we can just use the second as a tail.
-impl! ++ LList .|other
-	case other
-		:LList
-			<++' other this
-		else
-			++.default.call this other
+empty-LList = new LList undefined undefined
+Object.defineProperty empty-LList "tail"
+	value. empty-LList

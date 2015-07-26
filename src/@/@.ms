@@ -17,18 +17,19 @@ use~
 use-debug
 	..math.Number divisible?
 	..Try fails?
-	.@-Type _ empty
-	.?
+	.@-Type empty
+	.? ?None ?some
 	.Map.Weak-Id-Map
 
-@. Kind
+@. new Kind
 	doc. "
 		"Bag". Contains a variable number of elements. Most things implementing `iterator` should be @s.
 		If the iteration order of an @ is meaningful and `+ a b` is the concatenation, it is a Seq.
 		If an @ only stores a given element once, it is a Set.
 	implementor-test. !|@-type
 		unless! =? @-type Weak-Id-Map
-			assert! @-type:@-Type throw! "Be sure to make your @ type a @-Type."
+			# TODO
+			# assert! @-type:@-Type throw! "Be sure to make your @ type a @-Type."
 			_ = empty @-type
 			assert! empty? _
 
@@ -104,8 +105,8 @@ region Using iterator
 			First element for which pred? is true.
 			(To find all, use `keep`.)
 		test. |
-			[ [ 0 1 ] =?[1] ] -> ? 1
-			[ [ 0 ] =?[1] ] -> empty ?
+			[ [ 0 1 ] =?[1] ] -> ?some 1
+			[ [ 0 ] =?[1] ] -> ?None
 		|_ pred?:Pred
 			# TODO:SYNTAX for-else
 			Opt->? for elem in _
@@ -140,7 +141,7 @@ region Lazy functions, and their eager versions.
 			[ [ 1 2 ] =?[2] ] -> => Stream [ 2 ]
 		|filtered:@ keep-if?:Pred
 			# TODO:SYNTAX @for~
-			Stream ~!|
+			new Stream ~!|
 				for! filtered
 					if! keep-if?_
 						<~ _
@@ -161,7 +162,7 @@ region Lazy functions, and their eager versions.
 			[ [ 1 2 ] =?[2] ] -> => Stream [ false true ]
 		|mapped:@ mapper:Function
 			# TODO:SYNTAX @for~
-			Stream ~!|
+			new Stream ~!|
 				for! mapped
 					<~ mapper_
 
@@ -190,7 +191,7 @@ region Lazy functions, and their eager versions.
 		args. 2
 		|mapped:@ mapper:Function[Any @]
 			# TODO:SYNTAX @for~
-			Stream ~!|
+			new Stream ~!|
 				for! mapped
 					<~~ iterator mapper_
 
@@ -216,9 +217,9 @@ region Lazy functions, and their eager versions.
 			# Must be at least one nested level
 			assert! fails? |
 				=> Array (flatten [ [ 1 ] 2 [ 3 ] ]
-		|flattened:@[@]
+		|flattened
 			# TODO:SYNTAX @for~
-			Stream ~!|
+			new Stream ~!|
 				for! flattened
 					<~~ iterator_
 
@@ -243,7 +244,7 @@ region Lazy functions, and their eager versions.
 			[ [ 0 ] [ 1 ] ] -> => Stream [ 0 1 ]
 		|:Stream @a @b
 			# TODO:SYNTAX @for~
-			Stream ~!|
+			new Stream ~!|
 				<~~ iterator @a
 				<~~ iterator @b
 
@@ -266,7 +267,7 @@ region Lazy functions, and their eager versions.
 			[ [ 1 2 1 ] [ 1 ] ] -> => Stream [ 2 1 ]
 		|:@ @removed-from @remove:@
 			# TODO:SYNTAX @for~
-			Stream ~!|
+			new Stream ~!|
 				@remove-remaining = => Set @remove
 				for! @removed-from
 					case!

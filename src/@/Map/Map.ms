@@ -1,6 +1,7 @@
 use
 	...compare =?
 	...methods sub
+	...private.bootstrap msDef
 	...Type.Kind _ kind!
 	...Type.Method _ impl!
 	...Type.Pred-Type Any
@@ -13,7 +14,7 @@ use~
 use-debug
 	...math.methods +
 
-Map. Kind
+Map. new Kind
 	doc. "Mapping from keys to values."
 
 kind! Map @
@@ -90,6 +91,7 @@ region Mutator methods
 	assoc!. new Method
 		doc. "Set _[key] to val."
 		args. [ "_" "key" "val"
+	msDef "assoc" assoc!
 
 	assoc*!.
 		doc. "Adds the other map's keys to mine, overriding my values."

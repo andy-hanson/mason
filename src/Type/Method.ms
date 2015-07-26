@@ -7,12 +7,11 @@ use~
 	..@.? un-?
 	..assert assert-call!
 	..compare =?
-	.Impl-Type _ self-type
+	.Impl-Type _ Self-Type
 	.Kind
 	..Object p-with-proto?
 use-debug
-	..@.@-Type empty
-	..@.?
+	..@.? ?None ?some
 	..Try fails?
 
 flag? = |_
@@ -24,6 +23,7 @@ random-digits = |
 Method. class Function
 	construct! params
 		name = params.name
+		# TODO: :String
 		assert! defined? name throw! "Must provide method name."
 
 		default? = defined? params.default
@@ -120,6 +120,9 @@ Method. class Function
 			else
 				super "a" "b" "c" "d" src
 
+		# TODO:ES6 Shouldn't be necessary
+		Object.setPrototypeOf this Method.prototype
+
 		pAdd global secret-name this
 
 		js-delete params "name"
@@ -184,7 +187,7 @@ self-impl!.
 	test. !|
 		pass # TODO
 	!|method:Method implementor:Object implementation:Function
-		impl! method (self-type implementor) implementation
+		impl! method (new Self-Type implementor) implementation
 
 ?impl-for.
 	doc. "
@@ -192,8 +195,8 @@ self-impl!.
 		Does not reference method.default or impls on super-types.
 		Empty if the type would use method.default.
 	test. |
-		[ contains? Method ] -> ? method-contains?
-		[ =? Method ] -> empty ?
+		[ contains? Method ] -> ?some method-contains?
+		[ =? Method ] -> ?None
 	|method:Method type:Impl-Type
 		# TODO: Object.ms Function
 		desc = Object.getOwnPropertyDescriptor type.prototype method.impl-symbol
@@ -233,7 +236,7 @@ region Private
 						configurable. true
 						enumerable. false
 
-	# TODO: Multiple-inheritance proxy scheme for Obj-Type, Wrap-Type, Enum
+	# TODO: Multiple-inheritance proxy scheme
 	# "method" can be a Method or a Double-Dispatcher.
 	do-impl! = !|method implementor implementation
 		in
@@ -265,6 +268,9 @@ region Private
 					throw new Error(`Can't double-dispatch {method.name} for $\{this} on $\{target2}.`)
 				return impl.apply(this, arguments)
 			super src
+
+			# TODO:ES6 Shouldn't be necessary
+			Object.setPrototypeOf this Double-Dispatcher.prototype
 
 			.method = method
 			.impl-symbol = impl-symbol

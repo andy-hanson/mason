@@ -1,17 +1,15 @@
 use
-	.@.@-Type empty
-	.@.?
+	.@.? ?some ?None
 	.$ _ $after
 	.compare =?
 	.Function Action noop
 	.private.bootstrap ms
 	.Type.Method self-impl!
-	.Type.Obj-Type
 	.Type.Pred-Type Any Union
 	.Type.Type _ =>
 use-debug
-	.Function thunk
 	.$ $rejected $resolved
+	.Function thunk
 
 # TODO:SYNTAX One-line fun
 debug fail! = !|
@@ -46,15 +44,15 @@ try-result.
 		This can be thought of as translating an Error-throwing Function to an ?-returning one.
 		The opposite of this is `@.?.un-?`.
 	test. |
-		[ (thunk 1) ] -> ? 1
-		[ fail! ] -> empty ?
+		[ (thunk 1) ] -> ?some 1
+		[ fail! ] -> ?None
 	|tried:Function[Any]
 		except
 			try
-				? tried()
+				?some tried()
 			catch
 				noop_
-				empty ?
+				?None
 
 fails?.
 	doc. "Whether the Function throws some error."
@@ -88,32 +86,6 @@ fails-with?.
 						error:_
 					:String
 						=? error.message _
-
-error-type.
-	doc. "
-		Makes an Obj-Type with a `message` property,
-		and a `stack` property automatically filled in on construction.
-		Very slow to create, so use only for legitimate errors!
-	test. !|
-		ET = error-type
-			doc. "ET"
-		assert! =? ET.doc "ET"
-		x = ET (message. "mess"
-		assert! x:Error
-		assert! =? "mess" x.message
-		assert! fails-with? "mess" !|
-			throw! x
-	|opts
-		default-args =
-			props.
-				message. String
-				stack.
-			defaults.
-				stack. |_
-					(new Error _.message).stack
-			prototype. Object.create Error.prototype
-		args = Object.assign default-args opts
-		Obj-Type args
 
 annotate-errors.
 	doc. "If there are thrown errors, prepends `annotation` to their stack and message."

@@ -14,10 +14,11 @@ use~
 	.@.Set.Id-Set
 	.control opr returning
 use-debug
+	.@.? ?None ?some
 	.@.Set.Set set=?
 	.Try fails?
 
-Object-Key. Kind
+Object-Key. new Kind
 	doc. "Can be used as a name for a property of an object."
 	implementors. [ String Symbol ]
 
@@ -94,22 +95,19 @@ flag?.
 		x =
 			a. 1
 			b. null
-		[ x "a" ] -> ? 1
-		[ x "b" ] -> ? null
+		[ x "a" ] -> ?some 1
+		[ x "b" ] -> ?some null
 		# Does not inherit from prototype.
 		[ x "toString" ] -> empty ?
 	|_ name:Object-Key
-		case
-			p? _ name
-				? (js-sub _ name
-			else
-				empty ?
+		if p? _ name
+			js-sub _ name
 
 ?p-with-proto.
 	doc. "Like `?p`, but also looks through the prototype chain."
 	test. |
-		[ 1 "toString" ] -> ? Number.prototype.toString
-		[ 1 "asdfghjkl" ] -> empty ?
+		[ 1 "toString" ] -> ?some Number.prototype.toString
+		[ 1 "asdfghjkl" ] -> ?None
 	|_ name:Object-Key
 		case
 			can-get-p?_

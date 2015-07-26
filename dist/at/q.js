@@ -1,57 +1,63 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","../control","../js","../private/bootstrap","../Type/Method","../Type/Kind","../Type/Method","../Type/Pred-Type","../Type/Wrap-Type","../Type/Type","./at","./at-Type","./Seq/Seq","../compare","../Try"],(exports,control_0,js_1,bootstrap_2,Method_3,Kind_4,Method_5,Pred_45Type_6,Wrap_45Type_7,Type_8,_64_9,_64_45Type_10,Seq_11,compare_12,Try_13)=>{
+define(["exports","../control","../js","../private/bootstrap","../Type/Kind","../Type/Method","../Type/Pred-Type","../Type/Type","./at","./at-Type","./Seq/Seq","../compare","../Try"],(exports,control_0,js_1,bootstrap_2,Kind_3,Method_4,Pred_45Type_5,Type_6,_64_7,_64_45Type_8,Seq_9,compare_10,Try_11)=>{
 	exports._get=_ms.lazy(()=>{
-		const _$2=_ms.getModule(control_0),opr=_ms.get(_$2,"opr"),_$3=_ms.getModule(js_1),defined_63=_ms.get(_$3,"defined?"),id_61_63=_ms.get(_$3,"id=?"),_$4=_ms.getModule(bootstrap_2),msDef=_ms.get(_$4,"msDef"),_$5=_ms.getModule(Method_3),impl_33=_ms.get(_$5,"impl!"),_$6=_ms.getModule(Kind_4),kind_33=_ms.get(_$6,"kind!"),self_45kind_33=_ms.get(_$6,"self-kind!"),_$7=_ms.getModule(Method_5),self_45impl_33=_ms.get(_$7,"self-impl!"),Pred_45Type=_ms.getDefaultExport(Pred_45Type_6),Wrap_45Type=_ms.getDefaultExport(Wrap_45Type_7),_$10=_ms.getModule(Type_8),extract=_ms.get(_$10,"extract"),_$11=_ms.getModule(_64_9),empty_63=_ms.get(_$11,"empty?"),iterator=_ms.get(_$11,"iterator"),_64_45Type=_ms.getDefaultExport(_64_45Type_10),_$12=_ms.getModule(_64_45Type_10),empty=_ms.get(_$12,"empty"),from_45stream=_ms.get(_$12,"from-stream"),Seq=_ms.getDefaultExport(Seq_11),_$15=_ms.lazyGetModule(compare_12),_61_63=_ms.lazyProp(_$15,"=?"),_$16=_ms.lazyGetModule(Try_13),fails_63=_ms.lazyProp(_$16,"fails?");
-		const _63=Wrap_45Type(()=>{
-			const built={};
-			const doc=built.doc=`A Seq with 0 or 1 elements.\nTODO: MORE`;
-			return _ms.setName(built,"?")
-		}());
+		const _$2=_ms.getModule(control_0),opr=_ms.get(_$2,"opr"),_$3=_ms.getModule(js_1),defined_63=_ms.get(_$3,"defined?"),id_61_63=_ms.get(_$3,"id=?"),_$4=_ms.getModule(bootstrap_2),msDef=_ms.get(_$4,"msDef"),_$5=_ms.getModule(Kind_3),kind_33=_ms.get(_$5,"kind!"),self_45kind_33=_ms.get(_$5,"self-kind!"),_$6=_ms.getModule(Method_4),self_45impl_33=_ms.get(_$6,"self-impl!"),Pred_45Type=_ms.getDefaultExport(Pred_45Type_5),_$8=_ms.getModule(Type_6),extract=_ms.get(_$8,"extract"),_$9=_ms.getModule(_64_7),empty_63=_ms.get(_$9,"empty?"),iterator=_ms.get(_$9,"iterator"),_64_45Type=_ms.getDefaultExport(_64_45Type_8),_$10=_ms.getModule(_64_45Type_8),empty=_ms.get(_$10,"empty"),from_45stream=_ms.get(_$10,"from-stream"),Seq=_ms.getDefaultExport(Seq_9),_$13=_ms.lazyGetModule(compare_10),_61_63=_ms.lazyProp(_$13,"=?"),_$14=_ms.lazyGetModule(Try_11),fails_63=_ms.lazyProp(_$14,"fails?");
+		const _63=()=>{
+			const _=class _63{
+				static [_ms.symbol(empty)](){
+					const _this=this;
+					return _63None
+				}
+				static [_ms.symbol(from_45stream)](_){
+					const _this=this;
+					const iter=iterator(_);
+					const _$32=iter.next(),value=_$32.value,done=_$32.done;
+					return ()=>{
+						if(_ms.bool(done)){
+							return _63None
+						} else {
+							return _63some(value)
+						}
+					}()
+				}
+				constructor(val){
+					_ms.newProperty(this,"val",val)
+				}
+				[_ms.symbol(empty_63)](){
+					const _this=this;
+					return id_61_63(_this,_63None)
+				}
+				*[_ms.symbol(iterator)](){
+					const _this=this;
+					if(! _ms.bool(empty_63(_this))){
+						(yield _this.val)
+					}
+				}
+			};
+			self_45kind_33(_,_64_45Type);
+			kind_33(_,Seq);
+			return _
+		}();
 		const empty_45marker=()=>{
 			const built={};
 			const doc=built.doc=`\`_.val\` on an empty \`?\` will return this.`;
 			return _ms.setName(built,"empty-marker")
 		}();
-		const empty_45_63=()=>{
-			return _63(empty_45marker)
-		}();
-		msDef(`some`,_63);
-		msDef(`None`,empty_45_63);
-		self_45kind_33(_63,_64_45Type);
-		self_45impl_33(from_45stream,_63,stream=>{
-			const iter=iterator(stream);
-			const _$36=iter.next(),value=_$36.value,done=_$36.done;
-			return ()=>{
-				if(_ms.bool(done)){
-					return empty_45_63
-				} else {
-					return _63(value)
-				}
-			}()
-		});
-		self_45impl_33(empty,_63,()=>{
-			return empty_45_63
-		});
-		kind_33(_63,Seq);
-		impl_33(empty_63,_63,function(){
-			const _this=this;
-			return id_61_63(_this,empty_45_63)
-		});
-		impl_33(iterator,_63,function*(){
-			const _this=this;
-			if(! _ms.bool(empty_63(_this))){
-				(yield _this.val)
-			}
-		});
+		const _63None=exports["?None"]=new (_63)(empty_45marker);
+		const _63some=exports["?some"]=function _63some(_){
+			return new (_63)(_)
+		};
+		msDef(`some`,_63some);
+		msDef(`None`,_63None);
 		const Opt_45_62_63=exports["Opt->?"]=()=>{
 			const built={};
 			const doc=built.doc=`\`?\` containing the value iff it is defined.`;
 			const test=built.test=function test(){
 				const built=new (global.Map)();
-				_ms.assoc(built,[0],_63(0));
-				_ms.assoc(built,[null],_63(null));
-				_ms.assoc(built,[void 0],empty(_63));
+				_ms.assoc(built,[0],_63some(0));
+				_ms.assoc(built,[null],_63some(null));
+				_ms.assoc(built,[void 0],_63None);
 				return built
 			};
 			return _ms.set(function Opt_45_62_63(_){
@@ -65,8 +71,8 @@ define(["exports","../control","../js","../private/bootstrap","../Type/Method","
 			const doc=built.doc=`Extracts the value from a \`?\`, or returns undefined.`;
 			const test=built.test=function test(){
 				const built=new (global.Map)();
-				_ms.assoc(built,[_63(0)],0);
-				_ms.assertNot(defined_63,_63_45_62Opt(empty(_63)));
+				_ms.assoc(built,[_63some(0)],0);
+				_ms.assertNot(defined_63,_63_45_62Opt(_63None));
 				return built
 			};
 			return _ms.set(function _63_45_62Opt(_){
@@ -85,9 +91,9 @@ define(["exports","../control","../js","../private/bootstrap","../Type/Method","
 			const doc=built.doc=`Tries to extract the value out of a \`?\`. Throws an error if it is empty.`;
 			const test=built.test=function test(){
 				const built=new (global.Map)();
-				_ms.assoc(built,[_63(1)],1);
+				_ms.assoc(built,[_63some(1)],1);
 				_ms.assert(_ms.unlazy(fails_63),()=>{
-					return un_45_63(empty(_63))
+					return un_45_63(_63None)
 				});
 				return built
 			};
@@ -102,8 +108,8 @@ define(["exports","../control","../js","../private/bootstrap","../Type/Method","
 			const doc=built.doc=`If empty, defaults to \`or\` - else returns its value.`;
 			const test=built.test=function test(){
 				const built=new (global.Map)();
-				_ms.assoc(built,[empty(_63),1],1);
-				_ms.assoc(built,[_63(1),2],1);
+				_ms.assoc(built,[_63None,1],1);
+				_ms.assoc(built,[_63some(1),2],1);
 				return built
 			};
 			return _ms.set(function _63_45or(_,or_45else){
@@ -117,7 +123,7 @@ define(["exports","../control","../js","../private/bootstrap","../Type/Method","
 				}()
 			},built)
 		}();
-		const Some=exports.Some=Pred_45Type(()=>{
+		const Some=exports.Some=new (Pred_45Type)(()=>{
 			const built={};
 			const doc=built.doc=`TODO`;
 			const predicate=built.predicate=function predicate(_){
@@ -125,7 +131,7 @@ define(["exports","../control","../js","../private/bootstrap","../Type/Method","
 			};
 			const test=built.test=function test(){
 				{
-					const _=_63(1);
+					const _=_63some(1);
 					{
 						const _$=_ms.extract(Some,_);
 						if((_$!==null)){
@@ -151,4 +157,4 @@ define(["exports","../control","../js","../private/bootstrap","../Type/Method","
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9ALz8ubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFpQkEsVUFBRyxnQkFDUzs7R0FBWCxvQkFDQzs7O0VBR0YseUJBQ2M7O0dBQWIsb0JBQU07OztFQUNQLHNCQUNTO1VBQVIsSUFBRTtFQUFBO0VBRUgsTUFBTyxPQUFNO0VBQ2IsTUFBTyxPQUFNO0VBR1osZUFBVyxJQUFFO0VBRWIsZUFBVyxjQUFZLElBQUcsUUFDTTtHQUEvQixXQUFPLFNBQVM7R0FDaEIsV0FBYTs7SUFFWixZQUFBLE1BQ0k7WUFBSDtJQUFBLE9BRUc7WUFBSCxJQUFFO0lBQUE7R0FBQTtFQUFBO0VBRUwsZUFBVyxNQUFNLElBQ0csSUFBQTtVQUFuQjtFQUFBO0VBRUQsUUFBTSxJQUFFO0VBRVIsUUFBTSxTQUFPLElBQ0ksVUFBQTtTQUlaO1VBSkosU0FJSSxNQUpNO0VBQUE7RUFFWCxRQUFNLFNBQVMsSUFDTSxXQUFBO1NBQ2hCO0dBREosY0FBUSxTQUNKLFFBQWU7V0FBZjs7O0VBR0wseUNBQ087O0dBQU4sb0JBQU07R0FDTixzQkFDTyxlQUFBOztvQkFBTixDQUFFLEdBQU8sSUFBRTtvQkFDWCxDQUFFLE1BQVUsSUFBRTtvQkFDZCxDQUFFLFFBQWUsTUFBTTs7O2tCQUN2QixzQkFBQSxFQUNDO29CQUNFLFdBQVEsaUJBQ0M7WUFBWDtJQUFBOzs7RUFFSCx5Q0FDTzs7R0FBTixvQkFBTTtHQUNOLHNCQUNPLGVBQUE7O29CQUFOLENBQUcsSUFBRSxJQUFRO2tCQUNMLFdBQVUsYUFBUSxNQUFNOzs7a0JBQ2hDLHNCQUFBLEVBQ0c7c0JBREQ7O0tBRUQsWUFBQSxTQUFNLElBQ0M7YUFBTjtZQUVHO2FBQUg7Ozs7O0VBR0osbUNBQ0s7O0dBQUosb0JBQU07R0FDTixzQkFDTyxlQUFBOztvQkFBTixDQUFHLElBQUUsSUFBUTtvQ0FFRyxJQUFBO1lBQWYsU0FBTSxNQUFNO0lBQUE7OztrQkFDYixrQkFBQSxFQUFJLGVBQ2E7c0JBRGY7SUFDTSxZQUFBLFNBQU0sb0JBQVMsZUFEbkIsZ0JBQ3FDO1dBQ3pDOzs7RUFFRixtQ0FDSzs7R0FBSixvQkFBTTtHQUNOLHNCQUNPLGVBQUE7O29CQUFOLENBQUcsTUFBTSxLQUFHLEdBQU87b0JBQ25CLENBQUcsSUFBRSxHQUFHLEdBQU87OztrQkFDZixrQkFBQSxFQUFJLFVBQ1E7c0JBRFY7O0tBRUQsWUFBQSxTQUFNLElBQ0M7d0JBSEo7S0FBQSxPQUtDO2FBQUg7Ozs7O0VBRUwsd0JBQU0sZ0JBQ1M7O0dBQWQsb0JBQU07R0FDTixnQ0FBWSxtQkFBQSxFQUNDO1dBQVosY0FBSyxJQUFELElBQUksRUFBSSxTQUFNO0dBQUE7R0FFbkIsc0JBQ1EsZUFBQTtJQUFEO0tBQUEsUUFBQSxJQUFFO0tBQ1A7MkJBQUMsS0FBRDtxQkFDUzs7cUNBQUcsSUFBSTtNQUFBOzs7Ozs7RUFFbkIsZUFBVyxRQUFRLEtBQU0sR0FBQTs7SUFDeEIseUJBQUMsS0FBRCxJQUNLO1lBQUosQ0FBRTtXQUVDO1lBQUg7SUFBQTtHQUFBO0VBQUE7RUFuSEYsd0JBQUE7a0JBaUJBIiwiZmlsZSI6ImF0L3EuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9ALz8ubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFlQSxjQU9JO1NBREg7dUJBS0MsU0FDTztXQW9CSDtZQXBCSDtJQUFBO3VCQUVELGdCQUFhLEVBQ0M7V0FpQlY7S0FqQkgsV0FBTyxTQUFRO0tBQ2YsV0FBYTs7TUFFWixZQUFBLE1BQ0k7Y0FBSDtNQUFBLE9BRUc7Y0FBSCxRQUFNO01BQUE7S0FBQTtJQUFBO2dCQUdDLElBQ0c7cUJBQWIsV0FBTztJQUFBO2dCQUVSLFlBQ1E7V0FJSDtZQUpKLFNBSUksTUFKTTtJQUFBO2lCQUVYLFlBQ1k7V0FDUDtLQURKLGNBQVEsU0FDSixRQUFlO2FBQWY7Ozs7R0F6QkosZUFBVyxFQUFFO0dBQ2IsUUFBTSxFQUFFO1VBRlQ7RUFBQTtFQTZCRCx5QkFDYzs7R0FBYixvQkFBTTs7O0VBRVAsK0JBQU8sS0FBSSxLQUFFO0VBQ2IsK0JBQVEsaUJBQUEsRUFDQztVQUFSLEtBQUksS0FBRTtFQUFBO0VBRVAsTUFBTyxPQUFNO0VBQ2IsTUFBTyxPQUFNO0VBR1oseUNBQ087O0dBQU4sb0JBQU07R0FDTixzQkFDTyxlQUFBOztvQkFBTixDQUFFLEdBQU8sUUFBTTtvQkFDZixDQUFFLE1BQVUsUUFBTTtvQkFDbEIsQ0FBRSxRQUFlOzs7a0JBQ2pCLHNCQUFBLEVBQ0M7b0JBQ0UsV0FBUSxpQkFDQztZQUFYO0lBQUE7OztFQUVILHlDQUNPOztHQUFOLG9CQUFNO0dBQ04sc0JBQ08sZUFBQTs7b0JBQU4sQ0FBRyxRQUFNLElBQVE7a0JBQ1QsV0FBVSxhQUFPOzs7a0JBQ3pCLHNCQUFBLEVBQ0c7c0JBREQ7O0tBRUQsWUFBQSxTQUFNLElBQ0M7YUFBTjtZQUVHO2FBQUg7Ozs7O0VBR0osbUNBQ0s7O0dBQUosb0JBQU07R0FDTixzQkFDTyxlQUFBOztvQkFBTixDQUFHLFFBQU0sSUFBUTtvQ0FFRCxJQUFBO1lBQWYsU0FBSztJQUFBOzs7a0JBQ04sa0JBQUEsRUFBSSxlQUNhO3NCQURmO0lBQ00sWUFBQSxTQUFNLG9CQUFTLGVBRG5CLGdCQUNxQztXQUN6Qzs7O0VBRUYsbUNBQ0s7O0dBQUosb0JBQU07R0FDTixzQkFDTyxlQUFBOztvQkFBTixDQUFFLFFBQU0sR0FBTztvQkFDZixDQUFHLFFBQU0sR0FBRyxHQUFPOzs7a0JBQ25CLGtCQUFBLEVBQUksVUFDUTtzQkFEVjs7S0FFRCxZQUFBLFNBQU0sSUFDQzt3QkFISjtLQUFBLE9BS0M7YUFBSDs7Ozs7RUFFTCx3QkFBTSxLQUFJLGlCQUNTOztHQUFsQixvQkFBTTtHQUNOLGdDQUFZLG1CQUFBLEVBQ0M7V0FBWixjQUFLLElBQUQsSUFBSSxFQUFJLFNBQU07R0FBQTtHQUVuQixzQkFDUSxlQUFBO0lBQUQ7S0FBQSxRQUFBLFFBQU07S0FDWDsyQkFBQyxLQUFEO3FCQUNTOztxQ0FBRyxJQUFJO01BQUE7Ozs7OztFQUVuQixlQUFXLFFBQVEsS0FBTSxHQUFBOztJQUN4Qix5QkFBQyxLQUFELElBQ0s7WUFBSixDQUFFO1dBRUM7WUFBSDtJQUFBO0dBQUE7RUFBQTtFQXpIRix3QkFBQTtrQkFlQSIsImZpbGUiOiJhdC9xLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

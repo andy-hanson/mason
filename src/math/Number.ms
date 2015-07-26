@@ -10,7 +10,7 @@ use-debug
 	..Function spread!
 	..Try fails?
 
-Int. Pred-Type
+Int. new Pred-Type
 	doc. "
 		A multiple of 1.
 		This only contains Numbers for which integer methods return sensible results, AKA safe ints.
@@ -30,7 +30,7 @@ Int. Pred-Type
 			. + max-safe-int 1
 	predicate. Number.isSafeInteger
 
-Nat. Pred-Type
+Nat. new Pred-Type
 	doc. "Any counting number, including `0`."
 	test. !|
 		assert! 0:Nat

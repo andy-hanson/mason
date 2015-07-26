@@ -263,9 +263,14 @@ implementMany(MsAstTypes, 'verify', {
 
 	Class() {
 		opEach(this.superClass, verify)
+		opEach(this.opDo, verify)
 		this.statics.forEach(verify)
 		opEach(this.opConstructor, verify)
 		this.methods.forEach(verify)
+	},
+
+	ClassDo() {
+		verifyAndPlusLocal(this.declareFocus, () => this.block.verify())
 	},
 
 	ConditionalDo() {

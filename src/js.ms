@@ -75,7 +75,7 @@ js-typeof.
 		[ "a" ] -> "string"
 		[ (Symbol "s") ] -> "symbol"
 		[ js-typeof ] -> "function"
-		[ @ ] -> "object"
+		[ (a. 1) ] -> "object"
 	unary-op "typeof"
 
 # TODO: Move to Function.ms?

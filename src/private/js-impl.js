@@ -8,14 +8,12 @@ export	const
 	// show.ms
 	newSet = () => new Set(),
 
-	// Obj-Type.ms and Method.ms and Wrap-Type.ms
+	// Method.ms
 	buildStr = builder => {
 		let s = ''
 		builder(str => { s = s + str + '\n' })
 		return s
 	},
-	// Obj-Type.ms
-	addOne = _ => _ + 1,
 
 	// perf-test.ms
 	timeStar = (times, timeMe) => {

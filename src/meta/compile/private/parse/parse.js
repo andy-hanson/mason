@@ -2,7 +2,7 @@ import Loc from 'esast/dist/Loc'
 import { code } from '../../CompileError'
 import { Assert, AssignDestructure, AssignSingle, BagEntry, BagEntryMany, BagSimple, BlockBag,
 	BlockDo, BlockMap, BlockObj, BlockValThrow, BlockWithReturn, BlockWrap, BreakDo, BreakVal,
-	Call, CaseDoPart, CaseValPart, CaseDo, CaseVal, Catch, Class, ConditionalDo, ConditionalVal,
+	Call, CaseDoPart, CaseValPart, CaseDo, CaseVal, Catch, Class, ClassDo, ConditionalDo, ConditionalVal,
 	Continue, Debug, Iteratee, NumberLiteral, ExceptDo, ExceptVal, ForBag, ForDo, ForVal, Fun,
 	GlobalAccess, L_And, L_Or, Lazy, LD_Const, LD_Lazy, LD_Mutable, LocalAccess, LocalDeclare,
 	LocalDeclareFocus, LocalDeclareName, LocalDeclarePlain, LocalDeclareRes, LocalDeclareThis,
@@ -14,7 +14,7 @@ import { JsGlobals } from '../language'
 import { DotName, Group, G_Block, G_Bracket, G_Parenthesis, G_Space, G_Quote, isGroup, isKeyword,
 	Keyword, KW_And, KW_Assert, KW_AssertNot, KW_Assign, KW_AssignMutable, KW_BreakDo, KW_BreakVal,
 	KW_CaseVal, KW_CaseDo, KW_Class, KW_CatchDo, KW_CatchVal, KW_Construct, KW_Continue,
-	KW_Debug, KW_Debugger, KW_Ellipsis, KW_Else, KW_ExceptDo, KW_ExceptVal, KW_Finally, KW_ForBag,
+	KW_Debug, KW_Debugger, KW_Do, KW_Ellipsis, KW_Else, KW_ExceptDo, KW_ExceptVal, KW_Finally, KW_ForBag,
 	KW_ForDo, KW_ForVal, KW_Focus, KW_Fun, KW_FunDo, KW_FunGen, KW_FunGenDo, KW_FunThis,
 	KW_FunThisDo, KW_FunThisGen, KW_FunThisGenDo, KW_Get, KW_IfDo, KW_IfVal, KW_In, KW_Lazy,
 	KW_LocalMutate, KW_MapEntry, KW_New, KW_Not, KW_ObjAssign, KW_Or, KW_Pass, KW_Out, KW_Region,
@@ -1023,19 +1023,33 @@ const parseClass = tokens => {
 	const [ before, block ] = beforeAndBlock(tokens)
 	const opExtended = opIf(!before.isEmpty(), () => parseExpr(before))
 
-	const line1 = block.headSlice()
-	const [ statics, rest ] = isKeyword(KW_Static, line1.head()) ?
-		[ _parseStatics(line1.tail()), block.tail() ] :
-		[ [ ], block ]
+	let opDo = null, statics = [ ], opConstructor = null, methods = [ ]
 
-	const line2 = rest.headSlice()
-	const [ opConstructor, rest2 ] = isKeyword(KW_Construct, line2.head()) ?
-		[ _parseConstructor(line2.tail()), rest.tail() ] :
-		[ null, rest ]
+	let rest = block
+	const line1 = rest.headSlice()
+	if (isKeyword(KW_Do, line1.head())) {
+		const done = justBlockDo(KW_Do, line1.tail())
+		opDo = ClassDo(line1.loc, LocalDeclareFocus(line1.loc, done), done)
+		rest = block.tail()
+	}
+	if (!rest.isEmpty()) {
+		const line2 = rest.headSlice()
+		if (isKeyword(KW_Static, line2.head())) {
+			statics = _parseStatics(line2.tail())
+			rest = rest.tail()
+		}
+		//neater
+		if (!rest.isEmpty()) {
+			const line3 = rest.headSlice()
+			if (isKeyword(KW_Construct, line3.head())) {
+				opConstructor = _parseConstructor(line3.tail())
+				rest = rest.tail()
+			}
+			methods = _parseMethods(rest)
+		}
+	}
 
-	const methods = _parseMethods(rest2)
-
-	return Class(tokens.loc, opExtended, statics, opConstructor, methods)
+	return Class(tokens.loc, opExtended, opDo, statics, opConstructor, methods)
 }
 
 const

@@ -3,6 +3,7 @@ use
 	...@.@
 	...@.@-Type empty
 	...@.? ?-or
+	...@.Map.Id-Map
 	...@.Map.Map
 	...@.Set.Id-Set
 	...$ _ $all $ing
@@ -75,7 +76,7 @@ impl! test-special Kind .|
 
 $test-all.
 	doc. "Tests all modules."
-	|@all-modules:@[Object]
+	|@all-modules:@ # TODO: @[Object]
 		$all @for @all-modules
 			... @$test-module_
 
@@ -160,7 +161,8 @@ $test-single.
 	_ = annotate-errors ~ano |
 		value-test ...args
 	case
-		:Map
+		# TODO: just :Map
+		or :Map :Id-Map
 			assert! contains? Function value throw!
 				"Test of {name} returned a Map, but the value is not callable."
 			annotate-errors ~ano !|

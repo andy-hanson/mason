@@ -1,7 +1,7 @@
 use
 	...@.@ ++! fold keep' map
 	...@.@-Type empty
-	...@.Seq.Range range
+	...@.Seq.Range
 	...@.Seq.Seq set-nth!
 	...@.Seq.Stream
 	...@.Set.Id-Set
@@ -17,7 +17,7 @@ use-debug
 # Least-significant to most-significant, but order doesn't matter.
 digits = |_
 	base = 10
-	Stream ~!|
+	new Stream ~!|
 		left ::= _
 		for!
 			<~ remainder left base
@@ -64,4 +64,4 @@ happy-numbers:Stream[Nat].
 			. 23
 			. 28
 			. 31
-	keep' (range 1 infinity) happy?
+	keep' (new Range 1 infinity) happy?

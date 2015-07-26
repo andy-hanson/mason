@@ -1,92 +1,102 @@
 use
 	...compare _ <?
 	...js defined?
-	...Type.Method impl! self-impl!
-	...Type.Kind kind! self-kind!
-	...Type.Tuple
-	...Type.Wrap-Type
+	...Type.Kind kind!
 	..@ empty! empty? iterator
 	..@-Type empty
 	.Map assoc! ?get un-assoc!
-	.Map-Type
 	.Sorted-Map
 
-Splay-Tree. Wrap-Type
-	doc. "
-		Default Sorted-Map implementation.
-		Binary tree that is good at accessing the same values many times.
+Splay-Tree. class
+	do!
+		kind! _ Sorted-Map
 
-Splay-Node = Tuple
-	props. [ "key" "val!" "left!" "right!"
+	static
+		empty |
+			new this
 
-self-kind! Splay-Tree Map-Type
-self-impl! empty Splay-Tree |
-	Splay-Tree undefined
+	# TODO: `data root:Splay-Node`
+	construct! root
+		.root = root
 
-impl! iterator Splay-Tree .|
-	iter = ~!|_
-		if! defined?_
-			<~~ iter _.left!
-			<~ [ _.key _.val! ]
-			<~~ iter _.right!
-	iter .val
+	iterator |
+		node-iter = ~!|_
+			if! defined?_
+				<~~ node-iter _.left!
+				<~ [ _.key _.val! ]
+				<~~ node-iter _.right!
+		node-iter .root
 
-kind! Splay-Tree Sorted-Map
+	empty? |
+		not defined? .root
 
-impl! empty? Splay-Tree .|
-	not defined? .val
+	empty! !|
+		.root := undefined
 
-impl! empty! Splay-Tree .!|
-	.val := undefined
+	?get |key
+		if and (not empty? this) (splay!? this key)
+			.root.val!
 
-impl! ?get Splay-Tree .|key
-	if and (not empty? this) (splay!? this key)
-		.val.val!
 
-impl! assoc! Splay-Tree .!|key val
-	case!
-		empty? this
-			.val := Splay-Node key val undefined undefined
-		splay!? this key
-			.val.val! := val
-		else
-			old-root = .val
-			debug forbid! empty? this
-			.val := case
-				<? old-root.key key
-					old-right = old-root.right!
-					old-root.right! := undefined
-					Splay-Node key val old-root old-right
-				else
-					old-left = old-root.left!
-					old-root.left! := undefined
-					Splay-Node key val old-left old-root
-
-impl! un-assoc! Splay-Tree .|key
-	if and (not empty? this) (splay!? this key)
-		removed = .val
-		# Link out the root.
-		.val := case
-			has-left? removed
-				right = removed.right # OK if null
-				new-root = removed.left
-				# Splay to make sure the new root has an empty right child.
-				splay!? this key
-				new-root.right! := right
-				new-root
+	assoc! !|key val
+		case!
+			empty? this
+				.root := new Splay-Node key val undefined undefined
+			splay!? this key
+				.root.val! := val
 			else
-				# New tree is just right child - no left child to worry about.
-				removed.right
-		removed.val
+				old-root = .val
+				debug forbid! empty? this
+				.root := case
+					<? old-root.key key
+						old-right = old-root.right!
+						old-root.right! := undefined
+						new Splay-Node key val old-root old-right
+					else
+						old-left = old-root.left!
+						old-root.left! := undefined
+						new Splay-Node key val old-left old-root
 
-region Implementation
+
+	un-assoc! |key
+		if and (not empty? this) (splay!? this key)
+			removed = .root
+			# Link out the root.
+			.root := case
+				has-left? removed
+					right = removed.right # OK if null
+					new-root = removed.left
+					# Splay to make sure the new root has an empty right child.
+					splay!? this key
+					new-root.right! := right
+					new-root
+				else
+					# New tree is just right child - no left child to worry about.
+					removed.right
+
+			removed.val!
+
+	# TODO: class attributes
+	# doc. "
+	#	Default Sorted-Map implementation.
+	#	Binary tree that is good at accessing the same values many times.
+
+region Private
+	Splay-Node = class
+		# TODO: `data key val! left! right!`
+		construct! key val! left! right!
+			.key = key
+			.val! ::= val!
+			.left! ::= left!
+			.right! ::= right!
+
 	# Searches for the key, bringing nodes up to the root along the way.
 	# Returns whether the root now matches the key.
 	splay!? = |_ key
-		dummy = Splay-Node undefined undefined undefined undefined
+		dummy = new Splay-Node undefined undefined undefined undefined
 		left ::= dummy
 		right ::= dummy
-		cur ::= _.val
+		cur ::= _.root
 		# TODO:SYNTAX loop return value
 		found ::= null
 		for!
@@ -142,10 +152,11 @@ region Implementation
 		right.left! := cur.right!
 		cur.left! := dummy.right!
 		cur.right! := dummy.left!
-		_.val := cur
+		_.root := cur
 		found
 
 	has-left? = |node
 		defined? node.left!
+
 	has-right? = |node
 		defined? node.right!

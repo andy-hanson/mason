@@ -1,22 +1,28 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","../../Type/Kind","../../Type/Method","../at","../q","../../compare","../at","../at-Type"],(exports,Kind_0,Method_1,_64_2,_63_3,compare_4,_64_5,_64_45Type_6)=>{
+define(["exports","../../Type/Kind","../../Type/Method","../at","../at-Type","../q","./Heap-Priority-Queue","../../compare","../at","../q"],(exports,Kind_0,Method_1,_64_2,_64_45Type_3,_63_4,Heap_45Priority_45Queue_5,compare_6,_64_7,_63_8)=>{
 	exports._get=_ms.lazy(()=>{
-		const Kind=_ms.getDefaultExport(Kind_0),_$2=_ms.getModule(Kind_0),kind_33=_ms.get(_$2,"kind!"),Method=_ms.getDefaultExport(Method_1),_64=_ms.getDefaultExport(_64_2),_63=_ms.getDefaultExport(_63_3),_$7=_ms.lazyGetModule(compare_4),_61_63=_ms.lazyProp(_$7,"=?"),_$8=_ms.lazyGetModule(_64_5),_43_43_33=_ms.lazyProp(_$8,"++!"),empty_63=_ms.lazyProp(_$8,"empty?"),_$9=_ms.lazyGetModule(_64_45Type_6),empty=_ms.lazyProp(_$9,"empty");
-		const Priority_45Queue=Kind(()=>{
+		const Kind=_ms.getDefaultExport(Kind_0),_$2=_ms.getModule(Kind_0),kind_33=_ms.get(_$2,"kind!"),Method=_ms.getDefaultExport(Method_1),_$3=_ms.getModule(Method_1),self_45impl_33=_ms.get(_$3,"self-impl!"),_64=_ms.getDefaultExport(_64_2),_$5=_ms.getModule(_64_45Type_3),empty=_ms.get(_$5,"empty"),_63=_ms.getDefaultExport(_63_4),Heap_45Priority_45Queue=_ms.lazy(()=>{
+			return _ms.getDefaultExport(Heap_45Priority_45Queue_5)
+		}),_$10=_ms.lazyGetModule(compare_6),_61_63=_ms.lazyProp(_$10,"=?"),_$11=_ms.lazyGetModule(_64_7),_43_43_33=_ms.lazyProp(_$11,"++!"),empty_63=_ms.lazyProp(_$11,"empty?"),_$12=_ms.lazyGetModule(_63_8),_63None=_ms.lazyProp(_$12,"?None"),_63some=_ms.lazyProp(_$12,"?some");
+		const Priority_45Queue=new (Kind)(()=>{
 			const built={};
 			const doc=built.doc=`@ whose first item will always be the smallest.\nIteration order has no other guaranees,\nbut repeatedly calling ?pop! will give the values from least to greatest.`;
-			const implementor_45test=built["implementor-test"]=function implementor_45test(type){
-				const _=_ms.unlazy(empty)(type);
+			const implmentor_45test=built["implmentor-test"]=function implmentor_45test(type){
+				const _=empty(type);
 				_ms.unlazy(_43_43_33)(_,[3,1,2]);
-				_ms.assert(_ms.unlazy(_61_63),_63(1),_63pop_33(_));
-				_ms.assert(_ms.unlazy(_61_63),_63(2),_63pop_33(_));
-				_ms.assert(_ms.unlazy(_61_63),_63(3),_63pop_33(_));
-				_ms.assert(_ms.unlazy(empty_63),_)
+				_ms.assert(_ms.unlazy(_61_63),_ms.unlazy(_63some)(1),_63pop_33(_));
+				_ms.assert(_ms.unlazy(_61_63),_ms.unlazy(_63some)(2),_63pop_33(_));
+				_ms.assert(_ms.unlazy(_61_63),_ms.unlazy(_63some)(3),_63pop_33(_));
+				_ms.assert(_ms.unlazy(empty_63),_);
+				_ms.assert(_ms.unlazy(_61_63),_ms.unlazy(_63None),_63pop_33(_))
 			};
 			return _ms.setName(built,"Priority-Queue")
 		}());
 		kind_33(Priority_45Queue,_64);
+		self_45impl_33(empty,Priority_45Queue,()=>{
+			return empty(_ms.unlazy(Heap_45Priority_45Queue))
+		});
 		const _63pop_33=exports["?pop!"]=new (Method)(()=>{
 			const built={};
 			const doc=built.doc=`Takes a value from the front of the queue, unless empty?.`;
@@ -29,4 +35,4 @@ define(["exports","../../Type/Kind","../../Type/Method","../at","../q","../../co
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1ByaW9yaXR5LVF1ZXVlL1ByaW9yaXR5LVF1ZXVlLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBVUEsdUJBQWdCLFNBQ0k7O0dBQW5CLG9CQUNDO0dBR0QsbURBQW9CLDRCQUFBLEtBQ0k7SUFBdkIsMEJBQVU7MEJBQ04sRUFBRSxDQUFFLEVBQUUsRUFBRTtrQ0FDQSxJQUFFLEdBQUcsVUFBSztrQ0FDVixJQUFFLEdBQUcsVUFBSztrQ0FDVixJQUFFLEdBQUcsVUFBSztvQ0FDUDtHQUFBOzs7RUFFakIsUUFBTSxpQkFBZTtFQUdyQixpQ0FBTyxLQUFJLFlBQ007O0dBQWhCLG9CQUFNO0dBQ04sc0JBQU07R0FDTiw0QkFBUzs7O0VBN0JWLHdCQUFBO2tCQVVBIiwiZmlsZSI6ImF0L1ByaW9yaXR5LVF1ZXVlL1ByaW9yaXR5LVF1ZXVlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9AL1ByaW9yaXR5LVF1ZXVlL1ByaW9yaXR5LVF1ZXVlLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7RUFhQSx1QkFBZ0IsS0FBSSxVQUNJOztHQUF2QixvQkFDQztHQUlELGlEQUFtQiwyQkFBQSxLQUNJO0lBQXRCLFFBQUksTUFBTTswQkFDTixFQUFFLENBQUUsRUFBRSxFQUFFO3NEQUNNLEdBQUcsVUFBSztzREFDUixHQUFHLFVBQUs7c0RBQ1IsR0FBRyxVQUFLO29DQUNYO3NEQUNFLFVBQUs7R0FBQTs7O0VBRXhCLFFBQU0saUJBQWU7RUFFckIsZUFBVyxNQUFNLGlCQUNnQixJQUFBO1VBQWhDOztFQUdELGlDQUFPLEtBQUksWUFDTTs7R0FBaEIsb0JBQU07R0FDTixzQkFBTTtHQUNOLDRCQUFTOzs7RUFyQ1Ysd0JBQUE7a0JBYUEiLCJmaWxlIjoiYXQvUHJpb3JpdHktUXVldWUvUHJpb3JpdHktUXVldWUuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

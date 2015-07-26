@@ -12,7 +12,7 @@ use~
 use-debug
 	.Method self-impl!
 
-Type. Kind
+Type. new Kind
 	doc. "
 		Anything implementing contains?.
 		Types are generally used to succinctly make assertions about values.

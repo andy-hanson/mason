@@ -10,7 +10,7 @@ fibs =
 	rec = ~!|prev:Nat cur:Nat
 		<~ cur
 		<~~ rec cur (+ prev cur)
-	Stream rec[0 1]
+	new Stream rec[0 1]
 
 zeckendorf.
 	doc. "http://rosettacode.org/wiki/Zeckendorf_number_representation"

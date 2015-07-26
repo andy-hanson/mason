@@ -5,7 +5,7 @@ use
 	...methods freeze sub
 	...String indent
 	...Type.Kind _ kind! self-kind!
-	...Type.Method _ impl! self-impl!
+	...Type.Method _ impl!
 	...Type.Type => type-of
 	..@ _ ++ count empty? iterator
 	..@-Type _ empty from-stream
@@ -17,16 +17,14 @@ use~
 use-debug
 	...compare <?
 	...Try fails?
-	..?
+	..? ?some ?None
 
-Seq. Kind
+Seq. new Kind
 	doc. "@ whose values are in a meaningful order."
 
 kind! Seq @
 
 self-kind! Seq @-Type
-self-impl! empty Seq |
-	[ ]
 
 region TODO
 	# TODO: Review name...
@@ -53,8 +51,8 @@ region Very first and last
 	?first. new Method
 		doc. "First value in iteration order, if non-empty."
 		test. |
-			[ [ 1 2 ] ] -> ? 1
-			[ [ ] ] -> empty ?
+			[ [ 1 2 ] ] -> ?some 1
+			[ [ ] ] -> ?None
 		args. 1
 		default. .|
 			?nth this 0
@@ -72,8 +70,8 @@ region Very first and last
 	?last. new Method
 		doc. "Last value in iteration order, if non-empty."
 		test. |
-			[ [ 1 2 ] ] -> ? 2
-			[ [ ] ] -> empty ?
+			[ [ 1 2 ] ] -> ?some 2
+			[ [ ] ] -> ?None
 		args. 1
 		default. .|
 			unless empty? this
@@ -116,7 +114,7 @@ region Search
 			The types of the @s do not matter.
 			Equivalent to `=? (=> Array @a) (=> Array @b)`, but may not have to fully unlazy both.
 		test. !|
-			s = Stream ~!|
+			s = new Stream ~!|
 				<~ 1
 			assert! seq=? s [ 1 ]
 			forbid! seq=? s [ 2 ]
@@ -142,8 +140,8 @@ region Search
 			`n`th element in iteration order, if there are at least that many values.
 			0th is the first."
 		test. |
-			[ [ 0 1 ] 1 ] -> ? 1
-			[ [ 0 1 ] 2 ] -> empty ?
+			[ [ 0 1 ] 1 ] -> ?some 1
+			[ [ 0 1 ] 2 ] -> ?None
 		args.
 			. "_"
 			. [ "n" Nat
@@ -216,7 +214,7 @@ region Update
 				=? 0 count-to-take
 					empty Stream
 				else
-					Stream ~!|
+					new Stream ~!|
 						n ::= count-to-take
 						for! elem in _
 							<~ elem
@@ -232,7 +230,7 @@ region Update
 			[ [ 1 2 -1 3 ] <?[0] ] -> => Stream [ 1 2 ]
 		|_ while?:Pred
 			# TODO:SYNTAX @for~
-			Stream ~!|
+			new Stream ~!|
 				for! elem in _
 					unless! while? elem
 						break!
@@ -252,7 +250,7 @@ region Update
 			[ [ 0 1 2 3 ] 2 ] -> => Stream [ 2 3 ]
 		|_ count-to-drop
 			# TODO:SYNTAX @for~
-			Stream ~!|
+			new Stream ~!|
 				iter = iterator_
 				i ::= 0
 				for!
@@ -282,7 +280,7 @@ region Combination
 			[ [ 1 2 ] [ 10 20 30 ] + ] -> => Stream [ 11 22 ]
 		|@a:@ @b:@ zipper:Function[2]
 			# TODO:SYNTAX @for~
-			Stream ~!|
+			new Stream ~!|
 				iter-a = iterator @a
 				iter-b = iterator @b
 				for!
@@ -302,15 +300,15 @@ region TODO: put somewhere
 			# Tosses off partial group at end (e.g. no [ 4 ])
 			assert! seq=? [ [ 1 2 3 ] ] (groups-of' 3 [ 1 2 3 4 ])
 			assert! seq=? [ [] [] [] ] (take' (groups-of' 0 [ 1 ]) 3)
-		|:Seq[Array] group-size:Nat _
+		|:Seq group-size:Nat _ # TODO: :Seq[Array]
 			case
 				=? group-size 0
 					# TODO: repeat-forever [ ]
-					Stream ~!|
+					new Stream ~!|
 						for!
 							<~ [ ]
 				else
-					Stream ~!|
+					new Stream ~!|
 						iter = iterator_
 						for!
 							next-group = [ ]
@@ -342,7 +340,7 @@ region TODO: put somewhere
 			[ [ 0 ] =?[0] ] -> => Stream [ [] [] ]
 		|_ split?:Pred
 			# TODO: Allocate current group; don't wait to call slice.
-			Stream ~!|
+			new Stream ~!|
 				iter = iterator_
 				prev-idx ::= 0
 				cur-idx ::= 0

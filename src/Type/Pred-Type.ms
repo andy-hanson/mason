@@ -4,26 +4,27 @@ use
 	..methods sub
 	.Kind kind!
 	.Method impl! self-impl!
-	.Obj-Type
 	.Type _ => contains?
 use~
 	..@.@ any?
 use-debug
 	..compare =?
 
-Pred-Type. Obj-Type
-	doc. "Arbitrary predicates can be made into types using Pred-Type."
-	props.
-		name. String
-		predicate. Pred
-	extensible. true
+Pred-Type. class
+	# TODO: class attributes
+	# doc. "Arbitrary predicates can be made into types using Pred-Type."
+	# TODO: data-extensible name:String predicate:Pred
+	construct! params
+		Object.assign this params
+		assert! .name:String
+		assert! .predicate:Pred
 
 kind! Pred-Type Type
 impl! contains? Pred-Type .|value
 	.predicate value
 
 region Opt
-	Opt. Pred-Type
+	Opt. new Pred-Type
 		doc. "A value which could be anything, even undefined."
 		predicate. |
 			true
@@ -32,18 +33,20 @@ region Opt
 		doc. "Contains null, undefined, or an instance of Exists-Type."
 		|Exists-Type:Type
 			ET = Exists-Type
-			Opt-Sub
-				Exists-Type. ET
+			new Opt-Sub ET
 
-	Opt-Sub = Obj-Type
-		doc. "Result of calling Opt[something]."
-		props.
-			Exists-Type. Type
+	Opt-Sub = class
+		# TODO: class attributes
+		# doc. "Result of calling Opt[something]."
+
+		# TODO: `data Exists-Type:Type`
+		construct! Exists-Type:Type
+			.Exists-Type = Exists-Type
 	kind! Opt-Sub Type
 	impl! contains? Opt-Sub .|_
 		or (not defined?_) (contains? .Exists-Type _
 
-Any. Pred-Type
+Any. new Pred-Type
 	doc. "Not undefined."
 	test. !|
 		assert! contains? Any 0
@@ -51,7 +54,7 @@ Any. Pred-Type
 		forbid! contains? Any undefined
 	predicate. defined?
 
-ObjLit. Pred-Type
+ObjLit. new Pred-Type
 	doc. "Matches only Objects which have no type (other than Object itself)."
 	test. !|
 		assert! contains? ObjLit (a. 1
@@ -71,7 +74,7 @@ Union.
 		forbid! contains? SBN null
 
 self-impl! sub Union |...types
-	Pred-Type
+	new Pred-Type
 		name. "Union[{=> String types " "}]"
 		predicate. |_
 			any? types |type

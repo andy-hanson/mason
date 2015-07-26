@@ -1,14 +1,14 @@
 use
 	.Kind _ kind! unchecked-kind!
-	.Obj-Type
-use-debug
+use~ # TODO: use-debug
 	..compare =?
 	..Object empty-Object!
-	.Kind kind?
 	.Method impl!
 	.Type contains?
+use-debug
+	.Kind kind?
 
-Impl-Type. Kind
+Impl-Type. new Kind
 	doc. "
 		TODO:REST
 		Every Impl-Type should have a `prototype` property.
@@ -17,9 +17,10 @@ Impl-Type. Kind
 			doc. "A"
 		B = Kind
 			doc. "B"
-		C = Obj-Type
-			props.
-				c.
+		C = class
+			# TODO: empty class
+			"dummy" |
+				this
 		kind! B A
 		kind! C B
 		assert! kind? B A
@@ -27,25 +28,25 @@ Impl-Type. Kind
 		assert! kind? C A
 		forbid! kind? A B
 
-unchecked-kind! Obj-Type Impl-Type # Obj-Type isa Obj-Type, so can't use kind!
 unchecked-kind! Function Impl-Type # Function isa Function, so can't use kind!
 kind! Kind Impl-Type
 
 region Self-Type
-	# TODO: Wrap-Type (and make 'prototype' a Method, not a property)
-	Self-Type. Obj-Type
-		doc. "
-			Impl-Type with exactly one member.
-			Calling impl! on it will directly modify an Object to contain method implementations.
-		props.
-			prototype. Object
-		test. !|
-			x = empty-Object!()
-			impl! contains? (self-type x) |
-				1
-			assert! =? (contains? x) 1
+	Self-Type. class
+		do!
+			kind! _ Impl-Type
+		# TODO: class attributes
+		# doc. "
+		#	Impl-Type with exactly one member.
+		#	Calling impl! on it will directly modify an Object to contain method implementations.
 
-	kind! Self-Type Impl-Type
+		construct! prototype:Object
+			.prototype = prototype
 
-	self-type. |_:Object
-		Self-Type (prototype. _
+	# TODO: class attributes
+	Self-Type.test = !|
+		x = empty-Object!()
+		impl! contains? (new Self-Type x) |
+			1
+		assert! =? (contains? x) 1
+

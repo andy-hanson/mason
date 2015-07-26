@@ -1,7 +1,7 @@
 use
 	...@.@ _ ++ -- empty? flat-map' keep map map'
 	...@.?
-	...@.Seq.Seq _ ?first tail
+	...@.Seq.Seq ?first tail
 	...String ->upper
 	...Type.Type contains?
 
@@ -47,7 +47,7 @@ make-word-from-blocks.
 	#		# TODO:SYNTAX Array destructure
 	#		! =? _[1] (make-word-from-blocks _[0] sample-blocks)
 
-	|:?[Seq[String]] word:String blocks:@[String]
+	|:? word:String blocks:@ # TODO: ?[Seq[String]], @[String]
 		rec = |chars-left blocks-left
 			case chars-left
 				empty?_

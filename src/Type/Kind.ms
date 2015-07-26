@@ -2,98 +2,114 @@ use
 	..compare =?
 	..js defined? js-sub
 	..private.bootstrap implContains pAdd
-	..private.js-impl isEmpty KindContains
+	..private.js-impl KindContains
 	.Method impl! propagate-method-down! self-impl!
-	.Obj-Type
 use~
 	..@.@
-	.Impl-Type _ self-type
+	.Impl-Type Self-Type
 	..methods freeze frozen?
-use-debug
+	# Below TODO: use-debug
 	..Try fails-with?
 	.Method
 	.Type contains?
+use-debug
+	.Impl-Type
 
-Kind. Obj-Type
-	doc. "
-		A Kind is like a tag you can apply to a Concrete-Type to signify that it belongs in some category.
-		That category is typically a group of types all of which implement the same set of methods.
-		Type checking for Kind membership is O(1).
-		-
-		The `prototype` on a Kind is not meant to be used as a prototype.
-		It stores the impl!_s that have been done on the Kind0.
-		impl! and kind! make sure that Concrete-Types receive the methods of their Kinds.
-		They require the Kind to correctly track super-kinds and implementors.
-	test. !|
-		region Inheritance chans - one way
-			A = Kind
-				doc. "A"
-			B = Kind
-				doc. "B"
-			C = Obj-Type
-				props.
-					c.
-			kind! B A
-			kind! C B
-			c = C
-				c. 1
-			assert! contains? A c
+Kind. class
+	do!
+		implContains _ KindContains
+	# TODO: class attributes
+	# doc. "
+	#	A Kind is like a tag you can apply to a Concrete-Type to signify that it belongs in some category.
+	#	That category is typically a group of types all of which implement the same set of methods.
+	#	Type checking for Kind membership is O(1).
+	#	-
+	#	The `prototype` on a Kind is not meant to be used as a prototype.
+	#	It stores the impl!_s that have been done on the Kind0.
+	#	impl! and kind! make sure that Concrete-Types receive the methods of their Kinds.
+	#	They require the Kind to correctly track super-kinds and implementors.
 
-		region Inheritance chains
-			X = Kind
-				doc. "X"
-			Y = Kind
-				doc. "Y"
-			Z = Obj-Type
-				props.
-					x.
-			kind! Z Y
-			kind! Y X
-			z = Z
-				x. 1
-			assert! contains? X z
+	construct! params
+		Object.defineProperty this "name"
+			value. params.name
 
-		region Method makes sure to do impl! on all Concrete-Type_s inheriting from an Kind.
-			asdf = new Method
-				doc. "asdf_s its arguments."
-			impl! asdf X |
-				1
-			assert! =? (asdf z) 1
-			assert! contains? X z
+		.super-kinds = case params.super-kinds
+			defined?_
+				# TODO: :Array
+				_
+			else
+				[ ]
 
-		region Closed Kind
-			Closed = Kind
-				implementors. [ C Z ]
+		.implementors = case params.implementors
+			defined?_
+				# TODO: :Array[Impl-Type]
+				freeze _
+			else
+				[ ]
 
-			assert! fails-with? "Closed is not open to new subtypes." !|
-				kind! X Closed
+		.symbol-for-isa = case params.symbol-for-isa
+			defined?_
+				# TODO: :Symbol
+				_
+			else
+				Symbol "isa-{.name}"
 
-	props.
-		name. String
-		super-kinds. Array # TODO: [~Kind]
-		prototype. Object
-		# TODO: Allow doc on prop
-		# doc. "If immutable, this Kind does not accept new subtypes."
-		implementors. Array # TODO: [~Impl-Type]
-		symbol-for-isa. Symbol
-	extensible. true
-	defaults.
-		super-kinds. |
-			[ ]
-		prototype. |
-			Object.create null
-		implementors. |
-			[ ]
-		symbol-for-isa. |_
-			Symbol "isa-{_.name}"
-	post-construct. !|_
-		pAdd _.prototype _.symbol-for-isa true
-		unless! isEmpty _.implementors
-			for! implementor in _.implementors
-				on-implementor! implementor _
-			freeze _.implementors
+		.prototype = case params.prototype
+			defined?_
+				# TODO: :Object
+				_
+			else
+				Object.create null
 
-implContains Kind KindContains
+		pAdd .prototype .symbol-for-isa true
+		for! .implementors
+			on-implementor! _ this
+
+
+# TODO: class attributes
+Kind.test = !|
+	region Inheritance chans - one way
+		A = new Kind
+			doc. "A"
+		B = new Kind
+			doc. "B"
+		C = class
+			# TODO: empty class
+			"dummy" |
+				this
+		kind! B A
+		kind! C B
+		c = new C
+		assert! contains? A c
+
+	region Inheritance chains
+		X = new Kind
+			doc. "X"
+		Y = new Kind
+			doc. "Y"
+		Z = class
+			# TODO: empty class
+			"dummy" |
+				this
+		kind! Z Y
+		kind! Y X
+		z = new Z
+		assert! contains? X z
+
+	region Method makes sure to do impl! on all Concrete-Type_s inheriting from an Kind.
+		asdf = new Method
+			doc. "asdf_s its arguments."
+		impl! asdf X |
+			1
+		assert! =? (asdf z) 1
+		assert! contains? X z
+
+	region Closed Kind
+		Closed = new Kind
+			implementors. [ C Z ]
+
+		assert! fails-with? "Closed is not open to new subtypes." !|
+			kind! X Closed
 
 can-subtype?.
 	doc. "Whether a Kind accepts new subtypes."
@@ -116,21 +132,23 @@ concrete-implementors.
 		List of Impl-Types inheriting from this.
 		Does not include inheriting Kinds, but does include their implementors.
 	test. |
-		X = Kind
+		X = new Kind
 			doc. "X"
-		Y = Kind
+		Y = new Kind
 			doc. "Y"
-		Z = Obj-Type
-			props.
-				z.
-		W = Obj-Type
-			props.
-				w.
+		Z = class
+			# TODO: empty class
+			"dummy" |
+				this
+		W = class
+			# TODO: empty class
+			"dummy" |
+				this
 		kind! Y X
 		kind! Z X
 		kind! W Y
 		[ X ] -> [ W Z ]
-	|:@[Impl-Type] kind:Kind
+	|:@ kind:Kind # TODO: :@[Impl-Type]
 		@for kind.implementors
 			case!
 				:Kind
@@ -161,7 +179,7 @@ self-kind!.
 	test. !|
 		pass # TODO
 	!|implementor:Object kind:Kind method-impls
-		kind! (self-type implementor) kind
+		kind! (new Self-Type implementor) kind
 		if! defined? method-impls
 			for! method-impls
 				# TODO:SYNTAX Array destructure

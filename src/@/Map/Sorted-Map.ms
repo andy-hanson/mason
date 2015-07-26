@@ -1,27 +1,26 @@
 use
-	...Type.Kind _ kind! self-kind!
 	...Type.Method self-impl!
+	...Type.Kind _ kind!
 	..@-Type empty
 	.Map
-	.Map-Type
 use~
 	.Splay-Tree
 use-debug
 	...compare sorted?
 	.Map assoc! keys
 
-Sorted-Map. Kind
+Sorted-Map. new Kind
 	doc. "
 		Map whose `keys` are in sorted order.
 		This kind of Map depends on an efficient `compare` between its keys.
+
 	implementor-test. !|type
 		_ = empty type
 		for! key in [ 1 3 5 4 2 ]
 			assoc! _ key key
 		assert! sorted? keys_
 
-self-kind! Sorted-Map Map-Type
+kind! Sorted-Map Map
+
 self-impl! empty Sorted-Map |
 	empty Splay-Tree
-
-kind! Sorted-Map Map
