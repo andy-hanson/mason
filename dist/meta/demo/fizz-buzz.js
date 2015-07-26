@@ -1,6 +1,6 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","../../at/at","../../at/Seq/Range","../../math/Number","../../Object","../../Type/Type","../../at/Seq/Seq"],(exports,_64_0,Range_1,Number_2,Object_3,Type_4,Seq_5)=>{
+define(["exports","../../at/at","../../at/Range","../../math/Number","../../Object","../../Type/Type","../../at/Seq/Seq"],(exports,_64_0,Range_1,Number_2,Object_3,Type_4,Seq_5)=>{
 	exports._get=_ms.lazy(()=>{
 		const _$2=_ms.getModule(_64_0),empty_63=_ms.get(_$2,"empty?"),map_39=_ms.get(_$2,"map'"),Range=_ms.getDefaultExport(Range_1),_$4=_ms.getModule(Number_2),divisible_63=_ms.get(_$4,"divisible?"),infinity=_ms.get(_$4,"infinity"),Nat=_ms.get(_$4,"Nat"),_$5=_ms.getModule(Object_3),Object_45_62Map=_ms.get(_$5,"Object->Map"),_$6=_ms.getModule(Type_4),_61_62=_ms.get(_$6,"=>"),_$8=_ms.lazyGetModule(Seq_5),seq_61_63=_ms.lazyProp(_$8,"seq=?"),take_39=_ms.lazyProp(_$8,"take'");
 		const make_45fizz_45buzz=exports["make-fizz-buzz"]=()=>{

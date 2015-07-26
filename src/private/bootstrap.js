@@ -202,7 +202,4 @@ pAdd(Object, containsImplSymbol, function(_) {
 	}
 })
 
-//TODO: this should accomplish nothing
-pAdd(Function, containsImplSymbol, function(_) { return _ instanceof this })
-
 implContains(Function, function(_) { return _ instanceof this })

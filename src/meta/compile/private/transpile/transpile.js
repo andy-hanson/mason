@@ -2,23 +2,24 @@ import { ArrayExpression, ArrowFunctionExpression, BinaryExpression, BlockStatem
 	CallExpression, CatchClause, ClassBody, ClassExpression, ConditionalExpression,
 	ContinueStatement, DebuggerStatement, ExpressionStatement, ForOfStatement, FunctionExpression,
 	Identifier, IfStatement, Literal, LogicalExpression, MethodDefinition, NewExpression,
-	ObjectExpression, Program, ReturnStatement, TemplateLiteral, ThisExpression, ThrowStatement,
-	TryStatement, VariableDeclaration, UnaryExpression, VariableDeclarator } from 'esast/dist/ast'
+	ObjectExpression, Program, ReturnStatement, SwitchCase, SwitchStatement,
+	TaggedTemplateExpression, TemplateLiteral, ThisExpression, ThrowStatement, TryStatement,
+	VariableDeclaration, UnaryExpression, VariableDeclarator } from 'esast/dist/ast'
 import { idCached, loc, member, propertyIdOrLiteralCached, toStatement } from 'esast/dist/util'
 import { assignmentExpressionPlain, callExpressionThunk, functionExpressionThunk, memberExpression,
 	property, yieldExpressionDelegate, yieldExpressionNoDelegate } from 'esast/dist/specialize'
 import * as MsAstTypes from '../../MsAst'
 import { AssignSingle, Call, Fun, L_And, L_Or, LD_Lazy, LD_Mutable, MethodImpl, MS_Mutate, MS_New,
 	MS_NewMutable, Pattern, Splat, SD_Debugger, SV_Contains, SV_False, SV_Null, SV_Sub, SV_Super,
-	SV_ThisModuleDirectory, SV_True, SV_Undefined } from '../../MsAst'
+	SV_ThisModuleDirectory, SV_True, SV_Undefined, SwitchDoPart } from '../../MsAst'
 import manglePath from '../manglePath'
 import { assert, cat, flatMap, flatOpMap, ifElse, isEmpty,
 	implementMany, isPositive, opIf, opMap, tail, unshift } from '../util'
 import { AmdefineHeader, ArraySliceCall, DeclareBuiltBag, DeclareBuiltMap, DeclareBuiltObj,
 	EmptyTemplateElement, ExportsDefault, ExportsGet, IdArguments, IdBuilt, IdDefine, IdExports,
 	IdExtract, IdFunctionApplyCall, IdLexicalThis, LitEmptyArray, LitEmptyString, LitNull,
-	LitStrExports, LitStrThrow, LitZero, ReturnBuilt, ReturnExports, ReturnRes, ThrowAssertFail,
-	ThrowNoCaseMatch, UseStrict } from './ast-constants'
+	LitStrExports, LitStrThrow, LitZero, ReturnBuilt, ReturnExports, ReturnRes, SwitchCaseNoMatch,
+	ThrowAssertFail, ThrowNoCaseMatch, UseStrict } from './ast-constants'
 import { IdMs, lazyWrap, msAdd, msAddMany, msArr, msAssert, msAssertNot, msAssoc, msBool,
 	msCheckContains, msError, msExtract, msGet, msGetDefaultExport, msGetModule, msLazy, msLazyGet,
 	msLazyGetModule, msNewMutableProperty, msNewProperty, msSet, msSetName, msSetLazy, msShow,
@@ -40,14 +41,14 @@ export default (_context, moduleExpression, _verifyResults) => {
 }
 
 export const
-	t0 = expr => loc(expr.transpileSubtree(), expr.loc)
+	t0 = expr => loc(expr.transpile(), expr.loc)
 const
-	t1 = (expr, arg) => loc(expr.transpileSubtree(arg), expr.loc),
-	t3 = (expr, arg, arg2, arg3) => loc(expr.transpileSubtree(arg, arg2, arg3), expr.loc),
+	t1 = (expr, arg) => loc(expr.transpile(arg), expr.loc),
+	t3 = (expr, arg, arg2, arg3) => loc(expr.transpile(arg, arg2, arg3), expr.loc),
 	tLines = exprs => {
 		const out = [ ]
 		for (const expr of exprs) {
-			const ast = expr.transpileSubtree()
+			const ast = expr.transpile()
 			if (ast instanceof Array)
 				// Debug may produce multiple statements.
 				for (const _ of ast)
@@ -58,7 +59,7 @@ const
 		return out
 	}
 
-implementMany(MsAstTypes, 'transpileSubtree', {
+implementMany(MsAstTypes, 'transpile', {
 	Assert() {
 		const failCond = () => {
 			const cond = msBool(t0(this.condition))
@@ -153,9 +154,9 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 
 	BlockWrap() { return blockWrap(t0(this.block)) },
 
-	BreakDo() { return BreakStatement() },
+	Break() { return BreakStatement() },
 
-	BreakVal() { return ReturnStatement(t0(this.value)) },
+	BreakWithVal() { return ReturnStatement(t0(this.value)) },
 
 	Call() {
 		const anySplat = this.args.some(arg => arg instanceof Splat)
@@ -176,13 +177,11 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 		const body = caseBody(this.parts, this.opElse)
 		return ifElse(this.opCased, _ => BlockStatement([ t0(_), body ]), () => body)
 	},
-
 	CaseVal() {
 		const body = caseBody(this.parts, this.opElse)
 		const block = ifElse(this.opCased, _ => [ t0(_), body ], () => [ body ])
 		return blockWrap(BlockStatement(block))
 	},
-
 	CaseDoPart: casePart,
 	CaseValPart: casePart,
 
@@ -197,7 +196,6 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 		return ifElse(this.opDo, _ => t1(_, classExpr), () => classExpr)
 	},
 
-	//neater?
 	ClassDo(classExpr) {
 		const lead = VariableDeclaration('const', [
 			VariableDeclarator(t0(this.declareFocus), classExpr) ])
@@ -297,7 +295,7 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 			accessLocalDeclare(verifyResults.localDeclareForAccess(this))
 	},
 
-	LocalDeclare() { return idForDeclareCached(this) },
+	LocalDeclare() { return Identifier(idForDeclareCached(this).name) },
 
 	LocalMutate() {
 		return assignmentExpressionPlain(idCached(this.name), t0(this.value))
@@ -386,6 +384,10 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 		}
 	},
 
+	QuoteTemplate() {
+		return TaggedTemplateExpression(t0(this.tag), t0(this.quote))
+	},
+
 	SpecialDo() {
 		switch (this.kind) {
 			case SD_Debugger: return DebuggerStatement()
@@ -407,6 +409,11 @@ implementMany(MsAstTypes, 'transpileSubtree', {
 			default: throw new Error(this.kind)
 		}
 	},
+
+	SwitchDo() { return transpileSwitch(this) },
+	SwitchVal() { return blockWrap(BlockStatement([ transpileSwitch(this) ])) },
+	SwitchDoPart: switchPart,
+	SwitchValPart: switchPart,
 
 	Throw() {
 		return ifElse(this.opThrown,
@@ -432,6 +439,12 @@ function casePart(alternate) {
 	} else
 		// alternate written to by `caseBody`.
 		return IfStatement(maybeBoolWrap(t0(this.test)), t0(this.result), alternate)
+}
+
+function switchPart() {
+	const opOut = opIf(this instanceof SwitchDoPart, BreakStatement)
+	const block = t3(this.result, null, null, opOut).body
+	return SwitchCase(t0(this.value), block)
 }
 
 // Functions specific to certain expressions.
@@ -506,7 +519,17 @@ const
 		TryStatement(
 			t0(except._try),
 			opMap(except._catch, t0),
-			opMap(except._finally, t0))
+			opMap(except._finally, t0)),
+
+	transpileSwitch = _ => {
+		const parts = _.parts.map(t0)
+
+		parts.push(ifElse(_.opElse,
+			_ => SwitchCase(undefined, t0(_).body),
+			() => SwitchCaseNoMatch))
+
+		return SwitchStatement(t0(_.switched), parts)
+	}
 
 // Module helpers
 const

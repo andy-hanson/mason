@@ -13,18 +13,23 @@ import VerifyResults from '../private/VerifyResults'
 // a list of the paths of every module in that directory, relative to it.
 export default (dirPath, opts) =>
 	fs.listTree(dirPath).then(files => {
-		const ext = '.js'
 		const moduleFiles = flatOpMap(files, _ =>
-			opIf(_.endsWith(ext) && !(opts.exclude && opts.exclude.test(_)), () =>
+			opIf(acceptModule(opts, _), () =>
 				`./${relative(dirPath, _.slice(0, _.length - ext.length))}`))
+		// Sort to keep it deterministic.
+		moduleFiles.sort()
 		// Dummy Loc. We will not use source maps.
 		const loc = singleCharLoc(StartPos)
 		// Sort to keep it deterministic.
-		const modulesBag = BagSimple(loc, moduleFiles.sort().map(_ => Quote.forString(loc, _)))
+		const modulesBag = BagSimple(loc, moduleFiles.map(_ => Quote.forString(loc, _)))
 		const module = Module(loc, [ ], [ ], [ ], [ ], [ ], modulesBag)
-		const context = new CompileContext(new CompileOptions({
-			includeSourceMap: false,
-			includeModuleName: false
-		}))
-		return render(transpile(context, module, new VerifyResults()))
+		return render(transpile(new CompileContext(options), module, new VerifyResults()))
 	})
+
+const ext = '.js'
+const acceptModule = (opts, path) =>
+	path.endsWith(ext) && !(opts.exclude && opts.exclude.test(path))
+const options = new CompileOptions({
+	includeSourceMap: false,
+	includeModuleName: false
+})

@@ -52,7 +52,6 @@ $fail-after-time.
 		assert! =? a.message "Took longer than 1 milliseconds."
 		assert! =? 1 (<~ $fail-after-time $x 200
 	|:$ _:$ time-ms:Number
-		# TODO:ES6 Shouldn't need `new`
 		new $ |resolve reject
 			$after _ resolve
 			timeout = |

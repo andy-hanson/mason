@@ -3,7 +3,7 @@ use
 	...math.Number log Nat pow round-down
 	...math.methods - *
 use-debug
-	...@.Seq.Range
+	...@.Range
 	...Type.Type contains?
 
 roman-digits =

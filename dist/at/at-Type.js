@@ -1,6 +1,6 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","../control","../methods","../Type/Kind","../Type/Method","../Type/Type","./at","./Seq/Range"],(exports,control_0,methods_1,Kind_2,Method_3,Type_4,_64_5,Range_6)=>{
+define(["exports","../control","../methods","../Type/Kind","../Type/Method","../Type/Type","./at","./Range"],(exports,control_0,methods_1,Kind_2,Method_3,Type_4,_64_5,Range_6)=>{
 	exports._get=_ms.lazy(()=>{
 		const _$2=_ms.getModule(control_0),returning=_ms.get(_$2,"returning"),_$3=_ms.getModule(methods_1),sub=_ms.get(_$3,"sub"),Kind=_ms.getDefaultExport(Kind_2),_$4=_ms.getModule(Kind_2),self_45kind_33=_ms.get(_$4,"self-kind!"),Method=_ms.getDefaultExport(Method_3),_$5=_ms.getModule(Method_3),impl_33=_ms.get(_$5,"impl!"),_$6=_ms.getModule(Type_4),_61_62=_ms.get(_$6,"=>"),_64=_ms.getDefaultExport(_64_5),_$7=_ms.getModule(_64_5),_43_43_33=_ms.get(_$7,"++!"),Range=_ms.lazy(()=>{
 			return _ms.getDefaultExport(Range_6)

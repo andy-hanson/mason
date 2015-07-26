@@ -3,7 +3,6 @@ use
 	..private.bootstrap msCall
 
 $require = |require path
-	# TODO:ES6 Shouldn't need `new`
 	new $ |resolve reject
 		require [ path ] resolve reject
 

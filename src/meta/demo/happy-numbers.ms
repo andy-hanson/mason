@@ -1,7 +1,7 @@
 use
 	...@.@ ++! fold keep' map
 	...@.@-Type empty
-	...@.Seq.Range
+	...@.Range
 	...@.Seq.Seq set-nth!
 	...@.Seq.Stream
 	...@.Set.Id-Set

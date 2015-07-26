@@ -238,6 +238,33 @@ export const
 			'opElse', Nullable(BlockVal)
 		]),
 
+	SwitchDoPart = m('SwitchDoPart',
+		'TODO:DOC',
+		[
+			'value', Val,
+			'result', BlockDo
+		]),
+	SwitchValPart = m('SwitchValPart',
+		'TODO:DOC',
+		[
+			'value', Val,
+			'result', BlockVal
+		]),
+	SwitchDo = d('SwitchDo',
+		'TODO:DOC',
+		[
+			'switched', Val,
+			'parts', [SwitchDoPart],
+			'opElse', Nullable(BlockDo)
+		]),
+	SwitchVal = d('SwitchVal',
+		'TODO:DOC',
+		[
+			'switched', Val,
+			'parts', [SwitchValPart],
+			'opElse', Nullable(BlockVal)
+		]),
+
 	Iteratee = m('Iteratee',
 		'TODO:DOC',
 		[
@@ -260,10 +287,10 @@ export const
 			of: (loc, opIteratee, block) => ForBag(loc, LocalDeclareBuilt(loc), opIteratee, block)
 		}),
 
-	BreakDo = d('BreakDo',
+	Break = d('Break',
 		'TODO:DOC',
 		[ ]),
-	BreakVal = d('BreakVal',
+	BreakWithVal = d('BreakWithVal',
 		'TODO:DOC',
 		[ 'value', Val ]),
 	Continue = d('Continue',
@@ -391,6 +418,9 @@ export const
 		{
 			forString: (loc, str) => Quote(loc, [ str ])
 		}),
+	QuoteTemplate = v('QuoteTemplate',
+		'TODO:DOC',
+		[ 'tag', Val, 'quote', Quote ]),
 
 	SD_Debugger = 0,
 	SpecialDo = d('SpecialDo',

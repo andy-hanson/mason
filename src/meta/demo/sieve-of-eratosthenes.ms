@@ -3,7 +3,7 @@ use
 	...@.Map.Map assoc! un-assoc!
 	...@.Map.Id-Map
 	...@.Map.multi-map add-to-@!
-	...@.Seq.Range
+	...@.Range
 	...@.Seq.Stream
 	...math.Number infinity square
 	...math.methods + *

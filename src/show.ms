@@ -90,12 +90,9 @@ impl! show Number
 
 impl! show Symbol
 	test. |
-		# TODO:ES6
-		# [ (Symbol "name") ] -> "<Symbol name>"
-		[ (Symbol "name") ] -> "<Symbol>"
-	|
-		# TODO:ES6 _.name
-		"<Symbol>"
+		[ (Symbol "name") ] -> "Symbol(name)"
+	.|
+		.toString()
 
 impl! show Boolean
 	test. |

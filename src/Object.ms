@@ -257,7 +257,7 @@ region Mutator methods
 		!|_:Object name:Object-Key val
 			Object.defineProperty _ name
 				enumerable. true
-				writable. false # TODO:ES6 Shouldn't need to be explicit
+				writable. false
 				value. val
 
 	p+mut!.

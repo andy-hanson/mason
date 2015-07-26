@@ -75,13 +75,12 @@ Method. class Function
 
 			add! case
 				has-args?
-					# TODO:SWITCH
-					args = case num-args
-						js=== _ 1
+					args = switch num-args
+						1
 							"a"
-						js=== _ 2
+						2
 							"a, b"
-						js=== _ 3
+						3
 							"a, b, c"
 
 					case
@@ -109,13 +108,12 @@ Method. class Function
 							default: throw new Error(`Code not generated to handle $\{arguments.length} args.`)
 						}
 
-		# TODO:SWITCH
-		case! num-args
-			js=== _ 1
+		switch! num-args
+			1
 				super "a" src
-			js=== _ 2
+			2
 				super "a" "b" src
-			js=== _ 3
+			3
 				super "a" "b" "c" src
 			else
 				super "a" "b" "c" "d" src

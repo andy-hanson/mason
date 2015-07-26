@@ -1,26 +1,27 @@
 import Loc from 'esast/dist/Loc'
 import { code } from '../../CompileError'
 import { Assert, AssignDestructure, AssignSingle, BagEntry, BagEntryMany, BagSimple, BlockBag,
-	BlockDo, BlockMap, BlockObj, BlockValThrow, BlockWithReturn, BlockWrap, BreakDo, BreakVal,
-	Call, CaseDoPart, CaseValPart, CaseDo, CaseVal, Catch, Class, ClassDo, ConditionalDo, ConditionalVal,
-	Continue, Debug, Iteratee, NumberLiteral, ExceptDo, ExceptVal, ForBag, ForDo, ForVal, Fun,
-	GlobalAccess, L_And, L_Or, Lazy, LD_Const, LD_Lazy, LD_Mutable, LocalAccess, LocalDeclare,
-	LocalDeclareFocus, LocalDeclareName, LocalDeclarePlain, LocalDeclareRes, LocalDeclareThis,
-	LocalDeclareUntyped, LocalMutate, Logic, MapEntry, Member, MemberSet, MethodImpl, Module,
-	MS_Mutate, MS_New, MS_NewMutable, New, Not, ObjEntry, ObjPair, ObjSimple, Pattern, Quote,
-	SP_Debugger, SpecialDo, SpecialVal, SV_Null, Splat, Throw, Val, Use, UseDo, Yield, YieldTo
+	BlockDo, BlockMap, BlockObj, BlockValThrow, BlockWithReturn, BlockWrap, Break, BreakWithVal,
+	Call, CaseDo, CaseDoPart, CaseVal, CaseValPart, Catch, Class, ClassDo, ConditionalDo,
+	ConditionalVal, Continue, Debug, Iteratee, NumberLiteral, ExceptDo, ExceptVal, ForBag, ForDo,
+	ForVal, Fun, GlobalAccess, L_And, L_Or, Lazy, LD_Const, LD_Lazy, LD_Mutable, LocalAccess,
+	LocalDeclare, LocalDeclareFocus, LocalDeclareName, LocalDeclarePlain, LocalDeclareRes,
+	LocalDeclareThis, LocalDeclareUntyped, LocalMutate, Logic, MapEntry, Member, MemberSet,
+	MethodImpl, Module, MS_Mutate, MS_New, MS_NewMutable, New, Not, ObjEntry, ObjPair, ObjSimple,
+	Pattern, Quote, QuoteTemplate, SP_Debugger, SpecialDo, SpecialVal, SV_Null, Splat, SwitchDo,
+	SwitchDoPart, SwitchVal, SwitchValPart, Throw, Val, Use, UseDo, Yield, YieldTo
 	} from '../../MsAst'
 import { JsGlobals } from '../language'
 import { DotName, Group, G_Block, G_Bracket, G_Parenthesis, G_Space, G_Quote, isGroup, isKeyword,
-	Keyword, KW_And, KW_Assert, KW_AssertNot, KW_Assign, KW_AssignMutable, KW_BreakDo, KW_BreakVal,
-	KW_CaseVal, KW_CaseDo, KW_Class, KW_CatchDo, KW_CatchVal, KW_Construct, KW_Continue,
-	KW_Debug, KW_Debugger, KW_Do, KW_Ellipsis, KW_Else, KW_ExceptDo, KW_ExceptVal, KW_Finally, KW_ForBag,
-	KW_ForDo, KW_ForVal, KW_Focus, KW_Fun, KW_FunDo, KW_FunGen, KW_FunGenDo, KW_FunThis,
-	KW_FunThisDo, KW_FunThisGen, KW_FunThisGenDo, KW_Get, KW_IfDo, KW_IfVal, KW_In, KW_Lazy,
-	KW_LocalMutate, KW_MapEntry, KW_New, KW_Not, KW_ObjAssign, KW_Or, KW_Pass, KW_Out, KW_Region,
-	KW_Set, KW_Static, KW_Throw, KW_TryDo, KW_TryVal, KW_Type, KW_UnlessDo, KW_UnlessVal, KW_Use,
-	KW_UseDebug, KW_UseDo, KW_UseLazy, KW_Yield, KW_YieldTo, Name, keywordName,
-	opKeywordKindToSpecialValueKind } from '../Token'
+	Keyword, KW_And, KW_Assert, KW_AssertNot, KW_Assign, KW_AssignMutable, KW_Break,
+	KW_BreakWithVal, KW_CaseVal, KW_CaseDo, KW_Class, KW_CatchDo, KW_CatchVal, KW_Construct,
+	KW_Continue, KW_Debug, KW_Debugger, KW_Do, KW_Ellipsis, KW_Else, KW_ExceptDo, KW_ExceptVal,
+	KW_Finally, KW_ForBag, KW_ForDo, KW_ForVal, KW_Focus, KW_Fun, KW_FunDo, KW_FunGen, KW_FunGenDo,
+	KW_FunThis, KW_FunThisDo, KW_FunThisGen, KW_FunThisGenDo, KW_Get, KW_IfDo, KW_IfVal, KW_In,
+	KW_Lazy, KW_LocalMutate, KW_MapEntry, KW_New, KW_Not, KW_ObjAssign, KW_Or, KW_Pass, KW_Out,
+	KW_Region, KW_Set, KW_Static, KW_SwitchDo, KW_SwitchVal, KW_Throw, KW_TryDo, KW_TryVal,
+	KW_Type, KW_UnlessDo, KW_UnlessVal, KW_Use, KW_UseDebug, KW_UseDo, KW_UseLazy, KW_Yield,
+	KW_YieldTo, Name, keywordName, opKeywordKindToSpecialValueKind } from '../Token'
 import { assert, head, ifElse, flatMap, isEmpty, last,
 	opIf, opMap, push, repeat, rtail, tail, unshift } from '../util'
 import Slice from './Slice'
@@ -246,18 +247,20 @@ const parseCase = (isVal, casedFromFun, tokens) => {
 		[ block.rtail(), (isVal ? justBlockVal : justBlockDo)(KW_Else, lastLine.tail()) ] :
 		[ block, null ]
 
-	const parts = partLines.mapSlices(line => {
-		const [ before, block ] = beforeAndBlock(line)
-		const test = _parseCaseTest(before)
-		const result = (isVal ? parseBlockVal : parseBlockDo)(block)
-		return (isVal ? CaseValPart : CaseDoPart)(line.loc, test, result)
-	})
-	context.check(parts.length > 0, tokens.loc, 'Must have at least 1 non-`else` test.')
+	const parts = partLines.mapSlices(_parseCaseLine(isVal))
+	context.check(parts.length > 0, tokens.loc, () =>
+		`Must have at least 1 non-${code('else')} test.`)
 
 	return (isVal ? CaseVal : CaseDo)(tokens.loc, opCased, parts, opElse)
 }
 // parseCase privates
 const
+	_parseCaseLine = isVal => line => {
+		const [ before, block ] = beforeAndBlock(line)
+		const test = _parseCaseTest(before)
+		const result = (isVal ? parseBlockVal : parseBlockDo)(block)
+		return (isVal ? CaseValPart : CaseDoPart)(line.loc, test, result)
+	},
 	_parseCaseTest = tokens => {
 		const first = tokens.head()
 		// Pattern match starts with type test and is followed by local declares.
@@ -271,6 +274,28 @@ const
 			}
 		}
 		return parseExpr(tokens)
+	}
+
+const parseSwitch = (isVal, tokens) => {
+	const [ before, block ] = beforeAndBlock(tokens)
+	const switched = parseExpr(before)
+	const lastLine = Slice.group(block.last())
+	const [ partLines, opElse ] = isKeyword(KW_Else, lastLine.head()) ?
+		[ block.rtail(), (isVal ? justBlockVal : justBlockDo)(KW_Else, lastLine.tail()) ] :
+		[ block, null ]
+
+	const parts = partLines.mapSlices(_parseSwitchLine(isVal))
+	context.check(parts.length > 0, tokens.loc, () =>
+		`Must have at least 1 non-${code('else')} test.`)
+
+	return (isVal ? SwitchVal : SwitchDo)(tokens.loc, switched, parts, opElse)
+}
+const
+	_parseSwitchLine = isVal => line => {
+		const [ before, block ] = beforeAndBlock(line)
+		const value = parseExpr(before)
+		const result = (isVal ? parseBlockVal : parseBlockDo)(block)
+		return (isVal ? SwitchValPart : SwitchDoPart)(line.loc, value, result)
 	}
 
 const
@@ -307,6 +332,18 @@ const
 		)
 	},
 
+	parseExprPlain = tokens => {
+		const parts = parseExprParts(tokens)
+		switch (parts.length) {
+			case 0:
+				context.fail(tokens.loc, 'Expected an expression, got nothing.')
+			case 1:
+				return head(parts)
+			default:
+				return Call(tokens.loc, head(parts), tail(parts))
+		}
+	},
+
 	parseExprParts = tokens => {
 		const opSplit = tokens.opSplitOnceWhere(token => {
 			if (token instanceof Keyword)
@@ -314,8 +351,8 @@ const
 					case KW_And: case KW_CaseVal: case KW_Class: case KW_ExceptVal: case KW_ForBag:
 					case KW_ForVal: case KW_Fun: case KW_FunDo: case KW_FunGen: case KW_FunGenDo:
 					case KW_FunThis: case KW_FunThisDo: case KW_FunThisGen: case KW_FunThisGenDo:
-					case KW_IfVal: case KW_New: case KW_Not: case KW_Or: case KW_UnlessVal:
-					case KW_Yield: case KW_YieldTo:
+					case KW_IfVal: case KW_New: case KW_Not: case KW_Or: case KW_SwitchVal:
+					case KW_UnlessVal: case KW_Yield: case KW_YieldTo:
 						return true
 					default:
 						return false
@@ -346,7 +383,7 @@ const
 						case KW_IfVal: case KW_UnlessVal: {
 							const [ before, block ] = beforeAndBlock(after)
 							return ConditionalVal(tokens.loc,
-								parseExpr(before),
+								parseExprPlain(before),
 								parseBlockVal(block),
 								at.kind === KW_UnlessVal)
 						}
@@ -355,29 +392,19 @@ const
 							return New(at.loc, parts[0], tail(parts))
 						}
 						case KW_Not:
-							return Not(at.loc, parseExpr(after))
+							return Not(at.loc, parseExprPlain(after))
+						case KW_SwitchVal:
+							return parseSwitch(true, after)
 						case KW_Yield:
-							return Yield(at.loc, parseExpr(after))
+							return Yield(at.loc, parseExprPlain(after))
 						case KW_YieldTo:
-							return YieldTo(at.loc, parseExpr(after))
+							return YieldTo(at.loc, parseExprPlain(after))
 						default: throw new Error(at.kind)
 					}
 				})()
 				return push(before.map(parseSingle), last)
 			},
 			() => tokens.map(parseSingle))
-	},
-
-	parseExprPlain = tokens => {
-		const parts = parseExprParts(tokens)
-		switch (parts.length) {
-			case 0:
-				context.fail(tokens.loc, 'Expected an expression, got nothing.')
-			case 1:
-				return head(parts)
-			default:
-				return Call(tokens.loc, head(parts), tail(parts))
-		}
 	}
 
 const parseFun = (kind, tokens) => {
@@ -511,11 +538,11 @@ const
 					return parseAssert(head.kind === KW_AssertNot, rest)
 				case KW_ExceptDo:
 					return parseExcept(KW_ExceptDo, rest)
-				case KW_BreakDo:
+				case KW_Break:
 					noRest()
-					return BreakDo(tokens.loc)
-				case KW_BreakVal:
-					return BreakVal(tokens.loc, parseExpr(rest))
+					return Break(tokens.loc)
+				case KW_BreakWithVal:
+					return BreakWithVal(tokens.loc, parseExpr(rest))
 				case KW_CaseDo:
 					return parseCase(false, false, rest)
 				case KW_Continue:
@@ -544,13 +571,15 @@ const
 				}
 				case KW_ObjAssign:
 					return BagEntry(tokens.loc, parseExpr(rest))
-				case KW_Throw:
-					return Throw(tokens.loc, opIf(!rest.isEmpty(), () => parseExpr(rest)))
 				case KW_Pass:
 					noRest()
 					return [ ]
 				case KW_Region:
 					return parseLinesFromBlock(tokens)
+				case KW_SwitchDo:
+					return parseSwitch(false, rest)
+				case KW_Throw:
+					return Throw(tokens.loc, opIf(!rest.isEmpty(), () => parseExpr(rest)))
 				default:
 					// fall through
 			}
@@ -762,8 +791,7 @@ const parseSingle = token => {
 			case G_Block:
 				return blockWrap(slice)
 			case G_Quote:
-				return Quote(loc,
-					slice.map(_ => (typeof _ === 'string') ? _ : parseSingle(_)))
+				return parseQuote(slice)
 			default:
 				throw new Error(token.kind)
 		}
@@ -814,18 +842,23 @@ const parseSpaced = tokens => {
 					}
 					default:
 				}
-			if (token instanceof Group)
+			if (token instanceof Group) {
+				const slice = Slice.group(token)
 				switch (token.kind) {
 					case G_Bracket:
-						acc = Call.sub(loc, unshift(acc, parseExprParts(Slice.group(token))))
+						acc = Call.sub(loc, unshift(acc, parseExprParts(slice)))
 						continue
 					case G_Parenthesis:
-						checkEmpty(Slice.group(token), () =>
+						checkEmpty(slice, () =>
 							`Use ${code('(a b)')}, not ${code('a(b)')}`)
 						acc = Call(loc, acc, [])
 						continue
+					case G_Quote:
+						acc = QuoteTemplate(loc, acc, parseQuote(slice))
+						continue
 					default:
 				}
+			}
 			context.fail(tokens.loc, `Expected member or sub, not ${token}`)
 		}
 		return acc
@@ -1038,7 +1071,6 @@ const parseClass = tokens => {
 			statics = _parseStatics(line2.tail())
 			rest = rest.tail()
 		}
-		//neater
 		if (!rest.isEmpty()) {
 			const line3 = rest.headSlice()
 			if (isKeyword(KW_Construct, line3.head())) {
@@ -1116,3 +1148,6 @@ const
 		else
 			return false
 	}
+
+const parseQuote = tokens =>
+	Quote(tokens.loc, tokens.map(_ => (typeof _ === 'string') ? _ : parseSingle(_)))

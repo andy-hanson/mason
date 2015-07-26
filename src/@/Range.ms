@@ -1,18 +1,18 @@
 use
-	...compare <? <=?
-	...control opr
-	...Function thunk
-	...math.Number Nat round-down sign
-	...math.methods + - * /
-	...Type.Kind kind! self-kind!
-	...Type.Method self-impl!
-	...Type.Pred-Type Opt
-	..@ _ count iterator
-	..@-Type _ empty from-stream
-	.Seq ?nth
+	..compare <? <=?
+	..control opr
+	..Function thunk
+	..math.Number Nat round-down sign
+	..math.methods + - * /
+	..Type.Kind kind! self-kind!
+	..Type.Method self-impl!
+	..Type.Pred-Type Opt
+	.@ _ count iterator
+	.@-Type _ empty from-stream
+	.Seq.Seq ?nth
 use~ # TODO: use-debug
-	...math.Number infinity
-	.Seq seq=? take'
+	..math.Number infinity
+	.Seq.Seq seq=? take'
 
 Range. class
 	do!

@@ -1,9 +1,10 @@
 'use strict'
 
-require('./es6-shim')
 require('source-map-support').install()
 const
+	argv = require('yargs').argv,
 	babel = require('gulp-babel'),
+	eslint = require('gulp-eslint'),
 	fs = require('q-io/fs'),
 	header = require('gulp-header'),
 	gulp = require('gulp'),
@@ -13,102 +14,101 @@ const
 	sourcemaps = require('gulp-sourcemaps'),
 	watch = require('gulp-watch')
 
-gulp.task('default', [ 'watch' ])
+// Use --no-checks to turn of checks in compiled mason code.
+const checks = argv.checks
 
-gulp.task('compile-all', [ 'js', 'ms', 'list-modules' ])
-gulp.task('watch', [ 'watch-js', 'watch-ms', 'watch-list-modules' ])
-gulp.task('all-minus-js', [ 'ms-minus-js' ], run)
-gulp.task('all-no-checks', [ 'ms-no-checks' ], run)
-
-function run() {
+const run = () => {
 	const test = require('./dist/meta/run-all-tests')
 	_ms.getModule(test).default()
 }
 
+// Composite
+
+gulp.task('default', [ 'watch' ])
+// TODO: Can't compile and run in the same task or there will be bugs.
+// gulp.task('all', [ 'compile-all' ], run)
+gulp.task('compile-all', [ 'js', 'ms', 'list-modules' ])
+gulp.task('all-minus-js', [ 'ms-minus-js' ], run)
+gulp.task('watch', [ 'watch-js', 'watch-ms', 'watch-list-modules' ])
+
+// Run
+
 gulp.task('run', run)
-gulp.task('run-requirejs', function() {
+
+gulp.task('run-requirejs', () => {
 	const test = requirejs(path.join(__dirname, 'dist/meta/run-all-tests'))
 	_ms.getModule(test).default()
 })
 
-function src(glob) { return gulp.src(glob) }
-function watchVerbose(glob, then) { return watch(glob, { verbose: true }, then) }
-function srcWatch(glob) { return src(glob).pipe(watchVerbose(glob)).pipe(plumber()) }
+// Compile
 
-function writeListModules() {
-	// Required lazily because 'js' task must run first.
+gulp.task('js', () => pipeJs(gulp.src(srcJs)))
+gulp.task('watch-js', () => pipeJs(srcWatch(srcJs)))
+
+gulp.task('ms', [ 'js' ], () => pipeMs(gulp.src(srcMs), true))
+gulp.task('ms-minus-js', () => pipeMs(gulp.src(srcMs), true))
+gulp.task('watch-ms', [ 'js' ], () => pipeMs(srcWatch(srcMs)))
+
+// Lint
+
+gulp.task('lint', () =>
+	gulp.src([ './gulpfile.js', srcJs ]).pipe(eslint()).pipe(eslint.format()))
+
+// Test
+
+gulp.task('test-compile', () =>
+	require('./dist/meta/compile/node-only/test-compile').test())
+
+gulp.task('perf-test-compile', () =>
+	require('./dist/meta/compile/node-only/test-compile').perfTest())
+
+// List modules
+
+const writeListModules = () => {
 	const listModules = require('./dist/meta/compile/node-only/list-modules')
-	return listModules('./dist', { exclude: /meta\/compile\/node-only\/.*/ }).then(function(js) {
-		return fs.write('./dist/modules-list.js', js)
-	})
+	return fs.remove('./dist/modules-list.js').then(() =>
+		listModules('./dist', { exclude: /meta\/compile\/node-only\/.*/ }).then(js =>
+			fs.write('./dist/modules-list.js', js)))
 }
-gulp.task('list-modules', [ 'js', 'ms' ], writeListModules)
-gulp.task('watch-list-modules', [ 'list-modules' ], function() {
-	const src = [ srcJs, srcMs ]
-	return watchVerbose(src, writeListModules)
-})
 
-gulp.task('test-compile', function() {
-	require('./dist/meta/compile/node-only/test-compile').test()
-})
-gulp.task('perf-test-compile', function() {
-	require('./dist/meta/compile/node-only/test-compile').perfTest()
-})
+gulp.task('list-modules', [ 'js', 'ms' ], writeListModules)
+gulp.task('watch-list-modules', [ 'list-modules' ], () =>
+	watchVerbose([ srcJs, srcMs ], writeListModules))
+
+
+// Helpers
 
 const
 	srcMs = 'src/**/*.ms',
 	srcJs = 'src/**/*.js',
 	dist = 'dist'
 
-function pipeMs(stream, checks) {
-	// This can only be required after we've created it, so 'ms' task depends on 'js'.
-	const ms = require('./dist/meta/compile/node-only/gulp-mason')
-	return stream
-	.pipe(sourcemaps.init())
-	.pipe(ms({ checks: checks, verbose: true }))
-	.pipe(sourcemaps.write({
-		debug: true,
-		includeContent: false,
-		sourceRoot: './src'
-	}))
-	.pipe(gulp.dest(dist))
-}
+const
+	watchVerbose = (glob, then) => watch(glob, { verbose: true }, then),
 
-function pipeJs(stream) {
-	return stream
-	.pipe(sourcemaps.init())
-	.pipe(babel({
-		modules: 'amd',
-		whitelist: [
-			'es6.destructuring',
-			'es6.modules',
-			'strict'
-		]
-	}))
-	.pipe(header(
-		'if (typeof define !== \'function\') var define = require(\'amdefine\')(module);'))
-	.pipe(sourcemaps.write({
-		debug: true,
-		sourceRoot: '/src'
-	}))
-	.pipe(gulp.dest(dist))
-}
+	srcWatch = glob => gulp.src(glob).pipe(watchVerbose(glob)).pipe(plumber()),
 
-gulp.task('js', function() {
-	return pipeJs(src(srcJs))
-})
-gulp.task('watch-js', function() { return pipeJs(srcWatch(srcJs)) })
+	pipeJs = stream =>
+		stream
+		.pipe(sourcemaps.init())
+		.pipe(babel({
+			modules: 'amd',
+			whitelist: [ 'es6.destructuring', 'es6.modules', 'strict' ]
+		}))
+		.pipe(header(
+			'if (typeof define !== \'function\') var define = require(\'amdefine\')(module);'))
+		.pipe(sourcemaps.write({ debug: true, sourceRoot: '/src' }))
+		.pipe(gulp.dest(dist)),
 
-gulp.task('ms-minus-js', function() { return pipeMs(src(srcMs), true) })
-gulp.task('ms', [ 'js' ], function() { return pipeMs(src(srcMs), true) })
-gulp.task('ms-no-checks', function() { return pipeMs(src(srcMs), false) })
-gulp.task('watch-ms', [ 'js' ], function() { return pipeMs(srcWatch(srcMs)) })
-
-gulp.task('lint', function() {
-	// For some reason, requiring this makes es6-shim unhappy.
-	// So, can't lint and do other things in the same task.
-	const eslint = require('gulp-eslint')
-	return src([ './*.js', srcJs ])
-	.pipe(eslint())
-	.pipe(eslint.format())
-})
+	pipeMs = stream => {
+		const ms = require('./dist/meta/compile/node-only/gulp-mason')
+		return stream
+		.pipe(sourcemaps.init())
+		.pipe(ms({ checks, verbose: true }))
+		.pipe(sourcemaps.write({
+			debug: true,
+			includeContent: false,
+			sourceRoot: './src'
+		}))
+		.pipe(gulp.dest(dist))
+	}

@@ -12,7 +12,7 @@ use
 use~ # TODO: use-debug
 	...math.methods +
 	...math.Number infinity
-	.Range
+	..Range
 	.Seq seq=? take'
 use-debug
 	...compare =?

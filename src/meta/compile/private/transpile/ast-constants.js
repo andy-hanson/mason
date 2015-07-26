@@ -1,6 +1,6 @@
 import { ArrayExpression, BinaryExpression, CallExpression, ExpressionStatement, Identifier,
-	IfStatement, Literal, NewExpression, ObjectExpression, ReturnStatement, UnaryExpression,
-	VariableDeclaration, VariableDeclarator } from 'esast/dist/ast'
+	IfStatement, Literal, NewExpression, ObjectExpression, ReturnStatement, SwitchCase,
+	UnaryExpression, VariableDeclaration, VariableDeclarator } from 'esast/dist/ast'
 import { member } from 'esast/dist/util'
 import { _IdError, templateElementForString, throwErrorFromString } from './util'
 
@@ -25,6 +25,8 @@ export const
 	ReturnBuilt = ReturnStatement(IdBuilt),
 	ReturnExports = ReturnStatement(IdExports),
 	ReturnRes = ReturnStatement(Identifier('res')),
+	SwitchCaseNoMatch = SwitchCase(undefined, [
+		throwErrorFromString('No branch of `switch` matches.') ]),
 	SymbolIterator = member(Identifier('Symbol'), 'iterator'),
 	ThrowAssertFail = throwErrorFromString('Assertion failed.'),
 	ThrowNoCaseMatch = throwErrorFromString('No branch of `case` matches.'),

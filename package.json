@@ -2,7 +2,7 @@
 	"name": "mason",
 	"version": "0.0.0",
 	"private": true,
-	"//": "Dependencies are for gulp tasks only.",
+	"//": "Dependencies are for gulp tasks only, except for esast and tupl.",
 	"files": [ "dist", "src" ],
 	"dependencies": {
 		"esast": "andy-hanson/esast",
@@ -23,12 +23,13 @@
 		"gulp-header": "1.2.2",
 		"gulp-plumber": "1.0.1",
 		"gulp-sourcemaps": "1.5.2",
-		"gulp-watch": "4.3.3",
+		"gulp-watch": "4.3.4",
 		"js-yaml": "3.3.1",
 		"numeral": "1.5.3",
 		"plist": "1.1.0",
 		"requirejs": "2.1.19",
-		"source-map-support": "0.3.2"
+		"source-map-support": "0.3.2",
+		"yargs": "3.15.0"
 	},
 	"repository": {
 		"type": "git",

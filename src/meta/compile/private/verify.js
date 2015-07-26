@@ -53,7 +53,10 @@ let
 	results
 
 const
-	verify = msAst => msAst.verify(),
+	verifyOpEach = op => {
+		if (op !== null)
+			op.verify()
+	},
 
 	deleteLocal = localDeclare =>
 		locals.delete(localDeclare.name),
@@ -183,7 +186,7 @@ const verifyLocalUse = () =>
 implementMany(MsAstTypes, 'verify', {
 	Assert() {
 		this.condition.verify()
-		opEach(this.opThrown, verify)
+		verifyOpEach(this.opThrown)
 	},
 
 	AssignSingle() {
@@ -200,14 +203,18 @@ implementMany(MsAstTypes, 'verify', {
 
 	AssignDestructure() {
 		// Assignees registered by verifyLines.
-		this.assignees.forEach(verify)
+		for (const _ of this.assignees)
+			_.verify()
 		this.value.verify()
 	},
 
 	BagEntry: verifyBagEntry,
 	BagEntryMany: verifyBagEntry,
 
-	BagSimple() { this.parts.forEach(verify) },
+	BagSimple() {
+		for (const _ of this.parts)
+			_.verify()
+	},
 
 	BlockDo() { verifyLines(this.lines) },
 
@@ -233,13 +240,13 @@ implementMany(MsAstTypes, 'verify', {
 
 	BlockWrap() { withIIFE(() => this.block.verify()) },
 
-	BreakDo() {
+	Break() {
 		verifyInLoop(this)
 		context.check(!(opLoop instanceof ForVal), this.loc, () =>
 			`${code('for')} must break with a value.`)
 	},
 
-	BreakVal() {
+	BreakWithVal() {
 		verifyInLoop(this)
 		context.check(opLoop instanceof ForVal, this.loc, () =>
 			`${code('break')} only valid inside ${code('for')}`)
@@ -248,7 +255,8 @@ implementMany(MsAstTypes, 'verify', {
 
 	Call() {
 		this.called.verify()
-		this.args.forEach(verify)
+		for (const _ of this.args)
+			_.verify()
 	},
 
 	CaseDo() { verifyCase(this) },
@@ -262,11 +270,13 @@ implementMany(MsAstTypes, 'verify', {
 	},
 
 	Class() {
-		opEach(this.superClass, verify)
-		opEach(this.opDo, verify)
-		this.statics.forEach(verify)
-		opEach(this.opConstructor, verify)
-		this.methods.forEach(verify)
+		verifyOpEach(this.superClass)
+		verifyOpEach(this.opDo)
+		for (const _ of this.statics)
+			_.verify()
+		verifyOpEach(this.opConstructor)
+		for (const method of this.methods)
+			method.verify()
 	},
 
 	ClassDo() {
@@ -304,10 +314,10 @@ implementMany(MsAstTypes, 'verify', {
 				withInLoop(false, () => {
 					const allArgs = cat(this.opDeclareThis, this.args, this.opRestArg)
 					verifyAndPlusLocals(allArgs, () => {
-						opEach(this.opIn, verify)
+						verifyOpEach(this.opIn)
 						this.block.verify()
 						opEach(this.opDeclareRes, verifyLocalDeclare)
-						const verifyOut = () => opEach(this.opOut, _ => _.verify())
+						const verifyOut = () => verifyOpEach(this.opOut)
 						ifElse(this.opDeclareRes, _ => plusLocal(_, verifyOut), verifyOut)
 					})
 				}))
@@ -321,7 +331,7 @@ implementMany(MsAstTypes, 'verify', {
 	LocalAccess() { accessLocal(this, this.name) },
 
 	// Adding LocalDeclares to the available locals is done by Fun or lineNewLocals.
-	LocalDeclare() { opEach(this.opType, verify) },
+	LocalDeclare() { verifyOpEach(this.opType) },
 
 	LocalMutate() {
 		const declare = getLocalDeclare(this.name, this.loc)
@@ -332,7 +342,8 @@ implementMany(MsAstTypes, 'verify', {
 
 	Logic() {
 		context.check(this.args.length > 1, 'Logic expression needs at least 2 arguments.')
-		this.args.forEach(verify)
+		for (const _ of this.args)
+			_.verify()
 	},
 
 	Not() { this.arg.verify() },
@@ -359,8 +370,12 @@ implementMany(MsAstTypes, 'verify', {
 
 	Module() {
 		// No need to verify this.doUses.
-		this.uses.forEach(verify)
-		withInDebug(() => this.debugUses.forEach(verify))
+		for (const _ of this.uses)
+			_.verify()
+		withInDebug(() => {
+			for (const _ of this.debugUses)
+				_.verify()
+		})
 		const newLocals = verifyLines(this.lines)
 		for (const _ of this.exports)
 			accessLocalForReturn(_, this)
@@ -378,7 +393,8 @@ implementMany(MsAstTypes, 'verify', {
 
 	New() {
 		this.type.verify()
-		this.args.forEach(verify)
+		for (const _ of this.args)
+			_.verify()
 	},
 
 	ObjEntry() {
@@ -404,14 +420,24 @@ implementMany(MsAstTypes, 'verify', {
 				_.verify()
 	},
 
+	QuoteTemplate() {
+		this.tag.verify()
+		this.quote.verify()
+	},
+
 	SpecialDo() { },
 
 	SpecialVal() { },
 
 	Splat() { this.splatted.verify() },
 
+	SwitchDo() { verifySwitch(this) },
+	SwitchDoPart: verifySwitchPart,
+	SwitchVal() { withIIFE(() => verifySwitch(this)) },
+	SwitchValPart: verifySwitchPart,
+
 	Throw() {
-		opEach(this.opThrown, verify)
+		verifyOpEach(this.opThrown)
 	},
 
 	Use() {
@@ -459,10 +485,15 @@ function verifyCasePart() {
 	}
 }
 
+function verifySwitchPart() {
+	this.value.verify()
+	this.result.verify()
+}
+
 function verifyExcept() {
 	this._try.verify()
-	opEach(this._catch, verify)
-	opEach(this._finally, verify)
+	verifyOpEach(this._catch)
+	verifyOpEach(this._finally)
 }
 
 // Helpers specific to certain MsAst types:
@@ -483,8 +514,9 @@ const
 
 	verifyCase = _ => {
 		const doIt = () => {
-			_.parts.forEach(verify)
-			opEach(_.opElse, verify)
+			for (const part of _.parts)
+				part.verify()
+			verifyOpEach(_.opElse)
 		}
 		ifElse(_.opCased,
 			_ => {
@@ -492,6 +524,13 @@ const
 				verifyAndPlusLocal(_.assignee, doIt)
 			},
 			doIt)
+	},
+
+	verifySwitch = _ => {
+		_.switched.verify()
+		for (const part of _.parts)
+			part.verify()
+		verifyOpEach(_.opElse)
 	}
 
 // General utilities:

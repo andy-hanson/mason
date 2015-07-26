@@ -1,6 +1,6 @@
 use
 	...@.@ empty? map'
-	...@.Seq.Range
+	...@.Range
 	...math.Number divisible? infinity Nat
 	...Object Object->Map
 	...Type.Type =>

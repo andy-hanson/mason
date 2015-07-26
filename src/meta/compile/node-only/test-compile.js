@@ -46,12 +46,12 @@ const doTest = isPerfTest => {
 
 		if (isPerfTest)
 			benchmark({
-				lex: () => lex(context, source),
-				parse: () => parse(context, rootToken),
-				verify: () => verify(context, msAst),
-				transpile: () => transpile(context, msAst, verifyResults),
-				render: () => render(context, esAst),
-				all: () => compile(source, opts)
+				lex() { lex(context, source) },
+				parse() { parse(context, rootToken) },
+				verify() { verify(context, msAst) },
+				transpile() { transpile(context, msAst, verifyResults) },
+				render() { render(context, esAst) },
+				all() { compile(source, opts) }
 			})
 		else {
 			console.log(`Expression tree size: ${treeSize(msAst, _ => _ instanceof MsAst).size}.`)

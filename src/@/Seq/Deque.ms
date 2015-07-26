@@ -8,7 +8,7 @@ use
 	..@ _ ++' count empty! empty? iterator map
 	..@-Type _ empty
 	..? un-?
-	.Range
+	..Range
 	.Seq _ <++! ++>! ?nth ?<pop! ?pop>! reverse set-nth!
 
 Deque. class

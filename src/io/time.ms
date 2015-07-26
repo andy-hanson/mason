@@ -14,7 +14,6 @@ $after-time.
 		assert! =? 1 (<~ $after-time 1 |
 			1
 	|time-ms:Number _:Function
-		# TODO:ES6 Shouldn't need `new`
 		new $ !|resolve
 			f = !|
 				resolve _()

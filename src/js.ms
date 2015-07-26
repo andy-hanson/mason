@@ -36,7 +36,6 @@ js-set. Function "obj" "prop" "val" "obj[prop] = val"
 js-delete. Function "obj" "prop" "delete obj[prop]"
 js-instanceof. op "instanceof"
 
-# TODO:ES6 `undefined` constant.
 defined?.
 	doc. "True for any value except `undefined`."
 	test. |
@@ -77,25 +76,3 @@ js-typeof.
 		[ js-typeof ] -> "function"
 		[ (a. 1) ] -> "object"
 	unary-op "typeof"
-
-# TODO: Move to Function.ms?
-apply-with-this.
-	doc. "
-		Like `apply`, and also makes the hidden parameter `this` to be `new-this`.
-		Acts like `new-this.f ...arguments` if `f` were in the prototype chain of `new-this`.
-	test. |
-		f = .|a
-			+ this a
-		[ f 1 [ 2 ] ] -> 3
-	|f:Function new-this args:@
-		# TODO:ES6 ...args
-		Function.prototype.apply.call f new-this (=> Array args)
-
-call-with-this.
-	doc. "Like `apply-with-this` but does not take a list."
-	test. !|
-		f = .|a
-			+ this a
-		assert! =? 3 (call-with-this f 1 2)
-	|_:Function new-this ...args
-		apply-with-this _ new-this args

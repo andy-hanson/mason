@@ -6,7 +6,7 @@ use
 	..Type.Type =>
 	.@ _ ++!
 use-debug
-	.Seq.Range
+	.Range
 
 @-Type. new Kind
 	doc. "Any sub-type of @."
