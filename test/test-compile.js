@@ -1,25 +1,28 @@
+// Code for `gulp test-compile` and `gulp perf-test-compile`
+
 import { Suite } from 'benchmark'
 import { Node } from 'esast/dist/ast'
 import fs from 'fs'
 import numeral from 'numeral'
-import compile from '../compile'
-import CompileError from '../CompileError'
-import MsAst from '../MsAst'
-import CompileContext from '../private/CompileContext'
-import CompileOptions from '../private/CompileOptions'
-import lex from '../private/lex'
-import parse from '../private/parse/parse'
-import render from '../private/render'
-import transpile from '../private/transpile/transpile'
-import verify from '../private/verify'
-import formatCompileErrorForConsole from './formatCompileErrorForConsole'
+import compile from '../dist/meta/compile/compile'
+import CompileError from '../dist/meta/compile/CompileError'
+import MsAst from '../dist/meta/compile/MsAst'
+import CompileContext from '../dist/meta/compile/private/CompileContext'
+import CompileOptions from '../dist/meta/compile/private/CompileOptions'
+import lex from '../dist/meta/compile/private/lex'
+import parse from '../dist/meta/compile/private/parse/parse'
+import render from '../dist/meta/compile/private/render'
+import transpile from '../dist/meta/compile/private/transpile/transpile'
+import verify from '../dist/meta/compile/private/verify'
+import formatCompileErrorForConsole from
+	'../dist/meta/compile/node-only/formatCompileErrorForConsole'
 
 export const
 	test = () => doTest(false),
 	perfTest = () => doTest(true)
 
 const doTest = isPerfTest => {
-	const source = fs.readFileSync('./test-compile.ms', 'utf-8')
+	const source = fs.readFileSync('test/test-compile.ms', 'utf-8')
 	const opts = {
 		inFile: './test-compile.ms',
 		includeAmdefine: false,

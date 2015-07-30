@@ -5,12 +5,11 @@ import { Assert, AssignDestructure, AssignSingle, BagEntry, BagEntryMany, BagSim
 	Call, CaseDo, CaseDoPart, CaseVal, CaseValPart, Catch, Class, ClassDo, ConditionalDo,
 	ConditionalVal, Continue, Debug, Iteratee, NumberLiteral, ExceptDo, ExceptVal, ForBag, ForDo,
 	ForVal, Fun, GlobalAccess, L_And, L_Or, Lazy, LD_Const, LD_Lazy, LD_Mutable, LocalAccess,
-	LocalDeclare, LocalDeclareFocus, LocalDeclareName, LocalDeclarePlain, LocalDeclareRes,
-	LocalDeclareThis, LocalDeclareUntyped, LocalMutate, Logic, MapEntry, Member, MemberSet,
-	MethodImpl, Module, MS_Mutate, MS_New, MS_NewMutable, New, Not, ObjEntry, ObjPair, ObjSimple,
-	Pattern, Quote, QuoteTemplate, SP_Debugger, SpecialDo, SpecialVal, SV_Null, Splat, SwitchDo,
-	SwitchDoPart, SwitchVal, SwitchValPart, Throw, Val, Use, UseDo, Yield, YieldTo
-	} from '../../MsAst'
+	LocalDeclare, LocalDeclareFocus, LocalDeclareName, LocalDeclareRes, LocalDeclareThis,
+	LocalMutate, Logic, MapEntry, Member, MemberSet, MethodImpl, Module, MS_Mutate, MS_New,
+	MS_NewMutable, New, Not, ObjEntry, ObjPair, ObjSimple, Pattern, Quote, QuoteTemplate,
+	SD_Debugger, SpecialDo, SpecialVal, SV_Null, Splat, SwitchDo, SwitchDoPart, SwitchVal,
+	SwitchValPart, Throw, Val, Use, UseDo, Yield, YieldTo } from '../../MsAst'
 import { JsGlobals } from '../language'
 import { DotName, Group, G_Block, G_Bracket, G_Parenthesis, G_Space, G_Quote, isGroup, isKeyword,
 	Keyword, KW_And, KW_Assert, KW_AssertNot, KW_Assign, KW_AssignMutable, KW_Break,
@@ -503,7 +502,7 @@ const
 				context.check(l.nDots === 3, l.loc, 'Splat argument must have exactly 3 dots')
 				return {
 					args: parseLocalDeclares(tokens.rtail()),
-					opRestArg: LocalDeclarePlain(l.loc, l.name)
+					opRestArg: LocalDeclare.plain(l.loc, l.name)
 				}
 			}
 			else return { args: parseLocalDeclares(tokens), opRestArg: null }
@@ -557,7 +556,7 @@ const
 						parseLineOrLines(rest))
 				case KW_Debugger:
 					noRest()
-					return SpecialDo(tokens.loc, SP_Debugger)
+					return SpecialDo(tokens.loc, SD_Debugger)
 				case KW_Ellipsis:
 					return BagEntryMany(tokens.loc, parseExpr(rest))
 				case KW_ForDo:
@@ -738,7 +737,7 @@ const
 
 const
 	parseLocalDeclaresJustNames = tokens =>
-		tokens.map(_ => LocalDeclarePlain(_.loc, _parseLocalName(_))),
+		tokens.map(_ => LocalDeclare.plain(_.loc, _parseLocalName(_))),
 
 	parseLocalDeclares = tokens => tokens.map(parseLocalDeclare),
 
@@ -758,7 +757,7 @@ const
 			})
 			return LocalDeclare(token.loc, name, opType, isLazy ? LD_Lazy : LD_Const)
 		} else
-			return LocalDeclarePlain(token.loc, _parseLocalName(token))
+			return LocalDeclare.plain(token.loc, _parseLocalName(token))
 	}
 
 // parseLocalDeclare privates
@@ -897,7 +896,7 @@ const
 	},
 
 	_parseThingsUsed = (name, isLazy, tokens) => {
-		const useDefault = () => LocalDeclareUntyped(tokens.loc, name, isLazy ? LD_Lazy : LD_Const)
+		const useDefault = () => LocalDeclare.untyped(tokens.loc, name, isLazy ? LD_Lazy : LD_Const)
 		if (tokens.isEmpty())
 			return { used: [ ], opUseDefault: useDefault() }
 		else {

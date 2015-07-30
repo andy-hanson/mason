@@ -45,7 +45,7 @@ define(["exports","./compare","./at/at","./at/Map/Map","./at/Seq/Seq","./Functio
 					const args=_ms.checkContains(_ms.unlazy(_64),_ms.sub(_,0),"args");
 					const expected_45res=_ms.sub(_,1);
 					const actual=fun.apply(_ms.sub(args,0),_ms.unlazy(tail)(args));
-					if(! _ms.bool(_61_63(actual,expected_45res)))throw _ms.error(`${_ms.show(fun)} of:\n\t${_ms.show(_ms.unlazy(indent)(_ms.unlazy(_61_62)(String,_ms.unlazy(map)(args,_ms.unlazy(repr)),`\n`)))}\nShould ${_ms.show(_61_63)}:\n\t${_ms.show(_ms.unlazy(indent)(_ms.unlazy(repr)(expected_45res)))}\nGot:\n\t${_ms.show(_ms.unlazy(indent)(_ms.unlazy(repr)(actual)))}`)
+					if(! _61_63(actual,expected_45res))throw _ms.error(`${_ms.show(fun)} of:\n\t${_ms.show(_ms.unlazy(indent)(_ms.unlazy(_61_62)(String,_ms.unlazy(map)(args,_ms.unlazy(repr)),`\n`)))}\nShould ${_ms.show(_61_63)}:\n\t${_ms.show(_ms.unlazy(indent)(_ms.unlazy(repr)(expected_45res)))}\nGot:\n\t${_ms.show(_ms.unlazy(indent)(_ms.unlazy(repr)(actual)))}`)
 				}
 			},built)
 		}();
@@ -67,7 +67,7 @@ define(["exports","./compare","./at/at","./at/Map/Map","./at/Seq/Seq","./Functio
 					const args=_ms.checkContains(_ms.unlazy(_64),_ms.sub(_,0),"args");
 					const expected_45res=_ms.sub(_,1);
 					const actual=Function.apply.call(fun,null,[].concat(_ms.arr(args)));
-					if(! _ms.bool(equal_63(actual,expected_45res)))throw _ms.error(`${_ms.show(fun)} of:\n\t${_ms.show(_ms.unlazy(indent)(_ms.unlazy(_61_62)(String,_ms.unlazy(map)(args,_ms.unlazy(repr)),`\n`)))}\nShould ${_ms.show(equal_63)}:\n\t${_ms.show(_ms.unlazy(indent)(_ms.unlazy(repr)(expected_45res)))}\nGot:\n\t${_ms.show(_ms.unlazy(indent)(_ms.unlazy(repr)(actual)))}`)
+					if(! equal_63(actual,expected_45res))throw _ms.error(`${_ms.show(fun)} of:\n\t${_ms.show(_ms.unlazy(indent)(_ms.unlazy(_61_62)(String,_ms.unlazy(map)(args,_ms.unlazy(repr)),`\n`)))}\nShould ${_ms.show(equal_63)}:\n\t${_ms.show(_ms.unlazy(indent)(_ms.unlazy(repr)(expected_45res)))}\nGot:\n\t${_ms.show(_ms.unlazy(indent)(_ms.unlazy(repr)(actual)))}`)
 				}
 			},built)
 		}();
@@ -75,4 +75,4 @@ define(["exports","./compare","./at/at","./at/Map/Map","./at/Seq/Seq","./Functio
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9hc3NlcnQubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7RUFnQkEsc0JBQ0M7RUFHRCxtREFDYTs7R0FBWixvQkFDQztHQUNELHNCQUNRLGVBQUE7SUFBUCxxQ0FDYzs7cUJBQWIsQ0FBRSxFQUFFLEdBQU87OztJQUNaLFdBQ0M7MkNBT21CLEtBQ08sSUFBQTtLQUExQixxQ0FDYzs7c0JBQWIsQ0FBRSxFQUFFLEdBQU87Ozs7O2tCQUNaLDBCQUFBLElBQWEsaUJBQ3VDO3NCQURoRDs7SUFDTCx3QkFBa0IsT0FBRyxJQUFJO0dBQUE7O0VBRTNCLCtEQUNrQjs7R0FBakIsb0JBQU07R0FDTixzQkFDUSxlQUFBO2tCQUNOLGlDQUFBLElBQWEsaUJBQ3VDO3NCQURoRDs7SUFDQSxRQUFBLEtBQUEsaUJBQ1k7S0FDaEIscURBQVMsRUFBRTtLQUNYLDZCQUFlLEVBQUU7S0FDakIsYUFBUyxrQkFBVSxLQUFLLG9CQUFTO0tBQ3pCLGNBQUEsT0FBRyxPQUFPLGlDQUNqQixZQUFDLDhEQUNZLHVCQUFZLHVCQUFZLDRCQUM3Qiw0REFDTywyRUFFQTs7OztFQUVuQiwrREFDa0I7O0dBQWpCLG9CQUFNO0dBQ04sc0JBQ1EsZUFBQTtJQUFQLDBGQUMrQjs7cUJBQTlCLENBQUUsRUFBRSxHQUFROzs7O2tCQUNaLGlDQUFBLFNBQVksSUFBYSxpQkFDdUM7O3NCQURoRDs7SUFDWixRQUFBLEtBQUEsaUJBQ1k7S0FDaEIscURBQVMsRUFBRTtLQUNYLDZCQUFlLEVBQUU7S0FDakIsaUNBQVMsMkJBQUk7S0FDTCxjQUFBLFNBQU8sT0FBTyxpQ0FDckIsWUFBQyw4REFDWSx1QkFBWSx1QkFBWSw0QkFDN0IsOERBQ08sMkVBRUE7Ozs7RUEzRW5CLHdCQUFBIiwiZmlsZSI6ImFzc2VydC5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9hc3NlcnQubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7RUFnQkEsc0JBQ0M7RUFHRCxtREFDYTs7R0FBWixvQkFDQztHQUNELHNCQUNRLGVBQUE7SUFBUCxxQ0FDYzs7cUJBQWIsQ0FBRSxFQUFFLEdBQU87OztJQUNaLFdBQ0M7MkNBT21CLEtBQ08sSUFBQTtLQUExQixxQ0FDYzs7c0JBQWIsQ0FBRSxFQUFFLEdBQU87Ozs7O2tCQUNaLDBCQUFBLElBQWEsaUJBQ3VDO3NCQURoRDs7SUFDTCx3QkFBa0IsT0FBRyxJQUFJO0dBQUE7O0VBRTNCLCtEQUNrQjs7R0FBakIsb0JBQU07R0FDTixzQkFDUSxlQUFBO2tCQUNOLGlDQUFBLElBQWEsaUJBQ3VDO3NCQURoRDs7SUFDQSxRQUFBLEtBQUEsaUJBQ1k7S0FDaEIscURBQVMsRUFBRTtLQUNYLDZCQUFlLEVBQUU7S0FDakIsYUFBUyxrQkFBVSxLQUFLLG9CQUFTO0tBQ3pCLEtBQUEsT0FBRyxPQUFPLGdDQUNqQixZQUFDLDhEQUNZLHVCQUFZLHVCQUFZLDRCQUM3Qiw0REFDTywyRUFFQTs7OztFQUVuQiwrREFDa0I7O0dBQWpCLG9CQUFNO0dBQ04sc0JBQ1EsZUFBQTtJQUFQLDBGQUMrQjs7cUJBQTlCLENBQUUsRUFBRSxHQUFROzs7O2tCQUNaLGlDQUFBLFNBQVksSUFBYSxpQkFDdUM7O3NCQURoRDs7SUFDWixRQUFBLEtBQUEsaUJBQ1k7S0FDaEIscURBQVMsRUFBRTtLQUNYLDZCQUFlLEVBQUU7S0FDakIsaUNBQVMsMkJBQUk7S0FDTCxLQUFBLFNBQU8sT0FBTyxnQ0FDckIsWUFBQyw4REFDWSx1QkFBWSx1QkFBWSw0QkFDN0IsOERBQ08sMkVBRUE7Ozs7RUEzRW5CLHdCQUFBIiwiZmlsZSI6ImFzc2VydC5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

@@ -20,7 +20,7 @@ import { AmdefineHeader, ArraySliceCall, DeclareBuiltBag, DeclareBuiltMap, Decla
 	IdExtract, IdFunctionApplyCall, IdLexicalThis, LitEmptyArray, LitEmptyString, LitNull,
 	LitStrExports, LitStrThrow, LitZero, ReturnBuilt, ReturnExports, ReturnRes, SwitchCaseNoMatch,
 	ThrowAssertFail, ThrowNoCaseMatch, UseStrict } from './ast-constants'
-import { IdMs, lazyWrap, msAdd, msAddMany, msArr, msAssert, msAssertNot, msAssoc, msBool,
+import { IdMs, lazyWrap, msAdd, msAddMany, msArr, msAssert, msAssertNot, msAssoc,
 	msCheckContains, msError, msExtract, msGet, msGetDefaultExport, msGetModule, msLazy, msLazyGet,
 	msLazyGetModule, msNewMutableProperty, msNewProperty, msSet, msSetName, msSetLazy, msShow,
 	msSome, msSymbol, MsNone } from './ms-call'
@@ -62,7 +62,7 @@ const
 implementMany(MsAstTypes, 'transpile', {
 	Assert() {
 		const failCond = () => {
-			const cond = msBool(t0(this.condition))
+			const cond = t0(this.condition)
 			return this.negate ? cond : UnaryExpression('!', cond)
 		}
 
@@ -205,13 +205,14 @@ implementMany(MsAstTypes, 'transpile', {
 	},
 
 	ConditionalDo() {
+		const test = t0(this.test)
 		return IfStatement(
-			this.isUnless ? UnaryExpression('!', maybeBoolWrap(t0(this.test))) : t0(this.test),
+			this.isUnless ? UnaryExpression('!', test) : test,
 			t0(this.result))
 	},
 
 	ConditionalVal() {
-		const test = maybeBoolWrap(t0(this.test))
+		const test = t0(this.test)
 		const result = msSome(blockWrap(t0(this.result)))
 		return this.isUnless ?
 			ConditionalExpression(test, MsNone, result) :
@@ -438,13 +439,29 @@ function casePart(alternate) {
 		return BlockStatement([ decl, IfStatement(test, res, alternate) ])
 	} else
 		// alternate written to by `caseBody`.
-		return IfStatement(maybeBoolWrap(t0(this.test)), t0(this.result), alternate)
+		return IfStatement(t0(this.test), t0(this.result), alternate)
 }
 
 function switchPart() {
 	const opOut = opIf(this instanceof SwitchDoPart, BreakStatement)
-	const block = t3(this.result, null, null, opOut).body
-	return SwitchCase(t0(this.value), block)
+	const block = t3(this.result, null, null, opOut)
+	/*
+	We could just pass block.body for the switch lines, but instead
+	enclose the body of the switch case in curly braces to ensure a new scope.
+	That way this code works:
+		switch (0) {
+			case 0: {
+				const a = 0
+				return a
+			}
+			default: {
+				// Without curly braces this would conflict with the other `a`.
+				const a = 1
+				a
+			}
+		}
+	*/
+	return SwitchCase(t0(this.value), [ block ])
 }
 
 // Functions specific to certain expressions.
@@ -577,9 +594,6 @@ const
 
 // General utils. Not in util.js because these close over context.
 const
-	maybeBoolWrap = ast =>
-		context.opts.includeCaseChecks() ? msBool(ast) : ast,
-
 	makeDestructureDeclarators = (assignees, isLazy, value, isModule, isExport) => {
 		const destructuredName = `_$${assignees[0].loc.start.line}`
 		const idDestructured = Identifier(destructuredName)

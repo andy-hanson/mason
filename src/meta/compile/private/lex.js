@@ -277,6 +277,11 @@ export default (context, sourceString) => {
 			eatAndAddNumber = () => {
 				// TODO: A real number literal lexer, not just JavaScript's...
 				const numberString = takeWhileWithPrev(isNumberCharacter)
+				// Don't include `.` at end.
+				if (last(numberString) === '.') {
+					index = index - 1
+					column = column - 1
+				}
 				const number = Number(numberString)
 				context.check(!Number.isNaN(number), pos, () =>
 					`Invalid number literal ${code(numberString)}`)

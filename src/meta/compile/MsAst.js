@@ -33,21 +33,21 @@ export const
 		{
 			isLazy() { return this.kind === LD_Lazy },
 			isMutable() { return this.kind === LD_Mutable }
-		}),
-	LocalDeclareUntyped = makeType(LocalDeclare)('LocalDeclareUntyped',
-		'TODO:DOC',
-		[ 'name', String, 'kind', Number ],
-		{ opType: null }),
-	LocalDeclarePlain = makeType(LocalDeclareUntyped)('LocalDeclarePlain',
-		'TODO:DOC',
-		[ 'name', String ],
-		{ kind: LD_Const })
+		},
+		{
+			untyped(loc, name, kind) {
+				return LocalDeclare(loc, name, null, kind)
+			},
+			plain(loc, name) {
+				return LocalDeclare(loc, name, null, LD_Const)
+			}
+		})
 
 const localDeclarePlainType = name =>
-	makeType(LocalDeclarePlain)(`LocalDeclare_${name}`,
+	makeType(LocalDeclare)(`LocalDeclare_${name}`,
 		'TODO:DOC',
 		[ ],
-		{ name })
+		{ opType: null, kind: LD_Const, name })
 
 export const
 	LocalDeclareBuilt = localDeclarePlainType('built'),

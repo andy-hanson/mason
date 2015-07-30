@@ -13,7 +13,7 @@ define(["exports","esast/dist/mangle-identifier","../Object","../show","./Method
 			return _ms.set(function(opts){
 				const _this=this;
 				return ()=>{
-					if(_ms.bool(flag_63(opts,`repr`))){
+					if(flag_63(opts,`repr`)){
 						return show.default(_this,opts)
 					} else {
 						return unmangle(_this.name)
@@ -28,7 +28,7 @@ define(["exports","esast/dist/mangle-identifier","../Object","../show","./Method
 			return _ms.set(function(opts){
 				const _this=this;
 				return ()=>{
-					if(_ms.bool(flag_63(opts,`repr`))){
+					if(flag_63(opts,`repr`)){
 						return show.default(_this,opts)
 					} else {
 						return unmangle(_this.name)
@@ -39,4 +39,4 @@ define(["exports","esast/dist/mangle-identifier","../Object","../show","./Method
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL3Nob3ctVHlwZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQU9BLFFBQU0sS0FBSyxTQUNJOztHQUFkLHNCQUNPLGVBQUE7O29CQUFOLENBQUUsUUFBYTs7O2tCQUNkLFNBQUEsS0FDSTtVQVlVOztLQVhkLFlBQUEsUUFBTSxLQUFNLFNBQ0s7YUFBaEIsYUFVYSxNQVZLO0tBQUEsT0FFZjthQUFILFNBUWE7Ozs7O0VBdkJqQix3QkFBQTtrQkFpQkEsUUFBTSxLQUFLLFdBQ007O0dBQWhCLHNCQUNRLGVBQUE7a0JBQ04sU0FBQSxLQUNJO1VBRVU7O0tBRGQsWUFBQSxRQUFNLEtBQU0sU0FDSzthQUFoQixhQUFhLE1BQUs7S0FBQSxPQUVmO2FBQUgsU0FGYSIsImZpbGUiOiJUeXBlL3Nob3ctVHlwZS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL3Nob3ctVHlwZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQU9BLFFBQU0sS0FBSyxTQUNJOztHQUFkLHNCQUNPLGVBQUE7O29CQUFOLENBQUUsUUFBYTs7O2tCQUNkLFNBQUEsS0FDSTtVQVlVOztLQVhkLEdBQUEsUUFBTSxLQUFNLFFBQ0s7YUFBaEIsYUFVYSxNQVZLO0tBQUEsT0FFZjthQUFILFNBUWE7Ozs7O0VBdkJqQix3QkFBQTtrQkFpQkEsUUFBTSxLQUFLLFdBQ007O0dBQWhCLHNCQUNRLGVBQUE7a0JBQ04sU0FBQSxLQUNJO1VBRVU7O0tBRGQsR0FBQSxRQUFNLEtBQU0sUUFDSzthQUFoQixhQUFhLE1BQUs7S0FBQSxPQUVmO2FBQUgsU0FGYSIsImZpbGUiOiJUeXBlL3Nob3ctVHlwZS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

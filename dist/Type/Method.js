@@ -16,15 +16,15 @@ define(["exports","esast/dist/util","../js","../private/bootstrap","../private/j
 		const Method=class Method extends Function{
 			constructor(params){
 				const name=params.name;
-				if(! _ms.bool(defined_63(name)))throw _ms.error(`Must provide method name.`);
+				if(! defined_63(name))throw _ms.error(`Must provide method name.`);
 				const default_63=defined_63(params.default);
 				const wrap_63=defined_63(params.wrap);
 				const allow_45null_63=flag_63(params["allow-null?"]);
-				if(! _ms.bool((! allow_45null_63||default_63)))throw _ms.error(`Method with \`allow-null?\` must have \`default.`);
+				if(! (! allow_45null_63||default_63))throw _ms.error(`Method with \`allow-null?\` must have \`default.`);
 				const secret_45name=`__method_${_ms.show(name)}_${_ms.show(random_45digits())}`;
 				const impl_45symbol=()=>{
 					const _=params["impl-symbol"];
-					if(_ms.bool(defined_63(_))){
+					if(defined_63(_)){
 						return _
 					} else {
 						return Symbol(name)
@@ -33,11 +33,11 @@ define(["exports","esast/dist/util","../js","../private/bootstrap","../private/j
 				const has_45args_63=defined_63(params.args);
 				const num_45args=()=>{
 					const _=params.args;
-					if(_ms.bool(js_61_61_61(js_45typeof(_),`number`))){
+					if(js_61_61_61(js_45typeof(_),`number`)){
 						return _
-					} else if(_ms.bool(js_45instanceof(_,Array))){
+					} else if(js_45instanceof(_,Array)){
 						return _.length
-					} else if(_ms.bool(! defined_63(_))){
+					} else if(! defined_63(_)){
 						return - 1
 					} else throw new (Error)("No branch of `case` matches.")
 				}();
@@ -45,22 +45,22 @@ define(["exports","esast/dist/util","../js","../private/bootstrap","../private/j
 					const access_45method=`global["${_ms.show(escapeStringForLiteral(secret_45name))}"]`;
 					const impl=()=>{
 						const _=impl_45symbol;
-						if(_ms.bool(js_61_61_61(js_45typeof(_),`symbol`))){
+						if(js_61_61_61(js_45typeof(_),`symbol`)){
 							return `a[${_ms.show(access_45method)}["impl-symbol"]]`
-						} else if(_ms.bool(_ms.contains(String,_))){
+						} else if(_ms.contains(String,_)){
 							return `a["${_ms.show(escapeStringForLiteral(_))}"]`
 						} else throw new (Error)("No branch of `case` matches.")
 					}();
 					if(default_63){
 						const cond=()=>{
-							if(_ms.bool(allow_45null_63)){
+							if(allow_45null_63){
 								return `a == null || ${_ms.show(impl)} === undefined`
 							} else {
 								return `${_ms.show(impl)} === undefined`
 							}
 						}();
 						const call=()=>{
-							if(_ms.bool(wrap_63)){
+							if(wrap_63){
 								return `${_ms.show(access_45method)}.wrap.apply(null, [${_ms.show(access_45method)}.default].concat(Array.prototype.slice.call(arguments)))`
 							} else {
 								return `${_ms.show(access_45method)}.default.apply(a, Array.prototype.slice.call(arguments, 1))`
@@ -70,23 +70,29 @@ define(["exports","esast/dist/util","../js","../private/bootstrap","../private/j
 					};
 					const wrap=`${_ms.show(access_45method)}.wrap`;
 					return add_33(()=>{
-						if(_ms.bool(has_45args_63)){
+						if(has_45args_63){
 							const args=()=>{
 								switch(num_45args){
-									case 1:return `a`
-									case 2:return `a, b`
-									case 3:return `a, b, c`
+									case 1:{
+										return `a`
+									}
+									case 2:{
+										return `a, b`
+									}
+									case 3:{
+										return `a, b, c`
+									}
 									default:throw new (Error)("No branch of `switch` matches.")
 								}
 							}();
 							return ()=>{
-								if(_ms.bool(wrap_63)){
+								if(wrap_63){
 									return `return ${_ms.show(wrap)}(${_ms.show(impl)}, ${_ms.show(args)})`
 								} else {
 									return `return ${_ms.show(impl)}(${_ms.show(args.slice(3))})`
 								}
 							}()
-						} else if(_ms.bool(wrap_63)){
+						} else if(wrap_63){
 							return `switch (arguments.length) \{\n\tcase 1: return ${_ms.show(wrap)}(${_ms.show(impl)}, a)\n\tcase 2: return ${_ms.show(wrap)}(${_ms.show(impl)}, a, b)\n\tcase 3: return ${_ms.show(wrap)}(${_ms.show(impl)}, a, b, c)\n\tcase 4: return ${_ms.show(wrap)}(${_ms.show(impl)}, a, b, c, d)\n\tdefault: throw new Error(\`Code not generated to handle $\{arguments.length} arguments.\`)\n}`
 						} else {
 							return `switch (arguments.length) \{\n\tcase 1: return ${_ms.show(impl)}()\n\tcase 2: return ${_ms.show(impl)}(b)\n\tcase 3: return ${_ms.show(impl)}(b, c)\n\tcase 4: return ${_ms.show(impl)}(b, c, d)\n\tdefault: throw new Error(\`Code not generated to handle $\{arguments.length} args.\`)\n}`
@@ -94,15 +100,18 @@ define(["exports","esast/dist/util","../js","../private/bootstrap","../private/j
 					}())
 				});
 				switch(num_45args){
-					case 1:
+					case 1:{
 						super(`a`,src);
 						break
-					case 2:
+					}
+					case 2:{
 						super(`a`,`b`,src);
 						break
-					case 3:
+					}
+					case 3:{
 						super(`a`,`b`,`c`,src);
 						break
+					}
 					default:super(`a`,`b`,`c`,`d`,src)
 				};
 				Object.setPrototypeOf(this,Method.prototype);
@@ -175,13 +184,13 @@ define(["exports","esast/dist/util","../js","../private/bootstrap","../private/j
 			_ms.checkContains(_ms.unlazy(Impl_45Type),implementor_451,"implementor-1");
 			_ms.checkContains(Function,implementation,"implementation");
 			const dispatcher=()=>{
-				if(_ms.bool(writable_63(implementor_450.prototype,method["impl-symbol"]))){
+				if(writable_63(implementor_450.prototype,method["impl-symbol"])){
 					const dd=new (Double_45Dispatcher)(method);
 					do_45impl_33(method,implementor_450,dd);
 					return dd
 				} else {
 					const _=js_45sub(implementor_450.prototype,method["impl-symbol"]);
-					if(! _ms.bool(_ms.contains(Double_45Dispatcher,_)))throw _ms.error(`Can't define double dispatch of ${_ms.show(method)} for ${_ms.show(implementor_450)}.\nA single-dispatch implementation already exists: ${_ms.show(_)}.`);
+					if(! _ms.contains(Double_45Dispatcher,_))throw _ms.error(`Can't define double dispatch of ${_ms.show(method)} for ${_ms.show(implementor_450)}.\nA single-dispatch implementation already exists: ${_ms.show(_)}.`);
 					return _
 				}
 			}();
@@ -211,7 +220,7 @@ define(["exports","esast/dist/util","../js","../private/bootstrap","../private/j
 				_ms.checkContains(Method,method,"method");
 				_ms.checkContains(_ms.unlazy(Impl_45Type),type,"type");
 				const desc=Object.getOwnPropertyDescriptor(type.prototype,method["impl-symbol"]);
-				return _ms.bool((defined_63(desc)&&! desc.writable))?_ms.some(()=>{
+				return (defined_63(desc)&&! desc.writable)?_ms.some(()=>{
 					return desc.value
 				}()):_ms.None
 			},built)
@@ -240,10 +249,10 @@ define(["exports","esast/dist/util","../js","../private/bootstrap","../private/j
 			return defined_63(js_45sub(obj,property))
 		};
 		const propagate_45method_45down_33=exports["propagate-method-down!"]=function propagate_45method_45down_33(implementor,method_45symbol,implementation){
-			if(! _ms.bool(p_63(implementor.prototype,method_45symbol))){
+			if(! p_63(implementor.prototype,method_45symbol)){
 				{
 					const _=implementor;
-					if(_ms.bool(_ms.contains(_ms.unlazy(Kind),_))){
+					if(_ms.contains(_ms.unlazy(Kind),_)){
 						for(let sub_45implementor of _.implementors){
 							propagate_45method_45down_33(sub_45implementor,method_45symbol,implementation)
 						}
@@ -261,7 +270,7 @@ define(["exports","esast/dist/util","../js","../private/bootstrap","../private/j
 			}
 		};
 		const do_45impl_33=function do_45impl_33(method,implementor,implementation){
-			if(! _ms.bool(writable_63(implementor.prototype,method["impl-symbol"])))throw _ms.error(()=>{
+			if(! writable_63(implementor.prototype,method["impl-symbol"]))throw _ms.error(()=>{
 				return `Can not redefine method ${_ms.show(method)} for ${_ms.show(implementor)}.`
 			}());
 			Object.defineProperty(implementor.prototype,method["impl-symbol"],()=>{
@@ -317,4 +326,4 @@ define(["exports","esast/dist/util","../js","../private/bootstrap","../private/j
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL01ldGhvZC5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7RUFnQkEsY0FBUyxpQkFBQSxFQUNDO1VBQVQsQ0FBSSxXQUFRLElBQUU7RUFBQTtFQUVmLHNCQUNpQiwwQkFBQTtVQUFoQiwrQkFBK0I7RUFBQTtFQUVoQyxhQUFjLHFCQUFBO2VBQ0YsT0FDTTtJQUFoQixXQUFPO0lBRUMsY0FBQSxXQUFTLHVCQUFhO0lBRTlCLGlCQUFXLFdBQVM7SUFDcEIsY0FBUSxXQUFTO0lBQ2pCLHNCQUFjLFFBQU07SUFDWixjQUFBLENBQUksRUFBSSxpQkFBYSw2QkFBaUI7SUFFOUMsb0JBQWUscUJBQVUsa0JBQU87SUFFaEM7S0FBbUIsUUFBQTtLQUNsQixZQUFBLFdBQVEsSUFDQzthQUFSO0tBQUEsT0FFRzthQUFILE9BQU87S0FBQTtJQUFBO0lBRVQsb0JBQVksV0FBUztJQUNyQjtLQUFnQixRQUFBO0tBQ2YsWUFBQSxZQUFNLFlBQVMsR0FBRyxXQUNPO2FBQXhCO0tBQUEsT0FDRCxZQUFBLGdCQUFjLEVBQUUsUUFDSzthQUFwQjtZQUNELFlBQUEsRUFBSSxXQUFRLElBQ0M7YUFBWjs7O0lBRUYsVUFBTSxTQUFVLFFBQ0k7S0FBbkIsc0JBQWlCLG9CQUFVLHVCQUF1QjtLQUVsRDtNQUFZLFFBQUE7TUFDWCxZQUFBLFlBQU0sWUFBUyxHQUFHLFdBQ087Y0FBdkIsY0FBRzthQUNMLHlCQUFDLE9BQUQsSUFDTztjQUFMLGVBQUssdUJBQXNCOzs7S0FFOUIsR0FBSSxXQUNRO01BQVg7T0FDQyxZQUFBLGlCQUNXO2VBQVQseUJBQWM7Y0FFWjtlQUNGLFlBQUM7OztNQUNKO09BQ0MsWUFBQSxTQUNLO2VBQUgsWUFBQywrQ0FBa0M7Y0FFakM7ZUFBRixZQUFDOzs7TUFDSixPQUFNLGdCQUFLLDBCQUFlOztLQUUzQixXQUFRLFlBQUM7WUFFVDtNQUNDLFlBQUEsZUFDUztPQUFS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
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL01ldGhvZC5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7RUFnQkEsY0FBUyxpQkFBQSxFQUNDO1VBQVQsQ0FBSSxXQUFRLElBQUU7RUFBQTtFQUVmLHNCQUNpQiwwQkFBQTtVQUFoQiwrQkFBK0I7RUFBQTtFQUVoQyxhQUFjLHFCQUFBO2VBQ0YsT0FDTTtJQUFoQixXQUFPO0lBRUMsS0FBQSxXQUFTLHNCQUFhO0lBRTlCLGlCQUFXLFdBQVM7SUFDcEIsY0FBUSxXQUFTO0lBQ2pCLHNCQUFjLFFBQU07SUFDWixLQUFBLENBQUksRUFBSSxpQkFBYSw0QkFBaUI7SUFFOUMsb0JBQWUscUJBQVUsa0JBQU87SUFFaEM7S0FBbUIsUUFBQTtLQUNsQixHQUFBLFdBQVEsR0FDQzthQUFSO0tBQUEsT0FFRzthQUFILE9BQU87S0FBQTtJQUFBO0lBRVQsb0JBQVksV0FBUztJQUNyQjtLQUFnQixRQUFBO0tBQ2YsR0FBQSxZQUFNLFlBQVMsR0FBRyxVQUNPO2FBQXhCO0tBQUEsT0FDRCxHQUFBLGdCQUFjLEVBQUUsT0FDSzthQUFwQjtZQUNELEdBQUEsRUFBSSxXQUFRLEdBQ0M7YUFBWjs7O0lBRUYsVUFBTSxTQUFVLFFBQ0k7S0FBbkIsc0JBQWlCLG9CQUFVLHVCQUF1QjtLQUVsRDtNQUFZLFFBQUE7TUFDWCxHQUFBLFlBQU0sWUFBUyxHQUFHLFVBQ087Y0FBdkIsY0FBRzthQUNMLGdCQUFDLE9BQUQsR0FDTztjQUFMLGVBQUssdUJBQXNCOzs7S0FFOUIsR0FBSSxXQUNRO01BQVg7T0FDQyxHQUFBLGdCQUNXO2VBQVQseUJBQWM7Y0FFWjtlQUNGLFlBQUM7OztNQUNKO09BQ0MsR0FBQSxRQUNLO2VBQUgsWUFBQywrQ0FBa0M7Y0FFakM7ZUFBRixZQUFDOzs7TUFDSixPQUFNLGdCQUFLLDBCQUFlOztLQUUzQixXQUFRLFlBQUM7WUFFVDtNQUNDLEdBQUEsY0FDUztPQUFS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
