@@ -5,7 +5,7 @@ use
 	.compare =? sort
 	.control opr
 	.Function thunk
-	.show
+	.to-string
 	.Type.Impl-Type Self-Type
 	.Type.Kind kind! self-kind!
 	.Type.Method impl! impl-double! self-impl!
@@ -34,7 +34,7 @@ impl-double! => (new Self-Type String) @
 	|vals joiner:Opt[String]
 		joiner := opr joiner ""
 		arr = @for vals
-			show_
+			to-string_
 		arr.join joiner
 
 # TODO: Should this be necessary?

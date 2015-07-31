@@ -6,7 +6,7 @@ use
 	.Map _ get-or-add!
 use-debug
 	...compare =?
-	...show
+	...to-string
 	..@ keep
 	..Seq.Seq seq=?
 
@@ -31,13 +31,13 @@ group.
 		`(group @x f)[k]` should be `f
 	test. |
 		@sample = [ 1 "1" 2 "2" ]
-		[ @sample show ] ->
+		[ @sample to-string ] ->
 			"1" -> [ 1 "1" ]
 			"2" -> [ 2 "2" ]
 		# Each map value is a subset of it.
 		# You shouldn't use `group-by` if all you need is `keep`.
-		assert! seq=? (group @sample show)["1"] (keep @sample |_
-			=? show_ "1"
+		assert! seq=? (group @sample to-string)["1"] (keep @sample |_
+			=? to-string_ "1"
 	|@value:@ group-by:Function
 		map = empty Map
 		for! @value

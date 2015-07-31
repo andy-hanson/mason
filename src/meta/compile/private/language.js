@@ -3,6 +3,7 @@ export const JsGlobals = new Set([
 	'Array',
 	'Boolean',
 	'Buffer',
+	'console',
 	'Date',
 	'Error',
 	'EvalError',

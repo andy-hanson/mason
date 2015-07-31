@@ -1,7 +1,7 @@
 use
 	..control opr
 	..Object p+!
-	..show
+	..to-string
 	.Impl-Type
 	.Kind kind!
 	.Method impl!
@@ -28,9 +28,9 @@ Enum. class
 			enum-val.name = value-name
 			p+! this value-name enum-val
 		.prototype.constructor = this
-		self = this
-		impl! show this .|
-			"{self.name}.{.name}"
+		enum-name = .name
+		impl! to-string this .|
+			"{enum-name}.{.name}"
 
 	contains? |_
 		Object.prototype.isPrototypeOf.call .prototype _
@@ -47,4 +47,4 @@ Enum.test = !|
 	assert! =? prices[Fruit.apple] 1
 	assert! =? prices[Fruit.orange] 2
 	assert! =? (type-of Fruit.apple) Fruit
-	assert! =? "{Fruit.apple}" "Fruit.apple"
+	assert! =? "Fruit.apple" "{Fruit.apple}"

@@ -2,6 +2,7 @@ use
 	...compare =?
 	...methods sub
 	...private.bootstrap msDef
+	...to-string
 	...Type.Kind _ kind!
 	...Type.Method _ impl!
 	...Type.Pred-Type Any
@@ -18,6 +19,25 @@ Map. new Kind
 	doc. "Mapping from keys to values."
 
 kind! Map @
+
+impl! to-string Map
+	test. |
+		m =
+			1 -> 2
+		[ m ] -> "\n\t1 -> 2"
+		# TODO:SYNTAX [ m repr. ]
+		# TODO
+		# [ m (repr. true) ] -> "
+		#	Hash-Map
+		#		1 -> 2
+	.|opts
+		# TODO: map Map to Array
+		# TODO:SYNTAX Array destructure
+		parts = map' this |pair
+			"{pair[0]} -> {pair[1] opts}"
+		"
+			{(type-of this).name}
+				{=> String parts "\n\t"}
 
 region New methods
 	?get. new Method

@@ -2,7 +2,7 @@
 	"name": "mason",
 	"version": "0.0.0",
 	"private": true,
-	"//": "Dependencies are for gulp tasks only, except for esast and tupl.",
+	"//": "Dependencies are for gulp tasks only, except for esast, tupl, and util-inspect.",
 	"files": [ "dist", "src" ],
 	"dependencies": {
 		"esast": "andy-hanson/esast",
@@ -12,6 +12,7 @@
 		"gulp-util": "3.0.6",
 		"q-io": "1.13.1",
 		"through2": "2.0.0",
+		"util-inspect": "0.1.8",
 		"vinyl-sourcemaps-apply": "0.1.4"
 	},
 	"devDependencies": {

@@ -1,8 +1,10 @@
 use
-	..compare =?
+	..compare =? <?
 	..Function identity Pred
 	..js defined? id=?
 	..math.methods +
+	..to-string
+	..String indent
 	..Type.Method
 	..Type.Kind
 	..Type.Method impl!
@@ -11,7 +13,7 @@ use
 use~
 	..control opr
 	.? Opt->?
-	.Seq.Seq ++>! first seq=? tail
+	.Seq.Seq ++>! first seq=? tail take'
 	.Seq.Stream
 	.Set.Set
 use-debug
@@ -20,6 +22,7 @@ use-debug
 	.@-Type empty
 	.? ?None ?some
 	.Map.Weak-Id-Map
+	.Seq.Deque
 
 @. new Kind
 	doc. "
@@ -32,6 +35,47 @@ use-debug
 			# assert! @-type:@-Type throw! "Be sure to make your @ type a @-Type."
 			_ = empty @-type
 			assert! empty? _
+
+
+impl! to-string @
+	test. |
+		d = => Deque [ 1 2 3 ]
+		[ d ] -> "
+			\n\t. 1
+				. 2
+				. 3
+		# TODO:SYNTAX [ d repr. ]
+		[ d (repr. true) ] -> "
+			=> Deque
+				. 1
+				. 2
+				. 3
+		[ (empty Deque) ] -> "[ ]"
+		[ (empty Deque) (repr. true) ] -> "empty Deque"
+
+	.|
+		content = case
+			empty? this
+				"[ ]"
+			else
+				# TODO: map (eager)
+				ems = @for this
+					indent to-string_
+				show-ems end = case
+					<? 100 (count this)
+						show-ems. take' ems 100
+						end. "\n\t..."
+					else
+						show-ems. ems
+						end. ""
+				"\n\t. {=> String show-ems "\n\t. "}{end}"
+
+		case
+			empty? this
+				"empty {type-of this}"
+			else
+				"=> {type-of this}{content}"
+
 
 iterator. new Method
 	doc. "Creates a new Generator which yields the values in the @."

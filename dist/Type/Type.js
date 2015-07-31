@@ -1,13 +1,21 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","../compare","../js","../private/bootstrap","./Impl-Type","./Kind","./Method","../at/q","../Object","./Method"],(exports,compare_0,js_1,bootstrap_2,Impl_45Type_3,Kind_4,Method_5,_63_6,Object_7,Method_8)=>{
+define(["exports","../compare","../js","../private/bootstrap","../to-string","./Impl-Type","./Kind","./Method","../at/q","../Object","./Method"],(exports,compare_0,js_1,bootstrap_2,to_45string_3,Impl_45Type_4,Kind_5,Method_6,_63_7,Object_8,Method_9)=>{
 	exports._get=_ms.lazy(()=>{
-		const _$2=_ms.getModule(compare_0),_61_63=_ms.get(_$2,"=?"),_$3=_ms.getModule(js_1),id_61_63=_ms.get(_$3,"id=?"),_$4=_ms.getModule(bootstrap_2),ms=_ms.get(_$4,"ms"),msDef=_ms.get(_$4,"msDef"),Impl_45Type=_ms.getDefaultExport(Impl_45Type_3),Kind=_ms.getDefaultExport(Kind_4),_$7=_ms.getModule(Kind_4),kind_33=_ms.get(_$7,"kind!"),Method=_ms.getDefaultExport(Method_5),_$8=_ms.getModule(Method_5),impl_33=_ms.get(_$8,"impl!"),_$10=_ms.lazyGetModule(_63_6),_63_45or=_ms.lazyProp(_$10,"?-or"),_$11=_ms.lazyGetModule(Object_7),_63p_45with_45proto=_ms.lazyProp(_$11,"?p-with-proto"),_$13=_ms.lazyGetModule(Method_8),self_45impl_33=_ms.lazyProp(_$13,"self-impl!");
+		const _$2=_ms.getModule(compare_0),_61_63=_ms.get(_$2,"=?"),_$3=_ms.getModule(js_1),id_61_63=_ms.get(_$3,"id=?"),_$4=_ms.getModule(bootstrap_2),ms=_ms.get(_$4,"ms"),msDef=_ms.get(_$4,"msDef"),to_45string=_ms.getDefaultExport(to_45string_3),Impl_45Type=_ms.getDefaultExport(Impl_45Type_4),Kind=_ms.getDefaultExport(Kind_5),_$8=_ms.getModule(Kind_5),kind_33=_ms.get(_$8,"kind!"),Method=_ms.getDefaultExport(Method_6),_$9=_ms.getModule(Method_6),impl_33=_ms.get(_$9,"impl!"),_$11=_ms.lazyGetModule(_63_7),_63_45or=_ms.lazyProp(_$11,"?-or"),_$12=_ms.lazyGetModule(Object_8),_63p_45with_45proto=_ms.lazyProp(_$12,"?p-with-proto"),_$14=_ms.lazyGetModule(Method_9),self_45impl_33=_ms.lazyProp(_$14,"self-impl!");
 		const Type=new (Kind)(()=>{
 			const built={};
 			const doc=built.doc=`Anything implementing contains?.\nTypes are generally used to succinctly make assertions about values.`;
 			return _ms.setName(built,"Type")
 		}());
+		impl_33(to_45string,Type,function(){
+			const _this=this;
+			return _this.name
+		});
+		impl_33(to_45string,Kind,function(){
+			const _this=this;
+			return _this.name
+		});
 		impl_33(_61_63,Type,function(other){
 			const _this=this;
 			return id_61_63(_this,other)
@@ -37,7 +45,7 @@ define(["exports","../compare","../js","../private/bootstrap","./Impl-Type","./K
 							const _$=_ms.extract(My_45Type,_);
 							if((_$!==null)){
 								const a=_$[0],b=_$[1];
-								return `${_ms.show(a)}${_ms.show(b)}`
+								return `${a}${b}`
 							} else {
 								return `not extractable`
 							}
@@ -58,7 +66,7 @@ define(["exports","../compare","../js","../private/bootstrap","./Impl-Type","./K
 		}());
 		msDef(`extract`,extract);
 		msDef(`checkContains`,(type,value,name)=>{
-			if(! contains_63(type,value))throw _ms.error(`${_ms.show(name)} is no ${_ms.show(type)}, is a ${_ms.show(type_45of(value))}: ${_ms.show(value)}`);
+			if(! contains_63(type,value))throw _ms.error(`${name} is no ${type.name}, is a ${type_45of(value).name}: ${value}`);
 			return value
 		});
 		const _61_62=exports["=>"]=new (Method)(()=>{
@@ -95,4 +103,4 @@ define(["exports","../compare","../js","../private/bootstrap","./Impl-Type","./K
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL1R5cGUubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFjQSxXQUFNLEtBQUksVUFDSTs7R0FBYixvQkFDQzs7O0VBR0YsUUFBTSxPQUFHLEtBQU8sU0FBQSxNQUNLO1NBQWY7VUFBTCxTQUFLLE1BQUs7RUFBQTtFQUdYLHVDQUFXO0VBRVgsOEJBQVMsS0FBSSxZQUNNOztHQUFsQixvQkFDQztHQUtELHNCQUNRLGVBQUE7SUFDUCxvQkFDUzs7S0FBUixvQkFBTTs7OytCQUNJLFFBQVEsVUFBUyxHQUFBOztNQUMzQixHQUFBLE9BQUcsRUFBRyxlQUNZO2NBQWpCLENBQUUsRUFBRTtNQUFBLE9BRUQ7Y0FBSDtNQUFBO0tBQUE7SUFBQTtJQUVGLFFBQUssV0FBQSxFQUFBOztNQUNKOzRCQUFDLFVBQUQ7c0JBQ1k7O2VBQVYsWUFBQyxjQUFHO2NBRUY7ZUFBRjs7Ozs7ZUFFSyxPQUFJLEtBQUssRUFBRztlQUNaLE9BQUksa0JBQWlCO0dBQUE7R0FDOUIsMEJBQ0s7O2tCQUFEO2tCQUNBO2tCQUNELENBQUcsaUJBQWdCOzs7OztFQUV2QixNQUFPLFVBQVM7RUFFaEIsTUFBTyxnQkFBZ0IsQ0FBQSxLQUFLLE1BQU0sT0FDSTtHQUE3QixLQUFBLFlBQVUsS0FBSyx1QkFBYyxZQUFDLHdCQUFhLHdCQUFhLFVBQVEscUJBQVM7VUFDakY7RUFBQTtFQUVELDJCQUFJLEtBQUksWUFDTTs7R0FBYixvQkFDQztHQUdELHNCQUFPLGNBQUEsS0FBSyxLQUFLLFVBQVUsS0FDSTs7S0FBekIsUUFBQTtLQUNKLGdCQUFDLEtBQUQsR0FDSzthQUFKO0tBQUEsT0FFRzthQUFILDZCQUE2QixLQUFLLEtBQUssVUFBVTtLQUFBO0lBQUE7R0FBQTs7O0VBRXJELHVDQUNROztHQUFQLG9CQUNDO0dBQ0Qsc0JBQ08sZUFBQTs7b0JBQU4sQ0FBRSxNQUFVO29CQUNaLENBQUUsTUFBVTs7O2tCQUNaLG1CQUFXLEVBQ0M7NkJBRFgsaUVBQ21CLEVBQUcsZUFBYzs7O0VBR3RDLFFBQU0sWUFBVTtFQW5GakIsd0JBQUE7a0JBY0EiLCJmaWxlIjoiVHlwZS9UeXBlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL1R5cGUubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFlQSxXQUFNLEtBQUksVUFDSTs7R0FBYixvQkFDQzs7O0VBR0YsUUFBTSxZQUFVLEtBQ08sVUFBQTtTQU1qQjtVQUFBOztFQUpOLFFBQU0sWUFBVSxLQUNPLFVBQUE7U0FHakI7VUFBQTs7RUFETixRQUFNLE9BQUcsS0FBTyxTQUFBLE1BQ0s7U0FBZjtVQUFMLFNBQUssTUFBSztFQUFBO0VBR1gsdUNBQVc7RUFFWCw4QkFBUyxLQUFJLFlBQ007O0dBQWxCLG9CQUNDO0dBS0Qsc0JBQ1EsZUFBQTtJQUNQLG9CQUNTOztLQUFSLG9CQUFNOzs7K0JBQ0ksUUFBUSxVQUFTLEdBQUE7O01BQzNCLEdBQUEsT0FBRyxFQUFHLGVBQ1k7Y0FBakIsQ0FBRSxFQUFFO01BQUEsT0FFRDtjQUFIO01BQUE7S0FBQTtJQUFBO0lBRUYsUUFBSyxXQUFBLEVBQUE7O01BQ0o7NEJBQUMsVUFBRDtzQkFDWTs7ZUFBVixHQUFDLElBQUc7Y0FFRjtlQUFGOzs7OztlQUVLLE9BQUksS0FBSyxFQUFHO2VBQ1osT0FBSSxrQkFBaUI7R0FBQTtHQUM5QiwwQkFDSzs7a0JBQUQ7a0JBQ0E7a0JBQ0QsQ0FBRyxpQkFBZ0I7Ozs7O0VBRXZCLE1BQU8sVUFBUztFQUVoQixNQUFPLGdCQUFnQixDQUFBLEtBQUssTUFBTSxPQUNJO0dBQTdCLEtBQUEsWUFBVSxLQUFLLHVCQUFjLEdBQUMsY0FBYSxtQkFBbUIsVUFBUSxnQkFBZTtVQUM3RjtFQUFBO0VBRUQsMkJBQUksS0FBSSxZQUNNOztHQUFiLG9CQUNDO0dBR0Qsc0JBQU8sY0FBQSxLQUFLLEtBQUssVUFBVSxLQUNJOztLQUF6QixRQUFBO0tBQ0osZ0JBQUMsS0FBRCxHQUNLO2FBQUo7S0FBQSxPQUVHO2FBQUgsNkJBQTZCLEtBQUssS0FBSyxVQUFVO0tBQUE7SUFBQTtHQUFBOzs7RUFFckQsdUNBQ1E7O0dBQVAsb0JBQ0M7R0FDRCxzQkFDTyxlQUFBOztvQkFBTixDQUFFLE1BQVU7b0JBQ1osQ0FBRSxNQUFVOzs7a0JBQ1osbUJBQVcsRUFDQzs2QkFEWCxpRUFDbUIsRUFBRyxlQUFjOzs7RUFHdEMsUUFBTSxZQUFVO0VBMUZqQix3QkFBQTtrQkFlQSIsImZpbGUiOiJUeXBlL1R5cGUuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

@@ -61,7 +61,8 @@ impl! test-special Impl-Type .|
 				# if! contains? Function proto-fun
 				#	for! (?p proto-fun "test")
 				#	... @$test-proto-fun _ ~"{this}#{name}"
-				... @$maybe-test ~"{this}#{name}" proto-fun false true
+				# Must call name.toString() because Symbols can not implicitly convert.
+				... @$maybe-test ~"{this.name}#{name.toString()}" proto-fun false true
 
 
 # TODO: MOVE THESE

@@ -32,8 +32,7 @@ export const
 	Name = tokenType('Name', [ 'name', String ])
 	// NumberLiteral is also both a token and an MsAst.
 
-// toString is used by some parsing errors. Use U.inspect for a more detailed view.
-implementMany({ DotName, Group, Keyword, Name, NumberLiteral }, 'show', {
+implementMany({ DotName, Group, Keyword, Name, NumberLiteral }, 'toString', {
 	DotName() { return `${'.'.repeat(this.nDots)}${this.name}` },
 	Group() { return `${groupKindToName.get(this.kind)}` },
 	Keyword() { return code(keywordKindToName.get(this.kind)) },

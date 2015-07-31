@@ -29,7 +29,6 @@ export const
 	msSet = ms('set'),
 	msSetName = ms('setName'),
 	msSetLazy = ms('setLazy'),
-	msShow = ms('show'),
 	msSome = ms('some'),
 	msSymbol = ms('symbol'),
 	msUnlazy = ms('unlazy'),

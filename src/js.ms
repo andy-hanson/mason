@@ -1,10 +1,3 @@
-use~
-	.@.@
-	.Type.Type =>
-use-debug
-	.compare =?
-	.math.methods +
-
 doc. "Functions implementing behavior native to JavaScript."
 
 op = |op-name

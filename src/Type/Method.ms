@@ -130,6 +130,10 @@ Method. class Function
 		Object.defineProperty this "name"
 			value. name
 
+	# TODO: Consider making kind! Method Type. Then this is redundant.
+	"toString" |
+		.name
+
 Method.doc = "TODO"
 
 # TODO: class properties

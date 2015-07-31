@@ -5,13 +5,13 @@ use~
 	.@.Map.Map
 	.@.Seq.Seq tail
 	.Function Pred
-	.show repr
+	.to-string inspect
 	.String indent
 	.Type.Type =>
 use-debug
 	.compare same?
 	.math.methods +
-	.show
+	.to-string
 	.Try fails-with?
 
 doc. "
@@ -50,16 +50,16 @@ assert-this-call!.
 			actual = fun.apply args[0] (tail args)
 			assert! =? actual expected-res throw! "
 				{fun} of:
-					{indent (=> String (map args repr) "\n")}
+					{indent (=> String (map args inspect) "\n")}
 				Should {=?}:
-					{indent (repr expected-res)}
+					{indent (inspect expected-res)}
 				Got:
-					{indent (repr actual)}
+					{indent (inspect actual)}
 
 assert-call-with!.
 	doc. "Like !call but allows any equality predicate."
 	test. !|
-		assert-call-with! same?[show] +
+		assert-call-with! same?[to-string] +
 			[ 1 2 ] -> "3"
 	!|equal?:Pred fun:Function args->result:Map # TODO: Map[Array Any]
 		for! args->result
@@ -69,8 +69,8 @@ assert-call-with!.
 			actual = fun ...args
 			assert! equal? actual expected-res throw! "
 				{fun} of:
-					{indent (=> String (map args repr) "\n")}
+					{indent (=> String (map args inspect) "\n")}
 				Should {equal?}:
-					{indent (repr expected-res)}
+					{indent (inspect expected-res)}
 				Got:
-					{indent (repr actual)}
+					{indent (inspect actual)}

@@ -5,9 +5,6 @@ export	const
 	},
 	isEmpty = array => array.length === 0,
 
-	// show.ms
-	newSet = () => new Set(),
-
 	// Method.ms
 	buildStr = builder => {
 		let s = ''

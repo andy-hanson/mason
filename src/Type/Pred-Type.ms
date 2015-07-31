@@ -75,7 +75,10 @@ Union.
 
 self-impl! sub Union |...types
 	new Pred-Type
-		name. "Union[{=> String types " "}]"
+		name.
+			names = @for types
+				_.name
+			"Union[{=> String names " "}]"
 		predicate. |_
 			any? types |type
 				contains? type _

@@ -22,8 +22,8 @@ import { AmdefineHeader, ArraySliceCall, DeclareBuiltBag, DeclareBuiltMap, Decla
 	ThrowAssertFail, ThrowNoCaseMatch, UseStrict } from './ast-constants'
 import { IdMs, lazyWrap, msAdd, msAddMany, msArr, msAssert, msAssertNot, msAssoc,
 	msCheckContains, msError, msExtract, msGet, msGetDefaultExport, msGetModule, msLazy, msLazyGet,
-	msLazyGetModule, msNewMutableProperty, msNewProperty, msSet, msSetName, msSetLazy, msShow,
-	msSome, msSymbol, MsNone } from './ms-call'
+	msLazyGetModule, msNewMutableProperty, msNewProperty, msSet, msSetName, msSetLazy,	msSome,
+	msSymbol, MsNone } from './ms-call'
 import { accessLocalDeclare, declare, forStatementInfinite, idForDeclareCached,
 	opTypeCheckForLocalDeclare, templateElementForString } from './util'
 
@@ -374,7 +374,7 @@ implementMany(MsAstTypes, 'transpile', {
 					// "{1}{1}" needs an empty quasi in the middle (and on the ends)
 					if (quasis.length === expressions.length)
 						quasis.push(EmptyTemplateElement)
-					expressions.push(msShow(t0(part)))
+					expressions.push(t0(part))
 				}
 
 			// TemplateLiteral must end with a TemplateElement, so one more quasi than expression.

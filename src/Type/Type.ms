@@ -2,6 +2,7 @@ use
 	..compare =?
 	..js id=?
 	..private.bootstrap ms msDef
+	..to-string
 	# Don't want to depend on Try because that can cause circular dependency problems.
 	.Impl-Type
 	.Kind _ kind!
@@ -16,6 +17,12 @@ Type. new Kind
 	doc. "
 		Anything implementing contains?.
 		Types are generally used to succinctly make assertions about values.
+
+impl! to-string Type .|
+	.name
+# TODO: Should not be necessary, Kind < Impl-Type < Type
+impl! to-string Kind .|
+	.name
 
 impl! =? Type .|other
 	id=? this other
@@ -56,7 +63,7 @@ extract. new Method
 msDef "extract" extract
 
 msDef "checkContains" |type value name
-	assert! contains? type value throw! "{name} is no {type}, is a {type-of value}: {value}"
+	assert! contains? type value throw! "{name} is no {type.name}, is a {(type-of value).name}: {value}"
 	value
 
 =>. new Method

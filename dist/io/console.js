@@ -1,9 +1,9 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","../String-as-Seq","../show","../Type/Type"],(exports,String_45as_45Seq_0,show_1,Type_2)=>{
+define(["exports","../String-as-Seq","../Type/Type"],(exports,String_45as_45Seq_0,Type_1)=>{
 	exports._get=_ms.lazy(()=>{
 		_ms.getModule(String_45as_45Seq_0);
-		const show=_ms.getDefaultExport(show_1),_$6=_ms.getModule(Type_2),_61_62=_ms.get(_$6,"=>");
+		const _$5=_ms.getModule(Type_1),_61_62=_ms.get(_$5,"=>");
 		const doc=exports.doc=`Functions that write to the console (also known as shell, command prompt, stdout/stderr).`;
 		const js_45console=global.console;
 		const log_33=exports["log!"]=()=>{
@@ -11,7 +11,7 @@ define(["exports","../String-as-Seq","../show","../Type/Type"],(exports,String_4
 			const doc=built.doc=`Prints its arguments to the console, separated by spaces.\nAlways adds a newline at the end.`;
 			return _ms.set(function log_33(){
 				const args=[].slice.call(arguments,0);
-				js_45console.log(_61_62(String,args,` `))
+				Function.apply.call(js_45console.log,null,[].concat(_ms.arr(args)))
 			},built)
 		}();
 		const warn_33=exports["warn!"]=()=>{
@@ -19,7 +19,7 @@ define(["exports","../String-as-Seq","../show","../Type/Type"],(exports,String_4
 			const doc=built.doc=`Like \`log!\`, but prints to stderr.`;
 			return _ms.set(function warn_33(){
 				const args=[].slice.call(arguments,0);
-				js_45console.warn(_61_62(String,args,` `))
+				Function.apply.call(js_45console.warn,null,[].concat(_ms.arr(args)))
 			},built)
 		}();
 		const dbg_33=exports["dbg!"]=()=>{
@@ -29,11 +29,7 @@ define(["exports","../String-as-Seq","../show","../Type/Type"],(exports,String_4
 				const args=[].slice.call(arguments,0);
 				warn_33(`-->`);
 				for(let _ of args){
-					warn_33(show(_,()=>{
-						const built={};
-						const repr=built.repr=true;
-						return built
-					}()))
+					warn_33(_)
 				};
 				warn_33(`<--`)
 			},built)
@@ -50,4 +46,4 @@ define(["exports","../String-as-Seq","../show","../Type/Type"],(exports,String_4
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9pby9jb25zb2xlLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7OztFQU9BLHNCQUFNO0VBRU4sbUJBQWE7RUFFYixpQ0FDSzs7R0FBSixvQkFDQztrQkFFQyxpQkFDTzs7SUFBUixpQkFBZ0IsT0FBRyxPQUFPLEtBQU07OztFQUVsQyxtQ0FDTTs7R0FBTCxvQkFBTTtrQkFDSixrQkFDTzs7SUFBUixrQkFBaUIsT0FBRyxPQUFPLEtBQU07OztFQUdsQyxpQ0FDSzs7R0FBSixvQkFBTTtrQkFDSixpQkFDTzs7SUFBUixRQUFPO0lBQ0YsUUFBQSxLQUFBLEtBQ0k7S0FBUixRQUFPLEtBQUssTUFDQzs7TUFBWixzQkFBTTs7OztJQUNSLFFBQU87OztFQUVULHFDQUNPOztHQUFOLG9CQUFNO2tCQUNKLG1CQUNPOztJQUFSLG1CQUFrQixPQUFHLE9BQU8sS0FBTTs7O0VBcENyQyx3QkFBQSIsImZpbGUiOiJpby9jb25zb2xlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9pby9jb25zb2xlLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7OztFQU1BLHNCQUFNO0VBRU4sbUJBQWE7RUFFYixpQ0FDSzs7R0FBSixvQkFDQztrQkFFQyxpQkFDTzs7d0JBQVIsd0NBQWU7R0FBQTs7RUFFakIsbUNBQ007O0dBQUwsb0JBQU07a0JBQ0osa0JBQ087O3dCQUFSLHlDQUFnQjtHQUFBOztFQUdqQixpQ0FDSzs7R0FBSixvQkFBTTtrQkFDSixpQkFDTzs7SUFBUixRQUFPO0lBQ0YsUUFBQSxLQUFBLEtBQ0k7S0FBUixRQUFNO0lBQUE7SUFDUCxRQUFPOzs7RUFFVCxxQ0FDTzs7R0FBTixvQkFBTTtrQkFDSixtQkFDTzs7SUFBUixtQkFBa0IsT0FBRyxPQUFPLEtBQU07OztFQWxDckMsd0JBQUEiLCJmaWxlIjoiaW8vY29uc29sZS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

@@ -32,15 +32,15 @@ const msDefs = {
 
 	assert(fun, ...args) {
 		if (!Function.prototype.apply.call(fun, null, args)) {
-			const showArgs = args.map(_ms.repr).join('\n')
-			throw new Error(`assert! ${_ms.show(fun)}\n\t${indent(showArgs)}`)
+			const showArgs = args.map(_ms.inspect).join('\n')
+			throw new Error(`assert! ${fun.name}\n\t${indent(showArgs)}`)
 		}
 	},
 
 	assertNot(fun, ...args) {
 		if (Function.prototype.apply.call(fun, null, args)) {
-			const showArgs = args.map(_ms.repr).join('\n')
-			throw new Error(`forbid! ${_ms.show(fun)}\n\t${indent(showArgs)}`)
+			const showArgs = args.map(_ms.inspect).join('\n')
+			throw new Error(`forbid! ${fun.name}\n\t${indent(showArgs)}`)
 		}
 	},
 
@@ -163,14 +163,6 @@ for (const def in msDefs)
 
 const msDefTemp = (name, fun) =>
 	ms[name] = fun
-
-// Overridden by show.ms.
-msDefTemp('show', _ => {
-	if (typeof _ !== 'string' && typeof _ !== 'number')
-		throw new Error(
-			`Only use Strings or Numbers here until this is overridden by show.ms. Got:\n${_}`)
-	return _.toString()
-})
 
 // region Contains
 // Some Types want to implement contains? before it is officially defined.

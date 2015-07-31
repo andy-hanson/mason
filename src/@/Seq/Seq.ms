@@ -11,7 +11,7 @@ use
 	..@-Type _ empty from-stream
 use~
 	...math.Number Nat
-	...show
+	...to-string
 	..? Opt->? un-?
 	.Stream
 use-debug
@@ -165,7 +165,7 @@ region Search
 		.|n:Nat
 			un-? (?nth this n) ~"
 				No element at index {n} for
-					{indent (show this)}
+					{indent (to-string this)}
 
 region Update
 	slice-args =
