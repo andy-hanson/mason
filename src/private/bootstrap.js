@@ -12,8 +12,11 @@ export const
 	ms = { },
 	msDef = (name, fun) =>
 		pAdd(ms, name, fun),
-	msCall = (name, ...args) =>
-		ms[name](...args)
+	msCall = function(name) {
+		// TODO:ES6 Splat
+		const args = Array.prototype.slice.call(arguments, 1)
+		return ms[name](...args)
+	}
 
 pAdd(global, '_ms', ms)
 
@@ -30,14 +33,18 @@ const msDefs = {
 			ms.add(bag, value)
 	},
 
-	assert(fun, ...args) {
+	assert(fun) {
+		// TODO:ES6 Splat
+		const args = Array.prototype.slice.call(arguments, 1)
 		if (!Function.prototype.apply.call(fun, null, args)) {
 			const showArgs = args.map(_ms.inspect).join('\n')
 			throw new Error(`assert! ${fun.name}\n\t${indent(showArgs)}`)
 		}
 	},
 
-	assertNot(fun, ...args) {
+	assertNot(fun) {
+		// TODO:ES6 Splat
+		const args = Array.prototype.slice.call(arguments, 1)
 		if (Function.prototype.apply.call(fun, null, args)) {
 			const showArgs = args.map(_ms.inspect).join('\n')
 			throw new Error(`forbid! ${fun.name}\n\t${indent(showArgs)}`)

@@ -38,8 +38,7 @@
 		"url": "https://github.com/andy-hanson/mason"
 	},
 	"engines": {
-		"//": "Crashes in node.js (https://github.com/joyent/node/issues/14195)",
-		"iojs": "2.3.4"
+		"iojs": "^3.0.0"
 	},
 	"eslintConfig": {
 		"env": {

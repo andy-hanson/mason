@@ -37,12 +37,12 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	// A name is guaranteed to *not* be a keyword.
 	// It's also not a DotName.
 	Name = tokenType('Name', ['name', String]);
-	// NumberLiteral is also both a token and an MsAst.
-
 	exports.DotName = DotName;
 	exports.Group = Group;
 	exports.Keyword = Keyword;
 	exports.Name = Name;
+	// NumberLiteral is also both a token and an MsAst.
+
 	(0, _util.implementMany)({ DotName, Group, Keyword, Name, NumberLiteral: _MsAst.NumberLiteral }, 'toString', {
 		DotName() {
 			return `${ '.'.repeat(this.nDots) }${ this.name }`;

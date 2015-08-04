@@ -4,7 +4,9 @@ export const
 			throw new Error('Assertion failed.')
 	},
 
-	cat = (...parts) => {
+	cat = function() {
+		// TODO:ES6 Splat
+		const parts = Array.prototype.slice.call(arguments)
 		const out = [ ]
 		for (const _ of parts)
 			if (_ instanceof Array)

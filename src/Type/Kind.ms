@@ -1,8 +1,7 @@
 use
 	..compare =?
-	..js defined? js-sub
+	..js defined? js== js-sub
 	..private.bootstrap implContains pAdd
-	..private.js-impl KindContains
 	.Method impl! propagate-method-down! self-impl!
 use~
 	..@.@
@@ -17,7 +16,9 @@ use-debug
 
 Kind. class
 	do!
-		implContains _ KindContains
+		implContains _ .|_
+			and (not js== _ null) (js-sub _ .symbol-for-isa)
+
 	# TODO: class attributes
 	# doc. "
 	#	A Kind is like a tag you can apply to a Concrete-Type to signify that it belongs in some category.

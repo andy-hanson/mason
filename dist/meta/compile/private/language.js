@@ -13,9 +13,9 @@ if (typeof define !== 'function') var define = require('amdefine')(module);defin
 	// 'encodeURI', 'encodeURIComponent', 'eval', 'setInterval', 'setTimeout'
 	]);
 
+	exports.JsGlobals = JsGlobals;
 	// Anything not explicitly reserved is a valid name character.
 	// A `~` may appear in a name, but not at the beginning.
-	exports.JsGlobals = JsGlobals;
 	const ReservedCharacters = '`#%^&\\;,';
 	const NonNameCharacters = '()[]{}.:|_ \n\t"' + ReservedCharacters;
 	exports.NonNameCharacters = NonNameCharacters;

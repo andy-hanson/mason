@@ -1,8 +1,8 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","../../at/at","../../cash","../../io/console","../../io/time","../../Function","../../private/js-impl","../../math/Number","../../math/methods"],(exports,_64_0,$_1,console_2,time_3,Function_4,js_45impl_5,Number_6,methods_7)=>{
+define(["exports","../../at/at","../../cash","../../compare","../../io/console","../../io/time","../../Function","../../math/Number","../../math/methods"],(exports,_64_0,$_1,compare_2,console_3,time_4,Function_5,Number_6,methods_7)=>{
 	exports._get=_ms.lazy(()=>{
-		const _64=_ms.getDefaultExport(_64_0),$=_ms.getDefaultExport($_1),_$3=_ms.getModule($_1),$after=_ms.get(_$3,"$after"),_$4=_ms.getModule(console_2),log_33=_ms.get(_$4,"log!"),_$5=_ms.getModule(time_3),current_45time_45ms=_ms.get(_$5,"current-time-ms"),_$6=_ms.getModule(Function_4),Action=_ms.get(_$6,"Action"),_$7=_ms.getModule(js_45impl_5),timeStar=_ms.get(_$7,"timeStar"),_$8=_ms.getModule(Number_6),Nat=_ms.get(_$8,"Nat"),_$9=_ms.getModule(methods_7),_45=_ms.get(_$9,"-");
+		const _64=_ms.getDefaultExport(_64_0),$=_ms.getDefaultExport($_1),_$3=_ms.getModule($_1),$after=_ms.get(_$3,"$after"),_$4=_ms.getModule(compare_2),_60_63=_ms.get(_$4,"<?"),_$5=_ms.getModule(console_3),log_33=_ms.get(_$5,"log!"),_$6=_ms.getModule(time_4),current_45time_45ms=_ms.get(_$6,"current-time-ms"),_$7=_ms.getModule(Function_5),Action=_ms.get(_$7,"Action"),_$8=_ms.getModule(Number_6),Nat=_ms.get(_$8,"Nat"),_$9=_ms.getModule(methods_7),_45=_ms.get(_$9,"-");
 		const time_33=exports["time!"]=()=>{
 			const built={};
 			const doc=built.doc=`Logs the time taken to run time-me once.`;
@@ -21,9 +21,17 @@ define(["exports","../../at/at","../../cash","../../io/console","../../io/time",
 				_ms.checkContains(String,name,"name");
 				_ms.checkContains(Nat,times,"times");
 				_ms.checkContains(Action,time_45me,"time-me");
-				timeStar(times,time_45me);
 				return time_33(name,()=>{
-					return timeStar(times,time_45me)
+					let i=times;
+					const arr=[];
+					for(;;){
+						if(! _60_63(0,i)){
+							break
+						};
+						i=_45(i,1);
+						arr.push(time_45me(i))
+					};
+					return arr
 				})
 			},built)
 		}();
@@ -79,4 +87,4 @@ define(["exports","../../at/at","../../cash","../../io/console","../../io/time",
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL3Rlc3RzL3BlcmYtdGVzdC5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQVVBLG1DQUNNOztHQUFMLG9CQUFNO2tCQUNMLGlCQUFBLEtBQVksVUFDYztzQkFEckI7c0JBQWU7SUFDcEIsV0FBaUIsS0FBSztJQUN0QixPQUFNLEdBQUMsU0FBUTtXQUNmO0dBQUE7O0VBRUYsdUNBQ087O0dBQU4sb0JBQU07a0JBQ0wsb0JBQUEsS0FBWSxNQUFVLFVBQ2M7c0JBRC9CO3NCQUFhO3NCQUFZO0lBQzlCLFNBQVMsTUFBTTtXQUNmLFFBQU0sS0FDTSxJQUFBO1lBQVgsU0FBUyxNQUFNO0lBQUE7R0FBQTs7RUFFbEIsdUNBQ087O0dBQU4sb0JBQU07a0JBQ0osb0JBQUEsTUFBVSxVQUNpQjtzQkFEckI7OEJBQVksSUFBRTtJQUNoQixRQUFBLEtBQUEsVUFDTztLQUFYLFdBQVEsSUFBRyxNQUFNO0lBQUE7R0FBQTs7RUFFcEIsNEJBQ0s7O0dBQUosb0JBQU07a0JBQ0wsY0FBQSxVQUNnQjtzQkFEUjs7SUFDUixZQUFRO0lBQ1Isb0JBQUs7SUFDTCxVQUFNO0lBQ04sdUNBQVksSUFBRSxJQUFJOzs7O0VBRXBCLDhCQUNNOztHQUFMLG9CQUNDO2tCQUdBLGVBQVcsV0FDa0I7OEJBRFQsT0FBTztJQUMzQixZQUFRO3FDQURQLEVBQUUsUUFFSCxPQUFPLGFBQ1ksSUFBQTtLQUFsQixVQUFNO1lBQ04sSUFBRSxJQUFJO0lBQUE7OztFQUVULHFDQUNPOztHQUFOLG9CQUFNO2tCQUNMLGtCQUFHLEtBQVksV0FDa0I7c0JBRHpCOzhCQUFnQixPQUFPOzZCQUE5QixFQUNELE9BQVEsTUFBTSxZQUFZLE1BQ1c7dUJBRE47S0FDOUIsT0FBTSxHQUFDLFNBQVE7Ozs7RUFyRGxCLHdCQUFBIiwiZmlsZSI6Im1ldGEvdGVzdHMvcGVyZi10ZXN0LmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9tZXRhL3Rlc3RzL3BlcmYtdGVzdC5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQVVBLG1DQUNNOztHQUFMLG9CQUFNO2tCQUNMLGlCQUFBLEtBQVksVUFDYztzQkFEckI7c0JBQWU7SUFDcEIsV0FBaUIsS0FBSztJQUN0QixPQUFNLEdBQUMsU0FBUTtXQUNmO0dBQUE7O0VBRUYsdUNBQ087O0dBQU4sb0JBQU07a0JBQ0wsb0JBQUEsS0FBWSxNQUFVLFVBQ2M7c0JBRC9CO3NCQUFhO3NCQUFZO1dBQzlCLFFBQU0sS0FDTSxJQUFBO0tBQVgsTUFBTTtLQUNOLFVBQU07S0FFRixPQUFBO01BQUgsS0FBUSxPQUFHLEVBQUUsR0FDQztPQUFiO01BQUE7UUFDSSxJQUFFLEVBQUU7TUFDVCxTQUFVLFVBQVE7S0FBQTtZQUNuQjtJQUFBO0dBQUE7O0VBRUgsdUNBQ087O0dBQU4sb0JBQU07a0JBQ0osb0JBQUEsTUFBVSxVQUNpQjtzQkFEckI7OEJBQVksSUFBRTtJQUNoQixRQUFBLEtBQUEsVUFDTztLQUFYLFdBQVEsSUFBRyxNQUFNO0lBQUE7R0FBQTs7RUFFcEIsNEJBQ0s7O0dBQUosb0JBQU07a0JBQ0wsY0FBQSxVQUNnQjtzQkFEUjs7SUFDUixZQUFRO0lBQ1Isb0JBQUs7SUFDTCxVQUFNO0lBQ04sdUNBQVksSUFBRSxJQUFJOzs7O0VBRXBCLDhCQUNNOztHQUFMLG9CQUNDO2tCQUdBLGVBQVcsV0FDa0I7OEJBRFQsT0FBTztJQUMzQixZQUFRO3FDQURQLEVBQUUsUUFFSCxPQUFPLGFBQ1ksSUFBQTtLQUFsQixVQUFNO1lBQ04sSUFBRSxJQUFJO0lBQUE7OztFQUVULHFDQUNPOztHQUFOLG9CQUFNO2tCQUNMLGtCQUFHLEtBQVksV0FDa0I7c0JBRHpCOzhCQUFnQixPQUFPOzZCQUE5QixFQUNELE9BQVEsTUFBTSxZQUFZLE1BQ1c7dUJBRE47S0FDOUIsT0FBTSxHQUFDLFNBQVE7Ozs7RUEzRGxCLHdCQUFBIiwiZmlsZSI6Im1ldGEvdGVzdHMvcGVyZi10ZXN0LmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

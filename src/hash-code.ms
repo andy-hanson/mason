@@ -1,8 +1,7 @@
 use
 	.compare =?
-	.js js-bar
+	.js id=? js* js- js+ js-bar js-sub
 	.math.Number Int
-	.private.js-impl hashCodeDefault hashCodeString
 	.Type.Method _ impl!
 
 hash-code. new Method
@@ -23,7 +22,30 @@ hash-code. new Method
 	returns. Int
 	allow-null?. true
 	default. .|
-		hashCodeDefault this hash-code
+		case
+			id=? this null
+				108
+			id=? this undefined
+				109
+			else
+				case hashes-cache.get this
+					id=? _ undefined
+						# Don't recurse infinitely.
+						hashes-cache.set this 17
+						hash ::= 17
+
+						for! key in Object.keys this
+							val = js-sub this key
+							val-hash = hash-code val
+							hash := js-bar (js* hash 23) 0
+							hash := js-bar (js+ hash val-hash) 0
+
+						hashes-cache.set this hash
+						hash
+					else
+						_
+
+hashes-cache = new global.WeakMap
 
 # Since default hash-code only works on Objects, let's implement hash-code for primitives.
 impl! hash-code Boolean .|
@@ -46,7 +68,18 @@ impl! hash-code String
 	test. !|
 		assert! =? (hash-code "a") (hash-code "a")
 		forbid! =? (hash-code "a") (hash-code "b")
-	hashCodeString
+	.|
+		hash ::= 13
+		i ::= .length
+		for!
+			hash := js+ hash (.charCodeAt i)
+			hash := js-bar hash 0
+			hash := js* hash 31
+
+			if! id=? i 0
+				break!
+			i := js- i 1
+		hash
 
 impl! hash-code Symbol
 	test. !|

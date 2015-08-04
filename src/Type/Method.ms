@@ -2,7 +2,6 @@ use
 	esast.dist.util escapeStringForLiteral
 	..js defined? js=== js-delete js-instanceof js-sub js-typeof
 	..private.bootstrap containsImplSymbol implContains msDef pAdd
-	..private.js-impl buildStr
 use~
 	..@.? un-?
 	..assert assert-call!
@@ -19,6 +18,12 @@ flag? = |_
 
 random-digits = |
 	Math.random().toString().slice 2
+
+build-str = |builder
+	built-str ::= ""
+	builder !|part
+		built-str := "{built-str}{part}\n"
+	built-str
 
 Method. class Function
 	construct! params
@@ -48,7 +53,7 @@ Method. class Function
 			not defined?_
 				-1
 
-		src = buildStr |add!
+		src = build-str |add!
 			access-method = "global[\"{escapeStringForLiteral secret-name}\"]"
 
 			impl = case impl-symbol

@@ -1,10 +1,10 @@
 use
 	...@.@
 	...$ _ $after
+	...compare <?
 	...io.console log!
 	...io.time current-time-ms
 	...Function Action
-	...private.js-impl timeStar
 	...math.Number Nat
 	...math.methods -
 
@@ -18,9 +18,15 @@ time!.
 time*!.
 	doc. "Logs the time to run time-me `times` times."
 	|name:String times:Nat time-me:Action
-		timeStar times time-me
 		time! name |
-			timeStar times time-me
+			i ::= times
+			arr = [ ]
+			for!
+				unless! <? 0 i
+					break!
+				i := - i 1
+				arr.push (time-me i)
+			arr
 
 race*!.
 	doc. "Logs the time of to run each of time-us `times` times."

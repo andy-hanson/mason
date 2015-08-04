@@ -20,8 +20,8 @@ inspect. new Method
 	default. .|
 		util-inspect this
 	test. |
-		# TODO: more
 		[ 2 ] -> "2"
+		[ (a. 1 b. 2) ] -> "\{ a: 1, b: 2 }"
 
 msDef "inspect" inspect
 

@@ -1,8 +1,7 @@
 use
 	.methods sub
-	.private.js-impl iCurry
 	.Type.Alias-Type
-	.Type.Method _ impl! self-impl!
+	.Type.Method impl! self-impl!
 use~
 	.@.@ _ ++
 	.@.@-Type empty
@@ -200,12 +199,12 @@ curry =
 			[ a b c ]
 		one-two = all-3[1 2]
 		assert! =? (one-two 3) [ 1 2 3 ]
-	iCurry
+	Function "f" "return Function.prototype.bind.apply(f, arguments)"
+	# TODO:ES6
+	# |f ...args
+	#	Function.prototype.bind.call f null ...args
 
 impl! sub Function .|...args
-	curry this ...args
-# TODO: Make Method a Callable
-impl! sub Method .|...args
 	curry this ...args
 
 self-impl! sub Function

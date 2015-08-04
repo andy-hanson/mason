@@ -13,6 +13,7 @@ It is currently in progress.
 	nvm use iojs
 	npm install
 	./gulp compile-all
+	./gulp list-modules
 	./gulp run
 
 
