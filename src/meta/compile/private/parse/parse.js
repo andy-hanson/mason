@@ -9,18 +9,18 @@ import { Assert, AssignDestructure, AssignSingle, BagEntry, BagEntryMany, BagSim
 	LocalMutate, Logic, MapEntry, Member, MemberSet, MethodImpl, Module, MS_Mutate, MS_New,
 	MS_NewMutable, New, Not, ObjEntry, ObjPair, ObjSimple, Pattern, Quote, QuoteTemplate,
 	SD_Debugger, SpecialDo, SpecialVal, SV_Null, Splat, SwitchDo, SwitchDoPart, SwitchVal,
-	SwitchValPart, Throw, Val, Use, UseDo, Yield, YieldTo } from '../../MsAst'
+	SwitchValPart, Throw, Val, Use, UseDo, With, Yield, YieldTo } from '../../MsAst'
 import { JsGlobals } from '../language'
 import { DotName, Group, G_Block, G_Bracket, G_Parenthesis, G_Space, G_Quote, isGroup, isKeyword,
-	Keyword, KW_And, KW_Assert, KW_AssertNot, KW_Assign, KW_AssignMutable, KW_Break,
+	Keyword, KW_And, KW_As, KW_Assert, KW_AssertNot, KW_Assign, KW_AssignMutable, KW_Break,
 	KW_BreakWithVal, KW_CaseVal, KW_CaseDo, KW_Class, KW_CatchDo, KW_CatchVal, KW_Construct,
 	KW_Continue, KW_Debug, KW_Debugger, KW_Do, KW_Ellipsis, KW_Else, KW_ExceptDo, KW_ExceptVal,
 	KW_Finally, KW_ForBag, KW_ForDo, KW_ForVal, KW_Focus, KW_Fun, KW_FunDo, KW_FunGen, KW_FunGenDo,
 	KW_FunThis, KW_FunThisDo, KW_FunThisGen, KW_FunThisGenDo, KW_Get, KW_IfDo, KW_IfVal, KW_In,
 	KW_Lazy, KW_LocalMutate, KW_MapEntry, KW_New, KW_Not, KW_ObjAssign, KW_Or, KW_Pass, KW_Out,
 	KW_Region, KW_Set, KW_Static, KW_SwitchDo, KW_SwitchVal, KW_Throw, KW_TryDo, KW_TryVal,
-	KW_Type, KW_UnlessDo, KW_UnlessVal, KW_Use, KW_UseDebug, KW_UseDo, KW_UseLazy, KW_Yield,
-	KW_YieldTo, Name, keywordName, opKeywordKindToSpecialValueKind } from '../Token'
+	KW_Type, KW_UnlessDo, KW_UnlessVal, KW_Use, KW_UseDebug, KW_UseDo, KW_UseLazy, KW_With,
+	KW_Yield, KW_YieldTo, Name, keywordName, opKeywordKindToSpecialValueKind } from '../Token'
 import { assert, head, ifElse, flatMap, isEmpty, last,
 	opIf, opMap, push, repeat, rtail, tail, unshift } from '../util'
 import Slice from './Slice'
@@ -351,7 +351,7 @@ const
 					case KW_ForVal: case KW_Fun: case KW_FunDo: case KW_FunGen: case KW_FunGenDo:
 					case KW_FunThis: case KW_FunThisDo: case KW_FunThisGen: case KW_FunThisGenDo:
 					case KW_IfVal: case KW_New: case KW_Not: case KW_Or: case KW_SwitchVal:
-					case KW_UnlessVal: case KW_Yield: case KW_YieldTo:
+					case KW_UnlessVal: case KW_With: case KW_Yield: case KW_YieldTo:
 						return true
 					default:
 						return false
@@ -394,6 +394,8 @@ const
 							return Not(at.loc, parseExprPlain(after))
 						case KW_SwitchVal:
 							return parseSwitch(true, after)
+						case KW_With:
+							return parseWith(after)
 						case KW_Yield:
 							return Yield(at.loc, parseExprPlain(after))
 						case KW_YieldTo:
@@ -1150,3 +1152,16 @@ const
 
 const parseQuote = tokens =>
 	Quote(tokens.loc, tokens.map(_ => (typeof _ === 'string') ? _ : parseSingle(_)))
+
+const parseWith = tokens => {
+	const [ before, block ] = beforeAndBlock(tokens)
+
+	const [ val, declare ] = ifElse(before.opSplitOnceWhere(_ => isKeyword(KW_As, _)),
+		({ before, after }) => {
+			context.check(after.size() === 1, () => `Expected only 1 token after ${code('as')}`)
+			return [ parseExprPlain(before), parseLocalDeclare(after.head()) ]
+		},
+		() => [ parseExprPlain(before), LocalDeclareFocus(tokens.loc) ])
+
+	return With(tokens.loc, declare, val, parseBlockDo(block))
+}

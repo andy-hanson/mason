@@ -1,5 +1,4 @@
 use
-	...control returning
 	...Function noop
 	...Type.Kind kind! self-kind!
 	...Type.Method impl! self-impl!
@@ -28,7 +27,7 @@ impl! has-key? Weak-Id-Map .|key
 impl! assoc! Weak-Id-Map .!|key val
 	.set key val
 impl! un-assoc! Weak-Id-Map .|key
-	returning (?get this key) !|
+	with ?get this key
 		.delete key
 
 # TODO: unsupported! Function?

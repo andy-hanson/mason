@@ -1,5 +1,4 @@
 use
-	..control returning
 	..methods sub
 	..Type.Kind _ self-kind!
 	..Type.Method _ impl!
@@ -27,7 +26,7 @@ from-stream. new Method
 		[ Array (new Range 0 5) ] -> [ 0 1 2 3 4 ]
 	args. [ "type" "stream" ]
 	default. .|stream
-		returning (empty this) !|_
+		with empty this
 			++! _ stream
 
 # TODO: Do this in @.ms

@@ -10,22 +10,22 @@ define(["exports","./compare","./at/at","./at/Map/Map","./at/Seq/Seq","./Functio
 			return _ms.getDefaultExport(to_45string_10)
 		}),_$15=_ms.lazyGetModule(Try_11),fails_45with_63=_ms.lazyProp(_$15,"fails-with?");
 		const doc=exports.doc=`Advanced assertions.\nGenerally you should just use \`assert!\`.`;
-		const assert_45call_33=exports["assert-call!"]=()=>{
+		const assert_45call_33=exports["assert-call!"]=(()=>{
 			const built={};
 			const doc=built.doc=`For each entry in args->result, asserts that calling \`fun\` with arguments of key will \`=?\` the value.`;
 			const test=built.test=function test(){
-				assert_45call_33(_ms.unlazy(_43),()=>{
+				assert_45call_33(_ms.unlazy(_43),(()=>{
 					const built=new (global.Map)();
 					_ms.assoc(built,[1,1],2);
 					return built
-				}());
+				})());
 				const nope=`+ of:\n\t1\n\t1\nShould =?:\n\t3\nGot:\n\t2`;
 				_ms.assert(_ms.unlazy(fails_45with_63),nope,()=>{
-					assert_45call_33(_ms.unlazy(_43),()=>{
+					assert_45call_33(_ms.unlazy(_43),(()=>{
 						const built=new (global.Map)();
 						_ms.assoc(built,[1,1],3);
 						return built
-					}())
+					})())
 				})
 			};
 			return _ms.set(function assert_45call_33(fun,args_45_62result){
@@ -33,8 +33,8 @@ define(["exports","./compare","./at/at","./at/Map/Map","./at/Seq/Seq","./Functio
 				_ms.checkContains(_ms.unlazy(Map),args_45_62result,"args->result");
 				assert_45call_45with_33(_61_63,fun,args_45_62result)
 			},built)
-		}();
-		const assert_45this_45call_33=exports["assert-this-call!"]=()=>{
+		})();
+		const assert_45this_45call_33=exports["assert-this-call!"]=(()=>{
 			const built={};
 			const doc=built.doc=`TODO`;
 			const test=built.test=function test(){};
@@ -48,16 +48,16 @@ define(["exports","./compare","./at/at","./at/Map/Map","./at/Seq/Seq","./Functio
 					if(! _61_63(actual,expected_45res))throw _ms.error(`${fun} of:\n\t${_ms.unlazy(indent)(_ms.unlazy(_61_62)(String,_ms.unlazy(map)(args,_ms.unlazy(inspect)),`\n`))}\nShould ${_61_63}:\n\t${_ms.unlazy(indent)(_ms.unlazy(inspect)(expected_45res))}\nGot:\n\t${_ms.unlazy(indent)(_ms.unlazy(inspect)(actual))}`)
 				}
 			},built)
-		}();
-		const assert_45call_45with_33=exports["assert-call-with!"]=()=>{
+		})();
+		const assert_45call_45with_33=exports["assert-call-with!"]=(()=>{
 			const built={};
 			const doc=built.doc=`Like !call but allows any equality predicate.`;
 			const test=built.test=function test(){
-				assert_45call_45with_33(_ms.sub(_ms.unlazy(same_63),_ms.unlazy(to_45string)),_ms.unlazy(_43),()=>{
+				assert_45call_45with_33(_ms.sub(_ms.unlazy(same_63),_ms.unlazy(to_45string)),_ms.unlazy(_43),(()=>{
 					const built=new (global.Map)();
 					_ms.assoc(built,[1,2],`3`);
 					return built
-				}())
+				})())
 			};
 			return _ms.set(function assert_45call_45with_33(equal_63,fun,args_45_62result){
 				_ms.checkContains(_ms.unlazy(Pred),equal_63,"equal?");
@@ -70,9 +70,9 @@ define(["exports","./compare","./at/at","./at/Map/Map","./at/Seq/Seq","./Functio
 					if(! equal_63(actual,expected_45res))throw _ms.error(`${fun} of:\n\t${_ms.unlazy(indent)(_ms.unlazy(_61_62)(String,_ms.unlazy(map)(args,_ms.unlazy(inspect)),`\n`))}\nShould ${equal_63}:\n\t${_ms.unlazy(indent)(_ms.unlazy(inspect)(expected_45res))}\nGot:\n\t${_ms.unlazy(indent)(_ms.unlazy(inspect)(actual))}`)
 				}
 			},built)
-		}();
+		})();
 		const name=exports.name=`assert`;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9hc3NlcnQubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7RUFnQkEsc0JBQ0M7RUFHRCxtREFDYTs7R0FBWixvQkFDQztHQUNELHNCQUNRLGVBQUE7SUFBUCxxQ0FDYzs7cUJBQWIsQ0FBRSxFQUFFLEdBQU87OztJQUNaLFdBQ0M7MkNBT21CLEtBQ08sSUFBQTtLQUExQixxQ0FDYzs7c0JBQWIsQ0FBRSxFQUFFLEdBQU87Ozs7O2tCQUNaLDBCQUFBLElBQWEsaUJBQ3VDO3NCQURoRDs7SUFDTCx3QkFBa0IsT0FBRyxJQUFJO0dBQUE7O0VBRTNCLCtEQUNrQjs7R0FBakIsb0JBQU07R0FDTixzQkFDUSxlQUFBO2tCQUNOLGlDQUFBLElBQWEsaUJBQ3VDO3NCQURoRDs7SUFDQSxRQUFBLEtBQUEsaUJBQ1k7S0FDaEIscURBQVMsRUFBRTtLQUNYLDZCQUFlLEVBQUU7S0FDakIsYUFBUyxrQkFBVSxLQUFLLG9CQUFTO0tBQ3pCLEtBQUEsT0FBRyxPQUFPLGdDQUNqQixHQUFDLG9EQUNZLHVCQUFZLDBCQUFlLGtCQUNoQyxxREFDVSxvRUFFQTs7OztFQUV0QiwrREFDa0I7O0dBQWpCLG9CQUFNO0dBQ04sc0JBQ1EsZUFBQTtJQUFQLGlHQUNvQzs7cUJBQW5DLENBQUUsRUFBRSxHQUFROzs7O2tCQUNaLGlDQUFBLFNBQVksSUFBYSxpQkFDdUM7O3NCQURoRDs7SUFDWixRQUFBLEtBQUEsaUJBQ1k7S0FDaEIscURBQVMsRUFBRTtLQUNYLDZCQUFlLEVBQUU7S0FDakIsaUNBQVMsMkJBQUk7S0FDTCxLQUFBLFNBQU8sT0FBTyxnQ0FDckIsR0FBQyxvREFDWSx1QkFBWSwwQkFBZSxrQkFDaEMsdURBQ1Usb0VBRUE7Ozs7RUEzRXRCLHdCQUFBIiwiZmlsZSI6ImFzc2VydC5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9hc3NlcnQubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7RUFnQkEsc0JBQ0M7RUFHRCwrQ0FDYSxLQUFBOztHQUFaLG9CQUNDO0dBQ0Qsc0JBQ1EsZUFBQTtJQUFQLGlDQUNjLEtBQUE7O3FCQUFiLENBQUUsRUFBRSxHQUFPOzs7SUFDWixXQUNDOzJDQU9tQixLQUNPLElBQUE7S0FBMUIsaUNBQ2MsS0FBQTs7c0JBQWIsQ0FBRSxFQUFFLEdBQU87Ozs7O2tCQUNaLDBCQUFBLElBQWEsaUJBQ3VDO3NCQURoRDs7SUFDTCx3QkFBa0IsT0FBRyxJQUFJO0dBQUE7O0VBRTNCLDJEQUNrQixLQUFBOztHQUFqQixvQkFBTTtHQUNOLHNCQUNRLGVBQUE7a0JBQ04saUNBQUEsSUFBYSxpQkFDdUM7c0JBRGhEOztJQUNBLFFBQUEsS0FBQSxpQkFDWTtLQUNoQixxREFBUyxFQUFFO0tBQ1gsNkJBQWUsRUFBRTtLQUNqQixhQUFTLGtCQUFVLEtBQUssb0JBQVM7S0FDekIsS0FBQSxPQUFHLE9BQU8sZ0NBQ2pCLEdBQUMsb0RBQ1ksdUJBQVksMEJBQWUsa0JBQ2hDLHFEQUNVLG9FQUVBOzs7O0VBRXRCLDJEQUNrQixLQUFBOztHQUFqQixvQkFBTTtHQUNOLHNCQUNRLGVBQUE7SUFBUCw2RkFDb0MsS0FBQTs7cUJBQW5DLENBQUUsRUFBRSxHQUFROzs7O2tCQUNaLGlDQUFBLFNBQVksSUFBYSxpQkFDdUM7O3NCQURoRDs7SUFDWixRQUFBLEtBQUEsaUJBQ1k7S0FDaEIscURBQVMsRUFBRTtLQUNYLDZCQUFlLEVBQUU7S0FDakIsaUNBQVMsMkJBQUk7S0FDTCxLQUFBLFNBQU8sT0FBTyxnQ0FDckIsR0FBQyxvREFDWSx1QkFBWSwwQkFBZSxrQkFDaEMsdURBQ1Usb0VBRUE7Ozs7RUEzRXRCLHdCQUFBIiwiZmlsZSI6ImFzc2VydC5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

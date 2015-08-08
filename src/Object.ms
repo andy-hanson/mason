@@ -12,7 +12,7 @@ use~
 	.@.? _ ?-or Opt->?
 	.@.Map.Map _ make-map
 	.@.Set.Id-Set
-	.control opr returning
+	.control opr
 use-debug
 	.@.? ?None ?some
 	.@.Set.Set set=?
@@ -220,7 +220,7 @@ Map->Object.
 			Map->Object
 				1 -> 2
 	|_:Map
-		returning empty-Object!() !|obj
+		with empty-Object!() as obj
 			for! elem in _
 				# TODO:SYNTAX Array destructure
 				p+! obj elem[0] elem[1]

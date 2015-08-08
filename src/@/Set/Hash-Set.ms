@@ -31,13 +31,13 @@ Hash-Set. class
 
 	# TODO: Make default falling back to +!
 	++! !|@added
-		for! em in @added
-			assoc! .map em true
+		for! @added
+			assoc! .map _ true
 
 	# TODO: Make default falling back to -!
 	--! !|@deleted
-		for! em in @deleted
-			un-assoc! .map em
+		for! @deleted
+			un-assoc! .map _
 
 	empty! !|
 		empty! .map

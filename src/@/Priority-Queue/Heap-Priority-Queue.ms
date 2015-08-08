@@ -1,6 +1,5 @@
 use
 	...compare =? <?
-	...control returning
 	...math.Number int/
 	...math.methods + - *
 	...Type.Kind kind! self-kind!
@@ -34,7 +33,7 @@ Heap-Priority-Queue. class
 
 	?pop! |
 		unless empty? this
-			returning .array[0] !|
+			with .array[0]
 				fix-down! .array
 
 	empty? |

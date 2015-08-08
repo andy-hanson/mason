@@ -65,10 +65,8 @@ Deque. class
 
 	?<pop! |
 		unless empty? this
-			# TODO: returning
-			x = .data![.start-index!]
-			.start-index! := next-index this .start-index!
-			x
+			with .data![.start-index!]
+				.start-index! := next-index this .start-index!
 
 	?pop>! |
 		unless empty? this

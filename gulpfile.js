@@ -65,7 +65,7 @@ gulp.task('lint', () =>
 
 // Test
 
-gulp.task('test-compile', [ 'compile-test' ], () =>
+gulp.task('test-compile', [ 'compile-tests' ], () =>
 	require('./compiled-test/test-compile').test())
 gulp.task('perf-test-compile', [ 'compile-test' ], () =>
 	require('./compiled-test/test-compile').perfTest())

@@ -29,7 +29,7 @@ Range. class
 
 	# TODO: class attributes
 	# doc. "Seq of Numbers taking fixed steps."
-	construct! start end step
+	construct! start:Number end:Number step:Opt[Number]
 		.start = start
 		.end = end
 		.step = opr step (sign (- end start))
@@ -40,8 +40,14 @@ Range. class
 		# 	assert! seq=? (range 0 10 2) [ 0 2 4 6 8 ]
 		cur ::= .start
 		for!
-			if! <=? .end cur
+			break-cond = case
+				<? 0 .step
+					<=? .end cur
+				else
+					<=? cur .end
+			if! break-cond
 				break!
+
 			<~ cur
 			cur := + cur .step
 

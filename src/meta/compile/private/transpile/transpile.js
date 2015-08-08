@@ -18,8 +18,8 @@ import { assert, cat, flatMap, flatOpMap, ifElse, isEmpty,
 import { AmdefineHeader, ArraySliceCall, DeclareBuiltBag, DeclareBuiltMap, DeclareBuiltObj,
 	EmptyTemplateElement, ExportsDefault, ExportsGet, IdArguments, IdBuilt, IdDefine, IdExports,
 	IdExtract, IdFunctionApplyCall, IdLexicalThis, LitEmptyArray, LitEmptyString, LitNull,
-	LitStrExports, LitStrThrow, LitZero, ReturnBuilt, ReturnExports, ReturnRes, SwitchCaseNoMatch,
-	ThrowAssertFail, ThrowNoCaseMatch, UseStrict } from './ast-constants'
+	LitStrExports, LitStrThrow, LitZero, ReturnBuilt, ReturnExports, ReturnRes,
+	SwitchCaseNoMatch, ThrowAssertFail, ThrowNoCaseMatch, UseStrict } from './ast-constants'
 import { IdMs, lazyWrap, msAdd, msAddMany, msArr, msAssert, msAssertNot, msAssoc,
 	msCheckContains, msError, msExtract, msGet, msGetDefaultExport, msGetModule, msLazy, msLazyGet,
 	msLazyGetModule, msNewMutableProperty, msNewProperty, msSet, msSetName, msSetLazy,	msSome,
@@ -420,6 +420,16 @@ implementMany(MsAstTypes, 'transpile', {
 		return ifElse(this.opThrown,
 			_ => ThrowStatement(msError(t0(_))),
 			() => ThrowStatement(msError(LitStrThrow)))
+	},
+
+	With() {
+		const idDeclare = idForDeclareCached(this.declare)
+		const block = t3(this.block, null, null, ReturnStatement(idDeclare))
+		const fun = isInGenerator ?
+			FunctionExpression(null, [ idDeclare ], block, true) :
+			ArrowFunctionExpression([ idDeclare ], block)
+		const call = CallExpression(fun, [ t0(this.value) ])
+		return isInGenerator ? yieldExpressionDelegate(call) : call
 	},
 
 	Yield() { return yieldExpressionNoDelegate(t0(this.yielded)) },

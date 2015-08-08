@@ -242,6 +242,51 @@ region Near
 			max = pow 10 (* -1 sig-figs)
 			<? abs_ max
 
+region Utilities
+	incr.
+		doc. "TODO"
+		test. |
+			[ 0 ] -> 1
+		|_:Number
+			+ _ 1
+
+	decr.
+		doc. "TODO"
+		test. |
+			[ 0 ] -> -1
+		|_:Number
+			- _ 1
+
+	half.
+		doc. "TODO"
+		test. |
+			[ 3 ] -> 1.5
+		|_:Number
+			/ _ 2
+
+	twice.
+		doc. "TODO"
+		test. |
+			[ 1.5 ] -> 3
+		|_:Number
+			* _ 2
+
+	neg.
+		doc. "TODO"
+		test. |
+			[ 1 ] -> -1
+			[ 0 ] -> -0
+		|_:Number
+			* _ -1
+
+	mid.
+		doc. "TODO"
+		test. |
+			[ 0 1 ] -> 0.5
+		|a:Number b:Number
+			half (+ a b)
+
+
 region Constants
 	infinity. p Number "POSITIVE_INFINITY"
 	-infinity. p Number "NEGATIVE_INFINITY"

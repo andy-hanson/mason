@@ -6,7 +6,7 @@ use~
 	.@.@-Type from-stream
 	.@.? un-?
 	.@.Seq.Seq _ first tail
-	.control opr returning
+	.control opr
 	.Function identity
 	.Object object=?
 	.Type.Pred-Type Opt
@@ -141,7 +141,7 @@ region Sorting
 					sb-prev ::= sort-by first_
 					all? tail_ |em
 						sb-cur = sort-by em
-						returning (<? sb-prev sb-cur) !|
+						with <? sb-prev sb-cur
 							sb-prev := sb-cur
 
 	sort. new Method

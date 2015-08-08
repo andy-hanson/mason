@@ -1,5 +1,4 @@
 use
-	...control returning
 	...Type.Method impl! self-impl!
 	...Type.Kind kind! self-kind!
 	..@ count empty!
@@ -69,5 +68,5 @@ impl! assoc! Id-Map .!|key val
 	.set key val
 
 impl! un-assoc! Id-Map .|key
-	returning (?get this key) !|
+	with ?get this key
 		.delete key

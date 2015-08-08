@@ -1,7 +1,8 @@
 import { code } from '../CompileError'
 import * as MsAstTypes from '../MsAst'
 import { Assign, AssignDestructure, AssignSingle, BlockVal, Call, Debug, Do, ForVal,
-	LocalDeclareBuilt, LocalDeclareRes, ObjEntry, Pattern, Yield, YieldTo } from '../MsAst'
+	LocalDeclareBuilt, LocalDeclareFocus, LocalDeclareRes, ObjEntry, Pattern, Yield, YieldTo
+	} from '../MsAst'
 import { assert, cat, eachReverse, head, ifElse, implementMany,
 	isEmpty, iteratorToArray, opEach } from './util'
 import VerifyResults, { LocalInfo } from './VerifyResults'
@@ -14,6 +15,7 @@ export default (_context, msAst) => {
 	locals = new Map()
 	pendingBlockLocals = [ ]
 	isInDebug = isInGenerator = false
+	okToNotUse = new Set()
 	opLoop = null
 	results = new VerifyResults()
 
@@ -22,7 +24,7 @@ export default (_context, msAst) => {
 
 	const res = results
 	// Release for garbage collection.
-	context = locals = opLoop = pendingBlockLocals = results = undefined
+	context = locals = okToNotUse = opLoop = pendingBlockLocals = results = undefined
 	return res
 }
 
@@ -31,6 +33,8 @@ let
 	context,
 	// Map from names to LocalDeclares.
 	locals,
+	// Locals that don't have to be accessed.
+	okToNotUse,
 	opLoop,
 	/*
 	Locals for this block.
@@ -173,7 +177,8 @@ const verifyLocalUse = () =>
 		if (!(local instanceof LocalDeclareBuilt || local instanceof LocalDeclareRes)) {
 			const noNonDebug = isEmpty(info.nonDebugAccesses)
 			if (noNonDebug && isEmpty(info.debugAccesses))
-				context.warn(local.loc, () => `Unused local variable ${code(local.name)}.`)
+				context.warnIf(!okToNotUse.has(local), local.loc, () =>
+					`Unused local variable ${code(local.name)}.`)
 			else if (info.isInDebug)
 				context.warnIf(!noNonDebug, () => head(info.nonDebugAccesses).loc, () =>
 					`Debug-only local ${code(local.name)} used outside of debug.`)
@@ -182,6 +187,7 @@ const verifyLocalUse = () =>
 					`Local ${code(local.name)} used only in debug.`)
 		}
 	})
+
 
 implementMany(MsAstTypes, 'verify', {
 	Assert() {
@@ -452,6 +458,15 @@ implementMany(MsAstTypes, 'verify', {
 		}
 		this.used.forEach(addUseLocal)
 		opEach(this.opUseDefault, addUseLocal)
+	},
+
+	With() {
+		this.value.verify()
+		withIIFE(() => {
+			if (this.declare instanceof LocalDeclareFocus)
+				okToNotUse.add(this.declare)
+			verifyAndPlusLocal(this.declare, () => { this.block.verify() })
+		})
 	},
 
 	Yield() {

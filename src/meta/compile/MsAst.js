@@ -257,7 +257,7 @@ export const
 			'parts', [SwitchDoPart],
 			'opElse', Nullable(BlockDo)
 		]),
-	SwitchVal = d('SwitchVal',
+	SwitchVal = v('SwitchVal',
 		'TODO:DOC',
 		[
 			'switched', Val,
@@ -444,4 +444,8 @@ export const
 	MS_NewMutable = 2,
 	MemberSet = d('SetProperty',
 		'TODO:DOC',
-		[ 'object', Val, 'name', String, 'kind', Number, 'value', Val ])
+		[ 'object', Val, 'name', String, 'kind', Number, 'value', Val ]),
+
+	With = v('With',
+		'TODO:DOC',
+		[ 'declare', LocalDeclare, 'value', Val, 'block', BlockDo ])

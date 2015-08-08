@@ -1,5 +1,5 @@
 use
-	util-inspect
+	.private.util-inspect
 	.js id=?
 	.private.bootstrap msDef
 	.Type.Method

@@ -20,7 +20,13 @@ export const JsGlobals = new Set([
 	'Symbol',
 	'SyntaxError',
 	'TypeError',
-	'URIError'
+	'URIError',
+
+	// Web ones
+	// TODO: web only
+	'document',
+	'window'
+
 	// 'Set' and 'Map' conflict with mason's versions.
 	// 'Promise': Use '$' instead.
 	// For following, just use `global.xxx`.

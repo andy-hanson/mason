@@ -122,11 +122,9 @@ const reserved_words = [
 	'var',
 	'void',
 	'while',
-	'with',
 
 	// Keywords Mason might use
 	'abstract',
-	'as',
 	'data',
 	'final',
 	'gen',
@@ -147,6 +145,7 @@ for (const name of reserved_words)
 
 export const
 	KW_And = kw('and'),
+	KW_As = kw('as'),
 	KW_Assert = kw('assert!'),
 	KW_AssertNot = kw('forbid!'),
 	KW_Assign = kw('='),
@@ -216,6 +215,7 @@ export const
 	KW_UseDebug = kw('use-debug'),
 	KW_UseDo = kw('use!'),
 	KW_UseLazy = kw('use~'),
+	KW_With = kw('with'),
 	KW_Yield = kw('<~'),
 	KW_YieldTo = kw('<~~'),
 

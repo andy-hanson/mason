@@ -1,7 +1,7 @@
 use
 	.js defined?
 	.methods freeze
-	.Type.Pred-Type Any Opt
+	.Type.Pred-Type Opt
 use~
 	.@.Seq.Seq _ ++>!
 use-debug
@@ -43,13 +43,3 @@ TODO.
 	doc. "Placeholder for something which you really ought to implement one of these days."
 	!|
 		throw! "This function has not yet been implemented."
-
-returning.
-	doc. "Calls `do-after` and returns `returned`."
-	test. !|
-		assert! =? [ 0 ] (build !|yield
-			assert! =? 1 (returning 1 !|
-				yield 0
-	|returned:Any do-after:Function
-		do-after returned
-		returned

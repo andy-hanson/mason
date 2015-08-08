@@ -1,3 +1,8 @@
+if (typeof window !== 'undefined')
+	window.global = window
+else
+	global.window = global
+
 export const pAdd = (object, key, value) =>
 	Object.defineProperty(object, key, {
 		value,
@@ -63,7 +68,7 @@ const msDefs = {
 		return module._get instanceof ms.Lazy ? module._get.get() : module
 	},
 
-	getDefaultExport: module => {
+	getDefaultExport(module) {
 		if (module === undefined)
 			throw new Error('Module undefined.')
 		const mod = ms.getModule(module)

@@ -30,9 +30,9 @@ describe('conditionals', () => {
 				1`,
 		ConditionalVal(loc, zero, blockOne, false),
 		`
-			0?_ms.some(()=>{
+			0?_ms.some((()=>{
 				return 1
-			}()):_ms.None`)
+			})()):_ms.None`)
 })
 
 describe('case', () => {
@@ -86,13 +86,13 @@ describe('case', () => {
 			[ CaseValPart(loc, zero, blockOne) ],
 			blockTwo),
 		`
-			()=>{
+			(()=>{
 				if(0){
 					return 1
 				} else {
 					return 2
 				}
-			}()`)
+			})()`)
 	test(
 		`
 			a = 0
@@ -113,7 +113,7 @@ describe('case', () => {
 		],
 		`
 			const a=0;
-			return ()=>{
+			return (()=>{
 				const _=0;
 				{
 					const _$=_ms.extract(a,_);
@@ -124,7 +124,7 @@ describe('case', () => {
 						return 1
 					}
 				}
-			}()`)
+			})()`)
 })
 
 describe('switch', () => {
@@ -155,7 +155,7 @@ describe('switch', () => {
 			[ SwitchValPart(loc, one, BlockWithReturn(loc, [ assignAZero ], aAccess)) ],
 			blockOne),
 		`
-			()=>{
+			(()=>{
 				switch(0){
 					case 1:{
 						const a=0;
@@ -163,5 +163,5 @@ describe('switch', () => {
 					}
 					default:return 1
 				}
-			}()`)
+			})()`)
 })

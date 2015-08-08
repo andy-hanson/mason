@@ -1,7 +1,8 @@
-import { AssignSingle, BagSimple, Call, LD_Const, LocalDeclare, Member, New, ObjPair, ObjSimple,
-	Quote, QuoteTemplate, SpecialVal, SV_False, SV_Null, SV_ThisModuleDirectory, SV_True,
-	SV_Undefined } from '../../dist/meta/compile/MsAst'
-import { aAccess, assignAZero, focusAccess, loc, one, two, zero } from './util/ast-util'
+import { AssignSingle, BagSimple, BlockDo, Call, LD_Const, LocalDeclare, Member, New, ObjPair,
+	ObjSimple, Quote, QuoteTemplate, SpecialVal, SV_False, SV_Null, SV_ThisModuleDirectory,
+	SV_True, SV_Undefined, With } from '../../dist/meta/compile/MsAst'
+import { aAccess, aDeclare, assignAZero, blockPass, focusAccess, focusDeclare, loc, one, two, zero
+	} from './util/ast-util'
 import { test } from './util/test-asts'
 
 describe('expressions', () => {
@@ -109,12 +110,46 @@ describe('expressions', () => {
 		test(
 			'"a{0}b"',
 			Quote(loc, [ 'a', zero, 'b' ]),
-			'`a${_ms.show(0)}b`')
+			'`a${0}b`')
 
 		test(
 			'0"a{0}b"',
 			QuoteTemplate(loc, zero, Quote(loc, [ 'a', zero, 'b' ])),
-			'0`a${_ms.show(0)}b`')
+			'0`a${0}b`')
+	})
+
+	describe('With', () => {
+		// OK to not use the var if it's the focus
+		test(
+			`
+				with 0
+					pass`,
+			With(loc, focusDeclare, zero, blockPass),
+			`
+				(_=>{
+					return _
+				})(0)`)
+		test(
+			`
+				with 0 as a
+					pass`,
+			With(loc, aDeclare, zero, blockPass),
+			`
+				(a=>{
+					return a
+				})(0)`,
+			{ warnings: [ 'Unused local variable {{a}}.' ] })
+		test(
+			`
+				with 0
+					_ _`,
+			With(loc, focusDeclare, zero,
+				BlockDo(loc, [ Call(loc, focusAccess, [ focusAccess ]) ])),
+			`
+				(_=>{
+					_(_);
+					return _
+				})(0)`)
 	})
 })
 

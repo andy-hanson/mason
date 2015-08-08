@@ -6,7 +6,6 @@ use
 	...@.Seq.Stream
 	...@.Set.Id-Set
 	...compare =?
-	...control returning
 	...js defined? js-sub
 	...math.Number infinity int/ Nat remainder square
 	...math.methods +
@@ -47,10 +46,10 @@ happy?.
 					# TODO: +!
 					++! stepped-through [ cur ]
 					cur := happy-step cur
-		returning n-happy? !|
+		with n-happy?
+			set-nth! cache n _
 			for! stepped-through
 				set-nth! cache _ n-happy?
-			set-nth! cache n n-happy?
 
 happy-numbers:Stream[Nat].
 	doc. "Stream of all happy numbers."

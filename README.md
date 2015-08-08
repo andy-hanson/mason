@@ -12,7 +12,6 @@ It is currently in progress.
 	# Currently only works in io.js
 	nvm use iojs
 	npm install
-	./gulp compile-all
 	./gulp list-modules
 	./gulp run
 
