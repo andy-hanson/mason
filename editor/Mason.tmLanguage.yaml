@@ -135,11 +135,11 @@ patterns:
 
 - comment: Mason reserved word
   name: keyword
-  match: (abstract|as|data|do!?|final|gen!?|goto!|is|isa|of!?|to|until!?|while!?)(\s)
+  match: (abstract|data|final|gen!?|goto!|is|isa|of!?|to|until!?|while!?)(\s)
 
 - comment: Mason keyword
   name: keyword
-  match: (_|->|and|assert!|break!?|built|case!?|catch!?|class|construct!|continue!|debug|debugger|else|except!?|false|finally!|forbid!|@for~?|for!?|get|if!?|in|is|new|not|null|or|out|pass|returning|set!|super|static|switch!?|this|this-module-directory|throw!|true|try!?|undefined|unless!?|use!?|use-debug|use~|<~|<~~)(\s)
+  match: (_|->|and|as|assert!|break!?|built|case!?|catch!?|class|construct!|continue!|debug|debugger|do!?|else|except!?|false|finally!|forbid!|@for~?|for!?|get|if!?|in|is|new|not|null|or|out|pass|set!|super|static|switch!?|this|this-module-directory|throw!|true|try!?|undefined|unless!?|use!?|use-debug|use~|<~|<~~)(\s)
 
 - comment: Bracket
   name: keyword

@@ -63,8 +63,9 @@ const msDefs = {
 	},
 
 	getModule(module) {
-		if (module === undefined)
-			throw new Error('Module undefined.')
+		if (module == null) return null
+		//if (module === undefined)
+		//	throw new Error('Module undefined.')
 		return module._get instanceof ms.Lazy ? module._get.get() : module
 	},
 

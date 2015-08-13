@@ -13,6 +13,7 @@ use~
 	...math.Number Nat
 	...to-string
 	..? Opt->? un-?
+	..Range
 	.Stream
 use-debug
 	...compare <?
@@ -324,7 +325,25 @@ region TODO: put somewhere
 							# TODO: Really freeze?
 							<~ freeze next-group
 
-	# TODO: reverse'?
+
+	indexes.
+		doc. "TODO"
+		test. |
+			[ [ 0 0 0 ] ] -> new Range 0 3
+		|_:Seq
+			new Range 0 count_
+
+	reverse'. new Method
+		doc. "TODO"
+		test. !|
+			pass # TODO
+		args. 1
+		default. .|
+			arr = => Array this
+			new Stream ~!|
+				for! reverse (indexes arr)
+					<~ arr[_]
+
 	reverse. new Method
 		doc. "Seq with the opposite order."
 		test. |
@@ -359,16 +378,34 @@ region TODO: put somewhere
 							cur-idx := next-idx
 
 region Mutator methods
+	# TODO:Implement
+	<+!. new Method
+		doc. "TODO"
+		args. [ "_" "added" ]
+
 	<++!. new Method
 		doc. "Makes `_` into `+ added _`."
 		args.
 			. "_"
-			. [ "added" @
+			. [ "@added" @ ]
+		default. .!|@added
+			for! reverse' @added
+				<+! this _
+
+	# TODO:Implement
+	+>!. new Method
+		doc. "TODO"
+		args. [ "_" "added" ]
+
 	++>!. new Method
 		doc. "Makes `_` into `+ _ added`."
 		args.
 			. "_"
-			. [ "added" @
+			. [ "@added" @ ]
+		default. .!|@added
+			for! @added
+				+>! this _
+
 
 	?<pop!. new Method
 		doc. "Takes one element off the left side, if not empty?."

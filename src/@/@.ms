@@ -13,7 +13,7 @@ use
 use~
 	..control opr
 	.? Opt->?
-	.Seq.Seq ++>! first seq=? tail take'
+	.Seq.Seq +>! ++>! first seq=? tail take'
 	.Seq.Stream
 	.Set.Set
 use-debug
@@ -332,6 +332,18 @@ region Mutator methods
 		doc. "Mutates this collection so that it will be `empty?`."
 		args. 1
 
+	# TODO: implement
+	+!. new Method
+		doc. "TODO"
+		test. !|
+			pass # TODO:impl-test
+		args.
+			. "_"
+			. "added"
+		# TODO: Lazy default?
+		default. .!|added
+			+>! this added
+
 	++!. new Method
 		doc. "
 			Adds new elements.
@@ -340,17 +352,26 @@ region Mutator methods
 			pass # TODO:impl-test
 		args.
 			. "_"
-			. [ "added" @
+			. [ "@added" @ ]
 		# TODO: Lazy default?
-		default. .!|added
-			++>! this added
+		default. .!|@added
+			++>! this @added
+
+	# TODO: implement
+	-!. new Method
+		doc. "TODO"
+		test. !|
+			pass # TODO:impl-test
+		args.
+			. "_"
+			. [ "@removed" @ ]
 
 	--!. new Method
 		doc. "
 			Removes all elements in `removed` once.
 			For Seqs these are removed starting from the left.
-		args.
-			. "_"
-			. [ "@removed" @
 		test. !|
 			pass # TODO:impl-test
+		args.
+			. "_"
+			. [ "@removed" @ ]

@@ -3,6 +3,7 @@ use
 	.compare =?
 	.js defined? id=? js== js-delete js-set js-sub js-typeof
 	.methods freeze
+	.to-string inspect
 	.Type.Kind
 	.Type.Pred-Type Opt
 	.Type.Type => contains?
@@ -16,7 +17,7 @@ use~
 use-debug
 	.@.? ?None ?some
 	.@.Set.Set set=?
-	.Try fails?
+	.Try fails? fails-with?
 
 Object-Key. new Kind
 	doc. "Can be used as a name for a property of an object."
@@ -234,6 +235,7 @@ prototype.
 	Object.getPrototypeOf
 
 region Mutator methods
+	# TODO: just use new Object or Object.create
 	empty-Object!.
 		doc. "Creates a new Object! with no properties and the given prototype."
 		test. !|
@@ -305,3 +307,19 @@ region Mutator methods
 			assert! =? _.a 1
 		!|_:Object extender:Object
 			Object.assign _ extender
+
+send.
+	doc. "Calls `target`'s method `name` with the given arguments."
+	test. |
+		[ 1 "toFixed" 2 ] -> "1.00"
+		assert! fails-with? "Method 'toFixed' not implemented by '1'." !|
+			send! "1" "toFixed"
+	|target name:Object-Key ...args
+		impl = js-sub target name
+		assert! impl:Function throw! "Method {inspect name} not implemented by {inspect target}."
+		impl.apply target args
+
+send!. send
+
+object-merge. |...objects
+	Object.assign (new Object) ...objects

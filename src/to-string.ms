@@ -16,12 +16,15 @@ to-string. new Method
 				"<object with no toString defined>"
 
 inspect. new Method
-	impl-symbol. "inspect"
-	default. .|
-		util-inspect this
 	test. |
 		[ 2 ] -> "2"
 		[ (a. 1 b. 2) ] -> "\{ a: 1, b: 2 }"
+		[ null ] -> "null"
+		[ undefined ] -> "undefined"
+	impl-symbol. "inspect"
+	allow-null?. true
+	default. .|
+		util-inspect this
 
 msDef "inspect" inspect
 

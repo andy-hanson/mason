@@ -5,13 +5,11 @@ define(["exports","../String-as-Seq","../Type/Type"],(exports,String_45as_45Seq_
 		_ms.getModule(String_45as_45Seq_0);
 		const _$5=_ms.getModule(Type_1),_61_62=_ms.get(_$5,"=>");
 		const doc=exports.doc=`Functions that write to the console (also known as shell, command prompt, stdout/stderr).`;
-		const js_45console=global.console;
 		const log_33=exports["log!"]=(()=>{
 			const built={};
 			const doc=built.doc=`Prints its arguments to the console, separated by spaces.\nAlways adds a newline at the end.`;
-			return _ms.set(function log_33(){
-				const args=[].slice.call(arguments,0);
-				Function.apply.call(js_45console.log,null,[].concat(_ms.arr(args)))
+			return _ms.set(function log_33(a){
+				global.console.log(a)
 			},built)
 		})();
 		const warn_33=exports["warn!"]=(()=>{
@@ -19,7 +17,7 @@ define(["exports","../String-as-Seq","../Type/Type"],(exports,String_45as_45Seq_
 			const doc=built.doc=`Like \`log!\`, but prints to stderr.`;
 			return _ms.set(function warn_33(){
 				const args=[].slice.call(arguments,0);
-				Function.apply.call(js_45console.warn,null,[].concat(_ms.arr(args)))
+				Function.apply.call(global.console.warn,null,[].concat(_ms.arr(args)))
 			},built)
 		})();
 		const dbg_33=exports["dbg!"]=(()=>{
@@ -39,11 +37,11 @@ define(["exports","../String-as-Seq","../Type/Type"],(exports,String_45as_45Seq_
 			const doc=built.doc=`Logs the current stacktrace.`;
 			return _ms.set(function trace_33(){
 				const args=[].slice.call(arguments,0);
-				js_45console.trace(_61_62(String,args,` `))
+				global.console.trace(_61_62(String,args,` `))
 			},built)
 		})();
 		const name=exports.name=`console`;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9pby9jb25zb2xlLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7OztFQU1BLHNCQUFNO0VBRU4sbUJBQWE7RUFFYiw2QkFDSyxLQUFBOztHQUFKLG9CQUNDO2tCQUVDLGlCQUNPOzt3QkFBUix3Q0FBZTtHQUFBOztFQUVqQiwrQkFDTSxLQUFBOztHQUFMLG9CQUFNO2tCQUNKLGtCQUNPOzt3QkFBUix5Q0FBZ0I7R0FBQTs7RUFHakIsNkJBQ0ssS0FBQTs7R0FBSixvQkFBTTtrQkFDSixpQkFDTzs7SUFBUixRQUFPO0lBQ0YsUUFBQSxLQUFBLEtBQ0k7S0FBUixRQUFNO0lBQUE7SUFDUCxRQUFPOzs7RUFFVCxpQ0FDTyxLQUFBOztHQUFOLG9CQUFNO2tCQUNKLG1CQUNPOztJQUFSLG1CQUFrQixPQUFHLE9BQU8sS0FBTTs7O0VBbENyQyx3QkFBQSIsImZpbGUiOiJpby9jb25zb2xlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9pby9jb25zb2xlLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7OztFQU1BLHNCQUFNO0VBRU4sNkJBQ0ssS0FBQTs7R0FBSixvQkFDQztrQkFHQyxnQkFBQSxFQUNDO0lBQUYsbUJBQW1CO0dBQUE7O0VBRXJCLCtCQUNNLEtBQUE7O0dBQUwsb0JBQU07a0JBQ0osa0JBQ087O3dCQUFSLDJDQUFvQjtHQUFBOztFQUdyQiw2QkFDSyxLQUFBOztHQUFKLG9CQUFNO2tCQUNKLGlCQUNPOztJQUFSLFFBQU87SUFDRixRQUFBLEtBQUEsS0FDSTtLQUFSLFFBQU07SUFBQTtJQUNQLFFBQU87OztFQUVULGlDQUNPLEtBQUE7O0dBQU4sb0JBQU07a0JBQ0osbUJBQ087O0lBQVIscUJBQXNCLE9BQUcsT0FBTyxLQUFNOzs7RUFqQ3pDLHdCQUFBIiwiZmlsZSI6ImlvL2NvbnNvbGUuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

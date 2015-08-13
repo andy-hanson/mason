@@ -9,9 +9,8 @@ use
 	...Type.Type =>
 	..@ _ --! count empty! empty?
 	..@-Type _ empty from-stream
-	..Range
 	..Set.Set
-	.Seq _ <++! ++>! ?nth ?<pop! ?pop>! set-nth!
+	.Seq _ <++! ++>! indexes ?nth ?<pop! ?pop>! set-nth!
 use~
 	...math.Number Nat
 use-debug
@@ -117,11 +116,3 @@ fill.
 			for! i in indexes_
 				# TODO:SYNTAX _[i] = filler i
 				set-nth! _ i (filler i)
-
-indexes.
-	doc. "
-		Range of indexes in a packed array.
-	test. |
-		[ [ 0 0 0 ] ] -> new Range 0 3
-	|_:Array
-		new Range 0 _.length

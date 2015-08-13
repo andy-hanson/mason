@@ -8,12 +8,14 @@ const
 	fs = require('q-io/fs'),
 	header = require('gulp-header'),
 	gulp = require('gulp'),
+	mason = require('gulp-mason'),
 	mocha = require('gulp-mocha'),
 	path = require('path'),
 	plumber = require('gulp-plumber'),
 	requirejs = require('requirejs'),
 	sourcemaps = require('gulp-sourcemaps'),
 	watch = require('gulp-watch')
+const listModules = require('mason-compile/dist/node-only/list-modules')
 
 // Use --no-checks to turn of checks in compiled mason code.
 const checks = argv.checks
@@ -34,7 +36,6 @@ gulp.task('default', [ 'watch' ])
 // TODO: Can't compile and run in the same task or there will be bugs.
 // gulp.task('all', [ 'compile-all' ], run)
 gulp.task('compile-all', [ 'js', 'ms', 'list-modules' ])
-gulp.task('all-minus-js', [ 'ms-minus-js' ], run)
 gulp.task('watch', [ 'watch-js', 'watch-ms', 'watch-list-modules' ])
 
 // Run
@@ -51,33 +52,13 @@ gulp.task('run-requirejs', () => {
 gulp.task('js', () => pipeJs(gulp.src(srcJs)))
 gulp.task('watch-js', () => pipeJs(srcWatch(srcJs)))
 
-gulp.task('compile-tests', () => pipeCompileTests(gulp.src(testJs)))
-gulp.task('watch-compile-tests', () => pipeCompileTests(srcWatch(testJs)))
-
-gulp.task('ms', [ 'js' ], () => pipeMs(gulp.src(srcMs), true))
-gulp.task('ms-minus-js', () => pipeMs(gulp.src(srcMs), true))
-gulp.task('watch-ms', [ 'js' ], () => pipeMs(srcWatch(srcMs)))
-
-// Lint
-
-gulp.task('lint', () =>
-	gulp.src([ './gulpfile.js', srcJs, testJs ]).pipe(eslint()).pipe(eslint.format()))
-
-// Test
-
-gulp.task('test-compile', [ 'compile-tests' ], () =>
-	require('./compiled-test/test-compile').test())
-gulp.task('perf-test-compile', [ 'compile-test' ], () =>
-	require('./compiled-test/test-compile').perfTest())
-
-gulp.task('test', [ 'compile-tests' ], runTests)
-gulp.task('run-tests', runTests)
-
+gulp.task('ms', () => pipeMs(gulp.src(srcMs), true))
+gulp.task('watch-ms', () => pipeMs(srcWatch(srcMs)))
 
 // List modules
 
+//TODO
 const writeListModules = () => {
-	const listModules = require('./dist/meta/compile/node-only/list-modules')
 	return fs.remove('./dist/modules-list.js').catch(() => { }).then(() =>
 		listModules('./dist', { exclude: /meta\/compile\/node-only\/.*/ }).then(js =>
 			fs.write('./dist/modules-list.js', js)))
@@ -93,7 +74,6 @@ gulp.task('watch-list-modules', [ 'list-modules' ], () =>
 const
 	srcMs = 'src/**/*.ms',
 	srcJs = 'src/**/*.js',
-	testJs = 'test/**/*.js',
 	dist = 'dist'
 
 const
@@ -110,19 +90,10 @@ const
 		.pipe(sourcemaps.write({ debug: true, sourceRoot: '/src' }))
 		.pipe(gulp.dest(dist)),
 
-	pipeCompileTests = stream =>
-		stream.pipe(sourcemaps.init())
-		.pipe(babel(babelOpts))
-		.pipe(header(
-			'if (typeof define !== \'function\') var define = require(\'amdefine\')(module);'))
-		.pipe(sourcemaps.write({ debug: true, sourceRoot: '/test' }))
-		.pipe(gulp.dest('compiled-test')),
-
 	pipeMs = stream => {
-		const ms = require('./dist/meta/compile/node-only/gulp-mason')
 		return stream
 		.pipe(sourcemaps.init())
-		.pipe(ms({ checks, verbose: true }))
+		.pipe(mason({ checks }))
 		.pipe(sourcemaps.write({
 			debug: true,
 			includeContent: false,

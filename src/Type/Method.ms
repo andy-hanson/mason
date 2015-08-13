@@ -8,7 +8,7 @@ use~
 	..compare =?
 	.Impl-Type _ Self-Type
 	.Kind
-	..Object p-with-proto?
+	..Object ?p p-with-proto?
 use-debug
 	..@.? ?None ?some
 	..Try fails?
@@ -205,10 +205,7 @@ self-impl!.
 		[ contains? Method ] -> ?some method-contains?
 		[ =? Method ] -> ?None
 	|method:Method type:Impl-Type
-		# TODO: Object.ms Function
-		desc = Object.getOwnPropertyDescriptor type.prototype method.impl-symbol
-		if and (defined? desc) (not desc.writable)
-			desc.value
+		?self-impl-for method type.prototype
 
 impl-for.
 	doc. "impl-for that fails when there is no implementation."
@@ -218,6 +215,19 @@ impl-for.
 	|method:Method type:Impl-Type
 		un-? (?impl-for method type) ~"{method} not implemented for {type}."
 
+?self-impl-for.
+	doc. "TODO"
+	test. !|
+		pass # TODO
+	|method:Method object
+		?p object method.impl-symbol
+
+self-impl-for.
+	doc. "TODO"
+	test. !|
+		pass # TODO
+	|method:Method object
+		un-? (?self-impl-for method object) ~"{method} not implemented on {object}."
 
 region Private
 	writable? = |obj property

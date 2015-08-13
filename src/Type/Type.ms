@@ -10,6 +10,7 @@ use
 use~
 	..@.? ?-or
 	..Object ?p-with-proto
+	..to-string inspect
 use-debug
 	.Method self-impl!
 
@@ -63,7 +64,7 @@ extract. new Method
 msDef "extract" extract
 
 msDef "checkContains" |type value name
-	assert! contains? type value throw! "{name} is no {type.name}, is a {(type-of value).name}: {value}"
+	assert! contains? type value throw! "{name} is no {type.name}, is a {(type-of value).name}: {inspect value}"
 	value
 
 =>. new Method

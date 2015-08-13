@@ -6,19 +6,18 @@ use
 
 doc. "Functions that write to the console (also known as shell, command prompt, stdout/stderr)."
 
-js-console = global.console
-
 log!.
 	doc. "
 		Prints its arguments to the console, separated by spaces.
 		Always adds a newline at the end.
-	!|...args
-		js-console.log ...args
+	# TODO:ES6 ...args; log ...args
+	!|a
+		global.console.log a
 
 warn!.
 	doc. "Like `log!`, but prints to stderr."
 	!|...args
-		js-console.warn ...args
+		global.console.warn ...args
 
 region Debugging
 	dbg!.
@@ -32,4 +31,4 @@ region Debugging
 	trace!.
 		doc. "Logs the current stacktrace."
 		!|...args
-			js-console.trace (=> String args " "
+			global.console.trace (=> String args " "
