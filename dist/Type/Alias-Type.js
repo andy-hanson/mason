@@ -17,7 +17,7 @@ define(["exports","../methods","./Kind","./Type","../compare"],(exports,methods_
 				[_ms.symbol(sub)](){
 					const _this=this;
 					const args=[].slice.call(arguments,0);
-					return Function.apply.call(sub,null,[].concat(_this["alias-of"],_ms.arr(args)))
+					return sub(_this["alias-of"],...args)
 				}
 			};
 			kind_33(_,Type);
@@ -37,4 +37,4 @@ define(["exports","../methods","./Kind","./Type","../compare"],(exports,methods_
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvcHJvZ3JhbW1pbmcvbWFzb24zL21hc29uL3NyYy9UeXBlL0FsaWFzLVR5cGUubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFPQSxtQkFDaUIsS0FJYjtTQURIO2dCQUlXLE9BQ007S0FBaEIsY0FBYyxLQUFLOzZCQUNMLE9BQU47NkJBQ1UsS0FBVjs7Z0JBRVQsY0FBVyxNQUNLO1dBUVg7WUFSSixZQVFJLGtCQVJnQjtJQUFBO2dCQUVyQixPQUNZO1dBS1A7O2dDQUFKLG1CQUFJLDBCQUFVO0lBQUE7R0FBQTtHQWpCZCxRQUFNLEVBQUU7VUFEVDtFQUFBO2tCQXFCRCxvQkFDb0IsSUFBQTtHQUFuQixRQUFJLEtBQUksY0FDVSxLQUFBOztJQUFqQixtQ0FBVTs7O2NBQ0gsWUFBVSxFQUFHO29DQUNWLEVBQUU7RUFBQTtFQXBDZCx3QkFBQTtrQkFPQSIsImZpbGUiOiJUeXBlL0FsaWFzLVR5cGUuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvbWFzb24zL21zbC9zcmMvVHlwZS9BbGlhcy1UeXBlLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBT0EsbUJBQ2lCLEtBSWI7U0FESDtnQkFJVyxPQUNNO0tBQWhCLGNBQWMsS0FBSzs2QkFDTCxPQUFOOzZCQUNVLEtBQVY7O2dCQUVULGNBQVcsTUFDSztXQVFYO1lBUkosWUFRSSxrQkFSZ0I7SUFBQTtnQkFFckIsT0FDWTtXQUtQOztZQUFKLElBQUksa0JBQVUsR0FBQTtJQUFBO0dBQUE7R0FqQmQsUUFBTSxFQUFFO1VBRFQ7RUFBQTtrQkFxQkQsb0JBQ29CLElBQUE7R0FBbkIsUUFBSSxLQUFJLGNBQ1UsS0FBQTs7SUFBakIsbUNBQVU7OztjQUNILFlBQVUsRUFBRztvQ0FDVixFQUFFO0VBQUE7RUFwQ2Qsd0JBQUE7a0JBT0EiLCJmaWxlIjoiVHlwZS9BbGlhcy1UeXBlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

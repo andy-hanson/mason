@@ -17,7 +17,8 @@ use-debug
 Kind. class
 	do!
 		implContains _ .|_
-			and (not js== _ null) (js-sub _ .symbol-for-isa)
+			# Cast to boolean so we return `false` and not `undefined`.
+			Boolean and (not js== _ null) (js-sub _ .symbol-for-isa)
 
 	# TODO: class attributes
 	# doc. "

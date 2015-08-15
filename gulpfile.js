@@ -4,12 +4,10 @@ require('source-map-support').install()
 const
 	argv = require('yargs').argv,
 	babel = require('gulp-babel'),
-	eslint = require('gulp-eslint'),
 	fs = require('q-io/fs'),
 	header = require('gulp-header'),
 	gulp = require('gulp'),
 	mason = require('gulp-mason'),
-	mocha = require('gulp-mocha'),
 	path = require('path'),
 	plumber = require('gulp-plumber'),
 	requirejs = require('requirejs'),
@@ -32,6 +30,7 @@ const
 
 // Composite
 
+//TODO: 'all'
 gulp.task('default', [ 'watch' ])
 // TODO: Can't compile and run in the same task or there will be bugs.
 // gulp.task('all', [ 'compile-all' ], run)
@@ -68,6 +67,7 @@ gulp.task('list-modules', [ 'js', 'ms' ], writeListModules)
 gulp.task('watch-list-modules', [ 'list-modules' ], () =>
 	watchVerbose([ srcJs, srcMs ], writeListModules))
 
+gulp.task('just-list-modules', writeListModules)
 
 // Helpers
 
@@ -90,8 +90,8 @@ const
 		.pipe(sourcemaps.write({ debug: true, sourceRoot: '/src' }))
 		.pipe(gulp.dest(dist)),
 
-	pipeMs = stream => {
-		return stream
+	pipeMs = stream =>
+		stream
 		.pipe(sourcemaps.init())
 		.pipe(mason({ checks }))
 		.pipe(sourcemaps.write({
@@ -99,8 +99,7 @@ const
 			includeContent: false,
 			sourceRoot: './src'
 		}))
-		.pipe(gulp.dest(dist))
-	},
+		.pipe(gulp.dest(dist)),
 
 	babelOpts = {
 		modules: 'amd',

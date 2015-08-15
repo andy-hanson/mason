@@ -83,13 +83,13 @@ $test-all.
 
 $test-module.
 	doc. "Treats an Object as a module and tests it."
-	|module:Object
-		$all (@$test-module module
+	|-module:Object
+		$all (@$test-module -module
 
 # TODO:ES6 Use module reflection
-@$test-module = |module:Object
-	module-name = ?-or (?p module "name") "<anonymous module>"
-	@$maybe-test module-name module true
+@$test-module = |-module:Object
+	module-name = ?-or (?p -module "name") "<anonymous module>"
+	@$maybe-test module-name -module true
 
 # TODO: Make this local to a single run of $test-all.
 all-tested = empty Id-Set

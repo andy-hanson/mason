@@ -1,5 +1,5 @@
 {
-	"name": "mason",
+	"name": "msl",
 	"version": "0.0.0",
 	"private": true,
 	"files": [ "dist", "src" ],
@@ -14,11 +14,9 @@
 		"gulp-plumber": "1.0.1",
 		"gulp-sourcemaps": "1.5.2",
 		"gulp-watch": "4.3.4",
-		"js-yaml": "3.3.1",
-		"plist": "1.1.0",
-		"q-io": "2.0.6",
+		"mason-compile": "andy-hanson/mason-compile",
 		"requirejs": "2.1.20",
-		"yargs": "3.18.0"
+		"source-map-support": "0.3.2"
 	},
 	"repository": {
 		"type": "git",

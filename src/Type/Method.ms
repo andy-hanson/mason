@@ -1,5 +1,4 @@
 use
-	esast.dist.util escapeStringForLiteral
 	..js defined? js=== js-delete js-instanceof js-sub js-typeof
 	..private.bootstrap containsImplSymbol implContains msDef pAdd
 use~
@@ -24,6 +23,9 @@ build-str = |builder
 	builder !|part
 		built-str := "{built-str}{part}\n"
 	built-str
+
+str-lit = |str
+	JSON.stringify str
 
 Method. class Function
 	construct! params
@@ -54,13 +56,13 @@ Method. class Function
 				-1
 
 		src = build-str |add!
-			access-method = "global[\"{escapeStringForLiteral secret-name}\"]"
+			access-method = "global[{str-lit secret-name}]"
 
 			impl = case impl-symbol
 				js=== js-typeof_ "symbol"
 					"a[{access-method}[\"impl-symbol\"]]"
 				:String
-					"a[\"{escapeStringForLiteral_}\"]"
+					"a[{str-lit _}]"
 
 			if! default?
 				cond = case
