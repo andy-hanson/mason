@@ -15,13 +15,11 @@
 		"gulp-sourcemaps": "1.5.2",
 		"gulp-watch": "4.3.4",
 		"mason-compile": "andy-hanson/mason-compile",
+		"mason-node-util": "andy-hanson/mason-node-util",
 		"requirejs": "2.1.20",
 		"source-map-support": "0.3.2"
 	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/andy-hanson/mason"
-	},
+	"repository": "andy-hanson/mason",
 	"engines": {
 		"iojs": "^3.0.0"
 	},

@@ -5,7 +5,7 @@ use
 	...@.Map.multi-map add-to-@!
 	...@.Range
 	...@.Seq.Stream
-	...math.Number infinity square
+	...math.Number square
 	...math.methods + *
 	...Type.Type =>
 use-debug
@@ -27,7 +27,7 @@ primes.
 		# Maps a composite number to its prime factors.
 		prime-factors = => Id-Map
 			9 -> [ 3 ]
-		for! candidate in new Range 5 infinity 2
+		for! candidate in new Range 5 Number.POSITIVE_INFINITY 2
 			# un-assoc! is to save memory - we won't need to look up this value any more.
 			case! un-assoc! prime-factors candidate
 				:Some factors

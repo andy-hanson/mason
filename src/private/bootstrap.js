@@ -89,25 +89,6 @@ const msDefs = {
 		return _
 	},
 
-	bool(b) {
-		if (typeof b !== 'boolean') {
-			console.log(b)
-			throw new Error(`Expected Boolean, got ${b}`)
-		}
-		return b
-	},
-
-	// Used for splat calls.
-	// TODO:ES6 Shouldn't need. `fun(...arg)` should work for any iterable.
-	arr(_) {
-		if (_ instanceof Array)
-			return _
-		const out = [ ]
-		for (let em of _)
-			out.push(em)
-		return out
-	},
-
 	error(err) {
 		if (err instanceof Error)
 			return err

@@ -1,7 +1,7 @@
 use
 	...@.@ empty? map'
 	...@.Range
-	...math.Number divisible? infinity Nat
+	...math.Number divisible? Nat
 	...Object Object->Map
 	...Type.Type =>
 use-debug
@@ -55,7 +55,7 @@ make-fizz-buzz.
 			# TODO:SYNTAX array destructure
 			shout:String. _[0]
 			divisor:Nat. _[1]
-		map' (new Range 1 infinity) |n
+		map' (new Range 1 Number.POSITIVE_INFINITY) |n
 			s ::= ""
 			for! tests
 				if! divisible? n _.divisor

@@ -7,3 +7,4 @@ use!
 	# kind! Id-Map Map. Necessary for `..Function spread!` to work.
 	..@.Map.Id-Map
 	..String-as-Seq
+	.impl-inspect

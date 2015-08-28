@@ -14,7 +14,7 @@ Int. new Pred-Type
 	doc. "
 		A multiple of 1.
 		This only contains Numbers for which integer methods return sensible results, AKA safe ints.
-		This is anything between min-safe-integer and max-safe-integer.
+		This is anything between Number.MIN_SAFE_INTEGER and Number.MAX_SAFE_INTEGER.
 	test. !|
 		assert-int! = !|_
 			assert! _:Int
@@ -22,12 +22,12 @@ Int. new Pred-Type
 			forbid! _:Int
 		spread! assert-int!
 			. 1
-			. min-safe-int
-			. max-safe-int
+			. Number.MIN_SAFE_INTEGER
+			. Number.MAX_SAFE_INTEGER
 		spread! forbid-int!
 			. 1.1
-			. - min-safe-int 1
-			. + max-safe-int 1
+			. - Number.MIN_SAFE_INTEGER 1
+			. + Number.MAX_SAFE_INTEGER 1
 	predicate. Number.isSafeInteger
 
 Nat. new Pred-Type
@@ -44,7 +44,7 @@ region impl!
 		- this other
 	impl! =? Number
 		test. |
-			[ not-a-number not-a-number ] -> true
+			[ Number.NaN Number.NaN ] -> true
 		.|other
 			id=? this other
 	impl! <? Number .|other:Number
@@ -285,11 +285,3 @@ region Utilities
 			[ 0 1 ] -> 0.5
 		|a:Number b:Number
 			half (+ a b)
-
-
-region Constants
-	infinity. p Number "POSITIVE_INFINITY"
-	-infinity. p Number "NEGATIVE_INFINITY"
-	max-safe-int. p Number "MAX_SAFE_INTEGER"
-	min-safe-int. p Number "MIN_SAFE_INTEGER"
-	not-a-number. Number.NaN

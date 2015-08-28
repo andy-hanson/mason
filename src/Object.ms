@@ -140,7 +140,7 @@ p?.
 		[ x "b" ] -> false
 		[ x "toString" ] -> false # use p-with-proto? for that.
 	|_ name:Object-Key
-		and can-get-p?_ (Object.prototype.hasOwnProperty.call _ name
+		and can-get-p?_ (Object.prototype.hasOwnProperty.call _ name)
 
 p-with-proto?.
 	doc. "Like `p?` but looks through the prototype."
@@ -312,7 +312,7 @@ send.
 	doc. "Calls `target`'s method `name` with the given arguments."
 	test. |
 		[ 1 "toFixed" 2 ] -> "1.00"
-		assert! fails-with? "Method 'toFixed' not implemented by '1'." !|
+		assert! fails-with? "Method \"toFixed\" not implemented by \"1\"." !|
 			send! "1" "toFixed"
 	|target name:Object-Key ...args
 		impl = js-sub target name

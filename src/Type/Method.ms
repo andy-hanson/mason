@@ -236,12 +236,10 @@ region Private
 		desc = Object.getOwnPropertyDescriptor obj property
 		or (not defined? desc) desc.writable
 
-	p? = |obj property
-		defined? (js-sub obj property)
 
 	# TODO: Not public
 	propagate-method-down!. !|implementor method-symbol implementation # TODO: :Impl-Type :Symbol :Function
-		unless! p? implementor.prototype method-symbol
+		unless! Object.prototype.hasOwnProperty.call implementor.prototype method-symbol
 			case! implementor
 				:Kind
 					for! sub-implementor in _.implementors

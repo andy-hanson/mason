@@ -7,13 +7,13 @@ const
 	fs = require('q-io/fs'),
 	header = require('gulp-header'),
 	gulp = require('gulp'),
+	listModules = require('mason-node-util/dist/list-modules'),
 	mason = require('gulp-mason'),
 	path = require('path'),
 	plumber = require('gulp-plumber'),
 	requirejs = require('requirejs'),
 	sourcemaps = require('gulp-sourcemaps'),
 	watch = require('gulp-watch')
-const listModules = require('mason-compile/dist/node-only/list-modules')
 
 // Use --no-checks to turn of checks in compiled mason code.
 const checks = argv.checks

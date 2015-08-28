@@ -11,7 +11,6 @@ use
 	.Stream
 use~ # TODO: use-debug
 	...math.methods +
-	...math.Number infinity
 	..Range
 	.Seq seq=? take'
 use-debug
@@ -65,7 +64,7 @@ Lazy-Stream.test = !|
 	fibonaccis = new Lazy-Stream ~!|
 		<~ 1
 		<~ 1
-		for! new Range 2 infinity
+		for! new Range 2 Number.POSITIVE_INFINITY
 			# This is *not* an exponential blowup because these are cached.
 			<~ + fibonaccis[(- _ 1)] fibonaccis[(- _ 2)]
 	assert! seq=? (take' fibonaccis 10) [ 1 1 2 3 5 8 13 21 34 55 ]

@@ -1,4 +1,4 @@
-Mason Standard Library, for use by [mason](https://andy-hanson.github.io/mason) programs.
+[Mason](http://mason-lang.org) Standard Library.
 
 To build and run tests:
 

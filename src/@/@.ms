@@ -41,40 +41,30 @@ impl! to-string @
 	test. |
 		d = => Deque [ 1 2 3 ]
 		[ d ] -> "
-			\n\t. 1
-				. 2
-				. 3
-		# TODO:SYNTAX [ d repr. ]
-		[ d (repr. true) ] -> "
-			=> Deque
+			Deque
 				. 1
 				. 2
 				. 3
-		[ (empty Deque) ] -> "[ ]"
-		[ (empty Deque) (repr. true) ] -> "empty Deque"
+		[ (empty Deque) ] -> "empty Deque"
 
 	.|
-		content = case
-			empty? this
-				"[ ]"
-			else
-				# TODO: map (eager)
-				ems = @for this
-					indent to-string_
-				show-ems end = case
-					<? 100 (count this)
-						show-ems. take' ems 100
-						end. "\n\t..."
-					else
-						show-ems. ems
-						end. ""
-				"\n\t. {=> String show-ems "\n\t. "}{end}"
-
 		case
 			empty? this
-				"empty {type-of this}"
+				"empty {.constructor.name}"
 			else
-				"=> {type-of this}{content}"
+				content =
+					# TODO: map (eager)
+					ems = @for this
+						indent to-string_
+					show-ems end = case
+						<? 100 (count this)
+							show-ems. take' ems 100
+							end. "\n\t..."
+						else
+							show-ems. ems
+							end. ""
+					"\n\t. {=> String show-ems "\n\t. "}{end}"
+				"{.constructor.name}{content}"
 
 
 iterator. new Method

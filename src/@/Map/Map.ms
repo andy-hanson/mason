@@ -24,19 +24,14 @@ impl! to-string Map
 	test. |
 		m =
 			1 -> 2
-		[ m ] -> "\n\t1 -> 2"
-		# TODO:SYNTAX [ m repr. ]
-		# TODO
-		# [ m (repr. true) ] -> "
-		#	Hash-Map
-		#		1 -> 2
-	.|opts
+		[ m ] -> "Map\n\t1 -> 2"
+	.|
 		# TODO: map Map to Array
 		# TODO:SYNTAX Array destructure
 		parts = map' this |pair
-			"{pair[0]} -> {pair[1] opts}"
+			"{pair[0]} -> {pair[1]}"
 		"
-			{(type-of this).name}
+			{.constructor.name}
 				{=> String parts "\n\t"}
 
 region New methods

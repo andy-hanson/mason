@@ -7,7 +7,7 @@ use
 	...@.Set.Id-Set
 	...compare =?
 	...js defined? js-sub
-	...math.Number infinity int/ Nat remainder square
+	...math.Number int/ Nat remainder square
 	...math.methods +
 	...Type.Type contains?
 use-debug
@@ -63,4 +63,4 @@ happy-numbers:Stream[Nat].
 			. 23
 			. 28
 			. 31
-	keep' (new Range 1 infinity) happy?
+	keep' (new Range 1 Number.POSITIVE_INFINITY) happy?

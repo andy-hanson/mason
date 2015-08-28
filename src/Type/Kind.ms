@@ -214,7 +214,7 @@ region Private
 	inherit-methods! = !|implementor kind
 		rec! = !|kind
 			for! name in @p-all kind.prototype
-				propagate-method-down! implementor name (js-sub kind.prototype name
+				propagate-method-down! implementor name (js-sub kind.prototype name)
 			for! kind.super-kinds
 				rec! _
 		rec! kind

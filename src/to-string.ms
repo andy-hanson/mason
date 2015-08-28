@@ -1,10 +1,14 @@
 use
-	.private.util-inspect
 	.js id=?
 	.private.bootstrap msDef
 	.Type.Method
 
 to-string. new Method
+	test. |
+		[ null ] -> "null"
+		[ undefined ] -> "undefined"
+		[ (Object.create null) ] -> "<object with no prototype>"
+	allow-null?. true
 	impl-symbol. "toString"
 	default. .|
 		case this
@@ -13,18 +17,24 @@ to-string. new Method
 			id=? _ undefined
 				"undefined"
 			else
-				"<object with no toString defined>"
+				inspect-object this
+
+inspect-seen = new global.Set
 
 inspect. new Method
-	test. |
-		[ 2 ] -> "2"
-		[ (a. 1 b. 2) ] -> "\{ a: 1, b: 2 }"
-		[ null ] -> "null"
-		[ undefined ] -> "undefined"
-	impl-symbol. "inspect"
 	allow-null?. true
-	default. .|
-		util-inspect this
+	wrap. |impl arg opts
+		case
+			arg:inspect-seen
+				"<recursive>"
+			else
+				inspect-seen.add arg
+				with impl.call arg opts
+					inspect-seen.delete arg
+	default. to-string.default
+# See also private/impl-inspect.ms
+
+inspect-object = |
+	"<object with no prototype>"
 
 msDef "inspect" inspect
-

@@ -2,6 +2,7 @@ use
 	..control opr
 	..js defined? id=?
 	..private.bootstrap msDef
+	..to-string
 	..Type.Kind kind! self-kind!
 	..Type.Method self-impl!
 	..Type.Pred-Type
@@ -47,6 +48,12 @@ use-debug
 		unless! empty? this
 			<~ .val
 
+	to-string |
+		case
+			empty? this
+				"None"
+			else
+				"?some {.val}"
 
 empty-marker =
 	doc. "`_.val` on an empty `?` will return this."
