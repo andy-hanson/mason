@@ -2,7 +2,7 @@ use
 	.@.? ?some ?None
 	.$ _ $after
 	.compare =?
-	.Function Action noop
+	.Function Action
 	.private.bootstrap ms
 	.Type.Method self-impl!
 	.Type.Pred-Type Any Union
@@ -51,21 +51,23 @@ try-result.
 			try
 				?some tried()
 			catch
-				noop_
+				ignore _
 				?None
 
 fails?.
 	doc. "Whether the Function throws some error."
 	test. !|
-		assert! fails? fail!
-		forbid! fails? noop
+		assert! fails? !|
+			throw!
+		forbid! fails? !|
+			pass
 	|tried:Action
 		except
 			try
 				tried()
 				false
 			catch
-				noop_
+				ignore _
 				true
 
 fails-with?.

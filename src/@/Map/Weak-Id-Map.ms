@@ -1,5 +1,4 @@
 use
-	...Function noop
 	...Type.Kind kind! self-kind!
 	...Type.Method impl! self-impl!
 	..@ empty!
@@ -32,9 +31,9 @@ impl! un-assoc! Weak-Id-Map .|key
 
 # TODO: unsupported! Function?
 impl! keys Weak-Id-Map .!|
-	noop this
+	ignore this
 	throw! "Weak-Id-Map does not support `keys`."
 
 impl! empty! Weak-Id-Map .!|
-	noop this
+	ignore this
 	throw! "Weak-Id-Map does not support `empty!`."

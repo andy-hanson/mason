@@ -1,4 +1,5 @@
 use
+	..compare <?
 	.Number Int
 	.methods * - +
 
@@ -9,3 +10,6 @@ random-int. |min:Int max:Int
 	diff = - max min
 	random-diff = random-int-upto diff
 	+ min random-diff
+
+random-bool. |
+	<? Math.random() 0.5

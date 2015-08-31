@@ -75,11 +75,6 @@ identity.
 	|_
 		_
 
-noop.
-	doc. "Does nothing."
-	!|
-		pass
-
 region Memoize
 	# TODO: perf.ms?
 	id-memoize.

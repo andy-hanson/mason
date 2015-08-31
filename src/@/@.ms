@@ -3,7 +3,7 @@ use
 	..Function identity Pred
 	..js defined? id=?
 	..math.methods +
-	..to-string
+	..to-string _ inspect
 	..String indent
 	..Type.Method
 	..Type.Kind
@@ -37,6 +37,25 @@ use-debug
 			assert! empty? _
 
 
+inspect-@ = .|
+	case
+		empty? this
+			"empty {.constructor.name}"
+		else
+			content =
+				# TODO: map (eager)
+				ems = @for this
+					indent to-string_
+				show-ems end = case
+					<? 100 (count this)
+						show-ems. take' ems 100
+						end. "\n\t..."
+					else
+						show-ems. ems
+						end. ""
+				"\n\t. {=> String show-ems "\n\t. "}{end}"
+			"{.constructor.name}{content}"
+
 impl! to-string @
 	test. |
 		d = => Deque [ 1 2 3 ]
@@ -46,26 +65,9 @@ impl! to-string @
 				. 2
 				. 3
 		[ (empty Deque) ] -> "empty Deque"
+	inspect-@
 
-	.|
-		case
-			empty? this
-				"empty {.constructor.name}"
-			else
-				content =
-					# TODO: map (eager)
-					ems = @for this
-						indent to-string_
-					show-ems end = case
-						<? 100 (count this)
-							show-ems. take' ems 100
-							end. "\n\t..."
-						else
-							show-ems. ems
-							end. ""
-					"\n\t. {=> String show-ems "\n\t. "}{end}"
-				"{.constructor.name}{content}"
-
+impl! inspect @ inspect-@
 
 iterator. new Method
 	doc. "Creates a new Generator which yields the values in the @."

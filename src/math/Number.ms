@@ -1,7 +1,6 @@
 use
 	..compare _ =? <? <=?
 	..control opr
-	..Object p
 	..js id=? js-bar js< js<= js+ js- js* js/ js-mod
 	..Type.Method impl!
 	..Type.Pred-Type _ Opt

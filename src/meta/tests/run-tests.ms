@@ -8,7 +8,6 @@ use
 	...@.Set.Id-Set
 	...$ _ $all $ing
 	...compare =?
-	...Function noop
 	...Generator
 	...js defined?
 	...Object ?p p p? @p @p-all
@@ -48,7 +47,8 @@ test-special. new Method
 		May return a $.
 	args. 1
 	allow-null?. true
-	default. noop
+	default. !|
+		pass
 
 # TODO: MOVE THESE
 impl! test-special Impl-Type .|

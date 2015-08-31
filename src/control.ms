@@ -1,11 +1,27 @@
 use
-	.js defined?
+	.js defined? js- js<=
 	.methods freeze
 	.Type.Pred-Type Opt
 use~
 	.@.Seq.Seq _ ++>!
 use-debug
 	.compare =?
+
+do-times!.
+	doc. "Performs `action` `n-times` times."
+	test. !|
+		i ::= 0
+		do-times! 10 !|
+			i := js- i 1
+		assert! =? i -10
+	!|n-times action
+		assert! js<= 0 n-times
+		n ::= n-times
+		for!
+			unless! n
+				break!
+			action()
+			n := js- n 1
 
 opr.
 	doc. "Fills in an Opt with a default value."
