@@ -21,6 +21,7 @@ use-debug
 	..? ?some ?None
 
 Seq. new Kind
+	name.
 	doc. "@ whose values are in a meaningful order."
 
 kind! Seq @
@@ -30,6 +31,7 @@ self-kind! Seq @-Type
 region TODO
 	# TODO: Review name...
 	<++'. new Method
+		name.
 		doc. "
 			TODO:REST
 			(There is no `++>'` because `++` by default adds to the right for Seqs.)
@@ -50,6 +52,7 @@ region Very first and last
 			un-? ?first_ "Can not take first of empty."
 
 	?first. new Method
+		name.
 		doc. "First value in iteration order, if non-empty."
 		test. |
 			[ [ 1 2 ] ] -> ?some 1
@@ -69,6 +72,7 @@ region Very first and last
 			un-? ?last_ "Can not take last of empty."
 
 	?last. new Method
+		name.
 		doc. "Last value in iteration order, if non-empty."
 		test. |
 			[ [ 1 2 ] ] -> ?some 2
@@ -79,6 +83,7 @@ region Very first and last
 				this[(- (count this) 1)]
 
 	tail. new Method
+		name.
 		doc. "
 			All elements but the first.
 			TODO: Eager for Linked-Lists.
@@ -94,6 +99,7 @@ region Very first and last
 					drop _ 1
 
 	rtail. new Method
+		name.
 		doc. "
 			All elements but the last.
 			TODO: Eager for finger trees.
@@ -136,6 +142,7 @@ region Search
 						break false
 
 	?nth. new Method
+		name.
 		doc. "
 			|_ n:Nat
 			`n`th element in iteration order, if there are at least that many values.
@@ -175,6 +182,7 @@ region Update
 		. [ "end" Nat
 
 	slice. new Method
+		name.
 		doc. "
 			The elements from index start (inclusive) to end (exclusive).
 			Takes as much as possible.
@@ -194,6 +202,7 @@ region Update
 			take' (drop' _ start) (- end start
 
 	take. new Method
+		name.
 		doc. "TODO"
 		args.
 			. "_"
@@ -238,6 +247,7 @@ region Update
 					<~ elem
 
 	drop. new Method
+		name.
 		doc. "TODO"
 		args.
 			. "_"
@@ -334,6 +344,7 @@ region TODO: put somewhere
 			new Range 0 count_
 
 	reverse'. new Method
+		name.
 		doc. "TODO"
 		test. !|
 			pass # TODO
@@ -345,6 +356,7 @@ region TODO: put somewhere
 					<~ arr[_]
 
 	reverse. new Method
+		name.
 		doc. "Seq with the opposite order."
 		test. |
 			[ [ 1 2 ] ] -> [ 2 1 ]
@@ -380,10 +392,12 @@ region TODO: put somewhere
 region Mutator methods
 	# TODO:Implement
 	<+!. new Method
+		name.
 		doc. "TODO"
 		args. [ "_" "added" ]
 
 	<++!. new Method
+		name.
 		doc. "Makes `_` into `+ added _`."
 		args.
 			. "_"
@@ -394,10 +408,12 @@ region Mutator methods
 
 	# TODO:Implement
 	+>!. new Method
+		name.
 		doc. "TODO"
 		args. [ "_" "added" ]
 
 	++>!. new Method
+		name.
 		doc. "Makes `_` into `+ _ added`."
 		args.
 			. "_"
@@ -408,15 +424,18 @@ region Mutator methods
 
 
 	?<pop!. new Method
+		name.
 		doc. "Takes one element off the left side, if not empty?."
 		args. 1
 		# TODO: returns. ?
 	?pop>!. new Method
+		name.
 		doc. "Takes one element off the right side, if not empty?."
 		args. 1
 		# TODO: returns. ?
 
 	set-nth!. new Method
+		name.
 		doc. "Makes `_[n]` be `val`."
 		args.
 			. "_"

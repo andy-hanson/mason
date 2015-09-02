@@ -10,6 +10,7 @@ use-debug
 	..Try fails?
 
 Int. new Pred-Type
+	name.
 	doc. "
 		A multiple of 1.
 		This only contains Numbers for which integer methods return sensible results, AKA safe ints.
@@ -30,6 +31,7 @@ Int. new Pred-Type
 	predicate. Number.isSafeInteger
 
 Nat. new Pred-Type
+	name.
 	doc. "Any counting number, including `0`."
 	test. !|
 		assert! 0:Nat
@@ -242,45 +244,17 @@ region Near
 			<? abs_ max
 
 region Utilities
-	incr.
-		doc. "TODO"
-		test. |
-			[ 0 ] -> 1
-		|_:Number
-			+ _ 1
-
-	decr.
-		doc. "TODO"
-		test. |
-			[ 0 ] -> -1
-		|_:Number
-			- _ 1
-
-	half.
-		doc. "TODO"
-		test. |
-			[ 3 ] -> 1.5
-		|_:Number
-			/ _ 2
-
-	twice.
-		doc. "TODO"
-		test. |
-			[ 1.5 ] -> 3
-		|_:Number
-			* _ 2
-
 	neg.
 		doc. "TODO"
 		test. |
 			[ 1 ] -> -1
 			[ 0 ] -> -0
 		|_:Number
-			* _ -1
+			* -1 _
 
 	mid.
 		doc. "TODO"
 		test. |
 			[ 0 1 ] -> 0.5
 		|a:Number b:Number
-			half (+ a b)
+			/ (+ a b) 2

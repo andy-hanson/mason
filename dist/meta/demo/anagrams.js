@@ -1,13 +1,20 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","../../at/at","../../at/at-Type","../../at/Map/Map","../../at/Map/Id-Map","../../at/Map/multi-map","../../compare","../../at/Seq/Seq","../../String"],(exports,_64_0,_64_45Type_1,Map_2,Id_45Map_3,multi_45map_4,compare_5,Seq_6,String_7)=>{
+define(["exports","../../at/at","../../at/at-Type","../../at/Map/Map","../../at/Map/Id-Map","../../at/Map/multi-map","../../compare","../../at/Seq/Seq","../../RegExp"],(exports,_64_0,_64_45Type_1,Map_2,Id_45Map_3,multi_45map_4,compare_5,Seq_6,RegExp_7)=>{
 	exports._get=_ms.lazy(()=>{
-		const _$2=_ms.getModule(_64_0),count=_ms.get(_$2,"count"),keep=_ms.get(_$2,"keep"),map=_ms.get(_$2,"map"),_$3=_ms.getModule(_64_45Type_1),empty=_ms.get(_$3,"empty"),_$4=_ms.getModule(Map_2),values=_ms.get(_$4,"values"),Id_45Map=_ms.getDefaultExport(Id_45Map_3),_$6=_ms.getModule(multi_45map_4),add_45to_45_64_33=_ms.get(_$6,"add-to-@!"),_$7=_ms.getModule(compare_5),_61_63=_ms.get(_$7,"=?"),max=_ms.get(_$7,"max"),sort=_ms.get(_$7,"sort"),_$9=_ms.lazyGetModule(Seq_6),seq_61_63=_ms.lazyProp(_$9,"seq=?"),_$10=_ms.lazyGetModule(String_7),split_45str=_ms.lazyProp(_$10,"split-str");
+		const _$0=_ms.getModule(_64_0),count=_ms.get(_$0,"count"),keep=_ms.get(_$0,"keep"),map=_ms.get(_$0,"map"),_$1=_ms.getModule(_64_45Type_1),empty=_ms.get(_$1,"empty"),_$2=_ms.getModule(Map_2),values=_ms.get(_$2,"values"),Id_45Map=_ms.getDefaultExport(Id_45Map_3),_$3=_ms.getModule(multi_45map_4),add_45to_45_64_33=_ms.get(_$3,"add-to-@!"),_$4=_ms.getModule(compare_5),_61_63=_ms.get(_$4,"=?"),max=_ms.get(_$4,"max"),sort=_ms.get(_$4,"sort"),_$5=_ms.lazyGetModule(Seq_6),seq_61_63=_ms.lazyProp(_$5,"seq=?"),_$6=_ms.lazyGetModule(RegExp_7),rgx=_ms.lazyProp(_$6,"rgx");
 		const maximum_45anagram_45sets=exports["maximum-anagram-sets"]=(()=>{
 			const built={};
 			const doc=built.doc=`http://rosettacode.org/wiki/Anagrams#JavaScript`;
 			const test=built.test=function test(){
-				const words=_ms.unlazy(split_45str)(RegExp(`\\s`),`abel able bale bela elba\nalger glare lager large regal\nangel angle galen glean lange\ncaret carte cater crate trace\nelan lane lean lena neal\nevil levi live veil vile\nrandom words to prove it's doing work`);
+				const w=`abel able bale bela elba
+alger glare lager large regal
+angel angle galen glean lange
+caret carte cater crate trace
+elan lane lean lena neal
+evil levi live veil vile
+random words to prove it's doing work`;
+				const words=w.split(_ms.unlazy(rgx)`\s`);
 				_ms.assert(_ms.unlazy(seq_61_63),maximum_45anagram_45sets(words),(()=>{
 					const built=[];
 					_ms.add(built,[`abel`,`able`,`bale`,`bela`,`elba`]);
@@ -19,7 +26,7 @@ define(["exports","../../at/at","../../at/at-Type","../../at/Map/Map","../../at/
 					return built
 				})())
 			};
-			return _ms.set(function maximum_45anagram_45sets(words){
+			return _ms.set(words=>{
 				const sorted_45_62words=empty(Id_45Map);
 				for(let _ of words){
 					add_45to_45_64_33(sorted_45_62words,sort(_),[_])
@@ -34,4 +41,4 @@ define(["exports","../../at/at","../../at/at-Type","../../at/Map/Map","../../at/
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvbWFzb24zL21zbC9zcmMvbWV0YS9kZW1vL2FuYWdyYW1zLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBV0EsK0RBQ3FCLEtBQUE7O0dBQXBCLG9CQUFNO0dBQ04sc0JBQ1EsZUFBQTtJQUFQLG9DQUFtQixPQUFRLE9BQzFCO3FDQU9jLHlCQUFxQixPQUNNLEtBQUE7O21CQUF2QyxDQUFHLE9BQU8sT0FBTyxPQUFPLE9BQU87bUJBQy9CLENBQUcsUUFBUSxRQUFRLFFBQVEsUUFBUTttQkFDbkMsQ0FBRyxRQUFRLFFBQVEsUUFBUSxRQUFRO21CQUNuQyxDQUFHLFFBQVEsUUFBUSxRQUFRLFFBQVE7bUJBQ25DLENBQUcsT0FBTyxPQUFPLE9BQU8sT0FBTzttQkFDL0IsQ0FBRyxPQUFPLE9BQU8sT0FBTyxPQUFPOzs7O2tCQUNsQyxrQ0FBQSxNQUNLO0lBQ0wsd0JBQWdCLE1BQU07SUFDakIsUUFBQSxLQUFBLE1BQ0s7S0FDVCxrQkFBVSxrQkFBYyxLQUFBLEdBQU0sQ0FBRTtJQUFBO0lBQ2pDLGtCQUFZLElBQUssSUFBSyxPQUFPLG1CQUFlO1dBQzVDLEtBQU0sT0FBTyxtQkFBZ0IsR0FDQztZQUE3QixPQUFHLE1BQUEsR0FBTztJQUFBO0dBQUE7O0VBckNiLHdCQUFBIiwiZmlsZSI6Im1ldGEvZGVtby9hbmFncmFtcy5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvbWFzb24zL21zbC9zcmMvbWV0YS9kZW1vL2FuYWdyYW1zLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBV0EsK0RBQ3FCLEtBQUE7O0dBQXBCLG9CQUFNO0dBQ04sc0JBQ1EsZUFBQTtJQUFQLFFBQ0M7SUFPRCxZQUFRLHVCQUFZO3FDQUNMLHlCQUFxQixPQUNNLEtBQUE7O21CQUF2QyxDQUFHLE9BQU8sT0FBTyxPQUFPLE9BQU87bUJBQy9CLENBQUcsUUFBUSxRQUFRLFFBQVEsUUFBUTttQkFDbkMsQ0FBRyxRQUFRLFFBQVEsUUFBUSxRQUFRO21CQUNuQyxDQUFHLFFBQVEsUUFBUSxRQUFRLFFBQVE7bUJBQ25DLENBQUcsT0FBTyxPQUFPLE9BQU8sT0FBTzttQkFDL0IsQ0FBRyxPQUFPLE9BQU8sT0FBTyxPQUFPOzs7O2tCQUNsQyxPQUNLO0lBQ0wsd0JBQWdCLE1BQU07SUFDakIsUUFBQSxLQUFBLE1BQ0s7S0FDVCxrQkFBVSxrQkFBYyxLQUFBLEdBQU0sQ0FBRTtJQUFBO0lBQ2pDLGtCQUFZLElBQUssSUFBSyxPQUFPLG1CQUFlO1dBQzVDLEtBQU0sT0FBTyxtQkFBZ0IsR0FDQztZQUE3QixPQUFHLE1BQUEsR0FBTztJQUFBO0dBQUE7O0VBdENiLHdCQUFBIiwiZmlsZSI6Im1ldGEvZGVtby9hbmFncmFtcy5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

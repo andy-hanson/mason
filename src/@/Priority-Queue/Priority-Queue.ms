@@ -12,6 +12,7 @@ use-debug
 	..? ?None ?some
 
 Priority-Queue. new Kind
+	name.
 	doc. "
 		@ whose first item will always be the smallest.
 		Iteration order has no other guaranees,
@@ -33,6 +34,7 @@ self-impl! empty Priority-Queue |
 
 # TODO: Move?
 ?pop!. new Method
+	name.
 	doc. "Takes a value from the front of the queue, unless empty?."
 	args. 1
 	returns. ?

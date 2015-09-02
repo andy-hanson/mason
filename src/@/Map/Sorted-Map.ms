@@ -10,6 +10,7 @@ use-debug
 	.Map assoc! keys
 
 Sorted-Map. new Kind
+	name.
 	doc. "
 		Map whose `keys` are in sorted order.
 		This kind of Map depends on an efficient `compare` between its keys.

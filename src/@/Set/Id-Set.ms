@@ -1,4 +1,6 @@
 use
+	# TODO:SYNTAX use global.Set but rename it to Js-Set
+	global
 	...Type.Kind kind! self-kind!
 	...Type.Method impl! self-impl!
 	...Type.Type contains?
@@ -29,5 +31,5 @@ impl! --! Id-Set .!|@deleted
 	for! em in @deleted
 		.delete em
 
-impl! contains? Id-Set .|val
-	.has val
+impl! contains? Id-Set .|_
+	.has_

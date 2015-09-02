@@ -1,4 +1,5 @@
 use
+	global JSON
 	..@.Set.Id-Set
 	..js js-typeof
 	..Object @p @p-all
@@ -29,7 +30,7 @@ impl! inspect Object
 inspect-property = |obj key enumerable?
 	desc = Object.getOwnPropertyDescriptor obj key
 
-	name = case
+	prop-name = case
 		enumerable?
 			key
 		else
@@ -50,7 +51,7 @@ inspect-property = |obj key enumerable?
 				else
 					str
 
-	"{name}. {str}"
+	"{prop-name}. {str}"
 
 
 inspect-primitive = .|

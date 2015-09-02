@@ -1,10 +1,12 @@
 use
+	global WeakMap
 	.compare =?
 	.js id=? js* js- js+ js-bar js-sub
 	.math.Number Int
 	.Type.Method _ impl!
 
 hash-code. new Method
+	name.
 	doc. "
 		Integer used to identify a value in a Hash-Map (or Hash-Set).
 		This should have a high probability of being different than the hash-codes of the other values in the map.
@@ -45,7 +47,7 @@ hash-code. new Method
 					else
 						_
 
-hashes-cache = new global.WeakMap
+hashes-cache = new WeakMap
 
 # Since default hash-code only works on Objects, let's implement hash-code for primitives.
 impl! hash-code Boolean .|

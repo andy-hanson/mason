@@ -10,15 +10,15 @@ use
 
 time!.
 	doc. "Logs the time taken to run time-me once."
-	|name:String time-me:Action
+	|test-name:String time-me:Action
 		val time-taken = time time-me
-		log! "{name}: {time-taken}"
+		log! "{test-name}: {time-taken}"
 		val
 
 time*!.
 	doc. "Logs the time to run time-me `times` times."
-	|name:String times:Nat time-me:Action
-		time! name |
+	|test-name:String times:Nat time-me:Action
+		time! test-name |
 			i ::= times
 			arr = [ ]
 			for!
@@ -55,6 +55,6 @@ $time.
 
 $time!.
 	doc. "Logs `$time $time-me` and returns $time-me's result."
-	|:$ name:String $time-me:Action[$]
+	|:$ test-name:String $time-me:Action[$]
 		$after ($time $time-me) !|time:Number
-			log! "{name}: {time}"
+			log! "{test-name}: {time}"

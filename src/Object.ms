@@ -6,7 +6,7 @@ use
 	.to-string inspect
 	.Type.Kind
 	.Type.Pred-Type Opt
-	.Type.Type => contains?
+	.Type.Type =>
 use~
 	.@.@ ++ all? count empty? keep
 	.@.@-Type empty
@@ -20,9 +20,11 @@ use-debug
 	.Try fails? fails-with?
 
 Object-Key. new Kind
+	name.
 	doc. "Can be used as a name for a property of an object."
 	implementors. [ String Symbol ]
 
+# TODO: better name?
 can-get-p?.
 	doc. "Whether it's safe to try to directly access properties."
 	test. |
@@ -57,18 +59,17 @@ flag?.
 		assert! set=? (@p-all [ 0 0 ]) [ "0" "1" "length" ]
 		assert! set=? (@p-all obj) [ "a" sym ]
 		# But not "arguments" or "caller"
-		# TODO:DISPLAYNAME
-		assert! set=? (@p-all @p-all) [ "length" "name" "prototype" "doc" "test" "name" ]
+		assert! set=? (@p-all @p-all) [ "length" "name" "doc" "test" ]
 	|_
 		props = Object.getOwnPropertyNames_
-		# TODO: case!, keep!
+		# TODO: Use keep! to modify props
 		own-names = case
 			:Function
-				keep props |name
-					not contains? forbidden-fun-props name
+				keep props |_
+					not :forbidden-fun-props
 			else
 				props
-		++ own-names (Object.getOwnPropertySymbols _
+		++ own-names Object.getOwnPropertySymbols_
 
 @p.
 	doc. "
@@ -100,20 +101,21 @@ flag?.
 		[ x "b" ] -> ?some null
 		# Does not inherit from prototype.
 		[ x "toString" ] -> empty ?
-	|_ name:Object-Key
-		if p? _ name
-			js-sub _ name
+	|_ prop-name:Object-Key
+		if p? _ prop-name
+			js-sub _ prop-name
 
 ?p-with-proto.
 	doc. "Like `?p`, but also looks through the prototype chain."
 	test. |
 		[ 1 "toString" ] -> ?some Number.prototype.toString
 		[ 1 "asdfghjkl" ] -> ?None
-	|_ name:Object-Key
+	|_ prop-name:Object-Key
 		case
 			can-get-p?_
-				Opt->? (js-sub _ name
+				Opt->? (js-sub _ prop-name)
 			else
+				# TODO: ?None
 				empty ?
 
 p.
@@ -126,11 +128,11 @@ p.
 		[ x "b" ] -> null
 		debug assert! fails? |
 			p "c"
-	|_ name:Object-Key
+	|_ prop-name:Object-Key
 		in
-			assert! p? _ name
+			assert! p? _ prop-name
 
-		js-sub _ name
+		js-sub _ prop-name
 
 p?.
 	doc. "Whether there is a property by that name."
@@ -139,15 +141,15 @@ p?.
 		[ x "a" ] -> true
 		[ x "b" ] -> false
 		[ x "toString" ] -> false # use p-with-proto? for that.
-	|_ name:Object-Key
-		and can-get-p?_ (Object.prototype.hasOwnProperty.call _ name)
+	|_ prop-name:Object-Key
+		and can-get-p?_ (Object.prototype.hasOwnProperty.call _ prop-name)
 
 p-with-proto?.
 	doc. "Like `p?` but looks through the prototype."
 	test. |
 		[ empty-Object "toString" ] -> true
-	|_ name:Object-Key
-		and can-get-p?_ (defined? (js-sub _ name
+	|_ prop-name:Object-Key
+		and can-get-p?_ (defined? (js-sub _ prop-name))
 
 # TODO: Handle recursive references.
 object=?.
@@ -155,14 +157,9 @@ object=?.
 		For Objects, whether they are of the same type and have `=?` properties.
 		For primitives, whether they are `=?`.
 	test. |
-		a =
-			a. 1
-		b =
-			# TODO:DISPLAYNAME
-			name. "a"
-			a. 1
-		c =
-			x. 3
+		a = a. 1
+		b = a. 1
+		c = x. 3
 		[ a b ] -> true
 		[ a c ] -> false
 		[ 1 1 ] -> true
@@ -256,8 +253,8 @@ region Mutator methods
 				p+! _ "a" 2
 			assert! fails? |
 				p+! "string" "a" 1
-		!|_:Object name:Object-Key val
-			Object.defineProperty _ name
+		!|_:Object prop-name:Object-Key val
+			Object.defineProperty _ prop-name
 				enumerable. true
 				writable. false
 				value. val
@@ -265,8 +262,8 @@ region Mutator methods
 	p+mut!.
 		doc. "Adds a new mutable property."
 		test. "See `p!`"
-		!|_:Object name:Object-Key val
-			Object.defineProperty _ name
+		!|_:Object prop-name:Object-Key val
+			Object.defineProperty _ prop-name
 				enumerable. true
 				writable. true
 				value. val
@@ -279,11 +276,11 @@ region Mutator methods
 			p+mut! _ "a" 1
 			p! _ "a" 2
 			assert! =? _.a 2
-		!|_:Object name:Object-Key new-val
+		!|_:Object prop-name:Object-Key new-val
 			in
-				assert! p? _ name
+				assert! p? _ prop-name
 
-			js-set _ name new-val
+			js-set _ prop-name new-val
 
 	p-!.
 		test. !|
@@ -291,11 +288,11 @@ region Mutator methods
 			p+mut! _ "a" 1
 			p-! _ "a"
 			forbid! p? _ "a"
-		!|_:Object name:Object-Key
+		!|_:Object prop-name:Object-Key
 			in
-				assert! p? _ name
+				assert! p? _ prop-name
 
-			js-delete _ name
+			js-delete _ prop-name
 
 	# TODO: Don't bother, just `spread p+!`
 	extend!.
@@ -309,14 +306,14 @@ region Mutator methods
 			Object.assign _ extender
 
 send.
-	doc. "Calls `target`'s method `name` with the given arguments."
+	doc. "Calls `target`'s method `method-name` with the given arguments."
 	test. |
 		[ 1 "toFixed" 2 ] -> "1.00"
 		assert! fails-with? "Method \"toFixed\" not implemented by \"1\"." !|
 			send! "1" "toFixed"
-	|target name:Object-Key ...args
-		impl = js-sub target name
-		assert! impl:Function throw! "Method {inspect name} not implemented by {inspect target}."
+	|target method-name:Object-Key ...args
+		impl = js-sub target method-name
+		assert! impl:Function throw! "Method {inspect method-name} not implemented by {inspect target}."
 		impl.apply target args
 
 send!. send

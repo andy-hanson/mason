@@ -1,5 +1,5 @@
 use
-	..compare =? <?
+	..compare =?
 	..Function identity Pred
 	..js defined? id=?
 	..math.methods +
@@ -13,7 +13,7 @@ use
 use~
 	..control opr
 	.? Opt->?
-	.Seq.Seq +>! ++>! first seq=? tail take'
+	.Seq.Seq +>! ++>! first seq=? tail
 	.Seq.Stream
 	.Set.Set
 use-debug
@@ -25,6 +25,7 @@ use-debug
 	.Seq.Deque
 
 @. new Kind
+	name.
 	doc. "
 		"Bag". Contains a variable number of elements. Most things implementing `iterator` should be @s.
 		If the iteration order of an @ is meaningful and `+ a b` is the concatenation, it is a Seq.
@@ -37,24 +38,17 @@ use-debug
 			assert! empty? _
 
 
-inspect-@ = .|
+do-inspect = |_ recurse
 	case
-		empty? this
-			"empty {.constructor.name}"
+		empty? _
+			"empty {_.constructor.name}"
 		else
 			content =
-				# TODO: map (eager)
-				ems = @for this
-					indent to-string_
-				show-ems end = case
-					<? 100 (count this)
-						show-ems. take' ems 100
-						end. "\n\t..."
-					else
-						show-ems. ems
-						end. ""
-				"\n\t. {=> String show-ems "\n\t. "}{end}"
-			"{.constructor.name}{content}"
+				# TODO: @for:Array
+				show-ems = => Array @for em in _
+					indent (recurse em)
+				"\n\t. {show-ems.join "\n\t. "}"
+			"{_.constructor.name}{content}"
 
 impl! to-string @
 	test. |
@@ -65,16 +59,20 @@ impl! to-string @
 				. 2
 				. 3
 		[ (empty Deque) ] -> "empty Deque"
-	inspect-@
+	.|
+		do-inspect this to-string
 
-impl! inspect @ inspect-@
+impl! inspect @ .|
+	do-inspect this inspect
 
 iterator. new Method
+	name.
 	doc. "Creates a new Generator which yields the values in the @."
 	args. 1
 	impl-symbol. Symbol.iterator
 
 empty?. new Method
+	name.
 	doc. "Whether `count` is 0. Often much faster."
 	test. |
 		[ [ ] ] -> true
@@ -150,6 +148,7 @@ region Using iterator
 					break elem
 
 	count. new Method
+		name.
 		doc. "Number of elements."
 		test. |
 			[ [ ] ] -> 0
@@ -161,6 +160,7 @@ region Using iterator
 region Lazy functions, and their eager versions.
 	# Eager versions are Methods if certain types can do them faster.
 	keep. new Method
+		name.
 		doc. "Only the elements that satisfy `keep-if?`."
 		test. |
 			[ [ 1 2 ] =?[2] ] -> [ 2 ]
@@ -204,6 +204,7 @@ region Lazy functions, and their eager versions.
 
 	# TODO: Better name?
 	flat-map. new Method
+		name.
 		doc. "Like `map`, but each mapping produces multiple values."
 		test. |
 			f = |a
@@ -232,6 +233,7 @@ region Lazy functions, and their eager versions.
 					<~~ iterator mapper_
 
 	flatten. new Method
+		name.
 		doc. "
 			For an @ containing many @, produces an @ containing all of their entries combined.
 			This does *not* consider more than 1 nested level, and there *every* element of _ must be an @.
@@ -260,6 +262,7 @@ region Lazy functions, and their eager versions.
 					<~~ iterator_
 
 	++. new Method
+		name.
 		doc. "Concatenation. Sets should override this."
 		test. |
 			[ [ 0 ] [ 1 ] ] -> [ 0 1 ]
@@ -286,6 +289,7 @@ region Lazy functions, and their eager versions.
 
 	# TODO: Move to Set?
 	--. new Method
+		name.
 		doc. "
 			@ without any of the elements in `remove`.
 			Removes the *first* occurrence of each element.
@@ -321,11 +325,13 @@ region Lazy functions, and their eager versions.
 
 region Mutator methods
 	empty!. new Method
+		name.
 		doc. "Mutates this collection so that it will be `empty?`."
 		args. 1
 
 	# TODO: implement
 	+!. new Method
+		name.
 		doc. "TODO"
 		test. !|
 			pass # TODO:impl-test
@@ -337,6 +343,7 @@ region Mutator methods
 			+>! this added
 
 	++!. new Method
+		name.
 		doc. "
 			Adds new elements.
 			For Seqs these are added on the right; use `<++!` to add on the left.
@@ -351,6 +358,7 @@ region Mutator methods
 
 	# TODO: implement
 	-!. new Method
+		name.
 		doc. "TODO"
 		test. !|
 			pass # TODO:impl-test
@@ -359,6 +367,7 @@ region Mutator methods
 			. [ "@removed" @ ]
 
 	--!. new Method
+		name.
 		doc. "
 			Removes all elements in `removed` once.
 			For Seqs these are removed starting from the left.

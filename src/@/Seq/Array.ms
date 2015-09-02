@@ -3,7 +3,7 @@
 use
 	...compare <=? <?
 	...js js-set js-sub
-	...math.Number incr
+	...math.methods +
 	...Type.Kind kind! self-kind!
 	...Type.Method impl! self-impl!
 	...Type.Type =>
@@ -100,9 +100,9 @@ filter!.
 			if! keep-if? here
 				# TODO this[write-idx] = here
 				set-nth! arr write-idx here
-				write-idx := incr write-idx
+				write-idx := + 1 write-idx
 
-			read-idx := incr read-idx
+			read-idx := + 1 read-idx
 
 		arr.length := write-idx
 

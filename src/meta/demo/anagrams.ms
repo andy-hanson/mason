@@ -7,12 +7,12 @@ use
 	...compare =? max sort
 use-debug
 	...@.Seq.Seq seq=?
-	...String split-str
+	...RegExp rgx
 
 maximum-anagram-sets.
 	doc. "http://rosettacode.org/wiki/Anagrams#JavaScript"
 	test. !|
-		words = split-str (RegExp "\\s") "
+		w = "
 			abel able bale bela elba
 			alger glare lager large regal
 			angel angle galen glean lange
@@ -20,6 +20,7 @@ maximum-anagram-sets.
 			elan lane lean lena neal
 			evil levi live veil vile
 			random words to prove it's doing work
+		words = w.split rgx"\s"
 		assert! seq=? (maximum-anagram-sets words)
 			. [ "abel" "able" "bale" "bela" "elba"
 			. [ "alger" "glare" "lager" "large" "regal"

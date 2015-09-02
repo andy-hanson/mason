@@ -1,5 +1,5 @@
 use!
-	..private.boot-order
+	..private.boot
 use
 	require
 	..$ $done $ing

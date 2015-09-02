@@ -3,12 +3,12 @@ use
 use~ # TODO: use-debug
 	..compare =?
 	..Object empty-Object!
-	.Method impl!
-	.Type contains?
+	.Method _ impl!
 use-debug
 	.Kind kind?
 
 Impl-Type. new Kind
+	name.
 	doc. "
 		TODO:REST
 		Every Impl-Type should have a `prototype` property.
@@ -46,7 +46,9 @@ region Self-Type
 	# TODO: class attributes
 	Self-Type.test = !|
 		x = empty-Object!()
-		impl! contains? (new Self-Type x) |
+		m = new Method
+			name.
+		impl! m (new Self-Type x) |
 			1
-		assert! =? (contains? x) 1
+		assert! =? (m x) 1
 

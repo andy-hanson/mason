@@ -1,10 +1,10 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","./at/q","./cash","./compare","./Function","./private/bootstrap","./Type/Method","./Type/Pred-Type","./Type/Type","./cash","./Function"],(exports,_63_0,$_1,compare_2,Function_3,bootstrap_4,Method_5,Pred_45Type_6,Type_7,$_8,Function_9)=>{
+define(["exports","./at/q","./cash","./compare","./Function","./Type/Pred-Type","./Type/Type","./cash","./Function"],(exports,_63_0,$_1,compare_2,Function_3,Pred_45Type_4,Type_5,$_6,Function_7)=>{
 	exports._get=_ms.lazy(()=>{
-		const _$2=_ms.getModule(_63_0),_63some=_ms.get(_$2,"?some"),_63None=_ms.get(_$2,"?None"),$=_ms.getDefaultExport($_1),_$3=_ms.getModule($_1),$after=_ms.get(_$3,"$after"),_$4=_ms.getModule(compare_2),_61_63=_ms.get(_$4,"=?"),_$5=_ms.getModule(Function_3),Action=_ms.get(_$5,"Action"),_$6=_ms.getModule(bootstrap_4),ms=_ms.get(_$6,"ms"),_$7=_ms.getModule(Method_5),self_45impl_33=_ms.get(_$7,"self-impl!"),_$8=_ms.getModule(Pred_45Type_6),Any=_ms.get(_$8,"Any"),Union=_ms.get(_$8,"Union"),Type=_ms.getDefaultExport(Type_7),_$9=_ms.getModule(Type_7),_61_62=_ms.get(_$9,"=>"),_$11=_ms.lazyGetModule($_8),$rejected=_ms.lazyProp(_$11,"$rejected"),$resolved=_ms.lazyProp(_$11,"$resolved"),_$12=_ms.lazyGetModule(Function_9),thunk=_ms.lazyProp(_$12,"thunk");
+		const _$0=_ms.getModule(_63_0),_63some=_ms.get(_$0,"?some"),_63None=_ms.get(_$0,"?None"),$=_ms.getDefaultExport($_1),_$1=_ms.getModule($_1),$after=_ms.get(_$1,"$after"),_$2=_ms.getModule(compare_2),_61_63=_ms.get(_$2,"=?"),_$3=_ms.getModule(Function_3),Action=_ms.get(_$3,"Action"),_$4=_ms.getModule(Pred_45Type_4),Any=_ms.get(_$4,"Any"),Union=_ms.get(_$4,"Union"),Type=_ms.getDefaultExport(Type_5),_$5=_ms.lazyGetModule($_6),$rejected=_ms.lazyProp(_$5,"$rejected"),$resolved=_ms.lazyProp(_$5,"$resolved"),_$6=_ms.lazyGetModule(Function_7),thunk=_ms.lazyProp(_$6,"thunk");
 		const fail_33=function fail_33(){
-			throw _ms.error("An error occurred.")
+			throw new (Error)("An error occurred.")
 		};
 		const Success=exports.Success=class Success{
 			constructor(val){
@@ -12,17 +12,17 @@ define(["exports","./at/q","./cash","./compare","./Function","./private/bootstra
 			}
 		};
 		_ms.newProperty(Success,"doc",`Attempt that did not fail. _.val is the result of the attempted code.`);
-		self_45impl_33(_61_62,Error,ms.error);
 		const try_45result=exports["try-result"]=(()=>{
 			const built={};
-			const doc=built.doc=`If \`tried\` throws an error, returns it; else returns Success of its result.\nIf you don't care about the value of the error, use \`?try\` instead.`;
+			const doc=built.doc=`If \`tried\` throws an error, returns it; else returns Success of its result.
+If you don't care about the value of the error, use \`?try\` instead.`;
 			const test=built.test=function test(){
 				const built=new (global.Map)();
 				_ms.assoc(built,[_ms.unlazy(thunk)(1)],new (Success)(1));
 				_ms.assert(_61_63,try_45result(fail_33).message,`An error occurred.`);
 				return built
 			};
-			return _ms.set(function try_45result(tried){
+			return _ms.set(tried=>{
 				_ms.checkContains(Action,tried,"tried");
 				return (()=>{
 					try {
@@ -35,14 +35,16 @@ define(["exports","./at/q","./cash","./compare","./Function","./private/bootstra
 		})();
 		const _63try=exports["?try"]=(()=>{
 			const built={};
-			const doc=built.doc=`\`?\` containing any successes.\nThis can be thought of as translating an Error-throwing Function to an ?-returning one.\nThe opposite of this is \`@.?.un-?\`.`;
+			const doc=built.doc=`\`?\` containing any successes.
+This can be thought of as translating an Error-throwing Function to an ?-returning one.
+The opposite of this is \`@.?.un-?\`.`;
 			const test=built.test=function test(){
 				const built=new (global.Map)();
 				_ms.assoc(built,[_ms.unlazy(thunk)(1)],_63some(1));
 				_ms.assoc(built,[fail_33],_63None);
 				return built
 			};
-			return _ms.set(function _63try(tried){
+			return _ms.set(tried=>{
 				_ms.checkContains(_ms.sub(Function,Any),tried,"tried");
 				return (()=>{
 					try {
@@ -58,11 +60,11 @@ define(["exports","./at/q","./cash","./compare","./Function","./private/bootstra
 			const doc=built.doc=`Whether the Function throws some error.`;
 			const test=built.test=function test(){
 				_ms.assert(fails_63,()=>{
-					throw _ms.error("An error occurred.")
+					throw new (Error)("An error occurred.")
 				});
 				_ms.assertNot(fails_63,()=>{})
 			};
-			return _ms.set(function fails_63(tried){
+			return _ms.set(tried=>{
 				_ms.checkContains(Action,tried,"tried");
 				return (()=>{
 					try {
@@ -79,13 +81,13 @@ define(["exports","./at/q","./cash","./compare","./Function","./private/bootstra
 			const doc=built.doc=`Whether the Function throws an error of the given type or with the given message.`;
 			const test=built.test=function test(){
 				_ms.assert(fails_45with_63,`message`,()=>{
-					throw _ms.error(`message`)
+					throw new (Error)(`message`)
 				});
 				_ms.assert(fails_45with_63,TypeError,()=>{
 					return null["missing-property"]
 				})
 			};
-			return _ms.set(function fails_45with_63(expected_45error,tried){
+			return _ms.set((expected_45error,tried)=>{
 				_ms.checkContains(_ms.sub(Union,String,Type),expected_45error,"expected-error");
 				_ms.checkContains(Action,tried,"tried");
 				return (()=>{
@@ -111,11 +113,11 @@ define(["exports","./at/q","./cash","./compare","./Function","./private/bootstra
 			const test=built.test=function test(){
 				_ms.assert(fails_45with_63,`ab`,()=>{
 					annotate_45errors(`a`,()=>{
-						throw _ms.error(`b`)
+						throw new (Error)(`b`)
 					})
 				})
 			};
-			return _ms.set(function annotate_45errors(annotation,tried){
+			return _ms.set((annotation,tried)=>{
 				_ms.checkContains(Action,tried,"tried");
 				return (()=>{
 					try {
@@ -123,7 +125,7 @@ define(["exports","./at/q","./cash","./compare","./Function","./private/bootstra
 					}catch(_){
 						_.stack=`${_ms.unlazy(annotation)}${_.stack}`;
 						_.message=`${_ms.unlazy(annotation)}${_.message}`;
-						throw _ms.error(_)
+						throw _
 					}
 				})()
 			},built)
@@ -133,26 +135,30 @@ define(["exports","./at/q","./cash","./compare","./Function","./private/bootstra
 			const doc=built.doc=`Success if the $ is resolved, Error if rejected.`;
 			const $test=built.$test=function* $test(){
 				_ms.assert(_61_63,new (Success)(1),(yield $try(_ms.unlazy($resolved)(1))));
-				_ms.assert(_61_63,`a`,(yield $try(_ms.unlazy($rejected)(`a`))).message);
-				_ms.assert(_61_63,`a`,(yield $try($.reject(`a`))).message)
+				_ms.assert(_61_63,`a`,(yield $try(_ms.unlazy($rejected)(`a`))));
+				_ms.assert(_61_63,`a`,(yield $try($.reject(`a`))))
 			};
-			return _ms.set(function $try(_){
+			return _ms.set(_=>{
 				_ms.checkContains($,_,"_");
 				const success=$after(_,val=>{
 					return new (Success)(val)
 				});
-				return $catch(success,_ms.sub(_61_62,Error))
+				return success.catch(err=>{
+					return err
+				})
 			},built)
 		})();
 		const $catch=exports.$catch=(()=>{
 			const built={};
-			const doc=built.doc=`If \`$\` succeeds, acts like \`identity\`.\nElse returns a \`$\` for the result of running \`catcher\` on the Error.\nLike for \`$after\`, \`catcher\` can also return another \`$\`.`;
+			const doc=built.doc=`If \`$\` succeeds, acts like \`identity\`.
+Else returns a \`$\` for the result of running \`catcher\` on the Error.
+Like for \`$after\`, \`catcher\` can also return another \`$\`.`;
 			const $test=built.$test=function* $test(){
-				_ms.assert(_61_63,`a`,(yield $catch(_ms.unlazy($rejected)(`a`),_=>{
-					return _.message
+				_ms.assert(_61_63,`a`,(yield $.reject(`a`).catch(_=>{
+					return _
 				})))
 			};
-			return _ms.set(function $catch(promise,catcher){
+			return _ms.set((promise,catcher)=>{
 				_ms.checkContains($,promise,"promise");
 				_ms.checkContains(Function,catcher,"catcher");
 				return _ms.checkContains($,promise.catch(catcher),"res")
@@ -162,14 +168,16 @@ define(["exports","./at/q","./cash","./compare","./Function","./private/bootstra
 			const built={};
 			const doc=built.doc=`Like \`annotate-errors\` but works on errors thrown in a \`$\`.`;
 			const $test=built.$test=function* $test(){
-				_ms.assert(_61_63,`ab`,(yield $try($annotate_45errors(`a`,_ms.unlazy($rejected)(`b`)))).message)
+				_ms.assert(_61_63,`ab`,(yield $try($annotate_45errors(`a`,_ms.unlazy($rejected)(new (Error)(`b`))))).message)
 			};
-			return _ms.set(function $annotate_45errors(annotation,$tried){
+			return _ms.set((annotation,$tried)=>{
 				_ms.checkContains($,$tried,"$tried");
 				return $catch($tried,_=>{
-					_.stack=`${_ms.unlazy(annotation)}${_.stack}`;
-					_.message=`${_ms.unlazy(annotation)}${_.message}`;
-					throw _ms.error(_)
+					if(_ms.contains(Error,_)){
+						_.stack=`${_ms.unlazy(annotation)}${_.stack}`;
+						_.message=`${_ms.unlazy(annotation)}${_.message}`
+					};
+					throw _
 				})
 			},built)
 		})();
@@ -177,4 +185,4 @@ define(["exports","./at/q","./cash","./compare","./Function","./private/bootstra
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvbWFzb24zL21zbC9zcmMvVHJ5Lm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBY00sY0FDVSxrQkFBQTtHQUFmOztFQUVELDhCQUNjO2VBQ0YsSUFDRztvQkFBYixXQUFPO0dBQUE7RUFBQTtrQkFFVCxjQUFlO0VBRWYsZUFBVyxPQUFHLE1BQU07RUFFcEIseUNBQ1csS0FBQTs7R0FBVixvQkFDQztHQUVELHNCQUNPLGVBQUE7O29CQUFOLG1CQUFTLElBQVEsS0FBSSxTQUFRO2VBQ3JCLE9BQUksYUFBVyxpQkFBZ0I7OztrQkFDdkMsc0JBQUEsTUFDWTtzQkFETjtXQUVBO1NBQ0Y7YUFBRixLQUFJLFNBQVE7S0FBQSxDQUNiLE1BQ0ssRUFBQTthQUFKO0tBQUE7SUFBQTtHQUFBOztFQUVKLDZCQUNLLEtBQUE7O0dBQUosb0JBQ0M7R0FHRCxzQkFDTyxlQUFBOztvQkFBTixtQkFBUyxJQUFRLFFBQU07b0JBQ3ZCLENBQUUsU0FBVzs7O2tCQUNiLGdCQUFBLE1BQ21COzhCQURiLFNBQVM7V0FFVDtTQUNGO2FBQUYsUUFBTTtLQUFBLENBQ1AsTUFDSyxFQUFBO2FBQ0o7S0FBQTtJQUFBO0dBQUE7O0VBRUosaUNBQ08sS0FBQTs7R0FBTixvQkFBTTtHQUNOLHNCQUNRLGVBQUE7ZUFBQyxTQUNTLElBQUE7S0FBaEI7O2tCQUNPLFNBQ1MsSUFBQTtHQUFBO2tCQUNqQixrQkFBQSxNQUNZO3NCQUROO1dBRUE7U0FDRjtNQUFGO2FBQ0E7S0FBQSxDQUNELE1BQ0ssRUFBQTthQUNKO0tBQUE7SUFBQTtHQUFBOztFQUVKLDZDQUNZLEtBQUE7O0dBQVgsb0JBQU07R0FDTixzQkFDUSxlQUFBO2VBQUMsZ0JBQWEsVUFDVyxJQUFBO0tBQS9CLGdCQUFROztlQUNELGdCQUFZLFVBQ1csSUFBQTtZQUE5Qjs7O2tCQUNELHlCQUFBLGlCQUFrQyxNQUNZOzhCQUQvQixNQUFNLE9BQU87c0JBQVk7V0FFbEM7U0FDRjtNQUFGO2FBQ0E7S0FBQSxDQUNELE1BQU0sTUFDSzthQUFMO09BQUEsUUFBQTtPQUNKLGdCQUFDLEtBQUQsR0FDSzs0QkFBRSxFQUFOO09BQUEsT0FDRCxnQkFBQyxPQUFELEdBQ087ZUFBTixPQUFHLGNBQWM7T0FBQTs7Ozs7O0VBRXZCLG1EQUNnQixLQUFBOztHQUFmLG9CQUFNO0dBQ04sc0JBQ1EsZUFBQTtlQUFDLGdCQUFhLEtBQ00sSUFBQTtLQUExQixrQkFBaUIsSUFDSyxJQUFBO01BQXJCLGdCQUFROzs7O2tCQUNWLDJCQUFBLFdBQW1CLE1BQ1k7c0JBRE47V0FFbkI7U0FDRjthQUFGO0tBQUEsQ0FDRCxNQUNLLEVBQUE7TUFBSixRQUFZLDRCQUFhO01BQ3pCLFVBQWMsNEJBQWE7TUFDM0IsZ0JBQU87S0FBQTtJQUFBO0dBQUE7O0VBR1Ysd0JBQ0ssS0FBQTs7R0FBSixvQkFBTTtHQUNOLHdCQUNVLGlCQUFBO2VBQUQsT0FBSSxLQUFJLFNBQVEsR0FBSSxPQUFHLDJCQUFnQjtlQUN2QyxPQUFJLElBQUksT0FBSSwyQkFBaUI7ZUFFN0IsT0FBSSxJQUFJLE9BQUksS0FBTSxTQUFVOztrQkFDcEMsY0FBQSxFQUNHO3NCQUREO0lBRUYsY0FBVSxPQUFPLEVBQUcsS0FDRztZQUF0QixLQUFJLFNBQVE7SUFBQTtXQUNiLE9BQU8sZ0JBQVEsT0FBRztHQUFBOztFQUVwQiw0QkFDTyxLQUFBOztHQUFOLG9CQUNDO0dBR0Qsd0JBQ1UsaUJBQUE7ZUFBRCxPQUFJLElBQUksT0FBSSw2QkFBbUIsS0FBSyxHQUNDO1lBQTVDOzs7a0JBQ0QsZ0JBQUcsUUFBVSxRQUNnQjtzQkFEbEI7c0JBQVU7NkJBQXBCLEVBQ0QsY0FBYzs7O0VBRWhCLHFEQUNpQixLQUFBOztHQUFoQixvQkFBTTtHQUNOLHdCQUNVLGlCQUFBO2VBQUQsT0FBSSxLQUFLLE9BQUcsS0FBTSxtQkFBa0IsMEJBQWU7O2tCQUMzRCw0QkFBQSxXQUFtQixPQUNRO3NCQUREO1dBQzFCLE9BQU8sT0FBUSxHQUNDO0tBQWYsUUFBWSw0QkFBYTtLQUN6QixVQUFjLDRCQUFhO0tBQzNCLGdCQUFPO0lBQUE7R0FBQTs7RUEzSVgsd0JBQUEiLCJmaWxlIjoiVHJ5LmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvbWFzb24zL21zbC9zcmMvVHJ5Lm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBYU0sY0FDVSxrQkFBQTtHQUFmOztFQUVELDhCQUNjO2VBQ0YsSUFDRztvQkFBYixXQUFPO0dBQUE7RUFBQTtrQkFFVCxjQUFlO0VBRWYseUNBQ1csS0FBQTs7R0FBVixvQkFDQztHQUVELHNCQUNPLGVBQUE7O29CQUFOLG1CQUFTLElBQVEsS0FBSSxTQUFRO2VBQ3JCLE9BQUksYUFBVyxpQkFBZ0I7OztrQkFDdkMsT0FDWTtzQkFETjtXQUVBO1NBQ0Y7YUFBRixLQUFJLFNBQVE7S0FBQSxDQUNiLE1BQ0ssRUFBQTthQUFKO0tBQUE7SUFBQTtHQUFBOztFQUVKLDZCQUNLLEtBQUE7O0dBQUosb0JBQ0M7R0FHRCxzQkFDTyxlQUFBOztvQkFBTixtQkFBUyxJQUFRLFFBQU07b0JBQ3ZCLENBQUUsU0FBVzs7O2tCQUNiLE9BQ21COzhCQWdGRyxTQWpGUDtXQUVUO1NBQ0Y7YUFBRixRQUFNO0tBQUEsQ0FDUCxNQUNLLEVBQUE7YUFDSjtLQUFBO0lBQUE7R0FBQTs7RUFFSixpQ0FDTyxLQUFBOztHQUFOLG9CQUFNO0dBQ04sc0JBQ1EsZUFBQTtlQUFDLFNBQ1MsSUFBQTtLQUFoQjs7a0JBQ08sU0FDUyxJQUFBO0dBQUE7a0JBQ2pCLE9BQ1k7c0JBRE47V0FFQTtTQUNGO01BQUY7YUFDQTtLQUFBLENBQ0QsTUFDSyxFQUFBO2FBQ0o7S0FBQTtJQUFBO0dBQUE7O0VBRUosNkNBQ1ksS0FBQTs7R0FBWCxvQkFBTTtHQUNOLHNCQUNRLGVBQUE7ZUFBQyxnQkFBYSxVQUNXLElBQUE7S0FBL0Isa0JBQVE7O2VBQ0QsZ0JBQVksVUFDVyxJQUFBO1lBQTlCOzs7a0JBQ0QsQ0FBQSxpQkFBa0MsUUFDWTs4QkFEL0IsTUFTWCxPQVR3QjtzQkFBWTtXQUVsQztTQUNGO01BQUY7YUFDQTtLQUFBLENBQ0QsTUFBTSxNQUNLO2FBQUw7T0FBQSxRQUFBO09BQ0osZ0JBQUMsS0FBRCxHQUNLOzRCQUFFLEVBQU47T0FBQSxPQUNELGdCQUFDLE9BQUQsR0FDTztlQUFOLE9BQUcsY0FBYztPQUFBOzs7Ozs7RUFFdkIsbURBQ2dCLEtBQUE7O0dBQWYsb0JBQU07R0FDTixzQkFDUSxlQUFBO2VBQUMsZ0JBQWEsS0FDTSxJQUFBO0tBQTFCLGtCQUFpQixJQUNLLElBQUE7TUFBckIsa0JBQVE7Ozs7a0JBQ1YsQ0FBQSxXQUFtQixRQUNZO3NCQUROO1dBRW5CO1NBQ0Y7YUFBRjtLQUFBLENBQ0QsTUFDSyxFQUFBO01BQUosUUFBWSw0QkFBYTtNQUN6QixVQUFjLDRCQUFhO01BQzNCLE1BQU87S0FBQTtJQUFBO0dBQUE7O0VBR1Ysd0JBQ0ssS0FBQTs7R0FBSixvQkFBTTtHQUNOLHdCQUNVLGlCQUFBO2VBQUQsT0FBSSxLQUFJLFNBQVEsR0FBSSxPQUFHLDJCQUFnQjtlQUN2QyxPQUFJLElBQUksT0FBSSwyQkFBaUI7ZUFFN0IsT0FBSSxJQUFJLE9BQUksS0FBTSxTQUFVOztrQkFDcEMsR0FDRztzQkFERDtJQUVGLGNBQVUsT0FBTyxFQUFHLEtBQ0c7WUFBdEIsS0FBSSxTQUFRO0lBQUE7V0FDYixjQUFlLEtBQ0c7WUFBakI7SUFBQTtHQUFBOztFQUVILDRCQUNPLEtBQUE7O0dBQU4sb0JBQ0M7R0FHRCx3QkFDVSxpQkFBQTtlQUFELE9BQUksSUFBSSxPQUFJLFNBQVUsV0FBVyxHQUNDO1lBQXpDO0lBQUE7R0FBQTtrQkFDRCxDQUFHLFFBQVUsVUFDZ0I7c0JBRGxCO3NCQUFVOzZCQUFwQixFQUNELGNBQWM7OztFQUVoQixxREFDaUIsS0FBQTs7R0FBaEIsb0JBQU07R0FDTix3QkFDVSxpQkFBQTtlQUFELE9BQUksS0FBSyxPQUFHLEtBQU0sbUJBQWtCLDBCQUFlLEtBR3JELE9BSGdFOztrQkFDdEUsQ0FBQSxXQUFtQixTQUNRO3NCQUREO1dBQzFCLE9BQU8sT0FBUSxHQUNDO0tBQWYsZ0JBQUssTUFBRCxHQUNNO01BQVQsUUFBWSw0QkFBYTtNQUN6QixVQUFjLDRCQUFhOztLQUM1QixNQUFPO0lBQUE7R0FBQTs7RUExSVgsd0JBQUEiLCJmaWxlIjoiVHJ5LmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

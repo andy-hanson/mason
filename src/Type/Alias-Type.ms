@@ -19,7 +19,7 @@ Alias-Type. class
 		assert! .alias-of:Type
 
 	contains? |value
-		contains? .alias-of value
+		value:.alias-of
 
 	sub |...args
 		# TODO
@@ -32,6 +32,7 @@ Alias-Type. class
 # TODO: class attributes
 Alias-Type.test = !|
 	A = new Alias-Type
+		name.
 		alias-of. String
-	assert! contains? A "0"
+	assert! "0":A
 	forbid! =? A String

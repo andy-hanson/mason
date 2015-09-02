@@ -2,8 +2,6 @@ use
 	...@.@ _ ++ -- empty? flat-map' keep map map'
 	...@.?
 	...@.Seq.Seq ?first tail
-	...String ->upper
-	...Type.Type contains?
 
 make-word-from-blocks.
 	doc. "http://rosettacode.org/wiki/ABC_Problem"
@@ -55,10 +53,11 @@ make-word-from-blocks.
 				else
 					rest-word = tail_
 					this-char-blocks = keep blocks-left |_
-						contains? _ chars-left[0]
+						chars-left[0]:_
 					# TODO:SYNTAX @for~
 					?first (flat-map' this-char-blocks |_
 						# TODO -, not --
 						map' (rec rest-word (-- blocks-left [ _ ])) |ans
 							++ [ _ ] ans
-		rec (->upper word) (map blocks ->upper
+		rec word.toUpperCase() (map blocks |_
+			_.toUpperCase()

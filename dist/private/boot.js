@@ -8,8 +8,8 @@ define(["exports","./bootstrap","../Type/Type","../at/Seq/Array","../at/Map/Id-M
 		_ms.getModule(Id_45Map_3);
 		_ms.getModule(String_45as_45Seq_4);
 		_ms.getModule(impl_45inspect_5);
-		const name=exports.name=`boot-order`;
+		const name=exports.name=`boot`;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvbWFzb24zL21zbC9zcmMvcHJpdmF0ZS9ib290LW9yZGVyLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7RUFBQSx3QkFBQSIsImZpbGUiOiJwcml2YXRlL2Jvb3Qtb3JkZXIuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvbWFzb24zL21zbC9zcmMvcHJpdmF0ZS9ib290Lm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7RUFBQSx3QkFBQSIsImZpbGUiOiJwcml2YXRlL2Jvb3QuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

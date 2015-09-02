@@ -1,7 +1,6 @@
 use
 	..@.@ _ fold
 	.methods + /
-	.Number incr
 
 average.
 	doc. "TODO"
@@ -13,7 +12,7 @@ average.
 		count ::= 0
 		for! @vals
 			sum := + sum _
-			count := incr count
+			count := + 1 count
 		/ sum count
 
 sum.

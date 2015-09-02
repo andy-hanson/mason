@@ -2,7 +2,7 @@
 if((typeof define!=="function"))var define=require("amdefine")(module);
 define(["exports","../../Function","../../Generator","../../Type/Kind","../../Type/Method","../at","../at-Type","./Seq"],(exports,Function_0,Generator_1,Kind_2,Method_3,_64_4,_64_45Type_5,Seq_6)=>{
 	exports._get=_ms.lazy(()=>{
-		const _$2=_ms.getModule(Function_0),thunk=_ms.get(_$2,"thunk"),Generator=_ms.getDefaultExport(Generator_1),_$3=_ms.getModule(Generator_1),empty_45Generator=_ms.get(_$3,"empty-Generator"),_$4=_ms.getModule(Kind_2),kind_33=_ms.get(_$4,"kind!"),self_45kind_33=_ms.get(_$4,"self-kind!"),_$5=_ms.getModule(Method_3),self_45impl_33=_ms.get(_$5,"self-impl!"),_$6=_ms.getModule(_64_4),iterator=_ms.get(_$6,"iterator"),_64_45Type=_ms.getDefaultExport(_64_45Type_5),_$7=_ms.getModule(_64_45Type_5),empty=_ms.get(_$7,"empty"),from_45stream=_ms.get(_$7,"from-stream"),Seq=_ms.getDefaultExport(Seq_6),_$8=_ms.getModule(Seq_6),seq_61_63=_ms.get(_$8,"seq=?");
+		const _$0=_ms.getModule(Function_0),thunk=_ms.get(_$0,"thunk"),Generator=_ms.getDefaultExport(Generator_1),_$1=_ms.getModule(Generator_1),empty_45Generator=_ms.get(_$1,"empty-Generator"),_$2=_ms.getModule(Kind_2),kind_33=_ms.get(_$2,"kind!"),self_45kind_33=_ms.get(_$2,"self-kind!"),_$3=_ms.getModule(Method_3),self_45impl_33=_ms.get(_$3,"self-impl!"),_$4=_ms.getModule(_64_4),iterator=_ms.get(_$4,"iterator"),_64_45Type=_ms.getDefaultExport(_64_45Type_5),_$5=_ms.getModule(_64_45Type_5),empty=_ms.get(_$5,"empty"),from_45stream=_ms.get(_$5,"from-stream"),Seq=_ms.getDefaultExport(Seq_6),_$6=_ms.getModule(Seq_6),seq_61_63=_ms.get(_$6,"seq=?");
 		const Stream=(()=>{
 			const _=class Stream{
 				static [_ms.symbol(from_45stream)](_){

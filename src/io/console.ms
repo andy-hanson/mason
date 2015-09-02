@@ -2,6 +2,7 @@ use!
 	# TODO: Needed?
 	..String-as-Seq # => Str
 use
+	global console
 	..Type.Type =>
 
 doc. "Functions that write to the console (also known as shell, command prompt, stdout/stderr)."
@@ -12,12 +13,12 @@ log!.
 		Always adds a newline at the end.
 	# TODO:ES6 ...args; log ...args
 	!|a
-		global.console.log a
+		console.log a
 
 warn!.
 	doc. "Like `log!`, but prints to stderr."
 	!|...args
-		global.console.warn ...args
+		console.warn ...args
 
 region Debugging
 	dbg!.
@@ -31,4 +32,4 @@ region Debugging
 	trace!.
 		doc. "Logs the current stacktrace."
 		!|...args
-			global.console.trace (=> String args " "
+			console.trace (=> String args " ")

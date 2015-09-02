@@ -1,5 +1,7 @@
 # TODO: TEST
 use
+	# TODO:SYNTAX use global.Map but rename it to Js-Map
+	global
 	...compare =?
 	...hash-code
 	...js defined?

@@ -8,17 +8,20 @@ use-debug
 	.Range
 
 @-Type. new Kind
+	name.
 	doc. "Any sub-type of @."
 
 impl! sub @-Type .|
 	this
 
 empty. new Method
+	name.
 	doc. "
 		Given a type, makes an instance which is `empty?`.
 		Should always return the same thing iff immutable.
 
 from-stream. new Method
+	name.
 	doc. "
 		|_ stream:@
 		Creates a new value of this type by reading out from an @'s iterator.

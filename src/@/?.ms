@@ -113,6 +113,7 @@ region Functions
 					_.val
 
 Some. new Pred-Type
+	name.
 	doc. "TODO"
 	predicate. |_
 		and :? (not empty?_

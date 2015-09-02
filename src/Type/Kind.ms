@@ -10,7 +10,6 @@ use~
 	# Below TODO: use-debug
 	..Try fails-with?
 	.Method
-	.Type contains?
 use-debug
 	.Impl-Type
 
@@ -32,6 +31,8 @@ Kind. class
 	#	They require the Kind to correctly track super-kinds and implementors.
 
 	construct! params
+		assert! params.name:String
+
 		Object.defineProperty this "name"
 			value. params.name
 
@@ -72,9 +73,9 @@ Kind. class
 Kind.test = !|
 	region Inheritance chans - one way
 		A = new Kind
-			doc. "A"
+			name.
 		B = new Kind
-			doc. "B"
+			name.
 		C = class
 			# TODO: empty class
 			"dummy" |
@@ -82,13 +83,13 @@ Kind.test = !|
 		kind! B A
 		kind! C B
 		c = new C
-		assert! contains? A c
+		assert! c:A
 
 	region Inheritance chains
 		X = new Kind
-			doc. "X"
+			name.
 		Y = new Kind
-			doc. "Y"
+			name.
 		Z = class
 			# TODO: empty class
 			"dummy" |
@@ -96,18 +97,20 @@ Kind.test = !|
 		kind! Z Y
 		kind! Y X
 		z = new Z
-		assert! contains? X z
+		assert! z:X
 
 	region Method makes sure to do impl! on all Concrete-Type_s inheriting from an Kind.
 		asdf = new Method
+			name.
 			doc. "asdf_s its arguments."
 		impl! asdf X |
 			1
 		assert! =? (asdf z) 1
-		assert! contains? X z
+		assert! z:X
 
 	region Closed Kind
 		Closed = new Kind
+			name.
 			implementors. [ C Z ]
 
 		assert! fails-with? "Closed is not open to new subtypes." !|
@@ -135,9 +138,9 @@ concrete-implementors.
 		Does not include inheriting Kinds, but does include their implementors.
 	test. |
 		X = new Kind
-			doc. "X"
+			name.
 		Y = new Kind
-			doc. "Y"
+			name.
 		Z = class
 			# TODO: empty class
 			"dummy" |
@@ -213,8 +216,8 @@ region Private
 
 	inherit-methods! = !|implementor kind
 		rec! = !|kind
-			for! name in @p-all kind.prototype
-				propagate-method-down! implementor name (js-sub kind.prototype name)
+			for! property in @p-all kind.prototype
+				propagate-method-down! implementor property (js-sub kind.prototype property)
 			for! kind.super-kinds
 				rec! _
 		rec! kind

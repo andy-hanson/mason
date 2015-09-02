@@ -1,4 +1,6 @@
 use
+	# TODO:SYNTAX use global.Map but rename it to Js-Map
+	global
 	...Type.Method impl! self-impl!
 	...Type.Kind kind! self-kind!
 	..@ count empty!

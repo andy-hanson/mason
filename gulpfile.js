@@ -93,7 +93,16 @@ const
 	pipeMs = stream =>
 		stream
 		.pipe(sourcemaps.init())
-		.pipe(mason({ checks }))
+
+		.pipe(mason({
+			checks,
+			// Can't automatically use boot because some of these modules *are* boot.
+			useBoot: false,
+			// Can't use builtins because msl is what defines them.
+			builtins: {
+				'global': [ 'Array', 'Boolean', 'Error', 'Function', 'Math', 'Number', 'Object', 'RegExp', 'String', 'Symbol' ]
+			}
+		}))
 		.pipe(sourcemaps.write({
 			debug: true,
 			includeContent: false,

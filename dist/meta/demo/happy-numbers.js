@@ -1,8 +1,8 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","../../at/at","../../at/at-Type","../../at/Range","../../at/Seq/Seq","../../at/Seq/Stream","../../at/Set/Id-Set","../../compare","../../js","../../math/Number","../../math/methods","../../Type/Type","../../at/Seq/Seq"],(exports,_64_0,_64_45Type_1,Range_2,Seq_3,Stream_4,Id_45Set_5,compare_6,js_7,Number_8,methods_9,Type_10,Seq_11)=>{
+define(["exports","../../at/at","../../at/at-Type","../../at/Range","../../at/Seq/Seq","../../at/Seq/Stream","../../at/Set/Id-Set","../../compare","../../js","../../math/Number","../../math/methods","../../at/Seq/Seq"],(exports,_64_0,_64_45Type_1,Range_2,Seq_3,Stream_4,Id_45Set_5,compare_6,js_7,Number_8,methods_9,Seq_10)=>{
 	exports._get=_ms.lazy(()=>{
-		const _$2=_ms.getModule(_64_0),_43_43_33=_ms.get(_$2,"++!"),fold=_ms.get(_$2,"fold"),keep_39=_ms.get(_$2,"keep'"),map=_ms.get(_$2,"map"),_$3=_ms.getModule(_64_45Type_1),empty=_ms.get(_$3,"empty"),Range=_ms.getDefaultExport(Range_2),_$5=_ms.getModule(Seq_3),set_45nth_33=_ms.get(_$5,"set-nth!"),Stream=_ms.getDefaultExport(Stream_4),Id_45Set=_ms.getDefaultExport(Id_45Set_5),_$8=_ms.getModule(compare_6),_61_63=_ms.get(_$8,"=?"),_$9=_ms.getModule(js_7),defined_63=_ms.get(_$9,"defined?"),js_45sub=_ms.get(_$9,"js-sub"),_$10=_ms.getModule(Number_8),int_47=_ms.get(_$10,"int/"),Nat=_ms.get(_$10,"Nat"),remainder=_ms.get(_$10,"remainder"),square=_ms.get(_$10,"square"),_$11=_ms.getModule(methods_9),_43=_ms.get(_$11,"+"),_$12=_ms.getModule(Type_10),contains_63=_ms.get(_$12,"contains?"),_$14=_ms.lazyGetModule(Seq_11),seq_61_63=_ms.lazyProp(_$14,"seq=?"),take=_ms.lazyProp(_$14,"take");
+		const _$0=_ms.getModule(_64_0),_43_43_33=_ms.get(_$0,"++!"),fold=_ms.get(_$0,"fold"),keep_39=_ms.get(_$0,"keep'"),map=_ms.get(_$0,"map"),_$1=_ms.getModule(_64_45Type_1),empty=_ms.get(_$1,"empty"),Range=_ms.getDefaultExport(Range_2),_$2=_ms.getModule(Seq_3),set_45nth_33=_ms.get(_$2,"set-nth!"),Stream=_ms.getDefaultExport(Stream_4),Id_45Set=_ms.getDefaultExport(Id_45Set_5),_$3=_ms.getModule(compare_6),_61_63=_ms.get(_$3,"=?"),_$4=_ms.getModule(js_7),defined_63=_ms.get(_$4,"defined?"),js_45sub=_ms.get(_$4,"js-sub"),_$5=_ms.getModule(Number_8),int_47=_ms.get(_$5,"int/"),Nat=_ms.get(_$5,"Nat"),remainder=_ms.get(_$5,"remainder"),square=_ms.get(_$5,"square"),_$6=_ms.getModule(methods_9),_43=_ms.get(_$6,"+"),_$7=_ms.lazyGetModule(Seq_10),seq_61_63=_ms.lazyProp(_$7,"seq=?"),take=_ms.lazyProp(_$7,"take");
 		const digits=function digits(_){
 			const base=10;
 			return new (Stream)(function*(){
@@ -24,7 +24,7 @@ define(["exports","../../at/at","../../at/at-Type","../../at/Range","../../at/Se
 		const happy_63=exports["happy?"]=(()=>{
 			const built={};
 			const doc=built.doc=`http://rosettacode.org/wiki/Happy_numbers`;
-			return _ms.set(function happy_63(n){
+			return _ms.set(n=>{
 				_ms.checkContains(Nat,n,"n");
 				const stepped_45through=empty(Id_45Set);
 				let cur=n;
@@ -35,7 +35,7 @@ define(["exports","../../at/at","../../at/at-Type","../../at/Range","../../at/Se
 							if(defined_63(_)){
 								return _
 							} else {
-								if(contains_63(stepped_45through,cur)){
+								if(_ms.contains(stepped_45through,cur)){
 									return false
 								};
 								_43_43_33(stepped_45through,[cur]);
@@ -70,11 +70,11 @@ define(["exports","../../at/at","../../at/at-Type","../../at/Range","../../at/Se
 					return built
 				})())
 			};
-			return _ms.set(keep_39(new (Range)(1,Number.POSITIVE_INFINITY),happy_63),built,"happy-numbers")
+			return _ms.set(keep_39(new (Range)(1,Number.POSITIVE_INFINITY),happy_63),built)
 		})(),"happy-numbers");
 		const name=exports.name=`happy-numbers`;
 		exports.default=happy_45numbers;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvbWFzb24zL21zbC9zcmMvbWV0YS9kZW1vL2hhcHB5LW51bWJlcnMubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFnQkEsYUFBVSxnQkFBQSxFQUNDO0dBQVYsV0FBTztVQUNQLEtBQUksUUFDVSxXQUFBO0lBQWIsU0FBUztJQUVMLE9BQUE7WUFBQSxVQUFVLEtBQUs7VUFDVixPQUFLLEtBQUs7S0FDbEIsR0FBSSxPQUFHLEtBQUssR0FDQztNQUFaO0tBQUE7SUFBQTtHQUFBO0VBQUE7RUFFSixtQkFBYyxzQkFBQSxFQUNDO1VBQ2QsS0FBTSxJQUFJLE9BQUEsR0FBUSxRQUFRO0VBQUE7RUFFM0IsWUFBUTtFQUNSLGFBQVMsTUFBTSxFQUFFO0VBRWpCLGlDQUNPLEtBQUE7O0dBQU4sb0JBQU07a0JBQ0wsa0JBQUEsRUFDSztzQkFESDtJQUNGLHdCQUFrQixNQUFNO0lBQ3hCLFFBQVE7SUFDUixtQkFDYztZQUFBO01BQVA7T0FBQSxRQUFBLFNBQU8sTUFBTTtPQUNsQixHQUFBLFdBQUEsR0FDUztRQUFSLE9BQU07T0FBQSxPQUVIO1FBQUgsR0FBSSxZQUFVLGtCQUFnQixLQUNHO1NBQWhDLE9BQU07UUFBQTtRQUVQLFVBQUksa0JBQWdCLENBQUU7WUFDZixhQUFXO09BQUE7TUFBQTtLQUFBO0lBQUE7V0FDaEIsSUFDUTtLQUFaLGFBQVMsTUFBTSxFQUFFO0tBQ1osUUFBQSxLQUFBLGtCQUNlO01BQW5CLGFBQVMsTUFBTSxFQUFFO0tBQUE7O09BSGQ7R0FBQTs7RUFLUCxnREFBYyxPQUFPLEtBQ0ssS0FBQTs7R0FBekIsb0JBQU07R0FDTixzQkFDUSxlQUFBO3NEQUFhLGdCQUFjLEdBQ0UsS0FBQTs7bUJBQWpDO21CQUNBO21CQUNBO21CQUNBO21CQUNBO21CQUNBO21CQUNBO21CQUNBOzs7O2tCQUNKLFFBQU8sS0FBSSxPQUFNLEVBQUUsMEJBQTBCOztFQWpFOUMsd0JBQUE7a0JBcURBIiwiZmlsZSI6Im1ldGEvZGVtby9oYXBweS1udW1iZXJzLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvbWFzb24zL21zbC9zcmMvbWV0YS9kZW1vL2hhcHB5LW51bWJlcnMubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFlQSxhQUFVLGdCQUFBLEVBQ0M7R0FBVixXQUFPO1VBQ1AsS0FBSSxRQUNVLFdBQUE7SUFBYixTQUFTO0lBRUwsT0FBQTtZQUFBLFVBQVUsS0FBSztVQUNWLE9BQUssS0FBSztLQUNsQixHQUFJLE9BQUcsS0FBSyxHQUNDO01BQVo7S0FBQTtJQUFBO0dBQUE7RUFBQTtFQUVKLG1CQUFjLHNCQUFBLEVBQ0M7VUFDZCxLQUFNLElBQUksT0FBQSxHQUFRLFFBQVE7RUFBQTtFQUUzQixZQUFRO0VBQ1IsYUFBUyxNQUFNLEVBQUU7RUFFakIsaUNBQ08sS0FBQTs7R0FBTixvQkFBTTtrQkFDTCxHQUNLO3NCQURIO0lBQ0Ysd0JBQWtCLE1BQU07SUFDeEIsUUFBUTtJQUNSLG1CQUNjO1lBQUE7TUFBUDtPQUFBLFFBQUEsU0FBTyxNQUFNO09BQ2xCLEdBQUEsV0FBQSxHQUNTO1FBQVIsT0FBTTtPQUFBLE9BRUg7UUFBSCxnQkFBUSxrQkFBSixLQUNtQjtTQUF0QixPQUFNO1FBQUE7UUFFUCxVQUFJLGtCQUFnQixDQUFFO1lBQ2YsYUFBVztPQUFBO01BQUE7S0FBQTtJQUFBO1dBQ2hCLElBQ1E7S0FBWixhQUFTLE1BQU0sRUFBRTtLQUNaLFFBQUEsS0FBQSxrQkFDZTtNQUFuQixhQUFTLE1BQU0sRUFBRTtLQUFBOztPQUhkO0dBQUE7O0VBS1AsZ0RBQWMsT0FBTyxLQUNLLEtBQUE7O0dBQXpCLG9CQUFNO0dBQ04sc0JBQ1EsZUFBQTtzREFBYSxnQkFBYyxHQUNFLEtBQUE7O21CQUFqQzttQkFDQTttQkFDQTttQkFDQTttQkFDQTttQkFDQTttQkFDQTttQkFDQTs7OztrQkFDSixRQUFPLEtBQUksT0FBTSxFQUFFLDBCQUEwQjs7RUFoRTlDLHdCQUFBO2tCQW9EQSIsImZpbGUiOiJtZXRhL2RlbW8vaGFwcHktbnVtYmVycy5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

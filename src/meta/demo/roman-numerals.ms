@@ -4,7 +4,6 @@ use
 	...math.methods - *
 use-debug
 	...@.Range
-	...Type.Type contains?
 
 roman-digits =
 	1 -> "I"
@@ -33,7 +32,7 @@ roman.
 
 	|n:Nat
 		in
-			assert! contains? (new Range 1 4000) n
+			assert! n:(new Range 1 4000)
 
 		dec = power-of-10-below n
 		dig = |dec-multiple

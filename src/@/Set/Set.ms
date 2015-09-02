@@ -1,6 +1,6 @@
 use
 	...compare =? same?
-	...Type.Type => contains? type-of
+	...Type.Type => type-of
 	...Type.Kind _ kind! self-kind!
 	...Type.Method _ impl! self-impl!
 	..@ _ all? count keep
@@ -11,6 +11,7 @@ use-debug
 	..@ --
 
 Set. new Kind
+	name.
 	doc. "@ without repeat values."
 
 self-kind! Set @-Type
@@ -27,7 +28,8 @@ impl! =? Set
 		[ a b ] -> true
 		[ a [ -- b [ 1 ] ] ] -> false
 	.|other
-		and (same? type-of this other) (same? count this other) (all? this contains?[other])
+		and (same? type-of this other) (same? count this other) (all? this |_
+			:other
 
 set=?.
 	doc. "Whether two @s have the same values, regardless of order or count."
@@ -39,6 +41,7 @@ set=?.
 		=? (=> Set a) (=> Set b)
 
 intersect. new Method
+	name.
 	doc. "TODO"
 	test. |
 		[ (=> Set [ 1 2 ]) (=> Set [ 2 3 ]) ] -> => Set [ 2 ]

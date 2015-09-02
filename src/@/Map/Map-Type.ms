@@ -9,6 +9,7 @@ use-debug
 	.Hash-Map
 
 Map-Type. new Kind
+	name.
 	doc. "Any sub-type of Map."
 
 # TODO: Do this in Map.ms ?

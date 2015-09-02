@@ -16,6 +16,7 @@ use-debug
 	...math.methods +
 
 Map. new Kind
+	name.
 	doc. "Mapping from keys to values."
 
 kind! Map @
@@ -36,10 +37,12 @@ impl! to-string Map
 
 region New methods
 	?get. new Method
+		name.
 		doc. "`?` containing the value corresponding to `key`, if any."
 		args. [ "_" "key"
 
 	has-key?. new Method
+		name.
 		doc. "
 			|:Boolean _ key:Any
 			Whether the key is in the Map.
@@ -48,6 +51,7 @@ region New methods
 			not (empty? (?get this key
 
 	keys. new Method
+		name.
 		doc. "Every key that the Map `has-key?`."
 		args. 1
 		default. .|
@@ -55,6 +59,7 @@ region New methods
 				pair[0]
 
 	values. new Method
+		name.
 		doc. "Every value in the Map."
 		args. 1
 		default. .|
@@ -104,6 +109,7 @@ region Functions
 
 region Mutator methods
 	assoc!. new Method
+		name.
 		doc. "Set _[key] to val."
 		args. [ "_" "key" "val"
 	msDef "assoc" assoc!
@@ -117,6 +123,7 @@ region Mutator methods
 				assoc! map _[0] _[1]
 
 	un-assoc!. new Method
+		name.
 		doc. "
 			If there is a value associated with `key`, removes it and returns the value associated.
 		args. [ "_" "key"
@@ -128,6 +135,7 @@ region Mutator methods
 				un-assoc! map _
 
 	add!. new Method
+		name.
 		doc. "
 			|_ key:Any val:Any
 			assoc! key val, but fail if _[key] is set already.
@@ -138,6 +146,7 @@ region Mutator methods
 			assoc! this key val
 
 	get-or-add!. new Method
+		name.
 		doc. "map[key], and if it's not already there, fill it in with default-val."
 		args. [ "_" "key" "~default-val"
 		default. .|key ~default-val

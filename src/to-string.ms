@@ -1,9 +1,11 @@
 use
+	global Set
 	.js id=?
 	.private.bootstrap msDef
 	.Type.Method
 
 to-string. new Method
+	name.
 	test. |
 		[ null ] -> "null"
 		[ undefined ] -> "undefined"
@@ -19,13 +21,14 @@ to-string. new Method
 			else
 				inspect-object this
 
-inspect-seen = new global.Set
+inspect-seen = new Set
 
 inspect. new Method
+	name.
 	allow-null?. true
 	wrap. |impl arg opts
 		case
-			arg:inspect-seen
+			inspect-seen.has arg
 				"<recursive>"
 			else
 				inspect-seen.add arg

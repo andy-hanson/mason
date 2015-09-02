@@ -1,12 +1,11 @@
 use
+	global TypeError
 	.@.? ?some ?None
 	.$ _ $after
 	.compare =?
 	.Function Action
-	.private.bootstrap ms
-	.Type.Method self-impl!
 	.Type.Pred-Type Any Union
-	.Type.Type _ =>
+	.Type.Type
 use-debug
 	.$ $rejected $resolved
 	.Function thunk
@@ -21,8 +20,6 @@ Success. class
 		.val = val
 
 Success.doc = "Attempt that did not fail. _.val is the result of the attempted code."
-
-self-impl! => Error ms.error
 
 try-result.
 	doc. "
@@ -108,15 +105,16 @@ region $
 	$try.
 		doc. "Success if the $ is resolved, Error if rejected."
 		$test. ~!|
-			assert! =? (new Success 1) (<~ $try ($resolved 1
-			assert! =? "a" (<~ ($try ($rejected "a"))).message
+			assert! =? (new Success 1) (<~ $try ($resolved 1))
+			assert! =? "a" (<~ ($try ($rejected "a")))
 			# $rejected but with non-error:
-			assert! =? "a" (<~ ($try ($.reject "a"))).message
+			assert! =? "a" (<~ ($try ($.reject "a")))
 		|_:$
 			# =>[Error] because it's possible for a Promise to reject with a non-Error.
 			success = $after _ |val
 				new Success val
-			$catch success =>[Error]
+			success.catch |err
+				err
 
 	$catch.
 		doc. "
@@ -124,17 +122,18 @@ region $
 			Else returns a `$` for the result of running `catcher` on the Error.
 			Like for `$after`, `catcher` can also return another `$`.
 		$test. ~!|
-			assert! =? "a" (<~ ($catch ($rejected "a") |_
-				_.message
+			assert! =? "a" (<~ ($.reject "a").catch |_
+				_
 		|:$ promise:$ catcher:Function
 			promise.catch catcher
 
 	$annotate-errors.
 		doc. "Like `annotate-errors` but works on errors thrown in a `$`."
 		$test. ~!|
-			assert! =? "ab" (<~ $try ($annotate-errors "a" ($rejected "b"))).message
+			assert! =? "ab" (<~ $try ($annotate-errors "a" ($rejected (new Error "b")))).message
 		|~annotation:String $tried:$
 			$catch $tried |_
-				_.stack := "{annotation}{_.stack}"
-				_.message := "{annotation}{_.message}"
+				if! :Error
+					_.stack := "{annotation}{_.stack}"
+					_.message := "{annotation}{_.message}"
 				throw! _

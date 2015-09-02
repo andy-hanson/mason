@@ -8,17 +8,12 @@ use~
 	.@.@ count
 
 String-Test. new Kind
+	name.
 	doc. "Something we can compare a String to."
 	implementors. [ String RegExp ]
 
-->upper.
-	doc. "Converts a-z to A-Z."
-	test. |
-		[ "hi" ] -> "HI"
-	|_:String
-		_.toUpperCase()
-
 Char. new Pred-Type
+	name.
 	doc. "Any String with only one character."
 	predicate. |_
 		and :String (=? count_ 1
@@ -37,15 +32,7 @@ indent.
 		[ s ] -> s-indented
 		[ "a" ] -> "a"
 	|_:String
-		_.replace (RegExp "\n" "g") "\n\t"
-
-split-str.
-	doc. "Like `@.split` but using a String-Test instead of a predicate."
-	test. |
-		[ " " "I am a String" ] -> [ "I" "am" "a" "String" ]
-		[ (RegExp ".") "abc" ] -> [ "" "" "" "" ]
-	|:Array[String] splitter:String-Test _:String
-		_.split splitter
+		_.replace (new RegExp "\n" "g") "\n\t"
 
 impl! =? String .|other
 	id=? this other

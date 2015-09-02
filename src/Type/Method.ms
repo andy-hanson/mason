@@ -1,4 +1,5 @@
 use
+	global _ JSON
 	..js defined? js=== js-delete js-instanceof js-sub js-typeof
 	..private.bootstrap containsImplSymbol implContains msDef pAdd
 use~
@@ -29,22 +30,22 @@ str-lit = |str
 
 Method. class Function
 	construct! params
-		name = params.name
+		method-name = params.name
 		# TODO: :String
-		assert! defined? name throw! "Must provide method name."
+		assert! defined? method-name throw! "Must provide method name."
 
 		default? = defined? params.default
 		wrap? = defined? params.wrap
 		allow-null? = flag? params.allow-null?
 		assert! or (not allow-null?) default? throw! "Method with `allow-null?` must have `default."
 
-		secret-name = "__method_{name}_{random-digits()}"
+		secret-name = "__method_{method-name}_{random-digits()}"
 
 		impl-symbol = case params.impl-symbol
 			defined?_
 				_
 			else
-				Symbol name
+				Symbol method-name
 
 		has-args? = defined? params.args
 		num-args = case params.args
@@ -126,6 +127,7 @@ Method. class Function
 				super "a" "b" "c" "d" src
 
 		# TODO:ES6 Shouldn't be necessary
+		# See https://code.google.com/p/v8/issues/detail?id=4087
 		Object.setPrototypeOf this Method.prototype
 
 		pAdd global secret-name this
@@ -135,7 +137,7 @@ Method. class Function
 		Object.assign this params
 		.impl-symbol = impl-symbol
 		Object.defineProperty this "name"
-			value. name
+			value. method-name
 
 	# TODO: Consider making kind! Method Type. Then this is redundant.
 	"toString" |
@@ -146,6 +148,7 @@ Method.doc = "TODO"
 # TODO: class properties
 Method.test = !|
 	m = new Method
+		name.
 		allow-null?. true
 		default. |
 			"default"
@@ -166,6 +169,7 @@ Method.test = !|
 
 	assert! =? "wrap-call-arg"
 		wrap-method = new Method
+			name.
 			default. .|
 				"call-{this}"
 			wrap. |impl arg
@@ -266,7 +270,7 @@ region Private
 			configurable. false
 			enumerable. false
 
-		if! contains? Kind implementor
+		if! implementor:Kind
 			for! implementor.implementors
 				propagate-method-down! _ method.impl-symbol implementation
 
@@ -295,6 +299,7 @@ region Private
 				value. "{method.name}__double-dispatcher"
 
 contains? = new Method
+	name.
 	doc. "
 		Whether some collection of things as as an element `instance`."
 	args.

@@ -16,7 +16,6 @@ use
 	...Type.Kind _ concrete-implementors
 	...Type.Method _ impl! impl-for
 	...Type.Pred-Type ObjLit
-	...Type.Type contains?
 use-debug
 	...control build
 	...Object empty-Object!
@@ -42,6 +41,7 @@ test. !|
 
 # TODO: Better name (but not `test`, because that's a common module property)
 test-special. new Method
+	name.
 	doc. "
 		Something special to do with this value when the test runner reacher it.
 		May return a $.
@@ -53,16 +53,16 @@ test-special. new Method
 # TODO: MOVE THESE
 impl! test-special Impl-Type .|
 	$all @for prototype in ?p this "prototype"
-		for! name in @p-all prototype
+		for! prop-name in @p-all prototype
 			# Some prototype properties throw errors. For example, global.Map.size.
 			?prop-val = ?try |
-				p prototype name
+				p prototype prop-name
 			for! proto-fun in ?prop-val
-				# if! contains? Function proto-fun
+				# if! proto-fun:Function
 				#	for! (?p proto-fun "test")
-				#	... @$test-proto-fun _ ~"{this}#{name}"
-				# Must call name.toString() because Symbols can not implicitly convert.
-				... @$maybe-test ~"{this.name}#{name.toString()}" proto-fun false true
+				#	... @$test-proto-fun _ ~"{this}#{prop-name}"
+				# Must call prop-name.toString() because Symbols can not implicitly convert.
+				... @$maybe-test ~"{.name}#{prop-name.toString()}" proto-fun false true
 
 
 # TODO: MOVE THESE
@@ -95,13 +95,13 @@ $test-module.
 all-tested = empty Id-Set
 
 # TODO: Better name
-@$maybe-test = |~name value is-module is-proto-prop
+@$maybe-test = |~test-name value is-module is-proto-prop
 	case
 		all-tested.has value
 			[ ]
 		else
 			all-tested.add value
-			@$test-single ~name value is-module is-proto-prop
+			@$test-single ~test-name value is-module is-proto-prop
 
 $test-fun.
 	doc. "TODO"
@@ -117,14 +117,14 @@ $test-single.
 	|_
 		$all (@$test-single "" _ false false)
 
-@$test-single = |~name value is-module is-proto-prop
+@$test-single = |~test-name value is-module is-proto-prop
 	# TODO:SYNTAX Just build without @for
 	@for
 		... @$-from-any (test-special value)
 		case! value
 			or is-module :ObjLit :Function
 				for! prop-name in @p_
-					~next-name = "{name}.{prop-name}"
+					~next-name = "{test-name}.{prop-name}"
 					prop-val = p _ prop-name
 					# TODO:SYNTAX switch!
 					case! prop-name
@@ -136,12 +136,12 @@ $test-single.
 							... @$maybe-test ~next-name prop-val false false
 
 			and :Object (p? _ "test")
-				... @$test-test-prop _ _.test ~"{name}.test" false
+				... @$test-test-prop _ _.test ~"{test-name}.test" false
 			else
 				pass
 		break!
 
-@$test-test-prop = |value value-test ~name is-proto-prop # TODO: ...test-args
+@$test-test-prop = |value value-test ~test-name is-proto-prop # TODO: ...test-args
 	# TODO:SYNTAX Just build without @for
 	@for
 		_ = value-test
@@ -151,21 +151,21 @@ $test-single.
 			... @$test-test-fun value value-test ~name is-proto-prop
 		if! :ObjLit
 			for! sub-name in @p_
-				... @$test-test-prop value (p _ sub-name) ~"{name}.{sub-name}" false
+				... @$test-test-prop value (p _ sub-name) ~"{test-name}.{sub-name}" false
 		break!
 
-@$test-$test-prop = |value-$test:Function[Generator] ~name
-	. $annotate-errors ~"{name}: " ($ing value-$test
+@$test-$test-prop = |value-$test:Function[Generator] ~test-name
+	. $annotate-errors ~"{test-name}: " ($ing value-$test
 
-@$test-test-fun = |value value-test:Function ~name is-proto-prop ...args
-	~ano = "{name}: "
+@$test-test-fun = |value value-test:Function ~test-name is-proto-prop ...args
+	~ano = "{test-name}: "
 	_ = annotate-errors ~ano |
 		value-test ...args
 	case
 		# TODO: just :Map
 		or :Map :Id-Map
-			assert! contains? Function value throw!
-				"Test of {name} returned a Map, but the value is not callable."
+			assert! value:Function throw!
+				"Test of {test-name} returned a Map, but the value is not callable."
 			annotate-errors ~ano !|
 				case!
 					is-proto-prop
@@ -185,7 +185,7 @@ $test-single.
 	case test-result
 		:@
 			for! elem in _
-				assert! contains? $ elem throw! "
+				assert! elem:$ throw! "
 					Result of test should be $, @[$], or undefined.
 					Got @ containing: {elem}
 			_

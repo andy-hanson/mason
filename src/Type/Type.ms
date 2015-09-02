@@ -15,6 +15,7 @@ use-debug
 	.Method self-impl!
 
 Type. new Kind
+	name.
 	doc. "
 		Anything implementing contains?.
 		Types are generally used to succinctly make assertions about values.
@@ -32,6 +33,7 @@ impl! =? Type .|other
 contains?. ms.contains
 
 extract. new Method
+	name.
 	doc. "
 		Given a type and arbitrary value:
 			If the value is of the type, return an array of sub-values.
@@ -63,11 +65,12 @@ extract. new Method
 
 msDef "extract" extract
 
-msDef "checkContains" |type value name
-	assert! contains? type value throw! "{name} is no {type.name}, is a {(type-of value).name}: {inspect value}"
+msDef "checkContains" |type value value-name
+	assert! value:type throw! "{value-name} is no {type.name}, is a {(type-of value).name}: {inspect value}"
 	value
 
 =>. new Method
+	name.
 	doc. "
 		TODO: Don't take additional args...
 		|convert-to:Type convert-me (may take additional args)
@@ -77,7 +80,7 @@ msDef "checkContains" |type value name
 			:type
 				_
 			else
-				Function.prototype.call.call impl type converted opts
+				impl.call type converted opts
 
 type-of.
 	doc. "

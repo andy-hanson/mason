@@ -1,4 +1,5 @@
 use
+	global Date setTimeout
 	..$
 use-debug
 	..compare =?
@@ -17,4 +18,4 @@ $after-time.
 		new $ !|resolve
 			f = !|
 				resolve _()
-			global.setTimeout f time-ms
+			setTimeout f time-ms

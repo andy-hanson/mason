@@ -19,6 +19,7 @@ use-debug
 	.math.methods +
 
 Action. new Alias-Type
+	name.
 	doc. "
 		A function returning nothing.
 		Function[Number] describes a Function taking nothing and returning a Number;
@@ -26,10 +27,12 @@ Action. new Alias-Type
 	alias-of. Function
 
 Pred. new Alias-Type
+	name.
 	doc. "Function[Any Boolean]."
 	alias-of. Function
 
 Thunk. new Alias-Type
+	name.
 	doc. "Function with no args returning a value."
 	alias-of. Function
 
@@ -108,16 +111,13 @@ region Memoize
 				get-a = hash-memoize |x
 					yield x.a
 					x.a
-				a1 = call | # TODO:DISPLAYNAME
-					a. 1
+				a1 = a. 1
 				assert! =? (get-a a1) 1
 				assert! =? (get-a a1) 1
 				a2 = a. 2
 				assert! =? (get-a a2) 2
-				a1b = call | # TODO:DISPLAYNAME
-					a. 1
-				assert! =? a1 a1b
-				assert! =? (get-a a1b) 1
+				a1-copy = a. 1
+				assert! =? (get-a a1-copy) 1
 		|_:Function
 			hm = empty Hash-Map
 			|arg:Object

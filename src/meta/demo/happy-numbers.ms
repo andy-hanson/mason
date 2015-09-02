@@ -9,7 +9,6 @@ use
 	...js defined? js-sub
 	...math.Number int/ Nat remainder square
 	...math.methods +
-	...Type.Type contains?
 use-debug
 	...@.Seq.Seq seq=? take
 
@@ -41,7 +40,7 @@ happy?.
 				defined?_
 					break _
 				else
-					if! contains? stepped-through cur
+					if! cur:stepped-through
 						break false
 					# TODO: +!
 					++! stepped-through [ cur ]

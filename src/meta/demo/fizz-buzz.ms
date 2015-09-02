@@ -13,11 +13,7 @@ make-fizz-buzz.
 		Spec is an Obj whose values are divisors and
 		whose keys are strings to be printed when the divisor matches.
 	test. !|
-		fizz-buzz =
-			# TODO:DISPLAYNAME Should be able to move this to prev line...
-			make-fizz-buzz
-				Fizz. 3
-				Buzz. 5
+		fizz-buzz = make-fizz-buzz (Fizz. 3 Buzz. 5)
 		assert! seq=? (take' fizz-buzz 6)
 			. 1
 			. 2

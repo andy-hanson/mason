@@ -1,13 +1,14 @@
 use
 	..$ _ $after $map
 	..private.bootstrap msCall
+	..RegExp rgx
 
 $require = |-require- path
 	new $ |resolve reject
 		-require- [ path ] resolve reject
 
 dirname = |path
-	path.replace (RegExp "/[^/]*$") ""
+	path.replace rgx"/[^/]*$" ""
 
 $get-module.
 	doc. "

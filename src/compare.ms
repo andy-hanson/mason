@@ -16,6 +16,7 @@ use-debug
 	.Try fails?
 
 compare. new Method
+	name.
 	doc. "
 		A Number < 0 if a < b, > 0 if a > b, and = 0 if a = b.
 		It could be implemented as:
@@ -31,6 +32,7 @@ compare. new Method
 	args. 2
 
 =?. new Method
+	name.
 	doc. "
 		Whether two objects are considered equivalent.
 		Generally, if two values are `=?`, then most Functions called on them should return the same results.
@@ -47,6 +49,7 @@ compare. new Method
 		or (id=? this other) (object=? this other)
 
 <?. new Method
+	name.
 	doc. "
 		Whether `lesser` comes before `greater` in these values' ordering.
 		Same as `not  (>=? lesser greater)`.
@@ -55,6 +58,7 @@ compare. new Method
 		<? (compare this other) 0
 
 <=?. new Method
+	name.
 	doc. "<? or =?."
 	args. 2
 	default. .|other
@@ -145,6 +149,7 @@ region Sorting
 							sb-prev := sb-cur
 
 	sort. new Method
+		name.
 		doc. "
 			Puts the elements in sorted order.
 			Order is determined by calling `compare`.

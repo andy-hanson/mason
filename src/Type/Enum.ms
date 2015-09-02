@@ -38,6 +38,7 @@ Enum. class
 # TODO: class attributes
 Enum.test = !|
 	Fruit = new Enum
+		name.
 		values.
 			. "apple"
 			. "orange"

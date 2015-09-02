@@ -2,7 +2,7 @@
 if((typeof define!=="function"))var define=require("amdefine")(module);
 define(["exports","../compare","./Number","./methods"],(exports,compare_0,Number_1,methods_2)=>{
 	exports._get=_ms.lazy(()=>{
-		const _$2=_ms.getModule(compare_0),_60_63=_ms.get(_$2,"<?"),_$3=_ms.getModule(Number_1),Int=_ms.get(_$3,"Int"),_$4=_ms.getModule(methods_2),_42=_ms.get(_$4,"*"),_45=_ms.get(_$4,"-"),_43=_ms.get(_$4,"+");
+		const _$0=_ms.getModule(compare_0),_60_63=_ms.get(_$0,"<?"),_$1=_ms.getModule(Number_1),Int=_ms.get(_$1,"Int"),_$2=_ms.getModule(methods_2),_42=_ms.get(_$2,"*"),_45=_ms.get(_$2,"-"),_43=_ms.get(_$2,"+");
 		const random_45int_45upto=exports["random-int-upto"]=function random_45int_45upto(max){
 			_ms.checkContains(Int,max,"max");
 			return Math.floor(_42(Math.random(),max))
@@ -21,4 +21,4 @@ define(["exports","../compare","./Number","./methods"],(exports,compare_0,Number
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvbWFzb24zL21zbC9zcmMvbWF0aC9yYW5kb20ubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFLQSxxREFBa0IsNkJBQUEsSUFDTztxQkFESDtVQUNyQixXQUFZLElBQUUsY0FBYztFQUFBO0VBRTdCLHlDQUFhLHNCQUFBLElBQVEsSUFDTztxQkFEWDtxQkFBUTtHQUN4QixXQUFPLElBQUUsSUFBSTtHQUNiLG9CQUFjLG9CQUFnQjtVQUM5QixJQUFFLElBQUk7RUFBQTtFQUVQLDJDQUNjLHdCQUFBO1VBQWIsT0FBRyxjQUFjO0VBQUE7RUFkbEIsd0JBQUEiLCJmaWxlIjoibWF0aC9yYW5kb20uanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvbWFzb24zL21zbC9zcmMvbWF0aC9yYW5kb20ubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFLQSxxREFBa0IsNkJBQUEsSUFDTztxQkFESDtVQVNsQixXQVJTLElBUVQsY0FSeUI7RUFBQTtFQUU3Qix5Q0FBYSxzQkFBQSxJQUFRLElBQ087cUJBRFg7cUJBQVE7R0FDeEIsV0FBTyxJQUFFLElBQUk7R0FDYixvQkFBYyxvQkFBZ0I7VUFDOUIsSUFBRSxJQUFJO0VBQUE7RUFFUCwyQ0FDYyx3QkFBQTtVQUFiLE9BQUcsY0FBYztFQUFBO0VBZGxCLHdCQUFBIiwiZmlsZSI6Im1hdGgvcmFuZG9tLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

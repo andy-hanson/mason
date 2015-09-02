@@ -1,4 +1,5 @@
 use
+	global console Promise setTimeout
 	.@.@ _ flatten
 	.Function apply Thunk
 	.Generator
@@ -19,7 +20,7 @@ $.
 	doc. "
 		https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
 		Called `$` because you "cash in" on it after some time.
-	global.Promise
+	Promise
 
 self-impl! sub $ |
 	$
@@ -35,7 +36,7 @@ $done.
 	|_:$
 		$catch _ !|err
 			# Don't use log! because there if errors happen in there, the error disappears!
-			global.console.log "
+			console.log "
 				=== error ===
 				{err.message}
 				{err.stack}
@@ -55,8 +56,8 @@ $fail-after-time.
 		new $ |resolve reject
 			$after _ resolve
 			timeout = |
-				reject (=> Error "Took longer than {time-ms} milliseconds."
-			global.setTimeout timeout time-ms
+				reject new Error "Took longer than {time-ms} milliseconds."
+			setTimeout timeout time-ms
 
 $after.
 	doc. "
@@ -79,13 +80,12 @@ $rejected.
 	test. |
 		$ing ~!|
 			r = $rejected "a"
-			assert! =? "a" (<~ $try r).message
+			assert! =? "a" (<~ $try r)
 			# $after will be ignored
-			b <~ $try ($after r !|
+			assert! =? "a" (<~ $try ($after r !|
 				throw! "b"
-			assert! =? "a" b.message
 	|_
-		$.reject (=> Error _
+		$.reject _
 
 $delay.
 	doc. "
@@ -107,7 +107,7 @@ $all.
 	$test. ~!|
 		assert! =? [ 1 2 ] (<~ ($all [ ($resolved 1) ($resolved 2
 		all-rejected = $all [ ($rejected "a") ($rejected "b") ]
-		assert! =? "a" (<~ $try all-rejected).message
+		assert! =? "a" (<~ $try all-rejected)
 	|:$[Array] _:@ # TODO: @[$]
 		$.all (=> Array _
 
@@ -170,7 +170,7 @@ $ing.
 		$whoops <~ $try ($ing ~!|
 			<~ $rejected "whoops"
 			throw! "It's been rejected, so the rest is never called."
-		assert! =? "whoops" $whoops.message
+		assert! =? "whoops" $whoops
 	|:$ code:Function[Generator]
 		$-generator = code()
 		do-next = |last-value

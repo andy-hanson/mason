@@ -27,6 +27,11 @@ pAdd(global, '_ms', ms)
 
 const indent = str => str.replace(/\n/g, '\n\t')
 
+const assertErrorMessage = (lead, args) => {
+	const showArgs = args.map(_ms.inspect).join('\n')
+	return `${lead}\n\t${indent(showArgs)}`
+}
+
 const msDefs = {
 	// TODO: use +! method
 	add(bag, value) {
@@ -41,19 +46,28 @@ const msDefs = {
 	assert(fun) {
 		// TODO:ES6 Splat
 		const args = Array.prototype.slice.call(arguments, 1)
-		if (!Function.prototype.apply.call(fun, null, args)) {
-			const showArgs = args.map(_ms.inspect).join('\n')
-			throw new Error(`assert! ${fun.name}\n\t${indent(showArgs)}`)
-		}
+		if (!fun(...args))
+			throw new Error(assertErrorMessage(`assert! ${fun.name}`, args))
 	},
 
 	assertNot(fun) {
 		// TODO:ES6 Splat
 		const args = Array.prototype.slice.call(arguments, 1)
-		if (Function.prototype.apply.call(fun, null, args)) {
-			const showArgs = args.map(_ms.inspect).join('\n')
-			throw new Error(`forbid! ${fun.name}\n\t${indent(showArgs)}`)
-		}
+		if (fun(...args))
+			throw new Error(assertErrorMessage(`forbid! ${fun.name}`, args))
+	},
+
+	assertMember(obj, member) {
+		// TODO:ES6 Splat
+		const args = Array.prototype.slice.call(arguments, 2)
+		if (!obj[member](...args))
+			throw new Error(assertErrorMessage(`assert! ${_ms.inspect(obj)}.${member}`, args))
+	},
+
+	assertNotMember(obj, member) {
+		const args = Array.prototype.slice.call(arguments, 2)
+		if (obj[member](...args))
+			throw new Error(assertErrorMessage(`assert! ${_ms.inspect(obj)}.${member}`, args))
 	},
 
 	lazyGetModule(module) {
@@ -87,17 +101,6 @@ const msDefs = {
 		if (_ === undefined)
 			throw new Error(`Module ${object.name} does not have ${key}`)
 		return _
-	},
-
-	error(err) {
-		if (err instanceof Error)
-			return err
-		else if (typeof err === 'string')
-			return new Error(err)
-		else if (err instanceof _ms.Lazy)
-			return _ms.error(err.get())
-		else
-			throw new Error('Thrown value must be Error or String')
 	},
 
 	Lazy: function Lazy(get) {
