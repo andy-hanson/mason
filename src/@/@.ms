@@ -171,7 +171,7 @@ region Lazy functions, and their eager versions.
 				if! keep-if? _
 					. _
 
-	keep'.
+	keep~.
 		doc. "Lazy keep."
 		test. |
 			[ [ 1 2 ] =?[2] ] -> => Stream [ 2 ]
@@ -192,7 +192,7 @@ region Lazy functions, and their eager versions.
 			=> type-of_ @for elem in _
 				mapper elem
 
-	map'.
+	map~.
 		doc. "Lazy map."
 		test. |
 			[ [ 1 2 ] =?[2] ] -> => Stream [ false true ]
@@ -216,7 +216,7 @@ region Lazy functions, and their eager versions.
 			=> (type-of this) @for this
 				... mapper_
 
-	flat-map'.
+	flat-map~.
 		doc. "Lazy flat-map."
 		test. |
 			f = |case
@@ -246,7 +246,7 @@ region Lazy functions, and their eager versions.
 			=> (type-of this) @for this
 				... _
 
-	flatten'.
+	flatten~.
 		doc. "Lazy flatten."
 		test. |
 			[ [ [ 1 2 ] [ 3 ] [ ] ] ] -> => Stream [ 1 2 3 ]
@@ -277,7 +277,7 @@ region Lazy functions, and their eager versions.
 				... @other
 				break!
 
-	++'.
+	++~.
 		doc. "Lazy ++."
 		test. |
 			[ [ 0 ] [ 1 ] ] -> => Stream [ 0 1 ]
@@ -299,9 +299,9 @@ region Lazy functions, and their eager versions.
 			. "_"
 			. [ "@remove" @
 		default. .|@remove
-			=> (type-of this) (--' this @remove)
+			=> (type-of this) (--~ this @remove)
 
-	--'.
+	--~.
 		doc. "Lazy --."
 		test. |
 			[ [ 1 2 1 ] [ 1 ] ] -> => Stream [ 2 1 ]

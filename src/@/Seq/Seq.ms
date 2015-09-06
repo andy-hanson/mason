@@ -30,11 +30,11 @@ self-kind! Seq @-Type
 
 region TODO
 	# TODO: Review name...
-	<++'. new Method
+	<++~. new Method
 		name.
 		doc. "
 			TODO:REST
-			(There is no `++>'` because `++` by default adds to the right for Seqs.)
+			(There is no `++>~` because `++~` by default adds to the right for Seqs.)
 		test. !|
 			pass # TODO
 		args. 2
@@ -191,15 +191,15 @@ region Update
 			[ [ 0 1 2 3 ] 1 3 ] -> [ 1 2 ]
 		args. slice-args
 		default. .|start end
-			=> (type-of this) (slice' this start end)
+			=> (type-of this) (slice~ this start end)
 
-	slice'.
+	slice~.
 		doc. "Lazy slice."
 		test. |
 			[ [ 0 1 2 3 ] 1 3 ] -> => Stream [ 1 2 ]
 		args. slice-args
 		|:@ _ start end
-			take' (drop' _ start) (- end start
+			take~ (drop~ _ start) (- end start
 
 	take. new Method
 		name.
@@ -208,16 +208,16 @@ region Update
 			. "_"
 			. [ "count-to-take" Nat
 		default. .|count-to-take
-			=> (type-of this) (take' this count-to-take)
+			=> (type-of this) (take~ this count-to-take)
 
-	take'.
+	take~.
 		doc. "Stream including only the first count-to-take elements."
 		test. |
 			[ [ 0 1 2 ] 2 ] -> => Stream [ 0 1 ]
 			# OK if not enough to satisfy count-to-take
 			[ [ 0 ] 2 ] -> => Stream [ 0 ]
 			_ = [ 0 1 2 3 4 ]
-			assert! seq=? _ (++ (take' _ 2) (drop' _ 2
+			assert! seq=? _ (++ (take~ _ 2) (drop~ _ 2
 		|_ count-to-take:Nat
 			# TODO:SYNTAX @for~
 			case
@@ -234,7 +234,7 @@ region Update
 
 	# TODO: eager version
 
-	take-while'.
+	take-while~.
 		doc. "Stream stopping (and not including) the first element not satisfying while?."
 		test. |
 			[ [ 1 2 -1 3 ] <?[0] ] -> => Stream [ 1 2 ]
@@ -253,9 +253,9 @@ region Update
 			. "_"
 			. [ "count-to-drop" Nat
 		default. .|count-to-drop
-			=> (type-of this) (drop' this count-to-drop)
+			=> (type-of this) (drop~ this count-to-drop)
 
-	drop'.
+	drop~.
 		doc. "Stream without the first count-to-drop elements."
 		test. |
 			[ [ 0 1 2 3 ] 2 ] -> => Stream [ 2 3 ]
@@ -272,7 +272,7 @@ region Update
 					i := + 1 i
 				<~~ iter
 
-	# TODO: drop-while'
+	# TODO: drop-while~
 
 region Combination
 	zip.
@@ -280,9 +280,9 @@ region Combination
 		test. |
 			[ [ 1 2 ] [ 10 20 ] + ] -> [ 11 22 ]
 		|@a:@ @b:@ zipper:Function[2]
-			=> (type-of @a) (zip' @a @b zipper
+			=> (type-of @a) (zip~ @a @b zipper
 
-	zip'.
+	zip~.
 		doc. "
 			Seq of zipper applied to corresponding elements of @a and @b.
 			Ends as soon as either of them does, discarding extra elements.
@@ -304,13 +304,13 @@ region Combination
 					<~ zipper next-a.value next-b.value
 
 region TODO: put somewhere
-	groups-of'.
+	groups-of~.
 		doc. "Seq of consecutive groups of `group-size` elements."
 		test. !|
-			assert! seq=? [ [ 1 2 ] [ 3 4 ] ] (groups-of' 2 [ 1 2 3 4 ])
+			assert! seq=? [ [ 1 2 ] [ 3 4 ] ] (groups-of~ 2 [ 1 2 3 4 ])
 			# Tosses off partial group at end (e.g. no [ 4 ])
-			assert! seq=? [ [ 1 2 3 ] ] (groups-of' 3 [ 1 2 3 4 ])
-			assert! seq=? [ [] [] [] ] (take' (groups-of' 0 [ 1 ]) 3)
+			assert! seq=? [ [ 1 2 3 ] ] (groups-of~ 3 [ 1 2 3 4 ])
+			assert! seq=? [ [] [] [] ] (take~ (groups-of~ 0 [ 1 ]) 3)
 		|:Seq group-size:Nat _ # TODO: :Seq[Array]
 			case
 				=? group-size 0
@@ -343,7 +343,7 @@ region TODO: put somewhere
 		|_:Seq
 			new Range 0 count_
 
-	reverse'. new Method
+	reverse~. new Method
 		name.
 		doc. "TODO"
 		test. !|
@@ -364,7 +364,7 @@ region TODO: put somewhere
 		default. .|
 			(from-stream Array this).reverse()
 
-	split'.
+	split~.
 		doc. "Subseqs separated by elements where split? is true."
 		test. |
 			[ [ 1 0 1 ] =?[0] ] -> => Stream [ [ 1 ] [ 1 ] ]
@@ -403,7 +403,7 @@ region Mutator methods
 			. "_"
 			. [ "@added" @ ]
 		default. .!|@added
-			for! reverse' @added
+			for! reverse~ @added
 				<+! this _
 
 	# TODO:Implement

@@ -12,7 +12,7 @@ use
 use~ # TODO: use-debug
 	...math.methods +
 	..Range
-	.Seq seq=? take'
+	.Seq seq=? take~
 use-debug
 	...compare =?
 	...control build
@@ -67,7 +67,7 @@ Lazy-Stream.test = !|
 		for! new Range 2 Number.POSITIVE_INFINITY
 			# This is *not* an exponential blowup because these are cached.
 			<~ + fibonaccis[(- _ 1)] fibonaccis[(- _ 2)]
-	assert! seq=? (take' fibonaccis 10) [ 1 1 2 3 5 8 13 21 34 55 ]
+	assert! seq=? (take~ fibonaccis 10) [ 1 1 2 3 5 8 13 21 34 55 ]
 
 
 # TODO: class method
@@ -80,8 +80,8 @@ impl! iterator Lazy-Stream
 				yield 2
 				<~ 2
 				yield 3
-			assert! seq=? [ 1 ] (take' _ 1
-			assert! seq=? [ 1 2 ] (take' _ 2
+			assert! seq=? [ 1 ] (take~ _ 1)
+			assert! seq=? [ 1 2 ] (take~ _ 2)
 	.~!|
 		<~~ iterator .cache
 		<~~ .caching-iterator

@@ -3,7 +3,7 @@ use
 	...Type.Kind kind! self-kind!
 	..@ _ ++ empty? iterator
 	..@-Type _ empty from-stream
-	.Seq _ <++' tail
+	.Seq _ <++~ tail
 
 LList. class
 	do!
@@ -13,7 +13,7 @@ LList. class
 		empty |
 			empty-LList
 		from-stream |_
-			<++' empty-LList _
+			<++~ empty-LList _
 
 	# TODO: class attributes
 	# doc. "
@@ -38,7 +38,7 @@ LList. class
 	tail |
 		.tail
 
-	<++' |left-added:@
+	<++~ |left-added:@
 		iter = iterator left-added
 		f = |
 			value done = iter.next()
@@ -53,7 +53,7 @@ LList. class
 	++ |other
 		case other
 			:LList
-				<++' other this
+				<++~ other this
 			else
 				++.default.call this other
 

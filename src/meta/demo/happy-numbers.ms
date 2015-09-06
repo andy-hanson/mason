@@ -1,5 +1,5 @@
 use
-	...@.@ ++! fold keep' map
+	...@.@ ++! fold keep~ map
 	...@.@-Type empty
 	...@.Range
 	...@.Seq.Seq set-nth!
@@ -62,4 +62,4 @@ happy-numbers:Stream[Nat].
 			. 23
 			. 28
 			. 31
-	keep' (new Range 1 Number.POSITIVE_INFINITY) happy?
+	keep~ (new Range 1 Number.POSITIVE_INFINITY) happy?

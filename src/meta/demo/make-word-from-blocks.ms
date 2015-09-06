@@ -1,5 +1,5 @@
 use
-	...@.@ _ ++ -- empty? flat-map' keep map map'
+	...@.@ _ ++ -- empty? flat-map~ keep map map~
 	...@.?
 	...@.Seq.Seq ?first tail
 
@@ -55,9 +55,9 @@ make-word-from-blocks.
 					this-char-blocks = keep blocks-left |_
 						chars-left[0]:_
 					# TODO:SYNTAX @for~
-					?first (flat-map' this-char-blocks |_
+					?first (flat-map~ this-char-blocks |_
 						# TODO -, not --
-						map' (rec rest-word (-- blocks-left [ _ ])) |ans
+						map~ (rec rest-word (-- blocks-left [ _ ])) |ans
 							++ [ _ ] ans
 		rec word.toUpperCase() (map blocks |_
 			_.toUpperCase()

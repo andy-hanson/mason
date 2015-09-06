@@ -7,7 +7,7 @@ use
 	...Type.Method _ impl!
 	...Type.Pred-Type Any
 	...Type.Type => type-of
-	..@ _ all? count empty? map'
+	..@ _ all? count empty? map~
 	..@-Type empty
 	..? ?-or un-?
 use~
@@ -29,7 +29,7 @@ impl! to-string Map
 	.|
 		# TODO: map Map to Array
 		# TODO:SYNTAX Array destructure
-		parts = map' this |pair
+		parts = map~ this |pair
 			"{pair[0]} -> {pair[1]}"
 		"
 			{.constructor.name}
@@ -55,7 +55,7 @@ region New methods
 		doc. "Every key that the Map `has-key?`."
 		args. 1
 		default. .|
-			=> Array (map' this |pair
+			=> Array (map~ this |pair
 				pair[0]
 
 	values. new Method
@@ -63,7 +63,7 @@ region New methods
 		doc. "Every value in the Map."
 		args. 1
 		default. .|
-			=> Array (map' this |pair
+			=> Array (map~ this |pair
 				pair[1]
 
 region Old methods
@@ -115,7 +115,7 @@ region Mutator methods
 	msDef "assoc" assoc!
 
 	assoc*!.
-		doc. "Adds the other map's keys to mine, overriding my values."
+		doc. "Adds the other map~s keys to mine, overriding my values."
 		test. "See Map.implementor-test."
 		!|map:Map to-add:Map
 			for! to-add

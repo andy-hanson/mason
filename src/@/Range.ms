@@ -11,7 +11,7 @@ use
 	.@-Type _ empty from-stream
 	.Seq.Seq ?nth
 use~ # TODO: use-debug
-	.Seq.Seq seq=? take'
+	.Seq.Seq seq=? take~
 
 Range. class
 	do!
@@ -71,7 +71,7 @@ Range. class
 
 # TODO: class attributes
 Range.test = !|
-	assert! seq=? [ 0 1 2 ] (take' (range 0 Number.POSITIVE_INFINITY) 3
+	assert! seq=? [ 0 1 2 ] (take~ (range 0 Number.POSITIVE_INFINITY) 3
 
 # TODO:KILL
 range. |start:Number end:Number step:Opt[Number]

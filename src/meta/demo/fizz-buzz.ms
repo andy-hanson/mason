@@ -1,11 +1,11 @@
 use
-	...@.@ empty? map'
+	...@.@ empty? map~
 	...@.Range
 	...math.Number divisible? Nat
 	...Object Object->Map
 	...Type.Type =>
 use-debug
-	...@.Seq.Seq seq=? take'
+	...@.Seq.Seq seq=? take~
 
 make-fizz-buzz.
 	doc. "
@@ -14,7 +14,7 @@ make-fizz-buzz.
 		whose keys are strings to be printed when the divisor matches.
 	test. !|
 		fizz-buzz = make-fizz-buzz (Fizz. 3 Buzz. 5)
-		assert! seq=? (take' fizz-buzz 6)
+		assert! seq=? (take~ fizz-buzz 6)
 			. 1
 			. 2
 			. "Fizz"
@@ -27,7 +27,7 @@ make-fizz-buzz.
 				Fizz. 3
 				Jazz. 4
 				Buzz. 5
-		assert! seq=? (take' fizz-buzz-jazz 17)
+		assert! seq=? (take~ fizz-buzz-jazz 17)
 			. 1
 			. 2
 			. "Fizz"
@@ -47,11 +47,11 @@ make-fizz-buzz.
 			. 17
 	|spec
 		# TODO: map Map to Array is hard
-		tests = => Array (map' (Object->Map spec) |_
+		tests = => Array (map~ (Object->Map spec) |_
 			# TODO:SYNTAX array destructure
 			shout:String. _[0]
 			divisor:Nat. _[1]
-		map' (new Range 1 Number.POSITIVE_INFINITY) |n
+		map~ (new Range 1 Number.POSITIVE_INFINITY) |n
 			s ::= ""
 			for! tests
 				if! divisible? n _.divisor

@@ -5,7 +5,7 @@ use
 	...methods sub
 	...Type.Kind kind! self-kind!
 	...Type.Pred-Type Any
-	..@ _ ++' count empty! empty? iterator map
+	..@ _ ++~ count empty! empty? iterator map
 	..@-Type _ empty
 	..? un-?
 	..Range
@@ -31,7 +31,7 @@ Deque. class
 	iterator ~!|
 		indices = case
 			<? .end-index! .start-index!
-				++' (new Range .start-index! (count .data!)) (new Range 0 .end-index!)
+				++~ (new Range .start-index! (count .data!)) (new Range 0 .end-index!)
 			else
 				new Range .start-index! .end-index!
 		for! indices
