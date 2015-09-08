@@ -18,7 +18,7 @@ use-debug
 # TODO: Move
 
 test. !|
-	assert! =? "123" (map "123" identity
+	assert! =? "123" (map "123" identity)
 
 self-kind! String @-Type
 self-impl! empty String (thunk "")
@@ -29,8 +29,8 @@ self-impl! from-stream String |_
 # TODO: self-impl-double! ?
 impl-double! => (new Self-Type String) @
 	test. |
-		[ String [ 1 2 3 ] ] -> "123"
-		[ String [ 1 2 3 ] ", " ] -> "1, 2, 3"
+		[String [1 2 3]] -> "123"
+		[String [1 2 3] ", "] -> "1, 2, 3"
 	|vals joiner:Opt[String]
 		joiner := opr joiner ""
 		arr = @for vals

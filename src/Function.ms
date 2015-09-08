@@ -39,14 +39,14 @@ Thunk. new Alias-Type
 apply.
 	doc. "Calls the function with the given arguments list."
 	test. |
-		[ + [ 1 2 ] ] -> 3
+		[+ [1 2]] -> 3
 	|_:Function args:@
 		_ ...args
 
 call.
 	doc. "Calls the function with the given arguments."
 	test. |
-		[ + 1 2 ] -> 3
+		[+ 1 2] -> 3
 	|_:Function ...args
 		_ ...args
 
@@ -74,7 +74,7 @@ fun-copy.
 identity.
 	doc. "Outputs its input unmodified."
 	test. |
-		[ 1 ] -> 1
+		[1] -> 1
 	|_
 		_
 
@@ -85,7 +85,7 @@ region Memoize
 			When an Object is passed into `fun`, stores the result in a Weak-Id-Map
 			and uses that if the exact same (`id=?`) Object is used again.
 		test. !|
-			assert! seq=? [ 1 2 1 ] (build !|yield
+			assert! seq=? [1 2 1] (build !|yield
 				get-a = id-memoize |x
 					yield x.a
 					x.a
@@ -99,7 +99,7 @@ region Memoize
 		|_:Function
 			wm = empty Weak-Id-Map
 			|arg:Object
-				get-or-add! wm arg ~(_ arg
+				get-or-add! wm arg ~(_ arg)
 
 	hash-memoize.
 		doc. "
@@ -107,7 +107,7 @@ region Memoize
 			and re-uses the result if called again with the same argument.
 			This will make those arguments unavailable for garbage collection...
 		test. !|
-			assert! seq=? [ 1 2 ] (build !|yield
+			assert! seq=? [1 2] (build !|yield
 				get-a = hash-memoize |x
 					yield x.a
 					x.a
@@ -121,27 +121,27 @@ region Memoize
 		|_:Function
 			hm = empty Hash-Map
 			|arg:Object
-				get-or-add! hm arg ~(_ arg
+				get-or-add! hm arg ~(_ arg)
 
 spread.
 	doc. "Applies `fun`, starting with the given args, to each entry in an arguments list or map."
 	test. !|
 		all-4 = |a b c d
-			[ a b c d ]
-		assert! seq=? (spread all-4 1 2 3 [ 4 5 ])
-			. [ 1 2 3 4 ]
-			. [ 1 2 3 5 ]
+			[a b c d]
+		assert! seq=? (spread all-4 1 2 3 [4 5])
+			. [1 2 3 4]
+			. [1 2 3 5]
 
 		y = spread all-4 1 2
 			3 -> 4
 			5 -> 6
 		assert! seq=? y
-			. [ 1 2 3 4 ]
-			. [ 1 2 5 6 ]
+			. [1 2 3 4]
+			. [1 2 5 6]
 
 		assert! seq=? (spread all-4 1 2 (three. 4 five. 6))
-			. [ 1 2 "three" 4 ]
-			. [ 1 2 "five" 6 ]
+			. [1 2 "three" 4]
+			. [1 2 "five" 6]
 
 	# TODO:ES6 Non-last rest arg?
 	|:@ fun:Function ...args
@@ -154,7 +154,7 @@ spread.
 				=> Array _
 			:@
 				@for elem in _
-					[ elem ]
+					[elem]
 			:ObjLit
 				=> Array Object->Map_
 			else
@@ -167,7 +167,7 @@ spread.
 spread!.
 	doc. "TODO"
 	test. !|
-		assert! =? [ 1 2 3 ] (build |yield!
+		assert! =? [1 2 3] (build |yield!
 			f = |a b c
 				yield! a
 				yield! b
@@ -191,9 +191,9 @@ curry =
 		+1 = +[1]
 		assert! =? (+1 1) 2
 		all-3 = |a b c
-			[ a b c ]
+			[a b c]
 		one-two = all-3[1 2]
-		assert! =? (one-two 3) [ 1 2 3 ]
+		assert! =? (one-two 3) [1 2 3]
 	Function "f" "return Function.prototype.bind.apply(f, arguments)"
 	# TODO:ES6
 	# |f ...args

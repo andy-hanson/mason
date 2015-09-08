@@ -26,15 +26,15 @@ primes.
 		<~ 3
 		# Maps a composite number to its prime factors.
 		prime-factors = => Id-Map
-			9 -> [ 3 ]
+			9 -> [3]
 		for! candidate in new Range 5 Number.POSITIVE_INFINITY 2
 			# un-assoc! is to save memory - we won't need to look up this value any more.
 			case! un-assoc! prime-factors candidate
 				:Some factors
 					for! factors
-						key = + candidate (* 2 _
+						key = + candidate (* 2 _)
 						# TODO: Function to add single element
-						add-to-@! prime-factors key [ _ ]
+						add-to-@! prime-factors key [_]
 				else
 					<~ candidate
-					assoc! prime-factors (square candidate) [ candidate ]
+					assoc! prime-factors (square candidate) [candidate]

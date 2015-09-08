@@ -27,7 +27,7 @@ happy-step = |_
 	# TODO: sum function?
 	fold (map digits_ square) +
 
-cache = [ ]
+cache = []
 set-nth! cache 1 true
 
 happy?.
@@ -43,7 +43,7 @@ happy?.
 					if! cur:stepped-through
 						break false
 					# TODO: +!
-					++! stepped-through [ cur ]
+					++! stepped-through [cur]
 					cur := happy-step cur
 		with n-happy?
 			set-nth! cache n _

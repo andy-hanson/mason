@@ -20,7 +20,7 @@ time*!.
 	|test-name:String times:Nat time-me:Action
 		time! test-name |
 			i ::= times
-			arr = [ ]
+			arr = []
 			for!
 				unless! <? 0 i
 					break!

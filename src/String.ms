@@ -10,13 +10,13 @@ use~
 String-Test. new Kind
 	name.
 	doc. "Something we can compare a String to."
-	implementors. [ String RegExp ]
+	implementors. [String RegExp]
 
 Char. new Pred-Type
 	name.
 	doc. "Any String with only one character."
 	predicate. |_
-		and :String (=? count_ 1
+		and :String (=? count_ 1)
 
 indent.
 	doc. "
@@ -29,8 +29,8 @@ indent.
 		s-indented = "
 			a
 				b
-		[ s ] -> s-indented
-		[ "a" ] -> "a"
+		[s] -> s-indented
+		["a"] -> "a"
 	|_:String
 		_.replace (new RegExp "\n" "g") "\n\t"
 

@@ -160,10 +160,10 @@ Method.test = !|
 		"Number String"
 
 	assert-call! m
-		[ null ] -> "default"
-		[ "a" ] -> "String"
-		[ 1 1 ] -> "Number Number"
-		[ 1 "a" ] -> "Number String"
+		[null] -> "default"
+		["a"] -> "String"
+		[1 1] -> "Number Number"
+		[1 "a"] -> "Number String"
 	debug assert! fails? |
 		m 1 m
 
@@ -208,15 +208,15 @@ self-impl!.
 		Does not reference method.default or impls on super-types.
 		Empty if the type would use method.default.
 	test. |
-		[ contains? Method ] -> ?some method-contains?
-		[ =? Method ] -> ?None
+		[contains? Method] -> ?some method-contains?
+		[=? Method] -> ?None
 	|method:Method type:Impl-Type
 		?self-impl-for method type.prototype
 
 impl-for.
 	doc. "impl-for that fails when there is no implementation."
 	test. |
-		[ contains? Method ] -> method-contains?
+		[contains? Method] -> method-contains?
 		# assert! (impl-for contains? Kind).call Impl-Type Kind
 	|method:Method type:Impl-Type
 		un-? (?impl-for method type) ~"{method} not implemented for {type}."

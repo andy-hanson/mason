@@ -10,7 +10,7 @@ use
 
 impl! inspect Object
 	test. |
-		[ (a. 1 b. 2) ] -> "
+		[(a. 1 b. 2)] -> "
 			Object
 				a. 1
 				b. 2

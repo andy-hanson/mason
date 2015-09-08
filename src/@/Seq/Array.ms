@@ -20,9 +20,9 @@ use-debug
 
 self-kind! Array @-Type
 self-impl! empty Array |
-	[ ]
+	[]
 self-impl! from-stream Array |stream
-	arr = [ ]
+	arr = []
 	for! stream
 		arr.push _
 	arr
@@ -78,15 +78,15 @@ impl! --! Array .!|@deleted
 		with em:@deleted
 			if! _
 				# TODO: -!
-				--! @deleted [ em ]
+				--! @deleted [em]
 
 # TODO: impl! filter!
 filter!.
 	test. !|
-		arr = [ 1 2 3 4 5 ]
+		arr = [1 2 3 4 5]
 		filter! arr |_
 			divisible? _ 2
-		assert! =? arr [ 2 4 ]
+		assert! =? arr [2 4]
 
 	!|arr keep-if?
 		read-idx ::= 0
@@ -110,7 +110,7 @@ fill.
 	doc. "
 		Creates a new Array by calling `filler` on each number from zero to `count`.
 	test. |
-		[ 3 identity ] -> [ 0 1 2 ]
+		[3 identity] -> [0 1 2]
 	|count:Number filler:Function
 		with new Array count
 			for! i in indexes_

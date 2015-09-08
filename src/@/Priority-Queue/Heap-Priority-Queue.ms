@@ -22,7 +22,7 @@ Heap-Priority-Queue. class
 			new this
 
 	construct!
-		.array = [ ]
+		.array = []
 
 	iterator |
 		iterator .array
@@ -46,7 +46,7 @@ Heap-Priority-Queue. class
 region Private
 	# We use a min-heap.
 	index-left-child = |idx
-		+ 1 (* 2 idx
+		+ 1 (* 2 idx)
 	index-parent = |idx
 		- (int/ (+ 1 idx) 2) 1
 

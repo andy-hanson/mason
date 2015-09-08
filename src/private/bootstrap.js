@@ -171,7 +171,7 @@ export const implContains = (type, impl) =>
 msDefTemp('checkContains', (_type, val) => val)
 
 // Since these are primitives, we can't use `instanceof`.
-for (const type of [ Boolean, String, Symbol, Number ]) {
+for (const type of [Boolean, String, Symbol, Number]) {
 	// Generated code is faster than using a closure.
 	const src = 'return typeof _ === "' + type.name.toLowerCase() + '"'
 	pAdd(type, containsImplSymbol, Function('_', src))

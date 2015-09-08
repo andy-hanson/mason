@@ -8,7 +8,7 @@ make-word-from-blocks.
 	# TODO: Make it performant
 	# test. |
 	#	# Backtracking is necessary - can't use the first block first!
-	#	[ "AB" [ "AB" "AC" ] ] -> ? [ "AC" "AB" ]
+	#	["AB" ["AB" "AC"]] -> ? ["AC" "AB"]
 
 	#	sample-blocks =
 	#		. "BO"
@@ -33,13 +33,13 @@ make-word-from-blocks.
 	#		. "ZM"
 
 	#	sample-answers =
-	#		"a" -> ? [ "NA" ]
-	#		"bark" -> ? [ "BO" "NA" "RE" "XK" ]
+	#		"a" -> ? ["NA"]
+	#		"bark" -> ? ["BO" "NA" "RE" "XK"]
 	#		"book" -> empty ?
-	#		"treat" -> ? [ "GT" "RE" "ER" "NA" "TG" ]
+	#		"treat" -> ? ["GT" "RE" "ER" "NA" "TG"]
 	#		"common" -> empty ?
-	#		"squad" -> ? [ "FS" "DQ" "HU" "NA" "QD" ]
-	#		"confuse" -> ? [ "CP" "BO" "NA" "FS" "HU" "FS" "RE" ]
+	#		"squad" -> ? ["FS" "DQ" "HU" "NA" "QD"]
+	#		"confuse" -> ? ["CP" "BO" "NA" "FS" "HU" "FS" "RE"]
 
 	#	for! sample-answers
 	#		# TODO:SYNTAX Array destructure
@@ -49,7 +49,7 @@ make-word-from-blocks.
 		rec = |chars-left blocks-left
 			case chars-left
 				empty?_
-					? [ ]
+					? []
 				else
 					rest-word = tail_
 					this-char-blocks = keep blocks-left |_
@@ -57,7 +57,7 @@ make-word-from-blocks.
 					# TODO:SYNTAX @for~
 					?first (flat-map~ this-char-blocks |_
 						# TODO -, not --
-						map~ (rec rest-word (-- blocks-left [ _ ])) |ans
-							++ [ _ ] ans
+						map~ (rec rest-word (-- blocks-left [_])) |ans
+							++ [_] ans
 		rec word.toUpperCase() (map blocks |_
 			_.toUpperCase()

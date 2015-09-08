@@ -36,7 +36,7 @@ Range. class
 	iterator ~!|
 		# TODO
 		# test. !|
-		# 	assert! seq=? (range 0 10 2) [ 0 2 4 6 8 ]
+		# 	assert! seq=? (range 0 10 2) [0 2 4 6 8]
 		cur ::= .start
 		for!
 			break-cond = case
@@ -54,8 +54,8 @@ Range. class
 		# TODO
 		# test. |
 		#	r = range 0 10 2
-		#	[ r 2 ] -> ?some 4
-		#	[ r 6 ] -> ?None
+		#	[r 2] -> ?some 4
+		#	[r 6] -> ?None
 
 		# TODO: Function if-test ?
 		it = + .start (* .step n)
@@ -65,13 +65,13 @@ Range. class
 	count |
 		# TODO
 		# test. |
-		#	[ (range 0 2 0.5) ] -> 4
+		#	[(range 0 2 0.5)] -> 4
 		round-down (/ (length this) .step)
 
 
 # TODO: class attributes
 Range.test = !|
-	assert! seq=? [ 0 1 2 ] (take~ (range 0 Number.POSITIVE_INFINITY) 3
+	assert! seq=? [0 1 2] (take~ (range 0 Number.POSITIVE_INFINITY) 3)
 
 # TODO:KILL
 range. |start:Number end:Number step:Opt[Number]
@@ -82,15 +82,15 @@ range-incl.
 	test. !|
 		pass # TODO
 	|start:Number end:Number step:Opt[Number]
-		step := opr step (sign (- end start
+		step := opr step (sign (- end start))
 		range start (+ end step) step
 
 
 length.
 	doc. "Difference between and and start values."
 	test. |
-		[ (range 5 10 2) ] -> 5
-		[ (range 5 10 3) ] -> 5
+		[(range 5 10 2)] -> 5
+		[(range 5 10 3)] -> 5
 	|_:Range
 		- _.end _.start
 

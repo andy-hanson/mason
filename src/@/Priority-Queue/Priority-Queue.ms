@@ -20,7 +20,7 @@ Priority-Queue. new Kind
 
 	implmentor-test. !|type
 		_ = empty type
-		++! _ [ 3 1 2 ]
+		++! _ [3 1 2]
 		assert! =? (?some 1) ?pop!_
 		assert! =? (?some 2) ?pop!_
 		assert! =? (?some 3) ?pop!_

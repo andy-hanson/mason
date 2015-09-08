@@ -46,7 +46,7 @@ extract. new Method
 			doc. "Example type"
 		self-impl! extract My-Type |case
 			=? _ "extractable"
-				[ 1 2 ]
+				[1 2]
 			else
 				null
 
@@ -56,12 +56,12 @@ extract. new Method
 			else
 				"not extractable"
 
-		assert! =? "12" (f "extractable"
+		assert! =? "12" (f "extractable")
 		assert! =? "not extractable" f()
 	args.
 		. "type"
 		. "candidate"
-		. [ "num-extracteds" Number ] # Nat
+		. ["num-extracteds" Number] # Nat
 
 msDef "extract" extract
 
@@ -86,8 +86,8 @@ type-of.
 	doc. "
 		Most specific Impl-Type for a value.
 	test. |
-		[ Type ] -> Kind
-		[ null ] -> Object
+		[Type] -> Kind
+		[null] -> Object
 	|:Impl-Type _
 		?-or (?p-with-proto _ "constructor") Object
 

@@ -17,8 +17,8 @@ hash-code. new Method
 		b =
 			x. 1
 			y. 1
-		assert! =? (hash-code a) (hash-code a
-		forbid! =? (hash-code a) (hash-code b
+		assert! =? (hash-code a) (hash-code a)
+		forbid! =? (hash-code a) (hash-code b)
 		# TODO: Check that it handles recursive values
 	args. 1
 	returns. Int

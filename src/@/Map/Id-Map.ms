@@ -40,8 +40,8 @@ test. !|
 	assert! =? _[key-1] 3
 	assert! =? _[key-2] 4
 
-	assert! seq=? keys_ [ 1 key-1 key-2 ]
-	assert! seq=? values_ [ 2 3 4 ]
+	assert! seq=? keys_ [1 key-1 key-2]
+	assert! seq=? values_ [2 3 4]
 
 self-impl! empty Id-Map |
 	new Id-Map

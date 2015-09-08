@@ -43,7 +43,7 @@ Deque. class
 			case!
 				=? new-start .end-index!
 					expand! this
-					<++! this [ em ]
+					<++! this [em]
 				else
 					.start-index! := new-start
 					set-nth! .data! .start-index! em
@@ -56,7 +56,7 @@ Deque. class
 			case!
 				=? new-end .start-index!
 					expand! this
-					++>! this [ em ]
+					++>! this [em]
 				else
 					set-nth! .data! .end-index! em
 					.end-index! := new-end
@@ -103,10 +103,10 @@ region Private
 		modulo index capacity_
 
 	next-index = |_ index:Nat
-		wrap-index _ (+ index 1
+		wrap-index _ (+ index 1)
 
 	prev-index = |_ index:Nat
-		wrap-index _ (- index 1
+		wrap-index _ (- index 1)
 
 	?data-index = |_ index:Nat
 		a = + _.start-index! index

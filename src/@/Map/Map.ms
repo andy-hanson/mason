@@ -25,7 +25,7 @@ impl! to-string Map
 	test. |
 		m =
 			1 -> 2
-		[ m ] -> "Map\n\t1 -> 2"
+		[m] -> "Map\n\t1 -> 2"
 	.|
 		# TODO: map Map to Array
 		# TODO:SYNTAX Array destructure
@@ -39,16 +39,16 @@ region New methods
 	?get. new Method
 		name.
 		doc. "`?` containing the value corresponding to `key`, if any."
-		args. [ "_" "key"
+		args. ["_" "key"]
 
 	has-key?. new Method
 		name.
 		doc. "
 			|:Boolean _ key:Any
 			Whether the key is in the Map.
-		args. [ "_" "key"
+		args. ["_" "key"]
 		default. .|key
-			not (empty? (?get this key
+			not (empty? (?get this key))
 
 	keys. new Method
 		name.
@@ -77,7 +77,7 @@ region Functions
 	make-map.
 		doc. "Creates a Map whose values are the result of applying `get-value` to each key."
 		test. !|
-			map = make-map [ 1 2 ] |x
+			map = make-map [1 2] |x
 				+ x 1
 			assert! =? map[1] 2
 			assert! =? map[2] 3
@@ -96,8 +96,8 @@ region Functions
 				3 -> 4
 			m2 =
 				1 -> 2
-			[ m1 m1 ] -> true
-			[ m1 m2 ] -> false
+			[m1 m1] -> true
+			[m1 m2] -> false
 		|a:Map b:Map
 			and (=? (count a) (count b))
 				all? a |pair
@@ -105,13 +105,13 @@ region Functions
 					key = pair[0]
 					val = pair[1]
 					?bk = ?get b key
-					and (not empty? ?bk) (=? val ?bk.val
+					and (not empty? ?bk) (=? val ?bk.val)
 
 region Mutator methods
 	assoc!. new Method
 		name.
 		doc. "Set _[key] to val."
-		args. [ "_" "key" "val"
+		args. ["_" "key" "val"]
 	msDef "assoc" assoc!
 
 	assoc*!.
@@ -126,7 +126,7 @@ region Mutator methods
 		name.
 		doc. "
 			If there is a value associated with `key`, removes it and returns the value associated.
-		args. [ "_" "key"
+		args. ["_" "key"]
 
 	un-assoc*!.
 		doc. "Removes keys (and by proxy, their associated values)."
@@ -139,7 +139,7 @@ region Mutator methods
 		doc. "
 			|_ key:Any val:Any
 			assoc! key val, but fail if _[key] is set already.
-		args. [ "_" "key" "val"
+		args. ["_" "key" "val"]
 		default. .!|key val
 			in
 				forbid! has-key? this key throw! "Already have key {key}."
@@ -148,7 +148,7 @@ region Mutator methods
 	get-or-add!. new Method
 		name.
 		doc. "map[key], and if it's not already there, fill it in with default-val."
-		args. [ "_" "key" "~default-val"
+		args. ["_" "key" "~default-val"]
 		default. .|key ~default-val
 			?-or (?get this key) ~
 				assoc! this key default-val

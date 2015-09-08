@@ -49,9 +49,9 @@ $fail-after-time.
 	$test. ~!|
 		$x = $after-time 100 |
 			1
-		a <~ $try ($fail-after-time $x 1
+		a <~ $try ($fail-after-time $x 1)
 		assert! =? a.message "Took longer than 1 milliseconds."
-		assert! =? 1 (<~ $fail-after-time $x 200
+		assert! =? 1 (<~ $fail-after-time $x 200)
 	|:$ _:$ time-ms:Number
 		new $ |resolve reject
 			$after _ resolve
@@ -64,14 +64,14 @@ $after.
 		Applies `then` to the result whenever it is ready.
 		If `then` returns a $, returns a $ for that $'s value; else returns a $ for the result of `then`.
 	$test. ~!|
-		assert! =? 2 (<~ $after ($resolved 1) +[1]
+		assert! =? 2 (<~ $after ($resolved 1) +[1])
 	|:$ _:$ then:Function
 		_.then then
 
 $resolved.
 	doc. "$ that is already resolved."
 	$test. ~!|
-		assert! =? 1 (<~ $resolved 1
+		assert! =? 1 (<~ $resolved 1)
 	|:$ value
 		$.resolve value
 
@@ -105,18 +105,18 @@ $all.
 		$ that resolves when the last $ in the input does, with every value in the original iteration order.
 		If any one of them fails, fails with the first such failure.
 	$test. ~!|
-		assert! =? [ 1 2 ] (<~ ($all [ ($resolved 1) ($resolved 2
-		all-rejected = $all [ ($rejected "a") ($rejected "b") ]
+		assert! =? [1 2] (<~ ($all [($resolved 1) ($resolved 2)]))
+		all-rejected = $all [($rejected "a") ($rejected "b")]
 		assert! =? "a" (<~ $try all-rejected)
 	|:$[Array] _:@ # TODO: @[$]
-		$.all (=> Array _
+		$.all (=> Array _)
 
 $map.
 	doc. "
 		Asynchronously runs mapper for every element of mapped and returns a $ joining them.
 		Unlike map, this always returns an Array.
 	$test. ~!|
-		assert! =? [ 2 3 4 ] (<~ $map [ 1 2 3 ] |_
+		assert! =? [2 3 4] (<~ $map [1 2 3] |_
 			$delay |
 				+ _ 1
 	|:$[Array] mapped:@ mapper:Function[Any $]
@@ -126,9 +126,9 @@ $map.
 $flat-map.
 	doc. "Like $map but flattens the result."
 	$test. ~!|
-		assert! =? [ 1 1 2 2 3 3 ] (<~ ($flat-map [ 1 2 3 ] |_
+		assert! =? [1 1 2 2 3 3] (<~ ($flat-map [1 2 3] |_
 			$delay |
-				[ _ _ ]
+				[_ _]
 	|:$[@] mapped:@ mapper:Function[Any $[@]]
 		$after ($map mapped mapper) flatten
 
@@ -137,7 +137,7 @@ $keep.
 		Asynchronously runs keep-if? on each element and creates an Array of those that match.
 		Maintains the original order.
 	$test. ~!|
-		assert! =? [ 2 4 ] (<~ ($keep [ 1 2 3 4 ] |_
+		assert! =? [2 4] (<~ ($keep [1 2 3 4] |_
 			$delay |
 				divisible? _ 2
 	|:$[Array] keep-some:@ keep-if?:Function[Any $[Boolean]]
@@ -152,7 +152,7 @@ $call.
 		So for any place you would write `f x` where `x` is an actualized value,
 		you may write `$call f $x` where `$x` is a promise.
 	$test. ~!|
-		assert! =? 3 (<~ $call + ($resolved 1) ($resolved 2)
+		assert! =? 3 (<~ $call + ($resolved 1) ($resolved 2))
 	|:$ f ...$args
 		$after ($all $args) apply[f]
 

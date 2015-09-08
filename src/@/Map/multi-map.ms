@@ -16,13 +16,13 @@ add-to-@!.
 		`@-type` is the type to use to create the `@` if it's not already there.
 	test. !|
 		_ = empty Map
-		add-to-@! _ 1 [ 1 ]
-		assert! =? _[1] [ 1 ]
-		add-to-@! _ 1 [1 ]
-		assert! =? _[1] [ 1 1 ]
+		add-to-@! _ 1 [1]
+		assert! =? _[1] [1]
+		add-to-@! _ 1 [1]
+		assert! =? _[1] [1 1]
 	|map:Map key added:@ @-type:Opt[@-Type]
 		_ = get-or-add! map key ~
-			empty (opr @-type Array
+			empty (opr @-type Array)
 		++! _ added
 
 group.
@@ -30,10 +30,10 @@ group.
 		Creates groups of elements which all have the same result for some function.
 		`(group @x f)[k]` should be `f
 	test. |
-		@sample = [ 1 "1" 2 "2" ]
-		[ @sample to-string ] ->
-			"1" -> [ 1 "1" ]
-			"2" -> [ 2 "2" ]
+		@sample = [1 "1" 2 "2"]
+		[@sample to-string] ->
+			"1" -> [1 "1"]
+			"2" -> [2 "2"]
 		# Each map value is a subset of it.
 		# You shouldn't use `group-by` if all you need is `keep`.
 		assert! seq=? (group @sample to-string)["1"] (keep @sample |_
@@ -42,5 +42,5 @@ group.
 		map = empty Map
 		for! @value
 			key = group-by _
-			add-to-@! map key [ _ ]
+			add-to-@! map key [_]
 		map

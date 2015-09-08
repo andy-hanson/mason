@@ -12,9 +12,9 @@ use
 region Rule results
 	R. |written new-state
 		# TODO:SYNTAX go-right. state. ...
-		(write. written go-right. true state. new-state
+		(write. written go-right. true state. new-state)
 	L. |written new-state
-		(write. written go-right. false state. new-state
+		(write. written go-right. false state. new-state)
 	fin.
 		doc. "Stops the machine."
 
@@ -28,7 +28,7 @@ run-turing.
 				a.
 					1 -> R 1 "a"
 					0 -> fin
-		[ incrementer [ 1 1 1 ] ] -> [ 1 1 1 0 ]
+		[incrementer [1 1 1]] -> [1 1 1 0]
 
 		busy-beaver =
 			init-state. "a"
@@ -43,7 +43,7 @@ run-turing.
 				c.
 					0 -> L 1 "b"
 					1 -> fin
-		[ busy-beaver [ ] ] -> [ 1 1 1 1 1 1 ]
+		[busy-beaver []] -> [1 1 1 1 1 1]
 
 		sorting-test =
 			init-state. "a"
@@ -68,13 +68,13 @@ run-turing.
 				e.
 					0 -> fin
 					1 -> L 1 "e"
-		[ sorting-test [ 2 2 2 1 1 1 ] ] -> [ 0 1 1 1 2 2 2 0 ]
+		[sorting-test [2 2 2 1 1 1]] -> [0 1 1 1 2 2 2 0]
 
 	|spec init-tape:Seq
 		rules:Object blank:Any init-state:Any = spec
 		tape = => Deque case
 			empty? init-tape
-				[ blank ]
+				[blank]
 			else
 				init-tape
 		index ::= 0
@@ -93,11 +93,11 @@ run-turing.
 				go-right
 					if! =? _ (- (count tape) 1)
 						# TODO: +>!
-						++>! tape [ blank ]
+						++>! tape [blank]
 					+ _ 1
 				=? _ 0
 					# TODO: <+!
-					<++! tape [ blank ]
+					<++! tape [blank]
 					0
 				else
 					- _ 1

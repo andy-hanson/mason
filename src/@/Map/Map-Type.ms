@@ -27,7 +27,7 @@ impl! from-stream Map-Type
 		hm = empty Hash-Map
 		assoc! hm 1 2
 		assoc! hm 3 4
-		[ Hash-Map m ] -> hm
+		[Hash-Map m] -> hm
 	.|stream
 		map = empty this
 		for! stream

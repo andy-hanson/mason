@@ -69,9 +69,9 @@ region Functions
 	Opt->?.
 		doc. "`?` containing the value iff it is defined."
 		test. |
-			[ 0 ] -> ?some 0
-			[ null ] -> ?some null
-			[ undefined ] -> ?None
+			[0] -> ?some 0
+			[null] -> ?some null
+			[undefined] -> ?None
 		|_
 			# TODO: `if-test defined? _` ?
 			if defined?_
@@ -80,7 +80,7 @@ region Functions
 	?->Opt.
 		doc. "Extracts the value from a `?`, or returns undefined."
 		test. |
-			[ (?some 0) ] -> 0
+			[(?some 0)] -> 0
 			forbid! defined? (?->Opt ?None)
 		|_:?
 			case
@@ -93,7 +93,7 @@ region Functions
 	un-?.
 		doc. "Tries to extract the value out of a `?`. Throws an error if it is empty."
 		test. |
-			[ (?some 1) ] -> 1
+			[(?some 1)] -> 1
 			assert! fails? |
 				un-? ?None
 		|_:? ~fail-message
@@ -103,8 +103,8 @@ region Functions
 	?-or.
 		doc. "If empty, defaults to `or` - else returns its value."
 		test. |
-			[ ?None 1 ] -> 1
-			[ (?some 1) 2 ] -> 1
+			[?None 1] -> 1
+			[(?some 1) 2] -> 1
 		|_:? ~or-else
 			case
 				empty?_
@@ -116,7 +116,7 @@ Some. new Pred-Type
 	name.
 	doc. "TODO"
 	predicate. |_
-		and :? (not empty?_
+		and :? not empty?_
 	# TODO: Move to test of self-impl!
 	test. !|
 		case! ?some 1
@@ -125,6 +125,6 @@ Some. new Pred-Type
 
 self-impl! extract Some |case
 	:Some
-		[ _.val ]
+		[_.val]
 	else
 		null

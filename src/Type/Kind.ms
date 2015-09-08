@@ -41,14 +41,14 @@ Kind. class
 				# TODO: :Array
 				_
 			else
-				[ ]
+				[]
 
 		.implementors = case params.implementors
 			defined?_
 				# TODO: :Array[Impl-Type]
 				freeze _
 			else
-				[ ]
+				[]
 
 		.symbol-for-isa = case params.symbol-for-isa
 			defined?_
@@ -111,7 +111,7 @@ Kind.test = !|
 	region Closed Kind
 		Closed = new Kind
 			name.
-			implementors. [ C Z ]
+			implementors. [C Z]
 
 		assert! fails-with? "Closed is not open to new subtypes." !|
 			kind! X Closed
@@ -119,7 +119,7 @@ Kind.test = !|
 can-subtype?.
 	doc. "Whether a Kind accepts new subtypes."
 	test. |
-		[ Impl-Type ] -> true
+		[Impl-Type] -> true
 	|_:Kind
 		not frozen? _.implementors
 
@@ -152,7 +152,7 @@ concrete-implementors.
 		kind! Y X
 		kind! Z X
 		kind! W Y
-		[ X ] -> [ W Z ]
+		[X] -> [W Z]
 	|:@ kind:Kind # TODO: :@[Impl-Type]
 		@for kind.implementors
 			case!
@@ -200,7 +200,7 @@ kind?.
 		case implementor
 			:Kind
 				_.super-kinds.some |super-kind
-					or (=? super-kind kind) (kind? super-kind kind
+					or (=? super-kind kind) (kind? super-kind kind)
 			else
 				_ = implementor.prototype
 				:kind

@@ -15,20 +15,20 @@ roman-digits =
 	1000 -> "M"
 
 power-of-10-below = |_
-	pow 10 (round-down (log 10 _
+	pow 10 (round-down (log 10 _))
 
 roman.
 	doc. "
 		Converts a number to Roman numerals.
 		Only works for values 1-3999.
 	test. |
-		[ 1 ] -> "I"
-		[ 4 ] -> "IV"
-		[ 5 ] -> "V"
-		[ 9 ] -> "IX"
-		[ 44 ] -> "XLIV"
-		[ 49 ] -> "XLIX"
-		[ 2014 ] -> "MMXIV"
+		[1] -> "I"
+		[4] -> "IV"
+		[5] -> "V"
+		[9] -> "IX"
+		[44] -> "XLIV"
+		[49] -> "XLIX"
+		[2014] -> "MMXIV"
 
 	|n:Nat
 		in
@@ -36,7 +36,7 @@ roman.
 
 		dec = power-of-10-below n
 		dig = |dec-multiple
-			roman-digits[(* dec-multiple dec
+			roman-digits[(* dec-multiple dec)]
 		rec = |dec-multiple
 			case - n (* dec-multiple dec)
 				=? _ 0

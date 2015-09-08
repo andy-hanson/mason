@@ -26,7 +26,7 @@ Alias-Type. class
 		# test. |
 		#	?2 = Alias-Type
 		#		alias-of. ?
-		#	[ ?2 String ] -> ?[String]
+		#	[?2 String] -> ?[String]
 		sub .alias-of ...args
 
 # TODO: class attributes

@@ -49,8 +49,8 @@ regex.
 defined?.
 	doc. "True for any value except `undefined`."
 	test. |
-		[ undefined ] -> false
-		[ 0 ] -> true
+		[undefined] -> false
+		[0] -> true
 	|_
 		not id=? _ undefined
 
@@ -60,16 +60,16 @@ id=?.
 		For primitive types, whether they have the same data.
 		TODO: Explain (and test) difference between this and js===
 	test. |
-		[ "a" "a" ] -> true
-		[ [ "a" ] [ "a" ] ] -> false
+		["a" "a"] -> true
+		[["a"] ["a"]] -> false
 	Object.is
 
 truthy?.
 	doc. "Whether javascript's `if` statement would consider the value to be true."
 	test. !|
-		for! [ null undefined 0 Number.NaN "" false ]
+		for! [null undefined 0 Number.NaN "" false]
 			forbid! truthy? _
-		assert! truthy? [ ]
+		assert! truthy? []
 		assert! truthy? true
 	|_
 		not js!_
@@ -77,12 +77,12 @@ truthy?.
 js-typeof.
 	doc. "JavaScript's `typeof` operator."
 	test. |
-		[ undefined ] -> "undefined"
-		[ null ] -> "object"
-		[ true ] -> "boolean"
-		[ 0 ] -> "number"
-		[ "a" ] -> "string"
-		[ (Symbol "s") ] -> "symbol"
-		[ js-typeof ] -> "function"
-		[ (a. 1) ] -> "object"
+		[undefined] -> "undefined"
+		[null] -> "object"
+		[true] -> "boolean"
+		[0] -> "number"
+		["a"] -> "string"
+		[(Symbol "s")] -> "symbol"
+		[js-typeof] -> "function"
+		[(a. 1)] -> "object"
 	unary-op "typeof"

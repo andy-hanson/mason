@@ -36,7 +36,7 @@ Hash-Map. class
 			for!
 				unless! defined? cur
 					break!
-				<~ [ cur.key cur.val! ]
+				<~ [cur.key cur.val!]
 				cur := cur.next!
 
 	?get |key
@@ -54,7 +54,7 @@ Hash-Map. class
 				_.val! := val
 			else
 				# Add it at the front.
-				.val.set hash (new Bucket key val bucket
+				.val.set hash (new Bucket key val bucket)
 
 	un-assoc! |key
 		hash = hash-code key
@@ -101,9 +101,9 @@ Hash-Map.test = !|
 	assert! =? _[1] 2
 	assert! =? _[3] 4
 	assert! seq=? _
-		. [ 1 2
-		. [ 3 4
-	assert! seq=? keys_ [ 1 3 ]
+		. [1 2]
+		. [3 4]
+	assert! seq=? keys_ [1 3]
 	assert! =? ?None (?get _ 8)
 
 region Private

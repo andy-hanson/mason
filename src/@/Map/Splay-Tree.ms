@@ -23,7 +23,7 @@ Splay-Tree. class
 		node-iter = ~!|_
 			if! defined?_
 				<~~ node-iter _.left!
-				<~ [ _.key _.val! ]
+				<~ [_.key _.val!]
 				<~~ node-iter _.right!
 		node-iter .root
 

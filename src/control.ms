@@ -26,8 +26,8 @@ do-times!.
 opr.
 	doc. "Fills in an Opt with a default value."
 	test. |
-		[ undefined 1 ] -> 1
-		[ 1 2 ] -> 1
+		[undefined 1] -> 1
+		[1 2] -> 1
 	|_:Opt ~default
 		case
 			defined?_
@@ -40,13 +40,13 @@ build.
 		Passes in a `yield` Function to `calls-yield`.
 		Returns a Seq of what `calls-yield` called `yield` with.
 	test. !|
-		assert! =? [ 0 1 ] (build |yield
+		assert! =? [0 1] (build |yield
 			yield 0
 			yield 1
 	|:Seq calls-yield:Function
-		yielded = [ ]
+		yielded = []
 		yield = |_
-			++>! yielded [ _ ]
+			++>! yielded [_]
 		calls-yield yield
 		freeze yielded
 

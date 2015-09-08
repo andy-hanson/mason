@@ -5,7 +5,7 @@ use
 
 $require = |-require- path
 	new $ |resolve reject
-		-require- [ path ] resolve reject
+		-require- [path] resolve reject
 
 dirname = |path
 	path.replace rgx"/[^/]*$" ""

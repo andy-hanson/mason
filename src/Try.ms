@@ -26,7 +26,7 @@ try-result.
 		If `tried` throws an error, returns it; else returns Success of its result.
 		If you don't care about the value of the error, use `?try` instead.
 	test. |
-		[ (thunk 1) ] -> new Success 1
+		[(thunk 1)] -> new Success 1
 		assert! =? (try-result fail!).message "An error occurred."
 	|tried:Action
 		except
@@ -41,8 +41,8 @@ try-result.
 		This can be thought of as translating an Error-throwing Function to an ?-returning one.
 		The opposite of this is `@.?.un-?`.
 	test. |
-		[ (thunk 1) ] -> ?some 1
-		[ fail! ] -> ?None
+		[(thunk 1)] -> ?some 1
+		[fail!] -> ?None
 	|tried:Function[Any]
 		except
 			try

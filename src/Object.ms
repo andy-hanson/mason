@@ -22,15 +22,15 @@ use-debug
 Object-Key. new Kind
 	name.
 	doc. "Can be used as a name for a property of an object."
-	implementors. [ String Symbol ]
+	implementors. [String Symbol]
 
 # TODO: better name?
 can-get-p?.
 	doc. "Whether it's safe to try to directly access properties."
 	test. |
-		[ null ] -> false
-		[ undefined ] -> false
-		[ 1 ] -> true
+		[null] -> false
+		[undefined] -> false
+		[1] -> true
 	|_
 		not js== _ null
 
@@ -38,13 +38,13 @@ flag?.
 	doc. "If it has a property for the flag, uses that. Otherwise false."
 	test. |
 		# TODO:SYNTAX (a.)
-		[ (a. true) "a" ] -> true
-		[ (a. false) "a" ] -> false
-		[ empty-Object "a" ] -> false
+		[(a. true) "a"] -> true
+		[(a. false) "a"] -> false
+		[empty-Object "a"] -> false
 	|:Boolean obj flag:Object-Key
 		?-or (?p obj flag) false
 
-~forbidden-fun-props = => Id-Set [ "arguments" "caller" ]
+~forbidden-fun-props = => Id-Set ["arguments" "caller"]
 @p-all.
 	doc. "
 		Every property name directly stored in an object.
@@ -56,10 +56,10 @@ flag?.
 		Object.defineProperty obj sym
 			value. 0
 			enumerable. false
-		assert! set=? (@p-all [ 0 0 ]) [ "0" "1" "length" ]
-		assert! set=? (@p-all obj) [ "a" sym ]
+		assert! set=? (@p-all [0 0]) ["0" "1" "length"]
+		assert! set=? (@p-all obj) ["a" sym]
 		# But not "arguments" or "caller"
-		assert! set=? (@p-all @p-all) [ "length" "name" "doc" "test" ]
+		assert! set=? (@p-all @p-all) ["length" "name" "doc" "test"]
 	|_
 		props = Object.getOwnPropertyNames_
 		# TODO: Use keep! to modify props
@@ -84,12 +84,12 @@ flag?.
 			value. 0
 			enumerable. true
 		assert! empty? (@p obj)
-		assert! set=? (@p @p) [ "doc" "test" ]
+		assert! set=? (@p @p) ["doc" "test"]
 	|case
 		can-get-p?_
 			Object.keys_
 		else
-			[ ]
+			[]
 
 ?p.
 	doc. "`?` containing the value of the property, if it exists."
@@ -97,10 +97,10 @@ flag?.
 		x =
 			a. 1
 			b. null
-		[ x "a" ] -> ?some 1
-		[ x "b" ] -> ?some null
+		[x "a"] -> ?some 1
+		[x "b"] -> ?some null
 		# Does not inherit from prototype.
-		[ x "toString" ] -> empty ?
+		[x "toString"] -> empty ?
 	|_ prop-name:Object-Key
 		if p? _ prop-name
 			js-sub _ prop-name
@@ -108,8 +108,8 @@ flag?.
 ?p-with-proto.
 	doc. "Like `?p`, but also looks through the prototype chain."
 	test. |
-		[ 1 "toString" ] -> ?some Number.prototype.toString
-		[ 1 "asdfghjkl" ] -> ?None
+		[1 "toString"] -> ?some Number.prototype.toString
+		[1 "asdfghjkl"] -> ?None
 	|_ prop-name:Object-Key
 		case
 			can-get-p?_
@@ -124,8 +124,8 @@ p.
 		x =
 			a. 1
 			b. null
-		[ x "a" ] -> 1
-		[ x "b" ] -> null
+		[x "a"] -> 1
+		[x "b"] -> null
 		debug assert! fails? |
 			p "c"
 	|_ prop-name:Object-Key
@@ -138,16 +138,16 @@ p?.
 	doc. "Whether there is a property by that name."
 	test. |
 		x = a. 1
-		[ x "a" ] -> true
-		[ x "b" ] -> false
-		[ x "toString" ] -> false # use p-with-proto? for that.
+		[x "a"] -> true
+		[x "b"] -> false
+		[x "toString"] -> false # use p-with-proto? for that.
 	|_ prop-name:Object-Key
 		and can-get-p?_ (Object.prototype.hasOwnProperty.call _ prop-name)
 
 p-with-proto?.
 	doc. "Like `p?` but looks through the prototype."
 	test. |
-		[ empty-Object "toString" ] -> true
+		[empty-Object "toString"] -> true
 	|_ prop-name:Object-Key
 		and can-get-p?_ (defined? (js-sub _ prop-name))
 
@@ -160,25 +160,25 @@ object=?.
 		a = a. 1
 		b = a. 1
 		c = x. 3
-		[ a b ] -> true
-		[ a c ] -> false
-		[ 1 1 ] -> true
+		[a b] -> true
+		[a c] -> false
+		[1 1] -> true
 		# For functions, is identity
-		[ object=? object=? ] -> true
+		[object=? object=?] -> true
 	|a b
 		# Necessary because `js-typeof null` is "object"
 		null-a = id=? a null
 		null-b = id=? b null
 		# TODO: Not :Object because that currently also includes Functions
-		obj-a = and (not null-a) (id=? (js-typeof a) "object"
-		obj-b = and (not null-b) (id=? (js-typeof b) "object"
+		obj-a = and (not null-a) (id=? (js-typeof a) "object")
+		obj-b = and (not null-b) (id=? (js-typeof b) "object")
 		case
 			not or obj-a obj-b
 				id=? a b
 			xor obj-a obj-b
 				false
 			else
-				same-type = id=? (Object.getPrototypeOf a) (Object.getPrototypeOf b
+				same-type = id=? (Object.getPrototypeOf a) (Object.getPrototypeOf b)
 				and same-type
 					ak = Object.getOwnPropertyNames a
 					bk = Object.getOwnPropertyNames b
@@ -186,20 +186,20 @@ object=?.
 						all? ak |k
 							=? (js-sub a k) (js-sub b k)
 
-empty-Object. Object.freeze (Object.create Object.prototype
+empty-Object. Object.freeze (Object.create Object.prototype)
 
 empty-Object?.
 	doc. "Whether there are no properties, not even hidden ones."
 	test. |
-		[ empty-Object ] -> true
-		[ Object ] -> false
+		[empty-Object] -> true
+		[Object] -> false
 	|_:Object
 		empty? @p-all_
 
 Object->Map.
 	doc. "A Map whose keys are property names and whose values are the properties' values."
 	test. |
-		[ (a. 1 b. 2) ] ->
+		[(a. 1 b. 2)] ->
 			"a" -> 1
 			"b" -> 2
 	|_
@@ -208,12 +208,12 @@ Object->Map.
 Map->Object.
 	doc. "Given a Map whose keys are Strings, creates an Object whose Object->Map is that."
 	test. |
-		# TODO:SYNTAX [ "a" -> 1, "b" -> 2 ]
+		# TODO:SYNTAX ["a" -> 1, "b" -> 2]
 		map =
 			"a" -> 1
 			"b" -> 2
-		[ map ] -> a. 1 b. 2
-		assert! =? map (Object->Map (Map->Object map
+		[map] -> a. 1 b. 2
+		assert! =? map (Object->Map (Map->Object map))
 		debug assert! fails? |
 			Map->Object
 				1 -> 2
@@ -227,8 +227,8 @@ Map->Object.
 prototype.
 	doc. "Gets prototype of an object."
 	test. |
-		[ empty-Object ] -> Object.prototype
-		[ Object-Key ] -> Kind.prototype
+		[empty-Object] -> Object.prototype
+		[Object-Key] -> Kind.prototype
 	Object.getPrototypeOf
 
 region Mutator methods
@@ -239,9 +239,9 @@ region Mutator methods
 			_ = empty-Object!()
 			assert! empty-Object? _
 			child = empty-Object! _
-			assert! =? _ (prototype child
+			assert! =? _ (prototype child)
 		|prototype:Opt[Object]
-			Object.create (opr prototype Object.prototype
+			Object.create (opr prototype Object.prototype)
 
 	p+!.
 		doc. "Adds a new immutable property."
@@ -308,7 +308,7 @@ region Mutator methods
 send.
 	doc. "Calls `target`'s method `method-name` with the given arguments."
 	test. |
-		[ 1 "toFixed" 2 ] -> "1.00"
+		[1 "toFixed" 2] -> "1.00"
 		assert! fails-with? "Method \"toFixed\" not implemented by \"1\"." !|
 			send! "1" "toFixed"
 	|target method-name:Object-Key ...args

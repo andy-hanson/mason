@@ -25,7 +25,7 @@ doc. "For running code in `test` properties."
 
 # TODO
 test. !|
-	assert! =? [ "x" "y" "b" ] (build |yield
+	assert! =? ["x" "y" "b"] (build |yield
 		obj =
 			a.
 				test.
@@ -84,7 +84,7 @@ $test-all.
 $test-module.
 	doc. "Treats an Object as a module and tests it."
 	|-module:Object
-		$all (@$test-module -module
+		$all (@$test-module -module)
 
 # TODO:ES6 Use module reflection
 @$test-module = |-module:Object
@@ -98,7 +98,7 @@ all-tested = empty Id-Set
 @$maybe-test = |~test-name value is-module is-proto-prop
 	case
 		all-tested.has value
-			[ ]
+			[]
 		else
 			all-tested.add value
 			@$test-single ~test-name value is-module is-proto-prop
@@ -155,7 +155,7 @@ $test-single.
 		break!
 
 @$test-$test-prop = |value-$test:Function[Generator] ~test-name
-	. $annotate-errors ~"{test-name}: " ($ing value-$test
+	. $annotate-errors ~"{test-name}: " ($ing value-$test)
 
 @$test-test-fun = |value value-test:Function ~test-name is-proto-prop ...args
 	~ano = "{test-name}: "
@@ -172,14 +172,14 @@ $test-single.
 						assert-this-call! value _
 					else
 						assert-call! value _
-			[ ]
+			[]
 		:$
-			[ ($annotate-errors ~ano _
+			[($annotate-errors ~ano _)]
 		defined?_
 			annotate-errors ~ano !|
 				throw! "Test must return Map or $."
 		else
-			[ ]
+			[]
 
 @$-from-any = |test-result
 	case test-result
@@ -190,8 +190,8 @@ $test-single.
 					Got @ containing: {elem}
 			_
 		:$
-			[ _ ]
+			[_]
 		defined?_
 			throw! "Result of test should be $, @[$], or undefined. Got: {_}"
 		else
-			[ ]
+			[]

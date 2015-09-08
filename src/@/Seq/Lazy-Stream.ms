@@ -37,7 +37,7 @@ Lazy-Stream. class
 	#	If you have a cheap computation or only need to iterate through it once, use Stream.
 
 	construct! stream:Function # [Generator]
-		.cache = [ ]
+		.cache = []
 		# TODO:ES6
 		# We wrap this in a Stream because `for!` calls [Symbol.iterator]().
 		# We should be able to do `for!` on both @s and unwrapped iterators.
@@ -67,21 +67,21 @@ Lazy-Stream.test = !|
 		for! new Range 2 Number.POSITIVE_INFINITY
 			# This is *not* an exponential blowup because these are cached.
 			<~ + fibonaccis[(- _ 1)] fibonaccis[(- _ 2)]
-	assert! seq=? (take~ fibonaccis 10) [ 1 1 2 3 5 8 13 21 34 55 ]
+	assert! seq=? (take~ fibonaccis 10) [1 1 2 3 5 8 13 21 34 55]
 
 
 # TODO: class method
 impl! iterator Lazy-Stream
 	test. !|
-		assert! =? [ 1 2 ] (build !|yield
+		assert! =? [1 2] (build !|yield
 			_ = new Lazy-Stream ~!|
 				yield 1
 				<~ 1
 				yield 2
 				<~ 2
 				yield 3
-			assert! seq=? [ 1 ] (take~ _ 1)
-			assert! seq=? [ 1 2 ] (take~ _ 2)
+			assert! seq=? [1] (take~ _ 1)
+			assert! seq=? [1 2] (take~ _ 2)
 	.~!|
 		<~~ iterator .cache
 		<~~ .caching-iterator

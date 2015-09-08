@@ -17,7 +17,7 @@ Sorted-Map. new Kind
 
 	implementor-test. !|type
 		_ = empty type
-		for! key in [ 1 3 5 4 2 ]
+		for! key in [1 3 5 4 2]
 			assoc! _ key key
 		assert! sorted? keys_
 

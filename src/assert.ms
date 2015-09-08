@@ -23,7 +23,7 @@ assert-call!.
 		For each entry in args->result, asserts that calling `fun` with arguments of key will `=?` the value.
 	test. !|
 		assert-call! +
-			[ 1 1 ] -> 2
+			[1 1] -> 2
 		nope = "
 			+ of:
 				1
@@ -34,7 +34,7 @@ assert-call!.
 				2
 		assert! fails-with? nope !|
 			assert-call! +
-				[ 1 1 ] -> 3
+				[1 1] -> 3
 	!|fun:Function args->result:Map # TODO: Map[Array Any]
 		assert-call-with! =? fun args->result
 
@@ -60,7 +60,7 @@ assert-call-with!.
 	doc. "Like !call but allows any equality predicate."
 	test. !|
 		assert-call-with! same?[to-string] +
-			[ 1 2 ] -> "3"
+			[1 2] -> "3"
 	!|equal?:Pred fun:Function args->result:Map # TODO: Map[Array Any]
 		for! args->result
 			# TODO:SYNTAX Array destructure
