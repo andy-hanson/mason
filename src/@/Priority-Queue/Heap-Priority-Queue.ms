@@ -94,12 +94,7 @@ region Private
 				right = heap[i-right-child]
 				case!
 					<? left val
-						# TODO:SYNTAX Ternary
-						go! case
-							<? right left
-								i-right-child
-							else
-								i-left-child
+						go! cond (<? right left) i-right-child i-left-child
 					<? right val
 						go! i-right-child
 					else

@@ -72,11 +72,7 @@ run-turing.
 
 	|spec init-tape:Seq
 		rules:Object blank:Any init-state:Any = spec
-		tape = => Deque case
-			empty? init-tape
-				[blank]
-			else
-				init-tape
+		tape = => Deque cond (empty? init-tape) [blank] init-tape
 		index ::= 0
 		state ::= init-state
 		for

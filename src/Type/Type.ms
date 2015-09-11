@@ -80,7 +80,7 @@ msDef "checkContains" |type value value-name
 			:type
 				_
 			else
-				impl.call type converted opts
+				impl.call type _ opts
 
 type-of.
 	doc. "

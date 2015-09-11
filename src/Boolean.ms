@@ -8,11 +8,7 @@ implies.
 		[true false] -> false
 		[true true] -> true
 	|if?:Boolean ~then?:Boolean
-		case
-			if?
-				then?
-			else
-				true
+		cond if? then? true
 
 xor.
 	doc. "True if `a` and `b` differ."
@@ -22,8 +18,4 @@ xor.
 		[true false] -> true
 		[true true] -> false
 	|a:Boolean b:Boolean
-		case
-			a
-				not b
-			else
-				b
+		cond a (not b) b

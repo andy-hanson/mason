@@ -175,9 +175,5 @@ $ing.
 		$-generator = code()
 		do-next = |last-value
 			value done = $-generator.next last-value
-			case
-				done
-					value
-				else
-					$after value do-next
+			cond done value ($after value do-next)
 		do-next()

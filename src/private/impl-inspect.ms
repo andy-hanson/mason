@@ -30,11 +30,7 @@ impl! inspect Object
 inspect-property = |obj key enumerable?
 	desc = Object.getOwnPropertyDescriptor obj key
 
-	prop-name = case
-		enumerable?
-			key
-		else
-			"[{key}]"
+	prop-name = cond enumerable? key "[{key}]"
 
 	str = case
 		and desc.get desc.set
@@ -45,11 +41,7 @@ inspect-property = |obj key enumerable?
 			"[Setter]"
 		else
 			str = inspect desc.value
-			case
-				"\n":str
-					"\n{indent str}"
-				else
-					str
+			cond "\n":str "\n{indent str}" str
 
 	"{prop-name}. {str}"
 

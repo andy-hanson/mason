@@ -29,11 +29,7 @@ opr.
 		[undefined 1] -> 1
 		[1 2] -> 1
 	|_:Opt ~default
-		case
-			defined?_
-				_
-			else
-				default
+		cond defined?_ _ default
 
 build.
 	doc. "

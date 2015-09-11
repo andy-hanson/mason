@@ -51,11 +51,7 @@ hashes-cache = new WeakMap
 
 # Since default hash-code only works on Objects, let's implement hash-code for primitives.
 impl! hash-code Boolean .|
-	case this
-		_
-			1
-		else
-			0
+	cond this 1 0
 
 impl! hash-code Function .|
 	# TODO: There must be something better than this.

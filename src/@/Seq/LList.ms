@@ -40,11 +40,7 @@ LList. class
 		iter = iterator left-added
 		f = |
 			value done = iter.next()
-			case
-				done
-					this
-				else
-					new LList value f()
+			cond done this new LList value f()
 		f()
 
 	# For the concatenation of two LLists, we can just use the second as a tail.

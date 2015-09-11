@@ -31,11 +31,7 @@ use-debug
 		from-stream |_
 			iter = iterator_
 			value done = iter.next()
-			case
-				done
-					?None
-				else
-					?some value
+			cond done ?None (?some value)
 
 	construct! .val
 		pass

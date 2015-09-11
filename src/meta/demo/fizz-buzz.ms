@@ -56,9 +56,4 @@ make-fizz-buzz.
 			for! tests
 				if! divisible? n _.divisor
 					s := "{s}{_.shout}"
-			# TODO:SYNTAX ternary operator
-			case
-				empty? s
-					n
-				else
-					s
+			cond (empty? s) n s

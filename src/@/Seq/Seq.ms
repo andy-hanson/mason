@@ -92,11 +92,7 @@ region Very first and last
 			[[]] -> []
 		args. 1
 		default. .|
-			case this
-				empty?_
-					_
-				else
-					drop _ 1
+			cond (empty? this) this (drop this 1)
 
 	rtail. new Method
 		name.
@@ -108,11 +104,7 @@ region Very first and last
 			[[]] -> []
 		args. 1
 		default. .|
-			case this
-				empty?_
-					_
-				else
-					take _ (- count_ 1)
+			cond (empty? this) this (take this (- (count this) 1))
 
 region Search
 	seq=?.

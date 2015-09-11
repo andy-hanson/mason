@@ -66,7 +66,7 @@ Method. class Function
 					"a[{str-lit _}]"
 
 			if! default?
-				cond = case
+				no-impl = case
 					allow-null?
 						"a == null || {impl} === undefined"
 					else
@@ -77,7 +77,7 @@ Method. class Function
 						"{access-method}.wrap.apply(null, [{access-method}.default].concat(Array.prototype.slice.call(arguments)))"
 					else
 						"{access-method}.default.apply(a, Array.prototype.slice.call(arguments, 1))"
-				add! "if ({cond}) return {call}"
+				add! "if ({no-impl}) return {call}"
 
 			wrap = "{access-method}.wrap"
 

@@ -46,7 +46,7 @@ Kind. class
 		.implementors = case params.implementors
 			defined?_
 				# TODO: :Array[Impl-Type]
-				freeze _
+				freeze_
 			else
 				[]
 
