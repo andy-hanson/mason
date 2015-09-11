@@ -21,9 +21,8 @@ Hash-Set. class
 		empty |
 			new this (empty Hash-Map)
 
-	# TODO: `data map:Hash-Map`
-	construct! map
-		.map = map
+	construct! .map:Hash-Map
+		pass
 
 	iterator |
 		iterator (keys .map)

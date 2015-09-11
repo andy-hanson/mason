@@ -15,9 +15,8 @@ debug fail! = !|
 	throw!
 
 Success. class
-	# TODO: `data val`
-	construct! val
-		.val = val
+	construct! .val
+		pass
 
 Success.doc = "Attempt that did not fail. _.val is the result of the attempted code."
 

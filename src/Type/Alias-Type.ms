@@ -12,7 +12,6 @@ Alias-Type. class
 	do!
 		kind! _ Type
 
-	# TODO: data-extensible name:String alias-of:Type
 	construct! params
 		Object.assign this params
 		assert! .name:String

@@ -37,9 +37,8 @@ use-debug
 				else
 					?some value
 
-	# TODO: `data val`
-	construct! val
-		.val = val
+	construct! .val
+		pass
 
 	empty? |
 		id=? this ?None

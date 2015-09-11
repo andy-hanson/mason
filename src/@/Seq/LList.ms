@@ -19,10 +19,8 @@ LList. class
 	# doc. "
 	# 	Singly-linked list.
 
-	# TODO: `data head tail`
-	construct! head tail
-		.head = head
-		.tail = tail
+	construct! .head .tail
+		pass
 
 	iterator ~!|
 		cur ::= this

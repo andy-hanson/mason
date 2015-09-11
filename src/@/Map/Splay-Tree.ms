@@ -15,9 +15,8 @@ Splay-Tree. class
 		empty |
 			new this
 
-	# TODO: `data root:Splay-Node`
-	construct! root
-		.root = root
+	construct! .root:Splay-Node
+		pass
 
 	iterator |
 		node-iter = ~!|_
@@ -83,9 +82,7 @@ Splay-Tree. class
 
 region Private
 	Splay-Node = class
-		# TODO: `data key val! left! right!`
-		construct! key val! left! right!
-			.key = key
+		construct! .key val! left! right!
 			.val! ::= val!
 			.left! ::= left!
 			.right! ::= right!

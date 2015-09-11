@@ -13,7 +13,6 @@ use-debug
 Pred-Type. class
 	# TODO: class attributes
 	# doc. "Arbitrary predicates can be made into types using Pred-Type."
-	# TODO: data-extensible name:String predicate:Pred
 	construct! params
 		Object.assign this params
 		assert! .name:String
@@ -40,9 +39,9 @@ region Opt
 		# TODO: class attributes
 		# doc. "Result of calling Opt[something]."
 
-		# TODO: `data Exists-Type:Type`
-		construct! Exists-Type:Type
-			.Exists-Type = Exists-Type
+		construct! .Exists-Type:Type
+			pass
+
 	kind! Opt-Sub Type
 	impl! contains? Opt-Sub .|_
 		or (not defined?_) :.Exists-Type

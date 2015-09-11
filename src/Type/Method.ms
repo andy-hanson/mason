@@ -118,13 +118,13 @@ Method. class Function
 
 		switch! num-args
 			1
-				super "a" src
+				super! "a" src
 			2
-				super "a" "b" src
+				super! "a" "b" src
 			3
-				super "a" "b" "c" src
+				super! "a" "b" "c" src
 			else
-				super "a" "b" "c" "d" src
+				super! "a" "b" "c" "d" src
 
 		# TODO:ES6 Shouldn't be necessary
 		# See https://code.google.com/p/v8/issues/detail?id=4087
@@ -280,7 +280,7 @@ region Private
 			secret-name = "__double_dispatch_{random-digits()}"
 			pAdd global secret-name impl-symbol
 
-			src = "
+			super! "
 				target2 = arguments[0]
 				if (target2 === undefined)
 					throw new Error("Can't double-dispatch {method.name} for undefined.")
@@ -288,7 +288,6 @@ region Private
 				if (impl === undefined)
 					throw new Error(`Can't double-dispatch {method.name} for $\{this} on $\{target2}.`)
 				return impl.apply(this, arguments)
-			super src
 
 			# TODO:ES6 Shouldn't be necessary
 			Object.setPrototypeOf this Double-Dispatcher.prototype

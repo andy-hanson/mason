@@ -10,6 +10,7 @@ use
 	..@ empty! iterator map
 	..@-Type empty
 	..? ?None Opt->? ?some
+	.Id-Map
 	.Map _ assoc! ?get un-assoc!
 	.Map-Type
 use~ # TODO: use-debug
@@ -26,9 +27,8 @@ Hash-Map. class
 		empty |
 			new this (new global.Map)
 
-	# TODO: `data val:Id-Map`
-	construct! val
-		.val = val
+	construct! .val:Id-Map
+		pass
 
 	iterator ~!|
 		for! bucket in .val.values()
@@ -108,9 +108,7 @@ Hash-Map.test = !|
 
 region Private
 	Bucket = class
-		# TODO: `data key val! next!`
-		construct! key val! next!
-			.key = key
+		construct! .key val! next!
 			.val! ::= val!
 			.next! ::= next!
 
