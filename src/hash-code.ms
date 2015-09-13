@@ -6,10 +6,9 @@ use
 	.Type.Method _ impl!
 
 hash-code. new Method
+	| Integer used to identify a value in a Hash-Map (or Hash-Set).
+	| This should have a high probability of being different than the hash-codes of the other values in the map.
 	name.
-	doc. "
-		Integer used to identify a value in a Hash-Map (or Hash-Set).
-		This should have a high probability of being different than the hash-codes of the other values in the map.
 	test. !|
 		a =
 			x. 1
@@ -19,7 +18,7 @@ hash-code. new Method
 			y. 1
 		assert! =? (hash-code a) (hash-code a)
 		forbid! =? (hash-code a) (hash-code b)
-		# TODO: Check that it handles recursive values
+		todo  Check that it handles recursive values
 	args. 1
 	returns. Int
 	allow-null?. true
@@ -32,7 +31,7 @@ hash-code. new Method
 			else
 				case hashes-cache.get this
 					id=? _ undefined
-						# Don't recurse infinitely.
+						|| Don't recurse infinitely.
 						hashes-cache.set this 17
 						hash ::= 17
 
@@ -49,44 +48,45 @@ hash-code. new Method
 
 hashes-cache = new WeakMap
 
-# Since default hash-code only works on Objects, let's implement hash-code for primitives.
-impl! hash-code Boolean .|
-	cond this 1 0
+region Since default hash-code only works on Objects, let's implement hash-code for primitives.
+	impl! hash-code Boolean .|
+		cond this 1 0
 
-impl! hash-code Function .|
-	# TODO: There must be something better than this.
-	hash-code case .name
-		=? 0 _.length # TODO: empty?_
-			.toString()
-		else
-			_
+	impl! hash-code Function .|
+		todo  There must be something better than this.
+		hash-code case .name
+			=? 0 _.length todo  empty?_
+				.toString()
+			else
+				_
 
-# TODO: Memoize this one too?
-impl! hash-code String
-	test. !|
-		assert! =? (hash-code "a") (hash-code "a")
-		forbid! =? (hash-code "a") (hash-code "b")
-	.|
-		hash ::= 13
-		i ::= .length
-		for!
-			hash := js+ hash (.charCodeAt i)
-			hash := js-bar hash 0
-			hash := js* hash 31
+	todo  Memoize this one too?
+	impl! hash-code String
+		test. !|
+			assert! =? (hash-code "a") (hash-code "a")
+			forbid! =? (hash-code "a") (hash-code "b")
+		.|
+			hash ::= 13
+			i ::= .length
+			for!
+				hash := js+ hash (.charCodeAt i)
+				hash := js-bar hash 0
+				hash := js* hash 31
 
-			if! id=? i 0
-				break!
-			i := js- i 1
-		hash
+				if! id=? i 0
+					break!
+				i := js- i 1
+			hash
 
-impl! hash-code Symbol
-	test. !|
-		sym = Symbol "test"
-		assert! =? (hash-code sym) (hash-code sym)
-	|
-		# TODO:ES6 (currently this returns undefined)
-		42 # Symbol.keyFor _
+	impl! hash-code Symbol
+		test. !|
+			sym = Symbol "test"
+			assert! =? (hash-code sym) (hash-code sym)
+		|
+			todo ES6 (currently this returns undefined)
+			todo Symbol.keyFor _
+			42
 
-# TODO: This treats small floats as equivalent.
-impl! hash-code Number .|
-	js-bar this 0
+	todo  This treats small floats as equivalent.
+	impl! hash-code Number .|
+		js-bar this 0

@@ -2,25 +2,21 @@ use
 	..Type.Method
 
 +. new Method
+	| Combines two values of the same type into a greater value of that type.
 	name.
-	doc.
-		"Combines two values of the same type into a greater value of that type."
 	args. 2
 
 -. new Method
+	| `+ b res` should be `a`.
 	name.
-	doc.
-		"`+ b res` should be `a`."
 	args. 2
 
 *. new Method
+	| Sum of `b` copies of `a`.
 	name.
-	doc.
-		"Sum of `b` copies of `a`."
 	args. 2
 
 /. new Method
+	| `* b res` should be `a`.
 	name.
-	doc.
-		"`* b res` should be `a`."
 	args. 2

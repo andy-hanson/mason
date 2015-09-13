@@ -9,15 +9,14 @@ use
 	.Priority-Queue _ ?pop!
 
 Heap-Priority-Queue. class
-	# TODO: class attributes
-	# doc. "Default implementation for Priority-Queue."
+	| Default implementation for Priority-Queue.
 
 	do!
 		self-kind! _ @-Type
 		kind! _ Priority-Queue
 
 	static
-		# TODO: @-Type default
+		todo @-Type default
 		empty |
 			new this
 
@@ -44,15 +43,15 @@ Heap-Priority-Queue. class
 
 
 region Private
-	# We use a min-heap.
+	|| We use a min-heap.
 	index-left-child = |idx
 		+ 1 (* 2 idx)
 	index-parent = |idx
 		- (int/ (+ 1 idx) 2) 1
 
 	add! = !|heap val
-		# We move this 'hole' up the heap, swapping with its parent,
-		# until we find a place where `val` is greater than its parent.
+		| We move this 'hole' up the heap, swapping with its parent,
+		| until we find a place where `val` is greater than its parent.
 		heap.push()
 		i-cur ::= count heap
 		for!
@@ -71,10 +70,10 @@ region Private
 		val = heap.pop()
 		size = count heap
 		unless! =? size 0
-			# There is a 'hole' at the first element.
-			# Move the hole down while it's larger than either child.
-			# (Prefer moving to the left child.)
-			# When it can move no further, put `val` in there.
+			|| There is a 'hole' at the first element.
+			|| Move the hole down while it's larger than either child.
+			|| (Prefer moving to the left child.)
+			|| When it can move no further, put `val` in there.
 			i-cur ::= 0
 			go! = !|goto-idx
 				set-nth! heap i-cur heap[goto-idx]

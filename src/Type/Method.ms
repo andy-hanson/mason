@@ -29,9 +29,11 @@ str-lit = |str
 	JSON.stringify str
 
 Method. class Function
+	todo doc
+
 	construct! params
 		method-name = params.name
-		# TODO: :String
+		todo  :String
 		assert! defined? method-name throw! "Must provide method name."
 
 		default? = defined? params.default
@@ -70,7 +72,7 @@ Method. class Function
 					allow-null?
 						"a == null || {impl} === undefined"
 					else
-						# TODO: Just implement it for Object?
+						todo  Just implement it for Object?
 						"{impl} === undefined"
 				call = case
 					wrap?
@@ -95,7 +97,7 @@ Method. class Function
 						wrap?
 							"return {wrap}({impl}, {args})"
 						else
-							# Don't need leading `a, `
+							|| Don't need leading `a, `
 							"return {impl}({args.slice 3})"
 				wrap?
 					"
@@ -126,8 +128,8 @@ Method. class Function
 			else
 				super! "a" "b" "c" "d" src
 
-		# TODO:ES6 Shouldn't be necessary
-		# See https://code.google.com/p/v8/issues/detail?id=4087
+		todo ES6 Shouldn't be necessary
+		todo See https://code.google.com/p/v8/issues/detail?id=4087
 		Object.setPrototypeOf this Method.prototype
 
 		pAdd global secret-name this
@@ -139,13 +141,11 @@ Method. class Function
 		Object.defineProperty this "name"
 			value. method-name
 
-	# TODO: Consider making kind! Method Type. Then this is redundant.
+	todo Consider making kind! Method Type. Then this is redundant.
 	"toString" |
 		.name
 
-Method.doc = "TODO"
-
-# TODO: class properties
+todo class properties
 Method.test = !|
 	m = new Method
 		name.
@@ -196,17 +196,17 @@ impl-double!. !|method:Method implementor-0:Impl-Type implementor-1:Impl-Type im
 	do-impl! dispatcher implementor-1 implementation
 
 self-impl!.
-	doc. "TODO"
+	todo doc
 	test. !|
-		pass # TODO
+		todo
+		pass
 	!|method:Method implementor:Object implementation:Function
 		impl! method (new Self-Type implementor) implementation
 
 ?impl-for.
-	doc. "
-		Implementation of a method for a particular Impl-Type.
-		Does not reference method.default or impls on super-types.
-		Empty if the type would use method.default.
+	| Implementation of a method for a particular Impl-Type.
+	| Does not reference method.default or impls on super-types.
+	| Empty if the type would use method.default.
 	test. |
 		[contains? Method] -> ?some method-contains?
 		[=? Method] -> ?None
@@ -214,24 +214,26 @@ self-impl!.
 		?self-impl-for method type.prototype
 
 impl-for.
-	doc. "impl-for that fails when there is no implementation."
+	| impl-for that fails when there is no implementation.
 	test. |
 		[contains? Method] -> method-contains?
-		# assert! (impl-for contains? Kind).call Impl-Type Kind
+		todo assert! (impl-for contains? Kind).call Impl-Type Kind
 	|method:Method type:Impl-Type
 		un-? (?impl-for method type) ~"{method} not implemented for {type}."
 
 ?self-impl-for.
-	doc. "TODO"
+	todo doc
 	test. !|
-		pass # TODO
+		todo
+		pass
 	|method:Method object
 		?p object method.impl-symbol
 
 self-impl-for.
-	doc. "TODO"
+	todo doc
 	test. !|
-		pass # TODO
+		todo
+		pass
 	|method:Method object
 		un-? (?self-impl-for method object) ~"{method} not implemented on {object}."
 
@@ -241,24 +243,25 @@ region Private
 		or (not defined? desc) desc.writable
 
 
-	# TODO: Not public
-	propagate-method-down!. !|implementor method-symbol implementation # TODO: :Impl-Type :Symbol :Function
+	todo Not public
+	propagate-method-down!. !|implementor method-symbol implementation
+		todo :Impl-Type :Symbol :Function
 		unless! Object.prototype.hasOwnProperty.call implementor.prototype method-symbol
 			case! implementor
 				:Kind
 					for! sub-implementor in _.implementors
 						propagate-method-down! sub-implementor method-symbol implementation
 				else
-					# TODO: What to do in case of multiple inheritance collision?
-					# Since this is inherited, it is mutable and can be overridden.
+					todo What to do in case of multiple inheritance collision?
+					|| Since this is inherited, it is mutable and can be overridden.
 					Object.defineProperty _.prototype method-symbol
 						value. implementation
 						writable. true
 						configurable. true
 						enumerable. false
 
-	# TODO: Multiple-inheritance proxy scheme
-	# "method" can be a Method or a Double-Dispatcher.
+	todo Multiple-inheritance proxy scheme
+	|| "method" can be a Method or a Double-Dispatcher.
 	do-impl! = !|method implementor implementation
 		in
 			assert! writable? implementor.prototype method.impl-symbol throw!
@@ -289,7 +292,7 @@ region Private
 					throw new Error(`Can't double-dispatch {method.name} for $\{this} on $\{target2}.`)
 				return impl.apply(this, arguments)
 
-			# TODO:ES6 Shouldn't be necessary
+			todo ES6 Shouldn't be necessary
 			Object.setPrototypeOf this Double-Dispatcher.prototype
 
 			.method = method
@@ -298,9 +301,8 @@ region Private
 				value. "{method.name}__double-dispatcher"
 
 contains? = new Method
+	| Whether some collection of things as as an element `instance`.
 	name.
-	doc. "
-		Whether some collection of things as as an element `instance`."
 	args.
 		. "type"
 		. "instance"

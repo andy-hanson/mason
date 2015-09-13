@@ -1,3 +1,6 @@
+| Advanced assertions.
+| Generally you should just use `assert!`.
+
 use
 	.compare =?
 use~
@@ -14,13 +17,7 @@ use-debug
 	.to-string
 	.Try fails-with?
 
-doc. "
-	Advanced assertions.
-	Generally you should just use `assert!`.
-
 assert-call!.
-	doc. "
-		For each entry in args->result, asserts that calling `fun` with arguments of key will `=?` the value.
 	test. !|
 		assert-call! +
 			[1 1] -> 2
@@ -35,16 +32,20 @@ assert-call!.
 		assert! fails-with? nope !|
 			assert-call! +
 				[1 1] -> 3
-	!|fun:Function args->result:Map # TODO: Map[Array Any]
+	!|fun:Function args->result:Map
+		todo args->result:Map[Array Any]
+		| For each entry in args->result, asserts that calling `fun` with arguments of key will `=?` the value.
 		assert-call-with! =? fun args->result
 
 assert-this-call!.
-	doc. "TODO"
+	todo doc
 	test. !|
-		pass # TODO
-	!|fun:Function args->result:Map # TODO: Map[Array Any]
+		todo
+		pass
+	!|fun:Function args->result:Map
+		todo args->result:Map[Array Any]
 		for! args->result
-			# TODO:SYNTAX Array destructure
+			todo SYNTAX Array destructure
 			args:@ = _[0]
 			expected-res = _[1]
 			actual = fun.apply args[0] (tail args)
@@ -57,13 +58,14 @@ assert-this-call!.
 					{indent (inspect actual)}
 
 assert-call-with!.
-	doc. "Like !call but allows any equality predicate."
+	| Like !call but allows any equality predicate.
 	test. !|
 		assert-call-with! same?[to-string] +
 			[1 2] -> "3"
-	!|equal?:Pred fun:Function args->result:Map # TODO: Map[Array Any]
+	!|equal?:Pred fun:Function args->result:Map
+		todo args->result:Map[Array Any]
 		for! args->result
-			# TODO:SYNTAX Array destructure
+			todo SYNTAX Array destructure
 			args:@ = _[0]
 			expected-res = _[1]
 			actual = fun ...args

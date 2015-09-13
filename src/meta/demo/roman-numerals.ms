@@ -18,9 +18,8 @@ power-of-10-below = |_
 	pow 10 (round-down (log 10 _))
 
 roman.
-	doc. "
-		Converts a number to Roman numerals.
-		Only works for values 1-3999.
+	| Converts a number to Roman numerals.
+	| Only works for values 1-3999.
 	test. |
 		[1] -> "I"
 		[4] -> "IV"

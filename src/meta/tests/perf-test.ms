@@ -9,14 +9,14 @@ use
 	...math.methods -
 
 time!.
-	doc. "Logs the time taken to run time-me once."
+	| Logs the time taken to run time-me once.
 	|test-name:String time-me:Action
 		val time-taken = time time-me
 		log! "{test-name}: {time-taken}"
 		val
 
 time*!.
-	doc. "Logs the time to run time-me `times` times."
+	| Logs the time to run time-me `times` times.
 	|test-name:String times:Nat time-me:Action
 		time! test-name |
 			i ::= times
@@ -29,13 +29,13 @@ time*!.
 			arr
 
 race*!.
-	doc. "Logs the time of to run each of time-us `times` times."
+	| Logs the time of to run each of time-us `times` times.
 	!|times:Nat time-us:@[Action]
 		for! time-us
 			time*! "." times _
 
 time.
-	doc. "Time taken to run time-me (milliseconds), and its result."
+	| Time taken to run time-me (milliseconds), and its result.
 	|time-me:Function
 		start = current-time-ms()
 		val. time-me()
@@ -43,10 +43,9 @@ time.
 		time-taken. - end start
 
 $time.
-	doc. "
-		The difference in time (milliseconds) between when $time is called and when $time-me resolves.
-		For accuracy you should generally start $time-ing a $ as soon as you create it.
-		Returned value in ms.
+	| The difference in time (milliseconds) between when $time is called and when $time-me resolves.
+	| For accuracy you should generally start $time-ing a $ as soon as you create it.
+	| Returned value in ms.
 	|:$[Number] $time-me:Action[$]
 		start = current-time-ms()
 		$after $time-me() |
@@ -54,7 +53,7 @@ $time.
 			- end start
 
 $time!.
-	doc. "Logs `$time $time-me` and returns $time-me's result."
+	| Logs `$time $time-me` and returns $time-me's result.
 	|:$ test-name:String $time-me:Action[$]
 		$after ($time $time-me) !|time:Number
 			log! "{test-name}: {time}"

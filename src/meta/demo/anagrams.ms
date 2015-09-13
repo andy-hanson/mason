@@ -10,7 +10,7 @@ use-debug
 	...RegExp rgx
 
 maximum-anagram-sets.
-	doc. "http://rosettacode.org/wiki/Anagrams#JavaScript"
+	| http://rosettacode.org/wiki/Anagrams#JavaScript
 	test. !|
 		w = "
 			abel able bale bela elba
@@ -29,10 +29,10 @@ maximum-anagram-sets.
 			. ["elan" "lane" "lean" "lena" "neal"]
 			. ["evil" "levi" "live" "veil" "vile"]
 	|words
-		# e.g., "amnos" -> ["mason" "monas"]
+		| e.g., "amnos" -> ["mason" "monas"]
 		sorted->words = empty Id-Map
 		for! words
-			# TODO: Function to add just one new element
+			todo  Function to add just one new element
 			add-to-@! sorted->words sort_ [_]
 		max-count = max @for values sorted->words
 			count_

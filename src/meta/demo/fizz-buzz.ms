@@ -8,10 +8,9 @@ use-debug
 	...@.Seq.Seq seq=? take~
 
 make-fizz-buzz.
-	doc. "
-		Infinite Seq of Fizz Buzz game.
-		Spec is an Obj whose values are divisors and
-		whose keys are strings to be printed when the divisor matches.
+	| Infinite Seq of Fizz Buzz game.
+	| `spec` is an Obj whose values are divisors and
+	| whose keys are strings to be printed when the divisor matches.
 	test. !|
 		fizz-buzz = make-fizz-buzz (Fizz. 3 Buzz. 5)
 		assert! seq=? (take~ fizz-buzz 6)
@@ -46,9 +45,9 @@ make-fizz-buzz.
 			. "Jazz"
 			. 17
 	|spec
-		# TODO: map Map to Array is hard
+		todo  map Map to Array is hard
 		tests = => Array (map~ (Object->Map spec) |_
-			# TODO:SYNTAX array destructure
+			todo SYNTAX array destructure
 			shout:String. _[0]
 			divisor:Nat. _[1]
 		map~ (new Range 1 Number.POSITIVE_INFINITY) |n

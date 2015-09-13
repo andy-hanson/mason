@@ -10,33 +10,32 @@ use
 	.@ _ count iterator
 	.@-Type _ empty from-stream
 	.Seq.Seq ?nth
-use~ # TODO: use-debug
+use~ todo  use-debug
 	.Seq.Seq seq=? take~
 
 Range. class
+	| Seq of Numbers taking fixed steps.
+
 	do!
 		self-kind! _ @-Type
-		# TODO
+		todo
 		self-impl! empty _ (thunk (new _ 0 0))
 		kind! _ @
 
 	static
 		from-stream |_
-			# We can't build a Range out of arbitrary elements...
-			# TODO: impl-for from-stream Array
+			todo We can't build a Range out of arbitrary elements...
+			todo  impl-for from-stream Array
 			_
 
-	# TODO: class attributes
-	# doc. "Seq of Numbers taking fixed steps."
 	construct! start:Number end:Number step:Opt[Number]
 		.start = start
 		.end = end
 		.step = opr step (sign (- end start))
 
 	iterator ~!|
-		# TODO
-		# test. !|
-		# 	assert! seq=? (range 0 10 2) [0 2 4 6 8]
+		todo test. !|
+		todo 	assert! seq=? (range 0 10 2) [0 2 4 6 8]
 		cur ::= .start
 		for!
 			break-cond = case
@@ -51,46 +50,43 @@ Range. class
 			cur := + cur .step
 
 	?nth |n:Nat
-		# TODO
-		# test. |
-		#	r = range 0 10 2
-		#	[r 2] -> ?some 4
-		#	[r 6] -> ?None
+		todo test. |
+		todo	r = range 0 10 2
+		todo	[r 2] -> ?some 4
+		todo	[r 6] -> ?None
 
-		# TODO: Function if-test ?
+		todo  Function if-test ?
 		it = + .start (* .step n)
 		if <? it .end
 			it
 
 	count |
-		# TODO
-		# test. |
-		#	[(range 0 2 0.5)] -> 4
+		todo test. |
+		todo	[(range 0 2 0.5)] -> 4
 		round-down (/ (length this) .step)
 
 
-# TODO: class attributes
+todo  class attributes
 Range.test = !|
 	assert! seq=? [0 1 2] (take~ (range 0 Number.POSITIVE_INFINITY) 3)
 
-# TODO:KILL
+todo KILL
 range. |start:Number end:Number step:Opt[Number]
 	new Range start end step
 
 range-incl.
-	doc. "TODO"
 	test. !|
-		pass # TODO
+		todo
+		pass
 	|start:Number end:Number step:Opt[Number]
+		todo doc
 		step := opr step (sign (- end start))
 		range start (+ end step) step
 
-
 length.
-	doc. "Difference between and and start values."
 	test. |
 		[(range 5 10 2)] -> 5
 		[(range 5 10 3)] -> 5
 	|_:Range
+		| Difference between and and start values.
 		- _.end _.start
-

@@ -35,7 +35,7 @@ inspect. new Method
 				with impl.call arg opts
 					inspect-seen.delete arg
 	default. to-string.default
-# See also private/impl-inspect.ms
+|| See also private/impl-inspect.ms
 
 inspect-object = |
 	"<object with no prototype>"

@@ -1,3 +1,5 @@
+todo kill this module
+
 use
 	global Date setTimeout
 	..$
@@ -5,12 +7,13 @@ use-debug
 	..compare =?
 
 current-time-ms.
-	doc. "Milliseconds since 1 January 1970 00:00:00 UTC."
+	| Milliseconds since 1 January 1970 00:00:00 UTC.
 	|
-		(new Date).getTime() # TODO:ES6 global.performance.now()
+		todo ES6 global.performance.now() (then kill this function)
+		(new Date).getTime()
 
 $after-time.
-	doc. "Does something after a certain time has passed."
+	| Does something after a certain time has passed.
 	$test. ~!|
 		assert! =? 1 (<~ $after-time 1 |
 			1

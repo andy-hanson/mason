@@ -6,22 +6,21 @@ use
 	.Kind kind!
 	.Method impl!
 	.Type contains?
-use~ # TODO: use-debug
+use~ todo  use-debug
 	..compare =?
 	.Type type-of
 
 Enum. class
+	|	A Concrete-Type with a small number of instances.
+	|	Great for using with `switch`.
+
 	do!
 		kind! _ Impl-Type
 
-	# TODO: class attributes
-	# doc. "
-	#	A Concrete-Type with a small number of instances.
-	#	Great for using with `switch`.
 	construct! params
-		.name = params.name # TODO: :String
+		.name = params.name todo  :String
 		.prototype = opr params.prototype ~(Object.create Object.prototype)
-		.values = params.values # TODO: :Array[String]
+		.values = params.values todo  :Array[String]
 
 		for! value-name in .values
 			enum-val = Object.create .prototype
@@ -35,7 +34,7 @@ Enum. class
 	contains? |_
 		Object.prototype.isPrototypeOf.call .prototype _
 
-# TODO: class attributes
+todo  class attributes
 Enum.test = !|
 	Fruit = new Enum
 		name.

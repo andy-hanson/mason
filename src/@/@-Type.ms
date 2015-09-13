@@ -8,23 +8,20 @@ use-debug
 	.Range
 
 @-Type. new Kind
+	| Any sub-type of @.
 	name.
-	doc. "Any sub-type of @."
 
 impl! sub @-Type .|
 	this
 
 empty. new Method
+	| Given a type, makes an instance which is `empty?`.
+	| Should always return the same thing iff immutable.
 	name.
-	doc. "
-		Given a type, makes an instance which is `empty?`.
-		Should always return the same thing iff immutable.
 
 from-stream. new Method
+	| Creates a new value of this type by reading out from an @'s iterator.
 	name.
-	doc. "
-		|_ stream:@
-		Creates a new value of this type by reading out from an @'s iterator.
 	test. |
 		[Array (new Range 0 5)] -> [0 1 2 3 4]
 	args. ["type" "stream"]
@@ -32,10 +29,8 @@ from-stream. new Method
 		with empty this
 			++! _ stream
 
-# TODO: Do this in @.ms
+todo  Do this in @.ms
 self-kind! @ @-Type
-# self-impl! empty @ |
-#	[]
 
 impl! => @-Type .|stream
 	from-stream this stream

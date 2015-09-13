@@ -3,7 +3,6 @@ use
 	..js id=?
 	..private.bootstrap ms msDef
 	..to-string
-	# Don't want to depend on Try because that can cause circular dependency problems.
 	.Impl-Type
 	.Kind _ kind!
 	.Method _ impl!
@@ -15,35 +14,33 @@ use-debug
 	.Method self-impl!
 
 Type. new Kind
+	| Anything implementing contains?.
+	| Types are generally used to succinctly make assertions about values.
 	name.
-	doc. "
-		Anything implementing contains?.
-		Types are generally used to succinctly make assertions about values.
 
 impl! to-string Type .|
 	.name
-# TODO: Should not be necessary, Kind < Impl-Type < Type
+todo  Should not be necessary, Kind < Impl-Type < Type
 impl! to-string Kind .|
 	.name
 
 impl! =? Type .|other
 	id=? this other
 
-# Made by Method.ms.
+|| Made by Method.ms.
 contains?. ms.contains
 
 extract. new Method
+	| Given a type and arbitrary value:
+	| If the value is of the type, return an array of sub-values.
+	| Otherwise, return `null`.
+	| The array of values are taken into local variables.
+	| For example:
+	todo examples
 	name.
-	doc. "
-		Given a type and arbitrary value:
-			If the value is of the type, return an array of sub-values.
-			Otherwise, return `null`.
-		The array of values are taken into local variables.
-		For example:
 	test. !|
-		# TODO: syntax-test.ms
-		My-Type =
-			doc. "Example type"
+		todo syntax-test.ms
+		My-Type = new Object
 		self-impl! extract My-Type |case
 			=? _ "extractable"
 				[1 2]
@@ -61,7 +58,8 @@ extract. new Method
 	args.
 		. "type"
 		. "candidate"
-		. ["num-extracteds" Number] # Nat
+		todo Nat
+		. ["num-extracteds" Number]
 
 msDef "extract" extract
 
@@ -70,11 +68,10 @@ msDef "checkContains" |type value value-name
 	value
 
 =>. new Method
+	todo Don't take additional args (get rid of `=> String` joining nonsense)
+	todo args: convert-to:Type convert-me (may take additional args)
+	| Converts a value to a given type.
 	name.
-	doc. "
-		TODO: Don't take additional args...
-		|convert-to:Type convert-me (may take additional args)
-		Converts a value to a given type.
 	wrap. |impl type converted opts
 		case converted
 			:type
@@ -83,8 +80,7 @@ msDef "checkContains" |type value value-name
 				impl.call type _ opts
 
 type-of.
-	doc. "
-		Most specific Impl-Type for a value.
+	| Most specific Impl-Type for a value.
 	test. |
 		[Type] -> Kind
 		[null] -> Object

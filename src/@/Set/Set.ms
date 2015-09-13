@@ -11,8 +11,9 @@ use-debug
 	..@ --
 
 Set. new Kind
+	| @ without repeat values.
+	todo more
 	name.
-	doc. "@ without repeat values."
 
 self-kind! Set @-Type
 kind! Set @
@@ -21,7 +22,7 @@ self-impl! empty Set |
 	empty Hash-Set
 
 impl! =? Set
-	doc. "Two Sets are =? if they have the same type and contain the same values."
+	| Two Sets are =? if they have the same type and contain the same values.
 	test. |
 		a = => Set [1 2]
 		b = => Set [1 2]
@@ -32,7 +33,7 @@ impl! =? Set
 			:other
 
 set=?.
-	doc. "Whether two @s have the same values, regardless of order or count."
+	| Whether two @s have the same values, regardless of order or count.
 	test. |
 		[[1 2 3] [3 2 1]] -> true
 		[[1] [1 1 1]] -> true
@@ -41,8 +42,8 @@ set=?.
 		=? (=> Set a) (=> Set b)
 
 intersect. new Method
+	todo doc
 	name.
-	doc. "TODO"
 	test. |
 		[(=> Set [1 2]) (=> Set [2 3])] -> => Set [2]
 	args. 2

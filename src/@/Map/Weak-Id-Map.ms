@@ -9,10 +9,9 @@ use
 	.Map-Type
 
 Weak-Id-Map.
-	doc. "
-		Map which can only hold have Objects as keys and stops holding them when they are garbage collected.
-		Good for caches.
-		It does not have the full functionality of a Map because there is no way to iterate over the keys.
+	| Map which can only hold have Objects as keys and stops holding them when they are garbage collected.
+	| Good for caches.
+	| It does not have the full functionality of a Map because there is no way to iterate over the keys.
 	WeakMap
 
 self-kind! Weak-Id-Map Map-Type
@@ -30,7 +29,7 @@ impl! un-assoc! Weak-Id-Map .|key
 	with ?get this key
 		.delete key
 
-# TODO: unsupported! Function?
+todo  unsupported! Function?
 impl! keys Weak-Id-Map .!|
 	ignore this
 	throw! "Weak-Id-Map does not support `keys`."

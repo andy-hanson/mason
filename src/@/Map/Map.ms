@@ -16,8 +16,8 @@ use-debug
 	...math.methods +
 
 Map. new Kind
+	| Mapping from keys to values.
 	name.
-	doc. "Mapping from keys to values."
 
 kind! Map @
 
@@ -27,8 +27,8 @@ impl! to-string Map
 			1 -> 2
 		[m] -> "Map\n\t1 -> 2"
 	.|
-		# TODO: map Map to Array
-		# TODO:SYNTAX Array destructure
+		todo  map Map to Array
+		todo SYNTAX Array destructure
 		parts = map~ this |pair
 			"{pair[0]} -> {pair[1]}"
 		"
@@ -37,30 +37,28 @@ impl! to-string Map
 
 region New methods
 	?get. new Method
+		| `?` containing the value corresponding to `key`, if any.
 		name.
-		doc. "`?` containing the value corresponding to `key`, if any."
 		args. ["_" "key"]
 
 	has-key?. new Method
+		| Whether the key is in the Map.
 		name.
-		doc. "
-			|:Boolean _ key:Any
-			Whether the key is in the Map.
 		args. ["_" "key"]
 		default. .|key
 			not (empty? (?get this key))
 
 	keys. new Method
+		| Every key that the Map `has-key?`.
 		name.
-		doc. "Every key that the Map `has-key?`."
 		args. 1
 		default. .|
 			=> Array (map~ this |pair
 				pair[0]
 
 	values. new Method
+		| Every value in the Map.
 		name.
-		doc. "Every value in the Map."
 		args. 1
 		default. .|
 			=> Array (map~ this |pair
@@ -75,13 +73,13 @@ region Old methods
 
 region Functions
 	make-map.
-		doc. "Creates a Map whose values are the result of applying `get-value` to each key."
+		| Creates a Map whose values are the result of applying `get-value` to each key.
 		test. !|
 			map = make-map [1 2] |x
 				+ x 1
 			assert! =? map[1] 2
 			assert! =? map[2] 3
-		# TODO: map-type param
+		todo  map-type param
 		|@key:@ get-value:Function
 			map = empty Id-Map
 			for! @key
@@ -89,7 +87,7 @@ region Functions
 			map
 
 	map=?.
-		doc. "Whether the two maps have the same keys and the same associated values, regardless of the maps' types."
+		| Whether the two maps have the same keys and the same associated values, regardless of the maps' types.
 		test. |
 			m1 =
 				1 -> 2
@@ -101,7 +99,7 @@ region Functions
 		|a:Map b:Map
 			and (=? (count a) (count b))
 				all? a |pair
-					# TODO:SYNTAX Array destructure
+					todo SYNTAX Array destructure
 					key = pair[0]
 					val = pair[1]
 					?bk = ?get b key
@@ -109,36 +107,33 @@ region Functions
 
 region Mutator methods
 	assoc!. new Method
+		| "Set `_[key]` to `val`."
 		name.
-		doc. "Set _[key] to val."
 		args. ["_" "key" "val"]
 	msDef "assoc" assoc!
 
 	assoc*!.
-		doc. "Adds the other map~s keys to mine, overriding my values."
+		| Adds the other map~s keys to mine, overriding my values.
 		test. "See Map.implementor-test."
 		!|map:Map to-add:Map
 			for! to-add
-				# TODO:SYNTAX Array destructure
+				todo SYNTAX Array destructure
 				assoc! map _[0] _[1]
 
 	un-assoc!. new Method
+		| If there is a value associated with `key`, removes it and returns the value associated.
 		name.
-		doc. "
-			If there is a value associated with `key`, removes it and returns the value associated.
 		args. ["_" "key"]
 
 	un-assoc*!.
-		doc. "Removes keys (and by proxy, their associated values)."
+		| Removes keys (and by proxy, their associated values).
 		!|map:Map @to-delete:@
 			for! @to-delete
 				un-assoc! map _
 
 	add!. new Method
+		| `assoc! key val`, but fail if `_[key]` is set already.
 		name.
-		doc. "
-			|_ key:Any val:Any
-			assoc! key val, but fail if _[key] is set already.
 		args. ["_" "key" "val"]
 		default. .!|key val
 			in
@@ -146,8 +141,8 @@ region Mutator methods
 			assoc! this key val
 
 	get-or-add!. new Method
+		| map[key], and if it's not already there, fill it in with default-val.
 		name.
-		doc. "map[key], and if it's not already there, fill it in with default-val."
 		args. ["_" "key" "~default-val"]
 		default. .|key ~default-val
 			?-or (?get this key) ~

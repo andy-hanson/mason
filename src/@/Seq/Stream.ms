@@ -8,17 +8,15 @@ use
 	.Seq _ seq=?
 
 Stream. class
+	| A Stream is a @ whose elements are the outputs of a Generator.
+	| Unlike a Generator, a Stream can be used multiple times.
+
 	do!
 		self-kind! _ @-Type
 		kind! _ Seq
-		# TODO
+		todo
 		self-impl! empty _ (thunk (new _ |
 			empty-Generator
-
-	# TODO: class attributes
-	# doc. "
-	#	A Stream is a @ whose elements are the outputs of a Generator.
-	#	Unlike a Generator, a Stream can be used multiple times.
 
 	static
 		from-stream |_
@@ -29,11 +27,11 @@ Stream. class
 		Object.defineProperty this Symbol.iterator
 			value. make-iterator
 
-# TODO: class attributes
+todo  class attributes
 Stream.test = !|
 	_ = new Stream ~!|
 		<~ 1
 		<~ 2
 	assert! seq=? _ [1 2]
-	# Streams can be used twice!
+	|| Streams can be used twice!
 	assert! seq=? _ [1 2]

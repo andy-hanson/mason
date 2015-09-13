@@ -9,10 +9,10 @@ use-debug
 	.Hash-Map
 
 Map-Type. new Kind
+	| Map or any sub-type.
 	name.
-	doc. "Any sub-type of Map."
 
-# TODO: Do this in Map.ms ?
+todo  Do this in Map.ms ?
 self-kind! Map Map-Type
 self-impl! empty Map |
 	empty Id-Map
@@ -20,7 +20,7 @@ self-impl! empty Map |
 kind! Map-Type @-Type
 impl! from-stream Map-Type
 	test. |
-		# TODO: Better test
+		todo  Better test
 		m =
 			1 -> 2
 			3 -> 4
@@ -31,6 +31,6 @@ impl! from-stream Map-Type
 	.|stream
 		map = empty this
 		for! stream
-			# TODO:SYNTAX Array destructure
+			todo SYNTAX Array destructure
 			assoc! map _[0] _[1]
 		map

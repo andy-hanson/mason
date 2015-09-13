@@ -10,20 +10,18 @@ use-debug
 	.$ $rejected $resolved
 	.Function thunk
 
-# TODO:SYNTAX One-line fun
+todo SYNTAX One-line fun
 debug fail! = !|
 	throw!
 
 Success. class
+	| Attempt that did not fail. _.val is the result of the attempted code.
 	construct! .val
 		pass
 
-Success.doc = "Attempt that did not fail. _.val is the result of the attempted code."
-
 try-result.
-	doc. "
-		If `tried` throws an error, returns it; else returns Success of its result.
-		If you don't care about the value of the error, use `?try` instead.
+	| If `tried` throws an error, returns it; else returns Success of its result.
+	| If you don't care about the value of the error, use `?try` instead.
 	test. |
 		[(thunk 1)] -> new Success 1
 		assert! =? (try-result fail!).message "An error occurred."
@@ -34,11 +32,11 @@ try-result.
 			catch
 				_
 
+todo kill? Not a good idea to just throw away errors.
 ?try.
-	doc. "
-		`?` containing any successes.
-		This can be thought of as translating an Error-throwing Function to an ?-returning one.
-		The opposite of this is `@.?.un-?`.
+	| `?` containing any successes.
+	| This can be thought of as translating an Error-throwing Function to an ?-returning one.
+	| The opposite of this is `@.?.un-?`.
 	test. |
 		[(thunk 1)] -> ?some 1
 		[fail!] -> ?None
@@ -51,7 +49,7 @@ try-result.
 				?None
 
 fails?.
-	doc. "Whether the Function throws some error."
+	| Whether the Function throws some error.
 	test. !|
 		assert! fails? !|
 			throw!
@@ -67,7 +65,7 @@ fails?.
 				true
 
 fails-with?.
-	doc. "Whether the Function throws an error of the given type or with the given message."
+	| Whether the Function throws an error of the given type or with the given message.
 	test. !|
 		assert! fails-with? "message" !|
 			throw! "message"
@@ -86,7 +84,7 @@ fails-with?.
 						=? error.message _
 
 annotate-errors.
-	doc. "If there are thrown errors, prepends `annotation` to their stack and message."
+	| If there are thrown errors, prepends `annotation` to their stack and message.
 	test. !|
 		assert! fails-with? "ab" !|
 			annotate-errors "a" !|
@@ -102,24 +100,23 @@ annotate-errors.
 
 region $
 	$try.
-		doc. "Success if the $ is resolved, Error if rejected."
+		| Success if the $ is resolved, Error if rejected.
 		$test. ~!|
 			assert! =? (new Success 1) (<~ $try ($resolved 1))
 			assert! =? "a" (<~ ($try ($rejected "a")))
-			# $rejected but with non-error:
+			|| $rejected but with non-error:
 			assert! =? "a" (<~ ($try ($.reject "a")))
 		|_:$
-			# =>[Error] because it's possible for a Promise to reject with a non-Error.
+			|| =>[Error] because it's possible for a Promise to reject with a non-Error.
 			success = $after _ |val
 				new Success val
 			success.catch |err
 				err
 
 	$catch.
-		doc. "
-			If `$` succeeds, acts like `identity`.
-			Else returns a `$` for the result of running `catcher` on the Error.
-			Like for `$after`, `catcher` can also return another `$`.
+		| If `$` succeeds, acts like `identity`.
+		| Else returns a `$` for the result of running `catcher` on the Error.
+		| Like for `$after`, `catcher` can also return another `$`.
 		$test. ~!|
 			assert! =? "a" (<~ ($.reject "a").catch |_
 				_
@@ -127,7 +124,7 @@ region $
 			promise.catch catcher
 
 	$annotate-errors.
-		doc. "Like `annotate-errors` but works on errors thrown in a `$`."
+		| Like `annotate-errors` but works on errors thrown in a `$`.
 		$test. ~!|
 			assert! =? "ab" (<~ $try ($annotate-errors "a" ($rejected (new Error "b")))).message
 		|~annotation:String $tried:$

@@ -15,18 +15,18 @@ use-debug
 	.@.@ map
 	.Function identity
 
-# TODO: Move
+todo  Move
 
 test. !|
 	assert! =? "123" (map "123" identity)
 
 self-kind! String @-Type
 self-impl! empty String (thunk "")
-# TODO
+todo
 self-impl! from-stream String |_
 	from-stream Array _
 
-# TODO: self-impl-double! ?
+todo  self-impl-double! ?
 impl-double! => (new Self-Type String) @
 	test. |
 		[String [1 2 3]] -> "123"
@@ -37,10 +37,11 @@ impl-double! => (new Self-Type String) @
 			to-string_
 		arr.join joiner
 
-# TODO: Should this be necessary?
+todo  Should this be necessary?
 impl! sort String
 	test. !|
-		pass # TODO
+		todo
+		pass
 	.|?sort-by:Opt[Function]
 		(sort.default.call this ?sort-by).join ""
 

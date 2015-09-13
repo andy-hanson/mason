@@ -1,5 +1,5 @@
 use
-	# TODO:SYNTAX use global.Set but rename it to Js-Set
+	todo SYNTAX use global.Set but rename it to Js-Set
 	global
 	...Type.Kind kind! self-kind!
 	...Type.Method impl! self-impl!
@@ -18,7 +18,7 @@ kind! Id-Set Set
 impl! count Id-Set .|
 	.size
 
-# TODO: Make default falling back to +!
+todo  Make default falling back to +!
 impl! ++! Id-Set .!|@added
 	for! em in @added
 		.add em
@@ -26,7 +26,7 @@ impl! ++! Id-Set .!|@added
 impl! empty! Id-Set .!|
 	.clear()
 
-# TODO: Make default falling back to -!
+todo  Make default falling back to -!
 impl! --! Id-Set .!|@deleted
 	for! em in @deleted
 		.delete em

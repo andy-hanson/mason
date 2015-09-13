@@ -6,6 +6,8 @@ use
 	.Seq _ <++~ tail
 
 LList. class
+	| Singly-linked list.
+
 	do!
 		self-kind! _ @-Type
 		kind! _ Seq
@@ -14,10 +16,6 @@ LList. class
 			empty-LList
 		from-stream |_
 			<++~ empty-LList _
-
-	# TODO: class attributes
-	# doc. "
-	# 	Singly-linked list.
 
 	construct! .head .tail
 		pass
@@ -43,8 +41,8 @@ LList. class
 			cond done this new LList value f()
 		f()
 
-	# For the concatenation of two LLists, we can just use the second as a tail.
 	++ |other
+		|| For the concatenation of two LLists, we can just use the second as a tail.
 		case other
 			:LList
 				<++~ other this

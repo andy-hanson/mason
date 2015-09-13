@@ -1,9 +1,9 @@
+| Functions implementing behavior native to JavaScript.
+
 use~
 	.@.Range
 use-debug
 	.compare =?
-
-doc. "Functions implementing behavior native to JavaScript."
 
 op = |op-name
 	Function "a" "b" "return a {op-name} b"
@@ -35,7 +35,7 @@ js-delete. Function "obj" "prop" "delete obj[prop]"
 js-instanceof. op "instanceof"
 
 regex.
-	doc. "TODO"
+	todo doc
 	test. !|
 		assert! =? regex"a{1}b" (RegExp "a1b")
 
@@ -47,7 +47,7 @@ regex.
 		RegExp _
 
 defined?.
-	doc. "True for any value except `undefined`."
+	| True for any value except `undefined`.
 	test. |
 		[undefined] -> false
 		[0] -> true
@@ -55,17 +55,16 @@ defined?.
 		not id=? _ undefined
 
 id=?.
-	doc. "
-		For Objects, whether they are the same place in memory.
-		For primitive types, whether they have the same data.
-		TODO: Explain (and test) difference between this and js===
+	| For Objects, whether they are the same place in memory.
+	| For primitive types, whether they have the same data.
+	todo Explain (and test) difference between this and js===
 	test. |
 		["a" "a"] -> true
 		[["a"] ["a"]] -> false
 	Object.is
 
 truthy?.
-	doc. "Whether javascript's `if` statement would consider the value to be true."
+	| Whether javascript's `if` statement would consider the value to be true.
 	test. !|
 		for! [null undefined 0 Number.NaN "" false]
 			forbid! truthy? _
@@ -75,7 +74,7 @@ truthy?.
 		not js!_
 
 js-typeof.
-	doc. "JavaScript's `typeof` operator."
+	| JavaScript's `typeof` operator.
 	test. |
 		[undefined] -> "undefined"
 		[null] -> "object"

@@ -1,6 +1,7 @@
-# TODO: TEST
+todo TEST
+
 use
-	# TODO:SYNTAX use global.Map but rename it to Js-Map
+	todo SYNTAX use global.Map but rename it to Js-Map
 	global
 	...compare =?
 	...hash-code
@@ -13,12 +14,13 @@ use
 	.Id-Map
 	.Map _ assoc! ?get un-assoc!
 	.Map-Type
-use~ # TODO: use-debug
+use~ todo  use-debug
 	...Type.Type =>
 	..Seq.Seq seq=?
 	.Map keys
 
 Hash-Map. class
+	| Default Map type. Depends on efficient `hash-code` of its keys.
 	do!
 		self-kind! _ Map-Type
 		kind! _ Map
@@ -50,10 +52,10 @@ Hash-Map. class
 		bucket = .val.get hash
 		case! opt-bucket-entry bucket key
 			defined?_
-				# TODO: Might not want to overwrite value...
+				todo Might not want to overwrite value...
 				_.val! := val
 			else
-				# Add it at the front.
+				|| Add it at the front.
 				.val.set hash (new Bucket key val bucket)
 
 	un-assoc! |key
@@ -89,11 +91,7 @@ Hash-Map. class
 	empty! !|
 		.val.clear()
 
-	# TODO: class attributes
-	# doc. "Default Map type. Depends on efficient `hash-code` of its keys."
-	# TODO: Remove, just use Map.implementor-test.
-
-# TODO: class attributes
+todo Remove, just use Map.implementor-test.
 Hash-Map.test = !|
 	_ = => Hash-Map
 		1 -> 2
@@ -112,8 +110,8 @@ region Private
 			.val! ::= val!
 			.next! ::= next!
 
-	# All entries in the bucket have the same hash code.
-	# Find the first bucket that =? key.
+	|| All entries in the bucket have the same hash code.
+	|| Find the first bucket that =? key.
 	opt-bucket-entry = |opt-bucket key
 		cur ::= opt-bucket
 		for

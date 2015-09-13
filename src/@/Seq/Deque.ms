@@ -12,22 +12,22 @@ use
 	.Seq _ <++! ++>! ?nth ?<pop! ?pop>! reverse set-nth!
 
 Deque. class
+	| Seq that can efficiently add values on either side.
+
 	do!
 		self-kind! _ @-Type
 		kind! _ Seq
 
 	static
-		# TODO: Most have this implementation of empty...
+		todo Most have this implementation of empty...
 		empty |
 			new this
 
 	construct!
 		.data! ::= Array 8
-		.start-index! ::= 0 # Inclusive (unless =? end-index)
-		.end-index! ::= 0 # Exclusive
+		.start-index! ::= 0 || Inclusive (unless =? end-index)
+		.end-index! ::= 0 || Exclusive
 
-	# TODO: class attributes
-	# doc. "Seq that can efficiently add values on either side."
 	iterator ~!|
 		indices = case
 			<? .end-index! .start-index!
@@ -61,7 +61,7 @@ Deque. class
 					set-nth! .data! .end-index! em
 					.end-index! := new-end
 
-		# TODO: Shrink on occasion
+		todo  Shrink on occasion
 
 	?<pop! |
 		unless empty? this

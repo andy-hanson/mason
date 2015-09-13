@@ -1,7 +1,6 @@
 {
 	"name": "msl",
 	"version": "0.0.0",
-	"private": true,
 	"files": [ "dist", "src" ],
 	"dependencies": {
 		"amdefine": "1.0.0"

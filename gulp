@@ -1,1 +1,1 @@
-node --stack-trace-limit=100 node_modules/gulp/bin/gulp $@
+node --stack-trace-limit=100 --es_staging node_modules/gulp/bin/gulp $@

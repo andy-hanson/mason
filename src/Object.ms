@@ -20,13 +20,13 @@ use-debug
 	.Try fails? fails-with?
 
 Object-Key. new Kind
+	| Can be used as a name for a property of an object.
 	name.
-	doc. "Can be used as a name for a property of an object."
 	implementors. [String Symbol]
 
-# TODO: better name?
+todo  better name?
 can-get-p?.
-	doc. "Whether it's safe to try to directly access properties."
+	| Whether it's safe to try to directly access properties.
 	test. |
 		[null] -> false
 		[undefined] -> false
@@ -35,9 +35,9 @@ can-get-p?.
 		not js== _ null
 
 flag?.
-	doc. "If it has a property for the flag, uses that. Otherwise false."
+	| If it has a property for the flag, uses that. Otherwise false.
 	test. |
-		# TODO:SYNTAX (a.)
+		todo SYNTAX (a.)
 		[(a. true) "a"] -> true
 		[(a. false) "a"] -> false
 		[empty-Object "a"] -> false
@@ -46,9 +46,8 @@ flag?.
 
 ~forbidden-fun-props = => Id-Set ["arguments" "caller"]
 @p-all.
-	doc. "
-		Every property name directly stored in an object.
-		Includes non-enumerable properties and symbols.
+	| Every property name directly stored in an object.
+	| Includes non-enumerable properties and symbols.
 	test. !|
 		obj = empty-Object!()
 		p+! obj "a" 0
@@ -58,11 +57,11 @@ flag?.
 			enumerable. false
 		assert! set=? (@p-all [0 0]) ["0" "1" "length"]
 		assert! set=? (@p-all obj) ["a" sym]
-		# But not "arguments" or "caller"
-		assert! set=? (@p-all @p-all) ["length" "name" "doc" "test"]
+		|| But not "arguments" or "caller"
+		assert! set=? (@p-all @p-all) ["length" "name" "test"]
 	|_
 		props = Object.getOwnPropertyNames_
-		# TODO: Use keep! to modify props
+		todo  Use keep! to modify props
 		own-names = case
 			:Function
 				keep props |_
@@ -72,8 +71,7 @@ flag?.
 		++ own-names Object.getOwnPropertySymbols_
 
 @p.
-	doc. "
-		Like @p-all, but excludes non-enumerable properties and symbols.
+	| Like @p-all, but excludes non-enumerable properties and symbols.
 	test. !|
 		obj = empty-Object!()
 		Object.defineProperty obj "a"
@@ -84,7 +82,7 @@ flag?.
 			value. 0
 			enumerable. true
 		assert! empty? (@p obj)
-		assert! set=? (@p @p) ["doc" "test"]
+		assert! set=? (@p @p) ["test"]
 	|case
 		can-get-p?_
 			Object.keys_
@@ -92,21 +90,21 @@ flag?.
 			[]
 
 ?p.
-	doc. "`?` containing the value of the property, if it exists."
+	| `?` containing the value of the property, if it exists.
 	test. |
 		x =
 			a. 1
 			b. null
 		[x "a"] -> ?some 1
 		[x "b"] -> ?some null
-		# Does not inherit from prototype.
+		|| Does not inherit from prototype.
 		[x "toString"] -> empty ?
 	|_ prop-name:Object-Key
 		if p? _ prop-name
 			js-sub _ prop-name
 
 ?p-with-proto.
-	doc. "Like `?p`, but also looks through the prototype chain."
+	| Like `?p`, but also looks through the prototype chain.
 	test. |
 		[1 "toString"] -> ?some Number.prototype.toString
 		[1 "asdfghjkl"] -> ?None
@@ -115,11 +113,11 @@ flag?.
 			can-get-p?_
 				Opt->? (js-sub _ prop-name)
 			else
-				# TODO: ?None
+				todo  ?None
 				empty ?
 
 p.
-	doc. "Gets the value of a property. Does not include properties in the prototype."
+	| Gets the value of a property. Does not include properties in the prototype.
 	test. |
 		x =
 			a. 1
@@ -135,27 +133,26 @@ p.
 		js-sub _ prop-name
 
 p?.
-	doc. "Whether there is a property by that name."
+	| Whether there is a property by that name.
 	test. |
 		x = a. 1
 		[x "a"] -> true
 		[x "b"] -> false
-		[x "toString"] -> false # use p-with-proto? for that.
+		[x "toString"] -> false || use p-with-proto? for that.
 	|_ prop-name:Object-Key
 		and can-get-p?_ (Object.prototype.hasOwnProperty.call _ prop-name)
 
 p-with-proto?.
-	doc. "Like `p?` but looks through the prototype."
+	| Like `p?` but looks through the prototype.
 	test. |
 		[empty-Object "toString"] -> true
 	|_ prop-name:Object-Key
 		and can-get-p?_ (defined? (js-sub _ prop-name))
 
-# TODO: Handle recursive references.
+todo  Handle recursive references.
 object=?.
-	doc. "
-		For Objects, whether they are of the same type and have `=?` properties.
-		For primitives, whether they are `=?`.
+	| For Objects, whether they are of the same type and have `=?` properties.
+	| For primitives, whether they are `=?`.
 	test. |
 		a = a. 1
 		b = a. 1
@@ -163,13 +160,13 @@ object=?.
 		[a b] -> true
 		[a c] -> false
 		[1 1] -> true
-		# For functions, is identity
+		|| For functions, is identity
 		[object=? object=?] -> true
 	|a b
-		# Necessary because `js-typeof null` is "object"
+		|| Necessary because `js-typeof null` is "object"
 		null-a = id=? a null
 		null-b = id=? b null
-		# TODO: Not :Object because that currently also includes Functions
+		todo  Not :Object because that currently also includes Functions
 		obj-a = and (not null-a) (id=? (js-typeof a) "object")
 		obj-b = and (not null-b) (id=? (js-typeof b) "object")
 		case
@@ -189,7 +186,7 @@ object=?.
 empty-Object. Object.freeze (Object.create Object.prototype)
 
 empty-Object?.
-	doc. "Whether there are no properties, not even hidden ones."
+	| Whether there are no properties, not even hidden ones.
 	test. |
 		[empty-Object] -> true
 		[Object] -> false
@@ -197,7 +194,7 @@ empty-Object?.
 		empty? @p-all_
 
 Object->Map.
-	doc. "A Map whose keys are property names and whose values are the properties' values."
+	| A Map whose keys are property names and whose values are the properties' values.
 	test. |
 		[(a. 1 b. 2)] ->
 			"a" -> 1
@@ -206,9 +203,9 @@ Object->Map.
 		make-map @p_ p[_]
 
 Map->Object.
-	doc. "Given a Map whose keys are Strings, creates an Object whose Object->Map is that."
+	| Given a Map whose keys are Strings, creates an Object whose Object->Map is that.
 	test. |
-		# TODO:SYNTAX ["a" -> 1, "b" -> 2]
+		todo SYNTAX ["a" -> 1, "b" -> 2]
 		map =
 			"a" -> 1
 			"b" -> 2
@@ -220,21 +217,21 @@ Map->Object.
 	|_:Map
 		with empty-Object!() as obj
 			for! elem in _
-				# TODO:SYNTAX Array destructure
+				todo SYNTAX Array destructure
 				p+! obj elem[0] elem[1]
 			freeze obj
 
 prototype.
-	doc. "Gets prototype of an object."
+	| Gets prototype of an object.
 	test. |
 		[empty-Object] -> Object.prototype
 		[Object-Key] -> Kind.prototype
 	Object.getPrototypeOf
 
 region Mutator methods
-	# TODO: just use new Object or Object.create
+	todo  just use new Object or Object.create
 	empty-Object!.
-		doc. "Creates a new Object! with no properties and the given prototype."
+		| Creates a new Object! with no properties and the given prototype.
 		test. !|
 			_ = empty-Object!()
 			assert! empty-Object? _
@@ -244,7 +241,7 @@ region Mutator methods
 			Object.create (opr prototype Object.prototype)
 
 	p+!.
-		doc. "Adds a new immutable property."
+		| Adds a new immutable property.
 		test. !|
 			_ = empty-Object!()
 			p+! _ "a" 1
@@ -260,7 +257,7 @@ region Mutator methods
 				value. val
 
 	p+mut!.
-		doc. "Adds a new mutable property."
+		| Adds a new mutable property.
 		test. "See `p!`"
 		!|_:Object prop-name:Object-Key val
 			Object.defineProperty _ prop-name
@@ -270,7 +267,7 @@ region Mutator methods
 				configurable. true
 
 	p!.
-		doc. "Modifies an already-existing property."
+		| Modifies an already-existing property.
 		test. !|
 			_ = empty-Object!()
 			p+mut! _ "a" 1
@@ -294,9 +291,9 @@ region Mutator methods
 
 			js-delete _ prop-name
 
-	# TODO: Don't bother, just `spread p+!`
+	todo  Don't bother, just `spread p+!`
 	extend!.
-		doc. "Adds all the properties in `extender` to `_`."
+		| Adds all the properties in `extender` to `_`.
 		test. !|
 			_ = empty-Object!()
 			extend! _
@@ -306,7 +303,7 @@ region Mutator methods
 			Object.assign _ extender
 
 send.
-	doc. "Calls `target`'s method `method-name` with the given arguments."
+	| Calls `target`'s method `method-name` with the given arguments.
 	test. |
 		[1 "toFixed" 2] -> "1.00"
 		assert! fails-with? "Method \"toFixed\" not implemented by \"1\"." !|
@@ -320,3 +317,12 @@ send!. send
 
 object-merge. |...objects
 	Object.assign (new Object) ...objects
+
+map-object-values.
+	test. |
+		[(a. 1 b. undefined) defined?] -> a. true b. false
+
+	|obj:Object mapper:Function
+		with new Object as mapped
+			for! key in @p obj
+				p+! mapped key (mapper (p obj key))

@@ -4,48 +4,49 @@ use
 	...@.Seq.Seq ?first tail
 
 make-word-from-blocks.
-	doc. "http://rosettacode.org/wiki/ABC_Problem"
-	# TODO: Make it performant
-	# test. |
-	#	# Backtracking is necessary - can't use the first block first!
-	#	["AB" ["AB" "AC"]] -> ? ["AC" "AB"]
+	| http://rosettacode.org/wiki/ABC_Problem
 
-	#	sample-blocks =
-	#		. "BO"
-	#		. "XK"
-	#		. "DQ"
-	#		. "CP"
-	#		. "NA"
-	#		. "GT"
-	#		. "RE"
-	#		. "TG"
-	#		. "QD"
-	#		. "FS"
-	#		. "JW"
-	#		. "HU"
-	#		. "VI"
-	#		. "AN"
-	#		. "OB"
-	#		. "ER"
-	#		. "FS"
-	#		. "LY"
-	#		. "PC"
-	#		. "ZM"
+	todo Make it performant
+	todo test. |
+	todo	|| Backtracking is necessary - can't use the first block first!
+	todo	["AB" ["AB" "AC"]] -> ? ["AC" "AB"]
 
-	#	sample-answers =
-	#		"a" -> ? ["NA"]
-	#		"bark" -> ? ["BO" "NA" "RE" "XK"]
-	#		"book" -> empty ?
-	#		"treat" -> ? ["GT" "RE" "ER" "NA" "TG"]
-	#		"common" -> empty ?
-	#		"squad" -> ? ["FS" "DQ" "HU" "NA" "QD"]
-	#		"confuse" -> ? ["CP" "BO" "NA" "FS" "HU" "FS" "RE"]
+	todo	sample-blocks =
+	todo		. "BO"
+	todo		. "XK"
+	todo		. "DQ"
+	todo		. "CP"
+	todo		. "NA"
+	todo		. "GT"
+	todo		. "RE"
+	todo		. "TG"
+	todo		. "QD"
+	todo		. "FS"
+	todo		. "JW"
+	todo		. "HU"
+	todo		. "VI"
+	todo		. "AN"
+	todo		. "OB"
+	todo		. "ER"
+	todo		. "FS"
+	todo		. "LY"
+	todo		. "PC"
+	todo		. "ZM"
 
-	#	for! sample-answers
-	#		# TODO:SYNTAX Array destructure
-	#		! =? _[1] (make-word-from-blocks _[0] sample-blocks)
+	todo	sample-answers =
+	todo		"a" -> ? ["NA"]
+	todo		"bark" -> ? ["BO" "NA" "RE" "XK"]
+	todo		"book" -> empty ?
+	todo		"treat" -> ? ["GT" "RE" "ER" "NA" "TG"]
+	todo		"common" -> empty ?
+	todo		"squad" -> ? ["FS" "DQ" "HU" "NA" "QD"]
+	todo		"confuse" -> ? ["CP" "BO" "NA" "FS" "HU" "FS" "RE"]
 
-	|:? word:String blocks:@ # TODO: ?[Seq[String]], @[String]
+	todo	for! sample-answers
+	todo		todo SYNTAX Array destructure
+	todo		! =? _[1] (make-word-from-blocks _[0] sample-blocks)
+
+	|:? word:String blocks:@ todo  ?[Seq[String]], @[String]
 		rec = |chars-left blocks-left
 			case chars-left
 				empty?_
@@ -54,9 +55,9 @@ make-word-from-blocks.
 					rest-word = tail_
 					this-char-blocks = keep blocks-left |_
 						chars-left[0]:_
-					# TODO:SYNTAX @for~
+					todo SYNTAX @for~
 					?first (flat-map~ this-char-blocks |_
-						# TODO -, not --
+						todo -, not --
 						map~ (rec rest-word (-- blocks-left [_])) |ans
 							++ [_] ans
 		rec word.toUpperCase() (map blocks |_

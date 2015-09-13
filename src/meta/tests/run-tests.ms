@@ -1,3 +1,5 @@
+| For running code in `test` properties.
+
 use
 	...assert assert-call! assert-this-call!
 	...@.@
@@ -21,9 +23,6 @@ use-debug
 	...Object empty-Object!
 	...Type.Method self-impl!
 
-doc. "For running code in `test` properties."
-
-# TODO
 test. !|
 	assert! =? ["x" "y" "b"] (build |yield
 		obj =
@@ -36,38 +35,37 @@ test. !|
 			b. empty-Object!()
 			self-impl! test-special b !|
 				yield "b"
-			c. null # not testable
+			c. null || not testable
 		@$maybe-test "obj" obj true
 
-# TODO: Better name (but not `test`, because that's a common module property)
+todo Better name (but not `test`, because that's a common module property)
 test-special. new Method
+	| Something special to do with this value when the test runner reacher it.
+	| May return a $.
 	name.
-	doc. "
-		Something special to do with this value when the test runner reacher it.
-		May return a $.
 	args. 1
 	allow-null?. true
 	default. !|
 		pass
 
-# TODO: MOVE THESE
+todo MOVE THESE
 impl! test-special Impl-Type .|
 	$all @for prototype in ?p this "prototype"
 		for! prop-name in @p-all prototype
-			# Some prototype properties throw errors. For example, global.Map.size.
+			|| Some prototype properties throw errors. For example, global.Map.size.
 			?prop-val = ?try |
 				p prototype prop-name
 			for! proto-fun in ?prop-val
-				# if! proto-fun:Function
-				#	for! (?p proto-fun "test")
-				#	... @$test-proto-fun _ ~"{this}#{prop-name}"
-				# Must call prop-name.toString() because Symbols can not implicitly convert.
+				todo if! proto-fun:Function
+				todo	for! (?p proto-fun "test")
+				todo	... @$test-proto-fun _ ~"{this}#{prop-name}"
+				|| Must call prop-name.toString() because Symbols can not implicitly convert.
 				... @$maybe-test ~"{.name}#{prop-name.toString()}" proto-fun false true
 
 
-# TODO: MOVE THESE
+todo MOVE THESE
 impl! test-special Kind .|
-	# TODO:SYNTAX Just build without @for
+	todo SYNTAX Just build without @for
 	@for
 		... @$-from-any ((impl-for test-special Impl-Type) this)
 		for! test in ?p this "implementor-test"
@@ -76,25 +74,25 @@ impl! test-special Kind .|
 		break!
 
 $test-all.
-	doc. "Tests all modules."
-	|@all-modules:@ # TODO: @[Object]
+	| Tests all modules.
+	|@all-modules:@ todo  @[Object]
 		$all @for @all-modules
 			... @$test-module_
 
 $test-module.
-	doc. "Treats an Object as a module and tests it."
+	| Treats an Object as a module and tests it.
 	|-module:Object
 		$all (@$test-module -module)
 
-# TODO:ES6 Use module reflection
+todo ES6 Use module reflection
 @$test-module = |-module:Object
 	module-name = ?-or (?p -module "name") "<anonymous module>"
 	@$maybe-test module-name -module true
 
-# TODO: Make this local to a single run of $test-all.
+todo Make this local to a single run of $test-all.
 all-tested = empty Id-Set
 
-# TODO: Better name
+todo Better name
 @$maybe-test = |~test-name value is-module is-proto-prop
 	case
 		all-tested.has value
@@ -104,21 +102,23 @@ all-tested = empty Id-Set
 			@$test-single ~test-name value is-module is-proto-prop
 
 $test-fun.
-	doc. "TODO"
+	todo doc
 	test. !|
-		pass # TODO
+		todo
+		pass
 	|_:Function
 		$all (@$test-single "{_}" _ false false)
 
 $test-single.
-	doc. "TODO"
+	todo doc
 	test. !|
-		pass # TODO
+		todo
+		pass
 	|_
 		$all (@$test-single "" _ false false)
 
 @$test-single = |~test-name value is-module is-proto-prop
-	# TODO:SYNTAX Just build without @for
+	todo SYNTAX Just build without @for
 	@for
 		... @$-from-any (test-special value)
 		case! value
@@ -126,7 +126,7 @@ $test-single.
 				for! prop-name in @p_
 					~next-name = "{test-name}.{prop-name}"
 					prop-val = p _ prop-name
-					# TODO:SYNTAX switch!
+					todo SYNTAX switch!
 					case! prop-name
 						=? _ "test"
 							... @$test-test-prop value prop-val ~next-name is-proto-prop
@@ -141,12 +141,13 @@ $test-single.
 				pass
 		break!
 
-@$test-test-prop = |value value-test ~test-name is-proto-prop # TODO: ...test-args
-	# TODO:SYNTAX Just build without @for
+@$test-test-prop = |value value-test ~test-name is-proto-prop
+	todo  ...test-args
+	todo SYNTAX Just build without @for
 	@for
 		_ = value-test
-		# Could be both Function and ObjLit
-		# TODO: No it can't
+		|| Could be both Function and ObjLit
+		todo No it can't
 		if! :Function
 			... @$test-test-fun value value-test ~name is-proto-prop
 		if! :ObjLit
@@ -162,7 +163,7 @@ $test-single.
 	_ = annotate-errors ~ano |
 		value-test ...args
 	case
-		# TODO: just :Map
+		todo just :Map
 		or :Map :Id-Map
 			assert! value:Function throw!
 				"Test of {test-name} returned a Map, but the value is not callable."

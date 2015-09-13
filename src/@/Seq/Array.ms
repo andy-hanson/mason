@@ -1,20 +1,19 @@
-# Also see .Map.Array-as-Map
+| Also see .Map.Array-as-Map
 
 use
-	...compare <=? <?
+	...compare =? <=? <?
 	...js js-set js-sub
 	...math.methods +
 	...Type.Kind kind! self-kind!
 	...Type.Method impl! self-impl!
 	...Type.Type =>
-	..@ _ --! count empty! empty?
+	..@ _ -! --! count empty! empty?
 	..@-Type _ empty from-stream
 	..Set.Set
 	.Seq _ <++! ++>! indexes ?nth ?<pop! ?pop>! set-nth!
 use~
 	...math.Number Nat
 use-debug
-	...compare =?
 	...Function identity
 	...math.Number divisible?
 
@@ -38,11 +37,11 @@ impl! ?nth Array .|n
 		js-sub this n
 
 impl! <++! Array .|added:@
-	# TODO:SYNTAX _.unshift ...added
+	todo SYNTAX _.unshift ...added
 	Array.prototype.unshift.apply this (=> Array added)
 
 impl! ++>! Array .|added:@
-	# TODO:SYNTAX _.push ...added
+	todo SYNTAX _.push ...added
 	Array.prototype.push.apply this (=> Array added)
 
 impl! ?<pop! Array .|
@@ -54,8 +53,8 @@ impl! ?pop>! Array .|
 		.pop()
 
 impl! empty! Array .!|
-	# http://jsperf.com/empty-javascript-array/15
-	# TODO: Test it myself...
+	| http://jsperf.com/empty-javascript-array/15
+	todo  Test it myself...
 	for!
 		if! empty? this
 			break!
@@ -64,23 +63,21 @@ impl! empty! Array .!|
 impl! set-nth! Array .!|n:Nat val
 	js-set this n val
 
-# TODO
-# impl! -! Array |em
-#	for! i in indexes this
-#		if! =? this[i] em
-#			.splice i 1
-#			break!
+impl! -! Array .!|em
+	for! i in indexes this
+		if! =? this[i] em
+			.splice i 1
+			break!
 
-# TODO:PERF -- write in terms of `filter!`
 impl! --! Array .!|@deleted
 	@deleted := => Set @deleted
 	filter! this |em
 		with em:@deleted
 			if! _
-				# TODO: -!
+				todo  -!
 				--! @deleted [em]
 
-# TODO: impl! filter!
+todo  impl! filter!
 filter!.
 	test. !|
 		arr = [1 2 3 4 5]
@@ -98,7 +95,7 @@ filter!.
 
 			here = arr[read-idx]
 			if! keep-if? here
-				# TODO this[write-idx] = here
+				todo this[write-idx] = here
 				set-nth! arr write-idx here
 				write-idx := + 1 write-idx
 
@@ -107,12 +104,11 @@ filter!.
 		arr.length := write-idx
 
 fill.
-	doc. "
-		Creates a new Array by calling `filler` on each number from zero to `count`.
+	| Creates a new Array by calling `filler` on each number from zero to `count`.
 	test. |
 		[3 identity] -> [0 1 2]
 	|count:Number filler:Function
 		with new Array count
 			for! i in indexes_
-				# TODO:SYNTAX _[i] = filler i
+				todo SYNTAX _[i] = filler i
 				set-nth! _ i (filler i)

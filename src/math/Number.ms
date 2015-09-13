@@ -10,11 +10,10 @@ use-debug
 	..Try fails?
 
 Int. new Pred-Type
+	| A multiple of 1.
+	| This only contains Numbers for which integer methods return sensible results, AKA safe ints.
+	| This is anything between Number.MIN_SAFE_INTEGER and Number.MAX_SAFE_INTEGER.
 	name.
-	doc. "
-		A multiple of 1.
-		This only contains Numbers for which integer methods return sensible results, AKA safe ints.
-		This is anything between Number.MIN_SAFE_INTEGER and Number.MAX_SAFE_INTEGER.
 	test. !|
 		assert-int! = !|_
 			assert! _:Int
@@ -31,8 +30,8 @@ Int. new Pred-Type
 	predicate. Number.isSafeInteger
 
 Nat. new Pred-Type
+	| Any counting number, including `0`.
 	name.
-	doc. "Any counting number, including `0`."
 	test. !|
 		assert! 0:Nat
 		forbid! -1:Nat
@@ -40,7 +39,7 @@ Nat. new Pred-Type
 		and :Int (<=? 0 _)
 
 region impl!
-	# TODO: impl*!
+	todo  impl*!
 	impl! compare Number .|other:Number
 		- this other
 	impl! =? Number
@@ -82,9 +81,8 @@ region Tests
 
 region Integer arithmetic
 	remainder.
-		doc. "
-			Remainder of `a` after dividing by `b`.
-			Sign of result is sign of `a`. Sign of `b` is ignored.
+		| Remainder of `a` after dividing by `b`.
+		| Sign of result is sign of `a`. Sign of `b` is ignored.
 		test. |
 			[2 3] -> 2
 			[2 -3] -> 2
@@ -94,9 +92,8 @@ region Integer arithmetic
 			js-mod numerator denominator
 
 	int/.
-		doc. "
-			Integer division: throws out any remainder.
-			This is the default in other programming languages, but in Mason `/ 1 2` is 0.5, not 0.
+		| Integer division: throws out any remainder.
+		| This is the default in other programming languages, but in Mason `/ 1 2` is 0.5, not 0.
 		test. |
 			[3 2] -> 1
 			[-3 2] -> -2
@@ -104,9 +101,8 @@ region Integer arithmetic
 			round-down (/ a b)
 
 	modulo.
-		doc. "
-			Mathematical modulus.
-			Smallest positive number which can be added to a multiple of `denominator` to get `numerator`."
+		| Mathematical modulus.
+		| Smallest positive number which can be added to a multiple of `denominator` to get `numerator`.
 		test. |
 			[2 3] -> 2
 			[2 -3] -> 2
@@ -122,7 +118,7 @@ region Integer arithmetic
 					remainder numerator denominator
 
 	divisible?.
-		doc. "Whether an integer number of `b` can add up to `a`."
+		| Whether an integer number of `b` can add up to `a`.
 		test. !|
 			assert! divisible? 4 2
 			assert! divisible? 4 -2
@@ -131,13 +127,13 @@ region Integer arithmetic
 			=? 0 (remainder a b)
 
 region Real arithmetic
-	# TODO: Some of these are unnecessary...
+	todo  Some of these are unnecessary...
 
 	log-e. |_:Number
 		Math.log _
 
 	log.
-		doc. "Mathematical logarithm."
+		| Mathematical logarithm.
 		test. |
 			assert! near? (log 10 0.01) -2
 			[2 8] -> 3
@@ -145,7 +141,7 @@ region Real arithmetic
 			/ (log-e n) (log-e base)
 
 	abs.
-		doc. "Negates `a` until it is positive."
+		| Negates `a` until it is positive.
 		test. |
 			[1] -> 1
 			[-1] -> 1
@@ -153,7 +149,7 @@ region Real arithmetic
 			Math.abs a
 
 	pow.
-		doc. "`a` raised to the power of `b`."
+		| `a` raised to the power of `b`.
 		test. |
 			[2 3] -> 8
 		|a:Number b:Number
@@ -173,10 +169,11 @@ region Real arithmetic
 			Math.sqrt _
 
 region Rounding
+	todo probably want to get rid of these.
+
 	round.
-		doc. "
-			Closest integer.
-			Rounds up to break ties.
+		| Closest integer.
+		| Rounds up to break ties.
 		test. |
 			[-0.5] -> -0
 			[0.5] -> 1
@@ -184,7 +181,7 @@ region Rounding
 			Math.round _
 
 	round-down.
-		doc. "Greatest integer no greater than `a`."
+		| Greatest integer no greater than `a`.
 		test. |
 			[-0.5] -> -1
 			[0.5] -> 0
@@ -192,7 +189,7 @@ region Rounding
 			Math.floor _
 
 	round-up.
-		doc. "Least integer no less than `a`."
+		| Least integer no less than `a`.
 		test. |
 			[-0.5] -> -0
 			[0.5] -> 1
@@ -200,7 +197,7 @@ region Rounding
 			Math.ceil _
 
 	round-towards-0.
-		doc. "`round-down` if positive, else `round-up`."
+		| `round-down` if positive, else `round-up`.
 		test. |
 			[-0.5] -> 0
 			[0.5] -> 0
@@ -209,13 +206,13 @@ region Rounding
 
 region Near
 	near?.
-		doc. "Whether they are within sig-figs precision."
+		| Whether they are within sig-figs precision.
 		test. |
 			[1000.9 1000 3] -> true
 			[1000.9 1000 4] -> false
 			[0.001001 0.001 3] -> true
 			[0.001001 0.001 4] -> false
-			[0.001 -0.001 1] -> false # Numbers with different signs are never near.
+			[0.001 -0.001 1] -> false || Numbers with different signs are never near.
 			region Behaves like `near-0?` when an arg is 0
 				[0.00999 0 2] -> true
 				[0 0.00999 2] -> true
@@ -235,21 +232,20 @@ region Near
 					<? (abs scaled-diff) epsilon
 
 	near-0?.
-		doc. "
-			Whether it is close to zero.
-			It must be `0.0...` where there are `sig-figs` 0s after the decimal point.
+		| Whether it is close to zero.
+		| It must be `0.0...` where there are `sig-figs` 0s after the decimal point.
 		test. |
 			[0.00999 2] -> true
 			[0.01 2] -> false
 		|_ sig-figs:Opt[Nat]
 			sig-figs := opr sig-figs 6
-			# This is more accurate than `pow 0.1 sig-figs`
+			|| This is more accurate than `pow 0.1 sig-figs`
 			max = pow 10 (* -1 sig-figs)
 			<? abs_ max
 
 region Utilities
 	neg.
-		doc. "TODO"
+		todo doc
 		test. |
 			[1] -> -1
 			[0] -> -0
@@ -257,7 +253,7 @@ region Utilities
 			* -1 _
 
 	mid.
-		doc. "TODO"
+		todo doc
 		test. |
 			[0 1] -> 0.5
 		|a:Number b:Number

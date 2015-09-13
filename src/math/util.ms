@@ -3,7 +3,7 @@ use
 	.methods + /
 
 average.
-	doc. "TODO"
+	todo doc
 	test. |
 		[[0 1 2]] -> 1
 		[[]] -> Number.NaN
@@ -16,7 +16,7 @@ average.
 		/ sum count
 
 sum.
-	doc. "TODO"
+	todo doc
 	test. |
 		[[1 2]] -> 3
 		[[]] -> 0

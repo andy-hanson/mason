@@ -10,11 +10,9 @@ use-debug
 	.Map assoc! keys
 
 Sorted-Map. new Kind
+	| Map whose `keys` are in sorted order.
+	| This kind of Map depends on an efficient `compare` between its keys.
 	name.
-	doc. "
-		Map whose `keys` are in sorted order.
-		This kind of Map depends on an efficient `compare` between its keys.
-
 	implementor-test. !|type
 		_ = empty type
 		for! key in [1 3 5 4 2]

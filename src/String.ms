@@ -8,20 +8,19 @@ use~
 	.@.@ count
 
 String-Test. new Kind
+	| Something we can compare a String to.
 	name.
-	doc. "Something we can compare a String to."
 	implementors. [String RegExp]
 
 Char. new Pred-Type
+	| Any String with only one character.
 	name.
-	doc. "Any String with only one character."
 	predicate. |_
 		and :String (=? count_ 1)
 
 indent.
-	doc. "
-		Adds a `\\t` to all `\\n` in `str`.
-		Does *not* do anything to the first line.
+	| Adds a `\\t` to all `\\n` in `str`.
+	| Does *not* do anything to the first line.
 	test. |
 		s = "
 			a

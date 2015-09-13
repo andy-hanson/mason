@@ -1,6 +1,6 @@
 use
 	.Kind _ kind! unchecked-kind!
-use~ # TODO: use-debug
+use~ todo  use-debug
 	..compare =?
 	..Object empty-Object!
 	.Method _ impl!
@@ -8,17 +8,15 @@ use-debug
 	.Kind kind?
 
 Impl-Type. new Kind
+	| Every Impl-Type should have a `prototype` property.
+	todo more doc
 	name.
-	doc. "
-		TODO:REST
-		Every Impl-Type should have a `prototype` property.
 	test. !|
-		A = Kind
-			doc. "A"
-		B = Kind
-			doc. "B"
+		todo make sure this is actually running
+		A = new Kind
+		B = new Kind
 		C = class
-			# TODO: empty class
+			todo  empty class
 			"dummy" |
 				this
 		kind! B A
@@ -28,27 +26,23 @@ Impl-Type. new Kind
 		assert! kind? C A
 		forbid! kind? A B
 
-unchecked-kind! Function Impl-Type # Function isa Function, so can't use kind!
+unchecked-kind! Function Impl-Type || Function isa Function, so can't use kind!
 kind! Kind Impl-Type
 
-region Self-Type
-	Self-Type. class
-		do!
-			kind! _ Impl-Type
-		# TODO: class attributes
-		# doc. "
-		#	Impl-Type with exactly one member.
-		#	Calling impl! on it will directly modify an Object to contain method implementations.
+Self-Type. class
+	| Impl-Type with exactly one member.
+	| Calling impl! on it will directly modify an Object to contain method implementations.
+	do!
+		kind! _ Impl-Type
 
-		construct! prototype:Object
-			.prototype = prototype
+		todo  class attriburtes
+		_.test = !|
+			x = empty-Object!()
+			m = new Method
+				name.
+			impl! m (new Self-Type x) |
+				1
+			assert! =? (m x) 1
 
-	# TODO: class attributes
-	Self-Type.test = !|
-		x = empty-Object!()
-		m = new Method
-			name.
-		impl! m (new Self-Type x) |
-			1
-		assert! =? (m x) 1
-
+	construct! prototype:Object
+		.prototype = prototype

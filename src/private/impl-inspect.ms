@@ -14,7 +14,7 @@ impl! inspect Object
 			Object
 				a. 1
 				b. 2
-		# TODO: test non-enumerable properties
+		todo test non-enumerable properties
 	.|
 		switch .toString
 			Object.prototype.toString

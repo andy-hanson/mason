@@ -8,11 +8,8 @@ use
 	.Set
 
 Hash-Set. class
-	# TODO: class attributes
-	# doc. "
-	#	Set that considers elements equal using =?.
-	#	Relies on an efficient hash-code implementation.
-
+	| Set that considers elements equal using =?.
+	| Relies on an efficient hash-code implementation.
 	do!
 		self-kind! _ @-Type
 		kind! _ Set
@@ -28,12 +25,12 @@ Hash-Set. class
 		iterator (keys .map)
 
 
-	# TODO: Make default falling back to +!
+	todo Make default falling back to +!
 	++! !|@added
 		for! @added
 			assoc! .map _ true
 
-	# TODO: Make default falling back to -!
+	todo Make default falling back to -!
 	--! !|@deleted
 		for! @deleted
 			un-assoc! .map _

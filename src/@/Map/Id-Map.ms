@@ -1,5 +1,5 @@
 use
-	# TODO:SYNTAX use global.Map but rename it to Js-Map
+	todo SYNTAX use global.Map but rename it to Js-Map
 	global
 	...Type.Method impl! self-impl!
 	...Type.Kind kind! self-kind!
@@ -14,18 +14,16 @@ use-debug
 	..Seq.Seq seq=?
 
 Id-Map.
-	doc. "
-		JavaScript's native Map type.
-		Only considers exactly identical keys =?; this makes it the fastest Map.
-
+	| JavaScript's native Map type.
+	| Only considers exactly identical keys =?; this makes it the fastest Map.
 	global.Map
 
 kind! Id-Map Map
 self-kind! Id-Map Map-Type
 
-# TODO: class attributes
+todo  class attributes
 test. !|
-	# TODO: Just use generic Map test
+	todo  Just use generic Map test
 	_ = empty Id-Map
 	assoc! _ 1 2
 	assert! =? _[1] 2
@@ -36,7 +34,7 @@ test. !|
 	key-2 =
 		a. 1
 	assoc! _ key-2 4
-	# The two keys have different identity, so they map to different values.
+	|| The two keys have different identity, so they map to different values.
 	assert! =? _[key-1] 3
 	assert! =? _[key-2] 4
 

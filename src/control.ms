@@ -8,7 +8,7 @@ use-debug
 	.compare =?
 
 do-times!.
-	doc. "Performs `action` `n-times` times."
+	| Performs `action` `n-times` times.
 	test. !|
 		i ::= 0
 		do-times! 10 !|
@@ -24,7 +24,7 @@ do-times!.
 			n := js- n 1
 
 opr.
-	doc. "Fills in an Opt with a default value."
+	| Fills in an Opt with a default value.
 	test. |
 		[undefined 1] -> 1
 		[1 2] -> 1
@@ -32,9 +32,8 @@ opr.
 		cond defined?_ _ default
 
 build.
-	doc. "
-		Passes in a `yield` Function to `calls-yield`.
-		Returns a Seq of what `calls-yield` called `yield` with.
+	| Passes in a `yield` Function to `calls-yield`.
+	| Returns a Seq of what `calls-yield` called `yield` with.
 	test. !|
 		assert! =? [0 1] (build |yield
 			yield 0
@@ -46,12 +45,14 @@ build.
 		calls-yield yield
 		freeze yielded
 
+todo kill
 unreachable!.
-	doc. "Call this to mark code as unreachable."
+	| Call this to mark code as unreachable.
 	!|
 		throw! "This should not be reachable."
 
+todo kill
 TODO.
-	doc. "Placeholder for something which you really ought to implement one of these days."
+	| Placeholder for something which you really ought to implement one of these days.
 	!|
 		throw! "This function has not yet been implemented."

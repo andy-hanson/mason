@@ -1,22 +1,21 @@
 use
-	.Function call
 	.Type.Method
 	.Type.Pred-Type
 
 Generator. new Pred-Type
+	| A block of code which yields values and receives responses from a context.
+	| Also known as a coroutine.
 	name.
-	doc. "
-		A block of code which yields values and receives responses from a context.
-		Also known as a coroutine.
 	predicate. |_
 		and :Object _.next:Function
 
 empty-Generator.
-	doc. "Does nothing."
-	call ~!|
+	| Does nothing.
+	g = ~!|
 		pass
+	g()
 
 gen-next!. new Method
+	| Continues until the next `<~`.
 	name.
-	doc. "Continues until the next `<~`."
 	impl-symbol. "next"

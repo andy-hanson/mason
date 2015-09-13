@@ -84,7 +84,10 @@ const
 	pipeJs = stream =>
 		stream
 		.pipe(sourcemaps.init())
-		.pipe(babel(babelOpts))
+		.pipe(babel({
+			modules: 'amd',
+			whitelist: [ 'es6.destructuring', 'es6.modules', 'es6.parameters', 'es6.spread', 'strict' ]
+		}))
 		.pipe(header(
 			'if (typeof define !== \'function\') var define = require(\'amdefine\')(module);'))
 		.pipe(sourcemaps.write({ debug: true, sourceRoot: '/src' }))
@@ -101,16 +104,13 @@ const
 			// Can't use builtins because msl is what defines them.
 			builtins: {
 				'global': [ 'Array', 'Boolean', 'Error', 'Function', 'Math', 'Number', 'Object', 'RegExp', 'String', 'Symbol' ]
-			}
+			},
+			includeAmdefine: true,
+			lazyModules: false
 		}))
 		.pipe(sourcemaps.write({
 			debug: true,
 			includeContent: false,
 			sourceRoot: './src'
 		}))
-		.pipe(gulp.dest(dist)),
-
-	babelOpts = {
-		modules: 'amd',
-		whitelist: [ 'es6.destructuring', 'es6.modules', 'strict' ]
-	}
+		.pipe(gulp.dest(dist))

@@ -11,15 +11,14 @@ use
 
 region Rule results
 	R. |written new-state
-		# TODO:SYNTAX go-right. state. ...
+		todo SYNTAX go-right. state. ...
 		(write. written go-right. true state. new-state)
 	L. |written new-state
 		(write. written go-right. false state. new-state)
-	fin.
-		doc. "Stops the machine."
+	fin. new Object
 
 run-turing.
-	doc. "http://rosettacode.org/wiki/Universal_Turing_machine"
+	| http://rosettacode.org/wiki/Universal_Turing_machine
 	test. |
 		incrementer =
 			init-state. "a"
@@ -88,11 +87,11 @@ run-turing.
 			index := case index
 				go-right
 					if! =? _ (- (count tape) 1)
-						# TODO: +>!
+						todo  +>!
 						++>! tape [blank]
 					+ _ 1
 				=? _ 0
-					# TODO: <+!
+					todo  <+!
 					<++! tape [blank]
 					0
 				else

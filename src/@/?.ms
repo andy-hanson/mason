@@ -15,10 +15,8 @@ use-debug
 	..Try fails?
 
 ?. class
-	# TODO: class attributes
-	# doc. "
-	#	A Seq with 0 or 1 elements.
-	#	TODO: MORE
+	| A Seq with 0 or 1 elements.
+	todo MORE
 
 	do!
 		self-kind! _ @-Type
@@ -51,7 +49,8 @@ use-debug
 				"?some {.val}"
 
 empty-marker =
-	doc. "`_.val` on an empty `?` will return this."
+	| `_.val` on an empty `?` will return this.
+	new Object
 
 ?None. new ? empty-marker
 ?some. |_
@@ -62,18 +61,18 @@ msDef "None" ?None
 
 region Functions
 	Opt->?.
-		doc. "`?` containing the value iff it is defined."
+		| `?` containing the value iff it is defined.
 		test. |
 			[0] -> ?some 0
 			[null] -> ?some null
 			[undefined] -> ?None
 		|_
-			# TODO: `if-test defined? _` ?
+			todo  `if-test defined? _` ?
 			if defined?_
 				_
 
 	?->Opt.
-		doc. "Extracts the value from a `?`, or returns undefined."
+		| Extracts the value from a `?`, or returns undefined.
 		test. |
 			[(?some 0)] -> 0
 			forbid! defined? (?->Opt ?None)
@@ -84,9 +83,9 @@ region Functions
 				else
 					_.val
 
-	# TODO: Just use first?
+	todo  Just use first?
 	un-?.
-		doc. "Tries to extract the value out of a `?`. Throws an error if it is empty."
+		| Tries to extract the value out of a `?`. Throws an error if it is empty.
 		test. |
 			[(?some 1)] -> 1
 			assert! fails? |
@@ -96,7 +95,7 @@ region Functions
 			_.val
 
 	?-or.
-		doc. "If empty, defaults to `or` - else returns its value."
+		| If empty, defaults to `or` - else returns its value.
 		test. |
 			[?None 1] -> 1
 			[(?some 1) 2] -> 1
@@ -108,11 +107,11 @@ region Functions
 					_.val
 
 Some. new Pred-Type
+	todo doc
 	name.
-	doc. "TODO"
 	predicate. |_
 		and :? not empty?_
-	# TODO: Move to test of self-impl!
+	todo  Move to test of self-impl!
 	test. !|
 		case! ?some 1
 			:Some val

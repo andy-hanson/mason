@@ -12,7 +12,7 @@ use
 use-debug
 	...@.Seq.Seq seq=? take
 
-# Least-significant to most-significant, but order doesn't matter.
+|| Least-significant to most-significant, but order doesn't matter.
 digits = |_
 	base = 10
 	new Stream ~!|
@@ -24,14 +24,14 @@ digits = |_
 				break!
 
 happy-step = |_
-	# TODO: sum function?
+	todo  sum function?
 	fold (map digits_ square) +
 
 cache = []
 set-nth! cache 1 true
 
 happy?.
-	doc. "http://rosettacode.org/wiki/Happy_numbers"
+	| http://rosettacode.org/wiki/Happy_numbers
 	|n:Nat
 		stepped-through = empty Id-Set
 		cur ::= n
@@ -42,7 +42,7 @@ happy?.
 				else
 					if! cur:stepped-through
 						break false
-					# TODO: +!
+					todo  +!
 					++! stepped-through [cur]
 					cur := happy-step cur
 		with n-happy?
@@ -51,7 +51,7 @@ happy?.
 				set-nth! cache _ n-happy?
 
 happy-numbers:Stream[Nat].
-	doc. "Stream of all happy numbers."
+	| Stream of all happy numbers.
 	test. !|
 		assert! seq=? (take happy-numbers 8)
 			. 1
