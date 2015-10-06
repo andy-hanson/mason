@@ -1,4 +1,4 @@
-use
+import
 	..@.@ _ fold
 	.methods + /
 

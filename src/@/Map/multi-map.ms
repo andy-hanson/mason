@@ -1,13 +1,13 @@
-use
+import
 	...control opr
 	...Type.Pred-Type Opt
 	..@ _ ++!
 	..@-Type _ empty
 	.Map _ get-or-add!
-use-debug
+import-debug
 	...compare =?
 	...to-string
-	..@ keep
+	..@ @keep
 	..Seq.Seq seq=?
 
 add-to-@!.
@@ -34,7 +34,7 @@ group.
 			"2" -> [2 "2"]
 		|| Each map value is a subset of it.
 		|| You shouldn't use `group-by` if all you need is `keep`.
-		assert! seq=? (group @sample to-string)["1"] (keep @sample |_
+		assert! seq=? (group @sample to-string)["1"] (@keep @sample |_
 			=? to-string_ "1"
 	|@value:@ group-by:Function
 		map = empty Map

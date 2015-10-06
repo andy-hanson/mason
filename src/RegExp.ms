@@ -1,4 +1,4 @@
-use
+import
 	.@.Seq.Seq indexes
 	.math.methods +
 

@@ -1,4 +1,4 @@
-use
+import
 	todo SYNTAX use global.Set but rename it to Js-Set
 	global
 	...Type.Kind kind! self-kind!

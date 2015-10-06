@@ -1,8 +1,8 @@
-use
+import
 	...Type.Kind kind! self-kind!
 	..@ ++! --! empty! iterator
 	..@-Type _ empty
-	..Map.Map keys
+	..Map.Map @keys
 	..Map.Hash-Map
 	..Map.Map assoc! un-assoc!
 	.Set
@@ -22,7 +22,7 @@ Hash-Set. class
 		pass
 
 	iterator |
-		iterator (keys .map)
+		iterator (@keys .map)
 
 
 	todo Make default falling back to +!

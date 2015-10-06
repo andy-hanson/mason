@@ -1,4 +1,4 @@
-use
+import
 	.Type.Method
 	.Type.Pred-Type
 

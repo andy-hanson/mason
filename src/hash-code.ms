@@ -1,4 +1,4 @@
-use
+import
 	global WeakMap
 	.compare =?
 	.js id=? js* js- js+ js-bar js-sub

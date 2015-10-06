@@ -1,8 +1,8 @@
 | Functions implementing behavior native to JavaScript.
 
-use~
+import~
 	.@.Range
-use-debug
+import-debug
 	.compare =?
 
 op = |op-name

@@ -1,4 +1,4 @@
-use
+import
 	..Type.Method
 
 +. new Method

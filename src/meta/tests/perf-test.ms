@@ -1,4 +1,4 @@
-use
+import
 	...@.@
 	...$ _ $after
 	...compare <?

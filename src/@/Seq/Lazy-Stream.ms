@@ -1,4 +1,4 @@
-use
+import
 	...Function call thunk
 	...math.Number Nat
 	...math.methods -
@@ -9,11 +9,11 @@ use
 	..? Some
 	.Seq _ ?nth
 	.Stream
-use~ todo  use-debug
+import~ todo  use-debug
 	...math.methods +
 	..Range
 	.Seq seq=? take~
-use-debug
+import-debug
 	...compare =?
 	...control build
 

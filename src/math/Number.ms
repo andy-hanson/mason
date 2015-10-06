@@ -1,11 +1,11 @@
-use
+import
 	..compare _ =? <? <=? >? >=?
 	..control opr
 	..js id=? js-bar js< js<= js> js>= js+ js- js* js/ js-mod
 	..Type.Method impl!
 	..Type.Pred-Type _ Opt
 	.methods + - * /
-use-debug
+import-debug
 	..Function spread!
 	..Try fails?
 

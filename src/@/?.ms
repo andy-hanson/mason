@@ -1,4 +1,4 @@
-use
+import
 	..control opr
 	..js defined? id=?
 	..private.bootstrap msDef
@@ -10,7 +10,7 @@ use
 	.@ empty? iterator
 	.@-Type _ empty from-stream
 	.Seq.Seq
-use-debug
+import-debug
 	..compare =?
 	..Try fails?
 

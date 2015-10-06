@@ -1,4 +1,4 @@
-use
+import
 	...@.@ count empty?
 	...@.Seq.Deque
 	...@.Seq.Seq _ <++! ++>! set-nth!

@@ -1,16 +1,16 @@
-use
+import
 	global console Promise setTimeout
-	.@.@ _ flatten
+	.@.@ _ @flatten
 	.Function Action
 	.Generator
 	.methods sub
 	.Type.Method self-impl!
 	.Type.Pred-Type Any
 	.Type.Type =>
-use~
+import~
 	.io.time $after-time
 	.Try $catch
-use-debug
+import-debug
 	.compare =?
 	.math.Number divisible?
 	.math.methods +
@@ -124,7 +124,7 @@ $flat-map.
 			$delay |
 				[_ _]
 	|:$[@] mapped:@ mapper:Function[Any $[@]]
-		$after ($map mapped mapper) flatten
+		$after ($map mapped mapper) @flatten
 
 $keep.
 	| Asynchronously runs keep-if? on each element and creates an Array of those that match.

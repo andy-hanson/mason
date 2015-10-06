@@ -1,10 +1,10 @@
-use
-	...@.@ empty? map~
+import
+	...@.@ empty? @map~
 	...@.Range
 	...math.Number divisible? Nat
 	...Object Object->Map
 	...Type.Type =>
-use-debug
+import-debug
 	...@.Seq.Seq seq=? take~
 
 make-fizz-buzz.
@@ -46,11 +46,12 @@ make-fizz-buzz.
 			. 17
 	|spec
 		todo  map Map to Array is hard
-		tests = => Array (map~ (Object->Map spec) |_
+		todo @for:Array
+		tests = => Array (@map~ (Object->Map spec) |_
 			todo SYNTAX array destructure
 			shout:String. _[0]
 			divisor:Nat. _[1]
-		map~ (new Range 1 Number.POSITIVE_INFINITY) |n
+		@map~ (new Range 1 Number.POSITIVE_INFINITY) |n
 			s ::= ""
 			for! tests
 				if! divisible? n _.divisor

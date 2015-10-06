@@ -1,10 +1,10 @@
-use
+import
 	.js defined? js- js<=
 	.methods freeze
 	.Type.Pred-Type Opt
-use~
+import~
 	.@.Seq.Seq _ ++>!
-use-debug
+import-debug
 	.compare =?
 
 do-times!.

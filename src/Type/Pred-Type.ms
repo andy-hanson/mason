@@ -1,13 +1,13 @@
-use
+import
 	..Function Pred
 	..js defined? id=?
 	..methods sub
 	.Kind kind!
 	.Method impl! self-impl!
 	.Type _ => contains?
-use~
+import~
 	..@.@ any?
-use-debug
+import-debug
 	..compare =?
 
 Pred-Type. class

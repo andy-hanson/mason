@@ -1,4 +1,4 @@
-use
+import
 	global Set
 	.js id=?
 	.private.bootstrap msDef

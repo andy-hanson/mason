@@ -1,4 +1,4 @@
-use
+import
 	..compare =?
 	..Function identity Pred
 	..js defined? id=?
@@ -10,13 +10,13 @@ use
 	..Type.Method impl!
 	..Type.Pred-Type Any Opt
 	..Type.Type => contains? type-of
-use~
+import~
 	..control opr
 	.? Opt->?
 	.Seq.Seq +>! ++>! first seq=? tail
 	.Seq.Stream
 	.Set.Set
-use-debug
+import-debug
 	..math.Number divisible?
 	..Try fails?
 	.@-Type empty
@@ -156,7 +156,7 @@ region Using iterator
 region Lazy functions, and their eager versions.
 	|| Eager versions are Methods if certain types can do them faster.
 
-	keep. new Method
+	@keep. new Method
 		| Only the elements that satisfy `keep-if?`.
 		name.
 		test. |
@@ -168,7 +168,7 @@ region Lazy functions, and their eager versions.
 				if! keep-if? _
 					. _
 
-	keep~.
+	@keep~.
 		| Lazy keep.
 		test. |
 			[[1 2] =?[2]] -> => Stream [2]
@@ -180,7 +180,7 @@ region Lazy functions, and their eager versions.
 						<~ _
 
 	todo  Method
-	map.
+	@map.
 		todo doc
 		test. |
 			[[1 2] =?[2]] -> [false true]
@@ -189,7 +189,7 @@ region Lazy functions, and their eager versions.
 			=> type-of_ @for elem in _
 				mapper elem
 
-	map~.
+	@map~.
 		| Lazy map.
 		test. |
 			[[1 2] =?[2]] -> => Stream [false true]
@@ -200,7 +200,7 @@ region Lazy functions, and their eager versions.
 					<~ mapper_
 
 	todo  Better name?
-	flat-map. new Method
+	@flat-map. new Method
 		| "Like `map`, but each mapping produces multiple values."
 		name.
 		test. |
@@ -213,7 +213,7 @@ region Lazy functions, and their eager versions.
 			=> (type-of this) @for this
 				... mapper_
 
-	flat-map~.
+	@flat-map~.
 		| Lazy flat-map.
 		test. |
 			f = |case
@@ -229,7 +229,7 @@ region Lazy functions, and their eager versions.
 				for! mapped
 					<~~ iterator mapper_
 
-	flatten. new Method
+	@flatten. new Method
 		| For an @ containing many @, produces an @ containing all of their entries combined.
 		| This does *not* consider more than 1 nested level, and there *every* element of _ must be an @.
 		| More efficient than `fold + _`.
@@ -242,7 +242,7 @@ region Lazy functions, and their eager versions.
 			=> (type-of this) @for this
 				... _
 
-	flatten~.
+	@flatten~.
 		| Lazy flatten.
 		test. |
 			[[[1 2] [3] []]] -> => Stream [1 2 3]
@@ -250,7 +250,7 @@ region Lazy functions, and their eager versions.
 			[[[1] [[2]]]] -> => Stream [1 [2]]
 			|| Must be at least one nested level
 			assert! fails? |
-				=> Array (flatten [[1] 2 [3]])
+				=> Array (@flatten~ [[1] 2 [3]])
 		|flattened
 			todo SYNTAX @for~
 			new Stream ~!|

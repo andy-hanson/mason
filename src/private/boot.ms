@@ -1,4 +1,4 @@
-use!
+import!
 	|| Defines global._ms.
 	.bootstrap
 	|| Turns on type checks.

@@ -1,8 +1,8 @@
-use
+import
 	..methods sub
 	.Kind kind!
 	.Type _ contains?
-use~ todo  use-debug
+import~ todo  use-debug
 	..compare =?
 
 Alias-Type. class

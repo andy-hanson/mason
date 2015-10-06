@@ -1,13 +1,13 @@
-use
+import
 	...compare =? same?
 	...Type.Type => type-of
 	...Type.Kind _ kind! self-kind!
 	...Type.Method _ impl! self-impl!
-	..@ _ all? count keep
+	..@ _ all? count @keep
 	..@-Type _ empty
-use~
+import~
 	.Hash-Set
-use-debug
+import-debug
 	..@ --
 
 Set. new Kind
@@ -48,5 +48,5 @@ intersect. new Method
 		[(=> Set [1 2]) (=> Set [2 3])] -> => Set [2]
 	args. 2
 	default. .|@intersect-with
-		keep this |_
+		@keep this |_
 			_:(=> Set @intersect-with)

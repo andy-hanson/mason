@@ -1,11 +1,11 @@
-use
+import
 	global WeakMap
 	...Type.Kind kind! self-kind!
 	...Type.Method impl! self-impl!
 	..@ empty!
 	..@-Type empty
 	..? Opt->?
-	.Map _ assoc! ?get has-key? keys un-assoc!
+	.Map _ assoc! ?get has-key? @keys un-assoc!
 	.Map-Type
 
 Weak-Id-Map.
@@ -30,7 +30,7 @@ impl! un-assoc! Weak-Id-Map .|key
 		.delete key
 
 todo  unsupported! Function?
-impl! keys Weak-Id-Map .!|
+impl! @keys Weak-Id-Map .!|
 	ignore this
 	throw! "Weak-Id-Map does not support `keys`."
 

@@ -1,4 +1,4 @@
-use
+import
 	global TypeError
 	.@.? ?some ?None
 	.$ _ $after
@@ -6,7 +6,7 @@ use
 	.Function Action
 	.Type.Pred-Type Any Union
 	.Type.Type
-use-debug
+import-debug
 	.$ $rejected $resolved
 	.Function thunk
 

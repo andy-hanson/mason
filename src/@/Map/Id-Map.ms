@@ -1,4 +1,4 @@
-use
+import
 	todo SYNTAX use global.Map but rename it to Js-Map
 	global
 	...Type.Method impl! self-impl!
@@ -7,9 +7,9 @@ use
 	..@-Type empty
 	..? Opt->?
 	..Seq.Stream
-	.Map _ assoc! ?get has-key? keys un-assoc! values
+	.Map _ assoc! ?get has-key? @keys un-assoc! @values
 	.Map-Type
-use-debug
+import-debug
 	...compare =?
 	..Seq.Seq seq=?
 
@@ -38,8 +38,8 @@ test. !|
 	assert! =? _[key-1] 3
 	assert! =? _[key-2] 4
 
-	assert! seq=? keys_ [1 key-1 key-2]
-	assert! seq=? values_ [2 3 4]
+	assert! seq=? @keys_ [1 key-1 key-2]
+	assert! seq=? @values_ [2 3 4]
 
 self-impl! empty Id-Map |
 	new Id-Map
@@ -53,11 +53,11 @@ impl! ?get Id-Map .|key
 impl! has-key? Id-Map .|key
 	.has key
 
-impl! keys Id-Map .|
+impl! @keys Id-Map .|
 	new Stream |
 		.keys()
 
-impl! values Id-Map .|
+impl! @values Id-Map .|
 	new Stream |
 		.values()
 

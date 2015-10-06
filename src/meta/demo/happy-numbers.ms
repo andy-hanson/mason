@@ -1,5 +1,5 @@
-use
-	...@.@ ++! fold keep~ map
+import
+	...@.@ ++! fold @keep~ @map
 	...@.@-Type empty
 	...@.Range
 	...@.Seq.Seq set-nth!
@@ -9,7 +9,7 @@ use
 	...js defined? js-sub
 	...math.Number int/ Nat remainder square
 	...math.methods +
-use-debug
+import-debug
 	...@.Seq.Seq seq=? take
 
 || Least-significant to most-significant, but order doesn't matter.
@@ -24,8 +24,8 @@ digits = |_
 				break!
 
 happy-step = |_
-	todo  sum function?
-	fold (map digits_ square) +
+	todo  + ...(@map digits_ square)
+	fold (@map digits_ square) +
 
 cache = []
 set-nth! cache 1 true
@@ -62,4 +62,4 @@ happy-numbers:Stream[Nat].
 			. 23
 			. 28
 			. 31
-	keep~ (new Range 1 Number.POSITIVE_INFINITY) happy?
+	@keep~ (new Range 1 Number.POSITIVE_INFINITY) happy?

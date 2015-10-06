@@ -1,4 +1,4 @@
-use
+import
 	...compare =?
 	...Function Pred
 	...math.methods - +
@@ -9,13 +9,13 @@ use
 	...Type.Type => type-of
 	..@ _ ++ count empty? iterator
 	..@-Type _ empty from-stream
-use~
+import~
 	...math.Number Nat
 	...to-string
 	..? Opt->? un-?
 	..Range
 	.Stream
-use-debug
+import-debug
 	...compare <?
 	...Try fails?
 	..? ?some ?None

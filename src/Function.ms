@@ -1,8 +1,8 @@
-use
+import
 	.methods sub
 	.Type.Alias-Type
 	.Type.Method impl! self-impl!
-use~
+import~
 	.@.@ _ ++
 	.@.@-Type empty
 	.@.Map.Hash-Map
@@ -12,7 +12,7 @@ use~
 	.Object Object->Map
 	.Type.Pred-Type ObjLit
 	.Type.Type =>
-use-debug
+import-debug
 	.@.Seq.Seq seq=?
 	.compare =?
 	.control build

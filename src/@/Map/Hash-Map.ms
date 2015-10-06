@@ -1,6 +1,6 @@
 todo TEST
 
-use
+import
 	todo SYNTAX use global.Map but rename it to Js-Map
 	global
 	...compare =?
@@ -8,16 +8,16 @@ use
 	...js defined?
 	...methods freeze
 	...Type.Kind kind! self-kind!
-	..@ empty! iterator map
+	..@ empty! iterator @map
 	..@-Type empty
 	..? ?None Opt->? ?some
 	.Id-Map
 	.Map _ assoc! ?get un-assoc!
 	.Map-Type
-use~ todo  use-debug
+import~ todo  use-debug
 	...Type.Type =>
 	..Seq.Seq seq=?
-	.Map keys
+	.Map @keys
 
 Hash-Map. class
 	| Default Map type. Depends on efficient `hash-code` of its keys.
@@ -44,7 +44,8 @@ Hash-Map. class
 	?get |key
 		bucket = .val.get (hash-code key)
 		entry = opt-bucket-entry bucket key
-		map (Opt->? entry) |_
+		todo @for
+		@map (Opt->? entry) |_
 			_.val!
 
 	assoc! !|key val
@@ -101,7 +102,7 @@ Hash-Map.test = !|
 	assert! seq=? _
 		. [1 2]
 		. [3 4]
-	assert! seq=? keys_ [1 3]
+	assert! seq=? @keys_ [1 3]
 	assert! =? ?None (?get _ 8)
 
 region Private

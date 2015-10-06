@@ -1,11 +1,11 @@
-use
-	...@.@ count keep
+import
+	...@.@ count @keep
 	...@.@-Type empty
-	...@.Map.Map values
+	...@.Map.Map @values
 	...@.Map.Id-Map
 	...@.Map.multi-map add-to-@!
 	...compare =? max sort
-use-debug
+import-debug
 	...@.Seq.Seq seq=?
 	...RegExp rgx
 
@@ -34,7 +34,7 @@ maximum-anagram-sets.
 		for! words
 			todo  Function to add just one new element
 			add-to-@! sorted->words sort_ [_]
-		max-count = max @for values sorted->words
+		max-count = max @for @values sorted->words
 			count_
-		keep (values sorted->words) |_
+		@keep (@values sorted->words) |_
 			=? count_ max-count

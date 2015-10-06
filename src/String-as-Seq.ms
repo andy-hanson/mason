@@ -1,4 +1,4 @@
-use
+import
 	.@.@ _ count empty?
 	.@.@-Type _ empty from-stream
 	.@.Seq.Seq
@@ -11,14 +11,14 @@ use
 	.Type.Method impl! impl-double! self-impl!
 	.Type.Pred-Type Opt
 	.Type.Type =>
-use-debug
-	.@.@ map
+import-debug
+	.@.@ @map
 	.Function identity
 
 todo  Move
 
 test. !|
-	assert! =? "123" (map "123" identity)
+	assert! =? "123" (@map "123" identity)
 
 self-kind! String @-Type
 self-impl! empty String (thunk "")

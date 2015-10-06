@@ -99,8 +99,8 @@ const
 
 		.pipe(mason({
 			checks,
-			// Can't automatically use boot because some of these modules *are* boot.
-			useBoot: false,
+			// Can't automatically import boot because some of these modules *are* boot.
+			importBoot: false,
 			// Can't use builtins because msl is what defines them.
 			builtins: {
 				'global': [ 'Array', 'Boolean', 'Error', 'Function', 'Math', 'Number', 'Object', 'RegExp', 'String', 'Symbol' ]

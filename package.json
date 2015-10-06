@@ -2,9 +2,7 @@
 	"name": "msl",
 	"version": "0.0.0",
 	"files": [ "dist", "src" ],
-	"dependencies": {
-		"amdefine": "1.0.0"
-	},
+	"dependencies": {"amdefine": "1.0.0"},
 	"devDependencies": {
 		"gulp": "3.9.0",
 		"gulp-babel": "5.2.1",
@@ -13,10 +11,11 @@
 		"gulp-plumber": "1.0.1",
 		"gulp-sourcemaps": "1.5.2",
 		"gulp-watch": "4.3.5",
-		"mason-compile": "andy-hanson/mason-compile",
 		"mason-node-util": "andy-hanson/mason-node-util",
+		"q-io": "1.13.1",
 		"requirejs": "2.1.20",
-		"source-map-support": "0.3.2"
+		"source-map-support": "0.3.2",
+		"yargs": "3.26.0"
 	},
 	"repository": "andy-hanson/mason",
 	"engines": {

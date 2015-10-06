@@ -1,12 +1,12 @@
-use
+import
 	...Type.Kind _ kind!
 	...Type.Method _ self-impl!
 	..@
 	..@-Type empty
 	..?
-use~
+import~
 	.Heap-Priority-Queue
-use-debug
+import-debug
 	...compare =?
 	..@ ++! empty?
 	..? ?None ?some

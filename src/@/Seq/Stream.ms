@@ -1,4 +1,4 @@
-use
+import
 	...Function thunk
 	...Generator _ empty-Generator
 	...Type.Kind kind! self-kind!

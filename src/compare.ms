@@ -1,7 +1,7 @@
-use
+import
 	.js id=?
 	.Type.Method
-use~
+import~
 	.@.@ _ all? empty? iterator
 	.@.@-Type from-stream
 	.@.? un-?
@@ -10,7 +10,7 @@ use~
 	.Function identity
 	.Object object=?
 	.Type.Pred-Type Opt
-use-debug
+import-debug
 	.@.@ count
 	.@.? ?None ?some
 	.Try fails?

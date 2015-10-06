@@ -1,4 +1,4 @@
-use
+import
 	...compare _ <?
 	...js defined?
 	...Type.Kind kind!

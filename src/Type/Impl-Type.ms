@@ -1,10 +1,10 @@
-use
+import
 	.Kind _ kind! unchecked-kind!
-use~ todo  use-debug
+import~ todo  use-debug
 	..compare =?
 	..Object empty-Object!
 	.Method _ impl!
-use-debug
+import-debug
 	.Kind kind?
 
 Impl-Type. new Kind

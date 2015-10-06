@@ -1,11 +1,10 @@
-use
+import
 	...compare =? <?
 	...math.Number modulo Nat
 	...math.methods + - *
-	...methods sub
 	...Type.Kind kind! self-kind!
 	...Type.Pred-Type Any
-	..@ _ ++~ count empty! empty? iterator map
+	..@ _ ++~ count empty! empty? iterator @map
 	..@-Type _ empty
 	..? un-?
 	..Range
@@ -75,7 +74,9 @@ Deque. class
 			.data![new-end]
 
 	?nth |index:Nat
-		map (?data-index this index) sub[.data!]
+		todo @for
+		@map (?data-index this index) |_
+			.data![_]
 
 	set-nth! !|index:Nat set-to:Any
 		data-index = un-? (?data-index this index) ~"Can't set at index {index}; count is {count this}"

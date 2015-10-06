@@ -1,6 +1,6 @@
 | Functions that write to the console (also known as shell, command prompt, stdout/stderr).
 
-use
+import
 	global console
 	..Type.Type =>
 

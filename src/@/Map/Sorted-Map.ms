@@ -1,11 +1,11 @@
-use
+import
 	...Type.Method self-impl!
 	...Type.Kind _ kind!
 	..@-Type empty
 	.Map
-use~
+import~
 	.Splay-Tree
-use-debug
+import-debug
 	...compare sorted?
 	.Map assoc! keys
 

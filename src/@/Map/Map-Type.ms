@@ -1,11 +1,11 @@
-use
+import
 	...Type.Kind _ kind! self-kind!
 	...Type.Method impl! self-impl!
 	..@-Type _ empty from-stream
 	.Map _ assoc!
-use~
+import~
 	.Id-Map
-use-debug
+import-debug
 	.Hash-Map
 
 Map-Type. new Kind

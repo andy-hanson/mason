@@ -1,6 +1,6 @@
 | For running code in `test` properties.
 
-use
+import
 	...assert assert-call! assert-this-call!
 	...@.@
 	...@.@-Type empty
@@ -18,7 +18,7 @@ use
 	...Type.Kind _ concrete-implementors
 	...Type.Method _ impl! impl-for
 	...Type.Pred-Type ObjLit
-use-debug
+import-debug
 	...control build
 	...Object empty-Object!
 	...Type.Method self-impl!
@@ -149,7 +149,7 @@ $test-single.
 		|| Could be both Function and ObjLit
 		todo No it can't
 		if! :Function
-			... @$test-test-fun value value-test ~name is-proto-prop
+			... @$test-test-fun value value-test ~test-name is-proto-prop
 		if! :ObjLit
 			for! sub-name in @p_
 				... @$test-test-prop value (p _ sub-name) ~"{test-name}.{sub-name}" false

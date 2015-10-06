@@ -1,5 +1,5 @@
-use
-	...@.@ _ ++ -- empty? flat-map~ keep map map~
+import
+	...@.@ _ ++ -- empty? @flat-map~ @keep @map @map~
 	...@.?
 	...@.Seq.Seq ?first tail
 
@@ -53,12 +53,13 @@ make-word-from-blocks.
 					? []
 				else
 					rest-word = tail_
-					this-char-blocks = keep blocks-left |_
+					this-char-blocks = @keep blocks-left |_
 						chars-left[0]:_
 					todo SYNTAX @for~
-					?first (flat-map~ this-char-blocks |_
+					?first (@flat-map~ this-char-blocks |_
 						todo -, not --
-						map~ (rec rest-word (-- blocks-left [_])) |ans
+						@map~ (rec rest-word (-- blocks-left [_])) |ans
 							++ [_] ans
-		rec word.toUpperCase() (map blocks |_
+		todo @for
+		rec word.toUpperCase() (@map blocks |_
 			_.toUpperCase()

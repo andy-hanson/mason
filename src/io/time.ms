@@ -1,9 +1,9 @@
 todo kill this module
 
-use
+import
 	global Date setTimeout
 	..$
-use-debug
+import-debug
 	..compare =?
 
 current-time-ms.

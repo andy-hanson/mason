@@ -1,4 +1,4 @@
-use
+import
 	..$ _ $after $map
 	..private.bootstrap msCall
 	..RegExp rgx

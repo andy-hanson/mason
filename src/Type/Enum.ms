@@ -1,4 +1,4 @@
-use
+import
 	..control opr
 	..Object p+!
 	..to-string
@@ -6,7 +6,7 @@ use
 	.Kind kind!
 	.Method impl!
 	.Type contains?
-use~ todo  use-debug
+import~ todo  use-debug
 	..compare =?
 	.Type type-of
 

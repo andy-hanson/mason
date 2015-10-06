@@ -1,16 +1,16 @@
-use
+import
 	..compare =?
 	..js defined? js== js-sub
 	..private.bootstrap implContains pAdd
 	.Method impl! propagate-method-down! self-impl!
-use~
+import~
 	..@.@
 	.Impl-Type Self-Type
 	..methods freeze frozen?
 	todo below: use-debug
 	..Try fails-with?
 	.Method
-use-debug
+import-debug
 	.Impl-Type
 
 Kind. class

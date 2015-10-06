@@ -1,7 +1,7 @@
-use!
+import!
 	..private.boot
 	..@.Seq.Array
-use
+import
 	require
 	..$ $done $ing
 	|| ..io.console log!

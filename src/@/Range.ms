@@ -1,4 +1,4 @@
-use
+import
 	..compare <? <=?
 	..control opr
 	..Function thunk
@@ -10,7 +10,7 @@ use
 	.@ _ count iterator
 	.@-Type _ empty from-stream
 	.Seq.Seq ?nth
-use~ todo  use-debug
+import~ todo  use-debug
 	.Seq.Seq seq=? take~
 
 Range. class

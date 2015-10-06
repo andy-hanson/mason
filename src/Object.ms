@@ -1,4 +1,4 @@
-use
+import
 	.Boolean xor
 	.compare =?
 	.js defined? id=? js== js-delete js-set js-sub js-typeof
@@ -7,14 +7,14 @@ use
 	.Type.Kind
 	.Type.Pred-Type Opt
 	.Type.Type =>
-use~
-	.@.@ ++ all? count empty? keep
+import~
+	.@.@ ++ all? count empty? @keep
 	.@.@-Type empty
 	.@.? _ ?-or Opt->?
 	.@.Map.Map _ make-map
 	.@.Set.Id-Set
 	.control opr
-use-debug
+import-debug
 	.@.? ?None ?some
 	.@.Set.Set set=?
 	.Try fails? fails-with?
@@ -64,7 +64,7 @@ flag?.
 		todo  Use keep! to modify props
 		own-names = case
 			:Function
-				keep props |_
+				@keep props |_
 					not :forbidden-fun-props
 			else
 				props

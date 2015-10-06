@@ -1,4 +1,4 @@
-use
+import
 	...compare =?
 	...methods sub
 	...private.bootstrap msDef
@@ -7,12 +7,12 @@ use
 	...Type.Method _ impl!
 	...Type.Pred-Type Any
 	...Type.Type => type-of
-	..@ _ all? count empty? map~
+	..@ _ all? count empty? @map~
 	..@-Type empty
 	..? ?-or un-?
-use~
+import~
 	.Id-Map
-use-debug
+import-debug
 	...math.methods +
 
 Map. new Kind
@@ -29,7 +29,8 @@ impl! to-string Map
 	.|
 		todo  map Map to Array
 		todo SYNTAX Array destructure
-		parts = map~ this |pair
+		todo @for~
+		parts = @map~ this |pair
 			"{pair[0]} -> {pair[1]}"
 		"
 			{.constructor.name}
@@ -48,20 +49,22 @@ region New methods
 		default. .|key
 			not (empty? (?get this key))
 
-	keys. new Method
+	@keys. new Method
 		| Every key that the Map `has-key?`.
 		name.
 		args. 1
 		default. .|
-			=> Array (map~ this |pair
+			todo @for:Array
+			=> Array (@map~ this |pair
 				pair[0]
 
-	values. new Method
+	@values. new Method
 		| Every value in the Map.
 		name.
 		args. 1
 		default. .|
-			=> Array (map~ this |pair
+			todo @for:Array
+			=> Array (@map~ this |pair
 				pair[1]
 
 region Old methods

@@ -1,15 +1,15 @@
-use
+import
 	global _ JSON
 	..js defined? js=== js-delete js-instanceof js-sub js-typeof
 	..private.bootstrap containsImplSymbol implContains msDef pAdd
-use~
+import~
 	..@.? un-?
 	..assert assert-call!
 	..compare =?
 	.Impl-Type _ Self-Type
 	.Kind
 	..Object ?p p-with-proto?
-use-debug
+import-debug
 	..@.? ?None ?some
 	..Try fails?
 

@@ -1,17 +1,17 @@
 | Advanced assertions.
 | Generally you should just use `assert!`.
 
-use
+import
 	.compare =?
-use~
-	.@.@ _ map
+import~
+	.@.@ _ @map
 	.@.Map.Map
 	.@.Seq.Seq tail
 	.Function Pred
 	.to-string inspect
 	.String indent
 	.Type.Type =>
-use-debug
+import-debug
 	.compare same?
 	.math.methods +
 	.to-string
@@ -51,7 +51,7 @@ assert-this-call!.
 			actual = fun.apply args[0] (tail args)
 			assert! =? actual expected-res throw! "
 				{fun} of:
-					{indent (=> String (map args inspect) "\n")}
+					{indent (=> String (@map args inspect) "\n")}
 				Should {=?}:
 					{indent (inspect expected-res)}
 				Got:
@@ -71,7 +71,7 @@ assert-call-with!.
 			actual = fun ...args
 			assert! equal? actual expected-res throw! "
 				{fun} of:
-					{indent (=> String (map args inspect) "\n")}
+					{indent (=> String (@map args inspect) "\n")}
 				Should {equal?}:
 					{indent (inspect expected-res)}
 				Got:

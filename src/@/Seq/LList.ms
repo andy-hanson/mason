@@ -1,4 +1,4 @@
-use
+import
 	...js id=?
 	...Type.Kind kind! self-kind!
 	..@ _ ++ empty? iterator

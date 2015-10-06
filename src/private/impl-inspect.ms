@@ -1,4 +1,4 @@
-use
+import
 	global JSON
 	..@.Set.Id-Set
 	..js js-typeof

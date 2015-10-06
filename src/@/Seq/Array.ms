@@ -1,6 +1,6 @@
 | Also see .Map.Array-as-Map
 
-use
+import
 	...compare =? <=? <?
 	...js js-set js-sub
 	...math.methods +
@@ -11,9 +11,9 @@ use
 	..@-Type _ empty from-stream
 	..Set.Set
 	.Seq _ <++! ++>! indexes ?nth ?<pop! ?pop>! set-nth!
-use~
+import~
 	...math.Number Nat
-use-debug
+import-debug
 	...Function identity
 	...math.Number divisible?
 

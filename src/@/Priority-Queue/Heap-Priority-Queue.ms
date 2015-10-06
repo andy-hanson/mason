@@ -1,4 +1,4 @@
-use
+import
 	...compare =? <?
 	...math.Number int/
 	...math.methods + - *

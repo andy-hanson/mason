@@ -1,4 +1,4 @@
-use
+import
 	..compare =?
 	..js id=?
 	..private.bootstrap ms msDef
@@ -6,11 +6,11 @@ use
 	.Impl-Type
 	.Kind _ kind!
 	.Method _ impl!
-use~
+import~
 	..@.? ?-or
 	..Object ?p-with-proto
 	..to-string inspect
-use-debug
+import-debug
 	.Method self-impl!
 
 Type. new Kind

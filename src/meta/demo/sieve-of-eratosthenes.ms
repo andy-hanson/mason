@@ -1,4 +1,4 @@
-use
+import
 	...@.? Some
 	...@.Map.Map assoc! un-assoc!
 	...@.Map.Id-Map
@@ -8,7 +8,7 @@ use
 	...math.Number square
 	...math.methods + *
 	...Type.Type =>
-use-debug
+import-debug
 	...@.@ any?
 	...@.Seq.Seq take
 	...math.Number divisible?

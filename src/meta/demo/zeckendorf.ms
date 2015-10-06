@@ -1,4 +1,4 @@
-use
+import
 	...@.Seq.Seq reverse tail take-while~
 	...@.Seq.Stream
 	...compare =? <=?

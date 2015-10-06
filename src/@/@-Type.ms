@@ -1,10 +1,10 @@
-use
+import
 	..methods sub
 	..Type.Kind _ self-kind!
 	..Type.Method _ impl!
 	..Type.Type =>
 	.@ _ ++!
-use-debug
+import-debug
 	.Range
 
 @-Type. new Kind

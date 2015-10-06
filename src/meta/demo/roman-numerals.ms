@@ -1,8 +1,8 @@
-use
+import
 	...compare =? <=?
 	...math.Number log Nat pow round-down
 	...math.methods - *
-use-debug
+import-debug
 	...@.Range
 
 roman-digits =

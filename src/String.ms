@@ -1,10 +1,10 @@
-use
+import
 	.compare _ =?
 	.js id=?
 	.Type.Kind
 	.Type.Method impl!
 	.Type.Pred-Type
-use~
+import~
 	.@.@ count
 
 String-Test. new Kind

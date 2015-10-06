@@ -1,4 +1,4 @@
-use
+import
 	.private.bootstrap msDef
 	.Type.Method
 
