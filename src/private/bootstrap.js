@@ -116,20 +116,6 @@ const msDefs = {
 	lazy: _ => new ms.Lazy(_),
 	unlazy: _ => _ instanceof ms.Lazy ? _.get() : _,
 
-	// Unlike Object.assign, does *not* invoke getters.
-	set(value, propertiesObject, opName) {
-		for (const key in propertiesObject)
-			Object.defineProperty(value, key,
-				Object.getOwnPropertyDescriptor(propertiesObject, key))
-		if (!(value instanceof Function))
-			if (opName !== undefined)
-				ms.setName(value, opName)
-		return value
-	},
-	setName(value, name) {
-		value.name = name
-		return value
-	},
 	setLazy(value, name, lazy) {
 		Object.defineProperty(value, name, { get: lazy.get, enumerable: true })
 	},

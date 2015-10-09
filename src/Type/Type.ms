@@ -10,8 +10,6 @@ import~
 	..@.? ?-or
 	..Object ?p-with-proto
 	..to-string inspect
-import-debug
-	.Method self-impl!
 
 Type. new Kind
 	| Anything implementing contains?.
@@ -38,23 +36,6 @@ extract. new Method
 	| For example:
 	todo examples
 	name.
-	test. !|
-		todo syntax-test.ms
-		My-Type = new Object
-		self-impl! extract My-Type |case
-			=? _ "extractable"
-				[1 2]
-			else
-				null
-
-		f = |case
-			:My-Type a b
-				"{a}{b}"
-			else
-				"not extractable"
-
-		assert! =? "12" (f "extractable")
-		assert! =? "not extractable" f()
 	args.
 		. "type"
 		. "candidate"
@@ -79,13 +60,10 @@ msDef "checkContains" |type value value-name
 			else
 				impl.call type _ opts
 
-type-of.
+todo rename
+type-of. |:Impl-Type _
 	| Most specific Impl-Type for a value.
-	test. |
-		[Type] -> Kind
-		[null] -> Object
-	|:Impl-Type _
-		?-or (?p-with-proto _ "constructor") Object
+	?-or (?p-with-proto _ "constructor") Object
 
 region We make some things Types here due to bootstrapping order issues.
 	kind! Impl-Type Type

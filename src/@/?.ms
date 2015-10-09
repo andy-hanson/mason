@@ -10,9 +10,6 @@ import
 	.@ empty? iterator
 	.@-Type _ empty from-stream
 	.Seq.Seq
-import-debug
-	..compare =?
-	..Try fails?
 
 ?. class
 	| A Seq with 0 or 1 elements.
@@ -60,62 +57,39 @@ msDef "some" ?some
 msDef "None" ?None
 
 region Functions
-	Opt->?.
+	Opt->?. |_
 		| `?` containing the value iff it is defined.
-		test. |
-			[0] -> ?some 0
-			[null] -> ?some null
-			[undefined] -> ?None
-		|_
-			todo  `if-test defined? _` ?
-			if defined?_
-				_
+		todo  `if-test defined? _` ?
+		if defined?_
+			_
 
-	?->Opt.
+	?->Opt. |_:?
 		| Extracts the value from a `?`, or returns undefined.
-		test. |
-			[(?some 0)] -> 0
-			forbid! defined? (?->Opt ?None)
-		|_:?
-			case
-				empty?_
-					undefined
-				else
-					_.val
+		case
+			empty?_
+				undefined
+			else
+				_.val
 
 	todo  Just use first?
-	un-?.
+	un-?. |_:? ~fail-message
 		| Tries to extract the value out of a `?`. Throws an error if it is empty.
-		test. |
-			[(?some 1)] -> 1
-			assert! fails? |
-				un-? ?None
-		|_:? ~fail-message
-			forbid! empty?_ throw! opr fail-message "Tried to force empty `?`."
-			_.val
+		forbid! empty?_ throw! opr fail-message "Tried to force empty `?`."
+		_.val
 
-	?-or.
+	?-or. |_:? ~or-else
 		| If empty, defaults to `or` - else returns its value.
-		test. |
-			[?None 1] -> 1
-			[(?some 1) 2] -> 1
-		|_:? ~or-else
-			case
-				empty?_
-					or-else
-				else
-					_.val
+		case
+			empty?_
+				or-else
+			else
+				_.val
 
 Some. new Pred-Type
 	todo doc
 	name.
 	predicate. |_
 		and :? not empty?_
-	todo  Move to test of self-impl!
-	test. !|
-		case! ?some 1
-			:Some val
-				assert! =? val 1
 
 self-impl! extract Some |case
 	:Some

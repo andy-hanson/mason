@@ -15,10 +15,6 @@ import~
 	..? Opt->? un-?
 	..Range
 	.Stream
-import-debug
-	...compare <?
-	...Try fails?
-	..? ?some ?None
 
 Seq. new Kind
 	| @ whose values are in a meaningful order.
@@ -34,49 +30,29 @@ region TODO
 		| (There is no `++>~` because `++~` by default adds to the right for Seqs.)
 		todo more doc
 		name.
-		test. !|
-			todo
-			pass
 		args. 2
 		default. .|left-added:@
 			=> (type-of this) (++ left-added this)
 
 region Very first and last
-	first.
+	first. |_
 		| First value in iteration order.
-		test. |
-			[[1 2]] -> 1
-			assert! fails? |
-				first []
-		|_
-			un-? ?first_ "Can not take first of empty."
+		un-? ?first_ "Can not take first of empty."
 
 	?first. new Method
 		| First value in iteration order, if non-empty.
 		name.
-		test. |
-			[[1 2]] -> ?some 1
-			[[]] -> ?None
 		args. 1
 		default. .|
 			?nth this 0
 
-	last.
+	last. |_
 		| Last value in iteration order.
-		test. |
-			[[1 2]] -> 2
-			assert! fails? |
-				last []
-		args. 1
-		|_
-			un-? ?last_ "Can not take last of empty."
+		un-? ?last_ "Can not take last of empty."
 
 	?last. new Method
 		| Last value in iteration order, if non-empty.
 		name.
-		test. |
-			[[1 2]] -> ?some 2
-			[[]] -> ?None
 		args. 1
 		default. .|
 			unless empty? this
@@ -86,9 +62,6 @@ region Very first and last
 		| All elements but the first.
 		todo Eager for Linked-Lists.
 		name.
-		test. |
-			[[1 2]] -> [2]
-			[[]] -> []
 		args. 1
 		default. .|
 			cond (empty? this) this (drop this 1)
@@ -97,46 +70,34 @@ region Very first and last
 		| All elements but the last.
 		todo Eager for finger trees.
 		name.
-		test. |
-			[[1 2]] -> [1]
-			[[]] -> []
 		args. 1
 		default. .|
 			cond (empty? this) this (take this (- (count this) 1))
 
 region Search
-	seq=?.
+	seq=?. |@a:@ @b:@
 		| Whether two @s share the same elements in the same order.
 		| The types of the @s do not matter.
 		| Equivalent to `=? (=> Array @a) (=> Array @b)`, but may not have to fully unlazy both.
-		test. !|
-			s = new Stream ~!|
-				<~ 1
-			assert! seq=? s [1]
-			forbid! seq=? s [2]
-		|@a:@ @b:@
-			iter-a = iterator @a
-			iter-b = iterator @b
-			for
-				next-a = iter-a.next()
-				next-b = iter-b.next()
-				case!
-					next-a.done
-						break next-b.done
-					next-b.done
-						break false
-					=? next-a.value next-b.value
-						pass
-					else
-						break false
+		iter-a = iterator @a
+		iter-b = iterator @b
+		for
+			next-a = iter-a.next()
+			next-b = iter-b.next()
+			case!
+				next-a.done
+					break next-b.done
+				next-b.done
+					break false
+				=? next-a.value next-b.value
+					pass
+				else
+					break false
 
 	?nth. new Method
 		| `n`th element in iteration order, if there are at least that many values.
 		| 0th is the first.
 		name.
-		test. |
-			[[0 1] 1] -> ?some 1
-			[[0 1] 2] -> ?None
 		args.
 			. "_"
 			. ["n" Nat]
@@ -151,16 +112,11 @@ region Search
 						todo  Incr
 						i := + 1 i
 
-	impl! sub Seq
+	impl! sub Seq .|n:Nat
 		| Nth value in iteration order.
-		test. !|
-			assert! =? [0 1][1] 1
-			assert! fails? |
-				[0 1][2]
-		.|n:Nat
-			un-? (?nth this n) ~"
-				No element at index {n} for
-					{indent (to-string this)}
+		un-? (?nth this n) ~"
+			No element at index {n} for
+				{indent (to-string this)}
 
 region Update
 	slice-args =
@@ -173,19 +129,13 @@ region Update
 		| Takes as much as possible.
 		| Result length should be - end start, unless `end` was past the end.
 		name.
-		test. |
-			[[0 1 2 3] 1 3] -> [1 2]
 		args. slice-args
 		default. .|start end
 			=> (type-of this) (slice~ this start end)
 
-	slice~.
+	slice~. |:@ _ start end
 		| Lazy `slice`.
-		test. |
-			[[0 1 2 3] 1 3] -> => Stream [1 2]
-		args. slice-args
-		|:@ _ start end
-			take~ (drop~ _ start) (- end start)
+		take~ (drop~ _ start) (- end start)
 
 	take. new Method
 		todo doc
@@ -196,41 +146,31 @@ region Update
 		default. .|count-to-take
 			=> (type-of this) (take~ this count-to-take)
 
-	take~.
+	take~. |_ count-to-take:Nat
 		| Stream including only the first count-to-take elements.
-		test. |
-			[[0 1 2] 2] -> => Stream [0 1]
-			|| OK if not enough to satisfy count-to-take
-			[[0] 2] -> => Stream [0]
-			_ = [0 1 2 3 4]
-			assert! seq=? _ (++ (take~ _ 2) (drop~ _ 2))
-		|_ count-to-take:Nat
-			todo SYNTAX @for~
-			case
-				=? 0 count-to-take
-					empty Stream
-				else
-					new Stream ~!|
-						n ::= count-to-take
-						for! elem in _
-							<~ elem
-							n := - n 1
-							if! =? 0 n
-								break!
+		todo SYNTAX @for~
+		case
+			=? 0 count-to-take
+				empty Stream
+			else
+				new Stream ~!|
+					n ::= count-to-take
+					for! elem in _
+						<~ elem
+						n := - n 1
+						if! =? 0 n
+							break!
 
 	todo  eager version
 
-	take-while~.
+	take-while~. |_ while?:Pred
 		| Stream stopping (and not including) the first element not satisfying while?.
-		test. |
-			[[1 2 -1 3] <?[0]] -> => Stream [1 2]
-		|_ while?:Pred
-			todo SYNTAX @for~
-			new Stream ~!|
-				for! elem in _
-					unless! while? elem
-						break!
-					<~ elem
+		todo SYNTAX @for~
+		new Stream ~!|
+			for! elem in _
+				unless! while? elem
+					break!
+				<~ elem
 
 	drop. new Method
 		todo doc
@@ -243,8 +183,6 @@ region Update
 
 	drop~.
 		| Stream without the first count-to-drop elements.
-		test. |
-			[[0 1 2 3] 2] -> => Stream [2 3]
 		|_ count-to-drop
 			todo SYNTAX @for~
 			new Stream ~!|
@@ -261,80 +199,69 @@ region Update
 	todo  drop-while~
 
 region Combination
-	zip.
-		todo doc the other way around (primarily on zip, short on zip~)
+	zip. |@a:@ @b:@ zipper:Function[2]
 		| Type-preserving zip~.
-		test. |
-			[[1 2] [10 20] +] -> [11 22]
-		|@a:@ @b:@ zipper:Function[2]
-			=> (type-of @a) (zip~ @a @b zipper)
+		todo doc the other way around (primarily on zip, short on zip~)
+		=> (type-of @a) (zip~ @a @b zipper)
 
-	zip~.
+	zip~. |@a:@ @b:@ zipper:Function[2]
 		| Seq of zipper applied to corresponding elements of @a and @b.
 		| Ends as soon as either of them does, discarding extra elements.
 		| (Corresponding means: with the same index.)
-		test. |
-			[[1 2] [10 20 30] +] -> => Stream [11 22]
-		|@a:@ @b:@ zipper:Function[2]
-			todo SYNTAX @for~
-			new Stream ~!|
-				iter-a = iterator @a
-				iter-b = iterator @b
-				for!
-					next-a = iter-a.next()
-					if! next-a.done
-						break!
-					next-b = iter-b.next()
-					if! next-b.done
-						break!
-					<~ zipper next-a.value next-b.value
+		todo SYNTAX @for~
+		new Stream ~!|
+			iter-a = iterator @a
+			iter-b = iterator @b
+			for!
+				next-a = iter-a.next()
+				if! next-a.done
+					break!
+				next-b = iter-b.next()
+				if! next-b.done
+					break!
+				<~ zipper next-a.value next-b.value
 
 region TODO: put somewhere
-	groups-of~.
+	groups-of~. |:Seq group-size:Nat _ todo  :Seq[Array]
 		| Seq of consecutive groups of `group-size` elements.
-		test. !|
-			assert! seq=? [[1 2] [3 4]] (groups-of~ 2 [1 2 3 4])
-			|| Tosses off partial group at end (e.g. no [4])
-			assert! seq=? [[1 2 3]] (groups-of~ 3 [1 2 3 4])
-			assert! seq=? [[] [] []] (take~ (groups-of~ 0 [1]) 3)
-		|:Seq group-size:Nat _ todo  :Seq[Array]
-			case
-				=? group-size 0
-					todo  repeat-forever []
-					new Stream ~!|
+		case
+			=? group-size 0
+				todo  repeat-forever []
+				new Stream ~!|
+					for!
+						<~ []
+			else
+				new Stream ~!|
+					iter = iterator_
+					for!
+						next-group = []
 						for!
-							<~ []
-				else
-					new Stream ~!|
-						iter = iterator_
-						for!
-							next-group = []
-							for!
-								value done = iter.next()
-								if! done
-									break!
-								++>! next-group [value]
-								if! =? group-size (count next-group)
-									break!
-							unless! =? group-size (count next-group)
+							value done = iter.next()
+							if! done
 								break!
-							todo  Really freeze?
-							<~ freeze next-group
+							++>! next-group [value]
+							if! =? group-size (count next-group)
+								break!
+						unless! =? group-size (count next-group)
+							break!
+						todo  Really freeze?
+						<~ freeze next-group
 
 
-	indexes.
+	indexes. |_:Seq
 		todo doc
-		test. |
-			[[0 0 0]] -> new Range 0 3
-		|_:Seq
-			new Range 0 count_
+		new Range 0 count_
+
+	reverse. new Method
+		| Seq with the opposite order.
+		name.
+		args. 1
+		default. .|
+			(from-stream Array this).reverse()
 
 	reverse~. new Method
 		todo doc
 		name.
-		test. !|
-			todo
-			pass
 		args. 1
 		default. .|
 			arr = => Array this
@@ -342,39 +269,26 @@ region TODO: put somewhere
 				for! reverse (indexes arr)
 					<~ arr[_]
 
-	reverse. new Method
-		| Seq with the opposite order.
-		name.
-		test. |
-			[[1 2]] -> [2 1]
-		args. 1
-		default. .|
-			(from-stream Array this).reverse()
-
-	split~.
+	split~. |_ split?:Pred
 		| Subseqs separated by elements where split? is true.
-		test. |
-			[[1 0 1] =?[0]] -> => Stream [[1] [1]]
-			[[0] =?[0]] -> => Stream [[] []]
-		|_ split?:Pred
-			todo  Allocate current group; don't wait to call slice.
-			new Stream ~!|
-				iter = iterator_
-				prev-idx ::= 0
-				cur-idx ::= 0
-				for!
-					value done = iter.next()
-					~next-idx = + 1 cur-idx
-					case!
-						done
-							<~ slice _ prev-idx cur-idx
-							break!
-						split? value
-							<~ slice _ prev-idx cur-idx
-							prev-idx := next-idx
-							cur-idx := next-idx
-						else
-							cur-idx := next-idx
+		todo  Allocate current group; don't wait to call slice.
+		new Stream ~!|
+			iter = iterator_
+			prev-idx ::= 0
+			cur-idx ::= 0
+			for!
+				value done = iter.next()
+				~next-idx = + 1 cur-idx
+				case!
+					done
+						<~ slice _ prev-idx cur-idx
+						break!
+					split? value
+						<~ slice _ prev-idx cur-idx
+						prev-idx := next-idx
+						cur-idx := next-idx
+					else
+						cur-idx := next-idx
 
 region Mutator methods
 	todo Implement

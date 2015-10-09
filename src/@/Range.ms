@@ -10,8 +10,6 @@ import
 	.@ _ count iterator
 	.@-Type _ empty from-stream
 	.Seq.Seq ?nth
-import~ todo  use-debug
-	.Seq.Seq seq=? take~
 
 Range. class
 	| Seq of Numbers taking fixed steps.
@@ -34,8 +32,6 @@ Range. class
 		.step = opr step (sign (- end start))
 
 	iterator ~!|
-		todo test. !|
-		todo 	assert! seq=? (range 0 10 2) [0 2 4 6 8]
 		cur ::= .start
 		for!
 			break-cond = case
@@ -50,43 +46,24 @@ Range. class
 			cur := + cur .step
 
 	?nth |n:Nat
-		todo test. |
-		todo	r = range 0 10 2
-		todo	[r 2] -> ?some 4
-		todo	[r 6] -> ?None
-
 		todo  Function if-test ?
 		it = + .start (* .step n)
 		if <? it .end
 			it
 
 	count |
-		todo test. |
-		todo	[(range 0 2 0.5)] -> 4
 		round-down (/ (length this) .step)
-
-
-todo  class attributes
-Range.test = !|
-	assert! seq=? [0 1 2] (take~ (range 0 Number.POSITIVE_INFINITY) 3)
 
 todo KILL
 range. |start:Number end:Number step:Opt[Number]
 	new Range start end step
 
-range-incl.
-	test. !|
-		todo
-		pass
-	|start:Number end:Number step:Opt[Number]
-		todo doc
-		step := opr step (sign (- end start))
-		range start (+ end step) step
+range-incl. |start:Number end:Number step:Opt[Number]
+	todo doc
+	step := opr step (sign (- end start))
+	range start (+ end step) step
 
-length.
-	test. |
-		[(range 5 10 2)] -> 5
-		[(range 5 10 3)] -> 5
-	|_:Range
-		| Difference between and and start values.
-		- _.end _.start
+todo rename?
+length. |_:Range
+	| Difference between and and start values.
+	- _.end _.start

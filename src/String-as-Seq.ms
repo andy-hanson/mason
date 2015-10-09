@@ -1,3 +1,5 @@
+todo  Move
+
 import
 	.@.@ _ count empty?
 	.@.@-Type _ empty from-stream
@@ -11,14 +13,6 @@ import
 	.Type.Method impl! impl-double! self-impl!
 	.Type.Pred-Type Opt
 	.Type.Type =>
-import-debug
-	.@.@ @map
-	.Function identity
-
-todo  Move
-
-test. !|
-	assert! =? "123" (@map "123" identity)
 
 self-kind! String @-Type
 self-impl! empty String (thunk "")
@@ -27,23 +21,15 @@ self-impl! from-stream String |_
 	from-stream Array _
 
 todo  self-impl-double! ?
-impl-double! => (new Self-Type String) @
-	test. |
-		[String [1 2 3]] -> "123"
-		[String [1 2 3] ", "] -> "1, 2, 3"
-	|vals joiner:Opt[String]
-		joiner := opr joiner ""
-		arr = @for vals
-			to-string_
-		arr.join joiner
+impl-double! => (new Self-Type String) @ |vals joiner:Opt[String]
+	joiner := opr joiner ""
+	arr = @for vals
+		to-string_
+	arr.join joiner
 
 todo  Should this be necessary?
-impl! sort String
-	test. !|
-		todo
-		pass
-	.|?sort-by:Opt[Function]
-		(sort.default.call this ?sort-by).join ""
+impl! sort String .|?sort-by:Opt[Function]
+	(sort.default.call this ?sort-by).join ""
 
 kind! String Seq
 impl! count String .|

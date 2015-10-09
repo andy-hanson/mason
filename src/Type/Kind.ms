@@ -7,11 +7,6 @@ import~
 	..@.@
 	.Impl-Type Self-Type
 	..methods freeze frozen?
-	todo below: use-debug
-	..Try fails-with?
-	.Method
-import-debug
-	.Impl-Type
 
 Kind. class
 	| A Kind is like a tag you can apply to a Concrete-Type to signify that it belongs in some category.
@@ -66,138 +61,60 @@ Kind. class
 		for! .implementors
 			on-implementor! _ this
 
-
-todo  class attributes
-Kind.test = !|
-	region Inheritance chans - one way
-		A = new Kind
-			name.
-		B = new Kind
-			name.
-		C = class
-			todo  empty class
-			"dummy" |
-				this
-		kind! B A
-		kind! C B
-		c = new C
-		assert! c:A
-
-	region Inheritance chains
-		X = new Kind
-			name.
-		Y = new Kind
-			name.
-		Z = class
-			todo  empty class
-			"dummy" |
-				this
-		kind! Z Y
-		kind! Y X
-		z = new Z
-		assert! z:X
-
-	region Method makes sure to do impl! on all Concrete-Type_s inheriting from an Kind.
-		asdf = new Method
-			name.
-		impl! asdf X |
-			1
-		assert! =? (asdf z) 1
-		assert! z:X
-
-	region Closed Kind
-		Closed = new Kind
-			name.
-			implementors. [C Z]
-
-		assert! fails-with? "Closed is not open to new subtypes." !|
-			kind! X Closed
-
-can-subtype?.
+can-subtype?. |_:Kind
 	| Whether a Kind accepts new subtypes.
-	test. |
-		[Impl-Type] -> true
-	|_:Kind
-		not frozen? _.implementors
+	not frozen? _.implementors
 
 || Making something an instance of Impl-Type is difficult because kind! checks that it's already an Impl-Type...
-unchecked-kind!.
+unchecked-kind!. !|implementor kind
 	| kind! without any checks.
 	| Necessary if trying to implement Impl-Type itself.
-	!|implementor kind
-		kind.implementors.push implementor
-		on-implementor! implementor kind
+	kind.implementors.push implementor
+	on-implementor! implementor kind
 
-concrete-implementors.
+concrete-implementors. |:@ kind:Kind todo  :@[Impl-Type]
 	| List of Impl-Types inheriting from this.
 	| Does not include inheriting Kinds, but does include their implementors.
-	test. |
-		X = new Kind
-			name.
-		Y = new Kind
-			name.
-		Z = class
-			todo  empty class
-			"dummy" |
-				this
-		W = class
-			todo  empty class
-			"dummy" |
-				this
-		kind! Y X
-		kind! Z X
-		kind! W Y
-		[X] -> [W Z]
-	|:@ kind:Kind todo  :@[Impl-Type]
-		@for kind.implementors
-			case!
-				:Kind
-					... concrete-implementors_
-				else
-					. _
+	@for kind.implementors
+		case!
+			:Kind
+				... concrete-implementors_
+			else
+				. _
 
-kind!.
+kind!. !|implementor kind:Kind method-impls
 	| Makes one Impl-Type a subtype of a Kind.
 	| Kinds can subtype each other.
-	test. "See Impl-Type.test."
 	todo  Assert no circular chains of kind!.
 	todo implementor:Impl-Type
-	!|implementor kind:Kind method-impls
-		in
-			assert! can-subtype? kind throw! "{kind} is not open to new subtypes."
-			forbid! kind? implementor kind
+	assert! can-subtype? kind throw! "{kind} is not open to new subtypes."
+	forbid! kind? implementor kind
 
-		unchecked-kind! implementor kind
-		if! defined? method-impls
-			for! method-impls
-				todo SYNTAX Array destructure
-				impl! (js-sub _ 0) implementor (js-sub _ 1)
+	unchecked-kind! implementor kind
+	if! defined? method-impls
+		for! method-impls
+			todo SYNTAX Array destructure
+			impl! (js-sub _ 0) implementor (js-sub _ 1)
 
-self-kind!.
+self-kind!. !|implementor:Object kind:Kind method-impls
 	todo doc
-	test. !|
-		todo
-		pass
-	!|implementor:Object kind:Kind method-impls
-		kind! (new Self-Type implementor) kind
-		if! defined? method-impls
-			for! method-impls
-				todo SYNTAX Array destructure
-				self-impl! (js-sub _ 0) implementor (js-sub _ 1)
+	kind! (new Self-Type implementor) kind
+	if! defined? method-impls
+		for! method-impls
+			todo SYNTAX Array destructure
+			self-impl! (js-sub _ 0) implementor (js-sub _ 1)
 
-kind?.
+kind?. |implementor kind:Kind
 	| Whether one Impl-Type is a subtype of a Kind.
 	| implementor may itself be a Kind.
-	test. "See Impl-Type.test."
 	todo implementor:Impl-Type
-	|implementor kind:Kind
-		case implementor
-			:Kind
-				_.super-kinds.some |super-kind
-					or (=? super-kind kind) (kind? super-kind kind)
-			else
-				_ = implementor.prototype
-				:kind
+	case implementor
+		:Kind
+			_.super-kinds.some |super-kind
+				or (=? super-kind kind) (kind? super-kind kind)
+		else
+			_ = implementor.prototype
+			:kind
 
 region Private
 	@p-all = |_

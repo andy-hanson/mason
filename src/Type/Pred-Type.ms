@@ -7,8 +7,6 @@ import
 	.Type _ => contains?
 import~
 	..@.@ any?
-import-debug
-	..compare =?
 
 Pred-Type. class
 	| Arbitrary predicates can be made into types using Pred-Type.
@@ -46,31 +44,17 @@ region Opt
 Any. new Pred-Type
 	| Not undefined.
 	name.
-	test. !|
-		assert! 0:Any
-		assert! null:Any
-		forbid! undefined:Any
 	predicate. defined?
 
 ObjLit. new Pred-Type
 	| Matches only Objects which have no type (other than Object itself).
 	name.
-	test. !|
-		assert! (a. 1):ObjLit
-		forbid! ObjLit:ObjLit
 	predicate. |_
 		and :Object (id=? Object.getPrototypeOf_ Object.prototype)
 
 Union.
 	| Type that matches one of several types. Analogous to `or`.
-	test. !|
-		| As these are all Impl-Types, it would be better to use a Kind.
-		SBN = Union[String Boolean Number]
-		assert! =? SBN.name "Union[String Boolean Number]"
-		assert! "true":SBN
-		assert! true:SBN
-		assert! 1:SBN
-		forbid! null:SBN
+	new Object
 
 self-impl! sub Union |...types
 	new Pred-Type

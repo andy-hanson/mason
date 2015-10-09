@@ -13,9 +13,6 @@ import
 	.Seq _ <++! ++>! indexes ?nth ?<pop! ?pop>! set-nth!
 import~
 	...math.Number Nat
-import-debug
-	...Function identity
-	...math.Number divisible?
 
 self-kind! Array @-Type
 self-impl! empty Array |
@@ -78,37 +75,28 @@ impl! --! Array .!|@deleted
 				--! @deleted [em]
 
 todo  impl! filter!
-filter!.
-	test. !|
-		arr = [1 2 3 4 5]
-		filter! arr |_
-			divisible? _ 2
-		assert! =? arr [2 4]
+filter!. !|arr keep-if?
+	read-idx ::= 0
+	write-idx ::= 0
 
-	!|arr keep-if?
-		read-idx ::= 0
-		write-idx ::= 0
+	for!
+		if! <=? arr.length read-idx
+			break!
 
-		for!
-			if! <=? arr.length read-idx
-				break!
+		here = arr[read-idx]
+		if! keep-if? here
+			todo this[write-idx] = here
+			set-nth! arr write-idx here
+			write-idx := + 1 write-idx
 
-			here = arr[read-idx]
-			if! keep-if? here
-				todo this[write-idx] = here
-				set-nth! arr write-idx here
-				write-idx := + 1 write-idx
+		read-idx := + 1 read-idx
 
-			read-idx := + 1 read-idx
+	arr.length := write-idx
 
-		arr.length := write-idx
-
-fill.
+todo rename?
+fill. |count:Number filler:Function
 	| Creates a new Array by calling `filler` on each number from zero to `count`.
-	test. |
-		[3 identity] -> [0 1 2]
-	|count:Number filler:Function
-		with new Array count
-			for! i in indexes_
-				todo SYNTAX _[i] = filler i
-				set-nth! _ i (filler i)
+	with new Array count
+		for! i in indexes_
+			todo SYNTAX _[i] = filler i
+			set-nth! _ i (filler i)

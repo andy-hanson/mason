@@ -2,7 +2,7 @@
 if((typeof define!=="function"))var define=require("amdefine")(module);
 define(["exports","../../Function","../../Generator","../../Type/Kind","../../Type/Method","../at","../at-Type","./Seq"],(exports,Function_0,Generator_1,Kind_2,Method_3,_64_4,_64_45Type_5,Seq_6)=>{
 	exports._get=_ms.lazy(()=>{
-		const _$0=_ms.getModule(Function_0),thunk=_ms.get(_$0,"thunk"),Generator=_ms.getDefaultExport(Generator_1),_$1=_ms.getModule(Generator_1),empty_45Generator=_ms.get(_$1,"empty-Generator"),_$2=_ms.getModule(Kind_2),kind_33=_ms.get(_$2,"kind!"),self_45kind_33=_ms.get(_$2,"self-kind!"),_$3=_ms.getModule(Method_3),self_45impl_33=_ms.get(_$3,"self-impl!"),_$4=_ms.getModule(_64_4),iterator=_ms.get(_$4,"iterator"),_64_45Type=_ms.getDefaultExport(_64_45Type_5),_$5=_ms.getModule(_64_45Type_5),empty=_ms.get(_$5,"empty"),from_45stream=_ms.get(_$5,"from-stream"),Seq=_ms.getDefaultExport(Seq_6),_$6=_ms.getModule(Seq_6),seq_61_63=_ms.get(_$6,"seq=?");
+		const _$0=_ms.getModule(Function_0),thunk=_ms.get(_$0,"thunk"),Generator=_ms.getDefaultExport(Generator_1),_$1=_ms.getModule(Generator_1),empty_45Generator=_ms.get(_$1,"empty-Generator"),_$2=_ms.getModule(Kind_2),kind_33=_ms.get(_$2,"kind!"),self_45kind_33=_ms.get(_$2,"self-kind!"),_$3=_ms.getModule(Method_3),self_45impl_33=_ms.get(_$3,"self-impl!"),_$4=_ms.getModule(_64_4),iterator=_ms.get(_$4,"iterator"),_64_45Type=_ms.getDefaultExport(_64_45Type_5),_$5=_ms.getModule(_64_45Type_5),empty=_ms.get(_$5,"empty"),from_45stream=_ms.get(_$5,"from-stream"),Seq=_ms.getDefaultExport(Seq_6);
 		const Stream=exports.default=(()=>{
 			const _=class Stream{
 				static [_ms.symbol(from_45stream)](_){
@@ -27,16 +27,8 @@ define(["exports","../../Function","../../Generator","../../Type/Kind","../../Ty
 			})));
 			return _
 		})();
-		_ms.newProperty(Stream,"test",()=>{
-			const _=new (Stream)(function*(){
-				(yield 1);
-				(yield 2)
-			});
-			_ms.assert(seq_61_63,_,[1,2]);
-			_ms.assert(seq_61_63,_,[1,2])
-		});
 		const name=exports.name=`Stream`;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvQC9TZXEvU3RyZWFtLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBU0EsNkJBQ2EsS0FJVDtTQURIO0lBUUMsbUJBQUEsZ0JBQWEsRUFDQztXQUFUO1lBQUosS0FBSSxPQUNNLElBQUE7YUFBVCxTQUFBO0tBQUE7SUFBQTtJQUVRLFlBQUEsZ0JBQ2lDOytCQURuQixTQUFTO0tBQ2pDLHNCQUFzQixLQUFLLGdCQUNlLEtBQUE7O01BQXpDLHdCQUFPOzs7OztHQWJSLGVBQVcsRUFBRTtHQUNiLFFBQU0sRUFBRTtHQUVSLGVBQVcsTUFBTSxFQUFHLE1BQU8sS0FBSSxHQUNHLElBQUE7V0FBakM7R0FBQTtVQUxGO0VBQUE7a0JBaUJELGNBQ2dCLElBQUE7R0FBZixRQUFJLEtBQUksUUFDVSxXQUFBO1dBQWQ7V0FDQTtHQUFBO2NBQ0ksVUFBTSxFQUFFLENBQUMsRUFBRTtjQUVYLFVBQU0sRUFBRSxDQUFDLEVBQUU7RUFBQTtFQXBDcEIsd0JBQUEiLCJmaWxlIjoiYXQvU2VxL1N0cmVhbS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvQC9TZXEvU3RyZWFtLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBU0EsNkJBQ2EsS0FJVDtTQURILFFBUFM7SUFlUixtQkFBQSxnQkFBYSxFQUNDO1dBQVQ7WUFBSixLQUFJLE9BQ00sSUFBQTthQUFULFNBQUE7S0FBQTtJQUFBO0lBRVEsWUFBQSxnQkFDaUM7K0JBRG5CLFNBQVM7S0FDakMsc0JBQXNCLEtBQUssZ0JBQ2UsS0FBQTs7TUFBekMsd0JBQU87Ozs7O0dBYlIsZUFBVyxFQUFFO0dBQ2IsUUFBTSxFQUFFO0dBRVIsZUFBVyxNQUFNLEVBQUcsTUFBTyxLQUFJLEdBQ0csSUFBQTtXQUFqQztHQUFBO1VBTEY7RUFBQTtFQWJELHdCQUFBIiwiZmlsZSI6ImF0L1NlcS9TdHJlYW0uanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

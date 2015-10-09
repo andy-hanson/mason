@@ -10,10 +10,6 @@ import~
 	.Function identity
 	.Object object=?
 	.Type.Pred-Type Opt
-import-debug
-	.@.@ count
-	.@.? ?None ?some
-	.Try fails?
 
 compare. new Method
 	| A Number < 0 if a < b, > 0 if a > b, and = 0 if a = b.
@@ -79,14 +75,9 @@ compare. new Method
 		>=? (compare this other) 0
 
 region Misc
-	same?.
+	same?. |f:Function a b
 		| Whether two values have the same `f`.
-		test. |
-			[count [1] [2]] -> true
-			[count [] [1]] -> false
-		|f:Function a b
-			=? (f a) (f b)
-
+		=? (f a) (f b)
 
 region Min/max
 	min. |_:@
@@ -114,83 +105,54 @@ region Min/max
 					cur-min-by := value-by
 
 	todo  Method, specialize on Sorted-Set
-	max.
+	max. |_:@
 		| An element that is >=? all others. Fails when empty.
-		test. |
-			[[1 3 2]] -> 3
-			[[2 1 2]] -> 2 || Doesn't have to be unique
-			assert! fails? |
-				max []
-		|_:@
-			max-by _ identity
+		max-by _ identity
 
-	?max.
+	?max. |_:@
 		| Like max, but returns empty ? for empty.
-		test. |
-			[[1]] -> ?some 1
-			[[]] -> ?None
-		|_:@
-			?max-by _ identity
+		?max-by _ identity
 
-	max-by.
+	max-by. |_:@ by:Function
 		| An element whose `by em` is >=? all other elements' `by em`s.
 		| Like `max (map _ by)` except the mapping is not applied to the result.
-		test. |
-			[["five" "six" "seven"] count] -> "seven"
-			assert! fails? |
-				max-by [] identity
-		|_:@ by:Function
-			un-? (?max-by _ by) "Can not take max of empty."
+		un-? (?max-by _ by) "Can not take max of empty."
 
-	?max-by.
+	?max-by. |_:@ by:Function
 		| Like max-by, but returns empty ? for empty.
-		test. |
-			[[1] identity] -> ?some 1
-			[[] identity] -> ?None
-		|_:@ by:Function
-			unless empty?_
-				iter = iterator_
-				value = iter.next().value
-				cur-max ::= value
-				cur-max-by ::= by value
-				for
-					value done = iter.next()
-					if! done
-						break cur-max
-					value-by = by value
-					if! <? cur-max-by value-by
-						cur-max := value
-						cur-max-by := value-by
+		unless empty?_
+			iter = iterator_
+			value = iter.next().value
+			cur-max ::= value
+			cur-max-by ::= by value
+			for
+				value done = iter.next()
+				if! done
+					break cur-max
+				value-by = by value
+				if! <? cur-max-by value-by
+					cur-max := value
+					cur-max-by := value-by
 
 region Sorting
-	sorted?.
+	sorted?. |seq:Seq sort-by:Opt[Function]
 		| Whether it is already in sorted order.
-		test. |
-			[[]] -> true
-			[[1 2 3]] -> true
-			[[3 2 1]] -> false
-			[["six" "five" "seven"] count] -> true
-		|seq:Seq sort-by:Opt[Function]
-			sort-by := opr sort-by identity
-			case seq
-				empty?_
-					true
-				else
-					sb-prev ::= sort-by first_
-					all? tail_ |em
-						sb-cur = sort-by em
-						with <? sb-prev sb-cur
-							sb-prev := sb-cur
+		sort-by := opr sort-by identity
+		case seq
+			empty?_
+				true
+			else
+				sb-prev ::= sort-by first_
+				all? tail_ |em
+					sb-cur = sort-by em
+					with <? sb-prev sb-cur
+						sb-prev := sb-cur
 
 	sort. new Method
 		| Puts the elements in sorted order.
 		| Order is determined by calling `compare`.
 		| Optional `sort-by` determines an attribute of elements to be compared.
 		name.
-		test. |
-			[[3 2 1]] -> [1 2 3]
-			[["five" "six" "seven"] count] -> ["six" "five" "seven"]
-			["bac"] -> "abc"
 		args.
 			2
 			todo . ["_" @]

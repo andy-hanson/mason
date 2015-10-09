@@ -1,9 +1,6 @@
 | Functions implementing behavior native to JavaScript.
-
 import~
 	.@.Range
-import-debug
-	.compare =?
 
 op = |op-name
 	Function "a" "b" "return a {op-name} b"
@@ -34,54 +31,28 @@ js-set. Function "obj" "prop" "val" "obj[prop] = val"
 js-delete. Function "obj" "prop" "delete obj[prop]"
 js-instanceof. op "instanceof"
 
-regex.
+regex. |strings ...values
 	todo doc
-	test. !|
-		assert! =? regex"a{1}b" (RegExp "a1b")
+	_ ::= ""
+	for! i in new Range 0 values.length
+		_ := "{_}{strings[i]}{values[i]}"
+	_ := "{_}{strings[values.length]}"
+	RegExp _
 
-	|strings ...values
-		_ ::= ""
-		for! i in new Range 0 values.length
-			_ := "{_}{strings[i]}{values[i]}"
-		_ := "{_}{strings[values.length]}"
-		RegExp _
-
-defined?.
+defined?. |_
 	| True for any value except `undefined`.
-	test. |
-		[undefined] -> false
-		[0] -> true
-	|_
-		not id=? _ undefined
+	not id=? _ undefined
 
 id=?.
 	| For Objects, whether they are the same place in memory.
 	| For primitive types, whether they have the same data.
 	todo Explain (and test) difference between this and js===
-	test. |
-		["a" "a"] -> true
-		[["a"] ["a"]] -> false
 	Object.is
 
-truthy?.
+truthy?. |_
 	| Whether javascript's `if` statement would consider the value to be true.
-	test. !|
-		for! [null undefined 0 Number.NaN "" false]
-			forbid! truthy? _
-		assert! truthy? []
-		assert! truthy? true
-	|_
-		not js!_
+	not not _
 
 js-typeof.
 	| JavaScript's `typeof` operator.
-	test. |
-		[undefined] -> "undefined"
-		[null] -> "object"
-		[true] -> "boolean"
-		[0] -> "number"
-		["a"] -> "string"
-		[(Symbol "s")] -> "symbol"
-		[js-typeof] -> "function"
-		[(a. 1)] -> "object"
 	unary-op "typeof"

@@ -48,7 +48,7 @@ Splay-Tree. class
 				.root.val! := val
 			else
 				old-root = .val
-				debug forbid! empty? this
+				forbid! empty? this
 				.root := case
 					<? old-root.key key
 						old-right = old-root.right!

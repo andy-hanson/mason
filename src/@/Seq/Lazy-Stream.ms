@@ -9,13 +9,6 @@ import
 	..? Some
 	.Seq _ ?nth
 	.Stream
-import~ todo  use-debug
-	...math.methods +
-	..Range
-	.Seq seq=? take~
-import-debug
-	...compare =?
-	...control build
 
 Lazy-Stream. class
 	| Like Stream, but caches its elements as it produces them.
@@ -57,28 +50,7 @@ Lazy-Stream. class
 				n-left = - n (count .cache)
 				?nth (Stream .caching-iterator) n-left
 
-todo class attributes
-Lazy-Stream.test = !|
-	fibonaccis = new Lazy-Stream ~!|
-		<~ 1
-		<~ 1
-		for! new Range 2 Number.POSITIVE_INFINITY
-			|| This is *not* an exponential blowup because these are cached.
-			<~ + fibonaccis[(- _ 1)] fibonaccis[(- _ 2)]
-	assert! seq=? (take~ fibonaccis 10) [1 1 2 3 5 8 13 21 34 55]
-
 todo  class method
-impl! iterator Lazy-Stream
-	test. !|
-		assert! =? [1 2] (build !|yield
-			_ = new Lazy-Stream ~!|
-				yield 1
-				<~ 1
-				yield 2
-				<~ 2
-				yield 3
-			assert! seq=? [1] (take~ _ 1)
-			assert! seq=? [1 2] (take~ _ 2)
-	.~!|
-		<~~ iterator .cache
-		<~~ .caching-iterator
+impl! iterator Lazy-Stream .~!|
+	<~~ iterator .cache
+	<~~ .caching-iterator

@@ -5,7 +5,7 @@ import
 	...Type.Method self-impl!
 	..@ iterator
 	..@-Type _ empty from-stream
-	.Seq _ seq=?
+	.Seq
 
 Stream. class
 	| A Stream is a @ whose elements are the outputs of a Generator.
@@ -26,12 +26,3 @@ Stream. class
 	construct! make-iterator:Function[Generator]
 		Object.defineProperty this Symbol.iterator
 			value. make-iterator
-
-todo  class attributes
-Stream.test = !|
-	_ = new Stream ~!|
-		<~ 1
-		<~ 2
-	assert! seq=? _ [1 2]
-	|| Streams can be used twice!
-	assert! seq=? _ [1 2]

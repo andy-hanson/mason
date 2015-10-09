@@ -14,10 +14,6 @@ import
 	.Id-Map
 	.Map _ assoc! ?get un-assoc!
 	.Map-Type
-import~ todo  use-debug
-	...Type.Type =>
-	..Seq.Seq seq=?
-	.Map @keys
 
 Hash-Map. class
 	| Default Map type. Depends on efficient `hash-code` of its keys.
@@ -91,19 +87,6 @@ Hash-Map. class
 
 	empty! !|
 		.val.clear()
-
-todo Remove, just use Map.implementor-test.
-Hash-Map.test = !|
-	_ = => Hash-Map
-		1 -> 2
-		3 -> 4
-	assert! =? _[1] 2
-	assert! =? _[3] 4
-	assert! seq=? _
-		. [1 2]
-		. [3 4]
-	assert! seq=? @keys_ [1 3]
-	assert! =? ?None (?get _ 8)
 
 region Private
 	Bucket = class

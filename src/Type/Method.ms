@@ -4,14 +4,9 @@ import
 	..private.bootstrap containsImplSymbol implContains msDef pAdd
 import~
 	..@.? un-?
-	..assert assert-call!
-	..compare =?
 	.Impl-Type _ Self-Type
 	.Kind
 	..Object ?p p-with-proto?
-import-debug
-	..@.? ?None ?some
-	..Try fails?
 
 flag? = |_
 	and defined?_ _
@@ -145,38 +140,6 @@ Method. class Function
 	"toString" |
 		.name
 
-todo class properties
-Method.test = !|
-	m = new Method
-		name.
-		allow-null?. true
-		default. |
-			"default"
-	impl! m String |
-		"String"
-	impl-double! m Number Number |
-		"Number Number"
-	impl-double! m Number String |
-		"Number String"
-
-	assert-call! m
-		[null] -> "default"
-		["a"] -> "String"
-		[1 1] -> "Number Number"
-		[1 "a"] -> "Number String"
-	debug assert! fails? |
-		m 1 m
-
-	assert! =? "wrap-call-arg"
-		wrap-method = new Method
-			name.
-			default. .|
-				"call-{this}"
-			wrap. |impl arg
-				"wrap-{impl.call arg}"
-		wrap-method "arg"
-
-
 impl!. !|method:Method implementor:Impl-Type implementation:Function
 	do-impl! method implementor implementation
 
@@ -195,53 +158,32 @@ impl-double!. !|method:Method implementor-0:Impl-Type implementor-1:Impl-Type im
 
 	do-impl! dispatcher implementor-1 implementation
 
-self-impl!.
+self-impl!. !|method:Method implementor:Object implementation:Function
 	todo doc
-	test. !|
-		todo
-		pass
-	!|method:Method implementor:Object implementation:Function
-		impl! method (new Self-Type implementor) implementation
+	impl! method (new Self-Type implementor) implementation
 
-?impl-for.
+?impl-for. |method:Method type:Impl-Type
 	| Implementation of a method for a particular Impl-Type.
 	| Does not reference method.default or impls on super-types.
 	| Empty if the type would use method.default.
-	test. |
-		[contains? Method] -> ?some method-contains?
-		[=? Method] -> ?None
-	|method:Method type:Impl-Type
-		?self-impl-for method type.prototype
+	?self-impl-for method type.prototype
 
-impl-for.
+impl-for. |method:Method type:Impl-Type
 	| impl-for that fails when there is no implementation.
-	test. |
-		[contains? Method] -> method-contains?
-		todo assert! (impl-for contains? Kind).call Impl-Type Kind
-	|method:Method type:Impl-Type
-		un-? (?impl-for method type) ~"{method} not implemented for {type}."
+	un-? (?impl-for method type) ~"{method} not implemented for {type}."
 
-?self-impl-for.
+?self-impl-for. |method:Method object
 	todo doc
-	test. !|
-		todo
-		pass
-	|method:Method object
-		?p object method.impl-symbol
+	?p object method.impl-symbol
 
-self-impl-for.
+self-impl-for. |method:Method object
 	todo doc
-	test. !|
-		todo
-		pass
-	|method:Method object
-		un-? (?self-impl-for method object) ~"{method} not implemented on {object}."
+	un-? (?self-impl-for method object) ~"{method} not implemented on {object}."
 
 region Private
 	writable? = |obj property
 		desc = Object.getOwnPropertyDescriptor obj property
 		or (not defined? desc) desc.writable
-
 
 	todo Not public
 	propagate-method-down!. !|implementor method-symbol implementation

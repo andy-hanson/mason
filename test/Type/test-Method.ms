@@ -1,0 +1,59 @@
+import
+	msl.@.? ?None
+	msl.assert assert-call!
+	msl.Try fails?
+	msl.Type.Method impl-double! ?impl-for ?self-impl-for self-impl-for
+	..tests
+
+tests "Method"
+	Method -> !|
+		m = new Method
+			name.
+			allow-null?. true
+			default. |
+				"default"
+		impl! m String |
+			"String"
+		impl-double! m Number Number |
+			"Number Number"
+		impl-double! m Number String |
+			"Number String"
+
+		assert-call! m
+			[null] -> "default"
+			["a"] -> "String"
+			[1 1] -> "Number Number"
+			[1 "a"] -> "Number String"
+		assert! fails? |
+			m 1 m
+
+		assert! =? "wrap-call-arg"
+			wrap-method = new Method
+				name.
+				default. .|
+					"call-{this}"
+				wrap. |impl arg
+					"wrap-{impl.call arg}"
+			wrap-method "arg"
+
+	self-impl! -> !|
+		todo
+		pass
+
+
+	?impl-for ->
+		todo Some positive example
+		[=? Method] -> ?None
+
+	impl-for -> !|
+		todo Some positive example
+		todo assert! (impl-for contains? Kind).call Impl-Type Kind
+		pass
+
+	?self-impl-for -> !|
+		todo
+		pass
+
+	self-impl-for -> !|
+		todo
+		pass

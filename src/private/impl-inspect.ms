@@ -8,24 +8,17 @@ import
 	..Type.Method impl!
 	..Type.Type =>
 
-impl! inspect Object
-	test. |
-		[(a. 1 b. 2)] -> "
-			Object
-				a. 1
-				b. 2
-		todo test non-enumerable properties
-	.|
-		switch .toString
-			Object.prototype.toString
-				props = @p-all this
-				enumerable-props = => Id-Set (@p this)
-				s ::= "{.constructor.name}"
-				for! props
-					s := "{s}\n\t{inspect-property this _ :enumerable-props}"
-				s
-			else
-				.toString()
+impl! inspect Object .|
+	switch .toString
+		Object.prototype.toString
+			props = @p-all this
+			enumerable-props = => Id-Set (@p this)
+			s ::= "{.constructor.name}"
+			for! props
+				s := "{s}\n\t{inspect-property this _ :enumerable-props}"
+			s
+		else
+			.toString()
 
 inspect-property = |obj key enumerable?
 	desc = Object.getOwnPropertyDescriptor obj key

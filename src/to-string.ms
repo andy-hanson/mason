@@ -6,10 +6,6 @@ import
 
 to-string. new Method
 	name.
-	test. |
-		[null] -> "null"
-		[undefined] -> "undefined"
-		[(Object.create null)] -> "<object with no prototype>"
 	allow-null?. true
 	impl-symbol. "toString"
 	default. .|

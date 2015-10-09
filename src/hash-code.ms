@@ -9,16 +9,6 @@ hash-code. new Method
 	| Integer used to identify a value in a Hash-Map (or Hash-Set).
 	| This should have a high probability of being different than the hash-codes of the other values in the map.
 	name.
-	test. !|
-		a =
-			x. 1
-			y. 2
-		b =
-			x. 1
-			y. 1
-		assert! =? (hash-code a) (hash-code a)
-		forbid! =? (hash-code a) (hash-code b)
-		todo  Check that it handles recursive values
 	args. 1
 	returns. Int
 	allow-null?. true
@@ -61,31 +51,23 @@ region Since default hash-code only works on Objects, let's implement hash-code 
 				_
 
 	todo  Memoize this one too?
-	impl! hash-code String
-		test. !|
-			assert! =? (hash-code "a") (hash-code "a")
-			forbid! =? (hash-code "a") (hash-code "b")
-		.|
-			hash ::= 13
-			i ::= .length
-			for!
-				hash := js+ hash (.charCodeAt i)
-				hash := js-bar hash 0
-				hash := js* hash 31
+	impl! hash-code String .|
+		hash ::= 13
+		i ::= .length
+		for!
+			hash := js+ hash (.charCodeAt i)
+			hash := js-bar hash 0
+			hash := js* hash 31
 
-				if! id=? i 0
-					break!
-				i := js- i 1
-			hash
+			if! id=? i 0
+				break!
+			i := js- i 1
+		hash
 
-	impl! hash-code Symbol
-		test. !|
-			sym = Symbol "test"
-			assert! =? (hash-code sym) (hash-code sym)
-		|
-			todo ES6 (currently this returns undefined)
-			todo Symbol.keyFor _
-			42
+	impl! hash-code Symbol |
+		todo ES6 (currently this returns undefined)
+		todo Symbol.keyFor _
+		42
 
 	todo  This treats small floats as equivalent.
 	impl! hash-code Number .|

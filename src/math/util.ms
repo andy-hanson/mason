@@ -2,23 +2,15 @@ import
 	..@.@ _ fold
 	.methods + /
 
-average.
+average. |@vals:@[Number]
 	todo doc
-	test. |
-		[[0 1 2]] -> 1
-		[[]] -> Number.NaN
-	|@vals:@[Number]
-		sum ::= 0
-		count ::= 0
-		for! @vals
-			sum := + sum _
-			count := + 1 count
-		/ sum count
+	sum ::= 0
+	count ::= 0
+	for! @vals
+		sum := + sum _
+		count := + 1 count
+	/ sum count
 
-sum.
+sum. |@vals:@[Number]
 	todo doc
-	test. |
-		[[1 2]] -> 3
-		[[]] -> 0
-	|@vals:@[Number]
-		fold @vals 0 +
+	fold @vals 0 +

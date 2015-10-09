@@ -18,20 +18,10 @@ Char. new Pred-Type
 	predicate. |_
 		and :String (=? count_ 1)
 
-indent.
+indent. |_:String
 	| Adds a `\\t` to all `\\n` in `str`.
 	| Does *not* do anything to the first line.
-	test. |
-		s = "
-			a
-			b
-		s-indented = "
-			a
-				b
-		[s] -> s-indented
-		["a"] -> "a"
-	|_:String
-		_.replace (new RegExp "\n" "g") "\n\t"
+	_.replace (new RegExp "\n" "g") "\n\t"
 
 impl! =? String .|other
 	id=? this other
