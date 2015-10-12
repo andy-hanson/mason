@@ -1,6 +1,4 @@
 import
-	msl.@.@ @keep
-	msl.@.Seq.Seq seq=?
 	msl.@.Map.multi-map add-to-@! group
 	...tests
 

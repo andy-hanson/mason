@@ -1,6 +1,5 @@
 import
 	msl.@.Seq.Array filter! fill
-	msl.Function identity
 	...tests
 
 tests "Array"

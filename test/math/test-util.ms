@@ -1,5 +1,4 @@
 import
-	msl.math.util average sum
 	..tests
 
 tests "util"

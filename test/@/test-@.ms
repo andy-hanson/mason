@@ -1,9 +1,6 @@
 import
-	msl.@.? ?None ?some
-	msl.@.@ +! ++ ++! ++~ -- --! --~ any? ?find @flatten @flatten~ @flat-map @flat-map~ fold @keep @keep~ @map @map~
 	msl.@.Seq.Deque
 	msl.Try fails?
-	msl.Type.Type contains?
 	..tests
 
 tests "Kind"

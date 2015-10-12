@@ -1,5 +1,5 @@
 import
-	msl.js regex defined? id=? truthy? js-typeof
+	msl.js regex truthy? js-typeof
 	.tests
 
 tests "js"

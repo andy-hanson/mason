@@ -8,8 +8,18 @@ region Basics
 		name.
 	msDef "sub" sub
 
+	set-sub!. new Method
+		todo doc
+		name.
+	msDef "setSub" set-sub!
+
+	del-sub!. new Method
+		todo doc
+		name.
+	msDef "delSub" del-sub!
+
 region Unsorted
-	todo  Move these?
+	todo kill
 	freeze. new Method
 		| Returns a compacted and immutable version of it.
 		| Does not have to return the same value, but often does.

@@ -6,7 +6,7 @@ import
 import~
 	.@.@ _ @map
 	.@.Map.Map
-	.@.Seq.Seq tail
+	.@.Seq.Seq @tail
 	.Function Pred
 	.to-string inspect
 	.String indent
@@ -24,7 +24,7 @@ assert-this-call!. !|fun:Function args->result:Map
 		todo SYNTAX Array destructure
 		args:@ = _[0]
 		expected-res = _[1]
-		actual = fun.apply args[0] (tail args)
+		actual = fun.apply args[0] (@tail args)
 		assert! =? actual expected-res throw! "
 			{fun} of:
 				{indent (=> String (@map args inspect) "\n")}

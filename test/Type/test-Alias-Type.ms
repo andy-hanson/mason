@@ -1,6 +1,4 @@
 import
-	msl.@.?
-	msl.methods sub
 	msl.Type.Alias-Type
 	..tests
 

@@ -4,7 +4,6 @@ import
 	..private.bootstrap implContains pAdd
 	.Method impl! propagate-method-down! self-impl!
 import~
-	..@.@
 	.Impl-Type Self-Type
 	..methods freeze frozen?
 
@@ -72,7 +71,8 @@ unchecked-kind!. !|implementor kind
 	kind.implementors.push implementor
 	on-implementor! implementor kind
 
-concrete-implementors. |:@ kind:Kind todo  :@[Impl-Type]
+todo @contcrete-implementors
+concrete-implementors. |kind:Kind todo  :@[Impl-Type]
 	| List of Impl-Types inheriting from this.
 	| Does not include inheriting Kinds, but does include their implementors.
 	@for kind.implementors
@@ -127,8 +127,8 @@ region Private
 
 	inherit-methods! = !|implementor kind
 		rec! = !|kind
-			for! property in @p-all kind.prototype
-				propagate-method-down! implementor property (js-sub kind.prototype property)
+			for! @p-all kind.prototype
+				propagate-method-down! implementor _ (js-sub kind.prototype _)
 			for! kind.super-kinds
 				rec! _
 		rec! kind

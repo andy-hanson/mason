@@ -1,8 +1,4 @@
 import
-	msl.@.? ?None
-	msl.@.Map.Hash-Map
-	msl.@.Map.Map @keys
-	msl.@.Seq.Seq seq=?
 	...tests
 
 tests "Hash-Map"

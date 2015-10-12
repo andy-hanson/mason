@@ -8,7 +8,7 @@ import~
 	.@.Map.Hash-Map
 	.@.Map.Map _ get-or-add!
 	.@.Map.Weak-Id-Map
-	.@.Seq.Seq rtail last
+	.@.Seq.Seq @rtail last
 	.Object Object->Map
 	.Type.Pred-Type ObjLit
 	.Type.Type =>
@@ -24,24 +24,6 @@ Pred. new Alias-Type
 	| Function[Any Boolean].
 	name.
 	alias-of. Function
-
-todo kill
-apply. |_:Function args:@
-	| Calls the function with the given arguments list.
-	_ ...args
-
-todo kill
-call. |_:Function ...args
-	| Calls the function with the given arguments.
-	_ ...args
-
-todo kill
-fun-copy. |_:Function
-	| Creates a new function with identical functionality.
-	| *Does* copy any values captured by its scope.
-	| Does *not* copy any properties on the old function.
-	|| Fill in `this` as null.
-	Function.prototype.call.bind _ null
 
 identity. |_
 	| Outputs its input unmodified.
@@ -68,14 +50,14 @@ spread. |:@ fun:Function ...args
 	| Applies `fun`, starting with the given args, to each entry in an arguments list or map.
 	todo ES6 Non-last rest arg?
 	todo  right uncons
-	init-args = rtail args
+	init-args = @rtail args
 	last-arg = last args
 	@spreaded = case last-arg
 		:Map
 			todo Mapping map is hard...
 			=> Array _
 		:@
-			@for elem in _
+			@for elem of _
 				[elem]
 		:ObjLit
 			=> Array Object->Map_

@@ -1,5 +1,4 @@
 import
-	msl.@.Seq.Seq seq=?
 	...tests
 
 tests "Stream"

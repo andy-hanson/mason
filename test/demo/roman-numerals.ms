@@ -1,5 +1,4 @@
 import
-	msl.math.Number Nat pow round-down
 	..tests
 
 roman-digits =
@@ -12,7 +11,7 @@ roman-digits =
 	1000 -> "M"
 
 power-of-10-below = |_
-	pow 10 (round-down (log 10 _))
+	Math.pow 10 (Math.floor (log 10 _))
 
 roman. |n:Nat
 	| Converts a number to Roman numerals.

@@ -8,7 +8,7 @@ import
 	.Method _ impl!
 import~
 	..@.? ?-or
-	..Object ?p-with-proto
+	..Object ?property-with-proto
 	..to-string inspect
 
 Type. new Kind
@@ -63,7 +63,7 @@ msDef "checkContains" |type value value-name
 todo rename
 type-of. |:Impl-Type _
 	| Most specific Impl-Type for a value.
-	?-or (?p-with-proto _ "constructor") Object
+	?-or (?property-with-proto _ "constructor") Object
 
 region We make some things Types here due to bootstrapping order issues.
 	kind! Impl-Type Type

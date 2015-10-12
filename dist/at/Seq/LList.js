@@ -1,8 +1,8 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","../../js","../../Type/Kind","../at","../at-Type","./Seq"],(exports,js_0,Kind_1,_64_2,_64_45Type_3,Seq_4)=>{
+define(["exports","./../../js","./../../Type/Kind","./../at","./../at-Type","./Seq"],(exports,js_0,Kind_1,_64_2,_64_45Type_3,Seq_4)=>{
 	exports._get=_ms.lazy(()=>{
-		const _$1=_ms.getModule(js_0),id_61_63=_ms.get(_$1,"id=?"),_$2=_ms.getModule(Kind_1),kind_33=_ms.get(_$2,"kind!"),self_45kind_33=_ms.get(_$2,"self-kind!"),_64=_ms.getDefaultExport(_64_2),_$3=_ms.getModule(_64_2),_43_43=_ms.get(_$3,"++"),empty_63=_ms.get(_$3,"empty?"),iterator=_ms.get(_$3,"iterator"),_64_45Type=_ms.getDefaultExport(_64_45Type_3),_$4=_ms.getModule(_64_45Type_3),empty=_ms.get(_$4,"empty"),from_45stream=_ms.get(_$4,"from-stream"),Seq=_ms.getDefaultExport(Seq_4),_$5=_ms.getModule(Seq_4),_60_43_43_126=_ms.get(_$5,"<++~"),tail=_ms.get(_$5,"tail");
+		const _$1=_ms.getModule(js_0),id_61_63=_ms.get(_$1,"id=?"),_$2=_ms.getModule(Kind_1),kind_33=_ms.get(_$2,"kind!"),self_45kind_33=_ms.get(_$2,"self-kind!"),_64=_ms.getDefaultExport(_64_2),_$3=_ms.getModule(_64_2),_43_43=_ms.get(_$3,"++"),empty_63=_ms.get(_$3,"empty?"),iterator=_ms.get(_$3,"iterator"),_64_45Type=_ms.getDefaultExport(_64_45Type_3),_$4=_ms.getModule(_64_45Type_3),empty=_ms.get(_$4,"empty"),from_45stream=_ms.get(_$4,"from-stream"),Seq=_ms.getDefaultExport(Seq_4),_$5=_ms.getModule(Seq_4),_60_43_43_126=_ms.get(_$5,"<++~"),_64tail=_ms.get(_$5,"@tail");
 		const LList=exports.default=(()=>{
 			const _=class LList{
 				static [_ms.symbol(empty)](){
@@ -32,7 +32,7 @@ define(["exports","../../js","../../Type/Kind","../at","../at-Type","./Seq"],(ex
 					const _this=this;
 					return id_61_63(_this,empty_45LList)
 				}
-				[_ms.symbol(tail)](){
+				[_ms.symbol(_64tail)](){
 					const _this=this;
 					return _this.tail
 				}
@@ -68,8 +68,7 @@ define(["exports","../../js","../../Type/Kind","../at","../at-Type","./Seq"],(ex
 			const value=built.value=empty_45LList;
 			return built
 		})());
-		const name=exports.name=`LList`;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvQC9TZXEvTExpc3QubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFPQSw0QkFDWSxLQUdSO1NBREg7SUFJQyxtQkFBQSxTQUNPO1dBZ0NNO1lBaENaO0lBQUE7SUFDRCxtQkFBQSxnQkFBYSxFQUNDO1dBOEJEO1lBOUJaLGNBQUssY0FBWTtJQUFBO0lBRVIsWUFBQSxLQUFNLEtBQ0s7Ozs7SUFFdEIsYUFBQSxZQUNZO1dBd0JFO0tBeEJiLFFBd0JhO0tBdEJULE9BQUE7TUFBSCxHQUFJLFNBQU8sS0FDRztPQUFiO01BQUE7YUFDRTtVQUNJOzs7SUFFVCxZQUFBLFlBQ1E7V0FnQk07WUFoQmIsU0FnQmEsTUFoQkg7SUFBQTtJQUVYLFlBQUEsUUFDTTtXQWFRO1lBQUE7O0lBWGQsWUFBQSxnQkFBTSxhQUNZO1dBVUo7dUJBWEc7S0FDaEIsV0FBTyxTQUFTO0tBQ2hCLFFBQ0ssWUFBQTtNQUFKLFVBQWE7YUFDUixDQUFBLEtBT08sTUFQRyxLQUFJLE9BQU0sTUFBTTtLQUFBO1lBQ2hDO0lBQUE7SUFFRCxZQUFBLFNBQUksTUFDSztXQUdLO1lBRlI7TUFBQSxRQUFBO01BQ0osZ0JBQUMsTUFBRCxHQUNNO2NBQUwsY0FBSyxNQUFNO01BQUEsT0FFUjtjQUFILG9CQUZXLE1BRVU7TUFBQTtLQUFBO0lBQUE7R0FBQTtHQXRDdkIsZUFBVyxFQUFFO0dBQ2IsUUFBTSxFQUFFO1VBRlQ7RUFBQTtFQXlDRCxvQkFBYyxLQUFJLE9BQU0sT0FBVTtFQUNsQyxzQkFBc0IsY0FBYSxPQUNLLEtBQUE7O0dBQXZDLHdCQUFPOzs7RUFyRFIsd0JBQUEiLCJmaWxlIjoiYXQvU2VxL0xMaXN0LmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvQC9TZXEvTExpc3QubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFPQSw0QkFDWSxLQUdSO1NBREg7SUFJQyxtQkFBQTtXQWlDYTtZQWhDWjtJQUFBO0lBQ0QsbUJBQUEsZ0JBQWE7V0ErQkE7WUE5QlosY0FBSyxjQUFZO0lBQUE7SUFFUixZQUFBLEtBQU07Ozs7SUFHakIsYUFBQTtXQXlCYztLQXhCYixRQXdCYTtLQXRCVCxPQUFBO01BQUgsR0FBSSxTQUFPLEtBQ0c7T0FBYjtNQUFBO2FBQ0U7VUFDSTs7O0lBRVQsWUFBQTtXQWlCYztZQWhCYixTQWdCYSxNQWhCSDtJQUFBO0lBRVgsWUFBQTtXQWNjO1lBQUE7O0lBWGQsWUFBQSxnQkFBTTtXQVdRO3VCQVhHO0tBQ2hCLFdBQU8sU0FBUztLQUNoQixRQUNLO01BQUosVUFBYTthQUNSLENBQUEsS0FPTyxNQVBHLEtBQUksT0FBTSxNQUFNO0tBQUE7WUFDaEM7SUFBQTtJQUVELFlBQUEsU0FBSTtXQUlVO1lBRlI7TUFBQSxRQUFBO01BQ0osZ0JBQUMsTUFBRCxHQUNNO2NBQUwsY0FBSyxNQUFNO01BQUEsT0FFUjtjQUFILG9CQUZXLE1BRVU7TUFBQTtLQUFBO0lBQUE7R0FBQTtHQXRDdkIsZUFBVyxFQUFFO0dBQ2IsUUFBTSxFQUFFO1VBRlQ7RUFBQTtFQXlDRCxvQkFBYyxLQUFJLE9BQU0sT0FBVTtFQUNsQyxzQkFBc0IsY0FBYSxPQUNLLEtBQUE7O0dBQXZDLHdCQUFPIiwiZmlsZSI6ImF0L1NlcS9MTGlzdC5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

@@ -1,7 +1,7 @@
 import
 	global WeakMap
 	.compare =?
-	.js id=? js* js- js+ js-bar js-sub
+	.js defined? id=? js* js- js+ js-bar
 	.math.Number Int
 	.Type.Method _ impl!
 
@@ -16,25 +16,25 @@ hash-code. new Method
 		case
 			id=? this null
 				108
-			id=? this undefined
+			not defined? this
 				109
 			else
 				case hashes-cache.get this
-					id=? _ undefined
+					defined?_
+						_
+					else
 						|| Don't recurse infinitely.
 						hashes-cache.set this 17
 						hash ::= 17
 
-						for! key in Object.keys this
-							val = js-sub this key
+						for! key of Object.keys this
+							val = this."{key}"
 							val-hash = hash-code val
 							hash := js-bar (js* hash 23) 0
 							hash := js-bar (js+ hash val-hash) 0
 
 						hashes-cache.set this hash
 						hash
-					else
-						_
 
 hashes-cache = new WeakMap
 

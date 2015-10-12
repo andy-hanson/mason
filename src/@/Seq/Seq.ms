@@ -58,21 +58,21 @@ region Very first and last
 			unless empty? this
 				this[(- (count this) 1)]
 
-	tail. new Method
+	@tail. new Method
 		| All elements but the first.
 		todo Eager for Linked-Lists.
 		name.
 		args. 1
 		default. .|
-			cond (empty? this) this (drop this 1)
+			cond (empty? this) this (@drop this 1)
 
-	rtail. new Method
+	@rtail. new Method
 		| All elements but the last.
 		todo Eager for finger trees.
 		name.
 		args. 1
 		default. .|
-			cond (empty? this) this (take this (- (count this) 1))
+			cond (empty? this) this (@take this (- (count this) 1))
 
 region Search
 	seq=?. |@a:@ @b:@
@@ -104,7 +104,7 @@ region Search
 		default. .|n
 			i ::= 0
 			todo SYNTAX for-else
-			Opt->? for elem in this
+			Opt->? for elem of this
 				case! elem
 					=? i n
 						break _
@@ -119,69 +119,67 @@ region Search
 				{indent (to-string this)}
 
 region Update
-	slice-args =
-		. "_"
-		. ["start" Nat]
-		. ["end" Nat]
-
-	slice. new Method
+	@slice. new Method
 		| The elements from index start (inclusive) to end (exclusive).
 		| Takes as much as possible.
 		| Result length should be - end start, unless `end` was past the end.
 		name.
-		args. slice-args
+		args.
+			. "_"
+			. ["start" Nat]
+			. ["end" Nat]
 		default. .|start end
-			=> (type-of this) (slice~ this start end)
+			=> (type-of this) (@slice~ this start end)
 
-	slice~. |:@ _ start end
-		| Lazy `slice`.
-		take~ (drop~ _ start) (- end start)
+	@slice~. |:@ _ start end
+		| Lazy `@slice`.
+		@take~ (@drop~ _ start) (- end start)
 
-	take. new Method
+	@take. new Method
 		todo doc
 		name.
 		args.
 			. "_"
 			. ["count-to-take" Nat]
 		default. .|count-to-take
-			=> (type-of this) (take~ this count-to-take)
+			=> (type-of this) (@take~ this count-to-take)
 
-	take~. |_ count-to-take:Nat
+	@take~. |_ count-to-take:Nat
 		| Stream including only the first count-to-take elements.
 		todo SYNTAX @for~
 		case
 			=? 0 count-to-take
 				empty Stream
 			else
+				todo SYNTAX @for~
 				new Stream ~!|
 					n ::= count-to-take
-					for! elem in _
+					for! elem of _
 						<~ elem
 						n := - n 1
 						if! =? 0 n
 							break!
 
-	todo  eager version
-
-	take-while~. |_ while?:Pred
+	todo eager version
+	@take-while~. |_ while?:Pred
 		| Stream stopping (and not including) the first element not satisfying while?.
 		todo SYNTAX @for~
 		new Stream ~!|
-			for! elem in _
+			for! elem of _
 				unless! while? elem
 					break!
 				<~ elem
 
-	drop. new Method
+	@drop. new Method
 		todo doc
 		name.
 		args.
 			. "_"
 			. ["count-to-drop" Nat]
 		default. .|count-to-drop
-			=> (type-of this) (drop~ this count-to-drop)
+			=> (type-of this) (@drop~ this count-to-drop)
 
-	drop~.
+	@drop~.
 		| Stream without the first count-to-drop elements.
 		|_ count-to-drop
 			todo SYNTAX @for~
@@ -196,15 +194,15 @@ region Update
 					i := + 1 i
 				<~~ iter
 
-	todo  drop-while~
+	todo  @drop-while~
 
 region Combination
-	zip. |@a:@ @b:@ zipper:Function[2]
+	@zip. |@a:@ @b:@ zipper:Function[2]
 		| Type-preserving zip~.
 		todo doc the other way around (primarily on zip, short on zip~)
-		=> (type-of @a) (zip~ @a @b zipper)
+		=> (type-of @a) (@zip~ @a @b zipper)
 
-	zip~. |@a:@ @b:@ zipper:Function[2]
+	@zip~. |@a:@ @b:@ zipper:Function[2]
 		| Seq of zipper applied to corresponding elements of @a and @b.
 		| Ends as soon as either of them does, discarding extra elements.
 		| (Corresponding means: with the same index.)
@@ -222,7 +220,7 @@ region Combination
 				<~ zipper next-a.value next-b.value
 
 region TODO: put somewhere
-	groups-of~. |:Seq group-size:Nat _ todo  :Seq[Array]
+	@groups-of~. |group-size:Nat _ todo  :Seq[Array]
 		| Seq of consecutive groups of `group-size` elements.
 		case
 			=? group-size 0
@@ -231,6 +229,7 @@ region TODO: put somewhere
 					for!
 						<~ []
 			else
+				todo SYNTAX @for~
 				new Stream ~!|
 					iter = iterator_
 					for!
@@ -247,31 +246,32 @@ region TODO: put somewhere
 						todo  Really freeze?
 						<~ freeze next-group
 
-
-	indexes. |_:Seq
+	@indexes. |_:Seq
 		todo doc
 		new Range 0 count_
 
-	reverse. new Method
+	@reverse. new Method
 		| Seq with the opposite order.
 		name.
 		args. 1
 		default. .|
 			(from-stream Array this).reverse()
 
-	reverse~. new Method
+	@reverse~. new Method
 		todo doc
 		name.
 		args. 1
 		default. .|
 			arr = => Array this
+			todo SYNTAX @for~
 			new Stream ~!|
-				for! reverse (indexes arr)
+				for! @reverse (@indexes arr)
 					<~ arr[_]
 
-	split~. |_ split?:Pred
+	@split~. |_ split?:Pred
 		| Subseqs separated by elements where split? is true.
 		todo  Allocate current group; don't wait to call slice.
+		todo SYNTAX @for~
 		new Stream ~!|
 			iter = iterator_
 			prev-idx ::= 0
@@ -281,10 +281,10 @@ region TODO: put somewhere
 				~next-idx = + 1 cur-idx
 				case!
 					done
-						<~ slice _ prev-idx cur-idx
+						<~ @slice _ prev-idx cur-idx
 						break!
 					split? value
-						<~ slice _ prev-idx cur-idx
+						<~ @slice _ prev-idx cur-idx
 						prev-idx := next-idx
 						cur-idx := next-idx
 					else
@@ -304,7 +304,7 @@ region Mutator methods
 			. "_"
 			. ["@added" @]
 		default. .!|@added
-			for! reverse~ @added
+			for! @reverse~ @added
 				<+! this _
 
 	todo Implement
@@ -334,11 +334,3 @@ region Mutator methods
 		name.
 		args. 1
 		todo  returns. ?
-
-	set-nth!. new Method
-		| Makes `_[n]` be `val`.
-		name.
-		args.
-			. "_"
-			. ["n" Nat]
-			. "val"

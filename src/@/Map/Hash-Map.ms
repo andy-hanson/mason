@@ -6,13 +6,13 @@ import
 	...compare =?
 	...hash-code
 	...js defined?
-	...methods freeze
+	...methods del-sub! freeze set-sub!
 	...Type.Kind kind! self-kind!
 	..@ empty! iterator @map
 	..@-Type empty
 	..? ?None Opt->? ?some
 	.Id-Map
-	.Map _ assoc! ?get un-assoc!
+	.Map _ ?get
 	.Map-Type
 
 Hash-Map. class
@@ -29,7 +29,7 @@ Hash-Map. class
 		pass
 
 	iterator ~!|
-		for! bucket in .val.values()
+		for! bucket of .val.values()
 			cur ::= bucket
 			for!
 				unless! defined? cur
@@ -44,7 +44,7 @@ Hash-Map. class
 		@map (Opt->? entry) |_
 			_.val!
 
-	assoc! !|key val
+	set-sub! !|key val
 		hash = hash-code key
 		bucket = .val.get hash
 		case! opt-bucket-entry bucket key
@@ -55,7 +55,7 @@ Hash-Map. class
 				|| Add it at the front.
 				.val.set hash (new Bucket key val bucket)
 
-	un-assoc! |key
+	del-sub! |key
 		hash = hash-code key
 		bucket = .val.get hash
 		case bucket

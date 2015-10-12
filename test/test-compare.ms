@@ -1,7 +1,5 @@
 import
-	msl.@.? ?None ?some
-	msl.compare same? ?max max-by ?max-by sorted? sort
-	msl.Function identity
+	msl.compare sorted? sort
 	msl.Try fails?
 	.tests
 

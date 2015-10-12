@@ -13,7 +13,7 @@ import
 import~
 	..control opr
 	.? Opt->?
-	.Seq.Seq +>! ++>! first seq=? tail
+	.Seq.Seq +>! ++>! first seq=? @tail
 	.Seq.Stream
 	.Set.Set
 
@@ -30,7 +30,7 @@ do-inspect = |_ recurse
 		else
 			content =
 				todo  @for:Array
-				show-ems = => Array @for em in _
+				show-ems = => Array @for em of _
 					indent (recurse em)
 				"\n\t. {show-ems.join "\n\t. "}"
 			"{_.constructor.name}{content}"
@@ -60,6 +60,7 @@ region Using iterator
 		any? this |em-compare
 			=? em em-compare
 
+	todo kill?
 	fold. |_:@ b c
 		| Keeps a state variable `acc` and keeps applying `folder acc em` for the elements, in order.
 		| Returns the final value.
@@ -72,7 +73,7 @@ region Using iterator
 			else
 				start. first_
 				folder. b
-				rest. tail_
+				rest. @tail_
 
 		acc ::= start
 		for! rest
@@ -94,7 +95,7 @@ region Using iterator
 		| First element for which pred? is true.
 		| (To find all, use `keep`.)
 		todo SYNTAX for-else
-		Opt->? for elem in _
+		Opt->? for elem of _
 			if! pred? elem
 				break elem
 
@@ -130,7 +131,7 @@ region Lazy functions, and their eager versions.
 	@map. |_:@ mapper:Function
 		todo doc
 		todo SYNTAX Shouldn't need => type-of_
-		=> type-of_ @for elem in _
+		=> type-of_ @for elem of _
 			mapper elem
 
 	@map~. |mapped:@ mapper:Function

@@ -1,5 +1,4 @@
 import
-	msl.@.? ?None
 	msl.assert assert-call!
 	msl.Try fails?
 	msl.Type.Method impl-double! ?impl-for ?self-impl-for self-impl-for

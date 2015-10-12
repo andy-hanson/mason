@@ -5,7 +5,7 @@ import~
 	.@.@ _ all? empty? iterator
 	.@.@-Type from-stream
 	.@.? un-?
-	.@.Seq.Seq _ first tail
+	.@.Seq.Seq _ first @tail
 	.control opr
 	.Function identity
 	.Object object=?
@@ -143,7 +143,7 @@ region Sorting
 				true
 			else
 				sb-prev ::= sort-by first_
-				all? tail_ |em
+				all? @tail_ |em
 					sb-cur = sort-by em
 					with <? sb-prev sb-cur
 						sb-prev := sb-cur

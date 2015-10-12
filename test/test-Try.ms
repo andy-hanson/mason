@@ -1,6 +1,5 @@
 import
 	global TypeError
-	msl.@.? ?None ?some
 	msl.$ $done $ing $rejected $resolved
 	msl.Function thunk
 	msl.Try annotate-errors $annotate-errors $catch fails? fails-with? Success ?try $try try-result

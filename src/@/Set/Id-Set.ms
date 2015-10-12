@@ -20,16 +20,16 @@ impl! count Id-Set .|
 
 todo  Make default falling back to +!
 impl! ++! Id-Set .!|@added
-	for! em in @added
-		.add em
+	for! @added
+		.add _
 
 impl! empty! Id-Set .!|
 	.clear()
 
 todo  Make default falling back to -!
 impl! --! Id-Set .!|@deleted
-	for! em in @deleted
-		.delete em
+	for! @deleted
+		.delete _
 
 impl! contains? Id-Set .|_
 	.has_

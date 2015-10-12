@@ -5,7 +5,7 @@ define(["exports","./js","./private/bootstrap","./Type/Method"],(exports,js_0,bo
 		const _$0=_ms.getModule(js_0),id_61_63=_ms.get(_$0,"id=?"),_$1=_ms.getModule(bootstrap_1),msDef=_ms.get(_$1,"msDef"),Method=_ms.getDefaultExport(Method_2);
 		const to_45string=exports.default=new (Method)((()=>{
 			const built={};
-			built[`name`]="to-string";
+			built.name="to-string";
 			const allow_45null_63=built["allow-null?"]=true;
 			const impl_45symbol=built["impl-symbol"]=`toString`;
 			const _default=built.default=function _default(){
@@ -26,7 +26,7 @@ define(["exports","./js","./private/bootstrap","./Type/Method"],(exports,js_0,bo
 		const inspect_45seen=new (Set)();
 		const inspect=exports.inspect=new (Method)((()=>{
 			const built={};
-			built[`name`]="inspect";
+			built.name="inspect";
 			const allow_45null_63=built["allow-null?"]=true;
 			const wrap=built.wrap=function wrap(impl,arg,opts){
 				return (()=>{
@@ -48,8 +48,7 @@ define(["exports","./js","./private/bootstrap","./Type/Method"],(exports,js_0,bo
 			return `<object with no prototype>`
 		};
 		msDef(`inspect`,inspect);
-		const name=exports.name=`to-string`;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvdG8tc3RyaW5nLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBTUEsa0NBQVcsS0FBSSxRQUNNLEtBQUE7O1NBQXBCLFFBQUE7R0FDQSwyQ0FBYTtHQUNiLHlDQUFjO0dBQ2QsNkJBQ1csbUJBQUE7VUFBTDtXQUFBO0tBQUEsUUFBQTtLQUNKLEdBQUEsU0FBSyxFQUFFLE1BQ0k7YUFBVDtZQUNGLEdBQUEsU0FBSyxFQUFFLFFBQ1M7YUFBZDtZQUVFO2FBQUgsaUJBTkc7S0FBQTtJQUFBO0dBQUE7OztFQVFQLHFCQUFlLEtBQUk7RUFFbkIsOEJBQVMsS0FBSSxRQUNNLEtBQUE7O1NBQWxCLFFBQUE7R0FDQSwyQ0FBYTtHQUNiLHNCQUFPLGNBQUEsS0FBSyxJQUFJLEtBQ0k7V0FDZjtLQUFILEdBQUEsbUJBQWlCLEtBQ0c7YUFBbEI7WUFFRTtNQUFILG1CQUFpQjthQUNaLElBQ2tCO09BQXRCLHNCQUFvQjs7U0FEaEIsVUFBVSxJQUFJO0tBQUE7SUFBQTtHQUFBO0dBRXRCLDZCQUFTOzs7RUFHVix1QkFDa0IsMkJBQUE7VUFBaEI7O0VBRUYsTUFBTyxVQUFTO0VBdENoQix3QkFBQSIsImZpbGUiOiJ0by1zdHJpbmcuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvdG8tc3RyaW5nLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBTUEsa0NBQVcsS0FBSSxRQUNNLEtBQUE7O2NBQXBCO0dBQ0EsMkNBQWE7R0FDYix5Q0FBYztHQUNkLDZCQUNXO1VBQUw7V0FBQTtLQUFBLFFBQUE7S0FDSixHQUFBLFNBQUssRUFBRSxNQUNJO2FBQVQ7WUFDRixHQUFBLFNBQUssRUFBRSxRQUNTO2FBQWQ7WUFFRTthQUFILGlCQU5HO0tBQUE7SUFBQTtHQUFBOzs7RUFRUCxxQkFBZSxLQUFJO0VBRW5CLDhCQUFTLEtBQUksUUFDTSxLQUFBOztjQUFsQjtHQUNBLDJDQUFhO0dBQ2Isc0JBQU8sY0FBQSxLQUFLLElBQUk7V0FFWDtLQUFILEdBQUEsbUJBQWlCLEtBQ0c7YUFBbEI7WUFFRTtNQUFILG1CQUFpQjthQUNaLElBQ2tCO09BQXRCLHNCQUFvQjs7U0FEaEIsVUFBVSxJQUFJO0tBQUE7SUFBQTtHQUFBO0dBRXRCLDZCQUFTOzs7RUFHVix1QkFDa0I7VUFBaEI7O0VBRUYsTUFBTyxVQUFTIiwiZmlsZSI6InRvLXN0cmluZy5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

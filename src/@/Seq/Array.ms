@@ -4,13 +4,14 @@ import
 	...compare =? <=? <?
 	...js js-set js-sub
 	...math.methods +
+	...methods set-sub!
 	...Type.Kind kind! self-kind!
 	...Type.Method impl! self-impl!
 	...Type.Type =>
 	..@ _ -! --! count empty! empty?
 	..@-Type _ empty from-stream
 	..Set.Set
-	.Seq _ <++! ++>! indexes ?nth ?<pop! ?pop>! set-nth!
+	.Seq _ <++! ++>! @indexes ?nth ?<pop! ?pop>!
 import~
 	...math.Number Nat
 
@@ -34,12 +35,10 @@ impl! ?nth Array .|n
 		js-sub this n
 
 impl! <++! Array .|added:@
-	todo SYNTAX _.unshift ...added
-	Array.prototype.unshift.apply this (=> Array added)
+	.unshift ...added
 
 impl! ++>! Array .|added:@
-	todo SYNTAX _.push ...added
-	Array.prototype.push.apply this (=> Array added)
+	.push ...added
 
 impl! ?<pop! Array .|
 	unless empty? this
@@ -57,13 +56,13 @@ impl! empty! Array .!|
 			break!
 		.pop()
 
-impl! set-nth! Array .!|n:Nat val
+impl! set-sub! Array .!|n:Nat val
 	js-set this n val
 
 impl! -! Array .!|em
-	for! i in indexes this
-		if! =? this[i] em
-			.splice i 1
+	for! @indexes this
+		if! =? this[_] em
+			.splice _ 1
 			break!
 
 impl! --! Array .!|@deleted
@@ -85,8 +84,7 @@ filter!. !|arr keep-if?
 
 		here = arr[read-idx]
 		if! keep-if? here
-			todo this[write-idx] = here
-			set-nth! arr write-idx here
+			arr[write-idx] := here
 			write-idx := + 1 write-idx
 
 		read-idx := + 1 read-idx
@@ -97,6 +95,5 @@ todo rename?
 fill. |count:Number filler:Function
 	| Creates a new Array by calling `filler` on each number from zero to `count`.
 	with new Array count
-		for! i in indexes_
-			todo SYNTAX _[i] = filler i
-			set-nth! _ i (filler i)
+		for! i of @indexes_
+			_[i] = filler i

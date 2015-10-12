@@ -1,6 +1,5 @@
 import
-	msl.@.@ --
-	msl.@.Set.Set intersect set=?
+	msl.@.Set.Set intersect
 	...tests
 
 tests "Set"

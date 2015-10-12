@@ -1,6 +1,4 @@
 import
-	msl.@.Seq.Seq reverse tail take-while~
-	msl.math.Number Nat
 	..tests
 
 fibs =
@@ -11,8 +9,8 @@ fibs =
 
 zeckendorf. |n:Nat
 	| http://rosettacode.org/wiki/Zeckendorf_number_representation
-	z-fibs = tail fibs || Don't include the first `1`, so `[1 2 3 5 8 ...]`.
-	candidate-fibs = reverse (take-while~ z-fibs |_
+	z-fibs = @tail fibs || Don't include the first `1`, so `[1 2 3 5 8 ...]`.
+	candidate-fibs = @reverse (@take-while~ z-fibs |_
 		<=? _ n || Highest numbers go first
 	left ::= n
 	digits = @for candidate-fibs

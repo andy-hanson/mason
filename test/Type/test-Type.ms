@@ -1,5 +1,5 @@
 import
-	msl.Type.Type _ extract type-of
+	msl.Type.Type type-of
 	..tests
 
 tests "Type"

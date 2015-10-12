@@ -1,7 +1,6 @@
 import
 	msl.assert assert-call!
-	msl.Type.Pred-Type Any ObjLit Union
-	msl.Type.Type contains?
+	msl.Type.Pred-Type Union
 	..tests
 
 tests "Pred-Type"

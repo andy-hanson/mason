@@ -1,6 +1,5 @@
 import
 	msl.assert assert-call! assert-this-call! assert-call-with!
-	msl.compare same?
 	msl.Try fails-with?
 	.tests
 

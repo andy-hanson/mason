@@ -9,18 +9,16 @@ define(["exports","./at/at","./Function","./Generator","./methods","./Type/Metho
 		self_45impl_33(sub,$,()=>{
 			return $
 		});
-		const $done=exports.$done=(()=>{
-			return _=>{
-				_ms.checkContains($,_,"_");
-				return _ms.unlazy($catch)(_,err=>{
-					console.log(`=== error ===
+		const $done=exports.$done=function $done(_){
+			_ms.checkContains($,_,"_");
+			return _ms.unlazy($catch)(_,err=>{
+				console.log(`=== error ===
 ${err.message}
 ${err.stack}
 === error ===`);
-					throw err
-				})
-			}
-		})();
+				throw err
+			})
+		};
 		const $fail_45after_45time=exports["$fail-after-time"]=function $fail_45after_45time(_,time_45ms){
 			_ms.checkContains($,_,"_");
 			_ms.checkContains(Number,time_45ms,"time-ms");
@@ -30,15 +28,15 @@ ${err.stack}
 					return reject(new (Error)(`Took longer than ${time_45ms} milliseconds.`))
 				};
 				return setTimeout(timeout,time_45ms)
-			}),"res")
+			}),"returned value")
 		};
 		const $after=exports.$after=function $after(_,then){
 			_ms.checkContains($,_,"_");
 			_ms.checkContains(Function,then,"then");
-			return _ms.checkContains($,_.then(then),"res")
+			return _ms.checkContains($,_.then(then),"returned value")
 		};
 		const $resolved=exports.$resolved=function $resolved(value){
-			return _ms.checkContains($,$.resolve(value),"res")
+			return _ms.checkContains($,$.resolve(value),"returned value")
 		};
 		const _45_62$=exports["->$"]=$resolved;
 		const $rejected=exports.$rejected=function $rejected(_){
@@ -50,7 +48,7 @@ ${err.stack}
 		};
 		const $all=exports.$all=function $all(_){
 			_ms.checkContains(_ms.sub(_64,$),_,"_");
-			return _ms.checkContains(_ms.sub($,Array),$.all(_61_62(Array,_)),"res")
+			return _ms.checkContains(_ms.sub($,Array),$.all(_61_62(Array,_)),"returned value")
 		};
 		const $map=exports.$map=function $map(mapped,mapper){
 			_ms.checkContains(_64,mapped,"mapped");
@@ -61,12 +59,12 @@ ${err.stack}
 					_ms.add(built,mapper(_))
 				};
 				return built
-			})()),"res")
+			})()),"returned value")
 		};
 		const $flat_45map=exports["$flat-map"]=function $flat_45map(mapped,mapper){
 			_ms.checkContains(_64,mapped,"mapped");
 			_ms.checkContains(_ms.sub(Function,Any,_ms.sub($,_64)),mapper,"mapper");
-			return _ms.checkContains(_ms.sub($,_64),$after($map(mapped,mapper),_64flatten),"res")
+			return _ms.checkContains(_ms.sub($,_64),$after($map(mapped,mapper),_64flatten),"returned value")
 		};
 		const $keep=exports.$keep=function $keep(keep_45some,keep_45if_63){
 			_ms.checkContains(_64,keep_45some,"keep-some");
@@ -77,7 +75,7 @@ ${err.stack}
 						return _
 					})()):_ms.None)
 				})
-			}),"res")
+			}),"returned value")
 		};
 		const $ing=exports.$ing=function $ing(code){
 			_ms.checkContains(_ms.sub(Function,Generator),code,"code");
@@ -86,10 +84,9 @@ ${err.stack}
 				const _$0=$_45generator.next(last_45value),value=_$0.value,done=_$0.done;
 				return (done?value:$after(value,do_45next))
 			};
-			return _ms.checkContains($,do_45next(),"res")
+			return _ms.checkContains($,do_45next(),"returned value")
 		};
-		const name=exports.name=`$`;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvJC5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQWFBLHdCQUNFLEtBQUE7VUFFRDtFQUFBO0VBRUQsZUFBVyxJQUFJLEVBQ0csSUFBQTtVQUFqQjtFQUFBO0VBSUQsMEJBQ00sS0FBQTtVQUlKLEdBQ0c7c0JBREQ7OEJBQ0ssRUFBSSxLQUNHO0tBQ2IsWUFDQyxpQkFDQyxlQUNBO0tBR0YsTUFBTztJQUFBO0dBQUE7RUFBQTtFQUVWLHVEQUFtQiw4QkFBRyxFQUFJLFVBQ2M7cUJBRGhCO3FCQUFVOzRCQUFkLEVBRW5CLEtBQUksR0FBRyxDQUFBLFFBQVEsU0FDTTtJQUFwQixPQUFPLEVBQUU7SUFDVCxjQUNXLGtCQUFBO1lBQVYsT0FBTyxLQUFJLE9BQU8sb0JBQWtCOztXQUNyQyxXQUFXLFFBQVE7R0FBQTs7RUFFckIsNEJBQVMsZ0JBQUcsRUFBSSxLQUNhO3FCQURmO3FCQStDQzs0QkEvQ0wsRUFHVCxPQUFPOztFQUVSLGtDQUFZLG1CQUFHLE1BQ0s7NEJBRFAsRUFFWixVQUFVOztFQUdYLDZCQUFLO0VBRUwsa0NBQVksbUJBQUEsRUFDQztVQUNaLFNBQVM7RUFBQTtFQUVWLDRCQUFTLGdCQUFBLFFBQ2M7cUJBRE47b0NBTUosRUFBRTtFQUFBO0VBRWYsd0JBQU8sY0FBVSxFQUNNOzZCQURKLElBQUU7b0NBQWIsRUFlRyxPQVpWLE1BQU8sT0FZRyxNQVpNOztFQUVqQix3QkFBTyxjQUFVLE9BQVMsT0FDc0I7cUJBRHhCOzZCQWtCVCxTQWxCMkIsSUFBSTtvQ0FBdEMsRUFVRyxPQVBWLE1BQVc7O1lBQUEsS0FBQSxPQUNNO21CQUFoQixPQUFBO0lBQUE7Ozs7RUFFRix1Q0FBWSxxQkFBTSxPQUFTLE9BQ3lCO3FCQUQzQjs2QkFZVixTQVo0QixZQUFJLEVBQUU7b0NBQXBDLEVBQUUsS0FFZCxPQUFRLEtBQUssT0FBTyxRQUFROztFQUU3QiwwQkFBUSxlQUFVLFlBQVksYUFDaUM7cUJBRG5DOzZCQVFiLFNBUmlDLFlBQUksRUFBRTtvQ0FBN0MsRUFBRSxPQUdWLFlBQVUsWUFBVyxHQUNDO1dBQXJCLE9BQU8sYUFBQSxHQUFXLE1BQ0k7WUFBckIsQ0FBRyxtQkFDSTthQUFOO0tBQUE7Ozs7RUFFSix3QkFBTyxjQUFHLEtBQ3dCOzZCQURuQixTQUFTO0dBS3ZCLG9CQUFjO0dBQ2QsZ0JBQVcsbUJBQUEsYUFDVTtJQUFwQixVQUFhLG1CQUFpQjtXQUN6QixDQUFBLEtBQUssTUFBTyxPQUFPLE1BQU07R0FBQTs0QkFSeEIsRUFTUDs7RUF2R0Qsd0JBQUEiLCJmaWxlIjoiY2FzaC5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvJC5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQWFBLHdCQUNFLEtBQUE7VUFFRDtFQUFBO0VBRUQsZUFBVyxJQUFJLEVBQ0c7VUFBakI7RUFBQTtFQUlELDBCQUFRLGVBQUE7cUJBQUU7NkJBS0YsRUFBSTtJQUVWLFlBQ0MsaUJBQ0MsZUFDQTtJQUdGLE1BQU87R0FBQTtFQUFBO0VBRVQsdURBQW1CLDhCQUFHLEVBQUk7cUJBQUY7cUJBQVU7NEJBQWQsRUFFbkIsS0FBSSxHQUFHLENBQUEsUUFBUTtJQUNkLE9BQU8sRUFBRTtJQUNULGNBQ1c7WUFBVixPQUFPLEtBQUksT0FBTyxvQkFBa0I7O1dBQ3JDLFdBQVcsUUFBUTtHQUFBOztFQUVyQiw0QkFBUyxnQkFBRyxFQUFJO3FCQUFGO3FCQUFPOzRCQUFYLEVBR1QsT0FBTzs7RUFFUixrQ0FBWSxtQkFBRzs0QkFBRixFQUVaLFVBQVU7O0VBR1gsNkJBQUs7RUFFTCxrQ0FBWSxtQkFBQTtVQUVYLFNBQVM7RUFBQTtFQUVWLDRCQUFTLGdCQUFBO3FCQUFRO29DQU1KLEVBQUU7RUFBQTtFQUVmLHdCQUFPLGNBQVU7NkJBQUUsSUFBRTtvQ0FBYixFQUFFLE9BR1QsTUFBTyxPQUFHLE1BQU07O0VBRWpCLHdCQUFPLGNBQVUsT0FBUztxQkFBRjs2QkFBUyxTQUFTLElBQUk7b0NBQXRDLEVBQUUsT0FHVCxNQUFXOztZQUFBLEtBQUEsT0FDTTttQkFBaEIsT0FBQTtJQUFBOzs7O0VBRUYsdUNBQVkscUJBQU0sT0FBUztxQkFBRjs2QkFBUyxTQUFTLFlBQUksRUFBRTtvQ0FBcEMsRUFBRSxLQUVkLE9BQVEsS0FBSyxPQUFPLFFBQVE7O0VBRTdCLDBCQUFRLGVBQVUsWUFBWTtxQkFBRjs2QkFBVyxTQUFTLFlBQUksRUFBRTtvQ0FBN0MsRUFBRSxPQUdWLFlBQVUsWUFBVztXQUNwQixPQUFPLGFBQUEsR0FBVztZQUNqQixDQUFHLG1CQUNJO2FBQU47S0FBQTs7OztFQUVKLHdCQUFPLGNBQUc7NkJBQUssU0FBUztHQUt2QixvQkFBYztHQUNkLGdCQUFXLG1CQUFBO0lBQ1YsVUFBYSxtQkFBaUI7V0FDekIsQ0FBQSxLQUFLLE1BQU8sT0FBTyxNQUFNO0dBQUE7NEJBUnhCLEVBU1AiLCJmaWxlIjoiY2FzaC5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

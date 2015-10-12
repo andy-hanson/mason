@@ -6,7 +6,7 @@ import~
 	..@.? un-?
 	.Impl-Type _ Self-Type
 	.Kind
-	..Object ?p p-with-proto?
+	..Object ?property property-with-proto?
 
 flag? = |_
 	and defined?_ _
@@ -174,7 +174,7 @@ impl-for. |method:Method type:Impl-Type
 
 ?self-impl-for. |method:Method object
 	todo doc
-	?p object method.impl-symbol
+	?property object method.impl-symbol
 
 self-impl-for. |method:Method object
 	todo doc
@@ -191,7 +191,7 @@ region Private
 		unless! Object.prototype.hasOwnProperty.call implementor.prototype method-symbol
 			case! implementor
 				:Kind
-					for! sub-implementor in _.implementors
+					for! sub-implementor of _.implementors
 						propagate-method-down! sub-implementor method-symbol implementation
 				else
 					todo What to do in case of multiple inheritance collision?
@@ -205,9 +205,8 @@ region Private
 	todo Multiple-inheritance proxy scheme
 	|| "method" can be a Method or a Double-Dispatcher.
 	do-impl! = !|method implementor implementation
-		in
-			assert! writable? implementor.prototype method.impl-symbol throw!
-				"Can not redefine method {method} for {implementor}."
+		assert! writable? implementor.prototype method.impl-symbol throw!
+			"Can not redefine method {method} for {implementor}."
 
 		Object.defineProperty implementor.prototype method.impl-symbol
 			value. implementation
@@ -252,6 +251,6 @@ contains? = new Method
 msDef "contains" contains?
 
 method-contains? = |method value
-	p-with-proto? value method.impl-symbol
+	property-with-proto? value method.impl-symbol
 
 implContains Method method-contains?

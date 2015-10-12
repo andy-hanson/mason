@@ -7,7 +7,7 @@ install()
 
 tests. !|test-name mp
 	describe test-name !|
-		for! pair in mp
+		for! pair of mp
 			todo syntax array destructure
 			key = pair[0]
 			val = pair[1]

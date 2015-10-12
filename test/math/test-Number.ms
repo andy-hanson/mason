@@ -1,6 +1,6 @@
 import
 	msl.Function spread!
-	msl.math.Number Int Nat sign remainder near? abs pow square square-root round round-down round-up round-towards-0 near-0? mid
+	msl.math.Number sign near? abs pow square square-root round round-down round-up round-towards-0 near-0? mid
 	msl.Try fails?
 	..tests
 

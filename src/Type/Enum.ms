@@ -1,6 +1,5 @@
 import
 	..control opr
-	..Object p+!
 	..to-string
 	.Impl-Type
 	.Kind kind!
@@ -18,10 +17,10 @@ Enum. class
 		.prototype = opr params.prototype ~(Object.create Object.prototype)
 		.values = params.values todo  :Array[String]
 
-		for! value-name in .values
+		for! value-name of .values
 			enum-val = Object.create .prototype
 			enum-val.name = value-name
-			p+! this value-name enum-val
+			this."{value-name}" = enum-val
 		.prototype.constructor = this
 		enum-name = .name
 		impl! to-string this .|

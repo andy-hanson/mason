@@ -4,7 +4,6 @@ import
 	..@-Type _ empty
 	..Map.Map @keys
 	..Map.Hash-Map
-	..Map.Map assoc! un-assoc!
 	.Set
 
 Hash-Set. class
@@ -28,12 +27,12 @@ Hash-Set. class
 	todo Make default falling back to +!
 	++! !|@added
 		for! @added
-			assoc! .map _ true
+			.map[_] := true
 
 	todo Make default falling back to -!
 	--! !|@deleted
 		for! @deleted
-			un-assoc! .map _
+			del! .map[_]
 
 	empty! !|
 		empty! .map

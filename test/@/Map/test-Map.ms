@@ -1,5 +1,4 @@
 import
-	msl.@.Map.Map make-map map=?
 	...tests
 
 tests "Map"

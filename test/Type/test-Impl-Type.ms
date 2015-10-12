@@ -1,5 +1,4 @@
 import
-	msl.Object empty-Object!
 	msl.Type.Impl-Type _ Self-Type
 	msl.Type.Kind kind?
 	..tests
@@ -22,9 +21,9 @@ tests "Impl-Type"
 		forbid! kind? A B
 
 	Self-Type -> !|
-		x = empty-Object!()
 		m = new Method
 			name.
+		x = new Object
 		impl! m (new Self-Type x) |
 			1
 		assert! =? (m x) 1

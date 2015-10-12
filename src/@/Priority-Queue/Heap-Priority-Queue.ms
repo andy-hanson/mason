@@ -5,7 +5,6 @@ import
 	...Type.Kind kind! self-kind!
 	..@ ++! count empty! empty? iterator
 	..@-Type _ empty
-	..Seq.Seq set-nth!
 	.Priority-Queue _ ?pop!
 
 Heap-Priority-Queue. class
@@ -27,8 +26,8 @@ Heap-Priority-Queue. class
 		iterator .array
 
 	++! !|added
-		for! em in added
-			add! .array em
+		for! added
+			add! .array _
 
 	?pop! |
 		unless empty? this
@@ -56,14 +55,14 @@ region Private
 		i-cur ::= count heap
 		for!
 			if! =? i-cur 0
-				set-nth! heap 0 val
+				heap[0] := val
 				break!
 			i-parent = index-parent i-cur
 			parent = heap[i-parent]
 			unless! <? val parent
-				set-nth! heap i-cur val
+				heap[i-cur] := val
 				break!
-			set-nth! heap i-cur parent
+			heap[i-cur] := parent
 			i-cur := i-parent
 
 	fix-down! = !|heap
@@ -76,7 +75,7 @@ region Private
 			|| When it can move no further, put `val` in there.
 			i-cur ::= 0
 			go! = !|goto-idx
-				set-nth! heap i-cur heap[goto-idx]
+				heap[i-cur] := heap[goto-idx]
 				i-cur := goto-idx
 			ok-index? = |_
 				<? _ size
@@ -98,4 +97,4 @@ region Private
 						go! i-right-child
 					else
 						break!
-			set-nth! heap i-cur val
+			heap[i-cur] := val

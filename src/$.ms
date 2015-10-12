@@ -21,21 +21,20 @@ self-impl! sub $ |
 
 || See also $ section in Try.ms.
 
-$done.
+$done. |_:$
 	| Don't forget `$done`!
 	| Logs any errors that happen inside a promise.
 	| It would be great if we could make these errors happen top-level...
 	| This is probably a kludge. See <http://blog.soareschen.com/the-problem-with-es6-promises>.
-	|_:$
-		$catch _ !|err
-			|| Don't use log! because there if errors happen in there, the error disappears!
-			console.log "
-				=== error ===
-				{err.message}
-				{err.stack}
-				=== error ===
-			|| We're already $done so this shouldn't matter, but just in case...
-			throw! err
+	$catch _ !|err
+		|| Don't use log! because there if errors happen in there, the error disappears!
+		console.log "
+			=== error ===
+			{err.message}
+			{err.stack}
+			=== error ===
+		|| We're already $done so this shouldn't matter, but just in case...
+		throw! err
 
 $fail-after-time. |:$ _:$ time-ms:Number
 	| Fails if it takes too long.

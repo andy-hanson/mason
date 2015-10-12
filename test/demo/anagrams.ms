@@ -1,9 +1,5 @@
 import
-	msl.@.@ @keep
-	msl.@.Map.Map @values
-	msl.@.Map.Id-Map
 	msl.@.Map.multi-map add-to-@!
-	msl.@.Seq.Seq seq=?
 	msl.compare sort
 	msl.RegExp rgx
 	..tests

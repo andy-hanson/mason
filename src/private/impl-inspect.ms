@@ -2,7 +2,7 @@ import
 	global JSON
 	..@.Set.Id-Set
 	..js js-typeof
-	..Object @p @p-all
+	..Object @properties @all-properties
 	..String indent
 	..to-string inspect
 	..Type.Method impl!
@@ -11,8 +11,8 @@ import
 impl! inspect Object .|
 	switch .toString
 		Object.prototype.toString
-			props = @p-all this
-			enumerable-props = => Id-Set (@p this)
+			props = @all-properties this
+			enumerable-props = => Id-Set (@properties this)
 			s ::= "{.constructor.name}"
 			for! props
 				s := "{s}\n\t{inspect-property this _ :enumerable-props}"

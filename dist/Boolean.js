@@ -11,8 +11,7 @@ define(["exports"],exports=>{
 			_ms.checkContains(Boolean,b,"b");
 			return (a?! b:b)
 		};
-		const name=exports.name=`Boolean`;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvQm9vbGVhbi5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7O0VBQUEsOEJBQVUsaUJBQUEsTUFBWSxRQUNjO3FCQUlsQjtVQUZaLENBQUEsMEJBQVU7RUFBQTtFQUVoQixzQkFBTSxhQUFBLEVBQVUsRUFDUztxQkFEUDtxQkFBQTtVQUVaLENBQUEsRUFBRyxFQUFJLEVBQUc7RUFBQTtFQVBoQix3QkFBQSIsImZpbGUiOiJCb29sZWFuLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvQm9vbGVhbi5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7O0VBQUEsOEJBQVUsaUJBQUEsTUFBWTtxQkFBUjtVQUdSLENBQUEsMEJBQVU7RUFBQTtFQUVoQixzQkFBTSxhQUFBLEVBQVU7cUJBQVI7cUJBQVU7VUFFWixDQUFBLEVBQUcsRUFBSSxFQUFHO0VBQUEiLCJmaWxlIjoiQm9vbGVhbi5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

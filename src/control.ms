@@ -3,7 +3,7 @@ import
 	.methods freeze
 	.Type.Pred-Type Opt
 import~
-	.@.Seq.Seq _ ++>!
+	.@.Seq.Seq ++>!
 
 do-times!. !|n-times action
 	| Performs `action` `n-times` times.
@@ -19,7 +19,8 @@ opr. |_:Opt ~default
 	| Fills in an Opt with a default value.
 	cond defined?_ _ default
 
-build. |:Seq calls-yield:Function
+todo SYNTAX build keyword
+build. |calls-yield:Function
 	| Passes in a `yield` Function to `calls-yield`.
 	| Returns a Seq of what `calls-yield` called `yield` with.
 	yielded = []

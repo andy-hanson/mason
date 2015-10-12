@@ -2,13 +2,14 @@ import
 	...compare =? <?
 	...math.Number modulo Nat
 	...math.methods + - *
+	...methods set-sub!
 	...Type.Kind kind! self-kind!
 	...Type.Pred-Type Any
 	..@ _ ++~ count empty! empty? iterator @map
 	..@-Type _ empty
 	..? un-?
 	..Range
-	.Seq _ <++! ++>! ?nth ?<pop! ?pop>! reverse set-nth!
+	.Seq _ <++! ++>! ?nth ?<pop! ?pop>! @reverse
 
 Deque. class
 	| Seq that can efficiently add values on either side.
@@ -37,27 +38,25 @@ Deque. class
 			<~ .data![_]
 
 	<++! !|ems:@
-		for! em in reverse ems
+		for! @reverse ems
 			new-start = prev-index this .start-index!
 			case!
 				=? new-start .end-index!
 					expand! this
-					<++! this [em]
+					<++! this [_]
 				else
 					.start-index! := new-start
-					set-nth! .data! .start-index! em
-
-
+					.data![.start-index!] := _
 
 	++>! !|ems:@
-		for! em in ems
+		for! ems
 			new-end = next-index this .end-index!
 			case!
 				=? new-end .start-index!
 					expand! this
-					++>! this [em]
+					++>! this [_]
 				else
-					set-nth! .data! .end-index! em
+					.data![.end-index!] := _
 					.end-index! := new-end
 
 		todo  Shrink on occasion
@@ -78,9 +77,9 @@ Deque. class
 		@map (?data-index this index) |_
 			.data![_]
 
-	set-nth! !|index:Nat set-to:Any
-		data-index = un-? (?data-index this index) ~"Can't set at index {index}; count is {count this}"
-		set-nth! .data! data-index set-to
+	set-sub! !|index:Nat set-to:Any
+		data-index = un-? (?data-index this index) ~"Can't set at index {index}; count is {count this}."
+		.data![data-index] := set-to
 
 	empty! !|
 		empty! .data!
@@ -96,8 +95,8 @@ region Private
 		old-capacity = capacity_
 		new-capacity = * 2 old-capacity
 		new-data = Array new-capacity
-		for! index in new Range 0 old-capacity
-			set-nth! new-data index old-data[index]
+		for! index of new Range 0 old-capacity
+			new-data[index] = old-data[index]
 		_.data! := new-data
 
 	wrap-index = |_ index

@@ -1,7 +1,4 @@
 import
-	msl.@.@ ++ -- @flat-map~ @keep @map @map~
-	msl.@.?
-	msl.@.Seq.Seq ?first tail
 	..tests
 
 make-word-from-blocks. |:? word:String blocks:@ todo  ?[Seq[String]], @[String]
@@ -11,7 +8,7 @@ make-word-from-blocks. |:? word:String blocks:@ todo  ?[Seq[String]], @[String]
 			empty?_
 				? []
 			else
-				rest-word = tail_
+				rest-word = @tail_
 				this-char-blocks = @keep blocks-left |_
 					chars-left[0]:_
 				todo SYNTAX @for~

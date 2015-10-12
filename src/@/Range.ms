@@ -1,18 +1,19 @@
 import
 	..compare <? <=?
-	..control opr
 	..Function thunk
-	..math.Number Nat round-down sign
+	..js defined?
+	..math.Number neg Nat remainder round-down same-sign? sign
 	..math.methods + - * /
 	..Type.Kind kind! self-kind!
 	..Type.Method self-impl!
 	..Type.Pred-Type Opt
 	.@ _ count iterator
 	.@-Type _ empty from-stream
-	.Seq.Seq ?nth
+	.Seq.Seq ?nth @reverse
 
 Range. class
 	| Seq of Numbers taking fixed steps.
+	| `start` is inclusive, `end` is exclusive.
 
 	do!
 		self-kind! _ @-Type
@@ -29,7 +30,12 @@ Range. class
 	construct! start:Number end:Number step:Opt[Number]
 		.start = start
 		.end = end
-		.step = opr step (sign (- end start))
+		.step = case step
+			defined?_
+				assert! same-sign? _ (- end start)
+				_
+			else
+				sign (- end start)
 
 	iterator ~!|
 		cur ::= .start
@@ -45,6 +51,8 @@ Range. class
 			<~ cur
 			cur := + cur .step
 
+	|| Below functions can be implemented more efficiently than the defaults.
+
 	?nth |n:Nat
 		todo  Function if-test ?
 		it = + .start (* .step n)
@@ -54,16 +62,16 @@ Range. class
 	count |
 		round-down (/ (length this) .step)
 
-todo KILL
-range. |start:Number end:Number step:Opt[Number]
-	new Range start end step
+	@reverse |
+		new-step = neg .step
+		rem = remainder (- .end .start) .step
+		switch rem
+			0
+				new Range (- .end .step) (- .start .step) new-step
+			else
+				new Range (- .end rem) .start new-step
 
-range-incl. |start:Number end:Number step:Opt[Number]
-	todo doc
-	step := opr step (sign (- end start))
-	range start (+ end step) step
-
-todo rename?
+todo rename
 length. |_:Range
 	| Difference between and and start values.
 	- _.end _.start

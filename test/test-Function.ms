@@ -1,29 +1,9 @@
 import
-	msl.@.Seq.Seq seq=?
 	msl.control build
-	msl.Function apply call fun-copy identity id-memoize hash-memoize spread spread! thunk
-	msl.methods sub
-	msl.Object p?
+	msl.Function id-memoize hash-memoize spread spread! thunk
 	.tests
 
 tests "Function"
-	apply ->
-		[+ [1 2]] -> 3
-
-	call ->
-		[+ 1 2] -> 3
-
-	fun-copy -> !|
-		f1 = |_
-			_
-		f1.prop = "f1"
-		f2 = fun-copy f1
-		forbid! p? f2 "prop"
-		f2.prop = "f2"
-		assert! =? f1.prop "f1"
-		assert! =? f2.prop "f2"
-		assert! =? (f1 1) (f2 1)
-
 	identity ->
 		[1] -> 1
 

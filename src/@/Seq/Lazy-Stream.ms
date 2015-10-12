@@ -1,12 +1,11 @@
 import
-	...Function call thunk
+	...Function thunk
 	...math.Number Nat
 	...math.methods -
 	...Type.Kind kind! self-kind!
 	...Type.Method impl! self-impl!
-	..@ count iterator
+	..@ count empty? iterator
 	..@-Type _ empty from-stream
-	..? Some
 	.Seq _ ?nth
 	.Stream
 
@@ -34,21 +33,24 @@ Lazy-Stream. class
 		todo We wrap this in a Stream because `for!` calls [Symbol.iterator]().
 		todo We should be able to do `for!` on both @s and unwrapped iterators.
 		strm = new Stream stream
-		self = this todo  `this` in constructor
-		.caching-iterator = call ~!|
+		todo  `this` in constructor
+		self = this
+		todo iterator @for~
+		get-caching-iterator = ~!|
 			for! strm
 				todo  +>!
 				self.cache.push _
 				<~ _
+		.caching-iterator = get-caching-iterator()
 
 	?nth |n:Nat
 		todo higher-order function for this pattern
 		case ?nth .cache n
-			:Some
-				_
-			else
+			empty?_
 				n-left = - n (count .cache)
 				?nth (Stream .caching-iterator) n-left
+			else
+				_
 
 todo  class method
 impl! iterator Lazy-Stream .~!|

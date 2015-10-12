@@ -5,11 +5,13 @@ import
 	..to-string
 	..Type.Kind kind! self-kind!
 	..Type.Method self-impl!
-	..Type.Pred-Type
 	..Type.Type extract
 	.@ empty? iterator
 	.@-Type _ empty from-stream
 	.Seq.Seq
+
+|| I've measured and code is at least twice as fast when using a single option type
+|| rather than a ?, ?Some, ?None type heirarchy.
 
 ?. class
 	| A Seq with 0 or 1 elements.
@@ -41,7 +43,7 @@ import
 	to-string |
 		case
 			empty? this
-				"None"
+				"?None"
 			else
 				"?some {.val}"
 
@@ -52,6 +54,12 @@ empty-marker =
 ?None. new ? empty-marker
 ?some. |_
 	new ? _
+
+self-impl! extract ?some |case
+	empty?_
+		null
+	else
+		[_.val]
 
 msDef "some" ?some
 msDef "None" ?None
@@ -84,15 +92,3 @@ region Functions
 				or-else
 			else
 				_.val
-
-Some. new Pred-Type
-	todo doc
-	name.
-	predicate. |_
-		and :? not empty?_
-
-self-impl! extract Some |case
-	:Some
-		[_.val]
-	else
-		null

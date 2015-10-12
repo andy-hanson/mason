@@ -1,10 +1,11 @@
 import
 	...compare _ <?
 	...js defined?
+	...methods del-sub! set-sub!
 	...Type.Kind kind!
 	..@ empty! empty? iterator
 	..@-Type empty
-	.Map assoc! ?get un-assoc!
+	.Map ?get
 	.Sorted-Map
 
 Splay-Tree. class
@@ -40,7 +41,7 @@ Splay-Tree. class
 			.root.val!
 
 
-	assoc! !|key val
+	set-sub! !|key val
 		case!
 			empty? this
 				.root := new Splay-Node key val undefined undefined
@@ -60,7 +61,7 @@ Splay-Tree. class
 						new Splay-Node key val old-left old-root
 
 
-	un-assoc! |key
+	del-sub! |key
 		if and (not empty? this) (splay!? this key)
 			removed = .root
 			|| Link out the root.
@@ -92,14 +93,12 @@ region Private
 		left ::= dummy
 		right ::= dummy
 		cur ::= _.root
-		todo SYNTAX loop return value
-		found ::= null
-		for!
+
+		found = for
 			case! compare key cur.key
 				<? _ 0
 					unless! has-left? cur
-						found := false
-						break!
+						break false
 					link-right! = !|new-right
 						right.left! := new-right
 						cur := new-right.left!
@@ -112,16 +111,14 @@ region Private
 							old-left.right! := cur
 							unless! has-left? old-left
 								cur := old-left
-								found := false
-								break!
+								break false
 							cur := old-left
 							link-right! old-left
 						else
 							link-right! cur
 				<? 0 _
 					unless! has-right? cur
-						found := false
-						break!
+						break false
 					link-left! = !|new-left
 						left.right! := new-left
 						cur := new-left.right!
@@ -134,14 +131,12 @@ region Private
 							tmp.left! := cur
 							unless! has-right? tmp
 								cur := tmp
-								found := false
-								break!
+								break false
 							link-left! tmp
 						else
 							link-left! cur
 				else
-					found := true
-					break!
+					break true
 
 		left.right! := cur.left!
 		right.left! := cur.right!

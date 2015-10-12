@@ -1,7 +1,6 @@
 import
 	...compare =?
 	...methods sub
-	...private.bootstrap msDef
 	...to-string
 	...Type.Kind _ kind!
 	...Type.Method _ impl!
@@ -73,7 +72,7 @@ region Functions
 		todo  map-type param
 		map = empty Id-Map
 		for! @key
-			assoc! map _ get-value_
+			map[_] = get-value_
 		map
 
 	map=?. |a:Map b:Map
@@ -87,42 +86,11 @@ region Functions
 				and (not empty? ?bk) (=? val ?bk.val)
 
 region Mutator methods
-	assoc!. new Method
-		| "Set `_[key]` to `val`."
-		name.
-		args. ["_" "key" "val"]
-	msDef "assoc" assoc!
-
-	assoc*!. !|map:Map to-add:Map
-		| Adds the other map~s keys to mine, overriding my values.
-		for! to-add
-			todo SYNTAX Array destructure
-			assoc! map _[0] _[1]
-
-	un-assoc!. new Method
-		| If there is a value associated with `key`, removes it and returns the value associated.
-		name.
-		args. ["_" "key"]
-
-	un-assoc*!. !|map:Map @to-delete:@
-		| Removes keys (and by proxy, their associated values).
-		for! @to-delete
-			un-assoc! map _
-
-	add!. new Method
-		| `assoc! key val`, but fail if `_[key]` is set already.
-		name.
-		args. ["_" "key" "val"]
-		default. .!|key val
-			in
-				forbid! has-key? this key throw! "Already have key {key}."
-			assoc! this key val
-
 	get-or-add!. new Method
 		| map[key], and if it's not already there, fill it in with default-val.
 		name.
 		args. ["_" "key" "~default-val"]
 		default. .|key ~default-val
 			?-or (?get this key) ~
-				assoc! this key default-val
+				this[key] ::= default-val
 				default-val

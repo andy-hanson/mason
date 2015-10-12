@@ -1,7 +1,4 @@
 import
-	msl.@.@ @map~
-	msl.@.Seq.Seq seq=? take~
-	msl.math.Number Nat
 	msl.Object Object->Map
 	..tests
 
@@ -25,7 +22,7 @@ make-fizz-buzz. |spec
 tests "demo"
 	make-fizz-buzz -> !|
 		fizz-buzz = make-fizz-buzz (Fizz. 3 Buzz. 5)
-		assert! seq=? (take~ fizz-buzz 6)
+		assert! seq=? (@take~ fizz-buzz 6)
 			. 1
 			. 2
 			. "Fizz"
@@ -38,7 +35,7 @@ tests "demo"
 				Fizz. 3
 				Jazz. 4
 				Buzz. 5
-		assert! seq=? (take~ fizz-buzz-jazz 17)
+		assert! seq=? (@take~ fizz-buzz-jazz 17)
 			. 1
 			. 2
 			. "Fizz"

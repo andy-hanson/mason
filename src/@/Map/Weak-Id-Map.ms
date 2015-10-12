@@ -1,11 +1,12 @@
 import
 	global WeakMap
+	...methods del-sub! set-sub!
 	...Type.Kind kind! self-kind!
 	...Type.Method impl! self-impl!
 	..@ empty!
 	..@-Type empty
 	..? Opt->?
-	.Map _ assoc! ?get has-key? @keys un-assoc!
+	.Map _ ?get has-key? @keys
 	.Map-Type
 
 Weak-Id-Map.
@@ -23,9 +24,9 @@ impl! ?get Weak-Id-Map .|key
 	Opt->? (.get key)
 impl! has-key? Weak-Id-Map .|key
 	.has key
-impl! assoc! Weak-Id-Map .!|key val
+impl! set-sub! Weak-Id-Map .!|key val
 	.set key val
-impl! un-assoc! Weak-Id-Map .|key
+impl! del-sub! Weak-Id-Map .|key
 	with ?get this key
 		.delete key
 

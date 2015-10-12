@@ -1,7 +1,5 @@
 import
-	msl.@.@ @map
 	msl.compare sort
-	msl.Function identity
 	.tests
 
 tests "String-as-Seq"

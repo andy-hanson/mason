@@ -1,8 +1,5 @@
 import
-	msl.@.? ?None ?some
-	msl.@.@ ++
-	msl.@.Seq.Seq <++~ drop~ first ?first groups-of~ indexes last ?last reverse reverse~ tail take-while~ rtail seq=? ?nth slice slice~ split~ take~ zip zip~
-	msl.methods sub
+	msl.@.Seq.Seq <++~ @groups-of~
 	msl.Try fails?
 	...tests
 
@@ -29,11 +26,11 @@ tests "Seq"
 		[[1 2]] -> ?some 2
 		[[]] -> ?None
 
-	tail ->
+	@tail ->
 		[[1 2]] -> [2]
 		[[]] -> []
 
-	rtail ->
+	@rtail ->
 		[[1 2]] -> [1]
 		[[]] -> []
 
@@ -52,52 +49,47 @@ tests "Seq"
 		assert! fails? |
 			[0 1][2]
 
-
-	slice ->
+	@slice ->
 		[[0 1 2 3] 1 3] -> [1 2]
 
-	slice~ ->
+	@slice~ ->
 		[[0 1 2 3] 1 3] -> => Stream [1 2]
 
-	take~ -> |
+	@take~ -> |
 		[[0 1 2] 2] -> => Stream [0 1]
 		|| OK if not enough to satisfy count-to-take
 		[[0] 2] -> => Stream [0]
 		_ = [0 1 2 3 4]
-		assert! seq=? _ (++ (take~ _ 2) (drop~ _ 2))
+		assert! seq=? _ (++ (@take~ _ 2) (@drop~ _ 2))
 
-	take-while~ ->
+	@take-while~ ->
 		[[1 2 -1 3] <?[0]] -> => Stream [1 2]
 
-	drop~ ->
+	@drop~ ->
 		[[0 1 2 3] 2] -> => Stream [2 3]
 
-	zip ->
+	@zip ->
 		[[1 2] [10 20] +] -> [11 22]
 
-	zip~ ->
+	@zip~ ->
 		[[1 2] [10 20 30] +] -> => Stream [11 22]
 
-
-	groups-of~ -> !|
-		assert! seq=? [[1 2] [3 4]] (groups-of~ 2 [1 2 3 4])
+	@groups-of~ -> |
+		[2 [1 2 3 4]] -> => Stream [[1 2] [3 4]]
 		|| Tosses off partial group at end (e.g. no [4])
-		assert! seq=? [[1 2 3]] (groups-of~ 3 [1 2 3 4])
-		assert! seq=? [[] [] []] (take~ (groups-of~ 0 [1]) 3)
+		[3 [1 2 3 4]] -> => Stream [[1 2 3]]
+		assert! seq=? [[] [] []] (@take~ (@groups-of~ 0 [1]) 3)
 
-	indexes ->
+	@indexes ->
 		[[0 0 0]] -> new Range 0 3
 
-	reverse ->
+	@reverse ->
 		[[1 2]] -> [2 1]
 
-	reverse~ -> !|
+	@reverse~ -> !|
 		todo
 		pass
 
-	split~ ->
+	@split~ ->
 		[[1 0 1] =?[0]] -> => Stream [[1] [1]]
 		[[0] =?[0]] -> => Stream [[] []]
-
-
-

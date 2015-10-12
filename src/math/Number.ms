@@ -52,6 +52,9 @@ region Tests
 			else
 				0
 
+	same-sign?. |a:Number b:Number
+		<=? 0 (* a b)
+
 region Integer arithmetic
 	remainder. |numerator:Number denominator:Number
 		| Remainder of `a` after dividing by `b`.
@@ -64,9 +67,6 @@ region Integer arithmetic
 		round-down (/ a b)
 
 	modulo. |numerator:Number denominator:Number
-		todo SYNTAX doc comment should be able to go *before* out
-		out
-			divisible? (- numerator res) denominator
 		| Mathematical modulus.
 		| Smallest positive number which can be added to a multiple of `denominator` to get `numerator`.
 		case
@@ -105,8 +105,7 @@ region Real arithmetic
 
 	square-root. |_:Number
 		todo doc
-		in
-			assert! <=? 0 _ throw! "Can't take square root of negative number {_}."
+		assert! <=? 0 _ throw! "Can't take square root of negative number {_}."
 		Math.sqrt _
 
 region Rounding

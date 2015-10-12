@@ -1,9 +1,6 @@
 import
 	msl.@.Seq.Deque
-	msl.@.Seq.Seq <++! ++>! set-nth!
-	msl.js id=?
-	msl.Object p
-	msl.Type.Pred-Type Any
+	msl.@.Seq.Seq <++! ++>!
 	..tests
 
 region Rule results
@@ -22,14 +19,14 @@ run-turing. |spec init-tape:Seq
 	state ::= init-state
 	for
 		symbol-here = tape[index]
-		rule-here = (p rules state)[symbol-here]
+		rule-here = rules."{state}"[symbol-here]
 
 		if! id=? rule-here fin
 			break => Array tape
 
 		write go-right = rule-here
 		state := rule-here.state
-		set-nth! tape index write
+		tape[index] := write
 		index := case index
 			go-right
 				if! =? _ (- (count tape) 1)

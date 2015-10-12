@@ -1,5 +1,4 @@
 import
-	msl.@.? ?None ?-or Opt->? ?->Opt ?some Some
 	msl.Try fails?
 	..tests
 
@@ -22,8 +21,7 @@ tests "?"
 		[?None 1] -> 1
 		[(?some 1) 2] -> 1
 
-	Some -> !|
+	extract -> !|
 		case! ?some 1
-			:Some val
+			:?some val
 				assert! =? val 1
-

@@ -3,7 +3,7 @@ import
 	...Type.Kind kind! self-kind!
 	..@ _ ++ empty? iterator
 	..@-Type _ empty from-stream
-	.Seq _ <++~ tail
+	.Seq _ <++~ @tail
 
 LList. class
 	| Singly-linked list.
@@ -31,7 +31,7 @@ LList. class
 	empty? |
 		id=? this empty-LList
 
-	tail |
+	@tail |
 		.tail
 
 	<++~ |left-added:@

@@ -1,13 +1,14 @@
 import
 	todo SYNTAX use global.Map but rename it to Js-Map
 	global
+	...methods del-sub! set-sub!
 	...Type.Method impl! self-impl!
 	...Type.Kind kind! self-kind!
 	..@ count empty!
 	..@-Type empty
 	..? Opt->?
 	..Seq.Stream
-	.Map _ assoc! ?get has-key? @keys un-assoc! @values
+	.Map _ ?get has-key? @keys @values
 	.Map-Type
 
 Id-Map.
@@ -41,9 +42,9 @@ impl! @values Id-Map .|
 impl! empty! Id-Map .!|
 	.clear()
 
-impl! assoc! Id-Map .!|key val
+impl! set-sub! Id-Map .!|key val
 	.set key val
 
-impl! un-assoc! Id-Map .|key
+impl! del-sub! Id-Map .|key
 	with ?get this key
 		.delete key

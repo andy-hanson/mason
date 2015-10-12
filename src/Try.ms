@@ -1,5 +1,5 @@
 import
-	.@.? ?some ?None
+	.@.? ?None ?some
 	.$ _ $after
 	.compare =?
 	.Function Action

@@ -29,12 +29,13 @@ js!. unary-op "!"
 js-sub. Function "obj" "prop" "return obj[prop]"
 js-set. Function "obj" "prop" "val" "obj[prop] = val"
 js-delete. Function "obj" "prop" "delete obj[prop]"
+js-in. op "in"
 js-instanceof. op "instanceof"
 
 regex. |strings ...values
 	todo doc
 	_ ::= ""
-	for! i in new Range 0 values.length
+	for! i of new Range 0 values.length
 		_ := "{_}{strings[i]}{values[i]}"
 	_ := "{_}{strings[values.length]}"
 	RegExp _
@@ -43,12 +44,17 @@ defined?. |_
 	| True for any value except `undefined`.
 	not id=? _ undefined
 
+exists?. |_
+	todo doc, test
+	not js== _ null
+
 id=?.
 	| For Objects, whether they are the same place in memory.
 	| For primitive types, whether they have the same data.
 	todo Explain (and test) difference between this and js===
 	Object.is
 
+todo kill
 truthy?. |_
 	| Whether javascript's `if` statement would consider the value to be true.
 	not not _

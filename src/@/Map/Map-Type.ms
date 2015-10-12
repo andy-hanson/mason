@@ -2,7 +2,7 @@ import
 	...Type.Kind _ kind! self-kind!
 	...Type.Method impl! self-impl!
 	..@-Type _ empty from-stream
-	.Map _ assoc!
+	.Map
 import~
 	.Id-Map
 
@@ -20,5 +20,5 @@ impl! from-stream Map-Type .|stream
 	map = empty this
 	for! stream
 		todo SYNTAX Array destructure
-		assoc! map _[0] _[1]
+		map[_[0]] = _[1]
 	map
