@@ -54,11 +54,6 @@ id=?.
 	todo Explain (and test) difference between this and js===
 	Object.is
 
-todo kill
-truthy?. |_
-	| Whether javascript's `if` statement would consider the value to be true.
-	not not _
-
 js-typeof.
 	| JavaScript's `typeof` operator.
 	unary-op "typeof"

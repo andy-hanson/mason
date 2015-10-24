@@ -1,6 +1,5 @@
 import
 	.js defined? js- js<=
-	.methods freeze
 	.Type.Pred-Type Opt
 import~
 	.@.Seq.Seq ++>!
@@ -27,14 +26,4 @@ build. |calls-yield:Function
 	yield = |_
 		++>! yielded [_]
 	calls-yield yield
-	freeze yielded
-
-todo kill
-unreachable!. !|
-	| Call this to mark code as unreachable.
-	throw! "This should not be reachable."
-
-todo kill
-TODO. !|
-	| Placeholder for something which you really ought to implement one of these days.
-	throw! "This function has not yet been implemented."
+	yielded

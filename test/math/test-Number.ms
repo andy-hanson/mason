@@ -1,6 +1,6 @@
 import
 	msl.Function spread!
-	msl.math.Number sign near? abs pow square square-root round round-down round-up round-towards-0 near-0? mid
+	msl.math.Number sign near? square square-root near-0? mid
 	msl.Try fails?
 	..tests
 
@@ -56,13 +56,6 @@ tests "Number"
 		assert! near? (log 10 0.01) -2
 		[2 8] -> 3
 
-	abs ->
-		[1] -> 1
-		[-1] -> 1
-
-	pow ->
-		[2 3] -> 8
-
 	square ->
 		[3] -> 9
 
@@ -70,22 +63,6 @@ tests "Number"
 		[4] -> 2
 		assert! fails? !|
 			square-root -1
-
-	round ->
-		[-0.5] -> -0
-		[0.5] -> 1
-
-	round-down ->
-		[-0.5] -> -1
-		[0.5] -> 0
-
-	round-up ->
-		[-0.5] -> -0
-		[0.5] -> 1
-
-	round-towards-0 ->
-		[-0.5] -> 0
-		[0.5] -> 0
 
 	near? ->
 		[1000.9 1000 3] -> true

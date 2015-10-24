@@ -72,21 +72,14 @@ spread!. !|fun ...args
 	todo doc
 	spread fun ...args
 
-todo kill?
 thunk. |_
 	| Makes a function which, when called, returns `_`.
 	|
 		_
 
-curry =
-	| Creates a function which calls `f` with the given arguments first.
-	Function "f" "return Function.prototype.bind.apply(f, arguments)"
-	todo ES6
-	todo f ...args
-	todo	Function.prototype.bind.call f null ...args
-
 impl! sub Function .|...args
-	curry this ...args
+	| Curries this function.
+	.bind null ...args
 
 self-impl! sub Function |
 	| Subbing Function does nothing and is only for documentation.

@@ -1,7 +1,10 @@
-if (typeof window !== 'undefined')
+if (typeof global === 'undefined')
 	window.global = window
-else
-	global.window = global
+
+if (global.setImmediate === undefined)
+	global.setImmediate = action => {
+		setTimeout(action, 0)
+	}
 
 export const pAdd = (object, key, value) =>
 	Object.defineProperty(object, key, {

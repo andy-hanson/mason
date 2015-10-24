@@ -2,7 +2,6 @@ import
 	.Boolean xor
 	.compare =?
 	.js defined? exists? id=? js-delete js-set js-sub js-typeof
-	.methods freeze
 	.Type.Kind
 	.Type.Type =>
 import~
@@ -34,7 +33,6 @@ flag?. |:Boolean obj flag:Object-Key
 			props
 	++ own-names Object.getOwnPropertySymbols_
 
-todo kill?
 @properties. |_
 	| Like @all-properties, but excludes non-enumerable properties and symbols.
 	case
@@ -88,7 +86,7 @@ object=?. |a b
 					all? ak |k
 						=? (js-sub a k) (js-sub b k)
 
-empty-Object. Object.freeze (Object.create Object.prototype)
+empty-Object. Object.freeze (new Object)
 
 empty-Object?. |_:Object
 	| Whether there are no properties, not even hidden ones.
@@ -105,7 +103,6 @@ Map->Object. |_:Map
 		for! elem of _
 			todo SYNTAX Array destructure
 			js-set obj elem[0] elem[1]
-		freeze obj
 
 region Mutator methods
 	delete-property!. !|_:Object prop-name:Object-Key

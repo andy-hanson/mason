@@ -1,9 +1,8 @@
 import
-	.@.? ?None ?some
 	.$ _ $after
 	.compare =?
 	.Function Action
-	.Type.Pred-Type Any Union
+	.Type.Pred-Type Union
 	.Type.Type
 
 Success. class
@@ -13,24 +12,11 @@ Success. class
 
 try-result. |tried:Action
 	| If `tried` throws an error, returns it; else returns Success of its result.
-	| If you don't care about the value of the error, use `?try` instead.
 	except
 		try
 			new Success tried()
 		catch
 			_
-
-todo kill? Not a good idea to just throw away errors.
-?try. |tried:Function[Any]
-	| `?` containing any successes.
-	| This can be thought of as translating an Error-throwing Function to an ?-returning one.
-	| The opposite of this is `@.?.un-?`.
-	except
-		try
-			?some tried()
-		catch
-			ignore _
-			?None
 
 fails?. |tried:Action
 	| Whether the Function throws some error.

@@ -1,7 +1,7 @@
 import
 	..compare _ =? <? <=? >? >=?
 	..control opr
-	..js id=? js-bar js< js<= js> js>= js+ js- js* js/ js-mod
+	..js id=? js< js<= js> js>= js+ js- js* js/ js-mod
 	..Type.Method impl!
 	..Type.Pred-Type _ Opt
 	.methods + - * /
@@ -64,14 +64,14 @@ region Integer arithmetic
 	int/. |a:Number b:Number
 		| Integer division: throws out any remainder.
 		| This is the default in other programming languages, but in Mason `/ 1 2` is 0.5, not 0.
-		round-down (/ a b)
+		Math.floor (/ a b)
 
 	modulo. |numerator:Number denominator:Number
 		| Mathematical modulus.
 		| Smallest positive number which can be added to a multiple of `denominator` to get `numerator`.
 		case
 			<? numerator 0
-				+ (abs denominator) (remainder numerator denominator)
+				+ (Math.abs denominator) (remainder numerator denominator)
 			else
 				remainder numerator denominator
 
@@ -82,23 +82,9 @@ region Integer arithmetic
 region Real arithmetic
 	todo  Some of these are unnecessary...
 
-	todo kill
-	log-e. |_:Number
-		Math.log _
-
 	log. |base:Number n:Number
 		| Mathematical logarithm.
-		/ (log-e n) (log-e base)
-
-	todo kill
-	abs. |a:Number
-		| Negates `a` until it is positive.
-		Math.abs a
-
-	todo kill
-	pow. |a:Number b:Number
-		| `a` raised to the power of `b`.
-		Math.pow a b
+		/ (Math.log n) (Math.log base)
 
 	square. |_:Number
 		* _ _
@@ -107,26 +93,6 @@ region Real arithmetic
 		todo doc
 		assert! <=? 0 _ throw! "Can't take square root of negative number {_}."
 		Math.sqrt _
-
-region Rounding
-	todo Kill all of these!
-
-	round. |_:Number
-		| Closest integer.
-		| Rounds up to break ties.
-		Math.round _
-
-	round-down. |_:Number
-		| Greatest integer no greater than `a`.
-		Math.floor _
-
-	round-up. |_:Number
-		| Least integer no less than `a`.
-		Math.ceil _
-
-	round-towards-0. |_:Number
-		| `round-down` if positive, else `round-up`.
-		js-bar _ 0
 
 region Near
 	near?. |a b:Number sig-figs:Opt[Nat]
@@ -138,20 +104,20 @@ region Near
 			=? b 0
 				near-0? a sig-figs
 			else
-				avg-mag = / (+ (abs a) (abs b)) 2
-				n-digits-avg-mag = round-down (log 10 avg-mag)
-				scale = pow 10 (* -1 n-digits-avg-mag)
+				avg-mag = / (+ (Math.abs a) (Math.abs b)) 2
+				n-digits-avg-mag = Math.floor (log 10 avg-mag)
+				scale = Math.pow 10 (* -1 n-digits-avg-mag)
 				scaled-diff = - (* a scale) (* b scale)
-				epsilon = pow 10 (* -1 sig-figs)
-				<? (abs scaled-diff) epsilon
+				epsilon = Math.pow 10 (* -1 sig-figs)
+				<? (Math.abs scaled-diff) epsilon
 
 	near-0?. |_ sig-figs:Opt[Nat]
 		| Whether it is close to zero.
 		| It must be `0.0...` where there are `sig-figs` 0s after the decimal point.
 		sig-figs := opr sig-figs 6
-		|| This is more accurate than `pow 0.1 sig-figs`
-		max = pow 10 (* -1 sig-figs)
-		<? abs_ max
+		|| This is more accurate than `Math.pow 0.1 sig-figs`
+		max = Math.pow 10 (* -1 sig-figs)
+		<? Math.abs_ max
 
 region Utilities
 	neg. |_:Number

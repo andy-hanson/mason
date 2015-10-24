@@ -2,7 +2,7 @@ import
 	..compare <? <=?
 	..Function thunk
 	..js defined?
-	..math.Number neg Nat remainder round-down same-sign? sign
+	..math.Number neg Nat remainder same-sign? sign
 	..math.methods + - * /
 	..Type.Kind kind! self-kind!
 	..Type.Method self-impl!
@@ -60,7 +60,7 @@ Range. class
 			it
 
 	count |
-		round-down (/ (length this) .step)
+		Math.floor (/ (length this) .step)
 
 	@reverse |
 		new-step = neg .step

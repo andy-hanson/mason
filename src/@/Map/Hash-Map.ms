@@ -6,7 +6,7 @@ import
 	...compare =?
 	...hash-code
 	...js defined?
-	...methods del-sub! freeze set-sub!
+	...methods del-sub! set-sub!
 	...Type.Kind kind! self-kind!
 	..@ empty! iterator @map
 	..@-Type empty
@@ -80,10 +80,6 @@ Hash-Map. class
 							cur := next
 			else
 				?None
-
-	freeze !|
-		freeze .val
-		Object.freeze this
 
 	empty! !|
 		.val.clear()

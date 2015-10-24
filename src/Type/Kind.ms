@@ -5,7 +5,6 @@ import
 	.Method impl! propagate-method-down! self-impl!
 import~
 	.Impl-Type Self-Type
-	..methods freeze frozen?
 
 Kind. class
 	| A Kind is like a tag you can apply to a Concrete-Type to signify that it belongs in some category.
@@ -37,8 +36,9 @@ Kind. class
 
 		.implementors = case params.implementors
 			defined?_
+				|| Frozen implementors signals that this is a closed Kind.
 				todo  :Array[Impl-Type]
-				freeze_
+				Object.freeze_
 			else
 				[]
 
@@ -62,7 +62,7 @@ Kind. class
 
 can-subtype?. |_:Kind
 	| Whether a Kind accepts new subtypes.
-	not frozen? _.implementors
+	not Object.isFrozen _.implementors
 
 || Making something an instance of Impl-Type is difficult because kind! checks that it's already an Impl-Type...
 unchecked-kind!. !|implementor kind

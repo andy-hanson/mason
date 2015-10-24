@@ -21,18 +21,7 @@ define(["exports","./private/bootstrap","./Type/Method"],(exports,bootstrap_0,Me
 			return built
 		})());
 		msDef(`delSub`,del_45sub_33);
-		const freeze=exports.freeze=new (Method)((()=>{
-			const built={};
-			built.name="freeze";
-			const args=built.args=1;
-			const _default=built.default=function _default(){
-				const _this=this;
-				return Object.freeze(_this)
-			};
-			return built
-		})());
-		const frozen_63=exports["frozen?"]=Object.isFrozen;
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvbWV0aG9kcy5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQUtDLHNCQUFLLEtBQUksUUFDTSxLQUFBOztjQUNkOzs7RUFDRCxNQUFPLE1BQUs7RUFFWix1Q0FBVSxLQUFJLFFBQ00sS0FBQTs7Y0FDbkI7OztFQUNELE1BQU8sU0FBUTtFQUVmLHVDQUFVLEtBQUksUUFDTSxLQUFBOztjQUNuQjs7O0VBQ0QsTUFBTyxTQUFRO0VBSWYsNEJBQVEsS0FBSSxRQUNNLEtBQUE7O2NBRWpCO0dBQ0Esc0JBQU07R0FDTiw2QkFDVztVQUFJO1dBQWQsY0FBYztHQUFBOzs7RUFFaEIsbUNBQVMiLCJmaWxlIjoibWV0aG9kcy5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvbWV0aG9kcy5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQUlBLHNCQUFLLEtBQUksUUFDTSxLQUFBOztjQUNkOzs7RUFDRCxNQUFPLE1BQUs7RUFFWix1Q0FBVSxLQUFJLFFBQ00sS0FBQTs7Y0FDbkI7OztFQUNELE1BQU8sU0FBUTtFQUVmLHVDQUFVLEtBQUksUUFDTSxLQUFBOztjQUNuQjs7O0VBQ0QsTUFBTyxTQUFRIiwiZmlsZSI6Im1ldGhvZHMuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

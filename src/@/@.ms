@@ -60,7 +60,6 @@ region Using iterator
 		any? this |em-compare
 			=? em em-compare
 
-	todo kill?
 	fold. |_:@ b c
 		| Keeps a state variable `acc` and keeps applying `folder acc em` for the elements, in order.
 		| Returns the final value.

@@ -1,5 +1,5 @@
 import
-	global console Promise setTimeout
+	global console Promise setImmediate setTimeout
 	.@.@ _ @flatten
 	.Function Action
 	.Generator
@@ -8,7 +8,6 @@ import
 	.Type.Pred-Type Any
 	.Type.Type =>
 import~
-	.io.time $after-time
 	.Try $catch
 
 $.
@@ -66,7 +65,13 @@ $delay. |delayed:Action
 	| It should go without saying,
 	| but if you needlessly $delay things all the time your program will take longer.
 	todo Better way?
-	$after-time 0 delayed
+	new $ |resolve reject
+		setImmediate !|
+			except!
+				try!
+					resolve delayed()
+				catch! error
+					reject error
 
 $all. |:$[Array] _:@[$]
 	| $ that resolves when the last $ in the input does, with every value in the original iteration order.

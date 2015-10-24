@@ -1,5 +1,5 @@
 import
-	msl.js regex truthy? js-typeof
+	msl.js regex js-typeof
 	.tests
 
 tests "js"
@@ -13,12 +13,6 @@ tests "js"
 	id=? ->
 		["a" "a"] -> true
 		[["a"] ["a"]] -> false
-
-	truthy? -> !|
-		for! [null undefined 0 Number.NaN "" false]
-			forbid! truthy? _
-		assert! truthy? []
-		assert! truthy? true
 
 	js-typeof ->
 		[undefined] -> "undefined"

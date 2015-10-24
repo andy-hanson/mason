@@ -2,7 +2,7 @@ import
 	global TypeError
 	msl.$ $done $ing $rejected $resolved
 	msl.Function thunk
-	msl.Try annotate-errors $annotate-errors $catch fails? fails-with? Success ?try $try try-result
+	msl.Try annotate-errors $annotate-errors $catch fails? fails-with? Success $try try-result
 	.tests
 
 fail! = !|
@@ -12,11 +12,6 @@ tests "Try"
 	try-result -> |
 		[(thunk 1)] -> new Success 1
 		assert! =? (try-result fail!).message "An error occurred."
-
-
-	?try ->
-		[(thunk 1)] -> ?some 1
-		[fail!] -> ?None
 
 	fails? -> !|
 		assert! fails? !|

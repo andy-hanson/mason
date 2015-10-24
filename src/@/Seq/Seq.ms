@@ -2,7 +2,7 @@ import
 	...compare =?
 	...Function Pred
 	...math.methods - +
-	...methods freeze sub
+	...methods sub
 	...String indent
 	...Type.Kind _ kind! self-kind!
 	...Type.Method _ impl!
@@ -243,8 +243,7 @@ region TODO: put somewhere
 								break!
 						unless! =? group-size (count next-group)
 							break!
-						todo  Really freeze?
-						<~ freeze next-group
+						<~ next-group
 
 	@indexes. |_:Seq
 		todo doc
