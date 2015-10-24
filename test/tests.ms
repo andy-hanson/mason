@@ -1,5 +1,5 @@
 import
-	global describe it
+	global describe it console
 	source-map-support install
 	msl.assert assert-call!
 
@@ -12,16 +12,25 @@ tests. !|test-name mp
 			key = pair[0]
 			val = pair[1]
 
-			it key.name !|
-				case! key
+			it key.name |
+				case key
 					:Function
-						case! val
+						case val
 							:Function
 								res = val()
-								if! res:Map
-									assert-call! key res
-							else
+								case res
+									:$
+										_
+									:Map
+										todo handle promises in call
+										assert-call! key res
+										null
+									else
+										null
+							:Map
 								assert-call! key val
+							else
+								console.log val
+								throw!
 					else
 						val()
-

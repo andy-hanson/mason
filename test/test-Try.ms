@@ -1,17 +1,15 @@
 import
 	global TypeError
-	msl.$ $done $ing $rejected $resolved
 	msl.Function thunk
-	msl.Try annotate-errors $annotate-errors $catch fails? fails-with? Success $try try-result
+	msl.Try annotate-errors $annotate-errors fails? fails-with? Success $try try-result
 	.tests
-
-fail! = !|
-	throw!
 
 tests "Try"
 	try-result -> |
 		[(thunk 1)] -> new Success 1
-		assert! =? (try-result fail!).message "An error occurred."
+		res = try-result !|
+			throw!
+		assert! =? res.message "An error occurred."
 
 	fails? -> !|
 		assert! fails? !|
@@ -30,20 +28,12 @@ tests "Try"
 			annotate-errors "a" !|
 				throw! "b"
 
-	$try -> !|
-		$done ($ing ~!|
-			assert! =? (new Success 1) (<~ $try ($resolved 1))
-			assert! =? "a" (<~ ($try ($rejected "a")))
-			|| $rejected but with non-error:
-			assert! =? "a" (<~ ($try ($.reject "a")))
-
-	$catch -> !|
-		$done ($ing ~!|
-			assert! =? "a" (<~ ($.reject "a").catch |_
-				_
+	$try -> $!|
+		assert! =? (new Success 1) (<~ $try ($.resolve 1))
+		assert! =? "a" (<~ ($try ($.reject "a")))
+		|| $.reject but with non-error:
+		assert! =? "a" (<~ ($try ($.reject "a")))
 
 	todo SYNTAX async functions
-	$annotate-errors -> !|
-		$done ($ing ~!|
-			assert! =? "ab" (<~ $try ($annotate-errors "a" ($rejected (new Error "b")))).message
-
+	$annotate-errors -> $!|
+		assert! =? "ab" (<~ $try ($annotate-errors "a" ($.reject (new Error "b")))).message

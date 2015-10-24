@@ -2,7 +2,7 @@
 if((typeof define!=="function"))var define=require("amdefine")(module);
 define(["exports","./cash","./compare","./Function","./Type/Pred-Type","./Type/Type"],(exports,$_0,compare_1,Function_2,Pred_45Type_3,Type_4)=>{
 	exports._get=_ms.lazy(()=>{
-		const $=_ms.getDefaultExport($_0),_$0=_ms.getModule($_0),$after=_ms.get(_$0,"$after"),_$1=_ms.getModule(compare_1),_61_63=_ms.get(_$1,"=?"),_$2=_ms.getModule(Function_2),Action=_ms.get(_$2,"Action"),_$3=_ms.getModule(Pred_45Type_3),Union=_ms.get(_$3,"Union"),Type=_ms.getDefaultExport(Type_4);
+		const $=_ms.getDefaultExport($_0),_$0=_ms.getModule(compare_1),_61_63=_ms.get(_$0,"=?"),_$1=_ms.getModule(Function_2),Action=_ms.get(_$1,"Action"),_$2=_ms.getModule(Pred_45Type_3),Union=_ms.get(_$2,"Union"),Type=_ms.getDefaultExport(Type_4);
 		const Success=exports.Success=class Success{
 			constructor(val){
 				_ms.newProperty(this,"val",val)
@@ -62,21 +62,16 @@ define(["exports","./cash","./compare","./Function","./Type/Pred-Type","./Type/T
 		};
 		const $try=exports.$try=function $try(_){
 			_ms.checkContains($,_,"_");
-			const success=$after(_,val=>{
+			const success=_.then(val=>{
 				return new (Success)(val)
 			});
 			return success.catch(err=>{
 				return err
 			})
 		};
-		const $catch=exports.$catch=function $catch(promise,catcher){
-			_ms.checkContains($,promise,"promise");
-			_ms.checkContains(Function,catcher,"catcher");
-			return _ms.checkContains($,promise.catch(catcher),"returned value")
-		};
 		const $annotate_45errors=exports["$annotate-errors"]=function $annotate_45errors(annotation,$tried){
 			_ms.checkContains($,$tried,"$tried");
-			return $catch($tried,_=>{
+			return $tried.catch(_=>{
 				if(_ms.contains(Error,_)){
 					_.stack=`${_ms.unlazy(annotation)}${_.stack}`;
 					_.message=`${_ms.unlazy(annotation)}${_.message}`
@@ -87,4 +82,4 @@ define(["exports","./cash","./compare","./Function","./Type/Pred-Type","./Type/T
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvVHJ5Lm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBT0EsOEJBQ2M7R0FDRixZQUFBOzs7O0VBR1oseUNBQWEsc0JBQUE7cUJBQU07VUFHWjtRQUNGO1lBQUYsS0FBSSxTQUFRO0lBQUEsQ0FDYixNQUNLLEVBQUE7WUFBSjtJQUFBO0dBQUE7RUFBQTtFQUVILGlDQUFTLGtCQUFBO3FCQUFNO1VBR1I7UUFDRjtLQUFGO1lBQ0E7SUFBQSxDQUNELE1BQ0ssRUFBQTtZQUNKO0lBQUE7R0FBQTtFQUFBO0VBRUgsNkNBQWMseUJBQUEsaUJBQWtDOzZCQUFuQixNQUFNLE9BQU87cUJBQVk7VUFHL0M7UUFDRjtLQUFGO1lBQ0E7SUFBQSxDQUNELE1BQU0sTUFDSztZQUFMO01BQUEsUUFBQTtNQUNKLGdCQUFDLEtBQUQsR0FDSzsyQkFBRSxFQUFOO01BQUEsT0FDRCxnQkFBQyxPQUFELEdBQ087Y0FBTixPQUFHLGNBQWM7TUFBQTs7Ozs7RUFFdEIsbURBQWtCLDJCQUFBLFdBQW1CO3FCQUFNO1VBR3BDO1FBQ0Y7WUFBRjtJQUFBLENBQ0QsTUFDSyxFQUFBO0tBQUosUUFBWSw0QkFBYTtLQUN6QixVQUFjLDRCQUFhO0tBQzNCLE1BQU87SUFBQTtHQUFBO0VBQUE7RUFLVCx3QkFBTyxjQUFBO3FCQUFFO0dBR1IsY0FBVSxPQUFPLEVBQUc7V0FDbkIsS0FBSSxTQUFRO0dBQUE7VUFDYixjQUFlO1dBQ2Q7R0FBQTtFQUFBO0VBRUYsNEJBQVMsZ0JBQUcsUUFBVTtxQkFBRjtxQkFBVTs0QkFBcEIsRUFJVCxjQUFjOztFQUVmLHFEQUFtQiw0QkFBQSxXQUFtQjtxQkFBTztVQUU1QyxPQUFPLE9BQVE7SUFDZCxnQkFBSyxNQUFELEdBQ007S0FBVCxRQUFZLDRCQUFhO0tBQ3pCLFVBQWMsNEJBQWE7O0lBQzVCLE1BQU87R0FBQTtFQUFBIiwiZmlsZSI6IlRyeS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvVHJ5Lm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBT0EsOEJBQ2M7R0FDRixZQUFBOzs7O0VBR1oseUNBQWEsc0JBQUE7cUJBQU07VUFHWjtRQUNGO1lBQUYsS0FBSSxTQUFRO0lBQUEsQ0FDYixNQUNLLEVBQUE7WUFBSjtJQUFBO0dBQUE7RUFBQTtFQUVILGlDQUFTLGtCQUFBO3FCQUFNO1VBR1I7UUFDRjtLQUFGO1lBQ0E7SUFBQSxDQUNELE1BQ0ssRUFBQTtZQUNKO0lBQUE7R0FBQTtFQUFBO0VBRUgsNkNBQWMseUJBQUEsaUJBQWtDOzZCQUFuQixNQUFNLE9BQU87cUJBQVk7VUFHL0M7UUFDRjtLQUFGO1lBQ0E7SUFBQSxDQUNELE1BQU0sTUFDSztZQUFMO01BQUEsUUFBQTtNQUNKLGdCQUFDLEtBQUQsR0FDSzsyQkFBRSxFQUFOO01BQUEsT0FDRCxnQkFBQyxPQUFELEdBQ087Y0FBTixPQUFHLGNBQWM7TUFBQTs7Ozs7RUFFdEIsbURBQWtCLDJCQUFBLFdBQW1CO3FCQUFNO1VBR3BDO1FBQ0Y7WUFBRjtJQUFBLENBQ0QsTUFDSyxFQUFBO0tBQUosUUFBWSw0QkFBYTtLQUN6QixVQUFjLDRCQUFhO0tBQzNCLE1BQU87SUFBQTtHQUFBO0VBQUE7RUFLVCx3QkFBTyxjQUFBO3FCQUFFO0dBR1IsY0FBVSxPQUFRO1dBQ2pCLEtBQUksU0FBUTtHQUFBO1VBQ2IsY0FBZTtXQUNkO0dBQUE7RUFBQTtFQUVGLHFEQUFtQiw0QkFBQSxXQUFtQjtxQkFBTztVQUU1QyxhQUFjO0lBQ2IsZ0JBQUssTUFBRCxHQUNNO0tBQVQsUUFBWSw0QkFBYTtLQUN6QixVQUFjLDRCQUFhOztJQUM1QixNQUFPO0dBQUE7RUFBQSIsImZpbGUiOiJUcnkuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

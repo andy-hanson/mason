@@ -1,5 +1,5 @@
 import
-	.$ _ $after
+	.$
 	.compare =?
 	.Function Action
 	.Type.Pred-Type Union
@@ -57,20 +57,14 @@ region $
 	$try. |_:$
 		| Success if the $ is resolved, Error if rejected.
 		|| =>[Error] because it's possible for a Promise to reject with a non-Error.
-		success = $after _ |val
+		success = _.then |val
 			new Success val
 		success.catch |err
 			err
 
-	$catch. |:$ promise:$ catcher:Function
-		| If `$` succeeds, acts like `identity`.
-		| Else returns a `$` for the result of running `catcher` on the Error.
-		| Like for `$after`, `catcher` can also return another `$`.
-		promise.catch catcher
-
 	$annotate-errors. |~annotation:String $tried:$
 		| Like `annotate-errors` but works on errors thrown in a `$`.
-		$catch $tried |_
+		$tried.catch |_
 			if! :Error
 				_.stack := "{annotation}{_.stack}"
 				_.message := "{annotation}{_.message}"

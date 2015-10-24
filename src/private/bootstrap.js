@@ -73,6 +73,28 @@ const msDefs = {
 			throw new Error(assertErrorMessage(`assert! ${_ms.inspect(obj)}.${member}`, args))
 	},
 
+	// TODO:ES7 Just use native async functions
+	async(generatorFunction) {
+		const continuer = verb => arg => {
+			let result
+			try {
+				result = generator[verb](arg)
+			} catch (err) {
+				return Promise.reject(err)
+			}
+
+			const value = result.value, done = result.done
+			if (done)
+				return value
+			else
+				return Promise.resolve(value).then(onFulfilled, onRejected)
+		}
+		const generator = generatorFunction()
+		const onFulfilled = continuer('next')
+		const onRejected = continuer('throw')
+		return onFulfilled()
+	},
+
 	lazyGetModule(module) {
 		if (module === undefined)
 			throw new Error('Module undefined.')
@@ -80,6 +102,7 @@ const msDefs = {
 	},
 
 	getModule(module) {
+		//kill?
 		if (module == null) return null
 		//if (module === undefined)
 		//	throw new Error('Module undefined.')
