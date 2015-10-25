@@ -20,7 +20,7 @@ define(["exports","./../methods","./../Type/Kind","./../Type/Method","./../Type/
 		const from_45stream=exports["from-stream"]=new (Method)((()=>{
 			const built={};
 			built.name="from-stream";
-			const args=built.args=[`type`,`stream`];
+			const args=built.args=["type","stream"];
 			const _default=built.default=function _default(stream){
 				const _this=this;
 				return (_=>{
@@ -38,4 +38,4 @@ define(["exports","./../methods","./../Type/Kind","./../Type/Method","./../Type/
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvQC9ALVR5cGUubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFPQSxpQ0FBUSxLQUFJLE1BQ0ksS0FBQTs7Y0FDZjs7O0VBRUQsUUFBTSxJQUFJLFdBQ1M7U0FtQk47VUFBQTtFQUFBO0VBakJiLDBCQUFPLEtBQUksUUFDTSxLQUFBOztjQUVoQjs7O0VBRUQsMkNBQWEsS0FBSSxRQUNNLEtBQUE7O2NBQ3RCO0dBQ0Esc0JBQU0sQ0FBRSxPQUFPO0dBQ2YsNkJBQVcsa0JBQUE7VUFRQztXQVBOLElBQ1U7S0FBZCxVQUFJLEVBQUU7O09BREYsTUFPTTtHQUFBOzs7RUFIYixlQUFXLElBQUU7RUFFYixRQUFNLE9BQUcsV0FBUyxTQUFBO1NBQ0w7VUFBWixjQUFZLE1BQUs7RUFBQSIsImZpbGUiOiJhdC9hdC1UeXBlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvQC9ALVR5cGUubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFPQSxpQ0FBUSxLQUFJLE1BQ0ksS0FBQTs7Y0FDZjs7O0VBRUQsUUFBTSxJQUFJLFdBQ1M7U0FtQk47VUFBQTtFQUFBO0VBakJiLDBCQUFPLEtBQUksUUFDTSxLQUFBOztjQUVoQjs7O0VBRUQsMkNBQWEsS0FBSSxRQUNNLEtBQUE7O2NBQ3RCO0dBQ0Esc0JBQU0sQ0FBRSxPQUFNO0dBQ2QsNkJBQVcsa0JBQUE7VUFRQztXQVBOLElBQ1U7S0FBZCxVQUFJLEVBQUU7O09BREYsTUFPTTtHQUFBOzs7RUFIYixlQUFXLElBQUU7RUFFYixRQUFNLE9BQUcsV0FBUyxTQUFBO1NBQ0w7VUFBWixjQUFZLE1BQUs7RUFBQSIsImZpbGUiOiJhdC9hdC1UeXBlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

@@ -2,7 +2,7 @@ import
 	msl.Boolean implies xor
 	.tests
 
-tests "Boolean"
+tests 'Boolean
 	implies ->
 		[false false] -> true
 		[false true] -> true

@@ -2,7 +2,7 @@ import
 	msl.control do-times! opr build
 	.tests
 
-tests "control"
+tests 'control
 	do-times! -> !|
 		i ::= 0
 		do-times! 10 !|

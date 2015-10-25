@@ -3,7 +3,7 @@ import
 	msl.Try fails?
 	.tests
 
-tests "compare"
+tests 'compare
 	same? ->
 		[count [1] [2]] -> true
 		[count [] [1]] -> false
@@ -19,7 +19,7 @@ tests "compare"
 		[[]] -> ?None
 
 	max-by -> |
-		[["five" "six" "seven"] count] -> "seven"
+		[['five 'six 'seven] count] -> 'seven
 		assert! fails? |
 			max-by [] identity
 
@@ -31,9 +31,9 @@ tests "compare"
 		[[]] -> true
 		[[1 2 3]] -> true
 		[[3 2 1]] -> false
-		[["six" "five" "seven"] count] -> true
+		[['six 'five 'seven] count] -> true
 
 	sort ->
 		[[3 2 1]] -> [1 2 3]
-		[["five" "six" "seven"] count] -> ["six" "five" "seven"]
-		["bac"] -> "abc"
+		[['five 'six 'seven] count] -> ['six 'five 'seven]
+		['bac] -> 'abc

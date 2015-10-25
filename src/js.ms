@@ -3,34 +3,37 @@ import~
 	.@.Range
 
 op = |op-name
-	Function "a" "b" "return a {op-name} b"
+	Function 'a 'b "return a {op-name} b"
 unary-op = |op-name
-	Function "_" "return {op-name} _"
+	Function '_ "return {op-name} _"
 
 js-and. op "&"
 js-caret. op "^"
-js<<. op "<<"
-js>>. op ">>"
-js>>>. op ">>>"
-js===. op "==="
-js==. op "=="
-js<. op "<"
-js>. op ">"
-js<=. op "<="
-js>=. op ">="
-js+. op "+"
-js-. op "-"
-js*. op "*"
-js/. op "/"
+js<<. op '<<
+js>>. op '>>
+js>>>. op '>>>
+js===. op '===
+js==. op '==
+js<. op '<
+js>. op '>
+js<=. op '<=
+js>=. op '>=
+js+. op '+
+js-. op '-
+js*. op '*
+js/. op '/
 js-mod. op "%"
 js-bar. op "|"
 js~. unary-op "~"
-js!. unary-op "!"
-js-sub. Function "obj" "prop" "return obj[prop]"
-js-set. Function "obj" "prop" "val" "obj[prop] = val"
-js-delete. Function "obj" "prop" "delete obj[prop]"
-js-in. op "in"
-js-instanceof. op "instanceof"
+js!. unary-op '!
+js-sub. Function 'obj 'prop "return obj[prop]"
+js-set. Function 'obj 'prop 'val "obj[prop] = val"
+js-delete. Function 'obj 'prop "delete obj[prop]"
+js-in. op 'in
+js-instanceof. op 'instanceof
+js-typeof.
+	| JavaScript's `typeof` operator.
+	unary-op 'typeof
 
 regex. |strings ...values
 	todo doc
@@ -53,7 +56,3 @@ id=?.
 	| For primitive types, whether they have the same data.
 	todo Explain (and test) difference between this and js===
 	Object.is
-
-js-typeof.
-	| JavaScript's `typeof` operator.
-	unary-op "typeof"

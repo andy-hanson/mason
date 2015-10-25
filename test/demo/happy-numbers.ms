@@ -43,7 +43,7 @@ happy-numbers:Stream[Nat].
 	| Stream of all happy numbers.
 	@keep~ (new Range 1 Number.POSITIVE_INFINITY) happy?
 
-tests "demo"
+tests 'demo
 	happy-numbers -> !|
 		assert! seq=? (@take happy-numbers 8)
 			. 1

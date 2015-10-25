@@ -24,7 +24,7 @@ Kind. class
 	construct! params
 		assert! params.name:String
 
-		Object.defineProperty this "name"
+		Object.defineProperty this 'name
 			value. params.name
 
 		.super-kinds = case params.super-kinds

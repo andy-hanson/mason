@@ -1,7 +1,7 @@
 import
 	...tests
 
-tests "Hash-Map"
+tests 'Hash-Map
 	todo Remove, just use Map.implementor-test.
 	Hash-Map -> !|
 		_ = => Hash-Map

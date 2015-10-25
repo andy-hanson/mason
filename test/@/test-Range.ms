@@ -3,7 +3,7 @@ import
 	msl.Try fails?
 	..tests
 
-tests "Range"
+tests 'Range
 	Range -> !|
 		assert! seq=? [0 1 2] (@take~ (new Range 0 Number.POSITIVE_INFINITY) 3)
 		|| Can't construct range with wrong sign of step

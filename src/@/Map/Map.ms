@@ -32,12 +32,12 @@ region New methods
 	?get. new Method
 		| `?` containing the value corresponding to `key`, if any.
 		name.
-		args. ["_" "key"]
+		args. ['_ 'key]
 
 	has-key?. new Method
 		| Whether the key is in the Map.
 		name.
-		args. ["_" "key"]
+		args. ['_ 'key]
 		default. .|key
 			not (empty? (?get this key))
 
@@ -89,7 +89,7 @@ region Mutator methods
 	get-or-add!. new Method
 		| map[key], and if it's not already there, fill it in with default-val.
 		name.
-		args. ["_" "key" "~default-val"]
+		args. ['_ 'key "~default-val"]
 		default. .|key ~default-val
 			?-or (?get this key) ~
 				this[key] ::= default-val

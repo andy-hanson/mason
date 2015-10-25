@@ -2,7 +2,7 @@ import
 	msl.@.Set.Set intersect
 	...tests
 
-tests "Set"
+tests 'Set
 	=? ->
 		a = => Set [1 2]
 		b = => Set [1 2]

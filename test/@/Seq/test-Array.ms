@@ -2,7 +2,7 @@ import
 	msl.@.Seq.Array filter! fill
 	...tests
 
-tests "Array"
+tests 'Array
 	filter! -> !|
 		arr = [1 2 3 4 5]
 		filter! arr |_

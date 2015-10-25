@@ -3,7 +3,7 @@ import
 	msl.Type.Kind kind?
 	..tests
 
-tests "Impl-Type"
+tests 'Impl-Type
 	Impl-Type -> !|
 		A = new Kind
 			name.
@@ -11,7 +11,7 @@ tests "Impl-Type"
 			name.
 		C = class
 			todo  empty class
-			"dummy" |
+			'dummy |
 				this
 		kind! B A
 		kind! C B

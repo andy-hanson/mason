@@ -6,7 +6,7 @@ import
 
 maximum-anagram-sets. |words
 	| http://rosettacode.org/wiki/Anagrams#JavaScript
-	|| e.g., "amnos" -> ["mason" "monas"]
+	|| e.g., 'amnos -> ['mason 'monas]
 	sorted->words = empty Id-Map
 	for! words
 		todo  Function to add just one new element
@@ -16,7 +16,7 @@ maximum-anagram-sets. |words
 	@keep (@values sorted->words) |_
 		=? count_ max-count
 
-tests "demo"
+tests 'demo
 	maximum-anagram-sets -> !|
 		w = "
 			abel able bale bela elba
@@ -28,9 +28,9 @@ tests "demo"
 			random words to prove it's doing work
 		words = w.split rgx"\s"
 		assert! seq=? (maximum-anagram-sets words)
-			. ["abel" "able" "bale" "bela" "elba"]
-			. ["alger" "glare" "lager" "large" "regal"]
-			. ["angel" "angle" "galen" "glean" "lange"]
-			. ["caret" "carte" "cater" "crate" "trace"]
-			. ["elan" "lane" "lean" "lena" "neal"]
-			. ["evil" "levi" "live" "veil" "vile"]
+			. ['abel 'able 'bale 'bela 'elba]
+			. ['alger 'glare 'lager 'large 'regal]
+			. ['angel 'angle 'galen 'glean 'lange]
+			. ['caret 'carte 'cater 'crate 'trace]
+			. ['elan 'lane 'lean 'lena 'neal]
+			. ['evil 'levi 'live 'veil 'vile]

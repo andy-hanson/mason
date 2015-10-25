@@ -3,7 +3,7 @@ import
 	msl.Function id-memoize hash-memoize spread spread! thunk
 	.tests
 
-tests "Function"
+tests 'Function
 	identity ->
 		[1] -> 1
 
@@ -48,8 +48,8 @@ tests "Function"
 			. [1 2 5 6]
 
 		assert! seq=? (spread all-4 1 2 (three. 4 five. 6))
-			. [1 2 "three" 4]
-			. [1 2 "five" 6]
+			. [1 2 'three 4]
+			. [1 2 'five 6]
 
 	spread! -> !|
 		assert! =? [1 2 3] (build |yield!

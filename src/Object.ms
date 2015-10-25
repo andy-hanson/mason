@@ -19,7 +19,7 @@ flag?. |:Boolean obj flag:Object-Key
 	| If it has a property for the flag, uses that. Otherwise false.
 	?-or (?property obj flag) false
 
-~forbidden-fun-props = => Id-Set ["arguments" "caller"]
+~forbidden-fun-props = => Id-Set ['arguments 'caller]
 @all-properties. |_
 	| Every property name directly stored in an object.
 	| Includes non-enumerable properties and symbols.
@@ -66,12 +66,9 @@ todo  Handle recursive references.
 object=?. |a b
 	| For Objects, whether they are of the same type and have `=?` properties.
 	| For primitives, whether they are `=?`.
-	|| Necessary because `js-typeof null` is "object"
-	null-a = id=? a null
-	null-b = id=? b null
 	todo  Not :Object because that currently also includes Functions
-	obj-a = and (not null-a) (id=? (js-typeof a) "object")
-	obj-b = and (not null-b) (id=? (js-typeof b) "object")
+	obj-a = and (not (id=? a null)) (id=? (js-typeof a) 'object)
+	obj-b = and (not (id=? b null)) (id=? (js-typeof b) 'object)
 	case
 		not or obj-a obj-b
 			id=? a b

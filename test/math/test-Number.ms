@@ -4,7 +4,7 @@ import
 	msl.Try fails?
 	..tests
 
-tests "Number"
+tests 'Number
 	Int -> !|
 		assert-int! = !|_
 			assert! _:Int

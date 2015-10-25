@@ -3,13 +3,13 @@ import
 	msl.Type.Type type-of
 	..tests
 
-tests "Enum"
+tests 'Enum
 	Enum -> !|
 		Fruit = new Enum
 			name.
 			values.
-				. "apple"
-				. "orange"
+				. 'apple
+				. 'orange
 		prices =
 			Fruit.apple -> 1
 			Fruit.orange -> 2

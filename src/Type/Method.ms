@@ -46,7 +46,7 @@ Method. class Function
 
 		has-args? = defined? params.args
 		num-args = case params.args
-			js=== js-typeof_ "number"
+			js=== js-typeof_ 'number
 				_
 			js-instanceof _ Array
 				_.length
@@ -57,7 +57,7 @@ Method. class Function
 			access-method = "global[{str-lit secret-name}]"
 
 			impl = case impl-symbol
-				js=== js-typeof_ "symbol"
+				js=== js-typeof_ 'symbol
 					"a[{access-method}[\"impl-symbol\"]]"
 				:String
 					"a[{str-lit _}]"
@@ -82,7 +82,7 @@ Method. class Function
 				has-args?
 					args = switch num-args
 						1
-							"a"
+							'a
 						2
 							"a, b"
 						3
@@ -115,13 +115,13 @@ Method. class Function
 
 		switch! num-args
 			1
-				super! "a" src
+				super! 'a src
 			2
-				super! "a" "b" src
+				super! 'a 'b src
 			3
-				super! "a" "b" "c" src
+				super! 'a 'b 'c src
 			else
-				super! "a" "b" "c" "d" src
+				super! 'a 'b 'c 'd src
 
 		todo ES6 Shouldn't be necessary
 		todo See https://code.google.com/p/v8/issues/detail?id=4087
@@ -129,15 +129,15 @@ Method. class Function
 
 		pAdd global secret-name this
 
-		js-delete params "name"
-		js-delete params "impl-symbol"
+		js-delete params 'name
+		js-delete params 'impl-symbol
 		Object.assign this params
 		.impl-symbol = impl-symbol
-		Object.defineProperty this "name"
+		Object.defineProperty this 'name
 			value. method-name
 
 	todo Consider making kind! Method Type. Then this is redundant.
-	"toString" |
+	'toString |
 		.name
 
 impl!. !|method:Method implementor:Impl-Type implementation:Function
@@ -238,17 +238,17 @@ region Private
 
 			.method = method
 			.impl-symbol = impl-symbol
-			Object.defineProperty this "name"
+			Object.defineProperty this 'name
 				value. "{method.name}__double-dispatcher"
 
 contains? = new Method
 	| Whether some collection of things as as an element `instance`.
 	name.
 	args.
-		. "type"
-		. "instance"
+		. 'type
+		. 'instance
 	impl-symbol. containsImplSymbol
-msDef "contains" contains?
+msDef 'contains contains?
 
 method-contains? = |method value
 	property-with-proto? value method.impl-symbol

@@ -18,4 +18,4 @@ empty-Generator.
 gen-next!. new Method
 	| Continues until the next `<~`.
 	name.
-	impl-symbol. "next"
+	impl-symbol. 'next

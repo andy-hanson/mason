@@ -2,7 +2,7 @@ import
 	msl.Type.Alias-Type
 	..tests
 
-tests "Alias-Type"
+tests 'Alias-Type
 	Alias-Type -> !|
 		A = new Alias-Type
 			name.

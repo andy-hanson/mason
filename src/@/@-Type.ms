@@ -20,7 +20,7 @@ empty. new Method
 from-stream. new Method
 	| Creates a new value of this type by reading out from an @'s iterator.
 	name.
-	args. ["type" "stream"]
+	args. ['type 'stream]
 	default. .|stream
 		with empty this
 			++! _ stream

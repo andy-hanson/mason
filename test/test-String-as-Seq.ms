@@ -2,7 +2,7 @@ import
 	msl.compare sort
 	.tests
 
-tests "String-as-Seq"
+tests 'String-as-Seq
 	"" -> !|
 		assert! =? "123" (@map "123" identity)
 

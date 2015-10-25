@@ -3,7 +3,7 @@ import
 	...tests
 
 
-tests "multi-map"
+tests 'multi-map
 	add-to-@! -> !|
 		_ = empty Map
 		add-to-@! _ 1 [1]

@@ -3,7 +3,7 @@ import
 	msl.Try fails?
 	...tests
 
-tests "Seq"
+tests 'Seq
 	<++~ -> !|
 		todo
 		pass

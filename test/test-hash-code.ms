@@ -2,7 +2,7 @@ import
 	msl.hash-code
 	.tests
 
-tests "hash-code"
+tests 'hash-code
 	hash-code -> !|
 		a =
 			x. 1
@@ -16,10 +16,10 @@ tests "hash-code"
 
 	todo Better way of testing "String's hash code"
 	String -> !|
-		assert! =? (hash-code "a") (hash-code "a")
-		forbid! =? (hash-code "a") (hash-code "b")
+		assert! =? (hash-code 'a) (hash-code 'a)
+		forbid! =? (hash-code 'a) (hash-code 'b)
 
 	Symbol -> !|
-		sym = Symbol "test"
+		sym = Symbol 'test
 		assert! =? (hash-code sym) (hash-code sym)
 

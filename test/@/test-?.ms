@@ -2,7 +2,7 @@ import
 	msl.Try fails?
 	..tests
 
-tests "?"
+tests '?
 	Opt->? ->
 		[0] -> ?some 0
 		[null] -> ?some null

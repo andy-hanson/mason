@@ -18,7 +18,7 @@ define(["exports","./Type/Method","./Type/Pred-Type"],(exports,Method_0,Pred_45T
 		const gen_45next_33=exports["gen-next!"]=new (Method)((()=>{
 			const built={};
 			built.name="gen-next!";
-			const impl_45symbol=built["impl-symbol"]=`next`;
+			const impl_45symbol=built["impl-symbol"]="next";
 			return built
 		})());
 		return exports

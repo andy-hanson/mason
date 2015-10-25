@@ -7,13 +7,13 @@ import
 to-string. new Method
 	name.
 	allow-null?. true
-	impl-symbol. "toString"
+	impl-symbol. 'toString
 	default. .|
 		case this
 			id=? _ null
-				"null"
+				'null
 			id=? _ undefined
-				"undefined"
+				'undefined
 			else
 				inspect-object this
 
@@ -25,7 +25,7 @@ inspect. new Method
 	wrap. |impl arg opts
 		case
 			inspect-seen.has arg
-				"<recursive>"
+				'<recursive>
 			else
 				inspect-seen.add arg
 				with impl.call arg opts
@@ -36,4 +36,4 @@ inspect. new Method
 inspect-object = |
 	"<object with no prototype>"
 
-msDef "inspect" inspect
+msDef 'inspect inspect

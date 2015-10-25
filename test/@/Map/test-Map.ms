@@ -1,7 +1,7 @@
 import
 	...tests
 
-tests "Map"
+tests 'Map
 	to-string ->
 		todo SYNTAX
 		m =

@@ -6,7 +6,7 @@ import
 
 todo SYNTAX async functions
 
-tests "$"
+tests '$
 	$fail-after-time -> $!|
 		$x = $after-time 100 |
 			1
@@ -20,8 +20,8 @@ tests "$"
 
 	$all -> $!|
 		assert! =? [1 2] (<~ ($all [($.resolve 1) ($.resolve 2)]))
-		all-rejected = $all [($.reject "a") ($.reject "b")]
-		assert! =? "a" (<~ $try all-rejected)
+		all-rejected = $all [($.reject 'a) ($.reject 'b)]
+		assert! =? 'a (<~ $try all-rejected)
 
 	$map -> $!|
 		assert! =? [2 3 4] (<~ $map [1 2 3] |_

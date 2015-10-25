@@ -4,7 +4,7 @@ import
 	msl.Type.Kind can-subtype? concrete-implementors
 	..tests
 
-tests "Kind"
+tests 'Kind
 	Kind -> !|
 		region Inheritance chans - one way
 			A = new Kind
@@ -13,7 +13,7 @@ tests "Kind"
 				name.
 			C = class
 				todo  empty class
-				"dummy" |
+				'dummy |
 					this
 			kind! B A
 			kind! C B
@@ -27,7 +27,7 @@ tests "Kind"
 				name.
 			Z = class
 				todo  empty class
-				"dummy" |
+				'dummy |
 					this
 			kind! Z Y
 			kind! Y X
@@ -61,11 +61,11 @@ tests "Kind"
 			name.
 		Z = class
 			todo  empty class
-			"dummy" |
+			'dummy |
 				this
 		W = class
 			todo  empty class
-			"dummy" |
+			'dummy |
 				this
 		kind! Y X
 		kind! Z X

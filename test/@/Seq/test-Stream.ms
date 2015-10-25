@@ -1,7 +1,7 @@
 import
 	...tests
 
-tests "Stream"
+tests 'Stream
 	Stream -> !|
 		_ = new Stream ~!|
 			<~ 1

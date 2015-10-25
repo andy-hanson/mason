@@ -179,8 +179,8 @@ region Lazy functions, and their eager versions.
 		| Concatenation. Sets should override this.
 		name.
 		args.
-			. ["@a" @]
-			. ["@b" @]
+			. ['@a @]
+			. ['@b @]
 		default. .|@other
 			todo SYNTAX @for -> type-of a
 			todo SYNTAX Just build without @for
@@ -202,8 +202,8 @@ region Lazy functions, and their eager versions.
 		| Removes the *first* occurrence of each element.
 		name.
 		args.
-			. "_"
-			. ["@remove" @]
+			. '_
+			. ['@remove @]
 		default. .|@remove
 			=> (type-of this) (--~ this @remove)
 
@@ -233,7 +233,7 @@ region Mutator methods
 	+!. new Method
 		todo doc
 		name.
-		args. ["_" "added"]
+		args. ['_ 'added]
 		todo  Lazy default?
 		default. .!|added
 			+>! this added
@@ -243,8 +243,8 @@ region Mutator methods
 		| For Seqs these are added on the right; use `<++!` to add on the left.
 		name.
 		args.
-			. "_"
-			. ["@added" @]
+			. '_
+			. ['@added @]
 		todo  Lazy default?
 		default. .!|@added
 			++>! this @added
@@ -254,13 +254,13 @@ region Mutator methods
 		todo doc
 		name.
 		args.
-			. "_"
-			. ["@removed" @]
+			. '_
+			. ['@removed @]
 
 	--!. new Method
 		| Removes all elements in `removed` once.
 		| For Seqs these are removed starting from the left.
 		name.
 		args.
-			. "_"
-			. ["@removed" @]
+			. '_
+			. ['@removed @]

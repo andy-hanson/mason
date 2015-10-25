@@ -41,7 +41,7 @@ inspect-property = |obj key enumerable?
 
 inspect-primitive = .|
 	switch js-typeof this
-		"object"
+		'object
 			"[{.constructor.name} {this}]"
 		else
 			"{this}"
@@ -51,14 +51,14 @@ impl! inspect Number inspect-primitive
 
 impl! inspect String .|
 	switch js-typeof this
-		"object"
+		'object
 			"[String {inspect .valueOf()}]"
 		else
 			JSON.stringify this
 
 impl! inspect Symbol .|
 	switch js-typeof this
-		"object"
+		'object
 			"[Symbol {inspect .valueOf()}]"
 		else
 			.toString()

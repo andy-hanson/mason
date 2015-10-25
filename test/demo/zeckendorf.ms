@@ -23,7 +23,7 @@ zeckendorf. |n:Nat
 	assert! =? 0 left || We should have managed to add up to `n` exactly.
 	=> String digits
 
-tests "demo"
+tests 'demo
 	zeckendorf ->
 		[0] -> ""
 		[1] -> "1"

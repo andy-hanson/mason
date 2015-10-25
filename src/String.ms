@@ -21,7 +21,7 @@ Char. new Pred-Type
 indent. |_:String
 	| Adds a `\\t` to all `\\n` in `str`.
 	| Does *not* do anything to the first line.
-	_.replace (new RegExp "\n" "g") "\n\t"
+	_.replace (new RegExp "\n" 'g) "\n\t"
 
 impl! =? String .|other
 	id=? this other

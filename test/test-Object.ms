@@ -2,30 +2,30 @@ import
 	msl.Object delete-property! empty-Object empty-Object? flag? object-merge map-object-values Map->Object object-select object=? Object->Map property? @properties ?property property-with-proto? ?property-with-proto @all-properties
 	.tests
 
-tests "Object"
+tests 'Object
 	flag? ->
-		[(a. true) "a"] -> true
-		[(a. false) "a"] -> false
-		[empty-Object "a"] -> false
+		[(a. true) 'a] -> true
+		[(a. false) 'a] -> false
+		[empty-Object 'a] -> false
 
 	@all-properties -> !|
 		obj = new Object
 		obj.a = 0
-		sym = Symbol "s"
+		sym = Symbol 's
 		Object.defineProperty obj sym
 			value. 0
 			enumerable. false
-		assert! set=? (@all-properties [0 0]) ["0" "1" "length"]
-		assert! set=? (@all-properties obj) ["a" sym]
-		|| But not "arguments" or "caller"
-		assert! set=? (@all-properties @all-properties) ["length" "name" "prototype"]
+		assert! set=? (@all-properties [0 0]) ["0" "1" 'length]
+		assert! set=? (@all-properties obj) ['a sym]
+		|| But not 'arguments or 'caller
+		assert! set=? (@all-properties @all-properties) ['length 'name 'prototype]
 
 	@properties -> !|
 		obj = new Object
-		Object.defineProperty obj "a"
+		Object.defineProperty obj 'a
 			value. 0
 			enumerable. false
-		sym = Symbol "s"
+		sym = Symbol 's
 		Object.defineProperty obj sym
 			value. 0
 			enumerable. true
@@ -34,23 +34,23 @@ tests "Object"
 
 	?property ->
 		x = a. 1 b. null
-		[x "a"] -> ?some 1
-		[x "b"] -> ?some null
+		[x 'a] -> ?some 1
+		[x 'b] -> ?some null
 		|| Does not inherit from prototype.
-		[x "toString"] -> empty ?
+		[x 'toString] -> empty ?
 
 	?property-with-proto ->
-		[1 "toString"] -> ?some Number.prototype.toString
-		[1 "asdfghjkl"] -> ?None
+		[1 'toString] -> ?some Number.prototype.toString
+		[1 'asdfghjkl] -> ?None
 
 	property? ->
 		x = a. 1
-		[x "a"] -> true
-		[x "b"] -> false
-		[x "toString"] -> false || use p-with-proto? for that.
+		[x 'a] -> true
+		[x 'b] -> false
+		[x 'toString] -> false || use p-with-proto? for that.
 
 	property-with-proto? ->
-		[empty-Object "toString"] -> true
+		[empty-Object 'toString] -> true
 
 	object=? ->
 		a = a. 1
@@ -68,14 +68,14 @@ tests "Object"
 
 	Object->Map ->
 		[(a. 1 b. 2)] ->
-			"a" -> 1
-			"b" -> 2
+			'a -> 1
+			'b -> 2
 
 	Map->Object ->
-		todo SYNTAX ["a" -> 1, "b" -> 2]
+		todo SYNTAX ['a -> 1, 'b -> 2]
 		map =
-			"a" -> 1
-			"b" -> 2
+			'a -> 1
+			'b -> 2
 		[map] -> a. 1 b. 2
 		assert! =? map (Object->Map (Map->Object map))
 		map2 =
@@ -86,14 +86,14 @@ tests "Object"
 	delete-property! -> !|
 		_ = new Object
 		_.a := 1
-		delete-property! _ "a"
-		forbid! property? _ "a"
+		delete-property! _ 'a
+		forbid! property? _ 'a
 
 	object-merge ->
 		[(a. 1 b. 2) (b. 3 c. 4)] -> a. 1 b. 3 c. 4
 
 	object-select ->
-		[(a. 1 b. 2 c. 3) "a" "c"] -> a. 1 c. 3
+		[(a. 1 b. 2 c. 3) 'a 'c] -> a. 1 c. 3
 
 	map-object-values ->
 		[(a. 1 b. undefined) defined?] -> a. true b. false

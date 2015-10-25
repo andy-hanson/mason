@@ -24,7 +24,7 @@ primes.
 					<~ candidate
 					prime-factors[(square candidate)] = [candidate]
 
-tests "demo"
+tests 'demo
 	primes -> !|
 		is-prime? = |_
 			not any? (new Range 2 _) divisible?[_]

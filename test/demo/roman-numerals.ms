@@ -2,13 +2,13 @@ import
 	..tests
 
 roman-digits =
-	1 -> "I"
-	5 -> "V"
-	10 -> "X"
-	50 -> "L"
-	100 -> "C"
-	500 -> "D"
-	1000 -> "M"
+	1 -> 'I
+	5 -> 'V
+	10 -> 'X
+	50 -> 'L
+	100 -> 'C
+	500 -> 'D
+	1000 -> 'M
 
 power-of-10-below = |_
 	Math.pow 10 (Math.floor (log 10 _))
@@ -39,12 +39,12 @@ roman. |n:Nat
 		else
 			"{dig 1}{rec 1}"
 
-tests "demo"
+tests 'demo
 	roman ->
-		[1] -> "I"
-		[4] -> "IV"
-		[5] -> "V"
-		[9] -> "IX"
-		[44] -> "XLIV"
-		[49] -> "XLIX"
-		[2014] -> "MMXIV"
+		[1] -> 'I
+		[4] -> 'IV
+		[5] -> 'V
+		[9] -> 'IX
+		[44] -> 'XLIV
+		[49] -> 'XLIX
+		[2014] -> 'MMXIV

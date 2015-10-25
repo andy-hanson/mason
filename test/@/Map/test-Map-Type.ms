@@ -2,7 +2,7 @@ import
 	msl.@.@-Type from-stream
 	...tests
 
-tests "Map-Type"
+tests 'Map-Type
 	from-stream -> |
 		todo  Better test
 		m =

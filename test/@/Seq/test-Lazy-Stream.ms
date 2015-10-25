@@ -3,7 +3,7 @@ import
 	msl.control build
 	...tests
 
-tests "Lazy-Stream"
+tests 'Lazy-Stream
 	Lazy-Stream -> !|
 		fibonaccis = new Lazy-Stream ~!|
 			<~ 1

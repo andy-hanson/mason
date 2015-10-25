@@ -37,14 +37,14 @@ extract. new Method
 	todo examples
 	name.
 	args.
-		. "type"
-		. "candidate"
+		. 'type
+		. 'candidate
 		todo Nat
-		. ["num-extracteds" Number]
+		. ['num-extracteds Number]
 
-msDef "extract" extract
+msDef 'extract extract
 
-msDef "checkContains" |type value value-name
+msDef 'checkContains |type value value-name
 	assert! value:type throw! "{value-name} is no {type.name}, is a {(type-of value).name}: {inspect value}"
 	value
 
@@ -63,7 +63,7 @@ msDef "checkContains" |type value value-name
 todo rename
 type-of. |:Impl-Type _
 	| Most specific Impl-Type for a value.
-	?-or (?property-with-proto _ "constructor") Object
+	?-or (?property-with-proto _ 'constructor) Object
 
 region We make some things Types here due to bootstrapping order issues.
 	kind! Impl-Type Type

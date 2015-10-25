@@ -4,36 +4,36 @@ import
 	msl.Type.Method impl-double! ?impl-for ?self-impl-for self-impl-for
 	..tests
 
-tests "Method"
+tests 'Method
 	Method -> !|
 		m = new Method
 			name.
 			allow-null?. true
 			default. |
-				"default"
+				'default
 		impl! m String |
-			"String"
+			'String
 		impl-double! m Number Number |
 			"Number Number"
 		impl-double! m Number String |
 			"Number String"
 
 		assert-call! m
-			[null] -> "default"
-			["a"] -> "String"
+			[null] -> 'default
+			['a] -> 'String
 			[1 1] -> "Number Number"
-			[1 "a"] -> "Number String"
+			[1 'a] -> "Number String"
 		assert! fails? |
 			m 1 m
 
-		assert! =? "wrap-call-arg"
+		assert! =? 'wrap-call-arg
 			wrap-method = new Method
 				name.
 				default. .|
 					"call-{this}"
 				wrap. |impl arg
 					"wrap-{impl.call arg}"
-			wrap-method "arg"
+			wrap-method 'arg
 
 	self-impl! -> !|
 		todo

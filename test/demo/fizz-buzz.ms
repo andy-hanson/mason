@@ -19,16 +19,16 @@ make-fizz-buzz. |spec
 				s := "{s}{_.shout}"
 		cond (empty? s) n s
 
-tests "demo"
+tests 'demo
 	make-fizz-buzz -> !|
 		fizz-buzz = make-fizz-buzz (Fizz. 3 Buzz. 5)
 		assert! seq=? (@take~ fizz-buzz 6)
 			. 1
 			. 2
-			. "Fizz"
+			. 'Fizz
 			. 4
-			. "Buzz"
-			. "Fizz"
+			. 'Buzz
+			. 'Fizz
 
 		fizz-buzz-jazz =
 			make-fizz-buzz
@@ -38,18 +38,18 @@ tests "demo"
 		assert! seq=? (@take~ fizz-buzz-jazz 17)
 			. 1
 			. 2
-			. "Fizz"
-			. "Jazz"
-			. "Buzz"
-			. "Fizz"
+			. 'Fizz
+			. 'Jazz
+			. 'Buzz
+			. 'Fizz
 			. 7
-			. "Jazz"
-			. "Fizz"
-			. "Buzz"
+			. 'Jazz
+			. 'Fizz
+			. 'Buzz
 			. 11
-			. "FizzJazz"
+			. 'FizzJazz
 			. 13
 			. 14
-			. "FizzBuzz"
-			. "Jazz"
+			. 'FizzBuzz
+			. 'Jazz
 			. 17

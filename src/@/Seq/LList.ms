@@ -50,5 +50,5 @@ LList. class
 				++.default.call this other
 
 empty-LList = new LList undefined undefined
-Object.defineProperty empty-LList "tail"
+Object.defineProperty empty-LList 'tail
 	value. empty-LList

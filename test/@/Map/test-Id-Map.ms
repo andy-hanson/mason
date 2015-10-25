@@ -1,7 +1,7 @@
 import
 	...tests
 
-tests "Id-Map"
+tests 'Id-Map
 	Id-Map -> !|
 		todo  Just use generic Map test
 		_ = empty Id-Map

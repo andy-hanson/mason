@@ -2,7 +2,7 @@ import
 	msl.String indent
 	.tests
 
-tests "String"
+tests 'String
 	indent ->
 		s = "
 			a
@@ -11,4 +11,4 @@ tests "String"
 			a
 				b
 		[s] -> s-indented
-		["a"] -> "a"
+		['a] -> 'a

@@ -99,8 +99,8 @@ region Search
 		| 0th is the first.
 		name.
 		args.
-			. "_"
-			. ["n" Nat]
+			. '_
+			. ['n Nat]
 		default. .|n
 			i ::= 0
 			todo SYNTAX for-else
@@ -125,9 +125,9 @@ region Update
 		| Result length should be - end start, unless `end` was past the end.
 		name.
 		args.
-			. "_"
-			. ["start" Nat]
-			. ["end" Nat]
+			. '_
+			. ['start Nat]
+			. ['end Nat]
 		default. .|start end
 			=> (type-of this) (@slice~ this start end)
 
@@ -139,8 +139,8 @@ region Update
 		todo doc
 		name.
 		args.
-			. "_"
-			. ["count-to-take" Nat]
+			. '_
+			. ['count-to-take Nat]
 		default. .|count-to-take
 			=> (type-of this) (@take~ this count-to-take)
 
@@ -174,8 +174,8 @@ region Update
 		todo doc
 		name.
 		args.
-			. "_"
-			. ["count-to-drop" Nat]
+			. '_
+			. ['count-to-drop Nat]
 		default. .|count-to-drop
 			=> (type-of this) (@drop~ this count-to-drop)
 
@@ -294,14 +294,14 @@ region Mutator methods
 	<+!. new Method
 		todo doc
 		name.
-		args. ["_" "added"]
+		args. ['_ 'added]
 
 	<++!. new Method
 		| Makes `_` into `+ added _`.
 		name.
 		args.
-			. "_"
-			. ["@added" @]
+			. '_
+			. ['@added @]
 		default. .!|@added
 			for! @reverse~ @added
 				<+! this _
@@ -310,14 +310,14 @@ region Mutator methods
 	+>!. new Method
 		todo doc
 		name.
-		args. ["_" "added"]
+		args. ['_ 'added]
 
 	++>!. new Method
 		| Makes `_` into `+ _ added`.
 		name.
 		args.
-			. "_"
-			. ["@added" @]
+			. '_
+			. ['@added @]
 		default. .!|@added
 			for! @added
 				+>! this _

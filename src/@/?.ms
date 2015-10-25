@@ -43,7 +43,7 @@ import
 	to-string |
 		case
 			empty? this
-				"?None"
+				'?None
 			else
 				"?some {.val}"
 
@@ -61,8 +61,8 @@ self-impl! extract ?some |case
 	else
 		[_.val]
 
-msDef "some" ?some
-msDef "None" ?None
+msDef 'some ?some
+msDef 'None ?None
 
 region Functions
 	Opt->?. |_

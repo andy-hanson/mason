@@ -40,53 +40,53 @@ run-turing. |spec init-tape:Seq
 			else
 				- _ 1
 
-tests "demo"
+tests 'demo
 	run-turing ->
 		incrementer =
-			init-state. "a"
+			init-state. 'a
 			blank. 0
 			rules.
 				a.
-					1 -> R 1 "a"
+					1 -> R 1 'a
 					0 -> fin
 		[incrementer [1 1 1]] -> [1 1 1 0]
 
 		busy-beaver =
-			init-state. "a"
+			init-state. 'a
 			blank. 0
 			rules.
 				a.
-					0 -> R 1 "b"
-					1 -> L 1 "c"
+					0 -> R 1 'b
+					1 -> L 1 'c
 				b.
-					0 -> L 1 "a"
-					1 -> R 1 "b"
+					0 -> L 1 'a
+					1 -> R 1 'b
 				c.
-					0 -> L 1 "b"
+					0 -> L 1 'b
 					1 -> fin
 		[busy-beaver []] -> [1 1 1 1 1 1]
 
 		sorting-test =
-			init-state. "a"
+			init-state. 'a
 			blank. 0
 			rules.
 				a.
-					0 -> L 0 "e"
-					1 -> R 1 "a"
-					2 -> R 3 "b"
+					0 -> L 0 'e
+					1 -> R 1 'a
+					2 -> R 3 'b
 				b.
-					0 -> L 0 "c"
-					1 -> R 1 "b"
-					2 -> R 2 "b"
+					0 -> L 0 'c
+					1 -> R 1 'b
+					2 -> R 2 'b
 				c.
-					1 -> L 2 "d"
-					2 -> L 2 "c"
-					3 -> L 2 "e"
+					1 -> L 2 'd
+					2 -> L 2 'c
+					3 -> L 2 'e
 				d.
-					1 -> L 1 "d"
-					2 -> L 2 "d"
-					3 -> R 1 "a"
+					1 -> L 1 'd
+					2 -> L 2 'd
+					3 -> R 1 'a
 				e.
 					0 -> fin
-					1 -> L 1 "e"
+					1 -> L 1 'e
 		[sorting-test [2 2 2 1 1 1]] -> [0 1 1 1 2 2 2 0]

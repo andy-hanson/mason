@@ -3,7 +3,7 @@ import
 	msl.Try fails-with?
 	.tests
 
-tests "assert"
+tests 'assert
 	assert-call! -> !|
 		assert-call! +
 			[1 1] -> 2
