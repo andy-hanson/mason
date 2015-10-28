@@ -63,5 +63,5 @@ self-impl! sub Union |...types
 				_.name
 			"Union[{=> String names " "}]"
 		predicate. |_
-			any? types |type
-				:type
+			any? types |possible-type
+				:possible-type

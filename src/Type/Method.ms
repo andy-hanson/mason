@@ -162,15 +162,15 @@ self-impl!. !|method:Method implementor:Object implementation:Function
 	todo doc
 	impl! method (new Self-Type implementor) implementation
 
-?impl-for. |method:Method type:Impl-Type
+?impl-for. |method:Method implementor:Impl-Type
 	| Implementation of a method for a particular Impl-Type.
 	| Does not reference method.default or impls on super-types.
 	| Empty if the type would use method.default.
-	?self-impl-for method type.prototype
+	?self-impl-for method implementor.prototype
 
-impl-for. |method:Method type:Impl-Type
+impl-for. |method:Method implementor:Impl-Type
 	| impl-for that fails when there is no implementation.
-	un-? (?impl-for method type) ~"{method} not implemented for {type}."
+	un-? (?impl-for method implementor) ~"{method} not implemented for {implementor}."
 
 ?self-impl-for. |method:Method object
 	todo doc

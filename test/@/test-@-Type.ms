@@ -4,4 +4,4 @@ import
 
 tests '@-Type
 	from-stream ->
-		[Array (new Range 0 5)] -> [0 1 2 3 4]
+		[Array 0..4] -> [0 1 2 3 4]

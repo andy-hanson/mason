@@ -1,9 +1,10 @@
 import
-	..compare <? <=?
+	..compare <? <=? >=?
 	..Function thunk
 	..js defined?
 	..math.Number neg Nat remainder same-sign? sign
 	..math.methods + - * /
+	..private.bootstrap msDef
 	..Type.Kind kind! self-kind!
 	..Type.Method self-impl!
 	..Type.Pred-Type Opt
@@ -37,12 +38,18 @@ Range. class
 			else
 				sign (- end start)
 
+	'by |step
+		new Range .start .end step
+
+	'length |
+		- .end .start
+
 	iterator ~!|
 		cur ::= .start
 		for!
 			break-cond = case
 				<? 0 .step
-					<=? .end cur
+					>=? cur .end
 				else
 					<=? cur .end
 			if! break-cond
@@ -60,7 +67,7 @@ Range. class
 			it
 
 	count |
-		Math.floor (/ (length this) .step)
+		Math.floor (/ .length() .step)
 
 	@reverse |
 		new-step = neg .step
@@ -71,7 +78,7 @@ Range. class
 			else
 				new Range (- .end rem) .start new-step
 
-todo rename
-length. |_:Range
-	| Difference between and and start values.
-	- _.end _.start
+msDef 'range |start end exclusive?
+	unless! exclusive?
+		end := + end (sign (- end start))
+	new Range start end

@@ -1,4 +1,5 @@
 import
+	global TypeError
 	..compare =?
 	..js id=?
 	..private.bootstrap ms msDef
@@ -44,8 +45,9 @@ extract. new Method
 
 msDef 'extract extract
 
-msDef 'checkContains |type value value-name
-	assert! value:type throw! "{value-name} is no {type.name}, is a {(type-of value).name}: {inspect value}"
+msDef 'checkContains |expected-type value value-name
+	assert! value:expected-type throw! new TypeError
+		"{value-name} is no {expected-type.name}, is a {(type-of value).name}: {inspect value}"
 	value
 
 =>. new Method
@@ -53,12 +55,12 @@ msDef 'checkContains |type value value-name
 	todo args: convert-to:Type convert-me (may take additional args)
 	| Converts a value to a given type.
 	name.
-	wrap. |impl type converted opts
+	wrap. |impl convert-to-type converted opts
 		case converted
-			:type
+			:convert-to-type
 				_
 			else
-				impl.call type _ opts
+				impl.call convert-to-type _ opts
 
 todo rename
 type-of. |:Impl-Type _

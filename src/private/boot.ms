@@ -6,5 +6,7 @@ import!
 	..@.Seq.Array
 	|| kind! Id-Map Map. Necessary for `..Function spread!` to work.
 	..@.Map.Id-Map
+	|| range literals
+	..@.Range
 	..String-as-Seq
 	.impl-inspect

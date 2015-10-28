@@ -81,7 +81,7 @@ tests 'Seq
 		assert! seq=? [[] [] []] (@take~ (@groups-of~ 0 [1]) 3)
 
 	@indexes ->
-		[[0 0 0]] -> new Range 0 3
+		[[0 0 0]] -> 0..2
 
 	@reverse ->
 		[[1 2]] -> [2 1]

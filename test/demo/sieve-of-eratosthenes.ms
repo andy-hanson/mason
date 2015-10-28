@@ -12,7 +12,8 @@ primes.
 		|| Maps a composite number to its prime factors.
 		prime-factors = => Id-Map
 			9 -> [3]
-		for! candidate of new Range 5 Number.POSITIVE_INFINITY 2
+
+		for! candidate of (5...).by 2
 			|| del is to save memory - we won't need to look up this value any more.
 			case! del prime-factors[candidate]
 				:?some factors
@@ -27,6 +28,6 @@ primes.
 tests 'demo
 	primes -> !|
 		is-prime? = |_
-			not any? (new Range 2 _) divisible?[_]
+			not any? (2..._) divisible?[_]
 		for! @take primes 20
 			assert! is-prime? _

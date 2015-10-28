@@ -16,8 +16,8 @@ make-word-from-blocks. |:? word:String blocks:@ todo  ?[Seq[String]], @[String]
 					todo -, not --
 					@map~ (rec rest-word (-- blocks-left [_])) |ans
 						++ [_] ans
-	todo @for
-	rec word.toUpperCase() (@map blocks |_
+
+	rec word.toUpperCase() @for blocks
 		_.toUpperCase()
 
 tests 'demo

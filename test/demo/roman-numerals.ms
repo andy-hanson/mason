@@ -15,8 +15,7 @@ power-of-10-below = |_
 
 roman. |n:Nat
 	| Converts a number to Roman numerals.
-	| Only works for values 1-3999.
-	assert! n:(new Range 1 4000)
+	assert! n:1..3999
 
 	dec = power-of-10-below n
 	dig = |dec-multiple

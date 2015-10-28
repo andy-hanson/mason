@@ -8,7 +8,6 @@ import
 	..@ _ ++~ count empty! empty? iterator @map
 	..@-Type _ empty
 	..? un-?
-	..Range
 	.Seq _ <++! ++>! ?nth ?<pop! ?pop>! @reverse
 
 Deque. class
@@ -31,9 +30,9 @@ Deque. class
 	iterator ~!|
 		indices = case
 			<? .end-index! .start-index!
-				++~ (new Range .start-index! (count .data!)) (new Range 0 .end-index!)
+				++~ .start-index!...(count .data!) 0...(.end-index!)
 			else
-				new Range .start-index! .end-index!
+				.start-index!...(.end-index!)
 		for! indices
 			<~ .data![_]
 
@@ -95,7 +94,7 @@ region Private
 		old-capacity = capacity_
 		new-capacity = * 2 old-capacity
 		new-data = Array new-capacity
-		for! index of new Range 0 old-capacity
+		for! index of 0...old-capacity
 			new-data[index] = old-data[index]
 		_.data! := new-data
 

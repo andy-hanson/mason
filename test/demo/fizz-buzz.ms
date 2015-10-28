@@ -12,7 +12,7 @@ make-fizz-buzz. |spec
 		todo SYNTAX array destructure
 		shout:String. _[0]
 		divisor:Nat. _[1]
-	@map~ (new Range 1 Number.POSITIVE_INFINITY) |n
+	@map~ 1... |n
 		s ::= ""
 		for! tests
 			if! divisible? n _.divisor

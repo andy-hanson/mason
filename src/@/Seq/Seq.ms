@@ -13,7 +13,6 @@ import~
 	...math.Number Nat
 	...to-string
 	..? Opt->? un-?
-	..Range
 	.Stream
 
 Seq. new Kind
@@ -247,7 +246,7 @@ region TODO: put somewhere
 
 	@indexes. |_:Seq
 		todo doc
-		new Range 0 count_
+		0...count_
 
 	@reverse. new Method
 		| Seq with the opposite order.

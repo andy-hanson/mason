@@ -1,6 +1,4 @@
 | Functions implementing behavior native to JavaScript.
-import~
-	.@.Range
 
 op = |op-name
 	Function 'a 'b "return a {op-name} b"
@@ -38,7 +36,7 @@ js-typeof.
 regex. |strings ...values
 	todo doc
 	_ ::= ""
-	for! i of new Range 0 values.length
+	for! i of 0...values.length
 		_ := "{_}{strings[i]}{values[i]}"
 	_ := "{_}{strings[values.length]}"
 	RegExp _

@@ -8,7 +8,7 @@ tests 'Lazy-Stream
 		fibonaccis = new Lazy-Stream ~!|
 			<~ 1
 			<~ 1
-			for! new Range 2 Number.POSITIVE_INFINITY
+			for! 2...
 				|| This is *not* an exponential blowup because these are cached.
 				<~ + fibonaccis[(- _ 1)] fibonaccis[(- _ 2)]
 		assert! seq=? (@take~ fibonaccis 10) [1 1 2 3 5 8 13 21 34 55]
