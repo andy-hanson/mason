@@ -142,6 +142,14 @@ const msDefs = {
 	lazy: _ => new ms.Lazy(_),
 	unlazy: _ => _ instanceof ms.Lazy ? _.get() : _,
 
+	methodBound(object, name) {
+		return object[name].bind(object)
+	},
+
+	methodUnbound(name) {
+		return function(object, ...args) { return object[name](...args) }
+	},
+
 	setLazy(value, name, lazy) {
 		Object.defineProperty(value, name, { get: lazy.get, enumerable: true })
 	},
