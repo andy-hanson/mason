@@ -22,6 +22,15 @@ tests 'Kind
 				. 3
 		[(empty Deque)] -> "empty Deque"
 
+	each! -> !|
+		x ::= 0
+		each! [] !|
+			x := 1
+		assert! =? x 0
+		each! [1] !|_
+			x := _
+		assert! =? x 1
+
 	empty? ->
 		[[]] -> true
 		[[1]] -> false

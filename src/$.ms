@@ -8,8 +8,8 @@ import
 	.Type.Type =>
 
 $.
-	|| https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
-	|| Called `$` because you "cash in" on it after some time.
+	| https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
+	| Called `$` because you "cash in" on it after some time.
 	Promise
 
 self-impl! sub $ |

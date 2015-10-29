@@ -1,8 +1,10 @@
 import
-	msl.io.time $after-time
+	msl.io.time $sleep
 	..tests
 
 tests 'time
-	$after-time -> $!|
-		assert! =? 1 (<~ $after-time 1 |
-			1
+	$sleep -> $!|
+		t0 = Date.now()
+		<~ $sleep 1000
+		t1 = Date.now()
+		assert! >=? (- t1 t0) 1000

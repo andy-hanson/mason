@@ -1,6 +1,6 @@
 import
 	..compare =?
-	..Function identity Pred
+	..Function Action identity Pred
 	..js defined? id=?
 	..math.methods +
 	..to-string _ inspect
@@ -59,6 +59,15 @@ region Using iterator
 		| Whether one of the elements =? em.
 		any? this |em-compare
 			=? em em-compare
+
+	each!. !|_:@ do-for-each!:Action
+		| A `for!` loop in function form.
+		| Prefer e.g. `each! @foo bar!` over the more verbose:
+		|	for! @foo
+		|		bar!_
+		| Also consider `each! @foo &bar` for instance methods.
+		for! elem of _
+			do-for-each! elem
 
 	fold. |_:@ b c
 		| Keeps a state variable `acc` and keeps applying `folder acc em` for the elements, in order.

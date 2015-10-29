@@ -1,14 +1,12 @@
 import
 	msl.$ $fail-after-time $delay $all $map $flat-map $keep
-	msl.io.time $after-time
+	msl.io.time $sleep
 	msl.Try $try
 	.tests
 
-todo SYNTAX async functions
-
 tests '$
 	$fail-after-time -> $!|
-		$x = $after-time 100 |
+		$x = ($sleep 100).then |
 			1
 		a <~ $try ($fail-after-time $x 1)
 		assert! =? a.message "Took longer than 1 milliseconds."

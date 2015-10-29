@@ -147,6 +147,7 @@ const msDefs = {
 	},
 
 	methodUnbound(name) {
+		// TODO:ES6 (object, ...args) => object[name](...args)
 		return function(object, ...args) { return object[name](...args) }
 	},
 

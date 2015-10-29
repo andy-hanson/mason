@@ -1,5 +1,5 @@
 import
-	global describe it console
+	global describe it
 	source-map-support install
 	msl.assert assert-call!
 
