@@ -179,9 +179,6 @@ const msDefs = {
 for (const def in msDefs)
 	msDef(def, msDefs[def])
 
-const msDefTemp = (name, fun) =>
-	ms[name] = fun
-
 // region Contains
 // Some Types want to implement contains? before it is officially defined.
 export const containsImplSymbol = Symbol('contains?')
@@ -189,7 +186,7 @@ export const implContains = (type, impl) =>
 	pAdd(type.prototype, containsImplSymbol, impl)
 
 // Overwritten by Type/index.ms to actually do type checking.
-msDefTemp('checkContains', (_type, val) => val)
+ms.checkContains = (_type, val) => val
 
 // Since these are primitives, we can't use `instanceof`.
 for (const type of [Boolean, String, Symbol, Number]) {
@@ -212,4 +209,6 @@ pAdd(Object, containsImplSymbol, function(_) {
 	}
 })
 
-implContains(Function, function(_) { return _ instanceof this })
+implContains(Function, function(_) {
+	return _ instanceof this
+})

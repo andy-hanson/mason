@@ -5,7 +5,6 @@ const
 	argv = require('yargs').argv,
 	babel = require('gulp-babel'),
 	fs = require('fs-promise'),
-	header = require('gulp-header'),
 	gulp = require('gulp'),
 	mason = require('gulp-mason'),
 	path = require('path'),
@@ -54,11 +53,8 @@ const
 		stream
 		.pipe(sourcemaps.init())
 		.pipe(babel({
-			modules: 'amd',
-			whitelist: [ 'es6.destructuring', 'es6.modules', 'es6.parameters', 'es6.spread', 'strict' ]
+			plugins: ['transform-es2015-modules-umd', 'transform-strict-mode']
 		}))
-		.pipe(header(
-			'if (typeof define !== \'function\') var define = require(\'amdefine\')(module);'))
 		.pipe(sourcemaps.write({ debug: true, sourceRoot: '/src' }))
 		.pipe(gulp.dest(dist)),
 
