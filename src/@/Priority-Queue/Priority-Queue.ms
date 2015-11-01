@@ -1,22 +1,19 @@
 import
-	...Type.Kind _ kind!
-	...Type.Method _ self-impl!
+	...Type.Method
 	..@
 	..@-Type empty
 	..?
 import~
 	.Heap-Priority-Queue
 
-Priority-Queue. new Kind
+Priority-Queue. kind @
 	| @ whose first item will always be the smallest.
 	| Iteration order has no other guaranees,
 	| but repeatedly calling ?pop! will give the values from least to greatest.
-	name.
 
-kind! Priority-Queue @
-
-self-impl! empty Priority-Queue |
-	empty Heap-Priority-Queue
+	static
+		empty |
+			empty Heap-Priority-Queue
 
 todo Move
 ?pop!. new Method

@@ -2,16 +2,21 @@
 if((typeof define!=="function"))var define=require("amdefine")(module);
 define(["exports","./../methods","./../Type/Kind","./../Type/Method","./../Type/Type","./at"],(exports,methods_0,Kind_1,Method_2,Type_3,_64_4)=>{
 	exports._get=_ms.lazy(()=>{
-		const _$0=_ms.getModule(methods_0),sub=_ms.get(_$0,"sub"),Kind=_ms.getDefaultExport(Kind_1),_$1=_ms.getModule(Kind_1),self_45kind_33=_ms.get(_$1,"self-kind!"),Method=_ms.getDefaultExport(Method_2),_$2=_ms.getModule(Method_2),impl_33=_ms.get(_$2,"impl!"),_$3=_ms.getModule(Type_3),_61_62=_ms.get(_$3,"=>"),_64=_ms.getDefaultExport(_64_4),_$4=_ms.getModule(_64_4),_43_43_33=_ms.get(_$4,"++!");
-		const _64_45Type=exports.default=new (Kind)((()=>{
-			const built={};
-			built.name="@-Type";
-			return built
-		})());
-		impl_33(sub,_64_45Type,function(){
-			const _this=this;
-			return _this
-		});
+		const _$0=_ms.getModule(methods_0),sub=_ms.get(_$0,"sub"),_$1=_ms.getModule(Kind_1),self_45kind_33=_ms.get(_$1,"self-kind!"),Method=_ms.getDefaultExport(Method_2),_$2=_ms.getModule(Type_3),_61_62=_ms.get(_$2,"=>"),_64=_ms.getDefaultExport(_64_4),_$3=_ms.getModule(_64_4),_43_43_33=_ms.get(_$3,"++!");
+		const _64_45Type=exports.default=(()=>{
+			const _=_ms.kind("@-Type",[],{},{
+				[_ms.symbol(sub)](){
+					const _this=this;
+					return _this
+				},
+				[_ms.symbol(_61_62)](stream){
+					const _this=this;
+					return from_45stream(_this,stream)
+				}
+			});
+			self_45kind_33(_64,_);
+			return _
+		})();
 		const empty=exports.empty=new (Method)((()=>{
 			const built={};
 			built.name="empty";
@@ -30,12 +35,7 @@ define(["exports","./../methods","./../Type/Kind","./../Type/Method","./../Type/
 			};
 			return built
 		})());
-		self_45kind_33(_64,_64_45Type);
-		impl_33(_61_62,_64_45Type,function(stream){
-			const _this=this;
-			return from_45stream(_this,stream)
-		});
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvQC9ALVR5cGUubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFPQSxpQ0FBUSxLQUFJLE1BQ0ksS0FBQTs7Y0FDZjs7O0VBRUQsUUFBTSxJQUFJLFdBQ1M7U0FtQk47VUFBQTtFQUFBO0VBakJiLDBCQUFPLEtBQUksUUFDTSxLQUFBOztjQUVoQjs7O0VBRUQsMkNBQWEsS0FBSSxRQUNNLEtBQUE7O2NBQ3RCO0dBQ0Esc0JBQU0sQ0FBRSxPQUFNO0dBQ2QsNkJBQVcsa0JBQUE7VUFRQztXQVBOLElBQ1U7S0FBZCxVQUFJLEVBQUU7O09BREYsTUFPTTtHQUFBOzs7RUFIYixlQUFXLElBQUU7RUFFYixRQUFNLE9BQUcsV0FBUyxTQUFBO1NBQ0w7VUFBWixjQUFZLE1BQUs7RUFBQSIsImZpbGUiOiJhdC9hdC1UeXBlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvQC9ALVR5cGUubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFPQSxpQ0FDWSxLQUdSOztnQkFHSDtXQWdCWTtZQUFBO0lBQUE7Z0JBYlosU0FBSTtXQWFRO1lBWlgsY0FZVyxNQVpNO0lBQUE7R0FBQTtHQU5qQixlQUFXLElBQUU7OztFQVFmLDBCQUFPLEtBQUksUUFDTSxLQUFBOztjQUVoQjs7O0VBRUQsMkNBQWEsS0FBSSxRQUNNLEtBQUE7O2NBQ3RCO0dBQ0Esc0JBQU0sQ0FBRSxPQUFNO0dBQ2QsNkJBQVcsa0JBQUE7VUFDQztXQUFOLElBQ1U7S0FBZCxVQUFJLEVBQUU7O09BREYsTUFBTTtHQUFBIiwiZmlsZSI6ImF0L2F0LVR5cGUuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

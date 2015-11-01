@@ -7,20 +7,16 @@ import
 tests 'Kind
 	Kind -> !|
 		region Inheritance chans - one way
-			A = new Kind
-				name.
-			B = new Kind
-				name.
+			A = kind
+			B = kind
 			C = class kind B
 			kind! B A
 			c = new C
 			assert! c:A
 
 		region Inheritance chains
-			X = new Kind
-				name.
-			Y = new Kind
-				name.
+			X = kind
+			Y = kind
 			Z = class kind Y
 			kind! Y X
 			z = new Z
@@ -47,10 +43,8 @@ tests 'Kind
 		[Object-Key] -> false
 
 	concrete-implementors -> |
-		X = new Kind
-			name.
-		Y = new Kind
-			name.
+		X = kind
+		Y = kind
 		Z = class kind X
 		W = class kind Y
 		kind! Y X

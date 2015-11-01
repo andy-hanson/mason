@@ -24,11 +24,7 @@ Kind. class
 	construct! params
 		.name:String = params.name
 		todo  :Array[Kind]
-		.super-kinds:Array = case params.super-kinds
-			defined?_
-				_
-			else
-				[]
+		.super-kinds = []
 
 		todo :Array[Impl-Type]
 		.implementors:Array = case params.implementors
@@ -45,6 +41,19 @@ Kind. class
 
 		for! .implementors
 			on-implementor! _ this
+		if! defined? params.super-kinds
+			for! params.super-kinds
+				unchecked-kind! this _
+
+msDef 'kind |-name super-kinds static-defs proto-defs
+	todo other params
+	todo SYNTAX with new Kind (name. -name super-kinds.)
+	k = new Kind
+		name. -name
+		super-kinds.
+	with k
+		assign-defs! _ static-defs
+		assign-defs! _.prototype proto-defs
 
 can-subtype?. |_:Kind
 	| Whether a Kind accepts new subtypes.
@@ -120,3 +129,10 @@ region Private
 			for! knd.super-kinds
 				rec! _
 		rec! knd
+
+	assign-defs! = !|assignee definitions
+		| Copy properties from definitions to assignee, *not* calling getters.
+		for! Object.getOwnPropertyNames definitions
+			Object.defineProperty assignee _ (Object.getOwnPropertyDescriptor definitions _)
+		for! Object.getOwnPropertySymbols definitions
+			Object.defineProperty assignee _ (Object.getOwnPropertyDescriptor definitions _)

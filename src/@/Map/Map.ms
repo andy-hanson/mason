@@ -2,9 +2,7 @@ import
 	...compare =?
 	...methods sub
 	...to-string
-	...Type.Kind _ kind!
-	...Type.Method _ impl!
-	...Type.Pred-Type Any
+	...Type.Method
 	...Type.Type => type-of
 	..@ _ all? count empty? @map~
 	..@-Type empty
@@ -12,21 +10,24 @@ import
 import~
 	.Id-Map
 
-Map. new Kind
+Map. kind @
 	| Mapping from keys to values.
-	name.
 
-kind! Map @
+	to-string |
+		todo  map Map to Array
+		todo SYNTAX Array destructure
+		todo @for~
+		parts = @map~ this |pair
+			"{pair[0]} -> {pair[1]}"
+		"
+			{.constructor.name}
+				{=> String parts "\n\t"}
 
-impl! to-string Map .|
-	todo  map Map to Array
-	todo SYNTAX Array destructure
-	todo @for~
-	parts = @map~ this |pair
-		"{pair[0]} -> {pair[1]}"
-	"
-		{.constructor.name}
-			{=> String parts "\n\t"}
+	=? |other
+		and (=? (type-of this) (type-of other)) (map=? this other)
+
+	sub |key
+		un-? (?get this key) ~"{this} does not contain {key}."
 
 region New methods
 	?get. new Method
@@ -58,13 +59,6 @@ region New methods
 			todo @for:Array
 			=> Array (@map~ this |pair
 				pair[1]
-
-region Old methods
-	impl! =? Map .|other
-		and (=? (type-of this) (type-of other)) (map=? this other)
-
-	impl! sub Map .|key:Any
-		un-? (?get this key) ~"{this} does not contain {key}."
 
 region Functions
 	make-map. |@key:@ get-value:Function

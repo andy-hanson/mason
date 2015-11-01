@@ -1,16 +1,22 @@
 import
 	..methods sub
-	..Type.Kind _ self-kind!
-	..Type.Method _ impl!
+	..Type.Kind self-kind!
+	..Type.Method
 	..Type.Type =>
 	.@ _ ++!
 
-@-Type. new Kind
+@-Type. kind
 	| Any sub-type of @.
-	name.
 
-impl! sub @-Type .|
-	this
+	do!
+		todo  Do this in @.ms
+		self-kind! @ _
+
+	sub |
+		this
+
+	=> |stream
+		from-stream this stream
 
 empty. new Method
 	| Given a type, makes an instance which is `empty?`.
@@ -24,9 +30,3 @@ from-stream. new Method
 	default. .|stream
 		with empty this
 			++! _ stream
-
-todo  Do this in @.ms
-self-kind! @ @-Type
-
-impl! => @-Type .|stream
-	from-stream this stream

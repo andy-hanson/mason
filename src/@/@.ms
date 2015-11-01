@@ -6,8 +6,6 @@ import
 	..to-string _ inspect
 	..String indent
 	..Type.Method
-	..Type.Kind
-	..Type.Method impl!
 	..Type.Pred-Type Any Opt
 	..Type.Type => contains? type-of
 import~
@@ -17,11 +15,23 @@ import~
 	.Seq.Stream
 	.Set.Set
 
-@. new Kind
+@. kind
 	| "Bag". Contains a variable number of elements. Most things implementing `iterator` should be @s.
 	| If the iteration order of an @ is meaningful and `+ a b` is the concatenation, it is a Seq.
 	| If an @ only stores a given element once, it is a Set.
-	name.
+
+	contains? |em:Any
+		| Whether one of the elements =? em.
+		any? this |em-compare
+			=? em em-compare
+
+	=? |@other
+		and (id=? (type-of this) (type-of @other)) (seq=? this @other)
+
+	to-string |
+		do-inspect this to-string
+	inspect |
+		do-inspect this inspect
 
 do-inspect = |_ recurse
 	case
@@ -34,12 +44,6 @@ do-inspect = |_ recurse
 					indent (recurse em)
 				"\n\t. {show-ems.join "\n\t. "}"
 			"{_.constructor.name}{content}"
-
-impl! to-string @ .|
-	do-inspect this to-string
-
-impl! inspect @ .|
-	do-inspect this inspect
 
 iterator. new Method
 	| Creates a new Generator which yields the values in the @.
@@ -55,11 +59,6 @@ empty?. new Method
 		(iterator this).next().done
 
 region Using iterator
-	impl! contains? @ .|em:Any
-		| Whether one of the elements =? em.
-		any? this |em-compare
-			=? em em-compare
-
 	each!. !|_:@ do-for-each!:Action
 		| A `for!` loop in function form.
 		| Prefer e.g. `each! @foo bar!` over the more verbose:
@@ -228,9 +227,6 @@ region Lazy functions, and their eager versions.
 						--! @remove-remaining [_]
 					else
 						<~ _
-
-	impl! =? @ .|@other
-		and (id=? (type-of this) (type-of @other)) (seq=? this @other)
 
 region Mutator methods
 	empty!. new Method

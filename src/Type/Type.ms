@@ -12,19 +12,19 @@ import~
 	..Object ?property-with-proto
 	..to-string inspect
 
-Type. new Kind
+Type. kind
 	| Anything implementing contains?.
 	| Types are generally used to succinctly make assertions about values.
-	name.
 
-impl! to-string Type .|
-	.name
+	=? |other
+		id=? this other
+
+	to-string |
+		.name
+
 todo  Should not be necessary, Kind < Impl-Type < Type
 impl! to-string Kind .|
 	.name
-
-impl! =? Type .|other
-	id=? this other
 
 || Made by Method.ms.
 contains?. ms.contains
@@ -67,5 +67,6 @@ type-of. |:Impl-Type _
 	| Most specific Impl-Type for a value.
 	?-or (?property-with-proto _ 'constructor) Object
 
-region We make some things Types here due to bootstrapping order issues.
-	kind! Impl-Type Type
+todo needed?
+|| Make Impl-Type a Type here due to bootstrapping order issues.
+kind! Impl-Type Type

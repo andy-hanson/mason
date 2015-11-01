@@ -4,8 +4,8 @@ import
 	...math.methods - +
 	...methods sub
 	...String indent
-	...Type.Kind _ kind! self-kind!
-	...Type.Method _ impl!
+	...Type.Kind self-kind!
+	...Type.Method
 	...Type.Type => type-of
 	..@ _ ++ count empty? iterator
 	..@-Type _ empty from-stream
@@ -15,13 +15,16 @@ import~
 	..? Opt->? un-?
 	.Stream
 
-Seq. new Kind
+Seq. kind @
 	| @ whose values are in a meaningful order.
-	name.
+	do!
+		self-kind! _ @-Type
 
-kind! Seq @
-
-self-kind! Seq @-Type
+	sub |n:Nat
+		| Nth value in iteration order.
+		un-? (?nth this n) ~"
+			No element at index {n} for
+				{indent (to-string this)}
 
 region TODO
 	todo  Review name...
@@ -110,12 +113,6 @@ region Search
 					else
 						todo  Incr
 						i := + 1 i
-
-	impl! sub Seq .|n:Nat
-		| Nth value in iteration order.
-		un-? (?nth this n) ~"
-			No element at index {n} for
-				{indent (to-string this)}
 
 region Update
 	@slice. new Method

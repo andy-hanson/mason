@@ -5,10 +5,8 @@ import
 
 tests 'Impl-Type
 	Impl-Type -> !|
-		A = new Kind
-			name.
-		B = new Kind
-			name.
+		A = kind
+		B = kind
 		C = class
 		kind! B A
 		kind! C B
