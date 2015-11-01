@@ -2,15 +2,12 @@ import
 	..control opr
 	..to-string
 	.Impl-Type
-	.Kind kind!
 	.Method impl!
 	.Type contains?
 
-Enum. class
-	|	A Concrete-Type with a small number of instances.
-	|	Great for using with `switch`.
-	do!
-		kind! _ Impl-Type
+Enum. class kind Impl-Type
+	| A Concrete-Type with a small number of instances.
+	| Great for using with `switch`.
 
 	construct! params
 		.name = params.name todo  :String

@@ -10,15 +10,15 @@ import
 	.to-string
 	.Type.Impl-Type Self-Type
 	.Type.Kind kind! self-kind!
-	.Type.Method impl! impl-double! self-impl!
+	.Type.Method impl-double!
 	.Type.Pred-Type Opt
 	.Type.Type =>
 
 self-kind! String @-Type
-self-impl! empty String (thunk "")
-todo
-self-impl! from-stream String |_
-	from-stream Array _
+	empty -> thunk ""
+	todo Should probably convert to string.
+	from-stream -> |_
+		from-stream Array _
 
 todo  self-impl-double! ?
 impl-double! => (new Self-Type String) @ |vals joiner:Opt[String]
@@ -27,12 +27,11 @@ impl-double! => (new Self-Type String) @ |vals joiner:Opt[String]
 		to-string_
 	arr.join joiner
 
-todo  Should this be necessary?
-impl! sort String .|?sort-by:Opt[Function]
-	(sort.default.call this ?sort-by).join ""
-
 kind! String Seq
-impl! count String .|
-	.length
-impl! empty? String .|
-	=? 0 .length
+	count -> .|
+		.length
+	empty? -> .|
+		=? 0 .length
+	todo  Should this be necessary?
+	sort -> .|?sort-by:Opt[Function]
+		(sort.default.call this ?sort-by).join ""

@@ -7,7 +7,7 @@ import
 	...hash-code
 	...js defined?
 	...methods del-sub! set-sub!
-	...Type.Kind kind! self-kind!
+	...Type.Kind self-kind!
 	..@ empty! iterator @map
 	..@-Type empty
 	..? ?None Opt->? ?some
@@ -15,11 +15,10 @@ import
 	.Map _ ?get
 	.Map-Type
 
-Hash-Map. class
+Hash-Map. class kind Map
 	| Default Map type. Depends on efficient `hash-code` of its keys.
 	do!
 		self-kind! _ Map-Type
-		kind! _ Map
 
 	static
 		empty |

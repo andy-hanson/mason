@@ -12,6 +12,7 @@ Map-Type. new Kind
 
 todo  Do this in Map.ms ?
 self-kind! Map Map-Type
+|| Can't use map literals to define methods becuase this is a dependency of Id-Map
 self-impl! empty Map |
 	empty Id-Map
 

@@ -5,14 +5,14 @@ import
 	..math.Number neg Nat remainder same-sign? sign
 	..math.methods + - * /
 	..private.bootstrap msDef
-	..Type.Kind kind! self-kind!
+	..Type.Kind self-kind!
 	..Type.Method self-impl!
 	..Type.Pred-Type Opt
 	.@ _ count iterator
 	.@-Type _ empty from-stream
 	.Seq.Seq ?nth @reverse
 
-Range. class
+Range. class kind @
 	| Seq of Numbers taking fixed steps.
 	| `start` is inclusive, `end` is exclusive.
 
@@ -20,7 +20,6 @@ Range. class
 		self-kind! _ @-Type
 		todo
 		self-impl! empty _ (thunk (new _ 0 0))
-		kind! _ @
 
 	static
 		from-stream |_

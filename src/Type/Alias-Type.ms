@@ -1,13 +1,9 @@
 import
 	..methods sub
-	.Kind kind!
 	.Type _ contains?
 
-Alias-Type. class
+Alias-Type. class kind Type
 	| Contains the same instances as another type (officially), but has its own meaning and identity.
-
-	do!
-		kind! _ Type
 
 	construct! params
 		Object.assign this params

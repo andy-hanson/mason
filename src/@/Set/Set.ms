@@ -2,7 +2,7 @@ import
 	...compare =? same?
 	...Type.Type => type-of
 	...Type.Kind _ kind! self-kind!
-	...Type.Method _ impl! self-impl!
+	...Type.Method
 	..@ _ all? count @keep
 	..@-Type _ empty
 import~
@@ -14,15 +14,14 @@ Set. new Kind
 	name.
 
 self-kind! Set @-Type
+	empty -> |
+		empty Hash-Set
+
 kind! Set @
-
-self-impl! empty Set |
-	empty Hash-Set
-
-impl! =? Set .|other
-	| Two Sets are =? if they have the same type and contain the same values.
-	and (same? type-of this other) (same? count this other) (all? this |_
-		:other
+	=? -> .|other
+		| Two Sets are =? if they have the same type and contain the same values.
+		and (same? type-of this other) (same? count this other) (all? this |_
+			:other
 
 set=?. |a:@ b:@
 	| Whether two @s have the same values, regardless of order or count.

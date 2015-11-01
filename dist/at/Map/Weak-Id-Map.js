@@ -1,44 +1,48 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","./../../methods","./../../Type/Kind","./../../Type/Method","./../at","./../at-Type","./../q","./Map","./Map-Type"],(exports,methods_0,Kind_1,Method_2,_64_3,_64_45Type_4,_63_5,Map_6,Map_45Type_7)=>{
+define(["exports","./../../methods","./../../Type/Kind","./../at","./../at-Type","./../q","./Map","./Map-Type"],(exports,methods_0,Kind_1,_64_2,_64_45Type_3,_63_4,Map_5,Map_45Type_6)=>{
 	exports._get=_ms.lazy(()=>{
-		const _$0=_ms.getModule(methods_0),del_45sub_33=_ms.get(_$0,"del-sub!"),set_45sub_33=_ms.get(_$0,"set-sub!"),_$1=_ms.getModule(Kind_1),kind_33=_ms.get(_$1,"kind!"),self_45kind_33=_ms.get(_$1,"self-kind!"),_$2=_ms.getModule(Method_2),impl_33=_ms.get(_$2,"impl!"),self_45impl_33=_ms.get(_$2,"self-impl!"),_$3=_ms.getModule(_64_3),empty_33=_ms.get(_$3,"empty!"),_$4=_ms.getModule(_64_45Type_4),empty=_ms.get(_$4,"empty"),_$5=_ms.getModule(_63_5),Opt_45_62_63=_ms.get(_$5,"Opt->?"),Map=_ms.getDefaultExport(Map_6),_$6=_ms.getModule(Map_6),_63get=_ms.get(_$6,"?get"),has_45key_63=_ms.get(_$6,"has-key?"),_64keys=_ms.get(_$6,"@keys"),Map_45Type=_ms.getDefaultExport(Map_45Type_7);
+		const _$0=_ms.getModule(methods_0),del_45sub_33=_ms.get(_$0,"del-sub!"),set_45sub_33=_ms.get(_$0,"set-sub!"),_$1=_ms.getModule(Kind_1),kind_33=_ms.get(_$1,"kind!"),self_45kind_33=_ms.get(_$1,"self-kind!"),_$2=_ms.getModule(_64_2),empty_33=_ms.get(_$2,"empty!"),_$3=_ms.getModule(_64_45Type_3),empty=_ms.get(_$3,"empty"),_$4=_ms.getModule(_63_4),Opt_45_62_63=_ms.get(_$4,"Opt->?"),Map=_ms.getDefaultExport(Map_5),_$5=_ms.getModule(Map_5),_63get=_ms.get(_$5,"?get"),has_45key_63=_ms.get(_$5,"has-key?"),_64keys=_ms.get(_$5,"@keys"),Map_45Type=_ms.getDefaultExport(Map_45Type_6);
 		const Weak_45Id_45Map=exports.default=(()=>{
 			return WeakMap
 		})();
-		self_45kind_33(Weak_45Id_45Map,Map_45Type);
-		self_45impl_33(empty,Weak_45Id_45Map,()=>{
-			return new (Weak_45Id_45Map)()
-		});
-		kind_33(Weak_45Id_45Map,Map);
-		impl_33(_63get,Weak_45Id_45Map,function(key){
-			const _this=this;
-			return Opt_45_62_63(_this.get(key))
-		});
-		impl_33(has_45key_63,Weak_45Id_45Map,function(key){
-			const _this=this;
-			return _this.has(key)
-		});
-		impl_33(set_45sub_33,Weak_45Id_45Map,function(key,val){
-			const _this=this;
-			_this.set(key,val)
-		});
-		impl_33(del_45sub_33,Weak_45Id_45Map,function(key){
-			const _this=this;
-			return (_=>{
-				_this.delete(key);
-				return _
-			})(_63get(_this,key))
-		});
-		impl_33(_64keys,Weak_45Id_45Map,function(){
-			const _this=this;
-			throw new (Error)(`Weak-Id-Map does not support \`keys\`.`)
-		});
-		impl_33(empty_33,Weak_45Id_45Map,function(){
-			const _this=this;
-			throw new (Error)(`Weak-Id-Map does not support \`empty!\`.`)
-		});
+		self_45kind_33(Weak_45Id_45Map,Map_45Type,(()=>{
+			const built=new (global.Map)();
+			_ms.setSub(built,empty,()=>{
+				return new (Weak_45Id_45Map)()
+			});
+			return built
+		})());
+		kind_33(Weak_45Id_45Map,Map,(()=>{
+			const built=new (global.Map)();
+			_ms.setSub(built,_63get,function(key){
+				const _this=this;
+				return Opt_45_62_63(_this.get(key))
+			});
+			_ms.setSub(built,has_45key_63,function(key){
+				const _this=this;
+				return _this.has(key)
+			});
+			_ms.setSub(built,set_45sub_33,function(key,val){
+				const _this=this;
+				_this.set(key,val)
+			});
+			_ms.setSub(built,del_45sub_33,function(key){
+				const _this=this;
+				return (_=>{
+					_this.delete(key);
+					return _
+				})(_63get(_this,key))
+			});
+			_ms.setSub(built,_64keys,()=>{
+				throw new (Error)(`Weak-Id-Map does not support \`keys\`.`)
+			});
+			_ms.setSub(built,empty_33,()=>{
+				throw new (Error)(`Weak-Id-Map does not support \`empty!\`.`)
+			});
+			return built
+		})());
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvQC9NYXAvV2Vhay1JZC1NYXAubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFXQSxzQ0FDWSxLQUFBO1VBR1g7RUFBQTtFQUVELGVBQVcsZ0JBQVk7RUFDdkIsZUFBVyxNQUFNLGdCQUNhO1VBQTdCLEtBQUk7RUFBQTtFQUVMLFFBQU0sZ0JBQVk7RUFDbEIsUUFBTSxPQUFLLGdCQUFjLFNBQUE7U0FPZDtVQU5WLGFBTVUsVUFORztFQUFBO0VBQ2QsUUFBTSxhQUFTLGdCQUFjLFNBQUE7U0FLbEI7VUFBQSxVQUpMO0VBQUE7RUFDTixRQUFNLGFBQVMsZ0JBQWUsU0FBQSxJQUFJO1NBR3ZCO0dBQUEsVUFGTCxJQUFJO0VBQUE7RUFDVixRQUFNLGFBQVMsZ0JBQWMsU0FBQTtTQUNsQjtVQUFMLElBQ2E7SUFEUixhQUNEOztNQURKLE9BQUssTUFBSztFQUFBO0VBSWhCLFFBQU0sUUFBTSxnQkFDZTtTQUxoQjtHQU1WLGtCQUFROztFQUVULFFBQU0sU0FBTyxnQkFDZTtTQVRqQjtHQVVWLGtCQUFRIiwiZmlsZSI6ImF0L01hcC9XZWFrLUlkLU1hcC5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvQC9NYXAvV2Vhay1JZC1NYXAubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFVQSxzQ0FDWSxLQUFBO1VBR1g7RUFBQTtFQUVELGVBQVcsZ0JBQVksV0FDUSxLQUFBOztvQkFBOUIsTUFDVTtXQUFULEtBQUk7R0FBQTs7O0VBRU4sUUFBTSxnQkFBWSxJQUNHLEtBQUE7O29CQUFwQixPQUFVLFNBQUE7VUFVQztXQVRWLGFBU1UsVUFURztHQUFBO29CQUVkLGFBQWMsU0FBQTtVQU9IO1dBQUEsVUFOTDtHQUFBO29CQUVOLGFBQWUsU0FBQSxJQUFJO1VBSVI7SUFBQSxVQUhMLElBQUk7R0FBQTtvQkFFVixhQUFjLFNBQUE7VUFDSDtXQUFMLElBQ2E7S0FEUixhQUNEOztPQURKLE9BQUssTUFBSztHQUFBO29CQUloQixRQUNXO0lBQVYsa0JBQVE7O29CQUVULFNBQ1k7SUFBWCxrQkFBUSIsImZpbGUiOiJhdC9NYXAvV2Vhay1JZC1NYXAuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

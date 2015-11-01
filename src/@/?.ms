@@ -3,7 +3,7 @@ import
 	..js defined? id=?
 	..private.bootstrap msDef
 	..to-string
-	..Type.Kind kind! self-kind!
+	..Type.Kind self-kind!
 	..Type.Method self-impl!
 	..Type.Type extract
 	.@ empty? iterator
@@ -13,13 +13,12 @@ import
 || I've measured and code is at least twice as fast when using a single option type
 || rather than a ?, ?Some, ?None type heirarchy.
 
-?. class
+?. class kind Seq
 	| A Seq with 0 or 1 elements.
 	todo MORE
 
 	do!
 		self-kind! _ @-Type
-		kind! _ Seq
 
 	static
 		empty |

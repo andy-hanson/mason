@@ -11,12 +11,8 @@ tests 'Kind
 				name.
 			B = new Kind
 				name.
-			C = class
-				todo  empty class
-				'dummy |
-					this
+			C = class kind B
 			kind! B A
-			kind! C B
 			c = new C
 			assert! c:A
 
@@ -25,11 +21,7 @@ tests 'Kind
 				name.
 			Y = new Kind
 				name.
-			Z = class
-				todo  empty class
-				'dummy |
-					this
-			kind! Z Y
+			Z = class kind Y
 			kind! Y X
 			z = new Z
 			assert! z:X
@@ -59,18 +51,10 @@ tests 'Kind
 			name.
 		Y = new Kind
 			name.
-		Z = class
-			todo  empty class
-			'dummy |
-				this
-		W = class
-			todo  empty class
-			'dummy |
-				this
+		Z = class kind X
+		W = class kind Y
 		kind! Y X
-		kind! Z X
-		kind! W Y
-		[X] -> [W Z]
+		[X] -> [Z W]
 
 	self-kind! -> !|
 		todo

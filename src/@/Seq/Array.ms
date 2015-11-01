@@ -6,7 +6,6 @@ import
 	...math.methods +
 	...methods set-sub!
 	...Type.Kind kind! self-kind!
-	...Type.Method impl! self-impl!
 	...Type.Type =>
 	..@ _ -! --! count empty! empty?
 	..@-Type _ empty from-stream
@@ -16,62 +15,61 @@ import~
 	...math.Number Nat
 
 self-kind! Array @-Type
-self-impl! empty Array |
-	[]
-self-impl! from-stream Array |stream
-	arr = []
-	for! stream
-		arr.push _
-	arr
+	empty -> |
+		[]
 
+	from-stream -> |stream
+		arr = []
+		for! stream
+			arr.push _
+		arr
 
 kind! Array Seq
+	count -> .|
+		.length
 
-impl! count Array .|
-	.length
+	?nth -> .|n
+		if <? n (count this)
+			js-sub this n
 
-impl! ?nth Array .|n
-	if <? n (count this)
-		js-sub this n
+	<++! -> .|added:@
+		.unshift ...added
 
-impl! <++! Array .|added:@
-	.unshift ...added
+	++>! -> .|added:@
+		.push ...added
 
-impl! ++>! Array .|added:@
-	.push ...added
+	?<pop! -> .|
+		unless empty? this
+			.shift()
 
-impl! ?<pop! Array .|
-	unless empty? this
-		.shift()
+	?pop>! -> .|
+		unless empty? this
+			.pop()
 
-impl! ?pop>! Array .|
-	unless empty? this
-		.pop()
+	empty! -> .!|
+		| http://jsperf.com/empty-javascript-array/15
+		todo  Test it myself...
+		for!
+			unless! .length
+				break!
+			.pop()
 
-impl! empty! Array .!|
-	| http://jsperf.com/empty-javascript-array/15
-	todo  Test it myself...
-	for!
-		if! empty? this
-			break!
-		.pop()
+	set-sub! -> .!|n:Nat val
+		js-set this n val
 
-impl! set-sub! Array .!|n:Nat val
-	js-set this n val
+	-! -> .!|em
+		for! @indexes this
+			if! =? this[_] em
+				.splice _ 1
+				break!
 
-impl! -! Array .!|em
-	for! @indexes this
-		if! =? this[_] em
-			.splice _ 1
-			break!
-
-impl! --! Array .!|@deleted
-	@deleted := => Set @deleted
-	filter! this |em
-		with em:@deleted
-			if! _
-				todo  -!
-				--! @deleted [em]
+	--! -> .!|@deleted
+		@deleted := => Set @deleted
+		filter! this |em
+			with em:@deleted
+				if! _
+					todo  -!
+					--! @deleted [em]
 
 todo  impl! filter!
 filter!. !|arr keep-if?

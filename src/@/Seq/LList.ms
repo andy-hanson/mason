@@ -1,16 +1,16 @@
 import
 	...js id=?
-	...Type.Kind kind! self-kind!
+	...Type.Kind self-kind!
 	..@ _ ++ empty? iterator
 	..@-Type _ empty from-stream
 	.Seq _ <++~ @tail
 
-LList. class
+LList. class kind Seq
 	| Singly-linked list.
 
 	do!
 		self-kind! _ @-Type
-		kind! _ Seq
+
 	static
 		empty |
 			empty-LList

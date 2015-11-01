@@ -2,22 +2,20 @@ import
 	..Function Pred
 	..js defined? id=?
 	..methods sub
-	.Kind kind!
-	.Method impl! self-impl!
+	.Method self-impl!
 	.Type _ => contains?
 import~
 	..@.@ any?
 
-Pred-Type. class
+Pred-Type. class kind Type
 	| Arbitrary predicates can be made into types using Pred-Type.
 	construct! params
 		Object.assign this params
 		assert! .name:String
 		assert! .predicate:Pred
 
-kind! Pred-Type Type
-impl! contains? Pred-Type .|value
-	.predicate value
+	contains? |value
+		.predicate value
 
 region Opt
 	Opt. new Pred-Type
@@ -32,14 +30,13 @@ region Opt
 			ET = Exists-Type
 			new Opt-Sub ET
 
-	Opt-Sub = class
+	Opt-Sub = class kind Type
 		| Result of calling Opt[something].
 		construct! .Exists-Type:Type
 			pass
 
-	kind! Opt-Sub Type
-	impl! contains? Opt-Sub .|_
-		or (not defined?_) :.Exists-Type
+		contains? |_
+			or (not defined?_) :.Exists-Type
 
 Any. new Pred-Type
 	| Not undefined.

@@ -10,9 +10,6 @@ tests 'Impl-Type
 		B = new Kind
 			name.
 		C = class
-			todo  empty class
-			'dummy |
-				this
 		kind! B A
 		kind! C B
 		assert! kind? B A
@@ -27,4 +24,3 @@ tests 'Impl-Type
 		impl! m (new Self-Type x) |
 			1
 		assert! =? (m x) 1
-

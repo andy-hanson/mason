@@ -2,19 +2,14 @@ import
 	...compare _ <?
 	...js defined?
 	...methods del-sub! set-sub!
-	...Type.Kind kind!
 	..@ empty! empty? iterator
 	..@-Type empty
 	.Map ?get
 	.Sorted-Map
 
-Splay-Tree. class
+Splay-Tree. class kind Sorted-Map
 	| Default Sorted-Map implementation.
 	| Binary tree that is good at accessing the same values many times.
-
-	do!
-		kind! _ Sorted-Map
-
 	static
 		empty |
 			new this

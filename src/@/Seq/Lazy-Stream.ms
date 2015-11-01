@@ -2,14 +2,14 @@ import
 	...Function thunk
 	...math.Number Nat
 	...math.methods -
-	...Type.Kind kind! self-kind!
+	...Type.Kind self-kind!
 	...Type.Method impl! self-impl!
 	..@ count empty? iterator
 	..@-Type _ empty from-stream
 	.Seq _ ?nth
 	.Stream
 
-Lazy-Stream. class
+Lazy-Stream. class kind Seq
 	| Like Stream, but caches its elements as it produces them.
 	| If you want to stream the results of an expensive computation and use it multiple times, use this.
 	| If you have a cheap computation or only need to iterate through it once, use Stream.
@@ -19,7 +19,6 @@ Lazy-Stream. class
 		todo  move to `static`
 		self-impl! empty _ (thunk (new _ ~!|
 			pass
-		kind! _ Seq
 
 	static
 		from-stream |_

@@ -2,7 +2,6 @@ import
 	global WeakMap
 	...methods del-sub! set-sub!
 	...Type.Kind kind! self-kind!
-	...Type.Method impl! self-impl!
 	..@ empty!
 	..@-Type empty
 	..? Opt->?
@@ -16,25 +15,26 @@ Weak-Id-Map.
 	WeakMap
 
 self-kind! Weak-Id-Map Map-Type
-self-impl! empty Weak-Id-Map |
-	new Weak-Id-Map
+	empty -> |
+		new Weak-Id-Map
 
 kind! Weak-Id-Map Map
-impl! ?get Weak-Id-Map .|key
-	Opt->? (.get key)
-impl! has-key? Weak-Id-Map .|key
-	.has key
-impl! set-sub! Weak-Id-Map .!|key val
-	.set key val
-impl! del-sub! Weak-Id-Map .|key
-	with ?get this key
-		.delete key
+	?get -> .|key
+		Opt->? (.get key)
 
-todo  unsupported! Function?
-impl! @keys Weak-Id-Map .!|
-	ignore this
-	throw! "Weak-Id-Map does not support `keys`."
+	has-key? -> .|key
+		.has key
 
-impl! empty! Weak-Id-Map .!|
-	ignore this
-	throw! "Weak-Id-Map does not support `empty!`."
+	set-sub! -> .!|key val
+		.set key val
+
+	del-sub! -> .|key
+		with ?get this key
+			.delete key
+
+	todo  unsupported! Function?
+	@keys -> !|
+		throw! "Weak-Id-Map does not support `keys`."
+
+	empty! -> !|
+		throw! "Weak-Id-Map does not support `empty!`."

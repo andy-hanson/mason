@@ -3,9 +3,10 @@ import!
 	.bootstrap
 	|| Turns on type checks.
 	..Type.Type
-	..@.Seq.Array
 	|| kind! Id-Map Map. Necessary for `..Function spread!` to work.
 	..@.Map.Id-Map
+	|| Ability to sub arrays
+	..@.Seq.Array
 	|| range literals
 	..@.Range
 	..String-as-Seq
