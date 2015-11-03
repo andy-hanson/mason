@@ -9,12 +9,12 @@ Enum. class kind Impl-Type
 	| A Concrete-Type with a small number of instances.
 	| Great for using with `switch`.
 
-	construct! params
+	construct params
 		.name = params.name todo  :String
 		.prototype = opr params.prototype ~(Object.create Object.prototype)
 		.values = params.values todo  :Array[String]
 
-		for! value-name of .values
+		for value-name of .values
 			enum-val = Object.create .prototype
 			enum-val.name = value-name
 			this."{value-name}" = enum-val

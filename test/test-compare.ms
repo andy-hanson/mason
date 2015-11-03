@@ -11,7 +11,7 @@ tests 'compare
 	max -> |
 		[[1 3 2]] -> 3
 		[[2 1 2]] -> 2 || Doesn't have to be unique
-		assert! fails? |
+		assert fails? |
 			max []
 
 	?max ->
@@ -20,7 +20,7 @@ tests 'compare
 
 	max-by -> |
 		[['five 'six 'seven] count] -> 'seven
-		assert! fails? |
+		assert fails? |
 			max-by [] identity
 
 	?max-by ->

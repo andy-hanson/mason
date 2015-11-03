@@ -14,15 +14,15 @@ make-fizz-buzz. |spec
 		divisor:Nat. _[1]
 	@map~ 1... |n
 		s ::= ""
-		for! tests
-			if! divisible? n _.divisor
+		for tests
+			if divisible? n _.divisor
 				s := "{s}{_.shout}"
 		cond (empty? s) n s
 
 tests 'demo
 	make-fizz-buzz -> !|
 		fizz-buzz = make-fizz-buzz (Fizz. 3 Buzz. 5)
-		assert! seq=? (@take~ fizz-buzz 6)
+		assert seq=? (@take~ fizz-buzz 6)
 			. 1
 			. 2
 			. 'Fizz
@@ -35,7 +35,7 @@ tests 'demo
 				Fizz. 3
 				Jazz. 4
 				Buzz. 5
-		assert! seq=? (@take~ fizz-buzz-jazz 17)
+		assert seq=? (@take~ fizz-buzz-jazz 17)
 			. 1
 			. 2
 			. 'Fizz

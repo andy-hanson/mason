@@ -7,7 +7,7 @@ import
 
 Success. class
 	| Attempt that did not fail. _.val is the result of the attempted code.
-	construct! .val
+	construct .val
 		pass
 
 try-result. |tried:Action
@@ -49,7 +49,7 @@ annotate-errors. |~annotation:String tried:Action
 		catch
 			_.stack := "{annotation}{_.stack}"
 			_.message := "{annotation}{_.message}"
-			throw! _
+			throw _
 
 region $
 	todo These should not be needed once we have async functions.
@@ -65,7 +65,7 @@ region $
 	$annotate-errors. |~annotation:String $tried:$
 		| Like `annotate-errors` but works on errors thrown in a `$`.
 		$tried.catch |_
-			if! :Error
+			if :Error
 				_.stack := "{annotation}{_.stack}"
 				_.message := "{annotation}{_.message}"
-			throw! _
+			throw _

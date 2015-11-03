@@ -7,8 +7,8 @@ tests 'Alias-Type
 		A = new Alias-Type
 			name.
 			alias-of. String
-		assert! "0":A
-		forbid! =? A String
+		assert "0":A
+		forbid =? A String
 
 	sub ->
 		?2 = new Alias-Type

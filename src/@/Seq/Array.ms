@@ -20,7 +20,7 @@ self-kind! Array @-Type
 
 	from-stream -> |stream
 		arr = []
-		for! stream
+		for stream
 			arr.push _
 		arr
 
@@ -49,25 +49,25 @@ kind! Array Seq
 	empty! -> .!|
 		| http://jsperf.com/empty-javascript-array/15
 		todo  Test it myself...
-		for!
-			unless! .length
-				break!
+		for
+			unless .length
+				break
 			.pop()
 
 	set-sub! -> .!|n:Nat val
 		js-set this n val
 
 	-! -> .!|em
-		for! @indexes this
-			if! =? this[_] em
+		for @indexes this
+			if =? this[_] em
 				.splice _ 1
-				break!
+				break
 
 	--! -> .!|@deleted
 		@deleted := => Set @deleted
 		filter! this |em
 			with em:@deleted
-				if! _
+				if _
 					todo  -!
 					--! @deleted [em]
 
@@ -76,12 +76,12 @@ filter!. !|arr keep-if?
 	read-idx ::= 0
 	write-idx ::= 0
 
-	for!
-		if! <=? arr.length read-idx
-			break!
+	for
+		if <=? arr.length read-idx
+			break
 
 		here = arr[read-idx]
-		if! keep-if? here
+		if keep-if? here
 			arr[write-idx] := here
 			write-idx := + 1 write-idx
 
@@ -93,5 +93,5 @@ todo rename?
 fill. |count:Number filler:Function
 	| Creates a new Array by calling `filler` on each number from zero to `count`.
 	with new Array count
-		for! i of @indexes_
+		for i of @indexes_
 			_[i] = filler i

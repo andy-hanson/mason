@@ -6,7 +6,7 @@ average. |@vals:@[Number]
 	todo doc
 	sum ::= 0
 	count ::= 0
-	for! @vals
+	for @vals
 		sum := + sum _
 		count := + 1 count
 	/ sum count

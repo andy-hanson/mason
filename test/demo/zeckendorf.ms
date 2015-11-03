@@ -13,14 +13,13 @@ zeckendorf. |n:Nat
 	candidate-fibs = @reverse (@take-while~ z-fibs |_
 		<=? _ n || Highest numbers go first
 	left ::= n
-	digits = @for candidate-fibs
-		case
-			<=? _ left
-				left := - left _
-				1
-			else
-				0
-	assert! =? 0 left || We should have managed to add up to `n` exactly.
+	digits = @map candidate-fibs |case
+		<=? _ left
+			left := - left _
+			1
+		else
+			0
+	assert =? 0 left || We should have managed to add up to `n` exactly.
 	=> String digits
 
 tests 'demo

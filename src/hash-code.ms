@@ -27,7 +27,7 @@ hash-code. new Method
 						hashes-cache.set this 17
 						hash ::= 17
 
-						for! key of Object.keys this
+						for key of Object.keys this
 							val = this."{key}"
 							val-hash = hash-code val
 							hash := js-bar (js* hash 23) 0
@@ -54,13 +54,13 @@ region Since default hash-code only works on Objects, let's implement hash-code 
 	impl! hash-code String .|
 		hash ::= 13
 		i ::= .length
-		for!
+		for
 			hash := js+ hash (.charCodeAt i)
 			hash := js-bar hash 0
 			hash := js* hash 31
 
-			if! id=? i 0
-				break!
+			if id=? i 0
+				break
 			i := js- i 1
 		hash
 

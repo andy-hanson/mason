@@ -5,10 +5,10 @@ import
 Alias-Type. class kind Type
 	| Contains the same instances as another type (officially), but has its own meaning and identity.
 
-	construct! params
+	construct params
 		Object.assign this params
-		assert! .name:String
-		assert! .alias-of:Type
+		assert .name:String
+		assert .alias-of:Type
 
 	contains? |value
 		value:.alias-of

@@ -16,12 +16,12 @@ Kind. class
 	| impl! and kind! make sure that Concrete-Types receive the methods of their Kinds.
 	| They require the Kind to correctly track super-kinds and implementors.
 
-	do!
+	do
 		implContains _ .|_
 			| Cast to boolean so we return `false` and not `undefined`.
 			Boolean and (not js== _ null) (js-sub _ .symbol-for-isa)
 
-	construct! params
+	construct params
 		.name:String = params.name
 		todo  :Array[Kind]
 		.super-kinds = []
@@ -39,10 +39,10 @@ Kind. class
 
 		pAdd .prototype .symbol-for-isa true
 
-		for! .implementors
+		for .implementors
 			on-implementor! _ this
-		if! defined? params.super-kinds
-			for! params.super-kinds
+		if defined? params.super-kinds
+			for params.super-kinds
 				unchecked-kind! this _
 
 msDef 'kind |-name super-kinds static-defs proto-defs
@@ -71,7 +71,7 @@ concrete-implementors. |knd:Kind todo  :@[Impl-Type]
 	| List of Impl-Types inheriting from this.
 	| Does not include inheriting Kinds, but does include their implementors.
 	@for knd.implementors
-		case!
+		case
 			:Kind
 				... concrete-implementors_
 			else
@@ -82,12 +82,12 @@ kind!. !|implementor knd:Kind method-impls
 	| Kinds can subtype each other.
 	todo  Assert no circular chains of kind!.
 	todo implementor:Impl-Type
-	assert! can-subtype? knd throw! "{knd} is not open to new subtypes."
-	forbid! kind? implementor knd
+	assert can-subtype? knd throw "{knd} is not open to new subtypes."
+	forbid kind? implementor knd
 
 	unchecked-kind! implementor knd
-	if! defined? method-impls
-		for! method-impls
+	if defined? method-impls
+		for method-impls
 			todo SYNTAX Array destructure
 			impl! (js-sub _ 0) implementor (js-sub _ 1)
 
@@ -96,8 +96,8 @@ msDef 'kindDo kind!
 self-kind!. !|implementor:Object knd:Kind method-impls
 	todo doc
 	kind! (new Self-Type implementor) knd
-	if! defined? method-impls
-		for! method-impls
+	if defined? method-impls
+		for method-impls
 			todo SYNTAX Array destructure
 			self-impl! (js-sub _ 0) implementor (js-sub _ 1)
 
@@ -118,21 +118,21 @@ region Private
 		Object.getOwnPropertyNames_.concat Object.getOwnPropertySymbols_
 
 	on-implementor! = !|_ knd
-		if! :Kind
+		if :Kind
 			_.super-kinds.push knd
 		inherit-methods! _ knd
 
 	inherit-methods! = !|implementor knd
 		rec! = !|knd
-			for! @p-all knd.prototype
+			for @p-all knd.prototype
 				propagate-method-down! implementor _ (js-sub knd.prototype _)
-			for! knd.super-kinds
+			for knd.super-kinds
 				rec! _
 		rec! knd
 
 	assign-defs! = !|assignee definitions
 		| Copy properties from definitions to assignee, *not* calling getters.
-		for! Object.getOwnPropertyNames definitions
+		for Object.getOwnPropertyNames definitions
 			Object.defineProperty assignee _ (Object.getOwnPropertyDescriptor definitions _)
-		for! Object.getOwnPropertySymbols definitions
+		for Object.getOwnPropertySymbols definitions
 			Object.defineProperty assignee _ (Object.getOwnPropertyDescriptor definitions _)

@@ -14,7 +14,7 @@ impl! inspect Object .|
 			props = @all-properties this
 			enumerable-props = => Id-Set (@properties this)
 			s ::= "{.constructor.name}"
-			for! props
+			for props
 				s := "{s}\n\t{inspect-property this _ :enumerable-props}"
 			s
 		else

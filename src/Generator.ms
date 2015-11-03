@@ -1,5 +1,4 @@
 import
-	.Type.Method
 	.Type.Pred-Type
 
 Generator. new Pred-Type
@@ -8,14 +7,3 @@ Generator. new Pred-Type
 	name.
 	predicate. |_
 		and :Object _.next:Function
-
-empty-Generator.
-	| Does nothing.
-	g = ~!|
-		pass
-	g()
-
-gen-next!. new Method
-	| Continues until the next `<~`.
-	name.
-	impl-symbol. 'next

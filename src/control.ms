@@ -6,11 +6,11 @@ import~
 
 do-times!. !|n-times action
 	| Performs `action` `n-times` times.
-	assert! js<= 0 n-times
+	assert js<= 0 n-times
 	n ::= n-times
-	for!
-		unless! n
-			break!
+	for
+		unless n
+			break
 		action()
 		n := js- n 1
 

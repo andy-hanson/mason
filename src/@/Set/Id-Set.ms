@@ -20,7 +20,7 @@ kind! Id-Set Set
 
 	todo  Make default falling back to +!
 	++! -> .!|@added
-		for! @added
+		for @added
 			.add _
 
 	empty! -> .!|
@@ -28,7 +28,7 @@ kind! Id-Set Set
 
 	todo  Make default falling back to -!
 	--! -> .!|@deleted
-		for! @deleted
+		for @deleted
 			.delete _
 
 	contains? -> .|_

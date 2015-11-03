@@ -14,7 +14,7 @@ tests '?
 
 	un-? -> |
 		[(?some 1)] -> 1
-		assert! fails? !|
+		assert fails? !|
 			un-? ?None
 
 	?-or ->
@@ -22,6 +22,6 @@ tests '?
 		[(?some 1) 2] -> 1
 
 	extract -> !|
-		case! ?some 1
+		case ?some 1
 			:?some val
-				assert! =? val 1
+				assert =? val 1

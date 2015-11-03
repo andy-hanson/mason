@@ -13,7 +13,7 @@ tests 'Enum
 		prices =
 			Fruit.apple -> 1
 			Fruit.orange -> 2
-		assert! =? prices[Fruit.apple] 1
-		assert! =? prices[Fruit.orange] 2
-		assert! =? (type-of Fruit.apple) Fruit
-		assert! =? "Fruit.apple" "{Fruit.apple}"
+		assert =? prices[Fruit.apple] 1
+		assert =? prices[Fruit.orange] 2
+		assert =? (type-of Fruit.apple) Fruit
+		assert =? "Fruit.apple" "{Fruit.apple}"

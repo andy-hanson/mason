@@ -8,11 +8,10 @@ maximum-anagram-sets. |words
 	| http://rosettacode.org/wiki/Anagrams#JavaScript
 	|| e.g., 'amnos -> ['mason 'monas]
 	sorted->words = empty Id-Map
-	for! words
+	for words
 		todo  Function to add just one new element
 		add-to-@! sorted->words sort_ [_]
-	max-count = max @for @values sorted->words
-		count_
+	max-count = max (@map (@values sorted->words) count)
 	@keep (@values sorted->words) |_
 		=? count_ max-count
 
@@ -27,7 +26,7 @@ tests 'demo
 			evil levi live veil vile
 			random words to prove it's doing work
 		words = w.split rgx"\s"
-		assert! seq=? (maximum-anagram-sets words)
+		assert seq=? (maximum-anagram-sets words)
 			. ['abel 'able 'bale 'bela 'elba]
 			. ['alger 'glare 'lager 'large 'regal]
 			. ['angel 'angle 'galen 'glean 'lange]

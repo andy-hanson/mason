@@ -15,7 +15,7 @@ tests 'assert
 				3
 			Got:
 				2
-		assert! fails-with? nope !|
+		assert fails-with? nope !|
 			assert-call! +
 				[1 1] -> 3
 

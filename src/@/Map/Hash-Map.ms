@@ -17,22 +17,22 @@ import
 
 Hash-Map. class kind Map
 	| Default Map type. Depends on efficient `hash-code` of its keys.
-	do!
+	do
 		self-kind! _ Map-Type
 
 	static
 		empty |
 			new this (new global.Map)
 
-	construct! .val:Id-Map
+	construct .val:Id-Map
 		pass
 
 	iterator ~!|
-		for! bucket of .val.values()
+		for bucket of .val.values()
 			cur ::= bucket
-			for!
-				unless! defined? cur
-					break!
+			for
+				unless defined? cur
+					break
 				<~ [cur.key cur.val!]
 				cur := cur.next!
 
@@ -46,7 +46,7 @@ Hash-Map. class kind Map
 	set-sub! !|key val
 		hash = hash-code key
 		bucket = .val.get hash
-		case! opt-bucket-entry bucket key
+		case opt-bucket-entry bucket key
 			defined?_
 				todo Might not want to overwrite value...
 				_.val! := val
@@ -61,7 +61,7 @@ Hash-Map. class kind Map
 			defined?_
 				case
 					=? _.key key
-						case! bucket.next!
+						case bucket.next!
 							defined?_
 								.val.set key _
 							else
@@ -71,9 +71,9 @@ Hash-Map. class kind Map
 						cur ::= bucket
 						for
 							next = cur.next!
-							unless! defined? next
+							unless defined? next
 								break ?None
-							if! =? next.key key
+							if =? next.key key
 								cur.next! := next.next!
 								break ?some next.val!
 							cur := next
@@ -85,7 +85,7 @@ Hash-Map. class kind Map
 
 region Private
 	Bucket = class
-		construct! .key val! next!
+		construct .key val! next!
 			.val! ::= val!
 			.next! ::= next!
 
@@ -94,8 +94,8 @@ region Private
 	opt-bucket-entry = |opt-bucket key
 		cur ::= opt-bucket
 		for
-			unless! defined? cur
+			unless defined? cur
 				break undefined
-			if! =? cur.key key
+			if =? cur.key key
 				break cur
 			cur := cur.next!

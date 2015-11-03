@@ -4,7 +4,7 @@ import
 
 tests 'String-as-Seq
 	"" -> !|
-		assert! =? "123" (@map "123" identity)
+		assert =? "123" (@map "123" identity)
 
 	=> ->
 		[String [1 2 3]] -> "123"

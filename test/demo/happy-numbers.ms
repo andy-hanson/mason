@@ -8,11 +8,11 @@ import
 	todo SYNTAX @for~
 	new Stream ~!|
 		left ::= _
-		for!
+		for
 			<~ remainder left base
 			left := int/ left base
-			if! =? left 0
-				break!
+			if =? left 0
+				break
 
 happy-step = |_
 	sum (@map~ @digits_ square)
@@ -25,18 +25,18 @@ happy?. |n:Nat
 	stepped-through = empty Id-Set
 	cur ::= n
 	n-happy? = for
-		case! ?get cache cur
+		case ?get cache cur
 			:?some _
 				break _
 			else
-				if! cur:stepped-through
+				if cur:stepped-through
 					break false
 				todo  +!
 				++! stepped-through [cur]
 				cur := happy-step cur
 	with n-happy?
 		cache[n] = _
-		for! stepped-through
+		for stepped-through
 			cache[_] = n-happy?
 
 happy-numbers:Stream[Nat].
@@ -45,7 +45,7 @@ happy-numbers:Stream[Nat].
 
 tests 'demo
 	happy-numbers -> !|
-		assert! seq=? (@take happy-numbers 8)
+		assert seq=? (@take happy-numbers 8)
 			. 1
 			. 7
 			. 10

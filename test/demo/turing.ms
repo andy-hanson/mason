@@ -21,7 +21,7 @@ run-turing. |spec init-tape:Seq
 		symbol-here = tape[index]
 		rule-here = rules."{state}"[symbol-here]
 
-		if! id=? rule-here fin
+		if id=? rule-here fin
 			break => Array tape
 
 		write go-right = rule-here
@@ -29,7 +29,7 @@ run-turing. |spec init-tape:Seq
 		tape[index] := write
 		index := case index
 			go-right
-				if! =? _ (- (count tape) 1)
+				if =? _ (- (count tape) 1)
 					todo  +>!
 					++>! tape [blank]
 				+ _ 1

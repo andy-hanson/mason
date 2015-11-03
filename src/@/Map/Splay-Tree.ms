@@ -14,12 +14,12 @@ Splay-Tree. class kind Sorted-Map
 		empty |
 			new this
 
-	construct! .root:Splay-Node
+	construct .root:Splay-Node
 		pass
 
 	iterator |
 		node-iter = ~!|_
-			if! defined?_
+			if defined?_
 				<~~ node-iter _.left!
 				<~ [_.key _.val!]
 				<~~ node-iter _.right!
@@ -37,14 +37,14 @@ Splay-Tree. class kind Sorted-Map
 
 
 	set-sub! !|key val
-		case!
+		case
 			empty? this
 				.root := new Splay-Node key val undefined undefined
 			splay!? this key
 				.root.val! := val
 			else
 				old-root = .val
-				forbid! empty? this
+				forbid empty? this
 				.root := case
 					<? old-root.key key
 						old-right = old-root.right!
@@ -76,7 +76,7 @@ Splay-Tree. class kind Sorted-Map
 
 region Private
 	Splay-Node = class
-		construct! .key val! left! right!
+		construct .key val! left! right!
 			.val! ::= val!
 			.left! ::= left!
 			.right! ::= right!
@@ -90,21 +90,21 @@ region Private
 		cur ::= _.root
 
 		found = for
-			case! compare key cur.key
+			case compare key cur.key
 				<? _ 0
-					unless! has-left? cur
+					unless has-left? cur
 						break false
 					link-right! = !|new-right
 						right.left! := new-right
 						cur := new-right.left!
 						right := new-right
-					case!
+					case
 						<? key cur.left!.key
 							|| Rotate right
 							old-left = cur.left!
 							cur.left! := old-left.right!
 							old-left.right! := cur
-							unless! has-left? old-left
+							unless has-left? old-left
 								cur := old-left
 								break false
 							cur := old-left
@@ -112,19 +112,19 @@ region Private
 						else
 							link-right! cur
 				<? 0 _
-					unless! has-right? cur
+					unless has-right? cur
 						break false
 					link-left! = !|new-left
 						left.right! := new-left
 						cur := new-left.right!
 						left := new-left
-					case!
+					case
 						<? cur.right!.key key
 							|| Rotate left
 							tmp = cur.right!
 							cur.right! := tmp.left!
 							tmp.left! := cur
-							unless! has-right? tmp
+							unless has-right? tmp
 								cur := tmp
 								break false
 							link-left! tmp

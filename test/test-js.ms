@@ -4,7 +4,7 @@ import
 
 tests 'js
 	regex -> !|
-		assert! =? regex"a{1}b" (RegExp 'a1b)
+		assert =? regex"a{1}b" (RegExp 'a1b)
 
 	defined? ->
 		[undefined] -> false

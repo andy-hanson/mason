@@ -15,10 +15,10 @@ tests 'Object
 		Object.defineProperty obj sym
 			value. 0
 			enumerable. false
-		assert! set=? (@all-properties [0 0]) ["0" "1" 'length]
-		assert! set=? (@all-properties obj) ['a sym]
+		assert set=? (@all-properties [0 0]) ["0" "1" 'length]
+		assert set=? (@all-properties obj) ['a sym]
 		|| But not 'arguments or 'caller
-		assert! set=? (@all-properties @all-properties) ['length 'name 'prototype]
+		assert set=? (@all-properties @all-properties) ['length 'name 'prototype]
 
 	@properties -> !|
 		obj = new Object
@@ -29,8 +29,8 @@ tests 'Object
 		Object.defineProperty obj sym
 			value. 0
 			enumerable. true
-		assert! empty? (@properties obj)
-		assert! set=? (@properties @properties) []
+		assert empty? (@properties obj)
+		assert set=? (@properties @properties) []
 
 	?property ->
 		x = a. 1 b. null
@@ -77,7 +77,7 @@ tests 'Object
 			'a -> 1
 			'b -> 2
 		[map] -> a. 1 b. 2
-		assert! =? map (Object->Map (Map->Object map))
+		assert =? map (Object->Map (Map->Object map))
 		map2 =
 			1 -> 2
 		[map2] ->
@@ -87,7 +87,7 @@ tests 'Object
 		_ = new Object
 		_.a := 1
 		delete-property! _ 'a
-		forbid! property? _ 'a
+		forbid property? _ 'a
 
 	object-merge ->
 		[(a. 1 b. 2) (b. 3 c. 4)] -> a. 1 b. 3 c. 4

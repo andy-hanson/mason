@@ -10,10 +10,10 @@ tests 'Impl-Type
 		C = class
 		kind! B A
 		kind! C B
-		assert! kind? B A
-		assert! kind? C B
-		assert! kind? C A
-		forbid! kind? A B
+		assert kind? B A
+		assert kind? C B
+		assert kind? C A
+		forbid kind? A B
 
 	Self-Type -> !|
 		m = new Method
@@ -21,4 +21,4 @@ tests 'Impl-Type
 		x = new Object
 		impl! m (new Self-Type x) |
 			1
-		assert! =? (m x) 1
+		assert =? (m x) 1

@@ -1,7 +1,7 @@
 todo  Move
 
 import
-	.@.@ _ count empty?
+	.@.@ _ count empty? @map
 	.@.@-Type _ empty from-stream
 	.@.Seq.Seq
 	.compare =? sort
@@ -23,9 +23,8 @@ self-kind! String @-Type
 todo  self-impl-double! ?
 impl-double! => (new Self-Type String) @ |vals joiner:Opt[String]
 	joiner := opr joiner ""
-	arr = @for vals
-		to-string_
-	arr.join joiner
+	todo @for:Array
+	(=> Array (@map vals to-string)).join joiner
 
 kind! String Seq
 	count -> .|

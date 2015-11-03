@@ -4,13 +4,13 @@ import
 
 tests 'Range
 	Range -> !|
-		assert! seq=? 0..2 (@take~ 0... 3)
+		assert seq=? 0..2 (@take~ 0... 3)
 		|| Can't give wrong sign of step
-		assert! fails? |
+		assert fails? |
 			(0...10).by -1
 
 	iterator -> !|
-		todo assert! seq=? (new Range 0 10 2) [0 2 4 6 8]
+		todo assert seq=? (new Range 0 10 2) [0 2 4 6 8]
 		pass
 
 	?nth ->
@@ -23,8 +23,8 @@ tests 'Range
 
 	'length -> !|
 		todo test of named method
-		assert! =? (5...10).length() 5
-		assert! =? ((5...10).by 2).length() 5
+		assert =? (5...10).length() 5
+		assert =? ((5...10).by 2).length() 5
 
 	@reverse ->
 		[0...5] -> 4...-1

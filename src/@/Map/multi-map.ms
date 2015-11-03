@@ -16,7 +16,7 @@ group. |@value:@ group-by:Function
 	| Creates groups of elements which all have the same result for some function.
 	| `(group @x f)[k]` should be the elemens for which `f em` is `k`.
 	map = empty Map
-	for! @value
+	for @value
 		key = group-by _
 		add-to-@! map key [_]
 	map

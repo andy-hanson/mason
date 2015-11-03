@@ -5,14 +5,14 @@ import
 	.Method self-impl!
 	.Type _ => contains?
 import~
-	..@.@ any?
+	..@.@ any? @map
 
 Pred-Type. class kind Type
 	| Arbitrary predicates can be made into types using Pred-Type.
-	construct! params
+	construct params
 		Object.assign this params
-		assert! .name:String
-		assert! .predicate:Pred
+		assert .name:String
+		assert .predicate:Pred
 
 	contains? |value
 		.predicate value
@@ -32,7 +32,7 @@ region Opt
 
 	Opt-Sub = class kind Type
 		| Result of calling Opt[something].
-		construct! .Exists-Type:Type
+		construct .Exists-Type:Type
 			pass
 
 		contains? |_
@@ -56,8 +56,7 @@ Union.
 self-impl! sub Union |...types
 	new Pred-Type
 		name.
-			names = @for types
-				_.name
+			names = @map types &.name
 			"Union[{=> String names " "}]"
 		predicate. |_
 			any? types |possible-type

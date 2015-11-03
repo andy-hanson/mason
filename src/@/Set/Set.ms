@@ -12,7 +12,7 @@ Set. kind @
 	| @ without repeat values.
 	todo more doc
 
-	do!
+	do
 		self-kind! _ @-Type
 
 	static

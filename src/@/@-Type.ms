@@ -8,7 +8,7 @@ import
 @-Type. kind
 	| Any sub-type of @.
 
-	do!
+	do
 		todo  Do this in @.ms
 		self-kind! @ _
 

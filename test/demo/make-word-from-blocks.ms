@@ -17,8 +17,7 @@ make-word-from-blocks. |:? word:String blocks:@ todo  ?[Seq[String]], @[String]
 					@map~ (rec rest-word (-- blocks-left [_])) |ans
 						++ [_] ans
 
-	rec word.toUpperCase() @for blocks
-		_.toUpperCase()
+	rec word.toUpperCase() (@map blocks &toUpperCase)
 
 tests 'demo
 	make-word-from-blocks -> !|
@@ -59,7 +58,7 @@ tests 'demo
 		todo		'squad -> ?some ['FS 'DQ 'HU 'NA 'QD]
 		todo		'confuse -> ?some ['CP 'BO 'NA 'FS 'HU 'FS 'RE]
 
-		todo	for! sample-answers
+		todo	for sample-answers
 		todo		todo SYNTAX Array destructure
 		todo		! =? _[1] (make-word-from-blocks _[0] sample-blocks)
 

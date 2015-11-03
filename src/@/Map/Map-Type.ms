@@ -9,7 +9,7 @@ import~
 Map-Type. kind @-Type
 	| Map or any sub-type.
 
-	do!
+	do
 		todo Do this in Map.ms ?
 		self-kind! Map _
 
@@ -19,7 +19,7 @@ Map-Type. kind @-Type
 
 	from-stream |stream
 		map = empty this
-		for! stream
+		for stream
 			todo SYNTAX Array destructure
 			map[_[0]] = _[1]
 		map

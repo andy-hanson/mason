@@ -10,7 +10,7 @@ import
 Heap-Priority-Queue. class kind Priority-Queue
 	| Default implementation for Priority-Queue.
 
-	do!
+	do
 		self-kind! _ @-Type
 
 	static
@@ -18,14 +18,14 @@ Heap-Priority-Queue. class kind Priority-Queue
 		empty |
 			new this
 
-	construct!
+	construct
 		.array = []
 
 	iterator |
 		iterator .array
 
 	++! !|added
-		for! added
+		for added
 			add! .array _
 
 	?pop! |
@@ -52,22 +52,22 @@ region Private
 		| until we find a place where `val` is greater than its parent.
 		heap.push()
 		i-cur ::= count heap
-		for!
-			if! =? i-cur 0
+		for
+			if =? i-cur 0
 				heap[0] := val
-				break!
+				break
 			i-parent = index-parent i-cur
 			parent = heap[i-parent]
-			unless! <? val parent
+			unless <? val parent
 				heap[i-cur] := val
-				break!
+				break
 			heap[i-cur] := parent
 			i-cur := i-parent
 
 	fix-down! = !|heap
 		val = heap.pop()
 		size = count heap
-		unless! =? size 0
+		unless =? size 0
 			|| There is a 'hole' at the first element.
 			|| Move the hole down while it's larger than either child.
 			|| (Prefer moving to the left child.)
@@ -78,22 +78,22 @@ region Private
 				i-cur := goto-idx
 			ok-index? = |_
 				<? _ size
-			for!
+			for
 				i-left-child = index-left-child i-cur
-				unless! ok-index? i-left-child
-					break!
+				unless ok-index? i-left-child
+					break
 				left = heap[i-left-child]
 				i-right-child = + i-left-child 1
-				unless! ok-index? i-right-child
-					if! <? left val
+				unless ok-index? i-right-child
+					if <? left val
 						go! i-left-child
-					break!
+					break
 				right = heap[i-right-child]
-				case!
+				case
 					<? left val
 						go! cond (<? right left) i-right-child i-left-child
 					<? right val
 						go! i-right-child
 					else
-						break!
+						break
 			heap[i-cur] := val

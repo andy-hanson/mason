@@ -17,7 +17,7 @@ import~
 
 Seq. kind @
 	| @ whose values are in a meaningful order.
-	do!
+	do
 		self-kind! _ @-Type
 
 	sub |n:Nat
@@ -86,7 +86,7 @@ region Search
 		for
 			next-a = iter-a.next()
 			next-b = iter-b.next()
-			case!
+			case
 				next-a.done
 					break next-b.done
 				next-b.done
@@ -107,7 +107,7 @@ region Search
 			i ::= 0
 			todo SYNTAX for-else
 			Opt->? for elem of this
-				case! elem
+				case elem
 					=? i n
 						break _
 					else
@@ -150,20 +150,20 @@ region Update
 				todo SYNTAX @for~
 				new Stream ~!|
 					n ::= count-to-take
-					for! elem of _
+					for elem of _
 						<~ elem
 						n := - n 1
-						if! =? 0 n
-							break!
+						if =? 0 n
+							break
 
 	todo eager version
 	@take-while~. |_ while?:Pred
 		| Stream stopping (and not including) the first element not satisfying while?.
 		todo SYNTAX @for~
 		new Stream ~!|
-			for! elem of _
-				unless! while? elem
-					break!
+			for elem of _
+				unless while? elem
+					break
 				<~ elem
 
 	@drop. new Method
@@ -182,11 +182,11 @@ region Update
 			new Stream ~!|
 				iter = iterator_
 				i ::= 0
-				for!
-					if! =? i count-to-drop
-						break!
-					if! iter.next().done
-						break!
+				for
+					if =? i count-to-drop
+						break
+					if iter.next().done
+						break
 					i := + 1 i
 				<~~ iter
 
@@ -206,13 +206,13 @@ region Combination
 		new Stream ~!|
 			iter-a = iterator @a
 			iter-b = iterator @b
-			for!
+			for
 				next-a = iter-a.next()
-				if! next-a.done
-					break!
+				if next-a.done
+					break
 				next-b = iter-b.next()
-				if! next-b.done
-					break!
+				if next-b.done
+					break
 				<~ zipper next-a.value next-b.value
 
 region TODO: put somewhere
@@ -222,23 +222,23 @@ region TODO: put somewhere
 			=? group-size 0
 				todo  repeat-forever []
 				new Stream ~!|
-					for!
+					for
 						<~ []
 			else
 				todo SYNTAX @for~
 				new Stream ~!|
 					iter = iterator_
-					for!
+					for
 						next-group = []
-						for!
+						for
 							value done = iter.next()
-							if! done
-								break!
+							if done
+								break
 							++>! next-group [value]
-							if! =? group-size (count next-group)
-								break!
-						unless! =? group-size (count next-group)
-							break!
+							if =? group-size (count next-group)
+								break
+						unless =? group-size (count next-group)
+							break
 						<~ next-group
 
 	@indexes. |_:Seq
@@ -260,7 +260,7 @@ region TODO: put somewhere
 			arr = => Array this
 			todo SYNTAX @for~
 			new Stream ~!|
-				for! @reverse (@indexes arr)
+				for @reverse (@indexes arr)
 					<~ arr[_]
 
 	@split~. |_ split?:Pred
@@ -271,13 +271,13 @@ region TODO: put somewhere
 			iter = iterator_
 			prev-idx ::= 0
 			cur-idx ::= 0
-			for!
+			for
 				value done = iter.next()
 				~next-idx = + 1 cur-idx
-				case!
+				case
 					done
 						<~ @slice _ prev-idx cur-idx
-						break!
+						break
 					split? value
 						<~ @slice _ prev-idx cur-idx
 						prev-idx := next-idx
@@ -299,7 +299,7 @@ region Mutator methods
 			. '_
 			. ['@added @]
 		default. .!|@added
-			for! @reverse~ @added
+			for @reverse~ @added
 				<+! this _
 
 	todo Implement
@@ -315,7 +315,7 @@ region Mutator methods
 			. '_
 			. ['@added @]
 		default. .!|@added
-			for! @added
+			for @added
 				+>! this _
 
 

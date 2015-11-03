@@ -7,7 +7,7 @@ install()
 
 tests. !|test-name mp
 	describe test-name !|
-		for! pair of mp
+		for pair of mp
 			todo syntax array destructure
 			key = pair[0]
 			val = pair[1]
@@ -31,6 +31,6 @@ tests. !|test-name mp
 								assert-call! key val
 							else
 								console.log val
-								throw!
+								throw
 					else
 						val()

@@ -46,7 +46,7 @@ extract. new Method
 msDef 'extract extract
 
 msDef 'checkContains |expected-type value value-name
-	assert! value:expected-type throw! new TypeError
+	assert value:expected-type throw new TypeError
 		"{value-name} is no {expected-type.name}, is a {(type-of value).name}: {inspect value}"
 	value
 

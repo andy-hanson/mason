@@ -18,8 +18,8 @@ tests 'Type
 			else
 				"not extractable"
 
-		assert! =? "12" (f 'extractable)
-		assert! =? "not extractable" f()
+		assert =? "12" (f 'extractable)
+		assert =? "not extractable" f()
 
 	type-of ->
 		[Type] -> Kind

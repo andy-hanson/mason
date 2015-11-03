@@ -41,7 +41,7 @@ do-inspect = |_ recurse
 			content =
 				todo  @for:Array
 				show-ems = => Array @for em of _
-					indent (recurse em)
+					. indent (recurse em)
 				"\n\t. {show-ems.join "\n\t. "}"
 			"{_.constructor.name}{content}"
 
@@ -60,12 +60,12 @@ empty?. new Method
 
 region Using iterator
 	each!. !|_:@ do-for-each!:Action
-		| A `for!` loop in function form.
+		| A `for` loop in function form.
 		| Prefer e.g. `each! @foo bar!` over the more verbose:
-		|	for! @foo
+		|	for @foo
 		|		bar!_
 		| Also consider `each! @foo &bar` for instance methods.
-		for! elem of _
+		for elem of _
 			do-for-each! elem
 
 	fold. |_:@ b c
@@ -83,7 +83,7 @@ region Using iterator
 				rest. @tail_
 
 		acc ::= start
-		for! rest
+		for rest
 			acc := folder acc _
 		acc
 
@@ -103,7 +103,7 @@ region Using iterator
 		| (To find all, use `keep`.)
 		todo SYNTAX for-else
 		Opt->? for elem of _
-			if! pred? elem
+			if pred? elem
 				break elem
 
 	count. new Method
@@ -123,15 +123,15 @@ region Lazy functions, and their eager versions.
 		default. .|keep-if?:Pred
 			todo SYNTAX Shouldn't need => type-of_
 			=> (type-of this) @for this
-				if! keep-if? _
+				if keep-if? _
 					. _
 
 	@keep~. |filtered:@ keep-if?:Pred
 		| Lazy keep.
 		todo SYNTAX @for~
 		new Stream ~!|
-			for! filtered
-				if! keep-if?_
+			for filtered
+				if keep-if?_
 					<~ _
 
 	todo  Method
@@ -139,13 +139,13 @@ region Lazy functions, and their eager versions.
 		todo doc
 		todo SYNTAX Shouldn't need => type-of_
 		=> type-of_ @for elem of _
-			mapper elem
+			. mapper elem
 
 	@map~. |mapped:@ mapper:Function
 		| Lazy map.
 		todo SYNTAX @for~
 		new Stream ~!|
-			for! mapped
+			for mapped
 				<~ mapper_
 
 	todo  Better name?
@@ -162,7 +162,7 @@ region Lazy functions, and their eager versions.
 		| Lazy flat-map.
 		todo SYNTAX @for~
 		new Stream ~!|
-			for! mapped
+			for mapped
 				<~~ iterator mapper_
 
 	@flatten. new Method
@@ -180,7 +180,7 @@ region Lazy functions, and their eager versions.
 		| Lazy flatten.
 		todo SYNTAX @for~
 		new Stream ~!|
-			for! flattened
+			for flattened
 				<~~ iterator_
 
 	++. new Method
@@ -195,7 +195,7 @@ region Lazy functions, and their eager versions.
 			=> (type-of this) @for
 				... this
 				... @other
-				break!
+				break
 
 	++~. |:Stream @a @b
 		| Lazy ++.
@@ -220,8 +220,8 @@ region Lazy functions, and their eager versions.
 		todo SYNTAX @for~
 		new Stream ~!|
 			@remove-remaining = => Set @remove
-			for! @removed-from
-				case!
+			for @removed-from
+				case
 					:@remove-remaining
 						todo  -!
 						--! @remove-remaining [_]

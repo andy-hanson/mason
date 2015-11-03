@@ -13,7 +13,7 @@ import
 Deque. class kind Seq
 	| Seq that can efficiently add values on either side.
 
-	do!
+	do
 		self-kind! _ @-Type
 
 	static
@@ -21,7 +21,7 @@ Deque. class kind Seq
 		empty |
 			new this
 
-	construct!
+	construct
 		.data! ::= Array 8
 		.start-index! ::= 0 || Inclusive (unless =? end-index)
 		.end-index! ::= 0 || Exclusive
@@ -32,13 +32,13 @@ Deque. class kind Seq
 				++~ .start-index!...(count .data!) 0...(.end-index!)
 			else
 				.start-index!...(.end-index!)
-		for! indices
+		for indices
 			<~ .data![_]
 
 	<++! !|ems:@
-		for! @reverse ems
+		for @reverse ems
 			new-start = prev-index this .start-index!
-			case!
+			case
 				=? new-start .end-index!
 					expand! this
 					<++! this [_]
@@ -47,9 +47,9 @@ Deque. class kind Seq
 					.data![.start-index!] := _
 
 	++>! !|ems:@
-		for! ems
+		for ems
 			new-end = next-index this .end-index!
-			case!
+			case
 				=? new-end .start-index!
 					expand! this
 					++>! this [_]
@@ -93,7 +93,7 @@ region Private
 		old-capacity = capacity_
 		new-capacity = * 2 old-capacity
 		new-data = Array new-capacity
-		for! index of 0...old-capacity
+		for index of 0...old-capacity
 			new-data[index] = old-data[index]
 		_.data! := new-data
 

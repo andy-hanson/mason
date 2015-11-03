@@ -8,7 +8,7 @@ import
 LList. class kind Seq
 	| Singly-linked list.
 
-	do!
+	do
 		self-kind! _ @-Type
 
 	static
@@ -17,14 +17,14 @@ LList. class kind Seq
 		from-stream |_
 			<++~ empty-LList _
 
-	construct! .head .tail
+	construct .head .tail
 		pass
 
 	iterator ~!|
 		cur ::= this
-		for!
-			if! empty? cur
-				break!
+		for
+			if empty? cur
+				break
 			<~ cur.head
 			cur := cur.tail
 

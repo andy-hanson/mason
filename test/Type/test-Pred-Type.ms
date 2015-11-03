@@ -18,8 +18,8 @@ tests 'Pred-Type
 	Union -> !|
 		| As these are all Impl-Types, it would be better to use a Kind.
 		SBN = Union[String Boolean Number]
-		assert! =? SBN.name "Union[String Boolean Number]"
-		assert! 'true:SBN
-		assert! true:SBN
-		assert! 1:SBN
-		forbid! null:SBN
+		assert =? SBN.name "Union[String Boolean Number]"
+		assert 'true:SBN
+		assert true:SBN
+		assert 1:SBN
+		forbid null:SBN

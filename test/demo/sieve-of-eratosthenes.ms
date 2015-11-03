@@ -13,11 +13,11 @@ primes.
 		prime-factors = => Id-Map
 			9 -> [3]
 
-		for! candidate of (5...).by 2
+		for candidate of (5...).by 2
 			|| del is to save memory - we won't need to look up this value any more.
-			case! del prime-factors[candidate]
+			case del prime-factors[candidate]
 				:?some factors
-					for! factors
+					for factors
 						key = + candidate (* 2 _)
 						todo  Function to add single element
 						add-to-@! prime-factors key [_]
@@ -29,5 +29,5 @@ tests 'demo
 	primes -> !|
 		is-prime? = |_
 			not any? (2..._) divisible?[_]
-		for! @take primes 20
-			assert! is-prime? _
+		for @take primes 20
+			assert is-prime?_

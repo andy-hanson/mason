@@ -97,10 +97,10 @@ region Min/max
 			cur-min-by ::= by value
 			for
 				value done = iter.next()
-				if! done
+				if done
 					break cur-min
 				value-by = by value
-				if! >? cur-min-by value-by
+				if >? cur-min-by value-by
 					cur-min := value
 					cur-min-by := value-by
 
@@ -127,10 +127,10 @@ region Min/max
 			cur-max-by ::= by value
 			for
 				value done = iter.next()
-				if! done
+				if done
 					break cur-max
 				value-by = by value
-				if! <? cur-max-by value-by
+				if <? cur-max-by value-by
 					cur-max := value
 					cur-max-by := value-by
 

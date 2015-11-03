@@ -7,9 +7,9 @@ import
 tests 'Number
 	Int -> !|
 		assert-int! = !|_
-			assert! _:Int
+			assert _:Int
 		forbid-int! = !|_
-			forbid! _:Int
+			forbid _:Int
 		spread! assert-int!
 			. 1
 			. Number.MIN_SAFE_INTEGER
@@ -20,8 +20,8 @@ tests 'Number
 			. + Number.MAX_SAFE_INTEGER 1
 
 	Nat -> !|
-		assert! 0:Nat
-		forbid! -1:Nat
+		assert 0:Nat
+		forbid -1:Nat
 
 	=? ->
 		[Number.NaN Number.NaN] -> true
@@ -53,7 +53,7 @@ tests 'Number
 		[3 2] -> false
 
 	log -> |
-		assert! near? (log 10 0.01) -2
+		assert near? (log 10 0.01) -2
 		[2 8] -> 3
 
 	square ->
@@ -61,7 +61,7 @@ tests 'Number
 
 	square-root -> |
 		[4] -> 2
-		assert! fails? !|
+		assert fails? !|
 			square-root -1
 
 	near? ->

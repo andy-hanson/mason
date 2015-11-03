@@ -91,7 +91,7 @@ region Real arithmetic
 
 	square-root. |_:Number
 		todo doc
-		assert! <=? 0 _ throw! "Can't take square root of negative number {_}."
+		assert <=? 0 _ throw "Can't take square root of negative number {_}."
 		Math.sqrt _
 
 region Near

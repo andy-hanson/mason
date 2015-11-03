@@ -36,7 +36,7 @@ js-typeof.
 regex. |strings ...values
 	todo doc
 	_ ::= ""
-	for! i of 0...values.length
+	for i of 0...values.length
 		_ := "{_}{strings[i]}{values[i]}"
 	_ := "{_}{strings[values.length]}"
 	RegExp _

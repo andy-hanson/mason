@@ -26,15 +26,15 @@ str-lit = |str
 Method. class Function
 	todo doc
 
-	construct! params
+	construct params
 		method-name = params.name
 		todo  :String
-		assert! defined? method-name throw! "Must provide method name."
+		assert defined? method-name throw "Must provide method name."
 
 		default? = defined? params.default
 		wrap? = defined? params.wrap
 		allow-null? = flag? params.allow-null?
-		assert! or (not allow-null?) default? throw! "Method with `allow-null?` must have `default."
+		assert or (not allow-null?) default? throw "Method with `allow-null?` must have `default."
 
 		secret-name = "__method_{method-name}_{random-digits()}"
 
@@ -62,7 +62,7 @@ Method. class Function
 				:String
 					"a[{str-lit _}]"
 
-			if! default?
+			if default?
 				no-impl = case
 					allow-null?
 						"a == null || {impl} === undefined"
@@ -113,15 +113,15 @@ Method. class Function
 							default: throw new Error(`Code not generated to handle $\{arguments.length} args.`)
 						}
 
-		switch! num-args
+		switch num-args
 			1
-				super! 'a src
+				super 'a src
 			2
-				super! 'a 'b src
+				super 'a 'b src
 			3
-				super! 'a 'b 'c src
+				super 'a 'b 'c src
 			else
-				super! 'a 'b 'c 'd src
+				super 'a 'b 'c 'd src
 
 		todo ES6 Shouldn't be necessary
 		todo See https://code.google.com/p/v8/issues/detail?id=4087
@@ -140,45 +140,43 @@ Method. class Function
 	'toString |
 		.name
 
-impl!. !|method:Method implementor:Impl-Type implementation:Function
-	do-impl! method implementor implementation
+impl!. !|_:Method implementor:Impl-Type implementation:Function
+	do-impl! _ implementor implementation
 
-impl-double!. !|method:Method implementor-0:Impl-Type implementor-1:Impl-Type implementation:Function
+impl-double!. !|_:Method implementor-0:Impl-Type implementor-1:Impl-Type implementation:Function
 	dispatcher = case
-		writable? implementor-0.prototype method.impl-symbol
-			dd = new Double-Dispatcher method
-			do-impl! method implementor-0 dd
-			dd
+		writable? implementor-0.prototype _.impl-symbol
+			with new Double-Dispatcher _ as dd
+				do-impl! _ implementor-0 dd
 		else
-			_ = js-sub implementor-0.prototype method.impl-symbol
-			assert! :Double-Dispatcher throw! "
-				Can't define double dispatch of {method} for {implementor-0}.
-				A single-dispatch implementation already exists: {_}.
-			_
+			with js-sub implementor-0.prototype _.impl-symbol as impl
+				assert impl:Double-Dispatcher throw "
+					Can't define double dispatch of {_} for {implementor-0}.
+					A single-dispatch implementation already exists: {impl}.
 
 	do-impl! dispatcher implementor-1 implementation
 
-self-impl!. !|method:Method implementor:Object implementation:Function
+self-impl!. !|_:Method implementor:Object implementation:Function
 	todo doc
-	impl! method (new Self-Type implementor) implementation
+	impl! _ (new Self-Type implementor) implementation
 
-?impl-for. |method:Method implementor:Impl-Type
+?impl-for. |_:Method implementor:Impl-Type
 	| Implementation of a method for a particular Impl-Type.
 	| Does not reference method.default or impls on super-types.
 	| Empty if the type would use method.default.
-	?self-impl-for method implementor.prototype
+	?self-impl-for _ implementor.prototype
 
-impl-for. |method:Method implementor:Impl-Type
+impl-for. |_:Method implementor:Impl-Type
 	| impl-for that fails when there is no implementation.
-	un-? (?impl-for method implementor) ~"{method} not implemented for {implementor}."
+	un-? (?impl-for _ implementor) ~"{_} not implemented for {implementor}."
 
-?self-impl-for. |method:Method object
+?self-impl-for. |_:Method object
 	todo doc
-	?property object method.impl-symbol
+	?property object _.impl-symbol
 
-self-impl-for. |method:Method object
+self-impl-for. |_:Method object
 	todo doc
-	un-? (?self-impl-for method object) ~"{method} not implemented on {object}."
+	un-? (?self-impl-for _ object) ~"{_} not implemented on {object}."
 
 region Private
 	writable? = |obj property
@@ -188,10 +186,10 @@ region Private
 	todo Not public
 	propagate-method-down!. !|implementor method-symbol implementation
 		todo :Impl-Type :Symbol :Function
-		unless! Object.prototype.hasOwnProperty.call implementor.prototype method-symbol
-			case! implementor
+		unless Object.prototype.hasOwnProperty.call implementor.prototype method-symbol
+			case implementor
 				:Kind
-					for! sub-implementor of _.implementors
+					for sub-implementor of _.implementors
 						propagate-method-down! sub-implementor method-symbol implementation
 				else
 					todo What to do in case of multiple inheritance collision?
@@ -203,43 +201,43 @@ region Private
 						enumerable. false
 
 	todo Multiple-inheritance proxy scheme
-	|| "method" can be a Method or a Double-Dispatcher.
-	do-impl! = !|method implementor implementation
-		assert! writable? implementor.prototype method.impl-symbol throw!
-			"Can not redefine method {method} for {implementor}."
+	|| `_` can be a Method or a Double-Dispatcher.
+	do-impl! = !|_ implementor implementation
+		assert writable? implementor.prototype _.impl-symbol throw
+			"Can not redefine method {_} for {implementor}."
 
-		Object.defineProperty implementor.prototype method.impl-symbol
+		Object.defineProperty implementor.prototype _.impl-symbol
 			value. implementation
 			writable. false
 			configurable. false
 			enumerable. false
 
-		if! implementor:Kind
-			for! implementor.implementors
-				propagate-method-down! _ method.impl-symbol implementation
+		if implementor:Kind
+			for sub-impl of implementor.implementors
+				propagate-method-down! sub-impl _.impl-symbol implementation
 
 	Double-Dispatcher = class Function
-		construct! method
-			impl-symbol = Symbol "{method.name}_double_dispatch"
+		construct meth
+			impl-symbol = Symbol "{meth.name}_double_dispatch"
 			secret-name = "__double_dispatch_{random-digits()}"
 			pAdd global secret-name impl-symbol
 
-			super! "
+			super "
 				target2 = arguments[0]
 				if (target2 === undefined)
-					throw new Error("Can't double-dispatch {method.name} for undefined.")
+					throw new Error("Can't double-dispatch {meth.name} for undefined.")
 				impl = target2[global.{secret-name}]
 				if (impl === undefined)
-					throw new Error(`Can't double-dispatch {method.name} for $\{this} on $\{target2}.`)
+					throw new Error(`Can't double-dispatch {meth.name} for $\{this} on $\{target2}.`)
 				return impl.apply(this, arguments)
 
 			todo ES6 Shouldn't be necessary
 			Object.setPrototypeOf this Double-Dispatcher.prototype
 
-			.method = method
+			.method = meth
 			.impl-symbol = impl-symbol
 			Object.defineProperty this 'name
-				value. "{method.name}__double-dispatcher"
+				value. "{meth.name}__double-dispatcher"
 
 contains? = new Method
 	| Whether some collection of things as as an element `instance`.
@@ -250,7 +248,6 @@ contains? = new Method
 	impl-symbol. containsImplSymbol
 msDef 'contains contains?
 
-method-contains? = |method value
-	property-with-proto? value method.impl-symbol
-
-implContains Method method-contains?
+todo test
+implContains Method .|_
+	property-with-proto? _ .impl-symbol

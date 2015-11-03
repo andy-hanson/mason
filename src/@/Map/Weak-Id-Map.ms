@@ -34,7 +34,7 @@ kind! Weak-Id-Map Map
 
 	todo  unsupported! Function?
 	@keys -> !|
-		throw! "Weak-Id-Map does not support `keys`."
+		throw "Weak-Id-Map does not support `keys`."
 
 	empty! -> !|
-		throw! "Weak-Id-Map does not support `empty!`."
+		throw "Weak-Id-Map does not support `empty!`."

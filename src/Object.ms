@@ -97,13 +97,13 @@ Object->Map. |_
 Map->Object. |_:Map
 	| Given a Map whose keys are Strings, creates an Object whose Object->Map is that.
 	with new Object as obj
-		for! elem of _
+		for elem of _
 			todo SYNTAX Array destructure
 			js-set obj elem[0] elem[1]
 
 region Mutator methods
 	delete-property!. !|_:Object prop-name:Object-Key
-		assert! property? _ prop-name
+		assert property? _ prop-name
 		js-delete _ prop-name
 
 object-merge. |...objects
@@ -111,10 +111,10 @@ object-merge. |...objects
 
 object-select. |obj:Object ...@keys
 	with new Object as kept
-		for! key of @keys
+		for key of @keys
 			js-set kept key (js-sub obj key)
 
 map-object-values. |obj:Object mapper:Function
 	with new Object as mapped
-		for! key of @properties obj
+		for key of @properties obj
 			js-set mapped key (mapper (js-sub obj key))

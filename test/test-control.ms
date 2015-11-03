@@ -7,13 +7,13 @@ tests 'control
 		i ::= 0
 		do-times! 10 !|
 			i := - i 1
-		assert! =? i -10
+		assert =? i -10
 
 	opr ->
 		[undefined 1] -> 1
 		[1 2] -> 1
 
 	build -> !|
-		assert! =? [0 1] (build |yield
+		assert =? [0 1] (build |yield
 			yield 0
 			yield 1

@@ -10,7 +10,7 @@ tests 'Seq
 
 	first ->
 		[[1 2]] -> 1
-		assert! fails? |
+		assert fails? |
 			first []
 
 	?first ->
@@ -19,7 +19,7 @@ tests 'Seq
 
 	last -> !|
 		[[1 2]] -> 2
-		assert! fails? |
+		assert fails? |
 			last []
 
 	?last ->
@@ -46,7 +46,7 @@ tests 'Seq
 
 	sub -> |
 		[[0 1] 1] -> 1
-		assert! fails? |
+		assert fails? |
 			[0 1][2]
 
 	@slice ->
@@ -60,7 +60,7 @@ tests 'Seq
 		|| OK if not enough to satisfy count-to-take
 		[[0] 2] -> => Stream [0]
 		_ = [0 1 2 3 4]
-		assert! seq=? _ (++ (@take~ _ 2) (@drop~ _ 2))
+		assert seq=? _ (++ (@take~ _ 2) (@drop~ _ 2))
 
 	@take-while~ ->
 		[[1 2 -1 3] <?[0]] -> => Stream [1 2]
@@ -78,7 +78,7 @@ tests 'Seq
 		[2 [1 2 3 4]] -> => Stream [[1 2] [3 4]]
 		|| Tosses off partial group at end (e.g. no [4])
 		[3 [1 2 3 4]] -> => Stream [[1 2 3]]
-		assert! seq=? [[] [] []] (@take~ (@groups-of~ 0 [1]) 3)
+		assert seq=? [[] [] []] (@take~ (@groups-of~ 0 [1]) 3)
 
 	@indexes ->
 		[[0 0 0]] -> 0..2

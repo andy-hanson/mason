@@ -1,5 +1,5 @@
 | Advanced assertions.
-| Generally you should just use `assert!`.
+| Generally you should just use the `assert` keyword.
 
 import
 	.compare =?
@@ -20,12 +20,12 @@ assert-call!. !|fun:Function args->result:Map
 assert-this-call!. !|fun:Function args->result:Map
 	todo doc
 	todo args->result:Map[Array Any]
-	for! args->result
+	for args->result
 		todo SYNTAX Array destructure
 		args:@ = _[0]
 		expected-res = _[1]
 		actual = fun.apply args[0] (@tail args)
-		assert! =? actual expected-res throw! "
+		assert =? actual expected-res throw "
 			{fun} of:
 				{indent (=> String (@map args inspect) "\n")}
 			Should {=?}:
@@ -36,12 +36,12 @@ assert-this-call!. !|fun:Function args->result:Map
 assert-call-with!. !|equal?:Pred fun:Function args->result:Map
 	| Like !call but allows any equality predicate.
 	todo args->result:Map[Array Any]
-	for! args->result
+	for args->result
 		todo SYNTAX Array destructure
 		args:@ = _[0]
 		expected-res = _[1]
 		actual = fun ...args
-		assert! equal? actual expected-res throw! "
+		assert equal? actual expected-res throw "
 			{fun} of:
 				{indent (=> String (@map args inspect) "\n")}
 			Should {equal?}:

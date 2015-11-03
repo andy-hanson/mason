@@ -1,6 +1,6 @@
 import
 	global console Promise setImmediate setTimeout
-	.@.@ _ @flatten
+	.@.@ _ @flatten @map
 	.Function Action
 	.methods sub
 	.Type.Method self-impl!
@@ -17,6 +17,10 @@ self-impl! sub $ |
 
 || See also $ section in Try.ms.
 
+$do. |$act:Action[$]
+	| Given an async function (`$!|`), run it and log any errors.
+	$done $act()
+
 $done. |_:$
 	| Don't forget `$done`!
 	| Logs any errors that happen inside a promise.
@@ -30,7 +34,7 @@ $done. |_:$
 			{err.stack}
 			=== error ===
 		|| We're already $done so this shouldn't matter, but just in case...
-		throw! err
+		throw err
 
 $fail-after-time. |:$ _:$ time-ms:Number
 	| Fails if it takes too long.
@@ -53,10 +57,10 @@ $delay. |delayed:Action
 	todo Better way?
 	new $ |resolve reject
 		setImmediate !|
-			except!
-				try!
+			except
+				try
 					resolve delayed()
-				catch! error
+				catch error
 					reject error
 
 $all. |:$[Array] _:@[$]
@@ -64,11 +68,11 @@ $all. |:$[Array] _:@[$]
 	| If any one of them fails, fails with the first such failure.
 	$.all (=> Array _)
 
+todo $@map?
 $map. |:$[Array] mapped:@ mapper:Function[Any $]
 	| Asynchronously runs mapper for every element of mapped and returns a $ joining them.
 	| Unlike @map, this always returns an Array.
-	$.all @for mapped
-		mapper_
+	$.all (@map mapped mapper)
 
 $flat-map. $|:@ mapped:@ mapper:Function[Any $[@]]
 	| Like $map but flattens the result.
@@ -78,5 +82,5 @@ $keep. $|:Array keep-some:@ keep-if?:Function[Any $[Boolean]]
 	| Asynchronously runs keep-if? on each element and creates an Array of those that match.
 	| Maintains the original order.
 	@for keep-some
-		if! <~ keep-if?_
+		if <~ keep-if?_
 			. _

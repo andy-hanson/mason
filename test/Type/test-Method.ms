@@ -23,10 +23,10 @@ tests 'Method
 			['a] -> 'String
 			[1 1] -> "Number Number"
 			[1 'a] -> "Number String"
-		assert! fails? |
+		assert fails? |
 			m 1 m
 
-		assert! =? 'wrap-call-arg
+		assert =? 'wrap-call-arg
 			wrap-method = new Method
 				name.
 				default. .|
@@ -46,7 +46,7 @@ tests 'Method
 
 	impl-for -> !|
 		todo Some positive example
-		todo assert! (impl-for contains? Kind).call Impl-Type Kind
+		todo assert (impl-for contains? Kind).call Impl-Type Kind
 		pass
 
 	?self-impl-for -> !|

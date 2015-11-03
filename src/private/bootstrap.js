@@ -50,27 +50,27 @@ const msDefs = {
 		// TODO:ES6 Splat
 		const args = Array.prototype.slice.call(arguments, 1)
 		if (!fun(...args))
-			throw new Error(assertErrorMessage(`assert! ${fun.name}`, args))
+			throw new Error(assertErrorMessage(`assert ${fun.name}`, args))
 	},
 
 	assertNot(fun) {
 		// TODO:ES6 Splat
 		const args = Array.prototype.slice.call(arguments, 1)
 		if (fun(...args))
-			throw new Error(assertErrorMessage(`forbid! ${fun.name}`, args))
+			throw new Error(assertErrorMessage(`forbid ${fun.name}`, args))
 	},
 
 	assertMember(obj, member) {
 		// TODO:ES6 Splat
 		const args = Array.prototype.slice.call(arguments, 2)
 		if (!obj[member](...args))
-			throw new Error(assertErrorMessage(`assert! ${_ms.inspect(obj)}.${member}`, args))
+			throw new Error(assertErrorMessage(`assert ${_ms.inspect(obj)}.${member}`, args))
 	},
 
 	assertNotMember(obj, member) {
 		const args = Array.prototype.slice.call(arguments, 2)
 		if (obj[member](...args))
-			throw new Error(assertErrorMessage(`assert! ${_ms.inspect(obj)}.${member}`, args))
+			throw new Error(assertErrorMessage(`assert ${_ms.inspect(obj)}.${member}`, args))
 	},
 
 	// TODO:ES7 Just use native async functions
@@ -148,7 +148,7 @@ const msDefs = {
 
 	methodUnbound(name) {
 		// TODO:ES6 (object, ...args) => object[name](...args)
-		return function(object, ...args) { return object[name](...args) }
+		return function(object) { return object[name](Array.prototype.slice.call(arguments, 1)) }
 	},
 
 	setLazy(value, name, lazy) {

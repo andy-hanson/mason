@@ -7,10 +7,10 @@ tests 'Kind
 	@ -> !|
 		todo test-implementors
 		todo !|@-type
-		todo	unless! =? @-type Weak-Id-Map
-		todo			todo assert! @-type:@-Type throw! "Be sure to make your @ type a @-Type."
+		todo	unless =? @-type Weak-Id-Map
+		todo			todo assert @-type:@-Type throw "Be sure to make your @ type a @-Type."
 		todo			_ = empty @-type
-		todo			assert! empty? _
+		todo			assert empty? _
 		pass
 
 	to-string ->
@@ -26,10 +26,10 @@ tests 'Kind
 		x ::= 0
 		each! [] !|
 			x := 1
-		assert! =? x 0
+		assert =? x 0
 		each! [1] !|_
 			x := _
-		assert! =? x 1
+		assert =? x 1
 
 	empty? ->
 		[[]] -> true
@@ -92,7 +92,7 @@ tests 'Kind
 		|| Ignores further nested @s.
 		[[[1] [[2]]]] -> => Stream [1 [2]]
 		|| Must be at least one nested level
-		assert! fails? |
+		assert fails? |
 			=> Array (@flatten~ [[1] 2 [3]])
 
 	++ ->

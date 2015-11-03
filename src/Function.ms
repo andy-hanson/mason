@@ -58,11 +58,11 @@ spread. |:@ fun:Function ...args
 			=> Array _
 		:@
 			@for elem of _
-				[elem]
+				. [elem]
 		:ObjLit
 			=> Array Object->Map_
 		else
-			throw! "Can only spread a @, Map, or ObjLit, not {_}"
+			throw "Can only spread a @, Map, or ObjLit, not {_}"
 	todo SYNTAX @for -> Array
 	@for @spreaded
 		all-args = ++ init-args _

@@ -14,7 +14,7 @@ Lazy-Stream. class kind Seq
 	| If you want to stream the results of an expensive computation and use it multiple times, use this.
 	| If you have a cheap computation or only need to iterate through it once, use Stream.
 
-	do!
+	do
 		self-kind! _ @-Type
 		todo  move to `static`
 		self-impl! empty _ (thunk (new _ ~!|
@@ -25,18 +25,18 @@ Lazy-Stream. class kind Seq
 			new this |
 				iterator_
 
-	construct! stream:Function
+	construct stream:Function
 		todo stream:Function[Generator]
 		.cache = []
 		todo ES6
-		todo We wrap this in a Stream because `for!` calls [Symbol.iterator]().
-		todo We should be able to do `for!` on both @s and unwrapped iterators.
+		todo We wrap this in a Stream because `for` calls [Symbol.iterator]().
+		todo We should be able to do `for` on both @s and unwrapped iterators.
 		strm = new Stream stream
 		todo  `this` in constructor
 		self = this
 		todo iterator @for~
 		get-caching-iterator = ~!|
-			for! strm
+			for strm
 				todo  +>!
 				self.cache.push _
 				<~ _

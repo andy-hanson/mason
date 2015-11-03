@@ -5,7 +5,10 @@
 	"scripts": {
 		"build": "gulp compile",
 		"watch": "gulp watch",
-		"test": "mocha compiled-test/*.js compiled-test/*/*.js compiled-test/*/*/*.js --es_staging"
+		"test": "mocha compiled-test/*.js compiled-test/*/*.js compiled-test/*/*/*.js"
+	},
+	"dependencies": {
+		"amdefine": "1.0.0"
 	},
 	"devDependencies": {
 		"babel-plugin-transform-es2015-modules-umd": "6.0.14",

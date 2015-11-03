@@ -65,7 +65,7 @@ region Functions
 		| Creates a Map whose values are the result of applying `get-value` to each key.
 		todo  map-type param
 		map = empty Id-Map
-		for! @key
+		for @key
 			map[_] = get-value_
 		map
 

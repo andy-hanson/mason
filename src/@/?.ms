@@ -17,7 +17,7 @@ import
 	| A Seq with 0 or 1 elements.
 	todo MORE
 
-	do!
+	do
 		self-kind! _ @-Type
 
 	static
@@ -29,14 +29,14 @@ import
 			value done = iter.next()
 			cond done ?None (?some value)
 
-	construct! .val
+	construct .val
 		pass
 
 	empty? |
 		id=? this ?None
 
 	iterator ~!|
-		unless! empty? this
+		unless empty? this
 			<~ .val
 
 	to-string |
@@ -81,7 +81,7 @@ region Functions
 	todo  Just use first?
 	un-?. |_:? ~fail-message
 		| Tries to extract the value out of a `?`. Throws an error if it is empty.
-		forbid! empty?_ throw! opr fail-message "Tried to force empty `?`."
+		forbid empty?_ throw opr fail-message "Tried to force empty `?`."
 		_.val
 
 	?-or. |_:? ~or-else

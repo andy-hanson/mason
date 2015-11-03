@@ -9,14 +9,14 @@ import
 Hash-Set. class kind Set
 	| Set that considers elements equal using =?.
 	| Relies on an efficient hash-code implementation.
-	do!
+	do
 		self-kind! _ @-Type
 
 	static
 		empty |
 			new this (empty Hash-Map)
 
-	construct! .map:Hash-Map
+	construct .map:Hash-Map
 		pass
 
 	iterator |
@@ -25,13 +25,13 @@ Hash-Set. class kind Set
 
 	todo Make default falling back to +!
 	++! !|@added
-		for! @added
+		for @added
 			.map[_] := true
 
 	todo Make default falling back to -!
 	--! !|@deleted
-		for! @deleted
-			del! .map[_]
+		for @deleted
+			del .map[_]
 
 	empty! !|
 		empty! .map

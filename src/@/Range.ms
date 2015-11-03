@@ -16,7 +16,7 @@ Range. class kind @
 	| Seq of Numbers taking fixed steps.
 	| `start` is inclusive, `end` is exclusive.
 
-	do!
+	do
 		self-kind! _ @-Type
 		todo
 		self-impl! empty _ (thunk (new _ 0 0))
@@ -27,12 +27,12 @@ Range. class kind @
 			todo  impl-for from-stream Array
 			_
 
-	construct! start:Number end:Number step:Opt[Number]
+	construct start:Number end:Number step:Opt[Number]
 		.start = start
 		.end = end
 		.step = case step
 			defined?_
-				assert! same-sign? _ (- end start)
+				assert same-sign? _ (- end start)
 				_
 			else
 				sign (- end start)
@@ -45,14 +45,14 @@ Range. class kind @
 
 	iterator ~!|
 		cur ::= .start
-		for!
+		for
 			break-cond = case
 				<? 0 .step
 					>=? cur .end
 				else
 					<=? cur .end
-			if! break-cond
-				break!
+			if break-cond
+				break
 
 			<~ cur
 			cur := + cur .step
@@ -78,6 +78,6 @@ Range. class kind @
 				new Range (- .end rem) .start new-step
 
 msDef 'range |start end exclusive?
-	unless! exclusive?
+	unless exclusive?
 		end := + end (sign (- end start))
 	new Range start end
