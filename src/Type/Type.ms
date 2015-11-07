@@ -29,19 +29,15 @@ impl! to-string Kind .|
 || Made by Method.ms.
 contains?. ms.contains
 
-extract. new Method
+todo num-extracteds:Nat
+extract. method |candidate num-extracteds:Number
 	| Given a type and arbitrary value:
 	| If the value is of the type, return an array of sub-values.
 	| Otherwise, return `null`.
 	| The array of values are taken into local variables.
 	| For example:
 	todo examples
-	name.
-	args.
-		. 'type
-		. 'candidate
-		todo Nat
-		. ['num-extracteds Number]
+	abstract
 
 msDef 'extract extract
 

@@ -5,7 +5,6 @@ import
 	...methods sub
 	...String indent
 	...Type.Kind self-kind!
-	...Type.Method
 	...Type.Type => type-of
 	..@ _ ++ count empty? iterator
 	..@-Type _ empty from-stream
@@ -28,53 +27,38 @@ Seq. kind @
 
 region TODO
 	todo  Review name...
-	<++~. new Method
+	<++~. method |left-added:@
 		| (There is no `++>~` because `++~` by default adds to the right for Seqs.)
 		todo more doc
-		name.
-		args. 2
-		default. .|left-added:@
-			=> (type-of this) (++ left-added this)
+		=> (type-of this) (++ left-added this)
 
 region Very first and last
 	first. |_
 		| First value in iteration order.
 		un-? ?first_ "Can not take first of empty."
 
-	?first. new Method
+	?first. method |
 		| First value in iteration order, if non-empty.
-		name.
-		args. 1
-		default. .|
-			?nth this 0
+		?nth this 0
 
 	last. |_
 		| Last value in iteration order.
 		un-? ?last_ "Can not take last of empty."
 
-	?last. new Method
+	?last. method |
 		| Last value in iteration order, if non-empty.
-		name.
-		args. 1
-		default. .|
-			unless empty? this
-				this[(- (count this) 1)]
+		unless empty? this
+			this[(- (count this) 1)]
 
-	@tail. new Method
+	@tail. method |
 		| All elements but the first.
 		todo Eager for Linked-Lists.
-		name.
-		args. 1
-		default. .|
-			cond (empty? this) this (@drop this 1)
+		cond (empty? this) this (@drop this 1)
 
-	@rtail. new Method
+	@rtail. method |
 		| All elements but the last.
 		todo Eager for finger trees.
-		name.
-		args. 1
-		default. .|
-			cond (empty? this) this (@take this (- (count this) 1))
+		cond (empty? this) this (@take this (- (count this) 1))
 
 region Search
 	seq=?. |@a:@ @b:@
@@ -96,49 +80,33 @@ region Search
 				else
 					break false
 
-	?nth. new Method
+	?nth. method |n:Nat
 		| `n`th element in iteration order, if there are at least that many values.
 		| 0th is the first.
-		name.
-		args.
-			. '_
-			. ['n Nat]
-		default. .|n
-			i ::= 0
-			todo SYNTAX for-else
-			Opt->? for elem of this
-				case elem
-					=? i n
-						break _
-					else
-						todo  Incr
-						i := + 1 i
+		i ::= 0
+		todo SYNTAX for-else
+		Opt->? for elem of this
+			case elem
+				=? i n
+					break _
+				else
+					todo  Incr
+					i := + 1 i
 
 region Update
-	@slice. new Method
+	@slice. method |start:Nat end:Nat
 		| The elements from index start (inclusive) to end (exclusive).
 		| Takes as much as possible.
 		| Result length should be - end start, unless `end` was past the end.
-		name.
-		args.
-			. '_
-			. ['start Nat]
-			. ['end Nat]
-		default. .|start end
-			=> (type-of this) (@slice~ this start end)
+		=> (type-of this) (@slice~ this start end)
 
 	@slice~. |:@ _ start end
 		| Lazy `@slice`.
 		@take~ (@drop~ _ start) (- end start)
 
-	@take. new Method
+	@take. method |count-to-take:Nat
 		todo doc
-		name.
-		args.
-			. '_
-			. ['count-to-take Nat]
-		default. .|count-to-take
-			=> (type-of this) (@take~ this count-to-take)
+		=> (type-of this) (@take~ this count-to-take)
 
 	@take~. |_ count-to-take:Nat
 		| Stream including only the first count-to-take elements.
@@ -166,14 +134,9 @@ region Update
 					break
 				<~ elem
 
-	@drop. new Method
-		todo doc
-		name.
-		args.
-			. '_
-			. ['count-to-drop Nat]
-		default. .|count-to-drop
-			=> (type-of this) (@drop~ this count-to-drop)
+	@drop. method |count-to-drop:Nat
+		todo toc
+		=> (type-of this) (@drop~ this count-to-drop)
 
 	@drop~.
 		| Stream without the first count-to-drop elements.
@@ -245,23 +208,16 @@ region TODO: put somewhere
 		todo doc
 		0...count_
 
-	@reverse. new Method
+	@reverse. method |
 		| Seq with the opposite order.
-		name.
-		args. 1
-		default. .|
-			(from-stream Array this).reverse()
+		(from-stream Array this).reverse()
 
-	@reverse~. new Method
-		todo doc
-		name.
-		args. 1
-		default. .|
-			arr = => Array this
-			todo SYNTAX @for~
-			new Stream ~!|
-				for @reverse (@indexes arr)
-					<~ arr[_]
+	@reverse~. method |
+		arr = => Array this
+		todo SYNTAX @for~
+		new Stream ~!|
+			for @reverse (@indexes arr)
+				<~ arr[_]
 
 	@split~. |_ split?:Pred
 		| Subseqs separated by elements where split? is true.
@@ -287,45 +243,29 @@ region TODO: put somewhere
 
 region Mutator methods
 	todo Implement
-	<+!. new Method
+	<+!. method !|added
 		todo doc
-		name.
-		args. ['_ 'added]
+		abstract
 
-	<++!. new Method
+	<++!. method !|@added:@
 		| Makes `_` into `+ added _`.
-		name.
-		args.
-			. '_
-			. ['@added @]
-		default. .!|@added
-			for @reverse~ @added
-				<+! this _
+		for @reverse~ @added
+			<+! this _
 
 	todo Implement
-	+>!. new Method
+	+>!. method !|added
 		todo doc
-		name.
-		args. ['_ 'added]
+		abstract
 
-	++>!. new Method
+	++>!. method !|@added:@
 		| Makes `_` into `+ _ added`.
-		name.
-		args.
-			. '_
-			. ['@added @]
-		default. .!|@added
-			for @added
-				+>! this _
+		for @added
+			+>! this _
 
-
-	?<pop!. new Method
+	?<pop!. method |
 		| Takes one element off the left side, if not empty?.
-		name.
-		args. 1
-		todo  returns. ?
-	?pop>!. new Method
+		abstract
+
+	?pop>!. method |
 		| Takes one element off the right side, if not empty?.
-		name.
-		args. 1
-		todo  returns. ?
+		abstract

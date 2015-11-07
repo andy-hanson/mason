@@ -1,5 +1,5 @@
 import
-	.js id=?
+	.js defined? id=?
 	.Type.Method
 import~
 	.@.@ _ all? empty? iterator
@@ -11,7 +11,7 @@ import~
 	.Object object=?
 	.Type.Pred-Type Opt
 
-compare. new Method
+compare. method |other
 	| A Number < 0 if a < b, > 0 if a > b, and = 0 if a = b.
 	| It could be implemented as:
 
@@ -25,9 +25,7 @@ compare. new Method
 
 	| But instead, other comparison operators are defined in terms of this.
 	| `compare a b` should always be `* -1 (compare b a)`.
-
-	name.
-	args. 2
+	abstract
 
 =?. new Method
 	| Whether two objects are considered equivalent.
@@ -40,39 +38,27 @@ compare. new Method
 	| For example, [1 2 3] is not `=?` (=> Stream [1 2 3]), but it is `seq=?`.
 	| Unlike other comparison methods, `=?` should not make assertions about type.
 	name.
-	args. 2
 	allow-null?. true
+	args. ['other]
 	default. .|other
 		or (id=? this other) (object=? this other)
 
-<?. new Method
+<?. method |other
 	| Whether `lesser` comes before `greater` in these values' ordering.
 	| Same as `not  (>=? lesser greater)`.
-	name.
-	args. 2
-	default. .|other
-		<? (compare this other) 0
+	<? (compare this other) 0
 
-<=?. new Method
+<=?. method |other
 	| <? or =?.
-	name.
-	args. 2
-	default. .|other
-		<=? (compare this other) 0
+	<=? (compare this other) 0
 
->?. new Method
+>?. method |other
 	todo doc
-	name.
-	args. 2
-	default. .|other
-		>? (compare this other) 0
+	>? (compare this other) 0
 
->=?. new Method
+>=?. method |other
 	todo doc
-	name.
-	args. 2
-	default. .|other
-		>=? (compare this other) 0
+	>=? (compare this other) 0
 
 region Misc
 	same?. |f:Function a b
@@ -148,19 +134,17 @@ region Sorting
 					with <? sb-prev sb-cur
 						sb-prev := sb-cur
 
-	sort. new Method
+	todo sort-by: Opt[Function]
+	sort. method |sort-by
 		| Puts the elements in sorted order.
 		| Order is determined by calling `compare`.
 		| Optional `sort-by` determines an attribute of elements to be compared.
-		name.
-		args.
-			2
-			todo . ["_" @]
-			todo . ["?sort-by" Opt[Function]]
-		default. .|sort-by
-			sort-by := opr sort-by identity
-			|| Ensure that we create a *new* Array, because we're about to mutate it.
-			sorted = from-stream Array this
-			sorted.sort |a b
-				compare (sort-by a) (sort-by b)
-			sorted
+
+		|| Ensure that we create a *new* Array, because we're about to mutate it.
+		with from-stream Array this
+			_.sort case sort-by
+				defined?_
+					|a b
+						compare (sort-by a) (sort-by b)
+				else
+					compare

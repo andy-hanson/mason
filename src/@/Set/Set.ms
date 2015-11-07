@@ -2,7 +2,6 @@ import
 	...compare =? same?
 	...Type.Type => type-of
 	...Type.Kind self-kind!
-	...Type.Method
 	..@ _ all? count @keep
 	..@-Type _ empty
 import~
@@ -24,13 +23,10 @@ Set. kind @
 		and (same? type-of this other) (same? count this other) (all? this |_
 			:other
 
-intersect. new Method
+intersect. method |@intersect-with
 	todo doc
-	name.
-	args. 2
-	default. .|@intersect-with
-		@keep this |_
-			_:(=> Set @intersect-with)
+	@keep this |_
+		_:(=> Set @intersect-with)
 
 set=?. |a:@ b:@
 	| Whether two @s have the same values, regardless of order or count.

@@ -48,15 +48,12 @@ do-inspect = |_ recurse
 iterator. new Method
 	| Creates a new Generator which yields the values in the @.
 	name.
-	args. 1
+	args. []
 	impl-symbol. Symbol.iterator
 
-empty?. new Method
+empty?. method |
 	| Whether `count` is 0. Often much faster.
-	name.
-	args. 1
-	default. .|
-		(iterator this).next().done
+	(iterator this).next().done
 
 region Using iterator
 	each!. !|_:@ do-for-each!:Action
@@ -106,25 +103,19 @@ region Using iterator
 			if pred? elem
 				break elem
 
-	count. new Method
+	count. method |
 		| Number of elements.
-		name.
-		args. 1
-		default. .|
-			fold this 0 +[1]
+		fold this 0 +[1]
 
 region Lazy functions, and their eager versions.
 	|| Eager versions are Methods if certain types can do them faster.
 
-	@keep. new Method
+	@keep. method |keep-if?:Pred
 		| Only the elements that satisfy `keep-if?`.
-		name.
-		args. 2
-		default. .|keep-if?:Pred
-			todo SYNTAX Shouldn't need => type-of_
-			=> (type-of this) @for this
-				if keep-if? _
-					. _
+		todo SYNTAX Shouldn't need => type-of_
+		=> (type-of this) @for this
+			if keep-if? _
+				. _
 
 	@keep~. |filtered:@ keep-if?:Pred
 		| Lazy keep.
@@ -149,14 +140,11 @@ region Lazy functions, and their eager versions.
 				<~ mapper_
 
 	todo  Better name?
-	@flat-map. new Method
+	@flat-map. method |mapper:Function[Any @]
 		| "Like `map`, but each mapping produces multiple values."
-		name.
-		args. 2
-		default. .|mapper:Function[Any @]
-			todo SYNTAX Shouldn't need => type-of_
-			=> (type-of this) @for this
-				... mapper_
+		todo SYNTAX Shouldn't need => type-of_
+		=> (type-of this) @for this
+			... mapper_
 
 	@flat-map~. |mapped:@ mapper:Function[Any @]
 		| Lazy flat-map.
@@ -165,16 +153,13 @@ region Lazy functions, and their eager versions.
 			for mapped
 				<~~ iterator mapper_
 
-	@flatten. new Method
+	@flatten. method |
 		| For an @ containing many @, produces an @ containing all of their entries combined.
 		| This does *not* consider more than 1 nested level, and there *every* element of _ must be an @.
 		| More efficient than `fold + _`.
-		name.
-		args. 2
-		default. .|
-			todo SYNTAX Shouldn't need => type-of_
-			=> (type-of this) @for this
-				... _
+		todo SYNTAX Shouldn't need => type-of_
+		=> (type-of this) @for this
+			... _
 
 	@flatten~. |flattened
 		| Lazy flatten.
@@ -183,19 +168,12 @@ region Lazy functions, and their eager versions.
 			for flattened
 				<~~ iterator_
 
-	++. new Method
+	++. method |@other:@
 		| Concatenation. Sets should override this.
-		name.
-		args.
-			. ['@a @]
-			. ['@b @]
-		default. .|@other
-			todo SYNTAX @for -> type-of a
-			todo SYNTAX Just build without @for
-			=> (type-of this) @for
-				... this
-				... @other
-				break
+		todo SYNTAX build type-of a
+		=> (type-of this)
+			... this
+			... @other
 
 	++~. |:Stream @a @b
 		| Lazy ++.
@@ -205,15 +183,10 @@ region Lazy functions, and their eager versions.
 			<~~ iterator @b
 
 	todo  Move to Set?
-	--. new Method
+	--. method |@remove:@
 		| @ without any of the elements in `remove`.
 		| Removes the *first* occurrence of each element.
-		name.
-		args.
-			. '_
-			. ['@remove @]
-		default. .|@remove
-			=> (type-of this) (--~ this @remove)
+		=> (type-of this) (--~ this @remove)
 
 	--~. |:@ @removed-from @remove:@
 		| Lazy --.
@@ -229,43 +202,26 @@ region Lazy functions, and their eager versions.
 						<~ _
 
 region Mutator methods
-	empty!. new Method
+	empty!. method |
 		| Mutates this collection so that it will be `empty?`.
-		name.
-		args. 1
+		abstract
 
 	todo  implement
-	+!. new Method
+	+!. method !|added
 		todo doc
-		name.
-		args. ['_ 'added]
-		todo  Lazy default?
-		default. .!|added
-			+>! this added
+		+>! this added
 
-	++!. new Method
+	++!. method !|@added:@
 		| Adds new elements.
 		| For Seqs these are added on the right; use `<++!` to add on the left.
-		name.
-		args.
-			. '_
-			. ['@added @]
-		todo  Lazy default?
-		default. .!|@added
-			++>! this @added
+		++>! this @added
 
 	todo  implement
-	-!. new Method
+	-!. method |@removed:@
 		todo doc
-		name.
-		args.
-			. '_
-			. ['@removed @]
+		abstract
 
-	--!. new Method
+	--!. method |@removed:@
 		| Removes all elements in `removed` once.
 		| For Seqs these are removed starting from the left.
-		name.
-		args.
-			. '_
-			. ['@removed @]
+		abstract

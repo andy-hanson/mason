@@ -81,11 +81,11 @@ Method. class Function
 			add! case
 				has-args?
 					args = switch num-args
-						1
+						0
 							'a
-						2
+						1
 							"a, b"
-						3
+						2
 							"a, b, c"
 
 					case
@@ -114,11 +114,11 @@ Method. class Function
 						}
 
 		switch num-args
-			1
+			0
 				super 'a src
-			2
+			1
 				super 'a 'b src
-			3
+			2
 				super 'a 'b 'c src
 			else
 				super 'a 'b 'c 'd src
@@ -139,6 +139,13 @@ Method. class Function
 	todo Consider making kind! Method Type. Then this is redundant.
 	'toString |
 		.name
+
+msDef 'method |-name args default
+	new Method
+		name. -name
+		args.
+		if defined? default
+			default.
 
 impl!. !|_:Method implementor:Impl-Type implementation:Function
 	do-impl! _ implementor implementation
@@ -242,9 +249,7 @@ region Private
 contains? = new Method
 	| Whether some collection of things as as an element `instance`.
 	name.
-	args.
-		. 'type
-		. 'instance
+	args. ['instance]
 	impl-symbol. containsImplSymbol
 msDef 'contains contains?
 

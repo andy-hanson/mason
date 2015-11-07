@@ -23,8 +23,8 @@ tests 'Kind
 			assert z:X
 
 		region Method makes sure to do impl! on all Concrete-Type_s inheriting from an Kind.
-			asdf = new Method
-				name.
+			asdf = method |
+				abstract
 			impl! asdf X |
 				1
 			assert =? (asdf z) 1

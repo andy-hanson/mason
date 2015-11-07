@@ -6,7 +6,7 @@ define(["exports","./compare","./js","./math/Number","./Type/Method"],(exports,c
 		const hash_45code=exports.default=new (Method)((()=>{
 			const built={};
 			built.name="hash-code";
-			const args=built.args=1;
+			const args=built.args=[];
 			const returns=built.returns=Int;
 			const allow_45null_63=built["allow-null?"]=true;
 			const _default=built.default=function _default(){

@@ -1,5 +1,4 @@
 import
-	...Type.Method
 	..@
 	..@-Type empty
 	..?
@@ -16,8 +15,6 @@ Priority-Queue. kind @
 			empty Heap-Priority-Queue
 
 todo Move
-?pop!. new Method
+?pop!. method |:?
 	| Takes a value from the front of the queue, unless empty?.
-	name.
-	args. 1
-	returns. ?
+	abstract

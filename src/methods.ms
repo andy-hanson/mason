@@ -1,18 +1,17 @@
 import
 	.private.bootstrap msDef
-	.Type.Method
 
-sub. new Method
+sub. method |...args
 	| Implementing this allows the use of the special syntax `a[b]`.
-	name.
+	abstract
 msDef 'sub sub
 
-set-sub!. new Method
+set-sub!. method |...args
 	todo doc
-	name.
+	abstract
 msDef 'setSub set-sub!
 
-del-sub!. new Method
+del-sub!. method |...args
 	todo doc
-	name.
+	abstract
 msDef 'delSub del-sub!

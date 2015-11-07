@@ -16,8 +16,8 @@ tests 'Impl-Type
 		forbid kind? A B
 
 	Self-Type -> !|
-		m = new Method
-			name.
+		m = method |
+			abstract
 		x = new Object
 		impl! m (new Self-Type x) |
 			1

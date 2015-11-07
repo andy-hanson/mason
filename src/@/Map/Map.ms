@@ -2,7 +2,6 @@ import
 	...compare =?
 	...methods sub
 	...to-string
-	...Type.Method
 	...Type.Type => type-of
 	..@ _ all? count empty? @map~
 	..@-Type empty
@@ -30,35 +29,25 @@ Map. kind @
 		un-? (?get this key) ~"{this} does not contain {key}."
 
 region New methods
-	?get. new Method
+	?get. method |key
 		| `?` containing the value corresponding to `key`, if any.
-		name.
-		args. ['_ 'key]
+		abstract
 
-	has-key?. new Method
+	has-key?. method |key
 		| Whether the key is in the Map.
-		name.
-		args. ['_ 'key]
-		default. .|key
-			not (empty? (?get this key))
+		not (empty? (?get this key))
 
-	@keys. new Method
+	@keys. method |
 		| Every key that the Map `has-key?`.
-		name.
-		args. 1
-		default. .|
-			todo @for:Array
-			=> Array (@map~ this |pair
-				pair[0]
+		todo @for:Array
+		=> Array (@map~ this |pair
+			pair[0]
 
-	@values. new Method
+	@values. method |
 		| Every value in the Map.
-		name.
-		args. 1
-		default. .|
-			todo @for:Array
-			=> Array (@map~ this |pair
-				pair[1]
+		todo @for:Array
+		=> Array (@map~ this |pair
+			pair[1]
 
 region Functions
 	make-map. |@key:@ get-value:Function
@@ -80,11 +69,8 @@ region Functions
 				and (not empty? ?bk) (=? val ?bk.val)
 
 region Mutator methods
-	get-or-add!. new Method
+	get-or-add!. method |key ~default-val
 		| map[key], and if it's not already there, fill it in with default-val.
-		name.
-		args. ['_ 'key "~default-val"]
-		default. .|key ~default-val
-			?-or (?get this key) ~
-				this[key] ::= default-val
-				default-val
+		?-or (?get this key) ~
+			this[key] ::= default-val
+			default-val
