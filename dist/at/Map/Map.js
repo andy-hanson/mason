@@ -2,12 +2,16 @@
 if((typeof define!=="function"))var define=require("amdefine")(module);
 define(["exports","./../../compare","./../../methods","./../../to-string","./../../Type/Type","./../at","./../at-Type","./../q","./Id-Map"],(exports,compare_0,methods_1,to_45string_2,Type_3,_64_4,_64_45Type_5,_63_6,Id_45Map_7)=>{
 	exports._get=_ms.lazy(()=>{
-		const _$0=_ms.getModule(compare_0),_61_63=_ms.get(_$0,"=?"),_$1=_ms.getModule(methods_1),sub=_ms.get(_$1,"sub"),to_45string=_ms.getDefaultExport(to_45string_2),_$2=_ms.getModule(Type_3),_61_62=_ms.get(_$2,"=>"),type_45of=_ms.get(_$2,"type-of"),_64=_ms.getDefaultExport(_64_4),_$3=_ms.getModule(_64_4),all_63=_ms.get(_$3,"all?"),count=_ms.get(_$3,"count"),empty_63=_ms.get(_$3,"empty?"),_64map_126=_ms.get(_$3,"@map~"),_$4=_ms.getModule(_64_45Type_5),empty=_ms.get(_$4,"empty"),_$5=_ms.getModule(_63_6),_63_45or=_ms.get(_$5,"?-or"),un_45_63=_ms.get(_$5,"un-?"),Id_45Map=_ms.lazy(()=>_ms.getDefaultExport(Id_45Map_7));
+		const _$0=_ms.getModule(compare_0),_61_63=_ms.get(_$0,"=?"),_$1=_ms.getModule(methods_1),sub=_ms.get(_$1,"sub"),to_45string=_ms.getDefaultExport(to_45string_2),_$2=_ms.getModule(to_45string_2),inspect=_ms.get(_$2,"inspect"),_$3=_ms.getModule(Type_3),_61_62=_ms.get(_$3,"=>"),type_45of=_ms.get(_$3,"type-of"),_64=_ms.getDefaultExport(_64_4),_$4=_ms.getModule(_64_4),all_63=_ms.get(_$4,"all?"),count=_ms.get(_$4,"count"),empty_63=_ms.get(_$4,"empty?"),_64map_126=_ms.get(_$4,"@map~"),_$5=_ms.getModule(_64_45Type_5),empty=_ms.get(_$5,"empty"),_$6=_ms.getModule(_63_6),_63_45or=_ms.get(_$6,"?-or"),un_45_63=_ms.get(_$6,"un-?"),Id_45Map=_ms.lazy(()=>_ms.getDefaultExport(Id_45Map_7));
 		const Map=exports.default=_ms.kind("Map",[_64],{},{
 			[_ms.symbol(to_45string)](){
 				const _this=this;
+				return inspect(_this)
+			},
+			[_ms.symbol(inspect)](){
+				const _this=this;
 				const parts=_64map_126(_this,pair=>{
-					return `${_ms.sub(pair,0)} -> ${_ms.sub(pair,1)}`
+					return `${inspect(_ms.sub(pair,0))} -> ${inspect(_ms.sub(pair,1))}`
 				});
 				return `${_this.constructor.name}
 	${_61_62(String,parts,`\n\t`)}`
@@ -69,4 +73,4 @@ define(["exports","./../../compare","./../../methods","./../../to-string","./../
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvQC9NYXAvTWFwLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBV0EsMENBQVU7ZUFHVDtVQTRERTtJQXhERCxZQUFRLFdBd0RQLE1BeERtQjtZQUNsQixXQUFDLEtBQUssaUJBQVEsS0FBSzs7V0FFcEIsR0FxREEsMkJBcERFLE9BQUcsT0FBTyxNQUFPOztlQUVyQixTQUFJO1VBa0RGO1dBakRELENBQUssT0FBSSxVQWlEUixPQWpEdUIsVUFBUSxTQUFTLFVBaUR4QyxNQWpEbUQ7R0FBQTtlQUVyRCxNQUFLO1VBK0NIO1dBOUNELFNBQU0sT0E4Q0wsTUE5Q2Usa0JBQU8sR0E4Q3RCLDBCQTlDK0M7OztFQUdqRDtFQUlBLHFFQUFrQixTQUFBO1NBdUNoQjtVQXJDRCxFQUFLLFNBQVEsT0FxQ1osTUFyQ3NCO0VBQUE7RUFFeEIscURBQ2U7U0FrQ2I7VUFoQ0QsT0FBRyxNQUFPLFdBZ0NULE1BaENxQjttQkFDckIsS0FBSztHQUFBO0VBQUE7RUFFUCwyREFDaUI7U0E0QmY7VUExQkQsT0FBRyxNQUFPLFdBMEJULE1BMUJxQjttQkFDckIsS0FBSztHQUFBO0VBQUE7RUFHUCxxQ0FBVyxvQkFBQSxPQUFPO3FCQUFGO3FCQUFZO0dBRzNCLFVBQU07R0FDRixRQUFBLEtBQUEsT0FDSTtlQUFQLElBQUksRUFBSyxZQUFBOztVQUNWO0VBQUE7RUFFRCxpQ0FBUSxtQkFBQSxFQUFNO3FCQUFKO3FCQUFNO1VBRWYsQ0FBSyxPQUFJLE1BQU0sR0FBSSxNQUFNLEtBQ0csS0FBQTtXQUEzQixPQUFLLEVBQUc7S0FFUCxrQkFBTSxLQUFLO0tBQ1gsa0JBQU0sS0FBSztLQUNYLFlBQU0sT0FBSyxFQUFFO1lBQ2IsQ0FBSyxFQUFJLFNBQU8sUUFBTSxPQUFHLElBQUk7Ozs7RUFHaEMsOEZBQXFCLFNBQUEsSUFBSTtTQUd2QjtVQURELFNBQU0sT0FDTCxNQURlLGtCQUNNLEtBQUE7ZUFBckIsTUFBSyIsImZpbGUiOiJhdC9NYXAvTWFwLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvQC9NYXAvTWFwLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBV0EsMENBQVU7ZUFHVDtVQStERTtXQTlERCxRQThEQztHQUFBO2VBNURGO1VBNERFO0lBeERELFlBQVEsV0F3RFAsTUF4RG1CO1lBQ2xCLEdBQUMsZ0JBQVEsS0FBSyxVQUFRLGdCQUFRLEtBQUs7O1dBRXBDLEdBcURBLDJCQXBERSxPQUFHLE9BQU8sTUFBTzs7ZUFFckIsU0FBSTtVQWtERjtXQWpERCxDQUFLLE9BQUksVUFpRFIsT0FqRHVCLFVBQVEsU0FBUyxVQWlEeEMsTUFqRG1EO0dBQUE7ZUFFckQsTUFBSztVQStDSDtXQTlDRCxTQUFNLE9BOENMLE1BOUNlLGtCQUFPLEdBOEN0QiwwQkE5QytDOzs7RUFHakQ7RUFJQSxxRUFBa0IsU0FBQTtTQXVDaEI7VUFyQ0QsRUFBSyxTQUFRLE9BcUNaLE1BckNzQjtFQUFBO0VBRXhCLHFEQUNlO1NBa0NiO1VBaENELE9BQUcsTUFBTyxXQWdDVCxNQWhDcUI7bUJBQ3JCLEtBQUs7R0FBQTtFQUFBO0VBRVAsMkRBQ2lCO1NBNEJmO1VBMUJELE9BQUcsTUFBTyxXQTBCVCxNQTFCcUI7bUJBQ3JCLEtBQUs7R0FBQTtFQUFBO0VBR1AscUNBQVcsb0JBQUEsT0FBTztxQkFBRjtxQkFBWTtHQUczQixVQUFNO0dBQ0YsUUFBQSxLQUFBLE9BQ0k7ZUFBUCxJQUFJLEVBQUssWUFBQTs7VUFDVjtFQUFBO0VBRUQsaUNBQVEsbUJBQUEsRUFBTTtxQkFBSjtxQkFBTTtVQUVmLENBQUssT0FBSSxNQUFNLEdBQUksTUFBTSxLQUNHLEtBQUE7V0FBM0IsT0FBSyxFQUFHO0tBRVAsa0JBQU0sS0FBSztLQUNYLGtCQUFNLEtBQUs7S0FDWCxZQUFNLE9BQUssRUFBRTtZQUNiLENBQUssRUFBSSxTQUFPLFFBQU0sT0FBRyxJQUFJOzs7O0VBR2hDLDhGQUFxQixTQUFBLElBQUk7U0FHdkI7VUFERCxTQUFNLE9BQ0wsTUFEZSxrQkFDTSxLQUFBO2VBQXJCLE1BQUsiLCJmaWxlIjoiYXQvTWFwL01hcC5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

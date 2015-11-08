@@ -11,11 +11,11 @@ import
 impl! inspect Object .|
 	switch .toString
 		Object.prototype.toString
-			props = @all-properties this
+			@props = @all-properties this
 			enumerable-props = => Id-Set (@properties this)
 			s ::= "{.constructor.name}"
-			for props
-				s := "{s}\n\t{inspect-property this _ :enumerable-props}"
+			for @props
+				s := "{s}\n\t{indent (inspect-property this _ :enumerable-props)}"
 			s
 		else
 			.toString()
@@ -33,11 +33,9 @@ inspect-property = |obj key enumerable?
 		desc.set
 			"[Setter]"
 		else
-			str = inspect desc.value
-			cond "\n":str "\n{indent str}" str
+			inspect desc.value
 
 	"{prop-name}. {str}"
-
 
 inspect-primitive = .|
 	switch js-typeof this

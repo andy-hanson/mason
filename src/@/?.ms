@@ -2,7 +2,7 @@ import
 	..control opr
 	..js defined? id=?
 	..private.bootstrap msDef
-	..to-string
+	..to-string _ inspect
 	..Type.Kind self-kind!
 	..Type.Method self-impl!
 	..Type.Type extract
@@ -40,11 +40,14 @@ import
 			<~ .val
 
 	to-string |
+		inspect this
+
+	inspect |
 		case
 			empty? this
 				'?None
 			else
-				"?some {.val}"
+				"?some {inspect .val}"
 
 empty-marker =
 	| `_.val` on an empty `?` will return this.

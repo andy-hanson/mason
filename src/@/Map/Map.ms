@@ -1,7 +1,7 @@
 import
 	...compare =?
 	...methods sub
-	...to-string
+	...to-string _ inspect
 	...Type.Type => type-of
 	..@ _ all? count empty? @map~
 	..@-Type empty
@@ -13,11 +13,14 @@ Map. kind @
 	| Mapping from keys to values.
 
 	to-string |
+		inspect this
+
+	inspect |
 		todo  map Map to Array
 		todo SYNTAX Array destructure
 		todo @for~
 		parts = @map~ this |pair
-			"{pair[0]} -> {pair[1]}"
+			"{inspect pair[0]} -> {inspect pair[1]}"
 		"
 			{.constructor.name}
 				{=> String parts "\n\t"}
