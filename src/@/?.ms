@@ -70,16 +70,11 @@ region Functions
 	Opt->?. |_
 		| `?` containing the value iff it is defined.
 		todo  `if-test defined? _` ?
-		if defined?_
-			_
+		if defined?_ _
 
 	?->Opt. |_:?
 		| Extracts the value from a `?`, or returns undefined.
-		case
-			empty?_
-				undefined
-			else
-				_.val
+		cond empty?_ undefined _.val
 
 	todo  Just use first?
 	un-?. |_:? ~fail-message
@@ -89,8 +84,4 @@ region Functions
 
 	?-or. |_:? ~or-else
 		| If empty, defaults to `or` - else returns its value.
-		case
-			empty?_
-				or-else
-			else
-				_.val
+		cond empty?_ or-else _.val

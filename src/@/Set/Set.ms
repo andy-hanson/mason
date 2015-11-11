@@ -1,6 +1,6 @@
 import
 	...compare =? same?
-	...Type.Type => type-of
+	...Type.Type => contains? type-of
 	...Type.Kind self-kind!
 	..@ _ all? count @keep
 	..@-Type _ empty
@@ -25,8 +25,7 @@ Set. kind @
 
 intersect. method |@intersect-with
 	todo doc
-	@keep this |_
-		_:(=> Set @intersect-with)
+	@keep this contains?[(=> Set @intersect-with)]
 
 set=?. |a:@ b:@
 	| Whether two @s have the same values, regardless of order or count.

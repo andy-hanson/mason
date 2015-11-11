@@ -42,10 +42,8 @@ Heap-Priority-Queue. class kind Priority-Queue
 
 region Private
 	|| We use a min-heap.
-	index-left-child = |idx
-		+ 1 (* 2 idx)
-	index-parent = |idx
-		- (int/ (+ 1 idx) 2) 1
+	index-left-child = &(+ 1 (* 2 _))
+	index-parent = &(- (int/ (+ 1 _) 2) 1)
 
 	add! = !|heap val
 		| We move this 'hole' up the heap, swapping with its parent,
@@ -76,8 +74,7 @@ region Private
 			go! = !|goto-idx
 				heap[i-cur] := heap[goto-idx]
 				i-cur := goto-idx
-			ok-index? = |_
-				<? _ size
+			ok-index? = &(<? _ size)
 			for
 				i-left-child = index-left-child i-cur
 				unless ok-index? i-left-child

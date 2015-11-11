@@ -7,7 +7,7 @@ import
 	...methods set-sub!
 	...Type.Kind kind! self-kind!
 	...Type.Type =>
-	..@ _ -! --! count empty! empty?
+	..@ _ -! --! count each! empty! empty?
 	..@-Type _ empty from-stream
 	..Set.Set
 	.Seq _ <++! ++>! @indexes ?nth ?<pop! ?pop>!
@@ -19,10 +19,8 @@ self-kind! Array @-Type
 		[]
 
 	from-stream -> |stream
-		arr = []
-		for stream
-			arr.push _
-		arr
+		with []
+			each! stream _&push
 
 kind! Array Seq
 	count -> .|
@@ -49,6 +47,7 @@ kind! Array Seq
 	empty! -> .!|
 		| http://jsperf.com/empty-javascript-array/15
 		todo  Test it myself...
+		todo SYNTAX while
 		for
 			unless .length
 				break

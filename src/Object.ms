@@ -21,25 +21,16 @@ flag?. |:Boolean obj flag:Object-Key
 
 ~forbidden-fun-props = => Id-Set ['arguments 'caller]
 @all-properties. |_
+	todo SYNTAX build~
 	| Every property name directly stored in an object.
 	| Includes non-enumerable properties and symbols.
 	props = Object.getOwnPropertyNames_
-	todo  Use keep! to modify props
-	own-names = case
-		:Function
-			@keep props |_
-				not :forbidden-fun-props
-		else
-			props
+	own-names = cond :Function (@keep props &(not :forbidden-fun-props)) props
 	++ own-names Object.getOwnPropertySymbols_
 
 @properties. |_
 	| Like @all-properties, but excludes non-enumerable properties and symbols.
-	case
-		exists?_
-			Object.keys_
-		else
-			[]
+	cond exists?_ Object.keys_ []
 
 ?property. |_ prop-name:Object-Key
 	| `?` containing the value of the property, if it exists.
@@ -48,11 +39,7 @@ flag?. |:Boolean obj flag:Object-Key
 
 ?property-with-proto. |_ prop-name:Object-Key
 	| Like `?property`, but also looks through the prototype chain.
-	case
-		exists?_
-			Opt->? (js-sub _ prop-name)
-		else
-			?None
+	cond exists?_ (Opt->? (js-sub _ prop-name)) ?None
 
 property?. |_ prop-name:Object-Key
 	| Whether there is a property by that name.
@@ -91,8 +78,7 @@ empty-Object?. |_:Object
 
 Object->Map. |_
 	| A Map whose keys are property names and whose values are the properties' values.
-	make-map @all-properties_ |prop
-		js-sub _ prop
+	make-map @all-properties_ js-sub[_]
 
 Map->Object. |_:Map
 	| Given a Map whose keys are Strings, creates an Object whose Object->Map is that.

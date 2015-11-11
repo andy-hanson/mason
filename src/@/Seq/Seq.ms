@@ -70,28 +70,20 @@ region Search
 		for
 			next-a = iter-a.next()
 			next-b = iter-b.next()
-			case
-				next-a.done
-					break next-b.done
-				next-b.done
-					break false
-				=? next-a.value next-b.value
-					pass
-				else
-					break false
+			if or next-a.done next-b.done
+				break =? next-a.done next-b.done
+			unless =? next-a.value next-b.value
+				break false
 
 	?nth. method |n:Nat
 		| `n`th element in iteration order, if there are at least that many values.
 		| 0th is the first.
 		i ::= 0
 		todo SYNTAX for-else
-		Opt->? for elem of this
-			case elem
-				=? i n
-					break _
-				else
-					todo  Incr
-					i := + 1 i
+		Opt->? for this
+			if =? i n
+				break _
+			i := + 1 i
 
 region Update
 	@slice. method |start:Nat end:Nat

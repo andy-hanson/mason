@@ -148,7 +148,7 @@ const msDefs = {
 
 	methodUnbound(name) {
 		// TODO:ES6 (object, ...args) => object[name](...args)
-		return function(object) { return object[name](Array.prototype.slice.call(arguments, 1)) }
+		return function(object) { return object[name](...Array.prototype.slice.call(arguments, 1)) }
 	},
 
 	setLazy(value, name, lazy) {

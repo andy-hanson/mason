@@ -3,7 +3,7 @@ import
 	global
 	...Type.Kind kind! self-kind!
 	...Type.Type contains?
-	..@ ++! --! count empty!
+	..@ ++! --! count each! empty!
 	..@-Type _ empty
 	.Set
 
@@ -20,16 +20,14 @@ kind! Id-Set Set
 
 	todo  Make default falling back to +!
 	++! -> .!|@added
-		for @added
-			.add _
+		each! @added .&add
 
 	empty! -> .!|
 		.clear()
 
 	todo  Make default falling back to -!
 	--! -> .!|@deleted
-		for @deleted
-			.delete _
+		each! @deleted .&delete
 
 	contains? -> .|_
 		.has_

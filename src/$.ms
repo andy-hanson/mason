@@ -38,9 +38,9 @@ $done. |_:$
 
 $fail-after-time. |:$ _:$ time-ms:Number
 	| Fails if it takes too long.
-	new $ |resolve reject
+	new $ !|resolve reject
 		_.then resolve
-		timeout = |
+		timeout = !|
 			reject new Error "Took longer than {time-ms} milliseconds."
 		setTimeout timeout time-ms
 
