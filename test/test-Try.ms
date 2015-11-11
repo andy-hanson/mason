@@ -29,11 +29,11 @@ tests 'Try
 				throw 'b
 
 	$try -> $!|
-		assert =? (new Success 1) (<~ $try ($.resolve 1))
-		assert =? 'a (<~ ($try ($.reject 'a)))
+		assert =? (new Success 1) (<- $try ($.resolve 1))
+		assert =? 'a (<- ($try ($.reject 'a)))
 		|| $.reject but with non-error:
-		assert =? 'a (<~ ($try ($.reject 'a)))
+		assert =? 'a (<- ($try ($.reject 'a)))
 
 	todo SYNTAX async functions
 	$annotate-errors -> $!|
-		assert =? 'ab (<~ $try ($annotate-errors 'a ($.reject (new Error 'b)))).message
+		assert =? 'ab (<- $try ($annotate-errors 'a ($.reject (new Error 'b)))).message

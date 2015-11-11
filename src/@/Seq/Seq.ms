@@ -108,10 +108,10 @@ region Update
 				empty Stream
 			else
 				todo SYNTAX @for~
-				new Stream ~!|
+				new Stream *!|
 					n ::= count-to-take
 					for elem of _
-						<~ elem
+						<- elem
 						n := - n 1
 						if =? 0 n
 							break
@@ -120,11 +120,11 @@ region Update
 	@take-while~. |_ while?:Pred
 		| Stream stopping (and not including) the first element not satisfying while?.
 		todo SYNTAX @for~
-		new Stream ~!|
+		new Stream *!|
 			for elem of _
 				unless while? elem
 					break
-				<~ elem
+				<- elem
 
 	@drop. method |count-to-drop:Nat
 		todo toc
@@ -134,7 +134,7 @@ region Update
 		| Stream without the first count-to-drop elements.
 		|_ count-to-drop
 			todo SYNTAX @for~
-			new Stream ~!|
+			new Stream *!|
 				iter = iterator_
 				i ::= 0
 				for
@@ -143,7 +143,7 @@ region Update
 					if iter.next().done
 						break
 					i := + 1 i
-				<~~ iter
+				<-* iter
 
 	todo  @drop-while~
 
@@ -158,7 +158,7 @@ region Combination
 		| Ends as soon as either of them does, discarding extra elements.
 		| (Corresponding means: with the same index.)
 		todo SYNTAX @for~
-		new Stream ~!|
+		new Stream *!|
 			iter-a = iterator @a
 			iter-b = iterator @b
 			for
@@ -168,7 +168,7 @@ region Combination
 				next-b = iter-b.next()
 				if next-b.done
 					break
-				<~ zipper next-a.value next-b.value
+				<- zipper next-a.value next-b.value
 
 region TODO: put somewhere
 	@groups-of~. |group-size:Nat _ todo  :Seq[Array]
@@ -176,12 +176,12 @@ region TODO: put somewhere
 		case
 			=? group-size 0
 				todo  repeat-forever []
-				new Stream ~!|
+				new Stream *!|
 					for
-						<~ []
+						<- []
 			else
 				todo SYNTAX @for~
-				new Stream ~!|
+				new Stream *!|
 					iter = iterator_
 					for
 						next-group = []
@@ -194,7 +194,7 @@ region TODO: put somewhere
 								break
 						unless =? group-size (count next-group)
 							break
-						<~ next-group
+						<- next-group
 
 	@indexes. |_:Seq
 		todo doc
@@ -207,15 +207,15 @@ region TODO: put somewhere
 	@reverse~. method |
 		arr = => Array this
 		todo SYNTAX @for~
-		new Stream ~!|
+		new Stream *!|
 			for @reverse (@indexes arr)
-				<~ arr[_]
+				<- arr[_]
 
 	@split~. |_ split?:Pred
 		| Subseqs separated by elements where split? is true.
 		todo  Allocate current group; don't wait to call slice.
 		todo SYNTAX @for~
-		new Stream ~!|
+		new Stream *!|
 			iter = iterator_
 			prev-idx ::= 0
 			cur-idx ::= 0
@@ -224,10 +224,10 @@ region TODO: put somewhere
 				~next-idx = + 1 cur-idx
 				case
 					done
-						<~ @slice _ prev-idx cur-idx
+						<- @slice _ prev-idx cur-idx
 						break
 					split? value
-						<~ @slice _ prev-idx cur-idx
+						<- @slice _ prev-idx cur-idx
 						prev-idx := next-idx
 						cur-idx := next-idx
 					else

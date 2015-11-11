@@ -76,11 +76,11 @@ $map. |:$[Array] mapped:@ mapper:Function[Any $]
 
 $flat-map. $|:@ mapped:@ mapper:Function[Any $[@]]
 	| Like $map but flattens the result.
-	@flatten (<~ $map mapped mapper)
+	@flatten (<- $map mapped mapper)
 
 $keep. $|:Array keep-some:@ keep-if?:Function[Any $[Boolean]]
 	| Asynchronously runs keep-if? on each element and creates an Array of those that match.
 	| Maintains the original order.
 	@for keep-some
-		if (<~ keep-if?_)
+		if (<- keep-if?_)
 			. _

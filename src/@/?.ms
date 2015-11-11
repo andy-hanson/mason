@@ -35,9 +35,9 @@ import
 	empty? |
 		id=? this ?None
 
-	iterator ~!|
+	iterator *!|
 		unless empty? this
-			<~ .val
+			<- .val
 
 	to-string |
 		inspect this

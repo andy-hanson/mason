@@ -17,7 +17,7 @@ Lazy-Stream. class kind Seq
 	do
 		self-kind! _ @-Type
 		todo  move to `static`
-		self-impl! empty _ (thunk (new _ ~!|
+		self-impl! empty _ (thunk (new _ *!|
 			pass
 
 	static
@@ -35,11 +35,11 @@ Lazy-Stream. class kind Seq
 		todo  `this` in constructor
 		self = this
 		todo iterator @for~
-		get-caching-iterator = ~!|
+		get-caching-iterator = *!|
 			for strm
 				todo  +>!
 				self.cache.push _
-				<~ _
+				<- _
 		.caching-iterator = get-caching-iterator()
 
 	?nth |n:Nat
@@ -52,6 +52,6 @@ Lazy-Stream. class kind Seq
 				_
 
 todo  class method
-impl! iterator Lazy-Stream .~!|
-	<~~ iterator .cache
-	<~~ .caching-iterator
+impl! iterator Lazy-Stream .*!|
+	<-* iterator .cache
+	<-* .caching-iterator

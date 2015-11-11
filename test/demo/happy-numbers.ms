@@ -6,10 +6,10 @@ import
 @digits = |_
 	base = 10
 	todo SYNTAX @for~
-	new Stream ~!|
+	new Stream *!|
 		left ::= _
 		for
-			<~ remainder left base
+			<- remainder left base
 			left := int/ left base
 			if =? left 0
 				break

@@ -120,10 +120,10 @@ region Lazy functions, and their eager versions.
 	@keep~. |filtered:@ keep-if?:Pred
 		| Lazy keep.
 		todo SYNTAX @for~
-		new Stream ~!|
+		new Stream *!|
 			for filtered
 				if keep-if?_
-					<~ _
+					<- _
 
 	todo  Method
 	@map. |_:@ mapper:Function
@@ -135,9 +135,9 @@ region Lazy functions, and their eager versions.
 	@map~. |mapped:@ mapper:Function
 		| Lazy map.
 		todo SYNTAX @for~
-		new Stream ~!|
+		new Stream *!|
 			for mapped
-				<~ mapper_
+				<- mapper_
 
 	todo  Better name?
 	@flat-map. method |mapper:Function[Any @]
@@ -149,9 +149,9 @@ region Lazy functions, and their eager versions.
 	@flat-map~. |mapped:@ mapper:Function[Any @]
 		| Lazy flat-map.
 		todo SYNTAX @for~
-		new Stream ~!|
+		new Stream *!|
 			for mapped
-				<~~ iterator mapper_
+				<-* iterator mapper_
 
 	@flatten. method |
 		| For an @ containing many @, produces an @ containing all of their entries combined.
@@ -164,9 +164,9 @@ region Lazy functions, and their eager versions.
 	@flatten~. |flattened
 		| Lazy flatten.
 		todo SYNTAX @for~
-		new Stream ~!|
+		new Stream *!|
 			for flattened
-				<~~ iterator_
+				<-* iterator_
 
 	++. method |@other:@
 		| Concatenation. Sets should override this.
@@ -178,9 +178,9 @@ region Lazy functions, and their eager versions.
 	++~. |:Stream @a @b
 		| Lazy ++.
 		todo SYNTAX @for~
-		new Stream ~!|
-			<~~ iterator @a
-			<~~ iterator @b
+		new Stream *!|
+			<-* iterator @a
+			<-* iterator @b
 
 	todo  Move to Set?
 	--. method |@remove:@
@@ -191,7 +191,7 @@ region Lazy functions, and their eager versions.
 	--~. |:@ @removed-from @remove:@
 		| Lazy --.
 		todo SYNTAX @for~
-		new Stream ~!|
+		new Stream *!|
 			@remove-remaining = => Set @remove
 			for @removed-from
 				case
@@ -199,7 +199,7 @@ region Lazy functions, and their eager versions.
 						todo  -!
 						--! @remove-remaining [_]
 					else
-						<~ _
+						<- _
 
 region Mutator methods
 	empty!. method |

@@ -43,7 +43,7 @@ Range. class kind @
 	'length |
 		- .end .start
 
-	iterator ~!|
+	iterator *!|
 		cur ::= .start
 		for
 			break-cond = case
@@ -54,7 +54,7 @@ Range. class kind @
 			if break-cond
 				break
 
-			<~ cur
+			<- cur
 			cur := + cur .step
 
 	|| Below functions can be implemented more efficiently than the defaults.

@@ -27,13 +27,13 @@ Hash-Map. class kind Map
 	construct .val:Id-Map
 		pass
 
-	iterator ~!|
+	iterator *!|
 		for bucket of .val.values()
 			cur ::= bucket
 			for
 				unless defined? cur
 					break
-				<~ [cur.key cur.val!]
+				<- [cur.key cur.val!]
 				cur := cur.next!
 
 	?get |key

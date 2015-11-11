@@ -35,8 +35,8 @@ tests 'Seq
 		[[]] -> []
 
 	seq=? -> !|
-		s = new Stream ~!|
-			<~ 1
+		s = new Stream *!|
+			<- 1
 		[s [1]] -> true
 		[s [2]] -> false
 

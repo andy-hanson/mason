@@ -26,14 +26,14 @@ Deque. class kind Seq
 		.start-index! ::= 0 || Inclusive (unless =? end-index)
 		.end-index! ::= 0 || Exclusive
 
-	iterator ~!|
+	iterator *!|
 		indices = case
 			<? .end-index! .start-index!
 				++~ .start-index!...(count .data!) 0...(.end-index!)
 			else
 				.start-index!...(.end-index!)
 		for indices
-			<~ .data![_]
+			<- .data![_]
 
 	<++! !|ems:@
 		for @reverse ems

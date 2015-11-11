@@ -14,7 +14,7 @@ Stream. class kind Seq
 
 	static
 		empty |
-			new Stream ~!|
+			new Stream *!|
 				pass
 
 		from-stream |_

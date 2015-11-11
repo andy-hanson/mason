@@ -20,12 +20,12 @@ LList. class kind Seq
 	construct .head .tail
 		pass
 
-	iterator ~!|
+	iterator *!|
 		cur ::= this
 		for
 			if empty? cur
 				break
-			<~ cur.head
+			<- cur.head
 			cur := cur.tail
 
 	empty? |

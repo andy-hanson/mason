@@ -18,11 +18,11 @@ Splay-Tree. class kind Sorted-Map
 		pass
 
 	iterator |
-		node-iter = ~!|_
+		node-iter = *!|_
 			if defined?_
-				<~~ node-iter _.left!
-				<~ [_.key _.val!]
-				<~~ node-iter _.right!
+				<-* node-iter _.left!
+				<- [_.key _.val!]
+				<-* node-iter _.right!
 		node-iter .root
 
 	empty? |
