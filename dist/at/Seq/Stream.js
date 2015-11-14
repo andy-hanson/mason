@@ -16,8 +16,9 @@ define(["exports","./../../Generator","./../../Type/Kind","./../at","./../at-Typ
 					})
 				}
 				constructor(make_45iterator){
+					const _this=this;
 					_ms.checkContains(_ms.sub(Function,Generator),make_45iterator,"make-iterator");
-					Object.defineProperty(this,Symbol.iterator,(()=>{
+					Object.defineProperty(_this,Symbol.iterator,(()=>{
 						const built={};
 						const value=built.value=make_45iterator;
 						return built
@@ -31,4 +32,4 @@ define(["exports","./../../Generator","./../../Type/Kind","./../at","./../at-Typ
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvQC9TZXEvU3RyZWFtLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBT0EsNkJBQWMsS0FLWDs7dUJBR0Q7V0FLSztZQUpKLEtBQUksUUFDVTs7dUJBRWYsZ0JBQWE7V0FDUjtZQUFKLEtBQUksT0FDTTthQUFULFNBQUE7S0FBQTtJQUFBO0lBRU8sWUFBQTsrQkFBYyxTQUFTO0tBQ2hDLHNCQUFzQixLQUFLLGdCQUNlLEtBQUE7O01BQXpDLHdCQUFPOzs7OztnQkFsQlM7R0FLakIsZUFBVyxFQUFFIiwiZmlsZSI6ImF0L1NlcS9TdHJlYW0uanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvQC9TZXEvU3RyZWFtLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBT0EsNkJBQWMsS0FLWDs7dUJBR0Q7V0FTc0I7WUFSckIsS0FBSSxRQUNVOzt1QkFFZixnQkFBYTtXQUtTO1lBSnJCLEtBSXFCLE9BSFg7YUFBVCxTQUFBO0tBQUE7SUFBQTtJQUVPLFlBQUE7V0FDYTsrQkFEQyxTQUFTO0tBQ2hDLHNCQUFzQixNQUFLLGdCQUNlLEtBQUE7O01BQXpDLHdCQUFPOzs7OztnQkFsQlM7R0FLakIsZUFBVyxFQUFFIiwiZmlsZSI6ImF0L1NlcS9TdHJlYW0uanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

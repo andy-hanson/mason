@@ -6,18 +6,20 @@ define(["exports","./../control","./../to-string","./Impl-Type","./Method","./Ty
 		const Enum=exports.default=(()=>{
 			const _=class Enum{
 				constructor(params){
-					_ms.newProperty(this,"name",params.name);
-					_ms.newProperty(this,"prototype",opr(params.prototype,_ms.lazy(()=>Object.create(Object.prototype))));
-					_ms.newProperty(this,"values",params.values);
-					for(let value_45name of this.values){
-						const enum_45val=Object.create(this.prototype);
+					const _this=this;
+					_ms.newProperty(_this,"name",params.name);
+					_ms.newProperty(_this,"prototype",opr(params.prototype,_ms.lazy(()=>Object.create(Object.prototype))));
+					_ms.newProperty(_this,"values",params.values);
+					for(let value_45name of _this.values){
+						const enum_45val=Object.create(_this.prototype);
 						_ms.newProperty(enum_45val,"name",value_45name);
-						_ms.newProperty(this,`${value_45name}`,enum_45val)
+						_ms.newProperty(_this,`${value_45name}`,enum_45val)
 					};
-					_ms.newProperty(this.prototype,"constructor",this);
-					const enum_45name=this.name;
-					impl_33(to_45string,this,function(){
-						return `${enum_45name}.${this.name}`
+					_ms.newProperty(_this.prototype,"constructor",_this);
+					const enum_45name=_this.name;
+					impl_33(to_45string,_this,function(){
+						const _this=this;
+						return `${enum_45name}.${_this.name}`
 					})
 				}
 				[_ms.symbol(contains_63)](_){
@@ -31,4 +33,4 @@ define(["exports","./../control","./../to-string","./Impl-Type","./Method","./Ty
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvVHlwZS9FbnVtLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBT0EsMkJBQVk7O0lBSUQsWUFBQTtxQkFDVCxZQUFRO3FCQUNSLGlCQUFhLElBQUksOEJBQW1CLGNBQWM7cUJBQ2xELGNBQVU7S0FFTixRQUFBLGdCQUFjLFlBQ087TUFBeEIsaUJBQVcsY0FBYztzQkFDekIsa0JBQWdCO3NCQUNoQixLQUFNLEdBQUMsZUFBZTtLQUFBO3FCQUN2Qiw2QkFBeUI7S0FDekIsa0JBQVk7S0FDWixRQUFNLFlBQVUsS0FDTzthQUFyQixHQUFDLGVBQVk7OztnQkFFaEIsY0FBVztXQUMwQjtZQUFwQyxvQ0FBb0MsZ0JBQVc7SUFBQTtHQUFBO2dCQW5CaEMiLCJmaWxlIjoiVHlwZS9FbnVtLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvVHlwZS9FbnVtLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBT0EsMkJBQVk7O0lBSUQsWUFBQTtXQWUyQjtxQkFBQSxhQWQ1QjtxQkFjNEIsa0JBYnZCLElBQUksOEJBQW1CLGNBQWM7cUJBYWQsZUFaMUI7S0FFTixRQUFBLGdCQVVnQyxhQVRYO01BQXhCLGlCQUFXLGNBU3dCO3NCQVJuQyxrQkFBZ0I7c0JBUW1CLE1BUDdCLEdBQUMsZUFBZTtLQUFBO3FCQU9hO0tBTHBDLGtCQUtvQztLQUpwQyxRQUFNLFlBSThCLE1BSGI7WUFHYTthQUhsQyxHQUFDLGVBR2lDOzs7Z0JBRHJDLGNBQVc7V0FDMEI7WUFBcEMsb0NBQW9DLGdCQUFXO0lBQUE7R0FBQTtnQkFuQmhDIiwiZmlsZSI6IlR5cGUvRW51bS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

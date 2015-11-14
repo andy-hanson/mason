@@ -45,7 +45,12 @@ defined?. |_
 	| True for any value except `undefined`.
 	not id=? _ undefined
 
+null?. |_
+	todo doc, test
+	js=== _ null
+
 exists?. |_
+	todo kill?
 	todo doc, test
 	not js== _ null
 

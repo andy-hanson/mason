@@ -58,7 +58,7 @@ const
 		.pipe(sourcemaps.write({ debug: true, sourceRoot: '/src' }))
 		.pipe(gulp.dest(dist)),
 
-	pipeMs = (stream, dest) =>
+	pipeMs = stream =>
 		stream
 		.pipe(sourcemaps.init())
 		.pipe(mason({
@@ -79,7 +79,7 @@ const
 		}))
 		.pipe(gulp.dest(dist)),
 
-	pipeMsTest = (stream, dest) =>
+	pipeMsTest = stream =>
 		stream
 		.pipe(sourcemaps.init())
 		.pipe(mason({

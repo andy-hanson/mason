@@ -61,14 +61,14 @@ ${err.stack}
 		const $flat_45map=exports["$flat-map"]=function $flat_45map(mapped,mapper){
 			_ms.checkContains(_64,mapped,"mapped");
 			_ms.checkContains(_ms.sub(Function,Any,_ms.sub($,_64)),mapper,"mapper");
-			return _ms.async(function* $flat_45map(){
+			return _ms.async(function*(){
 				return _ms.checkContains(_64,_64flatten((yield $map(mapped,mapper))),"returned value")
 			})
 		};
 		const $keep=exports.$keep=function $keep(keep_45some,keep_45if_63){
 			_ms.checkContains(_64,keep_45some,"keep-some");
 			_ms.checkContains(_ms.sub(Function,Any,_ms.sub($,Boolean)),keep_45if_63,"keep-if?");
-			return _ms.async(function* $keep(){
+			return _ms.async(function*(){
 				return _ms.checkContains(Array,(yield* function*(){
 					const built=[];
 					for(let _ of keep_45some){

@@ -10,8 +10,9 @@ define(["exports","./../../Type/Kind","./../at","./../at-Type","./../Map/Map",".
 					return new (_this)(empty(Hash_45Map))
 				}
 				constructor(map){
-					_ms.newProperty(this,"map",map);
-					_ms.checkContains(Hash_45Map,map,"map")
+					const _this=this;
+					_ms.checkContains(Hash_45Map,map,"map");
+					_ms.newProperty(this,"map",map)
 				}
 				[_ms.symbol(iterator)](){
 					const _this=this;
@@ -41,4 +42,4 @@ define(["exports","./../../Type/Kind","./../at","./../at-Type","./../Map/Map",".
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvQC9TZXQvSGFzaC1TZXQubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFRQSxpQ0FBZ0IsS0FJYjs7dUJBR0Q7V0FxQk87WUFwQk4sS0FvQk0sT0FwQkksTUFBTTtJQUFBO0lBRVIsWUFBQTs7dUJBQUs7O2dCQUdmO1dBZVE7WUFkUCxTQUFVLFFBY0g7O2dCQVZSLFlBQU07V0FVRTtLQVRILFFBQUEsS0FBQSxTQUNNO2lCQVFILFVBUkQsRUFBTTs7O2dCQUdiLFlBQU07V0FLRTtLQUpILFFBQUEsS0FBQSxXQUNRO2lCQUdMLFVBSEc7S0FBQTtJQUFBO2dCQUVYO1dBQ1E7S0FBUCxTQUFPOzs7Z0JBNUJZO0dBSW5CLGVBQVcsRUFBRSIsImZpbGUiOiJhdC9TZXQvSGFzaC1TZXQuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvQC9TZXQvSGFzaC1TZXQubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFRQSxpQ0FBZ0IsS0FJYjs7dUJBR0Q7V0FxQk87WUFwQk4sS0FvQk0sT0FwQkksTUFBTTtJQUFBO0lBRVIsWUFBQTtXQWtCRjt1QkFsQk87OztnQkFHZjtXQWVRO1lBZFAsU0FBVSxRQWNIOztnQkFWUixZQUFNO1dBVUU7S0FUSCxRQUFBLEtBQUEsU0FDTTtpQkFRSCxVQVJELEVBQU07OztnQkFHYixZQUFNO1dBS0U7S0FKSCxRQUFBLEtBQUEsV0FDUTtpQkFHTCxVQUhHO0tBQUE7SUFBQTtnQkFFWDtXQUNRO0tBQVAsU0FBTzs7O2dCQTVCWTtHQUluQixlQUFXLEVBQUUiLCJmaWxlIjoiYXQvU2V0L0hhc2gtU2V0LmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=

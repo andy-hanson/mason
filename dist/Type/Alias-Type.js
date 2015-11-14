@@ -6,17 +6,18 @@ define(["exports","./../methods","./Type"],(exports,methods_0,Type_1)=>{
 		const Alias_45Type=exports.default=(()=>{
 			const _=class Alias_45Type{
 				constructor(params){
-					Object.assign(this,params);
-					_ms.assert(_ms.contains,String,this.name);
-					_ms.assert(_ms.contains,Type,this["alias-of"])
+					const _this=this;
+					Object.assign(_this,params);
+					_ms.assert(_ms.contains,String,_this.name);
+					_ms.assert(_ms.contains,Type,_this["alias-of"])
 				}
 				[_ms.symbol(contains_63)](value){
 					const _this=this;
 					return _ms.contains(_this["alias-of"],value)
 				}
 				[_ms.symbol(sub)](){
-					const _this=this;
 					const args=[].slice.call(arguments,0);
+					const _this=this;
 					return sub(_this["alias-of"],...args)
 				}
 			};
@@ -26,4 +27,4 @@ define(["exports","./../methods","./Type"],(exports,methods_0,Type_1)=>{
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvVHlwZS9BbGlhcy1UeXBlLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBSUEsbUNBQWtCOztJQUdQLFlBQUE7S0FDVCxjQUFjLEtBQUs7NkJBQ04sT0FBTjs2QkFDVSxLQUFWOztnQkFFUixjQUFXO1dBSU47eUJBQUEsa0JBSEo7SUFBQTtnQkFFRDtXQUNLOztZQUFKLElBQUksa0JBQVUsR0FBRztJQUFBO0dBQUE7Z0JBWkkiLCJmaWxlIjoiVHlwZS9BbGlhcy1UeXBlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvVHlwZS9BbGlhcy1UeXBlLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBSUEsbUNBQWtCOztJQUdQLFlBQUE7V0FTTDtLQVJKLGNBUUksTUFSZTs2QkFDTixPQU9UOzZCQU5hLEtBTWI7O2dCQUpMLGNBQVc7V0FJTjt5QkFBQSxrQkFISjtJQUFBO2dCQUVEOztXQUNLO1lBQUosSUFBSSxrQkFBVSxHQUFHO0lBQUE7R0FBQTtnQkFaSSIsImZpbGUiOiJUeXBlL0FsaWFzLVR5cGUuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

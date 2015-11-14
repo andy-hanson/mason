@@ -11,11 +11,11 @@
 		"amdefine": "1.0.0"
 	},
 	"devDependencies": {
-		"babel-plugin-transform-es2015-modules-umd": "6.0.14",
-		"babel-plugin-transform-strict-mode": "6.0.14",
+		"babel-plugin-transform-es2015-modules-umd": "6.1.4",
+		"babel-plugin-transform-strict-mode": "6.1.4",
 		"fs-promise": "0.3.1",
 		"gulp": "3.9.0",
-		"gulp-babel": "6.0.0",
+		"gulp-babel": "6.1.0",
 		"gulp-mason": "mason-lang/gulp-mason",
 		"gulp-plumber": "1.0.1",
 		"gulp-sourcemaps": "1.6.0",

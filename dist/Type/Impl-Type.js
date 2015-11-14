@@ -9,8 +9,9 @@ define(["exports","./Kind"],(exports,Kind_0)=>{
 		const Self_45Type=exports["Self-Type"]=(()=>{
 			const _=class Self_45Type{
 				constructor(prototype){
+					const _this=this;
 					_ms.checkContains(Object,prototype,"prototype");
-					_ms.newProperty(this,"prototype",prototype)
+					_ms.newProperty(_this,"prototype",prototype)
 				}
 			};
 			_ms.kindDo(_,Impl_45Type);
@@ -19,4 +20,4 @@ define(["exports","./Kind"],(exports,Kind_0)=>{
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvVHlwZS9JbXBsLVR5cGUubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFHQTtFQUlBLG9CQUFnQixTQUFTO0VBQ3pCLFFBQU0sS0FBSztFQUVYLHVDQUFpQjs7SUFJTixZQUFBO3VCQUFVO3FCQUNuQixpQkFBYTtJQUFBO0dBQUE7Z0JBTE8iLCJmaWxlIjoiVHlwZS9JbXBsLVR5cGUuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvVHlwZS9JbXBsLVR5cGUubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFHQTtFQUlBLG9CQUFnQixTQUFTO0VBQ3pCLFFBQU0sS0FBSztFQUVYLHVDQUFpQjs7SUFJTixZQUFBO1dBQ1Q7dUJBRG1CO3FCQUNuQixrQkFBYTtJQUFBO0dBQUE7Z0JBTE8iLCJmaWxlIjoiVHlwZS9JbXBsLVR5cGUuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
