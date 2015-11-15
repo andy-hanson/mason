@@ -2,7 +2,7 @@
 if((typeof define!=="function"))var define=require("amdefine")(module);
 define(["exports","./../compare","./../Function","./../js","./../math/Number","./../math/methods","./../private/bootstrap","./../Type/Kind","./../Type/Method","./../Type/Pred-Type","./at","./at-Type","./Seq/Seq"],(exports,compare_0,Function_1,js_2,Number_3,methods_4,bootstrap_5,Kind_6,Method_7,Pred_45Type_8,_64_9,_64_45Type_10,Seq_11)=>{
 	exports._get=_ms.lazy(()=>{
-		const _$0=_ms.getModule(compare_0),_60_63=_ms.get(_$0,"<?"),_60_61_63=_ms.get(_$0,"<=?"),_62_61_63=_ms.get(_$0,">=?"),_$1=_ms.getModule(Function_1),thunk=_ms.get(_$1,"thunk"),_$2=_ms.getModule(js_2),defined_63=_ms.get(_$2,"defined?"),_$3=_ms.getModule(Number_3),neg=_ms.get(_$3,"neg"),Nat=_ms.get(_$3,"Nat"),remainder=_ms.get(_$3,"remainder"),same_45sign_63=_ms.get(_$3,"same-sign?"),sign=_ms.get(_$3,"sign"),_$4=_ms.getModule(methods_4),_43=_ms.get(_$4,"+"),_45=_ms.get(_$4,"-"),_42=_ms.get(_$4,"*"),_47=_ms.get(_$4,"/"),_$5=_ms.getModule(bootstrap_5),msDef=_ms.get(_$5,"msDef"),_$6=_ms.getModule(Kind_6),self_45kind_33=_ms.get(_$6,"self-kind!"),_$7=_ms.getModule(Method_7),self_45impl_33=_ms.get(_$7,"self-impl!"),_$8=_ms.getModule(Pred_45Type_8),Opt=_ms.get(_$8,"Opt"),_64=_ms.getDefaultExport(_64_9),_$9=_ms.getModule(_64_9),count=_ms.get(_$9,"count"),iterator=_ms.get(_$9,"iterator"),_64_45Type=_ms.getDefaultExport(_64_45Type_10),_$10=_ms.getModule(_64_45Type_10),empty=_ms.get(_$10,"empty"),from_45stream=_ms.get(_$10,"from-stream"),_$11=_ms.getModule(Seq_11),_63nth=_ms.get(_$11,"?nth"),_64reverse=_ms.get(_$11,"@reverse");
+		const _$0=_ms.getModule(compare_0),_60_63=_ms.get(_$0,"<?"),_60_61_63=_ms.get(_$0,"<=?"),_62_61_63=_ms.get(_$0,">=?"),same_63=_ms.get(_$0,"same?"),_$1=_ms.getModule(Function_1),thunk=_ms.get(_$1,"thunk"),_$2=_ms.getModule(js_2),defined_63=_ms.get(_$2,"defined?"),_$3=_ms.getModule(Number_3),Nat=_ms.get(_$3,"Nat"),remainder=_ms.get(_$3,"remainder"),_$4=_ms.getModule(methods_4),_43=_ms.get(_$4,"+"),_45=_ms.get(_$4,"-"),_42=_ms.get(_$4,"*"),_47=_ms.get(_$4,"/"),_$5=_ms.getModule(bootstrap_5),msDef=_ms.get(_$5,"msDef"),_$6=_ms.getModule(Kind_6),self_45kind_33=_ms.get(_$6,"self-kind!"),_$7=_ms.getModule(Method_7),self_45impl_33=_ms.get(_$7,"self-impl!"),_$8=_ms.getModule(Pred_45Type_8),Opt=_ms.get(_$8,"Opt"),_64=_ms.getDefaultExport(_64_9),_$9=_ms.getModule(_64_9),count=_ms.get(_$9,"count"),iterator=_ms.get(_$9,"iterator"),_64_45Type=_ms.getDefaultExport(_64_45Type_10),_$10=_ms.getModule(_64_45Type_10),empty=_ms.get(_$10,"empty"),from_45stream=_ms.get(_$10,"from-stream"),_$11=_ms.getModule(Seq_11),_63nth=_ms.get(_$11,"?nth"),_64reverse=_ms.get(_$11,"@reverse");
 		const Range=exports.default=(()=>{
 			const _=class Range{
 				static [_ms.symbol(from_45stream)](_){
@@ -19,10 +19,10 @@ define(["exports","./../compare","./../Function","./../js","./../math/Number",".
 					_ms.newProperty(_this,"step",(()=>{
 						const _=step;
 						if(defined_63(_)){
-							_ms.assert(same_45sign_63,_,_45(end,start));
+							_ms.assert(same_63,Math.sign,_,_45(end,start));
 							return _
 						} else {
-							return sign(_45(end,start))
+							return Math.sign(_45(end,start))
 						}
 					})())
 				}
@@ -66,7 +66,7 @@ define(["exports","./../compare","./../Function","./../js","./../math/Number",".
 				}
 				[_ms.symbol(_64reverse)](){
 					const _this=this;
-					const new_45step=neg(_this.step);
+					const new_45step=_42(- 1,_this.step);
 					const rem=remainder(_45(_this.end,_this.start),_this.step);
 					return (()=>{
 						switch(rem){
@@ -85,11 +85,11 @@ define(["exports","./../compare","./../Function","./../js","./../math/Number",".
 		})();
 		msDef("range",(start,end,exclusive_63)=>{
 			if(! exclusive_63){
-				end=_43(end,sign(_45(end,start)))
+				end=_43(end,Math.sign(_45(end,start)))
 			};
 			return new (Range)(start,end)
 		});
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvQC9SYW5nZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQWNBLDRCQUFhLEtBS1Y7O3VCQUtELGdCQUFhO1dBZ0RtQjtZQTdDL0I7SUFBQTtJQUVRLFlBQUEsTUFBYSxJQUFXO1dBMkNEO3VCQTNDakI7dUJBQVc7K0JBQVksSUFBSTtxQkEyQ1YsY0ExQ3ZCO3FCQTBDdUIsWUF6Q3pCO3FCQXlDeUIsYUF4Q25CO01BQUEsUUFBQTtNQUNaLEdBQUEsV0FBQSxHQUNTO2tCQUFELGVBQVcsRUFBRyxJQUFFLElBQUk7Y0FDM0I7TUFBQSxPQUVHO2NBQUgsS0FBTSxJQUFFLElBQUk7TUFBQTtLQUFBO0lBQUE7T0FFVjtXQWlDNEI7WUFoQ2hDLEtBQUksT0FnQzRCLHNCQWhDVjtJQUFBOztXQWdDVTtZQTdCaEMsSUE2QmdDOztpQkEzQmpDO1dBMkJpQztLQTFCaEMsUUEwQmdDO0tBeEI3QixPQUFBO01BQUYsbUJBQ2lCO09BQWhCLEdBQUEsT0FBRyxFQXVCMkIsWUF0QnBCO2VBQVQsVUFBSSxJQXNCeUI7Y0FwQjFCO2VBQUgsVUFBSSxJQW9CeUI7OztNQW5CNUIsR0FBQSxhQUNVO09BQVo7TUFBQTthQUVFO1VBQ0ksSUFBRSxJQWVzQjs7O2dCQVhqQyxTQUFNO1dBVzJCO3VCQVh6QjtLQUVQLFNBQUssSUFTMkIsWUFUakIsSUFTaUIsV0FUVDtZQUNwQixDQUFBLE9BQUcsR0FRMEIseUJBUG5CO2FBQVo7S0FBQTs7Z0JBRUY7V0FLaUM7WUFKaEMsV0FBWSxJQUlvQjs7Z0JBRmpDO1dBRWlDO0tBRGhDLGlCQUFXLElBQ3FCO0tBQWhDLFVBQU0sVUFBVyxJQUFlO1lBQ3pCO2FBQUE7WUFDTixFQUNDO2VBQUEsS0FBSSxPQUFPLElBSG1CLHNCQUdKLElBSEksd0JBR1k7T0FBQTtzQkFFMUMsS0FBSSxPQUFPLElBTG1CLFVBS1osS0FMWSxZQUtBO01BQUE7S0FBQTtJQUFBO0dBQUE7Z0JBL0RoQjtHQUtoQixlQUFXLEVBQUU7R0FFYixlQUFXLE1BQU0sRUFBRyxNQUFPLEtBQUksR0FBRSxFQUFFOzs7RUEwRHJDLE1BQU8sUUFBTyxDQUFBLE1BQU0sSUFBSTtHQUNoQixLQUFBLGFBQ1U7UUFBVCxJQUFFLElBQUssS0FBTSxJQUFFLElBQUk7R0FBQTtVQUMzQixLQUFJLE9BQU0sTUFBTTtFQUFBIiwiZmlsZSI6ImF0L1JhbmdlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvQC9SYW5nZS5tcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztFQWNBLDRCQUFhLEtBS1Y7O3VCQUtELGdCQUFhO1dBZ0RtQjtZQTdDL0I7SUFBQTtJQUVRLFlBQUEsTUFBYSxJQUFXO1dBMkNEO3VCQTNDakI7dUJBQVc7K0JBQVksSUFBSTtxQkEyQ1YsY0ExQ3ZCO3FCQTBDdUIsWUF6Q3pCO3FCQXlDeUIsYUF4Q25CO01BQUEsUUFBQTtNQUNaLEdBQUEsV0FBQSxHQUNTO2tCQUFELFFBQU0sVUFBVSxFQUFHLElBQUUsSUFBSTtjQUNoQztNQUFBLE9BRUc7Y0FBSCxVQUFXLElBQUUsSUFBSTtNQUFBO0tBQUE7SUFBQTtPQUVmO1dBaUM0QjtZQWhDaEMsS0FBSSxPQWdDNEIsc0JBaENWO0lBQUE7O1dBZ0NVO1lBN0JoQyxJQTZCZ0M7O2lCQTNCakM7V0EyQmlDO0tBMUJoQyxRQTBCZ0M7S0F4QjdCLE9BQUE7TUFBRixtQkFDaUI7T0FBaEIsR0FBQSxPQUFHLEVBdUIyQixZQXRCcEI7ZUFBVCxVQUFJLElBc0J5QjtjQXBCMUI7ZUFBSCxVQUFJLElBb0J5Qjs7O01BbkI1QixHQUFBLGFBQ1U7T0FBWjtNQUFBO2FBRUU7VUFDSSxJQUFFLElBZXNCOzs7Z0JBWGpDLFNBQU07V0FXMkI7dUJBWHpCO0tBRVAsU0FBSyxJQVMyQixZQVRqQixJQVNpQixXQVRUO1lBQ3BCLENBQUEsT0FBRyxHQVEwQix5QkFQbkI7YUFBWjtLQUFBOztnQkFFRjtXQUtpQztZQUpoQyxXQUFZLElBSW9COztnQkFGakM7V0FFaUM7S0FEaEMsaUJBQVcsSUFBRSxJQUNtQjtLQUFoQyxVQUFNLFVBQVcsSUFBZTtZQUN6QjthQUFBO1lBQ04sRUFDQztlQUFBLEtBQUksT0FBTyxJQUhtQixzQkFHSixJQUhJLHdCQUdZO09BQUE7c0JBRTFDLEtBQUksT0FBTyxJQUxtQixVQUtaLEtBTFksWUFLQTtNQUFBO0tBQUE7SUFBQTtHQUFBO2dCQS9EaEI7R0FLaEIsZUFBVyxFQUFFO0dBRWIsZUFBVyxNQUFNLEVBQUcsTUFBTyxLQUFJLEdBQUUsRUFBRTs7O0VBMERyQyxNQUFPLFFBQU8sQ0FBQSxNQUFNLElBQUk7R0FDaEIsS0FBQSxhQUNVO1FBQVQsSUFBRSxJQUFLLFVBQVcsSUFBRSxJQUFJO0dBQUE7VUFDaEMsS0FBSSxPQUFNLE1BQU07RUFBQSIsImZpbGUiOiJhdC9SYW5nZS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

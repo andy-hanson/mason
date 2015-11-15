@@ -1,5 +1,4 @@
 import
-	global TypeError
 	msl.Function thunk
 	msl.Try annotate-errors $annotate-errors fails? fails-with? Success $try try-result
 	.tests

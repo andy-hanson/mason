@@ -16,8 +16,7 @@ Int. new Pred-Type
 Nat. new Pred-Type
 	| Any counting number, including `0`.
 	name.
-	predicate. |_
-		and :Int (<=? 0 _)
+	predicate. &(and :Int (>=? _ 0))
 
 region impl!
 	todo  impl*!
@@ -42,29 +41,11 @@ region impl!
 	impl! / Number .|other:Number
 		js/ this other
 
-region Tests
-	sign. |_:Number
-		case
-			<? 0 _
-				1
-			<? _ 0
-				-1
-			else
-				0
-
-	same-sign?. |a:Number b:Number
-		<=? 0 (* a b)
-
 region Integer arithmetic
 	remainder. |numerator:Number denominator:Number
 		| Remainder of `a` after dividing by `b`.
 		| Sign of result is sign of `a`. Sign of `b` is ignored.
 		js-mod numerator denominator
-
-	int/. |a:Number b:Number
-		| Integer division: throws out any remainder.
-		| This is the default in other programming languages, but in Mason `/ 1 2` is 0.5, not 0.
-		Math.floor (/ a b)
 
 	modulo. |numerator:Number denominator:Number
 		| Mathematical modulus.
@@ -75,24 +56,22 @@ region Integer arithmetic
 			else
 				remainder numerator denominator
 
+	int/. |a:Number b:Number
+		| Integer division: throws out any remainder.
+		| This is the default in other programming languages, but in Mason `/ 1 2` is 0.5, not 0.
+		Math.floor (/ a b)
+
 	divisible?. |a:Number b:Number
 		| Whether an integer number of `b` can add up to `a`.
 		=? 0 (remainder a b)
 
 region Real arithmetic
-	todo  Some of these are unnecessary...
-
-	log. |base:Number n:Number
+	log-base. |base:Number n:Number
 		| Mathematical logarithm.
 		/ (Math.log n) (Math.log base)
 
 	square. |_:Number
 		* _ _
-
-	square-root. |_:Number
-		todo doc
-		assert <=? 0 _ throw "Can't take square root of negative number {_}."
-		Math.sqrt _
 
 region Near
 	near?. |a b:Number sig-figs:Opt[Nat]
@@ -105,7 +84,7 @@ region Near
 				near-0? a sig-figs
 			else
 				avg-mag = / (+ (Math.abs a) (Math.abs b)) 2
-				n-digits-avg-mag = Math.floor (log 10 avg-mag)
+				n-digits-avg-mag = Math.floor (Math.log10 avg-mag)
 				scale = Math.pow 10 (* -1 n-digits-avg-mag)
 				scaled-diff = - (* a scale) (* b scale)
 				epsilon = Math.pow 10 (* -1 sig-figs)
@@ -120,10 +99,6 @@ region Near
 		<? Math.abs_ max
 
 region Utilities
-	neg. |_:Number
-		todo doc
-		* -1 _
-
 	mid. |a:Number b:Number
 		todo doc
 		/ (+ a b) 2

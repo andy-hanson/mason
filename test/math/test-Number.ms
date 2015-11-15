@@ -1,7 +1,6 @@
 import
 	msl.Function spread!
-	msl.math.Number sign near? square square-root near-0? mid
-	msl.Try fails?
+	msl.math.Number log-base mid near-0? near?
 	..tests
 
 tests 'Number
@@ -26,11 +25,6 @@ tests 'Number
 	=? ->
 		[Number.NaN Number.NaN] -> true
 
-	sign ->
-		[-8] -> -1
-		[0] -> 0
-		[8] -> 1
-
 	remainder ->
 		[2 3] -> 2
 		[2 -3] -> 2
@@ -52,17 +46,12 @@ tests 'Number
 		[4 -2] -> true
 		[3 2] -> false
 
-	log -> |
-		assert near? (log 10 0.01) -2
+	log-base -> |
+		assert near? (log-base 10 0.01) -2
 		[2 8] -> 3
 
 	square ->
 		[3] -> 9
-
-	square-root -> |
-		[4] -> 2
-		assert fails? !|
-			square-root -1
 
 	near? ->
 		[1000.9 1000 3] -> true
@@ -77,10 +66,6 @@ tests 'Number
 	near-0? ->
 		[0.00999 2] -> true
 		[0.01 2] -> false
-
-	neg ->
-		[1] -> -1
-		[0] -> -0
 
 	mid ->
 		[0 1] -> 0.5

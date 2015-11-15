@@ -1,8 +1,8 @@
 import
-	..compare <? <=? >=?
+	..compare <? <=? >=? same?
 	..Function thunk
 	..js defined?
-	..math.Number neg Nat remainder same-sign? sign
+	..math.Number Nat remainder
 	..math.methods + - * /
 	..private.bootstrap msDef
 	..Type.Kind self-kind!
@@ -32,10 +32,10 @@ Range. class kind @
 		.end = end
 		.step = case step
 			defined?_
-				assert same-sign? _ (- end start)
+				assert same? Math.sign _ (- end start)
 				_
 			else
-				sign (- end start)
+				Math.sign (- end start)
 
 	'by |step
 		new Range .start .end step
@@ -69,7 +69,7 @@ Range. class kind @
 		Math.floor (/ .length() .step)
 
 	@reverse |
-		new-step = neg .step
+		new-step = * -1 .step
 		rem = remainder (- .end .start) .step
 		switch rem
 			0
@@ -79,5 +79,5 @@ Range. class kind @
 
 msDef 'range |start end exclusive?
 	unless exclusive?
-		end := + end (sign (- end start))
+		end := + end (Math.sign (- end start))
 	new Range start end

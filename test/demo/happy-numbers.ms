@@ -1,5 +1,4 @@
 import
-	msl.math.Number square
 	..tests
 
 || Least-significant to most-significant, but order doesn't matter.

@@ -1,6 +1,5 @@
 import
 	msl.@.Map.multi-map add-to-@!
-	msl.math.Number square
 	..tests
 
 primes.

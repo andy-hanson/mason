@@ -10,8 +10,7 @@ roman-digits =
 	500 -> 'D
 	1000 -> 'M
 
-power-of-10-below = |_
-	Math.pow 10 (Math.floor (log 10 _))
+power-of-10-below = &(Math.pow 10 (Math.floor Math.log10_))
 
 roman. |n:Nat
 	| Converts a number to Roman numerals.
