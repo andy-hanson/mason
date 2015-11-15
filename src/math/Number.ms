@@ -73,6 +73,15 @@ region Real arithmetic
 	square. |_:Number
 		* _ _
 
+	nearest-ceil. |_:Number step:Number
+		* step (Math.ceil (/ _ step))
+
+	nearest-floor. |_:Number step:Number
+		* step (Math.floor (/ _ step))
+
+	nearest-round. |_:Number step:Number
+		* step (Math.round (/ _ step))
+
 region Near
 	near?. |a b:Number sig-figs:Opt[Nat]
 		| Whether they are within sig-figs precision.

@@ -21,6 +21,10 @@ tests '?
 		[?None 1] -> 1
 		[(?some 1) 2] -> 1
 
+	?-cond ->
+		[?None 0 &(_)] -> 0
+		[(?some 1) 0 &(_)] -> 1
+
 	extract -> !|
 		case ?some 1
 			:?some val

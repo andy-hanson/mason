@@ -1,6 +1,8 @@
 {
 	"name": "msl",
 	"version": "0.0.0",
+	"repository": "mason-lang/msl",
+	"license": "WTFPL",
 	"files": ["src", "dist"],
 	"scripts": {
 		"build": "gulp compile",
@@ -24,7 +26,5 @@
 		"requirejs": "2.1.20",
 		"source-map-support": "0.3.3",
 		"yargs": "3.29.0"
-	},
-	"repository": "mason-lang/msl",
-	"license": "WTFPL"
+	}
 }

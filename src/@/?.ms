@@ -85,3 +85,9 @@ region Functions
 	?-or. |_:? ~or-else
 		| If empty, defaults to `or` - else returns its value.
 		cond empty?_ or-else _.val
+
+	?-cond. |_:? ~if-none if-some:Function
+		| Shorthand for case on option.
+		| If ?None, returns `if-none`.
+		| If `?some foo`, returns `if-some foo`.
+		cond empty?_ if-none (if-some _.val)

@@ -61,9 +61,16 @@ compare. method |other
 	>=? (compare this other) 0
 
 region Misc
-	same?. |f:Function a b
+	same?. |fun:Function a b
 		| Whether two values have the same `f`.
-		=? (f a) (f b)
+		=? (fun a) (fun b)
+
+	all-same?. |@coll:@ fun:Opt[Function]
+		fun := opr fun identity
+		or empty? @coll
+			fst = fun @coll[0]
+			all? @coll &(=? fst fun_)
+
 
 region Min/max
 	min. |_:@
