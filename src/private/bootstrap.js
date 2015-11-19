@@ -101,6 +101,13 @@ const msDefs = {
 		return module._get instanceof ms.Lazy ? module._get : ms.lazy(() => module)
 	},
 
+	$for(collection, generatorFunc) {
+		const promises = []
+		for (const elem of collection)
+			promises.push(_ms.async(() => generatorFunc(elem)))
+		return Promise.all(promises)
+	},
+
 	getModule(module) {
 		//kill?
 		if (module == null) return null
