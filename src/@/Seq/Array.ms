@@ -72,8 +72,8 @@ kind! Array Seq
 
 todo  impl! filter!
 filter!. !|arr keep-if?
-	read-idx ::= 0
-	write-idx ::= 0
+	read-idx = 0
+	write-idx = 0
 
 	for
 		if <=? arr.length read-idx

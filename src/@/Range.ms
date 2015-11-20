@@ -44,7 +44,7 @@ Range. class kind @
 		- .end .start
 
 	iterator *!|
-		cur ::= .start
+		cur = .start
 		for
 			break-cond = case
 				<? 0 .step

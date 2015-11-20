@@ -15,8 +15,8 @@ run-turing. |spec init-tape:Seq
 	| http://rosettacode.org/wiki/Universal_Turing_machine
 	rules:Object blank:Any init-state:Any = spec
 	tape = => Deque cond (empty? init-tape) [blank] init-tape
-	index ::= 0
-	state ::= init-state
+	index = 0
+	state = init-state
 	for
 		symbol-here = tape[index]
 		rule-here = rules."{state}"[symbol-here]

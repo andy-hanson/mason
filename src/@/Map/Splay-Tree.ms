@@ -75,19 +75,20 @@ Splay-Tree. class kind Sorted-Map
 			removed.val!
 
 region Private
+	todo Splay-Node = class key val left right
 	Splay-Node = class
 		construct .key val! left! right!
-			.val! ::= val!
-			.left! ::= left!
-			.right! ::= right!
+			.val! = val!
+			.left! = left!
+			.right! = right!
 
 	|| Searches for the key, bringing nodes up to the root along the way.
 	|| Returns whether the root now matches the key.
 	splay!? = |_ key
 		dummy = new Splay-Node undefined undefined undefined undefined
-		left ::= dummy
-		right ::= dummy
-		cur ::= _.root
+		left = dummy
+		right = dummy
+		cur = _.root
 
 		found = for
 			case compare key cur.key

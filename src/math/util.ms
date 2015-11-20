@@ -4,8 +4,8 @@ import
 
 average. |@vals:@[Number]
 	todo doc
-	sum ::= 0
-	count ::= 0
+	sum = 0
+	count = 0
 	for @vals
 		sum := + sum _
 		count := + 1 count

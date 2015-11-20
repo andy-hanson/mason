@@ -12,7 +12,7 @@ zeckendorf. |n:Nat
 	z-fibs = @tail fibs || Don't include the first `1`, so `[1 2 3 5 8 ...]`.
 	candidate-fibs = @reverse (@take-while~ z-fibs |_
 		<=? _ n || Highest numbers go first
-	left ::= n
+	left = n
 	digits = @map candidate-fibs |case
 		<=? _ left
 			left := - left _

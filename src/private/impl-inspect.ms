@@ -13,7 +13,7 @@ impl! inspect Object .|
 		Object.prototype.toString
 			@props = @all-properties this
 			enumerable-props = => Id-Set (@properties this)
-			s ::= "{.constructor.name}"
+			s = "{.constructor.name}"
 			for @props
 				s := "{s}\n\t{indent (inspect-property this _ :enumerable-props)}"
 			s

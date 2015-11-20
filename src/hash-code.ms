@@ -25,7 +25,7 @@ hash-code. new Method
 					else
 						|| Don't recurse infinitely.
 						hashes-cache.set this 17
-						hash ::= 17
+						hash = 17
 
 						for key of Object.keys this
 							val = this."{key}"
@@ -52,8 +52,8 @@ region Since default hash-code only works on Objects, let's implement hash-code 
 
 	todo  Memoize this one too?
 	impl! hash-code String .|
-		hash ::= 13
-		i ::= .length
+		hash = 13
+		i = .length
 		for
 			hash := js+ hash (.charCodeAt i)
 			hash := js-bar hash 0

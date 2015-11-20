@@ -170,16 +170,6 @@ const msDefs = {
 	newProperty(object, name, value) {
 		if (Object.prototype.hasOwnProperty.call(object, name))
 			throw new Error(`Property ${name} already exists.`)
-		Object.defineProperty(object, name, {
-			configurable: true,
-			enumerable: true,
-			writable: false,
-			value
-		})
-	},
-	newMutableProperty(object, name, value) {
-		if (Object.prototype.hasOwnProperty.call(object, name))
-			throw new Error(`Property ${name} already exists.`)
 		object[name] = value
 	}
 }

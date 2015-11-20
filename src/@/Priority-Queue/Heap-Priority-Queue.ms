@@ -49,7 +49,7 @@ region Private
 		| We move this 'hole' up the heap, swapping with its parent,
 		| until we find a place where `val` is greater than its parent.
 		heap.push()
-		i-cur ::= count heap
+		i-cur = count heap
 		for
 			if =? i-cur 0
 				heap[0] := val
@@ -70,7 +70,7 @@ region Private
 			|| Move the hole down while it's larger than either child.
 			|| (Prefer moving to the left child.)
 			|| When it can move no further, put `val` in there.
-			i-cur ::= 0
+			i-cur = 0
 			go! = !|goto-idx
 				heap[i-cur] := heap[goto-idx]
 				i-cur := goto-idx

@@ -23,7 +23,7 @@ tests 'Kind
 		[(empty Deque)] -> "empty Deque"
 
 	each! -> !|
-		x ::= 0
+		x = 0
 		each! [] !|
 			x := 1
 		assert =? x 0

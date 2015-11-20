@@ -78,7 +78,7 @@ region Search
 	?nth. method |n:Nat
 		| `n`th element in iteration order, if there are at least that many values.
 		| 0th is the first.
-		i ::= 0
+		i = 0
 		todo SYNTAX for-else
 		Opt->? for this
 			if =? i n
@@ -109,7 +109,7 @@ region Update
 			else
 				todo SYNTAX @for~
 				new Stream *!|
-					n ::= count-to-take
+					n = count-to-take
 					for elem of _
 						<- elem
 						n := - n 1
@@ -136,7 +136,7 @@ region Update
 			todo SYNTAX @for~
 			new Stream *!|
 				iter = iterator_
-				i ::= 0
+				i = 0
 				for
 					if =? i count-to-drop
 						break
@@ -217,8 +217,8 @@ region TODO: put somewhere
 		todo SYNTAX @for~
 		new Stream *!|
 			iter = iterator_
-			prev-idx ::= 0
-			cur-idx ::= 0
+			prev-idx = 0
+			cur-idx = 0
 			for
 				value done = iter.next()
 				~next-idx = + 1 cur-idx

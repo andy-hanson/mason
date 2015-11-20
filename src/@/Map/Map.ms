@@ -75,5 +75,5 @@ region Mutator methods
 	get-or-add!. method |key ~default-val
 		| map[key], and if it's not already there, fill it in with default-val.
 		?-or (?get this key) ~
-			this[key] ::= default-val
+			this[key] = default-val
 			default-val

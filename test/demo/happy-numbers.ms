@@ -6,11 +6,10 @@ import
 	base = 10
 	todo SYNTAX @for~
 	new Stream *!|
-		left ::= _
 		for
-			<- remainder left base
-			left := int/ left base
-			if =? left 0
+			<- remainder _ base
+			_ := int/ _ base
+			if =? _ 0
 				break
 
 happy-step = |_
@@ -22,7 +21,7 @@ cache[1] = true
 happy?. |n:Nat
 	| http://rosettacode.org/wiki/Happy_numbers
 	stepped-through = empty Id-Set
-	cur ::= n
+	cur = n
 	n-happy? = for
 		case ?get cache cur
 			:?some _

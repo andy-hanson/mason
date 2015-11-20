@@ -67,9 +67,9 @@ region Misc
 
 	all-same?. |@coll:@ fun:Opt[Function]
 		fun := opr fun identity
-		or empty? @coll
+		or (empty? @coll)
 			fst = fun @coll[0]
-			all? @coll &(=? fst fun_)
+			all? (@tail @coll) &(=? fst fun_)
 
 
 region Min/max
@@ -86,8 +86,8 @@ region Min/max
 		unless empty?_
 			iter = iterator_
 			value = iter.next().value
-			cur-min ::= value
-			cur-min-by ::= by value
+			cur-min = value
+			cur-min-by = by value
 			for
 				value done = iter.next()
 				if done
@@ -116,8 +116,8 @@ region Min/max
 		unless empty?_
 			iter = iterator_
 			value = iter.next().value
-			cur-max ::= value
-			cur-max-by ::= by value
+			cur-max = value
+			cur-max-by = by value
 			for
 				value done = iter.next()
 				if done
@@ -135,7 +135,7 @@ region Sorting
 			empty?_
 				true
 			else
-				sb-prev ::= sort-by first_
+				sb-prev = sort-by first_
 				all? @tail_ |em
 					sb-cur = sort-by em
 					with <? sb-prev sb-cur

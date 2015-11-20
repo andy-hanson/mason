@@ -2,12 +2,12 @@
 if((typeof define!=="function"))var define=require("amdefine")(module);
 define(["exports","./private/bootstrap"],(exports,bootstrap_0)=>{
 	exports._get=_ms.lazy(()=>{
-		const _$0=_ms.getModule(bootstrap_0),msDef=_ms.get(_$0,"msDef");
-		const sub=exports.sub=_ms.method("sub",void 0);
+		let _$0=_ms.getModule(bootstrap_0),msDef=_ms.get(_$0,"msDef");
+		let sub=exports.sub=_ms.method("sub",void 0);
 		msDef("sub",sub);
-		const set_45sub_33=exports["set-sub!"]=_ms.method("set-sub!",void 0);
+		let set_45sub_33=exports["set-sub!"]=_ms.method("set-sub!",void 0);
 		msDef("setSub",set_45sub_33);
-		const del_45sub_33=exports["del-sub!"]=_ms.method("del-sub!",void 0);
+		let del_45sub_33=exports["del-sub!"]=_ms.method("del-sub!",void 0);
 		msDef("delSub",del_45sub_33);
 		return exports
 	})

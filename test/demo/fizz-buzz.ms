@@ -13,7 +13,7 @@ make-fizz-buzz. |spec
 		shout:String. _[0]
 		divisor:Nat. _[1]
 	@map~ 1... |n
-		s ::= ""
+		s = ""
 		for tests
 			if divisible? n _.divisor
 				s := "{s}{_.shout}"

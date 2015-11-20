@@ -79,7 +79,7 @@ region Using iterator
 				folder. b
 				rest. @tail_
 
-		acc ::= start
+		acc = start
 		for rest
 			acc := folder acc _
 		acc

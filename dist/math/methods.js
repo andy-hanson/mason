@@ -2,10 +2,10 @@
 if((typeof define!=="function"))var define=require("amdefine")(module);
 define(["exports"],exports=>{
 	exports._get=_ms.lazy(()=>{
-		const _43=exports["+"]=_ms.method("+",["other"]);
-		const _45=exports["-"]=_ms.method("-",["other"]);
-		const _42=exports["*"]=_ms.method("*",["other"]);
-		const _47=exports["/"]=_ms.method("/",["other"]);
+		let _43=exports["+"]=_ms.method("+",["other"]);
+		let _45=exports["-"]=_ms.method("-",["other"]);
+		let _42=exports["*"]=_ms.method("*",["other"]);
+		let _47=exports["/"]=_ms.method("/",["other"]);
 		return exports
 	})
 })

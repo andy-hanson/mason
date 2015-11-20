@@ -4,7 +4,7 @@ import
 
 tests 'control
 	do-times! -> !|
-		i ::= 0
+		i = 0
 		do-times! 10 !|
 			i := - i 1
 		assert =? i -10

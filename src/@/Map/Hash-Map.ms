@@ -29,7 +29,7 @@ Hash-Map. class kind Map
 
 	iterator *!|
 		for bucket of .val.values()
-			cur ::= bucket
+			cur = bucket
 			for
 				unless defined? cur
 					break
@@ -68,7 +68,7 @@ Hash-Map. class kind Map
 								.val.delete hash
 						?some _.val!
 					else
-						cur ::= bucket
+						cur = bucket
 						for
 							next = cur.next!
 							unless defined? next
@@ -86,13 +86,13 @@ Hash-Map. class kind Map
 region Private
 	Bucket = class
 		construct .key val! next!
-			.val! ::= val!
-			.next! ::= next!
+			.val! = val!
+			.next! = next!
 
 	|| All entries in the bucket have the same hash code.
 	|| Find the first bucket that =? key.
 	opt-bucket-entry = |opt-bucket key
-		cur ::= opt-bucket
+		cur = opt-bucket
 		for
 			unless defined? cur
 				break undefined

@@ -21,7 +21,7 @@ LList. class kind Seq
 		pass
 
 	iterator *!|
-		cur ::= this
+		cur = this
 		for
 			if empty? cur
 				break

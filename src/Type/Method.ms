@@ -15,7 +15,7 @@ random-digits = |
 	Math.random().toString().slice 2
 
 build-str = |builder
-	built-str ::= ""
+	built-str = ""
 	builder !|part
 		built-str := "{built-str}{part}\n"
 	built-str

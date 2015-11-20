@@ -22,9 +22,9 @@ Deque. class kind Seq
 			new this
 
 	construct
-		.data! ::= Array 8
-		.start-index! ::= 0 || Inclusive (unless =? end-index)
-		.end-index! ::= 0 || Exclusive
+		.data! = Array 8
+		.start-index! = 0 || Inclusive (unless =? end-index)
+		.end-index! = 0 || Exclusive
 
 	iterator *!|
 		indices = case
