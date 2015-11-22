@@ -1,7 +1,6 @@
 import
 	global setTimeout
-	..$
 
 $sleep. |time-ms:Number
-	new $ !|resolve
+	new Promise !|resolve
 		setTimeout resolve time-ms

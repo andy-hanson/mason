@@ -25,7 +25,7 @@ LList. class kind Seq
 		for
 			if empty? cur
 				break
-			<- cur.head
+			yield cur.head
 			cur := cur.tail
 
 	empty? |

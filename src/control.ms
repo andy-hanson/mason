@@ -20,11 +20,9 @@ opr. |_:Opt ~default
 	cond defined?_ _ default
 
 todo SYNTAX build keyword
-build. |calls-yield:Function
+build. |calls-build:Function
 	| Passes in a `yield` Function to `calls-yield`.
 	| Returns a Seq of what `calls-yield` called `yield` with.
-	yielded = []
-	yield = |_
-		++>! yielded [_]
-	calls-yield yield
-	yielded
+	with [] as arr
+		calls-build !|_
+			++>! arr [_]

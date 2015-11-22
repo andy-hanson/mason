@@ -20,9 +20,9 @@ Splay-Tree. class kind Sorted-Map
 	iterator |
 		node-iter = *!|_
 			if defined?_
-				<-* node-iter _.left!
-				<- [_.key _.val!]
-				<-* node-iter _.right!
+				yield* node-iter _.left!
+				yield [_.key _.val!]
+				yield* node-iter _.right!
 		node-iter .root
 
 	empty? |

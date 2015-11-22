@@ -1,8 +1,8 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","./cash","./compare","./Function","./Type/Pred-Type","./Type/Type"],(exports,$_0,compare_1,Function_2,Pred_45Type_3,Type_4)=>{
+define(["exports","./compare","./Function","./Type/Pred-Type","./Type/Type"],(exports,compare_0,Function_1,Pred_45Type_2,Type_3)=>{
 	exports._get=_ms.lazy(()=>{
-		let $=_ms.getDefaultExport($_0),_$0=_ms.getModule(compare_1),_61_63=_ms.get(_$0,"=?"),_$1=_ms.getModule(Function_2),Action=_ms.get(_$1,"Action"),_$2=_ms.getModule(Pred_45Type_3),Union=_ms.get(_$2,"Union"),Type=_ms.getDefaultExport(Type_4);
+		let _$0=_ms.getModule(compare_0),_61_63=_ms.get(_$0,"=?"),_$1=_ms.getModule(Function_1),Action=_ms.get(_$1,"Action"),_$2=_ms.getModule(Pred_45Type_2),Union=_ms.get(_$2,"Union"),Type=_ms.getDefaultExport(Type_3);
 		let Success=exports.Success=class Success{
 			constructor(val){
 				let _this=this;
@@ -62,7 +62,7 @@ define(["exports","./cash","./compare","./Function","./Type/Pred-Type","./Type/T
 			})()
 		};
 		let $try=exports.$try=function $try(_){
-			_ms.checkContains($,_,"_");
+			_ms.checkContains(Promise,_,"_");
 			let success=_.then(val=>{
 				return new (Success)(val)
 			});
@@ -71,7 +71,7 @@ define(["exports","./cash","./compare","./Function","./Type/Pred-Type","./Type/T
 			})
 		};
 		let $annotate_45errors=exports["$annotate-errors"]=function $annotate_45errors(annotation,$tried){
-			_ms.checkContains($,$tried,"$tried");
+			_ms.checkContains(Promise,$tried,"$tried");
 			return $tried.catch(_=>{
 				if(_ms.contains(Error,_)){
 					_.stack=`${_ms.unlazy(annotation)}${_.stack}`;
@@ -83,4 +83,4 @@ define(["exports","./cash","./compare","./Function","./Type/Pred-Type","./Type/T
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvVHJ5Lm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBT0EsNEJBQ2M7R0FDSCxZQUFBO1FBbUJWOzs7O0VBaEJELHVDQUFhLHNCQUFBO3FCQUFNO1VBR1o7UUFDRjtZQUFGLEtBQUksU0FBUTtJQUFBLFNBQ2I7WUFDQztJQUFBO0dBQUE7RUFBQTtFQUVILCtCQUFTLGtCQUFBO3FCQUFNO1VBR1I7UUFDRjtLQUFGO1lBQ0E7SUFBQSxTQUNEO1lBRUM7SUFBQTtHQUFBO0VBQUE7RUFFSCwyQ0FBYyx5QkFBQSxpQkFBa0M7NkJBQW5CLE1BQU0sT0FBTztxQkFBWTtVQUcvQztRQUNGO0tBQUY7WUFDQTtJQUFBLGFBQ0Q7WUFDTTtNQUFBLE1BQUE7TUFDSixnQkFBQyxLQUFELEdBQ0s7MkJBQUUsRUFBTjtNQUFBLE9BQ0QsZ0JBQUMsT0FBRCxHQUNPO2NBQU4sT0FBRyxjQUFjO01BQUE7Ozs7O0VBRXRCLGlEQUFrQiwyQkFBQSxXQUFtQjtxQkFBTTtVQUdwQztRQUNGO1lBQUY7SUFBQSxTQUNEO0tBQ0MsUUFBWSw0QkFBYTtLQUN6QixVQUFjLDRCQUFhO0tBQzNCLE1BQU07SUFBQTtHQUFBO0VBQUE7RUFLUixzQkFBTyxjQUFBO3FCQUFFO0dBR1IsWUFBVSxPQUFRO1dBQ2pCLEtBQUksU0FBUTtHQUFBO1VBQ2IsY0FBZTtXQUNkO0dBQUE7RUFBQTtFQUVGLG1EQUFtQiw0QkFBQSxXQUFtQjtxQkFBTztVQUU1QyxhQUFjO0lBQ1YsZ0JBQUMsTUFBRCxHQUNNO0tBQVIsUUFBWSw0QkFBYTtLQUN6QixVQUFjLDRCQUFhOztJQUM1QixNQUFNO0dBQUE7RUFBQSIsImZpbGUiOiJUcnkuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvVHJ5Lm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBTUEsNEJBQ2M7R0FDSCxZQUFBO1FBb0JWOzs7O0VBakJELHVDQUFhLHNCQUFBO3FCQUFNO1VBR1o7UUFDRjtZQUFGLEtBQUksU0FBUTtJQUFBLFNBQ2I7WUFDQztJQUFBO0dBQUE7RUFBQTtFQUVILCtCQUFTLGtCQUFBO3FCQUFNO1VBR1I7UUFDRjtLQUFGO1lBQ0E7SUFBQSxTQUNEO1lBRUM7SUFBQTtHQUFBO0VBQUE7RUFFSCwyQ0FBYyx5QkFBQSxpQkFBa0M7NkJBQW5CLE1BQU0sT0FBTztxQkFBWTtVQUcvQztRQUNGO0tBQUY7WUFDQTtJQUFBLGFBQ0Q7WUFDTTtNQUFBLE1BQUE7TUFDSixnQkFBQyxLQUFELEdBQ0s7MkJBQUUsRUFBTjtNQUFBLE9BQ0QsZ0JBQUMsT0FBRCxHQUNPO2NBQU4sT0FBRyxjQUFjO01BQUE7Ozs7O0VBRXRCLGlEQUFrQiwyQkFBQSxXQUFtQjtxQkFBTTtVQUdwQztRQUNGO1lBQUY7SUFBQSxTQUNEO0tBQ0MsUUFBWSw0QkFBYTtLQUN6QixVQUFjLDRCQUFhO0tBQzNCLE1BQU07SUFBQTtHQUFBO0VBQUE7RUFLUixzQkFBTyxjQUFBO3FCQUFFO0dBR1IsWUFBVSxPQUFRO1dBQ2pCLEtBQUksU0FBUTtHQUFBO1VBQ2IsY0FBZTtXQUNkO0dBQUE7RUFBQTtFQUVGLG1EQUFtQiw0QkFBQSxXQUFtQjtxQkFBTztVQUU1QyxhQUFjO0lBQ1YsZ0JBQUMsTUFBRCxHQUNNO0tBQVIsUUFBWSw0QkFBYTtLQUN6QixVQUFjLDRCQUFhOztJQUM1QixNQUFNO0dBQUE7RUFBQSIsImZpbGUiOiJUcnkuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

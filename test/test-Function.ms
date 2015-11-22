@@ -8,9 +8,9 @@ tests 'Function
 		[1] -> 1
 
 	id-memoize -> !|
-		assert seq=? [1 2 1] (build !|yield
+		assert seq=? [1 2 1] (build !|build!
 			get-a = id-memoize |x
-				yield x.a
+				build! x.a
 				x.a
 			a1 = a. 1
 			assert =? (get-a a1) 1
@@ -21,9 +21,9 @@ tests 'Function
 			assert =? (get-a a1b) 1
 
 	hash-memoize -> !|
-		assert seq=? [1 2] (build !|yield
+		assert seq=? [1 2] (build !|build!
 			get-a = hash-memoize |x
-				yield x.a
+				build! x.a
 				x.a
 			a1 = a. 1
 			assert =? (get-a a1) 1
@@ -52,11 +52,11 @@ tests 'Function
 			. [1 2 'five 6]
 
 	spread! -> !|
-		assert =? [1 2 3] (build |yield!
+		assert =? [1 2 3] (build |build!
 			f = |a b c
-				yield! a
-				yield! b
-				yield! c
+				build! a
+				build! b
+				build! c
 			spread! f 1
 				2 -> 3
 

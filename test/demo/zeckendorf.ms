@@ -3,8 +3,8 @@ import
 
 fibs =
 	rec = *!|prev:Nat cur:Nat
-		<- cur
-		<-* rec cur (+ prev cur)
+		yield cur
+		yield* rec cur (+ prev cur)
 	new Stream rec[0 1]
 
 zeckendorf. |n:Nat

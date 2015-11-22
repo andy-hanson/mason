@@ -39,7 +39,7 @@ Lazy-Stream. class kind Seq
 			for strm
 				todo  +>!
 				self.cache.push _
-				<- _
+				yield _
 		.caching-iterator = get-caching-iterator()
 
 	?nth |n:Nat
@@ -53,5 +53,5 @@ Lazy-Stream. class kind Seq
 
 todo  class method
 impl! iterator Lazy-Stream .*!|
-	<-* iterator .cache
-	<-* .caching-iterator
+	yield* iterator .cache
+	yield* .caching-iterator

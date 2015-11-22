@@ -37,7 +37,7 @@ import
 
 	iterator *!|
 		unless empty? this
-			<- .val
+			yield .val
 
 	to-string |
 		inspect this

@@ -54,7 +54,7 @@ Range. class kind @
 			if break-cond
 				break
 
-			<- cur
+			yield cur
 			cur := + cur .step
 
 	|| Below functions can be implemented more efficiently than the defaults.

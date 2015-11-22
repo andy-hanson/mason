@@ -111,7 +111,7 @@ region Update
 				new Stream *!|
 					n = count-to-take
 					for elem of _
-						<- elem
+						yield elem
 						n := - n 1
 						if =? 0 n
 							break
@@ -124,7 +124,7 @@ region Update
 			for elem of _
 				unless while? elem
 					break
-				<- elem
+				yield elem
 
 	@drop. method |count-to-drop:Nat
 		todo toc
@@ -143,7 +143,7 @@ region Update
 					if iter.next().done
 						break
 					i := + 1 i
-				<-* iter
+				yield* iter
 
 	todo  @drop-while~
 
@@ -168,7 +168,7 @@ region Combination
 				next-b = iter-b.next()
 				if next-b.done
 					break
-				<- zipper next-a.value next-b.value
+				yield zipper next-a.value next-b.value
 
 region TODO: put somewhere
 	@groups-of~. |group-size:Nat _ todo  :Seq[Array]
@@ -178,7 +178,7 @@ region TODO: put somewhere
 				todo  repeat-forever []
 				new Stream *!|
 					for
-						<- []
+						yield []
 			else
 				todo SYNTAX @for~
 				new Stream *!|
@@ -194,7 +194,7 @@ region TODO: put somewhere
 								break
 						unless =? group-size (count next-group)
 							break
-						<- next-group
+						yield next-group
 
 	@indexes. |_:Seq
 		todo doc
@@ -209,7 +209,7 @@ region TODO: put somewhere
 		todo SYNTAX @for~
 		new Stream *!|
 			for @reverse (@indexes arr)
-				<- arr[_]
+				yield arr[_]
 
 	@split~. |_ split?:Pred
 		| Subseqs separated by elements where split? is true.
@@ -224,10 +224,10 @@ region TODO: put somewhere
 				~next-idx = + 1 cur-idx
 				case
 					done
-						<- @slice _ prev-idx cur-idx
+						yield @slice _ prev-idx cur-idx
 						break
 					split? value
-						<- @slice _ prev-idx cur-idx
+						yield @slice _ prev-idx cur-idx
 						prev-idx := next-idx
 						cur-idx := next-idx
 					else

@@ -7,7 +7,7 @@ import
 	todo SYNTAX @for~
 	new Stream *!|
 		for
-			<- remainder _ base
+			yield remainder _ base
 			_ := int/ _ base
 			if =? _ 0
 				break

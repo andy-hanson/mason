@@ -14,6 +14,6 @@ tests 'control
 		[1 2] -> 1
 
 	build -> !|
-		assert =? [0 1] (build |yield
-			yield 0
-			yield 1
+		assert =? [0 1] (build |build!
+			build! 0
+			build! 1

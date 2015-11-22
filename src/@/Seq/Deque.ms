@@ -33,7 +33,7 @@ Deque. class kind Seq
 			else
 				.start-index!...(.end-index!)
 		for indices
-			<- .data![_]
+			yield .data![_]
 
 	<++! !|ems:@
 		for @reverse ems

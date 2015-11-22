@@ -33,7 +33,7 @@ Hash-Map. class kind Map
 			for
 				unless defined? cur
 					break
-				<- [cur.key cur.val!]
+				yield [cur.key cur.val!]
 				cur := cur.next!
 
 	?get |key

@@ -19,7 +19,7 @@ tests. !|test-name mp
 							:Function
 								res = val()
 								case res
-									:$
+									:Promise
 										_
 									:Map
 										todo handle promises in call

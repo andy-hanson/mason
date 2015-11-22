@@ -1,27 +1,21 @@
 import
-	global console Promise setImmediate setTimeout
-	.@.@ _ @flatten @map
+	global console setImmediate setTimeout
+	.@.@
 	.Function Action
 	.methods sub
 	.Type.Method self-impl!
 	.Type.Pred-Type Any
-	.Type.Type =>
 
-$.
-	| https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
-	| Called `$` because you "cash in" on it after some time.
+self-impl! sub Promise |
 	Promise
-
-self-impl! sub $ |
-	$
 
 || See also $ section in Try.ms.
 
-$do. |$act:Action[$]
+$do. |$act:Action[Promise]
 	| Given an async function (`$!|`), run it and log any errors.
 	$done $act()
 
-$done. |_:$
+$done. |_:Promise
 	| Don't forget `$done`!
 	| Logs any errors that happen inside a promise.
 	| It would be great if we could make these errors happen top-level...
@@ -36,18 +30,13 @@ $done. |_:$
 		|| We're already $done so this shouldn't matter, but just in case...
 		throw err
 
-$fail-after-time. |:$ _:$ time-ms:Number
+$fail-after-time. |:Promise _:Promise time-ms:Number
 	| Fails if it takes too long.
-	new $ !|resolve reject
+	new Promise !|resolve reject
 		_.then resolve
 		timeout = !|
 			reject new Error "Took longer than {time-ms} milliseconds."
 		setTimeout timeout time-ms
-
-todo doc
-->$.
-	| If not already a $, returns a $ that is already resolved.
-	$.resolve
 
 $delay. |delayed:Action
 	| Schedules a computation to happen later.
@@ -55,7 +44,7 @@ $delay. |delayed:Action
 	| It should go without saying,
 	| but if you needlessly $delay things all the time your program will take longer.
 	todo Better way?
-	new $ |resolve reject
+	new Promise |resolve reject
 		setImmediate !|
 			except
 				try
@@ -63,24 +52,9 @@ $delay. |delayed:Action
 				catch error
 					reject error
 
-$all. |:$[Array] _:@[$]
-	| $ that resolves when the last $ in the input does, with every value in the original iteration order.
-	| If any one of them fails, fails with the first such failure.
-	$.all (=> Array _)
-
-todo $@map?
-$map. |:$[Array] mapped:@ mapper:Function[Any $]
-	| Asynchronously runs mapper for every element of mapped and returns a $ joining them.
-	| Unlike @map, this always returns an Array.
-	$.all (@map mapped mapper)
-
-$flat-map. $|:@ mapped:@ mapper:Function[Any $[@]]
-	| Like $map but flattens the result.
-	@flatten (<- $map mapped mapper)
-
-$keep. $|:Array keep-some:@ keep-if?:Function[Any $[Boolean]]
+$keep. $|:Array keep-some:@ $keep-if?:Function[Any Promise[Boolean]]
 	| Asynchronously runs keep-if? on each element and creates an Array of those that match.
 	| Maintains the original order.
 	@for keep-some
-		if (<- keep-if?_)
+		if $ $keep-if?_
 			. _

@@ -67,7 +67,7 @@ const
 			importBoot: false,
 			// Can't use builtins because msl is what defines them.
 			builtins: {
-				'global': [ 'Array', 'Boolean', 'Error', 'Function', 'Math', 'Number', 'Object', 'RegExp', 'String', 'Symbol' ]
+				'global': [ 'Array', 'Boolean', 'Error', 'Function', 'Math', 'Number', 'Object', 'Promise', 'Proxy', 'RegExp', 'String', 'Symbol' ]
 			},
 			includeAmdefine: true,
 			lazyModules: true

@@ -1,5 +1,4 @@
 import
-	.$
 	.compare =?
 	.Function Action
 	.Type.Pred-Type Union
@@ -54,16 +53,16 @@ annotate-errors. |~annotation:String tried:Action
 region $
 	todo These should not be needed once we have async functions.
 
-	$try. |_:$
-		| Success if the $ is resolved, Error if rejected.
+	$try. |_:Promise
+		| Success if the Promise is resolved, Error if rejected.
 		|| =>[Error] because it's possible for a Promise to reject with a non-Error.
 		success = _.then |val
 			new Success val
 		success.catch |err
 			err
 
-	$annotate-errors. |~annotation:String $tried:$
-		| Like `annotate-errors` but works on errors thrown in a `$`.
+	$annotate-errors. |~annotation:String $tried:Promise
+		| Like `annotate-errors` but works on errors thrown in a Promise.
 		$tried.catch |_
 			if :Error
 				_.stack := "{annotation}{_.stack}"
