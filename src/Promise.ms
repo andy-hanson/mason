@@ -1,6 +1,7 @@
 import
-	global console setImmediate setTimeout
+	global _ console setTimeout
 	.@.@
+	.control opr
 	.Function Action
 	.methods sub
 	.Type.Method self-impl!
@@ -38,12 +39,14 @@ $fail-after-time. |:Promise _:Promise time-ms:Number
 			reject new Error "Took longer than {time-ms} milliseconds."
 		setTimeout timeout time-ms
 
+setImmediate = opr global.setImmediate |action
+	setTimeout action 0
+
 $delay. |delayed:Action
 	| Schedules a computation to happen later.
 	| Does *not* run it in parallel.
 	| It should go without saying,
 	| but if you needlessly $delay things all the time your program will take longer.
-	todo Better way?
 	new Promise |resolve reject
 		setImmediate !|
 			except

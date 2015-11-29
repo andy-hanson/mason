@@ -1,7 +1,7 @@
 import
 	global _ JSON
 	..js defined? js=== js-delete js-instanceof js-sub js-typeof
-	..private.bootstrap containsImplSymbol implContains msDef pAdd
+	..private.bootstrap addProperty implContains msDef
 import~
 	..@.? un-?
 	.Impl-Type _ Self-Type
@@ -56,11 +56,11 @@ Method. class Function
 		src = build-str |add!
 			access-method = "global[{str-lit secret-name}]"
 
-			impl = case impl-symbol
-				js=== js-typeof_ 'symbol
+			impl = switch js-typeof impl-symbol
+				'symbol
 					"a[{access-method}[\"impl-symbol\"]]"
-				:String
-					"a[{str-lit _}]"
+				'string
+					"a[{str-lit impl-symbol}]"
 
 			if default?
 				no-impl = case
@@ -127,7 +127,7 @@ Method. class Function
 		todo See https://code.google.com/p/v8/issues/detail?id=4087
 		Object.setPrototypeOf this Method.prototype
 
-		pAdd global secret-name this
+		addProperty global secret-name this
 
 		js-delete params 'name
 		js-delete params 'impl-symbol
@@ -227,7 +227,7 @@ region Private
 		construct meth
 			impl-symbol = Symbol "{meth.name}_double_dispatch"
 			secret-name = "__double_dispatch_{random-digits()}"
-			pAdd global secret-name impl-symbol
+			addProperty global secret-name impl-symbol
 
 			super "
 				target2 = arguments[0]
@@ -245,13 +245,6 @@ region Private
 			.impl-symbol = impl-symbol
 			Object.defineProperty this 'name
 				value. "{meth.name}__double-dispatcher"
-
-contains? = new Method
-	| Whether some collection of things as as an element `instance`.
-	name.
-	args. ['instance]
-	impl-symbol. containsImplSymbol
-msDef 'contains contains?
 
 todo test
 implContains Method .|_

@@ -7,24 +7,31 @@
 	"scripts": {
 		"build": "gulp compile",
 		"watch": "gulp watch",
-		"test": "mocha compiled-test/*.js compiled-test/*/*.js compiled-test/*/*/*.js"
+		"test": "mocha compiled-test/*.js compiled-test/*/*.js compiled-test/*/*/*.js",
+		"lint": "eslint src"
 	},
 	"dependencies": {
 		"amdefine": "1.0.0"
 	},
 	"devDependencies": {
-		"babel-plugin-transform-es2015-modules-umd": "6.1.4",
-		"babel-plugin-transform-strict-mode": "6.1.4",
+		"babel-plugin-transform-es2015-modules-umd": "6.1.18",
+		"babel-plugin-transform-strict-mode": "6.2.0",
+		"eslint": "1.10.2",
+		"eslint-config-mason": "mason-lang/eslint-config-mason",
 		"fs-promise": "0.3.1",
 		"gulp": "3.9.0",
-		"gulp-babel": "6.1.0",
+		"gulp-babel": "6.1.1",
 		"gulp-mason": "mason-lang/gulp-mason",
 		"gulp-plumber": "1.0.1",
 		"gulp-sourcemaps": "1.6.0",
 		"gulp-watch": "4.3.5",
-		"mocha": "2.3.3",
-		"requirejs": "2.1.20",
+		"mocha": "2.3.4",
+		"requirejs": "2.1.22",
 		"source-map-support": "0.3.3",
-		"yargs": "3.29.0"
+		"yargs": "3.30.0"
+	},
+	"eslintConfig": {
+		"extends": "eslint-config-mason",
+		"globals": {"global": true, "window": true}
 	}
 }

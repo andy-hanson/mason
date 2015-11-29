@@ -2,7 +2,7 @@
 if((typeof define!=="function"))var define=require("amdefine")(module);
 define(["exports","./../compare","./../js","./../private/bootstrap","./../to-string","./Impl-Type","./Kind","./Method","./../at/q","./../Object","./../to-string"],(exports,compare_0,js_1,bootstrap_2,to_45string_3,Impl_45Type_4,Kind_5,Method_6,_63_7,Object_8,to_45string_9)=>{
 	exports._get=_ms.lazy(()=>{
-		let _$0=_ms.getModule(compare_0),_61_63=_ms.get(_$0,"=?"),_$1=_ms.getModule(js_1),id_61_63=_ms.get(_$1,"id=?"),_$2=_ms.getModule(bootstrap_2),ms=_ms.get(_$2,"ms"),msDef=_ms.get(_$2,"msDef"),to_45string=_ms.getDefaultExport(to_45string_3),Impl_45Type=_ms.getDefaultExport(Impl_45Type_4),Kind=_ms.getDefaultExport(Kind_5),_$3=_ms.getModule(Kind_5),kind_33=_ms.get(_$3,"kind!"),Method=_ms.getDefaultExport(Method_6),_$4=_ms.getModule(Method_6),impl_33=_ms.get(_$4,"impl!"),_$5=_ms.lazyGetModule(_63_7),_63_45or=_ms.lazyProp(_$5,"?-or"),_$6=_ms.lazyGetModule(Object_8),_63property_45with_45proto=_ms.lazyProp(_$6,"?property-with-proto"),_$7=_ms.lazyGetModule(to_45string_9),inspect=_ms.lazyProp(_$7,"inspect");
+		let _$0=_ms.getModule(compare_0),_61_63=_ms.get(_$0,"=?"),_$1=_ms.getModule(js_1),id_61_63=_ms.get(_$1,"id=?"),_$2=_ms.getModule(bootstrap_2),containsImplSymbol=_ms.get(_$2,"containsImplSymbol"),msDef=_ms.get(_$2,"msDef"),to_45string=_ms.getDefaultExport(to_45string_3),Impl_45Type=_ms.getDefaultExport(Impl_45Type_4),Kind=_ms.getDefaultExport(Kind_5),_$3=_ms.getModule(Kind_5),kind_33=_ms.get(_$3,"kind!"),Method=_ms.getDefaultExport(Method_6),_$4=_ms.getModule(Method_6),impl_33=_ms.get(_$4,"impl!"),_$5=_ms.lazyGetModule(_63_7),_63_45or=_ms.lazyProp(_$5,"?-or"),_$6=_ms.lazyGetModule(Object_8),_63property_45with_45proto=_ms.lazyProp(_$6,"?property-with-proto"),_$7=_ms.lazyGetModule(to_45string_9),inspect=_ms.lazyProp(_$7,"inspect");
 		let Type=exports.default=_ms.kind("Type",[],{},{
 			[_ms.symbol(_61_63)](other){
 				let _this=this;
@@ -17,7 +17,14 @@ define(["exports","./../compare","./../js","./../private/bootstrap","./../to-str
 			let _this=this;
 			return _this.name
 		});
-		let contains_63=exports["contains?"]=ms.contains;
+		let contains_63=exports["contains?"]=new (Method)((()=>{
+			let built={};
+			built.name="contains?";
+			let args=built.args=["instance"];
+			let impl_45symbol=built["impl-symbol"]=containsImplSymbol;
+			return built
+		})());
+		msDef("contains",contains_63);
 		let extract=exports.extract=_ms.method("extract",["candidate",["num-extracteds",Number]]);
 		msDef("extract",extract);
 		msDef("checkContains",(expected_45type,value,value_45name)=>{
@@ -48,4 +55,4 @@ define(["exports","./../compare","./../js","./../private/bootstrap","./../to-str
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvVHlwZS9UeXBlLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBY0E7ZUFJQyxTQUFJO1FBUUo7V0FQQyxTQU9ELE1BUFc7R0FBQTtlQUVYO1FBS0E7V0FBQTs7O0VBREQsUUFBTSxZQUFVLEtBQ087T0FBdEI7VUFBQTs7RUFHRCxxQ0FBVztFQUdYLGdGQUEwQztFQVMxQyxNQUFPLFVBQVE7RUFFZixNQUFPLGdCQUFlLENBQUEsZ0JBQWMsTUFBTTtHQUNsQyxrQkFBTSxnQkFBTixhQUEwQixLQUFJLFdBQ1MsS0FBQTtXQUE1QyxHQUFDLHNCQUFtQiw4QkFBNEIsVUFBUSxvQ0FBdUI7O1VBQ2pGO0VBQUE7RUFFRCx5QkFBSSxLQUFJLFFBQ00sS0FBQTs7Y0FHYjtHQUNBLG9CQUFPLGNBQUEsS0FBSyxvQkFBZ0IsVUFBVTtXQUNoQztLQUFBLE1BQUE7S0FDSixnQkFBQyxvQkFBRCxHQUNnQjthQUFmO0tBQUEsT0FFRzthQUFILFVBQVUsb0JBQWdCLEVBQUU7S0FBQTtJQUFBO0dBQUE7OztFQUdoQyxpQ0FBVSxtQkFBVzs0QkFBVix3RUFFaUIsRUFBRyxlQUFhOztFQUk1QyxRQUFNLFlBQVUiLCJmaWxlIjoiVHlwZS9UeXBlLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvVHlwZS9UeXBlLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBY0E7ZUFJQyxTQUFJO1FBUUo7V0FQQyxTQU9ELE1BUFc7R0FBQTtlQUVYO1FBS0E7V0FBQTs7O0VBREQsUUFBTSxZQUFVLEtBQ087T0FBdEI7VUFBQTs7RUFFRCxxQ0FBVyxLQUFJLFFBQ00sS0FBQTs7Y0FDcEI7R0FDQSxvQkFBTSxDQUFFO0dBQ1IsdUNBQWE7OztFQUNkLE1BQU8sV0FBUztFQUdoQixnRkFBMEM7RUFTMUMsTUFBTyxVQUFRO0VBRWYsTUFBTyxnQkFBZSxDQUFBLGdCQUFjLE1BQU07R0FDbEMsa0JBQU0sZ0JBQU4sYUFBMEIsS0FBSSxXQUNTLEtBQUE7V0FBNUMsR0FBQyxzQkFBbUIsOEJBQTRCLFVBQVEsb0NBQXVCOztVQUNqRjtFQUFBO0VBRUQseUJBQUksS0FBSSxRQUNNLEtBQUE7O2NBR2I7R0FDQSxvQkFBTyxjQUFBLEtBQUssb0JBQWdCLFVBQVU7V0FDaEM7S0FBQSxNQUFBO0tBQ0osZ0JBQUMsb0JBQUQsR0FDZ0I7YUFBZjtLQUFBLE9BRUc7YUFBSCxVQUFVLG9CQUFnQixFQUFFO0tBQUE7SUFBQTtHQUFBOzs7RUFHaEMsaUNBQVUsbUJBQVc7NEJBQVYsd0VBRWlCLEVBQUcsZUFBYTs7RUFJNUMsUUFBTSxZQUFVIiwiZmlsZSI6IlR5cGUvVHlwZS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

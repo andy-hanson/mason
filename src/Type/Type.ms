@@ -2,7 +2,7 @@ import
 	global TypeError
 	..compare =?
 	..js id=?
-	..private.bootstrap ms msDef
+	..private.bootstrap containsImplSymbol msDef
 	..to-string
 	.Impl-Type
 	.Kind _ kind!
@@ -26,8 +26,12 @@ todo  Should not be necessary, Kind < Impl-Type < Type
 impl! to-string Kind .|
 	.name
 
-|| Made by Method.ms.
-contains?. ms.contains
+contains?. new Method
+	| Whether some collection of things as as an element `instance`.
+	name.
+	args. ['instance]
+	impl-symbol. containsImplSymbol
+msDef 'contains contains?
 
 todo num-extracteds:Nat
 extract. method |candidate num-extracteds:Number

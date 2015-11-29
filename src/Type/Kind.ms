@@ -1,7 +1,7 @@
 import
 	..compare =?
-	..js defined? js== js-sub
-	..private.bootstrap implContains msDef pAdd
+	..js defined? exists? js-sub
+	..private.bootstrap addProperty implContains msDef
 	.Method impl! propagate-method-down! self-impl!
 import~
 	.Impl-Type Self-Type
@@ -18,8 +18,8 @@ Kind. class
 
 	do
 		implContains _ .|_
-			| Cast to boolean so we return `false` and not `undefined`.
-			Boolean and (not js== _ null) (js-sub _ .symbol-for-isa)
+			|| Cast to boolean so we return `false` and not `undefined`.
+			and exists?_ (Boolean (js-sub _ .symbol-for-isa))
 
 	construct params
 		.name:String = params.name
@@ -37,7 +37,7 @@ Kind. class
 		.symbol-for-isa = Symbol "isa-{.name}"
 		.prototype = Object.create null
 
-		pAdd .prototype .symbol-for-isa true
+		addProperty .prototype .symbol-for-isa true
 
 		for .implementors
 			on-implementor! _ this
@@ -67,7 +67,7 @@ unchecked-kind!. !|implementor knd
 	on-implementor! implementor knd
 
 todo @contcrete-implementors
-concrete-implementors. |knd:Kind todo  :@[Impl-Type]
+concrete-implementors. |knd:Kind todo :@[Impl-Type]
 	| List of Impl-Types inheriting from this.
 	| Does not include inheriting Kinds, but does include their implementors.
 	@for knd.implementors
@@ -110,12 +110,10 @@ kind?. |implementor knd:Kind
 			_.super-kinds.some |super-kind
 				or (=? super-kind knd) (kind? super-kind knd)
 		else
-			_ = implementor.prototype
-			:knd
+			implementor.prototype:knd
 
 region Private
-	@p-all = |_
-		Object.getOwnPropertyNames_.concat Object.getOwnPropertySymbols_
+	@p-all = &(Object.getOwnPropertyNames_.concat Object.getOwnPropertySymbols_)
 
 	on-implementor! = !|_ knd
 		if :Kind

@@ -50,7 +50,6 @@ null?. |_
 	js=== _ null
 
 exists?. |_
-	todo kill?
 	todo doc, test
 	not js== _ null
 
