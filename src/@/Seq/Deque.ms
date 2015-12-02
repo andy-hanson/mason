@@ -76,7 +76,7 @@ Deque. class kind Seq
 			.data![_]
 
 	set-sub! !|index:Nat set-to:Any
-		data-index = un-? (?data-index this index) ~"Can't set at index {index}; count is {count this}."
+		data-index = un-? (?data-index this index) ~"Can't set at index #index; count is #(count this)."
 		.data![data-index] := set-to
 
 	empty! !|

@@ -29,13 +29,13 @@ roman. |n:Nat
 		<=? (* dec-multiple dec) n
 	case
 		gt? 9
-			"{dig 1}{dig 10}{rec 9}"
+			"#(dig 1)#(dig 10)#(rec 9)"
 		gt? 5
-			"{dig 5}{rec 5}"
+			"#(dig 5)#(rec 5)"
 		gt? 4
-			"{dig 1}{dig 5}{rec 4}"
+			"#(dig 1)#(dig 5)#(rec 4)"
 		else
-			"{dig 1}{rec 1}"
+			"#(dig 1)#(rec 1)"
 
 tests 'demo
 	roman ->

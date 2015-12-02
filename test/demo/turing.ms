@@ -19,7 +19,7 @@ run-turing. |spec init-tape:Seq
 	state = init-state
 	for
 		symbol-here = tape[index]
-		rule-here = rules."{state}"[symbol-here]
+		rule-here = rules."#state"[symbol-here]
 
 		if id=? rule-here fin
 			break => Array tape

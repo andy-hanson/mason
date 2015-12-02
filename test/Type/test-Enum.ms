@@ -16,4 +16,4 @@ tests 'Enum
 		assert =? prices[Fruit.apple] 1
 		assert =? prices[Fruit.orange] 2
 		assert =? (type-of Fruit.apple) Fruit
-		assert =? "Fruit.apple" "{Fruit.apple}"
+		assert =? Fruit.apple.toString() "Fruit.apple"

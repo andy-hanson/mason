@@ -17,11 +17,11 @@ Enum. class kind Impl-Type
 		for value-name of .values
 			enum-val = Object.create .prototype
 			enum-val.name = value-name
-			this."{value-name}" = enum-val
+			this."#value-name" = enum-val
 		.prototype.constructor = this
 		enum-name = .name
 		impl! to-string this .|
-			"{enum-name}.{.name}"
+			"#enum-name.#(.name)"
 
 	contains? |_
 		Object.prototype.isPrototypeOf.call .prototype _

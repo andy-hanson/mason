@@ -1,9 +1,9 @@
 | Functions implementing behavior native to JavaScript.
 
 op = |op-name
-	Function 'a 'b "return a {op-name} b"
+	Function 'a 'b "return a #op-name b"
 unary-op = |op-name
-	Function '_ "return {op-name} _"
+	Function '_ "return #op-name _"
 
 js-and. op "&"
 js-caret. op "^"
@@ -32,14 +32,6 @@ js-instanceof. op 'instanceof
 js-typeof.
 	| JavaScript's `typeof` operator.
 	unary-op 'typeof
-
-regex. |strings ...values
-	todo doc
-	_ = ""
-	for i of 0...values.length
-		_ := "{_}{strings[i]}{values[i]}"
-	_ := "{_}{strings[values.length]}"
-	RegExp _
 
 defined?. |_
 	| True for any value except `undefined`.

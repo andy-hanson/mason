@@ -14,7 +14,7 @@ tests 'Type
 
 		f = |case
 			:My-Type a b
-				"{a}{b}"
+				"#a#b"
 			else
 				"not extractable"
 

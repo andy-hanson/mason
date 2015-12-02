@@ -30,9 +30,9 @@ tests 'Method
 			wrap-method = new Method
 				name.
 				default. .|
-					"call-{this}"
+					"call-#this"
 				wrap. |impl arg
-					"wrap-{impl.call arg}"
+					"wrap-#(impl.call arg)"
 			wrap-method 'arg
 
 	self-impl! -> !|

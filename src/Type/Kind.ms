@@ -34,7 +34,7 @@ Kind. class
 			else
 				[]
 
-		.symbol-for-isa = Symbol "isa-{.name}"
+		.symbol-for-isa = Symbol "isa-#(.name)"
 		.prototype = Object.create null
 
 		addProperty .prototype .symbol-for-isa true
@@ -82,7 +82,7 @@ kind!. !|implementor knd:Kind method-impls
 	| Kinds can subtype each other.
 	todo  Assert no circular chains of kind!.
 	todo implementor:Impl-Type
-	assert can-subtype? knd throw "{knd} is not open to new subtypes."
+	assert can-subtype? knd throw "#knd is not open to new subtypes."
 	forbid kind? implementor knd
 
 	unchecked-kind! implementor knd

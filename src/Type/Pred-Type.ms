@@ -57,7 +57,7 @@ self-impl! sub Union |...types
 	new Pred-Type
 		name.
 			names = @map types &.name
-			"Union[{=> String names " "}]"
+			"Union[#(=> String names " ")]"
 		predicate. |_
 			any? types |possible-type
 				:possible-type

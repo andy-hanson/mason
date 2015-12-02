@@ -7,4 +7,4 @@ tests 'time
 		t0 = Date.now()
 		$ $sleep 1000
 		t1 = Date.now()
-		assert >=? (- t1 t0) 1000
+		assert >=? (- t1 t0) 999

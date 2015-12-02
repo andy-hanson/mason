@@ -17,7 +17,7 @@ random-digits = |
 build-str = |builder
 	built-str = ""
 	builder !|part
-		built-str := "{built-str}{part}\n"
+		built-str := "#built-str#part\n"
 	built-str
 
 str-lit = |str
@@ -36,7 +36,7 @@ Method. class Function
 		allow-null? = flag? params.allow-null?
 		assert or (not allow-null?) default? throw "Method with `allow-null?` must have `default."
 
-		secret-name = "__method_{method-name}_{random-digits()}"
+		secret-name = "__method_#(method-name)_#(random-digits())"
 
 		impl-symbol = case params.impl-symbol
 			defined?_
@@ -54,29 +54,29 @@ Method. class Function
 				-1
 
 		src = build-str |add!
-			access-method = "global[{str-lit secret-name}]"
+			access-method = "global[#(str-lit secret-name)]"
 
 			impl = switch js-typeof impl-symbol
 				'symbol
-					"a[{access-method}[\"impl-symbol\"]]"
+					"a[#access-method[\"impl-symbol\"]]"
 				'string
-					"a[{str-lit impl-symbol}]"
+					"a[#(str-lit impl-symbol)]"
 
 			if default?
 				no-impl = case
 					allow-null?
-						"a == null || {impl} === undefined"
+						"a == null || #impl === undefined"
 					else
 						todo  Just implement it for Object?
-						"{impl} === undefined"
+						"#impl === undefined"
 				call = case
 					wrap?
-						"{access-method}.wrap.apply(null, [{access-method}.default].concat(Array.prototype.slice.call(arguments)))"
+						"#access-method.wrap.apply(null, [#access-method.default].concat(Array.prototype.slice.call(arguments)))"
 					else
-						"{access-method}.default.apply(a, Array.prototype.slice.call(arguments, 1))"
-				add! "if ({no-impl}) return {call}"
+						"#access-method.default.apply(a, Array.prototype.slice.call(arguments, 1))"
+				add! "if (#no-impl) return #call"
 
-			wrap = "{access-method}.wrap"
+			wrap = "#access-method.wrap"
 
 			add! case
 				has-args?
@@ -90,26 +90,26 @@ Method. class Function
 
 					case
 						wrap?
-							"return {wrap}({impl}, {args})"
+							"return #wrap(#impl, #args)"
 						else
 							|| Don't need leading `a, `
-							"return {impl}({args.slice 3})"
+							"return #impl(#(args.slice 3))"
 				wrap?
 					"
 						switch (arguments.length) \{
-							case 1: return {wrap}({impl}, a)
-							case 2: return {wrap}({impl}, a, b)
-							case 3: return {wrap}({impl}, a, b, c)
-							case 4: return {wrap}({impl}, a, b, c, d)
+							case 1: return #wrap(#impl, a)
+							case 2: return #wrap(#impl, a, b)
+							case 3: return #wrap(#impl, a, b, c)
+							case 4: return #wrap(#impl, a, b, c, d)
 							default: throw new Error(`Code not generated to handle $\{arguments.length} arguments.`)
 						}
 				else
 					"
 						switch (arguments.length) \{
-							case 1: return {impl}()
-							case 2: return {impl}(b)
-							case 3: return {impl}(b, c)
-							case 4: return {impl}(b, c, d)
+							case 1: return #impl()
+							case 2: return #impl(b)
+							case 3: return #impl(b, c)
+							case 4: return #impl(b, c, d)
 							default: throw new Error(`Code not generated to handle $\{arguments.length} args.`)
 						}
 
@@ -158,8 +158,8 @@ impl-double!. !|_:Method implementor-0:Impl-Type implementor-1:Impl-Type impleme
 		else
 			with js-sub implementor-0.prototype _.impl-symbol as impl
 				assert impl:Double-Dispatcher throw "
-					Can't define double dispatch of {_} for {implementor-0}.
-					A single-dispatch implementation already exists: {impl}.
+					Can't define double dispatch of #_ for #implementor-0.
+					A single-dispatch implementation already exists: #impl.
 
 	do-impl! dispatcher implementor-1 implementation
 
@@ -175,7 +175,7 @@ self-impl!. !|_:Method implementor:Object implementation:Function
 
 impl-for. |_:Method implementor:Impl-Type
 	| impl-for that fails when there is no implementation.
-	un-? (?impl-for _ implementor) ~"{_} not implemented for {implementor}."
+	un-? (?impl-for _ implementor) ~"#_ not implemented for #implementor."
 
 ?self-impl-for. |_:Method object
 	todo doc
@@ -183,7 +183,7 @@ impl-for. |_:Method implementor:Impl-Type
 
 self-impl-for. |_:Method object
 	todo doc
-	un-? (?self-impl-for _ object) ~"{_} not implemented on {object}."
+	un-? (?self-impl-for _ object) ~"#_ not implemented on #object."
 
 region Private
 	writable? = |obj property
@@ -211,7 +211,7 @@ region Private
 	|| `_` can be a Method or a Double-Dispatcher.
 	do-impl! = !|_ implementor implementation
 		assert writable? implementor.prototype _.impl-symbol throw
-			"Can not redefine method {_} for {implementor}."
+			"Can not redefine method #_ for #implementor."
 
 		Object.defineProperty implementor.prototype _.impl-symbol
 			value. implementation
@@ -225,17 +225,17 @@ region Private
 
 	Double-Dispatcher = class Function
 		construct meth
-			impl-symbol = Symbol "{meth.name}_double_dispatch"
-			secret-name = "__double_dispatch_{random-digits()}"
+			impl-symbol = Symbol "#(meth.name)_double_dispatch"
+			secret-name = "__double_dispatch_#(random-digits())"
 			addProperty global secret-name impl-symbol
 
 			super "
 				target2 = arguments[0]
 				if (target2 === undefined)
-					throw new Error("Can't double-dispatch {meth.name} for undefined.")
-				impl = target2[global.{secret-name}]
+					throw new Error("Can't double-dispatch #(meth.name) for undefined.")
+				impl = target2[global.#secret-name]
 				if (impl === undefined)
-					throw new Error(`Can't double-dispatch {meth.name} for $\{this} on $\{target2}.`)
+					throw new Error(`Can't double-dispatch #(meth.name) for $\{this} on $\{target2}.`)
 				return impl.apply(this, arguments)
 
 			todo ES6 Shouldn't be necessary
@@ -244,7 +244,7 @@ region Private
 			.method = meth
 			.impl-symbol = impl-symbol
 			Object.defineProperty this 'name
-				value. "{meth.name}__double-dispatcher"
+				value. "#(meth.name)__double-dispatcher"
 
 todo test
 implContains Method .|_

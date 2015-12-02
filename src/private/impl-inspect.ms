@@ -13,9 +13,9 @@ impl! inspect Object .|
 		Object.prototype.toString
 			@props = @all-properties this
 			enumerable-props = => Id-Set (@properties this)
-			s = "{.constructor.name}"
+			s = "#(.constructor.name)"
 			for @props
-				s := "{s}\n\t{indent (inspect-property this _ :enumerable-props)}"
+				s := "#s\n\t#(indent (inspect-property this _ :enumerable-props))"
 			s
 		else
 			.toString()
@@ -23,7 +23,7 @@ impl! inspect Object .|
 inspect-property = |obj key enumerable?
 	desc = Object.getOwnPropertyDescriptor obj key
 
-	prop-name = cond enumerable? key "[{key}]"
+	prop-name = cond enumerable? key "[#key]"
 
 	str = case
 		and desc.get desc.set
@@ -35,28 +35,31 @@ inspect-property = |obj key enumerable?
 		else
 			inspect desc.value
 
-	"{prop-name}. {str}"
+	"#prop-name. #str"
 
 inspect-primitive = .|
+	todo use :Object instead of typeof
 	switch js-typeof this
 		'object
-			"[{.constructor.name} {this}]"
+			"[#(.constructor.name) #this]"
 		else
-			"{this}"
+			String this
 
 impl! inspect Boolean inspect-primitive
 impl! inspect Number inspect-primitive
 
 impl! inspect String .|
+	str = JSON.stringify this
+	todo :String vs :string
 	switch js-typeof this
 		'object
-			"[String {inspect .valueOf()}]"
+			"[String #str]"
 		else
-			JSON.stringify this
+			str
 
 impl! inspect Symbol .|
 	switch js-typeof this
 		'object
-			"[Symbol {inspect .valueOf()}]"
+			"[Symbol #(inspect .valueOf())]"
 		else
 			.toString()

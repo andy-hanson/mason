@@ -1,11 +1,8 @@
 import
-	msl.js regex js-typeof
+	msl.js js-typeof
 	.tests
 
 tests 'js
-	regex -> !|
-		assert =? regex"a{1}b" (RegExp 'a1b)
-
 	defined? ->
 		[undefined] -> false
 		[null] -> true

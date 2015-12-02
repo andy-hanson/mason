@@ -25,8 +25,8 @@ $done. |_:Promise
 		|| Don't use log! because there if errors happen in there, the error disappears!
 		console.log "
 			=== error ===
-			{err.message}
-			{err.stack}
+			#(err.message)
+			#(err.stack)
 			=== error ===
 		|| We're already $done so this shouldn't matter, but just in case...
 		throw err
@@ -36,7 +36,7 @@ $fail-after-time. |:Promise _:Promise time-ms:Number
 	new Promise !|resolve reject
 		_.then resolve
 		timeout = !|
-			reject new Error "Took longer than {time-ms} milliseconds."
+			reject new Error "Took longer than #time-ms milliseconds."
 		setTimeout timeout time-ms
 
 setImmediate = opr global.setImmediate |action

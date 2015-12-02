@@ -47,7 +47,7 @@ import
 			empty? this
 				'?None
 			else
-				"?some {inspect .val}"
+				"?some #(inspect .val)"
 
 empty-marker =
 	| `_.val` on an empty `?` will return this.

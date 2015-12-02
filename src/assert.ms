@@ -26,12 +26,12 @@ assert-this-call!. !|fun:Function args->result:Map
 		expected-res = _[1]
 		actual = fun.apply args[0] (@tail args)
 		assert =? actual expected-res throw "
-			{fun} of:
-				{indent (=> String (@map args inspect) "\n")}
-			Should {=?}:
-				{indent (inspect expected-res)}
+			#fun of:
+				#(indent (=> String (@map args inspect) "\n"))
+			Should #=?:
+				#(indent (inspect expected-res))
 			Got:
-				{indent (inspect actual)}
+				#(indent (inspect actual))
 
 assert-call-with!. !|equal?:Pred fun:Function args->result:Map
 	| Like !call but allows any equality predicate.
@@ -42,9 +42,9 @@ assert-call-with!. !|equal?:Pred fun:Function args->result:Map
 		expected-res = _[1]
 		actual = fun ...args
 		assert equal? actual expected-res throw "
-			{fun} of:
-				{indent (=> String (@map args inspect) "\n")}
-			Should {equal?}:
-				{indent (inspect expected-res)}
+			#fun of:
+				#(indent (=> String (@map args inspect) "\n"))
+			Should #equal?:
+				#(indent (inspect expected-res))
 			Got:
-				{indent (inspect actual)}
+				#(indent (inspect actual))

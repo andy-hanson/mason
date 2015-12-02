@@ -16,7 +16,7 @@ make-fizz-buzz. |spec
 		s = ""
 		for tests
 			if divisible? n _.divisor
-				s := "{s}{_.shout}"
+				s := "#s#(_.shout)"
 		cond (empty? s) n s
 
 tests 'demo

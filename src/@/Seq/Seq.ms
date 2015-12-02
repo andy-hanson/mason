@@ -22,8 +22,8 @@ Seq. kind @
 	sub |n:Nat
 		| Nth value in iteration order.
 		un-? (?nth this n) ~"
-			No element at index {n} for
-				{indent (to-string this)}
+			No element at index #n for
+				#(indent (to-string this))
 
 region TODO
 	todo  Review name...

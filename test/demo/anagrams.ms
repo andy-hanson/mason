@@ -1,7 +1,6 @@
 import
 	msl.@.Map.multi-map add-to-@!
 	msl.compare sort
-	msl.RegExp rgx
 	..tests
 
 maximum-anagram-sets. |words
@@ -25,7 +24,7 @@ tests 'demo
 			elan lane lean lena neal
 			evil levi live veil vile
 			random words to prove it's doing work
-		words = w.split rgx"\s"
+		words = w.split `\s`
 		assert seq=? (maximum-anagram-sets words)
 			. ['abel 'able 'bale 'bela 'elba]
 			. ['alger 'glare 'lager 'large 'regal]

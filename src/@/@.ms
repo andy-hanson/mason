@@ -36,14 +36,14 @@ import~
 do-inspect = |_ recurse
 	case
 		empty? _
-			"empty {_.constructor.name}"
+			"empty #(_.constructor.name)"
 		else
 			content =
 				todo  @for:Array
 				show-ems = => Array @for em of _
 					. indent (recurse em)
-				"\n\t. {show-ems.join "\n\t. "}"
-			"{_.constructor.name}{content}"
+				"\n\t. #(show-ems.join "\n\t. ")"
+			"#(_.constructor.name)#content"
 
 iterator. new Method
 	| Creates a new Generator which yields the values in the @.

@@ -20,16 +20,16 @@ Map. kind @
 		todo SYNTAX Array destructure
 		todo @for~
 		parts = @map~ this |pair
-			"{inspect pair[0]} -> {inspect pair[1]}"
+			"#(inspect pair[0]) -> #(inspect pair[1])"
 		"
-			{.constructor.name}
-				{=> String parts "\n\t"}
+			#(.constructor.name)
+				#(=> String parts "\n\t")
 
 	=? |other
 		and (=? (type-of this) (type-of other)) (map=? this other)
 
 	sub |key
-		un-? (?get this key) ~"{this} does not contain {key}."
+		un-? (?get this key) ~"#this does not contain #key."
 
 region New methods
 	?get. method |key

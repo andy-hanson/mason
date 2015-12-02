@@ -93,7 +93,9 @@ const msDefs = {
 
 	getModule(module) {
 		// TODO:ES6 just use `import` statemenjt
-		return module._get instanceof Lazy ? module._get.get() : module
+		return (module !== null && module !== undefined && module._get instanceof Lazy) ?
+			module._get.get() :
+			module
 	},
 
 	getDefaultExport(module) {
@@ -134,6 +136,11 @@ const msDefs = {
 		if (Object.prototype.hasOwnProperty.call(object, name))
 			throw new Error(`Property ${name} already exists.`)
 		object[name] = value
+	},
+
+	regexp(parts, flags) {
+		parts = parts.map(_ => _ instanceof RegExp ? _.source : String(_))
+		return new RegExp(parts.join(''), flags)
 	},
 
 	setLazy(value, name, lazy) {

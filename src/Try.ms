@@ -46,8 +46,8 @@ annotate-errors. |~annotation:String tried:Action
 		try
 			tried()
 		catch
-			_.stack := "{annotation}{_.stack}"
-			_.message := "{annotation}{_.message}"
+			_.stack := "#annotation#(_.stack)"
+			_.message := "#annotation#(_.message)"
 			throw _
 
 region $
@@ -65,6 +65,6 @@ region $
 		| Like `annotate-errors` but works on errors thrown in a Promise.
 		$tried.catch |_
 			if :Error
-				_.stack := "{annotation}{_.stack}"
-				_.message := "{annotation}{_.message}"
+				_.stack := "#annotation#(_.stack)"
+				_.message := "#annotation#(_.message)"
 			throw _
