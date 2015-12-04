@@ -22,7 +22,7 @@ Hash-Map. class kind Map
 
 	static
 		empty |
-			new this (new global.Map)
+			new this new global.Map
 
 	construct .val:Id-Map
 		pass
@@ -52,7 +52,7 @@ Hash-Map. class kind Map
 				_.val! := val
 			else
 				|| Add it at the front.
-				.val.set hash (new Bucket key val bucket)
+				.val.set hash new Bucket key val bucket
 
 	del-sub! |key
 		hash = hash-code key

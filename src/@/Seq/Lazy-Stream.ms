@@ -17,7 +17,7 @@ Lazy-Stream. class kind Seq
 	do
 		self-kind! _ @-Type
 		todo  move to `static`
-		self-impl! empty _ (thunk (new _ *!|
+		self-impl! empty _ (thunk new _ *!|
 			pass
 
 	static

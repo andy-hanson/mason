@@ -19,7 +19,7 @@ Range. class kind @
 	do
 		self-kind! _ @-Type
 		todo
-		self-impl! empty _ (thunk (new _ 0 0))
+		self-impl! empty _ (thunk new _ 0 0)
 
 	static
 		from-stream |_

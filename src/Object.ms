@@ -53,9 +53,9 @@ todo  Handle recursive references.
 object=?. |a b
 	| For Objects, whether they are of the same type and have `=?` properties.
 	| For primitives, whether they are `=?`.
-	todo  Not :Object because that currently also includes Functions
-	obj-a = and (not (id=? a null)) (id=? (js-typeof a) 'object)
-	obj-b = and (not (id=? b null)) (id=? (js-typeof b) 'object)
+	todo :object
+	obj-a = and (not id=? a null) (id=? (js-typeof a) 'object)
+	obj-b = and (not id=? b null) (id=? (js-typeof b) 'object)
 	case
 		not or obj-a obj-b
 			id=? a b
@@ -70,7 +70,7 @@ object=?. |a b
 					all? ak |k
 						=? (js-sub a k) (js-sub b k)
 
-empty-Object. Object.freeze (new Object)
+empty-Object. Object.freeze new Object
 
 empty-Object?. |_:Object
 	| Whether there are no properties, not even hidden ones.

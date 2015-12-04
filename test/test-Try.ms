@@ -34,4 +34,4 @@ tests 'Try
 		assert =? 'a $ $try (Promise.reject 'a)
 
 	$annotate-errors -> $!|
-		assert =? 'ab ($ $try ($annotate-errors 'a (Promise.reject (new Error 'b)))).message
+		assert =? 'ab ($ $try ($annotate-errors 'a (Promise.reject new Error 'b))).message

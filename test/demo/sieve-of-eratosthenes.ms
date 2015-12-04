@@ -27,6 +27,6 @@ primes.
 tests 'demo
 	primes -> !|
 		is-prime? = |_
-			not any? (2..._) divisible?[_]
+			not any? 2..._ divisible?[_]
 		for @take primes 20
 			assert is-prime?_

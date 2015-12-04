@@ -38,7 +38,7 @@ region New methods
 
 	has-key?. method |key
 		| Whether the key is in the Map.
-		not (empty? (?get this key))
+		not empty? (?get this key)
 
 	@keys. method |
 		| Every key that the Map `has-key?`.
