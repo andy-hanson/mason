@@ -35,7 +35,7 @@ tests 'Kind
 		[[]] -> true
 		[[1]] -> false
 
-	contains? ->
+	has-instance? ->
 		[[0] 0] -> true
 		[[0] 1] -> false
 

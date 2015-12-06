@@ -11,7 +11,7 @@ define(["exports","./../../compare","./../../hash-code","./../../js","./../../me
 				}
 				constructor(val){
 					let _this=this;
-					_ms.checkContains(Id_45Map,val,"val");
+					_ms.checkInstance(Id_45Map,val,"val");
 					_ms.newProperty(this,"val",val)
 				}
 				*[_ms.symbol(iterator)](){

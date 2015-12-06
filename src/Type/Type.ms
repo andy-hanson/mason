@@ -13,8 +13,7 @@ import~
 	..to-string inspect
 
 Type. kind
-	| Anything implementing contains?.
-	| Types are generally used to succinctly make assertions about values.
+	todo doc
 
 	=? |other
 		id=? this other
@@ -26,12 +25,12 @@ todo  Should not be necessary, Kind < Impl-Type < Type
 impl! to-string Kind .|
 	.name
 
-contains?. new Method
+has-instance?. new Method
 	| Whether some collection of things as as an element `instance`.
 	name.
 	args. ['instance]
 	impl-symbol. containsImplSymbol
-msDef 'contains contains?
+msDef 'hasInstance has-instance?
 
 todo num-extracteds:Nat
 extract. method |candidate num-extracteds
@@ -45,7 +44,7 @@ extract. method |candidate num-extracteds
 
 msDef 'extract extract
 
-msDef 'checkContains |expected-type value value-name
+msDef 'checkInstance |expected-type value value-name
 	assert value:expected-type throw new TypeError
 		"#value-name is no #(expected-type.name), is a #((type-of value).name): #(inspect value)"
 	value

@@ -12,7 +12,7 @@ define(["exports","./../at/Set/Id-Set","./../Object","./../String","./../to-stri
 						let enumerable_45props=_61_62(Id_45Set,_64properties(_this));
 						let s=`${_this.constructor.name}`;
 						for(let _ of _64props){
-							s=`${s}\n\t${indent(inspect_45property(_this,_,_ms.contains(enumerable_45props,_)))}`
+							s=`${s}\n\t${indent(inspect_45property(_this,_,_ms.hasInstance(enumerable_45props,_)))}`
 						};
 						return s
 					}
@@ -38,20 +38,20 @@ define(["exports","./../at/Set/Id-Set","./../Object","./../String","./../to-stri
 		};
 		let inspect_45primitive=function inspect_45primitive(){
 			let _this=this;
-			return (_ms.contains(Object,_this)?`[${_this.constructor.name} ${_this}]`:`${_this}`)
+			return (_ms.hasInstance(Object,_this)?`[${_this.constructor.name} ${_this}]`:`${_this}`)
 		};
 		impl_33(inspect,Boolean,inspect_45primitive);
 		impl_33(inspect,Number,inspect_45primitive);
 		impl_33(inspect,String,function(){
 			let _this=this;
 			let str=JSON.stringify(_this);
-			return (_ms.contains(Object,_this)?`[String ${str}]`:str)
+			return (_ms.hasInstance(Object,_this)?`[String ${str}]`:str)
 		});
 		exports.default=impl_33(inspect,Symbol,function(){
 			let _this=this;
-			return (_ms.contains(Object,_this)?`[Symbol ${inspect(_this.valueOf())}]`:_this.toString())
+			return (_ms.hasInstance(Object,_this)?`[Symbol ${inspect(_this.valueOf())}]`:_this.toString())
 		});
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvcHJpdmF0ZS9pbXBsLWluc3BlY3QubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFTQSxRQUFNLFFBQVEsT0FDUztPQXFDNEI7VUFyQzNDO1dBcUMyQztVQXBDakQsMEJBQ3lCO01BQXhCLGFBQVMsb0JBbUN1QztNQWxDaEQsdUJBQW1CLE9BQUcsU0FBUSxjQWtDa0I7TUFqQ2hELE1BQUssR0FpQzJDO01BaEM1QyxRQUFBLEtBQUEsU0FDTTtTQUFILEdBQUMsUUFBTyxPQUFRLG1CQStCeUIsTUEvQkYsZUFBRSxtQkFBRDs7YUFDL0M7S0FBQTtvQkE4QmdEOzs7O0VBMUJuRCx1QkFBb0IsNEJBQUEsSUFBSSxJQUFJO0dBQzNCLFNBQU8sZ0NBQWdDLElBQUk7R0FFM0MsZ0JBQWlCLENBQUEsY0FBWSxJQUFLLElBQUU7R0FFcEMsUUFDVTtJQUFULEdBQUEsQ0FBSSxVQUFTLFVBQ1E7WUFBbkI7V0FDRixHQUFBLFNBQ1E7WUFBTjtXQUNGLEdBQUEsU0FDUTtZQUFOO1dBRUU7WUFBSCxRQUFROzs7VUFFVCxHQUFDLGdCQUFZOztFQUVmLHdCQUNzQjtPQVE2QjtVQVI3QyxjQUFLLE9BUXdDLE9BUmhDLElBUWdDLG1DQVJELEdBUUM7O0VBTm5ELFFBQU0sUUFBUSxRQUFRO0VBQ3RCLFFBQU0sUUFBUSxPQUFPO0VBQ3JCLFFBQU0sUUFBUSxPQUNTO09BRzRCO0dBSGxELFFBQU0sZUFHNEM7VUFGN0MsY0FBSyxPQUV3QyxPQUZoQyxXQUFTLE9BQU07RUFBQTtrQkFDbEMsUUFBTSxRQUFRLE9BQ1M7T0FBNEI7VUFBN0MsY0FBSyxPQUF3QyxPQUFoQyxXQUFVLFFBQXNCIiwiZmlsZSI6InByaXZhdGUvaW1wbC1pbnNwZWN0LmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvcHJpdmF0ZS9pbXBsLWluc3BlY3QubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFTQSxRQUFNLFFBQVEsT0FDUztPQXFDNEI7VUFyQzNDO1dBcUMyQztVQXBDakQsMEJBQ3lCO01BQXhCLGFBQVMsb0JBbUN1QztNQWxDaEQsdUJBQW1CLE9BQUcsU0FBUSxjQWtDa0I7TUFqQ2hELE1BQUssR0FpQzJDO01BaEM1QyxRQUFBLEtBQUEsU0FDTTtTQUFILEdBQUMsUUFBTyxPQUFRLG1CQStCeUIsTUEvQkYsa0JBQUUsbUJBQUQ7O2FBQy9DO0tBQUE7b0JBOEJnRDs7OztFQTFCbkQsdUJBQW9CLDRCQUFBLElBQUksSUFBSTtHQUMzQixTQUFPLGdDQUFnQyxJQUFJO0dBRTNDLGdCQUFpQixDQUFBLGNBQVksSUFBSyxJQUFFO0dBRXBDLFFBQ1U7SUFBVCxHQUFBLENBQUksVUFBUyxVQUNRO1lBQW5CO1dBQ0YsR0FBQSxTQUNRO1lBQU47V0FDRixHQUFBLFNBQ1E7WUFBTjtXQUVFO1lBQUgsUUFBUTs7O1VBRVQsR0FBQyxnQkFBWTs7RUFFZix3QkFDc0I7T0FRNkI7VUFSN0MsaUJBQUssT0FRd0MsT0FSaEMsSUFRZ0MsbUNBUkQsR0FRQzs7RUFObkQsUUFBTSxRQUFRLFFBQVE7RUFDdEIsUUFBTSxRQUFRLE9BQU87RUFDckIsUUFBTSxRQUFRLE9BQ1M7T0FHNEI7R0FIbEQsUUFBTSxlQUc0QztVQUY3QyxpQkFBSyxPQUV3QyxPQUZoQyxXQUFTLE9BQU07RUFBQTtrQkFDbEMsUUFBTSxRQUFRLE9BQ1M7T0FBNEI7VUFBN0MsaUJBQUssT0FBd0MsT0FBaEMsV0FBVSxRQUFzQiIsImZpbGUiOiJwcml2YXRlL2ltcGwtaW5zcGVjdC5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

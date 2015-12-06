@@ -3,7 +3,7 @@ import
 	..js defined? id=?
 	..methods sub
 	.Method self-impl!
-	.Type _ => contains?
+	.Type _ => has-instance?
 import~
 	..@.@ any? @map
 
@@ -16,7 +16,7 @@ Pred-Type. class kind Type
 		todo assert .name:Str
 		assert .predicate:Pred
 
-	contains? |value
+	has-instance? |value
 		.predicate value
 
 region Opt
@@ -40,7 +40,7 @@ region Opt
 		get 'name
 			"Opt[#(.Exists-Type.name)]"
 
-		contains? |_
+		has-instance? |_
 			or (not defined?_) :.Exists-Type
 
 Any. new Pred-Type

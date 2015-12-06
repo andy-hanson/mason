@@ -11,3 +11,5 @@ import!
 	..@.Range
 	..String-as-Seq
 	.impl-inspect
+	|| has-instance? and extract for RegExps
+	..RegExp

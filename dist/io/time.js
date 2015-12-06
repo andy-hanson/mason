@@ -4,7 +4,7 @@ define(["exports","./../Type/primitive"],(exports,primitive_0)=>{
 	exports._get=_ms.lazy(()=>{
 		let _$0=_ms.getModule(primitive_0),Num=_ms.get(_$0,"Num");
 		let $sleep=exports.$sleep=function $sleep(time_45ms){
-			_ms.checkContains(Num,time_45ms,"time-ms");
+			_ms.checkInstance(Num,time_45ms,"time-ms");
 			return new (Promise)(resolve=>{
 				setTimeout(resolve,time_45ms)
 			})

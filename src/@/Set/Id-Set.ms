@@ -2,7 +2,7 @@ import
 	todo SYNTAX use global.Set but rename it to Js-Set
 	global
 	...Type.Kind kind! self-kind!
-	...Type.Type contains?
+	...Type.Type has-instance?
 	..@ ++! --! count each! empty!
 	..@-Type _ empty
 	.Set
@@ -29,5 +29,5 @@ kind! Id-Set Set
 	--! -> .!|@deleted
 		each! @deleted .&delete
 
-	contains? -> .|_
+	has-instance? -> .|_
 		.has_

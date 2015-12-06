@@ -11,7 +11,7 @@ define(["exports","./../../Type/Kind","./../at","./../at-Type","./../Map/Map",".
 				}
 				constructor(map){
 					let _this=this;
-					_ms.checkContains(Hash_45Map,map,"map");
+					_ms.checkInstance(Hash_45Map,map,"map");
 					_ms.newProperty(this,"map",map)
 				}
 				[_ms.symbol(iterator)](){
@@ -27,7 +27,7 @@ define(["exports","./../../Type/Kind","./../at","./../at-Type","./../Map/Map",".
 				[_ms.symbol(_45_45_33)](_64deleted){
 					let _this=this;
 					for(let _ of _64deleted){
-						_ms.delSub(_this.map,_)
+						_ms.del(_this.map,_)
 					}
 				}
 				[_ms.symbol(empty_33)](){
@@ -42,4 +42,4 @@ define(["exports","./../../Type/Kind","./../at","./../at-Type","./../Map/Map",".
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvQC9TZXQvSGFzaC1TZXQubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFRQSwrQkFBZ0IsS0FJYjs7dUJBR0Q7U0FxQk87WUFwQk4sS0FvQk0sT0FwQkksTUFBTTtJQUFBO0lBRVIsWUFBQTtTQWtCRjt1QkFsQk87OztnQkFHZjtTQWVRO1lBZFAsU0FBVSxRQWNIOztnQkFWUixZQUFNO1NBVUU7S0FUSCxRQUFBLEtBQUEsU0FDTTtpQkFRSCxVQVJBLEVBQUs7OztnQkFHYixZQUFNO1NBS0U7S0FKSCxRQUFBLEtBQUEsV0FDUTtpQkFHTCxVQUhJO0tBQUE7SUFBQTtnQkFFWjtTQUNRO0tBQVAsU0FBTzs7O2dCQTVCWTtHQUluQixlQUFZLEVBQUMiLCJmaWxlIjoiYXQvU2V0L0hhc2gtU2V0LmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvQC9TZXQvSGFzaC1TZXQubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFRQSwrQkFBZ0IsS0FJYjs7dUJBR0Q7U0FxQk87WUFwQk4sS0FvQk0sT0FwQkksTUFBTTtJQUFBO0lBRVIsWUFBQTtTQWtCRjt1QkFsQk87OztnQkFHZjtTQWVRO1lBZFAsU0FBVSxRQWNIOztnQkFWUixZQUFNO1NBVUU7S0FUSCxRQUFBLEtBQUEsU0FDTTtpQkFRSCxVQVJBLEVBQUs7OztnQkFHYixZQUFNO1NBS0U7S0FKSCxRQUFBLEtBQUEsV0FDUTtjQUdMLFVBSEk7S0FBQTtJQUFBO2dCQUVaO1NBQ1E7S0FBUCxTQUFPOzs7Z0JBNUJZO0dBSW5CLGVBQVksRUFBQyIsImZpbGUiOiJhdC9TZXQvSGFzaC1TZXQuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

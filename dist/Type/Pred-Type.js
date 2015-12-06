@@ -2,16 +2,16 @@
 if((typeof define!=="function"))var define=require("amdefine")(module);
 define(["exports","./../js","./../methods","./Method","./Type","./../at/at"],(exports,js_0,methods_1,Method_2,Type_3,_64_4)=>{
 	exports._get=_ms.lazy(()=>{
-		let _$0=_ms.getModule(js_0),defined_63=_ms.get(_$0,"defined?"),id_61_63=_ms.get(_$0,"id=?"),_$1=_ms.getModule(methods_1),sub=_ms.get(_$1,"sub"),_$2=_ms.getModule(Method_2),self_45impl_33=_ms.get(_$2,"self-impl!"),Type=_ms.getDefaultExport(Type_3),_$3=_ms.getModule(Type_3),_61_62=_ms.get(_$3,"=>"),contains_63=_ms.get(_$3,"contains?"),_$4=_ms.lazyGetModule(_64_4),any_63=_ms.lazyProp(_$4,"any?"),_64map=_ms.lazyProp(_$4,"@map");
+		let _$0=_ms.getModule(js_0),defined_63=_ms.get(_$0,"defined?"),id_61_63=_ms.get(_$0,"id=?"),_$1=_ms.getModule(methods_1),sub=_ms.get(_$1,"sub"),_$2=_ms.getModule(Method_2),self_45impl_33=_ms.get(_$2,"self-impl!"),Type=_ms.getDefaultExport(Type_3),_$3=_ms.getModule(Type_3),_61_62=_ms.get(_$3,"=>"),has_45instance_63=_ms.get(_$3,"has-instance?"),_$4=_ms.lazyGetModule(_64_4),any_63=_ms.lazyProp(_$4,"any?"),_64map=_ms.lazyProp(_$4,"@map");
 		let Pred=Function;
 		let Pred_45Type=exports.default=(()=>{
 			let _=class Pred_45Type{
 				constructor(params){
 					let _this=this;
 					Object.assign(_this,params);
-					_ms.assert(_ms.contains,Pred,_this.predicate)
+					if(! _ms.hasInstance(Pred,_this.predicate))throw new (Error)("Assertion failed.")
 				}
-				[_ms.symbol(contains_63)](value){
+				[_ms.symbol(has_45instance_63)](value){
 					let _this=this;
 					return _this.predicate(value)
 				}
@@ -29,7 +29,7 @@ define(["exports","./../js","./../methods","./Method","./Type","./../at/at"],(ex
 		})());
 		self_45impl_33(sub,Opt,(()=>{
 			return Exists_45Type=>{
-				_ms.checkContains(Type,Exists_45Type,"Exists-Type");
+				_ms.checkInstance(Type,Exists_45Type,"Exists-Type");
 				let ET=Exists_45Type;
 				return new (Opt_45Sub)(ET)
 			}
@@ -38,16 +38,16 @@ define(["exports","./../js","./../methods","./Method","./Type","./../at/at"],(ex
 			let _=class Opt_45Sub{
 				constructor(Exists_45Type){
 					let _this=this;
-					_ms.checkContains(Type,Exists_45Type,"Exists-Type");
+					_ms.checkInstance(Type,Exists_45Type,"Exists-Type");
 					_ms.newProperty(this,"Exists-Type",Exists_45Type)
 				}
 				get name(){
 					let _this=this;
 					return `Opt[${_this["Exists-Type"].name}]`
 				}
-				[_ms.symbol(contains_63)](_){
+				[_ms.symbol(has_45instance_63)](_){
 					let _this=this;
-					return (! defined_63(_)||_ms.contains(_this["Exists-Type"],_))
+					return (! defined_63(_)||_ms.hasInstance(_this["Exists-Type"],_))
 				}
 			};
 			_ms.kindDo(_,Type);
@@ -63,7 +63,7 @@ define(["exports","./../js","./../methods","./Method","./Type","./../at/at"],(ex
 			let built={};
 			built.name="ObjLit";
 			let predicate=built.predicate=function predicate(_){
-				return (_ms.contains(Object,_)&&id_61_63(Object.getPrototypeOf(_),Object.prototype))
+				return (_ms.hasInstance(Object,_)&&id_61_63(Object.getPrototypeOf(_),Object.prototype))
 			};
 			return built
 		})());
@@ -80,7 +80,7 @@ define(["exports","./../js","./../methods","./Method","./Type","./../at/at"],(ex
 				})();
 				let predicate=built.predicate=function predicate(_){
 					return _ms.unlazy(any_63)(types,possible_45type=>{
-						return _ms.contains(possible_45type,_)
+						return _ms.hasInstance(possible_45type,_)
 					})
 				};
 				return built
@@ -89,4 +89,4 @@ define(["exports","./../js","./../methods","./Method","./Type","./../at/at"],(ex
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvVHlwZS9QcmVkLVR5cGUubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFTQSxTQUFPO0VBRVAsZ0NBQWlCOztJQUVOLFlBQUE7U0E4Qlk7S0E3QnJCLGNBNkJxQixNQTdCRjs2QkFFRCxLQTJCRzs7Z0JBekJ0QixjQUFXO1NBeUJXO1lBQUEsZ0JBeEJWO0lBQUE7R0FBQTtnQkFSUzs7O0VBV3JCLG9CQUFLLEtBQUksYUFDUyxLQUFBOztjQUNqQjtHQUNBLDhCQUNZO1dBQVg7R0FBQTs7O0VBRUYsZUFBVyxJQUFJLElBQ0csS0FBQTtVQUNoQjtzQkFBWTtJQUNaLE9BQUs7V0FDTCxLQUFJLFdBQVE7R0FBQTtFQUFBO0VBRWQsY0FBZ0I7O0lBRUwsWUFBQTtTQU9XO3VCQVBFOzs7Y0FJZDtTQUdZO1lBSG5CLE9BR21COztnQkFEckIsY0FBWTtTQUNTO1lBQXBCLENBQUksRUFBSSxXQUFTLGlCQUFHLHFCQUFEO0lBQUE7R0FBQTtnQkFUQTs7O0VBV3RCLG9CQUFLLEtBQUksYUFDUyxLQUFBOztjQUNqQjtHQUNBLDhCQUFXOzs7RUFFWiwwQkFBUSxLQUFJLGFBQ1MsS0FBQTs7Y0FDcEI7R0FDQSw4QkFBYSxtQkFBQTtXQUNaLGNBQUssT0FBRCxJQUFTLFNBQUssc0JBQXNCLEdBQUM7Ozs7RUFFM0Msd0JBQ00sS0FBQTtVQUNMLEtBQUk7RUFBQTtFQUVMLGVBQVcsSUFBSSxNQUFPOztVQUNyQixLQUFJLGFBQ1MsS0FBQTs7ZUFDUCxLQUFBO0tBQUosNkJBQWE7WUFDWixTQUFRLE9BQUcsT0FBTyxNQUFPOztJQUMzQiw4QkFBYSxtQkFBQTsrQkFDUCxNQUFPOzBCQUNWLGdCQUFEO0tBQUE7SUFBQSIsImZpbGUiOiJUeXBlL1ByZWQtVHlwZS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvVHlwZS9QcmVkLVR5cGUubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFTQSxTQUFPO0VBRVAsZ0NBQWlCOztJQUVOLFlBQUE7U0E4Qlk7S0E3QnJCLGNBNkJxQixNQTdCRjtLQUVaLHFCQUFXLEtBMkJHOztnQkF6QnRCLG9CQUFlO1NBeUJPO1lBQUEsZ0JBeEJWO0lBQUE7R0FBQTtnQkFSUzs7O0VBV3JCLG9CQUFLLEtBQUksYUFDUyxLQUFBOztjQUNqQjtHQUNBLDhCQUNZO1dBQVg7R0FBQTs7O0VBRUYsZUFBVyxJQUFJLElBQ0csS0FBQTtVQUNoQjtzQkFBWTtJQUNaLE9BQUs7V0FDTCxLQUFJLFdBQVE7R0FBQTtFQUFBO0VBRWQsY0FBZ0I7O0lBRUwsWUFBQTtTQU9XO3VCQVBFOzs7Y0FJZDtTQUdZO1lBSG5CLE9BR21COztnQkFEckIsb0JBQWdCO1NBQ0s7WUFBcEIsQ0FBSSxFQUFJLFdBQVMsb0JBQUcscUJBQUQ7SUFBQTtHQUFBO2dCQVRBOzs7RUFXdEIsb0JBQUssS0FBSSxhQUNTLEtBQUE7O2NBQ2pCO0dBQ0EsOEJBQVc7OztFQUVaLDBCQUFRLEtBQUksYUFDUyxLQUFBOztjQUNwQjtHQUNBLDhCQUFhLG1CQUFBO1dBQ1osaUJBQUssT0FBRCxJQUFTLFNBQUssc0JBQXNCLEdBQUM7Ozs7RUFFM0Msd0JBQ00sS0FBQTtVQUNMLEtBQUk7RUFBQTtFQUVMLGVBQVcsSUFBSSxNQUFPOztVQUNyQixLQUFJLGFBQ1MsS0FBQTs7ZUFDUCxLQUFBO0tBQUosNkJBQWE7WUFDWixTQUFRLE9BQUcsT0FBTyxNQUFPOztJQUMzQiw4QkFBYSxtQkFBQTsrQkFDUCxNQUFPOzZCQUNWLGdCQUFEO0tBQUE7SUFBQSIsImZpbGUiOiJUeXBlL1ByZWQtVHlwZS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

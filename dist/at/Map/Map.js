@@ -43,8 +43,8 @@ define(["exports","./../../compare","./../../methods","./../../to-string","./../
 			}))
 		});
 		let make_45map=exports["make-map"]=function make_45map(_64key,get_45value){
-			_ms.checkContains(_64,_64key,"@key");
-			_ms.checkContains(Function,get_45value,"get-value");
+			_ms.checkInstance(_64,_64key,"@key");
+			_ms.checkInstance(Function,get_45value,"get-value");
 			let map=empty(_ms.unlazy(Id_45Map));
 			for(let _ of _64key){
 				_ms.setSub(map,_,get_45value(_),"init")
@@ -52,8 +52,8 @@ define(["exports","./../../compare","./../../methods","./../../to-string","./../
 			return map
 		};
 		let map_61_63=exports["map=?"]=function map_61_63(a,b){
-			_ms.checkContains(Map,a,"a");
-			_ms.checkContains(Map,b,"b");
+			_ms.checkInstance(Map,a,"a");
+			_ms.checkInstance(Map,b,"b");
 			return (_61_63(count(a),count(b))&&(()=>{
 				return all_63(a,pair=>{
 					let key=_ms.sub(pair,0);

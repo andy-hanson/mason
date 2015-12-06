@@ -7,7 +7,7 @@ import
 	..String indent
 	..Type.Method
 	..Type.Pred-Type Any Opt
-	..Type.Type => contains? type-of
+	..Type.Type => has-instance? type-of
 import~
 	..control opr
 	.? Opt->?
@@ -20,7 +20,7 @@ import~
 	| If the iteration order of an @ is meaningful and `+ a b` is the concatenation, it is a Seq.
 	| If an @ only stores a given element once, it is a Set.
 
-	contains? |em:Any
+	has-instance? |em:Any
 		| Whether one of the elements =? em.
 		any? this |em-compare
 			=? em em-compare

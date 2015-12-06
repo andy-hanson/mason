@@ -30,7 +30,7 @@ define(["exports","./../../compare","./../../math/Number","./../../math/methods"
 				}
 				[_ms.symbol(_60_43_43_33)](ems){
 					let _this=this;
-					_ms.checkContains(_64,ems,"ems");
+					_ms.checkInstance(_64,ems,"ems");
 					for(let _ of _64reverse(ems)){
 						let new_45start=_this["prev-index"](_this["start-index"]);
 						if(_61_63(new_45start,_this["end-index"])){
@@ -44,7 +44,7 @@ define(["exports","./../../compare","./../../math/Number","./../../math/methods"
 				}
 				[_ms.symbol(_43_43_62_33)](ems){
 					let _this=this;
-					_ms.checkContains(_64,ems,"ems");
+					_ms.checkInstance(_64,ems,"ems");
 					for(let _ of ems){
 						let new_45end=_this["next-index"](_this["end-index"]);
 						if(_61_63(new_45end,_this["start-index"])){
@@ -76,15 +76,15 @@ define(["exports","./../../compare","./../../math/Number","./../../math/methods"
 				}
 				[_ms.symbol(_63nth)](index){
 					let _this=this;
-					_ms.checkContains(Nat,index,"index");
+					_ms.checkInstance(Nat,index,"index");
 					return _64map(_this["?data-index"](index),_=>{
 						return _ms.sub(_this.data,_)
 					})
 				}
 				[_ms.symbol(set_45sub_33)](index,set_45to){
 					let _this=this;
-					_ms.checkContains(Nat,index,"index");
-					_ms.checkContains(Any,set_45to,"set-to");
+					_ms.checkInstance(Nat,index,"index");
+					_ms.checkInstance(Any,set_45to,"set-to");
 					let data_45index=un_45_63(_this["?data-index"](index),_ms.lazy(()=>`Can't set at index ${index}; count is ${count(_this)}.`));
 					_ms.setSub(_this.data,data_45index,set_45to,"mutate")
 				}

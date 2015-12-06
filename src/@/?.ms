@@ -57,10 +57,8 @@ empty-marker =
 ?some. |_
 	new ? _
 
-self-impl! extract ?some |case
-	empty?_
-		null
-	else
+self-impl! extract ?some |_ num-extracteds
+	?->nullable if and (id=? 1 num-extracteds) :? not empty?_
 		[_.val]
 
 msDef 'some ?some
@@ -75,6 +73,9 @@ region Functions
 	?->Opt. |_:?
 		| Extracts the value from a `?`, or returns undefined.
 		cond empty?_ undefined _.val
+
+	?->nullable. |_:?
+		cond empty?_ null _.val
 
 	todo  Just use first?
 	un-?. |_:? ~fail-message

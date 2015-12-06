@@ -32,12 +32,12 @@ define(["exports","./js","./Type/Method","./at/at","./at/at-Type","./at/q","./at
 			return _62_61_63(compare(_this,other),0)
 		});
 		let same_63=exports["same?"]=function same_63(fun,a,b){
-			_ms.checkContains(Function,fun,"fun");
+			_ms.checkInstance(Function,fun,"fun");
 			return _61_63(fun(a),fun(b))
 		};
 		let all_45same_63=exports["all-same?"]=function all_45same_63(_64coll,fun){
-			_ms.checkContains(_ms.unlazy(_64),_64coll,"@coll");
-			_ms.checkContains(_ms.sub(_ms.unlazy(Opt),Function),fun,"fun");
+			_ms.checkInstance(_ms.unlazy(_64),_64coll,"@coll");
+			_ms.checkInstance(_ms.sub(_ms.unlazy(Opt),Function),fun,"fun");
 			fun=_ms.unlazy(opr)(fun,_ms.unlazy(identity));
 			return (_ms.unlazy(empty_63)(_64coll)||(()=>{
 				let fst=fun(_ms.sub(_64coll,0));
@@ -45,21 +45,21 @@ define(["exports","./js","./Type/Method","./at/at","./at/at-Type","./at/q","./at
 			})())
 		};
 		let min=exports.min=function min(_){
-			_ms.checkContains(_ms.unlazy(_64),_,"_");
+			_ms.checkInstance(_ms.unlazy(_64),_,"_");
 			return min_45by(_,_ms.unlazy(identity))
 		};
 		let _63min=exports["?min"]=function _63min(_){
-			_ms.checkContains(_ms.unlazy(_64),_,"_");
+			_ms.checkInstance(_ms.unlazy(_64),_,"_");
 			return _63min_45by(_,_ms.unlazy(identity))
 		};
 		let min_45by=exports["min-by"]=function min_45by(_,by){
-			_ms.checkContains(_ms.unlazy(_64),_,"_");
-			_ms.checkContains(Function,by,"by");
+			_ms.checkInstance(_ms.unlazy(_64),_,"_");
+			_ms.checkInstance(Function,by,"by");
 			return _ms.unlazy(un_45_63)(_63min_45by(_,by),`Can not take min of empty.`)
 		};
 		let _63min_45by=exports["?min-by"]=function _63min_45by(_,by){
-			_ms.checkContains(_ms.unlazy(_64),_,"_");
-			_ms.checkContains(Function,by,"by");
+			_ms.checkInstance(_ms.unlazy(_64),_,"_");
+			_ms.checkInstance(Function,by,"by");
 			return (_ms.unlazy(empty_63)(_)?_ms.None:_ms.some((()=>{
 				let iter=_ms.unlazy(iterator)(_);
 				let value=iter.next().value;
@@ -81,21 +81,21 @@ define(["exports","./js","./Type/Method","./at/at","./at/at-Type","./at/q","./at
 			})()))
 		};
 		let max=exports.max=function max(_){
-			_ms.checkContains(_ms.unlazy(_64),_,"_");
+			_ms.checkInstance(_ms.unlazy(_64),_,"_");
 			return max_45by(_,_ms.unlazy(identity))
 		};
 		let _63max=exports["?max"]=function _63max(_){
-			_ms.checkContains(_ms.unlazy(_64),_,"_");
+			_ms.checkInstance(_ms.unlazy(_64),_,"_");
 			return _63max_45by(_,_ms.unlazy(identity))
 		};
 		let max_45by=exports["max-by"]=function max_45by(_,by){
-			_ms.checkContains(_ms.unlazy(_64),_,"_");
-			_ms.checkContains(Function,by,"by");
+			_ms.checkInstance(_ms.unlazy(_64),_,"_");
+			_ms.checkInstance(Function,by,"by");
 			return _ms.unlazy(un_45_63)(_63max_45by(_,by),`Can not take max of empty.`)
 		};
 		let _63max_45by=exports["?max-by"]=function _63max_45by(_,by){
-			_ms.checkContains(_ms.unlazy(_64),_,"_");
-			_ms.checkContains(Function,by,"by");
+			_ms.checkInstance(_ms.unlazy(_64),_,"_");
+			_ms.checkInstance(Function,by,"by");
 			return (_ms.unlazy(empty_63)(_)?_ms.None:_ms.some((()=>{
 				let iter=_ms.unlazy(iterator)(_);
 				let value=iter.next().value;
@@ -117,8 +117,8 @@ define(["exports","./js","./Type/Method","./at/at","./at/at-Type","./at/q","./at
 			})()))
 		};
 		let sorted_63=exports["sorted?"]=function sorted_63(seq,sort_45by){
-			_ms.checkContains(_ms.unlazy(Seq),seq,"seq");
-			_ms.checkContains(_ms.sub(_ms.unlazy(Opt),Function),sort_45by,"sort-by");
+			_ms.checkInstance(_ms.unlazy(Seq),seq,"seq");
+			_ms.checkInstance(_ms.sub(_ms.unlazy(Opt),Function),sort_45by,"sort-by");
 			sort_45by=_ms.unlazy(opr)(sort_45by,_ms.unlazy(identity));
 			return (()=>{
 				let _=seq;

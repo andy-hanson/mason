@@ -7,11 +7,11 @@ define(["exports","./at/at","./control","./Function","./methods","./Type/Method"
 			return Promise
 		});
 		let $do=exports.$do=function $do($act){
-			_ms.checkContains(_ms.sub(Action,Promise),$act,"$act");
+			_ms.checkInstance(_ms.sub(Action,Promise),$act,"$act");
 			return $done($act())
 		};
 		let $done=exports.$done=function $done(_){
-			_ms.checkContains(Promise,_,"_");
+			_ms.checkInstance(Promise,_,"_");
 			return _.catch(err=>{
 				console.log(`=== error ===
 ${err.message}
@@ -21,9 +21,9 @@ ${err.stack}
 			})
 		};
 		let $fail_45after_45time=exports["$fail-after-time"]=function $fail_45after_45time(_,time_45ms){
-			_ms.checkContains(Promise,_,"_");
-			_ms.checkContains(Num,time_45ms,"time-ms");
-			return _ms.checkContains(Promise,new (Promise)((resolve,reject)=>{
+			_ms.checkInstance(Promise,_,"_");
+			_ms.checkInstance(Num,time_45ms,"time-ms");
+			return _ms.checkInstance(Promise,new (Promise)((resolve,reject)=>{
 				_.then(resolve);
 				let timeout=function timeout(){
 					reject(new (Error)(`Took longer than ${time_45ms} milliseconds.`))
@@ -35,7 +35,7 @@ ${err.stack}
 			return setTimeout(action,0)
 		});
 		let $delay=exports.$delay=function $delay(delayed){
-			_ms.checkContains(Action,delayed,"delayed");
+			_ms.checkInstance(Action,delayed,"delayed");
 			return new (Promise)((resolve,reject)=>{
 				return setImmediate(()=>{
 					try {
@@ -47,10 +47,10 @@ ${err.stack}
 			})
 		};
 		let $keep=exports.$keep=function $keep(keep_45some,$keep_45if_63){
-			_ms.checkContains(_64,keep_45some,"keep-some");
-			_ms.checkContains(_ms.sub(Function,Any,_ms.sub(Promise,Boolean)),$keep_45if_63,"$keep-if?");
+			_ms.checkInstance(_64,keep_45some,"keep-some");
+			_ms.checkInstance(_ms.sub(Function,Any,_ms.sub(Promise,Boolean)),$keep_45if_63,"$keep-if?");
 			return _ms.async(function*(){
-				return _ms.checkContains(Array,(yield* function*(){
+				return _ms.checkInstance(Array,(yield* function*(){
 					let built=[];
 					for(let _ of keep_45some){
 						if((yield $keep_45if_63(_))){

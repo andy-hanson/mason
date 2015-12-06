@@ -14,11 +14,11 @@ define(["exports","./js","./Type/Pred-Type","./at/Seq/Seq"],(exports,js_0,Pred_4
 			}
 		};
 		let opr=exports.opr=function opr(_,_default){
-			_ms.checkContains(Opt,_,"_");
+			_ms.checkInstance(Opt,_,"_");
 			return (defined_63(_)?_:_ms.unlazy(_default))
 		};
 		let build=exports.build=function build(calls_45build){
-			_ms.checkContains(Function,calls_45build,"calls-build");
+			_ms.checkInstance(Function,calls_45build,"calls-build");
 			return (()=>{
 				let arr=[];
 				calls_45build(_=>{

@@ -4,7 +4,7 @@ define(["exports","./../at/at","./methods"],(exports,_64_0,methods_1)=>{
 	exports._get=_ms.lazy(()=>{
 		let _64=_ms.getDefaultExport(_64_0),_$0=_ms.getModule(_64_0),fold=_ms.get(_$0,"fold"),_$1=_ms.getModule(methods_1),_43=_ms.get(_$1,"+"),_47=_ms.get(_$1,"/");
 		let average=exports.average=function average(_64vals){
-			_ms.checkContains(_ms.sub(_64,Number),_64vals,"@vals");
+			_ms.checkInstance(_ms.sub(_64,Number),_64vals,"@vals");
 			let sum=0;
 			let count=0;
 			for(let _ of _64vals){
@@ -14,7 +14,7 @@ define(["exports","./../at/at","./methods"],(exports,_64_0,methods_1)=>{
 			return _47(sum,count)
 		};
 		let sum=exports.sum=function sum(_64vals){
-			_ms.checkContains(_ms.sub(_64,Number),_64vals,"@vals");
+			_ms.checkInstance(_ms.sub(_64,Number),_64vals,"@vals");
 			return fold(_64vals,0,_43)
 		};
 		return exports

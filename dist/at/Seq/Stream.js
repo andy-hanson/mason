@@ -17,7 +17,7 @@ define(["exports","./../../Generator","./../../Type/Kind","./../at","./../at-Typ
 				}
 				constructor(make_45iterator){
 					let _this=this;
-					_ms.checkContains(_ms.sub(Function,Generator),make_45iterator,"make-iterator");
+					_ms.checkInstance(_ms.sub(Function,Generator),make_45iterator,"make-iterator");
 					Object.defineProperty(_this,Symbol.iterator,(()=>{
 						let built={};
 						let value=built.value=make_45iterator;

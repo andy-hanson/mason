@@ -1,7 +1,7 @@
 import
 	..methods sub
 	.primitive Str
-	.Type _ contains?
+	.Type _ has-instance?
 
 Alias-Type. class kind Type
 	| Contains the same instances as another type (officially), but has its own meaning and identity.
@@ -11,7 +11,7 @@ Alias-Type. class kind Type
 		assert .name:Str
 		assert .alias-of:Type
 
-	contains? |value
+	has-instance? |value
 		value:.alias-of
 
 	sub |...args

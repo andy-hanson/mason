@@ -12,7 +12,7 @@ define(["exports","./at/at","./at/at-Type","./at/Seq/Seq","./compare","./control
 			return built
 		})());
 		impl_45double_33(_61_62,new (Self_45Type)(String),_64,(vals,joiner)=>{
-			_ms.checkContains(_ms.sub(Opt,Str),joiner,"joiner");
+			_ms.checkInstance(_ms.sub(Opt,Str),joiner,"joiner");
 			joiner=opr(joiner,"");
 			return _61_62(Array,_64map(vals,to_45string)).join(joiner)
 		});
@@ -28,7 +28,7 @@ define(["exports","./at/at","./at/at-Type","./at/Seq/Seq","./compare","./control
 			});
 			_ms.setSub(built,sort,function(_63sort_45by){
 				let _this=this;
-				_ms.checkContains(_ms.sub(Opt,Function),_63sort_45by,"?sort-by");
+				_ms.checkInstance(_ms.sub(Opt,Function),_63sort_45by,"?sort-by");
 				return sort.default.call(_this,_63sort_45by).join("")
 			});
 			return built

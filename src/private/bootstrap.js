@@ -189,8 +189,8 @@ export function implContains(type, impl) {
 }
 
 // These are overwritten by Type.ms.
-ms.contains = (type, val) => type[containsImplSymbol](val)
-ms.checkContains = (_type, val) => val
+ms.hasInstance = (type, val) => type[containsImplSymbol](val)
+ms.checkInstance = (_type, val) => val
 
 // TODO:ES6 Use `instanceof` instead of `contains?` method and implement with `Symbol.hasInstance`
 implContains(Function, function(_) {

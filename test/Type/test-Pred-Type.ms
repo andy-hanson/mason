@@ -5,15 +5,15 @@ import
 
 tests 'Pred-Type
 	Any -> !|
-		assert-call! contains?
-			[Any 0] -> true
-			[Any null] -> true
-			[Any undefined] -> false
+		assert-call! has-instance?[Any]
+			[0] -> true
+			[null] -> true
+			[undefined] -> false
 
 	ObjLit -> !|
-		assert-call! contains?
-			[ObjLit (a. 1)] -> true
-			[ObjLit ObjLit] -> false
+		assert-call! has-instance?[ObjLit]
+			[(a. 1)] -> true
+			[ObjLit] -> false
 
 	Union -> !|
 		| As these are all Impl-Types, it would be better to use a Kind.

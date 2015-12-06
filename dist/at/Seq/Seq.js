@@ -7,7 +7,7 @@ define(["exports","./../../compare","./../../Function","./../../math/methods",".
 			let _=_ms.kind("Seq",[_64],{},{
 				[_ms.symbol(sub)](n){
 					let _this=this;
-					_ms.checkContains(_ms.unlazy(Nat),n,"n");
+					_ms.checkInstance(_ms.unlazy(Nat),n,"n");
 					return _ms.unlazy(un_45_63)(_63nth(_this,n),_ms.lazy(()=>`No element at index ${n} for
 	${indent(_ms.unlazy(to_45string)(_this))}`))
 				}
@@ -17,7 +17,7 @@ define(["exports","./../../compare","./../../Function","./../../math/methods",".
 		})();
 		let _60_43_43_126=exports["<++~"]=_ms.method("<++~",[["left-added",_64]],function(left_45added){
 			let _this=this;
-			_ms.checkContains(_64,left_45added,"left-added");
+			_ms.checkInstance(_64,left_45added,"left-added");
 			return _61_62(type_45of(_this),_43_43(left_45added,_this))
 		});
 		let first=exports.first=function first(_){
@@ -45,8 +45,8 @@ define(["exports","./../../compare","./../../Function","./../../math/methods",".
 			return (empty_63(_this)?_this:_64take(_this,_45(count(_this),1)))
 		});
 		let seq_61_63=exports["seq=?"]=function seq_61_63(_64a,_64b){
-			_ms.checkContains(_64,_64a,"@a");
-			_ms.checkContains(_64,_64b,"@b");
+			_ms.checkInstance(_64,_64a,"@a");
+			_ms.checkInstance(_64,_64b,"@b");
 			let iter_45a=iterator(_64a);
 			let iter_45b=iterator(_64b);
 			return (()=>{
@@ -64,7 +64,7 @@ define(["exports","./../../compare","./../../Function","./../../math/methods",".
 		};
 		let _63nth=exports["?nth"]=_ms.method("?nth",[["n",_ms.unlazy(Nat)]],function(n){
 			let _this=this;
-			_ms.checkContains(_ms.unlazy(Nat),n,"n");
+			_ms.checkInstance(_ms.unlazy(Nat),n,"n");
 			let i=0;
 			return _ms.unlazy(Opt_45_62_63)((()=>{
 				for(let _ of _this){
@@ -77,20 +77,20 @@ define(["exports","./../../compare","./../../Function","./../../math/methods",".
 		});
 		let _64slice=exports["@slice"]=_ms.method("@slice",[["start",_ms.unlazy(Nat)],["end",_ms.unlazy(Nat)]],function(start,end){
 			let _this=this;
-			_ms.checkContains(_ms.unlazy(Nat),start,"start");
-			_ms.checkContains(_ms.unlazy(Nat),end,"end");
+			_ms.checkInstance(_ms.unlazy(Nat),start,"start");
+			_ms.checkInstance(_ms.unlazy(Nat),end,"end");
 			return _61_62(type_45of(_this),_64slice_126(_this,start,end))
 		});
 		let _64slice_126=exports["@slice~"]=function _64slice_126(_,start,end){
-			return _ms.checkContains(_64,_64take_126(_64drop_126(_,start),_45(end,start)),"returned value")
+			return _ms.checkInstance(_64,_64take_126(_64drop_126(_,start),_45(end,start)),"returned value")
 		};
 		let _64take=exports["@take"]=_ms.method("@take",[["count-to-take",_ms.unlazy(Nat)]],function(count_45to_45take){
 			let _this=this;
-			_ms.checkContains(_ms.unlazy(Nat),count_45to_45take,"count-to-take");
+			_ms.checkInstance(_ms.unlazy(Nat),count_45to_45take,"count-to-take");
 			return _61_62(type_45of(_this),_64take_126(_this,count_45to_45take))
 		});
 		let _64take_126=exports["@take~"]=function _64take_126(_,count_45to_45take){
-			_ms.checkContains(_ms.unlazy(Nat),count_45to_45take,"count-to-take");
+			_ms.checkInstance(_ms.unlazy(Nat),count_45to_45take,"count-to-take");
 			return (()=>{
 				if(_61_63(0,count_45to_45take)){
 					return empty(_ms.unlazy(Stream))
@@ -109,7 +109,7 @@ define(["exports","./../../compare","./../../Function","./../../math/methods",".
 			})()
 		};
 		let _64take_45while_126=exports["@take-while~"]=function _64take_45while_126(_,while_63){
-			_ms.checkContains(Pred,while_63,"while?");
+			_ms.checkInstance(Pred,while_63,"while?");
 			return new (_ms.unlazy(Stream))(function*(){
 				for(let elem of _){
 					if(! while_63(elem)){
@@ -121,7 +121,7 @@ define(["exports","./../../compare","./../../Function","./../../math/methods",".
 		};
 		let _64drop=exports["@drop"]=_ms.method("@drop",[["count-to-drop",_ms.unlazy(Nat)]],function(count_45to_45drop){
 			let _this=this;
-			_ms.checkContains(_ms.unlazy(Nat),count_45to_45drop,"count-to-drop");
+			_ms.checkInstance(_ms.unlazy(Nat),count_45to_45drop,"count-to-drop");
 			return _61_62(type_45of(_this),_64drop_126(_this,count_45to_45drop))
 		});
 		let _64drop_126=exports["@drop~"]=(()=>{
@@ -143,15 +143,15 @@ define(["exports","./../../compare","./../../Function","./../../math/methods",".
 			}
 		})();
 		let _64zip=exports["@zip"]=function _64zip(_64a,_64b,zipper){
-			_ms.checkContains(_64,_64a,"@a");
-			_ms.checkContains(_64,_64b,"@b");
-			_ms.checkContains(_ms.sub(Function,2),zipper,"zipper");
+			_ms.checkInstance(_64,_64a,"@a");
+			_ms.checkInstance(_64,_64b,"@b");
+			_ms.checkInstance(_ms.sub(Function,2),zipper,"zipper");
 			return _61_62(type_45of(_64a),_64zip_126(_64a,_64b,zipper))
 		};
 		let _64zip_126=exports["@zip~"]=function _64zip_126(_64a,_64b,zipper){
-			_ms.checkContains(_64,_64a,"@a");
-			_ms.checkContains(_64,_64b,"@b");
-			_ms.checkContains(_ms.sub(Function,2),zipper,"zipper");
+			_ms.checkInstance(_64,_64a,"@a");
+			_ms.checkInstance(_64,_64b,"@b");
+			_ms.checkInstance(_ms.sub(Function,2),zipper,"zipper");
 			return new (_ms.unlazy(Stream))(function*(){
 				let iter_45a=iterator(_64a);
 				let iter_45b=iterator(_64b);
@@ -169,7 +169,7 @@ define(["exports","./../../compare","./../../Function","./../../math/methods",".
 			})
 		};
 		let _64groups_45of_126=exports["@groups-of~"]=function _64groups_45of_126(group_45size,_){
-			_ms.checkContains(_ms.unlazy(Nat),group_45size,"group-size");
+			_ms.checkInstance(_ms.unlazy(Nat),group_45size,"group-size");
 			return (()=>{
 				if(_61_63(group_45size,0)){
 					return new (_ms.unlazy(Stream))(function*(){
@@ -202,7 +202,7 @@ define(["exports","./../../compare","./../../Function","./../../math/methods",".
 			})()
 		};
 		let _64indexes=exports["@indexes"]=function _64indexes(_){
-			_ms.checkContains(Seq,_,"_");
+			_ms.checkInstance(Seq,_,"_");
 			return _ms.range(0,count(_),true)
 		};
 		let _64reverse=exports["@reverse"]=_ms.method("@reverse",[],function(){
@@ -219,7 +219,7 @@ define(["exports","./../../compare","./../../Function","./../../math/methods",".
 			})
 		});
 		let _64split_126=exports["@split~"]=function _64split_126(_,split_63){
-			_ms.checkContains(Pred,split_63,"split?");
+			_ms.checkInstance(Pred,split_63,"split?");
 			return new (_ms.unlazy(Stream))(function*(){
 				let iter=iterator(_);
 				let prev_45idx=0;
@@ -243,7 +243,7 @@ define(["exports","./../../compare","./../../Function","./../../math/methods",".
 		let _60_43_33=exports["<+!"]=_ms.method("<+!",["added"]);
 		let _60_43_43_33=exports["<++!"]=_ms.method("<++!",[["@added",_64]],function(_64added){
 			let _this=this;
-			_ms.checkContains(_64,_64added,"@added");
+			_ms.checkInstance(_64,_64added,"@added");
 			for(let _ of _64reverse_126(_64added)){
 				_60_43_33(_this,_)
 			}
@@ -251,7 +251,7 @@ define(["exports","./../../compare","./../../Function","./../../math/methods",".
 		let _43_62_33=exports["+>!"]=_ms.method("+>!",["added"]);
 		let _43_43_62_33=exports["++>!"]=_ms.method("++>!",[["@added",_64]],function(_64added){
 			let _this=this;
-			_ms.checkContains(_64,_64added,"@added");
+			_ms.checkInstance(_64,_64added,"@added");
 			for(let _ of _64added){
 				_43_62_33(_this,_)
 			}

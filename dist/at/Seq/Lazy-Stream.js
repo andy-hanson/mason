@@ -13,7 +13,7 @@ define(["exports","./../../Function","./../../math/Number","./../../math/methods
 				}
 				constructor(stream){
 					let _this=this;
-					_ms.checkContains(Function,stream,"stream");
+					_ms.checkInstance(Function,stream,"stream");
 					_ms.newProperty(_this,"cache",[]);
 					let strm=new (Stream)(stream);
 					let self=_this;
@@ -27,7 +27,7 @@ define(["exports","./../../Function","./../../math/Number","./../../math/methods
 				}
 				[_ms.symbol(_63nth)](n){
 					let _this=this;
-					_ms.checkContains(Nat,n,"n");
+					_ms.checkInstance(Nat,n,"n");
 					return (()=>{
 						let _=_63nth(_this.cache,n);
 						if(empty_63(_)){

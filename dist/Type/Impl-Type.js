@@ -10,7 +10,7 @@ define(["exports","./Kind"],(exports,Kind_0)=>{
 			let _=class Self_45Type{
 				constructor(prototype){
 					let _this=this;
-					_ms.checkContains(Object,prototype,"prototype");
+					_ms.checkInstance(Object,prototype,"prototype");
 					_ms.newProperty(_this,"prototype",prototype)
 				}
 			};

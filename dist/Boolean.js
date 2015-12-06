@@ -4,12 +4,12 @@ define(["exports","./Type/primitive"],(exports,primitive_0)=>{
 	exports._get=_ms.lazy(()=>{
 		let _$0=_ms.getModule(primitive_0),Bool=_ms.get(_$0,"Bool");
 		let implies=exports.implies=function implies(if_63,then_63){
-			_ms.checkContains(Bool,if_63,"if?");
+			_ms.checkInstance(Bool,if_63,"if?");
 			return (if_63?_ms.unlazy(then_63):true)
 		};
 		let xor=exports.xor=function xor(a,b){
-			_ms.checkContains(Bool,a,"a");
-			_ms.checkContains(Bool,b,"b");
+			_ms.checkInstance(Bool,a,"a");
+			_ms.checkInstance(Bool,b,"b");
 			return (a?! b:b)
 		};
 		return exports

@@ -14,4 +14,4 @@ msDef 'setSub set-sub!
 del-sub!. method |...args
 	| Implementing this allows the use of the special syntax `del a[b]`.
 	abstract
-msDef 'delSub del-sub!
+msDef 'del del-sub!

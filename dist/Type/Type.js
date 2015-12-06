@@ -17,18 +17,18 @@ define(["exports","./../compare","./../js","./../private/bootstrap","./../to-str
 			let _this=this;
 			return _this.name
 		});
-		let contains_63=exports["contains?"]=new (Method)((()=>{
+		let has_45instance_63=exports["has-instance?"]=new (Method)((()=>{
 			let built={};
-			built.name="contains?";
+			built.name="has-instance?";
 			let args=built.args=["instance"];
 			let impl_45symbol=built["impl-symbol"]=containsImplSymbol;
 			return built
 		})());
-		msDef("contains",contains_63);
+		msDef("hasInstance",has_45instance_63);
 		let extract=exports.extract=_ms.method("extract",["candidate","num-extracteds"]);
 		msDef("extract",extract);
-		msDef("checkContains",(expected_45type,value,value_45name)=>{
-			if(! _ms.contains(expected_45type,value))throw new (TypeError)((()=>{
+		msDef("checkInstance",(expected_45type,value,value_45name)=>{
+			if(! _ms.hasInstance(expected_45type,value))throw new (TypeError)((()=>{
 				return `${value_45name} is no ${expected_45type.name}, is a ${type_45of(value).name}: ${_ms.unlazy(inspect)(value)}`
 			})());
 			return value
@@ -39,7 +39,7 @@ define(["exports","./../compare","./../js","./../private/bootstrap","./../to-str
 			let wrap=built.wrap=function wrap(impl,convert_45to_45type,converted,opts){
 				return (()=>{
 					let _=converted;
-					if(_ms.contains(convert_45to_45type,_)){
+					if(_ms.hasInstance(convert_45to_45type,_)){
 						return _
 					} else {
 						return impl.call(convert_45to_45type,_,opts)
@@ -49,10 +49,10 @@ define(["exports","./../compare","./../js","./../private/bootstrap","./../to-str
 			return built
 		})());
 		let type_45of=exports["type-of"]=function type_45of(_){
-			return _ms.checkContains(Impl_45Type,_ms.unlazy(_63_45or)(_ms.unlazy(_63property_45with_45proto)(_,"constructor"),Object),"returned value")
+			return _ms.checkInstance(Impl_45Type,_ms.unlazy(_63_45or)(_ms.unlazy(_63property_45with_45proto)(_,"constructor"),Object),"returned value")
 		};
 		kind_33(Impl_45Type,Type);
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvVHlwZS9UeXBlLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBY0E7ZUFJQyxTQUFJO1FBUUo7V0FQQyxTQU9ELE1BUFc7R0FBQTtlQUVYO1FBS0E7V0FBQTs7O0VBREQsUUFBTSxZQUFVLEtBQ087T0FBdEI7VUFBQTs7RUFFRCxxQ0FBVyxLQUFJLFFBQ00sS0FBQTs7Y0FDcEI7R0FDQSxvQkFBTSxDQUFFO0dBQ1IsdUNBQWE7OztFQUNkLE1BQU8sV0FBUztFQUdoQjtFQVNBLE1BQU8sVUFBUTtFQUVmLE1BQU8sZ0JBQWUsQ0FBQSxnQkFBYyxNQUFNO0dBQ2xDLGtCQUFNLGdCQUFOLGFBQTBCLEtBQUksV0FDUyxLQUFBO1dBQTVDLEdBQUMsc0JBQW1CLDhCQUE2QixVQUFRLG9DQUF3Qjs7VUFDbkY7RUFBQTtFQUVELHlCQUFJLEtBQUksUUFDTSxLQUFBOztjQUdiO0dBQ0Esb0JBQU8sY0FBQSxLQUFLLG9CQUFnQixVQUFVO1dBQ2hDO0tBQUEsTUFBQTtLQUNKLGdCQUFDLG9CQUFELEdBQ2dCO2FBQWQ7S0FBQSxPQUVFO2FBQUgsVUFBVSxvQkFBaUIsRUFBQztLQUFBO0lBQUE7R0FBQTs7O0VBR2hDLGlDQUFVLG1CQUFZOzRCQUFYLHdFQUVrQixFQUFFLGVBQWE7O0VBSTVDLFFBQU0sWUFBVSIsImZpbGUiOiJUeXBlL1R5cGUuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvVHlwZS9UeXBlLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBY0E7ZUFHQyxTQUFJO1FBUUo7V0FQQyxTQU9ELE1BUFc7R0FBQTtlQUVYO1FBS0E7V0FBQTs7O0VBREQsUUFBTSxZQUFVLEtBQ087T0FBdEI7VUFBQTs7RUFFRCwrQ0FBZSxLQUFJLFFBQ00sS0FBQTs7Y0FDeEI7R0FDQSxvQkFBTSxDQUFFO0dBQ1IsdUNBQWE7OztFQUNkLE1BQU8sY0FBWTtFQUduQjtFQVNBLE1BQU8sVUFBUTtFQUVmLE1BQU8sZ0JBQWUsQ0FBQSxnQkFBYyxNQUFNO0dBQ2xDLHFCQUFNLGdCQUFOLGFBQTBCLEtBQUksV0FDUyxLQUFBO1dBQTVDLEdBQUMsc0JBQW1CLDhCQUE2QixVQUFRLG9DQUF3Qjs7VUFDbkY7RUFBQTtFQUVELHlCQUFJLEtBQUksUUFDTSxLQUFBOztjQUdiO0dBQ0Esb0JBQU8sY0FBQSxLQUFLLG9CQUFnQixVQUFVO1dBQ2hDO0tBQUEsTUFBQTtLQUNKLG1CQUFDLG9CQUFELEdBQ2dCO2FBQWQ7S0FBQSxPQUVFO2FBQUgsVUFBVSxvQkFBaUIsRUFBQztLQUFBO0lBQUE7R0FBQTs7O0VBR2hDLGlDQUFVLG1CQUFZOzRCQUFYLHdFQUVrQixFQUFFLGVBQWE7O0VBSTVDLFFBQU0sWUFBVSIsImZpbGUiOiJUeXBlL1R5cGUuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

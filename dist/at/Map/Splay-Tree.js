@@ -11,7 +11,7 @@ define(["exports","./../../compare","./../../js","./../../methods","./../at","./
 				}
 				constructor(root){
 					let _this=this;
-					_ms.checkContains(Splay_45Node,root,"root");
+					_ms.checkInstance(Splay_45Node,root,"root");
 					_ms.newProperty(this,"root",root)
 				}
 				[_ms.symbol(iterator)](){

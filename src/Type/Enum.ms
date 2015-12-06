@@ -3,7 +3,7 @@ import
 	..to-string
 	.Impl-Type
 	.Method impl!
-	.Type contains?
+	.Type has-instance?
 
 Enum. class kind Impl-Type
 	| A Concrete-Type with a small number of instances.
@@ -23,5 +23,5 @@ Enum. class kind Impl-Type
 		impl! to-string this .|
 			"#enum-name.#(.name)"
 
-	contains? |_
+	has-instance? |_
 		Object.prototype.isPrototypeOf.call .prototype _

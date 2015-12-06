@@ -20,7 +20,7 @@ define(["exports","./../methods","./../Type/Kind","./../Type/Type","./at"],(expo
 		let empty=exports.empty=_ms.method("empty",[]);
 		let from_45stream=exports["from-stream"]=_ms.method("from-stream",[["stream",_64]],function(stream){
 			let _this=this;
-			_ms.checkContains(_64,stream,"stream");
+			_ms.checkInstance(_64,stream,"stream");
 			return (()=>{
 				let _=empty(_this);
 				_43_43_33(_,stream);

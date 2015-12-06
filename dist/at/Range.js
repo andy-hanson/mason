@@ -11,9 +11,9 @@ define(["exports","./../compare","./../Function","./../js","./../math/Number",".
 				}
 				constructor(start,end,step){
 					let _this=this;
-					_ms.checkContains(Num,start,"start");
-					_ms.checkContains(Num,end,"end");
-					_ms.checkContains(_ms.sub(Opt,Num),step,"step");
+					_ms.checkInstance(Num,start,"start");
+					_ms.checkInstance(Num,end,"end");
+					_ms.checkInstance(_ms.sub(Opt,Num),step,"step");
 					_ms.newProperty(_this,"start",start);
 					_ms.newProperty(_this,"end",end);
 					_ms.newProperty(_this,"step",(()=>{
@@ -54,7 +54,7 @@ define(["exports","./../compare","./../Function","./../js","./../math/Number",".
 				}
 				[_ms.symbol(_63nth)](n){
 					let _this=this;
-					_ms.checkContains(Nat,n,"n");
+					_ms.checkInstance(Nat,n,"n");
 					let it=_43(_this.start,_42(_this.step,n));
 					return (_60_63(it,_this.end)?_ms.some((()=>{
 						return it

@@ -4,15 +4,15 @@ define(["exports","./compare","./at/at","./at/Map/Map","./at/Seq/Seq","./Functio
 	exports._get=_ms.lazy(()=>{
 		let _$0=_ms.getModule(compare_0),_61_63=_ms.get(_$0,"=?"),_64=_ms.lazy(()=>_ms.getDefaultExport(_64_1)),_$1=_ms.lazyGetModule(_64_1),_64map=_ms.lazyProp(_$1,"@map"),Map=_ms.lazy(()=>_ms.getDefaultExport(Map_2)),_$2=_ms.lazyGetModule(Seq_3),_64tail=_ms.lazyProp(_$2,"@tail"),_$3=_ms.lazyGetModule(Function_4),Pred=_ms.lazyProp(_$3,"Pred"),_$4=_ms.lazyGetModule(to_45string_5),inspect=_ms.lazyProp(_$4,"inspect"),_$5=_ms.lazyGetModule(String_6),indent=_ms.lazyProp(_$5,"indent"),_$6=_ms.lazyGetModule(Type_7),_61_62=_ms.lazyProp(_$6,"=>");
 		let assert_45call_33=exports["assert-call!"]=function assert_45call_33(fun,args_45_62result){
-			_ms.checkContains(Function,fun,"fun");
-			_ms.checkContains(_ms.unlazy(Map),args_45_62result,"args->result");
+			_ms.checkInstance(Function,fun,"fun");
+			_ms.checkInstance(_ms.unlazy(Map),args_45_62result,"args->result");
 			assert_45call_45with_33(_61_63,fun,args_45_62result)
 		};
 		let assert_45this_45call_33=exports["assert-this-call!"]=function assert_45this_45call_33(fun,args_45_62result){
-			_ms.checkContains(Function,fun,"fun");
-			_ms.checkContains(_ms.unlazy(Map),args_45_62result,"args->result");
+			_ms.checkInstance(Function,fun,"fun");
+			_ms.checkInstance(_ms.unlazy(Map),args_45_62result,"args->result");
 			for(let _ of args_45_62result){
-				let args=_ms.checkContains(_ms.unlazy(_64),_ms.sub(_,0),"args");
+				let args=_ms.checkInstance(_ms.unlazy(_64),_ms.sub(_,0),"args");
 				let expected_45res=_ms.sub(_,1);
 				let actual=fun.apply(_ms.sub(args,0),_ms.unlazy(_64tail)(args));
 				if(! _61_63(actual,expected_45res))throw new (Error)(`${fun.name} of:
@@ -24,11 +24,11 @@ Got:
 			}
 		};
 		let assert_45call_45with_33=exports["assert-call-with!"]=function assert_45call_45with_33(equal_63,fun,args_45_62result){
-			_ms.checkContains(_ms.unlazy(Pred),equal_63,"equal?");
-			_ms.checkContains(Function,fun,"fun");
-			_ms.checkContains(_ms.unlazy(Map),args_45_62result,"args->result");
+			_ms.checkInstance(_ms.unlazy(Pred),equal_63,"equal?");
+			_ms.checkInstance(Function,fun,"fun");
+			_ms.checkInstance(_ms.unlazy(Map),args_45_62result,"args->result");
 			for(let _ of args_45_62result){
-				let args=_ms.checkContains(_ms.unlazy(_64),_ms.sub(_,0),"args");
+				let args=_ms.checkInstance(_ms.unlazy(_64),_ms.sub(_,0),"args");
 				let expected_45res=_ms.sub(_,1);
 				let actual=fun(...args);
 				if(! equal_63(actual,expected_45res))throw new (Error)(`${fun.name} of:
