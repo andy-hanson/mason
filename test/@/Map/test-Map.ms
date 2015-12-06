@@ -3,6 +3,7 @@ import
 
 tests 'Map
 	to-string ->
+		[(empty Map)] -> "empty Map"
 		todo SYNTAX
 		m =
 			1 -> 2

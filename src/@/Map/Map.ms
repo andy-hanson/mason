@@ -16,14 +16,15 @@ Map. kind @
 		inspect this
 
 	inspect |
-		todo  map Map to Array
-		todo SYNTAX Array destructure
-		todo @for~
-		parts = @map~ this |pair
-			"#(inspect pair[0]) -> #(inspect pair[1])"
-		"
-			#(.constructor.name)
-				#(=> String parts "\n\t")
+		cond (empty? this) "empty #(.constructor.name)"
+			todo map Map to Array
+			todo SYNTAX Array destructure
+			todo @for~
+			parts = @map~ this |pair
+				"#(inspect pair[0]) -> #(inspect pair[1])"
+			"
+				#(.constructor.name)
+					#(=> String parts "\n\t")
 
 	=? |other
 		and (=? (type-of this) (type-of other)) (map=? this other)
