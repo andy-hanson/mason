@@ -65,6 +65,12 @@ tests 'Kind
 	@keep~ ->
 		[[1 2] =?[2]] -> => Stream [2]
 
+	@toss ->
+		[[1 2] =?[2]] -> [1]
+
+	@toss~ ->
+		[[1 2] =?[2]] -> => Stream [1]
+
 	@map ->
 		[[1 2] =?[2]] -> [false true]
 

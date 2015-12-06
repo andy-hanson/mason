@@ -114,18 +114,27 @@ region Lazy functions, and their eager versions.
 		| Only the elements that satisfy `keep-if?`.
 		todo SYNTAX Shouldn't need => type-of_
 		=> (type-of this) @for this
-			if keep-if? _
+			if keep-if?_
 				. _
 
-	@keep~. |filtered:@ keep-if?:Pred
-		| Lazy keep.
+	@keep~. |@filtered:@ keep-if?:Pred
+		| Lazy @keep.
 		todo SYNTAX @for~
 		new Stream *!|
-			for filtered
+			for @filtered
 				if keep-if?_
 					yield _
 
-	todo  Method
+	@toss. |@filtered:@ toss-if?:Pred
+		| Opposite of `@keep`.
+		| Only the elements that do not satisfy `toss-if?`.
+		@keep @filtered &(not toss-if?_)
+
+	@toss~. |@filtered:@ toss-if?:Pred
+		| Lazy @toss.
+		@keep~ @filtered &(not toss-if?_)
+
+	todo Method
 	@map. |_:@ mapper:Function
 		todo doc
 		todo SYNTAX Shouldn't need => type-of_
