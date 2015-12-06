@@ -2,6 +2,7 @@ import
 	.compare =?
 	.Function Action
 	.Type.Pred-Type Union
+	.Type.primitive Str
 	.Type.Type
 
 Success. class
@@ -27,7 +28,7 @@ fails?. |tried:Action
 			ignore _
 			true
 
-fails-with?. |expected-error:Union[String Type] tried:Action
+fails-with?. |expected-error:Union[Str Type] tried:Action
 	| Whether the Function throws an error of the given type or with the given message.
 	except
 		try
@@ -37,10 +38,10 @@ fails-with?. |expected-error:Union[String Type] tried:Action
 			case expected-error
 				:Type
 					error:_
-				:String
+				:Str
 					=? error.message _
 
-annotate-errors. |~annotation:String tried:Action
+annotate-errors. |~annotation:Str tried:Action
 	| If there are thrown errors, prepends `annotation` to their stack and message.
 	except
 		try
@@ -61,7 +62,7 @@ region $
 		success.catch |err
 			err
 
-	$annotate-errors. |~annotation:String $tried:Promise
+	$annotate-errors. |~annotation:Str $tried:Promise
 		| Like `annotate-errors` but works on errors thrown in a Promise.
 		$tried.catch |_
 			if :Error

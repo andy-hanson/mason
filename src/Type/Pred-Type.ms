@@ -1,5 +1,5 @@
 import
-	..Function Pred
+	|| ..Function Pred
 	..js defined? id=?
 	..methods sub
 	.Method self-impl!
@@ -7,11 +7,13 @@ import
 import~
 	..@.@ any? @map
 
+Pred = Function
+
 Pred-Type. class kind Type
 	| Arbitrary predicates can be made into types using Pred-Type.
 	construct params
 		Object.assign this params
-		assert .name:String
+		todo assert .name:Str
 		assert .predicate:Pred
 
 	contains? |value
@@ -34,6 +36,9 @@ region Opt
 		| Result of calling Opt[something].
 		construct .Exists-Type:Type
 			pass
+
+		get 'name
+			"Opt[#(.Exists-Type.name)]"
 
 		contains? |_
 			or (not defined?_) :.Exists-Type

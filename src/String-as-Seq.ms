@@ -12,6 +12,7 @@ import
 	.Type.Kind kind! self-kind!
 	.Type.Method impl-double!
 	.Type.Pred-Type Opt
+	.Type.primitive Str
 	.Type.Type =>
 
 self-kind! String @-Type
@@ -21,7 +22,7 @@ self-kind! String @-Type
 		from-stream Array _
 
 todo  self-impl-double! ?
-impl-double! => (new Self-Type String) @ |vals joiner:Opt[String]
+impl-double! => (new Self-Type String) @ |vals joiner:Opt[Str]
 	joiner := opr joiner ""
 	todo @for:Array
 	(=> Array (@map vals to-string)).join joiner

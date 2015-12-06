@@ -1,5 +1,6 @@
 import
 	..methods sub
+	.primitive Str
 	.Type _ contains?
 
 Alias-Type. class kind Type
@@ -7,7 +8,7 @@ Alias-Type. class kind Type
 
 	construct params
 		Object.assign this params
-		assert .name:String
+		assert .name:Str
 		assert .alias-of:Type
 
 	contains? |value

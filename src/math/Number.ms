@@ -4,6 +4,7 @@ import
 	..js id=? js< js<= js> js>= js+ js- js* js/ js-mod
 	..Type.Method impl!
 	..Type.Pred-Type _ Opt
+	..Type.primitive Num
 	.methods + - * /
 
 Int. new Pred-Type
@@ -20,34 +21,34 @@ Nat. new Pred-Type
 
 region impl!
 	todo  impl*!
-	impl! compare Number .|other:Number
+	impl! compare Number .|other:Num
 		- this other
 	impl! =? Number .|other
 		id=? this other
-	impl! <? Number .|other:Number
+	impl! <? Number .|other:Num
 		js< this other
-	impl! <=? Number .|other:Number
+	impl! <=? Number .|other:Num
 		js<= this other
-	impl! >? Number .|other:Number
+	impl! >? Number .|other:Num
 		js> this other
-	impl! >=? Number .|other:Number
+	impl! >=? Number .|other:Num
 		js>= this other
-	impl! + Number .|other:Number
+	impl! + Number .|other:Num
 		js+ this other
-	impl! - Number .|other:Number
+	impl! - Number .|other:Num
 		js- this other
-	impl! * Number .|other:Number
+	impl! * Number .|other:Num
 		js* this other
-	impl! / Number .|other:Number
+	impl! / Number .|other:Num
 		js/ this other
 
 region Integer arithmetic
-	remainder. |numerator:Number denominator:Number
+	remainder. |numerator:Num denominator:Num
 		| Remainder of `a` after dividing by `b`.
 		| Sign of result is sign of `a`. Sign of `b` is ignored.
 		js-mod numerator denominator
 
-	modulo. |numerator:Number denominator:Number
+	modulo. |numerator:Num denominator:Num
 		| Mathematical modulus.
 		| Smallest positive number which can be added to a multiple of `denominator` to get `numerator`.
 		case
@@ -56,34 +57,34 @@ region Integer arithmetic
 			else
 				remainder numerator denominator
 
-	int/. |a:Number b:Number
+	int/. |a:Num b:Num
 		| Integer division: throws out any remainder.
 		| This is the default in other programming languages, but in Mason `/ 1 2` is 0.5, not 0.
 		Math.floor (/ a b)
 
-	divisible?. |a:Number b:Number
+	divisible?. |a:Num b:Num
 		| Whether an integer number of `b` can add up to `a`.
 		=? 0 (remainder a b)
 
 region Real arithmetic
-	log-base. |base:Number n:Number
+	log-base. |base:Num n:Num
 		| Mathematical logarithm.
 		/ (Math.log n) (Math.log base)
 
-	square. |_:Number
+	square. |_:Num
 		* _ _
 
-	nearest-ceil. |_:Number step:Number
+	nearest-ceil. |_:Num step:Num
 		* step (Math.ceil (/ _ step))
 
-	nearest-floor. |_:Number step:Number
+	nearest-floor. |_:Num step:Num
 		* step (Math.floor (/ _ step))
 
-	nearest-round. |_:Number step:Number
+	nearest-round. |_:Num step:Num
 		* step (Math.round (/ _ step))
 
 region Near
-	near?. |a b:Number sig-figs:Opt[Nat]
+	near?. |a b:Num sig-figs:Opt[Nat]
 		| Whether they are within sig-figs precision.
 		sig-figs := opr sig-figs 6
 		case
@@ -108,6 +109,6 @@ region Near
 		<? Math.abs_ max
 
 region Utilities
-	mid. |a:Number b:Number
+	mid. |a:Num b:Num
 		todo doc
 		/ (+ a b) 2

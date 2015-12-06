@@ -1,7 +1,7 @@
 import
 	..tests
 
-make-word-from-blocks. |:? word:String blocks:@ todo  ?[Seq[String]], @[String]
+make-word-from-blocks. |:? word:Str blocks:@ todo  ?[Seq[String]], @[String]
 	| http://rosettacode.org/wiki/ABC_Problem
 	rec = |chars-left blocks-left
 		case chars-left

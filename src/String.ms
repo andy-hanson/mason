@@ -4,6 +4,7 @@ import
 	.Type.Kind
 	.Type.Method impl!
 	.Type.Pred-Type
+	.Type.primitive Str
 import~
 	.@.@ count
 
@@ -16,9 +17,9 @@ Char. new Pred-Type
 	| Any String with only one character.
 	name.
 	predicate. |_
-		and :String (=? count_ 1)
+		and :Str (=? count_ 1)
 
-indent. |_:String
+indent. |_:Str
 	| Adds a `\\t` to all `\\n` in `str`.
 	| Does *not* do anything to the first line.
 	_.replace (new RegExp "\n" 'g) "\n\t"

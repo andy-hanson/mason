@@ -192,13 +192,7 @@ export function implContains(type, impl) {
 ms.contains = (type, val) => type[containsImplSymbol](val)
 ms.checkContains = (_type, val) => val
 
-// Since these are primitives, we can't use `instanceof`.
-for (const type of [Boolean, String, Symbol, Number]) {
-	// Generated code is faster than using a closure.
-	const src = `return typeof _ === "${type.name.toLowerCase()}"`
-	addProperty(type, containsImplSymbol, Function('_', src))
-}
-
+// TODO:ES6 Use `instanceof` instead of `contains?` method and implement with `Symbol.hasInstance`
 implContains(Function, function(_) {
 	return _ instanceof this
 })

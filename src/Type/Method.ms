@@ -1,6 +1,6 @@
 import
 	global _ JSON
-	..js defined? js=== js-delete js-instanceof js-sub js-typeof
+	..js defined? js-delete js-sub js-typeof
 	..private.bootstrap addProperty implContains msDef
 import~
 	..@.? un-?
@@ -28,7 +28,7 @@ Method. class Function
 
 	construct params
 		method-name = params.name
-		todo  :String
+		todo :Str
 		assert defined? method-name throw "Must provide method name."
 
 		default? = defined? params.default
@@ -46,9 +46,7 @@ Method. class Function
 
 		has-args? = defined? params.args
 		num-args = case params.args
-			js=== js-typeof_ 'number
-				_
-			js-instanceof _ Array
+			:Array
 				_.length
 			not defined?_
 				-1
@@ -67,7 +65,7 @@ Method. class Function
 					allow-null?
 						"a == null || #impl === undefined"
 					else
-						todo  Just implement it for Object?
+						todo Just implement it for Object?
 						"#impl === undefined"
 				call = case
 					wrap?
@@ -192,7 +190,7 @@ region Private
 
 	todo Not public
 	propagate-method-down!. !|implementor method-symbol implementation
-		todo :Impl-Type :Symbol :Function
+		todo :Impl-Type :Sym :Function
 		unless Object.prototype.hasOwnProperty.call implementor.prototype method-symbol
 			case implementor
 				:Kind

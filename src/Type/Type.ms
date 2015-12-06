@@ -34,7 +34,7 @@ contains?. new Method
 msDef 'contains contains?
 
 todo num-extracteds:Nat
-extract. method |candidate num-extracteds:Number
+extract. method |candidate num-extracteds
 	| Given a type and arbitrary value:
 	| If the value is of the type, return an array of sub-values.
 	| Otherwise, return `null`.

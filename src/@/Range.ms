@@ -8,12 +8,13 @@ import
 	..Type.Kind self-kind!
 	..Type.Method self-impl!
 	..Type.Pred-Type Opt
+	..Type.primitive Num
 	.@ _ count iterator
 	.@-Type _ empty from-stream
 	.Seq.Seq ?nth @reverse
 
 Range. class kind @
-	| Seq of Numbers taking fixed steps.
+	| Seq of Nums taking fixed steps.
 	| `start` is inclusive, `end` is exclusive.
 
 	do
@@ -27,7 +28,7 @@ Range. class kind @
 			todo  impl-for from-stream Array
 			_
 
-	construct start:Number end:Number step:Opt[Number]
+	construct start:Num end:Num step:Opt[Num]
 		.start = start
 		.end = end
 		.step = case step

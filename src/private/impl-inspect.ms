@@ -1,7 +1,6 @@
 import
 	global JSON
 	..@.Set.Id-Set
-	..js js-typeof
 	..Object @properties @all-properties
 	..String indent
 	..to-string inspect
@@ -38,28 +37,12 @@ inspect-property = |obj key enumerable?
 	"#prop-name. #str"
 
 inspect-primitive = .|
-	todo use :Object instead of typeof
-	switch js-typeof this
-		'object
-			"[#(.constructor.name) #this]"
-		else
-			String this
+	cond this:Object "[#(.constructor.name) #this]" "#this"
 
 impl! inspect Boolean inspect-primitive
 impl! inspect Number inspect-primitive
-
 impl! inspect String .|
 	str = JSON.stringify this
-	todo :String vs :string
-	switch js-typeof this
-		'object
-			"[String #str]"
-		else
-			str
-
+	cond this:Object "[String #str]" str
 impl! inspect Symbol .|
-	switch js-typeof this
-		'object
-			"[Symbol #(inspect .valueOf())]"
-		else
-			.toString()
+	cond this:Object "[Symbol #(inspect .valueOf())]" .toString()

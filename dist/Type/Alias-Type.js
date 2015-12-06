@@ -1,14 +1,14 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","./../methods","./Type"],(exports,methods_0,Type_1)=>{
+define(["exports","./../methods","./primitive","./Type"],(exports,methods_0,primitive_1,Type_2)=>{
 	exports._get=_ms.lazy(()=>{
-		let _$0=_ms.getModule(methods_0),sub=_ms.get(_$0,"sub"),Type=_ms.getDefaultExport(Type_1),_$1=_ms.getModule(Type_1),contains_63=_ms.get(_$1,"contains?");
+		let _$0=_ms.getModule(methods_0),sub=_ms.get(_$0,"sub"),_$1=_ms.getModule(primitive_1),Str=_ms.get(_$1,"Str"),Type=_ms.getDefaultExport(Type_2),_$2=_ms.getModule(Type_2),contains_63=_ms.get(_$2,"contains?");
 		let Alias_45Type=exports.default=(()=>{
 			let _=class Alias_45Type{
 				constructor(params){
 					let _this=this;
 					Object.assign(_this,params);
-					_ms.assert(_ms.contains,String,_this.name);
+					_ms.assert(_ms.contains,Str,_this.name);
 					_ms.assert(_ms.contains,Type,_this["alias-of"])
 				}
 				[_ms.symbol(contains_63)](value){
@@ -27,4 +27,4 @@ define(["exports","./../methods","./Type"],(exports,methods_0,Type_1)=>{
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvVHlwZS9BbGlhcy1UeXBlLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBSUEsaUNBQWtCOztJQUdQLFlBQUE7U0FTTDtLQVJKLGNBUUksTUFSZTs2QkFDTixPQU9UOzZCQU5hLEtBTWI7O2dCQUpMLGNBQVc7U0FJTjt5QkFBQSxrQkFISjtJQUFBO2dCQUVEOztTQUNLO1lBQUosSUFBSSxrQkFBVSxHQUFHO0lBQUE7R0FBQTtnQkFaSSIsImZpbGUiOiJUeXBlL0FsaWFzLVR5cGUuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvVHlwZS9BbGlhcy1UeXBlLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBS0EsaUNBQWtCOztJQUdQLFlBQUE7U0FTTDtLQVJKLGNBUUksTUFSZTs2QkFDTixJQU9UOzZCQU5hLEtBTWI7O2dCQUpMLGNBQVc7U0FJTjt5QkFBQSxrQkFISjtJQUFBO2dCQUVEOztTQUNLO1lBQUosSUFBSSxrQkFBVSxHQUFHO0lBQUE7R0FBQTtnQkFaSSIsImZpbGUiOiJUeXBlL0FsaWFzLVR5cGUuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

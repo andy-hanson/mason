@@ -1,8 +1,9 @@
 import
 	.Boolean xor
 	.compare =?
-	.js defined? exists? id=? js-delete js-set js-sub js-typeof
+	.js defined? exists? id=? js-delete js-set js-sub
 	.Type.Kind
+	.Type.primitive Bool
 	.Type.Type =>
 import~
 	.@.@ ++ all? count empty? @keep
@@ -15,7 +16,7 @@ Object-Key. new Kind
 	name.
 	implementors. [String Symbol]
 
-flag?. |:Boolean obj flag:Object-Key
+flag?. |:Bool obj flag:Object-Key
 	| If it has a property for the flag, uses that. Otherwise false.
 	?-or (?property obj flag) false
 
@@ -53,13 +54,10 @@ todo  Handle recursive references.
 object=?. |a b
 	| For Objects, whether they are of the same type and have `=?` properties.
 	| For primitives, whether they are `=?`.
-	todo :object
-	obj-a = and (not id=? a null) (id=? (js-typeof a) 'object)
-	obj-b = and (not id=? b null) (id=? (js-typeof b) 'object)
 	case
-		not or obj-a obj-b
+		not or a:Object b:Object
 			id=? a b
-		xor obj-a obj-b
+		xor a:Object b:Object
 			false
 		else
 			same-type = id=? (Object.getPrototypeOf a) (Object.getPrototypeOf b)

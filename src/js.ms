@@ -29,9 +29,7 @@ js-set. Function 'obj 'prop 'val "obj[prop] = val"
 js-delete. Function 'obj 'prop "delete obj[prop]"
 js-in. op 'in
 js-instanceof. op 'instanceof
-js-typeof.
-	| JavaScript's `typeof` operator.
-	unary-op 'typeof
+js-typeof. unary-op 'typeof
 
 defined?. |_
 	| True for any value except `undefined`.

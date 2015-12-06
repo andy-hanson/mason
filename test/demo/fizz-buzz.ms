@@ -10,7 +10,7 @@ make-fizz-buzz. |spec
 	todo @for:Array
 	tests = => Array (@map~ (Object->Map spec) |_
 		todo SYNTAX array destructure
-		shout:String. _[0]
+		shout:Str. _[0]
 		divisor:Nat. _[1]
 	@map~ 1... |n
 		s = ""

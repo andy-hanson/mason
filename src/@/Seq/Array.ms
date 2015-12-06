@@ -6,6 +6,7 @@ import
 	...math.methods +
 	...methods set-sub!
 	...Type.Kind kind! self-kind!
+	...Type.primitive Num
 	...Type.Type =>
 	..@ _ -! --! count each! empty! empty?
 	..@-Type _ empty from-stream
@@ -89,7 +90,7 @@ filter!. !|arr keep-if?
 	arr.length := write-idx
 
 todo rename?
-fill. |count:Number filler:Function
+fill. |count:Num filler:Function
 	| Creates a new Array by calling `filler` on each number from zero to `count`.
 	with new Array count
 		for i of @indexes_

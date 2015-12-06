@@ -6,6 +6,7 @@ import
 	.methods sub
 	.Type.Method self-impl!
 	.Type.Pred-Type Any
+	.Type.primitive Num
 
 self-impl! sub Promise |
 	Promise
@@ -31,7 +32,7 @@ $done. |_:Promise
 		|| We're already $done so this shouldn't matter, but just in case...
 		throw err
 
-$fail-after-time. |:Promise _:Promise time-ms:Number
+$fail-after-time. |:Promise _:Promise time-ms:Num
 	| Fails if it takes too long.
 	new Promise !|resolve reject
 		_.then resolve

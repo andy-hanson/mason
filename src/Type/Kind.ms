@@ -22,8 +22,9 @@ Kind. class
 			and exists?_ (Boolean (js-sub _ .symbol-for-isa))
 
 	construct params
-		.name:String = params.name
-		todo  :Array[Kind]
+		todo :Str
+		.name = params.name
+		todo :Array[Kind]
 		.super-kinds = []
 
 		todo :Array[Impl-Type]

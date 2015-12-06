@@ -10,9 +10,9 @@ Enum. class kind Impl-Type
 	| Great for using with `switch`.
 
 	construct params
-		.name = params.name todo  :String
+		.name = params.name todo :Str
 		.prototype = opr params.prototype ~(Object.create Object.prototype)
-		.values = params.values todo  :Array[String]
+		.values = params.values todo :Array[Str]
 
 		for value-name of .values
 			enum-val = Object.create .prototype

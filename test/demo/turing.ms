@@ -5,7 +5,6 @@ import
 
 region Rule results
 	R. |written new-state
-		todo SYNTAX go-right. state. ...
 		(write. written go-right. true state. new-state)
 	L. |written new-state
 		(write. written go-right. false state. new-state)
