@@ -52,8 +52,6 @@ annotate-errors. |~annotation:Str tried:Action
 			throw _
 
 region $
-	todo These should not be needed once we have async functions.
-
 	$try. |_:Promise
 		| Success if the Promise is resolved, Error if rejected.
 		|| =>[Error] because it's possible for a Promise to reject with a non-Error.

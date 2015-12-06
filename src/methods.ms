@@ -7,11 +7,11 @@ sub. method |...args
 msDef 'sub sub
 
 set-sub!. method |...args
-	todo doc
+	| Implementing this allows the use of the special syntax `a[b] = c`.
 	abstract
 msDef 'setSub set-sub!
 
 del-sub!. method |...args
-	todo doc
+	| Implementing this allows the use of the special syntax `del a[b]`.
 	abstract
 msDef 'delSub del-sub!

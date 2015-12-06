@@ -11,34 +11,34 @@ define(["exports","./../../compare","./../../math/Number","./../../math/methods"
 				}
 				constructor(){
 					let _this=this;
-					_ms.newProperty(_this,"data!",Array(8));
-					_ms.newProperty(_this,"start-index!",0);
-					_ms.newProperty(_this,"end-index!",0)
+					_ms.newProperty(_this,"data",Array(8));
+					_ms.newProperty(_this,"start-index",0);
+					_ms.newProperty(_this,"end-index",0)
 				}
 				*[_ms.symbol(iterator)](){
 					let _this=this;
 					let indices=(yield* function*(){
-						if(_60_63(_this["end-index!"],_this["start-index!"])){
-							return _43_43_126(_ms.range(_this["start-index!"],count(_this["data!"]),true),_ms.range(0,_this["end-index!"],true))
+						if(_this["wrapped?"]){
+							return _43_43_126(_ms.range(_this["start-index"],count(_this.data),true),_ms.range(0,_this["end-index"],true))
 						} else {
-							return _ms.range(_this["start-index!"],_this["end-index!"],true)
+							return _ms.range(_this["start-index"],_this["end-index"],true)
 						}
 					}());
 					for(let _ of indices){
-						(yield _ms.sub(_this["data!"],_))
+						(yield _ms.sub(_this.data,_))
 					}
 				}
 				[_ms.symbol(_60_43_43_33)](ems){
 					let _this=this;
 					_ms.checkContains(_64,ems,"ems");
 					for(let _ of _64reverse(ems)){
-						let new_45start=prev_45index(_this,_this["start-index!"]);
-						if(_61_63(new_45start,_this["end-index!"])){
-							expand_33(_this);
+						let new_45start=_this["prev-index"](_this["start-index"]);
+						if(_61_63(new_45start,_this["end-index"])){
+							_this["expand!"]();
 							_60_43_43_33(_this,[_])
 						} else {
-							_this["start-index!"]=new_45start;
-							_ms.setSub(_this["data!"],_this["start-index!"],_,"mutate")
+							_this["start-index"]=new_45start;
+							_ms.setSub(_this.data,_this["start-index"],_,"mutate")
 						}
 					}
 				}
@@ -46,13 +46,13 @@ define(["exports","./../../compare","./../../math/Number","./../../math/methods"
 					let _this=this;
 					_ms.checkContains(_64,ems,"ems");
 					for(let _ of ems){
-						let new_45end=next_45index(_this,_this["end-index!"]);
-						if(_61_63(new_45end,_this["start-index!"])){
-							expand_33(_this);
+						let new_45end=_this["next-index"](_this["end-index"]);
+						if(_61_63(new_45end,_this["start-index"])){
+							_this["expand!"]();
 							_43_43_62_33(_this,[_])
 						} else {
-							_ms.setSub(_this["data!"],_this["end-index!"],_,"mutate");
-							_this["end-index!"]=new_45end
+							_ms.setSub(_this.data,_this["end-index"],_,"mutate");
+							_this["end-index"]=new_45end
 						}
 					}
 				}
@@ -60,8 +60,8 @@ define(["exports","./../../compare","./../../math/Number","./../../math/methods"
 					let _this=this;
 					return (empty_63(_this)?_ms.None:_ms.some((()=>{
 						return (()=>{
-							let _=_ms.sub(_this["data!"],_this["start-index!"]);
-							_this["start-index!"]=next_45index(_this,_this["start-index!"]);
+							let _=_ms.sub(_this.data,_this["start-index"]);
+							_this["start-index"]=_this["next-index"](_this["start-index"]);
 							return _
 						})()
 					})()))
@@ -69,77 +69,84 @@ define(["exports","./../../compare","./../../math/Number","./../../math/methods"
 				[_ms.symbol(_63pop_62_33)](){
 					let _this=this;
 					return (empty_63(_this)?_ms.None:_ms.some((()=>{
-						let new_45end=prev_45index(_this,_this["end-index!"]);
-						_this["end-index!"]=new_45end;
-						return _ms.sub(_this["data!"],new_45end)
+						let new_45end=_this["prev-index"](_this["end-index"]);
+						_this["end-index"]=new_45end;
+						return _ms.sub(_this.data,new_45end)
 					})()))
 				}
 				[_ms.symbol(_63nth)](index){
 					let _this=this;
 					_ms.checkContains(Nat,index,"index");
-					return _64map(_63data_45index(_this,index),_=>{
-						return _ms.sub(_this["data!"],_)
+					return _64map(_this["?data-index"](index),_=>{
+						return _ms.sub(_this.data,_)
 					})
 				}
 				[_ms.symbol(set_45sub_33)](index,set_45to){
 					let _this=this;
 					_ms.checkContains(Nat,index,"index");
 					_ms.checkContains(Any,set_45to,"set-to");
-					let data_45index=un_45_63(_63data_45index(_this,index),_ms.lazy(()=>`Can't set at index ${index}; count is ${count(_this)}.`));
-					_ms.setSub(_this["data!"],data_45index,set_45to,"mutate")
+					let data_45index=un_45_63(_this["?data-index"](index),_ms.lazy(()=>`Can't set at index ${index}; count is ${count(_this)}.`));
+					_ms.setSub(_this.data,data_45index,set_45to,"mutate")
 				}
 				[_ms.symbol(empty_33)](){
 					let _this=this;
-					empty_33(_this["data!"]);
-					_this["start-index!"]=0;
-					_this["end-index!"]=0
+					empty_33(_this.data);
+					_this["start-index"]=0;
+					_this["end-index"]=0
+				}
+				get capacity(){
+					let _this=this;
+					return count(_this.data)
+				}
+				"expand!"(){
+					let _this=this;
+					let old_45data=_this.data;
+					let old_45capacity=_this.capacity;
+					let new_45capacity=_42(2,old_45capacity);
+					let new_45data=new (Array)(new_45capacity);
+					for(let _ of _ms.range(0,old_45capacity,true)){
+						_ms.setSub(new_45data,_,_ms.sub(old_45data,_),"init")
+					};
+					_this.data=new_45data
+				}
+				"wrap-index"(index){
+					let _this=this;
+					return modulo(index,_this.capacity)
+				}
+				"next-index"(index){
+					let _this=this;
+					return _this["wrap-index"](_43(index,1))
+				}
+				"prev-index"(index){
+					let _this=this;
+					return _this["wrap-index"](_45(index,1))
+				}
+				get "wrapped?"(){
+					let _this=this;
+					return _60_63(_this["end-index"],_this["start-index"])
+				}
+				"?data-index"(index){
+					let _this=this;
+					let a=_43(_this["start-index"],index);
+					return (()=>{
+						if(_60_63(a,_this.capacity)){
+							return ((_this["wrapped?"]||_60_63(a,_this["end-index"]))?_ms.some((()=>{
+								return a
+							})()):_ms.None)
+						} else {
+							let b=_this["wrap-index"](a);
+							return ((_this["wrapped?"]&&_60_63(b,_this["end-index"]))?_ms.some((()=>{
+								return b
+							})()):_ms.None)
+						}
+					})()
 				}
 			};
 			_ms.kindDo(_,Seq);
 			self_45kind_33(_,_64_45Type);
 			return _
 		})();
-		let capacity=function capacity(_){
-			return count(_["data!"])
-		};
-		let expand_33=function expand_33(_){
-			let old_45data=_["data!"];
-			let old_45capacity=capacity(_);
-			let new_45capacity=_42(2,old_45capacity);
-			let new_45data=Array(new_45capacity);
-			for(let index of _ms.range(0,old_45capacity,true)){
-				_ms.setSub(new_45data,index,_ms.sub(old_45data,index),"init")
-			};
-			_["data!"]=new_45data
-		};
-		let wrap_45index=function wrap_45index(_,index){
-			return modulo(index,capacity(_))
-		};
-		let next_45index=function next_45index(_,index){
-			_ms.checkContains(Nat,index,"index");
-			return wrap_45index(_,_43(index,1))
-		};
-		let prev_45index=function prev_45index(_,index){
-			_ms.checkContains(Nat,index,"index");
-			return wrap_45index(_,_45(index,1))
-		};
-		let _63data_45index=function _63data_45index(_,index){
-			_ms.checkContains(Nat,index,"index");
-			let a=_43(_["start-index!"],index);
-			return (()=>{
-				if(_60_63(a,capacity(_))){
-					return ((_60_63(_["end-index!"],_["start-index!"])||_60_63(a,_["end-index!"]))?_ms.some((()=>{
-						return a
-					})()):_ms.None)
-				} else {
-					let b=wrap_45index(_,a);
-					return ((_60_63(_["end-index!"],_["start-index!"])&&_60_63(b,_["end-index!"]))?_ms.some((()=>{
-						return b
-					})()):_ms.None)
-				}
-			})()
-		};
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvQC9TZXEvRGVxdWUubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFZQSwwQkFBYSxLQUlWOzt1QkFJRDtTQWdFQTtZQS9EQyxLQStERDtJQUFBO0lBNURRO1NBNERSO3FCQUFBLGNBNURTLE1BQU07cUJBNERmLHFCQTNEZ0I7cUJBMkRoQixtQkExRGM7SUFBQTtpQkFFZjtTQXdEQztLQXZEQSxZQUNjO01BQWIsR0FBQSxPQXNERCwyQ0FyRDZCO2NBQTNCLHFCQXFERixzQkFyRHVCLE1BcUR2QixnQ0FyRHFDLEVBcURyQzthQW5ESzt3QkFtREw7OztLQWxESSxRQUFBLEtBQUEsUUFDTztxQkFpRFgsZUFqRGU7S0FBQTtJQUFBO2dCQUVoQixlQUFPO1NBK0NOO3VCQS9DVTtLQUNOLFFBQUEsS0FBQSxXQUFTLEtBQ0c7TUFBZixnQkFBWSxhQTZDYjtNQTNDSyxHQUFILE9BQUcsWUEyQ0wscUJBMUMwQjtPQUF2QixVQTBDSDtPQXpDRyxhQXlDSCxNQXpDYSxDQUFFO01BQUEsT0FFVDtPQXVDTixzQkF2Q29CO2tCQXVDcEIscUNBdEM2Qjs7OztnQkFFOUIsZUFBTztTQW9DTjt1QkFwQ1U7S0FDTixRQUFBLEtBQUEsSUFDRztNQUFOLGNBQVUsYUFrQ1g7TUFoQ0ssR0FBSCxPQUFHLFVBZ0NMLHVCQS9CMEI7T0FBdkIsVUErQkg7T0E5QkcsYUE4QkgsTUE5QmEsQ0FBRTtNQUFBLE9BRVQ7a0JBNEJOLG1DQTVCMkI7T0E0QjNCLG9CQTNCa0I7TUFBQTtLQUFBO0lBQUE7Z0JBSW5CO1NBdUJDO1lBdEJPLENBQUEsU0FzQlAsOEJBckJrQjthQUFaLEtBQ3FCO3FCQW9CM0I7T0FBQSxzQkFwQm1CLGFBb0JuQjs7Ozs7Z0JBbEJEO1NBa0JDO1lBakJPLENBQUEsU0FpQlAsOEJBaEJrQjtNQUFqQixjQUFVLGFBZ0JYO01BQUEsb0JBZmdCO3FCQWVoQixlQWRRO0tBQUE7SUFBQTtnQkFFVCxTQUFNO1NBWUw7dUJBWlc7WUFFWCxPQUFNLGdCQVVOLE1BVnVCLE9BQVM7cUJBVWhDLGVBVFM7S0FBQTtJQUFBO2dCQUVWLGVBQVcsTUFBVTtTQU9wQjt1QkFQZ0I7dUJBQVc7S0FDM0IsaUJBQWEsU0FBTSxnQkFNbkIsTUFOb0Msb0JBQVMsc0JBQW9CLG1CQUFrQixNQU1uRjtnQkFBQSxlQUxPLGFBQWU7O2dCQUV2QjtTQUdDO0tBRkEsU0FFQTtLQUFBLHNCQURpQjtLQUNqQixvQkFBZTtJQUFBO0dBQUE7Z0JBeEVDO0dBSWhCLGVBQVksRUFBQzs7O0VBdUVkLGFBQWEsa0JBQUE7VUFDWixNQUFPOztFQUVSLGNBQWEsbUJBQUE7R0FDWixlQUFZO0dBQ1osbUJBQWUsU0FBUztHQUN4QixtQkFBZSxJQUFFLEVBQUU7R0FDbkIsZUFBVyxNQUFNO0dBQ2IsUUFBQSxtQkFBUyxFQUFJLHFCQUNZO2VBQTVCLFdBQVMsY0FBUyxXQUFTOztHQUMzQixXQUFVO0VBQUE7RUFFWixpQkFBZSxzQkFBQSxFQUFDO1VBQ2YsT0FBTyxNQUFNLFNBQVM7RUFBQTtFQUV2QixpQkFBZSxzQkFBQSxFQUFDO3FCQUFNO1VBQ3JCLGFBQVksRUFBRSxJQUFFLE1BQU07RUFBQTtFQUV2QixpQkFBZSxzQkFBQSxFQUFDO3FCQUFNO1VBQ3JCLGFBQVksRUFBRSxJQUFFLE1BQU07RUFBQTtFQUV2QixvQkFBZ0IseUJBQUEsRUFBQztxQkFBTTtHQUN0QixNQUFJLElBQUcsa0JBQWM7VUFFakI7SUFBSCxHQUFBLE9BQUcsRUFBRSxTQUFTLElBQ0E7WUFBVixDQUFBLENBQUksT0FBSSxnQkFBYSxvQkFBZ0IsT0FBRyxFQUFHLGdDQUNZO2FBQXpEO0tBQUE7V0FFRTtLQUFILE1BQUksYUFBWSxFQUFDO1lBQ2QsQ0FBQSxDQUFLLE9BQUksZ0JBQWEsb0JBQWdCLE9BQUcsRUFBRyxnQ0FDWTthQUExRDtLQUFBIiwiZmlsZSI6ImF0L1NlcS9EZXF1ZS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvQC9TZXEvRGVxdWUubXMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7RUFZQSwwQkFBYSxLQUlWOzt1QkFJRDtTQTJGTTtZQTFGTCxLQTBGSztJQUFBO0lBdkZFO1NBdUZGO3FCQUFBLGFBdkZFLE1BQU07cUJBdUZSLG9CQXRGUztxQkFzRlQsa0JBckZPO0lBQUE7aUJBRWQ7U0FtRk87S0FsRk4sWUFDYztNQUFiLEdBaUZLLGtCQWhGSTtjQUFSLHFCQWdGSSxxQkFoRmdCLE1BZ0ZoQiw0QkFoRjZCLEVBZ0Y3QjthQTlFRDt3QkE4RUM7OztLQTdFRixRQUFBLEtBQUEsUUFDTztxQkE0RUwsV0E1RVE7S0FBQTtJQUFBO2dCQUVmLGVBQU87U0EwRUE7dUJBMUVJO0tBQ04sUUFBQSxLQUFBLFdBQVMsS0FDRztNQUFmLGdCQXdFSztNQXRFRCxHQUFILE9BQUcsWUFzRUMsb0JBckVtQjtPQXFFbkI7T0FwRUgsYUFvRUcsTUFwRU8sQ0FBRTtNQUFBLE9BRVQ7T0FrRUEscUJBbEVhO2tCQWtFYixnQ0FqRXFCOzs7O2dCQUU1QixlQUFPO1NBK0RBO3VCQS9ESTtLQUNOLFFBQUEsS0FBQSxJQUNHO01BQU4sY0E2REs7TUEzREQsR0FBSCxPQUFHLFVBMkRDLHNCQTFEbUI7T0EwRG5CO09BekRILGFBeURHLE1BekRPLENBQUU7TUFBQSxPQUVUO2tCQXVEQSw4QkF2RG1CO09BdURuQixtQkF0RFc7TUFBQTtLQUFBO0lBQUE7Z0JBSWxCO1NBa0RPO1lBakRDLENBQUEsU0FpREQsOEJBaERZO2FBQVosS0FDbUI7cUJBK0NuQjtPQUFBOzs7OztnQkE3Q1A7U0E2Q087WUE1Q0MsQ0FBQSxTQTRDRCw4QkEzQ1k7TUFBakIsY0EyQ0s7TUFBQSxtQkExQ1M7cUJBMENULFdBekNDO0tBQUE7SUFBQTtnQkFFUixTQUFNO1NBdUNDO3VCQXZDSztZQUVYLE9BcUNNLHFCQXJDYSxPQUFTO3FCQXFDdEIsV0FwQ0U7S0FBQTtJQUFBO2dCQUVULGVBQVcsTUFBVTtTQWtDZDt1QkFsQ1U7dUJBQVc7S0FDM0IsaUJBQWEsU0FpQ1AscUJBakMwQixvQkFBUyxzQkFBb0IsbUJBQWtCLE1BaUN6RTtnQkFBQSxXQWhDQSxhQUFlOztnQkFFdEI7U0E4Qk87S0E3Qk4sU0E2Qk07S0FBQSxxQkE1QlU7S0E0QlYsbUJBM0JRO0lBQUE7a0JBR0M7U0F3QlQ7WUF4Qk4sTUF3Qk07OztTQUFBO0tBckJOLGVBcUJNO0tBcEJOLG1CQW9CTTtLQW5CTixtQkFBZSxJQUFFLEVBQUU7S0FDbkIsZUFBVyxLQUFJLE9BQU07S0FDakIsUUFBQSxlQUFBLEVBQUkscUJBQ1k7aUJBQW5CLFdBQVUsVUFBSSxXQUFVOztLQWdCbkIsV0FmRztJQUFBO2lCQUVNO1NBYVQ7WUFaTixPQUFPLE1BWUQ7O2lCQVZTO1NBVVQ7WUFBQSxvQkFUTyxJQUFFLE1BQU07SUFBQTtpQkFFTjtTQU9UO1lBQUEsb0JBTk8sSUFBRSxNQUFNO0lBQUE7b0JBR047U0FHVDtZQUhOLE9BR007O2tCQURVO1NBQ1Y7S0FBTixNQUFJLElBQUUscUJBQWE7WUFFZjtNQUFILEdBQUEsT0FBRyxFQUZFLGdCQUdTO2NBQVYsQ0FBQSxDQUhDLG1CQUdhLE9BQUcsRUFIaEIsbUNBSTZCO2VBQWhDO09BQUE7YUFFRTtPQUFILE1BTkksb0JBTVk7Y0FDYixDQUFBLENBUEMsbUJBT2MsT0FBRyxFQVBqQixtQ0FROEI7ZUFBakM7T0FBQTs7Ozs7Z0JBM0dhO0dBSWhCLGVBQVksRUFBQyIsImZpbGUiOiJhdC9TZXEvRGVxdWUuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

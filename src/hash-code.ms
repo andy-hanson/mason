@@ -1,6 +1,6 @@
 import
 	global WeakMap
-	.compare =?
+	.@.@ empty?
 	.js defined? id=? js* js- js+ js-bar js-sub
 	.math.Number Int
 	.Type.Method _ impl!
@@ -13,28 +13,25 @@ hash-code. new Method
 	returns. Int
 	allow-null?. true
 	default. .|
-		case
-			id=? this null
+		switch this
+			null
 				108
-			not defined? this
+			undefined
 				109
 			else
-				case hashes-cache.get this
-					defined?_
-						_
-					else
-						|| Don't recurse infinitely.
-						hashes-cache.set this 17
-						hash = 17
-
-						for key of Object.keys this
-							val = js-sub this key
-							val-hash = hash-code val
-							hash := js-bar (js* hash 23) 0
-							hash := js-bar (js+ hash val-hash) 0
-
-						hashes-cache.set this hash
-						hash
+				|| Overriden for primitives, so safe to use WeakMap here.
+				cached = hashes-cache.get this
+				cond (defined? cached) cached
+					|| Don't recurse infinitely.
+					hashes-cache.set this 17
+					hash = 17
+					for key of Object.keys this
+						val = js-sub this key
+						val-hash = hash-code val
+						hash := js-bar (js* hash 23) 0
+						hash := js-bar (js+ hash val-hash) 0
+					hashes-cache.set this hash
+					hash
 
 hashes-cache = new WeakMap
 
@@ -43,14 +40,14 @@ region Since default hash-code only works on Objects, let's implement hash-code 
 		cond this 1 0
 
 	impl! hash-code Function .|
-		todo  There must be something better than this.
+		todo There must be something better than this.
 		hash-code case .name
-			=? 0 _.length todo  empty?_
+			empty?_
 				.toString()
 			else
 				_
 
-	todo  Memoize this one too?
+	todo Memoize this one too?
 	impl! hash-code String .|
 		hash = 13
 		i = .length

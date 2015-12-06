@@ -12,6 +12,7 @@ Splay-Tree. class kind Sorted-Map
 	| Binary tree that is good at accessing the same values many times.
 	static
 		empty |
+			todo this should be the default
 			new this
 
 	construct .root:Splay-Node
@@ -20,9 +21,9 @@ Splay-Tree. class kind Sorted-Map
 	iterator |
 		node-iter = *!|_
 			if defined?_
-				yield* node-iter _.left!
-				yield [_.key _.val!]
-				yield* node-iter _.right!
+				yield* node-iter _.left
+				yield [_.key _.val]
+				yield* node-iter _.right
 		node-iter .root
 
 	empty? |
@@ -32,80 +33,72 @@ Splay-Tree. class kind Sorted-Map
 		.root := undefined
 
 	?get |key
-		if and (not empty? this) (splay!? this key)
-			.root.val!
+		if and (not empty? this) (.splay!? key)
+			.root.val
 
 
 	set-sub! !|key val
 		case
 			empty? this
 				.root := new Splay-Node key val undefined undefined
-			splay!? this key
-				.root.val! := val
+			.splay!? key
+				.root.val := val
 			else
 				old-root = .val
 				forbid empty? this
 				.root := case
 					<? old-root.key key
-						old-right = old-root.right!
-						old-root.right! := undefined
+						old-right = old-root.right
+						old-root.right := undefined
 						new Splay-Node key val old-root old-right
 					else
-						old-left = old-root.left!
-						old-root.left! := undefined
+						old-left = old-root.left
+						old-root.left := undefined
 						new Splay-Node key val old-left old-root
 
 
 	del-sub! |key
-		if and (not empty? this) (splay!? this key)
+		if and (not empty? this) (.splay!? key)
 			removed = .root
 			|| Link out the root.
 			.root := case
-				has-left? removed
+				removed.has-left?
 					right = removed.right || OK if null
 					new-root = removed.left
 					|| Splay to make sure the new root has an empty right child.
-					splay!? this key
-					new-root.right! := right
+					.splay!? key
+					new-root.right := right
 					new-root
 				else
 					|| New tree is just right child - no left child to worry about.
 					removed.right
 
-			removed.val!
-
-region Private
-	todo Splay-Node = class key val left right
-	Splay-Node = class
-		construct .key val! left! right!
-			.val! = val!
-			.left! = left!
-			.right! = right!
+			removed.val
 
 	|| Searches for the key, bringing nodes up to the root along the way.
 	|| Returns whether the root now matches the key.
-	splay!? = |_ key
+	my 'splay!? |key
 		dummy = new Splay-Node undefined undefined undefined undefined
 		left = dummy
 		right = dummy
-		cur = _.root
+		cur = .root
 
 		found = for
 			case compare key cur.key
 				<? _ 0
-					unless has-left? cur
+					unless cur.has-left?
 						break false
 					link-right! = !|new-right
-						right.left! := new-right
-						cur := new-right.left!
+						right.left := new-right
+						cur := new-right.left
 						right := new-right
 					case
-						<? key cur.left!.key
+						<? key cur.left.key
 							|| Rotate right
-							old-left = cur.left!
-							cur.left! := old-left.right!
-							old-left.right! := cur
-							unless has-left? old-left
+							old-left = cur.left
+							cur.left := old-left.right
+							old-left.right := cur
+							unless old-left.has-left?
 								cur := old-left
 								break false
 							cur := old-left
@@ -113,19 +106,19 @@ region Private
 						else
 							link-right! cur
 				<? 0 _
-					unless has-right? cur
+					unless cur.has-right?
 						break false
 					link-left! = !|new-left
-						left.right! := new-left
-						cur := new-left.right!
+						left.right := new-left
+						cur := new-left.right
 						left := new-left
 					case
-						<? cur.right!.key key
+						<? cur.right.key key
 							|| Rotate left
-							tmp = cur.right!
-							cur.right! := tmp.left!
-							tmp.left! := cur
-							unless has-right? tmp
+							tmp = cur.right
+							cur.right := tmp.left
+							tmp.left := cur
+							unless tmp.has-right?
 								cur := tmp
 								break false
 							link-left! tmp
@@ -134,15 +127,24 @@ region Private
 				else
 					break true
 
-		left.right! := cur.left!
-		right.left! := cur.right!
-		cur.left! := dummy.right!
-		cur.right! := dummy.left!
-		_.root := cur
+		left.right := cur.left
+		right.left := cur.right
+		cur.left := dummy.right
+		cur.right := dummy.left
+		.root := cur
 		found
 
-	has-left? = |node
-		defined? node.left!
 
-	has-right? = |node
-		defined? node.right!
+region Private
+	todo Splay-Node = class key val left right
+	Splay-Node = class
+		construct .key val left right
+			.val = val
+			.left = left
+			.right = right
+
+		get 'has-left?
+			defined? .left
+
+		get 'has-right?
+			defined? .right

@@ -32,15 +32,15 @@ js-instanceof. op 'instanceof
 js-typeof. unary-op 'typeof
 
 defined?. |_
-	| True for any value except `undefined`.
+	| False for `undefined`.
 	not id=? _ undefined
 
 null?. |_
-	todo doc, test
+	| True only for `null`.
 	js=== _ null
 
 exists?. |_
-	todo doc, test
+	| False for `null` or `undefined`.
 	not js== _ null
 
 id=?.
