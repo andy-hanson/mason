@@ -23,7 +23,7 @@ build-str = |builder
 str-lit = |str
 	JSON.stringify str
 
-Method. class Function
+Method. class extends Function
 	todo doc
 
 	construct params
@@ -221,7 +221,7 @@ region Private
 			for sub-impl of implementor.implementors
 				propagate-method-down! sub-impl _.impl-symbol implementation
 
-	Double-Dispatcher = class Function
+	Double-Dispatcher = class extends Function
 		construct meth
 			impl-symbol = Symbol "#(meth.name)_double_dispatch"
 			secret-name = "__double_dispatch_#(random-digits())"
