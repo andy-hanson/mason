@@ -1,4 +1,5 @@
 import
+	msl.@.@ from-stream
 	msl.@.Seq.Deque
 	msl.Try fails?
 	..tests
@@ -12,6 +13,9 @@ tests 'Kind
 		todo			_ = empty @-type
 		todo			assert empty? _
 		pass
+
+	from-stream ->
+		[Array 0..4] -> [0 1 2 3 4]
 
 	to-string ->
 		d = => Deque [1 2 3]

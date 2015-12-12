@@ -205,6 +205,22 @@ region Private
 						configurable. true
 						enumerable. false
 
+	todo Not public
+	propagate-static-down!. !|implementor method-symbol implementation
+		unless Object.prototype.hasOwnProperty.call implementor method-symbol
+			|| Unlike propagate-method-down!, even Kinds need to inherit the static.
+			def-inherited! implementor method-symbol implementation
+			if implementor:Kind
+				for sub-implementor of implementor.implementors
+					propagate-static-down! sub-implementor method-symbol implementation
+
+	def-inherited! = !|_ symbol value
+		Object.defineProperty _ symbol
+			value.
+			writable. true
+			configurable. true
+			enumerable. false
+
 	todo Multiple-inheritance proxy scheme
 	|| `_` can be a Method or a Double-Dispatcher.
 	do-impl! = !|_ implementor implementation

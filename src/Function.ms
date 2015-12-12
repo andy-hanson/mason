@@ -3,8 +3,7 @@ import
 	.Type.Alias-Type
 	.Type.Method impl! self-impl!
 import~
-	.@.@ _ ++
-	.@.@-Type empty
+	.@.@ _ ++ empty
 	.@.Map.Hash-Map
 	.@.Map.Map _ get-or-add!
 	.@.Map.Weak-Id-Map

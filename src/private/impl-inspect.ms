@@ -22,7 +22,7 @@ impl! inspect Object .|
 inspect-property = |obj key enumerable?
 	desc = Object.getOwnPropertyDescriptor obj key
 
-	prop-name = cond enumerable? key "[#key]"
+	prop-name = cond enumerable? key "[#(key.toString())]"
 
 	str = case
 		and desc.get desc.set

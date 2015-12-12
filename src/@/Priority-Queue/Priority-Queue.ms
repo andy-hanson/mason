@@ -1,6 +1,5 @@
 import
-	..@
-	..@-Type empty
+	..@ _ empty
 	..?
 import~
 	.Heap-Priority-Queue
@@ -12,7 +11,7 @@ Priority-Queue. kind @
 
 	static
 		empty |
-			empty Heap-Priority-Queue
+			new Heap-Priority-Queue
 
 todo Move
 ?pop!. method |:?

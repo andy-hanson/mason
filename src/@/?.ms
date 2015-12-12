@@ -3,11 +3,9 @@ import
 	..js defined? id=?
 	..private.bootstrap msDef
 	..to-string _ inspect
-	..Type.Kind self-kind!
 	..Type.Method self-impl!
 	..Type.Type extract
-	.@ empty? iterator
-	.@-Type _ empty from-stream
+	.@ empty empty? from-stream iterator
 	.Seq.Seq
 
 || I've measured and code is at least twice as fast when using a single option type
@@ -16,9 +14,6 @@ import
 ?. class kind Seq
 	| A Seq with 0 or 1 elements.
 	todo MORE
-
-	do
-		self-kind! _ @-Type
 
 	static
 		empty |

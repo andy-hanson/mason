@@ -1,11 +1,10 @@
 import
 	...control opr
-	...Type.Pred-Type Opt
-	..@ _ ++!
-	..@-Type _ empty
+	...Type.Pred-Type Class Opt
+	..@ _ ++! empty
 	.Map _ get-or-add!
 
-add-to-@!. |map:Map key added:@ @-type:Opt[@-Type]
+add-to-@!. |map:Map key added:@ @-type:Opt[Class[@]]
 	| Treat `map` as a multi-map and add `added` to the @ associated with `key`.
 	| `@-type` is the type to use to create the `@` if it's not already there.
 	_ = get-or-add! map key ~

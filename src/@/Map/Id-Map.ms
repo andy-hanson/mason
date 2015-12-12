@@ -3,13 +3,11 @@ import
 	global
 	...methods del-sub! set-sub!
 	...Type.Method impl!
-	...Type.Kind kind! self-kind!
+	...Type.Kind kind!
 	..@ count empty!
-	..@-Type empty
 	..? Opt->?
 	..Seq.Stream
 	.Map _ ?get has-key? @keys @values
-	.Map-Type
 
 Id-Map.
 	| JavaScript's native Map type.
@@ -19,10 +17,6 @@ Id-Map.
 || Define this first because it is needed for map literals.
 impl! set-sub! Id-Map .!|key val
 	.set key val
-
-self-kind! Id-Map Map-Type
-	empty -> |
-		new Id-Map
 
 kind! Id-Map Map
 	count -> .|

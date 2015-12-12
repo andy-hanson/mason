@@ -1,17 +1,11 @@
 import
 	...Generator
-	...Type.Kind self-kind!
-	..@ iterator
-	..@-Type _ empty from-stream
+	..@ empty from-stream iterator
 	.Seq
 
 Stream. class kind Seq
 	| A Stream is a @ whose elements are the outputs of a Generator.
 	| Unlike a Generator, a Stream can be used multiple times.
-
-	do
-		self-kind! _ @-Type
-
 	static
 		empty |
 			new Stream *!|

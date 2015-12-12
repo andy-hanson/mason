@@ -2,7 +2,7 @@ import
 	..compare =?
 	..js defined? exists? js-sub
 	..private.bootstrap addProperty implContains msDef
-	.Method impl! propagate-method-down! self-impl!
+	.Method impl! propagate-method-down! propagate-static-down! self-impl!
 import~
 	.Impl-Type Self-Type
 
@@ -67,14 +67,14 @@ unchecked-kind!. !|implementor knd
 	knd.implementors.push implementor
 	on-implementor! implementor knd
 
-todo @contcrete-implementors
-concrete-implementors. |knd:Kind todo :@[Impl-Type]
+@concrete-implementors. |knd:Kind todo :@[Impl-Type]
 	| List of Impl-Types inheriting from this.
 	| Does not include inheriting Kinds, but does include their implementors.
+	todo @for~
 	@for knd.implementors
 		case
 			:Kind
-				... concrete-implementors_
+				... @concrete-implementors_
 			else
 				. _
 
@@ -125,6 +125,18 @@ region Private
 		rec! = !|knd
 			for @p-all knd.prototype
 				propagate-method-down! implementor _ (js-sub knd.prototype _)
+			|| Do not take non-enumerable properties from the kind.
+			for Object.keys knd
+				todo Better way to ignore these properties? Make them non-enumerable?
+				switch _
+					'name 'super-kinds 'implementors 'symbol-for-isa 'prototype
+						pass
+					else
+						propagate-static-down! implementor _ (js-sub knd _)
+			|| Do take symbols...
+			todo neater (++)
+			for Object.getOwnPropertySymbols knd
+				propagate-static-down! implementor _ (js-sub knd _)
 			for knd.super-kinds
 				rec! _
 		rec! knd

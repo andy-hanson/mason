@@ -10,6 +10,8 @@ tests 'multi-map
 		assert =? _[1] [1]
 		add-to-@! _ 1 [1]
 		assert =? _[1] [1 1]
+		add-to-@! _ 2 [2] Set
+		assert =? _[2] (=> Set [2])
 
 	group -> |
 		@sample = [1 "1" 2 "2"]

@@ -1,6 +1,6 @@
 import
 	msl.assert assert-call!
-	msl.Type.Pred-Type Union
+	msl.Type.Pred-Type Union Class
 	..tests
 
 tests 'Pred-Type
@@ -23,3 +23,11 @@ tests 'Pred-Type
 		assert true:SBN
 		assert 1:SBN
 		forbid null:SBN
+
+	Class -> !|
+		assert-call! has-instance?
+			[Class[Object] String] -> true
+			[Class[String] Object] -> false
+			|| Works for Kind too
+			[Class[@] Array] -> true
+			[Class[@] Set] -> true

@@ -2,8 +2,7 @@ import
 	.js defined? id=?
 	.Type.Method
 import~
-	.@.@ _ all? empty? iterator
-	.@.@-Type from-stream
+	.@.@ _ all? empty? from-stream iterator
 	.@.? un-?
 	.@.Seq.Seq _ first @tail
 	.control opr

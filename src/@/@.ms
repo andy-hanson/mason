@@ -3,6 +3,7 @@ import
 	..Function Action identity Pred
 	..js defined? id=?
 	..math.methods +
+	..methods sub
 	..to-string _ inspect
 	..String indent
 	..Type.Method
@@ -20,6 +21,14 @@ import~
 	| If the iteration order of an @ is meaningful and `+ a b` is the concatenation, it is a Seq.
 	| If an @ only stores a given element once, it is a Set.
 
+	static
+		=> |stream
+			from-stream this stream
+
+		sub |
+			|| Allow @[Str] type syntax (does nothing)
+			this
+
 	has-instance? |em:Any
 		| Whether one of the elements =? em.
 		any? this |em-compare
@@ -30,6 +39,7 @@ import~
 
 	to-string |
 		do-inspect this to-string
+
 	inspect |
 		do-inspect this inspect
 
@@ -54,6 +64,17 @@ iterator. new Method
 empty?. method |
 	| Whether `count` is 0. Often much faster.
 	(iterator this).next().done
+
+region statics
+	empty. method |
+		| Given a type, makes an instance which is `empty?`.
+		| Should always return the same thing iff immutable.
+		new this
+
+	from-stream. method |stream:@
+		| Creates a new value of this type by reading out from an @'s iterator.
+		with empty this
+			++! _ stream
 
 region Using iterator
 	each!. !|_:@ do-for-each!:Action

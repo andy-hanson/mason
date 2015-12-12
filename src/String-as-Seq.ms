@@ -1,25 +1,24 @@
 todo  Move
 
 import
-	.@.@ _ count empty? @map
-	.@.@-Type _ empty from-stream
+	.@.@ _ count empty empty? from-stream @map
 	.@.Seq.Seq
 	.compare =? sort
 	.control opr
-	.Function thunk
 	.to-string
 	.Type.Impl-Type Self-Type
-	.Type.Kind kind! self-kind!
-	.Type.Method impl-double!
+	.Type.Kind kind!
+	.Type.Method impl-double! self-impl!
 	.Type.Pred-Type Opt
 	.Type.primitive Str
 	.Type.Type =>
 
-self-kind! String @-Type
-	empty -> thunk ""
+self-impl! empty String |
+	""
+
+self-impl! from-stream String |_
 	todo Should probably convert to string.
-	from-stream -> |_
-		from-stream Array _
+	from-stream Array _
 
 todo  self-impl-double! ?
 impl-double! => (new Self-Type String) @ |vals joiner:Opt[Str]

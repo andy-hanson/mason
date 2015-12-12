@@ -2,6 +2,7 @@ import
 	|| ..Function Pred
 	..js defined? id=?
 	..methods sub
+	.Kind _ kind?
 	.Method self-impl!
 	.Type _ => has-instance?
 import~
@@ -54,9 +55,10 @@ ObjLit. new Pred-Type
 	predicate. |_
 		and :Object (id=? Object.getPrototypeOf_ Object.prototype)
 
+todo singleton
 Union.
 	| Type that matches one of several types. Analogous to `or`.
-	new Object
+	name.
 
 self-impl! sub Union |...types
 	new Pred-Type
@@ -66,3 +68,19 @@ self-impl! sub Union |...types
 		predicate. |_
 			any? types |possible-type
 				:possible-type
+
+todo singleton
+Class.
+	todo doc
+	name.
+
+self-impl! sub Class |typ
+	new Pred-Type
+		name. "Class[#(typ.name)]"
+		predicate. |case
+			:Function
+				_.prototype:typ
+			:Kind
+				and typ:Kind (kind? _ typ)
+			else
+				false

@@ -2,21 +2,11 @@ import
 	...compare =? <?
 	...math.Number int/
 	...math.methods + - *
-	...Type.Kind self-kind!
 	..@ ++! count empty! empty? iterator
-	..@-Type _ empty
 	.Priority-Queue _ ?pop!
 
 Heap-Priority-Queue. class kind Priority-Queue
 	| Default implementation for Priority-Queue.
-
-	do
-		self-kind! _ @-Type
-
-	static
-		todo @-Type default
-		empty |
-			new this
 
 	construct
 		.array = []

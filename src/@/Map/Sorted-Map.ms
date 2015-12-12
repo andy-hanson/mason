@@ -1,5 +1,5 @@
 import
-	..@-Type empty
+	..@ empty
 	.Map
 import~
 	.Splay-Tree

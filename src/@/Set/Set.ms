@@ -1,18 +1,13 @@
 import
 	...compare =? same?
 	...Type.Type => has-instance? type-of
-	...Type.Kind self-kind!
-	..@ _ all? count @keep
-	..@-Type _ empty
+	..@ _ all? count empty @keep
 import~
 	.Hash-Set
 
 Set. kind @
 	| @ without repeat values.
 	todo more doc
-
-	do
-		self-kind! _ @-Type
 
 	static
 		empty |

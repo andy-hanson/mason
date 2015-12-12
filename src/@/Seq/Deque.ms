@@ -3,23 +3,13 @@ import
 	...math.Number modulo Nat
 	...math.methods + - *
 	...methods set-sub!
-	...Type.Kind self-kind!
 	...Type.Pred-Type Any
 	..@ _ ++~ count empty! empty? iterator @map
-	..@-Type _ empty
 	..? un-?
 	.Seq _ <++! ++>! ?nth ?<pop! ?pop>! @reverse
 
 Deque. class kind Seq
 	| Seq that can efficiently add values on either side.
-
-	do
-		self-kind! _ @-Type
-
-	static
-		todo Most have this implementation of empty...
-		empty |
-			new this
 
 	construct
 		.data = Array 8

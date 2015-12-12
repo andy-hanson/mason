@@ -1,7 +1,5 @@
 import
-	...Type.Kind self-kind!
-	..@ ++! --! empty! iterator
-	..@-Type _ empty
+	..@ ++! --! empty empty! iterator
 	..Map.Map @keys
 	..Map.Hash-Map
 	.Set
@@ -9,8 +7,6 @@ import
 Hash-Set. class kind Set
 	| Set that considers elements equal using =?.
 	| Relies on an efficient hash-code implementation.
-	do
-		self-kind! _ @-Type
 
 	static
 		empty |

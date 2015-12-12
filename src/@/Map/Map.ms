@@ -3,14 +3,24 @@ import
 	...methods sub
 	...to-string _ inspect
 	...Type.Type => type-of
-	..@ _ all? count empty? @map~
-	..@-Type empty
+	..@ _ all? count empty empty? from-stream @map~
 	..? ?-or un-?
 import~
 	.Id-Map
 
 Map. kind @
 	| Mapping from keys to values.
+
+	static
+		empty |
+			new Id-Map
+
+		from-stream |stream
+			map = empty this
+			for stream
+				todo SYNTAX Array destructure
+				map[_[0]] = _[1]
+			map
 
 	to-string |
 		inspect this
@@ -56,7 +66,7 @@ region New methods
 region Functions
 	make-map. |@key:@ get-value:Function
 		| Creates a Map whose values are the result of applying `get-value` to each key.
-		todo  map-type param
+		todo map-type param
 		map = empty Id-Map
 		for @key
 			map[_] = get-value_

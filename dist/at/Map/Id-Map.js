@@ -1,8 +1,8 @@
 "use strict";
 if((typeof define!=="function"))var define=require("amdefine")(module);
-define(["exports","./../../methods","./../../Type/Method","./../../Type/Kind","./../at","./../at-Type","./../q","./../Seq/Stream","./Map","./Map-Type"],(exports,methods_0,Method_1,Kind_2,_64_3,_64_45Type_4,_63_5,Stream_6,Map_7,Map_45Type_8)=>{
+define(["exports","./../../methods","./../../Type/Method","./../../Type/Kind","./../at","./../q","./../Seq/Stream","./Map"],(exports,methods_0,Method_1,Kind_2,_64_3,_63_4,Stream_5,Map_6)=>{
 	exports._get=_ms.lazy(()=>{
-		let _$0=_ms.getModule(methods_0),del_45sub_33=_ms.get(_$0,"del-sub!"),set_45sub_33=_ms.get(_$0,"set-sub!"),_$1=_ms.getModule(Method_1),impl_33=_ms.get(_$1,"impl!"),_$2=_ms.getModule(Kind_2),kind_33=_ms.get(_$2,"kind!"),self_45kind_33=_ms.get(_$2,"self-kind!"),_$3=_ms.getModule(_64_3),count=_ms.get(_$3,"count"),empty_33=_ms.get(_$3,"empty!"),_$4=_ms.getModule(_64_45Type_4),empty=_ms.get(_$4,"empty"),_$5=_ms.getModule(_63_5),Opt_45_62_63=_ms.get(_$5,"Opt->?"),Stream=_ms.getDefaultExport(Stream_6),Map=_ms.getDefaultExport(Map_7),_$6=_ms.getModule(Map_7),_63get=_ms.get(_$6,"?get"),has_45key_63=_ms.get(_$6,"has-key?"),_64keys=_ms.get(_$6,"@keys"),_64values=_ms.get(_$6,"@values"),Map_45Type=_ms.getDefaultExport(Map_45Type_8);
+		let _$0=_ms.getModule(methods_0),del_45sub_33=_ms.get(_$0,"del-sub!"),set_45sub_33=_ms.get(_$0,"set-sub!"),_$1=_ms.getModule(Method_1),impl_33=_ms.get(_$1,"impl!"),_$2=_ms.getModule(Kind_2),kind_33=_ms.get(_$2,"kind!"),_$3=_ms.getModule(_64_3),count=_ms.get(_$3,"count"),empty_33=_ms.get(_$3,"empty!"),_$4=_ms.getModule(_63_4),Opt_45_62_63=_ms.get(_$4,"Opt->?"),Stream=_ms.getDefaultExport(Stream_5),Map=_ms.getDefaultExport(Map_6),_$5=_ms.getModule(Map_6),_63get=_ms.get(_$5,"?get"),has_45key_63=_ms.get(_$5,"has-key?"),_64keys=_ms.get(_$5,"@keys"),_64values=_ms.get(_$5,"@values");
 		let Id_45Map=exports.default=(()=>{
 			return global.Map
 		})();
@@ -10,13 +10,6 @@ define(["exports","./../../methods","./../../Type/Method","./../../Type/Kind",".
 			let _this=this;
 			_this.set(key,val)
 		});
-		self_45kind_33(Id_45Map,Map_45Type,(()=>{
-			let built=new (global.Map)();
-			_ms.setSub(built,empty,()=>{
-				return new (Id_45Map)()
-			});
-			return built
-		})());
 		kind_33(Id_45Map,Map,(()=>{
 			let built=new (global.Map)();
 			_ms.setSub(built,count,function(){
@@ -60,4 +53,4 @@ define(["exports","./../../methods","./../../Type/Method","./../../Type/Kind",".
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvQC9NYXAvSWQtTWFwLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBYUEsNkJBQ08sS0FBQTtVQUVOOztFQUdELFFBQU0sYUFBUyxTQUFVLFNBQUEsSUFBSTtPQThCMUI7R0FBQSxVQTdCRyxJQUFJO0VBQUE7RUFFVixlQUFXLFNBQU8sV0FDUSxLQUFBOztvQkFBekIsTUFDVTtXQUFULEtBQUk7R0FBQTs7O0VBRU4sUUFBTSxTQUFPLElBQ0csS0FBQTs7b0JBQWYsTUFDVztRQXFCVDtXQUFBOztvQkFuQkYsT0FBVSxTQUFBO1FBbUJSO1dBbEJELGFBa0JDLFVBbEJZO0dBQUE7b0JBRWQsYUFBYyxTQUFBO1FBZ0JaO1dBQUEsVUFmSTtHQUFBO29CQUVOLFFBQ1c7UUFZVDtXQVpELEtBQUksUUFDUTtZQVdYOzs7b0JBVEYsVUFDYTtRQVFYO1dBUkQsS0FBSSxRQUNRO1lBT1g7OztvQkFMRixTQUNhO1FBSVg7SUFBQTs7b0JBRkYsYUFBYyxTQUFBO1FBRVo7V0FESSxLQUNhO1dBRGIsT0FDSixNQURjO0tBQ2QsYUFBUSIsImZpbGUiOiJhdC9NYXAvSWQtTWFwLmpzIiwic291cmNlUm9vdCI6Ii4vc3JjIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvQC9NYXAvSWQtTWFwLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBV0EsNkJBQ08sS0FBQTtVQUVOOztFQUdELFFBQU0sYUFBUyxTQUFVLFNBQUEsSUFBSTtPQTBCMUI7R0FBQSxVQXpCRyxJQUFJO0VBQUE7RUFFVixRQUFNLFNBQU8sSUFDRyxLQUFBOztvQkFBZixNQUNXO1FBcUJUO1dBQUE7O29CQW5CRixPQUFVLFNBQUE7UUFtQlI7V0FsQkQsYUFrQkMsVUFsQlk7R0FBQTtvQkFFZCxhQUFjLFNBQUE7UUFnQlo7V0FBQSxVQWZJO0dBQUE7b0JBRU4sUUFDVztRQVlUO1dBWkQsS0FBSSxRQUNRO1lBV1g7OztvQkFURixVQUNhO1FBUVg7V0FSRCxLQUFJLFFBQ1E7WUFPWDs7O29CQUxGLFNBQ2E7UUFJWDtJQUFBOztvQkFGRixhQUFjLFNBQUE7UUFFWjtXQURJLEtBQ2E7V0FEYixPQUNKLE1BRGM7S0FDZCxhQUFRIiwiZmlsZSI6ImF0L01hcC9JZC1NYXAuanMiLCJzb3VyY2VSb290IjoiLi9zcmMifQ==

@@ -2,8 +2,7 @@ import
 	...compare _ <?
 	...js defined?
 	...methods del-sub! set-sub!
-	..@ empty! empty? iterator
-	..@-Type empty
+	..@ empty empty! empty? iterator
 	.Map ?get
 	.Sorted-Map
 
@@ -12,8 +11,7 @@ Splay-Tree. class kind Sorted-Map
 	| Binary tree that is good at accessing the same values many times.
 	static
 		empty |
-			todo this should be the default
-			new this
+			new this undefined
 
 	construct .root:Splay-Node
 		pass
@@ -136,7 +134,6 @@ Splay-Tree. class kind Sorted-Map
 
 
 region Private
-	todo Splay-Node = class key val left right
 	Splay-Node = class
 		construct .key val left right
 			.val = val

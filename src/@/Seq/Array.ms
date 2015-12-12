@@ -5,23 +5,19 @@ import
 	...js js-set js-sub
 	...math.methods +
 	...methods set-sub!
-	...Type.Kind kind! self-kind!
+	...Type.Kind kind!
+	...Type.Method self-impl!
 	...Type.primitive Num
 	...Type.Type =>
-	..@ _ -! --! count each! empty! empty?
-	..@-Type _ empty from-stream
+	..@ _ -! --! count each! empty! empty? from-stream
 	..Set.Set
 	.Seq _ <++! ++>! @indexes ?nth ?<pop! ?pop>!
 import~
 	...math.Number Nat
 
-self-kind! Array @-Type
-	empty -> |
-		[]
-
-	from-stream -> |stream
-		with []
-			each! stream _&push
+self-impl! from-stream Array |stream
+	with []
+		each! stream _&push
 
 kind! Array Seq
 	count -> .|

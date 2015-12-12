@@ -1,7 +1,18 @@
 import
+	msl.@.@ from-stream
 	...tests
 
 tests 'Map
+	from-stream -> |
+		todo Better test
+		m =
+			1 -> 2
+			3 -> 4
+		hm = empty Hash-Map
+		hm[1] = 2
+		hm[3] = 4
+		[Hash-Map m] -> hm
+
 	to-string ->
 		[(empty Map)] -> "empty Map"
 		todo SYNTAX

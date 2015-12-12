@@ -1,7 +1,7 @@
 import
 	msl.Object Object-Key
 	msl.Try fails-with?
-	msl.Type.Kind can-subtype? concrete-implementors
+	msl.Type.Kind can-subtype? @concrete-implementors
 	..tests
 
 tests 'Kind
@@ -42,7 +42,7 @@ tests 'Kind
 		[@] -> true
 		[Object-Key] -> false
 
-	concrete-implementors -> |
+	@concrete-implementors -> |
 		X = kind
 		Y = kind
 		Z = class kind X

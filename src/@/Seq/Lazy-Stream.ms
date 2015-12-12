@@ -1,11 +1,7 @@
 import
-	...Function thunk
 	...math.Number Nat
 	...math.methods -
-	...Type.Kind self-kind!
-	...Type.Method impl! self-impl!
-	..@ count empty? iterator
-	..@-Type _ empty from-stream
+	..@ count empty empty? from-stream iterator
 	.Seq _ ?nth
 	.Stream
 
@@ -13,14 +9,11 @@ Lazy-Stream. class kind Seq
 	| Like Stream, but caches its elements as it produces them.
 	| If you want to stream the results of an expensive computation and use it multiple times, use this.
 	| If you have a cheap computation or only need to iterate through it once, use Stream.
-
-	do
-		self-kind! _ @-Type
-		todo  move to `static`
-		self-impl! empty _ (thunk new _ *!|
-			pass
-
 	static
+		empty |
+			new this *!|
+				pass
+
 		from-stream |_
 			new this |
 				iterator_
@@ -42,6 +35,10 @@ Lazy-Stream. class kind Seq
 				yield _
 		.caching-iterator = get-caching-iterator()
 
+	iterator *!|
+		yield* iterator .cache
+		yield* .caching-iterator
+
 	?nth |n:Nat
 		todo higher-order function for this pattern
 		case ?nth .cache n
@@ -50,8 +47,3 @@ Lazy-Stream. class kind Seq
 				?nth (Stream .caching-iterator) n-left
 			else
 				_
-
-todo  class method
-impl! iterator Lazy-Stream .*!|
-	yield* iterator .cache
-	yield* .caching-iterator

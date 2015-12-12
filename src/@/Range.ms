@@ -1,47 +1,31 @@
 import
-	..compare <? <=? >=? same?
-	..Function thunk
-	..js defined?
+	..compare <? <=? >=?
 	..math.Number Nat remainder
 	..math.methods + - * /
 	..private.bootstrap msDef
-	..Type.Kind self-kind!
-	..Type.Method self-impl!
-	..Type.Pred-Type Opt
 	..Type.primitive Num
-	.@ _ count iterator
-	.@-Type _ empty from-stream
+	.@ _ count empty from-stream iterator
 	.Seq.Seq ?nth @reverse
 
-Range. class kind @
+Range. class start:Num end:Num step:Num kind @
 	| Seq of Nums taking fixed steps.
 	| `start` is inclusive, `end` is exclusive.
 
-	do
-		self-kind! _ @-Type
-		todo
-		self-impl! empty _ (thunk new _ 0 0)
-
 	static
+		empty |
+			0...0
+
 		from-stream |_
 			todo We can't build a Range out of arbitrary elements...
-			todo  impl-for from-stream Array
+			todo consider using Symbol.species for this sort of thing?
+			todo impl-for from-stream Array
 			_
-
-	construct start:Num end:Num step:Opt[Num]
-		.start = start
-		.end = end
-		.step = case step
-			defined?_
-				assert same? Math.sign _ (- end start)
-				_
-			else
-				Math.sign (- end start)
+	todo assert same? Math.sign step (- end start)
 
 	'by |step
 		new Range .start .end step
 
-	'length |
+	get 'length
 		- .end .start
 
 	iterator *!|
@@ -67,7 +51,7 @@ Range. class kind @
 			it
 
 	count |
-		Math.floor (/ .length() .step)
+		Math.floor (/ .length .step)
 
 	@reverse |
 		new-step = * -1 .step
@@ -81,4 +65,5 @@ Range. class kind @
 msDef 'range |start end exclusive?
 	unless exclusive?
 		end := + end (Math.sign (- end start))
-	new Range start end
+	step = Math.sign (- end start)
+	new Range start end step

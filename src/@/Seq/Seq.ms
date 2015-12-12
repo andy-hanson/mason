@@ -4,10 +4,8 @@ import
 	...math.methods - +
 	...methods sub
 	...String indent
-	...Type.Kind self-kind!
 	...Type.Type => type-of
-	..@ _ ++ count empty? iterator
-	..@-Type _ empty from-stream
+	..@ _ ++ count empty empty? from-stream iterator
 import~
 	...math.Number Nat
 	...to-string
@@ -16,9 +14,6 @@ import~
 
 Seq. kind @
 	| @ whose values are in a meaningful order.
-	do
-		self-kind! _ @-Type
-
 	sub |n:Nat
 		| Nth value in iteration order.
 		un-? (?nth this n) ~"
