@@ -2,8 +2,6 @@ import
 	todo SYNTAX use global.Map but rename it to Js-Map
 	global
 	...methods del-sub! set-sub!
-	...Type.Method impl!
-	...Type.Trait trait!
 	..@ count empty!
 	..? Opt->?
 	..Seq.Stream
@@ -14,31 +12,30 @@ Id-Map.
 	| Only considers exactly identical keys =?; this makes it the fastest Map.
 	global.Map
 
-|| Define this first because it is needed for map literals.
-impl! set-sub! Id-Map .!|key val
-	.set key val
-
 trait! Id-Map Map
-	count -> .|
+	set-sub! !|key val
+		.set key val
+
+	count |
 		.size
 
-	?get -> .|key
+	?get |key
 		Opt->? (.get key)
 
-	has-key? -> .|key
+	has-key? |key
 		.has key
 
-	@keys -> .|
+	@keys |
 		new Stream |
 			.keys()
 
-	@values -> .|
+	@values |
 		new Stream |
 			.values()
 
-	empty! -> .!|
+	empty! !|
 		.clear()
 
-	del-sub! -> .|key
+	del-sub! |key
 		with ?get this key
 			.delete key

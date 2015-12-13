@@ -6,7 +6,7 @@ import
 	..to-string
 	.Impl-Type
 	.Method _ impl!
-	.Trait _ trait!
+	.Trait
 import~
 	..@.? ?-or
 	..Object ?property-with-proto

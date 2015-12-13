@@ -49,7 +49,3 @@ tests 'Trait
 		W = class trait Y
 		trait! Y X
 		[X] -> [Z W]
-
-	self-trait! -> !|
-		todo
-		pass

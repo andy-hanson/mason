@@ -1,17 +1,16 @@
 import
 	..compare =?
 	..js defined? exists? js-sub
-	..private.bootstrap addProperty implContains msDef
-	.Method impl! propagate-method-down! propagate-static-down! self-impl!
-import~
-	.Impl-Type Self-Type
+	..private.bootstrap implContains msDef
+	.Method propagate-method-down! propagate-static-down!
 
 Trait. class
 	todo doc
 
 	do
+		todo contains? |_ ...
 		implContains _ .|_
-			|| Cast to boolean so we return `false` and not `undefined`.
+			|| Cast to Boolean so we return `false` and not `undefined`.
 			and exists?_ (Boolean (js-sub _ .symbol-for-isa))
 
 	construct params
@@ -31,23 +30,14 @@ Trait. class
 		.symbol-for-isa = Symbol "isa-#(.name)"
 		.prototype = Object.create null
 
-		addProperty .prototype .symbol-for-isa true
+		Object.defineProperty .prototype .symbol-for-isa
+			(value. true writable. false enumerable. false configurable. false)
 
 		for .implementors
 			on-implementor! _ this
 		if defined? params.super-traits
 			for params.super-traits
 				unchecked-trait! this _
-
-msDef 'trait |-name super-traits static-defs proto-defs
-	todo other params
-	todo SYNTAX with new Trait (name. -name super-traits.)
-	k = new Trait
-		name. -name
-		super-traits.
-	with k
-		assign-defs! _ static-defs
-		assign-defs! _.prototype proto-defs
 
 can-subtype?. |_:Trait
 	| Whether a Trait accepts new subtypes.
@@ -60,9 +50,10 @@ unchecked-trait!. !|implementor trt
 	trt.implementors.push implementor
 	on-implementor! implementor trt
 
-@concrete-implementors. |trt:Trait todo :@[Impl-Type]
+@concrete-implementors. |trt:Trait
 	| List of Impl-Types inheriting from this.
 	| Does not include inheriting Traits, but does include their implementors.
+	todo return :@[Impl-Type]
 	todo @for~
 	@for trt.implementors
 		case
@@ -71,29 +62,28 @@ unchecked-trait!. !|implementor trt
 			else
 				. _
 
-trait!. !|implementor trt:Trait method-impls
-	| Makes one Impl-Type a subtype of a Trait.
-	| Traits can subtype each other.
-	todo  Assert no circular chains of trait!.
+msDef 'trait |-name super-traits static-methods methods
+	todo SYNTAX with new Trait (name. -name super-traits.)
+	trt = new Trait
+		name. -name
+		super-traits.
+	with trt
+		assign-defs! _ static-methods
+		assign-defs! _.prototype methods
+
+trait-do! = !|implementor trt:Trait
+	todo Assert no circular chains of trait!.
 	todo implementor:Impl-Type
 	assert can-subtype? trt throw "#trt is not open to new subtypes."
 	forbid has-trait? implementor trt
-
 	unchecked-trait! implementor trt
-	if defined? method-impls
-		for method-impls
-			todo SYNTAX Array destructure
-			impl! (js-sub _ 0) implementor (js-sub _ 1)
 
-msDef 'traitDo trait!
+msDef 'traitDo trait-do!
 
-self-trait!. !|implementor:Object trt:Trait method-impls
-	todo doc
-	trait! (new Self-Type implementor) trt
-	if defined? method-impls
-		for method-impls
-			todo SYNTAX Array destructure
-			self-impl! (js-sub _ 0) implementor (js-sub _ 1)
+msDef 'traitWithDefs !|implementor trt:Trait static-methods methods
+	trait-do! implementor trt
+	assign-defs! implementor static-methods
+	assign-defs! implementor.prototype methods
 
 has-trait?. |implementor trt:Trait
 	| Whether one Impl-Type is a subtype of a Trait.
@@ -136,7 +126,9 @@ region Private
 
 	assign-defs! = !|assignee definitions
 		| Copy properties from definitions to assignee, *not* calling getters.
+		def! = !|_
+			Object.defineProperty assignee _ (Object.getOwnPropertyDescriptor definitions _)
 		for Object.getOwnPropertyNames definitions
-			Object.defineProperty assignee _ (Object.getOwnPropertyDescriptor definitions _)
+			def! _
 		for Object.getOwnPropertySymbols definitions
-			Object.defineProperty assignee _ (Object.getOwnPropertyDescriptor definitions _)
+			def! _

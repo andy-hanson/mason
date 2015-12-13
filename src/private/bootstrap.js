@@ -1,7 +1,7 @@
 if (typeof global === 'undefined')
 	window.global = window
 
-export function addProperty(object, key, value) {
+function addHiddenProperty(object, key, value) {
 	Object.defineProperty(object, key, {
 		value,
 		writable: false,
@@ -11,12 +11,12 @@ export function addProperty(object, key, value) {
 }
 
 export function msDef(name, fun) {
-	addProperty(ms, name, fun)
+	addHiddenProperty(ms, name, fun)
 }
 
 // This object contains functions called upon by compiled code.
 const ms = { }
-addProperty(global, '_ms', ms)
+addHiddenProperty(global, '_ms', ms)
 
 const msDefs = {
 	// TODO: use +! method
@@ -185,7 +185,7 @@ class Lazy {
 // Some Types want to implement contains? before it is officially defined.
 export const containsImplSymbol = Symbol('contains?')
 export function implContains(type, impl) {
-	addProperty(type.prototype, containsImplSymbol, impl)
+	addHiddenProperty(type.prototype, containsImplSymbol, impl)
 }
 
 // These are overwritten by Type.ms.

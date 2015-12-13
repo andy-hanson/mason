@@ -4,7 +4,7 @@ import
 
 tests 'Type
 	extract -> !|
-		todo syntax-test.ms
+		todo singleton
 		My-Type = new Object
 		self-impl! extract My-Type |switch
 			'extractable
@@ -24,4 +24,3 @@ tests 'Type
 	type-of ->
 		[Type] -> Trait
 		[null] -> Object
-

@@ -1,7 +1,6 @@
 import
 	todo SYNTAX use global.Set but rename it to Js-Set
 	global
-	...Type.Trait trait!
 	...Type.Type has-instance?
 	..@ ++! --! count each! empty!
 	.Set
@@ -9,19 +8,19 @@ import
 Id-Set. global.Set
 
 trait! Id-Set Set
-	count -> .|
+	count |
 		.size
 
 	todo  Make default falling back to +!
-	++! -> .!|@added
+	++! !|@added
 		each! @added .&add
 
-	empty! -> .!|
+	empty! !|
 		.clear()
 
 	todo  Make default falling back to -!
-	--! -> .!|@deleted
+	--! !|@deleted
 		each! @deleted .&delete
 
-	has-instance? -> .|_
+	has-instance? |_
 		.has_

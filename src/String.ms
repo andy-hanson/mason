@@ -24,6 +24,7 @@ indent. |_:Str
 	| Does *not* do anything to the first line.
 	_.replace (new RegExp "\n" 'g) "\n\t"
 
+todo do in String-as-Seq?
 impl! =? String .|other
 	id=? this other
 impl! compare String .|other

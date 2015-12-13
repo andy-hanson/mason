@@ -5,8 +5,6 @@ import
 	...js js-set js-sub
 	...math.methods +
 	...methods set-sub!
-	...Type.Trait trait!
-	...Type.Method self-impl!
 	...Type.primitive Num
 	...Type.Type =>
 	..@ _ -! --! count each! empty! empty? from-stream
@@ -15,33 +13,35 @@ import
 import~
 	...math.Number Nat
 
-self-impl! from-stream Array |stream
-	with []
-		each! stream _&push
-
 trait! Array Seq
-	count -> .|
+	static
+		todo implement `builder`, then this should be the default
+		from-stream |stream
+			with []
+				each! stream _&push
+
+	count |
 		.length
 
-	?nth -> .|n
+	?nth |n
 		if <? n (count this)
 			js-sub this n
 
-	<++! -> .|added:@
+	<++! |added:@
 		.unshift ...added
 
-	++>! -> .|added:@
+	++>! |added:@
 		.push ...added
 
-	?<pop! -> .|
+	?<pop! |
 		unless empty? this
 			.shift()
 
-	?pop>! -> .|
+	?pop>! |
 		unless empty? this
 			.pop()
 
-	empty! -> .!|
+	empty! !|
 		| http://jsperf.com/empty-javascript-array/15
 		todo  Test it myself...
 		todo SYNTAX while
@@ -50,16 +50,16 @@ trait! Array Seq
 				break
 			.pop()
 
-	set-sub! -> .!|n:Nat val
+	set-sub! !|n:Nat val
 		js-set this n val
 
-	-! -> .!|em
+	-! !|em
 		for @indexes this
 			if =? this[_] em
 				.splice _ 1
 				break
 
-	--! -> .!|@deleted
+	--! !|@deleted
 		@deleted := => Set @deleted
 		filter! this |em
 			with em:@deleted

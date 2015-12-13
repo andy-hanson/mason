@@ -1,7 +1,7 @@
 import
 	global _ JSON
 	..js defined? js-delete js-sub js-typeof
-	..private.bootstrap addProperty implContains msDef
+	..private.bootstrap implContains msDef
 import~
 	..@.? un-?
 	.Impl-Type _ Self-Type
@@ -125,7 +125,7 @@ Method. class extends Function
 		todo See https://code.google.com/p/v8/issues/detail?id=4087
 		Object.setPrototypeOf this Method.prototype
 
-		addProperty global secret-name this
+		add-hidden-property! global secret-name this
 
 		js-delete params 'name
 		js-delete params 'impl-symbol
@@ -241,7 +241,7 @@ region Private
 		construct meth
 			impl-symbol = Symbol "#(meth.name)_double_dispatch"
 			secret-name = "__double_dispatch_#(random-digits())"
-			addProperty global secret-name impl-symbol
+			add-hidden-property! global secret-name impl-symbol
 
 			super "
 				target2 = arguments[0]
@@ -263,3 +263,12 @@ region Private
 todo test
 implContains Method .|_
 	property-with-proto? _ .impl-symbol
+
+todo move
+add-hidden-property! = !|object key value
+	Object.defineProperty object key
+		todo SYNTAX (value. writable. false enumerable. false configurable. false)
+		value.
+		writable. false
+		enumerable. false
+		configurable. false

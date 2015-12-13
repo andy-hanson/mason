@@ -1,5 +1,5 @@
 import
-	.Trait _ trait! unchecked-trait!
+	.Trait _ unchecked-trait!
 
 Impl-Type. trait
 	| Every Impl-Type should have a `prototype` property.

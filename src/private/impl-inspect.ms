@@ -7,6 +7,7 @@ import
 	..Type.Method impl!
 	..Type.Type =>
 
+todo impl*!
 impl! inspect Object .|
 	switch .toString
 		Object.prototype.toString
