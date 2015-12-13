@@ -5,7 +5,7 @@ import
 	...js js-set js-sub
 	...math.methods +
 	...methods set-sub!
-	...Type.Kind kind!
+	...Type.Trait trait!
 	...Type.Method self-impl!
 	...Type.primitive Num
 	...Type.Type =>
@@ -19,7 +19,7 @@ self-impl! from-stream Array |stream
 	with []
 		each! stream _&push
 
-kind! Array Seq
+trait! Array Seq
 	count -> .|
 		.length
 

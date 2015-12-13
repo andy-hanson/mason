@@ -4,7 +4,7 @@ import
 import~
 	.Heap-Priority-Queue
 
-Priority-Queue. kind @
+Priority-Queue. trait @
 	| @ whose first item will always be the smallest.
 	| Iteration order has no other guaranees,
 	| but repeatedly calling ?pop! will give the values from least to greatest.

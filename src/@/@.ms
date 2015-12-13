@@ -16,7 +16,7 @@ import~
 	.Seq.Stream
 	.Set.Set
 
-@. kind
+@. trait
 	| "Bag". Contains a variable number of elements. Most things implementing `iterator` should be @s.
 	| If the iteration order of an @ is meaningful and `+ a b` is the concatenation, it is a Seq.
 	| If an @ only stores a given element once, it is a Set.

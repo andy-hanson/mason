@@ -1,7 +1,7 @@
 import
 	global WeakMap
 	...methods del-sub! set-sub!
-	...Type.Kind kind!
+	...Type.Trait trait!
 	..@ empty!
 	..? Opt->?
 	.Map _ ?get has-key? @keys
@@ -12,7 +12,7 @@ Weak-Id-Map.
 	| It does not have the full functionality of a Map because there is no way to iterate over the keys.
 	WeakMap
 
-kind! Weak-Id-Map Map
+trait! Weak-Id-Map Map
 	?get -> .|key
 		Opt->? (.get key)
 

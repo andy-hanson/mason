@@ -7,7 +7,7 @@ import
 	.@ _ count empty from-stream iterator
 	.Seq.Seq ?nth @reverse
 
-Range. class start:Num end:Num step:Num kind @
+Range. class start:Num end:Num step:Num trait @
 	| Seq of Nums taking fixed steps.
 	| `start` is inclusive, `end` is exclusive.
 

@@ -46,7 +46,7 @@ tests 'Method
 
 	impl-for -> !|
 		todo Some positive example
-		todo assert (impl-for has-instance? Kind).call Impl-Type Kind
+		todo assert (impl-for has-instance? Trait).call Impl-Type Trait
 		pass
 
 	?self-impl-for -> !|

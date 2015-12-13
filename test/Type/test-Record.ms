@@ -1,13 +1,13 @@
 import
 	..tests
-	msl.Type.Kind kind?
+	msl.Type.Trait has-trait?
 	msl.Type.Record
 
 tests 'Record
 	Record -> !|
 		Point = class x y
 		assert =? Point.field-names ['x 'y]
-		assert kind? Point Record
+		assert has-trait? Point Record
 
 		p = new Point 1 2
 

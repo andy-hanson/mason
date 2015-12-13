@@ -1,10 +1,10 @@
 import
 	..js js-sub
 	..private.bootstrap msDef
-	.Kind kind!
+	.Trait trait!
 	.Type extract
 
-Record. kind
+Record. trait
 	todo static get 'field-names
 	todo	abstract
 
@@ -20,4 +20,4 @@ field-values = |cls instance
 
 msDef 'beRecord |_ field-names
 	_.field-names = field-names
-	kind! _ Record
+	trait! _ Record

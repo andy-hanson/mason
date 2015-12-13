@@ -5,7 +5,7 @@ import
 	.Method impl!
 	.Type has-instance?
 
-Enum. class kind Impl-Type
+Enum. class trait Impl-Type
 	| A Concrete-Type with a small number of instances.
 	| Great for using with `switch`.
 

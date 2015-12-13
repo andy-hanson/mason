@@ -2,15 +2,15 @@ import
 	|| ..Function Pred
 	..js defined? id=?
 	..methods sub
-	.Kind _ kind?
 	.Method self-impl!
+	.Trait _ has-trait?
 	.Type _ => has-instance?
 import~
 	..@.@ any? @map
 
 Pred = Function
 
-Pred-Type. class kind Type
+Pred-Type. class trait Type
 	| Arbitrary predicates can be made into types using Pred-Type.
 	construct params
 		Object.assign this params
@@ -33,7 +33,7 @@ region Opt
 			ET = Exists-Type
 			new Opt-Sub ET
 
-	Opt-Sub = class kind Type
+	Opt-Sub = class trait Type
 		| Result of calling Opt[something].
 		construct .Exists-Type:Type
 			pass
@@ -80,7 +80,7 @@ self-impl! sub Class |typ
 		predicate. |case
 			:Function
 				_.prototype:typ
-			:Kind
-				and typ:Kind (kind? _ typ)
+			:Trait
+				and typ:Trait (has-trait? _ typ)
 			else
 				false

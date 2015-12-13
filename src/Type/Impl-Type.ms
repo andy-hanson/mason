@@ -1,14 +1,14 @@
 import
-	.Kind _ kind! unchecked-kind!
+	.Trait _ trait! unchecked-trait!
 
-Impl-Type. kind
+Impl-Type. trait
 	| Every Impl-Type should have a `prototype` property.
 	todo more doc
 
-unchecked-kind! Function Impl-Type || Function isa Function, so can't use kind!
-kind! Kind Impl-Type
+unchecked-trait! Function Impl-Type || Function isa Function, so can't use trait!
+trait! Trait Impl-Type
 
-Self-Type. class kind Impl-Type
+Self-Type. class trait Impl-Type
 	| Impl-Type with exactly one member.
 	| Calling impl! on it will directly modify an Object to contain method implementations.
 

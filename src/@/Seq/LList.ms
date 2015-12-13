@@ -3,7 +3,7 @@ import
 	..@ _ ++ empty empty? from-stream iterator
 	.Seq _ <++~ @tail
 
-LList. class kind Seq
+LList. class trait Seq
 	| Singly-linked list.
 
 	static

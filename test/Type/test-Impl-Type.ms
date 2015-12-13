@@ -1,19 +1,19 @@
 import
 	msl.Type.Impl-Type _ Self-Type
-	msl.Type.Kind kind?
+	msl.Type.Trait has-trait?
 	..tests
 
 tests 'Impl-Type
 	Impl-Type -> !|
-		A = kind
-		B = kind
+		A = trait
+		B = trait
 		C = class
-		kind! B A
-		kind! C B
-		assert kind? B A
-		assert kind? C B
-		assert kind? C A
-		forbid kind? A B
+		trait! B A
+		trait! C B
+		assert has-trait? B A
+		assert has-trait? C B
+		assert has-trait? C A
+		forbid has-trait? A B
 
 	Self-Type -> !|
 		m = method |

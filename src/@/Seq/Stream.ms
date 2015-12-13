@@ -3,7 +3,7 @@ import
 	..@ empty from-stream iterator
 	.Seq
 
-Stream. class kind Seq
+Stream. class trait Seq
 	| A Stream is a @ whose elements are the outputs of a Generator.
 	| Unlike a Generator, a Stream can be used multiple times.
 	static

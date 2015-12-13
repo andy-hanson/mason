@@ -3,7 +3,7 @@ import
 	global
 	...methods del-sub! set-sub!
 	...Type.Method impl!
-	...Type.Kind kind!
+	...Type.Trait trait!
 	..@ count empty!
 	..? Opt->?
 	..Seq.Stream
@@ -18,7 +18,7 @@ Id-Map.
 impl! set-sub! Id-Map .!|key val
 	.set key val
 
-kind! Id-Map Map
+trait! Id-Map Map
 	count -> .|
 		.size
 

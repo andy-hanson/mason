@@ -6,7 +6,7 @@ import
 	.Map ?get
 	.Sorted-Map
 
-Splay-Tree. class kind Sorted-Map
+Splay-Tree. class trait Sorted-Map
 	| Default Sorted-Map implementation.
 	| Binary tree that is good at accessing the same values many times.
 	static

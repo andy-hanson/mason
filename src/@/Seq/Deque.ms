@@ -8,7 +8,7 @@ import
 	..? un-?
 	.Seq _ <++! ++>! ?nth ?<pop! ?pop>! @reverse
 
-Deque. class kind Seq
+Deque. class trait Seq
 	| Seq that can efficiently add values on either side.
 
 	construct

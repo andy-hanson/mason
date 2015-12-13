@@ -22,6 +22,6 @@ tests 'Type
 		assert =? "not extractable" f()
 
 	type-of ->
-		[Type] -> Kind
+		[Type] -> Trait
 		[null] -> Object
 

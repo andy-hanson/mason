@@ -5,7 +5,7 @@ import!
 	..Type.Type
 	|| _ms.Record
 	..Type.Record
-	|| kind! Id-Map Map. Necessary for `..Function spread!` to work.
+	|| trait! Id-Map Map. Necessary for `..Function spread!` to work.
 	..@.Map.Id-Map
 	|| Ability to sub arrays
 	..@.Seq.Array

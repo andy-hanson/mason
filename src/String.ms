@@ -1,14 +1,14 @@
 import
 	.compare _ =?
 	.js id=?
-	.Type.Kind
 	.Type.Method impl!
 	.Type.Pred-Type
 	.Type.primitive Str
+	.Type.Trait
 import~
 	.@.@ count
 
-String-Test. new Kind
+String-Test. new Trait
 	| Something we can compare a String to.
 	name.
 	implementors. [String RegExp]

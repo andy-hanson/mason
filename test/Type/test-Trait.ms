@@ -1,28 +1,28 @@
 import
 	msl.Object Object-Key
 	msl.Try fails-with?
-	msl.Type.Kind can-subtype? @concrete-implementors
+	msl.Type.Trait can-subtype? @concrete-implementors
 	..tests
 
-tests 'Kind
-	Kind -> !|
+tests 'Trait
+	Trait -> !|
 		region Inheritance chans - one way
-			A = kind
-			B = kind
-			C = class kind B
-			kind! B A
+			A = trait
+			B = trait
+			C = class trait B
+			trait! B A
 			c = new C
 			assert c:A
 
 		region Inheritance chains
-			X = kind
-			Y = kind
-			Z = class kind Y
-			kind! Y X
+			X = trait
+			Y = trait
+			Z = class trait Y
+			trait! Y X
 			z = new Z
 			assert z:X
 
-		region Method makes sure to do impl! on all Concrete-Type_s inheriting from an Kind.
+		region Method makes sure to do impl! on all Concrete-Type_s inheriting from a Trait.
 			asdf = method |
 				abstract
 			impl! asdf X |
@@ -30,26 +30,26 @@ tests 'Kind
 			assert =? (asdf z) 1
 			assert z:X
 
-		region Closed Kind
-			Closed = new Kind
+		region Closed Trait
+			Closed = new Trait
 				name.
 				implementors. [C Z]
 
 			assert fails-with? "Closed is not open to new subtypes." !|
-				kind! X Closed
+				trait! X Closed
 
 	can-subtype? ->
 		[@] -> true
 		[Object-Key] -> false
 
 	@concrete-implementors -> |
-		X = kind
-		Y = kind
-		Z = class kind X
-		W = class kind Y
-		kind! Y X
+		X = trait
+		Y = trait
+		Z = class trait X
+		W = class trait Y
+		trait! Y X
 		[X] -> [Z W]
 
-	self-kind! -> !|
+	self-trait! -> !|
 		todo
 		pass

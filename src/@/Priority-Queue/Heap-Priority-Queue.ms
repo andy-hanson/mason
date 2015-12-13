@@ -5,7 +5,7 @@ import
 	..@ ++! count empty! empty? iterator
 	.Priority-Queue _ ?pop!
 
-Heap-Priority-Queue. class kind Priority-Queue
+Heap-Priority-Queue. class trait Priority-Queue
 	| Default implementation for Priority-Queue.
 
 	construct

@@ -3,7 +3,7 @@ import
 	.primitive Str
 	.Type _ has-instance?
 
-Alias-Type. class kind Type
+Alias-Type. class trait Type
 	| Contains the same instances as another type (officially), but has its own meaning and identity.
 
 	construct params

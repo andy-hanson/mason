@@ -4,7 +4,7 @@ import
 	msl.Try fails?
 	..tests
 
-tests 'Kind
+tests '@
 	@ -> !|
 		todo test-implementors
 		todo !|@-type

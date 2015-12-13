@@ -5,7 +5,7 @@ import
 import~
 	.Hash-Set
 
-Set. kind @
+Set. trait @
 	| @ without repeat values.
 	todo more doc
 

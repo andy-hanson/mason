@@ -12,7 +12,7 @@ import
 	.Id-Map
 	.Map _ ?get
 
-Hash-Map. class kind Map
+Hash-Map. class trait Map
 	| Default Map type. Depends on efficient `hash-code` of its keys.
 	static
 		empty |

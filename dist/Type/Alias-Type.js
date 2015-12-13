@@ -21,10 +21,10 @@ define(["exports","./../methods","./primitive","./Type"],(exports,methods_0,prim
 					return sub(_this["alias-of"],...args)
 				}
 			};
-			_ms.kindDo(_,Type);
+			_ms.traitDo(_,Type);
 			return _
 		})();
 		return exports
 	})
 })
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvVHlwZS9BbGlhcy1UeXBlLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBS0EsaUNBQWtCOztJQUdQLFlBQUE7U0FTTDtLQVJKLGNBUUksTUFSZTtLQUNaLHFCQUFNLElBT1Q7S0FORyxxQkFBVSxLQU1iOztnQkFKTCxvQkFBZTtTQUlWOzRCQUFBLGtCQUhKO0lBQUE7Z0JBRUQ7O1NBQ0s7WUFBSixJQUFJLGtCQUFVLEdBQUc7SUFBQTtHQUFBO2dCQVpJIiwiZmlsZSI6IlR5cGUvQWxpYXMtVHlwZS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2FuZHkvZ2l0L21hc29uL21zbC9zcmMvVHlwZS9BbGlhcy1UeXBlLm1zIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O0VBS0EsaUNBQWtCOztJQUdQLFlBQUE7U0FTTDtLQVJKLGNBUUksTUFSZTtLQUNaLHFCQUFNLElBT1Q7S0FORyxxQkFBVSxLQU1iOztnQkFKTCxvQkFBZTtTQUlWOzRCQUFBLGtCQUhKO0lBQUE7Z0JBRUQ7O1NBQ0s7WUFBSixJQUFJLGtCQUFVLEdBQUc7SUFBQTtHQUFBO2lCQVpLIiwiZmlsZSI6IlR5cGUvQWxpYXMtVHlwZS5qcyIsInNvdXJjZVJvb3QiOiIuL3NyYyJ9

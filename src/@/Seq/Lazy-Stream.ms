@@ -5,7 +5,7 @@ import
 	.Seq _ ?nth
 	.Stream
 
-Lazy-Stream. class kind Seq
+Lazy-Stream. class trait Seq
 	| Like Stream, but caches its elements as it produces them.
 	| If you want to stream the results of an expensive computation and use it multiple times, use this.
 	| If you have a cheap computation or only need to iterate through it once, use Stream.

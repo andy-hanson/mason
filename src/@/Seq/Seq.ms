@@ -12,7 +12,7 @@ import~
 	..? Opt->? un-?
 	.Stream
 
-Seq. kind @
+Seq. trait @
 	| @ whose values are in a meaningful order.
 	sub |n:Nat
 		| Nth value in iteration order.

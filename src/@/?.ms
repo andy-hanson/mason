@@ -11,7 +11,7 @@ import
 || I've measured and code is at least twice as fast when using a single option type
 || rather than a ?, ?Some, ?None type heirarchy.
 
-?. class kind Seq
+?. class trait Seq
 	| A Seq with 0 or 1 elements.
 	todo MORE
 

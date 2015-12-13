@@ -1,14 +1,14 @@
 import
 	todo SYNTAX use global.Set but rename it to Js-Set
 	global
-	...Type.Kind kind!
+	...Type.Trait trait!
 	...Type.Type has-instance?
 	..@ ++! --! count each! empty!
 	.Set
 
 Id-Set. global.Set
 
-kind! Id-Set Set
+trait! Id-Set Set
 	count -> .|
 		.size
 

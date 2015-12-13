@@ -8,7 +8,7 @@ import
 import~
 	.Id-Map
 
-Map. kind @
+Map. trait @
 	| Mapping from keys to values.
 
 	static

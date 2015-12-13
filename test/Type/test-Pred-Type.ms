@@ -16,7 +16,7 @@ tests 'Pred-Type
 			[ObjLit] -> false
 
 	Union -> !|
-		| As these are all Impl-Types, it would be better to use a Kind.
+		|| As these are all Impl-Types, it would be better to use a Trait.
 		SBN = Union[Str Bool Num]
 		assert =? SBN.name "Union[Str Bool Num]"
 		assert 'true:SBN
@@ -28,6 +28,6 @@ tests 'Pred-Type
 		assert-call! has-instance?
 			[Class[Object] String] -> true
 			[Class[String] Object] -> false
-			|| Works for Kind too
+			|| Works for Trait too
 			[Class[@] Array] -> true
 			[Class[@] Set] -> true

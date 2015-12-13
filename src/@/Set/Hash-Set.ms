@@ -4,7 +4,7 @@ import
 	..Map.Hash-Map
 	.Set
 
-Hash-Set. class kind Set
+Hash-Set. class trait Set
 	| Set that considers elements equal using =?.
 	| Relies on an efficient hash-code implementation.
 

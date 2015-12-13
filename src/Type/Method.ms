@@ -5,7 +5,7 @@ import
 import~
 	..@.? un-?
 	.Impl-Type _ Self-Type
-	.Kind
+	.Trait
 	..Object ?property property-with-proto?
 
 flag? = |_
@@ -134,7 +134,7 @@ Method. class extends Function
 		Object.defineProperty this 'name
 			value. method-name
 
-	todo Consider making kind! Method Type. Then this is redundant.
+	todo Consider making trait! Method Type. Then this is redundant.
 	'toString |
 		.name
 
@@ -193,7 +193,7 @@ region Private
 		todo :Impl-Type :Sym :Function
 		unless Object.prototype.hasOwnProperty.call implementor.prototype method-symbol
 			case implementor
-				:Kind
+				:Trait
 					for sub-implementor of _.implementors
 						propagate-method-down! sub-implementor method-symbol implementation
 				else
@@ -208,9 +208,9 @@ region Private
 	todo Not public
 	propagate-static-down!. !|implementor method-symbol implementation
 		unless Object.prototype.hasOwnProperty.call implementor method-symbol
-			|| Unlike propagate-method-down!, even Kinds need to inherit the static.
+			|| Unlike propagate-method-down!, even Traits need to inherit the static.
 			def-inherited! implementor method-symbol implementation
-			if implementor:Kind
+			if implementor:Trait
 				for sub-implementor of implementor.implementors
 					propagate-static-down! sub-implementor method-symbol implementation
 
@@ -233,7 +233,7 @@ region Private
 			configurable. false
 			enumerable. false
 
-		if implementor:Kind
+		if implementor:Trait
 			for sub-impl of implementor.implementors
 				propagate-method-down! sub-impl _.impl-symbol implementation
 

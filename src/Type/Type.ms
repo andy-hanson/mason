@@ -5,14 +5,14 @@ import
 	..private.bootstrap containsImplSymbol msDef
 	..to-string
 	.Impl-Type
-	.Kind _ kind!
 	.Method _ impl!
+	.Trait _ trait!
 import~
 	..@.? ?-or
 	..Object ?property-with-proto
 	..to-string inspect
 
-Type. kind
+Type. trait
 	todo doc
 
 	=? |other
@@ -21,8 +21,8 @@ Type. kind
 	to-string |
 		.name
 
-todo  Should not be necessary, Kind < Impl-Type < Type
-impl! to-string Kind .|
+todo  Should not be necessary, Trait < Impl-Type < Type
+impl! to-string Trait .|
 	.name
 
 has-instance?. new Method
@@ -68,4 +68,4 @@ type-of. |:Impl-Type _
 
 todo needed?
 || Make Impl-Type a Type here due to bootstrapping order issues.
-kind! Impl-Type Type
+trait! Impl-Type Type

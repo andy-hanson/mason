@@ -2,8 +2,8 @@ import
 	.Boolean xor
 	.compare =?
 	.js defined? exists? id=? js-delete js-set js-sub
-	.Type.Kind
 	.Type.primitive Bool
+	.Type.Trait
 	.Type.Type =>
 import~
 	.@.@ ++ all? count empty? @keep
@@ -11,7 +11,7 @@ import~
 	.@.Map.Map _ make-map
 	.@.Set.Id-Set
 
-Object-Key. new Kind
+Object-Key. new Trait
 	| Can be used as a name for a property of an object.
 	name.
 	implementors. [String Symbol]

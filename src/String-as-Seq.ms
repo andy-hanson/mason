@@ -7,10 +7,10 @@ import
 	.control opr
 	.to-string
 	.Type.Impl-Type Self-Type
-	.Type.Kind kind!
 	.Type.Method impl-double! self-impl!
 	.Type.Pred-Type Opt
 	.Type.primitive Str
+	.Type.Trait trait!
 	.Type.Type =>
 
 self-impl! empty String |
@@ -26,7 +26,7 @@ impl-double! => (new Self-Type String) @ |vals joiner:Opt[Str]
 	todo @for:Array
 	(=> Array (@map vals to-string)).join joiner
 
-kind! String Seq
+trait! String Seq
 	count -> .|
 		.length
 	empty? -> .|
