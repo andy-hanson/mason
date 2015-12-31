@@ -1,8 +1,9 @@
 {
 	"name": "msl",
 	"version": "0.0.0",
+	"description": "Mason standard library",
+	"license": "Unlicense",
 	"repository": "mason-lang/msl",
-	"license": "WTFPL",
 	"files": ["src", "dist"],
 	"scripts": {
 		"build": "gulp compile",
@@ -27,8 +28,7 @@
 		"gulp-watch": "4.3.5",
 		"mocha": "2.3.4",
 		"requirejs": "2.1.22",
-		"source-map-support": "0.3.3",
-		"yargs": "3.30.0"
+		"source-map-support": "0.3.3"
 	},
 	"eslintConfig": {
 		"extends": "eslint-config-mason",

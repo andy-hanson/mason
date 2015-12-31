@@ -2,7 +2,6 @@
 
 require('source-map-support').install()
 const
-	argv = require('yargs').argv,
 	babel = require('gulp-babel'),
 	fs = require('fs-promise'),
 	gulp = require('gulp'),
@@ -11,9 +10,6 @@ const
 	plumber = require('gulp-plumber'),
 	sourcemaps = require('gulp-sourcemaps'),
 	watch = require('gulp-watch')
-
-// Use --no-checks to turn of checks in compiled mason code.
-const checks = argv.checks
 
 gulp.task('compile', [ 'js', 'ms', 'compile-test' ])
 gulp.task('watch', [ 'watch-js', 'watch-ms', 'watch-test' ])
@@ -62,7 +58,6 @@ const
 		stream
 		.pipe(sourcemaps.init())
 		.pipe(mason({
-			checks,
 			// Can't automatically import boot because some of these modules *are* boot.
 			importBoot: false,
 			// Can't use builtins because msl is what defines them.
@@ -83,7 +78,6 @@ const
 		stream
 		.pipe(sourcemaps.init())
 		.pipe(mason({
-			checks,
 			includeAmdefine: true
 		}))
 		.pipe(sourcemaps.write({debug: true, includeContent: false, sourceRoot: './test'}))
