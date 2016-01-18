@@ -1,5 +1,4 @@
 import
-	..js js-sub
 	..private.bootstrap msDef
 	.Type extract
 
@@ -15,7 +14,7 @@ Record. trait
 		"(#(.constructor.name) #((field-values .constructor this).join " "))"
 
 field-values = |cls instance
-	cls.field-names.map &(js-sub instance _)
+	cls.field-names.map &(instance.(_))
 
 msDef 'beRecord !|_ field-names
 	_.field-names = field-names

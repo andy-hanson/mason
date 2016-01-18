@@ -1,6 +1,6 @@
 import
 	global _ JSON
-	..js defined? js-delete js-sub js-typeof
+	..js defined? js-delete js-typeof
 	..private.bootstrap implContains msDef
 import~
 	..@.? un-?
@@ -154,7 +154,7 @@ impl-double!. !|_:Method implementor-0:Impl-Type implementor-1:Impl-Type impleme
 			with new Double-Dispatcher _ as dd
 				do-impl! _ implementor-0 dd
 		else
-			with js-sub implementor-0.prototype _.impl-symbol as impl
+			with implementor-0.prototype.(_.impl-symbol) as impl
 				assert impl:Double-Dispatcher throw "
 					Can't define double dispatch of #_ for #implementor-0.
 					A single-dispatch implementation already exists: #impl.

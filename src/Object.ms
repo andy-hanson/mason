@@ -1,7 +1,7 @@
 import
 	.Boolean xor
 	.compare =?
-	.js defined? exists? id=? js-delete js-set js-sub
+	.js defined? exists? id=? js-delete
 	.Type.primitive Bool
 	.Type.Trait
 	.Type.Type =>
@@ -36,11 +36,11 @@ flag?. |:Bool obj flag:Object-Key
 ?property. |_ prop-name:Object-Key
 	| `?` containing the value of the property, if it exists.
 	if property? _ prop-name
-		js-sub _ prop-name
+		_.(prop-name)
 
 ?property-with-proto. |_ prop-name:Object-Key
 	| Like `?property`, but also looks through the prototype chain.
-	cond exists?_ (Opt->? (js-sub _ prop-name)) ?None
+	cond exists?_ (Opt->? _.(prop-name)) ?None
 
 property?. |_ prop-name:Object-Key
 	| Whether there is a property by that name.
@@ -48,7 +48,7 @@ property?. |_ prop-name:Object-Key
 
 property-with-proto?. |_ prop-name:Object-Key
 	| Like `property?` but looks through the prototype.
-	and exists?_ (defined? (js-sub _ prop-name))
+	and exists?_ (defined? _.(prop-name))
 
 todo  Handle recursive references.
 object=?. |a b
@@ -66,7 +66,7 @@ object=?. |a b
 				bk = Object.getOwnPropertyNames b
 				and (=? (count ak) (count bk))
 					all? ak |k
-						=? (js-sub a k) (js-sub b k)
+						=? a.(k) b.(k)
 
 empty-Object. Object.freeze new Object
 
@@ -74,16 +74,16 @@ empty-Object?. |_:Object
 	| Whether there are no properties, not even hidden ones.
 	empty? @all-properties_
 
-Object->Map. |_
+Object->Map. |obj
 	| A Map whose keys are property names and whose values are the properties' values.
-	make-map @all-properties_ js-sub[_]
+	make-map (@all-properties obj) &(obj.(_))
 
 Map->Object. |_:Map
 	| Given a Map whose keys are Strings, creates an Object whose Object->Map is that.
 	with new Object as obj
 		for elem of _
 			todo SYNTAX Array destructure
-			js-set obj elem[0] elem[1]
+			obj.(elem[0]) = elem[1]
 
 region Mutator methods
 	delete-property!. !|_:Object prop-name:Object-Key
@@ -96,9 +96,9 @@ object-merge. |...objects
 object-select. |obj:Object ...@keys
 	with new Object as kept
 		for key of @keys
-			js-set kept key (js-sub obj key)
+			kept.(key) = obj.(key)
 
 map-object-values. |obj:Object mapper:Function
 	with new Object as mapped
 		for key of @properties obj
-			js-set mapped key (mapper (js-sub obj key))
+			mapped.(key) = mapper obj.(key)

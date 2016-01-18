@@ -2,7 +2,6 @@
 
 import
 	...compare =? <=? <?
-	...js js-set js-sub
 	...math.methods +
 	...methods set-sub!
 	...Type.primitive Num
@@ -25,7 +24,7 @@ trait! Array Seq
 
 	?nth |n
 		if <? n (count this)
-			js-sub this n
+			this.(n)
 
 	<++! |added:@
 		.unshift ...added
@@ -51,7 +50,7 @@ trait! Array Seq
 			.pop()
 
 	set-sub! !|n:Nat val
-		js-set this n val
+		this.(n) := val
 
 	-! !|em
 		for @indexes this

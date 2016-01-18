@@ -26,7 +26,7 @@ gulp.task('compile-test', ['make-lib-link'], () => pipeMsTest(gulp.src(test)))
 gulp.task('watch-test', ['make-lib-link'], () => pipeMsTest(srcWatch(test)))
 // Make msl accessible from tests.
 gulp.task('make-lib-link', () =>
-	fs.symlink('../dist', 'node_modules/msl').catch(error => {
+	fs.symlink('../lib', 'node_modules/msl').catch(error => {
 		if (!error.message.startsWith('EEXIST'))
 			console.log(error.stack)
 	}))
@@ -38,7 +38,7 @@ const
 	srcJs = 'src/**/*.js',
 	test = 'test/**/*.ms',
 	testDest = 'compiled-test',
-	dist = 'dist'
+	lib = 'lib'
 
 const
 	watchVerbose = (glob, then) => watch(glob, { verbose: true }, then),
@@ -52,7 +52,7 @@ const
 			plugins: ['transform-es2015-modules-umd', 'transform-strict-mode']
 		}))
 		.pipe(sourcemaps.write({ debug: true, sourceRoot: '/src' }))
-		.pipe(gulp.dest(dist)),
+		.pipe(gulp.dest(lib)),
 
 	pipeMs = stream =>
 		stream
@@ -72,7 +72,7 @@ const
 			includeContent: false,
 			sourceRoot: './src'
 		}))
-		.pipe(gulp.dest(dist)),
+		.pipe(gulp.dest(lib)),
 
 	pipeMsTest = stream =>
 		stream

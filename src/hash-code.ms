@@ -1,7 +1,7 @@
 import
 	global WeakMap
 	.@.@ empty?
-	.js defined? id=? js* js- js+ js-bar js-sub
+	.js defined? id=? js* js- js+ js-bar
 	.math.Number Int
 	.Type.Method _ impl!
 
@@ -26,7 +26,7 @@ hash-code. new Method
 					hashes-cache.set this 17
 					hash = 17
 					for key of Object.keys this
-						val = js-sub this key
+						val = .(key)
 						val-hash = hash-code val
 						hash := js-bar (js* hash 23) 0
 						hash := js-bar (js+ hash val-hash) 0

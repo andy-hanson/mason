@@ -1,6 +1,6 @@
 import
 	..compare =?
-	..js defined? exists? js-sub
+	..js defined? exists?
 	..private.bootstrap implContains msDef
 	.Method propagate-method-down! propagate-static-down!
 
@@ -11,7 +11,7 @@ Trait. class
 		todo contains? |_ ...
 		implContains _ .|_
 			|| Cast to Boolean so we return `false` and not `undefined`.
-			and exists?_ (Boolean (js-sub _ .symbol-for-isa))
+			and exists?_ (Boolean _.(.symbol-for-isa))
 
 	construct params
 		todo :Str
@@ -107,7 +107,7 @@ region Private
 	inherit-methods! = !|implementor trt
 		rec! = !|trt
 			for @p-all trt.prototype
-				propagate-method-down! implementor _ (js-sub trt.prototype _)
+				propagate-method-down! implementor _ trt.prototype.(_)
 			|| Do not take non-enumerable properties from the trait.
 			for Object.keys trt
 				todo Better way to ignore these properties? Make them non-enumerable?
@@ -115,11 +115,11 @@ region Private
 					'name 'super-traits 'implementors 'symbol-for-isa 'prototype
 						pass
 					else
-						propagate-static-down! implementor _ (js-sub trt _)
+						propagate-static-down! implementor _ trt.(_)
 			|| Do take symbols...
 			todo neater (++)
 			for Object.getOwnPropertySymbols trt
-				propagate-static-down! implementor _ (js-sub trt _)
+				propagate-static-down! implementor _ trt.(_)
 			for trt.super-traits
 				rec! _
 		rec! trt

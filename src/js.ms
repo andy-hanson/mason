@@ -24,8 +24,6 @@ js-mod. op "%"
 js-bar. op "|"
 js~. unary-op "~"
 js!. unary-op '!
-js-sub. Function 'obj 'prop "return obj[prop]"
-js-set. Function 'obj 'prop 'val "obj[prop] = val"
 js-delete. Function 'obj 'prop "delete obj[prop]"
 js-in. op 'in
 js-instanceof. op 'instanceof
