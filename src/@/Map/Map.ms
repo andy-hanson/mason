@@ -1,5 +1,5 @@
 import
-	...compare =?
+	...compare binary=?
 	...methods sub
 	...to-string _ inspect
 	...Type.Type => type-of
@@ -36,7 +36,7 @@ Map. trait @
 				#(.constructor.name)
 					#(=> String parts "\n\t")
 
-	=? |other
+	binary=? |other
 		and (=? (type-of this) (type-of other)) (map=? this other)
 
 	sub |key
@@ -80,7 +80,7 @@ region Functions
 				key = pair[0]
 				val = pair[1]
 				?bk = ?get b key
-				and (not empty? ?bk) (=? val ?bk.val)
+				and (not empty? ?bk) =? val ?bk.val
 
 region Mutator methods
 	get-or-add!. method |key ~default-val

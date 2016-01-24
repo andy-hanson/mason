@@ -1,5 +1,4 @@
 import
-	..compare =?
 	..js defined? exists?
 	..private.bootstrap implContains msDef
 	.Method propagate-method-down! propagate-static-down!

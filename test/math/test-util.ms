@@ -5,7 +5,3 @@ tests 'util
 	average ->
 		[[0 1 2]] -> 1
 		[[]] -> Number.NaN
-
-	sum ->
-		[[1 2]] -> 3
-		[[]] -> 0

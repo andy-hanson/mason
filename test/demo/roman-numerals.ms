@@ -18,13 +18,10 @@ roman. |n:Nat
 
 	dec = power-of-10-below n
 	dig = |dec-multiple
-		roman-digits[(* dec-multiple dec)]
+		roman-digits[* dec-multiple dec]
 	rec = |dec-multiple
-		case - n (* dec-multiple dec)
-			=? _ 0
-				""
-			else
-				roman_
+		_ = - n * dec-multiple dec
+		cond (=? _ 0) "" roman_
 	gt? = |dec-multiple
 		<=? (* dec-multiple dec) n
 	case

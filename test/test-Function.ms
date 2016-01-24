@@ -64,13 +64,13 @@ tests 'Function
 		assert =? (thunk 1)() 1
 
 	sub -> !|
-		|| Function.prototype
-		+1 = +[1]
+		|| sub for Functions
+		+1 = &+[1]
 		assert =? (+1 1) 2
 		all-3 = |a b c
 			[a b c]
 		one-two = all-3[1 2]
 		assert =? (one-two 3) [1 2 3]
 
-		|| Function itself
+		|| sub for Function itself
 		assert =? Function[Function Function] Function

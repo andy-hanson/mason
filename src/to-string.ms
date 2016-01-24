@@ -1,6 +1,5 @@
 import
 	global Set
-	.js id=?
 	.private.bootstrap msDef
 	.Type.Method
 
@@ -9,10 +8,10 @@ to-string. new Method
 	allow-null?. true
 	impl-symbol. 'toString
 	default. .|
-		case this
-			id=? _ null
+		switch this
+			null
 				'null
-			id=? _ undefined
+			undefined
 				'undefined
 			else
 				inspect-object this

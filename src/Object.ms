@@ -1,7 +1,6 @@
 import
 	.Boolean xor
-	.compare =?
-	.js defined? exists? id=? js-delete
+	.js defined? exists? js-delete
 	.Type.primitive Bool
 	.Type.Trait
 	.Type.Type =>
@@ -56,11 +55,11 @@ object=?. |a b
 	| For primitives, whether they are `=?`.
 	case
 		not or a:Object b:Object
-			id=? a b
+			==? a b
 		xor a:Object b:Object
 			false
 		else
-			same-type = id=? (Object.getPrototypeOf a) (Object.getPrototypeOf b)
+			same-type = ==? (Object.getPrototypeOf a) (Object.getPrototypeOf b)
 			and same-type
 				ak = Object.getOwnPropertyNames a
 				bk = Object.getOwnPropertyNames b

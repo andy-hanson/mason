@@ -1,6 +1,5 @@
 import
-	.compare _ =?
-	.js id=?
+	.compare
 	.Type.Method impl!
 	.Type.Pred-Type
 	.Type.primitive Str
@@ -17,15 +16,12 @@ Char. new Pred-Type
 	| Any String with only one character.
 	name.
 	predicate. |_
-		and :Str (=? count_ 1)
+		and :Str =? count_ 1
 
 indent. |_:Str
 	| Adds a `\\t` to all `\\n` in `str`.
 	| Does *not* do anything to the first line.
 	_.replace (new RegExp "\n" 'g) "\n\t"
 
-todo do in String-as-Seq?
-impl! =? String .|other
-	id=? this other
 impl! compare String .|other
 	.localeCompare other

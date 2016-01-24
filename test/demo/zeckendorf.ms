@@ -4,7 +4,7 @@ import
 fibs =
 	rec = *!|prev:Nat cur:Nat
 		yield cur
-		yield* rec cur (+ prev cur)
+		yield* rec cur + prev cur
 	new Stream rec[0 1]
 
 zeckendorf. |n:Nat

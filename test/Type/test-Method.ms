@@ -42,7 +42,7 @@ tests 'Method
 
 	?impl-for ->
 		todo Some positive example
-		[=? Method] -> ?None
+		[&=? Method] -> ?None
 
 	impl-for -> !|
 		todo Some positive example

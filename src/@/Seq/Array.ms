@@ -1,8 +1,6 @@
 | Also see .Map.Array-as-Map
 
 import
-	...compare =? <=? <?
-	...math.methods +
 	...methods set-sub!
 	...Type.primitive Num
 	...Type.Type =>

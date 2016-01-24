@@ -1,6 +1,5 @@
 import
-	todo compare =?, math.methods -
-	.js defined? id=? js- js<=
+	.js defined?
 	.Type.Pred-Type Opt
 import~
 	.@.Seq.Seq ++>!
@@ -8,12 +7,13 @@ import~
 do-times!. !|n-times action
 	| Performs `action` `n-times` times.
 	todo n-times:Nat
-	assert js<= 0 n-times
+	assert >=? n-times 0
+	todo until =? n-times 0
 	for
-		if id=? n-times 0
+		if =? n-times 0
 			break
 		action()
-		n-times := js- n-times 1
+		n-times := - n-times 1
 
 opr. |_:Opt ~default
 	| Fills in an Opt with a default value.

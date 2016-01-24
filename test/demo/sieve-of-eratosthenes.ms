@@ -17,12 +17,12 @@ primes.
 			case del prime-factors[candidate]
 				:?some factors
 					for factors
-						key = + candidate (* 2 _)
+						key = + candidate * 2 _
 						todo  Function to add single element
 						add-to-@! prime-factors key [_]
 				else
 					yield candidate
-					prime-factors[(square candidate)] = [candidate]
+					prime-factors[** candidate 2] = [candidate]
 
 tests 'demo
 	primes -> !|

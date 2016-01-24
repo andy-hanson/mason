@@ -32,7 +32,7 @@ region Memoize
 	todo perf.ms?
 	id-memoize. |_:Function
 		| When an Object is passed into `fun`, stores the result in a Weak-Id-Map
-		| and uses that if the exact same (`id=?`) Object is used again.
+		| and uses that if the exact same (`==?`) Object is used again.
 		wm = empty Weak-Id-Map
 		|arg:Object
 			get-or-add! wm arg ~(_ arg)

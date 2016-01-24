@@ -1,6 +1,5 @@
 import
 	..@.@ _ fold
-	.methods + /
 
 average. |@vals:@[Number]
 	todo doc
@@ -12,5 +11,7 @@ average. |@vals:@[Number]
 	/ sum count
 
 sum. |@vals:@[Number]
-	todo doc
-	fold @vals 0 +
+	fold @vals 0 &+
+
+product. |@vals:@[Number]
+	fold @vals 1 &*

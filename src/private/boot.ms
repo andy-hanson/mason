@@ -11,6 +11,8 @@ import!
 	..@.Seq.Array
 	|| range literals
 	..@.Range
+	|| operator functions (`&+`)
+	.operators
 	..String-as-Seq
 	.impl-inspect
 	|| has-instance? and extract for RegExps

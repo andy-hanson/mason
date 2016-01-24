@@ -3,7 +3,6 @@ todo TEST
 import
 	todo SYNTAX use global.Map but rename it to Js-Map
 	global
-	...compare =?
 	...hash-code
 	...js defined?
 	...methods del-sub! set-sub!

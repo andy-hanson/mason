@@ -1,6 +1,7 @@
 import
 	..control opr
-	..js defined? id=?
+	..Error ->Error
+	..js defined?
 	..private.bootstrap msDef
 	..to-string _ inspect
 	..Type.Method self-impl!
@@ -28,7 +29,7 @@ import
 		pass
 
 	empty? |
-		id=? this ?None
+		==? this ?None
 
 	iterator *!|
 		unless empty? this
@@ -53,7 +54,7 @@ empty-marker =
 	new ? _
 
 self-impl! extract ?some |_ num-extracteds
-	?->nullable if and (id=? 1 num-extracteds) :? not empty?_
+	?->nullable if and (=? 1 num-extracteds) :? not empty?_
 		[_.val]
 
 msDef 'some ?some
@@ -72,10 +73,10 @@ region Functions
 	?->nullable. |_:?
 		cond empty?_ null _.val
 
-	todo  Just use first?
+	todo Just use first?
 	un-?. |_:? ~fail-message
 		| Tries to extract the value out of a `?`. Throws an error if it is empty.
-		forbid empty?_ throw opr fail-message "Tried to force empty `?`."
+		forbid empty?_ throw ->Error (opr fail-message "Tried to force empty `?`.")
 		_.val
 
 	?-or. |_:? ~or-else

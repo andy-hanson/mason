@@ -1,7 +1,5 @@
 import
 	global TypeError
-	..compare =?
-	..js id=?
 	..private.bootstrap containsImplSymbol msDef
 	..to-string
 	.Impl-Type
@@ -14,9 +12,6 @@ import~
 
 Type. trait
 	todo doc
-
-	=? |other
-		id=? this other
 
 	to-string |
 		.name

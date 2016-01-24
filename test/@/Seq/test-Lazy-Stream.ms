@@ -10,7 +10,7 @@ tests 'Lazy-Stream
 			yield 1
 			for 2...
 				|| This is *not* an exponential blowup because these are cached.
-				yield + fibonaccis[(- _ 1)] fibonaccis[(- _ 2)]
+				yield + fibonaccis[- _ 1] fibonaccis[- _ 2]
 		assert seq=? (@take~ fibonaccis 10) [1 1 2 3 5 8 13 21 34 55]
 
 	iterator -> !|

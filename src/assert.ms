@@ -1,8 +1,6 @@
 | Advanced assertions.
 | Generally you should just use the `assert` keyword.
 
-import
-	.compare =?
 import~
 	.@.@ _ @map
 	.@.Map.Map
@@ -15,7 +13,7 @@ import~
 assert-call!. !|fun:Function args->result:Map
 	todo args->result:Map[Array Any]
 	| For each entry in args->result, asserts that calling `fun` with arguments of key will `=?` the value.
-	assert-call-with! =? fun args->result
+	assert-call-with! &=? fun args->result
 
 assert-this-call!. !|fun:Function args->result:Map
 	todo doc
@@ -28,7 +26,7 @@ assert-this-call!. !|fun:Function args->result:Map
 		assert =? actual expected-res throw "
 			#(fun.name) of:
 				#(indent (=> String (@map args inspect) "\n"))
-			Should #=?:
+			Should =?:
 				#(indent (inspect expected-res))
 			Got:
 				#(indent (inspect actual))

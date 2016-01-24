@@ -1,7 +1,5 @@
 import
-	...compare =?
 	...Function Pred
-	...math.methods - +
 	...methods sub
 	...String indent
 	...Type.Type => type-of
@@ -43,17 +41,20 @@ region Very first and last
 	?last. method |
 		| Last value in iteration order, if non-empty.
 		unless empty? this
-			this[(- (count this) 1)]
+			this[- (count this) 1]
 
 	@tail. method |
 		| All elements but the first.
 		todo Eager for Linked-Lists.
 		cond (empty? this) this (@drop this 1)
 
+	@tail~. &(@drop~ _ 1)
+
 	@rtail. method |
 		| All elements but the last.
 		todo Eager for finger trees.
-		cond (empty? this) this (@take this (- (count this) 1))
+		cond (empty? this) this
+			@take this - (count this) 1
 
 region Search
 	seq=?. |@a:@ @b:@
@@ -89,7 +90,7 @@ region Update
 
 	@slice~. |:@ _ start end
 		| Lazy `@slice`.
-		@take~ (@drop~ _ start) (- end start)
+		@take~ (@drop~ _ start) - end start
 
 	@take. method |count-to-take:Nat
 		todo doc

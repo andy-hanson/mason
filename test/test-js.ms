@@ -16,7 +16,3 @@ tests 'js
 		[undefined] -> false
 		[null] -> false
 		[0] -> true
-
-	id=? ->
-		['a 'a] -> true
-		[[] []] -> false

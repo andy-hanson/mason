@@ -1,6 +1,6 @@
 import
 	|| ..Function Pred
-	..js defined? id=?
+	..js defined?
 	..methods sub
 	.Method self-impl!
 	.Trait _ has-trait?
@@ -53,7 +53,7 @@ ObjLit. new Pred-Type
 	| Matches only Objects which have no type (other than Object itself).
 	name.
 	predicate. |_
-		and :Object (id=? Object.getPrototypeOf_ Object.prototype)
+		and :Object ==? Object.getPrototypeOf_ Object.prototype
 
 todo singleton
 Union.

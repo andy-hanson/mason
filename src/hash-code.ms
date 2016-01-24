@@ -1,9 +1,11 @@
 import
 	global WeakMap
 	.@.@ empty?
-	.js defined? id=? js* js- js+ js-bar
+	.js defined? js-bar
 	.math.Number Int
 	.Type.Method _ impl!
+
+->int. &(js-bar 0 _)
 
 hash-code. new Method
 	| Integer used to identify a value in a Hash-Map (or Hash-Set).
@@ -28,8 +30,8 @@ hash-code. new Method
 					for key of Object.keys this
 						val = .(key)
 						val-hash = hash-code val
-						hash := js-bar (js* hash 23) 0
-						hash := js-bar (js+ hash val-hash) 0
+						hash := ->int * hash 23
+						hash := ->int + hash val-hash
 					hashes-cache.set this hash
 					hash
 
@@ -52,13 +54,12 @@ region Since default hash-code only works on Objects, let's implement hash-code 
 		hash = 13
 		i = .length
 		for
-			hash := js+ hash (.charCodeAt i)
-			hash := js-bar hash 0
-			hash := js* hash 31
+			hash := ->int + hash (.charCodeAt i)
+			hash := ->int * hash 31
 
-			if id=? i 0
+			if =? i 0
 				break
-			i := js- i 1
+			i := - i 1
 		hash
 
 	impl! hash-code Symbol |
@@ -68,4 +69,4 @@ region Since default hash-code only works on Objects, let's implement hash-code 
 
 	todo  This treats small floats as equivalent.
 	impl! hash-code Number .|
-		js-bar this 0
+		->int this

@@ -1,10 +1,10 @@
 import
-	.compare =?
 	.Function Action
 	.Type.Pred-Type Union
 	.Type.primitive Str
 	.Type.Type
 
+todo class val
 Success. class
 	| Attempt that did not fail. _.val is the result of the attempted code.
 	construct .val

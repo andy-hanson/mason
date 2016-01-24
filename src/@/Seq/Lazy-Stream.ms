@@ -1,6 +1,5 @@
 import
 	...math.Number Nat
-	...math.methods -
 	..@ count empty empty? from-stream iterator
 	.Seq _ ?nth
 	.Stream

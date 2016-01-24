@@ -1,10 +1,8 @@
 import
-	..compare <?
 	.Number Int
-	.methods * - +
 
 random-int-upto. |max:Int
-	Math.floor (* Math.random() max)
+	Math.floor * Math.random() max
 
 random-int. |min:Int max:Int
 	diff = - max min

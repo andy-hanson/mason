@@ -6,8 +6,7 @@ import
 tests 'Set
 	console.log (self-impl-for => @)
 
-
-	=? ->
+	&=? ->
 		a = => Set [1 2]
 		b = => Set [1 2]
 		[a b] -> true

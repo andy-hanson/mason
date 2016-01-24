@@ -1,7 +1,5 @@
 import
-	..compare <? <=? >=?
-	..math.Number Nat remainder
-	..math.methods + - * /
+	..math.Number Nat
 	..private.bootstrap msDef
 	..Type.primitive Num
 	.@ _ count empty from-stream iterator
@@ -20,7 +18,7 @@ Range. class start:Num end:Num step:Num trait @
 			todo consider using Symbol.species for this sort of thing?
 			todo impl-for from-stream Array
 			_
-	todo assert same? Math.sign step (- end start)
+	todo assert same? Math.sign step - end start
 
 	'by |step
 		new Range .start .end step
@@ -46,16 +44,16 @@ Range. class start:Num end:Num step:Num trait @
 
 	?nth |n:Nat
 		todo  Function if-test ?
-		it = + .start (* .step n)
+		it = + .start * .step n
 		if <? it .end
 			it
 
 	count |
-		Math.floor (/ .length .step)
+		Math.floor / .length .step
 
 	@reverse |
-		new-step = * -1 .step
-		rem = remainder (- .end .start) .step
+		new-step = neg .step
+		rem = % (- .end .start) .step
 		switch rem
 			0
 				new Range (- .end .step) (- .start .step) new-step
@@ -64,6 +62,6 @@ Range. class start:Num end:Num step:Num trait @
 
 msDef 'range |start end exclusive?
 	unless exclusive?
-		end := + end (Math.sign (- end start))
-	step = Math.sign (- end start)
+		end := + end (Math.sign - end start)
+	step = Math.sign - end start
 	new Range start end step

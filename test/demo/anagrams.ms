@@ -11,8 +11,7 @@ maximum-anagram-sets. |words
 		todo  Function to add just one new element
 		add-to-@! sorted->words sort_ [_]
 	max-count = max (@map (@values sorted->words) count)
-	@keep (@values sorted->words) |_
-		=? count_ max-count
+	@keep (@values sorted->words) &(=? count_ max-count)
 
 tests 'demo
 	maximum-anagram-sets -> !|

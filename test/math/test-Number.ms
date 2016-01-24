@@ -22,15 +22,6 @@ tests 'Number
 		assert 0:Nat
 		forbid -1:Nat
 
-	=? ->
-		[Number.NaN Number.NaN] -> true
-
-	remainder ->
-		[2 3] -> 2
-		[2 -3] -> 2
-		[-2 3] -> -2
-		[-2 -3] -> -2
-
 	int/ ->
 		[3 2] -> 1
 		[-3 2] -> -2
@@ -49,9 +40,6 @@ tests 'Number
 	log-base -> |
 		assert near? (log-base 10 0.01) -2
 		[2 8] -> 3
-
-	square ->
-		[3] -> 9
 
 	near? ->
 		[1000.9 1000 3] -> true

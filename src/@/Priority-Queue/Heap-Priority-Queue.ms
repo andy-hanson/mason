@@ -1,7 +1,6 @@
 import
-	...compare =? <?
+	...compare lt?
 	...math.Number int/
-	...math.methods + - *
 	..@ ++! count empty! empty? iterator
 	.Priority-Queue _ ?pop!
 
@@ -32,7 +31,7 @@ Heap-Priority-Queue. class trait Priority-Queue
 
 region Private
 	|| We use a min-heap.
-	index-left-child = &(+ 1 (* 2 _))
+	index-left-child = &(+ 1 * 2 _)
 	index-parent = &(- (int/ (+ 1 _) 2) 1)
 
 	add! = !|heap val
@@ -64,7 +63,7 @@ region Private
 			go! = !|goto-idx
 				heap[i-cur] := heap[goto-idx]
 				i-cur := goto-idx
-			ok-index? = &(<? _ size)
+			ok-index? = &(lt? _ size)
 			for
 				i-left-child = index-left-child i-cur
 				unless ok-index? i-left-child
@@ -72,14 +71,14 @@ region Private
 				left = heap[i-left-child]
 				i-right-child = + i-left-child 1
 				unless ok-index? i-right-child
-					if <? left val
+					if lt? left val
 						go! i-left-child
 					break
 				right = heap[i-right-child]
 				case
-					<? left val
-						go! cond (<? right left) i-right-child i-left-child
-					<? right val
+					lt? left val
+						go! cond (lt? right left) i-right-child i-left-child
+					lt? right val
 						go! i-right-child
 					else
 						break

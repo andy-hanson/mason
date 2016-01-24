@@ -1,7 +1,5 @@
 import
-	...compare =? <?
 	...math.Number modulo Nat
-	...math.methods + - *
 	...methods set-sub!
 	...Type.Pred-Type Any
 	..@ _ ++~ count empty! empty? iterator @map
@@ -90,10 +88,10 @@ Deque. class trait Seq
 		modulo index .capacity
 
 	my 'next-index |index
-		.wrap-index (+ index 1)
+		.wrap-index + index 1
 
 	my 'prev-index |index
-		.wrap-index (- index 1)
+		.wrap-index - index 1
 
 	my get 'wrapped?
 		<? .end-index .start-index
@@ -102,9 +100,9 @@ Deque. class trait Seq
 		a = + .start-index index
 		case
 			<? a .capacity
-				if or .wrapped? (<? a .end-index)
+				if or .wrapped? <? a .end-index
 					a
 			else
 				b = .wrap-index a
-				if and .wrapped? (<? b .end-index)
+				if and .wrapped? <? b .end-index
 					b

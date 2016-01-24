@@ -10,39 +10,20 @@ js-caret. op "^"
 js<<. op '<<
 js>>. op '>>
 js>>>. op '>>>
-js===. op '===
-js==. op '==
-js<. op '<
-js>. op '>
-js<=. op '<=
-js>=. op '>=
-js+. op '+
-js-. op '-
-js*. op '*
-js/. op '/
-js-mod. op "%"
 js-bar. op "|"
 js~. unary-op "~"
-js!. unary-op '!
 js-delete. Function 'obj 'prop "delete obj[prop]"
 js-in. op 'in
-js-instanceof. op 'instanceof
 js-typeof. unary-op 'typeof
 
 defined?. |_
 	| False for `undefined`.
-	not id=? _ undefined
+	not ==? _ undefined
 
 null?. |_
 	| True only for `null`.
-	js=== _ null
+	==? _ null
 
 exists?. |_
 	| False for `null` or `undefined`.
-	not js== _ null
-
-id=?.
-	| For Objects, whether they are the same place in memory.
-	| For primitive types, whether they have the same data.
-	todo Explain (and test) difference between this and js===
-	Object.is
+	not or (==? _ null) ==? _ undefined

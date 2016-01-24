@@ -1,5 +1,4 @@
 import
-	...js id=?
 	..@ _ ++ empty empty? from-stream iterator
 	.Seq _ <++~ @tail
 
@@ -24,7 +23,7 @@ LList. class trait Seq
 			cur := cur.tail
 
 	empty? |
-		id=? this empty-LList
+		==? this empty-LList
 
 	@tail |
 		.tail

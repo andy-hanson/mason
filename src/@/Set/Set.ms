@@ -1,5 +1,5 @@
 import
-	...compare =? same?
+	...compare binary=? same?
 	...Type.Type => has-instance? type-of
 	..@ _ all? count empty @keep
 import~
@@ -13,10 +13,9 @@ Set. trait @
 		empty |
 			empty Hash-Set
 
-	=? |other
+	binary=? |other
 		| Two Sets are =? if they have the same type and contain the same values.
-		and (same? type-of this other) (same? count this other) (all? this |_
-			:other
+		and (same? type-of this other) (set=? this other)
 
 intersect. method |@intersect-with
 	todo doc
@@ -24,4 +23,6 @@ intersect. method |@intersect-with
 
 set=?. |a:@ b:@
 	| Whether two @s have the same values, regardless of order or count.
-	=? (=> Set a) (=> Set b)
+	a-set = => Set a
+	b-set = => Set b
+	and (same? count a-set b-set) (all? a &(:b-set))

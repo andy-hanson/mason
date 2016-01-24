@@ -7,13 +7,13 @@ import
 	todo SYNTAX @for~
 	new Stream *!|
 		for
-			yield remainder _ base
+			yield % _ base
 			_ := int/ _ base
 			if =? _ 0
 				break
 
 happy-step = |_
-	sum (@map~ @digits_ square)
+	sum (@map~ @digits_ &(** _ 2))
 
 cache = new Id-Map
 cache[1] = true

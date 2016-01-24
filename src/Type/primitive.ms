@@ -1,12 +1,12 @@
 import
-	..js id=? js-typeof
+	..js js-typeof
 	.Pred-Type
 
 pt = |type-name typeof-res
 	new Pred-Type
 		name. type-name
 		predicate. |_
-			id=? js-typeof_ typeof-res
+			==? js-typeof_ typeof-res
 
 Num. pt name 'number
 

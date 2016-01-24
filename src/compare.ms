@@ -1,5 +1,6 @@
 import
-	.js defined? id=?
+	.js defined?
+	.private.bootstrap msDef
 	.Type.Method
 import~
 	.@.@ _ all? empty? from-stream iterator
@@ -9,6 +10,27 @@ import~
 	.Function identity
 	.Object object=?
 	.Type.Pred-Type Opt
+
+todo ES8 This will be replaced by operator overloading.
+binary=?. new Method
+	| Method used to implement the `=?` operator.
+	| Unlike `=?`, this takes only 2 arguments.
+
+	| Values can be `=?` but not `object=?` if they are conceptually the same, but have different representations.
+	| For example, two Sets with the same values might internally have different ordering.
+
+	| Values of different types should generally not be =?.
+	| For example, [1 2 3] is not `=?` (=> Stream [1 2 3]), but it is `seq=?`.
+	| Unlike other comparison methods, `=?` should not make assertions about type.
+	name.
+	allow-null?. true
+	args. ['other]
+	default. .|other
+		todo To be more like js, this shouldn't use object=? by default.
+		or (==? this other) (object=? this other)
+
+|| To compare more than 2 values, compiler generates calls to 'eqMany in operators.ms.
+msDef 'eq binary=?
 
 compare. method |other
 	| A Number < 0 if a < b, > 0 if a > b, and = 0 if a = b.
@@ -23,47 +45,29 @@ compare. method |other
 	|			0
 
 	| But instead, other comparison operators are defined in terms of this.
-	| `compare a b` should always be `* -1 (compare b a)`.
+	| `compare a b` should always be `neg compare b a`.
 	abstract
 
-=?. new Method
-	| Whether two objects are considered equivalent.
-	| Generally, if two values are `=?`, then most Functions called on them should return the same results.
-	| `=?` defaults to `object=?`.
-	| Values can be `=?` but not `object=?` if they are conceptually the same, but have different representations.
-	| For example, two Sets with the same values might internally have different ordering.
+todo ES8 These will be replaced by operator overloading. Then can just use <?.
 
-	| Values of different types should generally not be =?.
-	| For example, [1 2 3] is not `=?` (=> Stream [1 2 3]), but it is `seq=?`.
-	| Unlike other comparison methods, `=?` should not make assertions about type.
-	name.
-	allow-null?. true
-	args. ['other]
-	default. .|other
-		or (id=? this other) (object=? this other)
+lt?. |a b
+	<? (compare a b) 0
 
-<?. method |other
-	| Whether `lesser` comes before `greater` in these values' ordering.
-	| Same as `not  (>=? lesser greater)`.
-	<? (compare this other) 0
+lte?. |a b
+	<=? (compare a b) 0
 
-<=?. method |other
-	| <? or =?.
-	<=? (compare this other) 0
+gt?. |a b
+	>? (compare a b) 0
 
->?. method |other
-	todo doc
-	>? (compare this other) 0
-
->=?. method |other
-	todo doc
-	>=? (compare this other) 0
+gte?. |a b
+	>=? (compare a b) 0
 
 region Misc
 	same?. |fun:Function a b
 		| Whether two values have the same `f`.
 		=? (fun a) (fun b)
 
+	todo compare to =?
 	all-same?. |@coll:@ fun:Opt[Function]
 		fun := opr fun identity
 		or (empty? @coll)

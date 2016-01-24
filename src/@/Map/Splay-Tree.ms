@@ -1,5 +1,5 @@
 import
-	...compare _ <?
+	...compare _ less?
 	...js defined?
 	...methods del-sub! set-sub!
 	..@ empty empty! empty? iterator
@@ -91,7 +91,7 @@ Splay-Tree. class trait Sorted-Map
 						cur := new-right.left
 						right := new-right
 					case
-						<? key cur.left.key
+						less? key cur.left.key
 							|| Rotate right
 							old-left = cur.left
 							cur.left := old-left.right
@@ -111,7 +111,7 @@ Splay-Tree. class trait Sorted-Map
 						cur := new-left.right
 						left := new-left
 					case
-						<? cur.right.key key
+						less? cur.right.key key
 							|| Rotate left
 							tmp = cur.right
 							cur.right := tmp.left

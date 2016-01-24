@@ -3,7 +3,7 @@ todo  Move
 import
 	.@.@ _ count empty empty? from-stream @map
 	.@.Seq.Seq
-	.compare =? sort
+	.compare binary=? sort
 	.control opr
 	.to-string
 	.Type.Impl-Type Self-Type
@@ -31,6 +31,9 @@ trait! String Seq
 		.length
 	empty? |
 		=? 0 .length
+	|| Don't let Seq override eq?
+	binary=? |other
+		==? this other
 	todo  Should this be necessary?
 	sort |?sort-by:Opt[Function]
 		(sort.default.call this ?sort-by).join ""

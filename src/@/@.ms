@@ -1,8 +1,7 @@
 import
-	..compare =?
+	..compare binary=?
 	..Function Action identity Pred
-	..js defined? id=?
-	..math.methods +
+	..js defined?
 	..methods sub
 	..to-string _ inspect
 	..String indent
@@ -12,7 +11,7 @@ import
 import~
 	..control opr
 	.? Opt->?
-	.Seq.Seq +>! ++>! first seq=? @tail
+	.Seq.Seq +>! ++>! first seq=? @tail~
 	.Seq.Stream
 	.Set.Set
 
@@ -34,8 +33,8 @@ import~
 		any? this |em-compare
 			=? em em-compare
 
-	=? |@other
-		and (id=? (type-of this) (type-of @other)) (seq=? this @other)
+	binary=? |@other
+		and (==? (type-of this) (type-of @other)) (seq=? this @other)
 
 	to-string |
 		do-inspect this to-string
@@ -98,7 +97,7 @@ region Using iterator
 			else
 				start. first_
 				folder. b
-				rest. @tail_
+				rest. @tail~_
 
 		acc = start
 		for rest
@@ -126,7 +125,7 @@ region Using iterator
 
 	count. method |
 		| Number of elements.
-		fold this 0 +[1]
+		fold this 0 &(+ _ 1)
 
 region Lazy functions, and their eager versions.
 	|| Eager versions are Methods if certain types can do them faster.

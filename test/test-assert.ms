@@ -5,18 +5,19 @@ import
 
 tests 'assert
 	assert-call! -> !|
-		assert-call! +
+		assert-call! &+
 			[1 1] -> 2
+		todo ES6 fix function names (operator+)
 		nope = "
-			+ of:
+			operator_43 of:
 				1
 				1
-			Should =?:
+			Should binary=?:
 				3
 			Got:
 				2
 		assert fails-with? nope !|
-			assert-call! +
+			assert-call! &+
 				[1 1] -> 3
 
 	assert-this-call! -> !|
@@ -24,6 +25,6 @@ tests 'assert
 		pass
 
 	assert-call-with! -> !|
-		assert-call-with! same?[to-string] +
+		assert-call-with! same?[to-string] &+
 			[1 2] -> "3"
 		todo test failure
