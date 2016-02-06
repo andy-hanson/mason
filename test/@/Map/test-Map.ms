@@ -3,7 +3,7 @@ import
 	...tests
 
 tests 'Map
-	from-stream -> |
+	from-stream -> \
 		todo Better test
 		m =
 			1 -> 2

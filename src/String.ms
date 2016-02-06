@@ -15,13 +15,13 @@ String-Test. new Trait
 Char. new Pred-Type
 	| Any String with only one character.
 	name.
-	predicate. |_
+	predicate. \_
 		and :Str =? count_ 1
 
-indent. |_:Str
+indent. \_:Str
 	| Adds a `\\t` to all `\\n` in `str`.
 	| Does *not* do anything to the first line.
 	_.replace (new RegExp "\n" 'g) "\n\t"
 
-impl! compare String .|other
+impl! compare String .\other
 	.localeCompare other

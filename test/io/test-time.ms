@@ -3,7 +3,7 @@ import
 	..tests
 
 tests 'time
-	$sleep -> $!|
+	$sleep -> $!\
 		t0 = Date.now()
 		$ $sleep 1000
 		t1 = Date.now()

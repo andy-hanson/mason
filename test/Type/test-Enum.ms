@@ -4,7 +4,7 @@ import
 	..tests
 
 tests 'Enum
-	Enum -> !|
+	Enum -> !\
 		Fruit = new Enum
 			name.
 			values.

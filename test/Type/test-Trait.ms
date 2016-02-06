@@ -5,7 +5,7 @@ import
 	..tests
 
 tests 'Trait
-	Trait -> !|
+	Trait -> !\
 		region Inheritance chans - one way
 			A = trait
 			B = trait
@@ -23,9 +23,9 @@ tests 'Trait
 			assert z:X
 
 		region Method makes sure to do impl! on all Concrete-Type_s inheriting from a Trait.
-			asdf = method |
+			asdf = method \
 				abstract
-			impl! asdf X |
+			impl! asdf X \
 				1
 			assert =? (asdf z) 1
 			assert z:X
@@ -35,14 +35,14 @@ tests 'Trait
 				name.
 				implementors. [C Z]
 
-			assert fails-with? "Closed is not open to new subtypes." !|
+			assert fails-with? "Closed is not open to new subtypes." !\
 				trait! X Closed
 
 	can-subtype? ->
 		[@] -> true
 		[Object-Key] -> false
 
-	@concrete-implementors -> |
+	@concrete-implementors -> \
 		X = trait
 		Y = trait
 		Z = class trait X

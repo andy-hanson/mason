@@ -10,7 +10,7 @@ Success. class
 	construct .val
 		pass
 
-try-result. |tried:Action
+try-result. \tried:Action
 	| If `tried` throws an error, returns it; else returns Success of its result.
 	except
 		try
@@ -18,7 +18,7 @@ try-result. |tried:Action
 		catch
 			_
 
-fails?. |tried:Action
+fails?. \tried:Action
 	| Whether the Function throws some error.
 	except
 		try
@@ -28,7 +28,7 @@ fails?. |tried:Action
 			ignore _
 			true
 
-fails-with?. |expected-error:Union[Str Type] tried:Action
+fails-with?. \expected-error:Union[Str Type] tried:Action
 	| Whether the Function throws an error of the given type or with the given message.
 	except
 		try
@@ -41,7 +41,7 @@ fails-with?. |expected-error:Union[Str Type] tried:Action
 				:Str
 					=? error.message _
 
-annotate-errors. |~annotation:Str tried:Action
+annotate-errors. \~annotation:Str tried:Action
 	| If there are thrown errors, prepends `annotation` to their stack and message.
 	except
 		try
@@ -52,17 +52,17 @@ annotate-errors. |~annotation:Str tried:Action
 			throw _
 
 region $
-	$try. |_:Promise
+	$try. \_:Promise
 		| Success if the Promise is resolved, Error if rejected.
 		|| =>[Error] because it's possible for a Promise to reject with a non-Error.
-		success = _.then |val
+		success = _.then \val
 			new Success val
-		success.catch |err
+		success.catch \err
 			err
 
-	$annotate-errors. |~annotation:Str $tried:Promise
+	$annotate-errors. \~annotation:Str $tried:Promise
 		| Like `annotate-errors` but works on errors thrown in a Promise.
-		$tried.catch |_
+		$tried.catch \_
 			if :Error
 				_.stack := "#annotation#(_.stack)"
 				_.message := "#annotation#(_.message)"

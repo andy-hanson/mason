@@ -2,8 +2,8 @@ import
 	...tests
 
 tests 'Stream
-	Stream -> !|
-		_ = new Stream *!|
+	Stream -> !\
+		_ = new Stream *!\
 			yield 1
 			yield 2
 		assert seq=? _ [1 2]

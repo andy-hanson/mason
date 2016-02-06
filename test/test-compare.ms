@@ -8,19 +8,19 @@ tests 'compare
 		[count [1] [2]] -> true
 		[count [] [1]] -> false
 
-	max -> |
+	max -> \
 		[[1 3 2]] -> 3
 		[[2 1 2]] -> 2 || Doesn't have to be unique
-		assert fails? |
+		assert fails? \
 			max []
 
 	?max ->
 		[[1]] -> ?some 1
 		[[]] -> ?None
 
-	max-by -> |
+	max-by -> \
 		[['five 'six 'seven] count] -> 'seven
-		assert fails? |
+		assert fails? \
 			max-by [] identity
 
 	?max-by ->

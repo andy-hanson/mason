@@ -3,13 +3,13 @@ import
 	..tests
 
 tests 'Range
-	Range -> !|
+	Range -> !\
 		assert seq=? 0..2 (@take~ 0... 3)
 		|| Can't give wrong sign of step
-		todo assert fails? !|
+		todo assert fails? !\
 		todo	(0...10).by -1
 
-	iterator -> !|
+	iterator -> !\
 		todo assert seq=? (new Range 0 10 2) [0 2 4 6 8]
 		pass
 
@@ -21,7 +21,7 @@ tests 'Range
 	count ->
 		[((0...2).by 0.5)] -> 4
 
-	'length -> !|
+	'length -> !\
 		assert-call! &.length
 			[5...10] -> 5
 			[((5...10).by 2)] -> 5

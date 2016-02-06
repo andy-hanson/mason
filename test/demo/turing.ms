@@ -4,13 +4,13 @@ import
 	..tests
 
 region Rule results
-	R. |written new-state
+	R. \written new-state
 		(write. written go-right. true state. new-state)
-	L. |written new-state
+	L. \written new-state
 		(write. written go-right. false state. new-state)
 	fin. new Object
 
-run-turing. |spec init-tape:Seq
+run-turing. \spec init-tape:Seq
 	| http://rosettacode.org/wiki/Universal_Turing_machine
 	rules:Object blank:Any init-state:Any = spec
 	tape = => Deque cond (empty? init-tape) [blank] init-tape

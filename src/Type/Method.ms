@@ -8,19 +8,19 @@ import~
 	.Trait
 	..Object ?property property-with-proto?
 
-flag? = |_
+flag? = \_
 	and defined?_ _
 
-random-digits = |
+random-digits = \
 	Math.random().toString().slice 2
 
-build-str = |builder
+build-str = \builder
 	built-str = ""
-	builder !|part
+	builder !\part
 		built-str := "#built-str#part\n"
 	built-str
 
-str-lit = |str
+str-lit = \str
 	JSON.stringify str
 
 Method. class extends Function
@@ -51,7 +51,7 @@ Method. class extends Function
 			not defined?_
 				-1
 
-		src = build-str |add!
+		src = build-str \add!
 			access-method = "global[#(str-lit secret-name)]"
 
 			impl = switch js-typeof impl-symbol
@@ -135,20 +135,20 @@ Method. class extends Function
 			value. method-name
 
 	todo Consider making trait! Method Type. Then this is redundant.
-	'toString |
+	'toString \
 		.name
 
-msDef 'method |-name args default
+msDef 'method \-name args default
 	new Method
 		name. -name
 		args.
 		if defined? default
 			default.
 
-impl!. !|_:Method implementor:Impl-Type implementation:Function
+impl!. !\_:Method implementor:Impl-Type implementation:Function
 	do-impl! _ implementor implementation
 
-impl-double!. !|_:Method implementor-0:Impl-Type implementor-1:Impl-Type implementation:Function
+impl-double!. !\_:Method implementor-0:Impl-Type implementor-1:Impl-Type implementation:Function
 	dispatcher = case
 		writable? implementor-0.prototype _.impl-symbol
 			with new Double-Dispatcher _ as dd
@@ -161,35 +161,35 @@ impl-double!. !|_:Method implementor-0:Impl-Type implementor-1:Impl-Type impleme
 
 	do-impl! dispatcher implementor-1 implementation
 
-self-impl!. !|_:Method implementor:Object implementation:Function
+self-impl!. !\_:Method implementor:Object implementation:Function
 	todo doc
 	impl! _ (new Self-Type implementor) implementation
 
-?impl-for. |_:Method implementor:Impl-Type
+?impl-for. \_:Method implementor:Impl-Type
 	| Implementation of a method for a particular Impl-Type.
 	| Does not reference method.default or impls on super-types.
 	| Empty if the type would use method.default.
 	?self-impl-for _ implementor.prototype
 
-impl-for. |_:Method implementor:Impl-Type
+impl-for. \_:Method implementor:Impl-Type
 	| impl-for that fails when there is no implementation.
 	un-? (?impl-for _ implementor) ~"#_ not implemented for #implementor."
 
-?self-impl-for. |_:Method object
+?self-impl-for. \_:Method object
 	todo doc
 	?property object _.impl-symbol
 
-self-impl-for. |_:Method object
+self-impl-for. \_:Method object
 	todo doc
 	un-? (?self-impl-for _ object) ~"#_ not implemented on #object."
 
 region Private
-	writable? = |obj property
+	writable? = \obj property
 		desc = Object.getOwnPropertyDescriptor obj property
 		or (not defined? desc) desc.writable
 
 	todo Not public
-	propagate-method-down!. !|implementor method-symbol implementation
+	propagate-method-down!. !\implementor method-symbol implementation
 		todo :Impl-Type :Sym :Function
 		unless Object.prototype.hasOwnProperty.call implementor.prototype method-symbol
 			case implementor
@@ -206,7 +206,7 @@ region Private
 						enumerable. false
 
 	todo Not public
-	propagate-static-down!. !|implementor method-symbol implementation
+	propagate-static-down!. !\implementor method-symbol implementation
 		unless Object.prototype.hasOwnProperty.call implementor method-symbol
 			|| Unlike propagate-method-down!, even Traits need to inherit the static.
 			def-inherited! implementor method-symbol implementation
@@ -214,7 +214,7 @@ region Private
 				for sub-implementor of implementor.implementors
 					propagate-static-down! sub-implementor method-symbol implementation
 
-	def-inherited! = !|_ symbol value
+	def-inherited! = !\_ symbol value
 		Object.defineProperty _ symbol
 			value.
 			writable. true
@@ -223,7 +223,7 @@ region Private
 
 	todo Multiple-inheritance proxy scheme
 	|| `_` can be a Method or a Double-Dispatcher.
-	do-impl! = !|_ implementor implementation
+	do-impl! = !\_ implementor implementation
 		assert writable? implementor.prototype _.impl-symbol throw
 			"Can not redefine method #_ for #implementor."
 
@@ -261,11 +261,11 @@ region Private
 				value. "#(meth.name)__double-dispatcher"
 
 todo test
-implContains Method .|_
+implContains Method .\_
 	property-with-proto? _ .impl-symbol
 
 todo move
-add-hidden-property! = !|object key value
+add-hidden-property! = !\object key value
 	Object.defineProperty object key
 		todo SYNTAX (value. writable. false enumerable. false configurable. false)
 		value.

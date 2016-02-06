@@ -12,17 +12,17 @@ roman-digits =
 
 power-of-10-below = &(Math.pow 10 (Math.floor Math.log10_))
 
-roman. |n:Nat
+roman. \n:Nat
 	| Converts a number to Roman numerals.
 	assert n:1..3999
 
 	dec = power-of-10-below n
-	dig = |dec-multiple
+	dig = \dec-multiple
 		roman-digits[* dec-multiple dec]
-	rec = |dec-multiple
+	rec = \dec-multiple
 		_ = - n * dec-multiple dec
 		cond (=? _ 0) "" roman_
-	gt? = |dec-multiple
+	gt? = \dec-multiple
 		<=? (* dec-multiple dec) n
 	case
 		gt? 9

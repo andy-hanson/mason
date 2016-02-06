@@ -13,27 +13,27 @@ import
 	.Type.Type =>
 
 todo  self-impl-double! ?
-impl-double! => (new Self-Type String) @ |vals joiner:Opt[Str]
+impl-double! => (new Self-Type String) @ \vals joiner:Opt[Str]
 	joiner := opr joiner ""
 	todo @for:Array
 	(=> Array (@map vals to-string)).join joiner
 
 trait! String Seq
 	static
-		empty |
+		empty \
 			""
 
-		from-stream |_
+		from-stream \_
 			todo Should probably convert to string.
 			from-stream Array _
 
-	count |
+	count \
 		.length
-	empty? |
+	empty? \
 		=? 0 .length
 	|| Don't let Seq override eq?
-	binary=? |other
+	binary=? \other
 		==? this other
 	todo  Should this be necessary?
-	sort |?sort-by:Opt[Function]
+	sort \?sort-by:Opt[Function]
 		(sort.default.call this ?sort-by).join ""

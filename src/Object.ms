@@ -15,12 +15,12 @@ Object-Key. new Trait
 	name.
 	implementors. [String Symbol]
 
-flag?. |:Bool obj flag:Object-Key
+flag?. \:Bool obj flag:Object-Key
 	| If it has a property for the flag, uses that. Otherwise false.
 	?-or (?property obj flag) false
 
 ~forbidden-fun-props = => Id-Set ['arguments 'caller]
-@all-properties. |_
+@all-properties. \_
 	todo SYNTAX build~
 	| Every property name directly stored in an object.
 	| Includes non-enumerable properties and symbols.
@@ -28,29 +28,29 @@ flag?. |:Bool obj flag:Object-Key
 	own-names = cond :Function (@keep props &(not :forbidden-fun-props)) props
 	++ own-names Object.getOwnPropertySymbols_
 
-@properties. |_
+@properties. \_
 	| Like @all-properties, but excludes non-enumerable properties and symbols.
 	cond exists?_ Object.keys_ []
 
-?property. |_ prop-name:Object-Key
+?property. \_ prop-name:Object-Key
 	| `?` containing the value of the property, if it exists.
 	if property? _ prop-name
 		_.(prop-name)
 
-?property-with-proto. |_ prop-name:Object-Key
+?property-with-proto. \_ prop-name:Object-Key
 	| Like `?property`, but also looks through the prototype chain.
 	cond exists?_ (Opt->? _.(prop-name)) ?None
 
-property?. |_ prop-name:Object-Key
+property?. \_ prop-name:Object-Key
 	| Whether there is a property by that name.
 	and exists?_ (Object.prototype.hasOwnProperty.call _ prop-name)
 
-property-with-proto?. |_ prop-name:Object-Key
+property-with-proto?. \_ prop-name:Object-Key
 	| Like `property?` but looks through the prototype.
 	and exists?_ (defined? _.(prop-name))
 
 todo  Handle recursive references.
-object=?. |a b
+object=?. \a b
 	| For Objects, whether they are of the same type and have `=?` properties.
 	| For primitives, whether they are `=?`.
 	case
@@ -64,20 +64,20 @@ object=?. |a b
 				ak = Object.getOwnPropertyNames a
 				bk = Object.getOwnPropertyNames b
 				and (=? (count ak) (count bk))
-					all? ak |k
+					all? ak \k
 						=? a.(k) b.(k)
 
 empty-Object. Object.freeze new Object
 
-empty-Object?. |_:Object
+empty-Object?. \_:Object
 	| Whether there are no properties, not even hidden ones.
 	empty? @all-properties_
 
-Object->Map. |obj
+Object->Map. \obj
 	| A Map whose keys are property names and whose values are the properties' values.
 	make-map (@all-properties obj) &(obj.(_))
 
-Map->Object. |_:Map
+Map->Object. \_:Map
 	| Given a Map whose keys are Strings, creates an Object whose Object->Map is that.
 	with new Object as obj
 		for elem of _
@@ -85,19 +85,19 @@ Map->Object. |_:Map
 			obj.(elem[0]) = elem[1]
 
 region Mutator methods
-	delete-property!. !|_:Object prop-name:Object-Key
+	delete-property!. !\_:Object prop-name:Object-Key
 		assert property? _ prop-name
 		js-delete _ prop-name
 
-object-merge. |...objects
+object-merge. \...objects
 	Object.assign (new Object) ...objects
 
-object-select. |obj:Object ...@keys
+object-select. \obj:Object ...@keys
 	with new Object as kept
 		for key of @keys
 			kept.(key) = obj.(key)
 
-map-object-values. |obj:Object mapper:Function
+map-object-values. \obj:Object mapper:Function
 	with new Object as mapped
 		for key of @properties obj
 			mapped.(key) = mapper obj.(key)

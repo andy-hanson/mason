@@ -4,7 +4,7 @@ import
 	..tests
 
 tests 'Impl-Type
-	Impl-Type -> !|
+	Impl-Type -> !\
 		A = trait
 		B = trait
 		C = class
@@ -15,10 +15,10 @@ tests 'Impl-Type
 		assert has-trait? C A
 		forbid has-trait? A B
 
-	Self-Type -> !|
-		m = method |
+	Self-Type -> !\
+		m = method \
 			abstract
 		x = new Object
-		impl! m (new Self-Type x) |
+		impl! m (new Self-Type x) \
 			1
 		assert =? (m x) 1

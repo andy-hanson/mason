@@ -7,7 +7,7 @@ to-string. new Method
 	name.
 	allow-null?. true
 	impl-symbol. 'toString
-	default. .|
+	default. .\
 		switch this
 			null
 				'null
@@ -21,7 +21,7 @@ inspect-seen = new Set
 inspect. new Method
 	name.
 	allow-null?. true
-	wrap. |impl arg opts
+	wrap. \impl arg opts
 		case
 			inspect-seen.has arg
 				'<recursive>
@@ -32,7 +32,7 @@ inspect. new Method
 	default. to-string.default
 || See also private/impl-inspect.ms
 
-inspect-object = |
+inspect-object = \
 	"<object with no prototype>"
 
 msDef 'inspect inspect

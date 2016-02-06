@@ -5,7 +5,7 @@ import
 primes.
 	| http://stackoverflow.com/questions/13463417/the-genuine-sieve-of-eratosthenes-in-python-why-is-heapq-slower-than-dict
 	| Infinite Seq of Numbers > 2, each divisible only by itself and one.
-	new Stream *!|
+	new Stream *!\
 		yield 2
 		yield 3
 		|| Maps a composite number to its prime factors.
@@ -25,8 +25,8 @@ primes.
 					prime-factors[** candidate 2] = [candidate]
 
 tests 'demo
-	primes -> !|
-		is-prime? = |_
+	primes -> !\
+		is-prime? = \_
 			not any? 2..._ divisible?[_]
 		for @take primes 20
 			assert is-prime?_

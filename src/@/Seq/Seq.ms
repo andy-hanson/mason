@@ -12,7 +12,7 @@ import~
 
 Seq. trait @
 	| @ whose values are in a meaningful order.
-	sub |n:Nat
+	sub \n:Nat
 		| Nth value in iteration order.
 		un-? (?nth this n) ~"
 			No element at index #n for
@@ -20,44 +20,44 @@ Seq. trait @
 
 region TODO
 	todo  Review name...
-	<++~. method |left-added:@
+	<++~. method \left-added:@
 		| (There is no `++>~` because `++~` by default adds to the right for Seqs.)
 		todo more doc
 		=> (type-of this) (++ left-added this)
 
 region Very first and last
-	first. |_
+	first. \_
 		| First value in iteration order.
 		un-? ?first_ "Can not take first of empty."
 
-	?first. method |
+	?first. method \
 		| First value in iteration order, if non-empty.
 		?nth this 0
 
-	last. |_
+	last. \_
 		| Last value in iteration order.
 		un-? ?last_ "Can not take last of empty."
 
-	?last. method |
+	?last. method \
 		| Last value in iteration order, if non-empty.
 		unless empty? this
 			this[- (count this) 1]
 
-	@tail. method |
+	@tail. method \
 		| All elements but the first.
 		todo Eager for Linked-Lists.
 		cond (empty? this) this (@drop this 1)
 
 	@tail~. &(@drop~ _ 1)
 
-	@rtail. method |
+	@rtail. method \
 		| All elements but the last.
 		todo Eager for finger trees.
 		cond (empty? this) this
 			@take this - (count this) 1
 
 region Search
-	seq=?. |@a:@ @b:@
+	seq=?. \@a:@ @b:@
 		| Whether two @s share the same elements in the same order.
 		| The types of the @s do not matter.
 		| Equivalent to `=? (=> Array @a) (=> Array @b)`, but may not have to fully unlazy both.
@@ -71,7 +71,7 @@ region Search
 			unless =? next-a.value next-b.value
 				break false
 
-	?nth. method |n:Nat
+	?nth. method \n:Nat
 		| `n`th element in iteration order, if there are at least that many values.
 		| 0th is the first.
 		i = 0
@@ -82,21 +82,21 @@ region Search
 			i := + 1 i
 
 region Update
-	@slice. method |start:Nat end:Nat
+	@slice. method \start:Nat end:Nat
 		| The elements from index start (inclusive) to end (exclusive).
 		| Takes as much as possible.
 		| Result length should be - end start, unless `end` was past the end.
 		=> (type-of this) (@slice~ this start end)
 
-	@slice~. |:@ _ start end
+	@slice~. \:@ _ start end
 		| Lazy `@slice`.
 		@take~ (@drop~ _ start) - end start
 
-	@take. method |count-to-take:Nat
+	@take. method \count-to-take:Nat
 		todo doc
 		=> (type-of this) (@take~ this count-to-take)
 
-	@take~. |_ count-to-take:Nat
+	@take~. \_ count-to-take:Nat
 		| Stream including only the first count-to-take elements.
 		todo SYNTAX @for~
 		case
@@ -104,7 +104,7 @@ region Update
 				empty Stream
 			else
 				todo SYNTAX @for~
-				new Stream *!|
+				new Stream *!\
 					n = count-to-take
 					for elem of _
 						yield elem
@@ -113,24 +113,24 @@ region Update
 							break
 
 	todo eager version
-	@take-while~. |_ while?:Pred
+	@take-while~. \_ while?:Pred
 		| Stream stopping (and not including) the first element not satisfying while?.
 		todo SYNTAX @for~
-		new Stream *!|
+		new Stream *!\
 			for elem of _
 				unless while? elem
 					break
 				yield elem
 
-	@drop. method |count-to-drop:Nat
+	@drop. method \count-to-drop:Nat
 		todo toc
 		=> (type-of this) (@drop~ this count-to-drop)
 
 	@drop~.
 		| Stream without the first count-to-drop elements.
-		|_ count-to-drop
+		\_ count-to-drop
 			todo SYNTAX @for~
-			new Stream *!|
+			new Stream *!\
 				iter = iterator_
 				i = 0
 				for
@@ -144,17 +144,17 @@ region Update
 	todo  @drop-while~
 
 region Combination
-	@zip. |@a:@ @b:@ zipper:Function[2]
+	@zip. \@a:@ @b:@ zipper:Function[2]
 		| Type-preserving zip~.
 		todo doc the other way around (primarily on zip, short on zip~)
 		=> (type-of @a) (@zip~ @a @b zipper)
 
-	@zip~. |@a:@ @b:@ zipper:Function[2]
+	@zip~. \@a:@ @b:@ zipper:Function[2]
 		| Seq of zipper applied to corresponding elements of @a and @b.
 		| Ends as soon as either of them does, discarding extra elements.
 		| (Corresponding means: with the same index.)
 		todo SYNTAX @for~
-		new Stream *!|
+		new Stream *!\
 			iter-a = iterator @a
 			iter-b = iterator @b
 			for
@@ -167,17 +167,17 @@ region Combination
 				yield zipper next-a.value next-b.value
 
 region TODO: put somewhere
-	@groups-of~. |group-size:Nat _ todo  :Seq[Array]
+	@groups-of~. \group-size:Nat _ todo  :Seq[Array]
 		| Seq of consecutive groups of `group-size` elements.
 		case
 			=? group-size 0
 				todo  repeat-forever []
-				new Stream *!|
+				new Stream *!\
 					for
 						yield []
 			else
 				todo SYNTAX @for~
-				new Stream *!|
+				new Stream *!\
 					iter = iterator_
 					for
 						next-group = []
@@ -192,26 +192,26 @@ region TODO: put somewhere
 							break
 						yield next-group
 
-	@indexes. |_:Seq
+	@indexes. \_:Seq
 		todo doc
 		0...count_
 
-	@reverse. method |
+	@reverse. method \
 		| Seq with the opposite order.
 		(from-stream Array this).reverse()
 
-	@reverse~. method |
+	@reverse~. method \
 		arr = => Array this
 		todo SYNTAX @for~
-		new Stream *!|
+		new Stream *!\
 			for @reverse (@indexes arr)
 				yield arr[_]
 
-	@split~. |_ split?:Pred
+	@split~. \_ split?:Pred
 		| Subseqs separated by elements where split? is true.
 		todo  Allocate current group; don't wait to call slice.
 		todo SYNTAX @for~
-		new Stream *!|
+		new Stream *!\
 			iter = iterator_
 			prev-idx = 0
 			cur-idx = 0
@@ -231,29 +231,29 @@ region TODO: put somewhere
 
 region Mutator methods
 	todo Implement
-	<+!. method !|added
+	<+!. method !\added
 		todo doc
 		abstract
 
-	<++!. method !|@added:@
+	<++!. method !\@added:@
 		| Makes `_` into `+ added _`.
 		for @reverse~ @added
 			<+! this _
 
 	todo Implement
-	+>!. method !|added
+	+>!. method !\added
 		todo doc
 		abstract
 
-	++>!. method !|@added:@
+	++>!. method !\@added:@
 		| Makes `_` into `+ _ added`.
 		for @added
 			+>! this _
 
-	?<pop!. method |
+	?<pop!. method \
 		| Takes one element off the left side, if not empty?.
 		abstract
 
-	?pop>!. method |
+	?pop>!. method \
 		| Takes one element off the right side, if not empty?.
 		abstract

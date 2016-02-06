@@ -4,7 +4,7 @@ import
 	msl.Type.Record
 
 tests 'Record
-	Record -> !|
+	Record -> !\
 		Point = class x y
 		assert =? Point.field-names ['x 'y]
 		assert has-trait? Point Record

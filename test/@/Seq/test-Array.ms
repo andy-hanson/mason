@@ -3,9 +3,9 @@ import
 	...tests
 
 tests 'Array
-	filter! -> !|
+	filter! -> !\
 		arr = [1 2 3 4 5]
-		filter! arr |_
+		filter! arr \_
 			divisible? _ 2
 		assert =? arr [2 4]
 

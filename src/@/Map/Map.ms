@@ -12,59 +12,59 @@ Map. trait @
 	| Mapping from keys to values.
 
 	static
-		empty |
+		empty \
 			new Id-Map
 
-		from-stream |stream
+		from-stream \stream
 			map = empty this
 			for stream
 				todo SYNTAX Array destructure
 				map[_[0]] = _[1]
 			map
 
-	to-string |
+	to-string \
 		inspect this
 
-	inspect |
+	inspect \
 		cond (empty? this) "empty #(.constructor.name)"
 			todo map Map to Array
 			todo SYNTAX Array destructure
 			todo @for~
-			parts = @map~ this |pair
+			parts = @map~ this \pair
 				"#(inspect pair[0]) -> #(inspect pair[1])"
 			"
 				#(.constructor.name)
 					#(=> String parts "\n\t")
 
-	binary=? |other
+	binary=? \other
 		and (=? (type-of this) (type-of other)) (map=? this other)
 
-	sub |key
+	sub \key
 		un-? (?get this key) ~"#this does not contain #key."
 
 region New methods
-	?get. method |key
+	?get. method \key
 		| `?` containing the value corresponding to `key`, if any.
 		abstract
 
-	has-key?. method |key
+	has-key?. method \key
 		| Whether the key is in the Map.
 		not empty? (?get this key)
 
-	@keys. method |
+	@keys. method \
 		| Every key that the Map `has-key?`.
 		todo @for:Array
-		=> Array (@map~ this |pair
+		=> Array (@map~ this \pair
 			pair[0]
 
-	@values. method |
+	@values. method \
 		| Every value in the Map.
 		todo @for:Array
-		=> Array (@map~ this |pair
+		=> Array (@map~ this \pair
 			pair[1]
 
 region Functions
-	make-map. |@key:@ get-value:Function
+	make-map. \@key:@ get-value:Function
 		| Creates a Map whose values are the result of applying `get-value` to each key.
 		todo map-type param
 		map = empty Id-Map
@@ -72,10 +72,10 @@ region Functions
 			map[_] = get-value_
 		map
 
-	map=?. |a:Map b:Map
+	map=?. \a:Map b:Map
 		| Whether the two maps have the same keys and the same associated values, regardless of the maps' types.
 		and (=? (count a) (count b))
-			all? a |pair
+			all? a \pair
 				todo SYNTAX Array destructure
 				key = pair[0]
 				val = pair[1]
@@ -83,7 +83,7 @@ region Functions
 				and (not empty? ?bk) =? val ?bk.val
 
 region Mutator methods
-	get-or-add!. method |key ~default-val
+	get-or-add!. method \key ~default-val
 		| map[key], and if it's not already there, fill it in with default-val.
 		?-or (?get this key) ~
 			this[key] = default-val

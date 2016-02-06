@@ -17,10 +17,10 @@ import
 	todo MORE
 
 	static
-		empty |
+		empty \
 			?None
 
-		from-stream |_
+		from-stream \_
 			iter = iterator_
 			value done = iter.next()
 			cond done ?None (?some value)
@@ -28,17 +28,17 @@ import
 	construct .val
 		pass
 
-	empty? |
+	empty? \
 		==? this ?None
 
-	iterator *!|
+	iterator *!\
 		unless empty? this
 			yield .val
 
-	to-string |
+	to-string \
 		inspect this
 
-	inspect |
+	inspect \
 		case
 			empty? this
 				'?None
@@ -50,10 +50,10 @@ empty-marker =
 	new Object
 
 ?None. new ? empty-marker
-?some. |_
+?some. \_
 	new ? _
 
-self-impl! extract ?some |_ num-extracteds
+self-impl! extract ?some \_ num-extracteds
 	?->nullable if and (=? 1 num-extracteds) :? not empty?_
 		[_.val]
 
@@ -61,29 +61,29 @@ msDef 'some ?some
 msDef 'None ?None
 
 region Functions
-	Opt->?. |_
+	Opt->?. \_
 		| `?` containing the value iff it is defined.
 		todo  `if-test defined? _` ?
 		if defined?_ _
 
-	?->Opt. |_:?
+	?->Opt. \_:?
 		| Extracts the value from a `?`, or returns undefined.
 		cond empty?_ undefined _.val
 
-	?->nullable. |_:?
+	?->nullable. \_:?
 		cond empty?_ null _.val
 
 	todo Just use first?
-	un-?. |_:? ~fail-message
+	un-?. \_:? ~fail-message
 		| Tries to extract the value out of a `?`. Throws an error if it is empty.
 		forbid empty?_ throw ->Error (opr fail-message "Tried to force empty `?`.")
 		_.val
 
-	?-or. |_:? ~or-else
+	?-or. \_:? ~or-else
 		| If empty, defaults to `or` - else returns its value.
 		cond empty?_ or-else _.val
 
-	?-cond. |_:? ~if-none if-some:Function
+	?-cond. \_:? ~if-none if-some:Function
 		| Shorthand for case on option.
 		| If ?None, returns `if-none`.
 		| If `?some foo`, returns `if-some foo`.

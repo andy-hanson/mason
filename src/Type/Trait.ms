@@ -7,8 +7,8 @@ Trait. class
 	todo doc
 
 	do
-		todo contains? |_ ...
-		implContains _ .|_
+		todo contains? \_ ...
+		implContains _ .\_
 			|| Cast to Boolean so we return `false` and not `undefined`.
 			and exists?_ (Boolean _.(.symbol-for-isa))
 
@@ -38,18 +38,18 @@ Trait. class
 			for params.super-traits
 				unchecked-trait! this _
 
-can-subtype?. |_:Trait
+can-subtype?. \_:Trait
 	| Whether a Trait accepts new subtypes.
 	not Object.isFrozen _.implementors
 
 || Making something an instance of Impl-Type is difficult because trait! checks that it's already an Impl-Type...
-unchecked-trait!. !|implementor trt
+unchecked-trait!. !\implementor trt
 	| trait! without any checks.
 	| Necessary if trying to implement Impl-Type itself.
 	trt.implementors.push implementor
 	on-implementor! implementor trt
 
-@concrete-implementors. |trt:Trait
+@concrete-implementors. \trt:Trait
 	| List of Impl-Types inheriting from this.
 	| Does not include inheriting Traits, but does include their implementors.
 	todo return :@[Impl-Type]
@@ -61,7 +61,7 @@ unchecked-trait!. !|implementor trt
 			else
 				. _
 
-msDef 'trait |-name super-traits static-methods methods
+msDef 'trait \-name super-traits static-methods methods
 	todo SYNTAX with new Trait (name. -name super-traits.)
 	trt = new Trait
 		name. -name
@@ -70,7 +70,7 @@ msDef 'trait |-name super-traits static-methods methods
 		assign-defs! _ static-methods
 		assign-defs! _.prototype methods
 
-trait-do! = !|implementor trt:Trait
+trait-do! = !\implementor trt:Trait
 	todo Assert no circular chains of trait!.
 	todo implementor:Impl-Type
 	assert can-subtype? trt throw "#trt is not open to new subtypes."
@@ -79,18 +79,18 @@ trait-do! = !|implementor trt:Trait
 
 msDef 'traitDo trait-do!
 
-msDef 'traitWithDefs !|implementor trt:Trait static-methods methods
+msDef 'traitWithDefs !\implementor trt:Trait static-methods methods
 	trait-do! implementor trt
 	assign-defs! implementor static-methods
 	assign-defs! implementor.prototype methods
 
-has-trait?. |implementor trt:Trait
+has-trait?. \implementor trt:Trait
 	| Whether one Impl-Type is a subtype of a Trait.
 	| implementor may itself be a Trait.
 	todo implementor:Impl-Type
 	case implementor
 		:Trait
-			_.super-traits.some |super-trait
+			_.super-traits.some \super-trait
 				or (=? super-trait trt) (has-trait? super-trait trt)
 		else
 			implementor.prototype:trt
@@ -98,13 +98,13 @@ has-trait?. |implementor trt:Trait
 region Private
 	@p-all = &(Object.getOwnPropertyNames_.concat Object.getOwnPropertySymbols_)
 
-	on-implementor! = !|_ trt
+	on-implementor! = !\_ trt
 		if :Trait
 			_.super-traits.push trt
 		inherit-methods! _ trt
 
-	inherit-methods! = !|implementor trt
-		rec! = !|trt
+	inherit-methods! = !\implementor trt
+		rec! = !\trt
 			for @p-all trt.prototype
 				propagate-method-down! implementor _ trt.prototype.(_)
 			|| Do not take non-enumerable properties from the trait.
@@ -123,9 +123,9 @@ region Private
 				rec! _
 		rec! trt
 
-	assign-defs! = !|assignee definitions
+	assign-defs! = !\assignee definitions
 		| Copy properties from definitions to assignee, *not* calling getters.
-		def! = !|_
+		def! = !\_
 			Object.defineProperty assignee _ (Object.getOwnPropertyDescriptor definitions _)
 		for Object.getOwnPropertyNames definitions
 			def! _

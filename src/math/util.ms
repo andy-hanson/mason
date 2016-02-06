@@ -1,7 +1,7 @@
 import
 	..@.@ _ fold
 
-average. |@vals:@[Number]
+average. \@vals:@[Number]
 	todo doc
 	sum = 0
 	count = 0
@@ -10,8 +10,8 @@ average. |@vals:@[Number]
 		count := + 1 count
 	/ sum count
 
-sum. |@vals:@[Number]
+sum. \@vals:@[Number]
 	fold @vals 0 &+
 
-product. |@vals:@[Number]
+product. \@vals:@[Number]
 	fold @vals 1 &*

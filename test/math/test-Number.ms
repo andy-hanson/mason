@@ -4,10 +4,10 @@ import
 	..tests
 
 tests 'Number
-	Int -> !|
-		assert-int! = !|_
+	Int -> !\
+		assert-int! = !\_
 			assert _:Int
-		forbid-int! = !|_
+		forbid-int! = !\_
 			forbid _:Int
 		spread! assert-int!
 			. 1
@@ -18,7 +18,7 @@ tests 'Number
 			. - Number.MIN_SAFE_INTEGER 1
 			. + Number.MAX_SAFE_INTEGER 1
 
-	Nat -> !|
+	Nat -> !\
 		assert 0:Nat
 		forbid -1:Nat
 
@@ -37,7 +37,7 @@ tests 'Number
 		[4 -2] -> true
 		[3 2] -> false
 
-	log-base -> |
+	log-base -> \
 		assert near? (log-base 10 0.01) -2
 		[2 8] -> 3
 

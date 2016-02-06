@@ -20,8 +20,8 @@ Enum. class trait Impl-Type
 			this."#value-name" = enum-val
 		.prototype.constructor = this
 		enum-name = .name
-		impl! to-string this .|
+		impl! to-string this .\
 			"#enum-name.#(.name)"
 
-	has-instance? |_
+	has-instance? \_
 		Object.prototype.isPrototypeOf.call .prototype _

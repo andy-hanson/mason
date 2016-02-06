@@ -1,4 +1,4 @@
-todo implementor-test. !|type
+todo implementor-test. !\type
 todo		_ = empty type
 todo		++! _ [3 1 2]
 todo		assert =? (?some 1) ?pop!_

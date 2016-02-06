@@ -9,12 +9,12 @@ Lazy-Stream. class trait Seq
 	| If you want to stream the results of an expensive computation and use it multiple times, use this.
 	| If you have a cheap computation or only need to iterate through it once, use Stream.
 	static
-		empty |
-			new this *!|
+		empty \
+			new this *!\
 				pass
 
-		from-stream |_
-			new this |
+		from-stream \_
+			new this \
 				iterator_
 
 	construct stream:Function
@@ -27,18 +27,18 @@ Lazy-Stream. class trait Seq
 		todo  `this` in constructor
 		self = this
 		todo iterator @for~
-		get-caching-iterator = *!|
+		get-caching-iterator = *!\
 			for strm
 				todo  +>!
 				self.cache.push _
 				yield _
 		.caching-iterator = get-caching-iterator()
 
-	iterator *!|
+	iterator *!\
 		yield* iterator .cache
 		yield* .caching-iterator
 
-	?nth |n:Nat
+	?nth \n:Nat
 		todo higher-order function for this pattern
 		case ?nth .cache n
 			empty?_

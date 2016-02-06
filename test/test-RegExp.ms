@@ -8,7 +8,7 @@ tests 'RegExp
 		[url "mason-lang.org"] -> true
 		[url 'masonlangorg] -> false
 
-	extract -> !|
+	extract -> !\
 		case "mason-lang.org"
 			:url domain ext
 				assert =? domain 'mason-lang

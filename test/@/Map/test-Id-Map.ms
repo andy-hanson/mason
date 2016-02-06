@@ -2,7 +2,7 @@ import
 	...tests
 
 tests 'Id-Map
-	Id-Map -> !|
+	Id-Map -> !\
 		todo  Just use generic Map test
 		_ = empty Id-Map
 		_[1] = 2

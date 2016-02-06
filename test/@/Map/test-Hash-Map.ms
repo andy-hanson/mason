@@ -3,7 +3,7 @@ import
 
 tests 'Hash-Map
 	todo Remove, just use Map.implementor-test.
-	Hash-Map -> !|
+	Hash-Map -> !\
 		_ = => Hash-Map
 			1 -> 2
 			3 -> 4

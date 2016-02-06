@@ -12,9 +12,9 @@ tests '?
 		[(?some 0)] -> 0
 		[?None] -> undefined
 
-	un-? -> |
+	un-? -> \
 		[(?some 1)] -> 1
-		assert fails? !|
+		assert fails? !\
 			un-? ?None
 
 	?-or ->
@@ -25,7 +25,7 @@ tests '?
 		[?None 0 &(_)] -> 0
 		[(?some 1) 0 &(_)] -> 1
 
-	extract -> !|
+	extract -> !\
 		case ?some 1
 			:?some val
 				assert =? val 1

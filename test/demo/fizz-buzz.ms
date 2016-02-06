@@ -2,17 +2,17 @@ import
 	msl.Object Object->Map
 	..tests
 
-make-fizz-buzz. |spec
+make-fizz-buzz. \spec
 	| Infinite Seq of Fizz Buzz game.
 	| `spec` is an Obj whose values are divisors and
 	| whose keys are strings to be printed when the divisor matches.
 	todo  map Map to Array is hard
 	todo @for:Array
-	tests = => Array (@map~ (Object->Map spec) |_
+	tests = => Array (@map~ (Object->Map spec) \_
 		todo SYNTAX array destructure
 		shout:Str. _[0]
 		divisor:Nat. _[1]
-	@map~ 1... |n
+	@map~ 1... \n
 		s = ""
 		for tests
 			if divisible? n _.divisor
@@ -20,7 +20,7 @@ make-fizz-buzz. |spec
 		cond (empty? s) n s
 
 tests 'demo
-	make-fizz-buzz -> !|
+	make-fizz-buzz -> !\
 		fizz-buzz = make-fizz-buzz (Fizz. 3 Buzz. 5)
 		assert seq=? (@take~ fizz-buzz 6)
 			. 1

@@ -11,8 +11,8 @@ Alias-Type. class trait Type
 		assert .name:Str
 		assert .alias-of:Type
 
-	has-instance? |value
+	has-instance? \value
 		value:.alias-of
 
-	sub |...args
+	sub \...args
 		sub .alias-of ...args

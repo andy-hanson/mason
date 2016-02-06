@@ -4,8 +4,8 @@ import
 	...tests
 
 tests 'Lazy-Stream
-	Lazy-Stream -> !|
-		fibonaccis = new Lazy-Stream *!|
+	Lazy-Stream -> !\
+		fibonaccis = new Lazy-Stream *!\
 			yield 1
 			yield 1
 			for 2...
@@ -13,9 +13,9 @@ tests 'Lazy-Stream
 				yield + fibonaccis[- _ 1] fibonaccis[- _ 2]
 		assert seq=? (@take~ fibonaccis 10) [1 1 2 3 5 8 13 21 34 55]
 
-	iterator -> !|
-		assert =? [1 2] (build !|build!
-			_ = new Lazy-Stream *!|
+	iterator -> !\
+		assert =? [1 2] (build !\build!
+			_ = new Lazy-Stream *!\
 				build! 1
 				yield 1
 				build! 2

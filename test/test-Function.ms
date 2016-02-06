@@ -7,9 +7,9 @@ tests 'Function
 	identity ->
 		[1] -> 1
 
-	id-memoize -> !|
-		assert seq=? [1 2 1] (build !|build!
-			get-a = id-memoize |x
+	id-memoize -> !\
+		assert seq=? [1 2 1] (build !\build!
+			get-a = id-memoize \x
 				build! x.a
 				x.a
 			a1 = a. 1
@@ -20,9 +20,9 @@ tests 'Function
 			a1b = a. 1
 			assert =? (get-a a1b) 1
 
-	hash-memoize -> !|
-		assert seq=? [1 2] (build !|build!
-			get-a = hash-memoize |x
+	hash-memoize -> !\
+		assert seq=? [1 2] (build !\build!
+			get-a = hash-memoize \x
 				build! x.a
 				x.a
 			a1 = a. 1
@@ -33,8 +33,8 @@ tests 'Function
 			a1-copy = a. 1
 			assert =? (get-a a1-copy) 1
 
-	spread -> !|
-		all-4 = |a b c d
+	spread -> !\
+		all-4 = \a b c d
 			[a b c d]
 		assert seq=? (spread all-4 1 2 3 [4 5])
 			. [1 2 3 4]
@@ -51,23 +51,23 @@ tests 'Function
 			. [1 2 'three 4]
 			. [1 2 'five 6]
 
-	spread! -> !|
-		assert =? [1 2 3] (build |build!
-			f = |a b c
+	spread! -> !\
+		assert =? [1 2 3] (build \build!
+			f = \a b c
 				build! a
 				build! b
 				build! c
 			spread! f 1
 				2 -> 3
 
-	thunk -> !|
+	thunk -> !\
 		assert =? (thunk 1)() 1
 
-	sub -> !|
+	sub -> !\
 		|| sub for Functions
 		+1 = &+[1]
 		assert =? (+1 1) 2
-		all-3 = |a b c
+		all-3 = \a b c
 			[a b c]
 		one-two = all-3[1 2]
 		assert =? (one-two 3) [1 2 3]

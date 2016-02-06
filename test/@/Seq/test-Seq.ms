@@ -4,22 +4,22 @@ import
 	...tests
 
 tests 'Seq
-	<++~ -> !|
+	<++~ -> !\
 		todo
 		pass
 
 	first ->
 		[[1 2]] -> 1
-		assert fails? |
+		assert fails? \
 			first []
 
 	?first ->
 		[[1 2]] -> ?some 1
 		[[]] -> ?None
 
-	last -> !|
+	last -> !\
 		[[1 2]] -> 2
-		assert fails? |
+		assert fails? \
 			last []
 
 	?last ->
@@ -34,8 +34,8 @@ tests 'Seq
 		[[1 2]] -> [1]
 		[[]] -> []
 
-	seq=? -> !|
-		s = new Stream *!|
+	seq=? -> !\
+		s = new Stream *!\
 			yield 1
 		[s [1]] -> true
 		[s [2]] -> false
@@ -44,9 +44,9 @@ tests 'Seq
 		[[0 1] 1] -> ?some 1
 		[[0 1] 2] -> ?None
 
-	sub -> |
+	sub -> \
 		[[0 1] 1] -> 1
-		assert fails? |
+		assert fails? \
 			[0 1][2]
 
 	@slice ->
@@ -55,7 +55,7 @@ tests 'Seq
 	@slice~ ->
 		[[0 1 2 3] 1 3] -> => Stream [1 2]
 
-	@take~ -> |
+	@take~ -> \
 		[[0 1 2] 2] -> => Stream [0 1]
 		|| OK if not enough to satisfy count-to-take
 		[[0] 2] -> => Stream [0]
@@ -74,7 +74,7 @@ tests 'Seq
 	@zip~ ->
 		[[1 2] [10 20 30] &+] -> => Stream [11 22]
 
-	@groups-of~ -> |
+	@groups-of~ -> \
 		[2 [1 2 3 4]] -> => Stream [[1 2] [3 4]]
 		|| Tosses off partial group at end (e.g. no [4])
 		[3 [1 2 3 4]] -> => Stream [[1 2 3]]
@@ -86,7 +86,7 @@ tests 'Seq
 	@reverse ->
 		[[1 2]] -> [2 1]
 
-	@reverse~ -> !|
+	@reverse~ -> !\
 		todo
 		pass
 

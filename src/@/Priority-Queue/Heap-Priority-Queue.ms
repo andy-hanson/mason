@@ -10,22 +10,22 @@ Heap-Priority-Queue. class trait Priority-Queue
 	construct
 		.array = []
 
-	iterator |
+	iterator \
 		iterator .array
 
-	++! !|added
+	++! !\added
 		for added
 			add! .array _
 
-	?pop! |
+	?pop! \
 		unless empty? this
 			with .array[0]
 				fix-down! .array
 
-	empty? |
+	empty? \
 		empty? .array
 
-	empty! !|
+	empty! !\
 		empty! .array
 
 
@@ -34,7 +34,7 @@ region Private
 	index-left-child = &(+ 1 * 2 _)
 	index-parent = &(- (int/ (+ 1 _) 2) 1)
 
-	add! = !|heap val
+	add! = !\heap val
 		| We move this 'hole' up the heap, swapping with its parent,
 		| until we find a place where `val` is greater than its parent.
 		heap.push()
@@ -51,7 +51,7 @@ region Private
 			heap[i-cur] := parent
 			i-cur := i-parent
 
-	fix-down! = !|heap
+	fix-down! = !\heap
 		val = heap.pop()
 		size = count heap
 		unless =? size 0
@@ -60,7 +60,7 @@ region Private
 			|| (Prefer moving to the left child.)
 			|| When it can move no further, put `val` in there.
 			i-cur = 0
-			go! = !|goto-idx
+			go! = !\goto-idx
 				heap[i-cur] := heap[goto-idx]
 				i-cur := goto-idx
 			ok-index? = &(lt? _ size)

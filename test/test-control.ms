@@ -3,9 +3,9 @@ import
 	.tests
 
 tests 'control
-	do-times! -> !|
+	do-times! -> !\
 		i = 0
-		do-times! 10 !|
+		do-times! 10 !\
 			i := - i 1
 		assert =? i -10
 
@@ -13,7 +13,7 @@ tests 'control
 		[undefined 1] -> 1
 		[1 2] -> 1
 
-	build -> !|
-		assert =? [0 1] (build |build!
+	build -> !\
+		assert =? [0 1] (build \build!
 			build! 0
 			build! 1

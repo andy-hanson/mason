@@ -3,16 +3,16 @@ import
 	..tests
 
 tests 'Type
-	extract -> !|
+	extract -> !\
 		todo singleton
 		My-Type = new Object
-		self-impl! extract My-Type |switch
+		self-impl! extract My-Type \switch
 			'extractable
 				[1 2]
 			else
 				null
 
-		f = |case
+		f = \case
 			:My-Type a b
 				"#a#b"
 			else

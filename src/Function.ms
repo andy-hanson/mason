@@ -24,28 +24,28 @@ Pred. new Alias-Type
 	name.
 	alias-of. Function
 
-identity. |_
+identity. \_
 	| Outputs its input unmodified.
 	_
 
 region Memoize
 	todo perf.ms?
-	id-memoize. |_:Function
+	id-memoize. \_:Function
 		| When an Object is passed into `fun`, stores the result in a Weak-Id-Map
 		| and uses that if the exact same (`==?`) Object is used again.
 		wm = empty Weak-Id-Map
-		|arg:Object
+		\arg:Object
 			get-or-add! wm arg ~(_ arg)
 
-	hash-memoize. |_:Function
+	hash-memoize. \_:Function
 		| Stores the argument every time you call it,
 		| and re-uses the result if called again with the same argument.
 		| This will make those arguments unavailable for garbage collection...
 		hm = empty Hash-Map
-		|arg:Object
+		\arg:Object
 			get-or-add! hm arg ~(_ arg)
 
-spread. |:@ fun:Function ...args
+spread. \:@ fun:Function ...args
 	| Applies `fun`, starting with the given args, to each entry in an arguments list or map.
 	todo ES6 Non-last rest arg?
 	todo  right uncons
@@ -67,20 +67,20 @@ spread. |:@ fun:Function ...args
 		all-args = ++ init-args _
 		. fun ...all-args
 
-spread!. !|fun ...args
+spread!. !\fun ...args
 	todo doc
 	spread fun ...args
 
-thunk. |_
+thunk. \_
 	| Makes a function which, when called, returns `_`.
-	|
+	\
 		_
 
-impl! sub Function .|...args
+impl! sub Function .\...args
 	| Curries this function.
 	.bind null ...args
 
-self-impl! sub Function |
+self-impl! sub Function \
 	| Subbing Function does nothing and is only for documentation.
 	| Function[Number String] takes a Number and returns a String.
 	| Function[2] takes 2 arguments.

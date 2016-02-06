@@ -8,19 +8,19 @@ import
 Id-Set. global.Set
 
 trait! Id-Set Set
-	count |
+	count \
 		.size
 
 	todo  Make default falling back to +!
-	++! !|@added
+	++! !\@added
 		each! @added .&add
 
-	empty! !|
+	empty! !\
 		.clear()
 
 	todo  Make default falling back to -!
-	--! !|@deleted
+	--! !\@deleted
 		each! @deleted .&delete
 
-	has-instance? |_
+	has-instance? \_
 		.has_

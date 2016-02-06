@@ -8,7 +8,7 @@ tests 'Object
 		[(a. false) 'a] -> false
 		[empty-Object 'a] -> false
 
-	@all-properties -> !|
+	@all-properties -> !\
 		obj = new Object
 		obj.a = 0
 		sym = Symbol 's
@@ -20,7 +20,7 @@ tests 'Object
 		|| But not 'arguments or 'caller
 		assert set=? (@all-properties @all-properties) ['length 'name 'prototype]
 
-	@properties -> !|
+	@properties -> !\
 		obj = new Object
 		Object.defineProperty obj 'a
 			value. 0
@@ -83,7 +83,7 @@ tests 'Object
 		[map2] ->
 			"1". 2
 
-	delete-property! -> !|
+	delete-property! -> !\
 		_ = new Object
 		_.a := 1
 		delete-property! _ 'a

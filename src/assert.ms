@@ -10,12 +10,12 @@ import~
 	.String indent
 	.Type.Type =>
 
-assert-call!. !|fun:Function args->result:Map
+assert-call!. !\fun:Function args->result:Map
 	todo args->result:Map[Array Any]
 	| For each entry in args->result, asserts that calling `fun` with arguments of key will `=?` the value.
 	assert-call-with! &=? fun args->result
 
-assert-this-call!. !|fun:Function args->result:Map
+assert-this-call!. !\fun:Function args->result:Map
 	todo doc
 	todo args->result:Map[Array Any]
 	for args->result
@@ -31,7 +31,7 @@ assert-this-call!. !|fun:Function args->result:Map
 			Got:
 				#(indent (inspect actual))
 
-assert-call-with!. !|equal?:Pred fun:Function args->result:Map
+assert-call-with!. !\equal?:Pred fun:Function args->result:Map
 	| Like !call but allows any equality predicate.
 	todo args->result:Map[Array Any]
 	for args->result
@@ -42,7 +42,7 @@ assert-call-with!. !|equal?:Pred fun:Function args->result:Map
 		assert equal? actual expected-res throw "
 			#(fun.name) of:
 				#(indent (=> String (@map args inspect) "\n"))
-			Should #equal?:
+			Should #(equal?.name):
 				#(indent (inspect expected-res))
 			Got:
 				#(indent (inspect actual))

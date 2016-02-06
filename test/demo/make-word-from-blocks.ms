@@ -1,29 +1,29 @@
 import
 	..tests
 
-make-word-from-blocks. |:? word:Str blocks:@ todo  ?[Seq[String]], @[String]
+make-word-from-blocks. \:? word:Str blocks:@ todo  ?[Seq[String]], @[String]
 	| http://rosettacode.org/wiki/ABC_Problem
-	rec = |chars-left blocks-left
+	rec = \chars-left blocks-left
 		case chars-left
 			empty?_
 				? []
 			else
 				rest-word = @tail_
-				this-char-blocks = @keep blocks-left |_
+				this-char-blocks = @keep blocks-left \_
 					chars-left[0]:_
 				todo SYNTAX @for~
-				?first (@flat-map~ this-char-blocks |_
+				?first (@flat-map~ this-char-blocks \_
 					todo -, not --
-					@map~ (rec rest-word (-- blocks-left [_])) |ans
+					@map~ (rec rest-word (-- blocks-left [_])) \ans
 						++ [_] ans
 
 	rec word.toUpperCase() (@map blocks &toUpperCase)
 
 tests 'demo
-	make-word-from-blocks -> !|
+	make-word-from-blocks -> !\
 		pass
 		todo Make it performant
-		todo test. |
+		todo test. \
 		todo	|| Backtracking is necessary - can't use the first block first!
 		todo	['AB ['AB 'AC]] -> ? ['AC 'AB]
 

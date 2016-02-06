@@ -14,7 +14,7 @@ hash-code. new Method
 	args. []
 	returns. Int
 	allow-null?. true
-	default. .|
+	default. .\
 		switch this
 			null
 				108
@@ -38,10 +38,10 @@ hash-code. new Method
 hashes-cache = new WeakMap
 
 region Since default hash-code only works on Objects, let's implement hash-code for primitives.
-	impl! hash-code Boolean .|
+	impl! hash-code Boolean .\
 		cond this 1 0
 
-	impl! hash-code Function .|
+	impl! hash-code Function .\
 		todo There must be something better than this.
 		hash-code case .name
 			empty?_
@@ -50,7 +50,7 @@ region Since default hash-code only works on Objects, let's implement hash-code 
 				_
 
 	todo Memoize this one too?
-	impl! hash-code String .|
+	impl! hash-code String .\
 		hash = 13
 		i = .length
 		for
@@ -62,11 +62,11 @@ region Since default hash-code only works on Objects, let's implement hash-code 
 			i := - i 1
 		hash
 
-	impl! hash-code Symbol |
+	impl! hash-code Symbol \
 		todo ES6 (currently this returns undefined)
 		todo Symbol.keyFor _
 		42
 
 	todo  This treats small floats as equivalent.
-	impl! hash-code Number .|
+	impl! hash-code Number .\
 		->int this

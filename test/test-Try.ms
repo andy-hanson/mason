@@ -4,34 +4,34 @@ import
 	.tests
 
 tests 'Try
-	try-result -> |
+	try-result -> \
 		[(thunk 1)] -> new Success 1
-		res = try-result !|
+		res = try-result !\
 			throw
 		assert =? res.message "An error occurred."
 
-	fails? -> !|
-		assert fails? !|
+	fails? -> !\
+		assert fails? !\
 			throw
-		forbid fails? !|
+		forbid fails? !\
 			pass
 
-	fails-with? -> !|
-		assert fails-with? 'message !|
+	fails-with? -> !\
+		assert fails-with? 'message !\
 			throw 'message
-		assert fails-with? TypeError |
+		assert fails-with? TypeError \
 			null.missing-property
 
-	annotate-errors -> !|
-		assert fails-with? 'ab !|
-			annotate-errors 'a !|
+	annotate-errors -> !\
+		assert fails-with? 'ab !\
+			annotate-errors 'a !\
 				throw 'b
 
-	$try -> $!|
+	$try -> $!\
 		assert =? (new Success 1) $ $try (Promise.resolve 1)
 		assert =? 'a $ $try (Promise.reject 'a)
 		|| $.reject but with non-error:
 		assert =? 'a $ $try (Promise.reject 'a)
 
-	$annotate-errors -> $!|
+	$annotate-errors -> $!\
 		assert =? 'ab ($ $try ($annotate-errors 'a (Promise.reject new Error 'b))).message

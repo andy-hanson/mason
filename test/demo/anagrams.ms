@@ -3,7 +3,7 @@ import
 	msl.compare sort
 	..tests
 
-maximum-anagram-sets. |words
+maximum-anagram-sets. \words
 	| http://rosettacode.org/wiki/Anagrams#JavaScript
 	|| e.g., 'amnos -> ['mason 'monas]
 	sorted->words = empty Id-Map
@@ -14,7 +14,7 @@ maximum-anagram-sets. |words
 	@keep (@values sorted->words) &(=? count_ max-count)
 
 tests 'demo
-	maximum-anagram-sets -> !|
+	maximum-anagram-sets -> !\
 		w = "
 			abel able bale bela elba
 			alger glare lager large regal

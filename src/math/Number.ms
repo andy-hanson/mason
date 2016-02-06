@@ -19,11 +19,11 @@ Nat. new Pred-Type
 
 region impl!
 	todo  impl*!
-	impl! compare Number .|other:Num
+	impl! compare Number .\other:Num
 		- this other
 
 region Integer arithmetic
-	modulo. |numerator:Num denominator:Num
+	modulo. \numerator:Num denominator:Num
 		| Mathematical modulus.
 		| Smallest positive number which can be added to a multiple of `denominator` to get `numerator`.
 		case
@@ -32,31 +32,31 @@ region Integer arithmetic
 			else
 				% numerator denominator
 
-	int/. |a:Num b:Num
+	int/. \a:Num b:Num
 		| Integer division: throws out any remainder.
 		| This is the default in other programming languages, but in Mason `/ 1 2` is 0.5, not 0.
 		Math.floor / a b
 
-	divisible?. |a:Num b:Num
+	divisible?. \a:Num b:Num
 		| Whether an integer number of `b` can add up to `a`.
 		=? 0 % a b
 
 region Real arithmetic
-	log-base. |base:Num n:Num
+	log-base. \base:Num n:Num
 		| Mathematical logarithm.
 		/ (Math.log n) (Math.log base)
 
-	nearest-ceil. |_:Num step:Num
+	nearest-ceil. \_:Num step:Num
 		* step (Math.ceil / _ step)
 
-	nearest-floor. |_:Num step:Num
+	nearest-floor. \_:Num step:Num
 		* step (Math.floor / _ step)
 
-	nearest-round. |_:Num step:Num
+	nearest-round. \_:Num step:Num
 		* step (Math.round / _ step)
 
 region Near
-	near?. |a b:Num sig-figs:Opt[Nat]
+	near?. \a b:Num sig-figs:Opt[Nat]
 		| Whether they are within sig-figs precision.
 		sig-figs := opr sig-figs 6
 		case
@@ -72,7 +72,7 @@ region Near
 				epsilon = Math.pow 10 neg sig-figs
 				<? (Math.abs scaled-diff) epsilon
 
-	near-0?. |_ sig-figs:Opt[Nat]
+	near-0?. \_ sig-figs:Opt[Nat]
 		| Whether it is close to zero.
 		| It must be `0.0...` where there are `sig-figs` 0s after the decimal point.
 		sig-figs := opr sig-figs 6
@@ -81,6 +81,6 @@ region Near
 		<? Math.abs_ max
 
 region Utilities
-	mid. |a:Num b:Num
+	mid. \a:Num b:Num
 		todo doc
 		/ (+ a b) 2

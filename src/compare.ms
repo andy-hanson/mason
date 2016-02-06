@@ -25,14 +25,14 @@ binary=?. new Method
 	name.
 	allow-null?. true
 	args. ['other]
-	default. .|other
+	default. .\other
 		todo To be more like js, this shouldn't use object=? by default.
 		or (==? this other) (object=? this other)
 
 || To compare more than 2 values, compiler generates calls to 'eqMany in operators.ms.
 msDef 'eq binary=?
 
-compare. method |other
+compare. method \other
 	| A Number < 0 if a < b, > 0 if a > b, and = 0 if a = b.
 	| It could be implemented as:
 
@@ -50,25 +50,25 @@ compare. method |other
 
 todo ES8 These will be replaced by operator overloading. Then can just use <?.
 
-lt?. |a b
+lt?. \a b
 	<? (compare a b) 0
 
-lte?. |a b
+lte?. \a b
 	<=? (compare a b) 0
 
-gt?. |a b
+gt?. \a b
 	>? (compare a b) 0
 
-gte?. |a b
+gte?. \a b
 	>=? (compare a b) 0
 
 region Misc
-	same?. |fun:Function a b
+	same?. \fun:Function a b
 		| Whether two values have the same `f`.
 		=? (fun a) (fun b)
 
 	todo compare to =?
-	all-same?. |@coll:@ fun:Opt[Function]
+	all-same?. \@coll:@ fun:Opt[Function]
 		fun := opr fun identity
 		or (empty? @coll)
 			fst = fun @coll[0]
@@ -76,16 +76,16 @@ region Misc
 
 
 region Min/max
-	min. |_:@
+	min. \_:@
 		min-by _ identity
 
-	?min. |_:@
+	?min. \_:@
 		?min-by _ identity
 
-	min-by. |_:@ by:Function
+	min-by. \_:@ by:Function
 		un-? (?min-by _ by) "Can not take min of empty."
 
-	?min-by. |_:@ by:Function
+	?min-by. \_:@ by:Function
 		unless empty?_
 			iter = iterator_
 			value = iter.next().value
@@ -101,20 +101,20 @@ region Min/max
 					cur-min-by := value-by
 
 	todo  Method, specialize on Sorted-Set
-	max. |_:@
+	max. \_:@
 		| An element that is >=? all others. Fails when empty.
 		max-by _ identity
 
-	?max. |_:@
+	?max. \_:@
 		| Like max, but returns empty ? for empty.
 		?max-by _ identity
 
-	max-by. |_:@ by:Function
+	max-by. \_:@ by:Function
 		| An element whose `by em` is >=? all other elements' `by em`s.
 		| Like `max (map _ by)` except the mapping is not applied to the result.
 		un-? (?max-by _ by) "Can not take max of empty."
 
-	?max-by. |_:@ by:Function
+	?max-by. \_:@ by:Function
 		| Like max-by, but returns empty ? for empty.
 		unless empty?_
 			iter = iterator_
@@ -131,7 +131,7 @@ region Min/max
 					cur-max-by := value-by
 
 region Sorting
-	sorted?. |seq:Seq sort-by:Opt[Function]
+	sorted?. \seq:Seq sort-by:Opt[Function]
 		| Whether it is already in sorted order.
 		sort-by := opr sort-by identity
 		case seq
@@ -139,13 +139,13 @@ region Sorting
 				true
 			else
 				sb-prev = sort-by first_
-				all? @tail_ |em
+				all? @tail_ \em
 					sb-cur = sort-by em
 					with <? sb-prev sb-cur
 						sb-prev := sb-cur
 
 	todo sort-by: Opt[Function]
-	sort. method |sort-by
+	sort. method \sort-by
 		| Puts the elements in sorted order.
 		| Order is determined by calling `compare`.
 		| Optional `sort-by` determines an attribute of elements to be compared.
@@ -154,7 +154,7 @@ region Sorting
 		with from-stream Array this
 			_.sort case sort-by
 				defined?_
-					|a b
+					\a b
 						compare (sort-by a) (sort-by b)
 				else
 					compare

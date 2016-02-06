@@ -1,7 +1,7 @@
 import
 	.Type.primitive Str
 
-->Error. |case
+->Error. \case
 	:Error
 		_
 	:Str

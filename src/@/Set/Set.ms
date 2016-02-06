@@ -10,18 +10,18 @@ Set. trait @
 	todo more doc
 
 	static
-		empty |
+		empty \
 			empty Hash-Set
 
-	binary=? |other
+	binary=? \other
 		| Two Sets are =? if they have the same type and contain the same values.
 		and (same? type-of this other) (set=? this other)
 
-intersect. method |@intersect-with
+intersect. method \@intersect-with
 	todo doc
 	@keep this has-instance?[(=> Set @intersect-with)]
 
-set=?. |a:@ b:@
+set=?. \a:@ b:@
 	| Whether two @s have the same values, regardless of order or count.
 	a-set = => Set a
 	b-set = => Set b

@@ -8,7 +8,7 @@ import
 	..Type.Type =>
 
 todo impl*!
-impl! inspect Object .|
+impl! inspect Object .\
 	switch .toString
 		Object.prototype.toString
 			@props = @all-properties this
@@ -20,7 +20,7 @@ impl! inspect Object .|
 		else
 			.toString()
 
-inspect-property = |obj key enumerable?
+inspect-property = \obj key enumerable?
 	desc = Object.getOwnPropertyDescriptor obj key
 
 	prop-name = cond enumerable? key "[#(key.toString())]"
@@ -37,13 +37,13 @@ inspect-property = |obj key enumerable?
 
 	"#prop-name. #str"
 
-inspect-primitive = .|
+inspect-primitive = .\
 	cond this:Object "[#(.constructor.name) #this]" "#this"
 
 impl! inspect Boolean inspect-primitive
 impl! inspect Number inspect-primitive
-impl! inspect String .|
+impl! inspect String .\
 	str = JSON.stringify this
 	cond this:Object "[String #str]" str
-impl! inspect Symbol .|
+impl! inspect Symbol .\
 	cond this:Object "[Symbol #(inspect .valueOf())]" .toString()

@@ -13,11 +13,11 @@ import~
 Type. trait
 	todo doc
 
-	to-string |
+	to-string \
 		.name
 
 todo  Should not be necessary, Trait < Impl-Type < Type
-impl! to-string Trait .|
+impl! to-string Trait .\
 	.name
 
 has-instance?. new Method
@@ -28,7 +28,7 @@ has-instance?. new Method
 msDef 'hasInstance has-instance?
 
 todo num-extracteds:Nat
-extract. method |candidate num-extracteds
+extract. method \candidate num-extracteds
 	| Given a type and arbitrary value:
 	| If the value is of the type, return an array of sub-values.
 	| Otherwise, return `null`.
@@ -39,7 +39,7 @@ extract. method |candidate num-extracteds
 
 msDef 'extract extract
 
-msDef 'checkInstance |expected-type value value-name
+msDef 'checkInstance \expected-type value value-name
 	assert value:expected-type throw new TypeError
 		"#value-name is no #(expected-type.name), is a #((type-of value).name): #(inspect value)"
 	value
@@ -49,7 +49,7 @@ msDef 'checkInstance |expected-type value value-name
 	todo args: convert-to:Type convert-me (may take additional args)
 	| Converts a value to a given type.
 	name.
-	wrap. |impl convert-to-type converted opts
+	wrap. \impl convert-to-type converted opts
 		case converted
 			:convert-to-type
 				_
@@ -57,7 +57,7 @@ msDef 'checkInstance |expected-type value value-name
 				impl.call convert-to-type _ opts
 
 todo rename
-type-of. |:Impl-Type _
+type-of. \:Impl-Type _
 	| Most specific Impl-Type for a value.
 	?-or (?property-with-proto _ 'constructor) Object
 

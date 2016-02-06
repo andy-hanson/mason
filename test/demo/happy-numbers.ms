@@ -2,23 +2,23 @@ import
 	..tests
 
 || Least-significant to most-significant, but order doesn't matter.
-@digits = |_
+@digits = \_
 	base = 10
 	todo SYNTAX @for~
-	new Stream *!|
+	new Stream *!\
 		for
 			yield % _ base
 			_ := int/ _ base
 			if =? _ 0
 				break
 
-happy-step = |_
+happy-step = \_
 	sum (@map~ @digits_ &(** _ 2))
 
 cache = new Id-Map
 cache[1] = true
 
-happy?. |n:Nat
+happy?. \n:Nat
 	| http://rosettacode.org/wiki/Happy_numbers
 	stepped-through = empty Id-Set
 	cur = n
@@ -42,7 +42,7 @@ happy-numbers:Stream[Nat].
 	@keep~ 1... happy?
 
 tests 'demo
-	happy-numbers -> !|
+	happy-numbers -> !\
 		assert seq=? (@take happy-numbers 8)
 			. 1
 			. 7

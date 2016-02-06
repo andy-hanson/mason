@@ -3,7 +3,7 @@ import
 	..tests
 
 tests 'Alias-Type
-	Alias-Type -> !|
+	Alias-Type -> !\
 		A = new Alias-Type
 			name.
 			alias-of. Str

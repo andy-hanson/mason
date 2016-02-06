@@ -5,9 +5,9 @@ import
 	..tests
 
 tests '@
-	@ -> !|
+	@ -> !\
 		todo test-implementors
-		todo !|@-type
+		todo !\@-type
 		todo	unless =? @-type Weak-Id-Map
 		todo			todo assert @-type:@-Type throw "Be sure to make your @ type a @-Type."
 		todo			_ = empty @-type
@@ -26,12 +26,12 @@ tests '@
 				. 3
 		[(empty Deque)] -> "empty Deque"
 
-	each! -> !|
+	each! -> !\
 		x = 0
-		each! [] !|
+		each! [] !\
 			x := 1
 		assert =? x 0
-		each! [1] !|_
+		each! [1] !\_
 			x := _
 		assert =? x 1
 
@@ -82,12 +82,12 @@ tests '@
 		[[1 2] &=?[2]] -> => Stream [false true]
 
 	@flat-map ->
-		f = |a
+		f = \a
 			[a a]
 		[[1 2] f] -> [1 1 2 2]
 
 	@flat-map~ ->
-		f = |case
+		f = \case
 			divisible? _ 2
 				[_ _]
 			else
@@ -97,12 +97,12 @@ tests '@
 	@flatten ->
 		[[[1 2] [3] []]] -> [1 2 3]
 
-	@flatten~ -> |
+	@flatten~ -> \
 		[[[1 2] [3] []]] -> => Stream [1 2 3]
 		|| Ignores further nested @s.
 		[[[1] [[2]]]] -> => Stream [1 [2]]
 		|| Must be at least one nested level
-		assert fails? |
+		assert fails? \
 			=> Array (@flatten~ [[1] 2 [3]])
 
 	++ ->
@@ -120,18 +120,18 @@ tests '@
 	&=? ->
 		[[1] [1]] -> true
 
-	+! -> !|
+	+! -> !\
 		todo impl-test
 		pass
 
-	++! -> !|
+	++! -> !\
 		todo impl-test
 		pass
 
-	-! -> !|
+	-! -> !\
 		todo impl-test
 		pass
 
-	--! -> !|
+	--! -> !\
 		todo impl-test
 		pass

@@ -5,10 +5,10 @@ import
 	.Type.primitive Str
 	.Type.Type has-instance? extract
 
-impl! has-instance? RegExp .|_
+impl! has-instance? RegExp .\_
 	.test _
 
-impl! extract RegExp .|_ num-extracteds
+impl! extract RegExp .\_ num-extracteds
 	?->nullable if :Str
 		match = .exec_
 		|| Make sure we don't modify the regexp.
