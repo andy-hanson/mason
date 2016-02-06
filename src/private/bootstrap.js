@@ -134,12 +134,6 @@ const msDefs = {
 		}
 	},
 
-	newProperty(object, name, value) {
-		if (Object.prototype.hasOwnProperty.call(object, name))
-			throw new Error(`Property ${name} already exists.`)
-		object[name] = value
-	},
-
 	regexp(parts, flags) {
 		parts = parts.map(_ => _ instanceof RegExp ? _.source : String(_))
 		return new RegExp(parts.join(''), flags)

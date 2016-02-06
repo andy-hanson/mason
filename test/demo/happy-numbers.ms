@@ -16,7 +16,7 @@ happy-step = \_
 	sum (@map~ @digits_ &(** _ 2))
 
 cache = new Id-Map
-cache[1] = true
+cache[1] := true
 
 happy?. \n:Nat
 	| http://rosettacode.org/wiki/Happy_numbers
@@ -33,9 +33,9 @@ happy?. \n:Nat
 				++! stepped-through [cur]
 				cur := happy-step cur
 	with n-happy?
-		cache[n] = _
+		cache[n] := _
 		for stepped-through
-			cache[_] = n-happy?
+			cache[_] := n-happy?
 
 happy-numbers:Stream[Nat].
 	| Stream of all happy numbers.

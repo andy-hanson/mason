@@ -10,9 +10,9 @@ Deque. class trait Seq
 	| Seq that can efficiently add values on either side.
 
 	construct
-		.data = Array 8
-		.start-index = 0 || Inclusive (unless =? end-index)
-		.end-index = 0 || Exclusive
+		.data := Array 8
+		.start-index := 0 || Inclusive (unless =? end-index)
+		.end-index := 0 || Exclusive
 
 	(iterator) *!\
 		indices = case
@@ -81,7 +81,7 @@ Deque. class trait Seq
 		new-capacity = * 2 old-capacity
 		new-data = new Array new-capacity
 		for 0...old-capacity
-			new-data[_] = old-data[_]
+			new-data[_] := old-data[_]
 		.data := new-data
 
 	my wrap-index \index

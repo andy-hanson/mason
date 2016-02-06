@@ -130,7 +130,7 @@ Method. class extends Function
 		js-delete params 'name
 		js-delete params 'impl-symbol
 		Object.assign this params
-		.impl-symbol = impl-symbol
+		.impl-symbol := impl-symbol
 		Object.defineProperty this 'name
 			value. method-name
 
@@ -255,8 +255,8 @@ region Private
 			todo ES6 Shouldn't be necessary
 			Object.setPrototypeOf this Double-Dispatcher.prototype
 
-			.method = meth
-			.impl-symbol = impl-symbol
+			.method := meth
+			.impl-symbol := impl-symbol
 			Object.defineProperty this 'name
 				value. "#(meth.name)__double-dispatcher"
 

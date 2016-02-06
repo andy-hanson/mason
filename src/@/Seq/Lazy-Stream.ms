@@ -19,7 +19,7 @@ Lazy-Stream. class trait Seq
 
 	construct stream:Function
 		todo stream:Function[Generator]
-		.cache = []
+		.cache := []
 		todo ES6
 		todo We wrap this in a Stream because `for` calls [Symbol.iterator]().
 		todo We should be able to do `for` on both @s and unwrapped iterators.
@@ -32,7 +32,7 @@ Lazy-Stream. class trait Seq
 				todo  +>!
 				self.cache.push _
 				yield _
-		.caching-iterator = get-caching-iterator()
+		.caching-iterator := get-caching-iterator()
 
 	(iterator) *!\
 		yield* iterator .cache

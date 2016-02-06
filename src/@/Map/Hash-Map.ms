@@ -79,8 +79,8 @@ Hash-Map. class trait Map
 region Private
 	Bucket = class
 		construct .key val! next!
-			.val! = val!
-			.next! = next!
+			.val! := val!
+			.next! := next!
 
 	|| All entries in the bucket have the same hash code.
 	|| Find the first bucket that =? key.

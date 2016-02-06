@@ -22,7 +22,7 @@ primes.
 						add-to-@! prime-factors key [_]
 				else
 					yield candidate
-					prime-factors[** candidate 2] = [candidate]
+					prime-factors[** candidate 2] := [candidate]
 
 tests 'demo
 	primes -> !\

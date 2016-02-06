@@ -19,7 +19,7 @@ Map. trait @
 			map = empty this
 			for stream
 				todo SYNTAX Array destructure
-				map[_[0]] = _[1]
+				map[_[0]] := _[1]
 			map
 
 	(to-string) \
@@ -69,7 +69,7 @@ region Functions
 		todo map-type param
 		map = empty Id-Map
 		for @key
-			map[_] = get-value_
+			map[_] := get-value_
 		map
 
 	map=?. \a:Map b:Map
@@ -86,5 +86,5 @@ region Mutator methods
 	get-or-add!. method \key ~default-val
 		| map[key], and if it's not already there, fill it in with default-val.
 		?-or (?get this key) ~
-			this[key] = default-val
+			this[key] := default-val
 			default-val

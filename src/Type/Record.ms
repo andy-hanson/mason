@@ -17,5 +17,5 @@ field-values = \cls instance
 	cls.field-names.map &(instance.(_))
 
 msDef 'beRecord !\_ field-names
-	_.field-names = field-names
+	_.field-names := field-names
 	trait! _ Record

@@ -10,15 +10,15 @@ Enum. class trait Impl-Type
 	| Great for using with `switch`.
 
 	construct params
-		.name = params.name todo :Str
-		.prototype = opr params.prototype ~(Object.create Object.prototype)
-		.values = params.values todo :Array[Str]
+		.name := params.name todo :Str
+		.prototype := opr params.prototype ~(Object.create Object.prototype)
+		.values := params.values todo :Array[Str]
 
 		for value-name of .values
 			enum-val = Object.create .prototype
-			enum-val.name = value-name
-			this."#value-name" = enum-val
-		.prototype.constructor = this
+			enum-val.name := value-name
+			.(value-name) := enum-val
+		.prototype.constructor := this
 		enum-name = .name
 		impl! to-string this .\
 			"#enum-name.#(.name)"

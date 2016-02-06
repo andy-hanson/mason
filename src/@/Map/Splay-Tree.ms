@@ -135,10 +135,8 @@ Splay-Tree. class trait Sorted-Map
 
 region Private
 	Splay-Node = class
-		construct .key val left right
-			.val = val
-			.left = left
-			.right = right
+		construct .key .val .left .right
+			pass
 
 		get has-left?
 			defined? .left

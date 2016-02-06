@@ -82,7 +82,7 @@ Map->Object. \_:Map
 	with new Object as obj
 		for elem of _
 			todo SYNTAX Array destructure
-			obj.(elem[0]) = elem[1]
+			obj.(elem[0]) := elem[1]
 
 region Mutator methods
 	delete-property!. !\_:Object prop-name:Object-Key
@@ -95,9 +95,9 @@ object-merge. \...objects
 object-select. \obj:Object ...@keys
 	with new Object as kept
 		for key of @keys
-			kept.(key) = obj.(key)
+			kept.(key) := obj.(key)
 
 map-object-values. \obj:Object mapper:Function
 	with new Object as mapped
 		for key of @properties obj
-			mapped.(key) = mapper obj.(key)
+			mapped.(key) := mapper obj.(key)

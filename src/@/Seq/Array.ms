@@ -87,4 +87,4 @@ fill. \count:Num filler:Function
 	| Creates a new Array by calling `filler` on each number from zero to `count`.
 	with new Array count
 		for i of @indexes_
-			_[i] = filler i
+			_[i] := filler i

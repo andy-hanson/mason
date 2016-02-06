@@ -14,20 +14,20 @@ Trait. class
 
 	construct params
 		todo :Str
-		.name = params.name
+		.name := params.name
 		todo :Array[Trait]
-		.super-traits = []
+		.super-traits := []
 
 		todo :Array[Impl-Type]
-		.implementors:Array = case params.implementors
+		.implementors:Array := case params.implementors
 			defined?_
 				|| Frozen implementors signals that this is a closed Trait.
 				Object.freeze_
 			else
 				[]
 
-		.symbol-for-isa = Symbol "isa-#(.name)"
-		.prototype = Object.create null
+		.symbol-for-isa := Symbol "isa-#(.name)"
+		.prototype := Object.create null
 
 		Object.defineProperty .prototype .symbol-for-isa
 			(value. true writable. false enumerable. false configurable. false)

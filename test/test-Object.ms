@@ -10,7 +10,7 @@ tests 'Object
 
 	@all-properties -> !\
 		obj = new Object
-		obj.a = 0
+		obj.a := 0
 		sym = Symbol 's
 		Object.defineProperty obj sym
 			value. 0

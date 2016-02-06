@@ -8,7 +8,7 @@ Heap-Priority-Queue. class trait Priority-Queue
 	| Default implementation for Priority-Queue.
 
 	construct
-		.array = []
+		.array := []
 
 	(iterator) \
 		iterator .array
