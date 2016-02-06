@@ -12,20 +12,20 @@ Map. trait @
 	| Mapping from keys to values.
 
 	static
-		empty \
+		(empty) \
 			new Id-Map
 
-		from-stream \stream
+		(from-stream) \stream
 			map = empty this
 			for stream
 				todo SYNTAX Array destructure
 				map[_[0]] = _[1]
 			map
 
-	to-string \
+	(to-string) \
 		inspect this
 
-	inspect \
+	(inspect) \
 		cond (empty? this) "empty #(.constructor.name)"
 			todo map Map to Array
 			todo SYNTAX Array destructure
@@ -36,10 +36,10 @@ Map. trait @
 				#(.constructor.name)
 					#(=> String parts "\n\t")
 
-	binary=? \other
+	(binary=?) \other
 		and (=? (type-of this) (type-of other)) (map=? this other)
 
-	sub \key
+	(sub) \key
 		un-? (?get this key) ~"#this does not contain #key."
 
 region New methods

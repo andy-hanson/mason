@@ -21,25 +21,25 @@ import~
 	| If an @ only stores a given element once, it is a Set.
 
 	static
-		=> \stream
+		(=>) \stream
 			from-stream this stream
 
-		sub \
+		(sub) \
 			|| Allow @[Str] type syntax (does nothing)
 			this
 
-	has-instance? \em:Any
+	(has-instance?) \em:Any
 		| Whether one of the elements =? em.
 		any? this \em-compare
 			=? em em-compare
 
-	binary=? \@other
+	(binary=?) \@other
 		and (==? (type-of this) (type-of @other)) (seq=? this @other)
 
-	to-string \
+	(to-string) \
 		do-inspect this to-string
 
-	inspect \
+	(inspect) \
 		do-inspect this inspect
 
 do-inspect = \_ recurse

@@ -10,13 +10,13 @@ Splay-Tree. class trait Sorted-Map
 	| Default Sorted-Map implementation.
 	| Binary tree that is good at accessing the same values many times.
 	static
-		empty \
+		(empty) \
 			new this undefined
 
 	construct .root:Splay-Node
 		pass
 
-	iterator \
+	(iterator) \
 		node-iter = *!\_
 			if defined?_
 				yield* node-iter _.left
@@ -24,18 +24,18 @@ Splay-Tree. class trait Sorted-Map
 				yield* node-iter _.right
 		node-iter .root
 
-	empty? \
+	(empty?) \
 		not defined? .root
 
-	empty! !\
+	(empty!) !\
 		.root := undefined
 
-	?get \key
+	(?get) \key
 		if and (not empty? this) (.splay!? key)
 			.root.val
 
 
-	set-sub! !\key val
+	(set-sub!) !\key val
 		case
 			empty? this
 				.root := new Splay-Node key val undefined undefined
@@ -55,7 +55,7 @@ Splay-Tree. class trait Sorted-Map
 						new Splay-Node key val old-left old-root
 
 
-	del-sub! \key
+	(del-sub!) \key
 		if and (not empty? this) (.splay!? key)
 			removed = .root
 			|| Link out the root.
@@ -75,7 +75,7 @@ Splay-Tree. class trait Sorted-Map
 
 	|| Searches for the key, bringing nodes up to the root along the way.
 	|| Returns whether the root now matches the key.
-	my 'splay!? \key
+	my splay!? \key
 		dummy = new Splay-Node undefined undefined undefined undefined
 		left = dummy
 		right = dummy
@@ -140,8 +140,8 @@ region Private
 			.left = left
 			.right = right
 
-		get 'has-left?
+		get has-left?
 			defined? .left
 
-		get 'has-right?
+		get has-right?
 			defined? .right

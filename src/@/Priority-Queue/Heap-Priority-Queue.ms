@@ -10,22 +10,22 @@ Heap-Priority-Queue. class trait Priority-Queue
 	construct
 		.array = []
 
-	iterator \
+	(iterator) \
 		iterator .array
 
-	++! !\added
+	(++!) !\added
 		for added
 			add! .array _
 
-	?pop! \
+	(?pop!) \
 		unless empty? this
 			with .array[0]
 				fix-down! .array
 
-	empty? \
+	(empty?) \
 		empty? .array
 
-	empty! !\
+	(empty!) !\
 		empty! .array
 
 

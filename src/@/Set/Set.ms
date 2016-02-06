@@ -10,10 +10,10 @@ Set. trait @
 	todo more doc
 
 	static
-		empty \
+		(empty) \
 			empty Hash-Set
 
-	binary=? \other
+	(binary=?) \other
 		| Two Sets are =? if they have the same type and contain the same values.
 		and (same? type-of this other) (set=? this other)
 

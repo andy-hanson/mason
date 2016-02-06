@@ -23,5 +23,5 @@ Enum. class trait Impl-Type
 		impl! to-string this .\
 			"#enum-name.#(.name)"
 
-	has-instance? \_
+	(has-instance?) \_
 		Object.prototype.isPrototypeOf.call .prototype _

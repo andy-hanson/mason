@@ -6,15 +6,15 @@ LList. class trait Seq
 	| Singly-linked list.
 
 	static
-		empty \
+		(empty) \
 			empty-LList
-		from-stream \_
+		(from-stream) \_
 			<++~ empty-LList _
 
 	construct .head .tail
 		pass
 
-	iterator *!\
+	(iterator) *!\
 		cur = this
 		for
 			if empty? cur
@@ -22,20 +22,20 @@ LList. class trait Seq
 			yield cur.head
 			cur := cur.tail
 
-	empty? \
+	(empty?) \
 		==? this empty-LList
 
-	@tail \
+	(@tail) \
 		.tail
 
-	<++~ \left-added:@
+	(<++~) \left-added:@
 		iter = iterator left-added
 		f = \
 			value done = iter.next()
 			cond done this new LList value f()
 		f()
 
-	++ \other
+	(++) \other
 		|| For the concatenation of two LLists, we can just use the second as a tail.
 		case other
 			:LList

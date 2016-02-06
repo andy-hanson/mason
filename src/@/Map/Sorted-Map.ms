@@ -9,5 +9,5 @@ Sorted-Map. trait Map
 	| This kind of Map depends on an efficient `compare` between its keys.
 
 	static
-		empty \
+		(empty) \
 			empty Splay-Tree

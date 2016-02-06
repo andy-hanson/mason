@@ -12,22 +12,22 @@ Weak-Id-Map.
 	WeakMap
 
 trait! Weak-Id-Map Map
-	?get \key
+	(?get) \key
 		Opt->? (.get key)
 
-	has-key? \key
+	(has-key?) \key
 		.has key
 
-	set-sub! !\key val
+	(set-sub!) !\key val
 		.set key val
 
-	del-sub! \key
+	(del-sub!) \key
 		with ?get this key
 			.delete key
 
 	todo  unsupported! Function?
-	@keys !\
+	(@keys) !\
 		throw "Weak-Id-Map does not support `keys`."
 
-	empty! !\
+	(empty!) !\
 		throw "Weak-Id-Map does not support `empty!`."

@@ -14,13 +14,13 @@ import
 Hash-Map. class trait Map
 	| Default Map type. Depends on efficient `hash-code` of its keys.
 	static
-		empty \
+		(empty) \
 			new this new global.Map
 
 	construct .val:Id-Map
 		pass
 
-	iterator *!\
+	(iterator) *!\
 		for bucket of .val.values()
 			cur = bucket
 			for
@@ -29,14 +29,14 @@ Hash-Map. class trait Map
 				yield [cur.key cur.val!]
 				cur := cur.next!
 
-	?get \key
+	(?get) \key
 		bucket = .val.get (hash-code key)
 		entry = opt-bucket-entry bucket key
 		todo @for
 		@map (Opt->? entry) \_
 			_.val!
 
-	set-sub! !\key val
+	(set-sub!) !\key val
 		hash = hash-code key
 		bucket = .val.get hash
 		case opt-bucket-entry bucket key
@@ -47,7 +47,7 @@ Hash-Map. class trait Map
 				|| Add it at the front.
 				.val.set hash new Bucket key val bucket
 
-	del-sub! \key
+	(del-sub!) \key
 		hash = hash-code key
 		bucket = .val.get hash
 		case bucket
@@ -73,7 +73,7 @@ Hash-Map. class trait Map
 			else
 				?None
 
-	empty! !\
+	(empty!) !\
 		.val.clear()
 
 region Private

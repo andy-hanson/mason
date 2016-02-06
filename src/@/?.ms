@@ -17,10 +17,10 @@ import
 	todo MORE
 
 	static
-		empty \
+		(empty) \
 			?None
 
-		from-stream \_
+		(from-stream) \_
 			iter = iterator_
 			value done = iter.next()
 			cond done ?None (?some value)
@@ -28,17 +28,17 @@ import
 	construct .val
 		pass
 
-	empty? \
+	(empty?) \
 		==? this ?None
 
-	iterator *!\
+	(iterator) *!\
 		unless empty? this
 			yield .val
 
-	to-string \
+	(to-string) \
 		inspect this
 
-	inspect \
+	(inspect) \
 		case
 			empty? this
 				'?None

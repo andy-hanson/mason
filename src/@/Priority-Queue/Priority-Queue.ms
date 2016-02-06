@@ -10,7 +10,7 @@ Priority-Queue. trait @
 	| but repeatedly calling ?pop! will give the values from least to greatest.
 
 	static
-		empty \
+		(empty) \
 			new Heap-Priority-Queue
 
 todo Move

@@ -9,25 +9,25 @@ Hash-Set. class trait Set
 	| Relies on an efficient hash-code implementation.
 
 	static
-		empty \
+		(empty) \
 			new this (empty Hash-Map)
 
 	construct .map:Hash-Map
 		pass
 
-	iterator \
+	(iterator) \
 		iterator (@keys .map)
 
 
 	todo Make default falling back to +!
-	++! !\@added
+	(++!) !\@added
 		for @added
 			.map[_] := true
 
 	todo Make default falling back to -!
-	--! !\@deleted
+	(--!) !\@deleted
 		for @deleted
 			del .map[_]
 
-	empty! !\
+	(empty!) !\
 		empty! .map

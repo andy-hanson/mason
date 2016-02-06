@@ -12,7 +12,7 @@ import~
 
 Seq. trait @
 	| @ whose values are in a meaningful order.
-	sub \n:Nat
+	(sub) \n:Nat
 		| Nth value in iteration order.
 		un-? (?nth this n) ~"
 			No element at index #n for

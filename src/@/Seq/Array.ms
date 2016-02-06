@@ -13,32 +13,32 @@ import~
 trait! Array Seq
 	static
 		todo implement `builder`, then this should be the default
-		from-stream \stream
+		(from-stream) \stream
 			with []
 				each! stream _&push
 
-	count \
+	(count) \
 		.length
 
-	?nth \n
+	(?nth) \n
 		if <? n (count this)
 			this.(n)
 
-	<++! \added:@
+	(<++!) \added:@
 		.unshift ...added
 
-	++>! \added:@
+	(++>!) \added:@
 		.push ...added
 
-	?<pop! \
+	(?<pop!) \
 		unless empty? this
 			.shift()
 
-	?pop>! \
+	(?pop>!) \
 		unless empty? this
 			.pop()
 
-	empty! !\
+	(empty!) !\
 		| http://jsperf.com/empty-javascript-array/15
 		todo  Test it myself...
 		todo SYNTAX while
@@ -47,16 +47,16 @@ trait! Array Seq
 				break
 			.pop()
 
-	set-sub! !\n:Nat val
+	(set-sub!) !\n:Nat val
 		this.(n) := val
 
-	-! !\em
+	(-!) !\em
 		for @indexes this
 			if =? this[_] em
 				.splice _ 1
 				break
 
-	--! !\@deleted
+	(--!) !\@deleted
 		@deleted := => Set @deleted
 		filter! this \em
 			with em:@deleted

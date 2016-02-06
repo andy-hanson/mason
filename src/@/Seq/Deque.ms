@@ -14,7 +14,7 @@ Deque. class trait Seq
 		.start-index = 0 || Inclusive (unless =? end-index)
 		.end-index = 0 || Exclusive
 
-	iterator *!\
+	(iterator) *!\
 		indices = case
 			.wrapped?
 				++~ .start-index...(count .data) 0...(.end-index)
@@ -23,7 +23,7 @@ Deque. class trait Seq
 		for indices
 			yield .data[_]
 
-	<++! !\ems:@
+	(<++!) !\ems:@
 		for @reverse ems
 			new-start = .prev-index .start-index
 			case
@@ -34,7 +34,7 @@ Deque. class trait Seq
 					.start-index := new-start
 					.data[.start-index] := _
 
-	++>! !\ems:@
+	(++>!) !\ems:@
 		for ems
 			new-end = .next-index .end-index
 			case
@@ -47,35 +47,35 @@ Deque. class trait Seq
 
 		todo  Shrink on occasion
 
-	?<pop! \
+	(?<pop!) \
 		unless empty? this
 			with .data[.start-index]
 				.start-index := .next-index .start-index
 
-	?pop>! \
+	(?pop>!) \
 		unless empty? this
 			new-end = .prev-index .end-index
 			.end-index := new-end
 			.data[new-end]
 
-	?nth \index:Nat
+	(?nth) \index:Nat
 		todo @for
 		@map (.?data-index index) \_
 			.data[_]
 
-	set-sub! !\index:Nat set-to:Any
+	(set-sub!) !\index:Nat set-to:Any
 		data-index = un-? (.?data-index index) ~"Can't set at index #index; count is #(count this)."
 		.data[data-index] := set-to
 
-	empty! !\
+	(empty!) !\
 		empty! .data
 		.start-index := 0
 		.end-index := 0
 
-	my get 'capacity
+	my get capacity
 		count .data
 
-	my 'expand! !\
+	my expand! !\
 		old-data = .data
 		old-capacity = .capacity
 		new-capacity = * 2 old-capacity
@@ -84,19 +84,19 @@ Deque. class trait Seq
 			new-data[_] = old-data[_]
 		.data := new-data
 
-	my 'wrap-index \index
+	my wrap-index \index
 		modulo index .capacity
 
-	my 'next-index \index
+	my next-index \index
 		.wrap-index + index 1
 
-	my 'prev-index \index
+	my prev-index \index
 		.wrap-index - index 1
 
-	my get 'wrapped?
+	my get wrapped?
 		<? .end-index .start-index
 
-	my '?data-index \index
+	my ?data-index \index
 		a = + .start-index index
 		case
 			<? a .capacity

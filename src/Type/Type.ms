@@ -13,7 +13,7 @@ import~
 Type. trait
 	todo doc
 
-	to-string \
+	(to-string) \
 		.name
 
 todo  Should not be necessary, Trait < Impl-Type < Type

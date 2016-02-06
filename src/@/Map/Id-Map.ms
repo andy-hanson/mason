@@ -13,29 +13,29 @@ Id-Map.
 	global.Map
 
 trait! Id-Map Map
-	set-sub! !\key val
+	(set-sub!) !\key val
 		.set key val
 
-	count \
+	(count) \
 		.size
 
-	?get \key
+	(?get) \key
 		Opt->? (.get key)
 
-	has-key? \key
+	(has-key?) \key
 		.has key
 
-	@keys \
+	(@keys) \
 		new Stream \
 			.keys()
 
-	@values \
+	(@values) \
 		new Stream \
 			.values()
 
-	empty! !\
+	(empty!) !\
 		.clear()
 
-	del-sub! \key
+	(del-sub!) \key
 		with ?get this key
 			.delete key

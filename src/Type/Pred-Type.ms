@@ -17,7 +17,7 @@ Pred-Type. class trait Type
 		todo assert .name:Str
 		assert .predicate:Pred
 
-	has-instance? \value
+	(has-instance?) \value
 		.predicate value
 
 region Opt
@@ -38,10 +38,10 @@ region Opt
 		construct .Exists-Type:Type
 			pass
 
-		get 'name
+		get name
 			"Opt[#(.Exists-Type.name)]"
 
-		has-instance? \_
+		(has-instance?) \_
 			or (not defined?_) :.Exists-Type
 
 Any. new Pred-Type

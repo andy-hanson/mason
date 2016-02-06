@@ -10,23 +10,23 @@ Range. class start:Num end:Num step:Num trait @
 	| `start` is inclusive, `end` is exclusive.
 
 	static
-		empty \
+		(empty) \
 			0...0
 
-		from-stream \_
+		(from-stream) \_
 			todo We can't build a Range out of arbitrary elements...
 			todo consider using Symbol.species for this sort of thing?
 			todo impl-for from-stream Array
 			_
 	todo assert same? Math.sign step - end start
 
-	'by \step
+	by \step
 		new Range .start .end step
 
-	get 'length
+	get length
 		- .end .start
 
-	iterator *!\
+	(iterator) *!\
 		cur = .start
 		for
 			break-cond = case
@@ -42,16 +42,16 @@ Range. class start:Num end:Num step:Num trait @
 
 	|| Below functions can be implemented more efficiently than the defaults.
 
-	?nth \n:Nat
+	(?nth) \n:Nat
 		todo  Function if-test ?
 		it = + .start * .step n
 		if <? it .end
 			it
 
-	count \
+	(count) \
 		Math.floor / .length .step
 
-	@reverse \
+	(@reverse) \
 		new-step = neg .step
 		rem = % (- .end .start) .step
 		switch rem

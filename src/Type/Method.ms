@@ -135,7 +135,7 @@ Method. class extends Function
 			value. method-name
 
 	todo Consider making trait! Method Type. Then this is redundant.
-	'toString \
+	toString \
 		.name
 
 msDef 'method \-name args default

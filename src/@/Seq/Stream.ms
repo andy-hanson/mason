@@ -7,11 +7,11 @@ Stream. class trait Seq
 	| A Stream is a @ whose elements are the outputs of a Generator.
 	| Unlike a Generator, a Stream can be used multiple times.
 	static
-		empty \
+		(empty) \
 			new Stream *!\
 				pass
 
-		from-stream \_
+		(from-stream) \_
 			new this \
 				iterator_
 
