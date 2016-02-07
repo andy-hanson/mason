@@ -4,7 +4,7 @@
 	"description": "Mason standard library",
 	"license": "Unlicense",
 	"repository": "mason-lang/msl",
-	"files": ["src", "dist"],
+	"files": ["lib", "src"],
 	"scripts": {
 		"build": "gulp compile",
 		"watch": "gulp watch",
