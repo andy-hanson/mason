@@ -2,12 +2,12 @@ import
 	msl.assert assert-call!
 	msl.compare binary=?
 	msl.Try fails?
-	msl.Type.Method impl-double! ?impl-for ?self-impl-for self-impl-for
+	msl.Type.Poly impl-double! ?impl-for ?self-impl-for self-impl-for
 	..tests
 
-tests 'Method
-	Method -> !\
-		m = new Method
+tests 'Poly
+	Poly -> !\
+		m = new Poly
 			name.
 			allow-null?. true
 			default. \
@@ -28,7 +28,7 @@ tests 'Method
 			m 1 m
 
 		assert =? 'wrap-call-arg
-			wrap-method = new Method
+			wrap-method = new Poly
 				name.
 				default. .\
 					"call-#this"
@@ -43,7 +43,7 @@ tests 'Method
 
 	?impl-for ->
 		todo Some positive example
-		[binary=? Method] -> ?None
+		[binary=? Poly] -> ?None
 
 	impl-for -> !\
 		todo Some positive example

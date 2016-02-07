@@ -1,7 +1,7 @@
 import
 	..js defined? exists?
 	..private.bootstrap implContains msDef
-	.Method propagate-method-down! propagate-static-down!
+	.Poly propagate-method-down! propagate-static-down!
 
 Trait. class
 	todo doc

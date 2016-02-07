@@ -23,7 +23,7 @@ build-str = \builder
 str-lit = \str
 	JSON.stringify str
 
-Method. class extends Function
+Poly. class extends Function
 	todo doc
 
 	construct params
@@ -34,7 +34,7 @@ Method. class extends Function
 		default? = defined? params.default
 		wrap? = defined? params.wrap
 		allow-null? = flag? params.allow-null?
-		assert or (not allow-null?) default? throw "Method with `allow-null?` must have `default."
+		assert or (not allow-null?) default? throw "Poly with `allow-null?` must have `default."
 
 		secret-name = "__method_#(method-name)_#(random-digits())"
 
@@ -123,7 +123,7 @@ Method. class extends Function
 
 		todo ES6 Shouldn't be necessary
 		todo See https://code.google.com/p/v8/issues/detail?id=4087
-		Object.setPrototypeOf this Method.prototype
+		Object.setPrototypeOf this Poly.prototype
 
 		add-hidden-property! global secret-name this
 
@@ -134,21 +134,21 @@ Method. class extends Function
 		Object.defineProperty this 'name
 			value. method-name
 
-	todo Consider making trait! Method Type. Then this is redundant.
+	todo Consider making trait! Poly Type. Then this is redundant.
 	toString \
 		.name
 
 msDef 'method \-name args default
-	new Method
+	new Poly
 		name. -name
 		args.
 		if defined? default
 			default.
 
-impl!. !\_:Method implementor:Impl-Type implementation:Function
+impl!. !\_:Poly implementor:Impl-Type implementation:Function
 	do-impl! _ implementor implementation
 
-impl-double!. !\_:Method implementor-0:Impl-Type implementor-1:Impl-Type implementation:Function
+impl-double!. !\_:Poly implementor-0:Impl-Type implementor-1:Impl-Type implementation:Function
 	dispatcher = case
 		writable? implementor-0.prototype _.impl-symbol
 			with new Double-Dispatcher _ as dd
@@ -161,25 +161,25 @@ impl-double!. !\_:Method implementor-0:Impl-Type implementor-1:Impl-Type impleme
 
 	do-impl! dispatcher implementor-1 implementation
 
-self-impl!. !\_:Method implementor:Object implementation:Function
+self-impl!. !\_:Poly implementor:Object implementation:Function
 	todo doc
 	impl! _ (new Self-Type implementor) implementation
 
-?impl-for. \_:Method implementor:Impl-Type
+?impl-for. \_:Poly implementor:Impl-Type
 	| Implementation of a method for a particular Impl-Type.
 	| Does not reference method.default or impls on super-types.
 	| Empty if the type would use method.default.
 	?self-impl-for _ implementor.prototype
 
-impl-for. \_:Method implementor:Impl-Type
+impl-for. \_:Poly implementor:Impl-Type
 	| impl-for that fails when there is no implementation.
 	un-? (?impl-for _ implementor) ~"#_ not implemented for #implementor."
 
-?self-impl-for. \_:Method object
+?self-impl-for. \_:Poly object
 	todo doc
 	?property object _.impl-symbol
 
-self-impl-for. \_:Method object
+self-impl-for. \_:Poly object
 	todo doc
 	un-? (?self-impl-for _ object) ~"#_ not implemented on #object."
 
@@ -222,7 +222,7 @@ region Private
 			enumerable. false
 
 	todo Multiple-inheritance proxy scheme
-	|| `_` can be a Method or a Double-Dispatcher.
+	|| `_` can be a Poly or a Double-Dispatcher.
 	do-impl! = !\_ implementor implementation
 		assert writable? implementor.prototype _.impl-symbol throw
 			"Can not redefine method #_ for #implementor."
@@ -261,7 +261,7 @@ region Private
 				value. "#(meth.name)__double-dispatcher"
 
 todo test
-implContains Method .\_
+implContains Poly .\_
 	property-with-proto? _ .impl-symbol
 
 todo move

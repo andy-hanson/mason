@@ -1,7 +1,7 @@
 import
 	...compare _ less?
 	...js defined?
-	...methods del-sub! set-sub!
+	...polys del-sub! set-sub!
 	..@ empty empty! empty? iterator
 	.Map ?get
 	.Sorted-Map

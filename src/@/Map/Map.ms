@@ -1,6 +1,6 @@
 import
 	...compare binary=?
-	...methods sub
+	...polys sub
 	...to-string _ inspect
 	...Type.Type => type-of
 	..@ _ all? count empty empty? from-stream @map~
@@ -43,21 +43,21 @@ Map. trait @
 		un-? (?get this key) ~"#this does not contain #key."
 
 region New methods
-	?get. method \key
+	?get. poly \key
 		| `?` containing the value corresponding to `key`, if any.
 		abstract
 
-	has-key?. method \key
+	has-key?. poly \key
 		| Whether the key is in the Map.
 		not empty? (?get this key)
 
-	@keys. method \
+	@keys. poly \
 		| Every key that the Map `has-key?`.
 		todo @for:Array
 		=> Array (@map~ this \pair
 			pair[0]
 
-	@values. method \
+	@values. poly \
 		| Every value in the Map.
 		todo @for:Array
 		=> Array (@map~ this \pair
@@ -83,7 +83,7 @@ region Functions
 				and (not empty? ?bk) =? val ?bk.val
 
 region Mutator methods
-	get-or-add!. method \key ~default-val
+	get-or-add!. poly \key ~default-val
 		| map[key], and if it's not already there, fill it in with default-val.
 		?-or (?get this key) ~
 			this[key] := default-val

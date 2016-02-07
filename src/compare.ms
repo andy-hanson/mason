@@ -1,7 +1,7 @@
 import
 	.js defined?
 	.private.bootstrap msDef
-	.Type.Method
+	.Type.Poly
 import~
 	.@.@ _ all? empty? from-stream iterator
 	.@.? un-?
@@ -12,8 +12,8 @@ import~
 	.Type.Pred-Type Opt
 
 todo ES8 This will be replaced by operator overloading.
-binary=?. new Method
-	| Method used to implement the `=?` operator.
+binary=?. new Poly
+	| Poly used to implement the `=?` operator.
 	| Unlike `=?`, this takes only 2 arguments.
 
 	| Values can be `=?` but not `object=?` if they are conceptually the same, but have different representations.
@@ -32,7 +32,7 @@ binary=?. new Method
 || To compare more than 2 values, compiler generates calls to 'eqMany in operators.ms.
 msDef 'eq binary=?
 
-compare. method \other
+compare. poly \other
 	| A Number < 0 if a < b, > 0 if a > b, and = 0 if a = b.
 	| It could be implemented as:
 
@@ -100,7 +100,7 @@ region Min/max
 					cur-min := value
 					cur-min-by := value-by
 
-	todo  Method, specialize on Sorted-Set
+	todo  Poly, specialize on Sorted-Set
 	max. \_:@
 		| An element that is >=? all others. Fails when empty.
 		max-by _ identity
@@ -145,7 +145,7 @@ region Sorting
 						sb-prev := sb-cur
 
 	todo sort-by: Opt[Function]
-	sort. method \sort-by
+	sort. poly \sort-by
 		| Puts the elements in sorted order.
 		| Order is determined by calling `compare`.
 		| Optional `sort-by` determines an attribute of elements to be compared.

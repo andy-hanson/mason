@@ -4,7 +4,7 @@ import
 	..js defined?
 	..private.bootstrap msDef
 	..to-string _ inspect
-	..Type.Method self-impl!
+	..Type.Poly self-impl!
 	..Type.Type extract
 	.@ empty empty? from-stream iterator
 	.Seq.Seq

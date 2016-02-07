@@ -14,6 +14,6 @@ Priority-Queue. trait @
 			new Heap-Priority-Queue
 
 todo Move
-?pop!. method \:?
+?pop!. poly \:?
 	| Takes a value from the front of the queue, unless empty?.
 	abstract

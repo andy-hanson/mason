@@ -1,7 +1,7 @@
 import
-	.methods sub
+	.polys sub
 	.Type.Alias-Type
-	.Type.Method impl! self-impl!
+	.Type.Poly impl! self-impl!
 import~
 	.@.@ _ ++ empty
 	.@.Map.Hash-Map

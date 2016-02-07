@@ -1,5 +1,5 @@
 import
-	..methods sub
+	..polys sub
 	.primitive Str
 	.Type _ has-instance?
 

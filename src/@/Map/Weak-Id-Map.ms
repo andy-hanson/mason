@@ -1,6 +1,6 @@
 import
 	global WeakMap
-	...methods del-sub! set-sub!
+	...polys del-sub! set-sub!
 	..@ empty!
 	..? Opt->?
 	.Map _ ?get has-key? @keys

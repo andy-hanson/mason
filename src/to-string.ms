@@ -1,9 +1,9 @@
 import
 	global Set
 	.private.bootstrap msDef
-	.Type.Method
+	.Type.Poly
 
-to-string. new Method
+to-string. new Poly
 	name.
 	allow-null?. true
 	impl-symbol. 'toString
@@ -18,7 +18,7 @@ to-string. new Method
 
 inspect-seen = new Set
 
-inspect. new Method
+inspect. new Poly
 	name.
 	allow-null?. true
 	wrap. \impl arg opts

@@ -1,8 +1,8 @@
 import
 	|| ..Function Pred
 	..js defined?
-	..methods sub
-	.Method self-impl!
+	..polys sub
+	.Poly self-impl!
 	.Trait _ has-trait?
 	.Type _ => has-instance?
 import~

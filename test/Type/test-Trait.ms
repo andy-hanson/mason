@@ -22,8 +22,8 @@ tests 'Trait
 			z = new Z
 			assert z:X
 
-		region Method makes sure to do impl! on all Concrete-Type_s inheriting from a Trait.
-			asdf = method \
+		region Poly makes sure to do impl! on all Concrete-Type_s inheriting from a Trait.
+			asdf = poly \
 				abstract
 			impl! asdf X \
 				1

@@ -3,8 +3,8 @@ import
 	.@.@
 	.control opr
 	.Function Action
-	.methods sub
-	.Type.Method self-impl!
+	.polys sub
+	.Type.Poly self-impl!
 	.Type.Pred-Type Any
 	.Type.primitive Num
 

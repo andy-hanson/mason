@@ -3,11 +3,11 @@ import
 	.@.@ empty?
 	.js defined? js-bar
 	.math.Number Int
-	.Type.Method _ impl!
+	.Type.Poly _ impl!
 
 ->int. &(js-bar 0 _)
 
-hash-code. new Method
+hash-code. new Poly
 	| Integer used to identify a value in a Hash-Map (or Hash-Set).
 	| This should have a high probability of being different than the hash-codes of the other values in the map.
 	name.

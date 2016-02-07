@@ -1,6 +1,6 @@
 import
 	...Function Pred
-	...methods sub
+	...polys sub
 	...String indent
 	...Type.Type => type-of
 	..@ _ ++ count empty empty? from-stream iterator
@@ -20,7 +20,7 @@ Seq. trait @
 
 region TODO
 	todo  Review name...
-	<++~. method \left-added:@
+	<++~. poly \left-added:@
 		| (There is no `++>~` because `++~` by default adds to the right for Seqs.)
 		todo more doc
 		=> (type-of this) (++ left-added this)
@@ -30,7 +30,7 @@ region Very first and last
 		| First value in iteration order.
 		un-? ?first_ "Can not take first of empty."
 
-	?first. method \
+	?first. poly \
 		| First value in iteration order, if non-empty.
 		?nth this 0
 
@@ -38,19 +38,19 @@ region Very first and last
 		| Last value in iteration order.
 		un-? ?last_ "Can not take last of empty."
 
-	?last. method \
+	?last. poly \
 		| Last value in iteration order, if non-empty.
 		unless empty? this
 			this[- (count this) 1]
 
-	@tail. method \
+	@tail. poly \
 		| All elements but the first.
 		todo Eager for Linked-Lists.
 		cond (empty? this) this (@drop this 1)
 
 	@tail~. &(@drop~ _ 1)
 
-	@rtail. method \
+	@rtail. poly \
 		| All elements but the last.
 		todo Eager for finger trees.
 		cond (empty? this) this
@@ -71,7 +71,7 @@ region Search
 			unless =? next-a.value next-b.value
 				break false
 
-	?nth. method \n:Nat
+	?nth. poly \n:Nat
 		| `n`th element in iteration order, if there are at least that many values.
 		| 0th is the first.
 		i = 0
@@ -82,7 +82,7 @@ region Search
 			i := + 1 i
 
 region Update
-	@slice. method \start:Nat end:Nat
+	@slice. poly \start:Nat end:Nat
 		| The elements from index start (inclusive) to end (exclusive).
 		| Takes as much as possible.
 		| Result length should be - end start, unless `end` was past the end.
@@ -92,7 +92,7 @@ region Update
 		| Lazy `@slice`.
 		@take~ (@drop~ _ start) - end start
 
-	@take. method \count-to-take:Nat
+	@take. poly \count-to-take:Nat
 		todo doc
 		=> (type-of this) (@take~ this count-to-take)
 
@@ -122,7 +122,7 @@ region Update
 					break
 				yield elem
 
-	@drop. method \count-to-drop:Nat
+	@drop. poly \count-to-drop:Nat
 		todo toc
 		=> (type-of this) (@drop~ this count-to-drop)
 
@@ -196,11 +196,11 @@ region TODO: put somewhere
 		todo doc
 		0...count_
 
-	@reverse. method \
+	@reverse. poly \
 		| Seq with the opposite order.
 		(from-stream Array this).reverse()
 
-	@reverse~. method \
+	@reverse~. poly \
 		arr = => Array this
 		todo SYNTAX @for~
 		new Stream *!\
@@ -231,29 +231,29 @@ region TODO: put somewhere
 
 region Mutator methods
 	todo Implement
-	<+!. method !\added
+	<+!. poly !\added
 		todo doc
 		abstract
 
-	<++!. method !\@added:@
+	<++!. poly !\@added:@
 		| Makes `_` into `+ added _`.
 		for @reverse~ @added
 			<+! this _
 
 	todo Implement
-	+>!. method !\added
+	+>!. poly !\added
 		todo doc
 		abstract
 
-	++>!. method !\@added:@
+	++>!. poly !\@added:@
 		| Makes `_` into `+ _ added`.
 		for @added
 			+>! this _
 
-	?<pop!. method \
+	?<pop!. poly \
 		| Takes one element off the left side, if not empty?.
 		abstract
 
-	?pop>!. method \
+	?pop>!. poly \
 		| Takes one element off the right side, if not empty?.
 		abstract

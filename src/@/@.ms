@@ -2,10 +2,10 @@ import
 	..compare binary=?
 	..Function Action identity Pred
 	..js defined?
-	..methods sub
+	..polys sub
 	..to-string _ inspect
 	..String indent
-	..Type.Method
+	..Type.Poly
 	..Type.Pred-Type Any Opt
 	..Type.Type => has-instance? type-of
 import~
@@ -54,23 +54,23 @@ do-inspect = \_ recurse
 				"\n\t. #(show-ems.join "\n\t. ")"
 			"#(_.constructor.name)#content"
 
-iterator. new Method
+iterator. new Poly
 	| Creates a new Generator which yields the values in the @.
 	name.
 	args. []
 	impl-symbol. Symbol.iterator
 
-empty?. method \
+empty?. poly \
 	| Whether `count` is 0. Often much faster.
 	(iterator this).next().done
 
 region statics
-	empty. method \
+	empty. poly \
 		| Given a type, makes an instance which is `empty?`.
 		| Should always return the same thing iff immutable.
 		new this
 
-	from-stream. method \stream:@
+	from-stream. poly \stream:@
 		| Creates a new value of this type by reading out from an @'s iterator.
 		with empty this
 			++! _ stream
@@ -123,14 +123,14 @@ region Using iterator
 			if pred? elem
 				break elem
 
-	count. method \
+	count. poly \
 		| Number of elements.
 		fold this 0 &(+ _ 1)
 
 region Lazy functions, and their eager versions.
-	|| Eager versions are Methods if certain types can do them faster.
+	|| Eager versions are Polys if certain types can do them faster.
 
-	@keep. method \keep-if?:Pred
+	@keep. poly \keep-if?:Pred
 		| Only the elements that satisfy `keep-if?`.
 		todo SYNTAX Shouldn't need => type-of_
 		=> (type-of this) @for this
@@ -154,7 +154,7 @@ region Lazy functions, and their eager versions.
 		| Lazy @toss.
 		@keep~ @filtered &(not toss-if?_)
 
-	todo Method
+	todo Poly
 	@map. \_:@ mapper:Function
 		todo doc
 		todo SYNTAX Shouldn't need => type-of_
@@ -169,7 +169,7 @@ region Lazy functions, and their eager versions.
 				yield mapper_
 
 	todo  Better name?
-	@flat-map. method \mapper:Function[Any @]
+	@flat-map. poly \mapper:Function[Any @]
 		| "Like `map`, but each mapping produces multiple values."
 		todo SYNTAX Shouldn't need => type-of_
 		=> (type-of this) @for this
@@ -182,7 +182,7 @@ region Lazy functions, and their eager versions.
 			for mapped
 				yield* iterator mapper_
 
-	@flatten. method \
+	@flatten. poly \
 		| For an @ containing many @, produces an @ containing all of their entries combined.
 		| This does *not* consider more than 1 nested level, and there *every* element of _ must be an @.
 		| More efficient than `fold + _`.
@@ -197,7 +197,7 @@ region Lazy functions, and their eager versions.
 			for flattened
 				yield* iterator_
 
-	++. method \@other:@
+	++. poly \@other:@
 		| Concatenation. Sets should override this.
 		todo SYNTAX build type-of a
 		=> (type-of this)
@@ -212,7 +212,7 @@ region Lazy functions, and their eager versions.
 			yield* iterator @b
 
 	todo  Move to Set?
-	--. method \@remove:@
+	--. poly \@remove:@
 		| @ without any of the elements in `remove`.
 		| Removes the *first* occurrence of each element.
 		=> (type-of this) (--~ this @remove)
@@ -231,26 +231,26 @@ region Lazy functions, and their eager versions.
 						yield _
 
 region Mutator methods
-	empty!. method \
+	empty!. poly \
 		| Mutates this collection so that it will be `empty?`.
 		abstract
 
 	todo  implement
-	+!. method !\added
+	+!. poly !\added
 		todo doc
 		+>! this added
 
-	++!. method !\@added:@
+	++!. poly !\@added:@
 		| Adds new elements.
 		| For Seqs these are added on the right; use `<++!` to add on the left.
 		++>! this @added
 
 	todo  implement
-	-!. method \@removed:@
+	-!. poly \@removed:@
 		todo doc
 		abstract
 
-	--!. method \@removed:@
+	--!. poly \@removed:@
 		| Removes all elements in `removed` once.
 		| For Seqs these are removed starting from the left.
 		abstract

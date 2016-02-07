@@ -4,7 +4,7 @@ import
 	..Object @properties @all-properties
 	..String indent
 	..to-string inspect
-	..Type.Method impl!
+	..Type.Poly impl!
 	..Type.Type =>
 
 todo impl*!

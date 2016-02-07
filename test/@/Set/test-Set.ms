@@ -1,6 +1,6 @@
 import
 	msl.@.Set.Set intersect
-	msl.Type.Method self-impl-for
+	msl.Type.Poly self-impl-for
 	...tests
 
 tests 'Set

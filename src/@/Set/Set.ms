@@ -17,7 +17,7 @@ Set. trait @
 		| Two Sets are =? if they have the same type and contain the same values.
 		and (same? type-of this other) (set=? this other)
 
-intersect. method \@intersect-with
+intersect. poly \@intersect-with
 	todo doc
 	@keep this has-instance?[(=> Set @intersect-with)]
 

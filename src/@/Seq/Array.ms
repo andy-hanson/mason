@@ -1,7 +1,7 @@
 | Also see .Map.Array-as-Map
 
 import
-	...methods set-sub!
+	...polys set-sub!
 	...Type.primitive Num
 	...Type.Type =>
 	..@ _ -! --! count each! empty! empty? from-stream

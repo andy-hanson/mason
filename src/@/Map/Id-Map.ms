@@ -1,7 +1,7 @@
 import
 	todo SYNTAX use global.Map but rename it to Js-Map
 	global
-	...methods del-sub! set-sub!
+	...polys del-sub! set-sub!
 	..@ count empty!
 	..? Opt->?
 	..Seq.Stream

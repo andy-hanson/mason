@@ -16,7 +16,7 @@ tests 'Impl-Type
 		forbid has-trait? A B
 
 	Self-Type -> !\
-		m = method \
+		m = poly \
 			abstract
 		x = new Object
 		impl! m (new Self-Type x) \

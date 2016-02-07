@@ -1,6 +1,6 @@
 import
 	...math.Number modulo Nat
-	...methods set-sub!
+	...polys set-sub!
 	...Type.Pred-Type Any
 	..@ _ ++~ count empty! empty? iterator @map
 	..? un-?

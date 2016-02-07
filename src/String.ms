@@ -1,6 +1,6 @@
 import
 	.compare
-	.Type.Method impl!
+	.Type.Poly impl!
 	.Type.Pred-Type
 	.Type.primitive Str
 	.Type.Trait

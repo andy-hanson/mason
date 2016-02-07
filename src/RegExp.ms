@@ -1,7 +1,7 @@
 import
 	.@.? ?->nullable
 	.js null?
-	.Type.Method impl!
+	.Type.Poly impl!
 	.Type.primitive Str
 	.Type.Type has-instance? extract
 

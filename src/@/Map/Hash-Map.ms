@@ -5,7 +5,7 @@ import
 	global
 	...hash-code
 	...js defined?
-	...methods del-sub! set-sub!
+	...polys del-sub! set-sub!
 	..@ empty empty! iterator @map
 	..? ?None Opt->? ?some
 	.Id-Map

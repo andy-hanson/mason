@@ -1,7 +1,7 @@
 import
 	..compare
 	..control opr
-	..Type.Method impl!
+	..Type.Poly impl!
 	..Type.Pred-Type _ Opt
 	..Type.primitive Num
 

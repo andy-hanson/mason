@@ -7,7 +7,7 @@ import
 	.control opr
 	.to-string
 	.Type.Impl-Type Self-Type
-	.Type.Method impl-double!
+	.Type.Poly impl-double!
 	.Type.Pred-Type Opt
 	.Type.primitive Str
 	.Type.Type =>

@@ -3,7 +3,7 @@ import
 	..private.bootstrap containsImplSymbol msDef
 	..to-string
 	.Impl-Type
-	.Method _ impl!
+	.Poly _ impl!
 	.Trait
 import~
 	..@.? ?-or
@@ -20,7 +20,7 @@ todo  Should not be necessary, Trait < Impl-Type < Type
 impl! to-string Trait .\
 	.name
 
-has-instance?. new Method
+has-instance?. new Poly
 	| Whether some collection of things as as an element `instance`.
 	name.
 	args. ['instance]
@@ -28,7 +28,7 @@ has-instance?. new Method
 msDef 'hasInstance has-instance?
 
 todo num-extracteds:Nat
-extract. method \candidate num-extracteds
+extract. poly \candidate num-extracteds
 	| Given a type and arbitrary value:
 	| If the value is of the type, return an array of sub-values.
 	| Otherwise, return `null`.
@@ -44,7 +44,7 @@ msDef 'checkInstance \expected-type value value-name
 		"#value-name is no #(expected-type.name), is a #((type-of value).name): #(inspect value)"
 	value
 
-=>. new Method
+=>. new Poly
 	todo Don't take additional args (get rid of `=> String` joining nonsense)
 	todo args: convert-to:Type convert-me (may take additional args)
 	| Converts a value to a given type.

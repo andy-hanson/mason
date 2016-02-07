@@ -2,7 +2,7 @@ import
 	..control opr
 	..to-string
 	.Impl-Type
-	.Method impl!
+	.Poly impl!
 	.Type has-instance?
 
 Enum. class trait Impl-Type
