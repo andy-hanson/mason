@@ -12,7 +12,7 @@ tests 'Pred-Type
 
 	ObjLit -> !\
 		assert-call! has-instance?[ObjLit]
-			[(a. 1)] -> true
+			[{a. 1}] -> true
 			[ObjLit] -> false
 
 	Union -> !\

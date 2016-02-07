@@ -21,7 +21,7 @@ make-fizz-buzz. \spec
 
 tests 'demo
 	make-fizz-buzz -> !\
-		fizz-buzz = make-fizz-buzz (Fizz. 3 Buzz. 5)
+		fizz-buzz = make-fizz-buzz {Fizz. 3 Buzz. 5}
 		assert seq=? (@take~ fizz-buzz 6)
 			. 1
 			. 2

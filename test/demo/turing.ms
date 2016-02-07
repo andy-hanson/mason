@@ -5,14 +5,14 @@ import
 
 region Rule results
 	R. \written new-state
-		(write. written go-right. true state. new-state)
+		{write. written go-right. true state. new-state}
 	L. \written new-state
-		(write. written go-right. false state. new-state)
-	fin. new Object
+		{write. written go-right. false state. new-state}
+	fin. {}
 
 run-turing. \spec init-tape:Seq
 	| http://rosettacode.org/wiki/Universal_Turing_machine
-	rules:Object blank:Any init-state:Any = spec
+	{rules:Object blank:Any init-state:Any} = spec
 	tape = => Deque cond (empty? init-tape) [blank] init-tape
 	index = 0
 	state = init-state
@@ -23,7 +23,7 @@ run-turing. \spec init-tape:Seq
 		if =? rule-here fin
 			break => Array tape
 
-		write go-right = rule-here
+		{write go-right} = rule-here
 		state := rule-here.state
 		tape[index] := write
 		index := case index

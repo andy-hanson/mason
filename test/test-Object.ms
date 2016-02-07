@@ -4,12 +4,12 @@ import
 
 tests 'Object
 	flag? ->
-		[(a. true) 'a] -> true
-		[(a. false) 'a] -> false
+		[{a. true} 'a] -> true
+		[{a. false} 'a] -> false
 		[empty-Object 'a] -> false
 
 	@all-properties -> !\
-		obj = new Object
+		obj = {}
 		obj.a := 0
 		sym = Symbol 's
 		Object.defineProperty obj sym
@@ -21,7 +21,7 @@ tests 'Object
 		assert set=? (@all-properties @all-properties) ['length 'name 'prototype]
 
 	@properties -> !\
-		obj = new Object
+		obj = {}
 		Object.defineProperty obj 'a
 			value. 0
 			enumerable. false
@@ -33,7 +33,7 @@ tests 'Object
 		assert set=? (@properties @properties) []
 
 	?property ->
-		x = a. 1 b. null
+		x = {a. 1 b. null}
 		[x 'a] -> ?some 1
 		[x 'b] -> ?some null
 		|| Does not inherit from prototype.
@@ -44,7 +44,7 @@ tests 'Object
 		[1 'asdfghjkl] -> ?None
 
 	property? ->
-		x = a. 1
+		x = {a. 1}
 		[x 'a] -> true
 		[x 'b] -> false
 		[x 'toString] -> false || use p-with-proto? for that.
@@ -53,9 +53,9 @@ tests 'Object
 		[empty-Object 'toString] -> true
 
 	object=? ->
-		a = a. 1
-		b = a. 1
-		c = x. 3
+		a = {a. 1}
+		b = {a. 1}
+		c = {x. 3}
 		[a b] -> true
 		[a c] -> false
 		[1 1] -> true
@@ -67,7 +67,7 @@ tests 'Object
 		[Object] -> false
 
 	Object->Map ->
-		[(a. 1 b. 2)] ->
+		[{a. 1 b. 2}] ->
 			'a -> 1
 			'b -> 2
 
@@ -76,7 +76,7 @@ tests 'Object
 		map =
 			'a -> 1
 			'b -> 2
-		[map] -> a. 1 b. 2
+		[map] -> {a. 1 b. 2}
 		assert =? map (Object->Map (Map->Object map))
 		map2 =
 			1 -> 2
@@ -84,16 +84,16 @@ tests 'Object
 			"1". 2
 
 	delete-property! -> !\
-		_ = new Object
+		_ = {}
 		_.a := 1
 		delete-property! _ 'a
 		forbid property? _ 'a
 
 	object-merge ->
-		[(a. 1 b. 2) (b. 3 c. 4)] -> a. 1 b. 3 c. 4
+		[{a. 1 b. 2} {b. 3 c. 4}] -> {a. 1 b. 3 c. 4}
 
 	object-select ->
-		[(a. 1 b. 2 c. 3) 'a 'c] -> a. 1 c. 3
+		[{a. 1 b. 2 c. 3} 'a 'c] -> {a. 1 c. 3}
 
 	map-object-values ->
-		[(a. 1 b. undefined) defined?] -> a. true b. false
+		[{a. 1 b. undefined} defined?] -> {a. true b. false}

@@ -67,7 +67,7 @@ object=?. \a b
 					all? ak \k
 						=? a.(k) b.(k)
 
-empty-Object. Object.freeze new Object
+empty-Object. Object.freeze {}
 
 empty-Object?. \_:Object
 	| Whether there are no properties, not even hidden ones.
@@ -79,7 +79,7 @@ Object->Map. \obj
 
 Map->Object. \_:Map
 	| Given a Map whose keys are Strings, creates an Object whose Object->Map is that.
-	with new Object as obj
+	with {} as obj
 		for elem of _
 			todo SYNTAX Array destructure
 			obj.(elem[0]) := elem[1]
@@ -90,14 +90,14 @@ region Mutator methods
 		js-delete _ prop-name
 
 object-merge. \...objects
-	Object.assign (new Object) ...objects
+	Object.assign {} ...objects
 
 object-select. \obj:Object ...@keys
-	with new Object as kept
+	with {} as kept
 		for key of @keys
 			kept.(key) := obj.(key)
 
 map-object-values. \obj:Object mapper:Function
-	with new Object as mapped
+	with {} as mapped
 		for key of @properties obj
 			mapped.(key) := mapper obj.(key)

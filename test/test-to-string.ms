@@ -8,7 +8,7 @@ tests 'to-string
 		[(Object.create null)] -> "<object with no prototype>"
 
 	inspect ->
-		[(a. 1 b. 2)] -> "
+		[{a. 1 b. 2}] -> "
 			Object
 				a. 1
 				b. 2

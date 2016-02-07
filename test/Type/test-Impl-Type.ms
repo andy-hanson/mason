@@ -18,7 +18,7 @@ tests 'Impl-Type
 	Self-Type -> !\
 		m = poly \
 			abstract
-		x = new Object
+		x = {}
 		impl! m (new Self-Type x) \
 			1
 		assert =? (m x) 1

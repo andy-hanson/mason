@@ -89,16 +89,9 @@ region Using iterator
 		| Keeps a state variable `acc` and keeps applying `folder acc em` for the elements, in order.
 		| Returns the final value.
 		| If empty?_, fails unless a `start` value for `acc` is provided. Otherwise `acc` starts as the first element.
-		start rest folder = case
-			defined? c
-				start. b
-				folder. c
-				rest. _
-			else
-				start. first_
-				folder. b
-				rest. @tail~_
-
+		todo use array destructure instead
+		{start folder rest} =
+			cond (defined? c) {start. b folder. c rest. _} {start. first_ folder. b rest. @tail~_}
 		acc = start
 		for rest
 			acc := folder acc _

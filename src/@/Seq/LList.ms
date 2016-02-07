@@ -31,7 +31,7 @@ LList. class trait Seq
 	(<++~) \left-added:@
 		iter = iterator left-added
 		f = \
-			value done = iter.next()
+			{value done} = iter.next()
 			cond done this new LList value f()
 		f()
 

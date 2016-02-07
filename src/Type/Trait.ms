@@ -30,7 +30,7 @@ Trait. class
 		.prototype := Object.create null
 
 		Object.defineProperty .prototype .symbol-for-isa
-			(value. true writable. false enumerable. false configurable. false)
+			{value. true writable. false enumerable. false configurable. false}
 
 		for .implementors
 			on-implementor! _ this

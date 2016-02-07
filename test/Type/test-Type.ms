@@ -5,7 +5,7 @@ import
 tests 'Type
 	extract -> !\
 		todo singleton
-		My-Type = new Object
+		My-Type = {}
 		self-impl! extract My-Type \switch
 			'extractable
 				[1 2]

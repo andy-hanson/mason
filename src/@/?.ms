@@ -22,7 +22,7 @@ import
 
 		(from-stream) \_
 			iter = iterator_
-			value done = iter.next()
+			{value done} = iter.next()
 			cond done ?None (?some value)
 
 	construct .val
@@ -47,7 +47,7 @@ import
 
 empty-marker =
 	| `_.val` on an empty `?` will return this.
-	new Object
+	{}
 
 ?None. new ? empty-marker
 ?some. \_

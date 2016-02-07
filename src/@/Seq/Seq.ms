@@ -182,7 +182,7 @@ region TODO: put somewhere
 					for
 						next-group = []
 						for
-							value done = iter.next()
+							{value done} = iter.next()
 							if done
 								break
 							++>! next-group [value]
@@ -216,7 +216,7 @@ region TODO: put somewhere
 			prev-idx = 0
 			cur-idx = 0
 			for
-				value done = iter.next()
+				{value done} = iter.next()
 				~next-idx = + 1 cur-idx
 				case
 					done
