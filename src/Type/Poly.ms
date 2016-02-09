@@ -175,13 +175,13 @@ impl-for. \_:Poly implementor:Impl-Type
 	| impl-for that fails when there is no implementation.
 	un-? (?impl-for _ implementor) ~"#_ not implemented for #implementor."
 
-?self-impl-for. \_:Poly object
+?self-impl-for. \_:Poly obj
 	todo doc
-	?property object _.impl-symbol
+	?property obj _.impl-symbol
 
-self-impl-for. \_:Poly object
+self-impl-for. \_:Poly obj
 	todo doc
-	un-? (?self-impl-for _ object) ~"#_ not implemented on #object."
+	un-? (?self-impl-for _ obj) ~"#_ not implemented on #obj."
 
 region Private
 	writable? = \obj property
@@ -214,8 +214,8 @@ region Private
 				for sub-implementor of implementor.implementors
 					propagate-static-down! sub-implementor method-symbol implementation
 
-	def-inherited! = !\_ symbol value
-		Object.defineProperty _ symbol
+	def-inherited! = !\_ sym value
+		Object.defineProperty _ sym
 			value.
 			writable. true
 			configurable. true
@@ -265,8 +265,8 @@ implContains Poly .\_
 	property-with-proto? _ .impl-symbol
 
 todo move
-add-hidden-property! = !\object key value
-	Object.defineProperty object key
+add-hidden-property! = !\obj key value
+	Object.defineProperty obj key
 		todo SYNTAX (value. writable. false enumerable. false configurable. false)
 		value.
 		writable. false
